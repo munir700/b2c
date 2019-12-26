@@ -28,6 +28,7 @@ import co.yap.translation.Strings
 import co.yap.translation.Translator
 import co.yap.yapcore.R
 import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.MyUserManager
 import com.google.i18n.phonenumbers.PhoneNumberUtil
 import java.math.RoundingMode
@@ -36,7 +37,10 @@ import java.util.*
 import java.util.regex.Pattern
 
 
+@SuppressLint("StaticFieldLeak")
 object Utils {
+    var context: Context? = null
+
     fun getColor(context: Context, @ColorRes color: Int) =
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             context.resources.getColor(color, null)
@@ -55,7 +59,6 @@ object Utils {
                 InputMethodManager.SHOW_IMPLICIT, InputMethodManager.HIDE_IMPLICIT_ONLY
             )
         }
-
     }
 
     fun hideKeyboard(view: View?) {
@@ -270,6 +273,86 @@ object Utils {
         return shortName.toUpperCase()
     }
 
+    fun shortName2(cardFullName: String): String {
+        val emo_regex =
+            "(?:[\\uD83C\\uDF00-\\uD83D\\uDDFF]|[\\uD83E\\uDD00-\\uD83E\\uDDFF]|[\\uD83D\\uDE00-\\uD83D\\uDE4F]|[\\uD83D\\uDE80-\\uD83D\\uDEFF]|[\\u2600-\\u26FF]\\uFE0F?|[\\u2700-\\u27BF]\\uFE0F?|\\u24C2\\uFE0F?|[\\uD83C\\uDDE6-\\uD83C\\uDDFF]{1,2}|[\\uD83C\\uDD70\\uD83C\\uDD71\\uD83C\\uDD7E\\uD83C\\uDD7F\\uD83C\\uDD8E\\uD83C\\uDD91-\\uD83C\\uDD9A]\\uFE0F?|[\\u0023\\u002A\\u0030-\\u0039]\\uFE0F?\\u20E3|[\\u2194-\\u2199\\u21A9-\\u21AA]\\uFE0F?|[\\u2B05-\\u2B07\\u2B1B\\u2B1C\\u2B50\\u2B55]\\uFE0F?|[\\u2934\\u2935]\\uFE0F?|[\\u3030\\u303D]\\uFE0F?|[\\u3297\\u3299]\\uFE0F?|[\\uD83C\\uDE01\\uD83C\\uDE02\\uD83C\\uDE1A\\uD83C\\uDE2F\\uD83C\\uDE32-\\uD83C\\uDE3A\\uD83C\\uDE50\\uD83C\\uDE51]\\uFE0F?|[\\u203C\\u2049]\\uFE0F?|[\\u25AA\\u25AB\\u25B6\\u25C0\\u25FB-\\u25FE]\\uFE0F?|[\\u00A9\\u00AE]\\uFE0F?|[\\u2122\\u2139]\\uFE0F?|\\uD83C\\uDC04\\uFE0F?|\\uD83C\\uDCCF\\uFE0F?|[\\u231A\\u231B\\u2328\\u23CF\\u23E9-\\u23F3\\u23F8-\\u23FA]\\uFE0F?)"
+
+        var cardFullName = cardFullName
+        cardFullName = cardFullName.trim { it <= ' ' }
+        var shortName = ""
+        if (cardFullName.isNotEmpty() && cardFullName.contains(" ")) {
+            val nameStr =
+                cardFullName.split(" ".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
+
+            var firstName = nameStr[0]
+            if (Character.isLetter(nameStr[0][0])) {
+                firstName = nameStr[0].substring(0, 1)
+            }
+
+            var lastName = nameStr[nameStr.size - 1]
+            if (Character.isLetter(nameStr[nameStr.size - 1][0])) {
+                firstName = nameStr[nameStr.size - 1].substring(0, 1)
+            }
+
+            val firstNameMatcher = Pattern.compile(emo_regex).matcher(firstName)
+            var isFirstEmoji = false
+            var firstData = ""
+
+            while (firstNameMatcher.find()) {
+                firstData = firstNameMatcher.group()
+                isFirstEmoji = true
+                break
+            }
+
+            shortName = if (isFirstEmoji) {
+                firstData
+            } else {
+                firstName.substring(0, 1)
+            }
+
+            val matcher = Pattern.compile(emo_regex).matcher(lastName)
+            var isEmji = false
+            var data = ""
+            while (matcher.find()) {
+                data = matcher.group()
+                isEmji = true
+                break
+            }
+
+            if (isEmji) {
+                shortName = shortName + data
+            } else {
+                shortName = shortName + lastName.substring(0, 1)
+            }
+            return shortName.toUpperCase()
+        } else if (cardFullName.length > 0) {
+            val nameStr =
+                cardFullName.split(" ".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
+            var firstName = nameStr[0]
+            if (Character.isLetter(nameStr[0][0])) {
+                firstName = nameStr[0].substring(0, 1)
+            }
+
+            val firstNameMatcher = Pattern.compile(emo_regex).matcher(firstName)
+            var isFirstEmoji = false
+            var firstData = ""
+
+            while (firstNameMatcher.find()) {
+                firstData = firstNameMatcher.group()
+                isFirstEmoji = true
+                break
+            }
+
+            shortName = if (isFirstEmoji) {
+                firstData
+            } else {
+                firstName.substring(0, 1)
+            }
+            return shortName.toUpperCase()
+        }
+        return shortName.toUpperCase()
+    }
+
     fun formatePhoneWithPlus(phoneNumber: String): String {
         if (phoneNumber.startsWith("00")) {
             return phoneNumber.replaceRange(
@@ -380,34 +463,35 @@ object Utils {
             str.setSpan(
                 fcs,
                 separated[0].length,
-                separated[0].length + currencyType.length + getFormattedCurrency(amount).length+1,
+                separated[0].length + currencyType.length + getFormattedCurrency(amount).length + 1,
                 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
             )
             str
-        }catch (e:Exception){
+        } catch (e: Exception) {
             return null
         }
 
 
     }
+
     fun getSpannableString(
         context: Context,
         staticString: String?,
         startDestination: String?
     ): SpannableStringBuilder? {
         return try {
-        val fcs = ForegroundColorSpan(ContextCompat.getColor(context, R.color.colorPrimaryDark))
-        val separated = staticString?.split(startDestination!!)
-        val str = SpannableStringBuilder(staticString)
+            val fcs = ForegroundColorSpan(ContextCompat.getColor(context, R.color.colorPrimaryDark))
+            val separated = staticString?.split(startDestination!!)
+            val str = SpannableStringBuilder(staticString)
 
-        str.setSpan(
-            fcs,
-            separated?.get(0)!!.length,
-            separated[0].length + startDestination!!.length,
-            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
-        )
+            str.setSpan(
+                fcs,
+                separated?.get(0)!!.length,
+                separated[0].length + startDestination!!.length,
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+            )
             str
-        }catch (e:Exception){
+        } catch (e: Exception) {
             e.printStackTrace()
             return null
         }
@@ -421,7 +505,7 @@ object Utils {
         amount: String
     ): SpannableStringBuilder? {
         return try {
-            var textSize=context.resources.getDimensionPixelSize(R.dimen.text_size_h4)
+            var textSize = context.resources.getDimensionPixelSize(R.dimen.text_size_h4)
             val fcs = ForegroundColorSpan(ContextCompat.getColor(context, R.color.colorPrimaryDark))
             val fcsLarge = AbsoluteSizeSpan(textSize)
             val separated = staticString.split(currencyType)
@@ -430,17 +514,17 @@ object Utils {
             str.setSpan(
                 fcs,
                 separated[0].length,
-                separated[0].length + currencyType.length + getFormattedCurrency(amount).length+1,
+                separated[0].length + currencyType.length + getFormattedCurrency(amount).length + 1,
                 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
             )
             str.setSpan(
                 fcsLarge,
                 separated[0].length,
-                separated[0].length + currencyType.length + getFormattedCurrency(amount).length+1,
+                separated[0].length + currencyType.length + getFormattedCurrency(amount).length + 1,
                 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
             )
             str
-        }catch (e:Exception){
+        } catch (e: Exception) {
             return null
         }
 
@@ -467,6 +551,20 @@ object Utils {
             ""
         }
     }
+
+    fun getCountryCodeFormString(
+        region: String
+    ): String {
+        return try {
+            val phoneUtil = PhoneNumberUtil.getInstance()
+            val pn = phoneUtil.getCountryCodeForRegion(region)
+            return "+$pn"
+        } catch (e: Exception) {
+            e.printStackTrace()
+            ""
+        }
+    }
+
 
     fun getPhoneWithoutCountryCode(defaultCountryCode: String, mobileNo: String): String {
         return try {
@@ -521,11 +619,21 @@ object Utils {
         return ContextCompat.getColor(context, contactColors[position % contactColors.size])
     }
 
+    fun getBeneficiaryColors(context: Context, position: Int): Int {
+        return ContextCompat.getColor(context, beneficiaryColors[position % beneficiaryColors.size])
+    }
+
     fun getContactBackground(context: Context, position: Int) =
         ContextCompat.getDrawable(context, backgrounds[position % backgrounds.size])
 
     fun getBackgroundColor(context: Context, position: Int) =
         ContextCompat.getColor(context, backgroundColors[position % backgroundColors.size])
+
+    fun getBeneficiaryBackgroundColor(context: Context, position: Int) =
+        ContextCompat.getColor(
+            context,
+            beneficiaryBackgrounds[position % beneficiaryBackgrounds.size]
+        )
 
     private val backgrounds = intArrayOf(
         R.drawable.bg_round_light_red,
@@ -548,7 +656,24 @@ object Utils {
         R.color.colorSecondaryOrange
     )
 
+    private val beneficiaryColors = intArrayOf(
+        R.color.colorPrimarySoft,
+        R.color.colorSecondaryOrange,
+        R.color.colorSecondaryMagenta,
+        R.color.colorSecondaryBlue,
+        R.color.colorSecondaryGreen,
+        R.color.colorPrimary
+    )
 
+    private val beneficiaryBackgrounds = intArrayOf(
+        R.color.bg_round_light_primary_soft,
+        R.color.bg_round_light_orange,
+        R.color.bg_round_light_secondary_magenta,
+        R.color.bg_round_light_secondary_blue,
+        R.color.bg_round_light_green,
+        R.color.bg_round_light_primary
+
+    )
 
     fun getTwoDecimalPlaces(value: Double): Double {
         val df = DecimalFormat("#.##")
@@ -583,5 +708,28 @@ object Utils {
         else
             "XXXX XXXX XXXX XXXX"
 
+    }
+
+    fun confirmationDialog(
+        context: Context,
+        title: String,
+        message: String,
+        positiveButton: String,
+        negitiveButton: String,
+        itemClick: OnItemClickListener
+    ) {
+        androidx.appcompat.app.AlertDialog.Builder(context)
+            .setTitle(title).setMessage(message)
+            .setPositiveButton(
+                positiveButton
+            ) { _, _ ->
+                itemClick.onItemClick(View(context), true, 0)
+            }
+            .setNegativeButton(
+                negitiveButton
+            ) { _, _ ->
+                itemClick.onItemClick(View(context), false, 0)
+            }
+            .show()
     }
 }

@@ -35,7 +35,7 @@ import java.util.Map;
  *   will likely cause memory issues (e.g. https://stackoverflow.com/q/6354208/4288782).
  * - some of the children need to write into {@link GLES20#GL_TEXTURE_2D} instead of
  *   {@link GLES11Ext#GL_TEXTURE_EXTERNAL_OES}! To achieve this, we replace samplerExternalOES
- *   with sampler2D in your fragment shader code. This might cause issues for some shaders.
+ *   with sampler2D in your fragment shader isoCountryCode2Digit. This might cause issues for some shaders.
  */
 @SuppressWarnings("unused")
 public class MultiFilter implements Filter, OneParameterFilter, TwoParameterFilter {

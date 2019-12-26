@@ -30,7 +30,7 @@ class StoreDataSource(private val storeRepo: StoresRepository) :
 //                storeRepo.getYapStores(CreateStoreRequest())) {
 //                is RetroApiResponse.Success -> {
 //                    callback.onResult(
-//                        response.data.stores,
+//                        response.dataList.stores,
 //                        null,
 //                        2
 //                    )
@@ -65,7 +65,7 @@ class StoreDataSource(private val storeRepo: StoresRepository) :
 //                storeRepo.getYapStores(CreateStoreRequest())) {
 //                is RetroApiResponse.Success -> {
 //                    callback.onResult(
-//                        response.data.stores,
+//                        response.dataList.stores,
 //                        params.key + 1
 //                    )
 //                    updateState(PagingState.DONE)

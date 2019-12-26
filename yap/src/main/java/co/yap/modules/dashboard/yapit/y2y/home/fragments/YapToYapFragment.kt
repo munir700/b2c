@@ -19,7 +19,7 @@ import co.yap.modules.dashboard.yapit.y2y.main.fragments.Y2YBaseFragment
 import co.yap.translation.Strings
 import co.yap.translation.Translator
 import co.yap.yapcore.BR
-import co.yap.yapcore.helpers.hideKeyboard
+import co.yap.yapcore.helpers.extentions.hideKeyboard
 import co.yap.yapcore.interfaces.OnItemClickListener
 import com.google.android.material.tabs.TabLayoutMediator
 import kotlinx.android.synthetic.main.fragment_yap_to_yap.*
@@ -51,13 +51,13 @@ class YapToYapFragment : Y2YBaseFragment<IYapToYap.ViewModel>(), OnItemClickList
             layoutRecent.visibility = View.GONE
         } else {
             //val adapter = RecentTransferAdaptor(ArrayList(),findNavController())
-            // viewModel.adapter.set(adapter)
+            //viewModel.adapter.set(adapter)
             //viewModel.adapter.get()?.onItemClickListener = this
             //adapter.onItemClickListener = this
             if (viewModel.adapter.get() == null) {
                 viewModel.getRecentBeneficiaries()
                 viewModel.recentTransferData.observe(this, Observer {
-                    if (it.isEmpty()) {
+                    if (it.isNullOrEmpty()) {
                         layoutRecent?.visibility = View.GONE
                     } else {
                         viewModel.adapter.set(

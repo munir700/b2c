@@ -6,12 +6,12 @@
 
     <!-- Zeplin Color palette -->
 
-    <color name="colorPrimary">#5e35b1</color>
+    <color name="colorPrimary">#5E35B1</color>
     <color name="colorPrimaryDark">#272262</color>
     <color name="colorPrimaryLight">#7c4dff</color>
-    <color name="colorPrimarySoft">#a682ff</color>
+    <color name="colorPrimarySoft">#A682FF</color>
     <color name="colorPrimaryWarm">#502C9E</color>
-     <color name="grey">#c9c8d8</color>
+    <color name="grey">#c9c8d8</color>
     <color name="greyDark">#9391b1</color>
     <color name="greyLight">#dae0f0</color>
     <color name="greySoft">#5cdae0f0</color>
@@ -32,18 +32,23 @@
     <color name="disabledPurple">#297c4dff</color>
 
     <color name="colorSecondaryGreen">#00b9ae</color>
-    <color name="colorSecondaryOrange">#f57f17</color>
-    <color name="colorSecondaryBlue">#478df4</color>
-    <color name="colorSecondaryMagenta">#f44774</color>
+    <color name="colorSecondaryOrange">#F57F17</color>
+    <color name="colorSecondaryBlue">#478DF4</color>
+    <color name="colorSecondaryMagenta">#F44774</color>
 
     <color name="colorMidnightExpress">#1e1c37</color>
 
 <!--    Backgorunds Colors-->
+    <!--    Backgorunds Colors-->
 
     <color name="bg_round_light_red">#28f44774</color>
     <color name="bg_round_light_blue">#28478df4</color>
     <color name="bg_round_light_green">#2900B9AE</color>
     <color name="bg_round_light_orange">#29F57F17</color>
+    <color name="bg_round_light_primary_soft">#29A682FF</color>
+    <color name="bg_round_light_secondary_magenta">#29F44774</color>
+    <color name="bg_round_light_secondary_blue">#29478DF4</color>
+    <color name="bg_round_light_primary">#295E35B1</color>
 
 
     <color name="semiBack">#30000000</color>
@@ -61,6 +66,7 @@
     <color name="card_gradient_bottom_color">#5a2fb1</color>
     <color name="master_card_gradient_bottom_color">#4bdcd8</color>
     <color name="master_card_gradient_top_color">#1caaa1</color>
+    <color name="purple">#7c4dff</color>
 
 
     <array name="analyticsColors">

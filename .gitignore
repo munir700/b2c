@@ -15,5 +15,6 @@
 /build
 /captures
 /.idea/project.xml
+/.idea/codeStyles/*
 /.idea/codeStyles/Project.xml
 .externalNativeBuild

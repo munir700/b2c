@@ -31,8 +31,12 @@ import co.yap.modules.dashboard.main.adapters.YapDashboardAdaptor
 import co.yap.modules.dashboard.main.interfaces.IYapDashboard
 import co.yap.modules.dashboard.main.viewmodels.YapDashBoardViewModel
 import co.yap.modules.dashboard.unverifiedemail.UnVerifiedEmailActivity
+import co.yap.modules.dashboard.yapit.sendmoney.home.activities.SendMoneyLandingActivity
 import co.yap.modules.dashboard.yapit.topup.landing.TopUpLandingActivity
 import co.yap.modules.dashboard.yapit.y2y.home.activities.YapToYapDashboardActivity
+import co.yap.modules.others.helper.Constants.FLAVOR
+import co.yap.modules.others.helper.Constants.VERSION_CODE
+import co.yap.modules.others.helper.Constants.VERSION_NAME
 import co.yap.translation.Strings
 import co.yap.widgets.CoreButton
 import co.yap.widgets.arcmenu.FloatingActionMenu
@@ -71,6 +75,8 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
         addObservers()
         addListeners()
         setupYapButton()
+        setAppVersion()
+
     }
 
 
@@ -122,11 +128,26 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
 
                             }
                         }
+                        3 -> {
+                            if (PartnerBankStatus.ACTIVATED.status == MyUserManager.user?.partnerBankStatus) {
+                                openSendMoneyScreen()
+                            } else {
+                                showToast("Account activation pending")
+                            }
+                        }
                     }
                 }
 
             })
             .build()
+    }
+
+    private fun openSendMoneyScreen() {
+        startActivity(
+            SendMoneyLandingActivity.newIntent(
+                this@YapDashboardActivity
+            )
+        )
     }
 
     private fun openTopUpScreen() {
@@ -395,6 +416,18 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
 
     private fun getViewBinding(): ActivityYapDashboardBinding {
         return (viewDataBinding as ActivityYapDashboardBinding)
+    }
+
+    private fun setAppVersion() {
+        try {
+            if (!FLAVOR.equals("live")) {
+                tvVersionCode.text = String.format("Version Code: %d", VERSION_CODE)
+                String.format("Version Name: %s", VERSION_NAME)
+                tvVersionName.text = String.format("Version Name: %s", VERSION_NAME)
+            }
+        } catch (e: Exception) {
+
+        }
     }
 
 }

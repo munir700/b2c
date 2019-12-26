@@ -36,10 +36,11 @@ import co.yap.widgets.CorePaymentCard
 import co.yap.yapcore.R
 import co.yap.yapcore.enums.CardDeliveryStatus
 import co.yap.yapcore.enums.CardStatus
+import co.yap.yapcore.enums.SendMoneyBeneficiaryType
 import co.yap.yapcore.helpers.DateUtils
 import co.yap.yapcore.helpers.StringUtils
 import co.yap.yapcore.helpers.Utils
-import co.yap.yapcore.helpers.loadImage
+import co.yap.yapcore.helpers.extentions.loadImage
 import co.yap.yapcore.interfaces.IBindable
 import co.yap.yapcore.managers.MyUserManager
 import com.bumptech.glide.Glide
@@ -122,21 +123,24 @@ object UIBinder {
     @JvmStatic
     fun getPhotoContact(constraintLayout: ConstraintLayout, contactId: String?, name: String?) {
 
-        val image = constraintLayout.findViewWithTag<CoreCircularImageView>("imgProfile")
-        val lyName = constraintLayout.findViewWithTag<LinearLayout>("lyNameInitials")
-        val tvName = constraintLayout.findViewWithTag<TextView>("tvNameInitials")
+        val image: CoreCircularImageView? =
+            constraintLayout.findViewWithTag<CoreCircularImageView>("imgProfile")
+        val lyName: LinearLayout? =
+            constraintLayout.findViewWithTag<LinearLayout>("lyNameInitials")
+        val tvName: TextView? = constraintLayout.findViewWithTag<TextView>("tvNameInitials")
 
         if (contactId.isNullOrEmpty()) {
             setShortName(image, lyName, tvName, name)
         } else {
             if (contactId.contains("http")) {
-                image.visibility = View.VISIBLE
-                image.loadImage(contactId)
+                image?.visibility = View.VISIBLE
+                image?.tag = null
+                image?.loadImage(contactId)
             } else {
                 try {
                     val uri = Uri.parse(contactId)
                     if (uri != null) {
-                        val cursor = image.context.contentResolver.query(
+                        val cursor = image?.context?.contentResolver?.query(
                             uri,
                             arrayOf(ContactsContract.Contacts.Photo.PHOTO), null, null, null
                         )
@@ -147,9 +151,9 @@ object UIBinder {
                                     cursor.close()
                                     val bitmap = byteArrayToBitmap(data)
                                     if (bitmap != null) {
-                                        image.visibility = View.VISIBLE
-                                        lyName.visibility = View.GONE
-                                        image.setImageBitmap(bitmap)
+                                        image?.visibility = View.VISIBLE
+                                        lyName?.visibility = View.GONE
+                                        image?.setImageBitmap(bitmap)
                                     } else {
                                         setShortName(image, lyName, tvName, name)
                                     }
@@ -175,21 +179,21 @@ object UIBinder {
     }
 
     private fun setShortName(
-        imageView: CoreCircularImageView,
-        layout: LinearLayout,
-        initials: TextView,
+        imageView: CoreCircularImageView?,
+        layout: LinearLayout?,
+        initials: TextView?,
         name: String?
     ) {
         if (name != null) {
-            initials.text = Utils.shortName(name)
-            initials.visibility = View.VISIBLE
-            layout.visibility = View.VISIBLE
-            imageView.visibility = View.INVISIBLE
+            initials?.text = Utils.shortName2(name)
+            initials?.visibility = View.VISIBLE
+            layout?.visibility = View.VISIBLE
+            imageView?.visibility = View.INVISIBLE
         } else {
-            imageView.visibility = View.INVISIBLE
-            layout.visibility = View.GONE
-            initials.visibility = View.GONE
-            imageView.setImageResource(0)
+            imageView?.visibility = View.INVISIBLE
+            layout?.visibility = View.GONE
+            initials?.visibility = View.GONE
+            imageView?.setImageResource(0)
         }
     }
 
@@ -415,7 +419,8 @@ object UIBinder {
     @BindingAdapter("src")
     @JvmStatic
     fun setImageResId(view: ImageView, resId: Int) {
-        view.setImageResource(resId)
+        if (resId != -1)
+            view.setImageResource(resId)
     }
 
     @JvmStatic
@@ -746,6 +751,28 @@ object UIBinder {
             .transforms(CenterCrop(), RoundedCorners(115))
             .into(view)
 
+    }
+
+    @BindingAdapter("textColor")
+    @JvmStatic
+    fun setSelectedTextColor(view: TextView, isActive: Boolean) {
+        if (isActive) {
+            view.setTextColor(view.context.resources.getColor(R.color.colorPrimaryDark))
+        } else {
+            view.setTextColor(view.context.resources.getColor(R.color.greyDark))
+        }
+    }
+
+
+    @BindingAdapter("setBeneficiaryImageSrc")
+    @JvmStatic
+    fun setImageSrc(imageView: ImageView, transferType: String) {
+
+        if (transferType == SendMoneyBeneficiaryType.CASHPAYOUT.type) {
+            imageView.setImageResource(R.drawable.ic_cash)
+        } else {
+            imageView.setImageResource(R.drawable.ic_bank)
+        }
     }
 
     @JvmStatic

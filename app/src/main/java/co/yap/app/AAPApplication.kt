@@ -6,6 +6,7 @@ import co.yap.networking.interfaces.NetworkConstraintsListener
 import co.yap.yapcore.helpers.AuthUtils
 import co.yap.yapcore.helpers.NetworkConnectionManager
 import co.yap.yapcore.helpers.SharedPreferenceManager
+import co.yap.yapcore.helpers.Utils
 import com.crashlytics.android.Crashlytics
 import io.fabric.sdk.android.Fabric
 import timber.log.Timber
@@ -18,6 +19,8 @@ class AAPApplication : ChatApplication(BuildConfig.FLAVOR) {
 
     override fun onCreate() {
         super.onCreate()
+        Utils.context = this
+
         RetroNetwork.initWith(this, BuildConfig.BASE_URL)
         NetworkConnectionManager.init(this)
         setAppUniqueId(this)

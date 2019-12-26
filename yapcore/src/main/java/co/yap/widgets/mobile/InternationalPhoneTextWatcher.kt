@@ -163,7 +163,7 @@ class InternationalPhoneTextWatcher
         val countryCallingCode = "+$countryPhoneCode"
 
         if (internationalOnly || s.length > 0 && s[0] != '0')
-        //to have number formatted as international format, add country code before that
+        //to have number formatted as international format, add country isoCountryCode2Digit before that
             s = countryCallingCode + s
         val len = s.length
 

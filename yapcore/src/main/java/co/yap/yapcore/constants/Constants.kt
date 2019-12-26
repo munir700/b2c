@@ -15,6 +15,8 @@ object Constants {
     const val TRANSACTION_TYPE_CREDIT: String = "CREDIT"
     const val FORGOT_CARD_PIN_FLOW: String = "FORGOT_CARD_PIN_FLOW"
     const val FORGOT_CARD_PIN_ACTION: String = "FORGOT_CARD_PIN"
+    const val BENEFICIARY_CASH_TRANSFER: String = "CASHPAYOUT"
+
     const val TOP_UP: String = "TOP_UP"
     const val CARD: String = "CARD"
     const val KEY: String = "Key"
@@ -46,13 +48,14 @@ object Constants {
     //Product codes
     const val TOP_UP_VIA_CARD: String = "P009"
 
-
     // Invite Friend Constants
     const val URL_SHARE_APP_STORE = "itms-apps://itunes.apple.com/app/id1024941703"
     const val URL_SHARE_PLAY_STORE = "https://play.google.com/store/apps/details?id=co.yap"
+
     const val MODE_STATUS_SCREEN: Int = 1
     const val MODE_HELP_SUPPORT: Int = 2
     const val FORGOT_CARD_PIN_NAVIGATION: Int = 1
+
     const val DUMMY_CARD: Int = 22
     const val CARD_FEE: Int = 23
     const val TOP_UP_TRANSACTION_SUCCESS: Int = 6
@@ -72,6 +75,18 @@ object Constants {
     //Other events
     const val EVENT_TOP_UP_CARD_TRANSACTION: Int = 5
 
+    // Cash pickup flow constants
+    const val BENEFICIARY: String = "Beneficiary"
+    const val POSITION: String = "Position"
+    const val IS_NEW_BENEFICIARY: String = "IS_NEW_BENEFICIARY"
+
+
+    const val ADD_CASH_PICK_UP_SUCCESS = 10001
+    const val ADD_CASH_PICK_UP_FlOW = 10002
+    const val ADD_DOMESTIC_SUCCESS = 10003
+    const val ADD_SUCCESS = 10004
+
+
     //Core Payment Card Types
     const val VISA = "Visa"
     const val MASTER = "Mastercard"
@@ -84,4 +99,10 @@ object Constants {
     const val USER_STATUS_CARD_ACTIVATED: String = "CARD_ACTIVATED"
 
     const val BROADCAST_UPDATE_TRANSACTION: String = "BROADCAST_UPDATE_TRANSACTION"
+
+    // Money Transfer
+
+    const val MONEY_TRANSFERED = "MONEY_TRANSFERED"
+    const val BENEFICIARY_CHANGE = "BENEFICIARY_CHANGE"
+
 }

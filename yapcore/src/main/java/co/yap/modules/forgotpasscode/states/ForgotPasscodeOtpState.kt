@@ -2,6 +2,7 @@ package co.yap.modules.forgotpasscode.states
 
 import android.app.Application
 import android.os.CountDownTimer
+import android.text.SpannableStringBuilder
 import androidx.databinding.Bindable
 import co.yap.yapcore.BR
 import co.yap.modules.forgotpasscode.interfaces.IForgotPasscodeOtp
@@ -10,20 +11,20 @@ import co.yap.yapcore.R
 
 class ForgotPasscodeOtpState(application: Application) : BaseState(), IForgotPasscodeOtp.State {
     @get:Bindable
-    override var verificationTitle: String="I am your title"
+    override var verificationTitle: String = "I am your title"
         set(value) {
-            field=value
+            field = value
             notifyPropertyChanged(BR.verificationTitle)
         }
     @get:Bindable
-    override var verificationDescription: String=""
+    override var verificationDescription: String = ""
         set(value) {
-            field=value
+            field = value
             notifyPropertyChanged(BR.verificationDescription)
         }
 
     val mContext = application.applicationContext
-  override var mobileNumber: Array<String?> = arrayOfNulls(1)
+    override var mobileNumber: Array<String?> = arrayOfNulls(1)
 
     @get:Bindable
     override var otp: String = ""
@@ -63,6 +64,55 @@ class ForgotPasscodeOtpState(application: Application) : BaseState(), IForgotPas
         set(value) {
             field = value
             notifyPropertyChanged(BR.color)
+        }
+    @get:Bindable
+    override var verificationDescriptionForLogo: SpannableStringBuilder? =
+        SpannableStringBuilder("")
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.verificationDescriptionForLogo)
+        }
+    @get:Bindable
+    override var imageUrl: String? = ""
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.imageUrl)
+        }
+    @get:Bindable
+    override var fullName: String? = ""
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.fullName)
+        }
+    @get:Bindable
+    override var currencyType: String? = "AED"
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.currencyType)
+        }
+    @get:Bindable
+    override var amount: String? = ""
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.amount)
+        }
+    @get:Bindable
+    override var position: Int? = 0
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.position)
+        }
+    @get:Bindable
+    override var flagLayoutVisibility: Boolean? = false
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.flagLayoutVisibility)
+        }
+    @get:Bindable
+    override var beneficiaryCountry: String? = ""
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.beneficiaryCountry)
         }
 
     private fun validate(): Boolean {

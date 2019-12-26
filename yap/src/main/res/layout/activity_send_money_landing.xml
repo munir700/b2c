@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="co.yap.translation.Strings" />
+
+        <variable
+            name="viewModel"
+            type="co.yap.modules.dashboard.yapit.sendmoney.home.viewmodels.SendMoneyHomeScreenViewModel" />
+
+        <import type="android.view.View" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorWhite"
+        android:orientation="vertical">
+        <include
+            android:id="@+id/toolbar"
+            android:visibility="@{viewModel.state.isSearching()? View.GONE : View.VISIBLE }"
+            layout="@layout/layout_send_beneficiaries_toolbar"
+            app:viewModel="@{viewModel}" />
+
+        <include
+            android:paddingLeft="@dimen/margin_medium"
+            android:paddingRight="@dimen/margin_medium"
+            android:id="@+id/layoutNoContacts"
+            layout="@layout/layout_no_contacts"
+            app:viewModel="@{viewModel}"
+            android:visibility="@{viewModel.state.isNoBeneficiary()?View.VISIBLE:View.GONE}"
+            tools:visibility="gone" />
+
+        <include
+            android:id="@+id/layoutBeneficiaries"
+            layout="@layout/layout_beneficiaries"
+            android:visibility="@{viewModel.state.hasBeneficiary?View.VISIBLE:View.GONE}"
+            app:viewModel="@{viewModel}" />
+
+    </LinearLayout>
+</layout>

@@ -46,7 +46,7 @@ abstract class BaseBindingAdapter<VH : BaseBindingHolder>(val context: Context) 
         }
 
         holder.adapterPosition = position
-        holder.bind(getDataForPosition(position) as Object)
+        //holder.bind(getDataForPosition(position) as Object)
         view.setOnClickListener(View.OnClickListener { view ->
             onItemClickListener?.onItemClick(
                 view, getItem(position),

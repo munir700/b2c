@@ -23,11 +23,10 @@ import co.yap.yapcore.interfaces.OnItemClickListener
 
 
 class PhoneContactFragment : Y2YBaseFragment<IPhoneContact.ViewModel>(),
-    InvitePhoneContactBottomSheet.OnItemClickListener {
+    InviteBottomSheet.OnItemClickListener {
 
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.fragment_phone_contacts
-    private lateinit var inviteFriendBottomSheet: InvitePhoneContactBottomSheet
     override val viewModel: PhoneContactViewModel
         get() = ViewModelProviders.of(this).get(PhoneContactViewModel::class.java)
 
@@ -38,13 +37,12 @@ class PhoneContactFragment : Y2YBaseFragment<IPhoneContact.ViewModel>(),
         initState()
         initComponents()
         setObservers()
-        if (viewModel.listIsEmpty())
-            viewModel.getY2YBeneficiaries()
+        viewModel.getY2YBeneficiaries()
     }
 
     private fun initComponents() {
         adaptor =
-            YapContactsAdaptor(if (viewModel.listIsEmpty()) mutableListOf() else viewModel.phoneContactLiveData.value as MutableList<Contact>)
+            YapContactsAdaptor(mutableListOf())
         getBinding().recycler.adapter = adaptor
         adaptor.setItemListener(listener)
     }
@@ -94,10 +92,11 @@ class PhoneContactFragment : Y2YBaseFragment<IPhoneContact.ViewModel>(),
         viewModel.parentViewModel?.isSearching?.value?.let {
             if (it)
                 if (viewModel.getState().value != null && viewModel.getState().value != PagingState.LOADING)
-                    adaptor.filterCount.observe(this, Observer {
+                    adaptor.filterCount.observe(this, Observer { count ->
                         getBinding().tvContactListDescription.visibility =
-                            if (it == 0) View.GONE else View.VISIBLE
-                        getBinding().txtError.visibility = if (it == 0) View.VISIBLE else View.GONE
+                            if (count == 0) View.GONE else View.VISIBLE
+                        getBinding().txtError.visibility =
+                            if (count == 0) View.VISIBLE else View.GONE
                         getBinding().txtError.text =
                             if (viewModel.parentViewModel?.isSearching?.value!!) "No result" else Translator.getString(
                                 requireContext(),
@@ -137,18 +136,18 @@ class PhoneContactFragment : Y2YBaseFragment<IPhoneContact.ViewModel>(),
 
     private fun sendInvite(contact: Contact) {
         this.fragmentManager?.let {
-            inviteFriendBottomSheet = InvitePhoneContactBottomSheet(this, contact)
+            val inviteFriendBottomSheet = InviteBottomSheet(this, contact)
             inviteFriendBottomSheet.show(it, "")
         }
     }
 
-    override fun onClick(viewId: Int, contact: Contact) {
-
-        when (viewId) {
-            R.id.tvChooseEmail -> inviteViaEmail(contact)
-            R.id.tvChooseSMS -> inviteViaSms(contact)
-            R.id.tvChooseWhatsapp -> inviteViaWhatsapp(contact)
-        }
+    override fun onClick(viewId: Int, data: Any) {
+        if (data is Contact)
+            when (viewId) {
+                R.id.tvChooseEmail -> inviteViaEmail(data)
+                R.id.tvChooseSMS -> inviteViaSms(data)
+                R.id.tvChooseWhatsapp -> inviteViaWhatsapp(data)
+            }
     }
 
     private fun inviteViaWhatsapp(contact: Contact) {

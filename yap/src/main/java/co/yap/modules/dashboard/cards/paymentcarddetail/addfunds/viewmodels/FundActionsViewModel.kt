@@ -32,13 +32,8 @@ open class FundActionsViewModel(application: Application) :
     override val topUpTransactionModelLiveData: MutableLiveData<TopUpTransactionModel>? =
         MutableLiveData()
 
-    override fun initateVM(topupCard: TopUpCard) {
-
-    }
-
-    override fun startPooling(showLoader: Boolean) {
-    }
-
+    override fun initateVM(topupCard: TopUpCard) {}
+    override fun startPooling(showLoader: Boolean) {}
     override fun denominationFirstAmountClick() {
 //        state.amount = ""
         if (state.denominationFirstAmount.contains("+")) {
@@ -140,6 +135,7 @@ open class FundActionsViewModel(application: Application) :
             state.loading = false
         }
     }
+
 
     override fun getFundTransferLimits(productCode: String) {
         launch {

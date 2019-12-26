@@ -71,7 +71,7 @@ class DocumentsDashboardActivity : BaseBindingActivity<IDocumentsDashboard.ViewM
     override fun onDestroy() {
         super.onDestroy()
         if (isFromMoreSection) {
-            //todo need to verify that code
+            //todo need to verify that isoCountryCode2Digit
             //IdentityScannerActivity.CLOSE_SCANNER = false
         }
     }

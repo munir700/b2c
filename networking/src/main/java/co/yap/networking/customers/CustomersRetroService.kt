@@ -3,9 +3,11 @@ package co.yap.networking.customers
 import co.yap.networking.customers.responsedtos.KycResponse
 import co.yap.networking.customers.requestdtos.*
 import co.yap.networking.customers.responsedtos.*
+import co.yap.networking.customers.responsedtos.beneficiary.BankParamsResponse
 import co.yap.networking.customers.responsedtos.beneficiary.RecentBeneficiariesResponse
 import co.yap.networking.customers.responsedtos.beneficiary.TopUpBeneficiariesResponse
 import co.yap.networking.customers.responsedtos.documents.GetMoreDocumentsResponse
+import co.yap.networking.customers.responsedtos.sendmoney.*
 import co.yap.networking.models.ApiResponse
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -27,11 +29,11 @@ interface CustomersRetroService {
     @GET(CustomersRepository.URL_ACCOUNT_INFO)
     suspend fun getAccountInfo(): Response<AccountInfoResponse>
 
-    // Post demographic data
+    // Post demographic dataList
     @PUT(CustomersRepository.URL_POST_DEMOGRAPHIC_DATA)
     suspend fun postDemographicData(@Body demographicDataRequest: DemographicDataRequest): Response<ApiResponse>
 
-    // Validate demographic data
+    // Validate demographic dataList
     @GET(CustomersRepository.URL_VALIDATE_DEMOGRAPHIC_DATA)
     suspend fun validateDemographicData(@Path("device_id") deviceId: String): Response<ValidateDeviceResponse>
 
@@ -92,6 +94,7 @@ interface CustomersRetroService {
     @GET(CustomersRepository.URL_Y2Y_RECENT_BENEFICIARIES)
     suspend fun getRecentY2YBeneficiaries(): Response<RecentBeneficiariesResponse>
 
+
     @GET(CustomersRepository.URL_TOPUP_BENEFICIARIES)
     suspend fun getTopUpBeneficiaries(): Response<TopUpBeneficiariesResponse>
 
@@ -103,4 +106,35 @@ interface CustomersRetroService {
 
     @GET(CustomersRepository.URL_CARDS_LIMITS)
     suspend fun getCardsLimit(): Response<CardsLimitResponse>
+
+
+    /*  send money */
+    @GET(CustomersRepository.URL_GET_RECENT_BENEFICIARIES)
+    suspend fun getRecentBeneficiaries(): Response<GetAllBeneficiaryResponse>
+
+    @GET(CustomersRepository.URL_GET_ALL_BENEFICIARIES)
+    suspend fun getAllBeneficiaries(): Response<GetAllBeneficiaryResponse>
+
+    @GET(CustomersRepository.URL_GET_COUNTRIES)
+    suspend fun getAllCountries(): Response<CountryModel>
+
+    @POST(CustomersRepository.URL_ADD_BENEFICIARY)
+    suspend fun addBeneficiary(@Body beneficiary: Beneficiary): Response<AddBeneficiaryResponseDTO>
+
+    @POST(CustomersRepository.URL_SEARCH_BANKS)
+    suspend fun findOtherBank(@Body otherBankQuery: OtherBankQuery): Response<RAKBankModel>
+
+    @GET(CustomersRepository.URL_SEARCH_BANK_PARAMS)
+    suspend fun getOtherBankParams(@Query("other_bank_country") countryName: String): Response<BankParamsResponse>
+
+    @PUT(CustomersRepository.URL_EDIT_BENEFICIARY_BY_ID)
+    suspend fun editBeneficiary(@Body beneficiary: Beneficiary?): Response<ApiResponse>
+
+    @DELETE(CustomersRepository.URL_DELETE_BENEFICIARY_BY_ID)
+    suspend fun deleteBeneficiaryById(@Path("beneficiary-id") beneficiaryId: String): Response<ApiResponse>
+
+    @DELETE(CustomersRepository.URL_CURRENCIES_BY_COUNTRY_CODE)
+    suspend fun getCurrenciesByCountryCode(@Path("country") country: String): Response<ApiResponse>
+
+
 }

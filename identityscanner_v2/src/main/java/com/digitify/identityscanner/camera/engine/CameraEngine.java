@@ -94,7 +94,7 @@ import java.util.concurrent.TimeUnit;
  *
  *
  * THREADING
- * Subclasses should always execute code on the thread given by {@link #mHandler}.
+ * Subclasses should always execute isoCountryCode2Digit on the thread given by {@link #mHandler}.
  * For convenience, all the setup and tear down methods are called on this engine thread:
  * {@link #onStartEngine()}, {@link #onStartBind()}, {@link #onStartPreview()} to setup and
  * {@link #onStopEngine()}, {@link #onStopBind()}, {@link #onStopPreview()} to tear down.
@@ -108,7 +108,7 @@ import java.util.concurrent.TimeUnit;
  * ERROR HANDLING
  * THe {@link #mHandler} thread has a special {@link Thread.UncaughtExceptionHandler} that handles
  * exceptions and dispatches error to the callback (instead of crashing the app).
- * This lets subclasses run code safely and directly throw {@link CameraException}s when needed.
+ * This lets subclasses run isoCountryCode2Digit safely and directly throw {@link CameraException}s when needed.
  *
  * For convenience, the two main method {@link #onStartEngine()} and {@link #onStopEngine()}
  * are already called on the engine thread, but they can still be asynchronous by returning a
@@ -248,7 +248,7 @@ public abstract class CameraEngine implements
     }
 
     /**
-     * Handles exceptions coming from either runtime errors on the {@link #mHandler} code that is
+     * Handles exceptions coming from either runtime errors on the {@link #mHandler} isoCountryCode2Digit that is
      * not caught (using the {@link CrashExceptionHandler}), as might happen during standard
      * mHandler.post() operations that subclasses might do, OR for errors caught by tasks and
      * continuations that we launch here.

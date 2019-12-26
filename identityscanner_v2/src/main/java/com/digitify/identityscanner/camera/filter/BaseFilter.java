@@ -31,7 +31,7 @@ import java.nio.FloatBuffer;
  * - {@link #vertexTextureCoordinateName}
  * - {@link #fragmentTextureCoordinateName}
  * You can either change these variables, for example in your constructor, or change your
- * vertex and fragment shader code to use them.
+ * vertex and fragment shader isoCountryCode2Digit to use them.
  *
  * NOTE - the {@link android.graphics.SurfaceTexture} restrictions apply:
  * We only support the {@link android.opengl.GLES11Ext#GL_TEXTURE_EXTERNAL_OES} texture target

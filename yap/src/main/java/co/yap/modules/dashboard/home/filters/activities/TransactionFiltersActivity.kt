@@ -176,31 +176,33 @@ class TransactionFiltersActivity : BaseBindingActivity<ITransactionFilters.ViewM
     }
 
     private fun setFilterValues() {
-        if (!cbOutTransFilter.isChecked && !cbInTransFilter.isChecked && rsbAmount.leftSeekBar.progress == viewModel.transactionFilters.value?.maxAmount?.toFloat()!!) {
-            YAPApplication.hasFilterStateChanged =
-                Utils.getTwoDecimalPlaces(rsbAmount.leftSeekBar.progress.toDouble()) != Utils.getTwoDecimalPlaces(
-                    viewModel.transactionFilters.value?.maxAmount!!
-                )
-            YAPApplication.isAllChecked = false
-            YAPApplication.clearFilters()
-        } else {
-            var count = 0
-            if (cbOutTransFilter.isChecked) count++
-            if (cbInTransFilter.isChecked) count++
-            if (rsbAmount.leftSeekBar.progress != viewModel.transactionFilters.value?.maxAmount?.toFloat()!!) count++
-            YAPApplication.hasFilterStateChanged = hasFiltersStateChanged()
+        viewModel.transactionFilters.value?.maxAmount?.toFloat()?.let {
+            if (!cbOutTransFilter.isChecked && !cbInTransFilter.isChecked && it == rsbAmount.leftSeekBar.progress) {
+                YAPApplication.hasFilterStateChanged =
+                    Utils.getTwoDecimalPlaces(rsbAmount.leftSeekBar.progress.toDouble()) != Utils.getTwoDecimalPlaces(
+                        it.toDouble()
+                    )
+                YAPApplication.isAllChecked = false
+                YAPApplication.clearFilters()
+            } else {
+                var count = 0
+                if (cbOutTransFilter.isChecked) count++
+                if (cbInTransFilter.isChecked) count++
+                if (it != rsbAmount.leftSeekBar.progress) count++
+                YAPApplication.hasFilterStateChanged = hasFiltersStateChanged()
 
-            YAPApplication.homeTransactionsRequest = HomeTransactionsRequest(
-                0, YAPApplication.pageSize,
-                Utils.getTwoDecimalPlaces(rsbAmount.minProgress.toDouble()),
-                Utils.getTwoDecimalPlaces(rsbAmount.leftSeekBar.progress.toDouble()),
-                getCurrentTxnType(),
-                null,
-                count
-            )
-            setResult(INTENT_FILTER_REQUEST)
+                YAPApplication.homeTransactionsRequest = HomeTransactionsRequest(
+                    0, YAPApplication.pageSize,
+                    Utils.getTwoDecimalPlaces(rsbAmount.minProgress.toDouble()),
+                    Utils.getTwoDecimalPlaces(rsbAmount.leftSeekBar.progress.toDouble()),
+                    getCurrentTxnType(),
+                    null,
+                    count
+                )
+                setResult(INTENT_FILTER_REQUEST)
+            }
+            finish()
         }
-        finish()
     }
 
     private fun hasFiltersStateChanged(): Boolean {

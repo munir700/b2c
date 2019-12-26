@@ -9,29 +9,27 @@ import co.yap.networking.transactions.responsedtos.topuptransactionsession.Creat
 import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionsResponse
 
 interface TransactionsApi {
-    /*TODO: faheem ***************************** done */
-
     suspend fun addFunds(addFundsRequest: AddFundsRequest): RetroApiResponse<AddRemoveFundsResponse>
     suspend fun removeFunds(removeFundsResponse: RemoveFundsRequest): RetroApiResponse<AddRemoveFundsResponse>
-    suspend fun getFundTransferLimits(productCode: String): RetroApiResponse<FundTransferLimitsResponse>
+    suspend fun getFundTransferLimits(productCode: String?): RetroApiResponse<FundTransferLimitsResponse>
     suspend fun getFundTransferDenominations(productCode: String): RetroApiResponse<FundTransferDenominationsResponse>
+    suspend fun getCardFee(cardType: String): RetroApiResponse<CardFeeResponse>
+    suspend fun getTransactionFeeWithProductCode(
+        productCode: String?,
+        mRemittanceFeeRequest: RemittanceFeeRequest
+    ): RetroApiResponse<ApiResponse>
 
-    /*TODO :===========================*/
+    suspend fun getTransactionInternationalReasonList(productCode: String?): RetroApiResponse<InternationalFundsTransferReasonList>
+    suspend fun getCardStatements(cardSerialNumber: String): RetroApiResponse<CardStatementsResponse>
+    suspend fun getTransactionInternationalRXList(
+        RxNumber: String?,
+        mRxListRequest: RxListRequest
+    ): RetroApiResponse<ApiResponse>
 
-
-    /*Done: sufyan ******************************/
-
-    suspend fun getCardFee(cardType: String?): RetroApiResponse<CardFeeResponse>
-    suspend fun getCardStatements(cardSerialNumber: String?): RetroApiResponse<CardStatementsResponse>
-    suspend fun y2yFundsTransferRequest(y2YFundsTransferRequest: Y2YFundsTransferRequest?): RetroApiResponse<ApiResponse>
-    suspend fun addEditNote(addEditNoteRequest: AddEditNoteRequest?): RetroApiResponse<AddEditNoteResponse>
+    suspend fun y2yFundsTransferRequest(y2YFundsTransferRequest: Y2YFundsTransferRequest): RetroApiResponse<ApiResponse>
+    suspend fun addEditNote(addEditNoteRequest: AddEditNoteRequest): RetroApiResponse<AddEditNoteResponse>
     suspend fun getSearchFilterAmount(): RetroApiResponse<SearchFilterAmountResponse>
-    suspend fun getTransactionDetails(transactionId: String?): RetroApiResponse<TransactionDetailsResponse>
-
-    /*TODO :===========================*/
-
-    /*TODO: adil ******************************/
-
+    suspend fun getTransactionDetails(transactionId: String): RetroApiResponse<TransactionDetailsResponse>
     suspend fun getAccountTransactions(homeTransactionsRequest: HomeTransactionsRequest): RetroApiResponse<HomeTransactionsResponse>
     suspend fun getCardTransactions(cardTransactionRequest: CardTransactionRequest): RetroApiResponse<HomeTransactionsResponse>
     suspend fun getTransactionFee(productCode: String): RetroApiResponse<TransactionFeeResponseDTO>
@@ -47,9 +45,16 @@ interface TransactionsApi {
         cardSerialNo: String? = "",
         date: String? = ""
     ): RetroApiResponse<AnalyticsResponseDTO>
+
     suspend fun getAnalyticsByCategoryName(
         cardSerialNo: String? = "",
         date: String? = ""
     ): RetroApiResponse<AnalyticsResponseDTO>
+
+    suspend fun cashPayoutTransferRequest(cashPayoutRequestDTO: CashPayoutRequestDTO): RetroApiResponse<SendMoneyTransactionResponseDTO>
+    suspend fun domesticTransferRequest(domesticTransactionRequestDTO: DomesticTransactionRequestDTO): RetroApiResponse<SendMoneyTransactionResponseDTO>
+    suspend fun uaeftsTransferRequest(uaeftsTransactionRequestDTO: UAEFTSTransactionRequestDTO): RetroApiResponse<SendMoneyTransactionResponseDTO>
+    suspend fun rmtTransferRequest(rmtTransactionRequestDTO: RMTTransactionRequestDTO): RetroApiResponse<SendMoneyTransactionResponseDTO>
+    suspend fun swiftTransferRequest(swiftTransactionRequestDTO: SwiftTransactionRequestDTO): RetroApiResponse<SendMoneyTransactionResponseDTO>
 
 }

@@ -3,9 +3,11 @@ package co.yap.networking.transactions
 import co.yap.networking.models.ApiResponse
 import co.yap.networking.transactions.requestdtos.*
 import co.yap.networking.transactions.responsedtos.*
-import co.yap.networking.transactions.responsedtos.topuptransactionsession.CreateTransactionSessionResponseDTO
 import co.yap.networking.transactions.responsedtos.topuptransactionsession.Check3DEnrollmentSessionResponse
+import co.yap.networking.transactions.responsedtos.topuptransactionsession.CreateTransactionSessionResponseDTO
+import co.yap.networking.transactions.responsedtos.transaction.FxRateResponse
 import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionsResponse
+import co.yap.networking.transactions.responsedtos.transaction.RemittanceFeeResponse
 import retrofit2.Response
 import retrofit2.http.*
 
@@ -21,7 +23,7 @@ interface TransactionsRetroService {
 
     // Get fund transfer limits
     @GET(TransactionsRepository.URL_FUND_TRANSFER_LIMITS)
-    suspend fun getFundTransferLimits(@Path("product-code") productCode: String): Response<FundTransferLimitsResponse>
+    suspend fun getFundTransferLimits(@Path("product-code") productCode: String?): Response<FundTransferLimitsResponse>
 
     // Get fund transfer denominations
     @GET(TransactionsRepository.URL_FUND_TRANSFER_DENOMINATIONS)
@@ -97,6 +99,38 @@ interface TransactionsRetroService {
     //Get analytics by category name
     @GET(TransactionsRepository.URL_GET_ANALYTICS_BY_CATEGORY_NAME)
     suspend fun getAnalyticsByCategoryName(@Query("cardSerialNo") cardSerialNo: String?, @Query("date") date: String?): Response<AnalyticsResponseDTO>
+
+    //Cash payout transfer request
+    @POST(TransactionsRepository.URL_CASH_PAYOUT_TRANSFER)
+    suspend fun cashPayoutTransferRequest(@Body cashPayoutRequestDTO: CashPayoutRequestDTO): Response<SendMoneyTransactionResponseDTO>
+
+    //Get transaction fee
+    @POST(TransactionsRepository.URL_GET_TRANSACTION_FEE_WITH_PRODUCT_CODE)
+    suspend fun getTransactionFeeWithProductCode(@Path("product-code") productCode: String?, @Body mRemittanceFeeRequest: RemittanceFeeRequest): Response<RemittanceFeeResponse>
+
+    //Get transaction international purpose reasons.
+    @GET(TransactionsRepository.URL_GET_INTERNATIONAL_TRANSACTION_REASON_LIST)
+    suspend fun getInternationalTransactionReasonList(@Path("product-code") productCode: String?): Response<InternationalFundsTransferReasonList>
+
+    //Get transaction international purpose reasons.
+    @POST(TransactionsRepository.URL_GET_INTERNATIONAL_RX_RATE_LIST)
+    suspend fun getInternationalRXRateList(@Path("product-code") RXNumber: String?, @Body mRxListRequest: RxListRequest): Response<FxRateResponse>
+
+    //Domestic transfer request
+    @POST(TransactionsRepository.URL_DOMESTIC_TRANSFER)
+    suspend fun domesticTransferRequest(@Body domesticTransactionRequestDTO: DomesticTransactionRequestDTO): Response<SendMoneyTransactionResponseDTO>
+
+    //Uaefts transfer request
+    @POST(TransactionsRepository.URL_UAEFTS_TRANSFER)
+    suspend fun uaeftsTransferRequest(@Body uaeftsTransactionRequestDTO: UAEFTSTransactionRequestDTO): Response<SendMoneyTransactionResponseDTO>
+
+    //RMT transfer request
+    @POST(TransactionsRepository.URL_RMT_TRANSFER)
+    suspend fun rmtTransferRequest(@Body rmtTransactionRequestDTO: RMTTransactionRequestDTO): Response<SendMoneyTransactionResponseDTO>
+
+    //Swift transfer request
+    @POST(TransactionsRepository.URL_SWIFT_TRANSFER)
+    suspend fun swiftTransferRequest(@Body swiftTransactionRequestDTO: SwiftTransactionRequestDTO): Response<SendMoneyTransactionResponseDTO>
 
 
 }

@@ -168,5 +168,28 @@
             android:name=".modules.dashboard.cards.analytics.main.activities.CardAnalyticsActivity"
             android:screenOrientation="portrait" />
 
+
+        <activity
+            android:name="co.yap.modules.dashboard.yapit.sendmoney.activities.SendMoneyHomeActivity"
+            android:windowSoftInputMode="adjustResize"
+            android:screenOrientation="portrait">
+            <nav-graph android:value="@navigation/send_money_main_navigation" />
+        </activity>
+
+        <!-- Send Money Edit Beneficiary -->
+        <activity
+            android:name=".modules.dashboard.yapit.sendmoney.editbeneficiary.activity.EditBeneficiaryActivity"
+            android:screenOrientation="portrait" />
+        <!--Update Flag to hide keyboard-->
+        <activity
+            android:name=".modules.dashboard.yapit.sendmoney.activities.BeneficiaryCashTransferActivity"
+            android:windowSoftInputMode="stateHidden"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".modules.dashboard.yapit.sendmoney.home.activities.SendMoneyLandingActivity"
+            android:screenOrientation="portrait" />
+
+
     </application>
 </manifest>

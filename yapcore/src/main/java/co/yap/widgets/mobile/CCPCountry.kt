@@ -335,7 +335,7 @@ class CCPCountry : Comparable<CCPCountry> {
 
                     if (countryGroup != null) {
                         val areaCodeStartsAt = firstDigit + code.length
-                        //when phone number covers area code too.
+                        //when phone number covers area isoCountryCode2Digit too.
                         if (fullNumber.length >= areaCodeStartsAt + countryGroup!!.areaCodeLength) {
                             val areaCode =
                                 fullNumber.substring(areaCodeStartsAt, areaCodeStartsAt + countryGroup!!.areaCodeLength)
@@ -369,7 +369,7 @@ class CCPCountry : Comparable<CCPCountry> {
 
         internal fun getFlagMasterResID(CCPCountry: CCPCountry): Int {
             when (CCPCountry.nameCode.toLowerCase()) {
-                //this should be sorted based on country name code.
+                //this should be sorted based on country name isoCountryCode2Digit.
                 "ae" //united arab emirates
                 -> return R.drawable.bitmap
 
@@ -380,7 +380,7 @@ class CCPCountry : Comparable<CCPCountry> {
 
         internal fun getFlagEmoji(CCPCountry: CCPCountry): String {
             when (CCPCountry.nameCode.toLowerCase()) {
-                //this should be sorted based on country name code.
+                //this should be sorted based on country name isoCountryCode2Digit.
                 "ae" -> return "🇦🇪"
                 else -> return " "
             }

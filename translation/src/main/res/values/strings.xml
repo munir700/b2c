@@ -8,6 +8,7 @@
     <string name="common_button_cancel">Cancel</string>
     <string name="common_button_settings">Settings</string>
     <string name="common_button_save">Save</string>
+    <string name="common_button_confirm">Confirm</string>
     <string name="common_button_activate">Activate</string>
     <string name="common_text_currency_type">AED</string>
     <string name="common_amount_hint">0.00</string>
@@ -467,24 +468,17 @@
     <string name="screen_email_verified_popup_button_title_click_here">click here.</string>
 
 
-    <!--     Unverified change email success Screen-->
-    <string name="screen_unverified_success_display_text_heading">Success!</string>;
-    <string name="screen_unverified_success_display_text_sub_heading">Your email address has been changed to\n</string>
-    <string name="screen_unverified_success_display_text_description">Please log in to your email address to \n validate your email and continue with \n access to YAP!</string>
-    <string name="screen_unverified_display_button_mail">Open Mail App</string>
-    <string name="screen_unverified_display_button_later">Maybe later</string>
-    <string name="screen_unverified_display_button_back_to_dashboard">Back to dashboard</string>
+    <!--  Change Location Screen-->
+    <string name="screen_address_success_display_text_sub_heading">Your location address has been changed to\n</string>
 
+    <!--     Transactions Filters Screen-->
+    <string name="screen_transaction_filters_display_button_apply_filters">Apply filters</string>
+    <string name="screen_transaction_filters_display_button_clear_filters">Clear filters</string>
 
     <!--    Yap to Yap Home Screen-->
     <string name="screen_yap_to_yap_display_text_no_yap_contact_msg">None of your friends have YAP yet.  Invite them now and earn AED XX for every friend that stars using YAP!</string>
     <string name="screen_yap_to_yap_display_text_button">Invite now</string>
     <string name="screen_yap_to_yap_display_text_search_hint">Search</string>
-
-
-    <string name="screen_address_success_display_text_sub_heading">Your location address has been changed to \n</string>
-    Choose your location below. We will also call you to verify this address
-
 
     <!-- Transaction Filters Screen -->
 
@@ -504,6 +498,7 @@
     <string name="screen_y2y_display_text_invite_via_sms">SMS</string>
     <string name="screen_y2y_display_text_invite_via_whatsapp">Whatsapp</string>
     <string name="screen_y2y_display_text_no_contacts">No contacts found.</string>
+    <string name="screen_y2y_display_text_no_result">No results</string>
     <string name="common_display_text_y2y_share">Hi %1$s \n\n%2$s would like to send you some money via YAP. Download the app now and join YAP’s fast growing community!\n\nDownload on App Store:\n%3$s\n\nDownload on Play Store:\n%4$s"</string>
     <string name="common_display_text_y2y_general_share">Hi \n\n%1$s would like to send you some money via YAP. Download the app now and join YAP’s fast growing community!\n\nDownload on App Store:\n%2$s\n\nDownload on Play Store:\n%3$s"</string>
 
@@ -533,6 +528,130 @@
     <string name="screen_transaction_details_display_text_note_description">Stay organized by adding transaction notes</string>
     <string name="screen_add_note_display_text_type_something">Type something…</string>
     <string name="screen_add_note_display_text_save">Save</string>
+
+    <!--  Send Money no contacts Screen-->
+    <string name="screen_send_money_no_contacts_display_text_title">YAP to YAP</string>
+    <string name="screen_send_money_no_contacts_display_text_sub_heading">Who do you want to send money to?</string>
+    <string name="screen_send_money_no_contacts_display_text_detail">Send money to contacts outside your YAP network by adding them as a beneficiary. You can do so by tapping the + button on the top right of this screen. For now, start adding beneficiaries by clicking below.</string>
+    <string name="screen_send_money_no_contacts_button_title_add_now">Add now</string>
+
+    <!--  Send Money Screen-->
+    <string name="screen_send_money_display_text_title">Send money</string>
+    <string name="screen_send_money_display_text_recent_transfer">Recent transfers</string>
+    <string name="screen_send_money_input_text_search_hint">Search</string>
+    <string name="screen_send_money_display_text_all_beneficiaries">All beneficiaries</string>
+
+    <string name="screen_send_money_display_text_edit">Edit</string>
+    <string name="screen_send_money_display_text_delete">Delete</string>
+
+    <string name="screen_send_money_display_text_delete_message">Are you sure you want to delete beneficiary?</string>
+
+    <!--  Edit Beneficiary Money Screen-->
+    <string name="screen_edit_beneficiary_display_text_title">Edit beneficiary</string>
+    <string name="screen_edit_beneficiary_display_text_change_currency">Change currency</string>
+    <string name="screen_edit_beneficiary_display_text_name">Name</string>
+    <string name="screen_edit_beneficiary_display_text_mid_name">Middle Name</string>
+    <string name="screen_edit_beneficiary_display_text_last_name">Last name</string>
+    <string name="screen_edit_beneficiary_display_text_phone_number">Phone number</string>
+    <string name="screen_edit_beneficiary_display_text_account_number">Account number</string>
+    <string name="screen_edit_beneficiary_display_text_swift_code">Swift code</string>
+    <string name="screen_edit_beneficiary_display_text_requirement_field_code">Country Bank Requirement Field code</string>
+    <string name="screen_edit_beneficiary_display_text_coonfirm">Confirm</string>
+
+
+    <!--  Add Beneficiary -->
+    <string name="screen_add_beneficiary_display_text_title">Add beneficiary</string>
+    <string name="screen_add_beneficiary_display_text_country_title">Which country do you want to\n send money to?</string>
+    <string name="screen_add_beneficiary_display_text_select_country">Select country</string>
+    <string name="screen_add_beneficiary_button_next">Next</string>
+
+    <!--  Add Beneficiary transfer type -->
+    <string name="screen_add_beneficiary_display_text_transfer_type">What type of transfer will this be?</string>
+    <string name="screen_add_beneficiary_display_text_transfer_type_bank">Bank transfer</string>
+    <string name="screen_add_beneficiary_display_text_transfer_type_bank_description">Send money to an account</string>
+    <string name="screen_add_beneficiary_display_text_transfer_type_cash_pickup">Cash pickup</string>
+    <string name="screen_add_beneficiary_display_text_transfer_type_cash_pickup_description">Send money to an  agent location</string>
+
+    <!--  Add Beneficiary transfer type -->
+
+    <string name="screen_add_beneficiary_detail_display_text_title">Tell us about the beneficiary</string>
+    <string name="screen_add_beneficiary_detail_display_text_country">Country</string>
+    <string name="screen_add_beneficiary_detail_display_text_transfer_type">Transfer type</string>
+
+    <string name="screen_add_beneficiary_detail_display_text_currency">Currency</string>
+    <string name="screen_add_beneficiary_detail_display_text_change_currency">Change currency</string>
+    <string name="screen_add_beneficiary_detail_input_text_nick_name_hint">Add nickname</string>
+    <string name="screen_add_beneficiary_detail_input_text_first_name_hint">Add first name</string>
+    <string name="screen_add_beneficiary_detail_input_text_last_name_hint">Add Last name</string>
+
+    <string name="screen_add_beneficiary_detail_display_text_transfer_nick_name">Nickname</string>
+    <string name="screen_add_beneficiary_detail_display_text_transfer_first_name">First name</string>
+    <string name="screen_add_beneficiary_detail_display_text_transfer_last_name">Last name</string>
+    <string name="screen_add_beneficiary_detail_display_text_transfer_phone">Phone number (optional)</string>
+    <string name="screen_add_beneficiary_detail_button_confirm">Confirm</string>
+    <string name="screen_sdd_beneficiary_display_confirm_iban">Confirm IBAN</string>
+
+    <string name="screen_add_beneficiary_display_help_content">You can find your International Bank Account Number (IBAN) and Bank Identifier Code (BIC or SWIFT) on your paper statement or by logging in to Online Banking.</string>
+
+
+    <string name="screen_add_beneficiary_detail_display_text_alert_title">Beneficiary has been added successfully</string>
+    <string name="screen_add_beneficiary_detail_display_button_block_alert_description">Send money to this beneficiary now?</string>
+    <string name="screen_add_beneficiary_detail_display_button_block_alert_yes">YES, SEND IT NOW</string>
+    <string name="screen_add_beneficiary_detail_display_button_block_alert_no">NO, DO IT LATER</string>
+
+    <string name="screen_unverified_success_display_text_heading">Success!</string>
+    <string name="screen_unverified_success_display_text_sub_heading">Your email address has been changed to\n</string>
+    <string name="screen_unverified_success_display_text_description">Please log in to your email address to \n validate your email and continue with \n access to YAP!</string>
+    <string name="screen_unverified_display_button_mail">Open Mail App</string>
+    <string name="screen_unverified_display_button_later">Maybe later</string>
+    <string name="screen_unverified_display_button_back_to_dashboard">Back to dashboard</string>
+
+    <!--  bank details screen -->
+    <string name="screen_bank_details_display_text_title">Tell us about the bank</string>
+    <string name="screen_bank_details_display_text_bank_name">Bank name</string>
+    <string name="screen_bank_details_display_text_branch_name">Bank branch</string>
+    <string name="screen_bank_details_input_text_branch_hint">Branch name</string>
+    <string name="screen_bank_details_display_text_bank_city">Bank city</string>
+    <string name="screen_bank_details_input_text_city_hint">City</string>
+    <string name="screen_bank_details_display_text_swift_code">Swift code</string>
+    <string name="screen_bank_details_button_confirm">Confirm</string>
+
+
+    <!--  Beneficiary account details screen -->
+
+    <string name="screen_beneficiary_account_details_display_text_title">Beneficiary account details</string>
+    <string name="screen_beneficiary_account_details_display_text_iban">Enter IBAN</string>
+    <string name="screen_beneficiary_account_details_display_text_account_number">Enter account number</string>
+    <string name="screen_beneficiary_account_details_display_text_swift_code">Enter swift code</string>
+    <string name="screen_beneficiary_account_details_display_text_field_code">Country Bank Requirement Field code</string>
+
+    <!--  Beneficiary overview screen -->
+
+    <string name="screen_beneficiary_overview_display_text_title">Beneficiary overview</string>
+    <string name="screen_beneficiary_overview_display_text_account_number_iban">Account/IBAN number</string>
+    <string name="screen_beneficiary_overview_display_text_swift_code">Swift code</string>
+    <string name="screen_beneficiary_overview_display_text_field_code">Country Bank Requirement Field code</string>
+    <string name="screen_beneficiary_overview_button_confirm">Confirm</string>
+
+    <!--  Beneficiary cash transfer success screen -->
+
+    <string name="screen_crash_transfer_success_display_text_title">Transfer successful</string>
+    <string name="screen_crash_transfer_success_display_text_transfer">You have transferred</string>
+    <string name="screen_crash_transfer_success_display_text_reference_number">Reference number</string>
+    <string name="screen_crash_transfer_success_display_text_agent_location">Pickup agent location</string>
+    <string name="screen_crash_transfer_success_display_text_share_code">Share this code</string>
+    <string name="screen_crash_transfer_success_button_text_back">Back to dashboard</string>
+
+
+    <!-- International Funds Transfer -->
+
+    <string name="screen_international_funds_transfer_display_text_title">Send money to</string>
+    <string name="screen_international_funds_transfer_display_text_yap_rate">YAP rate: </string>
+    <string name="screen_international_funds_transfer_display_text_reson">Reason for transfer</string>
+    <string name="screen_international_funds_transfer_dropdown_text_reason_hint">Transferring amount to a friend</string>
+    <string name="screen_international_funds_transfer_input_text_note_hint">Type a note here</string>
+    <string name="screen_international_funds_transfer_display_text_fee">International transfer fee: %1s %2s</string>
+    <string name="screen_international_funds_transfer_display_text_note">Note that the recipient\'s bank may have its own charges.</string>
 
     <!--    Forgot card pin screen-->
     <string name="screen_forgot_pin_display_text_heading">Verify your PIN change</string>
@@ -586,5 +705,39 @@
     <string name="screen_card_analytics_display_month_average_text">Monthly average is %1s %2s</string>
     <string name="screen_card_analytics_tool_bar_title">Analytics</string>
 
+<!--    Edit -->
+
+
+    <!--    CashPickup Transfer flow-->
+    <string name="screen_cash_pickup_funds_display_text_header">Send cash to</string>
+    <string name="screen_cash_pickup_funds_display_text_fee">An %1s %2s fee will be charged to your YAP account for this transfer</string>
+    <string name="screen_cash_pickup_funds_display_otp_text_description">Enter the OTP sent to your registered mobile number to transfer %1s %2s to %3s</string>
+    <string name="screen_cash_pickup_funds_display_otp_header">Confirm transfer</string>
+    <string name="screen_cash_pickup_funds_success_toolbar_header">Cash transfer successful</string>
+    <string name="screen_funds_toolbar_header">Send money to</string>
+
+<!--   success Transfer flow-->
+    <string name="screen_funds_success_header">Transfer successful</string>
+    <string name="screen_funds_confirmation_success_description">Your transfer of %1s %2s to %3s will be sent at the exchange rage of %4s</string>
+    <string name="screen_funds_receive_description">%1s will receive %2s</string>
+    <string name="screen_funds_transfer_fee_description">International transfer fee: %1s \n Note that the recipient\'s bank may have its own charges.</string>
+
+<!--    Screen cash pickup funds transfer success-->
+    <string name="screen_cash_pickup_funds_transfer_display_text_amount_heading">You have sent</string>
+    <string name="screen_cash_pickup_funds_transfer_display_text_title">Cash transfer successful</string>
+    <string name="screen_cash_pickup_funds_transfer_back_to_dashboard">Back to dashboard</string>
+
+
+<!--     Screen international funds transfer success-->
+    <string name="screen_international_funds_transfer_display_text_amount_heading">You have sent</string>
+    <string name="screen_international_funds_transfer_display_text_success_title">Transfer successful</string>
+    <string name="screen_international_funds_transfer_back_to_dashboard">Back to dashboard</string>
+
+<!--    Screen domestic funds transfer success-->
+    <string name="screen_domestic_funds_transfer_display_text_amount_heading">You have sent</string>
+    <string name="screen_domestic_funds_transfer_display_text_title">Transfer successful</string>
+
+<!--    Screen funds transfer information custom view-->
+    <string name="custom_view_funds_transfer_display_text_reference_number_heading">Reference number</string>
 
 </resources>

@@ -3,8 +3,6 @@ package co.yap.modules.dashboard.more.profile.viewmodels
 import android.app.Application
 import android.content.Context
 import android.net.Uri
-import android.os.Handler
-import android.os.Looper
 import android.provider.MediaStore
 import android.view.View.GONE
 import android.view.View.VISIBLE
@@ -105,12 +103,14 @@ class ProfileSettingsViewModel(application: Application) :
         super.onCreate()
 
         requestProfileDocumentsInformation()
-        state.fullName = MyUserManager.user!!.currentCustomer.getFullName()
-        if (MyUserManager.user?.currentCustomer?.getPicture() != null) {
-            state.profilePictureUrl = MyUserManager.user?.currentCustomer?.getPicture()!!
-        } else {
-            state.fullName = MyUserManager.user!!.currentCustomer.getFullName()
-            state.nameInitialsVisibility = GONE
+        MyUserManager.user?.let {
+            state.fullName = it.currentCustomer.getFullName()
+            if (it.currentCustomer.getPicture() != null) {
+                state.profilePictureUrl = it.currentCustomer.getPicture()!!
+            } else {
+                state.fullName = it.currentCustomer.getFullName()
+                state.nameInitialsVisibility = GONE
+            }
         }
     }
 

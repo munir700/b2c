@@ -314,6 +314,7 @@
         </attr>
     </declare-styleable>
 
+
     <declare-styleable name="CorePaymentCard">
         <attr name="bank_nickname" format="string" />
         <attr name="card_number" format="string" />
@@ -333,13 +334,57 @@
             <enum name="medium" value="1" />
             <enum name="large" value="2" />
         </attr>
-
-
     </declare-styleable>
+
 
     <declare-styleable name="HorizontalNonScrollRecyclerView">
         <attr name="canScroll" format="boolean" />
         <attr name="scroll_enable" format="boolean" />
+     </declare-styleable>
+
+    <!--SwipeLayout-->
+
+    <declare-styleable name="SwipeLayout">
+        <attr name="menuSide" format="enum">
+            <enum name="Left" value="1" />
+            <enum name="Right" value="0" />
+        </attr>
+        <attr name="dynamicMenuWidth" format="boolean" />
+    </declare-styleable>
+
+
+    <declare-styleable name="CorePopUpWindow">
+        <attr name="textValue" format="string" />
+    </declare-styleable>
+
+    <declare-styleable name="DrawableClickEditText">
+        <attr name="isDrawableShownWhenTextIsEmpty" format="boolean"/>
+        <attr name="popupContentValue" format="string"/>
+        <attr name="popupConntentValue" format="reference"/>
+    </declare-styleable>
+
+    <declare-styleable name="PrefixSuffixEditText">
+        <attr name="android:inputType" />
+        <attr name="android:padding" />
+        <attr name="android:paddingLeft" />
+        <attr name="android:paddingRight" />
+        <attr name="android:paddingTop" />
+        <attr name="android:paddingBottom" />
+        <attr name="pse_setBackgroundColor" format="color" />
+        <attr name="pse_setBorderColor" format="color" />
+        <attr name="pse_setBorderView" format="boolean" />
+        <attr name="pse_setStrokeWidth" format="dimension" />
+        <attr name="pse_setCornerRadius" format="dimension" />
+        <attr name="pse_setClearIconVisible" format="boolean" />
+        <attr name="pse_clearIconTint" format="color" />
+        <attr name="pse_setCursorColor" format="color" />
+        <attr name="pse_hideShowPasswordIconTint" format="color" />
+        <attr name="pse_setPrefix" format="string" />
+        <attr name="pse_setPrefixTextColor" format="color" />
+        <attr name="pse_setPrefixDrawable" format="reference" />
+        <attr name="pse_compoundDrawableWidth" format="dimension"/>
+        <attr name="pse_space" format="dimension"/>
+        <attr name="pse_compoundDrawableHeight" format="dimension"/>
     </declare-styleable>
 
 </resources>

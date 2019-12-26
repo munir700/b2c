@@ -24,7 +24,7 @@ class CategoryAnalyticsItemViewHolder(private val itemAnalyticsBinding: ItemAnal
                 setBackgroundColor(
                     ContextCompat.getColor(
                         context,
-                        if (adapter?.checkedPosition == position) R.color.greyLight else R.color.white
+                        if (adapter?.checkedPosition == position) R.color.itemBackground else R.color.white
                     )
                 )
                 itemAnalyticsBinding.tvName.setTextColor(
@@ -37,7 +37,7 @@ class CategoryAnalyticsItemViewHolder(private val itemAnalyticsBinding: ItemAnal
         }
 
         itemAnalyticsBinding.viewModel =
-            AnalyticsItemViewModel(analyticsItem, position, onItemClickListener, false)
+            AnalyticsItemViewModel(analyticsItem, position, onItemClickListener)
         itemAnalyticsBinding.executePendingBindings()
     }
 }
