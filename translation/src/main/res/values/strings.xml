@@ -715,6 +715,7 @@
     <string name="screen_cash_pickup_funds_display_otp_header">Confirm transfer</string>
     <string name="screen_cash_pickup_funds_success_toolbar_header">Cash transfer successful</string>
     <string name="screen_funds_toolbar_header">Send money to</string>
+    <string name="screen_funds_local_toolbar_header">Transfer money to</string>
 
 <!--   success Transfer flow-->
     <string name="screen_funds_success_header">Transfer successful</string>
