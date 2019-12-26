@@ -198,24 +198,22 @@
                 android:layout_marginStart="@dimen/margin_medium_large"
                 android:layout_marginTop="@dimen/margin_normal"
                 android:layout_marginEnd="@dimen/margin_medium_large"
-                android:paddingBottom="@dimen/margin_normal"
                 android:visibility="@{viewModel.state.reasonsVisibility? View.VISIBLE:View.GONE}"
                 app:layout_constraintTop_toBottomOf="@+id/etNote"
                 tools:ignore="NotSibling">
 
+
                 <Spinner
                     android:id="@+id/reasonsSpinnerCashTransfer"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/_50sdp"
+                    android:layout_height="@dimen/_30sdp"
                     android:prompt="@string/screen_international_funds_transfer_dropdown_text_reason_hint"
                     android:spinnerMode="dropdown" />
-
 
                 <View
                     android:id="@+id/viewTriggerSpinnerClickReasonCash"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_30sdp"
-                    android:layout_below="@+id/countriesSpinner"
                     android:layout_alignParentTop="true"
                     android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}" />
 
@@ -223,8 +221,7 @@
                     android:id="@+id/breakLine"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_1sdp"
-                    android:layout_below="@+id/viewTriggerSpinnerClickReasonCash"
-                    android:layout_marginTop="@dimen/margin_small"
+                    android:layout_below="@+id/reasonsSpinnerCashTransfer"
                     android:background="@color/greySoft"
                     tools:ignore="MissingConstraints" />
 
