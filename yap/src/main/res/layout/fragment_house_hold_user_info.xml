@@ -120,41 +120,41 @@
                 app:view_max_length="40"
                 app:view_plain_background="true" />
 
-            <androidx.appcompat.widget.AppCompatTextView
-                style="@style/Small"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_medium"
-                android:layout_marginBottom="-5dp"
-                android:text="@string/screen_yap_house_hold_user_info_display_text_email"
-                app:text="@{Strings.screen_yap_house_hold_user_info_display_text_email}"
-                app:textColor="@{viewModel.state.twoWayTextWatcher.empty ? true : false}"
-                tools:text="@string/screen_yap_house_hold_user_info_display_text_email" />
+            <!--            <androidx.appcompat.widget.AppCompatTextView-->
+            <!--                style="@style/Small"-->
+            <!--                android:layout_width="match_parent"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:layout_marginTop="@dimen/margin_medium"-->
+            <!--                android:layout_marginBottom="-5dp"-->
+            <!--                android:text="@string/screen_yap_house_hold_user_info_display_text_email"-->
+            <!--                app:text="@{Strings.screen_yap_house_hold_user_info_display_text_email}"-->
+            <!--                app:textColor="@{viewModel.state.twoWayTextWatcher.empty ? true : false}"-->
+            <!--                tools:text="@string/screen_yap_house_hold_user_info_display_text_email" />-->
 
-            <!--            <androidx.appcompat.widget.AppCompatEditText-->
-            <!--                android:id="@+id/etnickName"-->
-            <!--                style="@style/Yap.App.Widget.TextInputEditText"-->
-            <!--                android:imeOptions="actionDone"-->
-            <!--                android:importantForAutofill="no"-->
-            <!--                android:maxLength="50"-->
-            <!--                android:singleLine="true"-->
-            <!--                android:text="@={viewModel.state.emailAddress}"-->
-            <!--                app:hint="@{Strings.screen_yap_house_hold_user_info_display_text_email_hint}" />-->
+            <!--            &lt;!&ndash;            <androidx.appcompat.widget.AppCompatEditText&ndash;&gt;-->
+            <!--            &lt;!&ndash;                android:id="@+id/etnickName"&ndash;&gt;-->
+            <!--            &lt;!&ndash;                style="@style/Yap.App.Widget.TextInputEditText"&ndash;&gt;-->
+            <!--            &lt;!&ndash;                android:imeOptions="actionDone"&ndash;&gt;-->
+            <!--            &lt;!&ndash;                android:importantForAutofill="no"&ndash;&gt;-->
+            <!--            &lt;!&ndash;                android:maxLength="50"&ndash;&gt;-->
+            <!--            &lt;!&ndash;                android:singleLine="true"&ndash;&gt;-->
+            <!--            &lt;!&ndash;                android:text="@={viewModel.state.emailAddress}"&ndash;&gt;-->
+            <!--            &lt;!&ndash;                app:hint="@{Strings.screen_yap_house_hold_user_info_display_text_email_hint}" />&ndash;&gt;-->
 
-            <co.yap.widgets.CoreInputField
-                android:id="@+id/etFirstEmail"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:coreInputDrawableRight="@{viewModel.state.drawbleRight}"
-                app:coreInputError="@{viewModel.state.emailError}"
-                app:coreInputHint="@{Strings.screen_yap_house_hold_user_info_display_text_email_hint}"
-                app:realValue="@={viewModel.state.twoWayTextWatcher}"
-                app:translateHint="@{true}"
-                app:view_focusable="true"
-                app:view_id="555"
-                app:view_input_text_imei_actions="IME_ACTION_DONE"
-                app:view_max_length="40"
-                app:view_plain_background="true" />
+            <!--            <co.yap.widgets.CoreInputField-->
+            <!--                android:id="@+id/etFirstEmail"-->
+            <!--                android:layout_width="match_parent"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                app:coreInputDrawableRight="@{viewModel.state.drawbleRight}"-->
+            <!--                app:coreInputError="@{viewModel.state.emailError}"-->
+            <!--                app:coreInputHint="@{Strings.screen_yap_house_hold_user_info_display_text_email_hint}"-->
+            <!--                app:realValue="@={viewModel.state.twoWayTextWatcher}"-->
+            <!--                app:translateHint="@{true}"-->
+            <!--                app:view_focusable="true"-->
+            <!--                app:view_id="555"-->
+            <!--                app:view_input_text_imei_actions="IME_ACTION_DONE"-->
+            <!--                app:view_max_length="40"-->
+            <!--                app:view_plain_background="true" />-->
 
         </LinearLayout>
 

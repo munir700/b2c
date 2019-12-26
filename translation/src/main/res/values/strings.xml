@@ -743,7 +743,7 @@
 
     <!-- YAP Household user info screen -->
     <string name="screen_yap_house_hold_user_info_display_text_title">Get a Household card</string>
-    <string name="screen_yap_house_hold_user_info_display_text_heading">Who are you opening the plan for?</string>
+    <string name="screen_yap_house_hold_user_info_display_text_heading">Who are you getting the Household plan for?</string>
     <string name="screen_yap_house_hold_user_info_display_text_first_name">First name</string>
     <string name="screen_yap_house_hold_user_info_display_text_last_name">Last name</string>
     <string name="screen_yap_house_hold_user_info_input_text_first_name_hint">Name</string>
