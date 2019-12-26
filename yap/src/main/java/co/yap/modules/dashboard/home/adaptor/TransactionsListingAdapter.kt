@@ -87,7 +87,7 @@ class TransactionsListingAdapter(private val list: MutableList<Content>) :
                         } else if (transaction.txnType == Constants.MANUAL_CREDIT) {
                             itemTransactionListBinding.ivTransaction.setImageDrawable(
                                 context.getDrawable(
-                                    R.drawable.ic_plus
+                                    R.drawable.ic_add_sign
                                 )
                             )
                         }
