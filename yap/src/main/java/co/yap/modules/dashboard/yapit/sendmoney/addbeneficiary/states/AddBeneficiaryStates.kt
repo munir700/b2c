@@ -238,7 +238,7 @@ class AddBeneficiaryStates : BaseState(),
                     valid = nickName.length > 1 && firstName.length > 1 && lastName.length > 1
                 }
                 SWIFT -> {
-
+                    valid = nickName.length > 1 && firstName.length > 1 && lastName.length > 1
                 }
                 DOMESTIC -> {
                     valid =
