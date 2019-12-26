@@ -44,7 +44,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:textVal="@{Strings.screen_yap_house_hold_success_display_text_title}" />\
+                app:textVal="@{Strings.screen_yap_house_hold_success_display_text_title}" />
 
 
             <ImageView
