@@ -88,7 +88,8 @@ class PhoneContactViewModel(application: Application) :
                                 }
                                 is RetroApiResponse.Error -> {
                                     //state.toast = response.error.message
-                                    //pagingState.postValue(PagingState.ERROR)
+                                    pagingState.postValue(PagingState.ERROR)
+                                    viewModelBGScope.close()
                                 }
                             }
                         }
