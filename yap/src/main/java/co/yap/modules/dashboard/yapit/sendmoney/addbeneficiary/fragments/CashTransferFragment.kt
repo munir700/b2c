@@ -120,9 +120,9 @@ class CashTransferFragment : SendMoneyBaseFragment<ICashTransfer.ViewModel>(), I
         )
         reasonsSpinnerCashTransfer.adapter =
             ViewHolderArrayAdapter(requireContext(), data, { parent ->
-                CashTransferFragment.ReasonDropDownViewHolder.inflate(parent)
+                ReasonDropDownViewHolder.inflate(parent)
             }, { parent ->
-                CashTransferFragment.ReasonDropDownViewHolder.inflate(parent)
+                ReasonDropDownViewHolder.inflate(parent)
             }, { viewHolder, position, item ->
                 viewHolder.bind(item)
             }, { viewHolder, position, item ->
