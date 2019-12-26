@@ -43,7 +43,7 @@ class YapToYapViewModel(application: Application) : Y2YBaseViewModel<IYapToYap.S
         launch {
             when (val response = repository.getRecentY2YBeneficiaries()) {
                 is RetroApiResponse.Success -> {
-                    recentTransferData.value = response.data.data
+                    response.data.data?.let { recentTransferData.value = it }
                 }
                 is RetroApiResponse.Error -> state.toast = response.error.message
             }

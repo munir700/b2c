@@ -1,7 +1,9 @@
 package co.yap.networking.customers.models
 
+import com.google.gson.annotations.SerializedName
+
 class Document {
-    var contentType: String = ""
-    var imageText: String = ""
-    var pages: List<DocumentPage> = arrayListOf()
+    @SerializedName ("contentType")var contentType: String? = ""
+    @SerializedName("imageText") var imageText: String? = ""
+    @SerializedName("pages") var pages: List<DocumentPage>? = arrayListOf()
 }

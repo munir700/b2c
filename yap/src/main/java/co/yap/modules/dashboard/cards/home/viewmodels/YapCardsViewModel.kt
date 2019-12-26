@@ -26,12 +26,15 @@ class YapCardsViewModel(application: Application) : BaseViewModel<IYapCards.Stat
             state.loading = true
             when (val response = repository.getDebitCards("")) {
                 is RetroApiResponse.Success -> {
-                    if (response.data.data.isNotEmpty()) {
-                        MyUserManager.cards.value = response.data.data
-                        if (state.enableAddCard.get())
-                            MyUserManager.cards.value?.add(getAddCard())
-                        state.listUpdated.value = true
+                    response.data.data?.let {
+                        if (it.isNotEmpty()) {
+                            MyUserManager.cards.value = response.data.data
+                            if (state.enableAddCard.get())
+                                MyUserManager.cards.value?.add(getAddCard())
+                            state.listUpdated.value = true
+                        }
                     }
+
                 }
                 is RetroApiResponse.Error -> state.toast = response.error.message
             }
