@@ -194,7 +194,9 @@ class InternationalFundsTransferFragment :
                                 viewModel.state.fromFxRate.toString(),
                                 viewModel.state.toFxRate.toString(),
                                 viewModel.state.referenceNumber.toString(),
-                                position, beneficiaryCountry
+                                position,
+                                beneficiaryCountry,
+                                viewModel.state.firstName ?: viewModel.state.beneficiaryName
                             )
                         findNavController().navigate(action)
                     }
@@ -235,6 +237,7 @@ class InternationalFundsTransferFragment :
             (context as BeneficiaryCashTransferActivity).viewModel.state.beneficiary?.let { beneficiary ->
                 viewModel.state.beneficiaryCountry = beneficiary.country
                 viewModel.state.beneficiaryName = beneficiary.fullName()
+                viewModel.state.firstName = beneficiary.firstName
                 beneficiary.beneficiaryType?.let { beneficiaryType ->
                     if (beneficiaryType.isNotEmpty())
                         return when (SendMoneyBeneficiaryType.valueOf(beneficiaryType)) {

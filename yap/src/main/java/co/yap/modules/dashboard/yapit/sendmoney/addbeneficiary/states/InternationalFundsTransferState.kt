@@ -78,6 +78,12 @@ class InternationalFundsTransferState(val application: Application) : BaseState(
 
         }
     @get:Bindable
+    override var firstName: String? = ""
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.firstName)
+        }
+    @get:Bindable
     override var internationalFee: String? = ""
         set(value) {
             field = value
@@ -282,6 +288,7 @@ class InternationalFundsTransferState(val application: Application) : BaseState(
             }
         }
     }
+
     fun setSpanable(amount: Double) {
         transferFee =
             Translator.getString(
