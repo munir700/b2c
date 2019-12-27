@@ -211,9 +211,11 @@
                         android:layout_gravity="center_vertical"
                         android:layout_marginEnd="@dimen/_10sdp"
                         android:src='@{editBeneficiaryViewModel.state.transferType.equals("CASHPAYOUT")? @drawable/ic_cash:@drawable/ic_bank}'
+                        android:tint="@color/greyDark"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/tvTransferType"
-                        app:srcCompat="@drawable/ic_bank" />
+                        app:srcCompat="@drawable/ic_bank"
+                        app:tint="@color/greyDark" />
 
                     <androidx.appcompat.widget.AppCompatImageView
                         android:layout_width="@dimen/_20sdp"
