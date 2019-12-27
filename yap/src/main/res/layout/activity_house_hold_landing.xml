@@ -196,7 +196,7 @@
                                 android:layout_gravity="center_horizontal"
                                 android:layout_marginRight="@dimen/margin_medium"
                                 android:orientation="vertical"
-                                android:src="@drawable/card_spare"
+                                android:src="@drawable/gold"
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toTopOf="parent" />
@@ -208,7 +208,7 @@
                                 android:layout_gravity="center_horizontal"
                                 android:layout_marginLeft="@dimen/margin_medium"
                                 android:orientation="vertical"
-                                android:src="@drawable/card_spare"
+                                android:src="@drawable/rose_gold"
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toTopOf="parent" />
@@ -237,7 +237,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_horizontal"
-                             android:orientation="vertical"
+                            android:orientation="vertical"
                             android:src="@drawable/spending"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
@@ -266,12 +266,12 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_horizontal"
-                             android:orientation="vertical"
+                            android:layout_marginBottom="@dimen/_100sdp"
+                            android:orientation="vertical"
                             android:src="@drawable/spending"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent"
-                            android:layout_marginBottom="@dimen/_100sdp"/>
+                            app:layout_constraintTop_toTopOf="parent" />
 
                     </LinearLayout>
                 </LinearLayout>

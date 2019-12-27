@@ -14,21 +14,20 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:paddingTop="@dimen/_24sdp"
         android:paddingBottom="@dimen/_24sdp">
+        <!--        android:layout_height="@dimen/_200sdp"-->
 
         <ImageView
             android:id="@+id/ivPoster"
-            android:layout_width="@dimen/_200sdp"
-            android:layout_height="@dimen/_162sdp"
-            android:scaleType="fitXY"
+            android:layout_width="@dimen/_121sdp"
+            android:layout_height="wrap_content"
+            android:paddingBottom="@dimen/small"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginRight="@dimen/margin_extra_large"
-            android:layout_marginLeft="@dimen/margin_extra_large"
             app:layout_constraintTop_toTopOf="parent"
             app:src="@{content.imageResource}"
-            tools:ignore="MissingConstraints" />
+            tools:ignore="MissingConstraints"
+            tools:src="@drawable/rose_gold" />
 
         <TextView
             android:id="@+id/tvDescription"

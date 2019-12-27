@@ -44,17 +44,17 @@ class SubscriptionSelectionViewModel(application: Application) :
         val content1 = WelcomeContent(
             getString(Strings.screen_welcome_b2c_display_text_page1_title),
             getString(Strings.screen_welcome_b2c_display_text_page1_details),
-            R.drawable.ic_real_time_banking
+            R.drawable.gold
         )
         val content2 = WelcomeContent(
             getString(Strings.screen_welcome_b2c_display_text_page2_title),
             getString(Strings.screen_welcome_b2c_display_text_page2_details),
-            R.drawable.ic_real_time_perks
+            R.drawable.rose_gold
         )
         val content3 = WelcomeContent(
             getString(Strings.screen_welcome_b2c_display_text_page3_title),
             getString(Strings.screen_welcome_b2c_display_text_page3_details),
-            R.drawable.ic_real_time_benefits
+            R.drawable.card_spare
         )
         return arrayListOf(content1, content2, content3)
     }
