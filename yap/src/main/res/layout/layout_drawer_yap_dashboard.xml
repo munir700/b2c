@@ -10,6 +10,9 @@
 
         <import type="co.yap.yapcore.helpers.StringUtils" />
     </data>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -242,6 +245,7 @@
                     app:title='@{"Alerts and notifications"}' />
 
                 <include
+                    android:id="@+id/lStatements"
                     layout="@layout/layout_item_icon_text"
                     app:icon="@{@drawable/file}"
                     app:title='@{"Statements"}' />
@@ -262,11 +266,13 @@
                 android:paddingBottom="@dimen/margin_small">
 
                 <include
+                    android:id="@+id/lyContact"
                     layout="@layout/layout_item_icon_text"
                     app:icon="@{@drawable/phone}"
                     app:title='@{"Contact us"}' />
 
                 <include
+                    android:id="@+id/lSupport"
                     layout="@layout/layout_item_icon_text"
                     app:icon="@{@drawable/support}"
                     app:title='@{"Help and support"}' />
@@ -340,6 +346,7 @@
                 android:visibility="gone" />
 
             <ImageView
+                android:id="@+id/ivSettings"
                 android:layout_width="@dimen/_30sdp"
                 android:layout_height="@dimen/_30sdp"
                 android:layout_alignParentBottom="true"
@@ -349,4 +356,5 @@
         </RelativeLayout>
 
     </LinearLayout>
+    </ScrollView>
 </layout>
