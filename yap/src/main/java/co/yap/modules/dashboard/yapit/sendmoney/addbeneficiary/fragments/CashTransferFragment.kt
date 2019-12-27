@@ -36,7 +36,6 @@ import co.yap.yapcore.helpers.DecimalDigitsInputFilter
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.managers.MyUserManager
 import kotlinx.android.synthetic.main.fragment_cash_transfer.*
-import kotlinx.android.synthetic.main.fragment_international_funds_transfer.*
 import kotlinx.android.synthetic.main.fragment_y2y_funds_transfer.clFTSnackbar
 import kotlinx.android.synthetic.main.fragment_y2y_funds_transfer.etAmount
 
@@ -120,7 +119,7 @@ class CashTransferFragment : SendMoneyBaseFragment<ICashTransfer.ViewModel>(), I
         )
         reasonsSpinnerCashTransfer.adapter =
             ViewHolderArrayAdapter(requireContext(), data, { parent ->
-                ReasonDropDownViewHolder.inflate(parent)
+                ReasonDropDownViewHolder.inflateSelectedView(parent)
             }, { parent ->
                 ReasonDropDownViewHolder.inflate(parent)
             }, { viewHolder, position, item ->
@@ -392,6 +391,12 @@ class CashTransferFragment : SendMoneyBaseFragment<ICashTransfer.ViewModel>(), I
             fun inflate(parent: ViewGroup): ReasonDropDownViewHolder {
                 val view = LayoutInflater.from(parent.context)
                     .inflate(R.layout.item_spinner, parent, false)
+                return ReasonDropDownViewHolder(view)
+            }
+
+            fun inflateSelectedView(parent: ViewGroup): ReasonDropDownViewHolder {
+                val view = LayoutInflater.from(parent.context)
+                    .inflate(R.layout.item_selected_spinner, parent, false)
                 return ReasonDropDownViewHolder(view)
             }
         }

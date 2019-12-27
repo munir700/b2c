@@ -101,7 +101,7 @@ class InternationalFundsTransferFragment :
             InternationalFundsTransferReasonList.ReasonList("Select a Reason", "0")
         )
         reasonsSpinner.adapter = ViewHolderArrayAdapter(requireContext(), data, { parent ->
-            CashTransferFragment.ReasonDropDownViewHolder.inflate(parent)
+            CashTransferFragment.ReasonDropDownViewHolder.inflateSelectedView(parent)
         }, { parent ->
             CashTransferFragment.ReasonDropDownViewHolder.inflate(parent)
         }, { viewHolder, position, item ->
