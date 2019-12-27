@@ -35,7 +35,7 @@ class CardStatementsActivity : BaseBindingActivity<ICardStatments.ViewModel>(),
     }
 
     override val viewModel: ICardStatments.ViewModel
-        get() = ViewModelProviders.of(this).get(CardStavtementsViewModel::class.java)
+        get() = ViewModelProviders.of(this).get(CardStatementsViewModel::class.java)
 
     override fun getBindingVariable(): Int = BR.viewModel
 
