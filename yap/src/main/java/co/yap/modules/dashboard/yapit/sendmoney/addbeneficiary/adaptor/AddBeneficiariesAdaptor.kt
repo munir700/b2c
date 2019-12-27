@@ -19,7 +19,8 @@ class AddBeneficiariesAdaptor(private val list: MutableList<BankParams>,private 
 
     override fun onBindViewHolder(holder: BankParamItemViewHolder, position: Int) {
         super.onBindViewHolder(holder, position)
-        holder.onBind(list[position],textWatcher)
+        holder.onBind(list[position], list.size - 1 == position, textWatcher)
+
     }
 
 }
