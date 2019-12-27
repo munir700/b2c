@@ -1139,6 +1139,8 @@ object Strings {
         "screen_cash_pickup_funds_display_otp_header"
     const val screen_cash_pickup_funds_success_toolbar_header: String =
         "screen_cash_pickup_funds_success_toolbar_header"
+    const val screen_funds_local_toolbar_header: String =
+        "screen_funds_local_toolbar_header"
 
     //success Transfer flow
     const val screen_funds_success_header: String =

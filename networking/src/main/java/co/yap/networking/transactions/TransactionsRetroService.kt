@@ -31,19 +31,19 @@ interface TransactionsRetroService {
 
     // Get fund transfer denominations
     @GET(TransactionsRepository.URL_GET_CARD_FEE)
-    suspend fun getCardFee(@Path("card-type") cardType: String): Response<CardFeeResponse>
+    suspend fun getCardFee(@Path("card-type") cardType: String?): Response<CardFeeResponse>
 
     // Get Card Statements
     @GET(TransactionsRepository.URL_GET_CARD_STATEMENTS)
-    suspend fun getCardStatements(@Query("cardSerialNumber") cardSerialNumber: String): Response<CardStatementsResponse>
+    suspend fun getCardStatements(@Query("cardSerialNumber") cardSerialNumber: String?): Response<CardStatementsResponse>
 
     // Get Card Statements
     @POST(TransactionsRepository.URL_Y2Y_FUNDS_TRANSFER)
-    suspend fun y2yFundsTransferRequest(@Body y2YFundsTransferRequest: Y2YFundsTransferRequest): Response<ApiResponse>
+    suspend fun y2yFundsTransferRequest(@Body y2YFundsTransferRequest: Y2YFundsTransferRequest?): Response<ApiResponse>
 
     // AddEdit Note
     @POST(TransactionsRepository.URL_ADD_EDIT_NOTE)
-    suspend fun addEditNote(@Body addEditNoteRequest: AddEditNoteRequest): Response<AddEditNoteResponse>
+    suspend fun addEditNote(@Body addEditNoteRequest: AddEditNoteRequest?): Response<AddEditNoteResponse>
 
     // Dashboard filter Amount
     @GET(TransactionsRepository.URL_SEARCH_FILTER_AMOUNT)
@@ -51,13 +51,13 @@ interface TransactionsRetroService {
 
     // Transaction details
     @GET(TransactionsRepository.URL_GET_TRANSACTION_DETAILS)
-    suspend fun getTransactionDetails(@Path("transactionId") transactionId: String): Response<TransactionDetailsResponse>
+    suspend fun getTransactionDetails(@Path("transactionId") transactionId: String?): Response<TransactionDetailsResponse>
 
     // Get Account Transaction
     @GET(TransactionsRepository.URL_GET_ACCOUNT_TRANSACTIONS)
     suspend fun getAccountTransactions(
-        @Path("number") number: Int,
-        @Path("size") size: Int,
+        @Path("number") number: Int?,
+        @Path("size") size: Int?,
         @Query("amountStartRange") minAmount: Double?,
         @Query("amountEndRange") maxAmount: Double?,
         @Query("txnType") txnType: String?,
@@ -67,9 +67,9 @@ interface TransactionsRetroService {
     // Get Account Transaction
     @GET(TransactionsRepository.URL_GET_CARD_TRANSACTIONS)
     suspend fun getCardTransactions(
-        @Path("number") number: Int,
-        @Path("size") size: Int,
-        @Query("cardSerialNumber") cardSerialNumber: String
+        @Path("number") number: Int?,
+        @Path("size") size: Int?,
+        @Query("cardSerialNumber") cardSerialNumber: String?
     ): Response<HomeTransactionsResponse>
 
     // Get transaction fee

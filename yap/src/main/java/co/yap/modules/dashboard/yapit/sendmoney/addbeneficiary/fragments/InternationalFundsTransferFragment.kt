@@ -57,7 +57,7 @@ class InternationalFundsTransferFragment :
         super.onActivityCreated(savedInstanceState)
         successOtpFlow()
         getBindings().etSenderAmount.filters =
-            arrayOf(InputFilter.LengthFilter(7), DecimalDigitsInputFilter(2))
+            arrayOf(InputFilter.LengthFilter(7), co.yap.widgets.DecimalDigitsInputFilter(2))
         getBindings().etSenderAmount.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(p0: Editable?) {
             }
@@ -101,7 +101,7 @@ class InternationalFundsTransferFragment :
             InternationalFundsTransferReasonList.ReasonList("Select a Reason", "0")
         )
         reasonsSpinner.adapter = ViewHolderArrayAdapter(requireContext(), data, { parent ->
-            CashTransferFragment.ReasonDropDownViewHolder.inflate(parent)
+            CashTransferFragment.ReasonDropDownViewHolder.inflateSelectedView(parent)
         }, { parent ->
             CashTransferFragment.ReasonDropDownViewHolder.inflate(parent)
         }, { viewHolder, position, item ->
@@ -194,7 +194,9 @@ class InternationalFundsTransferFragment :
                                 viewModel.state.fromFxRate.toString(),
                                 viewModel.state.toFxRate.toString(),
                                 viewModel.state.referenceNumber.toString(),
-                                position, beneficiaryCountry
+                                position,
+                                beneficiaryCountry,
+                                viewModel.state.firstName ?: viewModel.state.beneficiaryName
                             )
                         findNavController().navigate(action)
                     }
@@ -235,6 +237,7 @@ class InternationalFundsTransferFragment :
             (context as BeneficiaryCashTransferActivity).viewModel.state.beneficiary?.let { beneficiary ->
                 viewModel.state.beneficiaryCountry = beneficiary.country
                 viewModel.state.beneficiaryName = beneficiary.fullName()
+                viewModel.state.firstName = beneficiary.firstName
                 beneficiary.beneficiaryType?.let { beneficiaryType ->
                     if (beneficiaryType.isNotEmpty())
                         return when (SendMoneyBeneficiaryType.valueOf(beneficiaryType)) {

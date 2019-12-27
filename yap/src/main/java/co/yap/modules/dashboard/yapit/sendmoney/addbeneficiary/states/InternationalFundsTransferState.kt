@@ -12,6 +12,8 @@ import co.yap.translation.Translator
 import co.yap.yapcore.BaseState
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.Utils
+import java.util.*
+import kotlin.collections.ArrayList
 
 class InternationalFundsTransferState(val application: Application) : BaseState(),
     IInternationalFundsTransfer.State {
@@ -79,6 +81,12 @@ class InternationalFundsTransferState(val application: Application) : BaseState(
             field = value
             notifyPropertyChanged(BR.receiverCurrencyAmountFxRate)
 
+        }
+    @get:Bindable
+    override var firstName: String? = ""
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.firstName)
         }
     @get:Bindable
     override var internationalFee: String? = ""
@@ -285,12 +293,13 @@ class InternationalFundsTransferState(val application: Application) : BaseState(
                     val amountFxRate = amount
                     val receiveFxRate = rate!!.toDouble()
                     val result = amountFxRate?.times(receiveFxRate)
-                    receiverCurrencyAmount = result.toString()
+                    receiverCurrencyAmount = String.format(Locale.getDefault() ,"%.02f",result ) //result.toString()
                     receiverCurrencyAmount.toString()
                 }
             }
         }
     }
+
     fun setSpanable(amount: Double) {
         transferFee =
             Translator.getString(

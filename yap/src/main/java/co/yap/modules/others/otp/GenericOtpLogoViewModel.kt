@@ -14,7 +14,7 @@ class GenericOtpLogoViewModel(application: Application) :
     override fun onCreate() {
         super.onCreate()
         when (action) {
-            Constants.BENEFICIARY_CASH_TRANSFER, SendMoneyBeneficiaryType.SWIFT.type, SendMoneyBeneficiaryType.RMT.type -> {
+            SendMoneyBeneficiaryType.DOMESTIC_TRANSFER.type, SendMoneyBeneficiaryType.CASHPAYOUT.type, SendMoneyBeneficiaryType.UAEFTS.type, SendMoneyBeneficiaryType.SWIFT.type, SendMoneyBeneficiaryType.RMT.type -> {
                 descriptionString =
                     getString(Strings.screen_cash_pickup_funds_display_otp_text_description).format(
                         state.currencyType,

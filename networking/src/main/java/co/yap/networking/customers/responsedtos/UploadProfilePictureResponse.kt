@@ -1,12 +1,13 @@
 package co.yap.networking.customers.responsedtos
 
 import co.yap.networking.models.ApiResponse
+import com.google.gson.annotations.SerializedName
 
 data class UploadProfilePictureResponse(
-    var data: Data,
+    @SerializedName("data")var data: Data? = Data(),
     var errors: Any?
 ) : ApiResponse() {
     data class Data(
-        var imageURL: String
+        @SerializedName("imageURL") var imageURL: String?=""
     )
 }

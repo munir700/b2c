@@ -1,18 +1,37 @@
 package co.yap.networking.cards.responsedtos
 
+import android.os.Parcelable
+import com.google.gson.annotations.SerializedName
+import kotlinx.android.parcel.Parcelize
+
+@Parcelize
 class CardDetail(
-    var productCode: String? = null,
-    var firstName: String? = null,
-    var lastName: String? = null,
-    var displayName: String? = null,
-    var customerId: String? = null,
-    var mobileNumber: String? = null,
-    var emailIdvar: String? = null,
-    var proxyNumber: String? = null,
-    var cvv: String? = null,
-    var cardNumber: String? = null,
-    var expiryDate: String? = null,
-    var activationDate: String? = null,
-    var cardStatus: Int? = 0,
-    var nonSoleProprietary: Boolean = false
-    )
+    @SerializedName("productCode")
+    val productCode: String? = null,
+    @SerializedName("firstName")
+    val firstName: String? = null,
+    @SerializedName("lastName")
+    val lastName: String? = null,
+    @SerializedName("displayName")
+    val displayName: String? = null,
+    @SerializedName("customerId")
+    val customerId: String? = null,
+    @SerializedName("mobileNumber")
+    val mobileNumber: String? = null,
+    @SerializedName("emailIdvar")
+    val emailIdvar: String? = null,
+    @SerializedName("proxyNumber")
+    val proxyNumber: String? = null,
+    @SerializedName("cvv")
+    val cvv: String? = null,
+    @SerializedName("cardNumber")
+    val cardNumber: String? = null,
+    @SerializedName("expiryDate")
+    val expiryDate: String? = null,
+    @SerializedName("activationDate")
+    val activationDate: String? = null,
+    @SerializedName("cardStatus")
+    val cardStatus: Int? = null,
+    @SerializedName("nonSoleProprietary")
+    val nonSoleProprietary: Boolean = false
+) : Parcelable

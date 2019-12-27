@@ -141,8 +141,8 @@ open class FundActionsViewModel(application: Application) :
         launch {
             when (val response = transactionsRepository.getFundTransferLimits(productCode)) {
                 is RetroApiResponse.Success -> {
-                    state.maxLimit = response.data.data.maxLimit.toDouble()
-                    state.minLimit = response.data.data.minLimit.toDouble()
+                    state.maxLimit = response.data.data?.maxLimit?.toDouble() ?: 0.00
+                    state.minLimit = response.data.data?.minLimit?.toDouble() ?: 0.00
                 }
                 is RetroApiResponse.Error -> {
                     state.toast = response.error.message
@@ -166,11 +166,14 @@ open class FundActionsViewModel(application: Application) :
                     }
 
                     val sortedData =
-                        response.data.data.sortedWith(Comparator { s1: FundTransferDenominations, s2: FundTransferDenominations -> s1.amount.toInt() - s2.amount.toInt() })
-                    if (sortedData.size in 1..3) {
-                        state.denominationFirstAmount = fundsType + sortedData[0].amount
-                        state.denominationSecondAmount = fundsType + sortedData[1].amount
-                        state.denominationThirdAmount = fundsType + sortedData[2].amount
+                        response.data.data?.sortedWith(Comparator { s1: FundTransferDenominations, s2: FundTransferDenominations -> s1.amount.toInt() - s2.amount.toInt() })
+                    if (sortedData?.size in 1..3) {
+                        state.denominationFirstAmount =
+                            fundsType + (sortedData?.get(0)?.amount ?: "")
+                        state.denominationSecondAmount =
+                            fundsType + (sortedData?.get(1)?.amount ?: "")
+                        state.denominationThirdAmount =
+                            fundsType + (sortedData?.get(2)?.amount ?: "")
                     }
                 }
                 is RetroApiResponse.Error -> {

@@ -49,9 +49,9 @@ class YapStoreDetailFragment : BaseBindingFragment<IYapStoreDetail.ViewModel>(),
 
         val data: Store? = viewModel.yapStoreData.find { (it.id == storeId!!.toInt()) }
         if (data != null) {
-            viewModel.state.title = data.name
-            viewModel.state.subTitle = data.desc
-            viewModel.state.image = data.image.toInt()
+            viewModel.state.title = data.name.toString()
+            viewModel.state.subTitle = data.desc.toString()
+            viewModel.state.image = data.image?: 0
             viewModel.state.storeHeading =
                 "Allocate specific budget to your child, track and fully."
             viewModel.state.storeDetail =

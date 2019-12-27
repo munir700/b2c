@@ -79,7 +79,7 @@ class CashTransferViewModel(application: Application) :
             when (val response =
                 messagesRepository.createOtpGeneric(
                     createOtpGenericRequest = CreateOtpGenericRequest(
-                        Constants.BENEFICIARY_CASH_TRANSFER
+                        state.otpAction ?: ""
                     )
                 )) {
                 is RetroApiResponse.Success -> {

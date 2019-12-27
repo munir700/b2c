@@ -79,7 +79,7 @@ class PhoneContactViewModel(application: Application) :
                             when (val response =
                                 repository.getY2YBeneficiaries(itemsToPost)) {
                                 is RetroApiResponse.Success -> {
-                                    combineContacts.addAll(response.data.data)
+                                    response.data.data?.let { combineContacts.addAll(it) }
                                     if (combineContacts.size >= localContacts.size) {
                                         combineContacts.sortBy { it.title }
                                         phoneContactLiveData.postValue(combineContacts)
@@ -88,7 +88,8 @@ class PhoneContactViewModel(application: Application) :
                                 }
                                 is RetroApiResponse.Error -> {
                                     //state.toast = response.error.message
-                                    //pagingState.postValue(PagingState.ERROR)
+                                    pagingState.postValue(PagingState.ERROR)
+                                    viewModelBGScope.close()
                                 }
                             }
                         }

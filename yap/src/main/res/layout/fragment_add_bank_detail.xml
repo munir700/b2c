@@ -82,6 +82,7 @@
                         android:importantForAutofill="no"
                         android:maxLength="50"
                         android:text="@={viewModel.state.bankName}"
+                        tools:hint="@string/screen_bank_details_display_text_bank_name"
                         app:hint="@{Strings.screen_bank_details_display_text_bank_name}" />
 
 

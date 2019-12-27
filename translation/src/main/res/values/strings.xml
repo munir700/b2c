@@ -582,7 +582,7 @@
     <string name="screen_add_beneficiary_detail_display_text_change_currency">Change currency</string>
     <string name="screen_add_beneficiary_detail_input_text_nick_name_hint">Add nickname</string>
     <string name="screen_add_beneficiary_detail_input_text_first_name_hint">Add first name</string>
-    <string name="screen_add_beneficiary_detail_input_text_last_name_hint">Add Last name</string>
+    <string name="screen_add_beneficiary_detail_input_text_last_name_hint">Add last name</string>
 
     <string name="screen_add_beneficiary_detail_display_text_transfer_nick_name">Nickname</string>
     <string name="screen_add_beneficiary_detail_display_text_transfer_first_name">First name</string>
@@ -715,10 +715,11 @@
     <string name="screen_cash_pickup_funds_display_otp_header">Confirm transfer</string>
     <string name="screen_cash_pickup_funds_success_toolbar_header">Cash transfer successful</string>
     <string name="screen_funds_toolbar_header">Send money to</string>
+    <string name="screen_funds_local_toolbar_header">Transfer money to</string>
 
 <!--   success Transfer flow-->
     <string name="screen_funds_success_header">Transfer successful</string>
-    <string name="screen_funds_confirmation_success_description">Your transfer of %1s %2s to %3s will be sent at the exchange rage of %4s</string>
+    <string name="screen_funds_confirmation_success_description">Your transfer of %1s %2s to %3s will be sent at the exchange rate of %4s</string>
     <string name="screen_funds_receive_description">%1s will receive %2s</string>
     <string name="screen_funds_transfer_fee_description">International transfer fee: %1s \n Note that the recipient\'s bank may have its own charges.</string>
 

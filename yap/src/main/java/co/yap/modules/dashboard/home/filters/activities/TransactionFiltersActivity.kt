@@ -82,24 +82,31 @@ class TransactionFiltersActivity : BaseBindingActivity<ITransactionFilters.ViewM
         }
     }
 
-    private fun setRangeSeekBar(transactionFilters: TransactionFilters) {
+    private fun setRangeSeekBar(transactionFilters: TransactionFilters?) {
         try {
-            rsbAmount?.setRange(
-                transactionFilters.minAmount.toFloat(),
-                transactionFilters.maxAmount.toFloat()
-            )
+            transactionFilters?.let {
+                rsbAmount?.setRange(
+                    it.minAmount?.toFloat() ?: 0f,
+                    it.maxAmount?.toFloat() ?: 1f
+                )
+            }
 
-
-            if (YAPApplication.homeTransactionsRequest.amountEndRange != null && YAPApplication.homeTransactionsRequest.amountEndRange != transactionFilters.maxAmount) {
+            if (YAPApplication.homeTransactionsRequest.amountEndRange != null && YAPApplication.homeTransactionsRequest.amountEndRange != transactionFilters?.maxAmount) {
                 rsbAmount?.setProgress(
                     YAPApplication.homeTransactionsRequest.amountEndRange!!.toFloat(),
                     YAPApplication.homeTransactionsRequest.amountEndRange!!.toFloat()
                 )
             } else {
-                rsbAmount?.setProgress(
-                    transactionFilters.maxAmount.toFloat(),
-                    transactionFilters.maxAmount.toFloat()
-                )
+                transactionFilters?.let {
+                    rsbAmount?.setProgress(
+                        it.maxAmount?.toFloat() ?: 1f,
+                        it.maxAmount?.toFloat() ?: 1f
+                    )
+                }
+                /*rsbAmount?.setProgress(
+                    transactionFilters?.maxAmount.toFloat(),
+                    transactionFilters?.maxAmount.toFloat()
+                )*/
             }
 
             viewModel.updateRangeValue(rsbAmount)
