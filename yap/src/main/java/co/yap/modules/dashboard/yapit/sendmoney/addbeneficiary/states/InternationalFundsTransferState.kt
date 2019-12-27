@@ -10,6 +10,7 @@ import co.yap.networking.transactions.responsedtos.transaction.RemittanceFeeResp
 import co.yap.translation.Strings
 import co.yap.translation.Translator
 import co.yap.yapcore.BaseState
+import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.Utils
 import java.util.*
 import kotlin.collections.ArrayList
@@ -55,7 +56,9 @@ class InternationalFundsTransferState(val application: Application) : BaseState(
                     valid = it.toDouble() > 0.0
                 }
             }
-            checkValidation()
+            if (feeType == Constants.FEE_TYPE_TIER) {
+                checkValidation()
+            }
         }
 
     @get:Bindable
@@ -262,6 +265,12 @@ class InternationalFundsTransferState(val application: Application) : BaseState(
             }
             notifyPropertyChanged(BR.transactionNote)
         }
+    @get:Bindable
+    override var feeType: String? = ""
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.feeType)
+        }
 
     fun validate() {
         if (!senderAmount.isNullOrEmpty() && !beneficiaryAmount.isNullOrEmpty()/* &&  reason must be selected as well */) {
@@ -333,6 +342,7 @@ class InternationalFundsTransferState(val application: Application) : BaseState(
         }
         transferFeeAmount = totalAmount
         return totalAmount
+
     }
 
 
