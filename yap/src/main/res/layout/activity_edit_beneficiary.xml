@@ -197,14 +197,23 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
+                        android:layout_marginEnd="@dimen/_10sdp"
                         android:layout_weight="1"
-                        android:drawableEnd="@drawable/ic_bank"
                         android:drawablePadding="@dimen/margin_small"
-                        android:drawableTint="@color/greyDark"
                         android:gravity="center_vertical"
                         android:paddingStart="@dimen/_16sdp"
                         android:paddingEnd="@dimen/_16sdp"
-                        android:text="@{editBeneficiaryViewModel.state.beneficiary.title}" />
+                        android:text="@{editBeneficiaryViewModel.state.beneficiary.fullName()}" />
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:layout_width="@dimen/_20sdp"
+                        android:layout_height="@dimen/_20sdp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginEnd="@dimen/_10sdp"
+                        android:src='@{editBeneficiaryViewModel.state.transferType.equals("CASHPAYOUT")? @drawable/ic_cash:@drawable/ic_bank}'
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/tvTransferType"
+                        app:srcCompat="@drawable/ic_bank" />
 
                     <androidx.appcompat.widget.AppCompatImageView
                         android:layout_width="@dimen/_20sdp"

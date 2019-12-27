@@ -205,7 +205,7 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
         beneficiary?.let {
             val intent = EditBeneficiaryActivity.newIntent(context = this)
             val bundle = Bundle()
-            bundle.putBoolean(OVERVIEW_BENEFICIARY, true)
+            bundle.putBoolean(OVERVIEW_BENEFICIARY, false)
             bundle.putParcelable(Beneficiary::class.java.name, beneficiary)
             intent.putExtra(Bundle_EXTRA, bundle)
             startActivityForResult(intent, RequestCodes.REQUEST_NOTIFY_BENEFICIARY_LIST)
