@@ -1180,6 +1180,14 @@ object Strings {
         "screen_yap_house_hold_subscription_selection_display_text_saving"
     const val screen_yap_house_hold_subscription_selection_button_get_started: String =
         "screen_yap_house_hold_subscription_selection_button_get_started"
+
+    //pager
+
+    const val screen_yap_house_hold_success_display_text_pager_color: String = "screen_yap_house_hold_success_display_text_pager_color"
+    const val screen_yap_house_hold_success_display_text_pager_schedule_payments: String = "screen_yap_house_hold_success_display_text_pager_schedule_payments"
+    const val screen_yap_house_hold_success_display_text_pager_schedule_pots: String = "screen_yap_house_hold_success_display_text_pager_schedule_pots"
+
+
     //benefits
     const val screen_yap_house_hold_subscription_selection_display_text_benefit_send_salaries: String =
         "screen_yap_house_hold_subscription_selection_display_text_benefit_send_salaries"

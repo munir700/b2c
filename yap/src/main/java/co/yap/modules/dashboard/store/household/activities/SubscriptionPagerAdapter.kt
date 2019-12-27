@@ -9,7 +9,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.databinding.DataBindingUtil
 import androidx.viewpager.widget.PagerAdapter
-import co.yap.databinding.ContentOnboardingWelcomeBinding
+import co.yap.databinding.ContentSubscriptionSelectionPagerBinding
 import co.yap.modules.onboarding.models.WelcomeContent
 import co.yap.yapcore.interfaces.IBindable
 
@@ -21,7 +21,6 @@ public class SubscriptionPagerAdapter(
 ) : PagerAdapter() {
     val viewsContainer: SparseArray<View> = SparseArray()
 
-    var tvTitle: TextView? = null
     var tvDescription: TextView? = null
     var ivPoster: ImageView? = null
     var containerView: View? = null
@@ -30,7 +29,7 @@ public class SubscriptionPagerAdapter(
     override fun instantiateItem(container: ViewGroup, position: Int): Any {
         val content = contents[position]
         val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-        val viewBinding = DataBindingUtil.inflate<ContentOnboardingWelcomeBinding>(
+        val viewBinding = DataBindingUtil.inflate<ContentSubscriptionSelectionPagerBinding>(
             inflater,
             layout,
             container,
@@ -39,7 +38,6 @@ public class SubscriptionPagerAdapter(
 
         viewBinding.setVariable((content as IBindable).bindingVariable, content)
 
-        tvTitle = viewBinding.tvTitle
         tvDescription = viewBinding.tvDescription
         ivPoster = viewBinding.ivPoster
 

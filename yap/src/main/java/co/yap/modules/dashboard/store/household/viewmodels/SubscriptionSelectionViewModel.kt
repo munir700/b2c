@@ -5,7 +5,6 @@ import co.yap.R
 import co.yap.modules.dashboard.cards.addpaymentcard.models.BenefitsModel
 import co.yap.modules.dashboard.store.household.interfaces.IHouseHoldSubscription
 import co.yap.modules.dashboard.store.household.states.HouseHoldSubscriptionState
-import co.yap.modules.onboarding.enums.AccountType
 import co.yap.modules.onboarding.models.WelcomeContent
 import co.yap.translation.Strings
 import co.yap.yapcore.BaseViewModel
@@ -63,10 +62,9 @@ class SubscriptionSelectionViewModel(application: Application) :
     override fun loadDummyData(): ArrayList<BenefitsModel> {
 
         val benefitsTitle: ArrayList<String> = arrayListOf(
-            getString(Strings.screen_yap_house_hold_subscription_selection_display_text_benefit_send_salaries),
-            getString(Strings.screen_yap_house_hold_subscription_selection_display_text_benefit_allocate_budget),
-            getString(Strings.screen_yap_house_hold_subscription_selection_display_text_benefit_setup_payments),
-            getString(Strings.screen_yap_house_hold_subscription_selection_display_text_benefit_track_expense)
+            getString(Strings.screen_yap_house_hold_success_display_text_pager_color),
+            getString(Strings.screen_yap_house_hold_success_display_text_pager_schedule_payments),
+            getString(Strings.screen_yap_house_hold_success_display_text_pager_schedule_pots)
         )
 
         val benefitsDescription: ArrayList<String> = arrayListOf(" ", " ", " ", " ")

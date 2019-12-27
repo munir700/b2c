@@ -23,7 +23,6 @@ import co.yap.yapcore.BaseBindingActivity
 import com.daimajia.androidanimations.library.Techniques
 import com.daimajia.androidanimations.library.YoYo
 import kotlinx.android.synthetic.main.activity_house_hold_subscription_selction.*
-import com.tbuonomo.viewpagerdotsindicator.WormDotsIndicator
 
 
 class SubscriptionSelectionActivity :
@@ -118,10 +117,10 @@ class SubscriptionSelectionActivity :
 
     fun initViewPager(view: View) {
 
-        val welcomePagerAdapter = SubscriptionPagerAdapter(
+        val subscriptionPagerAdapter = SubscriptionPagerAdapter(
             context = this,
             contents = viewModel.getPages(),
-            layout = R.layout.content_onboarding_welcome
+            layout = R.layout.content_subscription_selection_pager
         )
 
 //        viewModel.onGetStartedPressEvent.observe(this, getStartedButtonObserver)
@@ -138,10 +137,9 @@ class SubscriptionSelectionActivity :
 //                if (position == 0) {
                 if (!exitEvent) {
                     exitEvent = true
-                    if (welcomePagerAdapter.viewsContainer[position] is View) {
-                        item = welcomePagerAdapter.viewsContainer[position] as View
+                    if (subscriptionPagerAdapter.viewsContainer[position] is View) {
+                        item = subscriptionPagerAdapter.viewsContainer[position] as View
                         slideInTitle(
-                            item.findViewById<TextView>(R.id.tvTitle),
                             item.findViewById<TextView>(R.id.tvDescription),
                             item.findViewById<ImageView>(R.id.ivPoster)
                         )
@@ -154,11 +152,10 @@ class SubscriptionSelectionActivity :
             override fun onPageSelected(position: Int) {
 //                if (position != 0) {
                 if (exitEvent) {
-                    if (welcomePagerAdapter.viewsContainer[position] is View) {
-                        item = welcomePagerAdapter.viewsContainer[position] as View
+                    if (subscriptionPagerAdapter.viewsContainer[position] is View) {
+                        item = subscriptionPagerAdapter.viewsContainer[position] as View
 
                         slideInTitle(
-                            item.findViewById<TextView>(R.id.tvTitle),
                             item.findViewById<TextView>(R.id.tvDescription),
                             item.findViewById<ImageView>(R.id.ivPoster)
                         )
@@ -169,8 +166,9 @@ class SubscriptionSelectionActivity :
 
         })
 
-        welcome_pager?.adapter = welcomePagerAdapter
-        view?.findViewById<WormDotsIndicator>(R.id.worm_dots_indicator)?.setViewPager(welcome_pager)
+        welcome_pager?.adapter = subscriptionPagerAdapter
+//        view?.findViewById<WormDotsIndicator>(R.id.worm_dots_indicator)?.setViewPager(welcome_pager)
+        worm_dots_indicator?.setViewPager(welcome_pager)
 
         welcome_pager!!.setOnTouchListener(object : View.OnTouchListener {
             override fun onTouch(
@@ -188,7 +186,6 @@ class SubscriptionSelectionActivity :
                                     incrementValue = false
 
                                     return slideOutTitle(
-                                        item.findViewById<TextView>(R.id.tvTitle),
                                         item.findViewById<TextView>(R.id.tvDescription),
                                         item.findViewById<ImageView>(R.id.ivPoster)
                                     )
@@ -205,7 +202,6 @@ class SubscriptionSelectionActivity :
                                 if (::item.isInitialized) {
                                     incrementValue = true
                                     return slideOutTitle(
-                                        item.findViewById<TextView>(R.id.tvTitle),
                                         item.findViewById<TextView>(R.id.tvDescription),
                                         item.findViewById<ImageView>(R.id.ivPoster)
                                     )
@@ -227,8 +223,7 @@ class SubscriptionSelectionActivity :
         })
     }
 
-    fun slideInTitle(viewFirst: View, viewSecond: View, viewThird: View) {
-        viewFirst!!.visibility = View.VISIBLE
+    fun slideInTitle(viewSecond: View, viewThird: View) {
 
         var techniques: Techniques
         if (incrementValue) {
@@ -237,25 +232,7 @@ class SubscriptionSelectionActivity :
             techniques = Techniques.SlideInLeft
 
         }
-
-        YoYo.with(techniques)
-            .withListener(object : Animator.AnimatorListener {
-                override fun onAnimationStart(animation: Animator?) {
-                    slideInDsscription(viewSecond, viewThird)
-                }
-
-                override fun onAnimationRepeat(animation: Animator?) {
-                }
-
-                override fun onAnimationEnd(animation: Animator?) {
-                }
-
-                override fun onAnimationCancel(animation: Animator?) {
-                }
-            })
-            .duration(400)
-            .repeat(0)
-            .playOn(viewFirst)
+        slideInDsscription(viewSecond, viewThird)
 
     }
 
@@ -323,7 +300,7 @@ class SubscriptionSelectionActivity :
     }
 
 
-    fun slideOutTitle(viewFirst: View, viewSecond: View, viewThird: View): Boolean {
+    fun slideOutTitle(viewSecond: View, viewThird: View): Boolean {
 
         var techniques: Techniques
         if (incrementValue) {
@@ -332,24 +309,9 @@ class SubscriptionSelectionActivity :
             techniques = Techniques.SlideOutRight
 
         }
-        YoYo.with(techniques)
-            .withListener(object : Animator.AnimatorListener {
-                override fun onAnimationStart(animation: Animator?) {
-                    slideOutDsscription(viewSecond, viewThird)
-                }
+        slideOutDsscription(viewSecond, viewThird)
 
-                override fun onAnimationRepeat(animation: Animator?) {
-                }
 
-                override fun onAnimationEnd(animation: Animator?) {
-                }
-
-                override fun onAnimationCancel(animation: Animator?) {
-                }
-            })
-            .duration(400)
-            .repeat(0)
-            .playOn(viewFirst)
         return true
     }
 

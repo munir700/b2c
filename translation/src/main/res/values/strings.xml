@@ -735,9 +735,14 @@
     <string name="screen_yap_house_hold_subscription_selection_display_text_per_year">per year</string>
     <string name="screen_yap_house_hold_subscription_selection_display_text_months">12 month contract</string>
     <string name="screen_yap_house_hold_subscription_selection_display_text_saving">save 25%</string>
-    <string name="screen_yap_house_hold_subscription_selection_display_text_charges">You will be charged only when your Household staff completes their registration and orders their card </string>
+    <string name="screen_yap_house_hold_subscription_selection_display_text_charges">You will be charged after you have registered your Household staff.  Please ensure you have enough funds in your account for your payment(s).</string>
+<!--    <string name="screen_yap_house_hold_subscription_selection_display_text_charges">You will be charged only when your Household staff completes their registration and orders their card </string>-->
     <string name="screen_yap_house_hold_subscription_selection_button_get_started">Get started</string>
 
+    <!-- pager -->
+    <string name="screen_yap_house_hold_success_display_text_pager_color">Choose from different card colors</string>
+    <string name="screen_yap_house_hold_success_display_text_pager_schedule_payments">Set up automatic salary payments</string>
+    <string name="screen_yap_house_hold_success_display_text_pager_schedule_pots">Create pots to track expenses in-app</string>
 
     <!--benefits-->
     <string name="screen_yap_house_hold_subscription_selection_display_text_benefit_send_salaries">Send salaries directly to account</string>
@@ -769,11 +774,12 @@
     <string name="screen_yap_house_hold_success_display_text_direct_message">%1s will receive an SMS with instructions to download the app and complete sign up</string>
     <string name="screen_yap_house_hold_success_display_text_share_credentials">Let %1s know by sharing the details below:</string>
     <string name="screen_yap_house_hold_success_display_text_share_email">Email address</string>
-     <string name="screen_yap_house_hold_success_display_text_share_mobile_no">Mobile number</string>
-     <string name="screen_yap_house_hold_success_display_text_share_pass_code">Temporary passcode</string>
-     <string name="screen_yap_house_hold_success_button_text_share">Share</string>
+    <string name="screen_yap_house_hold_success_display_text_share_mobile_no">Mobile number</string>
+    <string name="screen_yap_house_hold_success_display_text_share_pass_code">Temporary passcode</string>
+    <string name="screen_yap_house_hold_success_button_text_share">Share</string>
     <string name="screen_yap_house_hold_success_button_text_goto_house_hold">Go to Household</string>
 
 
- </resources>
+
+</resources>
 
