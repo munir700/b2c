@@ -57,7 +57,7 @@ class InternationalFundsTransferFragment :
         super.onActivityCreated(savedInstanceState)
         successOtpFlow()
         getBindings().etSenderAmount.filters =
-            arrayOf(InputFilter.LengthFilter(7), DecimalDigitsInputFilter(2))
+            arrayOf(InputFilter.LengthFilter(7), co.yap.widgets.DecimalDigitsInputFilter(2))
         getBindings().etSenderAmount.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(p0: Editable?) {
             }
