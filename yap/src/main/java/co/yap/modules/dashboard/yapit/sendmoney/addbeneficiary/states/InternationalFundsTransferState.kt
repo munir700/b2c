@@ -10,6 +10,7 @@ import co.yap.networking.transactions.responsedtos.transaction.RemittanceFeeResp
 import co.yap.translation.Strings
 import co.yap.translation.Translator
 import co.yap.yapcore.BaseState
+import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.Utils
 import java.util.*
 import kotlin.collections.ArrayList
@@ -262,6 +263,12 @@ class InternationalFundsTransferState(val application: Application) : BaseState(
             }
             notifyPropertyChanged(BR.transactionNote)
         }
+    @get:Bindable
+    override var feeType: String? = ""
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.feeType)
+        }
 
     fun validate() {
         if (!senderAmount.isNullOrEmpty() && !beneficiaryAmount.isNullOrEmpty()/* &&  reason must be selected as well */) {
@@ -272,7 +279,8 @@ class InternationalFundsTransferState(val application: Application) : BaseState(
     private fun checkValidation() {
         if (!receiverCurrencyAmountFxRate.isNullOrEmpty()) {
             fxRateAmount?.let {
-                receiverCurrencyAmount = if (it.isEmpty()) {
+                // if (feeType == Constants.FEE_TYPE_TIER) {
+                receiverCurrencyAmount = if (it.isEmpty() && feeType == Constants.FEE_TYPE_TIER) {
                     setSpanable(0.0)
                     ""
                 } else {
@@ -280,14 +288,17 @@ class InternationalFundsTransferState(val application: Application) : BaseState(
                         receiverCurrencyAmountFxRate?.let {
                             fxRateAmount?.toDouble()?.times(it.toDouble())
                         }
-                    setSpanable(amount ?: 0.0)
+                    if (feeType == Constants.FEE_TYPE_TIER) {
+                        setSpanable(amount ?: 0.0)
+                    }
                     val amountFxRate = amount
                     val receiveFxRate = rate!!.toDouble()
                     val result = amountFxRate?.times(receiveFxRate)
-                  //  achieverReceive.setText(String.format(getDefault(), "%.0f", achieverWillGet));
-                    receiverCurrencyAmount = String.format(Locale.getDefault() ,"%.02f",result ) //result.toString()
+                    receiverCurrencyAmount =
+                        String.format(Locale.getDefault(), "%.02f", result) //result.toString()
                     receiverCurrencyAmount.toString()
                 }
+                //  }
             }
         }
     }
@@ -334,6 +345,7 @@ class InternationalFundsTransferState(val application: Application) : BaseState(
         }
         transferFeeAmount = totalAmount
         return totalAmount
+
     }
 
 

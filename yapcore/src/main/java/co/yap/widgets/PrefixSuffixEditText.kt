@@ -60,8 +60,10 @@ class PrefixSuffixEditText : AppCompatEditText {
             this.mPrefix = prefix
             if (mPrefix?.isNotBlank()!!)
                 mask(mPrefix)
+           // mOriginalLeftPadding = -1f
             // textFormatter.countryCode = "CZ"
-            calculatePrefix()
+            calculatePrefixPadding()
+//            calculatePrefix()
             invalidate()
         }
 
@@ -507,6 +509,31 @@ class PrefixSuffixEditText : AppCompatEditText {
                 )
             }
         }
+    }
+    private fun calculatePrefixPadding() {
+       // if (mOriginalLeftPadding == -1f) {
+            val prefix = mPrefix
+            val widths = FloatArray(prefix!!.length)
+            paint.getTextWidths(prefix, widths)
+            var textWidth = 0f
+            for (w in widths) {
+                textWidth += w
+            }
+           // mOriginalLeftPadding = compoundPaddingLeft.toFloat()
+            if (prefixBitmap != null) {
+                setPadding(
+                    (prefixBitmap?.width!! + textWidth + mOriginalLeftPadding).toInt() + pseSpace,
+                    paddingRight, paddingTop,
+                    paddingBottom
+                )
+            } else {
+                setPadding(
+                    (textWidth + mOriginalLeftPadding).toInt() + pseSpace,
+                    paddingRight, paddingTop,
+                    paddingBottom
+                )
+            }
+       // }
     }
 
     public fun setPrefixTextColor(prefixTextColor: Int) {
