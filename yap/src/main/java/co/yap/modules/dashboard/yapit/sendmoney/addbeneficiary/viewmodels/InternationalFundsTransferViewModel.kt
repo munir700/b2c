@@ -41,32 +41,25 @@ class InternationalFundsTransferViewModel(application: Application) :
         MutableLiveData()
     private var listItemRemittanceFee: List<RemittanceFeeResponse.RemittanceFee.TierRateDTO> =
         ArrayList()
+    override var reasonPosition: Int = 0
 
     override fun handlePressOnButton(id: Int) {
-        clickEvent.postValue(id)
-        //createOtp(id = id)
+        clickEvent.setValue(id)
     }
 
     override fun onCreate() {
         super.onCreate()
-        transactionData.clear()
         state.setSpanable(0.0)
     }
-
 
     override fun onResume() {
         super.onResume()
         setToolBarTitle(getString(Strings.screen_international_funds_transfer_display_text_title))
     }
 
-
-    /*
-    * In this function get Remittance Transaction Fee.
-    * */
-
     override fun getTransactionFeeInternational(productCode: String?) {
         launch {
-            state.loading = true
+            //state.loading = true
             val remittanceFeeRequestBody = RemittanceFeeRequest(state.beneficiaryCountry, "")
             when (val response =
                 mTransactionsRepository.getTransactionFeeWithProductCode(
@@ -74,6 +67,7 @@ class InternationalFundsTransferViewModel(application: Application) :
                     remittanceFeeRequestBody
                 )) {
                 is RetroApiResponse.Success -> {
+
                     state.feeType = response.data.data?.feeType
                     var totalAmount: Double
                     if (state.feeType == Constants.FEE_TYPE_FLAT) {
@@ -99,7 +93,8 @@ class InternationalFundsTransferViewModel(application: Application) :
                         listItemRemittanceFee = response.data.data!!.tierRateDTOList!!
                         state.listItemRemittanceFee = listItemRemittanceFee
                     }
-                    getTransactionInternationalReasonList(productCode)
+                    //state.loading = false
+                    //getTransactionInternationalReasonList(productCode)
                 }
 
                 is RetroApiResponse.Error -> {
@@ -169,13 +164,41 @@ class InternationalFundsTransferViewModel(application: Application) :
     }
 
 
-    /*
-    * In this function get All List of reasons.
-    * */
-
-    private fun getTransactionInternationalReasonList(productCode: String?) {
+    override fun getTransactionInternationalfxList(productCode: String?) {
         launch {
             state.loading = true
+            val rxListBody = RxListRequest(state.beneficiaryId)
+
+            when (val response =
+                mTransactionsRepository.getTransactionInternationalRXList(
+                    productCode,
+                    rxListBody
+                )) {
+                is RetroApiResponse.Success -> {
+                    state.senderCurrency = response.data.data.fromCurrencyCode
+                    state.receiverCurrency = response.data.data.toCurrencyCode
+                    state.receiverCurrencyAmountFxRate = response.data.data.value?.amount
+                    state.fromFxRateCurrency = response.data.data.fromCurrencyCode
+                    state.fromFxRate =
+                        "${response.data.data.value?.amount} ${state.fromFxRateCurrency}"
+                    state.toFxRateCurrency = response.data.data.toCurrencyCode
+                    state.toFxRate =
+                        "${response.data.data.fxRates?.get(0)?.convertedAmount} ${state.toFxRateCurrency}"
+                    state.rate = response.data.data.fxRates?.get(0)?.convertedAmount
+                    state.loading = false
+                }
+                is RetroApiResponse.Error -> {
+                    state.loading = false
+                    state.toast = response.error.message
+                }
+            }
+        }
+    }
+
+    override fun getReasonList(productCode: String?) {
+        launch {
+            transactionData.clear()
+            //            state.loading = true
             when (val response =
                 mTransactionsRepository.getTransactionInternationalReasonList(productCode)) {
                 is RetroApiResponse.Success -> {
@@ -188,48 +211,11 @@ class InternationalFundsTransferViewModel(application: Application) :
                             )
                         })
                     }
-                    getTransactionInternationalfxList(productCode)
+                    //getTransactionInternationalfxList(productCode)
                     populateSpinnerData.value = transactionData
                 }
                 is RetroApiResponse.Error -> {
-                    state.loading = false
-                    state.toast = response.error.message
-                }
-            }
-        }
-    }
-
-
-    /*
-    * In this function get All List of reasons.
-    * */
-
-    private fun getTransactionInternationalfxList(productCode: String?) {
-        launch {
-
-            state.loading = true
-            val rxListBody = RxListRequest(state.beneficiaryId)
-
-            when (val response =
-                mTransactionsRepository.getTransactionInternationalRXList(
-                    productCode,
-                    rxListBody
-                )) {
-                is RetroApiResponse.Success -> {
-                    state.loading = false
-                    state.senderCurrency = response.data.data.fromCurrencyCode
-                    state.receiverCurrency = response.data.data.toCurrencyCode
-                    state.receiverCurrencyAmountFxRate = response.data.data.value?.amount
-                    state.fromFxRateCurrency = response.data.data.fromCurrencyCode
-                    state.fromFxRate =
-                        "${response.data.data.value?.amount} ${state.fromFxRateCurrency}"
-                    state.toFxRateCurrency = response.data.data.toCurrencyCode
-                    state.toFxRate =
-                        "${response.data.data.fxRates?.get(0)?.convertedAmount} ${state.toFxRateCurrency}"
-                    state.rate = response.data.data.fxRates?.get(0)?.convertedAmount
-                }
-                is RetroApiResponse.Error -> {
-                    state.loading = false
+//                    state.loading = false
                     state.toast = response.error.message
                 }
             }

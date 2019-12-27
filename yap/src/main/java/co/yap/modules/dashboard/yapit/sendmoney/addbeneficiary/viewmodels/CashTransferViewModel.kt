@@ -2,6 +2,7 @@ package co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.viewmodels
 
 import android.app.Application
 import androidx.lifecycle.MutableLiveData
+import co.yap.R
 import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.interfaces.ICashTransfer
 import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.states.CashTransferState
 import co.yap.modules.dashboard.yapit.sendmoney.viewmodels.SendMoneyBaseViewModel
@@ -39,13 +40,12 @@ class CashTransferViewModel(application: Application) :
     override val populateSpinnerData: MutableLiveData<ArrayList<InternationalFundsTransferReasonList.ReasonList>> =
         MutableLiveData()
     override var receiverUUID: String = ""
+    override var reasonPosition: Int = 0
 
     override fun onCreate() {
         super.onCreate()
         state.availableBalanceGuide =
             getString(Strings.screen_add_funds_display_text_available_balance)
-
-        transactionData.clear()
         state.currencyType = "AED"
     }
 
@@ -57,18 +57,19 @@ class CashTransferViewModel(application: Application) :
 
 
     override fun handlePressOnView(id: Int) {
-        if (state.checkValidity() == "") {
-            if (!state.reasonTransferValue.equals("Select a Reason")) {
-                createOtp(id = id)
+        if (R.id.btnConfirm == id) {
+            if (state.checkValidity() == "") {
+                if (!state.reasonTransferValue.equals("Select a Reason")) {
+                    createOtp(id = id)
+                } else {
+                    toast(context, "Select a Reason")
+
+                }
             } else {
-                toast(context, "Select a Reason")
-
+                errorEvent.setValue(id)
             }
-
-//            temporary comment this service for
-
         } else {
-            errorEvent.postValue(id)
+            clickEvent.setValue(id)
         }
     }
 
@@ -241,6 +242,7 @@ class CashTransferViewModel(application: Application) :
     override fun getTransactionInternationalReasonList() {
         launch {
             //            state.loading = true
+            transactionData.clear()
             when (val response =
                 transactionRepository.getTransactionInternationalReasonList(state.produceCode)) {
                 is RetroApiResponse.Success -> {

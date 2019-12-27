@@ -60,7 +60,7 @@ class Currency(
 
     override fun equals(obj: Any?): Boolean {
         val obj1 = obj as Currency?
-        return if (obj1!!.code == code
+        return if (null != obj1 && obj1.code == code
             && obj1.id == id
             && obj1.name == name
         ) true else super.equals(obj)
