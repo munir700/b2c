@@ -725,6 +725,11 @@
 
 
     <!-- YAP Household subscription selection screen-->
+    <string name="screen_yap_house_hold_subscription_selection_display_text_color">Let your help choose from any one of these breathtaking colors</string>
+    <string name="screen_yap_house_hold_subscription_selection_display_text_salary">Give them the power to manage their salary and expenses </string>
+    <string name="screen_yap_house_hold_subscription_selection_display_text_schedule">Set up automatic payouts for salary payments and make life easier with cashless domestic expenses </string>
+
+
     <string name="screen_yap_house_hold_subscription_selection_display_text_title">Get a Household card</string>
     <string name="screen_yap_house_hold_subscription_selection_display_text_house_hold_card">Household card</string>
     <string name="screen_yap_house_hold_subscription_selection_display_text_house_hold_heading">Simplify your household expenses and get your help a card with just their mobile number and email</string>

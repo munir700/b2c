@@ -30,8 +30,8 @@ class YapStoreFragment : BaseBindingFragment<IYapStore.ViewModel>(), IYapStore.V
         setObservers()
         initState()
         initComponents()
-//        startActivity(HouseHoldLandingActivity.newIntent(activity!!))
-        startActivity(SubscriptionSelectionActivity.newIntent(activity!!))
+        startActivity(HouseHoldLandingActivity.newIntent(activity!!))
+//        startActivity(SubscriptionSelectionActivity.newIntent(activity!!))
 
 //        startActivity(HouseHoldOnboardingActivity.newIntent(activity!!))
 
