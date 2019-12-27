@@ -1,0 +1,61 @@
+package co.yap.household.onboarding
+
+import android.content.Context
+import android.content.Intent
+import android.os.Bundle
+import androidx.lifecycle.ViewModelProviders
+import co.yap.BR
+import co.yap.household.R
+import co.yap.yapcore.BaseBindingActivity
+import co.yap.yapcore.IFragmentHolder
+import co.yap.yapcore.defaults.DefaultNavigator
+import co.yap.yapcore.defaults.INavigator
+import co.yap.yapcore.interfaces.BackPressImpl
+import co.yap.yapcore.interfaces.IBaseNavigator
+
+class OnboardingActivity : BaseBindingActivity<IOnboarding.ViewModel>(), INavigator,
+    IFragmentHolder {
+
+//    companion object {
+//        private val ACCOUNT_TYPE = "account_type"
+//        fun newIntent(context: Context, accountType: AccountType): Intent {
+//            val intent = Intent(context, OnboardingActivity::class.java)
+//            intent.putExtra(ACCOUNT_TYPE, accountType)
+//            return intent
+//        }
+//    }
+
+    override fun getBindingVariable(): Int = BR.viewModel
+
+    override fun getLayoutId(): Int = R.layout.activity_onboarding_navigation
+
+    override val viewModel: IOnboarding.ViewModel
+        get() = ViewModelProviders.of(this).get(OnboardingViewModel::class.java)
+
+    override val navigator: IBaseNavigator
+        get() = DefaultNavigator(this@OnboardingActivity, R.id.my_nav_host_fragment)
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        viewModel.onboardingData.accountType = getAccountType()
+        viewModel.backButtonPressEvent.observe(this, backButtonObserver)
+    }
+
+    override fun onDestroy() {
+        viewModel.backButtonPressEvent.removeObservers(this)
+        super.onDestroy()
+    }
+
+    private fun getAccountType(): AccountType {
+        return intent.getSerializableExtra(ACCOUNT_TYPE) as AccountType
+    }
+
+    private val backButtonObserver = Observer<Boolean> { onBackPressed() }
+
+    override fun onBackPressed() {
+        val fragment = supportFragmentManager.findFragmentById(R.id.my_nav_host_fragment)
+        if (!BackPressImpl(fragment).onBackPressed()) {
+            super.onBackPressed()
+        }
+    }
+}
