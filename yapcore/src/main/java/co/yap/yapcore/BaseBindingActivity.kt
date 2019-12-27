@@ -37,14 +37,11 @@ abstract class BaseBindingActivity<V : IBase.ViewModel<*>> : BaseActivity<V>() {
      *
      * @return variable id
      */
-
     abstract fun getBindingVariable(): Int
 
     /**
      * @return layout resource id
      */
-
     @LayoutRes
     abstract fun getLayoutId(): Int
-
 }

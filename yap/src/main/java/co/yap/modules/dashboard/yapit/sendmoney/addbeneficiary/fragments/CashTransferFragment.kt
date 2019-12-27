@@ -6,6 +6,7 @@ import android.text.Editable
 import android.text.InputFilter
 import android.text.TextWatcher
 import android.view.Gravity
+import android.view.Gravity.CENTER_VERTICAL
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -227,10 +228,12 @@ class CashTransferFragment : SendMoneyBaseFragment<ICashTransfer.ViewModel>(), I
 
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
                 if (p0?.length!! > 0) {
-                    etAmount.gravity = Gravity.CENTER
+                    etAmount.gravity = Gravity.CENTER_HORIZONTAL or CENTER_VERTICAL
                 } else {
-                    etAmount.gravity = Gravity.START or Gravity.CENTER_VERTICAL
+                    etAmount.gravity = Gravity.CENTER_HORIZONTAL or CENTER_VERTICAL
                 }
+
+
             }
         })
     }

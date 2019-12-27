@@ -27,6 +27,7 @@ interface IInternationalFundsTransfer {
         var firstName: String?
 
         var internationalFee: String?
+        var formattedFee: String?
         var referenceNumber:String?
         var fromFxRate: String?
         var fromFxRateCurrency: String?
