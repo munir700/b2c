@@ -227,6 +227,7 @@
                     android:maxLines="1"
                     android:singleLine="true"
                     android:text="@={viewModel.state.nickName}"
+                    tools:hint="@string/screen_add_beneficiary_detail_input_text_nick_name_hint"
                     app:hint="@{Strings.screen_add_beneficiary_detail_input_text_nick_name_hint}" />
 
 
@@ -256,7 +257,8 @@
                     android:maxLines="1"
                     android:singleLine="true"
                     android:text="@={viewModel.state.firstName}"
-                    app:hint="@{Strings.screen_add_beneficiary_detail_display_text_transfer_first_name}" />
+                    tools:hint="@string/screen_add_beneficiary_detail_input_text_first_name_hint"
+                    app:hint="@{Strings.screen_add_beneficiary_detail_input_text_first_name_hint}" />
 
 
                 <TextView
@@ -285,6 +287,7 @@
                     android:maxLines="1"
                     android:singleLine="true"
                     android:text="@={viewModel.state.lastName}"
+                    tools:hint="@string/screen_add_beneficiary_detail_input_text_last_name_hint"
                     app:hint="@{Strings.screen_add_beneficiary_detail_input_text_last_name_hint}" />
 
                 <TextView
