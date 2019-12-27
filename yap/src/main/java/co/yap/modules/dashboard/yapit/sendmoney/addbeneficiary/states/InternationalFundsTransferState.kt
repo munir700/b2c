@@ -56,9 +56,7 @@ class InternationalFundsTransferState(val application: Application) : BaseState(
                     valid = it.toDouble() > 0.0
                 }
             }
-            if (feeType == Constants.FEE_TYPE_TIER) {
-                checkValidation()
-            }
+            checkValidation()
         }
 
     @get:Bindable
@@ -281,7 +279,8 @@ class InternationalFundsTransferState(val application: Application) : BaseState(
     private fun checkValidation() {
         if (!receiverCurrencyAmountFxRate.isNullOrEmpty()) {
             fxRateAmount?.let {
-                receiverCurrencyAmount = if (it.isEmpty()) {
+                // if (feeType == Constants.FEE_TYPE_TIER) {
+                receiverCurrencyAmount = if (it.isEmpty() && feeType == Constants.FEE_TYPE_TIER) {
                     setSpanable(0.0)
                     ""
                 } else {
@@ -289,13 +288,17 @@ class InternationalFundsTransferState(val application: Application) : BaseState(
                         receiverCurrencyAmountFxRate?.let {
                             fxRateAmount?.toDouble()?.times(it.toDouble())
                         }
-                    setSpanable(amount ?: 0.0)
+                    if (feeType == Constants.FEE_TYPE_TIER) {
+                        setSpanable(amount ?: 0.0)
+                    }
                     val amountFxRate = amount
                     val receiveFxRate = rate!!.toDouble()
                     val result = amountFxRate?.times(receiveFxRate)
-                    receiverCurrencyAmount = String.format(Locale.getDefault() ,"%.02f",result ) //result.toString()
+                    receiverCurrencyAmount =
+                        String.format(Locale.getDefault(), "%.02f", result) //result.toString()
                     receiverCurrencyAmount.toString()
                 }
+                //  }
             }
         }
     }
