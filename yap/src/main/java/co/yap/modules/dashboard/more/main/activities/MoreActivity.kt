@@ -27,8 +27,9 @@ class MoreActivity : BaseBindingActivity<IMore.ViewModel>(), INavigator,
         // do not remove this boolean variable
         var navigationVariable: Boolean = false
 
-        fun newIntent(context: Context): Intent {
+        fun newIntent(context: Context, isDrawerNav: Boolean = false): Intent {
             val intent = Intent(context, MoreActivity::class.java)
+            intent.putExtra("isDrawerNav", isDrawerNav)
             return intent
         }
 
@@ -73,6 +74,14 @@ class MoreActivity : BaseBindingActivity<IMore.ViewModel>(), INavigator,
 
     fun visibleToolbar() {
         toolbar.visibility = View.VISIBLE
+    }
+
+    fun getIntentData(): Boolean {
+        if (intent != null) {
+            if(intent.hasExtra("isDrawerNav"))
+            return intent.getBooleanExtra("isDrawerNav", false)
+        }
+        return false
     }
 
     override fun onBackPressed() {

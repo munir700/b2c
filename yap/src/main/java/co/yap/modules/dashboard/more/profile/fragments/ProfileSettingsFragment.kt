@@ -3,7 +3,6 @@ package co.yap.modules.dashboard.more.profile.fragments
 import android.Manifest
 import android.content.DialogInterface
 import android.content.Intent
-import android.graphics.Bitmap
 import android.os.Bundle
 import android.view.View
 import androidx.annotation.NonNull
@@ -22,11 +21,7 @@ import co.yap.modules.dashboard.more.main.fragments.MoreBaseFragment
 import co.yap.modules.dashboard.more.profile.intefaces.IProfile
 import co.yap.modules.dashboard.more.profile.viewmodels.ProfileSettingsViewModel
 import co.yap.modules.others.helper.Constants
-import co.yap.networking.cards.CardsRepository
-import co.yap.networking.cards.responsedtos.Address
-import co.yap.networking.cards.responsedtos.Card
 import co.yap.networking.cards.responsedtos.CardBalance
-import co.yap.networking.customers.responsedtos.AccountInfo
 import co.yap.yapcore.helpers.AuthUtils
 import co.yap.yapcore.helpers.PermissionHelper
 import co.yap.yapcore.helpers.SharedPreferenceManager

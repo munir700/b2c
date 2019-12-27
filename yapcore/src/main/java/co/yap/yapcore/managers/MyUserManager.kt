@@ -51,4 +51,15 @@ object MyUserManager : IRepositoryHolder<CardsRepository> {
         return ""
     }
 
+    fun getPrimaryCard(): Card? {
+        cards.value?.let {
+            for (card in it) {
+                if (card.cardType == "DEBIT") {
+                    return card
+                }
+            }
+        }
+        return null
+    }
+
 }
