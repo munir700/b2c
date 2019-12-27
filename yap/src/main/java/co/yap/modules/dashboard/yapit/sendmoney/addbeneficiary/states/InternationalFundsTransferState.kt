@@ -331,7 +331,6 @@ class InternationalFundsTransferState(val application: Application) : BaseState(
                 "AED",
                 Utils.getFormattedCurrency(findFee(amount).toString())
             )
-        
         formattedFee = "${"AED"} ${Utils.getFormattedCurrency(findFee(amount).toString())}"
         internationalFee = "${"AED"} ${findFee(amount)}"
 
