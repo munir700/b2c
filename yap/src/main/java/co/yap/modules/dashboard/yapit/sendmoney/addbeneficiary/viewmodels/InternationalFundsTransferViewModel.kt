@@ -47,8 +47,6 @@ class InternationalFundsTransferViewModel(application: Application) :
         //createOtp(id = id)
     }
 
-    var listItemSelectedCart: List<RemittanceFeeResponse.RemittanceFee.TierRateDTO> = ArrayList()
-
     override fun onCreate() {
         super.onCreate()
         transactionData.clear()
@@ -76,8 +74,9 @@ class InternationalFundsTransferViewModel(application: Application) :
                     remittanceFeeRequestBody
                 )) {
                 is RetroApiResponse.Success -> {
+                    state.feeType = response.data.data?.feeType
                     var totalAmount: Double
-                    if (response.data.data?.feeType == "FLAT") {
+                    if (state.feeType == Constants.FEE_TYPE_FLAT) {
                         val feeAmount = response.data.data?.tierRateDTOList?.get(0)?.feeAmount
                         val feeAmountVAT = response.data.data?.tierRateDTOList?.get(0)?.vatAmount
                         if (feeAmount != null) {
@@ -96,7 +95,7 @@ class InternationalFundsTransferViewModel(application: Application) :
                                 )
                         }
 
-                    } else if (response.data.data?.feeType == "TIER") {
+                    } else if (state.feeType == Constants.FEE_TYPE_TIER) {
                         listItemRemittanceFee = response.data.data!!.tierRateDTOList!!
                         state.listItemRemittanceFee = listItemRemittanceFee
                     }

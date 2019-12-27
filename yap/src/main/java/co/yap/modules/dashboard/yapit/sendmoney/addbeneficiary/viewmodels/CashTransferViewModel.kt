@@ -196,16 +196,16 @@ class CashTransferViewModel(application: Application) :
                 )
                 ) {
                 is RetroApiResponse.Success -> {
-
+                    state.feeType = response.data.data?.feeType
                     var totalAmount = 0.0
-                    if (response.data.data?.feeType == "FLAT") {
+                    if (state.feeType == Constants.FEE_TYPE_FLAT) {
                         val feeAmount = response.data.data?.tierRateDTOList?.get(0)?.feeAmount
                         val feeAmountVAT = response.data.data?.tierRateDTOList?.get(0)?.vatAmount
                         if (feeAmount != null) {
                             totalAmount = feeAmount + feeAmountVAT!!
                         }
 
-                    } else if (response.data.data?.feeType == "TIER") {
+                    } else if (state.feeType == Constants.FEE_TYPE_TIER) {
                         listItemRemittanceFee = response.data.data!!.tierRateDTOList!!
                         state.listItemRemittanceFee = listItemRemittanceFee
                     } else {

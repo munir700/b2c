@@ -47,6 +47,7 @@ interface ICashTransfer {
         var noteValue: String?
         var imageUrl: String
         var feeStringVisibility: Boolean
+        var feeType: String?
 
         var transferFee: String
         var transferFeeSpannable: SpannableStringBuilder?

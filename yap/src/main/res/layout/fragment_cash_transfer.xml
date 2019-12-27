@@ -69,8 +69,11 @@
             <TextView
                 android:id="@+id/tvFullName"
                 style="@style/Regular"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_medium"
+                android:layout_marginEnd="@dimen/margin_medium"
+                android:gravity="center"
                 android:layout_marginTop="@dimen/margin_normal"
                 android:text="@{viewModel.state.fullName}"
                 app:layout_constraintLeft_toLeftOf="parent"

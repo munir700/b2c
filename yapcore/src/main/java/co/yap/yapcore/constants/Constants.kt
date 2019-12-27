@@ -33,6 +33,8 @@ object Constants {
     const val SUPP_WITHDRAW = "P006"
     const val MANUAL_DEBIT = "DEBIT"
     const val MANUAL_CREDIT = "CREDIT"
+    const val FEE_TYPE_TIER = "TIER"
+    const val FEE_TYPE_FLAT = "FLAT"
 
 
     //More Option Constants

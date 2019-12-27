@@ -42,6 +42,7 @@ interface IInternationalFundsTransfer {
         var maxLimit: Double?
         var minLimit: Double?
         var transactionNote: String?
+        var feeType: String?
     }
 
     interface ViewModel : IBase.ViewModel<State> {

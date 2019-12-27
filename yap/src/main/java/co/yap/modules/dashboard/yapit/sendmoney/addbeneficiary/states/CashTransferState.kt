@@ -13,6 +13,7 @@ import co.yap.networking.transactions.responsedtos.transaction.RemittanceFeeResp
 import co.yap.translation.Strings
 import co.yap.translation.Translator
 import co.yap.yapcore.BaseState
+import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.Utils
 
 class CashTransferState(application: Application) : BaseState(), ICashTransfer.State {
@@ -54,11 +55,14 @@ class CashTransferState(application: Application) : BaseState(), ICashTransfer.S
             notifyPropertyChanged(BR.amount)
             clearError()
 
-            if (amount.isNotEmpty()) {
-                setSpannableFee(findFee(amount.toDouble()).toString())
-            } else {
-                setSpannableFee("0.0")
+            if (feeType == Constants.FEE_TYPE_TIER) {
+                if (amount.isNotEmpty()) {
+                    setSpannableFee(findFee(amount.toDouble()).toString())
+                } else {
+                    setSpannableFee("0.0")
+                }
             }
+
 
         }
 
@@ -228,7 +232,12 @@ class CashTransferState(application: Application) : BaseState(), ICashTransfer.S
             field = value
             notifyPropertyChanged(BR.transactionData)
         }
-
+    @get:Bindable
+    override var feeType: String? = ""
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.feeType)
+        }
 
     @get:Bindable
     override val populateSpinnerData: MutableLiveData<List<InternationalFundsTransferReasonList.ReasonList>> =
