@@ -31,35 +31,14 @@
     </fragment>
 
     <fragment
-        android:id="@+id/addSpareCardFragment"
-        android:name="co.yap.modules.dashboard.cards.addpaymentcard.spare.fragments.AddSpareCardFragment"
-        android:label="AddSpareCardFragment"
-        app:enterAnim="@anim/slide_in_right"
+        android:id="@+id/reorderCardFragment"
+        android:name="co.yap.modules.dashboard.cards.reordercard.fragments.ReorderCardFragment"
         app:exitAnim="@anim/slide_out_left"
-        tools:layout="@layout/fragment_add_spare_card">
+        app:enterAnim="@anim/slide_in_right"
+        tools:layout="@layout/fragment_reorder_card">
         <argument
             android:name="cardType"
             android:defaultValue="Physical card"
-            app:argType="string" />
-        <argument
-            android:name="isFromBlockCard"
-            android:defaultValue="true"
-            app:argType="boolean" />
-        <argument
-            android:name="newDeliveryAddressTitle"
-            android:defaultValue=" "
-            app:argType="string" />
-        <argument
-            android:name="newDeliveryAddressSubTitle"
-            android:defaultValue=" "
-            app:argType="string" />
-        <argument
-            android:name="latitude"
-            android:defaultValue=" "
-            app:argType="string" />
-        <argument
-            android:name="longitude"
-            android:defaultValue=" "
             app:argType="string" />
 
         <action

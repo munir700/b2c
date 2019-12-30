@@ -144,17 +144,15 @@ class AddSpareCardViewModel(application: Application) :
         launch {
             when (val response = repository.getUserAddressRequest()) {
                 is RetroApiResponse.Success -> {
-                    if (null != response.data.data) {
-                        address = response.data.data
-                        state.physicalCardAddressTitle = address.address1!!
+                    address = response.data.data
+                    state.physicalCardAddressTitle = address.address1!!
 
-                        state.enableConfirmLocation = !address.address1.isNullOrEmpty()
+                    state.enableConfirmLocation = !address.address1.isNullOrEmpty()
 
-                        if (!address.address2.isNullOrEmpty()) {
-                            state.physicalCardAddressSubTitle = address.address2!!
-                        } else {
-                            state.physicalCardAddressSubTitle = " "
-                        }
+                    if (!address.address2.isNullOrEmpty()) {
+                        state.physicalCardAddressSubTitle = address.address2!!
+                    } else {
+                        state.physicalCardAddressSubTitle = " "
                     }
                 }
                 is RetroApiResponse.Error -> state.toast = response.error.message

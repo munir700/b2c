@@ -50,9 +50,9 @@ interface IAddSpareCard {
         //apis
         fun requestAddSpareVirtualCard()
         fun requestAddSparePhysicalCard()
-        fun requestReorderCard()
-        fun requestGetAddressForPhysicalCard()
         fun updateAddressForPhysicalCard()
+        fun requestGetAddressForPhysicalCard()
+        fun requestReorderCard()
         fun requestReorderCardFee(cardType: String)
         fun requestInitialData()
     }

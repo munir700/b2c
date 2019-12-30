@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/spare_cards_navigation"
     app:startDestination="@id/reportLostOrStolenCardFragment">
-
     <fragment
         android:id="@+id/reportLostOrStolenCardFragment"
         android:name="co.yap.modules.dashboard.cards.reportcard.fragments.ReportLostOrStolenCardFragment"
@@ -13,7 +12,6 @@
         <argument
             android:name="card"
             app:argType="co.yap.networking.cards.responsedtos.Card" />
-
 
         <action
             android:id="@+id/action_reportLostOrStolenCardFragment_to_blockCardSuccessFragment"
@@ -26,7 +24,6 @@
             app:enterAnim="@anim/slide_in_right"
             app:destination="@id/addSpareCardFragment"
             app:exitAnim="@anim/slide_out_left" />
-
     </fragment>
 
 

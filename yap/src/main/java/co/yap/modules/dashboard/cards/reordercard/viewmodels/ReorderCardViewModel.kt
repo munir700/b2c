@@ -14,9 +14,4 @@ class ReorderCardViewModel(application: Application) :
     override fun handlePressOnView(id: Int) {
         clickEvent.setValue(id)
     }
-
-    override fun onResume() {
-        super.onResume()
-        state.toolbarVisibility.set(true)
-    }
 }
