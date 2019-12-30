@@ -22,7 +22,7 @@ open class MainActivity : DefaultActivity(), IFragmentHolder, INavigator {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         YAPApplication.AUTO_RESTART_APP = false
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_main_house_hold)
     }
 
     override fun onBackPressed() {

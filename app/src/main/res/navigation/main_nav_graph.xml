@@ -215,9 +215,9 @@
         android:label="CardAnalyticsActivity"
         tools:layout="@layout/activity_cards_analytics" />
 
+
     <activity
         android:id="@+id/householdOnboard"
-        android:name="co.yap.household.onboarding.OnboardingActivity"
-        tools:layout="@layout/activity_main" />
+        android:name="co.yap.household.onboarding.OnboardingActivity" />
 
 </navigation>

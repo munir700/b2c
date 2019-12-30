@@ -12,5 +12,7 @@ interface IOnboarding {
         val clickEvent: SingleClickEvent
     }
 
-    interface State : IBase.State
+    interface State : IBase.State {
+        var myName: String
+    }
 }

@@ -3,7 +3,6 @@
     package="co.yap.household">
 
     <application>
-
         <activity android:name=".onboarding.OnboardingActivity" />
     </application>
 
