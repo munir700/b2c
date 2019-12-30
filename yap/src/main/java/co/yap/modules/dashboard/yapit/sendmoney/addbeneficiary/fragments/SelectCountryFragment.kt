@@ -2,6 +2,7 @@ package co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.fragments
 
 import android.os.Bundle
 import android.view.View
+import android.widget.AdapterView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
@@ -29,6 +30,19 @@ class SelectCountryFragment : SendMoneyBaseFragment<ISelectCountry.ViewModel>(),
         super.onViewCreated(view, savedInstanceState)
         viewModel.populateSpinnerData.observe(this, Observer {
             countriesSpinner.adapter = getCountryAdapter()
+            countriesSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+                override fun onNothingSelected(parent: AdapterView<*>?) {
+                }
+
+                override fun onItemSelected(
+                    parent: AdapterView<*>?,
+                    view: View?,
+                    position: Int,
+                    id: Long
+                ) {
+                    viewModel.onCountrySelected(position)
+                }
+            }
         })
     }
 
@@ -56,10 +70,6 @@ class SelectCountryFragment : SendMoneyBaseFragment<ISelectCountry.ViewModel>(),
                         }
                     }
                 }
-
-                R.id.viewTriggerSpinnerClick -> {
-                    countriesSpinner.performClick()
-                }
             }
         })
     }
@@ -75,21 +85,11 @@ class SelectCountryFragment : SendMoneyBaseFragment<ISelectCountry.ViewModel>(),
     private fun getCountryAdapter(): CountryAdapter? {
         if (countryAdapter == null)
             countryAdapter =
-                context?.let {
-                    CountryAdapter(
-                        it, R.layout.item_country,
-                        viewModel.countries, View.OnClickListener {
-                            val pos = it.tag as Int
-                            viewModel.onCountrySelected(pos)
-                        }
-                    )
-                }
-
+                context?.let { CountryAdapter(it, viewModel.countries) }
         return countryAdapter
     }
 
     override fun onBackPressed(): Boolean {
-
         return super.onBackPressed()
     }
 }
