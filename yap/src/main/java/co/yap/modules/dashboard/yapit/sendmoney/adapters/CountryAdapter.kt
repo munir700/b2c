@@ -1,31 +1,40 @@
 package co.yap.modules.dashboard.yapit.sendmoney.adapters
 
 import android.content.Context
-import androidx.databinding.ViewDataBinding
-import co.yap.BR
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.ArrayAdapter
+import android.widget.TextView
+import co.yap.R
 import co.yap.countryutils.country.Country
-import co.yap.modules.dashboard.yapit.sendmoney.adapters.CountryAdapter.ViewHolder
-import co.yap.yapcore.BaseBindingArrayAdapter
-import co.yap.yapcore.BaseBindingHolder
+import co.yap.widgets.CoreCircularImageView
 
-class CountryAdapter(context: Context, resource: Int, objects: List<Country>) :
-    BaseBindingArrayAdapter<Country, ViewHolder>(context, resource, objects) {
 
-    override fun createViewHolder(binding: ViewDataBinding): ViewHolder {
-        return ViewHolder(binding)
+class CountryAdapter(context: Context, resource: Int, val objects: List<Country>) :
+    ArrayAdapter<String>(context, resource, objects.map { it.getName() }) {
+
+    override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
+        return getCustomView(position, convertView, parent);
+    }
+
+    override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup): View {
+        return getCustomView(position, convertView, parent);
     }
 
 
-    inner class ViewHolder(binding: ViewDataBinding) : BaseBindingHolder(binding) {
-        override fun bind(obj: Any, binding: ViewDataBinding?) {
-            binding?.setVariable(getBindingVariable(), obj)
-            binding?.executePendingBindings()
-        }
+    private fun getCustomView(position: Int, convertView: View?, parent: ViewGroup): View {
 
-        override fun getBindingVariable(): Int = BR.dataCountry
-//        override fun bind(obj: Object, binding: ViewDataBinding?) {
-//            binding?.setVariable(getBindingVariable(), obj)
-//            binding?.executePendingBindings()
-//        }
+        val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+        val row = inflater.inflate(R.layout.item_country, parent, false)
+        val label = row.findViewById(R.id.textView) as TextView
+        val flag = row.findViewById(R.id.flag_img) as CoreCircularImageView
+        label.text = objects[position].getName()
+        flag.setImageResource(objects[position].getFlagDrawableResId())
+
+        if (position == 0) {//Special style for dropdown header
+            label.setTextColor(context.resources.getColor(R.color.light_grey))
+        }
+        return row
     }
 }

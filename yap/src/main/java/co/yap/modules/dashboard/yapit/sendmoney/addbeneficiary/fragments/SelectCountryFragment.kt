@@ -2,6 +2,7 @@ package co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.fragments
 
 import android.os.Bundle
 import android.view.View
+import android.widget.AdapterView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
@@ -11,12 +12,11 @@ import co.yap.modules.dashboard.yapit.sendmoney.adapters.CountryAdapter
 import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.interfaces.ISelectCountry
 import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.viewmodels.SelectCountryViewModel
 import co.yap.modules.dashboard.yapit.sendmoney.fragments.SendMoneyBaseFragment
-import co.yap.yapcore.interfaces.OnItemClickListener
 import kotlinx.android.synthetic.main.fragment_select_country.*
 
 
 class SelectCountryFragment : SendMoneyBaseFragment<ISelectCountry.ViewModel>(),
-    ISelectCountry.View {
+    ISelectCountry.View, AdapterView.OnItemSelectedListener {
 
     private var countryAdapter: CountryAdapter? = null
 
@@ -30,15 +30,16 @@ class SelectCountryFragment : SendMoneyBaseFragment<ISelectCountry.ViewModel>(),
         super.onViewCreated(view, savedInstanceState)
         viewModel.populateSpinnerData.observe(this, Observer {
             countriesSpinner.adapter = getCountryAdapter()
-            getCountryAdapter()?.setItemListener(listener)
+            countriesSpinner.onItemSelectedListener = this
         })
     }
 
-    val listener = object : OnItemClickListener {
-        override fun onItemClick(view: View, data: Any, pos: Int) {
-            countriesSpinner.setSelection(pos.toInt())
-            viewModel.onCountrySelected(pos)
-        }
+    override fun onNothingSelected(parent: AdapterView<*>?) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+        viewModel.onCountrySelected(position)
     }
 
     override fun onPause() {
