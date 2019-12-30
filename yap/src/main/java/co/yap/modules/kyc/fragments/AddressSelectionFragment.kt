@@ -2,6 +2,7 @@ package co.yap.modules.kyc.fragments
 
 import android.Manifest
 import android.animation.Animator
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.content.IntentSender
@@ -11,7 +12,6 @@ import android.os.Bundle
 import android.provider.Settings
 import android.util.Log
 import android.view.LayoutInflater
-import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
@@ -90,8 +90,8 @@ class AddressSelectionFragment : BaseMapFragment<IAddressSelection.ViewModel>(),
         val checkSender =
             arguments?.let { AddressSelectionFragmentArgs.fromBundle(it).isFromPhysicalCardsScreen }
 
-        if (isFromPersonalDetailScreen!!) {
-            viewModel!!.mapDetailViewActivity = activity as MoreActivity
+        if (isFromPersonalDetailScreen) {
+            viewModel.mapDetailViewActivity = activity as MoreActivity
             viewModel.state.isFromPersonalDetailView = true
             viewModel.state.isFromPhysicalCardsLayout = false
             updateHeadings()
@@ -106,15 +106,15 @@ class AddressSelectionFragment : BaseMapFragment<IAddressSelection.ViewModel>(),
                 getString(Strings.screen_meeting_location_display_text_subtitle)
 
         } else if (isFromBlockCardsScreen!!) {
-            viewModel!!.mapDetailViewActivity = activity as ReportLostOrStolenCardActivity
+            viewModel.mapDetailViewActivity = activity as ReportLostOrStolenCardActivity
             viewModel.state.isFromPhysicalCardsLayout = true
             updateHeadings()
         } else if (checkSender!!) {
-            viewModel!!.mapDetailViewActivity = activity as AddPaymentCardActivity
+            viewModel.mapDetailViewActivity = activity as AddPaymentCardActivity
             viewModel.state.isFromPhysicalCardsLayout = true
             updateHeadings()
         } else {
-            viewModel!!.mapDetailViewActivity = activity as DocumentsDashboardActivity
+            viewModel.mapDetailViewActivity = activity as DocumentsDashboardActivity
 
         }
          performDataBinding(inflater, container)
@@ -167,23 +167,12 @@ class AddressSelectionFragment : BaseMapFragment<IAddressSelection.ViewModel>(),
         mapFragment!!.getMapAsync(this)
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        transparentImage!!.setOnTouchListener(object : View.OnTouchListener {
-            override fun onTouch(v: View, event: MotionEvent): Boolean {
-
-                if (!viewModel.state.isMapOnScreen) {
-                    return true
-
-                } else {
-                    return false
-                }
-            }
-        })
-
+        transparentImage!!.setOnTouchListener { v, event -> !viewModel.state.isMapOnScreen }
         viewModel.onSuccess.observe(this, Observer {
             when (it) {
-
                 viewModel.UPDATE_ADDRESS_EEVENT -> {
                     val action =
                         AddressSelectionFragmentDirections.actionAddressSelectionFragmentToSuccessFragment(
@@ -193,7 +182,6 @@ class AddressSelectionFragment : BaseMapFragment<IAddressSelection.ViewModel>(),
 
                     findNavController().navigate(action)
                 }
-
             }
         })
 
@@ -363,7 +351,7 @@ class AddressSelectionFragment : BaseMapFragment<IAddressSelection.ViewModel>(),
         viewModel.onMapInit(p0)
     }
 
-    fun displayLocationSettingsRequest(context: Context) {
+    private fun displayLocationSettingsRequest(context: Context) {
         if (!isLocationSettingsDialogue) {
 //            isLocationSettingsDialogue = true
             val googleApiClient = GoogleApiClient.Builder(context)
@@ -516,7 +504,7 @@ class AddressSelectionFragment : BaseMapFragment<IAddressSelection.ViewModel>(),
         super.onActivityResult(requestCode, resultCode, data)
         isLocationSettingsDialogue = false
         if (requestCode == REQUEST_CHECK_SETTINGS) {
-            viewModel.getDeviceLocation(viewModel!!.mapDetailViewActivity)
+            viewModel.getDeviceLocation(viewModel.mapDetailViewActivity)
         }
     }
 }

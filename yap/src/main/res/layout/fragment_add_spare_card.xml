@@ -10,6 +10,8 @@
             name="viewModel"
             type="co.yap.modules.dashboard.cards.addpaymentcard.spare.viewmodels.AddSpareCardViewModel" />
 
+        <import type="android.view.View" />
+
     </data>
 
     <ScrollView
@@ -35,7 +37,7 @@
                 layout="@layout/layout_add_spare_virtaul_card_confirm_purchase"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:visibility="gone"
+                android:visibility="@{viewModel.state.cardType.equals(`Virtual card`) ? View.VISIBLE : View.GONE}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.498"
@@ -48,7 +50,7 @@
                 layout="@layout/layout_add_spare_physical_card_confirm_purchase"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:visibility="gone"
+                android:visibility="@{viewModel.state.cardType.equals(`Physical card`) ? View.VISIBLE : View.GONE}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.498"
                 app:layout_constraintStart_toStartOf="parent"

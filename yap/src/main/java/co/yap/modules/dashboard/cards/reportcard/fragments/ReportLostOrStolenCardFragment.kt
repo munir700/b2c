@@ -54,8 +54,8 @@ class ReportLostOrStolenCardFragment :
 
         val card: Card = reportCard
 
-        viewModel.state.cardType = card!!.cardType
-        viewModel.state.maskedCardNumber = card!!.maskedCardNo
+        viewModel.state.cardType = card.cardType
+        viewModel.state.maskedCardNumber = card.maskedCardNo
 
         if (Constants.CARD_TYPE_DEBIT == card.cardType) {
             viewModel.state.cardType = Constants.TEXT_PRIMARY_CARD
@@ -73,31 +73,21 @@ class ReportLostOrStolenCardFragment :
                 )
             }
         }
-        llDamagedCard.setOnClickListener(object :
-            View.OnClickListener {
+        llDamagedCard.setOnClickListener {
+            viewModel.state.valid = true
+            viewModel.HOT_LIST_REASON =REASON_DAMAGE
 
-            override fun onClick(v: View?) {
-                viewModel.state.valid = true
-                viewModel.HOT_LIST_REASON =REASON_DAMAGE
+            llDamagedCard.isActivated = true
+            llStolenCard.isActivated = false
+        }
 
-                llDamagedCard.isActivated = true
-                llStolenCard.isActivated = false
+        llStolenCard.setOnClickListener {
+            viewModel.state.valid = true
+            viewModel.HOT_LIST_REASON = REASON_LOST_STOLEN
 
-            }
-        })
-
-        llStolenCard.setOnClickListener(object :
-            View.OnClickListener {
-
-            override fun onClick(v: View?) {
-                viewModel.state.valid = true
-                viewModel.HOT_LIST_REASON = REASON_LOST_STOLEN
-
-                llDamagedCard.isActivated = false
-                llStolenCard.isActivated = true
-
-            }
-        })
+            llDamagedCard.isActivated = false
+            llStolenCard.isActivated = true
+        }
 
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
@@ -122,11 +112,9 @@ class ReportLostOrStolenCardFragment :
                     llDamagedCard.isActivated = false
                     llStolenCard.isActivated = false
 
-                    if (viewModel.state.cardType.equals(
-                            Translator.getString(
-                                context!!,
-                                Strings.screen_spare_card_landing_display_text_virtual_card
-                            )
+                    if (viewModel.state.cardType == Translator.getString(
+                            context!!,
+                            screen_spare_card_landing_display_text_virtual_card
                         )
                     ) {
                         reportCardSuccess = true
@@ -204,10 +192,14 @@ class ReportLostOrStolenCardFragment :
             .setPopUpTo(R.id.reportLostOrStolenCardFragment, true) // starting destination skiped
             .build()
 
-        findNavController().navigate(
-            R.id.action_reportLostOrStolenCardFragment_to_addSpareCardFragment,
-            null,
-            navOptions
-        )
+        val action =
+            ReportLostOrStolenCardFragmentDirections.actionReportLostOrStolenCardFragmentToAddSpareCardFragment(
+                Translator.getString(
+                    requireContext(),
+                    screen_spare_card_landing_display_text_physical_card
+                ), "", "", "", "", true
+            )
+
+        findNavController().navigate(action, navOptions)
     }
 }

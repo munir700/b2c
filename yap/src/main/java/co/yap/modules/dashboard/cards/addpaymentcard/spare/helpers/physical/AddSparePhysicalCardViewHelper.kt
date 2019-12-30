@@ -8,24 +8,20 @@ import co.yap.modules.dashboard.cards.addpaymentcard.spare.interfaces.IAddSpareC
 import kotlinx.android.synthetic.main.layout_add_spare_physical_card_confirm_purchase.view.*
 
 class AddSparePhysicalCardViewHelper(
-    val context: Context, val navController: NavController, val view: View,
+    val context: Context, private val navController: NavController, val view: View,
     val viewModel: IAddSpareCard.ViewModel
 ) {
 
     init {
 
-        view.tvChangeLocation.setOnClickListener(object :
-            View.OnClickListener {
-
-            override fun onClick(v: View?) {
-                viewModel.state.onChangeLocationClick = true
-                val action =
-                    AddSpareCardFragmentDirections.actionAddSpareCardFragmentToAddressSelectionFragment(
-                        !viewModel.isFromBlockCardScreen, viewModel.isFromBlockCardScreen
-                    )
-                navController.navigate(action)
-            }
-        })
+        view.tvChangeLocation.setOnClickListener {
+            viewModel.state.onChangeLocationClick = true
+            val action =
+                AddSpareCardFragmentDirections.actionAddSpareCardFragmentToAddressSelectionFragment(
+                    !viewModel.isFromBlockCardScreen, viewModel.isFromBlockCardScreen
+                )
+            navController.navigate(action)
+        }
 //
 //        view.btnConfirm.setOnClickListener(object :
 //            View.OnClickListener {

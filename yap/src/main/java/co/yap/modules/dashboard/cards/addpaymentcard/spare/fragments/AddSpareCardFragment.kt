@@ -3,9 +3,7 @@ package co.yap.modules.dashboard.cards.addpaymentcard.spare.fragments
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -27,7 +25,6 @@ import co.yap.translation.Strings
 import co.yap.translation.Translator
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.managers.MyUserManager
-import kotlinx.android.synthetic.main.fragment_add_spare_card.*
 
 
 class AddSpareCardFragment : AddPaymentChildFragment<IAddSpareCard.ViewModel>(),
@@ -41,30 +38,13 @@ class AddSpareCardFragment : AddPaymentChildFragment<IAddSpareCard.ViewModel>(),
     override val viewModel: IAddSpareCard.ViewModel
         get() = ViewModelProviders.of(this).get(AddSpareCardViewModel::class.java)
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-
-        return super.onCreateView(inflater, container, savedInstanceState)
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.state.avaialableCardBalance = viewModel.availableBalance
         getUpArguments()
 
         val navController: NavController = findNavController()
-
-        if (viewModel.cardType == getString(R.string.screen_spare_card_landing_display_text_virtual_card)) {
-            layoutPhysicalCardConfirmPurchase.visibility = View.GONE
-            layoutVirtualCardConfirmPurchase.visibility = View.VISIBLE
-
-
-        } else if (viewModel.cardType.equals(getString(R.string.screen_spare_card_landing_display_text_physical_card))) {
-            layoutVirtualCardConfirmPurchase.visibility = View.GONE
-            layoutPhysicalCardConfirmPurchase.visibility = View.VISIBLE
+        if (viewModel.state.cardType == getString(R.string.screen_spare_card_landing_display_text_physical_card)) {
             AddSparePhysicalCardViewHelper(
                 this.activity!!,
                 navController,
@@ -86,12 +66,12 @@ class AddSpareCardFragment : AddPaymentChildFragment<IAddSpareCard.ViewModel>(),
                     val physicalCardFee =
                         viewModel.state.physicalCardFee.replace("AED ", "").replace(",", "")
                             .toDouble()
-                    val updatedCardBalance =
-                        (availableBalance?.minus(physicalCardFee))
+//                    val updatedCardBalance =
+//                        (availableBalance?.minus(physicalCardFee))
 
                     //todo dont mange balacne on client side
-                    MyUserManager.cardBalance.value =
-                        CardBalance(availableBalance = updatedCardBalance.toString())
+//                    MyUserManager.cardBalance.value =
+//                        CardBalance(availableBalance = updatedCardBalance.toString())
 
                     MyUserManager.updateCardBalance()
 
@@ -206,6 +186,7 @@ class AddSpareCardFragment : AddPaymentChildFragment<IAddSpareCard.ViewModel>(),
 
         viewModel.cardType =
             arguments?.let { AddSpareCardFragmentArgs.fromBundle(it).cardType } as String
+
         viewModel.state.cardType = viewModel.cardType
 
 //        arguments?.let { AddressSelectionFragmentArgs.fromBundle(it).isFromPhysicalCardsScreen }
