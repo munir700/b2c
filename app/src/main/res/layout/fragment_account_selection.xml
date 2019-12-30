@@ -96,14 +96,13 @@
                 android:layout_marginTop="@dimen/margin_medium"
                 android:layout_marginEnd="@dimen/_6sdp"
                 android:layout_weight=".5"
-                android:enabled="true"
+                app:btn_enable="true"
                 android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
                 android:paddingTop="@dimen/margin_normal_large"
                 android:paddingEnd="@dimen/margin_extra_large"
                 android:paddingBottom="@dimen/margin_normal_large"
                 android:textStyle="bold"
-                app:text="@{Strings.screen_home_button_personal_text}"
-                tools:ignore="MissingConstraints" />
+                app:text="@{Strings.screen_home_button_personal_text}" />
 
             <co.yap.widgets.CoreButton
                 android:id="@+id/btnBusiness"

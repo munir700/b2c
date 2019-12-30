@@ -11,6 +11,7 @@ import co.yap.app.modules.startup.interfaces.IAccountSelection
 import co.yap.app.modules.startup.viewmodels.AccountSelectionViewModel
 import co.yap.modules.onboarding.enums.AccountType
 import co.yap.yapcore.BaseBindingFragment
+import kotlinx.android.synthetic.main.fragment_account_selection.*
 
 class AccountSelectionFragment : BaseBindingFragment<IAccountSelection.ViewModel>(),
     IAccountSelection.View {
@@ -24,7 +25,7 @@ class AccountSelectionFragment : BaseBindingFragment<IAccountSelection.ViewModel
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.clickEvent.observe(this, Observer {
+        /*viewModel.clickEvent.observe(this, Observer {
             when (it) {
                 R.id.tvSignIn -> {
                     Navigation.createNavigateOnClickListener(R.id.action_accountSelectionFragment_to_loginFragment)
@@ -43,6 +44,18 @@ class AccountSelectionFragment : BaseBindingFragment<IAccountSelection.ViewModel
                         })
                 }
             }
-        })
+        })*/
+        btnBusiness.setOnClickListener { }
+        btnPersonal.setOnClickListener(
+            Navigation.createNavigateOnClickListener(
+                R.id.action_accountSelectionFragment_to_welcomeFragment,
+                Bundle().apply {
+                    putSerializable(
+                        getString(R.string.arg_account_type),
+                        AccountType.B2C_ACCOUNT
+                    )
+                })
+        )
+        tvSignIn.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_accountSelectionFragment_to_loginFragment))
     }
 }
