@@ -75,7 +75,7 @@
 
                 <androidx.viewpager.widget.ViewPager
                     android:id="@+id/welcome_pager"
-                    android:layout_width="@dimen/_121sdp"
+                    android:layout_width="match_parent"
                     android:layout_height="@dimen/_190sdp"
                     android:layout_gravity="center_horizontal"
                     android:layout_weight="1"
@@ -96,6 +96,7 @@
                     app:dotsCornerRadius="8dp"
                     app:dotsSize="12dp"
                     app:dotsSpacing="4dp"
+                    android:layout_marginTop="@dimen/_4sdp"
                     app:dotsStrokeColor="@color/grey"
                     app:dotsStrokeWidth="6dp"
                     app:layout_constraintEnd_toEndOf="parent"
