@@ -173,8 +173,11 @@ class HouseHoldUserContactState(application: Application) : BaseState(),
                     mobileNoLength = 11
                     if (mobile.length == 11) {
                         setSuccessUI()
-                        drawbleRight =
-                            context!!.resources.getDrawable(co.yap.yapcore.R.drawable.path, null)
+//                        if(confirmMobileNumber.isNullOrEmpty()){
+                            drawbleRight =
+                                context!!.resources.getDrawable(co.yap.yapcore.R.drawable.path, null)
+//                        }
+
                         validateFields()
                     } else {
                         setSuccessUI()
@@ -206,8 +209,11 @@ class HouseHoldUserContactState(application: Application) : BaseState(),
                     confirmMobileNoLength = 11
                     if (confirmMobileNumber.length == 11) {
                         setSuccessUIConfirmMobile()
-                        drawbleRightConfirmMobile =
-                            context!!.resources.getDrawable(co.yap.yapcore.R.drawable.path, null)
+                        if(mobile.isNullOrEmpty()){
+                            drawbleRightConfirmMobile =
+                                context!!.resources.getDrawable(co.yap.yapcore.R.drawable.path, null)
+                        }
+
                         validateFields()
                     } else {
                         setSuccessUIConfirmMobile()
@@ -285,7 +291,14 @@ class HouseHoldUserContactState(application: Application) : BaseState(),
             drawbleRightConfirmMobile = context!!.resources.getDrawable(R.drawable.path, null)
             drawbleRight = context!!.resources.getDrawable(R.drawable.path, null)
             valid = true
-        } else {
+        } else if(!mobile.isNullOrEmpty() && !confirmMobileNumber.isNullOrEmpty()&& !mobile.equals(
+                confirmMobileNumber
+            )){
+
+            drawbleRightConfirmMobile = null
+            drawbleRightConfirmMobile = context.getDrawable(R.drawable.ic_error)
+
+        }else {
             valid = false
         }
     }
