@@ -16,7 +16,8 @@ class SpareCardBottomSheet(private val physical : Boolean, private val mListener
         val view = inflater.inflate(R.layout.bottom_sheet_spare_card, container, false)
 
         if(!physical){
-            view.tvChangePin.visibility  =View.GONE
+            view.tvChangePin.visibility = View.GONE
+            view.tvReportCard.visibility = View.GONE
         }
         view.tvAddCardName.setOnClickListener { mListener.onClick(Constants.EVENT_ADD_CARD_NAME)}
         view.tvChangePin.setOnClickListener { mListener.onClick(Constants.EVENT_CHANGE_PIN)}

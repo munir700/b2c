@@ -20,6 +20,7 @@ interface IPaymentCardDetail {
         val EVENT_FREEZE_UNFREEZE_CARD: Int get() = 1
         val EVENT_CARD_DETAILS: Int get() = 2
         val EVENT_REMOVE_CARD: Int get() = 3
+        val EVENT_LOST_STOLEN_CARD: Int get() = 4
         val clickEvent: SingleClickEvent
         var card: MutableLiveData<Card>
         var cardDetail: CardDetail
@@ -27,6 +28,7 @@ interface IPaymentCardDetail {
         fun handlePressOnView(id: Int)
         fun getCardBalance()
         fun freezeUnfreezeCard()
+        fun reorderCard(card: Card)
         fun getCardDetails()
         fun removeCard()
         //

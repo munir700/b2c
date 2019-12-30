@@ -20,6 +20,7 @@ import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionsR
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.helpers.Utils
+import kotlinx.coroutines.delay
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -127,6 +128,16 @@ class PaymentCardDetailViewModel(application: Application) :
                     state.toast = response.error.message
                 }
             }
+            state.loading = false
+        }
+    }
+
+    override fun reorderCard(card: Card) {
+        launch {
+            state.loading = true
+            delay(2000)
+            this.card.value?.blocked = !(this.card.value?.blocked ?: false)
+            clickEvent.setValue(EVENT_LOST_STOLEN_CARD)
             state.loading = false
         }
     }

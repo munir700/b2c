@@ -7,10 +7,12 @@ import android.view.View
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import co.yap.BR
 import co.yap.R
 import co.yap.modules.dashboard.cards.addpaymentcard.fragments.AddPaymentChildFragment
+import co.yap.modules.dashboard.cards.reportcard.activities.ReportLostOrStolenCardActivity
 import co.yap.modules.dashboard.cards.reportcard.activities.ReportLostOrStolenCardActivity.Companion.reportCard
 import co.yap.modules.dashboard.cards.reportcard.activities.ReportLostOrStolenCardActivity.Companion.reportCardSuccess
 import co.yap.modules.dashboard.cards.reportcard.interfaces.IRepostOrStolenCard
@@ -40,6 +42,13 @@ class ReportLostOrStolenCardFragment :
     override val viewModel: IRepostOrStolenCard.ViewModel
         get() = ViewModelProviders.of(this).get(ReportLostOrStolenCardViewModels::class.java)
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        if (context is ReportLostOrStolenCardActivity) {
+            if ((context as ReportLostOrStolenCardActivity).isFromCardDetail())
+                skipLostReportFragment()
+        }
+    }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -188,5 +197,17 @@ class ReportLostOrStolenCardFragment :
         val returnIntent = Intent()
         returnIntent.putExtra("cardBlocked", true)
         activity?.setResult(Activity.RESULT_OK, returnIntent)
+    }
+
+    private fun skipLostReportFragment() {
+        val navOptions = NavOptions.Builder()
+            .setPopUpTo(R.id.reportLostOrStolenCardFragment, true) // starting destination skiped
+            .build()
+
+        findNavController().navigate(
+            R.id.action_reportLostOrStolenCardFragment_to_addSpareCardFragment,
+            null,
+            navOptions
+        )
     }
 }
