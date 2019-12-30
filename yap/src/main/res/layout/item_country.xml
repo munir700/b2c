@@ -1,16 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
-
-    <data>
-
-        <import type="android.view.View" />
-
-        <variable
-            name="dataCountry"
-            type="co.yap.countryutils.country.Country" />
-    </data>
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -25,17 +15,7 @@
             android:layout_height="@dimen/_20sdp"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
-            android:layout_centerVertical="true"
-            app:src="@{dataCountry.flagDrawableResId}" />
-
-
-        <!--        <ImageView-->
-        <!--            android:id="@+id/flag_img"-->
-        <!--            android:layout_width="@dimen/_20sdp"-->
-        <!--            android:layout_height="@dimen/_20sdp"-->
-        <!--            android:src="@drawable/bitmap"-->
-        <!--            app:src="@{dataCountry.flagDrawableResId}" />-->
-        <!--            app:circular="true"-->
+            android:layout_centerVertical="true" />
 
         <TextView
             android:id="@+id/textView"
@@ -46,7 +26,6 @@
             android:layout_toEndOf="@id/flag_img"
             android:paddingStart="@dimen/_16sdp"
             android:paddingEnd="@dimen/_16sdp"
-            android:text="@{dataCountry.name}"
             tools:text="name" />
     </RelativeLayout>
 </layout>
