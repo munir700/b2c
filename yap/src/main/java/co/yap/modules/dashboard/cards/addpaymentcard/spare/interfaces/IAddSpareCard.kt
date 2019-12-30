@@ -38,40 +38,22 @@ interface IAddSpareCard {
 
         val CONFIRM_PHYSICAL_PURCHASE: Int
         val CONFIRM_VIRTUAL_PURCHASE: Int
-        val ADD_VIRTUAL_SPARE_CLICK_EVENT: Int
-        val ADD_PHYSICAL_SPARE_CLICK_EVENT: Int
+        val ADD_VIRTUAL_SPARE_SUCCESS_EVENT: Int
+        val ADD_PHYSICAL_SPARE_SUCCESS_EVENT: Int
+        val REORDER_CARD_SUCCESS_EVENT: Int
         var isFromaddressScreen: Boolean
         var isFromBlockCardScreen: Boolean
         var availableBalance: String
         var sharedPreferenceManager: SharedPreferenceManager
+        fun handlePressOnView(id: Int)
 
-        //add virtual card layout
-        fun handlePressOnAddVirtualCardSuccess(id: Int)
-
-        fun handlePressOnConfirmVirtualCardPurchase(id: Int)
-
-        //add physical card layout
-        fun handlePressOnAddPhysicalCardSuccess(id: Int)
-
-        fun handlePressOnConfirmPhysicalCardPurchase(id: Int)
-
-        //add physical card Buttons layout
-        fun handlePressOnConfirmLocation(id: Int)
-
-        fun handlePressOnChangeLocation(id: Int)
-        fun handlePressOnConfirmPhysicalCardLocation(id: Int)
-
-
-        //api
-        fun requestGetAccountBalanceRequest()
-
-        fun requestGetCardFeeRequest()
-
+        //apis
         fun requestAddSpareVirtualCard()
-
         fun requestAddSparePhysicalCard()
+        fun requestReorderCard()
         fun requestGetAddressForPhysicalCard()
         fun updateAddressForPhysicalCard()
+        fun requestReorderCardFee(cardType: String)
         fun requestInitialData()
     }
 

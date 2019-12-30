@@ -22,6 +22,7 @@ import androidx.navigation.fragment.findNavController
 import co.yap.BR
 import co.yap.R
 import co.yap.modules.dashboard.cards.addpaymentcard.activities.AddPaymentCardActivity
+import co.yap.modules.dashboard.cards.reordercard.activities.ReorderCardActivity
 import co.yap.modules.dashboard.cards.reportcard.activities.ReportLostOrStolenCardActivity
 import co.yap.modules.dashboard.more.main.activities.MoreActivity
 import co.yap.modules.kyc.activities.DocumentsDashboardActivity
@@ -90,32 +91,41 @@ class AddressSelectionFragment : BaseMapFragment<IAddressSelection.ViewModel>(),
         val checkSender =
             arguments?.let { AddressSelectionFragmentArgs.fromBundle(it).isFromPhysicalCardsScreen }
 
-        if (isFromPersonalDetailScreen) {
-            viewModel.mapDetailViewActivity = activity as MoreActivity
-            viewModel.state.isFromPersonalDetailView = true
-            viewModel.state.isFromPhysicalCardsLayout = false
-            updateHeadings()
+        when {
+            isFromPersonalDetailScreen -> {
+                viewModel.mapDetailViewActivity = activity as MoreActivity
+                viewModel.state.isFromPersonalDetailView = true
+                viewModel.state.isFromPhysicalCardsLayout = false
+                updateHeadings()
 
-            viewModel.state.nextActionBtnText =
-                getString(Strings.idenetity_scanner_sdk_screen_review_info_button_next)
+                viewModel.state.nextActionBtnText =
+                    getString(Strings.idenetity_scanner_sdk_screen_review_info_button_next)
 
-            if (MyUserManager.userAddress != null) {
-                setUpAddressFields()
+                if (MyUserManager.userAddress != null) {
+                    setUpAddressFields()
+                }
+                viewModel.state.subHeadingTitle =
+                    getString(Strings.screen_meeting_location_display_text_subtitle)
+
             }
-            viewModel.state.subHeadingTitle =
-                getString(Strings.screen_meeting_location_display_text_subtitle)
 
-        } else if (isFromBlockCardsScreen!!) {
-            viewModel.mapDetailViewActivity = activity as ReportLostOrStolenCardActivity
-            viewModel.state.isFromPhysicalCardsLayout = true
-            updateHeadings()
-        } else if (checkSender!!) {
-            viewModel.mapDetailViewActivity = activity as AddPaymentCardActivity
-            viewModel.state.isFromPhysicalCardsLayout = true
-            updateHeadings()
-        } else {
-            viewModel.mapDetailViewActivity = activity as DocumentsDashboardActivity
-
+            isFromBlockCardsScreen == true -> {
+                if (activity is ReportLostOrStolenCardActivity) {
+                    viewModel.mapDetailViewActivity = activity as ReportLostOrStolenCardActivity
+                } else if (activity is ReorderCardActivity) {
+                    viewModel.mapDetailViewActivity = activity as ReorderCardActivity
+                }
+                viewModel.state.isFromPhysicalCardsLayout = true
+                updateHeadings()
+            }
+            checkSender == true -> {
+                viewModel.mapDetailViewActivity = activity as AddPaymentCardActivity
+                viewModel.state.isFromPhysicalCardsLayout = true
+                updateHeadings()
+            }
+            else -> {
+                viewModel.mapDetailViewActivity = activity as DocumentsDashboardActivity
+            }
         }
          performDataBinding(inflater, container)
         initMapFragment()

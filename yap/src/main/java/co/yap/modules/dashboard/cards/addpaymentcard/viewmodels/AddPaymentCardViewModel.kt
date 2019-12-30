@@ -28,38 +28,5 @@ class AddPaymentCardViewModel(application: Application) :
 
     }
 
-    override fun onCreate() {
-        super.onCreate()
-        getVirtualCardFee()
-        getPhysicalCardFee()
-    }
 
-    override fun getVirtualCardFee() {
-        launch {
-            state.loading = true
-            when (val response = repository.getCardFee("virtual")) {
-                is RetroApiResponse.Success -> {
-                    virtualCardFee = response.data.data?.currency + " " + response.data.data?.amount
-                }
-                is RetroApiResponse.Error -> {
-                    state.toast = response.error.message
-                }
-            }
-            state.loading = false
-        }
-    }
-
-    override fun getPhysicalCardFee() {
-        launch {
-            when (val response = repository.getCardFee("physical")) {
-                is RetroApiResponse.Success -> {
-                    physicalCardFee =
-                        response.data.data?.currency + " " + response.data.data?.amount
-                }
-                is RetroApiResponse.Error -> {
-                    state.toast = response.error.message
-                }
-            }
-        }
-    }
 }

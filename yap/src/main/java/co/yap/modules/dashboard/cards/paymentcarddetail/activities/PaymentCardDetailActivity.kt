@@ -28,7 +28,7 @@ import co.yap.modules.dashboard.cards.paymentcarddetail.limits.activities.CardLi
 import co.yap.modules.dashboard.cards.paymentcarddetail.removefunds.activities.RemoveFundsActivity
 import co.yap.modules.dashboard.cards.paymentcarddetail.statments.activities.CardStatementsActivity
 import co.yap.modules.dashboard.cards.paymentcarddetail.viewmodels.PaymentCardDetailViewModel
-import co.yap.modules.dashboard.cards.reportcard.activities.ReportLostOrStolenCardActivity
+import co.yap.modules.dashboard.cards.reordercard.activities.ReorderCardActivity
 import co.yap.modules.dashboard.home.adaptor.TransactionsHeaderAdapter
 import co.yap.modules.others.helper.Constants
 import co.yap.networking.cards.responsedtos.Card
@@ -277,12 +277,7 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
         snackbar.show()
         val tvAction = snackbar.view.findViewById(co.yap.yapcore.R.id.tvAction) as TextView
         tvAction.setOnClickListener {
-            startActivityForResult(
-                ReportLostOrStolenCardActivity.newIntent(
-                    this,
-                    viewModel.card.value!!, isFromCardDetail = true
-                ), Constants.REQUEST_REPORT_LOST_OR_STOLEN
-            )
+            startReorderCardFlow()
         }
     }
 
@@ -384,8 +379,10 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
         }
     }
 
-    private fun openReorderCardFlow() {
-
+    private fun startReorderCardFlow() {
+        viewModel.card.value?.let {
+            startActivity(ReorderCardActivity.newIntent(this@PaymentCardDetailActivity, it))
+        }
     }
     private fun showCardDetailsPopup() {
         val dialog = Dialog(this)

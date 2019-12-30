@@ -41,8 +41,8 @@ class SpareCardLandingFragment : AddPaymentChildFragment<ISpareCards.ViewModel>(
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-//        viewModel.getVirtualCardFee()
-//        viewModel.getPhysicalCardFee()
+        viewModel.getVirtualCardFee()
+        viewModel.getPhysicalCardFee()
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

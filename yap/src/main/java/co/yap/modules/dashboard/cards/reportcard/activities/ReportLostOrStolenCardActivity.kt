@@ -22,10 +22,8 @@ class ReportLostOrStolenCardActivity : BaseBindingActivity<IAddPaymentCard.ViewM
     IFragmentHolder {
     companion object {
         const val CARD = "card"
-        const val IS_FROM_CARD_DETAIL = "isFromCardDetail"
-        fun newIntent(context: Context, card: Card, isFromCardDetail: Boolean = false): Intent {
+        fun newIntent(context: Context, card: Card): Intent {
             val intent = Intent(context, ReportLostOrStolenCardActivity::class.java)
-            intent.putExtra(IS_FROM_CARD_DETAIL, isFromCardDetail)
             intent.putExtra(CARD, card)
             return intent
         }
@@ -34,7 +32,6 @@ class ReportLostOrStolenCardActivity : BaseBindingActivity<IAddPaymentCard.ViewM
         var reportCardSuccess: Boolean = false
 
     }
-
 
     override fun getBindingVariable(): Int = BR.viewModel
 
@@ -72,12 +69,4 @@ class ReportLostOrStolenCardActivity : BaseBindingActivity<IAddPaymentCard.ViewM
             super.onBackPressed()
         }
     }
-
-    fun isFromCardDetail(): Boolean {
-        if (intent != null && intent.hasExtra(IS_FROM_CARD_DETAIL))
-            return intent.getBooleanExtra(IS_FROM_CARD_DETAIL, false)
-
-        return false
-    }
-
 }

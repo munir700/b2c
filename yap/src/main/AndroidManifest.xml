@@ -189,6 +189,9 @@
         <activity
             android:name=".modules.dashboard.yapit.sendmoney.home.activities.SendMoneyLandingActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".modules.dashboard.cards.reordercard.activities.ReorderCardActivity"
+            android:screenOrientation="portrait" />
 
 
     </application>

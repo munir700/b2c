@@ -1,20 +1,18 @@
 package co.yap.modules.dashboard.cards.reordercard.interfaces
 
+import androidx.databinding.ObservableBoolean
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
 
 interface IReorderCard {
 
     interface State : IBase.State {
-        var cardType: String
-        var valid: Boolean
-        var cardFee: String
+        var toolbarVisibility: ObservableBoolean
     }
 
     interface ViewModel : IBase.ViewModel<State> {
-        val backButtonPressEvent: SingleClickEvent
         val clickEvent: SingleClickEvent
-        fun handlePressOnBackButton()
+        fun handlePressOnView(id: Int)
     }
 
     interface View : IBase.View<ViewModel>

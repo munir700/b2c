@@ -7,19 +7,16 @@ import android.view.View
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import co.yap.BR
 import co.yap.R
 import co.yap.modules.dashboard.cards.addpaymentcard.fragments.AddPaymentChildFragment
-import co.yap.modules.dashboard.cards.reportcard.activities.ReportLostOrStolenCardActivity
 import co.yap.modules.dashboard.cards.reportcard.activities.ReportLostOrStolenCardActivity.Companion.reportCard
 import co.yap.modules.dashboard.cards.reportcard.activities.ReportLostOrStolenCardActivity.Companion.reportCardSuccess
 import co.yap.modules.dashboard.cards.reportcard.interfaces.IRepostOrStolenCard
 import co.yap.modules.dashboard.cards.reportcard.viewmodels.ReportLostOrStolenCardViewModels
 import co.yap.modules.others.helper.Constants
 import co.yap.networking.cards.responsedtos.Card
-import co.yap.translation.Strings
 import co.yap.translation.Strings.screen_report_card_display_button_block_alert_cancel
 import co.yap.translation.Strings.screen_report_card_display_button_block_alert_confirm
 import co.yap.translation.Strings.screen_report_card_display_text_block_alert_message
@@ -44,10 +41,6 @@ class ReportLostOrStolenCardFragment :
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        if (context is ReportLostOrStolenCardActivity) {
-            if ((context as ReportLostOrStolenCardActivity).isFromCardDetail())
-                skipLostReportFragment()
-        }
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -185,21 +178,5 @@ class ReportLostOrStolenCardFragment :
         val returnIntent = Intent()
         returnIntent.putExtra("cardBlocked", true)
         activity?.setResult(Activity.RESULT_OK, returnIntent)
-    }
-
-    private fun skipLostReportFragment() {
-        val navOptions = NavOptions.Builder()
-            .setPopUpTo(R.id.reportLostOrStolenCardFragment, true) // starting destination skiped
-            .build()
-
-        val action =
-            ReportLostOrStolenCardFragmentDirections.actionReportLostOrStolenCardFragmentToAddSpareCardFragment(
-                Translator.getString(
-                    requireContext(),
-                    screen_spare_card_landing_display_text_physical_card
-                ), "", "", "", "", true
-            )
-
-        findNavController().navigate(action, navOptions)
     }
 }

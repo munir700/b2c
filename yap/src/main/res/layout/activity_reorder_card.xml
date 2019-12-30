@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
         <variable
             name="viewModel"
-            type="co.yap.modules.dashboard.cards.addpaymentcard.viewmodels.AddPaymentCardViewModel" />
+            type="co.yap.modules.dashboard.cards.reordercard.viewmodels.ReorderCardViewModel" />
+
+        <import type="android.view.View" />
     </data>
 
     <LinearLayout
@@ -22,7 +25,7 @@
             android:background="@color/white"
             android:gravity="center_vertical"
             android:padding="@dimen/_8sdp"
-            android:visibility="@{viewModel.state.tootlBarVisibility}">
+            android:visibility="@{viewModel.state.toolbarVisibility? View.VISIBLE:View.GONE}">
 
             <ImageView
                 android:id="@+id/tbBtnBack"
@@ -33,7 +36,7 @@
                 android:clickable="true"
                 android:focusable="true"
                 android:foreground="?attr/selectableItemBackground"
-                android:onClick="@{(v) -> viewModel.handlePressOnBackButton()}"
+                android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/ic_back_arrow_left" />
@@ -49,13 +52,14 @@
                 android:layout_marginEnd="@dimen/_14sdp"
                 android:layout_toEndOf="@id/tbBtnBack"
                 android:gravity="center"
-                android:text="@{viewModel.state.tootlBarTitle}" />
+                tools:text="asdasa"
+                android:text="Reorder new card" />
 
         </RelativeLayout>
 
 
         <fragment
-            android:id="@+id/main_report_stolen_cards_nav_host_fragment"
+            android:id="@+id/main_reorder_card_nav_host_fragment"
             android:name="androidx.navigation.fragment.NavHostFragment"
             android:layout_width="match_parent"
             android:layout_height="0dp"
