@@ -3,20 +3,20 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_nav_graph"
-    app:startDestination="@id/splashFragment">
+    app:startDestination="@id/householdOnboard">
 
     <!--    <include app:graph="@navigation/unverified_change_email_navigation" />-->
-<!--    <action-->
-<!--        android:id="@+id/action_goto_liteDashboardActivity"-->
-<!--        app:destination="@id/liteDashboardActivity"-->
-<!--        app:popUpTo="@+id/main_nav_graph"-->
-<!--        app:popUpToInclusive="true" />-->
+    <!--    <action-->
+    <!--        android:id="@+id/action_goto_liteDashboardActivity"-->
+    <!--        app:destination="@id/liteDashboardActivity"-->
+    <!--        app:popUpTo="@+id/main_nav_graph"-->
+    <!--        app:popUpToInclusive="true" />-->
     <!--    <include app:graph="@navigation/unverified_change_email_navigation" />-->
-<!--    <action
-        android:id="@+id/action_goto_liteDashboardActivity"
-        app:destination="@id/liteDashboardActivity"
-        app:popUpTo="@+id/main_nav_graph"
-        app:popUpToInclusive="true" />-->
+    <!--    <action
+            android:id="@+id/action_goto_liteDashboardActivity"
+            app:destination="@id/liteDashboardActivity"
+            app:popUpTo="@+id/main_nav_graph"
+            app:popUpToInclusive="true" />-->
 
     <action
         android:id="@+id/action_goto_yapDashboardActivity"
@@ -28,83 +28,83 @@
     <fragment
         android:id="@+id/splashFragment"
         android:name="co.yap.app.modules.startup.fragments.SplashFragment"
-        tools:layout="@layout/fragment_splash"
-        android:label="SplashFragment">
+        android:label="SplashFragment"
+        tools:layout="@layout/fragment_splash">
         <action
             android:id="@+id/action_splashFragment_to_accountSelectionFragment"
             app:destination="@id/accountSelectionFragment"
             app:popUpTo="@id/main_nav_graph"
-            app:popUpToInclusive="true"/>
+            app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_splashFragment_to_loginFragment"
+            app:destination="@id/loginFragment"
             app:popUpTo="@id/main_nav_graph"
-            app:popUpToInclusive="true"
-            app:destination="@id/loginFragment"/>
+            app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_splashFragment_to_verifyPasscodeFragment"
             app:destination="@id/verifyPasscodeFragment"
             app:popUpTo="@+id/main_nav_graph"
-            app:popUpToInclusive="true"/>
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/accountSelectionFragment"
         android:name="co.yap.app.modules.startup.fragments.AccountSelectionFragment"
-        tools:layout="@layout/fragment_account_selection"
-        android:label="AccountSelectionFragment">
+        android:label="AccountSelectionFragment"
+        tools:layout="@layout/fragment_account_selection">
         <action
             android:id="@+id/action_accountSelectionFragment_to_welcomeFragment"
 
-            app:popExitAnim="@anim/fade_out_long"
             app:destination="@id/welcomeFragment"
             app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
-            app:exitAnim="@anim/slide_out_left"/>
+            app:popExitAnim="@anim/fade_out_long" />
         <action
             android:id="@+id/action_accountSelectionFragment_to_loginFragment"
-            app:popUpToInclusive="true"
-            app:popUpTo="@id/accountSelectionFragment"
+            app:destination="@id/loginFragment"
             app:enterAnim="@anim/slide_in_right"
-            app:popEnterAnim="@anim/slide_in_left"
             app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right"
-            app:destination="@id/loginFragment"/>
+            app:popUpTo="@id/accountSelectionFragment"
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/welcomeFragment"
-        tools:layout="@layout/fragment_onboarding_welcome"
         android:name="co.yap.app.modules.startup.fragments.WelcomeFragment"
-        android:label="WelcomeFragment">
+        android:label="WelcomeFragment"
+        tools:layout="@layout/fragment_onboarding_welcome">
         <argument
             android:name="@string/arg_account_type"
-            app:argType="co.yap.modules.onboarding.enums.AccountType"/>
+            app:argType="co.yap.modules.onboarding.enums.AccountType" />
         <action
             android:id="@+id/action_welcomeFragment_to_onboardingActivity"
-            app:popUpTo="@id/accountSelectionFragment"
-            app:destination="@id/onboardingActivity"/>
+            app:destination="@id/onboardingActivity"
+            app:popUpTo="@id/accountSelectionFragment" />
     </fragment>
     <activity
         android:id="@+id/onboardingActivity"
-        tools:layout="@layout/activity_onboarding_navigation"
         android:name="co.yap.modules.onboarding.activities.OnboardingActivity"
-        android:label="OnboardingActivity">
+        android:label="OnboardingActivity"
+        tools:layout="@layout/activity_onboarding_navigation">
         <argument
             android:name="@string/arg_account_type"
-            app:argType="co.yap.modules.onboarding.enums.AccountType"/>
+            app:argType="co.yap.modules.onboarding.enums.AccountType" />
     </activity>
     <fragment
         android:id="@+id/loginFragment"
-        tools:layout="@layout/fragment_log_in"
         android:name="co.yap.app.modules.login.fragments.LoginFragment"
-        android:label="LoginFragment">
+        android:label="LoginFragment"
+        tools:layout="@layout/fragment_log_in">
         <action
             android:id="@+id/action_loginFragment_to_accountSelectionFragment"
+            app:destination="@id/accountSelectionFragment"
             app:enterAnim="@anim/slide_in_right"
-            app:popEnterAnim="@anim/slide_in_left"
             app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right"
             app:popUpTo="@id/loginFragment"
-            app:popUpToInclusive="true"
-            app:destination="@id/accountSelectionFragment"/>
+            app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_loginFragment_to_verifyPasscodeFragment"
             app:destination="@id/verifyPasscodeFragment" />
@@ -116,19 +116,19 @@
         tools:layout="@layout/fragment_verify_passcode">
         <argument
             android:name="username"
-            app:argType="string"/>
+            app:argType="string" />
         <action
             android:id="@+id/action_verifyPasscodeFragment_to_forgot_passcode_navigation"
             app:destination="@id/forgot_passcode_navigation">
             <argument
                 android:name="username"
-                app:argType="string"/>
+                app:argType="string" />
             <argument
                 android:name="emailOtp"
-                app:argType="boolean"/>
+                app:argType="boolean" />
             <argument
                 android:name="mobileNumber"
-                app:argType="string"/>
+                app:argType="string" />
         </action>
         <action
             android:id="@+id/action_verifyPasscodeFragment_to_systemPermissionFragment"
@@ -148,9 +148,9 @@
     <!--        android:label="LiteDashboardActivity"/>-->
     <fragment
         android:id="@+id/systemPermissionFragment"
-        tools:layout="@layout/fragment_biometric_permission"
         android:name="co.yap.app.modules.login.fragments.SystemPermissionFragment"
-        android:label="SystemPermissionFragment">
+        android:label="SystemPermissionFragment"
+        tools:layout="@layout/fragment_biometric_permission">
         <argument
             android:name="screen_type"
             android:defaultValue=" "
@@ -163,14 +163,14 @@
         <!--            app:destination="@id/liteDashboardActivity" />-->
         <action
             android:id="@+id/action_systemPermissionFragment_to_yapDashboardActivity"
-            app:destination="@id/yapDashboardActivity"/>
+            app:destination="@id/yapDashboardActivity" />
     </fragment>
 
     <fragment
         android:id="@+id/phoneVerificationSignInFragment"
-        tools:layout="@layout/activity_phone_verification"
         android:name="co.yap.app.modules.login.fragments.PhoneVerificationSignInFragment"
-        android:label="PhoneVerificationSignInFragment">
+        android:label="PhoneVerificationSignInFragment"
+        tools:layout="@layout/activity_phone_verification">
 
         <argument
             android:name="username"
@@ -212,7 +212,12 @@
     <activity
         android:id="@+id/cardAnalyticsActivity"
         android:name="co.yap.modules.dashboard.cards.analytics.main.activities.CardAnalyticsActivity"
-        tools:layout="@layout/activity_cards_analytics"
-        android:label="CardAnalyticsActivity" />
+        android:label="CardAnalyticsActivity"
+        tools:layout="@layout/activity_cards_analytics" />
+
+    <activity
+        android:id="@+id/householdOnboard"
+        android:name="co.yap.household.onboarding.OnboardingActivity"
+        tools:layout="@layout/activity_main" />
 
 </navigation>

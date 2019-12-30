@@ -3,59 +3,58 @@ package co.yap.household.onboarding
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import co.yap.BR
 import co.yap.household.R
-import co.yap.yapcore.BaseBindingActivity
-import co.yap.yapcore.IFragmentHolder
-import co.yap.yapcore.defaults.DefaultNavigator
-import co.yap.yapcore.defaults.INavigator
-import co.yap.yapcore.interfaces.BackPressImpl
-import co.yap.yapcore.interfaces.IBaseNavigator
+import co.yap.household.databinding.ActivityMainBinding
 
-class OnboardingActivity : BaseBindingActivity<IOnboarding.ViewModel>(), INavigator,
-    IFragmentHolder {
+class OnboardingActivity : AppCompatActivity() {
 
-//    companion object {
-//        private val ACCOUNT_TYPE = "account_type"
-//        fun newIntent(context: Context, accountType: AccountType): Intent {
-//            val intent = Intent(context, OnboardingActivity::class.java)
-//            intent.putExtra(ACCOUNT_TYPE, accountType)
-//            return intent
-//        }
-//    }
-
-    override fun getBindingVariable(): Int = BR.viewModel
-
-    override fun getLayoutId(): Int = R.layout.activity_onboarding_navigation
-
-    override val viewModel: IOnboarding.ViewModel
-        get() = ViewModelProviders.of(this).get(OnboardingViewModel::class.java)
-
-    override val navigator: IBaseNavigator
-        get() = DefaultNavigator(this@OnboardingActivity, R.id.my_nav_host_fragment)
+    companion object {
+        fun newIntent(context: Context): Intent {
+            val intent = Intent(context, OnboardingActivity::class.java)
+            return intent
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel.onboardingData.accountType = getAccountType()
-        viewModel.backButtonPressEvent.observe(this, backButtonObserver)
-    }
+        val viewDataBinding: ActivityMainBinding =
+            DataBindingUtil.setContentView(this, R.layout.activity_main)
 
-    override fun onDestroy() {
-        viewModel.backButtonPressEvent.removeObservers(this)
-        super.onDestroy()
-    }
+        val viewModel: OnboardingViewModel =
+            ViewModelProviders.of(this).get(OnboardingViewModel::class.java)
 
-    private fun getAccountType(): AccountType {
-        return intent.getSerializableExtra(ACCOUNT_TYPE) as AccountType
-    }
-
-    private val backButtonObserver = Observer<Boolean> { onBackPressed() }
-
-    override fun onBackPressed() {
-        val fragment = supportFragmentManager.findFragmentById(R.id.my_nav_host_fragment)
-        if (!BackPressImpl(fragment).onBackPressed()) {
-            super.onBackPressed()
-        }
+        viewDataBinding.viewModel = viewModel
+        viewDataBinding.executePendingBindings()
     }
 }
+
+//class OnboardingActivity : BaseBindingActivity<IOnboarding.ViewModel>() {
+//
+//    companion object {
+//        fun newIntent(context: Context): Intent {
+//            val intent = Intent(context, OnboardingActivity::class.java)
+//            return intent
+//        }
+//    }
+//
+//    override fun getBindingVariable(): Int = 0
+//
+//    override fun getLayoutId(): Int = R.layout.activity_main
+//
+//    override val viewModel: IOnboarding.ViewModel
+//        get() = ViewModelProviders.of(this).get(OnboardingViewModel::class.java)
+//
+//    override fun onCreate(savedInstanceState: Bundle?) {
+//        super.onCreate(savedInstanceState)
+//        viewModel.clickEvent.observe(this, Observer { })
+//    }
+//
+//    override fun onDestroy() {
+//        viewModel.clickEvent.removeObservers(this)
+//        super.onDestroy()
+//    }
+//}

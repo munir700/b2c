@@ -9,11 +9,8 @@ interface IOnboarding {
 
     interface ViewModel : IBase.ViewModel<State> {
         fun handlePressOnBackButton()
-        val backButtonPressEvent: SingleClickEvent<Boolean>
+        val clickEvent: SingleClickEvent
     }
 
-    interface State : IBase.State {
-        var totalProgress: Int
-        var currentProgress: Int
-    }
+    interface State : IBase.State
 }
