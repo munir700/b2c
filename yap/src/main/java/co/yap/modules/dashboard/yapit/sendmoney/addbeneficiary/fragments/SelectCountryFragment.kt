@@ -2,7 +2,6 @@ package co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.fragments
 
 import android.os.Bundle
 import android.view.View
-import android.widget.AdapterView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
@@ -16,7 +15,7 @@ import kotlinx.android.synthetic.main.fragment_select_country.*
 
 
 class SelectCountryFragment : SendMoneyBaseFragment<ISelectCountry.ViewModel>(),
-    ISelectCountry.View, AdapterView.OnItemSelectedListener {
+    ISelectCountry.View {
 
     private var countryAdapter: CountryAdapter? = null
 
@@ -30,16 +29,7 @@ class SelectCountryFragment : SendMoneyBaseFragment<ISelectCountry.ViewModel>(),
         super.onViewCreated(view, savedInstanceState)
         viewModel.populateSpinnerData.observe(this, Observer {
             countriesSpinner.adapter = getCountryAdapter()
-            countriesSpinner.onItemSelectedListener = this
         })
-    }
-
-    override fun onNothingSelected(parent: AdapterView<*>?) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-        viewModel.onCountrySelected(position)
     }
 
     override fun onPause() {
@@ -88,7 +78,10 @@ class SelectCountryFragment : SendMoneyBaseFragment<ISelectCountry.ViewModel>(),
                 context?.let {
                     CountryAdapter(
                         it, R.layout.item_country,
-                        viewModel.countries
+                        viewModel.countries, View.OnClickListener {
+                            val pos = it.tag as Int
+                            viewModel.onCountrySelected(pos)
+                        }
                     )
                 }
 

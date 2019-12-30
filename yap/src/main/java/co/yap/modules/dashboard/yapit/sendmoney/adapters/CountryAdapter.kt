@@ -11,7 +11,12 @@ import co.yap.countryutils.country.Country
 import co.yap.widgets.CoreCircularImageView
 
 
-class CountryAdapter(context: Context, resource: Int, val objects: List<Country>) :
+class CountryAdapter(
+    context: Context,
+    resource: Int,
+    private val objects: List<Country>,
+    private val onClickListener: View.OnClickListener
+) :
     ArrayAdapter<String>(context, resource, objects.map { it.getName() }) {
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
@@ -33,7 +38,11 @@ class CountryAdapter(context: Context, resource: Int, val objects: List<Country>
         flag.setImageResource(objects[position].getFlagDrawableResId())
 
         if (position == 0) {//Special style for dropdown header
-            label.setTextColor(context.resources.getColor(R.color.light_grey))
+            label.setTextColor(context.resources.getColor(R.color.greyDark))
+        }
+        row.setOnClickListener {
+            it.tag = position
+            onClickListener.onClick(it)
         }
         return row
     }
