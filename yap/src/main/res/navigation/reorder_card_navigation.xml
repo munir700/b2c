@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/reorder_card_navigation"
+    app:startDestination="@id/addSpareCardFragment">
+
+    <fragment
+        android:id="@+id/addressSelectionFragment"
+        android:name="co.yap.modules.kyc.fragments.AddressSelectionFragment"
+        android:label="AddressSelectionFragment"
+        app:enterAnim="@anim/slide_in_right"
+        app:exitAnim="@anim/slide_out_left"
+        tools:layout="@layout/fragment_address_selection" />
+    <fragment
+        android:id="@+id/addSpareCardFragment"
+        android:name="co.yap.modules.dashboard.cards.addpaymentcard.spare.fragments.AddSpareCardFragment"
+        android:label="AddSpareCardFragment"
+        app:enterAnim="@anim/slide_in_right"
+        app:exitAnim="@anim/slide_out_left"
+        tools:layout="@layout/fragment_add_spare_card">
+        <action
+            android:id="@+id/action_addSpareCardFragment_to_successFragment"
+            app:destination="@id/successFragment" />
+        <action
+            android:id="@+id/action_addSpareCardFragment_to_addressSelectionFragment2"
+            app:destination="@id/addressSelectionFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/successFragment"
+        android:name="co.yap.modules.dashboard.more.profile.fragments.SuccessFragment"
+        android:label="SuccessFragment"
+        app:enterAnim="@anim/slide_in_right"
+        app:exitAnim="@anim/slide_out_left"
+        tools:layout="@layout/fragment_success" />
+</navigation>

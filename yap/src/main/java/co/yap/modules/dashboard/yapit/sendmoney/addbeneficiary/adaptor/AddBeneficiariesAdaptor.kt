@@ -22,5 +22,4 @@ class AddBeneficiariesAdaptor(private val list: MutableList<BankParams>,private 
         holder.onBind(list[position], list.size - 1 == position, textWatcher)
 
     }
-
 }

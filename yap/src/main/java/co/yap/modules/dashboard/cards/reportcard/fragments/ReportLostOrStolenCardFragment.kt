@@ -7,10 +7,12 @@ import android.view.View
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import co.yap.BR
 import co.yap.R
 import co.yap.modules.dashboard.cards.addpaymentcard.fragments.AddPaymentChildFragment
+import co.yap.modules.dashboard.cards.reportcard.activities.ReportLostOrStolenCardActivity
 import co.yap.modules.dashboard.cards.reportcard.activities.ReportLostOrStolenCardActivity.Companion.reportCard
 import co.yap.modules.dashboard.cards.reportcard.activities.ReportLostOrStolenCardActivity.Companion.reportCardSuccess
 import co.yap.modules.dashboard.cards.reportcard.interfaces.IRepostOrStolenCard
@@ -40,13 +42,20 @@ class ReportLostOrStolenCardFragment :
     override val viewModel: IRepostOrStolenCard.ViewModel
         get() = ViewModelProviders.of(this).get(ReportLostOrStolenCardViewModels::class.java)
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        if (context is ReportLostOrStolenCardActivity) {
+            if ((context as ReportLostOrStolenCardActivity).isFromCardDetail())
+                skipLostReportFragment()
+        }
+    }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         val card: Card = reportCard
 
-        viewModel.state.cardType = card!!.cardType
-        viewModel.state.maskedCardNumber = card!!.maskedCardNo
+        viewModel.state.cardType = card.cardType
+        viewModel.state.maskedCardNumber = card.maskedCardNo
 
         if (Constants.CARD_TYPE_DEBIT == card.cardType) {
             viewModel.state.cardType = Constants.TEXT_PRIMARY_CARD
@@ -64,31 +73,21 @@ class ReportLostOrStolenCardFragment :
                 )
             }
         }
-        llDamagedCard.setOnClickListener(object :
-            View.OnClickListener {
+        llDamagedCard.setOnClickListener {
+            viewModel.state.valid = true
+            viewModel.HOT_LIST_REASON =REASON_DAMAGE
 
-            override fun onClick(v: View?) {
-                viewModel.state.valid = true
-                viewModel.HOT_LIST_REASON =REASON_DAMAGE
+            llDamagedCard.isActivated = true
+            llStolenCard.isActivated = false
+        }
 
-                llDamagedCard.isActivated = true
-                llStolenCard.isActivated = false
+        llStolenCard.setOnClickListener {
+            viewModel.state.valid = true
+            viewModel.HOT_LIST_REASON = REASON_LOST_STOLEN
 
-            }
-        })
-
-        llStolenCard.setOnClickListener(object :
-            View.OnClickListener {
-
-            override fun onClick(v: View?) {
-                viewModel.state.valid = true
-                viewModel.HOT_LIST_REASON = REASON_LOST_STOLEN
-
-                llDamagedCard.isActivated = false
-                llStolenCard.isActivated = true
-
-            }
-        })
+            llDamagedCard.isActivated = false
+            llStolenCard.isActivated = true
+        }
 
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
@@ -113,11 +112,9 @@ class ReportLostOrStolenCardFragment :
                     llDamagedCard.isActivated = false
                     llStolenCard.isActivated = false
 
-                    if (viewModel.state.cardType.equals(
-                            Translator.getString(
-                                context!!,
-                                Strings.screen_spare_card_landing_display_text_virtual_card
-                            )
+                    if (viewModel.state.cardType == Translator.getString(
+                            context!!,
+                            screen_spare_card_landing_display_text_virtual_card
                         )
                     ) {
                         reportCardSuccess = true
@@ -188,5 +185,21 @@ class ReportLostOrStolenCardFragment :
         val returnIntent = Intent()
         returnIntent.putExtra("cardBlocked", true)
         activity?.setResult(Activity.RESULT_OK, returnIntent)
+    }
+
+    private fun skipLostReportFragment() {
+        val navOptions = NavOptions.Builder()
+            .setPopUpTo(R.id.reportLostOrStolenCardFragment, true) // starting destination skiped
+            .build()
+
+        val action =
+            ReportLostOrStolenCardFragmentDirections.actionReportLostOrStolenCardFragmentToAddSpareCardFragment(
+                Translator.getString(
+                    requireContext(),
+                    screen_spare_card_landing_display_text_physical_card
+                ), "", "", "", "", true
+            )
+
+        findNavController().navigate(action, navOptions)
     }
 }

@@ -84,23 +84,22 @@ class AddSpareCardViewModel(application: Application) :
     }
 
     override fun requestInitialData() {
-        if (!sharedPreferenceManager.getValueString(SharedPreferenceManager.KEY_AVAILABLE_BALANCE).isNullOrEmpty() && !sharedPreferenceManager.getValueString(
-                SharedPreferenceManager.KEY_AVAILABLE_BALANCE
-            ).equals("AVAILABLE_BALANCE")
-        ) {
+        //if (!sharedPreferenceManager.getValueString(SharedPreferenceManager.KEY_AVAILABLE_BALANCE).isNullOrEmpty() && !sharedPreferenceManager.getValueString(
+        // SharedPreferenceManager.KEY_AVAILABLE_BALANCE
+        //  ).equals("AVAILABLE_BALANCE")
+        //) {
             state.avaialableCardBalance =
-                sharedPreferenceManager.getValueString(SharedPreferenceManager.KEY_AVAILABLE_BALANCE)
-                    .toString()
+                "AED ${Utils.getFormattedCurrency(MyUserManager.cardBalance.value?.availableBalance.toString())}"
+
+//                sharedPreferenceManager.getValueString(SharedPreferenceManager.KEY_AVAILABLE_BALANCE)
+//                    .toString()
+
             if (isFromBlockCardScreen) {
                 state.loading = true
                 requestGetAddressForPhysicalCard()
             }
-        } else {
-            requestGetAccountBalanceRequest()
-
-        }
+        // }
     }
-
 
     override fun onResume() {
         super.onResume()
@@ -145,7 +144,7 @@ class AddSpareCardViewModel(application: Application) :
                         response.data.data?.currencyCode.toString() + " " + Utils.getFormattedCurrency(
                             response.data.data?.availableBalance.toString()
                         )
-                    if (!cardType.isNullOrEmpty() && !cardType.equals(getString(R.string.screen_spare_card_landing_display_text_virtual_card))) {
+                    if (!cardType.isNullOrEmpty() && cardType != getString(R.string.screen_spare_card_landing_display_text_virtual_card)) {
                         requestGetAddressForPhysicalCard()
                     } else {
                         state.loading = false
@@ -181,7 +180,7 @@ class AddSpareCardViewModel(application: Application) :
     }
 
     override fun requestAddSparePhysicalCard() {
-        val addPhysicalSpareCardRequest: AddPhysicalSpareCardRequest =
+        val addPhysicalSpareCardRequest =
             AddPhysicalSpareCardRequest(
                 MyUserManager.user?.currentCustomer?.getFullName(),
                 address.latitude.toString(),

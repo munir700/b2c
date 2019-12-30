@@ -22,15 +22,16 @@ class ReportLostOrStolenCardActivity : BaseBindingActivity<IAddPaymentCard.ViewM
     IFragmentHolder {
     companion object {
         const val CARD = "card"
-        fun newIntent(context: Context, card: Card): Intent {
+        const val IS_FROM_CARD_DETAIL = "isFromCardDetail"
+        fun newIntent(context: Context, card: Card, isFromCardDetail: Boolean = false): Intent {
             val intent = Intent(context, ReportLostOrStolenCardActivity::class.java)
+            intent.putExtra(IS_FROM_CARD_DETAIL, isFromCardDetail)
             intent.putExtra(CARD, card)
             return intent
         }
 
         lateinit var reportCard: Card
         var reportCardSuccess: Boolean = false
-
 
     }
 
@@ -52,7 +53,8 @@ class ReportLostOrStolenCardActivity : BaseBindingActivity<IAddPaymentCard.ViewM
         super.onCreate(savedInstanceState)
         viewModel.backButtonPressEvent.observe(this, backButtonObserver)
 //        viewModel.card = intent.getParcelableExtra(CARD)
-        reportCard = intent.getParcelableExtra(CARD)
+        if (intent != null && intent.hasExtra(CARD))
+            reportCard = intent.getParcelableExtra(CARD)
 
     }
 
@@ -69,6 +71,13 @@ class ReportLostOrStolenCardActivity : BaseBindingActivity<IAddPaymentCard.ViewM
         if (!BackPressImpl(fragment).onBackPressed()) {
             super.onBackPressed()
         }
+    }
+
+    fun isFromCardDetail(): Boolean {
+        if (intent != null && intent.hasExtra(IS_FROM_CARD_DETAIL))
+            return intent.getBooleanExtra(IS_FROM_CARD_DETAIL, false)
+
+        return false
     }
 
 }

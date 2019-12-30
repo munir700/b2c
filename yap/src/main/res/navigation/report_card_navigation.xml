@@ -21,6 +21,11 @@
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
             app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_reportLostOrStolenCardFragment_to_addSpareCardFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:destination="@id/addSpareCardFragment"
+            app:exitAnim="@anim/slide_out_left" />
 
     </fragment>
 

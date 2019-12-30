@@ -34,7 +34,6 @@ class YapCardsViewModel(application: Application) : BaseViewModel<IYapCards.Stat
                             state.listUpdated.value = true
                         }
                     }
-
                 }
                 is RetroApiResponse.Error -> state.toast = response.error.message
             }

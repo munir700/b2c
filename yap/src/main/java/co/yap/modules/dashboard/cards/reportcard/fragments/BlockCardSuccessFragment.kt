@@ -31,16 +31,14 @@ class BlockCardSuccessFragment : BaseBindingFragment<IDefault.ViewModel>() {
             arguments?.let { BlockCardSuccessFragmentArgs.fromBundle(it).cardReorderFee } as String
 
 
-        tvFeeCaption.setText(
-            reOrderFeeValue + " " +
-                    Translator.getString(
-                        context!!,
-                        Strings.screen_card_blocked_display_text_note_android
-                    )
-        )
+        tvFeeCaption.text = "$reOrderFeeValue " +
+                Translator.getString(
+                    context!!,
+                    Strings.screen_card_blocked_display_text_note_android
+                )
 
         btnReOrder.setOnClickListener {
-            //        start reorder physical card flow from here
+        // start reorder physical card flow from here
             val action =
                 BlockCardSuccessFragmentDirections.actionBlockCardSuccessFragmentToAddSpareCardFragment(
                     Translator.getString(
@@ -48,13 +46,12 @@ class BlockCardSuccessFragment : BaseBindingFragment<IDefault.ViewModel>() {
                         screen_spare_card_landing_display_text_physical_card
                     ),"","","","",true
                 )
-
             findNavController().navigate(action)
 
         }
 
         tvAddLater.setOnClickListener {
-            reportCardSuccess=true
+            reportCardSuccess = true
             setupActionsIntent()
              activity!!.finish()
 
