@@ -222,31 +222,31 @@ class SubscriptionSelectionActivity :
 
 
     fun slideInDsscription(viewSecond: View, viewThird: View) {
-        var techniques: Techniques
-        var outCheck: Boolean = false
-        if (incrementValue) {
+        viewThird!!.visibility = View.GONE
+        viewSecond!!.visibility = View.GONE
 
+        var techniques: Techniques
+         if (incrementValue) {
             techniques = Techniques.SlideInRight
-            outCheck = false
-        } else {
-            outCheck = true
-            techniques = Techniques.SlideInLeft
+         } else {
+             techniques = Techniques.SlideInLeft
 
         }
 
         viewThird!!.visibility = View.GONE
-        viewSecond!!.visibility = View.VISIBLE
+//        viewSecond!!.visibility = View.VISIBLE
         YoYo.with(techniques)
             .withListener(object : Animator.AnimatorListener {
                 override fun onAnimationStart(animation: Animator?) {
-
+                    viewSecond!!.visibility = View.VISIBLE
+                    slideInImage(viewThird)
                 }
 
                 override fun onAnimationRepeat(animation: Animator?) {
                 }
 
                 override fun onAnimationEnd(animation: Animator?) {
-                    slideInImage(viewThird)
+//                    slideInImage(viewThird)
                 }
 
                 override fun onAnimationCancel(animation: Animator?) {
@@ -306,7 +306,7 @@ class SubscriptionSelectionActivity :
         YoYo.with(techniques)
             .withListener(object : Animator.AnimatorListener {
                 override fun onAnimationStart(animation: Animator?) {
-
+                    viewSecond!!.visibility = View.GONE
                 }
 
                 override fun onAnimationRepeat(animation: Animator?) {
