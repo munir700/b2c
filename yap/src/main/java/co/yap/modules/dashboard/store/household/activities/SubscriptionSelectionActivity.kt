@@ -6,8 +6,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.MotionEvent
 import android.view.View
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -23,6 +21,7 @@ import co.yap.yapcore.BaseBindingActivity
 import com.daimajia.androidanimations.library.Techniques
 import com.daimajia.androidanimations.library.YoYo
 import kotlinx.android.synthetic.main.activity_house_hold_subscription_selction.*
+import kotlinx.android.synthetic.main.content_subscription_selection_pager.view.*
 
 
 class SubscriptionSelectionActivity :
@@ -50,7 +49,7 @@ class SubscriptionSelectionActivity :
         super.onCreate(savedInstanceState)
 
 //      addBenefitRecyclerView()
-        initViewPager(llContainer)
+        initViewPager()
 
     }
 
@@ -115,7 +114,7 @@ class SubscriptionSelectionActivity :
 
     }
 
-    fun initViewPager(view: View) {
+    fun initViewPager() {
 
         val subscriptionPagerAdapter = SubscriptionPagerAdapter(
             context = this,
@@ -123,7 +122,6 @@ class SubscriptionSelectionActivity :
             layout = R.layout.content_subscription_selection_pager
         )
 
-//        viewModel.onGetStartedPressEvent.observe(this, getStartedButtonObserver)
 
         welcome_pager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
             override fun onPageScrollStateChanged(state: Int) {
@@ -139,9 +137,9 @@ class SubscriptionSelectionActivity :
                     exitEvent = true
                     if (subscriptionPagerAdapter.viewsContainer[position] is View) {
                         item = subscriptionPagerAdapter.viewsContainer[position] as View
-                        slideInTitle(
-                            item.findViewById<TextView>(R.id.tvDescription),
-                            item.findViewById<ImageView>(R.id.ivPoster)
+                        slideInDsscription(
+                            item.tvDescription,
+                            item.ivPoster
                         )
                     }
                 }
@@ -155,9 +153,9 @@ class SubscriptionSelectionActivity :
                     if (subscriptionPagerAdapter.viewsContainer[position] is View) {
                         item = subscriptionPagerAdapter.viewsContainer[position] as View
 
-                        slideInTitle(
-                            item.findViewById<TextView>(R.id.tvDescription),
-                            item.findViewById<ImageView>(R.id.ivPoster)
+                        slideInDsscription(
+                            item.tvDescription,
+                            item.ivPoster
                         )
                     }
                 }
@@ -167,7 +165,6 @@ class SubscriptionSelectionActivity :
         })
 
         welcome_pager?.adapter = subscriptionPagerAdapter
-//        view?.findViewById<WormDotsIndicator>(R.id.worm_dots_indicator)?.setViewPager(welcome_pager)
         worm_dots_indicator?.setViewPager(welcome_pager)
 
         welcome_pager!!.setOnTouchListener(object : View.OnTouchListener {
@@ -185,9 +182,9 @@ class SubscriptionSelectionActivity :
                                 if (::item.isInitialized) {
                                     incrementValue = false
 
-                                    return slideOutTitle(
-                                        item.findViewById<TextView>(R.id.tvDescription),
-                                        item.findViewById<ImageView>(R.id.ivPoster)
+                                    return slideOutDsscription(
+                                        item.tvDescription,
+                                        item.ivPoster
                                     )
                                 }
                                 return true
@@ -201,9 +198,9 @@ class SubscriptionSelectionActivity :
 
                                 if (::item.isInitialized) {
                                     incrementValue = true
-                                    return slideOutTitle(
-                                        item.findViewById<TextView>(R.id.tvDescription),
-                                        item.findViewById<ImageView>(R.id.ivPoster)
+                                    return slideOutDsscription(
+                                        item.tvDescription,
+                                        item.ivPoster
                                     )
 
                                 }
@@ -223,56 +220,52 @@ class SubscriptionSelectionActivity :
         })
     }
 
-    fun slideInTitle(viewSecond: View, viewThird: View) {
-
-        var techniques: Techniques
-        if (incrementValue) {
-            techniques = Techniques.SlideInRight
-        } else {
-            techniques = Techniques.SlideInLeft
-
-        }
-        slideInDsscription(viewSecond, viewThird)
-
-    }
 
     fun slideInDsscription(viewSecond: View, viewThird: View) {
         var techniques: Techniques
+        var outCheck: Boolean = false
         if (incrementValue) {
+
             techniques = Techniques.SlideInRight
+            outCheck = false
         } else {
+            outCheck = true
             techniques = Techniques.SlideInLeft
 
         }
 
+        viewThird!!.visibility = View.GONE
         viewSecond!!.visibility = View.VISIBLE
-
         YoYo.with(techniques)
             .withListener(object : Animator.AnimatorListener {
                 override fun onAnimationStart(animation: Animator?) {
-                    slideInImage(viewThird)
+
                 }
 
                 override fun onAnimationRepeat(animation: Animator?) {
                 }
 
                 override fun onAnimationEnd(animation: Animator?) {
+                    slideInImage(viewThird)
                 }
 
                 override fun onAnimationCancel(animation: Animator?) {
                 }
             })
-            .duration(200)
+            .duration(100)
             .repeat(0)
             .playOn(viewSecond)
 
     }
 
     fun slideInImage(viewThird: View) {
+        var outCheck: Boolean = false
         var techniques: Techniques
         if (incrementValue) {
             techniques = Techniques.SlideInRight
+            outCheck = false
         } else {
+            outCheck = true
             techniques = Techniques.SlideInLeft
 
         }
@@ -293,14 +286,14 @@ class SubscriptionSelectionActivity :
                 override fun onAnimationCancel(animation: Animator?) {
                 }
             })
-            .duration(200)
+            .duration(100)
             .repeat(0)
             .playOn(viewThird)
 
     }
 
 
-    fun slideOutTitle(viewSecond: View, viewThird: View): Boolean {
+    fun slideOutDsscription(viewSecond: View, viewThird: View): Boolean {
 
         var techniques: Techniques
         if (incrementValue) {
@@ -309,40 +302,30 @@ class SubscriptionSelectionActivity :
             techniques = Techniques.SlideOutRight
 
         }
-        slideOutDsscription(viewSecond, viewThird)
 
-
-        return true
-    }
-
-    fun slideOutDsscription(viewSecond: View, viewThird: View) {
-
-        var techniques: Techniques
-        if (incrementValue) {
-            techniques = Techniques.SlideOutLeft
-        } else {
-            techniques = Techniques.SlideOutRight
-
-        }
         YoYo.with(techniques)
             .withListener(object : Animator.AnimatorListener {
                 override fun onAnimationStart(animation: Animator?) {
-                    slideOutImage(viewThird)
+
                 }
 
                 override fun onAnimationRepeat(animation: Animator?) {
                 }
 
                 override fun onAnimationEnd(animation: Animator?) {
+                    viewSecond!!.visibility = View.GONE
+                    slideOutImage(viewThird)
+
                 }
 
                 override fun onAnimationCancel(animation: Animator?) {
                 }
             })
-            .duration(200)
+            .duration(100)
             .repeat(0)
             .playOn(viewSecond)
 
+        return true
     }
 
     fun slideOutImage(viewThird: View) {
@@ -368,13 +351,14 @@ class SubscriptionSelectionActivity :
                     } else {
                         welcome_pager.setCurrentItem(welcome_pager.currentItem - 1)
                     }
+                    viewThird!!.visibility = View.GONE
 
                 }
 
                 override fun onAnimationCancel(animation: Animator?) {
                 }
             })
-            .duration(200)
+            .duration(100)
             .repeat(0)
             .playOn(viewThird)
 
