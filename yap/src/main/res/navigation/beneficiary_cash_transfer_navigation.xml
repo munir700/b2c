@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/beneficiary_cash_transfer_navigation"
     app:startDestination="@id/cashTransferFragment">
+
     <fragment
         android:id="@+id/cashTransferFragment"
         android:name="co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.fragments.CashTransferFragment"
@@ -25,6 +26,7 @@
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left" />
     </fragment>
+
     <fragment
         android:id="@+id/genericOtpLogoFragment"
         android:name="co.yap.modules.others.otp.GenericOtpLogoFragment"
@@ -50,8 +52,8 @@
             android:name="beneficiaryCountry"
             android:defaultValue=" "
             app:argType="string" />
-
     </fragment>
+
     <fragment
         android:id="@+id/transferSuccessFragment2"
         android:name="co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.fragments.TransferSuccessFragment"
@@ -87,12 +89,14 @@
         android:name="co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.fragments.InternationalFundsTransferFragment"
         android:label="InternationalFundsTransferFragment"
         tools:layout="@layout/fragment_international_funds_transfer">
+
         <action
             android:id="@+id/action_internationalFundsTransferFragment_to_genericOtpLogoFragment"
             app:destination="@id/genericOtpLogoFragment"
             app:enterAnim="@anim/slide_in_from_bottom"
             app:exitAnim="@anim/slide_down"
             app:popUpToInclusive="true" />
+
         <action
             android:id="@+id/action_internationalFundsTransferFragment_to_internationalTransactionConfirmationFragment"
             app:destination="@id/internationalTransactionConfirmationFragment"

@@ -10,7 +10,7 @@ import co.yap.networking.customers.responsedtos.beneficiary.BankParams
 class BankParamItemViewHolder(private val itemBankParamsBinding: ItemBankParamsBinding) :
     RecyclerView.ViewHolder(itemBankParamsBinding.root) {
 
-    fun onBind(bankParams: BankParams, isLastIndex: Boolean = false, watcher: TextWatcher) {
+    fun onBind(bankParams: BankParams, isLastIndex: Boolean, watcher: TextWatcher) {
         itemBankParamsBinding.viewModel = BankParamsItemViewModel(bankParams, 0, null)
         itemBankParamsBinding.executePendingBindings()
         itemBankParamsBinding.etBankName.addTextChangedListener(watcher)

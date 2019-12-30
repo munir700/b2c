@@ -93,6 +93,12 @@ class InternationalFundsTransferState(val application: Application) : BaseState(
             notifyPropertyChanged(BR.internationalFee)
         }
     @get:Bindable
+    override var formattedFee: String? = ""
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.formattedFee)
+        }
+    @get:Bindable
     override var referenceNumber: String? = ""
         set(value) {
             field = value
@@ -278,29 +284,42 @@ class InternationalFundsTransferState(val application: Application) : BaseState(
 
     private fun checkValidation() {
         if (!receiverCurrencyAmountFxRate.isNullOrEmpty()) {
-            fxRateAmount?.let {
-                // if (feeType == Constants.FEE_TYPE_TIER) {
-                receiverCurrencyAmount = if (it.isEmpty() && feeType == Constants.FEE_TYPE_TIER) {
-                    setSpanable(0.0)
-                    ""
-                } else {
-                    var amount =
-                        receiverCurrencyAmountFxRate?.let {
-                            fxRateAmount?.toDouble()?.times(it.toDouble())
-                        }
-                    if (feeType == Constants.FEE_TYPE_TIER) {
-                        setSpanable(amount ?: 0.0)
-                    }
-                    val amountFxRate = amount
-                    val receiveFxRate = rate!!.toDouble()
-                    val result = amountFxRate?.times(receiveFxRate)
+            if (fxRateAmount.isNullOrBlank()) {
+                setSpanable(0.0)
+                receiverCurrencyAmount = "0.00"
+                return
+            } else {
+                fxRateAmount?.let {
+                    // if (feeType == Constants.FEE_TYPE_TIER) {
                     receiverCurrencyAmount =
-                        String.format(Locale.getDefault(), "%.02f", result) //result.toString()
-                    receiverCurrencyAmount.toString()
+                        if (it.isEmpty() && feeType == Constants.FEE_TYPE_TIER) {
+                            setSpanable(0.0)
+                            ""
+                        } else {
+                            var amount =
+                                receiverCurrencyAmountFxRate?.let {
+
+                                    fxRateAmount?.toDouble()?.times(it.toDouble())
+                                }
+                            if (feeType == Constants.FEE_TYPE_TIER) {
+                                setSpanable(amount ?: 0.0)
+                            }
+                            val amountFxRate = amount
+                            val receiveFxRate = rate!!.toDouble()
+                            val result = amountFxRate?.times(receiveFxRate)
+                            receiverCurrencyAmount =
+                                String.format(
+                                    Locale.getDefault(),
+                                    "%.02f",
+                                    result
+                                ) //result.toString()
+                            receiverCurrencyAmount.toString()
+                        }
+                    //  }
                 }
-                //  }
             }
         }
+
     }
 
     fun setSpanable(amount: Double) {
@@ -312,6 +331,7 @@ class InternationalFundsTransferState(val application: Application) : BaseState(
                 "AED",
                 Utils.getFormattedCurrency(findFee(amount).toString())
             )
+        formattedFee = "${"AED"} ${Utils.getFormattedCurrency(findFee(amount).toString())}"
         internationalFee = "${"AED"} ${findFee(amount)}"
 
         notifyPropertyChanged(BR.transferFee)

@@ -27,7 +27,6 @@ import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.SendMoneyBeneficiaryProductCode
 import co.yap.yapcore.enums.SendMoneyBeneficiaryType
 import co.yap.yapcore.helpers.CustomSnackbar
-import co.yap.yapcore.helpers.DecimalDigitsInputFilter
 import co.yap.yapcore.helpers.toast
 import co.yap.yapcore.managers.MyUserManager
 import kotlinx.android.synthetic.main.fragment_beneficiary_overview.*
@@ -66,10 +65,17 @@ class InternationalFundsTransferFragment :
             }
 
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+//                if (p0?.length!! > 0) {
+//                    getBindings().etSenderAmount.gravity = Gravity.CENTER
+//                } else {
+//                    getBindings().etSenderAmount.gravity = Gravity.START or Gravity.CENTER_VERTICAL
+//                }
                 if (p0?.length!! > 0) {
-                    getBindings().etSenderAmount.gravity = Gravity.CENTER
+                    getBindings().etSenderAmount.gravity =
+                        Gravity.CENTER_HORIZONTAL or Gravity.CENTER_VERTICAL
                 } else {
-                    getBindings().etSenderAmount.gravity = Gravity.START or Gravity.CENTER_VERTICAL
+                    getBindings().etSenderAmount.gravity =
+                        Gravity.CENTER_HORIZONTAL or Gravity.CENTER_VERTICAL
                 }
             }
         })
@@ -190,7 +196,7 @@ class InternationalFundsTransferFragment :
                                 viewModel.state.senderCurrency.toString(),
                                 viewModel.state.fxRateAmount.toString(),
                                 viewModel.state.receiverCurrencyAmount.toString(),
-                                viewModel.state.internationalFee.toString(),
+                                viewModel.state.formattedFee.toString(),
                                 viewModel.state.fromFxRate.toString(),
                                 viewModel.state.toFxRate.toString(),
                                 viewModel.state.referenceNumber.toString(),

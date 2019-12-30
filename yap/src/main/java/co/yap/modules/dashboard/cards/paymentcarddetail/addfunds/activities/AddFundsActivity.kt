@@ -9,14 +9,19 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.text.*
+import android.text.style.ForegroundColorSpan
+import android.view.Gravity
 import android.view.View
 import androidx.core.animation.addListener
+import androidx.core.content.ContextCompat
 import androidx.core.view.children
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
 import co.yap.R
+import co.yap.modules.dashboard.cards.paymentcarddetail.addfunds.interfaces.IFundActions
 import co.yap.modules.dashboard.cards.paymentcarddetail.addfunds.viewmodels.AddFundsViewModel
+import co.yap.modules.others.helper.Constants
 import co.yap.networking.cards.responsedtos.Card
 import co.yap.networking.cards.responsedtos.CardBalance
 import co.yap.translation.Strings
@@ -24,17 +29,12 @@ import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.helpers.AnimationUtils
 import co.yap.yapcore.helpers.CustomSnackbar
 import co.yap.yapcore.helpers.DecimalDigitsInputFilter
+import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.managers.MyUserManager
 import com.daimajia.androidanimations.library.Techniques
 import com.daimajia.androidanimations.library.YoYo
 import kotlinx.android.synthetic.main.activity_fund_actions.*
 import kotlinx.android.synthetic.main.layout_card_info.*
-import android.text.style.ForegroundColorSpan
-import androidx.core.content.ContextCompat
-import co.yap.modules.others.helper.Constants
-import co.yap.yapcore.helpers.Utils
-import android.view.Gravity
-import co.yap.modules.dashboard.cards.paymentcarddetail.addfunds.interfaces.IFundActions
 
 
 open class AddFundsActivity : BaseBindingActivity<IFundActions.ViewModel>(),
@@ -161,10 +161,9 @@ open class AddFundsActivity : BaseBindingActivity<IFundActions.ViewModel>(),
 
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
                 if (p0?.length!! > 0) {
-                    // puts the caret after the text when unempty
-                    etAmount.setGravity(Gravity.CENTER)
+                    etAmount.gravity = Gravity.CENTER_HORIZONTAL or Gravity.CENTER_VERTICAL
                 } else {
-                    etAmount.setGravity(Gravity.START or Gravity.CENTER_VERTICAL)
+                    etAmount.gravity = Gravity.CENTER_HORIZONTAL or Gravity.CENTER_VERTICAL
                 }
             }
         })
