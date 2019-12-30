@@ -57,15 +57,12 @@ class SpareCardLandingFragment : AddPaymentChildFragment<ISpareCards.ViewModel>(
 
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
-
                 R.id.llAddVirtualCard -> {
                     val action =
                         SpareCardLandingFragmentDirections.actionSpareCardLandingFragmentToAddSpareCardFragment(
                             getString(R.string.screen_spare_card_landing_display_text_virtual_card),"","","","",false
                         )
                     findNavController().navigate(action)
-
-
                 }
 
                 R.id.llAddPhysicalCard -> {
@@ -79,7 +76,6 @@ class SpareCardLandingFragment : AddPaymentChildFragment<ISpareCards.ViewModel>(
 
             }
         })
-
 
     }
 

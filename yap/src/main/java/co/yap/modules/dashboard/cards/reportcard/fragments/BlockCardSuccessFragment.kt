@@ -5,12 +5,11 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.ViewModelProviders
-import androidx.navigation.fragment.findNavController
 import co.yap.R
+import co.yap.modules.dashboard.cards.reordercard.activities.ReorderCardActivity
 import co.yap.modules.dashboard.cards.reportcard.activities.ReportLostOrStolenCardActivity.Companion.reportCardSuccess
 import co.yap.modules.dashboard.cards.reportcard.viewmodels.BlockCardSuccessViewModel
 import co.yap.translation.Strings
-import co.yap.translation.Strings.screen_spare_card_landing_display_text_physical_card
 import co.yap.translation.Translator
 import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.defaults.IDefault
@@ -39,15 +38,15 @@ class BlockCardSuccessFragment : BaseBindingFragment<IDefault.ViewModel>() {
 
         btnReOrder.setOnClickListener {
         // start reorder physical card flow from here
-            val action =
-                BlockCardSuccessFragmentDirections.actionBlockCardSuccessFragmentToAddSpareCardFragment(
-                    Translator.getString(
-                        requireContext(),
-                        screen_spare_card_landing_display_text_physical_card
-                    ),"","","","",true
-                )
-            findNavController().navigate(action)
-
+//            val action =
+//                BlockCardSuccessFragmentDirections.actionBlockCardSuccessFragmentToAddSpareCardFragment(
+//                    Translator.getString(
+//                        requireContext(),
+//                        screen_spare_card_landing_display_text_physical_card
+//                    ),"","","","",true
+//                )
+//            findNavController().navigate(action)
+            startActivity(Intent(context, ReorderCardActivity::class.java))
         }
 
         tvAddLater.setOnClickListener {
