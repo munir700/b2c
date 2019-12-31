@@ -203,6 +203,7 @@
                                 android:gravity="start"
                                 android:textColor="@color/colorPrimary"
                                 android:textSize="@dimen/text_size_c3"
+                                android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
                                 app:text="@{Strings.screen_add_spare_card_button_change_location}"
                                 tools:text="@string/screen_add_spare_card_button_change_location" />
 
@@ -229,7 +230,7 @@
                     </LinearLayout>
 
                     <co.yap.widgets.CoreButton
-                        android:id="@+id/btnConfirmPhysicalCardPurchase"
+                        android:id="@+id/btnConfirmPurchase"
                         style="@style/FragmentsBtnStyle"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"

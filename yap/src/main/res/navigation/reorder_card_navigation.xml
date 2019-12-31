@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/reorder_card_navigation"
-    app:startDestination="@id/addSpareCardFragment">
+    app:startDestination="@id/reorderCardFragment">
 
     <fragment
         android:id="@+id/addressSelectionFragment"
@@ -12,22 +12,9 @@
         app:enterAnim="@anim/slide_in_right"
         app:exitAnim="@anim/slide_out_left"
         tools:layout="@layout/fragment_address_selection">
-        <argument
-            android:name="isFromPhysicalCardsScreen"
-            android:defaultValue="false"
-            app:argType="boolean" />
-
-        <argument
-            android:name="isFromBlockCardsScreen"
-            android:defaultValue="false"
-            app:argType="boolean" />
-        <argument
-            android:name="isFromPersonalDetail"
-            android:defaultValue="false"
-            app:argType="boolean" />
         <action
-            android:id="@+id/action_addressSelectionFragment_to_addSpareCardFragment"
-            app:destination="@id/addSpareCardFragment" />
+            android:id="@+id/action_addressSelectionFragment_to_reorderCardFragment"
+            app:destination="@id/reorderCardFragment" />
     </fragment>
 
     <fragment
@@ -40,19 +27,40 @@
             android:name="cardType"
             android:defaultValue="Physical card"
             app:argType="string" />
+        <argument
+            android:name="newDeliveryAddressTitle"
+            android:defaultValue=" "
+            app:argType="string" />
+        <argument
+            android:name="newDeliveryAddressSubTitle"
+            android:defaultValue=" "
+            app:argType="string" />
+        <argument
+            android:name="latitude"
+            android:defaultValue=" "
+            app:argType="string" />
+        <argument
+            android:name="longitude"
+            android:defaultValue=" "
+            app:argType="string" />
+
+        <argument
+            android:name="isFromBlockCard"
+            android:defaultValue="false"
+            app:argType="boolean" />
 
         <action
-            android:id="@+id/action_addSpareCardFragment_to_successFragment"
-            app:destination="@id/successFragment" />
-        <action
-            android:id="@+id/action_addSpareCardFragment_to_addressSelectionFragment"
+            android:id="@+id/action_reorderCardFragment_to_addressSelectionFragment"
             app:destination="@id/addressSelectionFragment" />
+        <action
+            android:id="@+id/action_reorderCardFragment_to_reorderCardSuccessFragment"
+            app:destination="@id/reorderCardSuccessFragment" />
     </fragment>
     <fragment
-        android:id="@+id/successFragment"
-        android:name="co.yap.modules.dashboard.more.profile.fragments.SuccessFragment"
-        android:label="SuccessFragment"
+        android:id="@+id/reorderCardSuccessFragment"
         app:enterAnim="@anim/slide_in_right"
         app:exitAnim="@anim/slide_out_left"
-        tools:layout="@layout/fragment_success" />
+        android:name="co.yap.modules.dashboard.cards.reordercard.fragments.ReorderCardSuccessFragment"
+        tools:layout="@layout/fragment_reorder_card_success" />
+
 </navigation>

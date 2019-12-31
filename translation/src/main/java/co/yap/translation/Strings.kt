@@ -1189,4 +1189,8 @@ object Strings {
     const val custom_view_funds_transfer_display_text_reference_number_heading: String =
         "custom_view_funds_transfer_display_text_reference_number_heading"
 
+    //Screen Reorder Card
+    const val screen_reorder_card_completion_display_text_complete_transaction: String =
+        "screen_reorder_card_completion_display_text_complete_transaction"
+
 }

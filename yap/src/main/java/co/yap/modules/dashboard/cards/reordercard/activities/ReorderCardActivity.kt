@@ -14,7 +14,6 @@ import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.IFragmentHolder
 import co.yap.yapcore.defaults.DefaultNavigator
 import co.yap.yapcore.defaults.INavigator
-import co.yap.yapcore.interfaces.BackPressImpl
 import co.yap.yapcore.interfaces.IBaseNavigator
 
 class ReorderCardActivity : BaseBindingActivity<IReorderCard.ViewModel>(),
@@ -56,15 +55,6 @@ class ReorderCardActivity : BaseBindingActivity<IReorderCard.ViewModel>(),
     }
 
     private val clickObserver = Observer<Int> {
-        onBackPressed()
+        finish()
     }
-
-    override fun onBackPressed() {
-        val fragment =
-            supportFragmentManager.findFragmentById(R.id.main_report_stolen_cards_nav_host_fragment)
-        if (!BackPressImpl(fragment).onBackPressed()) {
-            super.onBackPressed()
-        }
-    }
-
 }

@@ -10,6 +10,8 @@ import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.transactions.TransactionsRepository
 import co.yap.yapcore.SingleClickEvent
+import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.managers.MyUserManager
 import kotlinx.coroutines.delay
 
 class RenewCardViewModel(application: Application) :
@@ -29,7 +31,9 @@ class RenewCardViewModel(application: Application) :
 
     override fun onCreate() {
         super.onCreate()
+        state.availableCardBalance.set("AED ${Utils.getFormattedCurrency(MyUserManager.cardBalance.value?.availableBalance.toString())}")
         requestReorderCardFee("physical")
+        requestGetAddressForPhysicalCard()
     }
 
     override fun onResume() {

@@ -9,7 +9,7 @@ import co.yap.yapcore.SingleClickEvent
 class ReorderCardViewModel(application: Application) :
     BaseViewModel<IReorderCard.State>(application),
     IReorderCard.ViewModel {
-    override val state: IReorderCard.State = ReorderCardState()
+    override val state: ReorderCardState = ReorderCardState()
     override val clickEvent: SingleClickEvent = SingleClickEvent()
     override fun handlePressOnView(id: Int) {
         clickEvent.setValue(id)

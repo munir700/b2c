@@ -278,6 +278,7 @@
     <string name="screen_add_spare_card_display_button_block_alert_top_up">Top up</string>
     <string name="screen_add_spare_card_display_button_block_alert_skip">Skip for now</string>
 
+
     <!-- Add Spare card location -->
 
     <!--    <string name="screen_spare_card_landing_display_text_physical_card">Spare card benefits</string>-->
@@ -742,5 +743,10 @@
 
 <!--    Screen funds transfer information custom view-->
     <string name="custom_view_funds_transfer_display_text_reference_number_heading">Reference number</string>
+
+    <!-- Reorder card -->
+    <string name="screen_reorder_card_completion_display_text_complete_transaction">Your card has been blocked \n and reordered successfully</string>
+
+
 
 </resources>

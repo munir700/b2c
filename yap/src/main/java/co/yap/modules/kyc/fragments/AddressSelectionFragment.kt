@@ -91,6 +91,7 @@ class AddressSelectionFragment : BaseMapFragment<IAddressSelection.ViewModel>(),
         val checkSender =
             arguments?.let { AddressSelectionFragmentArgs.fromBundle(it).isFromPhysicalCardsScreen }
 
+        val isFromReorderCardScreen = true
         when {
             isFromPersonalDetailScreen -> {
                 viewModel.mapDetailViewActivity = activity as MoreActivity
@@ -112,8 +113,6 @@ class AddressSelectionFragment : BaseMapFragment<IAddressSelection.ViewModel>(),
             isFromBlockCardsScreen == true -> {
                 if (activity is ReportLostOrStolenCardActivity) {
                     viewModel.mapDetailViewActivity = activity as ReportLostOrStolenCardActivity
-                } else if (activity is ReorderCardActivity) {
-                    viewModel.mapDetailViewActivity = activity as ReorderCardActivity
                 }
                 viewModel.state.isFromPhysicalCardsLayout = true
                 updateHeadings()
@@ -122,6 +121,10 @@ class AddressSelectionFragment : BaseMapFragment<IAddressSelection.ViewModel>(),
                 viewModel.mapDetailViewActivity = activity as AddPaymentCardActivity
                 viewModel.state.isFromPhysicalCardsLayout = true
                 updateHeadings()
+            }
+            isFromReorderCardScreen == true -> {
+                viewModel.mapDetailViewActivity = activity as ReorderCardActivity
+                viewModel.state.isFromReorderCardsLayout = true
             }
             else -> {
                 viewModel.mapDetailViewActivity = activity as DocumentsDashboardActivity
@@ -263,8 +266,6 @@ class AddressSelectionFragment : BaseMapFragment<IAddressSelection.ViewModel>(),
 
                             )
                         findNavController().navigate(action)
-
-
                     } else if (viewModel.state.isFromPersonalDetailView) {
 //
 //                        viewModel.state.placeTitle = addresstitle
@@ -503,11 +504,6 @@ class AddressSelectionFragment : BaseMapFragment<IAddressSelection.ViewModel>(),
 
         viewModel.toggleMarkerVisibility()
 
-    }
-
-    override fun onDestroy() {
-//        viewModel.clickEvent.removeObservers(this)
-        super.onDestroy()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

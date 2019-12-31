@@ -119,6 +119,10 @@
             android:name="isFromPersonalDetail"
             android:defaultValue="false"
             app:argType="boolean" />
+        <argument
+            android:name="isFromReorderCardScreen"
+            android:defaultValue="false"
+            app:argType="boolean" />
 
 
         <action
