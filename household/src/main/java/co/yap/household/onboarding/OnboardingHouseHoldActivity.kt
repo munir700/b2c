@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModelProviders
 import co.yap.household.BR
 import co.yap.household.R
 import co.yap.household.onboarding.interfaces.IOnboarding
-import co.yap.household.onboarding.viewmodels.OnboardingViewModel
+import co.yap.household.onboarding.viewmodels.OnboardingHouseHoldViewModel
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.IFragmentHolder
 import co.yap.yapcore.defaults.DefaultNavigator
@@ -23,7 +23,7 @@ class OnboardingHouseHoldActivity : BaseBindingActivity<IOnboarding.ViewModel>()
     override fun getLayoutId(): Int = R.layout.activity_main_house_hold
 
     override val viewModel: IOnboarding.ViewModel
-        get() = ViewModelProviders.of(this).get(OnboardingViewModel::class.java)
+        get() = ViewModelProviders.of(this).get(OnboardingHouseHoldViewModel::class.java)
 
     override val navigator: IBaseNavigator
         get() = DefaultNavigator(this@OnboardingHouseHoldActivity, R.id.main_nav_host_container_fragment)

@@ -8,7 +8,7 @@ import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleLiveEvent
 
 
-class OnboardingViewModel(application: Application) : BaseViewModel<IOnboarding.State>(application),
+class OnboardingHouseHoldViewModel(application: Application) : BaseViewModel<IOnboarding.State>(application),
     IOnboarding.ViewModel {
 
     override var onboardingData: OnboardingData = OnboardingData("", "", "", "", "", "", "B2C_ACCOUNT","","")
