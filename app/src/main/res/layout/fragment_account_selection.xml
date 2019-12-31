@@ -6,10 +6,6 @@
     <data>
 
         <variable
-            name="accountSelection"
-            type="String" />
-
-        <variable
             name="viewModel"
             type="co.yap.app.modules.startup.viewmodels.AccountSelectionViewModel" />
 
@@ -17,7 +13,7 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-
+        tools:context="co.yap.app.activities.MainActivity"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/white"
@@ -96,12 +92,12 @@
                 android:layout_marginTop="@dimen/margin_medium"
                 android:layout_marginEnd="@dimen/_6sdp"
                 android:layout_weight=".5"
-                app:btn_enable="true"
                 android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
                 android:paddingTop="@dimen/margin_normal_large"
                 android:paddingEnd="@dimen/margin_extra_large"
                 android:paddingBottom="@dimen/margin_normal_large"
                 android:textStyle="bold"
+                app:btn_enable="true"
                 app:text="@{Strings.screen_home_button_personal_text}" />
 
             <co.yap.widgets.CoreButton

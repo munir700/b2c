@@ -25,37 +25,29 @@ class AccountSelectionFragment : BaseBindingFragment<IAccountSelection.ViewModel
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        /*viewModel.clickEvent.observe(this, Observer {
+        viewModel.clickEvent.observe(this, Observer {
             when (it) {
                 R.id.tvSignIn -> {
-                    Navigation.createNavigateOnClickListener(R.id.action_accountSelectionFragment_to_loginFragment)
+                    tvSignIn.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_accountSelectionFragment_to_loginFragment))
+                    tvSignIn.performClick()
                 }
                 R.id.btnBusiness -> {
 
                 }
                 R.id.btnPersonal -> {
-                    Navigation.createNavigateOnClickListener(
-                        R.id.action_accountSelectionFragment_to_welcomeFragment,
-                        Bundle().apply {
-                            putSerializable(
-                                getString(R.string.arg_account_type),
-                                AccountType.B2C_ACCOUNT
-                            )
-                        })
+                    btnPersonal.setOnClickListener(
+                        Navigation.createNavigateOnClickListener(
+                            R.id.action_accountSelectionFragment_to_welcomeFragment,
+                            Bundle().apply {
+                                putSerializable(
+                                    getString(R.string.arg_account_type),
+                                    AccountType.B2C_ACCOUNT
+                                )
+                            })
+                    )
+                    btnPersonal.performClick()
                 }
             }
-        })*/
-        btnBusiness.setOnClickListener { }
-        btnPersonal.setOnClickListener(
-            Navigation.createNavigateOnClickListener(
-                R.id.action_accountSelectionFragment_to_welcomeFragment,
-                Bundle().apply {
-                    putSerializable(
-                        getString(R.string.arg_account_type),
-                        AccountType.B2C_ACCOUNT
-                    )
-                })
-        )
-        tvSignIn.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_accountSelectionFragment_to_loginFragment))
+        })
     }
 }
