@@ -10,41 +10,36 @@
             type="co.yap.modules.onboarding.models.WelcomeContent" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:gravity="center_horizontal"
         android:orientation="vertical"
-        android:paddingTop="@dimen/_24sdp"
-        android:paddingBottom="@dimen/_24sdp">
+        android:paddingBottom="@dimen/_4sdp">
 
         <ImageView
             android:id="@+id/ivPoster"
-            android:layout_width="@dimen/_200sdp"
-            android:layout_height="@dimen/_162sdp"
-            android:scaleType="fitXY"
+            android:layout_width="@dimen/_121sdp"
+            android:layout_height="@dimen/_150sdp"
+            android:paddingBottom="@dimen/small"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginRight="@dimen/margin_extra_large"
-            android:layout_marginLeft="@dimen/margin_extra_large"
             app:layout_constraintTop_toTopOf="parent"
             app:src="@{content.imageResource}"
-            tools:ignore="MissingConstraints" />
+            tools:ignore="MissingConstraints"
+            tools:src="@drawable/rose_gold" />
 
         <TextView
             android:id="@+id/tvDescription"
             style="@style/Small"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="@dimen/margin_large"
-            android:layout_marginEnd="8dp"
             android:gravity="center"
             android:text="@{content.subTitle}"
-            android:textAlignment="center"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/ivPoster"
-            tools:text="Set up automatic salary payments" />
+        />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
 </layout>

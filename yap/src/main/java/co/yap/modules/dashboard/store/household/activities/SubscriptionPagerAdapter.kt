@@ -4,6 +4,7 @@ import android.content.Context
 import android.util.SparseArray
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.GONE
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
@@ -40,6 +41,10 @@ public class SubscriptionPagerAdapter(
 
         tvDescription = viewBinding.tvDescription
         ivPoster = viewBinding.ivPoster
+
+
+        viewBinding.tvDescription.visibility=GONE
+        viewBinding.ivPoster.visibility=GONE
 
         container.addView(viewBinding.root)
         containerView = viewBinding.root

@@ -99,7 +99,7 @@
                     android:drawableEnd="@{viewModel.state.drawbleRight}"
                     android:gravity="bottom"
                     android:hint="123 4567"
-                    android:imeOptions="actionDone"
+                    android:imeOptions="actionNext"
                     android:importantForAutofill="no"
                     android:inputType="phone"
                     android:maxLength="@{viewModel.state.mobileNoLength}"

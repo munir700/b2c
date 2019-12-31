@@ -70,27 +70,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@color/colorWhite"
-                android:paddingTop="@dimen/margin_medium"
+                android:paddingTop="@dimen/small"
                 android:paddingBottom="@dimen/margin_medium">
-
-                <!--                <ImageView-->
-                <!--                    android:id="@+id/welcome_pager"-->
-                <!--                    android:layout_width="@dimen/_121sdp"-->
-                <!--                    android:layout_height="@dimen/_190sdp"-->
-                <!--                    android:layout_gravity="center_horizontal"-->
-                <!--                    android:layout_marginTop="@dimen/margin_small"-->
-                <!--                    android:orientation="vertical"-->
-                <!--                    android:src="@drawable/card_spare"-->
-                <!--                    app:layout_constraintEnd_toEndOf="parent"-->
-                <!--                    app:layout_constraintStart_toStartOf="parent"-->
-                <!--                    tools:ignore="MissingConstraints" />-->
 
                 <androidx.viewpager.widget.ViewPager
                     android:id="@+id/welcome_pager"
-                    android:layout_width="@dimen/_121sdp"
+                    android:layout_width="match_parent"
                     android:layout_height="@dimen/_190sdp"
                     android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="@dimen/margin_small"
                     android:layout_weight="1"
                     android:orientation="vertical"
                     android:src="@drawable/card_spare"
@@ -109,27 +96,12 @@
                     app:dotsCornerRadius="8dp"
                     app:dotsSize="12dp"
                     app:dotsSpacing="4dp"
+                    android:layout_marginTop="@dimen/_4sdp"
                     app:dotsStrokeColor="@color/grey"
                     app:dotsStrokeWidth="6dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/welcome_pager" />
-
-
-                <!--                <TextView-->
-                <!--                     style="@style/ASmall"-->
-                <!--                    android:layout_width="wrap_content"-->
-                <!--                    android:layout_height="wrap_content"-->
-                <!--                    android:layout_marginTop="@dimen/margin_medium"-->
-                <!--                    android:gravity="center"-->
-                <!--                    android:paddingLeft="@dimen/margin_medium"-->
-                <!--                    android:paddingRight="@dimen/margin_medium"-->
-                <!--                    android:text="Choose from different card colors"-->
-                <!--                    app:layout_constraintEnd_toEndOf="parent"-->
-                <!--                    app:layout_constraintStart_toStartOf="parent"-->
-                <!--                    app:layout_constraintTop_toBottomOf="@+id/tvCardFee"-->
-                <!--                    />-->
-
 
                 <View
                     android:id="@+id/tvCardFee"
@@ -179,7 +151,6 @@
                     android:layout_gravity="center"
                     android:layout_marginTop="@dimen/margin_medium"
                     android:gravity="center_horizontal"
-
                     android:paddingLeft="@dimen/margin_normal"
                     android:paddingRight="@dimen/margin_normal"
                     android:text="@string/screen_yap_house_hold_subscription_selection_display_text_select_plan"

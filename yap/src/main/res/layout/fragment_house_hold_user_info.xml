@@ -57,7 +57,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_xl"
-                android:layout_marginBottom="-5dp"
+                android:layout_marginBottom="-4dp"
                 android:text="@string/screen_b2c_eid_info_review_display_text_name_heading"
                 app:text="@{Strings.screen_yap_house_hold_user_info_display_text_first_name}"
                 app:textColor="@{viewModel.state.firstName.empty ? true : false}"
@@ -91,7 +91,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_medium"
-                android:layout_marginBottom="-5dp"
+                android:layout_marginBottom="-4dp"
                 android:text="@string/screen_yap_house_hold_user_info_display_text_last_name"
                 app:text="@{Strings.screen_yap_house_hold_user_info_display_text_last_name}"
                 app:textColor="@{viewModel.state.lastName.empty ? true : false}"
@@ -116,7 +116,7 @@
                 app:translateHint="@{true}"
                 app:view_focusable="true"
                 app:view_id="444"
-                app:view_input_text_imei_actions="IME_ACTION_NEXT"
+                app:view_input_text_imei_actions="IME_ACTION_DONE"
                 app:view_max_length="40"
                 app:view_plain_background="true" />
 
