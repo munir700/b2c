@@ -40,12 +40,13 @@ class ReorderCardFragment : ReorderCardBaseFragment<IRenewCard.ViewModel>(), IRe
         when (it) {
             R.id.btnConfirm -> {
                 viewModel.state.isAddressConfirm.set(true)
-                viewModel.address.address1 = viewModel.state.cardAddressSubTitle.get()
-                viewModel.address.address2 = viewModel.state.cardAddressTitle.get()
+                viewModel.address.address1 = viewModel.state.cardAddressTitle.get()
+                viewModel.address.address2 = viewModel.state.cardAddressSubTitle.get()
             }
             R.id.btnConfirmPurchase -> {
                 viewModel.requestReorderCard()
             }
+
             R.id.tvChangeLocation -> {
                 findNavController().navigate(R.id.action_reorderCardFragment_to_addressSelectionFragment)
             }
@@ -79,7 +80,7 @@ class ReorderCardFragment : ReorderCardBaseFragment<IRenewCard.ViewModel>(), IRe
         val longitude = arguments?.let {
             ReorderCardFragmentArgs.fromBundle(it).longitude
         } as String
-        if (longitude.isNotEmpty()) {
+        if (longitude != " ") {
             viewModel.address.longitude = longitude.toDoubleOrNull()
         }
 
@@ -87,7 +88,7 @@ class ReorderCardFragment : ReorderCardBaseFragment<IRenewCard.ViewModel>(), IRe
             ReorderCardFragmentArgs.fromBundle(it).latitude
         } as String
 
-        if (latitude.isNotEmpty()) {
+        if (latitude != " ") {
             viewModel.address.latitude = latitude.toDoubleOrNull()
         }
 

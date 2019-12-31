@@ -4,13 +4,14 @@ import co.yap.networking.BaseRepository
 import co.yap.networking.RetroNetwork
 import co.yap.networking.authentication.AuthRepository
 import co.yap.networking.cards.requestdtos.*
-import co.yap.networking.cards.responsedtos.*
+import co.yap.networking.cards.responsedtos.CardBalanceResponseDTO
+import co.yap.networking.cards.responsedtos.CardDetailResponseDTO
+import co.yap.networking.cards.responsedtos.GetCardsResponse
+import co.yap.networking.cards.responsedtos.GetPhysicalAddress
 import co.yap.networking.models.ApiResponse
 import co.yap.networking.models.RetroApiResponse
 
 object CardsRepository : BaseRepository(), CardsApi {
-
-
     const val URL_CREATE_PIN = "/cards/api/cards/create-pin/{card-serial-number}"
     const val URL_GET_CARDS = "/cards/api/cards"
     const val URL_ORDER_CARD = "/cards/api/cards/b2c/physical"
@@ -32,6 +33,8 @@ object CardsRepository : BaseRepository(), CardsApi {
     const val URL_FORGOT_CARD_PIN = "/cards/api/cards/forgot-pin/{card-serial-number}"
 
     const val URL_REPORT_LOST_OR_STOLEN_CARD = "/cards/api/card-hot-list"
+    const val URL_REORDER_DEBIT_CARD = "/cards/api/cards/debit/reorder"
+    const val URL_REORDER_SUPPLEMENTARY_CARD = "/cards/api/cards/supplementary/reorder"
 
     private val API: CardsRetroService = RetroNetwork.createService(CardsRetroService::class.java)
 
@@ -132,4 +135,14 @@ object CardsRepository : BaseRepository(), CardsApi {
         forgotCardPin: ForgotCardPin
     ): RetroApiResponse<ApiResponse> =
         AuthRepository.executeSafely(call = { API.forgotCardPin(cardSerialNumber, forgotCardPin) })
+
+    override suspend fun reorderDebitCard(reorderCardRequest: ReorderCardRequest): RetroApiResponse<ApiResponse> =
+        AuthRepository.executeSafely(call = {
+            API.reorderDebitCard(reorderCardRequest)
+        })
+
+    override suspend fun reorderSupplementryCard(reorderCardRequest: ReorderCardRequest): RetroApiResponse<ApiResponse> =
+        AuthRepository.executeSafely(call = {
+            API.reorderSupplementaryCard(reorderCardRequest)
+        })
 }

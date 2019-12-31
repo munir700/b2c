@@ -5,14 +5,15 @@ import androidx.lifecycle.MutableLiveData
 import co.yap.modules.dashboard.cards.reordercard.interfaces.IRenewCard
 import co.yap.modules.dashboard.cards.reordercard.states.RenewCardState
 import co.yap.networking.cards.CardsRepository
+import co.yap.networking.cards.requestdtos.ReorderCardRequest
 import co.yap.networking.cards.responsedtos.Address
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.transactions.TransactionsRepository
 import co.yap.yapcore.SingleClickEvent
+import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.managers.MyUserManager
-import kotlinx.coroutines.delay
 
 class RenewCardViewModel(application: Application) :
     ReorderCardBaseViewModel<IRenewCard.State>(application), IRenewCard.ViewModel,
@@ -43,11 +44,45 @@ class RenewCardViewModel(application: Application) :
     }
 
     override fun requestReorderCard() {
+        val reorderCardRequest = ReorderCardRequest(
+            parentViewModel?.card?.cardSerialNumber,
+            address.address1,
+            address.latitude.toString(),
+            address.longitude.toString()
+        )
+
+        if (parentViewModel?.card?.cardType == Constants.MANUAL_DEBIT)
+            requestReorderDebitCard(reorderCardRequest)
+        else
+            requestReorderSupplementaryCard(reorderCardRequest)
+    }
+
+    override fun requestReorderDebitCard(reorderCardRequest: ReorderCardRequest) {
         launch {
             state.loading = true
-            //todo: call api for reorder card
-            delay(1000)
-            reorderCardSuccess.value = true
+            when (val response = cardRepository.reorderDebitCard(reorderCardRequest)) {
+                is RetroApiResponse.Success -> {
+                    reorderCardSuccess.value = true
+                }
+                is RetroApiResponse.Error -> {
+                    state.toast = response.error.message
+                }
+            }
+            state.loading = false
+        }
+    }
+
+    override fun requestReorderSupplementaryCard(reorderCardRequest: ReorderCardRequest) {
+        launch {
+            state.loading = true
+            when (val response = cardRepository.reorderSupplementryCard(reorderCardRequest)) {
+                is RetroApiResponse.Success -> {
+                    reorderCardSuccess.value = true
+                }
+                is RetroApiResponse.Error -> {
+                    state.toast = response.error.message
+                }
+            }
             state.loading = false
         }
     }
@@ -85,4 +120,5 @@ class RenewCardViewModel(application: Application) :
             state.loading = false
         }
     }
+
 }
