@@ -218,6 +218,7 @@
 
     <activity
         android:id="@+id/householdOnboard"
-        android:name="co.yap.household.onboarding.OnboardingActivity" />
+        android:name="co.yap.household.onboarding.OnboardingHouseHoldActivity"
+     />
 
 </navigation>
