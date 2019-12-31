@@ -50,7 +50,12 @@ class CardLimitViewModel(application: Application) :
                 repository.configAllowAtm(CardLimitConfigRequest(state.card.get()!!.cardSerialNumber))) {
                 is RetroApiResponse.Error -> {
                     state.loading = false
-                    state.card.notifyChange()
+                    state.toast = response.error.message
+
+                    state.card.get()?.also {
+                        it.retailPaymentAllowed = it.retailPaymentAllowed
+                        state.card.notifyChange()
+                    }
                 }
 
                 is RetroApiResponse.Success -> {
@@ -68,6 +73,11 @@ class CardLimitViewModel(application: Application) :
                 repository.configOnlineBanking(CardLimitConfigRequest(state.card.get()!!.cardSerialNumber))) {
                 is RetroApiResponse.Error -> {
                     state.loading = false
+                    state.toast = response.error.message
+                    state.card.get()?.also {
+                        it.retailPaymentAllowed = it.retailPaymentAllowed
+                        state.card.notifyChange()
+                    }
 
                 }
                 is RetroApiResponse.Success -> {
@@ -86,6 +96,12 @@ class CardLimitViewModel(application: Application) :
                 repository.configRetailPayment(CardLimitConfigRequest(state.card.get()!!.cardSerialNumber))) {
                 is RetroApiResponse.Error -> {
                     state.loading = false
+                    state.toast = response.error.message
+
+                    state.card.get()?.also {
+                        it.retailPaymentAllowed = it.retailPaymentAllowed
+                        state.card.notifyChange()
+                    }
 
                 }
                 is RetroApiResponse.Success -> {
@@ -104,7 +120,12 @@ class CardLimitViewModel(application: Application) :
                 repository.configAbroadPayment(CardLimitConfigRequest(state.card.get()!!.cardSerialNumber))) {
                 is RetroApiResponse.Error -> {
                     state.loading = false
+                    state.toast = response.error.message
 
+                    state.card.get()?.also {
+                        it.retailPaymentAllowed = it.retailPaymentAllowed
+                        state.card.notifyChange()
+                    }
                 }
                 is RetroApiResponse.Success -> {
                     state.loading = false

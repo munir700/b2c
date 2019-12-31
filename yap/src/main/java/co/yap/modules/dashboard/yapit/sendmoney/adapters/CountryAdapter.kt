@@ -1,31 +1,48 @@
 package co.yap.modules.dashboard.yapit.sendmoney.adapters
 
 import android.content.Context
-import androidx.databinding.ViewDataBinding
-import co.yap.BR
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.BaseAdapter
+import android.widget.TextView
+import co.yap.R
 import co.yap.countryutils.country.Country
-import co.yap.modules.dashboard.yapit.sendmoney.adapters.CountryAdapter.ViewHolder
-import co.yap.yapcore.BaseBindingArrayAdapter
-import co.yap.yapcore.BaseBindingHolder
+import co.yap.widgets.CoreCircularImageView
 
-class CountryAdapter(context: Context, resource: Int, objects: List<Country>) :
-    BaseBindingArrayAdapter<Country, ViewHolder>(context, resource, objects) {
+class CountryAdapter(
+    val context: Context,
+    private val objects: List<Country>
+) : BaseAdapter() {
 
-    override fun createViewHolder(binding: ViewDataBinding): ViewHolder {
-        return ViewHolder(binding)
+    override fun getItem(position: Int): Country {
+        return objects[position]
     }
 
+    override fun getItemId(position: Int): Long {
+        return position.toLong()
+    }
 
-    inner class ViewHolder(binding: ViewDataBinding) : BaseBindingHolder(binding) {
-        override fun bind(obj: Any, binding: ViewDataBinding?) {
-            binding?.setVariable(getBindingVariable(), obj)
-            binding?.executePendingBindings()
+    override fun getCount(): Int {
+        return objects.size
+    }
+
+    override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
+        return getCustomView(position, convertView, parent)
+    }
+
+    private fun getCustomView(position: Int, convertView: View?, parent: ViewGroup): View {
+
+        val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+        val row = inflater.inflate(R.layout.item_country, parent, false)
+        val label = row.findViewById(R.id.textView) as TextView
+        val flag = row.findViewById(R.id.flag_img) as CoreCircularImageView
+        label.text = objects[position].getName()
+        flag.setImageResource(objects[position].getFlagDrawableResId())
+
+        if (position == 0) {//Special style for dropdown header
+            label.setTextColor(context.resources.getColor(R.color.colorPrimaryDark))
         }
-
-        override fun getBindingVariable(): Int = BR.dataCountry
-//        override fun bind(obj: Object, binding: ViewDataBinding?) {
-//            binding?.setVariable(getBindingVariable(), obj)
-//            binding?.executePendingBindings()
-//        }
+        return row
     }
 }
