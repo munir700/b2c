@@ -22,6 +22,7 @@ class RenewCardViewModel(application: Application) :
     override val clickEvent: SingleClickEvent = SingleClickEvent()
     override val repository: TransactionsRepository = TransactionsRepository
     private val cardRepository: CardsRepository = CardsRepository
+    override var fee: String = "0.0"
     override var address: Address = Address()
 
     override fun handlePressOnView(id: Int) {
@@ -91,8 +92,10 @@ class RenewCardViewModel(application: Application) :
         launch {
             when (val response = repository.getCardFee(cardType)) {
                 is RetroApiResponse.Success -> {
+                    fee = response.data.data?.amount ?: "0.0"
                     state.cardFee.set("${response.data.data?.currency} ${response.data.data?.amount}")
                 }
+
                 is RetroApiResponse.Error -> {
                     state.toast = response.error.message
                 }

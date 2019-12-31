@@ -19,6 +19,7 @@ interface IRenewCard {
     }
 
     interface ViewModel : IBase.ViewModel<State> {
+        var fee: String
         var address: Address
         val clickEvent: SingleClickEvent
         var reorderCardSuccess: MutableLiveData<Boolean>

@@ -8,7 +8,11 @@ import androidx.navigation.fragment.findNavController
 import co.yap.R
 import co.yap.modules.dashboard.cards.reordercard.interfaces.IRenewCard
 import co.yap.modules.dashboard.cards.reordercard.viewmodels.RenewCardViewModel
+import co.yap.translation.Translator
 import co.yap.yapcore.BR
+import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.interfaces.OnItemClickListener
+import co.yap.yapcore.managers.MyUserManager
 
 class ReorderCardFragment : ReorderCardBaseFragment<IRenewCard.ViewModel>(), IRenewCard.View {
     override fun getBindingVariable(): Int = BR.viewModel
@@ -44,12 +48,49 @@ class ReorderCardFragment : ReorderCardBaseFragment<IRenewCard.ViewModel>(), IRe
                 viewModel.address.address2 = viewModel.state.cardAddressSubTitle.get()
             }
             R.id.btnConfirmPurchase -> {
-                viewModel.requestReorderCard()
+                MyUserManager.cardBalance.value?.availableBalance?.toDoubleOrNull()
+                    ?.let { balance ->
+                        viewModel.fee.toDoubleOrNull()?.let { feeAmount ->
+                            if (feeAmount <= balance)
+                                viewModel.requestReorderCard()
+                            else
+                                showDialog()
+                        }
+                    }
             }
 
             R.id.tvChangeLocation -> {
                 findNavController().navigate(R.id.action_reorderCardFragment_to_addressSelectionFragment)
             }
+        }
+    }
+
+    private fun showDialog() {
+        context?.let { it ->
+            Utils.confirmationDialog(it,
+                Translator.getString(
+                    it,
+                    R.string.screen_reorder_card_purchase_display_text_alert_title
+                ),
+                ""
+                , Translator.getString(
+                    it,
+                    R.string.screen_add_topup_card_succes_button_top_up_now
+                ), Translator.getString(
+                    it,
+                    R.string.screen_add_topup_card_succes_button_later
+                ),
+                object : OnItemClickListener {
+                    override fun onItemClick(view: View, data: Any, pos: Int) {
+                        if (data is Boolean) {
+                            if (data) {
+                                activity?.let { it.finish() }
+                            } else {
+                                activity?.let { it.finish() }
+                            }
+                        }
+                    }
+                })
         }
     }
 
