@@ -376,7 +376,6 @@
         <attr name="pse_setBackgroundColor" format="color" />
         <attr name="pse_setBorderColor" format="color" />
         <attr name="pse_setBorderView" format="boolean" />
-        <attr name="pse_setFont" format="string" />
         <attr name="pse_setStrokeWidth" format="dimension" />
         <attr name="pse_setCornerRadius" format="dimension" />
         <attr name="pse_setClearIconVisible" format="boolean" />
@@ -385,6 +384,21 @@
         <attr name="pse_hideShowPasswordIconTint" format="color" />
         <attr name="pse_setPrefix" format="string" />
         <attr name="pse_setPrefixTextColor" format="color" />
+        <attr name="pse_setPrefixDrawable" format="reference" />
+        <attr name="pse_compoundDrawableWidth" format="dimension"/>
+        <attr name="pse_space" format="dimension"/>
+        <attr name="pse_compoundDrawableHeight" format="dimension"/>
+    </declare-styleable>
+
+    <declare-styleable name="DecimalEditText">
+        <attr name="plural" format="reference"/>
+        <attr name="rounding" format="integer"/>
+    </declare-styleable>
+
+    <declare-styleable name="EasyMoneyWidgets">
+        <attr name="currency_symbol" format="string"/>
+        <attr name="show_currency" format="boolean"/>
+        <attr name="show_commas" format="boolean"/>
     </declare-styleable>
 
 </resources>

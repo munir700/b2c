@@ -18,18 +18,13 @@
         android:layout_height="match_parent"
         android:fillViewport="true">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/white"
-            android:orientation="vertical">
-
             <LinearLayout
+                android:id="@+id/lyContainer"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:background="@color/white"
-                android:orientation="vertical"
                 android:paddingLeft="@dimen/margin_medium"
+                android:orientation="vertical"
                 android:paddingRight="@dimen/margin_medium">
 
                 <TextView
@@ -39,9 +34,6 @@
                     android:layout_marginTop="@dimen/margin_large"
                     android:gravity="center"
                     android:text="@string/screen_add_beneficiary_detail_display_text_title"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tvSuccessHeading"
                     app:text="@{Strings.screen_add_beneficiary_detail_display_text_title}"
                     tools:text="@string/screen_add_beneficiary_detail_display_text_title" />
 
@@ -66,9 +58,6 @@
                         android:id="@+id/flag_img"
                         android:layout_width="@dimen/_20sdp"
                         android:layout_height="@dimen/_20sdp"
-                        android:layout_alignParentStart="true"
-                        android:layout_alignParentTop="true"
-                        android:layout_centerVertical="true"
                         android:background="@drawable/bitmap"
                         app:src="@{viewModel.state.flagDrawableResId}" />
 
@@ -91,7 +80,6 @@
                     android:layout_marginStart="@dimen/_2sdp"
                     android:layout_marginEnd="@dimen/_2sdp"
                     android:background="@color/greyLight" />
-
                 <TextView
                     style="@style/Small"
                     android:layout_width="match_parent"
@@ -101,12 +89,38 @@
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tvSuccessHeading"
+                    app:text="@{Strings.screen_add_beneficiary_detail_display_text_transfer_nick_name}"
+                    app:textColor="@{viewModel.state.nickName.empty ? true : false}"
+                    tools:text="@string/screen_add_beneficiary_detail_display_text_transfer_nick_name" />
+
+                <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/etnickName"
+                    style="@style/Regular"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/greyLight"
+                    android:imeOptions="actionNext"
+                    android:maxLength="50"
+                    android:maxLines="1"
+                    android:singleLine="true"
+                    android:text="@={viewModel.state.nickName}"
+                    tools:hint="@string/screen_add_beneficiary_detail_input_text_nick_name_hint"
+                    app:hint="@{Strings.screen_add_beneficiary_detail_input_text_nick_name_hint}" />
+
+
+
+                <TextView
+                    style="@style/Small"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_normal"
+                    android:text="@string/screen_add_beneficiary_detail_display_text_transfer_nick_name"
                     app:text="@{Strings.screen_add_beneficiary_detail_display_text_transfer_first_name}"
                     app:textColor="@{viewModel.state.firstName.empty ? true : false}"
                     tools:text="@string/screen_add_beneficiary_detail_display_text_transfer_first_name" />
 
 
-                <EditText
+                <androidx.appcompat.widget.AppCompatEditText
                     android:id="@+id/etFirstName"
                     style="@style/Regular"
                     android:layout_width="match_parent"
@@ -117,7 +131,8 @@
                     android:maxLength="50"
                     android:singleLine="true"
                     android:text="@={viewModel.state.firstName}"
-                    app:hint="@{Strings.screen_add_beneficiary_detail_display_text_transfer_first_name}" />
+                    tools:hint="@string/screen_add_beneficiary_detail_input_text_first_name_hint"
+                    app:hint="@{Strings.screen_add_beneficiary_detail_input_text_first_name_hint}" />
 
 
                 <TextView
@@ -126,9 +141,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_normal"
                     android:text="@string/screen_add_beneficiary_detail_display_text_transfer_nick_name"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tvSuccessHeading"
                     app:text="@{Strings.screen_add_beneficiary_detail_display_text_transfer_last_name}"
                     app:textColor="@{viewModel.state.lastName.empty ? true : false}"
                     tools:text="@string/screen_add_beneficiary_detail_display_text_transfer_last_name" />
@@ -145,6 +157,7 @@
                     android:maxLength="50"
                     android:singleLine="true"
                     android:text="@={viewModel.state.lastName}"
+                    tools:hint="@string/screen_add_beneficiary_detail_input_text_last_name_hint"
                     app:hint="@{Strings.screen_add_beneficiary_detail_input_text_last_name_hint}" />
 
 
@@ -154,9 +167,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_normal"
                     android:text="@string/screen_add_beneficiary_detail_display_text_transfer_nick_name"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tvSuccessHeading"
                     app:text="@{Strings.screen_beneficiary_account_details_display_text_iban}"
                     app:textColor="@{viewModel.state.lastName.empty ? true : false}"
                     tools:text="@string/screen_beneficiary_account_details_display_text_iban" />
@@ -168,16 +178,17 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:backgroundTint="@color/greyLight"
-                        android:hint="xxxxxxxxx"
-                        app:isDrawableShownWhenTextIsEmpty="true"
                         android:drawableEnd="@drawable/ic_support"
                         android:drawableRight="@drawable/ic_support"
-                        app:popupContentValue="@string/screen_add_beneficiary_display_help_content"
+                        android:hint="xxxxxxxxx"
                         android:imeOptions="actionNext"
                         android:importantForAutofill="no"
                         android:maxLength="50"
+                        android:textAllCaps="true"
                         android:singleLine="true"
-                        android:text="@={viewModel.state.iban}" />
+                        android:text="@={viewModel.state.iban}"
+                        app:isDrawableShownWhenTextIsEmpty="true"
+                        app:popupContentValue="@string/screen_add_beneficiary_display_help_content" />
 
                 <TextView
                     style="@style/Small"
@@ -185,15 +196,12 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_normal"
                     android:text="@string/screen_add_beneficiary_detail_display_text_transfer_nick_name"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tvSuccessHeading"
                     app:text="@{Strings.screen_sdd_beneficiary_display_confirm_iban}"
                     app:textColor="@{viewModel.state.lastName.empty ? true : false}"
                     tools:text="@string/screen_sdd_beneficiary_display_confirm_iban" />
 
 
-                <EditText
+                <androidx.appcompat.widget.AppCompatEditText
                     android:id="@+id/etConfirmIban"
                     style="@style/Regular"
                     android:layout_width="match_parent"
@@ -216,13 +224,10 @@
                     android:layout_marginRight="@dimen/margin_btn_side_paddings_xl"
                     android:layout_marginBottom="@dimen/margin_medium_large"
                     android:onClick="@{(v) -> viewModel.handlePressOnAddDomestic(v.id)}"
-                    app:enableCoreButton="@{viewModel.state.validateDomesticButton}"
+                    app:enableCoreButton="@{viewModel.state.valid}"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:text="@{Strings.common_button_next}"
-                    tools:ignore="MissingConstraints"
-                    tools:layout_editor_absoluteX="44dp"
-                    tools:text="@string/common_button_next" />
+                    app:text="@{Strings.screen_add_beneficiary_button_next}"
+                    tools:text="@string/screen_add_beneficiary_button_next" />
             </LinearLayout>
-        </LinearLayout>
     </ScrollView>
 </layout>

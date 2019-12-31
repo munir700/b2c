@@ -84,7 +84,9 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
         } else {
             chart.isHighlightPerTapEnabled = true
             for (item in txnAnalytics.iterator())
-                entries.add(PieEntry(item.totalSpendingInPercentage.toFloat()))
+                item.totalSpendingInPercentage?.toFloat()?.let { PieEntry(it) }?.let {
+                    entries.add(it)
+                }
         }
         colors.addAll(resources.getIntArray(co.yap.yapcore.R.array.analyticsColors).toTypedArray())
         val dataSet = PieDataSet(entries, "")
@@ -112,7 +114,7 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
         getBindingView().tabLayout.addOnTabSelectedListener(onTabSelectedListener)
         viewModel.clickEvent.observe(this, clickEventObserver)
         viewModel.parentViewModel.merchantAnalyticsItemLiveData.observe(this, Observer {
-            if (it.isNullOrEmpty())
+            if (it != null && it.isNullOrEmpty())
                 getBindingView().rlDetails.visibility = View.INVISIBLE
             else
                 getBindingView().rlDetails.visibility = View.VISIBLE

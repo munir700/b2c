@@ -6,14 +6,14 @@
     <data>
 
         <variable
-            name="accountSelection"
-            type="String" />
+            name="viewModel"
+            type="co.yap.app.modules.startup.viewmodels.AccountSelectionViewModel" />
 
         <import type="co.yap.translation.Strings" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-
+        tools:context="co.yap.app.activities.MainActivity"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/white"
@@ -92,13 +92,13 @@
                 android:layout_marginTop="@dimen/margin_medium"
                 android:layout_marginEnd="@dimen/_6sdp"
                 android:layout_weight=".5"
-                android:enabled="true"
+                android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
                 android:paddingTop="@dimen/margin_normal_large"
                 android:paddingEnd="@dimen/margin_extra_large"
                 android:paddingBottom="@dimen/margin_normal_large"
                 android:textStyle="bold"
-                app:text="@{Strings.screen_home_button_personal_text}"
-                tools:ignore="MissingConstraints" />
+                app:btn_enable="true"
+                app:text="@{Strings.screen_home_button_personal_text}" />
 
             <co.yap.widgets.CoreButton
                 android:id="@+id/btnBusiness"
@@ -108,6 +108,7 @@
                 android:layout_marginStart="@dimen/_6sdp"
                 android:layout_marginTop="@dimen/margin_medium"
                 android:layout_weight=".5"
+                android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
                 android:paddingTop="@dimen/margin_normal_large"
                 android:paddingBottom="@dimen/margin_normal_large"
                 android:textStyle="bold"
@@ -146,6 +147,7 @@
                 android:layout_marginStart="@dimen/_5sdp"
                 android:layout_toRightOf="@+id/tvDisplayTextSignIn"
                 android:gravity="center"
+                android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
                 android:paddingTop="@dimen/margin_normal_large"
                 android:paddingEnd="@dimen/margin_large"
                 android:paddingBottom="@dimen/margin_large"

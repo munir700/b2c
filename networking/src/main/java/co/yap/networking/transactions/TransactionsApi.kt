@@ -11,17 +11,25 @@ import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionsR
 interface TransactionsApi {
     suspend fun addFunds(addFundsRequest: AddFundsRequest): RetroApiResponse<AddRemoveFundsResponse>
     suspend fun removeFunds(removeFundsResponse: RemoveFundsRequest): RetroApiResponse<AddRemoveFundsResponse>
-    suspend fun getFundTransferLimits(productCode: String): RetroApiResponse<FundTransferLimitsResponse>
+    suspend fun getFundTransferLimits(productCode: String?): RetroApiResponse<FundTransferLimitsResponse>
     suspend fun getFundTransferDenominations(productCode: String): RetroApiResponse<FundTransferDenominationsResponse>
     suspend fun getCardFee(cardType: String): RetroApiResponse<CardFeeResponse>
-    suspend fun getTransactionFeeWithProductCode(productCode: String, mRemittanceFeeRequest: RemittanceFeeRequest): RetroApiResponse<ApiResponse>
-    suspend fun getTransactionInternationalReasonList(productCode: String): RetroApiResponse<InternationalFundsTransferReasonList>
-    suspend fun getCardStatements(cardSerialNumber: String): RetroApiResponse<CardStatementsResponse>
-    suspend fun getTransactionInternationalRXList(RxNumber: String,mRxListRequest: RxListRequest): RetroApiResponse<ApiResponse>
+    suspend fun getTransactionFeeWithProductCode(
+        productCode: String?,
+        mRemittanceFeeRequest: RemittanceFeeRequest
+    ): RetroApiResponse<ApiResponse>
+
+    suspend fun getTransactionInternationalReasonList(productCode: String?): RetroApiResponse<InternationalFundsTransferReasonList>
+    suspend fun getCardStatements(cardSerialNumber: String?): RetroApiResponse<CardStatementsResponse>
+    suspend fun getTransactionInternationalRXList(
+        RxNumber: String?,
+        mRxListRequest: RxListRequest
+    ): RetroApiResponse<ApiResponse>
+
     suspend fun y2yFundsTransferRequest(y2YFundsTransferRequest: Y2YFundsTransferRequest): RetroApiResponse<ApiResponse>
     suspend fun addEditNote(addEditNoteRequest: AddEditNoteRequest): RetroApiResponse<AddEditNoteResponse>
     suspend fun getSearchFilterAmount(): RetroApiResponse<SearchFilterAmountResponse>
-    suspend fun getTransactionDetails(transactionId: String): RetroApiResponse<TransactionDetailsResponse>
+    suspend fun getTransactionDetails(transactionId: String?): RetroApiResponse<TransactionDetailsResponse>
     suspend fun getAccountTransactions(homeTransactionsRequest: HomeTransactionsRequest): RetroApiResponse<HomeTransactionsResponse>
     suspend fun getCardTransactions(cardTransactionRequest: CardTransactionRequest): RetroApiResponse<HomeTransactionsResponse>
     suspend fun getTransactionFee(productCode: String): RetroApiResponse<TransactionFeeResponseDTO>
@@ -43,6 +51,10 @@ interface TransactionsApi {
         date: String? = ""
     ): RetroApiResponse<AnalyticsResponseDTO>
 
-    suspend fun cashPayoutTransferRequest(): RetroApiResponse<ApiResponse>
+    suspend fun cashPayoutTransferRequest(cashPayoutRequestDTO: CashPayoutRequestDTO): RetroApiResponse<SendMoneyTransactionResponseDTO>
+    suspend fun domesticTransferRequest(domesticTransactionRequestDTO: DomesticTransactionRequestDTO): RetroApiResponse<SendMoneyTransactionResponseDTO>
+    suspend fun uaeftsTransferRequest(uaeftsTransactionRequestDTO: UAEFTSTransactionRequestDTO): RetroApiResponse<SendMoneyTransactionResponseDTO>
+    suspend fun rmtTransferRequest(rmtTransactionRequestDTO: RMTTransactionRequestDTO): RetroApiResponse<SendMoneyTransactionResponseDTO>
+    suspend fun swiftTransferRequest(swiftTransactionRequestDTO: SwiftTransactionRequestDTO): RetroApiResponse<SendMoneyTransactionResponseDTO>
 
 }

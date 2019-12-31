@@ -2,6 +2,7 @@ package co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.states
 
 import android.app.Application
 import androidx.databinding.Bindable
+import androidx.databinding.ObservableField
 import androidx.databinding.library.baseAdapters.BR
 import co.yap.countryutils.country.Country
 import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.interfaces.ISelectCountry

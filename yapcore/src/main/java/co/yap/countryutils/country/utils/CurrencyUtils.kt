@@ -14,559 +14,547 @@ object CurrencyUtils {
             code = "EUR",
             name = "Euro",
             symbol = "€",
-            flag = R.drawable.flag_eur
+            flag = R.drawable.flag_eu
         ),
         Currency(
             "USD",
             "United States Dollar",
             "$",
-            R.drawable.flag_usd
+            R.drawable.flag_us
         ),
         Currency(
             "GBP",
             "British Pound",
             "£",
-            R.drawable.flag_gbp
+            R.drawable.flag_gb
         ),
         Currency(
             "CZK",
             "Czech Koruna",
             "Kč",
-            R.drawable.flag_czk
+            R.drawable.flag_cz
         ),
         Currency(
             "TRY",
             "Turkish Lira",
             "₺",
-            R.drawable.flag_try
+            R.drawable.flag_tr
         ),
         Currency(
             "AED",
             "Emirati Dirham",
             "د.إ",
-            R.drawable.flag_aed
+            R.drawable.flag_ae
         ),
         Currency(
             "AFN",
             "Afghanistan Afghani",
             "؋",
-            R.drawable.flag_afn
+            R.drawable.flag_af
         ),
         Currency(
             "ARS",
             "Argentine Peso",
             "$",
-            R.drawable.flag_ars
+            R.drawable.flag_ar
         ),
         Currency(
             "AUD",
             "Australian Dollar",
             "$",
-            R.drawable.flag_aud
+            R.drawable.flag_au
         ),
         Currency(
             "BBD",
             "Barbados Dollar",
             "$",
-            R.drawable.flag_bbd
+            R.drawable.flag_bb
         ),
         Currency(
             "BDT",
             "Bangladeshi Taka",
             " Tk",
-            R.drawable.flag_bdt
+            R.drawable.flag_bd
         ),
         Currency(
             "BGN",
             "Bulgarian Lev",
             "лв",
-            R.drawable.flag_bgn
+            R.drawable.flag_bg
         ),
         Currency(
             "BHD",
             "Bahraini Dinar",
             "BD",
-            R.drawable.flag_bhd
+            R.drawable.flag_bh
         ),
         Currency(
             "BMD",
             "Bermuda Dollar",
             "$",
-            R.drawable.flag_bmd
+            R.drawable.flag_bm
         ),
         Currency(
             "BND",
             "Brunei Darussalam Dollar",
             "$",
-            R.drawable.flag_bnd
+            R.drawable.flag_bn
         ),
         Currency(
             "BOB",
             "Bolivia Bolíviano",
             "\$b",
-            R.drawable.flag_bob
+            R.drawable.flag_bo
         ),
         Currency(
             "BRL",
             "Brazil Real",
             "R$",
-            R.drawable.flag_brl
+            R.drawable.flag_br
         ),
         Currency(
             "BTN",
             "Bhutanese Ngultrum",
             "Nu.",
-            R.drawable.flag_btn
+            R.drawable.flag_bt
         ),
         Currency(
             "BZD",
             "Belize Dollar",
             "BZ$",
-            R.drawable.flag_bzd
+            R.drawable.flag_bz
         ),
         Currency(
             "CAD",
             "Canada Dollar",
             "$",
-            R.drawable.flag_cad
+            R.drawable.flag_ca
         ),
         Currency(
             "CHF",
             "Switzerland Franc",
             "CHF",
-            R.drawable.flag_chf
+            R.drawable.flag_ch
         ),
         Currency(
             "CLP",
             "Chile Peso",
             "$",
-            R.drawable.flag_clp
+            R.drawable.flag_cl
         ),
         Currency(
             "CNY",
             "China Yuan Renminbi",
             "¥",
-            R.drawable.flag_cny
+            R.drawable.flag_cn
         ),
         Currency(
             "COP",
             "Colombia Peso",
             "$",
-            R.drawable.flag_cop
+            R.drawable.flag_co
         ),
         Currency(
             "CRC",
             "Costa Rica Colon",
             "₡",
-            R.drawable.flag_crc
+            R.drawable.flag_cr
         ),
         Currency(
             "DKK",
             "Denmark Krone",
             "kr",
-            R.drawable.flag_dkk
+            R.drawable.flag_dk
         ),
         Currency(
             "DOP",
             "Dominican Republic Peso",
             "RD$",
-            R.drawable.flag_dop
+            R.drawable.flag_do
         ),
         Currency(
             "EGP",
             "Egypt Pound",
             "£",
-            R.drawable.flag_egp
+            R.drawable.flag_eg
         ),
         Currency(
             "ETB",
             "Ethiopian Birr",
             "Br",
-            R.drawable.flag_etb
+            R.drawable.flag_et
         ),
         Currency(
             "GEL",
             "Georgian Lari",
             "₾",
-            R.drawable.flag_gel
+            R.drawable.flag_ge
         ),
         Currency(
             "GHS",
             "Ghana Cedi",
             "¢",
-            R.drawable.flag_ghs
+            R.drawable.flag_gh
         ),
         Currency(
             "GMD",
             "Gambian dalasi",
             "D",
-            R.drawable.flag_gmd
+            R.drawable.flag_gm
         ),
         Currency(
             "GYD",
             "Guyana Dollar",
             "$",
-            R.drawable.flag_gyd
+            R.drawable.flag_gy
         ),
         Currency(
             "HKD",
             "Hong Kong Dollar",
             "$",
-            R.drawable.flag_hkd
+            R.drawable.flag_hk
         ),
         Currency(
             "HRK",
             "Croatia Kuna",
             "kn",
-            R.drawable.flag_hrk
+            R.drawable.flag_hr
         ),
         Currency(
             "HUF",
             "Hungary Forint",
             "Ft",
-            R.drawable.flag_huf
+            R.drawable.flag_hu
         ),
         Currency(
             "IDR",
             "Indonesia Rupiah",
             "Rp",
-            R.drawable.flag_idr
+            R.drawable.flag_id
         ),
         Currency(
             "ILS",
             "Israel Shekel",
             "₪",
-            R.drawable.flag_ils
+            R.drawable.flag_il
         ),
         Currency(
             "INR",
             "Indian Rupee",
             "₹",
-            R.drawable.flag_inr
+            R.drawable.flag_in
         ),
         Currency(
             "ISK",
             "Iceland Krona",
             "kr",
-            R.drawable.flag_isk
+            R.drawable.flag_is
         ),
         Currency(
             "JMD",
             "Jamaica Dollar",
             "J$",
-            R.drawable.flag_jmd
+            R.drawable.flag_jm
         ),
         Currency(
             "JPY",
             "Japanese Yen",
             "¥",
-            R.drawable.flag_jpy
+            R.drawable.flag_jp
         ),
         Currency(
             "KES",
             "Kenyan Shilling",
             "KSh",
-            R.drawable.flag_kes
+            R.drawable.flag_ke
         ),
         Currency(
             "KRW",
             "Korea (South) Won",
             "₩",
-            R.drawable.flag_krw
+            R.drawable.flag_kr
         ),
         Currency(
             "KWD",
             "Kuwaiti Dinar",
             "د.ك",
-            R.drawable.flag_kwd
+            R.drawable.flag_kw
         ),
         Currency(
             "KYD",
             "Cayman Islands Dollar",
             "$",
-            R.drawable.flag_kyd
+            R.drawable.flag_ky
         ),
         Currency(
             "KZT",
             "Kazakhstan Tenge",
             "лв",
-            R.drawable.flag_kzt
+            R.drawable.flag_kz
         ),
         Currency(
             "LAK",
             "Laos Kip",
             "₭",
-            R.drawable.flag_lak
+            R.drawable.flag_la
         ),
         Currency(
             "LKR",
             "Sri Lanka Rupee",
             "₨",
-            R.drawable.flag_lkr
+            R.drawable.flag_lk
         ),
         Currency(
             "LRD",
             "Liberia Dollar",
             "$",
-            R.drawable.flag_lrd
+            R.drawable.flag_lr
         ),
         Currency(
             "LTL",
             "Lithuanian Litas",
             "Lt",
-            R.drawable.flag_ltl
+            R.drawable.flag_lt
         ),
         Currency(
             "MAD",
             "Moroccan Dirham",
             "MAD",
-            R.drawable.flag_mad
+            R.drawable.flag_ma
         ),
         Currency(
             "MDL",
             "Moldovan Leu",
             "MDL",
-            R.drawable.flag_mdl
-        ),
-        Currency(
-            "MKD",
-            "Macedonia Denar",
-            "ден",
-            R.drawable.flag_mkd
+            R.drawable.flag_md
         ),
         Currency(
             "MNT",
             "Mongolia Tughrik",
             "₮",
-            R.drawable.flag_mnt
+            R.drawable.flag_mn
         ),
         Currency(
             "MUR",
             "Mauritius Rupee",
             "₨",
-            R.drawable.flag_mur
+            R.drawable.flag_mu
         ),
         Currency(
             "MWK",
             "Malawian Kwacha",
             "MK",
-            R.drawable.flag_mwk
+            R.drawable.flag_mw
         ),
         Currency(
             "MXN",
             "Mexico Peso",
             "$",
-            R.drawable.flag_mxn
+            R.drawable.flag_mx
         ),
         Currency(
             "MYR",
             "Malaysia Ringgit",
             "RM",
-            R.drawable.flag_myr
+            R.drawable.flag_my
         ),
         Currency(
             "MZN",
             "Mozambique Metical",
             "MT",
-            R.drawable.flag_mzn
+            R.drawable.flag_mz
         ),
         Currency(
             "NAD",
             "Namibia Dollar",
             "$",
-            R.drawable.flag_nad
+            R.drawable.flag_na
         ),
         Currency(
             "NGN",
             "Nigeria Naira",
             "₦",
-            R.drawable.flag_ngn
+            R.drawable.flag_ng
         ),
         Currency(
             "NIO",
             "Nicaragua Cordoba",
             "C$",
-            R.drawable.flag_nio
+            R.drawable.flag_ni
         ),
         Currency(
             "NOK",
             "Norway Krone",
             "kr",
-            R.drawable.flag_nok
+            R.drawable.flag_no
         ),
         Currency(
             "NPR",
             "Nepal Rupee",
             "₨",
-            R.drawable.flag_npr
+            R.drawable.flag_np
         ),
         Currency(
             "NZD",
             "New Zealand Dollar",
             "$",
-            R.drawable.flag_nzd
+            R.drawable.flag_nz
         ),
         Currency(
             "OMR",
             "Oman Rial",
             "﷼",
-            R.drawable.flag_omr
+            R.drawable.flag_om
         ),
         Currency(
             "PEN",
             "Peru Sol",
             "S/.",
-            R.drawable.flag_pen
+            R.drawable.flag_pe
         ),
         Currency(
             "PGK",
             "Papua New Guinean Kina",
             "K",
-            R.drawable.flag_pgk
+            R.drawable.flag_pg
         ),
         Currency(
             "PHP",
             "Philippines Peso",
             "₱",
-            R.drawable.flag_php
+            R.drawable.flag_ph
         ),
         Currency(
             "PKR",
             "Pakistan Rupee",
             "₨",
-            R.drawable.flag_pkr
-        ),
-        Currency(
-            "PLN",
-            "Poland Zloty",
-            "zł",
-            R.drawable.flag_pln
+            R.drawable.flag_pk
         ),
         Currency(
             "PYG",
             "Paraguay Guarani",
             "Gs",
-            R.drawable.flag_pyg
+            R.drawable.flag_py
         ),
         Currency(
             "QAR",
             "Qatar Riyal",
             "﷼",
-            R.drawable.flag_qar
+            R.drawable.flag_qa
         ),
         Currency(
             "RON",
             "Romania Leu",
             "lei",
-            R.drawable.flag_ron
+            R.drawable.flag_ro
         ),
         Currency(
             "RSD",
             "Serbia Dinar",
             "Дин.",
-            R.drawable.flag_rsd
+            R.drawable.flag_rs
         ),
         Currency(
             "RUB",
             "Russia Ruble",
             "₽",
-            R.drawable.flag_rub
+            R.drawable.flag_ru
         ),
         Currency(
             "SAR",
             "Saudi Arabia Riyal",
             "﷼",
-            R.drawable.flag_sar
+            R.drawable.flag_sa
         ),
         Currency(
             "SEK",
             "Sweden Krona",
             "kr",
-            R.drawable.flag_sek
+            R.drawable.flag_se
         ),
         Currency(
             "SGD",
             "Singapore Dollar",
             "$",
-            R.drawable.flag_sgd
+            R.drawable.flag_sg
         ),
         Currency(
             "SOS",
             "Somalia Shilling",
             "S",
-            R.drawable.flag_sos
+            R.drawable.flag_so
         ),
         Currency(
             "SRD",
             "Suriname Dollar",
             "$",
-            R.drawable.flag_srd
+            R.drawable.flag_sr
         ),
         Currency(
             "THB",
             "Thailand Baht",
             "฿",
-            R.drawable.flag_thb
+            R.drawable.flag_th
         ),
         Currency(
             "TTD",
             "Trinidad and Tobago Dollar",
             "TT$",
-            R.drawable.flag_ttd
+            R.drawable.flag_tt
         ),
         Currency(
             "TWD",
             "Taiwan New Dollar",
             "NT$",
-            R.drawable.flag_twd
+            R.drawable.flag_tw
         ),
         Currency(
             "TZS",
             "Tanzanian Shilling",
             "TSh",
-            R.drawable.flag_tzs
+            R.drawable.flag_tz
         ),
         Currency(
             "UAH",
             "Ukraine Hryvnia",
             "₴",
-            R.drawable.flag_uah
+            R.drawable.flag_ua
         ),
         Currency(
             "UGX",
             "Ugandan Shilling",
             "USh",
-            R.drawable.flag_ugx
+            R.drawable.flag_ug
         ),
         Currency(
             "UYU",
             "Uruguay Peso",
             "\$U",
-            R.drawable.flag_uyu
+            R.drawable.flag_uy
         ),
         Currency(
             "VEF",
             "Venezuela Bolívar",
             "Bs",
-            R.drawable.flag_vef
+            R.drawable.flag_ve
         ),
         Currency(
             "VND",
             "Viet Nam Dong",
             "₫",
-            R.drawable.flag_vnd
+            R.drawable.flag_vn
         ),
         Currency(
             "YER",
             "Yemen Rial",
             "﷼",
-            R.drawable.flag_yer
+            R.drawable.flag_ye
         ),
         Currency(
             "ZAR",
             "South Africa Rand",
             "R",
-            R.drawable.flag_zar
+            R.drawable.flag_za
         )
     )
 

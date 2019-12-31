@@ -1,35 +1,59 @@
 package co.yap.networking.customers.responsedtos
 
 import androidx.lifecycle.MutableLiveData
+import com.google.gson.annotations.SerializedName
 
 class AccountInfo(
-
-    var creationDate: String,
+    @SerializedName("creationDate")
+    var creationDate: String? = null,
+    @SerializedName("createdBy")
     var createdBy: String,
+    @SerializedName("updatedDate")
     var updatedDate: String,
+    @SerializedName("uuid")
     var uuid: String,
+    @SerializedName("defaultProfile")
     var defaultProfile: Boolean,
+    @SerializedName("isActive")
     var isActive: String,
-    var accountNo: String,
+    @SerializedName("accountNo")
+    var accountNo: String?=null,
+    @SerializedName("fssRequestRefNo")
     var fssRequestRefNo: String,
+    @SerializedName("packageName")
     var packageName: String?,
+    @SerializedName("status")
     var status: String,
+    @SerializedName("onBoardingStatus")
     var onBoardingStatus: String,
+    @SerializedName("customer")
     private var customer: Customer,
+    @SerializedName("documentInformation")
     var documentInformation: Any,
-    var bank: Bank,
-
+    @SerializedName("bank")
+    var bank: Bank?=Bank(),
+    @SerializedName("notificationStatuses")
     var notificationStatuses: String,
+    @SerializedName("toClose")
     var toClose: Boolean,
+    @SerializedName("noOfSubAccounts")
     var noOfSubAccounts: Int,
+    @SerializedName("workItemNo")
     var workItemNo: String,
-    var partnerBankStatus: String,
+    @SerializedName("partnerBankStatus")
+    var partnerBankStatus: String?=null,
+    @SerializedName("active")
     var active: Boolean,
+    @SerializedName("soleProprietary")
     var soleProprietary: Boolean,
-    var iban: String,
+    @SerializedName("iban")
+    var iban: String? = null,
+    @SerializedName("ibdocumentsVerifiedan")
     var ibdocumentsVerifiedan: Boolean,
+    @SerializedName("documentsVerified")
     var documentsVerified: Boolean,
-    var isDocumentsVerified: String,
+    @SerializedName("isDocumentsVerified")
+    var isDocumentsVerified: String? = null,
     private var currentCustomerLiveData: MutableLiveData<Customer>
 ) {
 

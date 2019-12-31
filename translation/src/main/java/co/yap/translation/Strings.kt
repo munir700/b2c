@@ -6,6 +6,7 @@ object Strings {
     // Common
     const val common_display_text_retry: String = "common_display_text_retry"
     const val common_button_next: String = "common_button_next"
+    const val common_button_confirm: String = "common_button_confirm"
     const val common_display_text_error_no_internet: String =
         "common_display_text_error_no_internet"
     const val common_button_yes: String = "common_button_yes"
@@ -1138,6 +1139,49 @@ object Strings {
         "screen_cash_pickup_funds_display_otp_header"
     const val screen_cash_pickup_funds_success_toolbar_header: String =
         "screen_cash_pickup_funds_success_toolbar_header"
+    const val screen_funds_local_toolbar_header: String =
+        "screen_funds_local_toolbar_header"
+
+    //success Transfer flow
+    const val screen_funds_success_header: String =
+        "screen_funds_success_header"
+    const val screen_funds_toolbar_header: String =
+        "screen_funds_toolbar_header"
+    const val screen_funds_confirmation_success_description: String =
+        "screen_funds_confirmation_success_description"
+    const val screen_funds_receive_description: String =
+        "screen_funds_receive_description"
+    const val screen_funds_transfer_fee_description: String =
+        "screen_funds_transfer_fee_description"
+
+
+    // Screen cash pickup funds transfer success
+    const val screen_cash_pickup_funds_transfer_display_text_amount_heading: String =
+        "screen_cash_pickup_funds_transfer_display_text_amount_heading"
+    const val screen_cash_pickup_funds_transfer_display_text_title: String =
+        "screen_cash_pickup_funds_transfer_display_text_title"
+    const val screen_cash_pickup_funds_transfer_back_to_dashboard: String =
+        "screen_cash_pickup_funds_transfer_back_to_dashboard"
+
+
+    //Screen international funds transfer success
+    const val screen_international_funds_transfer_display_text_amount_heading: String =
+        "screen_international_funds_transfer_display_text_amount_heading"
+    const val screen_international_funds_transfer_display_text_success_title: String =
+        "screen_international_funds_transfer_display_text_success_title"
+    const val screen_international_funds_transfer_back_to_dashboard: String =
+        "screen_international_funds_transfer_back_to_dashboard"
+
+    //Screen domestic funds transfer success
+    const val screen_domestic_funds_transfer_display_text_amount_heading: String =
+        "screen_domestic_funds_transfer_display_text_amount_heading"
+    const val screen_domestic_funds_transfer_display_text_title: String =
+        "screen_domestic_funds_transfer_display_text_title"
+
+
+    //Screen funds transfer information custom view
+    const val custom_view_funds_transfer_display_text_reference_number_heading: String =
+        "custom_view_funds_transfer_display_text_reference_number_heading"
 
 
     //House hold screen

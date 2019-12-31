@@ -3,14 +3,18 @@ package co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.states
 import android.app.Application
 import android.content.Context
 import android.graphics.drawable.Drawable
-import android.text.SpannableString
 import android.text.SpannableStringBuilder
 import androidx.databinding.Bindable
 import androidx.databinding.library.baseAdapters.BR
+import androidx.lifecycle.MutableLiveData
 import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.interfaces.ICashTransfer
+import co.yap.networking.transactions.responsedtos.InternationalFundsTransferReasonList
+import co.yap.networking.transactions.responsedtos.transaction.RemittanceFeeResponse
 import co.yap.translation.Strings
 import co.yap.translation.Translator
 import co.yap.yapcore.BaseState
+import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.helpers.Utils
 
 class CashTransferState(application: Application) : BaseState(), ICashTransfer.State {
 
@@ -50,6 +54,16 @@ class CashTransferState(application: Application) : BaseState(), ICashTransfer.S
             field = value
             notifyPropertyChanged(BR.amount)
             clearError()
+
+            if (feeType == Constants.FEE_TYPE_TIER) {
+                if (amount.isNotEmpty()) {
+                    setSpannableFee(findFee(amount.toDouble()).toString())
+                } else {
+                    setSpannableFee("0.0")
+                }
+            }
+
+
         }
 
     @get:Bindable
@@ -63,6 +77,12 @@ class CashTransferState(application: Application) : BaseState(), ICashTransfer.S
         set(value) {
             field = value
             notifyPropertyChanged(BR.minLimit)
+        }
+    @get:Bindable
+    override var position: Int = 0
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.position)
         }
 
     @get:Bindable
@@ -107,9 +127,15 @@ class CashTransferState(application: Application) : BaseState(), ICashTransfer.S
         }
 
     @get:Bindable
-    override var noteValue: String = ""
+    override var noteValue: String? = null
         set(value) {
-            field = value
+            value?.let {
+                field = if (it.isEmpty()) {
+                    null
+                } else {
+                    value
+                }
+            }
             notifyPropertyChanged(BR.noteValue)
         }
 
@@ -119,20 +145,129 @@ class CashTransferState(application: Application) : BaseState(), ICashTransfer.S
             field = value
             notifyPropertyChanged(BR.imageUrl)
         }
+    @get:Bindable
+    override var feeStringVisibility: Boolean = true
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.feeStringVisibility)
+        }
+    @get:Bindable
+    override var ibanNumber: String? = ""
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.ibanNumber)
+        }
+    @get:Bindable
+    override var ibanVisibility: Boolean? = false
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.ibanVisibility)
+        }
+    @get:Bindable
+    override var beneficiaryCountry: String? = ""
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.beneficiaryCountry)
+        }
+    @get:Bindable
+    override var referenceNumber: String? = ""
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.referenceNumber)
+        }
+    @get:Bindable
+    override var reasonsVisibility: Boolean? = true
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.reasonsVisibility)
+        }
+    @get:Bindable
+    override var produceCode: String? = ""
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.produceCode)
+        }
+    @get:Bindable
+    override var otpAction: String?=""
+        set(value) {
+            field=value
+            notifyPropertyChanged(BR.otpAction)
+        }
+
+
+    @get:Bindable
+    override var reasonTransferValue: String? = ""
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.reasonTransferValue)
+        }
+
+    @get:Bindable
+    override var reasonTransferCode: String? = ""
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.reasonTransferCode)
+        }
+
+    @get:Bindable
+    override var transferFee: String = ""
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.transferFee)
+        }
+
+    @get:Bindable
+    override var transferFeeSpannable: SpannableStringBuilder? = SpannableStringBuilder("")
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.transferFeeSpannable)
+        }
+
+    @get:Bindable
+    override var listItemRemittanceFee: List<RemittanceFeeResponse.RemittanceFee.TierRateDTO> =
+        ArrayList()
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.listItemRemittanceFee)
+        }
+
+    @get:Bindable
+    override var transactionData: ArrayList<InternationalFundsTransferReasonList.ReasonList> =
+        ArrayList()
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.transactionData)
+        }
+    @get:Bindable
+    override var feeType: String? = ""
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.feeType)
+        }
+
+    @get:Bindable
+    override val populateSpinnerData: MutableLiveData<List<InternationalFundsTransferReasonList.ReasonList>> =
+        MutableLiveData()
+
 
     fun checkValidity(): String {
         if (amount != "") {
-            if (amount.toDouble() > availableBalance!!.toDouble()) {
-                amountBackground =
-                    context.resources.getDrawable(co.yap.yapcore.R.drawable.bg_funds_error, null)
-                errorDescription = Translator.getString(
-                    context,
-                    Strings.screen_y2y_funds_transfer_display_text_error_exceeding_amount
-                )
-                return errorDescription
-            } else {
-                amountBackground =
-                    context.resources.getDrawable(co.yap.yapcore.R.drawable.bg_funds, null)
+            if (amount.isNotEmpty() && !availableBalance.isNullOrEmpty()) {
+                if (amount.toDouble() > availableBalance!!.toDouble()) {
+                    amountBackground =
+                        context.resources.getDrawable(
+                            co.yap.yapcore.R.drawable.bg_funds_error,
+                            null
+                        )
+                    errorDescription = Translator.getString(
+                        context,
+                        Strings.screen_y2y_funds_transfer_display_text_error_exceeding_amount
+                    )
+                    return errorDescription
+                } else {
+                    amountBackground =
+                        context.resources.getDrawable(co.yap.yapcore.R.drawable.bg_funds, null)
+                }
             }
         }
         return ""
@@ -149,6 +284,45 @@ class CashTransferState(application: Application) : BaseState(), ICashTransfer.S
         } else if (amount == "") {
             valid = false
         }
+    }
+
+
+    private fun findFee(
+        value: Double
+    ): Double {
+        var totalAmount = 0.0
+        val remittanceTierFee: List<RemittanceFeeResponse.RemittanceFee.TierRateDTO>? =
+            listItemRemittanceFee.filter { item -> item.amountFrom!! <= value && item.amountTo!! >= value }
+        if (remittanceTierFee != null) {
+            if (remittanceTierFee.isNotEmpty()) {
+                val feeAmount = remittanceTierFee[0].feeAmount
+                val feeAmountVAT = remittanceTierFee[0]?.vatAmount
+                if (feeAmount != null) {
+                    totalAmount = feeAmount + feeAmountVAT!!
+                }
+            }
+        }
+        return totalAmount
+    }
+
+    private fun setSpannableFee(totalAmount: String) {
+        transferFee =
+            Translator.getString(
+                context,
+                Strings.screen_cash_pickup_funds_display_text_fee
+            ).format(
+                "AED",
+                Utils.getFormattedCurrency(totalAmount)
+            )
+        feeAmountSpannableString =
+            Utils.getSppnableStringForAmount(
+                context,
+                transferFee,
+                "AED",
+                Utils.getFormattedCurrencyWithoutComma(totalAmount)
+            )
+
+
     }
 
 }

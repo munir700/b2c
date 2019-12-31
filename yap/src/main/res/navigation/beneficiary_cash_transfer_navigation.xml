@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/beneficiary_cash_transfer_navigation"
     app:startDestination="@id/cashTransferFragment">
+
     <fragment
         android:id="@+id/cashTransferFragment"
         android:name="co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.fragments.CashTransferFragment"
@@ -19,7 +20,13 @@
             app:destination="@id/transferSuccessFragment2"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left" />
+        <action
+            android:id="@+id/action_cashTransferFragment_to_internationalFundsTransferFragment"
+            app:destination="@id/internationalFundsTransferFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left" />
     </fragment>
+
     <fragment
         android:id="@+id/genericOtpLogoFragment"
         android:name="co.yap.modules.others.otp.GenericOtpLogoFragment"
@@ -37,8 +44,16 @@
             android:name="amount"
             android:defaultValue=" "
             app:argType="string" />
-
+        <argument
+            android:name="position"
+            android:defaultValue="0"
+            app:argType="integer" />
+        <argument
+            android:name="beneficiaryCountry"
+            android:defaultValue=" "
+            app:argType="string" />
     </fragment>
+
     <fragment
         android:id="@+id/transferSuccessFragment2"
         android:name="co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.fragments.TransferSuccessFragment"
@@ -56,6 +71,94 @@
             android:name="amount"
             android:defaultValue=" "
             app:argType="string" />
+        <argument
+            android:name="referenceNumber"
+            android:defaultValue=" "
+            app:argType="string" />
+        <argument
+            android:name="position"
+            android:defaultValue="0"
+            app:argType="integer" />
+        <argument
+            android:name="country"
+            android:defaultValue=" "
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/internationalFundsTransferFragment"
+        android:name="co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.fragments.InternationalFundsTransferFragment"
+        android:label="InternationalFundsTransferFragment"
+        tools:layout="@layout/fragment_international_funds_transfer">
+
+        <action
+            android:id="@+id/action_internationalFundsTransferFragment_to_genericOtpLogoFragment"
+            app:destination="@id/genericOtpLogoFragment"
+            app:enterAnim="@anim/slide_in_from_bottom"
+            app:exitAnim="@anim/slide_down"
+            app:popUpToInclusive="true" />
+
+        <action
+            android:id="@+id/action_internationalFundsTransferFragment_to_internationalTransactionConfirmationFragment"
+            app:destination="@id/internationalTransactionConfirmationFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left" />
+    </fragment>
+    <fragment
+        android:id="@+id/internationalTransactionConfirmationFragment"
+        android:name="co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.fragments.InternationalTransactionConfirmationFragment"
+        android:label="InternationalTransactionConfirmationFragment"
+        tools:layout="@layout/fragment_international_transaction_confirmation">
+        <argument
+            android:name="name"
+            android:defaultValue=" "
+            app:argType="string" />
+        <argument
+            android:name="transferAmountCurrency"
+            android:defaultValue=" "
+            app:argType="string" />
+        <argument
+            android:name="transferAmount"
+            android:defaultValue=" "
+            app:argType="string" />
+        <argument
+            android:name="convertedReceivingAmount"
+            android:defaultValue=" "
+            app:argType="string" />
+        <argument
+            android:name="transferFee"
+            android:defaultValue=" "
+            app:argType="string" />
+        <argument
+            android:name="fromAmount"
+            android:defaultValue=" "
+            app:argType="string" />
+        <argument
+            android:name="toAmount"
+            android:defaultValue=" "
+            app:argType="string" />
+        <argument
+            android:name="referenceNumber"
+            android:defaultValue=" "
+            app:argType="string" />
+
+        <argument
+            android:name="position"
+            android:defaultValue="0"
+            app:argType="integer" />
+        <argument
+            android:name="country"
+            android:defaultValue=" "
+            app:argType="string" />
+        <argument
+            android:name="firstName"
+            android:defaultValue=" "
+            app:argType="string" />
+
+        <action
+            android:id="@+id/action_internationalTransactionConfirmationFragment_to_transferSuccessFragment2"
+            app:destination="@id/transferSuccessFragment2"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left" />
     </fragment>
 
 </navigation>

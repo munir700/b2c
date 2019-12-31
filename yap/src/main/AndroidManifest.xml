@@ -170,8 +170,8 @@
 
         <activity
             android:name="co.yap.modules.dashboard.yapit.sendmoney.activities.SendMoneyHomeActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:windowSoftInputMode="adjustResize"
+            android:screenOrientation="portrait">
             <nav-graph android:value="@navigation/send_money_main_navigation" />
         </activity>
 
@@ -179,9 +179,10 @@
         <activity
             android:name=".modules.dashboard.yapit.sendmoney.editbeneficiary.activity.EditBeneficiaryActivity"
             android:screenOrientation="portrait" />
+        <!--Update Flag to hide keyboard-->
         <activity
             android:name=".modules.dashboard.yapit.sendmoney.activities.BeneficiaryCashTransferActivity"
-            android:windowSoftInputMode="adjustResize"
+            android:windowSoftInputMode="stateHidden"
             android:screenOrientation="portrait" />
 
         <activity

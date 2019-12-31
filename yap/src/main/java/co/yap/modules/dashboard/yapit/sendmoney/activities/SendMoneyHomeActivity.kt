@@ -1,5 +1,6 @@
 package co.yap.modules.dashboard.yapit.sendmoney.activities
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -13,6 +14,8 @@ import co.yap.modules.dashboard.yapit.sendmoney.viewmodels.SendMoneyViewModel
 import co.yap.modules.kyc.activities.DocumentsDashboardActivity
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.IFragmentHolder
+import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.defaults.DefaultNavigator
 import co.yap.yapcore.defaults.INavigator
 import co.yap.yapcore.interfaces.BackPressImpl
@@ -59,6 +62,30 @@ class SendMoneyHomeActivity : BaseBindingActivity<ISendMoney.ViewModel>(), INavi
         if (!BackPressImpl(fragment).onBackPressed()) {
             super.onBackPressed()
 
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        data?.let {
+            when (requestCode) {
+                RequestCodes.REQUEST_TRANSFER_MONEY -> {
+                    if (resultCode == Activity.RESULT_OK) {
+                        if (data.getBooleanExtra(Constants.MONEY_TRANSFERED, false)) {
+                            val intent = Intent()
+                            intent.putExtra(Constants.MONEY_TRANSFERED, true)
+                            setResult(Activity.RESULT_OK, intent)
+                            finish()
+                        } else if (data.getBooleanExtra(Constants.BENEFICIARY_CHANGE, false)) {
+                            val intent = Intent()
+                            intent.putExtra(Constants.BENEFICIARY_CHANGE, true)
+                            setResult(Activity.RESULT_OK, intent)
+                            finish()
+                        }
+                    }
+                }
+            }
         }
     }
 }

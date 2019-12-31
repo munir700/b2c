@@ -18,8 +18,9 @@ class CongratulationsViewModel(application: Application) :
         super.onCreate()
         // calculate elapsed updatedDate for onboarding
         elapsedOnboardingTime = parentViewModel?.onboardingData?.elapsedOnboardingTime ?: 0
-        state.nameList[0] = parentViewModel!!.onboardingData.firstName
-        state.ibanNumber = maskIbanNumber(parentViewModel!!.onboardingData.ibanNumber.trim())
+        state.nameList[0] = parentViewModel?.onboardingData?.firstName
+        parentViewModel?.onboardingData?.ibanNumber?.let { state.ibanNumber = maskIbanNumber(it.trim()) }
+       // state.ibanNumber = maskIbanNumber(parentViewModel?.onboardingData.ibanNumber?.trim())
     }
 
     override fun onResume() {
@@ -33,6 +34,8 @@ class CongratulationsViewModel(application: Application) :
     }
 
     private fun maskIbanNumber(unmaskedIban: String): String {
+
+
         return if (unmaskedIban.length >= 8) {
             val firstPartIban: String = unmaskedIban.substring(0, 2)
             val secondPartIban: String = unmaskedIban.substring(2, 4)

@@ -20,17 +20,21 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="0dp"
             android:orientation="vertical"
-            android:paddingLeft="@dimen/margin_medium"
-            android:paddingRight="@dimen/margin_medium">
+            app:layout_constraintBottom_toTopOf="@+id/nextButton"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
             <TextView
                 android:id="@+id/tvSelectCountryHeading"
                 style="@style/Large"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_medium"
                 android:layout_marginTop="@dimen/margin_large"
+                android:layout_marginEnd="@dimen/margin_medium"
                 android:gravity="center"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
@@ -43,7 +47,9 @@
                 style="@style/RegularGrey"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_medium"
                 android:layout_marginTop="@dimen/_36sdp"
+                android:layout_marginEnd="@dimen/margin_medium"
                 android:gravity="start"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
@@ -66,7 +72,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="bottom"
-                    android:layout_marginRight="@dimen/margin_normal"
+                    android:layout_marginStart="@dimen/margin_medium"
+                    android:layout_marginEnd="@dimen/margin_normal"
                     android:background="@drawable/bg_spinner"
                     android:drawSelectorOnTop="false"
                     android:dropDownHeight="@dimen/_50sdp"
@@ -80,18 +87,11 @@
                     android:layout_height="1dp"
                     android:layout_below="@+id/countriesSpinner"
                     android:layout_alignParentTop="true"
+                    android:layout_marginStart="@dimen/margin_medium_large"
                     android:layout_marginTop="@dimen/_30sdp"
+                    android:layout_marginEnd="@dimen/margin_medium_large"
                     android:background="@color/greyLight"
                     android:minHeight="@dimen/_15sdp" />
-
-
-                <View
-                    android:id="@+id/viewTriggerSpinnerClick"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/_30sdp"
-                    android:layout_below="@+id/countriesSpinner"
-                    android:layout_alignParentTop="true"
-                    android:onClick="@{(v) -> viewModel.handlePressOnSeclectCountry(v.id)}" />
 
             </RelativeLayout>
         </LinearLayout>
@@ -107,12 +107,11 @@
             android:layout_marginBottom="@dimen/margin_medium_large"
             android:onClick="@{(v) -> viewModel.handlePressOnSeclectCountry(v.id)}"
             app:btn_enable="false"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:text="@{Strings.screen_add_beneficiary_display_text_select_country}"
-            tools:ignore="MissingConstraints"
-            tools:layout_editor_absoluteX="44dp"
-            tools:text="@string/screen_add_beneficiary_display_text_select_country"
             app:enableCoreButton="@{viewModel.state.valid}"
-            />
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:text="@{Strings.screen_add_beneficiary_button_next}"
+            tools:ignore="MissingConstraints"
+            tools:text="@string/screen_add_beneficiary_display_text_select_country" />
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 </layout>

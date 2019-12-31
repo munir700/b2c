@@ -1,8 +1,15 @@
 package co.yap.networking.cards.requestdtos
 
+import com.google.gson.annotations.SerializedName
+import java.io.Serializable
+
 data class UpdateAddressRequest(
-    var address1: String? = null,
-    var address2: String? = null,
-    var latitude: String? = null,
-    var longitude: String? = null
-)
+    @SerializedName("address1")
+    val address1: String? = null,
+    @SerializedName("address2")
+    val address2: String? = null,
+    @SerializedName("latitude")
+    val latitude: String? = null,
+    @SerializedName("longitude")
+    val longitude: String? = null
+) : Serializable

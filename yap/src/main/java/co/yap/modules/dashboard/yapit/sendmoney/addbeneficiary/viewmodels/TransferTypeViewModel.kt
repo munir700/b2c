@@ -24,33 +24,37 @@ class TransferTypeViewModel(application: Application) :
         parentViewModel?.selectedCountry?.value?.let {
             it.isoCountryCode2Digit?.let { code ->
                 if (code.equals("ae", true)) {
-                    parentViewModel?.transferType?.value =
-                        (SendMoneyBeneficiaryType.DOMESTIC.name)
+                    parentViewModel?.beneficiary?.value?.beneficiaryType =
+                        SendMoneyBeneficiaryType.DOMESTIC.name
+                    clickEvent.setValue(id)
                 } else {
-                    it.rmtCountry?.let { isRmt ->
+                    it.getCurrency()?.rmtCountry?.let { isRmt ->
                         if (isRmt) {
-                            parentViewModel?.transferType?.value =
-                                (SendMoneyBeneficiaryType.RMT.name)
+                            parentViewModel?.beneficiary?.value?.beneficiaryType =
+                                SendMoneyBeneficiaryType.RMT.name
+                            clickEvent.setValue(id)
                         } else {
-                            parentViewModel?.transferType?.value =
-                                (SendMoneyBeneficiaryType.SWIFT.name)
+                            parentViewModel?.beneficiary?.value?.beneficiaryType =
+                                SendMoneyBeneficiaryType.SWIFT.name
+                            clickEvent.setValue(id)
                         }
                     }
                 }
             }
         }
-        clickEvent.setValue(id)
     }
 
     override fun handlePressOnTypeCashPickUp(id: Int) {
-        parentViewModel?.transferType?.value =
-            (SendMoneyBeneficiaryType.CASHPAYOUT.name)
+        parentViewModel?.beneficiary?.value?.beneficiaryType =
+            SendMoneyBeneficiaryType.CASHPAYOUT.name
         clickEvent.setValue(id)
     }
 
     override fun onResume() {
         super.onResume()
         setToolBarTitle(getString(Strings.screen_add_beneficiary_display_text_title))
+        parentViewModel?.state?.toolbarVisibility?.set(true)
+        parentViewModel?.state?.leftIcon?.set(true)
         //toggleAddButtonVisibility(false)
     }
 }

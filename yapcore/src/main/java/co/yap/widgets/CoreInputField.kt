@@ -12,7 +12,6 @@ import android.text.InputType
 import android.text.SpannableStringBuilder
 import android.util.AttributeSet
 import android.view.*
-import android.view.Gravity.BOTTOM
 import android.view.View.OnClickListener
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
@@ -24,6 +23,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import co.yap.yapcore.R
 import kotlinx.android.synthetic.main.custom_widget_edit_text.view.*
+
 
 @Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
 @SuppressLint("CustomViewStyleable")
@@ -54,7 +54,6 @@ class CoreInputField @JvmOverloads constructor(
     private var PHONE_NUMBER_LENGTH: Int = 16
     var editText: EditText
     var checkFocusChange: Boolean = false
-    var view_plain_background: Boolean = false
     private var viewDataBinding: ViewDataBinding
 
     init {
@@ -82,26 +81,10 @@ class CoreInputField @JvmOverloads constructor(
             maxLength = typedArray.getInt(R.styleable.CoreInputField_view_max_length, maxLength)
             checkFocusChange =
                 typedArray.getBoolean(R.styleable.CoreInputField_view_focusable, checkFocusChange)
-            view_plain_background = typedArray.getBoolean(
-                R.styleable.CoreInputField_view_plain_background,
-                view_plain_background
-            )
             imeiActionType = typedArray.getInt(
                 R.styleable.CoreInputField_view_input_text_imei_actions,
                 imeiActionType
             )
-            if (view_plain_background) {
-
-                editText.setBackgroundResource(R.drawable.bg_plain_edit_text)
-                editText.setPadding(0,0,0,15)
-                rlTopMain.setPadding(0,-13,0,0)
-//                android:gravity="bottom"
-                editText.gravity=BOTTOM
-
-                //set plain bg
-            } else {
-                editText.setBackgroundResource(R.drawable.bg_round_edit_text)
-            }
 
             if (null != typedArray.getInt(R.styleable.CoreInputField_view_id, view_id)) {
                 view_id = typedArray.getInt(R.styleable.CoreInputField_view_id, view_id)
@@ -173,7 +156,6 @@ class CoreInputField @JvmOverloads constructor(
 
             }
         }
-
     }
 
     private fun setViewInputType() {
@@ -185,9 +167,8 @@ class CoreInputField @JvmOverloads constructor(
             }
 
             EMAIL_INPUT_TYPE -> {
-                editText.inputType = InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS
+                editText.inputType = InputType.TYPE_TEXT_VARIATION_PASSWORD
                 requestKeyboard()
-
             }
         }
     }
@@ -295,12 +276,7 @@ class CoreInputField @JvmOverloads constructor(
     }
 
     fun settingUIForError(error: String) {
-        if (view_plain_background) {
-            editText.setBackgroundResource(R.drawable.bg_red_line)
-        } else {
-            editText.setBackgroundResource(R.drawable.bg_round_error_layout)
-        }
-
+        editText.setBackgroundResource(R.drawable.bg_round_error_layout)
         tvError.text = error
         tvError.visibility = View.VISIBLE
         setDrawableRightIcon(resources.getDrawable(R.drawable.invalid_name))
@@ -308,11 +284,7 @@ class CoreInputField @JvmOverloads constructor(
     }
 
     fun settingUIForNormal() {
-        if (view_plain_background) {
-            editText.setBackgroundResource(R.drawable.bg_plain_edit_text)
-        } else {
-            editText.setBackgroundResource(R.drawable.bg_round_edit_text)
-        }
+        editText.setBackgroundResource(R.drawable.bg_round_edit_text)
         tvError.text = ""
         drawableRight = null
         tvError.visibility = View.GONE

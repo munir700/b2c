@@ -31,7 +31,7 @@ object MyUserManager : IRepositoryHolder<CardsRepository> {
         GlobalScope.launch {
             when (val response = repository.getAccountBalanceRequest()) {
                 is RetroApiResponse.Success -> {
-                    cardBalance.postValue(CardBalance(availableBalance = response.data.data.availableBalance.toString()))
+                    cardBalance.postValue(CardBalance(availableBalance = response.data.data?.availableBalance.toString()))
                 }
                 is RetroApiResponse.Error -> {
 
@@ -49,6 +49,17 @@ object MyUserManager : IRepositoryHolder<CardsRepository> {
             }
         }
         return ""
+    }
+
+    fun getPrimaryCard(): Card? {
+        cards.value?.let {
+            for (card in it) {
+                if (card.cardType == "DEBIT") {
+                    return card
+                }
+            }
+        }
+        return null
     }
 
 }

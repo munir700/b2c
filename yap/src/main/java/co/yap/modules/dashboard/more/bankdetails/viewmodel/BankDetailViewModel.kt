@@ -16,11 +16,12 @@ class BankDetailViewModel(application: Application) : BaseViewModel<IBankDetail.
     override val state: BankDetailStates = BankDetailStates()
 
     init {
-        state.account.set(MyUserManager.user?.accountNo)
-        state.addresse.set(MyUserManager.user?.bank?.address)
-        state.bank.set(MyUserManager.user?.bank?.name)
-        state.iban.set(MyUserManager.user?.iban)
-        state.swift.set(MyUserManager.user?.bank?.swiftCode)
+        MyUserManager.user?.accountNo?.let { state.account.set(it) }
+        MyUserManager.user?.bank?.address?.let { state.addresse.set(it) }
+        MyUserManager.user?.bank?.name?.let { state.bank.set(it) }
+        MyUserManager.user?.iban?.let { state.iban.set(it) }
+        MyUserManager.user?.bank?.swiftCode?.let { state.swift.set(it) }
+
         state.name.set(MyUserManager.user?.currentCustomer?.getFullName())
         state.title.set(getString(R.string.screen_more_detail_display_text_bank_details))
         MyUserManager.user?.currentCustomer?.getPicture()?.let {

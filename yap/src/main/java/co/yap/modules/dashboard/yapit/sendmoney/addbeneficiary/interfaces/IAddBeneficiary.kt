@@ -1,9 +1,10 @@
 package co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.interfaces
 
 import android.graphics.drawable.Drawable
+import androidx.lifecycle.MutableLiveData
+import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
-import co.yap.yapcore.SingleLiveEvent
 
 interface IAddBeneficiary {
 
@@ -22,8 +23,7 @@ interface IAddBeneficiary {
         var drawbleRight: Drawable?
         var mobileNoLength: Int
         var valid: Boolean
-        var validateCashflowButton: Boolean
-        var validateDomesticButton: Boolean
+        var country2DigitIsoCode:String
 
         var id: Int
         var beneficiaryId: String?
@@ -38,12 +38,17 @@ interface IAddBeneficiary {
         var branchAddress: String?
         var identifierCode1: String?
         var identifierCode2: String?
+        var selectedBeneficiaryType: String?
     }
 
     interface ViewModel : IBase.ViewModel<State> {
         var clickEvent: SingleClickEvent
         fun handlePressOnAddNow(id: Int)
         fun handlePressOnAddDomestic(id: Int)
+        fun addCashPickupBeneficiary()
+        fun addDomesticBeneficiary(objBeneficiary: Beneficiary?)
+        var addBeneficiarySuccess: MutableLiveData<Boolean>
+        var beneficiary:Beneficiary?
 
 //      fun generateRequestDTO(beneficiaryData: AddBeneficiaryData): AddBeneficiaryRequestDTO
         //fun generateCashPayoutBeneficiaryRequestDTO()

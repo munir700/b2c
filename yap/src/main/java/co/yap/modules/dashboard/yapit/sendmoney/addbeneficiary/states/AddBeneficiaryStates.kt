@@ -5,11 +5,19 @@ import androidx.databinding.Bindable
 import androidx.databinding.library.baseAdapters.BR
 import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.interfaces.IAddBeneficiary
 import co.yap.yapcore.BaseState
+import co.yap.yapcore.enums.SendMoneyBeneficiaryType.*
 
-class AddBeneficiaryStates : BaseState(), IAddBeneficiary.State {
+class AddBeneficiaryStates : BaseState(),
+    IAddBeneficiary.State {
 
-    var validateConfirmIban: Boolean = false
+    @get:Bindable
+    override var selectedBeneficiaryType: String? = ""
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.selectedBeneficiaryType)
+        }
 
+    @get:Bindable
     override var countryCode: String = ""
         set(value) {
             field = value
@@ -64,8 +72,6 @@ class AddBeneficiaryStates : BaseState(), IAddBeneficiary.State {
             field = value
             notifyPropertyChanged(BR.nickName)
             validate()
-            validateCashFlowUser()
-            validateDomesticUser()
         }
 
     @get:Bindable
@@ -74,8 +80,6 @@ class AddBeneficiaryStates : BaseState(), IAddBeneficiary.State {
             field = value
             notifyPropertyChanged(BR.firstName)
             validate()
-            validateCashFlowUser()
-            validateDomesticUser()
         }
 
     @get:Bindable
@@ -84,8 +88,6 @@ class AddBeneficiaryStates : BaseState(), IAddBeneficiary.State {
             field = value
             notifyPropertyChanged(BR.lastName)
             validate()
-            validateCashFlowUser()
-            validateDomesticUser()
         }
 
     @get:Bindable
@@ -99,12 +101,12 @@ class AddBeneficiaryStates : BaseState(), IAddBeneficiary.State {
     @get:Bindable
     override var mobileNo: String = ""
         set(value) {
-            field = value
+            field = value.replace(" ","")
             notifyPropertyChanged(co.yap.BR.mobile)
             if (mobileNo.length < 9) {
                 mobileNoLength = 11
-
             }
+            validate()
         }
 
     @get:Bindable
@@ -114,29 +116,11 @@ class AddBeneficiaryStates : BaseState(), IAddBeneficiary.State {
             notifyPropertyChanged(co.yap.BR.mobileNoLength)
         }
 
-    fun validate() {
-        if (!lastName.isNullOrEmpty() && !nickName.isNullOrEmpty() && !lastName.isNullOrEmpty()) {
-            valid = true
-            notifyPropertyChanged(BR.valid)
-        }
-    }
-
-    // fields for domestic user
-
-
     @get:Bindable
-    override var validateDomesticButton: Boolean = false
+    override var country2DigitIsoCode: String = "AE"
         set(value) {
             field = value
-            notifyPropertyChanged(BR.validateDomesticButton)
-        }
-
-
-    @get:Bindable
-    override var validateCashflowButton: Boolean = false
-        set(value) {
-            field = value
-            notifyPropertyChanged(BR.validateCashflowButton)
+            notifyPropertyChanged(BR.country2DigitIsoCode)
         }
 
     @get:Bindable
@@ -144,7 +128,7 @@ class AddBeneficiaryStates : BaseState(), IAddBeneficiary.State {
         set(value) {
             field = value
             notifyPropertyChanged(BR.iban)
-            validateIban()
+            validate()
         }
 
     @get:Bindable
@@ -152,10 +136,8 @@ class AddBeneficiaryStates : BaseState(), IAddBeneficiary.State {
         set(value) {
             field = value
             notifyPropertyChanged(BR.confirmIban)
-            validateIban()
+            validate()
         }
-
-    //
 
     @get:Bindable
     override var id: Int = 11
@@ -248,28 +230,29 @@ class AddBeneficiaryStates : BaseState(), IAddBeneficiary.State {
             notifyPropertyChanged(BR.identifierCode2)
         }
 
-    fun validateIban() {
-        if (!iban.isNullOrEmpty() && !confirmIban.isNullOrEmpty() && iban.equals(
-                confirmIban,
-                false
-            )
-        ) {
-            validateConfirmIban = true
-            validateDomesticUser()
-        }
-    }
 
-    fun validateCashFlowUser() {
-        if (!lastName.isNullOrEmpty() && !firstName.isNullOrEmpty() && !nickName.isNullOrEmpty()) {
-            validateCashflowButton = true
-            notifyPropertyChanged(BR.validateCashflowButton)
-        }
-    }
+    fun validate() {
+        if (!selectedBeneficiaryType.isNullOrEmpty()) {
+            when (valueOf(selectedBeneficiaryType!!)) {
+                RMT -> {
+                    valid = nickName.length > 1 && firstName.length > 1 && lastName.length > 1
+                }
+                SWIFT -> {
+                    valid = nickName.length > 1 && firstName.length > 1 && lastName.length > 1
+                }
+                DOMESTIC -> {
+                    valid =
+                        nickName.length > 1 && firstName.length > 1 && lastName.length > 1 && iban.isNotEmpty() && confirmIban.isNotEmpty() && iban == confirmIban
+                }
+                CASHPAYOUT -> {
+                    valid =
+                        nickName.length > 1 && firstName.length > 1 && lastName.length > 1 && mobileNo.length > 1
+                }
+                UAEFTS -> {
 
-    fun validateDomesticUser() {
-        if (!lastName.isNullOrEmpty() && !firstName.isNullOrEmpty() && validateConfirmIban) {
-            validateDomesticButton = true
-            notifyPropertyChanged(BR.validateDomesticButton)
+                }
+                INTERNAL_TRANSFER -> TODO()
+            }
         }
     }
 

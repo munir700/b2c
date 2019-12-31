@@ -4,15 +4,19 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.os.PersistableBundle
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
 import co.yap.R
 import co.yap.modules.dashboard.yapit.sendmoney.editbeneficiary.interfaces.IEditBeneficiary
 import co.yap.modules.dashboard.yapit.sendmoney.editbeneficiary.viewmodel.EditBeneficiaryViewModel
+import co.yap.yapcore.helpers.extentions.getCurrencyPopMenu
 import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
+import co.yap.widgets.popmenu.PopupMenu
 import co.yap.yapcore.BaseBindingActivity
+import co.yap.yapcore.constants.Constants
+import kotlinx.android.synthetic.main.activity_edit_beneficiary.*
+
 
 class EditBeneficiaryActivity : BaseBindingActivity<IEditBeneficiary.ViewModel>(),
     IEditBeneficiary.View {
@@ -29,6 +33,7 @@ class EditBeneficiaryActivity : BaseBindingActivity<IEditBeneficiary.ViewModel>(
     override fun getBindingVariable() = BR.editBeneficiaryViewModel
 
     override fun getLayoutId() = R.layout.activity_edit_beneficiary
+    private var currencyPopMenu: PopupMenu? = null
 
 
     override val viewModel: IEditBeneficiary.ViewModel
@@ -41,34 +46,41 @@ class EditBeneficiaryActivity : BaseBindingActivity<IEditBeneficiary.ViewModel>(
             if (it.hasExtra(Bundle_EXTRA)) {
                 val bundle = it.getBundleExtra(Bundle_EXTRA)
                 bundle?.let {
-                    viewModel.state.needOverView = it.getBoolean(OVERVIEW_BENEFICIARY,false)
-                    viewModel.state.beneficiary = bundle.getParcelable(Beneficiary::class.java.name) }
+                    viewModel.state.needOverView = it.getBoolean(OVERVIEW_BENEFICIARY, false)
+                    viewModel.state.beneficiary = bundle.getParcelable(Beneficiary::class.java.name)
+                }
             }
         }
         setObservers()
+        currencyPopMenu = getCurrencyPopMenu(this, mutableListOf(), null, null)
+
     }
 
 
     override fun setObservers() {
         viewModel.clickEvent?.observe(this, Observer {
             when (it) {
-                R.id.tbBtnBack ->{
+                R.id.tbBtnBack -> {
                     val intent = Intent()
-                    setResult(Activity.RESULT_CANCELED,intent)
-                    finish()}
+                    setResult(Activity.RESULT_CANCELED, intent)
+                    finish()
+                }
                 R.id.confirmButton ->
-                        viewModel.requestUpdateBeneficiary()
+                    viewModel.requestUpdateBeneficiary()
+                R.id.tvChangeCurrency ->
+                    currencyPopMenu?.showAsAnchorRightBottom(tvChangeCurrency)
             }
         })
 
         viewModel.onUpdateSuccess.observe(this, Observer {
             val intent = Intent()
-            if(it) {
+            if (it) {
+                intent.putExtra(Constants.BENEFICIARY_CHANGE, true)
                 setResult(Activity.RESULT_OK, intent)
                 finish()
-            }else
-            {
-                setResult(Activity.RESULT_CANCELED,intent)
+            } else {
+                intent.putExtra(Constants.BENEFICIARY_CHANGE, false)
+                setResult(Activity.RESULT_CANCELED, intent)
             }
 
         })

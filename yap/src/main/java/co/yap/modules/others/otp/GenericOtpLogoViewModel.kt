@@ -3,6 +3,7 @@ package co.yap.modules.others.otp
 import android.app.Application
 import co.yap.translation.Strings
 import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.enums.SendMoneyBeneficiaryType
 import co.yap.yapcore.helpers.Utils
 
 class GenericOtpLogoViewModel(application: Application) :
@@ -13,7 +14,7 @@ class GenericOtpLogoViewModel(application: Application) :
     override fun onCreate() {
         super.onCreate()
         when (action) {
-            Constants.BENEFICIARY_CASH_TRANSFER -> {
+            SendMoneyBeneficiaryType.DOMESTIC_TRANSFER.type, SendMoneyBeneficiaryType.CASHPAYOUT.type, SendMoneyBeneficiaryType.UAEFTS.type, SendMoneyBeneficiaryType.SWIFT.type, SendMoneyBeneficiaryType.RMT.type -> {
                 descriptionString =
                     getString(Strings.screen_cash_pickup_funds_display_otp_text_description).format(
                         state.currencyType,

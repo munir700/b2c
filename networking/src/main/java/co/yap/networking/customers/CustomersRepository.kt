@@ -5,9 +5,11 @@ import co.yap.networking.CookiesManager
 import co.yap.networking.RetroNetwork
 import co.yap.networking.customers.requestdtos.*
 import co.yap.networking.customers.responsedtos.*
+import co.yap.networking.customers.responsedtos.beneficiary.BankParamsResponse
 import co.yap.networking.customers.responsedtos.documents.GetMoreDocumentsResponse
 import co.yap.networking.customers.responsedtos.sendmoney.AddBeneficiaryResponseDTO
 import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
+import co.yap.networking.customers.responsedtos.sendmoney.RAKBankModel
 import co.yap.networking.models.ApiResponse
 import co.yap.networking.models.RetroApiResponse
 import okhttp3.MediaType
@@ -56,7 +58,7 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     const val URL_GET_COUNTRIES = "/customers/api/bank-transfer/countries"
     const val URL_ADD_BENEFICIARY = "/customers/api/beneficiaries/bank-transfer"
     const val URL_SEARCH_BANK_PARAMS = "/customers/api/other_bank/params"
-    const val URL_SEARCH_BANKS = "/customers/api/other_banks/query"
+    const val URL_SEARCH_BANKS = "/customers/api/other_bank/query"
 
     val URL_GET_TRANSFER_REASONS = "/transactions/api/product-codes/{product-code}/purpose-reasons"
     val URL_INTERNAL_TRANSFER = "/transactions/api/internal-transfer"
@@ -210,5 +212,12 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     override suspend fun getCardsLimit(): RetroApiResponse<CardsLimitResponse> =
         executeSafely(call = { api.getCardsLimit() })
 
-    override suspend fun getCurrenciesByCountryCode(country: String)=executeSafely(call = { api.getCurrenciesByCountryCode(country) })
+    override suspend fun getCurrenciesByCountryCode(country: String) =
+        executeSafely(call = { api.getCurrenciesByCountryCode(country) })
+
+    override suspend fun findOtherBank(otherBankQuery: OtherBankQuery): RetroApiResponse<RAKBankModel> =
+        executeSafely(call = { api.findOtherBank(otherBankQuery) })
+
+    override suspend fun getOtherBankParams(countryName: String): RetroApiResponse<BankParamsResponse> =
+        executeSafely(call = { api.getOtherBankParams(countryName) })
 }

@@ -41,7 +41,7 @@ class HelpSupportViewModel(application: Application) :
                 }
                 is RetroApiResponse.Success -> {
                     state.loading = false
-                    state.contactPhone.set(response.data.data)
+                    response.data.data?.let { state.contactPhone.set(it) }
                 }
             }
         }
@@ -54,11 +54,10 @@ class HelpSupportViewModel(application: Application) :
                 repository.getFaqsUrl()) {
                 is RetroApiResponse.Error -> {
                     state.loading = false
-
                 }
                 is RetroApiResponse.Success -> {
                     state.loading = false
-                    urlUpdated.value = response.data.data
+                    response.data.data?.let { urlUpdated.value = it }
                 }
             }
         }

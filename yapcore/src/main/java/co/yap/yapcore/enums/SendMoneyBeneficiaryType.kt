@@ -6,5 +6,6 @@ enum class SendMoneyBeneficiaryType(val type: String) {
     CASHPAYOUT("CASHPAYOUT"),
     DOMESTIC("DOMESTIC"),
     INTERNAL_TRANSFER("INTERNAL_TRANSFER"),
-    UAEFTS("UAEFTS")
+    UAEFTS("UAEFTS"),
+    DOMESTIC_TRANSFER("DOMESTIC_TRANSFER")
 }

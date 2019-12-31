@@ -18,6 +18,7 @@ interface IEditBeneficiary {
     }
     interface State : IBase.State {
         var country: String?
+        var countryCode: String?
         var transferType: String?
         var currency: String?
         var nickName: String?
@@ -29,5 +30,6 @@ interface IEditBeneficiary {
         var countryBankRequirementFieldCode: String?
         var beneficiary: Beneficiary?
         var needOverView:Boolean?
+        var valid: Boolean?
     }
 }

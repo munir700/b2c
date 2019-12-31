@@ -27,13 +27,16 @@ import co.yap.BR
 import co.yap.R
 import co.yap.databinding.ActivityYapDashboardBinding
 import co.yap.modules.dashboard.cards.analytics.main.activities.CardAnalyticsActivity
+import co.yap.modules.dashboard.cards.paymentcarddetail.statments.activities.CardStatementsActivity
 import co.yap.modules.dashboard.main.adapters.YapDashboardAdaptor
 import co.yap.modules.dashboard.main.interfaces.IYapDashboard
 import co.yap.modules.dashboard.main.viewmodels.YapDashBoardViewModel
+import co.yap.modules.dashboard.more.main.activities.MoreActivity
 import co.yap.modules.dashboard.unverifiedemail.UnVerifiedEmailActivity
 import co.yap.modules.dashboard.yapit.sendmoney.home.activities.SendMoneyLandingActivity
 import co.yap.modules.dashboard.yapit.topup.landing.TopUpLandingActivity
 import co.yap.modules.dashboard.yapit.y2y.home.activities.YapToYapDashboardActivity
+import co.yap.modules.others.fragmentpresenter.activities.FragmentPresenterActivity
 import co.yap.modules.others.helper.Constants.FLAVOR
 import co.yap.modules.others.helper.Constants.VERSION_CODE
 import co.yap.modules.others.helper.Constants.VERSION_NAME
@@ -43,6 +46,7 @@ import co.yap.widgets.arcmenu.FloatingActionMenu
 import co.yap.widgets.arcmenu.animation.SlideInAnimationHandler
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.IFragmentHolder
+import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.PartnerBankStatus
 import co.yap.yapcore.helpers.PermissionHelper
 import co.yap.yapcore.helpers.dimen
@@ -129,17 +133,25 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
                             }
                         }
                         3 -> {
-                            startActivity(
-                                SendMoneyLandingActivity.newIntent(
-                                    this@YapDashboardActivity
-                                )
-                            )
+                            if (PartnerBankStatus.ACTIVATED.status == MyUserManager.user?.partnerBankStatus) {
+                                openSendMoneyScreen()
+                            } else {
+                                showToast("Account activation pending")
+                            }
                         }
                     }
                 }
 
             })
             .build()
+    }
+
+    private fun openSendMoneyScreen() {
+        startActivity(
+            SendMoneyLandingActivity.newIntent(
+                this@YapDashboardActivity
+            )
+        )
     }
 
     private fun openTopUpScreen() {
@@ -304,6 +316,35 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
             startActivity(Intent(this, CardAnalyticsActivity::class.java))
             closeDrawer()
         }
+        getViewBinding().includedDrawerLayout.lStatements.lnAnalytics.setOnClickListener {
+            MyUserManager.getPrimaryCard()?.let {
+                startActivity(CardStatementsActivity.newIntent(this, it))
+                closeDrawer()
+            }
+        }
+        getViewBinding().includedDrawerLayout.lSupport.lnAnalytics.setOnClickListener {
+            startActivity(
+                FragmentPresenterActivity.getIntent(
+                    this,
+                    Constants.MODE_HELP_SUPPORT, null
+                )
+            )
+            closeDrawer()
+        }
+        getViewBinding().includedDrawerLayout.lyContact.lnAnalytics.setOnClickListener {
+            startActivity(
+                FragmentPresenterActivity.getIntent(
+                    this,
+                    Constants.MODE_HELP_SUPPORT, null
+                )
+            )
+            closeDrawer()
+        }
+        getViewBinding().includedDrawerLayout.ivSettings.setOnClickListener {
+            startActivity(Intent(this, MoreActivity::class.java))
+            closeDrawer()
+        }
+
         bottomNav.setOnNavigationItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.yapHome -> {

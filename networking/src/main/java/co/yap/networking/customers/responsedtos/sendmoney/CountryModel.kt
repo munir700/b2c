@@ -24,10 +24,6 @@ data class CountryModel(
         var name: String? = "",
         @SerializedName("signUpAllowed")
         var signUpAllowed: Boolean? = false,
-        @SerializedName("cashPickUp")
-        var cashPickUp: Boolean? = false,
-        @SerializedName("rmtCountry")
-        var rmtCountry: Boolean? = false,
         @SerializedName("currencyList")
         var currencyList: List<Currency>? = arrayListOf()
     ) {
@@ -39,7 +35,11 @@ data class CountryModel(
             @SerializedName("name")
             var name: String? = "",
             @SerializedName("active")
-            var active: Boolean? = false
+            var active: Boolean? = false,
+            @SerializedName("cashPickUp")
+            var cashPickUp: Boolean? = false,
+            @SerializedName("rmtCountry")
+            var rmtCountry: Boolean? = false
         )
     }
 }

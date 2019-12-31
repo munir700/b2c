@@ -8,23 +8,21 @@ import co.yap.yapcore.BaseState
 class TransferSuccessState : BaseState(), ITransferSuccess.State {
 
     @get:Bindable
-    override var pickUpAgentLocation: String? = "nick name"
-        set(value) {
-            field = value
-            notifyPropertyChanged(BR.pickUpAgentLocation)
-
-        }
-
-    @get:Bindable
-    override var transferType: String? = "bank trasfer"
+    override var transferType: String? = ""
         set(value) {
             field = value
             notifyPropertyChanged(BR.transferType)
 
         }
+    @get:Bindable
+    override var successHeader: String? = ""
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.successHeader)
+        }
 
     @get:Bindable
-    override var amount: String? = " 700"
+    override var amount: String? = ""
         set(value) {
             field = value
             notifyPropertyChanged(BR.amount)
@@ -41,7 +39,7 @@ class TransferSuccessState : BaseState(), ITransferSuccess.State {
         }
 
     @get:Bindable
-    override var flag: String? = "flag"
+    override var flag: String? = ""
         set(value) {
             field = value
             notifyPropertyChanged(BR.flag)
@@ -56,17 +54,23 @@ class TransferSuccessState : BaseState(), ITransferSuccess.State {
             notifyPropertyChanged(BR.name)
         }
 
+    /*   @get:Bindable
+       override var picture: String =
+           "https://scoopak.com/wp-content/uploads/2013/06/free-hd-natural-wallpapers-download-for-pc.jpg"
+           set(value) {
+               field = value
+               notifyPropertyChanged(BR.picture)
+
+           }*/
     @get:Bindable
-    override var picture: String? =
-        "https://scoopak.com/wp-content/uploads/2013/06/free-hd-natural-wallpapers-download-for-pc.jpg"
+    override var picture: String = ""
         set(value) {
             field = value
             notifyPropertyChanged(BR.picture)
-
         }
 
     @get:Bindable
-    override var referenceNumber: String? = "00313249457"
+    override var referenceNumber: String? = ""
         set(value) {
             field = value
             notifyPropertyChanged(BR.referenceNumber)
@@ -78,10 +82,40 @@ class TransferSuccessState : BaseState(), ITransferSuccess.State {
             field = value
             notifyPropertyChanged(BR.flagLayoutVisibility)
         }
+    @get:Bindable
+    override var position: Int? = 0
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.position)
+        }
+    @get:Bindable
+    override var locationLayoutVisibility: Boolean = false
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.locationLayoutVisibility)
+        }
+    @get:Bindable
+    override var beneficiaryCountry: String? = ""
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.beneficiaryCountry)
+        }
+    @get:Bindable
+    override var transferAmountHeading: String?=""
+        set(value) {
+            field=value
+            notifyPropertyChanged(BR.transferAmountHeading)
+        }
+    @get:Bindable
+    override var buttonTitle: String?=""
+        set(value) {
+            field=value
+            notifyPropertyChanged(BR.buttonTitle)
+        }
 
     @get:Bindable
     override var pickUpAgentLocationAddress: String? =
-        "Exchange house 1, Exchange house 2, Exhange house 3"
+        ""
         set(value) {
             field = value
             notifyPropertyChanged(BR.pickUpAgentLocationAddress)

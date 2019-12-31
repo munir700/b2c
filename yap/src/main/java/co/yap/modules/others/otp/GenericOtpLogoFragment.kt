@@ -12,10 +12,11 @@ import co.yap.databinding.FragmentGenericOtpLogoBinding
 import co.yap.modules.dashboard.yapit.sendmoney.activities.BeneficiaryCashTransferActivity
 import co.yap.modules.forgotpasscode.interfaces.IForgotPasscodeOtp
 import co.yap.translation.Strings
+import co.yap.yapcore.enums.SendMoneyBeneficiaryType
 import co.yap.yapcore.helpers.Utils
 
 class GenericOtpLogoFragment : GenericOtpFragment() {
-    private val genericOtpLogoFragmentArgs: GenericOtpLogoFragmentArgs by navArgs()
+    private val genericOtpLogoFragmentArgs: GenericOtpLogoFragmentArgs? by navArgs()
 
     override val viewModel: IForgotPasscodeOtp.ViewModel
         get() = ViewModelProviders.of(this).get(GenericOtpLogoViewModel::class.java)
@@ -25,12 +26,15 @@ class GenericOtpLogoFragment : GenericOtpFragment() {
     override fun getLayoutId(): Int = R.layout.fragment_generic_otp_logo
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        getBindings().lyUserImage.lyNameInitials.background =
-            context?.resources?.getDrawable(R.drawable.bg_round_denominations, null)
     }
 
     override fun loadData() {
         viewModel.action = args?.otpType
+        if (!viewModel.action.isNullOrEmpty()) {
+            if (viewModel.action == SendMoneyBeneficiaryType.RMT.type || viewModel.action == SendMoneyBeneficiaryType.SWIFT.type) {
+                viewModel.state.flagLayoutVisibility = true
+            }
+        }
         args?.mobileNumber?.let {
             when {
                 it.startsWith("00") -> {
@@ -53,13 +57,16 @@ class GenericOtpLogoFragment : GenericOtpFragment() {
         }
         viewModel.destination = args?.username
         viewModel.emailOtp = args?.emailOtp
+        viewModel.state.beneficiaryCountry = genericOtpLogoFragmentArgs?.beneficiaryCountry
         if (activity is BeneficiaryCashTransferActivity) {
             (activity as BeneficiaryCashTransferActivity).let {
                 it.viewModel.state.toolBarTitle =
                     getString(Strings.screen_cash_pickup_funds_display_otp_header)
+                it.viewModel.state.leftButtonVisibility = true
                 viewModel.state.fullName = it.viewModel.state.beneficiary?.fullName()
                 viewModel.state.imageUrl = it.viewModel.state.beneficiary?.beneficiaryPictureUrl
-                viewModel.state.amount = genericOtpLogoFragmentArgs.amount
+                viewModel.state.amount = genericOtpLogoFragmentArgs?.amount
+                viewModel.state.position = genericOtpLogoFragmentArgs?.position
             }
 
         }

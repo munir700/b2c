@@ -1,5 +1,6 @@
 package co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.fragments
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
@@ -12,6 +13,8 @@ import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.interfaces.IBenef
 import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.viewmodels.BeneficiaryAccountDetailsViewModel
 import co.yap.modules.dashboard.yapit.sendmoney.fragments.SendMoneyBaseFragment
 import co.yap.translation.Translator
+import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.interfaces.OnItemClickListener
 
@@ -22,7 +25,7 @@ class BeneficiaryAccountDetailsFragment :
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.fragment_beneficiary_account_detail
 
-    override val viewModel: IBeneficiaryAccountDetails.ViewModel
+    override val viewModel: BeneficiaryAccountDetailsViewModel
         get() = ViewModelProviders.of(this).get(BeneficiaryAccountDetailsViewModel::class.java)
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -31,7 +34,7 @@ class BeneficiaryAccountDetailsFragment :
         viewModel.success.observe(this, Observer {
             if (it) {
                 context?.let { it ->
-                    Utils.confirmAddBeneficiary(it,
+                    Utils.confirmationDialog(it,
                         Translator.getString(
                             it,
                             R.string.screen_add_beneficiary_detail_display_text_alert_title
@@ -50,14 +53,9 @@ class BeneficiaryAccountDetailsFragment :
                             override fun onItemClick(view: View, data: Any, pos: Int) {
                                 if (data is Boolean) {
                                     if (data) {
-                                        startActivity(Intent(it, BeneficiaryCashTransferActivity::class.java))
-                                        activity?.let { activity ->
-                                            activity.finish()
-                                        }
+                                        startMoneyTransfer()
                                     } else {
-                                        activity?.let { activity ->
-                                            activity.finish()
-                                        }
+                                        setIntentResult()
                                     }
                                 }
                             }
@@ -68,6 +66,28 @@ class BeneficiaryAccountDetailsFragment :
             }
         })
     }
+
+    private fun startMoneyTransfer() {
+        viewModel.beneficiary?.let { beneficiary ->
+            requireActivity().startActivityForResult(
+                BeneficiaryCashTransferActivity.newIntent(
+                    requireActivity(),
+                    beneficiary,
+                    isNewBeneficiary = true
+                ), RequestCodes.REQUEST_TRANSFER_MONEY
+            )
+        }
+    }
+
+    private fun setIntentResult() {
+        activity?.let { it ->
+            val intent = Intent()
+            intent.putExtra(Constants.BENEFICIARY_CHANGE, true)
+            it.setResult(Activity.RESULT_OK, intent)
+            it.finish()
+        }
+    }
+
 
     private val observer = Observer<Int> {
         when (it) {
@@ -83,7 +103,6 @@ class BeneficiaryAccountDetailsFragment :
     }
 
     override fun onBackPressed(): Boolean {
-
         return super.onBackPressed()
     }
 

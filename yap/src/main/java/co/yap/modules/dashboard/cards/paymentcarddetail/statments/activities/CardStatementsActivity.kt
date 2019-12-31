@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import co.yap.BR
 import co.yap.R
-import co.yap.modules.dashboard.cards.paymentcarddetail.fragments.CardClickListener
 import co.yap.modules.dashboard.cards.paymentcarddetail.statments.adaptor.CardStatementsAdaptor
 import co.yap.modules.dashboard.cards.paymentcarddetail.statments.interfaces.ICardStatments
 import co.yap.modules.dashboard.cards.paymentcarddetail.statments.viewmodels.CardStatementsViewModel
@@ -20,6 +19,7 @@ import co.yap.networking.transactions.responsedtos.CardStatement
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.interfaces.OnItemClickListener
 import kotlinx.android.synthetic.main.activity_card_statements.*
+import java.util.*
 
 class CardStatementsActivity : BaseBindingActivity<ICardStatments.ViewModel>(),
     ICardStatments.View {
@@ -45,7 +45,8 @@ class CardStatementsActivity : BaseBindingActivity<ICardStatments.ViewModel>(),
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel.card = intent.getParcelableExtra(CARD)
-        viewModel.state.year.set("2019")
+        val currYear = Calendar.getInstance().get(Calendar.YEAR)
+        viewModel.state.year.set(currYear.toString())
         viewModel.loadStatements(viewModel.card.cardSerialNumber)
         viewModel.clickEvent.observe(this, Observer {
             if (it == R.id.tbBtnBack) {

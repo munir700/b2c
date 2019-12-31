@@ -82,40 +82,49 @@ class TransactionFiltersActivity : BaseBindingActivity<ITransactionFilters.ViewM
         }
     }
 
-    private fun setRangeSeekBar(transactionFilters: TransactionFilters) {
+    private fun setRangeSeekBar(transactionFilters: TransactionFilters?) {
         try {
-            rsbAmount?.setRange(
-                transactionFilters.minAmount.toFloat(),
-                transactionFilters.maxAmount.toFloat()
-            )
-
-
-        if (YAPApplication.homeTransactionsRequest.amountEndRange != null && YAPApplication.homeTransactionsRequest.amountEndRange != transactionFilters.maxAmount) {
-            rsbAmount?.setProgress(
-                YAPApplication.homeTransactionsRequest.amountEndRange!!.toFloat(),
-                YAPApplication.homeTransactionsRequest.amountEndRange!!.toFloat())
-        } else {
-            rsbAmount?.setProgress(
-                transactionFilters.maxAmount.toFloat(),
-                transactionFilters.maxAmount.toFloat()
-            )
-        }
-
-        viewModel.updateRangeValue(rsbAmount)
-        rsbAmount.setOnRangeChangedListener(object : OnRangeChangedListener {
-            override fun onStartTrackingTouch(view: RangeSeekBar?, isLeft: Boolean) {}
-
-            override fun onRangeChanged(
-                rangeSeekbar: RangeSeekBar?,
-                leftValue: Float,
-                rightValue: Float,
-                isFromUser: Boolean
-            ) {
-                viewModel.updateRangeValue(rangeSeekbar!!)
+            transactionFilters?.let {
+                rsbAmount?.setRange(
+                    it.minAmount?.toFloat() ?: 0f,
+                    it.maxAmount?.toFloat() ?: 1f
+                )
             }
 
-            override fun onStopTrackingTouch(view: RangeSeekBar?, isLeft: Boolean) {}
-        })} catch (ex: Exception) {
+            if (YAPApplication.homeTransactionsRequest.amountEndRange != null && YAPApplication.homeTransactionsRequest.amountEndRange != transactionFilters?.maxAmount) {
+                rsbAmount?.setProgress(
+                    YAPApplication.homeTransactionsRequest.amountEndRange!!.toFloat(),
+                    YAPApplication.homeTransactionsRequest.amountEndRange!!.toFloat()
+                )
+            } else {
+                transactionFilters?.let {
+                    rsbAmount?.setProgress(
+                        it.maxAmount?.toFloat() ?: 1f,
+                        it.maxAmount?.toFloat() ?: 1f
+                    )
+                }
+                /*rsbAmount?.setProgress(
+                    transactionFilters?.maxAmount.toFloat(),
+                    transactionFilters?.maxAmount.toFloat()
+                )*/
+            }
+
+            viewModel.updateRangeValue(rsbAmount)
+            rsbAmount.setOnRangeChangedListener(object : OnRangeChangedListener {
+                override fun onStartTrackingTouch(view: RangeSeekBar?, isLeft: Boolean) {}
+
+                override fun onRangeChanged(
+                    rangeSeekbar: RangeSeekBar?,
+                    leftValue: Float,
+                    rightValue: Float,
+                    isFromUser: Boolean
+                ) {
+                    viewModel.updateRangeValue(rangeSeekbar!!)
+                }
+
+                override fun onStopTrackingTouch(view: RangeSeekBar?, isLeft: Boolean) {}
+            })
+        } catch (ex: Exception) {
             showToast("Max and Min range error")
             ex.printStackTrace()
         }
@@ -167,31 +176,33 @@ class TransactionFiltersActivity : BaseBindingActivity<ITransactionFilters.ViewM
     }
 
     private fun setFilterValues() {
-        if (!cbOutTransFilter.isChecked && !cbInTransFilter.isChecked && rsbAmount.leftSeekBar.progress == viewModel.transactionFilters.value?.maxAmount?.toFloat()!!) {
-            YAPApplication.hasFilterStateChanged =
-                Utils.getTwoDecimalPlaces(rsbAmount.leftSeekBar.progress.toDouble()) != Utils.getTwoDecimalPlaces(
-                    viewModel.transactionFilters.value?.maxAmount!!
-                )
-            YAPApplication.isAllChecked = false
-            YAPApplication.clearFilters()
-        } else {
-            var count = 0
-            if (cbOutTransFilter.isChecked) count++
-            if (cbInTransFilter.isChecked) count++
-            if (rsbAmount.leftSeekBar.progress != viewModel.transactionFilters.value?.maxAmount?.toFloat()!!) count++
-            YAPApplication.hasFilterStateChanged = hasFiltersStateChanged()
+        viewModel.transactionFilters.value?.maxAmount?.toFloat()?.let {
+            if (!cbOutTransFilter.isChecked && !cbInTransFilter.isChecked && it == rsbAmount.leftSeekBar.progress) {
+                YAPApplication.hasFilterStateChanged =
+                    Utils.getTwoDecimalPlaces(rsbAmount.leftSeekBar.progress.toDouble()) != Utils.getTwoDecimalPlaces(
+                        it.toDouble()
+                    )
+                YAPApplication.isAllChecked = false
+                YAPApplication.clearFilters()
+            } else {
+                var count = 0
+                if (cbOutTransFilter.isChecked) count++
+                if (cbInTransFilter.isChecked) count++
+                if (it != rsbAmount.leftSeekBar.progress) count++
+                YAPApplication.hasFilterStateChanged = hasFiltersStateChanged()
 
-            YAPApplication.homeTransactionsRequest = HomeTransactionsRequest(
-                0, YAPApplication.pageSize,
-                Utils.getTwoDecimalPlaces(rsbAmount.minProgress.toDouble()),
-                Utils.getTwoDecimalPlaces(rsbAmount.leftSeekBar.progress.toDouble()),
-                getCurrentTxnType(),
-                null,
-                count
-            )
-            setResult(INTENT_FILTER_REQUEST)
+                YAPApplication.homeTransactionsRequest = HomeTransactionsRequest(
+                    0, YAPApplication.pageSize,
+                    Utils.getTwoDecimalPlaces(rsbAmount.minProgress.toDouble()),
+                    Utils.getTwoDecimalPlaces(rsbAmount.leftSeekBar.progress.toDouble()),
+                    getCurrentTxnType(),
+                    null,
+                    count
+                )
+                setResult(INTENT_FILTER_REQUEST)
+            }
+            finish()
         }
-        finish()
     }
 
     private fun hasFiltersStateChanged(): Boolean {

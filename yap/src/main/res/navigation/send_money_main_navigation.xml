@@ -6,7 +6,6 @@
     app:startDestination="@id/selectCountryFragment">
 
     <!--    app:startDestination="@id/selectCountryFragment">-->
-
     <!--    app:startDestination="@id/cashTransferFragment">-->
     <!--    app:startDestination="@id/internationalFundsTransfer">-->
     <!--    app:startDestination="@id/beneficiaryOverviewFragment">-->

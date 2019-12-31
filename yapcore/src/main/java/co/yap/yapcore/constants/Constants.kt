@@ -33,6 +33,8 @@ object Constants {
     const val SUPP_WITHDRAW = "P006"
     const val MANUAL_DEBIT = "DEBIT"
     const val MANUAL_CREDIT = "CREDIT"
+    const val FEE_TYPE_TIER = "TIER"
+    const val FEE_TYPE_FLAT = "FLAT"
 
 
     //More Option Constants
@@ -77,10 +79,14 @@ object Constants {
 
     // Cash pickup flow constants
     const val BENEFICIARY: String = "Beneficiary"
+    const val POSITION: String = "Position"
+    const val IS_NEW_BENEFICIARY: String = "IS_NEW_BENEFICIARY"
 
 
     const val ADD_CASH_PICK_UP_SUCCESS = 10001
     const val ADD_CASH_PICK_UP_FlOW = 10002
+    const val ADD_DOMESTIC_SUCCESS = 10003
+    const val ADD_SUCCESS = 10004
 
 
     //Core Payment Card Types
@@ -95,4 +101,10 @@ object Constants {
     const val USER_STATUS_CARD_ACTIVATED: String = "CARD_ACTIVATED"
 
     const val BROADCAST_UPDATE_TRANSACTION: String = "BROADCAST_UPDATE_TRANSACTION"
+
+    // Money Transfer
+
+    const val MONEY_TRANSFERED = "MONEY_TRANSFERED"
+    const val BENEFICIARY_CHANGE = "BENEFICIARY_CHANGE"
+
 }
