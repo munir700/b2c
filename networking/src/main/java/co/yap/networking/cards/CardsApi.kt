@@ -1,7 +1,6 @@
 package co.yap.networking.cards
 
 import co.yap.networking.cards.requestdtos.*
-import co.yap.networking.cards.responsedtos.Address
 import co.yap.networking.cards.responsedtos.CardBalanceResponseDTO
 import co.yap.networking.cards.responsedtos.CardDetailResponseDTO
 import co.yap.networking.cards.responsedtos.GetCardsResponse
@@ -33,10 +32,6 @@ interface CardsApi {
     suspend fun addSparePhysicalCard(
         addPhysicalSpareCardRequest: AddPhysicalSpareCardRequest
     ): RetroApiResponse<ApiResponse>
-
-    /*TODO :===========================*/
-
-    /*TODO: Mirza Adil ********************************/
 
     suspend fun getUserAddressRequest(): RetroApiResponse<ApiResponse>
     suspend fun getCardBalance(cardSerialNumber: String): RetroApiResponse<CardBalanceResponseDTO>

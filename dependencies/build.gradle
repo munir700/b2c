@@ -115,6 +115,9 @@ project.ext {
             FirebaseCreshlytics      : 'com.google.firebase:firebase-crash:9.0.0',
             analytics                : 'com.google.firebase:firebase-analytics:17.2.0',
 
+            //Leanplum
+            leanplum                 : 'com.leanplum:leanplum-core:5.2.3',
+
             //Logger
             timber                   : 'com.jakewharton.timber:timber:4.7.1',
 
@@ -160,6 +163,7 @@ project.ext {
             [configuration: "implementation", dependency: libraries.biometric],
             [configuration: "implementation", dependency: libraries.viewpagerDots],
             [configuration: "implementation", dependency: libraries.creshlytics],
+            [configuration: "implementation", dependency: libraries.leanplum],
             [configuration: "implementation", dependency: libraries.FirebaseCreshlytics],
             [configuration: "implementation", dependency: libraries.analytics],
             [configuration: "implementation", dependency: libraries.androidanimations],

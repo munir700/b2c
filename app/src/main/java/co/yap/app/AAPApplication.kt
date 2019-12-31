@@ -8,6 +8,9 @@ import co.yap.yapcore.helpers.NetworkConnectionManager
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.Utils
 import com.crashlytics.android.Crashlytics
+import com.leanplum.Leanplum
+import com.leanplum.LeanplumActivityHelper
+import com.leanplum.annotations.Parser
 import io.fabric.sdk.android.Fabric
 import timber.log.Timber
 import timber.log.Timber.DebugTree
@@ -37,9 +40,17 @@ class AAPApplication : ChatApplication(BuildConfig.FLAVOR) {
             }
         })
 
-        /*
-        * ***********Add Firebase Creshlaytics *************
-        * */
+
+        initFirebase()
+        inItLeanplum()
+    }
+
+
+    /**
+     * In this function initialize Firebase.
+     */
+
+    private fun initFirebase() {
         val fabric = Fabric.Builder(this)
             .kits(Crashlytics())
             .debuggable(BuildConfig.DEBUG) // Enables Crashlytics debugger
@@ -49,6 +60,31 @@ class AAPApplication : ChatApplication(BuildConfig.FLAVOR) {
         if (BuildConfig.DEBUG) {
             Timber.plant(DebugTree())
         }
+
+    }
+
+    /**
+     * In this function initialize Leanplum.
+     */
+    private fun inItLeanplum() {
+        Leanplum.setApplicationContext(this)
+        Parser.parseVariables(this)
+
+        LeanplumActivityHelper.enableLifecycleCallbacks(this)
+
+        /*TODO: Need Leanplum API key*/
+        if (BuildConfig.DEBUG) {
+            Leanplum.setAppIdForDevelopmentMode("Your App ID", "Your Development Key")
+        } else {
+            Leanplum.setAppIdForProductionMode("Your App ID", "Your Production Key")
+        }
+
+        /*TODO: Tracks all screens in your app as states in Leanplum.*/
+        Leanplum.trackAllAppScreens()
+
+        /*TODO: This will only run once per session, even if the activity is restarted. */
+        Leanplum.start(this)
+
     }
 
     private fun setAppUniqueId(context: Context) {
