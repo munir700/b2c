@@ -7,7 +7,6 @@ import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.managers.MyUserManager
-import kotlinx.coroutines.delay
 
 class HouseHoldConfirmPaymentViewModel(application: Application) :
     BaseOnboardingViewModel<IHouseHoldConfirmPayment.State>(application),
@@ -17,10 +16,6 @@ class HouseHoldConfirmPaymentViewModel(application: Application) :
 
     override fun handlePressOnView(id: Int) {
         clickEvent.setValue(id)
-    }
-
-    override fun onCreate() {
-        super.onCreate()
     }
 
     override fun onResume() {
