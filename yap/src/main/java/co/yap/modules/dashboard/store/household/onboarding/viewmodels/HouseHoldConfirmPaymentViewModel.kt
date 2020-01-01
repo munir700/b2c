@@ -23,17 +23,32 @@ class HouseHoldConfirmPaymentViewModel(application: Application) :
         setToolBarTitle("Confirm payment")
         toggleToolBarVisibility(true)
         setAvailableBalance()
+        initSelectedPlan()
     }
 
+    private fun initSelectedPlan() {
+        state.selectedPlanFee.set(state.currencyType.get() + " " + parentViewModel?.selectedPlanType?.amount)
+        state.selectedCardPlan.set(parentViewModel?.selectedPlanType?.type + " | " + state.selectedPlanFee.get())
+        parentViewModel?.selectedPlanType?.discount?.let {
+            if (it != 0.0) {
+                state.selectedPlanSaving.set("Your saving $it%!")
+            }
+        }
+    }
 
     private fun setAvailableBalance() {
+        val balanceString = getString(Strings.screen_topup_transfer_display_text_available_balance)
+            .format(
+                state.currencyType.get().toString(),
+                Utils.getFormattedCurrency(MyUserManager.cardBalance.value?.availableBalance.toString())
+            )
         state.availableBalance.set(
-            getString(Strings.screen_topup_transfer_display_text_available_balance)
-                .format(
-                    "AED",
-                    Utils.getFormattedCurrency(MyUserManager.cardBalance.value?.availableBalance.toString())
-                )
+            Utils.getSppnableStringForAmount(
+                context,
+                balanceString,
+                state.currencyType.get().toString(),
+                Utils.getFormattedCurrencyWithoutComma(MyUserManager.cardBalance.value?.availableBalance.toString())
+            )
         )
     }
-
 }

@@ -17,6 +17,7 @@ import co.yap.modules.dashboard.cards.addpaymentcard.spare.SpareCardsLandingAdap
 import co.yap.modules.dashboard.store.household.interfaces.IHouseHoldSubscription
 import co.yap.modules.dashboard.store.household.onboarding.HouseHoldOnboardingActivity
 import co.yap.modules.dashboard.store.household.viewmodels.SubscriptionSelectionViewModel
+import co.yap.networking.household.responsedtos.HouseHoldPlan
 import co.yap.yapcore.BaseBindingActivity
 import com.daimajia.androidanimations.library.Techniques
 import com.daimajia.androidanimations.library.YoYo
@@ -32,6 +33,7 @@ class SubscriptionSelectionActivity :
     var selectedPosition: Int = 0
     var incrementValue: Boolean = true
     var exitEvent: Boolean = false
+    var selectedPlan: HouseHoldPlan = HouseHoldPlan()
 
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.activity_house_hold_subscription_selction
@@ -65,23 +67,24 @@ class SubscriptionSelectionActivity :
                 }
                 R.id.llAnnualSubscription -> {
                     viewModel.state.hasSelectedPackage = true
-
                     llMonthlySubscription.isActivated = false
                     llAnnualSubscription.isActivated = true
+                    selectedPlan =
+                        HouseHoldPlan(type = "Yearly", amount = "59.99", discount = 25.00)
                 }
 
 
                 R.id.llMonthlySubscription -> {
 
                     viewModel.state.hasSelectedPackage = true
-
                     llMonthlySubscription.isActivated = true
                     llAnnualSubscription.isActivated = false
+
+                    selectedPlan = HouseHoldPlan(type = "Monthly", amount = "59.99")
                 }
 
                 R.id.btnGetStarted -> {
-                    startActivity(HouseHoldOnboardingActivity.newIntent(this))
-
+                    startActivity(HouseHoldOnboardingActivity.newIntent(this, selectedPlan))
                 }
 
                 R.id.imgClose -> {
@@ -91,6 +94,7 @@ class SubscriptionSelectionActivity :
             }
         })
     }
+
 
     override fun onPause() {
         super.onPause()

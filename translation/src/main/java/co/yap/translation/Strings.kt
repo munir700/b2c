@@ -1317,4 +1317,10 @@ object Strings {
     const val screen_yap_house_hold_confirm_payment_display_text_change_plan: String =
         "screen_yap_house_hold_confirm_payment_display_text_change_plan"
 
+
+    //    YAP Household success screen
+    const val screen_new_user_email_display_text_title: String = "screen_new_user_email_display_text_title"
+    const val screen_new_user_email_display_text_email: String = "screen_new_user_email_display_text_email"
+    const val screen_new_user_email_display_text_email_caption: String = "screen_new_user_email_display_text_email_caption"
+    const val screen_new_user_email_display_button_confirm: String = "screen_new_user_email_display_button_confirm"
 }

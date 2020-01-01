@@ -1,8 +1,9 @@
 package co.yap.modules.dashboard.store.household.onboarding.fragments
 
 import android.os.Bundle
-import android.view.View
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.fragment.findNavController
 import co.yap.R
 import co.yap.modules.dashboard.store.household.onboarding.interfaces.IHouseHoldConfirmPayment
 import co.yap.modules.dashboard.store.household.onboarding.viewmodels.HouseHoldConfirmPaymentViewModel
@@ -16,11 +17,24 @@ class HHConfirmPaymentFragment : BaseOnBoardingFragment<IHouseHoldConfirmPayment
     override val viewModel: IHouseHoldConfirmPayment.ViewModel
         get() = ViewModelProviders.of(this).get(HouseHoldConfirmPaymentViewModel::class.java)
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        viewModel.state.selectedPlanFee.set("AED 720.00")
-        viewModel.state.selectedCardPlan.set("Yearly | AED 720")
-        viewModel.state.selectedPlanSaving.set("Your saving 25%!")
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        viewModel.clickEvent.observe(this, clickObserver)
     }
 
+    private val clickObserver = Observer<Int> {
+        when (it) {
+            R.id.tvChangePlan -> {
+
+            }
+            R.id.confirmButton -> {
+                findNavController().navigate(R.id.action_HHConfirmPaymentFragment_to_houseHoldSuccessFragment)
+            }
+        }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        viewModel.clickEvent.removeObservers(this)
+    }
 }

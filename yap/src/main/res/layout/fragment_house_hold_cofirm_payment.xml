@@ -7,6 +7,7 @@
 
         <import type="co.yap.translation.Strings" />
 
+        <import type="android.view.View" />
         <variable
             name="viewModel"
             type="co.yap.modules.dashboard.store.household.onboarding.viewmodels.HouseHoldConfirmPaymentViewModel" />
@@ -59,7 +60,7 @@
                 android:gravity="center"
                 android:maxLines="2"
                 android:padding="@dimen/small"
-                android:text="@{viewModel.houseHoldUserName}"
+                android:text="@{viewModel.parentViewModel.username}"
                 tools:text="Faheem Riaz" />
 
             <TextView
@@ -67,7 +68,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="971 55 5555 5555"
+                android:text="@{viewModel.parentViewModel.userMobileNo}"
                 tools:text="971 55 5555 5555" />
         </LinearLayout>
 
@@ -115,8 +116,9 @@
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvChangePlan"
                 style="@style/Micro"
+                android:padding="@dimen/small"
                 android:layout_width="wrap_content"
-                android:layout_height="0dp"
+                android:layout_height="wrap_content"
                 android:gravity="center"
                 android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
                 android:textColor="@color/colorPrimary"
@@ -134,6 +136,7 @@
                 android:layout_marginTop="@dimen/small"
                 android:fontFamily="@font/roboto_medium_italic"
                 android:gravity="center"
+                android:visibility="@{viewModel.state.selectedPlanSaving.equals(``)?View.GONE :View.VISIBLE}"
                 android:text="@{viewModel.state.selectedPlanSaving}"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tvCardPlan"

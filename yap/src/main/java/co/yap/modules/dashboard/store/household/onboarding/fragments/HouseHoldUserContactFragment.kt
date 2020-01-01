@@ -25,23 +25,20 @@ class HouseHoldUserContactFragment : BaseOnBoardingFragment<IHouseHoldUserContac
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.getConfirmCcp(etConfirmMobileNumber)!!
-        viewModel.getCcp(etMobileNumber)!!
+        viewModel.getConfirmCcp(etConfirmMobileNumber)
+        viewModel.getCcp(etMobileNumber)
 
     }
 
     override fun onResume() {
         super.onResume()
-
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
-
                 R.id.btnNext -> {
                     findNavController().navigate(R.id.action_houseHoldUserContactFragment_to_HHConfirmPaymentFragment)
                 }
             }
         })
-
     }
 
     override fun onPause() {

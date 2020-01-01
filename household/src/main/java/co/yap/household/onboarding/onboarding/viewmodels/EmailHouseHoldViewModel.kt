@@ -2,7 +2,6 @@ package co.yap.household.onboarding.onboarding.viewmodels
 
 import android.app.Application
 import android.os.Build
-import android.os.Handler
 import android.view.inputmethod.EditorInfo
 import android.widget.TextView
 import co.yap.app.login.EncryptionUtils
@@ -20,7 +19,6 @@ import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.SingleLiveEvent
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.Utils
-import co.yap.yapcore.managers.MyUserManager
 import java.util.*
 import java.util.concurrent.TimeUnit
 
@@ -41,18 +39,18 @@ class EmailHouseHoldViewModel(application: Application) :
 
     override fun onCreate() {
         super.onCreate()
-        state.emailTitle = getString(R.string.screen_enter_email_b2c_display_text_title)
-        state.emailBtnTitle = getString(R.string.screen_phone_number_button_send)
+        state.emailTitle = getString(R.string.screen_new_user_email_display_text_title)
+        state.emailBtnTitle = getString(R.string.screen_new_user_email_display_button_confirm)
         state.deactivateField = true
 
     }
 
     override fun handlePressOnNext() {
-        if (state.emailTitle == getString(R.string.screen_email_verification_display_text_title)) {
-            nextButtonPressEvent.setValue(EVENT_POST_DEMOGRAPHIC)
-        } else {
-            nextButtonPressEvent.setValue(EVENT_POST_VERIFICATION_EMAIL)
-        }
+//        if (state.emailTitle == getString(R.string.screen_email_verification_display_text_title)) {
+//            nextButtonPressEvent.setValue(EVENT_POST_DEMOGRAPHIC)
+//        } else {
+        nextButtonPressEvent.setValue(EVENT_POST_VERIFICATION_EMAIL)
+//        }
     }
 
     override fun stopTimer() {
@@ -121,7 +119,9 @@ class EmailHouseHoldViewModel(application: Application) :
 
         val verificationText: String =
             parentViewModel!!.onboardingData.firstName + ", " + screen_email_verification_b2c_display_text_email_sent + " " + state.twoWayTextWatcher + "\n" + "\n" + screen_email_verification_b2c_display_text_email_confirmation
-        state.emailVerificationTitle = verificationText
+//        state.emailVerificationTitle = verificationText
+        state.emailVerificationTitle =
+            getString(R.string.screen_new_user_email_display_text_email_caption)
 
 
         // mark that we have completed all verification stuff to handle proper back navigation

@@ -23,16 +23,13 @@ class HouseHoldUserInfoViewModel(application: Application) :
     }
 
     override fun setUserName() {
-        houseHoldUserName = state.firstName
-        houseHoldUserEmail = state.emailAddress
+        parentViewModel?.username = state.firstName + " " + state.lastName
+        parentViewModel?.userMobileNo = state.emailAddress
     }
 
     override fun onResume() {
         super.onResume()
         setToolBarTitle(getString(Strings.screen_yap_house_hold_user_info_display_text_title))
-        houseHoldUserName = "testUser"
-        state.firstName
-
     }
 
 }
