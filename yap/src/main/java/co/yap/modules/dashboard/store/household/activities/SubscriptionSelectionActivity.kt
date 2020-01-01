@@ -70,9 +70,8 @@ class SubscriptionSelectionActivity :
                     llMonthlySubscription.isActivated = false
                     llAnnualSubscription.isActivated = true
                     selectedPlan =
-                        HouseHoldPlan(type = "Yearly", amount = "59.99", discount = 25.00)
+                        HouseHoldPlan(type = "Yearly", amount = "720.00", discount = 25.00)
                 }
-
 
                 R.id.llMonthlySubscription -> {
 
