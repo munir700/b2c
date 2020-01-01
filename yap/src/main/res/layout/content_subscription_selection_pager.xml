@@ -38,8 +38,7 @@
             android:text="@{content.subTitle}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/ivPoster"
-        />
+            app:layout_constraintTop_toBottomOf="@+id/ivPoster" />
 
     </LinearLayout>
 </layout>

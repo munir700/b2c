@@ -4,12 +4,9 @@ import android.animation.Animator
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.view.MotionEvent
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.viewpager.widget.ViewPager
 import co.yap.BR
 import co.yap.R
 import co.yap.modules.dashboard.cards.addpaymentcard.models.BenefitsModel
@@ -17,11 +14,13 @@ import co.yap.modules.dashboard.cards.addpaymentcard.spare.SpareCardsLandingAdap
 import co.yap.modules.dashboard.store.household.interfaces.IHouseHoldSubscription
 import co.yap.modules.dashboard.store.household.onboarding.HouseHoldOnboardingActivity
 import co.yap.modules.dashboard.store.household.viewmodels.SubscriptionSelectionViewModel
+import co.yap.translation.Translator
 import co.yap.yapcore.BaseBindingActivity
+import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.interfaces.OnItemClickListener
 import com.daimajia.androidanimations.library.Techniques
 import com.daimajia.androidanimations.library.YoYo
 import kotlinx.android.synthetic.main.activity_house_hold_subscription_selction.*
-import kotlinx.android.synthetic.main.content_subscription_selection_pager.view.*
 
 
 class SubscriptionSelectionActivity :
@@ -47,74 +46,77 @@ class SubscriptionSelectionActivity :
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-//      addBenefitRecyclerView()
         initViewPager()
-
     }
 
     override fun onResume() {
         super.onResume()
+        addListeners()
+    }
 
+    private fun addListeners() {
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
-
                 R.id.btnClose -> {
-
                     finish() // will check in fsd/story till where is it required to go back
                 }
                 R.id.llAnnualSubscription -> {
                     viewModel.state.hasSelectedPackage = true
-
                     llMonthlySubscription.isActivated = false
                     llAnnualSubscription.isActivated = true
                 }
 
-
                 R.id.llMonthlySubscription -> {
-
                     viewModel.state.hasSelectedPackage = true
-
                     llMonthlySubscription.isActivated = true
                     llAnnualSubscription.isActivated = false
                 }
 
                 R.id.btnGetStarted -> {
-                    startActivity(HouseHoldOnboardingActivity.newIntent(this))
-
+                    confirmationDialog()
                 }
 
                 R.id.imgClose -> {
                     finish()
                 }
-
             }
         })
+    }
+
+    private fun confirmationDialog() {
+        Utils.confirmationDialog(this,
+            "AED 59.99 per month",
+            "The monthly plan is a minimum 12 month contract. By choosing this plan you agree to our terms and conditions.",
+            Translator.getString(
+                this,
+                R.string.common_button_confirm
+            ),
+            Translator.getString(
+                this,
+                R.string.cancel
+            ),
+            object : OnItemClickListener {
+                override fun onItemClick(view: View, data: Any, pos: Int) {
+                    if (data is Boolean) {
+                        if (data) {
+                            startActivity(HouseHoldOnboardingActivity.newIntent(this@SubscriptionSelectionActivity))
+                        }
+                    }
+                }
+            })
+
     }
 
     override fun onPause() {
         super.onPause()
         viewModel.clickEvent.removeObservers(this)
-
-    }
-
-    private fun addBenefitRecyclerView() {
-        val layoutManager = LinearLayoutManager(this)
-        rvSubscriptionPackageBenefits.layoutManager = layoutManager
-        rvSubscriptionPackageBenefits.isNestedScrollingEnabled = false
-        rvSubscriptionPackageBenefits.adapter =
-            SpareCardsLandingAdapter(
-                viewModel.loadDummyData(),
-                this
-            )
     }
 
     override fun onItemClick(benefitsModel: BenefitsModel) {
-//        start benefits screen if required
 
     }
 
-    fun initViewPager() {
+    private fun initViewPager() {
 
         val subscriptionPagerAdapter = SubscriptionPagerAdapter(
             context = this,
@@ -122,114 +124,115 @@ class SubscriptionSelectionActivity :
             layout = R.layout.content_subscription_selection_pager
         )
 
-
-        welcome_pager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
-            override fun onPageScrollStateChanged(state: Int) {
-            }
-
-            override fun onPageScrolled(
-                position: Int,
-                positionOffset: Float,
-                positionOffsetPixels: Int
-            ) {
-//                if (position == 0) {
-                if (!exitEvent) {
-                    exitEvent = true
-                    if (subscriptionPagerAdapter.viewsContainer[position] is View) {
-                        item = subscriptionPagerAdapter.viewsContainer[position] as View
-                        slideInDsscription(
-                            item.tvDescription,
-                            item.ivPoster
-                        )
-                    }
-                }
-                selectedPosition = position
-
-            }
-
-            override fun onPageSelected(position: Int) {
-//                if (position != 0) {
-                if (exitEvent) {
-                    if (subscriptionPagerAdapter.viewsContainer[position] is View) {
-                        item = subscriptionPagerAdapter.viewsContainer[position] as View
-
-                        slideInDsscription(
-                            item.tvDescription,
-                            item.ivPoster
-                        )
-                    }
-                }
-
-            }
-
-        })
+        //Don't delete it its intentional
+        //Don't delete it its intentional
+//        welcome_pager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
+//            override fun onPageScrollStateChanged(state: Int) {
+//            }
+//
+//            override fun onPageScrolled(
+//                position: Int,
+//                positionOffset: Float,
+//                positionOffsetPixels: Int
+//            ) {
+////                if (position == 0) {
+//                if (!exitEvent) {
+//                    exitEvent = true
+//                    if (subscriptionPagerAdapter.viewsContainer[position] is View) {
+//                        item = subscriptionPagerAdapter.viewsContainer[position] as View
+//                        slideInDsscription(
+//                            item.tvDescription,
+//                            item.ivPoster
+//                        )
+//                    }
+//                }
+//                selectedPosition = position
+//
+//            }
+//
+//            override fun onPageSelected(position: Int) {
+////                if (position != 0) {
+//                if (exitEvent) {
+//                    if (subscriptionPagerAdapter.viewsContainer[position] is View) {
+//                        item = subscriptionPagerAdapter.viewsContainer[position] as View
+//
+//                        slideInDsscription(
+//                            item.tvDescription,
+//                            item.ivPoster
+//                        )
+//                    }
+//                }
+//
+//            }
+//
+//        })
 
         welcome_pager?.adapter = subscriptionPagerAdapter
         worm_dots_indicator?.setViewPager(welcome_pager)
 
-        welcome_pager!!.setOnTouchListener(object : View.OnTouchListener {
-            override fun onTouch(
-                v: View?,
-                event: MotionEvent?
-            ): Boolean {
-                when (event!!.action) {
-                    MotionEvent.ACTION_DOWN -> {
-                        if (event!!.getX() < 490) {
-                            // tapped on left of center
-                            if (welcome_pager.currentItem > 0 && welcome_pager.currentItem <= 2) {
-
-
-                                if (::item.isInitialized) {
-                                    incrementValue = false
-
-                                    return slideOutDsscription(
-                                        item.tvDescription,
-                                        item.ivPoster
-                                    )
-                                }
-                                return true
-
-                            }
-
-                        }
-                        if (event!!.getX() > 490) {
-                            //tapped on right of center
-                            if (welcome_pager.currentItem < 2) {
-
-                                if (::item.isInitialized) {
-                                    incrementValue = true
-                                    return slideOutDsscription(
-                                        item.tvDescription,
-                                        item.ivPoster
-                                    )
-
-                                }
-                                return true
-
-
-                            }
-                        }
-                        return true
-                    }
-
-                }
-
-                return true  // setting up false is necessary to consider swipe
-
-            }
-        })
+        //Don't delete it its intentional
+//        welcome_pager!!.setOnTouchListener(object : View.OnTouchListener {
+//            override fun onTouch(
+//                v: View?,
+//                event: MotionEvent?
+//            ): Boolean {
+//                when (event!!.action) {
+//                    MotionEvent.ACTION_DOWN -> {
+//                        if (event!!.getX() < 490) {
+//                            // tapped on left of center
+//                            if (welcome_pager.currentItem > 0 && welcome_pager.currentItem <= 2) {
+//
+//
+//                                if (::item.isInitialized) {
+//                                    incrementValue = false
+//
+//                                    return slideOutDsscription(
+//                                        item.tvDescription,
+//                                        item.ivPoster
+//                                    )
+//                                }
+//                                return true
+//
+//                            }
+//
+//                        }
+//                        if (event!!.getX() > 490) {
+//                            //tapped on right of center
+//                            if (welcome_pager.currentItem < 2) {
+//
+//                                if (::item.isInitialized) {
+//                                    incrementValue = true
+//                                    return slideOutDsscription(
+//                                        item.tvDescription,
+//                                        item.ivPoster
+//                                    )
+//
+//                                }
+//                                return true
+//
+//
+//                            }
+//                        }
+//                        return true
+//                    }
+//
+//                }
+//
+//                return true  // setting up false is necessary to consider swipe
+//
+//            }
+//        })
     }
-
 
     fun slideInDsscription(viewSecond: View, viewThird: View) {
         viewThird!!.visibility = View.GONE
         viewSecond!!.visibility = View.GONE
 
         var techniques: Techniques
-         if (incrementValue) {
+        if (incrementValue) {
             techniques = Techniques.SlideInRight
-         } else {
-             techniques = Techniques.SlideInLeft
+        } else {
+            techniques = Techniques.SlideInLeft
 
         }
 
@@ -291,7 +294,6 @@ class SubscriptionSelectionActivity :
             .playOn(viewThird)
 
     }
-
 
     fun slideOutDsscription(viewSecond: View, viewThird: View): Boolean {
 
