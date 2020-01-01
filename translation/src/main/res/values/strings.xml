@@ -810,6 +810,14 @@
     <string name="screen_yap_house_hold_success_button_text_share">Share</string>
     <string name="screen_yap_house_hold_success_button_text_goto_house_hold">Go to Household</string>
 
+    <!-- YAP Household Card Confirm payment screen -->
+    <string name="screen_yap_house_hold_confirm_payment_display_text_title">Household Plan</string>
+    <string name="screen_yap_house_hold_confirm_payment_display_text_heading">Plan</string>
+    <string name="screen_yap_house_hold_confirm_payment_display_text_account_deducted">Your account will be deducted by</string>
+    <string name="screen_yap_house_hold_confirm_payment_display_text_toolbar_title">Confirm payment</string>
+    <string name="screen_yap_house_hold_confirm_payment_display_text_change_plan">Change plan</string>
+    <string name="screen_yap_house_hold_display_button_confirm">Confirm</string>
+
 
 
 </resources>

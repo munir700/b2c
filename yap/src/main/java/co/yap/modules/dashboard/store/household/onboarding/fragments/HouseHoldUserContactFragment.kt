@@ -37,9 +37,8 @@ class HouseHoldUserContactFragment : BaseOnBoardingFragment<IHouseHoldUserContac
             when (it) {
 
                 R.id.btnNext -> {
-                    findNavController().navigate(R.id.action_houseHoldUserContactFragment_to_houseHoldSuccessFragment)
+                    findNavController().navigate(R.id.action_houseHoldUserContactFragment_to_HHConfirmPaymentFragment)
                 }
-
             }
         })
 

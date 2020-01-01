@@ -9,9 +9,7 @@
     <fragment
         android:id="@+id/emailHouseHoldFragment"
         android:name="co.yap.household.onboarding.onboarding.fragments.EmailHouseHoldFragment"
-        android:label="Email HouseHold Fragment"
-
-        >
+        android:label="Email HouseHold Fragment">
         <!--        <action-->
         <!--            android:id="@+id/action_emailFragment_to_congratulationsFragment"-->
         <!--            app:destination="@id/congratulationsFragment" />-->

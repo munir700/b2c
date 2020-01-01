@@ -1303,4 +1303,18 @@ object Strings {
     const val screen_yap_house_hold_success_button_text_goto_house_hold: String =
         "screen_yap_house_hold_success_button_text_goto_house_hold"
 
+    // Yap Household Confirm Payment for card
+    const val screen_yap_house_hold_confirm_payment_display_text_toolbar_title: String =
+        "screen_yap_house_hold_confirm_payment_display_text_toolbar_title"
+    const val screen_yap_house_hold_confirm_payment_display_text_title: String =
+        "screen_yap_house_hold_confirm_payment_display_text_title"
+    const val screen_yap_house_hold_confirm_payment_display_text_heading: String =
+        "screen_yap_house_hold_confirm_payment_display_text_heading"
+    const val screen_yap_house_hold_confirm_payment_display_text_account_deducted: String =
+        "screen_yap_house_hold_confirm_payment_display_text_account_deducted"
+    const val screen_yap_house_hold_display_button_confirm: String =
+        "screen_yap_house_hold_display_button_confirm"
+    const val screen_yap_house_hold_confirm_payment_display_text_change_plan: String =
+        "screen_yap_house_hold_confirm_payment_display_text_change_plan"
+
 }
