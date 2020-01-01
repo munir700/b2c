@@ -47,6 +47,7 @@ class ReorderCardFragment : ReorderCardBaseFragment<IRenewCard.ViewModel>(), IRe
                 viewModel.address.address1 = viewModel.state.cardAddressTitle.get()
                 viewModel.address.address2 = viewModel.state.cardAddressSubTitle.get()
             }
+
             R.id.btnConfirmPurchase -> {
                 MyUserManager.cardBalance.value?.availableBalance?.toDoubleOrNull()
                     ?.let { balance ->

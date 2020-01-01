@@ -45,8 +45,16 @@ class ReorderCardActivity : BaseBindingActivity<IReorderCard.ViewModel>(),
         super.onCreate(savedInstanceState)
         viewModel.clickEvent.observe(this, clickObserver)
         if (intent != null && intent.hasExtra(CARD)) {
-            val card = intent.getParcelableExtra<Card>(CARD)
-            viewModel.card = card
+            val card: Card? = intent.getParcelableExtra(CARD)
+            if (card != null) {
+                viewModel.card = card
+            } else {
+                showToast("Invalid Card")
+                finish()
+            }
+        } else {
+            showToast("Invalid Card")
+            finish()
         }
     }
 

@@ -122,7 +122,7 @@ class AddressSelectionFragment : BaseMapFragment<IAddressSelection.ViewModel>(),
                 viewModel.state.isFromPhysicalCardsLayout = true
                 updateHeadings()
             }
-            isFromReorderCardScreen == true -> {
+            isFromReorderCardScreen -> {
                 viewModel.mapDetailViewActivity = activity as ReorderCardActivity
                 viewModel.state.isFromReorderCardsLayout = true
             }
