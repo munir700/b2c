@@ -17,8 +17,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center_vertical"
-        android:paddingLeft="@dimen/margin_medium"
-        android:paddingRight="@dimen/margin_medium">
+        android:paddingLeft="@dimen/margin_large"
+        android:paddingRight="@dimen/margin_large">
 
         <TextView
             android:id="@+id/tvHeadingMobile"
@@ -29,6 +29,7 @@
             android:layout_marginTop="@dimen/margin_extra_large"
             android:layout_marginEnd="@dimen/margin_medium"
             android:gravity="center"
+            android:textColor="@color/textDarkColor"
             android:text="@{emailHouseHoldViewModel.state.emailTitle}"
             app:layout_constraintTop_toTopOf="parent"
             app:text="@{Strings.screen_new_user_email_display_text_title}"
@@ -37,43 +38,14 @@
             tools:text="@string/screen_new_user_email_display_text_title" />
 
 
-        <co.yap.widgets.CoreInputField
-            android:id="@+id/inputEmailAddress"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="44dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginBottom="@dimen/_100sdp"
-            android:background="@color/white"
-            app:coreInputDrawableRight="@{emailHouseHoldViewModel.state.drawbleRight}"
-            app:coreInputError="@{emailHouseHoldViewModel.state.emailError}"
-            app:coreInputHint="@{emailHouseHoldViewModel.state.emailHint}"
-            app:deactivateEditText="@{emailHouseHoldViewModel.state.deactivateField}"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.487"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvHeadingMobile"
-            app:onEditorActionDoneListener="@{emailHouseHoldViewModel.onEditorActionListener()}"
-            app:realValue="@={emailHouseHoldViewModel.state.twoWayTextWatcher}"
-            app:resetUI="@{emailHouseHoldViewModel.state.refreshField}"
-            app:selection="@{emailHouseHoldViewModel.state.setSelection}"
-            app:view_input_type="email" />
-
-        <!--<LinearLayout-->
-        <!--    android:layout_width="match_parent"-->
-        <!--    android:layout_height="wrap_content"-->
-        <!--    android:orientation="vertical"-->
-
-
         <androidx.appcompat.widget.AppCompatTextView
-
             android:id="@+id/tvCaption"
             style="@style/Small"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_medium"
+            android:layout_marginTop="@dimen/margin_xl"
             android:layout_marginBottom="-5dp"
+            android:textColor="@color/textDarkColor"
             android:text="@string/screen_yap_house_hold_user_info_display_text_email"
             app:layout_constraintTop_toBottomOf="@+id/tvHeadingMobile"
             app:text="@{Strings.screen_yap_house_hold_user_info_display_text_email}"
@@ -85,8 +57,11 @@
             android:id="@+id/etEmail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            app:coreInputDrawableRight="@{emailHouseHoldViewModel.state.drawbleRight}"
+            app:coreInputError="@{emailHouseHoldViewModel.state.emailError}"
             app:coreInputHint="@{Strings.screen_yap_house_hold_user_info_display_text_email_hint}"
             app:layout_constraintTop_toBottomOf="@+id/tvCaption"
+            app:realValue="@={emailHouseHoldViewModel.state.twoWayTextWatcher}"
             app:translateHint="@{true}"
             app:view_focusable="true"
             app:view_id="555"
@@ -94,33 +69,14 @@
             app:view_max_length="40"
             app:view_plain_background="true" />
 
-        <!--        <co.yap.widgets.CoreInputField-->
-        <!--            android:id="@+id/etEmail"-->
-        <!--            android:layout_width="match_parent"-->
-        <!--            android:layout_height="wrap_content"-->
-        <!--            app:coreInputDrawableRight="@{emailHouseHoldViewModel.state.drawbleRight}"-->
-        <!--            app:coreInputError="@{emailHouseHoldViewModel.state.emailError}"-->
-        <!--            app:coreInputHint="@{Strings.screen_yap_house_hold_user_info_display_text_email_hint}"-->
-        <!--            app:layout_constraintTop_toBottomOf="@+id/tvCaption"-->
-        <!--            app:realValue="@={emailHouseHoldViewModel.state.twoWayTextWatcher}"-->
-        <!--            app:translateHint="@{true}"-->
-        <!--            app:view_focusable="true"-->
-        <!--            app:view_id="555"-->
-        <!--            app:view_input_text_imei_actions="IME_ACTION_DONE"-->
-        <!--            app:view_max_length="40"-->
-        <!--            app:view_plain_background="true" />-->
-
 
         <TextView
             android:id="@+id/tvSuccess"
             style="@style/Large"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
             android:layout_marginTop="@dimen/_40sdp"
-            android:layout_marginEnd="8dp"
             android:gravity="center"
-            android:paddingStart="@dimen/margin_extra_small"
             android:text="@{emailHouseHoldViewModel.state.emailVerificationTitle}"
             android:textColor="@color/colorPrimary"
             android:visibility="visible"
@@ -130,15 +86,13 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/etEmail"
             app:layout_constraintVertical_bias="0.0"
-             tools:ignore="MissingConstraints" />
+            tools:ignore="MissingConstraints" />
 
         <co.yap.widgets.CoreButton
             android:id="@+id/next_button"
             style="@style/FragmentsBtnStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/margin_xxl"
-            android:layout_marginRight="@dimen/margin_xxl"
             android:layout_marginBottom="@dimen/margin_medium_large"
             android:onClick="@{() -> emailHouseHoldViewModel.handlePressOnNext()}"
             android:text="@{emailHouseHoldViewModel.state.emailBtnTitle}"
@@ -146,6 +100,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             tools:ignore="MissingConstraints"
             tools:layout_editor_absoluteX="44dp" />
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

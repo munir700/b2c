@@ -39,7 +39,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:textVal="@{Strings.screen_yap_house_hold_user_info_contact_display_text_heading}"
-            app:concatVal="@{viewModel.state.houseHoldUserName}"
+            app:concatVal="@{viewModel.houseHoldUserName}"
             />
 
 
@@ -104,7 +104,6 @@
                     android:inputType="phone"
                     android:maxLength="@{viewModel.state.mobileNoLength}"
                     android:singleLine="true"
-
                     android:text="@={viewModel.state.mobile}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
