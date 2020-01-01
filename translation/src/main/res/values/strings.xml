@@ -810,6 +810,11 @@
     <string name="screen_yap_house_hold_success_button_text_share">Share</string>
     <string name="screen_yap_house_hold_success_button_text_goto_house_hold">Go to Household</string>
 
+    <!-- New User Email household screen -->
+    <string name="screen_new_user_email_display_text_title">Enter your email</string>
+    <string name="screen_new_user_email_display_text_email">Email address</string>
+    <string name="screen_new_user_email_display_text_email_caption">An email will be sent to this address for verification</string>
+    <string name="screen_new_user_email_display_button_confirm">Confirm</string>
 
 
 </resources>

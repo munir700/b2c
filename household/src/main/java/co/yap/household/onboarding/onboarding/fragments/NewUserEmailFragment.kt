@@ -10,13 +10,13 @@ import co.yap.household.onboarding.fragments.OnboardingChildFragment
 import co.yap.household.onboarding.onboarding.interfaces.IEmail
 import co.yap.household.onboarding.onboarding.viewmodels.EmailHouseHoldViewModel
 
-class EmailHouseHoldFragment : OnboardingChildFragment<IEmail.ViewModel>() {
+class NewUserEmailFragment : OnboardingChildFragment<IEmail.ViewModel>() {
 
     private val windowSize: Rect = Rect() // to hold the size of the visible window
 
     override fun getBindingVariable(): Int = BR.emailHouseHoldViewModel
 
-    override fun getLayoutId(): Int = R.layout.fragment_house_hold_email
+    override fun getLayoutId(): Int = R.layout.fragment_new_user_email
 
     override val viewModel: IEmail.ViewModel
         get() = ViewModelProviders.of(this).get(EmailHouseHoldViewModel::class.java)

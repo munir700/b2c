@@ -8,7 +8,7 @@
 
     <fragment
         android:id="@+id/emailHouseHoldFragment"
-        android:name="co.yap.household.onboarding.onboarding.fragments.EmailHouseHoldFragment"
+        android:name="co.yap.household.onboarding.onboarding.fragments.NewUserEmailFragment"
         android:label="Email HouseHold Fragment"
 
         >
