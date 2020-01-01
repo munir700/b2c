@@ -291,16 +291,18 @@ class CashTransferState(application: Application) : BaseState(), ICashTransfer.S
         value: Double
     ): Double {
         var totalAmount = 0.0
-        val remittanceTierFee: ArrayList<RemittanceFeeResponse.RemittanceFee.TierRateDTO> = ArrayList()
-            //listItemRemittanceFee.filter { item -> item.amountFrom?.toDouble() <= value && item.amountTo!! >= value }
+        val remittanceTierFee: ArrayList<RemittanceFeeResponse.RemittanceFee.TierRateDTO> =
+            ArrayList()
+        //listItemRemittanceFee.filter { item -> item.amountFrom?.toDouble() <= value && item.amountTo!! >= value }
 
         val iterator = listItemRemittanceFee.iterator()
         while (iterator.hasNext()) {
             val item = iterator.next()
             if (item.amountFrom != null && item.amountTo != null) {
-                item.amountFrom!! <= value && item.amountTo!! >= value
-                remittanceTierFee.add(item)
-                break
+                if (item.amountFrom!! <= value && item.amountTo!! >= value) {
+                    remittanceTierFee.add(item)
+                    break
+                }
             }
         }
 

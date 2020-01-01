@@ -284,7 +284,7 @@ class InternationalFundsTransferState(val application: Application) : BaseState(
 
     private fun checkValidation() {
         if (!receiverCurrencyAmountFxRate.isNullOrEmpty()) {
-            if (fxRateAmount.isNullOrBlank()) {
+            if (fxRateAmount.isNullOrEmpty() && feeType == Constants.FEE_TYPE_TIER) {
                 setSpanable(0.0)
                 receiverCurrencyAmount = "0.00"
                 return
@@ -299,7 +299,9 @@ class InternationalFundsTransferState(val application: Application) : BaseState(
                             var amount =
                                 receiverCurrencyAmountFxRate?.let {
 
-                                    fxRateAmount?.toDouble()?.times(it.toDouble())
+                                    if (!fxRateAmount.isNullOrEmpty())
+                                        fxRateAmount?.toDouble()?.times(it.toDouble())
+                                    else return
                                 }
                             if (feeType == Constants.FEE_TYPE_TIER) {
                                 setSpanable(amount ?: 0.0)
