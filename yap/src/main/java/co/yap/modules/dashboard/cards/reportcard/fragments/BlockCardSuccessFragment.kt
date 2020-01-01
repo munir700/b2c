@@ -7,8 +7,10 @@ import android.view.View
 import androidx.lifecycle.ViewModelProviders
 import co.yap.R
 import co.yap.modules.dashboard.cards.reordercard.activities.ReorderCardActivity
+import co.yap.modules.dashboard.cards.reportcard.activities.ReportLostOrStolenCardActivity.Companion.reportCard
 import co.yap.modules.dashboard.cards.reportcard.activities.ReportLostOrStolenCardActivity.Companion.reportCardSuccess
 import co.yap.modules.dashboard.cards.reportcard.viewmodels.BlockCardSuccessViewModel
+import co.yap.networking.cards.responsedtos.Card
 import co.yap.translation.Strings
 import co.yap.translation.Translator
 import co.yap.yapcore.BaseBindingFragment
@@ -23,9 +25,9 @@ class BlockCardSuccessFragment : BaseBindingFragment<IDefault.ViewModel>() {
     override val viewModel: IDefault.ViewModel
         get() = ViewModelProviders.of(this).get(BlockCardSuccessViewModel::class.java)
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val card: Card = reportCard
         val reOrderFeeValue =
             arguments?.let { BlockCardSuccessFragmentArgs.fromBundle(it).cardReorderFee } as String
 
@@ -46,7 +48,7 @@ class BlockCardSuccessFragment : BaseBindingFragment<IDefault.ViewModel>() {
 //                    ),"","","","",true
 //                )
 //            findNavController().navigate(action)
-            startActivity(Intent(context, ReorderCardActivity::class.java))
+            startActivity(ReorderCardActivity.newIntent(requireContext(), card))
         }
 
         tvAddLater.setOnClickListener {

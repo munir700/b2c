@@ -46,6 +46,7 @@ class ReorderCardActivity : BaseBindingActivity<IReorderCard.ViewModel>(),
         viewModel.clickEvent.observe(this, clickObserver)
         if (intent != null && intent.hasExtra(CARD)) {
             val card = intent.getParcelableExtra<Card>(CARD)
+            viewModel.card = card
         }
     }
 
