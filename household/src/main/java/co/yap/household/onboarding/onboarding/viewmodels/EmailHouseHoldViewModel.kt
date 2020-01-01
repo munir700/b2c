@@ -188,12 +188,12 @@ class EmailHouseHoldViewModel(application: Application) :
             when (val response = repository.getAccountInfo()) {
                 is RetroApiResponse.Success -> {
                     if (response.data.data.isNotEmpty()) {
-                        parentViewModel!!.onboardingData.ibanNumber = response.data.data[0].iban
-                        Handler().postDelayed({
-                            nextButtonPressEvent.setValue(EVENT_NAVIGATE_NEXT)
-                        }, 400)
-                        MyUserManager.user = response.data.data[0]
-                        MyUserManager.user?.setLiveData() // DOnt remove this line
+//                        parentViewModel!!.onboardingData.ibanNumber = response.data.data[0].iban
+//                        Handler().postDelayed({
+//                            nextButtonPressEvent.setValue(EVENT_NAVIGATE_NEXT)
+//                        }, 400)
+//                        MyUserManager.user = response.data.data[0]
+//                        MyUserManager.user?.setLiveData() // DOnt remove this line
                         state.valid = true
                     }
                 }
