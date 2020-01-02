@@ -27,7 +27,6 @@ class HouseHoldUserContactViewModel(application: Application) :
 
     override fun onResume() {
         super.onResume()
-        state.houseHoldUserName = parentViewModel?.firstName
         setToolBarTitle(getString(Strings.screen_yap_house_hold_user_info_display_text_title))
     }
 
