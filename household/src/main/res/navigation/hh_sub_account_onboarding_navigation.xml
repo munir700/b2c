@@ -15,4 +15,16 @@
         android:label="Congratulations Fragment">
 
     </fragment>
+    <fragment
+        android:id="@+id/passCodeFragment"
+        android:name="co.yap.household.onboarding.onboarding.fragments.PassCodeFragment"
+        android:label="Congratulations Fragment">
+
+    </fragment>
+    <fragment
+        android:id="@+id/DialerFragment"
+        android:name="co.yap.household.onboarding.onboarding.fragments.DialerFragment"
+        android:label="Congratulations Fragment">
+
+    </fragment>
 </navigation>

@@ -16,9 +16,9 @@
         android:background="@color/white"
         android:orientation="vertical">
 
-<!--        <include-->
-<!--            layout="@layout/layout_progress_toolbar"-->
-<!--            app:viewModel="@{viewModel}"/>-->
+        <include
+            layout="@layout/layout_progress_toolbar"
+            app:viewModel="@{viewModelHouseHold}"/>
 
         <fragment
             android:id="@+id/main_nav_host_container_fragment"
