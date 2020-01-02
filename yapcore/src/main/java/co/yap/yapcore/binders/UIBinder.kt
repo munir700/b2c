@@ -251,15 +251,20 @@ object UIBinder {
     @BindingAdapter("cardStatus")
     @JvmStatic
     fun setCardStatus(linearLayout: LinearLayout, card: Card) {
-        when (CardStatus.valueOf(card.status)) {
-            CardStatus.ACTIVE -> {
-                linearLayout.visibility = View.GONE
-            }
-            CardStatus.BLOCKED -> {
-                linearLayout.visibility = View.VISIBLE
-            }
-            CardStatus.INACTIVE -> {
-                linearLayout.visibility = View.VISIBLE
+        if(CardStatus.valueOf(card.status).name.isNotEmpty()) {
+            when (CardStatus.valueOf(card.status)) {
+                CardStatus.ACTIVE -> {
+                    linearLayout.visibility = View.GONE
+                }
+                CardStatus.BLOCKED -> {
+                    linearLayout.visibility = View.VISIBLE
+                }
+                CardStatus.INACTIVE -> {
+                    linearLayout.visibility = View.VISIBLE
+                }
+                CardStatus.HOTLISTED -> {
+                    linearLayout.visibility = View.VISIBLE
+                }
             }
         }
     }
@@ -299,6 +304,13 @@ object UIBinder {
                 text.text = Translator.getString(
                     text.context,
                     R.string.screen_cards_display_text_freeze_card
+                )
+            }
+            CardStatus.HOTLISTED -> {
+                text.visibility = View.VISIBLE
+                text.text = Translator.getString(
+                    text.context,
+                    R.string.screen_cards_display_text_lost_stolen_card
                 )
             }
             CardStatus.INACTIVE -> {
