@@ -24,7 +24,7 @@ class HouseHoldUserContactFragment : BaseOnBoardingFragment<IHouseHoldUserContac
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        viewModel.state.countryCode = ccpSelector.getselectedCountryCodeAsInt().toString()
         viewModel.getConfirmCcp(etConfirmMobileNumber)
         viewModel.getCcp(etMobileNumber)
 
@@ -50,7 +50,5 @@ class HouseHoldUserContactFragment : BaseOnBoardingFragment<IHouseHoldUserContac
     override fun onDestroy() {
         viewModel.clickEvent.removeObservers(this)
         super.onDestroy()
-
-
     }
 }

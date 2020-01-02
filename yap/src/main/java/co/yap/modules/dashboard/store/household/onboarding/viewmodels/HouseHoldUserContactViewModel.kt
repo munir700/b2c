@@ -17,7 +17,8 @@ class HouseHoldUserContactViewModel(application: Application) :
     override val clickEvent: SingleClickEvent = SingleClickEvent()
 
     override fun handlePressOnAdd(id: Int) {
-        parentViewModel?.userMobileNo = state.etMobileNumberConfirmMobile?.text.toString()
+
+        parentViewModel?.userMobileNo = state.countryCode+" "+state.etMobileNumberConfirmMobile?.text.toString()
         clickEvent.setValue(id)
     }
 
