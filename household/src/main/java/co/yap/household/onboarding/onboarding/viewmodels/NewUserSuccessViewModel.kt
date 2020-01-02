@@ -1,14 +1,14 @@
 package co.yap.household.onboarding.onboarding.viewmodels
 
 import android.app.Application
-import co.yap.household.onboarding.onboarding.interfaces.INewUserCongratulations
+import co.yap.household.onboarding.onboarding.interfaces.INewUserSuccess
 import co.yap.household.onboarding.onboarding.states.NewUserCongratulationsState
 import co.yap.household.onboarding.viewmodels.OnboardingChildViewModel
 import co.yap.yapcore.SingleClickEvent
 
-class NewUserCongratulationsViewModel(application: Application) :
-    OnboardingChildViewModel<INewUserCongratulations.State>(application),
-    INewUserCongratulations.ViewModel {
+class NewUserSuccessViewModel(application: Application) :
+    OnboardingChildViewModel<INewUserSuccess.State>(application),
+    INewUserSuccess.ViewModel {
     override val clickEvent: SingleClickEvent = SingleClickEvent()
     override val state: NewUserCongratulationsState = NewUserCongratulationsState()
     override var elapsedOnboardingTime: Long = 0

@@ -7,20 +7,20 @@ import androidx.lifecycle.ViewModelProviders
 import co.yap.household.BR
 import co.yap.household.R
 import co.yap.household.onboarding.fragments.OnboardingChildFragment
-import co.yap.household.onboarding.onboarding.interfaces.INewUserCongratulations
-import co.yap.household.onboarding.onboarding.viewmodels.NewUserCongratulationsViewModel
+import co.yap.household.onboarding.onboarding.interfaces.INewUserSuccess
+import co.yap.household.onboarding.onboarding.viewmodels.NewUserSuccessViewModel
 
-class NewUserCongratulationsFragment :
-    OnboardingChildFragment<INewUserCongratulations.ViewModel>() {
+class NewUserSuccessFragment :
+    OnboardingChildFragment<INewUserSuccess.ViewModel>() {
 
     private val windowSize: Rect = Rect() // to hold the size of the visible window
 
     override fun getBindingVariable(): Int = BR.viewModel
 
-    override fun getLayoutId(): Int = R.layout.fragment_new_user_congratulations
+    override fun getLayoutId(): Int = R.layout.fragment_new_user_success
 
-    override val viewModel: INewUserCongratulations.ViewModel
-        get() = ViewModelProviders.of(this).get(NewUserCongratulationsViewModel::class.java)
+    override val viewModel: INewUserSuccess.ViewModel
+        get() = ViewModelProviders.of(this).get(NewUserSuccessViewModel::class.java)
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)

@@ -3,7 +3,7 @@ package co.yap.household.onboarding.onboarding.interfaces
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
 
-interface INewUserCongratulations {
+interface INewUserSuccess {
 
     interface View : IBase.View<ViewModel>{
         fun setObservers()

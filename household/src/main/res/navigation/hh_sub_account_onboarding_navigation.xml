@@ -11,7 +11,7 @@
 
     <fragment
         android:id="@+id/newUserCongratulationsFragment"
-        android:name="co.yap.household.onboarding.onboarding.fragments.NewUserCongratulationsFragment"
+        android:name="co.yap.household.onboarding.onboarding.fragments.NewUserSuccessFragment"
         android:label="Congratulations Fragment">
 
     </fragment>
