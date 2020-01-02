@@ -23,6 +23,8 @@ class HouseHoldUserInfoViewModel(application: Application) :
     }
 
     override fun setUserName() {
+        parentViewModel?.firstName = state.firstName
+        parentViewModel?.lastName = state.lastName
         parentViewModel?.username = state.firstName + " " + state.lastName
         parentViewModel?.userMobileNo = state.emailAddress
     }

@@ -17,7 +17,6 @@ class HouseHoldUserContactViewModel(application: Application) :
     override val clickEvent: SingleClickEvent = SingleClickEvent()
 
     override fun handlePressOnAdd(id: Int) {
-
         parentViewModel?.userMobileNo = state.countryCode+" "+state.etMobileNumberConfirmMobile?.text.toString()
         clickEvent.setValue(id)
     }
@@ -28,6 +27,7 @@ class HouseHoldUserContactViewModel(application: Application) :
 
     override fun onResume() {
         super.onResume()
+        state.houseHoldUserName = parentViewModel?.firstName
         setToolBarTitle(getString(Strings.screen_yap_house_hold_user_info_display_text_title))
     }
 

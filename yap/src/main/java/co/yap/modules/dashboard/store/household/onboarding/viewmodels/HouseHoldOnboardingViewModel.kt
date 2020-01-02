@@ -13,6 +13,8 @@ class HouseHoldOnboardingViewModel(application: Application) :
 
     override val backButtonPressEvent: SingleLiveEvent<Boolean> = SingleLiveEvent()
     override val state: BaseOnboardingState = BaseOnboardingState()
+    override var firstName: String = ""
+    override var lastName: String = ""
     override var username: String = ""
     override var userMobileNo: String = ""
     override var selectedPlanType: HouseHoldPlan = HouseHoldPlan()

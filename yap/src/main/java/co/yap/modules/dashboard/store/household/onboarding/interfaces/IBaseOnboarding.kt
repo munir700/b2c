@@ -12,6 +12,8 @@ interface IBaseOnboarding {
     }
 
     interface ViewModel : IBase.ViewModel<State> {
+        var firstName:String
+        var lastName:String
         var username: String
         var userMobileNo: String
         var selectedPlanType: HouseHoldPlan
