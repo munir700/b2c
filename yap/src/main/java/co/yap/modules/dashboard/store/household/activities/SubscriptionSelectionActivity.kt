@@ -15,6 +15,7 @@ import co.yap.modules.dashboard.store.household.interfaces.IHouseHoldSubscriptio
 import co.yap.modules.dashboard.store.household.onboarding.HouseHoldOnboardingActivity
 import co.yap.modules.dashboard.store.household.viewmodels.SubscriptionSelectionViewModel
 import co.yap.translation.Translator
+import co.yap.networking.household.responsedtos.HouseHoldPlan
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.interfaces.OnItemClickListener
@@ -31,6 +32,7 @@ class SubscriptionSelectionActivity :
     var selectedPosition: Int = 0
     var incrementValue: Boolean = true
     var exitEvent: Boolean = false
+    var selectedPlan: HouseHoldPlan = HouseHoldPlan()
 
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.activity_house_hold_subscription_selction
@@ -64,12 +66,16 @@ class SubscriptionSelectionActivity :
                     viewModel.state.hasSelectedPackage = true
                     llMonthlySubscription.isActivated = false
                     llAnnualSubscription.isActivated = true
+                    selectedPlan =
+                        HouseHoldPlan(type = "Yearly", amount = "720.00", discount = 25.00)
                 }
 
                 R.id.llMonthlySubscription -> {
                     viewModel.state.hasSelectedPackage = true
                     llMonthlySubscription.isActivated = true
                     llAnnualSubscription.isActivated = false
+
+                    selectedPlan = HouseHoldPlan(type = "Monthly", amount = "59.99")
                 }
 
                 R.id.btnGetStarted -> {
@@ -99,7 +105,7 @@ class SubscriptionSelectionActivity :
                 override fun onItemClick(view: View, data: Any, pos: Int) {
                     if (data is Boolean) {
                         if (data) {
-                            startActivity(HouseHoldOnboardingActivity.newIntent(this@SubscriptionSelectionActivity))
+                            startActivity(HouseHoldOnboardingActivity.newIntent(this@SubscriptionSelectionActivity, selectedPlan))
                         }
                     }
                 }

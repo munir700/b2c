@@ -9,6 +9,7 @@ import co.yap.BR
 import co.yap.R
 import co.yap.modules.dashboard.store.household.onboarding.interfaces.IBaseOnboarding
 import co.yap.modules.dashboard.store.household.onboarding.viewmodels.HouseHoldOnboardingViewModel
+import co.yap.networking.household.responsedtos.HouseHoldPlan
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.IFragmentHolder
 import co.yap.yapcore.defaults.DefaultNavigator
@@ -22,8 +23,11 @@ class HouseHoldOnboardingActivity : BaseBindingActivity<IBaseOnboarding.ViewMode
 
 
     companion object {
-        fun newIntent(context: Context): Intent {
-            return Intent(context, HouseHoldOnboardingActivity::class.java)
+        private const val SELECTED_PLAN = "selected_plan"
+        fun newIntent(context: Context, selectedPlan: HouseHoldPlan? = null): Intent {
+            val intent = Intent(context, HouseHoldOnboardingActivity::class.java)
+            intent.putExtra(SELECTED_PLAN, selectedPlan)
+            return intent
         }
     }
 
@@ -43,6 +47,23 @@ class HouseHoldOnboardingActivity : BaseBindingActivity<IBaseOnboarding.ViewMode
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel.backButtonPressEvent.observe(this, backButtonObserver)
+        getIntentData()
+    }
+
+    private fun getIntentData() {
+        if (intent != null && intent.hasExtra(SELECTED_PLAN)) {
+            val householdPlan: HouseHoldPlan? =
+                intent.getParcelableExtra<HouseHoldPlan?>(SELECTED_PLAN)
+            if (householdPlan != null) {
+                viewModel.selectedPlanType = householdPlan
+            } else {
+                showToast("Please Select Plan")
+                finish()
+            }
+        } else {
+            showToast("Please Select Plan")
+            finish()
+        }
     }
 
     override fun onDestroy() {
