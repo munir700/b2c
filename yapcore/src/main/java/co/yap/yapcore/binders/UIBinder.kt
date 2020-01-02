@@ -53,8 +53,6 @@ import java.util.*
 
 
 object UIBinder {
-
-
     @BindingAdapter("tvColor")
     @JvmStatic
     fun updateTextColor(view: TextView, position: Int) {

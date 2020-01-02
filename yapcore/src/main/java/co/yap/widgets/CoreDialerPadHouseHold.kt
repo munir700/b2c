@@ -18,7 +18,7 @@ import kotlinx.android.synthetic.main.core_dialer_pad.view.*
 
 @TargetApi(Build.VERSION_CODES.LOLLIPOP)
 @SuppressLint("Recycle")
-class CoreDialerPad @JvmOverloads constructor(
+class CoreDialerPadHouseHold @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyle: Int = 0,

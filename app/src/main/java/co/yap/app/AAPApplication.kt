@@ -40,7 +40,6 @@ class AAPApplication : ChatApplication(BuildConfig.FLAVOR) {
             }
         })
 
-
         initFirebase()
         inItLeanplum()
     }
