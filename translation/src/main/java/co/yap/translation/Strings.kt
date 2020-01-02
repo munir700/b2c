@@ -1305,8 +1305,21 @@ object Strings {
 
 
     //    YAP Household success screen
-    const val screen_new_user_email_display_text_title: String = "screen_new_user_email_display_text_title"
-    const val screen_new_user_email_display_text_email: String = "screen_new_user_email_display_text_email"
-    const val screen_new_user_email_display_text_email_caption: String = "screen_new_user_email_display_text_email_caption"
-    const val screen_new_user_email_display_button_confirm: String = "screen_new_user_email_display_button_confirm"
+    const val screen_new_user_email_display_text_title: String =
+        "screen_new_user_email_display_text_title"
+    const val screen_new_user_email_display_text_email: String =
+        "screen_new_user_email_display_text_email"
+    const val screen_new_user_email_display_text_email_caption: String =
+        "screen_new_user_email_display_text_email_caption"
+    const val screen_new_user_email_display_button_confirm: String =
+        "screen_new_user_email_display_button_confirm"
+
+
+    //House hold Registration strings
+    const val screen_house_hold_number_registration_display_text_heading: String =
+        "screen_house_hold_number_registration_display_text_heading"
+    const val screen_house_hold_number_registration_display_text_parent_description: String =
+        "screen_house_hold_number_registration_display_text_parent_description"
+
+
 }

@@ -816,6 +816,9 @@
     <string name="screen_new_user_email_display_text_email_caption">An email will be sent to this address for verification</string>
     <string name="screen_new_user_email_display_button_confirm">Confirm</string>
 
+<!--    House hold Registration strings-->
+    <string name="screen_house_hold_number_registration_display_text_heading">Welcome %1s</string>
+    <string name="screen_house_hold_number_registration_display_text_parent_description">Enter Logan\’s mobile number to confirm they created your account</string>
 
 </resources>
 
