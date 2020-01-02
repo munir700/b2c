@@ -28,7 +28,7 @@ class HouseHoldSuccessViewModel(application: Application) :
         setToolBarTitle(getString(Strings.screen_yap_house_hold_user_info_display_text_title))
         toggleToolBarVisibility(false)
         state.houseHoldUserName = parentViewModel?.username ?: ""
-        state.houseHoldUserEmail = parentViewModel?.userMobileNo ?: ""
+        state.houseHoldUserMobile = parentViewModel?.userMobileNo ?: ""
         state.houseHoldUserPassCode = "0099"
     }
 }

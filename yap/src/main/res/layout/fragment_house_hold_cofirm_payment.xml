@@ -136,7 +136,7 @@
                 android:layout_marginTop="@dimen/small"
                 android:fontFamily="@font/roboto_medium_italic"
                 android:gravity="center"
-                android:visibility="@{viewModel.state.selectedPlanSaving.equals(``)?View.GONE :View.VISIBLE}"
+                android:visibility="@{viewModel.state.selectedPlanSaving.equals(``)?View.INVISIBLE :View.VISIBLE}"
                 android:text="@{viewModel.state.selectedPlanSaving}"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tvCardPlan"

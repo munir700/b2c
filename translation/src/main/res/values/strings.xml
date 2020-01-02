@@ -799,7 +799,7 @@
 
 
     <!-- YAP Household success screen -->
-    <string name="screen_yap_house_hold_success_display_text_title">%1s has been added to your account</string>
+    <string name="screen_yap_house_hold_success_display_text_title">Payment confirmed and %1s has been added to your account</string>
     <string name="screen_yap_house_hold_success_display_text_heading">%1s\'s card is on it\'s way</string>
     <string name="screen_yap_house_hold_success_display_text_house_hold_card">Household card</string>
     <string name="screen_yap_house_hold_success_display_text_direct_message">%1s will receive an SMS with instructions to download the app and complete sign up</string>
