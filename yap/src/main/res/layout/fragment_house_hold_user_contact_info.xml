@@ -39,7 +39,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:textVal="@{Strings.screen_yap_house_hold_user_info_contact_display_text_heading}"
-            app:concatVal="@{viewModel.houseHoldUserName}"
+            app:concatVal="@{viewModel.parentViewModel.firstName}"
             />
 
 

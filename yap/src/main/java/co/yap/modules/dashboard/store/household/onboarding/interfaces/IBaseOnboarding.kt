@@ -1,5 +1,6 @@
 package co.yap.modules.dashboard.store.household.onboarding.interfaces
 
+import co.yap.networking.household.responsedtos.HouseHoldPlan
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleLiveEvent
 
@@ -11,6 +12,11 @@ interface IBaseOnboarding {
     }
 
     interface ViewModel : IBase.ViewModel<State> {
+        var firstName:String
+        var lastName:String
+        var username: String
+        var userMobileNo: String
+        var selectedPlanType: HouseHoldPlan
         fun handlePressOnBackButton()
         fun handlePressOnTickButton()
         val backButtonPressEvent: SingleLiveEvent<Boolean>

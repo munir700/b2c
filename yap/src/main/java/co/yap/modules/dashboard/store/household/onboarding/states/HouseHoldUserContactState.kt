@@ -17,14 +17,6 @@ class HouseHoldUserContactState(application: Application) : BaseState(),
     IHouseHoldUserContact.State {
     val context = application.applicationContext
 
-
-    @get:Bindable
-    override var houseHoldUserName: String? = ""
-        set(value) {
-            field = value
-            notifyPropertyChanged(BR.houseHoldUserName)
-        }
-
     @get:Bindable
     override var confirmMobileNumber: String = ""
         set(value) {

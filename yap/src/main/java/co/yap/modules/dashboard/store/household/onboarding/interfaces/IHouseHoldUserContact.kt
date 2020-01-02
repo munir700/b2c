@@ -9,7 +9,6 @@ interface IHouseHoldUserContact {
 
     interface State : IBase.State {
 
-        var houseHoldUserName: String?
         var confirmMobileNumber: String
         var countryCode: String
         var mobile: String
