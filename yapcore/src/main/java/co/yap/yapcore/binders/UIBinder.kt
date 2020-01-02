@@ -260,7 +260,6 @@ object UIBinder {
             }
             CardStatus.INACTIVE -> {
                 linearLayout.visibility = View.VISIBLE
-
             }
         }
     }
@@ -712,25 +711,22 @@ object UIBinder {
         if (onDrawableClick) {
             view.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_clear_field, 0)
 
-            view.setOnTouchListener(object : View.OnTouchListener {
-                override fun onTouch(v: View, m: MotionEvent): Boolean {
-                    var hasConsumed = false
-                    if (v is EditText) {
-                        if (m.x >= v.width - v.totalPaddingRight) {
-                            if (m.action == MotionEvent.ACTION_UP) {
-                                view.text.clear()
+            view.setOnTouchListener { v, m ->
+                var hasConsumed = false
+                if (v is EditText) {
+                    if (m.x >= v.width - v.totalPaddingRight) {
+                        if (m.action == MotionEvent.ACTION_UP) {
+                            view.text.clear()
 
-                                view.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0)
-                            }
-                            hasConsumed = true
+                            view.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0)
                         }
+                        hasConsumed = true
                     }
-                    return hasConsumed
                 }
-            })
+                hasConsumed
+            }
         } else {
             view.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0)
-
         }
     }
 

@@ -8,6 +8,7 @@
             name="viewModel"
             type="co.yap.modules.location.viewmodels.LocationSelectionViewModel" />
 
+        <import type="android.view.View" />
         <import type="co.yap.translation.Strings" />
 
     </data>
@@ -122,7 +123,6 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/margin_medium"
                         android:gravity="left"
-                        android:textColor="@{viewModel.state.addressTitlesColor}"
                         android:textSize="@dimen/text_size_h2"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -131,7 +131,7 @@
                         tools:ignore="MissingConstraints"
                         tools:text="@string/screen_meeting_location_input_text_address_title" />
 
-                    <EditText
+                    <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/etAddressField"
                         style="@style/ALarge"
                         android:layout_width="match_parent"
@@ -140,14 +140,11 @@
                         android:layout_marginTop="4dp"
                         android:layout_marginEnd="@dimen/margin_medium"
                         android:cursorVisible="false"
-                        android:editable="false"
-                        android:focusable="false"
                         android:focusableInTouchMode="false"
-                        android:gravity="left"
                         android:inputType="textPersonName"
                         android:maxLength="100"
-                        android:paddingRight="@dimen/margin_medium"
-                        android:text="@={viewModel.state.addressField}"
+                        android:text="@={viewModel.state.addressTitle}"
+                        app:drawableClick="@{viewModel.state.addressTitle.equals(``)?false : true}"
                         android:textColor="@color/colorPrimaryDark"
                         android:textColorHint="@color/grey"
                         android:textSize="@dimen/text_size_h3"
@@ -155,8 +152,7 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/tvAddressHeading"
-                        tools:hint="@string/screen_meeting_location_input_text_address_hint"
-                        tools:ignore="MissingConstraints" />
+                        tools:hint="@string/screen_meeting_location_input_text_address_hint" />
 
                     <TextView
                         android:id="@+id/tvLandMark"
@@ -165,17 +161,15 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/margin_medium"
                         android:layout_marginTop="@dimen/margin_medium_large"
-                        android:gravity="left"
                         android:textSize="@dimen/text_size_h2"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/etAddressField"
                         app:text="@{Strings.screen_meeting_location_input_text_landmark_title}"
-                        tools:ignore="MissingConstraints"
                         tools:text="@string/screen_meeting_location_input_text_landmark_title" />
 <!--                    android:textColor="@{viewModel.state.landMarkTitleColor}"-->
 
-                    <EditText
+                    <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/etLandMarkField"
                         style="@style/ALarge"
                         android:layout_width="match_parent"
@@ -185,20 +179,18 @@
                         android:layout_marginEnd="@dimen/margin_medium"
                         android:layout_marginBottom="@dimen/margin_medium_large"
                         android:drawablePadding="@dimen/margin_extra_small"
-                        android:gravity="left"
                         android:inputType="textPersonName"
                         android:maxLength="100"
                         android:minHeight="@dimen/_42sdp"
-                        android:paddingRight="0dp"
                         android:textColor="@color/colorPrimaryDark"
                         android:textColorHint="@color/grey"
                         android:textSize="@dimen/text_size_h3"
-                        app:drawableClick="@{viewModel.state.onDerawableClick}"
+                        app:drawableClick="@{viewModel.state.addressSubtitle.equals(``)?false : true}"
                         app:hint="@{Strings.screen_meeting_location_input_text_landmark_hint}"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/tvLandMark"
-                        app:textSelection="@{viewModel.state.landmarkField}"
+                        app:textSelection="@{viewModel.state.addressSubtitle}"
                         tools:hint="@string/screen_meeting_location_input_text_landmark_hint"
                         tools:ignore="MissingConstraints" />
 
@@ -207,14 +199,14 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
-                        android:visibility="@{viewModel.state.checkBoxLayoutVisibility}">
+                        android:visibility="@{viewModel.state.addressTitle.equals(``)?View.INVISIBLE:View.VISIBLE}">
 
                         <CheckBox
                             android:id="@+id/cbTermsAndConditions"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="@dimen/_13sdp"
-                            android:checked="@={viewModel.state.checked}"
+                            android:checked="@={viewModel.state.isTermsChecked}"
                             app:layout_constraintLeft_toLeftOf="parent"
                             app:layout_constraintVertical_bias="0.892" />
 
@@ -248,11 +240,11 @@
                         android:layout_marginRight="@dimen/margin_btn_side_paddings_xl"
                         android:layout_marginBottom="@dimen/margin_medium_large"
                         android:gravity="bottom"
-                        android:onClick="@{(v) -> viewModel.handleOnPressView()(v.id)}"
-                        android:text="@{viewModel.state.nextActionBtnText}"
+                        android:onClick="@{(v) -> viewModel.handleOnPressView(v.id)}"
+                        app:text="@{Strings.common_button_next}"
+                        tools:text="@string/common_button_next"
                         app:enableCoreButton="@{viewModel.state.valid}"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        tools:ignore="MissingConstraints"
                         tools:layout_editor_absoluteX="44dp" />
                 </LinearLayout>
             </LinearLayout>

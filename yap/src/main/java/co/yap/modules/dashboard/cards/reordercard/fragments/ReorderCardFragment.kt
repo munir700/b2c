@@ -8,6 +8,7 @@ import androidx.navigation.fragment.findNavController
 import co.yap.R
 import co.yap.modules.dashboard.cards.reordercard.interfaces.IRenewCard
 import co.yap.modules.dashboard.cards.reordercard.viewmodels.RenewCardViewModel
+import co.yap.modules.location.activities.LocationSelectionActivity
 import co.yap.translation.Translator
 import co.yap.yapcore.BR
 import co.yap.yapcore.helpers.Utils
@@ -61,7 +62,8 @@ class ReorderCardFragment : ReorderCardBaseFragment<IRenewCard.ViewModel>(), IRe
             }
 
             R.id.tvChangeLocation -> {
-                findNavController().navigate(R.id.action_reorderCardFragment_to_addressSelectionFragment)
+                startActivity(LocationSelectionActivity.newIntent(requireContext()))
+//                findNavController().navigate(R.id.action_reorderCardFragment_to_addressSelectionFragment)
             }
         }
     }

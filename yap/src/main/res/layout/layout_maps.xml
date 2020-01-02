@@ -7,6 +7,7 @@
 
         <import type="co.yap.translation.Strings"/>
 
+        <import type="android.view.View" />
         <variable
             name="viewModel"
             type="co.yap.modules.location.viewmodels.LocationSelectionViewModel" />
@@ -66,8 +67,8 @@
                     android:layout_marginEnd="@dimen/margin_normal"
                     android:minHeight="@dimen/_122sdp"
                     app:cardCornerRadius="10dp"
-                    app:layout_constraintTop_toBottomOf="@+id/tvDetailsVerify"
-                    app:toggleVisibility="@{viewModel.state.cardView}">
+                    android:visibility="@{viewModel.state.isShowLocationCard()?View.VISIBLE:View.GONE}"
+                    app:layout_constraintTop_toBottomOf="@+id/tvDetailsVerify">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -131,7 +132,7 @@
                                 android:layout_marginStart="8dp"
                                 android:layout_marginTop="12dp"
                                 android:layout_marginEnd="8dp"
-                                android:onClick="@{(v) -> viewModel.handleOnPressView()(v.id)}"
+                                android:onClick="@{(v) -> viewModel.handleOnPressView(v.id)}"
                                 android:paddingLeft="0dp"
                                 android:paddingTop="0dp"
                                 android:paddingRight="0dp"
@@ -166,12 +167,11 @@
                 android:layout_marginEnd="8dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 android:layout_marginBottom="8dp"
-                android:visibility="gone"
-                app:toggleButtonVisibility="@{viewModel.state.closeCard}"
+                android:onClick="@{(v) -> viewModel.handleOnPressView(v.id)}"
                 app:layout_constraintBottom_toTopOf="@+id/frameLayout"
                 app:layout_constraintHorizontal_bias="0.022"
                 app:layout_constraintVertical_bias="0.016"
-                android:onClick="@{(v) -> viewModel.handlePressOnCloseMap(v.id)}"/>
+                android:visibility="visible" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </LinearLayout>
 </layout>
