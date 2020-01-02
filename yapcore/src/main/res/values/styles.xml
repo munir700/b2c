@@ -56,10 +56,7 @@
         <item name="android:textStyle">normal</item>
         <item name="android:fontFamily">@font/roboto_medium</item>
     </style>
-    <style name="LargeBoldText" parent="AppFontBold">
-        <item name="android:textSize">@dimen/text_size_h6</item>
-        <item name="android:textColor">@color/colorLightBlack</item>
-    </style>
+
     <style name="Title1" parent="AppFontRegular">
         <item name="android:textSize">@dimen/text_size_h7</item>
         <item name="android:lineSpacingExtra">10sp</item>

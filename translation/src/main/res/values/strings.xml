@@ -819,6 +819,7 @@
 <!--    House hold Registration strings-->
     <string name="screen_house_hold_number_registration_display_text_heading">Welcome %1s</string>
     <string name="screen_house_hold_number_registration_display_text_parent_description">Enter Logan\’s mobile number to confirm they created your account</string>
+    <string name="screen_house_hold_number_registration_button_text_confirm">Confirm</string>
 
 </resources>
 
