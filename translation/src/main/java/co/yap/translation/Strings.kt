@@ -1322,4 +1322,13 @@ object Strings {
         "screen_house_hold_number_registration_display_text_parent_description"
 
 
+    //   New User Email household screen
+    const val screen_new_user_email_display_text_title: String =
+        "screen_new_user_email_display_text_title"
+    const val screen_new_user_email_display_text_email: String =
+        "screen_new_user_email_display_text_email"
+    const val screen_new_user_email_display_text_email_caption: String =
+        "screen_new_user_email_display_text_email_caption"
+    const val screen_new_user_email_display_button_confirm: String =
+        "screen_new_user_email_display_button_confirm"
 }

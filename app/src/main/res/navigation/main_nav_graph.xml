@@ -5,6 +5,8 @@
     android:id="@+id/main_nav_graph"
     app:startDestination="@id/householdOnboard">
 
+<!--    app:startDestination="@id/splashFragment">-->
+
     <!--    <include app:graph="@navigation/unverified_change_email_navigation" />-->
     <!--    <action-->
     <!--        android:id="@+id/action_goto_liteDashboardActivity"-->

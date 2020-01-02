@@ -26,11 +26,6 @@ class HouseHoldLandingActivity : BaseBindingActivity<IHouseHoldLanding.ViewModel
         }
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-    }
-
     override fun onResume() {
         super.onResume()
 

@@ -8,6 +8,7 @@
 
     <!-- Zeplin Color palette -->
     <color name="colorPrimary">#fc6253</color>
+    <color name="textDarkColor">#1a1423</color>
 
     <color name="colorPrimaryDark">#080145</color>
     <color name="colorPrimaryLight">#7c4dff</color>
