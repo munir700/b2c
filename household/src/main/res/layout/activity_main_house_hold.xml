@@ -17,8 +17,8 @@
         android:orientation="vertical">
 
         <include
-            layout="@layout/layout_progress_toolbar"
-            app:viewModel="@{viewModelHouseHold}"/>
+            layout="@layout/layout_house_hold_progress_toolbar"
+            app:viewModelHouseHold="@{viewModelHouseHold}" />
 
         <fragment
             android:id="@+id/main_nav_host_container_fragment"
@@ -27,8 +27,8 @@
             android:layout_height="0dp"
             android:layout_weight="1"
             app:defaultNavHost="true"
-            app:navGraph="@navigation/hh_sub_account_onboarding_navigation"/>
+            app:navGraph="@navigation/hh_sub_account_onboarding_navigation" />
 
     </LinearLayout>
 
- </layout>
+</layout>
