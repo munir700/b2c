@@ -1312,4 +1312,13 @@ object Strings {
         "screen_new_user_email_display_text_email_caption"
     const val screen_new_user_email_display_button_confirm: String =
         "screen_new_user_email_display_button_confirm"
+
+    // New User Success household screen
+    const val screen_congratulations_display_text_title: String =
+        "screen_congratulations_display_text_title"
+    const val screen_congratulations_display_text_success_message: String =
+        "screen_congratulations_display_text_success_message"
+    const val screen_congratulations_display_button_complete_setup: String =
+        "screen_congratulations_display_button_complete_setup"
+
 }
