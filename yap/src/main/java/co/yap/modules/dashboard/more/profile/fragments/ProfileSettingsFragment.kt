@@ -28,6 +28,7 @@ import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.biometric.BiometricUtil
 import co.yap.yapcore.managers.MyUserManager
+import co.yap.yapcore.toast
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.fragment_lite_dashboard.swTouchId
 import kotlinx.android.synthetic.main.layout_profile_settings.*
@@ -56,7 +57,7 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
 
         Glide.with(activity!!)
 
-        var sharedPreferenceManager: SharedPreferenceManager =
+        val sharedPreferenceManager: SharedPreferenceManager =
             SharedPreferenceManager(requireContext())
 
         if (BiometricUtil.isFingerprintSupported
@@ -252,6 +253,7 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
 
                 R.id.tvTermsAndConditionView -> {
 
+                    toast("tvTermsAndConditionView")
                 }
 
                 R.id.tvFollowOnInstagram -> {
