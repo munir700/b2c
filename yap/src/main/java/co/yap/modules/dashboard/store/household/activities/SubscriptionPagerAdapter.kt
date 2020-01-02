@@ -43,8 +43,8 @@ public class SubscriptionPagerAdapter(
         ivPoster = viewBinding.ivPoster
 
 
-        viewBinding.tvDescription.visibility=GONE
-        viewBinding.ivPoster.visibility=GONE
+        //viewBinding.tvDescription.visibility=GONE
+        //viewBinding.ivPoster.visibility=GONE
 
         container.addView(viewBinding.root)
         containerView = viewBinding.root

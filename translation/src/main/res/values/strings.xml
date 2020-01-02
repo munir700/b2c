@@ -824,6 +824,10 @@
     <string name="screen_new_user_email_display_text_email_caption">An email will be sent to this address for verification</string>
     <string name="screen_new_user_email_display_button_confirm">Confirm</string>
 
+    <!-- New User Success household screen -->
+    <string name="screen_congratulations_display_text_title">Well done, %1s!</string>
+    <string name="screen_congratulations_display_text_success_message">You’ve successfully registered yourself to the Household plan</string>
+    <string name="screen_congratulations_display_button_complete_setup">Complete setup</string>
 
 </resources>
 

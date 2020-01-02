@@ -22,6 +22,7 @@ class YapStoreViewModel(application: Application) : BaseViewModel<IYapStore.Stat
     }
 
     override fun getStoreList() {
+        // need api in future
         val list = mutableListOf<Store>()
         state.loading = true
         launch {

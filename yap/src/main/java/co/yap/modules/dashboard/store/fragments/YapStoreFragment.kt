@@ -24,15 +24,9 @@ class YapStoreFragment : BaseBindingFragment<IYapStore.ViewModel>(), IYapStore.V
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         viewModel.getStoreList()
         initComponents()
         setObservers()
-        // startActivity(HouseHoldLandingActivity.newIntent(activity!!))
-//        startActivity(SubscriptionSelectionActivity.newIntent(activity!!))
-
-//        startActivity(HouseHoldOnboardingActivity.newIntent(activity!!))
-
     }
 
     private fun initComponents() {
@@ -51,11 +45,6 @@ class YapStoreFragment : BaseBindingFragment<IYapStore.ViewModel>(), IYapStore.V
     val listener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
             startActivity(HouseHoldLandingActivity.newIntent(activity!!))
-            //showToast(data.toString())
-
-//            val action =
-//                YapStoreFragmentDirections.actionYapStoreFragmentToYapStoreDetailFragment((dataList as Store).id.toString())
-//            view.findNavController().navigate(action)
         }
     }
 

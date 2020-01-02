@@ -1317,10 +1317,22 @@ object Strings {
     const val screen_yap_house_hold_confirm_payment_display_text_change_plan: String =
         "screen_yap_house_hold_confirm_payment_display_text_change_plan"
 
+    //   New User Email household screen
+    const val screen_new_user_email_display_text_title: String =
+        "screen_new_user_email_display_text_title"
+    const val screen_new_user_email_display_text_email: String =
+        "screen_new_user_email_display_text_email"
+    const val screen_new_user_email_display_text_email_caption: String =
+        "screen_new_user_email_display_text_email_caption"
+    const val screen_new_user_email_display_button_confirm: String =
+        "screen_new_user_email_display_button_confirm"
 
-    //    YAP Household success screen
-    const val screen_new_user_email_display_text_title: String = "screen_new_user_email_display_text_title"
-    const val screen_new_user_email_display_text_email: String = "screen_new_user_email_display_text_email"
-    const val screen_new_user_email_display_text_email_caption: String = "screen_new_user_email_display_text_email_caption"
-    const val screen_new_user_email_display_button_confirm: String = "screen_new_user_email_display_button_confirm"
+    // New User Success household screen
+    const val screen_congratulations_display_text_title: String =
+        "screen_congratulations_display_text_title"
+    const val screen_congratulations_display_text_success_message: String =
+        "screen_congratulations_display_text_success_message"
+    const val screen_congratulations_display_button_complete_setup: String =
+        "screen_congratulations_display_button_complete_setup"
+
 }

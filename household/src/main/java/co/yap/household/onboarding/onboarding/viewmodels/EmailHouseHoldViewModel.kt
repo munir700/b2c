@@ -42,6 +42,8 @@ class EmailHouseHoldViewModel(application: Application) :
         state.emailTitle = getString(R.string.screen_new_user_email_display_text_title)
         state.emailBtnTitle = getString(R.string.screen_new_user_email_display_button_confirm)
         state.deactivateField = true
+        state.emailVerificationTitle =
+            getString(R.string.screen_new_user_email_display_text_email_caption)
 
     }
 
