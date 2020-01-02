@@ -19,14 +19,11 @@ class DocumentsDashboardActivity : BaseBindingActivity<IDocumentsDashboard.ViewM
     IFragmentHolder {
 
     companion object {
-        var isFromMoreSection: Boolean = false
-        var hasStartedScanner: Boolean = false
-
-        const val key = "name"
+        const val name = "name"
         const val data = "payLoad"
-        fun getIntent(context: Context, name: String, isFromMoreSection: Boolean): Intent {
+        fun getIntent(context: Context, customerName: String, isFromMoreSection: Boolean): Intent {
             val intent = Intent(context, DocumentsDashboardActivity::class.java)
-            intent.putExtra(key, name)
+            intent.putExtra(name, customerName)
             intent.putExtra(data, isFromMoreSection)
             return intent
         }
@@ -38,42 +35,32 @@ class DocumentsDashboardActivity : BaseBindingActivity<IDocumentsDashboard.ViewM
     override val navigator: IBaseNavigator
         get() = DefaultNavigator(this, R.id.kyc_host_fragment)
 
-
     override fun getBindingVariable(): Int = BR.viewModel
 
     override fun getLayoutId(): Int = R.layout.activity_documents_dashboard
 
     override fun onBackPressed() {
-
         val fragment = supportFragmentManager.findFragmentById(R.id.kyc_host_fragment)
-        if (isFromMoreSection) {
-            super.onBackPressed()
-        } else {
-            if (!BackPressImpl(fragment).onBackPressed()) {
+        viewModel.allowSkip.value?.let {
+            if (it) {
                 super.onBackPressed()
+            } else {
+                if (!BackPressImpl(fragment).onBackPressed()) {
+                    super.onBackPressed()
+                }
             }
         }
-
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel.name = getBundledName()
-        isFromMoreSection = intent.getBooleanExtra("isFromMoreSection", false)
+        viewModel.name.value = getBundledName()
+        viewModel.allowSkip.value = intent.getBooleanExtra("isFromMoreSection", false)
     }
 
-    private fun getBundledName(): String {
-        return if (intent.hasExtra("name"))
-            intent.getStringExtra("name")
-        else ""
+    private fun getBundledName(): String? {
+        return if (intent.hasExtra(name))
+            intent.getStringExtra(name)
+        else null
     }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        if (isFromMoreSection) {
-            //todo need to verify that isoCountryCode2Digit
-            //IdentityScannerActivity.CLOSE_SCANNER = false
-        }
-    }
-
 }

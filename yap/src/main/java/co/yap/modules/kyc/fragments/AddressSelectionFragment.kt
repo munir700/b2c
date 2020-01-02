@@ -312,11 +312,8 @@ class AddressSelectionFragment : BaseMapFragment<IAddressSelection.ViewModel>(),
                                 viewModel.mDefaultLocation.latitude.toString(),
                                 viewModel.mDefaultLocation.longitude.toString(),
                                 false
-
                             )
                         findNavController().navigate(action)
-
-
                     } /*else if (viewModel.state.isFromPersonalDetailView) {
 //
 //                        viewModel.state.placeTitle = addresstitle

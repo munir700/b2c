@@ -1,6 +1,7 @@
 package co.yap.modules.kyc.states
 
 import androidx.databinding.Bindable
+import androidx.databinding.ObservableField
 import androidx.databinding.library.baseAdapters.BR
 import co.yap.modules.kyc.enums.DocScanStatus
 import co.yap.modules.kyc.interfaces.IKYCHome
@@ -8,7 +9,8 @@ import co.yap.yapcore.BaseState
 
 class KYCHomeState : BaseState(), IKYCHome.State {
 
-    override val name: Array<String?> = arrayOfNulls(1)
+    //override val fromMoreSection: ObservableField<Boolean> = ObservableField(true)
+    //override val name: Array<String?> = arrayOfNulls(1)
 
     @get:Bindable
     override var valid: Boolean = validate()

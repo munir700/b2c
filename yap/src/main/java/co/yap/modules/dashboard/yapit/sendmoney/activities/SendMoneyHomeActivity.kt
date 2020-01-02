@@ -51,8 +51,8 @@ class SendMoneyHomeActivity : BaseBindingActivity<ISendMoney.ViewModel>(), INavi
         super.onDestroy()
         PersonalDetailsFragment.checkMore = false
         PersonalDetailsFragment.checkScanned = false
-        DocumentsDashboardActivity.isFromMoreSection = false
-        DocumentsDashboardActivity.hasStartedScanner = false
+//        DocumentsDashboardActivity.isFromMoreSection = false
+//        DocumentsDashboardActivity.hasStartedScanner = false
     }
 
     private val backButtonObserver = Observer<Int> { onBackPressed() }

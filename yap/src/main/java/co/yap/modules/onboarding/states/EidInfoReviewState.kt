@@ -12,7 +12,7 @@ import java.util.*
 class EidInfoReviewState : BaseState(), IEidInfoReview.State {
     private var date: Date? = null
 
-    override var titleName: Array<String?> = arrayOfNulls(1)
+    //override var titleName: Array<String?> = arrayOfNulls(1)
 
     @get:Bindable
     override var fullName: String = ""

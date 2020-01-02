@@ -25,7 +25,6 @@ class PersonalDetailsFragment : MoreBaseFragment<IPersonalDetail.ViewModel>(),
     companion object {
         var checkMore: Boolean = false
         var checkScanned: Boolean = false
-
     }
 
     var changeAddress: Boolean = false

@@ -4,15 +4,11 @@ import android.app.Activity
 import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
-import android.view.View.GONE
-import android.view.View.VISIBLE
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import co.yap.BR
 import co.yap.R
-import co.yap.modules.kyc.activities.DocumentsDashboardActivity
-import co.yap.modules.kyc.activities.DocumentsDashboardActivity.Companion.hasStartedScanner
 import co.yap.modules.kyc.viewmodels.EidInfoReviewViewModel
 import co.yap.modules.onboarding.interfaces.IEidInfoReview
 import co.yap.translation.Strings
@@ -27,27 +23,23 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
 
     override fun getLayoutId(): Int = R.layout.activity_eid_info_review
 
-    override val viewModel: IEidInfoReview.ViewModel
+    override val viewModel: EidInfoReviewViewModel
         get() = ViewModelProviders.of(this).get(EidInfoReviewViewModel::class.java)
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        if (DocumentsDashboardActivity.isFromMoreSection) {
-            //tvNoThanks.visibility = GONE
-            eidInfoReviewtoolBarLayout.visibility = VISIBLE
+        if (viewModel.parentViewModel?.allowSkip?.value == true) {
             openCardScanner()
-
-            tbBtnBack.setOnClickListener { activity!!.finish() }
-
-        } else {
-            tvNoThanks.visibility = VISIBLE
-            eidInfoReviewtoolBarLayout.visibility = GONE
+            tbBtnBack.setOnClickListener { activity?.finish() }
         }
+        addObservers()
+    }
 
+    private fun addObservers() {
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
-                viewModel.EVENT_ERROR_INVALID_EID->showInvalidEidAlert()
+                viewModel.EVENT_ERROR_INVALID_EID -> showInvalidEidAlert()
                 viewModel.EVENT_ERROR_EXPIRED_EID -> showExpiredEidAlert()
                 viewModel.EVENT_ERROR_UNDER_AGE -> showUnderAgeAlert()
                 viewModel.EVENT_ERROR_FROM_USA -> showUSACitizenAlert()
@@ -57,16 +49,6 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
                 viewModel.EVENT_FINISH -> onBackPressed()
             }
         })
-    }
-
-    fun enableBtn() {
-
-        if (viewModel.state.fullNameValid && viewModel.state.nationalityValid && viewModel.state.dateOfBirthValid && viewModel.state.genderValid && viewModel.state.expiryDateValid) {
-            btnTouchId.enableButton(true)
-        } else {
-            btnTouchId.enableButton(false)
-        }
-
     }
 
     override fun onDestroyView() {
@@ -122,11 +104,10 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (data == null && DocumentsDashboardActivity.isFromMoreSection) {
-            activity!!.finish()
+        if (data == null && viewModel.parentViewModel?.allowSkip?.value == true) {
+            activity?.finish()
         }
         if (requestCode == IdentityScannerActivity.SCAN_EID_CAM && resultCode == Activity.RESULT_OK) {
-            hasStartedScanner = false
             data?.let {
                 viewModel.onEIDScanningComplete(it.getParcelableExtra(IdentityScannerActivity.SCAN_RESULT))
             }
@@ -151,11 +132,6 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
     }
 
     override fun openCardScanner() {
-        //clear existing state
-//        viewModel.clearData()
-        if (DocumentsDashboardActivity.isFromMoreSection) {
-            hasStartedScanner = true
-        }
         startActivityForResult(
             IdentityScannerActivity.getLaunchIntent(
                 requireContext(),
@@ -167,12 +143,9 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
     }
 
     override fun onBackPressed(): Boolean {
-        if (DocumentsDashboardActivity.isFromMoreSection) {
-            hasStartedScanner = false
-            activity!!.finish()
+        if (viewModel.parentViewModel?.allowSkip?.value == true) {
+            activity?.finish()
         }
         return true
-
     }
-
 }

@@ -110,7 +110,7 @@
 
     <!-- KYC home Screen-->
     <string name="screen_b2c_kyc_home_display_text_screen_title">Complete verification</string>
-    <string name="screen_b2c_kyc_home_display_text_sub_heading">%1$s, please scan your Emirates ID</string>
+    <string name="screen_b2c_kyc_home_display_text_sub_heading">%1s, please scan your Emirates ID</string>
     <string name="screen_b2c_kyc_home_button_skip">Skip and go to dashboard</string>
     <string name="screen_b2c_kyc_home_emirates_id_scan">Tap to scan your Emirates ID</string>
 
