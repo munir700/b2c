@@ -6,19 +6,17 @@
     <data>
 
         <variable
-            name="congratulationsViewModel"
-            type="co.yap.household.onboarding.onboarding.viewmodels.CongratulationsViewModel" />
+            name="viewModel"
+            type="co.yap.household.onboarding.onboarding.viewmodels.NewUserCongratulationsViewModel" />
 
         <import type="co.yap.translation.Strings" />
 
     </data>
 
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/colorLightPinkBackground">
-
 
         <TextView
             android:id="@+id/tvTitle"
@@ -70,18 +68,18 @@
             android:layout_marginLeft="@dimen/margin_medium_large"
             android:layout_marginRight="@dimen/margin_medium_large"
             android:layout_marginBottom="40dp"
-            android:onClick="@{(v) -> viewModel.handlePressOnTopUp(v.id)}"
+            android:onClick="@{(v) -> viewModel.handlePressOnCompleteVerification(v.id)}"
+            android:paddingTop="@dimen/margin_medium"
+            android:paddingBottom="@dimen/margin_medium"
             app:btn_enable="true"
-            app:btn_pressed_color="@color/light_grey"
+            app:btn_pressed_color="@color/white"
             app:btn_text_color="@color/colorPrimaryDark"
             app:btn_unpressed_color="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:text="@{Strings.screen_congratulations_display_button_complete_setup}"
             tools:text="@string/screen_congratulations_display_button_complete_setup" />
-
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

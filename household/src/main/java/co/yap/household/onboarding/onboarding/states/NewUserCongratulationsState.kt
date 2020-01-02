@@ -2,10 +2,10 @@ package co.yap.household.onboarding.onboarding.states
 
 import androidx.databinding.Bindable
 import co.yap.household.BR
-import co.yap.household.onboarding.onboarding.interfaces.ICongratulations
+import co.yap.household.onboarding.onboarding.interfaces.INewUserCongratulations
 import co.yap.yapcore.BaseState
 
-class CongratulationsState : BaseState(), ICongratulations.State {
+class NewUserCongratulationsState : BaseState(), INewUserCongratulations.State {
 
     override val nameList: Array<String?> = arrayOfNulls(1)
 
