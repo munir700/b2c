@@ -24,10 +24,10 @@
         android:name="co.yap.modules.dashboard.store.household.onboarding.fragments.HouseHoldUserContactFragment">
 
         <action
-            android:id="@+id/action_houseHoldUserContactFragment_to_houseHoldSuccessFragment"
-            app:destination="@id/houseHoldSuccessFragment"
+            android:id="@+id/action_houseHoldUserContactFragment_to_HHConfirmPaymentFragment"
             app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left" />
+            app:exitAnim="@anim/slide_out_left"
+            app:destination="@id/HHConfirmPaymentFragment" />
 
 
     </fragment>
@@ -49,4 +49,13 @@
         android:name="co.yap.modules.dashboard.main.activities.YapDashboardActivity"
         android:label="YapDashboardActivity"
         tools:layout="@layout/activity_yap_dashboard" />
+    <fragment
+        android:id="@+id/HHConfirmPaymentFragment"
+        android:name="co.yap.modules.dashboard.store.household.onboarding.fragments.HHConfirmPaymentFragment">
+        <action
+            android:id="@+id/action_HHConfirmPaymentFragment_to_houseHoldSuccessFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:destination="@id/houseHoldSuccessFragment" />
+    </fragment>
 </navigation>

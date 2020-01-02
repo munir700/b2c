@@ -17,16 +17,17 @@ class HouseHoldUserContactViewModel(application: Application) :
     override val clickEvent: SingleClickEvent = SingleClickEvent()
 
     override fun handlePressOnAdd(id: Int) {
+        parentViewModel?.userMobileNo = state.countryCode+" "+state.etMobileNumberConfirmMobile?.text.toString()
         clickEvent.setValue(id)
     }
 
     override fun handlePressOnBackButton() {
+
     }
 
     override fun onResume() {
         super.onResume()
         setToolBarTitle(getString(Strings.screen_yap_house_hold_user_info_display_text_title))
-        state.houseHoldUserName = houseHoldUserName
     }
 
     override fun getCcp(editText: EditText) {

@@ -2,26 +2,21 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/hh_sub_account_onboarding_navigation"
-    app:startDestination="@id/houseHoldNumberRegistrationFragment">
-
-    <!--</navigation>-->
+    app:startDestination="@id/newUserCongratulationsFragment">
 
     <fragment
         android:id="@+id/emailHouseHoldFragment"
         android:name="co.yap.household.onboarding.onboarding.fragments.NewUserEmailFragment"
-        android:label="Email HouseHold Fragment"
-
-        >
-        <!--        <action-->
-        <!--            android:id="@+id/action_emailFragment_to_congratulationsFragment"-->
-        <!--            app:destination="@id/congratulationsFragment" />-->
-    </fragment>
+        android:label="Email HouseHold Fragment"/>
     <fragment
         android:id="@+id/houseHoldNumberRegistrationFragment"
         android:name="co.yap.household.onboarding.onboarding.fragments.HouseHoldNumberRegistrationFragment"
         android:label="houseHoldNumberRegistrationFragment" />
 
+    <fragment
+        android:id="@+id/newUserCongratulationsFragment"
+        android:name="co.yap.household.onboarding.onboarding.fragments.NewUserSuccessFragment"
+        android:label="Congratulations Fragment">
 
+    </fragment>
 </navigation>
-
-

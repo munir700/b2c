@@ -1303,8 +1303,21 @@ object Strings {
     const val screen_yap_house_hold_success_button_text_goto_house_hold: String =
         "screen_yap_house_hold_success_button_text_goto_house_hold"
 
+    // Yap Household Confirm Payment for card
+    const val screen_yap_house_hold_confirm_payment_display_text_toolbar_title: String =
+        "screen_yap_house_hold_confirm_payment_display_text_toolbar_title"
+    const val screen_yap_house_hold_confirm_payment_display_text_title: String =
+        "screen_yap_house_hold_confirm_payment_display_text_title"
+    const val screen_yap_house_hold_confirm_payment_display_text_heading: String =
+        "screen_yap_house_hold_confirm_payment_display_text_heading"
+    const val screen_yap_house_hold_confirm_payment_display_text_account_deducted: String =
+        "screen_yap_house_hold_confirm_payment_display_text_account_deducted"
+    const val screen_yap_house_hold_display_button_confirm: String =
+        "screen_yap_house_hold_display_button_confirm"
+    const val screen_yap_house_hold_confirm_payment_display_text_change_plan: String =
+        "screen_yap_house_hold_confirm_payment_display_text_change_plan"
 
-    //    YAP Household success screen
+    //   New User Email household screen
     const val screen_new_user_email_display_text_title: String =
         "screen_new_user_email_display_text_title"
     const val screen_new_user_email_display_text_email: String =
@@ -1322,5 +1335,11 @@ object Strings {
         "screen_house_hold_number_registration_display_text_parent_description"
     const val screen_house_hold_number_registration_button_text_confirm: String =
         "screen_house_hold_number_registration_button_text_confirm"
-
+    // New User Success household screen
+    const val screen_congratulations_display_text_title: String =
+        "screen_congratulations_display_text_title"
+    const val screen_congratulations_display_text_success_message: String =
+        "screen_congratulations_display_text_success_message"
+    const val screen_congratulations_display_button_complete_setup: String =
+        "screen_congratulations_display_button_complete_setup"
 }
