@@ -829,5 +829,9 @@
     <string name="screen_congratulations_display_text_success_message">You’ve successfully registered yourself to the Household plan</string>
     <string name="screen_congratulations_display_button_complete_setup">Complete setup</string>
 
+
+<!--    Card color selection screen-->
+    <string name="screen_house_hold_card_color_selection_display_text_heading">Select a card color</string>
+
 </resources>
 
