@@ -24,12 +24,9 @@ class TopUpCardSuccessFragment : BaseBindingFragment<ITopUpCardSuccess.ViewModel
     ITopUpCardSuccess.View {
     val args: VerifyCardCvvFragmentArgs by navArgs()
     override fun getBindingVariable(): Int = BR.viewModel
-
     override fun getLayoutId(): Int = R.layout.fragment_top_up_card_success
-
     override val viewModel: ITopUpCardSuccess.ViewModel
         get() = ViewModelProviders.of(this).get(TopUpCardSuccessViewModel::class.java)
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         MyUserManager.updateCardBalance()

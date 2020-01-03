@@ -27,7 +27,6 @@ interface IProfile {
         fun handlePressOnPasscode(id: Int)
         fun handlePressOnAppNotification(id: Int)
         fun handlePressOnTermsAndConditions(id: Int)
-
         fun handlePressOnInstagram(id: Int)
 
         fun handlePressOnTwitter(id: Int)
