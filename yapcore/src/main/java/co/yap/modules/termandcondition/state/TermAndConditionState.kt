@@ -1,8 +1,8 @@
-package co.yap.household.onboarding.termandcondition.state
+package co.yap.modules.termandcondition.state
 
 import androidx.databinding.Bindable
-import co.yap.household.BR
-import co.yap.household.onboarding.termandcondition.interfaces.ITermAndCondition
+import co.yap.modules.termandcondition.interfaces.ITermAndCondition
+import co.yap.yapcore.BR
 import co.yap.yapcore.BaseState
 
 class TermAndConditionState : BaseState(), ITermAndCondition.State {

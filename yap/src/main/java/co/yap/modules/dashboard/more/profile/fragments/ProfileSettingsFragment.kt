@@ -252,7 +252,7 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
 
                 R.id.tvTermsAndConditionView -> {
 
-                    findNavController().navigate(R.id.action_profileSettingsFragment_to_change_pascode_navigation)
+                    findNavController().navigate(R.id.action_profileSettingsFragment_to_termAndConditionsFragment)
 
                 }
 

@@ -1,13 +1,13 @@
-package co.yap.household.onboarding.termandcondition.fragment
+package co.yap.modules.termandcondition.fragment
 
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.ViewModelProviders
-import co.yap.household.BR
-import co.yap.household.R
-import co.yap.household.onboarding.termandcondition.interfaces.ITermAndCondition
-import co.yap.household.onboarding.termandcondition.viewmodel.TermAndConditionViewModel
+import co.yap.modules.termandcondition.interfaces.ITermAndCondition
+import co.yap.modules.termandcondition.viewmodel.TermAndConditionViewModel
+import co.yap.yapcore.BR
 import co.yap.yapcore.BaseBindingFragment
+import co.yap.yapcore.R
 
 class TermAndConditionFragment : BaseBindingFragment<ITermAndCondition.ViewModel>(),
     ITermAndCondition.View {

@@ -1,8 +1,8 @@
-package co.yap.household.onboarding.termandcondition.viewmodel
+package co.yap.modules.termandcondition.viewmodel
 
 import android.app.Application
-import co.yap.household.onboarding.termandcondition.interfaces.ITermAndCondition
-import co.yap.household.onboarding.termandcondition.state.TermAndConditionState
+import co.yap.modules.termandcondition.interfaces.ITermAndCondition
+import co.yap.modules.termandcondition.state.TermAndConditionState
 import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.yapcore.BaseViewModel

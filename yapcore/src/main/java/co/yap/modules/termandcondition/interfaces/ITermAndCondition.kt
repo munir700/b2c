@@ -1,4 +1,4 @@
-package co.yap.household.onboarding.termandcondition.interfaces
+package co.yap.modules.termandcondition.interfaces
 
 import co.yap.yapcore.IBase
 
@@ -8,6 +8,9 @@ interface ITermAndCondition {
         var toolbarVisibility: Boolean
     }
 
-    interface ViewModel : IBase.ViewModel<State> {}
+    interface ViewModel : IBase.ViewModel<State> {
+
+
+    }
     interface View : IBase.View<ViewModel> {}
 }
