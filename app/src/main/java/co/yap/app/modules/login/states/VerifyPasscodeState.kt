@@ -3,7 +3,7 @@ package co.yap.app.modules.login.states
 import android.text.Editable
 import android.text.TextWatcher
 import androidx.databinding.Bindable
-import co.yap.BR
+import co.yap.app.BR
 import co.yap.app.modules.login.interfaces.IVerifyPasscode
 import co.yap.yapcore.BaseState
 
