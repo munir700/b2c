@@ -8,9 +8,6 @@ interface ITermAndCondition {
         var toolbarVisibility: Boolean
     }
 
-    interface ViewModel : IBase.ViewModel<State> {
-
-
-    }
-    interface View : IBase.View<ViewModel> {}
+    interface ViewModel : IBase.ViewModel<State>
+    interface View : IBase.View<ViewModel>
 }
