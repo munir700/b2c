@@ -26,6 +26,8 @@ class LocationSelectionState(application: Application) : BaseState(), ILocationS
     )
     override var isShowLocationCard: ObservableField<Boolean> = ObservableField(false)
     override var isTermsChecked: ObservableField<Boolean> = ObservableField(false)
+    override var showTermsCondition: ObservableField<Boolean> = ObservableField(false)
+
     @get:Bindable
     override var addressTitle: String = ""
         set(value) {
@@ -33,13 +35,14 @@ class LocationSelectionState(application: Application) : BaseState(), ILocationS
             notifyPropertyChanged(BR.addressTitle)
             validate()
         }
+
     @get:Bindable
     override var addressSubtitle: String = ""
         set(value) {
             field = value
             notifyPropertyChanged(BR.addressSubtitle)
-
         }
+
     @get:Bindable
     override var valid: Boolean = false
         set(value) {
@@ -48,6 +51,7 @@ class LocationSelectionState(application: Application) : BaseState(), ILocationS
         }
 
     fun validate() {
+        showTermsCondition.set(addressTitle.isNotEmpty())
         valid = addressTitle.isNotEmpty() && isTermsChecked.get() == true
     }
 }

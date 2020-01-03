@@ -40,7 +40,6 @@ class LocationSelectionActivity : BaseBindingActivity<ILocationSelection.ViewMod
                 viewModel.address =
                     Address(viewModel.state.addressTitle, viewModel.state.addressSubtitle, 0.0, 0.0)
             }
-
         }
     }
 }

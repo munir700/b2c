@@ -29,5 +29,6 @@ interface ILocationSelection {
         var addressSubtitle: String
         var isTermsChecked: ObservableField<Boolean>
         var valid: Boolean
+        var showTermsCondition: ObservableField<Boolean>
     }
 }

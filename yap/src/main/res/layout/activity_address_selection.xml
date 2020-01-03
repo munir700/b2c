@@ -20,7 +20,6 @@
         android:layout_gravity="center_vertical"
         android:background="@color/white"
         android:orientation="vertical">
-
         <FrameLayout
             android:id="@+id/viewMapFragment"
             android:layout_width="match_parent"
@@ -131,7 +130,7 @@
                         tools:ignore="MissingConstraints"
                         tools:text="@string/screen_meeting_location_input_text_address_title" />
 
-                    <com.google.android.material.textfield.TextInputEditText
+                    <androidx.appcompat.widget.AppCompatEditText
                         android:id="@+id/etAddressField"
                         style="@style/ALarge"
                         android:layout_width="match_parent"
@@ -139,12 +138,10 @@
                         android:layout_marginStart="@dimen/_13sdp"
                         android:layout_marginTop="4dp"
                         android:layout_marginEnd="@dimen/margin_medium"
-                        android:cursorVisible="false"
-                        android:focusableInTouchMode="false"
                         android:inputType="textPersonName"
                         android:maxLength="100"
                         android:text="@={viewModel.state.addressTitle}"
-                        app:drawableClick="@{viewModel.state.addressTitle.equals(``)?false : true}"
+                        app:drawableClick="@{viewModel.state.addressTitle.isEmpty()?false : true}"
                         android:textColor="@color/colorPrimaryDark"
                         android:textColorHint="@color/grey"
                         android:textSize="@dimen/text_size_h3"
@@ -169,7 +166,7 @@
                         tools:text="@string/screen_meeting_location_input_text_landmark_title" />
 <!--                    android:textColor="@{viewModel.state.landMarkTitleColor}"-->
 
-                    <com.google.android.material.textfield.TextInputEditText
+                    <androidx.appcompat.widget.AppCompatEditText
                         android:id="@+id/etLandMarkField"
                         style="@style/ALarge"
                         android:layout_width="match_parent"
@@ -185,12 +182,13 @@
                         android:textColor="@color/colorPrimaryDark"
                         android:textColorHint="@color/grey"
                         android:textSize="@dimen/text_size_h3"
-                        app:drawableClick="@{viewModel.state.addressSubtitle.equals(``)?false : true}"
+                        android:text="@={viewModel.state.addressSubtitle}"
                         app:hint="@{Strings.screen_meeting_location_input_text_landmark_hint}"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/tvLandMark"
                         app:textSelection="@{viewModel.state.addressSubtitle}"
+                        app:drawableClick="@{viewModel.state.addressSubtitle.isEmpty()?false : true}"
                         tools:hint="@string/screen_meeting_location_input_text_landmark_hint"
                         tools:ignore="MissingConstraints" />
 
@@ -199,7 +197,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
-                        android:visibility="@{viewModel.state.addressTitle.equals(``)?View.INVISIBLE:View.VISIBLE}">
+                        android:visibility="@{viewModel.state.showTermsCondition? View.VISIBLE:View.INVISIBLE}"
+                        tools:visibility="invisible">
 
                         <CheckBox
                             android:id="@+id/cbTermsAndConditions"
