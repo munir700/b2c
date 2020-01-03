@@ -470,6 +470,7 @@
 
     <!--  Change Location Screen-->
     <string name="screen_address_success_display_text_sub_heading">Your location address has been changed to\n</string>
+    <string name="screen_address_success_display_text_sub_heading_update">This will be stored as your primary address\n</string>
 
     <!--     Transactions Filters Screen-->
     <string name="screen_transaction_filters_display_button_apply_filters">Apply filters</string>
@@ -740,5 +741,6 @@
 
 <!--    Screen funds transfer information custom view-->
     <string name="custom_view_funds_transfer_display_text_reference_number_heading">Reference number</string>
+    <string name="screen_name_error_message">Please enter alphabets only.</string>
 
 </resources>
