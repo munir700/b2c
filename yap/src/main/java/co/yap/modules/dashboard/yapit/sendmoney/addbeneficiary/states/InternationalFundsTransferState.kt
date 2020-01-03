@@ -87,6 +87,12 @@ class InternationalFundsTransferState(val application: Application) : BaseState(
             notifyPropertyChanged(BR.firstName)
         }
     @get:Bindable
+    override var totalAmount: Double? = 0.0
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.totalAmount)
+        }
+    @get:Bindable
     override var internationalFee: String? = ""
         set(value) {
             field = value
@@ -353,7 +359,7 @@ class InternationalFundsTransferState(val application: Application) : BaseState(
     private fun findFee(
         value: Double
     ): Double {
-        var totalAmount = 0.0
+         totalAmount = 0.0
         val remittanceTierFee: List<RemittanceFeeResponse.RemittanceFee.TierRateDTO>? =
             listItemRemittanceFee.filter { item -> item.amountFrom!! <= value && item.amountTo!! >= value }
         if (remittanceTierFee != null) {
@@ -365,8 +371,8 @@ class InternationalFundsTransferState(val application: Application) : BaseState(
                 }
             }
         }
-        transferFeeAmount = totalAmount
-        return totalAmount
+        transferFeeAmount = totalAmount?:0.0
+        return totalAmount?:0.0
 
     }
 
