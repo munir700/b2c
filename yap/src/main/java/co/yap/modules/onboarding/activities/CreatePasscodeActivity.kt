@@ -12,6 +12,7 @@ import co.yap.modules.forgotpasscode.interfaces.ICreatePasscode
 import co.yap.modules.forgotpasscode.viewmodels.CreatePasscodeViewModel
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.helpers.SharedPreferenceManager
+import co.yap.yapcore.helpers.Utils
 
 
 class CreatePasscodeActivity : BaseBindingActivity<ICreatePasscode.ViewModel>(),
@@ -34,6 +35,7 @@ class CreatePasscodeActivity : BaseBindingActivity<ICreatePasscode.ViewModel>(),
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        Utils.preventTakeScreenshot(this)
         viewModel.nextButtonPressEvent.observe(this, Observer {
             setObservers()
         })
