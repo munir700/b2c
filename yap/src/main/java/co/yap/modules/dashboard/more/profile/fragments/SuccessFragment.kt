@@ -78,7 +78,7 @@ class SuccessFragment : BaseBindingFragment<ISuccess.ViewModel>(),
             primaryStr.length,
             Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
         )
-        val addressStr = getString(R.string.screen_address_success_display_text_sub_heading)
+        val addressStr = getString(R.string.screen_address_success_display_text_sub_heading_update)
 
         if (primaryStr.contains(addressStr)) {
             cvLocationCard.visibility = VISIBLE
