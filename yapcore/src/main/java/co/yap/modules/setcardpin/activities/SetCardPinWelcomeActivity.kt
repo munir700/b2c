@@ -8,6 +8,7 @@ import co.yap.yapcore.R
 import co.yap.yapcore.defaults.DefaultActivity
 import co.yap.yapcore.defaults.DefaultNavigator
 import co.yap.yapcore.defaults.INavigator
+import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.interfaces.BackPressImpl
 import co.yap.yapcore.interfaces.IBaseNavigator
 
@@ -30,6 +31,7 @@ class SetCardPinWelcomeActivity : DefaultActivity(), INavigator, IFragmentHolder
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        Utils.preventTakeScreenshot(this)
         setContentView(R.layout.activity_set_card_pin_welcome)
         setupData()
     }
