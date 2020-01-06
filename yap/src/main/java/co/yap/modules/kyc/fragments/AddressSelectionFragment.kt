@@ -2,7 +2,6 @@ package co.yap.modules.kyc.fragments
 
 import android.Manifest
 import android.animation.Animator
-import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.content.IntentSender
@@ -12,6 +11,7 @@ import android.os.Bundle
 import android.provider.Settings
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
@@ -22,7 +22,6 @@ import androidx.navigation.fragment.findNavController
 import co.yap.BR
 import co.yap.R
 import co.yap.modules.dashboard.cards.addpaymentcard.activities.AddPaymentCardActivity
-import co.yap.modules.dashboard.cards.reordercard.activities.ReorderCardActivity
 import co.yap.modules.dashboard.cards.reportcard.activities.ReportLostOrStolenCardActivity
 import co.yap.modules.dashboard.more.main.activities.MoreActivity
 import co.yap.modules.kyc.activities.DocumentsDashboardActivity
@@ -91,44 +90,32 @@ class AddressSelectionFragment : BaseMapFragment<IAddressSelection.ViewModel>(),
         val checkSender =
             arguments?.let { AddressSelectionFragmentArgs.fromBundle(it).isFromPhysicalCardsScreen }
 
-        val isFromReorderCardScreen = true
-        when {
-            isFromPersonalDetailScreen -> {
-                viewModel.mapDetailViewActivity = activity as MoreActivity
-                viewModel.state.isFromPersonalDetailView = true
-                viewModel.state.isFromPhysicalCardsLayout = false
-                updateHeadings()
+        if (isFromPersonalDetailScreen!!) {
+            viewModel!!.mapDetailViewActivity = activity as MoreActivity
+            viewModel.state.isFromPersonalDetailView = true
+            viewModel.state.isFromPhysicalCardsLayout = false
+            updateHeadings()
 
-                viewModel.state.nextActionBtnText =
-                    getString(Strings.idenetity_scanner_sdk_screen_review_info_button_next)
+            viewModel.state.nextActionBtnText =
+                getString(Strings.idenetity_scanner_sdk_screen_review_info_button_next)
 
-                if (MyUserManager.userAddress != null) {
-                    setUpAddressFields()
-                }
-                viewModel.state.subHeadingTitle =
-                    getString(Strings.screen_meeting_location_display_text_subtitle)
+            if (MyUserManager.userAddress != null) {
+                setUpAddressFields()
+            }
+            viewModel.state.subHeadingTitle =
+                getString(Strings.screen_meeting_location_display_text_subtitle)
 
-            }
+        } else if (isFromBlockCardsScreen!!) {
+            viewModel!!.mapDetailViewActivity = activity as ReportLostOrStolenCardActivity
+            viewModel.state.isFromPhysicalCardsLayout = true
+            updateHeadings()
+        } else if (checkSender!!) {
+            viewModel!!.mapDetailViewActivity = activity as AddPaymentCardActivity
+            viewModel.state.isFromPhysicalCardsLayout = true
+            updateHeadings()
+        } else {
+            viewModel!!.mapDetailViewActivity = activity as DocumentsDashboardActivity
 
-            isFromBlockCardsScreen == true -> {
-                if (activity is ReportLostOrStolenCardActivity) {
-                    viewModel.mapDetailViewActivity = activity as ReportLostOrStolenCardActivity
-                }
-                viewModel.state.isFromPhysicalCardsLayout = true
-                updateHeadings()
-            }
-            checkSender == true -> {
-                viewModel.mapDetailViewActivity = activity as AddPaymentCardActivity
-                viewModel.state.isFromPhysicalCardsLayout = true
-                updateHeadings()
-            }
-            isFromReorderCardScreen -> {
-                viewModel.mapDetailViewActivity = activity as ReorderCardActivity
-                viewModel.state.isFromReorderCardsLayout = true
-            }
-            else -> {
-                viewModel.mapDetailViewActivity = activity as DocumentsDashboardActivity
-            }
         }
          performDataBinding(inflater, container)
         initMapFragment()
@@ -180,21 +167,28 @@ class AddressSelectionFragment : BaseMapFragment<IAddressSelection.ViewModel>(),
         mapFragment!!.getMapAsync(this)
     }
 
-    @SuppressLint("ClickableViewAccessibility")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        transparentImage!!.setOnTouchListener { v, event -> !viewModel.state.isMapOnScreen }
+        transparentImage!!.setOnTouchListener(object : View.OnTouchListener {
+            override fun onTouch(v: View, event: MotionEvent): Boolean {
+
+                return !viewModel.state.isMapOnScreen
+            }
+        })
+
         viewModel.onSuccess.observe(this, Observer {
             when (it) {
+
                 viewModel.UPDATE_ADDRESS_EEVENT -> {
                     val action =
                         AddressSelectionFragmentDirections.actionAddressSelectionFragmentToSuccessFragment(
-                            getString(R.string.screen_address_success_display_text_sub_heading),
+                            getString(R.string.screen_address_success_display_text_sub_heading_update),
                             " "
                         )
 
                     findNavController().navigate(action)
                 }
+
             }
         })
 
@@ -266,6 +260,8 @@ class AddressSelectionFragment : BaseMapFragment<IAddressSelection.ViewModel>(),
 
                             )
                         findNavController().navigate(action)
+
+
                     } else if (viewModel.state.isFromPersonalDetailView) {
 //
 //                        viewModel.state.placeTitle = addresstitle

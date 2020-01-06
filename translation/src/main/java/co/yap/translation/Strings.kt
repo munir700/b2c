@@ -742,6 +742,8 @@ object Strings {
 
     const val screen_address_success_display_text_sub_heading: String =
         "screen_address_success_display_text_sub_heading"
+    const val screen_address_success_display_text_sub_heading_update: String =
+        "screen_address_success_display_text_sub_heading_update"
 
 
     //Change email screen

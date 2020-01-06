@@ -7,6 +7,7 @@ import co.yap.BR
 import co.yap.R
 import co.yap.modules.onboarding.interfaces.IName
 import co.yap.modules.onboarding.viewmodels.NameViewModel
+import kotlinx.android.synthetic.main.fragment_name.*
 
 class NameFragment : OnboardingChildFragment<IName.ViewModel>(), IName.View {
 
@@ -20,6 +21,21 @@ class NameFragment : OnboardingChildFragment<IName.ViewModel>(), IName.View {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel.nextButtonPressEvent.observe(this, nextButtonObserver)
+        viewModel.state.firstNameError.observe(this, Observer {
+            if (!it.isNullOrBlank()) {
+                etFirstName.settingUIForError(it)
+            } else {
+                etFirstName.settingUIForNormal()
+            }
+        })
+
+        viewModel.state.lastNameError.observe(this, Observer {
+            if (!it.isNullOrBlank()) {
+                etLastName.settingUIForError(it)
+            } else {
+                etLastName.settingUIForNormal()
+            }
+        })
     }
 
     override fun onDestroyView() {
