@@ -9,7 +9,7 @@ import co.yap.yapcore.interfaces.OnItemClickListener
 class HouseHoldCardSelectionItemViewHolder(private val itemHouseHoldCardBinding: ItemHouseHoldCardBinding) :
     RecyclerView.ViewHolder(itemHouseHoldCardBinding.root) {
     fun onBind(
-        color: Int,
+        cardColorSelectionModel: CardColorSelectionModel,
         position: Int,
         dimensions: IntArray,
         onItemClickListener: OnItemClickListener?
@@ -19,9 +19,9 @@ class HouseHoldCardSelectionItemViewHolder(private val itemHouseHoldCardBinding:
         params.height = dimensions[1]
         itemHouseHoldCardBinding.ivCard.layoutParams = params
         itemHouseHoldCardBinding.houseHoldCardItemViewModel?.postion = position
-        itemHouseHoldCardBinding.houseHoldCardItemViewModel?.color = color
+       // itemHouseHoldCardBinding.houseHoldCardItemViewModel?.color = cardColorSelectionModel.cardColor
         itemHouseHoldCardBinding.houseHoldCardItemViewModel =
-            HouseHoldCardSelectionItemViewModel(position, color, onItemClickListener)
+            HouseHoldCardSelectionItemViewModel(position, cardColorSelectionModel, onItemClickListener)
         itemHouseHoldCardBinding.executePendingBindings()
     }
 }

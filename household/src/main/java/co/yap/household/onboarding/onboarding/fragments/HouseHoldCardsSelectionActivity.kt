@@ -1,8 +1,8 @@
 package co.yap.household.onboarding.onboarding.fragments
 
 import android.os.Bundle
-import android.view.View
 import androidx.core.view.ViewCompat
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.viewpager2.widget.ViewPager2
 import co.yap.household.BR
@@ -10,14 +10,13 @@ import co.yap.household.R
 import co.yap.household.databinding.FragmentHouseHoldCardSelectionBinding
 import co.yap.household.onboarding.onboarding.interfaces.IHouseHoldCardsSelection
 import co.yap.household.onboarding.onboarding.viewmodels.HouseHoldCardsSelectionViewModel
-import co.yap.yapcore.BaseBindingFragment
+import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.helpers.Utils
-import co.yap.yapcore.interfaces.OnItemClickListener
+import co.yap.yapcore.helpers.toast
 
-class HouseHoldCardsSelectionFragment : BaseBindingFragment<IHouseHoldCardsSelection.ViewModel>(),
+class HouseHoldCardsSelectionActivity : BaseBindingActivity<IHouseHoldCardsSelection.ViewModel>(),
     IHouseHoldCardsSelection.View {
 
-    lateinit var adapter: HouseHoldCardSelectionAdapter
     override fun getBindingVariable(): Int = BR.houseHoldViewModel
 
     override fun getLayoutId(): Int = R.layout.fragment_house_hold_card_selection
@@ -25,26 +24,25 @@ class HouseHoldCardsSelectionFragment : BaseBindingFragment<IHouseHoldCardsSelec
     override val viewModel: IHouseHoldCardsSelection.ViewModel
         get() = ViewModelProviders.of(this).get(HouseHoldCardsSelectionViewModel::class.java)
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setObservers()
         setupPager()
-        setupList()
     }
 
-    private fun setupList() {
-
-        var list: MutableList<Int> = MutableList1(2) { index -> 0 + index }
-        adapter.setList(list)
+    override fun setObservers() {
+        viewModel.clickEvent.observe(this, clickEvent)
     }
 
-    inline fun <T> MutableList1(size: Int, init: (index: Int) -> T): MutableList<Int> {
-        val list = MutableList(2) { index -> 0 + index }
-        return list
+    private var clickEvent = Observer<Int> {
+        when (it) {
+            R.id.btnNext -> toast("Go next")
+
+        }
     }
 
     private fun setupPager() {
-        adapter = HouseHoldCardSelectionAdapter(requireContext(), mutableListOf())
-        getBindings().vpCards.adapter = adapter
+        getBindings().vpCards.adapter = viewModel.adapter
 
         with(getBindings().vpCards) {
             clipToPadding = false
@@ -52,8 +50,8 @@ class HouseHoldCardsSelectionFragment : BaseBindingFragment<IHouseHoldCardsSelec
             offscreenPageLimit = 3
         }
 
-        val pageMarginPx = Utils.getDimensionInPercent(context!!, true, 14)
-        val offsetPx = Utils.getDimensionInPercent(context!!, true, 14)
+        val pageMarginPx = Utils.getDimensionInPercent(this, true, 14)
+        val offsetPx = Utils.getDimensionInPercent(this, true, 14)
         getBindings().vpCards.setPageTransformer { page, position ->
             val viewPager = page.parent.parent as ViewPager2
             val offset = position * -(2 * offsetPx + pageMarginPx)
@@ -67,22 +65,15 @@ class HouseHoldCardsSelectionFragment : BaseBindingFragment<IHouseHoldCardsSelec
                 page.translationY = offset
             }
         }
-
-        adapter.setItemListener(object : OnItemClickListener {
-            override fun onItemClick(view: View, data: Any, pos: Int) {
-//                viewModel.clickEvent.setPayload(
-//                    SingleClickEvent.AdaptorPayLoadHolder(
-//                        view,
-//                        data,
-//                        pos
-//                    )
-//                )
-//                viewModel.clickEvent.setValue(view.id)
-            }
-        })
     }
 
-    fun getBindings(): FragmentHouseHoldCardSelectionBinding {
+
+    private fun getBindings(): FragmentHouseHoldCardSelectionBinding {
         return viewDataBinding as FragmentHouseHoldCardSelectionBinding
+    }
+
+    override fun onDestroy() {
+        viewModel.clickEvent.removeObservers(this)
+        super.onDestroy()
     }
 }

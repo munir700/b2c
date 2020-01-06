@@ -717,28 +717,28 @@
     <string name="screen_funds_toolbar_header">Send money to</string>
     <string name="screen_funds_local_toolbar_header">Transfer money to</string>
 
-<!--   success Transfer flow-->
+    <!--   success Transfer flow-->
     <string name="screen_funds_success_header">Transfer successful</string>
     <string name="screen_funds_confirmation_success_description">Your transfer of %1s %2s to %3s will be sent at the exchange rate of %4s</string>
     <string name="screen_funds_receive_description">%1s will receive %2s</string>
     <string name="screen_funds_transfer_fee_description">International transfer fee: %1s \n Note that the recipient\'s bank may have its own charges.</string>
 
-<!--    Screen cash pickup funds transfer success-->
+    <!--    Screen cash pickup funds transfer success-->
     <string name="screen_cash_pickup_funds_transfer_display_text_amount_heading">You have sent</string>
     <string name="screen_cash_pickup_funds_transfer_display_text_title">Cash transfer successful</string>
     <string name="screen_cash_pickup_funds_transfer_back_to_dashboard">Back to dashboard</string>
 
 
-<!--     Screen international funds transfer success-->
+    <!--     Screen international funds transfer success-->
     <string name="screen_international_funds_transfer_display_text_amount_heading">You have sent</string>
     <string name="screen_international_funds_transfer_display_text_success_title">Transfer successful</string>
     <string name="screen_international_funds_transfer_back_to_dashboard">Back to dashboard</string>
 
-<!--    Screen domestic funds transfer success-->
+    <!--    Screen domestic funds transfer success-->
     <string name="screen_domestic_funds_transfer_display_text_amount_heading">You have sent</string>
     <string name="screen_domestic_funds_transfer_display_text_title">Transfer successful</string>
 
-<!--    Screen funds transfer information custom view-->
+    <!--    Screen funds transfer information custom view-->
     <string name="custom_view_funds_transfer_display_text_reference_number_heading">Reference number</string>
 
 
@@ -767,7 +767,7 @@
     <string name="screen_yap_house_hold_subscription_selection_display_text_months">12 month contract</string>
     <string name="screen_yap_house_hold_subscription_selection_display_text_saving">save 25%</string>
     <string name="screen_yap_house_hold_subscription_selection_display_text_charges">You will be charged after you have registered your Household staff.  Please ensure you have enough funds in your account for your payment(s).</string>
-<!--    <string name="screen_yap_house_hold_subscription_selection_display_text_charges">You will be charged only when your Household staff completes their registration and orders their card </string>-->
+    <!--    <string name="screen_yap_house_hold_subscription_selection_display_text_charges">You will be charged only when your Household staff completes their registration and orders their card </string>-->
     <string name="screen_yap_house_hold_subscription_selection_button_get_started">Get started</string>
 
     <!-- pager -->
@@ -830,8 +830,9 @@
     <string name="screen_congratulations_display_button_complete_setup">Complete setup</string>
 
 
-<!--    Card color selection screen-->
+    <!--    Card color selection screen-->
     <string name="screen_house_hold_card_color_selection_display_text_heading">Select a card color</string>
+    <string name="screen_house_hold_card_color_selection_display_text">Household card</string>
 
 </resources>
 

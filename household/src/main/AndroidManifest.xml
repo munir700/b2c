@@ -12,6 +12,12 @@
             android:windowSoftInputMode="adjustResize">
         <nav-graph android:value="@navigation/hh_sub_account_onboarding_navigation" />
         </activity>
+        <activity
+            android:name=".onboarding.onboarding.fragments.HouseHoldCardsSelectionActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="adjustResize">
+        </activity>
     </application>
 
 </manifest>

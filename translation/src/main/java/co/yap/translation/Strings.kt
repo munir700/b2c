@@ -1338,5 +1338,7 @@ object Strings {
     //Card color selection screen
     const val screen_house_hold_card_color_selection_display_text_heading: String =
         "screen_house_hold_card_color_selection_display_text_heading"
+    const val screen_house_hold_card_color_selection_display_text: String =
+        "screen_house_hold_card_color_selection_display_text"
 
 }
