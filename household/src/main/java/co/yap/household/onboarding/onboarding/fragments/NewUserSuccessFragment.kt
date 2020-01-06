@@ -116,6 +116,6 @@ class NewUserSuccessFragment :
 //        )
 //    }
 
-//    override fun onBackPressed(): Boolean = viewModel.state.verificationCompleted
+    override fun onBackPressed(): Boolean = true
 }
 

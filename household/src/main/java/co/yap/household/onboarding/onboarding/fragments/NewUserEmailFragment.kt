@@ -104,6 +104,6 @@ class NewUserEmailFragment : OnboardingChildFragment<IEmail.ViewModel>() {
         )
     }
 
-    override fun onBackPressed(): Boolean = viewModel.state.verificationCompleted
+    override fun onBackPressed(): Boolean = true
 }
 
