@@ -1,6 +1,7 @@
 package co.yap.household.onboarding.onboarding.viewmodels
 
 import android.app.Application
+import android.graphics.Color
 import android.os.Build
 import android.view.inputmethod.EditorInfo
 import android.widget.TextView
@@ -26,6 +27,8 @@ class DialerViewModel (application: Application) :
     OnboardingChildViewModel<IEmail.State>(application), IEmail.ViewModel,
     IRepositoryHolder<CustomersRepository> {
 
+    override var hasDoneAnimation: Boolean=false
+
     override val state: EmailState = EmailState(application)
     override val nextButtonPressEvent: SingleClickEvent = SingleClickEvent()
     override val animationStartEvent: SingleLiveEvent<Boolean> = SingleLiveEvent()
@@ -34,6 +37,7 @@ class DialerViewModel (application: Application) :
 
     override fun onResume() {
         super.onResume()
+        updateBackground(Color.WHITE)
         setProgress(20)
     }
 

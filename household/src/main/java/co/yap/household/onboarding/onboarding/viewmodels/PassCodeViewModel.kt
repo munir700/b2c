@@ -27,6 +27,7 @@ class PassCodeViewModel(application: Application) :
     IRepositoryHolder<CustomersRepository> {
 
     override val state: EmailState = EmailState(application)
+    override var hasDoneAnimation: Boolean=false
     override val nextButtonPressEvent: SingleClickEvent = SingleClickEvent()
     override val animationStartEvent: SingleLiveEvent<Boolean> = SingleLiveEvent()
     override val repository: CustomersRepository = CustomersRepository

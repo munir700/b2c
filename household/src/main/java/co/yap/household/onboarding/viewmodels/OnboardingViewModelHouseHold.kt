@@ -13,7 +13,7 @@ class OnboardingViewModelHouseHold(application: Application) :
     IOnboarding.ViewModel {
 
     override val state: OnBoardingState =
-        OnBoardingState()
+        OnBoardingState(application)
 //    override val clickEvent: SingleClickEvent = SingleClickEvent()
 
 
