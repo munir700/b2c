@@ -1344,4 +1344,18 @@ object Strings {
         "screen_congratulations_display_text_success_message"
     const val screen_congratulations_display_button_complete_setup: String =
         "screen_congratulations_display_button_complete_setup"
+
+    const val screen_success_house_hold_we_will_call_you_to_text: String =
+        "screen_success_house_hold_we_will_call_you_to_text"
+
+    const val screen_success_house_hold_make_sure_to_text: String =
+        "screen_success_house_hold_make_sure_to_text"
+
+    const val screen_success_house_hold_card_deliver_text: String =
+        "screen_success_house_hold_card_deliver_text"
+
+    const val screen_success_on_its_way_display_text_title: String =
+        "screen_success_on_its_way_display_text_title"
+
+
 }
