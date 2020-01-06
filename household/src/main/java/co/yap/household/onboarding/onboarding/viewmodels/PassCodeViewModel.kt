@@ -22,12 +22,12 @@ import co.yap.yapcore.helpers.Utils
 import java.util.*
 import java.util.concurrent.TimeUnit
 
-class EmailHouseHoldViewModel(application: Application) :
+class PassCodeViewModel(application: Application) :
     OnboardingChildViewModel<IEmail.State>(application), IEmail.ViewModel,
     IRepositoryHolder<CustomersRepository> {
 
     override val state: EmailState = EmailState(application)
-    override var hasDoneAnimation: Boolean= false
+    override var hasDoneAnimation: Boolean=false
     override val nextButtonPressEvent: SingleClickEvent = SingleClickEvent()
     override val animationStartEvent: SingleLiveEvent<Boolean> = SingleLiveEvent()
     override val repository: CustomersRepository = CustomersRepository
@@ -35,8 +35,7 @@ class EmailHouseHoldViewModel(application: Application) :
 
     override fun onResume() {
         super.onResume()
-        setProgress(80)
-
+        setProgress(50)
     }
 
     override fun onCreate() {
@@ -53,8 +52,6 @@ class EmailHouseHoldViewModel(application: Application) :
 //        if (state.emailTitle == getString(R.string.screen_email_verification_display_text_title)) {
 //            nextButtonPressEvent.setValue(EVENT_POST_DEMOGRAPHIC)
 //        } else {
-//        animationStartEvent.value = true
-
         nextButtonPressEvent.setValue(EVENT_POST_VERIFICATION_EMAIL)
 //        }
     }
@@ -132,7 +129,7 @@ class EmailHouseHoldViewModel(application: Application) :
 
         // mark that we have completed all verification stuff to handle proper back navigation
         state.verificationCompleted = true
-        setProgress(80)
+        setProgress(33)
         animationStartEvent.value = true
     }
 
@@ -159,35 +156,32 @@ class EmailHouseHoldViewModel(application: Application) :
     }
 
     override fun postDemographicData() {
-        setProgress(100)
-        animationStartEvent.value = true
 
-
-//        val deviceId: String? =
-//            sharedPreferenceManager.getValueString(SharedPreferenceManager.KEY_APP_UUID)
-//        launch {
-//            state.valid = false
-//            state.loading = true
-//            state.refreshField = true
-//            when (val response = repository.postDemographicData(
-//                DemographicDataRequest(
-//                    "SIGNUP",
-//                    Build.VERSION.RELEASE,
-//                    deviceId.toString(),
-//                    Build.BRAND,
-//                    if (Utils.isEmulator()) "generic" else Build.MODEL,
-//                    "Android"
-//                )
-//            )) {
-//                is RetroApiResponse.Success -> getAccountInfo()
-//                is RetroApiResponse.Error -> {
-//                    state.valid = true
-//                    state.loading = false
-//                    state.toast = response.error.message
-//                }
-//            }
-//            state.loading = false
-//        }
+        val deviceId: String? =
+            sharedPreferenceManager.getValueString(SharedPreferenceManager.KEY_APP_UUID)
+        launch {
+            state.valid = false
+            state.loading = true
+            state.refreshField = true
+            when (val response = repository.postDemographicData(
+                DemographicDataRequest(
+                    "SIGNUP",
+                    Build.VERSION.RELEASE,
+                    deviceId.toString(),
+                    Build.BRAND,
+                    if (Utils.isEmulator()) "generic" else Build.MODEL,
+                    "Android"
+                )
+            )) {
+                is RetroApiResponse.Success -> getAccountInfo()
+                is RetroApiResponse.Error -> {
+                    state.valid = true
+                    state.loading = false
+                    state.toast = response.error.message
+                }
+            }
+            state.loading = false
+        }
     }
 
     private fun getAccountInfo() {

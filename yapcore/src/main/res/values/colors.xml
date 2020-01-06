@@ -70,6 +70,7 @@
     <color name="purpleLightCard">#f1edff</color>
     <color name="kyc_success_text_color">#1a1423</color>
     <color name="kyc_success_text_color_light_gray">#87868b</color>
+    <color name="disabledTickColor">#7C4DFF</color>
 
 
     <array name="analyticsColors">
