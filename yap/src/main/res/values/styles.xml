@@ -78,7 +78,6 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textSize">@dimen/text_size_h3</item>
-
         <item name="android:theme">@style/Theme.EditText</item>
         <item name="android:fontFamily">@font/roboto_regular</item>
         <item name="android:textColor">@color/colorPrimaryDark</item>

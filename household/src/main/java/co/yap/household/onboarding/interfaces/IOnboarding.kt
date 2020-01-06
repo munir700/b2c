@@ -19,5 +19,6 @@ interface IOnboarding {
     interface State : IBase.State {
         var totalProgress: Int
         var currentProgress: Int
+        var currentBackground: Int
     }
 }
