@@ -1,14 +1,16 @@
 package co.yap.household.onboarding.onboarding.viewmodels
 
 import android.app.Application
+import android.graphics.Color
 import co.yap.household.onboarding.onboarding.interfaces.IHouseHoldNumberRegistration
 import co.yap.household.onboarding.onboarding.states.HouseHoldNumberRegistrationState
+import co.yap.household.onboarding.viewmodels.OnboardingChildViewModel
 import co.yap.translation.Strings
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
 
 class HouseHoldNumberRegistrationViewModel(application: Application) :
-    BaseViewModel<IHouseHoldNumberRegistration.State>(application),
+    OnboardingChildViewModel<IHouseHoldNumberRegistration.State>(application),
     IHouseHoldNumberRegistration.ViewModel {
     override val state: HouseHoldNumberRegistrationState = HouseHoldNumberRegistrationState()
     override var clickEvent: SingleClickEvent?= SingleClickEvent()
@@ -17,7 +19,11 @@ class HouseHoldNumberRegistrationViewModel(application: Application) :
         populateState()
         super.onCreate()
     }
-
+    override fun onResume() {
+        super.onResume()
+        updateBackground(Color.WHITE)
+        setProgress(20)
+    }
     override fun populateState() {
         state.parentName = "Sufyan"
         state.welcomeHeading =

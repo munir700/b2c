@@ -18,6 +18,8 @@ interface IEmail {
             get() = 2
         val EVENT_NAVIGATE_NEXT: Int
             get() = 3
+        var hasDoneAnimation: Boolean
+
         val nextButtonPressEvent: SingleClickEvent
         val animationStartEvent: SingleLiveEvent<Boolean>
         fun handlePressOnNext()

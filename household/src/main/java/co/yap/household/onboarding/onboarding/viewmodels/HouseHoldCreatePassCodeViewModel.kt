@@ -3,11 +3,12 @@ package co.yap.household.onboarding.onboarding.viewmodels
 import android.app.Application
 import co.yap.household.onboarding.onboarding.interfaces.IHouseHoldCreatePassCode
 import co.yap.household.onboarding.onboarding.states.HouseHoldCreatePassCodeState
+import co.yap.household.onboarding.viewmodels.OnboardingChildViewModel
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
 
 class HouseHoldCreatePassCodeViewModel(application: Application) :
-    BaseViewModel<IHouseHoldCreatePassCode.State>(application),
+    OnboardingChildViewModel<IHouseHoldCreatePassCode.State>(application),
     IHouseHoldCreatePassCode.ViewModel {
     override val state: HouseHoldCreatePassCodeState = HouseHoldCreatePassCodeState()
 
@@ -15,5 +16,9 @@ class HouseHoldCreatePassCodeViewModel(application: Application) :
 
     override fun handlePressOnCreatePasscodeButton(id: Int) {
         nextButtonPressEvent.setValue(id)
+    }
+    override fun onResume() {
+        super.onResume()
+        setProgress(50)
     }
 }
