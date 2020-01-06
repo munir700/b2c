@@ -24,11 +24,12 @@
             android:id="@+id/imgSettings"
             android:layout_width="@dimen/_26sdp"
             android:layout_height="@dimen/_26sdp"
-            android:layout_margin="@dimen/margin_small"
+            android:layout_marginEnd="@dimen/margin_normal_large"
             android:contentDescription="@string/empty_string"
             android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="@dimen/_21sdp"
             app:srcCompat="@drawable/ic_settings" />
 
 
