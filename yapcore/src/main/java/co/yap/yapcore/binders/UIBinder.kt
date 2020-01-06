@@ -591,7 +591,7 @@ object UIBinder {
     @JvmStatic
     @BindingAdapter("passcodeTextWatcher")
     fun te132mp(view: CoreDialerPad, watcher: TextWatcher) {
-        view.editText.addTextChangedListener(watcher)
+        view.etPassCodeText?.addTextChangedListener(watcher)
     }
 
     @JvmStatic

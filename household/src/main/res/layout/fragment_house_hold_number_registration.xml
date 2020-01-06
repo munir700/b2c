@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:tools="http://schemas.android.com/tools">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -8,10 +10,11 @@
             type="co.yap.household.onboarding.onboarding.viewmodels.HouseHoldNumberRegistrationViewModel" />
 
         <import type="co.yap.translation.Strings" />
+
+        <import type="android.view.View" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/white">
@@ -28,7 +31,7 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:text="Welcome sufyan" />
+            tools:text="@string/screen_house_hold_number_registration_display_text_heading" />
 
         <TextView
             android:id="@+id/tvParentNumberConfirmation"
@@ -36,21 +39,68 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_medium"
+            android:layout_marginTop="@dimen/margin_small"
             android:layout_marginEnd="@dimen/margin_medium"
             android:gravity="center"
-            android:layout_marginTop="@dimen/margin_extra_small"
             android:text="@{houseHoldViewModel.state.numberConfirmationValue}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvWelcome"
             tools:text="@string/screen_house_hold_number_registration_display_text_parent_description" />
 
+
+        <co.yap.widgets.PrefixSuffixEditText
+            android:id="@+id/etPhoneNumber"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_medium"
+            android:layout_marginTop="@dimen/margin_extra_small"
+            android:layout_marginEnd="@dimen/margin_medium"
+            android:inputType="phone"
+            android:singleLine="true"
+            android:focusable="false"
+            android:text="@={houseHoldViewModel.state.phoneNumber}"
+            android:padding="@dimen/margin_extra_small"
+            android:hint="00 00000000"
+            android:background="@color/transparent"
+            android:focusableInTouchMode="false"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvParentNumberConfirmation"
+            app:pse_compoundDrawableHeight="@dimen/_16sdp"
+            app:pse_compoundDrawableWidth="@dimen/_16sdp"
+            app:pse_setPrefix="92"
+            app:pse_setPrefixTextColor="@color/black"
+            app:pse_showPrefixDrawable="false"
+            app:pse_space="@dimen/_4sdp"
+             />
+
         <co.yap.widgets.CoreDialerPad
             android:id="@+id/dialer"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            app:dialer_pass_code="defaultType"
+            app:layout_constraintBottom_toTopOf="@+id/tvError"
+            app:layout_constraintTop_toBottomOf="@+id/etPhoneNumber"
+            app:show_dialer_pass_code="false" />
+
+        <TextView
+            android:id="@+id/tvError"
+            style="@style/NormalText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_medium"
+            android:layout_marginTop="@dimen/margin_extra_small"
+            android:layout_marginEnd="@dimen/margin_medium"
+            android:layout_marginBottom="@dimen/margin_medium_large"
+            android:gravity="center"
+            android:visibility="@{houseHoldViewModel.state.showErrorMessage ? View.VISIBLE : View.GONE}"
             app:layout_constraintBottom_toTopOf="@+id/btnConfirm"
-            app:layout_constraintTop_toBottomOf="@+id/tvParentNumberConfirmation" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/dialer"
+            app:text="@{Strings.screen_house_hold_number_registration_error_text}"
+            tools:text="@string/screen_house_hold_number_registration_error_text" />
 
         <co.yap.widgets.CoreButton
             android:id="@+id/btnConfirm"
@@ -67,6 +117,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
+            android:onClick="@{(v)-> houseHoldViewModel.handlePressOnConfirm(v.id)}"
             app:text="@{Strings.screen_house_hold_number_registration_button_text_confirm}"
             tools:text="@string/screen_house_hold_number_registration_button_text_confirm" />
 

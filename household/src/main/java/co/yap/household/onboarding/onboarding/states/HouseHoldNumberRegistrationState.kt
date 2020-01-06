@@ -26,10 +26,10 @@ class HouseHoldNumberRegistrationState : BaseState(), IHouseHoldNumberRegistrati
             notifyPropertyChanged(BR.parentName)
         }
     @get:Bindable
-    override var numberString: String = ""
+    override var phoneNumber: String? = ""
         set(value) {
             field = value
-            notifyPropertyChanged(BR.numberString)
+            notifyPropertyChanged(BR.phoneNumber)
         }
     @get:Bindable
     override var buttonTitle: String = ""
@@ -38,9 +38,16 @@ class HouseHoldNumberRegistrationState : BaseState(), IHouseHoldNumberRegistrati
             notifyPropertyChanged(BR.buttonTitle)
         }
     @get:Bindable
-    override var buttonValidation: Boolean = false
+    override var buttonValidation: Boolean = true
         set(value) {
             field = value
             notifyPropertyChanged(BR.buttonValidation)
         }
+    @get:Bindable
+    override var showErrorMessage: Boolean = false
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.showErrorMessage)
+        }
+
 }

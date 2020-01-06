@@ -5,11 +5,13 @@ import co.yap.household.onboarding.onboarding.interfaces.IHouseHoldNumberRegistr
 import co.yap.household.onboarding.onboarding.states.HouseHoldNumberRegistrationState
 import co.yap.translation.Strings
 import co.yap.yapcore.BaseViewModel
+import co.yap.yapcore.SingleClickEvent
 
 class HouseHoldNumberRegistrationViewModel(application: Application) :
     BaseViewModel<IHouseHoldNumberRegistration.State>(application),
     IHouseHoldNumberRegistration.ViewModel {
     override val state: HouseHoldNumberRegistrationState = HouseHoldNumberRegistrationState()
+    override var clickEvent: SingleClickEvent?= SingleClickEvent()
 
     override fun onCreate() {
         populateState()
@@ -24,5 +26,9 @@ class HouseHoldNumberRegistrationViewModel(application: Application) :
             )
         state.numberConfirmationValue =
             getString(Strings.screen_house_hold_number_registration_display_text_parent_description)
+    }
+
+    override fun handlePressOnConfirm(id: Int) {
+        clickEvent?.setValue(id)
     }
 }
