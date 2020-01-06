@@ -28,6 +28,7 @@ class NewUserSuccessViewModel(application: Application) :
         super.onResume()
         setProgress(100)
 
+
     }
 
     override fun handlePressOnCompleteVerification(id: Int) {

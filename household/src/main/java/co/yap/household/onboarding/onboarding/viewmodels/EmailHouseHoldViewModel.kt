@@ -128,7 +128,7 @@ class EmailHouseHoldViewModel(application: Application) :
 
         // mark that we have completed all verification stuff to handle proper back navigation
         state.verificationCompleted = true
-        setProgress(100)
+        setProgress(33)
         animationStartEvent.value = true
     }
 
