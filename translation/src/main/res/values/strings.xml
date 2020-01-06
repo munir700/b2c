@@ -834,5 +834,7 @@
     <string name="screen_congratulations_display_text_success_message">You’ve successfully registered yourself to the Household plan</string>
     <string name="screen_congratulations_display_button_complete_setup">Complete setup</string>
 
+    <!-- Household screen EID not accept -->
+    <string name="screen_title_oops">Oops!</string>
 </resources>
 

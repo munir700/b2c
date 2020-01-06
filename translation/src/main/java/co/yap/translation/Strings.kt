@@ -1344,4 +1344,8 @@ object Strings {
         "screen_congratulations_display_text_success_message"
     const val screen_congratulations_display_button_complete_setup: String =
         "screen_congratulations_display_button_complete_setup"
+
+    const val screen_title_oops: String =
+        "screen_title_oops"
+
 }
