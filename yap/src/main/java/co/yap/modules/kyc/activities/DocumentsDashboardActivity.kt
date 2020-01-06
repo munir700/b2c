@@ -63,4 +63,9 @@ class DocumentsDashboardActivity : BaseBindingActivity<IDocumentsDashboard.ViewM
             intent.getStringExtra(name)
         else null
     }
+
+    fun goToDashBoard() {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        finish()
+    }
 }

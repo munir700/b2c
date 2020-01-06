@@ -15,19 +15,13 @@ import co.yap.modules.dashboard.more.main.fragments.MoreBaseFragment
 import co.yap.modules.dashboard.more.profile.intefaces.IPersonalDetail
 import co.yap.modules.dashboard.more.profile.viewmodels.PersonalDetailsViewModel
 import co.yap.yapcore.managers.MyUserManager
-import com.digitify.identityscanner.docscanner.activities.IdentityScannerActivity
-import com.digitify.identityscanner.docscanner.enums.DocumentType
 import kotlinx.android.synthetic.main.fragment_personal_detail.*
 
 
 class PersonalDetailsFragment : MoreBaseFragment<IPersonalDetail.ViewModel>(),
     IPersonalDetail.View {
-    companion object {
-        var checkMore: Boolean = false
-        var checkScanned: Boolean = false
-    }
 
-    var changeAddress: Boolean = false
+    private var changeAddress: Boolean = false
 
     override fun getBindingVariable(): Int = BR.viewModel
 
@@ -38,8 +32,8 @@ class PersonalDetailsFragment : MoreBaseFragment<IPersonalDetail.ViewModel>(),
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        if(context is MoreActivity)
-        (context as MoreActivity).visibleToolbar()
+        if (context is MoreActivity)
+            (context as MoreActivity).visibleToolbar()
         viewModel.state.errorVisibility = showExpiredIcon
     }
 

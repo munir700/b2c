@@ -49,12 +49,10 @@ class AddressSelectionFragment : BaseMapFragment<IAddressSelection.ViewModel>(),
 
     val REQUEST_CHECK_SETTINGS = 100
 
-
     companion object {
         fun newIntent(context: Context): Intent =
             Intent(context, AddressSelectionFragment::class.java)
     }
-
 
     override fun getBindingVariable(): Int = BR.viewModel
 
@@ -62,7 +60,6 @@ class AddressSelectionFragment : BaseMapFragment<IAddressSelection.ViewModel>(),
 
     override val viewModel: IAddressSelection.ViewModel
         get() = ViewModelProviders.of(this).get(AddressSelectionViewModel::class.java)
-
 
     lateinit var icon: BitmapDescriptor
     private var locationPermissionGranted: Boolean = false
@@ -117,7 +114,7 @@ class AddressSelectionFragment : BaseMapFragment<IAddressSelection.ViewModel>(),
             viewModel!!.mapDetailViewActivity = activity as DocumentsDashboardActivity
 
         }
-         performDataBinding(inflater, container)
+        performDataBinding(inflater, container)
         initMapFragment()
 
         return viewDataBinding.root
@@ -437,7 +434,7 @@ class AddressSelectionFragment : BaseMapFragment<IAddressSelection.ViewModel>(),
     }
 
     private fun expandMap() {
-        if (isFromPersonalDetailScreen){
+        if (isFromPersonalDetailScreen) {
             (context as MoreActivity).goneToolbar()
         }
 
@@ -478,7 +475,7 @@ class AddressSelectionFragment : BaseMapFragment<IAddressSelection.ViewModel>(),
     }
 
     private fun collapseMap() {
-        if (isFromPersonalDetailScreen){
+        if (isFromPersonalDetailScreen) {
             (context as MoreActivity).visibleToolbar()
         }
         viewModel.state.isMapOnScreen = false

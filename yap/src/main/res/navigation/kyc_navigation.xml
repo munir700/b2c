@@ -22,12 +22,7 @@
         android:name="name"
         android:defaultValue=" "
         app:argType="string" />
-
-    <action
-        android:id="@+id/action_goto_DashboardActivity"
-        app:destination="@id/DashboardActivity"
-        app:popUpTo="@+id/kyc_navigation"
-        app:popUpToInclusive="true" />
+    
     <fragment
         android:id="@+id/informationErrorFragment"
         android:name="co.yap.modules.kyc.fragments.InformationErrorFragment"
@@ -98,11 +93,4 @@
             android:defaultValue=" "
             app:argType="string" />
     </fragment>
-
-    <activity
-        android:id="@+id/DashboardActivity"
-        android:name="co.yap.modules.dashboard.main.activities.YapDashboardActivity"
-        android:label="LiteDashboardActivity"
-        tools:layout="@layout/activity_yap_dashboard" />
-
 </navigation>

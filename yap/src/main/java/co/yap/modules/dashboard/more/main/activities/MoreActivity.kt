@@ -10,8 +10,6 @@ import co.yap.BR
 import co.yap.R
 import co.yap.modules.dashboard.more.main.interfaces.IMore
 import co.yap.modules.dashboard.more.main.viewmodels.MoreViewModel
-import co.yap.modules.dashboard.more.profile.fragments.PersonalDetailsFragment
-import co.yap.modules.kyc.activities.DocumentsDashboardActivity
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.IFragmentHolder
 import co.yap.yapcore.defaults.DefaultNavigator
@@ -56,10 +54,6 @@ class MoreActivity : BaseBindingActivity<IMore.ViewModel>(), INavigator,
     override fun onDestroy() {
         viewModel.backButtonPressEvent.removeObservers(this)
         super.onDestroy()
-        PersonalDetailsFragment.checkMore = false
-        PersonalDetailsFragment.checkScanned = false
-//        DocumentsDashboardActivity.isFromMoreSection = false
-//        DocumentsDashboardActivity.hasStartedScanner = false
     }
 
     private val backButtonObserver = Observer<Boolean> { onBackPressed() }
@@ -78,8 +72,8 @@ class MoreActivity : BaseBindingActivity<IMore.ViewModel>(), INavigator,
 
     fun getIntentData(): Boolean {
         if (intent != null) {
-            if(intent.hasExtra("isDrawerNav"))
-            return intent.getBooleanExtra("isDrawerNav", false)
+            if (intent.hasExtra("isDrawerNav"))
+                return intent.getBooleanExtra("isDrawerNav", false)
         }
         return false
     }

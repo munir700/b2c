@@ -75,11 +75,10 @@
                     android:layout_marginTop="@dimen/margin_extra_small"
                     android:layout_marginEnd="@dimen/margin_medium"
                     android:gravity="center"
-                    app:concat="@{viewModel.parentViewModel.name}"
+                    android:text="@{viewModel.parentViewModel.name}"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tvTitle"
-                    app:text="@{Strings.screen_b2c_eid_info_review_display_text_sub_title}"
                     tools:text="@string/screen_b2c_eid_info_review_display_text_sub_title" />
 
                 <androidx.cardview.widget.CardView

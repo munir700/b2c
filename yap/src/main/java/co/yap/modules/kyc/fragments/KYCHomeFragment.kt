@@ -9,8 +9,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import co.yap.R
-import co.yap.modules.dashboard.more.profile.fragments.PersonalDetailsFragment.Companion.checkMore
-import co.yap.modules.dashboard.more.profile.fragments.PersonalDetailsFragment.Companion.checkScanned
+import co.yap.modules.kyc.activities.DocumentsDashboardActivity
 import co.yap.modules.kyc.enums.DocScanStatus
 import co.yap.modules.kyc.interfaces.IKYCHome
 import co.yap.modules.kyc.viewmodels.KYCHomeViewModel
@@ -45,9 +44,8 @@ class KYCHomeFragment : KYCChildFragment<IKYCHome.ViewModel>(), IKYCHome.View {
                     }
                 }
                 R.id.tvSkip -> {
-                    checkScanned = false
-                    findNavController().navigate(R.id.action_goto_DashboardActivity)
-                    activity?.finish()
+                    if (activity is DocumentsDashboardActivity)
+                        (activity as DocumentsDashboardActivity).goToDashBoard()
                 }
             }
         })
@@ -57,7 +55,6 @@ class KYCHomeFragment : KYCChildFragment<IKYCHome.ViewModel>(), IKYCHome.View {
         viewModel.parentViewModel?.allowSkip?.value?.let {
             if (it) {
                 viewModel.parentViewModel?.allowSkip?.value = !it
-                checkMore = true
                 findNavController().navigate(R.id.action_KYCHomeFragment_to_eidInfoReviewFragment)
             } else {
                 viewModel.state.eidScanStatus = DocScanStatus.SCAN_PENDING
@@ -100,17 +97,9 @@ class KYCHomeFragment : KYCChildFragment<IKYCHome.ViewModel>(), IKYCHome.View {
         if (requestCode == IdentityScannerActivity.SCAN_EID_CAM && resultCode == Activity.RESULT_OK) {
             data?.let {
                 viewModel.onEIDScanningComplete(it.getParcelableExtra(IdentityScannerActivity.SCAN_RESULT))
-                checkScanned = true
             }
         }
     }
-
-//    override fun onResume() {
-//        super.onResume()
-//        if (checkMore) {
-//            activity!!.finish()
-//        }
-//    }
 
     override fun onBackPressed(): Boolean {
         return true
