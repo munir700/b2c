@@ -1327,6 +1327,16 @@ object Strings {
     const val screen_new_user_email_display_button_confirm: String =
         "screen_new_user_email_display_button_confirm"
 
+
+    //House hold Registration strings
+    const val screen_house_hold_number_registration_display_text_heading: String =
+        "screen_house_hold_number_registration_display_text_heading"
+    const val screen_house_hold_number_registration_display_text_parent_description: String =
+        "screen_house_hold_number_registration_display_text_parent_description"
+    const val screen_house_hold_number_registration_button_text_confirm: String =
+        "screen_house_hold_number_registration_button_text_confirm"
+    const val screen_house_hold_number_registration_error_text: String =
+        "screen_house_hold_number_registration_error_text"
     // New User Success household screen
     const val screen_congratulations_display_text_title: String =
         "screen_congratulations_display_text_title"
@@ -1334,5 +1344,4 @@ object Strings {
         "screen_congratulations_display_text_success_message"
     const val screen_congratulations_display_button_complete_setup: String =
         "screen_congratulations_display_button_complete_setup"
-
 }
