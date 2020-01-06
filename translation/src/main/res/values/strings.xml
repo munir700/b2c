@@ -831,6 +831,7 @@
     <string name="screen_success_on_its_way_display_text_title">Your card is on its way!</string>
     <string name="screen_success_house_hold_we_will_call_you_to_text">We will call you to confirm the time.</string>
     <string name="screen_success_house_hold_make_sure_to_text">Make sure to keep your Emirates ID with you</string>
+    <string name="screen_success_house_hold_card_deliver_text">Your card will be delivered to:</string>
 
 
 </resources>
