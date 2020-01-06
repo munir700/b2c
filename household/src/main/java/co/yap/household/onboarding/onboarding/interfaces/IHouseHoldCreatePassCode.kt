@@ -5,8 +5,11 @@ import co.yap.yapcore.SingleClickEvent
 
 interface IHouseHoldCreatePassCode {
     interface View : IBase.View<ViewModel>
+    {
+        fun setObservers()
+    }
     interface ViewModel : IBase.ViewModel<State> {
-        val nextButtonPressEvent: SingleClickEvent
+        val clickEvent: SingleClickEvent?
         fun handlePressOnCreatePasscodeButton(id:Int)
     }
 

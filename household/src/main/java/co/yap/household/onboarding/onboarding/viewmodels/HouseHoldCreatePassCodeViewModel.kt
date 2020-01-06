@@ -12,10 +12,10 @@ class HouseHoldCreatePassCodeViewModel(application: Application) :
     IHouseHoldCreatePassCode.ViewModel {
     override val state: HouseHoldCreatePassCodeState = HouseHoldCreatePassCodeState()
 
-    override val nextButtonPressEvent: SingleClickEvent = SingleClickEvent()
+    override val clickEvent: SingleClickEvent? = SingleClickEvent()
 
     override fun handlePressOnCreatePasscodeButton(id: Int) {
-        nextButtonPressEvent.setValue(id)
+        clickEvent?.setValue(id)
     }
     override fun onResume() {
         super.onResume()

@@ -104,7 +104,7 @@
 
         <co.yap.widgets.CoreButton
             android:id="@+id/btnConfirm"
-            style="@style/RectangleBtnStyle"
+            style="@style/FragmentsBtnStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/margin_medium_large"

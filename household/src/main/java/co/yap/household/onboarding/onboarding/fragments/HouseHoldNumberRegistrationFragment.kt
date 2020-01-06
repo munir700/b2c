@@ -7,14 +7,14 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import co.yap.household.BR
 import co.yap.household.R
+import co.yap.household.onboarding.fragments.OnboardingChildFragment
 import co.yap.household.onboarding.onboarding.interfaces.IHouseHoldNumberRegistration
 import co.yap.household.onboarding.onboarding.viewmodels.HouseHoldNumberRegistrationViewModel
-import co.yap.yapcore.BaseBindingFragment
 import kotlinx.android.synthetic.main.fragment_house_hold_number_registration.*
 
 
 class HouseHoldNumberRegistrationFragment :
-    BaseBindingFragment<IHouseHoldNumberRegistration.ViewModel>(),
+    OnboardingChildFragment<IHouseHoldNumberRegistration.ViewModel>(),
     IHouseHoldNumberRegistration.View {
     override fun getBindingVariable(): Int = BR.houseHoldViewModel
 
@@ -43,4 +43,6 @@ class HouseHoldNumberRegistrationFragment :
         super.onPause()
         viewModel.clickEvent?.removeObservers(this)
     }
+
+    override fun onBackPressed(): Boolean = true
 }
