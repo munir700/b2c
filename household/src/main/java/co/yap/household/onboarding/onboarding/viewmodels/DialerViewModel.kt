@@ -22,7 +22,7 @@ import co.yap.yapcore.helpers.Utils
 import java.util.*
 import java.util.concurrent.TimeUnit
 
-class EmailHouseHoldViewModel(application: Application) :
+class DialerViewModel (application: Application) :
     OnboardingChildViewModel<IEmail.State>(application), IEmail.ViewModel,
     IRepositoryHolder<CustomersRepository> {
 
@@ -34,7 +34,7 @@ class EmailHouseHoldViewModel(application: Application) :
 
     override fun onResume() {
         super.onResume()
-        setProgress(80)
+        setProgress(20)
     }
 
     override fun onCreate() {
@@ -128,7 +128,7 @@ class EmailHouseHoldViewModel(application: Application) :
 
         // mark that we have completed all verification stuff to handle proper back navigation
         state.verificationCompleted = true
-        setProgress(80)
+        setProgress(33)
         animationStartEvent.value = true
     }
 

@@ -2,29 +2,52 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/hh_sub_account_onboarding_navigation"
-    app:startDestination="@id/newUserCongratulationsFragment">
+    app:startDestination="@id/dialerFragment">
 
     <fragment
         android:id="@+id/emailHouseHoldFragment"
         android:name="co.yap.household.onboarding.onboarding.fragments.NewUserEmailFragment"
-        android:label="Email HouseHold Fragment"></fragment>
+        android:label="Email HouseHold Fragment">
+
+        <action
+            android:id="@+id/action_emailHouseHoldFragment_to_newUserCongratulationsFragment"
+            app:destination="@id/newUserCongratulationsFragment"
+            app:popUpToInclusive="true" />
+
+    </fragment>
 
     <fragment
         android:id="@+id/newUserCongratulationsFragment"
         android:name="co.yap.household.onboarding.onboarding.fragments.NewUserSuccessFragment"
         android:label="Congratulations Fragment">
+        <!--        <action-->
+        <!--            android:id="@+id/action_splashFragment_to_accountSelectionFragment"-->
+        <!--            app:destination="@id/accountSelectionFragment"-->
+        <!--            app:popUpTo="@id/main_nav_graph"-->
+        <!--            app:popUpToInclusive="true" />-->
+
 
     </fragment>
     <fragment
         android:id="@+id/passCodeFragment"
         android:name="co.yap.household.onboarding.onboarding.fragments.PassCodeFragment"
         android:label="Congratulations Fragment">
+        <action
+            android:id="@+id/action_passCodeFragment_to_emailHouseHoldFragment"
+            app:destination="@id/emailHouseHoldFragment"
+            app:popUpToInclusive="true" />
+
 
     </fragment>
     <fragment
-        android:id="@+id/DialerFragment"
+        android:id="@+id/dialerFragment"
         android:name="co.yap.household.onboarding.onboarding.fragments.DialerFragment"
         android:label="Congratulations Fragment">
+        <action
+            android:id="@+id/action_dialerFragment_to_passCodeFragment"
+            app:destination="@id/passCodeFragment"
+            app:popUpToInclusive="true" />
+
 
     </fragment>
 </navigation>

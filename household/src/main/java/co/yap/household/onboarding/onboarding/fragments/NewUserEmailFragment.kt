@@ -4,6 +4,7 @@ import android.graphics.Rect
 import android.os.Bundle
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.fragment.findNavController
 import co.yap.household.BR
 import co.yap.household.R
 import co.yap.household.onboarding.fragments.OnboardingChildFragment
@@ -38,6 +39,11 @@ class NewUserEmailFragment : OnboardingChildFragment<IEmail.ViewModel>() {
 
     private val nextButtonObserver = Observer<Int> {
         when (it) {
+            viewModel.EVENT_POST_VERIFICATION_EMAIL -> {
+//                viewModel.sendVerificationEmail()
+                findNavController().navigate(R.id.action_emailHouseHoldFragment_to_newUserCongratulationsFragment)
+
+            }
 //            viewModel.EVENT_NAVIGATE_NEXT -> navigate(R.id.congratulationsFragment)
 //            viewModel.EVENT_POST_VERIFICATION_EMAIL -> viewModel.sendVerificationEmail()
 //            viewModel.EVENT_POST_DEMOGRAPHIC -> viewModel.postDemographicData()
