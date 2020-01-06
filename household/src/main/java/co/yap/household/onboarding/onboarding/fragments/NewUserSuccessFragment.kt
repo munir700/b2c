@@ -50,22 +50,22 @@ class NewUserSuccessFragment :
 
 
     private fun runAnimations() {
-//        AnimationUtils.runSequentially(
-////            titleAnimation(),
-//            // Card Animation
-//            AnimationUtils.outOfTheBoxAnimation(ivCard),
-//            // Bottom views animation
-//            AnimationUtils.runTogether(
-//                AnimationUtils.jumpInAnimation(tvIbanTitle),
-//                AnimationUtils.jumpInAnimation(tvIban).apply { startDelay = 100 },
-//                AnimationUtils.jumpInAnimation(tvMeetingNotes).apply { startDelay = 200 },
-//                AnimationUtils.jumpInAnimation(btnCompleteVerification).apply { startDelay = 300 }
-//            )
-//        ).apply {
-//            addListener (onEnd = {
+        AnimationUtils.runSequentially(
+//            titleAnimation(),
+            // Card Animation
+            AnimationUtils.outOfTheBoxAnimation(tvTitle),
+            // Bottom views animation
+            AnimationUtils.runTogether(
+                AnimationUtils.jumpInAnimation(tvSubTitle),
+                AnimationUtils.jumpInAnimation(ivMobileSuccess).apply { startDelay = 100 },
+                AnimationUtils.jumpInAnimation(btnCompleteVerifiocation).apply { startDelay = 200 }/*,
+                AnimationUtils.jumpInAnimation(btnCompleteVerification).apply { startDelay = 300 }*/
+            )
+        ).apply {
+            addListener (onEnd = {
 //                setObservers()
-//            })
-//        }.start()
+            })
+        }.start()
     }
     override fun onDestroyView() {
 //        viewModel.nextButtonPressEvent.removeObservers(this)
@@ -82,39 +82,7 @@ class NewUserSuccessFragment :
 
     }
 
-    private fun startAnimation() {
-//        viewModel.stopTimer()
-//        Handler(Looper.getMainLooper()).postDelayed({
-//            toolbarAnimation().apply {
-//                addListener(onEnd = {
-//                })
-//            }.start()
-//        }, 500)
-    }
 
-//    private fun toolbarAnimation(): AnimatorSet {
-//        val checkButton = (activity as OnboardingActivity).findViewById<ImageView>(R.id.tbBtnCheck)
-//        val backButton = (activity as OnboardingActivity).findViewById<ImageView>(R.id.tbBtnBack)
-//        val progressbar =
-//            (activity as OnboardingActivity).findViewById<AnimatingProgressBar>(R.id.tbProgressBar)
-//
-//        val checkBtnEndPosition = (windowSize.width() / 2) - (checkButton.width / 2)
-//
-//        checkButton.isEnabled = true
-//        return AnimationUtils.runSequentially(
-//            AnimationUtils.pulse(checkButton),
-//            AnimationUtils.runTogether(
-//                AnimationUtils.fadeOut(backButton, 200),
-//                AnimationUtils.fadeOut(progressbar, 200)
-//            ),
-//            AnimationUtils.slideHorizontal(
-//                view = checkButton,
-//                from = checkButton.x,
-//                to = checkBtnEndPosition.toFloat(),
-//                duration = 500
-//            )
-//        )
-//    }
 
     override fun onBackPressed(): Boolean = true
 }

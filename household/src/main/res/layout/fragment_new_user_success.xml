@@ -35,7 +35,7 @@
 
 
         <ImageView
-            android:id="@+id/ivBubbles"
+            android:id="@+id/ivMobileSuccess"
             android:layout_width="@dimen/_220sdp"
             android:layout_height="@dimen/_205sdp"
             android:layout_marginTop="@dimen/margin_extra_large"
@@ -62,7 +62,7 @@
             tools:text="@string/screen_congratulations_display_text_success_message" />
 
         <co.yap.widgets.CoreButton
-            android:id="@+id/btnTopUp"
+            android:id="@+id/btnCompleteVerifiocation"
             style="@style/RectangleBtnStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
