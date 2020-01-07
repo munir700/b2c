@@ -56,7 +56,7 @@ class CashTransferState(application: Application) : BaseState(), ICashTransfer.S
             clearError()
 
             if (feeType == Constants.FEE_TYPE_TIER) {
-                if (amount.isNotEmpty()) {
+                if (amount.isNotEmpty() && amount != ".") {
                     setSpannableFee(findFee(amount.toDouble()).toString())
                 } else {
                     setSpannableFee("0.0")
