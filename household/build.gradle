@@ -6,8 +6,6 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-    implementation 'androidx.appcompat:appcompat:1.1.0'
-    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
     project.testDependencies.each {
         add(it.configuration, it.dependency)
     }
@@ -19,6 +17,11 @@ dependencies {
 
     // app specific dependencies
     project.yapDependencies.each {
+        add(it.configuration, it.dependency)
+    }
+
+    // app specific dependencies
+    project.householdDependencies.each {
         add(it.configuration, it.dependency)
     }
 }

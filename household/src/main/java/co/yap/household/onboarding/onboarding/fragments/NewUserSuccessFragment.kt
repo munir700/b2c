@@ -16,6 +16,7 @@ import co.yap.household.R
 import co.yap.household.onboarding.fragments.OnboardingChildFragment
 import co.yap.household.onboarding.onboarding.interfaces.INewUserSuccess
 import co.yap.household.onboarding.onboarding.viewmodels.NewUserSuccessViewModel
+import co.yap.modules.kyc.activities.DocumentsDashboardActivity
 import co.yap.yapcore.helpers.AnimationUtils
 import kotlinx.android.synthetic.main.fragment_new_user_success.*
 
@@ -41,6 +42,16 @@ class NewUserSuccessFragment :
 
         // hide all in the beginning
         rootContainer.children.forEach { it.alpha = 0f }
+
+        btnCompleteVerifiocation.setOnClickListener {
+            startActivity(
+                DocumentsDashboardActivity.getIntent(
+                    requireContext(),
+                    "Sample Name",
+                    false
+                )
+            )
+        }
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -62,11 +73,12 @@ class NewUserSuccessFragment :
                 AnimationUtils.jumpInAnimation(btnCompleteVerification).apply { startDelay = 300 }*/
             )
         ).apply {
-            addListener (onEnd = {
-//                setObservers()
+            addListener(onEnd = {
+                //                setObservers()
             })
         }.start()
     }
+
     override fun onDestroyView() {
 //        viewModel.nextButtonPressEvent.removeObservers(this)
 //        viewModel.animationStartEvent.removeObservers(this)
@@ -81,7 +93,6 @@ class NewUserSuccessFragment :
         }
 
     }
-
 
 
     override fun onBackPressed(): Boolean = true
