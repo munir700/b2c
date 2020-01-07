@@ -6,7 +6,7 @@ import android.content.DialogInterface
 import android.hardware.biometrics.BiometricPrompt
 import android.os.Build
 import android.os.CancellationSignal
-
+@Deprecated("Use co.yap.yapcore.helpers.biometric.BiometricManagerX")
 class BiometricManager private constructor(biometricBuilder: BiometricBuilder) : BiometricManagerV23() {
 
 
