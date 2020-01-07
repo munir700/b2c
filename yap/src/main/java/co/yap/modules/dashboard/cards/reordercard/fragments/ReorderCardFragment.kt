@@ -1,5 +1,7 @@
 package co.yap.modules.dashboard.cards.reordercard.fragments
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
@@ -8,8 +10,11 @@ import androidx.navigation.fragment.findNavController
 import co.yap.R
 import co.yap.modules.dashboard.cards.reordercard.interfaces.IRenewCard
 import co.yap.modules.dashboard.cards.reordercard.viewmodels.RenewCardViewModel
+import co.yap.modules.location.activities.LocationSelectionActivity
+import co.yap.networking.cards.responsedtos.Address
 import co.yap.translation.Translator
 import co.yap.yapcore.BR
+import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.MyUserManager
@@ -47,6 +52,7 @@ class ReorderCardFragment : ReorderCardBaseFragment<IRenewCard.ViewModel>(), IRe
                 viewModel.address.address1 = viewModel.state.cardAddressTitle.get()
                 viewModel.address.address2 = viewModel.state.cardAddressSubTitle.get()
             }
+
             R.id.btnConfirmPurchase -> {
                 MyUserManager.cardBalance.value?.availableBalance?.toDoubleOrNull()
                     ?.let { balance ->
@@ -60,7 +66,23 @@ class ReorderCardFragment : ReorderCardBaseFragment<IRenewCard.ViewModel>(), IRe
             }
 
             R.id.tvChangeLocation -> {
-                findNavController().navigate(R.id.action_reorderCardFragment_to_addressSelectionFragment)
+                val heading = Translator.getString(
+                    requireContext(),
+                    R.string.screen_meeting_location_display_text_selected_subtitle
+                )
+                val subHeading = Translator.getString(
+                    requireContext(),
+                    R.string.screen_meeting_location_display_text_selected_subtitle
+                )
+
+                startActivityForResult(
+                    LocationSelectionActivity.newIntent(
+                        requireContext(),
+                        viewModel.address,
+                        heading,
+                        subHeading
+                    ), RequestCodes.REQUEST_FOR_LOCATION
+                )
             }
         }
     }
@@ -99,40 +121,6 @@ class ReorderCardFragment : ReorderCardBaseFragment<IRenewCard.ViewModel>(), IRe
             ReorderCardFragmentArgs.fromBundle(it).cardType
         } as String)
 
-        // address arguments
-        val physicalCardAddressTitle = arguments?.let {
-            ReorderCardFragmentArgs.fromBundle(it).newDeliveryAddressTitle
-        } as String
-
-        if (physicalCardAddressTitle != " ") {
-            viewModel.state.cardAddressTitle.set(physicalCardAddressTitle)
-            viewModel.state.isAddressConfirm.set(true)
-        }
-
-        val physicalCardAddressSubTitle = arguments?.let {
-            ReorderCardFragmentArgs.fromBundle(it).newDeliveryAddressSubTitle
-        } as String
-
-        if (physicalCardAddressSubTitle != " ") {
-            viewModel.state.cardAddressSubTitle.set(physicalCardAddressTitle)
-        }
-
-        // location lat lon arguments
-        val longitude = arguments?.let {
-            ReorderCardFragmentArgs.fromBundle(it).longitude
-        } as String
-        if (longitude != " ") {
-            viewModel.address.longitude = longitude.toDoubleOrNull()
-        }
-
-        val latitude = arguments?.let {
-            ReorderCardFragmentArgs.fromBundle(it).latitude
-        } as String
-
-        if (latitude != " ") {
-            viewModel.address.latitude = latitude.toDoubleOrNull()
-        }
-
     }
 
     override fun onDestroy() {
@@ -140,4 +128,26 @@ class ReorderCardFragment : ReorderCardBaseFragment<IRenewCard.ViewModel>(), IRe
         viewModel.clickEvent.removeObservers(this)
         viewModel.reorderCardSuccess.removeObservers(this)
     }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == Activity.RESULT_OK) {
+            when (requestCode) {
+                RequestCodes.REQUEST_FOR_LOCATION -> {
+                    val address: Address? =
+                        data?.getParcelableExtra(LocationSelectionActivity.ADDRESS)
+                    address?.let {
+                        viewModel.address = it
+                        setLocationCardStates()
+                    }
+                }
+            }
+        }
+    }
+
+    private fun setLocationCardStates() {
+        viewModel.state.cardAddressTitle.set(viewModel.address.address1)
+        viewModel.state.cardAddressSubTitle.set(viewModel.address.address2)
+    }
+
 }

@@ -14,7 +14,7 @@ interface IReorderCard {
     interface ViewModel : IBase.ViewModel<State> {
         val clickEvent: SingleClickEvent
         fun handlePressOnView(id: Int)
-        var card: Card
+        var card: Card?
     }
 
     interface View : IBase.View<ViewModel>

@@ -26,7 +26,7 @@ abstract class BaseBindingActivity<V : IBase.ViewModel<*>> : BaseActivity<V>() {
         startActivity(intent)
     }
 
-    protected fun performDataBinding() {
+    private fun performDataBinding() {
         viewDataBinding = DataBindingUtil.setContentView(this, getLayoutId())
         viewDataBinding.setVariable(getBindingVariable(), viewModel)
         viewDataBinding.executePendingBindings()

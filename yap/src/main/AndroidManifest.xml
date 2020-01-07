@@ -192,7 +192,9 @@
         <activity
             android:name=".modules.dashboard.cards.reordercard.activities.ReorderCardActivity"
             android:screenOrientation="portrait" />
-
+        <activity
+            android:name=".modules.location.activities.LocationSelectionActivity"
+            android:screenOrientation="portrait" />
 
     </application>
 </manifest>

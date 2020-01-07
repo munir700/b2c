@@ -19,6 +19,7 @@ import android.util.DisplayMetrics
 import android.view.LayoutInflater
 import android.view.View
 import android.view.Window
+import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import android.widget.ProgressBar
 import androidx.annotation.ColorRes
@@ -731,5 +732,12 @@ object Utils {
                 itemClick.onItemClick(View(context), false, 0)
             }
             .show()
+    }
+
+    fun preventTakeScreenshot(activity: Activity) {
+        activity.window.setFlags(
+            WindowManager.LayoutParams.FLAG_SECURE,
+            WindowManager.LayoutParams.FLAG_SECURE
+        )
     }
 }

@@ -1,5 +1,7 @@
 package co.yap.modules.dashboard.more.profile.fragments
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.view.View.GONE
@@ -14,9 +16,11 @@ import co.yap.modules.dashboard.more.main.activities.MoreActivity.Companion.show
 import co.yap.modules.dashboard.more.main.fragments.MoreBaseFragment
 import co.yap.modules.dashboard.more.profile.intefaces.IPersonalDetail
 import co.yap.modules.dashboard.more.profile.viewmodels.PersonalDetailsViewModel
+import co.yap.modules.location.activities.LocationSelectionActivity
+import co.yap.networking.cards.responsedtos.Address
+import co.yap.translation.Translator
+import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.managers.MyUserManager
-import com.digitify.identityscanner.docscanner.activities.IdentityScannerActivity
-import com.digitify.identityscanner.docscanner.enums.DocumentType
 import kotlinx.android.synthetic.main.fragment_personal_detail.*
 
 
@@ -66,9 +70,29 @@ class PersonalDetailsFragment : MoreBaseFragment<IPersonalDetail.ViewModel>(),
                     changeAddress = true
                     val action =
                         PersonalDetailsFragmentDirections.actionPersonalDetailsFragmentToAddressSelectionFragment(
-                            false, false, true
+                            isFromPhysicalCardsScreen = false,
+                            isFromBlockCardsScreen = false,
+                            isFromPersonalDetail = true
                         )
+
                     findNavController().navigate(action)
+//                    val heading = Translator.getString(
+//                        requireContext(),
+//                        R.string.screen_meeting_location_display_text_selected_subtitle
+//                    )
+//                    val subHeading = Translator.getString(
+//                        requireContext(),
+//                        R.string.screen_meeting_location_display_text_selected_subtitle
+//                    )
+//
+//                    startActivityForResult(
+//                        LocationSelectionActivity.newIntent(
+//                            requireContext(),
+//                            MyUserManager.userAddress,
+//                            heading,
+//                            subHeading
+//                        ), RequestCodes.REQUEST_FOR_LOCATION
+//                    )
 
                 }
 
@@ -119,5 +143,20 @@ class PersonalDetailsFragment : MoreBaseFragment<IPersonalDetail.ViewModel>(),
             changeAddress = true
         }
 
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == Activity.RESULT_OK) {
+            when (requestCode) {
+                RequestCodes.REQUEST_FOR_LOCATION -> {
+                    val address: Address? =
+                        data?.getParcelableExtra(LocationSelectionActivity.ADDRESS)
+                    address?.let {
+                        MyUserManager.userAddress = it
+                    }
+                }
+            }
+        }
     }
 }

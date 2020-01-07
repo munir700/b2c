@@ -72,16 +72,10 @@ class AddressSelectionState(application: Application) : BaseState(), IAddressSel
     override var isFromPersonalDetailView: Boolean = false
         set(value) {
             field = value
-         }
+        }
 
     @get:Bindable
     override var isFromPhysicalCardsLayout: Boolean = false
-        set(value) {
-            field = value
-         }
-
-    @get:Bindable
-    override var isFromReorderCardsLayout: Boolean = false
         set(value) {
             field = value
         }
