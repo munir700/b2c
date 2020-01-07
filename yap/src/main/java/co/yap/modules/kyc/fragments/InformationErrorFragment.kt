@@ -20,7 +20,7 @@ class InformationErrorFragment : KYCChildFragment<IInformationError.ViewModel>()
         super.onActivityCreated(savedInstanceState)
         viewModel.clickEvent.observe(this, Observer {
             if (activity is DocumentsDashboardActivity)
-                (activity as DocumentsDashboardActivity).goToDashBoard()
+                (activity as DocumentsDashboardActivity).goToDashBoard(false)
         })
     }
 

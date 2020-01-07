@@ -25,7 +25,7 @@ class MeetingConfirmationFragment : BaseBindingFragment<IMeetingConfirmation.vie
         super.onViewCreated(view, savedInstanceState)
         viewModel.goToDashboardButtonPressEvent.observe(this, Observer {
             if (activity is DocumentsDashboardActivity)
-                (activity as DocumentsDashboardActivity).goToDashBoard()
+                (activity as DocumentsDashboardActivity).goToDashBoard(true)
         })
     }
 

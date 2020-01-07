@@ -1,5 +1,6 @@
 package co.yap.modules.kyc.activities
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -21,6 +22,7 @@ class DocumentsDashboardActivity : BaseBindingActivity<IDocumentsDashboard.ViewM
     companion object {
         const val name = "name"
         const val data = "payLoad"
+        const val result = "result"
         fun getIntent(context: Context, customerName: String, isFromMoreSection: Boolean): Intent {
             val intent = Intent(context, DocumentsDashboardActivity::class.java)
             intent.putExtra(name, customerName)
@@ -64,8 +66,11 @@ class DocumentsDashboardActivity : BaseBindingActivity<IDocumentsDashboard.ViewM
         else null
     }
 
-    fun goToDashBoard() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    fun goToDashBoard(success: Boolean) {
+        val intent = Intent()
+        intent.putExtra(result, success)
+        setResult(Activity.RESULT_OK, intent)
         finish()
     }
+
 }
