@@ -1345,6 +1345,13 @@ object Strings {
     const val screen_congratulations_display_button_complete_setup: String =
         "screen_congratulations_display_button_complete_setup"
 
+    //Card color selection screen
+    const val screen_house_hold_card_color_selection_display_text_heading: String =
+        "screen_house_hold_card_color_selection_display_text_heading"
+    const val screen_house_hold_card_color_selection_display_text: String =
+        "screen_house_hold_card_color_selection_display_text"
+
+
     const val screen_success_house_hold_we_will_call_you_to_text: String =
         "screen_success_house_hold_we_will_call_you_to_text"
 
