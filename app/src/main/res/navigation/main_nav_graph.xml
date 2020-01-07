@@ -223,6 +223,11 @@
         android:name="co.yap.household.onboarding.OnboardingHouseHoldActivity"
         android:label="householdOnboard"
         tools:layout="@layout/activity_main_house_hold" />
+    <activity
+        android:id="@+id/houseHoldCardsSelection"
+        android:name="co.yap.household.onboarding.onboarding.fragments.HouseHoldCardsSelectionActivity"
+        android:label="householdOnboard"
+        tools:layout="@layout/activity_main_house_hold" />
 
     <activity
         android:id="@+id/householdKYCSuccess"
