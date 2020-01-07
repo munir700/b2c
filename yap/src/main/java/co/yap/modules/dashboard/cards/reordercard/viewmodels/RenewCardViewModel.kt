@@ -12,6 +12,7 @@ import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.transactions.TransactionsRepository
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.enums.CardType
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.managers.MyUserManager
 
@@ -34,7 +35,7 @@ class RenewCardViewModel(application: Application) :
     override fun onCreate() {
         super.onCreate()
         state.availableCardBalance.set("AED ${Utils.getFormattedCurrency(MyUserManager.cardBalance.value?.availableBalance.toString())}")
-        requestReorderCardFee("physical")
+        requestReorderCardFee(parentViewModel?.card?.cardType)
         requestGetAddressForPhysicalCard()
     }
 
@@ -42,6 +43,22 @@ class RenewCardViewModel(application: Application) :
         super.onResume()
         setToolBarTitle("Reorder new card")
         parentViewModel?.state?.toolbarVisibility?.set(true)
+    }
+
+
+    override fun requestReorderCardFee(cardType: String?) {
+        cardType?.let {
+            when (it) {
+                CardType.DEBIT.type -> {
+                    state.cardType.set("Primary Card")
+                    requestReorderDebitCardFee()
+                }
+                else -> {
+                    state.cardType.set(CardType.PHYSICAL.type)
+                    requestReorderSupplementaryCardFee()
+                }
+            }
+        }
     }
 
     override fun requestReorderCard() {
@@ -56,6 +73,36 @@ class RenewCardViewModel(application: Application) :
             requestReorderDebitCard(reorderCardRequest)
         else
             requestReorderSupplementaryCard(reorderCardRequest)
+    }
+
+    override fun requestReorderDebitCardFee() {
+        launch {
+            when (val response = repository.getDebitCardFee()) {
+                is RetroApiResponse.Success -> {
+                    fee = response.data.data?.amount ?: "0.0"
+                    state.cardFee.set("${response.data.data?.currency} ${response.data.data?.amount}")
+                }
+
+                is RetroApiResponse.Error -> {
+                    state.toast = response.error.message
+                }
+            }
+        }
+    }
+
+    override fun requestReorderSupplementaryCardFee() {
+        launch {
+            when (val response = repository.getCardFee(CardType.PHYSICAL.type)) {
+                is RetroApiResponse.Success -> {
+                    fee = response.data.data?.amount ?: "0.0"
+                    state.cardFee.set("${response.data.data?.currency} ${response.data.data?.amount}")
+                }
+
+                is RetroApiResponse.Error -> {
+                    state.toast = response.error.message
+                }
+            }
+        }
     }
 
     override fun requestReorderDebitCard(reorderCardRequest: ReorderCardRequest) {
@@ -85,21 +132,6 @@ class RenewCardViewModel(application: Application) :
                 }
             }
             state.loading = false
-        }
-    }
-
-    override fun requestReorderCardFee(cardType: String) {
-        launch {
-            when (val response = repository.getCardFee(cardType)) {
-                is RetroApiResponse.Success -> {
-                    fee = response.data.data?.amount ?: "0.0"
-                    state.cardFee.set("${response.data.data?.currency} ${response.data.data?.amount}")
-                }
-
-                is RetroApiResponse.Error -> {
-                    state.toast = response.error.message
-                }
-            }
         }
     }
 

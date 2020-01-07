@@ -35,7 +35,6 @@ import co.yap.networking.cards.responsedtos.Card
 import co.yap.networking.cards.responsedtos.CardBalance
 import co.yap.translation.Strings
 import co.yap.yapcore.BaseBindingActivity
-import co.yap.yapcore.helpers.CustomSnackbar
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.getCustomSnackbarSticky
 import co.yap.yapcore.interfaces.OnItemClickListener
