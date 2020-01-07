@@ -11,7 +11,6 @@ import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.transactions.TransactionsRepository
 import co.yap.yapcore.SingleClickEvent
-import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.CardType
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.managers.MyUserManager
@@ -43,6 +42,14 @@ class RenewCardViewModel(application: Application) :
         super.onResume()
         setToolBarTitle("Reorder new card")
         parentViewModel?.state?.toolbarVisibility?.set(true)
+        updateCardTypeState()
+    }
+
+    private fun updateCardTypeState() {
+        if (parentViewModel?.card?.cardType == CardType.DEBIT.type)
+            state.cardType.set("Primary Card")
+        else
+            state.cardType.set(CardType.PHYSICAL.type)
     }
 
 
@@ -50,11 +57,9 @@ class RenewCardViewModel(application: Application) :
         cardType?.let {
             when (it) {
                 CardType.DEBIT.type -> {
-                    state.cardType.set("Primary Card")
                     requestReorderDebitCardFee()
                 }
                 else -> {
-                    state.cardType.set(CardType.PHYSICAL.type)
                     requestReorderSupplementaryCardFee()
                 }
             }
@@ -68,11 +73,16 @@ class RenewCardViewModel(application: Application) :
             address.latitude.toString(),
             address.longitude.toString()
         )
-
-        if (parentViewModel?.card?.cardType == Constants.MANUAL_DEBIT)
-            requestReorderDebitCard(reorderCardRequest)
-        else
-            requestReorderSupplementaryCard(reorderCardRequest)
+        parentViewModel?.card?.cardType?.let {
+            when (it) {
+                CardType.DEBIT.type -> {
+                    requestReorderDebitCard(reorderCardRequest)
+                }
+                else -> {
+                    requestReorderSupplementaryCard(reorderCardRequest)
+                }
+            }
+        }
     }
 
     override fun requestReorderDebitCardFee() {
