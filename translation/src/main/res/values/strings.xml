@@ -849,5 +849,6 @@
     <string name="screen_house_hold_onBoarding_existing_title_accept_text">Once you click ‘Accept\', the Household</string>
     <string name="screen_house_hold_onBoarding_existing_title_accept_text_second">plan will be added to your YAP app</string>
     <string name="screen_house_hold_onBoarding_existing_title_accept">Accept</string>
+    <string name="screen_house_hold_onBoarding_existing_title_decline_request">Decline request</string>
 </resources>
 
