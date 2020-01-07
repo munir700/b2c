@@ -1351,4 +1351,18 @@ object Strings {
     const val screen_house_hold_card_color_selection_display_text: String =
         "screen_house_hold_card_color_selection_display_text"
 
+
+    const val screen_success_house_hold_we_will_call_you_to_text: String =
+        "screen_success_house_hold_we_will_call_you_to_text"
+
+    const val screen_success_house_hold_make_sure_to_text: String =
+        "screen_success_house_hold_make_sure_to_text"
+
+    const val screen_success_house_hold_card_deliver_text: String =
+        "screen_success_house_hold_card_deliver_text"
+
+    const val screen_success_on_its_way_display_text_title: String =
+        "screen_success_on_its_way_display_text_title"
+
+
 }
