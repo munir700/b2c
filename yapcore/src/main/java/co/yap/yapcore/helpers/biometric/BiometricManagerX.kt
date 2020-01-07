@@ -129,7 +129,7 @@ class BiometricManagerX @JvmOverloads constructor(
         // See more at https://issuetracker.google.com/issues/122054485
         handler.postDelayed({
             showBiometricPrompt(activity, strings)
-        }, 250)
+        }, 10)
     }
 
     private fun showBiometricPrompt(
