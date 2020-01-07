@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_nav_graph"
-    app:startDestination="@id/householdKYCSuccess">
+    app:startDestination="@id/householdOnboard">
 
     <!--    app:startDestination="@id/splashFragment">-->
 
@@ -217,23 +217,11 @@
         android:label="CardAnalyticsActivity"
         tools:layout="@layout/activity_cards_analytics" />
 
-
     <activity
         android:id="@+id/householdOnboard"
         android:name="co.yap.household.onboarding.OnboardingHouseHoldActivity"
         android:label="householdOnboard"
         tools:layout="@layout/activity_main_house_hold" />
-    <activity
-        android:id="@+id/houseHoldCardsSelection"
-        android:name="co.yap.household.onboarding.onboarding.fragments.HouseHoldCardsSelectionActivity"
-        android:label="householdOnboard"
-        tools:layout="@layout/activity_main_house_hold" />
-
-    <activity
-        android:id="@+id/householdKYCSuccess"
-        android:name="co.yap.household.onboarding.kycsuccess.KycSuccessActivity"
-        android:label="householdKYCSuccess"
-        tools:layout="@layout/activity_kyc_success" />
 
 </navigation>
 

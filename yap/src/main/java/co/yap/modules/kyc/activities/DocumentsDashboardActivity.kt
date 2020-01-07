@@ -23,10 +23,10 @@ class DocumentsDashboardActivity : BaseBindingActivity<IDocumentsDashboard.ViewM
         const val name = "name"
         const val data = "payLoad"
         const val result = "result"
-        fun getIntent(context: Context, customerName: String, isFromMoreSection: Boolean): Intent {
+        fun getIntent(context: Context, customerName: String, allowSkip: Boolean): Intent {
             val intent = Intent(context, DocumentsDashboardActivity::class.java)
             intent.putExtra(name, customerName)
-            intent.putExtra(data, isFromMoreSection)
+            intent.putExtra(data, allowSkip)
             return intent
         }
     }
@@ -57,7 +57,7 @@ class DocumentsDashboardActivity : BaseBindingActivity<IDocumentsDashboard.ViewM
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel.name.value = getBundledName()
-        viewModel.allowSkip.value = intent.getBooleanExtra("isFromMoreSection", false)
+        viewModel.allowSkip.value = intent.getBooleanExtra(data, false)
     }
 
     private fun getBundledName(): String? {
