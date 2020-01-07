@@ -14,6 +14,7 @@ import co.yap.networking.cards.responsedtos.Card
 import co.yap.translation.Strings
 import co.yap.translation.Translator
 import co.yap.yapcore.BaseBindingFragment
+import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.defaults.IDefault
 import kotlinx.android.synthetic.main.fragment_block_card_success.*
 
@@ -39,16 +40,10 @@ class BlockCardSuccessFragment : BaseBindingFragment<IDefault.ViewModel>() {
                 )
 
         btnReOrder.setOnClickListener {
-        // start reorder physical card flow from here
-//            val action =
-//                BlockCardSuccessFragmentDirections.actionBlockCardSuccessFragmentToAddSpareCardFragment(
-//                    Translator.getString(
-//                        requireContext(),
-//                        screen_spare_card_landing_display_text_physical_card
-//                    ),"","","","",true
-//                )
-//            findNavController().navigate(action)
-            startActivity(ReorderCardActivity.newIntent(requireContext(), card))
+            startActivityForResult(
+                ReorderCardActivity.newIntent(requireContext(), card),
+                RequestCodes.REQUEST_REORDER_CARD
+            )
         }
 
         tvAddLater.setOnClickListener {
@@ -63,9 +58,32 @@ class BlockCardSuccessFragment : BaseBindingFragment<IDefault.ViewModel>() {
         return false
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == Activity.RESULT_OK) {
+            when (requestCode) {
+                RequestCodes.REQUEST_REORDER_CARD -> {
+                    val cardReorder = data?.getBooleanExtra("cardReorder", false)
+                    cardReorder?.let {
+                        if (it) {
+                            setupActionsReorderIntent()
+                            activity?.finish()
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     private fun setupActionsIntent() {
         val returnIntent = Intent()
         returnIntent.putExtra("cardBlocked", true)
+        activity?.setResult(Activity.RESULT_OK, returnIntent)
+    }
+
+    private fun setupActionsReorderIntent() {
+        val returnIntent = Intent()
+        returnIntent.putExtra("cardReorder", true)
         activity?.setResult(Activity.RESULT_OK, returnIntent)
     }
 }

@@ -132,16 +132,6 @@ class PaymentCardDetailViewModel(application: Application) :
         }
     }
 
-    override fun reorderCard(card: Card) {
-        launch {
-            state.loading = true
-            delay(2000)
-            this.card.value?.blocked = !(this.card.value?.blocked ?: false)
-            clickEvent.setValue(EVENT_LOST_STOLEN_CARD)
-            state.loading = false
-        }
-    }
-
     override fun requestAccountTransactions() {
         launch {
             if (!isLoadMore.value!!)

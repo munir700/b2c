@@ -281,6 +281,10 @@ object UIBinder {
                     imageView.visibility = View.VISIBLE
                     imageView.setImageResource(R.drawable.ic_status_frozen)
                 }
+                CardStatus.HOTLISTED -> {
+                    imageView.visibility = View.VISIBLE
+                    imageView.setImageResource(R.drawable.ic_status_frozen)
+                }
                 CardStatus.INACTIVE -> {
                     imageView.visibility = View.VISIBLE
                     imageView.setImageResource(R.drawable.ic_status_ontheway)
@@ -303,6 +307,13 @@ object UIBinder {
                     text.text = Translator.getString(
                         text.context,
                         R.string.screen_cards_display_text_freeze_card
+                    )
+                }
+                CardStatus.HOTLISTED -> {
+                    text.visibility = View.VISIBLE
+                    text.text = Translator.getString(
+                        text.context,
+                        R.string.screen_cards_display_text_hotlisted
                     )
                 }
                 CardStatus.INACTIVE -> {
@@ -369,6 +380,13 @@ object UIBinder {
                     coreButton.text = Translator.getString(
                         coreButton.context,
                         R.string.screen_cards_button_unfreeze_card
+                    )
+                }
+                CardStatus.HOTLISTED -> {
+                    coreButton.visibility = View.VISIBLE
+                    coreButton.text = Translator.getString(
+                        coreButton.context,
+                        R.string.screen_cards_button_reorder_card
                     )
                 }
                 CardStatus.INACTIVE -> {

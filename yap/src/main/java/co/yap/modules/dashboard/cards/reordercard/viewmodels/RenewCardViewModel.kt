@@ -49,7 +49,7 @@ class RenewCardViewModel(application: Application) :
         if (parentViewModel?.card?.cardType == CardType.DEBIT.type)
             state.cardType.set("Primary Card")
         else
-            state.cardType.set(CardType.PHYSICAL.type)
+            state.cardType.set(CardType.PHYSICAL.type + " Card")
     }
 
 

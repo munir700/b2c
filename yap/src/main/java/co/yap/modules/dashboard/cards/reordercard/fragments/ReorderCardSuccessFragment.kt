@@ -1,5 +1,7 @@
 package co.yap.modules.dashboard.cards.reordercard.fragments
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.Observer
@@ -25,6 +27,7 @@ class ReorderCardSuccessFragment : ReorderCardBaseFragment<IReorderCardSuccess.V
     private val clickObserver = Observer<Int> {
         when (it) {
             R.id.btnDoneSuccess -> {
+                setupActionsIntent()
                 activity?.let(FragmentActivity::finish)
             }
         }
@@ -37,5 +40,11 @@ class ReorderCardSuccessFragment : ReorderCardBaseFragment<IReorderCardSuccess.V
     override fun onDestroy() {
         super.onDestroy()
         viewModel.clickEvent.removeObservers(this)
+    }
+
+    private fun setupActionsIntent() {
+        val returnIntent = Intent()
+        returnIntent.putExtra("cardReorder", true)
+        activity?.setResult(Activity.RESULT_OK, returnIntent)
     }
 }

@@ -16,6 +16,7 @@ import co.yap.modules.dashboard.cards.home.interfaces.IYapCards
 import co.yap.modules.dashboard.cards.home.viewmodels.YapCardsViewModel
 import co.yap.modules.dashboard.cards.paymentcarddetail.activities.PaymentCardDetailActivity
 import co.yap.modules.dashboard.cards.paymentcarddetail.addfunds.activities.AddFundsActivity
+import co.yap.modules.dashboard.cards.reordercard.activities.ReorderCardActivity
 import co.yap.modules.dashboard.main.fragments.YapDashboardChildFragment
 import co.yap.modules.others.fragmentpresenter.activities.FragmentPresenterActivity
 import co.yap.modules.setcardpin.activities.SetCardPinWelcomeActivity
@@ -25,6 +26,7 @@ import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.enums.CardDeliveryStatus
 import co.yap.yapcore.enums.CardStatus
+import co.yap.yapcore.enums.CardType
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.MyUserManager
@@ -132,6 +134,13 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
                             CardStatus.BLOCKED -> {
                                 openDetailScreen(pos)
                             }
+                            CardStatus.HOTLISTED -> {
+                                if (getCard(pos).cardType != CardType.DEBIT.type)
+                                    openDetailScreen(pos)
+                                else
+                                    startReorderCardFlow(getCard(pos))
+
+                            }
                             CardStatus.INACTIVE -> {
                                 if (getCard(pos).deliveryStatus == null) {
                                     openDetailScreen(pos)
@@ -171,6 +180,12 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
                         }
                         CardStatus.BLOCKED -> {
                             openDetailScreen(pos)
+                        }
+                        CardStatus.HOTLISTED -> {
+                            if (getCard(pos).cardType != CardType.DEBIT.type)
+                                openDetailScreen(pos)
+                            else
+                                startReorderCardFlow(getCard(pos))
                         }
                         CardStatus.INACTIVE -> {
                             if (getCard(pos).cardType == "DEBIT") {
@@ -212,12 +227,16 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
                     val updatedCard = data?.getParcelableExtra<Card>("card")
                     val removed = data?.getBooleanExtra("cardRemoved", false)
                     val cardBlocked = data?.getBooleanExtra("cardBlocked", false)
+                    val cardReorder = data?.getBooleanExtra("cardReorder", false)
 
                     if (removed!!) {
                         adapter.removeItemAt(selectedCardPosition)
                         adapter.notifyDataSetChanged()
                         updateCardCount()
                     } else if (cardBlocked!!) {
+                        adapter.removeAllItems()
+                        viewModel.getCards()
+                    } else if (cardReorder!!) {
                         adapter.removeAllItems()
                         viewModel.getCards()
                     } else {
@@ -266,6 +285,15 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
                 adapter.removeAllItems()
                 viewModel.getCards()
             }
+            RequestCodes.REQUEST_REORDER_CARD -> {
+                if (resultCode == Activity.RESULT_OK) {
+                    val cardReorder = data?.getBooleanExtra("cardReorder", false)
+                    if (cardReorder!!) {
+                        adapter.removeAllItems()
+                        viewModel.getCards()
+                    }
+                }
+            }
         }
     }
 
@@ -305,6 +333,16 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
         )
     }
 
+    private fun startReorderCardFlow(card: Card?) {
+        card?.let {
+            startActivityForResult(
+                ReorderCardActivity.newIntent(
+                    requireContext(),
+                    it
+                ), RequestCodes.REQUEST_REORDER_CARD
+            )
+        }
+    }
     private fun getCard(pos: Int): Card {
         return adapter.getDataForPosition(pos)
     }
