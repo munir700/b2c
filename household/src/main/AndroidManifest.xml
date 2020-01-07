@@ -16,9 +16,9 @@
             android:name=".onboarding.onboarding.fragments.HouseHoldCardsSelectionActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="adjustResize">
-        </activity>
+            android:windowSoftInputMode="adjustResize"></activity>
         <activity android:name="co.yap.household.onboarding.kycsuccess.KycSuccessActivity"></activity>
+        <activity android:name="co.yap.household.onboarding.onboarding.OnBoardingExistingYapActivity"></activity>
     </application>
 
 </manifest>

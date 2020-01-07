@@ -1363,6 +1363,13 @@ object Strings {
 
     const val screen_success_on_its_way_display_text_title: String =
         "screen_success_on_its_way_display_text_title"
+    const val screen_house_hold_onBoarding_existing_title_display_text: String =
+        "screen_house_hold_onBoarding_existing_title_display_text"
+    const val screen_house_hold_onBoarding_existing_title_accept_text: String =
+        "screen_house_hold_onBoarding_existing_title_accept_text"
+    const val screen_house_hold_onBoarding_existing_title_accept_text_second: String =
+        "screen_house_hold_onBoarding_existing_title_accept_text_second"
 
-
+    const val screen_house_hold_onBoarding_existing_title_accept: String =
+        "screen_house_hold_onBoarding_existing_title_accept"
 }
