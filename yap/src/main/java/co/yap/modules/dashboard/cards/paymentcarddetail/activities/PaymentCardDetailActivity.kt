@@ -56,7 +56,6 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
     private lateinit var spareCardBottomSheet: SpareCardBottomSheet
 
     private var cardFreezeUnfreeze: Boolean = false
-    private var cardLostStolen: Boolean = false
     private var cardRemoved: Boolean = false
     private var limitsUpdated: Boolean = false
     private var nameUpdated: Boolean = false
