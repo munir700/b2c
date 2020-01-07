@@ -30,11 +30,11 @@
                 android:name="com.google.android.gms.maps.SupportMapFragment"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                tools:context=".MapsActivity"
-                tools:layout_editor_absoluteY="182dp"
-                tools:layout_editor_absoluteX="145dp"
                 app:cameraTargetLat="25.276987"
                 app:cameraTargetLng="55.296249"
+                tools:context=".MapsActivity"
+                tools:layout_editor_absoluteX="0dp"
+                tools:layout_editor_absoluteY="0dp"
 
                 />
 
@@ -61,18 +61,19 @@
                 <androidx.cardview.widget.CardView
                     android:id="@+id/cvLocationCard"
                     android:layout_width="match_parent"
-                    android:layout_height="154dp"
+                    android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/margin_normal"
                     android:layout_marginTop="@dimen/margin_large"
                     android:layout_marginEnd="@dimen/margin_normal"
                     android:minHeight="@dimen/_122sdp"
                     app:cardCornerRadius="10dp"
-                    android:visibility="@{viewModel.state.isShowLocationCard()?View.VISIBLE:View.GONE}"
+                    tools:visibility="visible"
+                    android:visibility="@{viewModel.state.isShowLocationCard?View.VISIBLE:View.GONE}"
                     app:layout_constraintTop_toBottomOf="@+id/tvDetailsVerify">
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="155dp"
+                        android:layout_height="wrap_content"
                         android:orientation="horizontal"
                         android:paddingStart="@dimen/margin_normal_large"
                         android:paddingTop="@dimen/margin_medium"
@@ -95,7 +96,6 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="@dimen/margin_normal"
-                            android:layout_marginBottom="@dimen/margin_extra_small"
                             android:orientation="vertical">
 
                             <TextView
@@ -108,7 +108,7 @@
                                 android:text="@{viewModel.state.placeTitle}"
                                 app:layout_constraintLeft_toRightOf="@+id/ivLocationPhoto"
                                 app:layout_constraintTop_toTopOf="parent"
-                                tools:text="Burj Residence Tower 1" />
+                                tools:text="Burj Residence Tower 1 " />
 
                             <TextView
                                 android:id="@+id/tvAddressSubTitle"
@@ -140,11 +140,7 @@
                                 android:text="@string/screen_meeting_location_button_confirm_selected_location"
                                 android:textColor="@color/white"
                                 app:btn_has_bold_text="true"
-                                app:btn_text_size="@dimen/text_size_c2"
-                                app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintHorizontal_bias="0.366"
-                                app:layout_constraintStart_toEndOf="@+id/ivLocationPhoto"
-                                app:layout_constraintTop_toBottomOf="@+id/tvAddressSubTitle" />
+                                app:btn_text_size="@dimen/text_size_c2" />
                         </LinearLayout>
                     </LinearLayout>
 

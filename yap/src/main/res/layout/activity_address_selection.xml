@@ -13,6 +13,7 @@
 
     </data>
 
+
     <LinearLayout
         android:id="@+id/clContainer"
         android:layout_width="match_parent"
@@ -20,12 +21,18 @@
         android:layout_gravity="center_vertical"
         android:background="@color/white"
         android:orientation="vertical">
+        <include
+            android:id="@+id/toolbar"
+            layout="@layout/layout_location_selection_toolbar"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:viewModel="@{viewModel}" />
         <FrameLayout
             android:id="@+id/viewMapFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
-
 
             <include
                 android:id="@+id/mapView"
@@ -141,9 +148,9 @@
                         android:inputType="textPersonName"
                         android:maxLength="100"
                         android:text="@={viewModel.state.addressTitle}"
-                        app:drawableClick="@{viewModel.state.addressTitle.isEmpty()?false : true}"
                         android:textColor="@color/colorPrimaryDark"
                         android:textColorHint="@color/grey"
+                        android:enabled="false"
                         android:textSize="@dimen/text_size_h3"
                         app:hint="@{Strings.screen_meeting_location_input_text_address_hint}"
                         app:layout_constraintEnd_toEndOf="parent"

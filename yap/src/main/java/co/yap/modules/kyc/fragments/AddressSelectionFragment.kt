@@ -221,7 +221,6 @@ class AddressSelectionFragment : BaseMapFragment<IAddressSelection.ViewModel>(),
 
                 R.id.ivClose -> {
                     viewModel.state.isMapOnScreen = false
-
                     if (viewModel.state.errorChecked) {
                         viewModel.state.cardView = false
                         YoYo.with(Techniques.SlideOutDown)
