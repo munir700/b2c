@@ -28,7 +28,9 @@ interface IRenewCard {
         fun requestReorderDebitCard(reorderCardRequest: ReorderCardRequest)
         fun requestReorderCard()
         fun requestReorderSupplementaryCard(reorderCardRequest: ReorderCardRequest)
-        fun requestReorderCardFee(cardType: String)
+        fun requestReorderCardFee(cardType: String?)
+        fun requestReorderDebitCardFee()
+        fun requestReorderSupplementaryCardFee()
 
     }
 
