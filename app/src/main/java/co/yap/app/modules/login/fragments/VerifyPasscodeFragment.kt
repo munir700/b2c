@@ -1,5 +1,6 @@
 package co.yap.app.modules.login.fragments
 
+import android.hardware.fingerprint.FingerprintManager
 import android.os.Bundle
 import android.os.Handler
 import android.view.View
@@ -17,6 +18,7 @@ import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.biometric.BiometricCallback
 import co.yap.yapcore.helpers.biometric.BiometricManager
+import co.yap.yapcore.helpers.biometric.BiometricManagerX
 import co.yap.yapcore.helpers.biometric.BiometricUtil
 import kotlinx.android.synthetic.main.fragment_verify_passcode.*
 
@@ -26,7 +28,7 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
 
     private lateinit var sharedPreferenceManager: SharedPreferenceManager
     private lateinit var mBiometricManager: BiometricManager
-
+    private lateinit var mBiometricManagerX: BiometricManagerX
     override fun getBindingVariable(): Int = BR.viewModel
 
     override fun getLayoutId(): Int = R.layout.fragment_verify_passcode
@@ -49,8 +51,13 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
         sharedPreferenceManager = SharedPreferenceManager(context as MainActivity)
         viewModel.state.deviceId =
             sharedPreferenceManager.getValueString(SharedPreferenceManager.KEY_APP_UUID) as String
-
-        if (BiometricUtil.isFingerprintSupported
+        mBiometricManagerX = BiometricManagerX(
+            requireContext(), mapOf(
+                Pair(FingerprintManager.FINGERPRINT_ERROR_HW_UNAVAILABLE, getString(R.string.error_override_hw_unavailable))
+            )
+        )
+        val fingerprintsEnabled = mBiometricManagerX.hasFingerprintEnrolled()
+        if (BiometricUtil.isFingerprintSupported && fingerprintsEnabled
             && BiometricUtil.isHardwareSupported(context as MainActivity)
             && BiometricUtil.isPermissionGranted(context as MainActivity)
             && BiometricUtil.isFingerprintAvailable(context as MainActivity)
@@ -62,11 +69,12 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
                 )
             ) {
                 dialer.showFingerprintView()
-                Handler().postDelayed(
-                    {
-                        showFingerprintDialog()
-                    }, 500
-                )
+                showDialog()
+//                Handler().postDelayed(
+//                    {
+//                        showFingerprintDialog()
+//                    }, 500
+//                )
             } else {
                 dialer.hideFingerprintView()
             }
@@ -74,10 +82,25 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
 
         dialer.onButtonClickListener = View.OnClickListener {
             if (it.id == R.id.btnFingerPrint)
-                showFingerprintDialog()
+                showDialog()
+//                showFingerprintDialog()
         }
     }
+    private fun showDialog() {
+        mBiometricManagerX.showDialog(
+            requireActivity(),
+            BiometricManagerX.DialogStrings(title = getString(R.string.biometric_title))
+        )
+    }
+    override fun onResume() {
+        super.onResume()
+        mBiometricManagerX.subscribe(this@VerifyPasscodeFragment)
+    }
 
+    override fun onPause() {
+        super.onPause()
+        mBiometricManagerX.unSubscribe()
+    }
     override fun setObservers() {
         viewModel.forgotPasscodeButtonPressEvent.observe(this, Observer {
             when (it) {

@@ -21,7 +21,7 @@ import javax.crypto.KeyGenerator
 import javax.crypto.NoSuchPaddingException
 import javax.crypto.SecretKey
 
-
+@Deprecated("Use co.yap.yapcore.helpers.biometric.BiometricManagerX")
 @TargetApi(Build.VERSION_CODES.M)
 open class BiometricManagerV23 {
 

@@ -13,6 +13,8 @@
     <string name="biometric_subtitle">subtitle</string>
     <string name="biometric_description">Description</string>
     <string name="biometric_negative_button_text">Cancel</string>
+    <string name="fingerprint_error_unknown">Unknown error. Please try again later.</string>
+    <string name="error_override_hw_unavailable">You don\'t have any suited hardware for using the fingerprint</string>
 
 
     <string name="biometric_error_sdk_not_supported">Sdk version not supported</string>
