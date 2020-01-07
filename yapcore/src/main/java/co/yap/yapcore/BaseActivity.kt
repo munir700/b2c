@@ -16,12 +16,14 @@ import co.yap.translation.Strings
 import co.yap.translation.Translator
 import co.yap.yapcore.helpers.NetworkConnectionManager
 import co.yap.yapcore.helpers.PermissionsManager
+import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.Utils
 import com.google.android.material.snackbar.Snackbar
 
 
 abstract class BaseActivity<V : IBase.ViewModel<*>> : AppCompatActivity(), IBase.View<V>,
-    NetworkConnectionManager.OnNetworkStateChangeListener, PermissionsManager.OnPermissionGrantedListener {
+    NetworkConnectionManager.OnNetworkStateChangeListener,
+    PermissionsManager.OnPermissionGrantedListener {
 
     private var snackbar: Snackbar? = null
     private var DURATION_CODE = -2
@@ -32,6 +34,14 @@ abstract class BaseActivity<V : IBase.ViewModel<*>> : AppCompatActivity(), IBase
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        theme.applyStyle(R.style.AppThemeHouseHold, true)
+
+        SharedPreferenceManager(applicationContext).setThemeValue(R.style.AppThemeHouseHold)
+
+        setTheme(SharedPreferenceManager(applicationContext).getThemeValue())
+
+
         this.window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
         this.window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
 
@@ -102,13 +112,15 @@ abstract class BaseActivity<V : IBase.ViewModel<*>> : AppCompatActivity(), IBase
             .make(activity.findViewById(android.R.id.content), message, duration)
         layout = snackbar.view
         layout.setBackgroundColor(activity.resources.getColor(R.color.colorDarkGreen))
-        val text = layout.findViewById<View>(com.google.android.material.R.id.snackbar_text) as TextView
+        val text =
+            layout.findViewById<View>(com.google.android.material.R.id.snackbar_text) as TextView
         text.setTextColor(activity.resources.getColor(R.color.colorWhite))
 
         if (duration == DURATION_CODE) {
             layout.setBackgroundColor(activity.resources.getColor(R.color.colorAccent))
             val snackbarView = snackbar.view
-            val textView = snackbarView.findViewById<View>(com.google.android.material.R.id.snackbar_text) as TextView
+            val textView =
+                snackbarView.findViewById<View>(com.google.android.material.R.id.snackbar_text) as TextView
             textView.setTextColor(Color.WHITE)
         }
         return snackbar
@@ -127,7 +139,11 @@ abstract class BaseActivity<V : IBase.ViewModel<*>> : AppCompatActivity(), IBase
     override fun onPermissionNotGranted(permission: String?) {
     }
 
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         permissionsManager.onRequestPermissionsResult(requestCode, permissions, grantResults)
     }

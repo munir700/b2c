@@ -11,6 +11,7 @@ import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.IFragmentHolder
 import co.yap.yapcore.defaults.DefaultNavigator
 import co.yap.yapcore.defaults.INavigator
+import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.interfaces.BackPressImpl
 import co.yap.yapcore.interfaces.IBaseNavigator
 
@@ -39,6 +40,14 @@ class OnboardingHouseHoldActivity : BaseBindingActivity<IOnboarding.ViewModel>()
         super.onDestroy()
     }
 
+    override fun onResume() {
+        super.onResume()
+
+//         SharedPreferenceManager(applicationContext).setThemeValue(R.style.AppTheme)
+//        SharedPreferenceManager(applicationContext).setThemeValue(R.style.AppThemeHouseHold)
+
+//        SharedPreferenceManager(applicationContext).getThemeValue()
+    }
 
     private val backButtonObserver = Observer<Boolean> { onBackPressed() }
 

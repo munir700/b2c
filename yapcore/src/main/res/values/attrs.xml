@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <declare-styleable name="CoreButton">
         <attr name="btn_text_color" format="color" />
         <attr name="btn_drawable" format="reference" />

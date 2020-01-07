@@ -5,8 +5,7 @@
     <color name="colorAccent">#4d4d4d</color>
 
     <!-- Zeplin Color palette -->
-
-    <color name="colorPrimary">#5E35B1</color>
+     <color name="colorPrimary">#5E35B1</color>
     <color name="colorPrimaryDark">#272262</color>
     <color name="colorPrimaryLight">#7c4dff</color>
     <color name="colorPrimarySoft">#A682FF</color>

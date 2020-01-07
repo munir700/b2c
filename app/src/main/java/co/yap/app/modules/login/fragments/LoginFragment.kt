@@ -1,5 +1,6 @@
 package co.yap.app.modules.login.fragments
 
+import android.content.Context
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
@@ -11,6 +12,7 @@ import co.yap.app.R
 import co.yap.app.modules.login.interfaces.ILogin
 import co.yap.app.modules.login.viewmodels.LoginViewModel
 import co.yap.yapcore.BaseBindingFragment
+import co.yap.yapcore.helpers.SharedPreferenceManager
 
 class LoginFragment : BaseBindingFragment<ILogin.ViewModel>(), ILogin.View {
 

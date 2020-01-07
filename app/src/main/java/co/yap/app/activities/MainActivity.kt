@@ -7,6 +7,7 @@ import co.yap.yapcore.IFragmentHolder
 import co.yap.yapcore.defaults.DefaultActivity
 import co.yap.yapcore.defaults.DefaultNavigator
 import co.yap.yapcore.defaults.INavigator
+import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.interfaces.BackPressImpl
 import co.yap.yapcore.interfaces.IBaseNavigator
 
@@ -21,6 +22,11 @@ open class MainActivity : DefaultActivity(), IFragmentHolder, INavigator {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        theme.applyStyle(co.yap.yapcore.R.style.AppThemeHouseHold, true);
+        SharedPreferenceManager(applicationContext).setThemeValue(co.yap.yapcore.R.style.AppThemeHouseHold)
+
+        setTheme(SharedPreferenceManager(applicationContext).getThemeValue())
+
         YAPApplication.AUTO_RESTART_APP = false
         setContentView(R.layout.activity_main)
     }

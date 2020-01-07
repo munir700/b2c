@@ -1,9 +1,18 @@
 <resources>
-    <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+
+    <style name="AppTheme" parent="AppTheme.NoActionBar">
+        <!--        <item name="colorPrimary">#5E35B1</item>-->
+        <item name="colorPrimaryDark">#272262</item>
+        <item name="colorAccent">#4d4d4d</item>
+        <item name="colorPrimary">#5E35B1</item>
+
+    </style>
+
+    <style name="AppThemeHouseHold" parent="AppTheme.NoActionBar">
+        <item name="colorPrimary">#fc6253</item>
+        <item name="colorPrimaryDark">#fc6253</item>
+        <item name="colorAccent">#fc6253</item>
+
     </style>
 
     <style name="AppTheme.NoActionBar">
@@ -136,7 +145,7 @@
 
     <style name="smallMediumFont" parent="AppFontMedium">
         <item name="android:textSize">@dimen/text_size_h2</item>
-         <item name="android:textStyle">normal</item>
+        <item name="android:textStyle">normal</item>
         <item name="android:lineSpacingExtra">6sp</item>
         <item name="android:textColor">@color/colorPrimaryDark</item>
     </style>
@@ -329,7 +338,7 @@
         <item name="android:textColor">@color/colorWhite</item>
     </style>
 
-<style name="BoldBtnStyle" parent="AppFontBold">
+    <style name="BoldBtnStyle" parent="AppFontBold">
         <item name="btn_text_size">@dimen/text_size_h4</item>
         <item name="btn_shape_type">rectangle</item>
         <item name="android:enabled">true</item>
@@ -415,6 +424,7 @@
         <item name="android:windowEnterAnimation">@anim/menu_fade_in</item>
         <item name="android:windowExitAnimation">@anim/menu_fade_out</item>
     </style>
+
     <style name="ShowUpAnimation_TR">
         <item name="android:windowEnterAnimation">@anim/menu_show_up_tr</item>
         <item name="android:windowExitAnimation">@anim/menu_show_down_tr</item>
