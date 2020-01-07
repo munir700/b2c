@@ -49,7 +49,7 @@ class InternationalFundsTransferViewModel(application: Application) :
 
     override fun onCreate() {
         super.onCreate()
-        state.setSpanable(0.0)
+        //state.setSpanable(0.0)
     }
 
     override fun onResume() {
@@ -69,23 +69,23 @@ class InternationalFundsTransferViewModel(application: Application) :
                 is RetroApiResponse.Success -> {
 
                     state.feeType = response.data.data?.feeType
-                    var totalAmount: Double
+                    // state.totalAmount: Double
                     if (state.feeType == Constants.FEE_TYPE_FLAT) {
                         val feeAmount = response.data.data?.tierRateDTOList?.get(0)?.feeAmount
                         val feeAmountVAT = response.data.data?.tierRateDTOList?.get(0)?.vatAmount
                         if (feeAmount != null) {
-                            totalAmount = feeAmount + feeAmountVAT!!
+                            state.totalAmount = feeAmount + feeAmountVAT!!
                             state.transferFee =
                                 getString(Strings.screen_international_funds_transfer_display_text_fee).format(
                                     "AED",
-                                    Utils.getFormattedCurrency(totalAmount.toString())
+                                    Utils.getFormattedCurrency(state.totalAmount.toString())
                                 )
                             state.transferFeeSpannable =
                                 Utils.getSppnableStringForAmount(
                                     context,
                                     state.transferFee,
                                     "AED",
-                                    Utils.getFormattedCurrencyWithoutComma(totalAmount.toString())
+                                    Utils.getFormattedCurrencyWithoutComma(state.totalAmount.toString())
                                 )
                         }
 

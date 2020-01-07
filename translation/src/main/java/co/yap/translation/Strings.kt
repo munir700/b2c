@@ -736,6 +736,8 @@ object Strings {
 
     const val screen_address_success_display_text_sub_heading: String =
         "screen_address_success_display_text_sub_heading"
+    const val screen_address_success_display_text_sub_heading_update: String =
+        "screen_address_success_display_text_sub_heading_update"
 
 
     //Change email screen
@@ -1373,4 +1375,9 @@ object Strings {
         "screen_house_hold_onBoarding_existing_title_accept"
     const val screen_house_hold_onBoarding_existing_title_decline_request: String =
         "screen_house_hold_onBoarding_existing_title_decline_request"
+    const val screen_title_oops: String =
+        "screen_title_oops"
+    const val screen_title_mistake_please_call: String =
+        "screen_title_mistake_please_call"
+
 }

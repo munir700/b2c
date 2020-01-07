@@ -169,12 +169,7 @@ class AddressSelectionFragment : BaseMapFragment<IAddressSelection.ViewModel>(),
         transparentImage!!.setOnTouchListener(object : View.OnTouchListener {
             override fun onTouch(v: View, event: MotionEvent): Boolean {
 
-                if (!viewModel.state.isMapOnScreen) {
-                    return true
-
-                } else {
-                    return false
-                }
+                return !viewModel.state.isMapOnScreen
             }
         })
 
@@ -184,7 +179,7 @@ class AddressSelectionFragment : BaseMapFragment<IAddressSelection.ViewModel>(),
                 viewModel.UPDATE_ADDRESS_EEVENT -> {
                     val action =
                         AddressSelectionFragmentDirections.actionAddressSelectionFragmentToSuccessFragment(
-                            getString(R.string.screen_address_success_display_text_sub_heading),
+                            getString(R.string.screen_address_success_display_text_sub_heading_update),
                             " "
                         )
 
