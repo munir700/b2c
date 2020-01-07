@@ -50,4 +50,9 @@ class AccountSelectionFragment : BaseBindingFragment<IAccountSelection.ViewModel
             }
         })
     }
+
+    override fun onPause() {
+        super.onPause()
+        viewModel.clickEvent.removeObservers(this)
+    }
 }

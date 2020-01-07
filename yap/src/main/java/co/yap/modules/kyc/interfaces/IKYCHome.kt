@@ -1,5 +1,6 @@
 package co.yap.modules.kyc.interfaces
 
+import androidx.databinding.ObservableField
 import co.yap.modules.kyc.enums.DocScanStatus
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
@@ -9,7 +10,6 @@ interface IKYCHome {
     interface State : IBase.State {
         var valid: Boolean
         var eidScanStatus: DocScanStatus
-        val name: Array<String?>
     }
 
     interface ViewModel : IBase.ViewModel<State> {
