@@ -2,7 +2,6 @@ package co.yap.app.modules.login.fragments
 
 import android.hardware.fingerprint.FingerprintManager
 import android.os.Bundle
-import android.os.Handler
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -17,7 +16,6 @@ import co.yap.app.modules.login.viewmodels.VerifyPasscodeViewModel
 import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.biometric.BiometricCallback
-import co.yap.yapcore.helpers.biometric.BiometricManager
 import co.yap.yapcore.helpers.biometric.BiometricManagerX
 import co.yap.yapcore.helpers.biometric.BiometricUtil
 import kotlinx.android.synthetic.main.fragment_verify_passcode.*
@@ -27,8 +25,9 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
     IVerifyPasscode.View {
 
     private lateinit var sharedPreferenceManager: SharedPreferenceManager
-    private lateinit var mBiometricManager: BiometricManager
+    //    private lateinit var mBiometricManager: BiometricManager
     private lateinit var mBiometricManagerX: BiometricManagerX
+
     override fun getBindingVariable(): Int = BR.viewModel
 
     override fun getLayoutId(): Int = R.layout.fragment_verify_passcode
@@ -53,7 +52,10 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
             sharedPreferenceManager.getValueString(SharedPreferenceManager.KEY_APP_UUID) as String
         mBiometricManagerX = BiometricManagerX(
             requireContext(), mapOf(
-                Pair(FingerprintManager.FINGERPRINT_ERROR_HW_UNAVAILABLE, getString(R.string.error_override_hw_unavailable))
+                Pair(
+                    FingerprintManager.FINGERPRINT_ERROR_HW_UNAVAILABLE,
+                    getString(R.string.error_override_hw_unavailable)
+                )
             )
         )
         val fingerprintsEnabled = mBiometricManagerX.hasFingerprintEnrolled()
@@ -69,7 +71,7 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
                 )
             ) {
                 dialer.showFingerprintView()
-                showDialog()
+                showFingerprintDialog()
 //                Handler().postDelayed(
 //                    {
 //                        showFingerprintDialog()
@@ -82,16 +84,18 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
 
         dialer.onButtonClickListener = View.OnClickListener {
             if (it.id == R.id.btnFingerPrint)
-                showDialog()
+                showFingerprintDialog()
 //                showFingerprintDialog()
         }
     }
-    private fun showDialog() {
+
+    private fun showFingerprintDialog() {
         mBiometricManagerX.showDialog(
             requireActivity(),
             BiometricManagerX.DialogStrings(title = getString(R.string.biometric_title))
         )
     }
+
     override fun onResume() {
         super.onResume()
         mBiometricManagerX.subscribe(this@VerifyPasscodeFragment)
@@ -101,6 +105,7 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
         super.onPause()
         mBiometricManagerX.unSubscribe()
     }
+
     override fun setObservers() {
         viewModel.forgotPasscodeButtonPressEvent.observe(this, Observer {
             when (it) {
@@ -230,15 +235,15 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
     }
 
 
-    private fun showFingerprintDialog() {
-        mBiometricManager = BiometricManager.BiometricBuilder(context as MainActivity)
-            .setTitle(getString(R.string.biometric_title))
-            .setNegativeButtonText(getString(R.string.biometric_negative_button_text))
-            .build()
-        mBiometricManager.authenticate(this@VerifyPasscodeFragment)
-
-
-    }
+//    private fun showFingerprintDialog() {
+//        mBiometricManager = BiometricManager.BiometricBuilder(context as MainActivity)
+//            .setTitle(getString(R.string.biometric_title))
+//            .setNegativeButtonText(getString(R.string.biometric_negative_button_text))
+//            .build()
+//        mBiometricManager.authenticate(this@VerifyPasscodeFragment)
+//
+//
+//    }
 
     private fun navigateToDashboard() {
         findNavController().navigate(R.id.action_goto_yapDashboardActivity)
