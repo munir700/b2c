@@ -1358,10 +1358,9 @@ object Strings {
 
     const val screen_success_on_its_way_display_text_title: String =
         "screen_success_on_its_way_display_text_title"
-
-
-
     const val screen_title_oops: String =
         "screen_title_oops"
+    const val screen_title_mistake_please_call: String =
+        "screen_title_mistake_please_call"
 
 }

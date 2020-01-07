@@ -843,5 +843,6 @@
 
     <!-- Household screen EID not accept -->
     <string name="screen_title_oops">Oops!</string>
+    <string name="screen_title_mistake_please_call">If you feel this is a mistake please call us at</string>
 </resources>
 
