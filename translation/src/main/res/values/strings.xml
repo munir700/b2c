@@ -238,6 +238,7 @@
     <string name="screen_cards_display_text_pending_delivery">This card is on the way</string>
     <string name="screen_cards_display_text_expired_card">This card has expired</string>
     <string name="screen_cards_display_text_freeze_card">This card is frozen</string>
+    <string name="screen_cards_display_text_freeze_card_action">Unfreeze now</string>
     <string name="screen_cards_display_text_see_details">See details</string>
     <string name="screen_cards_button_update_card">Update card</string>
     <string name="screen_cards_button_unfreeze_card">Unfreeze card</string>

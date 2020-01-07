@@ -387,6 +387,9 @@ object Strings {
         "screen_cards_display_text_freeze_card"
     const val screen_cards_display_text_see_details: String =
         "screen_cards_display_text_see_details"
+    const val screen_cards_display_text_freeze_card_action: String =
+        "screen_cards_display_text_freeze_card_action"
+
 
     const val screen_cards_display_text_lost_stolen_card: String =
         "screen_cards_display_text_lost_stolen_card"

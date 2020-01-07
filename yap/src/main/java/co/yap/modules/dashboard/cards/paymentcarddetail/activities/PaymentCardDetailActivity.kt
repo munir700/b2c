@@ -259,7 +259,11 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
     }
 
     private fun showSnackbar() {
-        snackbar = CustomSnackbar.getCustomSnackbarSticky(this, clSnackbar, " This card is frozen")
+        snackbar = window.decorView.getCustomSnackbarSticky(
+            clSnackbar,
+            getString(Strings.screen_cards_display_text_freeze_card),
+            getString(Strings.screen_cards_display_text_freeze_card_action)
+        )
         snackbar.show()
 
         val tvAction = snackbar.view.findViewById(co.yap.yapcore.R.id.tvAction) as TextView
