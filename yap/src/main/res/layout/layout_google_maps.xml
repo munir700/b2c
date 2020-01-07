@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="co.yap.translation.Strings"/>
+
+        <variable
+            name="viewModel"
+            type="co.yap.modules.kyc.viewmodels.AddressSelectionViewModel"/>
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:clickable="true">
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <fragment
+                android:id="@+id/map"
+                android:name="com.google.android.gms.maps.SupportMapFragment"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:context=".MapsActivity"
+                tools:layout_editor_absoluteY="182dp"
+                tools:layout_editor_absoluteX="145dp"
+                app:cameraTargetLat="25.276987"
+                app:cameraTargetLng="55.296249"
+
+                />
+
+            <ImageView
+                android:id="@+id/transparentImage"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@color/transparent"
+                tools:layout_editor_absoluteY="0dp"
+                tools:layout_editor_absoluteX="0dp"/>
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginEnd="8dp"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginStart="8dp"
+                android:layout_marginBottom="8dp"
+                android:visibility="visible"
+                android:clickable="true"
+                app:layout_constraintBottom_toBottomOf="@+id/map"
+                android:id="@+id/frameLayout">
+
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cvLocationCard"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:minHeight="@dimen/_122sdp"
+                    app:layout_constraintTop_toBottomOf="@+id/tvDetailsVerify"
+                    android:layout_marginStart="@dimen/margin_normal"
+                    android:layout_marginEnd="@dimen/margin_normal"
+                    android:layout_marginTop="@dimen/margin_large"
+                    app:cardCornerRadius="10dp"
+                    app:toggleVisibility="@{viewModel.state.cardView}"
+                    android:visibility="@{viewModel.state.errorVisibility}"
+                    >
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:weightSum="100"
+                        android:paddingTop="@dimen/margin_medium"
+                        android:paddingBottom="@dimen/margin_medium"
+                        android:paddingStart="@dimen/margin_normal_large"
+                        android:paddingEnd="@dimen/margin_normal_large"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent">
+
+                        <ImageView
+                            android:id="@+id/ivLocationPhoto"
+                            android:layout_width="@dimen/_84sdp"
+                            android:layout_height="@dimen/_84sdp"
+                            app:circular="@{true}"
+                            app:src="@{viewModel.state.placePhoto}" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="@dimen/margin_extra_small"
+                            android:orientation="vertical"
+                            android:layout_marginLeft="@dimen/margin_normal">
+
+                            <TextView
+                                android:id="@+id/tvAddressTitle"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                app:layout_constraintTop_toTopOf="parent"
+                                android:maxLines="2"
+                                android:ellipsize="end"
+                                style="@style/Small"
+                                android:text="@{viewModel.state.placeTitle}"
+                                app:layout_constraintLeft_toRightOf="@+id/ivLocationPhoto"
+                                tools:text="Burj Residence Tower 1"
+                                />
+
+                            <TextView
+                                android:id="@+id/tvAddressSubTitle"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                app:layout_constraintTop_toBottomOf="@+id/tvAddressTitle"
+                                app:layout_constraintStart_toStartOf="@+id/tvAddressTitle"
+                                style="@style/ASmallGrey"
+                                android:maxLines="2"
+                                android:lineSpacingExtra="3sp"
+                                android:text="@{viewModel.state.placeSubTitle}"
+                                tools:text="31 J3 Opposite، # 4، Expo Center Rd, Block J 3 Phase 2 جوہر ٹاؤن، لاہور"
+                                android:ellipsize="end"
+                                android:layout_marginTop="@dimen/_2sdp"/>
+
+                            <co.yap.widgets.CoreButton
+                                android:id="@+id/btnConfirm"
+                                style="@style/AddressBtnStyle"
+                                android:layout_width="wrap_content"
+                                android:layout_height="@dimen/_24sdp"
+                                android:textColor="@color/white"
+                                android:text="@string/screen_meeting_location_button_confirm_selected_location"
+                                app:layout_constraintStart_toEndOf="@+id/ivLocationPhoto"
+                                android:paddingTop="0dp"
+                                android:paddingBottom="0dp"
+                                android:paddingLeft="0dp"
+                                android:paddingRight="0dp"
+                                android:layout_marginStart="8dp"
+                                android:layout_marginTop="12dp"
+                                app:btn_text_size="@dimen/text_size_c2"
+                                app:btn_has_bold_text="true"
+                                app:layout_constraintTop_toBottomOf="@+id/tvAddressSubTitle"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                android:layout_marginEnd="8dp"
+                                app:layout_constraintHorizontal_bias="0.366"
+                                android:onClick="@{(v) -> viewModel.handlePressOnCardSelectLocation(v.id)}"/>
+                        </LinearLayout>
+                    </LinearLayout>
+
+                </androidx.cardview.widget.CardView>
+            </FrameLayout>
+
+            <ImageView
+                android:id="@+id/ivClose"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/ic_close"
+                android:foregroundGravity="left"
+                android:layout_gravity="left"
+                android:gravity="left"
+                tools:ignore="MissingConstraints"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="@dimen/margin_large"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginEnd="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginBottom="8dp"
+                android:visibility="gone"
+                app:toggleButtonVisibility="@{viewModel.state.closeCard}"
+                app:layout_constraintBottom_toTopOf="@+id/frameLayout"
+                app:layout_constraintHorizontal_bias="0.022"
+                app:layout_constraintVertical_bias="0.016"
+                android:onClick="@{(v) -> viewModel.handlePressOnCloseMap(v.id)}"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
+</layout>
