@@ -31,10 +31,6 @@ class ReorderCardFragment : ReorderCardBaseFragment<IRenewCard.ViewModel>(), IRe
         super.onCreate(savedInstanceState)
         setObservers()
     }
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        getMyArguments()
-    }
 
     private fun setObservers() {
         viewModel.clickEvent.observe(this, clickObserver)
@@ -116,12 +112,6 @@ class ReorderCardFragment : ReorderCardBaseFragment<IRenewCard.ViewModel>(), IRe
         }
     }
 
-    private fun getMyArguments() {
-        viewModel.state.cardType.set(arguments?.let {
-            ReorderCardFragmentArgs.fromBundle(it).cardType
-        } as String)
-
-    }
 
     override fun onDestroy() {
         super.onDestroy()

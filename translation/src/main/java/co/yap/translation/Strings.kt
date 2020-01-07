@@ -1198,4 +1198,10 @@ object Strings {
     const val screen_reorder_card_completion_display_text_complete_transaction: String =
         "screen_reorder_card_completion_display_text_complete_transaction"
 
+    const val screen_cards_display_text_hotlisted: String =
+        "screen_cards_display_text_hotlisted"
+
+    const val screen_cards_button_reorder_card: String =
+        "screen_cards_button_reorder_card"
+
 }
