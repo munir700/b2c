@@ -188,9 +188,9 @@ class CashTransferState(application: Application) : BaseState(), ICashTransfer.S
             notifyPropertyChanged(BR.produceCode)
         }
     @get:Bindable
-    override var otpAction: String?=""
+    override var otpAction: String? = ""
         set(value) {
-            field=value
+            field = value
             notifyPropertyChanged(BR.otpAction)
         }
 
@@ -291,15 +291,26 @@ class CashTransferState(application: Application) : BaseState(), ICashTransfer.S
         value: Double
     ): Double {
         var totalAmount = 0.0
-        val remittanceTierFee: List<RemittanceFeeResponse.RemittanceFee.TierRateDTO>? =
-            listItemRemittanceFee.filter { item -> item.amountFrom!! <= value && item.amountTo!! >= value }
-        if (remittanceTierFee != null) {
-            if (remittanceTierFee.isNotEmpty()) {
-                val feeAmount = remittanceTierFee[0].feeAmount
-                val feeAmountVAT = remittanceTierFee[0]?.vatAmount
-                if (feeAmount != null) {
-                    totalAmount = feeAmount + feeAmountVAT!!
+        val remittanceTierFee: ArrayList<RemittanceFeeResponse.RemittanceFee.TierRateDTO> =
+            ArrayList()
+        //listItemRemittanceFee.filter { item -> item.amountFrom?.toDouble() <= value && item.amountTo!! >= value }
+
+        val iterator = listItemRemittanceFee.iterator()
+        while (iterator.hasNext()) {
+            val item = iterator.next()
+            if (item.amountFrom != null && item.amountTo != null) {
+                if (item.amountFrom!! <= value && item.amountTo!! >= value) {
+                    remittanceTierFee.add(item)
+                    break
                 }
+            }
+        }
+
+        if (remittanceTierFee.isNotEmpty()) {
+            val feeAmount = remittanceTierFee[0].feeAmount
+            val feeAmountVAT = remittanceTierFee[0].vatAmount
+            if (feeAmount != null) {
+                totalAmount = feeAmount + feeAmountVAT!!
             }
         }
         return totalAmount

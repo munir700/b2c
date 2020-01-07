@@ -15,12 +15,14 @@ import co.yap.modules.dashboard.cards.home.adaptor.YapCardsAdaptor
 import co.yap.modules.dashboard.cards.home.interfaces.IYapCards
 import co.yap.modules.dashboard.cards.home.viewmodels.YapCardsViewModel
 import co.yap.modules.dashboard.cards.paymentcarddetail.activities.PaymentCardDetailActivity
+import co.yap.modules.dashboard.cards.paymentcarddetail.addfunds.activities.AddFundsActivity
 import co.yap.modules.dashboard.main.fragments.YapDashboardChildFragment
 import co.yap.modules.others.fragmentpresenter.activities.FragmentPresenterActivity
 import co.yap.modules.setcardpin.activities.SetCardPinWelcomeActivity
 import co.yap.networking.cards.responsedtos.Card
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.enums.CardDeliveryStatus
 import co.yap.yapcore.enums.CardStatus
 import co.yap.yapcore.helpers.Utils
@@ -238,11 +240,31 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
                 if (resultCode == Activity.RESULT_OK) {
                     val isPinCreated: Boolean? =
                         data?.getBooleanExtra(Constants.isPinCreated, false)
-                    if (isPinCreated!!) {
-                        adapter.removeAllItems()
-                        viewModel.getCards()
+
+                    val cardSerialNumber: String? =
+                        data?.getStringExtra(Constants.CARD_SERIAL_NUMBER)
+
+                    if (!cardSerialNumber.isNullOrBlank()) {
+                        getCardFromSerialNumber(serialNumber = cardSerialNumber)?.let {
+                            startActivityForResult(
+                                AddFundsActivity.newIntent(requireContext(), it),
+                                RequestCodes.REQUEST_ADD_FUNDS_WHEN_ADD
+                            )
+                        }
+                    } else {
+                        isPinCreated?.let {
+                            if (it) {
+                                adapter.removeAllItems()
+                                viewModel.getCards()
+                            }
+                        }
                     }
                 }
+            }
+
+            RequestCodes.REQUEST_ADD_FUNDS_WHEN_ADD -> {
+                adapter.removeAllItems()
+                viewModel.getCards()
             }
         }
     }
@@ -285,6 +307,10 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
 
     private fun getCard(pos: Int): Card {
         return adapter.getDataForPosition(pos)
+    }
+
+    private fun getCardFromSerialNumber(serialNumber: String): Card? {
+        return adapter.getDataList().firstOrNull { it.cardSerialNumber == serialNumber }
     }
 
     override fun onDestroy() {

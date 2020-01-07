@@ -8,13 +8,14 @@ import co.yap.yapcore.R
 import co.yap.yapcore.defaults.DefaultActivity
 import co.yap.yapcore.defaults.DefaultNavigator
 import co.yap.yapcore.defaults.INavigator
+import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.interfaces.BackPressImpl
 import co.yap.yapcore.interfaces.IBaseNavigator
 
 
 class SetCardPinWelcomeActivity : DefaultActivity(), INavigator, IFragmentHolder {
 
-    lateinit var cardSerialNumber : String
+    var cardSerialNumber: String? = null
 
     companion object {
         private const val CARD_SERIAL_NUMBER = "cardSerialNumber"
@@ -30,6 +31,7 @@ class SetCardPinWelcomeActivity : DefaultActivity(), INavigator, IFragmentHolder
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        Utils.preventTakeScreenshot(this)
         setContentView(R.layout.activity_set_card_pin_welcome)
         setupData()
     }
@@ -42,6 +44,11 @@ class SetCardPinWelcomeActivity : DefaultActivity(), INavigator, IFragmentHolder
     }
 
     private fun setupData(){
-        cardSerialNumber = intent.getStringExtra(CARD_SERIAL_NUMBER)
+        if (intent != null && intent.hasExtra(CARD_SERIAL_NUMBER)) {
+            cardSerialNumber = intent.getStringExtra(CARD_SERIAL_NUMBER)
+        } else {
+            showToast("Invalid card Serial number")
+            finish()
+        }
     }
 }

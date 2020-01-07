@@ -3,12 +3,13 @@ package co.yap.modules.setcardpin.fragments
 import android.os.Bundle
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.fragment.findNavController
 import co.yap.modules.setcardpin.interfaces.ISetCardPin
 import co.yap.modules.setcardpin.viewmodels.SetCardPinViewModel
 import co.yap.yapcore.BR
 import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.R
-import androidx.navigation.fragment.findNavController
+import co.yap.yapcore.helpers.Utils
 
 open class SetCardPinFragment : BaseBindingFragment<ISetCardPin.ViewModel>(), ISetCardPin.View {
 
@@ -20,6 +21,10 @@ open class SetCardPinFragment : BaseBindingFragment<ISetCardPin.ViewModel>(), IS
     override val viewModel: ISetCardPin.ViewModel
         get() = ViewModelProviders.of(this).get(SetCardPinViewModel::class.java)
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        Utils.preventTakeScreenshot(requireActivity())
+    }
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         setObservers()

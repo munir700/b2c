@@ -87,6 +87,12 @@ class InternationalFundsTransferState(val application: Application) : BaseState(
             notifyPropertyChanged(BR.firstName)
         }
     @get:Bindable
+    override var totalAmount: Double? = 0.0
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.totalAmount)
+        }
+    @get:Bindable
     override var internationalFee: String? = ""
         set(value) {
             field = value
@@ -284,7 +290,7 @@ class InternationalFundsTransferState(val application: Application) : BaseState(
 
     private fun checkValidation() {
         if (!receiverCurrencyAmountFxRate.isNullOrEmpty()) {
-            if (fxRateAmount.isNullOrBlank()) {
+            if (fxRateAmount.isNullOrEmpty() && feeType == Constants.FEE_TYPE_TIER) {
                 setSpanable(0.0)
                 receiverCurrencyAmount = "0.00"
                 return
@@ -299,7 +305,9 @@ class InternationalFundsTransferState(val application: Application) : BaseState(
                             var amount =
                                 receiverCurrencyAmountFxRate?.let {
 
-                                    fxRateAmount?.toDouble()?.times(it.toDouble())
+                                    if (!fxRateAmount.isNullOrEmpty())
+                                        fxRateAmount?.toDouble()?.times(it.toDouble())
+                                    else return
                                 }
                             if (feeType == Constants.FEE_TYPE_TIER) {
                                 setSpanable(amount ?: 0.0)
@@ -351,7 +359,7 @@ class InternationalFundsTransferState(val application: Application) : BaseState(
     private fun findFee(
         value: Double
     ): Double {
-        var totalAmount = 0.0
+         totalAmount = 0.0
         val remittanceTierFee: List<RemittanceFeeResponse.RemittanceFee.TierRateDTO>? =
             listItemRemittanceFee.filter { item -> item.amountFrom!! <= value && item.amountTo!! >= value }
         if (remittanceTierFee != null) {
@@ -363,8 +371,8 @@ class InternationalFundsTransferState(val application: Application) : BaseState(
                 }
             }
         }
-        transferFeeAmount = totalAmount
-        return totalAmount
+        transferFeeAmount = totalAmount?:0.0
+        return totalAmount?:0.0
 
     }
 
