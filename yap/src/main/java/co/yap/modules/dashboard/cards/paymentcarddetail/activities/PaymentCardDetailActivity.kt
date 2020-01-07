@@ -28,17 +28,16 @@ import co.yap.modules.dashboard.cards.paymentcarddetail.limits.activities.CardLi
 import co.yap.modules.dashboard.cards.paymentcarddetail.removefunds.activities.RemoveFundsActivity
 import co.yap.modules.dashboard.cards.paymentcarddetail.statments.activities.CardStatementsActivity
 import co.yap.modules.dashboard.cards.paymentcarddetail.viewmodels.PaymentCardDetailViewModel
-import co.yap.modules.dashboard.cards.reportcard.activities.ReportLostOrStolenCardActivity
+import co.yap.modules.dashboard.cards.reordercard.activities.ReorderCardActivity
 import co.yap.modules.dashboard.home.adaptor.TransactionsHeaderAdapter
-import co.yap.modules.dashboard.transaction.activities.TransactionDetailsActivity
 import co.yap.modules.others.helper.Constants
 import co.yap.networking.cards.responsedtos.Card
 import co.yap.networking.cards.responsedtos.CardBalance
-import co.yap.networking.transactions.responsedtos.transaction.Content
-import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionListData
+import co.yap.translation.Strings
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.helpers.CustomSnackbar
 import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.helpers.extentions.getCustomSnackbarSticky
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.MyUserManager
 import com.google.android.material.snackbar.Snackbar
@@ -55,6 +54,7 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
     private lateinit var spareCardBottomSheet: SpareCardBottomSheet
 
     private var cardFreezeUnfreeze: Boolean = false
+    private var cardLostStolen: Boolean = false
     private var cardRemoved: Boolean = false
     private var limitsUpdated: Boolean = false
     private var nameUpdated: Boolean = false
@@ -131,7 +131,7 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
 
                 viewModel.EVENT_FREEZE_UNFREEZE_CARD -> {
                     cardFreezeUnfreeze = true
-                    if (viewModel.card.value?.blocked!!) {
+                    if (viewModel.card.value?.blocked == true) {
                         viewModel.card.value?.blocked = false
                         dismissSnackbar()
                         if (Constants.CARD_TYPE_DEBIT == viewModel.state.cardType) {
@@ -152,7 +152,6 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
 
                 viewModel.EVENT_CARD_DETAILS -> {
                     showCardDetailsPopup()
-
                 }
 
                 viewModel.EVENT_REMOVE_CARD -> {
@@ -172,6 +171,13 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
                     finish()
                 }
 
+                viewModel.EVENT_LOST_STOLEN_CARD -> {
+                    if (viewModel.card.value?.blocked == true) {
+                        showLostStolenSnackbar()
+                    } else {
+                        dismissSnackbar()
+                    }
+                }
             }
         })
 
@@ -258,18 +264,24 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
 
         val tvAction = snackbar.view.findViewById(co.yap.yapcore.R.id.tvAction) as TextView
         tvAction.setOnClickListener {
-            /* viewModel.card.blocked = false
-             dismissSnackbar()
-             if (Constants.CARD_TYPE_DEBIT == viewModel.state.cardType) {
-                 tvPrimaryCardStatus.text = "Freeze card"
-             } else {
-                 tvSpareCardStatus.text = "Freeze card"
-             }*/
             viewModel.freezeUnfreezeCard()
         }
     }
 
-    fun dismissSnackbar() {
+    private fun showLostStolenSnackbar() {
+        snackbar = window.decorView.getCustomSnackbarSticky(
+            clSnackbar,
+            getString(Strings.screen_cards_display_text_lost_stolen_card),
+            getString(Strings.screen_cards_display_text_lost_stolen_card_action)
+        )
+        snackbar.show()
+        val tvAction = snackbar.view.findViewById(co.yap.yapcore.R.id.tvAction) as TextView
+        tvAction.setOnClickListener {
+            startReorderCardFlow()
+        }
+    }
+
+    private fun dismissSnackbar() {
         snackbar.dismiss()
     }
 
@@ -315,14 +327,15 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
                 startActivity(CardStatementsActivity.newIntent(this, viewModel.card.value!!))
             }
             Constants.EVENT_REPORT_CARD -> {
-                startActivityForResult(
-                    ReportLostOrStolenCardActivity.newIntent(
-                        this,
-                        viewModel.card.value!!
-                    ), Constants.REQUEST_REPORT_LOST_OR_STOLEN
-                )
-
+//                startActivityForResult(
+//                    ReportLostOrStolenCardActivity.newIntent(
+//                        this,
+//                        viewModel.card.value!!
+//                    ), Constants.REQUEST_REPORT_LOST_OR_STOLEN
+//                )
+                viewModel.reorderCard(viewModel.card.value!!)
             }
+
             Constants.EVENT_REMOVE_CARD -> {
                 showRemoveCardPopup()
             }
@@ -366,6 +379,11 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
         }
     }
 
+    private fun startReorderCardFlow() {
+        viewModel.card.value?.let {
+            startActivity(ReorderCardActivity.newIntent(this@PaymentCardDetailActivity, it))
+        }
+    }
     private fun showCardDetailsPopup() {
         val dialog = Dialog(this)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)

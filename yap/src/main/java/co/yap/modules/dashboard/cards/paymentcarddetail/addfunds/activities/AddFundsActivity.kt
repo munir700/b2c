@@ -127,7 +127,6 @@ open class AddFundsActivity : BaseBindingActivity<IFundActions.ViewModel>(),
 
             }
 
-
         })
     }
 

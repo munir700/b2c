@@ -34,8 +34,7 @@
                 android:layout_height="match_parent"
                 android:minHeight="@dimen/_140sdp"
                 android:layout_width="match_parent"
-                app:viewModel="@{viewModel}"
-                layout="@layout/layout_maps"/>
+                layout="@layout/layout_google_maps"/>
 
             <FrameLayout
                 android:id="@+id/flTitle"

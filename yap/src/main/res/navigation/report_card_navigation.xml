@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/spare_cards_navigation"
     app:startDestination="@id/reportLostOrStolenCardFragment">
-
     <fragment
         android:id="@+id/reportLostOrStolenCardFragment"
         android:name="co.yap.modules.dashboard.cards.reportcard.fragments.ReportLostOrStolenCardFragment"
@@ -14,14 +13,17 @@
             android:name="card"
             app:argType="co.yap.networking.cards.responsedtos.Card" />
 
-
         <action
             android:id="@+id/action_reportLostOrStolenCardFragment_to_blockCardSuccessFragment"
             app:destination="@id/blockCardSuccessFragment"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
             app:popUpToInclusive="true" />
-
+        <action
+            android:id="@+id/action_reportLostOrStolenCardFragment_to_addSpareCardFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:destination="@id/addSpareCardFragment"
+            app:exitAnim="@anim/slide_out_left" />
     </fragment>
 
 
@@ -91,6 +93,9 @@
             app:exitAnim="@anim/slide_out_to_bottom"
             app:popEnterAnim="@anim/slide_in_from_bottom"
             app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/action_addSpareCardFragment_to_addressSelectionFragment3"
+            app:destination="@id/addressSelectionFragment" />
 
     </fragment>
 
@@ -112,6 +117,10 @@
             app:argType="boolean" />
         <argument
             android:name="isFromPersonalDetail"
+            android:defaultValue="false"
+            app:argType="boolean" />
+        <argument
+            android:name="isFromReorderCardScreen"
             android:defaultValue="false"
             app:argType="boolean" />
 

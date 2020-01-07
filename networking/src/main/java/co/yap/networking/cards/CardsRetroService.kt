@@ -83,4 +83,12 @@ interface CardsRetroService {
     @POST(CardsRepository.URL_FORGOT_CARD_PIN)
     suspend fun forgotCardPin(@Path("card-serial-number") cardSerialNumber: String, @Body forgotCardPin: ForgotCardPin): Response<ApiResponse>
 
+    // reorder debit card
+    @POST(CardsRepository.URL_REORDER_DEBIT_CARD)
+    suspend fun reorderDebitCard(@Body reorderCardRequest: ReorderCardRequest): Response<ApiResponse>
+
+    // reorder supplementary card
+    @POST(CardsRepository.URL_REORDER_SUPPLEMENTARY_CARD)
+    suspend fun reorderSupplementaryCard(@Body reorderCardRequest: ReorderCardRequest): Response<ApiResponse>
+
 }

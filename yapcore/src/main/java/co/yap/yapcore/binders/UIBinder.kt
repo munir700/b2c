@@ -700,9 +700,8 @@ object UIBinder {
     @BindingAdapter("textSelection")
     fun textSelection(view: EditText, selection: String) {
         if (!selection.isNullOrEmpty()) {
-
-            view.setSelection(selection.length)
-
+            val selectedString = selection.substring(0, selection.length.coerceAtMost(100))
+            view.setSelection(selectedString.length)
         }
 
     }

@@ -80,6 +80,12 @@ class AddressSelectionState(application: Application) : BaseState(), IAddressSel
             field = value
          }
 
+    @get:Bindable
+    override var isFromReorderCardsLayout: Boolean = false
+        set(value) {
+            field = value
+        }
+
 
     @get:Bindable
     override var errorVisibility: Int = VISIBLE
