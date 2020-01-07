@@ -52,7 +52,7 @@ class InternationalFundsTransferState(val application: Application) : BaseState(
             field = value
             notifyPropertyChanged(BR.fxRateAmount)
             fxRateAmount?.let {
-                if (it.isNotEmpty()) {
+                if (it.isNotEmpty() && it != ".") {
                     valid = it.toDouble() > 0.0
                 }
             }
@@ -305,9 +305,12 @@ class InternationalFundsTransferState(val application: Application) : BaseState(
                             var amount =
                                 receiverCurrencyAmountFxRate?.let {
 
-                                    if (!fxRateAmount.isNullOrEmpty())
+                                    if (!fxRateAmount.isNullOrEmpty() && fxRateAmount != ".")
                                         fxRateAmount?.toDouble()?.times(it.toDouble())
-                                    else return
+                                    else {
+                                        receiverCurrencyAmount = "0.00"
+                                        return
+                                    }
                                 }
                             if (feeType == Constants.FEE_TYPE_TIER) {
                                 setSpanable(amount ?: 0.0)
@@ -359,7 +362,7 @@ class InternationalFundsTransferState(val application: Application) : BaseState(
     private fun findFee(
         value: Double
     ): Double {
-         totalAmount = 0.0
+        totalAmount = 0.0
         val remittanceTierFee: List<RemittanceFeeResponse.RemittanceFee.TierRateDTO>? =
             listItemRemittanceFee.filter { item -> item.amountFrom!! <= value && item.amountTo!! >= value }
         if (remittanceTierFee != null) {
@@ -371,8 +374,8 @@ class InternationalFundsTransferState(val application: Application) : BaseState(
                 }
             }
         }
-        transferFeeAmount = totalAmount?:0.0
-        return totalAmount?:0.0
+        transferFeeAmount = totalAmount ?: 0.0
+        return totalAmount ?: 0.0
 
     }
 
