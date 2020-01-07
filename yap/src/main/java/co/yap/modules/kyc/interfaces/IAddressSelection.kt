@@ -62,7 +62,6 @@ interface IAddressSelection {
         var checked: Boolean
         var isFromPersonalDetailView: Boolean
         var isFromPhysicalCardsLayout: Boolean
-        var isFromReorderCardsLayout: Boolean
 
         //map detail
 

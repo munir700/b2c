@@ -1,5 +1,6 @@
 package co.yap.modules.location.activities
 
+import android.Manifest
 import android.animation.Animator
 import android.app.Activity
 import android.content.Context
@@ -11,6 +12,7 @@ import co.yap.R
 import co.yap.modules.location.helper.MapSupportActivity
 import co.yap.modules.location.interfaces.ILocationSelection
 import co.yap.networking.cards.responsedtos.Address
+import co.yap.yapcore.helpers.PermissionHelper
 import com.daimajia.androidanimations.library.Techniques
 import com.daimajia.androidanimations.library.YoYo
 import com.google.android.gms.maps.SupportMapFragment
@@ -40,9 +42,11 @@ class LocationSelectionActivity : MapSupportActivity(), ILocationSelection.View 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setObservers()
-        initMapFragment()
+        checkPermission()
         settAddressFromIntent()
         updateHeadings()
+        flTitle.setOnTouchListener { _, _ -> true }
+        lyAddressFields.setOnTouchListener { _, _ -> true }
     }
 
     private fun settAddressFromIntent() {
@@ -104,7 +108,7 @@ class LocationSelectionActivity : MapSupportActivity(), ILocationSelection.View 
             }
 
             R.id.ivClose -> {
-                settAddressFromIntent()
+                settAddressFromIntent() // set initial address
                 if (viewModel.state.isShowLocationCard.get() == true)
                     startAnimateLocationCard()
                 else {
@@ -189,11 +193,51 @@ class LocationSelectionActivity : MapSupportActivity(), ILocationSelection.View 
             .playOn(cvLocationCard)
     }
 
-
     private fun setIntentAction() {
         val intent = Intent()
         intent.putExtra(ADDRESS, viewModel.address)
         setResult(Activity.RESULT_OK, intent)
         finish()
+    }
+
+    private fun checkPermission() {
+        permissionHelper = PermissionHelper(
+            this, arrayOf(
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ), 100
+        )
+        permissionHelper?.request(object : PermissionHelper.PermissionCallback {
+            override fun onPermissionGranted() {
+                initMapFragment()
+            }
+
+            override fun onIndividualPermissionGranted(grantedPermission: Array<String>) {
+                showToast("Can't proceed without permissions")
+            }
+
+            override fun onPermissionDenied() {
+                showToast("Can't proceed without permissions")
+
+            }
+
+            override fun onPermissionDeniedBySystem() {
+                showToast("Can't proceed without permissions")
+            }
+        })
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (permissionHelper != null) {
+            permissionHelper!!.onRequestPermissionsResult(
+                requestCode,
+                permissions as Array<String>,
+                grantResults
+            )
+        }
     }
 }

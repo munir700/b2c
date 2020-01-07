@@ -115,6 +115,7 @@
                     tools:text="@string/screen_meeting_location_button_confirm_location" />
 
                 <LinearLayout
+                    android:id="@+id/lyAddressFields"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_gravity="center_vertical"

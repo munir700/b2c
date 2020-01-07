@@ -14,7 +14,7 @@ import co.yap.modules.location.interfaces.ILocationSelection
 import co.yap.modules.location.viewmodels.LocationSelectionViewModel
 import co.yap.yapcore.BR
 import co.yap.yapcore.BaseBindingActivity
-import co.yap.yapcore.managers.MyUserManager
+import co.yap.yapcore.helpers.PermissionHelper
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -39,6 +39,7 @@ open class MapSupportActivity : BaseBindingActivity<ILocationSelection.ViewModel
     private var mFusedLocationProviderClient: FusedLocationProviderClient? = null
     private var locationMarker: Marker? = null
     lateinit var context: Context
+    var permissionHelper: PermissionHelper? = null
 
     override val viewModel: ILocationSelection.ViewModel
         get() = ViewModelProviders.of(this).get(LocationSelectionViewModel::class.java)
@@ -209,7 +210,7 @@ open class MapSupportActivity : BaseBindingActivity<ILocationSelection.ViewModel
         photoTask?.addOnSuccessListener { response ->
 
             viewModel.state.placePhoto.set(response.bitmap)
-            MyUserManager.addressPhotoUrl = viewModel.state.placePhoto.get()
+//            MyUserManager.addressPhotoUrl = viewModel.state.placePhoto.get()
         }
 
         photoTask?.addOnFailureListener { exception ->

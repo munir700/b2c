@@ -68,6 +68,7 @@
                     android:minHeight="@dimen/_122sdp"
                     app:cardCornerRadius="10dp"
                     tools:visibility="visible"
+                    app:toggleVisibility="@{viewModel.state.isShowLocationCard()}"
                     android:visibility="@{viewModel.state.isShowLocationCard?View.VISIBLE:View.GONE}"
                     app:layout_constraintTop_toBottomOf="@+id/tvDetailsVerify">
 

@@ -68,29 +68,31 @@ class PersonalDetailsFragment : MoreBaseFragment<IPersonalDetail.ViewModel>(),
                     viewModel.toggleToolBar(true)
 
                     changeAddress = true
-//                    val action =
-//                        PersonalDetailsFragmentDirections.actionPersonalDetailsFragmentToAddressSelectionFragment(
-//                            false, false, true
-//                        )
-//
-//                    findNavController().navigate(action)
-                    val heading = Translator.getString(
-                        requireContext(),
-                        R.string.screen_meeting_location_display_text_selected_subtitle
-                    )
-                    val subHeading = Translator.getString(
-                        requireContext(),
-                        R.string.screen_meeting_location_display_text_selected_subtitle
-                    )
+                    val action =
+                        PersonalDetailsFragmentDirections.actionPersonalDetailsFragmentToAddressSelectionFragment(
+                            isFromPhysicalCardsScreen = false,
+                            isFromBlockCardsScreen = false,
+                            isFromPersonalDetail = true
+                        )
 
-                    startActivityForResult(
-                        LocationSelectionActivity.newIntent(
-                            requireContext(),
-                            MyUserManager.userAddress,
-                            heading,
-                            subHeading
-                        ), RequestCodes.REQUEST_FOR_LOCATION
-                    )
+                    findNavController().navigate(action)
+//                    val heading = Translator.getString(
+//                        requireContext(),
+//                        R.string.screen_meeting_location_display_text_selected_subtitle
+//                    )
+//                    val subHeading = Translator.getString(
+//                        requireContext(),
+//                        R.string.screen_meeting_location_display_text_selected_subtitle
+//                    )
+//
+//                    startActivityForResult(
+//                        LocationSelectionActivity.newIntent(
+//                            requireContext(),
+//                            MyUserManager.userAddress,
+//                            heading,
+//                            subHeading
+//                        ), RequestCodes.REQUEST_FOR_LOCATION
+//                    )
 
                 }
 

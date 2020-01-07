@@ -117,7 +117,7 @@ class AddressSelectionFragment : BaseMapFragment<IAddressSelection.ViewModel>(),
             viewModel!!.mapDetailViewActivity = activity as DocumentsDashboardActivity
 
         }
-         performDataBinding(inflater, container)
+        performDataBinding(inflater, container)
         initMapFragment()
 
         return viewDataBinding.root
@@ -221,6 +221,7 @@ class AddressSelectionFragment : BaseMapFragment<IAddressSelection.ViewModel>(),
 
                 R.id.ivClose -> {
                     viewModel.state.isMapOnScreen = false
+
                     if (viewModel.state.errorChecked) {
                         viewModel.state.cardView = false
                         YoYo.with(Techniques.SlideOutDown)
@@ -357,7 +358,7 @@ class AddressSelectionFragment : BaseMapFragment<IAddressSelection.ViewModel>(),
         viewModel.onMapInit(p0)
     }
 
-    private fun displayLocationSettingsRequest(context: Context) {
+    fun displayLocationSettingsRequest(context: Context) {
         if (!isLocationSettingsDialogue) {
 //            isLocationSettingsDialogue = true
             val googleApiClient = GoogleApiClient.Builder(context)
@@ -501,11 +502,16 @@ class AddressSelectionFragment : BaseMapFragment<IAddressSelection.ViewModel>(),
 
     }
 
+    override fun onDestroy() {
+//        viewModel.clickEvent.removeObservers(this)
+        super.onDestroy()
+    }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         isLocationSettingsDialogue = false
         if (requestCode == REQUEST_CHECK_SETTINGS) {
-            viewModel.getDeviceLocation(viewModel.mapDetailViewActivity)
+            viewModel.getDeviceLocation(viewModel!!.mapDetailViewActivity)
         }
     }
 }

@@ -647,20 +647,22 @@ object UIBinder {
 
     @BindingAdapter("src", "circular")
     @JvmStatic
-    fun setImageResId(view: ImageView, resId: Bitmap, circular: Boolean) {
-        if (circular) {
-            Glide.with(view.context)
-                .asBitmap().load(resId).placeholder(R.color.greyLight)
-                .transforms(CenterCrop(), RoundedCorners(15))
-                .into(view)
+    fun setImageResId(view: ImageView, resId: Bitmap?, circular: Boolean) {
+        resId?.let {
+            if (circular) {
+                Glide.with(view.context)
+                    .asBitmap().load(resId).placeholder(R.color.greyLight)
+                    .transforms(CenterCrop(), RoundedCorners(15))
+                    .into(view)
 
-        } else {
+            } else {
 
-            Glide.with(view.context)
-                .asBitmap().load(resId).placeholder(R.color.greyLight)
-                .transforms(CenterCrop(), RoundedCorners(15))
-                .into(view)
-            //set placeholder here
+                Glide.with(view.context)
+                    .asBitmap().load(resId).placeholder(R.color.greyLight)
+                    .transforms(CenterCrop(), RoundedCorners(15))
+                    .into(view)
+                //set placeholder here
+            }
         }
     }
 
