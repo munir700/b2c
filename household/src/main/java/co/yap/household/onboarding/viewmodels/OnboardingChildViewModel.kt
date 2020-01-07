@@ -13,4 +13,8 @@ abstract class OnboardingChildViewModel<S : IBase.State>(application: Applicatio
     fun setProgress(percent: Int) {
         parentViewModel?.state?.currentProgress = percent
     }
+
+    fun updateBackground(color : Int) {
+        parentViewModel?.state?.currentBackground = color
+    }
 }

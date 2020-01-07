@@ -13,6 +13,7 @@ import co.yap.app.constants.Constants
 import co.yap.app.login.EncryptionUtils
 import co.yap.app.modules.login.interfaces.IVerifyPasscode
 import co.yap.app.modules.login.viewmodels.VerifyPasscodeViewModel
+import co.yap.widgets.NumberKeyboardListener
 import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.biometric.BiometricCallback
@@ -71,11 +72,23 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
                 dialer.hideFingerprintView()
             }
         }
+        dialer.setNumberKeyboardListener(object : NumberKeyboardListener
+        {
+            override fun onNumberClicked(number: Int, text: String) {
 
-        dialer.onButtonClickListener = View.OnClickListener {
-            if (it.id == R.id.btnFingerPrint)
+            }
+
+            override fun onLeftButtonClicked() {
                 showFingerprintDialog()
-        }
+            }
+
+            override fun onRightButtonClicked() {
+            }
+        })
+//        dialer.onButtonClickListener = View.OnClickListener {
+//            if (it.id == R.id.btnFingerPrint)
+//                showFingerprintDialog()
+//        }
     }
 
     override fun setObservers() {

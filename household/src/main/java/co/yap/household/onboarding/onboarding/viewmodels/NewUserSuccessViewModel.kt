@@ -1,6 +1,7 @@
 package co.yap.household.onboarding.onboarding.viewmodels
 
 import android.app.Application
+import co.yap.household.R
 import co.yap.household.onboarding.onboarding.interfaces.INewUserSuccess
 import co.yap.household.onboarding.onboarding.states.NewUserCongratulationsState
 import co.yap.household.onboarding.viewmodels.OnboardingChildViewModel
@@ -26,7 +27,11 @@ class NewUserSuccessViewModel(application: Application) :
 
     override fun onResume() {
         super.onResume()
-        setProgress(100)
+//        updateBackground(R.color.colorLightPinkBackground)
+        updateBackground(context.resources.getColor(R.color.colorLightPinkBackground))
+
+//        updateBackground(Color.WHITE)
+
 
     }
 

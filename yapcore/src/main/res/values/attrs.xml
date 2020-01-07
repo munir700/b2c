@@ -56,6 +56,7 @@
     <declare-styleable name="CoreDialerPad">
         <attr name="dialer_max_length" format="integer" />
         <attr name="dialer_error" format="reference" />
+        <attr name="show_dialer_pass_code" format="boolean" />
         <attr name="dialer_pass_code" format="enum">
             <enum name="defaultType" value="0" />
             <enum name="passcode" value="1" />
@@ -379,12 +380,14 @@
         <attr name="pse_setStrokeWidth" format="dimension" />
         <attr name="pse_setCornerRadius" format="dimension" />
         <attr name="pse_setClearIconVisible" format="boolean" />
+        <attr name="pse_showHint" format="boolean" />
         <attr name="pse_clearIconTint" format="color" />
         <attr name="pse_setCursorColor" format="color" />
         <attr name="pse_hideShowPasswordIconTint" format="color" />
         <attr name="pse_setPrefix" format="string" />
         <attr name="pse_setPrefixTextColor" format="color" />
         <attr name="pse_setPrefixDrawable" format="reference" />
+        <attr name="pse_showPrefixDrawable" format="boolean" />
         <attr name="pse_compoundDrawableWidth" format="dimension"/>
         <attr name="pse_space" format="dimension"/>
         <attr name="pse_compoundDrawableHeight" format="dimension"/>

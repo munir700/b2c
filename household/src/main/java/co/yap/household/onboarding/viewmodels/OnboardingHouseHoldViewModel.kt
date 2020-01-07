@@ -12,7 +12,7 @@ class OnboardingHouseHoldViewModel(application: Application) : BaseViewModel<IOn
     IOnboarding.ViewModel {
 
     override var onboardingData: OnboardingData = OnboardingData("", "", "", "", "", "", "B2C_ACCOUNT","","")
-    override val state: OnBoardingState = OnBoardingState()
+    override val state: OnBoardingState = OnBoardingState(application)
     override val backButtonPressEvent: SingleLiveEvent<Boolean> = SingleLiveEvent()
 
     override fun handlePressOnBackButton() {
