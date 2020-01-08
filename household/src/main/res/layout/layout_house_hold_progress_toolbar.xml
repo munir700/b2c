@@ -4,6 +4,8 @@
 
     <data>
 
+        <import type="android.view.View" />
+
         <variable
             name="viewModelHouseHold"
             type="co.yap.household.onboarding.viewmodels.OnboardingHouseHoldViewModel" />
@@ -12,10 +14,11 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="@dimen/_5sdp"
         android:background="@{viewModelHouseHold.state.currentBackground}"
         android:gravity="center_vertical"
-        android:padding="@dimen/_8sdp">
+        android:padding="@dimen/_8sdp"
+        android:paddingTop="@dimen/_5sdp"
+        android:visibility="@{viewModelHouseHold.state.existingYapUser?View.GONE:View.VISIBLE}">
 
         <ImageView
             android:id="@+id/tbBtnBack"

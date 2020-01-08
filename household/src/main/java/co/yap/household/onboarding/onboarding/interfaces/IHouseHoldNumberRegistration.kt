@@ -17,10 +17,12 @@ interface IHouseHoldNumberRegistration {
     interface State : IBase.State {
         var welcomeHeading: String
         var numberConfirmationValue: String
-        var parentName: String
+        var parentName: String?
+        var userName: String?
         var phoneNumber: String?
         var buttonTitle: String
         var buttonValidation: Boolean
         var showErrorMessage: Boolean
+        var existingYapUser: Boolean?
     }
 }

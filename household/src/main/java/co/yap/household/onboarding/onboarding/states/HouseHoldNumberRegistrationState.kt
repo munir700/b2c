@@ -20,10 +20,16 @@ class HouseHoldNumberRegistrationState : BaseState(), IHouseHoldNumberRegistrati
             notifyPropertyChanged(BR.numberConfirmationValue)
         }
     @get:Bindable
-    override var parentName: String = ""
+    override var parentName: String? = "Joe"
         set(value) {
             field = value
             notifyPropertyChanged(BR.parentName)
+        }
+    @get:Bindable
+    override var userName: String? = "Logan"
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.userName)
         }
     @get:Bindable
     override var phoneNumber: String? = ""
@@ -49,5 +55,10 @@ class HouseHoldNumberRegistrationState : BaseState(), IHouseHoldNumberRegistrati
             field = value
             notifyPropertyChanged(BR.showErrorMessage)
         }
-
+    @get:Bindable
+    override var existingYapUser: Boolean? = true
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.existingYapUser)
+        }
 }

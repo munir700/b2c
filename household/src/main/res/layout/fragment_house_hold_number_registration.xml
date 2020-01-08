@@ -21,13 +21,14 @@
 
         <TextView
             android:id="@+id/tvWelcome"
-            style="@style/LargeBoldText"
+            style="@style/LargeText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_medium"
             android:layout_marginEnd="@dimen/margin_medium"
             android:gravity="center_horizontal"
-            android:text="@{houseHoldViewModel.state.welcomeHeading}"
+            android:text="@{houseHoldViewModel.state.existingYapUser?@string/screen_house_hold_existing_number_registration_display_text_heading:String.format(@string/screen_house_hold_number_registration_display_text_heading ,houseHoldViewModel.state.userName )}"
+            android:textSize="@{houseHoldViewModel.state.existingYapUser?@dimen/text_size_h4:@dimen/text_size_h6}"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -42,28 +43,29 @@
             android:layout_marginTop="@dimen/margin_small"
             android:layout_marginEnd="@dimen/margin_medium"
             android:gravity="center"
-            android:text="@{houseHoldViewModel.state.numberConfirmationValue}"
+            android:text="@{String.format(@string/screen_house_hold_number_registration_display_text_parent_description ,houseHoldViewModel.state.parentName )}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvWelcome"
             tools:text="@string/screen_house_hold_number_registration_display_text_parent_description" />
 
-
         <co.yap.widgets.PrefixSuffixEditText
             android:id="@+id/etPhoneNumber"
+            style="@style/AppFontRegular"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_medium"
             android:layout_marginTop="@dimen/margin_extra_small"
             android:layout_marginEnd="@dimen/margin_medium"
-            android:inputType="phone"
-            android:singleLine="true"
-            android:focusable="false"
-            android:text="@={houseHoldViewModel.state.phoneNumber}"
-            android:padding="@dimen/margin_extra_small"
-            android:hint="00 00000000"
             android:background="@color/transparent"
+            android:focusable="false"
             android:focusableInTouchMode="false"
+            android:hint="00 00000000"
+            android:inputType="phone"
+            android:padding="@dimen/margin_extra_small"
+            android:singleLine="true"
+            android:text="@={houseHoldViewModel.state.phoneNumber}"
+            android:textSize="@dimen/text_size_h6"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvParentNumberConfirmation"
@@ -72,35 +74,76 @@
             app:pse_setPrefix="92"
             app:pse_setPrefixTextColor="@color/black"
             app:pse_showPrefixDrawable="false"
-            app:pse_space="@dimen/_4sdp"
-             />
+            app:pse_space="@dimen/_4sdp" />
 
         <co.yap.widgets.CoreDialerPad
             android:id="@+id/dialer"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:layout_marginBottom="@dimen/margin_medium"
             app:dialer_pass_code="defaultType"
-            app:layout_constraintBottom_toTopOf="@+id/tvError"
+            app:layout_constraintBottom_toTopOf="@+id/flLayout"
             app:layout_constraintTop_toBottomOf="@+id/etPhoneNumber"
             app:show_dialer_pass_code="false" />
 
-        <TextView
-            android:id="@+id/tvError"
-            style="@style/NormalText"
+        <FrameLayout
+            android:id="@+id/flLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_medium"
             android:layout_marginTop="@dimen/margin_extra_small"
             android:layout_marginEnd="@dimen/margin_medium"
             android:layout_marginBottom="@dimen/margin_medium_large"
-            android:gravity="center"
-            android:visibility="@{houseHoldViewModel.state.showErrorMessage ? View.VISIBLE : View.GONE}"
             app:layout_constraintBottom_toTopOf="@+id/btnConfirm"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/dialer"
-            app:text="@{Strings.screen_house_hold_number_registration_error_text}"
-            tools:text="@string/screen_house_hold_number_registration_error_text" />
+            app:layout_constraintTop_toBottomOf="@+id/dialer">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/clTermsAndConditions"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="@{houseHoldViewModel.state.existingYapUser? View.VISIBLE : View.GONE}">
+
+                <TextView
+                    android:id="@+id/tvTermsAndConditionsTitle"
+                    style="@style/AMicroGrey"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:textAlignment="center"
+                    app:layout_constraintBottom_toTopOf="@+id/tvTermsAndConditions"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:text="@{Strings.screen_create_passcode_display_title_terms_and_conditions}"
+                    tools:text="@string/screen_create_passcode_display_title_terms_and_conditions" />
+
+                <TextView
+                    android:id="@+id/tvTermsAndConditions"
+                    style="@style/AMicroGrey"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:textAlignment="center"
+                    android:textColor="@color/colorPrimary"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+
+                    app:layout_constraintTop_toBottomOf="@+id/tvTermsAndConditionsTitle"
+                    app:text="@{Strings.screen_create_passcode_display_text_terms_and_conditions}"
+                    tools:text="@string/screen_create_passcode_display_text_terms_and_conditions" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <TextView
+                android:id="@+id/tvError"
+                style="@style/NormalText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:visibility="@{(houseHoldViewModel.state.showErrorMessage &amp;&amp; !houseHoldViewModel.state.existingYapUser) ? View.VISIBLE : View.GONE}"
+                app:text="@{Strings.screen_house_hold_number_registration_error_text}"
+                tools:text="@string/screen_house_hold_number_registration_error_text" />
+        </FrameLayout>
 
         <co.yap.widgets.CoreButton
             android:id="@+id/btnConfirm"
@@ -109,15 +152,15 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/margin_medium_large"
             android:layout_marginRight="@dimen/margin_medium_large"
-            android:layout_marginBottom="@dimen/margin_medium"
-            app:layout_constraintTop_toBottomOf="@+id/tvError"
+            android:layout_marginBottom="@dimen/margin_large"
+            android:onClick="@{(v)-> houseHoldViewModel.handlePressOnConfirm(v.id)}"
             app:btn_pressed_color="@color/colorPrimary"
             app:btn_unpressed_color="@color/colorPrimary"
             app:enableCoreButton="@{houseHoldViewModel.state.buttonValidation}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            android:onClick="@{(v)-> houseHoldViewModel.handlePressOnConfirm(v.id)}"
+            app:layout_constraintTop_toBottomOf="@+id/flLayout"
             app:text="@{Strings.screen_house_hold_number_registration_button_text_confirm}"
             tools:text="@string/screen_house_hold_number_registration_button_text_confirm" />
 
