@@ -7,6 +7,7 @@ import co.yap.household.onboarding.dashboard.home.states.HouseholdHomeState
 import co.yap.household.onboarding.dashboard.main.viewmodels.HouseholdDashboardBaseViewModel
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.constants.Constants
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
 
@@ -29,8 +30,8 @@ class HouseholdHomeViewModel(application: Application) :
     override fun requestTransactions() {
         launch {
             viewState.value = Constants.EVENT_LOADING
-            viewModelBGScope.async {
-                delay(2000)
+            delay(2000)
+            viewModelBGScope.async(Dispatchers.IO) {
                 viewModelBGScope.close()
             }
             viewState.value = Constants.EVENT_EMPTY
