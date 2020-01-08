@@ -1,5 +1,6 @@
 package co.yap.modules.dashboard.main.interfaces
 
+import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
 import co.yap.modules.onboarding.enums.AccountType
 import co.yap.yapcore.IBase
@@ -15,6 +16,7 @@ interface IYapDashboard {
         var accountNo: String
         var ibanNo: String
         var availableBalance: String
+        var userNameImage: ObservableField<String>
 
     }
 
