@@ -287,6 +287,7 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
                     val passedCode = EncryptionUtils.decrypt(context, passCode)
                     passedCode?.let { passedCode ->
                         viewModel.state.passcode = passedCode
+                        dialer.upDatedDialerPad(viewModel.state.passcode)
                     }
                 }
 
