@@ -19,4 +19,9 @@ dependencies {
     project.yapDependencies.each {
         add(it.configuration, it.dependency)
     }
+
+    // app specific dependencies
+    project.householdDependencies.each {
+        add(it.configuration, it.dependency)
+    }
 }

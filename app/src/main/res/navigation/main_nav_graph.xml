@@ -217,12 +217,16 @@
         android:label="CardAnalyticsActivity"
         tools:layout="@layout/activity_cards_analytics" />
 
-
     <activity
         android:id="@+id/householdOnboard"
         android:name="co.yap.household.onboarding.OnboardingHouseHoldActivity"
         android:label="householdOnboard"
         tools:layout="@layout/activity_main_house_hold" />
 
+    <activity
+        android:id="@+id/householdEIDNotAccepted"
+        android:name="co.yap.household.onboarding.onboarding.EIDNotAcceptedActivity"
+        android:label="householdEIDNotAccepted"
+        tools:layout="@layout/activity_eidnot_accepted" />
 </navigation>
 

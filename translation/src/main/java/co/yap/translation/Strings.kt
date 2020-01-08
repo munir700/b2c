@@ -736,6 +736,8 @@ object Strings {
 
     const val screen_address_success_display_text_sub_heading: String =
         "screen_address_success_display_text_sub_heading"
+    const val screen_address_success_display_text_sub_heading_update: String =
+        "screen_address_success_display_text_sub_heading_update"
 
 
     //Change email screen
@@ -1344,4 +1346,28 @@ object Strings {
         "screen_congratulations_display_text_success_message"
     const val screen_congratulations_display_button_complete_setup: String =
         "screen_congratulations_display_button_complete_setup"
+
+    //Card color selection screen
+    const val screen_house_hold_card_color_selection_display_text_heading: String =
+        "screen_house_hold_card_color_selection_display_text_heading"
+    const val screen_house_hold_card_color_selection_display_text: String =
+        "screen_house_hold_card_color_selection_display_text"
+
+
+    const val screen_success_house_hold_we_will_call_you_to_text: String =
+        "screen_success_house_hold_we_will_call_you_to_text"
+
+    const val screen_success_house_hold_make_sure_to_text: String =
+        "screen_success_house_hold_make_sure_to_text"
+
+    const val screen_success_house_hold_card_deliver_text: String =
+        "screen_success_house_hold_card_deliver_text"
+
+    const val screen_success_on_its_way_display_text_title: String =
+        "screen_success_on_its_way_display_text_title"
+    const val screen_title_oops: String =
+        "screen_title_oops"
+    const val screen_title_mistake_please_call: String =
+        "screen_title_mistake_please_call"
+
 }
