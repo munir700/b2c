@@ -1379,5 +1379,8 @@ object Strings {
         "screen_title_oops"
     const val screen_title_mistake_please_call: String =
         "screen_title_mistake_please_call"
-
+    const val screen_on_boarding_existing_message: String =
+        "screen_on_boarding_existing_message"
+    const val screen_b2c_kyc_home_button_skip_on_boarding_existing: String =
+        "screen_b2c_kyc_home_button_skip_on_boarding_existing"
 }
