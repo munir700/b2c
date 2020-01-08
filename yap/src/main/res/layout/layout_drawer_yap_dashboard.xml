@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -332,6 +333,9 @@
                     android:layout_height="@dimen/_43sdp"
                     android:layout_alignParentTop="true"
                     android:layout_centerHorizontal="true"
+                    tools:src="@color/quantum_yellow"
+                    android:padding="@dimen/_3sdp"
+                    android:background="@drawable/circle_profile"
                     android:layout_gravity="center_horizontal"
                     android:contentDescription="@string/empty_string"
                     android:gravity="center"
