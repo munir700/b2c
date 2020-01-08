@@ -8,98 +8,114 @@
         <import type="co.yap.translation.Strings" />
 
     </data>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/rootContainer"
+    <ScrollView
+        android:fillViewport="true"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/colorLightPinkBackground">
+        android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/tvEID_NotAcceptTitle"
-            style="@style/ALarge"
-            android:text="@string/screen_title_oops"
+        <LinearLayout
+            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_large"
-            android:layout_marginTop="@dimen/margin_large"
-            android:layout_marginEnd="@dimen/margin_large"
-            android:gravity="center"
-            android:textColor="@color/textDarkColor"
-            android:lineSpacingExtra="9sp"
-            app:layout_constraintTop_toTopOf="parent"
-            app:text="@{Strings.screen_title_oops}"
-            tools:text="@string/screen_title_oops" />
+            android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/tvEID_NotAcceptMessage"
-            style="@style/ALarge"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_large"
-            android:layout_marginTop="@dimen/_79sdp"
-            android:layout_marginEnd="@dimen/margin_large"
-            android:gravity="center"
-            android:lineSpacingExtra="9sp"
-            android:text="Sorry Joe, looks like you already have a Household plan connected to this Emirates ID. Please log out and inform your employer that we cannot proceed with activating your plan at this time. "
-            android:textColor="@color/textDarkColor"
-            app:layout_constraintTop_toBottomOf="@+id/tvEID_NotAcceptTitle" />
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/rootContainer"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/colorLightPinkBackground">
 
-        <TextView
-            android:id="@+id/tvEID_NotAcceptSubTitle"
-            style="@style/ASmallGrey"
-            android:layout_marginTop="@dimen/_100sdp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_medium"
-            android:text="@string/screen_title_mistake_please_call"
-            android:layout_marginEnd="@dimen/margin_medium"
-            android:gravity="center"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            android:textColor="@color/kyc_success_text_color_light_gray"
-            app:layout_constraintVertical_bias="0.0"
-            app:layout_constraintTop_toBottomOf="@+id/tvEID_NotAcceptMessage"
-            app:text="@{Strings.screen_title_mistake_please_call}"
-            tools:text="@string/screen_title_mistake_please_call" />
+                <TextView
+                    android:id="@+id/tvEID_NotAcceptTitle"
+                    style="@style/ALarge"
+                    android:text="@string/screen_title_oops"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_large"
+                    android:layout_marginTop="@dimen/margin_large"
+                    android:layout_marginEnd="@dimen/margin_large"
+                    android:gravity="center"
+                    android:textColor="@color/textDarkColor"
+                    android:lineSpacingExtra="9sp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:text="@{Strings.screen_title_oops}"
+                    tools:text="@string/screen_title_oops" />
 
+                <TextView
+                    android:id="@+id/tvEID_NotAcceptMessage"
+                    style="@style/ALarge"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_large"
+                    android:layout_marginTop="@dimen/_79sdp"
+                    android:layout_marginEnd="@dimen/margin_large"
+                    android:gravity="center"
+                    android:lineSpacingExtra="9sp"
+                    android:text="Sorry Joe, looks like you already have a Household plan connected to this Emirates ID. Please log out and inform your employer that we cannot proceed with activating your plan at this time. "
+                    android:textColor="@color/textDarkColor"
+                    app:layout_constraintTop_toBottomOf="@+id/tvEID_NotAcceptTitle" />
 
-        <TextView
-            android:id="@+id/tvEID_NotAcceptNumber"
-            style="@style/ASmallHyperLinkUnderline"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_medium"
-            android:layout_marginEnd="@dimen/margin_medium"
-            android:gravity="center"
-            android:text="+971 600551214"
-            android:textColor="@color/purple"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvEID_NotAcceptSubTitle"
-            app:layout_constraintVertical_bias="0.0" />
+                <TextView
+                    android:id="@+id/tvEID_NotAcceptSubTitle"
+                    style="@style/ASmallGrey"
+                    android:layout_marginTop="@dimen/_100sdp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_medium"
+                    android:text="@string/screen_title_mistake_please_call"
+                    android:layout_marginEnd="@dimen/margin_medium"
+                    android:gravity="center"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:textColor="@color/kyc_success_text_color_light_gray"
+                    app:layout_constraintVertical_bias="0.0"
+                    app:layout_constraintTop_toBottomOf="@+id/tvEID_NotAcceptMessage"
+                    app:text="@{Strings.screen_title_mistake_please_call}"
+                    tools:text="@string/screen_title_mistake_please_call" />
 
 
-        <co.yap.widgets.CoreButton
-            android:id="@+id/btnEID_NotAccept"
-            style="@style/RectangleBtnStyle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/margin_medium_large"
-            android:layout_marginRight="@dimen/margin_medium_large"
-            android:layout_marginBottom="40dp"
-            android:paddingTop="@dimen/margin_medium"
-            android:paddingBottom="@dimen/margin_medium"
-            app:btn_enable="true"
-            app:btn_pressed_color="@color/white"
-            app:btn_text_color="@color/colorPrimaryDark"
-            app:btn_unpressed_color="@color/white"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            android:text="@string/screen_profile_settings_display_text_logout"
-            app:text="@{Strings.screen_profile_settings_display_text_logout}"
-            tools:text="@string/screen_profile_settings_display_text_logout" />
+                <TextView
+                    android:id="@+id/tvEID_NotAcceptNumber"
+                    style="@style/ASmallHyperLinkUnderline"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_medium"
+                    android:layout_marginEnd="@dimen/margin_medium"
+                    android:gravity="center"
+                    android:text="+971 600551214"
+                    android:textColor="@color/purple"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvEID_NotAcceptSubTitle"
+                    app:layout_constraintVertical_bias="0.0" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <co.yap.widgets.CoreButton
+                    android:id="@+id/btnEID_NotAccept"
+                    style="@style/RectangleBtnStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/margin_medium_large"
+                    android:layout_marginRight="@dimen/margin_medium_large"
+                    android:paddingTop="@dimen/margin_medium"
+                    android:layout_marginBottom="@dimen/margin_small"
+                    android:paddingBottom="@dimen/margin_medium"
+                    android:text="@string/screen_profile_settings_display_text_logout"
+                    app:btn_enable="true"
+                    android:layout_marginTop="@dimen/margin_large"
+                    app:btn_pressed_color="@color/white"
+                    app:btn_text_color="@color/colorPrimaryDark"
+                    app:btn_unpressed_color="@color/white"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvEID_NotAcceptNumber"
+                    app:text="@{Strings.screen_profile_settings_display_text_logout}"
+                    tools:text="@string/screen_profile_settings_display_text_logout" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </LinearLayout>
+
+    </ScrollView>
+
+
 </layout>

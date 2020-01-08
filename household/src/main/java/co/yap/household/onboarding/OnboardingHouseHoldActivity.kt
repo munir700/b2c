@@ -39,7 +39,6 @@ class OnboardingHouseHoldActivity : BaseBindingActivity<IOnboarding.ViewModel>()
         super.onDestroy()
     }
 
-
     private val backButtonObserver = Observer<Boolean> { onBackPressed() }
 
     override fun onBackPressed() {
