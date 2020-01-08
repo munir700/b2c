@@ -225,36 +225,44 @@ class CoreDialerPad @JvmOverloads constructor(
     }
 
     private fun updateDialerPadValues(dialerLength: Int) {
-        if (dialerLength > 0) {
-            list.addAll(listOf(dialerLength))
-        }
-        if (list.size == 1) {
-            ivOne.visibility = View.VISIBLE
-        } else if (list.size == 2) {
-            ivOne.visibility = View.VISIBLE
-            ivTwo.visibility = View.VISIBLE
-        } else if (list.size == 3) {
-            ivOne.visibility = View.VISIBLE
-            ivTwo.visibility = View.VISIBLE
-            ivThree.visibility = View.VISIBLE
-        } else if (list.size == 4) {
-            ivOne.visibility = View.VISIBLE
-            ivTwo.visibility = View.VISIBLE
-            ivThree.visibility = View.VISIBLE
-            ivFour.visibility = View.VISIBLE
-        } else if (list.size == 5) {
-            ivOne.visibility = View.VISIBLE
-            ivTwo.visibility = View.VISIBLE
-            ivThree.visibility = View.VISIBLE
-            ivFour.visibility = View.VISIBLE
-            ivFive.visibility = View.VISIBLE
-        } else if (list.size == 6) {
-            ivOne.visibility = View.VISIBLE
-            ivTwo.visibility = View.VISIBLE
-            ivThree.visibility = View.VISIBLE
-            ivFour.visibility = View.VISIBLE
-            ivFive.visibility = View.VISIBLE
-            ivSix.visibility = View.VISIBLE
+
+        when (dialerLength) {
+            4 -> {
+                list.add(1)
+                list.add(1)
+                list.add(1)
+                list.add(1)
+                ivOne.visibility = View.VISIBLE
+                ivTwo.visibility = View.VISIBLE
+                ivThree.visibility = View.VISIBLE
+                ivFour.visibility = View.VISIBLE
+            }
+            5 -> {
+                list.add(1)
+                list.add(1)
+                list.add(1)
+                list.add(1)
+                list.add(1)
+                ivOne.visibility = View.VISIBLE
+                ivTwo.visibility = View.VISIBLE
+                ivThree.visibility = View.VISIBLE
+                ivFour.visibility = View.VISIBLE
+                ivFive.visibility = View.VISIBLE
+            }
+            6 -> {
+                list.add(1)
+                list.add(1)
+                list.add(1)
+                list.add(1)
+                list.add(1)
+                list.add(1)
+                ivOne.visibility = View.VISIBLE
+                ivTwo.visibility = View.VISIBLE
+                ivThree.visibility = View.VISIBLE
+                ivFour.visibility = View.VISIBLE
+                ivFive.visibility = View.VISIBLE
+                ivSix.visibility = View.VISIBLE
+            }
         }
     }
 
