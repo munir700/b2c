@@ -140,7 +140,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:visibility="@{(houseHoldViewModel.state.showErrorMessage &amp;&amp; houseHoldViewModel.state.existingYapUser) ? View.VISIBLE : View.GONE}"
+                android:visibility="@{(houseHoldViewModel.state.showErrorMessage &amp;&amp; !houseHoldViewModel.state.existingYapUser) ? View.VISIBLE : View.GONE}"
                 app:text="@{Strings.screen_house_hold_number_registration_error_text}"
                 tools:text="@string/screen_house_hold_number_registration_error_text" />
         </FrameLayout>

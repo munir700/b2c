@@ -56,15 +56,9 @@ class HouseHoldNumberRegistrationState : BaseState(), IHouseHoldNumberRegistrati
             notifyPropertyChanged(BR.showErrorMessage)
         }
     @get:Bindable
-    override var existingYapUser: Boolean? = false
+    override var existingYapUser: Boolean? = true
         set(value) {
             field = value
             notifyPropertyChanged(BR.existingYapUser)
         }
-    //    @get:Bindable
-//    override var isExistingUser: Boolean = false
-//        set(value) {
-//            field = value
-//           notifyPropertyChanged(BR.isExistingUser)
-//        }
 }
