@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_nav_graph"
-    app:startDestination="@id/householdOnboardingHouseHoldActivitySuccessActivity">
+    app:startDestination="@id/householdEIDNotAccepted">
 
     <!--    app:startDestination="@id/splashFragment">-->
 
@@ -235,5 +235,19 @@
         android:name="co.yap.household.onboarding.onboarding.OnboardingHouseHoldActivitySuccessActivity"
         android:label="OnboardingHouseHoldActivitySuccessActivity"
         tools:layout="@layout/activity_onboarding_house_hold_success" />
+
+
+    <activity
+        android:id="@+id/householdKYCSuccess"
+        android:name="co.yap.household.onboarding.kycsuccess.KycSuccessActivity"
+        android:label="householdKYCSuccess"
+        tools:layout="@layout/activity_kyc_success" />
+
+    <activity
+        android:id="@+id/householdOnBoardingExistingYAP"
+        android:name="co.yap.household.onboarding.onboarding.OnBoardingExistingYapActivity"
+        android:label="OnBoardingExistingYAP"
+        tools:layout="@layout/activity_on_boarding_existing_yap" />
+
 </navigation>
 

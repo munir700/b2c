@@ -854,5 +854,11 @@
     <string name="screen_on_boarding_existing_message">You have been added to a Household plan by Nada Hassan</string>
     <string name="screen_b2c_kyc_home_button_skip_on_boarding_existing">Skip and do later</string>
 
+    <!--    OnBoarding Existing YAP User Screen-->
+    <string name="screen_house_hold_onBoarding_existing_title_display_text">Hi Joe, you’ve been added to a Household plan by Nada Hassan</string>
+    <string name="screen_house_hold_onBoarding_existing_title_accept_text">Once you click ‘Accept\', the Household</string>
+    <string name="screen_house_hold_onBoarding_existing_title_accept_text_second">plan will be added to your YAP app</string>
+    <string name="screen_house_hold_onBoarding_existing_title_accept">Accept</string>
+    <string name="screen_house_hold_onBoarding_existing_title_decline_request">Decline request</string>
 </resources>
 
