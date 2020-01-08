@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/hh_sub_account_onboarding_navigation"
-    app:startDestination="@id/houseHoldNumberRegistrationFragment">
+    app:startDestination="@id/houseHoldCardsSelectionFragment">
 
     <fragment
         android:id="@+id/emailHouseHoldFragment"
@@ -62,9 +62,9 @@
             app:destination="@id/passCodeFragment"
             app:popUpToInclusive="true" />
     </fragment>
- <!--   <fragment
+    <activity
         android:id="@+id/houseHoldCardsSelectionFragment"
         android:name="co.yap.household.onboarding.onboarding.fragments.HouseHoldCardsSelectionActivity"
         android:label="HouseHoldCardsSelectionFragment"
-        tools:layout="@layout/fragment_house_hold_card_selection" />-->
+        tools:layout="@layout/fragment_house_hold_card_selection" />
 </navigation>

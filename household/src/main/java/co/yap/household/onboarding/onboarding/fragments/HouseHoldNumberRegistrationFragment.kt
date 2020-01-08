@@ -39,8 +39,8 @@ class HouseHoldNumberRegistrationFragment :
         })
     }
 
-    override fun onPause() {
-        super.onPause()
+    override fun onDestroyView() {
+        super.onDestroyView()
         viewModel.clickEvent?.removeObservers(this)
     }
 
