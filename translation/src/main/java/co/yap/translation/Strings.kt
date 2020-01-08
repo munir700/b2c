@@ -1369,5 +1369,7 @@ object Strings {
         "screen_title_oops"
     const val screen_title_mistake_please_call: String =
         "screen_title_mistake_please_call"
+    const val screen_on_boarding_existing_message: String =
+        "screen_on_boarding_existing_message"
 
 }

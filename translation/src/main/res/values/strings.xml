@@ -849,5 +849,9 @@
     <!-- Household screen EID not accept -->
     <string name="screen_title_oops">Oops!</string>
     <string name="screen_title_mistake_please_call">If you feel this is a mistake please call us at</string>
+
+    <!-- Household On Boarding Existing screen-->
+
+    <string name="screen_on_boarding_existing_message">You have been added to a Household plan by Nada Hassan</string>
 </resources>
 
