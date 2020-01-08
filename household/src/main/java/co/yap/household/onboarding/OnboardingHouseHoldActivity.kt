@@ -1,5 +1,7 @@
 package co.yap.household.onboarding
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -18,6 +20,16 @@ import co.yap.yapcore.interfaces.IBaseNavigator
 class OnboardingHouseHoldActivity : BaseBindingActivity<IOnboarding.ViewModel>(), INavigator,
     IFragmentHolder {
 
+    companion object {
+        const val BUNDLE_DATA = "bundle_data"
+        const val EXISTING_USER = "existingYapUser"
+        fun getIntent(context: Context, bundle: Bundle = Bundle()): Intent {
+            val intent = Intent(context, OnboardingHouseHoldActivity::class.java)
+            intent.putExtra(BUNDLE_DATA, bundle)
+            return intent
+        }
+    }
+
     override fun getBindingVariable(): Int = BR.viewModelHouseHold
 
     override fun getLayoutId(): Int = R.layout.activity_main_house_hold
@@ -26,10 +38,16 @@ class OnboardingHouseHoldActivity : BaseBindingActivity<IOnboarding.ViewModel>()
         get() = ViewModelProviders.of(this).get(OnboardingHouseHoldViewModel::class.java)
 
     override val navigator: IBaseNavigator
-        get() = DefaultNavigator(this@OnboardingHouseHoldActivity, R.id.main_nav_host_container_fragment)
+        get() = DefaultNavigator(
+            this@OnboardingHouseHoldActivity,
+            R.id.main_nav_host_container_fragment
+        )
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        intent?.getBundleExtra(BUNDLE_DATA)?.let {
+            viewModel.state.existingYapUser = it.getBoolean(EXISTING_USER, false)
+        }
         viewModel.onboardingData.accountType = "B2C_ACCOUNT"
         viewModel.backButtonPressEvent.observe(this, backButtonObserver)
     }
@@ -39,11 +57,11 @@ class OnboardingHouseHoldActivity : BaseBindingActivity<IOnboarding.ViewModel>()
         super.onDestroy()
     }
 
-
     private val backButtonObserver = Observer<Boolean> { onBackPressed() }
 
     override fun onBackPressed() {
-        val fragment = supportFragmentManager.findFragmentById( R.id.main_nav_host_container_fragment)
+        val fragment =
+            supportFragmentManager.findFragmentById(R.id.main_nav_host_container_fragment)
         if (!BackPressImpl(fragment).onBackPressed()) {
             super.onBackPressed()
         }

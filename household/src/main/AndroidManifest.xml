@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest package="co.yap.household"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="co.yap.household">
 
-    <application>
+    <application android:supportsRtl="true">
         <!--        <activity android:name=".onboarding.OnboardingActivity" />-->
         <activity
             android:name=".onboarding.OnboardingHouseHoldActivity"
@@ -12,15 +12,27 @@
             android:windowSoftInputMode="adjustResize">
             <nav-graph android:value="@navigation/hh_sub_account_onboarding_navigation" />
         </activity>
+
         <activity
             android:name=".onboarding.onboarding.fragments.HouseHoldCardsSelectionActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="adjustResize"></activity>
-        <activity android:name="co.yap.household.onboarding.kycsuccess.KycSuccessActivity"></activity>
-        <activity android:name="co.yap.household.onboarding.onboarding.EIDNotAcceptedActivity"></activity>
+            android:windowSoftInputMode="adjustResize" />
 
-        <activity android:name="co.yap.household.onboarding.onboarding.OnBoardingExistingYapActivity"></activity>
+        <activity
+            android:name=".onboarding.kycsuccess.KycSuccessActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".onboarding.onboarding.activities.EIDNotAcceptedActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".onboarding.onboarding.activities.OnboardingHouseHoldActivitySuccessActivity"
+            android:screenOrientation="portrait" />
+
+
+        <activity android:name=".onboarding.onboarding.activities.OnBoardingExistingYapActivity" />
     </application>
 
 </manifest>

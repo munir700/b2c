@@ -1335,6 +1335,8 @@ object Strings {
         "screen_house_hold_number_registration_display_text_heading"
     const val screen_house_hold_number_registration_display_text_parent_description: String =
         "screen_house_hold_number_registration_display_text_parent_description"
+    const val screen_house_hold_existing_number_registration_display_text_parent_description: String =
+        "screen_house_hold_existing_number_registration_display_text_parent_description"
     const val screen_house_hold_number_registration_button_text_confirm: String =
         "screen_house_hold_number_registration_button_text_confirm"
     const val screen_house_hold_number_registration_error_text: String =
@@ -1379,5 +1381,8 @@ object Strings {
         "screen_title_oops"
     const val screen_title_mistake_please_call: String =
         "screen_title_mistake_please_call"
-
+    const val screen_on_boarding_existing_message: String =
+        "screen_on_boarding_existing_message"
+    const val screen_b2c_kyc_home_button_skip_on_boarding_existing: String =
+        "screen_b2c_kyc_home_button_skip_on_boarding_existing"
 }
