@@ -203,7 +203,7 @@ class HelpSupportFragment : MoreBaseFragment<IHelpSupport.ViewModel>(), IHelpSup
 
     private fun openFaqsPage(url: String) {
         FinestWebView.Builder(activity!!)
-            .titleDefault(viewModel.state.title.get()!!)
+            .titleDefault(viewModel.state.title.get() ?: "")
             .updateTitleFromHtml(true)
             .toolbarScrollFlags(AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL or AppBarLayout.LayoutParams.SCROLL_FLAG_ENTER_ALWAYS)
             .gradientDivider(false)
