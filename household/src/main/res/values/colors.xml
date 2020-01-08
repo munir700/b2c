@@ -11,6 +11,7 @@
     <color name="textDarkColor">#1a1423</color>
     <color name="colorLightPinkBackground">#FFE3E0</color>
 
+    <color name="colorPrimaryHouseHold">#fc6253</color>
     <color name="colorPrimaryDark">#080145</color>
     <color name="colorPrimaryLight">#7c4dff</color>
     <color name="colorPrimarySoft">#a682ff</color>
