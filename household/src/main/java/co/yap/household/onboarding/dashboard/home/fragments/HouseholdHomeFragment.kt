@@ -11,7 +11,6 @@ import co.yap.household.onboarding.dashboard.main.fragments.HouseholdDashboardBa
 import co.yap.widgets.MultiStateView
 import co.yap.yapcore.BR
 import co.yap.yapcore.constants.Constants
-import kotlinx.android.synthetic.main.layout_household_home_toolbar.*
 
 class HouseholdHomeFragment : HouseholdDashboardBaseFragment<IHouseholdHome.ViewModel>(),
     IHouseholdHome.View {
@@ -34,7 +33,11 @@ class HouseholdHomeFragment : HouseholdDashboardBaseFragment<IHouseholdHome.View
 
     private val clickObserver = Observer<Int> {
         when (it) {
-            ivMenu.id -> parentView?.toggleDrawer()
+            R.id.ivMenu -> {
+                parentView?.toggleDrawer()
+            }
+            R.id.ivSearch -> {
+            }
         }
     }
 
@@ -56,6 +59,7 @@ class HouseholdHomeFragment : HouseholdDashboardBaseFragment<IHouseholdHome.View
     override fun onDestroy() {
         super.onDestroy()
         viewModel.viewState.removeObserver(viewStateObserver)
+        viewModel.clickEvent.removeObserver(clickObserver)
     }
 
     private fun getViewBinding(): FragmentHouseholdHomeBinding {
