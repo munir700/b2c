@@ -1370,4 +1370,9 @@ object Strings {
     const val screen_title_mistake_please_call: String =
         "screen_title_mistake_please_call"
 
+    // Household Dashboard/Home
+    const val screen_household_home_display_text_transactions_heading_title: String =
+        "screen_household_home_display_text_transactions_heading_title"
+    const val screen_household_home_display_text_transactions_filers_title: String =
+        "screen_household_home_display_text_transactions_filers_title"
 }

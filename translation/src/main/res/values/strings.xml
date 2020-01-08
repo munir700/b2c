@@ -849,5 +849,10 @@
     <!-- Household screen EID not accept -->
     <string name="screen_title_oops">Oops!</string>
     <string name="screen_title_mistake_please_call">If you feel this is a mistake please call us at</string>
+
+    <!-- Household Dashboard/Home -->
+    <string name="screen_household_home_display_text_transactions_heading_title">Transactions</string>
+    <string name="screen_household_home_display_text_transactions_filers_title">Filter</string>
+
 </resources>
 

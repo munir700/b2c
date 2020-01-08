@@ -25,6 +25,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
+                android:tint="@color/white"
                 app:srcCompat="@drawable/ic_search" />
 
             <ImageView
@@ -38,6 +39,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
+                android:tint="@color/white"
                 app:srcCompat="@drawable/ic_hamburger" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
