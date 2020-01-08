@@ -20,5 +20,6 @@ interface IOnboarding {
         var totalProgress: Int
         var currentProgress: Int
         var currentBackground: Int
+        var existingYapUser: Boolean?
     }
 }

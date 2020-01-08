@@ -18,6 +18,8 @@ class HouseHoldNumberRegistrationViewModel(application: Application) :
     override fun onCreate() {
         populateState()
         super.onCreate()
+        state.existingYapUser = parentViewModel?.state?.existingYapUser
+
     }
     override fun onResume() {
         super.onResume()
