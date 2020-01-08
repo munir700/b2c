@@ -25,13 +25,13 @@ class HouseHoldNumberRegistrationViewModel(application: Application) :
         setProgress(20)
     }
     override fun populateState() {
-        state.parentName = "Sufyan"
-        state.welcomeHeading =
-            getString(Strings.screen_house_hold_number_registration_display_text_heading).format(
-                state.parentName
-            )
-        state.numberConfirmationValue =
-            getString(Strings.screen_house_hold_number_registration_display_text_parent_description)
+//        state.parentName = "Sufyan"
+//        state.welcomeHeading =
+//            getString(Strings.screen_house_hold_number_registration_display_text_heading).format(
+//                state.parentName
+//            )
+//        state.numberConfirmationValue =
+//            getString(Strings.screen_house_hold_number_registration_display_text_parent_description)
     }
 
     override fun handlePressOnConfirm(id: Int) {
