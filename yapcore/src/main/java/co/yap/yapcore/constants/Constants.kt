@@ -107,4 +107,11 @@ object Constants {
     const val MONEY_TRANSFERED = "MONEY_TRANSFERED"
     const val BENEFICIARY_CHANGE = "BENEFICIARY_CHANGE"
 
+    // Events for ViewState
+
+    const val EVENT_LOADING: Int = 1111
+    const val EVENT_EMPTY: Int = 2222
+    const val EVENT_CONTENT: Int = 3333
+    const val EVENT_ERROR: Int = 4444
+
 }
