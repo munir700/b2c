@@ -27,8 +27,6 @@ class HouseHoldCardsSelectionViewModel(application: Application) :
     }
 
     override fun initViews() {
-        state.cardsHeading =
-            getString(Strings.screen_house_hold_card_color_selection_display_text_heading)
         getCardsColorListRequest()
     }
 

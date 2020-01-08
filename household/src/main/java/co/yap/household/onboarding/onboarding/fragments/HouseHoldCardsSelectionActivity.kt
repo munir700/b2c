@@ -1,5 +1,7 @@
 package co.yap.household.onboarding.onboarding.fragments
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import androidx.core.view.ViewCompat
 import androidx.lifecycle.Observer
@@ -10,12 +12,22 @@ import co.yap.household.R
 import co.yap.household.databinding.FragmentHouseHoldCardSelectionBinding
 import co.yap.household.onboarding.onboarding.interfaces.IHouseHoldCardsSelection
 import co.yap.household.onboarding.onboarding.viewmodels.HouseHoldCardsSelectionViewModel
+import co.yap.translation.Strings
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.toast
 
 class HouseHoldCardsSelectionActivity : BaseBindingActivity<IHouseHoldCardsSelection.ViewModel>(),
     IHouseHoldCardsSelection.View {
+
+    companion object {
+        const val data = "isFromExisting"
+        fun newIntent(context: Context, isFromExisting: Boolean?): Intent {
+            val intent = Intent(context, HouseHoldCardsSelectionActivity::class.java)
+            intent.putExtra(data, isFromExisting)
+            return intent
+        }
+    }
 
     override fun getBindingVariable(): Int = BR.houseHoldViewModel
 
@@ -28,10 +40,23 @@ class HouseHoldCardsSelectionActivity : BaseBindingActivity<IHouseHoldCardsSelec
         super.onCreate(savedInstanceState)
         setObservers()
         setupPager()
+        setUpUI()
     }
 
     override fun setObservers() {
         viewModel.clickEvent.observe(this, clickEvent)
+    }
+
+    override fun setUpUI() {
+        if (getIntentData()) {
+            viewModel.state.locationVisibility = true
+            viewModel.state.cardsHeading =
+                getString(Strings.screen_house_hold_card_color_selection_display_text_heading_existing_user)
+        } else {
+            viewModel.state.locationVisibility = false
+            viewModel.state.cardsHeading =
+                getString(Strings.screen_house_hold_card_color_selection_display_text_heading)
+        }
     }
 
     private var clickEvent = Observer<Int> {
@@ -65,6 +90,11 @@ class HouseHoldCardsSelectionActivity : BaseBindingActivity<IHouseHoldCardsSelec
                 page.translationY = offset
             }
         }
+    }
+
+    private fun getIntentData(): Boolean {
+        //intent.getBooleanExtra("isFromExisting", false)
+        return true
     }
 
 

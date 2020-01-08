@@ -6,9 +6,11 @@ import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
 
 interface IHouseHoldCardsSelection {
-    interface View : IBase.View<ViewModel>{
+    interface View : IBase.View<ViewModel> {
         fun setObservers()
+        fun setUpUI()
     }
+
     interface ViewModel : IBase.ViewModel<State> {
         fun initViews()
         val clickEvent: SingleClickEvent
@@ -21,5 +23,8 @@ interface IHouseHoldCardsSelection {
 
     interface State : IBase.State {
         var cardsHeading: String
+        var locationVisibility: Boolean
+        var cardAddressTitle: String
+        var cardAddressSubTitle: String
     }
 }

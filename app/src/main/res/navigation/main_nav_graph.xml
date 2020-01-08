@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_nav_graph"
-    app:startDestination="@id/householdOnboard">
+    app:startDestination="@id/abc">
 
     <!--    app:startDestination="@id/splashFragment">-->
 
@@ -220,6 +220,11 @@
     <activity
         android:id="@+id/householdOnboard"
         android:name="co.yap.household.onboarding.OnboardingHouseHoldActivity"
+        android:label="householdOnboard"
+        tools:layout="@layout/activity_main_house_hold" />
+    <activity
+        android:id="@+id/abc"
+        android:name="co.yap.household.onboarding.onboarding.fragments.HouseHoldCardsSelectionActivity"
         android:label="householdOnboard"
         tools:layout="@layout/activity_main_house_hold" />
 

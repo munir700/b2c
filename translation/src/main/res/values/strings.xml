@@ -845,6 +845,8 @@
     <!--    Card color selection screen-->
     <string name="screen_house_hold_card_color_selection_display_text_heading">Select a card color</string>
     <string name="screen_house_hold_card_color_selection_display_text">Household card</string>
+    <string name="screen_house_hold_card_color_selection_button_text_confirm_location">Confirm location</string>
+    <string name="screen_house_hold_card_color_selection_display_text_heading_existing_user">That’s right! \n Now select a card color</string>
 
     <!-- Household screen EID not accept -->
     <string name="screen_title_oops">Oops!</string>
