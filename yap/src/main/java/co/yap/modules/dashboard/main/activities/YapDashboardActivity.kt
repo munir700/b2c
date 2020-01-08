@@ -53,6 +53,8 @@ import co.yap.yapcore.helpers.dimen
 import co.yap.yapcore.managers.MyUserManager
 import kotlinx.android.synthetic.main.activity_yap_dashboard.*
 import kotlinx.android.synthetic.main.layout_drawer_yap_dashboard.*
+import kotlinx.android.synthetic.main.layout_drawer_yap_dashboard.view.*
+import kotlinx.android.synthetic.main.layout_item_icon_text.view.*
 import net.cachapa.expandablelayout.ExpandableLayout
 
 class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYapDashboard.View,
