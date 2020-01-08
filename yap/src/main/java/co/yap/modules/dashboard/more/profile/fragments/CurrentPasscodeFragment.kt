@@ -59,7 +59,7 @@ open class CurrentPasscodeFragment : ChangeCardPinFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        getBindings().dialer.updateDialerLength(6)
+        getBinding().dialer.updateDialerLength(6)
     }
 
     override fun setObservers() {
@@ -78,7 +78,7 @@ open class CurrentPasscodeFragment : ChangeCardPinFragment() {
         super.onDestroy()
     }
 
-    private fun getBindings(): FragmentSetCardPinBinding {
+    private fun getBinding(): FragmentSetCardPinBinding {
         return viewDataBinding as FragmentSetCardPinBinding
     }
 }
