@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">#5E35B1</item>
+        <item name="colorPrimaryDark">#272262</item>
+        <item name="colorAccent">#4d4d4d</item>
+
+        <item name="colorPrimaryAttr">@color/colorPrimary</item>
+        <item name="colorPrimaryDarkAttr">@color/warning</item>
+
+
+    </style>
+
+    <style name="AppThemeHouseHold" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">#fc6253</item>
+        <item name="colorPrimaryDark">#fc6253</item>
+        <item name="colorAccent">#fc6253</item>
+
+        <item name="colorPrimaryAttr">#fc6253</item>
+        <item name="colorPrimaryDarkAttr">#fc6253</item>
+    </style>
+
+
+    <!--    <style name="AppTheme.NoActionBar">-->
+    <!--        <item name="windowActionBar">false</item>-->
+    <!--        <item name="windowNoTitle">true</item>-->
+    <!--    </style>-->
+
+</resources>

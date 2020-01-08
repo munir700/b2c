@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <attr name="colorPrimaryAttr" format="reference" />
+    <attr name="colorPrimaryDarkAttr" format="reference" />
 
     <declare-styleable name="CoreButton">
         <attr name="btn_text_color" format="color" />
