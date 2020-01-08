@@ -52,7 +52,7 @@ open class CurrentPasscodeFragment : ChangeCardPinFragment() {
         })
 
         viewModel.errorEvent.observe(this, Observer {
-            dialer.startAnimationDigits()
+            dialer.startAnimation()
         })
 
     }

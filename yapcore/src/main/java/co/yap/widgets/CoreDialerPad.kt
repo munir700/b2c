@@ -9,7 +9,6 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.OnClickListener
-import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.widget.EditText
 import android.widget.LinearLayout
@@ -181,7 +180,7 @@ class CoreDialerPad @JvmOverloads constructor(
     }
 
     private fun addListSizeForPasscode() {
-        if (list.size < 6) {
+        if (list.size < dialerMaxLength) {
             list.add(1)
         }
         if (list.size == 1) {

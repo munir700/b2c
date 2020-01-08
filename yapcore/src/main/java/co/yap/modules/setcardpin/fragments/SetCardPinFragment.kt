@@ -36,7 +36,7 @@ open class SetCardPinFragment : BaseBindingFragment<ISetCardPin.ViewModel>(), IS
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         getBindings().dialer.hideFingerprintView()
-        getBindings().dialer.updateDialerLength(4)
+        // getBindings().dialer.updateDialerLength(4)
     }
 
     override fun setObservers() {

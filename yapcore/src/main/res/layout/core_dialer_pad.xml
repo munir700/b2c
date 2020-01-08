@@ -7,23 +7,23 @@
     android:background="@color/white"
     android:orientation="vertical">
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/llTopMain"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="28dp"
         android:gravity="center_horizontal"
-        android:orientation="horizontal"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="@+id/tvError"
         app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
             android:id="@+id/llPasscode"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/_15sdp"
             android:layout_gravity="center_horizontal"
             android:gravity="center"
             android:orientation="horizontal"
-            android:visibility="gone"
+            android:visibility="visible"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.186"
             tools:layout_editor_absoluteX="0dp">
@@ -91,7 +91,7 @@
             app:layout_constraintVertical_bias="0.186"
             tools:layout_editor_absoluteX="0dp"
             tools:text="6854" />
-    </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <TextView
         android:id="@+id/tvError"
@@ -99,8 +99,10 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:textColor="@color/error"
+        android:layout_marginTop="@dimen/margin_extra_small"
         android:textSize="12sp"
         app:layout_constraintTop_toBottomOf="@+id/llTopMain"
+        app:layout_constraintBottom_toTopOf="@+id/llPasscodeFirstRow"
         tools:text="Error" />
 
 
@@ -108,7 +110,7 @@
         android:id="@+id/llPasscodeFirstRow"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="28dp"
+        android:layout_marginTop="@dimen/margin_normal"
         android:gravity="center_horizontal"
         android:orientation="horizontal"
         app:layout_constraintTop_toBottomOf="@+id/tvError">
