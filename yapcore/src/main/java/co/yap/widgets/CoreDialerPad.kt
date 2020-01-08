@@ -36,62 +36,62 @@ class CoreDialerPad @JvmOverloads constructor(
         if (it.id == R.id.button1) {
             etPassCodeText.append("1")
             if (dialerType == 1) {
-                addListSizeForPasscode()
+                addListSizeForPasscode(dialerMaxLength)
             }
         }
 
         if (it.id == R.id.button2) {
             etPassCodeText.append("2")
             if (dialerType == 1) {
-                addListSizeForPasscode()
+                addListSizeForPasscode(dialerMaxLength)
             }
         }
         if (it.id == R.id.button3) {
             etPassCodeText.append("3")
             if (dialerType == 1) {
-                addListSizeForPasscode()
+                addListSizeForPasscode(dialerMaxLength)
             }
         }
         if (it.id == R.id.button4) {
             etPassCodeText.append("4")
             if (dialerType == 1) {
-                addListSizeForPasscode()
+                addListSizeForPasscode(dialerMaxLength)
             }
         }
         if (it.id == R.id.button5) {
             etPassCodeText.append("5")
             if (dialerType == 1) {
-                addListSizeForPasscode()
+                addListSizeForPasscode(dialerMaxLength)
             }
         }
         if (it.id == R.id.button6) {
             etPassCodeText.append("6")
             if (dialerType == 1) {
-                addListSizeForPasscode()
+                addListSizeForPasscode(dialerMaxLength)
             }
         }
         if (it.id == R.id.button7) {
             etPassCodeText.append("7")
             if (dialerType == 1) {
-                addListSizeForPasscode()
+                addListSizeForPasscode(dialerMaxLength)
             }
         }
         if (it.id == R.id.button8) {
             etPassCodeText.append("8")
             if (dialerType == 1) {
-                addListSizeForPasscode()
+                addListSizeForPasscode(dialerMaxLength)
             }
         }
         if (it.id == R.id.button9) {
             etPassCodeText.append("9")
             if (dialerType == 1) {
-                addListSizeForPasscode()
+                addListSizeForPasscode(dialerMaxLength)
             }
         }
         if (it.id == R.id.button0) {
             etPassCodeText.append("0")
             if (dialerType == 1) {
-                addListSizeForPasscode()
+                addListSizeForPasscode(dialerMaxLength)
             }
         }
         onButtonClickListener?.onClick(it)
@@ -179,9 +179,54 @@ class CoreDialerPad @JvmOverloads constructor(
         )
     }
 
-    private fun addListSizeForPasscode() {
-        if (list.size < dialerMaxLength) {
+    fun upDatedDialerPad(passcode: String? = null) {
+        passcode?.let {
+            etPassCodeText.setText(it)
+        }
+        if (passcode == null) {
+            updateDialerPadValues(etPassCodeText.length())
+        } else {
+            updateDialerPadValues(passcode.length)
+        }
+    }
+
+    private fun addListSizeForPasscode(dialerLength: Int) {
+        if (list.size < dialerLength) {
             list.add(1)
+        }
+        if (list.size == 1) {
+            ivOne.visibility = View.VISIBLE
+        } else if (list.size == 2) {
+            ivOne.visibility = View.VISIBLE
+            ivTwo.visibility = View.VISIBLE
+        } else if (list.size == 3) {
+            ivOne.visibility = View.VISIBLE
+            ivTwo.visibility = View.VISIBLE
+            ivThree.visibility = View.VISIBLE
+        } else if (list.size == 4) {
+            ivOne.visibility = View.VISIBLE
+            ivTwo.visibility = View.VISIBLE
+            ivThree.visibility = View.VISIBLE
+            ivFour.visibility = View.VISIBLE
+        } else if (list.size == 5) {
+            ivOne.visibility = View.VISIBLE
+            ivTwo.visibility = View.VISIBLE
+            ivThree.visibility = View.VISIBLE
+            ivFour.visibility = View.VISIBLE
+            ivFive.visibility = View.VISIBLE
+        } else if (list.size == 6) {
+            ivOne.visibility = View.VISIBLE
+            ivTwo.visibility = View.VISIBLE
+            ivThree.visibility = View.VISIBLE
+            ivFour.visibility = View.VISIBLE
+            ivFive.visibility = View.VISIBLE
+            ivSix.visibility = View.VISIBLE
+        }
+    }
+
+    private fun updateDialerPadValues(dialerLength: Int) {
+        if (dialerLength > 0) {
+            list.addAll(listOf(dialerLength))
         }
         if (list.size == 1) {
             ivOne.visibility = View.VISIBLE
