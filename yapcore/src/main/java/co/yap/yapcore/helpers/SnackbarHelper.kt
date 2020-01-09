@@ -29,7 +29,7 @@ fun Activity?.show1(msg: String) {
 }
 
 // for activity and action
-fun Activity.show(msg: String, actionText: String, clickListener: View.OnClickListener) {
+fun Activity.show(msg: String, actionText: String,gravity: Int = Gravity.BOTTOM, clickListener: View.OnClickListener) {
     val snakbar = Snackbar
         .make(
             this.window.decorView.findViewById(android.R.id.content),
@@ -48,7 +48,7 @@ fun Context?.showSnackBar(msg: String) {
     }
 }
 
-fun Fragment?.showSnackBar(msg: String) {
+fun Fragment?.showSnackBar(msg: String,gravity: Int = Gravity.BOTTOM) {
     val snakbar = Snackbar.make(
         this?.requireActivity()?.window?.decorView?.findViewById(android.R.id.content)!!,
         validateString(msg),
@@ -57,7 +57,7 @@ fun Fragment?.showSnackBar(msg: String) {
     show(snakbar)
 }
 
-fun Fragment?.show1(msg: String) {
+fun Fragment?.show1(msg: String,gravity: Int = Gravity.BOTTOM) {
     val snakbar = Snackbar.make(
         this?.requireActivity()?.window?.decorView?.findViewById(android.R.id.content)!!,
         validateString(msg),
@@ -67,7 +67,7 @@ fun Fragment?.show1(msg: String) {
 }
 
 // for activity and action
-fun Fragment?.show(msg: String, actionText: String, clickListener: View.OnClickListener) {
+fun Fragment?.show(msg: String, actionText: String,gravity: Int = Gravity.BOTTOM, clickListener: View.OnClickListener) {
     val snackbar = Snackbar
         .make(
             this?.requireActivity()?.window?.decorView?.findViewById(android.R.id.content)!!,
@@ -87,7 +87,7 @@ fun View?.showSnackBar(
     isCapsMesg: Boolean,
     messageSize: Int,
     actionTextColor: Int,
-    actionText: String,
+    actionText: String,gravity: Int = Gravity.BOTTOM,
     clickListener: View.OnClickListener
 ) {
 
@@ -121,7 +121,7 @@ private fun show(snakbar: Snackbar,gravity: Int = Gravity.BOTTOM) {
 }
 
 // for view and action
-fun View?.showSnackBar(msg: String, actionText: String, clickListener: View.OnClickListener) {
+fun View?.showSnackBar(msg: String, actionText: String,gravity: Int = Gravity.BOTTOM, clickListener: View.OnClickListener) {
     val snakbar = Snackbar
         .make(this!!, validateString(msg), Snackbar.LENGTH_LONG)
         .setAction(actionText, clickListener)
