@@ -2,7 +2,6 @@ package co.yap.app.modules.login.fragments
 
 import android.hardware.fingerprint.FingerprintManager
 import android.os.Bundle
-import android.os.Handler
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -22,12 +21,11 @@ import co.yap.yapcore.helpers.biometric.BiometricManagerX
 import co.yap.yapcore.helpers.biometric.BiometricUtil
 import kotlinx.android.synthetic.main.fragment_verify_passcode.*
 
-
 class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(), BiometricCallback,
     IVerifyPasscode.View {
 
     private lateinit var sharedPreferenceManager: SharedPreferenceManager
-   private lateinit var mBiometricManagerX: BiometricManagerX
+    private lateinit var mBiometricManagerX: BiometricManagerX
 
     override fun getBindingVariable(): Int = BR.viewModel
 
@@ -77,8 +75,7 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
                 dialer.hideFingerprintView()
             }
         }
-        dialer.setNumberKeyboardListener(object : NumberKeyboardListener
-        {
+        dialer.setNumberKeyboardListener(object : NumberKeyboardListener {
             override fun onNumberClicked(number: Int, text: String) {
 
             }
@@ -239,17 +236,6 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
     private fun setUsername() {
         viewModel.state.username =
             arguments?.let { VerifyPasscodeFragmentArgs.fromBundle(it).username } as String
-    }
-
-
-    private fun showFingerprintDialog() {
-        mBiometricManager = BiometricManager.BiometricBuilder(context as MainActivity)
-            .setTitle(getString(R.string.biometric_title))
-            .setNegativeButtonText(getString(R.string.biometric_negative_button_text))
-            .build()
-        mBiometricManager.authenticate(this@VerifyPasscodeFragment)
-
-
     }
 
     private fun navigateToDashboard() {

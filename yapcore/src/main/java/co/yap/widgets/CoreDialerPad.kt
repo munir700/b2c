@@ -3,11 +3,9 @@ package co.yap.widgets
 import android.annotation.SuppressLint
 import android.annotation.TargetApi
 import android.content.Context
-import android.content.res.TypedArray
 import android.os.Build
 import android.text.InputFilter
 import android.util.AttributeSet
-import android.view.LayoutInflater
 import android.view.View
 import android.view.View.OnClickListener
 import android.view.animation.AnimationUtils
@@ -241,10 +239,10 @@ class CoreDialerPad @JvmOverloads constructor(
 
     fun upDatedDialerPad(passcode: String? = null) {
         passcode?.let {
-            etPassCodeText.setText(it)
+            etPassCodeText?.setText(it)
         }
         if (passcode == null) {
-            updateDialerPadValues(etPassCodeText.length())
+            updateDialerPadValues(etPassCodeText?.length() ?: 0)
         } else {
             updateDialerPadValues(passcode.length)
         }
