@@ -236,7 +236,6 @@
         android:label="OnboardingHouseHoldActivitySuccessActivity"
         tools:layout="@layout/activity_onboarding_house_hold_success" />
 
-
     <activity
         android:id="@+id/householdKYCSuccess"
         android:name="co.yap.household.onboarding.kycsuccess.KycSuccessActivity"
