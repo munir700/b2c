@@ -4,7 +4,6 @@ import android.content.Context
 import android.text.TextUtils
 import co.yap.countryutils.country.Country
 import co.yap.yapcore.R
-import co.yap.yapcore.helpers.Utils
 import java.util.*
 
 
@@ -668,7 +667,7 @@ object CurrencyUtils {
                 val flagResName = "flag_" + countryCode.toLowerCase()
                 val flag =
                     getFlagDrawable(
-                        Utils.context!!,
+                        context,
                         flagResName
                     )
                 c.setFlagDrawableResId(flag)
@@ -678,28 +677,28 @@ object CurrencyUtils {
     }
 
 
-    fun getFlagDrawable(contextCountryUtils: Context, resName: String): Int {
+    fun getFlagDrawable(context: Context, resName: String): Int {
         if (!TextUtils.isEmpty(resName)) {
             var name = resName
             if (resName.length == 2 || resName.length == 3) {
                 // it is probably a country iso isoCountryCode2Digit
                 name = "flag_" + resName.toLowerCase()
             }
-            return Utils.context!!.resources.getIdentifier(
+            return context.resources.getIdentifier(
                 name,
                 "drawable",
-                Utils!!.context!!.packageName
+                context.packageName
             )
         }
         return 0
     }
 
-    fun getFlagDrawable(countryIsoName: String): Int {
-        return getFlagDrawable(
-            Utils.context!!,
-            countryIsoName
-        )
-    }
+//    fun getFlagDrawable(countryIsoName: String): Int {
+//        return getFlagDrawable(
+//            Utils.context!!,
+//            countryIsoName
+//        )
+//    }
 
     fun getCountryName(countryCode: String): String {
         if (TextUtils.isEmpty(countryCode)) return ""

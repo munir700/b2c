@@ -50,12 +50,10 @@ class AddressSelectionFragment : BaseMapFragment<IAddressSelection.ViewModel>(),
 
     val REQUEST_CHECK_SETTINGS = 100
 
-
     companion object {
         fun newIntent(context: Context): Intent =
             Intent(context, AddressSelectionFragment::class.java)
     }
-
 
     override fun getBindingVariable(): Int = BR.viewModel
 
@@ -63,7 +61,6 @@ class AddressSelectionFragment : BaseMapFragment<IAddressSelection.ViewModel>(),
 
     override val viewModel: IAddressSelection.ViewModel
         get() = ViewModelProviders.of(this).get(AddressSelectionViewModel::class.java)
-
 
     lateinit var icon: BitmapDescriptor
     private var locationPermissionGranted: Boolean = false
@@ -311,11 +308,8 @@ class AddressSelectionFragment : BaseMapFragment<IAddressSelection.ViewModel>(),
                                 viewModel.mDefaultLocation.latitude.toString(),
                                 viewModel.mDefaultLocation.longitude.toString(),
                                 false
-
                             )
                         findNavController().navigate(action)
-
-
                     } /*else if (viewModel.state.isFromPersonalDetailView) {
 //
 //                        viewModel.state.placeTitle = addresstitle

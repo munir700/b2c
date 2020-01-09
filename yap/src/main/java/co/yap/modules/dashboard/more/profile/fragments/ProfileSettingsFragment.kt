@@ -56,7 +56,7 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
 
         Glide.with(activity!!)
 
-        var sharedPreferenceManager: SharedPreferenceManager =
+        val sharedPreferenceManager: SharedPreferenceManager =
             SharedPreferenceManager(requireContext())
 
         if (BiometricUtil.isFingerprintSupported

@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+
+    <color name="colorWhite">#FFFFFF</color>
+    <color name="colorDarkGreen">#00a79d</color>
+    <color name="colorAccent">#4d4d4d</color>
+
+    <!-- Zeplin Color palette -->
+    <color name="colorPrimary">#fc6253</color>
+    <color name="textDarkColor">#1a1423</color>
+    <color name="colorLightPinkBackground">#FFE3E0</color>
+
+    <color name="colorPrimaryHouseHold">#fc6253</color>
+
+    <color name="colorPrimaryDark">#080145</color>
+    <color name="colorPrimaryLight">#7c4dff</color>
+    <color name="colorPrimarySoft">#a682ff</color>
+    <color name="colorPrimaryWarm">#502C9E</color>
+    <color name="grey88848d">#c9c8d8</color>
+    <color name="greyDark">#9391b1</color>
+    <color name="greyLight">#dae0f0</color>
+    <color name="greySoft">#5cdae0f0</color>
+    <color name="greySoftSelected">#F0F1F3</color>
+    <color name="greyNormalDark">#809391b1</color>
+    <color name="colorPrimaryAlt">#bb42eb</color>
+    <color name="error">#ff3b30</color>
+    <color name="errorLightBackground">#fde9ee</color>
+    <color name="white">#ffffff</color>
+    <color name="success">#44d389</color>
+    <color name="warning">#ffc430</color>
+    <color name="transparent">#00000000</color>
+    <color name="disabled">#4D7C4DFF</color>
+    <color name="disabledLight">#235e35b1</color>
+    <color name="divider">#1b979797</color>
+    <color name="dialogBtnColor">#673ab7</color>
+    <color name="dialogTitleColor">#de000000</color>
+    <color name="disabledPurple">#297c4dff</color>
+
+    <color name="colorSecondaryGreen">#00b9ae</color>
+    <color name="colorSecondaryOrange">#f57f17</color>
+    <color name="colorSecondaryBlue">#478df4</color>
+    <color name="colorSecondaryMagenta">#f44774</color>
+
+    <color name="colorMidnightExpress">#1e1c37</color>
+
+    <!--    Backgorunds Colors-->
+    <!--    Backgorunds Colors-->
+
+    <color name="bg_round_light_red">#28f44774</color>
+    <color name="bg_round_light_blue">#28478df4</color>
+    <color name="bg_round_light_green">#2900B9AE</color>
+    <color name="bg_round_light_orange">#29F57F17</color>
+
+
+    <color name="semiBack">#30000000</color>
+    <color name="dialog_title">#4b4b4b</color>
+    <color name="itemBackground">#fafafa</color>
+
+
+    <color name="colorLightGreyGradient">#eff2f9</color>
+    <color name="colorDarkGreyGradient">#dbe1f0</color>
+
+    <!-- Objects -->
+    <color name="kycCard">#247c4dff</color>
+    <color name="copyBtn">#a0a682ff</color>
+    <color name="seekbarProgress">#287c4dff</color>
+    <color name="card_gradient_bottom_color">#5a2fb1</color>
+    <color name="master_card_gradient_bottom_color">#4bdcd8</color>
+    <color name="master_card_gradient_top_color">#1caaa1</color>
+    <color name="purple">#7c4dff</color>
+    <color name="purpleLightCard">#f1edff</color>
+    <color name="disabledTickColor">#FC6253</color>
+
+
+    <array name="analyticsColors">
+        <item>@color/colorSecondaryMagenta</item>
+        <item>@color/colorSecondaryBlue</item>
+        <item>@color/colorSecondaryOrange</item>
+        <item>@color/colorSecondaryGreen</item>
+        <item>@color/colorPrimary</item>
+    </array>
+
+
+</resources>

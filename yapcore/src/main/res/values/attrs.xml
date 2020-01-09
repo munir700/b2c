@@ -40,6 +40,7 @@
         <attr name="view_input_text" format="string" />
         <attr name="view_max_length" format="integer" />
         <attr name="view_id" format="integer" />
+        <attr name="view_plain_background" format="boolean" />
 
         <attr name="view_input_text_imei_actions" format="enum">
             <enum name="IME_ACTION_DONE" value="1" />
@@ -55,6 +56,7 @@
     <declare-styleable name="CoreDialerPad">
         <attr name="dialer_max_length" format="integer" />
         <attr name="dialer_error" format="reference" />
+        <attr name="show_dialer_pass_code" format="boolean" />
         <attr name="dialer_pass_code" format="enum">
             <enum name="defaultType" value="0" />
             <enum name="passcode" value="1" />
@@ -86,6 +88,7 @@
         <attr name="ccp_useDummyEmojiForPreview" format="boolean" /> <!-- beta -->
         <attr name="ccp_onFlagClick" format="boolean" /> <!-- beta -->
         <attr name="ccp_hideFlag" format="boolean" /> <!-- beta -->
+        <attr name="ccp_pickerTextColor" format="color" />
 
         <attr name="ccp_textGravity" format="enum">
             <enum name="LEFT" value="-1" />
@@ -121,7 +124,8 @@
         <attr name="ccp_autoFormatNumber" format="boolean" />
         <attr name="ccp_hintExampleNumber" format="boolean" />
         <attr name="ccp_rememberLastSelection" format="boolean" />
-        <attr name="ccp_showArrow" format="boolean" />
+        <attr name="ccp_showArrow" format="boolean"/>
+        <attr name="ccp_showDropDown" format="boolean" />
 
         <!--CCP Dialog properties-->
         <attr name="ccpDialog_keyboardAutoPopup" format="boolean" />
@@ -376,12 +380,14 @@
         <attr name="pse_setStrokeWidth" format="dimension" />
         <attr name="pse_setCornerRadius" format="dimension" />
         <attr name="pse_setClearIconVisible" format="boolean" />
+        <attr name="pse_showHint" format="boolean" />
         <attr name="pse_clearIconTint" format="color" />
         <attr name="pse_setCursorColor" format="color" />
         <attr name="pse_hideShowPasswordIconTint" format="color" />
         <attr name="pse_setPrefix" format="string" />
         <attr name="pse_setPrefixTextColor" format="color" />
         <attr name="pse_setPrefixDrawable" format="reference" />
+        <attr name="pse_showPrefixDrawable" format="boolean" />
         <attr name="pse_compoundDrawableWidth" format="dimension"/>
         <attr name="pse_space" format="dimension"/>
         <attr name="pse_compoundDrawableHeight" format="dimension"/>

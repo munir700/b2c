@@ -2,6 +2,7 @@ package co.yap.app.modules.login.fragments
 
 import android.hardware.fingerprint.FingerprintManager
 import android.os.Bundle
+import android.os.Handler
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -13,6 +14,7 @@ import co.yap.app.constants.Constants
 import co.yap.app.login.EncryptionUtils
 import co.yap.app.modules.login.interfaces.IVerifyPasscode
 import co.yap.app.modules.login.viewmodels.VerifyPasscodeViewModel
+import co.yap.widgets.NumberKeyboardListener
 import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.biometric.BiometricCallback
@@ -25,8 +27,7 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
     IVerifyPasscode.View {
 
     private lateinit var sharedPreferenceManager: SharedPreferenceManager
-    //    private lateinit var mBiometricManager: BiometricManager
-    private lateinit var mBiometricManagerX: BiometricManagerX
+   private lateinit var mBiometricManagerX: BiometricManagerX
 
     override fun getBindingVariable(): Int = BR.viewModel
 
@@ -72,21 +73,27 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
             ) {
                 dialer.showFingerprintView()
                 showFingerprintDialog()
-//                Handler().postDelayed(
-//                    {
-//                        showFingerprintDialog()
-//                    }, 500
-//                )
             } else {
                 dialer.hideFingerprintView()
             }
         }
+        dialer.setNumberKeyboardListener(object : NumberKeyboardListener
+        {
+            override fun onNumberClicked(number: Int, text: String) {
 
-        dialer.onButtonClickListener = View.OnClickListener {
-            if (it.id == R.id.btnFingerPrint)
+            }
+
+            override fun onLeftButtonClicked() {
                 showFingerprintDialog()
+            }
+
+            override fun onRightButtonClicked() {
+            }
+        })
+//        dialer.onButtonClickListener = View.OnClickListener {
+//            if (it.id == R.id.btnFingerPrint)
 //                showFingerprintDialog()
-        }
+//        }
     }
 
     private fun showFingerprintDialog() {
@@ -235,15 +242,15 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
     }
 
 
-//    private fun showFingerprintDialog() {
-//        mBiometricManager = BiometricManager.BiometricBuilder(context as MainActivity)
-//            .setTitle(getString(R.string.biometric_title))
-//            .setNegativeButtonText(getString(R.string.biometric_negative_button_text))
-//            .build()
-//        mBiometricManager.authenticate(this@VerifyPasscodeFragment)
-//
-//
-//    }
+    private fun showFingerprintDialog() {
+        mBiometricManager = BiometricManager.BiometricBuilder(context as MainActivity)
+            .setTitle(getString(R.string.biometric_title))
+            .setNegativeButtonText(getString(R.string.biometric_negative_button_text))
+            .build()
+        mBiometricManager.authenticate(this@VerifyPasscodeFragment)
+
+
+    }
 
     private fun navigateToDashboard() {
         findNavController().navigate(R.id.action_goto_yapDashboardActivity)

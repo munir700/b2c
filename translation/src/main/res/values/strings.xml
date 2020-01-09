@@ -110,7 +110,7 @@
 
     <!-- KYC home Screen-->
     <string name="screen_b2c_kyc_home_display_text_screen_title">Complete verification</string>
-    <string name="screen_b2c_kyc_home_display_text_sub_heading">%1$s, please scan your Emirates ID</string>
+    <string name="screen_b2c_kyc_home_display_text_sub_heading">%1s, please scan your Emirates ID</string>
     <string name="screen_b2c_kyc_home_button_skip">Skip and go to dashboard</string>
     <string name="screen_b2c_kyc_home_emirates_id_scan">Tap to scan your Emirates ID</string>
 
@@ -706,7 +706,7 @@
     <string name="screen_card_analytics_display_month_average_text">Monthly average is %1s %2s</string>
     <string name="screen_card_analytics_tool_bar_title">Analytics</string>
 
-<!--    Edit -->
+    <!--    Edit -->
 
 
     <!--    CashPickup Transfer flow-->
@@ -718,29 +718,149 @@
     <string name="screen_funds_toolbar_header">Send money to</string>
     <string name="screen_funds_local_toolbar_header">Transfer money to</string>
 
-<!--   success Transfer flow-->
+    <!--   success Transfer flow-->
     <string name="screen_funds_success_header">Transfer successful</string>
     <string name="screen_funds_confirmation_success_description">Your transfer of %1s %2s to %3s will be sent at the exchange rate of %4s</string>
     <string name="screen_funds_receive_description">%1s will receive %2s</string>
     <string name="screen_funds_transfer_fee_description">International transfer fee: %1s \n Note that the recipient\'s bank may have its own charges.</string>
 
-<!--    Screen cash pickup funds transfer success-->
+    <!--    Screen cash pickup funds transfer success-->
     <string name="screen_cash_pickup_funds_transfer_display_text_amount_heading">You have sent</string>
     <string name="screen_cash_pickup_funds_transfer_display_text_title">Cash transfer successful</string>
     <string name="screen_cash_pickup_funds_transfer_back_to_dashboard">Back to dashboard</string>
 
 
-<!--     Screen international funds transfer success-->
+    <!--     Screen international funds transfer success-->
     <string name="screen_international_funds_transfer_display_text_amount_heading">You have sent</string>
     <string name="screen_international_funds_transfer_display_text_success_title">Transfer successful</string>
     <string name="screen_international_funds_transfer_back_to_dashboard">Back to dashboard</string>
 
-<!--    Screen domestic funds transfer success-->
+    <!--    Screen domestic funds transfer success-->
     <string name="screen_domestic_funds_transfer_display_text_amount_heading">You have sent</string>
     <string name="screen_domestic_funds_transfer_display_text_title">Transfer successful</string>
 
-<!--    Screen funds transfer information custom view-->
+    <!--    Screen funds transfer information custom view-->
     <string name="custom_view_funds_transfer_display_text_reference_number_heading">Reference number</string>
     <string name="screen_name_error_message">Please enter alphabets only.</string>
 
+
+    <!-- HouseHold screen-->
+    <string name="screen_yap_house_hold_onboarding_landing_display_text_title">Household</string>
+    <string name="screen_yap_house_hold_onboarding_landing_display_text_description">Manage your household salaries digitally</string>
+    <string name="screen_yap_house_hold_onboarding_landing_display_text_heading">Paying your household help is now easier than ever</string>
+    <string name="screen_yap_house_hold_onboarding_landing_display_text_sub_heading">Struggling to keep up with managing your day-to-day house expenses? With Household, set up a quick and safe payment system so you can pay your help and manage expenses easily. Set up monthly salary payments, keep track of grocery spends, and simplify your life without having to rely on cash. Give your household help a card they can use for spending and remittances. </string>
+    <string name="screen_yap_house_hold_onboarding_landing_button_text">Get a Household card</string>
+
+
+    <!-- YAP Household subscription selection screen-->
+    <string name="screen_yap_house_hold_subscription_selection_display_text_color">Let your help choose from any one of these breathtaking colors</string>
+    <string name="screen_yap_house_hold_subscription_selection_display_text_salary">Give them the power to manage their salary and expenses </string>
+    <string name="screen_yap_house_hold_subscription_selection_display_text_schedule">Set up automatic payouts for salary payments and make life easier with cashless domestic expenses </string>
+
+
+    <string name="screen_yap_house_hold_subscription_selection_display_text_title">Get a Household card</string>
+    <string name="screen_yap_house_hold_subscription_selection_display_text_house_hold_card">Household card</string>
+    <string name="screen_yap_house_hold_subscription_selection_display_text_house_hold_heading">Simplify your household expenses and get your help a card with just their mobile number and email</string>
+    <string name="screen_yap_house_hold_subscription_selection_display_text_select_plan">Select a plan: </string>
+    <string name="screen_yap_house_hold_subscription_selection_display_text_select_plan_monthly">Monthly</string>
+    <string name="screen_yap_house_hold_subscription_selection_display_text_select_plan_yearly">Yearly</string>
+    <string name="screen_yap_house_hold_subscription_selection_display_text_per_month">per month</string>
+    <string name="screen_yap_house_hold_subscription_selection_display_text_per_year">per year</string>
+    <string name="screen_yap_house_hold_subscription_selection_display_text_months">12 month contract</string>
+    <string name="screen_yap_house_hold_subscription_selection_display_text_saving">save 25%</string>
+    <string name="screen_yap_house_hold_subscription_selection_display_text_charges">You will be charged after you have registered your Household staff.  Please ensure you have enough funds in your account for your payment(s).</string>
+    <!--    <string name="screen_yap_house_hold_subscription_selection_display_text_charges">You will be charged only when your Household staff completes their registration and orders their card </string>-->
+    <string name="screen_yap_house_hold_subscription_selection_button_get_started">Get started</string>
+
+    <!-- pager -->
+    <string name="screen_yap_house_hold_success_display_text_pager_color">Choose from different card colors</string>
+    <string name="screen_yap_house_hold_success_display_text_pager_schedule_payments">Set up automatic salary payments</string>
+    <string name="screen_yap_house_hold_success_display_text_pager_schedule_pots">Create pots to track expenses in-app</string>
+
+    <!--benefits-->
+    <string name="screen_yap_house_hold_subscription_selection_display_text_benefit_send_salaries">Send salaries directly to account</string>
+    <string name="screen_yap_house_hold_subscription_selection_display_text_benefit_allocate_budget">Allocate household budgets</string>
+    <string name="screen_yap_house_hold_subscription_selection_display_text_benefit_setup_payments">Set up automatic payments</string>
+    <string name="screen_yap_house_hold_subscription_selection_display_text_benefit_track_expense">Track expenses through analytics</string>
+
+    <!-- YAP Household user info screen -->
+    <string name="screen_yap_house_hold_user_info_display_text_title">Get a Household card</string>
+    <string name="screen_yap_house_hold_user_info_display_text_heading">Who are you getting the Household plan for?</string>
+    <string name="screen_yap_house_hold_user_info_display_text_first_name">First name</string>
+    <string name="screen_yap_house_hold_user_info_display_text_last_name">Last name</string>
+    <string name="screen_yap_house_hold_user_info_input_text_first_name_hint">Name</string>
+    <string name="screen_yap_house_hold_user_info_input_text_last_name_hint">Last name</string>
+    <string name="screen_yap_house_hold_user_info_display_text_email">Email address</string>
+    <string name="screen_yap_house_hold_user_info_display_text_email_hint">example@email.com</string>
+    <string name="screen_yap_house_hold_user_info_button_next">Next</string>
+
+    <string name="screen_yap_house_hold_user_info_contact_display_text_heading">Tell us how to contact %1s</string>
+    <string name="screen_yap_house_hold_user_info_contact_display_text_mobile">Mobile number</string>
+    <string name="screen_yap_house_hold_user_info_contact_display_text_confirm_mobile">Confirm mobile number</string>
+    <string name="screen_yap_house_hold_user_info_contact_button_next">Add</string>
+
+
+    <!-- YAP Household success screen -->
+    <string name="screen_yap_house_hold_success_display_text_title">Payment confirmed and %1s has been added to your account!</string>
+    <string name="screen_yap_house_hold_success_display_text_heading">%1s\'s card is on it\'s way</string>
+    <string name="screen_yap_house_hold_success_display_text_house_hold_card">Household card</string>
+    <string name="screen_yap_house_hold_success_display_text_direct_message">%1s will receive an SMS with instructions to download the app and complete sign up</string>
+    <string name="screen_yap_house_hold_success_display_text_share_credentials">Let %1s know by sharing the details below:</string>
+    <string name="screen_yap_house_hold_success_display_text_share_email">Email address</string>
+    <string name="screen_yap_house_hold_success_display_text_share_mobile_no">Mobile number</string>
+    <string name="screen_yap_house_hold_success_display_text_share_pass_code">Temporary passcode</string>
+    <string name="screen_yap_house_hold_success_button_text_share">Share</string>
+    <string name="screen_yap_house_hold_success_button_text_goto_house_hold">Go to Household</string>
+
+    <!-- YAP Household Card Confirm payment screen -->
+    <string name="screen_yap_house_hold_confirm_payment_display_text_title">Household Plan</string>
+    <string name="screen_yap_house_hold_confirm_payment_display_text_heading">Plan</string>
+    <string name="screen_yap_house_hold_confirm_payment_display_text_account_deducted">Your account will be deducted by</string>
+    <string name="screen_yap_house_hold_confirm_payment_display_text_toolbar_title">Confirm payment</string>
+    <string name="screen_yap_house_hold_confirm_payment_display_text_change_plan">Change plan</string>
+    <string name="screen_yap_house_hold_display_button_confirm">Confirm</string>
+
+    <!-- New User Email household screen -->
+    <string name="screen_new_user_email_display_text_title">Enter your email</string>
+    <string name="screen_new_user_email_display_text_email">Email address</string>
+    <string name="screen_new_user_email_display_text_email_caption">An email will be sent to this address for verification</string>
+    <string name="screen_new_user_email_display_button_confirm">Confirm</string>
+
+<!--    House hold Registration strings-->
+    <string name="screen_house_hold_number_registration_display_text_heading">Welcome %1s</string>
+    <string name="screen_house_hold_existing_number_registration_display_text_heading">Great, let’s set up your plan</string>
+    <string name="screen_house_hold_number_registration_display_text_parent_description">To confirm this is really you, enter %1s\'s number below</string>
+    <string name="screen_house_hold_existing_number_registration_display_text_parent_description">Enter %1s\'s number below</string>
+    <string name="screen_house_hold_number_registration_button_text_confirm">Confirm</string>
+    <string name="screen_house_hold_number_registration_error_text">Oops! Looks like that\'s the wrong number. Please try again</string>
+    <!-- New User Success household screen -->
+    <string name="screen_congratulations_display_text_title">Well done, %1s!</string>
+    <string name="screen_congratulations_display_text_success_message">You’ve successfully registered yourself to the Household plan</string>
+    <string name="screen_congratulations_display_button_complete_setup">Complete setup</string>
+    <string name="screen_success_on_its_way_display_text_title">Your card is on its way!</string>
+    <string name="screen_success_house_hold_we_will_call_you_to_text">We will call you to confirm the time.</string>
+    <string name="screen_success_house_hold_make_sure_to_text">Make sure to keep your Emirates ID with you</string>
+    <string name="screen_success_house_hold_card_deliver_text">Your card will be delivered to:</string>
+
+
+
+    <!--    Card color selection screen-->
+    <string name="screen_house_hold_card_color_selection_display_text_heading">Select a card color</string>
+    <string name="screen_house_hold_card_color_selection_display_text">Household card</string>
+
+    <!-- Household screen EID not accept -->
+    <string name="screen_title_oops">Oops!</string>
+    <string name="screen_title_mistake_please_call">If you feel this is a mistake please call us at</string>
+
+    <!-- Household On Boarding Existing screen-->
+    <string name="screen_on_boarding_existing_message">You have been added to a Household plan by Nada Hassan</string>
+    <string name="screen_b2c_kyc_home_button_skip_on_boarding_existing">Skip and do later</string>
+
+    <!--    OnBoarding Existing YAP User Screen-->
+    <string name="screen_house_hold_onBoarding_existing_title_display_text">Hi Joe, you’ve been added to a Household plan by Nada Hassan</string>
+    <string name="screen_house_hold_onBoarding_existing_title_accept_text">Once you click ‘Accept\', the Household\nplan will be added to your YAP app</string>
+    <string name="screen_house_hold_onBoarding_existing_title_accept_text_second">plan will be added to your YAP app</string>
+    <string name="screen_house_hold_onBoarding_existing_title_accept">Accept</string>
+    <string name="screen_house_hold_onBoarding_existing_title_decline_request">Decline request</string>
 </resources>
+

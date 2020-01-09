@@ -23,6 +23,7 @@ project.ext {
             networking : ':networking',
             translation: ':translation',
             yap        : ':yap',
+            household  : ':household',
             yapcore    : ':yapcore',
             kyc        : ':identityscanner_v2'
     ]
@@ -156,6 +157,7 @@ project.ext {
             [configuration: "implementation", dependency: project(modules.translation)],
             [configuration: "implementation", dependency: project(modules.yapcore)],
             [configuration: "implementation", dependency: project(modules.yap)],
+            [configuration: "implementation", dependency: project(modules.household)],
             [configuration: "implementation", dependency: project(modules.networking)],
             [configuration: "implementation", dependency: libraries.biometric],
             [configuration: "implementation", dependency: libraries.viewpagerDots],
@@ -172,6 +174,26 @@ project.ext {
             [configuration: "implementation", dependency: project(modules.translation)],
             [configuration: "implementation", dependency: project(modules.networking)],
             [configuration: "implementation", dependency: project(modules.kyc)],
+            [configuration: "implementation", dependency: libraries.playServicesPlaces],
+            [configuration: "implementation", dependency: libraries.playLibPlaces],
+            [configuration: "implementation", dependency: libraries.glideTransformation],
+            [configuration: "implementation", dependency: libraries.viewpagerDots],
+            [configuration: "implementation", dependency: libraries.androidanimations],
+            [configuration: "implementation", dependency: libraries.androidanimationseasing],
+            [configuration: "implementation", dependency: libraries.expandableLayout],
+            [configuration: "implementation", dependency: libraries.tooltip],
+            [configuration: "implementation", dependency: libraries.baloon],
+            [configuration: "implementation", dependency: libraries.rangeSeekbar],
+            [configuration: "implementation", dependency: libraries.swipeViewActions]
+    ]
+
+    // dependencies which need to be added in app module only in conjunction with commonDependencies
+    householdDependencies = [
+            [configuration: "implementation", dependency: project(modules.yapcore)],
+            [configuration: "implementation", dependency: project(modules.translation)],
+            [configuration: "implementation", dependency: project(modules.networking)],
+            [configuration: "implementation", dependency: project(modules.kyc)],
+            [configuration: "implementation", dependency: project(modules.yap)],
             [configuration: "implementation", dependency: libraries.playServicesPlaces],
             [configuration: "implementation", dependency: libraries.playLibPlaces],
             [configuration: "implementation", dependency: libraries.glideTransformation],

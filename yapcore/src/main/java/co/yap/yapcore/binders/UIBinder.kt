@@ -457,6 +457,22 @@ object UIBinder {
         view.text = Translator.getString(view.context, textKey, *concat)
     }
 
+    @BindingAdapter("textVal", "concatVal")
+    @JvmStatic
+    fun setconcatVal(tv: TextView, textKey: String, concat: String) {
+        Translator.getString(tv.context, textKey)
+        tv.text =  String.format( Translator.getString(tv.context, textKey),'\n'+ concat)
+
+    }
+
+    @BindingAdapter("textVal", "noLineconcatVal")
+    @JvmStatic
+    fun setconcatValWithOutNewLine(tv: TextView, textKey: String, concat: String) {
+        Translator.getString(tv.context, textKey)
+        tv.text =  String.format( Translator.getString(tv.context, textKey), concat)
+
+    }
+
     @BindingAdapter("text", "concat")
     @JvmStatic
     fun setText(view: TextView, textId: Int, concat: Array<String>) {
@@ -578,7 +594,7 @@ object UIBinder {
     @JvmStatic
     @BindingAdapter("passcodeTextWatcher")
     fun te132mp(view: CoreDialerPad, watcher: TextWatcher) {
-        view.editText.addTextChangedListener(watcher)
+        view.etPassCodeText?.addTextChangedListener(watcher)
     }
 
     @JvmStatic

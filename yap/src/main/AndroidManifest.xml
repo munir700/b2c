@@ -2,7 +2,6 @@
     package="co.yap">
 
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
@@ -189,6 +188,21 @@
         <activity
             android:name=".modules.dashboard.yapit.sendmoney.home.activities.SendMoneyLandingActivity"
             android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".modules.dashboard.store.household.activities.HouseHoldLandingActivity"
+            android:screenOrientation="portrait" />
+
+
+        <activity
+            android:name=".modules.dashboard.store.household.activities.SubscriptionSelectionActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".modules.dashboard.store.household.onboarding.HouseHoldOnboardingActivity"
+            android:screenOrientation="portrait">
+            <nav-graph android:value="@navigation/house_hold_onboarding_navigation" />
+        </activity>
 
 
     </application>

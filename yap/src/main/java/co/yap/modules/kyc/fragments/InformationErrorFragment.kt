@@ -3,11 +3,11 @@ package co.yap.modules.kyc.fragments
 import android.os.Bundle
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import androidx.navigation.fragment.findNavController
 import co.yap.BR
 import co.yap.R
-import co.yap.modules.onboarding.interfaces.IInformationError
+import co.yap.modules.kyc.activities.DocumentsDashboardActivity
 import co.yap.modules.kyc.viewmodels.InformationErrorViewModel
+import co.yap.modules.onboarding.interfaces.IInformationError
 
 class InformationErrorFragment : KYCChildFragment<IInformationError.ViewModel>() {
     override fun getBindingVariable(): Int = BR.viewModel
@@ -18,7 +18,10 @@ class InformationErrorFragment : KYCChildFragment<IInformationError.ViewModel>()
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel.clickEvent.observe(this, Observer { findNavController().navigate(R.id.action_goto_DashboardActivity) })
+        viewModel.clickEvent.observe(this, Observer {
+            if (activity is DocumentsDashboardActivity)
+                (activity as DocumentsDashboardActivity).goToDashBoard(false)
+        })
     }
 
     override fun onDestroyView() {

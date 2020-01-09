@@ -6,7 +6,6 @@ import co.yap.networking.interfaces.NetworkConstraintsListener
 import co.yap.yapcore.helpers.AuthUtils
 import co.yap.yapcore.helpers.NetworkConnectionManager
 import co.yap.yapcore.helpers.SharedPreferenceManager
-import co.yap.yapcore.helpers.Utils
 import com.crashlytics.android.Crashlytics
 import io.fabric.sdk.android.Fabric
 import timber.log.Timber
@@ -16,15 +15,31 @@ import java.util.*
 
 class AAPApplication : ChatApplication(BuildConfig.FLAVOR) {
 
-
     override fun onCreate() {
         super.onCreate()
-        Utils.context = this
+        initNetworkLayer()
+        initCrashLytics()
+        InitDebugTreeTimber()
+    }
 
+    private fun InitDebugTreeTimber() {
+        if (BuildConfig.DEBUG) {
+            Timber.plant(DebugTree())
+        }
+    }
+
+    private fun initCrashLytics() {
+        val fabric = Fabric.Builder(this)
+            .kits(Crashlytics())
+            .debuggable(BuildConfig.DEBUG) // Enables Crashlytics debugger
+            .build()
+        Fabric.with(fabric)
+    }
+
+    private fun initNetworkLayer() {
         RetroNetwork.initWith(this, BuildConfig.BASE_URL)
         NetworkConnectionManager.init(this)
         setAppUniqueId(this)
-
         RetroNetwork.listenNetworkConstraints(object : NetworkConstraintsListener {
             override fun onInternetUnavailable() {
             }
@@ -36,19 +51,6 @@ class AAPApplication : ChatApplication(BuildConfig.FLAVOR) {
                 AuthUtils.navigateToSoftLogin(applicationContext)
             }
         })
-
-        /*
-        * ***********Add Firebase Creshlaytics *************
-        * */
-        val fabric = Fabric.Builder(this)
-            .kits(Crashlytics())
-            .debuggable(BuildConfig.DEBUG) // Enables Crashlytics debugger
-            .build()
-        Fabric.with(fabric)
-
-        if (BuildConfig.DEBUG) {
-            Timber.plant(DebugTree())
-        }
     }
 
     private fun setAppUniqueId(context: Context) {

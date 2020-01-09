@@ -56,6 +56,7 @@
         <item name="android:textStyle">normal</item>
         <item name="android:fontFamily">@font/roboto_medium</item>
     </style>
+
     <style name="Title1" parent="AppFontRegular">
         <item name="android:textSize">@dimen/text_size_h7</item>
         <item name="android:lineSpacingExtra">10sp</item>
@@ -129,6 +130,13 @@
         <item name="android:textSize">@dimen/text_size_h2</item>
         <item name="android:fontFamily">sans-serif</item>
         <item name="android:textStyle">normal</item>
+        <item name="android:lineSpacingExtra">6sp</item>
+        <item name="android:textColor">@color/colorPrimaryDark</item>
+    </style>
+
+    <style name="smallMediumFont" parent="AppFontMedium">
+        <item name="android:textSize">@dimen/text_size_h2</item>
+         <item name="android:textStyle">normal</item>
         <item name="android:lineSpacingExtra">6sp</item>
         <item name="android:textColor">@color/colorPrimaryDark</item>
     </style>
@@ -240,6 +248,14 @@
         <item name="android:textColor">@color/greyDark</item>
     </style>
 
+    <style name="ASmallHyperLinkUnderline" parent="AppFontRegular">
+        <item name="android:textSize">@dimen/text_size_h2</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:background">@drawable/hyperlink_underline</item>
+        <item name="android:lineSpacingExtra">6sp</item>
+        <item name="android:textColor">@color/greyDark</item>
+    </style>
+
     <style name="SmallGrey" parent="AppFontRegular">
         <item name="android:textSize">@dimen/text_size_h2</item>
         <item name="android:lineSpacingExtra">6sp</item>
@@ -311,6 +327,17 @@
     </style>
 
     <style name="FragmentsBtnStyle" parent="AppFontMedium">
+        <item name="btn_text_size">@dimen/text_size_h4</item>
+        <item name="btn_shape_type">rectangle</item>
+        <item name="android:enabled">true</item>
+        <item name="btn_enable">false</item>
+        <item name="btn_round_radius">50dp</item>
+        <item name="android:minHeight">@dimen/_48sdp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@color/colorWhite</item>
+    </style>
+
+<style name="BoldBtnStyle" parent="AppFontBold">
         <item name="btn_text_size">@dimen/text_size_h4</item>
         <item name="btn_shape_type">rectangle</item>
         <item name="android:enabled">true</item>

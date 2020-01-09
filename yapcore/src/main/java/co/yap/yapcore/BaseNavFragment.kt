@@ -2,8 +2,10 @@ package co.yap.yapcore
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
-import androidx.navigation.*
+import androidx.navigation.AnimBuilder
+import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.navOptions
 
 abstract class BaseNavFragment : Fragment() {
 
