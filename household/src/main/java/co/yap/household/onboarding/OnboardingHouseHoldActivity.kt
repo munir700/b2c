@@ -43,7 +43,7 @@ class OnboardingHouseHoldActivity : BaseBindingActivity<IOnboarding.ViewModel>()
     override fun onResume() {
         super.onResume()
 
-//         SharedPreferenceManager(applicationContext).setThemeValue(R.style.AppTheme)
+//         SharedPreferenceManager(applicationContext).setThemeValue(R.style.CoreAppTheme)
 //        SharedPreferenceManager(applicationContext).setThemeValue(R.style.AppThemeHouseHold)
 
 //        SharedPreferenceManager(applicationContext).getThemeValue()

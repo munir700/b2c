@@ -16,7 +16,6 @@ import co.yap.translation.Strings
 import co.yap.translation.Translator
 import co.yap.yapcore.helpers.NetworkConnectionManager
 import co.yap.yapcore.helpers.PermissionsManager
-import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.Utils
 import com.google.android.material.snackbar.Snackbar
 
@@ -35,8 +34,8 @@ abstract class BaseActivity<V : IBase.ViewModel<*>> : AppCompatActivity(), IBase
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        theme.applyStyle(co.yap.yapcore.R.style.AppTheme, true)
-//        SharedPreferenceManager(applicationContext).setThemeValue(co.yap.yapcore.R.style.AppTheme)
+        theme.applyStyle(co.yap.yapcore.R.style.CoreAppTheme, true)
+//        SharedPreferenceManager(applicationContext).setThemeValue(co.yap.yapcore.R.style.CoreAppTheme)
 
 //        setTheme(SharedPreferenceManager(applicationContext).getThemeValue())
 

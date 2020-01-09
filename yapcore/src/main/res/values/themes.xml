@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="CoreAppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">#5E35B1</item>
         <item name="colorPrimaryDark">#272262</item>
         <item name="colorAccent">#4d4d4d</item>
@@ -28,13 +28,13 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
-    <style name="AppTheme.NoActionBar.NoActionBar">
+    <style name="CoreAppTheme.NoActionBar.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
 
 
-    <!--    <style name="AppTheme.NoActionBar">-->
+    <!--    <style name="CoreAppThemeheme.NoActionBar">-->
     <!--        <item name="windowActionBar">false</item>-->
     <!--        <item name="windowNoTitle">true</item>-->
     <!--    </style>-->
