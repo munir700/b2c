@@ -58,8 +58,9 @@
 
             <ImageView
                 android:id="@+id/iv_ob_boarding_existing_yap"
-                android:layout_width="@dimen/_240sdp"
-                android:layout_height="@dimen/_205sdp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/margin_large"
                 android:layout_gravity="center"
                 android:layout_marginTop="@dimen/margin_extra_large"
                 android:contentDescription="@string/app_name"
@@ -71,7 +72,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_medium"
-                android:layout_marginTop="@dimen/margin_large"
+
                 android:layout_marginEnd="@dimen/margin_medium"
                 android:gravity="center"
                 android:text="@string/screen_house_hold_onBoarding_existing_title_accept_text"
