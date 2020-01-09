@@ -35,11 +35,10 @@ abstract class BaseActivity<V : IBase.ViewModel<*>> : AppCompatActivity(), IBase
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        theme.applyStyle(R.style.AppThemeHouseHold, true)
+        theme.applyStyle(co.yap.yapcore.R.style.AppTheme, true)
+//        SharedPreferenceManager(applicationContext).setThemeValue(co.yap.yapcore.R.style.AppTheme)
 
-        SharedPreferenceManager(applicationContext).setThemeValue(R.style.AppThemeHouseHold)
-
-        setTheme(SharedPreferenceManager(applicationContext).getThemeValue())
+//        setTheme(SharedPreferenceManager(applicationContext).getThemeValue())
 
 
         this.window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)

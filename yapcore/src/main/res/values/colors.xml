@@ -81,5 +81,6 @@
     </array>
 
 
-
+    <color name="textDarkColor">#1a1423</color>
+    <color name="colorLightPinkBackground">#FFE3E0</color>
 </resources>
