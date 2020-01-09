@@ -735,12 +735,6 @@ object Utils {
             .show()
     }
 
-    fun preventTakeScreenshot(activity: Activity) {
-//        activity.window.setFlags(
-//            WindowManager.LayoutParams.FLAG_SECURE,
-//            WindowManager.LayoutParams.FLAG_SECURE
-//        )
-    }
 
     fun openWebPage(url: String, title: String?, activity: Activity?) {
         activity?.let {

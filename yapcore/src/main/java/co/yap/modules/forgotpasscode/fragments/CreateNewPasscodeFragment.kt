@@ -13,6 +13,7 @@ import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.R
 import co.yap.yapcore.databinding.FragmentCreateNewPasscodeBinding
 import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.helpers.extentions.preventTakeScreenshot
 
 class CreateNewPasscodeFragment : BaseBindingFragment<ICreatePasscode.ViewModel>() {
     private val args: CreateNewPasscodeFragmentArgs by navArgs()
@@ -24,7 +25,7 @@ class CreateNewPasscodeFragment : BaseBindingFragment<ICreatePasscode.ViewModel>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Utils.preventTakeScreenshot(requireActivity())
+        preventTakeScreenshot()
         viewModel.mobileNumber = args.mobileNumber
         viewModel.nextButtonPressEvent.observe(this, Observer {
             if (it == R.id.tvTermsAndConditions) {

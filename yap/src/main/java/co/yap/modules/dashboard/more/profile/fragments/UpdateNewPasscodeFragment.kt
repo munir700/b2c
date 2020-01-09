@@ -12,8 +12,9 @@ import co.yap.modules.dashboard.more.profile.viewmodels.UpdateNewPasscodeViewMod
 import co.yap.modules.setcardpin.interfaces.ISetCardPin
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.SharedPreferenceManager
+import co.yap.yapcore.helpers.extentions.preventTakeScreenshot
 
-class UpdateNewPasscodeFragment:SetNewCardPinFragment() {
+class UpdateNewPasscodeFragment : SetNewCardPinFragment() {
     private lateinit var sharedPreferenceManager: SharedPreferenceManager
     override val viewModel: ISetCardPin.ViewModel
         get() = ViewModelProviders.of(this).get(UpdateNewPasscodeViewModel::class.java)
@@ -21,18 +22,26 @@ class UpdateNewPasscodeFragment:SetNewCardPinFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        preventTakeScreenshot()
         sharedPreferenceManager = SharedPreferenceManager(requireContext())
 
         viewModel.forgotPasscodeclickEvent.observe(this, Observer {
             var username = ""
-            if (sharedPreferenceManager.getValueBoolien(SharedPreferenceManager.KEY_IS_USER_LOGGED_IN, false)) {
-                username= EncryptionUtils.decrypt(
+            if (sharedPreferenceManager.getValueBoolien(
+                    SharedPreferenceManager.KEY_IS_USER_LOGGED_IN,
+                    false
+                )
+            ) {
+                username = EncryptionUtils.decrypt(
                     context as MoreActivity,
                     sharedPreferenceManager.getValueString(SharedPreferenceManager.KEY_USERNAME) as String
                 ) as String
             }
-            val action=UpdateNewPasscodeFragmentDirections.actionUpdateNewPasscodeFragmentToForgotPasscodeNavigation(username,viewModel.emailOtp,viewModel.mobileNumber,
-                Constants.FORGOT_PASSCODE_FROM_CHANGE_PASSCODE)
+            val action =
+                UpdateNewPasscodeFragmentDirections.actionUpdateNewPasscodeFragmentToForgotPasscodeNavigation(
+                    username, viewModel.emailOtp, viewModel.mobileNumber,
+                    Constants.FORGOT_PASSCODE_FROM_CHANGE_PASSCODE
+                )
             findNavController().navigate(action)
         })
     }
@@ -42,7 +51,10 @@ class UpdateNewPasscodeFragment:SetNewCardPinFragment() {
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
                 R.id.btnAction -> {
-                    val action=UpdateNewPasscodeFragmentDirections.actionUpdateNewPasscodeFragmentToUpdateConfirmPasscodeFragment(newPinCode = viewModel.state.pincode)
+                    val action =
+                        UpdateNewPasscodeFragmentDirections.actionUpdateNewPasscodeFragmentToUpdateConfirmPasscodeFragment(
+                            newPinCode = viewModel.state.pincode
+                        )
                     findNavController().navigate(action)
                 }
             }
