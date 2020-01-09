@@ -14,9 +14,9 @@
         <import type="co.yap.yapcore.managers.MyUserManager" />
     </data>
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+<!--    <ScrollView-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent">-->
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -61,6 +61,7 @@
                             android:layout_height="@dimen/_26sdp"
                             android:layout_alignParentEnd="true"
                             android:layout_centerVertical="true"
+                            android:tint="@color/colorPrimaryDark"
                             android:layout_gravity="center_vertical"
                             android:layout_marginStart="@dimen/margin_small"
                             android:layout_marginEnd="@dimen/margin_small"
@@ -93,6 +94,7 @@
                             <TextView
                                 android:id="@+id/tvAccountType"
                                 style="@style/ARegular"
+                                android:textColor="@color/colorPrimary"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="@dimen/margin_small"
@@ -202,11 +204,12 @@
 
                 <View
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/_1sdp"
+                    android:layout_height="2px"
                     android:background="@color/greyLight" />
 
                 <!-- Management -->
                 <LinearLayout
+                    android:visibility="gone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
@@ -231,8 +234,9 @@
                 </LinearLayout>
 
                 <View
+                    android:visibility="gone"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/_1sdp"
+                    android:layout_height="0dp"
                     android:background="@color/greyLight" />
 
                 <!-- Info -->
@@ -244,6 +248,7 @@
                     android:paddingBottom="@dimen/margin_small">
 
                     <include
+                        android:visibility="gone"
                         layout="@layout/layout_item_icon_text"
                         app:icon="@{@drawable/notification}"
                         app:title='@{"Alerts and notifications"}' />
@@ -258,14 +263,15 @@
 
                 <View
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/_1sdp"
+                    android:layout_height="2px"
                     android:background="@color/greyLight" />
 
                 <!-- Support -->
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:orientation="vertical"
+                    android:visibility="visible"
                     android:paddingTop="@dimen/margin_small"
                     android:paddingBottom="@dimen/margin_small">
 
@@ -282,33 +288,21 @@
                         app:title='@{"Help and support"}' />
 
                     <View
+                        android:visibility="gone"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/_1sdp"
                         android:background="@color/greyLight" />
 
                     <TextView
-                        android:id="@+id/tvVersionCode"
-                        style="@style/ASmall"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/margin_normal"
-                        android:paddingStart="@dimen/margin_small"
-                        android:paddingTop="@dimen/margin_small"
-                        android:paddingEnd="@dimen/_2sdp"
-                        android:paddingBottom="@dimen/margin_extra_small"
-                        android:text="Version Code" />
-
-                    <TextView
                         android:id="@+id/tvVersionName"
-                        style="@style/ASmall"
-
+                        style="@style/ASmallGrey"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="bottom|center"
                         android:paddingStart="@dimen/margin_small"
-
                         android:paddingEnd="@dimen/_2sdp"
                         android:paddingBottom="@dimen/margin_small"
-                        android:text="Version Code" />
+                        android:text="Version 1.0.0 (11)" />
 
                 </LinearLayout>
 
@@ -355,6 +349,7 @@
                     android:id="@+id/ivSettings"
                     android:layout_width="@dimen/_30sdp"
                     android:layout_height="@dimen/_30sdp"
+                    android:tint="@color/greyDark"
                     android:layout_alignParentBottom="true"
                     android:layout_centerHorizontal="true"
                     android:src="@drawable/settings" />
@@ -362,5 +357,5 @@
             </RelativeLayout>
 
         </LinearLayout>
-    </ScrollView>
+<!--    </ScrollView>-->
 </layout>
