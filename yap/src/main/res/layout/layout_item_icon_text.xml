@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -25,6 +26,7 @@
         <ImageView
             android:layout_width="@dimen/_26sdp"
             android:layout_height="@dimen/_26sdp"
+            tools:src="@drawable/house"
             android:src="@{icon}" />
 
         <TextView
@@ -33,6 +35,7 @@
             android:layout_height="wrap_content"
             android:paddingStart="@dimen/margin_small"
             android:paddingEnd="@dimen/_2sdp"
+            tools:text="Household salary"
             android:text="@{title}" />
 
     </LinearLayout>

@@ -68,8 +68,6 @@
                 android:id="@+id/txtYapIt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/ivYapIt"
-                android:layout_centerHorizontal="true"
                 android:layout_marginBottom="7dp"
                 android:text="YAP it"
                 android:textColor="@color/greyDark"

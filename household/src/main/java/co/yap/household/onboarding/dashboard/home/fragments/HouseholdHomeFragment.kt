@@ -96,6 +96,7 @@ class HouseholdHomeFragment : HouseholdDashboardBaseFragment<IHouseholdHome.View
                 .build()
         )
     }
+
     override fun onDestroy() {
         super.onDestroy()
         viewModel.viewState.removeObserver(viewStateObserver)
