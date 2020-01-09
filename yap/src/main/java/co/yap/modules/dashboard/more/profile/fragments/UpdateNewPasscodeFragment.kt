@@ -1,6 +1,7 @@
 package co.yap.modules.dashboard.more.profile.fragments
 
 import android.os.Bundle
+import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
@@ -11,6 +12,7 @@ import co.yap.modules.dashboard.more.main.activities.MoreActivity
 import co.yap.modules.dashboard.more.profile.viewmodels.UpdateNewPasscodeViewModel
 import co.yap.modules.setcardpin.interfaces.ISetCardPin
 import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.databinding.FragmentSetCardPinBinding
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.extentions.preventTakeScreenshot
 
@@ -19,10 +21,15 @@ class UpdateNewPasscodeFragment : SetNewCardPinFragment() {
     override val viewModel: ISetCardPin.ViewModel
         get() = ViewModelProviders.of(this).get(UpdateNewPasscodeViewModel::class.java)
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        getBindingsUpdate().dialer.updateDialerLength(6)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         preventTakeScreenshot()
+
         sharedPreferenceManager = SharedPreferenceManager(requireContext())
 
         viewModel.forgotPasscodeclickEvent.observe(this, Observer {
@@ -59,6 +66,10 @@ class UpdateNewPasscodeFragment : SetNewCardPinFragment() {
                 }
             }
         })
+    }
+
+    fun getBindingsUpdate(): FragmentSetCardPinBinding {
+        return viewDataBinding as FragmentSetCardPinBinding
     }
 
 }

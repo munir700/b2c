@@ -79,6 +79,7 @@ class UpdateConfirmPasscodeFragment : ConfirmNewCardPinFragment() {
     }
 
     override fun loadData() {
+        dialer.updateDialerLength(6)
         viewModel.state.newPin = args.newPinCode
 
     }

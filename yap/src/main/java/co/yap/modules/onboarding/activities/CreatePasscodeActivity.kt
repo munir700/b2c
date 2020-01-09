@@ -41,7 +41,7 @@ class CreatePasscodeActivity : BaseBindingActivity<ICreatePasscode.ViewModel>(),
         dialer.hideFingerprintView()
         viewModel.nextButtonPressEvent.observe(this, Observer {
             if (it == R.id.tvTermsAndConditions) {
-                Utils.openWebPage("", "", this)
+                Utils.openWebPage(co.yap.yapcore.constants.Constants.URL_TERMS_CONDITION, "", this)
             } else
                 setObservers()
         })

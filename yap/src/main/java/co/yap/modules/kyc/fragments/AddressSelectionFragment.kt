@@ -217,7 +217,7 @@ class AddressSelectionFragment : BaseMapFragment<IAddressSelection.ViewModel>(),
                 }
 
                 R.id.tvTermsAndConditions -> {
-                    Utils.openWebPage("", "", activity)
+                    Utils.openWebPage(co.yap.yapcore.constants.Constants.URL_TERMS_CONDITION, "", activity)
                 }
                 R.id.btnConfirm -> {
                     slideDownLocationCard()

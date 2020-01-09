@@ -11,6 +11,7 @@ import co.yap.modules.forgotpasscode.viewmodels.CreateNewPasscodeViewModel
 import co.yap.yapcore.BR
 import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.R
+import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.databinding.FragmentCreateNewPasscodeBinding
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.preventTakeScreenshot
@@ -29,7 +30,7 @@ class CreateNewPasscodeFragment : BaseBindingFragment<ICreatePasscode.ViewModel>
         viewModel.mobileNumber = args.mobileNumber
         viewModel.nextButtonPressEvent.observe(this, Observer {
             if (it == R.id.tvTermsAndConditions) {
-                Utils.openWebPage("sajdlasjdlasjdl", "", activity)
+                Utils.openWebPage(Constants.URL_TERMS_CONDITION, "", activity)
             } else {
                 val action =
                     CreateNewPasscodeFragmentDirections.actionCreateNewPasscodeFragmentToForgotPasscodeSuccessFragment(
