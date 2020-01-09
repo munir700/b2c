@@ -30,6 +30,7 @@ import co.yap.modules.kyc.viewmodels.AddressSelectionViewModel
 import co.yap.modules.onboarding.constants.Constants
 import co.yap.networking.cards.requestdtos.UpdateAddressRequest
 import co.yap.translation.Strings
+import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.interfaces.BaseMapFragment
 import co.yap.yapcore.managers.MyUserManager
 import com.daimajia.androidanimations.library.Techniques
@@ -117,7 +118,7 @@ class AddressSelectionFragment : BaseMapFragment<IAddressSelection.ViewModel>(),
             viewModel!!.mapDetailViewActivity = activity as DocumentsDashboardActivity
 
         }
-         performDataBinding(inflater, container)
+        performDataBinding(inflater, container)
         initMapFragment()
 
         return viewDataBinding.root
@@ -215,6 +216,9 @@ class AddressSelectionFragment : BaseMapFragment<IAddressSelection.ViewModel>(),
                     }
                 }
 
+                R.id.tvTermsAndConditions -> {
+                    Utils.openWebPage("", "", activity)
+                }
                 R.id.btnConfirm -> {
                     slideDownLocationCard()
                 }
@@ -435,7 +439,7 @@ class AddressSelectionFragment : BaseMapFragment<IAddressSelection.ViewModel>(),
     }
 
     private fun expandMap() {
-        if (isFromPersonalDetailScreen){
+        if (isFromPersonalDetailScreen) {
             (context as MoreActivity).goneToolbar()
         }
 
@@ -476,7 +480,7 @@ class AddressSelectionFragment : BaseMapFragment<IAddressSelection.ViewModel>(),
     }
 
     private fun collapseMap() {
-        if (isFromPersonalDetailScreen){
+        if (isFromPersonalDetailScreen) {
             (context as MoreActivity).visibleToolbar()
         }
         viewModel.state.isMapOnScreen = false

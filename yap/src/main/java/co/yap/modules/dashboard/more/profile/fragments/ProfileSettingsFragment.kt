@@ -251,7 +251,7 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
                 }
 
                 R.id.tvTermsAndConditionView -> {
-
+                    Utils.openWebPage("", "", activity)
                 }
 
                 R.id.tvFollowOnInstagram -> {

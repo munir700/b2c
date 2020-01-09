@@ -7,9 +7,9 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
 import co.yap.R
-import co.yap.modules.onboarding.constants.Constants
 import co.yap.modules.forgotpasscode.interfaces.ICreatePasscode
 import co.yap.modules.forgotpasscode.viewmodels.CreatePasscodeViewModel
+import co.yap.modules.onboarding.constants.Constants
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.Utils
@@ -39,7 +39,10 @@ class CreatePasscodeActivity : BaseBindingActivity<ICreatePasscode.ViewModel>(),
         Utils.preventTakeScreenshot(this)
         dialer.hideFingerprintView()
         viewModel.nextButtonPressEvent.observe(this, Observer {
-            setObservers()
+            if (it == R.id.tvTermsAndConditions) {
+                Utils.openWebPage("", "", this)
+            } else
+                setObservers()
         })
 
     }
