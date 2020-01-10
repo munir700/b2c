@@ -27,7 +27,7 @@ class LocationSelectionActivity : MapSupportActivity(), ILocationSelection.View 
         private const val SUB_HEADING = "subHeading"
         fun newIntent(
             context: Context,
-            address: Address? = null,
+            address: Address,
             headingTitle: String = "",
             subHeadingTitle: String = ""
         ): Intent {
@@ -47,14 +47,6 @@ class LocationSelectionActivity : MapSupportActivity(), ILocationSelection.View 
         updateHeadings()
         flTitle.setOnTouchListener { _, _ -> true }
         lyAddressFields.setOnTouchListener { _, _ -> true }
-        getCallingActivityName()
-    }
-
-    private fun getCallingActivityName() {
-        callingActivity?.let {
-
-//            it.flattenToShortString()
-        }
     }
 
     private fun settAddressFromIntent() {
@@ -88,7 +80,6 @@ class LocationSelectionActivity : MapSupportActivity(), ILocationSelection.View 
     }
 
     private fun initMapFragment() {
-//        displayLocationSettingsRequest(requireContext())
         val mapFragment =
             supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
         mapFragment?.let {
