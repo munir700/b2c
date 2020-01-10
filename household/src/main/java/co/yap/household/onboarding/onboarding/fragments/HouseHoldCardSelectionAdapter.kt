@@ -2,7 +2,6 @@ package co.yap.household.onboarding.onboarding.fragments
 
 import android.content.Context
 import androidx.databinding.ViewDataBinding
-import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.RecyclerView
 import co.yap.household.R
 import co.yap.household.databinding.ItemHouseHoldCardBinding

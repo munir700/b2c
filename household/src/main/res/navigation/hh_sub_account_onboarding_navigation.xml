@@ -62,9 +62,9 @@
             app:destination="@id/passCodeFragment"
             app:popUpToInclusive="true" />
     </fragment>
- <!--   <fragment
+    <activity
         android:id="@+id/houseHoldCardsSelectionFragment"
         android:name="co.yap.household.onboarding.onboarding.fragments.HouseHoldCardsSelectionActivity"
         android:label="HouseHoldCardsSelectionFragment"
-        tools:layout="@layout/fragment_house_hold_card_selection" />-->
+        tools:layout="@layout/fragment_house_hold_card_selection" />
 </navigation>

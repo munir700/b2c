@@ -110,6 +110,7 @@ object Constants {
 
     //Location Selection
     const val ADDRESS = "address"
+    const val ADDRESS_SUCCESS = "address_success"
 
     // Events for ViewState
 

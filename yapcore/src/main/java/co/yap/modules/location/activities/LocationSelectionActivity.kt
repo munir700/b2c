@@ -12,8 +12,11 @@ import co.yap.modules.location.helper.MapSupportActivity
 import co.yap.modules.location.interfaces.ILocationSelection
 import co.yap.networking.cards.responsedtos.Address
 import co.yap.yapcore.R
+import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.Constants.ADDRESS
+import co.yap.yapcore.constants.Constants.ADDRESS_SUCCESS
 import co.yap.yapcore.helpers.PermissionHelper
+import co.yap.yapcore.helpers.Utils
 import com.daimajia.androidanimations.library.Techniques
 import com.daimajia.androidanimations.library.YoYo
 import com.google.android.gms.maps.SupportMapFragment
@@ -118,6 +121,9 @@ class LocationSelectionActivity : MapSupportActivity(), ILocationSelection.View 
             R.id.btnConfirm -> {
                 startAnimateLocationCard()
             }
+            R.id.tvTermsAndConditions ->{
+                Utils.openWebPage(Constants.URL_TERMS_CONDITION, "", this)
+            }
         }
     }
 
@@ -195,6 +201,7 @@ class LocationSelectionActivity : MapSupportActivity(), ILocationSelection.View 
     private fun setIntentAction() {
         val intent = Intent()
         intent.putExtra(ADDRESS, viewModel.address)
+        intent.putExtra(ADDRESS_SUCCESS, true) // needs to update accordinky
         setResult(Activity.RESULT_OK, intent)
         finish()
     }

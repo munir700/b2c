@@ -13,4 +13,28 @@ class HouseHoldCardsSelectionState : BaseState(), IHouseHoldCardsSelection.State
             field = value
             notifyPropertyChanged(BR.cardsHeading)
         }
+    @get:Bindable
+    override var locationVisibility: Boolean = true
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.locationVisibility)
+        }
+    @get:Bindable
+    override var cardAddressTitle: String = ""
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.cardAddressTitle)
+        }
+    @get:Bindable
+    override var cardAddressSubTitle: String = ""
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.cardAddressSubTitle)
+        }
+    @get:Bindable
+    override var position: Int? = 1
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.position)
+        }
 }
