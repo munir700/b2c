@@ -58,7 +58,7 @@
         <attr name="dialer_error" format="reference" />
         <attr name="show_dialer_pass_code" format="boolean" />
         <attr name="dialer_pass_code" format="enum">
-            <enum name="defaultType" value="0" />
+            <enum name="defaultType" value="1" />
             <enum name="passcode" value="1" />
         </attr>
 
