@@ -59,8 +59,7 @@
             android:layout_alignBaseline="@+id/tvSelectedCountry"
             android:layout_toRightOf="@+id/tvSelectedCountry"
             android:paddingBottom="@dimen/small"
-            android:src="@drawable/ic_chevron_down"
-            android:tint="?attr/colorPrimaryDarkAttr"
+            android:src="@drawable/iv_drown_down"
             android:visibility="gone" />
 
     </RelativeLayout>
