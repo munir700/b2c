@@ -52,7 +52,7 @@
             app:text="@{Strings.screen_create_passcode_display_text_title}"
             tools:text="@string/screen_create_passcode_display_text_title" />
 
-        <co.yap.widgets.CoreDialerPad
+        <co.yap.widgets.CoreDialerPadV2
             android:id="@+id/dialer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

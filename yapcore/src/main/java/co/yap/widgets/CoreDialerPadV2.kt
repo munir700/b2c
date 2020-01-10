@@ -12,12 +12,11 @@ import android.view.animation.AnimationUtils
 import android.widget.*
 import androidx.constraintlayout.widget.ConstraintLayout
 import co.yap.yapcore.R
-import kotlinx.android.synthetic.main.core_dialer_pad.view.*
 
 
 @TargetApi(Build.VERSION_CODES.LOLLIPOP)
 @SuppressLint("Recycle")
-class CoreDialerPad @JvmOverloads constructor(
+class CoreDialerPadV2 @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyle: Int = 0,
@@ -39,7 +38,7 @@ class CoreDialerPad @JvmOverloads constructor(
     private var inputEditText: EditText? = null
     private var listener: NumberKeyboardListener? = null
     private var view: View =
-        inflate(context, R.layout.core_dialer_pad, null)
+        inflate(context, R.layout.core_dialer_pad_v2, null)
 
     private val onClickListener: OnClickListener = OnClickListener {
         if (it.id == R.id.button1) {
@@ -221,14 +220,14 @@ class CoreDialerPad @JvmOverloads constructor(
 
 
     fun settingUIForNormal() {
-        tvError.visibility = View.INVISIBLE
+        view.findViewById<TextView>(R.id.tvError).visibility = View.INVISIBLE
     }
 
     fun performPassCode() {
         etPassCodeText?.textSize =
             resources.getDimension(R.dimen.text_size_h1) //R.dimen.margin_xxl.toFloat()
         etPassCodeText?.visibility = View.GONE
-        llPasscode.visibility = View.VISIBLE
+        view.findViewById<LinearLayout>(R.id.llPasscode).visibility = View.VISIBLE
         view.findViewById<ImageButton>(R.id.btnFingerPrint).setImageDrawable(
             resources.getDrawable(
                 R.drawable.ic_fingerprint_purple,
@@ -290,10 +289,10 @@ class CoreDialerPad @JvmOverloads constructor(
                 list.add(1)
                 list.add(1)
                 list.add(1)
-                ivOne.visibility = View.VISIBLE
-                ivTwo.visibility = View.VISIBLE
-                ivThree.visibility = View.VISIBLE
-                ivFour.visibility = View.VISIBLE
+                view.findViewById<ImageView>(R.id.ivOne).visibility = View.VISIBLE
+                view.findViewById<ImageView>(R.id.ivTwo).visibility = View.VISIBLE
+                view.findViewById<ImageView>(R.id.ivThree).visibility = View.VISIBLE
+                view.findViewById<ImageView>(R.id.ivFour).visibility = View.VISIBLE
             }
             5 -> {
                 list.add(1)
@@ -301,11 +300,11 @@ class CoreDialerPad @JvmOverloads constructor(
                 list.add(1)
                 list.add(1)
                 list.add(1)
-                ivOne.visibility = View.VISIBLE
-                ivTwo.visibility = View.VISIBLE
-                ivThree.visibility = View.VISIBLE
-                ivFour.visibility = View.VISIBLE
-                ivFive.visibility = View.VISIBLE
+                view.findViewById<ImageView>(R.id.ivOne).visibility = View.VISIBLE
+                view.findViewById<ImageView>(R.id.ivTwo).visibility = View.VISIBLE
+                view.findViewById<ImageView>(R.id.ivThree).visibility = View.VISIBLE
+                view.findViewById<ImageView>(R.id.ivFour).visibility = View.VISIBLE
+                view.findViewById<ImageView>(R.id.ivFive).visibility = View.VISIBLE
             }
             6 -> {
                 list.add(1)
@@ -314,12 +313,12 @@ class CoreDialerPad @JvmOverloads constructor(
                 list.add(1)
                 list.add(1)
                 list.add(1)
-                ivOne.visibility = View.VISIBLE
-                ivTwo.visibility = View.VISIBLE
-                ivThree.visibility = View.VISIBLE
-                ivFour.visibility = View.VISIBLE
-                ivFive.visibility = View.VISIBLE
-                ivSix.visibility = View.VISIBLE
+                view.findViewById<ImageView>(R.id.ivOne).visibility = View.VISIBLE
+                view.findViewById<ImageView>(R.id.ivTwo).visibility = View.VISIBLE
+                view.findViewById<ImageView>(R.id.ivThree).visibility = View.VISIBLE
+                view.findViewById<ImageView>(R.id.ivFour).visibility = View.VISIBLE
+                view.findViewById<ImageView>(R.id.ivFive).visibility = View.VISIBLE
+                view.findViewById<ImageView>(R.id.ivSix).visibility = View.VISIBLE
             }
         }
     }
@@ -388,26 +387,26 @@ class CoreDialerPad @JvmOverloads constructor(
     }
 }
 
-///**
-// * Enables to listen keyboard events.
-// */
-//interface NumberKeyboardListener {
-//
-//    /**
-//     * Invoked when a number key is clicked.
-//     */
-//    fun onNumberClicked(number: Int, text: String)
-//
-//    /**
-//     * Invoked when the left auxiliary button is clicked.
-//     */
-//    fun onLeftButtonClicked()
-//
-//    /**
-//     * Invoked when the right auxiliary button is clicked.
-//     */
-//    fun onRightButtonClicked()
-//}
+/**
+ * Enables to listen keyboard events.
+ */
+interface NumberKeyboardListener {
+
+    /**
+     * Invoked when a number key is clicked.
+     */
+    fun onNumberClicked(number: Int, text: String)
+
+    /**
+     * Invoked when the left auxiliary button is clicked.
+     */
+    fun onLeftButtonClicked()
+
+    /**
+     * Invoked when the right auxiliary button is clicked.
+     */
+    fun onRightButtonClicked()
+}
 
 
 
