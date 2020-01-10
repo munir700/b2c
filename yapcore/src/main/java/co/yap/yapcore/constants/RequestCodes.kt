@@ -7,4 +7,5 @@ object RequestCodes {
     const val REQUEST_NOTIFY_BENEFICIARY_LIST = 10004
     const val REQUEST_ADD_FUNDS_WHEN_ADD = 10005
     const val REQUEST_FOR_LOCATION = 10006
+    const val REQUEST_KYC_DOCUMENTS = 10007
 }

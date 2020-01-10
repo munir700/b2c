@@ -224,30 +224,10 @@
         tools:layout="@layout/activity_main_house_hold" />
 
     <activity
-        android:id="@+id/householdEIDNotAccepted"
-        android:name="co.yap.household.onboarding.onboarding.activities.EIDNotAcceptedActivity"
-        android:label="householdEIDNotAccepted"
-        tools:layout="@layout/activity_eidnot_accepted" />
-
-
-    <activity
-        android:id="@+id/householdOnboardingHouseHoldActivitySuccessActivity"
-        android:name="co.yap.household.onboarding.onboarding.activities.OnboardingHouseHoldActivitySuccessActivity"
-        android:label="OnboardingHouseHoldActivitySuccessActivity"
-        tools:layout="@layout/activity_onboarding_house_hold_success" />
-
-
-    <activity
-        android:id="@+id/householdKYCSuccess"
-        android:name="co.yap.household.onboarding.kycsuccess.KycSuccessActivity"
-        android:label="householdKYCSuccess"
-        tools:layout="@layout/activity_kyc_success" />
-
-    <activity
         android:id="@+id/householdOnBoardingExistingYAP"
         android:name="co.yap.household.onboarding.onboarding.activities.OnBoardingExistingYapActivity"
-        android:label="OnBoardingExistingYAP"
-        tools:layout="@layout/activity_on_boarding_existing_yap" />
+        android:label="householdOnboard"
+        tools:layout="@layout/activity_main_house_hold" />
 
 </navigation>
 

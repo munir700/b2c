@@ -1383,6 +1383,12 @@ object Strings {
         "screen_title_oops"
     const val screen_title_mistake_please_call: String =
         "screen_title_mistake_please_call"
+
+    // Household Dashboard/Home
+    const val screen_household_home_display_text_transactions_heading_title: String =
+        "screen_household_home_display_text_transactions_heading_title"
+    const val screen_household_home_display_text_transactions_filers_title: String =
+        "screen_household_home_display_text_transactions_filers_title"
     const val screen_on_boarding_existing_message: String =
         "screen_on_boarding_existing_message"
     const val screen_b2c_kyc_home_button_skip_on_boarding_existing: String =

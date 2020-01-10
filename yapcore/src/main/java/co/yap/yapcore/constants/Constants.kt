@@ -111,4 +111,20 @@ object Constants {
     //Location Selection
     const val ADDRESS = "address"
 
+    // Events for ViewState
+
+    const val EVENT_LOADING: Int = 1111
+    const val EVENT_EMPTY: Int = 2222
+    const val EVENT_CONTENT: Int = 3333
+    const val EVENT_ERROR: Int = 4444
+
+    //Notifications Actions
+
+    const val NOTIFICATION_ACTION_SET_PIN: String = "SET_PIN"
+    const val NOTIFICATION_ACTION_COMPLETE_VERIFICATION: String = "COMPLETE_VERIFICATION"
+
+    const val USER_STATUS_ON_BOARDED: String = "ON_BOARDED"
+    const val USER_STATUS_MEETING_SCHEDULED: String = "MEETING_SCHEDULED"
+    const val USER_STATUS_MEETING_SUCCESS: String = "MEETING_SUCCESS"
+
 }
