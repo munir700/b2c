@@ -1,10 +1,10 @@
 package co.yap.household.onboarding.onboarding.fragments
 
+import android.app.Activity
+import android.content.Intent
 import android.graphics.Rect
 import android.os.Build
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.view.View
 import androidx.annotation.RequiresApi
 import androidx.core.animation.addListener
@@ -17,8 +17,12 @@ import co.yap.household.onboarding.fragments.OnboardingChildFragment
 import co.yap.household.onboarding.onboarding.interfaces.INewUserSuccess
 import co.yap.household.onboarding.onboarding.viewmodels.NewUserSuccessViewModel
 import co.yap.modules.kyc.activities.DocumentsDashboardActivity
+import co.yap.translation.Strings
+import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.helpers.AnimationUtils
 import kotlinx.android.synthetic.main.fragment_new_user_success.*
+import kotlinx.coroutines.delay
 
 class NewUserSuccessFragment :
     OnboardingChildFragment<INewUserSuccess.ViewModel>() {
@@ -29,7 +33,7 @@ class NewUserSuccessFragment :
 
     override fun getLayoutId(): Int = R.layout.fragment_new_user_success
 
-    override val viewModel: INewUserSuccess.ViewModel
+    override val viewModel: NewUserSuccessViewModel
         get() = ViewModelProviders.of(this).get(NewUserSuccessViewModel::class.java)
 
 
@@ -44,19 +48,31 @@ class NewUserSuccessFragment :
         rootContainer.children.forEach { it.alpha = 0f }
 
         btnCompleteVerifiocation.setOnClickListener {
-            startActivity(
+            startActivityForResult(
                 DocumentsDashboardActivity.getIntent(
                     requireContext(),
                     "Sample Name",
                     false
-                )
+                ), RequestCodes.REQUEST_KYC_DOCUMENTS
             )
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == Activity.RESULT_OK) {
+            if (requestCode == RequestCodes.REQUEST_KYC_DOCUMENTS) {
+
+            }
         }
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        Handler(Looper.getMainLooper()).postDelayed({ runAnimations() }, 500)
+        viewModel.launch {
+            delay(500)
+            runAnimations()
+        }
     }
 
 

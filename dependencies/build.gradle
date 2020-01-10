@@ -5,7 +5,7 @@ apply plugin: 'androidx.navigation.safeargs.kotlin'
 
 project.ext {
     compileSdkVersion = 28
-    minSdkVersion = 21
+    minSdkVersion = 23
     targetSdkVersion = 28
     versionCode = 1
     versionName = "1.0"
@@ -233,7 +233,9 @@ project.ext {
             [configuration: "implementation", dependency: libraries.glideTransformation],
             [configuration: "implementation", dependency: libraries.androidanimations],
             [configuration: "implementation", dependency: libraries.androidanimationseasing],
-            [configuration: "implementation", dependency: libraries.biometric]
+            [configuration: "implementation", dependency: libraries.biometric],
+            [configuration: "implementation", dependency: libraries.playServicesPlaces],
+            [configuration: "implementation", dependency: libraries.playLibPlaces]
 
     ]
 

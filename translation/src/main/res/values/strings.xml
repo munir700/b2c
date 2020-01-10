@@ -833,6 +833,7 @@
     <string name="screen_house_hold_existing_number_registration_display_text_parent_description">Enter %1s\'s number below</string>
     <string name="screen_house_hold_number_registration_button_text_confirm">Confirm</string>
     <string name="screen_house_hold_number_registration_error_text">Oops! Looks like that\'s the wrong number. Please try again</string>
+    <string name="screen_house_hold_create_passcode_heading_text">You got it right!</string>
     <!-- New User Success household screen -->
     <string name="screen_congratulations_display_text_title">Well done, %1s!</string>
     <string name="screen_congratulations_display_text_success_message">You’ve successfully registered yourself to the Household plan</string>
@@ -854,7 +855,7 @@
 
     <!-- Household On Boarding Existing screen-->
     <string name="screen_on_boarding_existing_message">You have been added to a Household plan by Nada Hassan</string>
-    <string name="screen_b2c_kyc_home_button_skip_on_boarding_existing">Skip and do later</string>
+    <string name="screen_b2c_kyc_home_button_skip_on_boarding_existing">Skip and do it later</string>
 
     <!--    OnBoarding Existing YAP User Screen-->
     <string name="screen_house_hold_onBoarding_existing_title_display_text">Hi Joe, you’ve been added to a Household plan by Nada Hassan</string>
@@ -862,5 +863,10 @@
     <string name="screen_house_hold_onBoarding_existing_title_accept_text_second">plan will be added to your YAP app</string>
     <string name="screen_house_hold_onBoarding_existing_title_accept">Accept</string>
     <string name="screen_house_hold_onBoarding_existing_title_decline_request">Decline request</string>
+
+    <!-- Household Dashboard/Home -->
+    <string name="screen_household_home_display_text_transactions_heading_title">Transactions</string>
+    <string name="screen_household_home_display_text_transactions_filers_title">Filter</string>
+
 </resources>
 

@@ -15,7 +15,7 @@ class OnBoardingExistingYapActivity : DefaultActivity(), IFragmentHolder {
         btnAccept.setOnClickListener {
             val bundle = Bundle()
             bundle.putBoolean(OnboardingHouseHoldActivity.EXISTING_USER, true)
-            startActivity(OnboardingHouseHoldActivity.getIntent(this, bundle))
+            startActivity(OnboardingHouseHoldActivitySuccessActivity.getIntent(this, bundle))
         }
     }
 }

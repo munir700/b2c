@@ -388,26 +388,26 @@ class CoreDialerPad @JvmOverloads constructor(
     }
 }
 
-/**
- * Enables to listen keyboard events.
- */
-interface NumberKeyboardListener {
-
-    /**
-     * Invoked when a number key is clicked.
-     */
-    fun onNumberClicked(number: Int, text: String)
-
-    /**
-     * Invoked when the left auxiliary button is clicked.
-     */
-    fun onLeftButtonClicked()
-
-    /**
-     * Invoked when the right auxiliary button is clicked.
-     */
-    fun onRightButtonClicked()
-}
+///**
+// * Enables to listen keyboard events.
+// */
+//interface NumberKeyboardListener {
+//
+//    /**
+//     * Invoked when a number key is clicked.
+//     */
+//    fun onNumberClicked(number: Int, text: String)
+//
+//    /**
+//     * Invoked when the left auxiliary button is clicked.
+//     */
+//    fun onLeftButtonClicked()
+//
+//    /**
+//     * Invoked when the right auxiliary button is clicked.
+//     */
+//    fun onRightButtonClicked()
+//}
 
 
 

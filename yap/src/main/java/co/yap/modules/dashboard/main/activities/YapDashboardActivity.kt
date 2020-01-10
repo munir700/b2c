@@ -455,10 +455,10 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
 
     private fun setAppVersion() {
         try {
-            if (!FLAVOR.equals("live")) {
-                tvVersionCode.text = String.format("Version Code: %d", VERSION_CODE)
+            if (FLAVOR != "live") {
+//                tvVersionCode.text = String.format("Version Code: %d", VERSION_CODE)
                 String.format("Version Name: %s", VERSION_NAME)
-                tvVersionName.text = String.format("Version Name: %s", VERSION_NAME)
+                tvVersionName.text = String.format("Version %s (%s)", VERSION_NAME, VERSION_CODE)
             }
         } catch (e: Exception) {
 
