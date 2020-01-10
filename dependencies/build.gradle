@@ -211,7 +211,9 @@ project.ext {
             [configuration: "implementation", dependency: libraries.glideTransformation],
             [configuration: "implementation", dependency: libraries.androidanimations],
             [configuration: "implementation", dependency: libraries.androidanimationseasing],
-            [configuration: "implementation", dependency: libraries.biometric]
+            [configuration: "implementation", dependency: libraries.biometric],
+            [configuration: "implementation", dependency: libraries.playServicesPlaces],
+            [configuration: "implementation", dependency: libraries.playLibPlaces]
 
     ]
 

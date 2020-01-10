@@ -108,4 +108,7 @@ object Constants {
     const val MONEY_TRANSFERED = "MONEY_TRANSFERED"
     const val BENEFICIARY_CHANGE = "BENEFICIARY_CHANGE"
 
+    //Location Selection
+    const val ADDRESS = "address"
+
 }
