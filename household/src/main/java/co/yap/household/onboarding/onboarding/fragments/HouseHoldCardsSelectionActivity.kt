@@ -6,7 +6,9 @@ import android.os.Bundle
 import androidx.core.view.ViewCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewpager2.widget.ViewPager2
+import androidx.viewpager2.widget.ViewPager2.OnPageChangeCallback
 import co.yap.household.BR
 import co.yap.household.R
 import co.yap.household.databinding.FragmentHouseHoldCardSelectionBinding
@@ -17,8 +19,10 @@ import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.toast
 
+
 class HouseHoldCardsSelectionActivity : BaseBindingActivity<IHouseHoldCardsSelection.ViewModel>(),
     IHouseHoldCardsSelection.View {
+    private lateinit var linearLayoutManager: LinearLayoutManager
 
     companion object {
         const val data = "isFromExisting"
@@ -45,6 +49,11 @@ class HouseHoldCardsSelectionActivity : BaseBindingActivity<IHouseHoldCardsSelec
 
     override fun setObservers() {
         viewModel.clickEvent.observe(this, clickEvent)
+        viewModel.changedPosition.observe(this, Observer {
+            if (getBindings().vpCards.currentItem != it) {
+                getBindings().vpCards.setCurrentItem(it, true)
+            }
+        })
     }
 
     override fun setUpUI() {
@@ -67,6 +76,9 @@ class HouseHoldCardsSelectionActivity : BaseBindingActivity<IHouseHoldCardsSelec
     }
 
     private fun setupPager() {
+        linearLayoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+        getBindings().rvColorCircles.layoutManager = linearLayoutManager
+        getBindings().rvColorCircles.adapter = viewModel.circleColorAdapter
         getBindings().vpCards.adapter = viewModel.adapter
 
         with(getBindings().vpCards) {
@@ -78,6 +90,7 @@ class HouseHoldCardsSelectionActivity : BaseBindingActivity<IHouseHoldCardsSelec
         val pageMarginPx = Utils.getDimensionInPercent(this, true, 14)
         val offsetPx = Utils.getDimensionInPercent(this, true, 14)
         getBindings().vpCards.setPageTransformer { page, position ->
+
             val viewPager = page.parent.parent as ViewPager2
             val offset = position * -(2 * offsetPx + pageMarginPx)
             if (viewPager.orientation == ViewPager2.ORIENTATION_HORIZONTAL) {
@@ -90,7 +103,26 @@ class HouseHoldCardsSelectionActivity : BaseBindingActivity<IHouseHoldCardsSelec
                 page.translationY = offset
             }
         }
+        getBindings().vpCards.registerOnPageChangeCallback(object : OnPageChangeCallback() {
+            override fun onPageScrolled(
+                position: Int,
+                positionOffset: Float,
+                positionOffsetPixels: Int
+            ) {
+                super.onPageScrolled(position, positionOffset, positionOffsetPixels)
+                viewModel.state.position = position
+            }
+
+            override fun onPageSelected(position: Int) {
+                super.onPageSelected(position)
+            }
+
+            override fun onPageScrollStateChanged(state: Int) {
+                super.onPageScrollStateChanged(state)
+            }
+        })
     }
+
 
     private fun getIntentData(): Boolean {
         //intent.getBooleanExtra("isFromExisting", false)

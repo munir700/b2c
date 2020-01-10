@@ -4,10 +4,10 @@ import android.view.View
 import co.yap.household.onboarding.onboarding.fragments.CardColorSelectionModel
 import co.yap.yapcore.interfaces.OnItemClickListener
 
-class HouseHoldCardSelectionItemViewModel(
+class CircleColorItemViewModel(
     var position: Int?,
-    var cardColorSelectionModel: CardColorSelectionModel,
-    private val onItemClickListener: OnItemClickListener?
+    private var cardColorSelectionModel: CardColorSelectionModel,
+    var onItemClickListener: OnItemClickListener?
 ) {
     fun handlePressOnClick(view: View) {
         onItemClickListener?.onItemClick(view, cardColorSelectionModel, position ?: 0)

@@ -1,6 +1,5 @@
 package co.yap.household.onboarding.onboarding.fragments
 
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import co.yap.household.databinding.ItemHouseHoldCardBinding
 import co.yap.household.onboarding.onboarding.viewmodels.HouseHoldCardSelectionItemViewModel
@@ -14,14 +13,18 @@ class HouseHoldCardSelectionItemViewHolder(private val itemHouseHoldCardBinding:
         dimensions: IntArray,
         onItemClickListener: OnItemClickListener?
     ) {
-        val params = itemHouseHoldCardBinding.ivCard.layoutParams as ConstraintLayout.LayoutParams
+        val params = itemHouseHoldCardBinding.ivCard.layoutParams
         params.width = dimensions[0]
         params.height = dimensions[1]
         itemHouseHoldCardBinding.ivCard.layoutParams = params
-        itemHouseHoldCardBinding.houseHoldCardItemViewModel?.postion = position
-       // itemHouseHoldCardBinding.houseHoldCardItemViewModel?.color = cardColorSelectionModel.cardColor
+        itemHouseHoldCardBinding.houseHoldCardItemViewModel?.position = position
+        // itemHouseHoldCardBinding.houseHoldCardItemViewModel?.color = cardColorSelectionModel.cardColor
         itemHouseHoldCardBinding.houseHoldCardItemViewModel =
-            HouseHoldCardSelectionItemViewModel(position, cardColorSelectionModel, onItemClickListener)
+            HouseHoldCardSelectionItemViewModel(
+                position,
+                cardColorSelectionModel,
+                onItemClickListener
+            )
         itemHouseHoldCardBinding.executePendingBindings()
     }
 }
