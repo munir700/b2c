@@ -22,7 +22,7 @@
 
     <item>
         <shape android:shape="oval">
-            <solid android:color="?attr/colorPrimaryAttrWarm"/>
+            <solid android:color="?attr/colorPrimaryWarmAttr"/>
             <stroke
                 android:width="2dp"
                 android:color="@color/transparent"/>

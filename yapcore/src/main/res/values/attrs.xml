@@ -4,11 +4,11 @@
     <attr name="colorPrimaryDarkAttr" format="reference" />
     <attr name="colorPrimaryAccentAttr" format="reference" />
 
-    <attr name="colorPrimaryAccentAttrWarm" format="reference" />
-    <attr name="colorPrimaryAttrWarm" format="reference" />
-    <attr name="colorPrimaryAttrLight" format="reference" />
-    <attr name="colorPrimaryAttrAlt" format="reference" />
-    <attr name="colorPrimaryAttrSoft" format="reference" />
+    <attr name="colorPrimaryAccentWarmAttr" format="reference" />
+    <attr name="colorPrimaryWarmAttr" format="reference" />
+    <attr name="colorPrimaryLightAttr" format="reference" />
+    <attr name="colorPrimaryAltAttr" format="reference" />
+    <attr name="colorPrimarySoftAttr" format="reference" />
 
 
     <declare-styleable name="CoreButton">

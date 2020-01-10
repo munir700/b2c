@@ -12,11 +12,12 @@
 
         //
 
-        <item name="colorPrimaryAccentAttrWarm">@color/colorAccent</item>
-        <item name="colorPrimaryAttrWarm">@color/colorPrimaryWarm</item>
-        <item name="colorPrimaryAttrLight">@color/colorPrimaryLight</item>
-        <item name="colorPrimaryAttrAlt">@color/colorPrimaryAlt</item>
-        <item name="colorPrimaryAttrSoft">@color/colorPrimarySoft</item>
+        <item name="colorPrimaryAccentWarmAttr">@color/colorAccent</item>
+        <item name="colorPrimaryWarmAttr">@color/colorPrimaryWarm</item>
+        <item name="colorPrimaryLightAttr">@color/colorPrimaryLight</item>
+        <item name="colorPrimaryAltAttr">@color/colorPrimaryAlt</item>
+        <item name="colorPrimarySoftAttr">@color/colorPrimarySoft</item>
+
 
 
     </style>
@@ -30,11 +31,13 @@
         <item name="colorPrimaryDarkAttr">@color/textDarkColor</item>
         <item name="colorPrimaryAccentAttr">@color/colorAccentHouseHold</item>
 
-        <item name="colorPrimaryAccentAttrWarm">@color/colorAccent</item>
-        <item name="colorPrimaryAttrWarm">@color/colorPrimaryWarm</item>
-        <item name="colorPrimaryAttrLight">@color/colorPrimaryLight</item>
-        <item name="colorPrimaryAttrAlt">@color/colorPrimaryAlt</item>
-        <item name="colorPrimaryAttrSoft">@color/colorPrimarySoft</item>
+
+        <item name="colorPrimaryAccentWarmAttr">@color/colorAccent</item>
+        <item name="colorPrimaryWarmAttr">@color/colorPrimaryWarm</item>
+        <item name="colorPrimaryLightAttr">@color/colorPrimaryLight</item>
+        <item name="colorPrimaryAltAttr">@color/colorPrimaryAlt</item>
+        <item name="colorPrimarySoftAttr">@color/colorPrimarySoft</item>
+
     </style>
 
     <style name="CoreAppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />

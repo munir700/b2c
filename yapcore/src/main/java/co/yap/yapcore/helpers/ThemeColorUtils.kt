@@ -61,4 +61,59 @@ object ThemeColorUtils {
         }.resourceId
     }
 
+
+    fun colorPrimaryAccentWarmAttribute(context: Context): Int {
+        return TypedValue().also {
+            context.theme.resolveAttribute(
+                R.attr.colorPrimaryAccentWarmAttr,
+                it,
+                true
+            )
+        }.resourceId
+    }
+
+    fun colorPrimaryWarmAttribute(context: Context): Int {
+        return TypedValue().also {
+            context.theme.resolveAttribute(
+                R.attr.colorPrimaryWarmAttr,
+                it,
+                true
+            )
+        }.resourceId
+    }
+
+
+    fun colorPrimaryLightAttribute(context: Context): Int {
+        return TypedValue().also {
+            context.theme.resolveAttribute(
+                R.attr.colorPrimaryLightAttr,
+                it,
+                true
+            )
+        }.resourceId
+    }
+
+
+    fun colorPrimaryAltAttribute(context: Context): Int {
+        return TypedValue().also {
+            context.theme.resolveAttribute(
+                R.attr.colorPrimaryAltAttr,
+                it,
+                true
+            )
+        }.resourceId
+    }
+
+
+    fun colorPrimarySoftAttribute(context: Context): Int {
+        return TypedValue().also {
+            context.theme.resolveAttribute(
+                R.attr.colorPrimarySoftAttr,
+                it,
+                true
+            )
+        }.resourceId
+    }
+
+
 }

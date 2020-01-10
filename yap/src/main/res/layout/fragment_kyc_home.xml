@@ -58,7 +58,7 @@
             android:clickable="true"
             android:onClick="@{(v) -> viewModel.handlePressOnScanCard(v.id)}"
             android:layout_marginTop="@dimen/margin_large"
-            app:cardBackgroundColor="?attr/colorPrimaryAttrWarm"
+            app:cardBackgroundColor="?attr/colorPrimaryWarmAttr"
             app:layout_constraintTop_toBottomOf="@id/tvSubTitle"
             app:cardCornerRadius="10dp"
             tools:layout_editor_absoluteX="16dp">
