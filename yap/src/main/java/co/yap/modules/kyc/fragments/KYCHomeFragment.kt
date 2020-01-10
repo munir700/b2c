@@ -47,7 +47,7 @@ class KYCHomeFragment : KYCChildFragment<IKYCHome.ViewModel>(), IKYCHome.View {
                     if (activity is DocumentsDashboardActivity)
                         (activity as DocumentsDashboardActivity).goToDashBoard(
                             success = false,
-                            skipped = true
+                            skippedPress = true
                         )
                 }
             }
