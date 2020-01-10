@@ -11,7 +11,6 @@ import co.yap.household.onboarding.fragments.OnboardingChildFragment
 import co.yap.household.onboarding.onboarding.interfaces.IHouseHoldCreatePassCode
 import co.yap.household.onboarding.onboarding.viewmodels.HouseHoldCreatePassCodeViewModel
 import co.yap.widgets.NumberKeyboardListener
-import kotlinx.android.synthetic.main.fragment_house_hold_create_passcode.*
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.preventTakeScreenshot
@@ -30,8 +29,8 @@ class HouseHoldCreatePassCodeFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         preventTakeScreenshot()
-        dialer.setNumberKeyboardListener(this)
         setObservers()
+        dialer.setNumberKeyboardListener(this)
         dialer.hideFingerprintView()
     }
 
@@ -48,11 +47,9 @@ class HouseHoldCreatePassCodeFragment :
         })
     }
 
-    override fun onPause() {
-        super.onPause()
-        viewModel.clickEvent?.observe(this, Observer {
-
-        })
+    override fun onDestroyView() {
+        super.onDestroyView()
+        viewModel.clickEvent?.removeObservers(this)
     }
 
     override fun onBackPressed(): Boolean = false

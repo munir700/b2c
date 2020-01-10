@@ -5,11 +5,10 @@ import co.yap.household.onboarding.onboarding.interfaces.IHouseHoldCreatePassCod
 import co.yap.household.onboarding.onboarding.states.HouseHoldCreatePassCodeState
 import co.yap.household.onboarding.viewmodels.OnboardingChildViewModel
 import co.yap.translation.Strings
-import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.helpers.StringUtils
 
-open class HouseHoldCreatePassCodeViewModel(application: Application) :
+class HouseHoldCreatePassCodeViewModel(application: Application) :
     OnboardingChildViewModel<IHouseHoldCreatePassCode.State>(application),
     IHouseHoldCreatePassCode.ViewModel {
     override val state: HouseHoldCreatePassCodeState = HouseHoldCreatePassCodeState()
@@ -17,10 +16,11 @@ open class HouseHoldCreatePassCodeViewModel(application: Application) :
     override val clickEvent: SingleClickEvent? = SingleClickEvent()
 
     override fun handlePressOnCreatePasscodeButton(id: Int) {
-        if (validateAggressively()){
+        if (validateAggressively()) {
             clickEvent?.setValue(id)
         }
     }
+
     override fun onResume() {
         super.onResume()
         setProgress(50)

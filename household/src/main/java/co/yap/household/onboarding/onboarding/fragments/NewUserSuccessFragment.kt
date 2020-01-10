@@ -13,7 +13,9 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.household.BR
 import co.yap.household.R
+import co.yap.household.onboarding.dashboard.main.activities.HouseholdDashboardActivity
 import co.yap.household.onboarding.fragments.OnboardingChildFragment
+import co.yap.household.onboarding.onboarding.activities.EIDNotAcceptedActivity
 import co.yap.household.onboarding.onboarding.interfaces.INewUserSuccess
 import co.yap.household.onboarding.onboarding.viewmodels.NewUserSuccessViewModel
 import co.yap.modules.kyc.activities.DocumentsDashboardActivity
@@ -76,14 +78,29 @@ class NewUserSuccessFragment :
 
                     success?.let {
                         if (it) {
-                            //open sufyan flow
-
+                            startActivity(
+                                HouseHoldCardsSelectionActivity.newIntent(
+                                    requireContext(),
+                                    false
+                                )
+                            )
+                            activity?.finish()
                         } else {
-                            skipped?.let {
-                                if (it) {
-                                    //goto dashboard
+                            skipped?.let { skip ->
+                                if (skip) {
+                                    startActivity(
+                                        Intent(
+                                            requireContext(),
+                                            HouseholdDashboardActivity::class.java
+                                        )
+                                    )
                                 } else {
-                                    // open Oops screen slow
+                                    startActivity(
+                                        Intent(
+                                            requireContext(),
+                                            EIDNotAcceptedActivity::class.java
+                                        )
+                                    )
                                 }
                             }
                         }

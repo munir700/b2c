@@ -18,11 +18,8 @@ class EIDNotAcceptedActivity : DefaultActivity(), IFragmentHolder {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_eidnot_accepted)
         setMessage()
-
         setClickerListner()
         setClickerListner()
-
-
     }
 
 
