@@ -8,6 +8,7 @@ import android.util.AttributeSet
 import android.view.MotionEvent
 import android.widget.Button
 import co.yap.yapcore.R
+import co.yap.yapcore.helpers.ThemeColorUtils
 
 
 class CoreButton : Button {
@@ -85,15 +86,16 @@ class CoreButton : Button {
         if (enableButton) {
             defaultStateColor = typedArray.getColor(
                 R.styleable.CoreButton_btn_unpressed_color,
-                resources.getColor(R.color.colorPrimary)
+                ThemeColorUtils.colorPrimaryAttribute(context)
             )
             pressedColor = typedArray.getColor(
                 R.styleable.CoreButton_btn_pressed_color,
-                resources.getColor(R.color.colorPrimaryDark)
+                ThemeColorUtils.colorPrimaryAttribute(context)
             )
 
         } else {
-            defaultStateColor = resources.getColor(R.color.greyLight)
+            defaultStateColor =  resources.getColor(R.color.greyLight)
+
             pressedColor = resources.getColor(R.color.greyLight)
         }
 
@@ -258,12 +260,12 @@ class CoreButton : Button {
 
         if (!enable) {
             defaultStateColor = resources.getColor(R.color.greyLight)
-            pressedColor = resources.getColor(R.color.colorPrimary)
+            pressedColor = ThemeColorUtils.colorPrimaryAttribute(context)
             paint.color = defaultStateColor
             invalidate()
         } else {
-            defaultStateColor = resources.getColor(R.color.colorPrimary)
-            pressedColor = resources.getColor(R.color.colorPrimaryDark)
+            defaultStateColor = ThemeColorUtils.colorPrimaryAttribute(context)
+            pressedColor = ThemeColorUtils.colorPrimaryAttribute(context)
             paint.color = defaultStateColor
             invalidate()
         }

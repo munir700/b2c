@@ -92,7 +92,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginBottom="@dimen/_24sdp"
-                    app:dotsColor="@color/colorPrimary"
+                    app:dotsColor="?attr/colorPrimaryAttr"
                     app:dotsCornerRadius="8dp"
                     app:dotsSize="12dp"
                     app:dotsSpacing="4dp"
@@ -207,7 +207,7 @@
                             android:layout_marginTop="@dimen/margin_large"
                             android:gravity="center"
                             android:text="@={viewModel.state.monthlyFee}"
-                            android:textColor="@color/colorPrimary"
+                            android:textColor="?attr/colorPrimaryAttr"
                             tools:text="AED 59.99" />
 
                         <TextView
@@ -250,7 +250,7 @@
                             android:background="@drawable/round_light_gery_background"
                             android:gravity="center"
                             android:text="@string/screen_yap_house_hold_subscription_selection_display_text_saving"
-                            android:textColor="@color/colorPrimary"
+                            android:textColor="?attr/colorPrimaryAttr"
                             android:textSize="@dimen/_9sdp"
                             app:btn_unpressed_color="@color/disabledLight"
                             app:layout_constraintEnd_toEndOf="parent"
@@ -267,7 +267,7 @@
                             android:layout_marginTop="@dimen/margin_large"
                             android:gravity="center"
                             android:text="@={viewModel.state.annuallyFee}"
-                            android:textColor="@color/colorPrimary"
+                            android:textColor="?attr/colorPrimaryAttr"
                             tools:text="AED 59.99" />
 
                         <TextView

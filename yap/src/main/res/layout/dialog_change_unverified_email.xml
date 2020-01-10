@@ -95,7 +95,7 @@
             android:layout_marginTop="@dimen/margin_small"
             android:padding="@dimen/_10sdp"
             android:text="@string/screen_unverified_display_button_later"
-            android:textColor="@color/colorPrimary"
+            android:textColor="?attr/colorPrimaryAttr"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/btnOpenMailApp" />

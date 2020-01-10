@@ -9,7 +9,7 @@
         android:layout_width="40dp"
         android:layout_height="40dp"
         app:btn_shape_type="circle"
-        app:btn_unpressed_color="@color/colorPrimary"
+        app:btn_unpressed_color="?attr/colorPrimaryAttr"
         app:btn_round_radius="50dp"
         android:layout_marginStart="@dimen/_12sdp"
         android:layout_marginTop="@dimen/_17sdp"
@@ -23,6 +23,6 @@
         android:layout_marginTop="20dp"
         app:btn_drawable="@drawable/ic_back_arrow"
         app:btn_shape_type="circle"
-        app:btn_unpressed_color="@color/colorPrimary"/>
+        app:btn_unpressed_color="?attr/colorPrimaryAttr"/>
 -->
 </LinearLayout>

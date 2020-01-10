@@ -67,7 +67,7 @@
                         android:layout_marginTop="@dimen/_2sdp"
                         android:layout_toEndOf="@+id/ivFilters"
                         android:text="Filter"
-                        android:textColor="@color/colorPrimary" />
+                        android:textColor="?attr/colorPrimaryAttr" />
 
                 </RelativeLayout>
 
@@ -162,8 +162,8 @@
                                 android:layout_marginTop="@dimen/_3sdp"
                                 android:layout_marginEnd="@dimen/margin_small"
                                 android:layout_toStartOf="@+id/tvCardBalance"
-                                android:backgroundTint="@color/colorPrimary"
-                                android:foregroundTint="@color/colorPrimary"
+                                android:backgroundTint="?attr/colorPrimaryAttr"
+                                android:foregroundTint="?attr/colorPrimaryAttr"
                                 android:visibility="@{viewModel.state.balanceLoading ? View.VISIBLE : View.GONE}" />
 
                         </RelativeLayout>
@@ -211,7 +211,7 @@
                                         android:layout_height="wrap_content"
                                         android:layout_marginTop="@dimen/margin_extra_small"
                                         android:text="Add funds"
-                                        android:textColor="@color/colorPrimary" />
+                                        android:textColor="?attr/colorPrimaryAttr" />
 
                                 </LinearLayout>
 
@@ -237,7 +237,7 @@
                                         android:layout_marginTop="@dimen/margin_extra_small"
                                         android:text="Freeze card"
                                         android:textAlignment="center"
-                                        android:textColor="@color/colorPrimary" />
+                                        android:textColor="?attr/colorPrimaryAttr" />
 
                                 </LinearLayout>
 
@@ -262,7 +262,7 @@
                                         android:layout_marginTop="@dimen/margin_extra_small"
                                         android:text="Remove funds"
                                         android:textAlignment="center"
-                                        android:textColor="@color/colorPrimary" />
+                                        android:textColor="?attr/colorPrimaryAttr" />
 
                                 </LinearLayout>
 
@@ -306,7 +306,7 @@
                                         android:layout_marginTop="@dimen/margin_extra_small"
                                         android:text="Freeze card"
                                         android:textAlignment="center"
-                                        android:textColor="@color/colorPrimary" />
+                                        android:textColor="?attr/colorPrimaryAttr" />
 
                                 </LinearLayout>
 
@@ -331,7 +331,7 @@
                                         android:layout_marginTop="@dimen/margin_extra_small"
                                         android:text="Set limits"
                                         android:textAlignment="center"
-                                        android:textColor="@color/colorPrimary" />
+                                        android:textColor="?attr/colorPrimaryAttr" />
 
                                 </LinearLayout>
 

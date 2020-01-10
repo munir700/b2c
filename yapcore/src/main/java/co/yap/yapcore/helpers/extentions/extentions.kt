@@ -2,6 +2,7 @@ package co.yap.yapcore.helpers.extentions
 
 import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
@@ -18,6 +19,29 @@ import co.yap.yapcore.helpers.Utils
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.google.android.material.navigation.NavigationView
+
+enum class ExtraType {
+    STRING, INT, BOOLEAN, DOUBLE, LONG;
+}
+
+fun Intent.getValue(key: String, type: String): Any? {
+    return if (hasExtra(key)) {
+        return if (ExtraType.valueOf(type).name.isNotEmpty()) {
+            when (ExtraType.valueOf(type)) {
+                ExtraType.BOOLEAN ->
+                    getBooleanExtra(key, false)
+                ExtraType.STRING ->
+                    getStringExtra(key)
+                ExtraType.DOUBLE ->
+                    getDoubleExtra(key, 0.0)
+                ExtraType.INT ->
+                    getIntExtra(key, 0)
+                ExtraType.LONG ->
+                    getLongExtra(key, 0)
+            }
+        } else null
+    } else return null
+}
 
 fun Activity.preventTakeScreenshot() {
     window.setFlags(

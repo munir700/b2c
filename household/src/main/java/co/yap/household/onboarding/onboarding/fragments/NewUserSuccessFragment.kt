@@ -17,10 +17,10 @@ import co.yap.household.onboarding.fragments.OnboardingChildFragment
 import co.yap.household.onboarding.onboarding.interfaces.INewUserSuccess
 import co.yap.household.onboarding.onboarding.viewmodels.NewUserSuccessViewModel
 import co.yap.modules.kyc.activities.DocumentsDashboardActivity
-import co.yap.translation.Strings
-import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.helpers.AnimationUtils
+import co.yap.yapcore.helpers.extentions.ExtraType
+import co.yap.yapcore.helpers.extentions.getValue
 import kotlinx.android.synthetic.main.fragment_new_user_success.*
 import kotlinx.coroutines.delay
 
@@ -62,7 +62,34 @@ class NewUserSuccessFragment :
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK) {
             if (requestCode == RequestCodes.REQUEST_KYC_DOCUMENTS) {
+                data?.let {
+                    val success =
+                        data.getValue(
+                            DocumentsDashboardActivity.result,
+                            ExtraType.BOOLEAN.name
+                        ) as? Boolean
+                    val skipped =
+                        data.getValue(
+                            DocumentsDashboardActivity.skipped,
+                            ExtraType.BOOLEAN.name
+                        ) as? Boolean
 
+                    success?.let {
+                        if (it) {
+                            //open sufyan flow
+
+                        } else {
+                            skipped?.let {
+                                if (it) {
+                                    //goto dashboard
+                                } else {
+                                    // open Oops screen slow
+                                }
+                            }
+                        }
+                    }
+
+                }
             }
         }
     }

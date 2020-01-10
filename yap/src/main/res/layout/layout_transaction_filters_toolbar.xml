@@ -28,7 +28,7 @@
             android:onClick="@{(v) ->  viewModel.handlePressOnBackButton(v.id)}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:tint="@color/colorPrimaryDark"
+            android:tint="?attr/colorPrimaryDark"
             app:srcCompat="@drawable/close" />
 
 

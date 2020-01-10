@@ -15,6 +15,7 @@ import android.view.animation.AnimationUtils
 import androidx.core.content.ContextCompat
 import co.yap.R
 import co.yap.yapcore.helpers.RecyclerTouchListener
+import co.yap.yapcore.helpers.ThemeColorUtils
 import co.yap.yapcore.helpers.dip2px
 
 class ChartViewV2(context: Context, attrs: AttributeSet) : View(context, attrs),
@@ -70,7 +71,7 @@ class ChartViewV2(context: Context, attrs: AttributeSet) : View(context, attrs),
                 ContextCompat.getColor(context, R.color.colorLightGreyGradient),
                 Shader.TileMode.CLAMP
             )
-            seletedColor = ContextCompat.getColor(context, R.color.colorPrimary)
+            seletedColor = ThemeColorUtils.colorPrimaryAttribute(context)
             customizePaint(context)
         }
 
@@ -166,8 +167,8 @@ class ChartViewV2(context: Context, attrs: AttributeSet) : View(context, attrs),
             override fun onAnimationStart(animation: Animation) {
                 paint.shader = null
                 paintShader = null
-                paint.color = ContextCompat.getColor(context, R.color.colorPrimary)
-                seletedColor = ContextCompat.getColor(context, R.color.colorPrimary)
+                paint.color = ThemeColorUtils.colorPrimaryAttribute(context)
+                seletedColor = ThemeColorUtils.colorPrimaryAttribute(context)
                 invalidate()
                 customizePaint(context)
             }
@@ -275,7 +276,7 @@ class ChartViewV2(context: Context, attrs: AttributeSet) : View(context, attrs),
                 paint.shader = null
                 paintShader = null
 
-                val pupleSelectedColor = ContextCompat.getColor(context, R.color.colorPrimary)
+                val pupleSelectedColor = ThemeColorUtils.colorPrimaryAttribute(context)
                 paint.color = pupleSelectedColor
                 seletedColor = pupleSelectedColor
                 invalidate()

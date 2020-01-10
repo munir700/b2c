@@ -1,5 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <attr name="colorPrimaryAttr" format="reference" />
+    <attr name="colorPrimaryDarkAttr" format="reference" />
+    <attr name="colorPrimaryAccentAttr" format="reference" />
+
+    <attr name="colorPrimaryAccentWarmAttr" format="reference" />
+    <attr name="colorPrimaryWarmAttr" format="reference" />
+    <attr name="colorPrimaryLightAttr" format="reference" />
+    <attr name="colorPrimaryAltAttr" format="reference" />
+    <attr name="colorPrimarySoftAttr" format="reference" />
+    <attr name="colorPrimaryDisabledBtnAttr" format="reference" />
+
+
     <declare-styleable name="CoreButton">
         <attr name="btn_text_color" format="color" />
         <attr name="btn_drawable" format="reference" />

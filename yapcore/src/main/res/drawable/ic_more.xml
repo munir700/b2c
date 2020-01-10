@@ -17,7 +17,7 @@
     <path
         android:pathData="M-5,-5l36,0l0,36l-36,0z"
         android:strokeWidth="1"
-        android:fillColor="@color/colorPrimary"
+        android:fillColor="?attr/colorPrimaryAttr"
         android:fillType="evenOdd"
         android:strokeColor="#00000000"/>
   </group>
