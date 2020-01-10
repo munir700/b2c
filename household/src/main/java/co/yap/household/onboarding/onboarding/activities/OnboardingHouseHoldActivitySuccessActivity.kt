@@ -11,4 +11,7 @@ class OnboardingHouseHoldActivitySuccessActivity : DefaultActivity() {
         setContentView(R.layout.activity_onboarding_house_hold_success)
 
     }
+
+
+
 }

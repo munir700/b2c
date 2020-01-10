@@ -1,6 +1,7 @@
 package co.yap.modules.setcardpin.fragments
 
 import android.os.Bundle
+import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
@@ -9,6 +10,7 @@ import co.yap.modules.setcardpin.viewmodels.SetCardPinViewModel
 import co.yap.yapcore.BR
 import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.R
+import co.yap.yapcore.databinding.FragmentSetCardPinBinding
 import co.yap.yapcore.helpers.Utils
 
 open class SetCardPinFragment : BaseBindingFragment<ISetCardPin.ViewModel>(), ISetCardPin.View {
@@ -25,16 +27,27 @@ open class SetCardPinFragment : BaseBindingFragment<ISetCardPin.ViewModel>(), IS
         super.onCreate(savedInstanceState)
         Utils.preventTakeScreenshot(requireActivity())
     }
+
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         setObservers()
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        getBindings().dialer.hideFingerprintView()
+        getBindings().dialer.upDatedDialerPad(viewModel.state.pincode)
+        // getBindings().dialer.updateDialerLength(4)
     }
 
     override fun setObservers() {
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
                 R.id.btnAction -> {
-                    val action = SetCardPinFragmentDirections.actionSetCardPinFragmentToConfirmCardPinFragment(viewModel.state.pincode)
+                    val action =
+                        SetCardPinFragmentDirections.actionSetCardPinFragmentToConfirmCardPinFragment(
+                            viewModel.state.pincode
+                        )
                     findNavController().navigate(action)
                 }
             }
@@ -43,8 +56,13 @@ open class SetCardPinFragment : BaseBindingFragment<ISetCardPin.ViewModel>(), IS
 
         })
     }
+
     override fun loadData() {
 
+    }
+
+    fun getBindings(): FragmentSetCardPinBinding {
+        return viewDataBinding as FragmentSetCardPinBinding
     }
 
     override fun onDestroyView() {

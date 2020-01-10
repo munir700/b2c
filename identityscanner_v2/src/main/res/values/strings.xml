@@ -49,9 +49,9 @@
     <string name="validation_flash_recording_complete">Recording complete</string>
     <string name="ok">OK</string>
     <string name="nok">NOK</string>
-    <string name="done">Done</string>
+    <string name="done">Next</string>
     <string name="cancel">Cancel</string>
-    <string name="retake">Retake</string>
+    <string name="retake">Rescan</string>
     <string name="scan_front_eid">Scan Front Side of Emirates ID</string>
     <string name="scan_back_eid">Scan Back Side of Emirates ID</string>
     <string name="scan_passport">Scan Passport</string>
@@ -77,7 +77,7 @@
     <string name="title_selfie_video">Identity Validator</string>
 
     <string name="action_retake">Rescan</string>
-    <string name="action_done">Done</string>
+    <string name="action_done">Next</string>
     <string name="all_permission_msg">All permission needed to proceed.</string>
 
 

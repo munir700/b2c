@@ -50,7 +50,8 @@
                     android:layout_marginEnd="@dimen/margin_large"
                     android:gravity="center"
                     android:lineSpacingExtra="9sp"
-                    android:text="Sorry Joe, looks like you already have a Household plan connected to this Emirates ID. Please log out and inform your employer that we cannot proceed with activating your plan at this time. "
+                    app:text="@{Strings.screen_house_hold_existing_yap_message}"
+                    tools:text="@string/screen_house_hold_existing_yap_message"
                     android:textColor="@color/textDarkColor"
                     app:layout_constraintTop_toBottomOf="@+id/tvEID_NotAcceptTitle" />
 

@@ -3,14 +3,11 @@ package co.yap.widgets
 import android.annotation.SuppressLint
 import android.annotation.TargetApi
 import android.content.Context
-import android.content.res.TypedArray
 import android.os.Build
 import android.text.InputFilter
 import android.util.AttributeSet
-import android.view.LayoutInflater
 import android.view.View
 import android.view.View.OnClickListener
-import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.widget.*
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -50,7 +47,7 @@ class CoreDialerPad @JvmOverloads constructor(
             inputEditText?.append("1")
             listener?.onNumberClicked(1, etPassCodeText?.text.toString())
             if (dialerType == 1) {
-                addListSizeForPasscode()
+                addListSizeForPasscode(dialerMaxLength)
             }
         }
 
@@ -59,7 +56,7 @@ class CoreDialerPad @JvmOverloads constructor(
             inputEditText?.append("2")
             listener?.onNumberClicked(2, etPassCodeText?.text.toString())
             if (dialerType == 1) {
-                addListSizeForPasscode()
+                addListSizeForPasscode(dialerMaxLength)
             }
         }
         if (it.id == R.id.button3) {
@@ -67,7 +64,7 @@ class CoreDialerPad @JvmOverloads constructor(
             inputEditText?.append("3")
             listener?.onNumberClicked(3, etPassCodeText?.text.toString())
             if (dialerType == 1) {
-                addListSizeForPasscode()
+                addListSizeForPasscode(dialerMaxLength)
             }
         }
         if (it.id == R.id.button4) {
@@ -75,7 +72,7 @@ class CoreDialerPad @JvmOverloads constructor(
             inputEditText?.append("4")
             listener?.onNumberClicked(4, etPassCodeText?.text.toString())
             if (dialerType == 1) {
-                addListSizeForPasscode()
+                addListSizeForPasscode(dialerMaxLength)
             }
         }
         if (it.id == R.id.button5) {
@@ -83,7 +80,7 @@ class CoreDialerPad @JvmOverloads constructor(
             inputEditText?.append("5")
             listener?.onNumberClicked(5, etPassCodeText?.text.toString())
             if (dialerType == 1) {
-                addListSizeForPasscode()
+                addListSizeForPasscode(dialerMaxLength)
             }
         }
         if (it.id == R.id.button6) {
@@ -91,7 +88,7 @@ class CoreDialerPad @JvmOverloads constructor(
             inputEditText?.append("6")
             listener?.onNumberClicked(6, etPassCodeText?.text.toString())
             if (dialerType == 1) {
-                addListSizeForPasscode()
+                addListSizeForPasscode(dialerMaxLength)
             }
         }
         if (it.id == R.id.button7) {
@@ -100,7 +97,7 @@ class CoreDialerPad @JvmOverloads constructor(
             inputEditText?.append("7")
             listener?.onNumberClicked(7, etPassCodeText?.text.toString())
             if (dialerType == 1) {
-                addListSizeForPasscode()
+                addListSizeForPasscode(dialerMaxLength)
             }
         }
         if (it.id == R.id.button8) {
@@ -109,7 +106,7 @@ class CoreDialerPad @JvmOverloads constructor(
             inputEditText?.append("8")
             listener?.onNumberClicked(8, etPassCodeText?.text.toString())
             if (dialerType == 1) {
-                addListSizeForPasscode()
+                addListSizeForPasscode(dialerMaxLength)
             }
         }
         if (it.id == R.id.button9) {
@@ -118,7 +115,7 @@ class CoreDialerPad @JvmOverloads constructor(
             inputEditText?.append("9")
             listener?.onNumberClicked(9, etPassCodeText?.text.toString())
             if (dialerType == 1) {
-                addListSizeForPasscode()
+                addListSizeForPasscode(dialerMaxLength)
             }
         }
         if (it.id == R.id.button0) {
@@ -127,7 +124,7 @@ class CoreDialerPad @JvmOverloads constructor(
             inputEditText?.append("0")
             listener?.onNumberClicked(0, etPassCodeText?.text.toString())
             if (dialerType == 1) {
-                addListSizeForPasscode()
+                addListSizeForPasscode(dialerMaxLength)
             }
         }
         if (it.id == R.id.btnFingerPrint) {
@@ -240,8 +237,19 @@ class CoreDialerPad @JvmOverloads constructor(
         )
     }
 
-    private fun addListSizeForPasscode() {
-        if (list.size < 6) {
+    fun upDatedDialerPad(passcode: String? = null) {
+        passcode?.let {
+            etPassCodeText?.setText(it)
+        }
+        if (passcode == null) {
+            updateDialerPadValues(etPassCodeText?.length() ?: 0)
+        } else {
+            updateDialerPadValues(passcode.length)
+        }
+    }
+
+    private fun addListSizeForPasscode(dialerLength: Int) {
+        if (list.size < dialerLength) {
             list.add(1)
         }
         if (list.size == 1) {
@@ -271,6 +279,48 @@ class CoreDialerPad @JvmOverloads constructor(
             view.findViewById<ImageView>(R.id.ivFour).visibility = View.VISIBLE
             view.findViewById<ImageView>(R.id.ivFive).visibility = View.VISIBLE
             view.findViewById<ImageView>(R.id.ivSix).visibility = View.VISIBLE
+        }
+    }
+
+    private fun updateDialerPadValues(dialerLength: Int) {
+
+        when (dialerLength) {
+            4 -> {
+                list.add(1)
+                list.add(1)
+                list.add(1)
+                list.add(1)
+                ivOne.visibility = View.VISIBLE
+                ivTwo.visibility = View.VISIBLE
+                ivThree.visibility = View.VISIBLE
+                ivFour.visibility = View.VISIBLE
+            }
+            5 -> {
+                list.add(1)
+                list.add(1)
+                list.add(1)
+                list.add(1)
+                list.add(1)
+                ivOne.visibility = View.VISIBLE
+                ivTwo.visibility = View.VISIBLE
+                ivThree.visibility = View.VISIBLE
+                ivFour.visibility = View.VISIBLE
+                ivFive.visibility = View.VISIBLE
+            }
+            6 -> {
+                list.add(1)
+                list.add(1)
+                list.add(1)
+                list.add(1)
+                list.add(1)
+                list.add(1)
+                ivOne.visibility = View.VISIBLE
+                ivTwo.visibility = View.VISIBLE
+                ivThree.visibility = View.VISIBLE
+                ivFour.visibility = View.VISIBLE
+                ivFive.visibility = View.VISIBLE
+                ivSix.visibility = View.VISIBLE
+            }
         }
     }
 
