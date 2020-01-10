@@ -10,4 +10,7 @@ class OnboardingHouseHoldActivitySuccessActivity : DefaultActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_onboarding_house_hold_success)
     }
+
+
+
 }
