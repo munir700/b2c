@@ -251,9 +251,7 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
                 }
 
                 R.id.tvTermsAndConditionView -> {
-
-                    findNavController().navigate(R.id.action_profileSettingsFragment_to_termAndConditionsFragment)
-
+                    Utils.openWebPage("", "", activity)
                 }
 
                 R.id.tvFollowOnInstagram -> {

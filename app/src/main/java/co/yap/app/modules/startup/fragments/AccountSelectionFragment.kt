@@ -1,6 +1,5 @@
 package co.yap.app.modules.startup.fragments
 
-import android.os.Bundle
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
@@ -8,7 +7,6 @@ import co.yap.app.BR
 import co.yap.app.R
 import co.yap.app.modules.startup.interfaces.IAccountSelection
 import co.yap.app.modules.startup.viewmodels.AccountSelectionViewModel
-import co.yap.modules.onboarding.enums.AccountType
 import co.yap.yapcore.BaseBindingFragment
 
 class AccountSelectionFragment : BaseBindingFragment<IAccountSelection.ViewModel>(),
@@ -29,17 +27,18 @@ class AccountSelectionFragment : BaseBindingFragment<IAccountSelection.ViewModel
                     findNavController().navigate(R.id.action_accountSelectionFragment_to_loginFragment)
                 }
                 R.id.btnBusiness -> {
-
+                    findNavController().navigate(R.id.householdOnBoardingExistingYAP)
                 }
                 R.id.btnPersonal -> {
-                    findNavController().navigate(
-                        R.id.action_accountSelectionFragment_to_welcomeFragment,
-                        Bundle().apply {
-                            putSerializable(
-                                getString(R.string.arg_account_type),
-                                AccountType.B2C_ACCOUNT
-                            )
-                        })
+                    findNavController().navigate(R.id.householdOnboard)
+//                    findNavController().navigate(
+//                        R.id.action_accountSelectionFragment_to_welcomeFragment,
+//                        Bundle().apply {
+//                            putSerializable(
+//                                getString(R.string.arg_account_type),
+//                                AccountType.B2C_ACCOUNT
+//                            )
+//                        })
                 }
             }
         })

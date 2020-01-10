@@ -1,12 +1,15 @@
 package co.yap.modules.dashboard.main.states
 
 import androidx.databinding.Bindable
+import androidx.databinding.ObservableField
 import co.yap.BR
 import co.yap.modules.dashboard.main.interfaces.IYapDashboard
 import co.yap.modules.onboarding.enums.AccountType
 import co.yap.yapcore.BaseState
 
 class YapDashBoardState : BaseState(), IYapDashboard.State {
+
+    override var userNameImage: ObservableField<String> = ObservableField("")
 
     @get:Bindable
     override var accountType: AccountType = AccountType.B2C_ACCOUNT

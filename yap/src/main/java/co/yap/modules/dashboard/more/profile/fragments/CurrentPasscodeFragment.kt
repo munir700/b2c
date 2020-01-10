@@ -27,8 +27,6 @@ open class CurrentPasscodeFragment : ChangeCardPinFragment() {
         if (context is MoreActivity)
             (context as MoreActivity).goneToolbar()
         sharedPreferenceManager = SharedPreferenceManager(requireContext())
-
-
         viewModel.forgotPasscodeclickEvent.observe(this, Observer {
             var username = ""
             if (sharedPreferenceManager.getValueBoolien(
@@ -52,14 +50,15 @@ open class CurrentPasscodeFragment : ChangeCardPinFragment() {
         })
 
         viewModel.errorEvent.observe(this, Observer {
-            dialer.startAnimationDigits()
+            dialer.startAnimation()
         })
 
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        getBindings().dialer.updateDialerLength(6)
+        getBinding().dialer.updateDialerLength(6)
+        getBinding().dialer.upDatedDialerPad(viewModel.state.pincode)
     }
 
     override fun setObservers() {
@@ -78,7 +77,7 @@ open class CurrentPasscodeFragment : ChangeCardPinFragment() {
         super.onDestroy()
     }
 
-    private fun getBindings(): FragmentSetCardPinBinding {
+    private fun getBinding(): FragmentSetCardPinBinding {
         return viewDataBinding as FragmentSetCardPinBinding
     }
 }
