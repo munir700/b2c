@@ -1,5 +1,6 @@
 package co.yap.household.onboarding.onboarding.fragments
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
@@ -26,14 +27,32 @@ class HouseHoldNumberRegistrationFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         dialer.setInPutEditText(etPhoneNumber)
+
+    }
+
+    override fun onResume() {
+        super.onResume()
         setObservers()
     }
 
     override fun setObservers() {
-        viewModel.clickEvent?.observe(this, Observer {
+        viewModel.clickEvent?.observe(this, Observer { it ->
             when (it) {
                 R.id.btnConfirm -> {
-                    findNavController().navigate(R.id.to_houseHoldCreatePassCodeFragment)
+                    viewModel.state.existingYapUser?.let {
+                        if (it) {
+                            startActivity(
+                                Intent(
+                                    requireContext(),
+                                    HouseHoldCardsSelectionActivity::class.java
+                                )
+                            )
+                        } else {
+                            findNavController().navigate(R.id.to_houseHoldCreatePassCodeFragment)
+                        }
+
+                    }
+
                 }
             }
         })
