@@ -115,4 +115,16 @@ object ThemeColorUtils {
     }
 
 
+
+    fun colorPrimaryDisabledBtnAttribute(context: Context): Int {
+        return TypedValue().also {
+            context.theme.resolveAttribute(
+                R.attr.colorPrimaryDisabledBtnAttr,
+                it,
+                true
+            )
+        }.resourceId
+    }
+
+
 }

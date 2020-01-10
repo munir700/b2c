@@ -9,6 +9,7 @@
     <attr name="colorPrimaryLightAttr" format="reference" />
     <attr name="colorPrimaryAltAttr" format="reference" />
     <attr name="colorPrimarySoftAttr" format="reference" />
+    <attr name="colorPrimaryDisabledBtnAttr" format="reference" />
 
 
     <declare-styleable name="CoreButton">

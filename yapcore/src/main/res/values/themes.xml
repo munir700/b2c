@@ -15,6 +15,7 @@
         <item name="colorPrimaryLightAttr">@color/colorPrimaryLight</item>
         <item name="colorPrimaryAltAttr">@color/colorPrimaryAlt</item>
         <item name="colorPrimarySoftAttr">@color/colorPrimarySoft</item>
+        <item name="colorPrimaryDisabledBtnAttr">@color/colorDisabledBtn</item>
     </style>
 
     <style name="AppThemeHouseHold" parent="Theme.AppCompat.Light.NoActionBar">
@@ -22,16 +23,17 @@
         <item name="colorPrimaryDark">@color/textDarkColor</item>
         <item name="colorAccent">#fc6253</item>
 
-        <item name="colorPrimaryAttr">@color/red</item>
+        <item name="colorPrimaryAttr">@color/colorPrimaryHouseHold</item>
         <item name="colorPrimaryDarkAttr">@color/textDarkColor</item>
         <item name="colorPrimaryAccentAttr">@color/colorAccentHouseHold</item>
 
 
-        <item name="colorPrimaryAccentWarmAttr">@color/colorAccent</item>
-        <item name="colorPrimaryWarmAttr">@color/colorPrimaryWarm</item>
-        <item name="colorPrimaryLightAttr">@color/colorPrimaryLight</item>
-        <item name="colorPrimaryAltAttr">@color/colorPrimaryAlt</item>
-        <item name="colorPrimarySoftAttr">@color/colorPrimarySoft</item>
+        <item name="colorPrimaryAccentWarmAttr">@color/colorAccentHouseHold</item>
+        <item name="colorPrimaryWarmAttr">@color/colorDisabledBtnHouseHold</item>
+        <item name="colorPrimaryLightAttr">@color/colorDisabledBtnHouseHold</item>
+        <item name="colorPrimaryAltAttr">@color/colorDisabledBtnHouseHold</item>
+        <item name="colorPrimarySoftAttr">@color/colorPrimarySoftHouseHold</item>
+        <item name="colorPrimaryDisabledBtnAttr">@color/colorDisabledBtnHouseHold</item>
 
     </style>
 

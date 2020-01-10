@@ -93,11 +93,12 @@ class CoreButton : Button {
             )
             pressedColor = typedArray.getColor(
                 R.styleable.CoreButton_btn_pressed_color,
-                ThemeColorUtils.colorPrimaryDarkAttribute(context)
+                ThemeColorUtils.colorPrimaryAttribute(context)
             )
 
         } else {
-            defaultStateColor = resources.getColor(R.color.greyLight)
+            defaultStateColor =  resources.getColor(R.color.greyLight)
+
             pressedColor = resources.getColor(R.color.greyLight)
         }
 
@@ -249,7 +250,7 @@ class CoreButton : Button {
             invalidate()
         } else {
             defaultStateColor = ThemeColorUtils.colorPrimaryAttribute(context)
-            pressedColor = ThemeColorUtils.colorPrimaryDarkAttribute(context)
+            pressedColor = ThemeColorUtils.colorPrimaryAttribute(context)
             paint.color = defaultStateColor
             invalidate()
         }
