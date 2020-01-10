@@ -28,7 +28,7 @@
             android:gravity="center_horizontal"
             android:lineSpacingExtra="6sp"
             android:text="@string/screen_y2y_display_text_send_money_to"
-            android:textColor="@color/colorPrimaryDark"
+            android:textColor="?attr/colorPrimaryDarkAttr"
             android:textSize="@dimen/_14sdp" />
 
         <androidx.appcompat.widget.AppCompatTextView

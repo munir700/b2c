@@ -52,7 +52,7 @@
             android:layout_marginEnd="@dimen/margin_small"
             android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
             android:text="@string/common_button_cancel"
-            android:textColor="@color/colorPrimary"
+            android:textColor="?attr/colorPrimaryAttr"
             android:visibility="visible"
             app:layout_constraintBottom_toBottomOf="@id/layoutSearchView"
             app:layout_constraintEnd_toEndOf="parent"

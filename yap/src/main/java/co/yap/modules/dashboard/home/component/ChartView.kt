@@ -8,6 +8,7 @@ import android.view.View
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import co.yap.R
+import co.yap.yapcore.helpers.ThemeColorUtils
 
 class ChartView(context: Context, private var barHeight: Int) : View(context),
     View.OnTouchListener, View.OnFocusChangeListener {
@@ -54,7 +55,7 @@ class ChartView(context: Context, private var barHeight: Int) : View(context),
             override fun onAnimationStart(animation: Animation) {
                 paint.shader = null
                 paintShader = null
-                val pupleSelectedColor = context.resources.getColor(R.color.colorPrimary)
+                val pupleSelectedColor = ThemeColorUtils.colorPrimaryAttribute(context)
                 paint.color = pupleSelectedColor
                 seletedColor = pupleSelectedColor
                 invalidate()

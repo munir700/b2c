@@ -40,7 +40,7 @@
                 android:id="@+id/btnEdit"
                 android:layout_width="@dimen/_60sdp"
                 android:layout_height="@dimen/_56sdp"
-                android:background="@color/colorPrimary">
+                android:background="?attr/colorPrimaryAttr">
 
                 <TextView
                     style="@style/Micro"

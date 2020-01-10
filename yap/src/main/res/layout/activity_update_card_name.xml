@@ -104,7 +104,7 @@
                     android:maxLength="50"
                     android:paddingEnd="@dimen/margin_medium"
                     android:text="@={viewModel.state.cardName}"
-                    android:textColor="@color/colorPrimaryDark"
+                    android:textColor="?attr/colorPrimaryDarkAttr"
                     android:textColorHint="@color/grey"
                     android:textSize="@dimen/text_size_h3" />
 

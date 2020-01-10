@@ -45,7 +45,10 @@ class KYCHomeFragment : KYCChildFragment<IKYCHome.ViewModel>(), IKYCHome.View {
                 }
                 R.id.tvSkip -> {
                     if (activity is DocumentsDashboardActivity)
-                        (activity as DocumentsDashboardActivity).goToDashBoard(false)
+                        (activity as DocumentsDashboardActivity).goToDashBoard(
+                            success = false,
+                            skippedPress = true
+                        )
                 }
             }
         })

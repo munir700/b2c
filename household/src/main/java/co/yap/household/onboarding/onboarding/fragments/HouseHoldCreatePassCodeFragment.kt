@@ -10,6 +10,10 @@ import co.yap.household.R
 import co.yap.household.onboarding.fragments.OnboardingChildFragment
 import co.yap.household.onboarding.onboarding.interfaces.IHouseHoldCreatePassCode
 import co.yap.household.onboarding.onboarding.viewmodels.HouseHoldCreatePassCodeViewModel
+import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.helpers.extentions.preventTakeScreenshot
+import kotlinx.android.synthetic.main.fragment_house_hold_create_passcode.*
 
 class HouseHoldCreatePassCodeFragment :
     OnboardingChildFragment<IHouseHoldCreatePassCode.ViewModel>(), IHouseHoldCreatePassCode.View {
@@ -22,7 +26,9 @@ class HouseHoldCreatePassCodeFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        preventTakeScreenshot()
         setObservers()
+        dialer.hideFingerprintView()
     }
 
     override fun setObservers() {
@@ -30,6 +36,9 @@ class HouseHoldCreatePassCodeFragment :
             when (it) {
                 R.id.btnCreatePasscode -> {
                     findNavController().navigate(R.id.to_emailHouseHoldFragment)
+                }
+                R.id.tvTermsAndConditions -> {
+                    Utils.openWebPage(Constants.URL_TERMS_CONDITION, "", activity)
                 }
             }
         })
