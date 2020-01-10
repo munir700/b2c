@@ -833,6 +833,7 @@
     <string name="screen_house_hold_existing_number_registration_display_text_parent_description">Enter %1s\'s number below</string>
     <string name="screen_house_hold_number_registration_button_text_confirm">Confirm</string>
     <string name="screen_house_hold_number_registration_error_text">Oops! Looks like that\'s the wrong number. Please try again</string>
+    <string name="screen_house_hold_create_passcode_heading_text">You got it right!</string>
     <!-- New User Success household screen -->
     <string name="screen_congratulations_display_text_title">Well done, %1s!</string>
     <string name="screen_congratulations_display_text_success_message">You’ve successfully registered yourself to the Household plan</string>
@@ -863,5 +864,10 @@
     <string name="screen_house_hold_onBoarding_existing_title_accept">Accept</string>
     <string name="screen_house_hold_onBoarding_existing_title_decline_request">Decline request</string>
     <string name="screen_house_hold_existing_yap_message">Sorry %1s, looks like you already have a Household plan connected to this Emirates ID. Please log out and inform your employer that we cannot proceed with activating your plan at this time. </string>
+
+    <!-- Household Dashboard/Home -->
+    <string name="screen_household_home_display_text_transactions_heading_title">Transactions</string>
+    <string name="screen_household_home_display_text_transactions_filers_title">Filter</string>
+
 </resources>
 

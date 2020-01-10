@@ -70,6 +70,7 @@ object Constants {
 
     //Add Card Payment gateway URL
     const val URL_ADD_TOPUP_CARD = "https://dev.yap.co/admin-web/HostedSessionIntegration.html"
+    const val URL_TERMS_CONDITION = "https://yap.co/terms"
 
     //HTML Key
     const val URL_TOP_UP_TRANSACTION_HTML = "URL_TOP_UP_TRANSACTION_HTML"
@@ -106,5 +107,24 @@ object Constants {
 
     const val MONEY_TRANSFERED = "MONEY_TRANSFERED"
     const val BENEFICIARY_CHANGE = "BENEFICIARY_CHANGE"
+
+    //Location Selection
+    const val ADDRESS = "address"
+
+    // Events for ViewState
+
+    const val EVENT_LOADING: Int = 1111
+    const val EVENT_EMPTY: Int = 2222
+    const val EVENT_CONTENT: Int = 3333
+    const val EVENT_ERROR: Int = 4444
+
+    //Notifications Actions
+
+    const val NOTIFICATION_ACTION_SET_PIN: String = "SET_PIN"
+    const val NOTIFICATION_ACTION_COMPLETE_VERIFICATION: String = "COMPLETE_VERIFICATION"
+
+    const val USER_STATUS_ON_BOARDED: String = "ON_BOARDED"
+    const val USER_STATUS_MEETING_SCHEDULED: String = "MEETING_SCHEDULED"
+    const val USER_STATUS_MEETING_SUCCESS: String = "MEETING_SUCCESS"
 
 }

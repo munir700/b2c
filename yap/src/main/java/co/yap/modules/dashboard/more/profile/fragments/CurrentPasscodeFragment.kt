@@ -14,6 +14,7 @@ import co.yap.modules.setcardpin.interfaces.ISetCardPin
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.databinding.FragmentSetCardPinBinding
 import co.yap.yapcore.helpers.SharedPreferenceManager
+import co.yap.yapcore.helpers.extentions.preventTakeScreenshot
 import kotlinx.android.synthetic.main.activity_create_passcode.*
 
 open class CurrentPasscodeFragment : ChangeCardPinFragment() {
@@ -24,6 +25,7 @@ open class CurrentPasscodeFragment : ChangeCardPinFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        preventTakeScreenshot()
         if (context is MoreActivity)
             (context as MoreActivity).goneToolbar()
         sharedPreferenceManager = SharedPreferenceManager(requireContext())

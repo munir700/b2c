@@ -11,7 +11,7 @@ import co.yap.yapcore.BR
 import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.R
 import co.yap.yapcore.databinding.FragmentSetCardPinBinding
-import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.helpers.extentions.preventTakeScreenshot
 
 open class SetCardPinFragment : BaseBindingFragment<ISetCardPin.ViewModel>(), ISetCardPin.View {
 
@@ -25,7 +25,7 @@ open class SetCardPinFragment : BaseBindingFragment<ISetCardPin.ViewModel>(), IS
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Utils.preventTakeScreenshot(requireActivity())
+        preventTakeScreenshot()
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {

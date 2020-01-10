@@ -39,6 +39,7 @@
             android:layout_marginTop="@dimen/margin_small"
             android:layout_marginEnd="@dimen/margin_medium_large"
             android:gravity="center"
+            android:lineSpacingExtra="2dp"
             android:text="@string/screen_on_boarding_existing_message"
             android:textColor="@color/kyc_success_text_color_light_gray"
             app:text="@{Strings.screen_on_boarding_existing_message}"
@@ -60,7 +61,7 @@
         </FrameLayout>
 
         <co.yap.widgets.CoreButton
-            android:id="@+id/btnConfirm"
+            android:id="@+id/btnCompleteVerification"
             style="@style/FragmentsBtnStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -68,6 +69,7 @@
             android:layout_marginRight="@dimen/margin_medium_large"
             android:layout_marginBottom="@dimen/margin_small"
             app:btn_enable="true"
+            android:text="@string/screen_onboarding_congratulations_button_complete_verification"
             app:btn_pressed_color="@color/colorPrimaryHouseHold"
             app:btn_text_color="@color/white"
             app:btn_unpressed_color="@color/colorPrimaryHouseHold"
