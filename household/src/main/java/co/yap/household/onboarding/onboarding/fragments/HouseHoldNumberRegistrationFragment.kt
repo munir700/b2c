@@ -44,5 +44,5 @@ class HouseHoldNumberRegistrationFragment :
         viewModel.clickEvent?.removeObservers(this)
     }
 
-    override fun onBackPressed(): Boolean = true
+    override fun onBackPressed(): Boolean = false
 }
