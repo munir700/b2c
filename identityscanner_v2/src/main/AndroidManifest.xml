@@ -34,7 +34,7 @@
             android:name=".docscanner.activities.IdentityScannerActivity"
             android:label="@string/activity_scan_title"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar.NoActionBar">
+            android:theme="@style/AppTheme.NoActionBar">
         </activity>
 
 

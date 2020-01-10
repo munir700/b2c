@@ -34,9 +34,8 @@ abstract class BaseActivity<V : IBase.ViewModel<*>> : AppCompatActivity(), IBase
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        theme.applyStyle(co.yap.yapcore.R.style.CoreAppTheme, true)
+        theme.applyStyle(co.yap.yapcore.R.style.AppThemeHouseHold, true)
 //        SharedPreferenceManager(applicationContext).setThemeValue(co.yap.yapcore.R.style.CoreAppTheme)
-
 //        setTheme(SharedPreferenceManager(applicationContext).getThemeValue())
 
 

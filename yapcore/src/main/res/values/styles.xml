@@ -1,35 +1,15 @@
 <resources>
 
-<!--    <style name="CoreAppTheme" parent="Theme.AppCompat.Light.NoActionBar">-->
-<!--        &lt;!&ndash;        <item name="colorPrimary">#5E35B1</item>&ndash;&gt;-->
-<!--        <item name="colorPrimaryDark">#272262</item>-->
-<!--        <item name="colorAccent">#4d4d4d</item>-->
-<!--        <item name="colorPrimary">#5E35B1</item>-->
-
-<!--    </style>-->
-
-<!--    <style name="AppThemeHouseHold" parent="CoreAppThemeheme.NoActionBar">-->
-<!--        <item name="colorPrimary">#fc6253</item>-->
-<!--        <item name="colorPrimaryDark">#fc6253</item>-->
-<!--        <item name="colorAccent">#fc6253</item>-->
-
-<!--    </style>-->
-
-
-
     <style name="LargeBoldText" parent="AppFontBold">
         <item name="android:textSize">@dimen/text_size_h6</item>
         <item name="android:textColor">@color/textDarkColor</item>
     </style>
+
     <style name="NormalText" parent="AppFontRegular">
         <item name="android:textSize">@dimen/text_size_h2</item>
         <item name="android:textColor">@color/textDarkColor</item>
     </style>
 
-    <style name="CoreAppTheme.NoActionBar">
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
-    </style>
 
     <style name="CustomDialog">
         <item name="android:layout_width">match_parent</item>
@@ -457,7 +437,6 @@
     </style>
 
 
-
     <!-- tooltip custom style -->
 
     <style name="ToolTipAltStyle" parent="ToolTipLayoutDefaultStyle">
@@ -485,6 +464,7 @@
         <item name="textAllCaps">false</item>
         <item name="android:textAllCaps">false</item>
     </style>
+
     <style name="TabTextCardAnalytics" parent="TextAppearance.Design.Tab">
         <item name="android:textSize">@dimen/text_size_h2</item>
         <item name="android:textColor">@color/colorPrimaryDark</item>
@@ -494,17 +474,15 @@
         <item name="android:textAllCaps">false</item>
     </style>
 
-    <style name="AppBottomSheetDialogTheme"
-        parent="Theme.Design.Light.BottomSheetDialog">
+    <style name="AppBottomSheetDialogTheme" parent="Theme.Design.Light.BottomSheetDialog">
         <item name="bottomSheetStyle">@style/AppModalStyle</item>
     </style>
 
-    <style name="AppModalStyle"
-        parent="Widget.Design.BottomSheet.Modal">
+    <style name="AppModalStyle" parent="Widget.Design.BottomSheet.Modal">
         <item name="android:background">@drawable/bg_round_top_corners</item>
     </style>
 
-    <style name="AppSearchView" parent="Widget.AppCompat.SearchView" >
+    <style name="AppSearchView" parent="Widget.AppCompat.SearchView">
         <item name="android:textSize">@dimen/text_size_c4</item>
         <item name="android:editTextColor">@color/colorPrimaryDark</item>
         <item name="android:textStyle">normal</item>

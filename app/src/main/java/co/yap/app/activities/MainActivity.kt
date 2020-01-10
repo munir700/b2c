@@ -21,11 +21,7 @@ open class MainActivity : DefaultActivity(), IFragmentHolder, INavigator {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        theme.applyStyle(co.yap.yapcore.R.style.CoreAppTheme, true);
-//        SharedPreferenceManager(applicationContext).setThemeValue(co.yap.yapcore.R.style.CoreAppTheme)
-
-//        setTheme(SharedPreferenceManager(applicationContext).getThemeValue())
-
+//        theme.applyStyle(co.yap.yapcore.R.style.AppThemeHouseHold, true)
         YAPApplication.AUTO_RESTART_APP = false
         setContentView(R.layout.activity_main)
     }
