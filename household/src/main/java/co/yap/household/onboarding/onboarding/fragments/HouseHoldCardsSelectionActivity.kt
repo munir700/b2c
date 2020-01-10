@@ -1,5 +1,6 @@
 package co.yap.household.onboarding.onboarding.fragments
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -7,22 +8,27 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewpager2.widget.ViewPager2
 import androidx.viewpager2.widget.ViewPager2.OnPageChangeCallback
 import co.yap.household.BR
 import co.yap.household.R
 import co.yap.household.databinding.FragmentHouseHoldCardSelectionBinding
+import co.yap.household.onboarding.dashboard.main.activities.HouseholdDashboardActivity
+import co.yap.household.onboarding.kycsuccess.KycSuccessActivity
 import co.yap.household.onboarding.onboarding.interfaces.IHouseHoldCardsSelection
 import co.yap.household.onboarding.onboarding.viewmodels.HouseHoldCardsSelectionViewModel
+import co.yap.modules.location.activities.LocationSelectionActivity
+import co.yap.networking.cards.responsedtos.Address
 import co.yap.translation.Strings
 import co.yap.yapcore.BaseBindingActivity
+import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.helpers.Utils
-import co.yap.yapcore.helpers.toast
+import co.yap.yapcore.helpers.extentions.ExtraType
+import co.yap.yapcore.helpers.extentions.getValue
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
 import com.google.android.material.tabs.TabLayoutMediator
-
 
 class HouseHoldCardsSelectionActivity : BaseBindingActivity<IHouseHoldCardsSelection.ViewModel>(),
     IHouseHoldCardsSelection.View {
@@ -73,8 +79,25 @@ class HouseHoldCardsSelectionActivity : BaseBindingActivity<IHouseHoldCardsSelec
 
     private var clickEvent = Observer<Int> {
         when (it) {
-            R.id.btnNext -> toast("Go next")
-
+            R.id.btnNext -> {
+                openLocationScreen(
+                    Address(
+                        address1 = viewModel.state.cardAddressTitle,
+                        address2 = viewModel.state.cardAddressSubTitle
+                    )
+                )
+            }
+            R.id.tvChangeLocation -> {
+                openLocationScreen(
+                    Address(
+                        address1 = viewModel.state.cardAddressTitle,
+                        address2 = viewModel.state.cardAddressSubTitle
+                    )
+                )
+            }
+            R.id.btnConfirmLocation -> {
+                startActivity(Intent(this, KycSuccessActivity::class.java))
+            }
         }
     }
 
@@ -173,5 +196,42 @@ class HouseHoldCardsSelectionActivity : BaseBindingActivity<IHouseHoldCardsSelec
     override fun onDestroy() {
         viewModel.clickEvent.removeObservers(this)
         super.onDestroy()
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == Activity.RESULT_OK) {
+            val address = data?.getValue(Constants.ADDRESS, ExtraType.PARCEABLE.name) as? Address
+            val success =
+                data?.getValue(Constants.ADDRESS_SUCCESS, ExtraType.BOOLEAN.name) as? Boolean
+            address?.let {
+                success?.let { success ->
+                    if (success) {
+                        viewModel.state.locationVisibility = true
+                        populateAddressFields(it)
+                    } else {
+                        // handle error case
+                    }
+                }
+            }
+        }
+    }
+
+    private fun populateAddressFields(address: Address) {
+        address.let {
+            viewModel.state.cardAddressTitle = address.address1 ?: ""
+            viewModel.state.cardAddressSubTitle = address.address2 ?: ""
+        }
+    }
+
+    private fun openLocationScreen(address: Address) {
+        startActivityForResult(
+            LocationSelectionActivity.newIntent(
+                context = this,
+                address = address,
+                headingTitle = "Your Card is ready to be sent out!",
+                subHeadingTitle = "Make sure you are available at the below address"
+            ), RequestCodes.REQUEST_FOR_LOCATION
+        )
     }
 }

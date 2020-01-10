@@ -3,6 +3,7 @@ package co.yap.yapcore.helpers.extentions
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.os.Parcelable
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
@@ -21,7 +22,7 @@ import com.bumptech.glide.request.RequestOptions
 import com.google.android.material.navigation.NavigationView
 
 enum class ExtraType {
-    STRING, INT, BOOLEAN, DOUBLE, LONG;
+    STRING, INT, BOOLEAN, DOUBLE, LONG,PARCEABLE;
 }
 
 fun Intent.getValue(key: String, type: String): Any? {
@@ -38,6 +39,8 @@ fun Intent.getValue(key: String, type: String): Any? {
                     getIntExtra(key, 0)
                 ExtraType.LONG ->
                     getLongExtra(key, 0)
+                ExtraType.PARCEABLE ->
+                    getParcelableExtra<Parcelable>(key)
             }
         } else null
     } else return null

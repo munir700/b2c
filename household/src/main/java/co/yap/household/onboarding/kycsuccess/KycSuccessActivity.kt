@@ -1,23 +1,21 @@
 package co.yap.household.onboarding.kycsuccess
 
+import android.content.Intent
 import android.os.Bundle
 import co.yap.household.R
-import co.yap.yapcore.IFragmentHolder
+import co.yap.household.onboarding.dashboard.main.activities.HouseholdDashboardActivity
 import co.yap.yapcore.defaults.DefaultActivity
-import co.yap.yapcore.defaults.DefaultNavigator
-import co.yap.yapcore.defaults.INavigator
-import co.yap.yapcore.interfaces.IBaseNavigator
+import kotlinx.android.synthetic.main.activity_kyc_success.*
 
-class KycSuccessActivity : DefaultActivity(), INavigator, IFragmentHolder {
-
-    override val navigator: IBaseNavigator
-        get() = DefaultNavigator(this@KycSuccessActivity, R.id.main_nav_host_fragment)
-
+class KycSuccessActivity : DefaultActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_kyc_success)
-    }
 
+        btnTopUp.setOnClickListener {
+            startActivity(Intent(this, HouseholdDashboardActivity::class.java))
+        }
+    }
 
 }

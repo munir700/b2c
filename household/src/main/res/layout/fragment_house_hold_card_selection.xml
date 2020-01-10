@@ -15,6 +15,7 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="?attr/colorPrimaryDisabledBtnAttr"
         android:fillViewport="true">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -34,9 +35,7 @@
                 android:textColor="@color/textDarkColor"
                 android:textSize="@dimen/text_size_h5"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:text="@string/screen_house_hold_card_color_selection_display_text_heading"
-
-                />
+                tools:text="@string/screen_house_hold_card_color_selection_display_text_heading" />
 
             <androidx.viewpager2.widget.ViewPager2
                 android:id="@+id/vpCards"
@@ -66,29 +65,29 @@
                     app:layout_constraintTop_toTopOf="parent"
                     app:text="@{Strings.screen_house_hold_card_color_selection_display_text}" />
 
-              <!--  <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rvColorCircles"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_medium"
-                    android:orientation="horizontal"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tvHouseHoldText"
-                    tools:listitem="@layout/item_card_color_selection" />-->
+                <!--  <androidx.recyclerview.widget.RecyclerView
+                      android:id="@+id/rvColorCircles"
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:layout_marginTop="@dimen/margin_medium"
+                      android:orientation="horizontal"
+                      app:layout_constraintEnd_toEndOf="parent"
+                      app:layout_constraintStart_toStartOf="parent"
+                      app:layout_constraintTop_toBottomOf="@+id/tvHouseHoldText"
+                      tools:listitem="@layout/item_card_color_selection" />-->
 
                 <com.google.android.material.tabs.TabLayout
                     android:id="@+id/tabLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_medium"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    android:layout_marginTop="@dimen/margin_medium"
+                    app:layout_constraintTop_toBottomOf="@+id/tvHouseHoldText"
                     app:tabGravity="center"
                     app:tabIndicator="@null"
-                    app:tabPaddingStart="6dp"
                     app:tabPaddingEnd="6dp"
-                    app:layout_constraintTop_toBottomOf="@+id/tvHouseHoldText"/>
+                    app:tabPaddingStart="6dp" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <include
