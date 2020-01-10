@@ -14,7 +14,7 @@
         app:cpb_background_progressbar_color="@color/light_grey"
         app:cpb_background_progressbar_width="3dp"
         app:cpb_progress="0"
-        app:cpb_progressbar_color="@color/colorPrimary"
+        app:cpb_progressbar_color="?attr/colorPrimaryAttr"
         app:cpb_progressbar_width="4dp" />
 
     <com.digitify.identityscanner.components.CircleImageView

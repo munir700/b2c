@@ -1236,8 +1236,7 @@ public class Camera2Engine extends CameraEngine implements ImageReader.OnImageAv
                                     .set(CaptureRequest.CONTROL_AWB_LOCK, false);
                             holder.applyBuilder(this);
                             setState(Companion.getSTATE_COMPLETED());
-                            // TODO should wait results?
-                        }
+                         }
                     },
                     new MeterResetAction()
             ).start(Camera2Engine.this);

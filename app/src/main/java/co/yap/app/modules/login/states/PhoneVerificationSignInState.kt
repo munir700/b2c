@@ -7,6 +7,7 @@ import co.yap.BR
 import co.yap.R
 import co.yap.app.modules.login.interfaces.IPhoneVerificationSignIn
 import co.yap.yapcore.BaseState
+import co.yap.yapcore.helpers.ThemeColorUtils
 
 class PhoneVerificationSignInState(application: Application) : BaseState(), IPhoneVerificationSignIn.State {
 
@@ -79,7 +80,7 @@ class PhoneVerificationSignInState(application: Application) : BaseState(), IPho
             }
             override fun onFinish() {
                 valid = true
-               color = mContext.resources.getColor(R.color.colorPrimary)
+               color = ThemeColorUtils.colorPrimaryAttribute(mContext)
                 timer = "00:00"
             }
         }.start()

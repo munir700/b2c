@@ -96,7 +96,7 @@
             android:layout_marginBottom="@dimen/margin_medium_large"
             android:onClick="@{(v)-> viewModel.handlePressOnMailAppButton(v.id)}"
             app:text="@{Strings.screen_unverified_display_button_back_to_dashboard}"
-            android:textColor="@color/colorPrimary"
+            android:textColor="?attr/colorPrimaryAttr"
             tools:text="@string/screen_unverified_display_button_back_to_dashboard"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"

@@ -97,7 +97,7 @@
             android:paddingEnd="@dimen/_20sdp"
             android:paddingBottom="@dimen/_12sdp"
             android:text="@{viewModel.state.ibanNumber}"
-            android:textColor="@color/colorPrimary"
+            android:textColor="?attr/colorPrimaryAttr"
             app:layout_constraintBottom_toTopOf="@+id/tvMeetingNotes"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

@@ -12,6 +12,7 @@ import co.yap.R
 import co.yap.modules.kyc.interfaces.IAddressSelection
 import co.yap.translation.Translator
 import co.yap.yapcore.BaseState
+import co.yap.yapcore.helpers.ThemeColorUtils
 import com.google.android.gms.maps.GoogleMap
 
 
@@ -175,7 +176,7 @@ class AddressSelectionState(application: Application) : BaseState(), IAddressSel
                 setDrawable = mContext.resources.getDrawable(R.drawable.ic_clear_field)
                 landMarkTitleColor = mContext.resources.getColor(R.color.greyDark)
             } else {
-                landMarkTitleColor = mContext.resources.getColor(R.color.colorPrimaryDark)
+                landMarkTitleColor = ThemeColorUtils.colorPrimaryDarkAttribute(mContext)
 
                 onDrawableClick = false
             }
@@ -191,7 +192,7 @@ class AddressSelectionState(application: Application) : BaseState(), IAddressSel
         }
 
     @get:Bindable
-    override var addressTitlesColor: Int = mContext.resources.getColor(R.color.colorPrimaryDark)
+    override var addressTitlesColor: Int = ThemeColorUtils.colorPrimaryDarkAttribute(mContext)
         get() = field
         set(value) {
             field = value
@@ -199,7 +200,7 @@ class AddressSelectionState(application: Application) : BaseState(), IAddressSel
         }
 
     @get:Bindable
-    override var landMarkTitleColor: Int = mContext.resources.getColor(R.color.colorPrimaryDark)
+    override var landMarkTitleColor: Int = ThemeColorUtils.colorPrimaryDarkAttribute(mContext)
         get() = field
         set(value) {
             field = value

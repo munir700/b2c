@@ -91,7 +91,7 @@
                 android:layout_gravity="center"
                 android:onClick="@{(v) -> viewModel.onViewClicked(v)}"
                 android:text="Invite"
-                android:textColor="@color/colorPrimary"
+                android:textColor="?attr/colorPrimaryAttr"
                 android:visibility="@{viewModel.contact.yapUser ? View.GONE : View.VISIBLE }"
                 tools:text="Invite" />
 

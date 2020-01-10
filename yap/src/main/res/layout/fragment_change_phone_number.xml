@@ -76,7 +76,7 @@
                 android:maxLength="@{viewModel.state.mobileNoLength}"
                 android:singleLine="true"
                 android:text="@={viewModel.state.mobile}"
-                android:textColor="@color/colorPrimaryDark"
+                android:textColor="?attr/colorPrimaryDarkAttr"
                 android:textSize="@dimen/_15sdp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintLeft_toRightOf="@+id/ccpSelector"

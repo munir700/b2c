@@ -23,7 +23,7 @@
                 android:paddingStart="20dp"
                 android:paddingEnd="20dp"
                 android:tag="input"
-                android:textColor="@color/colorPrimaryDark"
+                android:textColor="?attr/colorPrimaryDarkAttr"
                 android:textIsSelectable="true"
                 android:textSize="@dimen/_15sdp"
                 tools:autofillHints="First name"

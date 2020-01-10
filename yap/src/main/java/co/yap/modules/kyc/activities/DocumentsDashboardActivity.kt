@@ -23,6 +23,7 @@ class DocumentsDashboardActivity : BaseBindingActivity<IDocumentsDashboard.ViewM
         const val name = "name"
         const val data = "payLoad"
         const val result = "result"
+        const val skipped = "skipped"
         fun getIntent(context: Context, customerName: String, allowSkip: Boolean): Intent {
             val intent = Intent(context, DocumentsDashboardActivity::class.java)
             intent.putExtra(name, customerName)
@@ -66,9 +67,10 @@ class DocumentsDashboardActivity : BaseBindingActivity<IDocumentsDashboard.ViewM
         else null
     }
 
-    fun goToDashBoard(success: Boolean) {
+    fun goToDashBoard(success: Boolean, skippedPress: Boolean) {
         val intent = Intent()
         intent.putExtra(result, success)
+        intent.putExtra(skipped, skippedPress)
         setResult(Activity.RESULT_OK, intent)
         finish()
     }
