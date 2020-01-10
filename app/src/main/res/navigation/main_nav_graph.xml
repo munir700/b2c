@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_nav_graph"
-    app:startDestination="@id/householdKYCSuccess">
+    app:startDestination="@id/householdOnBoardingExistingYAP">
 
     <!--    app:startDestination="@id/splashFragment">-->
 
@@ -225,14 +225,14 @@
 
     <activity
         android:id="@+id/householdEIDNotAccepted"
-        android:name="co.yap.household.onboarding.onboarding.EIDNotAcceptedActivity"
+        android:name="co.yap.household.onboarding.onboarding.activities.EIDNotAcceptedActivity"
         android:label="householdEIDNotAccepted"
         tools:layout="@layout/activity_eidnot_accepted" />
 
 
     <activity
         android:id="@+id/householdOnboardingHouseHoldActivitySuccessActivity"
-        android:name="co.yap.household.onboarding.onboarding.OnboardingHouseHoldActivitySuccessActivity"
+        android:name="co.yap.household.onboarding.onboarding.activities.OnboardingHouseHoldActivitySuccessActivity"
         android:label="OnboardingHouseHoldActivitySuccessActivity"
         tools:layout="@layout/activity_onboarding_house_hold_success" />
 
@@ -244,7 +244,7 @@
 
     <activity
         android:id="@+id/householdOnBoardingExistingYAP"
-        android:name="co.yap.household.onboarding.onboarding.OnBoardingExistingYapActivity"
+        android:name="co.yap.household.onboarding.onboarding.activities.OnBoardingExistingYapActivity"
         android:label="OnBoardingExistingYAP"
         tools:layout="@layout/activity_on_boarding_existing_yap" />
 

@@ -30,9 +30,9 @@
         <activity
             android:name=".onboarding.onboarding.activities.OnboardingHouseHoldActivitySuccessActivity"
             android:screenOrientation="portrait" />
-
-
-        <activity android:name=".onboarding.onboarding.activities.OnBoardingExistingYapActivity" />
+        <activity
+            android:name=".onboarding.onboarding.activities.OnBoardingExistingYapActivity"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>
