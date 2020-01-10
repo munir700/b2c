@@ -22,7 +22,7 @@
         android:paddingRight="4dp"
         android:paddingStart="4dp"
         android:paddingEnd="4dp"
-        android:textColor="@color/colorPrimary"
+        android:textColor="?attr/colorPrimaryAttr"
         android:textSize="11sp"
         app:subtitle="@{data.value}"
         app:title="@{data.key}" />

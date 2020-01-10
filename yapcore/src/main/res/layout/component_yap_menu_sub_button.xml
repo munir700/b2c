@@ -16,7 +16,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_margin="3dp"
-        android:backgroundTint="@color/colorPrimary"
+        android:backgroundTint="?attr/colorPrimaryAttr"
         android:tint="@android:color/white"
         app:elevation="0dp"
         app:fabCustomSize="@dimen/_40sdp"
@@ -33,7 +33,7 @@
         android:layout_gravity="center"
         android:gravity="center_horizontal"
         android:lineSpacingExtra="6sp"
-        android:textColor="@color/colorPrimaryDark"
+        android:textColor="?attr/colorPrimaryDarkAttr"
         android:textSize="@dimen/_12sdp" />
 
 

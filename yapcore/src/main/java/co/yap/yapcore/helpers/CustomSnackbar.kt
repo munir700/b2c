@@ -72,7 +72,7 @@ object CustomSnackbar {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             snackbar.view.setBackgroundColor(context.getColor(R.color.colorPrimary))
         } else {
-            snackbar.view.setBackgroundColor(context.resources.getColor(R.color.colorPrimary))
+            snackbar.view.setBackgroundColor(ThemeColorUtils.colorPrimaryAttribute(context))
         }
 
         val tvMessage = snackbar.view.findViewById(R.id.tvMessage) as TextView

@@ -82,7 +82,7 @@
                     android:paddingEnd="@dimen/margin_normal"
                     android:singleLine="true"
                     android:text="@={viewModel.state.mobile}"
-                    android:textColor="@color/colorPrimaryDark"
+                    android:textColor="?attr/colorPrimaryDarkAttr"
                     android:textSize="@dimen/_15sdp" />
 
             </LinearLayout>

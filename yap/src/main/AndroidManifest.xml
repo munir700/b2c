@@ -34,7 +34,7 @@
             android:name=".modules.onboarding.activities.OnboardingActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar"
+            android:theme="@style/CoreAppTheme.NoActionBar"
             android:windowSoftInputMode="adjustResize">
             <nav-graph android:value="@navigation/onboarding_navigation" />
         </activity>
@@ -57,20 +57,20 @@
         <activity
             android:name=".modules.dashboard.cards.addpaymentcard.activities.AddPaymentCardActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/CoreAppTheme.NoActionBar">
             <nav-graph android:value="@navigation/spare_cards_navigation" />
         </activity>
         <activity
             android:name="co.yap.modules.dashboard.unverifiedemail.UnVerifiedEmailActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/CoreAppTheme.NoActionBar">
             <nav-graph android:value="@navigation/unverified_change_email_navigation" />
         </activity>
 
         <activity
             android:name=".modules.dashboard.more.main.activities.MoreActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar"
+            android:theme="@style/CoreAppTheme.NoActionBar"
             android:windowSoftInputMode="adjustResize">
             <nav-graph android:value="@navigation/more_main_navigation" />
         </activity>
@@ -78,7 +78,7 @@
         <activity
             android:name=".modules.dashboard.cards.reportcard.activities.ReportLostOrStolenCardActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/CoreAppTheme.NoActionBar">
             <nav-graph android:value="@navigation/report_card_navigation" />
         </activity>
 

@@ -91,7 +91,7 @@
                 android:gravity="center"
                 android:onClick="@{(v) -> createPasscodeViewModel.handlePressOnCreatePasscodeButton(v.id)}"
                 android:textAlignment="center"
-                android:textColor="@color/colorPrimary"
+                android:textColor="?attr/colorPrimaryAttr"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvTermsAndConditionsTitle"

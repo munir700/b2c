@@ -41,7 +41,7 @@
         <!--            android:singleLine="true"-->
         <!--            android:text="971"-->
         <!--            android:drawableEnd="@drawable/ic_chevron_down"-->
-        <!--            android:drawableTint="@color/colorPrimary"-->
+        <!--            android:drawableTint="?attr/colorPrimaryAttr"-->
         <!--              style="@style/RegularGrey"/>-->
         <TextView
             android:id="@+id/tvSelectedCountry"
@@ -59,8 +59,7 @@
             android:layout_alignBaseline="@+id/tvSelectedCountry"
             android:layout_toRightOf="@+id/tvSelectedCountry"
             android:paddingBottom="@dimen/small"
-            android:src="@drawable/ic_chevron_down"
-            android:tint="@color/colorPrimaryDark"
+            android:src="@drawable/iv_drown_down"
             android:visibility="gone" />
 
     </RelativeLayout>
