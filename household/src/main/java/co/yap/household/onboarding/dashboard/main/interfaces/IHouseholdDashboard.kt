@@ -1,6 +1,7 @@
 package co.yap.household.onboarding.dashboard.main.interfaces
 
 import co.yap.yapcore.IBase
+import co.yap.yapcore.SingleClickEvent
 
 interface IHouseholdDashboard {
     interface View : IBase.View<ViewModel> {
@@ -10,7 +11,10 @@ interface IHouseholdDashboard {
         fun enableDrawerSwipe(enable: Boolean)
     }
 
-    interface ViewModel : IBase.ViewModel<State>
+    interface ViewModel : IBase.ViewModel<State>{
+        var clickEvent:SingleClickEvent
+        fun handlePressOnView(id:Int)
+    }
     interface State : IBase.State
 
 }

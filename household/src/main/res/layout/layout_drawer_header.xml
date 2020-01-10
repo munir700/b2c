@@ -1,7 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="co.yap.household.onboarding.dashboard.main.viewmodels.HouseholdDashboardViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginStart="@dimen/margin_medium_large"
@@ -11,11 +20,13 @@
     app:layout_constraintTop_toTopOf="parent">
 
     <RelativeLayout
-        android:layout_width="@dimen/_42sdp"
-        android:layout_height="@dimen/_42sdp"
+        android:layout_width="@dimen/_32sdp"
+        android:layout_height="@dimen/_32sdp"
         android:layout_marginEnd="@dimen/margin_small"
         android:background="@drawable/circle_menu_item"
         android:backgroundTint="#fee3e0"
+        android:gravity="center"
+        android:onClick="@{(v)->viewModel.handlePressOnView(v.id)}"
         app:layout_constraintBottom_toBottomOf="@id/tvUserName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@id/ivLogo">
@@ -132,6 +143,7 @@
                 android:layout_height="@dimen/_18sdp"
                 android:layout_marginEnd="@dimen/margin_small"
                 android:gravity="center"
+                android:onClick="@{(v)->viewModel.handlePressOnView(v.id)}"
                 android:text="Copy"
                 app:btn_pressed_color="@color/disabledLight"
                 app:btn_round_radius="@dimen/_10sdp"
@@ -145,3 +157,4 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
     </net.cachapa.expandablelayout.ExpandableLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
