@@ -247,5 +247,13 @@
         android:label="OnBoardingExistingYAP"
         tools:layout="@layout/activity_on_boarding_existing_yap" />
 
+
+    <activity
+        android:id="@+id/householdHouseHoldActivitySuccessActivity"
+        android:name="co.yap.household.onboarding.onboarding.activities.OnboardingHouseHoldActivitySuccessActivity"
+        android:label="householdHouseHoldActivitySuccessActivity"
+        tools:layout="@layout/activity_onboarding_house_hold_success" />
+
+
 </navigation>
 

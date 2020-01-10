@@ -853,7 +853,7 @@
     <string name="screen_title_mistake_please_call">If you feel this is a mistake please call us at</string>
 
     <!-- Household On Boarding Existing screen-->
-    <string name="screen_on_boarding_existing_message">You have been added to a Household plan by Nada Hassan</string>
+    <string name="screen_on_boarding_existing_message">You have been added to a Household plan by %1s</string>
     <string name="screen_b2c_kyc_home_button_skip_on_boarding_existing">Skip and do later</string>
 
     <!--    OnBoarding Existing YAP User Screen-->
