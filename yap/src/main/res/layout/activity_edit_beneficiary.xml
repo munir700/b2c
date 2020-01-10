@@ -257,7 +257,7 @@
                         android:background="@drawable/round_light_gery_background"
                         android:gravity="center"
                         android:text="@{editBeneficiaryViewModel.state.beneficiary.currency}"
-                        android:textColor="@color/colorPrimary"
+                        android:textColor="?attr/colorPrimaryAttr"
                         android:textSize="@dimen/_9sdp"
                         tools:text="$ AED" />
 
@@ -274,7 +274,7 @@
                         android:gravity="end"
                         android:onClick="@{(v) -> editBeneficiaryViewModel.handlePressOnConfirm(v.id)}"
                         android:text="@string/screen_add_beneficiary_detail_display_text_change_currency"
-                        android:textColor="@color/colorPrimary"
+                        android:textColor="?attr/colorPrimaryAttr"
                         android:visibility="gone"
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintRight_toRightOf="parent" />

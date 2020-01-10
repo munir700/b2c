@@ -83,7 +83,7 @@
             android:focusable="false"
             android:gravity="center_horizontal"
             android:letterSpacing="0.2"
-            android:textColor="@color/colorPrimaryDark"
+            android:textColor="?attr/colorPrimaryDarkAttr"
             android:textSize="@dimen/text_size_h6"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.186"

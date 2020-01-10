@@ -200,7 +200,7 @@
                             android:gravity="center"
                             android:padding="@dimen/_1sdp"
                             android:text="@{viewModel.state.currencyType}"
-                            android:textColor="@color/colorPrimary"
+                            android:textColor="?attr/colorPrimaryAttr"
                             tools:text="AED" />
                     </LinearLayout>
 

@@ -160,7 +160,7 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         android:editable="false"
                         app:layout_constraintStart_toStartOf="parent"
-                        android:textColor="@color/colorPrimaryDark"/>
+                        android:textColor="?attr/colorPrimaryDarkAttr"/>
 
                     <TextView
                         android:id="@+id/tvLandMark"
@@ -205,7 +205,7 @@
                         app:textSelection="@{viewModel.state.landmarkField}"
                         android:drawablePadding="@dimen/margin_extra_small"
                         android:paddingRight="0dp"
-                        android:textColor="@color/colorPrimaryDark"
+                        android:textColor="?attr/colorPrimaryDarkAttr"
                         app:drawableClick="@{viewModel.state.onDrawableClick}"/>
 
                     <LinearLayout
@@ -237,7 +237,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="@dimen/margin_extra_small"
                             style="@style/AMicroGrey"
-                            android:textColor="@color/colorPrimary"
+                            android:textColor="?attr/colorPrimaryAttr"
                             app:text="@{Strings.screen_meeting_location_text_terms_and_conditions}"
                             tools:text="@string/screen_meeting_location_text_terms_and_conditions"/>
 

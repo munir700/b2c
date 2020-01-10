@@ -26,7 +26,7 @@
             android:id="@+id/tvNameInitials"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/colorPrimaryDark"
+            android:textColor="?attr/colorPrimaryDarkAttr"
             android:visibility="invisible"
             app:layout_constraintBottom_toBottomOf="@+id/ivTransaction"
             app:layout_constraintLeft_toLeftOf="@+id/ivTransaction"

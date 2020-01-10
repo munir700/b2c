@@ -77,10 +77,13 @@
         <item>@color/colorSecondaryBlue</item>
         <item>@color/colorSecondaryOrange</item>
         <item>@color/colorSecondaryGreen</item>
-        <item>@color/colorPrimary</item>
+        <item>?attr/colorPrimaryAttr</item>
     </array>
 
 
     <color name="textDarkColor">#1a1423</color>
     <color name="colorLightPinkBackground">#FFE3E0</color>
+
+    <color name="colorAccentHouseHold">#fc6253</color>
+
 </resources>

@@ -66,7 +66,7 @@
                 app:cardMarginTop="130dp"
                 app:cardCorners="8dp"
                 app:cardMarginHorizontal="16dp"
-                app:cardBorderColor="@color/colorPrimary"
+                app:cardBorderColor="?attr/colorPrimaryAttr"
                 app:cardColor="@color/kycCard"
                 app:backgroundColor="@color/transparent"
                 app:cardBorderDashed="true"

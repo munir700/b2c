@@ -76,7 +76,7 @@
         <item>@color/colorSecondaryBlue</item>
         <item>@color/colorSecondaryOrange</item>
         <item>@color/colorSecondaryGreen</item>
-        <item>@color/colorPrimary</item>
+        <item>?attr/colorPrimaryAttr</item>
     </array>
 
 

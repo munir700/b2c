@@ -100,7 +100,7 @@
                     android:onClick="@{(v)-> viewModel.handlePressOnEditPhone(v.id)}"
                     android:padding="@dimen/margin_extra_small"
                     android:text="@string/screen_personal_detail_display_text_edit"
-                    android:textColor="@color/colorPrimary"
+                    android:textColor="?attr/colorPrimaryAttr"
                     app:text="@{Strings.screen_personal_detail_display_text_edit}" />
 
             </LinearLayout>
@@ -148,7 +148,7 @@
                     android:onClick="@{(v)-> viewModel.handlePressOnEditEmail(v.id)}"
                     android:padding="@dimen/margin_extra_small"
                     android:text="@string/screen_personal_detail_display_text_edit"
-                    android:textColor="@color/colorPrimary"
+                    android:textColor="?attr/colorPrimaryAttr"
                     app:text="@{Strings.screen_personal_detail_display_text_edit}" />
 
             </LinearLayout>
@@ -204,7 +204,7 @@
                         android:onClick="@{(v)-> viewModel.handlePressOnEditAddress(v.id)}"
                         android:padding="@dimen/margin_extra_small"
                         android:text="@string/screen_personal_detail_display_text_edit"
-                        android:textColor="@color/colorPrimary"
+                        android:textColor="?attr/colorPrimaryAttr"
                         android:maxLength="100"
                         app:text="@{Strings.screen_personal_detail_display_text_edit}" />
 
@@ -228,7 +228,7 @@
             android:clickable="true"
             android:focusable="true"
             android:onClick="@{(v) -> viewModel.handlePressOnScanCard(v.id)}"
-            app:cardBackgroundColor="@color/colorPrimaryWarm"
+            app:cardBackgroundColor="?attr/colorPrimaryAttrWarm"
             app:cardCornerRadius="10dp"
              app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.525"

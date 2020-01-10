@@ -59,7 +59,7 @@
                 android:elevation="2dp"
                 android:gravity="center"
                 android:text="+ Add a new card"
-                android:textColor="@color/colorPrimaryDark"
+                android:textColor="?attr/colorPrimaryDarkAttr"
                 tools:text="+ Add a new card" />
         </LinearLayout>
 

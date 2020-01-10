@@ -142,7 +142,7 @@
             android:paddingBottom="@dimen/margin_medium"
             app:btn_enable="true"
             app:btn_pressed_color="@color/white"
-            app:btn_text_color="@color/colorPrimaryDark"
+            app:btn_text_color="?attr/colorPrimaryDarkAttr"
             app:btn_unpressed_color="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
