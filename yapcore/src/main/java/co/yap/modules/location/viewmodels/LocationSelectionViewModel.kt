@@ -26,7 +26,7 @@ class LocationSelectionViewModel(application: Application) :
 
     override fun onResume() {
         super.onResume()
-        state.toolbarVisibility = true
+        state.toolbarVisibility = false
     }
 
     override fun onLocationSelected() {
