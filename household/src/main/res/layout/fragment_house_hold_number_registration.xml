@@ -71,7 +71,7 @@
             app:layout_constraintTop_toBottomOf="@+id/tvParentNumberConfirmation"
             app:pse_compoundDrawableHeight="@dimen/_16sdp"
             app:pse_compoundDrawableWidth="@dimen/_16sdp"
-            app:pse_setPrefix="92"
+            app:pse_setPrefix="971"
             app:pse_setPrefixTextColor="@color/black"
             app:pse_showPrefixDrawable="false"
             app:pse_space="@dimen/_4sdp" />
