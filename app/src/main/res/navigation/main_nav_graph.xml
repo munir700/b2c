@@ -3,29 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_nav_graph"
-    app:startDestination="@id/houseHoldEIDNoAccept">
-
-    <!--    app:startDestination="@id/splashFragment">-->
-
-    <!--    <include app:graph="@navigation/unverified_change_email_navigation" />-->
-    <!--    <action-->
-    <!--        android:id="@+id/action_goto_liteDashboardActivity"-->
-    <!--        app:destination="@id/liteDashboardActivity"-->
-    <!--        app:popUpTo="@+id/main_nav_graph"-->
-    <!--        app:popUpToInclusive="true" />-->
-    <!--    <include app:graph="@navigation/unverified_change_email_navigation" />-->
-    <!--    <action
-            android:id="@+id/action_goto_liteDashboardActivity"
-            app:destination="@id/liteDashboardActivity"
-            app:popUpTo="@+id/main_nav_graph"
-            app:popUpToInclusive="true" />-->
+    app:startDestination="@id/splashFragment">
 
     <action
         android:id="@+id/action_goto_yapDashboardActivity"
         app:destination="@id/yapDashboardActivity"
         app:popUpTo="@+id/main_nav_graph"
         app:popUpToInclusive="true" />
-
 
     <fragment
         android:id="@+id/splashFragment"
@@ -223,37 +207,12 @@
         android:label="householdOnboard"
         tools:layout="@layout/activity_main_house_hold" />
 
-    <activity
-        android:id="@+id/houseHoldCardsSelection"
-        android:name="co.yap.household.onboarding.onboarding.fragments.HouseHoldCardsSelectionActivity"
-        android:label="householdOnboard"
-        tools:layout="@layout/activity_main_house_hold" />
-
-    <activity
-        android:id="@+id/houseHoldEIDNoAccept"
-        android:name="co.yap.household.onboarding.onboarding.activities.EIDNotAcceptedActivity"
-        android:label="householdEIDNoAccept"
-        tools:layout="@layout/activity_eidnot_accepted" />
-
-    <activity
-        android:id="@+id/householdKYCSuccess"
-        android:name="co.yap.household.onboarding.kycsuccess.KycSuccessActivity"
-        android:label="householdKYCSuccess"
-        tools:layout="@layout/activity_kyc_success" />
 
     <activity
         android:id="@+id/householdOnBoardingExistingYAP"
         android:name="co.yap.household.onboarding.onboarding.activities.OnBoardingExistingYapActivity"
         android:label="OnBoardingExistingYAP"
         tools:layout="@layout/activity_on_boarding_existing_yap" />
-
-
-    <activity
-        android:id="@+id/householdHouseHoldActivitySuccessActivity"
-        android:name="co.yap.household.onboarding.onboarding.activities.OnboardingHouseHoldActivitySuccessActivity"
-        android:label="householdHouseHoldActivitySuccessActivity"
-        tools:layout="@layout/activity_onboarding_house_hold_success" />
-
 
 </navigation>
 
