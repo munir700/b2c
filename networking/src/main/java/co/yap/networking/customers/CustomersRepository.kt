@@ -76,6 +76,10 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     const val URL_CURRENCIES_BY_COUNTRY_CODE =
         "customers/api/country/{country}/currencies"
 
+    /* Household */
+
+    const val URL_VERIFY_HOUSEHOLD_MOBILE = "customers/api/on-board/verify/household-mobile"
+    const val URL_VERIFY_PARENT_HOUSEHOLD_MOBILE = "customers/api/verify/parent-mobile-no/household"
 
     //.................... End region of old projects apis................................................
 
@@ -220,4 +224,14 @@ object CustomersRepository : BaseRepository(), CustomersApi {
 
     override suspend fun getOtherBankParams(countryName: String): RetroApiResponse<BankParamsResponse> =
         executeSafely(call = { api.getOtherBankParams(countryName) })
+
+    /* Household */
+    override suspend fun verifyHouseholdMobile(verifyHouseholdMobileRequest: VerifyHouseholdMobileRequest): RetroApiResponse<ApiResponse> =
+        executeSafely(call = { api.verifyHouseholdMobile(verifyHouseholdMobileRequest) })
+
+    override suspend fun verifyHouseholdParentMobile(
+        mobileNumber: String
+    ): RetroApiResponse<ApiResponse> =
+        executeSafely(call = { api.verifyHouseholdParentMobile(mobileNumber) })
+
 }

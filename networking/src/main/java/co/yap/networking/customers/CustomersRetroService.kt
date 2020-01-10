@@ -1,6 +1,5 @@
 package co.yap.networking.customers
 
-import co.yap.networking.customers.responsedtos.KycResponse
 import co.yap.networking.customers.requestdtos.*
 import co.yap.networking.customers.responsedtos.*
 import co.yap.networking.customers.responsedtos.beneficiary.BankParamsResponse
@@ -135,6 +134,14 @@ interface CustomersRetroService {
 
     @DELETE(CustomersRepository.URL_CURRENCIES_BY_COUNTRY_CODE)
     suspend fun getCurrenciesByCountryCode(@Path("country") country: String): Response<ApiResponse>
+
+    /* Household */
+
+    @POST(CustomersRepository.URL_VERIFY_HOUSEHOLD_MOBILE)
+    suspend fun verifyHouseholdMobile(@Body verifyHouseholdMobileRequest: VerifyHouseholdMobileRequest): Response<ApiResponse>
+
+    @POST(CustomersRepository.URL_VERIFY_PARENT_HOUSEHOLD_MOBILE)
+    suspend fun verifyHouseholdParentMobile(@Query("mobileNo") mobileNumber: String): Response<ApiResponse>
 
 
 }
