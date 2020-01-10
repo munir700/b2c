@@ -52,9 +52,9 @@ class HouseHoldCardsSelectionViewModel(application: Application) :
 
     override fun getCardsColorListRequest() {
         launch {
-            state.loading = true
-            delay(2000)
-            state.loading = false
+           // state.loading = true
+            //delay(2000)
+           // state.loading = false
             adapter.setList(getCardsColorList())
             circleColorAdapter.setList(getCardsColorList())
             /* when (val response =
@@ -83,32 +83,12 @@ class HouseHoldCardsSelectionViewModel(application: Application) :
     private fun setUpItemClickListener() {
         adapter.setItemListener(object : OnItemClickListener {
             override fun onItemClick(view: View, data: Any, pos: Int) {
-                //state.toast = "position is: $pos"
                 changedPosition.value = pos
-                // toast(requireContext(), "position is: " + pos.toString())
-//                viewModel.clickEvent.setPayload(
-//                    SingleClickEvent.AdaptorPayLoadHolder(
-//                        view,
-//                        data,
-//                        pos
-//                    )
-//                )
-//                viewModel.clickEvent.setValue(view.id)
             }
         })
         circleColorAdapter.setItemListener(object : OnItemClickListener {
             override fun onItemClick(view: View, data: Any, pos: Int) {
-                //state.toast = "position is: $pos"
                 changedPosition.value = pos
-                // toast(requireContext(), "position is: " + pos.toString())
-//                viewModel.clickEvent.setPayload(
-//                    SingleClickEvent.AdaptorPayLoadHolder(
-//                        view,
-//                        data,
-//                        pos
-//                    )
-//                )
-//                viewModel.clickEvent.setValue(view.id)
             }
         })
     }

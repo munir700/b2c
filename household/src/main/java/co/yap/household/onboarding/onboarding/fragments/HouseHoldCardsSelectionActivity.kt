@@ -3,6 +3,7 @@ package co.yap.household.onboarding.onboarding.fragments
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -18,6 +19,9 @@ import co.yap.translation.Strings
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.toast
+import com.google.android.material.tabs.TabLayout
+import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
+import com.google.android.material.tabs.TabLayoutMediator
 
 
 class HouseHoldCardsSelectionActivity : BaseBindingActivity<IHouseHoldCardsSelection.ViewModel>(),
@@ -76,9 +80,9 @@ class HouseHoldCardsSelectionActivity : BaseBindingActivity<IHouseHoldCardsSelec
     }
 
     private fun setupPager() {
-        linearLayoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+/*        linearLayoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
         getBindings().rvColorCircles.layoutManager = linearLayoutManager
-        getBindings().rvColorCircles.adapter = viewModel.circleColorAdapter
+        getBindings().rvColorCircles.adapter = viewModel.circleColorAdapter*/
         getBindings().vpCards.adapter = viewModel.adapter
 
         with(getBindings().vpCards) {
@@ -121,10 +125,70 @@ class HouseHoldCardsSelectionActivity : BaseBindingActivity<IHouseHoldCardsSelec
                 super.onPageScrollStateChanged(state)
             }
         })
+        TabLayoutMediator(getBindings().tabLayout, getBindings().vpCards,
+            TabLayoutMediator.TabConfigurationStrategy { tab, position ->
+                tab.icon =
+                    ContextCompat.getDrawable(this, backgrounds[position])
+                /*  val drawable =
+                      getBindings().tabLayout.isSelected*/
+                // drawable.setStroke(3, Color.RED)
+                /*     tab.icon =
+                         ContextCompat.getDrawable(this, backgrounds[position])
+                     if (getBindings().tabLayout.isSelected){
+
+                    // if (tab.isSelected) {
+                        // tab.setIcon(R.drawable.circle)
+                         tab.icon =ContextCompat.getDrawable(this,R.drawable.bg_circle_selector)
+
+                     } else {
+
+                     }*/
+                // public void onTabSelected(TabLayout.Tab tab) {
+            }).attach()
+
+        getBindings().tabLayout.addOnTabSelectedListener(object : OnTabSelectedListener {
+            override fun onTabSelected(tab: TabLayout.Tab) {
+                getBindings().vpCards.currentItem = tab.position
+                if (tab.isSelected) {
+                    // tab.setIcon(R.drawable.circle)
+                    tab.icon = ContextCompat.getDrawable(
+                        this@HouseHoldCardsSelectionActivity,
+                        R.drawable.circle
+                    )
+
+                }/* else {
+                    tab.icon =
+                        ContextCompat.getDrawable(this@HouseHoldCardsSelectionActivity, backgrounds[tab.position-1])
+                }*/
+                /* when (tab.position) {
+                     0 -> {
+                         tab.setIcon(R.drawable.circle)
+                     }
+                     1 -> {
+                         toast("Tab two")
+                     }
+                     else -> {
+                         toast("Tab three")
+                     }
+                 }*/
+            }
+
+            override fun onTabUnselected(tab: TabLayout.Tab) {
+                tab.icon =
+                    ContextCompat.getDrawable(this@HouseHoldCardsSelectionActivity, backgrounds[tab.position])
+            }
+            override fun onTabReselected(tab: TabLayout.Tab) {}
+        })
     }
 
+    private val backgrounds = intArrayOf(
+        co.yap.yapcore.R.drawable.bg_round_light_red,
+        co.yap.yapcore.R.drawable.bg_round_light_blue,
+        co.yap.yapcore.R.drawable.bg_round_light_green
+    )
 
     private fun getIntentData(): Boolean {
+
         //intent.getBooleanExtra("isFromExisting", false)
         return true
     }
