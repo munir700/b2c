@@ -4,6 +4,7 @@ import androidx.databinding.Bindable
 import co.yap.household.BR
 import co.yap.household.onboarding.onboarding.interfaces.IHouseHoldNumberRegistration
 import co.yap.yapcore.BaseState
+import co.yap.yapcore.helpers.isValidPhoneNumber
 
 class HouseHoldNumberRegistrationState : BaseState(), IHouseHoldNumberRegistration.State {
 
@@ -36,6 +37,8 @@ class HouseHoldNumberRegistrationState : BaseState(), IHouseHoldNumberRegistrati
         set(value) {
             field = value
             notifyPropertyChanged(BR.phoneNumber)
+            buttonValidation = isValidPhoneNumber(phoneNumber!!,"AE")
+
         }
     @get:Bindable
     override var buttonTitle: String = ""
@@ -44,7 +47,7 @@ class HouseHoldNumberRegistrationState : BaseState(), IHouseHoldNumberRegistrati
             notifyPropertyChanged(BR.buttonTitle)
         }
     @get:Bindable
-    override var buttonValidation: Boolean = true
+    override var buttonValidation: Boolean = false
         set(value) {
             field = value
             notifyPropertyChanged(BR.buttonValidation)
