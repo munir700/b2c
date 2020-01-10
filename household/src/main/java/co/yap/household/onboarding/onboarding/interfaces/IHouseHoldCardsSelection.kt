@@ -2,7 +2,6 @@ package co.yap.household.onboarding.onboarding.interfaces
 
 import androidx.lifecycle.MutableLiveData
 import co.yap.household.onboarding.onboarding.fragments.CardColorSelectionModel
-import co.yap.household.onboarding.onboarding.fragments.CircleColorAdapter
 //import co.yap.household.onboarding.onboarding.fragments.CircleColorAdapter
 import co.yap.household.onboarding.onboarding.fragments.HouseHoldCardSelectionAdapter
 import co.yap.yapcore.IBase
@@ -21,7 +20,7 @@ interface IHouseHoldCardsSelection {
         fun getCardsColorList(): MutableList<CardColorSelectionModel>
         fun getCardsColorListRequest()
         var adapter: HouseHoldCardSelectionAdapter
-        var circleColorAdapter: CircleColorAdapter
+       // var circleColorAdapter: CircleColorAdapter
         val changedPosition: MutableLiveData<Int>
 
     }

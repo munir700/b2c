@@ -1,12 +1,10 @@
 package co.yap.household.onboarding.onboarding.viewmodels
 
-//import co.yap.household.onboarding.onboarding.fragments.CircleColorAdapter
 import android.app.Application
 import android.view.View
 import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
 import co.yap.household.onboarding.onboarding.fragments.CardColorSelectionModel
-import co.yap.household.onboarding.onboarding.fragments.CircleColorAdapter
 import co.yap.household.onboarding.onboarding.fragments.HouseHoldCardSelectionAdapter
 import co.yap.household.onboarding.onboarding.interfaces.IHouseHoldCardsSelection
 import co.yap.household.onboarding.onboarding.states.HouseHoldCardsSelectionState
@@ -21,8 +19,8 @@ class HouseHoldCardsSelectionViewModel(application: Application) :
     override val state: HouseHoldCardsSelectionState = HouseHoldCardsSelectionState()
     override var adapter: HouseHoldCardSelectionAdapter =
         HouseHoldCardSelectionAdapter(context, mutableListOf())
-    override var circleColorAdapter: CircleColorAdapter =
-        CircleColorAdapter(mutableListOf())
+    /*    override var circleColorAdapter: CircleColorAdapter =
+            CircleColorAdapter(mutableListOf())*/
     override val changedPosition: MutableLiveData<Int> = MutableLiveData()
     var adapterHouseHold = ObservableField<HouseHoldCardSelectionAdapter>()
 
@@ -52,11 +50,10 @@ class HouseHoldCardsSelectionViewModel(application: Application) :
 
     override fun getCardsColorListRequest() {
         launch {
-           // state.loading = true
-            //delay(2000)
-           // state.loading = false
+            state.loading = true
+            delay(2000)
+            state.loading = false
             adapter.setList(getCardsColorList())
-            circleColorAdapter.setList(getCardsColorList())
             /* when (val response =
                  mTransactionsRepository.getTransactionInternationalReasonList(productCode)) {
                  is RetroApiResponse.Success -> {
@@ -82,11 +79,6 @@ class HouseHoldCardsSelectionViewModel(application: Application) :
 
     private fun setUpItemClickListener() {
         adapter.setItemListener(object : OnItemClickListener {
-            override fun onItemClick(view: View, data: Any, pos: Int) {
-                changedPosition.value = pos
-            }
-        })
-        circleColorAdapter.setItemListener(object : OnItemClickListener {
             override fun onItemClick(view: View, data: Any, pos: Int) {
                 changedPosition.value = pos
             }

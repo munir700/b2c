@@ -26,7 +26,6 @@ import com.google.android.material.tabs.TabLayoutMediator
 
 class HouseHoldCardsSelectionActivity : BaseBindingActivity<IHouseHoldCardsSelection.ViewModel>(),
     IHouseHoldCardsSelection.View {
-    private lateinit var linearLayoutManager: LinearLayoutManager
 
     companion object {
         const val data = "isFromExisting"
@@ -129,54 +128,27 @@ class HouseHoldCardsSelectionActivity : BaseBindingActivity<IHouseHoldCardsSelec
             TabLayoutMediator.TabConfigurationStrategy { tab, position ->
                 tab.icon =
                     ContextCompat.getDrawable(this, backgrounds[position])
-                /*  val drawable =
-                      getBindings().tabLayout.isSelected*/
-                // drawable.setStroke(3, Color.RED)
-                /*     tab.icon =
-                         ContextCompat.getDrawable(this, backgrounds[position])
-                     if (getBindings().tabLayout.isSelected){
-
-                    // if (tab.isSelected) {
-                        // tab.setIcon(R.drawable.circle)
-                         tab.icon =ContextCompat.getDrawable(this,R.drawable.bg_circle_selector)
-
-                     } else {
-
-                     }*/
-                // public void onTabSelected(TabLayout.Tab tab) {
             }).attach()
 
         getBindings().tabLayout.addOnTabSelectedListener(object : OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab) {
                 getBindings().vpCards.currentItem = tab.position
                 if (tab.isSelected) {
-                    // tab.setIcon(R.drawable.circle)
                     tab.icon = ContextCompat.getDrawable(
                         this@HouseHoldCardsSelectionActivity,
                         R.drawable.circle
                     )
-
-                }/* else {
-                    tab.icon =
-                        ContextCompat.getDrawable(this@HouseHoldCardsSelectionActivity, backgrounds[tab.position-1])
-                }*/
-                /* when (tab.position) {
-                     0 -> {
-                         tab.setIcon(R.drawable.circle)
-                     }
-                     1 -> {
-                         toast("Tab two")
-                     }
-                     else -> {
-                         toast("Tab three")
-                     }
-                 }*/
+                }
             }
 
             override fun onTabUnselected(tab: TabLayout.Tab) {
                 tab.icon =
-                    ContextCompat.getDrawable(this@HouseHoldCardsSelectionActivity, backgrounds[tab.position])
+                    ContextCompat.getDrawable(
+                        this@HouseHoldCardsSelectionActivity,
+                        backgrounds[tab.position]
+                    )
             }
+
             override fun onTabReselected(tab: TabLayout.Tab) {}
         })
     }
@@ -189,8 +161,8 @@ class HouseHoldCardsSelectionActivity : BaseBindingActivity<IHouseHoldCardsSelec
 
     private fun getIntentData(): Boolean {
 
-        //intent.getBooleanExtra("isFromExisting", false)
-        return true
+        return intent.getBooleanExtra("isFromExisting", false)
+//        return true
     }
 
 
