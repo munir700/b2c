@@ -10,9 +10,12 @@ import co.yap.household.R
 import co.yap.household.onboarding.fragments.OnboardingChildFragment
 import co.yap.household.onboarding.onboarding.interfaces.IHouseHoldCreatePassCode
 import co.yap.household.onboarding.onboarding.viewmodels.HouseHoldCreatePassCodeViewModel
+import co.yap.widgets.NumberKeyboardListener
+import kotlinx.android.synthetic.main.fragment_house_hold_create_passcode.*
 
 class HouseHoldCreatePassCodeFragment :
-    OnboardingChildFragment<IHouseHoldCreatePassCode.ViewModel>(), IHouseHoldCreatePassCode.View {
+    OnboardingChildFragment<IHouseHoldCreatePassCode.ViewModel>(), IHouseHoldCreatePassCode.View,
+    NumberKeyboardListener {
 
     override fun getLayoutId(): Int = R.layout.fragment_house_hold_create_passcode
     override fun getBindingVariable() = BR.createPasscodeViewModel
@@ -22,6 +25,7 @@ class HouseHoldCreatePassCodeFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        dialer.setNumberKeyboardListener(this)
         setObservers()
     }
 
@@ -43,6 +47,16 @@ class HouseHoldCreatePassCodeFragment :
     }
 
     override fun onBackPressed(): Boolean = false
+    override fun onNumberClicked(number: Int, text: String) {
+        viewModel.state.passcode = dialer.getText()
+        viewModel.state.dialerError = ""
+    }
 
+    override fun onLeftButtonClicked() {
+    }
+
+    override fun onRightButtonClicked() {
+        viewModel.state.dialerError = ""
+    }
 
 }

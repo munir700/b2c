@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/hh_sub_account_onboarding_navigation"
-    app:startDestination="@id/houseHoldCardsSelectionFragment">
+    app:startDestination="@id/houseHoldNumberRegistrationFragment">
 
     <fragment
         android:id="@+id/emailHouseHoldFragment"
