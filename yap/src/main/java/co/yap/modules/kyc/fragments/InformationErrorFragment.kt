@@ -22,7 +22,7 @@ class InformationErrorFragment : KYCChildFragment<IInformationError.ViewModel>()
             if (activity is DocumentsDashboardActivity)
                 (activity as DocumentsDashboardActivity).goToDashBoard(
                     success = false,
-                    skipped = true
+                    skippedPress = true
                 )
         })
     }

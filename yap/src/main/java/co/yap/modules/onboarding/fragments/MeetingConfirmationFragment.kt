@@ -27,7 +27,7 @@ class MeetingConfirmationFragment : BaseBindingFragment<IMeetingConfirmation.vie
             if (activity is DocumentsDashboardActivity)
                 (activity as DocumentsDashboardActivity).goToDashBoard(
                     success = true,
-                    skipped = false
+                    skippedPress = false
                 )
         })
     }
