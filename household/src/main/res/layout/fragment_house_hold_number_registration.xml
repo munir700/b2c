@@ -25,6 +25,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_medium"
+            android:layout_marginTop="@dimen/margin_medium"
             android:layout_marginEnd="@dimen/margin_medium"
             android:gravity="center_horizontal"
             android:text="@{houseHoldViewModel.state.existingYapUser?@string/screen_house_hold_existing_number_registration_display_text_heading:String.format(@string/screen_house_hold_number_registration_display_text_heading ,houseHoldViewModel.state.userName )}"
@@ -43,7 +44,7 @@
             android:layout_marginTop="@dimen/margin_small"
             android:layout_marginEnd="@dimen/margin_medium"
             android:gravity="center"
-            android:text="@{String.format(@string/screen_house_hold_number_registration_display_text_parent_description ,houseHoldViewModel.state.parentName )}"
+            android:text="@{houseHoldViewModel.state.existingYapUser?String.format(@string/screen_house_hold_existing_number_registration_display_text_parent_description ,houseHoldViewModel.state.parentName ) :String.format(@string/screen_house_hold_number_registration_display_text_parent_description ,houseHoldViewModel.state.parentName )}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvWelcome"
@@ -74,7 +75,8 @@
             app:pse_setPrefix="971"
             app:pse_setPrefixTextColor="@color/black"
             app:pse_showPrefixDrawable="false"
-            app:pse_space="@dimen/_4sdp" />
+            app:pse_space="@dimen/_4sdp"
+            tools:ignore="HardcodedText" />
 
         <co.yap.widgets.CoreDialerPad
             android:id="@+id/dialer"

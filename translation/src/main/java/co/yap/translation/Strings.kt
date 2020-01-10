@@ -1341,6 +1341,8 @@ object Strings {
         "screen_house_hold_number_registration_button_text_confirm"
     const val screen_house_hold_number_registration_error_text: String =
         "screen_house_hold_number_registration_error_text"
+    const val screen_house_hold_create_passcode_heading_text: String =
+        "screen_house_hold_create_passcode_heading_text"
     // New User Success household screen
     const val screen_congratulations_display_text_title: String =
         "screen_congratulations_display_text_title"
