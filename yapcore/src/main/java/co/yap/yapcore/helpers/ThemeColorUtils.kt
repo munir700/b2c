@@ -8,7 +8,6 @@ import co.yap.yapcore.R
 
 @SuppressLint("StaticFieldLeak")
 object ThemeColorUtils {
-
 // default colors
 
     fun colorPrimaryDefaultAttribute(context: Context): Int {

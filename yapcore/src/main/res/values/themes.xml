@@ -10,16 +10,11 @@
         <item name="colorPrimaryDarkAttr">@color/warning</item>
         <item name="colorPrimaryAccentAttr">@color/colorAccent</item>
 
-        //
-
         <item name="colorPrimaryAccentWarmAttr">@color/colorAccent</item>
         <item name="colorPrimaryWarmAttr">@color/colorPrimaryWarm</item>
         <item name="colorPrimaryLightAttr">@color/colorPrimaryLight</item>
         <item name="colorPrimaryAltAttr">@color/colorPrimaryAlt</item>
         <item name="colorPrimarySoftAttr">@color/colorPrimarySoft</item>
-
-
-
     </style>
 
     <style name="AppThemeHouseHold" parent="Theme.AppCompat.Light.NoActionBar">
