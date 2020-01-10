@@ -54,6 +54,7 @@ class PrefixSuffixEditText : AppCompatEditText {
     private var mPrefix: String? = null
     private var prefixBitmap: Bitmap? = null
     private var showPrefixDrawable: Boolean = true
+    private var showHint: Boolean = false
     // private val textFormatter = PhoneNumberFormatter(Locale.getDefault().country)
     var prefix: String?
         get() = this.mPrefix
@@ -132,6 +133,8 @@ class PrefixSuffixEditText : AppCompatEditText {
         )
         showPrefixDrawable =
             a.getBoolean(R.styleable.PrefixSuffixEditText_pse_showPrefixDrawable, true)
+        showHint =
+            a.getBoolean(R.styleable.PrefixSuffixEditText_pse_showHint, false)
         isClearIconVisible =
             a.getBoolean(R.styleable.PrefixSuffixEditText_pse_setClearIconVisible, false)
         val isBorderView = a.getBoolean(R.styleable.PrefixSuffixEditText_pse_setBorderView, false)

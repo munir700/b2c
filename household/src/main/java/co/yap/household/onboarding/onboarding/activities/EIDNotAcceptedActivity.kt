@@ -1,4 +1,4 @@
-package co.yap.household.onboarding.onboarding
+package co.yap.household.onboarding.onboarding.activities
 
 import android.os.Bundle
 import co.yap.household.R

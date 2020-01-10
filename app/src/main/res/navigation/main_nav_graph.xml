@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_nav_graph"
-    app:startDestination="@id/householdDashboardActivity">
+    app:startDestination="@id/splashFragment">
 
     <!--    app:startDestination="@id/splashFragment">-->
 
@@ -224,15 +224,10 @@
         tools:layout="@layout/activity_main_house_hold" />
 
     <activity
-        android:id="@+id/householdEIDNotAccepted"
-        android:name="co.yap.household.onboarding.onboarding.EIDNotAcceptedActivity"
-        android:label="householdEIDNotAccepted"
-        tools:layout="@layout/activity_eidnot_accepted" />
-    <activity
-        android:id="@+id/householdDashboardActivity"
-        android:name="co.yap.household.onboarding.dashboard.main.activities.HouseholdDashboardActivity"
-        tools:layout="@layout/activity_household_dashboard"
-        android:label="HouseholdDashboardActivity" />
+        android:id="@+id/householdOnBoardingExistingYAP"
+        android:name="co.yap.household.onboarding.onboarding.activities.OnBoardingExistingYapActivity"
+        android:label="householdOnboard"
+        tools:layout="@layout/activity_main_house_hold" />
 
 </navigation>
 

@@ -9,5 +9,12 @@
         <activity
             android:name="co.yap.modules.setcardpin.activities.SetCardPinWelcomeActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name="co.yap.modules.location.activities.LocationSelectionActivity"
+            android:screenOrientation="portrait" />
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/google_maps_key" />
     </application>
 </manifest>

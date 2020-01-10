@@ -24,6 +24,7 @@ import co.yap.networking.models.RetroApiResponse
 import co.yap.translation.Translator
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
+import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.managers.MyUserManager
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.location.FusedLocationProviderClient
@@ -329,9 +330,13 @@ class AddressSelectionViewModel(application: Application) :
     }
 
     override fun handlePressOnCloseMap(id: Int) {
-        state.isMapOnScreen = false
-        clickEvent.setValue(id)
-        toggleMarkerVisibility()
+        if (id == R.id.tvTermsAndConditions) {
+            clickEvent.setValue(id)
+        } else {
+            state.isMapOnScreen = false
+            clickEvent.setValue(id)
+            toggleMarkerVisibility()
+        }
     }
 
     override fun handlePressOnCardSelectLocation(id: Int) {

@@ -20,13 +20,14 @@
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:paddingTop="@dimen/margin_small"
-        android:paddingBottom="@dimen/margin_small">
+        android:paddingTop="@dimen/margin_extra_small"
+        android:paddingBottom="@dimen/margin_extra_small">
 
         <ImageView
-            android:layout_width="@dimen/_26sdp"
-            android:layout_height="@dimen/_26sdp"
-            tools:src="@drawable/house"
+            android:tint="@color/greyDark"
+            tools:src="@drawable/ic_support"
+            android:layout_width="@dimen/_22sdp"
+            android:layout_height="@dimen/_22sdp"
             android:src="@{icon}" />
 
         <TextView
@@ -35,7 +36,6 @@
             android:layout_height="wrap_content"
             android:paddingStart="@dimen/margin_small"
             android:paddingEnd="@dimen/_2sdp"
-            tools:text="Household salary"
             android:text="@{title}" />
 
     </LinearLayout>

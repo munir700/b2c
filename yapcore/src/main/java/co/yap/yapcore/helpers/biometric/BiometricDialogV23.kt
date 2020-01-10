@@ -8,6 +8,7 @@ import android.widget.TextView
 import co.yap.yapcore.R
 import com.google.android.material.bottomsheet.BottomSheetDialog
 
+@Deprecated("Use co.yap.yapcore.helpers.biometric.BiometricManagerX")
 class BiometricDialogV23 : BottomSheetDialog, View.OnClickListener {
 
     private var btnCancel: Button? = null

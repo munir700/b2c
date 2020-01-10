@@ -18,12 +18,12 @@
         android:background="@color/white">
 
         <TextView
-            android:id="@+id/tvPasscodeTitle"
+            android:id="@+id/tvCreatePassCodeHeading"
             style="@style/Large"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_medium"
-            android:layout_marginTop="@dimen/margin_large"
+            android:layout_marginTop="@dimen/margin_medium"
             android:layout_marginEnd="@dimen/margin_medium"
             android:gravity="center"
             android:lineSpacingExtra="0dp"
@@ -31,10 +31,28 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            app:text="@{Strings.screen_house_hold_create_passcode_heading_text}"
+            tools:text="@string/screen_house_hold_create_passcode_heading_text" />
+
+        <TextView
+            android:id="@+id/tvPasscodeTitle"
+            style="@style/Large"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_medium"
+            android:layout_marginTop="@dimen/margin_small"
+            android:layout_marginEnd="@dimen/margin_medium"
+            android:gravity="center"
+            android:lineSpacingExtra="0dp"
+            android:textAlignment="center"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvCreatePassCodeHeading"
+
             app:text="@{Strings.screen_create_passcode_display_text_title}"
             tools:text="@string/screen_create_passcode_display_text_title" />
 
-        <co.yap.widgets.CoreDialerPad
+        <co.yap.widgets.CoreDialerPadV2
             android:id="@+id/dialer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -48,6 +66,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_medium"
+            android:layout_marginBottom="@dimen/margin_normal"
             app:layout_constraintBottom_toTopOf="@+id/btnCreatePasscode"
             app:layout_constraintTop_toBottomOf="@+id/dialer">
 
@@ -75,7 +94,6 @@
                 android:textColor="@color/colorPrimary"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-
                 app:layout_constraintTop_toBottomOf="@+id/tvTermsAndConditionsTitle"
                 app:text="@{Strings.screen_create_passcode_display_text_terms_and_conditions}"
                 tools:text="@string/screen_create_passcode_display_text_terms_and_conditions" />
@@ -83,25 +101,20 @@
 
         <co.yap.widgets.CoreButton
             android:id="@+id/btnCreatePasscode"
+            style="@style/FragmentsBtnStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            style="@style/FragmentsBtnStyle"
             android:layout_marginLeft="@dimen/margin_medium_large"
             android:layout_marginRight="@dimen/margin_medium_large"
-            android:layout_marginBottom="@dimen/margin_normal"
+            android:layout_marginBottom="@dimen/margin_medium"
             android:gravity="center"
             android:onClick="@{(v)-> createPasscodeViewModel.handlePressOnCreatePasscodeButton(v.id)}"
-            android:paddingStart="@dimen/_30sdp"
-            android:paddingTop="8dp"
-            android:paddingEnd="@dimen/_30sdp"
-            android:paddingBottom="8dp"
             android:textColor="@color/colorWhite"
             app:enableCoreButton="@{createPasscodeViewModel.state.buttonValidation}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/clTermsAndConditions"
-            app:layout_constraintVertical_bias="0.75"
             app:text="@{Strings.screen_create_passcode_button_create_passcode}"
             tools:ignore="MissingConstraints"
             tools:text="@string/screen_create_passcode_button_create_passcode" />
