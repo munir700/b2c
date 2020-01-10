@@ -58,8 +58,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_normal"
             app:componentDialerError='@{createPasscodeViewModel.state.dialerError}'
+            app:dialer_pass_code="passcode"
             app:layout_constraintTop_toBottomOf="@id/tvPasscodeTitle" />
-
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/clTermsAndConditions"
@@ -74,7 +74,6 @@
                 android:id="@+id/tvTermsAndConditionsTitle"
                 style="@style/AMicroGrey"
                 android:layout_width="match_parent"
-
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:textAlignment="center"
@@ -90,6 +89,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
+                android:onClick="@{(v) -> createPasscodeViewModel.handlePressOnCreatePasscodeButton(v.id)}"
                 android:textAlignment="center"
                 android:textColor="@color/colorPrimary"
                 app:layout_constraintLeft_toLeftOf="parent"
