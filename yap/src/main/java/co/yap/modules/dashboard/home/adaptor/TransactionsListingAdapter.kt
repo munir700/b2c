@@ -3,6 +3,7 @@ package co.yap.modules.dashboard.home.adaptor
 import android.annotation.SuppressLint
 import android.content.Context
 import androidx.core.content.ContextCompat
+import androidx.core.view.setPadding
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
 import co.yap.R
@@ -37,7 +38,7 @@ class TransactionsListingAdapter(private val list: MutableList<Content>) :
 
             val transaction: Content = content
             val context: Context = itemTransactionListBinding.tvCurrency.context
-            if (transaction.txnType!!.toLowerCase() == "credit") {
+            if (transaction.txnType.toLowerCase() == "credit") {
                 itemTransactionListBinding.tvTransactionAmount?.setTextColor(
                     ContextCompat.getColor(
                         context,
@@ -46,7 +47,7 @@ class TransactionsListingAdapter(private val list: MutableList<Content>) :
                 )
                 itemTransactionListBinding.tvTransactionAmount?.text =
                     "+ " + Utils.getFormattedCurrency(transaction.amount.toString())
-            } else if (transaction.txnType!!.toLowerCase() == "debit") {
+            } else if (transaction.txnType.toLowerCase() == "debit") {
                 itemTransactionListBinding.tvTransactionAmount?.setTextColor(
                     ContextCompat.getColor(
                         context,
@@ -81,15 +82,17 @@ class TransactionsListingAdapter(private val list: MutableList<Content>) :
                         if (transaction.txnType == Constants.MANUAL_DEBIT) {
                             itemTransactionListBinding.ivTransaction.setImageDrawable(
                                 context.getDrawable(
-                                    R.drawable.ic_minus
+                                    R.drawable.ic_minus_transactions
                                 )
                             )
+                            itemTransactionListBinding.ivTransaction.setPadding(0)
                         } else if (transaction.txnType == Constants.MANUAL_CREDIT) {
                             itemTransactionListBinding.ivTransaction.setImageDrawable(
                                 context.getDrawable(
-                                    R.drawable.ic_add_sign
+                                    R.drawable.ic_plus_transactions
                                 )
                             )
+                            itemTransactionListBinding.ivTransaction.setPadding(0)
                         }
                     } else if (transaction.txnType == Constants.MANUAL_DEBIT) {
                         itemTransactionListBinding.ivTransaction.setImageDrawable(

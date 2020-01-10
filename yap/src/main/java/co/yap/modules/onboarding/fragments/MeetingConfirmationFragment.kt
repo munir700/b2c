@@ -5,12 +5,11 @@ import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import androidx.navigation.fragment.findNavController
 import co.yap.BR
 import co.yap.R
+import co.yap.modules.kyc.activities.DocumentsDashboardActivity
 import co.yap.modules.onboarding.interfaces.IMeetingConfirmation
 import co.yap.modules.onboarding.viewmodels.MeetingConfirmationViewModel
-import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.BaseBindingFragment
 
 class MeetingConfirmationFragment : BaseBindingFragment<IMeetingConfirmation.viewModel>() {
@@ -25,8 +24,8 @@ class MeetingConfirmationFragment : BaseBindingFragment<IMeetingConfirmation.vie
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.goToDashboardButtonPressEvent.observe(this, Observer {
-            findNavController().navigate(R.id.action_goto_DashboardActivity)
-            activity?.finish()
+            if (activity is DocumentsDashboardActivity)
+                (activity as DocumentsDashboardActivity).goToDashBoard(true)
         })
     }
 
@@ -34,7 +33,7 @@ class MeetingConfirmationFragment : BaseBindingFragment<IMeetingConfirmation.vie
         super.onDestroyView()
         viewModel.goToDashboardButtonPressEvent.removeObservers(this)
     }
- 
+
     override fun onBackPressed(): Boolean {
         return true
     }

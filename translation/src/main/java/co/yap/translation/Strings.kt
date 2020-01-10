@@ -736,6 +736,8 @@ object Strings {
 
     const val screen_address_success_display_text_sub_heading: String =
         "screen_address_success_display_text_sub_heading"
+    const val screen_address_success_display_text_sub_heading_update: String =
+        "screen_address_success_display_text_sub_heading_update"
 
 
     //Change email screen
@@ -1333,10 +1335,14 @@ object Strings {
         "screen_house_hold_number_registration_display_text_heading"
     const val screen_house_hold_number_registration_display_text_parent_description: String =
         "screen_house_hold_number_registration_display_text_parent_description"
+    const val screen_house_hold_existing_number_registration_display_text_parent_description: String =
+        "screen_house_hold_existing_number_registration_display_text_parent_description"
     const val screen_house_hold_number_registration_button_text_confirm: String =
         "screen_house_hold_number_registration_button_text_confirm"
     const val screen_house_hold_number_registration_error_text: String =
         "screen_house_hold_number_registration_error_text"
+    const val screen_house_hold_create_passcode_heading_text: String =
+        "screen_house_hold_create_passcode_heading_text"
     // New User Success household screen
     const val screen_congratulations_display_text_title: String =
         "screen_congratulations_display_text_title"
@@ -1344,6 +1350,13 @@ object Strings {
         "screen_congratulations_display_text_success_message"
     const val screen_congratulations_display_button_complete_setup: String =
         "screen_congratulations_display_button_complete_setup"
+
+    //Card color selection screen
+    const val screen_house_hold_card_color_selection_display_text_heading: String =
+        "screen_house_hold_card_color_selection_display_text_heading"
+    const val screen_house_hold_card_color_selection_display_text: String =
+        "screen_house_hold_card_color_selection_display_text"
+
 
     const val screen_success_house_hold_we_will_call_you_to_text: String =
         "screen_success_house_hold_we_will_call_you_to_text"
@@ -1356,6 +1369,28 @@ object Strings {
 
     const val screen_success_on_its_way_display_text_title: String =
         "screen_success_on_its_way_display_text_title"
+    const val screen_house_hold_onBoarding_existing_title_display_text: String =
+        "screen_house_hold_onBoarding_existing_title_display_text"
+    const val screen_house_hold_onBoarding_existing_title_accept_text: String =
+        "screen_house_hold_onBoarding_existing_title_accept_text"
+    const val screen_house_hold_onBoarding_existing_title_accept_text_second: String =
+        "screen_house_hold_onBoarding_existing_title_accept_text_second"
+    const val screen_house_hold_onBoarding_existing_title_accept: String =
+        "screen_house_hold_onBoarding_existing_title_accept"
+    const val screen_house_hold_onBoarding_existing_title_decline_request: String =
+        "screen_house_hold_onBoarding_existing_title_decline_request"
+    const val screen_title_oops: String =
+        "screen_title_oops"
+    const val screen_title_mistake_please_call: String =
+        "screen_title_mistake_please_call"
 
-
+    // Household Dashboard/Home
+    const val screen_household_home_display_text_transactions_heading_title: String =
+        "screen_household_home_display_text_transactions_heading_title"
+    const val screen_household_home_display_text_transactions_filers_title: String =
+        "screen_household_home_display_text_transactions_filers_title"
+    const val screen_on_boarding_existing_message: String =
+        "screen_on_boarding_existing_message"
+    const val screen_b2c_kyc_home_button_skip_on_boarding_existing: String =
+        "screen_b2c_kyc_home_button_skip_on_boarding_existing"
 }

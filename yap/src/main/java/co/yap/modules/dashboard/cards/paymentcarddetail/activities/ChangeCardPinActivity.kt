@@ -8,6 +8,8 @@ import co.yap.yapcore.IFragmentHolder
 import co.yap.yapcore.defaults.DefaultActivity
 import co.yap.yapcore.defaults.DefaultNavigator
 import co.yap.yapcore.defaults.INavigator
+import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.helpers.extentions.preventTakeScreenshot
 import co.yap.yapcore.interfaces.BackPressImpl
 import co.yap.yapcore.interfaces.IBaseNavigator
 
@@ -28,6 +30,7 @@ class ChangeCardPinActivity : DefaultActivity(), INavigator, IFragmentHolder {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        preventTakeScreenshot()
         setContentView(R.layout.activity_change_card_pin)
         setupData()
     }

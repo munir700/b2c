@@ -30,6 +30,7 @@ import co.yap.modules.kyc.viewmodels.AddressSelectionViewModel
 import co.yap.modules.onboarding.constants.Constants
 import co.yap.networking.cards.requestdtos.UpdateAddressRequest
 import co.yap.translation.Strings
+import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.interfaces.BaseMapFragment
 import co.yap.yapcore.managers.MyUserManager
 import com.daimajia.androidanimations.library.Techniques
@@ -49,12 +50,10 @@ class AddressSelectionFragment : BaseMapFragment<IAddressSelection.ViewModel>(),
 
     val REQUEST_CHECK_SETTINGS = 100
 
-
     companion object {
         fun newIntent(context: Context): Intent =
             Intent(context, AddressSelectionFragment::class.java)
     }
-
 
     override fun getBindingVariable(): Int = BR.viewModel
 
@@ -62,7 +61,6 @@ class AddressSelectionFragment : BaseMapFragment<IAddressSelection.ViewModel>(),
 
     override val viewModel: IAddressSelection.ViewModel
         get() = ViewModelProviders.of(this).get(AddressSelectionViewModel::class.java)
-
 
     lateinit var icon: BitmapDescriptor
     private var locationPermissionGranted: Boolean = false
@@ -117,7 +115,7 @@ class AddressSelectionFragment : BaseMapFragment<IAddressSelection.ViewModel>(),
             viewModel!!.mapDetailViewActivity = activity as DocumentsDashboardActivity
 
         }
-         performDataBinding(inflater, container)
+        performDataBinding(inflater, container)
         initMapFragment()
 
         return viewDataBinding.root
@@ -172,12 +170,7 @@ class AddressSelectionFragment : BaseMapFragment<IAddressSelection.ViewModel>(),
         transparentImage!!.setOnTouchListener(object : View.OnTouchListener {
             override fun onTouch(v: View, event: MotionEvent): Boolean {
 
-                if (!viewModel.state.isMapOnScreen) {
-                    return true
-
-                } else {
-                    return false
-                }
+                return !viewModel.state.isMapOnScreen
             }
         })
 
@@ -187,7 +180,7 @@ class AddressSelectionFragment : BaseMapFragment<IAddressSelection.ViewModel>(),
                 viewModel.UPDATE_ADDRESS_EEVENT -> {
                     val action =
                         AddressSelectionFragmentDirections.actionAddressSelectionFragmentToSuccessFragment(
-                            getString(R.string.screen_address_success_display_text_sub_heading),
+                            getString(R.string.screen_address_success_display_text_sub_heading_update),
                             " "
                         )
 
@@ -220,6 +213,9 @@ class AddressSelectionFragment : BaseMapFragment<IAddressSelection.ViewModel>(),
                     }
                 }
 
+                R.id.tvTermsAndConditions -> {
+                    Utils.openWebPage(co.yap.yapcore.constants.Constants.URL_TERMS_CONDITION, "", activity)
+                }
                 R.id.btnConfirm -> {
                     slideDownLocationCard()
                 }
@@ -312,11 +308,8 @@ class AddressSelectionFragment : BaseMapFragment<IAddressSelection.ViewModel>(),
                                 viewModel.mDefaultLocation.latitude.toString(),
                                 viewModel.mDefaultLocation.longitude.toString(),
                                 false
-
                             )
                         findNavController().navigate(action)
-
-
                     } /*else if (viewModel.state.isFromPersonalDetailView) {
 //
 //                        viewModel.state.placeTitle = addresstitle
@@ -440,7 +433,7 @@ class AddressSelectionFragment : BaseMapFragment<IAddressSelection.ViewModel>(),
     }
 
     private fun expandMap() {
-        if (isFromPersonalDetailScreen){
+        if (isFromPersonalDetailScreen) {
             (context as MoreActivity).goneToolbar()
         }
 
@@ -481,7 +474,7 @@ class AddressSelectionFragment : BaseMapFragment<IAddressSelection.ViewModel>(),
     }
 
     private fun collapseMap() {
-        if (isFromPersonalDetailScreen){
+        if (isFromPersonalDetailScreen) {
             (context as MoreActivity).visibleToolbar()
         }
         viewModel.state.isMapOnScreen = false

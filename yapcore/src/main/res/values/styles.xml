@@ -1,16 +1,5 @@
 <resources>
 
-    <style name="LargeBoldText" parent="AppFontBold">
-        <item name="android:textSize">@dimen/text_size_h6</item>
-        <item name="android:textColor">@color/textDarkColor</item>
-    </style>
-
-    <style name="NormalText" parent="AppFontRegular">
-        <item name="android:textSize">@dimen/text_size_h2</item>
-        <item name="android:textColor">@color/textDarkColor</item>
-    </style>
-
-
     <style name="CustomDialog">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">match_parent</item>
@@ -244,6 +233,14 @@
     <style name="ASmallGrey" parent="AppFontRegular">
         <item name="android:textSize">@dimen/text_size_h2</item>
         <item name="android:textStyle">normal</item>
+        <item name="android:lineSpacingExtra">6sp</item>
+        <item name="android:textColor">@color/greyDark</item>
+    </style>
+
+    <style name="ASmallHyperLinkUnderline" parent="AppFontRegular">
+        <item name="android:textSize">@dimen/text_size_h2</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:background">@drawable/hyperlink_underline</item>
         <item name="android:lineSpacingExtra">6sp</item>
         <item name="android:textColor">@color/greyDark</item>
     </style>
@@ -537,5 +534,19 @@
     <!--        <item name="android:textColor">?attr/colorPrimaryDarkAttr</item>-->
 
     <!--    </style>-->
+
+
+    <style name="LargeBoldText" parent="AppFontBold">
+        <item name="android:textSize">@dimen/text_size_h6</item>
+        <item name="android:textColor">@color/textDarkColor</item>
+    </style>
+    <style name="LargeText" parent="AppFontRegular">
+        <item name="android:textSize">@dimen/text_size_h6</item>
+        <item name="android:textColor">@color/textDarkColor</item>
+    </style>
+    <style name="NormalText" parent="AppFontRegular">
+        <item name="android:textSize">@dimen/text_size_h2</item>
+        <item name="android:textColor">@color/textDarkColor</item>
+    </style>
 
 </resources>

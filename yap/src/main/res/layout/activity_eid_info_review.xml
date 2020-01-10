@@ -10,6 +10,8 @@
             type="co.yap.modules.kyc.viewmodels.EidInfoReviewViewModel" />
 
         <import type="co.yap.translation.Strings" />
+
+        <import type="android.view.View" />
     </data>
 
     <LinearLayout
@@ -23,7 +25,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_5sdp"
             android:gravity="center_vertical"
-            android:padding="@dimen/_8sdp">
+            android:padding="@dimen/_8sdp"
+            android:visibility="@{viewModel.parentViewModel.allowSkip? View.VISIBLE :View.GONE}">
 
             <ImageView
                 android:id="@+id/tbBtnBack"
@@ -72,11 +75,10 @@
                     android:layout_marginTop="@dimen/margin_extra_small"
                     android:layout_marginEnd="@dimen/margin_medium"
                     android:gravity="center"
-                    app:concat="@{viewModel.state.titleName}"
+                    android:text="@{viewModel.parentViewModel.name}"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tvTitle"
-                    app:text="@{Strings.screen_b2c_eid_info_review_display_text_sub_title}"
                     tools:text="@string/screen_b2c_eid_info_review_display_text_sub_title" />
 
                 <androidx.cardview.widget.CardView
@@ -86,7 +88,7 @@
                     android:layout_marginStart="@dimen/margin_normal"
                     android:layout_marginTop="@dimen/margin_large"
                     android:layout_marginEnd="@dimen/margin_normal"
-                    app:cardBackgroundColor="?attr/colorPrimaryAttr"
+                    app:cardBackgroundColor="@color/colorPrimary"
                     app:cardCornerRadius="10dp"
                     app:layout_constraintTop_toBottomOf="@+id/tvDetailsVerify">
 
@@ -266,6 +268,7 @@
                     android:layout_marginBottom="@dimen/margin_normal"
                     android:gravity="center"
                     android:onClick="@{(v) -> viewModel.handlePressOnConfirmBtn()}"
+                    app:enableCoreButton="@{viewModel.state.valid}"
                     app:layout_constraintBottom_toTopOf="@+id/tvNoThanks"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
@@ -273,9 +276,7 @@
                     app:layout_constraintVertical_bias="0.75"
                     app:text="@{Strings.screen_b2c_eid_info_review_button_title_confirm}"
                     tools:ignore="MissingConstraints"
-                    tools:text="@string/screen_b2c_eid_info_review_button_title_confirm"
-                    app:enableCoreButton="@{viewModel.state.valid}"
-                    />
+                    tools:text="@string/screen_b2c_eid_info_review_button_title_confirm" />
 
                 <TextView
                     android:id="@+id/tvNoThanks"
@@ -284,7 +285,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/margin_large"
                     android:onClick="@{(v) -> viewModel.handlePressOnRescanBtn()}"
-                    android:textColor="?attr/colorPrimaryAttr"
+                    android:textColor="@color/colorPrimary"
+                    android:visibility="@{viewModel.parentViewModel.allowSkip? View.GONE :View.VISIBLE}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"

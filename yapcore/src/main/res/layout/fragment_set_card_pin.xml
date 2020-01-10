@@ -42,6 +42,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_normal"
             app:dialer_max_length="4"
+            app:dialer_pass_code="passcode"
             app:componentDialerError='@{viewModel.state.dialerError}'
             app:passcodeTextWatcher="@{viewModel.state.getTextWatcher()}"
             app:layout_constraintTop_toBottomOf="@id/tvTitle"/>

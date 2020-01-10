@@ -82,7 +82,8 @@ class InternationalTransactionConfirmationFragment :
                 //viewModel.state.name
                 args.firstName,
                 requireContext().color(
-                    R.color.colorPrimaryDark, Utils.getFormattedCurrency(args.convertedReceivingAmount)
+                    R.color.colorPrimaryDark,
+                    "${Utils.getFormattedCurrency(args.convertedReceivingAmount)} ${args.receivingCurrency}"
                 )
             )
 
@@ -91,7 +92,8 @@ class InternationalTransactionConfirmationFragment :
         viewModel.state.transferFeeDescription =
             resources.getText(
                 getString(Strings.screen_funds_transfer_fee_description), requireContext().color(
-                    R.color.colorPrimaryDark, args.transferFee
+                    R.color.colorPrimaryDark,
+                    "${"AED"} ${Utils.getFormattedCurrency(args.transferFee)}"
                 )
             )
     }

@@ -4,20 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/kyc_navigation"
     app:startDestination="@id/KYCHomeFragment">
-    <argument
-        android:name="name"
-        android:defaultValue=" "
-        app:argType="string" />
-    <action
-        android:id="@+id/action_goto_DashboardActivity"
-        app:destination="@id/DashboardActivity"
-        app:popUpTo="@+id/kyc_navigation"
-        app:popUpToInclusive="true" />
-    <fragment
-        android:id="@+id/informationErrorFragment"
-        android:name="co.yap.modules.kyc.fragments.InformationErrorFragment"
-        android:label="InformationErrorFragment"
-        tools:layout="@layout/fragment_information_error" />
 
     <fragment
         android:id="@+id/KYCHomeFragment"
@@ -30,8 +16,18 @@
         <action
             android:id="@+id/action_KYCHomeFragment_to_AddressSelectionFragment"
             app:destination="@id/AddressSelectionFragment" />
-
     </fragment>
+
+    <argument
+        android:name="name"
+        android:defaultValue=" "
+        app:argType="string" />
+    
+    <fragment
+        android:id="@+id/informationErrorFragment"
+        android:name="co.yap.modules.kyc.fragments.InformationErrorFragment"
+        android:label="InformationErrorFragment"
+        tools:layout="@layout/fragment_information_error" />
     <fragment
         android:id="@+id/eidInfoReviewFragment"
         android:name="co.yap.modules.kyc.fragments.EidInfoReviewFragment"
@@ -97,11 +93,4 @@
             android:defaultValue=" "
             app:argType="string" />
     </fragment>
-
-    <activity
-        android:id="@+id/DashboardActivity"
-        android:name="co.yap.modules.dashboard.main.activities.YapDashboardActivity"
-        android:label="LiteDashboardActivity"
-        tools:layout="@layout/activity_yap_dashboard" />
-
 </navigation>

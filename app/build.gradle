@@ -13,8 +13,8 @@ android {
     productFlavors {
 
         live {
-            versionCode 9
-            versionName "0.13"
+            versionCode 10
+            versionName "0.14"
             resValue "string", "app_name", "YAP"
             buildConfigField("String", "BASE_URL", "\"https://demo.yap.co\"")
         }
@@ -28,16 +28,16 @@ android {
         }
 
         qa {
-            versionCode 36
-            versionName "0.2.6"
+            versionCode 39
+            versionName "0.2.9"
             applicationIdSuffix ".qa"
             buildConfigField("String", "BASE_URL", "\"https://qa.yap.co\"")
             resValue "string", "app_name", "YAP QA"
         }
 
         stg {
-            versionCode 5
-            versionName "0.5"
+            versionCode 10
+            versionName "0.10"
             applicationIdSuffix ".stg"
             buildConfigField("String", "BASE_URL", "\"https://stg.yap.co\"")
             resValue "string", "app_name", "YAP Stage"

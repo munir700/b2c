@@ -217,7 +217,6 @@
         android:label="CardAnalyticsActivity"
         tools:layout="@layout/activity_cards_analytics" />
 
-
     <activity
         android:id="@+id/householdOnboard"
         android:name="co.yap.household.onboarding.OnboardingHouseHoldActivity"
@@ -225,10 +224,10 @@
         tools:layout="@layout/activity_main_house_hold" />
 
     <activity
-        android:id="@+id/householdKYCSuccess"
-        android:name="co.yap.household.onboarding.kycsuccess.KycSuccessActivity"
-        android:label="householdKYCSuccess"
-        tools:layout="@layout/activity_kyc_success" />
+        android:id="@+id/householdOnBoardingExistingYAP"
+        android:name="co.yap.household.onboarding.onboarding.activities.OnBoardingExistingYapActivity"
+        android:label="householdOnboard"
+        tools:layout="@layout/activity_main_house_hold" />
 
 </navigation>
 

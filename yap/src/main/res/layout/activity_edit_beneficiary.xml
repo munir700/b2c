@@ -360,6 +360,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_normal"
                     android:text="@string/screen_add_beneficiary_detail_display_text_transfer_phone"
+                    android:visibility='@{(editBeneficiaryViewModel.state.beneficiary.beneficiaryType.equals("UAEFTS") || editBeneficiaryViewModel.state.beneficiary.beneficiaryType.equals("DOMESTIC")) ? View.GONE : View.VISIBLE }'
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tvSuccessHeading"
@@ -376,6 +377,7 @@
                     android:paddingBottom="16dp"
                     android:singleLine="true"
                     android:text="@={editBeneficiaryViewModel.state.phoneNumber}"
+                    android:visibility='@{(editBeneficiaryViewModel.state.beneficiary.beneficiaryType.equals("UAEFTS") || editBeneficiaryViewModel.state.beneficiary.beneficiaryType.equals("DOMESTIC")) ? View.GONE : View.VISIBLE }'
                     app:countryCode="@{editBeneficiaryViewModel.state.countryCode!=null?PhoneNumberUtilsKt.getCountryCodeForRegion(editBeneficiaryViewModel.state.countryCode):` `}"
                     app:countryName="@{editBeneficiaryViewModel.state.countryCode!=null?editBeneficiaryViewModel.state.countryCode:` `}"
                     app:pse_compoundDrawableHeight="@dimen/_16sdp"
@@ -385,6 +387,29 @@
                     app:pse_space="@dimen/_8sdp"
                     tools:text="322335" />
 
+                <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/Small"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_normal"
+                    android:text="@string/screen_beneficiary_overview_display_text_account_number_iban"
+                    android:visibility='@{(editBeneficiaryViewModel.state.beneficiary.beneficiaryType.equals("UAEFTS") || editBeneficiaryViewModel.state.beneficiary.beneficiaryType.equals("DOMESTIC")) ? View.VISIBLE : View.GONE }'
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvSuccessHeading"
+                    app:text="@{Strings.screen_beneficiary_overview_display_text_account_number_iban}"
+                    app:textColor="@{editBeneficiaryViewModel.state.accountNumber.empty ? true : false}"
+                    tools:text="@string/screen_beneficiary_overview_display_text_account_number_iban" />
+
+                <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/etAccountNumberRMT"
+                    style="@style/Yap.App.Widget.TextInputEditText"
+                    android:digits="1234567890 "
+                    android:imeOptions="actionDone"
+                    android:inputType="number"
+                    android:singleLine="true"
+                    android:text="@={editBeneficiaryViewModel.state.accountNumber}"
+                    android:visibility='@{(editBeneficiaryViewModel.state.beneficiary.beneficiaryType.equals("UAEFTS") || editBeneficiaryViewModel.state.beneficiary.beneficiaryType.equals("DOMESTIC")) ? View.VISIBLE : View.GONE }' />
 
                 <LinearLayout
                     android:id="@+id/llBankDetail"

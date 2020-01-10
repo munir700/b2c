@@ -1,7 +1,6 @@
 package co.yap.household.onboarding.states
 
 import android.app.Application
-import android.graphics.Color
 import androidx.databinding.Bindable
 import androidx.databinding.library.baseAdapters.BR
 import co.yap.household.R
@@ -29,5 +28,11 @@ class OnBoardingState(val application: Application) : BaseState(), IOnboarding.S
         set(value) {
             field = value
             notifyPropertyChanged(BR.currentProgress)
+        }
+    @get:Bindable
+    override var existingYapUser: Boolean? = false
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.existingYapUser)
         }
 }
