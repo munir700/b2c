@@ -53,6 +53,8 @@ import co.yap.yapcore.helpers.dimen
 import co.yap.yapcore.managers.MyUserManager
 import kotlinx.android.synthetic.main.activity_yap_dashboard.*
 import kotlinx.android.synthetic.main.layout_drawer_yap_dashboard.*
+import kotlinx.android.synthetic.main.layout_drawer_yap_dashboard.view.*
+import kotlinx.android.synthetic.main.layout_item_icon_text.view.*
 import net.cachapa.expandablelayout.ExpandableLayout
 
 class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYapDashboard.View,
@@ -453,10 +455,10 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
 
     private fun setAppVersion() {
         try {
-            if (!FLAVOR.equals("live")) {
-                tvVersionCode.text = String.format("Version Code: %d", VERSION_CODE)
+            if (FLAVOR != "live") {
+//                tvVersionCode.text = String.format("Version Code: %d", VERSION_CODE)
                 String.format("Version Name: %s", VERSION_NAME)
-                tvVersionName.text = String.format("Version Name: %s", VERSION_NAME)
+                tvVersionName.text = String.format("Version %s (%s)", VERSION_NAME, VERSION_CODE)
             }
         } catch (e: Exception) {
 

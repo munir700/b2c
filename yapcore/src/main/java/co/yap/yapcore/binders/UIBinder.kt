@@ -29,10 +29,7 @@ import androidx.databinding.*
 import co.yap.networking.cards.responsedtos.Card
 import co.yap.networking.customers.responsedtos.beneficiary.TopUpCard
 import co.yap.translation.Translator
-import co.yap.widgets.CoreButton
-import co.yap.widgets.CoreCircularImageView
-import co.yap.widgets.CoreDialerPad
-import co.yap.widgets.CorePaymentCard
+import co.yap.widgets.*
 import co.yap.yapcore.R
 import co.yap.yapcore.enums.CardDeliveryStatus
 import co.yap.yapcore.enums.CardStatus
@@ -584,6 +581,15 @@ object UIBinder {
     @JvmStatic
     @BindingAdapter("componentDialerError")
     fun setDialerError(view: CoreDialerPad, error: String) {
+        if (null != error && !error.isEmpty()) {
+            view.settingUIForError(error)
+        } else {
+            view.settingUIForNormal()
+        }
+    }
+    @JvmStatic
+    @BindingAdapter("componentDialerError")
+    fun setDialerError(view: CoreDialerPadV2, error: String) {
         if (null != error && !error.isEmpty()) {
             view.settingUIForError(error)
         } else {

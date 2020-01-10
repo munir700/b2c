@@ -12,6 +12,10 @@
         <item name="android:textSize">@dimen/text_size_h6</item>
         <item name="android:textColor">@color/textDarkColor</item>
     </style>
+    <style name="LargeText" parent="AppFontRegular">
+        <item name="android:textSize">@dimen/text_size_h6</item>
+        <item name="android:textColor">@color/textDarkColor</item>
+    </style>
     <style name="NormalText" parent="AppFontRegular">
         <item name="android:textSize">@dimen/text_size_h2</item>
         <item name="android:textColor">@color/textDarkColor</item>

@@ -1,10 +1,7 @@
 package co.yap.widgets
 
 import android.content.Context
-import android.graphics.Bitmap
-import android.graphics.Canvas
-import android.graphics.Paint
-import android.graphics.RectF
+import android.graphics.*
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.util.AttributeSet
@@ -46,7 +43,6 @@ class CoreButton : Button {
     private var rectF: RectF = RectF()
     lateinit var bitmapIcon: Bitmap
 
-
     constructor(context: Context) : super(context)
 
     constructor(context: Context, attrs: AttributeSet) : super(context, attrs) {
@@ -75,6 +71,7 @@ class CoreButton : Button {
         drawable = typedArray.getDrawable(
             R.styleable.CoreButton_btn_drawable
         )
+
         drawablePositionType = typedArray.getInt(R.styleable.CoreButton_btn_drawable_position, 2)
         enableButton = typedArray.getBoolean(R.styleable.CoreButton_btn_enable, enableButton)
         hasBoldText = typedArray.getBoolean(R.styleable.CoreButton_btn_has_bold_text, hasBoldText)
@@ -102,13 +99,23 @@ class CoreButton : Button {
 
         shapeType = typedArray.getInt(R.styleable.CoreButton_btn_shape_type, 1)
         alignmentDistnce =
-            typedArray.getFloat(R.styleable.CoreButton_btn_text_alignment_from_left, alignmentDistnce)
+            typedArray.getFloat(
+                R.styleable.CoreButton_btn_text_alignment_from_left,
+                alignmentDistnce
+            )
 
         drawablePaddingLeft =
-            typedArray.getFloat(R.styleable.CoreButton_btn_drawable_padding_left, defaultDrawablePaddingLeft)
+            typedArray.getFloat(
+                R.styleable.CoreButton_btn_drawable_padding_left,
+                defaultDrawablePaddingLeft
+            )
         drawablePaddingRight =
-            typedArray.getFloat(R.styleable.CoreButton_btn_drawable_padding_right, defaultDrawablePaddingRight)
-        drawablePaddingTop = typedArray.getFloat(R.styleable.CoreButton_btn_drawable_padding_top, drawablePaddingTop)
+            typedArray.getFloat(
+                R.styleable.CoreButton_btn_drawable_padding_right,
+                defaultDrawablePaddingRight
+            )
+        drawablePaddingTop =
+            typedArray.getFloat(R.styleable.CoreButton_btn_drawable_padding_top, drawablePaddingTop)
 
         roundRadius = typedArray.getDimensionPixelSize(
             R.styleable.CoreButton_btn_round_radius,
@@ -154,7 +161,11 @@ class CoreButton : Button {
             bitmap =
                 Bitmap.createBitmap(1, 1, Bitmap.Config.ARGB_8888)
         } else {
-            bitmap = Bitmap.createBitmap(drawable.intrinsicWidth, drawable.intrinsicHeight, Bitmap.Config.ARGB_8888)
+            bitmap = Bitmap.createBitmap(
+                drawable.intrinsicWidth,
+                drawable.intrinsicHeight,
+                Bitmap.Config.ARGB_8888
+            )
         }
 
         val canvas = Canvas(bitmap)
@@ -181,12 +192,16 @@ class CoreButton : Button {
         } else {
             rectF.set(0f, 0f, btnWeight.toFloat(), btnHeight.toFloat())
             canvas.drawRoundRect(rectF, roundRadius.toFloat(), roundRadius.toFloat(), paint)
+
+            val yPos =
+                (canvas.height / 2 - (paintText.descent() + paintText.ascent()) / 2)
             canvas.drawText(
                 text.toString(),
                 (btnWeight / alignmentDistnce).toFloat(),
-                (btnHeight / 1.6).toFloat(),
+                yPos,
                 paintText
             )
+
 
         }
 

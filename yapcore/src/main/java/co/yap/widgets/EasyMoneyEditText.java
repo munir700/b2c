@@ -91,7 +91,7 @@ public class EasyMoneyEditText extends AppCompatEditText {
                     if ( getValueInt()<=0.0) {
                         long val = 0;
                         setText("");
-                        setHint("0.0");
+                        setHint("0.00");
                     }
                     else {
                         setText(formattedString);
