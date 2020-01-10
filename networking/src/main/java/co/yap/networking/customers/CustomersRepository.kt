@@ -80,6 +80,8 @@ object CustomersRepository : BaseRepository(), CustomersApi {
 
     const val URL_VERIFY_HOUSEHOLD_MOBILE = "customers/api/on-board/verify/household-mobile"
     const val URL_VERIFY_PARENT_HOUSEHOLD_MOBILE = "customers/api/verify/parent-mobile-no/household"
+    const val URL_HOUSEHOLD_USER_ONBOARD = "customers/api/on-board/household"
+    const val URL_ADD_HOUSEHOLD_EMAIL = "customers/api/on-board/household-email"
 
     //.................... End region of old projects apis................................................
 
@@ -234,4 +236,9 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     ): RetroApiResponse<ApiResponse> =
         executeSafely(call = { api.verifyHouseholdParentMobile(mobileNumber) })
 
+    override suspend fun onboardHousehold(householdOnboardRequest: HouseholdOnboardRequest): RetroApiResponse<ApiResponse> =
+        executeSafely(call = { api.onboardHouseholdUser(householdOnboardRequest) })
+
+    override suspend fun addHouseholdEmail(addHouseholdEmailRequest: AddHouseholdEmailRequest): RetroApiResponse<ApiResponse> =
+        executeSafely(call = { api.addHouseholdEmail(addHouseholdEmailRequest) })
 }

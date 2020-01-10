@@ -9,7 +9,6 @@ import co.yap.networking.models.ApiResponse
 import co.yap.networking.models.RetroApiResponse
 
 interface CardsApi {
-    /*TODO: Sufyan ***********************/
     suspend fun createCardPin(
         createCardPinRequest: CreateCardPinRequest,
         cardSerialNumber: String
@@ -34,10 +33,6 @@ interface CardsApi {
         addPhysicalSpareCardRequest: AddPhysicalSpareCardRequest
     ): RetroApiResponse<ApiResponse>
 
-    /*TODO :===========================*/
-
-    /*TODO: Mirza Adil ********************************/
-
     suspend fun getUserAddressRequest(): RetroApiResponse<ApiResponse>
     suspend fun getCardBalance(cardSerialNumber: String): RetroApiResponse<CardBalanceResponseDTO>
     suspend fun freezeUnfreezeCard(cardLimitConfigRequest: CardLimitConfigRequest): RetroApiResponse<ApiResponse>
@@ -55,5 +50,4 @@ interface CardsApi {
         cardSerialNumber: String,
         forgotCardPin: ForgotCardPin
     ): RetroApiResponse<ApiResponse>
-    /*TODO: ================Done====================*/
 }

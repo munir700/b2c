@@ -17,7 +17,7 @@ interface CustomersRetroService {
 
     // User sign up request
     @POST(CustomersRepository.URL_SIGN_UP)
-    suspend fun signUp(@Body ignUpRequest: SignUpRequest): Response<SignUpResponse>
+    suspend fun signUp(@Body signUpRequest: SignUpRequest): Response<SignUpResponse>
 
     // In onboarding send verification email to verify uer
     @POST(CustomersRepository.URL_SEND_VERIFICATION_EMAIL)
@@ -142,6 +142,12 @@ interface CustomersRetroService {
 
     @POST(CustomersRepository.URL_VERIFY_PARENT_HOUSEHOLD_MOBILE)
     suspend fun verifyHouseholdParentMobile(@Query("mobileNo") mobileNumber: String): Response<ApiResponse>
+
+    @POST(CustomersRepository.URL_HOUSEHOLD_USER_ONBOARD)
+    suspend fun onboardHouseholdUser(@Body householdOnboardRequest: HouseholdOnboardRequest): Response<ApiResponse>
+
+    @POST(CustomersRepository.URL_ADD_HOUSEHOLD_EMAIL)
+    suspend fun addHouseholdEmail(@Body addHouseholdEmailRequest: AddHouseholdEmailRequest): Response<ApiResponse>
 
 
 }
