@@ -12,8 +12,10 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import co.yap.yapcore.helpers.Utils
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import com.google.android.material.navigation.NavigationView
 
 fun ImageView.loadImage(path: String, requestOptions: RequestOptions) {
     Glide.with(this)
@@ -98,5 +100,12 @@ fun View?.hideKeyboard() {
         val imm =
             this.context.getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
         imm?.hideSoftInputFromWindow(v.windowToken, 0)
+    }
+}
+
+fun NavigationView?.navViewWidth(percent: Int) {
+    this?.let {
+        val params = it.layoutParams
+        params.width = Utils.getDimensionInPercent(it.context, true, percent)
     }
 }

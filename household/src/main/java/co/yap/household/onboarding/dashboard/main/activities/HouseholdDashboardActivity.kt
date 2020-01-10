@@ -13,6 +13,7 @@ import co.yap.household.onboarding.dashboard.main.viewmodels.HouseholdDashboardV
 import co.yap.yapcore.BR
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.IFragmentHolder
+import co.yap.yapcore.helpers.extentions.navViewWidth
 import kotlinx.android.synthetic.main.activity_household_dashboard.*
 
 class HouseholdDashboardActivity : BaseBindingActivity<IHouseholdDashboard.ViewModel>(),
@@ -25,6 +26,7 @@ class HouseholdDashboardActivity : BaseBindingActivity<IHouseholdDashboard.ViewM
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        getViewBinding().drawerNav.navViewWidth(85)
         setupPager()
     }
 
