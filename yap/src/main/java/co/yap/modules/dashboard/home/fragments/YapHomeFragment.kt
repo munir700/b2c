@@ -154,9 +154,10 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                 }
                 R.id.ivMenu -> parentView?.toggleDrawer()
                 R.id.rlFilter -> {
-                    if (null != viewModel.transactionsLiveData.value && viewModel.transactionsLiveData.value!!.isEmpty() && homeTransactionsRequest.totalAppliedFilter == 0) {
+                    if (null != viewModel.transactionsLiveData.value && viewModel.transactionsLiveData.value?.isEmpty() == true && homeTransactionsRequest.totalAppliedFilter == 0 || viewModel.state.isTransEmpty.get() == true) {
                         if (PartnerBankStatus.ACTIVATED.status == MyUserManager.user?.partnerBankStatus)
-                            showErrorSnackBar("No Transactions Found")
+
+//                            showErrorSnackBar("No Transactions Found")
                         return@Observer
                     } else {
                         if (PartnerBankStatus.ACTIVATED.status == MyUserManager.user?.partnerBankStatus)
@@ -218,9 +219,11 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                 getRecycleViewAdaptor()?.addList(listToAppend)
             } else {
                 if (it.isEmpty()) {
+                    viewModel.state.isTransEmpty.set(true)
                     ivNoTransaction.visibility = View.VISIBLE
                     rvTransaction.visibility = View.GONE
                 } else {
+                    viewModel.state.isTransEmpty.set(false)
                     getRecycleViewAdaptor()?.setList(it)
                     getGraphRecycleViewAdapter()?.setList(it)
                     transactionViewHelper?.setTooltipOnZero()
