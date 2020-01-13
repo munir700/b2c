@@ -7,9 +7,12 @@
 
         <import type="co.yap.translation.Strings" />
 
+
         <variable
             name="viewModel"
             type="co.yap.modules.dashboard.store.household.viewmodels.SubscriptionSelectionViewModel" />
+
+        <import type="android.view.View" />
 
     </data>
 
@@ -249,14 +252,15 @@
                             android:layout_marginTop="@dimen/small"
                             android:background="@drawable/round_light_gery_background"
                             android:gravity="center"
-                            android:text="@string/screen_yap_house_hold_subscription_selection_display_text_saving"
+                            android:text="@{viewModel.state.planDiscount}"
                             android:textColor="?attr/colorPrimaryAttr"
                             android:textSize="@dimen/_9sdp"
+                            android:visibility="@{viewModel.state.planDiscount.equals(``)?View.INVISIBLE:View.VISIBLE}"
                             app:btn_unpressed_color="@color/disabledLight"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@+id/cardView"
-                            app:text="@{Strings.screen_yap_house_hold_subscription_selection_display_text_saving}" />
+                            tools:text="@{Strings.screen_yap_house_hold_subscription_selection_display_text_saving}" />
 
 
                         <TextView

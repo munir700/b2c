@@ -132,5 +132,7 @@ interface TransactionsRetroService {
     @POST(TransactionsRepository.URL_SWIFT_TRANSFER)
     suspend fun swiftTransferRequest(@Body swiftTransactionRequestDTO: SwiftTransactionRequestDTO): Response<SendMoneyTransactionResponseDTO>
 
+    @GET(TransactionsRepository.URL_HOUSEHOLD_CARD_FEE_PACKAGE)
+    suspend fun getHousholdFeePackage(@Path("pkg-type") packageType: String): Response<CardFeeResponse>
 
 }

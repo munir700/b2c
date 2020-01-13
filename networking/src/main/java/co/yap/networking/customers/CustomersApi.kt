@@ -64,7 +64,7 @@ interface CustomersApi {
         mobileNumber: String
     ): RetroApiResponse<ApiResponse>
 
-    suspend fun onboardHousehold(householdOnboardRequest: HouseholdOnboardRequest): RetroApiResponse<ApiResponse>
+    suspend fun onboardHousehold(householdOnboardRequest: HouseholdOnboardRequest): RetroApiResponse<HouseholdOnBoardingResponse>
     suspend fun addHouseholdEmail(addHouseholdEmailRequest: AddHouseholdEmailRequest): RetroApiResponse<ApiResponse>
 
 }

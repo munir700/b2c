@@ -35,9 +35,12 @@ class HouseHoldUserContactFragment : BaseOnBoardingFragment<IHouseHoldUserContac
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
                 R.id.btnNext -> {
-                    findNavController().navigate(R.id.action_houseHoldUserContactFragment_to_HHConfirmPaymentFragment)
+                    viewModel.verifyMobileNumber()
                 }
             }
+        })
+        viewModel.verifyMobileSuccess.observe(this, Observer {
+            if (it) findNavController().navigate(R.id.action_houseHoldUserContactFragment_to_HHConfirmPaymentFragment)
         })
     }
 
@@ -49,6 +52,7 @@ class HouseHoldUserContactFragment : BaseOnBoardingFragment<IHouseHoldUserContac
 
     override fun onDestroy() {
         viewModel.clickEvent.removeObservers(this)
+        viewModel.verifyMobileSuccess.removeObservers(this)
         super.onDestroy()
     }
 }

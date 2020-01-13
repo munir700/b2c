@@ -17,7 +17,10 @@ class HouseHoldOnboardingViewModel(application: Application) :
     override var lastName: String = ""
     override var username: String = ""
     override var userMobileNo: String = ""
+    override var countryCode: String = "00971"
+    override var tempPasscode: String = "0000"
     override var selectedPlanType: HouseHoldPlan = HouseHoldPlan()
+    override var plansList: ArrayList<HouseHoldPlan> = ArrayList()
     override fun handlePressOnBackButton() {
         backButtonPressEvent.value = true
     }

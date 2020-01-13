@@ -14,8 +14,8 @@ import co.yap.modules.dashboard.cards.addpaymentcard.spare.SpareCardsLandingAdap
 import co.yap.modules.dashboard.store.household.interfaces.IHouseHoldSubscription
 import co.yap.modules.dashboard.store.household.onboarding.HouseHoldOnboardingActivity
 import co.yap.modules.dashboard.store.household.viewmodels.SubscriptionSelectionViewModel
-import co.yap.translation.Translator
 import co.yap.networking.household.responsedtos.HouseHoldPlan
+import co.yap.translation.Translator
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.interfaces.OnItemClickListener
@@ -66,20 +66,24 @@ class SubscriptionSelectionActivity :
                     viewModel.state.hasSelectedPackage = true
                     llMonthlySubscription.isActivated = false
                     llAnnualSubscription.isActivated = true
-                    selectedPlan =
-                        HouseHoldPlan(type = "Yearly", amount = "720.00", discount = 25.00)
+                    selectedPlan = viewModel.plansList[1]
                 }
 
                 R.id.llMonthlySubscription -> {
                     viewModel.state.hasSelectedPackage = true
                     llMonthlySubscription.isActivated = true
                     llAnnualSubscription.isActivated = false
-
-                    selectedPlan = HouseHoldPlan(type = "Monthly", amount = "59.99")
+                    selectedPlan = viewModel.plansList[0]
                 }
 
                 R.id.btnGetStarted -> {
-                    confirmationDialog()
+                    startActivity(
+                        HouseHoldOnboardingActivity.newIntent(
+                            this@SubscriptionSelectionActivity,
+                            selectedPlan, viewModel.plansList
+                        )
+                    )
+                    //confirmationDialog()
                 }
 
                 R.id.imgClose -> {
@@ -105,7 +109,7 @@ class SubscriptionSelectionActivity :
                 override fun onItemClick(view: View, data: Any, pos: Int) {
                     if (data is Boolean) {
                         if (data) {
-                            startActivity(HouseHoldOnboardingActivity.newIntent(this@SubscriptionSelectionActivity, selectedPlan))
+                            // startActivity(HouseHoldOnboardingActivity.newIntent(this@SubscriptionSelectionActivity, selectedPlan))
                         }
                     }
                 }

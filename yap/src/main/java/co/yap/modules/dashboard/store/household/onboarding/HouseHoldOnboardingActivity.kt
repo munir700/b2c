@@ -24,9 +24,15 @@ class HouseHoldOnboardingActivity : BaseBindingActivity<IBaseOnboarding.ViewMode
 
     companion object {
         private const val SELECTED_PLAN = "selected_plan"
-        fun newIntent(context: Context, selectedPlan: HouseHoldPlan? = null): Intent {
+        private const val PLANS_LIST = "plans_list"
+        fun newIntent(
+            context: Context,
+            selectedPlan: HouseHoldPlan? = null,
+            plansList: ArrayList<HouseHoldPlan>
+        ): Intent {
             val intent = Intent(context, HouseHoldOnboardingActivity::class.java)
             intent.putExtra(SELECTED_PLAN, selectedPlan)
+            intent.putExtra(PLANS_LIST, plansList)
             return intent
         }
     }
@@ -51,18 +57,24 @@ class HouseHoldOnboardingActivity : BaseBindingActivity<IBaseOnboarding.ViewMode
     }
 
     private fun getIntentData() {
-        if (intent != null && intent.hasExtra(SELECTED_PLAN)) {
-            val householdPlan: HouseHoldPlan? =
-                intent.getParcelableExtra<HouseHoldPlan?>(SELECTED_PLAN)
-            if (householdPlan != null) {
-                viewModel.selectedPlanType = householdPlan
+        if (intent != null) {
+            if (intent.hasExtra(SELECTED_PLAN)) {
+                val householdPlan: HouseHoldPlan? =
+                    intent.getParcelableExtra<HouseHoldPlan?>(SELECTED_PLAN)
+                if (householdPlan != null) {
+                    viewModel.selectedPlanType = householdPlan
+                } else {
+                    showToast("Please Select Plan")
+                    finish()
+                }
             } else {
                 showToast("Please Select Plan")
                 finish()
             }
-        } else {
-            showToast("Please Select Plan")
-            finish()
+            if (intent.hasExtra(PLANS_LIST)) {
+                val plans = intent.getSerializableExtra(PLANS_LIST) as ArrayList<HouseHoldPlan>
+                viewModel.plansList.addAll(plans)
+            }
         }
     }
 

@@ -6,17 +6,35 @@ import co.yap.modules.dashboard.cards.addpaymentcard.models.BenefitsModel
 import co.yap.modules.dashboard.store.household.interfaces.IHouseHoldSubscription
 import co.yap.modules.dashboard.store.household.states.HouseHoldSubscriptionState
 import co.yap.modules.onboarding.models.WelcomeContent
+import co.yap.networking.household.responsedtos.HouseHoldPlan
+import co.yap.networking.interfaces.IRepositoryHolder
+import co.yap.networking.models.RetroApiResponse
+import co.yap.networking.transactions.TransactionsRepository
 import co.yap.translation.Strings
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
+import co.yap.yapcore.enums.PackageType
+import kotlinx.coroutines.withContext
+import kotlin.system.measureTimeMillis
 
 class SubscriptionSelectionViewModel(application: Application) :
     BaseViewModel<IHouseHoldSubscription.State>(application),
-    IHouseHoldSubscription.ViewModel {
+    IHouseHoldSubscription.ViewModel, IRepositoryHolder<TransactionsRepository> {
 
+    override val repository: TransactionsRepository = TransactionsRepository
     override val clickEvent: SingleClickEvent = SingleClickEvent()
-    override var benefitsList: ArrayList<BenefitsModel> = ArrayList<BenefitsModel>()
+    override var benefitsList: ArrayList<BenefitsModel> = ArrayList()
+    override var plansList: ArrayList<HouseHoldPlan> = ArrayList()
     override val state: HouseHoldSubscriptionState = HouseHoldSubscriptionState()
+    var monthlyFee: Double? = 0.0
+    var yearlyFee: Double? = 0.0
+
+    override fun onCreate() {
+        super.onCreate()
+//        getPackageFee(PackageType.MONTHLY.type)
+//        getPackageFee(PackageType.YEARLY.type)
+        aysuctest()
+    }
 
     override fun handlePressOnCloseIcon(id: Int) {
         clickEvent.setValue(id)
@@ -84,6 +102,84 @@ class SubscriptionSelectionViewModel(application: Application) :
 
 
         return benefitsModelList
+    }
+
+    override fun getPackageFee(type: String) {
+        launch {
+            when (val response = repository.getHousholdFeePackage(type)) {
+                is RetroApiResponse.Success -> {
+                    when (type) {
+                        PackageType.MONTHLY.type -> {
+                            monthlyFee = response.data.data?.amount?.toDoubleOrNull()
+                            state.monthlyFee =
+                                response.data.data?.currency + " " + response.data.data?.amount
+                            plansList.add(
+                                HouseHoldPlan(
+                                    type = type,
+                                    amount = state.monthlyFee
+                                )
+                            )
+                        }
+                        PackageType.YEARLY.type -> {
+                            yearlyFee = response.data.data?.amount?.toDoubleOrNull()
+                            state.annuallyFee =
+                                response.data.data?.currency + " " + response.data.data?.amount
+                            plansList.add(
+                                HouseHoldPlan(
+                                    type = "Yearly",
+                                    amount = state.annuallyFee,
+                                    discount = getDiscount()
+                                )
+                            )
+                        }
+                    }
+                }
+                is RetroApiResponse.Error -> {
+                    state.toast = response.error.message
+                }
+            }
+        }
+        state.loading = false
+    }
+
+    private fun aysuctest() {
+        state.loading = true
+        launch {
+            val time = measureTimeMillis {
+                withContext(viewModelBGScope.coroutineContext) {
+                    getPackageFee(
+                        PackageType.MONTHLY.type
+                    )
+                }
+                withContext(viewModelBGScope.coroutineContext) {
+                    getPackageFee(
+                        PackageType.YEARLY.type
+                    )
+                }
+                state.loading = false
+
+            }
+
+            println("timesssss-----$time")
+        }
+
+    }
+
+    private fun getDiscount(): Int? {
+        var discountPercent: Int? = null
+        monthlyFee?.let { monthlyAmt ->
+            val actualYearlyAmount = monthlyAmt.times(12)
+            yearlyFee?.let { yearlyAmt ->
+                val discountPrice = actualYearlyAmount - yearlyAmt
+                discountPercent = (discountPrice / actualYearlyAmount).times(100).toInt()
+                state.planDiscount =
+                    getString(Strings.screen_yap_house_hold_subscription_selection_display_text_saving).format(
+                        "${discountPercent.toString()} %"
+                    )
+                return discountPercent
+            }
+        }
+        return discountPercent
     }
 
 }

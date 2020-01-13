@@ -9,7 +9,6 @@ interface IHouseHoldUserInfo {
     interface State : IBase.State {
         var firstName: String
         var lastName: String
-        var emailAddress: String
         var valid: Boolean
 
         var firstNameError: String
@@ -18,16 +17,11 @@ interface IHouseHoldUserInfo {
         var drawbleRightLastName: Drawable?
         var drawbleRightFirstName: Drawable?
 
-        var email: String
-        var emailError: String
-
         //textwatcher
         var cursorPlacement: Boolean
         var refreshField: Boolean
         var setSelection: Int
         var handleBackPress: Int
-        var emailVerificationTitle: String
-        var emailBtnTitle: String
         var twoWayTextWatcher: String
         var deactivateField: Boolean
 
