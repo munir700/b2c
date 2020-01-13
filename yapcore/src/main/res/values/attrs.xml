@@ -12,6 +12,8 @@
     <attr name="colorPrimaryDisabledBtnAttr" format="reference" />
     <attr name="colorPressedBtnStateAttr" format="reference" />
     <attr name="colordisabledTick" format="reference" />
+    <attr name="colorSeekBar" format="reference" />
+
     <attr name="primaryButtonTheme" format="reference" />
 
 

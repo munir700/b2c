@@ -100,6 +100,7 @@
     <color name="colorDisabledBtnHouseHold">#FDB1A9</color>
     <color name="colorPressedBtnStateHouseHold">#ff3b30</color>
     <color name="colordisabledTickHouseHold">#FC6253</color>
+    <color name="seekbarProgresskHouseHold">#FFE3E0</color>
 
     <color name="grey88848d">#c9c8d8</color>
 
