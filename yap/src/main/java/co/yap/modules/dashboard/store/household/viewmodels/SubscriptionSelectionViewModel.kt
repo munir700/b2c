@@ -14,8 +14,7 @@ import co.yap.translation.Strings
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.enums.PackageType
-import kotlinx.coroutines.withContext
-import kotlin.system.measureTimeMillis
+import kotlinx.coroutines.async
 
 class SubscriptionSelectionViewModel(application: Application) :
     BaseViewModel<IHouseHoldSubscription.State>(application),
@@ -31,9 +30,9 @@ class SubscriptionSelectionViewModel(application: Application) :
 
     override fun onCreate() {
         super.onCreate()
-//        getPackageFee(PackageType.MONTHLY.type)
-//        getPackageFee(PackageType.YEARLY.type)
-        aysuctest()
+        getPackageFee(PackageType.MONTHLY.type)
+        getPackageFee(PackageType.YEARLY.type)
+//        aysuctest()
     }
 
     override fun handlePressOnCloseIcon(id: Int) {
@@ -139,31 +138,26 @@ class SubscriptionSelectionViewModel(application: Application) :
                 }
             }
         }
-        state.loading = false
     }
-
-    private fun aysuctest() {
-        state.loading = true
-        launch {
-            val time = measureTimeMillis {
-                withContext(viewModelBGScope.coroutineContext) {
-                    getPackageFee(
-                        PackageType.MONTHLY.type
-                    )
-                }
-                withContext(viewModelBGScope.coroutineContext) {
-                    getPackageFee(
-                        PackageType.YEARLY.type
-                    )
-                }
-                state.loading = false
-
-            }
-
-            println("timesssss-----$time")
-        }
-
-    }
+//
+//    private fun aysuctest() {
+//        launch {
+//            state.loading = true
+//            val monthly = viewModelBGScope.async {
+//                getPackageFee(
+//                    PackageType.MONTHLY.type
+//                )
+//            }
+//            val yearly = viewModelBGScope.async {
+//                getPackageFee(
+//                    PackageType.YEARLY.type
+//                )
+//            }
+//
+//            state.loading = false
+//        }
+//
+//    }
 
     private fun getDiscount(): Int? {
         var discountPercent: Int? = null
