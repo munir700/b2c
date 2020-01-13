@@ -10,6 +10,9 @@ import co.yap.BR
 import co.yap.R
 import co.yap.modules.dashboard.store.household.onboarding.interfaces.IHouseHoldSuccess
 import co.yap.modules.dashboard.store.household.onboarding.viewmodels.HouseHoldSuccessViewModel
+import co.yap.translation.Strings
+import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.managers.MyUserManager
 
 class HouseHoldSuccessFragment : BaseOnBoardingFragment<IHouseHoldSuccess.ViewModel>(),
     IHouseHoldSuccess.View {
@@ -18,7 +21,7 @@ class HouseHoldSuccessFragment : BaseOnBoardingFragment<IHouseHoldSuccess.ViewMo
 
     override fun getLayoutId(): Int = R.layout.fragment_house_hold_success
 
-    override val viewModel: IHouseHoldSuccess.ViewModel
+    override val viewModel: HouseHoldSuccessViewModel
         get() = ViewModelProviders.of(this).get(HouseHoldSuccessViewModel::class.java)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -69,8 +72,13 @@ class HouseHoldSuccessFragment : BaseOnBoardingFragment<IHouseHoldSuccess.ViewMo
     }
 
     private fun getBody(): String {
-        return "Email:\n ${viewModel.state.houseHoldUserEmail}\n" +
-                "PassCode:\n ${viewModel.state.houseHoldUserPassCode}"
+        return getString(Strings.screen_yap_house_hold_confirm_payment_share_text).format(
+            viewModel.parentViewModel?.firstName,
+            MyUserManager.user?.currentCustomer?.firstName,
+            viewModel.parentViewModel?.userMobileNo,
+            viewModel.parentViewModel?.tempPasscode,
+            Constants.URL_SHARE_APP_STORE,
+            Constants.URL_SHARE_PLAY_STORE
+        )
     }
-
 }

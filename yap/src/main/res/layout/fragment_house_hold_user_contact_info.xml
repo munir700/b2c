@@ -15,7 +15,6 @@
             type="co.yap.modules.dashboard.store.household.onboarding.viewmodels.HouseHoldUserContactViewModel" />
     </data>
 
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -35,12 +34,11 @@
             android:paddingRight="@dimen/margin_medium"
             android:text="@string/screen_yap_house_hold_user_info_contact_display_text_heading"
             android:textSize="@dimen/_18sdp"
+            app:concatVal="@{viewModel.parentViewModel.firstName}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:textVal="@{Strings.screen_yap_house_hold_user_info_contact_display_text_heading}"
-            app:concatVal="@{viewModel.parentViewModel.firstName}"
-            />
+            app:textVal="@{Strings.screen_yap_house_hold_user_info_contact_display_text_heading}" />
 
 
         <LinearLayout
