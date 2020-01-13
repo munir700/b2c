@@ -15,4 +15,5 @@ class YapHomeState : BaseState(), IYapHome.State{
             notifyPropertyChanged(BR.availableBalance)
         }
     override var filterCount: ObservableField<Int> = ObservableField()
+    override var isTransEmpty: ObservableField<Boolean> = ObservableField(true)
 }
