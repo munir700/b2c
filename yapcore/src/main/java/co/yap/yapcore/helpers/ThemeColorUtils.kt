@@ -127,4 +127,15 @@ object ThemeColorUtils {
     }
 
 
+    fun colorPressedBtnStateAttribute(context: Context): Int {
+        return TypedValue().also {
+            context.theme.resolveAttribute(
+                R.attr.colorPressedBtnStateAttr,
+                it,
+                true
+            )
+        }.resourceId
+    }
+
+
 }

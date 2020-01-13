@@ -16,6 +16,7 @@
         <item name="colorPrimaryAltAttr">@color/colorPrimaryAlt</item>
         <item name="colorPrimarySoftAttr">@color/colorPrimarySoft</item>
         <item name="colorPrimaryDisabledBtnAttr">@color/colorDisabledBtn</item>
+        <item name="colorPressedBtnStateAttr">@color/colorPressedBtnState</item>
     </style>
 
     <style name="AppThemeHouseHold" parent="Theme.AppCompat.Light.NoActionBar">
@@ -34,6 +35,8 @@
         <item name="colorPrimaryAltAttr">@color/colorDisabledBtnHouseHold</item>
         <item name="colorPrimarySoftAttr">@color/colorPrimarySoftHouseHold</item>
         <item name="colorPrimaryDisabledBtnAttr">@color/colorDisabledBtnHouseHold</item>
+        <item name="colorPressedBtnStateAttr">@color/colorPressedBtnStateHouseHold</item>
+
 
     </style>
 

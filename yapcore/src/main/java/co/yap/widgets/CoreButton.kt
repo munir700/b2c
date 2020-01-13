@@ -90,13 +90,14 @@ class CoreButton : Button {
             )
             pressedColor = typedArray.getColor(
                 R.styleable.CoreButton_btn_pressed_color,
-                ThemeColorUtils.colorPrimaryAttribute(context)
+                ThemeColorUtils.colorPressedBtnStateAttribute(context)
             )
 
         } else {
-            defaultStateColor =  resources.getColor(R.color.greyLight)
+            defaultStateColor = ThemeColorUtils.colorPrimaryDisabledBtnAttribute(context)
+//            defaultStateColor =  resources.getColor(R.color.greyLight)
 
-            pressedColor = resources.getColor(R.color.greyLight)
+            pressedColor = ThemeColorUtils.colorPrimaryDisabledBtnAttribute(context)
         }
 
         shapeType = typedArray.getInt(R.styleable.CoreButton_btn_shape_type, 1)
@@ -259,13 +260,14 @@ class CoreButton : Button {
     fun enableButton(enable: Boolean) {
 
         if (!enable) {
-            defaultStateColor = resources.getColor(R.color.greyLight)
-            pressedColor = ThemeColorUtils.colorPrimaryAttribute(context)
+//            defaultStateColor = resources.getColor(R.color.greyLight)
+            defaultStateColor = ThemeColorUtils.colorPrimaryDisabledBtnAttribute(context)
+            pressedColor = ThemeColorUtils.colorPressedBtnStateAttribute(context)
             paint.color = defaultStateColor
             invalidate()
         } else {
             defaultStateColor = ThemeColorUtils.colorPrimaryAttribute(context)
-            pressedColor = ThemeColorUtils.colorPrimaryAttribute(context)
+            pressedColor = ThemeColorUtils.colorPressedBtnStateAttribute(context)
             paint.color = defaultStateColor
             invalidate()
         }
