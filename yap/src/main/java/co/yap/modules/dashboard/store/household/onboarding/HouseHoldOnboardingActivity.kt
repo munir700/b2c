@@ -1,5 +1,6 @@
 package co.yap.modules.dashboard.store.household.onboarding
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -12,6 +13,7 @@ import co.yap.modules.dashboard.store.household.onboarding.viewmodels.HouseHoldO
 import co.yap.networking.household.responsedtos.HouseHoldPlan
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.IFragmentHolder
+import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.defaults.DefaultNavigator
 import co.yap.yapcore.defaults.INavigator
 import co.yap.yapcore.interfaces.BackPressImpl
@@ -65,11 +67,11 @@ class HouseHoldOnboardingActivity : BaseBindingActivity<IBaseOnboarding.ViewMode
                     viewModel.selectedPlanType = householdPlan
                 } else {
                     showToast("Please Select Plan")
-                    finish()
+                    setIntentResult(true)
                 }
             } else {
                 showToast("Please Select Plan")
-                finish()
+                setIntentResult(true)
             }
             if (intent.hasExtra(PLANS_LIST)) {
                 val plans = intent.getSerializableExtra(PLANS_LIST) as ArrayList<HouseHoldPlan>
@@ -94,6 +96,13 @@ class HouseHoldOnboardingActivity : BaseBindingActivity<IBaseOnboarding.ViewMode
             super.onBackPressed()
 
         }
+    }
+
+    private fun setIntentResult(shouldFinished: Boolean) {
+        val intent = Intent()
+        intent.putExtra(RequestCodes.REQUEST_CODE_FINISH, shouldFinished)
+        setResult(Activity.RESULT_OK, intent)
+        finish()
     }
 
 }

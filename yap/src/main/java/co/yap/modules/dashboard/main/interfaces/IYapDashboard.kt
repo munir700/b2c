@@ -17,6 +17,7 @@ interface IYapDashboard {
         var ibanNo: String
         var availableBalance: String
         var userNameImage: ObservableField<String>
+        var appVersion: ObservableField<String>
 
     }
 
