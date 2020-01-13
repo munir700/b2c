@@ -58,9 +58,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/_3sdp"
-                android:background="@color/disabledTickColor"
+                android:background="?attr/colordisabledTick"
                 android:padding="@dimen/_5sdp"
-                app:backgroundTint="@color/disabledTickColor"
+                app:backgroundTint="?attr/colordisabledTick"
                 app:elevation="@dimen/_4sdp"
                 app:srcCompat="@drawable/ic_yap_it_household" />
 

@@ -10,14 +10,19 @@
     <attr name="colorPrimaryAltAttr" format="reference" />
     <attr name="colorPrimarySoftAttr" format="reference" />
     <attr name="colorPrimaryDisabledBtnAttr" format="reference" />
+    <attr name="colorPressedBtnStateAttr" format="reference" />
+    <attr name="colordisabledTick" format="reference" />
+    <attr name="colorSeekBar" format="reference" />
+
+    <attr name="primaryButtonTheme" format="reference" />
 
 
     <declare-styleable name="CoreButton">
         <attr name="btn_text_color" format="color" />
         <attr name="btn_drawable" format="reference" />
         <attr name="btn_text_size" format="dimension" />
-        <attr name="btn_pressed_color" format="color" />
-        <attr name="btn_unpressed_color" format="color" />
+        <attr name="btn_pressed_color" format="reference" />
+        <attr name="btn_unpressed_color" format="reference" />
         <attr name="btn_round_radius" format="dimension" />
         <attr name="btn_drawable_padding_top" format="float" />
         <attr name="btn_drawable_padding_right" format="float" />

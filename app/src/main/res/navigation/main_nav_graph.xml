@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_nav_graph"
     app:startDestination="@id/splashFragment">
+<!--    app:startDestination="@id/loginFragment">-->
 
     <action
         android:id="@+id/action_goto_yapDashboardActivity"
