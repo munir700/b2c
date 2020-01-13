@@ -55,11 +55,12 @@
         <co.yap.widgets.CoreDialerPadV2
             android:id="@+id/dialer"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:layout_marginTop="@dimen/margin_normal"
             app:componentDialerError='@{createPasscodeViewModel.state.dialerError}'
+            app:dialer_pass_code="passcode"
+            app:layout_constraintBottom_toTopOf="@+id/clTermsAndConditions"
             app:layout_constraintTop_toBottomOf="@id/tvPasscodeTitle" />
-
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/clTermsAndConditions"
@@ -74,7 +75,6 @@
                 android:id="@+id/tvTermsAndConditionsTitle"
                 style="@style/AMicroGrey"
                 android:layout_width="match_parent"
-
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:textAlignment="center"
@@ -90,6 +90,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
+                android:onClick="@{(v) -> createPasscodeViewModel.handlePressOnCreatePasscodeButton(v.id)}"
+                android:padding="@dimen/_3sdp"
                 android:textAlignment="center"
                 android:textColor="?attr/colorPrimaryAttr"
                 app:layout_constraintLeft_toLeftOf="parent"
@@ -114,7 +116,6 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/clTermsAndConditions"
             app:text="@{Strings.screen_create_passcode_button_create_passcode}"
             tools:ignore="MissingConstraints"
             tools:text="@string/screen_create_passcode_button_create_passcode" />

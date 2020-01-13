@@ -13,14 +13,16 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.household.BR
 import co.yap.household.R
+import co.yap.household.onboarding.dashboard.main.activities.HouseholdDashboardActivity
 import co.yap.household.onboarding.fragments.OnboardingChildFragment
+import co.yap.household.onboarding.onboarding.activities.EIDNotAcceptedActivity
 import co.yap.household.onboarding.onboarding.interfaces.INewUserSuccess
 import co.yap.household.onboarding.onboarding.viewmodels.NewUserSuccessViewModel
 import co.yap.modules.kyc.activities.DocumentsDashboardActivity
-import co.yap.translation.Strings
-import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.helpers.AnimationUtils
+import co.yap.yapcore.helpers.extentions.ExtraType
+import co.yap.yapcore.helpers.extentions.getValue
 import kotlinx.android.synthetic.main.fragment_new_user_success.*
 import kotlinx.coroutines.delay
 
@@ -62,7 +64,49 @@ class NewUserSuccessFragment :
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK) {
             if (requestCode == RequestCodes.REQUEST_KYC_DOCUMENTS) {
+                data?.let {
+                    val success =
+                        data.getValue(
+                            DocumentsDashboardActivity.result,
+                            ExtraType.BOOLEAN.name
+                        ) as? Boolean
+                    val skipped =
+                        data.getValue(
+                            DocumentsDashboardActivity.skipped,
+                            ExtraType.BOOLEAN.name
+                        ) as? Boolean
 
+                    success?.let {
+                        if (it) {
+                            startActivity(
+                                HouseHoldCardsSelectionActivity.newIntent(
+                                    requireContext(),
+                                    false
+                                )
+                            )
+                            activity?.finish()
+                        } else {
+                            skipped?.let { skip ->
+                                if (skip) {
+                                    startActivity(
+                                        Intent(
+                                            requireContext(),
+                                            HouseholdDashboardActivity::class.java
+                                        )
+                                    )
+                                } else {
+                                    startActivity(
+                                        Intent(
+                                            requireContext(),
+                                            EIDNotAcceptedActivity::class.java
+                                        )
+                                    )
+                                }
+                            }
+                        }
+                    }
+
+                }
             }
         }
     }

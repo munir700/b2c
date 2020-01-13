@@ -6,27 +6,11 @@
     app:startDestination="@id/splashFragment">
 <!--    app:startDestination="@id/loginFragment">-->
 
-    <!--    app:startDestination="@id/splashFragment">-->
-
-    <!--    <include app:graph="@navigation/unverified_change_email_navigation" />-->
-    <!--    <action-->
-    <!--        android:id="@+id/action_goto_liteDashboardActivity"-->
-    <!--        app:destination="@id/liteDashboardActivity"-->
-    <!--        app:popUpTo="@+id/main_nav_graph"-->
-    <!--        app:popUpToInclusive="true" />-->
-    <!--    <include app:graph="@navigation/unverified_change_email_navigation" />-->
-    <!--    <action
-            android:id="@+id/action_goto_liteDashboardActivity"
-            app:destination="@id/liteDashboardActivity"
-            app:popUpTo="@+id/main_nav_graph"
-            app:popUpToInclusive="true" />-->
-
     <action
         android:id="@+id/action_goto_yapDashboardActivity"
         app:destination="@id/yapDashboardActivity"
         app:popUpTo="@+id/main_nav_graph"
         app:popUpToInclusive="true" />
-
 
     <fragment
         android:id="@+id/splashFragment"
@@ -224,11 +208,12 @@
         android:label="householdOnboard"
         tools:layout="@layout/activity_main_house_hold" />
 
+
     <activity
         android:id="@+id/householdOnBoardingExistingYAP"
         android:name="co.yap.household.onboarding.onboarding.activities.OnBoardingExistingYapActivity"
-        android:label="householdOnboard"
-        tools:layout="@layout/activity_main_house_hold" />
+        android:label="OnBoardingExistingYAP"
+        tools:layout="@layout/activity_on_boarding_existing_yap" />
 
 </navigation>
 

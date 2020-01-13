@@ -57,5 +57,14 @@ interface CustomersApi {
     suspend fun findOtherBank(otherBankQuery: OtherBankQuery): RetroApiResponse<ApiResponse>
     suspend fun getOtherBankParams(countryName: String): RetroApiResponse<ApiResponse>
 
-    /*TODO ======================================  done*/
+    /* Household */
+
+    suspend fun verifyHouseholdMobile(verifyHouseholdMobileRequest: VerifyHouseholdMobileRequest): RetroApiResponse<ApiResponse>
+    suspend fun verifyHouseholdParentMobile(
+        mobileNumber: String
+    ): RetroApiResponse<ApiResponse>
+
+    suspend fun onboardHousehold(householdOnboardRequest: HouseholdOnboardRequest): RetroApiResponse<ApiResponse>
+    suspend fun addHouseholdEmail(addHouseholdEmailRequest: AddHouseholdEmailRequest): RetroApiResponse<ApiResponse>
+
 }

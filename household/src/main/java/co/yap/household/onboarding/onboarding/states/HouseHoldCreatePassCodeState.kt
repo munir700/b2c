@@ -13,6 +13,12 @@ class HouseHoldCreatePassCodeState : BaseState(), IHouseHoldCreatePassCode.State
             notifyPropertyChanged(BR.buttonValidation)
         }
     @get:Bindable
+    override var passcode: String = ""
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.passcode)
+        }
+    @get:Bindable
     override var dialerError: String = ""
         set(value) {
             field = value

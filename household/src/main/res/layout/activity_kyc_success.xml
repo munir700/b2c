@@ -10,14 +10,14 @@
     </data>
 
     <ScrollView
-        android:fillViewport="true"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:fillViewport="true">
 
         <LinearLayout
-            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -30,7 +30,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/margin_large"
-                    android:layout_marginTop="@dimen/margin_large"
+                    android:layout_marginTop="@dimen/margin_xl"
                     android:layout_marginEnd="@dimen/margin_large"
                     android:gravity="center"
                     android:lineSpacingExtra="9sp"
@@ -46,7 +46,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/margin_medium"
-                    android:layout_marginTop="@dimen/margin_small"
+                    android:layout_marginTop="@dimen/margin_normal"
                     android:layout_marginEnd="@dimen/margin_medium"
                     android:gravity="center"
                     android:text="@string/screen_success_house_hold_we_will_call_you_to_text"
@@ -66,6 +66,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/margin_medium"
                     android:layout_marginEnd="@dimen/margin_medium"
+                    android:layout_marginTop="@dimen/margin_extra_small"
                     android:gravity="center"
                     android:text="@string/screen_success_house_hold_make_sure_to_text"
                     android:textColor="@color/kyc_success_text_color_light_gray"
@@ -79,32 +80,30 @@
 
                 <ImageView
                     android:id="@+id/ivKYCSuccess"
-                    android:layout_width="@dimen/_240sdp"
-                    android:layout_height="@dimen/_170sdp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_extra_large"
-                    android:scaleType="fitXY"
+                    app:layout_constraintBottom_toTopOf="@+id/tvDeliverKYCSuccess"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tvSubTitleSecondKYCSuccess"
+                    app:layout_constraintVertical_bias="0.37"
                     app:srcCompat="@drawable/ic_kyc_success" />
-
 
                 <TextView
                     android:id="@+id/tvDeliverKYCSuccess"
                     style="@style/ASmallGrey"
-                    android:textSize="@dimen/_14sdp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/margin_medium"
-                    android:layout_marginTop="@dimen/_70sdp"
                     android:layout_marginEnd="@dimen/margin_medium"
                     android:gravity="center"
                     android:text="@string/screen_success_house_hold_card_deliver_text"
                     android:textColor="@color/kyc_success_text_color_light_gray"
+                    android:textSize="@dimen/_14sdp"
+                    app:layout_constraintBottom_toTopOf="@+id/tvTitleKYCSuccessAddressOne"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/ivKYCSuccess"
-                    app:layout_constraintVertical_bias="0.0"
                     app:text="@{Strings.screen_success_house_hold_card_deliver_text}"
                     tools:text="@string/screen_success_house_hold_card_deliver_text" />
 
@@ -120,21 +119,20 @@
                     android:gravity="center"
                     android:text="Burj Res Tower 1"
                     android:textColor="@color/kyc_success_text_color"
-                    app:layout_constraintTop_toBottomOf="@+id/tvDeliverKYCSuccess"
+                    app:layout_constraintBottom_toTopOf="@+id/tvTitleKYCSuccessAddressTwo"
                     tools:text="Burj Res Tower 1" />
-
 
                 <TextView
                     android:id="@+id/tvTitleKYCSuccessAddressTwo"
                     style="@style/Large"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/margin_large"
-                    android:layout_marginEnd="@dimen/margin_large"
+                    android:layout_marginBottom="@dimen/margin_xxl"
                     android:gravity="center"
                     android:text="Suite 1130"
                     android:textColor="@color/kyc_success_text_color"
-                    app:layout_constraintTop_toBottomOf="@+id/tvTitleKYCSuccessAddressOne"
+                    app:layout_constraintBottom_toTopOf="@+id/btnTopUp"
+                    tools:layout_editor_absoluteX="31dp"
                     tools:text="Suite 1130" />
 
                 <co.yap.widgets.CoreButton
@@ -145,8 +143,8 @@
                     android:layout_marginLeft="@dimen/margin_medium_large"
                     android:layout_marginTop="@dimen/_80sdp"
                     android:layout_marginRight="@dimen/margin_medium_large"
+                    android:layout_marginBottom="@dimen/margin_large"
                     android:paddingTop="@dimen/margin_medium"
-                    android:paddingBottom="@dimen/margin_medium"
                     android:text="@string/screen_meeting_confirmation_button_go_to_dashboard"
                     app:btn_enable="true"
                     app:btn_pressed_color="@color/white"
@@ -156,7 +154,6 @@
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tvTitleKYCSuccessAddressTwo"
                     app:layout_constraintVertical_bias="0.0"
                     app:text="@{Strings.screen_meeting_confirmation_button_go_to_dashboard}"
                     tools:text="@string/screen_meeting_confirmation_button_go_to_dashboard" />

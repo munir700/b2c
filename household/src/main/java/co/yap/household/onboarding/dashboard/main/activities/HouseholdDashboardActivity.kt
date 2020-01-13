@@ -19,6 +19,7 @@ import kotlinx.android.synthetic.main.activity_household_dashboard.*
 class HouseholdDashboardActivity : BaseBindingActivity<IHouseholdDashboard.ViewModel>(),
     IFragmentHolder,
     IHouseholdDashboard.View {
+
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.activity_household_dashboard
     override val viewModel: IHouseholdDashboard.ViewModel

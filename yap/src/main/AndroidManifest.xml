@@ -51,7 +51,8 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".modules.kyc.activities.DocumentsDashboardActivity"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            android:theme="@style/CoreAppTheme.NoActionBar">
             <nav-graph android:value="@navigation/kyc_navigation" />
         </activity>
         <activity
@@ -170,8 +171,8 @@
 
         <activity
             android:name="co.yap.modules.dashboard.yapit.sendmoney.activities.SendMoneyHomeActivity"
-            android:windowSoftInputMode="adjustResize"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize">
             <nav-graph android:value="@navigation/send_money_main_navigation" />
         </activity>
 
@@ -182,8 +183,8 @@
         <!--Update Flag to hide keyboard-->
         <activity
             android:name=".modules.dashboard.yapit.sendmoney.activities.BeneficiaryCashTransferActivity"
-            android:windowSoftInputMode="stateHidden"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden" />
 
         <activity
             android:name=".modules.dashboard.yapit.sendmoney.home.activities.SendMoneyLandingActivity"

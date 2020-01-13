@@ -27,6 +27,8 @@ class HouseHoldNumberRegistrationFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         dialer.setInPutEditText(etPhoneNumber)
+        dialer.hideFingerprintView()
+
 
     }
 
@@ -58,8 +60,8 @@ class HouseHoldNumberRegistrationFragment :
         })
     }
 
-    override fun onPause() {
-        super.onPause()
+    override fun onDestroyView() {
+        super.onDestroyView()
         viewModel.clickEvent?.removeObservers(this)
     }
 
