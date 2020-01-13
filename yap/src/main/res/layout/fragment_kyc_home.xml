@@ -55,10 +55,12 @@
             android:clickable="true"
             android:focusable="true"
             android:onClick="@{(v) -> viewModel.handlePressOnScanCard(v.id)}"
-            app:cardBackgroundColor="@color/colorPrimaryWarm"
             app:cardCornerRadius="10dp"
+
             app:layout_constraintTop_toBottomOf="@id/tvSubTitle"
-            tools:layout_editor_absoluteX="16dp">
+            tools:layout_editor_absoluteX="16dp"
+            style="@style/CardViewStyle">
+<!--            app:cardBackgroundColor="?attr/colorPrimaryWarmAttr"-->
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
