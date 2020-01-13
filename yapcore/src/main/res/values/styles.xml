@@ -282,6 +282,7 @@
         <item name="android:paddingRight">@dimen/margin_extra_large</item>
         <item name="android:paddingTop">@dimen/margin_small</item>
         <item name="android:paddingBottom">@dimen/margin_small</item>
+        <item name="android:theme">?attr/primaryButtonTheme</item>
         <item name="btn_round_radius">50dp</item>
 
     </style>
@@ -295,6 +296,8 @@
         <item name="android:paddingTop">@dimen/margin_small</item>
         <item name="android:paddingBottom">@dimen/margin_small</item>
         <item name="btn_round_radius">50dp</item>
+        <item name="android:theme">?attr/primaryButtonTheme</item>
+
 
     </style>
 
@@ -324,6 +327,9 @@
         <item name="android:minHeight">@dimen/_48sdp</item>
         <item name="android:gravity">center</item>
         <item name="android:textColor">@color/colorWhite</item>
+        <item name="primaryButtonTheme">@style/Widget.Button.Primary</item>
+        <item name="android:theme">?attr/primaryButtonTheme</item>
+
     </style>
 
     <style name="BoldBtnStyle" parent="AppFontBold">
@@ -335,6 +341,9 @@
         <item name="android:minHeight">@dimen/_48sdp</item>
         <item name="android:gravity">center</item>
         <item name="android:textColor">@color/colorWhite</item>
+        <item name="primaryButtonTheme">@style/Widget.Button.Primary</item>
+        <item name="android:theme">?attr/primaryButtonTheme</item>
+
     </style>
 
     <!-- Progress bar -->
@@ -534,6 +543,7 @@
     <!--        <item name="android:textColor">?attr/colorPrimaryDarkAttr</item>-->
 
     <!--    </style>-->
+
 
 
     <style name="LargeBoldText" parent="AppFontBold">

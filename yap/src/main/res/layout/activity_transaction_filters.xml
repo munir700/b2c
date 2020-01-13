@@ -144,7 +144,7 @@
             app:rsb_min="0"
             app:rsb_mode="single"
             app:rsb_progress_color="@color/colorPrimary"
-            app:rsb_progress_default_color="@color/seekbarProgress"
+            app:rsb_progress_default_color="?attr/colorSeekBar"
             app:rsb_progress_height="@dimen/_4sdp"
             app:rsb_progress_radius="@dimen/_2sdp"
             app:rsb_thumb_drawable="@drawable/ic_seekbar_thumb"
