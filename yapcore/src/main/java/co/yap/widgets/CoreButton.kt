@@ -1,10 +1,14 @@
 package co.yap.widgets
 
 import android.content.Context
-import android.graphics.*
+import android.graphics.Bitmap
+import android.graphics.Canvas
+import android.graphics.Paint
+import android.graphics.RectF
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.util.AttributeSet
+import android.view.ContextThemeWrapper
 import android.view.MotionEvent
 import android.widget.Button
 import co.yap.yapcore.R
@@ -148,7 +152,11 @@ class CoreButton : Button {
         if (hasBoldText) {
             paintText.setFakeBoldText(true)
         }
+//         ContextThemeWrapper(context, R.attr.primaryButtonTheme)
 
+        Button(ContextThemeWrapper(context, R.attr.primaryButtonTheme))
+
+// this.theme
     }
 
     fun drawableToBitmap(drawable: Drawable): Bitmap? {

@@ -11,6 +11,7 @@
     <attr name="colorPrimarySoftAttr" format="reference" />
     <attr name="colorPrimaryDisabledBtnAttr" format="reference" />
     <attr name="colorPressedBtnStateAttr" format="reference" />
+    <attr name="primaryButtonTheme" format="reference" />
 
 
     <declare-styleable name="CoreButton">

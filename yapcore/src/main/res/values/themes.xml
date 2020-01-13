@@ -17,6 +17,8 @@
         <item name="colorPrimarySoftAttr">@color/colorPrimarySoft</item>
         <item name="colorPrimaryDisabledBtnAttr">@color/colorDisabledBtn</item>
         <item name="colorPressedBtnStateAttr">@color/colorPressedBtnState</item>
+        <item name="primaryButtonTheme">@style/Widget.Button.Primary</item>
+
     </style>
 
     <style name="AppThemeHouseHold" parent="Theme.AppCompat.Light.NoActionBar">
@@ -37,6 +39,7 @@
         <item name="colorPrimaryDisabledBtnAttr">@color/colorDisabledBtnHouseHold</item>
         <item name="colorPressedBtnStateAttr">@color/colorPressedBtnStateHouseHold</item>
 
+        <item name="primaryButtonTheme">@style/Widget.Button.Primary</item>
 
     </style>
 
@@ -50,4 +53,9 @@
     </style>
 
 
+
+    <style name="Widget.Button.Primary" parent="Widget.AppCompat.Button">
+        <item name="colorButtonNormal">?attr/colorPrimaryAttr</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
 </resources>
