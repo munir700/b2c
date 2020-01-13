@@ -29,10 +29,8 @@ class AccountSelectionFragment : BaseBindingFragment<IAccountSelection.ViewModel
                     findNavController().navigate(R.id.action_accountSelectionFragment_to_loginFragment)
                 }
                 R.id.btnBusiness -> {
-                    findNavController().navigate(R.id.householdOnboard)
                 }
                 R.id.btnPersonal -> {
-
                     findNavController().navigate(
                         R.id.action_accountSelectionFragment_to_welcomeFragment,
                         Bundle().apply {

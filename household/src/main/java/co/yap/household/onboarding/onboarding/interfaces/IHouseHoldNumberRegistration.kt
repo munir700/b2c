@@ -12,6 +12,7 @@ interface IHouseHoldNumberRegistration {
         fun populateState()
         var clickEvent: SingleClickEvent?
         fun handlePressOnConfirm(id: Int)
+        fun verifyHouseholdParentMobile()
     }
 
     interface State : IBase.State {

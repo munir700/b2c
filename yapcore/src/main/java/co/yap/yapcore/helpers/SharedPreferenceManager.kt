@@ -89,27 +89,13 @@ class SharedPreferenceManager(val context: Context) {
         return str.matches("-?\\d+(\\.\\d+)?".toRegex())  //match a number with optional '-' and decimal.
     }
 
-
-//    fun getThemeValue(key: String?): Int {
-//        return sharedPref.getInt(key, 0)
-//    }
-//
-//
-//    fun setThemeValue(key: String?, value: Int) {
-//        val editor: SharedPreferences.Editor = sharedPref.edit()
-//        editor.putInt(key, value)
-//        editor.commit()
-//    }
-
-
-    fun getThemeValue(): Int {
-        return sharedPref.getInt(KEY_THEME, 0)
+    fun getThemeValue(): String? {
+        return sharedPref.getString(KEY_THEME, "")
     }
 
-
-    fun setThemeValue(themeValue: Int) {
+    fun setThemeValue(themeValue: String) {
         val editor: SharedPreferences.Editor = sharedPref.edit()
-        editor.putInt(KEY_THEME, themeValue!!)
+        editor.putString(KEY_THEME, themeValue)
         editor.apply()
     }
 }
