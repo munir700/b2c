@@ -1,6 +1,7 @@
 package co.yap.networking.customers.responsedtos
 
 import androidx.lifecycle.MutableLiveData
+import co.yap.networking.customers.responsedtos.sendmoney.CountryModel
 import com.google.gson.annotations.SerializedName
 
 class AccountInfo(
@@ -14,10 +15,12 @@ class AccountInfo(
     var uuid: String,
     @SerializedName("defaultProfile")
     var defaultProfile: Boolean,
+    @SerializedName("accountType")
+    var accountType: String? = "",
     @SerializedName("isActive")
     var isActive: String,
     @SerializedName("accountNo")
-    var accountNo: String?=null,
+    var accountNo: String? = null,
     @SerializedName("fssRequestRefNo")
     var fssRequestRefNo: String,
     @SerializedName("packageName")
@@ -31,17 +34,23 @@ class AccountInfo(
     @SerializedName("documentInformation")
     var documentInformation: Any,
     @SerializedName("bank")
-    var bank: Bank?=Bank(),
+    var bank: Bank? = Bank(),
+    @SerializedName("currency")
+    var currency: CountryModel.Data.Currency = CountryModel.Data.Currency(),
     @SerializedName("notificationStatuses")
     var notificationStatuses: String,
     @SerializedName("toClose")
     var toClose: Boolean,
     @SerializedName("noOfSubAccounts")
     var noOfSubAccounts: Int,
+    @SerializedName("parentUUID")
+    var parentUUID: String? = null,
+    @SerializedName("parentAccount")
+    var parentAccount: AccountInfo? = null,
     @SerializedName("workItemNo")
     var workItemNo: String,
     @SerializedName("partnerBankStatus")
-    var partnerBankStatus: String?=null,
+    var partnerBankStatus: String? = null,
     @SerializedName("active")
     var active: Boolean,
     @SerializedName("soleProprietary")
