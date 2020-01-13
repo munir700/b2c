@@ -64,6 +64,9 @@ class HouseHoldCardsSelectionActivity : BaseBindingActivity<IHouseHoldCardsSelec
                 getBindings().vpCards.setCurrentItem(it, true)
             }
         })
+        viewModel.orderCardRequestSuccess.observe(this, Observer {
+            startActivity(Intent(this, KycSuccessActivity::class.java))
+        })
     }
 
     override fun setUpUI() {
@@ -102,9 +105,6 @@ class HouseHoldCardsSelectionActivity : BaseBindingActivity<IHouseHoldCardsSelec
                     )
                 )
                 //startActivity(Intent(this, KycSuccessActivity::class.java))
-            }
-            Constants.ORDER_HOUSE_HOLD_CARD_SUCCESS -> {
-                startActivity(Intent(this, KycSuccessActivity::class.java))
             }
         }
     }
@@ -215,8 +215,6 @@ class HouseHoldCardsSelectionActivity : BaseBindingActivity<IHouseHoldCardsSelec
                         viewModel.state.locationVisibility = true
                         viewModel.state.buttonVisibility = false
                         populateAddressFields(it)
-                    } else {
-                        // handle error case
                     }
                 }
             }

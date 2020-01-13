@@ -12,7 +12,6 @@ import co.yap.networking.cards.requestdtos.OrderCardRequest
 import co.yap.networking.models.RetroApiResponse
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
-import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.interfaces.OnItemClickListener
 import kotlinx.coroutines.delay
 
@@ -25,6 +24,8 @@ class HouseHoldCardsSelectionViewModel(application: Application) :
     private val cardsRepository: CardsRepository = CardsRepository
     override val changedPosition: MutableLiveData<Int> = MutableLiveData()
     override val clickEvent: SingleClickEvent = SingleClickEvent()
+    override var orderCardRequestSuccess: MutableLiveData<Boolean> = MutableLiveData()
+
 
     override fun onCreate() {
         super.onCreate()
@@ -78,6 +79,7 @@ class HouseHoldCardsSelectionViewModel(application: Application) :
         }
     }
 
+
     override fun orderHouseHoldPhysicalCardRequest(orderCardRequest: OrderCardRequest) {
         launch {
             state.loading = true
@@ -86,10 +88,12 @@ class HouseHoldCardsSelectionViewModel(application: Application) :
                     orderCardRequest
                 )) {
                 is RetroApiResponse.Success -> {
-                    clickEvent.setValue(Constants.ORDER_HOUSE_HOLD_CARD_SUCCESS)
+                    orderCardRequestSuccess.value = true
                     state.toast = "success"
                 }
                 is RetroApiResponse.Error -> {
+                    orderCardRequestSuccess.value = true
+                    state.toast = "service fail/By pas service"
                     state.toast = response.error.message
                     state.loading = false
                 }

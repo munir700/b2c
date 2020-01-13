@@ -21,6 +21,7 @@ interface IHouseHoldCardsSelection {
         fun handlePressOnButton(id: Int)
         fun getCardsColorList(): MutableList<CardColorSelectionModel>
         fun getCardsColorListRequest()
+        var orderCardRequestSuccess: MutableLiveData<Boolean>
         var adapter: HouseHoldCardSelectionAdapter
         fun orderHouseHoldPhysicalCardRequest(orderCardRequest: OrderCardRequest)
         val changedPosition: MutableLiveData<Int>

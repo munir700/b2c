@@ -118,7 +118,6 @@ object Constants {
     const val EVENT_EMPTY: Int = 2222
     const val EVENT_CONTENT: Int = 3333
     const val EVENT_ERROR: Int = 4444
-    const val ORDER_HOUSE_HOLD_CARD_SUCCESS:Int = 1110
 
     //Notifications Actions
 
