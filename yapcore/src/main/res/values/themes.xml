@@ -6,8 +6,8 @@
         <item name="colorPrimaryDark">#272262</item>
         <item name="colorAccent">#4d4d4d</item>
 
-        <item name="colorPrimaryAttr">@color/success</item>
-        <item name="colorPrimaryDarkAttr">@color/warning</item>
+        <item name="colorPrimaryAttr">@color/colorPrimary</item>
+        <item name="colorPrimaryDarkAttr">@color/colorPrimaryDark</item>
         <item name="colorPrimaryAccentAttr">@color/colorAccent</item>
 
         <item name="colorPrimaryAccentWarmAttr">@color/colorAccent</item>

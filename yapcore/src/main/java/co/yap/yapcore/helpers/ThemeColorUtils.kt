@@ -47,7 +47,7 @@ object ThemeColorUtils {
                 it,
                 true
             )
-        }.resourceId
+        }.data
     }
 
     fun colorAccentAttribute(context: Context): Int {
@@ -57,7 +57,7 @@ object ThemeColorUtils {
                 it,
                 true
             )
-        }.resourceId
+        }.data
     }
 
 
@@ -68,7 +68,7 @@ object ThemeColorUtils {
                 it,
                 true
             )
-        }.resourceId
+        }.data
     }
 
     fun colorPrimaryWarmAttribute(context: Context): Int {
@@ -78,7 +78,7 @@ object ThemeColorUtils {
                 it,
                 true
             )
-        }.resourceId
+        }.data
     }
 
 
@@ -89,7 +89,7 @@ object ThemeColorUtils {
                 it,
                 true
             )
-        }.resourceId
+        }.data
     }
 
 
@@ -100,7 +100,7 @@ object ThemeColorUtils {
                 it,
                 true
             )
-        }.resourceId
+        }.data
     }
 
 
@@ -111,7 +111,7 @@ object ThemeColorUtils {
                 it,
                 true
             )
-        }.resourceId
+        }.data
     }
 
 
@@ -123,7 +123,7 @@ object ThemeColorUtils {
                 it,
                 true
             )
-        }.resourceId
+        }.data
     }
 
 
@@ -134,7 +134,7 @@ object ThemeColorUtils {
                 it,
                 true
             )
-        }.resourceId
+        }.data
     }
 
 
