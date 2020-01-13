@@ -90,16 +90,16 @@ class SharedPreferenceManager(val context: Context) {
     }
 
 
-//    fun getThemeValue(key: String?): Int {
-//        return sharedPref.getInt(key, 0)
-//    }
-//
-//
-//    fun setThemeValue(key: String?, value: Int) {
-//        val editor: SharedPreferences.Editor = sharedPref.edit()
-//        editor.putInt(key, value)
-//        editor.commit()
-//    }
+    fun getThemeValue(key: String?): Int {
+        return sharedPref.getInt(key, 0)
+    }
+
+
+    fun setThemeValue(key: String?, value: Int) {
+        val editor: SharedPreferences.Editor = sharedPref.edit()
+        editor.putInt(key, value)
+        editor.commit()
+    }
 
 
     fun getThemeValue(): Int {
@@ -109,7 +109,7 @@ class SharedPreferenceManager(val context: Context) {
 
     fun setThemeValue(themeValue: Int) {
         val editor: SharedPreferences.Editor = sharedPref.edit()
-        editor.putInt(KEY_THEME, themeValue!!)
+        editor.putInt(KEY_THEME, themeValue)
         editor.apply()
     }
 }
