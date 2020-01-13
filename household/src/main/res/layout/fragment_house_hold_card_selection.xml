@@ -9,6 +9,8 @@
             name="houseHoldViewModel"
             type="co.yap.household.onboarding.onboarding.viewmodels.HouseHoldCardsSelectionViewModel" />
 
+        <import type="android.view.View" />
+
         <import type="co.yap.translation.Strings" />
     </data>
 
@@ -21,7 +23,8 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:animateLayoutChanges="true">
+            android:animateLayoutChanges="true"
+            android:paddingBottom="@dimen/margin_large">
 
             <TextView
                 android:id="@+id/tvHeading"
@@ -63,24 +66,13 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:text="@{Strings.screen_house_hold_card_color_selection_display_text}" />
-
-                <!--  <androidx.recyclerview.widget.RecyclerView
-                      android:id="@+id/rvColorCircles"
-                      android:layout_width="wrap_content"
-                      android:layout_height="wrap_content"
-                      android:layout_marginTop="@dimen/margin_medium"
-                      android:orientation="horizontal"
-                      app:layout_constraintEnd_toEndOf="parent"
-                      app:layout_constraintStart_toStartOf="parent"
-                      app:layout_constraintTop_toBottomOf="@+id/tvHouseHoldText"
-                      tools:listitem="@layout/item_card_color_selection" />-->
+                    app:text="@{Strings.screen_house_hold_card_color_selection_display_text}"
+                    tools:text="@string/screen_house_hold_card_color_selection_display_text" />
 
                 <com.google.android.material.tabs.TabLayout
                     android:id="@+id/tabLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_medium"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tvHouseHoldText"
@@ -95,9 +87,7 @@
                 layout="@layout/layout_address"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_normal"
                 android:layout_marginBottom="@dimen/margin_medium"
-                app:layout_constraintBottom_toTopOf="@+id/btnNext"
                 app:layout_constraintTop_toBottomOf="@+id/clColors"
                 app:viewModel="@{houseHoldViewModel}" />
 
@@ -106,13 +96,15 @@
                 style="@style/RectangleBtnStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+
                 android:layout_marginLeft="@dimen/margin_medium_large"
                 android:layout_marginRight="@dimen/margin_medium_large"
-                android:layout_marginBottom="40dp"
+
                 android:onClick="@{(v)->houseHoldViewModel.handlePressOnButton(v.id)}"
                 android:paddingTop="@dimen/margin_medium"
                 android:paddingBottom="@dimen/margin_medium"
                 android:text="Next"
+                android:visibility="@{houseHoldViewModel.state.buttonVisibility ? View.VISIBLE : View.GONE}"
                 app:btn_enable="true"
                 app:btn_pressed_color="@color/colorPrimary"
                 app:btn_text_color="@color/colorPrimaryDark"

@@ -1,5 +1,6 @@
 package co.yap.household.onboarding.onboarding.fragments
 
+//import androidx.viewpager2.widget.ViewPager2
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
@@ -13,11 +14,11 @@ import androidx.viewpager2.widget.ViewPager2.OnPageChangeCallback
 import co.yap.household.BR
 import co.yap.household.R
 import co.yap.household.databinding.FragmentHouseHoldCardSelectionBinding
-import co.yap.household.onboarding.dashboard.main.activities.HouseholdDashboardActivity
 import co.yap.household.onboarding.kycsuccess.KycSuccessActivity
 import co.yap.household.onboarding.onboarding.interfaces.IHouseHoldCardsSelection
 import co.yap.household.onboarding.onboarding.viewmodels.HouseHoldCardsSelectionViewModel
 import co.yap.modules.location.activities.LocationSelectionActivity
+import co.yap.networking.cards.requestdtos.OrderCardRequest
 import co.yap.networking.cards.responsedtos.Address
 import co.yap.translation.Strings
 import co.yap.yapcore.BaseBindingActivity
@@ -68,9 +69,11 @@ class HouseHoldCardsSelectionActivity : BaseBindingActivity<IHouseHoldCardsSelec
     override fun setUpUI() {
         if (getIntentData()) {
             viewModel.state.locationVisibility = true
+            viewModel.state.buttonVisibility = false
             viewModel.state.cardsHeading =
                 getString(Strings.screen_house_hold_card_color_selection_display_text_heading_existing_user)
         } else {
+            viewModel.state.buttonVisibility = true
             viewModel.state.locationVisibility = false
             viewModel.state.cardsHeading =
                 getString(Strings.screen_house_hold_card_color_selection_display_text_heading)
@@ -81,30 +84,32 @@ class HouseHoldCardsSelectionActivity : BaseBindingActivity<IHouseHoldCardsSelec
         when (it) {
             R.id.btnNext -> {
                 openLocationScreen(
-                    Address(
-                        address1 = viewModel.state.cardAddressTitle,
-                        address2 = viewModel.state.cardAddressSubTitle
-                    )
+                    viewModel.state.address ?: Address("", "")
                 )
             }
             R.id.tvChangeLocation -> {
                 openLocationScreen(
-                    Address(
-                        address1 = viewModel.state.cardAddressTitle,
-                        address2 = viewModel.state.cardAddressSubTitle
-                    )
+                    viewModel.state.address ?: Address("", "")
                 )
             }
             R.id.btnConfirmLocation -> {
+                viewModel.orderHouseHoldPhysicalCardRequest(
+                    OrderCardRequest(
+                        address1 = viewModel.state.address?.address1,
+                        address2 = viewModel.state.address?.address2,
+                        latitude = viewModel.state.address?.latitude,
+                        longitude = viewModel.state.address?.longitude
+                    )
+                )
+                //startActivity(Intent(this, KycSuccessActivity::class.java))
+            }
+            Constants.ORDER_HOUSE_HOLD_CARD_SUCCESS -> {
                 startActivity(Intent(this, KycSuccessActivity::class.java))
             }
         }
     }
 
     private fun setupPager() {
-/*        linearLayoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
-        getBindings().rvColorCircles.layoutManager = linearLayoutManager
-        getBindings().rvColorCircles.adapter = viewModel.circleColorAdapter*/
         getBindings().vpCards.adapter = viewModel.adapter
 
         with(getBindings().vpCards) {
@@ -208,6 +213,7 @@ class HouseHoldCardsSelectionActivity : BaseBindingActivity<IHouseHoldCardsSelec
                 success?.let { success ->
                     if (success) {
                         viewModel.state.locationVisibility = true
+                        viewModel.state.buttonVisibility = false
                         populateAddressFields(it)
                     } else {
                         // handle error case
@@ -217,10 +223,9 @@ class HouseHoldCardsSelectionActivity : BaseBindingActivity<IHouseHoldCardsSelec
         }
     }
 
-    private fun populateAddressFields(address: Address) {
+    private fun populateAddressFields(address: Address?) {
         address.let {
-            viewModel.state.cardAddressTitle = address.address1 ?: ""
-            viewModel.state.cardAddressSubTitle = address.address2 ?: ""
+            viewModel.state.address = address
         }
     }
 
