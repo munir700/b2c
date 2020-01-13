@@ -144,7 +144,7 @@ interface CustomersRetroService {
     suspend fun verifyHouseholdParentMobile(@Query("mobileNo") mobileNumber: String?): Response<ApiResponse>
 
     @POST(CustomersRepository.URL_HOUSEHOLD_USER_ONBOARD)
-    suspend fun onboardHouseholdUser(@Body householdOnboardRequest: HouseholdOnboardRequest): Response<ApiResponse>
+    suspend fun onboardHouseholdUser(@Body householdOnboardRequest: HouseholdOnboardRequest): Response<HouseholdOnBoardingResponse>
 
     @POST(CustomersRepository.URL_ADD_HOUSEHOLD_EMAIL)
     suspend fun addHouseholdEmail(@Body addHouseholdEmailRequest: AddHouseholdEmailRequest): Response<ApiResponse>

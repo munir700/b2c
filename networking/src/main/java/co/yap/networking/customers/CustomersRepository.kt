@@ -236,7 +236,7 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     ): RetroApiResponse<ApiResponse> =
         executeSafely(call = { api.verifyHouseholdParentMobile(mobileNumber) })
 
-    override suspend fun onboardHousehold(householdOnboardRequest: HouseholdOnboardRequest): RetroApiResponse<ApiResponse> =
+    override suspend fun onboardHousehold(householdOnboardRequest: HouseholdOnboardRequest): RetroApiResponse<HouseholdOnBoardingResponse> =
         executeSafely(call = { api.onboardHouseholdUser(householdOnboardRequest) })
 
     override suspend fun addHouseholdEmail(addHouseholdEmailRequest: AddHouseholdEmailRequest): RetroApiResponse<ApiResponse> =

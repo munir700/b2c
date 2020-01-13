@@ -55,7 +55,7 @@ abstract class BaseActivity<V : IBase.ViewModel<*>> : AppCompatActivity(), IBase
             Constants.THEME_HOUSEHOLD -> {
                 setScreenState(YAPThemes.HOUSEHOLD())
             }
-            else -> {
+            else -> {// default
                 setScreenState(YAPThemes.CORE())
             }
         }

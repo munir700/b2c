@@ -8,7 +8,7 @@ import co.yap.yapcore.BaseState
 class HouseHoldSubscriptionState : BaseState(), IHouseHoldSubscription.State {
 
     @get:Bindable
-    override var monthlyFee: String = "AED 59.99"
+    override var monthlyFee: String = "AED 0.00"
         set(value) {
             field = value
             notifyPropertyChanged(BR.monthlyFee)
@@ -16,7 +16,7 @@ class HouseHoldSubscriptionState : BaseState(), IHouseHoldSubscription.State {
         }
 
     @get:Bindable
-    override var annuallyFee: String = "AED 720.00"
+    override var annuallyFee: String = "AED 0.00"
         set(value) {
             field = value
             notifyPropertyChanged(BR.annuallyFee)
@@ -46,5 +46,12 @@ class HouseHoldSubscriptionState : BaseState(), IHouseHoldSubscription.State {
         set(value) {
             field = value
             notifyPropertyChanged(BR.valid)
+        }
+
+    @get:Bindable
+    override var planDiscount: String = ""
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.planDiscount)
         }
 }

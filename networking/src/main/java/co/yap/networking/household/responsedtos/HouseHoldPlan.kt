@@ -11,5 +11,5 @@ data class HouseHoldPlan(
     @SerializedName("amount")
     var amount: String? = null,
     @SerializedName("discount")
-    var discount: Double? = 0.0
+    var discount: Int? = 0
 ): Parcelable

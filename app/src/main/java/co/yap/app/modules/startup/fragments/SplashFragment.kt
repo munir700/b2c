@@ -37,7 +37,7 @@ class SplashFragment : BaseFragment<ISplash.ViewModel>(), ISplash.View {
             ) {
                 val action =
                     SplashFragmentDirections.actionSplashFragmentToVerifyPasscodeFragment("")
-                findNavController().navigate(R.id.action_splashFragment_to_accountSelectionFragment)
+                findNavController().navigate(action)
             } else {
                 if (sharedPreferenceManager.getValueBoolien(
                         SharedPreferenceManager.KEY_IS_FIRST_TIME_USER,

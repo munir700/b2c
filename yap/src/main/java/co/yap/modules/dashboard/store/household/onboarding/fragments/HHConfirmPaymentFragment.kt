@@ -21,17 +21,24 @@ class HHConfirmPaymentFragment : BaseOnBoardingFragment<IHouseHoldConfirmPayment
     override fun getBindingVariable(): Int = BR.viewModel
     private var householdPlanPopMenu: PopupMenu? = null
     override fun getLayoutId(): Int = R.layout.fragment_house_hold_cofirm_payment
-    override val viewModel: IHouseHoldConfirmPayment.ViewModel
+    override val viewModel: HouseHoldConfirmPaymentViewModel
         get() = ViewModelProviders.of(this).get(HouseHoldConfirmPaymentViewModel::class.java)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel.clickEvent.observe(this, clickObserver)
+        setObservers()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initComponents()
+    }
+
+    private fun setObservers() {
+        viewModel.clickEvent.observe(this, clickObserver)
+        viewModel.onBoardUserSuccess.observe(this, Observer {
+            if (it) findNavController().navigate(R.id.action_HHConfirmPaymentFragment_to_houseHoldSuccessFragment)
+        })
     }
 
     private val clickObserver = Observer<Int> {
@@ -40,7 +47,7 @@ class HHConfirmPaymentFragment : BaseOnBoardingFragment<IHouseHoldConfirmPayment
                 householdPlanPopMenu?.showAsAnchorRightBottom(tvChangePlan, 0, 30)
             }
             R.id.confirmButton -> {
-                findNavController().navigate(R.id.action_HHConfirmPaymentFragment_to_houseHoldSuccessFragment)
+                viewModel.addHouseholdUser()
             }
         }
     }
@@ -57,33 +64,31 @@ class HHConfirmPaymentFragment : BaseOnBoardingFragment<IHouseHoldConfirmPayment
 
     private fun getHouseholdPlans(): List<PopupMenuItem> {
         val popMenuHouseholdPlansList = ArrayList<PopupMenuItem>()
-        val list = getPlansList()
-
-        for (item in list.iterator()) {
-            popMenuHouseholdPlansList.add(PopupMenuItem("${item.type} - AED ${item.amount}"))
+        getPlansList()?.let {
+            for (item in it.iterator()) {
+                popMenuHouseholdPlansList.add(PopupMenuItem("${item.type} - ${item.amount}"))
+            }
         }
 
         return popMenuHouseholdPlansList
     }
 
-    private fun getPlansList(): List<HouseHoldPlan> {
-        val plans: ArrayList<HouseHoldPlan> = ArrayList()
-        plans.add(HouseHoldPlan(type = "Monthly", amount = "59.99"))
-        plans.add(HouseHoldPlan(type = "Yearly", amount = "720.00", discount = 25.00))
-        return plans
+    private fun getPlansList(): List<HouseHoldPlan>? {
+        return viewModel.parentViewModel?.plansList
     }
 
     private val popupItemClickListener =
         OnMenuItemClickListener<PopupMenuItem?> { position, _ ->
             householdPlanPopMenu?.selectedPosition = position
-            populateHouseholdPlanData(getPlansList()[position])
+            populateHouseholdPlanData(getPlansList()?.get(position))
         }
 
     private fun populateHouseholdPlanData(selectedPlan: HouseHoldPlan?) {
+        viewModel.parentViewModel?.selectedPlanType?.type = selectedPlan?.type
         viewModel.state.selectedPlanFee.set(viewModel.state.currencyType.get() + " " + selectedPlan?.amount)
         viewModel.state.selectedCardPlan.set(selectedPlan?.type + " | " + viewModel.state.selectedPlanFee.get())
         selectedPlan?.discount?.let {
-            if (it != 0.0) {
+            if (it != 0) {
                 viewModel.state.selectedPlanSaving.set("Your saving $it%!")
             } else {
                 viewModel.state.selectedPlanSaving.set("")
@@ -94,5 +99,6 @@ class HHConfirmPaymentFragment : BaseOnBoardingFragment<IHouseHoldConfirmPayment
     override fun onDestroy() {
         super.onDestroy()
         viewModel.clickEvent.removeObservers(this)
+        viewModel.onBoardUserSuccess.removeObservers(this)
     }
 }

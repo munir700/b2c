@@ -12,8 +12,7 @@
         <import type="co.yap.translation.Strings" />
     </data>
 
-    <LinearLayout
-        xmlns:app="http://schemas.android.com/apk/res-auto"
+    <LinearLayout xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -86,8 +85,8 @@
                     android:layout_marginEnd="@dimen/margin_small"
                     android:layout_weight=".9"
                     android:clickable="true"
-                    android:orientation="vertical"
-                    android:focusable="true">
+                    android:focusable="true"
+                    android:orientation="vertical">
 
                     <TextView
                         android:id="@+id/tvPhysicalCardLocationTitle"
@@ -96,7 +95,7 @@
                         android:layout_height="wrap_content"
                         android:gravity="start"
                         android:singleLine="true"
-                        android:text="@{viewModel.state.cardAddressTitle}"
+                        android:text="@{viewModel.state.address.address1}"
                         android:textSize="@dimen/text_size_h2" />
 
                     <TextView
@@ -106,7 +105,7 @@
                         android:layout_height="wrap_content"
                         android:gravity="start"
                         android:singleLine="true"
-                        android:text="@{viewModel.state.cardAddressSubTitle}"
+                        android:text="@{viewModel.state.address.address2}"
                         android:textSize="@dimen/text_size_h2" />
 
                 </LinearLayout>
