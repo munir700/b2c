@@ -21,9 +21,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import co.yap.BR
 import co.yap.R
-import co.yap.generated.callback.OnClickListener
 import co.yap.modules.dashboard.cards.addpaymentcard.activities.AddPaymentCardActivity
-import co.yap.modules.dashboard.cards.addpaymentcard.spare.fragments.AddSpareCardFragmentDirections
 import co.yap.modules.dashboard.cards.reportcard.activities.ReportLostOrStolenCardActivity
 import co.yap.modules.dashboard.more.main.activities.MoreActivity
 import co.yap.modules.kyc.activities.DocumentsDashboardActivity
@@ -44,13 +42,12 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.BitmapDescriptor
- import kotlinx.android.synthetic.main.fragment_address_selection.*
- import kotlinx.android.synthetic.main.layout_maps.*
-import kotlinx.android.synthetic.main.layout_maps.view.*
+import kotlinx.android.synthetic.main.fragment_address_selection.*
+import kotlinx.android.synthetic.main.layout_maps.*
 
 class AddressSelectionFragment : BaseMapFragment<IAddressSelection.ViewModel>(),
     OnMapReadyCallback {
-var checkOnMapClicked: Boolean = false
+    var checkOnMapClicked: Boolean = false
 
     val REQUEST_CHECK_SETTINGS = 100
 
@@ -195,7 +192,6 @@ var checkOnMapClicked: Boolean = false
 //        })
 
 
-
         viewModel.onSuccess.observe(this, Observer {
             when (it) {
 
@@ -219,16 +215,24 @@ var checkOnMapClicked: Boolean = false
 //                }
 
                 R.id.etAddressField -> {
-                     onMapClickAction()
+                    onMapClickAction()
                 }
                 //
                 R.id.btnLocation -> {
 //                    hideKeyboard(mapView)
                     onMapClickAction()
                 }
+                R.id.rlMapCenter -> {
+//                    hideKeyboard(mapView)
+                    onMapClickAction()
+                }
 
                 R.id.tvTermsAndConditions -> {
-                    Utils.openWebPage(co.yap.yapcore.constants.Constants.URL_TERMS_CONDITION, "", activity)
+                    Utils.openWebPage(
+                        co.yap.yapcore.constants.Constants.URL_TERMS_CONDITION,
+                        "",
+                        activity
+                    )
                 }
                 R.id.btnConfirm -> {
                     slideDownLocationCard()
@@ -501,7 +505,7 @@ var checkOnMapClicked: Boolean = false
 
                 override fun onAnimationEnd(animation: Animator?) {
                     viewModel.getDeviceLocation(viewModel!!.mapDetailViewActivity)
-                    checkOnMapClicked= true
+                    checkOnMapClicked = true
                 }
 
                 override fun onAnimationCancel(animation: Animator?) {
@@ -536,7 +540,7 @@ var checkOnMapClicked: Boolean = false
             .playOn(flAddressDetail)
 
         viewModel.toggleMarkerVisibility()
-        checkOnMapClicked= false
+        checkOnMapClicked = false
 
 
     }
