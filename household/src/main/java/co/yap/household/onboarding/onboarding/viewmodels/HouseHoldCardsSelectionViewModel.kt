@@ -2,12 +2,14 @@ package co.yap.household.onboarding.onboarding.viewmodels
 
 import android.app.Application
 import android.view.View
-import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
 import co.yap.household.onboarding.onboarding.fragments.CardColorSelectionModel
 import co.yap.household.onboarding.onboarding.fragments.HouseHoldCardSelectionAdapter
 import co.yap.household.onboarding.onboarding.interfaces.IHouseHoldCardsSelection
 import co.yap.household.onboarding.onboarding.states.HouseHoldCardsSelectionState
+import co.yap.networking.cards.CardsRepository
+import co.yap.networking.cards.requestdtos.OrderCardRequest
+import co.yap.networking.models.RetroApiResponse
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.interfaces.OnItemClickListener
@@ -19,10 +21,11 @@ class HouseHoldCardsSelectionViewModel(application: Application) :
     override val state: HouseHoldCardsSelectionState = HouseHoldCardsSelectionState()
     override var adapter: HouseHoldCardSelectionAdapter =
         HouseHoldCardSelectionAdapter(context, mutableListOf())
-    /*    override var circleColorAdapter: CircleColorAdapter =
-            CircleColorAdapter(mutableListOf())*/
+    private val cardsRepository: CardsRepository = CardsRepository
     override val changedPosition: MutableLiveData<Int> = MutableLiveData()
-    var adapterHouseHold = ObservableField<HouseHoldCardSelectionAdapter>()
+    override val clickEvent: SingleClickEvent = SingleClickEvent()
+    override var orderCardRequestSuccess: MutableLiveData<Boolean> = MutableLiveData()
+
 
     override fun onCreate() {
         super.onCreate()
@@ -34,7 +37,6 @@ class HouseHoldCardsSelectionViewModel(application: Application) :
         getCardsColorListRequest()
     }
 
-    override val clickEvent: SingleClickEvent = SingleClickEvent()
 
     override fun handlePressOnButton(id: Int) {
         clickEvent.setValue(id)
@@ -76,6 +78,30 @@ class HouseHoldCardsSelectionViewModel(application: Application) :
              }*/
         }
     }
+
+
+    override fun orderHouseHoldPhysicalCardRequest(orderCardRequest: OrderCardRequest) {
+        launch {
+            state.loading = true
+            when (val response =
+                cardsRepository.orderCard(
+                    orderCardRequest
+                )) {
+                is RetroApiResponse.Success -> {
+                    orderCardRequestSuccess.value = true
+                    state.toast = "success"
+                }
+                is RetroApiResponse.Error -> {
+                    orderCardRequestSuccess.value = true
+                    state.toast = "service fail/By pas service"
+                    state.toast = response.error.message
+                    state.loading = false
+                }
+            }
+
+        }
+    }
+
 
     private fun setUpItemClickListener() {
         adapter.setItemListener(object : OnItemClickListener {
