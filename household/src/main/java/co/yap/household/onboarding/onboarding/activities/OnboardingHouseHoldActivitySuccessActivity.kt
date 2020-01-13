@@ -40,7 +40,7 @@ class OnboardingHouseHoldActivitySuccessActivity : DefaultActivity() {
                 "Mirza Adil"
             )
 
-        tvEID_NotAcceptMessage.text = message
+        tvOnBoardingExistingMessage?.text = message
     }
 
 

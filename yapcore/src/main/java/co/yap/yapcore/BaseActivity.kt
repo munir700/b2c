@@ -14,8 +14,11 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.Observable
 import co.yap.translation.Strings
 import co.yap.translation.Translator
+import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.enums.YAPThemes
 import co.yap.yapcore.helpers.NetworkConnectionManager
 import co.yap.yapcore.helpers.PermissionsManager
+import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.Utils
 import com.google.android.material.snackbar.Snackbar
 
@@ -30,16 +33,9 @@ abstract class BaseActivity<V : IBase.ViewModel<*>> : AppCompatActivity(), IBase
     private lateinit var permissionsManager: PermissionsManager
     private var progress: Dialog? = null
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-//        theme.applyStyle(co.yap.yapcore.R.style.CoreAppTheme, true)
-        theme.applyStyle(co.yap.yapcore.R.style.AppThemeHouseHold, true)
-//        SharedPreferenceManager(applicationContext).setThemeValue(co.yap.yapcore.R.style.CoreAppTheme)
-//        setTheme(SharedPreferenceManager(applicationContext).getThemeValue())
-
-
+        applySelectedTheme(SharedPreferenceManager(this))
         this.window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
         this.window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
 
@@ -51,6 +47,33 @@ abstract class BaseActivity<V : IBase.ViewModel<*>> : AppCompatActivity(), IBase
         progress = Utils.createProgressDialog(this)
     }
 
+    private fun applySelectedTheme(prefs: SharedPreferenceManager) {
+        when (prefs.getThemeValue()) {
+            Constants.THEME_YAP -> {
+                setScreenState(YAPThemes.CORE())
+            }
+            Constants.THEME_HOUSEHOLD -> {
+                setScreenState(YAPThemes.HOUSEHOLD())
+            }
+            else -> {
+                setScreenState(YAPThemes.CORE())
+            }
+        }
+    }
+
+    private fun setScreenState(screenState: YAPThemes) {
+        when (screenState) {
+            is YAPThemes.CORE -> {
+                theme.applyStyle(R.style.CoreAppTheme, true)
+            }
+            is YAPThemes.HOUSEHOLD -> {
+                theme.applyStyle(R.style.AppThemeHouseHold, true)
+            }
+            else -> {
+                theme.applyStyle(R.style.CoreAppTheme, true)
+            }
+        }
+    }
 
     fun hideKeyboard() = Utils.hideKeyboard(this.currentFocus)
 
