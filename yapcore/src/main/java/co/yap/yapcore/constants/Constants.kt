@@ -26,6 +26,8 @@ object Constants {
     const val START_POOLING: String = "START_POOLING"
     const val TOP_UP_VIA_EXTERNAL_CARD: String = "TOP_UP_VIA_CARD"
 
+    const val THEME_YAP: String = "CORE"
+    const val THEME_HOUSEHOLD: String = "HOUSEHOLD"
 
     //Transaction Category Constant
     const val Y_TO_Y_TRANSFER = "P003"

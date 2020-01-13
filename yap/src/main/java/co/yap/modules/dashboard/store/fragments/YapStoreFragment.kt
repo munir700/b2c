@@ -11,6 +11,8 @@ import co.yap.modules.dashboard.store.household.activities.HouseHoldLandingActiv
 import co.yap.modules.dashboard.store.interfaces.IYapStore
 import co.yap.modules.dashboard.store.viewmodels.YapStoreViewModel
 import co.yap.yapcore.BaseBindingFragment
+import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.interfaces.OnItemClickListener
 import kotlinx.android.synthetic.main.fragment_yap_store.*
 
@@ -51,6 +53,7 @@ class YapStoreFragment : BaseBindingFragment<IYapStore.ViewModel>(), IYapStore.V
     private val observer = Observer<Int> {
         when (it) {
             R.id.imgStoreShopping -> {
+                SharedPreferenceManager(requireContext()).setThemeValue(Constants.THEME_HOUSEHOLD)
             }
         }
     }

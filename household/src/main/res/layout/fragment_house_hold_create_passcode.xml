@@ -12,9 +12,10 @@
         <import type="co.yap.translation.Strings" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:orientation="vertical"
         android:background="@color/white">
 
         <TextView
@@ -22,8 +23,7 @@
             style="@style/Large"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_medium"
-            android:layout_marginTop="@dimen/margin_medium"
+            android:layout_marginStart="@dimen/margin_small"
             android:layout_marginEnd="@dimen/margin_medium"
             android:gravity="center"
             android:lineSpacingExtra="0dp"
@@ -56,9 +56,10 @@
             android:id="@+id/dialer"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_marginTop="@dimen/margin_normal"
+            android:layout_marginTop="@dimen/margin_small"
             app:componentDialerError='@{createPasscodeViewModel.state.dialerError}'
             app:dialer_pass_code="passcode"
+            android:layout_weight="1"
             app:layout_constraintBottom_toTopOf="@+id/clTermsAndConditions"
             app:layout_constraintTop_toBottomOf="@id/tvPasscodeTitle" />
 
@@ -66,7 +67,7 @@
             android:id="@+id/clTermsAndConditions"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_medium"
+            android:layout_marginTop="@dimen/margin_normal"
             android:layout_marginBottom="@dimen/margin_normal"
             app:layout_constraintBottom_toTopOf="@+id/btnCreatePasscode"
             app:layout_constraintTop_toBottomOf="@+id/dialer">
@@ -108,7 +109,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/margin_medium_large"
             android:layout_marginRight="@dimen/margin_medium_large"
-            android:layout_marginBottom="@dimen/margin_medium"
+            android:layout_marginBottom="@dimen/margin_normal"
             android:gravity="center"
             android:onClick="@{(v)-> createPasscodeViewModel.handlePressOnCreatePasscodeButton(v.id)}"
             android:textColor="@color/colorWhite"
@@ -119,5 +120,5 @@
             app:text="@{Strings.screen_create_passcode_button_create_passcode}"
             tools:ignore="MissingConstraints"
             tools:text="@string/screen_create_passcode_button_create_passcode" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
 </layout>

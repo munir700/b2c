@@ -232,7 +232,7 @@ object CustomersRepository : BaseRepository(), CustomersApi {
         executeSafely(call = { api.verifyHouseholdMobile(verifyHouseholdMobileRequest) })
 
     override suspend fun verifyHouseholdParentMobile(
-        mobileNumber: String
+        mobileNumber: String?
     ): RetroApiResponse<ApiResponse> =
         executeSafely(call = { api.verifyHouseholdParentMobile(mobileNumber) })
 
