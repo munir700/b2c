@@ -27,23 +27,14 @@
         <TextView
             android:id="@+id/tvUnverifiedDescription"
             style="@style/SmallGrey"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_large"
-            android:gravity="center"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/ivUnverifiedIcon"
             tools:text="@string/screen_email_verified_popup_display_text_title" />
 
-        <TextView
-            android:id="@+id/tvEmail"
-            style="@style/Small"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_medium"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvUnverifiedDescription"
-            tools:text="Sufyan@digitify.com" />
 
         <TextView
             android:id="@+id/tvUserGuide"
@@ -56,7 +47,7 @@
             android:text="@string/screen_email_verified_popup_display_text_sub_title"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvEmail"
+            app:layout_constraintTop_toBottomOf="@+id/tvUnverifiedDescription"
             tools:text="@string/screen_email_verified_popup_display_text_sub_title" />
 
         <TextView
@@ -73,6 +64,34 @@
             tools:text="@string/screen_email_verified_popup_display_text_click_here" />
 
 
+        <TextView
+            android:id="@+id/tvTakeme"
+            style="@style/MicroGrey"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_medium"
+            android:gravity="center"
+            android:lineSpacingExtra="3sp"
+            android:text="@string/screen_email_verified_popup_button_Take_me"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvTroubleDescription"
+            tools:text="@string/screen_email_verified_popup_button_Take_me" />
+
+        <TextView
+            android:id="@+id/tvDoIt"
+            style="@style/MicroGrey"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:lineSpacingExtra="3sp"
+            android:text="@string/screen_email_verified_popup_button_do_it"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvTakeme"
+            tools:text="@string/screen_email_verified_popup_button_do_it" />
+
+
         <co.yap.widgets.CoreButton
             android:id="@+id/btnOpenMailApp"
             style="@style/RectangleBtnSmallStyle"
@@ -84,7 +103,7 @@
             app:btn_enable="true"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvTroubleDescription"
+            app:layout_constraintTop_toBottomOf="@+id/tvDoIt"
             tools:text="Add" />
 
         <TextView
