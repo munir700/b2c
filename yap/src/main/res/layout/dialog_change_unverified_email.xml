@@ -64,46 +64,18 @@
             tools:text="@string/screen_email_verified_popup_display_text_click_here" />
 
 
-        <TextView
-            android:id="@+id/tvTakeme"
-            style="@style/MicroGrey"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_medium"
-            android:gravity="center"
-            android:lineSpacingExtra="3sp"
-            android:text="@string/screen_email_verified_popup_button_Take_me"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvTroubleDescription"
-            tools:text="@string/screen_email_verified_popup_button_Take_me" />
-
-        <TextView
-            android:id="@+id/tvDoIt"
-            style="@style/MicroGrey"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:lineSpacingExtra="3sp"
-            android:text="@string/screen_email_verified_popup_button_do_it"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvTakeme"
-            tools:text="@string/screen_email_verified_popup_button_do_it" />
-
-
         <co.yap.widgets.CoreButton
             android:id="@+id/btnOpenMailApp"
             style="@style/RectangleBtnSmallStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_medium_large"
+            android:layout_marginTop="@dimen/margin_medium"
             android:layout_marginBottom="@dimen/margin_small"
-            android:text="@string/screen_unverified_display_button_mail"
+            android:text="@string/screen_email_verified_popup_button_Take_me"
             app:btn_enable="true"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvDoIt"
+            app:layout_constraintTop_toBottomOf="@+id/tvTroubleDescription"
             tools:text="Add" />
 
         <TextView
@@ -113,7 +85,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_small"
             android:padding="@dimen/_10sdp"
-            android:text="@string/screen_unverified_display_button_later"
+            android:text="@string/screen_email_verified_popup_button_do_it"
             android:textColor="@color/colorPrimary"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
