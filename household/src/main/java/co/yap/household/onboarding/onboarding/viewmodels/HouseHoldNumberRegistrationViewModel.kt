@@ -5,15 +5,17 @@ import android.graphics.Color
 import co.yap.household.onboarding.onboarding.interfaces.IHouseHoldNumberRegistration
 import co.yap.household.onboarding.onboarding.states.HouseHoldNumberRegistrationState
 import co.yap.household.onboarding.viewmodels.OnboardingChildViewModel
-import co.yap.translation.Strings
-import co.yap.yapcore.BaseViewModel
+import co.yap.networking.customers.CustomersRepository
+import co.yap.networking.interfaces.IRepositoryHolder
+import co.yap.networking.models.RetroApiResponse
 import co.yap.yapcore.SingleClickEvent
 
 class HouseHoldNumberRegistrationViewModel(application: Application) :
     OnboardingChildViewModel<IHouseHoldNumberRegistration.State>(application),
-    IHouseHoldNumberRegistration.ViewModel {
+    IHouseHoldNumberRegistration.ViewModel, IRepositoryHolder<CustomersRepository> {
+    override val repository: CustomersRepository = CustomersRepository
     override val state: HouseHoldNumberRegistrationState = HouseHoldNumberRegistrationState()
-    override var clickEvent: SingleClickEvent?= SingleClickEvent()
+    override var clickEvent: SingleClickEvent? = SingleClickEvent()
 
     override fun onCreate() {
         populateState()
@@ -21,11 +23,28 @@ class HouseHoldNumberRegistrationViewModel(application: Application) :
         state.existingYapUser = parentViewModel?.state?.existingYapUser
 
     }
+
     override fun onResume() {
         super.onResume()
         updateBackground(Color.WHITE)
         setProgress(20)
     }
+
+    override fun verifyHouseholdParentMobile() {
+        launch {
+            state.loading = true
+            when (val response = repository.verifyHouseholdParentMobile(state.phoneNumber)) {
+                is RetroApiResponse.Success -> {
+                    state.loading = false
+                }
+                is RetroApiResponse.Error -> {
+                    state.loading = false
+
+                }
+            }
+        }
+    }
+
     override fun populateState() {
 //        state.parentName = "Sufyan"
 //        state.welcomeHeading =
