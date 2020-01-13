@@ -98,7 +98,8 @@
                 android:paddingBottom="@dimen/margin_normal_large"
                 android:textStyle="bold"
                 app:btn_enable="true"
-                app:text="@{Strings.screen_home_button_personal_text}" />
+                app:text="@{Strings.screen_home_button_personal_text}"
+         />
 
             <co.yap.widgets.CoreButton
                 android:id="@+id/btnBusiness"
