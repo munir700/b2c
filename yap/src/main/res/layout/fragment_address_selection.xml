@@ -27,14 +27,14 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-
             <include
-                android:id="@+id/mapView"
+                android:id="@+id/llmapView"
                 layout="@layout/layout_maps"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:minHeight="@dimen/_140sdp"
-                app:viewModel="@{viewModel}" />
+                app:viewModel="@{viewModel}"
+                 />
 
             <FrameLayout
                 android:id="@+id/flTitle"
@@ -145,6 +145,7 @@
                         android:cursorVisible="false"
                         android:editable="false"
                         android:focusable="false"
+                        android:onClick="@{(v) -> viewModel.handlePressOnSelectLocation(v.id)}"
                         android:focusableInTouchMode="false"
                         android:gravity="left"
                         android:inputType="textPersonName"
