@@ -42,7 +42,6 @@ class NewUserSuccessFragment :
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         val display = activity!!.windowManager.defaultDisplay
         display.getRectSize(windowSize)
 

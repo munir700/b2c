@@ -51,7 +51,7 @@ class OnboardingHouseHoldActivity : BaseBindingActivity<IOnboarding.ViewModel>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         intent?.getBundleExtra(BUNDLE_DATA)?.let {
-            viewModel.state.accountInfo = it.getParcelable<AccountInfo>(USER_INFO)
+            viewModel.state.accountInfo = it.getParcelable(USER_INFO)
             viewModel.state.existingYapUser = it.getBoolean(EXISTING_USER, false)
         }
         viewModel.state.accountInfo?.run {
