@@ -40,7 +40,7 @@ class HouseHoldSuccessFragment : BaseOnBoardingFragment<IHouseHoldSuccess.ViewMo
                     findNavController().navigate(R.id.action_houseHoldSuccessFragment_to_yapDashboardActivity)
                     activity!!.finish()
 
-                 }
+                }
 
                 R.id.btnShare -> {
                     shareInfo()
@@ -81,4 +81,6 @@ class HouseHoldSuccessFragment : BaseOnBoardingFragment<IHouseHoldSuccess.ViewMo
             Constants.URL_SHARE_PLAY_STORE
         )
     }
+
+    override fun onBackPressed(): Boolean = true
 }

@@ -3,17 +3,16 @@ package co.yap.household.onboarding.onboarding.viewmodels
 import android.app.Application
 import android.view.View
 import androidx.lifecycle.MutableLiveData
-import co.yap.household.onboarding.onboarding.fragments.CardColorSelectionModel
 import co.yap.household.onboarding.onboarding.fragments.HouseHoldCardSelectionAdapter
 import co.yap.household.onboarding.onboarding.interfaces.IHouseHoldCardsSelection
 import co.yap.household.onboarding.onboarding.states.HouseHoldCardsSelectionState
 import co.yap.networking.cards.CardsRepository
 import co.yap.networking.cards.requestdtos.OrderCardRequest
+import co.yap.networking.customers.responsedtos.HouseHoldCardsDesign
 import co.yap.networking.models.RetroApiResponse
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.interfaces.OnItemClickListener
-import kotlinx.coroutines.delay
 
 class HouseHoldCardsSelectionViewModel(application: Application) :
     BaseViewModel<IHouseHoldCardsSelection.State>(application), IHouseHoldCardsSelection.ViewModel {
@@ -34,7 +33,7 @@ class HouseHoldCardsSelectionViewModel(application: Application) :
     }
 
     override fun initViews() {
-        getCardsColorListRequest()
+        getCardsDesignListRequest("B2C_HOUSEHOLD")
     }
 
 
@@ -42,40 +41,29 @@ class HouseHoldCardsSelectionViewModel(application: Application) :
         clickEvent.setValue(id)
     }
 
-    override fun getCardsColorList(): MutableList<CardColorSelectionModel> {
-        val list: MutableList<CardColorSelectionModel> = mutableListOf()
-        list.add(CardColorSelectionModel(1, 2))
-        list.add(CardColorSelectionModel(3, 4))
-        list.add(CardColorSelectionModel(5, 6))
+   /* override fun getCardsColorList(list: MutableList<HouseHoldCardsDesign?>?): MutableList<HouseHoldCardsDesign?>? {
         return list
-    }
+    }*/
 
-    override fun getCardsColorListRequest() {
+    override fun getCardsDesignListRequest(accountType: String) {
         launch {
             state.loading = true
-            delay(2000)
+            when (val response =
+                cardsRepository.getHouseHoldCardsDesign(accountType = accountType)) {
+                is RetroApiResponse.Success -> {
+                    if (response.data.data.isNullOrEmpty()) return@launch
+
+                    response.data.data?.let {
+                        adapter.setList(it)
+                    }
+
+                }
+                is RetroApiResponse.Error -> {
+                    state.loading = false
+                    state.toast = response.error.message
+                }
+            }
             state.loading = false
-            adapter.setList(getCardsColorList())
-            /* when (val response =
-                 mTransactionsRepository.getTransactionInternationalReasonList(productCode)) {
-                 is RetroApiResponse.Success -> {
-                     if (response.data.data.isNullOrEmpty()) return@launch
-                     response.data.data?.let {
-                         transactionData.addAll(it.map { item ->
-                             InternationalFundsTransferReasonList.ReasonList(
-                                 code = item.code ?: "",
-                                 reason = item.reason ?: ""
-                             )
-                         })
-                     }
-                     //getTransactionInternationalfxList(productCode)
-                     populateSpinnerData.value = transactionData
-                 }
-                 is RetroApiResponse.Error -> {
- //                    state.loading = false
-                     state.toast = response.error.message
-                 }
-             }*/
         }
     }
 
@@ -90,6 +78,7 @@ class HouseHoldCardsSelectionViewModel(application: Application) :
                 is RetroApiResponse.Success -> {
                     orderCardRequestSuccess.value = true
                     state.toast = "success"
+                    state.loading = false
                 }
                 is RetroApiResponse.Error -> {
                     orderCardRequestSuccess.value = true
@@ -98,7 +87,6 @@ class HouseHoldCardsSelectionViewModel(application: Application) :
                     state.loading = false
                 }
             }
-
         }
     }
 
