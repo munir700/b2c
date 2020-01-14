@@ -106,6 +106,7 @@ class LocationSelectionActivity : MapSupportActivity(), ILocationSelection.View 
             }
 
             R.id.btnLocation -> {
+                viewModel.state.toolbarVisibility = viewModel.state.isMapExpanded.get() != true
                 expandMap()
             }
 
@@ -161,6 +162,7 @@ class LocationSelectionActivity : MapSupportActivity(), ILocationSelection.View 
     }
 
     private fun collapseMap() {
+        viewModel.state.toolbarVisibility = viewModel.state.isMapExpanded.get() != true
 
         YoYo.with(Techniques.FadeIn)
             .duration(400)

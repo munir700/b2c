@@ -29,7 +29,7 @@ class LocationSelectionState(application: Application) : BaseState(), ILocationS
     override var addressSubtitle: ObservableField<String> = ObservableField("")
     override var isTermsChecked: ObservableField<Boolean> = ObservableField(false)
     override var valid: ObservableField<Boolean> = ObservableField(false)
-
+    override var isMapExpanded: ObservableField<Boolean> = ObservableField(false)
     @get:Bindable
     override var toolbarVisibility: Boolean = false
         set(value) {

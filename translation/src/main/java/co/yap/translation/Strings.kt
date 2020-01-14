@@ -1401,7 +1401,8 @@ object Strings {
     const val screen_house_hold_existing_yap_message: String =
         "screen_house_hold_existing_yap_message"
 
-
+    const val screen_yap_house_hold_confirm_payment_share_text: String =
+        "screen_yap_house_hold_confirm_payment_share_text"
 
 
 

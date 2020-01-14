@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -18,6 +19,7 @@
         android:background="@color/white"
         android:gravity="center_vertical"
         android:padding="@dimen/_8sdp"
+        tools:visibility="visible"
         android:visibility="@{viewModel.state.toolbarVisibility? View.VISIBLE:View.GONE}">
 
         <ImageView

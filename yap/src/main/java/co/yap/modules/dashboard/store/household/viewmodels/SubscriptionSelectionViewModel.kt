@@ -168,7 +168,7 @@ class SubscriptionSelectionViewModel(application: Application) :
                 discountPercent = (discountPrice / actualYearlyAmount).times(100).toInt()
                 state.planDiscount =
                     getString(Strings.screen_yap_house_hold_subscription_selection_display_text_saving).format(
-                        "${discountPercent.toString()} %"
+                        "${discountPercent.toString()}%"
                     )
                 return discountPercent
             }
