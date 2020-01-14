@@ -5,6 +5,8 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.Navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import co.yap.household.BR
 import co.yap.household.R
 import co.yap.household.onboarding.interfaces.IOnboarding
@@ -14,6 +16,7 @@ import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.IFragmentHolder
 import co.yap.yapcore.defaults.DefaultNavigator
 import co.yap.yapcore.defaults.INavigator
+import co.yap.yapcore.enums.NotificationStatus
 import co.yap.yapcore.interfaces.BackPressImpl
 import co.yap.yapcore.interfaces.IBaseNavigator
 
@@ -50,6 +53,25 @@ class OnboardingHouseHoldActivity : BaseBindingActivity<IOnboarding.ViewModel>()
         intent?.getBundleExtra(BUNDLE_DATA)?.let {
             viewModel.state.accountInfo = it.getParcelable<AccountInfo>(USER_INFO)
             viewModel.state.existingYapUser = it.getBoolean(EXISTING_USER, false)
+        }
+        viewModel.state.accountInfo?.run {
+            when (NotificationStatus.valueOf(notificationStatuses)) {
+                NotificationStatus.PASS_CODE_PENDING -> {
+
+                }
+                NotificationStatus.PARNET_MOBILE_VERIFICATION_PENDING -> {
+
+                }
+                NotificationStatus.EMAIL_PENDING -> {
+
+                }
+                NotificationStatus.ON_BOARDED -> {
+
+                }
+                else -> {
+
+                }
+            }
         }
         viewModel.onboardingData.accountType = "B2C_ACCOUNT"
         viewModel.backButtonPressEvent.observe(this, backButtonObserver)

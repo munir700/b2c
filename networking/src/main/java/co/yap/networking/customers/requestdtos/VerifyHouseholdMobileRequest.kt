@@ -6,5 +6,5 @@ data class VerifyHouseholdMobileRequest(
     @SerializedName("countryCode")
     var countryCode: String,
     @SerializedName("mobileNo")
-    var mobileNo: String
+    var mobileNo: String?
 )
