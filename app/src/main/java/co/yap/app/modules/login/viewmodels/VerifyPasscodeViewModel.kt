@@ -1,16 +1,18 @@
 package co.yap.app.modules.login.viewmodels
 
 import android.app.Application
+import androidx.lifecycle.MutableLiveData
 import co.yap.app.constants.Constants
 import co.yap.app.login.EncryptionUtils
 import co.yap.app.modules.login.interfaces.IVerifyPasscode
 import co.yap.app.modules.login.states.VerifyPasscodeState
 import co.yap.networking.authentication.AuthRepository
-import co.yap.networking.messages.requestdtos.CreateOtpGenericRequest
 import co.yap.networking.customers.CustomersRepository
+import co.yap.networking.customers.responsedtos.AccountInfo
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.messages.MessagesRepository
 import co.yap.networking.messages.requestdtos.CreateForgotPasscodeOtpRequest
+import co.yap.networking.messages.requestdtos.CreateOtpGenericRequest
 import co.yap.networking.models.RetroApiResponse
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
@@ -33,7 +35,7 @@ class VerifyPasscodeViewModel(application: Application) :
     private val customersRepository: CustomersRepository = CustomersRepository
     override var emailOtp: Boolean = false
     override var mobileNumber: String = ""
-
+    override val accountInfo: MutableLiveData<AccountInfo> = MutableLiveData()
     private val messagesRepository: MessagesRepository = MessagesRepository
 
     override fun login() {
@@ -149,6 +151,20 @@ class VerifyPasscodeViewModel(application: Application) :
         }
     }
 
+    override fun getAccountInfo() {
+        launch {
+            state.loading = true
+            when (val response = customersRepository.getAccountInfo()) {
+                is RetroApiResponse.Success -> {
+                    //MyUserManager.user = response.data.data[0]
+                    accountInfo.postValue(response.data.data[0])
+                    //MyUserManager.user?.setLiveData() // DOnt remove this line
+                }
+                is RetroApiResponse.Error -> state.toast = response.error.message
+            }
+            state.loading = false
+        }
+    }
 
     override fun createOtp() {
         launch {

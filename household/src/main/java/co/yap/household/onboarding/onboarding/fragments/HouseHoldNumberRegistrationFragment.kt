@@ -43,13 +43,13 @@ class HouseHoldNumberRegistrationFragment :
                 R.id.btnConfirm -> {
                     viewModel.state.existingYapUser?.let {
                         if (it) {
-                            viewModel.verifyHouseholdParentMobile()
-//                            startActivity(
-//                                Intent(
-//                                    requireContext(),
-//                                    HouseHoldCardsSelectionActivity::class.java
-//                                )
-//                            )
+//                            viewModel.verifyHouseholdParentMobile()
+                            startActivity(
+                                Intent(
+                                    requireContext(),
+                                    HouseHoldCardsSelectionActivity::class.java
+                                )
+                            )
                         } else {
                             findNavController().navigate(R.id.to_houseHoldCreatePassCodeFragment)
                         }

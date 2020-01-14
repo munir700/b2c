@@ -9,7 +9,7 @@ interface IPersonalDetail {
     interface State : IBase.State {
         var fullName: String
         var phoneNumber: String
-        var email: String
+        var email: String?
         var address: String
         var drawbleRight: Drawable?
         var errorVisibility: Boolean
