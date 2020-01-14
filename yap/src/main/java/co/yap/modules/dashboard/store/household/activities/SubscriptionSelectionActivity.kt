@@ -53,6 +53,7 @@ class SubscriptionSelectionActivity :
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         initViewPager()
+        viewModel.fetchHouseholdPackagesFee()
     }
 
     override fun onResume() {
@@ -70,23 +71,26 @@ class SubscriptionSelectionActivity :
                     viewModel.state.hasSelectedPackage = true
                     llMonthlySubscription.isActivated = false
                     llAnnualSubscription.isActivated = true
-                    selectedPlan = viewModel.plansList[1]
+                    if (!viewModel.plansList.isNullOrEmpty() && viewModel.plansList.size == 2)
+                        selectedPlan = viewModel.plansList[1]
                 }
 
                 R.id.llMonthlySubscription -> {
                     viewModel.state.hasSelectedPackage = true
                     llMonthlySubscription.isActivated = true
                     llAnnualSubscription.isActivated = false
-                    selectedPlan = viewModel.plansList[0]
+                    if (!viewModel.plansList.isNullOrEmpty() && viewModel.plansList.size == 2)
+                        selectedPlan = viewModel.plansList[0]
                 }
 
                 R.id.btnGetStarted -> {
-                    startActivityForResult(
-                        HouseHoldOnboardingActivity.newIntent(
-                            this@SubscriptionSelectionActivity,
-                            selectedPlan, viewModel.plansList
-                        ), RequestCodes.REQUEST_ADD_HOUSE_HOLD
-                    )
+                    if (!viewModel.plansList.isNullOrEmpty() && viewModel.plansList.size == 2)
+                        startActivityForResult(
+                            HouseHoldOnboardingActivity.newIntent(
+                                this@SubscriptionSelectionActivity,
+                                selectedPlan, viewModel.plansList
+                            ), RequestCodes.REQUEST_ADD_HOUSE_HOLD
+                        )
                     //confirmationDialog()
                 }
 

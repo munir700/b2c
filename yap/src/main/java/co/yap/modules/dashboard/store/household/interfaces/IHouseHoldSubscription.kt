@@ -20,14 +20,13 @@ interface IHouseHoldSubscription {
         val clickEvent: SingleClickEvent
         var benefitsList: ArrayList<BenefitsModel>
         var plansList:ArrayList<HouseHoldPlan>
-
         fun handlePressOnCloseIcon(id: Int)
         fun handlePressOnMonthlyPackage(id: Int)
         fun handlePressOnYearlyPackage(id: Int)
         fun handlePressOnGetStarted(id: Int)
         fun loadDummyData(): ArrayList<BenefitsModel>
         fun getPages(): ArrayList<WelcomeContent>
-        fun getPackageFee(type:String)
+        fun fetchHouseholdPackagesFee()
 
     }
 
