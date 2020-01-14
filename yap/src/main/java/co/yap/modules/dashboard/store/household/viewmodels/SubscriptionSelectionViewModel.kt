@@ -15,8 +15,8 @@ import co.yap.translation.Strings
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.enums.PackageType
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
-import kotlinx.coroutines.runBlocking
 
 class SubscriptionSelectionViewModel(application: Application) :
     BaseViewModel<IHouseHoldSubscription.State>(application),
@@ -133,16 +133,15 @@ class SubscriptionSelectionViewModel(application: Application) :
 //    }
 
     override fun fetchHouseholdPackagesFee() {
-        state.loading = true
-        runBlocking {
-            val monthly = async {
+        launch {
+            val monthly = viewModelBGScope.async(Dispatchers.IO) {
                 repository.getHousholdFeePackage(PackageType.MONTHLY.type)
             }
 
-            val yearly = async {
+            val yearly = viewModelBGScope.async(Dispatchers.IO) {
                 repository.getHousholdFeePackage(PackageType.YEARLY.type)
             }
-
+            state.loading = true
             handlePackageFeeResponse(monthly.await(), yearly.await())
         }
     }
@@ -178,9 +177,7 @@ class SubscriptionSelectionViewModel(application: Application) :
         } else if (yearlyFeeResponse is RetroApiResponse.Error)
             state.error = yearlyFeeResponse.error.message
 
-
         state.loading = false
-
     }
 
     private fun getDiscount(): Int? {
