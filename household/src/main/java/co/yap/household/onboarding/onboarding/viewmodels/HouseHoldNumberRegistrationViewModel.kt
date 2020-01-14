@@ -2,13 +2,16 @@ package co.yap.household.onboarding.onboarding.viewmodels
 
 import android.app.Application
 import android.graphics.Color
+import androidx.lifecycle.MutableLiveData
 import co.yap.household.onboarding.onboarding.interfaces.IHouseHoldNumberRegistration
 import co.yap.household.onboarding.onboarding.states.HouseHoldNumberRegistrationState
 import co.yap.household.onboarding.viewmodels.OnboardingChildViewModel
 import co.yap.networking.customers.CustomersRepository
+import co.yap.networking.customers.requestdtos.VerifyHouseholdMobileRequest
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
 import co.yap.yapcore.SingleClickEvent
+import co.yap.yapcore.helpers.getCountryCodeForRegionWithZeroPrefix
 
 class HouseHoldNumberRegistrationViewModel(application: Application) :
     OnboardingChildViewModel<IHouseHoldNumberRegistration.State>(application),
@@ -16,10 +19,13 @@ class HouseHoldNumberRegistrationViewModel(application: Application) :
     override val repository: CustomersRepository = CustomersRepository
     override val state: HouseHoldNumberRegistrationState = HouseHoldNumberRegistrationState()
     override var clickEvent: SingleClickEvent? = SingleClickEvent()
+    override var isParentMobileValid: MutableLiveData<Boolean>?= MutableLiveData(false)
 
     override fun onCreate() {
         populateState()
         super.onCreate()
+        state.userName = parentViewModel?.state?.accountInfo?.currentCustomer?.getFullName()
+        state.parentName = parentViewModel?.state?.accountInfo?.parentAccount?.currentCustomer?.getFullName()
         state.existingYapUser = parentViewModel?.state?.existingYapUser
 
     }
@@ -33,12 +39,19 @@ class HouseHoldNumberRegistrationViewModel(application: Application) :
     override fun verifyHouseholdParentMobile() {
         launch {
             state.loading = true
-            when (val response = repository.verifyHouseholdParentMobile(state.phoneNumber)) {
+            val request = VerifyHouseholdMobileRequest(
+                countryCode = getCountryCodeForRegionWithZeroPrefix(state.countryCode),
+                mobileNo = state.phoneNumber
+            )
+            when (val response = repository.verifyHouseholdParentMobile(state.phoneNumber, request )) {
                 is RetroApiResponse.Success -> {
+                    isParentMobileValid?.postValue(true)
                     state.loading = false
                 }
                 is RetroApiResponse.Error -> {
                     state.loading = false
+                    isParentMobileValid?.postValue(false)
+                    state.toast = response.error.message
 
                 }
             }

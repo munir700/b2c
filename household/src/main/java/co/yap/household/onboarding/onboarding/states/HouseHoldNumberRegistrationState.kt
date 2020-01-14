@@ -35,10 +35,16 @@ class HouseHoldNumberRegistrationState : BaseState(), IHouseHoldNumberRegistrati
     @get:Bindable
     override var phoneNumber: String? = ""
         set(value) {
-            field = value
+            field = value?.replace(" ", "")
             notifyPropertyChanged(BR.phoneNumber)
-            buttonValidation = isValidPhoneNumber(phoneNumber!!,"AE")
+            buttonValidation = isValidPhoneNumber(phoneNumber!!, countryCode)
 
+        }
+    @get:Bindable
+    override var countryCode: String = "AE"
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.countryCode)
         }
     @get:Bindable
     override var buttonTitle: String = ""
