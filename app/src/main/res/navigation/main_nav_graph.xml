@@ -215,5 +215,15 @@
         android:label="OnBoardingExistingYAP"
         tools:layout="@layout/activity_on_boarding_existing_yap" />
 
+
+    <activity
+        android:id="@+id/documentsDashboardActivity"
+        tools:layout="@layout/activity_documents_dashboard"
+        android:name="co.yap.modules.kyc.activities.DocumentsDashboardActivity"
+        android:label="DocumentsDashboardActivity">
+        <argument
+            android:name="name"
+            app:argType="string"/>
+    </activity>
 </navigation>
 
