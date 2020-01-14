@@ -93,45 +93,7 @@ class SubscriptionSelectionViewModel(application: Application) :
 
         return benefitsModelList
     }
-    //todo remove this commented code after proper testing of aysnc call
-
-//    override fun getPackageFee(type: String) {
-//        launch {
-//            when (val response = repository.getHousholdFeePackage(type)) {
-//                is RetroApiResponse.Success -> {
-//                    when (type) {
-//                        PackageType.MONTHLY.type -> {
-//                            monthlyFee = response.data.data?.amount?.toDoubleOrNull()
-//                            state.monthlyFee =
-//                                response.data.data?.currency + " " + response.data.data?.amount
-//                            plansList.add(
-//                                HouseHoldPlan(
-//                                    type = type,
-//                                    amount = state.monthlyFee
-//                                )
-//                            )
-//                        }
-//                        PackageType.YEARLY.type -> {
-//                            yearlyFee = response.data.data?.amount?.toDoubleOrNull()
-//                            state.annuallyFee =
-//                                response.data.data?.currency + " " + response.data.data?.amount
-//                            plansList.add(
-//                                HouseHoldPlan(
-//                                    type = "Yearly",
-//                                    amount = state.annuallyFee,
-//                                    discount = getDiscount()
-//                                )
-//                            )
-//                        }
-//                    }
-//                }
-//                is RetroApiResponse.Error -> {
-//                    state.toast = response.error.message
-//                }
-//            }
-//        }
-//    }
-
+    
     override fun fetchHouseholdPackagesFee() {
         launch {
             val monthly = viewModelBGScope.async(Dispatchers.IO) {
