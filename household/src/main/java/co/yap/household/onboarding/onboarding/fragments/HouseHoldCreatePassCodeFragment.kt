@@ -53,6 +53,7 @@ class HouseHoldCreatePassCodeFragment :
     override fun onDestroyView() {
         super.onDestroyView()
         viewModel.clickEvent?.removeObservers(this)
+        viewModel.onPasscodeSuccess.removeObservers(this)
     }
 
     override fun onBackPressed(): Boolean = false
