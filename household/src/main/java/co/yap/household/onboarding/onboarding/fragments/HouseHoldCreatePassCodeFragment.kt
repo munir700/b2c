@@ -38,12 +38,15 @@ class HouseHoldCreatePassCodeFragment :
         viewModel.clickEvent?.observe(this, Observer {
             when (it) {
                 R.id.btnCreatePasscode -> {
-                    findNavController().navigate(R.id.to_emailHouseHoldFragment)
+                    viewModel.createPassCodeRequest()
                 }
                 R.id.tvTermsAndConditions -> {
                     Utils.openWebPage(Constants.URL_TERMS_CONDITION, "", activity)
                 }
             }
+        })
+        viewModel.onPasscodeSuccess.observe(this, Observer {
+            if (it) findNavController().navigate(R.id.to_emailHouseHoldFragment)
         })
     }
 

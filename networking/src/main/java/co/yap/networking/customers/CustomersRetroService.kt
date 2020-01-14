@@ -149,5 +149,8 @@ interface CustomersRetroService {
     @POST(CustomersRepository.URL_ADD_HOUSEHOLD_EMAIL)
     suspend fun addHouseholdEmail(@Body addHouseholdEmailRequest: AddHouseholdEmailRequest): Response<ApiResponse>
 
+    @POST(CustomersRepository.URL_CREATE_HOUSEHOLD_PASSCODE)
+    suspend fun createHouseholdPasscode(@Body createPassCodeRequest: CreatePassCodeRequest): Response<ApiResponse>
+
 
 }

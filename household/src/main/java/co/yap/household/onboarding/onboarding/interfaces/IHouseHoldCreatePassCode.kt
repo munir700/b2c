@@ -1,5 +1,6 @@
 package co.yap.household.onboarding.onboarding.interfaces
 
+import androidx.lifecycle.MutableLiveData
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
 
@@ -10,7 +11,9 @@ interface IHouseHoldCreatePassCode {
 
     interface ViewModel : IBase.ViewModel<State> {
         val clickEvent: SingleClickEvent?
+        var onPasscodeSuccess: MutableLiveData<Boolean>
         fun handlePressOnCreatePasscodeButton(id: Int)
+        fun createPassCodeRequest()
     }
 
     interface State : IBase.State {
