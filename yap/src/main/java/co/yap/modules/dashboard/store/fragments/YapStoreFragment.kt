@@ -52,10 +52,14 @@ class YapStoreFragment : BaseBindingFragment<IYapStore.ViewModel>(), IYapStore.V
 
     val listener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
-            startActivityForResult(
-                HouseHoldLandingActivity.newIntent(requireContext()),
-                RequestCodes.REQUEST_ADD_HOUSE_HOLD
-            )
+            if (data is Store) {
+                if (data.name == "YAP Household") {
+                    startActivityForResult(
+                        HouseHoldLandingActivity.newIntent(requireContext()),
+                        RequestCodes.REQUEST_ADD_HOUSE_HOLD
+                    )
+                }
+            }
         }
     }
 
