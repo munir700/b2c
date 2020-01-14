@@ -53,6 +53,7 @@ class KYCHomeFragment : KYCChildFragment<IKYCHome.ViewModel>(), IKYCHome.View {
                         findNavController().navigate(R.id.action_KYCHomeFragment_to_AddressSelectionFragment)
                     }
                 }
+
                 R.id.tvSkip -> {
                     if (activity is DocumentsDashboardActivity)
                         (activity as DocumentsDashboardActivity).goToDashBoard(
