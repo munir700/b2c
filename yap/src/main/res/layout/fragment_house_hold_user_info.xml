@@ -14,10 +14,13 @@
             name="viewModel"
             type="co.yap.modules.dashboard.store.household.onboarding.viewmodels.HouseHoldUserInfoViewModel" />
     </data>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:fillViewport="true">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:background="@color/white"
         android:paddingLeft="@dimen/margin_medium"
@@ -42,6 +45,7 @@
 
 
         <LinearLayout
+            android:id="@+id/llData"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
@@ -164,14 +168,18 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/margin_xxl"
+            android:layout_marginTop="@dimen/margin_medium"
             android:layout_marginRight="@dimen/margin_xxl"
-            android:layout_marginBottom="@dimen/margin_medium_large"
             android:onClick="@{(v) -> viewModel.handlePressOnNext(v.id)}"
             android:text="@string/screen_yap_house_hold_user_info_button_next"
             app:enableCoreButton="@{viewModel.state.valid}"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:text="@{Strings.screen_yap_house_hold_user_info_button_next}"
-            tools:ignore="MissingConstraints"
-            tools:layout_editor_absoluteX="44dp" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.497"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/llData"
+            app:layout_constraintVertical_bias="0.963"
+            app:text="@{Strings.screen_yap_house_hold_user_info_button_next}" />
     </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
 </layout>

@@ -32,7 +32,7 @@ class TempDialerFragment : OnboardingChildFragment<IEmail.ViewModel>() {
     }
 
     override fun onDestroyView() {
-        viewModel.nextButtonPressEvent.removeObservers(this)
+        viewModel.clickEvent.removeObservers(this)
         viewModel.animationStartEvent.removeObservers(this)
         super.onDestroyView()
     }

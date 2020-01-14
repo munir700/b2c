@@ -27,7 +27,7 @@ class YapDashBoardState : BaseState(), IYapDashboard.State {
         }
 
     @get:Bindable
-    override var firstName: String = ""
+    override var firstName: String? = ""
         set(value) {
             field = value
             notifyPropertyChanged(BR.firstName)

@@ -26,7 +26,7 @@ class LocationSelectionViewModel(application: Application) :
 
     override fun onResume() {
         super.onResume()
-        state.toolbarVisibility = false
+        state.toolbarVisibility = state.isMapExpanded.get() != true
     }
 
     override fun onLocationSelected() {

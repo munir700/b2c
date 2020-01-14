@@ -687,7 +687,7 @@ object Utils {
             context,
             Strings.common_display_text_y2y_share,
             StringUtils.getFirstname(contact.title!!),
-            MyUserManager.user!!.currentCustomer.firstName,
+            MyUserManager.user?.currentCustomer?.firstName!!,
             Constants.URL_SHARE_APP_STORE,
             Constants.URL_SHARE_PLAY_STORE
         )
@@ -697,7 +697,7 @@ object Utils {
         return Translator.getString(
             context,
             Strings.common_display_text_y2y_general_share,
-            MyUserManager.user!!.currentCustomer.firstName,
+            MyUserManager.user?.currentCustomer?.firstName!!,
             Constants.URL_SHARE_APP_STORE,
             Constants.URL_SHARE_PLAY_STORE
         )

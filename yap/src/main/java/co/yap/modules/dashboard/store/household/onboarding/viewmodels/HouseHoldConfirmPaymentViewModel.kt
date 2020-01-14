@@ -68,7 +68,7 @@ class HouseHoldConfirmPaymentViewModel(application: Application) :
             state.loading = true
             when (val response = repository.onboardHousehold(getOnboardRequest())) {
                 is RetroApiResponse.Success -> {
-                    parentViewModel?.tempPasscode = response.data.passcode ?: "0000"
+                    parentViewModel?.tempPasscode = response.data.data?.passcode ?: "0000"
                     onBoardUserSuccess.value = true
                 }
 

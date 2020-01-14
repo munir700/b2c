@@ -1,7 +1,9 @@
 package co.yap.networking.customers.responsedtos.sendmoney
 
+import android.os.Parcelable
 import co.yap.networking.models.ApiResponse
 import com.google.gson.annotations.SerializedName
+import kotlinx.android.parcel.Parcelize
 
 data class CountryModel(
     @SerializedName("data")
@@ -27,6 +29,7 @@ data class CountryModel(
         @SerializedName("currencyList")
         var currencyList: List<Currency>? = arrayListOf()
     ) {
+        @Parcelize
         data class Currency(
             @SerializedName("code")
             var code: String? = "",
@@ -52,8 +55,6 @@ data class CountryModel(
             var symbol: Boolean? = false,
             @SerializedName("isoNum")
             var isoNum: String? = ""
-
-
-        )
+        ):Parcelable
     }
 }

@@ -215,7 +215,7 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
             getString(Strings.screen_email_verified_popup_display_text_title).format(
                 MyUserManager.user!!.currentCustomer.firstName
             )
-        tvEmail.text = MyUserManager.user!!.currentCustomer.email
+        tvEmail.text = MyUserManager.user?.currentCustomer?.email
 
         val fcs = ForegroundColorSpan(ContextCompat.getColor(this, R.color.colorPrimary))
         val myClickableSpan = object : ClickableSpan() {

@@ -60,18 +60,18 @@ class SubscriptionSelectionViewModel(application: Application) :
     private fun generateB2CPages(): ArrayList<WelcomeContent> {
         val content1 = WelcomeContent(
             getString(Strings.screen_welcome_b2c_display_text_page1_title),
-            getString(Strings.screen_welcome_b2c_display_text_page1_details),
-            R.drawable.gold
+            getString(Strings.screen_yap_house_hold_success_display_text_pager_color),
+            R.drawable.image_yap_household_card
         )
         val content2 = WelcomeContent(
             getString(Strings.screen_welcome_b2c_display_text_page2_title),
-            getString(Strings.screen_welcome_b2c_display_text_page2_details),
-            R.drawable.rose_gold
+            getString(Strings.screen_yap_house_hold_success_display_text_pager_schedule_payments),
+            R.drawable.image_yap_household_salary
         )
         val content3 = WelcomeContent(
             getString(Strings.screen_welcome_b2c_display_text_page3_title),
-            getString(Strings.screen_welcome_b2c_display_text_page3_details),
-            R.drawable.card_spare
+            getString(Strings.screen_yap_house_hold_success_display_text_pager_schedule_pots),
+            R.drawable.image_hosue_hold_track_expenses
         )
         return arrayListOf(content1, content2, content3)
     }
@@ -168,7 +168,7 @@ class SubscriptionSelectionViewModel(application: Application) :
                 discountPercent = (discountPrice / actualYearlyAmount).times(100).toInt()
                 state.planDiscount =
                     getString(Strings.screen_yap_house_hold_subscription_selection_display_text_saving).format(
-                        "${discountPercent.toString()} %"
+                        "${discountPercent.toString()}%"
                     )
                 return discountPercent
             }

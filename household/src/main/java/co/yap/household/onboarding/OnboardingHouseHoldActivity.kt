@@ -9,6 +9,7 @@ import co.yap.household.BR
 import co.yap.household.R
 import co.yap.household.onboarding.interfaces.IOnboarding
 import co.yap.household.onboarding.viewmodels.OnboardingHouseHoldViewModel
+import co.yap.networking.customers.responsedtos.AccountInfo
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.IFragmentHolder
 import co.yap.yapcore.defaults.DefaultNavigator
@@ -23,6 +24,7 @@ class OnboardingHouseHoldActivity : BaseBindingActivity<IOnboarding.ViewModel>()
     companion object {
         const val BUNDLE_DATA = "bundle_data"
         const val EXISTING_USER = "existingYapUser"
+        const val USER_INFO = "user_info"
         fun getIntent(context: Context, bundle: Bundle = Bundle()): Intent {
             val intent = Intent(context, OnboardingHouseHoldActivity::class.java)
             intent.putExtra(BUNDLE_DATA, bundle)
@@ -46,6 +48,7 @@ class OnboardingHouseHoldActivity : BaseBindingActivity<IOnboarding.ViewModel>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         intent?.getBundleExtra(BUNDLE_DATA)?.let {
+            viewModel.state.accountInfo = it.getParcelable<AccountInfo>(USER_INFO)
             viewModel.state.existingYapUser = it.getBoolean(EXISTING_USER, false)
         }
         viewModel.onboardingData.accountType = "B2C_ACCOUNT"

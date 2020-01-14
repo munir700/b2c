@@ -1,6 +1,7 @@
 package co.yap.household.onboarding.interfaces
 
 import co.yap.household.onboarding.OnboardingData
+import co.yap.networking.customers.responsedtos.AccountInfo
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleLiveEvent
 
@@ -21,5 +22,6 @@ interface IOnboarding {
         var currentProgress: Int
         var currentBackground: Int
         var existingYapUser: Boolean?
+        var accountInfo: AccountInfo?
     }
 }
