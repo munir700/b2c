@@ -34,7 +34,7 @@ class HouseHoldCardsSelectionViewModel(application: Application) :
     }
 
     override fun initViews() {
-        getCardsColorListRequest()
+        getCardsDesignListRequest("B2C_HOUSEHOLD")
     }
 
 
@@ -50,32 +50,21 @@ class HouseHoldCardsSelectionViewModel(application: Application) :
         return list
     }
 
-    override fun getCardsColorListRequest() {
+    override fun getCardsDesignListRequest(accountType: String) {
         launch {
             state.loading = true
-            delay(2000)
-            state.loading = false
             adapter.setList(getCardsColorList())
-            /* when (val response =
-                 mTransactionsRepository.getTransactionInternationalReasonList(productCode)) {
+             when (val response =
+                 cardsRepository.getHouseHoldCardsDesign(accountType = accountType)) {
                  is RetroApiResponse.Success -> {
-                     if (response.data.data.isNullOrEmpty()) return@launch
-                     response.data.data?.let {
-                         transactionData.addAll(it.map { item ->
-                             InternationalFundsTransferReasonList.ReasonList(
-                                 code = item.code ?: "",
-                                 reason = item.reason ?: ""
-                             )
-                         })
-                     }
-                     //getTransactionInternationalfxList(productCode)
-                     populateSpinnerData.value = transactionData
+                  //   if (response.data.data.isNullOrEmpty()) return@launch
+
                  }
                  is RetroApiResponse.Error -> {
- //                    state.loading = false
+                     state.loading = false
                      state.toast = response.error.message
                  }
-             }*/
+             }
         }
     }
 

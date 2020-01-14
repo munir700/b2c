@@ -20,7 +20,7 @@ interface IHouseHoldCardsSelection {
         val clickEvent: SingleClickEvent
         fun handlePressOnButton(id: Int)
         fun getCardsColorList(): MutableList<CardColorSelectionModel>
-        fun getCardsColorListRequest()
+        fun getCardsDesignListRequest(accountType: String)
         var orderCardRequestSuccess: MutableLiveData<Boolean>
         var adapter: HouseHoldCardSelectionAdapter
         fun orderHouseHoldPhysicalCardRequest(orderCardRequest: OrderCardRequest)

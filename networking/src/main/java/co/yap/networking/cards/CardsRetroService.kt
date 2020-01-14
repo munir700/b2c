@@ -1,7 +1,10 @@
 package co.yap.networking.cards
 
 import co.yap.networking.cards.requestdtos.*
-import co.yap.networking.cards.responsedtos.*
+import co.yap.networking.cards.responsedtos.CardBalanceResponseDTO
+import co.yap.networking.cards.responsedtos.CardDetailResponseDTO
+import co.yap.networking.cards.responsedtos.GetCardsResponse
+import co.yap.networking.cards.responsedtos.GetPhysicalAddress
 import co.yap.networking.models.ApiResponse
 import retrofit2.Response
 import retrofit2.http.*
@@ -82,5 +85,9 @@ interface CardsRetroService {
     // forgot card pin
     @POST(CardsRepository.URL_FORGOT_CARD_PIN)
     suspend fun forgotCardPin(@Path("card-serial-number") cardSerialNumber: String, @Body forgotCardPin: ForgotCardPin): Response<ApiResponse>
+
+    // House hold cards design
+    @POST(CardsRepository.URL_GET_HOUSE_HOLD_CARDS_DESIGN)
+    suspend fun getHouseHoldCardsDesign(@Query("account_type") accountType: String): Response<ApiResponse>
 
 }

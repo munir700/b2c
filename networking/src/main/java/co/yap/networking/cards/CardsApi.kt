@@ -50,4 +50,7 @@ interface CardsApi {
         cardSerialNumber: String,
         forgotCardPin: ForgotCardPin
     ): RetroApiResponse<ApiResponse>
+    suspend fun getHouseHoldCardsDesign(
+        accountType: String
+    ): RetroApiResponse<ApiResponse>
 }
