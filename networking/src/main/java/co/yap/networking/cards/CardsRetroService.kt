@@ -88,7 +88,7 @@ interface CardsRetroService {
     suspend fun forgotCardPin(@Path("card-serial-number") cardSerialNumber: String, @Body forgotCardPin: ForgotCardPin): Response<ApiResponse>
 
     // House hold cards design
-    @POST(CardsRepository.URL_GET_HOUSE_HOLD_CARDS_DESIGN)
+    @GET(CardsRepository.URL_GET_HOUSE_HOLD_CARDS_DESIGN)
     suspend fun getHouseHoldCardsDesign(@Query("account_type") accountType: String): Response<HouseHoldCardsDesignResponse>
 
 }

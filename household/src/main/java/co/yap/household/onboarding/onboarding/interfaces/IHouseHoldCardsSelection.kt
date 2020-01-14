@@ -1,8 +1,7 @@
 package co.yap.household.onboarding.onboarding.interfaces
 
-import androidx.lifecycle.MutableLiveData
-import co.yap.household.onboarding.onboarding.fragments.CardColorSelectionModel
 //import co.yap.household.onboarding.onboarding.fragments.CircleColorAdapter
+import androidx.lifecycle.MutableLiveData
 import co.yap.household.onboarding.onboarding.fragments.HouseHoldCardSelectionAdapter
 import co.yap.networking.cards.requestdtos.OrderCardRequest
 import co.yap.networking.cards.responsedtos.Address
@@ -19,8 +18,9 @@ interface IHouseHoldCardsSelection {
         fun initViews()
         val clickEvent: SingleClickEvent
         fun handlePressOnButton(id: Int)
-        fun getCardsColorList(): MutableList<CardColorSelectionModel>
+        //        fun getCardsColorList(list: MutableList<HouseHoldCardsDesign?>?): MutableList<HouseHoldCardsDesign?>?
         fun getCardsDesignListRequest(accountType: String)
+
         var orderCardRequestSuccess: MutableLiveData<Boolean>
         var adapter: HouseHoldCardSelectionAdapter
         fun orderHouseHoldPhysicalCardRequest(orderCardRequest: OrderCardRequest)
@@ -31,8 +31,7 @@ interface IHouseHoldCardsSelection {
     interface State : IBase.State {
         var cardsHeading: String
         var locationVisibility: Boolean
-        /*   var cardAddressTitle: String
-           var cardAddressSubTitle: String*/
+        var designCode: String?
         var address: Address?
         var position: Int?
         var buttonVisibility: Boolean

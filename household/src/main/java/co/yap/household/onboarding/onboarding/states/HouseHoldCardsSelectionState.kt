@@ -21,6 +21,12 @@ class HouseHoldCardsSelectionState : BaseState(), IHouseHoldCardsSelection.State
             notifyPropertyChanged(BR.locationVisibility)
         }
     @get:Bindable
+    override var designCode: String? = ""
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.designCode)
+        }
+    @get:Bindable
     override var address: Address? = Address()
         set(value) {
             field = value

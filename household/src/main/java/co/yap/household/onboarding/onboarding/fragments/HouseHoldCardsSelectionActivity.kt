@@ -101,7 +101,8 @@ class HouseHoldCardsSelectionActivity : BaseBindingActivity<IHouseHoldCardsSelec
                         address1 = viewModel.state.address?.address1,
                         address2 = viewModel.state.address?.address2,
                         latitude = viewModel.state.address?.latitude,
-                        longitude = viewModel.state.address?.longitude
+                        longitude = viewModel.state.address?.longitude,
+                        designCode = viewModel.state.designCode
                     )
                 )
                 //startActivity(Intent(this, KycSuccessActivity::class.java))
@@ -142,6 +143,8 @@ class HouseHoldCardsSelectionActivity : BaseBindingActivity<IHouseHoldCardsSelec
             ) {
                 super.onPageScrolled(position, positionOffset, positionOffsetPixels)
                 viewModel.state.position = position
+                viewModel.state.designCode =
+                    viewModel.adapter.getDataForPosition(position).designCode
             }
 
             override fun onPageSelected(position: Int) {
