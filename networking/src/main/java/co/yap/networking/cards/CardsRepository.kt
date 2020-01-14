@@ -8,6 +8,7 @@ import co.yap.networking.cards.responsedtos.CardBalanceResponseDTO
 import co.yap.networking.cards.responsedtos.CardDetailResponseDTO
 import co.yap.networking.cards.responsedtos.GetCardsResponse
 import co.yap.networking.cards.responsedtos.GetPhysicalAddress
+import co.yap.networking.customers.responsedtos.HouseHoldCardsDesignResponse
 import co.yap.networking.models.ApiResponse
 import co.yap.networking.models.RetroApiResponse
 
@@ -137,6 +138,6 @@ object CardsRepository : BaseRepository(), CardsApi {
     ): RetroApiResponse<ApiResponse> =
         AuthRepository.executeSafely(call = { API.forgotCardPin(cardSerialNumber, forgotCardPin) })
 
-    override suspend fun getHouseHoldCardsDesign(accountType: String): RetroApiResponse<ApiResponse> =
+    override suspend fun getHouseHoldCardsDesign(accountType: String): RetroApiResponse<HouseHoldCardsDesignResponse> =
         AuthRepository.executeSafely(call = { API.getHouseHoldCardsDesign(accountType) })
 }

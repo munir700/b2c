@@ -5,6 +5,7 @@ import co.yap.networking.cards.responsedtos.Address
 import co.yap.networking.cards.responsedtos.CardBalanceResponseDTO
 import co.yap.networking.cards.responsedtos.CardDetailResponseDTO
 import co.yap.networking.cards.responsedtos.GetCardsResponse
+import co.yap.networking.customers.responsedtos.HouseHoldCardsDesignResponse
 import co.yap.networking.models.ApiResponse
 import co.yap.networking.models.RetroApiResponse
 
@@ -52,5 +53,5 @@ interface CardsApi {
     ): RetroApiResponse<ApiResponse>
     suspend fun getHouseHoldCardsDesign(
         accountType: String
-    ): RetroApiResponse<ApiResponse>
+    ): RetroApiResponse<HouseHoldCardsDesignResponse>
 }
