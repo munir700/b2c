@@ -11,6 +11,7 @@ import co.yap.household.R
 import co.yap.household.onboarding.fragments.OnboardingChildFragment
 import co.yap.household.onboarding.onboarding.interfaces.IHouseHoldNumberRegistration
 import co.yap.household.onboarding.onboarding.viewmodels.HouseHoldNumberRegistrationViewModel
+import co.yap.yapcore.enums.NotificationStatus
 import kotlinx.android.synthetic.main.fragment_house_hold_number_registration.*
 
 
@@ -21,20 +22,51 @@ class HouseHoldNumberRegistrationFragment :
 
     override fun getLayoutId(): Int = R.layout.fragment_house_hold_number_registration
 
-    override val viewModel: IHouseHoldNumberRegistration.ViewModel
+    override val viewModel: HouseHoldNumberRegistrationViewModel
         get() = ViewModelProviders.of(this).get(HouseHoldNumberRegistrationViewModel::class.java)
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        viewModel.parentViewModel?.state?.accountInfo?.run {
+            when (NotificationStatus.valueOf(notificationStatuses)) {
+                NotificationStatus.PASS_CODE_PENDING -> {
+                    findNavController().navigate(R.id.to_houseHoldCreatePassCodeFragment)
+
+                }
+                NotificationStatus.PARNET_MOBILE_VERIFICATION_PENDING -> {
+
+                }
+                NotificationStatus.EMAIL_PENDING -> {
+                    findNavController().navigate(R.id.action_houseHoldNumberRegistrationFragment_to_emailHouseHoldFragment)
+
+                }
+                NotificationStatus.ON_BOARDED -> {
+                    findNavController().navigate(R.id.action_goto_yapDashboardActivity)
+                }
+                else -> {
+
+                }
+            }
+        }
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         dialer.setInPutEditText(etPhoneNumber)
         dialer.hideFingerprintView()
-
-
+        viewModel.isParentMobileValid?.observe(this, isParentMobileValid)
     }
 
     override fun onResume() {
         super.onResume()
         setObservers()
+    }
+
+    val isParentMobileValid = Observer<Boolean>
+    {
+        if (it) {
+            findNavController().navigate(R.id.to_houseHoldCreatePassCodeFragment)
+        }
     }
 
     override fun setObservers() {
@@ -43,7 +75,6 @@ class HouseHoldNumberRegistrationFragment :
                 R.id.btnConfirm -> {
                     viewModel.state.existingYapUser?.let {
                         if (it) {
-//                            viewModel.verifyHouseholdParentMobile()
                             startActivity(
                                 Intent(
                                     requireContext(),
@@ -51,7 +82,8 @@ class HouseHoldNumberRegistrationFragment :
                                 )
                             )
                         } else {
-                            findNavController().navigate(R.id.to_houseHoldCreatePassCodeFragment)
+                            viewModel.verifyHouseholdParentMobile()
+                            //
                         }
 
                     }

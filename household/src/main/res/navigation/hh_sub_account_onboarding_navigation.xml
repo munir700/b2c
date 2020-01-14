@@ -25,6 +25,9 @@
             app:destination="@id/houseHoldCreatePassCodeFragment"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left" />
+        <action
+            android:id="@+id/action_houseHoldNumberRegistrationFragment_to_emailHouseHoldFragment"
+            app:destination="@id/emailHouseHoldFragment" />
     </fragment>
 
     <fragment
@@ -67,4 +70,13 @@
         android:name="co.yap.household.onboarding.onboarding.fragments.HouseHoldCardsSelectionActivity"
         android:label="HouseHoldCardsSelectionFragment"
         tools:layout="@layout/fragment_house_hold_card_selection" />
+
+    <action
+        android:id="@+id/action_goto_yapDashboardActivity"
+        app:destination="@id/yapDashboardActivity" />
+    <activity
+        android:id="@+id/yapDashboardActivity"
+        android:name="co.yap.modules.dashboard.main.activities.YapDashboardActivity"
+        android:label="YapDashboardActivity"
+        tools:layout="@layout/activity_yap_dashboard" />
 </navigation>

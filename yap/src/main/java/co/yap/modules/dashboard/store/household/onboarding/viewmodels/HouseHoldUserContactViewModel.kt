@@ -50,7 +50,7 @@ class HouseHoldUserContactViewModel(application: Application) :
         launch {
             state.loading = true
             val request = VerifyHouseholdMobileRequest(
-                countryCode = "00" + parentViewModel?.countryCode,
+                countryCode = "00${parentViewModel?.countryCode}",
                 mobileNo = parentViewModel?.userMobileNo?.replace(" ", "") ?: ""
             )
             when (val response = repository.verifyHouseholdMobile(request)) {
