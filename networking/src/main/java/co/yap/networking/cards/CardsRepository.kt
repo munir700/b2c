@@ -4,7 +4,11 @@ import co.yap.networking.BaseRepository
 import co.yap.networking.RetroNetwork
 import co.yap.networking.authentication.AuthRepository
 import co.yap.networking.cards.requestdtos.*
-import co.yap.networking.cards.responsedtos.*
+import co.yap.networking.cards.responsedtos.CardBalanceResponseDTO
+import co.yap.networking.cards.responsedtos.CardDetailResponseDTO
+import co.yap.networking.cards.responsedtos.GetCardsResponse
+import co.yap.networking.cards.responsedtos.GetPhysicalAddress
+import co.yap.networking.customers.responsedtos.HouseHoldCardsDesignResponse
 import co.yap.networking.models.ApiResponse
 import co.yap.networking.models.RetroApiResponse
 
@@ -30,6 +34,7 @@ object CardsRepository : BaseRepository(), CardsApi {
     const val URL_UPDATE_CARD_NAME = "/cards/api/cards/card-name"
     const val URL_CHANGE_CARD_PIN = "/cards/api/cards/change-pin"
     const val URL_FORGOT_CARD_PIN = "/cards/api/cards/forgot-pin/{card-serial-number}"
+    const val URL_GET_HOUSE_HOLD_CARDS_DESIGN = "/cards/api/card-product-designs"
 
     const val URL_REPORT_LOST_OR_STOLEN_CARD = "/cards/api/card-hot-list"
 
@@ -132,4 +137,7 @@ object CardsRepository : BaseRepository(), CardsApi {
         forgotCardPin: ForgotCardPin
     ): RetroApiResponse<ApiResponse> =
         AuthRepository.executeSafely(call = { API.forgotCardPin(cardSerialNumber, forgotCardPin) })
+
+    override suspend fun getHouseHoldCardsDesign(accountType: String): RetroApiResponse<HouseHoldCardsDesignResponse> =
+        AuthRepository.executeSafely(call = { API.getHouseHoldCardsDesign(accountType) })
 }

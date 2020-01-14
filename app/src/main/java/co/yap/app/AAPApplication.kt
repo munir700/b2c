@@ -3,6 +3,7 @@ package co.yap.app
 import android.content.Context
 import co.yap.networking.RetroNetwork
 import co.yap.networking.interfaces.NetworkConstraintsListener
+import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.AuthUtils
 import co.yap.yapcore.helpers.NetworkConnectionManager
 import co.yap.yapcore.helpers.SharedPreferenceManager
@@ -17,6 +18,7 @@ class AAPApplication : ChatApplication(BuildConfig.FLAVOR) {
 
     override fun onCreate() {
         super.onCreate()
+        SharedPreferenceManager(this).setThemeValue(Constants.THEME_YAP)
         initNetworkLayer()
         initCrashLytics()
         InitDebugTreeTimber()

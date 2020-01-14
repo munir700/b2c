@@ -10,10 +10,12 @@ import co.yap.networking.household.responsedtos.HouseHoldPlan
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.transactions.TransactionsRepository
+import co.yap.networking.transactions.responsedtos.CardFeeResponse
 import co.yap.translation.Strings
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.enums.PackageType
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 
 class SubscriptionSelectionViewModel(application: Application) :
@@ -27,13 +29,6 @@ class SubscriptionSelectionViewModel(application: Application) :
     override val state: HouseHoldSubscriptionState = HouseHoldSubscriptionState()
     var monthlyFee: Double? = 0.0
     var yearlyFee: Double? = 0.0
-
-    override fun onCreate() {
-        super.onCreate()
-        getPackageFee(PackageType.MONTHLY.type)
-        getPackageFee(PackageType.YEARLY.type)
-//        aysuctest()
-    }
 
     override fun handlePressOnCloseIcon(id: Int) {
         clickEvent.setValue(id)
@@ -49,10 +44,6 @@ class SubscriptionSelectionViewModel(application: Application) :
 
     override fun handlePressOnYearlyPackage(id: Int) {
         clickEvent.setValue(id)
-    }
-
-    override fun onResume() {
-        super.onResume()
     }
 
     override fun getPages(): ArrayList<WelcomeContent> = generateB2CPages()
@@ -102,62 +93,54 @@ class SubscriptionSelectionViewModel(application: Application) :
 
         return benefitsModelList
     }
-
-    override fun getPackageFee(type: String) {
+    
+    override fun fetchHouseholdPackagesFee() {
         launch {
-            when (val response = repository.getHousholdFeePackage(type)) {
-                is RetroApiResponse.Success -> {
-                    when (type) {
-                        PackageType.MONTHLY.type -> {
-                            monthlyFee = response.data.data?.amount?.toDoubleOrNull()
-                            state.monthlyFee =
-                                response.data.data?.currency + " " + response.data.data?.amount
-                            plansList.add(
-                                HouseHoldPlan(
-                                    type = type,
-                                    amount = state.monthlyFee
-                                )
-                            )
-                        }
-                        PackageType.YEARLY.type -> {
-                            yearlyFee = response.data.data?.amount?.toDoubleOrNull()
-                            state.annuallyFee =
-                                response.data.data?.currency + " " + response.data.data?.amount
-                            plansList.add(
-                                HouseHoldPlan(
-                                    type = "Yearly",
-                                    amount = state.annuallyFee,
-                                    discount = getDiscount()
-                                )
-                            )
-                        }
-                    }
-                }
-                is RetroApiResponse.Error -> {
-                    state.toast = response.error.message
-                }
+            val monthly = viewModelBGScope.async(Dispatchers.IO) {
+                repository.getHousholdFeePackage(PackageType.MONTHLY.type)
             }
+
+            val yearly = viewModelBGScope.async(Dispatchers.IO) {
+                repository.getHousholdFeePackage(PackageType.YEARLY.type)
+            }
+            state.loading = true
+            handlePackageFeeResponse(monthly.await(), yearly.await())
         }
     }
-//
-//    private fun aysuctest() {
-//        launch {
-//            state.loading = true
-//            val monthly = viewModelBGScope.async {
-//                getPackageFee(
-//                    PackageType.MONTHLY.type
-//                )
-//            }
-//            val yearly = viewModelBGScope.async {
-//                getPackageFee(
-//                    PackageType.YEARLY.type
-//                )
-//            }
-//
-//            state.loading = false
-//        }
-//
-//    }
+
+    private fun handlePackageFeeResponse(
+        monthlyFeeResponse: RetroApiResponse<CardFeeResponse>,
+        yearlyFeeResponse: RetroApiResponse<CardFeeResponse>
+    ) {
+        // handle Monthly and yearly Fee Response
+        if (monthlyFeeResponse is RetroApiResponse.Success && yearlyFeeResponse is RetroApiResponse.Success) {
+            monthlyFee = monthlyFeeResponse.data.data?.amount?.toDoubleOrNull()
+            yearlyFee = yearlyFeeResponse.data.data?.amount?.toDoubleOrNull()
+            state.monthlyFee =
+                monthlyFeeResponse.data.data?.currency + " " + monthlyFeeResponse.data.data?.amount
+            state.annuallyFee =
+                yearlyFeeResponse.data.data?.currency + " " + yearlyFeeResponse.data.data?.amount
+
+            plansList.add(
+                HouseHoldPlan(
+                    type = PackageType.MONTHLY.type,
+                    amount = state.monthlyFee
+                )
+            )
+            plansList.add(
+                HouseHoldPlan(
+                    type = "Yearly",
+                    amount = state.annuallyFee,
+                    discount = getDiscount()
+                )
+            )
+        } else if (monthlyFeeResponse is RetroApiResponse.Error) {
+            state.error = monthlyFeeResponse.error.message
+        } else if (yearlyFeeResponse is RetroApiResponse.Error)
+            state.error = yearlyFeeResponse.error.message
+
+        state.loading = false
+    }
 
     private fun getDiscount(): Int? {
         var discountPercent: Int? = null

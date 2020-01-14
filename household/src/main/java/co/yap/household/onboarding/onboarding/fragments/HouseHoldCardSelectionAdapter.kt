@@ -5,14 +5,15 @@ import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
 import co.yap.household.R
 import co.yap.household.databinding.ItemHouseHoldCardBinding
+import co.yap.networking.customers.responsedtos.HouseHoldCardsDesign
 import co.yap.yapcore.BaseBindingRecyclerAdapter
 import co.yap.yapcore.helpers.Utils
 
 class HouseHoldCardSelectionAdapter(
     context: Context,
-    private val list: MutableList<CardColorSelectionModel>
+    private val list: MutableList<HouseHoldCardsDesign>
 ) :
-    BaseBindingRecyclerAdapter<CardColorSelectionModel, RecyclerView.ViewHolder>(list) {
+    BaseBindingRecyclerAdapter<HouseHoldCardsDesign, RecyclerView.ViewHolder>(list) {
     private var dimensions: IntArray = Utils.getCardDimensions(context, 50, 45)
 
     override fun onCreateViewHolder(binding: ViewDataBinding): RecyclerView.ViewHolder {
