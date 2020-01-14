@@ -1,5 +1,6 @@
 package co.yap.modules.dashboard.store.household.onboarding
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -12,6 +13,7 @@ import co.yap.modules.dashboard.store.household.onboarding.viewmodels.HouseHoldO
 import co.yap.networking.household.responsedtos.HouseHoldPlan
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.IFragmentHolder
+import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.defaults.DefaultNavigator
 import co.yap.yapcore.defaults.INavigator
 import co.yap.yapcore.interfaces.BackPressImpl
@@ -24,9 +26,15 @@ class HouseHoldOnboardingActivity : BaseBindingActivity<IBaseOnboarding.ViewMode
 
     companion object {
         private const val SELECTED_PLAN = "selected_plan"
-        fun newIntent(context: Context, selectedPlan: HouseHoldPlan? = null): Intent {
+        private const val PLANS_LIST = "plans_list"
+        fun newIntent(
+            context: Context,
+            selectedPlan: HouseHoldPlan? = null,
+            plansList: ArrayList<HouseHoldPlan>
+        ): Intent {
             val intent = Intent(context, HouseHoldOnboardingActivity::class.java)
             intent.putExtra(SELECTED_PLAN, selectedPlan)
+            intent.putExtra(PLANS_LIST, plansList)
             return intent
         }
     }
@@ -51,18 +59,24 @@ class HouseHoldOnboardingActivity : BaseBindingActivity<IBaseOnboarding.ViewMode
     }
 
     private fun getIntentData() {
-        if (intent != null && intent.hasExtra(SELECTED_PLAN)) {
-            val householdPlan: HouseHoldPlan? =
-                intent.getParcelableExtra<HouseHoldPlan?>(SELECTED_PLAN)
-            if (householdPlan != null) {
-                viewModel.selectedPlanType = householdPlan
+        if (intent != null) {
+            if (intent.hasExtra(SELECTED_PLAN)) {
+                val householdPlan: HouseHoldPlan? =
+                    intent.getParcelableExtra<HouseHoldPlan?>(SELECTED_PLAN)
+                if (householdPlan != null) {
+                    viewModel.selectedPlanType = householdPlan
+                } else {
+                    showToast("Please Select Plan")
+                    setIntentResult(true)
+                }
             } else {
                 showToast("Please Select Plan")
-                finish()
+                setIntentResult(true)
             }
-        } else {
-            showToast("Please Select Plan")
-            finish()
+            if (intent.hasExtra(PLANS_LIST)) {
+                val plans = intent.getSerializableExtra(PLANS_LIST) as ArrayList<HouseHoldPlan>
+                viewModel.plansList.addAll(plans)
+            }
         }
     }
 
@@ -82,6 +96,13 @@ class HouseHoldOnboardingActivity : BaseBindingActivity<IBaseOnboarding.ViewMode
             super.onBackPressed()
 
         }
+    }
+
+    private fun setIntentResult(shouldFinished: Boolean) {
+        val intent = Intent()
+        intent.putExtra(RequestCodes.REQUEST_CODE_FINISH, shouldFinished)
+        setResult(Activity.RESULT_OK, intent)
+        finish()
     }
 
 }

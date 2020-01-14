@@ -16,7 +16,10 @@ interface IBaseOnboarding {
         var lastName:String
         var username: String
         var userMobileNo: String
+        var countryCode: String
+        var tempPasscode: String
         var selectedPlanType: HouseHoldPlan
+        var plansList: ArrayList<HouseHoldPlan>
         fun handlePressOnBackButton()
         fun handlePressOnTickButton()
         val backButtonPressEvent: SingleLiveEvent<Boolean>

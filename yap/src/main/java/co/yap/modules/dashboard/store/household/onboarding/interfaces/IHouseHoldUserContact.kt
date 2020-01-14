@@ -2,6 +2,7 @@ package co.yap.modules.dashboard.store.household.onboarding.interfaces
 
 import android.graphics.drawable.Drawable
 import android.widget.EditText
+import androidx.lifecycle.MutableLiveData
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
 
@@ -30,10 +31,12 @@ interface IHouseHoldUserContact {
     interface ViewModel : IBase.ViewModel<State> {
 
         val clickEvent: SingleClickEvent
+        var verifyMobileSuccess:MutableLiveData<Boolean>
         fun handlePressOnAdd(id: Int)
         fun handlePressOnBackButton()
         fun getCcp(etMobileNumber: EditText)
         fun getConfirmCcp(etMobileNumber: EditText)
+        fun verifyMobileNumber()
 
 //        val backButtonPressEvent: SingleLiveEvent<Boolean>
     }

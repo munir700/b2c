@@ -68,7 +68,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="@{viewModel.parentViewModel.userMobileNo}"
+                android:text="@{viewModel.parentViewModel.countryCode+` `+viewModel.parentViewModel.userMobileNo}"
                 tools:text="971 55 5555 5555" />
         </LinearLayout>
 

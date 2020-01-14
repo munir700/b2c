@@ -35,9 +35,9 @@ abstract class BaseActivity<V : IBase.ViewModel<*>> : AppCompatActivity(), IBase
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        applySelectedTheme(SharedPreferenceManager(this))
         SharedPreferenceManager(this).setThemeValue(Constants.THEME_HOUSEHOLD)
 
+        applySelectedTheme(SharedPreferenceManager(this))
         this.window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
         this.window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
 
@@ -47,8 +47,6 @@ abstract class BaseActivity<V : IBase.ViewModel<*>> : AppCompatActivity(), IBase
         registerStateListeners()
 
         progress = Utils.createProgressDialog(this)
-
-
     }
 
     private fun applySelectedTheme(prefs: SharedPreferenceManager) {
@@ -59,7 +57,7 @@ abstract class BaseActivity<V : IBase.ViewModel<*>> : AppCompatActivity(), IBase
             Constants.THEME_HOUSEHOLD -> {
                 setScreenState(YAPThemes.HOUSEHOLD())
             }
-            else -> {
+            else -> {// default
                 setScreenState(YAPThemes.CORE())
             }
         }

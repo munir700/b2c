@@ -17,14 +17,6 @@ class HouseHoldUserInfoStates(var application: Application) : BaseState(),
     override var verificationCompleted: Boolean = false
 
     @get:Bindable
-    override var emailAddress: String = ""
-        set(value) {
-            field = value
-            notifyPropertyChanged(BR.emailAddress)
-
-        }
-
-    @get:Bindable
     override var firstName: String = ""
         set(value) {
             field = value
@@ -111,21 +103,6 @@ class HouseHoldUserInfoStates(var application: Application) : BaseState(),
 
 
     @get:Bindable
-    override var emailBtnTitle: String = ""
-        set(value) {
-            field = value
-            notifyPropertyChanged(BR.emailBtnTitle)
-        }
-
-    @get:Bindable
-    override var emailVerificationTitle: String = ""
-        set(value) {
-            field = value
-            notifyPropertyChanged(BR.emailVerificationTitle)
-        }
-
-
-    @get:Bindable
     override var twoWayTextWatcher: String = ""
         set(value) {
             field = value
@@ -134,22 +111,6 @@ class HouseHoldUserInfoStates(var application: Application) : BaseState(),
             validate()
             notifyPropertyChanged(BR.valid)
         }
-
-
-    @get:Bindable
-    override var email: String = ""
-        set(value) {
-            field = value
-            notifyPropertyChanged(BR.email)
-        }
-
-    @get:Bindable
-    override var emailError: String = ""
-        set(value) {
-            field = value
-            notifyPropertyChanged(BR.emailError)
-        }
-
 
     @get:Bindable
     override var cursorPlacement: Boolean = true
@@ -160,7 +121,7 @@ class HouseHoldUserInfoStates(var application: Application) : BaseState(),
         }
 
     @get:Bindable
-    override var setSelection: Int = email.length
+    override var setSelection: Int = 0
         set(value) {
             field = value
             notifyPropertyChanged(BR.setSelection)
@@ -241,7 +202,6 @@ class HouseHoldUserInfoStates(var application: Application) : BaseState(),
 
     private fun setSuccessUI() {
         refreshField = true
-        emailError = ""
         validate()
         notifyPropertyChanged(BR.valid)
     }

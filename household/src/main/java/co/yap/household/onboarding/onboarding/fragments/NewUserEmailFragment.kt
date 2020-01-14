@@ -18,6 +18,7 @@ import co.yap.household.onboarding.onboarding.interfaces.IEmail
 import co.yap.household.onboarding.onboarding.viewmodels.EmailHouseHoldViewModel
 import co.yap.widgets.AnimatingProgressBar
 import co.yap.yapcore.helpers.AnimationUtils
+import co.yap.yapcore.helpers.Utils
 
 class NewUserEmailFragment : OnboardingChildFragment<IEmail.ViewModel>() {
 
@@ -48,6 +49,7 @@ class NewUserEmailFragment : OnboardingChildFragment<IEmail.ViewModel>() {
     private val nextButtonObserver = Observer<Int> {
         when (it) {
             viewModel.EVENT_POST_VERIFICATION_EMAIL -> {
+                hideKeyboard()
 //                viewModel.sendVerificationEmail()
                 if (viewModel.hasDoneAnimation) {
                     findNavController().navigate(R.id.action_emailHouseHoldFragment_to_newUserCongratulationsFragment)
@@ -63,6 +65,14 @@ class NewUserEmailFragment : OnboardingChildFragment<IEmail.ViewModel>() {
 //            viewModel.EVENT_POST_DEMOGRAPHIC -> viewModel.postDemographicData()
         }
 
+    }
+
+    private fun hideKeyboard() {
+        try {
+            Utils.hideKeyboard(requireView())
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
     }
 
     private fun startAnimation() {

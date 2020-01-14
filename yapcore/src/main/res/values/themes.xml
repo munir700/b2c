@@ -68,9 +68,11 @@
         <item name="android:textColor">@color/white</item>
     </style>
 
-    <style name="CardViewStyle" parent="Widget.MaterialComponents.CardView">
-        <item name="android:background">?attr/colorPrimaryWarmAttr</item>
-     </style>
-
+    <style name="CardViewStyle" parent="CardView">
+        <item name="android:background">?attr/colorPrimary</item>
+        <item name="android:text">?attr/colorPrimary</item>
+        <!--        <item name="background">?attr/colorPrimary</item>-->
+        <!--        <item name="cardBackgroundColor">?attr/colorPrimary</item>-->
+    </style>
 
 </resources>

@@ -26,7 +26,6 @@ class HouseHoldUserInfoViewModel(application: Application) :
         parentViewModel?.firstName = state.firstName
         parentViewModel?.lastName = state.lastName
         parentViewModel?.username = state.firstName + " " + state.lastName
-        parentViewModel?.userMobileNo = state.emailAddress
     }
 
     override fun onResume() {

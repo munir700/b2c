@@ -59,8 +59,8 @@
 
             app:layout_constraintTop_toBottomOf="@id/tvSubTitle"
             tools:layout_editor_absoluteX="16dp"
-            style="@style/CardViewStyle">
-<!--            app:cardBackgroundColor="?attr/colorPrimaryWarmAttr"-->
+            android:theme="@style/CardViewStyle">
+<!--        app:cardBackgroundColor="?attr/colorPrimaryWarmAttr"-->
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"

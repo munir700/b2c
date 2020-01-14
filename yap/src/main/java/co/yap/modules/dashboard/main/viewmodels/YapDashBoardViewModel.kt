@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import co.yap.modules.dashboard.main.interfaces.IYapDashboard
 import co.yap.modules.dashboard.main.states.YapDashBoardState
 import co.yap.modules.dashboard.more.main.activities.MoreActivity
+import co.yap.modules.others.helper.Constants
 import co.yap.networking.cards.CardsRepository
 import co.yap.networking.cards.responsedtos.CardBalance
 import co.yap.networking.customers.CustomersRepository
@@ -39,6 +40,17 @@ class YapDashBoardViewModel(application: Application) :
     override fun onCreate() {
         super.onCreate()
         getAccountInfo()
+        updateVersion()
+    }
+
+    private fun updateVersion() {
+        state.appVersion.set(
+            String.format(
+                "Version %s (%s)",
+                Constants.VERSION_NAME,
+                Constants.VERSION_CODE
+            )
+        )
     }
 
     override fun onResume() {

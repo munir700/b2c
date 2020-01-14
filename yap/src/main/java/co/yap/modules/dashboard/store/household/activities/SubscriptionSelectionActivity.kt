@@ -1,6 +1,7 @@
 package co.yap.modules.dashboard.store.household.activities
 
 import android.animation.Animator
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -14,10 +15,13 @@ import co.yap.modules.dashboard.cards.addpaymentcard.spare.SpareCardsLandingAdap
 import co.yap.modules.dashboard.store.household.interfaces.IHouseHoldSubscription
 import co.yap.modules.dashboard.store.household.onboarding.HouseHoldOnboardingActivity
 import co.yap.modules.dashboard.store.household.viewmodels.SubscriptionSelectionViewModel
-import co.yap.translation.Translator
 import co.yap.networking.household.responsedtos.HouseHoldPlan
+import co.yap.translation.Translator
 import co.yap.yapcore.BaseBindingActivity
+import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.helpers.extentions.ExtraType
+import co.yap.yapcore.helpers.extentions.getValue
 import co.yap.yapcore.interfaces.OnItemClickListener
 import com.daimajia.androidanimations.library.Techniques
 import com.daimajia.androidanimations.library.YoYo
@@ -60,33 +64,59 @@ class SubscriptionSelectionActivity :
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
                 R.id.btnClose -> {
-                    finish() // will check in fsd/story till where is it required to go back
+                    setIntentResult(false)
                 }
                 R.id.llAnnualSubscription -> {
                     viewModel.state.hasSelectedPackage = true
                     llMonthlySubscription.isActivated = false
                     llAnnualSubscription.isActivated = true
-                    selectedPlan =
-                        HouseHoldPlan(type = "Yearly", amount = "720.00", discount = 25.00)
+                    selectedPlan = viewModel.plansList[1]
                 }
 
                 R.id.llMonthlySubscription -> {
                     viewModel.state.hasSelectedPackage = true
                     llMonthlySubscription.isActivated = true
                     llAnnualSubscription.isActivated = false
-
-                    selectedPlan = HouseHoldPlan(type = "Monthly", amount = "59.99")
+                    selectedPlan = viewModel.plansList[0]
                 }
 
                 R.id.btnGetStarted -> {
-                    confirmationDialog()
+                    startActivityForResult(
+                        HouseHoldOnboardingActivity.newIntent(
+                            this@SubscriptionSelectionActivity,
+                            selectedPlan, viewModel.plansList
+                        ), RequestCodes.REQUEST_ADD_HOUSE_HOLD
+                    )
+                    //confirmationDialog()
                 }
 
                 R.id.imgClose -> {
-                    finish()
+                    setIntentResult(false)
                 }
             }
         })
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == RequestCodes.REQUEST_ADD_HOUSE_HOLD) {
+            if (resultCode == Activity.RESULT_OK) {
+                data?.let {
+                    val finishScreen =
+                        data.getValue(
+                            RequestCodes.REQUEST_CODE_FINISH,
+                            ExtraType.BOOLEAN.name
+                        ) as? Boolean
+                    finishScreen?.let { it ->
+                        if (it) {
+                            setIntentResult(true)
+                        } else {
+                            // other things?
+                        }
+                    }
+                }
+            }
+        }
     }
 
     private fun confirmationDialog() {
@@ -105,7 +135,7 @@ class SubscriptionSelectionActivity :
                 override fun onItemClick(view: View, data: Any, pos: Int) {
                     if (data is Boolean) {
                         if (data) {
-                            startActivity(HouseHoldOnboardingActivity.newIntent(this@SubscriptionSelectionActivity, selectedPlan))
+                            // startActivity(HouseHoldOnboardingActivity.newIntent(this@SubscriptionSelectionActivity, selectedPlan))
                         }
                     }
                 }
@@ -370,5 +400,13 @@ class SubscriptionSelectionActivity :
             .repeat(0)
             .playOn(viewThird)
 
+    }
+
+
+    private fun setIntentResult(shouldFinished: Boolean) {
+        val intent = Intent()
+        intent.putExtra(RequestCodes.REQUEST_CODE_FINISH, shouldFinished)
+        setResult(Activity.RESULT_OK, intent)
+        finish()
     }
 }
