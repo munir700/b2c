@@ -13,6 +13,7 @@
     <color name="colorPrimaryAlt">#bb42eb</color>
     <color name="colorDisabledBtn">#dae0f0</color>
     <color name="colorPressedBtnState">#272262</color>
+    <color name="colorPrimaryDarkIcons">#272262</color>
 
     <color name="grey">#c9c8d8</color>
     <color name="greyDark">#9391b1</color>
@@ -101,6 +102,7 @@
     <color name="colorPressedBtnStateHouseHold">#ff3b30</color>
     <color name="colordisabledTickHouseHold">#FC6253</color>
     <color name="seekbarProgresskHouseHold">#FFE3E0</color>
+    <color name="colorPrimaryDarkIconsHouseHold">#fafafa</color>
 
     <color name="grey88848d">#c9c8d8</color>
 

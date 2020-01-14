@@ -15,6 +15,7 @@
         <item name="colorPrimaryLightAttr">@color/colorPrimaryLight</item>
         <item name="colorPrimaryAltAttr">@color/colorPrimaryAlt</item>
         <item name="colorPrimarySoftAttr">@color/colorPrimarySoft</item>
+        <item name="colorPrimaryDarkIconsAttr">@color/colorPrimaryDarkIcons</item>
         <item name="colorPrimaryDisabledBtnAttr">@color/colorDisabledBtn</item>
         <item name="colorPressedBtnStateAttr">@color/colorPressedBtnState</item>
         <item name="colordisabledTick">@color/disabledTickColor</item>
@@ -35,11 +36,12 @@
 
 
         <item name="colorPrimaryAccentWarmAttr">@color/colorAccentHouseHold</item>
-        <item name="colorPrimaryWarmAttr">@color/colorPrimary</item>
+        <item name="colorPrimaryWarmAttr">@color/colorPrimaryHouseHold</item>
         <item name="colorPrimaryLightAttr">@color/colorDisabledBtnHouseHold</item>
         <item name="colorPrimaryAltAttr">@color/colorDisabledBtnHouseHold</item>
         <item name="colorPrimarySoftAttr">@color/colorPrimarySoftHouseHold</item>
         <item name="colorPrimaryDisabledBtnAttr">@color/colorDisabledBtnHouseHold</item>
+        <item name="colorPrimaryDarkIconsAttr">@color/colorPrimaryDarkIconsHouseHold</item>
         <item name="colorPressedBtnStateAttr">@color/colorPressedBtnStateHouseHold</item>
         <item name="colordisabledTick">@color/colordisabledTickHouseHold</item>
         <item name="colorSeekBar">@color/seekbarProgresskHouseHold</item>
@@ -69,10 +71,8 @@
     </style>
 
     <style name="CardViewStyle" parent="CardView">
-        <item name="android:background">?attr/colorPrimary</item>
-        <item name="android:text">?attr/colorPrimary</item>
-        <!--        <item name="background">?attr/colorPrimary</item>-->
-        <!--        <item name="cardBackgroundColor">?attr/colorPrimary</item>-->
-    </style>
+        <item name="android:background">?attr/colorPrimaryWarmAttr</item>
+<!--        <item name="cardBackgroundColor">?attr/colorPrimaryWarmAttr</item>-->
+     </style>
 
 </resources>
