@@ -74,7 +74,7 @@ class YapDashBoardViewModel(application: Application) :
             when (val response = customerRepository.getAccountInfo()) {
                 is RetroApiResponse.Success -> {
                     MyUserManager.user = response.data.data[0]
-                    MyUserManager.user?.setLiveData() // DOnt remove this line
+//                    MyUserManager.user?.setLiveData() // DOnt remove this line
                     MyUserManager.user?.isDocumentsVerified?.let {
                         MoreActivity.showExpiredIcon =
                             it == "N"

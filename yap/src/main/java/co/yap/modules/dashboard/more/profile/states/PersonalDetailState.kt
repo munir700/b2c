@@ -31,7 +31,7 @@ class PersonalDetailState(val application: Application) : BaseState(), IPersonal
 
 
     @get:Bindable
-    override var email: String = " "
+    override var email: String? = " "
         set(value) {
             field = value
             notifyPropertyChanged(BR.email)
