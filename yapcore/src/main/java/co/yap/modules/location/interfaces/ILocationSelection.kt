@@ -35,5 +35,6 @@ interface ILocationSelection {
         var isTermsChecked: ObservableField<Boolean>
         var valid: ObservableField<Boolean>
         var showTermsCondition: ObservableField<Boolean>
+        var isMapExpanded:ObservableField<Boolean>
     }
 }
