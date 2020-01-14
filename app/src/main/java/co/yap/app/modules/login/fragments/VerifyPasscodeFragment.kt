@@ -186,8 +186,7 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
         }
     }
     private val onFetchAccountInfo = Observer<AccountInfo>
-    { it ->
-
+    {
         it?.run {
             if (accountType == AccountType.B2C_HOUSEHOLD.name) {
                 val bundle = Bundle()
@@ -200,8 +199,6 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
                 activity?.finish()
             }
         }
-
-
     }
 
     private val validateDeviceResultObserver = Observer<Boolean> {
@@ -242,8 +239,7 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
                 navigateToDashboard()
             }
         } else {
-            viewModel.getAccountInfo()
-            //viewModel.createOtp()
+            viewModel.createOtp()
         }
     }
 
