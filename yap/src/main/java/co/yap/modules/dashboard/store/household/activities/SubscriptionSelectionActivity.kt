@@ -1,6 +1,7 @@
 package co.yap.modules.dashboard.store.household.activities
 
 import android.animation.Animator
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -17,7 +18,10 @@ import co.yap.modules.dashboard.store.household.viewmodels.SubscriptionSelection
 import co.yap.networking.household.responsedtos.HouseHoldPlan
 import co.yap.translation.Translator
 import co.yap.yapcore.BaseBindingActivity
+import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.helpers.extentions.ExtraType
+import co.yap.yapcore.helpers.extentions.getValue
 import co.yap.yapcore.interfaces.OnItemClickListener
 import com.daimajia.androidanimations.library.Techniques
 import com.daimajia.androidanimations.library.YoYo
@@ -60,7 +64,7 @@ class SubscriptionSelectionActivity :
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
                 R.id.btnClose -> {
-                    finish() // will check in fsd/story till where is it required to go back
+                    setIntentResult(false)
                 }
                 R.id.llAnnualSubscription -> {
                     viewModel.state.hasSelectedPackage = true
@@ -77,20 +81,42 @@ class SubscriptionSelectionActivity :
                 }
 
                 R.id.btnGetStarted -> {
-                    startActivity(
+                    startActivityForResult(
                         HouseHoldOnboardingActivity.newIntent(
                             this@SubscriptionSelectionActivity,
                             selectedPlan, viewModel.plansList
-                        )
+                        ), RequestCodes.REQUEST_ADD_HOUSE_HOLD
                     )
                     //confirmationDialog()
                 }
 
                 R.id.imgClose -> {
-                    finish()
+                    setIntentResult(false)
                 }
             }
         })
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == RequestCodes.REQUEST_ADD_HOUSE_HOLD) {
+            if (resultCode == Activity.RESULT_OK) {
+                data?.let {
+                    val finishScreen =
+                        data.getValue(
+                            RequestCodes.REQUEST_CODE_FINISH,
+                            ExtraType.BOOLEAN.name
+                        ) as? Boolean
+                    finishScreen?.let { it ->
+                        if (it) {
+                            setIntentResult(true)
+                        } else {
+                            // other things?
+                        }
+                    }
+                }
+            }
+        }
     }
 
     private fun confirmationDialog() {
@@ -374,5 +400,13 @@ class SubscriptionSelectionActivity :
             .repeat(0)
             .playOn(viewThird)
 
+    }
+
+
+    private fun setIntentResult(shouldFinished: Boolean) {
+        val intent = Intent()
+        intent.putExtra(RequestCodes.REQUEST_CODE_FINISH, shouldFinished)
+        setResult(Activity.RESULT_OK, intent)
+        finish()
     }
 }

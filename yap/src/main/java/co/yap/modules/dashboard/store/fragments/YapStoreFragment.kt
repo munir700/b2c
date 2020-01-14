@@ -1,5 +1,7 @@
 package co.yap.modules.dashboard.store.fragments
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
@@ -10,10 +12,12 @@ import co.yap.modules.dashboard.store.adaptor.YapStoreAdaptor
 import co.yap.modules.dashboard.store.household.activities.HouseHoldLandingActivity
 import co.yap.modules.dashboard.store.interfaces.IYapStore
 import co.yap.modules.dashboard.store.viewmodels.YapStoreViewModel
-import co.yap.networking.store.responsedtos.Store
 import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.helpers.SharedPreferenceManager
+import co.yap.yapcore.helpers.extentions.ExtraType
+import co.yap.yapcore.helpers.extentions.getValue
 import co.yap.yapcore.interfaces.OnItemClickListener
 import kotlinx.android.synthetic.main.fragment_yap_store.*
 
@@ -47,9 +51,31 @@ class YapStoreFragment : BaseBindingFragment<IYapStore.ViewModel>(), IYapStore.V
 
     val listener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
-            if (data is Store) {
-                if (data.name == "YAP Household")
-                    startActivity(HouseHoldLandingActivity.newIntent(activity!!))
+            startActivityForResult(
+                HouseHoldLandingActivity.newIntent(requireContext()),
+                RequestCodes.REQUEST_ADD_HOUSE_HOLD
+            )
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == RequestCodes.REQUEST_ADD_HOUSE_HOLD) {
+            if (resultCode == Activity.RESULT_OK) {
+                data?.let {
+                    val finishScreen =
+                        data.getValue(
+                            RequestCodes.REQUEST_CODE_FINISH,
+                            ExtraType.BOOLEAN.name
+                        ) as? Boolean
+                    finishScreen?.let { it ->
+                        if (it) {
+                            //finish()  // Transaction fragment
+                        } else {
+                            // other things?
+                        }
+                    }
+                }
             }
         }
     }

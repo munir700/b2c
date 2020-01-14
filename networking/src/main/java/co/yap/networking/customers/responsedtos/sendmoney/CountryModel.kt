@@ -39,7 +39,21 @@ data class CountryModel(
             @SerializedName("cashPickUp")
             var cashPickUp: Boolean? = false,
             @SerializedName("rmtCountry")
-            var rmtCountry: Boolean? = false
+            var rmtCountry: Boolean? = false,
+            @SerializedName("creationDate")
+            var creationDate: String? = "",
+            @SerializedName("createdBy")
+            var createdBy: String? = "",
+            @SerializedName("updatedDate")
+            var updatedDate: String? = "",
+            @SerializedName("id")
+            var id: Int? = 0,
+            @SerializedName("symbol")
+            var symbol: Boolean? = false,
+            @SerializedName("isoNum")
+            var isoNum: String? = ""
+
+
         )
     }
 }
