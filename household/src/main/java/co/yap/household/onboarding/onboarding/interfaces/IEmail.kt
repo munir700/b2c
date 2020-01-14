@@ -2,9 +2,9 @@ package co.yap.household.onboarding.onboarding.interfaces
 
 import android.graphics.drawable.Drawable
 import android.widget.TextView
+import androidx.lifecycle.MutableLiveData
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
-import co.yap.yapcore.SingleLiveEvent
 
 
 interface IEmail {
@@ -12,17 +12,11 @@ interface IEmail {
     interface View : IBase.View<ViewModel>
 
     interface ViewModel : IBase.ViewModel<State> {
-        val EVENT_POST_DEMOGRAPHIC: Int
-            get() = 1
-        val EVENT_POST_VERIFICATION_EMAIL: Int
-            get() = 2
-        val EVENT_NAVIGATE_NEXT: Int
-            get() = 3
+        var clickEvent: SingleClickEvent
         var hasDoneAnimation: Boolean
-
-        val nextButtonPressEvent: SingleClickEvent
-        val animationStartEvent: SingleLiveEvent<Boolean>
-        fun handlePressOnNext()
+        var onEmailVerifySuccess: MutableLiveData<Boolean>
+        val animationStartEvent: MutableLiveData<Boolean>
+        fun handlePressOnView(id: Int)
         fun onEditorActionListener(): TextView.OnEditorActionListener
         fun postDemographicData()
         fun sendVerificationEmail()

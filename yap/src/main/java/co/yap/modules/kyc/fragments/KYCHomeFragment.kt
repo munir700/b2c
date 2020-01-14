@@ -13,6 +13,8 @@ import co.yap.modules.kyc.activities.DocumentsDashboardActivity
 import co.yap.modules.kyc.enums.DocScanStatus
 import co.yap.modules.kyc.interfaces.IKYCHome
 import co.yap.modules.kyc.viewmodels.KYCHomeViewModel
+import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.helpers.SharedPreferenceManager
 import com.digitify.identityscanner.docscanner.activities.IdentityScannerActivity
 import com.digitify.identityscanner.docscanner.enums.DocumentType
 
@@ -20,7 +22,15 @@ class KYCHomeFragment : KYCChildFragment<IKYCHome.ViewModel>(), IKYCHome.View {
 
     override fun getBindingVariable(): Int = BR.viewModel
 
-    override fun getLayoutId(): Int = R.layout.fragment_kyc_home
+    override fun getLayoutId(): Int {
+        if (getAppliedAppTheme()) return R.layout.fragment_kyc_home_house_hold
+        else return R.layout.fragment_kyc_home
+    }
+
+    fun getAppliedAppTheme(): Boolean {
+        if (SharedPreferenceManager(activity!!).getThemeValue().equals(Constants.THEME_HOUSEHOLD)) return true
+        else return false
+    }
 
     override val viewModel: KYCHomeViewModel
         get() = ViewModelProviders.of(this).get(KYCHomeViewModel::class.java)
@@ -43,6 +53,7 @@ class KYCHomeFragment : KYCChildFragment<IKYCHome.ViewModel>(), IKYCHome.View {
                         findNavController().navigate(R.id.action_KYCHomeFragment_to_AddressSelectionFragment)
                     }
                 }
+
                 R.id.tvSkip -> {
                     if (activity is DocumentsDashboardActivity)
                         (activity as DocumentsDashboardActivity).goToDashBoard(

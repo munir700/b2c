@@ -5,6 +5,7 @@ import android.graphics.Color
 import android.os.Build
 import android.view.inputmethod.EditorInfo
 import android.widget.TextView
+import androidx.lifecycle.MutableLiveData
 import co.yap.app.login.EncryptionUtils
 import co.yap.household.R
 import co.yap.household.onboarding.onboarding.interfaces.IEmail
@@ -28,10 +29,14 @@ class DialerViewModel (application: Application) :
     IRepositoryHolder<CustomersRepository> {
 
     override var hasDoneAnimation: Boolean=false
-
+    override var onEmailVerifySuccess: MutableLiveData<Boolean> = MutableLiveData(false)
     override val state: EmailState = EmailState(application)
-    override val nextButtonPressEvent: SingleClickEvent = SingleClickEvent()
-    override val animationStartEvent: SingleLiveEvent<Boolean> = SingleLiveEvent()
+    override var clickEvent: SingleClickEvent = SingleClickEvent()
+    override val animationStartEvent: MutableLiveData<Boolean> = MutableLiveData()
+    override fun handlePressOnView(id: Int) {
+        clickEvent.setValue(id)
+    }
+
     override val repository: CustomersRepository = CustomersRepository
     private val sharedPreferenceManager = SharedPreferenceManager(context)
 
@@ -49,14 +54,6 @@ class DialerViewModel (application: Application) :
         state.emailVerificationTitle =
             getString(R.string.screen_new_user_email_display_text_email_caption)
 
-    }
-
-    override fun handlePressOnNext() {
-//        if (state.emailTitle == getString(R.string.screen_email_verification_display_text_title)) {
-//            nextButtonPressEvent.setValue(EVENT_POST_DEMOGRAPHIC)
-//        } else {
-        nextButtonPressEvent.setValue(EVENT_POST_VERIFICATION_EMAIL)
-//        }
     }
 
     override fun stopTimer() {
@@ -217,7 +214,6 @@ class DialerViewModel (application: Application) :
         return TextView.OnEditorActionListener { v, actionId, event ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
                 if (state.valid) {
-                    handlePressOnNext()
                 }
             }
             false

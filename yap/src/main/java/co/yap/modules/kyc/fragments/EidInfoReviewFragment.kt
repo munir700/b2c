@@ -13,6 +13,8 @@ import co.yap.modules.kyc.activities.DocumentsDashboardActivity
 import co.yap.modules.kyc.viewmodels.EidInfoReviewViewModel
 import co.yap.modules.onboarding.interfaces.IEidInfoReview
 import co.yap.translation.Strings
+import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.helpers.SharedPreferenceManager
 import com.digitify.identityscanner.docscanner.activities.IdentityScannerActivity
 import com.digitify.identityscanner.docscanner.enums.DocumentType
 import kotlinx.android.synthetic.main.activity_eid_info_review.*
@@ -22,7 +24,16 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
 
     override fun getBindingVariable(): Int = BR.viewModel
 
-    override fun getLayoutId(): Int = R.layout.activity_eid_info_review
+//    override fun getLayoutId(): Int = R.layout.activity_eid_info_review
+    override fun getLayoutId(): Int {
+        if (getAppliedAppTheme()) return R.layout.activity_eid_info_review_house_hold
+        else return R.layout.activity_eid_info_review
+    }
+
+    fun getAppliedAppTheme(): Boolean {
+        if (SharedPreferenceManager(activity!!).getThemeValue().equals(Constants.THEME_HOUSEHOLD)) return true
+        else return false
+    }
 
     override val viewModel: EidInfoReviewViewModel
         get() = ViewModelProviders.of(this).get(EidInfoReviewViewModel::class.java)

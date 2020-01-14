@@ -36,35 +36,36 @@ class NewUserEmailFragment : OnboardingChildFragment<IEmail.ViewModel>() {
         val display = activity!!.windowManager.defaultDisplay
         display.getRectSize(windowSize)
 
-        viewModel.nextButtonPressEvent.observe(this, nextButtonObserver)
-        viewModel.animationStartEvent.observe(this, Observer { startAnimation() })
+        viewModel.clickEvent.observe(this, clickObserver)
+        viewModel.animationStartEvent.observe(this, Observer {
+            if (it)
+                startAnimation()
+        })
+        viewModel.onEmailVerifySuccess.observe(this, Observer {
+            if (it) {
+                viewModel.postDemographicData()
+            }
+        })
     }
 
     override fun onDestroyView() {
-        viewModel.nextButtonPressEvent.removeObservers(this)
+        viewModel.clickEvent.removeObservers(this)
         viewModel.animationStartEvent.removeObservers(this)
+        viewModel.onEmailVerifySuccess.removeObservers(this)
         super.onDestroyView()
     }
 
-    private val nextButtonObserver = Observer<Int> {
+    private val clickObserver = Observer<Int> {
         when (it) {
-            viewModel.EVENT_POST_VERIFICATION_EMAIL -> {
+            R.id.next_button -> {
                 hideKeyboard()
-//                viewModel.sendVerificationEmail()
                 if (viewModel.hasDoneAnimation) {
                     findNavController().navigate(R.id.action_emailHouseHoldFragment_to_newUserCongratulationsFragment)
-
                 } else {
-                    viewModel.postDemographicData()
-
+                    viewModel.sendVerificationEmail()
                 }
-
             }
-//            viewModel.EVENT_NAVIGATE_NEXT -> navigate(R.id.congratulationsFragment)
-//            viewModel.EVENT_POST_VERIFICATION_EMAIL -> viewModel.sendVerificationEmail()
-//            viewModel.EVENT_POST_DEMOGRAPHIC -> viewModel.postDemographicData()
         }
-
     }
 
     private fun hideKeyboard() {
@@ -84,8 +85,6 @@ class NewUserEmailFragment : OnboardingChildFragment<IEmail.ViewModel>() {
                 })
             }.start()
         }, 500)
-
-
     }
 
     private fun toolbarAnimation(): AnimatorSet {

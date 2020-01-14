@@ -155,8 +155,14 @@ fun getCountryCodeForRegion(code: String): String {
     val phoneUtil = PhoneNumberUtil.getInstance()
     val pn = phoneUtil.getCountryCodeForRegion(code.toUpperCase())
     return "+$pn"
-
 }
+fun getCountryCodeForRegionWithZeroPrefix(code: String): String {
+    val phoneUtil = PhoneNumberUtil.getInstance()
+    val pn = phoneUtil.getCountryCodeForRegion(code.toUpperCase())
+    return "00$pn"
+}
+fun getCountryCodeForRegionSimple(code: String)=PhoneNumberUtil.getInstance().getCountryCodeForRegion(code.toUpperCase())
+
 
 fun getCountryCodeForRegion(code: Int): String {
     val phoneUtil = PhoneNumberUtil.getInstance()

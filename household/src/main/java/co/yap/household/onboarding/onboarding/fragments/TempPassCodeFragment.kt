@@ -25,17 +25,13 @@ class TempPassCodeFragment : OnboardingChildFragment<IEmail.ViewModel>() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-
-
         containerPassCode.setOnClickListener(View.OnClickListener {
             findNavController().navigate(R.id.action_passCodeFragment_to_emailHouseHoldFragment)
-
-
         })
     }
 
     override fun onDestroyView() {
-        viewModel.nextButtonPressEvent.removeObservers(this)
+        viewModel.clickEvent.removeObservers(this)
         viewModel.animationStartEvent.removeObservers(this)
         super.onDestroyView()
     }

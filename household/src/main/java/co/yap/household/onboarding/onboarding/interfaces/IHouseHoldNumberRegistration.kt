@@ -1,5 +1,6 @@
 package co.yap.household.onboarding.onboarding.interfaces
 
+import androidx.lifecycle.MutableLiveData
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
 
@@ -13,6 +14,7 @@ interface IHouseHoldNumberRegistration {
         var clickEvent: SingleClickEvent?
         fun handlePressOnConfirm(id: Int)
         fun verifyHouseholdParentMobile()
+        var isParentMobileValid:MutableLiveData<Boolean>?
     }
 
     interface State : IBase.State {
@@ -21,6 +23,7 @@ interface IHouseHoldNumberRegistration {
         var parentName: String?
         var userName: String?
         var phoneNumber: String?
+        var countryCode: String
         var buttonTitle: String
         var buttonValidation: Boolean
         var showErrorMessage: Boolean
