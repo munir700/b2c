@@ -13,6 +13,9 @@ import co.yap.app.constants.Constants
 import co.yap.app.login.EncryptionUtils
 import co.yap.app.modules.login.interfaces.IVerifyPasscode
 import co.yap.app.modules.login.viewmodels.VerifyPasscodeViewModel
+import co.yap.household.onboarding.OnboardingHouseHoldActivity
+import co.yap.modules.onboarding.enums.AccountType
+import co.yap.networking.customers.responsedtos.AccountInfo
 import co.yap.widgets.NumberKeyboardListener
 import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.helpers.SharedPreferenceManager
@@ -43,6 +46,7 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
         viewModel.signInButtonPressEvent.observe(this, signInButtonObserver)
         viewModel.loginSuccess.observe(this, loginSuccessObserver)
         viewModel.validateDeviceResult.observe(this, validateDeviceResultObserver)
+        viewModel.accountInfo.observe(this, onFetchAccountInfo)
         viewModel.createOtpResult.observe(this, createOtpObserver)
         setObservers()
         setUsername()
@@ -170,7 +174,6 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
     }
 
     private val loginSuccessObserver = Observer<Boolean> {
-
         if (it) {
             if (viewModel.isFingerprintLogin) {
                 sharedPreferenceManager.save(SharedPreferenceManager.KEY_IS_USER_LOGGED_IN, true)
@@ -181,6 +184,24 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
         } else {
             dialer.startAnimation()
         }
+    }
+    private val onFetchAccountInfo = Observer<AccountInfo>
+    { it ->
+
+        it?.run {
+            if (accountType == AccountType.B2C_HOUSEHOLD.name) {
+                val bundle = Bundle()
+                bundle.putBoolean(OnboardingHouseHoldActivity.EXISTING_USER, true)
+                bundle.putParcelable(OnboardingHouseHoldActivity.USER_INFO, it)
+                startActivity(OnboardingHouseHoldActivity.getIntent(requireContext(), bundle))
+
+            } else {
+                findNavController().navigate(R.id.action_goto_yapDashboardActivity)
+                activity?.finish()
+            }
+        }
+
+
     }
 
     private val validateDeviceResultObserver = Observer<Boolean> {
@@ -221,7 +242,8 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
                 navigateToDashboard()
             }
         } else {
-            viewModel.createOtp()
+            viewModel.getAccountInfo()
+            //viewModel.createOtp()
         }
     }
 
@@ -240,8 +262,8 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
     }
 
     private fun navigateToDashboard() {
-        findNavController().navigate(R.id.action_goto_yapDashboardActivity)
-        activity?.finish()
+        viewModel.getAccountInfo()
+
     }
 
     override fun onSdkVersionNotSupported() {

@@ -5,6 +5,7 @@ import androidx.databinding.Bindable
 import androidx.databinding.library.baseAdapters.BR
 import co.yap.household.R
 import co.yap.household.onboarding.interfaces.IOnboarding
+import co.yap.networking.customers.responsedtos.AccountInfo
 import co.yap.yapcore.BaseState
 
 class OnBoardingState(val application: Application) : BaseState(), IOnboarding.State {
@@ -34,5 +35,11 @@ class OnBoardingState(val application: Application) : BaseState(), IOnboarding.S
         set(value) {
             field = value
             notifyPropertyChanged(BR.existingYapUser)
+        }
+    @get:Bindable
+    override var accountInfo: AccountInfo? = null
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.accountInfo)
         }
 }
