@@ -12,6 +12,7 @@ import co.yap.modules.dashboard.store.adaptor.YapStoreAdaptor
 import co.yap.modules.dashboard.store.household.activities.HouseHoldLandingActivity
 import co.yap.modules.dashboard.store.interfaces.IYapStore
 import co.yap.modules.dashboard.store.viewmodels.YapStoreViewModel
+import co.yap.networking.store.responsedtos.Store
 import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.RequestCodes
