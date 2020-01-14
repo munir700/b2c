@@ -44,7 +44,7 @@
             android:id="@+id/to_emailHouseHoldFragment"
             app:destination="@id/emailHouseHoldFragment"
             app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"/>
+            app:exitAnim="@anim/slide_out_left" />
     </fragment>
 
     <fragment
@@ -72,11 +72,12 @@
         tools:layout="@layout/fragment_house_hold_card_selection" />
 
     <action
-        android:id="@+id/action_goto_yapDashboardActivity"
-        app:destination="@id/yapDashboardActivity" />
+        android:id="@+id/action_goto_householdDashboardActivity"
+        app:destination="@id/householdDashboardActivity" />
+
     <activity
-        android:id="@+id/yapDashboardActivity"
-        android:name="co.yap.modules.dashboard.main.activities.YapDashboardActivity"
+        android:id="@+id/householdDashboardActivity"
+        android:name="co.yap.modules.onboarding.activities.LiteDashboardActivity"
         android:label="YapDashboardActivity"
-        tools:layout="@layout/activity_yap_dashboard" />
+        tools:layout="@layout/activity_household_dashboard" />
 </navigation>

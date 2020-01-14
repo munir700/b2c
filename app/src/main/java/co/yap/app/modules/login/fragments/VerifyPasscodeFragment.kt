@@ -185,15 +185,14 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
             dialer.startAnimation()
         }
     }
-    private val onFetchAccountInfo = Observer<AccountInfo>
-    {
+    private val onFetchAccountInfo = Observer<AccountInfo> {
         it?.run {
             if (accountType == AccountType.B2C_HOUSEHOLD.name) {
                 val bundle = Bundle()
                 bundle.putBoolean(OnboardingHouseHoldActivity.EXISTING_USER, false)
                 bundle.putParcelable(OnboardingHouseHoldActivity.USER_INFO, it)
                 startActivity(OnboardingHouseHoldActivity.getIntent(requireContext(), bundle))
-
+                activity?.finish()
             } else {
                 findNavController().navigate(R.id.action_goto_yapDashboardActivity)
                 activity?.finish()

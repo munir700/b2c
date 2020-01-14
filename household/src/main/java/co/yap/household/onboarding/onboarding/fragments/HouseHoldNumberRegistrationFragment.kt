@@ -29,22 +29,32 @@ class HouseHoldNumberRegistrationFragment :
         super.onActivityCreated(savedInstanceState)
         viewModel.parentViewModel?.state?.accountInfo?.run {
             when (NotificationStatus.valueOf(notificationStatuses)) {
-                NotificationStatus.PASS_CODE_PENDING -> {
-                    findNavController().navigate(R.id.to_houseHoldCreatePassCodeFragment)
+                NotificationStatus.PARENT_MOBILE_VERIFICATION_PENDING -> {
 
                 }
-                NotificationStatus.PARNET_MOBILE_VERIFICATION_PENDING -> {
-
+                NotificationStatus.PASS_CODE_PENDING -> {
+                    findNavController().navigate(R.id.to_houseHoldCreatePassCodeFragment)
                 }
                 NotificationStatus.EMAIL_PENDING -> {
                     findNavController().navigate(R.id.action_houseHoldNumberRegistrationFragment_to_emailHouseHoldFragment)
-
                 }
                 NotificationStatus.ON_BOARDED -> {
-                    findNavController().navigate(R.id.action_goto_yapDashboardActivity)
+                    findNavController().navigate(R.id.action_goto_householdDashboardActivity)
+                }
+                NotificationStatus.MEETING_SCHEDULED -> {
+                    findNavController().navigate(R.id.action_goto_householdDashboardActivity)
+                }
+                NotificationStatus.MEETING_SUCCESS -> {
+                    findNavController().navigate(R.id.action_goto_householdDashboardActivity)
+                }
+                NotificationStatus.MEETING_FAILED -> {
+                    findNavController().navigate(R.id.action_goto_householdDashboardActivity)
+                }
+                NotificationStatus.CARD_ACTIVATED -> {
+                    findNavController().navigate(R.id.action_goto_householdDashboardActivity)
                 }
                 else -> {
-
+                    //findNavController().navigate(R.id.action_goto_yapDashboardActivity)
                 }
             }
         }

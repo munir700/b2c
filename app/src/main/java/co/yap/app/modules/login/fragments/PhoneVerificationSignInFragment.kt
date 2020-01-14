@@ -59,7 +59,7 @@ class PhoneVerificationSignInFragment : BaseBindingFragment<IPhoneVerificationSi
                 bundle.putBoolean(OnboardingHouseHoldActivity.EXISTING_USER, false)
                 bundle.putParcelable(OnboardingHouseHoldActivity.USER_INFO, it)
                 startActivity(OnboardingHouseHoldActivity.getIntent(requireContext(), bundle))
-
+                activity?.finish()
             } else {
                 findNavController().navigate(R.id.action_goto_yapDashboardActivity)
                 activity?.finish()
@@ -68,10 +68,12 @@ class PhoneVerificationSignInFragment : BaseBindingFragment<IPhoneVerificationSi
     }
 
     private fun setUsername() {
-        viewModel.state.username = arguments?.let { PhoneVerificationSignInFragmentArgs.fromBundle(it).username } as String
+        viewModel.state.username =
+            arguments?.let { PhoneVerificationSignInFragmentArgs.fromBundle(it).username } as String
     }
 
     private fun setPasscode() {
-         viewModel.state.passcode =arguments?.let { PhoneVerificationSignInFragmentArgs.fromBundle(it).passcode } as String
+        viewModel.state.passcode =
+            arguments?.let { PhoneVerificationSignInFragmentArgs.fromBundle(it).passcode } as String
     }
 }
