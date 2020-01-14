@@ -81,8 +81,6 @@ class NewUserEmailFragment : OnboardingChildFragment<IEmail.ViewModel>() {
                 })
             }.start()
         }, 500)
-
-
     }
 
     private fun toolbarAnimation(): AnimatorSet {

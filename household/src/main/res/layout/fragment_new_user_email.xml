@@ -97,7 +97,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/margin_medium_large"
-                android:onClick="@{() -> emailHouseHoldViewModel.handlePressOnNext()()}"
+                android:onClick="@{(v) -> emailHouseHoldViewModel.handlePressOnView(v.id)}"
                 android:text="@{emailHouseHoldViewModel.state.emailBtnTitle}"
                 app:enableCoreButton="@{emailHouseHoldViewModel.state.valid}"
                 app:layout_constraintBottom_toBottomOf="parent"
