@@ -77,7 +77,7 @@ class EmailHouseHoldViewModel(application: Application) :
 
         // mark that we have completed all verification stuff to handle proper back navigation
         state.verificationCompleted = true
-        setProgress(80)
+        setProgress(100)
         animationStartEvent.value = true
     }
 
@@ -88,13 +88,13 @@ class EmailHouseHoldViewModel(application: Application) :
             when (val response =
                 repository.addHouseholdEmail(AddHouseholdEmailRequest(state.twoWayTextWatcher))) {
                 is RetroApiResponse.Success -> {
+                    state.loading = false
                     setVerificationLabel()
                     onEmailVerifySuccess.value = true
                 }
                 is RetroApiResponse.Error -> {
                     state.emailError = response.error.message
                     state.loading = false
-
                 }
             }
         }
@@ -102,8 +102,6 @@ class EmailHouseHoldViewModel(application: Application) :
 
     override fun postDemographicData() {
         //todo call for demographic on backend verdict pending
-        setProgress(100)
-        animationStartEvent.value = true
     }
 
     override fun onEditorActionListener(): TextView.OnEditorActionListener {

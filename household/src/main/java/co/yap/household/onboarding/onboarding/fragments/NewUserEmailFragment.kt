@@ -37,7 +37,10 @@ class NewUserEmailFragment : OnboardingChildFragment<IEmail.ViewModel>() {
         display.getRectSize(windowSize)
 
         viewModel.clickEvent.observe(this, clickObserver)
-        viewModel.animationStartEvent.observe(this, Observer { startAnimation() })
+        viewModel.animationStartEvent.observe(this, Observer {
+            if (it)
+                startAnimation()
+        })
         viewModel.onEmailVerifySuccess.observe(this, Observer {
             if (it) {
                 viewModel.postDemographicData()
@@ -48,6 +51,7 @@ class NewUserEmailFragment : OnboardingChildFragment<IEmail.ViewModel>() {
     override fun onDestroyView() {
         viewModel.clickEvent.removeObservers(this)
         viewModel.animationStartEvent.removeObservers(this)
+        viewModel.onEmailVerifySuccess.removeObservers(this)
         super.onDestroyView()
     }
 

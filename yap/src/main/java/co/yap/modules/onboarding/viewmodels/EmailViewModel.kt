@@ -61,7 +61,6 @@ class EmailViewModel(application: Application) :
             )
     }
 
-
     private fun signUp() {
         launch {
             state.refreshField = true

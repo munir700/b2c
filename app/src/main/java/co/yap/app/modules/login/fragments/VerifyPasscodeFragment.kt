@@ -191,7 +191,7 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
         it?.run {
             if (accountType == AccountType.B2C_HOUSEHOLD.name) {
                 val bundle = Bundle()
-                bundle.putBoolean(OnboardingHouseHoldActivity.EXISTING_USER, true)
+                bundle.putBoolean(OnboardingHouseHoldActivity.EXISTING_USER, false)
                 bundle.putParcelable(OnboardingHouseHoldActivity.USER_INFO, it)
                 startActivity(OnboardingHouseHoldActivity.getIntent(requireContext(), bundle))
 
