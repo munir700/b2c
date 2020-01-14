@@ -47,8 +47,8 @@
 
                     <ImageView
                         android:id="@+id/imgClose"
-                        android:layout_width="@dimen/_32sdp"
-                        android:layout_height="@dimen/_32sdp"
+                        android:layout_width="@dimen/_28sdp"
+                        android:layout_height="@dimen/_28sdp"
                         android:layout_marginStart="@dimen/margin_medium_large"
                         android:layout_marginTop="@dimen/margin_medium"
                         android:contentDescription="@string/empty_string"
@@ -61,8 +61,8 @@
 
                 <ImageView
                     android:id="@+id/imgSmiley"
-                    android:layout_width="@dimen/_55sdp"
-                    android:layout_height="@dimen/_55sdp"
+                    android:layout_width="@dimen/_45sdp"
+                    android:layout_height="@dimen/_45sdp"
                     android:layout_marginStart="@dimen/margin_large"
                     android:layout_marginTop="@dimen/margin_medium"
                     android:contentDescription="@string/empty_string"

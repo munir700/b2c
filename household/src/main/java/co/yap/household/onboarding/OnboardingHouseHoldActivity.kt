@@ -52,27 +52,28 @@ class OnboardingHouseHoldActivity : BaseBindingActivity<IOnboarding.ViewModel>()
             viewModel.state.existingYapUser = it.getBoolean(EXISTING_USER, false)
         }
         viewModel.state.accountInfo?.run {
-            when (NotificationStatus.valueOf(notificationStatuses)) {
-                NotificationStatus.PARENT_MOBILE_VERIFICATION_PENDING -> {
+            if (!notificationStatuses.isNullOrBlank())
+                when (NotificationStatus.valueOf(notificationStatuses)) {
+                    NotificationStatus.PARNET_MOBILE_VERIFICATION_PENDING -> {
+                    }
+                    NotificationStatus.PASS_CODE_PENDING -> {
+                    }
+                    NotificationStatus.EMAIL_PENDING -> {
+                    }
+                    NotificationStatus.ON_BOARDED -> {
+                    }
+                    NotificationStatus.MEETING_SCHEDULED -> {
+                    }
+                    NotificationStatus.MEETING_SUCCESS -> {
+                    }
+                    NotificationStatus.MEETING_FAILED -> {
+                    }
+                    NotificationStatus.CARD_ACTIVATED -> {
+                    }
+                    else -> {
+                        //findNavController().navigate(R.id.action_goto_yapDashboardActivity)
+                    }
                 }
-                NotificationStatus.PASS_CODE_PENDING -> {
-                }
-                NotificationStatus.EMAIL_PENDING -> {
-                }
-                NotificationStatus.ON_BOARDED -> {
-                }
-                NotificationStatus.MEETING_SCHEDULED -> {
-                }
-                NotificationStatus.MEETING_SUCCESS -> {
-                }
-                NotificationStatus.MEETING_FAILED -> {
-                }
-                NotificationStatus.CARD_ACTIVATED -> {
-                }
-                else -> {
-                    //findNavController().navigate(R.id.action_goto_yapDashboardActivity)
-                }
-            }
         }
         viewModel.onboardingData.accountType = "B2C_ACCOUNT"
         viewModel.backButtonPressEvent.observe(this, backButtonObserver)

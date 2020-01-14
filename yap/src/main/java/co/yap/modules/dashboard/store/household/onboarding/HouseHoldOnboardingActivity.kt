@@ -98,7 +98,7 @@ class HouseHoldOnboardingActivity : BaseBindingActivity<IBaseOnboarding.ViewMode
         }
     }
 
-    private fun setIntentResult(shouldFinished: Boolean) {
+    fun setIntentResult(shouldFinished: Boolean) {
         val intent = Intent()
         intent.putExtra(RequestCodes.REQUEST_CODE_FINISH, shouldFinished)
         setResult(Activity.RESULT_OK, intent)

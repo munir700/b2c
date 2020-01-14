@@ -1,5 +1,6 @@
 package co.yap.household.onboarding.onboarding.fragments
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
@@ -9,9 +10,15 @@ import androidx.navigation.fragment.findNavController
 import co.yap.household.BR
 import co.yap.household.R
 import co.yap.household.onboarding.fragments.OnboardingChildFragment
+import co.yap.household.onboarding.onboarding.activities.EIDNotAcceptedActivity
 import co.yap.household.onboarding.onboarding.interfaces.IHouseHoldNumberRegistration
 import co.yap.household.onboarding.onboarding.viewmodels.HouseHoldNumberRegistrationViewModel
+import co.yap.modules.kyc.activities.DocumentsDashboardActivity
+import co.yap.modules.onboarding.activities.LiteDashboardActivity
+import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.enums.NotificationStatus
+import co.yap.yapcore.helpers.extentions.ExtraType
+import co.yap.yapcore.helpers.extentions.getValue
 import kotlinx.android.synthetic.main.fragment_house_hold_number_registration.*
 
 
@@ -28,33 +35,92 @@ class HouseHoldNumberRegistrationFragment :
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel.parentViewModel?.state?.accountInfo?.run {
-            when (NotificationStatus.valueOf(notificationStatuses)) {
-                NotificationStatus.PARENT_MOBILE_VERIFICATION_PENDING -> {
+            if (!notificationStatuses.isNullOrBlank())
+                when (NotificationStatus.valueOf(notificationStatuses)) {
+                    NotificationStatus.PARNET_MOBILE_VERIFICATION_PENDING -> {
 
+                    }
+                    NotificationStatus.PASS_CODE_PENDING -> {
+                        findNavController().navigate(R.id.to_houseHoldCreatePassCodeFragment)
+                    }
+                    NotificationStatus.EMAIL_PENDING -> {
+                        findNavController().navigate(R.id.action_houseHoldNumberRegistrationFragment_to_emailHouseHoldFragment)
+                    }
+                    NotificationStatus.ON_BOARDED -> {
+                        startActivityForResult(
+                            DocumentsDashboardActivity.getIntent(
+                                requireContext(),
+                                viewModel.parentViewModel?.state?.accountInfo?.currentCustomer?.firstName,
+                                false
+                            ), RequestCodes.REQUEST_KYC_DOCUMENTS
+                        )
+                    }
+                    NotificationStatus.MEETING_SCHEDULED -> {
+                        findNavController().navigate(R.id.action_goto_householdDashboardActivity)
+                    }
+                    NotificationStatus.MEETING_SUCCESS -> {
+                        findNavController().navigate(R.id.action_goto_householdDashboardActivity)
+                    }
+                    NotificationStatus.MEETING_FAILED -> {
+                        findNavController().navigate(R.id.action_goto_householdDashboardActivity)
+                    }
+                    NotificationStatus.CARD_ACTIVATED -> {
+                        findNavController().navigate(R.id.action_goto_householdDashboardActivity)
+                    }
+                    else -> {
+                        //findNavController().navigate(R.id.action_goto_yapDashboardActivity)
+                    }
                 }
-                NotificationStatus.PASS_CODE_PENDING -> {
-                    findNavController().navigate(R.id.to_houseHoldCreatePassCodeFragment)
-                }
-                NotificationStatus.EMAIL_PENDING -> {
-                    findNavController().navigate(R.id.action_houseHoldNumberRegistrationFragment_to_emailHouseHoldFragment)
-                }
-                NotificationStatus.ON_BOARDED -> {
-                    findNavController().navigate(R.id.action_goto_householdDashboardActivity)
-                }
-                NotificationStatus.MEETING_SCHEDULED -> {
-                    findNavController().navigate(R.id.action_goto_householdDashboardActivity)
-                }
-                NotificationStatus.MEETING_SUCCESS -> {
-                    findNavController().navigate(R.id.action_goto_householdDashboardActivity)
-                }
-                NotificationStatus.MEETING_FAILED -> {
-                    findNavController().navigate(R.id.action_goto_householdDashboardActivity)
-                }
-                NotificationStatus.CARD_ACTIVATED -> {
-                    findNavController().navigate(R.id.action_goto_householdDashboardActivity)
-                }
-                else -> {
-                    //findNavController().navigate(R.id.action_goto_yapDashboardActivity)
+        }
+    }
+
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == Activity.RESULT_OK) {
+            if (requestCode == RequestCodes.REQUEST_KYC_DOCUMENTS) {
+                data?.let {
+                    val success =
+                        data.getValue(
+                            DocumentsDashboardActivity.result,
+                            ExtraType.BOOLEAN.name
+                        ) as? Boolean
+                    val skipped =
+                        data.getValue(
+                            DocumentsDashboardActivity.skipped,
+                            ExtraType.BOOLEAN.name
+                        ) as? Boolean
+
+                    success?.let {
+                        if (it) {
+                            startActivity(
+                                HouseHoldCardsSelectionActivity.newIntent(
+                                    requireContext(),
+                                    false
+                                )
+                            )
+                            activity?.finish()
+                        } else {
+                            skipped?.let { skip ->
+                                if (skip) {
+                                    startActivity(
+                                        Intent(
+                                            requireContext(),
+                                            LiteDashboardActivity::class.java
+                                        )
+                                    )
+                                } else {
+                                    startActivity(
+                                        Intent(
+                                            requireContext(),
+                                            EIDNotAcceptedActivity::class.java
+                                        )
+                                    )
+                                }
+                            }
+                        }
+                    }
+
                 }
             }
         }

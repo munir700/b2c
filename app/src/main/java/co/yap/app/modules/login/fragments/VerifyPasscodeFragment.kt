@@ -188,6 +188,7 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
     private val onFetchAccountInfo = Observer<AccountInfo> {
         it?.run {
             if (accountType == AccountType.B2C_HOUSEHOLD.name) {
+                SharedPreferenceManager(requireContext()).setThemeValue(co.yap.yapcore.constants.Constants.THEME_HOUSEHOLD)
                 val bundle = Bundle()
                 bundle.putBoolean(OnboardingHouseHoldActivity.EXISTING_USER, false)
                 bundle.putParcelable(OnboardingHouseHoldActivity.USER_INFO, it)

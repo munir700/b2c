@@ -13,12 +13,12 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.household.BR
 import co.yap.household.R
-import co.yap.household.onboarding.dashboard.main.activities.HouseholdDashboardActivity
 import co.yap.household.onboarding.fragments.OnboardingChildFragment
 import co.yap.household.onboarding.onboarding.activities.EIDNotAcceptedActivity
 import co.yap.household.onboarding.onboarding.interfaces.INewUserSuccess
 import co.yap.household.onboarding.onboarding.viewmodels.NewUserSuccessViewModel
 import co.yap.modules.kyc.activities.DocumentsDashboardActivity
+import co.yap.modules.onboarding.activities.LiteDashboardActivity
 import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.helpers.AnimationUtils
 import co.yap.yapcore.helpers.extentions.ExtraType
@@ -90,7 +90,7 @@ class NewUserSuccessFragment :
                                     startActivity(
                                         Intent(
                                             requireContext(),
-                                            HouseholdDashboardActivity::class.java
+                                            LiteDashboardActivity::class.java
                                         )
                                     )
                                 } else {

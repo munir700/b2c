@@ -13,6 +13,7 @@ import co.yap.household.onboarding.OnboardingHouseHoldActivity
 import co.yap.modules.onboarding.enums.AccountType
 import co.yap.networking.customers.responsedtos.AccountInfo
 import co.yap.yapcore.BaseBindingFragment
+import co.yap.yapcore.helpers.SharedPreferenceManager
 
 class PhoneVerificationSignInFragment : BaseBindingFragment<IPhoneVerificationSignIn.ViewModel>() {
 
@@ -56,6 +57,7 @@ class PhoneVerificationSignInFragment : BaseBindingFragment<IPhoneVerificationSi
         it?.run {
             if (accountType == AccountType.B2C_HOUSEHOLD.name) {
                 val bundle = Bundle()
+                SharedPreferenceManager(requireContext()).setThemeValue(co.yap.yapcore.constants.Constants.THEME_HOUSEHOLD)
                 bundle.putBoolean(OnboardingHouseHoldActivity.EXISTING_USER, false)
                 bundle.putParcelable(OnboardingHouseHoldActivity.USER_INFO, it)
                 startActivity(OnboardingHouseHoldActivity.getIntent(requireContext(), bundle))
