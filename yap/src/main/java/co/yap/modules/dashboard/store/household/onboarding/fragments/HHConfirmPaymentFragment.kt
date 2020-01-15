@@ -101,4 +101,6 @@ class HHConfirmPaymentFragment : BaseOnBoardingFragment<IHouseHoldConfirmPayment
         viewModel.clickEvent.removeObservers(this)
         viewModel.onBoardUserSuccess.removeObservers(this)
     }
+
+    override fun onBackPressed(): Boolean = false
 }

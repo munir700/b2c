@@ -25,15 +25,8 @@ class HouseHoldSuccessFragment : BaseOnBoardingFragment<IHouseHoldSuccess.ViewMo
     override val viewModel: HouseHoldSuccessViewModel
         get() = ViewModelProviders.of(this).get(HouseHoldSuccessViewModel::class.java)
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-
-    }
-
     override fun onResume() {
         super.onResume()
-
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
                 R.id.btnGoToHouseHold -> {
@@ -48,20 +41,16 @@ class HouseHoldSuccessFragment : BaseOnBoardingFragment<IHouseHoldSuccess.ViewMo
                 }
             }
         })
-
     }
-
 
     override fun onPause() {
         super.onPause()
         viewModel.clickEvent.removeObservers(this)
-
     }
 
     override fun onDestroy() {
         viewModel.clickEvent.removeObservers(this)
         super.onDestroy()
-
     }
 
     private fun shareInfo() {
