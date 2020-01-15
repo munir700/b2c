@@ -9,9 +9,10 @@
 
         <ImageView
             android:id="@+id/imgStoreShopping"
-            android:layout_width="@dimen/_28sdp"
-            android:layout_height="@dimen/_28sdp"
-            android:layout_margin="@dimen/margin_small"
+            android:layout_width="@dimen/_36sdp"
+            android:layout_height="@dimen/_36sdp"
+            android:layout_marginTop="@dimen/margin_extra_small"
+            android:layout_marginEnd="@dimen/margin_small"
             android:contentDescription="@string/empty_string"
             android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
             android:tint="?attr/colorPrimaryDarkAttr"
@@ -66,7 +67,6 @@
             android:layout_marginStart="@dimen/margin_small"
             android:layout_marginEnd="@dimen/margin_small"
             android:gravity="center"
-            android:lineSpacingExtra="0dp"
             android:textAlignment="center"
             app:layout_constraintBottom_toBottomOf="@+id/imgStoreShopping"
             app:layout_constraintEnd_toEndOf="parent"
