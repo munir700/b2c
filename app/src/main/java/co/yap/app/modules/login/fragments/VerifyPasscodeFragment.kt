@@ -187,22 +187,6 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
     }
     private val onFetchAccountInfo = Observer<AccountInfo> {
         it?.run {
-            if (accountType == AccountType.B2C_HOUSEHOLD.name) {
-                SharedPreferenceManager(requireContext()).setThemeValue(co.yap.yapcore.constants.Constants.THEME_HOUSEHOLD)
-                val bundle = Bundle()
-                bundle.putBoolean(OnboardingHouseHoldActivity.EXISTING_USER, false)
-                bundle.putParcelable(OnboardingHouseHoldActivity.USER_INFO, it)
-                startActivity(OnboardingHouseHoldActivity.getIntent(requireContext(), bundle))
-                activity?.finish()
-            } else {
-                findNavController().navigate(R.id.action_goto_yapDashboardActivity)
-                activity?.finish()
-            }
-        }
-    }
-
-    private val validateDeviceResultObserver = Observer<Boolean> {
-        if (it) {
             sharedPreferenceManager.save(SharedPreferenceManager.KEY_IS_USER_LOGGED_IN, true)
             if (!sharedPreferenceManager.getValueBoolien(
                     SharedPreferenceManager.KEY_IS_FINGERPRINT_PERMISSION_SHOWN,
@@ -234,10 +218,60 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
                         )
                     findNavController().navigate(action)
                 }
-
             } else {
-                navigateToDashboard()
+                if (accountType == AccountType.B2C_HOUSEHOLD.name) {
+                    SharedPreferenceManager(requireContext()).setThemeValue(co.yap.yapcore.constants.Constants.THEME_HOUSEHOLD)
+                    val bundle = Bundle()
+                    bundle.putBoolean(OnboardingHouseHoldActivity.EXISTING_USER, false)
+                    bundle.putParcelable(OnboardingHouseHoldActivity.USER_INFO, it)
+                    startActivity(OnboardingHouseHoldActivity.getIntent(requireContext(), bundle))
+                    activity?.finish()
+                } else {
+                    findNavController().navigate(R.id.action_goto_yapDashboardActivity)
+                    activity?.finish()
+                }
             }
+        }
+    }
+
+    private val validateDeviceResultObserver = Observer<Boolean> {
+        if (it) {
+            navigateToDashboard()
+//            sharedPreferenceManager.save(SharedPreferenceManager.KEY_IS_USER_LOGGED_IN, true)
+//            if (sharedPreferenceManager.getValueBoolien(
+//                    SharedPreferenceManager.KEY_IS_FINGERPRINT_PERMISSION_SHOWN,
+//                    false
+//                )
+//            ) {
+//                if (BiometricUtil.isFingerprintSupported
+//                    && BiometricUtil.isHardwareSupported(context as MainActivity)
+//                    && BiometricUtil.isPermissionGranted(context as MainActivity)
+//                    && BiometricUtil.isFingerprintAvailable(context as MainActivity)
+//                ) {
+//                    val action =
+//                        VerifyPasscodeFragmentDirections.actionVerifyPasscodeFragmentToSystemPermissionFragment(
+//                            Constants.TOUCH_ID_SCREEN_TYPE
+//                        )
+//                    findNavController().navigate(action)
+//                    sharedPreferenceManager.save(
+//                        SharedPreferenceManager.KEY_IS_FINGERPRINT_PERMISSION_SHOWN,
+//                        true
+//                    )
+//                } else {
+//                    sharedPreferenceManager.save(
+//                        SharedPreferenceManager.KEY_IS_FINGERPRINT_PERMISSION_SHOWN,
+//                        true
+//                    )
+//                    val action =
+//                        VerifyPasscodeFragmentDirections.actionVerifyPasscodeFragmentToSystemPermissionFragment(
+//                            Constants.NOTIFICATION_SCREEN_TYPE
+//                        )
+//                    findNavController().navigate(action)
+//                }
+//
+//            } else {
+//                navigateToDashboard()
+//            }
         } else {
             viewModel.createOtp()
         }

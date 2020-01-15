@@ -62,4 +62,9 @@ object MyUserManager : IRepositoryHolder<CardsRepository> {
         return null
     }
 
+    fun expireUserSession()
+    {
+        user = null
+    }
+
 }

@@ -12,6 +12,7 @@ import co.yap.app.modules.startup.interfaces.ISplash
 import co.yap.app.modules.startup.viewmodels.SplashViewModel
 import co.yap.yapcore.BaseFragment
 import co.yap.yapcore.helpers.SharedPreferenceManager
+import co.yap.yapcore.managers.MyUserManager
 
 class SplashFragment : BaseFragment<ISplash.ViewModel>(), ISplash.View {
 
@@ -28,6 +29,7 @@ class SplashFragment : BaseFragment<ISplash.ViewModel>(), ISplash.View {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        MyUserManager.expireUserSession()
         viewModel.splashComplete.observe(this, Observer {
             val sharedPreferenceManager = SharedPreferenceManager(requireContext())
             if (sharedPreferenceManager.getValueBoolien(
