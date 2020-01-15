@@ -27,23 +27,14 @@
         <TextView
             android:id="@+id/tvUnverifiedDescription"
             style="@style/SmallGrey"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_large"
-            android:gravity="center"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/ivUnverifiedIcon"
             tools:text="@string/screen_email_verified_popup_display_text_title" />
 
-        <TextView
-            android:id="@+id/tvEmail"
-            style="@style/Small"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_medium"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvUnverifiedDescription"
-            tools:text="Sufyan@digitify.com" />
 
         <TextView
             android:id="@+id/tvUserGuide"
@@ -56,7 +47,7 @@
             android:text="@string/screen_email_verified_popup_display_text_sub_title"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvEmail"
+            app:layout_constraintTop_toBottomOf="@+id/tvUnverifiedDescription"
             tools:text="@string/screen_email_verified_popup_display_text_sub_title" />
 
         <TextView
@@ -72,15 +63,14 @@
             app:layout_constraintTop_toBottomOf="@+id/tvUserGuide"
             tools:text="@string/screen_email_verified_popup_display_text_click_here" />
 
-
         <co.yap.widgets.CoreButton
             android:id="@+id/btnOpenMailApp"
             style="@style/RectangleBtnSmallStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_medium_large"
+            android:layout_marginTop="@dimen/margin_medium"
             android:layout_marginBottom="@dimen/margin_small"
-            android:text="@string/screen_unverified_display_button_mail"
+            android:text="@string/screen_email_verified_popup_button_Take_me"
             app:btn_enable="true"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
@@ -94,7 +84,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_small"
             android:padding="@dimen/_10sdp"
-            android:text="@string/screen_unverified_display_button_later"
+            android:text="@string/screen_email_verified_popup_button_do_it"
             android:textColor="@color/colorPrimary"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"

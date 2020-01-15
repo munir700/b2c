@@ -13,9 +13,11 @@ import android.telephony.TelephonyManager
 import android.text.Spannable
 import android.text.SpannableString
 import android.text.SpannableStringBuilder
+import android.text.TextUtils
 import android.text.style.AbsoluteSizeSpan
 import android.text.style.ForegroundColorSpan
 import android.util.DisplayMetrics
+import android.util.Patterns
 import android.view.LayoutInflater
 import android.view.View
 import android.view.Window
@@ -30,7 +32,9 @@ import co.yap.yapcore.R
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.MyUserManager
+import com.google.android.material.appbar.AppBarLayout
 import com.google.i18n.phonenumbers.PhoneNumberUtil
+import com.thefinestartist.finestwebview.FinestWebView
 import java.math.RoundingMode
 import java.text.DecimalFormat
 import java.util.*
@@ -205,7 +209,7 @@ object Utils {
         var isValidEmail = false
         if ("" == email.trim { it <= ' ' }) {
             isValidEmail = false
-        } else if (isValidEmail(email)) {
+        } else if (isValidEmail2(email)) {
             isValidEmail = true
         } else {
             return isValidEmail
@@ -213,16 +217,20 @@ object Utils {
         return isValidEmail
     }
 
+    private fun isValidEmail2(email: String): Boolean {
+        return (!TextUtils.isEmpty(email) && Patterns.EMAIL_ADDRESS.matcher(email).matches())
+    }
+
     private fun isValidEmail(email: String): Boolean {
         var inputStr: CharSequence = ""
         var isValid = false
         val expression =
             //   "^[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$"
-            "^[a-zA-Z0-9._-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)+\$"
+            "^[a-zA-Z0-9._-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\\\\.[a-zA-Z0-9]{2,61}(?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)+\$"
         // with plus       String expression = "^[_A-Za-z0-9-+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
 
         inputStr = email
-        val pattern = Pattern.compile(expression, Pattern.CASE_INSENSITIVE)
+        val pattern = Pattern.compile(expression)
         val matcher = pattern.matcher(inputStr)
 
         if (matcher.matches()) {
@@ -230,6 +238,7 @@ object Utils {
         }
         return isValid
     }
+
 
     fun setSpan(
         startIndex: Int,
@@ -731,5 +740,36 @@ object Utils {
                 itemClick.onItemClick(View(context), false, 0)
             }
             .show()
+    }
+
+
+    fun openWebPage(url: String, title: String?, activity: Activity?) {
+        activity?.let {
+            FinestWebView.Builder(it)
+                .titleDefault(title ?: "")
+                .updateTitleFromHtml(true)
+                .toolbarScrollFlags(AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL or AppBarLayout.LayoutParams.SCROLL_FLAG_ENTER_ALWAYS)
+                .gradientDivider(false)
+                .dividerHeight(2)
+                .titleColor(ContextCompat.getColor(it, R.color.colorPrimaryDark))
+                .toolbarColorRes(R.color.colorWhite)
+                .dividerColorRes(R.color.colorPrimaryDark)
+                .iconDefaultColorRes(R.color.colorPrimary)
+                .iconDisabledColorRes(R.color.light_grey)
+                .iconPressedColorRes(R.color.colorPrimaryDark)
+                .progressBarHeight(convertDpToPx(it, 3f))
+                .progressBarColorRes(R.color.colorPrimaryDark)
+                .backPressToClose(false)
+                .webViewUseWideViewPort(true)
+                .webViewSupportZoom(true)
+                .webViewBuiltInZoomControls(true)
+                .setCustomAnimations(
+                    R.anim.activity_open_enter,
+                    R.anim.activity_open_exit,
+                    R.anim.activity_close_enter,
+                    R.anim.activity_close_exit
+                )
+                .show(url)
+        }
     }
 }

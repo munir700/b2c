@@ -8,7 +8,6 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.annotation.Nullable
-import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
@@ -21,12 +20,10 @@ import co.yap.modules.dashboard.more.help.viewmodels.HelpSupportViewModel
 import co.yap.modules.dashboard.more.main.fragments.MoreBaseFragment
 import co.yap.yapcore.helpers.LivePersonStorage
 import co.yap.yapcore.helpers.Utils
-import com.google.android.material.appbar.AppBarLayout
 import com.liveperson.infra.*
 import com.liveperson.infra.callbacks.InitLivePersonCallBack
 import com.liveperson.messaging.sdk.api.LivePerson
 import com.liveperson.messaging.sdk.api.model.ConsumerProfile
-import com.thefinestartist.finestwebview.FinestWebView
 
 
 class HelpSupportFragment : MoreBaseFragment<IHelpSupport.ViewModel>(), IHelpSupport.View {
@@ -202,31 +199,7 @@ class HelpSupportFragment : MoreBaseFragment<IHelpSupport.ViewModel>(), IHelpSup
     }
 
     private fun openFaqsPage(url: String) {
-        FinestWebView.Builder(activity!!)
-            .titleDefault(viewModel.state.title.get()!!)
-            .updateTitleFromHtml(true)
-            .toolbarScrollFlags(AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL or AppBarLayout.LayoutParams.SCROLL_FLAG_ENTER_ALWAYS)
-            .gradientDivider(false)
-            .dividerHeight(2)
-            .titleColor(ContextCompat.getColor(context!!, R.color.colorPrimaryDark))
-            .toolbarColorRes(R.color.colorWhite)
-            .dividerColorRes(R.color.colorPrimaryDark)
-            .iconDefaultColorRes(R.color.colorPrimary)
-            .iconDisabledColorRes(R.color.light_grey)
-            .iconPressedColorRes(R.color.colorPrimaryDark)
-            .progressBarHeight(Utils.convertDpToPx(context!!, 3f))
-            .progressBarColorRes(R.color.colorPrimaryDark)
-            .backPressToClose(false)
-            .webViewUseWideViewPort(true)
-            .webViewSupportZoom(true)
-            .webViewBuiltInZoomControls(true)
-            .setCustomAnimations(
-                R.anim.activity_open_enter,
-                R.anim.activity_open_exit,
-                R.anim.activity_close_enter,
-                R.anim.activity_close_exit
-            )
-            .show(url)
+        Utils.openWebPage(url, viewModel.state.title.get() ?: "", activity)
     }
 
     private fun openDialer() {

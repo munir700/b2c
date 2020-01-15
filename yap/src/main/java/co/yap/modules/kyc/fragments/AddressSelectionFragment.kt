@@ -30,6 +30,7 @@ import co.yap.modules.kyc.viewmodels.AddressSelectionViewModel
 import co.yap.modules.onboarding.constants.Constants
 import co.yap.networking.cards.requestdtos.UpdateAddressRequest
 import co.yap.translation.Strings
+import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.interfaces.BaseMapFragment
 import co.yap.yapcore.managers.MyUserManager
 import com.daimajia.androidanimations.library.Techniques
@@ -46,6 +47,7 @@ import kotlinx.android.synthetic.main.layout_maps.*
 
 class AddressSelectionFragment : BaseMapFragment<IAddressSelection.ViewModel>(),
     OnMapReadyCallback {
+    var checkOnMapClicked: Boolean = false
 
     val REQUEST_CHECK_SETTINGS = 100
 
@@ -117,7 +119,7 @@ class AddressSelectionFragment : BaseMapFragment<IAddressSelection.ViewModel>(),
             viewModel!!.mapDetailViewActivity = activity as DocumentsDashboardActivity
 
         }
-         performDataBinding(inflater, container)
+        performDataBinding(inflater, container)
         initMapFragment()
 
         return viewDataBinding.root
@@ -172,14 +174,23 @@ class AddressSelectionFragment : BaseMapFragment<IAddressSelection.ViewModel>(),
         transparentImage!!.setOnTouchListener(object : View.OnTouchListener {
             override fun onTouch(v: View, event: MotionEvent): Boolean {
 
-                if (!viewModel.state.isMapOnScreen) {
-                    return true
-
-                } else {
-                    return false
-                }
+                return !viewModel.state.isMapOnScreen
             }
         })
+
+//        llmapView.setOnClickListener(object :OnClickListener)
+//        map.setOnClickListener(object :
+//            View.OnClickListener {
+//
+//            override fun onClick(v: View?) {
+//
+//                if(!checkOnMapClicked){
+//                    onMapClickAction()
+//
+//                }
+//            }
+//        })
+
 
         viewModel.onSuccess.observe(this, Observer {
             when (it) {
@@ -187,7 +198,7 @@ class AddressSelectionFragment : BaseMapFragment<IAddressSelection.ViewModel>(),
                 viewModel.UPDATE_ADDRESS_EEVENT -> {
                     val action =
                         AddressSelectionFragmentDirections.actionAddressSelectionFragmentToSuccessFragment(
-                            getString(R.string.screen_address_success_display_text_sub_heading),
+                            getString(R.string.screen_address_success_display_text_sub_heading_update),
                             " "
                         )
 
@@ -199,27 +210,30 @@ class AddressSelectionFragment : BaseMapFragment<IAddressSelection.ViewModel>(),
 
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
+//                R.id.llmapView -> {
+//
+//                }
+
+                R.id.etAddressField -> {
+                    onMapClickAction()
+                }
+                //
                 R.id.btnLocation -> {
 //                    hideKeyboard(mapView)
-                    if (!isPermissionGranted(Manifest.permission.ACCESS_FINE_LOCATION)) {
-                        locationPermissionGranted = true
-                        if (!shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_FINE_LOCATION)) {
-                            val intent = Intent()
-                            intent.action = Settings.ACTION_APPLICATION_DETAILS_SETTINGS;
-                            val uri: Uri =
-                                Uri.fromParts("package", requireContext()!!.packageName, null)
-                            intent.data = uri
-                            this.startActivity(intent)
-
-                        } else {
-                            requestPermissions()
-                        }
-                    } else {
-                        requireContext()?.let { it1 -> displayLocationSettingsRequest(it1) }
-                        expandMap()
-                    }
+                    onMapClickAction()
+                }
+                R.id.rlMapCenter -> {
+//                    hideKeyboard(mapView)
+                    onMapClickAction()
                 }
 
+                R.id.tvTermsAndConditions -> {
+                    Utils.openWebPage(
+                        co.yap.yapcore.constants.Constants.URL_TERMS_CONDITION,
+                        "",
+                        activity
+                    )
+                }
                 R.id.btnConfirm -> {
                     slideDownLocationCard()
                 }
@@ -359,6 +373,26 @@ class AddressSelectionFragment : BaseMapFragment<IAddressSelection.ViewModel>(),
         })
     }
 
+    private fun onMapClickAction() {
+        if (!isPermissionGranted(Manifest.permission.ACCESS_FINE_LOCATION)) {
+            locationPermissionGranted = true
+            if (!shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_FINE_LOCATION)) {
+                val intent = Intent()
+                intent.action = Settings.ACTION_APPLICATION_DETAILS_SETTINGS;
+                val uri: Uri =
+                    Uri.fromParts("package", requireContext()!!.packageName, null)
+                intent.data = uri
+                this.startActivity(intent)
+
+            } else {
+                requestPermissions()
+            }
+        } else {
+            requireContext()?.let { it1 -> displayLocationSettingsRequest(it1) }
+            expandMap()
+        }
+    }
+
     override fun onMapReady(p0: GoogleMap?) {
         viewModel.onMapInit(p0)
     }
@@ -440,7 +474,7 @@ class AddressSelectionFragment : BaseMapFragment<IAddressSelection.ViewModel>(),
     }
 
     private fun expandMap() {
-        if (isFromPersonalDetailScreen){
+        if (isFromPersonalDetailScreen) {
             (context as MoreActivity).goneToolbar()
         }
 
@@ -471,6 +505,7 @@ class AddressSelectionFragment : BaseMapFragment<IAddressSelection.ViewModel>(),
 
                 override fun onAnimationEnd(animation: Animator?) {
                     viewModel.getDeviceLocation(viewModel!!.mapDetailViewActivity)
+                    checkOnMapClicked = true
                 }
 
                 override fun onAnimationCancel(animation: Animator?) {
@@ -478,10 +513,11 @@ class AddressSelectionFragment : BaseMapFragment<IAddressSelection.ViewModel>(),
             })
             .duration(600)
             .playOn(flAddressDetail)
+
     }
 
     private fun collapseMap() {
-        if (isFromPersonalDetailScreen){
+        if (isFromPersonalDetailScreen) {
             (context as MoreActivity).visibleToolbar()
         }
         viewModel.state.isMapOnScreen = false
@@ -504,6 +540,8 @@ class AddressSelectionFragment : BaseMapFragment<IAddressSelection.ViewModel>(),
             .playOn(flAddressDetail)
 
         viewModel.toggleMarkerVisibility()
+        checkOnMapClicked = false
+
 
     }
 

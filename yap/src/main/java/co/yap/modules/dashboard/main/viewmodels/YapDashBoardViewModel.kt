@@ -52,6 +52,7 @@ class YapDashBoardViewModel(application: Application) :
             it.iban?.let { state.ibanNo = it }
             state.fullName = it.currentCustomer.getFullName()
             state.firstName = it.currentCustomer.firstName
+            state.userNameImage.set(it.currentCustomer.getPicture() ?: "")
         }
     }
 

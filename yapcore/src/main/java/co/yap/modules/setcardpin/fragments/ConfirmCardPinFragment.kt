@@ -1,7 +1,6 @@
 package co.yap.modules.setcardpin.fragments
 
 import android.os.Bundle
-import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
@@ -34,7 +33,13 @@ open class ConfirmCardPinFragment : SetCardPinFragment() {
             when (it) {
                 R.id.btnAction -> {
                     if (viewModel.pincode == viewModel.state.pincode) {
-                       viewModel.setCardPin((activity as SetCardPinWelcomeActivity).cardSerialNumber)
+                        if (activity is SetCardPinWelcomeActivity) {
+                            (activity as SetCardPinWelcomeActivity).cardSerialNumber?.let { serialNumber ->
+                                viewModel.setCardPin(
+                                    serialNumber
+                                )
+                            }
+                        }
                     } else {
                         dialer.startAnimationDigits()
                     }

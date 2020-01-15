@@ -14,6 +14,7 @@ import co.yap.modules.setcardpin.interfaces.ISetCardPin
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.databinding.FragmentSetCardPinBinding
 import co.yap.yapcore.helpers.SharedPreferenceManager
+import co.yap.yapcore.helpers.extentions.preventTakeScreenshot
 import kotlinx.android.synthetic.main.activity_create_passcode.*
 
 open class CurrentPasscodeFragment : ChangeCardPinFragment() {
@@ -24,11 +25,10 @@ open class CurrentPasscodeFragment : ChangeCardPinFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        preventTakeScreenshot()
         if (context is MoreActivity)
             (context as MoreActivity).goneToolbar()
         sharedPreferenceManager = SharedPreferenceManager(requireContext())
-
-
         viewModel.forgotPasscodeclickEvent.observe(this, Observer {
             var username = ""
             if (sharedPreferenceManager.getValueBoolien(
@@ -52,14 +52,15 @@ open class CurrentPasscodeFragment : ChangeCardPinFragment() {
         })
 
         viewModel.errorEvent.observe(this, Observer {
-            dialer.startAnimationDigits()
+            dialer.startAnimation()
         })
 
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        getBindings().dialer.updateDialerLength(6)
+        getBinding().dialer.updateDialerLength(6)
+        getBinding().dialer.upDatedDialerPad(viewModel.state.pincode)
     }
 
     override fun setObservers() {
@@ -78,7 +79,7 @@ open class CurrentPasscodeFragment : ChangeCardPinFragment() {
         super.onDestroy()
     }
 
-    private fun getBindings(): FragmentSetCardPinBinding {
+    private fun getBinding(): FragmentSetCardPinBinding {
         return viewDataBinding as FragmentSetCardPinBinding
     }
 }

@@ -5,7 +5,7 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
-
+    
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
@@ -56,6 +56,7 @@
         <item name="android:textStyle">normal</item>
         <item name="android:fontFamily">@font/roboto_medium</item>
     </style>
+
     <style name="Title1" parent="AppFontRegular">
         <item name="android:textSize">@dimen/text_size_h7</item>
         <item name="android:lineSpacingExtra">10sp</item>
@@ -396,6 +397,7 @@
         <item name="android:windowEnterAnimation">@anim/menu_fade_in</item>
         <item name="android:windowExitAnimation">@anim/menu_fade_out</item>
     </style>
+
     <style name="ShowUpAnimation_TR">
         <item name="android:windowEnterAnimation">@anim/menu_show_up_tr</item>
         <item name="android:windowExitAnimation">@anim/menu_show_down_tr</item>

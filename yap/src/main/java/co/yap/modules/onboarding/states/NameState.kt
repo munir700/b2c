@@ -4,6 +4,7 @@ import android.app.Application
 import android.content.Context
 import android.graphics.drawable.Drawable
 import androidx.databinding.Bindable
+import androidx.lifecycle.MutableLiveData
 import co.yap.BR
 import co.yap.modules.onboarding.interfaces.IName
 import co.yap.yapcore.BaseState
@@ -13,6 +14,9 @@ class NameState(application: Application) : BaseState(), IName.State {
 
     override var dummyStrings: Array<String> = arrayOf("0123")
     val context: Context = application.applicationContext
+
+    override var firstNameError: MutableLiveData<String> = MutableLiveData("")
+    override var lastNameError: MutableLiveData<String> = MutableLiveData("")
 
     @get:Bindable
     override var firstName: String = ""
@@ -25,28 +29,12 @@ class NameState(application: Application) : BaseState(), IName.State {
         }
 
     @get:Bindable
-    override var firstNameError: String = ""
-        set(value) {
-            field = value
-            notifyPropertyChanged(BR.firstNameError)
-            notifyPropertyChanged(BR.valid)
-        }
-
-    @get:Bindable
     override var lastName: String = ""
         set(value) {
             field = value
             notifyPropertyChanged(BR.lastName)
             notifyPropertyChanged(BR.valid)
             setLastNameTextWatcher(lastName)
-        }
-
-    @get:Bindable
-    override var lastNameError: String = ""
-        set(value) {
-            field = value
-            notifyPropertyChanged(BR.lastNameError)
-            notifyPropertyChanged(BR.valid)
         }
 
     @get:Bindable
@@ -77,9 +65,8 @@ class NameState(application: Application) : BaseState(), IName.State {
 
 
     private fun validate(): Boolean {
-         return StringUtils.validateName(firstName) && StringUtils.validateName(lastName) && firstNameError.isNullOrEmpty() && lastNameError.isNullOrEmpty()
+        return StringUtils.validateName(firstName) && StringUtils.validateName(lastName) && firstNameError.value.isNullOrEmpty() && lastNameError.value.isNullOrEmpty()
     }
-
 
     private fun setFirstNameTextWatcher(value: String) {
 
@@ -87,17 +74,15 @@ class NameState(application: Application) : BaseState(), IName.State {
 
             if (StringUtils.validateName(value)) {
                 valid = true
-                firstNameError = ""
-                lastNameError = ""
-                notifyPropertyChanged(BR.firstNameError)
-                drawbleRight = context!!.resources.getDrawable(co.yap.yapcore.R.drawable.path)
+                firstNameError.value = ""
+                lastNameError.value = ""
+                drawbleRight = context.resources.getDrawable(co.yap.yapcore.R.drawable.path)
                 validate()
-
             } else {
                 valid = false
-                lastNameError = "error"
+                firstNameError.value = "Please enter alphabets only."
+                lastNameError.value = ""
                 drawbleRight = null
-                notifyPropertyChanged(BR.firstNameError)
                 notifyPropertyChanged(BR.valid)
             }
         } else {
@@ -112,14 +97,13 @@ class NameState(application: Application) : BaseState(), IName.State {
 
             if (StringUtils.validateName(value)) {
                 valid = true
-                lastNameError = ""
-                notifyPropertyChanged(BR.lastNameError)
-                drawbleRightLastName = context!!.resources.getDrawable(co.yap.yapcore.R.drawable.path)
+                lastNameError.value = ""
+                drawbleRightLastName =
+                    context.resources.getDrawable(co.yap.yapcore.R.drawable.path)
 
             } else {
                 valid = false
-                lastNameError = "error"
-                notifyPropertyChanged(BR.lastNameError)
+                lastNameError.value = "Please enter alphabets only."
                 drawbleRightLastName = null
 
             }

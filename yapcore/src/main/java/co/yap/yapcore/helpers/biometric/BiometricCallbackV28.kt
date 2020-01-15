@@ -4,7 +4,7 @@ import android.hardware.biometrics.BiometricPrompt
 import android.os.Build
 import androidx.annotation.RequiresApi
 
-
+@Deprecated("Use co.yap.yapcore.helpers.biometric.BiometricManagerX")
 @RequiresApi(api = Build.VERSION_CODES.P)
 class BiometricCallbackV28(private val biometricCallback: BiometricCallback) :
     BiometricPrompt.AuthenticationCallback() {

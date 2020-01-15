@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import co.yap.modules.setcardpin.activities.SetCardPinWelcomeActivity
 import co.yap.modules.setcardpin.interfaces.ISetCardPinSuccess
 import co.yap.modules.setcardpin.viewmodels.SetCardPinSuccessViewModel
 import co.yap.yapcore.BR
@@ -26,6 +27,11 @@ class SetCardPinSuccessFragment : BaseBindingFragment<ISetCardPinSuccess.ViewMod
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
             /*    R.id.btnTopUp -> activity?.finish()*/
+                R.id.btnTopUp -> {
+                    setupActionsIntentForTopUp()
+                    activity?.finish()
+                }
+
                 R.id.tvTopUpLater -> {
                     setupActionsIntent()
                     activity?.finish()
@@ -47,5 +53,19 @@ class SetCardPinSuccessFragment : BaseBindingFragment<ISetCardPinSuccess.ViewMod
             val returnIntent = Intent()
             returnIntent.putExtra(Constants.isPinCreated, true)
             activity?.setResult(Activity.RESULT_OK, returnIntent)
+    }
+
+    private fun setupActionsIntentForTopUp() {
+        if (activity is SetCardPinWelcomeActivity) {
+            (activity as SetCardPinWelcomeActivity).cardSerialNumber?.let { serialNumber ->
+                val returnIntent = Intent()
+                returnIntent.putExtra(Constants.CARD_SERIAL_NUMBER, serialNumber)
+                returnIntent.putExtra(Constants.isPinCreated, true)
+                activity?.setResult(Activity.RESULT_OK, returnIntent)
+            }
+        } else {
+            //invalid flow so finish activity
+            activity?.finish()
+        }
     }
 }

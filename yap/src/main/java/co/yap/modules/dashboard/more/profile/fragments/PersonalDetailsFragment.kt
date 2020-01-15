@@ -1,5 +1,7 @@
 package co.yap.modules.dashboard.more.profile.fragments
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.view.View.GONE
@@ -14,9 +16,10 @@ import co.yap.modules.dashboard.more.main.activities.MoreActivity.Companion.show
 import co.yap.modules.dashboard.more.main.fragments.MoreBaseFragment
 import co.yap.modules.dashboard.more.profile.intefaces.IPersonalDetail
 import co.yap.modules.dashboard.more.profile.viewmodels.PersonalDetailsViewModel
+import co.yap.networking.cards.responsedtos.Address
+import co.yap.yapcore.constants.Constants.ADDRESS
+import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.managers.MyUserManager
-import com.digitify.identityscanner.docscanner.activities.IdentityScannerActivity
-import com.digitify.identityscanner.docscanner.enums.DocumentType
 import kotlinx.android.synthetic.main.fragment_personal_detail.*
 
 
@@ -39,8 +42,8 @@ class PersonalDetailsFragment : MoreBaseFragment<IPersonalDetail.ViewModel>(),
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        if(context is MoreActivity)
-        (context as MoreActivity).visibleToolbar()
+        if (context is MoreActivity)
+            (context as MoreActivity).visibleToolbar()
         viewModel.state.errorVisibility = showExpiredIcon
     }
 
@@ -69,6 +72,14 @@ class PersonalDetailsFragment : MoreBaseFragment<IPersonalDetail.ViewModel>(),
                             false, false, true
                         )
                     findNavController().navigate(action)
+//                    startActivityForResult(
+//                        LocationSelectionActivity.newIntent(
+//                            context = requireContext(),
+//                            address = MyUserManager.userAddress,
+//                            headingTitle = getString(Strings.screen_meeting_location_display_text_add_new_address_title),
+//                            subHeadingTitle = getString(Strings.screen_meeting_location_display_text_subtitle)
+//                        ), RequestCodes.REQUEST_FOR_LOCATION
+//                    )
 
                 }
 
@@ -118,6 +129,26 @@ class PersonalDetailsFragment : MoreBaseFragment<IPersonalDetail.ViewModel>(),
             viewModel.toggleToolBar(true)
             changeAddress = true
         }
+    }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == Activity.RESULT_OK) {
+            when (requestCode) {
+                RequestCodes.REQUEST_FOR_LOCATION -> {
+                    val address: Address? =
+                        data?.getParcelableExtra(ADDRESS)
+                    address?.let {
+                        MyUserManager.userAddress = it
+                        val action =
+                            PersonalDetailsFragmentDirections.actionPersonalDetailsFragmentToSuccessFragment(
+                                getString(R.string.screen_address_success_display_text_sub_heading_update),
+                                " "
+                            )
+                        findNavController().navigate(action)
+                    }
+                }
+            }
+        }
     }
 }

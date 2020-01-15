@@ -17,12 +17,6 @@ open class SetNewCardPinFragment : SetCardPinFragment() {
     override val viewModel: ISetCardPin.ViewModel
         get() = ViewModelProviders.of(this).get(SetNewPinViewModel::class.java)
 
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-
-    }
-
     override fun setObservers() {
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
