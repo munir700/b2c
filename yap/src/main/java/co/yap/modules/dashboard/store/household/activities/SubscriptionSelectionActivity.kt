@@ -71,7 +71,7 @@ class SubscriptionSelectionActivity :
                     viewModel.state.hasSelectedPackage = true
                     llMonthlySubscription.isActivated = false
                     llAnnualSubscription.isActivated = true
-                    if (!viewModel.plansList.isNullOrEmpty() && viewModel.plansList.size == 2)
+                    if (!viewModel.plansList.isNullOrEmpty())
                         selectedPlan = viewModel.plansList[1]
                 }
 
@@ -79,12 +79,12 @@ class SubscriptionSelectionActivity :
                     viewModel.state.hasSelectedPackage = true
                     llMonthlySubscription.isActivated = true
                     llAnnualSubscription.isActivated = false
-                    if (!viewModel.plansList.isNullOrEmpty() && viewModel.plansList.size == 2)
+                    if (!viewModel.plansList.isNullOrEmpty())
                         selectedPlan = viewModel.plansList[0]
                 }
 
                 R.id.btnGetStarted -> {
-                    if (!viewModel.plansList.isNullOrEmpty() && viewModel.plansList.size == 2)
+                    if (!viewModel.plansList.isNullOrEmpty())
                         startActivityForResult(
                             HouseHoldOnboardingActivity.newIntent(
                                 this@SubscriptionSelectionActivity,
