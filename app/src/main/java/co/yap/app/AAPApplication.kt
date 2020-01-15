@@ -18,7 +18,7 @@ class AAPApplication : ChatApplication(BuildConfig.FLAVOR) {
 
     override fun onCreate() {
         super.onCreate()
-        SharedPreferenceManager(this).setThemeValue(Constants.THEME_YAP)
+        SharedPreferenceManager(this).setThemeValue(Constants.THEME_HOUSEHOLD)
         initNetworkLayer()
         initCrashLytics()
         InitDebugTreeTimber()

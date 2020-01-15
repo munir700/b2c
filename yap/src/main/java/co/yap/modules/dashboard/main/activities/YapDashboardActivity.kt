@@ -213,7 +213,7 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
             )
 
 
-        if (MyUserManager.user!!.currentCustomer.email.isNotEmpty()) {
+        if (MyUserManager.user?.currentCustomer?.email?.isNotEmpty()!!) {
             tvEmail.text =
                 getString(Strings.screen_email_verified_popup_display_text_sub_title).format(
                     MyUserManager.user!!.currentCustomer.email

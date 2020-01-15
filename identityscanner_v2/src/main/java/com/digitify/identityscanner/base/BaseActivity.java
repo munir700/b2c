@@ -13,4 +13,5 @@ public abstract class BaseActivity extends AppCompatActivity implements IBase.Vi
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 
+
 }
