@@ -88,6 +88,9 @@
             app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_personalDetailsFragment_to_successFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popUpToInclusive="true"
             app:destination="@id/successFragment" />
     </fragment>
     <include app:graph="@navigation/change_email_navigation" />

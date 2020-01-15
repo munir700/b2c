@@ -50,6 +50,7 @@ class LocationSelectionActivity : MapSupportActivity(), ILocationSelection.View 
         updateHeadings()
         flTitle.setOnTouchListener { _, _ -> true }
         lyAddressFields.setOnTouchListener { _, _ -> true }
+        transparentImage.setOnTouchListener { _, _ -> !((viewModel.isMapExpanded.value) ?: false) }
     }
 
     private fun settAddressFromIntent() {
@@ -69,7 +70,7 @@ class LocationSelectionActivity : MapSupportActivity(), ILocationSelection.View 
                 val heading = intent.getStringExtra(HEADING)
                 viewModel.state.headingTitle.set(heading)
             }
-            if (intent.hasExtra(HEADING)) {
+            if (intent.hasExtra(SUB_HEADING)) {
                 val subHeading = intent.getStringExtra(SUB_HEADING)
                 viewModel.state.subHeadingTitle.set(subHeading)
             }
@@ -79,7 +80,9 @@ class LocationSelectionActivity : MapSupportActivity(), ILocationSelection.View 
     override fun setObservers() {
         viewModel.clickEvent.observe(this, clickObserver)
         viewModel.state.isTermsChecked.addOnPropertyChangedCallback(stateObserver)
-
+        viewModel.isMapExpanded.observe(this, Observer {
+            viewModel.state.toolbarVisibility = !it
+        })
     }
 
     private fun initMapFragment() {
@@ -102,18 +105,17 @@ class LocationSelectionActivity : MapSupportActivity(), ILocationSelection.View 
     private val clickObserver = Observer<Int> {
         when (it) {
             R.id.nextButton -> {
-                setIntentAction()
+                setIntentAction(true)
             }
 
             R.id.btnLocation -> {
-                viewModel.state.toolbarVisibility = viewModel.state.isMapExpanded.get() != true
                 expandMap()
             }
 
             R.id.ivClose -> {
                 settAddressFromIntent() // set initial address
                 if (viewModel.state.isShowLocationCard.get() == true)
-                    startAnimateLocationCard()
+                    slideDownCardAnimation()
                 else {
                     collapseMap()
                 }
@@ -125,11 +127,18 @@ class LocationSelectionActivity : MapSupportActivity(), ILocationSelection.View 
             R.id.tvTermsAndConditions ->{
                 Utils.openWebPage(Constants.URL_TERMS_CONDITION, "", this)
             }
+            R.id.etAddressField -> {
+                expandMap()
+            }
+            R.id.tbIvClose -> {
+                setIntentAction(false)
+            }
         }
     }
 
 
     private fun expandMap() {
+        viewModel.isMapExpanded.value = true
         YoYo.with(Techniques.FadeOut)
             .duration(200)
             .playOn(btnLocation)
@@ -162,7 +171,7 @@ class LocationSelectionActivity : MapSupportActivity(), ILocationSelection.View 
     }
 
     private fun collapseMap() {
-        viewModel.state.toolbarVisibility = viewModel.state.isMapExpanded.get() != true
+        viewModel.isMapExpanded.value = false
 
         YoYo.with(Techniques.FadeIn)
             .duration(400)
@@ -200,10 +209,31 @@ class LocationSelectionActivity : MapSupportActivity(), ILocationSelection.View 
             .playOn(cvLocationCard)
     }
 
-    private fun setIntentAction() {
+    private fun slideDownCardAnimation() {
+        YoYo.with(Techniques.SlideOutDown)
+            .withListener(object : Animator.AnimatorListener {
+                override fun onAnimationStart(animation: Animator?) {
+                }
+
+                override fun onAnimationRepeat(animation: Animator?) {
+                }
+
+                override fun onAnimationEnd(animation: Animator?) {
+                    viewModel.state.isShowLocationCard.set(false)
+                    collapseMap()
+                }
+
+                override fun onAnimationCancel(animation: Animator?) {
+                }
+            })
+            .duration(300)
+            .playOn(cvLocationCard)
+    }
+
+    private fun setIntentAction(isUpdated: Boolean) {
         val intent = Intent()
         intent.putExtra(ADDRESS, viewModel.address)
-        intent.putExtra(ADDRESS_SUCCESS, true) // needs to update accordinky
+        intent.putExtra(ADDRESS_SUCCESS, isUpdated) // needs to update accordinky
         setResult(Activity.RESULT_OK, intent)
         finish()
     }
@@ -247,5 +277,18 @@ class LocationSelectionActivity : MapSupportActivity(), ILocationSelection.View 
                 grantResults
             )
         }
+    }
+
+    override fun onBackPressed() {
+        if (viewModel.isMapExpanded.value == true) {
+            slideDownCardAnimation()
+        } else
+            super.onBackPressed()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        viewModel.clickEvent.removeObservers(this)
+        viewModel.isMapExpanded.removeObservers(this)
     }
 }

@@ -14,10 +14,8 @@ import co.yap.app.login.EncryptionUtils
 import co.yap.app.modules.login.interfaces.IVerifyPasscode
 import co.yap.app.modules.login.viewmodels.VerifyPasscodeViewModel
 import co.yap.household.onboarding.OnboardingHouseHoldActivity
-import co.yap.household.onboarding.onboarding.fragments.HouseHoldCardsSelectionActivity
 import co.yap.modules.onboarding.enums.AccountType
 import co.yap.networking.customers.responsedtos.AccountInfo
-import co.yap.networking.customers.responsedtos.HouseHoldCardsDesign
 import co.yap.widgets.NumberKeyboardListener
 import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.helpers.SharedPreferenceManager
@@ -187,27 +185,17 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
             dialer.startAnimation()
         }
     }
-    private val onFetchAccountInfo = Observer<AccountInfo> {
-        it?.run {
-            if (accountType == AccountType.B2C_HOUSEHOLD.name) {
-                SharedPreferenceManager(requireContext()).setThemeValue(co.yap.yapcore.constants.Constants.THEME_HOUSEHOLD)
-                val bundle = Bundle()
-                bundle.putBoolean(OnboardingHouseHoldActivity.EXISTING_USER, false)
-                bundle.putParcelable(OnboardingHouseHoldActivity.USER_INFO, it)
-                startActivity(OnboardingHouseHoldActivity.getIntent(requireContext(), bundle))
-              //  startActivity(HouseHoldCardsSelectionActivity.newIntent(requireContext(),false))
-                activity?.finish()
-            } else {
-               // startActivity(HouseHoldCardsSelectionActivity.newIntent(requireContext(),false))
-
-                findNavController().navigate(R.id.action_goto_yapDashboardActivity)
-                activity?.finish()
-            }
-        }
-    }
 
     private val validateDeviceResultObserver = Observer<Boolean> {
         if (it) {
+            navigateToDashboard()
+        } else {
+            viewModel.createOtp()
+        }
+    }
+
+    private val onFetchAccountInfo = Observer<AccountInfo> {
+        it?.run {
             sharedPreferenceManager.save(SharedPreferenceManager.KEY_IS_USER_LOGGED_IN, true)
             if (!sharedPreferenceManager.getValueBoolien(
                     SharedPreferenceManager.KEY_IS_FINGERPRINT_PERMISSION_SHOWN,
@@ -239,12 +227,19 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
                         )
                     findNavController().navigate(action)
                 }
-
             } else {
-                navigateToDashboard()
+                if (accountType == AccountType.B2C_HOUSEHOLD.name) {
+                    SharedPreferenceManager(requireContext()).setThemeValue(co.yap.yapcore.constants.Constants.THEME_HOUSEHOLD)
+                    val bundle = Bundle()
+                    bundle.putBoolean(OnboardingHouseHoldActivity.EXISTING_USER, false)
+                    bundle.putParcelable(OnboardingHouseHoldActivity.USER_INFO, it)
+                    startActivity(OnboardingHouseHoldActivity.getIntent(requireContext(), bundle))
+                    activity?.finish()
+                } else {
+                    findNavController().navigate(R.id.action_goto_yapDashboardActivity)
+                    activity?.finish()
+                }
             }
-        } else {
-            viewModel.createOtp()
         }
     }
 

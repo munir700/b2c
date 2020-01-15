@@ -20,6 +20,7 @@ import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleLiveEvent
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.managers.MyUserManager
 
 class PhoneVerificationSignInViewModel(application: Application) :
     BaseViewModel<IPhoneVerificationSignIn.State>(application), IPhoneVerificationSignIn.ViewModel,
@@ -135,8 +136,10 @@ class PhoneVerificationSignInViewModel(application: Application) :
             //state.loading = true
             when (val response = customersRepository.getAccountInfo()) {
                 is RetroApiResponse.Success -> {
-                    if (response.data.data.isNotEmpty())
+                    if (response.data.data.isNotEmpty()) {
+                        MyUserManager.user = response.data.data[0]
                         accountInfo.postValue(response.data.data[0])
+                    }
                 }
                 is RetroApiResponse.Error -> state.toast = response.error.message
             }
