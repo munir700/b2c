@@ -35,5 +35,6 @@ interface IYapHome {
     interface State : IBase.State {
         var availableBalance: String
         var filterCount: ObservableField<Int>
+        var isTransEmpty:ObservableField<Boolean>
     }
 }

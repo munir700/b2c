@@ -13,9 +13,11 @@ import android.telephony.TelephonyManager
 import android.text.Spannable
 import android.text.SpannableString
 import android.text.SpannableStringBuilder
+import android.text.TextUtils
 import android.text.style.AbsoluteSizeSpan
 import android.text.style.ForegroundColorSpan
 import android.util.DisplayMetrics
+import android.util.Patterns
 import android.view.LayoutInflater
 import android.view.View
 import android.view.Window
@@ -206,7 +208,7 @@ object Utils {
         var isValidEmail = false
         if ("" == email.trim { it <= ' ' }) {
             isValidEmail = false
-        } else if (isValidEmail(email)) {
+        } else if (isValidEmail2(email)) {
             isValidEmail = true
         } else {
             return isValidEmail
@@ -214,16 +216,20 @@ object Utils {
         return isValidEmail
     }
 
+    private fun isValidEmail2(email: String): Boolean {
+        return (!TextUtils.isEmpty(email) && Patterns.EMAIL_ADDRESS.matcher(email).matches())
+    }
+
     private fun isValidEmail(email: String): Boolean {
         var inputStr: CharSequence = ""
         var isValid = false
         val expression =
             //   "^[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$"
-            "^[a-zA-Z0-9._-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)+\$"
+            "^[a-zA-Z0-9._-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\\\\.[a-zA-Z0-9]{2,61}(?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)+\$"
         // with plus       String expression = "^[_A-Za-z0-9-+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
 
         inputStr = email
-        val pattern = Pattern.compile(expression, Pattern.CASE_INSENSITIVE)
+        val pattern = Pattern.compile(expression)
         val matcher = pattern.matcher(inputStr)
 
         if (matcher.matches()) {
@@ -231,6 +237,7 @@ object Utils {
         }
         return isValid
     }
+
 
     fun setSpan(
         startIndex: Int,

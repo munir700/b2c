@@ -53,8 +53,6 @@ import co.yap.yapcore.helpers.dimen
 import co.yap.yapcore.managers.MyUserManager
 import kotlinx.android.synthetic.main.activity_yap_dashboard.*
 import kotlinx.android.synthetic.main.layout_drawer_yap_dashboard.*
-import kotlinx.android.synthetic.main.layout_drawer_yap_dashboard.view.*
-import kotlinx.android.synthetic.main.layout_item_icon_text.view.*
 import net.cachapa.expandablelayout.ExpandableLayout
 
 class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYapDashboard.View,
@@ -207,13 +205,28 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
         dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
         val tvUnverifiedDescription = dialog.findViewById<TextView>(R.id.tvUnverifiedDescription)
-        val tvEmail = dialog.findViewById<TextView>(R.id.tvEmail)
+        val tvEmail = dialog.findViewById<TextView>(R.id.tvUserGuide)
         val tvTroubleDescription = dialog.findViewById<TextView>(R.id.tvTroubleDescription)
         tvUnverifiedDescription.text =
             getString(Strings.screen_email_verified_popup_display_text_title).format(
                 MyUserManager.user!!.currentCustomer.firstName
             )
-        tvEmail.text = MyUserManager.user?.currentCustomer?.email
+
+
+        if (MyUserManager.user!!.currentCustomer.email.isNotEmpty()) {
+            tvEmail.text =
+                getString(Strings.screen_email_verified_popup_display_text_sub_title).format(
+                    MyUserManager.user!!.currentCustomer.email
+                )
+        } else {
+            tvEmail.text =
+                getString(Strings.screen_email_verified_popup_display_text_sub_title).format(
+                    ""
+                )
+        }
+
+
+        //  tvEmail.text = MyUserManager.user!!.currentCustomer.email
 
         val fcs = ForegroundColorSpan(ContextCompat.getColor(this, R.color.colorPrimary))
         val myClickableSpan = object : ClickableSpan() {

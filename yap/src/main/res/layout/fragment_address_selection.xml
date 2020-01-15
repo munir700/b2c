@@ -21,15 +21,14 @@
         android:background="@color/white"
         android:orientation="vertical">
 
-        <FrameLayout
+        <RelativeLayout
             android:id="@+id/viewMapFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-
             <include
-                android:id="@+id/mapView"
+                android:id="@+id/llmapView"
                 layout="@layout/layout_maps"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -40,6 +39,7 @@
                 android:id="@+id/flTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
                 android:background="@color/white"
                 android:orientation="vertical"
                 tools:ignore="MissingConstraints">
@@ -80,22 +80,24 @@
                 </LinearLayout>
             </FrameLayout>
 
-            <LinearLayout
-                android:id="@+id/flAddressDetail"
+            <RelativeLayout
+                android:id="@+id/rlMapCenter"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="bottom"
-                android:orientation="vertical">
+                android:layout_above="@+id/flAddressDetail"
+                android:layout_below="@+id/flTitle"
+                android:onClick="@{(v) -> viewModel.handlePressOnSelectLocation(v.id)}">
 
                 <co.yap.widgets.CoreButton
                     android:id="@+id/btnLocation"
                     style="@style/AddressBtnStyle"
                     android:layout_width="@dimen/_200sdp"
                     android:layout_height="@dimen/_28sdp"
+                    android:layout_alignParentBottom="true"
                     android:layout_gravity="center_vertical|left"
-                    android:layout_marginLeft="@dimen/margin_medium"
+                    android:layout_marginStart="@dimen/margin_medium"
                     android:layout_marginBottom="@dimen/margin_normal"
-                    android:gravity="center"
+                    android:gravity="left|bottom"
                     android:onClick="@{(v) -> viewModel.handlePressOnSelectLocation(v.id)}"
                     android:paddingLeft="@dimen/margin_extra_large"
                     android:text="@{viewModel.state.locationBtnText}"
@@ -109,6 +111,15 @@
                     app:btn_text_alignment_from_left="1.9"
                     app:btn_text_size="@dimen/_11sdp"
                     tools:text="@string/screen_meeting_location_button_confirm_location" />
+            </RelativeLayout>
+
+            <LinearLayout
+                android:id="@+id/flAddressDetail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_gravity="bottom"
+                android:orientation="vertical">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -149,6 +160,7 @@
                         android:gravity="left"
                         android:inputType="textPersonName"
                         android:maxLength="100"
+                        android:onClick="@{(v) -> viewModel.handlePressOnSelectLocation(v.id)}"
                         android:paddingRight="@dimen/margin_medium"
                         android:text="@={viewModel.state.addressField}"
                         android:textColor="?attr/colorPrimaryDarkAttr"
@@ -263,6 +275,6 @@
                         tools:layout_editor_absoluteX="44dp" />
                 </LinearLayout>
             </LinearLayout>
-        </FrameLayout>
+        </RelativeLayout>
     </LinearLayout>
 </layout>
