@@ -72,17 +72,13 @@ class PersonalDetailsViewModel(application: Application) :
             when (val response = repository.getUserAddressRequest()) {
                 is RetroApiResponse.Success -> {
 
-                    if (null != response.data.data) {
-                        address = response.data.data
-
-                        setUpAddressFields()
-                        clickEvent.setValue(UPDATE_ADDRESS_UI)
-                    }
+                    address = response.data.data
+                    setUpAddressFields()
+                    MyUserManager.userAddress = address
+                    clickEvent.setValue(UPDATE_ADDRESS_UI)
                 }
-
                 is RetroApiResponse.Error -> state.toast = response.error.message
             }
-
             state.loading = false
         }
     }
@@ -100,7 +96,6 @@ class PersonalDetailsViewModel(application: Application) :
         }
 
         state.address = addressDetail
-        MyUserManager.userAddress = address
     }
 
     override fun toggleToolBar(hide: Boolean) {
@@ -110,7 +105,6 @@ class PersonalDetailsViewModel(application: Application) :
     override fun updateToolBarText(heading: String) {
         setToolBarTitle(heading)
     }
-
 
     override fun requestUpdateAddress(updateAddressRequest: UpdateAddressRequest) {
         state.error = ""
@@ -129,5 +123,4 @@ class PersonalDetailsViewModel(application: Application) :
             }
         }
     }
-
 }
