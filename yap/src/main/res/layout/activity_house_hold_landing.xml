@@ -189,17 +189,18 @@
 
                             <ImageView
                                 android:id="@+id/purpleCardView"
-                                android:layout_width="@dimen/_121sdp"
+                                android:layout_width="match_parent"
                                 android:layout_height="@dimen/_190sdp"
                                 android:layout_gravity="center_horizontal"
-                                android:layout_marginRight="@dimen/margin_medium"
+                                android:layout_marginEnd="@dimen/margin_medium"
                                 android:orientation="vertical"
-                                android:src="@drawable/gold"
+                                android:src="@drawable/img_two_cards"
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toTopOf="parent" />
+                                app:layout_constraintTop_toTopOf="parent"
+                                android:contentDescription="@string/empty_string" />
 
-                            <ImageView
+                      <!--      <ImageView
                                 android:id="@+id/redCardView"
                                 android:layout_width="@dimen/_121sdp"
                                 android:layout_height="@dimen/_190sdp"
@@ -210,7 +211,7 @@
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toTopOf="parent" />
-
+-->
                         </LinearLayout>
 
                         <TextView
@@ -238,7 +239,8 @@
                             android:src="@drawable/spending"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
+                            app:layout_constraintTop_toTopOf="parent"
+                            android:contentDescription="@string/empty_string" />
 
                         <TextView
                             android:id="@+id/tvAutoPayoutCaption"
@@ -266,7 +268,8 @@
                             android:src="@drawable/spending"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
+                            app:layout_constraintTop_toTopOf="parent"
+                            android:contentDescription="@string/empty_string" />
 
                     </LinearLayout>
                 </LinearLayout>

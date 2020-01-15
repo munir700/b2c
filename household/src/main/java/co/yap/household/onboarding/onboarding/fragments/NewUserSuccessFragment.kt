@@ -52,7 +52,7 @@ class NewUserSuccessFragment :
             startActivityForResult(
                 DocumentsDashboardActivity.getIntent(
                     requireContext(),
-                    "Sample Name",
+                    viewModel.parentViewModel?.state?.accountInfo?.currentCustomer?.firstName,
                     false
                 ), RequestCodes.REQUEST_KYC_DOCUMENTS
             )
