@@ -1,13 +1,18 @@
 package co.yap.household.onboarding.onboarding.states
 
+import android.annotation.SuppressLint
 import android.app.Application
 import android.content.Context
+import android.graphics.Color
 import android.graphics.drawable.Drawable
+import androidx.core.graphics.drawable.DrawableCompat
 import androidx.databinding.Bindable
 import co.yap.household.BR
 import co.yap.household.R
 import co.yap.household.onboarding.onboarding.interfaces.IEmail
 import co.yap.yapcore.BaseState
+import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.Utils
 
 class EmailState (application: Application) : BaseState(), IEmail.State {
@@ -133,7 +138,7 @@ class EmailState (application: Application) : BaseState(), IEmail.State {
         refreshField = true
         valid = true
         emailError = ""
-        drawbleRight = context!!.resources.getDrawable(co.yap.yapcore.R.drawable.path)
+        setDrawabeTint()
     }
 
     private fun setErrorUI(): Boolean {
@@ -159,6 +164,15 @@ class EmailState (application: Application) : BaseState(), IEmail.State {
             } else {
                 setDefaultUI()
             }
+        }
+    }
+
+
+    @SuppressLint("ResourceType")
+    fun setDrawabeTint() {
+        drawbleRight = DrawableCompat.wrap(context!!.getDrawable(co.yap.yapcore.R.drawable.path))
+        if (SharedPreferenceManager(context!!).getThemeValue().equals(Constants.THEME_HOUSEHOLD)) {
+            DrawableCompat.setTint(drawbleRight!!, Color.RED);
         }
     }
 }

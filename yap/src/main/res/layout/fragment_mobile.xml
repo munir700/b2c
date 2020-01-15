@@ -83,8 +83,10 @@
                     android:singleLine="true"
                     android:text="@={viewModel.state.mobile}"
                     android:textColor="?attr/colorPrimaryDarkAttr"
-                    android:textSize="@dimen/_15sdp" />
-
+                    android:textSize="@dimen/_15sdp"
+                 />
+<!--                app:drawbleRight="@{viewModel.state.drawbleRight}"-->
+<!--                app:isValid="@{viewModel.state.valid}"-->
             </LinearLayout>
 
             <TextView
