@@ -90,7 +90,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/margin_medium"
-            android:background="@drawable/bg_round_edit_text"
+            android:background="@drawable/bg_round_edit_text_general"
             android:gravity="center"
             android:paddingStart="@dimen/_20sdp"
             android:paddingTop="@dimen/_12sdp"

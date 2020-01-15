@@ -101,7 +101,7 @@ class CoreInputField @JvmOverloads constructor(
 
                 //set plain bg
             } else {
-                editText.setBackgroundResource(R.drawable.bg_round_edit_text)
+                editText.setBackgroundResource(R.drawable.bg_round_edit_text_general)
             }
 
 
@@ -311,7 +311,7 @@ class CoreInputField @JvmOverloads constructor(
         if (view_plain_background) {
             editText.setBackgroundResource(R.drawable.bg_plain_edit_text)
         } else {
-            editText.setBackgroundResource(R.drawable.bg_round_edit_text)
+            editText.setBackgroundResource(R.drawable.bg_round_edit_text_general)
         }
         tvError.text = ""
         drawableRight = null
