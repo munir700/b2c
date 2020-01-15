@@ -22,16 +22,8 @@ class HouseHoldUserContactFragment : BaseOnBoardingFragment<IHouseHoldUserContac
     override val viewModel: IHouseHoldUserContact.ViewModel
         get() = ViewModelProviders.of(this).get(HouseHoldUserContactViewModel::class.java)
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        viewModel.state.countryCode = ccpSelector.getselectedCountryCodeAsInt().toString()
-        viewModel.getConfirmCcp(etConfirmMobileNumber)
-        viewModel.getCcp(etMobileNumber)
-
-    }
-
-    override fun onResume() {
-        super.onResume()
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
                 R.id.btnNext -> {
@@ -44,10 +36,17 @@ class HouseHoldUserContactFragment : BaseOnBoardingFragment<IHouseHoldUserContac
         })
     }
 
-    override fun onPause() {
-        super.onPause()
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        viewModel.state.countryCode = ccpSelector.getselectedCountryCodeAsInt().toString()
+        viewModel.getConfirmCcp(etConfirmMobileNumber)
+        viewModel.getCcp(etMobileNumber)
+
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
         viewModel.verifyMobileSuccess.removeObservers(this)
         viewModel.clickEvent.removeObservers(this)
-
     }
 }
