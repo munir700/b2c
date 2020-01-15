@@ -14,8 +14,10 @@ import co.yap.app.login.EncryptionUtils
 import co.yap.app.modules.login.interfaces.IVerifyPasscode
 import co.yap.app.modules.login.viewmodels.VerifyPasscodeViewModel
 import co.yap.household.onboarding.OnboardingHouseHoldActivity
+import co.yap.household.onboarding.onboarding.fragments.HouseHoldCardsSelectionActivity
 import co.yap.modules.onboarding.enums.AccountType
 import co.yap.networking.customers.responsedtos.AccountInfo
+import co.yap.networking.customers.responsedtos.HouseHoldCardsDesign
 import co.yap.widgets.NumberKeyboardListener
 import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.helpers.SharedPreferenceManager
@@ -193,8 +195,11 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
                 bundle.putBoolean(OnboardingHouseHoldActivity.EXISTING_USER, false)
                 bundle.putParcelable(OnboardingHouseHoldActivity.USER_INFO, it)
                 startActivity(OnboardingHouseHoldActivity.getIntent(requireContext(), bundle))
+              //  startActivity(HouseHoldCardsSelectionActivity.newIntent(requireContext(),false))
                 activity?.finish()
             } else {
+               // startActivity(HouseHoldCardsSelectionActivity.newIntent(requireContext(),false))
+
                 findNavController().navigate(R.id.action_goto_yapDashboardActivity)
                 activity?.finish()
             }

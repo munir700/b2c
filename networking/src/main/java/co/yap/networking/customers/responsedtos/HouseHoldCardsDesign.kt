@@ -16,5 +16,7 @@ data class HouseHoldCardsDesign(
     @SerializedName("frontSideDesignImage")
     val frontSideDesignImage: String? = null,
     @SerializedName("status")
-    val status: String? = null
+    val status: String? = null,
+    @SerializedName("designColorCode")
+    val designColorCode: String? = null
 )
