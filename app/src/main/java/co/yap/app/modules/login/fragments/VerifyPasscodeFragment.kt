@@ -185,6 +185,15 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
             dialer.startAnimation()
         }
     }
+
+    private val validateDeviceResultObserver = Observer<Boolean> {
+        if (it) {
+            navigateToDashboard()
+        } else {
+            viewModel.createOtp()
+        }
+    }
+
     private val onFetchAccountInfo = Observer<AccountInfo> {
         it?.run {
             sharedPreferenceManager.save(SharedPreferenceManager.KEY_IS_USER_LOGGED_IN, true)
@@ -231,49 +240,6 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
                     activity?.finish()
                 }
             }
-        }
-    }
-
-    private val validateDeviceResultObserver = Observer<Boolean> {
-        if (it) {
-            navigateToDashboard()
-//            sharedPreferenceManager.save(SharedPreferenceManager.KEY_IS_USER_LOGGED_IN, true)
-//            if (sharedPreferenceManager.getValueBoolien(
-//                    SharedPreferenceManager.KEY_IS_FINGERPRINT_PERMISSION_SHOWN,
-//                    false
-//                )
-//            ) {
-//                if (BiometricUtil.isFingerprintSupported
-//                    && BiometricUtil.isHardwareSupported(context as MainActivity)
-//                    && BiometricUtil.isPermissionGranted(context as MainActivity)
-//                    && BiometricUtil.isFingerprintAvailable(context as MainActivity)
-//                ) {
-//                    val action =
-//                        VerifyPasscodeFragmentDirections.actionVerifyPasscodeFragmentToSystemPermissionFragment(
-//                            Constants.TOUCH_ID_SCREEN_TYPE
-//                        )
-//                    findNavController().navigate(action)
-//                    sharedPreferenceManager.save(
-//                        SharedPreferenceManager.KEY_IS_FINGERPRINT_PERMISSION_SHOWN,
-//                        true
-//                    )
-//                } else {
-//                    sharedPreferenceManager.save(
-//                        SharedPreferenceManager.KEY_IS_FINGERPRINT_PERMISSION_SHOWN,
-//                        true
-//                    )
-//                    val action =
-//                        VerifyPasscodeFragmentDirections.actionVerifyPasscodeFragmentToSystemPermissionFragment(
-//                            Constants.NOTIFICATION_SCREEN_TYPE
-//                        )
-//                    findNavController().navigate(action)
-//                }
-//
-//            } else {
-//                navigateToDashboard()
-//            }
-        } else {
-            viewModel.createOtp()
         }
     }
 
