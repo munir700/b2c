@@ -46,13 +46,8 @@ class HouseHoldUserContactFragment : BaseOnBoardingFragment<IHouseHoldUserContac
 
     override fun onPause() {
         super.onPause()
-        viewModel.clickEvent.removeObservers(this)
-
-    }
-
-    override fun onDestroy() {
-        viewModel.clickEvent.removeObservers(this)
         viewModel.verifyMobileSuccess.removeObservers(this)
-        super.onDestroy()
+        viewModel.clickEvent.removeObservers(this)
+
     }
 }

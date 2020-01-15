@@ -88,7 +88,12 @@ class HouseHoldOnboardingActivity : BaseBindingActivity<IBaseOnboarding.ViewMode
 
     private val backButtonObserver = Observer<Boolean> { onBackPressed() }
 
-
+    override fun onBackPressed() {
+        val fragment = supportFragmentManager.findFragmentById(R.id.main_nav_host_fragment)
+        if (!BackPressImpl(fragment).onBackPressed()) {
+            super.onBackPressed()
+        }
+    }
     override fun onBackPressed() {
         val fragment =
             supportFragmentManager.findFragmentById(R.id.main_house_hold_nav_host_fragment)
