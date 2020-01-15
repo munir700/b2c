@@ -17,8 +17,10 @@ import co.yap.modules.dashboard.more.main.fragments.MoreBaseFragment
 import co.yap.modules.dashboard.more.profile.intefaces.IPersonalDetail
 import co.yap.modules.dashboard.more.profile.viewmodels.PersonalDetailsViewModel
 import co.yap.modules.location.activities.LocationSelectionActivity
+import co.yap.networking.cards.requestdtos.UpdateAddressRequest
 import co.yap.networking.cards.responsedtos.Address
 import co.yap.translation.Strings
+import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.Constants.ADDRESS
 import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.managers.MyUserManager
@@ -92,15 +94,26 @@ class PersonalDetailsFragment : MoreBaseFragment<IPersonalDetail.ViewModel>(),
                 }
 
                 viewModel.UPDATE_ADDRESS_UI -> {
-                    toggleAddressVisiblity()
+                    toggleAddressVisibility()
                 }
             }
         })
 
-        toggleAddressVisiblity()
+        viewModel.onUpdateAddressSuccess.observe(this, Observer {
+            if (it) {
+                val action =
+                    PersonalDetailsFragmentDirections.actionPersonalDetailsFragmentToSuccessFragment(
+                        getString(R.string.screen_address_success_display_text_sub_heading_update),
+                        " "
+                    )
+                findNavController().navigate(action)
+            }
+        })
+
+        toggleAddressVisibility()
     }
 
-    private fun toggleAddressVisiblity() {
+    private fun toggleAddressVisibility() {
         if (MyUserManager.userAddress == null) {
             llAddress.visibility = GONE
         } else {
@@ -111,6 +124,7 @@ class PersonalDetailsFragment : MoreBaseFragment<IPersonalDetail.ViewModel>(),
     override fun onPause() {
         super.onPause()
         viewModel.clickEvent.removeObservers(this)
+        viewModel.onUpdateAddressSuccess.removeObservers(this)
         if (changeAddress) {
             viewModel.toggleToolBar(true)
             viewModel.updateToolBarText("")
@@ -121,6 +135,7 @@ class PersonalDetailsFragment : MoreBaseFragment<IPersonalDetail.ViewModel>(),
 
     override fun onDestroy() {
         viewModel.clickEvent.removeObservers(this)
+        viewModel.onUpdateAddressSuccess.removeObservers(this)
         super.onDestroy()
         if (changeAddress) {
             viewModel.toggleToolBar(true)
@@ -135,17 +150,25 @@ class PersonalDetailsFragment : MoreBaseFragment<IPersonalDetail.ViewModel>(),
                 RequestCodes.REQUEST_FOR_LOCATION -> {
                     val address: Address? =
                         data?.getParcelableExtra(ADDRESS)
-                    address?.let {
-                        MyUserManager.userAddress = it
-                        val action =
-                            PersonalDetailsFragmentDirections.actionPersonalDetailsFragmentToSuccessFragment(
-                                getString(R.string.screen_address_success_display_text_sub_heading_update),
-                                " "
-                            )
-                        findNavController().navigate(action)
+                    val isUpdatedAddress = data?.getBooleanExtra(Constants.ADDRESS_SUCCESS, false)
+                    if (isUpdatedAddress == true) {
+                        address?.let {
+                            MyUserManager.userAddress = it
+                            updateUserAddress(it)
+                        }
                     }
                 }
             }
         }
+    }
+
+    private fun updateUserAddress(address: Address) {
+        val updateAddressRequest = UpdateAddressRequest(
+            address.address1,
+            address.address2,
+            address.latitude.toString(),
+            address.longitude.toString()
+        )
+        viewModel.requestUpdateAddress(updateAddressRequest)
     }
 }

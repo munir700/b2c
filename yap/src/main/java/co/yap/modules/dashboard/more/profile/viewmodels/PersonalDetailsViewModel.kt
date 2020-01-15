@@ -1,10 +1,12 @@
 package co.yap.modules.dashboard.more.profile.viewmodels
 
 import android.app.Application
+import androidx.lifecycle.MutableLiveData
 import co.yap.modules.dashboard.more.main.viewmodels.MoreBaseViewModel
 import co.yap.modules.dashboard.more.profile.intefaces.IPersonalDetail
 import co.yap.modules.dashboard.more.profile.states.PersonalDetailState
 import co.yap.networking.cards.CardsRepository
+import co.yap.networking.cards.requestdtos.UpdateAddressRequest
 import co.yap.networking.cards.responsedtos.Address
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
@@ -17,6 +19,7 @@ class PersonalDetailsViewModel(application: Application) :
     IRepositoryHolder<CardsRepository> {
 
     override var UPDATE_ADDRESS_UI: Int = 10
+    override var onUpdateAddressSuccess: MutableLiveData<Boolean> = MutableLiveData(false)
 
     override val repository: CardsRepository = CardsRepository
     lateinit var address: Address
@@ -69,17 +72,13 @@ class PersonalDetailsViewModel(application: Application) :
             when (val response = repository.getUserAddressRequest()) {
                 is RetroApiResponse.Success -> {
 
-                    if (null != response.data.data) {
-                        address = response.data.data
-
-                        setUpAddressFields()
-                        clickEvent.setValue(UPDATE_ADDRESS_UI)
-                    }
+                    address = response.data.data
+                    setUpAddressFields()
+                    MyUserManager.userAddress = address
+                    clickEvent.setValue(UPDATE_ADDRESS_UI)
                 }
-
                 is RetroApiResponse.Error -> state.toast = response.error.message
             }
-
             state.loading = false
         }
     }
@@ -97,7 +96,6 @@ class PersonalDetailsViewModel(application: Application) :
         }
 
         state.address = addressDetail
-        MyUserManager.userAddress = address
     }
 
     override fun toggleToolBar(hide: Boolean) {
@@ -108,5 +106,21 @@ class PersonalDetailsViewModel(application: Application) :
         setToolBarTitle(heading)
     }
 
+    override fun requestUpdateAddress(updateAddressRequest: UpdateAddressRequest) {
+        state.error = ""
+        launch {
+            state.loading = true
+            when (val response = repository.editAddressRequest(updateAddressRequest)) {
+                is RetroApiResponse.Success -> {
+                    state.loading = false
+                    onUpdateAddressSuccess.value = true
+                }
 
+                is RetroApiResponse.Error -> {
+                    state.error = response.error.message
+                    state.loading = false
+                }
+            }
+        }
+    }
 }

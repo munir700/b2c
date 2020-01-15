@@ -27,7 +27,7 @@
         <include
             android:id="@+id/toolbar"
             layout="@layout/layout_location_selection_toolbar"
-            android:visibility="gone"
+            android:visibility="visible"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -44,7 +44,7 @@
                 layout="@layout/layout_google_maps"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:minHeight="@dimen/_140sdp"
+                android:minHeight="@dimen/_240sdp"
                 app:viewModel="@{viewModel}" />
 
             <FrameLayout
@@ -68,7 +68,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/margin_small"
-                        android:layout_marginTop="40dp"
                         android:layout_marginEnd="@dimen/margin_small"
                         android:ellipsize="end"
                         android:gravity="center"
@@ -153,7 +152,10 @@
                         android:layout_marginStart="@dimen/_13sdp"
                         android:layout_marginTop="4dp"
                         android:layout_marginEnd="@dimen/margin_medium"
-                        android:enabled="false"
+                        android:clickable="true"
+                        android:cursorVisible="false"
+                        android:focusable="false"
+                        android:onClick="@{(v)->viewModel.handleOnPressView(v.id)}"
                         android:inputType="textPersonName"
                         android:maxLength="100"
                         android:text="@={viewModel.state.addressTitle}"
