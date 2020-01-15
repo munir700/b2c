@@ -5,13 +5,10 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import androidx.navigation.Navigation.findNavController
-import androidx.navigation.fragment.findNavController
 import co.yap.household.BR
 import co.yap.household.R
 import co.yap.household.onboarding.interfaces.IOnboarding
 import co.yap.household.onboarding.viewmodels.OnboardingHouseHoldViewModel
-import co.yap.networking.customers.responsedtos.AccountInfo
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.IFragmentHolder
 import co.yap.yapcore.defaults.DefaultNavigator
@@ -51,27 +48,32 @@ class OnboardingHouseHoldActivity : BaseBindingActivity<IOnboarding.ViewModel>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         intent?.getBundleExtra(BUNDLE_DATA)?.let {
-            viewModel.state.accountInfo = it.getParcelable<AccountInfo>(USER_INFO)
+            viewModel.state.accountInfo = it.getParcelable(USER_INFO)
             viewModel.state.existingYapUser = it.getBoolean(EXISTING_USER, false)
         }
         viewModel.state.accountInfo?.run {
-            when (NotificationStatus.valueOf(notificationStatuses)) {
-                NotificationStatus.PASS_CODE_PENDING -> {
-
+            if (!notificationStatuses.isNullOrBlank())
+                when (NotificationStatus.valueOf(notificationStatuses)) {
+                    NotificationStatus.PARNET_MOBILE_VERIFICATION_PENDING -> {
+                    }
+                    NotificationStatus.PASS_CODE_PENDING -> {
+                    }
+                    NotificationStatus.EMAIL_PENDING -> {
+                    }
+                    NotificationStatus.ON_BOARDED -> {
+                    }
+                    NotificationStatus.MEETING_SCHEDULED -> {
+                    }
+                    NotificationStatus.MEETING_SUCCESS -> {
+                    }
+                    NotificationStatus.MEETING_FAILED -> {
+                    }
+                    NotificationStatus.CARD_ACTIVATED -> {
+                    }
+                    else -> {
+                        //findNavController().navigate(R.id.action_goto_yapDashboardActivity)
+                    }
                 }
-                NotificationStatus.PARNET_MOBILE_VERIFICATION_PENDING -> {
-
-                }
-                NotificationStatus.EMAIL_PENDING -> {
-
-                }
-                NotificationStatus.ON_BOARDED -> {
-
-                }
-                else -> {
-
-                }
-            }
         }
         viewModel.onboardingData.accountType = "B2C_ACCOUNT"
         viewModel.backButtonPressEvent.observe(this, backButtonObserver)

@@ -9,15 +9,15 @@
 
         <ImageView
             android:id="@+id/imgStoreShopping"
-            android:layout_width="@dimen/_22sdp"
-            android:layout_height="@dimen/_22sdp"
+            android:layout_width="@dimen/_28sdp"
+            android:layout_height="@dimen/_28sdp"
             android:layout_margin="@dimen/margin_small"
             android:contentDescription="@string/empty_string"
             android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
             android:tint="?attr/colorPrimaryDarkAttr"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_shopping" />
+            app:srcCompat="@drawable/ic_shopping_store" />
 
         <RelativeLayout
             android:id="@+id/list_section"

@@ -15,8 +15,8 @@ import co.yap.translation.Strings
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.enums.PackageType
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
-import kotlinx.coroutines.runBlocking
 
 class SubscriptionSelectionViewModel(application: Application) :
     BaseViewModel<IHouseHoldSubscription.State>(application),
@@ -93,56 +93,17 @@ class SubscriptionSelectionViewModel(application: Application) :
 
         return benefitsModelList
     }
-    //todo remove this commented code after proper testing of aysnc call
-
-//    override fun getPackageFee(type: String) {
-//        launch {
-//            when (val response = repository.getHousholdFeePackage(type)) {
-//                is RetroApiResponse.Success -> {
-//                    when (type) {
-//                        PackageType.MONTHLY.type -> {
-//                            monthlyFee = response.data.data?.amount?.toDoubleOrNull()
-//                            state.monthlyFee =
-//                                response.data.data?.currency + " " + response.data.data?.amount
-//                            plansList.add(
-//                                HouseHoldPlan(
-//                                    type = type,
-//                                    amount = state.monthlyFee
-//                                )
-//                            )
-//                        }
-//                        PackageType.YEARLY.type -> {
-//                            yearlyFee = response.data.data?.amount?.toDoubleOrNull()
-//                            state.annuallyFee =
-//                                response.data.data?.currency + " " + response.data.data?.amount
-//                            plansList.add(
-//                                HouseHoldPlan(
-//                                    type = "Yearly",
-//                                    amount = state.annuallyFee,
-//                                    discount = getDiscount()
-//                                )
-//                            )
-//                        }
-//                    }
-//                }
-//                is RetroApiResponse.Error -> {
-//                    state.toast = response.error.message
-//                }
-//            }
-//        }
-//    }
-
+    
     override fun fetchHouseholdPackagesFee() {
-        state.loading = true
-        runBlocking {
-            val monthly = async {
+        launch {
+            val monthly = viewModelBGScope.async(Dispatchers.IO) {
                 repository.getHousholdFeePackage(PackageType.MONTHLY.type)
             }
 
-            val yearly = async {
+            val yearly = viewModelBGScope.async(Dispatchers.IO) {
                 repository.getHousholdFeePackage(PackageType.YEARLY.type)
             }
-
+            state.loading = true
             handlePackageFeeResponse(monthly.await(), yearly.await())
         }
     }
@@ -178,9 +139,7 @@ class SubscriptionSelectionViewModel(application: Application) :
         } else if (yearlyFeeResponse is RetroApiResponse.Error)
             state.error = yearlyFeeResponse.error.message
 
-
         state.loading = false
-
     }
 
     private fun getDiscount(): Int? {

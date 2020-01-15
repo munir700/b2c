@@ -156,9 +156,11 @@ class VerifyPasscodeViewModel(application: Application) :
             state.loading = true
             when (val response = customersRepository.getAccountInfo()) {
                 is RetroApiResponse.Success -> {
-                    //MyUserManager.user = response.data.data[0]
-                    accountInfo.postValue(response.data.data[0])
-                    //MyUserManager.user?.setLiveData() // DOnt remove this line
+                    if (!response.data.data.isNullOrEmpty()) {
+                        //MyUserManager.user = response.data.data[0]
+                        accountInfo.postValue(response.data.data[0])
+                        //MyUserManager.user?.setLiveData() // DOnt remove this line
+                    }
                 }
                 is RetroApiResponse.Error -> state.toast = response.error.message
             }

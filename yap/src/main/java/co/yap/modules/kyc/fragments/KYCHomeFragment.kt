@@ -48,7 +48,11 @@ class KYCHomeFragment : KYCChildFragment<IKYCHome.ViewModel>(), IKYCHome.View {
                 R.id.cvCard -> openCardScanner()
                 R.id.btnNext -> {
                     if (viewModel.parentViewModel?.allowSkip?.value == false) {
-                        activity?.finish()
+                        if (activity is DocumentsDashboardActivity)
+                            (activity as DocumentsDashboardActivity).goToDashBoard(
+                                success = true,
+                                skippedPress = false
+                            )
                     } else {
                         findNavController().navigate(R.id.action_KYCHomeFragment_to_AddressSelectionFragment)
                     }

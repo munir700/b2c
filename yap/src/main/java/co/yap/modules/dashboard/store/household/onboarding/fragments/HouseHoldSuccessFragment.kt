@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import co.yap.BR
 import co.yap.R
+import co.yap.modules.dashboard.store.household.onboarding.HouseHoldOnboardingActivity
 import co.yap.modules.dashboard.store.household.onboarding.interfaces.IHouseHoldSuccess
 import co.yap.modules.dashboard.store.household.onboarding.viewmodels.HouseHoldSuccessViewModel
 import co.yap.translation.Strings
@@ -36,16 +37,15 @@ class HouseHoldSuccessFragment : BaseOnBoardingFragment<IHouseHoldSuccess.ViewMo
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
                 R.id.btnGoToHouseHold -> {
-
                     findNavController().navigate(R.id.action_houseHoldSuccessFragment_to_yapDashboardActivity)
-                    activity!!.finish()
-
+                    if (activity is HouseHoldOnboardingActivity) {
+                        (activity as HouseHoldOnboardingActivity).setIntentResult(true)
+                    }
                 }
 
                 R.id.btnShare -> {
                     shareInfo()
                 }
-
             }
         })
 

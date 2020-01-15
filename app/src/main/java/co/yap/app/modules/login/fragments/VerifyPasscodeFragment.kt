@@ -185,23 +185,20 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
             dialer.startAnimation()
         }
     }
-    private val onFetchAccountInfo = Observer<AccountInfo>
-    { it ->
-
+    private val onFetchAccountInfo = Observer<AccountInfo> {
         it?.run {
             if (accountType == AccountType.B2C_HOUSEHOLD.name) {
+                SharedPreferenceManager(requireContext()).setThemeValue(co.yap.yapcore.constants.Constants.THEME_HOUSEHOLD)
                 val bundle = Bundle()
                 bundle.putBoolean(OnboardingHouseHoldActivity.EXISTING_USER, false)
                 bundle.putParcelable(OnboardingHouseHoldActivity.USER_INFO, it)
                 startActivity(OnboardingHouseHoldActivity.getIntent(requireContext(), bundle))
-
+                activity?.finish()
             } else {
                 findNavController().navigate(R.id.action_goto_yapDashboardActivity)
                 activity?.finish()
             }
         }
-
-
     }
 
     private val validateDeviceResultObserver = Observer<Boolean> {
@@ -242,8 +239,7 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
                 navigateToDashboard()
             }
         } else {
-            viewModel.getAccountInfo()
-            //viewModel.createOtp()
+            viewModel.createOtp()
         }
     }
 

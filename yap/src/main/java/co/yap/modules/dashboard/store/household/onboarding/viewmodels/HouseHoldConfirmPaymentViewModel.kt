@@ -38,7 +38,7 @@ class HouseHoldConfirmPaymentViewModel(application: Application) :
     }
 
     private fun initSelectedPlan() {
-        state.selectedPlanFee.set(state.currencyType.get() + " " + parentViewModel?.selectedPlanType?.amount)
+        state.selectedPlanFee.set(parentViewModel?.selectedPlanType?.amount)
         state.selectedCardPlan.set(parentViewModel?.selectedPlanType?.type + " | " + state.selectedPlanFee.get())
         parentViewModel?.selectedPlanType?.discount?.let {
             if (it != 0) {
