@@ -67,8 +67,6 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
     override val viewModel: IYapDashboard.ViewModel
         get() = ViewModelProviders.of(this).get(YapDashBoardViewModel::class.java)
 
-    private lateinit var appBarConfiguration: AppBarConfiguration
-
     lateinit var adapter: YapDashboardAdaptor
     var permissionHelper: PermissionHelper? = null
     private var actionMenu: FloatingActionMenu? = null
@@ -266,6 +264,7 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
     }
 
     override fun onDestroy() {
+//        MyUserManager.expireUserSession()
         viewModel.clickEvent.removeObservers(this)
         super.onDestroy()
     }
