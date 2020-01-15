@@ -132,13 +132,13 @@ abstract class BaseActivity<V : IBase.ViewModel<*>> : AppCompatActivity(), IBase
         val snackbar = Snackbar
             .make(activity.findViewById(android.R.id.content), message, duration)
         layout = snackbar.view
-        layout.setBackgroundColor(activity.resources.getColor(R.color.colorDarkGreen))
+        layout.setBackgroundColor(activity.getColor(R.color.colorDarkGreen))
         val text =
             layout.findViewById<View>(com.google.android.material.R.id.snackbar_text) as TextView
-        text.setTextColor(activity.resources.getColor(R.color.colorWhite))
+        text.setTextColor(activity.getColor(R.color.colorWhite))
 
         if (duration == DURATION_CODE) {
-            layout.setBackgroundColor(activity.resources.getColor(R.color.colorAccent))
+            layout.setBackgroundColor(activity.getColor(R.color.colorAccent))
             val snackbarView = snackbar.view
             val textView =
                 snackbarView.findViewById<View>(com.google.android.material.R.id.snackbar_text) as TextView
