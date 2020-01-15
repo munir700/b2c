@@ -37,9 +37,6 @@ import co.yap.modules.dashboard.yapit.sendmoney.home.activities.SendMoneyLanding
 import co.yap.modules.dashboard.yapit.topup.landing.TopUpLandingActivity
 import co.yap.modules.dashboard.yapit.y2y.home.activities.YapToYapDashboardActivity
 import co.yap.modules.others.fragmentpresenter.activities.FragmentPresenterActivity
-import co.yap.modules.others.helper.Constants.FLAVOR
-import co.yap.modules.others.helper.Constants.VERSION_CODE
-import co.yap.modules.others.helper.Constants.VERSION_NAME
 import co.yap.translation.Strings
 import co.yap.widgets.CoreButton
 import co.yap.widgets.arcmenu.FloatingActionMenu
@@ -53,8 +50,6 @@ import co.yap.yapcore.helpers.dimen
 import co.yap.yapcore.managers.MyUserManager
 import kotlinx.android.synthetic.main.activity_yap_dashboard.*
 import kotlinx.android.synthetic.main.layout_drawer_yap_dashboard.*
-import kotlinx.android.synthetic.main.layout_drawer_yap_dashboard.view.*
-import kotlinx.android.synthetic.main.layout_item_icon_text.view.*
 import net.cachapa.expandablelayout.ExpandableLayout
 
 class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYapDashboard.View,
@@ -207,13 +202,21 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
         dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
         val tvUnverifiedDescription = dialog.findViewById<TextView>(R.id.tvUnverifiedDescription)
-        val tvEmail = dialog.findViewById<TextView>(R.id.tvEmail)
+        val tvEmail = dialog.findViewById<TextView>(R.id.tvUserGuide)
         val tvTroubleDescription = dialog.findViewById<TextView>(R.id.tvTroubleDescription)
         tvUnverifiedDescription.text =
             getString(Strings.screen_email_verified_popup_display_text_title).format(
                 MyUserManager.user!!.currentCustomer.firstName
             )
-        tvEmail.text = MyUserManager.user?.currentCustomer?.email
+
+        MyUserManager.user?.currentCustomer?.email?.let {
+            tvEmail.text =
+                getString(Strings.screen_email_verified_popup_display_text_sub_title).format(
+                    if (it.isBlank())
+                        "" else it
+                )
+        }
+        //  tvEmail.text = MyUserManager.user!!.currentCustomer.email
 
         val fcs = ForegroundColorSpan(ContextCompat.getColor(this, R.color.colorPrimary))
         val myClickableSpan = object : ClickableSpan() {
