@@ -18,6 +18,7 @@ import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.SingleLiveEvent
 import co.yap.yapcore.helpers.SharedPreferenceManager
+import co.yap.yapcore.managers.MyUserManager
 import java.util.regex.Pattern
 
 class VerifyPasscodeViewModel(application: Application) :
@@ -158,6 +159,7 @@ class VerifyPasscodeViewModel(application: Application) :
                 is RetroApiResponse.Success -> {
                     if (!response.data.data.isNullOrEmpty()) {
                         //MyUserManager.user = response.data.data[0]
+                        MyUserManager.user=response.data.data[0]
                         accountInfo.postValue(response.data.data[0])
                         //MyUserManager.user?.setLiveData() // DOnt remove this line
                     }

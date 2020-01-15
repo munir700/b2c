@@ -1,16 +1,26 @@
 package co.yap.modules.onboarding.states
 
+import android.annotation.SuppressLint
 import android.app.Application
+import android.graphics.Color
 import android.graphics.Rect
 import android.graphics.drawable.Drawable
+import android.util.TypedValue
 import android.view.View
 import android.view.ViewTreeObserver
 import android.widget.EditText
+import androidx.appcompat.content.res.AppCompatResources
+import androidx.core.content.ContextCompat
+import androidx.core.graphics.drawable.DrawableCompat
 import androidx.databinding.Bindable
 import co.yap.BR
 import co.yap.modules.onboarding.interfaces.IMobile
 import co.yap.widgets.mobile.CountryCodePicker
 import co.yap.yapcore.BaseState
+import co.yap.yapcore.R
+import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.helpers.SharedPreferenceManager
+import co.yap.yapcore.helpers.ThemeColorUtils
 
 class MobileState(application: Application) : BaseState(), IMobile.State {
 
@@ -24,6 +34,7 @@ class MobileState(application: Application) : BaseState(), IMobile.State {
     override var background: Drawable? =
         mContext!!.resources.getDrawable(co.yap.yapcore.R.drawable.bg_round_edit_text)
         set(value) {
+//            setDrawabeTint()
             field = value
             notifyPropertyChanged(BR.background)
         }
@@ -106,8 +117,13 @@ class MobileState(application: Application) : BaseState(), IMobile.State {
                     mobileNoLength = 11
                     if (mobile.length == 11) {
                         setSuccessUI()
-                        drawbleRight =
-                            mContext!!.resources.getDrawable(co.yap.yapcore.R.drawable.path)
+//                        drawbleRight =
+//                            mContext!!.getDrawable(R.drawable.path)
+                        setDrawabeTint()
+//                        setDrawabeTint()
+//                        drawbleRight!!.setColorFilter(ContextCompat.getColor(mContext, R.attr.colorPrimary), android.graphics.PorterDuff.Mode.MULTIPLY)
+
+
                         valid = true
 
                     } else {
@@ -178,5 +194,13 @@ class MobileState(application: Application) : BaseState(), IMobile.State {
         mobileError = ""
         valid = false
 
+    }
+
+    @SuppressLint("ResourceType")
+    fun setDrawabeTint() {
+        drawbleRight = DrawableCompat.wrap(mContext!!.getDrawable(R.drawable.path))
+        if (SharedPreferenceManager(mContext!!).getThemeValue().equals(Constants.THEME_HOUSEHOLD)) {
+            DrawableCompat.setTint(drawbleRight!!, Color.RED);
+        }
     }
 }

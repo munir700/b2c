@@ -69,12 +69,12 @@ class YapDashBoardViewModel(application: Application) :
     }
 
     override fun getAccountInfo() {
-        launch {
-            state.loading = true
-            when (val response = customerRepository.getAccountInfo()) {
-                is RetroApiResponse.Success -> {
-                    MyUserManager.user = response.data.data[0]
-//                    MyUserManager.user?.setLiveData() // DOnt remove this line
+//        launch {
+//            state.loading = true
+//            when (val response = customerRepository.getAccountInfo()) {
+//                is RetroApiResponse.Success -> {
+//                    MyUserManager.user = response.data.data[0]
+////                    MyUserManager.user?.setLiveData() // DOnt remove this line
                     MyUserManager.user?.isDocumentsVerified?.let {
                         MoreActivity.showExpiredIcon =
                             it == "N"
@@ -85,11 +85,11 @@ class YapDashBoardViewModel(application: Application) :
                     if (MyUserManager.user?.currentCustomer?.isEmailVerified.equals("N", true)) {
                         showUnverifedscreen.value = true
                     }
-                }
-                is RetroApiResponse.Error -> state.toast = response.error.message
-            }
-            state.loading = false
-        }
+//                }
+//                is RetroApiResponse.Error -> state.toast = response.error.message
+//            }
+//            state.loading = false
+//        }
     }
 
     override fun getAccountBalanceRequest() {

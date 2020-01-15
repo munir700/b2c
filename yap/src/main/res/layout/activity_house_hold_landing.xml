@@ -72,11 +72,11 @@
 
                 <TextView
                     android:id="@+id/tvStoreTitle"
-                    style="@style/ATitle3"
+                    style="@style/ATitle2"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/margin_normal"
-                    android:layout_marginTop="@dimen/margin_small"
+                    android:layout_marginTop="@dimen/margin_extra_small"
                     android:layout_marginEnd="@dimen/margin_large"
                     android:gravity="start"
                     android:lineSpacingExtra="0dp"
@@ -109,7 +109,7 @@
                 <View
                     android:id="@+id/viewLine"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/_1sdp"
+                    android:layout_height="1dp"
                     android:layout_marginLeft="@dimen/margin_large"
                     android:layout_marginTop="@dimen/margin_large"
                     android:layout_marginRight="@dimen/margin_large"
@@ -133,7 +133,6 @@
                     app:layout_constraintTop_toBottomOf="@+id/viewLine"
                     app:text="@{Strings.screen_yap_house_hold_onboarding_landing_display_text_heading}" />
 
-
                 <TextView
                     android:id="@+id/tvContentDesc"
                     style="@style/ASmallGrey"
@@ -149,7 +148,6 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tvContentTitle"
                     app:text="@{Strings.screen_yap_house_hold_onboarding_landing_display_text_sub_heading}" />
-
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -221,14 +219,13 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
-                            android:layout_marginStart="@dimen/margin_large"
+                            android:layout_marginStart="@dimen/margin_extra_large"
                             android:layout_marginTop="@dimen/margin_large"
-                            android:layout_marginEnd="@dimen/margin_large"
+                            android:layout_marginEnd="@dimen/margin_extra_large"
                             android:layout_marginBottom="@dimen/margin_large"
                             android:gravity="center"
                             android:text="@string/screen_yap_house_hold_subscription_selection_display_text_salary"
                             android:textColor="?attr/colorPrimaryAttr"
-                            android:textSize="@dimen/text_size_h4"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:text="@{Strings.screen_yap_house_hold_subscription_selection_display_text_salary}"
                             tools:text="@string/screen_yap_house_hold_subscription_selection_display_text_salary" />
@@ -249,18 +246,16 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
-                            android:layout_marginStart="@dimen/margin_large"
+                            android:layout_marginStart="@dimen/margin_extra_large"
                             android:layout_marginTop="@dimen/margin_large"
-                            android:layout_marginEnd="@dimen/margin_large"
+                            android:layout_marginEnd="@dimen/margin_extra_large"
                             android:layout_marginBottom="@dimen/margin_large"
                             android:gravity="center"
                             android:text="@string/screen_yap_house_hold_subscription_selection_display_text_schedule"
                             android:textColor="?attr/colorPrimaryAttr"
-                            android:textSize="@dimen/text_size_h4"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:text="@{Strings.screen_yap_house_hold_subscription_selection_display_text_schedule}"
                             tools:text="@string/screen_yap_house_hold_subscription_selection_display_text_schedule" />
-
 
                         <ImageView
                             android:layout_width="match_parent"
