@@ -698,7 +698,7 @@ object UIBinder {
 
         } else {
             YoYo.with(Techniques.SlideOutDown)
-                .duration(0)
+                .duration(300)
                 .playOn(view)
 
         }
