@@ -5,12 +5,15 @@ import android.view.View
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.fragment.findNavController
 import co.yap.BR
 import co.yap.modules.dashboard.main.fragments.YapDashboardChildFragment
+import co.yap.modules.kyc.activities.DocumentsDashboardActivity
 import co.yap.modules.onboarding.constants.Constants
 import co.yap.modules.onboarding.interfaces.ILiteDashboard
 import co.yap.modules.onboarding.viewmodels.LiteDashboardViewModel
 import co.yap.networking.cards.responsedtos.CardBalance
+import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.helpers.AuthUtils
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.biometric.BiometricUtil
@@ -32,9 +35,8 @@ class LiteDashboardFragment : YapDashboardChildFragment<ILiteDashboard.ViewModel
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel.clickEvent.observe(this, observer)
-        sharedPreferenceManager = SharedPreferenceManager(requireContext())
 
+        sharedPreferenceManager = SharedPreferenceManager(requireContext())
         if (BiometricUtil.isFingerprintSupported
             && BiometricUtil.isHardwareSupported(requireContext())
             && BiometricUtil.isPermissionGranted(requireContext())
@@ -66,10 +68,18 @@ class LiteDashboardFragment : YapDashboardChildFragment<ILiteDashboard.ViewModel
             swTouchId.visibility = View.INVISIBLE
         }
     }
+    override fun onResume() {
+        viewModel.clickEvent.observe(this, observer)
+        super.onResume()
+//        if (co.yap.yapcore.constants.Constants.USER_STATUS_CARD_ACTIVATED == MyUserManager.user?.notificationStatuses) {
+//            btnSetCardPin.visibility = View.GONE
+//            btnCompleteVerification.visibility = View.GONE
+//        }
+    }
 
-    override fun onDestroyView() {
+    override fun onPause() {
         viewModel.clickEvent.removeObservers(this)
-        super.onDestroyView()
+        super.onPause()
     }
 
     private val observer = Observer<Int> {
@@ -77,15 +87,21 @@ class LiteDashboardFragment : YapDashboardChildFragment<ILiteDashboard.ViewModel
             viewModel.EVENT_LOGOUT_SUCCESS -> doLogout()
             /*    viewModel.EVENT_GET_DEBIT_CARDS_SUCCESS -> {
                     findNavController().navigate(LiteDashboardFragmentDirections.actionLiteDashboardFragmentToSetCardPinWelcomeActivity())
-                }
-                viewModel.EVENT_PRESS_COMPLETE_VERIFICATION -> {
-                    findNavController().navigate(
-                        LiteDashboardFragmentDirections.actionLiteDashboardFragmentToDocumentsDashboardActivity(
-                            MyUserManager.user?.customer?.firstName.toString()
-                        )
-                    )
-                    activity?.finish()
                 }*/
+            viewModel.EVENT_PRESS_COMPLETE_VERIFICATION -> {
+                startActivityForResult(
+                    DocumentsDashboardActivity.getIntent(
+                        requireContext(),
+                        MyUserManager.user?.currentCustomer?.firstName.toString(),
+                        false
+                    ), RequestCodes.REQUEST_KYC_DOCUMENTS
+                )
+//                findNavController().navigate(
+//                    LiteDashboardFragmentDirections.actionLiteDashboardFragmentToDocumentsDashboardActivity(
+//                        MyUserManager.user?.currentCustomer?.firstName.toString()
+//                    )
+//                )
+            }
             viewModel.EVENT_PRESS_SET_CARD_PIN -> {
                 viewModel.getDebitCards()
             }
@@ -115,7 +131,6 @@ class LiteDashboardFragment : YapDashboardChildFragment<ILiteDashboard.ViewModel
                 btnSetCardPin.visibility = View.GONE
                 btnCompleteVerification.visibility = View.GONE
             }
-
         }
     }
 
@@ -123,6 +138,7 @@ class LiteDashboardFragment : YapDashboardChildFragment<ILiteDashboard.ViewModel
         AuthUtils.navigateToHardLogin(requireContext())
         MyUserManager.cardBalance.value = CardBalance()
         MyUserManager.cards.value?.clear()
+        MyUserManager.expireUserSession()
         activity?.finish()
     }
 
@@ -141,12 +157,5 @@ class LiteDashboardFragment : YapDashboardChildFragment<ILiteDashboard.ViewModel
 
     override fun onBackPressed(): Boolean = showLogoutDialog().let { true }
 
-    override fun onResume() {
-        super.onResume()
 
-        if (co.yap.yapcore.constants.Constants.USER_STATUS_CARD_ACTIVATED == MyUserManager.user?.notificationStatuses) {
-            btnSetCardPin.visibility = View.GONE
-            btnCompleteVerification.visibility = View.GONE
-        }
-    }
 }
