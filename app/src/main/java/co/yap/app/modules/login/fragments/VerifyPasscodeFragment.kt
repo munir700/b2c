@@ -185,24 +185,17 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
             dialer.startAnimation()
         }
     }
-    private val onFetchAccountInfo = Observer<AccountInfo> {
-        it?.run {
-            if (accountType == AccountType.B2C_HOUSEHOLD.name) {
-                SharedPreferenceManager(requireContext()).setThemeValue(co.yap.yapcore.constants.Constants.THEME_HOUSEHOLD)
-                val bundle = Bundle()
-                bundle.putBoolean(OnboardingHouseHoldActivity.EXISTING_USER, false)
-                bundle.putParcelable(OnboardingHouseHoldActivity.USER_INFO, it)
-                startActivity(OnboardingHouseHoldActivity.getIntent(requireContext(), bundle))
-                activity?.finish()
-            } else {
-                findNavController().navigate(R.id.action_goto_yapDashboardActivity)
-                activity?.finish()
-            }
-        }
-    }
 
     private val validateDeviceResultObserver = Observer<Boolean> {
         if (it) {
+            navigateToDashboard()
+        } else {
+            viewModel.createOtp()
+        }
+    }
+
+    private val onFetchAccountInfo = Observer<AccountInfo> {
+        it?.run {
             sharedPreferenceManager.save(SharedPreferenceManager.KEY_IS_USER_LOGGED_IN, true)
             if (!sharedPreferenceManager.getValueBoolien(
                     SharedPreferenceManager.KEY_IS_FINGERPRINT_PERMISSION_SHOWN,
@@ -234,12 +227,19 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
                         )
                     findNavController().navigate(action)
                 }
-
             } else {
-                navigateToDashboard()
+                if (accountType == AccountType.B2C_HOUSEHOLD.name) {
+                    SharedPreferenceManager(requireContext()).setThemeValue(co.yap.yapcore.constants.Constants.THEME_HOUSEHOLD)
+                    val bundle = Bundle()
+                    bundle.putBoolean(OnboardingHouseHoldActivity.EXISTING_USER, false)
+                    bundle.putParcelable(OnboardingHouseHoldActivity.USER_INFO, it)
+                    startActivity(OnboardingHouseHoldActivity.getIntent(requireContext(), bundle))
+                    activity?.finish()
+                } else {
+                    findNavController().navigate(R.id.action_goto_yapDashboardActivity)
+                    activity?.finish()
+                }
             }
-        } else {
-            viewModel.createOtp()
         }
     }
 
