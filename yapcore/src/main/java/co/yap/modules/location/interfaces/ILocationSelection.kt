@@ -16,6 +16,7 @@ interface ILocationSelection {
     }
     interface ViewModel : IBase.ViewModel<State> {
         var clickEvent: SingleClickEvent
+        var isMapExpanded: MutableLiveData<Boolean>
         var address: Address?
         var lastKnowLocation: MutableLiveData<LatLng>
         fun onLocationSelected()
@@ -35,5 +36,6 @@ interface ILocationSelection {
         var isTermsChecked: ObservableField<Boolean>
         var valid: ObservableField<Boolean>
         var showTermsCondition: ObservableField<Boolean>
+
     }
 }

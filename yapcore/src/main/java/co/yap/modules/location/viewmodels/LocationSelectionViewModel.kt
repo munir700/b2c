@@ -15,6 +15,7 @@ class LocationSelectionViewModel(application: Application) :
     BaseViewModel<ILocationSelection.State>(application),
     ILocationSelection.ViewModel {
     override var clickEvent: SingleClickEvent = SingleClickEvent()
+    override var isMapExpanded: MutableLiveData<Boolean> = MutableLiveData()
     override val state: LocationSelectionState = LocationSelectionState(application)
 
     override var address: Address? = null
@@ -26,7 +27,7 @@ class LocationSelectionViewModel(application: Application) :
 
     override fun onResume() {
         super.onResume()
-        state.toolbarVisibility = false
+        state.toolbarVisibility = true
     }
 
     override fun onLocationSelected() {
@@ -34,7 +35,7 @@ class LocationSelectionViewModel(application: Application) :
         state.addressSubtitle.set(state.placeTitle.get() ?: "")
         address?.address1 = state.addressTitle
         address?.address2 = state.addressSubtitle.get()
-        state.headingTitle.set(state.addressTitle)
+        state.headingTitle.set(state.addressSubtitle.get())
         state.subHeadingTitle.set(
             Translator.getString(
                 getApplication(),

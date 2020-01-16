@@ -14,6 +14,7 @@ import co.yap.modules.location.activities.LocationSelectionActivity
 import co.yap.networking.cards.responsedtos.Address
 import co.yap.translation.Translator
 import co.yap.yapcore.BR
+import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.interfaces.OnItemClickListener
@@ -125,7 +126,7 @@ class ReorderCardFragment : ReorderCardBaseFragment<IRenewCard.ViewModel>(), IRe
             when (requestCode) {
                 RequestCodes.REQUEST_FOR_LOCATION -> {
                     val address: Address? =
-                        data?.getParcelableExtra(LocationSelectionActivity.ADDRESS)
+                        data?.getParcelableExtra(Constants.ADDRESS)
                     address?.let {
                         viewModel.address = it
                         setLocationCardStates()
