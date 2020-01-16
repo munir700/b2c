@@ -30,7 +30,7 @@
             android:gravity="center"
             android:lineSpacingExtra="9sp"
             app:layout_constraintTop_toTopOf="parent"
-            app:text="@{Strings.screen_congratulations_display_text_title}"
+            android:text="@{viewModel.state.heading}"
             tools:text="@string/screen_congratulations_display_text_title" />
 
 

@@ -5,6 +5,7 @@ import co.yap.household.R
 import co.yap.household.onboarding.onboarding.interfaces.INewUserSuccess
 import co.yap.household.onboarding.onboarding.states.NewUserCongratulationsState
 import co.yap.household.onboarding.viewmodels.OnboardingChildViewModel
+import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
 
 class NewUserSuccessViewModel(application: Application) :
@@ -19,6 +20,8 @@ class NewUserSuccessViewModel(application: Application) :
         // calculate elapsed updatedDate for onboarding
         elapsedOnboardingTime = parentViewModel?.onboardingData?.elapsedOnboardingTime ?: 0
         state.nameList[0] = parentViewModel?.onboardingData?.firstName
+        state.heading =
+            getString(Strings.screen_congratulations_display_text_title).format(parentViewModel?.state?.accountInfo?.currentCustomer?.firstName)
         parentViewModel?.onboardingData?.ibanNumber?.let {
             state.ibanNumber = maskIbanNumber(it.trim())
         }

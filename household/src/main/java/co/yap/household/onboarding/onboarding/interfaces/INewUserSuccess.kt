@@ -5,7 +5,7 @@ import co.yap.yapcore.SingleClickEvent
 
 interface INewUserSuccess {
 
-    interface View : IBase.View<ViewModel>{
+    interface View : IBase.View<ViewModel> {
         fun setObservers()
     }
 
@@ -20,5 +20,6 @@ interface INewUserSuccess {
         // var name: String
         var ibanNumber: String
         var onboardingTime: String
+        var heading: String
     }
 }

@@ -49,7 +49,7 @@
                         android:id="@+id/imgClose"
                         android:layout_width="@dimen/_28sdp"
                         android:layout_height="@dimen/_28sdp"
-                        android:layout_marginStart="@dimen/margin_medium_large"
+                        android:layout_marginStart="@dimen/margin_large"
                         android:layout_marginTop="@dimen/margin_medium"
                         android:contentDescription="@string/empty_string"
                         android:onClick="@{(v) -> viewModel.handlePressOnCloseIcon(v.id)}"
@@ -118,7 +118,7 @@
 
                 <TextView
                     android:id="@+id/tvContentTitle"
-                    style="@style/ATitle2"
+                    style="@style/ALarge"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/margin_large"
@@ -127,7 +127,6 @@
                     android:gravity="start"
                     android:text="@string/screen_yap_house_hold_onboarding_landing_display_text_heading"
                     android:textAlignment="viewStart"
-                    android:textSize="@dimen/_17sdp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/viewLine"
@@ -142,6 +141,7 @@
                     android:layout_marginTop="@dimen/margin_medium"
                     android:layout_marginEnd="@dimen/margin_large"
                     android:gravity="start"
+                    android:lineSpacingExtra="3sp"
                     android:text="@string/screen_yap_house_hold_onboarding_landing_display_text_sub_heading"
                     android:textAlignment="viewStart"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -167,14 +167,14 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
-                            android:layout_marginStart="@dimen/margin_large"
+                            android:layout_marginStart="@dimen/margin_xxl"
                             android:layout_marginTop="@dimen/margin_large"
-                            android:layout_marginEnd="@dimen/margin_large"
+                            android:layout_marginEnd="@dimen/margin_xxl"
                             android:layout_marginBottom="@dimen/margin_large"
+                            android:fontFamily="@font/roboto_medium"
                             android:gravity="center"
                             android:text="@string/screen_yap_house_hold_subscription_selection_display_text_color"
                             android:textColor="?attr/colorPrimaryAttr"
-                            android:textSize="@dimen/text_size_h4"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:text="@{Strings.screen_yap_house_hold_subscription_selection_display_text_color}"
                             tools:text="@string/screen_yap_house_hold_subscription_selection_display_text_color" />
@@ -189,24 +189,12 @@
 
                             <ImageView
                                 android:id="@+id/purpleCardView"
-                                android:layout_width="@dimen/_121sdp"
+                                android:layout_width="match_parent"
                                 android:layout_height="@dimen/_190sdp"
                                 android:layout_gravity="center_horizontal"
                                 android:layout_marginRight="@dimen/margin_medium"
                                 android:orientation="vertical"
-                                android:src="@drawable/gold"
-                                app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toTopOf="parent" />
-
-                            <ImageView
-                                android:id="@+id/redCardView"
-                                android:layout_width="@dimen/_121sdp"
-                                android:layout_height="@dimen/_190sdp"
-                                android:layout_gravity="center_horizontal"
-                                android:layout_marginLeft="@dimen/margin_medium"
-                                android:orientation="vertical"
-                                android:src="@drawable/rose_gold"
+                                android:src="@drawable/household_card"
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toTopOf="parent" />
@@ -219,10 +207,11 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
-                            android:layout_marginStart="@dimen/margin_extra_large"
+                            android:layout_marginStart="@dimen/margin_xxl"
                             android:layout_marginTop="@dimen/margin_large"
-                            android:layout_marginEnd="@dimen/margin_extra_large"
+                            android:layout_marginEnd="@dimen/margin_xxl"
                             android:layout_marginBottom="@dimen/margin_large"
+                            android:fontFamily="@font/roboto_medium"
                             android:gravity="center"
                             android:text="@string/screen_yap_house_hold_subscription_selection_display_text_salary"
                             android:textColor="?attr/colorPrimaryAttr"
@@ -238,7 +227,8 @@
                             android:src="@drawable/spending"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
+                            app:layout_constraintTop_toTopOf="parent"
+                            android:contentDescription="@string/empty_string" />
 
                         <TextView
                             android:id="@+id/tvAutoPayoutCaption"
@@ -246,10 +236,11 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
-                            android:layout_marginStart="@dimen/margin_extra_large"
+                            android:layout_marginStart="@dimen/margin_xxl"
                             android:layout_marginTop="@dimen/margin_large"
-                            android:layout_marginEnd="@dimen/margin_extra_large"
+                            android:layout_marginEnd="@dimen/margin_xxl"
                             android:layout_marginBottom="@dimen/margin_large"
+                            android:fontFamily="@font/roboto_medium"
                             android:gravity="center"
                             android:text="@string/screen_yap_house_hold_subscription_selection_display_text_schedule"
                             android:textColor="?attr/colorPrimaryAttr"
@@ -266,7 +257,8 @@
                             android:src="@drawable/spending"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
+                            app:layout_constraintTop_toTopOf="parent"
+                            android:contentDescription="@string/empty_string" />
 
                     </LinearLayout>
                 </LinearLayout>
@@ -289,7 +281,6 @@
             app:text="@{Strings.screen_yap_house_hold_onboarding_landing_button_text}"
             tools:ignore="MissingConstraints"
             tools:text="@string/screen_yap_house_hold_onboarding_landing_button_text" />
-
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
