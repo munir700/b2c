@@ -54,6 +54,7 @@ class NewUserSuccessFragment :
                 DocumentsDashboardActivity.getIntent(
                     requireContext(),
                     MyUserManager.user?.currentCustomer?.firstName.toString(),
+
                     false
                 ), RequestCodes.REQUEST_KYC_DOCUMENTS
             )

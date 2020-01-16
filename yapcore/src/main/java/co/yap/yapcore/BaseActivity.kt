@@ -11,15 +11,13 @@ import android.view.WindowManager
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.graphics.toColor
 import androidx.databinding.Observable
 import co.yap.translation.Strings
 import co.yap.translation.Translator
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.YAPThemes
-import co.yap.yapcore.helpers.NetworkConnectionManager
-import co.yap.yapcore.helpers.PermissionsManager
-import co.yap.yapcore.helpers.SharedPreferenceManager
-import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.helpers.*
 import com.google.android.material.snackbar.Snackbar
 
 
@@ -132,13 +130,16 @@ abstract class BaseActivity<V : IBase.ViewModel<*>> : AppCompatActivity(), IBase
         val snackbar = Snackbar
             .make(activity.findViewById(android.R.id.content), message, duration)
         layout = snackbar.view
-        layout.setBackgroundColor(activity.resources.getColor(R.color.colorDarkGreen))
+        layout.setBackgroundColor(activity.getColor(R.color.colorDarkGreen))
         val text =
             layout.findViewById<View>(com.google.android.material.R.id.snackbar_text) as TextView
-        text.setTextColor(activity.resources.getColor(R.color.colorWhite))
+        text.setTextColor(activity.getColor(R.color.colorWhite))
 
         if (duration == DURATION_CODE) {
-            layout.setBackgroundColor(activity.resources.getColor(R.color.colorAccent))
+//            layout.setBackgroundColor(activity.getColor(R.color.colorAccent))
+            layout.setBackgroundColor(ThemeColorUtils.colorPrimaryAttribute(this))
+//            layout.setBackgroundColor(Color.RED)
+
             val snackbarView = snackbar.view
             val textView =
                 snackbarView.findViewById<View>(com.google.android.material.R.id.snackbar_text) as TextView

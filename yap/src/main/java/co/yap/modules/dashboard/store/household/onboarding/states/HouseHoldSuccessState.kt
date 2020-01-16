@@ -21,7 +21,7 @@ class HouseHoldSuccessState : BaseState(), IHouseHoldSuccess.State {
             notifyPropertyChanged(BR.houseHoldUserMobile)
         }
 
- @get:Bindable
+    @get:Bindable
     override var houseHoldUserEmail: String = "emailz"
         set(value) {
             field = value
@@ -33,5 +33,11 @@ class HouseHoldSuccessState : BaseState(), IHouseHoldSuccess.State {
         set(value) {
             field = value
             notifyPropertyChanged(BR.houseHoldUserPassCode)
+        }
+    @get:Bindable
+    override var houseHoldDescription: String = ""
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.houseHoldDescription)
         }
 }

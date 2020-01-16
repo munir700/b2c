@@ -8,7 +8,6 @@ import co.yap.household.onboarding.onboarding.interfaces.IHouseHoldCardsSelectio
 import co.yap.household.onboarding.onboarding.states.HouseHoldCardsSelectionState
 import co.yap.networking.cards.CardsRepository
 import co.yap.networking.cards.requestdtos.OrderCardRequest
-import co.yap.networking.customers.responsedtos.HouseHoldCardsDesign
 import co.yap.networking.models.RetroApiResponse
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
@@ -41,9 +40,9 @@ class HouseHoldCardsSelectionViewModel(application: Application) :
         clickEvent.setValue(id)
     }
 
-   /* override fun getCardsColorList(list: MutableList<HouseHoldCardsDesign?>?): MutableList<HouseHoldCardsDesign?>? {
-        return list
-    }*/
+    /* override fun getCardsColorList(list: MutableList<HouseHoldCardsDesign?>?): MutableList<HouseHoldCardsDesign?>? {
+         return list
+     }*/
 
     override fun getCardsDesignListRequest(accountType: String) {
         launch {
@@ -77,12 +76,9 @@ class HouseHoldCardsSelectionViewModel(application: Application) :
                 )) {
                 is RetroApiResponse.Success -> {
                     orderCardRequestSuccess.value = true
-                    state.toast = "success"
                     state.loading = false
                 }
                 is RetroApiResponse.Error -> {
-                    orderCardRequestSuccess.value = true
-                    state.toast = "service fail/By pas service"
                     state.toast = response.error.message
                     state.loading = false
                 }

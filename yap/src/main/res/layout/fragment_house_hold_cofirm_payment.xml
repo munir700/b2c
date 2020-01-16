@@ -8,6 +8,7 @@
         <import type="co.yap.translation.Strings" />
 
         <import type="android.view.View" />
+
         <variable
             name="viewModel"
             type="co.yap.modules.dashboard.store.household.onboarding.viewmodels.HouseHoldConfirmPaymentViewModel" />
@@ -116,11 +117,11 @@
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvChangePlan"
                 style="@style/Micro"
-                android:padding="@dimen/small"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
+                android:padding="@dimen/small"
                 android:textColor="?attr/colorPrimaryAttr"
                 app:layout_constraintBottom_toBottomOf="@id/tvCardPlan"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -136,8 +137,8 @@
                 android:layout_marginTop="@dimen/small"
                 android:fontFamily="@font/roboto_medium_italic"
                 android:gravity="center"
-                android:visibility="@{viewModel.state.selectedPlanSaving.equals(``)?View.INVISIBLE :View.VISIBLE}"
                 android:text="@{viewModel.state.selectedPlanSaving}"
+                android:visibility="@{viewModel.state.selectedPlanSaving.equals(``)?View.INVISIBLE :View.VISIBLE}"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tvCardPlan"
                 tools:text="Your saving 25%!" />
@@ -179,7 +180,7 @@
                 style="@style/ALarge"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_medium"
+                android:layout_marginTop="@dimen/margin_small"
                 android:text="@{viewModel.state.selectedPlanFee}"
                 app:layout_constraintBottom_toTopOf="@id/tvAvailableBalance"
                 app:layout_constraintEnd_toEndOf="parent"

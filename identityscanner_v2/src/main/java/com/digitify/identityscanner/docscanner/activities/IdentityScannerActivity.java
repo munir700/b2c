@@ -14,7 +14,6 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.digitify.identityscanner.R;
-import com.digitify.identityscanner.base.BaseActivity;
 import com.digitify.identityscanner.docscanner.enums.DocumentType;
 import com.digitify.identityscanner.docscanner.fragments.DocReviewFragment;
 import com.digitify.identityscanner.docscanner.fragments.YapCameraFragment;
@@ -26,10 +25,11 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 
+import co.yap.yapcore.defaults.DefaultActivity;
 import co.yap.yapcore.helpers.PermissionHelper;
 import co.yap.yapcore.helpers.ToastKt;
 
-public class IdentityScannerActivity extends BaseActivity implements IIdentityScanner.IView {
+public class IdentityScannerActivity extends DefaultActivity implements IIdentityScanner.IView {
 
     public static final int SCAN_FROM_CAMERA = 1;
     public static final int SCAN_FROM_GALLERY = 2;

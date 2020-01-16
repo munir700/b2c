@@ -69,33 +69,36 @@
                 android:text="@string/screen_yap_house_hold_success_display_text_house_hold_card"
                 app:text="@{Strings.screen_yap_house_hold_success_display_text_house_hold_card}" />
 
-            <LinearLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="@dimen/small">
+                android:layout_marginTop="@dimen/small"
+                android:orientation="horizontal">
 
                 <ImageView
+                    android:id="@+id/icon"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="@dimen/margin_medium"
-                    android:src="@drawable/ic_extra_small" />
+                    android:src="@drawable/ic_extra_small"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
                     android:id="@+id/tvBenefit"
                     style="@style/RegularGrey"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="top"
-                    android:gravity="top"
+                    android:layout_marginStart="@dimen/margin_normal"
                     android:lineSpacingExtra="6sp"
-                    android:text="@string/screen_yap_house_hold_success_display_text_direct_message"
+                    android:text="@{viewModel.state.houseHoldDescription}"
                     android:textSize="@dimen/_13sdp"
-                    app:concatVal="@{viewModel.state.houseHoldUserName}"
-                    app:text="@{Strings.screen_yap_house_hold_success_display_text_direct_message}"
-                    app:textVal="@{Strings.screen_yap_house_hold_success_display_text_direct_message}" />
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/icon"
+                    app:layout_constraintTop_toTopOf="@+id/icon"
+                    tools:text="@string/screen_yap_house_hold_success_display_text_direct_message" />
 
-            </LinearLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.appcompat.widget.AppCompatTextView
                 style="@style/Small"
