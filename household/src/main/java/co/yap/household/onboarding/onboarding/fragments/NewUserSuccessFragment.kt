@@ -61,6 +61,14 @@ class NewUserSuccessFragment :
         }
     }
 
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        viewModel.launch {
+            delay(500)
+            runAnimations()
+        }
+    }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK) {
@@ -109,14 +117,6 @@ class NewUserSuccessFragment :
 
                 }
             }
-        }
-    }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel.launch {
-            delay(500)
-            runAnimations()
         }
     }
 
