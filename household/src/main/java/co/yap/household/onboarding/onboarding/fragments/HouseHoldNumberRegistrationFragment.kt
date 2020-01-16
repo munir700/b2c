@@ -47,8 +47,14 @@ class HouseHoldNumberRegistrationFragment :
                         findNavController().navigate(R.id.action_houseHoldNumberRegistrationFragment_to_emailHouseHoldFragment)
                     }
                     else -> {
-                        findNavController().navigate(R.id.action_goto_householdDashboardActivity)
-                        activity?.finish()
+                        startActivity(
+                            HouseHoldCardsSelectionActivity.newIntent(
+                                requireContext(),
+                                false
+                            )
+                        )
+//                        findNavController().navigate(R.id.action_goto_householdDashboardActivity)
+//                        activity?.finish()
                     }
                 }
         }
@@ -89,6 +95,7 @@ class HouseHoldNumberRegistrationFragment :
                                             LiteDashboardActivity::class.java
                                         )
                                     )
+
                                 } else {
                                     startActivity(
                                         Intent(

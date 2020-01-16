@@ -721,12 +721,9 @@ object UIBinder {
     @JvmStatic
     @BindingAdapter("textSelection")
     fun textSelection(view: EditText, selection: String) {
-        if (!selection.isNullOrEmpty()) {
-
-            view.setSelection(selection.length)
-
+        if (selection.isNotEmpty()) {
+            view.setSelection(view.length())
         }
-
     }
 
     @SuppressLint("ClickableViewAccessibility")
