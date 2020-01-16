@@ -14,10 +14,10 @@ interface IHouseHoldSuccess {
     }
 
     interface State : IBase.State {
-      var houseHoldUserName: String
-      var houseHoldUserEmail: String
-      var houseHoldUserMobile: String
-      var houseHoldUserPassCode: String
-
+        var houseHoldUserName: String
+        var houseHoldUserEmail: String
+        var houseHoldUserMobile: String
+        var houseHoldUserPassCode: String
+        var houseHoldDescription: String
     }
 }
