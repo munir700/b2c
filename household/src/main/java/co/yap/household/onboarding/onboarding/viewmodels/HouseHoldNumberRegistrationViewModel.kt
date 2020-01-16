@@ -24,8 +24,8 @@ class HouseHoldNumberRegistrationViewModel(application: Application) :
     override fun onCreate() {
         populateState()
         super.onCreate()
-        state.userName = parentViewModel?.state?.accountInfo?.currentCustomer?.getFullName()
-        state.parentName = parentViewModel?.state?.accountInfo?.parentAccount?.currentCustomer?.getFullName()
+        state.userName = parentViewModel?.state?.accountInfo?.currentCustomer?.firstName
+        state.parentName = parentViewModel?.state?.accountInfo?.parentAccount?.currentCustomer?.firstName
         state.existingYapUser = parentViewModel?.state?.existingYapUser
 
     }
