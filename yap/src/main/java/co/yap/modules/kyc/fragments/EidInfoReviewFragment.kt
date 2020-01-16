@@ -65,6 +65,14 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
                             skippedPress = false
                         )
                 }
+                viewModel.EVENT_ALREADY_USED_EID -> {
+                    //findNavController().popBackStack()
+                    if (activity is DocumentsDashboardActivity)
+                        (activity as DocumentsDashboardActivity).goToDashBoard(
+                            success = false,
+                            skippedPress = false,error = true
+                        )
+                }
                 viewModel.EVENT_FINISH -> onBackPressed()
             }
         })
