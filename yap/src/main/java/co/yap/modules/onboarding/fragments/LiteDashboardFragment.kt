@@ -1,5 +1,7 @@
 package co.yap.modules.onboarding.fragments
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AlertDialog
@@ -7,10 +9,14 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
 import co.yap.modules.dashboard.main.fragments.YapDashboardChildFragment
+import co.yap.modules.dummy.ActivityNavigator
+import co.yap.modules.dummy.NavigatorProvider
+import co.yap.modules.kyc.activities.DocumentsDashboardActivity
 import co.yap.modules.onboarding.constants.Constants
 import co.yap.modules.onboarding.interfaces.ILiteDashboard
 import co.yap.modules.onboarding.viewmodels.LiteDashboardViewModel
 import co.yap.networking.cards.responsedtos.CardBalance
+import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.helpers.AuthUtils
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.biometric.BiometricUtil
@@ -21,7 +27,7 @@ import kotlinx.android.synthetic.main.fragment_lite_dashboard.*
 class LiteDashboardFragment : YapDashboardChildFragment<ILiteDashboard.ViewModel>() {
 
     private lateinit var sharedPreferenceManager: SharedPreferenceManager
-
+    private lateinit var mNavigator: ActivityNavigator
     override fun getBindingVariable(): Int = BR.viewModel
 
     override fun getLayoutId(): Int = co.yap.R.layout.fragment_lite_dashboard
@@ -29,12 +35,14 @@ class LiteDashboardFragment : YapDashboardChildFragment<ILiteDashboard.ViewModel
     override val viewModel: ILiteDashboard.ViewModel
         get() = ViewModelProviders.of(this).get(LiteDashboardViewModel::class.java)
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
 
+    }
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel.clickEvent.observe(this, observer)
+        mNavigator = (activity?.applicationContext as NavigatorProvider).provideNavigator()
         sharedPreferenceManager = SharedPreferenceManager(requireContext())
-
         if (BiometricUtil.isFingerprintSupported
             && BiometricUtil.isHardwareSupported(requireContext())
             && BiometricUtil.isPermissionGranted(requireContext())
@@ -67,9 +75,18 @@ class LiteDashboardFragment : YapDashboardChildFragment<ILiteDashboard.ViewModel
         }
     }
 
-    override fun onDestroyView() {
+    override fun onResume() {
+        viewModel.clickEvent.observe(this, observer)
+        super.onResume()
+//        if (co.yap.yapcore.constants.Constants.USER_STATUS_CARD_ACTIVATED == MyUserManager.user?.notificationStatuses) {
+//            btnSetCardPin.visibility = View.GONE
+//            btnCompleteVerification.visibility = View.GONE
+//        }
+    }
+
+    override fun onPause() {
         viewModel.clickEvent.removeObservers(this)
-        super.onDestroyView()
+        super.onPause()
     }
 
     private val observer = Observer<Int> {
@@ -77,15 +94,17 @@ class LiteDashboardFragment : YapDashboardChildFragment<ILiteDashboard.ViewModel
             viewModel.EVENT_LOGOUT_SUCCESS -> doLogout()
             /*    viewModel.EVENT_GET_DEBIT_CARDS_SUCCESS -> {
                     findNavController().navigate(LiteDashboardFragmentDirections.actionLiteDashboardFragmentToSetCardPinWelcomeActivity())
-                }
-                viewModel.EVENT_PRESS_COMPLETE_VERIFICATION -> {
-                    findNavController().navigate(
-                        LiteDashboardFragmentDirections.actionLiteDashboardFragmentToDocumentsDashboardActivity(
-                            MyUserManager.user?.customer?.firstName.toString()
-                        )
-                    )
-                    activity?.finish()
                 }*/
+            viewModel.EVENT_PRESS_COMPLETE_VERIFICATION -> {
+                startActivityForResult(
+                    DocumentsDashboardActivity.getIntent(
+                        requireContext(),
+                        MyUserManager.user?.currentCustomer?.firstName.toString(),
+                        false
+                    ), RequestCodes.REQUEST_KYC_DOCUMENTS
+                )
+
+            }
             viewModel.EVENT_PRESS_SET_CARD_PIN -> {
                 viewModel.getDebitCards()
             }
@@ -95,6 +114,22 @@ class LiteDashboardFragment : YapDashboardChildFragment<ILiteDashboard.ViewModel
         }
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == RequestCodes.REQUEST_KYC_DOCUMENTS && resultCode == Activity.RESULT_OK) {
+            data?.let {
+                val result = data.getBooleanExtra(DocumentsDashboardActivity.result, false)
+                val error = data.getBooleanExtra("error", false)
+                if(!result && error)
+                {
+                    mNavigator.startEIDNotAcceptedActivity(requireActivity())
+
+                }else {
+                    btnCompleteVerification.visibility = if (result) View.GONE else View.VISIBLE
+                }
+            }
+        }
+    }
 
     private fun checkUserStatus() {
         // MyUserManager.user?.notificationStatuses = Constants.USER_STATUS_ON_BOARDED
@@ -115,7 +150,6 @@ class LiteDashboardFragment : YapDashboardChildFragment<ILiteDashboard.ViewModel
                 btnSetCardPin.visibility = View.GONE
                 btnCompleteVerification.visibility = View.GONE
             }
-
         }
     }
 
@@ -123,6 +157,7 @@ class LiteDashboardFragment : YapDashboardChildFragment<ILiteDashboard.ViewModel
         AuthUtils.navigateToHardLogin(requireContext())
         MyUserManager.cardBalance.value = CardBalance()
         MyUserManager.cards.value?.clear()
+        MyUserManager.expireUserSession()
         activity?.finish()
     }
 
@@ -141,12 +176,5 @@ class LiteDashboardFragment : YapDashboardChildFragment<ILiteDashboard.ViewModel
 
     override fun onBackPressed(): Boolean = showLogoutDialog().let { true }
 
-    override fun onResume() {
-        super.onResume()
 
-        if (co.yap.yapcore.constants.Constants.USER_STATUS_CARD_ACTIVATED == MyUserManager.user?.notificationStatuses) {
-            btnSetCardPin.visibility = View.GONE
-            btnCompleteVerification.visibility = View.GONE
-        }
-    }
 }

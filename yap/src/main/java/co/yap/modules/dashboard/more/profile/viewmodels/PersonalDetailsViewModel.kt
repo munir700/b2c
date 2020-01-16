@@ -61,12 +61,12 @@ class PersonalDetailsViewModel(application: Application) :
         if (MyUserManager.userAddress == null) {
             requestGetAddressForPhysicalCard()
         } else {
-            address = MyUserManager.userAddress!!
+            address = MyUserManager.userAddress?:Address()
             setUpAddressFields()
         }
     }
 
-    private fun requestGetAddressForPhysicalCard() {
+   private fun requestGetAddressForPhysicalCard() {
         state.loading = true
         launch {
             when (val response = repository.getUserAddressRequest()) {
@@ -88,7 +88,7 @@ class PersonalDetailsViewModel(application: Application) :
         var addressDetail = ""
 
         if (!address?.address2.isNullOrEmpty()) {
-//            addresstitle = address?.address2!!
+            addresstitle = address?.address2?:""
         }
 
         if (!address?.address1.isNullOrEmpty()) {

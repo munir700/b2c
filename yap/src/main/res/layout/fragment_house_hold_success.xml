@@ -89,18 +89,14 @@
                     style="@style/RegularGrey"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="top"
                     android:layout_marginStart="@dimen/margin_normal"
-                    android:gravity="top"
                     android:lineSpacingExtra="6sp"
-                    android:text="@string/screen_yap_house_hold_success_display_text_direct_message"
+                    android:text="@{viewModel.state.houseHoldDescription}"
                     android:textSize="@dimen/_13sdp"
-                    app:concatVal="@{viewModel.state.houseHoldUserName}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/icon"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:text="@{Strings.screen_yap_house_hold_success_display_text_direct_message}"
-                    app:textVal="@{Strings.screen_yap_house_hold_success_display_text_direct_message}" />
+                    app:layout_constraintTop_toTopOf="@+id/icon"
+                    tools:text="@string/screen_yap_house_hold_success_display_text_direct_message" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
