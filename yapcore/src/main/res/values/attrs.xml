@@ -2,20 +2,20 @@
 <resources>
 
     <!--Theme color-->
-    <attr name="colorPrimaryAttr" format="reference" />
-    <attr name="colorPrimaryDarkAttr" format="reference" />
-    <attr name="colorPrimaryAccentAttr" format="reference" />
+    <attr name="colorPrimaryAttr" format="color|reference" />
+    <attr name="colorPrimaryDarkAttr" format="color|reference" />
+    <attr name="colorPrimaryAccentAttr" format="color|reference" />
 
-    <attr name="colorPrimaryAccentWarmAttr" format="reference" />
-    <attr name="colorPrimaryWarmAttr" format="reference" />
-    <attr name="colorPrimaryLightAttr" format="reference" />
-    <attr name="colorPrimaryAltAttr" format="reference" />
-    <attr name="colorPrimarySoftAttr" format="reference" />
-    <attr name="colorPrimaryDisabledBtnAttr" format="reference" />
-    <attr name="colorPrimaryDarkIconsAttr" format="reference" />
-    <attr name="colorPressedBtnStateAttr" format="reference" />
-    <attr name="colordisabledTick" format="reference" />
-    <attr name="colorSeekBar" format="reference" />
+    <attr name="colorPrimaryAccentWarmAttr" format="color|reference" />
+    <attr name="colorPrimaryWarmAttr" format="color|reference" />
+    <attr name="colorPrimaryLightAttr" format="color|reference" />
+    <attr name="colorPrimaryAltAttr" format="color|reference" />
+    <attr name="colorPrimarySoftAttr" format="color|reference" />
+    <attr name="colorPrimaryDisabledBtnAttr" format="color|reference" />
+    <attr name="colorPrimaryDarkIconsAttr" format="color|reference" />
+    <attr name="colorPressedBtnStateAttr" format="color|reference" />
+    <attr name="colordisabledTick" format="color|reference" />
+    <attr name="colorSeekBar" format="color|reference" />
 
     <!--components theme-->
     <attr name="primaryButtonTheme" format="reference" />

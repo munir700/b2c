@@ -23,6 +23,9 @@
 
         <item name="primaryButtonTheme">@style/Widget.Button.Primary</item>
 
+        <item name="alertDialogTheme">@style/AlertDialogueCustom</item>
+
+
     </style>
 
     <style name="AppThemeHouseHold" parent="Theme.AppCompat.Light.NoActionBar">
@@ -47,6 +50,8 @@
         <item name="colorSeekBar">@color/seekbarProgresskHouseHold</item>
 
         <item name="primaryButtonTheme">@style/Widget.Button.Primary</item>
+        <item name="alertDialogTheme">@style/AlertDialogueCustom</item>
+
 
     </style>
 
@@ -72,15 +77,15 @@
 
     <style name="CardViewStyle" parent="CardView">
         <item name="android:background">?attr/colorPrimaryWarmAttr</item>
-<!--        <item name="cardBackgroundColor">?attr/colorPrimaryWarmAttr</item>-->
-     </style>
-
+    </style>
 
 
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">?attr/colorPrimary</item>
         <item name="colorPrimaryDark">?attr/colorPrimaryDark</item>
         <item name="colorAccent">?attr/colorAccent</item>
+        <item name="alertDialogTheme">@style/AlertDialogueCustom</item>
+
 
     </style>
 
@@ -92,5 +97,14 @@
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="AlertDialogueCustom" parent="ThemeOverlay.AppCompat.Dialog.Alert">
+        <item name="android:textAppearanceLarge">?attr/colorPrimaryDarkAttr</item>
+        <item name="android:textAppearance">?attr/colorPrimaryDarkAttr</item>
+        <item name="android:textAppearanceSmall">?attr/colorPrimaryDarkAttr</item>
+        <item name="android:dialogMessage">?attr/colorPrimaryDarkAttr</item>
+        <item name="android:colorAccent">?attr/colorPrimary</item>
+
+    </style>
 
 </resources>
