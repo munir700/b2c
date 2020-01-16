@@ -16,9 +16,8 @@ import co.yap.modules.dashboard.more.main.activities.MoreActivity.Companion.show
 import co.yap.modules.dashboard.more.main.fragments.MoreBaseFragment
 import co.yap.modules.dashboard.more.profile.intefaces.IPersonalDetail
 import co.yap.modules.dashboard.more.profile.viewmodels.PersonalDetailsViewModel
-import co.yap.modules.location.activities.LocationSelectionActivity
 import co.yap.networking.cards.responsedtos.Address
-import co.yap.translation.Translator
+import co.yap.yapcore.constants.Constants.ADDRESS
 import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.managers.MyUserManager
 import kotlinx.android.synthetic.main.fragment_personal_detail.*
@@ -43,8 +42,8 @@ class PersonalDetailsFragment : MoreBaseFragment<IPersonalDetail.ViewModel>(),
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        if(context is MoreActivity)
-        (context as MoreActivity).visibleToolbar()
+        if (context is MoreActivity)
+            (context as MoreActivity).visibleToolbar()
         viewModel.state.errorVisibility = showExpiredIcon
     }
 
@@ -142,7 +141,6 @@ class PersonalDetailsFragment : MoreBaseFragment<IPersonalDetail.ViewModel>(),
             viewModel.toggleToolBar(true)
             changeAddress = true
         }
-
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -151,9 +149,15 @@ class PersonalDetailsFragment : MoreBaseFragment<IPersonalDetail.ViewModel>(),
             when (requestCode) {
                 RequestCodes.REQUEST_FOR_LOCATION -> {
                     val address: Address? =
-                        data?.getParcelableExtra(LocationSelectionActivity.ADDRESS)
+                        data?.getParcelableExtra(ADDRESS)
                     address?.let {
                         MyUserManager.userAddress = it
+                        val action =
+                            PersonalDetailsFragmentDirections.actionPersonalDetailsFragmentToSuccessFragment(
+                                getString(R.string.screen_address_success_display_text_sub_heading_update),
+                                " "
+                            )
+                        findNavController().navigate(action)
                     }
                 }
             }

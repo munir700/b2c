@@ -209,13 +209,28 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
         dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
         val tvUnverifiedDescription = dialog.findViewById<TextView>(R.id.tvUnverifiedDescription)
-        val tvEmail = dialog.findViewById<TextView>(R.id.tvEmail)
+        val tvEmail = dialog.findViewById<TextView>(R.id.tvUserGuide)
         val tvTroubleDescription = dialog.findViewById<TextView>(R.id.tvTroubleDescription)
         tvUnverifiedDescription.text =
             getString(Strings.screen_email_verified_popup_display_text_title).format(
                 MyUserManager.user!!.currentCustomer.firstName
             )
-        tvEmail.text = MyUserManager.user!!.currentCustomer.email
+
+
+        if (MyUserManager.user!!.currentCustomer.email.isNotEmpty()) {
+            tvEmail.text =
+                getString(Strings.screen_email_verified_popup_display_text_sub_title).format(
+                    MyUserManager.user!!.currentCustomer.email
+                )
+        } else {
+            tvEmail.text =
+                getString(Strings.screen_email_verified_popup_display_text_sub_title).format(
+                    ""
+                )
+        }
+
+
+        //  tvEmail.text = MyUserManager.user!!.currentCustomer.email
 
         val fcs = ForegroundColorSpan(ContextCompat.getColor(this, R.color.colorPrimary))
         val myClickableSpan = object : ClickableSpan() {
@@ -453,10 +468,10 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
 
     private fun setAppVersion() {
         try {
-            if (!FLAVOR.equals("live")) {
-                tvVersionCode.text = String.format("Version Code: %d", VERSION_CODE)
+            if (FLAVOR != "live") {
+//                tvVersionCode.text = String.format("Version Code: %d", VERSION_CODE)
                 String.format("Version Name: %s", VERSION_NAME)
-                tvVersionName.text = String.format("Version Name: %s", VERSION_NAME)
+                tvVersionName.text = String.format("Version %s (%s)", VERSION_NAME, VERSION_CODE)
             }
         } catch (e: Exception) {
 

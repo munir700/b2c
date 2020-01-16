@@ -38,24 +38,36 @@
         </RelativeLayout>
 
 
-        <LinearLayout
+        <androidx.appcompat.widget.LinearLayoutCompat
             android:id="@+id/rlYapIt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:elevation="8dp"
             android:gravity="center_horizontal|bottom"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            app:elevation="@dimen/_4sdp">
 
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/ivYapIt"
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cvYapIt"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                app:cardElevation="@dimen/_4sdp"
+                app:cardCornerRadius="32dp"
+                app:cardUseCompatPadding="false"
+                app:contentPadding="0dp"
                 android:layout_margin="@dimen/_3sdp"
-                android:background="@color/white"
-                android:padding="@dimen/_5sdp"
-                app:backgroundTint="@color/white"
-                app:elevation="@dimen/_4sdp"
-                app:srcCompat="@drawable/ic_yap_it" />
+                app:cardBackgroundColor="@color/transparent"
+                android:background="@color/transparent"
+                android:layout_height="wrap_content">
+
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/ivYapIt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    app:backgroundTint="@color/white"
+                    app:elevation="0dp"
+                    app:srcCompat="@drawable/ic_yap_it" />
+            </androidx.cardview.widget.CardView>
 
             <TextView
                 android:id="@+id/txtYapIt"
@@ -68,7 +80,8 @@
                 android:textColor="@color/greyDark"
                 android:textSize="12sp" />
 
-        </LinearLayout>
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
         <FrameLayout
             android:id="@+id/flAlphaOverlay"
             android:layout_width="match_parent"
@@ -79,7 +92,7 @@
 
         <com.google.android.material.navigation.NavigationView
             android:id="@+id/drawerNav"
-            android:layout_width="@dimen/_290sdp"
+            android:layout_width="@dimen/_250sdp"
             android:layout_height="match_parent"
             android:layout_gravity="end"
             android:background="@color/white"
