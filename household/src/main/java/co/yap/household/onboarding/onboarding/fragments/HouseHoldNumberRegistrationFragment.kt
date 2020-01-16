@@ -46,7 +46,7 @@ class HouseHoldNumberRegistrationFragment :
                     NotificationStatus.EMAIL_PENDING -> {
                         findNavController().navigate(R.id.action_houseHoldNumberRegistrationFragment_to_emailHouseHoldFragment)
                     }
-                    else -> { 
+                    else -> {
                       findNavController().navigate(R.id.action_goto_householdDashboardActivity)
                       activity?.finish()
                     }
