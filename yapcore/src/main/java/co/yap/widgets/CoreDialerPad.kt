@@ -3,6 +3,8 @@ package co.yap.widgets
 import android.annotation.SuppressLint
 import android.annotation.TargetApi
 import android.content.Context
+import android.graphics.Color
+import android.graphics.drawable.Drawable
 import android.os.Build
 import android.text.InputFilter
 import android.util.AttributeSet
@@ -11,7 +13,10 @@ import android.view.View.OnClickListener
 import android.view.animation.AnimationUtils
 import android.widget.*
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.graphics.drawable.DrawableCompat
 import co.yap.yapcore.R
+import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.helpers.SharedPreferenceManager
 import kotlinx.android.synthetic.main.core_dialer_pad.view.*
 
 
@@ -229,11 +234,26 @@ class CoreDialerPad @JvmOverloads constructor(
             resources.getDimension(R.dimen.text_size_h1) //R.dimen.margin_xxl.toFloat()
         etPassCodeText?.visibility = View.GONE
         llPasscode.visibility = View.VISIBLE
-        view.findViewById<ImageButton>(R.id.btnFingerPrint).setImageDrawable(
-            resources.getDrawable(
-                R.drawable.ic_fingerprint_purple,
-                null
-            )
+//        btnFingerPrint.setImageDrawable(
+//            resources.getDrawable(
+//                R.drawable.ic_fingerprint_purple,
+//                null
+//            )
+//        )
+        setDrawabeTint()
+    }
+
+    @SuppressLint("ResourceType")
+    fun setDrawabeTint() {
+
+        var drawbleRight: Drawable =
+            DrawableCompat.wrap(context!!.getDrawable(R.drawable.ic_fingerprint_purple))
+        if (SharedPreferenceManager(context!!).getThemeValue().equals(Constants.THEME_HOUSEHOLD)) {
+            DrawableCompat.setTint(drawbleRight!!, Color.RED);
+        }
+
+        btnFingerPrint.setImageDrawable(
+            drawbleRight
         )
     }
 

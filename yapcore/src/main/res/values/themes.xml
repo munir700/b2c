@@ -104,6 +104,7 @@
         <item name="android:textAppearanceSmall">?attr/colorPrimaryDarkAttr</item>
         <item name="android:dialogMessage">?attr/colorPrimaryDarkAttr</item>
         <item name="android:colorAccent">?attr/colorPrimary</item>
+        <item name="android:drawableTint">?attr/colorPrimary</item>
 
     </style>
 
