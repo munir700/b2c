@@ -63,7 +63,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center_horizontal"
-                    android:textColor="?attr/colorAccent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
@@ -79,8 +78,8 @@
                     app:layout_constraintTop_toBottomOf="@+id/tvHouseHoldText"
                     app:tabGravity="center"
                     app:tabIndicator="@null"
-                    app:tabIndicatorFullWidth="false"
                     app:tabPaddingEnd="6dp"
+                    app:tabRippleColor="@color/white"
                     app:tabPaddingStart="6dp" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -95,22 +94,17 @@
 
             <co.yap.widgets.CoreButton
                 android:id="@+id/btnNext"
-                style="@style/RectangleBtnStyle"
+                style="@style/FragmentsBtnStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-
                 android:layout_marginLeft="@dimen/margin_medium_large"
                 android:layout_marginRight="@dimen/margin_medium_large"
-
                 android:onClick="@{(v)->houseHoldViewModel.handlePressOnButton(v.id)}"
                 android:paddingTop="@dimen/margin_medium"
                 android:paddingBottom="@dimen/margin_medium"
                 android:text="Next"
                 android:visibility="@{houseHoldViewModel.state.buttonVisibility ? View.VISIBLE : View.GONE}"
                 app:btn_enable="true"
-                app:btn_pressed_color="?attr/colorPrimaryAttr"
-                app:btn_text_color="?attr/colorPrimaryDarkAttr"
-                app:btn_unpressed_color="?attr/colorPrimaryAttr"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"

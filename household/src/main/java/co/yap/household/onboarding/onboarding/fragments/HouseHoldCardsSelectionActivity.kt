@@ -240,7 +240,7 @@ class HouseHoldCardsSelectionActivity : BaseBindingActivity<IHouseHoldCardsSelec
 
     private fun getCurrentIndicator(position: Int): LayerDrawable? {
         return try {
-            val strokeWidth = 5
+            val strokeWidth = 8
             val strokeColor: Int = getColor(R.color.white)
             val fillColor: Int =
                 Color.parseColor(viewModel.adapter.getDataForPosition(position).designColorCode)
@@ -262,7 +262,7 @@ class HouseHoldCardsSelectionActivity : BaseBindingActivity<IHouseHoldCardsSelec
 
     private fun getUnSelectedIndicator(position: Int): GradientDrawable? {
         return try {
-            val strokeWidth = 5
+            val strokeWidth = 13
             val strokeColor: Int = getColor(R.color.transparent)
             val fillColor: Int =
                 Color.parseColor(viewModel.adapter.getDataForPosition(position).designColorCode)
