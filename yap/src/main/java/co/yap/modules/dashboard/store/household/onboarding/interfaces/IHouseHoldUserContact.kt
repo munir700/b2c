@@ -32,6 +32,7 @@ interface IHouseHoldUserContact {
 
         val clickEvent: SingleClickEvent
         var verifyMobileSuccess:MutableLiveData<Boolean>
+        var verifyMobileError:MutableLiveData<String>
         fun handlePressOnAdd(id: Int)
         fun handlePressOnBackButton()
         fun getCcp(etMobileNumber: EditText)

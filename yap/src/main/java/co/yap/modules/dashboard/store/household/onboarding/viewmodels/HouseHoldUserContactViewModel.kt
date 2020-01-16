@@ -20,6 +20,7 @@ class HouseHoldUserContactViewModel(application: Application) :
     override val state: HouseHoldUserContactState = HouseHoldUserContactState(application)
     override val clickEvent: SingleClickEvent = SingleClickEvent()
     override var verifyMobileSuccess: MutableLiveData<Boolean> = MutableLiveData(false)
+    override var verifyMobileError: MutableLiveData<String> = MutableLiveData()
 
     override fun handlePressOnAdd(id: Int) {
         parentViewModel?.countryCode = state.countryCode
@@ -58,7 +59,8 @@ class HouseHoldUserContactViewModel(application: Application) :
                     verifyMobileSuccess.value = true
                 }
                 is RetroApiResponse.Error -> {
-                    state.toast = response.error.message
+                   verifyMobileError.value = response.error.message
+//                    state.toast = response.error.message
                 }
             }
             state.loading = false
