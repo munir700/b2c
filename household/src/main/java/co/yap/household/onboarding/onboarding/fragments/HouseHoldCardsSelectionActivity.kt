@@ -191,9 +191,7 @@ class HouseHoldCardsSelectionActivity : BaseBindingActivity<IHouseHoldCardsSelec
     )
 
     private fun getIntentData(): Boolean {
-
         return intent.getBooleanExtra("isFromExisting", false)
-//        return true
     }
 
 
@@ -215,9 +213,18 @@ class HouseHoldCardsSelectionActivity : BaseBindingActivity<IHouseHoldCardsSelec
             address?.let {
                 success?.let { success ->
                     if (success) {
-                        viewModel.state.locationVisibility = true
-                        viewModel.state.buttonVisibility = false
+                        // viewModel.state.locationVisibility = true
+                        // viewModel.state.buttonVisibility = false
                         populateAddressFields(it)
+                        viewModel.orderHouseHoldPhysicalCardRequest(
+                            OrderCardRequest(
+                                address1 = viewModel.state.address?.address1,
+                                address2 = viewModel.state.address?.address2,
+                                latitude = viewModel.state.address?.latitude,
+                                longitude = viewModel.state.address?.longitude,
+                                designCode = viewModel.state.designCode
+                            )
+                        )
                     }
                 }
             }

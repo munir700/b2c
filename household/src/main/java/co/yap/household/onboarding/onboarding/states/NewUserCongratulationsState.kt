@@ -23,5 +23,11 @@ class NewUserCongratulationsState : BaseState(), INewUserSuccess.State {
             field = value
             notifyPropertyChanged(BR.onboardingTime)
         }
+    @get:Bindable
+    override var heading: String = ""
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.heading)
+        }
 
 }
