@@ -40,7 +40,7 @@ class HouseHoldUserContactFragment : BaseOnBoardingFragment<IHouseHoldUserContac
         super.onViewCreated(view, savedInstanceState)
         viewModel.state.countryCode = ccpSelector.getselectedCountryCodeAsInt().toString()
         viewModel.getConfirmCcp(etConfirmMobileNumber)
-        viewModel.getCcp(etMobileNumber)
+        viewModel.getCcp(etMobileNumber) 
 
     }
 
