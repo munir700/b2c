@@ -268,7 +268,21 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
     }
 
     private fun checkUserStatus() {
-        //MyUserManager.user?.notificationStatuses = Constants.USER_STATUS_ON_BOARDED
+
+        if (PartnerBankStatus.ACTIVATED.status == MyUserManager.user?.partnerBankStatus) {
+            showTransactionsAndGraph()
+            notificationsList.clear()
+            mAdapter = NotificationAdapter(
+                notificationsList,
+                requireContext(),
+                this
+            )
+            mAdapter.notifyDataSetChanged()
+        } else {
+            ivNoTransaction.visibility = View.VISIBLE
+            rvTransaction.visibility = View.GONE
+        }
+        
         when (MyUserManager.user?.notificationStatuses) {
             Constants.USER_STATUS_ON_BOARDED -> {
                 ivNoTransaction.visibility = View.VISIBLE
@@ -298,20 +312,6 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                 )
                 mAdapter.notifyDataSetChanged()
             }
-        }
-
-        if (PartnerBankStatus.ACTIVATED.status == MyUserManager.user?.partnerBankStatus) {
-            showTransactionsAndGraph()
-            notificationsList.clear()
-            mAdapter = NotificationAdapter(
-                notificationsList,
-                requireContext(),
-                this
-            )
-            mAdapter.notifyDataSetChanged()
-        } else {
-            ivNoTransaction.visibility = View.VISIBLE
-            rvTransaction.visibility = View.GONE
         }
     }
 
