@@ -31,11 +31,17 @@ class NewUserEmailFragment : OnboardingChildFragment<IEmail.ViewModel>() {
     override val viewModel: IEmail.ViewModel
         get() = ViewModelProviders.of(this).get(EmailHouseHoldViewModel::class.java)
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        addObservers()
+    }
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         val display = activity!!.windowManager.defaultDisplay
         display.getRectSize(windowSize)
+    }
 
+    private fun addObservers() {
         viewModel.clickEvent.observe(this, clickObserver)
         viewModel.animationStartEvent.observe(this, Observer {
             if (it)
@@ -48,12 +54,6 @@ class NewUserEmailFragment : OnboardingChildFragment<IEmail.ViewModel>() {
         })
     }
 
-    override fun onDestroyView() {
-        viewModel.clickEvent.removeObservers(this)
-        viewModel.animationStartEvent.removeObservers(this)
-        viewModel.onEmailVerifySuccess.removeObservers(this)
-        super.onDestroyView()
-    }
 
     private val clickObserver = Observer<Int> {
         when (it) {
@@ -113,6 +113,13 @@ class NewUserEmailFragment : OnboardingChildFragment<IEmail.ViewModel>() {
         )
     }
 
-    override fun onBackPressed(): Boolean = false
+    override fun onDestroy() {
+        super.onDestroy()
+        viewModel.clickEvent.removeObservers(this)
+        viewModel.animationStartEvent.removeObservers(this)
+        viewModel.onEmailVerifySuccess.removeObservers(this)
+    }
+
+    override fun onBackPressed(): Boolean = true
 }
 
