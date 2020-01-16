@@ -18,6 +18,7 @@ import co.yap.modules.dashboard.cards.paymentcarddetail.activities.PaymentCardDe
 import co.yap.modules.dashboard.cards.paymentcarddetail.addfunds.activities.AddFundsActivity
 import co.yap.modules.dashboard.cards.reordercard.activities.ReorderCardActivity
 import co.yap.modules.dashboard.main.fragments.YapDashboardChildFragment
+import co.yap.modules.onboarding.constants.Constants.USER_STATUS_MEETING_SUCCESS
 import co.yap.modules.others.fragmentpresenter.activities.FragmentPresenterActivity
 import co.yap.modules.setcardpin.activities.SetCardPinWelcomeActivity
 import co.yap.networking.cards.responsedtos.Card
@@ -26,7 +27,6 @@ import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.enums.CardDeliveryStatus
 import co.yap.yapcore.enums.CardStatus
-import co.yap.yapcore.enums.CardType
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.MyUserManager
@@ -135,11 +135,6 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
                                 openDetailScreen(pos)
                             }
                             CardStatus.HOTLISTED -> {
-                                if (getCard(pos).cardType != CardType.DEBIT.type)
-                                    openDetailScreen(pos)
-                                else
-                                    startReorderCardFlow(getCard(pos))
-
                             }
                             CardStatus.INACTIVE -> {
                                 if (getCard(pos).deliveryStatus == null) {
@@ -182,14 +177,11 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
                             openDetailScreen(pos)
                         }
                         CardStatus.HOTLISTED -> {
-                            if (getCard(pos).cardType != CardType.DEBIT.type)
-                                openDetailScreen(pos)
-                            else
-                                startReorderCardFlow(getCard(pos))
+                            startReorderCardFlow(getCard(pos))
                         }
                         CardStatus.INACTIVE -> {
                             if (getCard(pos).cardType == "DEBIT") {
-                                if (MyUserManager.user?.notificationStatuses == "MEETING_SUCCESS") {
+                                if (MyUserManager.user?.notificationStatuses == USER_STATUS_MEETING_SUCCESS) {
                                     openSetPinScreen(getCard(pos).cardSerialNumber)
                                 }
                             } else {

@@ -319,11 +319,19 @@ object UIBinder {
                 CardStatus.INACTIVE -> {
                     if (card.cardType == "DEBIT") {
                         if (MyUserManager.user?.notificationStatuses == "MEETING_SUCCESS") {
-                            text.visibility = View.VISIBLE
-                            text.text = Translator.getString(
-                                text.context,
-                                R.string.screen_cards_display_text_set_message
-                            )
+                            if (card.deliveryStatus == CardDeliveryStatus.SHIPPED.name) {
+                                text.visibility = View.VISIBLE
+                                text.text = Translator.getString(
+                                    text.context,
+                                    R.string.screen_cards_display_text_set_message
+                                )
+                            } else {
+                                text.visibility = View.VISIBLE
+                                text.text = Translator.getString(
+                                    text.context,
+                                    R.string.screen_cards_display_text_pending_delivery
+                                )
+                            }
                         } else {
                             text.visibility = View.VISIBLE
                             text.text = Translator.getString(
@@ -392,11 +400,15 @@ object UIBinder {
                 CardStatus.INACTIVE -> {
                     if (card.cardType == "DEBIT") {
                         if (MyUserManager.user?.notificationStatuses == "MEETING_SUCCESS") {
-                            coreButton.visibility = View.VISIBLE
-                            coreButton.text = Translator.getString(
-                                coreButton.context,
-                                R.string.screen_cards_display_text_set_pin
-                            )
+                            if (card.deliveryStatus == CardDeliveryStatus.SHIPPED.name) {
+                                coreButton.visibility = View.VISIBLE
+                                coreButton.text = Translator.getString(
+                                    coreButton.context,
+                                    R.string.screen_cards_display_text_set_pin
+                                )
+                            } else {
+                                coreButton.visibility = View.GONE
+                            }
                         } else {
                             coreButton.visibility = View.GONE
                         }
