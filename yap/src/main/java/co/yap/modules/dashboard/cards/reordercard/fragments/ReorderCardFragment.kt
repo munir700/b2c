@@ -65,11 +65,11 @@ class ReorderCardFragment : ReorderCardBaseFragment<IRenewCard.ViewModel>(), IRe
             R.id.tvChangeLocation -> {
                 val heading = Translator.getString(
                     requireContext(),
-                    R.string.screen_meeting_location_display_text_selected_subtitle
+                    R.string.screen_meeting_location_display_text_add_new_address_title
                 )
                 val subHeading = Translator.getString(
                     requireContext(),
-                    R.string.screen_meeting_location_display_text_selected_subtitle
+                    R.string.screen_meeting_location_display_text_add_new_address_subtitle
                 )
 
                 startActivityForResult(
