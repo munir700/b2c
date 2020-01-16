@@ -443,7 +443,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                         false
                     )
                 )
-                activity?.finish()
+                //activity?.finish()
             }
 
         }

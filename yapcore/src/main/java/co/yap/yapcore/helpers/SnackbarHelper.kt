@@ -6,6 +6,8 @@ import android.view.Gravity
 import android.view.View
 import android.widget.FrameLayout
 import android.widget.Toast
+import androidx.annotation.ColorRes
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.google.android.material.snackbar.Snackbar
 
@@ -16,7 +18,7 @@ fun Activity?.showSnackBar(msg: String, gravity: Int = Gravity.BOTTOM) {
         Snackbar.LENGTH_LONG
     )
 
-    show(snakbar,gravity)
+    show(snakbar, gravity)
 }
 
 fun Activity?.show1(msg: String) {
@@ -29,7 +31,12 @@ fun Activity?.show1(msg: String) {
 }
 
 // for activity and action
-fun Activity.show(msg: String, actionText: String,gravity: Int = Gravity.BOTTOM, clickListener: View.OnClickListener) {
+fun Activity.show(
+    msg: String,
+    actionText: String,
+    gravity: Int = Gravity.BOTTOM,
+    clickListener: View.OnClickListener
+) {
     val snakbar = Snackbar
         .make(
             this.window.decorView.findViewById(android.R.id.content),
@@ -48,7 +55,7 @@ fun Context?.showSnackBar(msg: String) {
     }
 }
 
-fun Fragment?.showSnackBar(msg: String,gravity: Int = Gravity.BOTTOM) {
+fun Fragment?.showSnackBar(msg: String, gravity: Int = Gravity.BOTTOM) {
     val snakbar = Snackbar.make(
         this?.requireActivity()?.window?.decorView?.findViewById(android.R.id.content)!!,
         validateString(msg),
@@ -57,17 +64,36 @@ fun Fragment?.showSnackBar(msg: String,gravity: Int = Gravity.BOTTOM) {
     show(snakbar)
 }
 
-fun Fragment?.show1(msg: String,gravity: Int = Gravity.BOTTOM) {
+fun Fragment?.showSnackBar(
+    msg: String, @ColorRes viewBgColor: Int, @ColorRes colorOfMessage: Int,
+    gravity: Int = Gravity.BOTTOM
+) {
     val snakbar = Snackbar.make(
         this?.requireActivity()?.window?.decorView?.findViewById(android.R.id.content)!!,
         validateString(msg),
         Snackbar.LENGTH_LONG
     )
+    snakbar.view.setBackgroundColor(ContextCompat.getColor(this?.requireContext()!!, viewBgColor))
+    snakbar.setTextColor(ContextCompat.getColor(this.requireContext(), colorOfMessage))
     show(snakbar)
+}
+
+fun Fragment?.show1(msg: String, gravity: Int = Gravity.BOTTOM) {
+    val snakbar = Snackbar.make(
+        this?.requireActivity()?.window?.decorView?.findViewById(android.R.id.content)!!,
+        validateString(msg),
+        Snackbar.LENGTH_LONG
+    )
+    show(snakbar, gravity)
 }
 
 // for activity and action
-fun Fragment?.show(msg: String, actionText: String,gravity: Int = Gravity.BOTTOM, clickListener: View.OnClickListener) {
+fun Fragment?.show(
+    msg: String,
+    actionText: String,
+    gravity: Int = Gravity.BOTTOM,
+    clickListener: View.OnClickListener
+) {
     val snackbar = Snackbar
         .make(
             this?.requireActivity()?.window?.decorView?.findViewById(android.R.id.content)!!,
@@ -87,7 +113,7 @@ fun View?.showSnackBar(
     isCapsMesg: Boolean,
     messageSize: Int,
     actionTextColor: Int,
-    actionText: String,gravity: Int = Gravity.BOTTOM,
+    actionText: String, gravity: Int = Gravity.BOTTOM,
     clickListener: View.OnClickListener
 ) {
 
@@ -108,10 +134,10 @@ fun View?.showSnackBar(
     //styling for action of text
     snackbar.setActionTextColor(actionTextColor)
     snackbar.setAction(actionText, clickListener)
-    show(snackbar)
+    show(snackbar, gravity)
 }
 
-private fun show(snakbar: Snackbar,gravity: Int = Gravity.BOTTOM) {
+private fun show(snakbar: Snackbar, gravity: Int = Gravity.BOTTOM) {
     val view = snakbar.view
 
     val param = view.layoutParams as FrameLayout.LayoutParams
@@ -121,11 +147,16 @@ private fun show(snakbar: Snackbar,gravity: Int = Gravity.BOTTOM) {
 }
 
 // for view and action
-fun View?.showSnackBar(msg: String, actionText: String,gravity: Int = Gravity.BOTTOM, clickListener: View.OnClickListener) {
+fun View?.showSnackBar(
+    msg: String,
+    actionText: String,
+    gravity: Int = Gravity.BOTTOM,
+    clickListener: View.OnClickListener
+) {
     val snakbar = Snackbar
         .make(this!!, validateString(msg), Snackbar.LENGTH_LONG)
         .setAction(actionText, clickListener)
-    show(snakbar)
+    show(snakbar, gravity)
 }
 
 fun validateString(msg: String?): String {
