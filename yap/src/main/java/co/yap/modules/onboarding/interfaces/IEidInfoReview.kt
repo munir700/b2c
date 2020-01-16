@@ -46,6 +46,8 @@ interface IEidInfoReview {
             get() = 7
         val EVENT_ERROR_INVALID_EID: Int
             get() = 8
+        val EVENT_ALREADY_USED_EID: Int
+            get() = 1041
 
         val clickEvent: SingleClickEvent
         fun handlePressOnRescanBtn()
