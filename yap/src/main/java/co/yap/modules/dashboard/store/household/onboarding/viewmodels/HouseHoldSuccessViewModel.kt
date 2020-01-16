@@ -27,7 +27,7 @@ class HouseHoldSuccessViewModel(application: Application) :
         super.onResume()
         setToolBarTitle(getString(Strings.screen_yap_house_hold_user_info_display_text_title))
         toggleToolBarVisibility(false)
-        state.houseHoldUserName = parentViewModel?.username ?: ""
+        state.houseHoldUserName = parentViewModel?.firstName ?: ""
         state.houseHoldDescription =
             getString(Strings.screen_yap_house_hold_success_display_text_direct_message).format(
                 state.houseHoldUserName

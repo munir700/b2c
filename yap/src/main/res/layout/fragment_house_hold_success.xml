@@ -32,7 +32,7 @@
                 style="@style/ALarge"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_16sdp"
+                android:layout_marginTop="@dimen/margin_medium_large"
                 android:layout_marginBottom="@dimen/margin_medium_large"
                 android:gravity="center"
                 android:lineSpacingExtra="@dimen/_2sdp"
@@ -49,11 +49,11 @@
 
             <ImageView
                 android:id="@+id/cardView"
-                android:layout_width="@dimen/_121sdp"
+                android:layout_width="wrap_content"
                 android:layout_height="@dimen/_190sdp"
                 android:layout_gravity="center_horizontal"
                 android:orientation="vertical"
-                android:src="@drawable/card_spare"
+                android:src="@drawable/image_yap_household_card"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -72,7 +72,7 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/small"
+                android:layout_marginTop="@dimen/margin_medium_large"
                 android:orientation="horizontal">
 
                 <ImageView

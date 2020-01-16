@@ -18,6 +18,7 @@
         android:gravity="center_vertical"
         android:paddingStart="@dimen/_8sdp"
         android:paddingEnd="@dimen/_8sdp"
+        android:layout_marginTop="@dimen/margin_medium_large"
         android:visibility="@{viewModelHouseHold.state.existingYapUser?View.GONE:View.VISIBLE}">
 
         <ImageView
