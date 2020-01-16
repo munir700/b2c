@@ -17,6 +17,8 @@
         android:orientation="vertical">
 
         <include
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_28sdp"
             layout="@layout/layout_house_hold_progress_toolbar"
             app:viewModelHouseHold="@{viewModelHouseHold}" />
 
