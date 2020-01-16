@@ -18,10 +18,10 @@
         android:gravity="center_vertical"
         android:paddingStart="@dimen/_8sdp"
         android:paddingEnd="@dimen/_8sdp"
-        android:layout_marginTop="@dimen/margin_medium_large"
         android:visibility="@{viewModelHouseHold.state.existingYapUser?View.GONE:View.VISIBLE}">
 
         <ImageView
+            android:layout_marginTop="@dimen/margin_medium_large"
             android:id="@+id/tbBtnBack"
             android:layout_width="@dimen/_28sdp"
             android:layout_height="@dimen/_28sdp"
@@ -36,6 +36,7 @@
             app:srcCompat="@drawable/ic_back" />
 
         <ImageView
+            android:layout_marginTop="@dimen/margin_medium_large"
             android:id="@+id/tbBtnCheck"
             android:layout_width="@dimen/_28sdp"
             android:layout_height="@dimen/_28sdp"
@@ -50,6 +51,7 @@
             app:srcCompat="@drawable/ic_tick" />
 
         <co.yap.widgets.AnimatingProgressBar
+            android:layout_marginTop="@dimen/margin_medium_large"
             android:id="@+id/tbProgressBar"
             style="@style/YAPProgressBar"
             android:layout_width="match_parent"

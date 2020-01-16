@@ -26,10 +26,13 @@ class HouseHoldCreatePassCodeFragment :
     override val viewModel: IHouseHoldCreatePassCode.ViewModel
         get() = ViewModelProviders.of(this).get(HouseHoldCreatePassCodeViewModel::class.java)
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setObservers()
+    }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         preventTakeScreenshot()
-        setObservers()
         dialer.setNumberKeyboardListener(this)
         dialer.hideFingerprintView()
     }
@@ -50,13 +53,7 @@ class HouseHoldCreatePassCodeFragment :
         })
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        viewModel.clickEvent?.removeObservers(this)
-        viewModel.onPasscodeSuccess.removeObservers(this)
-    }
-
-    override fun onBackPressed(): Boolean = false
+    override fun onBackPressed(): Boolean = true
     override fun onNumberClicked(number: Int, text: String) {
         viewModel.state.passcode = dialer.getText()
         viewModel.state.dialerError = ""
@@ -69,4 +66,9 @@ class HouseHoldCreatePassCodeFragment :
         viewModel.state.dialerError = ""
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        viewModel.clickEvent?.removeObservers(this)
+        viewModel.onPasscodeSuccess.removeObservers(this)
+    }
 }

@@ -32,6 +32,10 @@ class HouseHoldNumberRegistrationFragment :
     override val viewModel: HouseHoldNumberRegistrationViewModel
         get() = ViewModelProviders.of(this).get(HouseHoldNumberRegistrationViewModel::class.java)
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setObservers()
+    }
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel.parentViewModel?.state?.accountInfo?.run {
@@ -111,15 +115,9 @@ class HouseHoldNumberRegistrationFragment :
         super.onViewCreated(view, savedInstanceState)
         dialer.setInPutEditText(etPhoneNumber)
         dialer.hideFingerprintView()
-        viewModel.isParentMobileValid?.observe(this, isParentMobileValid)
     }
 
-    override fun onResume() {
-        super.onResume()
-        setObservers()
-    }
-
-    val isParentMobileValid = Observer<Boolean>
+    private val isParentMobileValid = Observer<Boolean>
     {
         if (it) {
             findNavController().navigate(R.id.to_houseHoldCreatePassCodeFragment)
@@ -148,11 +146,13 @@ class HouseHoldNumberRegistrationFragment :
                 }
             }
         })
+        viewModel.isParentMobileValid?.observe(this, isParentMobileValid)
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
+    override fun onDestroy() {
+        super.onDestroy()
         viewModel.clickEvent?.removeObservers(this)
+        viewModel.isParentMobileValid?.removeObservers(this)
     }
 
     override fun onBackPressed(): Boolean = false
