@@ -28,8 +28,7 @@ class KYCHomeFragment : KYCChildFragment<IKYCHome.ViewModel>(), IKYCHome.View {
     }
 
     fun getAppliedAppTheme(): Boolean {
-        if (SharedPreferenceManager(activity!!).getThemeValue().equals(Constants.THEME_HOUSEHOLD)) return true
-        else return false
+        return SharedPreferenceManager(activity!!).getThemeValue().equals(Constants.THEME_HOUSEHOLD)
     }
 
     override val viewModel: KYCHomeViewModel

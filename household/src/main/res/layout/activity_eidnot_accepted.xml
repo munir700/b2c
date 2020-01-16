@@ -7,16 +7,19 @@
 
         <import type="co.yap.translation.Strings" />
 
+        <import type="co.yap.yapcore.managers.MyUserManager" />
+
     </data>
+
     <ScrollView
-        android:fillViewport="true"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:fillViewport="true">
 
         <LinearLayout
-            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/rootContainer"
@@ -27,15 +30,15 @@
                 <TextView
                     android:id="@+id/tvEID_NotAcceptTitle"
                     style="@style/ALarge"
-                    android:text="@string/screen_title_oops"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/margin_large"
                     android:layout_marginTop="@dimen/margin_large"
                     android:layout_marginEnd="@dimen/margin_large"
                     android:gravity="center"
-                    android:textColor="@color/textDarkColor"
                     android:lineSpacingExtra="9sp"
+                    android:text="@string/screen_title_oops"
+                    android:textColor="@color/textDarkColor"
                     app:layout_constraintTop_toTopOf="parent"
                     app:text="@{Strings.screen_title_oops}"
                     tools:text="@string/screen_title_oops" />
@@ -49,40 +52,40 @@
                     android:layout_marginTop="@dimen/_79sdp"
                     android:layout_marginEnd="@dimen/margin_large"
                     android:gravity="center"
-                    android:lineSpacingExtra="9sp"
-                    app:text="@{Strings.screen_house_hold_existing_yap_message}"
-                    tools:text="@string/screen_house_hold_existing_yap_message"
                     android:textColor="@color/textDarkColor"
-                    app:layout_constraintTop_toBottomOf="@+id/tvEID_NotAcceptTitle" />
+                    app:layout_constraintTop_toBottomOf="@+id/tvEID_NotAcceptTitle"
+
+                    tools:text="@string/screen_house_hold_existing_yap_message" />
 
                 <TextView
                     android:id="@+id/tvEID_NotAcceptSubTitle"
                     style="@style/ASmallGrey"
-                    android:layout_marginTop="@dimen/_100sdp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/margin_medium"
-                    android:text="@string/screen_title_mistake_please_call"
+                    android:layout_marginTop="@dimen/_100sdp"
                     android:layout_marginEnd="@dimen/margin_medium"
                     android:gravity="center"
+                    android:text="@string/screen_title_mistake_please_call"
+                    android:textColor="@color/kyc_success_text_color_light_gray"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    android:textColor="@color/kyc_success_text_color_light_gray"
-                    app:layout_constraintVertical_bias="0.0"
                     app:layout_constraintTop_toBottomOf="@+id/tvEID_NotAcceptMessage"
+                    app:layout_constraintVertical_bias="0.0"
                     app:text="@{Strings.screen_title_mistake_please_call}"
                     tools:text="@string/screen_title_mistake_please_call" />
 
 
                 <TextView
                     android:id="@+id/tvEID_NotAcceptNumber"
-                    style="@style/ASmallHyperLinkUnderline"
+                    style="@style/ASmallGrey"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/margin_medium"
                     android:layout_marginEnd="@dimen/margin_medium"
                     android:gravity="center"
                     android:text="+971 600551214"
+                    android:autoLink="phone"
                     android:textColor="@color/purple"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -96,13 +99,13 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/margin_medium_large"
+                    android:layout_marginTop="@dimen/margin_large"
                     android:layout_marginRight="@dimen/margin_medium_large"
-                    android:paddingTop="@dimen/margin_medium"
                     android:layout_marginBottom="@dimen/margin_small"
+                    android:paddingTop="@dimen/margin_medium"
                     android:paddingBottom="@dimen/margin_medium"
                     android:text="@string/screen_profile_settings_display_text_logout"
                     app:btn_enable="true"
-                    android:layout_marginTop="@dimen/margin_large"
                     app:btn_pressed_color="@color/white"
                     app:btn_text_color="@color/colorPrimaryDark"
                     app:btn_unpressed_color="@color/white"

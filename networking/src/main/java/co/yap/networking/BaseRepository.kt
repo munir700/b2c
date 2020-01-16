@@ -24,7 +24,12 @@ abstract class BaseRepository : IRepository {
             return RetroApiResponse.Error(detectError(response))
 
         } catch (exception: MalformedJsonException1) {
-            return RetroApiResponse.Error(ApiError(MALFORMED_JSON_EXCEPTION_CODE, exception.localizedMessage))
+            return RetroApiResponse.Error(
+                ApiError(
+                    MALFORMED_JSON_EXCEPTION_CODE,
+                    exception.localizedMessage
+                )
+            )
         } catch (exception: Exception) {
             return RetroApiResponse.Error(ApiError(0, exception.localizedMessage))
         }
@@ -39,9 +44,13 @@ abstract class BaseRepository : IRepository {
 
         // hmm.. may be server error or network error
         val error: String? = response.errorBody()!!.string()
-        return ApiError(response.code(), fetchErrorFromBody(error) ?: error ?: "Something went wrong")
+        return ApiError(
+            response.code(),
+            fetchErrorFromBody(error) ?: error ?: "Something went wrong",
+            fetchErrorCodeFormBody(error)
+        )
     }
-    
+
     private fun fetchErrorFromBody(response: String?): String? {
         response?.let {
             if (it.isNotBlank()) {
@@ -52,7 +61,7 @@ abstract class BaseRepository : IRepository {
                         val errors = obj.getJSONArray("errors")
                         if (errors.length() > 0) {
                             val message = errors.getJSONObject(0).getString("message")
-                            return if (message!="null") {
+                            return if (message != "null") {
                                 errors.getJSONObject(0).getString("message")
                             } else {
                                 "Something went wrong"
@@ -65,13 +74,32 @@ abstract class BaseRepository : IRepository {
                             return ""
                         }
                     }
-
-
                 } catch (e: JSONException) {
                     // return "Server sent some malformed address :o"
                 }
             }
         }
         return null
+    }
+
+    private fun fetchErrorCodeFormBody(response: String?): Int {
+        var code: Int = -1
+        response?.let {
+            if (it.isNotBlank()) {
+                try {
+                    val obj = JSONObject(it)
+
+                    if (obj.has("errors")) {
+                        val errors = obj.getJSONArray("errors")
+                        if (errors.length() > 0) {
+                            code = errors.getJSONObject(0).getInt("code")
+                        }
+                    }
+                } catch (e: JSONException) {
+                    // return "Server sent some malformed address :o"
+                }
+            }
+        }
+        return code
     }
 }
