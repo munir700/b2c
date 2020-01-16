@@ -14,7 +14,6 @@ import co.yap.household.onboarding.onboarding.activities.EIDNotAcceptedActivity
 import co.yap.household.onboarding.onboarding.interfaces.IHouseHoldNumberRegistration
 import co.yap.household.onboarding.onboarding.viewmodels.HouseHoldNumberRegistrationViewModel
 import co.yap.modules.kyc.activities.DocumentsDashboardActivity
-import co.yap.modules.onboarding.activities.LiteDashboardActivity
 import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.enums.NotificationStatus
 import co.yap.yapcore.helpers.extentions.ExtraType
@@ -103,12 +102,19 @@ class HouseHoldNumberRegistrationFragment :
                         } else {
                             skipped?.let { skip ->
                                 if (skip) {
+//                                    startActivity(
+//                                        Intent(
+//                                            requireContext(),
+//                                            LiteDashboardActivity::class.java
+//                                        )
+//                                    )
                                     startActivity(
-                                        Intent(
+                                        HouseHoldCardsSelectionActivity.newIntent(
                                             requireContext(),
-                                            LiteDashboardActivity::class.java
+                                            false
                                         )
                                     )
+
                                 } else {
                                     startActivity(
                                         Intent(

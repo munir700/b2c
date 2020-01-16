@@ -17,7 +17,7 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="?attr/colorPrimaryDisabledBtnAttr"
+        android:background="@color/colorWhite"
         android:fillViewport="true">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -35,7 +35,7 @@
                 android:layout_marginEnd="@dimen/margin_medium"
                 android:gravity="center"
                 android:text="@{houseHoldViewModel.state.cardsHeading}"
-                android:textColor="@color/textDarkColor"
+                android:textColor="?attr/colorPrimaryDarkAttr"
                 android:textSize="@dimen/text_size_h5"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="@string/screen_house_hold_card_color_selection_display_text_heading" />
@@ -63,6 +63,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center_horizontal"
+                    android:textColor="?attr/colorAccent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
@@ -78,6 +79,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/tvHouseHoldText"
                     app:tabGravity="center"
                     app:tabIndicator="@null"
+                    app:tabIndicatorFullWidth="false"
                     app:tabPaddingEnd="6dp"
                     app:tabPaddingStart="6dp" />
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -106,9 +108,9 @@
                 android:text="Next"
                 android:visibility="@{houseHoldViewModel.state.buttonVisibility ? View.VISIBLE : View.GONE}"
                 app:btn_enable="true"
-                app:btn_pressed_color="@color/colorPrimary"
-                app:btn_text_color="@color/colorPrimaryDark"
-                app:btn_unpressed_color="@color/colorPrimary"
+                app:btn_pressed_color="?attr/colorPrimaryAttr"
+                app:btn_text_color="?attr/colorPrimaryDarkAttr"
+                app:btn_unpressed_color="?attr/colorPrimaryAttr"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"

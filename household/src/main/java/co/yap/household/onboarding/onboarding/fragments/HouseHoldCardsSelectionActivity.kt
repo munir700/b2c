@@ -1,11 +1,15 @@
 package co.yap.household.onboarding.onboarding.fragments
 
 //import androidx.viewpager2.widget.ViewPager2
+
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.Drawable
+import android.graphics.drawable.GradientDrawable
+import android.graphics.drawable.LayerDrawable
 import android.os.Bundle
-import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -30,6 +34,7 @@ import co.yap.yapcore.helpers.extentions.getValue
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
 import com.google.android.material.tabs.TabLayoutMediator
+
 
 class HouseHoldCardsSelectionActivity : BaseBindingActivity<IHouseHoldCardsSelection.ViewModel>(),
     IHouseHoldCardsSelection.View {
@@ -146,38 +151,23 @@ class HouseHoldCardsSelectionActivity : BaseBindingActivity<IHouseHoldCardsSelec
                 viewModel.state.designCode =
                     viewModel.adapter.getDataForPosition(position).designCode
             }
-
-            override fun onPageSelected(position: Int) {
-                super.onPageSelected(position)
-            }
-
-            override fun onPageScrollStateChanged(state: Int) {
-                super.onPageScrollStateChanged(state)
-            }
         })
         TabLayoutMediator(getBindings().tabLayout, getBindings().vpCards,
             TabLayoutMediator.TabConfigurationStrategy { tab, position ->
-                tab.icon =
-                    ContextCompat.getDrawable(this, backgrounds[position])
+                tab.icon = getUnSelectedIndicator(position)
+
             }).attach()
 
         getBindings().tabLayout.addOnTabSelectedListener(object : OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab) {
                 getBindings().vpCards.currentItem = tab.position
                 if (tab.isSelected) {
-                    tab.icon = ContextCompat.getDrawable(
-                        this@HouseHoldCardsSelectionActivity,
-                        R.drawable.circle
-                    )
+                    tab.icon = getCurrentIndicator(tab.position)
                 }
             }
 
             override fun onTabUnselected(tab: TabLayout.Tab) {
-                tab.icon =
-                    ContextCompat.getDrawable(
-                        this@HouseHoldCardsSelectionActivity,
-                        backgrounds[tab.position]
-                    )
+                tab.icon = getUnSelectedIndicator(tab.position)
             }
 
             override fun onTabReselected(tab: TabLayout.Tab) {}
@@ -246,5 +236,45 @@ class HouseHoldCardsSelectionActivity : BaseBindingActivity<IHouseHoldCardsSelec
                 subHeadingTitle = "Make sure you are available at the below address"
             ), RequestCodes.REQUEST_FOR_LOCATION
         )
+    }
+
+    private fun getCurrentIndicator(position: Int): LayerDrawable? {
+        return try {
+            val strokeWidth = 5
+            val strokeColor: Int = getColor(R.color.white)
+            val fillColor: Int =
+                Color.parseColor(viewModel.adapter.getDataForPosition(position).designColorCode)
+
+            val innerLayer =
+                GradientDrawable()
+            innerLayer.setColor(fillColor)
+            innerLayer.shape = GradientDrawable.OVAL
+            innerLayer.setStroke(strokeWidth, strokeColor)
+
+            val layers: Array<Drawable> =
+                arrayOf(getDrawable(R.drawable.circle_tab_indicator)!!, innerLayer)
+            LayerDrawable(layers)
+        } catch (ex: Exception) {
+            ex.printStackTrace()
+            null
+        }
+    }
+
+    private fun getUnSelectedIndicator(position: Int): GradientDrawable? {
+        return try {
+            val strokeWidth = 5
+            val strokeColor: Int = getColor(R.color.transparent)
+            val fillColor: Int =
+                Color.parseColor(viewModel.adapter.getDataForPosition(position).designColorCode)
+            val gD =
+                GradientDrawable()
+            gD.setColor(fillColor)
+            gD.shape = GradientDrawable.OVAL
+            gD.setStroke(strokeWidth, strokeColor)
+            gD
+        } catch (ex: Exception) {
+            ex.printStackTrace()
+            null
+        }
     }
 }

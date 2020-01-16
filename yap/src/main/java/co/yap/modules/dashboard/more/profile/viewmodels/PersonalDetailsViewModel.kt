@@ -22,7 +22,7 @@ class PersonalDetailsViewModel(application: Application) :
     override var onUpdateAddressSuccess: MutableLiveData<Boolean> = MutableLiveData(false)
 
     override val repository: CardsRepository = CardsRepository
-    lateinit var address: Address
+    var address: Address? = null
 
     override fun handlePressOnScanCard(id: Int) {
         clickEvent.setValue(id)
@@ -66,7 +66,7 @@ class PersonalDetailsViewModel(application: Application) :
         }
     }
 
-    fun requestGetAddressForPhysicalCard() {
+    private fun requestGetAddressForPhysicalCard() {
         state.loading = true
         launch {
             when (val response = repository.getUserAddressRequest()) {
@@ -87,12 +87,12 @@ class PersonalDetailsViewModel(application: Application) :
         var addresstitle = ""
         var addressDetail = ""
 
-        if (!address.address2.isNullOrEmpty()) {
-            addresstitle = address.address2!!
+        if (!address?.address2.isNullOrEmpty()) {
+//            addresstitle = address?.address2!!
         }
 
-        if (!address.address1.isNullOrEmpty()) {
-            addressDetail = address.address1!!
+        if (!address?.address1.isNullOrEmpty()) {
+            addressDetail = address?.address1?:""
         }
 
         state.address = addressDetail
