@@ -19,3 +19,11 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+
+
+#-keepclassmembers class *
+#{
+#  @com.leanplum.annotations.* <fields>;
+#}
+#-keep class com.leanplum.** { *; }
+#-dontwarn com.leanplum.**

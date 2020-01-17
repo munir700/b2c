@@ -38,7 +38,7 @@ abstract class BaseRepository : IRepository {
         }
 
         // hmm.. may be server error or network error
-        val error: String? = response.errorBody()!!.string()
+        val error: String? = response.errorBody()?.string()
         return ApiError(response.code(), fetchErrorFromBody(error) ?: error ?: "Something went wrong")
     }
     

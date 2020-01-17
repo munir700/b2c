@@ -52,9 +52,10 @@ class PersonalDetailsViewModel(application: Application) :
     override fun onResume() {
         super.onResume()
         setToolBarTitle(getString(Strings.screen_personal_detail_display_text_title))
-        state.fullName = MyUserManager.user!!.currentCustomer.getFullName()
-        state.phoneNumber = MyUserManager.user!!.currentCustomer.getFormattedPhoneNumber(context)
-        state.email = MyUserManager.user!!.currentCustomer.email
+        state.fullName = MyUserManager.user?.currentCustomer?.getFullName() ?: ""
+        state.phoneNumber =
+            MyUserManager.user?.currentCustomer?.getFormattedPhoneNumber(context) ?: ""
+        state.email = MyUserManager.user?.currentCustomer?.email ?: ""
         if (MyUserManager.userAddress == null) {
             requestGetAddressForPhysicalCard()
         } else {

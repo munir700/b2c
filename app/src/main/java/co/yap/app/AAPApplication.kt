@@ -19,11 +19,17 @@ import java.util.*
 
 class AAPApplication : ChatApplication(BuildConfig.FLAVOR) {
 
-
     override fun onCreate() {
         super.onCreate()
         Utils.context = this
 
+        initNetworkLayer()
+        setAppUniqueId(this)
+        initFirebase()
+        inItLeanplum()
+    }
+
+    private fun initNetworkLayer() {
         RetroNetwork.initWith(this, BuildConfig.BASE_URL)
         NetworkConnectionManager.init(this)
         setAppUniqueId(this)
@@ -39,9 +45,6 @@ class AAPApplication : ChatApplication(BuildConfig.FLAVOR) {
                 AuthUtils.navigateToSoftLogin(applicationContext)
             }
         })
-
-        initFirebase()
-        inItLeanplum()
     }
 
 
@@ -71,19 +74,19 @@ class AAPApplication : ChatApplication(BuildConfig.FLAVOR) {
 
         LeanplumActivityHelper.enableLifecycleCallbacks(this)
 
-        /*TODO: Need Leanplum API key*/
         if (BuildConfig.DEBUG) {
-            Leanplum.setAppIdForDevelopmentMode("Your App ID", "Your Development Key")
+            Leanplum.setAppIdForDevelopmentMode(
+                "app_OjUbwCEcWfawOQzYABPyg5R7y9sFLgFm9C1JdgIa3Qk",
+                "dev_2ssrA8Mh1BazUIZHqIQabRP0a76cQwZ1MYfHsJpODMQ"
+            )
         } else {
-            Leanplum.setAppIdForProductionMode("Your App ID", "Your Production Key")
+            Leanplum.setAppIdForProductionMode(
+                "app_OjUbwCEcWfawOQzYABPyg5R7y9sFLgFm9C1JdgIa3Qk",
+                "prod_KX4ktWrg5iHyP12VbRZ92U0SOVXyYrcWk5B68TfBAW0"
+            )
         }
-
-        /*TODO: Tracks all screens in your app as states in Leanplum.*/
         Leanplum.trackAllAppScreens()
-
-        /*TODO: This will only run once per session, even if the activity is restarted. */
         Leanplum.start(this)
-
     }
 
     private fun setAppUniqueId(context: Context) {

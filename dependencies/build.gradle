@@ -114,9 +114,13 @@ project.ext {
             creshlytics              : 'com.crashlytics.sdk.android:crashlytics:2.10.1',
             FirebaseCreshlytics      : 'com.google.firebase:firebase-crash:9.0.0',
             analytics                : 'com.google.firebase:firebase-analytics:17.2.0',
+            messagingFcm             : 'com.google.firebase:firebase-messaging:19.0.0',
+            playServicesLocation     : 'com.google.android.gms:play-services-location:16.0.0',
 
             //Leanplum
-            leanplum                 : 'com.leanplum:leanplum-core:5.2.3',
+            leanplumFcm              : 'com.leanplum:leanplum-fcm:5.2.3',
+            leanplumLocation         : 'com.leanplum:leanplum-location:5.2.3',
+            leanplumCore             : 'com.leanplum:leanplum-core:5.2.3',
 
             //Logger
             timber                   : 'com.jakewharton.timber:timber:4.7.1',
@@ -124,6 +128,7 @@ project.ext {
             //Swipeview actions on list
             swipeViewActions         : 'com.nikhilpanju.recyclerviewenhanced:recyclerviewenhanced:1.1.0'
     ]
+
     // Test dependencies which need to be added in all modules
     testDependencies = [
             [configuration: "testImplementation", dependency: 'junit:junit:4.12'],
@@ -163,11 +168,15 @@ project.ext {
             [configuration: "implementation", dependency: libraries.biometric],
             [configuration: "implementation", dependency: libraries.viewpagerDots],
             [configuration: "implementation", dependency: libraries.creshlytics],
-            [configuration: "implementation", dependency: libraries.leanplum],
             [configuration: "implementation", dependency: libraries.FirebaseCreshlytics],
             [configuration: "implementation", dependency: libraries.analytics],
             [configuration: "implementation", dependency: libraries.androidanimations],
-            [configuration: "implementation", dependency: libraries.androidanimationseasing]
+            [configuration: "implementation", dependency: libraries.androidanimationseasing],
+            [configuration: "implementation", dependency: libraries.leanplumFcm],
+            [configuration: "implementation", dependency: libraries.leanplumCore],
+            [configuration: "implementation", dependency: libraries.leanplumLocation],
+            [configuration: "implementation", dependency: libraries.messagingFcm],
+            [configuration: "implementation", dependency: libraries.playServicesLocation]
     ]
 
     // dependencies which need to be added in app module only in conjunction with commonDependencies
@@ -218,7 +227,6 @@ project.ext {
             [configuration: "implementation", dependency: libraries.biometric],
             [configuration: "implementation", dependency: libraries.playServicesPlaces],
             [configuration: "implementation", dependency: libraries.playLibPlaces]
-
     ]
 
     // dependencies which need to be added in translation module only in conjunction with commonDependencies
@@ -235,7 +243,6 @@ project.ext {
             [configuration: "implementation", dependency: libraries.coroutineCore],
             [configuration: "implementation", dependency: libraries.coroutineAndroid],
     ]
-
 
 }
 
