@@ -100,7 +100,7 @@ class KYCHomeViewModel(application: Application) : KYCChildViewModel<IKYCHome.St
             ) {
                 state.loading = false
                 if (response?.body()?.success!!) {
-                    var identity = Identity()
+                    val identity = Identity()
                     identity.nationality = response.body()?.nationality
                     identity.gender =
                         if (response.body()?.sex.equals("M")) Gender.Male else Gender.Female

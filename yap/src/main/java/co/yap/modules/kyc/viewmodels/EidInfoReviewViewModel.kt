@@ -10,6 +10,7 @@ import co.yap.networking.customers.requestdtos.UploadDocumentsRequest
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
 import co.yap.translation.Strings
+import co.yap.yapcore.BuildConfig
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.helpers.DateUtils
 import com.digitify.identityscanner.core.arch.Gender
@@ -128,7 +129,7 @@ class EidInfoReviewViewModel(application: Application) :
                     fullName = it.identity.givenName + " " + it.identity.sirName,
                     gender = it.identity.gender.mrz.toString(),
                     nationality = it.identity.nationality,
-                    identityNo = it.identity.citizenNumber + "111",
+                    identityNo = if(BuildConfig.DEBUG) System.currentTimeMillis().toString() else it.identity.citizenNumber ,
                     filePaths = it.document.files.run {
                         val files: ArrayList<String> = arrayListOf()
                         forEach { files.add(it.originalFile) }

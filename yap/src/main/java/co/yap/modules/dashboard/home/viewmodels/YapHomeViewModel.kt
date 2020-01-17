@@ -7,6 +7,8 @@ import co.yap.modules.dashboard.home.interfaces.IYapHome
 import co.yap.modules.dashboard.home.states.YapHomeState
 import co.yap.modules.dashboard.main.viewmodels.YapDashboardChildViewModel
 import co.yap.networking.cards.CardsRepository
+import co.yap.networking.cards.requestdtos.OrderCardRequest
+import co.yap.networking.cards.responsedtos.Address
 import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.transactions.TransactionsRepository
 import co.yap.networking.transactions.responsedtos.transaction.Content
@@ -250,6 +252,38 @@ class YapHomeViewModel(application: Application) :
                 is RetroApiResponse.Error -> state.toast = response.error.message
             }
             state.loading = false
+        }
+
+    }
+
+    override fun requestOrderCard(address: Address?) {
+        address?.let {
+
+            val orderCardRequest: OrderCardRequest = OrderCardRequest(
+                it.address1,
+                "",
+                it.address1,
+                it.address2,
+                it.latitude,
+                it.longitude,
+                "UAE", "Dubai"
+            )
+            launch {
+                state.loading = true
+                when (val response = cardsRepository.orderCard(orderCardRequest)) {
+                    is RetroApiResponse.Success -> {
+                        state.error = ""
+                        clickEvent.setValue(ON_ADD_NEW_ADDRESS_EVENT)
+                        state.loading = false
+                    }
+
+                    is RetroApiResponse.Error -> {
+                        state.loading = false
+                        state.toast = response.error.message
+//
+                    }
+                }
+            }
         }
 
     }
