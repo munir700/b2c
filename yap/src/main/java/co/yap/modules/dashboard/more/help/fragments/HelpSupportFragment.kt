@@ -68,10 +68,12 @@ class HelpSupportFragment : MoreBaseFragment<IHelpSupport.ViewModel>(), IHelpSup
                 viewModel.getFaqsUrl()
             }
             R.id.lyChat -> {
-                chatSetup()
+                showToast("Coming soon")
+                //chatSetup()
             }
             R.id.lyLiveWhatsApp -> {
-                chatSetup()
+                showToast("Coming soon")
+               // chatSetup()
             }
             R.id.lyCall -> {
                 openDialer()
