@@ -192,19 +192,19 @@
 
     <!-- Set card PIN Welcome screen -->
     <string name="screen_set_card_pin_welcome_display_text_title">Great, looks like you just received your YAP card!</string>
-    <string name="screen_set_card_pin_welcome_display_text_sub_title">Now create a unique 4-digit PIN code to be able to use your debit card for purchases and withdrawals</string>
-    <string name="screen_set_card_pin_welcome_button_create_pin">Create PIN code</string>
+    <string name="screen_set_card_pin_welcome_display_text_sub_title">Now create a unique 4-digit PIN to be able to use your debit card for purchases and withdrawals</string>
+    <string name="screen_set_card_pin_welcome_button_create_pin">Create PIN</string>
     <string name="screen_set_card_pin_welcome_button_create_pin_later">Do it later</string>
 
     <!-- Set card PIN screen -->
-    <string name="screen_set_card_pin_display_text_title">Set your PIN code</string>
+    <string name="screen_set_card_pin_display_text_title">Set your PIN</string>
     <string name="screen_set_card_pin_button_create_pin">Next</string>
 
     <!-- Confirm card PIN screen -->
-    <string name="screen_confirm_card_pin_display_text_title">Re-enter your PIN code to confirm</string>
-    <string name="screen_confirm_card_pin_display_title_terms_and_conditions">By creating a PIN code you agree to our</string>
+    <string name="screen_confirm_card_pin_display_text_title">Re-enter your PIN to confirm</string>
+    <string name="screen_confirm_card_pin_display_title_terms_and_conditions">By creating a PIN you agree to our</string>
     <string name="screen_confirm_card_pin_display_text_terms_and_conditions">Terms &amp; Conditions</string>
-    <string name="screen_confirm_card_pin_button_create_pin">Create PIN code</string>
+    <string name="screen_confirm_card_pin_button_create_pin">Create PIN</string>
     <string name="screen_confirm_card_pin_display_text_error_sequence">PIN cannot be a straight sequence</string>
     <string name="screen_confirm_card_pin_display_text_error_same_digits">PIN cannot be of same digits</string>
 
@@ -352,19 +352,19 @@
     <string name="screen_card_blocked_button_order_later">Order later</string>
 
     <!--    Enter current pin screen-->
-    <string name="screen_current_card_pin_display_text_heading">Enter your current \nPIN code</string>
+    <string name="screen_current_card_pin_display_text_heading">Enter your current \nPIN</string>
     <string name="screen_current_card_pin_display_button_next">Next</string>
 
     <!--    Enter new pin screen-->
-    <string name="screen_create_card_pin_display_text_heading">Enter your new \nPIN code</string>
+    <string name="screen_create_card_pin_display_text_heading">Enter your new \nPIN</string>
     <string name="screen_create_card_pin_display_button_create_pin">Create PIN</string>
 
     <!--    confirm PIN screen-->
-    <string name="screen_confirm_card_pin_display_text_heading">Re-enter your \nPIN code</string>
+    <string name="screen_confirm_card_pin_display_text_heading">Re-enter your \nPIN</string>
     <string name="screen_confirm_card_pin_display_button_confirm_pin">Confirm PIN</string>
 
     <!--    Change PIN success screen-->
-    <string name="screen_change_pin_success_display_text_heading">PIN code has been updated successfully!</string>
+    <string name="screen_change_pin_success_display_text_heading">PIN has been updated successfully!</string>
     <string name="screen_change_pin_success_display_text_button">Done</string>
 
     <!--   Card Statement screen-->
