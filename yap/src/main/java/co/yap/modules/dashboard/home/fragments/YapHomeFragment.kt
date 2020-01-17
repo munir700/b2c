@@ -34,11 +34,20 @@ import co.yap.modules.dashboard.main.fragments.YapDashboardChildFragment
 import co.yap.modules.dashboard.main.viewmodels.YapDashBoardViewModel
 import co.yap.modules.dashboard.transaction.activities.TransactionDetailsActivity
 import co.yap.modules.kyc.activities.DocumentsDashboardActivity
+import co.yap.modules.location.activities.LocationSelectionActivity
 import co.yap.modules.onboarding.constants.Constants
+import co.yap.modules.others.fragmentpresenter.activities.FragmentPresenterActivity
 import co.yap.modules.setcardpin.activities.SetCardPinWelcomeActivity
+import co.yap.networking.cards.responsedtos.Address
 import co.yap.networking.transactions.responsedtos.transaction.Content
 import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionListData
+import co.yap.translation.Strings
+import co.yap.yapcore.constants.Constants.ADDRESS
+import co.yap.yapcore.constants.Constants.ADDRESS_SUCCESS
 import co.yap.yapcore.constants.Constants.BROADCAST_UPDATE_TRANSACTION
+import co.yap.yapcore.constants.Constants.MODE_MEETING_CONFORMATION
+import co.yap.yapcore.constants.RequestCodes
+import co.yap.yapcore.enums.NotificationStatus
 import co.yap.yapcore.enums.PartnerBankStatus
 import co.yap.yapcore.helpers.CustomSnackbar
 import co.yap.yapcore.helpers.Utils
@@ -121,7 +130,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
             homeTransactionsRequest.number = 0
             viewModel.requestAccountTransactions()
             getBindings().refreshLayout.isRefreshing = false
-             getBindings().appbar.setExpanded(true)
+            getBindings().appbar.setExpanded(true)
         } else {
             getBindings().refreshLayout.isRefreshing = false
         }
@@ -152,13 +161,24 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                         )
                     )
                 }
+                viewModel.ON_ADD_NEW_ADDRESS_EVENT -> {
+                    startActivity(
+                        FragmentPresenterActivity.getIntent(
+                            requireContext(),
+                            MODE_MEETING_CONFORMATION,
+                            null
+                        )
+                    )
+                    MyUserManager.user?.notificationStatuses = NotificationStatus.MEETING_SCHEDULED.name
+                    activity?.finish()
+                }
                 R.id.ivMenu -> parentView?.toggleDrawer()
                 R.id.rlFilter -> {
                     if (null != viewModel.transactionsLiveData.value && viewModel.transactionsLiveData.value?.isEmpty() == true && homeTransactionsRequest.totalAppliedFilter == 0 || viewModel.state.isTransEmpty.get() == true) {
                         if (PartnerBankStatus.ACTIVATED.status == MyUserManager.user?.partnerBankStatus)
 
 //                            showErrorSnackBar("No Transactions Found")
-                        return@Observer
+                            return@Observer
                     } else {
                         if (PartnerBankStatus.ACTIVATED.status == MyUserManager.user?.partnerBankStatus)
                             startActivityForResult(
@@ -192,7 +212,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
 
         viewModel.transactionsLiveData.observe(this, Observer {
             if (viewModel.isLoadMore.value!!) {
-                if (getRecycleViewAdaptor()?.itemCount!! == 0)            getBindings().appbar.setExpanded(true)
+                if (getRecycleViewAdaptor()?.itemCount!! == 0) getBindings().appbar.setExpanded(true)
 
                 if (getRecycleViewAdaptor()?.itemCount!! > 0)
                     getRecycleViewAdaptor()?.removeItemAt(getRecycleViewAdaptor()?.itemCount!! - 1)
@@ -436,12 +456,13 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
         when (notification.action) {
             Constants.NOTIFICATION_ACTION_SET_PIN -> viewModel.getDebitCards()
             Constants.NOTIFICATION_ACTION_COMPLETE_VERIFICATION -> {
-                startActivity(
+
+                startActivityForResult(
                     DocumentsDashboardActivity.getIntent(
                         requireContext(),
-                        parentViewModel.state.firstName,
+                        MyUserManager.user?.currentCustomer?.firstName.toString(),
                         false
-                    )
+                    ), RequestCodes.REQUEST_KYC_DOCUMENTS
                 )
                 //activity?.finish()
             }
@@ -465,10 +486,35 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
+        when (requestCode) {
+            RequestCodes.REQUEST_KYC_DOCUMENTS -> {
+                data?.let {
+                    val result = data.getBooleanExtra(DocumentsDashboardActivity.result, false)
+                    if (result)
+                        startActivityForResult(
+                            LocationSelectionActivity.newIntent(
+                                context = requireContext(),
+                                address = MyUserManager.userAddress ?: Address(),
+                                headingTitle = getString(Strings.screen_meeting_location_display_text_add_new_address_title),
+                                subHeadingTitle = getString(Strings.screen_meeting_location_display_text_subtitle)
+                            ), RequestCodes.REQUEST_FOR_LOCATION
+                        )
+                }
+            }
+            RequestCodes.REQUEST_FOR_LOCATION -> {
+                data?.let {
+                    val result = it.getBooleanExtra(ADDRESS_SUCCESS, false)
+                    if (result) {
+                        val address = it.getParcelableExtra<Address>(ADDRESS)
+                        viewModel.requestOrderCard(address)
+                    }
+                }
 
-        if (requestCode == TransactionFiltersActivity.INTENT_FILTER_REQUEST) {
-            if (YAPApplication.hasFilterStateChanged)
-                getFilterTransactions()
+            }
+            TransactionFiltersActivity.INTENT_FILTER_REQUEST -> {
+                if (YAPApplication.hasFilterStateChanged)
+                    getFilterTransactions()
+            }
         }
     }
 

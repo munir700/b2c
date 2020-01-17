@@ -16,6 +16,7 @@ import co.yap.modules.dashboard.more.main.activities.MoreActivity.Companion.show
 import co.yap.modules.dashboard.more.main.fragments.MoreBaseFragment
 import co.yap.modules.dashboard.more.profile.intefaces.IPersonalDetail
 import co.yap.modules.dashboard.more.profile.viewmodels.PersonalDetailsViewModel
+import co.yap.modules.kyc.activities.DocumentsDashboardActivity
 import co.yap.modules.location.activities.LocationSelectionActivity
 import co.yap.networking.cards.requestdtos.UpdateAddressRequest
 import co.yap.networking.cards.responsedtos.Address
@@ -84,11 +85,18 @@ class PersonalDetailsFragment : MoreBaseFragment<IPersonalDetail.ViewModel>(),
 
                 R.id.cvCard -> {
                     if (viewModel.state.errorVisibility) {
-                        val action =
-                            PersonalDetailsFragmentDirections.actionPersonalDetailsFragmentToDocumentsDashboardActivity(
-                                viewModel.state.fullName, true
-                            )
-                        findNavController().navigate(action)
+//                        val action =
+//                            PersonalDetailsFragmentDirections.actionPersonalDetailsFragmentToDocumentsDashboardActivity(
+//                                viewModel.state.fullName, true
+//                            )
+//                        findNavController().navigate(action)
+                        startActivityForResult(
+                            DocumentsDashboardActivity.getIntent(
+                                requireContext(),
+                                MyUserManager.user?.currentCustomer?.firstName.toString(),
+                                true
+                            ), RequestCodes.REQUEST_KYC_DOCUMENTS
+                        )
                     }
 
                 }

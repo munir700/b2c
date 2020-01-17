@@ -119,6 +119,7 @@ class EidInfoReviewViewModel(application: Application) :
     private fun performUploadDocumentsRequest() {
         parentViewModel?.identity?.let {
             launch {
+                //                if(BuildConfig.DEBUG) System.currentTimeMillis().toString() else it.identity.citizenNumber ,
                 val request = UploadDocumentsRequest(
                     documentType = if (it.document.type == DocumentType.EID) "EMIRATES_ID" else "PASSPORT",
                     firstName = it.identity.givenName,

@@ -17,6 +17,12 @@ object Constants {
     const val FORGOT_CARD_PIN_ACTION: String = "FORGOT_CARD_PIN"
     const val BENEFICIARY_CASH_TRANSFER: String = "CASHPAYOUT"
 
+    const val LONGITUDE = "longitude"
+    const val LATITUDE = "latitude"
+    const val SUCCESS_RESULT = "SUCCESS_RESULT"
+    const val LOCATION_ADDRESS = "LOCATION_ADDRESS"
+    const val ERROR_MESSAGE = "ERROR_MESSAGE"
+
     const val TOP_UP: String = "TOP_UP"
     const val CARD: String = "CARD"
     const val KEY: String = "Key"
@@ -58,6 +64,7 @@ object Constants {
 
     const val MODE_STATUS_SCREEN: Int = 1
     const val MODE_HELP_SUPPORT: Int = 2
+    const val MODE_MEETING_CONFORMATION: Int = 12
     const val FORGOT_CARD_PIN_NAVIGATION: Int = 1
 
     const val DUMMY_CARD: Int = 22

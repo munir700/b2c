@@ -71,7 +71,7 @@ class KYCHomeFragment : KYCChildFragment<IKYCHome.ViewModel>(), IKYCHome.View {
     private fun showHideOptionsOnFlags() {
         viewModel.parentViewModel?.allowSkip?.value?.let {
             if (it) {
-                viewModel.parentViewModel?.allowSkip?.value = !it
+                //viewModel.parentViewModel?.allowSkip?.value = !it
                 findNavController().navigate(R.id.action_KYCHomeFragment_to_eidInfoReviewFragment)
             } else {
                 viewModel.state.eidScanStatus = DocScanStatus.SCAN_PENDING

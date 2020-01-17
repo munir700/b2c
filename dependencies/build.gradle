@@ -120,7 +120,10 @@ project.ext {
             timber                   : 'com.jakewharton.timber:timber:4.7.1',
 
             //Swipeview actions on list
-            swipeViewActions         : 'com.nikhilpanju.recyclerviewenhanced:recyclerviewenhanced:1.1.0'
+            swipeViewActions         : 'com.nikhilpanju.recyclerviewenhanced:recyclerviewenhanced:1.1.0',
+            // RX Java
+            rxAndroid                : 'io.reactivex.rxjava2:rxandroid:2.1.1',
+            rxJava                   : 'io.reactivex.rxjava2:rxjava:2.1.5'
     ]
     // Test dependencies which need to be added in all modules
     testDependencies = [
@@ -149,7 +152,9 @@ project.ext {
             [configuration: "implementation", dependency: libraries.fineWebView],
             [configuration: "implementation", dependency: libraries.phoneLib],
             [configuration: "implementation", dependency: libraries.easyImage],
-            [configuration: "implementation", dependency: libraries.timber]
+            [configuration: "implementation", dependency: libraries.timber],
+            [configuration: "implementation", dependency: libraries.rxAndroid],
+            [configuration: "implementation", dependency: libraries.rxJava]
     ]
 
     // dependencies which need to be added in app module only in conjunction with commonDependencies
