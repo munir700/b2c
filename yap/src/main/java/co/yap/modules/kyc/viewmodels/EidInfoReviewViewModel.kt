@@ -10,7 +10,6 @@ import co.yap.networking.customers.requestdtos.UploadDocumentsRequest
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
 import co.yap.translation.Strings
-import co.yap.yapcore.BuildConfig
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.helpers.DateUtils
 import com.digitify.identityscanner.core.arch.Gender
@@ -120,6 +119,7 @@ class EidInfoReviewViewModel(application: Application) :
     private fun performUploadDocumentsRequest() {
         parentViewModel?.identity?.let {
             launch {
+                //                if(BuildConfig.DEBUG) System.currentTimeMillis().toString() else it.identity.citizenNumber ,
                 val request = UploadDocumentsRequest(
                     documentType = if (it.document.type == DocumentType.EID) "EMIRATES_ID" else "PASSPORT",
                     firstName = it.identity.givenName,
@@ -129,7 +129,7 @@ class EidInfoReviewViewModel(application: Application) :
                     fullName = it.identity.givenName + " " + it.identity.sirName,
                     gender = it.identity.gender.mrz.toString(),
                     nationality = it.identity.nationality,
-                    identityNo = if(BuildConfig.DEBUG) System.currentTimeMillis().toString() else it.identity.citizenNumber ,
+                    identityNo = it.identity.citizenNumber,
                     filePaths = it.document.files.run {
                         val files: ArrayList<String> = arrayListOf()
                         forEach { files.add(it.originalFile) }
