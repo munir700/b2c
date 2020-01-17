@@ -12,6 +12,7 @@
     <string name="common_button_activate">Activate</string>
     <string name="common_text_currency_type">AED</string>
     <string name="common_amount_hint">0.00</string>
+    <string name="common_button_logout">Logout</string>
 
 
     <!-- Home Screen -->
@@ -839,6 +840,7 @@
     <string name="screen_house_hold_number_registration_button_text_confirm">Confirm</string>
     <string name="screen_house_hold_number_registration_error_text">Oops! Looks like that\'s the wrong number. Please try again</string>
     <string name="screen_house_hold_create_passcode_heading_text">You got it right!</string>
+    <string name="screen_house_hold_create_passcode_heading_sub_heading_text">Now, create a new 4- to 6-digit passcode to use YAP</string>
     <!-- New User Success household screen -->
     <string name="screen_congratulations_display_text_title">Well done, %1s!</string>
     <string name="screen_congratulations_display_text_success_message">You’ve successfully registered yourself to the Household plan</string>

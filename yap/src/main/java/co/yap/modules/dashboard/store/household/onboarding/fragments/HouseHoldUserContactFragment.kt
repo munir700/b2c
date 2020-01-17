@@ -1,7 +1,6 @@
 package co.yap.modules.dashboard.store.household.onboarding.fragments
 
 import android.os.Bundle
-import android.view.Gravity
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -10,8 +9,7 @@ import co.yap.BR
 import co.yap.R
 import co.yap.modules.dashboard.store.household.onboarding.interfaces.IHouseHoldUserContact
 import co.yap.modules.dashboard.store.household.onboarding.viewmodels.HouseHoldUserContactViewModel
-import co.yap.yapcore.helpers.show1
-import co.yap.yapcore.helpers.showSnackBar
+import co.yap.yapcore.helpers.CustomSnackbar
 import kotlinx.android.synthetic.main.fragment_house_hold_user_contact_info.*
 import kotlinx.android.synthetic.main.fragment_mobile.etMobileNumber
 
@@ -49,9 +47,15 @@ class HouseHoldUserContactFragment : BaseOnBoardingFragment<IHouseHoldUserContac
             if (it) findNavController().navigate(R.id.action_houseHoldUserContactFragment_to_HHConfirmPaymentFragment)
         })
         viewModel.verifyMobileError.observe(this, Observer {
-            showSnackBar(it, Gravity.TOP)
+            CustomSnackbar.showErrorCustomSnackbar(
+                context = requireContext(),
+                layout = clSnackbarHouseHold,
+                message = it
+            )
+            // showSnackBar(it, R.color.colorSnackBarBackGround,R.color.colorSecondaryMagenta, Gravity.TOP)
         })
     }
+
     override fun onDestroy() {
         super.onDestroy()
         viewModel.verifyMobileSuccess.removeObservers(this)

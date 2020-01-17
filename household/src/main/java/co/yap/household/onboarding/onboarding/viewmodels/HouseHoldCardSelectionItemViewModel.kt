@@ -1,7 +1,6 @@
 package co.yap.household.onboarding.onboarding.viewmodels
 
 import android.view.View
-import co.yap.household.onboarding.onboarding.fragments.CardColorSelectionModel
 import co.yap.networking.customers.responsedtos.HouseHoldCardsDesign
 import co.yap.yapcore.interfaces.OnItemClickListener
 

@@ -16,6 +16,7 @@ object Strings {
     const val common_button_activate: String = "common_button_activate"
     const val common_text_currency_type: String = "common_text_currency_type"
     const val common_amount_hint: String = "common_amount_hint"
+    const val common_button_logout: String = "common_button_logout"
 
 
     //Home screen
@@ -1350,6 +1351,8 @@ object Strings {
         "screen_congratulations_display_text_success_message"
     const val screen_congratulations_display_button_complete_setup: String =
         "screen_congratulations_display_button_complete_setup"
+    const val screen_house_hold_create_passcode_heading_sub_heading_text: String =
+        "screen_house_hold_create_passcode_heading_sub_heading_text"
 
     //Card color selection screen
     const val screen_house_hold_card_color_selection_display_text_heading: String =
@@ -1403,7 +1406,6 @@ object Strings {
 
     const val screen_yap_house_hold_confirm_payment_share_text: String =
         "screen_yap_house_hold_confirm_payment_share_text"
-
 
 
 }

@@ -36,7 +36,7 @@
 
         <TextView
             android:id="@+id/tvPasscodeTitle"
-            style="@style/Large"
+            style="@style/ASmall"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_medium"
@@ -48,9 +48,8 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvCreatePassCodeHeading"
-
-            app:text="@{Strings.screen_create_passcode_display_text_title}"
-            tools:text="@string/screen_create_passcode_display_text_title" />
+            app:text="@{Strings.screen_house_hold_create_passcode_heading_sub_heading_text}"
+            tools:text="@string/screen_house_hold_create_passcode_heading_sub_heading_text" />
 
         <co.yap.widgets.CoreDialerPadV2
             android:id="@+id/dialer"
