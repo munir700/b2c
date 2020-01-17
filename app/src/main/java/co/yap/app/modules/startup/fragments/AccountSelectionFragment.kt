@@ -29,9 +29,6 @@ class AccountSelectionFragment : BaseBindingFragment<IAccountSelection.ViewModel
                 R.id.tvSignIn -> {
                     findNavController().navigate(R.id.action_accountSelectionFragment_to_loginFragment)
                 }
-                R.id.btnBusiness -> {
-                    Utils.showComingSoon(requireContext())
-                }
                 R.id.btnPersonal -> {
                     findNavController().navigate(
                         R.id.action_accountSelectionFragment_to_welcomeFragment,
