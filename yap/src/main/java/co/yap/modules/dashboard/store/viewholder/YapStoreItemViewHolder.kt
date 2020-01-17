@@ -1,5 +1,6 @@
 package co.yap.modules.dashboard.store.viewholder
 
+import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import co.yap.databinding.ItemYapStoreBinding
 import co.yap.modules.dashboard.store.viewmodels.YapStoreItemViewModel
@@ -11,6 +12,9 @@ class YapStoreItemViewHolder(private val itemYapStoreBinding: ItemYapStoreBindin
 
     fun onBind(store: Store?) {
         itemYapStoreBinding.viewModel = YapStoreItemViewModel(store)
+        if (store?.name == "YAP Household") {
+            itemYapStoreBinding.labelCardType.visibility = View.GONE
+        }
         itemYapStoreBinding.executePendingBindings()
     }
 }
