@@ -16,7 +16,9 @@ import co.yap.modules.dashboard.cards.home.interfaces.IYapCards
 import co.yap.modules.dashboard.cards.home.viewmodels.YapCardsViewModel
 import co.yap.modules.dashboard.cards.paymentcarddetail.activities.PaymentCardDetailActivity
 import co.yap.modules.dashboard.cards.paymentcarddetail.addfunds.activities.AddFundsActivity
+import co.yap.modules.dashboard.cards.reordercard.activities.ReorderCardActivity
 import co.yap.modules.dashboard.main.fragments.YapDashboardChildFragment
+import co.yap.modules.onboarding.constants.Constants.USER_STATUS_MEETING_SUCCESS
 import co.yap.modules.others.fragmentpresenter.activities.FragmentPresenterActivity
 import co.yap.modules.setcardpin.activities.SetCardPinWelcomeActivity
 import co.yap.networking.cards.responsedtos.Card
@@ -132,6 +134,8 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
                             CardStatus.BLOCKED -> {
                                 openDetailScreen(pos)
                             }
+                            CardStatus.HOTLISTED -> {
+                            }
                             CardStatus.INACTIVE -> {
                                 if (getCard(pos).deliveryStatus == null) {
                                     openDetailScreen(pos)
@@ -172,9 +176,12 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
                         CardStatus.BLOCKED -> {
                             openDetailScreen(pos)
                         }
+                        CardStatus.HOTLISTED -> {
+                            startReorderCardFlow(getCard(pos))
+                        }
                         CardStatus.INACTIVE -> {
                             if (getCard(pos).cardType == "DEBIT") {
-                                if (MyUserManager.user?.notificationStatuses == "MEETING_SUCCESS") {
+                                if (MyUserManager.user?.notificationStatuses == USER_STATUS_MEETING_SUCCESS) {
                                     openSetPinScreen(getCard(pos).cardSerialNumber)
                                 }
                             } else {
@@ -212,12 +219,16 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
                     val updatedCard = data?.getParcelableExtra<Card>("card")
                     val removed = data?.getBooleanExtra("cardRemoved", false)
                     val cardBlocked = data?.getBooleanExtra("cardBlocked", false)
+                    val cardReorder = data?.getBooleanExtra("cardReorder", false)
 
                     if (removed!!) {
                         adapter.removeItemAt(selectedCardPosition)
                         adapter.notifyDataSetChanged()
                         updateCardCount()
                     } else if (cardBlocked!!) {
+                        adapter.removeAllItems()
+                        viewModel.getCards()
+                    } else if (cardReorder!!) {
                         adapter.removeAllItems()
                         viewModel.getCards()
                     } else {
@@ -266,6 +277,15 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
                 adapter.removeAllItems()
                 viewModel.getCards()
             }
+            RequestCodes.REQUEST_REORDER_CARD -> {
+                if (resultCode == Activity.RESULT_OK) {
+                    val cardReorder = data?.getBooleanExtra("cardReorder", false)
+                    if (cardReorder!!) {
+                        adapter.removeAllItems()
+                        viewModel.getCards()
+                    }
+                }
+            }
         }
     }
 
@@ -305,6 +325,16 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
         )
     }
 
+    private fun startReorderCardFlow(card: Card?) {
+        card?.let {
+            startActivityForResult(
+                ReorderCardActivity.newIntent(
+                    requireContext(),
+                    it
+                ), RequestCodes.REQUEST_REORDER_CARD
+            )
+        }
+    }
     private fun getCard(pos: Int): Card {
         return adapter.getDataForPosition(pos)
     }

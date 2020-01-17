@@ -279,6 +279,10 @@ object UIBinder {
                     imageView.visibility = View.VISIBLE
                     imageView.setImageResource(R.drawable.ic_status_frozen)
                 }
+                CardStatus.HOTLISTED -> {
+                    imageView.visibility = View.VISIBLE
+                    imageView.setImageResource(R.drawable.ic_status_frozen)
+                }
                 CardStatus.INACTIVE -> {
                     imageView.visibility = View.VISIBLE
                     imageView.setImageResource(R.drawable.ic_status_ontheway)
@@ -303,14 +307,29 @@ object UIBinder {
                         R.string.screen_cards_display_text_freeze_card
                     )
                 }
+                CardStatus.HOTLISTED -> {
+                    text.visibility = View.VISIBLE
+                    text.text = Translator.getString(
+                        text.context,
+                        R.string.screen_cards_display_text_hotlisted
+                    )
+                }
                 CardStatus.INACTIVE -> {
                     if (card.cardType == "DEBIT") {
                         if (MyUserManager.user?.notificationStatuses == "MEETING_SUCCESS") {
-                            text.visibility = View.VISIBLE
-                            text.text = Translator.getString(
-                                text.context,
-                                R.string.screen_cards_display_text_set_message
-                            )
+                            if (card.deliveryStatus == CardDeliveryStatus.SHIPPED.name) {
+                                text.visibility = View.VISIBLE
+                                text.text = Translator.getString(
+                                    text.context,
+                                    R.string.screen_cards_display_text_set_message
+                                )
+                            } else {
+                                text.visibility = View.VISIBLE
+                                text.text = Translator.getString(
+                                    text.context,
+                                    R.string.screen_cards_display_text_pending_delivery
+                                )
+                            }
                         } else {
                             text.visibility = View.VISIBLE
                             text.text = Translator.getString(
@@ -369,14 +388,25 @@ object UIBinder {
                         R.string.screen_cards_button_unfreeze_card
                     )
                 }
+                CardStatus.HOTLISTED -> {
+                    coreButton.visibility = View.VISIBLE
+                    coreButton.text = Translator.getString(
+                        coreButton.context,
+                        R.string.screen_cards_button_reorder_card
+                    )
+                }
                 CardStatus.INACTIVE -> {
                     if (card.cardType == "DEBIT") {
                         if (MyUserManager.user?.notificationStatuses == "MEETING_SUCCESS") {
-                            coreButton.visibility = View.VISIBLE
-                            coreButton.text = Translator.getString(
-                                coreButton.context,
-                                R.string.screen_cards_display_text_set_pin
-                            )
+                            if (card.deliveryStatus == CardDeliveryStatus.SHIPPED.name) {
+                                coreButton.visibility = View.VISIBLE
+                                coreButton.text = Translator.getString(
+                                    coreButton.context,
+                                    R.string.screen_cards_display_text_set_pin
+                                )
+                            } else {
+                                coreButton.visibility = View.GONE
+                            }
                         } else {
                             coreButton.visibility = View.GONE
                         }
@@ -645,20 +675,22 @@ object UIBinder {
 
     @BindingAdapter("src", "circular")
     @JvmStatic
-    fun setImageResId(view: ImageView, resId: Bitmap, circular: Boolean) {
-        if (circular) {
-            Glide.with(view.context)
-                .asBitmap().load(resId).placeholder(R.color.greyLight)
-                .transforms(CenterCrop(), RoundedCorners(15))
-                .into(view)
+    fun setImageResId(view: ImageView, resId: Bitmap?, circular: Boolean) {
+        resId?.let {
+            if (circular) {
+                Glide.with(view.context)
+                    .asBitmap().load(resId).placeholder(R.color.greyLight)
+                    .transforms(CenterCrop(), RoundedCorners(15))
+                    .into(view)
 
-        } else {
+            } else {
 
-            Glide.with(view.context)
-                .asBitmap().load(resId).placeholder(R.color.greyLight)
-                .transforms(CenterCrop(), RoundedCorners(15))
-                .into(view)
-            //set placeholder here
+                Glide.with(view.context)
+                    .asBitmap().load(resId).placeholder(R.color.greyLight)
+                    .transforms(CenterCrop(), RoundedCorners(15))
+                    .into(view)
+                //set placeholder here
+            }
         }
     }
 
@@ -698,9 +730,8 @@ object UIBinder {
     @BindingAdapter("textSelection")
     fun textSelection(view: EditText, selection: String) {
         if (!selection.isNullOrEmpty()) {
-
-            view.setSelection(selection.length)
-
+            val selectedString = selection.substring(0, selection.length.coerceAtMost(100))
+            view.setSelection(selectedString.length)
         }
 
     }

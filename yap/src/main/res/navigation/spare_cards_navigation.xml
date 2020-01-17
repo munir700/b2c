@@ -148,7 +148,7 @@
     <fragment
         android:id="@+id/addSparePhysicalCardSuccessFragment"
         android:name="co.yap.modules.dashboard.cards.addpaymentcard.spare.physical.AddSparePhysicalCardSuccessFragment"
-        tools:layout="@layout/fragment_add_physical_spare_card_success"></fragment>
+        tools:layout="@layout/fragment_add_physical_spare_card_success" />
 
 
 </navigation>

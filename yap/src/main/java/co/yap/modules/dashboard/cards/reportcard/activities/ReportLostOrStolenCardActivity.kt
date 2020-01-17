@@ -31,9 +31,7 @@ class ReportLostOrStolenCardActivity : BaseBindingActivity<IAddPaymentCard.ViewM
         lateinit var reportCard: Card
         var reportCardSuccess: Boolean = false
 
-
     }
-
 
     override fun getBindingVariable(): Int = BR.viewModel
 
@@ -52,7 +50,8 @@ class ReportLostOrStolenCardActivity : BaseBindingActivity<IAddPaymentCard.ViewM
         super.onCreate(savedInstanceState)
         viewModel.backButtonPressEvent.observe(this, backButtonObserver)
 //        viewModel.card = intent.getParcelableExtra(CARD)
-        reportCard = intent.getParcelableExtra(CARD)
+        if (intent != null && intent.hasExtra(CARD))
+            reportCard = intent.getParcelableExtra(CARD)
 
     }
 
@@ -70,5 +69,4 @@ class ReportLostOrStolenCardActivity : BaseBindingActivity<IAddPaymentCard.ViewM
             super.onBackPressed()
         }
     }
-
 }

@@ -28,6 +28,7 @@ interface IRepostOrStolenCard {
 
         fun requestConfirmBlockCard(card: Card)
         fun getPhysicalCardFee()
+        fun getDebitCardFee()
     }
 
     interface View : IBase.View<ViewModel>

@@ -77,13 +77,10 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
     }
 
     private fun initComponents() {
-//        setUpGraph()
         rvTransaction.layoutManager = LinearLayoutManager(context)
         rvTransaction.adapter =
             TransactionsHeaderAdapter(mutableListOf(), adaptorlistener)
         getRecycleViewAdaptor()?.allowFullItemClickListener = true
-
-
 
         getBindings().refreshLayout.setOnRefreshListener(this)
         rvTransactionsBarChart.adapter = GraphBarsAdapter(mutableListOf(), viewModel)
@@ -121,7 +118,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
             homeTransactionsRequest.number = 0
             viewModel.requestAccountTransactions()
             getBindings().refreshLayout.isRefreshing = false
-             getBindings().appbar.setExpanded(true)
+            getBindings().appbar.setExpanded(true)
         } else {
             getBindings().refreshLayout.isRefreshing = false
         }
@@ -158,7 +155,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                         if (PartnerBankStatus.ACTIVATED.status == MyUserManager.user?.partnerBankStatus)
 
 //                            showErrorSnackBar("No Transactions Found")
-                        return@Observer
+                            return@Observer
                     } else {
                         if (PartnerBankStatus.ACTIVATED.status == MyUserManager.user?.partnerBankStatus)
                             startActivityForResult(
@@ -192,7 +189,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
 
         viewModel.transactionsLiveData.observe(this, Observer {
             if (viewModel.isLoadMore.value!!) {
-                if (getRecycleViewAdaptor()?.itemCount!! == 0)            getBindings().appbar.setExpanded(true)
+                if (getRecycleViewAdaptor()?.itemCount!! == 0) getBindings().appbar.setExpanded(true)
 
                 if (getRecycleViewAdaptor()?.itemCount!! > 0)
                     getRecycleViewAdaptor()?.removeItemAt(getRecycleViewAdaptor()?.itemCount!! - 1)
@@ -271,7 +268,21 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
     }
 
     private fun checkUserStatus() {
-        //MyUserManager.user?.notificationStatuses = Constants.USER_STATUS_ON_BOARDED
+
+        if (PartnerBankStatus.ACTIVATED.status == MyUserManager.user?.partnerBankStatus) {
+            showTransactionsAndGraph()
+            notificationsList.clear()
+            mAdapter = NotificationAdapter(
+                notificationsList,
+                requireContext(),
+                this
+            )
+            mAdapter.notifyDataSetChanged()
+        } else {
+            ivNoTransaction.visibility = View.VISIBLE
+            rvTransaction.visibility = View.GONE
+        }
+        
         when (MyUserManager.user?.notificationStatuses) {
             Constants.USER_STATUS_ON_BOARDED -> {
                 ivNoTransaction.visibility = View.VISIBLE
@@ -302,33 +313,25 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                 mAdapter.notifyDataSetChanged()
             }
         }
-
-        if (PartnerBankStatus.ACTIVATED.status == MyUserManager.user?.partnerBankStatus) {
-            showTransactionsAndGraph()
-            notificationsList.clear()
-            mAdapter = NotificationAdapter(
-                notificationsList,
-                requireContext(),
-                this
-            )
-            mAdapter.notifyDataSetChanged()
-        } else {
-            ivNoTransaction.visibility = View.VISIBLE
-            rvTransaction.visibility = View.GONE
-        }
     }
 
     private fun showTransactionsAndGraph() {
-        ivNoTransaction.visibility = View.GONE
-        rvTransaction.visibility = View.VISIBLE
-        vGraph.visibility = View.VISIBLE
-        view?.let {
-            transactionViewHelper = TransactionsViewHelper(
-                requireContext(),
-                it,
-                viewModel
-            )
-            getGraphRecycleViewAdapter()?.helper = transactionViewHelper
+
+        if (viewModel.transactionsLiveData.value.isNullOrEmpty()) {
+            ivNoTransaction.visibility = View.VISIBLE
+            rvTransaction.visibility = View.GONE
+        } else {
+            ivNoTransaction.visibility = View.GONE
+            rvTransaction.visibility = View.VISIBLE
+            vGraph.visibility = View.VISIBLE
+            view?.let {
+                transactionViewHelper = TransactionsViewHelper(
+                    requireContext(),
+                    it,
+                    viewModel
+                )
+                getGraphRecycleViewAdapter()?.helper = transactionViewHelper
+            }
         }
     }
 
@@ -489,7 +492,6 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
             null
         }
     }
-
 
     private fun getGraphRecycleViewAdapter(): GraphBarsAdapter? {
         return if (rvTransactionsBarChart.adapter is GraphBarsAdapter) {

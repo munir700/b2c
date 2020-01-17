@@ -17,7 +17,6 @@ import co.yap.modules.dashboard.cards.reportcard.interfaces.IRepostOrStolenCard
 import co.yap.modules.dashboard.cards.reportcard.viewmodels.ReportLostOrStolenCardViewModels
 import co.yap.modules.others.helper.Constants
 import co.yap.networking.cards.responsedtos.Card
-import co.yap.translation.Strings
 import co.yap.translation.Strings.screen_report_card_display_button_block_alert_cancel
 import co.yap.translation.Strings.screen_report_card_display_button_block_alert_confirm
 import co.yap.translation.Strings.screen_report_card_display_text_block_alert_message
@@ -40,13 +39,16 @@ class ReportLostOrStolenCardFragment :
     override val viewModel: IRepostOrStolenCard.ViewModel
         get() = ViewModelProviders.of(this).get(ReportLostOrStolenCardViewModels::class.java)
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+    }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         val card: Card = reportCard
 
-        viewModel.state.cardType = card!!.cardType
-        viewModel.state.maskedCardNumber = card!!.maskedCardNo
+        viewModel.state.cardType = card.cardType
+        viewModel.state.maskedCardNumber = card.maskedCardNo
 
         if (Constants.CARD_TYPE_DEBIT == card.cardType) {
             viewModel.state.cardType = Constants.TEXT_PRIMARY_CARD
@@ -64,31 +66,21 @@ class ReportLostOrStolenCardFragment :
                 )
             }
         }
-        llDamagedCard.setOnClickListener(object :
-            View.OnClickListener {
+        llDamagedCard.setOnClickListener {
+            viewModel.state.valid = true
+            viewModel.HOT_LIST_REASON =REASON_DAMAGE
 
-            override fun onClick(v: View?) {
-                viewModel.state.valid = true
-                viewModel.HOT_LIST_REASON =REASON_DAMAGE
+            llDamagedCard.isActivated = true
+            llStolenCard.isActivated = false
+        }
 
-                llDamagedCard.isActivated = true
-                llStolenCard.isActivated = false
+        llStolenCard.setOnClickListener {
+            viewModel.state.valid = true
+            viewModel.HOT_LIST_REASON = REASON_LOST_STOLEN
 
-            }
-        })
-
-        llStolenCard.setOnClickListener(object :
-            View.OnClickListener {
-
-            override fun onClick(v: View?) {
-                viewModel.state.valid = true
-                viewModel.HOT_LIST_REASON = REASON_LOST_STOLEN
-
-                llDamagedCard.isActivated = false
-                llStolenCard.isActivated = true
-
-            }
-        })
+            llDamagedCard.isActivated = false
+            llStolenCard.isActivated = true
+        }
 
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
@@ -113,11 +105,9 @@ class ReportLostOrStolenCardFragment :
                     llDamagedCard.isActivated = false
                     llStolenCard.isActivated = false
 
-                    if (viewModel.state.cardType.equals(
-                            Translator.getString(
-                                context!!,
-                                Strings.screen_spare_card_landing_display_text_virtual_card
-                            )
+                    if (viewModel.state.cardType == Translator.getString(
+                            context!!,
+                            screen_spare_card_landing_display_text_virtual_card
                         )
                     ) {
                         reportCardSuccess = true

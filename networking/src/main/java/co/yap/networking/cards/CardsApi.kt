@@ -8,7 +8,6 @@ import co.yap.networking.models.ApiResponse
 import co.yap.networking.models.RetroApiResponse
 
 interface CardsApi {
-    /*TODO: Sufyan ***********************/
     suspend fun createCardPin(
         createCardPinRequest: CreateCardPinRequest,
         cardSerialNumber: String
@@ -50,5 +49,8 @@ interface CardsApi {
         cardSerialNumber: String,
         forgotCardPin: ForgotCardPin
     ): RetroApiResponse<ApiResponse>
-    /*TODO: ================Done====================*/
+
+    suspend fun reorderDebitCard(reorderCardRequest: ReorderCardRequest): RetroApiResponse<ApiResponse>
+    suspend fun reorderSupplementryCard(reorderCardRequest: ReorderCardRequest): RetroApiResponse<ApiResponse>
+
 }

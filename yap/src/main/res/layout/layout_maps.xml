@@ -7,6 +7,8 @@
 
         <import type="co.yap.translation.Strings" />
 
+        <import type="android.view.View" />
+
         <variable
             name="viewModel"
             type="co.yap.modules.kyc.viewmodels.AddressSelectionViewModel" />
@@ -35,9 +37,7 @@
                 app:cameraTargetLng="55.296249"
                 tools:context=".MapsActivity"
                 tools:layout_editor_absoluteX="145dp"
-                tools:layout_editor_absoluteY="182dp"
-
-                />
+                tools:layout_editor_absoluteY="182dp" />
 
             <ImageView
                 android:id="@+id/transparentImage"

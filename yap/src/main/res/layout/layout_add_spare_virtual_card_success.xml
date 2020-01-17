@@ -63,7 +63,7 @@
             android:layout_marginTop="@dimen/_25sdp"
             android:layout_marginRight="@dimen/margin_btn_side_paddings_xl"
             android:layout_marginBottom="@dimen/margin_extra_small"
-            android:onClick="@{(v) -> viewModel.handlePressOnAddVirtualCardSuccess(v.id)}"
+            android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
             android:text="@string/screen_add_spare_card_completion_button_done"
             app:btn_enable="true"
             app:layout_constraintBottom_toBottomOf="parent"

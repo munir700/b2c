@@ -29,9 +29,13 @@ interface TransactionsRetroService {
     @GET(TransactionsRepository.URL_FUND_TRANSFER_DENOMINATIONS)
     suspend fun getFundTransferDenominations(@Path("product-code") productCode: String): Response<FundTransferDenominationsResponse>
 
-    // Get fund transfer denominations
+    // Get Supplementry Card Fee
     @GET(TransactionsRepository.URL_GET_CARD_FEE)
     suspend fun getCardFee(@Path("card-type") cardType: String?): Response<CardFeeResponse>
+
+    // Get Debit Card Fee
+    @GET(TransactionsRepository.URL_GET_DEBIT_CARD_FEE)
+    suspend fun getDebitCardFee(): Response<CardFeeResponse>
 
     // Get Card Statements
     @GET(TransactionsRepository.URL_GET_CARD_STATEMENTS)

@@ -238,6 +238,7 @@
     <string name="screen_cards_display_text_pending_delivery">This card is on the way</string>
     <string name="screen_cards_display_text_expired_card">This card has expired</string>
     <string name="screen_cards_display_text_freeze_card">This card is frozen</string>
+    <string name="screen_cards_display_text_freeze_card_action">Unfreeze now</string>
     <string name="screen_cards_display_text_see_details">See details</string>
     <string name="screen_cards_button_update_card">Update card</string>
     <string name="screen_cards_button_unfreeze_card">Unfreeze card</string>
@@ -245,6 +246,8 @@
     <string name="screen_cards_display_text_set_pin">Set PIN</string>
     <string name="screen_cards_display_text_set_message">Set pin to activate card</string>
     <string name="screen_cards_display_text_add_card">Add card</string>
+    <string name="screen_cards_display_text_lost_stolen_card">Card reported damaged or lost/stolen.</string>
+    <string name="screen_cards_display_text_lost_stolen_card_action">Reorder Now</string>
 
     <!-- Spare Card Landing Screen -->
 
@@ -275,6 +278,7 @@
     <string name="screen_add_spare_card_display_text_alert_title">Looks like you don\'t have enough funds in your account. Top up now to continue with this purchase</string>
     <string name="screen_add_spare_card_display_button_block_alert_top_up">Top up</string>
     <string name="screen_add_spare_card_display_button_block_alert_skip">Skip for now</string>
+
 
     <!-- Add Spare card location -->
 
@@ -747,5 +751,12 @@
     <!--    Screen funds transfer information custom view-->
     <string name="custom_view_funds_transfer_display_text_reference_number_heading">Reference number</string>
     <string name="screen_name_error_message">Please enter alphabets only.</string>
+
+    <!-- Reorder card -->
+    <string name="screen_reorder_card_completion_display_text_complete_transaction">Your card has been blocked \n and reordered successfully</string>
+    <string name="screen_reorder_card_purchase_display_text_alert_title">Top up now to continue with this purchase.</string>
+    <string name="screen_cards_display_text_hotlisted">This card is blocked/stolen</string>
+    <string name="screen_cards_button_reorder_card">Reorder card</string>
+
 
 </resources>

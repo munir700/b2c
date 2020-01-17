@@ -20,6 +20,8 @@ object TransactionsRepository : BaseRepository(), TransactionsApi {
     const val URL_FUND_TRANSFER_DENOMINATIONS =
         "/transactions/api/product/{product-code}/denominations"
     const val URL_GET_CARD_FEE = "/transactions/api/fees/spare-card/subscription/{card-type}"
+    const val URL_GET_DEBIT_CARD_FEE =
+        "/transactions/api/fees/reorder/debit-card/subscription/physical"
     const val URL_GET_CARD_STATEMENTS = "/transactions/api/card-statements"
     const val URL_Y2Y_FUNDS_TRANSFER = "/transactions/api/y2y"
     const val URL_ADD_EDIT_NOTE = "/transactions/api/transaction-note"
@@ -77,6 +79,9 @@ object TransactionsRepository : BaseRepository(), TransactionsApi {
 
     override suspend fun getCardFee(cardType: String): RetroApiResponse<CardFeeResponse> =
         executeSafely(call = { api.getCardFee(cardType) })
+
+    override suspend fun getDebitCardFee(): RetroApiResponse<CardFeeResponse> =
+        executeSafely(call = { api.getDebitCardFee() })
 
     override suspend fun getTransactionFeeWithProductCode(
         productCode: String?,
@@ -187,6 +192,5 @@ object TransactionsRepository : BaseRepository(), TransactionsApi {
 
     override suspend fun swiftTransferRequest(swiftTransactionRequestDTO: SwiftTransactionRequestDTO): RetroApiResponse<SendMoneyTransactionResponseDTO> =
         executeSafely(call = { api.swiftTransferRequest(swiftTransactionRequestDTO) })
-
 
 }

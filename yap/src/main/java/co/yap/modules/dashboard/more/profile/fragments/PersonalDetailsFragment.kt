@@ -69,15 +69,27 @@ class PersonalDetailsFragment : MoreBaseFragment<IPersonalDetail.ViewModel>(),
                     changeAddress = true
                     val action =
                         PersonalDetailsFragmentDirections.actionPersonalDetailsFragmentToAddressSelectionFragment(
-                            false, false, true
+                            isFromPhysicalCardsScreen = false,
+                            isFromBlockCardsScreen = false,
+                            isFromPersonalDetail = true
                         )
+
                     findNavController().navigate(action)
+//                    val heading = Translator.getString(
+//                        requireContext(),
+//                        R.string.screen_meeting_location_display_text_selected_subtitle
+//                    )
+//                    val subHeading = Translator.getString(
+//                        requireContext(),
+//                        R.string.screen_meeting_location_display_text_selected_subtitle
+//                    )
+//
 //                    startActivityForResult(
 //                        LocationSelectionActivity.newIntent(
-//                            context = requireContext(),
-//                            address = MyUserManager.userAddress,
-//                            headingTitle = getString(Strings.screen_meeting_location_display_text_add_new_address_title),
-//                            subHeadingTitle = getString(Strings.screen_meeting_location_display_text_subtitle)
+//                            requireContext(),
+//                            MyUserManager.userAddress,
+//                            heading,
+//                            subHeading
 //                        ), RequestCodes.REQUEST_FOR_LOCATION
 //                    )
 
