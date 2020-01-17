@@ -24,7 +24,8 @@ import co.yap.networking.models.RetroApiResponse
 import co.yap.translation.Translator
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
-import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.managers.MyUserManager
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.location.FusedLocationProviderClient
@@ -576,15 +577,23 @@ class AddressSelectionViewModel(application: Application) :
         }
     }
 
+
     fun setUpMarker(
         markerLatLng: LatLng?,
         placeName: String?,
         markerSnippet: String?
     ) {
-        icon = this!!.bitmapDescriptorFromVector(getApplication(), R.drawable.ic_pin)!!
+        if (SharedPreferenceManager(context!!).getThemeValue().equals(Constants.THEME_HOUSEHOLD)) {
+
+            icon =
+                this!!.bitmapDescriptorFromVector(getApplication(), R.drawable.ic_pin_house_hold)!!
+        } else {
+            icon = this!!.bitmapDescriptorFromVector(getApplication(), R.drawable.ic_pin)!!
+        }
         markerOptions = MarkerOptions()
             .icon(icon)
             .position(markerLatLng!!)
+
     }
 
     fun handlePressOnChangeLocation() {
