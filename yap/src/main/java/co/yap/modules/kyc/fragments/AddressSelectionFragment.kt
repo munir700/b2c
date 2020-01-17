@@ -468,6 +468,7 @@ class AddressSelectionFragment : BaseMapFragment<IAddressSelection.ViewModel>(),
     }
 
     private fun expandMap() {
+        rlMapCenter.visibility = View.GONE
         if (isFromPersonalDetailScreen) {
             (context as MoreActivity).goneToolbar()
         }
@@ -511,6 +512,7 @@ class AddressSelectionFragment : BaseMapFragment<IAddressSelection.ViewModel>(),
     }
 
     private fun collapseMap() {
+        rlMapCenter.visibility = View.VISIBLE
         if (isFromPersonalDetailScreen) {
             (context as MoreActivity).visibleToolbar()
         }

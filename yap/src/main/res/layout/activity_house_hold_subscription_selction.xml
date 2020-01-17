@@ -45,7 +45,7 @@
                 android:onClick="@{(v) -> viewModel.handlePressOnCloseIcon(v.id)}"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_close" />
+                app:srcCompat="@drawable/ic_close_primary" />
 
             <TextView
                 android:id="@+id/tvTitle"
@@ -151,7 +151,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_marginTop="@dimen/margin_medium"
+                    android:layout_marginTop="@dimen/margin_medium_large"
                     android:gravity="center_horizontal"
                     android:paddingLeft="@dimen/margin_normal"
                     android:paddingRight="@dimen/margin_normal"
@@ -165,7 +165,7 @@
                     android:id="@+id/llFees"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_large"
+                    android:layout_marginTop="@dimen/margin_normal_large"
                     android:gravity="center"
                     android:orientation="horizontal"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -217,7 +217,6 @@
                             style="@style/SmallGrey"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/small"
                             android:gravity="center"
                             android:text="@string/screen_yap_house_hold_subscription_selection_display_text_per_month"
                             app:text="@{Strings.screen_yap_house_hold_subscription_selection_display_text_per_month}" />
@@ -278,7 +277,6 @@
                             style="@style/SmallGrey"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/small"
                             android:gravity="center"
                             android:text="@string/screen_yap_house_hold_subscription_selection_display_text_per_year"
                             app:text="@{Strings.screen_yap_house_hold_subscription_selection_display_text_per_year}" />
