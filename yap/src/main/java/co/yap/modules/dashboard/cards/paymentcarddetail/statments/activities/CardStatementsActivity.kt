@@ -7,8 +7,6 @@ import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import co.yap.BR
 import co.yap.R
 import co.yap.modules.dashboard.cards.paymentcarddetail.statments.adaptor.CardStatementsAdaptor
@@ -18,7 +16,6 @@ import co.yap.networking.cards.responsedtos.Card
 import co.yap.networking.transactions.responsedtos.CardStatement
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.interfaces.OnItemClickListener
-import kotlinx.android.synthetic.main.activity_card_statements.*
 import java.util.*
 
 class CardStatementsActivity : BaseBindingActivity<ICardStatments.ViewModel>(),
@@ -43,25 +40,16 @@ class CardStatementsActivity : BaseBindingActivity<ICardStatments.ViewModel>(),
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel.card = intent.getParcelableExtra(CARD)
-        val currYear = Calendar.getInstance().get(Calendar.YEAR)
-        viewModel.state.year.set(currYear.toString())
         viewModel.loadStatements(viewModel.card.cardSerialNumber)
         viewModel.clickEvent.observe(this, Observer {
             if (it == R.id.tbBtnBack) {
                 onBackPressed()
             }
         })
-        setupRecycleView()
+        viewModel.adapter.set(CardStatementsAdaptor(mutableListOf()))
+        viewModel.adapter.get()?.allowFullItemClickListener = true
+        viewModel.adapter.get()?.setItemListener(listener)
     }
-
-    private fun setupRecycleView() {
-        val adaptor = CardStatementsAdaptor(mutableListOf())
-        recyclerStatements.layoutManager = LinearLayoutManager(this, RecyclerView.HORIZONTAL, false)
-        recyclerStatements.adapter = adaptor
-        adaptor.allowFullItemClickListener = true
-        adaptor.setItemListener(listener)
-    }
-
     val listener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
             val browserIntent =
