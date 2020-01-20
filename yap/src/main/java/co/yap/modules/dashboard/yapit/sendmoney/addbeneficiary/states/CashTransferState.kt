@@ -73,7 +73,7 @@ class CashTransferState(application: Application) : BaseState(), ICashTransfer.S
             notifyPropertyChanged(BR.valid)
         }
     @get:Bindable
-    override var minLimit: Double = 0.01
+    override var minLimit: Double = 1.00
         set(value) {
             field = value
             notifyPropertyChanged(BR.minLimit)
