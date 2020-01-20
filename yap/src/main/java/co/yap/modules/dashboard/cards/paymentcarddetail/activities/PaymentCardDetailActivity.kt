@@ -50,7 +50,6 @@ import kotlinx.android.synthetic.main.layout_card_info.*
 class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewModel>(),
     IPaymentCardDetail.View, CardClickListener {
 
-
     private var snackbar: Snackbar? = null
     private lateinit var primaryCardBottomSheet: PrimaryCardBottomSheet
     private lateinit var spareCardBottomSheet: SpareCardBottomSheet
@@ -91,7 +90,7 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
         })
 
         viewModel.transactionsLiveData.observe(this, Observer {
-            ivNoTransaction.visibility = if (it.isEmpty()) View.VISIBLE else View.GONE
+            tvNoTransaction.visibility = if (it.isEmpty()) View.VISIBLE else View.GONE
             if (viewModel.isLoadMore.value!!) {
                 getRecycleViewAdaptor().setList(it)
             } else {
@@ -408,6 +407,7 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
             )
         }
     }
+
     private fun showCardDetailsPopup() {
         val dialog = Dialog(this)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
@@ -514,6 +514,7 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
         returnIntent.putExtra("cardBlocked", true)
         setResult(Activity.RESULT_OK, returnIntent)
     }
+
     private fun setupCardReorderActionsIntent() {
         val returnIntent = Intent()
         returnIntent.putExtra("cardReorder", true)

@@ -11,8 +11,9 @@
             type="co.yap.modules.dashboard.cards.paymentcarddetail.viewmodels.PaymentCardDetailViewModel" />
 
         <import type="android.view.View" />
-
         <import type="co.yap.modules.others.helper.Constants" />
+
+        <import type="co.yap.translation.Strings" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -43,7 +44,7 @@
                     style="@style/ASmall"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Recent transactions" />
+                    android:text="Transactions" />
 
                 <RelativeLayout
                     android:id="@+id/rlFilter"
@@ -87,13 +88,17 @@
                 android:visibility="visible"
                 tools:listitem="@layout/item_transaction_list" />
 
-            <ImageView
-                android:id="@+id/ivNoTransaction"
+            <TextView
+                android:id="@+id/tvNoTransaction"
+                style="@style/ARegularGrey"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginBottom="@dimen/margin_extra_large"
-                app:srcCompat="@drawable/ic_no_transaction" />
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|center"
+                android:layout_marginTop="@dimen/margin_btn_side_paddings"
+                android:gravity="bottom"
+                android:visibility="gone"
+                app:text="@{Strings.common_display_text_nothing_to_report}"
+                tools:text="@string/common_display_text_nothing_to_report" />
 
         </LinearLayout>
         <!--        </androidx.core.widget.NestedScrollView>-->

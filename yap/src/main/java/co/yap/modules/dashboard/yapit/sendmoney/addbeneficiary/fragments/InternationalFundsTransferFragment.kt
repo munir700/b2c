@@ -83,10 +83,11 @@ class InternationalFundsTransferFragment :
 
     private fun successOtpFlow() {
         if (context is BeneficiaryCashTransferActivity) {
-            (context as BeneficiaryCashTransferActivity).viewModel.state.otpSuccess?.let {
-                if (it) {
+            (context as BeneficiaryCashTransferActivity).viewModel.state.otpSuccess?.let { success ->
+                if (success) {
                     callTransactionApi()
                 }
+                (context as BeneficiaryCashTransferActivity).viewModel.state.otpSuccess = false
             }
         }
     }

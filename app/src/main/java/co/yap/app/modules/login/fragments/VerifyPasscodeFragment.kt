@@ -3,6 +3,7 @@ package co.yap.app.modules.login.fragments
 import android.hardware.fingerprint.FingerprintManager
 import android.os.Bundle
 import android.view.View
+import android.view.View.OnClickListener
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
@@ -83,10 +84,14 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
             }
         }
 
-        dialer.onButtonClickListener = View.OnClickListener {
+        dialer.onButtonClickListener = OnClickListener {
             if (it.id == R.id.btnFingerPrint)
                 showFingerprintDialog()
 //                showFingerprintDialog()
+        }
+
+        ivBackBtn.setOnClickListener {
+            activity!!.onBackPressed()
         }
     }
 

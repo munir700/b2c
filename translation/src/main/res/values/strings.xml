@@ -12,7 +12,7 @@
     <string name="common_button_activate">Activate</string>
     <string name="common_text_currency_type">AED</string>
     <string name="common_amount_hint">0.00</string>
-
+    <string name="common_display_text_nothing_to_report">Nothing to report yet</string>
 
     <!-- Home Screen -->
     <string name="screen_home_display_text_tag_line">The Personalized Banking App</string>
@@ -248,6 +248,8 @@
     <string name="screen_cards_display_text_add_card">Add card</string>
     <string name="screen_cards_display_text_lost_stolen_card">Card reported damaged or lost/stolen.</string>
     <string name="screen_cards_display_text_lost_stolen_card_action">Reorder Now</string>
+    <string name="screen_cards_display_text_card_removed_success">Card successfully removed!</string>
+
 
     <!-- Spare Card Landing Screen -->
 

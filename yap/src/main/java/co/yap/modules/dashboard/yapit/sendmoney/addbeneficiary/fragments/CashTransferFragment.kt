@@ -190,6 +190,7 @@ class CashTransferFragment : SendMoneyBaseFragment<ICashTransfer.ViewModel>(), I
                 if (it) {
                     callTransactionApi()
                 }
+                (context as BeneficiaryCashTransferActivity).viewModel.state.otpSuccess = false
             }
         }
 
