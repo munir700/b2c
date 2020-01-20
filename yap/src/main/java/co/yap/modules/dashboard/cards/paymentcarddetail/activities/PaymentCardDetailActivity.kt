@@ -31,7 +31,6 @@ import co.yap.modules.dashboard.cards.paymentcarddetail.viewmodels.PaymentCardDe
 import co.yap.modules.dashboard.cards.reordercard.activities.ReorderCardActivity
 import co.yap.modules.dashboard.cards.reportcard.activities.ReportLostOrStolenCardActivity
 import co.yap.modules.dashboard.home.adaptor.TransactionsHeaderAdapter
-import co.yap.modules.dashboard.home.filters.activities.TransactionFiltersActivity
 import co.yap.modules.others.helper.Constants
 import co.yap.networking.cards.responsedtos.Card
 import co.yap.networking.cards.responsedtos.CardBalance
@@ -51,8 +50,7 @@ import kotlinx.android.synthetic.main.layout_card_info.*
 class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewModel>(),
     IPaymentCardDetail.View, CardClickListener {
 
-
-    private lateinit var snackbar: Snackbar
+    private var snackbar: Snackbar? = null
     private lateinit var primaryCardBottomSheet: PrimaryCardBottomSheet
     private lateinit var spareCardBottomSheet: SpareCardBottomSheet
 
@@ -85,104 +83,9 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
     }
 
     override fun setObservers() {
-        viewModel.clickEvent.observe(this, Observer {
-            when (it) {
-                R.id.ivBack -> {
-                    setupActionsIntent()
-                    finish()
-                }
-                R.id.ivMenu -> {
-                    if (Constants.CARD_TYPE_DEBIT == viewModel.state.cardType) {
-                        primaryCardBottomSheet = PrimaryCardBottomSheet(this)
-                        primaryCardBottomSheet.show(supportFragmentManager, "")
-                    } else {
-                        spareCardBottomSheet =
-                            SpareCardBottomSheet(viewModel.card.value?.physical!!, this)
-                        spareCardBottomSheet.show(supportFragmentManager, "")
-                    }
-                }
-                R.id.llAddFunds -> {
-                    startActivityForResult(
-                        AddFundsActivity.newIntent(this, viewModel.card.value!!),
-                        Constants.REQUEST_ADD_REMOVE_FUNDS
-                    )
-                }
-                R.id.llFreezeSpareCard -> {
-                    viewModel.freezeUnfreezeCard()
-                }
-                R.id.llFreezePrimaryCard -> {
-
-                    viewModel.freezeUnfreezeCard()
-                }
-                R.id.llRemoveFunds -> {
-                    if (!viewModel.card.value?.blocked!!) {
-                        startActivityForResult(
-                            RemoveFundsActivity.newIntent(this, viewModel.card.value!!),
-                            Constants.REQUEST_ADD_REMOVE_FUNDS
-                        )
-                    } else {
-                        showToast("Please unfreeze card to use this feature")
-                    }
-                }
-                R.id.llCardLimits -> {
-                    startActivityForResult(
-                        CardLimitsActivity.getIntent(this, viewModel.card.value!!),
-                        Constants.REQUEST_SET_LIMITS
-                    )
-                }
-                R.id.rlFilter -> {
-                    startActivityForResult(
-                        TransactionFiltersActivity.newIntent(this),
-                        TransactionFiltersActivity.INTENT_FILTER_REQUEST
-                    )
-                }
-
-                viewModel.EVENT_FREEZE_UNFREEZE_CARD -> {
-                    cardFreezeUnfreeze = true
-                    if (viewModel.card.value?.blocked == true) {
-                        viewModel.card.value?.blocked = false
-                        dismissSnackbar()
-                        if (Constants.CARD_TYPE_DEBIT == viewModel.state.cardType) {
-                            tvPrimaryCardStatus.text = "Freeze card"
-                        } else {
-                            tvSpareCardStatus.text = "Freeze card"
-                        }
-                    } else {
-                        viewModel.card.value?.blocked = true
-                        showSnackbar()
-                        if (Constants.CARD_TYPE_DEBIT == viewModel.state.cardType) {
-                            tvPrimaryCardStatus.text = "Unfreeze card"
-                        } else {
-                            tvSpareCardStatus.text = "Unfreeze card"
-                        }
-                    }
-                }
-
-                viewModel.EVENT_CARD_DETAILS -> {
-                    showCardDetailsPopup()
-                }
-
-                viewModel.EVENT_REMOVE_CARD -> {
-                    try {
-                        val updatedCardBalance =
-                            (MyUserManager.cardBalance.value?.availableBalance?.toDouble()?.plus(
-                                viewModel.card.value?.availableBalance!!.toDouble()
-                            ))
-                        MyUserManager.cardBalance.value =
-                            CardBalance(availableBalance = updatedCardBalance.toString())
-                    } catch (e: Exception) {
-                        e.printStackTrace()
-                    }
-                    cardRemoved = true
-                    showToast(getString(R.string.screen_cards_display_text_card_removed_success))
-                    setupActionsIntent()
-                    finish()
-                }
-            }
-        })
-
+        viewModel.clickEvent.observe(this, clickObserver)
         viewModel.card.observe(this, Observer {
-            viewModel.cardTransactionRequest.serialNumber = viewModel.card.value?.cardSerialNumber!!
+            viewModel.cardTransactionRequest.serialNumber = it.cardSerialNumber
             viewModel.requestAccountTransactions()
         })
 
@@ -213,6 +116,81 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
                 }
             }
         })
+    }
+
+    private val clickObserver = Observer<Int> {
+        when (it) {
+            R.id.ivBack -> {
+                setupActionsIntent()
+                finish()
+            }
+            R.id.ivMenu -> {
+                if (Constants.CARD_TYPE_DEBIT == viewModel.state.cardType) {
+                    primaryCardBottomSheet = PrimaryCardBottomSheet(this)
+                    primaryCardBottomSheet.show(supportFragmentManager, "")
+                } else {
+                    spareCardBottomSheet =
+                        SpareCardBottomSheet(viewModel.card.value?.physical!!, this)
+                    spareCardBottomSheet.show(supportFragmentManager, "")
+                }
+            }
+            R.id.llAddFunds -> {
+                startActivityForResult(
+                    AddFundsActivity.newIntent(this, viewModel.card.value!!),
+                    Constants.REQUEST_ADD_REMOVE_FUNDS
+                )
+            }
+            R.id.llFreezeSpareCard -> {
+                viewModel.freezeUnfreezeCard()
+            }
+            R.id.llFreezePrimaryCard -> {
+
+                viewModel.freezeUnfreezeCard()
+            }
+            R.id.llRemoveFunds -> {
+                if (!viewModel.card.value?.blocked!!) {
+                    startActivityForResult(
+                        RemoveFundsActivity.newIntent(this, viewModel.card.value!!),
+                        Constants.REQUEST_ADD_REMOVE_FUNDS
+                    )
+                } else {
+                    showToast("Please unfreeze card to use this feature")
+                }
+            }
+            R.id.llCardLimits -> {
+                startActivityForResult(
+                    CardLimitsActivity.getIntent(this, viewModel.card.value!!),
+                    Constants.REQUEST_SET_LIMITS
+                )
+            }
+
+            viewModel.EVENT_FREEZE_UNFREEZE_CARD -> {
+                cardFreezeUnfreeze = true
+                viewModel.card.value?.blocked = viewModel.card.value?.blocked != true
+                checkFreezeUnfreezStatus()
+            }
+
+            viewModel.EVENT_CARD_DETAILS -> {
+                showCardDetailsPopup()
+            }
+
+            viewModel.EVENT_REMOVE_CARD -> {
+                try {
+                    val updatedCardBalance =
+                        (MyUserManager.cardBalance.value?.availableBalance?.toDouble()?.plus(
+                            viewModel.card.value?.availableBalance!!.toDouble()
+                        ))
+                    MyUserManager.cardBalance.value =
+                        CardBalance(availableBalance = updatedCardBalance.toString())
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
+                cardRemoved = true
+                showToast("Card successfully removed!")
+                setupActionsIntent()
+                finish()
+            }
+        }
     }
 
     val listener = object : OnItemClickListener {
@@ -246,6 +224,7 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
 
         if (Constants.CARD_TYPE_DEBIT == viewModel.state.cardType) {
             viewModel.state.cardTypeText = Constants.TEXT_PRIMARY_CARD
+            viewModel.state.cardTypeText = Constants.TEXT_PRIMARY_CARD
             rlPrimaryCardActions.visibility = View.VISIBLE
             rlCardBalance.visibility = View.GONE
         } else {
@@ -257,30 +236,45 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
             viewModel.getCardBalance()
             rlSpareCardActions.visibility = View.VISIBLE
         }
-
-        if (viewModel.card.value?.blocked!!) {
-            showSnackbar()
-            if (Constants.CARD_TYPE_DEBIT == viewModel.state.cardType) {
-                tvPrimaryCardStatus.text = "Unfreeze card"
-            } else {
-                tvSpareCardStatus.text = "Unfreeze card"
-            }
-        }
+        checkFreezeUnfreezStatus()
 
         btnCardDetails.setOnClickListener { viewModel.getCardDetails() }
     }
 
-    private fun showSnackbar() {
-        snackbar = window.decorView.getCustomSnackbarSticky(
-            clSnackbar,
-            getString(Strings.screen_cards_display_text_freeze_card),
-            getString(Strings.screen_cards_display_text_freeze_card_action)
-        )
-        snackbar.show()
+    private fun checkFreezeUnfreezStatus() {
+        viewModel.card.value?.blocked?.let {
+            if (it) {
+                showSnackbar()
+                if (Constants.CARD_TYPE_DEBIT == viewModel.state.cardType) {
+                    tvPrimaryCardStatus.text = "Unfreeze card"
+                } else {
+                    tvSpareCardStatus.text = "Unfreeze card"
+                }
+            } else {
+                dismissSnackbar()
+                if (Constants.CARD_TYPE_DEBIT == viewModel.state.cardType) {
+                    tvPrimaryCardStatus.text = "Freeze card"
+                } else {
+                    tvSpareCardStatus.text = "Freeze card"
+                }
+            }
+        }
+    }
 
-        val tvAction = snackbar.view.findViewById(co.yap.yapcore.R.id.tvAction) as TextView
-        tvAction.setOnClickListener {
-            viewModel.freezeUnfreezeCard()
+    private fun showSnackbar() {
+        if (snackbar?.isShown != true) {
+            snackbar = window.decorView.getCustomSnackbarSticky(
+                clSnackbar,
+                getString(Strings.screen_cards_display_text_freeze_card),
+                getString(Strings.screen_cards_display_text_freeze_card_action)
+            )
+
+            snackbar?.show()
+
+            val tvAction = snackbar?.view?.findViewById(co.yap.yapcore.R.id.tvAction) as TextView
+            tvAction.setOnClickListener {
+                viewModel.freezeUnfreezeCard()
+            }
         }
     }
 
@@ -290,15 +284,15 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
             getString(Strings.screen_cards_display_text_lost_stolen_card),
             getString(Strings.screen_cards_display_text_lost_stolen_card_action)
         )
-        snackbar.show()
-        val tvAction = snackbar.view.findViewById(co.yap.yapcore.R.id.tvAction) as TextView
+        snackbar?.show()
+        val tvAction = snackbar?.view?.findViewById(co.yap.yapcore.R.id.tvAction) as TextView
         tvAction.setOnClickListener {
             startReorderCardFlow()
         }
     }
 
     private fun dismissSnackbar() {
-        snackbar.dismiss()
+        snackbar?.dismiss()
     }
 
     override fun onClick(eventType: Int) {
@@ -373,6 +367,7 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
             }
 
             Constants.REQUEST_ADD_REMOVE_FUNDS -> {
+                checkFreezeUnfreezStatus()
                 if (resultCode == Activity.RESULT_OK) {
                     viewModel.card.value?.availableBalance =
                         data?.getStringExtra("newBalance").toString()
@@ -412,6 +407,7 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
             )
         }
     }
+
     private fun showCardDetailsPopup() {
         val dialog = Dialog(this)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
@@ -518,6 +514,7 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
         returnIntent.putExtra("cardBlocked", true)
         setResult(Activity.RESULT_OK, returnIntent)
     }
+
     private fun setupCardReorderActionsIntent() {
         val returnIntent = Intent()
         returnIntent.putExtra("cardReorder", true)
