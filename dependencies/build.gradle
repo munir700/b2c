@@ -171,12 +171,7 @@ project.ext {
             [configuration: "implementation", dependency: libraries.FirebaseCreshlytics],
             [configuration: "implementation", dependency: libraries.analytics],
             [configuration: "implementation", dependency: libraries.androidanimations],
-            [configuration: "implementation", dependency: libraries.androidanimationseasing],
-            [configuration: "implementation", dependency: libraries.leanplumFcm],
-            [configuration: "implementation", dependency: libraries.leanplumCore],
-            [configuration: "implementation", dependency: libraries.leanplumLocation],
-            [configuration: "implementation", dependency: libraries.messagingFcm],
-            [configuration: "implementation", dependency: libraries.playServicesLocation]
+            [configuration: "implementation", dependency: libraries.androidanimationseasing]
     ]
 
     // dependencies which need to be added in app module only in conjunction with commonDependencies
@@ -226,7 +221,13 @@ project.ext {
             [configuration: "implementation", dependency: libraries.androidanimationseasing],
             [configuration: "implementation", dependency: libraries.biometric],
             [configuration: "implementation", dependency: libraries.playServicesPlaces],
-            [configuration: "implementation", dependency: libraries.playLibPlaces]
+            [configuration: "implementation", dependency: libraries.playLibPlaces],
+
+            [configuration: "api", dependency: libraries.leanplumFcm],
+            [configuration: "api", dependency: libraries.leanplumCore],
+            [configuration: "api", dependency: libraries.leanplumLocation],
+            [configuration: "api", dependency: libraries.messagingFcm],
+            [configuration: "api", dependency: libraries.playServicesLocation]
     ]
 
     // dependencies which need to be added in translation module only in conjunction with commonDependencies

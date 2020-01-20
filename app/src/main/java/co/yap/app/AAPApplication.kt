@@ -7,10 +7,10 @@ import co.yap.yapcore.helpers.AuthUtils
 import co.yap.yapcore.helpers.NetworkConnectionManager
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.managers.AppCredentials
 import com.crashlytics.android.Crashlytics
 import com.leanplum.Leanplum
 import com.leanplum.LeanplumActivityHelper
-import com.leanplum.annotations.Parser
 import io.fabric.sdk.android.Fabric
 import timber.log.Timber
 import timber.log.Timber.DebugTree
@@ -26,7 +26,7 @@ class AAPApplication : ChatApplication(BuildConfig.FLAVOR) {
         initNetworkLayer()
         setAppUniqueId(this)
         initFirebase()
-        inItLeanplum()
+        inItLeanPlum()
     }
 
     private fun initNetworkLayer() {
@@ -68,23 +68,22 @@ class AAPApplication : ChatApplication(BuildConfig.FLAVOR) {
     /**
      * In this function initialize Leanplum.
      */
-    private fun inItLeanplum() {
-        Leanplum.setApplicationContext(this)
-        Parser.parseVariables(this)
+    private fun inItLeanPlum() {
 
+        Leanplum.setApplicationContext(this)
+        //Parser.parseVariables(this)
         LeanplumActivityHelper.enableLifecycleCallbacks(this)
 
+        val appId = AppCredentials.appId
+        val devKey = AppCredentials.devKey
+        val prodKey = AppCredentials.prodKey
+
         if (BuildConfig.DEBUG) {
-            Leanplum.setAppIdForDevelopmentMode(
-                "app_OjUbwCEcWfawOQzYABPyg5R7y9sFLgFm9C1JdgIa3Qk",
-                "dev_2ssrA8Mh1BazUIZHqIQabRP0a76cQwZ1MYfHsJpODMQ"
-            )
+            Leanplum.setAppIdForDevelopmentMode(appId, devKey)
         } else {
-            Leanplum.setAppIdForProductionMode(
-                "app_OjUbwCEcWfawOQzYABPyg5R7y9sFLgFm9C1JdgIa3Qk",
-                "prod_KX4ktWrg5iHyP12VbRZ92U0SOVXyYrcWk5B68TfBAW0"
-            )
+            Leanplum.setAppIdForProductionMode(appId, prodKey)
         }
+
         Leanplum.trackAllAppScreens()
         Leanplum.start(this)
     }
