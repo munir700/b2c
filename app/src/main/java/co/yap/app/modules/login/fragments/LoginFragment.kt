@@ -11,6 +11,7 @@ import co.yap.app.R
 import co.yap.app.modules.login.interfaces.ILogin
 import co.yap.app.modules.login.viewmodels.LoginViewModel
 import co.yap.yapcore.BaseBindingFragment
+import co.yap.yapcore.helpers.extentions.trackEvent
 
 class LoginFragment : BaseBindingFragment<ILogin.ViewModel>(), ILogin.View {
 
@@ -38,6 +39,7 @@ class LoginFragment : BaseBindingFragment<ILogin.ViewModel>(), ILogin.View {
             LoginFragmentDirections.actionLoginFragmentToVerifyPasscodeFragment(viewModel.state.twoWayTextWatcher)
         NavHostFragment.findNavController(this).navigate(action)
          viewModel.state.twoWayTextWatcher = ""
+        trackEvent("username verified")
         // findNavController().navigate(action)
     }
 

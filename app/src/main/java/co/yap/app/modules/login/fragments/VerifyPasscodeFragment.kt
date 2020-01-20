@@ -19,6 +19,7 @@ import co.yap.yapcore.helpers.biometric.BiometricCallback
 import co.yap.yapcore.helpers.biometric.BiometricManagerX
 import co.yap.yapcore.helpers.biometric.BiometricUtil
 import co.yap.yapcore.helpers.extentions.preventTakeScreenshot
+import co.yap.yapcore.helpers.extentions.trackEvent
 import kotlinx.android.synthetic.main.fragment_verify_passcode.*
 
 
@@ -129,6 +130,7 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
                             viewModel.mobileNumber
                         )
                     findNavController().navigate(action)
+                    trackEvent("forgot pass code")
                 }
             }
         })
@@ -170,6 +172,7 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
         if (it) {
             if (viewModel.isFingerprintLogin) {
                 sharedPreferenceManager.save(SharedPreferenceManager.KEY_IS_USER_LOGGED_IN, true)
+                trackEvent("user login successfully")
                 navigateToDashboard()
             } else {
                 viewModel.validateDevice()
@@ -217,6 +220,7 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
                 navigateToDashboard()
             }
         } else {
+            trackEvent("Go to Otp")
             viewModel.createOtp()
         }
     }
@@ -301,6 +305,7 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
                     }
                 }
 
+                trackEvent("bio metric scan successfully")
                 if (!viewModel.state.username.isNullOrEmpty() && !viewModel.state.passcode.isNullOrEmpty())
                     viewModel.login()
             }
