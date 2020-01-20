@@ -1,5 +1,6 @@
 package co.yap.modules.dashboard.home.fragments
 
+import android.app.Activity
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
@@ -24,6 +25,7 @@ import co.yap.modules.dashboard.home.adaptor.GraphBarsAdapter
 import co.yap.modules.dashboard.home.adaptor.NotificationAdapter
 import co.yap.modules.dashboard.home.adaptor.TransactionsHeaderAdapter
 import co.yap.modules.dashboard.home.filters.activities.TransactionFiltersActivity
+import co.yap.modules.dashboard.home.filters.models.TransactionRequest
 import co.yap.modules.dashboard.home.helpers.AppBarStateChangeListener
 import co.yap.modules.dashboard.home.helpers.transaction.TransactionsViewHelper
 import co.yap.modules.dashboard.home.interfaces.IYapHome
@@ -39,6 +41,7 @@ import co.yap.modules.setcardpin.activities.SetCardPinWelcomeActivity
 import co.yap.networking.transactions.responsedtos.transaction.Content
 import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionListData
 import co.yap.yapcore.constants.Constants.BROADCAST_UPDATE_TRANSACTION
+import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.enums.PartnerBankStatus
 import co.yap.yapcore.helpers.CustomSnackbar
 import co.yap.yapcore.helpers.Utils
@@ -159,8 +162,13 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                     } else {
                         if (PartnerBankStatus.ACTIVATED.status == MyUserManager.user?.partnerBankStatus)
                             startActivityForResult(
-                                TransactionFiltersActivity.newIntent(requireContext()),
-                                TransactionFiltersActivity.INTENT_FILTER_REQUEST
+                                TransactionFiltersActivity.newIntent(
+                                    requireContext(),
+                                    txnType = homeTransactionsRequest.txnType,
+                                    startRange = homeTransactionsRequest.amountStartRange,
+                                    endRange = homeTransactionsRequest.amountEndRange
+                                ),
+                                RequestCodes.REQUEST_TXN_FILTER
                             )
                     }
                 }
@@ -462,9 +470,29 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        if (requestCode == TransactionFiltersActivity.INTENT_FILTER_REQUEST) {
-            if (YAPApplication.hasFilterStateChanged)
-                getFilterTransactions()
+        if (resultCode == Activity.RESULT_OK) {
+            if (requestCode == RequestCodes.REQUEST_TXN_FILTER) {
+                val request: TransactionRequest? =
+                    data?.getParcelableExtra<TransactionRequest?>("txnRequest")
+                val isFilterStateChange: Boolean? =
+                    data?.getBooleanExtra("hasFilterStateChanged", false)
+                setTransactionRequest(request)
+                if (isFilterStateChange == true) {
+                    getFilterTransactions()
+                }
+            }
+        }
+    }
+
+    private fun setTransactionRequest(request: TransactionRequest?) {
+        request?.let {
+            homeTransactionsRequest.number = it.number ?: 0
+            homeTransactionsRequest.size = it.size ?: 100
+            homeTransactionsRequest.txnType = it.txnType
+            homeTransactionsRequest.amountStartRange = it.amountStartRange
+            homeTransactionsRequest.amountEndRange = it.amountEndRange
+            homeTransactionsRequest.title = it.title
+            homeTransactionsRequest.totalAppliedFilter = it.totalAppliedFilter
         }
     }
 

@@ -20,5 +20,8 @@ interface ITransactionFilters {
     interface State : IBase.State {
         var rangeStartValue: ObservableField<String>
         var rangeEndValue: ObservableField<String>
+        var selectedStartRange: ObservableField<Double>
+        var selectedEndRange: ObservableField<Double>
+        var selectedTxnType: ObservableField<String?>
     }
 }

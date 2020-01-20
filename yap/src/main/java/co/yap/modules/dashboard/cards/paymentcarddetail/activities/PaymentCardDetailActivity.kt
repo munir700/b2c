@@ -32,6 +32,7 @@ import co.yap.modules.dashboard.cards.reordercard.activities.ReorderCardActivity
 import co.yap.modules.dashboard.cards.reportcard.activities.ReportLostOrStolenCardActivity
 import co.yap.modules.dashboard.home.adaptor.TransactionsHeaderAdapter
 import co.yap.modules.dashboard.home.filters.activities.TransactionFiltersActivity
+import co.yap.modules.dashboard.home.filters.models.TransactionRequest
 import co.yap.modules.others.helper.Constants
 import co.yap.networking.cards.responsedtos.Card
 import co.yap.networking.cards.responsedtos.CardBalance
@@ -132,8 +133,13 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
                 }
                 R.id.rlFilter -> {
                     startActivityForResult(
-                        TransactionFiltersActivity.newIntent(this),
-                        TransactionFiltersActivity.INTENT_FILTER_REQUEST
+                        TransactionFiltersActivity.newIntent(
+                            this,
+                            txnType = viewModel.cardTransactionRequest.txnType,
+                            startRange = viewModel.cardTransactionRequest.amountStartRange,
+                            endRange =viewModel.cardTransactionRequest.amountEndRange
+                        ),
+                        RequestCodes.REQUEST_TXN_FILTER
                     )
                 }
 
@@ -399,6 +405,24 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
                     finish()
                 }
             }
+            RequestCodes.REQUEST_TXN_FILTER -> {
+                val request: TransactionRequest? =
+                    data?.getParcelableExtra<TransactionRequest?>("txnRequest")
+                val isFilterStateChange: Boolean? =
+                    data?.getBooleanExtra("hasFilterStateChanged", false)
+                setTransactionRequest(request)
+                if (isFilterStateChange == true) {
+                    viewModel.requestAccountTransactions()
+                }
+            }
+        }
+    }
+
+    private fun setTransactionRequest(request: TransactionRequest?) {
+        request?.let {
+            viewModel.cardTransactionRequest.amountStartRange = it.amountStartRange
+            viewModel.cardTransactionRequest.amountEndRange = it.amountEndRange
+            viewModel.cardTransactionRequest.txnType = it.txnType
         }
     }
 
