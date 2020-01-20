@@ -10,6 +10,8 @@
             type="co.yap.modules.dashboard.cards.paymentcarddetail.statments.viewmodels.CardStatementsViewModel" />
 
         <import type="android.view.View" />
+
+        <import type="co.yap.translation.Strings" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -86,7 +88,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="Nothing to report yet"
+            app:text="@{Strings.common_display_text_nothing_to_report}"
+            tools:text="@string/common_display_text_nothing_to_report"
             android:visibility="@{viewModel.state.hasRecords? View.GONE : View.VISIBLE}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

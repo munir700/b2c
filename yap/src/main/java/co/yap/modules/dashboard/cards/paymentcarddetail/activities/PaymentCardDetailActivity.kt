@@ -31,6 +31,7 @@ import co.yap.modules.dashboard.cards.paymentcarddetail.viewmodels.PaymentCardDe
 import co.yap.modules.dashboard.cards.reordercard.activities.ReorderCardActivity
 import co.yap.modules.dashboard.cards.reportcard.activities.ReportLostOrStolenCardActivity
 import co.yap.modules.dashboard.home.adaptor.TransactionsHeaderAdapter
+import co.yap.modules.dashboard.home.filters.activities.TransactionFiltersActivity
 import co.yap.modules.others.helper.Constants
 import co.yap.networking.cards.responsedtos.Card
 import co.yap.networking.cards.responsedtos.CardBalance
@@ -129,6 +130,12 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
                         Constants.REQUEST_SET_LIMITS
                     )
                 }
+                R.id.rlFilter -> {
+                    startActivityForResult(
+                        TransactionFiltersActivity.newIntent(this),
+                        TransactionFiltersActivity.INTENT_FILTER_REQUEST
+                    )
+                }
 
                 viewModel.EVENT_FREEZE_UNFREEZE_CARD -> {
                     cardFreezeUnfreeze = true
@@ -167,7 +174,7 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
                         e.printStackTrace()
                     }
                     cardRemoved = true
-                    showToast("Card successfully removed!")
+                    showToast(getString(R.string.screen_cards_display_text_card_removed_success))
                     setupActionsIntent()
                     finish()
                 }
@@ -180,7 +187,7 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
         })
 
         viewModel.transactionsLiveData.observe(this, Observer {
-            ivNoTransaction.visibility = if (it.isEmpty()) View.VISIBLE else View.GONE
+            tvNoTransaction.visibility = if (it.isEmpty()) View.VISIBLE else View.GONE
             if (viewModel.isLoadMore.value!!) {
                 getRecycleViewAdaptor().setList(it)
             } else {

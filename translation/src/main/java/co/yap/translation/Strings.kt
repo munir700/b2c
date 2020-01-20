@@ -16,6 +16,8 @@ object Strings {
     const val common_button_activate: String = "common_button_activate"
     const val common_text_currency_type: String = "common_text_currency_type"
     const val common_amount_hint: String = "common_amount_hint"
+    const val common_display_text_nothing_to_report: String =
+        "common_display_text_nothing_to_report"
 
 
     //Home screen
@@ -406,6 +408,9 @@ object Strings {
 
     const val screen_cards_display_text_cards_count: String =
         "screen_cards_display_text_cards_count"
+
+    const val screen_cards_display_text_card_removed_success: String =
+        "screen_cards_display_text_card_removed_success"
 
     //fragment home transaction
     const val screen_fragment_home_transaction_time_category: String =
