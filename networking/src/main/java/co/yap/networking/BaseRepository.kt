@@ -60,10 +60,11 @@ abstract class BaseRepository : IRepository {
                         }
                     } else if (obj.has("error")) {
                         // most probably.. unauthorised error
-                        val error = obj.getString("error") ?: ""
+                        val error = obj.getString("error") ?: "Something went wrong"
                         if (error.contains("unauthorized")) {
                             return ""
                         }
+                        return error
                     }
 
 
