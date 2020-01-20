@@ -103,10 +103,6 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
             Constants.EVENT_CHOOSE_PHOTO -> {
                 checkPermission(FINAL_CHOOSE_PHOTO)
             }
-
-            R.id.tvNotificationsView -> {
-                showToast("start notifications")
-            }
         }
     }
 
@@ -241,13 +237,15 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
                 }
 
                 R.id.tvPrivacyView -> {
+                    Utils.showComingSoon(requireContext())
+                }
 
+                R.id.tvNotificationsView ->{
+                    Utils.showComingSoon(requireContext())
                 }
 
                 R.id.tvChangePasscode -> {
-
                     findNavController().navigate(R.id.action_profileSettingsFragment_to_change_pascode_navigation)
-
                 }
 
                 R.id.tvTermsAndConditionView -> {

@@ -20,6 +20,7 @@ interface ICardStatments {
 
     interface State : IBase.State {
         var year: ObservableField<String>
+        var hasRecords: ObservableField<Boolean>
         var statements: ObservableField<List<CardStatement>>
     }
 }

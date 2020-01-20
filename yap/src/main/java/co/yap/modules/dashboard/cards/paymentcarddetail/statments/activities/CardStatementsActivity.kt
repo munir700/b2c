@@ -24,8 +24,6 @@ import java.util.*
 class CardStatementsActivity : BaseBindingActivity<ICardStatments.ViewModel>(),
     ICardStatments.View {
 
-    lateinit var adaptor: CardStatementsAdaptor
-
     companion object {
         private const val CARD = "card"
         fun newIntent(context: Context, card: Card): Intent {
@@ -57,7 +55,7 @@ class CardStatementsActivity : BaseBindingActivity<ICardStatments.ViewModel>(),
     }
 
     private fun setupRecycleView() {
-        adaptor = CardStatementsAdaptor(mutableListOf())
+        val adaptor = CardStatementsAdaptor(mutableListOf())
         recyclerStatements.layoutManager = LinearLayoutManager(this, RecyclerView.HORIZONTAL, false)
         recyclerStatements.adapter = adaptor
         adaptor.allowFullItemClickListener = true

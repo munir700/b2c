@@ -772,4 +772,8 @@ object Utils {
                 .show(url)
         }
     }
+
+    fun showComingSoon(context: Context) {
+        context.shortToast("Coming Soon")
+    }
 }

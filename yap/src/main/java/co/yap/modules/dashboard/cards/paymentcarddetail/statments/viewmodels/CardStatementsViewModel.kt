@@ -25,6 +25,7 @@ class CardStatementsViewModel(application: Application) :
                 transactionRepository.getCardStatements(serialNumber)) {
                 is RetroApiResponse.Success -> {
                     state.statements.set(response.data.data)
+                    state.hasRecords.set(state.statements.get()?.isNotEmpty())
                     state.loading = false
                 }
                 is RetroApiResponse.Error -> {

@@ -171,6 +171,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                         CardAnalyticsActivity::class.java
                     )
                 )
+                R.id.lyAdd -> Utils.showComingSoon(requireContext())
 
             }
         })
@@ -217,10 +218,8 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
             } else {
                 if (it.isEmpty()) {
                     viewModel.state.isTransEmpty.set(true)
-                    ivNoTransaction.visibility = View.VISIBLE
-                    rvTransaction.visibility = View.GONE
                 } else {
-                    viewModel.state.isTransEmpty.set(false)
+                    checkUserStatus()
                     getRecycleViewAdaptor()?.setList(it)
                     getGraphRecycleViewAdapter()?.setList(it)
                     transactionViewHelper?.setTooltipOnZero()
@@ -268,20 +267,6 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
     }
 
     private fun checkUserStatus() {
-
-        if (PartnerBankStatus.ACTIVATED.status == MyUserManager.user?.partnerBankStatus) {
-            showTransactionsAndGraph()
-            notificationsList.clear()
-            mAdapter = NotificationAdapter(
-                notificationsList,
-                requireContext(),
-                this
-            )
-            mAdapter.notifyDataSetChanged()
-        } else {
-            ivNoTransaction.visibility = View.VISIBLE
-            rvTransaction.visibility = View.GONE
-        }
         
         when (MyUserManager.user?.notificationStatuses) {
             Constants.USER_STATUS_ON_BOARDED -> {
@@ -303,7 +288,6 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                 mAdapter.notifyDataSetChanged()
             }
             co.yap.yapcore.constants.Constants.USER_STATUS_CARD_ACTIVATED -> {
-                //showTransactionsAndGraph
                 notificationsList.clear()
                 mAdapter = NotificationAdapter(
                     notificationsList,
@@ -313,17 +297,26 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                 mAdapter.notifyDataSetChanged()
             }
         }
+
+        if (PartnerBankStatus.ACTIVATED.status == MyUserManager.user?.partnerBankStatus) {
+            showTransactionsAndGraph()
+            notificationsList.clear()
+            mAdapter = NotificationAdapter(
+                notificationsList,
+                requireContext(),
+                this
+            )
+            mAdapter.notifyDataSetChanged()
+        } else {
+            viewModel.state.isTransEmpty.set(true)
+        }
     }
 
     private fun showTransactionsAndGraph() {
-
         if (viewModel.transactionsLiveData.value.isNullOrEmpty()) {
-            ivNoTransaction.visibility = View.VISIBLE
-            rvTransaction.visibility = View.GONE
+            viewModel.state.isTransEmpty.set(true)
         } else {
-            ivNoTransaction.visibility = View.GONE
-            rvTransaction.visibility = View.VISIBLE
-            vGraph.visibility = View.VISIBLE
+            viewModel.state.isTransEmpty.set(false)
             view?.let {
                 transactionViewHelper = TransactionsViewHelper(
                     requireContext(),
@@ -339,7 +332,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
         notificationsList.add(
             Notification(
                 "Set your card PIN",
-                "Now create a unique 4-digit PIN code to be able to use your debit card for purchases and withdrawals",
+                "Now create a unique 4-digit PIN to be able to use your debit card for purchases and withdrawals",
                 "",
                 Constants.NOTIFICATION_ACTION_SET_PIN,
                 "",
