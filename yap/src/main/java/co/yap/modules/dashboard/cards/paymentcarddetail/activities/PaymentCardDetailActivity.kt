@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import co.yap.BR
 import co.yap.R
+import co.yap.databinding.ActivityPaymentCardDetailBinding
 import co.yap.modules.dashboard.cards.paymentcarddetail.addfunds.activities.AddFundsActivity
 import co.yap.modules.dashboard.cards.paymentcarddetail.forgotcardpin.activities.ForgotCardPinActivity
 import co.yap.modules.dashboard.cards.paymentcarddetail.fragments.CardClickListener
@@ -34,6 +35,7 @@ import co.yap.modules.dashboard.home.adaptor.TransactionsHeaderAdapter
 import co.yap.modules.others.helper.Constants
 import co.yap.networking.cards.responsedtos.Card
 import co.yap.networking.cards.responsedtos.CardBalance
+import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionListData
 import co.yap.translation.Strings
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.constants.RequestCodes
@@ -82,6 +84,11 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
         setupView()
     }
 
+    private fun getBindings(): ActivityPaymentCardDetailBinding {
+        return viewDataBinding as ActivityPaymentCardDetailBinding
+    }
+
+
     override fun setObservers() {
         viewModel.clickEvent.observe(this, clickObserver)
         viewModel.card.observe(this, Observer {
@@ -90,32 +97,100 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
         })
 
         viewModel.transactionsLiveData.observe(this, Observer {
-            tvNoTransaction.visibility = if (it.isEmpty()) View.VISIBLE else View.GONE
             if (viewModel.isLoadMore.value!!) {
-                getRecycleViewAdaptor().setList(it)
-            } else {
-                getRecycleViewAdaptor().setList(it)
-            }
-        })
+                if (getRecycleViewAdaptor().itemCount == 0) getBindings().appbar.setExpanded(true)
 
-        getRecycleViewAdaptor().setItemListener(listener)
-        rvTransaction.addOnScrollListener(object :
-            RecyclerView.OnScrollListener() {
-            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                super.onScrolled(recyclerView, dx, dy);
-                val layoutManager =
-                    rvTransaction.layoutManager as LinearLayoutManager
-                val lastVisiblePosition = layoutManager.findLastVisibleItemPosition()
-                if (lastVisiblePosition == layoutManager.itemCount - 1) {
-                    if (!viewModel.isLoadMore.value!!) {
-                        viewModel.isLoadMore.value = true
-                        viewModel.cardTransactionRequest.number =
-                            viewModel.cardTransactionRequest.number + 1
-                        viewModel.loadMore()
+                if (getRecycleViewAdaptor().itemCount > 0)
+                    getRecycleViewAdaptor().removeItemAt(getRecycleViewAdaptor().itemCount - 1)
+
+                val listToAppend: MutableList<HomeTransactionListData> = mutableListOf()
+                val oldData = getRecycleViewAdaptor().getDataList()
+                for (parentItem in it) {
+
+                    var shouldAppend = false
+                    for (i in 0 until oldData.size) {
+                        if (parentItem.date == oldData[i].date) {
+                            if (parentItem.content.size != oldData[i].content.size) {
+                                shouldAppend = true
+                                break
+                            }
+                            shouldAppend = true
+                            break
+                        }
                     }
+                    if (!shouldAppend)
+                        listToAppend.add(parentItem)
+                }
+                getRecycleViewAdaptor().addList(listToAppend)
+            } else {
+                if (it.isEmpty()) {
+                    tvNoTransaction.visibility = View.VISIBLE
+                } else {
+                    tvNoTransaction.visibility = View.GONE
+                    getRecycleViewAdaptor().setList(it)
                 }
             }
         })
+
+        getBindings().rvTransaction.addOnScrollListener(
+            object :
+                RecyclerView.OnScrollListener() {
+                override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                    super.onScrolled(recyclerView, dx, dy)
+                    val layoutManager =
+                        getBindings().rvTransaction.layoutManager as LinearLayoutManager
+                    val lastVisiblePosition = layoutManager.findLastVisibleItemPosition()
+                    if (lastVisiblePosition == layoutManager.itemCount - 1) {
+                        if (!viewModel.isLoadMore.value!! && !viewModel.isLast.value!!) {
+                            viewModel.isLoadMore.value = true
+                        }
+                    }
+                }
+            })
+
+        viewModel.isLoadMore.observe(this, Observer
+        {
+            if (it) {
+                viewModel.cardTransactionRequest.number =
+                    viewModel.cardTransactionRequest.number + 1
+                val item =
+                    getRecycleViewAdaptor().getDataForPosition(getRecycleViewAdaptor().itemCount - 1)
+                        .copy()
+                item.totalAmount = "loader"
+                getRecycleViewAdaptor().run { addListItem(item) }
+                viewModel.loadMore()
+            }
+        })
+
+        ///
+
+//        viewModel.transactionsLiveData.observe(this, Observer {
+//            tvNoTransaction.visibility = if (it.isEmpty()) View.VISIBLE else View.GONE
+//            if (viewModel.isLoadMore.value!!) {
+//                getRecycleViewAdaptor().setList(it)
+//            } else {
+//                getRecycleViewAdaptor().setList(it)
+//            }
+//        })
+//
+//        getRecycleViewAdaptor().setItemListener(listener)
+//        rvTransaction.addOnScrollListener(object :
+//            RecyclerView.OnScrollListener() {
+//            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+//                super.onScrolled(recyclerView, dx, dy);
+//                val layoutManager =
+//                    rvTransaction.layoutManager as LinearLayoutManager
+//                val lastVisiblePosition = layoutManager.findLastVisibleItemPosition()
+//                if (lastVisiblePosition == layoutManager.itemCount - 1) {
+//                    if (!viewModel.isLoadMore.value!!) {
+//                        viewModel.isLoadMore.value = true
+//                        viewModel.cardTransactionRequest.number =
+//                            viewModel.cardTransactionRequest.number + 1
+//                        viewModel.loadMore()
+//                    }
+//                }
+//            }
+//        })
     }
 
     private val clickObserver = Observer<Int> {

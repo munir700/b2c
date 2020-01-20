@@ -39,6 +39,7 @@ interface IPaymentCardDetail {
         fun requestAccountTransactions()
         val transactionsLiveData: MutableLiveData<List<HomeTransactionListData>>
         val isLoadMore: MutableLiveData<Boolean>
+        val isLast: MutableLiveData<Boolean>
         fun loadMore()
     }
 
