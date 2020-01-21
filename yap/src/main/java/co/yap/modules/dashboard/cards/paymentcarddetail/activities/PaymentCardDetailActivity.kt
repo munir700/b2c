@@ -14,6 +14,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import co.yap.BR
@@ -455,6 +456,10 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
             Constants.REQUEST_ADD_REMOVE_FUNDS -> {
                 checkFreezeUnfreezStatus()
                 if (resultCode == Activity.RESULT_OK) {
+                    // Send Broadcast for updating transactions list in `Home Fragment`
+                    val intent = Intent(co.yap.yapcore.constants.Constants.BROADCAST_UPDATE_TRANSACTION)
+                    LocalBroadcastManager.getInstance(this).sendBroadcast(intent)
+
                     viewModel.card.value?.availableBalance =
                         data?.getStringExtra("newBalance").toString()
                     viewModel.state.cardBalance =
