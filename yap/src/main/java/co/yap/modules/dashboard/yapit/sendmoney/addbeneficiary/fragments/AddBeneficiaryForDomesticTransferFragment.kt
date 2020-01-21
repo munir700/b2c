@@ -3,6 +3,8 @@ package co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.fragments
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -19,6 +21,8 @@ import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.enums.SendMoneyBeneficiaryType
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.interfaces.OnItemClickListener
+import kotlinx.android.synthetic.main.fragment_add_beneficiary_domestic_transfer.*
+
 
 class AddBeneficiaryForDomesticTransferFragment :
     SendMoneyBaseFragment<IAddBeneficiary.ViewModel>(),
@@ -34,8 +38,64 @@ class AddBeneficiaryForDomesticTransferFragment :
         super.onCreate(savedInstanceState)
         viewModel.clickEvent.observe(this, observer)
         viewModel.addBeneficiarySuccess.observe(this, Observer {
-            if(it){
+            if (it) {
                 addBeneficiarySuccessDialog()
+            }
+        })
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        etIban.addTextChangedListener(object : TextWatcher {
+
+            override fun afterTextChanged(s: Editable) {
+                var i = 4
+                while (i < s.length) {
+                    if (s.toString()[i] != ' ') {
+                        s.insert(i, " ")
+                    }
+                    i += 5
+                }
+            }
+
+            override fun beforeTextChanged(
+                s: CharSequence, start: Int,
+                count: Int, after: Int
+            ) {
+            }
+
+            override fun onTextChanged(
+                s: CharSequence, start: Int,
+                before: Int, count: Int
+            ) {
+
+            }
+        })
+
+        etConfirmIban.addTextChangedListener(object : TextWatcher {
+
+            override fun afterTextChanged(s: Editable) {
+                var i = 4
+                while (i < s.length) {
+                    if (s.toString()[i] != ' ') {
+                        s.insert(i, " ")
+                    }
+                    i += 5
+                }
+            }
+
+            override fun beforeTextChanged(
+                s: CharSequence, start: Int,
+                count: Int, after: Int
+            ) {
+            }
+
+            override fun onTextChanged(
+                s: CharSequence, start: Int,
+                before: Int, count: Int
+            ) {
+
             }
         })
 
@@ -112,7 +172,7 @@ class AddBeneficiaryForDomesticTransferFragment :
 
     private fun setIntentResult() {
         val intent = Intent()
-        intent.putExtra( Constants.BENEFICIARY_CHANGE, true)
+        intent.putExtra(Constants.BENEFICIARY_CHANGE, true)
         activity?.setResult(Activity.RESULT_OK, intent)
         activity?.finish()
     }
