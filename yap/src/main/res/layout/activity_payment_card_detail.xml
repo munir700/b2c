@@ -46,31 +46,44 @@
                     android:layout_height="wrap_content"
                     android:text="Transactions" />
 
-                <RelativeLayout
+                <LinearLayout
                     android:id="@+id/rlFilter"
+                    android:gravity="center"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
-                    android:visibility="gone">
+                    android:onClick="@{v -> viewModel.handlePressOnView(v.getId())}"
+                    android:visibility="visible">
 
+                    <TextView
+                        android:id="@+id/tvFilterCount"
+                        style="@style/ASmall"
+                        android:layout_width="@dimen/_22sdp"
+                        android:layout_height="@dimen/_22sdp"
+                        android:layout_marginEnd="5dp"
+                        android:background="@drawable/bg_round_purple"
+                        android:gravity="center"
+                        android:text="@{viewModel.state.filterCount.toString()}"
+                        android:textColor="@color/colorPrimary"
+                        android:visibility="@{viewModel.state.filterCount > 0 ? View.VISIBLE:View.GONE}"
+                        tools:text="6" />
                     <ImageView
                         android:id="@+id/ivFilters"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="2dp"
+                        android:tint="@{viewModel.state.isTxnsEmpty()? @color/grey: @color/colorPrimaryDark}"
                         android:src="@drawable/ic_filter" />
 
                     <TextView
                         android:id="@+id/tvFilters"
                         style="@style/ASmall"
+                        android:text="Filter"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/_2sdp"
-                        android:layout_toEndOf="@+id/ivFilters"
-                        android:text="Filter"
-                        android:textColor="@color/colorPrimary" />
+                        android:textColor="@{viewModel.state.isTxnsEmpty()? @color/grey: @color/colorPrimaryDark}" />
 
-                </RelativeLayout>
+                </LinearLayout>
 
             </RelativeLayout>
 
@@ -96,7 +109,7 @@
                 android:layout_gravity="bottom|center"
                 android:layout_marginTop="@dimen/margin_btn_side_paddings"
                 android:gravity="bottom"
-                android:visibility="gone"
+                android:visibility="@{viewModel.state.isTxnsEmpty()?View.VISIBLE:View.GONE}"
                 app:text="@{Strings.common_display_text_nothing_to_report}"
                 tools:text="@string/common_display_text_nothing_to_report" />
 
@@ -104,6 +117,7 @@
         <!--        </androidx.core.widget.NestedScrollView>-->
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/appbar"
+            android:visibility="visible"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/white"
@@ -189,7 +203,7 @@
                             android:layout_height="wrap_content"
                             android:layout_margin="@dimen/margin_extra_small"
                             android:background="@color/white"
-                            android:visibility="gone">
+                            android:visibility="visible">
 
                             <LinearLayout
                                 android:layout_width="wrap_content"
@@ -281,7 +295,7 @@
                             android:layout_height="wrap_content"
                             android:layout_margin="@dimen/margin_extra_small"
                             android:background="@color/white"
-                            android:visibility="gone">
+                            android:visibility="visible">
 
                             <LinearLayout
                                 android:layout_width="wrap_content"

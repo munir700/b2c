@@ -16,7 +16,7 @@ abstract class BaseRepository : IRepository {
     override suspend fun <T : ApiResponse> executeSafely(call: suspend () -> Response<T>): RetroApiResponse<T> {
         try {
             val response: Response<T> = call.invoke()
-            if (response.isSuccessful || false) {
+            if (response.isSuccessful) {
                 return RetroApiResponse.Success(response.code(), response.body()!!)
             }
 
@@ -24,7 +24,12 @@ abstract class BaseRepository : IRepository {
             return RetroApiResponse.Error(detectError(response))
 
         } catch (exception: MalformedJsonException1) {
-            return RetroApiResponse.Error(ApiError(MALFORMED_JSON_EXCEPTION_CODE, exception.localizedMessage))
+            return RetroApiResponse.Error(
+                ApiError(
+                    MALFORMED_JSON_EXCEPTION_CODE,
+                    exception.localizedMessage
+                )
+            )
         } catch (exception: Exception) {
             return RetroApiResponse.Error(ApiError(0, exception.localizedMessage))
         }
@@ -46,7 +51,7 @@ abstract class BaseRepository : IRepository {
             }
         }
     }
-    
+
     private fun fetchErrorFromBody(response: String?): String? {
         response?.let {
             if (it.isNotBlank()) {
@@ -57,7 +62,7 @@ abstract class BaseRepository : IRepository {
                         val errors = obj.getJSONArray("errors")
                         if (errors.length() > 0) {
                             val message = errors.getJSONObject(0).getString("message")
-                            return if (message!="null") {
+                            return if (message != "null") {
                                 errors.getJSONObject(0).getString("message")
                             } else {
                                 "Something went wrong"
@@ -65,10 +70,11 @@ abstract class BaseRepository : IRepository {
                         }
                     } else if (obj.has("error")) {
                         // most probably.. unauthorised error
-                        val error = obj.getString("error") ?: ""
+                        val error = obj.getString("error") ?: "Something went wrong"
                         if (error.contains("unauthorized")) {
                             return ""
                         }
+                        return error
                     }
 
                 } catch (e: JSONException) {
