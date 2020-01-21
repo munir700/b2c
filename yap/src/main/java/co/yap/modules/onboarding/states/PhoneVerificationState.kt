@@ -67,7 +67,7 @@ open class PhoneVerificationState(application: Application) : BaseState(), IPhon
 
     private fun validate(): Boolean {
         var validateOtp: Boolean = false
-        if (!otp.isNullOrEmpty() && otp.length == 4) {
+        if (!otp.isNullOrEmpty() && otp.length == 6) {
             validateOtp = true
             valid = true
         }
