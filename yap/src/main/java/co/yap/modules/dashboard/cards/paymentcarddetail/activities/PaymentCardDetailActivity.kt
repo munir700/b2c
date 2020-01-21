@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import co.yap.BR
 import co.yap.R
+import co.yap.databinding.ActivityPaymentCardDetailBinding
 import co.yap.modules.dashboard.cards.paymentcarddetail.addfunds.activities.AddFundsActivity
 import co.yap.modules.dashboard.cards.paymentcarddetail.forgotcardpin.activities.ForgotCardPinActivity
 import co.yap.modules.dashboard.cards.paymentcarddetail.fragments.CardClickListener
@@ -32,10 +33,11 @@ import co.yap.modules.dashboard.cards.reordercard.activities.ReorderCardActivity
 import co.yap.modules.dashboard.cards.reportcard.activities.ReportLostOrStolenCardActivity
 import co.yap.modules.dashboard.home.adaptor.TransactionsHeaderAdapter
 import co.yap.modules.dashboard.home.filters.activities.TransactionFiltersActivity
-import co.yap.modules.dashboard.home.filters.models.TransactionRequest
+import co.yap.modules.dashboard.home.filters.models.TransactionFilters
 import co.yap.modules.others.helper.Constants
 import co.yap.networking.cards.responsedtos.Card
 import co.yap.networking.cards.responsedtos.CardBalance
+import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionListData
 import co.yap.translation.Strings
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.constants.RequestCodes
@@ -52,8 +54,7 @@ import kotlinx.android.synthetic.main.layout_card_info.*
 class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewModel>(),
     IPaymentCardDetail.View, CardClickListener {
 
-
-    private lateinit var snackbar: Snackbar
+    private var snackbar: Snackbar? = null
     private lateinit var primaryCardBottomSheet: PrimaryCardBottomSheet
     private lateinit var spareCardBottomSheet: SpareCardBottomSheet
 
@@ -85,140 +86,196 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
         setupView()
     }
 
+    private fun getBindings(): ActivityPaymentCardDetailBinding {
+        return viewDataBinding as ActivityPaymentCardDetailBinding
+    }
+
+
     override fun setObservers() {
-        viewModel.clickEvent.observe(this, Observer {
-            when (it) {
-                R.id.ivBack -> {
-                    setupActionsIntent()
-                    finish()
-                }
-                R.id.ivMenu -> {
-                    if (Constants.CARD_TYPE_DEBIT == viewModel.state.cardType) {
-                        primaryCardBottomSheet = PrimaryCardBottomSheet(this)
-                        primaryCardBottomSheet.show(supportFragmentManager, "")
-                    } else {
-                        spareCardBottomSheet =
-                            SpareCardBottomSheet(viewModel.card.value?.physical!!, this)
-                        spareCardBottomSheet.show(supportFragmentManager, "")
-                    }
-                }
-                R.id.llAddFunds -> {
-                    startActivityForResult(
-                        AddFundsActivity.newIntent(this, viewModel.card.value!!),
-                        Constants.REQUEST_ADD_REMOVE_FUNDS
-                    )
-                }
-                R.id.llFreezeSpareCard -> {
-                    viewModel.freezeUnfreezeCard()
-                }
-                R.id.llFreezePrimaryCard -> {
-
-                    viewModel.freezeUnfreezeCard()
-                }
-                R.id.llRemoveFunds -> {
-                    if (!viewModel.card.value?.blocked!!) {
-                        startActivityForResult(
-                            RemoveFundsActivity.newIntent(this, viewModel.card.value!!),
-                            Constants.REQUEST_ADD_REMOVE_FUNDS
-                        )
-                    } else {
-                        showToast("Please unfreeze card to use this feature")
-                    }
-                }
-                R.id.llCardLimits -> {
-                    startActivityForResult(
-                        CardLimitsActivity.getIntent(this, viewModel.card.value!!),
-                        Constants.REQUEST_SET_LIMITS
-                    )
-                }
-                R.id.rlFilter -> {
-                    startActivityForResult(
-                        TransactionFiltersActivity.newIntent(
-                            this,
-                            txnType = viewModel.cardTransactionRequest.txnType,
-                            startRange = viewModel.cardTransactionRequest.amountStartRange,
-                            endRange =viewModel.cardTransactionRequest.amountEndRange
-                        ),
-                        RequestCodes.REQUEST_TXN_FILTER
-                    )
-                }
-
-                viewModel.EVENT_FREEZE_UNFREEZE_CARD -> {
-                    cardFreezeUnfreeze = true
-                    if (viewModel.card.value?.blocked == true) {
-                        viewModel.card.value?.blocked = false
-                        dismissSnackbar()
-                        if (Constants.CARD_TYPE_DEBIT == viewModel.state.cardType) {
-                            tvPrimaryCardStatus.text = "Freeze card"
-                        } else {
-                            tvSpareCardStatus.text = "Freeze card"
-                        }
-                    } else {
-                        viewModel.card.value?.blocked = true
-                        showSnackbar()
-                        if (Constants.CARD_TYPE_DEBIT == viewModel.state.cardType) {
-                            tvPrimaryCardStatus.text = "Unfreeze card"
-                        } else {
-                            tvSpareCardStatus.text = "Unfreeze card"
-                        }
-                    }
-                }
-
-                viewModel.EVENT_CARD_DETAILS -> {
-                    showCardDetailsPopup()
-                }
-
-                viewModel.EVENT_REMOVE_CARD -> {
-                    try {
-                        val updatedCardBalance =
-                            (MyUserManager.cardBalance.value?.availableBalance?.toDouble()?.plus(
-                                viewModel.card.value?.availableBalance!!.toDouble()
-                            ))
-                        MyUserManager.cardBalance.value =
-                            CardBalance(availableBalance = updatedCardBalance.toString())
-                    } catch (e: Exception) {
-                        e.printStackTrace()
-                    }
-                    cardRemoved = true
-                    showToast(getString(R.string.screen_cards_display_text_card_removed_success))
-                    setupActionsIntent()
-                    finish()
-                }
-            }
-        })
-
+        viewModel.clickEvent.observe(this, clickObserver)
         viewModel.card.observe(this, Observer {
-            viewModel.cardTransactionRequest.serialNumber = viewModel.card.value?.cardSerialNumber!!
+            viewModel.cardTransactionRequest.serialNumber = it.cardSerialNumber
             viewModel.requestAccountTransactions()
         })
 
         viewModel.transactionsLiveData.observe(this, Observer {
-            tvNoTransaction.visibility = if (it.isEmpty()) View.VISIBLE else View.GONE
             if (viewModel.isLoadMore.value!!) {
-                getRecycleViewAdaptor().setList(it)
-            } else {
-                getRecycleViewAdaptor().setList(it)
-            }
-        })
+                if (getRecycleViewAdaptor().itemCount == 0) getBindings().appbar.setExpanded(true)
 
-        getRecycleViewAdaptor().setItemListener(listener)
-        rvTransaction.addOnScrollListener(object :
-            RecyclerView.OnScrollListener() {
-            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                super.onScrolled(recyclerView, dx, dy);
-                val layoutManager =
-                    rvTransaction.layoutManager as LinearLayoutManager
-                val lastVisiblePosition = layoutManager.findLastVisibleItemPosition()
-                if (lastVisiblePosition == layoutManager.itemCount - 1) {
-                    if (!viewModel.isLoadMore.value!!) {
-                        viewModel.isLoadMore.value = true
-                        viewModel.cardTransactionRequest.number =
-                            viewModel.cardTransactionRequest.number + 1
-                        viewModel.loadMore()
+                if (getRecycleViewAdaptor().itemCount > 0)
+                    getRecycleViewAdaptor().removeItemAt(getRecycleViewAdaptor().itemCount - 1)
+
+                val listToAppend: MutableList<HomeTransactionListData> = mutableListOf()
+                val oldData = getRecycleViewAdaptor().getDataList()
+                for (parentItem in it) {
+
+                    var shouldAppend = false
+                    for (i in 0 until oldData.size) {
+                        if (parentItem.date == oldData[i].date) {
+                            if (parentItem.content.size != oldData[i].content.size) {
+                                shouldAppend = true
+                                break
+                            }
+                            shouldAppend = true
+                            break
+                        }
                     }
+                    if (!shouldAppend)
+                        listToAppend.add(parentItem)
+                }
+                getRecycleViewAdaptor().addList(listToAppend)
+            } else {
+                if (it.isEmpty()) {
+                    viewModel.state.isTxnsEmpty.set(true)
+                } else {
+                    viewModel.state.isTxnsEmpty.set(false)
+                    getRecycleViewAdaptor().setList(it)
                 }
             }
         })
+
+        getBindings().rvTransaction.addOnScrollListener(
+            object :
+                RecyclerView.OnScrollListener() {
+                override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                    super.onScrolled(recyclerView, dx, dy)
+                    val layoutManager =
+                        getBindings().rvTransaction.layoutManager as LinearLayoutManager
+                    val lastVisiblePosition = layoutManager.findLastVisibleItemPosition()
+                    if (lastVisiblePosition == layoutManager.itemCount - 1) {
+                        if (!viewModel.isLoadMore.value!! && !viewModel.isLast.value!!) {
+                            viewModel.isLoadMore.value = true
+                        }
+                    }
+                }
+            })
+
+        viewModel.isLoadMore.observe(this, Observer
+        {
+            if (it) {
+                viewModel.cardTransactionRequest.number =
+                    viewModel.cardTransactionRequest.number + 1
+                val item =
+                    getRecycleViewAdaptor().getDataForPosition(getRecycleViewAdaptor().itemCount - 1)
+                        .copy()
+                item.totalAmount = "loader"
+                getRecycleViewAdaptor().run { addListItem(item) }
+                viewModel.loadMore()
+            }
+        })
+
+        ///
+
+//        viewModel.transactionsLiveData.observe(this, Observer {
+//            tvNoTransaction.visibility = if (it.isEmpty()) View.VISIBLE else View.GONE
+//            if (viewModel.isLoadMore.value!!) {
+//                getRecycleViewAdaptor().setList(it)
+//            } else {
+//                getRecycleViewAdaptor().setList(it)
+//            }
+//        })
+//
+//        getRecycleViewAdaptor().setItemListener(listener)
+//        rvTransaction.addOnScrollListener(object :
+//            RecyclerView.OnScrollListener() {
+//            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+//                super.onScrolled(recyclerView, dx, dy);
+//                val layoutManager =
+//                    rvTransaction.layoutManager as LinearLayoutManager
+//                val lastVisiblePosition = layoutManager.findLastVisibleItemPosition()
+//                if (lastVisiblePosition == layoutManager.itemCount - 1) {
+//                    if (!viewModel.isLoadMore.value!!) {
+//                        viewModel.isLoadMore.value = true
+//                        viewModel.cardTransactionRequest.number =
+//                            viewModel.cardTransactionRequest.number + 1
+//                        viewModel.loadMore()
+//                    }
+//                }
+//            }
+//        })
+    }
+
+    private val clickObserver = Observer<Int> {
+        when (it) {
+            R.id.ivBack -> {
+                setupActionsIntent()
+                finish()
+            }
+            R.id.ivMenu -> {
+                if (Constants.CARD_TYPE_DEBIT == viewModel.state.cardType) {
+                    primaryCardBottomSheet = PrimaryCardBottomSheet(this)
+                    primaryCardBottomSheet.show(supportFragmentManager, "")
+                } else {
+                    spareCardBottomSheet =
+                        SpareCardBottomSheet(viewModel.card.value?.physical!!, this)
+                    spareCardBottomSheet.show(supportFragmentManager, "")
+                }
+            }
+            R.id.llAddFunds -> {
+                startActivityForResult(
+                    AddFundsActivity.newIntent(this, viewModel.card.value!!),
+                    Constants.REQUEST_ADD_REMOVE_FUNDS
+                )
+            }
+            R.id.llFreezeSpareCard -> {
+                viewModel.freezeUnfreezeCard()
+            }
+            R.id.llFreezePrimaryCard -> {
+
+                viewModel.freezeUnfreezeCard()
+            }
+            R.id.llRemoveFunds -> {
+                if (!viewModel.card.value?.blocked!!) {
+                    startActivityForResult(
+                        RemoveFundsActivity.newIntent(this, viewModel.card.value!!),
+                        Constants.REQUEST_ADD_REMOVE_FUNDS
+                    )
+                } else {
+                    showToast("Please unfreeze card to use this feature")
+                }
+            }
+            R.id.llCardLimits -> {
+                startActivityForResult(
+                    CardLimitsActivity.getIntent(this, viewModel.card.value!!),
+                    Constants.REQUEST_SET_LIMITS
+                )
+            }
+            R.id.rlFilter -> {
+                startActivityForResult(
+                    TransactionFiltersActivity.newIntent(
+                        this,
+                        viewModel.transactionFilters
+                    ),
+                    RequestCodes.REQUEST_TXN_FILTER
+                )
+            }
+            viewModel.EVENT_FREEZE_UNFREEZE_CARD -> {
+                cardFreezeUnfreeze = true
+                viewModel.card.value?.blocked = viewModel.card.value?.blocked != true
+                checkFreezeUnfreezStatus()
+            }
+
+            viewModel.EVENT_CARD_DETAILS -> {
+                showCardDetailsPopup()
+            }
+
+            viewModel.EVENT_REMOVE_CARD -> {
+                try {
+                    val updatedCardBalance =
+                        (MyUserManager.cardBalance.value?.availableBalance?.toDouble()?.plus(
+                            viewModel.card.value?.availableBalance!!.toDouble()
+                        ))
+                    MyUserManager.cardBalance.value =
+                        CardBalance(availableBalance = updatedCardBalance.toString())
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
+                cardRemoved = true
+                showToast("Card successfully removed!")
+                setupActionsIntent()
+                finish()
+            }
+        }
     }
 
     val listener = object : OnItemClickListener {
@@ -252,6 +309,7 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
 
         if (Constants.CARD_TYPE_DEBIT == viewModel.state.cardType) {
             viewModel.state.cardTypeText = Constants.TEXT_PRIMARY_CARD
+            viewModel.state.cardTypeText = Constants.TEXT_PRIMARY_CARD
             rlPrimaryCardActions.visibility = View.VISIBLE
             rlCardBalance.visibility = View.GONE
         } else {
@@ -263,30 +321,45 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
             viewModel.getCardBalance()
             rlSpareCardActions.visibility = View.VISIBLE
         }
-
-        if (viewModel.card.value?.blocked!!) {
-            showSnackbar()
-            if (Constants.CARD_TYPE_DEBIT == viewModel.state.cardType) {
-                tvPrimaryCardStatus.text = "Unfreeze card"
-            } else {
-                tvSpareCardStatus.text = "Unfreeze card"
-            }
-        }
+        checkFreezeUnfreezStatus()
 
         btnCardDetails.setOnClickListener { viewModel.getCardDetails() }
     }
 
-    private fun showSnackbar() {
-        snackbar = window.decorView.getCustomSnackbarSticky(
-            clSnackbar,
-            getString(Strings.screen_cards_display_text_freeze_card),
-            getString(Strings.screen_cards_display_text_freeze_card_action)
-        )
-        snackbar.show()
+    private fun checkFreezeUnfreezStatus() {
+        viewModel.card.value?.blocked?.let {
+            if (it) {
+                showSnackbar()
+                if (Constants.CARD_TYPE_DEBIT == viewModel.state.cardType) {
+                    tvPrimaryCardStatus.text = "Unfreeze card"
+                } else {
+                    tvSpareCardStatus.text = "Unfreeze card"
+                }
+            } else {
+                dismissSnackbar()
+                if (Constants.CARD_TYPE_DEBIT == viewModel.state.cardType) {
+                    tvPrimaryCardStatus.text = "Freeze card"
+                } else {
+                    tvSpareCardStatus.text = "Freeze card"
+                }
+            }
+        }
+    }
 
-        val tvAction = snackbar.view.findViewById(co.yap.yapcore.R.id.tvAction) as TextView
-        tvAction.setOnClickListener {
-            viewModel.freezeUnfreezeCard()
+    private fun showSnackbar() {
+        if (snackbar?.isShown != true) {
+            snackbar = window.decorView.getCustomSnackbarSticky(
+                clSnackbar,
+                getString(Strings.screen_cards_display_text_freeze_card),
+                getString(Strings.screen_cards_display_text_freeze_card_action)
+            )
+
+            snackbar?.show()
+
+            val tvAction = snackbar?.view?.findViewById(co.yap.yapcore.R.id.tvAction) as TextView
+            tvAction.setOnClickListener {
+                viewModel.freezeUnfreezeCard()
+            }
         }
     }
 
@@ -296,15 +369,15 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
             getString(Strings.screen_cards_display_text_lost_stolen_card),
             getString(Strings.screen_cards_display_text_lost_stolen_card_action)
         )
-        snackbar.show()
-        val tvAction = snackbar.view.findViewById(co.yap.yapcore.R.id.tvAction) as TextView
+        snackbar?.show()
+        val tvAction = snackbar?.view?.findViewById(co.yap.yapcore.R.id.tvAction) as TextView
         tvAction.setOnClickListener {
             startReorderCardFlow()
         }
     }
 
     private fun dismissSnackbar() {
-        snackbar.dismiss()
+        snackbar?.dismiss()
     }
 
     override fun onClick(eventType: Int) {
@@ -379,6 +452,7 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
             }
 
             Constants.REQUEST_ADD_REMOVE_FUNDS -> {
+                checkFreezeUnfreezStatus()
                 if (resultCode == Activity.RESULT_OK) {
                     viewModel.card.value?.availableBalance =
                         data?.getStringExtra("newBalance").toString()
@@ -406,24 +480,48 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
                 }
             }
             RequestCodes.REQUEST_TXN_FILTER -> {
-                val request: TransactionRequest? =
-                    data?.getParcelableExtra<TransactionRequest?>("txnRequest")
-                val isFilterStateChange: Boolean? =
-                    data?.getBooleanExtra("hasFilterStateChanged", false)
-                setTransactionRequest(request)
-                if (isFilterStateChange == true) {
-                    viewModel.requestAccountTransactions()
+                if (resultCode == Activity.RESULT_OK) {
+                    val filters: TransactionFilters? =
+                        data?.getParcelableExtra<TransactionFilters?>("txnRequest")
+                    if (viewModel.transactionFilters != filters) {
+                        setTransactionRequest(filters)
+                        viewModel.requestAccountTransactions()
+                    }
                 }
             }
+
         }
     }
 
-    private fun setTransactionRequest(request: TransactionRequest?) {
-        request?.let {
+    private fun setTransactionRequest(filters: TransactionFilters?) {
+        filters?.let {
+            viewModel.transactionFilters = it
+            viewModel.cardTransactionRequest.number = 0
+            viewModel.cardTransactionRequest.size = 20
+            viewModel.cardTransactionRequest.txnType = getTxnType()
             viewModel.cardTransactionRequest.amountStartRange = it.amountStartRange
             viewModel.cardTransactionRequest.amountEndRange = it.amountEndRange
-            viewModel.cardTransactionRequest.txnType = it.txnType
+            viewModel.cardTransactionRequest.title = null
+            viewModel.cardTransactionRequest.totalAppliedFilter = getTotalAppliedFilter()
+            viewModel.state.filterCount.set(viewModel.cardTransactionRequest.totalAppliedFilter)
         }
+    }
+
+    private fun getTxnType(): String? {
+        return if (viewModel.transactionFilters.incomingTxn == false && viewModel.transactionFilters.outgoingTxn == false || viewModel.transactionFilters.incomingTxn == true && viewModel.transactionFilters.outgoingTxn == true) {
+            null
+        } else if (viewModel.transactionFilters.incomingTxn == true)
+            co.yap.yapcore.constants.Constants.MANUAL_CREDIT
+        else
+            co.yap.yapcore.constants.Constants.MANUAL_DEBIT
+    }
+
+    private fun getTotalAppliedFilter(): Int {
+        var count = viewModel.transactionFilters.totalAppliedFilter
+        if (viewModel.transactionFilters.incomingTxn == true) count++
+        if (viewModel.transactionFilters.outgoingTxn == true) count++
+
+        return count
     }
 
     private fun startReorderCardFlow() {
@@ -436,6 +534,7 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
             )
         }
     }
+
     private fun showCardDetailsPopup() {
         val dialog = Dialog(this)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
@@ -542,6 +641,7 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
         returnIntent.putExtra("cardBlocked", true)
         setResult(Activity.RESULT_OK, returnIntent)
     }
+
     private fun setupCardReorderActionsIntent() {
         val returnIntent = Intent()
         returnIntent.putExtra("cardReorder", true)

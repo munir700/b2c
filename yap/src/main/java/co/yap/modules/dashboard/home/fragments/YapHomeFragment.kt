@@ -25,7 +25,7 @@ import co.yap.modules.dashboard.home.adaptor.GraphBarsAdapter
 import co.yap.modules.dashboard.home.adaptor.NotificationAdapter
 import co.yap.modules.dashboard.home.adaptor.TransactionsHeaderAdapter
 import co.yap.modules.dashboard.home.filters.activities.TransactionFiltersActivity
-import co.yap.modules.dashboard.home.filters.models.TransactionRequest
+import co.yap.modules.dashboard.home.filters.models.TransactionFilters
 import co.yap.modules.dashboard.home.helpers.AppBarStateChangeListener
 import co.yap.modules.dashboard.home.helpers.transaction.TransactionsViewHelper
 import co.yap.modules.dashboard.home.interfaces.IYapHome
@@ -164,9 +164,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                             startActivityForResult(
                                 TransactionFiltersActivity.newIntent(
                                     requireContext(),
-                                    txnType = homeTransactionsRequest.txnType,
-                                    startRange = homeTransactionsRequest.amountStartRange,
-                                    endRange = homeTransactionsRequest.amountEndRange
+                                    viewModel.txnFilters
                                 ),
                                 RequestCodes.REQUEST_TXN_FILTER
                             )
@@ -472,28 +470,44 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
 
         if (resultCode == Activity.RESULT_OK) {
             if (requestCode == RequestCodes.REQUEST_TXN_FILTER) {
-                val request: TransactionRequest? =
-                    data?.getParcelableExtra<TransactionRequest?>("txnRequest")
-                val isFilterStateChange: Boolean? =
-                    data?.getBooleanExtra("hasFilterStateChanged", false)
-                setTransactionRequest(request)
-                if (isFilterStateChange == true) {
+                val filters: TransactionFilters? =
+                    data?.getParcelableExtra<TransactionFilters?>("txnRequest")
+                if (viewModel.txnFilters != filters) {
                     getFilterTransactions()
+                    setTransactionRequest(filters)
                 }
             }
         }
     }
 
-    private fun setTransactionRequest(request: TransactionRequest?) {
-        request?.let {
-            homeTransactionsRequest.number = it.number ?: 0
-            homeTransactionsRequest.size = it.size ?: 100
-            homeTransactionsRequest.txnType = it.txnType
+    private fun setTransactionRequest(filters: TransactionFilters?) {
+        filters?.let {
+            viewModel.txnFilters = it
+            homeTransactionsRequest.number = 0
+            homeTransactionsRequest.size = YAPApplication.pageSize
+            homeTransactionsRequest.txnType = getTxnType()
             homeTransactionsRequest.amountStartRange = it.amountStartRange
             homeTransactionsRequest.amountEndRange = it.amountEndRange
-            homeTransactionsRequest.title = it.title
-            homeTransactionsRequest.totalAppliedFilter = it.totalAppliedFilter
+            homeTransactionsRequest.title = null
+            homeTransactionsRequest.totalAppliedFilter = getTotalAppliedFilter()
         }
+    }
+
+    private fun getTxnType(): String? {
+        return if (viewModel.txnFilters.incomingTxn == false && viewModel.txnFilters.outgoingTxn == false || viewModel.txnFilters.incomingTxn == true && viewModel.txnFilters.outgoingTxn == true) {
+            null
+        } else if (viewModel.txnFilters.incomingTxn == true)
+            co.yap.yapcore.constants.Constants.MANUAL_CREDIT
+        else
+            co.yap.yapcore.constants.Constants.MANUAL_DEBIT
+    }
+
+    private fun getTotalAppliedFilter(): Int {
+        var count = viewModel.txnFilters.totalAppliedFilter
+        if (viewModel.txnFilters.incomingTxn == true) count++
+        if (viewModel.txnFilters.outgoingTxn == true) count++
+
+        return count
     }
 
     private fun getFilterTransactions() {

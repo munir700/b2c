@@ -53,7 +53,7 @@ class InternationalFundsTransferState(val application: Application) : BaseState(
             notifyPropertyChanged(BR.fxRateAmount)
             fxRateAmount?.let {
                 if (it.isNotEmpty() && it != ".") {
-                    valid = it.toDouble() > 0.0
+                    valid = it.toDouble() > 1.0
                 }
             }
             checkValidation()
@@ -283,8 +283,10 @@ class InternationalFundsTransferState(val application: Application) : BaseState(
         }
 
     fun validate() {
-        if (!senderAmount.isNullOrEmpty() && !beneficiaryAmount.isNullOrEmpty()/* &&  reason must be selected as well */) {
-            valid = true
+        if (!senderAmount.isNullOrEmpty()) {
+            if (senderAmount.toInt() >= 1 && !beneficiaryAmount.isNullOrEmpty()/* &&  reason must be selected as well */) {
+                valid = true
+            }
         }
     }
 
