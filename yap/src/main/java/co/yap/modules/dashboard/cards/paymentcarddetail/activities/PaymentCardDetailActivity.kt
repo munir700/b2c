@@ -241,13 +241,14 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
                 )
             }
             R.id.rlFilter -> {
-                startActivityForResult(
-                    TransactionFiltersActivity.newIntent(
-                        this,
-                        viewModel.transactionFilters
-                    ),
-                    RequestCodes.REQUEST_TXN_FILTER
-                )
+                if (viewModel.state.isTxnsEmpty.get() == false || viewModel.state.filterCount.get() ?: 0 > 0)
+                    startActivityForResult(
+                        TransactionFiltersActivity.newIntent(
+                            this,
+                            viewModel.transactionFilters
+                        ),
+                        RequestCodes.REQUEST_TXN_FILTER
+                    )
             }
             viewModel.EVENT_FREEZE_UNFREEZE_CARD -> {
                 cardFreezeUnfreeze = true
