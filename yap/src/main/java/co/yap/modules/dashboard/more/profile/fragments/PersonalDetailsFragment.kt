@@ -69,7 +69,7 @@ class PersonalDetailsFragment : MoreBaseFragment<IPersonalDetail.ViewModel>(),
                     mNavigator.startVerifyPassCodePresenterActivity(requireActivity()){resultCode, data ->
                         if(resultCode == Activity.RESULT_OK)
                         {
-                            showToast("Do your Work Here....")
+                            findNavController().navigate(R.id.action_personalDetailsFragment_to_change_phone_number_navigation)
                         }
                     }
                     //startActivityForResult(Intent(context, VerifyPassCodePresenterActivity::class.java),VerifyPassCodePresenterActivity.START_REQUEST_CODE)
@@ -191,12 +191,6 @@ class PersonalDetailsFragment : MoreBaseFragment<IPersonalDetail.ViewModel>(),
                     }
 
                 }
-                START_REQUEST_CODE->{
-                    data?.let {
-                    val aa =  it.getBooleanExtra("CheckResult",false)
-                    }
-                }
-
             }
         }
     }
