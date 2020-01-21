@@ -46,9 +46,6 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
         viewModel.loginSuccess.observe(this, loginSuccessObserver)
         viewModel.validateDeviceResult.observe(this, validateDeviceResultObserver)
         viewModel.createOtpResult.observe(this, createOtpObserver)
-//        viewModel.state.passcode =""
-        //dialer.reset()
-
         setObservers()
         setUsername()
         dialer.hideFingerprintView()
