@@ -1,5 +1,7 @@
 package co.yap.app.modules.login.fragments
 
+import android.app.Activity
+import android.content.Intent
 import android.hardware.fingerprint.FingerprintManager
 import android.os.Bundle
 import android.view.View
@@ -9,11 +11,12 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import co.yap.BR
 import co.yap.app.R
-import co.yap.app.activities.MainActivity
 import co.yap.app.constants.Constants
 import co.yap.app.login.EncryptionUtils
 import co.yap.app.modules.login.interfaces.IVerifyPasscode
 import co.yap.app.modules.login.viewmodels.VerifyPasscodeViewModel
+import co.yap.modules.others.helper.Constants.REQUEST_CODE
+import co.yap.modules.others.helper.Constants.START_REQUEST_CODE
 import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.biometric.BiometricCallback
@@ -48,9 +51,10 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
         viewModel.createOtpResult.observe(this, createOtpObserver)
         setObservers()
         setUsername()
+
         dialer.hideFingerprintView()
 
-        sharedPreferenceManager = SharedPreferenceManager(context as MainActivity)
+        sharedPreferenceManager = SharedPreferenceManager(requireContext())
         viewModel.state.deviceId =
             sharedPreferenceManager.getValueString(SharedPreferenceManager.KEY_APP_UUID) as String
         mBiometricManagerX = BiometricManagerX(
@@ -61,11 +65,12 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
                 )
             )
         )
+
         val fingerprintsEnabled = mBiometricManagerX.hasFingerprintEnrolled()
         if (BiometricUtil.isFingerprintSupported && fingerprintsEnabled
-            && BiometricUtil.isHardwareSupported(context as MainActivity)
-            && BiometricUtil.isPermissionGranted(context as MainActivity)
-            && BiometricUtil.isFingerprintAvailable(context as MainActivity)
+            && BiometricUtil.isHardwareSupported(requireActivity())
+            && BiometricUtil.isPermissionGranted(requireActivity())
+            && BiometricUtil.isFingerprintAvailable(requireActivity())
         ) {
 
             if (sharedPreferenceManager.getValueBoolien(
@@ -103,6 +108,7 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
             BiometricManagerX.DialogStrings(title = getString(R.string.biometric_title))
         )
     }
+
     override fun onStart() {
         super.onStart()
         dialer.reset()
@@ -128,7 +134,7 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
                         )
                     ) {
                         viewModel.state.username = EncryptionUtils.decrypt(
-                            context as MainActivity,
+                            requireActivity(),
                             sharedPreferenceManager.getValueString(SharedPreferenceManager.KEY_USERNAME) as String
                         ) as String
                     }
@@ -166,7 +172,7 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
         } else {
             if (null != sharedPreferenceManager.getValueString(SharedPreferenceManager.KEY_USERNAME)) {
                 viewModel.state.username = EncryptionUtils.decrypt(
-                    context as MainActivity,
+                    requireActivity(),
                     sharedPreferenceManager.getValueString(SharedPreferenceManager.KEY_USERNAME) as String
                 ) as String
             } else {
@@ -183,7 +189,15 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
                 sharedPreferenceManager.save(SharedPreferenceManager.KEY_IS_USER_LOGGED_IN, true)
                 navigateToDashboard()
             } else {
-                viewModel.validateDevice()
+                if (arguments?.getInt(
+                        REQUEST_CODE,
+                        -1
+                    ) == START_REQUEST_CODE
+                ) {
+                    navigateToDashboard()
+                } else {
+                    viewModel.validateDevice()
+                }
             }
         } else {
             dialer.startAnimation()
@@ -199,9 +213,9 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
                 )
             ) {
                 if (BiometricUtil.isFingerprintSupported
-                    && BiometricUtil.isHardwareSupported(context as MainActivity)
-                    && BiometricUtil.isPermissionGranted(context as MainActivity)
-                    && BiometricUtil.isFingerprintAvailable(context as MainActivity)
+                    && BiometricUtil.isHardwareSupported(requireActivity())
+                    && BiometricUtil.isPermissionGranted(requireActivity())
+                    && BiometricUtil.isFingerprintAvailable(requireActivity())
                 ) {
                     val action =
                         VerifyPasscodeFragmentDirections.actionVerifyPasscodeFragmentToSystemPermissionFragment(
@@ -258,7 +272,19 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
 //    }
 
     private fun navigateToDashboard() {
-        findNavController().navigate(R.id.action_goto_yapDashboardActivity)
+        if (arguments?.getInt(
+                REQUEST_CODE,
+                -1
+            ) == START_REQUEST_CODE
+        ) {
+            val intent = Intent()
+            intent.putExtra("CheckResult", true)
+            activity?.setResult(Activity.RESULT_OK, intent)
+        } else {
+            activity?.setResult(Activity.RESULT_CANCELED)
+            findNavController().navigate(R.id.action_goto_yapDashboardActivity)
+        }
+
         activity?.finish()
     }
 
