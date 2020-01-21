@@ -14,6 +14,7 @@ interface IProfile {
         var profilePictureUrl: String
         var nameInitialsVisibility: Int
         var errorBadgeVisibility: Int
+        var imageUri: Uri
 
     }
 

@@ -47,7 +47,8 @@
                 android:contentDescription="@string/app_name"
                 android:onClick="@{(v) -> viewModel.handlePressOnPhoto(v.id)}"
                 android:visibility="@{viewModel.state.nameInitialsVisibility}"
-                app:src="@{viewModel.state.profilePictureUrl}" />
+                app:imageUri = "@{viewModel.state.imageUri}"
+                app:imageSrc="@{viewModel.state.profilePictureUrl}" />
             <!--app:isRound="@{true}"-->
 
             <RelativeLayout

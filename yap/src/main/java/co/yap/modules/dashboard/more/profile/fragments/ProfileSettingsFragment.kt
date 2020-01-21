@@ -30,6 +30,7 @@ import co.yap.yapcore.helpers.biometric.BiometricUtil
 import co.yap.yapcore.managers.MyUserManager
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.fragment_lite_dashboard.swTouchId
+import kotlinx.android.synthetic.main.layout_profile_picture.*
 import kotlinx.android.synthetic.main.layout_profile_settings.*
 import pl.aprilapps.easyphotopicker.DefaultCallback
 import pl.aprilapps.easyphotopicker.EasyImage
@@ -149,6 +150,8 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
 
     private fun onPhotosReturned(path: File, position: Int, source: EasyImage.ImageSource?) {
         viewModel.uploadProfconvertUriToFile(path.toUri())
+        viewModel.state.imageUri = path.toUri()
+        ivProfilePic.setImageURI(path.toUri())
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -240,7 +243,7 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
                     Utils.showComingSoon(requireContext())
                 }
 
-                R.id.tvNotificationsView ->{
+                R.id.tvNotificationsView -> {
                     Utils.showComingSoon(requireContext())
                 }
 
