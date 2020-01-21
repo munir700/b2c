@@ -12,6 +12,7 @@ import co.yap.networking.models.RetroApiResponse
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.helpers.Utils.formateIbanString
 import co.yap.yapcore.managers.MyUserManager
 
 class YapDashBoardViewModel(application: Application) :
@@ -49,7 +50,7 @@ class YapDashBoardViewModel(application: Application) :
     private fun populateState() {
         MyUserManager.user?.let { it ->
             it.accountNo?.let { state.accountNo = it }
-            it.iban?.let { state.ibanNo = it }
+            it.iban?.let { state.ibanNo = formateIbanString(it) }
             state.fullName = it.currentCustomer.getFullName()
             state.firstName = it.currentCustomer.firstName
             state.userNameImage.set(it.currentCustomer.getPicture() ?: "")

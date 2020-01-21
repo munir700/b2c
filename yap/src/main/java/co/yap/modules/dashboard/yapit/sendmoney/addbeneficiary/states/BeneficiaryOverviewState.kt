@@ -6,6 +6,7 @@ import androidx.databinding.library.baseAdapters.BR
 import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.interfaces.IBeneficiaryOverview
 import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.yapcore.BaseState
+import co.yap.yapcore.helpers.Utils.formateIbanString
 
 class BeneficiaryOverviewState : BaseState(), IBeneficiaryOverview.State {
 
@@ -29,7 +30,7 @@ class BeneficiaryOverviewState : BaseState(), IBeneficiaryOverview.State {
         if (!beneficiary.lastName.isNullOrEmpty()) lastName = beneficiary.lastName!!
         if (!beneficiary.mobileNo.isNullOrEmpty()) phoneNumber = beneficiary.mobileNo!!
         if (!beneficiary.mobileNo.isNullOrEmpty()) mobile = beneficiary.mobileNo!!
-        if (!beneficiary.accountNo.isNullOrEmpty()) accountIban = beneficiary.accountNo!!
+        if (!beneficiary.accountNo.isNullOrEmpty()) accountIban = formateIban(beneficiary)
         if (!beneficiary.mobileNo.isNullOrEmpty()) swiftCode = beneficiary.swiftCode!!
 
 // now again not sure about required field including bank details, so consider it to work on...
@@ -38,6 +39,17 @@ class BeneficiaryOverviewState : BaseState(), IBeneficiaryOverview.State {
             beneficiary.country!!
 
     }
+
+    private fun formateIban(beneficiary: Beneficiary): String {
+        if (beneficiary.accountNo!!.length >= 22) {
+            return formateIbanString(beneficiary.accountNo!!).toString()
+        } else {
+            return beneficiary.accountNo!!
+        }
+    }
+//    fun formateIban(){
+//
+//    }
 
     @get:Bindable
     override var flagDrawableResId: Int = -1

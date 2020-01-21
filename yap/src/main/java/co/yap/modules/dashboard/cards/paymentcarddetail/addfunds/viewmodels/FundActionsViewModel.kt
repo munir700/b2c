@@ -15,6 +15,8 @@ import co.yap.networking.transactions.responsedtos.FundTransferDenominations
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.managers.MyUserManager
+import kotlinx.coroutines.delay
 
 open class FundActionsViewModel(application: Application) :
     BaseViewModel<IFundActions.State>(application), IFundActions.ViewModel {
@@ -105,14 +107,17 @@ open class FundActionsViewModel(application: Application) :
                 )
             )) {
                 is RetroApiResponse.Success -> {
+                    MyUserManager.updateCardBalance()
+                    delay(1000)
                     clickEvent.setValue(EVENT_ADD_FUNDS_SUCCESS)
+                    state.loading = false
                 }
                 is RetroApiResponse.Error -> {
                     state.errorDescription = response.error.message
                     errorEvent.postValue(2)
+                    state.loading = false
                 }
             }
-            state.loading = false
         }
     }
 

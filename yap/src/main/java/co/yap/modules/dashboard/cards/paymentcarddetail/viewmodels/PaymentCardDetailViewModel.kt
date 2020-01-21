@@ -49,7 +49,7 @@ class PaymentCardDetailViewModel(application: Application) :
     var sortedCombinedTransactionList: ArrayList<HomeTransactionListData> = arrayListOf()
 
     override var cardTransactionRequest: CardTransactionRequest =
-        CardTransactionRequest(0, 20, "")
+        CardTransactionRequest(0, 20, "", null, null)
 
     override fun requestAccountTransactions() {
         launch {

@@ -776,4 +776,16 @@ object Utils {
     fun showComingSoon(context: Context) {
         context.shortToast("Coming Soon")
     }
+
+
+    fun formateIbanString(iban: String): String {
+        val sb = StringBuilder()
+        for (i in 0..iban.length - 1) {
+            if (i % 4 == 0 && i > 0) {
+                sb.append(" ")
+            }
+            sb.append(iban[i])
+        }
+        return sb.toString()
+    }
 }
