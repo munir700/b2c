@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import co.yap.BR
 import co.yap.R
+import co.yap.databinding.ActivityPaymentCardDetailBinding
 import co.yap.modules.dashboard.cards.paymentcarddetail.addfunds.activities.AddFundsActivity
 import co.yap.modules.dashboard.cards.paymentcarddetail.forgotcardpin.activities.ForgotCardPinActivity
 import co.yap.modules.dashboard.cards.paymentcarddetail.fragments.CardClickListener
@@ -31,9 +32,12 @@ import co.yap.modules.dashboard.cards.paymentcarddetail.viewmodels.PaymentCardDe
 import co.yap.modules.dashboard.cards.reordercard.activities.ReorderCardActivity
 import co.yap.modules.dashboard.cards.reportcard.activities.ReportLostOrStolenCardActivity
 import co.yap.modules.dashboard.home.adaptor.TransactionsHeaderAdapter
+import co.yap.modules.dashboard.home.filters.activities.TransactionFiltersActivity
+import co.yap.modules.dashboard.home.filters.models.TransactionFilters
 import co.yap.modules.others.helper.Constants
 import co.yap.networking.cards.responsedtos.Card
 import co.yap.networking.cards.responsedtos.CardBalance
+import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionListData
 import co.yap.translation.Strings
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.constants.RequestCodes
@@ -82,6 +86,11 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
         setupView()
     }
 
+    private fun getBindings(): ActivityPaymentCardDetailBinding {
+        return viewDataBinding as ActivityPaymentCardDetailBinding
+    }
+
+
     override fun setObservers() {
         viewModel.clickEvent.observe(this, clickObserver)
         viewModel.card.observe(this, Observer {
@@ -90,32 +99,100 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
         })
 
         viewModel.transactionsLiveData.observe(this, Observer {
-            tvNoTransaction.visibility = if (it.isEmpty()) View.VISIBLE else View.GONE
             if (viewModel.isLoadMore.value!!) {
-                getRecycleViewAdaptor().setList(it)
-            } else {
-                getRecycleViewAdaptor().setList(it)
-            }
-        })
+                if (getRecycleViewAdaptor().itemCount == 0) getBindings().appbar.setExpanded(true)
 
-        getRecycleViewAdaptor().setItemListener(listener)
-        rvTransaction.addOnScrollListener(object :
-            RecyclerView.OnScrollListener() {
-            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                super.onScrolled(recyclerView, dx, dy);
-                val layoutManager =
-                    rvTransaction.layoutManager as LinearLayoutManager
-                val lastVisiblePosition = layoutManager.findLastVisibleItemPosition()
-                if (lastVisiblePosition == layoutManager.itemCount - 1) {
-                    if (!viewModel.isLoadMore.value!!) {
-                        viewModel.isLoadMore.value = true
-                        viewModel.cardTransactionRequest.number =
-                            viewModel.cardTransactionRequest.number + 1
-                        viewModel.loadMore()
+                if (getRecycleViewAdaptor().itemCount > 0)
+                    getRecycleViewAdaptor().removeItemAt(getRecycleViewAdaptor().itemCount - 1)
+
+                val listToAppend: MutableList<HomeTransactionListData> = mutableListOf()
+                val oldData = getRecycleViewAdaptor().getDataList()
+                for (parentItem in it) {
+
+                    var shouldAppend = false
+                    for (i in 0 until oldData.size) {
+                        if (parentItem.date == oldData[i].date) {
+                            if (parentItem.content.size != oldData[i].content.size) {
+                                shouldAppend = true
+                                break
+                            }
+                            shouldAppend = true
+                            break
+                        }
                     }
+                    if (!shouldAppend)
+                        listToAppend.add(parentItem)
+                }
+                getRecycleViewAdaptor().addList(listToAppend)
+            } else {
+                if (it.isEmpty()) {
+                    viewModel.state.isTxnsEmpty.set(true)
+                } else {
+                    viewModel.state.isTxnsEmpty.set(false)
+                    getRecycleViewAdaptor().setList(it)
                 }
             }
         })
+
+        getBindings().rvTransaction.addOnScrollListener(
+            object :
+                RecyclerView.OnScrollListener() {
+                override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                    super.onScrolled(recyclerView, dx, dy)
+                    val layoutManager =
+                        getBindings().rvTransaction.layoutManager as LinearLayoutManager
+                    val lastVisiblePosition = layoutManager.findLastVisibleItemPosition()
+                    if (lastVisiblePosition == layoutManager.itemCount - 1) {
+                        if (!viewModel.isLoadMore.value!! && !viewModel.isLast.value!!) {
+                            viewModel.isLoadMore.value = true
+                        }
+                    }
+                }
+            })
+
+        viewModel.isLoadMore.observe(this, Observer
+        {
+            if (it) {
+                viewModel.cardTransactionRequest.number =
+                    viewModel.cardTransactionRequest.number + 1
+                val item =
+                    getRecycleViewAdaptor().getDataForPosition(getRecycleViewAdaptor().itemCount - 1)
+                        .copy()
+                item.totalAmount = "loader"
+                getRecycleViewAdaptor().run { addListItem(item) }
+                viewModel.loadMore()
+            }
+        })
+
+        ///
+
+//        viewModel.transactionsLiveData.observe(this, Observer {
+//            tvNoTransaction.visibility = if (it.isEmpty()) View.VISIBLE else View.GONE
+//            if (viewModel.isLoadMore.value!!) {
+//                getRecycleViewAdaptor().setList(it)
+//            } else {
+//                getRecycleViewAdaptor().setList(it)
+//            }
+//        })
+//
+//        getRecycleViewAdaptor().setItemListener(listener)
+//        rvTransaction.addOnScrollListener(object :
+//            RecyclerView.OnScrollListener() {
+//            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+//                super.onScrolled(recyclerView, dx, dy);
+//                val layoutManager =
+//                    rvTransaction.layoutManager as LinearLayoutManager
+//                val lastVisiblePosition = layoutManager.findLastVisibleItemPosition()
+//                if (lastVisiblePosition == layoutManager.itemCount - 1) {
+//                    if (!viewModel.isLoadMore.value!!) {
+//                        viewModel.isLoadMore.value = true
+//                        viewModel.cardTransactionRequest.number =
+//                            viewModel.cardTransactionRequest.number + 1
+//                        viewModel.loadMore()
+//                    }
+//                }
+//            }
+//        })
     }
 
     private val clickObserver = Observer<Int> {
@@ -163,7 +240,16 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
                     Constants.REQUEST_SET_LIMITS
                 )
             }
-
+            R.id.rlFilter -> {
+                if (viewModel.state.isTxnsEmpty.get() == false || viewModel.state.filterCount.get() ?: 0 > 0)
+                    startActivityForResult(
+                        TransactionFiltersActivity.newIntent(
+                            this,
+                            viewModel.transactionFilters
+                        ),
+                        RequestCodes.REQUEST_TXN_FILTER
+                    )
+            }
             viewModel.EVENT_FREEZE_UNFREEZE_CARD -> {
                 cardFreezeUnfreeze = true
                 viewModel.card.value?.blocked = viewModel.card.value?.blocked != true
@@ -394,7 +480,49 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
                     finish()
                 }
             }
+            RequestCodes.REQUEST_TXN_FILTER -> {
+                if (resultCode == Activity.RESULT_OK) {
+                    val filters: TransactionFilters? =
+                        data?.getParcelableExtra<TransactionFilters?>("txnRequest")
+                    if (viewModel.transactionFilters != filters) {
+                        setTransactionRequest(filters)
+                        viewModel.requestAccountTransactions()
+                    }
+                }
+            }
+
         }
+    }
+
+    private fun setTransactionRequest(filters: TransactionFilters?) {
+        filters?.let {
+            viewModel.transactionFilters = it
+            viewModel.cardTransactionRequest.number = 0
+            viewModel.cardTransactionRequest.size = 20
+            viewModel.cardTransactionRequest.txnType = getTxnType()
+            viewModel.cardTransactionRequest.amountStartRange = it.amountStartRange
+            viewModel.cardTransactionRequest.amountEndRange = it.amountEndRange
+            viewModel.cardTransactionRequest.title = null
+            viewModel.cardTransactionRequest.totalAppliedFilter = getTotalAppliedFilter()
+            viewModel.state.filterCount.set(viewModel.cardTransactionRequest.totalAppliedFilter)
+        }
+    }
+
+    private fun getTxnType(): String? {
+        return if (viewModel.transactionFilters.incomingTxn == false && viewModel.transactionFilters.outgoingTxn == false || viewModel.transactionFilters.incomingTxn == true && viewModel.transactionFilters.outgoingTxn == true) {
+            null
+        } else if (viewModel.transactionFilters.incomingTxn == true)
+            co.yap.yapcore.constants.Constants.MANUAL_CREDIT
+        else
+            co.yap.yapcore.constants.Constants.MANUAL_DEBIT
+    }
+
+    private fun getTotalAppliedFilter(): Int {
+        var count = viewModel.transactionFilters.totalAppliedFilter
+        if (viewModel.transactionFilters.incomingTxn == true) count++
+        if (viewModel.transactionFilters.outgoingTxn == true) count++
+
+        return count
     }
 
     private fun startReorderCardFlow() {

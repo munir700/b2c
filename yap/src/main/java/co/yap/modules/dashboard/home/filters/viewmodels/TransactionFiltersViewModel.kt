@@ -20,6 +20,7 @@ class TransactionFiltersViewModel(application: Application) :
     override val state: ITransactionFilters.State = TransactionFiltersState()
     override val clickEvent: SingleClickEvent = SingleClickEvent()
     override val transactionFilters: MutableLiveData<TransactionFilters> = MutableLiveData()
+    override var txnFilters: MutableLiveData<co.yap.modules.dashboard.home.filters.models.TransactionFilters> = MutableLiveData()
     override fun handlePressOnView(id: Int) {
         clickEvent.setValue(id)
     }
