@@ -98,7 +98,7 @@
                 android:id="@+id/rvTransaction"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:visibility="visible"
+                android:visibility="@{viewModel.state.isTxnsEmpty()?View.GONE:View.VISIBLE}"
                 tools:listitem="@layout/item_transaction_list" />
 
             <TextView
