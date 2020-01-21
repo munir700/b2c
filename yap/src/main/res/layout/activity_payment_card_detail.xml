@@ -98,7 +98,7 @@
                 android:id="@+id/rvTransaction"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:visibility="visible"
+                android:visibility="@{viewModel.state.isTxnsEmpty()?View.GONE:View.VISIBLE}"
                 tools:listitem="@layout/item_transaction_list" />
 
             <TextView
@@ -137,9 +137,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="bottom"
-                    android:layout_marginTop="@dimen/_160sdp"
-
-                    >
+                    android:layout_marginTop="@dimen/_160sdp">
 
                     <!--        two layouts to be collapse-->
                     <RelativeLayout
@@ -196,14 +194,13 @@
                         android:layout_marginTop="@dimen/margin_medium"
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/rlCardBalance">
-
                         <RelativeLayout
                             android:id="@+id/rlSpareCardActions"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_margin="@dimen/margin_extra_small"
                             android:background="@color/white"
-                            android:visibility="visible">
+                            android:visibility="gone">
 
                             <LinearLayout
                                 android:layout_width="wrap_content"
@@ -288,14 +285,13 @@
                             </LinearLayout>
 
                         </RelativeLayout>
-
                         <RelativeLayout
                             android:id="@+id/rlPrimaryCardActions"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_margin="@dimen/margin_extra_small"
                             android:background="@color/white"
-                            android:visibility="visible">
+                            android:visibility="gone">
 
                             <LinearLayout
                                 android:layout_width="wrap_content"
@@ -368,7 +364,6 @@
                     android:layout_height="wrap_content"
                     android:background="@color/white"
                     android:elevation="0dp"
-
                     app:layout_collapseMode="pin"
                     app:layout_constraintTop_toTopOf="parent">
 

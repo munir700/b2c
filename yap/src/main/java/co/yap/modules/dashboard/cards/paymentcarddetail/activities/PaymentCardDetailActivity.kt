@@ -14,6 +14,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import co.yap.BR
@@ -150,8 +151,7 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
                 }
             })
 
-        viewModel.isLoadMore.observe(this, Observer
-        {
+        viewModel.isLoadMore.observe(this, Observer {
             if (it) {
                 viewModel.cardTransactionRequest.number =
                     viewModel.cardTransactionRequest.number + 1
@@ -261,16 +261,7 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
             }
 
             viewModel.EVENT_REMOVE_CARD -> {
-                try {
-                    val updatedCardBalance =
-                        (MyUserManager.cardBalance.value?.availableBalance?.toDouble()?.plus(
-                            viewModel.card.value?.availableBalance!!.toDouble()
-                        ))
-                    MyUserManager.cardBalance.value =
-                        CardBalance(availableBalance = updatedCardBalance.toString())
-                } catch (e: Exception) {
-                    e.printStackTrace()
-                }
+                MyUserManager.updateCardBalance()
                 cardRemoved = true
                 showToast("Card successfully removed!")
                 setupActionsIntent()
@@ -309,7 +300,6 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
         }
 
         if (Constants.CARD_TYPE_DEBIT == viewModel.state.cardType) {
-            viewModel.state.cardTypeText = Constants.TEXT_PRIMARY_CARD
             viewModel.state.cardTypeText = Constants.TEXT_PRIMARY_CARD
             rlPrimaryCardActions.visibility = View.VISIBLE
             rlCardBalance.visibility = View.GONE
@@ -455,6 +445,10 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
             Constants.REQUEST_ADD_REMOVE_FUNDS -> {
                 checkFreezeUnfreezStatus()
                 if (resultCode == Activity.RESULT_OK) {
+                    // Send Broadcast for updating transactions list in `Home Fragment`
+                    val intent = Intent(co.yap.yapcore.constants.Constants.BROADCAST_UPDATE_TRANSACTION)
+                    LocalBroadcastManager.getInstance(this).sendBroadcast(intent)
+
                     viewModel.card.value?.availableBalance =
                         data?.getStringExtra("newBalance").toString()
                     viewModel.state.cardBalance =
