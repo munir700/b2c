@@ -1,5 +1,6 @@
 package co.yap.modules.dashboard.more.profile.states
 
+import android.net.Uri
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import androidx.databinding.Bindable
@@ -32,7 +33,12 @@ class ProfileStates : BaseState(), IProfile.State {
             notifyPropertyChanged(BR.fullName)
 
         }
-
+    @get:Bindable
+    override var imageUri: Uri = Uri.EMPTY
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.imageUri)
+        }
     @get:Bindable
     override var profilePictureUrl: String = ""
         set(value) {
