@@ -1,5 +1,6 @@
 package co.yap.modules.dashboard.home.fragments
 
+import android.app.Activity
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
@@ -24,6 +25,7 @@ import co.yap.modules.dashboard.home.adaptor.GraphBarsAdapter
 import co.yap.modules.dashboard.home.adaptor.NotificationAdapter
 import co.yap.modules.dashboard.home.adaptor.TransactionsHeaderAdapter
 import co.yap.modules.dashboard.home.filters.activities.TransactionFiltersActivity
+import co.yap.modules.dashboard.home.filters.models.TransactionFilters
 import co.yap.modules.dashboard.home.helpers.AppBarStateChangeListener
 import co.yap.modules.dashboard.home.helpers.transaction.TransactionsViewHelper
 import co.yap.modules.dashboard.home.interfaces.IYapHome
@@ -39,6 +41,7 @@ import co.yap.modules.setcardpin.activities.SetCardPinWelcomeActivity
 import co.yap.networking.transactions.responsedtos.transaction.Content
 import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionListData
 import co.yap.yapcore.constants.Constants.BROADCAST_UPDATE_TRANSACTION
+import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.enums.PartnerBankStatus
 import co.yap.yapcore.helpers.CustomSnackbar
 import co.yap.yapcore.helpers.Utils
@@ -159,8 +162,11 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                     } else {
                         if (PartnerBankStatus.ACTIVATED.status == MyUserManager.user?.partnerBankStatus)
                             startActivityForResult(
-                                TransactionFiltersActivity.newIntent(requireContext()),
-                                TransactionFiltersActivity.INTENT_FILTER_REQUEST
+                                TransactionFiltersActivity.newIntent(
+                                    requireContext(),
+                                    viewModel.txnFilters
+                                ),
+                                RequestCodes.REQUEST_TXN_FILTER
                             )
                     }
                 }
@@ -462,10 +468,46 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        if (requestCode == TransactionFiltersActivity.INTENT_FILTER_REQUEST) {
-            if (YAPApplication.hasFilterStateChanged)
-                getFilterTransactions()
+        if (resultCode == Activity.RESULT_OK) {
+            if (requestCode == RequestCodes.REQUEST_TXN_FILTER) {
+                val filters: TransactionFilters? =
+                    data?.getParcelableExtra<TransactionFilters?>("txnRequest")
+                if (viewModel.txnFilters != filters) {
+                    getFilterTransactions()
+                    setTransactionRequest(filters)
+                }
+            }
         }
+    }
+
+    private fun setTransactionRequest(filters: TransactionFilters?) {
+        filters?.let {
+            viewModel.txnFilters = it
+            homeTransactionsRequest.number = 0
+            homeTransactionsRequest.size = YAPApplication.pageSize
+            homeTransactionsRequest.txnType = getTxnType()
+            homeTransactionsRequest.amountStartRange = it.amountStartRange
+            homeTransactionsRequest.amountEndRange = it.amountEndRange
+            homeTransactionsRequest.title = null
+            homeTransactionsRequest.totalAppliedFilter = getTotalAppliedFilter()
+        }
+    }
+
+    private fun getTxnType(): String? {
+        return if (viewModel.txnFilters.incomingTxn == false && viewModel.txnFilters.outgoingTxn == false || viewModel.txnFilters.incomingTxn == true && viewModel.txnFilters.outgoingTxn == true) {
+            null
+        } else if (viewModel.txnFilters.incomingTxn == true)
+            co.yap.yapcore.constants.Constants.MANUAL_CREDIT
+        else
+            co.yap.yapcore.constants.Constants.MANUAL_DEBIT
+    }
+
+    private fun getTotalAppliedFilter(): Int {
+        var count = viewModel.txnFilters.totalAppliedFilter
+        if (viewModel.txnFilters.incomingTxn == true) count++
+        if (viewModel.txnFilters.outgoingTxn == true) count++
+
+        return count
     }
 
     private fun getFilterTransactions() {

@@ -667,12 +667,25 @@ object UIBinder {
         )
     }
 
+    //    @BindingAdapter(value = ["src", "addCallback"], requireAll = false)
     @BindingAdapter("src")
     @JvmStatic
     fun setImageResId(view: ImageView, path: String) {
         Glide.with(view.context)
             .load(path).centerCrop().placeholder(R.color.greyLight)
             .into(view)
+    }
+
+    @BindingAdapter(value = ["imageSrc", "imageUri"], requireAll = true)
+    @JvmStatic
+    fun setImageResId(view: ImageView, path: String, imageUri: Uri) {
+        if (imageUri == Uri.EMPTY) {
+            Glide.with(view.context)
+                .load(path).centerCrop()
+                .into(view)
+        } else {
+            view.setImageURI(imageUri)
+        }
     }
 
     @BindingAdapter("src", "circular")

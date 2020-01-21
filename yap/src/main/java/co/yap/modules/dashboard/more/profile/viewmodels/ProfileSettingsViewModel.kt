@@ -2,6 +2,7 @@ package co.yap.modules.dashboard.more.profile.viewmodels
 
 import android.app.Application
 import android.content.Context
+import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.provider.MediaStore
 import android.view.View.GONE
@@ -19,6 +20,11 @@ import co.yap.networking.models.RetroApiResponse
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.managers.MyUserManager
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.DataSource
+import com.bumptech.glide.load.engine.GlideException
+import com.bumptech.glide.request.RequestListener
+import com.bumptech.glide.request.target.Target
 import okhttp3.MediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -169,6 +175,31 @@ class ProfileSettingsViewModel(application: Application) :
                         response.data.data?.let {
                             it.imageURL?.let { state.profilePictureUrl = it }
                             MyUserManager.user!!.currentCustomer.setPicture(it.imageURL)
+                            Glide.with(context)
+                                .load(it.imageURL).listener(object : RequestListener<Drawable>
+                                {
+                                    override fun onLoadFailed(
+                                        e: GlideException?,
+                                        model: Any?,
+                                        target: Target<Drawable>?,
+                                        isFirstResource: Boolean
+                                    ): Boolean {
+                                        state.loading = false
+                                        return false
+                                    }
+
+                                    override fun onResourceReady(
+                                        resource: Drawable?,
+                                        model: Any?,
+                                        target: Target<Drawable>?,
+                                        dataSource: DataSource?,
+                                        isFirstResource: Boolean
+                                    ): Boolean {
+                                        state.loading = false
+                                        return false
+                                    }
+                                }).preload()
+
                             state.fullName = MyUserManager.user!!.currentCustomer.getFullName()
                             state.nameInitialsVisibility = VISIBLE
                         }
@@ -179,12 +210,13 @@ class ProfileSettingsViewModel(application: Application) :
                     state.toast = response.error.message
                     state.fullName = MyUserManager.user!!.currentCustomer.getFullName()
                     state.nameInitialsVisibility = GONE
+                    state.loading = false
 
                 }
 
             }
 
-            state.loading = false
+
         }
     }
 

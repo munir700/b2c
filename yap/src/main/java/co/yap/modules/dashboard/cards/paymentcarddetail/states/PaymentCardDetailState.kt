@@ -1,6 +1,7 @@
 package co.yap.modules.dashboard.cards.paymentcarddetail.states
 
 import androidx.databinding.Bindable
+import androidx.databinding.ObservableField
 import co.yap.BR
 import co.yap.modules.dashboard.cards.paymentcarddetail.interfaces.IPaymentCardDetail
 import co.yap.yapcore.BaseState
@@ -70,4 +71,7 @@ class PaymentCardDetailState : BaseState(), IPaymentCardDetail.State{
             field = value
             notifyPropertyChanged(BR.balanceLoading)
         }
+
+    override var filterCount: ObservableField<Int> = ObservableField(0)
+    override var isTxnsEmpty: ObservableField<Boolean> = ObservableField(false)
 }
