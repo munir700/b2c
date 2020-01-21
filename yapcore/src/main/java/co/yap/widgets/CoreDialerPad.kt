@@ -129,9 +129,15 @@ class CoreDialerPad @JvmOverloads constructor(
             }
         }
     }
-
     fun getText(): String {
         return etPassCodeText.text.toString()
+    }
+
+    fun reset() {
+        etPassCodeText.text=null
+        editText.text=null
+        etPassCodeText.setText("")
+        editText.setText("")
     }
 
     fun updateDialerLength(length: Int) {

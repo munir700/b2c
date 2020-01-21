@@ -46,9 +46,13 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
         viewModel.loginSuccess.observe(this, loginSuccessObserver)
         viewModel.validateDeviceResult.observe(this, validateDeviceResultObserver)
         viewModel.createOtpResult.observe(this, createOtpObserver)
+//        viewModel.state.passcode =""
+        //dialer.reset()
+
         setObservers()
         setUsername()
         dialer.hideFingerprintView()
+
         sharedPreferenceManager = SharedPreferenceManager(context as MainActivity)
         viewModel.state.deviceId =
             sharedPreferenceManager.getValueString(SharedPreferenceManager.KEY_APP_UUID) as String
@@ -93,6 +97,7 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
         ivBackBtn.setOnClickListener {
             activity!!.onBackPressed()
         }
+
     }
 
     private fun showFingerprintDialog() {
@@ -100,6 +105,10 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
             requireActivity(),
             BiometricManagerX.DialogStrings(title = getString(R.string.biometric_title))
         )
+    }
+    override fun onStart() {
+        super.onStart()
+        dialer.reset()
     }
 
     override fun onResume() {
