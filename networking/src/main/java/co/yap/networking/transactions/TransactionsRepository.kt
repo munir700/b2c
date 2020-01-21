@@ -140,7 +140,11 @@ object TransactionsRepository : BaseRepository(), TransactionsApi {
             api.getCardTransactions(
                 cardTransactionRequest.number,
                 cardTransactionRequest.size,
-                cardTransactionRequest.serialNumber
+                cardTransactionRequest.serialNumber,
+                cardTransactionRequest.amountStartRange,
+                cardTransactionRequest.amountEndRange,
+                cardTransactionRequest.txnType,
+                cardTransactionRequest.title
             )
         })
 
