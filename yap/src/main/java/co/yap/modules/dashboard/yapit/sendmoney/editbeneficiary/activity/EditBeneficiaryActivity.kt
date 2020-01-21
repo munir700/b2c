@@ -4,17 +4,20 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
 import co.yap.R
 import co.yap.modules.dashboard.yapit.sendmoney.editbeneficiary.interfaces.IEditBeneficiary
 import co.yap.modules.dashboard.yapit.sendmoney.editbeneficiary.viewmodel.EditBeneficiaryViewModel
-import co.yap.yapcore.helpers.extentions.getCurrencyPopMenu
 import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.widgets.popmenu.PopupMenu
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.helpers.extentions.getCurrencyPopMenu
 import kotlinx.android.synthetic.main.activity_edit_beneficiary.*
 
 
@@ -48,11 +51,45 @@ class EditBeneficiaryActivity : BaseBindingActivity<IEditBeneficiary.ViewModel>(
                 bundle?.let {
                     viewModel.state.needOverView = it.getBoolean(OVERVIEW_BENEFICIARY, false)
                     viewModel.state.beneficiary = bundle.getParcelable(Beneficiary::class.java.name)
+                    if (viewModel.state.beneficiary!!.accountNo!!.length >= 22) {
+                        viewModel.state.beneficiary!!.accountNo =
+                            Utils.formateIbanString(viewModel.state.beneficiary!!.accountNo!!)
+                    }
                 }
             }
         }
+
         setObservers()
         currencyPopMenu = getCurrencyPopMenu(this, mutableListOf(), null, null)
+
+
+        if (viewModel.state.beneficiary!!.accountNo!!.length >= 22) {
+            etAccountNumber.addTextChangedListener(object : TextWatcher {
+
+                override fun afterTextChanged(s: Editable) {
+                    var i = 4
+                    while (i < s.length) {
+                        if (s.toString()[i] != ' ') {
+                            s.insert(i, " ")
+                        }
+                        i += 5
+                    }
+                }
+
+                override fun beforeTextChanged(
+                    s: CharSequence, start: Int,
+                    count: Int, after: Int
+                ) {
+                }
+
+                override fun onTextChanged(
+                    s: CharSequence, start: Int,
+                    before: Int, count: Int
+                ) {
+
+                }
+            })
+        }
 
     }
 
