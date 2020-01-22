@@ -12,11 +12,16 @@ import androidx.navigation.fragment.findNavController
 import co.yap.R
 import co.yap.modules.dashboard.more.profile.fragments.PersonalDetailsFragment.Companion.checkMore
 import co.yap.modules.dashboard.more.profile.fragments.PersonalDetailsFragment.Companion.checkScanned
+import co.yap.modules.dashboard.more.profile.fragments.PersonalDetailsFragmentDirections
 import co.yap.modules.kyc.activities.DocumentsDashboardActivity.Companion.isFromMoreSection
 import co.yap.modules.kyc.enums.DocScanStatus
 import co.yap.modules.kyc.interfaces.IKYCHome
 import co.yap.modules.kyc.states.KYCHomeState
 import co.yap.modules.kyc.viewmodels.KYCHomeViewModel
+import co.yap.networking.cards.responsedtos.Address
+import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.constants.RequestCodes
+import co.yap.yapcore.managers.MyUserManager
 
 import com.digitify.identityscanner.docscanner.activities.IdentityScannerActivity
 import com.digitify.identityscanner.docscanner.enums.DocumentType
@@ -90,11 +95,33 @@ class KYCHomeFragment : KYCChildFragment<IKYCHome.ViewModel>(), IKYCHome.View {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == IdentityScannerActivity.SCAN_EID_CAM && resultCode == Activity.RESULT_OK) {
-            data?.let {
-                viewModel.onEIDScanningComplete(it.getParcelableExtra(IdentityScannerActivity.SCAN_RESULT))
-                checkScanned = true
+        if (resultCode == Activity.RESULT_OK) {
+            when (requestCode) {
+                RequestCodes.REQUEST_FOR_LOCATION -> {
+                    val isUpdated = data?.getBooleanExtra(Constants.ADDRESS_SUCCESS, false)
+                    isUpdated?.let { it ->
+                        if (it) {
+                            val address: Address? =
+                                data.getParcelableExtra(Constants.ADDRESS)
+                            address?.let {
+                                MyUserManager.user?.notificationStatuses =
+                                    co.yap.modules.onboarding.constants.Constants.USER_STATUS_MEETING_SCHEDULED
+                                findNavController().navigate(R.id.action_AddressSelectionActivity_to_MeetingConfirmationFragment)
+                            }
+                        }
+                    }
+                }
 
+                IdentityScannerActivity.SCAN_EID_CAM -> {
+                    data?.let {
+                        viewModel.onEIDScanningComplete(
+                            it.getParcelableExtra(
+                                IdentityScannerActivity.SCAN_RESULT
+                            )
+                        )
+                        checkScanned = true
+                    }
+                }
             }
         }
     }

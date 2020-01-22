@@ -17,6 +17,7 @@ import co.yap.modules.dashboard.more.main.fragments.MoreBaseFragment
 import co.yap.modules.dashboard.more.profile.intefaces.IPersonalDetail
 import co.yap.modules.dashboard.more.profile.viewmodels.PersonalDetailsViewModel
 import co.yap.modules.location.activities.LocationSelectionActivity
+import co.yap.networking.cards.requestdtos.UpdateAddressRequest
 import co.yap.networking.cards.responsedtos.Address
 import co.yap.translation.Strings
 import co.yap.yapcore.constants.Constants
@@ -43,6 +44,10 @@ class PersonalDetailsFragment : MoreBaseFragment<IPersonalDetail.ViewModel>(),
     override val viewModel: IPersonalDetail.ViewModel
         get() = ViewModelProviders.of(this).get(PersonalDetailsViewModel::class.java)
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        viewModel.onUpdateAddressSuccess.observe(this, onAddressSuccess)
+    }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         if (context is MoreActivity)
@@ -86,24 +91,6 @@ class PersonalDetailsFragment : MoreBaseFragment<IPersonalDetail.ViewModel>(),
                             subHeadingTitle = getString(Strings.screen_meeting_location_display_text_subtitle)
                         ), RequestCodes.REQUEST_FOR_LOCATION
                     )
-//                    val heading = Translator.getString(
-//                        requireContext(),
-//                        R.string.screen_meeting_location_display_text_selected_subtitle
-//                    )
-//                    val subHeading = Translator.getString(
-//                        requireContext(),
-//                        R.string.screen_meeting_location_display_text_selected_subtitle
-//                    )
-//
-//                    startActivityForResult(
-//                        LocationSelectionActivity.newIntent(
-//                            requireContext(),
-//                            MyUserManager.userAddress,
-//                            heading,
-//                            subHeading
-//                        ), RequestCodes.REQUEST_FOR_LOCATION
-//                    )
-
                 }
 
                 R.id.cvCard -> {
@@ -147,10 +134,22 @@ class PersonalDetailsFragment : MoreBaseFragment<IPersonalDetail.ViewModel>(),
 
     override fun onDestroy() {
         viewModel.clickEvent.removeObservers(this)
+        viewModel.onUpdateAddressSuccess.removeObservers(this)
         super.onDestroy()
         if (changeAddress) {
             viewModel.toggleToolBar(true)
             changeAddress = true
+        }
+    }
+
+    private val onAddressSuccess = Observer<Boolean> {
+        if (it) {
+            val action =
+                PersonalDetailsFragmentDirections.actionPersonalDetailsFragmentToSuccessFragment(
+                    getString(R.string.screen_address_success_display_text_sub_heading_update),
+                    " "
+                )
+            findNavController().navigate(action)
         }
     }
 
@@ -166,17 +165,17 @@ class PersonalDetailsFragment : MoreBaseFragment<IPersonalDetail.ViewModel>(),
                                 data.getParcelableExtra(ADDRESS)
                             address?.let {
                                 MyUserManager.userAddress = it
-                                val action =
-                                    PersonalDetailsFragmentDirections.actionPersonalDetailsFragmentToSuccessFragment(
-                                        getString(R.string.screen_address_success_display_text_sub_heading_update),
-                                        " "
+                                viewModel.requestUpdateAddress(
+                                    UpdateAddressRequest(
+                                        it.address1,
+                                        it.address2,
+                                        it.latitude.toString(),
+                                        it.longitude.toString()
                                     )
-                                findNavController().navigate(action)
+                                )
                             }
                         }
                     }
-
-
                 }
             }
         }

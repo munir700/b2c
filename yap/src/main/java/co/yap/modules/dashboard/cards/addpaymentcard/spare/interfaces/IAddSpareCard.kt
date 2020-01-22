@@ -34,7 +34,7 @@ interface IAddSpareCard {
         val addSpareVirtualCardLogicHelper: AddSpareVirtualCardLogicHelper
         var latitude: String
         var longitude: String
-        var address: Address
+        var address: Address?
 
         val CONFIRM_PHYSICAL_PURCHASE: Int
         val CONFIRM_VIRTUAL_PURCHASE: Int

@@ -14,7 +14,7 @@
     </data>
 
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/clContainer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -23,24 +23,30 @@
         android:orientation="vertical">
         <include
             android:id="@+id/toolbar"
-            layout="@layout/layout_location_selection_toolbar"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            android:visibility="gone"
+            android:layout_marginTop="@dimen/small"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/viewMapFragment"
+            layout="@layout/layout_location_selection_toolbar"
+            android:visibility="visible"
             app:viewModel="@{viewModel}" />
         <FrameLayout
             android:id="@+id/viewMapFragment"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/toolbar">
 
             <include
                 android:id="@+id/mapView"
                 layout="@layout/layout_google_maps"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:minHeight="@dimen/_140sdp"
                 app:viewModel="@{viewModel}" />
 
             <FrameLayout
@@ -55,7 +61,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="top"
-                    android:background="@color/white"
                     android:orientation="vertical">
 
                     <TextView
@@ -63,8 +68,8 @@
                         style="@style/ATitle3"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/small"
                         android:layout_marginStart="@dimen/margin_small"
-                        android:layout_marginTop="40dp"
                         android:layout_marginEnd="@dimen/margin_small"
                         android:gravity="center"
                         android:maxLines="2"
@@ -259,5 +264,5 @@
                 </LinearLayout>
             </LinearLayout>
         </FrameLayout>
-    </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
