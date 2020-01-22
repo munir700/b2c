@@ -36,6 +36,9 @@ class VerifyPasscodeViewModel(application: Application) :
     private val customersRepository: CustomersRepository = CustomersRepository
     override var emailOtp: Boolean = false
     override var mobileNumber: String = ""
+    override var EVENT_LOGOUT_SUCCESS: Int = 101
+
+
     override val accountInfo: MutableLiveData<AccountInfo> = MutableLiveData()
     private val messagesRepository: MessagesRepository = MessagesRepository
 
@@ -71,8 +74,6 @@ class VerifyPasscodeViewModel(application: Application) :
                 sharedPreferenceManager.getValueString(SharedPreferenceManager.KEY_USERNAME) as String
             )!!
         }
-
-
         launch {
             state.loading = true
             when (val response = messagesRepository.createForgotPasscodeOTP(
@@ -95,8 +96,6 @@ class VerifyPasscodeViewModel(application: Application) :
                 }
             }
         }
-
-
     }
 
     private fun verifyUsername(enteredUsername: String): String {
@@ -191,5 +190,23 @@ class VerifyPasscodeViewModel(application: Application) :
         signInButtonPressEvent.postValue(true)
     }
 
+
+    override fun logout() {
+        val deviceId: String? =
+            SharedPreferenceManager(context).getValueString(SharedPreferenceManager.KEY_APP_UUID)
+        launch {
+            state.loading = true
+             when (val response = repository.logout(deviceId.toString())) {
+                is RetroApiResponse.Success -> {
+                    state.loading = false
+                    forgotPasscodeButtonPressEvent.setValue(EVENT_LOGOUT_SUCCESS)
+                }
+                is RetroApiResponse.Error -> {
+                    state.loading = false
+                    forgotPasscodeButtonPressEvent.setValue(EVENT_LOGOUT_SUCCESS)
+                }
+            }
+        }
+    }
 
 }

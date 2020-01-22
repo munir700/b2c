@@ -8,7 +8,11 @@
             name="viewModel"
             type="co.yap.app.modules.login.viewmodels.VerifyPasscodeViewModel" />
 
+        <import type="co.yap.app.modules.login.fragments.VerifyPassCodeEnum" />
+
         <import type="co.yap.translation.Strings" />
+
+        <import type="android.view.View" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -31,7 +35,7 @@
             android:foreground="?attr/selectableItemBackground"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_back_arrow_left" />
+            app:srcCompat="@drawable/ic_back" />
 
         <ImageView
             android:id="@+id/ivLogo"
@@ -57,7 +61,7 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/ivLogo"
-            app:text="@{Strings.screen_verify_passcode_display_text_title}"
+            app:text="@{VerifyPassCodeEnum.valueOf(viewModel.state.verifyPassCodeEnum) == VerifyPassCodeEnum.VERIFY? Strings.screen_verify_passcode_display_text_title_verify:Strings.screen_verify_passcode_display_text_title}"
             tools:text="@string/screen_verify_passcode_display_text_title" />
 
         <co.yap.widgets.CoreDialerPad
@@ -95,6 +99,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/margin_normal"
             android:onClick="@{(v)-> viewModel.handlePressOnForgotPasscodeButton(v.id)}"
+            android:visibility="@{VerifyPassCodeEnum.valueOf(viewModel.state.verifyPassCodeEnum) == VerifyPassCodeEnum.VERIFY ? View.GONE : View.VISIBLE }"
             android:textColor="?attr/colorPrimaryAttr"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"

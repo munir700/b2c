@@ -2,7 +2,6 @@ package co.yap.yapcore.helpers
 
 import android.app.Activity
 import android.content.Context
-import android.graphics.Typeface
 import android.view.Gravity
 import android.view.View
 import android.widget.FrameLayout
@@ -12,6 +11,7 @@ import androidx.annotation.ColorRes
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import co.yap.yapcore.R
+import co.yap.yapcore.helpers.extentions.toastNow
 import com.google.android.material.snackbar.Snackbar
 
 fun Activity?.showSnackBar(msg: String, gravity: Int = Gravity.BOTTOM) {
@@ -81,7 +81,7 @@ fun Fragment?.showSnackBar(
     val snackRootView = snakbar.view
     val snackTextView = snackRootView
         .findViewById<TextView>(R.id.snackbar_text)
-    snackTextView.setTextAppearance(context,R.style.AppFontLight)
+    snackTextView.setTextAppearance(context, R.style.AppFontLight)
     show(snakbar, gravity)
 }
 

@@ -35,6 +35,9 @@ object Constants {
     const val EVENT_ADD_TOPUP_CARD: Int = 100
     const val EVENT_DELETE_TOPUP_CARD: Int = 101
 
+    const val REQUEST_CODE = "requestCode"
+    const val START_REQUEST_CODE = 101
+
 
     var VERSION_NAME: String = "1.0.0"
     var VERSION_CODE: Int = 1

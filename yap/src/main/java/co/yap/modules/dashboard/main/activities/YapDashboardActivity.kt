@@ -46,7 +46,7 @@ import co.yap.yapcore.IFragmentHolder
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.PartnerBankStatus
 import co.yap.yapcore.helpers.PermissionHelper
-import co.yap.yapcore.helpers.dimen
+import co.yap.yapcore.helpers.extentions.dimen
 import co.yap.yapcore.managers.MyUserManager
 import kotlinx.android.synthetic.main.activity_yap_dashboard.*
 import kotlinx.android.synthetic.main.layout_drawer_yap_dashboard.*

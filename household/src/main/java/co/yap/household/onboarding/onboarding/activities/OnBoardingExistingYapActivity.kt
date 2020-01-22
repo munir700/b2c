@@ -6,7 +6,7 @@ import co.yap.household.onboarding.OnboardingHouseHoldActivity
 import co.yap.translation.Strings
 import co.yap.yapcore.IFragmentHolder
 import co.yap.yapcore.defaults.DefaultActivity
-import co.yap.yapcore.helpers.toast
+import co.yap.yapcore.helpers.extentions.toast
 import kotlinx.android.synthetic.main.activity_on_boarding_existing_yap.*
 
 class OnBoardingExistingYapActivity : DefaultActivity(), IFragmentHolder {

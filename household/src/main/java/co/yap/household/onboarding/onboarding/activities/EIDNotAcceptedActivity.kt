@@ -7,13 +7,11 @@ import android.net.Uri
 import android.os.Bundle
 import co.yap.household.R
 import co.yap.modules.dummy.ActivityNavigator
-import co.yap.modules.dummy.NavigatorProvider
 import co.yap.networking.cards.responsedtos.CardBalance
 import co.yap.translation.Strings
 import co.yap.yapcore.IFragmentHolder
 import co.yap.yapcore.defaults.DefaultActivity
 import co.yap.yapcore.helpers.AuthUtils
-import co.yap.yapcore.helpers.toast
 import co.yap.yapcore.managers.MyUserManager
 import kotlinx.android.synthetic.main.activity_eidnot_accepted.*
 
@@ -71,6 +69,7 @@ class EIDNotAcceptedActivity : DefaultActivity(), IFragmentHolder {
 //            userCall()
 //        }
     }
+
     private fun doLogout() {
         AuthUtils.navigateToHardLogin(this)
         MyUserManager.cardBalance.value = CardBalance()

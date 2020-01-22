@@ -14,9 +14,7 @@ import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import androidx.core.content.ContextCompat
 import co.yap.R
-import co.yap.yapcore.helpers.RecyclerTouchListener
 import co.yap.yapcore.helpers.ThemeColorUtils
-import co.yap.yapcore.helpers.dip2px
 
 class ChartViewV2(context: Context, attrs: AttributeSet) : View(context, attrs),
     View.OnTouchListener, View.OnFocusChangeListener {
@@ -25,7 +23,7 @@ class ChartViewV2(context: Context, attrs: AttributeSet) : View(context, attrs),
     private var barWeight: Int = 26
     var barHeight: Float = 99f
         set(value) {
-            field = ((getParentViewHeight() / 2) * (value)) +3
+            field = ((getParentViewHeight() / 2) * (value)) + 3
             isBarValueSet = true
 
             layoutParams.height = field.toInt()//context.dip2px(10f)
@@ -81,9 +79,6 @@ class ChartViewV2(context: Context, attrs: AttributeSet) : View(context, attrs),
     }
 
 
-
-
-
     private fun customizePaint(context: Context) {
         paint.color = seletedColor
         paint.shader = paintShader
@@ -130,7 +125,7 @@ class ChartViewV2(context: Context, attrs: AttributeSet) : View(context, attrs),
 
     private fun fadeOutBarAnimation() {
         val fadeOutBarAnimation = AnimationUtils.loadAnimation(context, R.anim.fade_out)
-        fadeOutBarAnimation.duration =if(needAnimation) 300 else 0
+        fadeOutBarAnimation.duration = if (needAnimation) 300 else 0
         fadeOutBarAnimation.setAnimationListener(object : Animation.AnimationListener {
             override fun onAnimationStart(animation: Animation) {
 
@@ -159,7 +154,7 @@ class ChartViewV2(context: Context, attrs: AttributeSet) : View(context, attrs),
     private fun customizeAnimation(context: Context) {
 
         val fadeInBarAnimation = AnimationUtils.loadAnimation(context, R.anim.fade_in)
-        fadeInBarAnimation.duration =if(needAnimation) 400 else 300
+        fadeInBarAnimation.duration = if (needAnimation) 400 else 300
 
         this.startAnimation(fadeInBarAnimation)
 
@@ -295,7 +290,9 @@ class ChartViewV2(context: Context, attrs: AttributeSet) : View(context, attrs),
     }
 
     private fun getParentView() = parent as View
-    private fun getParentViewHeight() =resources.getDimension(R.dimen._80sdp)// getParentView().height
+    private fun getParentViewHeight() =
+        resources.getDimension(R.dimen._80sdp)// getParentView().height
+
     private fun getParentViewWidth() = getParentView().width
 
 }

@@ -20,7 +20,7 @@ import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.Utils
-import co.yap.yapcore.helpers.toast
+import co.yap.yapcore.helpers.extentions.toast
 
 class CashTransferViewModel(application: Application) :
     SendMoneyBaseViewModel<ICashTransfer.State>(application),
@@ -62,7 +62,10 @@ class CashTransferViewModel(application: Application) :
                 if (!state.reasonTransferValue.equals("Select a Reason")) {
                     createOtp(id = id)
                 } else {
-                    toast(context, "Select a Reason")
+                    toast(
+                        context,
+                        "Select a Reason"
+                    )
 
                 }
             } else {
