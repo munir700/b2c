@@ -6,22 +6,28 @@ import android.hardware.fingerprint.FingerprintManager
 import android.os.Bundle
 import android.view.View
 import android.view.View.OnClickListener
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import co.yap.BR
 import co.yap.app.R
+import co.yap.app.YAPApplication
 import co.yap.app.constants.Constants
 import co.yap.app.login.EncryptionUtils
 import co.yap.app.modules.login.interfaces.IVerifyPasscode
 import co.yap.app.modules.login.viewmodels.VerifyPasscodeViewModel
+import co.yap.modules.dashboard.more.main.activities.MoreActivity
 import co.yap.modules.others.helper.Constants.REQUEST_CODE
+import co.yap.networking.cards.responsedtos.CardBalance
 import co.yap.yapcore.BaseBindingFragment
+import co.yap.yapcore.helpers.AuthUtils
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.biometric.BiometricCallback
 import co.yap.yapcore.helpers.biometric.BiometricManagerX
 import co.yap.yapcore.helpers.biometric.BiometricUtil
 import co.yap.yapcore.helpers.extentions.preventTakeScreenshot
+import co.yap.yapcore.managers.MyUserManager
 import kotlinx.android.synthetic.main.fragment_verify_passcode.*
 
 
@@ -52,7 +58,8 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
 
         arguments?.let {
             viewModel.state.username = VerifyPasscodeFragmentArgs.fromBundle(it).username
-            viewModel.state.verifyPassCodeEnum =  it.getString(REQUEST_CODE,VerifyPassCodeEnum.ACCESS_ACCOUNT.name)
+            viewModel.state.verifyPassCodeEnum =
+                it.getString(REQUEST_CODE, VerifyPassCodeEnum.ACCESS_ACCOUNT.name)
         }
         dialer.hideFingerprintView()
 
@@ -99,7 +106,7 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
         }
 
         ivBackBtn.setOnClickListener {
-            activity!!.onBackPressed()
+            viewModel.logout()
         }
 
     }
@@ -149,8 +156,24 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
                         )
                     findNavController().navigate(action)
                 }
+                viewModel.EVENT_LOGOUT_SUCCESS -> {
+                    doLogout()
+                }
             }
         })
+    }
+
+
+    private fun doLogout() {
+        AuthUtils.navigateToHardLoginFromVerifyPassCode(requireContext())
+        MyUserManager.user = null
+        MyUserManager.cardBalance.value = CardBalance()
+        MyUserManager.cards = MutableLiveData()
+        MyUserManager.cards.value?.clear()
+        MyUserManager.userAddress = null
+        MoreActivity.showExpiredIcon = false
+        YAPApplication.clearFilters()
+        activity?.onBackPressed()
     }
 
     override fun onDestroyView() {
