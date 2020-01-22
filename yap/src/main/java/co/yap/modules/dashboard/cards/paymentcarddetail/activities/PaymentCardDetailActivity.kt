@@ -37,7 +37,6 @@ import co.yap.modules.dashboard.home.filters.activities.TransactionFiltersActivi
 import co.yap.modules.dashboard.home.filters.models.TransactionFilters
 import co.yap.modules.others.helper.Constants
 import co.yap.networking.cards.responsedtos.Card
-import co.yap.networking.cards.responsedtos.CardBalance
 import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionListData
 import co.yap.translation.Strings
 import co.yap.yapcore.BaseBindingActivity
@@ -47,6 +46,7 @@ import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.getCustomSnackbarSticky
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.MyUserManager
+import com.ezaka.customer.app.utils.toCamelCase
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_payment_card_detail.*
 import kotlinx.android.synthetic.main.layout_card_info.*
@@ -284,7 +284,17 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
         viewModel.card.value = intent.getParcelableExtra(CARD)
         viewModel.state.cardType = viewModel.card.value?.cardType!!
         viewModel.state.cardPanNumber = viewModel.card.value?.maskedCardNo!!
-        viewModel.state.cardName = viewModel.card.value?.cardName!!
+        viewModel.card.value?.cardName?.let { cardName ->
+            viewModel.card.value?.nameUpdated?.let {
+                if (it) {
+                    viewModel.state.cardName = cardName
+                } else {
+                    viewModel.state.cardName = cardName.toCamelCase()
+                }
+            }
+        }
+
+
         viewModel.card.value?.status?.let {
             when (it) {
                 CardStatus.ACTIVE.name -> {
@@ -446,7 +456,8 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
                 checkFreezeUnfreezStatus()
                 if (resultCode == Activity.RESULT_OK) {
                     // Send Broadcast for updating transactions list in `Home Fragment`
-                    val intent = Intent(co.yap.yapcore.constants.Constants.BROADCAST_UPDATE_TRANSACTION)
+                    val intent =
+                        Intent(co.yap.yapcore.constants.Constants.BROADCAST_UPDATE_TRANSACTION)
                     LocalBroadcastManager.getInstance(this).sendBroadcast(intent)
 
                     viewModel.card.value?.availableBalance =
