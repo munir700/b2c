@@ -92,7 +92,7 @@
                 android:layout_marginTop="@dimen/_25sdp"
                 android:layout_marginRight="@dimen/margin_btn_side_paddings"
                 android:layout_marginBottom="@dimen/margin_medium_large"
-                android:onClick="@{(v) -> viewModel.handlePressOnConfirmVirtualCardPurchase(v.id)}"
+                android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
                 android:text="@string/screen_add_spare_card_button_confirm_purchase"
                 android:textAllCaps="false"
                 app:btn_enable="true"

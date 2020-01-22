@@ -21,15 +21,15 @@ import co.yap.modules.dashboard.more.main.activities.MoreActivity
 import co.yap.modules.others.fragmentpresenter.activities.FragmentPresenterActivity
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.helpers.Utils.formateIbanString
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.MyUserManager
-import kotlinx.android.synthetic.main.fragment_more_home.*
 
 
 class YapMoreFragment : YapDashboardChildFragment<IMoreHome.ViewModel>(), IMoreHome.View {
 
     lateinit var adapter: YapMoreAdaptor
-
+    lateinit var str: CharArray
     override fun getBindingVariable(): Int = BR.viewModel
 
     override fun getLayoutId(): Int = R.layout.fragment_more_home
@@ -53,11 +53,13 @@ class YapMoreFragment : YapDashboardChildFragment<IMoreHome.ViewModel>(), IMoreH
         initComponents()
     }
 
+
     private fun initComponents() {
         getBinding().tvName.text =
             MyUserManager.user?.currentCustomer?.getFullName()
         MyUserManager.user?.iban?.let {
-            val ibanSpan = SpannableString("IBAN $it")
+            val str = formateIbanString(it)
+            val ibanSpan = SpannableString("IBAN $str")
             getBinding().tvIban.text = Utils.setSpan(
                 0,
                 4,
@@ -93,13 +95,13 @@ class YapMoreFragment : YapDashboardChildFragment<IMoreHome.ViewModel>(), IMoreH
             if (data is MoreOption) {
                 when (data.id) {
                     Constants.MORE_NOTIFICATION -> {
-
+                        Utils.showComingSoon(requireContext())
                     }
                     Constants.MORE_LOCATE_ATM -> {
                         openMaps()
                     }
                     Constants.MORE_INVITE_FRIEND -> {
-
+                        Utils.showComingSoon(requireContext())
                     }
                     Constants.MORE_HELP_SUPPORT -> {
                         startActivity(

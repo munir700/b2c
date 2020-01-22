@@ -9,4 +9,4 @@ data class Address(
     var address2: String? = null,
     var latitude: Double? = null,
     var longitude: Double? = null
-): Parcelable
+):Parcelable

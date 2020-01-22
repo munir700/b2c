@@ -3,6 +3,7 @@ package co.yap.modules.dashboard.home.viewmodels
 import android.app.Application
 import androidx.lifecycle.MutableLiveData
 import co.yap.app.YAPApplication
+import co.yap.modules.dashboard.home.filters.models.TransactionFilters
 import co.yap.modules.dashboard.home.interfaces.IYapHome
 import co.yap.modules.dashboard.home.states.YapHomeState
 import co.yap.modules.dashboard.main.viewmodels.YapDashboardChildViewModel
@@ -26,6 +27,7 @@ class YapHomeViewModel(application: Application) :
     override lateinit var debitCardSerialNumber: String
     override val clickEvent: SingleClickEvent = SingleClickEvent()
     override val state: YapHomeState = YapHomeState()
+    override var txnFilters: TransactionFilters = TransactionFilters()
 
     private val cardsRepository: CardsRepository = CardsRepository
     private val transactionsRepository: TransactionsRepository = TransactionsRepository

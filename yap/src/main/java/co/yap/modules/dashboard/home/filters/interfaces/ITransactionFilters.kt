@@ -15,10 +15,14 @@ interface ITransactionFilters {
         fun handlePressOnBackButton(id: Int)
         fun updateRangeValue(seekBar: RangeSeekBar)
         val transactionFilters: MutableLiveData<TransactionFilters>
+        var txnFilters: MutableLiveData<co.yap.modules.dashboard.home.filters.models.TransactionFilters>
     }
 
     interface State : IBase.State {
         var rangeStartValue: ObservableField<String>
         var rangeEndValue: ObservableField<String>
+        var selectedStartRange: ObservableField<Double>
+        var selectedEndRange: ObservableField<Double>
+        var selectedTxnType: ObservableField<String?>
     }
 }

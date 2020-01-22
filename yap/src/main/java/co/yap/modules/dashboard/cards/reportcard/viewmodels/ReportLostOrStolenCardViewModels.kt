@@ -14,6 +14,7 @@ import co.yap.translation.Strings
 import co.yap.translation.Translator
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.SingleLiveEvent
+import co.yap.yapcore.enums.CardType
 
 class ReportLostOrStolenCardViewModels(application: Application) :
     AddPaymentChildViewModel<IRepostOrStolenCard.State>(application),
@@ -74,18 +75,19 @@ class ReportLostOrStolenCardViewModels(application: Application) :
             when (val response = repository.reportAndBlockCard(cardsHotlistReequest)) {
                 is RetroApiResponse.Success -> {
 
-                    if (state.cardType.equals(
-                            Translator.getString(
-                                context!!,
-                                Strings.screen_spare_card_landing_display_text_virtual_card
-                            )
+                    if (state.cardType == Translator.getString(
+                            context,
+                            Strings.screen_spare_card_landing_display_text_virtual_card
                         )
                     ) {
                         state.loading = false
                         toggleToolBarVisibility(false)
                         clickEvent.setValue(CARD_REORDER_SUCCESS)
                     } else {
-                        getPhysicalCardFee()
+                        if (state.cardType == CardType.DEBIT.type)
+                            getDebitCardFee()
+                        else
+                            getPhysicalCardFee()
                     }
                 }
                 is RetroApiResponse.Error -> {
@@ -117,4 +119,19 @@ class ReportLostOrStolenCardViewModels(application: Application) :
         }
     }
 
+    override fun getDebitCardFee() {
+        launch {
+            when (val response = transactionRepository.getDebitCardFee()) {
+                is RetroApiResponse.Success -> {
+                    cardFee = response.data.data?.amount ?: "0.0"
+                    toggleToolBarVisibility(false)
+                    clickEvent.setValue(CARD_REORDER_SUCCESS)
+                }
+
+                is RetroApiResponse.Error -> {
+                    state.toast = response.error.message
+                }
+            }
+        }
+    }
 }

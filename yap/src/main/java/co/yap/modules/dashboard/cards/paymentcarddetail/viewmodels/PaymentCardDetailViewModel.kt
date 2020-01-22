@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import co.yap.modules.dashboard.cards.paymentcarddetail.interfaces.IPaymentCardDetail
 import co.yap.modules.dashboard.cards.paymentcarddetail.states.PaymentCardDetailState
 import co.yap.modules.dashboard.helpers.transaction.TransactionLogicHelper
+import co.yap.modules.dashboard.home.filters.models.TransactionFilters
 import co.yap.networking.cards.CardsRepository
 import co.yap.networking.cards.requestdtos.CardLimitConfigRequest
 import co.yap.networking.cards.responsedtos.Card
@@ -42,11 +43,171 @@ class PaymentCardDetailViewModel(application: Application) :
     override val transactionsLiveData: MutableLiveData<List<HomeTransactionListData>> =
         MutableLiveData()
     override val isLoadMore: MutableLiveData<Boolean> = MutableLiveData(false)
+    override val isLast: MutableLiveData<Boolean> = MutableLiveData(false)
+    override var transactionFilters: TransactionFilters = TransactionFilters()
+
     var sortedCombinedTransactionList: ArrayList<HomeTransactionListData> = arrayListOf()
 
     override var cardTransactionRequest: CardTransactionRequest =
-        CardTransactionRequest(0, 20, "")
+        CardTransactionRequest(0, 20, "", null, null)
 
+    override fun requestAccountTransactions() {
+        launch {
+            if (!isLoadMore.value!!)
+                state.loading = true
+            when (val response =
+                transactionsRepository.getCardTransactions(cardTransactionRequest)) {
+                is RetroApiResponse.Success -> {
+                    isLast.value = response.data.data.last
+                    val transactionModelData: ArrayList<HomeTransactionListData> =
+                        setUpSectionHeader(response)
+
+                    if (false /*isRefreshing.value!!*/) {
+                        sortedCombinedTransactionList.clear()
+                    }
+                    /*isRefreshing.value!! -->  isRefreshing.value = false*/
+
+                    if (!sortedCombinedTransactionList.equals(transactionModelData)) {
+                        sortedCombinedTransactionList.addAll(transactionModelData)
+                    }
+
+                    val unionList =
+                        (sortedCombinedTransactionList.asSequence() + transactionModelData.asSequence())
+                            .distinct()
+                            .groupBy({ it.date })
+
+                    for (lists in unionList.entries) {
+                        if (lists.value.size > 1) {// sortedCombinedTransactionList.equals(transactionModelData fails in this case
+                            var contentsList: ArrayList<Content> = arrayListOf()
+
+                            for (transactionsDay in lists.value) {
+                                contentsList.addAll(transactionsDay.content)
+
+                            }
+
+                            contentsList.sortByDescending { it ->
+                                it.creationDate
+                            }
+
+
+                            var closingBalanceOfTheDay: Double = contentsList.get(0).balanceAfter
+                            closingBalanceArray.add(closingBalanceOfTheDay)
+
+                            var transactionModel: HomeTransactionListData = HomeTransactionListData(
+                                "Type",
+                                "AED",
+                                /* transactionsDay.key!!*/
+                                convertDate(contentsList.get(0).creationDate)!!,
+                                contentsList.get(0).totalAmount.toString(),
+                                contentsList.get(0).balanceAfter,
+                                0.00 /*  "calculate the percentage as per formula from the keys".toDouble()*/,
+                                contentsList,
+
+                                response.data.data.first,
+                                response.data.data.last,
+                                response.data.data.number,
+                                response.data.data.numberOfElements,
+                                response.data.data.pageable,
+                                response.data.data.size,
+                                response.data.data.sort,
+                                response.data.data.totalElements,
+                                response.data.data.totalPages
+                            )
+                            var numberstoReplace: Int = 0
+                            var replaceNow: Boolean = false
+
+
+                            val iterator = sortedCombinedTransactionList.iterator()
+                            while (iterator.hasNext()) {
+                                val item = iterator.next()
+                                if (item.date.equals(convertDate(contentsList.get(0).creationDate))) {
+                                    numberstoReplace = sortedCombinedTransactionList.indexOf(item)
+                                    iterator.remove()
+                                    replaceNow = true
+
+                                }
+
+                            }
+                            if (replaceNow) {
+                                sortedCombinedTransactionList.add(
+                                    numberstoReplace,
+                                    transactionModel
+                                )
+                                replaceNow = false
+                            }
+                        }
+                    }
+//                    sortedCombinedTransactionList.sortBy { it ->  it.date  }
+
+                    transactionsLiveData.value = sortedCombinedTransactionList
+                    //if (isLoadMore.value!!)
+                    isLoadMore.value = false
+                    //transactionLogicHelper.transactionList = sortedCombinedTransactionList
+                    state.loading = false
+                }
+                is RetroApiResponse.Error -> {
+                    state.loading = false
+                    /*/isRefreshing.value = false*/
+                    isLoadMore.value = false
+                }
+            }
+        }
+        state.loading = false
+    }
+
+    private fun setUpSectionHeader(response: RetroApiResponse.Success<HomeTransactionsResponse>): ArrayList<HomeTransactionListData> {
+        val contentList = response.data.data.content as ArrayList<Content>
+        contentList.sortWith(Comparator { o1, o2 -> o2.creationDate.compareTo(o1.creationDate) })
+        val groupByDate = contentList.groupBy { item ->
+            convertDate(item.creationDate)
+        }
+
+        val transactionModelData: ArrayList<HomeTransactionListData> =
+            arrayListOf()
+
+        for (transactionsDay in groupByDate.entries) {
+
+            val contentsList = transactionsDay.value as ArrayList<Content>
+            contentsList.sortByDescending {
+                it.creationDate
+            }
+
+            val closingBalanceOfTheDay: Double = contentsList.get(0).balanceAfter
+            closingBalanceArray.add(closingBalanceOfTheDay)
+
+            val transactionModel = HomeTransactionListData(
+                "Type",
+                "AED",
+                transactionsDay.key!!,
+                contentsList.get(0).totalAmount.toString(),
+                contentsList.get(0).balanceAfter,
+                0.00 /*  "calculate the percentage as per formula from the keys".toDouble()*/,
+                contentsList,
+
+                response.data.data.first,
+                response.data.data.last,
+                response.data.data.number,
+                response.data.data.numberOfElements,
+                response.data.data.pageable,
+                response.data.data.size,
+                response.data.data.sort,
+                response.data.data.totalElements,
+                response.data.data.totalPages
+            )
+            transactionModelData.add(transactionModel)
+            MAX_CLOSING_BALANCE =
+                closingBalanceArray.max()!!
+        }
+        return transactionModelData
+    }
+
+    override fun loadMore() {
+        requestAccountTransactions()
+    }
+
+    override fun handlePressOnView(id: Int) {
+        clickEvent.setValue(id)
+    }
 
     override fun onResume() {
         super.onResume()
@@ -129,169 +290,6 @@ class PaymentCardDetailViewModel(application: Application) :
             }
             state.loading = false
         }
-    }
-
-    override fun requestAccountTransactions() {
-        launch {
-            if (!isLoadMore.value!!)
-                state.loading = true
-            when (val response =
-                transactionsRepository.getCardTransactions(cardTransactionRequest)) {
-                is RetroApiResponse.Success -> {
-                    val transactionModelData: ArrayList<HomeTransactionListData> =
-                        setUpSectionHeader(response)
-
-                    if (!sortedCombinedTransactionList.equals(transactionModelData)) {
-                        sortedCombinedTransactionList.addAll(transactionModelData)
-                    }
-
-                    val unionList =
-                        (sortedCombinedTransactionList.asSequence() + transactionModelData.asSequence())
-                            .distinct()
-                            .groupBy({ it.date })
-
-                    for (lists in unionList.entries) {
-                        if (lists.value.size > 1) {// sortedCombinedTransactionList.equals(transactionModelData fails in this case
-                            var contentsList: ArrayList<Content> = arrayListOf()
-
-                            for (transactionsDay in lists.value) {
-                                contentsList.addAll(transactionsDay.content)
-
-                            }
-
-                            contentsList.sortByDescending { it ->
-                                it.creationDate
-                            }
-
-
-                            var closingBalanceOfTheDay: Double = contentsList.get(0).balanceAfter
-                            closingBalanceArray.add(closingBalanceOfTheDay)
-
-                            var transactionModel: HomeTransactionListData = HomeTransactionListData(
-                                "Type",
-                                "AED",
-                                /* transactionsDay.key!!*/
-                                convertDate(contentsList.get(0).creationDate)!!,
-                                contentsList.get(0).totalAmount.toString(),
-                                contentsList.get(0).balanceAfter,
-                                0.00 /*  "calculate the percentage as per formula from the keys".toDouble()*/,
-                                contentsList,
-
-                                response.data.data.first,
-                                response.data.data.last,
-                                response.data.data.number,
-                                response.data.data.numberOfElements,
-                                response.data.data.pageable,
-                                response.data.data.size,
-                                response.data.data.sort,
-                                response.data.data.totalElements,
-                                response.data.data.totalPages
-                            )
-                            var numberstoReplace: Int = 0
-                            var replaceNow: Boolean = false
-
-
-                            val iterator = sortedCombinedTransactionList.iterator()
-                            while (iterator.hasNext()) {
-                                val item = iterator.next()
-                                if (item.date.equals(convertDate(contentsList.get(0).creationDate))) {
-                                    numberstoReplace = sortedCombinedTransactionList.indexOf(item)
-                                    iterator.remove()
-                                    replaceNow = true
-
-                                }
-
-                            }
-                            if (replaceNow) {
-                                sortedCombinedTransactionList.add(
-                                    numberstoReplace,
-                                    transactionModel
-                                )
-                                replaceNow = false
-                            }
-                        }
-                    }
-//                    sortedCombinedTransactionList.sortBy { it ->  it.date  }
-
-                    transactionsLiveData.value = sortedCombinedTransactionList
-                    isLoadMore.value = false
-
-
-                }
-                is RetroApiResponse.Error -> {
-                    isLoadMore.value = false
-                }
-            }
-            state.loading = false
-        }
-    }
-
-    override fun loadMore() {
-        requestAccountTransactions()
-    }
-
-    override fun handlePressOnView(id: Int) {
-        clickEvent.setValue(id)
-    }
-
-    private fun setUpSectionHeader(response: RetroApiResponse.Success<HomeTransactionsResponse>): ArrayList<HomeTransactionListData> {
-        val contentList = response.data.data.content as ArrayList<Content>
-        Collections.sort(contentList, object :
-            Comparator<Content> {
-            override fun compare(
-                o1: Content,
-                o2: Content
-            ): Int {
-                return o2.creationDate!!.compareTo(o1.creationDate!!)
-            }
-        })
-
-        val groupByDate = contentList.groupBy { item ->
-            convertDate(item.creationDate!!)
-        }
-
-        var transactionModelData: ArrayList<HomeTransactionListData> =
-            arrayListOf()
-
-        for (transactionsDay in groupByDate.entries) {
-
-
-            var contentsList: ArrayList<Content> = arrayListOf()
-            contentsList = transactionsDay.value as ArrayList<Content>
-            contentsList.sortByDescending { it ->
-                it.creationDate
-            }
-
-            var closingBalanceOfTheDay: Double = contentsList.get(0).balanceAfter
-            closingBalanceArray.add(closingBalanceOfTheDay)
-
-            var transactionModel: HomeTransactionListData = HomeTransactionListData(
-                "Type",
-                "AED",
-                transactionsDay.key!!,
-                contentsList.get(0).totalAmount.toString(),
-                contentsList.get(0).balanceAfter,
-                0.00 /*  "calculate the percentage as per formula from the keys".toDouble()*/,
-                contentsList,
-
-                response.data.data.first,
-                response.data.data.last,
-                response.data.data.number,
-                response.data.data.numberOfElements,
-                response.data.data.pageable,
-                response.data.data.size,
-                response.data.data.sort,
-                response.data.data.totalElements,
-                response.data.data.totalPages
-            )
-            transactionModelData.add(transactionModel)
-
-            transactionLogicHelper.transactionList =
-                transactionModelData
-            MAX_CLOSING_BALANCE =
-                closingBalanceArray.max()!!
-        }
-        return transactionModelData
     }
 
     override fun getDebitCards() {

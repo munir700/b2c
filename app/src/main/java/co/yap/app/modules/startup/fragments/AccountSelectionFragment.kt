@@ -10,6 +10,7 @@ import co.yap.app.modules.startup.interfaces.IAccountSelection
 import co.yap.app.modules.startup.viewmodels.AccountSelectionViewModel
 import co.yap.modules.onboarding.enums.AccountType
 import co.yap.yapcore.BaseBindingFragment
+import co.yap.yapcore.helpers.Utils
 
 class AccountSelectionFragment : BaseBindingFragment<IAccountSelection.ViewModel>(),
     IAccountSelection.View {
@@ -27,8 +28,6 @@ class AccountSelectionFragment : BaseBindingFragment<IAccountSelection.ViewModel
             when (it) {
                 R.id.tvSignIn -> {
                     findNavController().navigate(R.id.action_accountSelectionFragment_to_loginFragment)
-                }
-                R.id.btnBusiness -> {
                 }
                 R.id.btnPersonal -> {
                     findNavController().navigate(

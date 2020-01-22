@@ -274,11 +274,12 @@
                 android:paddingBottom="@dimen/margin_small"
                 android:visibility="visible">
 
-                <include
-                    android:id="@+id/lyContact"
-                    layout="@layout/layout_item_icon_text"
-                    app:icon="@{@drawable/phone}"
-                    app:title='@{"Contact us"}' />
+                    <include
+                        android:visibility="gone"
+                        android:id="@+id/lyContact"
+                        layout="@layout/layout_item_icon_text"
+                        app:icon="@{@drawable/phone}"
+                        app:title='@{"Contact us"}' />
 
                 <include
                     android:id="@+id/lSupport"

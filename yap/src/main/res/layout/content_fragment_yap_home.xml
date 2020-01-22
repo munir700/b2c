@@ -37,7 +37,7 @@
             <include
                 android:id="@+id/vGraph"
                 layout="@layout/view_graph"
-                android:visibility="gone" />
+                android:visibility="@{viewModel.state.isTransEmpty?View.GONE:View.VISIBLE}" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvTransactionDate"
@@ -63,6 +63,7 @@
 
                 <LinearLayout
                     android:id="@+id/lyAdd"
+                    android:onClick="@{(v)->viewModel.handlePressOnView(v.id)}"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
@@ -211,7 +212,7 @@
                 android:id="@+id/rvTransaction"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:visibility="gone"
+                android:visibility="@{viewModel.state.isTransEmpty?View.GONE:View.VISIBLE}"
                 tools:listitem="@layout/item_transaction_list" />
 
             <ImageView
@@ -220,7 +221,7 @@
                 android:layout_height="match_parent"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginBottom="@dimen/margin_extra_large"
-                android:visibility="gone"
+                android:visibility="@{viewModel.state.isTransEmpty?View.VISIBLE:View.GONE}"
                 app:srcCompat="@drawable/ic_no_transaction" />
 
         </LinearLayout>

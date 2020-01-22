@@ -13,6 +13,8 @@ interface IProfile {
         var profilePictureUrl: String
         var nameInitialsVisibility: Int
         var errorBadgeVisibility: Int
+        var imageUri: Uri
+
     }
     interface ViewModel : IBase.ViewModel<State> {
         val authRepository: AuthRepository

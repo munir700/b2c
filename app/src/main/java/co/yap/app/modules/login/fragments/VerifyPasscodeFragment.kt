@@ -51,6 +51,7 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
         setObservers()
         setUsername()
         dialer.hideFingerprintView()
+
         sharedPreferenceManager = SharedPreferenceManager(context as MainActivity)
         viewModel.state.deviceId =
             sharedPreferenceManager.getValueString(SharedPreferenceManager.KEY_APP_UUID) as String
@@ -76,6 +77,11 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
             ) {
                 dialer.showFingerprintView()
                 showFingerprintDialog()
+//                Handler().postDelayed(
+//                    {
+//                        showFingerprintDialog()
+//                    }, 500
+//                )
             } else {
                 dialer.hideFingerprintView()
             }
@@ -95,7 +101,8 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
 //        dialer.onButtonClickListener = View.OnClickListener {
 //            if (it.id == R.id.btnFingerPrint)
 //                showFingerprintDialog()
-//        }
+
+        ivBackBtn.setOnClickListener { activity?.onBackPressed() }
     }
 
     private fun showFingerprintDialog() {
@@ -103,6 +110,11 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
             requireActivity(),
             BiometricManagerX.DialogStrings(title = getString(R.string.biometric_title))
         )
+    }
+
+    override fun onStart() {
+        super.onStart()
+        dialer.reset()
     }
 
     override fun onResume() {
@@ -285,9 +297,9 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
 
     }
 
-    // crashlytics crash  VerifyPasscodeFragment.kt line 35
+// crashlytics crash  VerifyPasscodeFragment.kt line 35
 
-    // Never produced so we assumed replacing "context as MainActivity" activity!!.applicationContext in following block
+// Never produced so we assumed replacing "context as MainActivity" activity!!.applicationContext in following block
 
     override fun onAuthenticationSuccessful() {
         viewModel.isFingerprintLogin = true
@@ -316,6 +328,7 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
                     viewModel.login()
             }
         }
+
     }
 
     override fun onAuthenticationHelp(helpCode: Int, helpString: CharSequence) {
@@ -323,7 +336,5 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
 
     override fun onAuthenticationError(errorCode: Int, errString: CharSequence) {
     }
-
-
 }
 

@@ -383,7 +383,8 @@ class AddressSelectionFragment : BaseMapFragment<IAddressSelection.ViewModel>(),
             }
         } else {
             requireContext()?.let { it1 -> displayLocationSettingsRequest(it1) }
-            expandMap()
+            if (!checkOnMapClicked)
+                expandMap()
         }
     }
 
@@ -501,6 +502,7 @@ class AddressSelectionFragment : BaseMapFragment<IAddressSelection.ViewModel>(),
                 override fun onAnimationEnd(animation: Animator?) {
                     viewModel.getDeviceLocation(viewModel!!.mapDetailViewActivity)
                     checkOnMapClicked = true
+                    rlMapCenter.visibility = View.GONE
                 }
 
                 override fun onAnimationCancel(animation: Animator?) {
@@ -537,6 +539,7 @@ class AddressSelectionFragment : BaseMapFragment<IAddressSelection.ViewModel>(),
 
         viewModel.toggleMarkerVisibility()
         checkOnMapClicked = false
+        rlMapCenter.visibility = View.VISIBLE
 
 
     }

@@ -2,6 +2,7 @@ package co.yap.modules.dashboard.home.interfaces
 
 import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
+import co.yap.modules.dashboard.home.filters.models.TransactionFilters
 import co.yap.modules.dashboard.home.helpers.transaction.TransactionsViewHelper
 import co.yap.networking.cards.responsedtos.Address
 import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionListData
@@ -22,6 +23,7 @@ interface IYapHome {
         var MAX_CLOSING_BALANCE: Double
         var debitCardSerialNumber: String
         val clickEvent: SingleClickEvent
+        var txnFilters: TransactionFilters
         fun getDebitCards()
         fun handlePressOnView(id: Int)
         val transactionsLiveData: MutableLiveData<List<HomeTransactionListData>>

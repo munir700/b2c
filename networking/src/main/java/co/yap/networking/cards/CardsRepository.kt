@@ -13,8 +13,6 @@ import co.yap.networking.models.ApiResponse
 import co.yap.networking.models.RetroApiResponse
 
 object CardsRepository : BaseRepository(), CardsApi {
-
-
     const val URL_CREATE_PIN = "/cards/api/cards/create-pin/{card-serial-number}"
     const val URL_GET_CARDS = "/cards/api/cards"
     const val URL_ORDER_CARD = "/cards/api/cards/b2c/physical"
@@ -37,6 +35,8 @@ object CardsRepository : BaseRepository(), CardsApi {
     const val URL_GET_HOUSE_HOLD_CARDS_DESIGN = "/cards/api/card-product-designs"
 
     const val URL_REPORT_LOST_OR_STOLEN_CARD = "/cards/api/card-hot-list"
+    const val URL_REORDER_DEBIT_CARD = "/cards/api/cards/debit/reorder"
+    const val URL_REORDER_SUPPLEMENTARY_CARD = "/cards/api/cards/supplementary/reorder"
 
     private val API: CardsRetroService = RetroNetwork.createService(CardsRetroService::class.java)
 
@@ -137,6 +137,16 @@ object CardsRepository : BaseRepository(), CardsApi {
         forgotCardPin: ForgotCardPin
     ): RetroApiResponse<ApiResponse> =
         AuthRepository.executeSafely(call = { API.forgotCardPin(cardSerialNumber, forgotCardPin) })
+
+    override suspend fun reorderDebitCard(reorderCardRequest: ReorderCardRequest): RetroApiResponse<ApiResponse> =
+        AuthRepository.executeSafely(call = {
+            API.reorderDebitCard(reorderCardRequest)
+        })
+
+    override suspend fun reorderSupplementryCard(reorderCardRequest: ReorderCardRequest): RetroApiResponse<ApiResponse> =
+        AuthRepository.executeSafely(call = {
+            API.reorderSupplementaryCard(reorderCardRequest)
+        })
 
     override suspend fun getHouseHoldCardsDesign(accountType: String): RetroApiResponse<HouseHoldCardsDesignResponse> =
         AuthRepository.executeSafely(call = { API.getHouseHoldCardsDesign(accountType) })

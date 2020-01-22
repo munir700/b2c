@@ -118,7 +118,7 @@ class ForgotPasscodeOtpState(application: Application) : BaseState(), IForgotPas
 
     private fun validate(): Boolean {
         var validateOtp: Boolean = false
-        if (!otp.isNullOrEmpty() && otp.length == 4) {
+        if (!otp.isNullOrEmpty() && otp.length == 6) {
             validateOtp = true
             valid = true
         }

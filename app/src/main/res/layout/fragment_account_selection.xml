@@ -13,12 +13,12 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        tools:context="co.yap.app.activities.MainActivity"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/white"
         android:orientation="vertical"
-        android:paddingTop="@dimen/margin_medium">
+        android:paddingTop="@dimen/margin_medium"
+        tools:context="co.yap.app.activities.MainActivity">
 
 
         <ImageView
@@ -51,7 +51,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_medium_large"
             android:layout_marginBottom="8dp"
-            app:layout_constraintBottom_toTopOf="@+id/tvDisplayTestAccountSelection"
+            app:layout_constraintBottom_toTopOf="@+id/layoutButtons"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.49"
             app:layout_constraintStart_toStartOf="parent"
@@ -59,25 +59,13 @@
             app:srcCompat="@drawable/group"
             tools:ignore="MissingConstraints" />
 
-        <TextView
-            android:id="@+id/tvDisplayTestAccountSelection"
-            style="@style/ASmallGrey"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:gravity="center"
-            app:layout_constraintBottom_toTopOf="@+id/layoutButtons"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:text="@{Strings.screen_home_display_text_account_selection}" />
 
         <LinearLayout
             android:id="@+id/layoutButtons"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginBottom="8dp"
+            android:layout_gravity="center"
+            android:gravity="center"
             android:orientation="horizontal"
             android:weightSum="1"
             app:layout_constraintBottom_toTopOf="@+id/relativeLayout"
@@ -87,36 +75,16 @@
             <co.yap.widgets.CoreButton
                 android:id="@+id/btnPersonal"
                 style="@style/RectangleBtnStyle"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_medium"
+                android:layout_width="@dimen/_196sdp"
+                android:layout_height="@dimen/_52sdp"
                 android:layout_marginEnd="@dimen/_6sdp"
-                android:layout_weight=".5"
                 android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
                 android:paddingTop="@dimen/margin_normal_large"
                 android:paddingEnd="@dimen/margin_extra_large"
                 android:paddingBottom="@dimen/margin_normal_large"
                 android:textStyle="bold"
                 app:btn_enable="true"
-                app:text="@{Strings.screen_home_button_personal_text}"
-         />
-
-            <co.yap.widgets.CoreButton
-                android:id="@+id/btnBusiness"
-                style="@style/RectangleBtnStyle"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/_6sdp"
-                android:layout_marginTop="@dimen/margin_medium"
-                android:layout_weight=".5"
-                android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
-                android:paddingTop="@dimen/margin_normal_large"
-                android:paddingBottom="@dimen/margin_normal_large"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/btnPersonal"
-                app:text="@{Strings.screen_home_button_business_text}"
-                tools:ignore="MissingConstraints" />
+                app:text="@{Strings.screen_welcome_button_get_started}" />
 
         </LinearLayout>
 

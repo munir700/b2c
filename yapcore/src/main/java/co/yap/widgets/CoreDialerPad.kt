@@ -141,16 +141,15 @@ class CoreDialerPad @JvmOverloads constructor(
     init {
         orientation = VERTICAL
         addView(view)
-        etPassCodeText = view.findViewById(R.id.etPassCodeText)
+        etPassCodeText = view.findViewById<EditText>(R.id.etPassCodeText)
         // editText = etPassCodeText
 
 
         attrs?.let { it ->
             val typedArray = context.obtainStyledAttributes(it, R.styleable.CoreDialerPad, 0, 0)
             dialerType = typedArray.getInt(R.styleable.CoreDialerPad_dialer_pass_code, 0)
-            dialerMaxLength = typedArray.getInt(R.styleable.CoreDialerPad_dialer_max_length, 6)
-            showDialerPassCodeView =
-                typedArray.getBoolean(R.styleable.CoreDialerPad_show_dialer_pass_code, true)
+            //dialerMaxLength = typedArray.getInt(R.styleable.CoreDialerPad_dialer_max_length, 6)
+            dialerMaxLength = 6 //To enforce 6 chars
             etPassCodeText?.filters =
                 arrayOf<InputFilter>(InputFilter.LengthFilter(dialerMaxLength))
 
@@ -195,6 +194,13 @@ class CoreDialerPad @JvmOverloads constructor(
 
     private fun getInputEditText(): String {
         return inputEditText?.text.toString()
+    }
+
+    fun reset() {
+        etPassCodeText?.text = null
+        //editText.text = null
+        etPassCodeText?.setText("")
+        //editText.setText("")
     }
 
     fun updateDialerLength(length: Int) {

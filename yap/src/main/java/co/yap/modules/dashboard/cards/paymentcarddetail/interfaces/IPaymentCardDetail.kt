@@ -1,7 +1,10 @@
 package co.yap.modules.dashboard.cards.paymentcarddetail.interfaces
 
+import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
 import co.yap.modules.dashboard.helpers.transaction.TransactionLogicHelper
+import co.yap.modules.dashboard.home.filters.models.TransactionFilters
 import co.yap.networking.cards.responsedtos.Card
 import co.yap.networking.cards.responsedtos.CardDetail
 import co.yap.networking.transactions.requestdtos.CardTransactionRequest
@@ -39,7 +42,9 @@ interface IPaymentCardDetail {
         fun requestAccountTransactions()
         val transactionsLiveData: MutableLiveData<List<HomeTransactionListData>>
         val isLoadMore: MutableLiveData<Boolean>
+        val isLast: MutableLiveData<Boolean>
         fun loadMore()
+        var transactionFilters: TransactionFilters
     }
 
     interface State : IBase.State {
@@ -52,5 +57,7 @@ interface IPaymentCardDetail {
         var blocked: Boolean
         var physical: Boolean
         var balanceLoading: Boolean
+        var filterCount:ObservableField<Int>
+        var isTxnsEmpty:ObservableField<Boolean>
     }
 }

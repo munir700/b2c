@@ -12,6 +12,7 @@
     <string name="common_button_activate">Activate</string>
     <string name="common_text_currency_type">AED</string>
     <string name="common_amount_hint">0.00</string>
+    <string name="common_display_text_nothing_to_report">Nothing to report yet</string>
     <string name="common_button_logout">Logout</string>
 
 
@@ -89,7 +90,7 @@
     <string name="screen_onboarding_congratulations_display_text_sub_title">A YAP Personal Account has been created for you in less than %1s seconds!</string>
     <string name="screen_onboarding_congratulations_display_text_sub_title_no_interval">A YAP Personal Account has been created for you!</string>
     <string name="screen_onboarding_congratulations_display_text_iban">Here\'s your IBAN</string>
-    <string name="screen_onboarding_congratulations_display_text_meeting_note">Make sure you have your Emirates ID at hand before we proceed</string>
+    <string name="screen_onboarding_congratulations_display_text_meeting_note">This IBAN is currently inactive \n\n Make sure you have your Emirates ID at hand before we proceed</string>
     <string name="screen_onboarding_congratulations_button_complete_verification">Complete verification</string>
 
     <!-- System permission screen -->
@@ -193,19 +194,19 @@
 
     <!-- Set card PIN Welcome screen -->
     <string name="screen_set_card_pin_welcome_display_text_title">Great, looks like you just received your YAP card!</string>
-    <string name="screen_set_card_pin_welcome_display_text_sub_title">Now create a unique 4-digit PIN code to be able to use your debit card for purchases and withdrawals</string>
-    <string name="screen_set_card_pin_welcome_button_create_pin">Create PIN code</string>
+    <string name="screen_set_card_pin_welcome_display_text_sub_title">Now create a unique 4-digit PIN to be able to use your debit card for purchases and withdrawals</string>
+    <string name="screen_set_card_pin_welcome_button_create_pin">Create PIN</string>
     <string name="screen_set_card_pin_welcome_button_create_pin_later">Do it later</string>
 
     <!-- Set card PIN screen -->
-    <string name="screen_set_card_pin_display_text_title">Set your PIN code</string>
+    <string name="screen_set_card_pin_display_text_title">Set your PIN</string>
     <string name="screen_set_card_pin_button_create_pin">Next</string>
 
     <!-- Confirm card PIN screen -->
-    <string name="screen_confirm_card_pin_display_text_title">Re-enter your PIN code to confirm</string>
-    <string name="screen_confirm_card_pin_display_title_terms_and_conditions">By creating a PIN code you agree to our</string>
+    <string name="screen_confirm_card_pin_display_text_title">Re-enter your PIN to confirm</string>
+    <string name="screen_confirm_card_pin_display_title_terms_and_conditions">By creating a PIN you agree to our</string>
     <string name="screen_confirm_card_pin_display_text_terms_and_conditions">Terms &amp; Conditions</string>
-    <string name="screen_confirm_card_pin_button_create_pin">Create PIN code</string>
+    <string name="screen_confirm_card_pin_button_create_pin">Create PIN</string>
     <string name="screen_confirm_card_pin_display_text_error_sequence">PIN cannot be a straight sequence</string>
     <string name="screen_confirm_card_pin_display_text_error_same_digits">PIN cannot be of same digits</string>
 
@@ -239,6 +240,7 @@
     <string name="screen_cards_display_text_pending_delivery">This card is on the way</string>
     <string name="screen_cards_display_text_expired_card">This card has expired</string>
     <string name="screen_cards_display_text_freeze_card">This card is frozen</string>
+    <string name="screen_cards_display_text_freeze_card_action">Unfreeze now</string>
     <string name="screen_cards_display_text_see_details">See details</string>
     <string name="screen_cards_button_update_card">Update card</string>
     <string name="screen_cards_button_unfreeze_card">Unfreeze card</string>
@@ -246,6 +248,10 @@
     <string name="screen_cards_display_text_set_pin">Set PIN</string>
     <string name="screen_cards_display_text_set_message">Set pin to activate card</string>
     <string name="screen_cards_display_text_add_card">Add card</string>
+    <string name="screen_cards_display_text_lost_stolen_card">Card reported damaged or lost/stolen.</string>
+    <string name="screen_cards_display_text_lost_stolen_card_action">Reorder Now</string>
+    <string name="screen_cards_display_text_card_removed_success">Card successfully removed!</string>
+
 
     <!-- Spare Card Landing Screen -->
 
@@ -276,6 +282,7 @@
     <string name="screen_add_spare_card_display_text_alert_title">Looks like you don\'t have enough funds in your account. Top up now to continue with this purchase</string>
     <string name="screen_add_spare_card_display_button_block_alert_top_up">Top up</string>
     <string name="screen_add_spare_card_display_button_block_alert_skip">Skip for now</string>
+
 
     <!-- Add Spare card location -->
 
@@ -349,19 +356,19 @@
     <string name="screen_card_blocked_button_order_later">Order later</string>
 
     <!--    Enter current pin screen-->
-    <string name="screen_current_card_pin_display_text_heading">Enter your current \nPIN code</string>
+    <string name="screen_current_card_pin_display_text_heading">Enter your current \nPIN</string>
     <string name="screen_current_card_pin_display_button_next">Next</string>
 
     <!--    Enter new pin screen-->
-    <string name="screen_create_card_pin_display_text_heading">Enter your new \nPIN code</string>
+    <string name="screen_create_card_pin_display_text_heading">Enter your new \nPIN</string>
     <string name="screen_create_card_pin_display_button_create_pin">Create PIN</string>
 
     <!--    confirm PIN screen-->
-    <string name="screen_confirm_card_pin_display_text_heading">Re-enter your \nPIN code</string>
+    <string name="screen_confirm_card_pin_display_text_heading">Re-enter your \nPIN</string>
     <string name="screen_confirm_card_pin_display_button_confirm_pin">Confirm PIN</string>
 
     <!--    Change PIN success screen-->
-    <string name="screen_change_pin_success_display_text_heading">PIN code has been updated successfully!</string>
+    <string name="screen_change_pin_success_display_text_heading">PIN has been updated successfully!</string>
     <string name="screen_change_pin_success_display_text_button">Done</string>
 
     <!--   Card Statement screen-->
@@ -748,6 +755,13 @@
     <!--    Screen funds transfer information custom view-->
     <string name="custom_view_funds_transfer_display_text_reference_number_heading">Reference number</string>
     <string name="screen_name_error_message">Please enter alphabets only.</string>
+
+    <!-- Reorder card -->
+    <string name="screen_reorder_card_completion_display_text_complete_transaction">Your card has been blocked \n and reordered successfully</string>
+    <string name="screen_reorder_card_purchase_display_text_alert_title">Top up now to continue with this purchase.</string>
+    <string name="screen_cards_display_text_hotlisted">This card is blocked/stolen</string>
+    <string name="screen_cards_button_reorder_card">Reorder card</string>
+
 
 
     <!-- HouseHold screen-->

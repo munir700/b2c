@@ -90,13 +90,13 @@
             <TextView
                 android:id="@+id/tvCardStatusAction"
                 android:layout_width="wrap_content"
-                android:layout_height="@dimen/_22sdp"
-                android:textSize="@dimen/text_size_c3"
-                android:gravity="center"
-                android:background="@drawable/round_purple_background"
-                android:textColor="@color/white"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_normal"
+                android:background="@drawable/round_purple_background"
+                android:gravity="center"
                 android:onClick="@{(v) -> viewModel.handlePressOnView(v)}"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_size_c3"
                 app:cardButtonStatus="@{viewModel.paymentCard}"
                 tools:text="Update Card" />
         </LinearLayout>

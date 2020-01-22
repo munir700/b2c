@@ -14,6 +14,7 @@ interface TransactionsApi {
     suspend fun getFundTransferLimits(productCode: String?): RetroApiResponse<FundTransferLimitsResponse>
     suspend fun getFundTransferDenominations(productCode: String): RetroApiResponse<FundTransferDenominationsResponse>
     suspend fun getCardFee(cardType: String): RetroApiResponse<CardFeeResponse>
+    suspend fun getDebitCardFee(): RetroApiResponse<CardFeeResponse>
     suspend fun getTransactionFeeWithProductCode(
         productCode: String?,
         mRemittanceFeeRequest: RemittanceFeeRequest

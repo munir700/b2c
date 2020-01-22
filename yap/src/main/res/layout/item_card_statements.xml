@@ -12,20 +12,19 @@
         <import type="co.yap.translation.Strings" />
     </data>
 
-
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:orientation="horizontal"
         android:padding="@dimen/margin_small">
 
         <ImageView
             android:id="@+id/imgNote"
             android:layout_width="@dimen/_20sdp"
             android:layout_height="@dimen/_20sdp"
+            android:layout_gravity="center_vertical"
             android:layout_margin="@dimen/margin_normal"
             android:contentDescription="@string/empty_string"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_note" />
 
         <TextView
@@ -33,27 +32,25 @@
             style="@style/Regular"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
             android:layout_marginStart="@dimen/margin_medium"
             android:layout_marginEnd="@dimen/margin_medium"
+            android:layout_weight="1"
             android:singleLine="true"
             android:text="@{viewModel.cardStatement.month}"
-            app:layout_constraintBottom_toBottomOf="@+id/imgNote"
-            app:layout_constraintStart_toEndOf="@+id/imgNote"
-            app:layout_constraintTop_toTopOf="@+id/imgNote"
             tools:text="June" />
 
         <TextView
             android:id="@+id/tvStoreDesc"
             style="@style/ASmall"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginEnd="@dimen/_7sdp"
+            android:padding="@dimen/_10sdp"
             android:textColor="?attr/colorPrimaryAttr"
-            tools:text="@string/screen_card_statement_display_text_view"
             app:text="@{Strings.screen_card_statement_display_text_view}"
-            android:layout_marginEnd="@dimen/_17sdp"
-            app:layout_constraintBottom_toBottomOf="@+id/imgNote"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/imgNote"/>
+            tools:text="@string/screen_card_statement_display_text_view" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
 </layout>

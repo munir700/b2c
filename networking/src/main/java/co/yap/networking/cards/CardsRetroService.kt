@@ -91,4 +91,12 @@ interface CardsRetroService {
     @GET(CardsRepository.URL_GET_HOUSE_HOLD_CARDS_DESIGN)
     suspend fun getHouseHoldCardsDesign(@Query("account_type") accountType: String): Response<HouseHoldCardsDesignResponse>
 
+    // reorder debit card
+    @POST(CardsRepository.URL_REORDER_DEBIT_CARD)
+    suspend fun reorderDebitCard(@Body reorderCardRequest: ReorderCardRequest): Response<ApiResponse>
+
+    // reorder supplementary card
+    @POST(CardsRepository.URL_REORDER_SUPPLEMENTARY_CARD)
+    suspend fun reorderSupplementaryCard(@Body reorderCardRequest: ReorderCardRequest): Response<ApiResponse>
+
 }

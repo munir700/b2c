@@ -1,5 +1,6 @@
 package co.yap.modules.dashboard.home.filters.activities
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -10,12 +11,10 @@ import co.yap.BR
 import co.yap.R
 import co.yap.app.YAPApplication
 import co.yap.modules.dashboard.home.filters.interfaces.ITransactionFilters
+import co.yap.modules.dashboard.home.filters.models.TransactionFilters
 import co.yap.modules.dashboard.home.filters.viewmodels.TransactionFiltersViewModel
-import co.yap.networking.transactions.requestdtos.HomeTransactionsRequest
-import co.yap.networking.transactions.responsedtos.TransactionFilters
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.BaseState
-import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.Utils
 import com.jaygoo.widget.OnRangeChangedListener
 import com.jaygoo.widget.RangeSeekBar
@@ -32,40 +31,34 @@ class TransactionFiltersActivity : BaseBindingActivity<ITransactionFilters.ViewM
 
 
     companion object {
-        const val INTENT_FILTER_REQUEST = 1111
-        const val KEY_FILTER_IN_TRANSACTION = "incomingTransaction"
-        const val KEY_FILTER_OUT_TRANSACTION = "outgoingTransaction"
-        const val KEY_FILTER_START_AMOUNT = "startRange"
-        const val KEY_FILTER_END_AMOUNT = "endRange"
-        fun newIntent(context: Context): Intent {
-            return Intent(context, TransactionFiltersActivity::class.java)
+        const val KEY_FILTER_TXN_FILTERS = "txnFilters"
+        fun newIntent(
+            context: Context,
+            txnFilters: TransactionFilters
+        ): Intent {
+
+            val intent = Intent(context, TransactionFiltersActivity::class.java)
+            intent.putExtra(KEY_FILTER_TXN_FILTERS, txnFilters)
+            return intent
         }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setObservers()
+        if (intent != null) {
+            if (intent.hasExtra(KEY_FILTER_TXN_FILTERS)) {
+                val txnFilters =
+                    intent.getParcelableExtra<TransactionFilters>(KEY_FILTER_TXN_FILTERS)
+                viewModel.txnFilters.value = txnFilters
+            }
+        }
     }
 
     private fun initViews() {
-        // init view with old states
-        if (YAPApplication.homeTransactionsRequest.txnType == null) {
-            when (YAPApplication.isAllChecked) {
-                true -> {
-                    cbInTransFilter.isChecked = true
-                    cbOutTransFilter.isChecked = true
-                }
-                false -> {
-                    cbInTransFilter.isChecked = false
-                    cbOutTransFilter.isChecked = false
-                }
-            }
-        }
-        YAPApplication.homeTransactionsRequest.txnType?.let {
-            when (it) {
-                Constants.MANUAL_CREDIT -> cbInTransFilter.isChecked = true
-                Constants.MANUAL_DEBIT -> cbOutTransFilter.isChecked = true
-            }
+        viewModel.txnFilters.value?.let {
+            cbInTransFilter.isChecked = it.incomingTxn ?: false
+            cbOutTransFilter.isChecked = it.outgoingTxn ?: false
         }
     }
 
@@ -82,7 +75,7 @@ class TransactionFiltersActivity : BaseBindingActivity<ITransactionFilters.ViewM
         }
     }
 
-    private fun setRangeSeekBar(transactionFilters: TransactionFilters?) {
+    private fun setRangeSeekBar(transactionFilters: co.yap.networking.transactions.responsedtos.TransactionFilters?) {
         try {
             transactionFilters?.let {
                 rsbAmount?.setRange(
@@ -90,25 +83,21 @@ class TransactionFiltersActivity : BaseBindingActivity<ITransactionFilters.ViewM
                     it.maxAmount?.toFloat() ?: 1f
                 )
             }
-
-            if (YAPApplication.homeTransactionsRequest.amountEndRange != null && YAPApplication.homeTransactionsRequest.amountEndRange != transactionFilters?.maxAmount) {
-                rsbAmount?.setProgress(
-                    YAPApplication.homeTransactionsRequest.amountEndRange!!.toFloat(),
-                    YAPApplication.homeTransactionsRequest.amountEndRange!!.toFloat()
-                )
-            } else {
-                transactionFilters?.let {
+            viewModel.txnFilters.value?.let {
+                if (it.amountEndRange != null && it.amountEndRange != -1.0 && it.amountEndRange != transactionFilters?.maxAmount) {
                     rsbAmount?.setProgress(
-                        it.maxAmount?.toFloat() ?: 1f,
-                        it.maxAmount?.toFloat() ?: 1f
+                        it.amountEndRange?.toFloat() ?: 1f,
+                        it.amountEndRange?.toFloat() ?: 1f
                     )
+                } else {
+                    transactionFilters?.let { searchAmt ->
+                        rsbAmount?.setProgress(
+                            searchAmt.maxAmount?.toFloat() ?: 1f,
+                            searchAmt.maxAmount?.toFloat() ?: 1f
+                        )
+                    }
                 }
-                /*rsbAmount?.setProgress(
-                    transactionFilters?.maxAmount.toFloat(),
-                    transactionFilters?.maxAmount.toFloat()
-                )*/
             }
-
             viewModel.updateRangeValue(rsbAmount)
             rsbAmount.setOnRangeChangedListener(object : OnRangeChangedListener {
                 override fun onStartTrackingTouch(view: RangeSeekBar?, isLeft: Boolean) {}
@@ -135,17 +124,18 @@ class TransactionFiltersActivity : BaseBindingActivity<ITransactionFilters.ViewM
             R.id.tvClearFilters -> {
                 resetAllFilters()
             }
-            R.id.btnApplyFilters -> setFilterValues()
+            R.id.btnApplyFilters -> setIntentAction()
             R.id.IvClose -> {
-                YAPApplication.hasFilterStateChanged = false
                 finish()
             }
         }
     }
-    private val searchFilterAmountObserver = Observer<TransactionFilters> {
+
+    private val searchFilterAmountObserver =
+        Observer<co.yap.networking.transactions.responsedtos.TransactionFilters> {
         if (it != null) {
-            setRangeSeekBar(it)
             initViews()
+            setRangeSeekBar(it)
         }
     }
 
@@ -160,76 +150,30 @@ class TransactionFiltersActivity : BaseBindingActivity<ITransactionFilters.ViewM
     }
 
     private fun resetAllFilters() {
-        if (YAPApplication.isAllChecked) {
-            YAPApplication.hasFilterStateChanged =
-                Utils.getTwoDecimalPlaces(rsbAmount.leftSeekBar.progress.toDouble()) != Utils.getTwoDecimalPlaces(
-                    viewModel.transactionFilters.value?.maxAmount!!
-                )
-        } else {
-            YAPApplication.hasFilterStateChanged =
-                YAPApplication.homeTransactionsRequest.totalAppliedFilter != 0
-        }
-
-        YAPApplication.isAllChecked = false
-        YAPApplication.clearFilters()
+        val request = TransactionFilters(
+            null,
+            null, false, outgoingTxn = false
+        )
+        val intent = Intent()
+        intent.putExtra("txnRequest", request)
+        setResult(Activity.RESULT_OK, intent)
         finish()
     }
 
-    private fun setFilterValues() {
-        viewModel.transactionFilters.value?.maxAmount?.toFloat()?.let {
-            if (!cbOutTransFilter.isChecked && !cbInTransFilter.isChecked && it == rsbAmount.leftSeekBar.progress) {
-                YAPApplication.hasFilterStateChanged =
-                    Utils.getTwoDecimalPlaces(rsbAmount.leftSeekBar.progress.toDouble()) != Utils.getTwoDecimalPlaces(
-                        it.toDouble()
-                    )
-                YAPApplication.isAllChecked = false
-                YAPApplication.clearFilters()
-            } else {
-                var count = 0
-                if (cbOutTransFilter.isChecked) count++
-                if (cbInTransFilter.isChecked) count++
-                if (it != rsbAmount.leftSeekBar.progress) count++
-                YAPApplication.hasFilterStateChanged = hasFiltersStateChanged()
-
-                YAPApplication.homeTransactionsRequest = HomeTransactionsRequest(
-                    0, YAPApplication.pageSize,
-                    Utils.getTwoDecimalPlaces(rsbAmount.minProgress.toDouble()),
-                    Utils.getTwoDecimalPlaces(rsbAmount.leftSeekBar.progress.toDouble()),
-                    getCurrentTxnType(),
-                    null,
-                    count
-                )
-                setResult(INTENT_FILTER_REQUEST)
-            }
-            finish()
-        }
-    }
-
-    private fun hasFiltersStateChanged(): Boolean {
-        var isStateChanged: Boolean
-
-        // check if old txnType state is null and new txnType state is null then there is a change
-        if (YAPApplication.homeTransactionsRequest.txnType == null && getCurrentTxnType() != null)
-            return true
-
-        // check if old endRange state is null and new selected endRange state is not equal to maxRange then there is a change
-        if (YAPApplication.homeTransactionsRequest.amountEndRange == null && Utils.getTwoDecimalPlaces(
-                rsbAmount.leftSeekBar.progress.toDouble()
-            ) != Utils.getTwoDecimalPlaces(viewModel.transactionFilters.value?.maxAmount!!)
-        ) return true
-
-        // when not null compare old states with new states
-        whenNotNull(YAPApplication.homeTransactionsRequest.txnType) {
-            isStateChanged = it != getCurrentTxnType()
-            if (isStateChanged) return true
-        }
-        whenNotNull(YAPApplication.homeTransactionsRequest.amountEndRange) {
-            isStateChanged =
-                it != Utils.getTwoDecimalPlaces(rsbAmount.leftSeekBar.progress.toDouble())
-            if (isStateChanged) return true
-        }
-
-        return false
+    private fun setIntentAction() {
+        var appliedFilter = 0
+        if (viewModel.txnFilters.value?.amountEndRange?.toFloat() != rsbAmount.leftSeekBar.progress) appliedFilter++
+        val request = TransactionFilters(
+            amountStartRange = Utils.getTwoDecimalPlaces(rsbAmount.minProgress.toDouble()),
+            amountEndRange = Utils.getTwoDecimalPlaces(rsbAmount.leftSeekBar.progress.toDouble()),
+            incomingTxn = cbInTransFilter.isChecked,
+            outgoingTxn = cbOutTransFilter.isChecked,
+            totalAppliedFilter = appliedFilter
+        )
+        val intent = Intent()
+        intent.putExtra("txnRequest", request)
+        setResult(Activity.RESULT_OK, intent)
+        finish()
     }
 
     override fun onBackPressed() {
@@ -241,31 +185,4 @@ class TransactionFiltersActivity : BaseBindingActivity<ITransactionFilters.ViewM
         return input?.let(callback)
     }
 
-    private fun getCurrentTxnType(): String? {
-        // case null is used for all transaction
-        if (!cbOutTransFilter.isChecked && !cbInTransFilter.isChecked) {
-            return null
-        } else {
-            return when {
-                cbInTransFilter.isChecked && cbOutTransFilter.isChecked -> {
-                    YAPApplication.isAllChecked = true
-                    null
-                }
-                !cbInTransFilter.isChecked && !cbOutTransFilter.isChecked -> {
-                    YAPApplication.isAllChecked = true
-                    null
-                }
-                cbInTransFilter.isChecked -> {
-                    YAPApplication.isAllChecked = false
-                    Constants.MANUAL_CREDIT
-                }
-                cbOutTransFilter.isChecked -> {
-                    YAPApplication.isAllChecked = false
-                    Constants.MANUAL_DEBIT
-                }
-                else -> null
-            }
-        }
-
-    }
 }

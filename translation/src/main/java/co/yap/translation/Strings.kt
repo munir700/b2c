@@ -16,6 +16,8 @@ object Strings {
     const val common_button_activate: String = "common_button_activate"
     const val common_text_currency_type: String = "common_text_currency_type"
     const val common_amount_hint: String = "common_amount_hint"
+    const val common_display_text_nothing_to_report: String =
+        "common_display_text_nothing_to_report"
     const val common_button_logout: String = "common_button_logout"
 
 
@@ -388,6 +390,15 @@ object Strings {
         "screen_cards_display_text_freeze_card"
     const val screen_cards_display_text_see_details: String =
         "screen_cards_display_text_see_details"
+    const val screen_cards_display_text_freeze_card_action: String =
+        "screen_cards_display_text_freeze_card_action"
+
+
+    const val screen_cards_display_text_lost_stolen_card: String =
+        "screen_cards_display_text_lost_stolen_card"
+    const val screen_cards_display_text_lost_stolen_card_action: String =
+        "screen_cards_display_text_lost_stolen_card_action"
+
     const val screen_cards_button_update_card: String = "screen_cards_button_update_card"
     const val screen_cards_button_unfreeze_card: String = "screen_cards_button_unfreeze_card"
 
@@ -398,6 +409,9 @@ object Strings {
 
     const val screen_cards_display_text_cards_count: String =
         "screen_cards_display_text_cards_count"
+
+    const val screen_cards_display_text_card_removed_success: String =
+        "screen_cards_display_text_card_removed_success"
 
     //fragment home transaction
     const val screen_fragment_home_transaction_time_category: String =
@@ -1407,5 +1421,15 @@ object Strings {
     const val screen_yap_house_hold_confirm_payment_share_text: String =
         "screen_yap_house_hold_confirm_payment_share_text"
 
+
+    //Screen Reorder Card
+    const val screen_reorder_card_completion_display_text_complete_transaction: String =
+        "screen_reorder_card_completion_display_text_complete_transaction"
+
+    const val screen_cards_display_text_hotlisted: String =
+        "screen_cards_display_text_hotlisted"
+
+    const val screen_cards_button_reorder_card: String =
+        "screen_cards_button_reorder_card"
 
 }

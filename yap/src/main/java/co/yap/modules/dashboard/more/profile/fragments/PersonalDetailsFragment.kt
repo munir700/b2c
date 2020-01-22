@@ -67,15 +67,10 @@ class PersonalDetailsFragment : MoreBaseFragment<IPersonalDetail.ViewModel>(),
                     viewModel.toggleToolBar(true)
 
                     changeAddress = true
-//                    val action =
-//                        PersonalDetailsFragmentDirections.actionPersonalDetailsFragmentToAddressSelectionFragment(
-//                            false, false, true
-//                        )
-//                    findNavController().navigate(action)
                     startActivityForResult(
                         LocationSelectionActivity.newIntent(
                             context = requireContext(),
-                            address = MyUserManager.userAddress?:Address(),
+                            address = MyUserManager.userAddress ?: Address(),
                             headingTitle = getString(Strings.screen_meeting_location_display_text_add_new_address_title),
                             subHeadingTitle = getString(Strings.screen_meeting_location_display_text_subtitle)
                         ), RequestCodes.REQUEST_FOR_LOCATION
@@ -165,6 +160,8 @@ class PersonalDetailsFragment : MoreBaseFragment<IPersonalDetail.ViewModel>(),
                             updateUserAddress(it)
                         }
                     }
+
+
                 }
             }
         }

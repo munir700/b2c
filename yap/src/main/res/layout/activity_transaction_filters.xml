@@ -8,8 +8,7 @@
         <variable
             name="viewModel"
             type="co.yap.modules.dashboard.home.filters.viewmodels.TransactionFiltersViewModel" />
-
-        <import type="co.yap.translation.Strings" />
+        <import type="co.yap.translation.Strings"/>
 
     </data>
 
@@ -45,11 +44,11 @@
                 style="@style/Regular"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                app:text="@{Strings.screen_transaction_filter_display_text_incoming_transactions}"
+                tools:text="@string/screen_transaction_filter_display_text_incoming_transactions"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:text="@{Strings.screen_transaction_filter_display_text_incoming_transactions}"
-                tools:text="@string/screen_transaction_filter_display_text_incoming_transactions" />
+                app:layout_constraintTop_toTopOf="parent" />
 
             <androidx.appcompat.widget.AppCompatCheckBox
                 android:id="@+id/cbInTransFilter"
@@ -65,10 +64,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_medium"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvInTrans"
                 app:text="@{Strings.screen_transaction_filter_display_text_outgoing_transactions}"
-                tools:text="@string/screen_transaction_filter_display_text_outgoing_transactions" />
+                tools:text="@string/screen_transaction_filter_display_text_outgoing_transactions"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvInTrans" />
 
             <androidx.appcompat.widget.AppCompatCheckBox
                 android:id="@+id/cbOutTransFilter"
@@ -94,10 +93,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_medium"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/vLineTrans"
                 app:text="@{Strings.screen_transaction_filter_display_text_balance}"
-                tools:text="@string/screen_transaction_filter_display_text_balance" />
+                tools:text="@string/screen_transaction_filter_display_text_balance"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/vLineTrans" />
 
             <TextView
                 android:id="@+id/tvTransStartRange"
@@ -175,11 +174,11 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
             android:onClick="@{(v) ->viewModel.handlePressOnView(v.id)}"
+            tools:text="@string/screen_transaction_filter_button_apply_filter"
+            app:text="@{Strings.screen_transaction_filter_button_apply_filter}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/tvClearFilters"
-            app:text="@{Strings.screen_transaction_filter_button_apply_filter}"
-            tools:text="@string/screen_transaction_filter_button_apply_filter" />
+            app:layout_constraintStart_toEndOf="@+id/tvClearFilters" />
 
         <TextView
             android:id="@+id/tvClearFilters"
@@ -187,14 +186,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
+            tools:text="@string/screen_transaction_filter_button_clear_filter"
+            app:text="@{Strings.screen_transaction_filter_button_clear_filter}"
+            android:textColor="@color/colorPrimary"
             app:btn_enable="true"
             app:layout_constraintBottom_toBottomOf="@id/btnApplyFilters"
             app:layout_constraintEnd_toStartOf="@+id/btnApplyFilters"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/btnApplyFilters"
-            app:text="@{Strings.screen_transaction_filter_button_clear_filter}"
-            tools:text="@string/screen_transaction_filter_button_clear_filter"
-            android:textColor="?attr/colorPrimaryAttr"/>
+            app:layout_constraintTop_toTopOf="@id/btnApplyFilters" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

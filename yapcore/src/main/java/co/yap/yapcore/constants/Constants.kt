@@ -76,7 +76,6 @@ object Constants {
     const val MERCHANT_AVERAGE_AMOUNT_VALUE: Int = 8
 
 
-
     //Add Card Payment gateway URL
     const val URL_ADD_TOPUP_CARD = "https://dev.yap.co/admin-web/HostedSessionIntegration.html"
     const val URL_TERMS_CONDITION = "https://yap.co/terms"
@@ -113,7 +112,6 @@ object Constants {
     const val BROADCAST_UPDATE_TRANSACTION: String = "BROADCAST_UPDATE_TRANSACTION"
 
     // Money Transfer
-
     const val MONEY_TRANSFERED = "MONEY_TRANSFERED"
     const val BENEFICIARY_CHANGE = "BENEFICIARY_CHANGE"
 

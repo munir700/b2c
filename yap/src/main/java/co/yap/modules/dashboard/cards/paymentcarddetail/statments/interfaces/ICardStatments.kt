@@ -1,6 +1,9 @@
 package co.yap.modules.dashboard.cards.paymentcarddetail.statments.interfaces
 
+import androidx.databinding.Observable
 import androidx.databinding.ObservableField
+import androidx.lifecycle.MutableLiveData
+import co.yap.modules.dashboard.cards.paymentcarddetail.statments.adaptor.CardStatementsAdaptor
 import co.yap.networking.cards.responsedtos.Card
 import co.yap.networking.transactions.responsedtos.CardStatement
 import co.yap.yapcore.IBase
@@ -16,10 +19,14 @@ interface ICardStatments {
         var card: Card
         fun handlePressOnView(id: Int)
         fun loadStatements(serialNumber: String)
+        val adapter: ObservableField<CardStatementsAdaptor>
     }
 
     interface State : IBase.State {
         var year: ObservableField<String>
-        var statements: ObservableField<List<CardStatement>>
+        var hasRecords: ObservableField<Boolean>
+        var statementList: List<CardStatement>?
+        var nextMonth: Boolean?
+        var previousMonth: Boolean?
     }
 }

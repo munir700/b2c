@@ -3,9 +3,7 @@ package co.yap.modules.dashboard.cards.addpaymentcard.spare.fragments
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -21,13 +19,12 @@ import co.yap.modules.dashboard.cards.addpaymentcard.spare.helpers.physical.AddS
 import co.yap.modules.dashboard.cards.addpaymentcard.spare.helpers.virtual.AddSpareVirtualCardViewHelper
 import co.yap.modules.dashboard.cards.addpaymentcard.spare.interfaces.IAddSpareCard
 import co.yap.modules.dashboard.cards.addpaymentcard.spare.viewmodels.AddSpareCardViewModel
+import co.yap.modules.dashboard.cards.reordercard.activities.ReorderCardActivity
 import co.yap.networking.cards.responsedtos.Address
-import co.yap.networking.cards.responsedtos.CardBalance
 import co.yap.translation.Strings
 import co.yap.translation.Translator
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.managers.MyUserManager
-import kotlinx.android.synthetic.main.fragment_add_spare_card.*
 
 
 class AddSpareCardFragment : AddPaymentChildFragment<IAddSpareCard.ViewModel>(),
@@ -41,30 +38,16 @@ class AddSpareCardFragment : AddPaymentChildFragment<IAddSpareCard.ViewModel>(),
     override val viewModel: IAddSpareCard.ViewModel
         get() = ViewModelProviders.of(this).get(AddSpareCardViewModel::class.java)
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-
-        return super.onCreateView(inflater, container, savedInstanceState)
-    }
+    private lateinit var navController: NavController
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.state.avaialableCardBalance = viewModel.availableBalance
         getUpArguments()
+        navController = findNavController()
+        setObservers()
 
-        val navController: NavController = findNavController()
-
-        if (viewModel.cardType == getString(R.string.screen_spare_card_landing_display_text_virtual_card)) {
-            layoutPhysicalCardConfirmPurchase.visibility = View.GONE
-            layoutVirtualCardConfirmPurchase.visibility = View.VISIBLE
-
-
-        } else if (viewModel.cardType.equals(getString(R.string.screen_spare_card_landing_display_text_physical_card))) {
-            layoutVirtualCardConfirmPurchase.visibility = View.GONE
-            layoutPhysicalCardConfirmPurchase.visibility = View.VISIBLE
+        if (viewModel.state.cardType == getString(R.string.screen_spare_card_landing_display_text_physical_card)) {
             AddSparePhysicalCardViewHelper(
                 this.activity!!,
                 navController,
@@ -72,121 +55,37 @@ class AddSpareCardFragment : AddPaymentChildFragment<IAddSpareCard.ViewModel>(),
                 viewModel
             )
         }
+    }
 
+    private fun setObservers() {
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
-
-                viewModel.ADD_PHYSICAL_SPARE_CLICK_EVENT -> {
-                    // Send Broadcast for updating transactions list in `Home Fragment`
-                    val intent = Intent(Constants.BROADCAST_UPDATE_TRANSACTION)
-                    LocalBroadcastManager.getInstance(requireContext()).sendBroadcast(intent)
-
-                    val availableBalance =
-                        MyUserManager.cardBalance.value?.availableBalance?.toDouble()
-                    val physicalCardFee =
-                        viewModel.state.physicalCardFee.replace("AED ", "").replace(",", "")
-                            .toDouble()
-                    val updatedCardBalance =
-                        (availableBalance?.minus(physicalCardFee))
-
-                    //todo dont mange balacne on client side
-                    MyUserManager.cardBalance.value =
-                        CardBalance(availableBalance = updatedCardBalance.toString())
-
-                    MyUserManager.updateCardBalance()
-
-                    if (!viewModel.isFromBlockCardScreen) {
-                        (activity as AddPaymentCardActivity).hideToolbar()
-                    }
-
-                    findNavController().navigate(R.id.action_addSpareCardFragment_to_addSparePhysicalCardSuccessFragment)
+                viewModel.ADD_PHYSICAL_SPARE_SUCCESS_EVENT -> {
+                    onAddPhysicalCard()
                 }
 
-                viewModel.ADD_VIRTUAL_SPARE_CLICK_EVENT -> {
-                    // Send Broadcast for updating transactions list in `Home Fragment`
-                    val intent = Intent(Constants.BROADCAST_UPDATE_TRANSACTION)
-                    LocalBroadcastManager.getInstance(requireContext()).sendBroadcast(intent)
-
-                    val availableBalance =
-                        MyUserManager.cardBalance.value?.availableBalance?.toDouble()
-                    val virtualCardFee =
-                        viewModel.state.virtualCardFee.replace("AED ", "").replace(",", "")
-                            .toDouble()
-                    val updatedCardBalance =
-                        (availableBalance?.minus(virtualCardFee))
-
-                    MyUserManager.cardBalance.value =
-                        CardBalance(availableBalance = updatedCardBalance.toString())
-                    MyUserManager.updateCardBalance()
-
-                    if (!viewModel.isFromBlockCardScreen) {
-                        (activity as AddPaymentCardActivity).hideToolbar()
-                    }
-                    cardAdded = true
-                    AddSpareVirtualCardViewHelper(
-                        this.activity!!,
-                        navController,
-                        view,
-                        viewModel
-                    )
+                viewModel.ADD_VIRTUAL_SPARE_SUCCESS_EVENT -> {
+                    onAddVirtualCard()
+                }
+                viewModel.REORDER_CARD_SUCCESS_EVENT -> {
+                    onReorderCard()
                 }
 
-                viewModel.CONFIRM_PHYSICAL_PURCHASE -> {
-                    // todo temporary logic added to fix a bug, balance should be stored as double in view model
-                    try {
-                        val physicalCardFee =
-                            viewModel.state.physicalCardFee.replace("AED ", "").replace(
-                                ",",
-                                ""
-                            ).toDouble()
-                        val availableCardBalance =
-                            viewModel.state.avaialableCardBalance.replace("AED ", "").replace(
-                                ",",
-                                ""
-                            ).toDouble()
-
-                        if (physicalCardFee > availableCardBalance) {
-                            showDialog()
-                        } else {
-                            viewModel.requestAddSparePhysicalCard()
-                        }
-                    } catch (e: Exception) {
-                        e.printStackTrace()
-                    }
+                R.id.btnConfirmPhysicalCardPurchase -> {
+                    onPressConfirmPurchasePhysical()
                 }
 
-                viewModel.CONFIRM_VIRTUAL_PURCHASE -> {
-                    try {
-                        // todo temporary logic added to fix a bug, balance should be stored as double in view model
-                        val virtualCardFee =
-                            viewModel.state.virtualCardFee.replace("AED ", "").replace(",", "")
-                                .toDouble()
-                        val availableCardBalance =
-                            viewModel.state.avaialableCardBalance.replace("AED ", "")
-                                .replace(",", "")
-                                .toDouble()
-                        if (virtualCardFee > availableCardBalance) {
-                            showDialog()
-                        } else {
-                            viewModel.requestAddSpareVirtualCard()
-                        }
-                    } catch (e: Exception) {
-                        e.printStackTrace()
-                    }
+                R.id.btnConfirmVirtualCardPurchase -> {
+                    onPressConfirmPurchaseVirtual()
                 }
 
                 R.id.btnDoneAddingSpareVirtualCard -> {
-                    // Spare virtual card added event
                     setupActionsIntent()
                     activity!!.finish()
                 }
 
                 R.id.btnConfirm -> {
-//                      if (viewModel.state.physicalCardFee > viewModel.state.avaialableCardBalance) {
-//                        showDialog()
-//                    } else {
                     viewModel.state.toggleVisibility = true
-//
                     if (viewModel.isFromaddressScreen) {
                         viewModel.address = Address(
                             viewModel.state.physicalCardAddressSubTitle,
@@ -195,17 +94,103 @@ class AddSpareCardFragment : AddPaymentChildFragment<IAddSpareCard.ViewModel>(),
                             viewModel.longitude.toDouble()
                         )
                     }
-//                    }
                 }
 
             }
         })
     }
 
+    private fun onAddPhysicalCard() {
+        updateTransactionOnHome()
+        MyUserManager.updateCardBalance()
+
+        if (!viewModel.isFromBlockCardScreen) {
+            if (activity is AddPaymentCardActivity) {
+                (activity as AddPaymentCardActivity).hideToolbar()
+            }
+        }
+        findNavController().navigate(R.id.action_addSpareCardFragment_to_addSparePhysicalCardSuccessFragment)
+    }
+
+    private fun onAddVirtualCard() {
+        updateTransactionOnHome()
+        MyUserManager.updateCardBalance()
+        if (!viewModel.isFromBlockCardScreen) {
+            if (activity is AddPaymentCardActivity)
+                (activity as AddPaymentCardActivity).hideToolbar()
+        }
+        cardAdded = true
+        view?.let {
+            this.activity?.let { activity ->
+                AddSpareVirtualCardViewHelper(
+                    activity,
+                    navController,
+                    it,
+                    viewModel
+                )
+            }
+        }
+    }
+
+    private fun onReorderCard() {
+        updateTransactionOnHome()
+        showToast("Reorder Card Successfully")
+//        findNavController().navigate(R.id.action_addSpareCardFragment_to_successFragment)
+    }
+
+    private fun onPressConfirmPurchaseVirtual() {
+        try {
+            // todo temporary logic added to fix a bug, balance should be stored as double in view model
+            val virtualCardFee =
+                viewModel.state.virtualCardFee.replace("AED ", "").replace(",", "")
+                    .toDouble()
+            val availableCardBalance =
+                viewModel.state.avaialableCardBalance.replace("AED ", "")
+                    .replace(",", "")
+                    .toDouble()
+            if (virtualCardFee > availableCardBalance) {
+                showDialog()
+            } else {
+                viewModel.requestAddSpareVirtualCard()
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
+
+    private fun onPressConfirmPurchasePhysical() {
+        // todo temporary logic added to fix a bug, balance should be stored as double in view model
+        try {
+            val physicalCardFee =
+                viewModel.state.physicalCardFee.replace("AED ", "").replace(
+                    ",",
+                    ""
+                ).toDouble()
+            val availableCardBalance =
+                viewModel.state.avaialableCardBalance.replace("AED ", "").replace(
+                    ",",
+                    ""
+                ).toDouble()
+
+            if (physicalCardFee > availableCardBalance) {
+                showDialog()
+            } else {
+                if (activity is ReorderCardActivity) {
+                    viewModel.requestReorderCard()
+                } else {
+                    viewModel.requestAddSparePhysicalCard()
+                }
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
+
     private fun getUpArguments() {
 
         viewModel.cardType =
             arguments?.let { AddSpareCardFragmentArgs.fromBundle(it).cardType } as String
+
         viewModel.state.cardType = viewModel.cardType
 
 //        arguments?.let { AddressSelectionFragmentArgs.fromBundle(it).isFromPhysicalCardsScreen }
@@ -225,7 +210,7 @@ class AddSpareCardFragment : AddPaymentChildFragment<IAddSpareCard.ViewModel>(),
             AddSpareCardFragmentArgs.fromBundle(it).newDeliveryAddressSubTitle
         } as String
 
-        if (!physicalCardAddressSubTitle.isNullOrEmpty() && !physicalCardAddressSubTitle.equals(" ")) {
+        if (!physicalCardAddressSubTitle.isNullOrEmpty() && physicalCardAddressSubTitle != " ") {
             viewModel.state.physicalCardAddressTitle = physicalCardAddressSubTitle
             viewModel.isFromaddressScreen = true
             viewModel.state.enableConfirmLocation = true
@@ -258,7 +243,6 @@ class AddSpareCardFragment : AddPaymentChildFragment<IAddSpareCard.ViewModel>(),
     }
 
     override fun onBackPressed(): Boolean {
-
         return if (cardAdded) {
             return false
         } else {
@@ -304,4 +288,9 @@ class AddSpareCardFragment : AddPaymentChildFragment<IAddSpareCard.ViewModel>(),
         dialog.show()
     }
 
+    private fun updateTransactionOnHome() {
+        // Send Broadcast for updating transactions list in `Home Fragment`
+        val intent = Intent(Constants.BROADCAST_UPDATE_TRANSACTION)
+        LocalBroadcastManager.getInstance(requireContext()).sendBroadcast(intent)
+    }
 }

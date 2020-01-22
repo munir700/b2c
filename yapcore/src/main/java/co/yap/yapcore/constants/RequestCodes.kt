@@ -8,6 +8,8 @@ object RequestCodes {
     const val REQUEST_NOTIFY_BENEFICIARY_LIST = 10004
     const val REQUEST_ADD_FUNDS_WHEN_ADD = 10005
     const val REQUEST_FOR_LOCATION = 10006
-    const val REQUEST_KYC_DOCUMENTS = 10007
-    const val REQUEST_ADD_HOUSE_HOLD = 10008
+    const val REQUEST_REORDER_CARD = 10007
+    const val REQUEST_TXN_FILTER = 10008
+    const val REQUEST_KYC_DOCUMENTS = 10009
+    const val REQUEST_ADD_HOUSE_HOLD = 10010
 }

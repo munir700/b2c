@@ -19,7 +19,7 @@ class BankDetailViewModel(application: Application) : BaseViewModel<IBankDetail.
         MyUserManager.user?.accountNo?.let { state.account.set(it) }
         MyUserManager.user?.bank?.address?.let { state.addresse.set(it) }
         MyUserManager.user?.bank?.name?.let { state.bank.set(it) }
-        MyUserManager.user?.iban?.let { state.iban.set(it) }
+        MyUserManager.user?.iban?.let { state.iban.set(Utils.formateIbanString(it)) }
         MyUserManager.user?.bank?.swiftCode?.let { state.swift.set(it) }
 
         state.name.set(MyUserManager.user?.currentCustomer?.getFullName())
