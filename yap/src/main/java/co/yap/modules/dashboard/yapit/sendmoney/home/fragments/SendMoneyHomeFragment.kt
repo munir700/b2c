@@ -21,7 +21,7 @@ import co.yap.translation.Translator
 import co.yap.widgets.swipe_lib.SwipeCallBack
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.interfaces.OnItemClickListener
-import co.yap.yapcore.toast
+import co.yap.yapcore.helpers.toast
 import kotlinx.android.synthetic.main.fragment_yap_to_yap.*
 
 
