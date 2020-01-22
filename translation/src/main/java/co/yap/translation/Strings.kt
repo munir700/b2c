@@ -158,6 +158,8 @@ object Strings {
     const val screen_system_permission_text_denied: String = "screen_system_permission_text_denied"
     const val screen_notification_permission_button_title: String =
         "screen_notification_permission_button_title"
+    const val screen_system_permission_text_sub_title: String =
+        "screen_system_permission_text_sub_title"
 
     //Verify passcode screen
     const val screen_verify_passcode_display_text_title: String =
