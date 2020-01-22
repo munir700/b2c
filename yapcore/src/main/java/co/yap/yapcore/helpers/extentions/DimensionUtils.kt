@@ -1,4 +1,4 @@
-package co.yap.yapcore.helpers
+package co.yap.yapcore.helpers.extentions
 
 import android.content.Context
 import android.graphics.Point

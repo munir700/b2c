@@ -3,9 +3,9 @@ package co.yap.app.modules.login.activities
 import android.content.Intent
 import android.os.Bundle
 import co.yap.app.R
+import co.yap.app.modules.login.fragments.VerifyPassCodeEnum
 import co.yap.app.modules.login.fragments.VerifyPasscodeFragment
 import co.yap.modules.others.helper.Constants.REQUEST_CODE
-import co.yap.modules.others.helper.Constants.START_REQUEST_CODE
 import co.yap.yapcore.IFragmentHolder
 import co.yap.yapcore.defaults.DefaultActivity
 import co.yap.yapcore.managers.MyUserManager
@@ -24,7 +24,7 @@ class VerifyPassCodePresenterActivity : DefaultActivity(), IFragmentHolder {
         fragment = VerifyPasscodeFragment()
         val bundle = Bundle()
         bundle.putString("username", MyUserManager.user?.currentCustomer?.getFullName())
-        bundle.putInt(REQUEST_CODE, START_REQUEST_CODE)
+        bundle.putString(REQUEST_CODE, VerifyPassCodeEnum.VERIFY.name)
         fragment.arguments = bundle
         ft.replace(R.id.container, fragment)
         ft.commit()

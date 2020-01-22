@@ -16,7 +16,6 @@ import co.yap.app.login.EncryptionUtils
 import co.yap.app.modules.login.interfaces.IVerifyPasscode
 import co.yap.app.modules.login.viewmodels.VerifyPasscodeViewModel
 import co.yap.modules.others.helper.Constants.REQUEST_CODE
-import co.yap.modules.others.helper.Constants.START_REQUEST_CODE
 import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.biometric.BiometricCallback
@@ -50,8 +49,11 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
         viewModel.validateDeviceResult.observe(this, validateDeviceResultObserver)
         viewModel.createOtpResult.observe(this, createOtpObserver)
         setObservers()
-        setUsername()
 
+        arguments?.let {
+            viewModel.state.username = VerifyPasscodeFragmentArgs.fromBundle(it).username
+            viewModel.state.verifyPassCodeEnum =  it.getString(REQUEST_CODE,VerifyPassCodeEnum.ACCESS_ACCOUNT.name)
+        }
         dialer.hideFingerprintView()
 
         sharedPreferenceManager = SharedPreferenceManager(requireContext())
@@ -189,11 +191,7 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
                 sharedPreferenceManager.save(SharedPreferenceManager.KEY_IS_USER_LOGGED_IN, true)
                 navigateToDashboard()
             } else {
-                if (arguments?.getInt(
-                        REQUEST_CODE,
-                        -1
-                    ) == START_REQUEST_CODE
-                ) {
+                if ((VerifyPassCodeEnum.valueOf(viewModel.state.verifyPassCodeEnum) == VerifyPassCodeEnum.VERIFY)) {
                     navigateToDashboard()
                 } else {
                     viewModel.validateDevice()
@@ -272,11 +270,7 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
 //    }
 
     private fun navigateToDashboard() {
-        if (arguments?.getInt(
-                REQUEST_CODE,
-                -1
-            ) == START_REQUEST_CODE
-        ) {
+        if ((VerifyPassCodeEnum.valueOf(viewModel.state.verifyPassCodeEnum) == VerifyPassCodeEnum.VERIFY)) {
             val intent = Intent()
             intent.putExtra("CheckResult", true)
             activity?.setResult(Activity.RESULT_OK, intent)
@@ -349,6 +343,13 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
 
     override fun onAuthenticationError(errorCode: Int, errString: CharSequence) {
     }
+
+
+}
+
+enum class VerifyPassCodeEnum {
+    VERIFY,
+    ACCESS_ACCOUNT
 
 
 }

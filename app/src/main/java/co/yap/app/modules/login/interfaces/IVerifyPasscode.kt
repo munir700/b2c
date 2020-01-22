@@ -1,6 +1,7 @@
 package co.yap.app.modules.login.interfaces
 
 import android.text.TextWatcher
+import co.yap.app.modules.login.fragments.VerifyPassCodeEnum
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.SingleLiveEvent
@@ -37,5 +38,6 @@ interface IVerifyPasscode {
         fun validationPasscode(passcodeText: String)
         var sequence: Boolean
         var similar: Boolean
+        var verifyPassCodeEnum: String
     }
 }
