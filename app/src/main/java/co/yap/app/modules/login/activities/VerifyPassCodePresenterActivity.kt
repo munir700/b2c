@@ -8,6 +8,7 @@ import co.yap.modules.others.helper.Constants.REQUEST_CODE
 import co.yap.modules.others.helper.Constants.START_REQUEST_CODE
 import co.yap.yapcore.IFragmentHolder
 import co.yap.yapcore.defaults.DefaultActivity
+import co.yap.yapcore.managers.MyUserManager
 
 /**
  * how to use startActivityForResult(Intent(context, VerifyPassCodePresenterActivity::class.java),VerifyPassCodePresenterActivity.START_REQUEST_CODE)
@@ -22,7 +23,7 @@ class VerifyPassCodePresenterActivity : DefaultActivity(), IFragmentHolder {
         val ft = supportFragmentManager.beginTransaction()
         fragment = VerifyPasscodeFragment()
         val bundle = Bundle()
-        bundle.putString("username", "dsadsadsa")
+        bundle.putString("username", MyUserManager.user?.currentCustomer.getFullName())
         bundle.putInt(REQUEST_CODE, START_REQUEST_CODE)
         fragment.arguments = bundle
         ft.replace(R.id.container, fragment)
