@@ -17,6 +17,7 @@ interface IVerifyPasscode {
         fun login()
         fun createOtp()
         fun validateDevice()
+        fun logout()
         val signInButtonPressEvent: SingleLiveEvent<Boolean>
         val forgotPasscodeButtonPressEvent: SingleClickEvent
         val loginSuccess: SingleLiveEvent<Boolean>
@@ -25,6 +26,7 @@ interface IVerifyPasscode {
         var isFingerprintLogin: Boolean
         var mobileNumber: String
         var emailOtp: Boolean
+        var EVENT_LOGOUT_SUCCESS:Int
     }
 
     interface State : IBase.State {
