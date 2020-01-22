@@ -98,10 +98,8 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
         }
 
         ivBackBtn.setOnClickListener {
-            //            activity!!.onBackPressed()
-            viewModel.logout()
-//            doLogout()
-        }
+             viewModel.logout()
+         }
 
     }
 
@@ -167,7 +165,7 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
         MyUserManager.userAddress = null
         MoreActivity.showExpiredIcon = false
         YAPApplication.clearFilters()
-        activity!!.onBackPressed()
+        activity?.onBackPressed()
     }
 
     override fun onDestroyView() {
