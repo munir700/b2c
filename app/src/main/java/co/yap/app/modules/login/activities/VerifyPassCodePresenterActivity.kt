@@ -23,7 +23,7 @@ class VerifyPassCodePresenterActivity : DefaultActivity(), IFragmentHolder {
         val ft = supportFragmentManager.beginTransaction()
         fragment = VerifyPasscodeFragment()
         val bundle = Bundle()
-        bundle.putString("username", MyUserManager.user?.currentCustomer.getFullName())
+        bundle.putString("username", MyUserManager.user?.currentCustomer?.getFullName())
         bundle.putInt(REQUEST_CODE, START_REQUEST_CODE)
         fragment.arguments = bundle
         ft.replace(R.id.container, fragment)

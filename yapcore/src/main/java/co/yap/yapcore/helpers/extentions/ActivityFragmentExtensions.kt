@@ -5,8 +5,12 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import androidx.annotation.AnimRes
+import androidx.annotation.IdRes
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
 import co.yap.modules.frame.FrameActivity
+import co.yap.yapcore.R
 
 /**
  * Extensions for simpler launching of Activities
@@ -70,6 +74,76 @@ fun <T : Fragment> FrameActivity.instantiateFragment(fragmentName: String) =
 
 fun Fragment.instantiateFragment(fragmentName: String) {
     Fragment.instantiate(this.requireActivity(), fragmentName)
-   // FragmentFactory.instantiate
+    // FragmentFactory.instantiate
+}
+
+fun <T : Fragment> Fragment.removeFragment(fragment: Fragment) {
+    val ft = requireFragmentManager().beginTransaction()
+    ft.remove(fragment)
+    ft.commitNow()
+}
+
+fun Fragment.removeFragmentByTag(tag: String) {
+    val ft = requireFragmentManager().beginTransaction()
+    val fragment = requireFragmentManager().findFragmentByTag(tag) ?: return
+    ft.remove(fragment)
+    ft.commitNow()
+}
+
+fun Fragment.removeFragmentById(id: Int) {
+    val ft = requireFragmentManager().beginTransaction()
+    val fragment = requireFragmentManager().findFragmentById(id) ?: return
+    ft.remove(fragment)
+    ft.commitNow()
+}
+
+fun <T : Fragment> FragmentActivity.createFragmentInstance(
+    fragment: T,
+    bundle: Bundle = Bundle()
+): T {
+    fragment.arguments = bundle
+    replaceFragment(fragment, R.id.container, bundle)
+    return fragment
+}
+
+fun <T : Fragment> FragmentActivity.createFragmentInstance(fragment: T): T {
+    replaceFragment(fragment, R.id.container)
+    return fragment
+}
+
+fun FragmentActivity.replaceFragment(
+    fragment: Fragment, @IdRes container: Int, bundle: Bundle = Bundle(),
+    addToBackStack: Boolean = false, backStackName: String = "",
+    @AnimRes inAnimationRes: Int = 0, @AnimRes outAnimationRes: Int = 0
+) {
+    val ft = supportFragmentManager.beginTransaction()
+    if (inAnimationRes != 0 && outAnimationRes != 0) {
+        ft.setCustomAnimations(inAnimationRes, outAnimationRes)
+    }
+    ft.replace(container, fragment)
+
+    if (addToBackStack) {
+        ft.addToBackStack(backStackName)
+    }
+
+    ft.commit()
+}
+
+fun FragmentActivity.addFragment(
+    fragment: Fragment, @IdRes container: Int,
+    addToBackStack: Boolean = false, backStackName: String = "",
+    @AnimRes inAnimationRes: Int = 0, @AnimRes outAnimationRes: Int = 0
+) {
+    val ft = supportFragmentManager.beginTransaction()
+    if (inAnimationRes != 0 && outAnimationRes != 0) {
+        ft.setCustomAnimations(inAnimationRes, outAnimationRes)
+    }
+    ft.add(container, fragment)
+
+    if (addToBackStack) {
+        ft.addToBackStack(backStackName)
+    }
+
+    ft.commit()
 }
 
