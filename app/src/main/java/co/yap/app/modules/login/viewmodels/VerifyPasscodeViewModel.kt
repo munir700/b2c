@@ -70,8 +70,6 @@ class VerifyPasscodeViewModel(application: Application) :
                 sharedPreferenceManager.getValueString(SharedPreferenceManager.KEY_USERNAME) as String
             )!!
         }
-
-
         launch {
             state.loading = true
             when (val response = messagesRepository.createForgotPasscodeOTP(
@@ -94,8 +92,6 @@ class VerifyPasscodeViewModel(application: Application) :
                 }
             }
         }
-
-
     }
 
     private fun verifyUsername(enteredUsername: String): String {

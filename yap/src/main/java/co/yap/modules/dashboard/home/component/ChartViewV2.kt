@@ -14,8 +14,6 @@ import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import androidx.core.content.ContextCompat
 import co.yap.R
-import co.yap.yapcore.helpers.RecyclerTouchListener
-import co.yap.yapcore.helpers.dip2px
 
 class ChartViewV2(context: Context, attrs: AttributeSet) : View(context, attrs),
     View.OnTouchListener, View.OnFocusChangeListener {

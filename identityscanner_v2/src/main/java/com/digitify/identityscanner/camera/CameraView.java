@@ -6,7 +6,6 @@ import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
 import android.content.ContextWrapper;
-import android.content.pm.PackageManager;
 import android.content.res.TypedArray;
 import android.graphics.PointF;
 import android.location.Location;
@@ -80,13 +79,12 @@ import com.digitify.identityscanner.camera.size.SizeSelectors;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import co.yap.yapcore.helpers.PermissionHelper;
-import co.yap.yapcore.helpers.ToastKt;
+import co.yap.yapcore.helpers.extentions.ToastKt;
 
 import static android.view.View.MeasureSpec.AT_MOST;
 import static android.view.View.MeasureSpec.EXACTLY;
