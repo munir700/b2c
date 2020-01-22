@@ -4,17 +4,26 @@ import android.content.Context
 import android.content.Intent
 
 object AuthUtils {
+    var isFromVerifyPassCode = false
+
     fun navigateToHardLogin(context: Context) {
-        navigateToSoftLogin(context)
+        if (!isFromVerifyPassCode) {
+            navigateToSoftLogin(context)
+        }
+
         val sharedPreferenceManager = SharedPreferenceManager(context)
         val isFirstTimeUser: Boolean =
-            sharedPreferenceManager.getValueBoolien(SharedPreferenceManager.KEY_IS_FIRST_TIME_USER, false)
+            sharedPreferenceManager.getValueBoolien(
+                SharedPreferenceManager.KEY_IS_FIRST_TIME_USER,
+                false
+            )
         val isFingerprintPermissionShown: Boolean =
             sharedPreferenceManager.getValueBoolien(
                 SharedPreferenceManager.KEY_IS_FINGERPRINT_PERMISSION_SHOWN,
                 false
             )
-        val uuid: String? = sharedPreferenceManager.getValueString(SharedPreferenceManager.KEY_APP_UUID)
+        val uuid: String? =
+            sharedPreferenceManager.getValueString(SharedPreferenceManager.KEY_APP_UUID)
 
         sharedPreferenceManager.clearSharedPreference()
         sharedPreferenceManager.save(SharedPreferenceManager.KEY_APP_UUID, uuid.toString())
@@ -22,7 +31,15 @@ object AuthUtils {
             SharedPreferenceManager.KEY_IS_FINGERPRINT_PERMISSION_SHOWN,
             isFingerprintPermissionShown
         )
-        sharedPreferenceManager.save(SharedPreferenceManager.KEY_IS_FIRST_TIME_USER, isFirstTimeUser)
+        sharedPreferenceManager.save(
+            SharedPreferenceManager.KEY_IS_FIRST_TIME_USER,
+            isFirstTimeUser
+        )
+    }
+
+    fun navigateToHardLoginFromVerifyPassCode(context: Context) {
+        isFromVerifyPassCode = true
+        navigateToHardLogin(context)
     }
 
     fun navigateToSoftLogin(context: Context) {
