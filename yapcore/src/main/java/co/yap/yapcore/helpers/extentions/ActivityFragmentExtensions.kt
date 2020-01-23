@@ -7,10 +7,14 @@ import android.os.Build
 import android.os.Bundle
 import androidx.annotation.AnimRes
 import androidx.annotation.IdRes
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import co.yap.modules.frame.FrameActivity
+import co.yap.modules.frame.FrameActivity.Companion.EXTRA
+import co.yap.modules.frame.FrameActivity.Companion.FRAGMENT_CLASS
 import co.yap.yapcore.R
+import com.github.florent37.inlineactivityresult.kotlin.startForResult
 
 /**
  * Extensions for simpler launching of Activities
@@ -146,4 +150,100 @@ fun FragmentActivity.addFragment(
 
     ft.commit()
 }
+
+fun <T : Fragment> FragmentActivity.startFragment(
+    fragmentName: String,
+    clearAllPrevious: Boolean = false,
+    bundle: Bundle = Bundle(), requestCode: Int = -1
+) {
+    val intent = Intent(this, FrameActivity::class.java)
+    intent.putExtra(FRAGMENT_CLASS, fragmentName)
+    intent.putExtra(EXTRA, bundle)
+    if (requestCode > 0) {
+        startActivityForResult(intent, requestCode)
+    } else {
+        startActivity(intent)
+    }
+
+    if (clearAllPrevious) {
+        finish()
+    }
+}
+
+fun Fragment.startFragment(
+    fragmentName: String,
+    clearAllPrevious: Boolean = false,
+    bundle: Bundle = Bundle(), requestCode: Int = -1
+) {
+    val intent = Intent(requireActivity(), FrameActivity::class.java)
+    intent.putExtra(FRAGMENT_CLASS, fragmentName)
+    intent.putExtra(EXTRA, bundle)
+    if (requestCode > 0) {
+        startActivityForResult(intent, requestCode)
+    } else {
+        startActivity(intent)
+    }
+
+    if (clearAllPrevious) {
+        requireActivity().finish()
+    }
+}
+
+
+fun <T : Fragment> FragmentActivity.startFragmentForResult(
+    fragmentName: String,
+    bundle: Bundle = Bundle(),
+    completionHandler: ((resultCode: Int, data: Intent?) -> Unit)? = null
+) {
+    val intent = Intent(this, FrameActivity::class.java)
+    try {
+        intent.putExtra(FRAGMENT_CLASS, fragmentName)
+        intent.putExtra(EXTRA, bundle)
+
+        (this as AppCompatActivity).startForResult(intent) { result ->
+            completionHandler?.invoke(result.resultCode, result.data)
+        }.onFailed { result ->
+            completionHandler?.invoke(result.resultCode, result.data)
+        }
+
+    }
+    catch (e: Exception) {
+        if (e is ClassNotFoundException) {
+            toast(
+                "InlineActivityResult library not installed falling back to default method, please install \" +\n" +
+                        "\"it from https://github.com/florent37/InlineActivityResult if you want to get inline activity results."
+            )
+            startActivity(intent)
+        }
+    }
+}
+
+fun <T : Fragment> Fragment.startFragmentForResult(
+    fragmentName: String,
+    bundle: Bundle = Bundle(),
+    completionHandler: ((resultCode: Int, data: Intent?) -> Unit)? = null
+) {
+    val intent = Intent(requireActivity(), FrameActivity::class.java)
+    try {
+        intent.putExtra(FRAGMENT_CLASS, fragmentName)
+        intent.putExtra(EXTRA, bundle)
+
+        this.startForResult(intent) { result ->
+            completionHandler?.invoke(result.resultCode, result.data)
+        }.onFailed { result ->
+            completionHandler?.invoke(result.resultCode, result.data)
+        }
+
+    }
+    catch (e: Exception) {
+        if (e is ClassNotFoundException) {
+            toast(
+                "InlineActivityResult library not installed falling back to default method, please install \" +\n" +
+                        "\"it from https://github.com/florent37/InlineActivityResult if you want to get inline activity results."
+            )
+            startActivity(intent)
+        }
+    }
+}
+
 
