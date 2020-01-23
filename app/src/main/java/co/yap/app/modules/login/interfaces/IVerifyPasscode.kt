@@ -1,6 +1,7 @@
 package co.yap.app.modules.login.interfaces
 
 import android.text.TextWatcher
+import co.yap.app.modules.login.fragments.VerifyPassCodeEnum
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.SingleLiveEvent
@@ -17,6 +18,7 @@ interface IVerifyPasscode {
         fun login()
         fun createOtp()
         fun validateDevice()
+        fun logout()
         val signInButtonPressEvent: SingleLiveEvent<Boolean>
         val forgotPasscodeButtonPressEvent: SingleClickEvent
         val loginSuccess: SingleLiveEvent<Boolean>
@@ -25,6 +27,7 @@ interface IVerifyPasscode {
         var isFingerprintLogin: Boolean
         var mobileNumber: String
         var emailOtp: Boolean
+        var EVENT_LOGOUT_SUCCESS:Int
     }
 
     interface State : IBase.State {
@@ -37,5 +40,6 @@ interface IVerifyPasscode {
         fun validationPasscode(passcodeText: String)
         var sequence: Boolean
         var similar: Boolean
+        var verifyPassCodeEnum: String
     }
 }

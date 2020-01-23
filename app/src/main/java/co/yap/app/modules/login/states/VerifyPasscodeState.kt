@@ -4,6 +4,7 @@ import android.text.Editable
 import android.text.TextWatcher
 import androidx.databinding.Bindable
 import co.yap.app.BR
+import co.yap.app.modules.login.fragments.VerifyPassCodeEnum
 import co.yap.app.modules.login.interfaces.IVerifyPasscode
 import co.yap.yapcore.BaseState
 
@@ -63,6 +64,12 @@ class VerifyPasscodeState : BaseState(), IVerifyPasscode.State {
         set(value) {
             field = value
             notifyPropertyChanged(BR.similar)
+        }
+    @get:Bindable
+    override var verifyPassCodeEnum: String = VerifyPassCodeEnum.ACCESS_ACCOUNT.name
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.verifyPassCodeEnum)
         }
 
     fun validate(text: String) {

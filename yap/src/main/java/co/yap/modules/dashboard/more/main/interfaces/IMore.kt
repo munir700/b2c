@@ -1,5 +1,6 @@
 package co.yap.modules.dashboard.more.main.interfaces
 
+import androidx.lifecycle.MutableLiveData
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleLiveEvent
 
@@ -13,6 +14,7 @@ interface IMore {
         fun handlePressOnBackButton()
         fun handlePressOnTickButton()
         val backButtonPressEvent: SingleLiveEvent<Boolean>
+        var preventTakeDeviceScreenShot: MutableLiveData<Boolean>
     }
 
     interface View : IBase.View<ViewModel>

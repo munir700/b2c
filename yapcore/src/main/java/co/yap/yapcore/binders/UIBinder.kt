@@ -634,13 +634,13 @@ object UIBinder {
     @BindingAdapter("otp")
     fun setOtp(view: OtpTextView, value: String) {
         if (view.otp != value) {
-            view.otp = value
+            view.setOTP( value)
         }
     }
 
     @JvmStatic
     @InverseBindingAdapter(attribute = "otp")
-    fun getOtp(view: OtpTextView): String = view.otp
+    fun getOtp(view: OtpTextView): String = view.otp!!
 
     @JvmStatic
     @BindingAdapter(value = ["requestKeyboard", "forceKeyboard"], requireAll = false)

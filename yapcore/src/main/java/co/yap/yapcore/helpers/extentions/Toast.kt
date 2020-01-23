@@ -1,30 +1,45 @@
-package co.yap.yapcore.helpers
+package co.yap.yapcore.helpers.extentions
 
 import android.content.Context
 import android.widget.Toast
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
 
 
-fun Context?.toast(msg: String, duration: Int = Toast.LENGTH_LONG) = makeToast(this, msg, duration)
+fun Context?.toast(msg: String, duration: Int = Toast.LENGTH_LONG) =
+    makeToast(this, msg, duration)
 //fun Fragment?.toast(msg: String) = makeToast(this?.context, msg, Toast.LENGTH_LONG)
-fun Context?.shortToast(msg: String) = makeToast(this, msg, Toast.LENGTH_SHORT)
+fun Context?.shortToast(msg: String) =
+    makeToast(this, msg, Toast.LENGTH_SHORT)
 
 //fun Fragment?.shortToast(msg: String) = makeToast(this?.context, msg, Toast.LENGTH_SHORT)
-fun Context?.longToast(msg: String) = makeToast(this, msg, Toast.LENGTH_LONG)
+fun Context?.longToast(msg: String) =
+    makeToast(this, msg, Toast.LENGTH_LONG)
 //fun Fragment?.longToast(msg: String) = makeToast(this?.context, msg, Toast.LENGTH_LONG)
 
 fun Context?.toastNow(msg: String, duration: Int = Toast.LENGTH_LONG) =
     cancelAndMakeToast(this, msg, duration)
 
 //fun Fragment?.toastNow(msg: String) = cancelAndMakeToast(this?.context, msg, Toast.LENGTH_LONG)
-fun Context?.shortToastNow(msg: String) = cancelAndMakeToast(this, msg, Toast.LENGTH_SHORT)
+fun Context?.shortToastNow(msg: String) =
+    cancelAndMakeToast(
+        this,
+        msg,
+        Toast.LENGTH_SHORT
+    )
 
 //fun Fragment?.shortToastNow(msg: String) = cancelAndMakeToast(this?.context, msg, Toast.LENGTH_SHORT)
-fun Context?.longToastNow(msg: String) = cancelAndMakeToast(this, msg, Toast.LENGTH_LONG)
+fun Context?.longToastNow(msg: String) =
+    cancelAndMakeToast(
+        this,
+        msg,
+        Toast.LENGTH_LONG
+    )
 //fun Fragment?.longToastNow(msg: String) = cancelAndMakeToast(this?.context, msg, Toast.LENGTH_LONG)
 
 
-fun cancelAllToasts() = ToastQueue.cancelToasts()
+fun cancelAllToasts() =
+    ToastQueue.cancelToasts()
 
 fun cancelAndMakeToast(ctx: Context?, msg: String, duration: Int): Toast? {
     ToastQueue.cancelToasts()
@@ -44,7 +59,8 @@ fun makeToast(ctx: Context?, msg: String, duration: Int): Toast? {
     }
 }
 
-fun toast(context:Context,msg: String) = makeToast(context, msg, Toast.LENGTH_LONG)
+fun toast(context:Context,msg: String) =
+    makeToast(context, msg, Toast.LENGTH_LONG)
 
 private object ToastQueue {
     val toastQueue = mutableListOf<Toast>()
@@ -57,5 +73,11 @@ private object ToastQueue {
     fun removeToast(toast: Toast) = toastQueue.remove(toast)
 
 }
+
+fun Fragment?.toast(msg: String) = makeToast(
+    this?.context,
+    msg,
+    Toast.LENGTH_LONG
+)
 
 fun Context.getColors(color: Int) = ContextCompat.getColor(this, color)
