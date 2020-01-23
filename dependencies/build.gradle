@@ -37,7 +37,7 @@ project.ext {
             databindingCompiler      : 'com.android.databinding:compiler:3.4.1',
             material                 : 'com.google.android.material:material:1.2.0-alpha01',
             viewpagerDots            : 'com.tbuonomo.andrui:viewpagerdotsindicator:3.0.3',
-            otpView                  : 'com.github.aabhasr1:OtpView:1.0.6',
+            otpView                  : 'com.github.aabhasr1:OtpView:v1.1.2-ktx',
             numberFomater            : 'io.michaelrocks:libphonenumber-android:8.10.13',
             numberFomaterGoogle      : 'com.googlecode.libphonenumber:libphonenumber:v8.10.21',
             recyclerfastscroll       : 'com.futuremind.recyclerfastscroll:fastscroll:0.2.5',
