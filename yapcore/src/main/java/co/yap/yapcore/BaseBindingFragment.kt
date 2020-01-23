@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
-import co.yap.yapcore.helpers.extentions.preventTakeScreenshot
 
 abstract class BaseBindingFragment<V : IBase.ViewModel<*>> : BaseFragment<V>() {
 

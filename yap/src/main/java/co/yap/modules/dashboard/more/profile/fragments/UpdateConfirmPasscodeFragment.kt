@@ -13,7 +13,6 @@ import co.yap.modules.dashboard.more.profile.viewmodels.UpdateConfirmPasscodeVie
 import co.yap.modules.setcardpin.interfaces.ISetCardPin
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.SharedPreferenceManager
-import co.yap.yapcore.helpers.extentions.preventTakeScreenshot
 import kotlinx.android.synthetic.main.activity_create_passcode.*
 
 class UpdateConfirmPasscodeFragment : ConfirmNewCardPinFragment() {

@@ -12,7 +12,6 @@ import co.yap.yapcore.BR
 import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.R
 import co.yap.yapcore.constants.Constants
-import co.yap.yapcore.helpers.extentions.preventTakeScreenshot
 
 class SetCardPinSuccessFragment : BaseBindingFragment<ISetCardPinSuccess.ViewModel>(), ISetCardPinSuccess.View {
 

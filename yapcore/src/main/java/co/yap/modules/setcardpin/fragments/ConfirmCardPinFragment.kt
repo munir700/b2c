@@ -12,7 +12,6 @@ import co.yap.modules.setcardpin.viewmodels.ConfirmCardPinViewModel
 import co.yap.translation.Strings
 import co.yap.translation.Translator
 import co.yap.yapcore.R
-import co.yap.yapcore.helpers.extentions.preventTakeScreenshot
 import co.yap.yapcore.managers.MyUserManager
 import kotlinx.android.synthetic.main.fragment_set_card_pin.*
 

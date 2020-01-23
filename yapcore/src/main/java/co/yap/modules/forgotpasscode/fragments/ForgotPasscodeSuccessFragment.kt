@@ -14,7 +14,7 @@ import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.R
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.SharedPreferenceManager
-import co.yap.yapcore.helpers.extentions.preventTakeScreenshot
+import co.yap.yapcore.helpers.extentions.preventTakeScreenShot
 
 
 class ForgotPasscodeSuccessFragment : BaseBindingFragment<IForgotPasscodeSuccess.ViewModel>() {
@@ -56,6 +56,8 @@ class ForgotPasscodeSuccessFragment : BaseBindingFragment<IForgotPasscodeSuccess
         }
         if (activity is ForgotPasscodeActivity){
             (activity as ForgotPasscodeActivity).preventTakeDeviceScreenShot.value = false
+        } else {
+            preventTakeScreenShot(false)
         }
     }
 

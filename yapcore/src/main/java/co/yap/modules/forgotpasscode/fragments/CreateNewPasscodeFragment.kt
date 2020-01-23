@@ -15,6 +15,7 @@ import co.yap.yapcore.R
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.databinding.FragmentCreateNewPasscodeBinding
 import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.helpers.extentions.preventTakeScreenShot
 
 class CreateNewPasscodeFragment : BaseBindingFragment<ICreatePasscode.ViewModel>() {
     private val args: CreateNewPasscodeFragmentArgs by navArgs()
@@ -47,6 +48,8 @@ class CreateNewPasscodeFragment : BaseBindingFragment<ICreatePasscode.ViewModel>
         getBindings().dialer.upDatedDialerPad(viewModel.state.passcode)
         if (activity is ForgotPasscodeActivity) {
             (activity as ForgotPasscodeActivity).preventTakeDeviceScreenShot.value = true
+        }else{
+            preventTakeScreenShot(true)
         }
     }
 

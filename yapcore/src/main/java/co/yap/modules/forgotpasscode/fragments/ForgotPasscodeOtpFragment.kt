@@ -12,6 +12,7 @@ import co.yap.modules.forgotpasscode.viewmodels.ForgotPasscodeOtpViewModel
 import co.yap.yapcore.BR
 import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.R
+import co.yap.yapcore.helpers.extentions.preventTakeScreenShot
 
 open class ForgotPasscodeOtpFragment : BaseBindingFragment<IForgotPasscodeOtp.ViewModel>(),
     IForgotPasscodeOtp.View {
@@ -35,8 +36,12 @@ open class ForgotPasscodeOtpFragment : BaseBindingFragment<IForgotPasscodeOtp.Vi
         super.onViewCreated(view, savedInstanceState)
         if (activity is ForgotPasscodeActivity){
             (activity as ForgotPasscodeActivity).preventTakeDeviceScreenShot.value = false
+        }else{
+            preventTakeScreenShot(false)
         }
+
     }
+
     override fun loadData() {
         if (args?.mobileNumber!!.startsWith("00")) {
             viewModel.state.mobileNumber[0] =
@@ -48,13 +53,12 @@ open class ForgotPasscodeOtpFragment : BaseBindingFragment<IForgotPasscodeOtp.Vi
         } else {
             viewModel.state.mobileNumber[0] = args?.mobileNumber
         }
-
         viewModel.destination = args!!.username
         // viewModel.destination=args.mobileNumber
         viewModel.emailOtp = args!!.emailOtp
     }
-    override fun setObservers() {
 
+    override fun setObservers() {
         viewModel.nextButtonPressEvent.observe(this, Observer {
                 val action =
                     ForgotPasscodeOtpFragmentDirections.actionForgotPasscodeFragmentToCreateNewPasscodeFragment(
