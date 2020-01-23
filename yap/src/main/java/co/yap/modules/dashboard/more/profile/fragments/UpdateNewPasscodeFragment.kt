@@ -14,7 +14,6 @@ import co.yap.modules.setcardpin.interfaces.ISetCardPin
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.databinding.FragmentSetCardPinBinding
 import co.yap.yapcore.helpers.SharedPreferenceManager
-import co.yap.yapcore.helpers.extentions.preventTakeScreenshot
 
 class UpdateNewPasscodeFragment : SetNewCardPinFragment() {
     private lateinit var sharedPreferenceManager: SharedPreferenceManager
@@ -24,11 +23,13 @@ class UpdateNewPasscodeFragment : SetNewCardPinFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         getBindingsUpdate().dialer.updateDialerLength(6)
+        if (activity is MoreActivity) {
+            (activity as MoreActivity).viewModel.preventTakeDeviceScreenShot.value = true
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        preventTakeScreenshot()
 
         sharedPreferenceManager = SharedPreferenceManager(requireContext())
 
@@ -70,6 +71,10 @@ class UpdateNewPasscodeFragment : SetNewCardPinFragment() {
 
     fun getBindingsUpdate(): FragmentSetCardPinBinding {
         return viewDataBinding as FragmentSetCardPinBinding
+    }
+
+    override fun onPause() {
+        super.onPause()
     }
 
 }

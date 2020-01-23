@@ -6,6 +6,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import co.yap.modules.forgotpasscode.activities.ForgotPasscodeActivity
 import co.yap.modules.forgotpasscode.interfaces.ICreatePasscode
 import co.yap.modules.forgotpasscode.viewmodels.CreateNewPasscodeViewModel
 import co.yap.yapcore.BR
@@ -14,7 +15,7 @@ import co.yap.yapcore.R
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.databinding.FragmentCreateNewPasscodeBinding
 import co.yap.yapcore.helpers.Utils
-import co.yap.yapcore.helpers.extentions.preventTakeScreenshot
+import co.yap.yapcore.helpers.extentions.preventTakeScreenShot
 
 class CreateNewPasscodeFragment : BaseBindingFragment<ICreatePasscode.ViewModel>() {
     private val args: CreateNewPasscodeFragmentArgs by navArgs()
@@ -26,7 +27,6 @@ class CreateNewPasscodeFragment : BaseBindingFragment<ICreatePasscode.ViewModel>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        preventTakeScreenshot()
         viewModel.mobileNumber = args.mobileNumber
         viewModel.nextButtonPressEvent.observe(this, Observer {
             if (it == R.id.tvTermsAndConditions) {
@@ -46,7 +46,13 @@ class CreateNewPasscodeFragment : BaseBindingFragment<ICreatePasscode.ViewModel>
         super.onViewCreated(view, savedInstanceState)
         getBindings().dialer.hideFingerprintView()
         getBindings().dialer.upDatedDialerPad(viewModel.state.passcode)
+        if (activity is ForgotPasscodeActivity) {
+            (activity as ForgotPasscodeActivity).preventTakeDeviceScreenShot.value = true
+        }else{
+            preventTakeScreenShot(true)
+        }
     }
+
 
     override fun onDestroy() {
         viewModel.nextButtonPressEvent.removeObservers(this)
@@ -55,5 +61,9 @@ class CreateNewPasscodeFragment : BaseBindingFragment<ICreatePasscode.ViewModel>
 
     fun getBindings(): FragmentCreateNewPasscodeBinding {
         return viewDataBinding as FragmentCreateNewPasscodeBinding
+    }
+
+    override fun onPause() {
+        super.onPause()
     }
 }
