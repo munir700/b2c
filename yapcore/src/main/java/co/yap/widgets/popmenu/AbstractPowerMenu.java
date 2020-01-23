@@ -45,7 +45,7 @@ import androidx.lifecycle.OnLifecycleEvent;
 import java.util.List;
 
 import co.yap.yapcore.R;
-import co.yap.yapcore.helpers.DimensionUtilsKt;
+import co.yap.yapcore.helpers.extentions.DimensionUtilsKt;
 import kotlin.Unit;
 import kotlin.jvm.functions.Function0;
 

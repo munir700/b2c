@@ -106,6 +106,7 @@
 
     <!-- Verify passcode screen -->
     <string name="screen_verify_passcode_display_text_title">Enter your passcode to access your account</string>
+    <string name="screen_verify_passcode_display_text_title_verify">Enter your passcode to continue</string>
     <string name="screen_verify_passcode_button_sign_in">Sign in</string>
     <string name="screen_verify_passcode_text_forgot_password">Forgot passcode?</string>
 

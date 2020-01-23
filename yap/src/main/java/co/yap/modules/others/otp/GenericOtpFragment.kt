@@ -7,6 +7,7 @@ import androidx.navigation.fragment.navArgs
 import co.yap.modules.dashboard.cards.paymentcarddetail.forgotcardpin.activities.ForgotCardPinActivity
 import co.yap.modules.dashboard.more.main.activities.MoreActivity
 import co.yap.modules.dashboard.yapit.sendmoney.activities.BeneficiaryCashTransferActivity
+import co.yap.modules.dashboard.yapit.sendmoney.activities.SendMoneyHomeActivity
 import co.yap.modules.forgotpasscode.fragments.ForgotPasscodeOtpFragment
 import co.yap.modules.forgotpasscode.interfaces.IForgotPasscodeOtp
 import co.yap.yapcore.constants.Constants
@@ -54,6 +55,10 @@ open class GenericOtpFragment : ForgotPasscodeOtpFragment() {
                 MoreActivity.navigationVariable = true
             } else if (activity is BeneficiaryCashTransferActivity) {
                 (activity as BeneficiaryCashTransferActivity).viewModel.state.otpSuccess = true
+            } else if (viewModel.action == Constants.DOMESTIC_BENEFICIARY) {
+                if (activity is SendMoneyHomeActivity) {
+                    (activity as SendMoneyHomeActivity).viewModel.otpSuccess.value = true
+                }
             }
             findNavController().navigateUp()
         })

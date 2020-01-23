@@ -6,11 +6,11 @@ import co.yap.app.login.EncryptionUtils
 import co.yap.app.modules.login.interfaces.IVerifyPasscode
 import co.yap.app.modules.login.states.VerifyPasscodeState
 import co.yap.networking.authentication.AuthRepository
-import co.yap.networking.messages.requestdtos.CreateOtpGenericRequest
 import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.messages.MessagesRepository
 import co.yap.networking.messages.requestdtos.CreateForgotPasscodeOtpRequest
+import co.yap.networking.messages.requestdtos.CreateOtpGenericRequest
 import co.yap.networking.models.RetroApiResponse
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
@@ -33,6 +33,8 @@ class VerifyPasscodeViewModel(application: Application) :
     private val customersRepository: CustomersRepository = CustomersRepository
     override var emailOtp: Boolean = false
     override var mobileNumber: String = ""
+    override var EVENT_LOGOUT_SUCCESS: Int = 101
+
 
     private val messagesRepository: MessagesRepository = MessagesRepository
 
@@ -68,8 +70,6 @@ class VerifyPasscodeViewModel(application: Application) :
                 sharedPreferenceManager.getValueString(SharedPreferenceManager.KEY_USERNAME) as String
             )!!
         }
-
-
         launch {
             state.loading = true
             when (val response = messagesRepository.createForgotPasscodeOTP(
@@ -92,8 +92,6 @@ class VerifyPasscodeViewModel(application: Application) :
                 }
             }
         }
-
-
     }
 
     private fun verifyUsername(enteredUsername: String): String {
@@ -171,5 +169,23 @@ class VerifyPasscodeViewModel(application: Application) :
         signInButtonPressEvent.postValue(true)
     }
 
+
+    override fun logout() {
+        val deviceId: String? =
+            SharedPreferenceManager(context).getValueString(SharedPreferenceManager.KEY_APP_UUID)
+        launch {
+            state.loading = true
+             when (val response = repository.logout(deviceId.toString())) {
+                is RetroApiResponse.Success -> {
+                    state.loading = false
+                    forgotPasscodeButtonPressEvent.setValue(EVENT_LOGOUT_SUCCESS)
+                }
+                is RetroApiResponse.Error -> {
+                    state.loading = false
+                    forgotPasscodeButtonPressEvent.setValue(EVENT_LOGOUT_SUCCESS)
+                }
+            }
+        }
+    }
 
 }

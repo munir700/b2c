@@ -634,13 +634,13 @@ object UIBinder {
     @BindingAdapter("otp")
     fun setOtp(view: OtpTextView, value: String) {
         if (view.otp != value) {
-            view.otp = value
+            view.setOTP( value)
         }
     }
 
     @JvmStatic
     @InverseBindingAdapter(attribute = "otp")
-    fun getOtp(view: OtpTextView): String = view.otp
+    fun getOtp(view: OtpTextView): String = view.otp!!
 
     @JvmStatic
     @BindingAdapter(value = ["requestKeyboard", "forceKeyboard"], requireAll = false)
@@ -856,6 +856,15 @@ object UIBinder {
     fun setCardLogoByType(view: CorePaymentCard, cardType: String?) {
         if (cardType != null)
             view.setCardLogoByType(cardType)
+    }
+
+    @JvmStatic
+    @BindingAdapter("editable")
+    fun setEditTextEditable(editText: EditText, editable: Boolean = true) {
+        editText.isFocusable = editable
+        editText.isFocusableInTouchMode = editable
+        editText.isClickable = editable
+        editText.isCursorVisible = editable
     }
 
 }

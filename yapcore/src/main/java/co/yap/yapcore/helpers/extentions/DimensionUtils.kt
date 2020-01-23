@@ -1,11 +1,13 @@
-package co.yap.yapcore.helpers
+package co.yap.yapcore.helpers.extentions
 
 import android.content.Context
+import android.content.res.Resources
 import android.graphics.Point
 import android.graphics.drawable.Drawable
 import android.util.DisplayMetrics
 import android.view.WindowManager
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
 
 const val LDPI: Int = DisplayMetrics.DENSITY_LOW
 const val MDPI: Int = DisplayMetrics.DENSITY_MEDIUM
@@ -85,6 +87,9 @@ fun Context.px2sp(px: Int): Float = px.toFloat() / resources.displayMetrics.scal
  * @return proper pixel size
  */
 fun Context.dimen(resource: Int): Int = resources.getDimensionPixelSize(resource)
+/* Functions for Conversions */
+
+fun Fragment.dimen(resource: Int) = context?.dimen(resource)
 
 /** gets display size as a point. */
 internal fun Context.displaySize(): Point {
@@ -103,4 +108,8 @@ internal fun Context.contextColor(resource: Int): Int {
 /** gets a drawable from the resource. */
 internal fun Context.contextDrawable(resource: Int): Drawable? {
     return ContextCompat.getDrawable(this, resource)
+}
+
+fun getScreenWidth(): Int {
+    return Resources.getSystem().displayMetrics.widthPixels
 }

@@ -27,7 +27,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 
 import co.yap.yapcore.helpers.PermissionHelper;
-import co.yap.yapcore.helpers.ToastKt;
+import co.yap.yapcore.helpers.extentions.ToastKt;
 
 public class IdentityScannerActivity extends BaseActivity implements IIdentityScanner.IView {
 
