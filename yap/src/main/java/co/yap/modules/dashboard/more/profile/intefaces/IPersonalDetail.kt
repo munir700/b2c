@@ -25,8 +25,6 @@ interface IPersonalDetail {
         var UPDATE_ADDRESS_UI : Int
         var onUpdateAddressSuccess:MutableLiveData<Boolean>
 
-        var onUpdateAddressSuccess:MutableLiveData<Boolean>
-
         fun handlePressOnBackButton()
 
         fun handlePressOnEditPhone(id: Int)
