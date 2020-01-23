@@ -5,12 +5,16 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentActivity
 import co.yap.app.modules.login.activities.VerifyPassCodePresenterActivity
+import co.yap.household.onboarding.onboarding.activities.EIDNotAcceptedActivity
 import co.yap.modules.dummy.ActivityNavigator
 import co.yap.modules.dummy.NavigatorProvider
 import co.yap.modules.others.helper.Constants.START_REQUEST_CODE
 import co.yap.networking.RetroNetwork
 import co.yap.networking.interfaces.NetworkConstraintsListener
-import co.yap.yapcore.helpers.*
+import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.helpers.AuthUtils
+import co.yap.yapcore.helpers.NetworkConnectionManager
+import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.extentions.longToast
 import com.crashlytics.android.Crashlytics
 import com.github.florent37.inlineactivityresult.kotlin.startForResult
@@ -22,15 +26,32 @@ import java.util.*
 
 class AAPApplication : ChatApplication(BuildConfig.FLAVOR), NavigatorProvider {
 
-
     override fun onCreate() {
         super.onCreate()
-        Utils.context = this
+        SharedPreferenceManager(this).setThemeValue(Constants.THEME_YAP)
+        initNetworkLayer()
+        initCrashLytics()
+        InitDebugTreeTimber()
+    }
 
+    private fun InitDebugTreeTimber() {
+        if (BuildConfig.DEBUG) {
+            Timber.plant(DebugTree())
+        }
+    }
+
+    private fun initCrashLytics() {
+        val fabric = Fabric.Builder(this)
+            .kits(Crashlytics())
+            .debuggable(BuildConfig.DEBUG) // Enables Crashlytics debugger
+            .build()
+        Fabric.with(fabric)
+    }
+
+    private fun initNetworkLayer() {
         RetroNetwork.initWith(this, BuildConfig.BASE_URL)
         NetworkConnectionManager.init(this)
         setAppUniqueId(this)
-
         RetroNetwork.listenNetworkConstraints(object : NetworkConstraintsListener {
             override fun onInternetUnavailable() {
             }
@@ -42,19 +63,6 @@ class AAPApplication : ChatApplication(BuildConfig.FLAVOR), NavigatorProvider {
                 AuthUtils.navigateToSoftLogin(applicationContext)
             }
         })
-
-        /*
-        * ***********Add Firebase Creshlaytics *************
-        * */
-        val fabric = Fabric.Builder(this)
-            .kits(Crashlytics())
-            .debuggable(BuildConfig.DEBUG) // Enables Crashlytics debugger
-            .build()
-        Fabric.with(fabric)
-
-        if (BuildConfig.DEBUG) {
-            Timber.plant(DebugTree())
-        }
     }
 
     private fun setAppUniqueId(context: Context) {
@@ -75,6 +83,13 @@ class AAPApplication : ChatApplication(BuildConfig.FLAVOR), NavigatorProvider {
     override fun provideNavigator(): ActivityNavigator {
         return object : ActivityNavigator {
             override fun startEIDNotAcceptedActivity(activity: FragmentActivity) {
+
+                activity.startActivity(
+                    Intent(
+                        activity,
+                        EIDNotAcceptedActivity::class.java
+                    )
+                )
             }
 
             override fun startVerifyPassCodePresenterActivity(

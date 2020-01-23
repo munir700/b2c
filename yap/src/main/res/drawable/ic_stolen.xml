@@ -28,7 +28,7 @@
     <path
         android:pathData="M13,11.5l16,0l0,16.4286l-16,0z"
         android:strokeWidth="1"
-        android:fillColor="#5E35B1"
+        android:fillColor="?attr/colorPrimaryAttr"
         android:fillType="evenOdd"
         android:strokeColor="#00000000"/>
   </group>
@@ -37,7 +37,7 @@
     <path
         android:pathData="M15,18.5l11.5,0l0,11.5l-11.5,0z"
         android:strokeWidth="1"
-        android:fillColor="#5E35B1"
+        android:fillColor="?attr/colorPrimaryAttr"
         android:fillType="evenOdd"
         android:strokeColor="#00000000"/>
   </group>
@@ -46,7 +46,7 @@
       android:strokeLineJoin="round"
       android:strokeWidth="1.422222"
       android:fillColor="#00000000"
-      android:strokeColor="#5E35B1"
+      android:strokeColor="?attr/colorPrimaryAttr"
       android:fillType="evenOdd"
       android:strokeLineCap="round"/>
 </vector>

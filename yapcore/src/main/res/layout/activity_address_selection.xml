@@ -4,11 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="viewModel"
             type="co.yap.modules.location.viewmodels.LocationSelectionViewModel" />
 
         <import type="android.view.View" />
+
         <import type="co.yap.translation.Strings" />
 
     </data>
@@ -21,6 +23,7 @@
         android:layout_gravity="center_vertical"
         android:background="@color/white"
         android:orientation="vertical">
+
         <include
             android:id="@+id/toolbar"
             android:layout_marginTop="@dimen/small"
@@ -33,6 +36,7 @@
             layout="@layout/layout_location_selection_toolbar"
             android:visibility="visible"
             app:viewModel="@{viewModel}" />
+
         <FrameLayout
             android:id="@+id/viewMapFragment"
             android:layout_width="match_parent"
@@ -234,10 +238,12 @@
                             tools:text="@string/screen_meeting_location_text_accept_terms" />
 
                         <TextView
+                            android:id="@+id/tvTermsAndConditions"
                             style="@style/AMicroGrey"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="@dimen/margin_extra_small"
+                            android:onClick="@{(v)->viewModel.handleOnPressView(v.id)}"
                             android:textColor="@color/colorPrimary"
                             app:text="@{Strings.screen_meeting_location_text_terms_and_conditions}"
                             tools:text="@string/screen_meeting_location_text_terms_and_conditions" />

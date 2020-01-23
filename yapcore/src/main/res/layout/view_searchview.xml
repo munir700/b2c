@@ -69,6 +69,6 @@
         android:layout_centerVertical="true"
         android:layout_marginStart="@dimen/margin_small"
         android:text="@string/common_button_cancel"
-        android:textColor="@color/colorPrimary"
+        android:textColor="?attr/colorPrimaryAttr"
         android:visibility="gone" />
 </RelativeLayout>

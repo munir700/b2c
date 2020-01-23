@@ -3,6 +3,8 @@ package co.yap.modules.onboarding.fragments
 import android.animation.Animator
 import android.animation.AnimatorSet
 import android.animation.ValueAnimator
+import android.app.Activity
+import android.content.Intent
 import android.graphics.Rect
 import android.os.Build
 import android.os.Bundle
@@ -23,12 +25,15 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import co.yap.BR
 import co.yap.R
-import co.yap.modules.onboarding.activities.OnboardingActivity
+import co.yap.modules.kyc.activities.DocumentsDashboardActivity
 import co.yap.modules.onboarding.interfaces.ICongratulations
 import co.yap.modules.onboarding.viewmodels.CongratulationsViewModel
 import co.yap.translation.Strings
+import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.helpers.AnimationUtils
 import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.helpers.extentions.ExtraType
+import co.yap.yapcore.helpers.extentions.getValue
 import kotlinx.android.synthetic.main.fragment_onboarding_congratulations.*
 
 
@@ -65,15 +70,59 @@ class CongratulationsFragment : OnboardingChildFragment<ICongratulations.ViewMod
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
                 R.id.btnCompleteVerification -> {
-                    val action =
-                        CongratulationsFragmentDirections.actionCongratulationsFragmentToDocumentsDashboardActivity(
-                            viewModel.state.nameList[0] ?: ""
-                        )
-                    findNavController().navigate(action)
-                    activity?.finishAffinity()
+                    startActivityForResult(
+                        DocumentsDashboardActivity.getIntent(
+                            requireContext(),
+                            viewModel.state.nameList[0] ?: "",
+                            false
+                        ), RequestCodes.REQUEST_KYC_DOCUMENTS
+                    )
                 }
             }
         })
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == Activity.RESULT_OK) {
+            if (requestCode == RequestCodes.REQUEST_KYC_DOCUMENTS) {
+                data?.let {
+                    val success =
+                        data.getValue(
+                            DocumentsDashboardActivity.result,
+                            ExtraType.BOOLEAN.name
+                        ) as? Boolean
+                    val skipped =
+                        data.getValue(
+                            DocumentsDashboardActivity.skipped,
+                            ExtraType.BOOLEAN.name
+                        ) as? Boolean
+
+                    success?.let {
+                        if (it) {
+                            val action =
+                                CongratulationsFragmentDirections.actionCongratulationsFragmentToYapDashboardActivity()
+                            findNavController().navigate(action)
+                            activity?.finishAffinity()
+                        } else {
+                            skipped?.let { skip ->
+                                if (skip) {
+                                    val action =
+                                        CongratulationsFragmentDirections.actionCongratulationsFragmentToYapDashboardActivity()
+                                    findNavController().navigate(action)
+                                    activity?.finishAffinity()
+                                } else {
+                                    val action =
+                                        CongratulationsFragmentDirections.actionCongratulationsFragmentToYapDashboardActivity()
+                                    findNavController().navigate(action)
+                                    activity?.finishAffinity()
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 
     private fun runAnimations() {
@@ -89,7 +138,7 @@ class CongratulationsFragment : OnboardingChildFragment<ICongratulations.ViewMod
                 AnimationUtils.jumpInAnimation(btnCompleteVerification).apply { startDelay = 300 }
             )
         ).apply {
-            addListener (onEnd = {
+            addListener(onEnd = {
                 setObservers()
             })
         }.start()

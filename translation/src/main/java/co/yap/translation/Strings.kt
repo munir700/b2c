@@ -18,6 +18,7 @@ object Strings {
     const val common_amount_hint: String = "common_amount_hint"
     const val common_display_text_nothing_to_report: String =
         "common_display_text_nothing_to_report"
+    const val common_button_logout: String = "common_button_logout"
 
 
     //Home screen
@@ -1200,6 +1201,228 @@ object Strings {
     //Screen funds transfer information custom view
     const val custom_view_funds_transfer_display_text_reference_number_heading: String =
         "custom_view_funds_transfer_display_text_reference_number_heading"
+
+
+    //House hold screen
+
+    const val screen_yap_house_hold_onboarding_landing_display_text_title: String =
+        "screen_yap_house_hold_onboarding_landing_display_text_title"
+    const val screen_yap_house_hold_onboarding_landing_display_text_description: String =
+        "screen_yap_house_hold_onboarding_landing_display_text_description"
+    const val screen_yap_house_hold_onboarding_landing_display_text_heading: String =
+        "screen_yap_house_hold_onboarding_landing_display_text_heading"
+    const val screen_yap_house_hold_onboarding_landing_display_text_sub_heading: String =
+        "screen_yap_house_hold_onboarding_landing_display_text_sub_heading"
+    const val screen_yap_house_hold_onboarding_landing_button_text: String =
+        "screen_yap_house_hold_onboarding_landing_button_text"
+
+
+    // YAP Household subscription selection screen
+
+    const val screen_yap_house_hold_subscription_selection_display_text_title: String =
+        "screen_yap_house_hold_subscription_selection_display_text_title"
+    const val screen_yap_house_hold_subscription_selection_display_text_house_hold_card: String =
+        "screen_yap_house_hold_subscription_selection_display_text_house_hold_card"
+    const val screen_yap_house_hold_subscription_selection_display_text_house_hold_heading: String =
+        "screen_yap_house_hold_subscription_selection_display_text_house_hold_heading"
+    const val screen_yap_house_hold_subscription_selection_display_text_select_plan: String =
+        "screen_yap_house_hold_subscription_selection_display_text_select_plan"
+    const val screen_yap_house_hold_subscription_selection_display_text_select_plan_monthly: String =
+        "screen_yap_house_hold_subscription_selection_display_text_select_plan_monthly"
+    const val screen_yap_house_hold_subscription_selection_display_text_select_plan_yearly: String =
+        "screen_yap_house_hold_subscription_selection_display_text_select_plan_yearly"
+    const val screen_yap_house_hold_subscription_selection_display_text_per_month: String =
+        "screen_yap_house_hold_subscription_selection_display_text_per_month"
+    const val screen_yap_house_hold_subscription_selection_display_text_per_year: String =
+        "screen_yap_house_hold_subscription_selection_display_text_per_year"
+    const val screen_yap_house_hold_subscription_selection_display_text_charges: String =
+        "screen_yap_house_hold_subscription_selection_display_text_charges"
+    const val screen_yap_house_hold_subscription_selection_display_text_months: String =
+        "screen_yap_house_hold_subscription_selection_display_text_months"
+    const val screen_yap_house_hold_subscription_selection_display_text_saving: String =
+        "screen_yap_house_hold_subscription_selection_display_text_saving"
+    const val screen_yap_house_hold_subscription_selection_button_get_started: String =
+        "screen_yap_house_hold_subscription_selection_button_get_started"
+    const val screen_yap_house_hold_subscription_selection_display_text_color: String =
+        "screen_yap_house_hold_subscription_selection_display_text_color"
+    const val screen_yap_house_hold_subscription_selection_display_text_salary: String =
+        "screen_yap_house_hold_subscription_selection_display_text_salary"
+    const val screen_yap_house_hold_subscription_selection_display_text_schedule: String =
+        "screen_yap_house_hold_subscription_selection_display_text_schedule"
+
+    //pager
+
+    const val screen_yap_house_hold_success_display_text_pager_color: String =
+        "screen_yap_house_hold_success_display_text_pager_color"
+    const val screen_yap_house_hold_success_display_text_pager_schedule_payments: String =
+        "screen_yap_house_hold_success_display_text_pager_schedule_payments"
+    const val screen_yap_house_hold_success_display_text_pager_schedule_pots: String =
+        "screen_yap_house_hold_success_display_text_pager_schedule_pots"
+
+
+    //benefits
+    const val screen_yap_house_hold_subscription_selection_display_text_benefit_send_salaries: String =
+        "screen_yap_house_hold_subscription_selection_display_text_benefit_send_salaries"
+    const val screen_yap_house_hold_subscription_selection_display_text_benefit_allocate_budget: String =
+        "screen_yap_house_hold_subscription_selection_display_text_benefit_allocate_budget"
+    const val screen_yap_house_hold_subscription_selection_display_text_benefit_setup_payments: String =
+        "screen_yap_house_hold_subscription_selection_display_text_benefit_setup_payments"
+    const val screen_yap_house_hold_subscription_selection_display_text_benefit_track_expense: String =
+        "screen_yap_house_hold_subscription_selection_display_text_benefit_track_expense"
+
+
+    //  YAP Household user info screen
+    const val screen_yap_house_hold_user_info_display_text_title: String =
+        "screen_yap_house_hold_user_info_display_text_title"
+    const val screen_yap_house_hold_user_info_display_text_heading: String =
+        "screen_yap_house_hold_user_info_display_text_heading"
+    const val screen_yap_house_hold_user_info_display_text_first_name: String =
+        "screen_yap_house_hold_user_info_display_text_first_name"
+    const val screen_yap_house_hold_user_info_display_text_last_name: String =
+        "screen_yap_house_hold_user_info_display_text_last_name"
+    const val screen_yap_house_hold_user_info_input_text_last_name_hint: String =
+        "screen_yap_house_hold_user_info_input_text_last_name_hint"
+    const val screen_yap_house_hold_user_info_display_text_email: String =
+        "screen_yap_house_hold_user_info_display_text_email"
+    const val screen_yap_house_hold_user_info_display_text_email_hint: String =
+        "screen_yap_house_hold_user_info_display_text_email_hint"
+    const val screen_yap_house_hold_user_info_button_next: String =
+        "screen_yap_house_hold_user_info_button_next"
+    const val screen_yap_house_hold_user_info_input_text_first_name_hint: String =
+        "screen_yap_house_hold_user_info_input_text_first_name_hint"
+
+    const val screen_yap_house_hold_user_info_contact_display_text_heading: String =
+        "screen_yap_house_hold_user_info_contact_display_text_heading"
+    const val screen_yap_house_hold_user_info_contact_display_text_mobile: String =
+        "screen_yap_house_hold_user_info_contact_display_text_mobile"
+    const val screen_yap_house_hold_user_info_contact_display_text_confirm_mobile: String =
+        "screen_yap_house_hold_user_info_contact_display_text_confirm_mobile"
+    const val screen_yap_house_hold_user_info_contact_button_next: String =
+        "screen_yap_house_hold_user_info_contact_button_next"
+
+    //    YAP Household success screen
+    const val screen_yap_house_hold_success_display_text_title: String =
+        "screen_yap_house_hold_success_display_text_title"
+    const val screen_yap_house_hold_success_display_text_heading: String =
+        "screen_yap_house_hold_success_display_text_heading"
+    const val screen_yap_house_hold_success_display_text_house_hold_card: String =
+        "screen_yap_house_hold_success_display_text_house_hold_card"
+    const val screen_yap_house_hold_success_display_text_direct_message: String =
+        "screen_yap_house_hold_success_display_text_direct_message"
+    const val screen_yap_house_hold_success_display_text_share_credentials: String =
+        "screen_yap_house_hold_success_display_text_share_credentials"
+    const val screen_yap_house_hold_success_display_text_share_email: String =
+        "screen_yap_house_hold_success_display_text_share_email"
+    const val screen_yap_house_hold_success_display_text_share_pass_code: String =
+        "screen_yap_house_hold_success_display_text_share_pass_code"
+    const val screen_yap_house_hold_success_display_text_share_mobile_no: String =
+        "screen_yap_house_hold_success_display_text_share_mobile_no"
+    const val screen_yap_house_hold_success_button_text_share: String =
+        "screen_yap_house_hold_success_button_text_share"
+    const val screen_yap_house_hold_success_button_text_goto_house_hold: String =
+        "screen_yap_house_hold_success_button_text_goto_house_hold"
+
+    // Yap Household Confirm Payment for card
+    const val screen_yap_house_hold_confirm_payment_display_text_toolbar_title: String =
+        "screen_yap_house_hold_confirm_payment_display_text_toolbar_title"
+    const val screen_yap_house_hold_confirm_payment_display_text_title: String =
+        "screen_yap_house_hold_confirm_payment_display_text_title"
+    const val screen_yap_house_hold_confirm_payment_display_text_heading: String =
+        "screen_yap_house_hold_confirm_payment_display_text_heading"
+    const val screen_yap_house_hold_confirm_payment_display_text_account_deducted: String =
+        "screen_yap_house_hold_confirm_payment_display_text_account_deducted"
+    const val screen_yap_house_hold_display_button_confirm: String =
+        "screen_yap_house_hold_display_button_confirm"
+    const val screen_yap_house_hold_confirm_payment_display_text_change_plan: String =
+        "screen_yap_house_hold_confirm_payment_display_text_change_plan"
+
+    //   New User Email household screen
+    const val screen_new_user_email_display_text_title: String =
+        "screen_new_user_email_display_text_title"
+    const val screen_new_user_email_display_text_email: String =
+        "screen_new_user_email_display_text_email"
+    const val screen_new_user_email_display_text_email_caption: String =
+        "screen_new_user_email_display_text_email_caption"
+    const val screen_new_user_email_display_button_confirm: String =
+        "screen_new_user_email_display_button_confirm"
+
+
+    //House hold Registration strings
+    const val screen_house_hold_number_registration_display_text_heading: String =
+        "screen_house_hold_number_registration_display_text_heading"
+    const val screen_house_hold_number_registration_display_text_parent_description: String =
+        "screen_house_hold_number_registration_display_text_parent_description"
+    const val screen_house_hold_existing_number_registration_display_text_parent_description: String =
+        "screen_house_hold_existing_number_registration_display_text_parent_description"
+    const val screen_house_hold_number_registration_button_text_confirm: String =
+        "screen_house_hold_number_registration_button_text_confirm"
+    const val screen_house_hold_number_registration_error_text: String =
+        "screen_house_hold_number_registration_error_text"
+    const val screen_house_hold_create_passcode_heading_text: String =
+        "screen_house_hold_create_passcode_heading_text"
+    // New User Success household screen
+    const val screen_congratulations_display_text_title: String =
+        "screen_congratulations_display_text_title"
+    const val screen_congratulations_display_text_success_message: String =
+        "screen_congratulations_display_text_success_message"
+    const val screen_congratulations_display_button_complete_setup: String =
+        "screen_congratulations_display_button_complete_setup"
+    const val screen_house_hold_create_passcode_heading_sub_heading_text: String =
+        "screen_house_hold_create_passcode_heading_sub_heading_text"
+
+    //Card color selection screen
+    const val screen_house_hold_card_color_selection_display_text_heading: String =
+        "screen_house_hold_card_color_selection_display_text_heading"
+    const val screen_house_hold_card_color_selection_display_text: String =
+        "screen_house_hold_card_color_selection_display_text"
+    const val screen_house_hold_card_color_selection_button_text_confirm_location: String =
+        "screen_house_hold_card_color_selection_button_text_confirm_location"
+    const val screen_house_hold_card_color_selection_display_text_heading_existing_user: String =
+        "screen_house_hold_card_color_selection_display_text_heading_existing_user"
+
+
+    const val screen_success_house_hold_we_will_call_you_to_text: String =
+        "screen_success_house_hold_we_will_call_you_to_text"
+
+    const val screen_success_house_hold_make_sure_to_text: String =
+        "screen_success_house_hold_make_sure_to_text"
+
+    const val screen_success_house_hold_card_deliver_text: String =
+        "screen_success_house_hold_card_deliver_text"
+
+    const val screen_success_on_its_way_display_text_title: String =
+        "screen_success_on_its_way_display_text_title"
+    const val screen_house_hold_onBoarding_existing_title_display_text: String =
+        "screen_house_hold_onBoarding_existing_title_display_text"
+    const val screen_house_hold_onBoarding_existing_title_accept_text: String =
+        "screen_house_hold_onBoarding_existing_title_accept_text"
+    const val screen_house_hold_onBoarding_existing_title_accept_text_second: String =
+        "screen_house_hold_onBoarding_existing_title_accept_text_second"
+    const val screen_house_hold_onBoarding_existing_title_accept: String =
+        "screen_house_hold_onBoarding_existing_title_accept"
+    const val screen_house_hold_onBoarding_existing_title_decline_request: String =
+        "screen_house_hold_onBoarding_existing_title_decline_request"
+    const val screen_title_oops: String =
+        "screen_title_oops"
+    const val screen_title_mistake_please_call: String =
+        "screen_title_mistake_please_call"
+
+    // Household Dashboard/Home
+    const val screen_household_home_display_text_transactions_heading_title: String =
+        "screen_household_home_display_text_transactions_heading_title"
+    const val screen_household_home_display_text_transactions_filers_title: String =
+        "screen_household_home_display_text_transactions_filers_title"
+    const val screen_on_boarding_existing_message: String =
+        "screen_on_boarding_existing_message"
+    const val screen_b2c_kyc_home_button_skip_on_boarding_existing: String =
+        "screen_b2c_kyc_home_button_skip_on_boarding_existing"
+
+    const val screen_house_hold_existing_yap_message: String =
+        "screen_house_hold_existing_yap_message"
+
+    const val screen_yap_house_hold_confirm_payment_share_text: String =
+        "screen_yap_house_hold_confirm_payment_share_text"
+
 
     //Screen Reorder Card
     const val screen_reorder_card_completion_display_text_complete_transaction: String =

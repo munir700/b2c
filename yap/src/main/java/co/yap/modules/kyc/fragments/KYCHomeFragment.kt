@@ -3,76 +3,82 @@ package co.yap.modules.kyc.fragments
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.view.View
 import androidx.databinding.Observable
 import androidx.databinding.library.baseAdapters.BR
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import co.yap.R
-import co.yap.modules.dashboard.more.profile.fragments.PersonalDetailsFragment.Companion.checkMore
-import co.yap.modules.dashboard.more.profile.fragments.PersonalDetailsFragment.Companion.checkScanned
-import co.yap.modules.dashboard.more.profile.fragments.PersonalDetailsFragmentDirections
-import co.yap.modules.kyc.activities.DocumentsDashboardActivity.Companion.isFromMoreSection
+import co.yap.modules.kyc.activities.DocumentsDashboardActivity
 import co.yap.modules.kyc.enums.DocScanStatus
 import co.yap.modules.kyc.interfaces.IKYCHome
-import co.yap.modules.kyc.states.KYCHomeState
 import co.yap.modules.kyc.viewmodels.KYCHomeViewModel
-import co.yap.networking.cards.responsedtos.Address
 import co.yap.yapcore.constants.Constants
-import co.yap.yapcore.constants.RequestCodes
-import co.yap.yapcore.managers.MyUserManager
+import co.yap.yapcore.helpers.SharedPreferenceManager
 
 import com.digitify.identityscanner.docscanner.activities.IdentityScannerActivity
 import com.digitify.identityscanner.docscanner.enums.DocumentType
-import kotlinx.android.synthetic.main.fragment_kyc_home.*
 
 class KYCHomeFragment : KYCChildFragment<IKYCHome.ViewModel>(), IKYCHome.View {
 
     override fun getBindingVariable(): Int = BR.viewModel
 
-    override fun getLayoutId(): Int = R.layout.fragment_kyc_home
+    override fun getLayoutId(): Int {
+        if (getAppliedAppTheme()) return R.layout.fragment_kyc_home_house_hold
+        else return R.layout.fragment_kyc_home
+    }
 
-    override val viewModel: IKYCHome.ViewModel
+    fun getAppliedAppTheme(): Boolean {
+        return SharedPreferenceManager(activity!!).getThemeValue().equals(Constants.THEME_HOUSEHOLD)
+    }
+
+    override val viewModel: KYCHomeViewModel
         get() = ViewModelProviders.of(this).get(KYCHomeViewModel::class.java)
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        if (isFromMoreSection) {
-            tvSkip.visibility = View.GONE
+        showHideOptionsOnFlags()
+        addObservers()
+    }
 
-            checkMore = true
-            findNavController().navigate(R.id.action_KYCHomeFragment_to_eidInfoReviewFragment)
-
-        } else {
-            //todo need to verify that isoCountryCode2Digit
-            //IdentityScannerActivity.CLOSE_SCANNER = false
-            viewModel.state.eidScanStatus = DocScanStatus.SCAN_PENDING
-            tvSkip.visibility = View.VISIBLE
-        }
-        if (checkMore && checkScanned) {
-            activity!!.finish()
-        }
-
-        (viewModel.state as KYCHomeState).addOnPropertyChangedCallback(stateObserver)
+    private fun addObservers() {
+        viewModel.state.addOnPropertyChangedCallback(stateObserver)
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
                 R.id.cvCard -> openCardScanner()
                 R.id.btnNext -> {
-                    if (isFromMoreSection) {
-                        activity!!.finish()
+                    if (viewModel.parentViewModel?.allowSkip?.value == false) {
+                        if (activity is DocumentsDashboardActivity)
+                            (activity as DocumentsDashboardActivity).goToDashBoard(
+                                success = true,
+                                skippedPress = false
+                            )
                     } else {
                         findNavController().navigate(R.id.action_KYCHomeFragment_to_AddressSelectionFragment)
                     }
                 }
+
                 R.id.tvSkip -> {
-                    checkScanned = false
-                    findNavController().navigate(R.id.action_goto_DashboardActivity)
-                    activity?.finish()
+                    if (activity is DocumentsDashboardActivity)
+                        (activity as DocumentsDashboardActivity).goToDashBoard(
+                            success = false,
+                            skippedPress = true
+                        )
                 }
             }
         })
+    }
 
+    private fun showHideOptionsOnFlags() {
+        viewModel.parentViewModel?.allowSkip?.value?.let {
+            if (it) {
+                //viewModel.parentViewModel?.allowSkip?.value = !it
+                findNavController().navigate(R.id.action_KYCHomeFragment_to_eidInfoReviewFragment)
+            } else {
+                viewModel.state.eidScanStatus = DocScanStatus.SCAN_PENDING
+                viewModel.parentViewModel?.allowSkip?.value = it
+            }
+        }
     }
 
     private val stateObserver = object : Observable.OnPropertyChangedCallback() {
@@ -89,41 +95,8 @@ class KYCHomeFragment : KYCChildFragment<IKYCHome.ViewModel>(), IKYCHome.View {
 
     override fun onDestroyView() {
         viewModel.clickEvent.removeObservers(this)
-        (viewModel.state as KYCHomeState).removeOnPropertyChangedCallback(stateObserver)
+        viewModel.state.removeOnPropertyChangedCallback(stateObserver)
         super.onDestroyView()
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode == Activity.RESULT_OK) {
-            when (requestCode) {
-                RequestCodes.REQUEST_FOR_LOCATION -> {
-                    val isUpdated = data?.getBooleanExtra(Constants.ADDRESS_SUCCESS, false)
-                    isUpdated?.let { it ->
-                        if (it) {
-                            val address: Address? =
-                                data.getParcelableExtra(Constants.ADDRESS)
-                            address?.let {
-                                MyUserManager.user?.notificationStatuses =
-                                    co.yap.modules.onboarding.constants.Constants.USER_STATUS_MEETING_SCHEDULED
-                                findNavController().navigate(R.id.action_AddressSelectionActivity_to_MeetingConfirmationFragment)
-                            }
-                        }
-                    }
-                }
-
-                IdentityScannerActivity.SCAN_EID_CAM -> {
-                    data?.let {
-                        viewModel.onEIDScanningComplete(
-                            it.getParcelableExtra(
-                                IdentityScannerActivity.SCAN_RESULT
-                            )
-                        )
-                        checkScanned = true
-                    }
-                }
-            }
-        }
     }
 
     private fun openCardScanner() {
@@ -137,13 +110,14 @@ class KYCHomeFragment : KYCChildFragment<IKYCHome.ViewModel>(), IKYCHome.View {
         )
     }
 
-    override fun onResume() {
-        super.onResume()
-        if (checkMore) {
-            activity!!.finish()
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == IdentityScannerActivity.SCAN_EID_CAM && resultCode == Activity.RESULT_OK) {
+            data?.let {
+                viewModel.onEIDScanningComplete(it.getParcelableExtra(IdentityScannerActivity.SCAN_RESULT))
+            }
         }
     }
-
 
     override fun onBackPressed(): Boolean {
         return true

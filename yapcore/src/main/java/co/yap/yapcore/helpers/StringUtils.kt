@@ -51,7 +51,7 @@ object StringUtils {
      */
     fun isSequenced(text: String): Boolean {
         val sequenced = text.run {
-            val first = get(0).toString().toIntOrNull()
+            val first = if (length > 0) get(0).toString().toIntOrNull() else null
             first?.let {
                 val low = first - (length - 1)
                 val high = first + (length - 1)
@@ -80,7 +80,7 @@ object StringUtils {
      * Checks if a string contains all same chars like "0000"
      */
     fun hasAllSameChars(text: String): Boolean = text.run {
-        val first = get(0).toString()
+        val first = if (length > 0) get(0).toString() else ""
         replace(first, "").isEmpty()
     }
 

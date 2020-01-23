@@ -112,7 +112,7 @@
                         android:layout_marginTop="@dimen/margin_medium_large"
                         android:gravity="center"
                         android:text="@={viewModel.state.virtualCardFee}"
-                        android:textColor="@color/colorPrimary" />
+                        android:textColor="?attr/colorPrimaryAttr" />
 
 
                 </LinearLayout>
@@ -144,7 +144,7 @@
                         android:layout_marginTop="@dimen/margin_medium_large"
                         android:gravity="center"
                         android:text="@={viewModel.state.physicalCardFee}"
-                        android:textColor="@color/colorPrimary" />
+                        android:textColor="?attr/colorPrimaryAttr" />
 
 
                 </LinearLayout>

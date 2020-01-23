@@ -1,9 +1,11 @@
 package co.yap.networking.customers.responsedtos
 
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import kotlinx.android.parcel.Parcelize
 
+@Parcelize
 class Bank(
-
     @SerializedName("creationDate")
     var creationDate: String?=null,
     @SerializedName("createdBy")
@@ -20,4 +22,4 @@ class Bank(
     var address: String?=null,
     @SerializedName("isActive")
     var isActive: String?=null
-)
+):Parcelable

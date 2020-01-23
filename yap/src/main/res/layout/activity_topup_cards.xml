@@ -125,7 +125,7 @@
                 android:gravity="center"
                 android:paddingBottom="@dimen/margin_extra_small"
                 android:text="@{viewModel.state.alias}"
-                android:textColor="@color/colorPrimaryDark"
+                android:textColor="?attr/colorPrimaryDarkAttr"
                 android:visibility="visible"
                 tools:text="Citi Bank Claksjdlasjdlkasjdlkasjdard" />
 

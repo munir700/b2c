@@ -51,7 +51,7 @@ abstract class BaseRepository : IRepository {
             }
         }
     }
-
+    
     private fun fetchErrorFromBody(response: String?): String? {
         response?.let {
             if (it.isNotBlank()) {

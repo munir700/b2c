@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import co.yap.modules.dashboard.main.interfaces.IYapDashboard
 import co.yap.modules.dashboard.main.states.YapDashBoardState
 import co.yap.modules.dashboard.more.main.activities.MoreActivity
+import co.yap.modules.others.helper.Constants
 import co.yap.networking.cards.CardsRepository
 import co.yap.networking.cards.responsedtos.CardBalance
 import co.yap.networking.customers.CustomersRepository
@@ -40,6 +41,17 @@ class YapDashBoardViewModel(application: Application) :
     override fun onCreate() {
         super.onCreate()
         getAccountInfo()
+        updateVersion()
+    }
+
+    private fun updateVersion() {
+        state.appVersion.set(
+            String.format(
+                "Version %s (%s)",
+                Constants.VERSION_NAME,
+                Constants.VERSION_CODE
+            )
+        )
     }
 
     override fun onResume() {
@@ -58,12 +70,12 @@ class YapDashBoardViewModel(application: Application) :
     }
 
     override fun getAccountInfo() {
-        launch {
-            state.loading = true
-            when (val response = customerRepository.getAccountInfo()) {
-                is RetroApiResponse.Success -> {
-                    MyUserManager.user = response.data.data[0]
-                    MyUserManager.user?.setLiveData() // DOnt remove this line
+//        launch {
+//            state.loading = true
+//            when (val response = customerRepository.getAccountInfo()) {
+//                is RetroApiResponse.Success -> {
+//                    MyUserManager.user = response.data.data[0]
+////                    MyUserManager.user?.setLiveData() // DOnt remove this line
                     MyUserManager.user?.isDocumentsVerified?.let {
                         MoreActivity.showExpiredIcon =
                             it == "N"
@@ -74,11 +86,11 @@ class YapDashBoardViewModel(application: Application) :
                     if (MyUserManager.user?.currentCustomer?.isEmailVerified.equals("N", true)) {
                         showUnverifedscreen.value = true
                     }
-                }
-                is RetroApiResponse.Error -> state.toast = response.error.message
-            }
-            state.loading = false
-        }
+//                }
+//                is RetroApiResponse.Error -> state.toast = response.error.message
+//            }
+//            state.loading = false
+//        }
     }
 
     override fun getAccountBalanceRequest() {

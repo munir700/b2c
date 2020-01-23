@@ -14,6 +14,7 @@ import androidx.core.content.ContextCompat
 import co.yap.yapcore.R
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.DateUtils
+import co.yap.yapcore.helpers.ThemeColorUtils
 import co.yap.yapcore.helpers.Utils
 import kotlinx.android.synthetic.main.core_payment_card.view.*
 import kotlin.math.roundToInt
@@ -167,7 +168,8 @@ class CorePaymentCard @JvmOverloads constructor(context: Context, attrs: Attribu
             clMainContainer.setBackgroundColor(
                 ContextCompat.getColor(
                     context,
-                    R.color.colorPrimaryDark
+                    ThemeColorUtils.colorPrimaryDarkAttribute(context)
+                   /* R.color.colorPrimaryDark*/
                 )
             )
         }

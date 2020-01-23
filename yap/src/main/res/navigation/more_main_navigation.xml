@@ -23,8 +23,20 @@
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
             app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_profileSettingsFragment_to_termAndConditionsFragment"
+            app:destination="@id/termAndConditionsFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"/>
 
     </fragment>
+
+    <!--Terms and Conditions-->
+    <fragment
+        android:id="@+id/termAndConditionsFragment"
+        android:name="co.yap.modules.termandcondition.fragment.TermAndConditionFragment"
+        android:label="TermsAndCondition"
+        tools:layout="@layout/fragment_term_and_condition"/>
 
     <fragment
         android:id="@+id/personalDetailsFragment"
@@ -76,6 +88,9 @@
             app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_personalDetailsFragment_to_successFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popUpToInclusive="true"
             app:destination="@id/successFragment" />
     </fragment>
     <include app:graph="@navigation/change_email_navigation" />
@@ -155,6 +170,5 @@
             android:defaultValue=" "
             app:argType="string" />
     </fragment>
-
 </navigation>
 

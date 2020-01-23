@@ -20,6 +20,8 @@ class SharedPreferenceManager(val context: Context) {
         const val KEY_IS_FINGERPRINT_PERMISSION_SHOWN: String =
             "KEY_IS_FINGERPRINT_PERMISSION_SHOWN"
         const val KEY_AVAILABLE_BALANCE: String = "AVAILABLE_BALANCE"
+        const val KEY_THEME = "KEY_THEME"
+
     }
 
     fun save(KEY_NAME: String, text: String) {
@@ -87,4 +89,13 @@ class SharedPreferenceManager(val context: Context) {
         return str.matches("-?\\d+(\\.\\d+)?".toRegex())  //match a number with optional '-' and decimal.
     }
 
+    fun getThemeValue(): String? {
+        return sharedPref.getString(KEY_THEME, "")
+    }
+
+    fun setThemeValue(themeValue: String) {
+        val editor: SharedPreferences.Editor = sharedPref.edit()
+        editor.putString(KEY_THEME, themeValue)
+        editor.apply()
+    }
 }

@@ -1,13 +1,18 @@
 package co.yap.widgets
 
 import android.content.Context
-import android.graphics.*
+import android.graphics.Bitmap
+import android.graphics.Canvas
+import android.graphics.Paint
+import android.graphics.RectF
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.util.AttributeSet
+import android.view.ContextThemeWrapper
 import android.view.MotionEvent
 import android.widget.Button
 import co.yap.yapcore.R
+import co.yap.yapcore.helpers.ThemeColorUtils
 
 
 class CoreButton : Button {
@@ -85,16 +90,18 @@ class CoreButton : Button {
         if (enableButton) {
             defaultStateColor = typedArray.getColor(
                 R.styleable.CoreButton_btn_unpressed_color,
-                resources.getColor(R.color.colorPrimary)
+                ThemeColorUtils.colorPrimaryAttribute(context)
             )
             pressedColor = typedArray.getColor(
                 R.styleable.CoreButton_btn_pressed_color,
-                resources.getColor(R.color.colorPrimaryDark)
+                ThemeColorUtils.colorPressedBtnStateAttribute(context)
             )
 
         } else {
-            defaultStateColor = resources.getColor(R.color.greyLight)
-            pressedColor = resources.getColor(R.color.greyLight)
+            defaultStateColor = ThemeColorUtils.colorPrimaryDisabledBtnAttribute(context)
+//            defaultStateColor =  resources.getColor(R.color.greyLight)
+
+            pressedColor = ThemeColorUtils.colorPrimaryDisabledBtnAttribute(context)
         }
 
         shapeType = typedArray.getInt(R.styleable.CoreButton_btn_shape_type, 1)
@@ -145,7 +152,11 @@ class CoreButton : Button {
         if (hasBoldText) {
             paintText.setFakeBoldText(true)
         }
+//         ContextThemeWrapper(context, R.attr.primaryButtonTheme)
 
+        Button(ContextThemeWrapper(context, R.attr.primaryButtonTheme))
+
+// this.theme
     }
 
     fun drawableToBitmap(drawable: Drawable): Bitmap? {
@@ -257,13 +268,14 @@ class CoreButton : Button {
     fun enableButton(enable: Boolean) {
 
         if (!enable) {
-            defaultStateColor = resources.getColor(R.color.greyLight)
-            pressedColor = resources.getColor(R.color.colorPrimary)
+//            defaultStateColor = resources.getColor(R.color.greyLight)
+            defaultStateColor = ThemeColorUtils.colorPrimaryDisabledBtnAttribute(context)
+            pressedColor = ThemeColorUtils.colorPressedBtnStateAttribute(context)
             paint.color = defaultStateColor
             invalidate()
         } else {
-            defaultStateColor = resources.getColor(R.color.colorPrimary)
-            pressedColor = resources.getColor(R.color.colorPrimaryDark)
+            defaultStateColor = ThemeColorUtils.colorPrimaryAttribute(context)
+            pressedColor = ThemeColorUtils.colorPressedBtnStateAttribute(context)
             paint.color = defaultStateColor
             invalidate()
         }

@@ -18,8 +18,8 @@ import co.yap.modules.dashboard.more.profile.intefaces.IPersonalDetail
 import co.yap.modules.dashboard.more.profile.viewmodels.PersonalDetailsViewModel
 import co.yap.modules.dummy.ActivityNavigator
 import co.yap.modules.dummy.NavigatorProvider
+import co.yap.modules.kyc.activities.DocumentsDashboardActivity
 import co.yap.modules.location.activities.LocationSelectionActivity
-import co.yap.modules.others.helper.Constants.START_REQUEST_CODE
 import co.yap.networking.cards.requestdtos.UpdateAddressRequest
 import co.yap.networking.cards.responsedtos.Address
 import co.yap.translation.Strings
@@ -32,14 +32,10 @@ import kotlinx.android.synthetic.main.fragment_personal_detail.*
 
 class PersonalDetailsFragment : MoreBaseFragment<IPersonalDetail.ViewModel>(),
     IPersonalDetail.View {
-    companion object {
-        var checkMore: Boolean = false
-        var checkScanned: Boolean = false
 
-    }
-
-    var changeAddress: Boolean = false
+    private var changeAddress: Boolean = false
     private lateinit var mNavigator: ActivityNavigator
+
     override fun getBindingVariable(): Int = BR.viewModel
 
     override fun getLayoutId(): Int = R.layout.fragment_personal_detail
@@ -51,6 +47,7 @@ class PersonalDetailsFragment : MoreBaseFragment<IPersonalDetail.ViewModel>(),
         super.onCreate(savedInstanceState)
         viewModel.onUpdateAddressSuccess.observe(this, onAddressSuccess)
     }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         if (context is MoreActivity)
@@ -89,14 +86,6 @@ class PersonalDetailsFragment : MoreBaseFragment<IPersonalDetail.ViewModel>(),
                     viewModel.toggleToolBar(true)
 
                     changeAddress = true
-//                    val action =
-//                        PersonalDetailsFragmentDirections.actionPersonalDetailsFragmentToAddressSelectionFragment(
-//                            isFromPhysicalCardsScreen = false,
-//                            isFromBlockCardsScreen = false,
-//                            isFromPersonalDetail = true
-//                        )
-//
-//                    findNavController().navigate(action)
                     startActivityForResult(
                         LocationSelectionActivity.newIntent(
                             context = requireContext(),
@@ -105,29 +94,48 @@ class PersonalDetailsFragment : MoreBaseFragment<IPersonalDetail.ViewModel>(),
                             subHeadingTitle = getString(Strings.screen_meeting_location_display_text_subtitle)
                         ), RequestCodes.REQUEST_FOR_LOCATION
                     )
+
                 }
 
                 R.id.cvCard -> {
                     if (viewModel.state.errorVisibility) {
-                        val action =
-                            PersonalDetailsFragmentDirections.actionPersonalDetailsFragmentToDocumentsDashboardActivity(
-                                viewModel.state.fullName, true
-                            )
-                        findNavController().navigate(action)
+//                        val action =
+//                            PersonalDetailsFragmentDirections.actionPersonalDetailsFragmentToDocumentsDashboardActivity(
+//                                viewModel.state.fullName, true
+//                            )
+//                        findNavController().navigate(action)
+                        startActivityForResult(
+                            DocumentsDashboardActivity.getIntent(
+                                requireContext(),
+                                MyUserManager.user?.currentCustomer?.firstName.toString(),
+                                true
+                            ), RequestCodes.REQUEST_KYC_DOCUMENTS
+                        )
                     }
 
                 }
 
                 viewModel.UPDATE_ADDRESS_UI -> {
-                    toggleAddressVisiblity()
+                    toggleAddressVisibility()
                 }
             }
         })
 
-        toggleAddressVisiblity()
+        viewModel.onUpdateAddressSuccess.observe(this, Observer {
+            if (it) {
+                val action =
+                    PersonalDetailsFragmentDirections.actionPersonalDetailsFragmentToSuccessFragment(
+                        getString(R.string.screen_address_success_display_text_sub_heading_update),
+                        " "
+                    )
+                findNavController().navigate(action)
+            }
+        })
+
+        toggleAddressVisibility()
     }
 
-    private fun toggleAddressVisiblity() {
+    private fun toggleAddressVisibility() {
         if (MyUserManager.userAddress == null) {
             llAddress.visibility = GONE
         } else {
@@ -138,6 +146,7 @@ class PersonalDetailsFragment : MoreBaseFragment<IPersonalDetail.ViewModel>(),
     override fun onPause() {
         super.onPause()
         viewModel.clickEvent.removeObservers(this)
+        viewModel.onUpdateAddressSuccess.removeObservers(this)
         if (changeAddress) {
             viewModel.toggleToolBar(true)
             viewModel.updateToolBarText("")
@@ -172,27 +181,28 @@ class PersonalDetailsFragment : MoreBaseFragment<IPersonalDetail.ViewModel>(),
         if (resultCode == Activity.RESULT_OK) {
             when (requestCode) {
                 RequestCodes.REQUEST_FOR_LOCATION -> {
-                    val isUpdated = data?.getBooleanExtra(Constants.ADDRESS_SUCCESS, false)
-                    isUpdated?.let { it ->
-                        if (it) {
-                            val address: Address? =
-                                data.getParcelableExtra(ADDRESS)
-                            address?.let {
-                                MyUserManager.userAddress = it
-                                viewModel.requestUpdateAddress(
-                                    UpdateAddressRequest(
-                                        it.address1,
-                                        it.address2,
-                                        it.latitude.toString(),
-                                        it.longitude.toString()
-                                    )
-                                )
-                            }
+                    val address: Address? =
+                        data?.getParcelableExtra(ADDRESS)
+                    val isUpdatedAddress = data?.getBooleanExtra(Constants.ADDRESS_SUCCESS, false)
+                    if (isUpdatedAddress == true) {
+                        address?.let {
+                            MyUserManager.userAddress = it
+                            updateUserAddress(it)
                         }
                     }
 
                 }
             }
         }
+    }
+
+    private fun updateUserAddress(address: Address) {
+        val updateAddressRequest = UpdateAddressRequest(
+            address.address1,
+            address.address2,
+            address.latitude.toString(),
+            address.longitude.toString()
+        )
+        viewModel.requestUpdateAddress(updateAddressRequest)
     }
 }

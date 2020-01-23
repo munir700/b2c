@@ -2,7 +2,6 @@
     package="co.yap">
 
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
@@ -35,7 +34,7 @@
             android:name=".modules.onboarding.activities.OnboardingActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar"
+            android:theme="@style/CoreAppTheme.NoActionBar"
             android:windowSoftInputMode="adjustResize">
             <nav-graph android:value="@navigation/onboarding_navigation" />
         </activity>
@@ -52,26 +51,27 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".modules.kyc.activities.DocumentsDashboardActivity"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            android:theme="@style/CoreAppTheme.NoActionBar">
             <nav-graph android:value="@navigation/kyc_navigation" />
         </activity>
         <activity
             android:name=".modules.dashboard.cards.addpaymentcard.activities.AddPaymentCardActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/CoreAppTheme.NoActionBar">
             <nav-graph android:value="@navigation/spare_cards_navigation" />
         </activity>
         <activity
             android:name="co.yap.modules.dashboard.unverifiedemail.UnVerifiedEmailActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/CoreAppTheme.NoActionBar">
             <nav-graph android:value="@navigation/unverified_change_email_navigation" />
         </activity>
 
         <activity
             android:name=".modules.dashboard.more.main.activities.MoreActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar"
+            android:theme="@style/CoreAppTheme.NoActionBar"
             android:windowSoftInputMode="adjustResize">
             <nav-graph android:value="@navigation/more_main_navigation" />
         </activity>
@@ -79,7 +79,7 @@
         <activity
             android:name=".modules.dashboard.cards.reportcard.activities.ReportLostOrStolenCardActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/CoreAppTheme.NoActionBar">
             <nav-graph android:value="@navigation/report_card_navigation" />
         </activity>
 
@@ -171,8 +171,8 @@
 
         <activity
             android:name="co.yap.modules.dashboard.yapit.sendmoney.activities.SendMoneyHomeActivity"
-            android:windowSoftInputMode="adjustResize"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize">
             <nav-graph android:value="@navigation/send_money_main_navigation" />
         </activity>
 
@@ -183,12 +183,29 @@
         <!--Update Flag to hide keyboard-->
         <activity
             android:name=".modules.dashboard.yapit.sendmoney.activities.BeneficiaryCashTransferActivity"
-            android:windowSoftInputMode="stateHidden"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden" />
 
         <activity
             android:name=".modules.dashboard.yapit.sendmoney.home.activities.SendMoneyLandingActivity"
             android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".modules.dashboard.store.household.activities.HouseHoldLandingActivity"
+            android:screenOrientation="portrait" />
+
+
+        <activity
+            android:name=".modules.dashboard.store.household.activities.SubscriptionSelectionActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".modules.dashboard.store.household.onboarding.HouseHoldOnboardingActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize">
+            <nav-graph android:value="@navigation/house_hold_onboarding_navigation" />
+        </activity>
+
         <activity
             android:name=".modules.dashboard.cards.reordercard.activities.ReorderCardActivity"
             android:screenOrientation="portrait" />

@@ -3,7 +3,6 @@ package co.yap.modules.kyc.viewmodels
 import android.app.Application
 import android.text.TextUtils
 import co.yap.modules.dashboard.more.main.activities.MoreActivity
-import co.yap.modules.kyc.activities.DocumentsDashboardActivity
 import co.yap.modules.onboarding.interfaces.IEidInfoReview
 import co.yap.modules.onboarding.states.EidInfoReviewState
 import co.yap.networking.customers.CustomersRepository
@@ -35,8 +34,6 @@ class EidInfoReviewViewModel(application: Application) :
 
     override fun onCreate() {
         super.onCreate()
-        state.titleName[0] = parentViewModel?.identity?.identity?.givenName
-        state.titleName[0] = parentViewModel?.name
         parentViewModel?.let { populateState(it.identity) }
     }
 
@@ -47,17 +44,13 @@ class EidInfoReviewViewModel(application: Application) :
 
     override fun handlePressOnConfirmBtn() {
         parentViewModel?.identity?.identity?.let {
-            //            val expiry = it.expirationDate.run { DateUtils.toDate(day, month, year) }
             when {
-                TextUtils.isEmpty(it.givenName) || TextUtils.isEmpty(it.nationality) -> clickEvent.setValue(
-                    EVENT_ERROR_INVALID_EID
-                )
+                TextUtils.isEmpty(it.givenName) || TextUtils.isEmpty(it.nationality) ->
+                    clickEvent.setValue(EVENT_ERROR_INVALID_EID)
                 !it.isExpiryDateValid -> clickEvent.setValue(EVENT_ERROR_EXPIRED_EID)
                 !it.isDateOfBirthValid -> clickEvent.setValue(EVENT_ERROR_UNDER_AGE)
-
                 it.nationality.equals("USA", true) -> clickEvent.setValue(EVENT_ERROR_FROM_USA)
                 else -> {
-
                     performUploadDocumentsRequest()
                 }
             }
@@ -126,6 +119,7 @@ class EidInfoReviewViewModel(application: Application) :
     private fun performUploadDocumentsRequest() {
         parentViewModel?.identity?.let {
             launch {
+                //                if(BuildConfig.DEBUG) System.currentTimeMillis().toString() else it.identity.citizenNumber ,
                 val request = UploadDocumentsRequest(
                     documentType = if (it.document.type == DocumentType.EID) "EMIRATES_ID" else "PASSPORT",
                     firstName = it.identity.givenName,
@@ -149,20 +143,26 @@ class EidInfoReviewViewModel(application: Application) :
 
                 when (response) {
                     is RetroApiResponse.Success -> {
-                        if (DocumentsDashboardActivity.isFromMoreSection) {
+                        if (parentViewModel?.allowSkip?.value == true) {
                             clickEvent.setValue(EVENT_FINISH)
                             MoreActivity.showExpiredIcon = false
                         } else clickEvent.setValue(EVENT_NEXT)
                     }
                     is RetroApiResponse.Error -> {
-                        state.toast = response.error.message
+                        if (response.error.actualCode == EVENT_ALREADY_USED_EID) {
+                            clickEvent.setValue(EVENT_ALREADY_USED_EID)
+                            state.toast = response.error.message
+                        } else {
+                            clickEvent.setValue(EVENT_NEXT)
+                            state.toast = response.error.message
+                        }
                     }
                 }
             }
         }
     }
 
-    fun populateState(identity: IdentityScannerResult?) {
+    private fun populateState(identity: IdentityScannerResult?) {
         identity?.let {
             state.fullName = it.identity.givenName + " " + it.identity.sirName
             state.fullNameValid = state.fullName.isNotBlank()

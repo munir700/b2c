@@ -37,7 +37,7 @@
             android:background="@drawable/round_light_gery_background"
             android:gravity="center"
             android:text="@{cardType}"
-            android:textColor="@color/colorPrimary"
+            android:textColor="?attr/colorPrimaryAttr"
             app:btn_unpressed_color="@color/disabledLight"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

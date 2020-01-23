@@ -11,7 +11,7 @@ interface IPersonalDetail {
     interface State : IBase.State {
         var fullName: String
         var phoneNumber: String
-        var email: String
+        var email: String?
         var address: String
         var drawbleRight: Drawable?
         var errorVisibility: Boolean
@@ -23,6 +23,7 @@ interface IPersonalDetail {
         val clickEvent: SingleClickEvent
 
         var UPDATE_ADDRESS_UI : Int
+        var onUpdateAddressSuccess:MutableLiveData<Boolean>
 
         var onUpdateAddressSuccess:MutableLiveData<Boolean>
 

@@ -37,9 +37,6 @@ import co.yap.modules.dashboard.yapit.sendmoney.home.activities.SendMoneyLanding
 import co.yap.modules.dashboard.yapit.topup.landing.TopUpLandingActivity
 import co.yap.modules.dashboard.yapit.y2y.home.activities.YapToYapDashboardActivity
 import co.yap.modules.others.fragmentpresenter.activities.FragmentPresenterActivity
-import co.yap.modules.others.helper.Constants.FLAVOR
-import co.yap.modules.others.helper.Constants.VERSION_CODE
-import co.yap.modules.others.helper.Constants.VERSION_NAME
 import co.yap.translation.Strings
 import co.yap.widgets.CoreButton
 import co.yap.widgets.arcmenu.FloatingActionMenu
@@ -65,8 +62,6 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
     override val viewModel: IYapDashboard.ViewModel
         get() = ViewModelProviders.of(this).get(YapDashBoardViewModel::class.java)
 
-    private lateinit var appBarConfiguration: AppBarConfiguration
-
     lateinit var adapter: YapDashboardAdaptor
     var permissionHelper: PermissionHelper? = null
     private var actionMenu: FloatingActionMenu? = null
@@ -79,8 +74,6 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
         addObservers()
         addListeners()
         setupYapButton()
-        setAppVersion()
-
     }
 
 
@@ -216,20 +209,13 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
                 MyUserManager.user!!.currentCustomer.firstName
             )
 
-
-        if (MyUserManager.user!!.currentCustomer.email.isNotEmpty()) {
+        MyUserManager.user?.currentCustomer?.email?.let {
             tvEmail.text =
                 getString(Strings.screen_email_verified_popup_display_text_sub_title).format(
-                    MyUserManager.user!!.currentCustomer.email
-                )
-        } else {
-            tvEmail.text =
-                getString(Strings.screen_email_verified_popup_display_text_sub_title).format(
-                    ""
+                    if (it.isBlank())
+                        "" else it
                 )
         }
-
-
         //  tvEmail.text = MyUserManager.user!!.currentCustomer.email
 
         val fcs = ForegroundColorSpan(ContextCompat.getColor(this, R.color.colorPrimary))
@@ -281,6 +267,7 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
     }
 
     override fun onDestroy() {
+//        MyUserManager.expireUserSession()
         viewModel.clickEvent.removeObservers(this)
         super.onDestroy()
     }
@@ -465,17 +452,4 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
     private fun getViewBinding(): ActivityYapDashboardBinding {
         return (viewDataBinding as ActivityYapDashboardBinding)
     }
-
-    private fun setAppVersion() {
-        try {
-            if (FLAVOR != "live") {
-//                tvVersionCode.text = String.format("Version Code: %d", VERSION_CODE)
-                String.format("Version Name: %s", VERSION_NAME)
-                tvVersionName.text = String.format("Version %s (%s)", VERSION_NAME, VERSION_CODE)
-            }
-        } catch (e: Exception) {
-
-        }
-    }
-
 }
