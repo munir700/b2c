@@ -85,14 +85,6 @@ class PersonalDetailsFragment : MoreBaseFragment<IPersonalDetail.ViewModel>(),
                     viewModel.toggleToolBar(true)
 
                     changeAddress = true
-//                    val action =
-//                        PersonalDetailsFragmentDirections.actionPersonalDetailsFragmentToAddressSelectionFragment(
-//                            isFromPhysicalCardsScreen = false,
-//                            isFromBlockCardsScreen = false,
-//                            isFromPersonalDetail = true
-//                        )
-//
-//                    findNavController().navigate(action)
                     startActivityForResult(
                         LocationSelectionActivity.newIntent(
                             context = requireContext(),
@@ -101,24 +93,6 @@ class PersonalDetailsFragment : MoreBaseFragment<IPersonalDetail.ViewModel>(),
                             subHeadingTitle = getString(Strings.screen_meeting_location_display_text_subtitle)
                         ), RequestCodes.REQUEST_FOR_LOCATION
                     )
-//                    val heading = Translator.getString(
-//                        requireContext(),
-//                        R.string.screen_meeting_location_display_text_selected_subtitle
-//                    )
-//                    val subHeading = Translator.getString(
-//                        requireContext(),
-//                        R.string.screen_meeting_location_display_text_selected_subtitle
-//                    )
-//
-//                    startActivityForResult(
-//                        LocationSelectionActivity.newIntent(
-//                            requireContext(),
-//                            MyUserManager.userAddress,
-//                            heading,
-//                            subHeading
-//                        ), RequestCodes.REQUEST_FOR_LOCATION
-//                    )
-
                 }
 
                 R.id.cvCard -> {
