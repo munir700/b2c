@@ -47,6 +47,7 @@ class CashTransferViewModel(application: Application) :
         state.availableBalanceGuide =
             getString(Strings.screen_add_funds_display_text_available_balance)
         state.currencyType = "AED"
+        state.setSpannableFee("0.0")
     }
 
     override fun onResume() {
