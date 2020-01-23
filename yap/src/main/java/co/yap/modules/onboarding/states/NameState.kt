@@ -95,7 +95,7 @@ class NameState(application: Application) : BaseState(), IName.State {
 
         if (!value.isNullOrEmpty() && value.length >= 1) {
 
-            if (StringUtils.validateName(value,1)) {
+            if (StringUtils.validateName(value,2)) {
                 valid = true
                 lastNameError.value = ""
                 drawbleRightLastName =
