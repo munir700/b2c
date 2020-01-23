@@ -20,6 +20,7 @@ import co.yap.modules.dummy.ActivityNavigator
 import co.yap.modules.dummy.NavigatorProvider
 import co.yap.modules.location.activities.LocationSelectionActivity
 import co.yap.modules.others.helper.Constants.START_REQUEST_CODE
+import co.yap.networking.cards.requestdtos.UpdateAddressRequest
 import co.yap.networking.cards.responsedtos.Address
 import co.yap.translation.Strings
 import co.yap.yapcore.constants.Constants
@@ -84,14 +85,6 @@ class PersonalDetailsFragment : MoreBaseFragment<IPersonalDetail.ViewModel>(),
                     viewModel.toggleToolBar(true)
 
                     changeAddress = true
-//                    val action =
-//                        PersonalDetailsFragmentDirections.actionPersonalDetailsFragmentToAddressSelectionFragment(
-//                            isFromPhysicalCardsScreen = false,
-//                            isFromBlockCardsScreen = false,
-//                            isFromPersonalDetail = true
-//                        )
-//
-//                    findNavController().navigate(action)
                     startActivityForResult(
                         LocationSelectionActivity.newIntent(
                             context = requireContext(),
@@ -100,24 +93,6 @@ class PersonalDetailsFragment : MoreBaseFragment<IPersonalDetail.ViewModel>(),
                             subHeadingTitle = getString(Strings.screen_meeting_location_display_text_subtitle)
                         ), RequestCodes.REQUEST_FOR_LOCATION
                     )
-//                    val heading = Translator.getString(
-//                        requireContext(),
-//                        R.string.screen_meeting_location_display_text_selected_subtitle
-//                    )
-//                    val subHeading = Translator.getString(
-//                        requireContext(),
-//                        R.string.screen_meeting_location_display_text_selected_subtitle
-//                    )
-//
-//                    startActivityForResult(
-//                        LocationSelectionActivity.newIntent(
-//                            requireContext(),
-//                            MyUserManager.userAddress,
-//                            heading,
-//                            subHeading
-//                        ), RequestCodes.REQUEST_FOR_LOCATION
-//                    )
-
                 }
 
                 R.id.cvCard -> {
@@ -173,25 +148,28 @@ class PersonalDetailsFragment : MoreBaseFragment<IPersonalDetail.ViewModel>(),
         if (resultCode == Activity.RESULT_OK) {
             when (requestCode) {
                 RequestCodes.REQUEST_FOR_LOCATION -> {
-                    val isUpdated = data?.getBooleanExtra(Constants.ADDRESS_SUCCESS, false)
-                    isUpdated?.let { it ->
-                        if (it) {
-                            val address: Address? =
-                                data.getParcelableExtra(ADDRESS)
-                            address?.let {
-                                MyUserManager.userAddress = it
-                                val action =
-                                    PersonalDetailsFragmentDirections.actionPersonalDetailsFragmentToSuccessFragment(
-                                        getString(R.string.screen_address_success_display_text_sub_heading_update),
-                                        " "
-                                    )
-                                findNavController().navigate(action)
-                            }
+                    val address: Address? =
+                        data?.getParcelableExtra(ADDRESS)
+                    val isUpdatedAddress = data?.getBooleanExtra(Constants.ADDRESS_SUCCESS, false)
+                    if (isUpdatedAddress == true) {
+                        address?.let {
+                            MyUserManager.userAddress = it
+                            updateUserAddress(it)
                         }
                     }
 
                 }
             }
         }
+    }
+
+    private fun updateUserAddress(address: Address) {
+        val updateAddressRequest = UpdateAddressRequest(
+            address.address1,
+            address.address2,
+            address.latitude.toString(),
+            address.longitude.toString()
+        )
+        viewModel.requestUpdateAddress(updateAddressRequest)
     }
 }

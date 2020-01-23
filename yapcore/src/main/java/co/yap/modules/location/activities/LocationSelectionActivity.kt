@@ -6,6 +6,7 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import androidx.databinding.Observable
 import androidx.lifecycle.Observer
 import co.yap.modules.location.helper.MapSupportActivity
@@ -82,6 +83,13 @@ class LocationSelectionActivity : MapSupportActivity(), ILocationSelection.View 
         viewModel.state.isTermsChecked.addOnPropertyChangedCallback(stateObserver)
         viewModel.isMapExpanded.observe(this, Observer {
             viewModel.state.toolbarVisibility = !it
+            if (it) {
+                rlCollapsedMapSection.visibility = View.GONE
+                lyAddressFields.visibility = View.GONE
+            } else {
+                rlCollapsedMapSection.visibility = View.VISIBLE
+                lyAddressFields.visibility = View.VISIBLE
+            }
         })
     }
 
@@ -128,6 +136,9 @@ class LocationSelectionActivity : MapSupportActivity(), ILocationSelection.View 
                 Utils.openWebPage(Constants.URL_TERMS_CONDITION, "", this)
             }
             R.id.etAddressField -> {
+
+            }
+            R.id.rlCollapsedMapSection -> {
                 expandMap()
             }
             R.id.tbIvClose -> {
@@ -232,8 +243,10 @@ class LocationSelectionActivity : MapSupportActivity(), ILocationSelection.View 
 
     private fun setIntentAction(isUpdated: Boolean) {
         val intent = Intent()
+        viewModel.address?.address1 = viewModel.state.addressTitle
+        viewModel.address?.address2 = viewModel.state.addressSubtitle.get()
         intent.putExtra(ADDRESS, viewModel.address)
-        intent.putExtra(ADDRESS_SUCCESS, isUpdated) // needs to update accordinky
+        intent.putExtra(ADDRESS_SUCCESS, isUpdated)
         setResult(Activity.RESULT_OK, intent)
         finish()
     }

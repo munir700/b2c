@@ -31,7 +31,7 @@ class AddSpareCardViewModel(application: Application) :
     override var isFromBlockCardScreen: Boolean = false
     override var latitude: String = ""
     override var longitude: String = ""
-    override lateinit var address: Address
+    override var address: Address? = null
     override var availableBalance: String = ""
     override var sharedPreferenceManager = SharedPreferenceManager(context)
     override var isFromaddressScreen: Boolean = false
@@ -116,9 +116,9 @@ class AddSpareCardViewModel(application: Application) :
         val addPhysicalSpareCardRequest =
             AddPhysicalSpareCardRequest(
                 MyUserManager.user?.currentCustomer?.getFullName(),
-                address.latitude.toString(),
-                address.longitude.toString(),
-                address.address1
+                address?.latitude.toString(),
+                address?.longitude.toString(),
+                address?.address1
             )
 
         launch {
@@ -145,12 +145,12 @@ class AddSpareCardViewModel(application: Application) :
             when (val response = repository.getUserAddressRequest()) {
                 is RetroApiResponse.Success -> {
                     address = response.data.data
-                    state.physicalCardAddressTitle = address.address1!!
+                    state.physicalCardAddressTitle = address?.address1 ?: ""
 
-                    state.enableConfirmLocation = !address.address1.isNullOrEmpty()
+                    state.enableConfirmLocation = !address?.address1.isNullOrEmpty()
 
-                    if (!address.address2.isNullOrEmpty()) {
-                        state.physicalCardAddressSubTitle = address.address2!!
+                    if (!address?.address2.isNullOrEmpty()) {
+                        state.physicalCardAddressSubTitle = address?.address2?:""
                     } else {
                         state.physicalCardAddressSubTitle = " "
                     }
