@@ -10,7 +10,7 @@ import co.yap.R
 import co.yap.widgets.PrefixSuffixEditText
 import co.yap.widgets.TextDrawable
 import co.yap.yapcore.helpers.Utils
-import co.yap.yapcore.helpers.dimen
+import co.yap.yapcore.helpers.extentions.dimen
 import co.yap.yapcore.helpers.glide.setCircleCropImage
 import co.yap.yapcore.helpers.glide.setImage
 

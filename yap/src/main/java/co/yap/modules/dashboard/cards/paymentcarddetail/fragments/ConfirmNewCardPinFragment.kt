@@ -26,8 +26,11 @@ open class ConfirmNewCardPinFragment : ConfirmCardPinFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-
+        if(activity is ChangeCardPinActivity){
+            (activity as ChangeCardPinActivity).preventTakeDeviceScreenShot.value = true
+        }
         if (activity is ForgotCardPinActivity) {
+            (activity as ForgotCardPinActivity).preventTakeDeviceScreenShot.value = true
             if ((activity as ForgotCardPinActivity).viewModel.state.currentScreen ==
                 Constants.FORGOT_CARD_PIN_ACTION
             ) {

@@ -57,6 +57,9 @@ class SuccessFragment : BaseBindingFragment<ISuccess.ViewModel>(),
         if (context is MoreActivity)
             (context as MoreActivity).goneToolbar()
         loadData()
+        if (activity is MoreActivity) {
+            (activity as MoreActivity).viewModel.preventTakeDeviceScreenShot.value = false
+        }
     }
 
     override fun onDestroy() {

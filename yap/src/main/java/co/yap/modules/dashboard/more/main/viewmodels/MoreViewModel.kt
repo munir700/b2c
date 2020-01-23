@@ -1,6 +1,7 @@
 package co.yap.modules.dashboard.more.main.viewmodels
 
 import android.app.Application
+import androidx.lifecycle.MutableLiveData
 import co.yap.modules.dashboard.more.main.interfaces.IMore
 import co.yap.modules.dashboard.more.main.states.MoreStates
 import co.yap.yapcore.BaseViewModel
@@ -11,8 +12,8 @@ class MoreViewModel(application: Application) :
     IMore.ViewModel {
 
     override val backButtonPressEvent: SingleLiveEvent<Boolean> = SingleLiveEvent()
-    override val state: MoreStates =
-        MoreStates()
+    override var preventTakeDeviceScreenShot: MutableLiveData<Boolean> = MutableLiveData(false)
+    override val state: MoreStates = MoreStates()
 
     override fun handlePressOnBackButton() {
         backButtonPressEvent.value = true

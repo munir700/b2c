@@ -11,7 +11,7 @@ object StringUtils {
         var inputStr: CharSequence = ""
         var isValid = false
         val expression =
-            "^[a-zA-ZáâäæããåāÀÁÂÄÆÃÅĀçćčÇĆČèéêëēėęÈÉÊËĒĖĘîïíīįìÎÏÍĪĮÌłŁñńÑŃôöòóœøōõÔÖÒÓOŒØŌÕßśšŚŠûüùúūÛÜÙÚŪÿŸžźżŽŹŻ]{1}[a-zA-ZáâäæããåāÀÁÂÄÆÃÅĀçćčÇĆČèéêëēėęÈÉÊËĒĖĘîïíīįìÎÏÍĪĮÌłŁñńÑŃôöòóœøōõÔÖÒÓOŒØŌÕßśšŚŠûüùúūÛÜÙÚŪÿŸžźżŽŹŻ ]{1,100}\$"
+            "^[a-zA-Z]{1}[a-zA-Z ]{1,100}\$"
         inputStr = name
         val pattern = Pattern.compile(expression)
         val matcher = pattern.matcher(inputStr)
