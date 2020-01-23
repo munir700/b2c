@@ -16,7 +16,10 @@ import co.yap.modules.dashboard.more.main.activities.MoreActivity.Companion.show
 import co.yap.modules.dashboard.more.main.fragments.MoreBaseFragment
 import co.yap.modules.dashboard.more.profile.intefaces.IPersonalDetail
 import co.yap.modules.dashboard.more.profile.viewmodels.PersonalDetailsViewModel
+import co.yap.modules.dummy.ActivityNavigator
+import co.yap.modules.dummy.NavigatorProvider
 import co.yap.modules.location.activities.LocationSelectionActivity
+import co.yap.modules.others.helper.Constants.START_REQUEST_CODE
 import co.yap.networking.cards.responsedtos.Address
 import co.yap.translation.Strings
 import co.yap.yapcore.constants.Constants
@@ -35,7 +38,7 @@ class PersonalDetailsFragment : MoreBaseFragment<IPersonalDetail.ViewModel>(),
     }
 
     var changeAddress: Boolean = false
-
+    private lateinit var mNavigator: ActivityNavigator
     override fun getBindingVariable(): Int = BR.viewModel
 
     override fun getLayoutId(): Int = R.layout.fragment_personal_detail
@@ -50,6 +53,10 @@ class PersonalDetailsFragment : MoreBaseFragment<IPersonalDetail.ViewModel>(),
         viewModel.state.errorVisibility = showExpiredIcon
     }
 
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        mNavigator = (activity?.applicationContext as NavigatorProvider).provideNavigator()
+    }
     override fun onResume() {
         super.onResume()
         viewModel.state.errorVisibility = showExpiredIcon
@@ -59,7 +66,14 @@ class PersonalDetailsFragment : MoreBaseFragment<IPersonalDetail.ViewModel>(),
             when (it) {
 
                 R.id.tvEditPhoneNumber -> {
-                    findNavController().navigate(R.id.action_personalDetailsFragment_to_change_phone_number_navigation)
+                    mNavigator.startVerifyPassCodePresenterActivity(requireActivity()){resultCode, data ->
+                        if(resultCode == Activity.RESULT_OK)
+                        {
+                            findNavController().navigate(R.id.action_personalDetailsFragment_to_change_phone_number_navigation)
+                        }
+                    }
+                    //startActivityForResult(Intent(context, VerifyPassCodePresenterActivity::class.java),VerifyPassCodePresenterActivity.START_REQUEST_CODE)
+                   // findNavController().navigate(R.id.action_personalDetailsFragment_to_change_phone_number_navigation)
                 }
 
                 R.id.tvEditEmail -> {
@@ -175,7 +189,6 @@ class PersonalDetailsFragment : MoreBaseFragment<IPersonalDetail.ViewModel>(),
                             }
                         }
                     }
-
 
                 }
             }

@@ -1,5 +1,7 @@
 package co.yap.app.modules.login.fragments
 
+import android.app.Activity
+import android.content.Intent
 import android.hardware.fingerprint.FingerprintManager
 import android.os.Bundle
 import android.view.View
@@ -17,6 +19,7 @@ import co.yap.app.login.EncryptionUtils
 import co.yap.app.modules.login.interfaces.IVerifyPasscode
 import co.yap.app.modules.login.viewmodels.VerifyPasscodeViewModel
 import co.yap.modules.dashboard.more.main.activities.MoreActivity
+import co.yap.modules.others.helper.Constants.REQUEST_CODE
 import co.yap.networking.cards.responsedtos.CardBalance
 import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.helpers.AuthUtils
@@ -50,9 +53,16 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
         viewModel.validateDeviceResult.observe(this, validateDeviceResultObserver)
         viewModel.createOtpResult.observe(this, createOtpObserver)
         setObservers()
-        setUsername()
+
+        arguments?.let {
+            viewModel.state.username = VerifyPasscodeFragmentArgs.fromBundle(it).username
+            viewModel.state.verifyPassCodeEnum =
+                it.getString(REQUEST_CODE, VerifyPassCodeEnum.ACCESS_ACCOUNT.name)
+        }
         dialer.hideFingerprintView()
         sharedPreferenceManager = SharedPreferenceManager(context as MainActivity)
+
+        sharedPreferenceManager = SharedPreferenceManager(requireContext())
         viewModel.state.deviceId =
             sharedPreferenceManager.getValueString(SharedPreferenceManager.KEY_APP_UUID) as String
         mBiometricManagerX = BiometricManagerX(
@@ -63,11 +73,12 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
                 )
             )
         )
+
         val fingerprintsEnabled = mBiometricManagerX.hasFingerprintEnrolled()
         if (BiometricUtil.isFingerprintSupported && fingerprintsEnabled
-            && BiometricUtil.isHardwareSupported(context as MainActivity)
-            && BiometricUtil.isPermissionGranted(context as MainActivity)
-            && BiometricUtil.isFingerprintAvailable(context as MainActivity)
+            && BiometricUtil.isHardwareSupported(requireActivity())
+            && BiometricUtil.isPermissionGranted(requireActivity())
+            && BiometricUtil.isFingerprintAvailable(requireActivity())
         ) {
 
             if (sharedPreferenceManager.getValueBoolien(
@@ -94,8 +105,8 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
         }
 
         ivBackBtn.setOnClickListener {
-             viewModel.logout()
-         }
+            viewModel.logout()
+        }
 
     }
 
@@ -131,7 +142,7 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
                         )
                     ) {
                         viewModel.state.username = EncryptionUtils.decrypt(
-                            context as MainActivity,
+                            requireActivity(),
                             sharedPreferenceManager.getValueString(SharedPreferenceManager.KEY_USERNAME) as String
                         ) as String
                     }
@@ -185,7 +196,7 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
         } else {
             if (null != sharedPreferenceManager.getValueString(SharedPreferenceManager.KEY_USERNAME)) {
                 viewModel.state.username = EncryptionUtils.decrypt(
-                    context as MainActivity,
+                    requireActivity(),
                     sharedPreferenceManager.getValueString(SharedPreferenceManager.KEY_USERNAME) as String
                 ) as String
             } else {
@@ -202,7 +213,11 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
                 sharedPreferenceManager.save(SharedPreferenceManager.KEY_IS_USER_LOGGED_IN, true)
                 navigateToDashboard()
             } else {
-                viewModel.validateDevice()
+                if ((VerifyPassCodeEnum.valueOf(viewModel.state.verifyPassCodeEnum) == VerifyPassCodeEnum.VERIFY)) {
+                    navigateToDashboard()
+                } else {
+                    viewModel.validateDevice()
+                }
             }
         } else {
             dialer.startAnimation()
@@ -218,9 +233,9 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
                 )
             ) {
                 if (BiometricUtil.isFingerprintSupported
-                    && BiometricUtil.isHardwareSupported(context as MainActivity)
-                    && BiometricUtil.isPermissionGranted(context as MainActivity)
-                    && BiometricUtil.isFingerprintAvailable(context as MainActivity)
+                    && BiometricUtil.isHardwareSupported(requireActivity())
+                    && BiometricUtil.isPermissionGranted(requireActivity())
+                    && BiometricUtil.isFingerprintAvailable(requireActivity())
                 ) {
                     val action =
                         VerifyPasscodeFragmentDirections.actionVerifyPasscodeFragmentToSystemPermissionFragment(
@@ -277,7 +292,15 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
 //    }
 
     private fun navigateToDashboard() {
-        findNavController().navigate(R.id.action_goto_yapDashboardActivity)
+        if ((VerifyPassCodeEnum.valueOf(viewModel.state.verifyPassCodeEnum) == VerifyPassCodeEnum.VERIFY)) {
+            val intent = Intent()
+            intent.putExtra("CheckResult", true)
+            activity?.setResult(Activity.RESULT_OK, intent)
+        } else {
+            activity?.setResult(Activity.RESULT_CANCELED)
+            findNavController().navigate(R.id.action_goto_yapDashboardActivity)
+        }
+
         activity?.finish()
     }
 
@@ -342,6 +365,13 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
 
     override fun onAuthenticationError(errorCode: Int, errString: CharSequence) {
     }
+
+
+}
+
+enum class VerifyPassCodeEnum {
+    VERIFY,
+    ACCESS_ACCOUNT
 
 
 }

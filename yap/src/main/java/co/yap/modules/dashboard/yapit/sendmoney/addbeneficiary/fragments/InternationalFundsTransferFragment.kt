@@ -27,7 +27,7 @@ import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.SendMoneyBeneficiaryProductCode
 import co.yap.yapcore.enums.SendMoneyBeneficiaryType
 import co.yap.yapcore.helpers.CustomSnackbar
-import co.yap.yapcore.helpers.toast
+import co.yap.yapcore.helpers.extentions.toast
 import co.yap.yapcore.managers.MyUserManager
 import kotlinx.android.synthetic.main.fragment_beneficiary_overview.*
 import kotlinx.android.synthetic.main.fragment_international_funds_transfer.*
@@ -138,7 +138,10 @@ class InternationalFundsTransferFragment :
         when (it) {
             R.id.btnNext -> {
                 if (viewModel.state.reasonTransferValue.equals("Select a Reason")) {
-                    toast(activity as BeneficiaryCashTransferActivity, "Select a Reason")
+                    toast(
+                        activity as BeneficiaryCashTransferActivity,
+                        "Select a Reason"
+                    )
                 } else {
 
                     val availableBalance =
