@@ -240,6 +240,6 @@ class BiometricManagerX @JvmOverloads constructor(
         @JvmField val title: String,
         @JvmField val subTitle: String? = null,
         @JvmField val description: String? = null,
-        @JvmField val cancelButtonText: String? = null
+        @JvmField val cancelButtonText: String? = null 
     )
 }
