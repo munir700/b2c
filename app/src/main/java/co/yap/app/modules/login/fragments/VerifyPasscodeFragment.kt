@@ -60,7 +60,6 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
                 it.getString(REQUEST_CODE, VerifyPassCodeEnum.ACCESS_ACCOUNT.name)
         }
         dialer.hideFingerprintView()
-        sharedPreferenceManager = SharedPreferenceManager(context as MainActivity)
 
         sharedPreferenceManager = SharedPreferenceManager(requireContext())
         viewModel.state.deviceId =
