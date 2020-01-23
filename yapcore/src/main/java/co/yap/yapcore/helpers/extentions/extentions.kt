@@ -17,18 +17,11 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 
-fun Activity.preventTakeScreenshot() {
-    window.setFlags(
-        WindowManager.LayoutParams.FLAG_SECURE,
-        WindowManager.LayoutParams.FLAG_SECURE
-    )
-}
-
-fun Fragment.preventTakeScreenshot() {
-    activity?.window?.setFlags(
-        WindowManager.LayoutParams.FLAG_SECURE,
-        WindowManager.LayoutParams.FLAG_SECURE
-    )
+fun Activity.preventTakeScreenShot(isPrevent: Boolean) {
+    if (isPrevent)
+        window?.addFlags(WindowManager.LayoutParams.FLAG_SECURE)
+    else
+        window?.clearFlags(WindowManager.LayoutParams.FLAG_SECURE)
 }
 
 fun ImageView.loadImage(path: String, requestOptions: RequestOptions) {

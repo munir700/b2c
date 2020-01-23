@@ -1,10 +1,12 @@
 package co.yap.modules.forgotpasscode.fragments
 
 import android.os.Bundle
+import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import co.yap.modules.forgotpasscode.activities.ForgotPasscodeActivity
 import co.yap.modules.forgotpasscode.interfaces.IForgotPasscodeOtp
 import co.yap.modules.forgotpasscode.viewmodels.ForgotPasscodeOtpViewModel
 import co.yap.yapcore.BR
@@ -27,6 +29,13 @@ open class ForgotPasscodeOtpFragment : BaseBindingFragment<IForgotPasscodeOtp.Vi
         super.onCreate(savedInstanceState)
         setObservers()
         loadData()
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        if (activity is ForgotPasscodeActivity){
+            (activity as ForgotPasscodeActivity).preventTakeDeviceScreenShot.value = false
+        }
     }
     override fun loadData() {
         if (args?.mobileNumber!!.startsWith("00")) {

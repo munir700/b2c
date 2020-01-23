@@ -18,6 +18,7 @@ import co.yap.modules.dashboard.more.profile.intefaces.ISuccess
 import co.yap.modules.dashboard.more.profile.viewmodels.SuccessViewModel
 import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.helpers.extentions.preventTakeScreenshot
 import co.yap.yapcore.managers.MyUserManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
@@ -57,6 +58,9 @@ class SuccessFragment : BaseBindingFragment<ISuccess.ViewModel>(),
         if (context is MoreActivity)
             (context as MoreActivity).goneToolbar()
         loadData()
+        if (activity is MoreActivity) {
+            (activity as MoreActivity).viewModel.preventTakeDeviceScreenShot.value = false
+        }
     }
 
     override fun onDestroy() {

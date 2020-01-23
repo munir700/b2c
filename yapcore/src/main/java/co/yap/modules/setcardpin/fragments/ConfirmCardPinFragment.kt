@@ -1,6 +1,7 @@
 package co.yap.modules.setcardpin.fragments
 
 import android.os.Bundle
+import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
@@ -11,6 +12,7 @@ import co.yap.modules.setcardpin.viewmodels.ConfirmCardPinViewModel
 import co.yap.translation.Strings
 import co.yap.translation.Translator
 import co.yap.yapcore.R
+import co.yap.yapcore.helpers.extentions.preventTakeScreenshot
 import co.yap.yapcore.managers.MyUserManager
 import kotlinx.android.synthetic.main.fragment_set_card_pin.*
 
@@ -53,6 +55,9 @@ open class ConfirmCardPinFragment : SetCardPinFragment() {
         })
     }
 
+    override fun onPause() {
+        super.onPause()
+    }
     override fun loadData() {
         tvTitle.text = Translator.getString(requireContext(), Strings.screen_confirm_card_pin_display_text_title)
         btnAction.text = Translator.getString(requireContext(), Strings.screen_confirm_card_pin_button_create_pin)

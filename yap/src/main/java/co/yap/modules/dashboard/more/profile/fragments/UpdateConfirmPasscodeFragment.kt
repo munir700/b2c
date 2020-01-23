@@ -8,10 +8,12 @@ import androidx.navigation.fragment.navArgs
 import co.yap.R
 import co.yap.app.login.EncryptionUtils
 import co.yap.modules.dashboard.cards.paymentcarddetail.fragments.ConfirmNewCardPinFragment
+import co.yap.modules.dashboard.more.main.activities.MoreActivity
 import co.yap.modules.dashboard.more.profile.viewmodels.UpdateConfirmPasscodeViewModel
 import co.yap.modules.setcardpin.interfaces.ISetCardPin
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.SharedPreferenceManager
+import co.yap.yapcore.helpers.extentions.preventTakeScreenshot
 import kotlinx.android.synthetic.main.activity_create_passcode.*
 
 class UpdateConfirmPasscodeFragment : ConfirmNewCardPinFragment() {
@@ -24,7 +26,6 @@ class UpdateConfirmPasscodeFragment : ConfirmNewCardPinFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
 
         sharedPreferenceManager = SharedPreferenceManager(requireContext())
 
@@ -53,6 +54,9 @@ class UpdateConfirmPasscodeFragment : ConfirmNewCardPinFragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         loadData()
+        if (activity is MoreActivity) {
+            (activity as MoreActivity).viewModel.preventTakeDeviceScreenShot.value = true
+        }
     }
 
     override fun setObservers() {

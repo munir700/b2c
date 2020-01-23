@@ -52,8 +52,11 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        if (context is MoreActivity)
+        if (context is MoreActivity) {
             (context as MoreActivity).visibleToolbar()
+            (context as MoreActivity).viewModel.preventTakeDeviceScreenShot.value = false
+        }
+
 
         Glide.with(activity!!)
 

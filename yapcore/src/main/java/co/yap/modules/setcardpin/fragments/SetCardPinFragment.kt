@@ -5,13 +5,13 @@ import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
+import co.yap.modules.setcardpin.activities.SetCardPinWelcomeActivity
 import co.yap.modules.setcardpin.interfaces.ISetCardPin
 import co.yap.modules.setcardpin.viewmodels.SetCardPinViewModel
 import co.yap.yapcore.BR
 import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.R
 import co.yap.yapcore.databinding.FragmentSetCardPinBinding
-import co.yap.yapcore.helpers.extentions.preventTakeScreenshot
 
 open class SetCardPinFragment : BaseBindingFragment<ISetCardPin.ViewModel>(), ISetCardPin.View {
 
@@ -25,9 +25,7 @@ open class SetCardPinFragment : BaseBindingFragment<ISetCardPin.ViewModel>(), IS
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        preventTakeScreenshot()
     }
-
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         setObservers()
@@ -37,6 +35,9 @@ open class SetCardPinFragment : BaseBindingFragment<ISetCardPin.ViewModel>(), IS
         super.onViewCreated(view, savedInstanceState)
         getBindings().dialer.hideFingerprintView()
         getBindings().dialer.upDatedDialerPad(viewModel.state.pincode)
+        if (activity is SetCardPinWelcomeActivity) {
+            (activity as SetCardPinWelcomeActivity).preventTakeDeviceScreenShot.value = true
+        }
         // getBindings().dialer.updateDialerLength(4)
     }
 
@@ -64,6 +65,7 @@ open class SetCardPinFragment : BaseBindingFragment<ISetCardPin.ViewModel>(), IS
     fun getBindings(): FragmentSetCardPinBinding {
         return viewDataBinding as FragmentSetCardPinBinding
     }
+
 
     override fun onDestroyView() {
         viewModel.clickEvent.removeObservers(this)
