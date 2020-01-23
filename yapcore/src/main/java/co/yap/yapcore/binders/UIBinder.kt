@@ -858,4 +858,13 @@ object UIBinder {
             view.setCardLogoByType(cardType)
     }
 
+    @JvmStatic
+    @BindingAdapter("editable")
+    fun setEditTextEditable(editText: EditText, editable: Boolean = true) {
+        editText.isFocusable = editable
+        editText.isFocusableInTouchMode = editable
+        editText.isClickable = editable
+        editText.isCursorVisible = editable
+    }
+
 }
