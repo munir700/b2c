@@ -13,7 +13,7 @@ import co.yap.modules.onboarding.constants.Constants
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.Utils
-import co.yap.yapcore.helpers.extentions.preventTakeScreenshot
+import co.yap.yapcore.helpers.extentions.preventTakeScreenShot
 import kotlinx.android.synthetic.main.activity_create_passcode.*
 
 
@@ -37,7 +37,6 @@ class CreatePasscodeActivity : BaseBindingActivity<ICreatePasscode.ViewModel>(),
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        preventTakeScreenshot()
         dialer.hideFingerprintView()
         viewModel.nextButtonPressEvent.observe(this, Observer {
             if (it == R.id.tvTermsAndConditions) {
@@ -45,6 +44,7 @@ class CreatePasscodeActivity : BaseBindingActivity<ICreatePasscode.ViewModel>(),
             } else
                 setObservers()
         })
+        preventTakeScreenShot(true)
 
     }
 

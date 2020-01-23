@@ -14,8 +14,8 @@ import android.widget.PopupWindow
 import android.widget.TextView
 import androidx.appcompat.widget.AppCompatEditText
 import co.yap.yapcore.R
-import co.yap.yapcore.getScreenWidth
 import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.helpers.extentions.getScreenWidth
 import kotlin.math.abs
 
 

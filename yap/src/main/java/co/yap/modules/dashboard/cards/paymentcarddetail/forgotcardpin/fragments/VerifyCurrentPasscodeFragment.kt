@@ -5,6 +5,7 @@ import android.view.View
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import co.yap.R
+import co.yap.modules.dashboard.cards.paymentcarddetail.forgotcardpin.activities.ForgotCardPinActivity
 import co.yap.modules.dashboard.more.profile.fragments.CurrentPasscodeFragment
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.databinding.FragmentSetCardPinBinding
@@ -18,6 +19,8 @@ class VerifyCurrentPasscodeFragment : CurrentPasscodeFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.state.forgotTextVisibility = false
+        if (activity is ForgotCardPinActivity)
+            (activity as ForgotCardPinActivity).preventTakeDeviceScreenShot.value = true
     }
 
     override fun setObservers() {

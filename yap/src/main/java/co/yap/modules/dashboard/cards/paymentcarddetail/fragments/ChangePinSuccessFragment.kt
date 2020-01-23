@@ -6,6 +6,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
 import co.yap.R
+import co.yap.modules.dashboard.cards.paymentcarddetail.activities.ChangeCardPinActivity
 import co.yap.modules.dashboard.cards.paymentcarddetail.forgotcardpin.activities.ForgotCardPinActivity
 import co.yap.modules.dashboard.cards.paymentcarddetail.interfaces.IChangeCardPinSuccess
 import co.yap.modules.dashboard.cards.paymentcarddetail.viewmodels.ChangeCardPinSuccessViewModel
@@ -32,6 +33,11 @@ class ChangePinSuccessFragment : BaseBindingFragment<IChangeCardPinSuccess.ViewM
         viewModel.clickEvent.observe(this, Observer {
             activity?.finish()
         })
+        if (activity is ChangeCardPinActivity) {
+            (activity as ChangeCardPinActivity).preventTakeDeviceScreenShot.value = false
+        }
+        if (activity is ForgotCardPinActivity)
+            (activity as ForgotCardPinActivity).preventTakeDeviceScreenShot.value = false
     }
 
     override fun onBackPressed(): Boolean {
