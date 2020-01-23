@@ -1,6 +1,8 @@
 package co.yap.modules.dashboard.more.profile.intefaces
 
 import android.graphics.drawable.Drawable
+import androidx.lifecycle.MutableLiveData
+import co.yap.networking.cards.requestdtos.UpdateAddressRequest
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
 
@@ -22,6 +24,8 @@ interface IPersonalDetail {
 
         var UPDATE_ADDRESS_UI : Int
 
+        var onUpdateAddressSuccess:MutableLiveData<Boolean>
+
         fun handlePressOnBackButton()
 
         fun handlePressOnEditPhone(id: Int)
@@ -37,6 +41,8 @@ interface IPersonalDetail {
         fun toggleToolBar(hide: Boolean)
 
         fun updateToolBarText(heading: String)
+
+        fun requestUpdateAddress(updateAddressRequest: UpdateAddressRequest)
 
     }
 
