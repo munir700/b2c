@@ -32,8 +32,6 @@ class AddBeneficiaryForDomesticTransferFragment :
     SendMoneyBaseFragment<IAddBeneficiary.ViewModel>(),
     IAddBeneficiary.View {
 
-    private val args: AddBeneficiaryForDomesticTransferFragmentArgs by navArgs()
-
     override fun getBindingVariable(): Int = BR.viewModel
 
     override fun getLayoutId(): Int = R.layout.fragment_add_beneficiary_domestic_transfer
