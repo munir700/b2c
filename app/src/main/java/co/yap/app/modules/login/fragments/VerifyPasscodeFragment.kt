@@ -104,9 +104,14 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
         }
 
         ivBackBtn.setOnClickListener {
-            viewModel.logout()
-        }
+            if ((VerifyPassCodeEnum.valueOf(viewModel.state.verifyPassCodeEnum) == VerifyPassCodeEnum.VERIFY)) {
+                activity?.onBackPressed()
 
+            } else {
+                viewModel.logout()
+            }
+
+        }
     }
 
     private fun showFingerprintDialog() {
