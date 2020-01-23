@@ -148,10 +148,13 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
     }
 
 
-    private fun onPhotosReturned(path: File, position: Int, source: EasyImage.ImageSource?) {
-        viewModel.uploadProfconvertUriToFile(path.toUri())
-        viewModel.state.imageUri = path.toUri()
-        ivProfilePic.setImageURI(path.toUri())
+    private fun onPhotosReturned(path: File?, position: Int, source: EasyImage.ImageSource?) {
+        path?.let {
+            viewModel.uploadProfconvertUriToFile(it.toUri())
+            viewModel.state.imageUri = it.toUri()
+            ivProfilePic.setImageURI(it.toUri())
+        }
+
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -164,7 +167,7 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
                     source: EasyImage.ImageSource?,
                     type: Int
                 ) {
-                    onPhotosReturned(imageFile!!, type, source)
+                    onPhotosReturned(imageFile, type, source)
                 }
 
                 override fun onImagePickerError(

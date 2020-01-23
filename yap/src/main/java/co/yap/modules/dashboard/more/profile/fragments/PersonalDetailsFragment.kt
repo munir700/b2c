@@ -57,6 +57,7 @@ class PersonalDetailsFragment : MoreBaseFragment<IPersonalDetail.ViewModel>(),
         super.onActivityCreated(savedInstanceState)
         mNavigator = (activity?.applicationContext as NavigatorProvider).provideNavigator()
     }
+
     override fun onResume() {
         super.onResume()
         viewModel.state.errorVisibility = showExpiredIcon
@@ -66,14 +67,13 @@ class PersonalDetailsFragment : MoreBaseFragment<IPersonalDetail.ViewModel>(),
             when (it) {
 
                 R.id.tvEditPhoneNumber -> {
-                    mNavigator.startVerifyPassCodePresenterActivity(requireActivity()){resultCode, data ->
-                        if(resultCode == Activity.RESULT_OK)
-                        {
+                    mNavigator.startVerifyPassCodePresenterActivity(requireActivity()) { resultCode, data ->
+                        if (resultCode == Activity.RESULT_OK) {
                             findNavController().navigate(R.id.action_personalDetailsFragment_to_change_phone_number_navigation)
                         }
                     }
                     //startActivityForResult(Intent(context, VerifyPassCodePresenterActivity::class.java),VerifyPassCodePresenterActivity.START_REQUEST_CODE)
-                   // findNavController().navigate(R.id.action_personalDetailsFragment_to_change_phone_number_navigation)
+                    // findNavController().navigate(R.id.action_personalDetailsFragment_to_change_phone_number_navigation)
                 }
 
                 R.id.tvEditEmail -> {
