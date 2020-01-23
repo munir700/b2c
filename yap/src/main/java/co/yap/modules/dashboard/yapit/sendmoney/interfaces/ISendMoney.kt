@@ -19,6 +19,7 @@ class ISendMoney {
         val clickEvent: SingleClickEvent
         var selectedCountry: MutableLiveData<Country>
         var beneficiary: MutableLiveData<Beneficiary>
+        var otpSuccess:MutableLiveData<Boolean>
         fun handlePressButton(id: Int)
     }
 

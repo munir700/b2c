@@ -23,7 +23,7 @@ interface IAddBeneficiary {
         var drawbleRight: Drawable?
         var mobileNoLength: Int
         var valid: Boolean
-        var country2DigitIsoCode:String
+        var country2DigitIsoCode: String
 
         var id: Int
         var beneficiaryId: String?
@@ -48,7 +48,9 @@ interface IAddBeneficiary {
         fun addCashPickupBeneficiary()
         fun addDomesticBeneficiary(objBeneficiary: Beneficiary?)
         var addBeneficiarySuccess: MutableLiveData<Boolean>
-        var beneficiary:Beneficiary?
+        var beneficiary: Beneficiary?
+        fun createOtp(action: String)
+        val otpCreateObserver:MutableLiveData<Boolean>
 
 //      fun generateRequestDTO(beneficiaryData: AddBeneficiaryData): AddBeneficiaryRequestDTO
         //fun generateCashPayoutBeneficiaryRequestDTO()
