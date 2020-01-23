@@ -60,7 +60,7 @@
             app:text="@{viewModel.state.verificationDescription}"
             tools:text="We&apos;ve sent a verification code to \n +971 56 204 7636" />
 
-        <in.aabhasjindal.otptextview.OtpTextView
+        <co.yap.widgets.YapOtpTextView
             android:id="@+id/otp_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
