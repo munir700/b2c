@@ -65,14 +65,14 @@ class NameState(application: Application) : BaseState(), IName.State {
 
 
     private fun validate(): Boolean {
-        return StringUtils.validateName(firstName) && StringUtils.validateName(lastName) && firstNameError.value.isNullOrEmpty() && lastNameError.value.isNullOrEmpty()
+        return StringUtils.validateName(firstName,1) && StringUtils.validateName(lastName,1) && firstNameError.value.isNullOrEmpty() && lastNameError.value.isNullOrEmpty()
     }
 
     private fun setFirstNameTextWatcher(value: String) {
 
-        if (!value.isNullOrEmpty() && value.length >= 2) {
+        if (!value.isNullOrEmpty() && value.length >= 1) {
 
-            if (StringUtils.validateName(value)) {
+            if (StringUtils.validateName(value,1)) {
                 valid = true
                 firstNameError.value = ""
                 lastNameError.value = ""
@@ -93,9 +93,9 @@ class NameState(application: Application) : BaseState(), IName.State {
 
     private fun setLastNameTextWatcher(value: String) {
 
-        if (!value.isNullOrEmpty() && value.length >= 2) {
+        if (!value.isNullOrEmpty() && value.length >= 1) {
 
-            if (StringUtils.validateName(value)) {
+            if (StringUtils.validateName(value,2)) {
                 valid = true
                 lastNameError.value = ""
                 drawbleRightLastName =
