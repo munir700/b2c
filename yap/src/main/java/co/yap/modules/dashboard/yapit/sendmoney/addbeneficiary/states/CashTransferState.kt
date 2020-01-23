@@ -316,7 +316,7 @@ class CashTransferState(application: Application) : BaseState(), ICashTransfer.S
         return totalAmount
     }
 
-    private fun setSpannableFee(totalAmount: String) {
+    fun setSpannableFee(totalAmount: String) {
         transferFee =
             Translator.getString(
                 context,

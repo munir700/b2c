@@ -49,7 +49,7 @@ class InternationalFundsTransferViewModel(application: Application) :
 
     override fun onCreate() {
         super.onCreate()
-        //state.setSpanable(0.0)
+        state.setSpanable(0.0)
     }
 
     override fun onResume() {
