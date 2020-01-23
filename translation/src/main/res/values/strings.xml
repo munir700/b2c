@@ -100,6 +100,10 @@
     <string name="screen_system_permission_text_denied">No, thanks</string>
     <string name="screen_notification_permission_button_title">Yes, keep me up to date</string>
 
+    <string name="screen_system_permission_text_sub_title">Make sure your device settings for Touch ID are always on.</string>
+
+
+
     <!-- Verify passcode screen -->
     <string name="screen_verify_passcode_display_text_title">Enter your passcode to access your account</string>
     <string name="screen_verify_passcode_display_text_title_verify">Enter your passcode to continue</string>
