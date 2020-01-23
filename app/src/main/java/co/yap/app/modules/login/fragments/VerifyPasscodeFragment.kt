@@ -116,7 +116,13 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
 //            if (it.id == R.id.btnFingerPrint)
 //                showFingerprintDialog()
 
-        ivBackBtn.setOnClickListener { viewModel.logout() }
+        ivBackBtn.setOnClickListener {
+            if ((VerifyPassCodeEnum.valueOf(viewModel.state.verifyPassCodeEnum) == VerifyPassCodeEnum.VERIFY)) {
+                activity?.onBackPressed()
+            } else {
+                viewModel.logout()
+            }
+        }
     }
 
 
@@ -175,7 +181,7 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
 
     private fun doLogout() {
         AuthUtils.navigateToHardLoginFromVerifyPassCode(requireContext())
-        MyUserManager.user = null
+        MyUserManager.expireUserSession()
         MyUserManager.cardBalance.value = CardBalance()
         MyUserManager.cards = MutableLiveData()
         MyUserManager.cards.value?.clear()
@@ -305,18 +311,14 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
     }
 
     private fun navigateToDashboard() {
-        viewModel.getAccountInfo()
-
         if ((VerifyPassCodeEnum.valueOf(viewModel.state.verifyPassCodeEnum) == VerifyPassCodeEnum.VERIFY)) {
             val intent = Intent()
             intent.putExtra("CheckResult", true)
             activity?.setResult(Activity.RESULT_OK, intent)
+            activity?.finish()
         } else {
-            activity?.setResult(Activity.RESULT_CANCELED)
-            findNavController().navigate(R.id.action_goto_yapDashboardActivity)
+            viewModel.getAccountInfo()
         }
-
-        activity?.finish()
     }
 
     override fun onSdkVersionNotSupported() {
@@ -341,10 +343,6 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
     override fun onAuthenticationCancelled() {
 
     }
-
-// crashlytics crash  VerifyPasscodeFragment.kt line 35
-
-// Never produced so we assumed replacing "context as MainActivity" activity!!.applicationContext in following block
 
     override fun onAuthenticationSuccessful() {
         viewModel.isFingerprintLogin = true
