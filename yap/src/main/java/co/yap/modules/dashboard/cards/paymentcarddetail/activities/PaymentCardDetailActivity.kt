@@ -15,6 +15,7 @@ import android.widget.TextView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import co.yap.BR
@@ -35,6 +36,8 @@ import co.yap.modules.dashboard.cards.reportcard.activities.ReportLostOrStolenCa
 import co.yap.modules.dashboard.home.adaptor.TransactionsHeaderAdapter
 import co.yap.modules.dashboard.home.filters.activities.TransactionFiltersActivity
 import co.yap.modules.dashboard.home.filters.models.TransactionFilters
+import co.yap.modules.dummy.ActivityNavigator
+import co.yap.modules.dummy.NavigatorProvider
 import co.yap.modules.others.helper.Constants
 import co.yap.networking.cards.responsedtos.Card
 import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionListData
@@ -63,6 +66,7 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
     private var cardRemoved: Boolean = false
     private var limitsUpdated: Boolean = false
     private var nameUpdated: Boolean = false
+    private lateinit var mNavigator: ActivityNavigator
 
     companion object {
         private const val CARD = "card"
@@ -82,6 +86,9 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        mNavigator = (this?.applicationContext as NavigatorProvider).provideNavigator()
+
+
         setUpTransactionsListRecyclerView()
         setObservers()
         setupView()
@@ -324,7 +331,17 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
         }
         checkFreezeUnfreezStatus()
 
-        btnCardDetails.setOnClickListener { viewModel.getCardDetails() }
+        btnCardDetails.setOnClickListener {
+            //1.this is where you need to call passcode screen
+            // 2.call following in result ok success
+            mNavigator.startVerifyPassCodePresenterActivity(this) { resultCode, data ->//1
+                if (resultCode == Activity.RESULT_OK) {
+                    viewModel.getCardDetails()//2
+                }
+            }
+
+
+        }
     }
 
     private fun checkFreezeUnfreezStatus() {

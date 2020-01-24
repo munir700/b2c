@@ -1213,4 +1213,8 @@ object Strings {
     const val screen_cards_button_reorder_card: String =
         "screen_cards_button_reorder_card"
 
+
+    const val alert_text_disapears: String =
+        "screen_card_detail_alert_text_disappears"
+
 }

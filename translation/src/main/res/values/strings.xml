@@ -715,6 +715,8 @@
     <string name="screen_add_topup_card_display_text_succes_details">Top up now with this card?</string>
     <string name="screen_add_topup_card_succes_button_top_up_now">Yes, top up now"</string>
     <string name="screen_add_topup_card_succes_button_later">No, do it later</string>
+    <string name="screen_card_detail_alert_text_disappears">Disappears in 15 seconds</string>
+
 
     <!-- Screen Card Analytics -->
     <string name="screen_card_analytics_display_tab_title_category">Category</string>
