@@ -51,9 +51,10 @@ class EditBeneficiaryActivity : BaseBindingActivity<IEditBeneficiary.ViewModel>(
                 bundle?.let {
                     viewModel.state.needOverView = it.getBoolean(OVERVIEW_BENEFICIARY, false)
                     viewModel.state.beneficiary = bundle.getParcelable(Beneficiary::class.java.name)
-                    if (viewModel.state.beneficiary!!.accountNo!!.length >= 22) {
-                        viewModel.state.beneficiary!!.accountNo =
-                            Utils.formateIbanString(viewModel.state.beneficiary!!.accountNo!!)
+                    viewModel.state.beneficiary?.accountNo?.length?.let {
+                        if (it >= 22)
+                            viewModel.state.beneficiary?.accountNo =
+                                Utils.formateIbanString(viewModel.state.beneficiary?.accountNo)
                     }
                 }
             }
@@ -61,9 +62,11 @@ class EditBeneficiaryActivity : BaseBindingActivity<IEditBeneficiary.ViewModel>(
 
         setObservers()
         currencyPopMenu = getCurrencyPopMenu(this, mutableListOf(), null, null)
+        formatIbanLogic()
+    }
 
-
-        if (viewModel.state.beneficiary!!.accountNo!!.length >= 22) {
+    private fun formatIbanLogic() {
+        if (viewModel.state.beneficiary?.accountNo?.length ?: 0 >= 22) {
             etAccountNumber.addTextChangedListener(object : TextWatcher {
 
                 override fun afterTextChanged(s: Editable) {
@@ -90,7 +93,6 @@ class EditBeneficiaryActivity : BaseBindingActivity<IEditBeneficiary.ViewModel>(
                 }
             })
         }
-
     }
 
 
