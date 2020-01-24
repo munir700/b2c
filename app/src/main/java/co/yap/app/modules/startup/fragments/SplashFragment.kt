@@ -17,8 +17,6 @@ import co.yap.modules.others.helper.Constants.VERSION_CODE
 import co.yap.modules.others.helper.Constants.VERSION_NAME
 import co.yap.yapcore.BaseFragment
 import co.yap.yapcore.helpers.SharedPreferenceManager
-import kotlinx.android.synthetic.main.fragment_splash.*
-import java.lang.Exception
 
 class SplashFragment : BaseFragment<ISplash.ViewModel>(), ISplash.View {
 
@@ -37,15 +35,6 @@ class SplashFragment : BaseFragment<ISplash.ViewModel>(), ISplash.View {
         super.onViewCreated(view, savedInstanceState)
         viewModel.splashComplete.observe(this, Observer {
             val sharedPreferenceManager = SharedPreferenceManager(requireContext())
-            if (sharedPreferenceManager.getValueBoolien(
-                    SharedPreferenceManager.KEY_IS_USER_LOGGED_IN,
-                    false
-                )
-            ) {
-                val action =
-                    SplashFragmentDirections.actionSplashFragmentToVerifyPasscodeFragment("")
-                findNavController().navigate(action)
-            } else {
                 if (sharedPreferenceManager.getValueBoolien(
                         SharedPreferenceManager.KEY_IS_FIRST_TIME_USER,
                         true
@@ -59,7 +48,6 @@ class SplashFragment : BaseFragment<ISplash.ViewModel>(), ISplash.View {
                 } else {
                     findNavController().navigate(R.id.action_splashFragment_to_loginFragment)
                 }
-            }
         })
         setAppVersion()
     }
