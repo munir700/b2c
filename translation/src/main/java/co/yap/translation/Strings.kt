@@ -1214,7 +1214,7 @@ object Strings {
         "screen_cards_button_reorder_card"
 
 
-    const val alert_text_disapears: String =
+    const val screen_card_detail_alert_text_disappears: String =
         "screen_card_detail_alert_text_disappears"
 
 }
