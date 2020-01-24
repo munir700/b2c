@@ -8,6 +8,7 @@ import co.yap.modules.onboarding.interfaces.IEidInfoReview
 import co.yap.modules.onboarding.states.EidInfoReviewState
 import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.customers.requestdtos.UploadDocumentsRequest
+import co.yap.networking.customers.responsedtos.SectionedCountriesResponseDTO
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
 import co.yap.translation.Strings
@@ -32,9 +33,12 @@ class EidInfoReviewViewModel(application: Application) :
 
     override val clickEvent: SingleClickEvent = SingleClickEvent()
     override val state: EidInfoReviewState = EidInfoReviewState()
+    lateinit var sectionedCountries: SectionedCountriesResponseDTO
 
     override fun onCreate() {
         super.onCreate()
+        getSectionedCountriesList()
+
         state.titleName[0] = parentViewModel?.identity?.identity?.givenName
         state.titleName[0] = parentViewModel?.name
         parentViewModel?.let { populateState(it.identity) }
@@ -54,10 +58,10 @@ class EidInfoReviewViewModel(application: Application) :
                 )
                 !it.isExpiryDateValid -> clickEvent.setValue(EVENT_ERROR_EXPIRED_EID)
                 !it.isDateOfBirthValid -> clickEvent.setValue(EVENT_ERROR_UNDER_AGE)
-
-                it.nationality.equals("USA", true) -> clickEvent.setValue(EVENT_ERROR_FROM_USA)
+                it.nationality == sectionedCountries.data.find { country -> country.name == it.nationality }?.name -> clickEvent.setValue(
+                    EVENT_ERROR_FROM_USA
+                )
                 else -> {
-
                     performUploadDocumentsRequest()
                 }
             }
@@ -123,6 +127,19 @@ class EidInfoReviewViewModel(application: Application) :
         }
     }
 
+    private fun getSectionedCountriesList() {
+        launch {
+            when (val response = repository.getSectionedCountries()) {
+                is RetroApiResponse.Success -> {
+                    sectionedCountries = response.data
+                }
+                is RetroApiResponse.Error -> {
+                    state.toast = response.error.message
+                }
+            }
+        }
+    }
+
     private fun performUploadDocumentsRequest() {
         parentViewModel?.identity?.let {
             launch {
@@ -163,6 +180,7 @@ class EidInfoReviewViewModel(application: Application) :
     }
 
     fun populateState(identity: IdentityScannerResult?) {
+
         identity?.let {
             state.fullName = it.identity.givenName + " " + it.identity.sirName
             state.fullNameValid = state.fullName.isNotBlank()
