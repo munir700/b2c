@@ -8,6 +8,7 @@ import android.text.TextWatcher
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.fragment.findNavController
 import co.yap.BR
 import co.yap.R
 import co.yap.modules.dashboard.yapit.sendmoney.activities.BeneficiaryCashTransferActivity
@@ -17,8 +18,10 @@ import co.yap.modules.dashboard.yapit.sendmoney.fragments.SendMoneyBaseFragment
 import co.yap.translation.Translator
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.RequestCodes
+import co.yap.yapcore.enums.SendMoneyBeneficiaryType
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.interfaces.OnItemClickListener
+import co.yap.yapcore.managers.MyUserManager
 import kotlinx.android.synthetic.main.fragment_beneficiary_account_detail.*
 
 class BeneficiaryAccountDetailsFragment :
@@ -72,7 +75,11 @@ class BeneficiaryAccountDetailsFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        viewModel.otpCreateObserver.observe(this, otpCreateObserver)
+        viewModel.parentViewModel?.otpSuccess?.observe(
+            this,
+            otpSuccessObserver
+        )
         etIban.addTextChangedListener(object : TextWatcher {
 
             override fun afterTextChanged(s: Editable) {
@@ -130,14 +137,50 @@ class BeneficiaryAccountDetailsFragment :
         }
     }
 
+    private val otpSuccessObserver = Observer<Boolean> {
+        if (it) {
+            viewModel.parentViewModel?.beneficiary?.value?.accountNo =
+                viewModel.state.accountIban.replace(" ", "")
+            viewModel.createBeneficiaryRequest()
+            viewModel.parentViewModel?.otpSuccess?.value = false
+        }
+    }
+
+    private val otpCreateObserver = Observer<Boolean> {
+        if (it) {
+            viewModel.parentViewModel?.beneficiary?.value?.beneficiaryType?.let { it ->
+                if (it.isNotEmpty())
+                    when (SendMoneyBeneficiaryType.valueOf(it)) {
+                        SendMoneyBeneficiaryType.SWIFT -> {
+                            moveToOptScreen(Constants.SWIFT_BENEFICIARY)
+                        }
+                        SendMoneyBeneficiaryType.RMT -> {
+                            moveToOptScreen(Constants.RMT_BENEFICIARY)
+                        }
+                        else -> {
+                        }
+                    }
+            }
+        }
+    }
+
+    private fun moveToOptScreen(otpAction: String) {
+        val action =
+            BeneficiaryAccountDetailsFragmentDirections.actionBeneficiaryAccountDetailsFragmentToGenericOtpFragment4(
+                "",
+                false,
+                MyUserManager.user?.currentCustomer?.getFormattedPhoneNumber(requireContext())
+                    ?: "",
+                otpAction
+            )
+        findNavController().navigate(action)
+    }
+
     override fun onDestroy() {
         super.onDestroy()
         viewModel.clickEvent.removeObservers(this)
-
-    }
-
-    override fun onBackPressed(): Boolean {
-        return super.onBackPressed()
+        viewModel.otpCreateObserver.removeObservers(this)
+        viewModel.parentViewModel?.otpSuccess?.removeObserver(otpSuccessObserver)
     }
 
 }

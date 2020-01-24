@@ -1,7 +1,6 @@
 package co.yap.modules.others.otp
 
 import android.app.Application
-import co.yap.modules.dashboard.yapit.sendmoney.activities.BeneficiaryCashTransferActivity
 import co.yap.modules.forgotpasscode.viewmodels.ForgotPasscodeOtpViewModel
 import co.yap.networking.messages.MessagesRepository
 import co.yap.networking.messages.requestdtos.CreateOtpGenericRequest
@@ -97,13 +96,14 @@ open class GenericOtpViewModel(application: Application) : ForgotPasscodeOtpView
     }
 
     override fun handlePressOnResendOTP(id: Int) {
-        if (action == Constants.CHANGE_EMAIL || action == Constants.FORGOT_CARD_PIN_ACTION || action == Constants.BENEFICIARY_CASH_TRANSFER|| action == Constants.DOMESTIC_BENEFICIARY) {
-            createOtp()
-        } else if (action == Constants.CHANGE_MOBILE_NO) {
+        /*  if (action == Constants.CHANGE_EMAIL || action == Constants.FORGOT_CARD_PIN_ACTION || action == Constants.BENEFICIARY_CASH_TRANSFER|| action == Constants.DOMESTIC_BENEFICIARY) {
+              createOtp()
+          } else*/ if (action == Constants.CHANGE_MOBILE_NO) {
             createOtpForPhoneNumber()
+        } else {
+            createOtp()
         }
     }
-
 
     fun createOtp() {
         launch {
@@ -132,7 +132,6 @@ open class GenericOtpViewModel(application: Application) : ForgotPasscodeOtpView
     private fun createOtpForPhoneNumber() {
 
         launch {
-
             state.loading = true
             when (val response =
                 messagesRepository.createOtpGenericWithPhone(
