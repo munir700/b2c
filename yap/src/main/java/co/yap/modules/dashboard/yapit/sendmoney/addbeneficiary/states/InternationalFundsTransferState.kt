@@ -51,11 +51,12 @@ class InternationalFundsTransferState(val application: Application) : BaseState(
         set(value) {
             field = value
             notifyPropertyChanged(BR.fxRateAmount)
-            fxRateAmount?.let {
+            clearError()
+            /*fxRateAmount?.let {
                 if (it.isNotEmpty() && it != ".") {
                     valid = it.toDouble() > 1.0
                 }
-            }
+            }*/
             checkValidation()
         }
 
@@ -381,5 +382,17 @@ class InternationalFundsTransferState(val application: Application) : BaseState(
 
     }
 
+    private fun clearError() {
+        if (fxRateAmount != "") {
+            if (fxRateAmount != "." && fxRateAmount?.toDouble() ?: 0.0 > 0.0) {
+                valid = true
+//                valid = amount.toDouble() >= minLimit
+/*                amountBackground =
+                    context.resources.getDrawable(co.yap.yapcore.R.drawable.bg_funds, null)*/
+            }
+        } else if (fxRateAmount == "") {
+            valid = false
+        }
+    }
 
 }
