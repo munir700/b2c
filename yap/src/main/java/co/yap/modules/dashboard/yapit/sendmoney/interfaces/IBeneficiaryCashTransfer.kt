@@ -1,5 +1,6 @@
 package co.yap.modules.dashboard.yapit.sendmoney.interfaces
 
+import androidx.lifecycle.MutableLiveData
 import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
@@ -9,6 +10,7 @@ interface IBeneficiaryCashTransfer {
     interface ViewModel : IBase.ViewModel<State> {
         fun handlePressOnView(id: Int)
         val clickEvent: SingleClickEvent
+        var errorEvent: MutableLiveData<String>
     }
 
     interface State : IBase.State {

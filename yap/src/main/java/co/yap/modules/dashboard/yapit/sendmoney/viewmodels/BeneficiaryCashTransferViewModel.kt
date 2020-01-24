@@ -1,6 +1,7 @@
 package co.yap.modules.dashboard.yapit.sendmoney.viewmodels
 
 import android.app.Application
+import androidx.lifecycle.MutableLiveData
 import co.yap.modules.dashboard.yapit.sendmoney.interfaces.IBeneficiaryCashTransfer
 import co.yap.modules.dashboard.yapit.sendmoney.states.BeneficiaryCashTransferState
 import co.yap.translation.Strings
@@ -13,13 +14,14 @@ class BeneficiaryCashTransferViewModel(application: Application) :
     IBeneficiaryCashTransfer.ViewModel {
     override val state: BeneficiaryCashTransferState = BeneficiaryCashTransferState()
     override val clickEvent: SingleClickEvent = SingleClickEvent()
+    override var errorEvent: MutableLiveData<String> = MutableLiveData()
 
     override fun onCreate() {
         super.onCreate()
         state.toolBarVisibility = true
         state.toolBarTitle = getString(Strings.screen_cash_pickup_funds_display_text_header)
         state.leftButtonVisibility = true
-        state.rightButtonText= getString(Strings.common_button_cancel)
+        state.rightButtonText = getString(Strings.common_button_cancel)
         state.rightButtonVisibility = true
 
     }
