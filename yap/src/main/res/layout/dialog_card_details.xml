@@ -73,6 +73,7 @@
 
 
     <RelativeLayout
+        android:id="@+id/rlCardNumberBottom"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/rlCardNumber"
@@ -132,4 +133,15 @@
                 android:text="123" />
         </RelativeLayout>
     </RelativeLayout>
+
+    <TextView
+        android:id="@+id/tvTimer"
+        style="@style/AMicroGrey"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/rlCardNumberBottom"
+        android:layout_marginBottom="@dimen/margin_medium_large"
+        android:gravity="center"
+        android:text="@string/screen_card_detail_alert_text_disappears"
+        android:textSize="@dimen/_13sdp" />
 </RelativeLayout>
