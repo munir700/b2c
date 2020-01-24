@@ -163,7 +163,11 @@ class InternationalFundsTransferFragment :
                                     Utils.getFormattedCurrency(viewModel.state.maxLimit.toString()),
                                     availableBalance.toString()
                                 )
-                                showSnackBarForLimits(errorDescription)
+                                if (activity is BeneficiaryCashTransferActivity) {
+                                    (activity as BeneficiaryCashTransferActivity).viewModel.errorEvent.value =
+                                        errorDescription
+                                }
+                                //showSnackBarForLimits(errorDescription)
                             } else {
                                 viewModel.createOtp(R.id.btnNext)
                             }
@@ -176,7 +180,14 @@ class InternationalFundsTransferFragment :
                                 }
                             }*/
                         } else {
-                            showErrorSnackBar()
+                            val des = Translator.getString(
+                                requireContext(),
+                                Strings.screen_y2y_funds_transfer_display_text_error_exceeding_amount
+                            )
+                            if (activity is BeneficiaryCashTransferActivity) {
+                                (activity as BeneficiaryCashTransferActivity).viewModel.errorEvent.value =
+                                    des
+                            }
                         }
                     }
 
@@ -319,9 +330,8 @@ class InternationalFundsTransferFragment :
                     }
             }
         }
-
     }
-
+/*
     private fun showErrorSnackBar() {
         val des = Translator.getString(
             requireContext(),
@@ -332,15 +342,7 @@ class InternationalFundsTransferFragment :
             layout = clFTSnackbar,
             message = des
         )
-    }
-
-    fun showSnackBarForLimits(errorMessage: String) {
-        CustomSnackbar.showErrorCustomSnackbar(
-            context = requireContext(),
-            layout = clFTSnackbar,
-            message = errorMessage
-        )
-    }
+    }*/
 
     override fun onResume() {
         super.onResume()

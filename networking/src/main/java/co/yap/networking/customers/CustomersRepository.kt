@@ -76,6 +76,8 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     const val URL_CURRENCIES_BY_COUNTRY_CODE =
         "customers/api/country/{country}/currencies"
 
+    const val URL_SANCTIONED_COUNTRIES = "customers/api/countries/sanctioned"
+
 
     //.................... End region of old projects apis................................................
 
@@ -220,4 +222,7 @@ object CustomersRepository : BaseRepository(), CustomersApi {
 
     override suspend fun getOtherBankParams(countryName: String): RetroApiResponse<BankParamsResponse> =
         executeSafely(call = { api.getOtherBankParams(countryName) })
+
+    override suspend fun getSectionedCountries(): RetroApiResponse<SectionedCountriesResponseDTO> =
+        executeSafely(call = { api.getSectionedCountries() })
 }

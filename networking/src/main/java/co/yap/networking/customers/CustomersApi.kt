@@ -57,5 +57,7 @@ interface CustomersApi {
     suspend fun findOtherBank(otherBankQuery: OtherBankQuery): RetroApiResponse<ApiResponse>
     suspend fun getOtherBankParams(countryName: String): RetroApiResponse<ApiResponse>
 
+    suspend fun getSectionedCountries(): RetroApiResponse<SectionedCountriesResponseDTO>
+
     /*TODO ======================================  done*/
 }
