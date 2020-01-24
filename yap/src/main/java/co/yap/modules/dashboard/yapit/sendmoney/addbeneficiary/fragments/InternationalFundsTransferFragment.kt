@@ -1,6 +1,5 @@
 package co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.fragments
 
-import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.InputFilter
@@ -10,7 +9,6 @@ import android.view.View
 import android.widget.AdapterView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.navigation.fragment.findNavController
 import co.yap.BR
 import co.yap.R
@@ -23,7 +21,6 @@ import co.yap.networking.transactions.responsedtos.InternationalFundsTransferRea
 import co.yap.translation.Strings
 import co.yap.translation.Translator
 import co.yap.widgets.spinneradapter.ViewHolderArrayAdapter
-import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.SendMoneyBeneficiaryProductCode
 import co.yap.yapcore.enums.SendMoneyBeneficiaryType
 import co.yap.yapcore.helpers.CustomSnackbar
@@ -57,7 +54,7 @@ class InternationalFundsTransferFragment :
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        successOtpFlow()
+        //successOtpFlow()
         getBindings().etSenderAmount.filters =
             arrayOf(InputFilter.LengthFilter(7), co.yap.widgets.DecimalDigitsInputFilter(2))
         getBindings().etSenderAmount.addTextChangedListener(object : TextWatcher {
@@ -83,17 +80,41 @@ class InternationalFundsTransferFragment :
             }
         })
     }
-
-    private fun successOtpFlow() {
-        if (context is BeneficiaryCashTransferActivity) {
-            (context as BeneficiaryCashTransferActivity).viewModel.state.otpSuccess?.let { success ->
-                if (success) {
-                    callTransactionApi()
-                }
-                (context as BeneficiaryCashTransferActivity).viewModel.state.otpSuccess = false
-            }
-        }
-    }
+//
+//    private fun successOtpFlow() {
+//        if (context is BeneficiaryCashTransferActivity) {
+//            (context as BeneficiaryCashTransferActivity).viewModel.state.otpSuccess?.let { success ->
+//                if (success) {
+//                    callTransactionApi()
+//                }
+//                (context as BeneficiaryCashTransferActivity).viewModel.state.otpSuccess = false
+//            }
+//        }
+//    }
+//
+//    private fun callTransactionApi() {
+//        (context as BeneficiaryCashTransferActivity).viewModel.state.beneficiary?.let { beneficiary ->
+//            beneficiary.beneficiaryType?.let { beneficiaryType ->
+//                if (beneficiaryType.isNotEmpty())
+//                    when (SendMoneyBeneficiaryType.valueOf(beneficiaryType)) {
+//                        SendMoneyBeneficiaryType.RMT -> {
+//                            beneficiary.id?.let { beneficiaryId ->
+//                                viewModel.rmtTransferRequest(beneficiaryId.toString())
+//                            }
+//                        }
+//                        SendMoneyBeneficiaryType.SWIFT -> {
+//                            beneficiary.id?.let { beneficiaryId ->
+//                                viewModel.swiftTransferRequest(beneficiaryId.toString())
+//                            }
+//                        }
+//                        else -> {
+//
+//                        }
+//                    }
+//            }
+//        }
+//
+//    }
 
     private fun setObservers() {
         viewModel.clickEvent.observe(this, clickEvent)
@@ -141,10 +162,7 @@ class InternationalFundsTransferFragment :
         when (it) {
             R.id.btnNext -> {
                 if (viewModel.state.reasonTransferValue.equals("Select a Reason")) {
-                    toast(
-                        activity as BeneficiaryCashTransferActivity,
-                        "Select a Reason"
-                    )
+                    toast("Select a Reason")
                 } else {
 
                     val availableBalance =
@@ -165,7 +183,36 @@ class InternationalFundsTransferFragment :
                                 )
                                 showSnackBarForLimits(errorDescription)
                             } else {
-                                viewModel.createOtp(R.id.btnNext)
+                                viewModel.state.position?.let { position ->
+                                    viewModel.state.beneficiaryCountry?.let { beneficiaryCountry ->
+                                        val action =
+                                            InternationalFundsTransferFragmentDirections.actionInternationalFundsTransferFragmentToInternationalTransactionConfirmationFragment(
+                                                viewModel.state.beneficiaryName,
+                                                viewModel.state.senderCurrency.toString(),
+                                                viewModel.state.fxRateAmount.toString(),
+                                                viewModel.state.receiverCurrencyAmount.toString(),
+                                                viewModel.state.toFxRateCurrency ?: "",
+                                                viewModel.state.totalAmount.toString(),
+                                                viewModel.state.fromFxRate.toString(),
+                                                viewModel.state.toFxRate.toString(),
+                                                viewModel.state.referenceNumber.toString(),
+                                                position,
+                                                beneficiaryCountry,
+                                                viewModel.state.firstName
+                                                    ?: viewModel.state.beneficiaryName,
+                                                viewModel.state.fromFxRateCurrency?: "",
+                                                viewModel.state.reasonTransferCode?: "",
+                                                viewModel.state.transactionNote ?: "",
+                                                viewModel.state.reasonTransferValue?: "",
+                                                viewModel.state.rate?: "",
+                                                viewModel.otpAction ?: ""
+                                            )
+                                        findNavController().navigate(action)
+                                    }
+
+                                }
+
+                                // viewModel.createOtp(R.id.btnNext)
                             }
 
                             /*if (viewModel.state.minLimit != null && viewModel.state.maxLimit != null) {
@@ -205,33 +252,33 @@ class InternationalFundsTransferFragment :
                     }
                 }
             }
-            Constants.ADD_SUCCESS -> {
-                // Send Broadcast for updating transactions list in `Home Fragment`
-                val intent = Intent(Constants.BROADCAST_UPDATE_TRANSACTION)
-                LocalBroadcastManager.getInstance(requireContext()).sendBroadcast(intent)
-                viewModel.state.position?.let { position ->
-                    viewModel.state.beneficiaryCountry?.let { beneficiaryCountry ->
-                        val action =
-                            InternationalFundsTransferFragmentDirections.actionInternationalFundsTransferFragmentToInternationalTransactionConfirmationFragment(
-                                viewModel.state.beneficiaryName,
-                                viewModel.state.senderCurrency.toString(),
-                                viewModel.state.fxRateAmount.toString(),
-                                viewModel.state.receiverCurrencyAmount.toString(),
-                                viewModel.state.toFxRateCurrency ?: "",
-                                viewModel.state.totalAmount.toString(),
-                                viewModel.state.fromFxRate.toString(),
-                                viewModel.state.toFxRate.toString(),
-                                viewModel.state.referenceNumber.toString(),
-                                position,
-                                beneficiaryCountry,
-                                viewModel.state.firstName ?: viewModel.state.beneficiaryName
-                            )
-                        findNavController().navigate(action)
-                    }
-
-                }
-
-            }
+//            Constants.ADD_SUCCESS -> {
+//                // Send Broadcast for updating transactions list in `Home Fragment`
+//                val intent = Intent(Constants.BROADCAST_UPDATE_TRANSACTION)
+//                LocalBroadcastManager.getInstance(requireContext()).sendBroadcast(intent)
+//                viewModel.state.position?.let { position ->
+//                    viewModel.state.beneficiaryCountry?.let { beneficiaryCountry ->
+//                        val action =
+//                            InternationalFundsTransferFragmentDirections.actionInternationalFundsTransferFragmentToInternationalTransactionConfirmationFragment(
+//                                viewModel.state.beneficiaryName,
+//                                viewModel.state.senderCurrency.toString(),
+//                                viewModel.state.fxRateAmount.toString(),
+//                                viewModel.state.receiverCurrencyAmount.toString(),
+//                                viewModel.state.toFxRateCurrency ?: "",
+//                                viewModel.state.totalAmount.toString(),
+//                                viewModel.state.fromFxRate.toString(),
+//                                viewModel.state.toFxRate.toString(),
+//                                viewModel.state.referenceNumber.toString(),
+//                                position,
+//                                beneficiaryCountry,
+//                                viewModel.state.firstName ?: viewModel.state.beneficiaryName
+//                            )
+//                        findNavController().navigate(action)
+//                    }
+//
+//                }
+//
+//            }
             R.id.viewSpinnerClickReason -> {
                 reasonsSpinner.performClick()
             }
@@ -298,29 +345,6 @@ class InternationalFundsTransferFragment :
         }
     }
 
-    private fun callTransactionApi() {
-        (context as BeneficiaryCashTransferActivity).viewModel.state.beneficiary?.let { beneficiary ->
-            beneficiary.beneficiaryType?.let { beneficiaryType ->
-                if (beneficiaryType.isNotEmpty())
-                    when (SendMoneyBeneficiaryType.valueOf(beneficiaryType)) {
-                        SendMoneyBeneficiaryType.RMT -> {
-                            beneficiary.id?.let { beneficiaryId ->
-                                viewModel.rmtTransferRequest(beneficiaryId.toString())
-                            }
-                        }
-                        SendMoneyBeneficiaryType.SWIFT -> {
-                            beneficiary.id?.let { beneficiaryId ->
-                                viewModel.swiftTransferRequest(beneficiaryId.toString())
-                            }
-                        }
-                        else -> {
-
-                        }
-                    }
-            }
-        }
-
-    }
 
     private fun showErrorSnackBar() {
         val des = Translator.getString(

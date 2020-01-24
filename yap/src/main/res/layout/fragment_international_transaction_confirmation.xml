@@ -32,6 +32,7 @@
                 android:text="@{viewModel.state.confirmHeading}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
+                android:visibility="gone"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="Confirm transfer" />
 
@@ -159,9 +160,33 @@
                 app:layout_constraintTop_toBottomOf="@+id/tvReceivingAmount"
                 tools:text="International transfer fee: AED XX \n Note that the recipient's bank may have its own charges." />
 
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/appCompatImageView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_medium_large"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvFeeDescription"
+                app:srcCompat="@drawable/ic_access_alarm" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                style="@style/MicroGrey"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Transfers made before 2:00 PM UAE time will be processed on the same day. All transfers made after this time will be carried out on the next business day"
+                android:layout_marginTop="@dimen/margin_medium"
+                android:gravity="center"
+                android:layout_marginStart="@dimen/margin_medium"
+                android:layout_marginEnd="@dimen/margin_medium"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/appCompatImageView" />
+
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/llData"
                 android:layout_width="match_parent"
+                android:visibility="gone"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_medium"
                 android:layout_marginTop="@dimen/margin_medium"

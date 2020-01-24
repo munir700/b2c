@@ -65,6 +65,23 @@ class VerifyPasscodeViewModel(application: Application) :
         ) {
             username = state.username
         } else {
+            //TODO need to fix this crash , follow these logs below:
+          /*  Process: co.yap.dev, PID: 12664
+            kotlin.TypeCastException: null cannot be cast to non-null type kotlin.String
+            at co.yap.app.modules.login.viewmodels.VerifyPasscodeViewModel.handlePressOnForgotPasscodeButton(VerifyPasscodeViewModel.kt:70)
+            at co.yap.app.databinding.FragmentVerifyPasscodeBindingImpl._internalCallbackOnClick(FragmentVerifyPasscodeBindingImpl.java:285)
+            at co.yap.app.generated.callback.OnClickListener.onClick(OnClickListener.java:11)
+            at android.view.View.performClick(View.java:6663)
+            at android.view.View.performClickInternal(View.java:6635)
+            at android.view.View.access$3100(View.java:794)
+            at android.view.View$PerformClick.run(View.java:26199)
+            at android.os.Handler.handleCallback(Handler.java:907)
+            at android.os.Handler.dispatchMessage(Handler.java:105)
+            at android.os.Looper.loop(Looper.java:216)
+            at android.app.ActivityThread.main(ActivityThread.java:7625)
+            at java.lang.reflect.Method.invoke(Native Method)
+            at com.android.internal.os.RuntimeInit$MethodAndArgsCaller.run(RuntimeInit.java:524)
+            at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:987)*/
             username = EncryptionUtils.decrypt(
                 context,
                 sharedPreferenceManager.getValueString(SharedPreferenceManager.KEY_USERNAME) as String
