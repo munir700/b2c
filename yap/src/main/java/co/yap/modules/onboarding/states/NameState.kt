@@ -65,39 +65,38 @@ class NameState(application: Application) : BaseState(), IName.State {
 
 
     private fun validate(): Boolean {
-        return StringUtils.validateName(firstName,1) && StringUtils.validateName(lastName,1) && firstNameError.value.isNullOrEmpty() && lastNameError.value.isNullOrEmpty()
+        return StringUtils.validateName(firstName) && StringUtils.validateLastName(lastName) && firstNameError.value.isNullOrEmpty() && lastNameError.value.isNullOrEmpty()
     }
 
     private fun setFirstNameTextWatcher(value: String) {
 
         if (!value.isNullOrEmpty() && value.length >= 2) {
 
-            if (StringUtils.validateName(value,1)) {
+            if (StringUtils.validateName(value)) {
                 valid = true
                 firstNameError.value = ""
-                lastNameError.value = ""
+//                lastNameError.value = ""
                 drawbleRight = context.resources.getDrawable(co.yap.yapcore.R.drawable.path)
                 validate()
             } else {
                 valid = false
                 firstNameError.value = "Please enter alphabets only."
-                lastNameError.value = ""
+//                lastNameError.value = ""
                 drawbleRight = null
                 notifyPropertyChanged(BR.valid)
             }
         } else {
-            valid = false
-            firstNameError.value = ""
             drawbleRight = null
+            firstNameError.value = ""
 
         }
     }
 
     private fun setLastNameTextWatcher(value: String) {
 
-        if (!value.isNullOrEmpty() && value.isNotEmpty()) {
+        if (!value.isNullOrEmpty() && value.length >= 1) {
 
-            if (StringUtils.validateName(value,1)) {
+            if (StringUtils.validateLastName(value)) {
                 valid = true
                 lastNameError.value = ""
                 drawbleRightLastName =
@@ -110,9 +109,8 @@ class NameState(application: Application) : BaseState(), IName.State {
 
             }
         } else {
-            valid = false
-            lastNameError.value = ""
             drawbleRightLastName = null
+            lastNameError.value = ""
 
         }
     }

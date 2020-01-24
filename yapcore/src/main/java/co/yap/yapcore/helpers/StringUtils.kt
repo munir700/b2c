@@ -6,18 +6,36 @@ import java.util.regex.Pattern
 object StringUtils {
 
 
-    fun validateName(name: String , defaultValidLength:Int = 2): Boolean {
+    fun validateName(name: String): Boolean {
 
         var inputStr: CharSequence = ""
         var isValid = false
-        val expression =  "^[a-zA-Z]{1,100}\$"
-            //"^[a-zA-Z]{1}[a-zA-Z ]{1,100}\$"
+        val expression =
+            "^[a-zA-Z]{1}[a-zA-Z ]{1,100}\$"
         inputStr = name
         val pattern = Pattern.compile(expression)
         val matcher = pattern.matcher(inputStr)
 
         if (matcher.matches() && !name.isNullOrEmpty()) {
-            if (name.length >= defaultValidLength) {
+            if (name.length >= 2) {
+                isValid = true
+            }
+        }
+        return isValid
+    }
+
+    fun validateLastName(name: String): Boolean {
+
+        var inputStr: CharSequence = ""
+        var isValid = false
+        val expression =
+            "^[a-zA-Z]{1,100}\$"
+        inputStr = name
+        val pattern = Pattern.compile(expression)
+        val matcher = pattern.matcher(inputStr)
+
+        if (matcher.matches() && !name.isNullOrEmpty()) {
+            if (name.length >= 1) {
                 isValid = true
             }
         }

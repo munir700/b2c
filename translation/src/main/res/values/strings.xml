@@ -715,6 +715,8 @@
     <string name="screen_add_topup_card_display_text_succes_details">Top up now with this card?</string>
     <string name="screen_add_topup_card_succes_button_top_up_now">Yes, top up now"</string>
     <string name="screen_add_topup_card_succes_button_later">No, do it later</string>
+    <string name="screen_card_detail_alert_text_disappears">Disappears in %1s seconds</string>
+
 
     <!-- Screen Card Analytics -->
     <string name="screen_card_analytics_display_tab_title_category">Category</string>
@@ -738,6 +740,7 @@
     <string name="screen_funds_success_header">Transfer successful</string>
     <string name="screen_funds_confirmation_success_description">Your transfer of %1s %2s to %3s will be sent at the exchange rate of %4s</string>
     <string name="screen_funds_receive_description">%1s will receive %2s</string>
+    <string name="scren_send_money_funds_transfer_display_text_amount_error">Your entered amount should be between AED %1s and AED %2s, and your entered amount should be less than or equal to your current balance of AED %3s</string>
     <string name="screen_funds_transfer_fee_description">International transfer fee: %1s \n Note that the recipient\'s bank may have its own charges.</string>
 
     <!--    Screen cash pickup funds transfer success-->

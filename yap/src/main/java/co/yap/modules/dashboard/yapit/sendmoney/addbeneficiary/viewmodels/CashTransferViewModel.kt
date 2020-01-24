@@ -245,7 +245,6 @@ class CashTransferViewModel(application: Application) :
 
     override fun getTransactionInternationalReasonList() {
         launch {
-            //            state.loading = true
             transactionData.clear()
             when (val response =
                 transactionRepository.getTransactionInternationalReasonList(state.produceCode)) {
@@ -267,7 +266,6 @@ class CashTransferViewModel(application: Application) :
                     errorEvent.call()
                 }
             }
-            //state.loading = false
         }
     }
 
@@ -322,6 +320,22 @@ class CashTransferViewModel(application: Application) :
             }
             // state.loading = false
         }
+    }
+
+    override fun getMoneyTransferLimits(productCode: String?) {
+
+        launch {
+            when (val response = transactionRepository.getFundTransferLimits(productCode)) {
+                is RetroApiResponse.Success -> {
+                    state.maxLimit = response.data.data?.maxLimit?.toDouble() ?: 0.00
+                    state.minLimit = response.data.data?.minLimit?.toDouble() ?: 0.00
+                }
+                is RetroApiResponse.Error -> {
+                    state.toast = response.error.message
+                }
+            }
+        }
+
     }
 
 }
