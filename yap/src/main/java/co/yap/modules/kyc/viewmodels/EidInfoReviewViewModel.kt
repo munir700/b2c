@@ -33,7 +33,7 @@ class EidInfoReviewViewModel(application: Application) :
 
     override val clickEvent: SingleClickEvent = SingleClickEvent()
     override val state: EidInfoReviewState = EidInfoReviewState()
-    lateinit var sectionedCountriesResponseDTO: SectionedCountriesResponseDTO
+    lateinit var sectionedCountries: SectionedCountriesResponseDTO
 
     override fun onCreate() {
         super.onCreate()
@@ -41,13 +41,7 @@ class EidInfoReviewViewModel(application: Application) :
 
         state.titleName[0] = parentViewModel?.identity?.identity?.givenName
         state.titleName[0] = parentViewModel?.name
-        parentViewModel?.let {
-
-
-            if (it.identity?.identity?.nationality.equals("")){
-
-            }
-             populateState(it.identity) }
+        parentViewModel?.let { populateState(it.identity) }
     }
 
     override fun handlePressOnRescanBtn() {
@@ -64,10 +58,10 @@ class EidInfoReviewViewModel(application: Application) :
                 )
                 !it.isExpiryDateValid -> clickEvent.setValue(EVENT_ERROR_EXPIRED_EID)
                 !it.isDateOfBirthValid -> clickEvent.setValue(EVENT_ERROR_UNDER_AGE)
-
-                it.nationality.equals("USA", true) -> clickEvent.setValue(EVENT_ERROR_FROM_USA)
+                it.nationality == sectionedCountries.data.find { country -> country.name == it.nationality }?.name -> clickEvent.setValue(
+                    EVENT_ERROR_FROM_USA
+                )
                 else -> {
-
                     performUploadDocumentsRequest()
                 }
             }
@@ -134,25 +128,16 @@ class EidInfoReviewViewModel(application: Application) :
     }
 
     private fun getSectionedCountriesList() {
-             launch {
-
-                state.loading = true
-                val response = repository.getSectionedCountries()
-
-                when (response) {
-                    is RetroApiResponse.Success -> {
-                        state.loading = false
-                        sectionedCountriesResponseDTO = response.data
-//                        clickEvent.setValue(EVENT_NEXT)
-                    }
-                    is RetroApiResponse.Error -> {
-                        state.loading = false
-
-                        state.toast = response.error.message
-                    }
+        launch {
+            when (val response = repository.getSectionedCountries()) {
+                is RetroApiResponse.Success -> {
+                    sectionedCountries = response.data
+                }
+                is RetroApiResponse.Error -> {
+                    state.toast = response.error.message
                 }
             }
-
+        }
     }
 
     private fun performUploadDocumentsRequest() {
