@@ -43,6 +43,7 @@ class SystemPermissionViewModel(application: Application) : BaseViewModel<ISyste
     fun touchIdViews() {
         state.icon = R.drawable.ic_fingerprint
         state.title = getString(Strings.screen_system_permission_text_title)
+        state.subTitle = getString(Strings.screen_system_permission_text_sub_title)
         state.termsAndConditionsVisibility = true
         state.buttonTitle = getString(Strings.screen_system_permission_button_touch_id)
     }
