@@ -8,6 +8,7 @@ import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.os.CountDownTimer
 import android.view.View
 import android.view.Window
 import android.widget.ImageView
@@ -35,10 +36,13 @@ import co.yap.modules.dashboard.cards.reportcard.activities.ReportLostOrStolenCa
 import co.yap.modules.dashboard.home.adaptor.TransactionsHeaderAdapter
 import co.yap.modules.dashboard.home.filters.activities.TransactionFiltersActivity
 import co.yap.modules.dashboard.home.filters.models.TransactionFilters
+import co.yap.modules.dummy.ActivityNavigator
+import co.yap.modules.dummy.NavigatorProvider
 import co.yap.modules.others.helper.Constants
 import co.yap.networking.cards.responsedtos.Card
 import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionListData
 import co.yap.translation.Strings
+import co.yap.translation.Translator
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.enums.CardStatus
@@ -63,6 +67,7 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
     private var cardRemoved: Boolean = false
     private var limitsUpdated: Boolean = false
     private var nameUpdated: Boolean = false
+    private lateinit var mNavigator: ActivityNavigator
 
     companion object {
         private const val CARD = "card"
@@ -82,6 +87,9 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        mNavigator = (this?.applicationContext as NavigatorProvider).provideNavigator()
+
+
         setUpTransactionsListRecyclerView()
         setObservers()
         setupView()
@@ -324,7 +332,13 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
         }
         checkFreezeUnfreezStatus()
 
-        btnCardDetails.setOnClickListener { viewModel.getCardDetails() }
+        btnCardDetails.setOnClickListener {
+            mNavigator.startVerifyPassCodePresenterActivity(this) { resultCode, data ->
+                if (resultCode == Activity.RESULT_OK) {
+                    viewModel.getCardDetails()
+                }
+            }
+        }
     }
 
     private fun checkFreezeUnfreezStatus() {
@@ -552,9 +566,10 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
         val tvCardValidity = dialog.findViewById(R.id.tvCardValidityValue) as TextView
         val tvCvvV = dialog.findViewById(R.id.tvCvvValue) as TextView
         val tvCardType = dialog.findViewById(R.id.tvCardType) as TextView
+        val tvTimer = dialog.findViewById(R.id.tvTimer) as TextView
         tvCardValidity.text = viewModel.cardDetail.expiryDate
         tvCvvV.text = viewModel.cardDetail.cvv
-
+        var cdTimer = ("15")
 
         if (null != viewModel.cardDetail.cardNumber) {
             if (viewModel.cardDetail.cardNumber?.trim()?.contains(" ")!!) {
@@ -584,10 +599,30 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
                 }
             }
         }
+        val timer = object : CountDownTimer(16000, 1000) {
+            override fun onTick(millisUntilFinished: Long) {
+
+                cdTimer = (millisUntilFinished / 1000).toString()
+                tvTimer.text = Translator.getString(
+                    tvTimer.context,
+                    Strings.screen_card_detail_alert_text_disappears,
+                    cdTimer
+                )
+
+            }
+
+            override fun onFinish() {
+                dialog.dismiss()
+            }
+        }
+
+
         btnClose.setOnClickListener {
+            timer.cancel()
             dialog.dismiss()
         }
         dialog.show()
+        timer.start()
     }
 
     private fun setUpTransactionsListRecyclerView() {
