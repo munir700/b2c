@@ -47,17 +47,28 @@ open class GenericOtpFragment : ForgotPasscodeOtpFragment() {
 
     override fun setObservers() {
         viewModel.nextButtonPressEvent.observe(this, Observer {
-
-            if (activity is ForgotCardPinActivity) {
-                (activity as ForgotCardPinActivity).viewModel.state.currentScreen =
-                    Constants.FORGOT_CARD_PIN_ACTION
-            } else if (activity is MoreActivity) {
-                MoreActivity.navigationVariable = true
-            } else if (activity is BeneficiaryCashTransferActivity) {
-                (activity as BeneficiaryCashTransferActivity).viewModel.state.otpSuccess = true
-            } else if (viewModel.action == Constants.DOMESTIC_BENEFICIARY) {
-                if (activity is SendMoneyHomeActivity) {
-                    (activity as SendMoneyHomeActivity).viewModel.otpSuccess.value = true
+            when (activity) {
+                is ForgotCardPinActivity -> {
+                    (activity as ForgotCardPinActivity).viewModel.state.currentScreen =
+                        Constants.FORGOT_CARD_PIN_ACTION
+                }
+                is MoreActivity -> {
+                    MoreActivity.navigationVariable = true
+                }
+                is BeneficiaryCashTransferActivity -> {
+                    (activity as BeneficiaryCashTransferActivity).viewModel.state.otpSuccess = true
+                }
+                is SendMoneyHomeActivity -> {
+                    when (viewModel.action) {
+                        Constants.DOMESTIC_BENEFICIARY -> (activity as SendMoneyHomeActivity).viewModel.otpSuccess.value =
+                            true
+                        Constants.CASHPAYOUT_BENEFICIARY -> (activity as SendMoneyHomeActivity).viewModel.otpSuccess.value =
+                            true
+                        Constants.RMT_BENEFICIARY -> (activity as SendMoneyHomeActivity).viewModel.otpSuccess.value =
+                            true
+                        Constants.SWIFT_BENEFICIARY -> (activity as SendMoneyHomeActivity).viewModel.otpSuccess.value =
+                            true
+                    }
                 }
             }
             findNavController().navigateUp()

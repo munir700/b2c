@@ -15,6 +15,7 @@ import co.yap.networking.messages.requestdtos.CreateOtpGenericRequest
 import co.yap.networking.models.RetroApiResponse
 import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
+import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.SendMoneyBeneficiaryType
 import co.yap.yapcore.helpers.Utils
 
@@ -86,8 +87,7 @@ class AddBeneficiaryViewModel(application: Application) :
             setBeneficiaryDetail()
             when (state.transferType) {
                 "Cash Pickup" -> {
-                    parentViewModel?.beneficiary?.value?.currency = null
-                    addCashPickupBeneficiary()
+                    createOtp(Constants.CASHPAYOUT_BENEFICIARY)
                 }
                 else -> {
                 }
