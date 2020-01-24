@@ -65,17 +65,14 @@ class NameState(application: Application) : BaseState(), IName.State {
 
 
     private fun validate(): Boolean {
-        return StringUtils.validateName(firstName, 2) && StringUtils.validateName(
-            lastName,
-            1
-        ) && firstNameError.value.isNullOrEmpty() && lastNameError.value.isNullOrEmpty()
+        return StringUtils.validateName(firstName) && StringUtils.validateName(lastName) && firstNameError.value.isNullOrEmpty() && lastNameError.value.isNullOrEmpty()
     }
 
     private fun setFirstNameTextWatcher(value: String) {
 
         if (!value.isNullOrEmpty() && value.length >= 2) {
 
-            if (StringUtils.validateName(value, 2)) {
+            if (StringUtils.validateName(value)) {
                 valid = true
                 firstNameError.value = ""
                 lastNameError.value = ""
@@ -89,8 +86,6 @@ class NameState(application: Application) : BaseState(), IName.State {
                 notifyPropertyChanged(BR.valid)
             }
         } else {
-            valid = false
-            firstNameError.value = ""
             drawbleRight = null
 
         }
@@ -98,9 +93,9 @@ class NameState(application: Application) : BaseState(), IName.State {
 
     private fun setLastNameTextWatcher(value: String) {
 
-        if (!value.isNullOrEmpty() && value.isNotEmpty()) {
+        if (!value.isNullOrEmpty() && value.length >= 2) {
 
-            if (StringUtils.validateName(value, 1)) {
+            if (StringUtils.validateName(value)) {
                 valid = true
                 lastNameError.value = ""
                 drawbleRightLastName =
@@ -108,14 +103,11 @@ class NameState(application: Application) : BaseState(), IName.State {
 
             } else {
                 valid = false
-                lastNameError.value =
-                    if (!StringUtils.validateNameRegex(value)) "Please enter alphabets only." else ""
+                lastNameError.value = "Please enter alphabets only."
                 drawbleRightLastName = null
 
             }
         } else {
-            valid = false
-            lastNameError.value = ""
             drawbleRightLastName = null
 
         }
