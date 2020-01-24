@@ -1173,6 +1173,8 @@ object Strings {
         "screen_funds_receive_description"
     const val screen_funds_transfer_fee_description: String =
         "screen_funds_transfer_fee_description"
+    const val scren_send_money_funds_transfer_display_text_amount_error: String =
+        "scren_send_money_funds_transfer_display_text_amount_error"
 
 
     // Screen cash pickup funds transfer success

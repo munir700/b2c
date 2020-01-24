@@ -27,6 +27,7 @@ interface ICashTransfer {
         fun domesticTransferRequest(beneficiaryId: String?)
         fun uaeftsTransferRequest(beneficiaryId: String?)
         fun getTransactionFeeInternational()
+        fun getMoneyTransferLimits(productCode: String?)
 
     }
 
