@@ -1,14 +1,23 @@
 package co.yap.app
 
 import android.content.Context
+import android.content.Intent
+import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.FragmentActivity
+import co.yap.app.modules.login.activities.VerifyPassCodePresenterActivity
+import co.yap.modules.dummy.ActivityNavigator
+import co.yap.modules.dummy.NavigatorProvider
+import co.yap.modules.others.helper.Constants.START_REQUEST_CODE
 import co.yap.networking.RetroNetwork
 import co.yap.networking.interfaces.NetworkConstraintsListener
 import co.yap.yapcore.helpers.AuthUtils
 import co.yap.yapcore.helpers.NetworkConnectionManager
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.helpers.extentions.longToast
 import co.yap.yapcore.managers.AppCredentials
 import com.crashlytics.android.Crashlytics
+import com.github.florent37.inlineactivityresult.kotlin.startForResult
 import com.leanplum.Leanplum
 import com.leanplum.LeanplumActivityHelper
 import io.fabric.sdk.android.Fabric
@@ -17,7 +26,7 @@ import timber.log.Timber.DebugTree
 import java.util.*
 
 
-class AAPApplication : ChatApplication(BuildConfig.FLAVOR) {
+class AAPApplication : ChatApplication(BuildConfig.FLAVOR), NavigatorProvider {
 
     override fun onCreate() {
         super.onCreate()
@@ -84,7 +93,7 @@ class AAPApplication : ChatApplication(BuildConfig.FLAVOR) {
             Leanplum.setAppIdForProductionMode(appId, prodKey)
         }
 
-        Leanplum.trackAllAppScreens()
+        //Leanplum.trackAllAppScreens()
         Leanplum.start(this)
     }
 
@@ -101,5 +110,39 @@ class AAPApplication : ChatApplication(BuildConfig.FLAVOR) {
     override fun onTerminate() {
         NetworkConnectionManager.destroy(this)
         super.onTerminate()
+    }
+
+    override fun provideNavigator(): ActivityNavigator {
+        return object : ActivityNavigator {
+            override fun startEIDNotAcceptedActivity(activity: FragmentActivity) {
+            }
+
+            override fun startVerifyPassCodePresenterActivity(
+                activity: FragmentActivity,
+                completionHandler: ((resultCode: Int, data: Intent?) -> Unit)?
+            ) {
+                try {
+                    val intent = Intent(activity, VerifyPassCodePresenterActivity::class.java)
+                    (activity as AppCompatActivity).startForResult(intent) { result ->
+                        completionHandler?.invoke(result.resultCode, result.data)
+                    }.onFailed { result ->
+                        completionHandler?.invoke(result.resultCode, result.data)
+                    }
+
+                } catch (e: Exception) {
+                    if (e is ClassNotFoundException) {
+                        longToast(
+                            "InlineActivityResult library not installed falling back to default method, please install \" +\n" +
+                                    "\"it from https://github.com/florent37/InlineActivityResult if you want to get inline activity results."
+                        )
+                        activity.startActivityForResult(
+                            Intent(activity, VerifyPassCodePresenterActivity::class.java),
+                            START_REQUEST_CODE
+                        )
+                    }
+                }
+
+            }
+        }
     }
 }

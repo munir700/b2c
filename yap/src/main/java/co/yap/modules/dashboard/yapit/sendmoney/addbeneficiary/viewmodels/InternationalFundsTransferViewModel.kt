@@ -49,7 +49,7 @@ class InternationalFundsTransferViewModel(application: Application) :
 
     override fun onCreate() {
         super.onCreate()
-        //state.setSpanable(0.0)
+        state.setSpanable(0.0)
     }
 
     override fun onResume() {
@@ -241,6 +241,21 @@ class InternationalFundsTransferViewModel(application: Application) :
             }
             state.loading = false
         }
+    }
+
+    override fun getMoneyTransferLimits(productCode: String?) {
+        launch {
+            when (val response = mTransactionsRepository.getFundTransferLimits(productCode)) {
+                is RetroApiResponse.Success -> {
+                    state.maxLimit = response.data.data?.maxLimit?.toDouble() ?: 0.00
+                    state.minLimit = response.data.data?.minLimit?.toDouble() ?: 0.00
+                }
+                is RetroApiResponse.Error -> {
+                    state.toast = response.error.message
+                }
+            }
+        }
+
     }
 
 }

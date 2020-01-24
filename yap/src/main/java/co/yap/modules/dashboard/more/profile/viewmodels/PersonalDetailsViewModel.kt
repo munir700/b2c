@@ -1,10 +1,12 @@
 package co.yap.modules.dashboard.more.profile.viewmodels
 
 import android.app.Application
+import androidx.lifecycle.MutableLiveData
 import co.yap.modules.dashboard.more.main.viewmodels.MoreBaseViewModel
 import co.yap.modules.dashboard.more.profile.intefaces.IPersonalDetail
 import co.yap.modules.dashboard.more.profile.states.PersonalDetailState
 import co.yap.networking.cards.CardsRepository
+import co.yap.networking.cards.requestdtos.UpdateAddressRequest
 import co.yap.networking.cards.responsedtos.Address
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
@@ -17,9 +19,10 @@ class PersonalDetailsViewModel(application: Application) :
     IRepositoryHolder<CardsRepository> {
 
     override var UPDATE_ADDRESS_UI: Int = 10
+    override var onUpdateAddressSuccess: MutableLiveData<Boolean> = MutableLiveData(false)
 
     override val repository: CardsRepository = CardsRepository
-    lateinit var address: Address
+    var address: Address? = null
 
     override fun handlePressOnScanCard(id: Int) {
         clickEvent.setValue(id)
@@ -52,6 +55,9 @@ class PersonalDetailsViewModel(application: Application) :
     override fun onResume() {
         super.onResume()
         setToolBarTitle(getString(Strings.screen_personal_detail_display_text_title))
+        state.fullName = MyUserManager.user!!.currentCustomer.getFullName()
+        state.phoneNumber = MyUserManager.user!!.currentCustomer.getFormattedPhoneNumber(context)
+        state.email = MyUserManager.user?.currentCustomer?.email?:""
         state.fullName = MyUserManager.user?.currentCustomer?.getFullName() ?: ""
         state.phoneNumber =
             MyUserManager.user?.currentCustomer?.getFormattedPhoneNumber(context) ?: ""
@@ -59,28 +65,24 @@ class PersonalDetailsViewModel(application: Application) :
         if (MyUserManager.userAddress == null) {
             requestGetAddressForPhysicalCard()
         } else {
-            address = MyUserManager.userAddress!!
+            address = MyUserManager.userAddress?:Address()
             setUpAddressFields()
         }
     }
 
-    fun requestGetAddressForPhysicalCard() {
+    private fun requestGetAddressForPhysicalCard() {
         state.loading = true
         launch {
             when (val response = repository.getUserAddressRequest()) {
                 is RetroApiResponse.Success -> {
 
-                    if (null != response.data.data) {
-                        address = response.data.data
-
-                        setUpAddressFields()
-                        clickEvent.setValue(UPDATE_ADDRESS_UI)
-                    }
+                    address = response.data.data
+                    setUpAddressFields()
+                    MyUserManager.userAddress = address
+                    clickEvent.setValue(UPDATE_ADDRESS_UI)
                 }
-
                 is RetroApiResponse.Error -> state.toast = response.error.message
             }
-
             state.loading = false
         }
     }
@@ -89,16 +91,15 @@ class PersonalDetailsViewModel(application: Application) :
         var addresstitle = ""
         var addressDetail = ""
 
-        if (!address.address2.isNullOrEmpty()) {
-            addresstitle = address.address2!!
+        if (!address?.address2.isNullOrEmpty()) {
+            addresstitle = address?.address2?:""
         }
 
-        if (!address.address1.isNullOrEmpty()) {
-            addressDetail = address.address1!!
+        if (!address?.address1.isNullOrEmpty()) {
+            addressDetail = address?.address1?:""
         }
 
         state.address = addressDetail
-        MyUserManager.userAddress = address
     }
 
     override fun toggleToolBar(hide: Boolean) {
@@ -109,5 +110,21 @@ class PersonalDetailsViewModel(application: Application) :
         setToolBarTitle(heading)
     }
 
+    override fun requestUpdateAddress(updateAddressRequest: UpdateAddressRequest) {
+        launch {
+            state.loading = true
+            when (val response = repository.editAddressRequest(updateAddressRequest)) {
+                is RetroApiResponse.Success -> {
+                    state.loading = false
+                    onUpdateAddressSuccess.value = true
 
+                }
+                is RetroApiResponse.Error -> {
+                    onUpdateAddressSuccess.value = false
+                    state.error = response.error.message
+                    state.loading = false
+                }
+            }
+        }
+    }
 }

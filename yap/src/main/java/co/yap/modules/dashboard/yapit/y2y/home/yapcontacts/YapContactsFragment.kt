@@ -86,22 +86,21 @@ class YapContactsFragment : Y2YBaseFragment<IYapContact.ViewModel>() {
 
         viewModel.parentViewModel?.isSearching?.value?.let {
             if (it)
-                if (viewModel.getState().value != null && viewModel.getState().value != PagingState.LOADING)
-                    (getBinding().recycler.adapter as YapContactsAdaptor).filterCount.observe(
-                        this,
-                        Observer {
-                            getBinding().tvContactListDescription.visibility =
-                                if (it == 0) View.GONE else View.VISIBLE
-                            getBinding().txtError.visibility =
-                                if (it == 0) View.VISIBLE else View.GONE
-                            getBinding().txtError.text =
-                                if (viewModel.parentViewModel?.isSearching?.value!!) "No result" else Translator.getString(
-                                    requireContext(),
-                                    Strings.screen_y2y_display_text_no_yap_contacts
-                                )
-                            getBinding().tvContactListDescription.text =
-                                if (it == 1) "$it YAP contact" else "$it YAP contacts"
-                        })
+                (getBinding().recycler.adapter as YapContactsAdaptor).filterCount.observe(
+                    this,
+                    Observer {
+                        getBinding().tvContactListDescription.visibility =
+                            if (it == 0) View.GONE else View.VISIBLE
+                        getBinding().txtError.visibility =
+                            if (it == 0 && viewModel.getState().value != PagingState.LOADING) View.VISIBLE else View.GONE
+                        getBinding().txtError.text =
+                            if (viewModel.parentViewModel?.isSearching?.value!!) "No result" else Translator.getString(
+                                requireContext(),
+                                Strings.screen_y2y_display_text_no_yap_contacts
+                            )
+                        getBinding().tvContactListDescription.text =
+                            if (it == 1) "$it YAP contact" else "$it YAP contacts"
+                    })
         }
     }
 

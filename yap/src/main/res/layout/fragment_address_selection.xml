@@ -13,13 +13,6 @@
 
     </data>
 
-    <LinearLayout
-        android:id="@+id/clContainer"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="center_vertical"
-        android:background="@color/white"
-        android:orientation="vertical">
 
         <RelativeLayout
             android:id="@+id/viewMapFragment"
@@ -32,6 +25,8 @@
                 layout="@layout/layout_maps"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentBottom="true"
                 android:minHeight="@dimen/_140sdp"
                 app:viewModel="@{viewModel}" />
 
@@ -92,20 +87,17 @@
                     android:id="@+id/btnLocation"
                     style="@style/AddressBtnStyle"
                     android:layout_width="@dimen/_200sdp"
-                    android:layout_height="@dimen/_28sdp"
+                    android:layout_height="@dimen/_24sdp"
                     android:layout_alignParentBottom="true"
-                    android:layout_gravity="center_vertical|left"
                     android:layout_marginStart="@dimen/margin_medium"
                     android:layout_marginBottom="@dimen/margin_normal"
-                    android:gravity="left|bottom"
                     android:onClick="@{(v) -> viewModel.handlePressOnSelectLocation(v.id)}"
-                    android:paddingLeft="@dimen/margin_extra_large"
                     android:text="@{viewModel.state.locationBtnText}"
                     android:textAllCaps="false"
                     android:textSize="@dimen/_11sdp"
                     app:btn_drawable="@drawable/location_group"
                     app:btn_drawable_padding_left="15.5"
-                    app:btn_drawable_padding_top="4.5"
+                    app:btn_drawable_padding_top="5.2"
                     app:btn_drawable_position="left"
                     app:btn_has_bold_text="true"
                     app:btn_text_alignment_from_left="1.9"
@@ -276,5 +268,4 @@
                 </LinearLayout>
             </LinearLayout>
         </RelativeLayout>
-    </LinearLayout>
 </layout>

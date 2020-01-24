@@ -1,27 +1,34 @@
 package co.yap.app.modules.login.fragments
 
+import android.app.Activity
+import android.content.Intent
 import android.hardware.fingerprint.FingerprintManager
 import android.os.Bundle
 import android.view.View
+import android.view.View.OnClickListener
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import co.yap.BR
 import co.yap.app.R
-import co.yap.app.activities.MainActivity
+import co.yap.app.YAPApplication
 import co.yap.app.constants.Constants
 import co.yap.app.login.EncryptionUtils
 import co.yap.app.modules.login.interfaces.IVerifyPasscode
 import co.yap.app.modules.login.viewmodels.VerifyPasscodeViewModel
+import co.yap.modules.dashboard.more.main.activities.MoreActivity
+import co.yap.modules.others.helper.Constants.REQUEST_CODE
+import co.yap.networking.cards.responsedtos.CardBalance
 import co.yap.yapcore.BaseBindingFragment
+import co.yap.yapcore.helpers.AuthUtils
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.biometric.BiometricCallback
 import co.yap.yapcore.helpers.biometric.BiometricManagerX
 import co.yap.yapcore.helpers.biometric.BiometricUtil
-import co.yap.yapcore.helpers.extentions.preventTakeScreenshot
 import co.yap.yapcore.helpers.extentions.trackEvent
+import co.yap.yapcore.managers.MyUserManager
 import kotlinx.android.synthetic.main.fragment_verify_passcode.*
-
 
 class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(), BiometricCallback,
     IVerifyPasscode.View {
@@ -41,15 +48,20 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        preventTakeScreenshot()
         viewModel.signInButtonPressEvent.observe(this, signInButtonObserver)
         viewModel.loginSuccess.observe(this, loginSuccessObserver)
         viewModel.validateDeviceResult.observe(this, validateDeviceResultObserver)
         viewModel.createOtpResult.observe(this, createOtpObserver)
         setObservers()
-        setUsername()
+
+        arguments?.let {
+            viewModel.state.username = VerifyPasscodeFragmentArgs.fromBundle(it).username
+            viewModel.state.verifyPassCodeEnum =
+                it.getString(REQUEST_CODE, VerifyPassCodeEnum.ACCESS_ACCOUNT.name)
+        }
         dialer.hideFingerprintView()
-        sharedPreferenceManager = SharedPreferenceManager(context as MainActivity)
+
+        sharedPreferenceManager = SharedPreferenceManager(requireContext())
         viewModel.state.deviceId =
             sharedPreferenceManager.getValueString(SharedPreferenceManager.KEY_APP_UUID) as String
         mBiometricManagerX = BiometricManagerX(
@@ -60,11 +72,12 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
                 )
             )
         )
+
         val fingerprintsEnabled = mBiometricManagerX.hasFingerprintEnrolled()
         if (BiometricUtil.isFingerprintSupported && fingerprintsEnabled
-            && BiometricUtil.isHardwareSupported(context as MainActivity)
-            && BiometricUtil.isPermissionGranted(context as MainActivity)
-            && BiometricUtil.isFingerprintAvailable(context as MainActivity)
+            && BiometricUtil.isHardwareSupported(requireActivity())
+            && BiometricUtil.isPermissionGranted(requireActivity())
+            && BiometricUtil.isFingerprintAvailable(requireActivity())
         ) {
 
             if (sharedPreferenceManager.getValueBoolien(
@@ -84,10 +97,20 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
             }
         }
 
-        dialer.onButtonClickListener = View.OnClickListener {
+        dialer.onButtonClickListener = OnClickListener {
             if (it.id == R.id.btnFingerPrint)
                 showFingerprintDialog()
 //                showFingerprintDialog()
+        }
+
+        ivBackBtn.setOnClickListener {
+            if ((VerifyPassCodeEnum.valueOf(viewModel.state.verifyPassCodeEnum) == VerifyPassCodeEnum.VERIFY)) {
+                activity?.onBackPressed()
+
+            } else {
+                viewModel.logout()
+            }
+
         }
     }
 
@@ -96,6 +119,11 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
             requireActivity(),
             BiometricManagerX.DialogStrings(title = getString(R.string.biometric_title))
         )
+    }
+
+    override fun onStart() {
+        super.onStart()
+        dialer.reset()
     }
 
     override fun onResume() {
@@ -118,7 +146,7 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
                         )
                     ) {
                         viewModel.state.username = EncryptionUtils.decrypt(
-                            context as MainActivity,
+                            requireActivity(),
                             sharedPreferenceManager.getValueString(SharedPreferenceManager.KEY_USERNAME) as String
                         ) as String
                     }
@@ -132,8 +160,24 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
                     findNavController().navigate(action)
                     trackEvent("forgot pass code")
                 }
+                viewModel.EVENT_LOGOUT_SUCCESS -> {
+                    doLogout()
+                }
             }
         })
+    }
+
+
+    private fun doLogout() {
+        AuthUtils.navigateToHardLoginFromVerifyPassCode(requireContext())
+        MyUserManager.user = null
+        MyUserManager.cardBalance.value = CardBalance()
+        MyUserManager.cards = MutableLiveData()
+        MyUserManager.cards.value?.clear()
+        MyUserManager.userAddress = null
+        MoreActivity.showExpiredIcon = false
+        YAPApplication.clearFilters()
+        activity?.onBackPressed()
     }
 
     override fun onDestroyView() {
@@ -157,7 +201,7 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
         } else {
             if (null != sharedPreferenceManager.getValueString(SharedPreferenceManager.KEY_USERNAME)) {
                 viewModel.state.username = EncryptionUtils.decrypt(
-                    context as MainActivity,
+                    requireActivity(),
                     sharedPreferenceManager.getValueString(SharedPreferenceManager.KEY_USERNAME) as String
                 ) as String
             } else {
@@ -175,7 +219,11 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
                 trackEvent("user login successfully")
                 navigateToDashboard()
             } else {
-                viewModel.validateDevice()
+                if ((VerifyPassCodeEnum.valueOf(viewModel.state.verifyPassCodeEnum) == VerifyPassCodeEnum.VERIFY)) {
+                    navigateToDashboard()
+                } else {
+                    viewModel.validateDevice()
+                }
             }
         } else {
             dialer.startAnimation()
@@ -191,9 +239,9 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
                 )
             ) {
                 if (BiometricUtil.isFingerprintSupported
-                    && BiometricUtil.isHardwareSupported(context as MainActivity)
-                    && BiometricUtil.isPermissionGranted(context as MainActivity)
-                    && BiometricUtil.isFingerprintAvailable(context as MainActivity)
+                    && BiometricUtil.isHardwareSupported(requireActivity())
+                    && BiometricUtil.isPermissionGranted(requireActivity())
+                    && BiometricUtil.isFingerprintAvailable(requireActivity())
                 ) {
                     val action =
                         VerifyPasscodeFragmentDirections.actionVerifyPasscodeFragmentToSystemPermissionFragment(
@@ -251,7 +299,15 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
 //    }
 
     private fun navigateToDashboard() {
-        findNavController().navigate(R.id.action_goto_yapDashboardActivity)
+        if ((VerifyPassCodeEnum.valueOf(viewModel.state.verifyPassCodeEnum) == VerifyPassCodeEnum.VERIFY)) {
+            val intent = Intent()
+            intent.putExtra("CheckResult", true)
+            activity?.setResult(Activity.RESULT_OK, intent)
+        } else {
+            activity?.setResult(Activity.RESULT_CANCELED)
+            findNavController().navigate(R.id.action_goto_yapDashboardActivity)
+        }
+
         activity?.finish()
     }
 
@@ -317,6 +373,13 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
 
     override fun onAuthenticationError(errorCode: Int, errString: CharSequence) {
     }
+
+
+}
+
+enum class VerifyPassCodeEnum {
+    VERIFY,
+    ACCESS_ACCOUNT
 
 
 }

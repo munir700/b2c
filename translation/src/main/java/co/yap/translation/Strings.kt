@@ -16,6 +16,8 @@ object Strings {
     const val common_button_activate: String = "common_button_activate"
     const val common_text_currency_type: String = "common_text_currency_type"
     const val common_amount_hint: String = "common_amount_hint"
+    const val common_display_text_nothing_to_report: String =
+        "common_display_text_nothing_to_report"
 
 
     //Home screen
@@ -156,10 +158,14 @@ object Strings {
     const val screen_system_permission_text_denied: String = "screen_system_permission_text_denied"
     const val screen_notification_permission_button_title: String =
         "screen_notification_permission_button_title"
+    const val screen_system_permission_text_sub_title: String =
+        "screen_system_permission_text_sub_title"
 
     //Verify passcode screen
     const val screen_verify_passcode_display_text_title: String =
         "screen_verify_passcode_display_text_title"
+    const val screen_verify_passcode_display_text_title_verify: String =
+        "screen_verify_passcode_display_text_title_verify"
     const val screen_verify_passcode_button_sign_in: String =
         "screen_verify_passcode_button_sign_in"
     const val screen_verify_passcode_text_forgot_password: String =
@@ -406,6 +412,9 @@ object Strings {
 
     const val screen_cards_display_text_cards_count: String =
         "screen_cards_display_text_cards_count"
+
+    const val screen_cards_display_text_card_removed_success: String =
+        "screen_cards_display_text_card_removed_success"
 
     //fragment home transaction
     const val screen_fragment_home_transaction_time_category: String =
@@ -1164,6 +1173,8 @@ object Strings {
         "screen_funds_receive_description"
     const val screen_funds_transfer_fee_description: String =
         "screen_funds_transfer_fee_description"
+    const val scren_send_money_funds_transfer_display_text_amount_error: String =
+        "scren_send_money_funds_transfer_display_text_amount_error"
 
 
     // Screen cash pickup funds transfer success
@@ -1203,5 +1214,9 @@ object Strings {
 
     const val screen_cards_button_reorder_card: String =
         "screen_cards_button_reorder_card"
+
+
+    const val screen_card_detail_alert_text_disappears: String =
+        "screen_card_detail_alert_text_disappears"
 
 }

@@ -30,6 +30,7 @@ import co.yap.translation.Strings
 import co.yap.translation.Translator
 import co.yap.yapcore.R
 import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.helpers.extentions.shortToast
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.MyUserManager
 import com.google.android.material.appbar.AppBarLayout
@@ -775,5 +776,17 @@ object Utils {
 
     fun showComingSoon(context: Context) {
         context.shortToast("Coming Soon")
+    }
+
+
+    fun formateIbanString(iban: String): String {
+        val sb = StringBuilder()
+        for (i in 0..iban.length - 1) {
+            if (i % 4 == 0 && i > 0) {
+                sb.append(" ")
+            }
+            sb.append(iban[i])
+        }
+        return sb.toString()
     }
 }

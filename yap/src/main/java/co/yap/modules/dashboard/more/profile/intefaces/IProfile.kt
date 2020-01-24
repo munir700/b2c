@@ -6,6 +6,7 @@ import co.yap.networking.authentication.AuthRepository
 import co.yap.networking.customers.responsedtos.documents.GetMoreDocumentsResponse
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
+import java.io.File
 
 interface IProfile {
 
@@ -14,6 +15,7 @@ interface IProfile {
         var profilePictureUrl: String
         var nameInitialsVisibility: Int
         var errorBadgeVisibility: Int
+        var imageUri: Uri
 
     }
 
@@ -54,7 +56,7 @@ interface IProfile {
 
         fun requestProfileDocumentsInformation()
 
-        fun requestUploadProfilePicture()
+        fun requestUploadProfilePicture(file: File)
 
         fun uploadProfconvertUriToFile(selectedImageUri: Uri)
 

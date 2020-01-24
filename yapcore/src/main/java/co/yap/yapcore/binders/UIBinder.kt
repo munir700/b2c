@@ -632,13 +632,13 @@ object UIBinder {
     @BindingAdapter("otp")
     fun setOtp(view: OtpTextView, value: String) {
         if (view.otp != value) {
-            view.otp = value
+            view.setOTP( value)
         }
     }
 
     @JvmStatic
     @InverseBindingAdapter(attribute = "otp")
-    fun getOtp(view: OtpTextView): String = view.otp
+    fun getOtp(view: OtpTextView): String = view.otp!!
 
     @JvmStatic
     @BindingAdapter(value = ["requestKeyboard", "forceKeyboard"], requireAll = false)
@@ -665,12 +665,25 @@ object UIBinder {
         )
     }
 
+    //    @BindingAdapter(value = ["src", "addCallback"], requireAll = false)
     @BindingAdapter("src")
     @JvmStatic
     fun setImageResId(view: ImageView, path: String) {
         Glide.with(view.context)
             .load(path).centerCrop().placeholder(R.color.greyLight)
             .into(view)
+    }
+
+    @BindingAdapter(value = ["imageSrc", "imageUri"], requireAll = true)
+    @JvmStatic
+    fun setImageResId(view: ImageView, path: String, imageUri: Uri) {
+        if (imageUri == Uri.EMPTY) {
+            Glide.with(view.context)
+                .load(path).centerCrop()
+                .into(view)
+        } else {
+            view.setImageURI(imageUri)
+        }
     }
 
     @BindingAdapter("src", "circular")
@@ -841,6 +854,15 @@ object UIBinder {
     fun setCardLogoByType(view: CorePaymentCard, cardType: String?) {
         if (cardType != null)
             view.setCardLogoByType(cardType)
+    }
+
+    @JvmStatic
+    @BindingAdapter("editable")
+    fun setEditTextEditable(editText: EditText, editable: Boolean = true) {
+        editText.isFocusable = editable
+        editText.isFocusableInTouchMode = editable
+        editText.isClickable = editable
+        editText.isCursorVisible = editable
     }
 
 }

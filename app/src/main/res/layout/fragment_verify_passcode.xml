@@ -6,13 +6,16 @@
 
         <variable
             name="viewModel"
-            type="co.yap.app.modules.login.viewmodels.VerifyPasscodeViewModel"/>
+            type="co.yap.app.modules.login.viewmodels.VerifyPasscodeViewModel" />
 
-        <import type="co.yap.translation.Strings"/>
+        <import type="co.yap.app.modules.login.fragments.VerifyPassCodeEnum" />
+
+        <import type="co.yap.translation.Strings" />
+
+        <import type="android.view.View" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -20,77 +23,89 @@
         tools:context="co.yap.app.modules.login.activities.VerifyPasscodeActivity">
 
         <ImageView
+            android:id="@+id/ivBackBtn"
+            android:layout_width="@dimen/_25sdp"
+            android:layout_height="@dimen/_25sdp"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="@dimen/margin_medium"
+            android:layout_marginLeft="@dimen/margin_medium"
+            android:layout_marginTop="@dimen/margin_medium"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?attr/selectableItemBackground"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_back" />
+
+        <ImageView
             android:id="@+id/ivLogo"
             android:layout_width="@dimen/_50sdp"
             android:layout_height="@dimen/_18sdp"
-            android:layout_marginTop="@dimen/margin_normal"
-            app:layout_constraintTop_toTopOf="parent"
+            android:src="@drawable/logo"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            android:src="@drawable/logo"/>
+            app:layout_constraintTop_toBottomOf="@+id/ivBackBtn" />
 
         <TextView
             android:id="@+id/tvVerifyPasscodeTitle"
+            style="@style/Large"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            style="@style/Large"
-            android:layout_marginTop="@dimen/margin_small"
-            android:lineSpacingExtra="0dp"
             android:layout_marginStart="@dimen/margin_medium"
+            android:layout_marginTop="@dimen/margin_small"
             android:layout_marginEnd="@dimen/margin_medium"
+            android:gravity="center"
+            android:lineSpacingExtra="0dp"
+            android:textAlignment="center"
+            app:layout_constraintBottom_toTopOf="@+id/dialer"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            android:textAlignment="center"
-            android:gravity="center"
-            app:text="@{Strings.screen_verify_passcode_display_text_title}"
-            tools:text="@string/screen_verify_passcode_display_text_title"
             app:layout_constraintTop_toBottomOf="@+id/ivLogo"
-            app:layout_constraintBottom_toTopOf="@+id/dialer"
-            />
+            app:text="@{VerifyPassCodeEnum.valueOf(viewModel.state.verifyPassCodeEnum) == VerifyPassCodeEnum.VERIFY? Strings.screen_verify_passcode_display_text_title_verify:Strings.screen_verify_passcode_display_text_title}"
+            tools:text="@string/screen_verify_passcode_display_text_title" />
 
         <co.yap.widgets.CoreDialerPad
             android:id="@+id/dialer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:dialer_pass_code="passcode"
             android:layout_marginTop="@dimen/margin_normal"
             app:componentDialerError='@{viewModel.state.dialerError}'
-            app:passcodeTextWatcher="@{viewModel.state.getTextWatcher()}"
+            app:dialer_pass_code="passcode"
             app:layout_constraintTop_toBottomOf="@id/tvVerifyPasscodeTitle"
-            />
+            app:passcodeTextWatcher="@{viewModel.state.getTextWatcher()}" />
 
         <co.yap.widgets.CoreButton
             android:id="@+id/btnVerifyPasscode"
+            style="@style/FragmentsBtnStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            style="@style/FragmentsBtnStyle"
             android:layout_marginLeft="@dimen/margin_xxl"
             android:layout_marginRight="@dimen/margin_xxl"
-            tools:text="@string/screen_verify_passcode_button_sign_in"
+            android:onClick="@{(v)-> viewModel.handlePressOnSignInButton()}"
+            app:enableCoreButton="@{viewModel.state.valid}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/tvForgotPassword"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/dialer"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:text="@{Strings.screen_verify_passcode_button_sign_in}"
-            app:enableCoreButton="@{viewModel.state.valid}"
-            android:onClick="@{(v)-> viewModel.handlePressOnSignInButton()}"
             app:layout_constraintVertical_bias="0.75"
-            app:layout_constraintBottom_toTopOf="@+id/tvForgotPassword"
-            />
+            app:text="@{Strings.screen_verify_passcode_button_sign_in}"
+            tools:text="@string/screen_verify_passcode_button_sign_in" />
 
         <TextView
             android:id="@+id/tvForgotPassword"
+            style="@style/Regular"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            style="@style/Regular"
+            android:layout_marginBottom="@dimen/margin_normal"
+            android:onClick="@{(v)-> viewModel.handlePressOnForgotPasscodeButton(v.id)}"
             android:textColor="@color/colorPrimary"
+            android:visibility="@{VerifyPassCodeEnum.valueOf(viewModel.state.verifyPassCodeEnum) == VerifyPassCodeEnum.VERIFY ? View.GONE : View.VISIBLE }"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            android:layout_marginBottom="@dimen/margin_normal"
-            android:onClick="@{(v)-> viewModel.handlePressOnForgotPasscodeButton(v.id)}"
-            tools:text="@string/screen_verify_passcode_text_forgot_password"
             app:text="@{Strings.screen_verify_passcode_text_forgot_password}"
+            tools:text="@string/screen_verify_passcode_text_forgot_password"
 
             />
 

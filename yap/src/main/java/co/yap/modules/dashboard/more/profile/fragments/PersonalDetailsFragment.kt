@@ -16,7 +16,14 @@ import co.yap.modules.dashboard.more.main.activities.MoreActivity.Companion.show
 import co.yap.modules.dashboard.more.main.fragments.MoreBaseFragment
 import co.yap.modules.dashboard.more.profile.intefaces.IPersonalDetail
 import co.yap.modules.dashboard.more.profile.viewmodels.PersonalDetailsViewModel
+import co.yap.modules.dummy.ActivityNavigator
+import co.yap.modules.dummy.NavigatorProvider
+import co.yap.modules.location.activities.LocationSelectionActivity
+import co.yap.modules.others.helper.Constants.START_REQUEST_CODE
+import co.yap.networking.cards.requestdtos.UpdateAddressRequest
 import co.yap.networking.cards.responsedtos.Address
+import co.yap.translation.Strings
+import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.Constants.ADDRESS
 import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.managers.MyUserManager
@@ -32,7 +39,7 @@ class PersonalDetailsFragment : MoreBaseFragment<IPersonalDetail.ViewModel>(),
     }
 
     var changeAddress: Boolean = false
-
+    private lateinit var mNavigator: ActivityNavigator
     override fun getBindingVariable(): Int = BR.viewModel
 
     override fun getLayoutId(): Int = R.layout.fragment_personal_detail
@@ -47,6 +54,11 @@ class PersonalDetailsFragment : MoreBaseFragment<IPersonalDetail.ViewModel>(),
         viewModel.state.errorVisibility = showExpiredIcon
     }
 
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        mNavigator = (activity?.applicationContext as NavigatorProvider).provideNavigator()
+    }
+
     override fun onResume() {
         super.onResume()
         viewModel.state.errorVisibility = showExpiredIcon
@@ -56,7 +68,13 @@ class PersonalDetailsFragment : MoreBaseFragment<IPersonalDetail.ViewModel>(),
             when (it) {
 
                 R.id.tvEditPhoneNumber -> {
-                    findNavController().navigate(R.id.action_personalDetailsFragment_to_change_phone_number_navigation)
+                    mNavigator.startVerifyPassCodePresenterActivity(requireActivity()) { resultCode, data ->
+                        if (resultCode == Activity.RESULT_OK) {
+                            findNavController().navigate(R.id.action_personalDetailsFragment_to_change_phone_number_navigation)
+                        }
+                    }
+                    //startActivityForResult(Intent(context, VerifyPassCodePresenterActivity::class.java),VerifyPassCodePresenterActivity.START_REQUEST_CODE)
+                    // findNavController().navigate(R.id.action_personalDetailsFragment_to_change_phone_number_navigation)
                 }
 
                 R.id.tvEditEmail -> {
@@ -67,32 +85,14 @@ class PersonalDetailsFragment : MoreBaseFragment<IPersonalDetail.ViewModel>(),
                     viewModel.toggleToolBar(true)
 
                     changeAddress = true
-                    val action =
-                        PersonalDetailsFragmentDirections.actionPersonalDetailsFragmentToAddressSelectionFragment(
-                            isFromPhysicalCardsScreen = false,
-                            isFromBlockCardsScreen = false,
-                            isFromPersonalDetail = true
-                        )
-
-                    findNavController().navigate(action)
-//                    val heading = Translator.getString(
-//                        requireContext(),
-//                        R.string.screen_meeting_location_display_text_selected_subtitle
-//                    )
-//                    val subHeading = Translator.getString(
-//                        requireContext(),
-//                        R.string.screen_meeting_location_display_text_selected_subtitle
-//                    )
-//
-//                    startActivityForResult(
-//                        LocationSelectionActivity.newIntent(
-//                            requireContext(),
-//                            MyUserManager.userAddress,
-//                            heading,
-//                            subHeading
-//                        ), RequestCodes.REQUEST_FOR_LOCATION
-//                    )
-
+                    startActivityForResult(
+                        LocationSelectionActivity.newIntent(
+                            context = requireContext(),
+                            address = MyUserManager.userAddress ?: Address(),
+                            headingTitle = getString(Strings.screen_meeting_location_display_text_add_new_address_title),
+                            subHeadingTitle = getString(Strings.screen_meeting_location_display_text_subtitle)
+                        ), RequestCodes.REQUEST_FOR_LOCATION
+                    )
                 }
 
                 R.id.cvCard -> {
@@ -150,17 +150,26 @@ class PersonalDetailsFragment : MoreBaseFragment<IPersonalDetail.ViewModel>(),
                 RequestCodes.REQUEST_FOR_LOCATION -> {
                     val address: Address? =
                         data?.getParcelableExtra(ADDRESS)
-                    address?.let {
-                        MyUserManager.userAddress = it
-                        val action =
-                            PersonalDetailsFragmentDirections.actionPersonalDetailsFragmentToSuccessFragment(
-                                getString(R.string.screen_address_success_display_text_sub_heading_update),
-                                " "
-                            )
-                        findNavController().navigate(action)
+                    val isUpdatedAddress = data?.getBooleanExtra(Constants.ADDRESS_SUCCESS, false)
+                    if (isUpdatedAddress == true) {
+                        address?.let {
+                            MyUserManager.userAddress = it
+                            updateUserAddress(it)
+                        }
                     }
+
                 }
             }
         }
+    }
+
+    private fun updateUserAddress(address: Address) {
+        val updateAddressRequest = UpdateAddressRequest(
+            address.address1,
+            address.address2,
+            address.latitude.toString(),
+            address.longitude.toString()
+        )
+        viewModel.requestUpdateAddress(updateAddressRequest)
     }
 }

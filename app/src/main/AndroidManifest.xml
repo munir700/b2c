@@ -41,6 +41,9 @@
             android:screenOrientation="portrait">
             <nav-graph android:value="@navigation/yap_to_yap_navigation" />
         </activity>
+        <activity
+            android:name=".modules.login.activities.VerifyPassCodePresenterActivity"
+            android:screenOrientation="portrait" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"

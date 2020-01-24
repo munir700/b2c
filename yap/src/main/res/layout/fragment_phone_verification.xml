@@ -60,16 +60,16 @@
             app:layout_constraintBottom_toTopOf="@+id/layout2"
             app:layout_constraintVertical_bias="0.0"/>
 
-        <in.aabhasjindal.otptextview.OtpTextView
-            android:id="@+id/otp_view"
+        <co.yap.widgets.YapOtpTextView
+            android:id="@+id/otpView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/colorPrimaryDark"
-            app:height="@dimen/_55sdp"
-            app:width="@dimen/_45sdp"
+            app:height="@dimen/_50sdp"
+            app:width="@dimen/_40sdp"
             app:bar_enabled="false"
             app:bar_height="@dimen/_2sdp"
-            app:length="4"
+            app:length="6"
             app:otp="@={viewModel.state.otp}"
             app:otp_text_size="@dimen/_24sdp"
             app:otp_box_background="@drawable/otp_bg"
@@ -94,7 +94,7 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             android:layout_marginTop="@dimen/margin_small"
-            app:layout_constraintTop_toBottomOf="@+id/otp_view"
+            app:layout_constraintTop_toBottomOf="@+id/otpView"
             android:text="@{viewModel.state.timer}"
             />
 

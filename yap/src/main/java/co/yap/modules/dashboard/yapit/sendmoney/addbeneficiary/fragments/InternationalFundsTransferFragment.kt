@@ -27,7 +27,8 @@ import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.SendMoneyBeneficiaryProductCode
 import co.yap.yapcore.enums.SendMoneyBeneficiaryType
 import co.yap.yapcore.helpers.CustomSnackbar
-import co.yap.yapcore.helpers.toast
+import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.helpers.extentions.toast
 import co.yap.yapcore.managers.MyUserManager
 import kotlinx.android.synthetic.main.fragment_beneficiary_overview.*
 import kotlinx.android.synthetic.main.fragment_international_funds_transfer.*
@@ -46,9 +47,11 @@ class InternationalFundsTransferFragment :
         super.onCreate(savedInstanceState)
         getBeneficiaryId()
         val productCode = getProductCode()
+        viewModel.getMoneyTransferLimits(productCode)
         viewModel.getTransactionFeeInternational(productCode)
         viewModel.getReasonList(productCode)
         viewModel.getTransactionInternationalfxList(productCode)
+
 
     }
 
@@ -83,10 +86,11 @@ class InternationalFundsTransferFragment :
 
     private fun successOtpFlow() {
         if (context is BeneficiaryCashTransferActivity) {
-            (context as BeneficiaryCashTransferActivity).viewModel.state.otpSuccess?.let {
-                if (it) {
+            (context as BeneficiaryCashTransferActivity).viewModel.state.otpSuccess?.let { success ->
+                if (success) {
                     callTransactionApi()
                 }
+                (context as BeneficiaryCashTransferActivity).viewModel.state.otpSuccess = false
             }
         }
     }
@@ -137,7 +141,10 @@ class InternationalFundsTransferFragment :
         when (it) {
             R.id.btnNext -> {
                 if (viewModel.state.reasonTransferValue.equals("Select a Reason")) {
-                    toast(activity as BeneficiaryCashTransferActivity, "Select a Reason")
+                    toast(
+                        activity as BeneficiaryCashTransferActivity,
+                        "Select a Reason"
+                    )
                 } else {
 
                     val availableBalance =
@@ -147,13 +154,27 @@ class InternationalFundsTransferFragment :
                         +viewModel.state.transferFeeAmount
 
                         if (availableBalance > inputAmount) {
-                            if (viewModel.state.minLimit != null && viewModel.state.maxLimit != null) {
+                            if (viewModel.state.fxRateAmount?.toDouble() ?: 0.0 < viewModel.state.minLimit ?: 0.0 || viewModel.state.fxRateAmount?.toDouble() ?: 0.0 > viewModel.state.maxLimit ?: 0.0) {
+
+                                val errorDescription = getString(
+                                    Strings.scren_send_money_funds_transfer_display_text_amount_error
+                                ).format(
+                                    Utils.getFormattedCurrency(viewModel.state.minLimit.toString()),
+                                    Utils.getFormattedCurrency(viewModel.state.maxLimit.toString()),
+                                    availableBalance.toString()
+                                )
+                                showSnackBarForLimits(errorDescription)
+                            } else {
+                                viewModel.createOtp(R.id.btnNext)
+                            }
+
+                            /*if (viewModel.state.minLimit != null && viewModel.state.maxLimit != null) {
                                 if (inputAmount < viewModel.state.minLimit!!.toDouble() && inputAmount > viewModel.state.maxLimit!!.toDouble()) {
                                     showErrorSnackBar()
                                 } else {
                                     viewModel.createOtp(R.id.btnNext)
                                 }
-                            }
+                            }*/
                         } else {
                             showErrorSnackBar()
                         }
@@ -310,6 +331,14 @@ class InternationalFundsTransferFragment :
             context = requireContext(),
             layout = clFTSnackbar,
             message = des
+        )
+    }
+
+    fun showSnackBarForLimits(errorMessage: String) {
+        CustomSnackbar.showErrorCustomSnackbar(
+            context = requireContext(),
+            layout = clFTSnackbar,
+            message = errorMessage
         )
     }
 

@@ -1,7 +1,9 @@
 package co.yap.modules.dashboard.more.profile.viewmodels
 
+import android.annotation.SuppressLint
 import android.app.Application
 import android.content.Context
+import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.provider.MediaStore
 import android.view.View.GONE
@@ -19,12 +21,21 @@ import co.yap.networking.models.RetroApiResponse
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.managers.MyUserManager
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.DataSource
+import com.bumptech.glide.load.engine.GlideException
+import com.bumptech.glide.request.RequestListener
+import com.bumptech.glide.request.target.Target
+import id.zelory.compressor.Compressor
+import io.reactivex.Scheduler
+import io.reactivex.functions.Consumer
 import okhttp3.MediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
+import io.reactivex.schedulers.Schedulers
 
 
 class ProfileSettingsViewModel(application: Application) :
@@ -37,7 +48,6 @@ class ProfileSettingsViewModel(application: Application) :
     override lateinit var data: GetMoreDocumentsResponse
     override val authRepository: AuthRepository = AuthRepository
     override val repository: CustomersRepository = CustomersRepository
-    lateinit var multiPartImageFile: MultipartBody.Part
     private val sharedPreferenceManager = SharedPreferenceManager(application)
 
     override val state: ProfileStates =
@@ -114,13 +124,10 @@ class ProfileSettingsViewModel(application: Application) :
         }
     }
 
+    @SuppressLint("CheckResult")
     override fun uploadProfconvertUriToFile(selectedImageUri: Uri) {
         val file = File(selectedImageUri.path)
-        val reqFile = RequestBody.create(MediaType.parse("image/"), file)
-        multiPartImageFile =
-            MultipartBody.Part.createFormData("profile-picture", file.name, reqFile)
-
-        requestUploadProfilePicture()
+        requestUploadProfilePicture(file)
     }
 
     override fun getRealPathFromUri(context: Context, uri: Uri): String {
@@ -157,11 +164,31 @@ class ProfileSettingsViewModel(application: Application) :
         }
     }
 
-    override fun requestUploadProfilePicture() {
-
+    override fun requestUploadProfilePicture(file: File) {
         launch {
             state.loading = true
+            Compressor(context)
+                .compressToFileAsFlowable(file)
+                .subscribeOn(Schedulers.io())
+                .observeOn(Schedulers.computation())
+                .subscribe(
+                    {
+                        uploadCall(it)
+                    },
+                    { throwable ->
+                        throwable.printStackTrace()
+                        launch { uploadCall(file) }
+                    })
 
+        }
+    }
+
+    private fun uploadCall(file: File) {
+        launch {
+
+            val reqFile = RequestBody.create(MediaType.parse("image/"), file)
+            val multiPartImageFile: MultipartBody.Part =
+                MultipartBody.Part.createFormData("profile-picture", file.name, reqFile)
             when (val response = repository.uploadProfilePicture(multiPartImageFile)) {
                 is RetroApiResponse.Success -> {
 
@@ -169,8 +196,11 @@ class ProfileSettingsViewModel(application: Application) :
                         response.data.data?.let {
                             it.imageURL?.let { state.profilePictureUrl = it }
                             MyUserManager.user!!.currentCustomer.setPicture(it.imageURL)
+                            Glide.with(context)
+                                .load(it.imageURL).preload()
                             state.fullName = MyUserManager.user!!.currentCustomer.getFullName()
                             state.nameInitialsVisibility = VISIBLE
+                            state.loading = false
                         }
                     }
                 }
@@ -179,12 +209,9 @@ class ProfileSettingsViewModel(application: Application) :
                     state.toast = response.error.message
                     state.fullName = MyUserManager.user!!.currentCustomer.getFullName()
                     state.nameInitialsVisibility = GONE
-
+                    state.loading = false
                 }
-
             }
-
-            state.loading = false
         }
     }
 

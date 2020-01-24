@@ -14,7 +14,7 @@
             type="co.yap.modules.kyc.viewmodels.AddressSelectionViewModel" />
     </data>
 
-    <LinearLayout
+    <FrameLayout
         android:id="@+id/mapContainer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -35,17 +35,18 @@
                 android:layout_height="match_parent"
                 app:cameraTargetLat="25.276987"
                 app:cameraTargetLng="55.296249"
-                tools:context=".MapsActivity"
-                tools:layout_editor_absoluteX="145dp"
-                tools:layout_editor_absoluteY="182dp" />
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                tools:context=".MapsActivity" />
 
             <ImageView
                 android:id="@+id/transparentImage"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:src="@color/transparent"
-                tools:layout_editor_absoluteX="0dp"
-                tools:layout_editor_absoluteY="0dp" />
+                 />
 
             <FrameLayout
                 android:id="@+id/frameLayout"
@@ -178,5 +179,5 @@
                 app:toggleButtonVisibility="@{viewModel.state.closeCard}"
                 tools:ignore="MissingConstraints" />
         </androidx.constraintlayout.widget.ConstraintLayout>
-    </LinearLayout>
+    </FrameLayout>
 </layout>

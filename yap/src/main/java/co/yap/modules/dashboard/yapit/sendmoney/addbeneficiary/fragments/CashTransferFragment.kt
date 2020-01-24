@@ -55,6 +55,7 @@ class CashTransferFragment : SendMoneyBaseFragment<ICashTransfer.ViewModel>(), I
         super.onCreate(savedInstanceState)
         startFlows()
         viewModel.getTransactionFeeInternational()
+        viewModel.getMoneyTransferLimits(viewModel.state.produceCode)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -190,6 +191,7 @@ class CashTransferFragment : SendMoneyBaseFragment<ICashTransfer.ViewModel>(), I
                 if (it) {
                     callTransactionApi()
                 }
+                (context as BeneficiaryCashTransferActivity).viewModel.state.otpSuccess = false
             }
         }
 

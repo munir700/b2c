@@ -24,24 +24,34 @@ abstract class BaseRepository : IRepository {
             return RetroApiResponse.Error(detectError(response))
 
         } catch (exception: MalformedJsonException1) {
-            return RetroApiResponse.Error(ApiError(MALFORMED_JSON_EXCEPTION_CODE, exception.localizedMessage))
+            return RetroApiResponse.Error(
+                ApiError(
+                    MALFORMED_JSON_EXCEPTION_CODE,
+                    exception.localizedMessage
+                )
+            )
         } catch (exception: Exception) {
             return RetroApiResponse.Error(ApiError(0, exception.localizedMessage))
         }
     }
 
     private fun <T : ApiResponse> detectError(response: Response<T>): ApiError {
-        if (response.code() == 504) {
-            // It is no internet connect error
-            // brTODO: take default error message from repo to show here
-            return ApiError(response.code(), "")
+        return when (response.code()) {
+            403 -> ApiError(response.code(), mapError(NetworkErrors.Forbidden))
+            404 -> ApiError(response.code(), mapError(NetworkErrors.NotFound))
+            502 -> ApiError(response.code(), mapError(NetworkErrors.BadGateway))
+            in 400..499 -> ApiError(
+                response.code(),
+                mapError(NetworkErrors.InternalServerError(response.errorBody()?.string()))
+            )
+            -1009 -> ApiError(response.code(), mapError(NetworkErrors.NoInternet))
+            -1001 -> ApiError(response.code(), mapError(NetworkErrors.RequestTimedOut))
+            else -> {
+                ApiError(response.code(), mapError(NetworkErrors.UnknownError()))
+            }
         }
-
-        // hmm.. may be server error or network error
-        val error: String? = response.errorBody()?.string()
-        return ApiError(response.code(), fetchErrorFromBody(error) ?: error ?: "Something went wrong")
     }
-    
+
     private fun fetchErrorFromBody(response: String?): String? {
         response?.let {
             if (it.isNotBlank()) {
@@ -52,7 +62,7 @@ abstract class BaseRepository : IRepository {
                         val errors = obj.getJSONArray("errors")
                         if (errors.length() > 0) {
                             val message = errors.getJSONObject(0).getString("message")
-                            return if (message!="null") {
+                            return if (message != "null") {
                                 errors.getJSONObject(0).getString("message")
                             } else {
                                 "Something went wrong"
@@ -60,12 +70,12 @@ abstract class BaseRepository : IRepository {
                         }
                     } else if (obj.has("error")) {
                         // most probably.. unauthorised error
-                        val error = obj.getString("error") ?: ""
+                        val error = obj.getString("error") ?: "Something went wrong"
                         if (error.contains("unauthorized")) {
                             return ""
                         }
+                        return error
                     }
-
 
                 } catch (e: JSONException) {
                     // return "Server sent some malformed address :o"
@@ -73,5 +83,18 @@ abstract class BaseRepository : IRepository {
             }
         }
         return null
+    }
+
+    private fun mapError(error: NetworkErrors): String {
+        return when (error) {
+            is NetworkErrors.NoInternet -> "Internet appears to be offline."
+            is NetworkErrors.RequestTimedOut -> "Internet appears to be offline. Please check your internet connection and try again."
+            is NetworkErrors.BadGateway -> "Bad Gateway"
+            is NetworkErrors.NotFound -> "Resource Not Found"
+            is NetworkErrors.Forbidden -> "You don't have access to this information"
+            is NetworkErrors.InternalServerError -> fetchErrorFromBody(error.response)
+                ?: error.response ?: "Something went wrong"
+            is NetworkErrors.UnknownError -> "Something went wrong."
+        }
     }
 }

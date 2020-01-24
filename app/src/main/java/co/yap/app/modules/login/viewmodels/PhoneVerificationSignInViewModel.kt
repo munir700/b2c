@@ -18,6 +18,8 @@ import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleLiveEvent
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.helpers.extentions.trackEvent
+import co.yap.yapcore.helpers.extentions.trackEventWithAttributes
 
 class PhoneVerificationSignInViewModel(application: Application) :
     BaseViewModel<IPhoneVerificationSignIn.State>(application), IPhoneVerificationSignIn.ViewModel,
@@ -69,6 +71,11 @@ class PhoneVerificationSignInViewModel(application: Application) :
                         EncryptionUtils.encrypt(context, state.username)!!
                     )
                     verifyOtpResult.postValue(true)
+
+                    val info: Map<String, String> = HashMap()
+                    info["mobile-number-entered"]
+                    trackEventWithAttributes(info)
+                    trackEvent("mobile-number-entered")
                 }
                 is RetroApiResponse.Error -> {
                     state.toast = response.error.message

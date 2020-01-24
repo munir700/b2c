@@ -3,13 +3,10 @@ package co.yap.modules.dashboard.yapit.sendmoney.editbeneficiary.states
 import android.app.Application
 import androidx.databinding.Bindable
 import androidx.databinding.library.baseAdapters.BR
-import androidx.lifecycle.MutableLiveData
 import co.yap.modules.dashboard.yapit.sendmoney.editbeneficiary.interfaces.IEditBeneficiary
 import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.yapcore.BaseState
 import co.yap.yapcore.helpers.Utils
-import co.yap.yapcore.helpers.getNationalNumber
-import okhttp3.internal.Util
 
 class EditBeneficiaryStates(val application: Application) : BaseState(), IEditBeneficiary.State {
     @get:Bindable
@@ -61,7 +58,7 @@ class EditBeneficiaryStates(val application: Application) : BaseState(), IEditBe
         set(value) {
             field = value
             notifyPropertyChanged(BR.phoneNumber)
-            beneficiary?.mobileNo = field?.replace(" ","")
+            beneficiary?.mobileNo = field?.replace(" ", "")
         }
     @get:Bindable
     override var accountNumber: String? = null
@@ -126,7 +123,14 @@ class EditBeneficiaryStates(val application: Application) : BaseState(), IEditBe
                     Utils.getPhoneWithoutCountryCode(Utils.getDefaultCountryCode(application), it)
                 //phoneNumber = it
             }
-            it.accountNo?.let { accountNumber = it }
+
+            it.accountNo?.let {
+                if (it!!.length >= 22) {
+                    accountNumber = Utils.formateIbanString(it)
+                } else {
+                    accountNumber = it
+                }
+            }
             it.swiftCode?.let { swiftCode = it }
             it.beneficiaryType?.let { transferType = it }
         }

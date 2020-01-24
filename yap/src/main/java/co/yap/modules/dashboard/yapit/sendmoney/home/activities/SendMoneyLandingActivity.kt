@@ -45,6 +45,7 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
 
     companion object {
         private const val searching = "searching"
+        private var performedDeleteOperation :Boolean = false
         const val data = "payLoad"
         fun newIntent(context: Context): Intent {
             return Intent(context, SendMoneyLandingActivity::class.java)
@@ -81,6 +82,7 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
         viewModel.clickEvent.observe(this, clickListener)
         viewModel.onDeleteSuccess.observe(this, Observer {
             getAdaptor().removeItemAt(positionToDelete)
+            performedDeleteOperation =true
             if (positionToDelete == 0)
                 viewModel.requestAllBeneficiaries()
         })
@@ -257,6 +259,11 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
         viewModel.state.isSearching.set(viewModel.isSearching.value!!)
         // calling this function on resume because whenever user go for search and back to home it will set the searchView according to its state
         setSearchView(viewModel.isSearching.value!!)
+
+        if (performedDeleteOperation){
+            performedDeleteOperation=false
+            viewModel.requestAllBeneficiaries()
+        }
     }
 
     override fun onDestroy() {

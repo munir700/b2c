@@ -21,6 +21,14 @@ class SystemPermissionState : BaseState(), ISystemPermission.State {
             notifyPropertyChanged(BR.title)
         }
 
+
+    override var subTitle: String = ""
+        @Bindable get() = field
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.subTitle)
+        }
+
     @get:Bindable
     override var termsAndConditionsVisibility: Boolean = true
         set(value) {
