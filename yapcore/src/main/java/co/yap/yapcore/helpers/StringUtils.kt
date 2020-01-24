@@ -23,11 +23,11 @@ object StringUtils {
         return isValid
     }
 
-    fun validateNameRegex(name: String): Boolean {
+    fun validateSingleCharRegex(name: String): Boolean {
 
         var inputStr: CharSequence = ""
         var isValid = false
-        val expression = "^[a-zA-Z]{1}[a-zA-Z ]{1,100}\$"
+        val expression = "^[a-zA-Z ]{1,100}\$"
         inputStr = name
         val pattern = Pattern.compile(expression)
         val matcher = pattern.matcher(inputStr)
