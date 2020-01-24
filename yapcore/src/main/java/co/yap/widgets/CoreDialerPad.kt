@@ -130,8 +130,13 @@ class CoreDialerPad @JvmOverloads constructor(
             }
         }
     }
+
     fun getText(): String {
         return etPassCodeText.text.toString()
+    }
+
+    fun setText(text: String) {
+        etPassCodeText.setText(text)
     }
 
     fun reset() {

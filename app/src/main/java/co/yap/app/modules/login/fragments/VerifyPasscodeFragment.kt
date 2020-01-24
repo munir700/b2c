@@ -13,7 +13,6 @@ import androidx.navigation.fragment.findNavController
 import co.yap.BR
 import co.yap.app.R
 import co.yap.app.YAPApplication
-import co.yap.app.activities.MainActivity
 import co.yap.app.constants.Constants
 import co.yap.app.login.EncryptionUtils
 import co.yap.app.modules.login.interfaces.IVerifyPasscode
@@ -124,6 +123,9 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
     override fun onStart() {
         super.onStart()
         dialer.reset()
+        if (viewModel.state.passcode.isNotBlank() && dialer.getText().isBlank()) {
+            dialer.setText(text = viewModel.state.passcode)
+        }
     }
 
     override fun onResume() {
@@ -133,6 +135,7 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
 
     override fun onPause() {
         super.onPause()
+        viewModel.state.passcode = dialer.getText()
         mBiometricManagerX.unSubscribe()
     }
 
@@ -211,7 +214,6 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
     }
 
     private val loginSuccessObserver = Observer<Boolean> {
-
         if (it) {
             if (viewModel.isFingerprintLogin) {
                 sharedPreferenceManager.save(SharedPreferenceManager.KEY_IS_USER_LOGGED_IN, true)
