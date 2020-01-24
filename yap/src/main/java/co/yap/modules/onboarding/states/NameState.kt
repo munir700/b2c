@@ -65,7 +65,7 @@ class NameState(application: Application) : BaseState(), IName.State {
 
 
     private fun validate(): Boolean {
-        return StringUtils.validateName(firstName) && StringUtils.validateName(lastName) && firstNameError.value.isNullOrEmpty() && lastNameError.value.isNullOrEmpty()
+        return StringUtils.validateName(firstName) && StringUtils.validateLastName(lastName) && firstNameError.value.isNullOrEmpty() && lastNameError.value.isNullOrEmpty()
     }
 
     private fun setFirstNameTextWatcher(value: String) {
@@ -75,27 +75,28 @@ class NameState(application: Application) : BaseState(), IName.State {
             if (StringUtils.validateName(value)) {
                 valid = true
                 firstNameError.value = ""
-                lastNameError.value = ""
+//                lastNameError.value = ""
                 drawbleRight = context.resources.getDrawable(co.yap.yapcore.R.drawable.path)
                 validate()
             } else {
                 valid = false
                 firstNameError.value = "Please enter alphabets only."
-                lastNameError.value = ""
+//                lastNameError.value = ""
                 drawbleRight = null
                 notifyPropertyChanged(BR.valid)
             }
         } else {
             drawbleRight = null
+            firstNameError.value = ""
 
         }
     }
 
     private fun setLastNameTextWatcher(value: String) {
 
-        if (!value.isNullOrEmpty() && value.length >= 2) {
+        if (!value.isNullOrEmpty() && value.length >= 1) {
 
-            if (StringUtils.validateName(value)) {
+            if (StringUtils.validateLastName(value)) {
                 valid = true
                 lastNameError.value = ""
                 drawbleRightLastName =
@@ -109,6 +110,7 @@ class NameState(application: Application) : BaseState(), IName.State {
             }
         } else {
             drawbleRightLastName = null
+            lastNameError.value = ""
 
         }
     }

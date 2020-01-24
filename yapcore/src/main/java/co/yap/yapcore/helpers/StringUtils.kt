@@ -24,6 +24,24 @@ object StringUtils {
         return isValid
     }
 
+    fun validateLastName(name: String): Boolean {
+
+        var inputStr: CharSequence = ""
+        var isValid = false
+        val expression =
+            "^[a-zA-Z]{1,100}\$"
+        inputStr = name
+        val pattern = Pattern.compile(expression)
+        val matcher = pattern.matcher(inputStr)
+
+        if (matcher.matches() && !name.isNullOrEmpty()) {
+            if (name.length >= 1) {
+                isValid = true
+            }
+        }
+        return isValid
+    }
+
     /**
      * Function takes a string value like "["hello", "world", "1"]"
      * and evaluates it to return an Array<String?>
