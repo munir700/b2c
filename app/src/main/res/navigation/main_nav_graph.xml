@@ -20,9 +20,7 @@
 
     <action
         android:id="@+id/action_goto_yapDashboardActivity"
-        app:destination="@id/yapDashboardActivity"
-        app:popUpTo="@+id/main_nav_graph"
-        app:popUpToInclusive="true" />
+        app:destination="@id/yapDashboardActivity" />
 
 
     <fragment

@@ -12,6 +12,7 @@ import co.yap.app.modules.login.interfaces.ILogin
 import co.yap.app.modules.login.viewmodels.LoginViewModel
 import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.helpers.extentions.trackEvent
+import co.yap.yapcore.helpers.SharedPreferenceManager
 
 class LoginFragment : BaseBindingFragment<ILogin.ViewModel>(), ILogin.View {
 
@@ -26,6 +27,16 @@ class LoginFragment : BaseBindingFragment<ILogin.ViewModel>(), ILogin.View {
         super.onViewCreated(view, savedInstanceState)
         viewModel.signInButtonPressEvent.observe(this, signInButtonObserver)
         viewModel.signUpButtonPressEvent.observe(this, signUpButtonObserver)
+        val sharedPreferenceManager = SharedPreferenceManager(requireContext())
+        if (sharedPreferenceManager.getValueBoolien(
+                SharedPreferenceManager.KEY_IS_USER_LOGGED_IN,
+                false
+            )
+        ) {
+            val action =
+                LoginFragmentDirections.actionLoginFragmentToVerifyPasscodeFragment("")
+            NavHostFragment.findNavController(this).navigate(action)
+        }
     }
 
     override fun onDestroyView() {
@@ -39,7 +50,7 @@ class LoginFragment : BaseBindingFragment<ILogin.ViewModel>(), ILogin.View {
             LoginFragmentDirections.actionLoginFragmentToVerifyPasscodeFragment(viewModel.state.twoWayTextWatcher)
         NavHostFragment.findNavController(this).navigate(action)
          viewModel.state.twoWayTextWatcher = ""
-        trackEvent("username verified")
+        //trackEvent("username verified")
         // findNavController().navigate(action)
     }
 
