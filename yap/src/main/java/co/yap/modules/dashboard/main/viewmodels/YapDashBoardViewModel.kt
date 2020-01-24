@@ -14,6 +14,7 @@ import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.Utils.formateIbanString
 import co.yap.yapcore.managers.MyUserManager
+import com.leanplum.Leanplum
 
 class YapDashBoardViewModel(application: Application) :
     BaseViewModel<IYapDashboard.State>(application), IYapDashboard.ViewModel {
@@ -69,6 +70,7 @@ class YapDashBoardViewModel(application: Application) :
                             it == "N"
                     }
 
+                    Leanplum.setUserId(MyUserManager.user?.uuid)
                     getAccountInfoSuccess.value = true
                     populateState()
                     if (MyUserManager.user?.currentCustomer?.isEmailVerified.equals("N", true)) {

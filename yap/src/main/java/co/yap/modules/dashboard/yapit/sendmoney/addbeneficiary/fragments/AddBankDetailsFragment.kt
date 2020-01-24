@@ -18,17 +18,9 @@ import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.SendMoneyBeneficiaryType
 import co.yap.yapcore.interfaces.OnItemClickListener
 import kotlinx.android.synthetic.main.fragment_add_bank_detail.*
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
-import kotlin.coroutines.CoroutineContext
 
 class AddBankDetailsFragment : SendMoneyBaseFragment<IBankDetails.ViewModel>(),
-    IBankDetails.View, CoroutineScope {
-    private lateinit var mJob: Job
-    override val coroutineContext: CoroutineContext
-        get() = mJob + Dispatchers.Main
-
+    IBankDetails.View {
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.fragment_add_bank_detail
 
@@ -37,7 +29,6 @@ class AddBankDetailsFragment : SendMoneyBaseFragment<IBankDetails.ViewModel>(),
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        mJob = Job()
         addListener()
     }
 
@@ -127,7 +118,6 @@ class AddBankDetailsFragment : SendMoneyBaseFragment<IBankDetails.ViewModel>(),
     }
 
     override fun onDestroy() {
-        mJob.cancel()
         super.onDestroy()
     }
 

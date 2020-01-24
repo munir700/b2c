@@ -19,6 +19,8 @@ import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.SingleLiveEvent
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.helpers.extentions.trackEvent
+import co.yap.yapcore.helpers.extentions.trackEventWithAttributes
 import co.yap.yapcore.managers.MyUserManager
 import java.util.*
 import java.util.concurrent.TimeUnit
@@ -67,13 +69,13 @@ class EmailViewModel(application: Application) :
             state.refreshField = true
             when (val response = repository.signUp(
                 SignUpRequest(
-                    parentViewModel!!.onboardingData.firstName,
-                    parentViewModel!!.onboardingData.lastName,
-                    parentViewModel!!.onboardingData.countryCode,
-                    parentViewModel!!.onboardingData.mobileNo,
+                    parentViewModel?.onboardingData?.firstName,
+                    parentViewModel?.onboardingData?.lastName,
+                    parentViewModel?.onboardingData?.countryCode,
+                    parentViewModel?.onboardingData?.mobileNo,
                     state.twoWayTextWatcher,
-                    parentViewModel!!.onboardingData.passcode,
-                    parentViewModel!!.onboardingData.accountType.toString()
+                    parentViewModel?.onboardingData?.passcode,
+                    parentViewModel?.onboardingData?.accountType.toString()
                 )
             )) {
                 is RetroApiResponse.Success -> {
@@ -94,6 +96,10 @@ class EmailViewModel(application: Application) :
                     )
                     state.loading = false
                     setVerificationLabel()
+//                    val info: Map<String, String> = HashMap()
+//                    info["mobile-number-entered"] = String("")
+//                    trackEventWithAttributes(info)
+                    trackEvent("email-address-entered")
                 }
 
                 is RetroApiResponse.Error -> {

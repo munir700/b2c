@@ -38,6 +38,6 @@ fun ViewModel.trackEventWithAttributes(attributes: Map<String, *>) {
 }
 
 fun fireEvent(eventName: String) {
-    Leanplum.track("B2C$eventName")
+    Leanplum.track("B2C: $eventName")
 
 }

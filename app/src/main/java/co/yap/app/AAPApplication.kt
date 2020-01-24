@@ -95,6 +95,7 @@ class AAPApplication : ChatApplication(BuildConfig.FLAVOR), NavigatorProvider {
 
         //Leanplum.trackAllAppScreens()
         Leanplum.start(this)
+        Leanplum.enableTestMode()
     }
 
     private fun setAppUniqueId(context: Context) {

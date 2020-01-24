@@ -34,17 +34,14 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
     IVerifyPasscode.View {
 
     private lateinit var sharedPreferenceManager: SharedPreferenceManager
-    //    private lateinit var mBiometricManager: BiometricManager
     private lateinit var mBiometricManagerX: BiometricManagerX
 
     override fun getBindingVariable(): Int = BR.viewModel
 
     override fun getLayoutId(): Int = R.layout.fragment_verify_passcode
 
-
     override val viewModel: IVerifyPasscode.ViewModel
         get() = ViewModelProviders.of(this).get(VerifyPasscodeViewModel::class.java)
-
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

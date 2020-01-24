@@ -29,8 +29,8 @@ class MobileViewModel(application: Application) : OnboardingChildViewModel<IMobi
     override fun getCcp(editText: EditText) {
         editText.requestFocus()
         state.etMobileNumber = editText
-        state.etMobileNumber!!.requestFocus()
-        state.etMobileNumber!!.setOnEditorActionListener(onEditorActionListener())
+        state.etMobileNumber?.requestFocus()
+        state.etMobileNumber?.setOnEditorActionListener(onEditorActionListener())
     }
 
     override fun handlePressOnNext() {
@@ -41,15 +41,13 @@ class MobileViewModel(application: Application) : OnboardingChildViewModel<IMobi
     }
 
     override fun onEditorActionListener(): TextView.OnEditorActionListener {
-        return object : TextView.OnEditorActionListener {
-            override fun onEditorAction(v: TextView?, actionId: Int, event: KeyEvent?): Boolean {
-                if (actionId == EditorInfo.IME_ACTION_DONE) {
-                    if (state.valid){
-                        handlePressOnNext()
-                    }
+        return TextView.OnEditorActionListener { _, actionId, _ ->
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                if (state.valid){
+                    handlePressOnNext()
                 }
-                return false
             }
+            false
         }
     }
 
@@ -71,9 +69,9 @@ class MobileViewModel(application: Application) : OnboardingChildViewModel<IMobi
             )) {
                 is RetroApiResponse.Success -> {
                     nextButtonPressEvent.value = true
-                    parentViewModel!!.onboardingData.countryCode = countryCode
-                    parentViewModel!!.onboardingData.mobileNo = mobileNumber
-                    parentViewModel!!.onboardingData.formattedMobileNumber = formattedMobileNumber
+                    parentViewModel?.onboardingData?.countryCode = countryCode
+                    parentViewModel?.onboardingData?.mobileNo = mobileNumber
+                    parentViewModel?.onboardingData?.formattedMobileNumber = formattedMobileNumber
                 }
                 is RetroApiResponse.Error -> {
                     state.error = response.error.message
