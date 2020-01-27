@@ -54,7 +54,9 @@ import co.yap.yapcore.enums.PartnerBankStatus
 import co.yap.yapcore.helpers.CustomSnackbar
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.fixSwipeToRefresh
+import co.yap.yapcore.helpers.extentions.trackEvent
 import co.yap.yapcore.interfaces.OnItemClickListener
+import co.yap.yapcore.leanplum.TrackEvents
 import co.yap.yapcore.managers.MyUserManager
 import com.google.android.material.appbar.AppBarLayout
 import com.yarolegovich.discretescrollview.transform.ScaleTransformer
@@ -86,6 +88,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
         initComponents()
         setObservers()
         setAvailableBalance(viewModel.state.availableBalance)
+        trackEvent(TrackEvents.YAP_ONBOARDED)
     }
 
     private fun initComponents() {
