@@ -36,6 +36,7 @@ import co.yap.yapcore.managers.MyUserManager
 import com.google.android.material.appbar.AppBarLayout
 import com.google.i18n.phonenumbers.PhoneNumberUtil
 import com.thefinestartist.finestwebview.FinestWebView
+import kotlinx.android.synthetic.main.progress_dialogue_fragment.view.*
 import java.math.RoundingMode
 import java.text.DecimalFormat
 import java.util.*
@@ -44,13 +45,12 @@ import java.util.regex.Pattern
 
 @SuppressLint("StaticFieldLeak")
 object Utils {
-    var context: Context? = null
 
     fun getColor(context: Context, @ColorRes color: Int) =
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             context.resources.getColor(color, null)
         } else {
-            context.resources.getColor(color)
+            context.getColor(color)
         }
 
     fun requestKeyboard(view: View, request: Boolean, forced: Boolean) {
@@ -78,11 +78,8 @@ object Utils {
         val layoutInflater: LayoutInflater =
             context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         val view = layoutInflater.inflate(R.layout.progress_dialogue_fragment, null)
-        view.findViewById<ProgressBar>(R.id.progressBar2).indeterminateDrawable.setColorFilter(
-            getColor(
-                context,
-                R.color.colorPrimaryDark
-            ), android.graphics.PorterDuff.Mode.SRC_IN
+        view.progressBar2.indeterminateDrawable.setColorFilter(
+            ThemeColorUtils.colorPressedBtnStateAttribute(context), android.graphics.PorterDuff.Mode.SRC_IN
         )
         return AlertDialog.Builder(context).run {
             setView(view)
@@ -696,7 +693,7 @@ object Utils {
             context,
             Strings.common_display_text_y2y_share,
             StringUtils.getFirstname(contact.title!!),
-            MyUserManager.user!!.currentCustomer.firstName,
+            MyUserManager.user?.currentCustomer?.firstName!!,
             Constants.URL_SHARE_APP_STORE,
             Constants.URL_SHARE_PLAY_STORE
         )
@@ -706,7 +703,7 @@ object Utils {
         return Translator.getString(
             context,
             Strings.common_display_text_y2y_general_share,
-            MyUserManager.user!!.currentCustomer.firstName,
+            MyUserManager.user?.currentCustomer?.firstName!!,
             Constants.URL_SHARE_APP_STORE,
             Constants.URL_SHARE_PLAY_STORE
         )

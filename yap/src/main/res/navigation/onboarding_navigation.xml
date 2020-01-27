@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<navigation
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/onboarding_navigation"
@@ -8,31 +7,31 @@
     <fragment
         android:id="@+id/emailFragment"
         android:name="co.yap.modules.onboarding.fragments.EmailFragment"
-        tools:layout="@layout/fragment_email"
-        android:label="EmailFragment">
+        android:label="EmailFragment"
+        tools:layout="@layout/fragment_email">
         <action
             android:id="@+id/action_emailFragment_to_congratulationsFragment"
-            app:destination="@id/congratulationsFragment"/>
+            app:destination="@id/congratulationsFragment" />
     </fragment>
 
     <fragment
         android:id="@+id/nameFragment"
         android:name="co.yap.modules.onboarding.fragments.NameFragment"
-        tools:layout="@layout/fragment_name"
-        android:label="NameFragment">
+        android:label="NameFragment"
+        tools:layout="@layout/fragment_name">
         <action
             android:id="@+id/action_nameFragment_to_emailFragment"
-            app:destination="@id/emailFragment"/>
+            app:destination="@id/emailFragment" />
     </fragment>
 
     <fragment
         android:id="@+id/mobileFragment"
         android:name="co.yap.modules.onboarding.fragments.MobileFragment"
-        tools:layout="@layout/fragment_mobile"
-        android:label="MobileFragment">
+        android:label="MobileFragment"
+        tools:layout="@layout/fragment_mobile">
         <action
             android:id="@+id/action_mobileFragment_to_phoneVerificationFragment"
-            app:destination="@id/phoneVerificationFragment"/>
+            app:destination="@id/phoneVerificationFragment" />
     </fragment>
 
     <fragment
@@ -42,41 +41,51 @@
         tools:layout="@layout/fragment_phone_verification">
         <action
             android:id="@+id/action_phoneVerificationFragment_to_createPasscodeActivity2"
-            app:destination="@id/createPasscodeActivity2"/>
+            app:destination="@id/createPasscodeActivity2" />
         <action
             android:id="@+id/action_phoneVerificationFragment_to_nameFragment"
-            app:popUpTo="@id/mobileFragment"
-            app:destination="@id/nameFragment"/>
+            app:destination="@id/nameFragment"
+            app:popUpTo="@id/mobileFragment" />
     </fragment>
     <fragment
         android:id="@+id/congratulationsFragment"
-        tools:layout="@layout/fragment_onboarding_congratulations"
         android:name="co.yap.modules.onboarding.fragments.CongratulationsFragment"
-        android:label="CongratulationsFragment">
+        android:label="CongratulationsFragment"
+        tools:layout="@layout/fragment_onboarding_congratulations">
         <action
             android:id="@+id/action_congratulationsFragment_to_documentsDashboardActivity"
             app:destination="@id/documentsDashboardActivity"
-            app:popUpToInclusive="true"
-            app:popUpTo="@+id/onboarding_navigation">
+            app:popUpTo="@+id/onboarding_navigation"
+            app:popUpToInclusive="true">
             <argument
                 android:name="name"
                 android:defaultValue=" "
-                app:argType="string"/>
+                app:argType="string" />
         </action>
+        <action
+            android:id="@+id/action_congratulationsFragment_to_yapDashboardActivity"
+            app:destination="@id/yapDashboardActivity" />
     </fragment>
     <activity
         android:id="@+id/createPasscodeActivity2"
-        tools:layout="@layout/activity_create_passcode"
         android:name="co.yap.modules.onboarding.activities.CreatePasscodeActivity"
-        android:label="CreatePasscodeActivity"/>
+        android:label="CreatePasscodeActivity"
+        tools:layout="@layout/activity_create_passcode" />
     <activity
         android:id="@+id/documentsDashboardActivity"
-        tools:layout="@layout/activity_documents_dashboard"
         android:name="co.yap.modules.kyc.activities.DocumentsDashboardActivity"
-        android:label="DocumentsDashboardActivity">
+        android:label="DocumentsDashboardActivity"
+        tools:layout="@layout/activity_documents_dashboard">
         <argument
             android:name="name"
             android:defaultValue=" "
-            app:argType="string"/>
+            app:argType="string" />
     </activity>
+
+    <activity
+        android:id="@+id/yapDashboardActivity"
+        android:name="co.yap.modules.dashboard.main.activities.YapDashboardActivity"
+        android:label="YapDashboardActivity"
+        tools:layout="@layout/activity_yap_dashboard" />
+
 </navigation>

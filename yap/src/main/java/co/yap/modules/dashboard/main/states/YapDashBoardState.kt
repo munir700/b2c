@@ -10,6 +10,7 @@ import co.yap.yapcore.BaseState
 class YapDashBoardState : BaseState(), IYapDashboard.State {
 
     override var userNameImage: ObservableField<String> = ObservableField("")
+    override var appVersion: ObservableField<String> = ObservableField("")
 
     @get:Bindable
     override var accountType: AccountType = AccountType.B2C_ACCOUNT
@@ -26,7 +27,7 @@ class YapDashBoardState : BaseState(), IYapDashboard.State {
         }
 
     @get:Bindable
-    override var firstName: String = ""
+    override var firstName: String? = ""
         set(value) {
             field = value
             notifyPropertyChanged(BR.firstName)

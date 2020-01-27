@@ -31,7 +31,7 @@ open class PhoneVerificationViewModel(application: Application) :
         super.onCreate()
         state.verificationTitle = getString(Strings.screen_verify_phone_number_display_text_title)
         state.verificationDescription = Strings.screen_verify_phone_number_display_text_sub_title
-        state.mobileNumber[0] = parentViewModel!!.onboardingData.formattedMobileNumber
+        state.mobileNumber[0] = parentViewModel?.onboardingData?.formattedMobileNumber
         state.reverseTimer(10)
         state.validResend = false
     }

@@ -34,13 +34,11 @@ class LoginViewModel(application: Application) : BaseViewModel<ILogin.State>(app
     }
 
     override fun onEditorActionListener(): TextView.OnEditorActionListener {
-        return object : TextView.OnEditorActionListener {
-            override fun onEditorAction(v: TextView?, actionId: Int, event: KeyEvent?): Boolean {
-                if (actionId == EditorInfo.IME_ACTION_DONE) {
-                    handlePressOnLogin()
-                }
-                return false
+        return TextView.OnEditorActionListener { _, actionId, _ ->
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                handlePressOnLogin()
             }
+            false
         }
     }
 
@@ -57,6 +55,7 @@ class LoginViewModel(application: Application) : BaseViewModel<ILogin.State>(app
                 }
                 is RetroApiResponse.Error -> {
                     state.error = response.error.message
+                    println("")
                 }
             }
             state.loading = false
@@ -65,25 +64,26 @@ class LoginViewModel(application: Application) : BaseViewModel<ILogin.State>(app
 
     private fun verifyUsername(enteredUsername: String): String {
         var username = enteredUsername
-        if (isUsernameNumeric(username)) {
-            if (username.startsWith("+")) {
-                username = username.replace("+", "00")
-                return username
-            } else if (username.startsWith("00")) {
-                return username
-            } else if (username.startsWith("0")) {
-                username = username.substring(1, username.length)
-                return username
-            } else {
-                return username
+        return if (isUsernameNumeric(username)) {
+            when {
+                username.startsWith("+") -> {
+                    username = username.replace("+", "00")
+                    username
+                }
+                username.startsWith("00") -> username
+                username.startsWith("0") -> {
+                    username = username.substring(1, username.length)
+                    username
+                }
+                else -> username
             }
         } else {
-            return username
+            username
         }
     }
 
 
-    fun isUsernameNumeric(username: String): Boolean {
+    private fun isUsernameNumeric(username: String): Boolean {
         var inputStr: CharSequence
         var isValid = false
         val expression = "^[0-9+]*\$"

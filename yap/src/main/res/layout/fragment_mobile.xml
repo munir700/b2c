@@ -82,9 +82,11 @@
                     android:paddingEnd="@dimen/margin_normal"
                     android:singleLine="true"
                     android:text="@={viewModel.state.mobile}"
-                    android:textColor="@color/colorPrimaryDark"
-                    android:textSize="@dimen/_15sdp" />
-
+                    android:textColor="?attr/colorPrimaryDarkAttr"
+                    android:textSize="@dimen/_15sdp"
+                 />
+<!--                app:drawbleRight="@{viewModel.state.drawbleRight}"-->
+<!--                app:isValid="@{viewModel.state.valid}"-->
             </LinearLayout>
 
             <TextView

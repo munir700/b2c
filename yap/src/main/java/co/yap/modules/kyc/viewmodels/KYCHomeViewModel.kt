@@ -9,9 +9,12 @@ import co.yap.modules.kyc.states.KYCHomeState
 import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
+import co.yap.translation.Strings
 import co.yap.translation.Strings.idenetity_scanner_sdk_screen_review_info_display_text_error_not_readable
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.helpers.DateUtils
+import co.yap.yapcore.helpers.extentions.trackEvent
+import co.yap.yapcore.leanplum.TrackEvents
 import com.digitify.identityscanner.core.arch.Gender
 import com.digitify.identityscanner.docscanner.models.Identity
 import com.digitify.identityscanner.docscanner.models.IdentityScannerResult
@@ -39,12 +42,12 @@ class KYCHomeViewModel(application: Application) : KYCChildViewModel<IKYCHome.St
 
     override fun onCreate() {
         super.onCreate()
-        state.name[0] = parentViewModel?.name
+        parentViewModel?.name?.value =
+            getString(Strings.screen_b2c_kyc_home_display_text_sub_heading).format(parentViewModel?.name?.value)
     }
 
     override fun onResume() {
         super.onResume()
-        //TODO Stop Old upload document api call
         requestDocuments()
     }
 
@@ -99,7 +102,7 @@ class KYCHomeViewModel(application: Application) : KYCChildViewModel<IKYCHome.St
             ) {
                 state.loading = false
                 if (response?.body()?.success!!) {
-                    var identity = Identity()
+                    val identity = Identity()
                     identity.nationality = response.body()?.nationality
                     identity.gender =
                         if (response.body()?.sex.equals("M")) Gender.Male else Gender.Female
@@ -125,7 +128,7 @@ class KYCHomeViewModel(application: Application) : KYCChildViewModel<IKYCHome.St
 
     }
 
-    fun uploadDocuments(result: IdentityScannerResult) {
+    private fun uploadDocuments(result: IdentityScannerResult) {
         val file = File(result.document.files[1].croppedFile)
         val fileReqBody = RequestBody.create(MediaType.parse("image/*"), file)
         val part =
@@ -157,6 +160,7 @@ class KYCHomeViewModel(application: Application) : KYCChildViewModel<IKYCHome.St
                     //}
                 }
                 is RetroApiResponse.Error -> {
+                    trackEvent(TrackEvents.EIDA_CALLBACK_FAILURE)
                     state.toast = response.error.message
                 }
             }
@@ -166,9 +170,7 @@ class KYCHomeViewModel(application: Application) : KYCChildViewModel<IKYCHome.St
 
     override fun requestDocuments() {
         launch {
-            // state.loading = true
             when (val response = repository.getDocuments()) {
-
                 is RetroApiResponse.Success -> {
                     response.data.data?.let {
                         if (it.isNotEmpty()) state.eidScanStatus = DocScanStatus.DOCS_UPLOADED
@@ -178,7 +180,6 @@ class KYCHomeViewModel(application: Application) : KYCChildViewModel<IKYCHome.St
                     state.toast = response.error.message
                 }
             }
-            //state.loading = false
         }
     }
 }

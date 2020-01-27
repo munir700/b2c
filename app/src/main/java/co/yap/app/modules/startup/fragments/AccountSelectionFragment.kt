@@ -11,6 +11,7 @@ import co.yap.app.modules.startup.viewmodels.AccountSelectionViewModel
 import co.yap.modules.onboarding.enums.AccountType
 import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.helpers.extentions.trackEvent
 
 class AccountSelectionFragment : BaseBindingFragment<IAccountSelection.ViewModel>(),
     IAccountSelection.View {
@@ -30,6 +31,7 @@ class AccountSelectionFragment : BaseBindingFragment<IAccountSelection.ViewModel
                     findNavController().navigate(R.id.action_accountSelectionFragment_to_loginFragment)
                 }
                 R.id.btnPersonal -> {
+                    trackEvent("Get started")
                     findNavController().navigate(
                         R.id.action_accountSelectionFragment_to_welcomeFragment,
                         Bundle().apply {

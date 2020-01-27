@@ -161,7 +161,7 @@
                             android:paddingLeft="@dimen/margin_small"
                             android:paddingRight="@dimen/margin_small"
                             android:text="@{viewModel.state.denominationFirstAmount}"
-                            android:textColor="@color/colorPrimary"
+                            android:textColor="?attr/colorPrimaryAttr"
                             tools:text="+100" />
 
                         <TextView
@@ -177,7 +177,7 @@
                             android:paddingLeft="@dimen/margin_small"
                             android:paddingRight="@dimen/margin_small"
                             android:text="@{viewModel.state.denominationSecondAmount}"
-                            android:textColor="@color/colorPrimary"
+                            android:textColor="?attr/colorPrimaryAttr"
                             tools:text="+500" />
 
                         <TextView
@@ -193,7 +193,7 @@
                             android:paddingLeft="@dimen/margin_small"
                             android:paddingRight="@dimen/margin_small"
                             android:text="@{viewModel.state.denominationThirdAmount}"
-                            android:textColor="@color/colorPrimary"
+                            android:textColor="?attr/colorPrimaryAttr"
                             tools:text="+1000" />
                     </LinearLayout>
 

@@ -12,12 +12,15 @@ import co.yap.R
 import co.yap.databinding.ActivityFragmentPresenterBinding
 import co.yap.modules.dashboard.cards.status.fragments.YapCardStatusFragment
 import co.yap.modules.dashboard.more.help.fragments.HelpSupportFragment
+import co.yap.modules.onboarding.fragments.MeetingConfirmationFragment
 import co.yap.modules.others.fragmentpresenter.interfaces.IFragmentPresenter
 import co.yap.modules.others.fragmentpresenter.viewmodels.FragmentPresenterViewModel
 import co.yap.networking.cards.responsedtos.Card
 import co.yap.yapcore.BaseBindingActivity
+import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.IFragmentHolder
 import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.constants.Constants.MODE_MEETING_CONFORMATION
 import co.yap.yapcore.helpers.extentions.replaceFragment
 
 class FragmentPresenterActivity : BaseBindingActivity<IFragmentPresenter.ViewModel>(),
@@ -36,6 +39,7 @@ class FragmentPresenterActivity : BaseBindingActivity<IFragmentPresenter.ViewMod
         }
     }
 
+    private lateinit var fragment: BaseBindingFragment<*>
     var modeCode: Int = 0
 
     override fun getBindingVariable(): Int = BR.viewModel
@@ -53,17 +57,24 @@ class FragmentPresenterActivity : BaseBindingActivity<IFragmentPresenter.ViewMod
         if (Constants.MODE_STATUS_SCREEN == modeCode) {
             if (intent.hasExtra(data)) { // because payload can be null
                 val card = intent?.extras?.getParcelable<Card>(data)
+                fragment = YapCardStatusFragment.newInstance(card)
                 replaceFragment(
                     localClassName,
                     R.id.container,
-                    YapCardStatusFragment.newInstance(card)
+                    fragment
                 )
 
             }
+        } else if (MODE_MEETING_CONFORMATION == modeCode) {
+            val ft = supportFragmentManager.beginTransaction()
+            fragment = MeetingConfirmationFragment()
+            ft.replace(R.id.container, fragment)
+            ft.commit()
         } else {
             if (Constants.MODE_HELP_SUPPORT == modeCode) {
                 val ft = supportFragmentManager.beginTransaction()
-                ft.replace(R.id.container, HelpSupportFragment())
+                fragment = HelpSupportFragment()
+                ft.replace(R.id.container, fragment)
                 ft.commit()
             }
         }
@@ -105,7 +116,20 @@ class FragmentPresenterActivity : BaseBindingActivity<IFragmentPresenter.ViewMod
     }
 
     override fun onBackPressed() {
-        super.onBackPressed()
+
+        if (!fragment.onBackPressed()) {
+            super.onBackPressed()
+        }
+//        }else
+//
+//        val fragment = supportFragmentManager.findFragmentById(R.id.container)
+//
+//        fragment?.let {
+//            if (!BackPressImpl(fragment).onBackPressed()) {
+//                super.onBackPressed()
+//            }
+//        }
+
 //        if (supportFragmentManager.findFragmentByTag(localClassName) != null) {
 //            val trans = supportFragmentManager.beginTransaction()
 //            trans.remove(supportFragmentManager.findFragmentByTag(localClassName)!!)

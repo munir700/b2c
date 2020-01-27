@@ -8,6 +8,7 @@ import co.yap.yapcore.BR
 import co.yap.modules.forgotpasscode.interfaces.IForgotPasscodeOtp
 import co.yap.yapcore.BaseState
 import co.yap.yapcore.R
+import co.yap.yapcore.helpers.ThemeColorUtils
 
 class ForgotPasscodeOtpState(application: Application) : BaseState(), IForgotPasscodeOtp.State {
     @get:Bindable
@@ -142,7 +143,7 @@ class ForgotPasscodeOtpState(application: Application) : BaseState(), IForgotPas
 
             override fun onFinish() {
                 validResend = true
-                color = mContext.resources.getColor(R.color.colorPrimary)
+                color = ThemeColorUtils.colorPrimaryAttribute(mContext)
                 timer = "00:00"
             }
         }.start()

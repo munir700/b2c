@@ -53,6 +53,8 @@ class PrefixSuffixEditText : AppCompatEditText {
     private var pseSpace: Int = 0
     private var mPrefix: String? = null
     private var prefixBitmap: Bitmap? = null
+    private var showPrefixDrawable: Boolean = true
+    private var showHint: Boolean = false
     // private val textFormatter = PhoneNumberFormatter(Locale.getDefault().country)
     var prefix: String?
         get() = this.mPrefix
@@ -60,7 +62,7 @@ class PrefixSuffixEditText : AppCompatEditText {
             this.mPrefix = prefix
             if (mPrefix?.isNotBlank()!!)
                 mask(mPrefix)
-           // mOriginalLeftPadding = -1f
+            // mOriginalLeftPadding = -1f
             // textFormatter.countryCode = "CZ"
             calculatePrefixPadding()
 //            calculatePrefix()
@@ -70,9 +72,7 @@ class PrefixSuffixEditText : AppCompatEditText {
     var prefixDrawable: Drawable? = null
         set(value) {
             field = value
-            //scale()
             if (value != null) {
-//                prefixBitmap = BitmapFactory.decodeResource(resources, R.drawable.flag_dele)
                 prefixBitmap = drawableToBitmap(prefixDrawable)
                 calculatePrefix()
                 invalidate()
@@ -131,6 +131,10 @@ class PrefixSuffixEditText : AppCompatEditText {
             R.styleable.PrefixSuffixEditText_android_paddingBottom,
             DEFAULT_PADDING
         )
+        showPrefixDrawable =
+            a.getBoolean(R.styleable.PrefixSuffixEditText_pse_showPrefixDrawable, true)
+        showHint =
+            a.getBoolean(R.styleable.PrefixSuffixEditText_pse_showHint, false)
         isClearIconVisible =
             a.getBoolean(R.styleable.PrefixSuffixEditText_pse_setClearIconVisible, false)
         val isBorderView = a.getBoolean(R.styleable.PrefixSuffixEditText_pse_setBorderView, false)
@@ -170,6 +174,7 @@ class PrefixSuffixEditText : AppCompatEditText {
         if (mPrefix != null && mPrefix!!.length > 0) {
             calculatePrefix()
         }
+        if(!showPrefixDrawable) prefix = mPrefix
 
         if (isPassword)
             if (!TextUtils.isEmpty(text)) {
@@ -311,7 +316,7 @@ class PrefixSuffixEditText : AppCompatEditText {
 //            val paint1: Paint? = Paint()
             // canvas.drawBitmap(icon , Rect(10,10,10,10),myPaint)
 
-            if (prefixBitmap == null) {
+            if (prefixBitmap == null || !showPrefixDrawable) {
                 canvas.drawText(
                     prefix!!, mOriginalLeftPadding, getLineBounds(0, null).toFloat(), myPaint
                         ?: paint
@@ -495,7 +500,7 @@ class PrefixSuffixEditText : AppCompatEditText {
                 textWidth += w
             }
             mOriginalLeftPadding = compoundPaddingLeft.toFloat()
-            if (prefixBitmap != null) {
+            if (prefixBitmap != null && showPrefixDrawable) {
                 setPadding(
                     (prefixBitmap?.width!! + textWidth + mOriginalLeftPadding).toInt() + pseSpace,
                     paddingRight, paddingTop,
@@ -510,30 +515,31 @@ class PrefixSuffixEditText : AppCompatEditText {
             }
         }
     }
+
     private fun calculatePrefixPadding() {
-       // if (mOriginalLeftPadding == -1f) {
-            val prefix = mPrefix
-            val widths = FloatArray(prefix!!.length)
-            paint.getTextWidths(prefix, widths)
-            var textWidth = 0f
-            for (w in widths) {
-                textWidth += w
-            }
-           // mOriginalLeftPadding = compoundPaddingLeft.toFloat()
-            if (prefixBitmap != null) {
-                setPadding(
-                    (prefixBitmap?.width!! + textWidth + mOriginalLeftPadding).toInt() + pseSpace,
-                    paddingRight, paddingTop,
-                    paddingBottom
-                )
-            } else {
-                setPadding(
-                    (textWidth + mOriginalLeftPadding).toInt() + pseSpace,
-                    paddingRight, paddingTop,
-                    paddingBottom
-                )
-            }
-       // }
+        // if (mOriginalLeftPadding == -1f) {
+        val prefix = mPrefix
+        val widths = FloatArray(prefix!!.length)
+        paint.getTextWidths(prefix, widths)
+        var textWidth = 0f
+        for (w in widths) {
+            textWidth += w
+        }
+
+        if (prefixBitmap != null && showPrefixDrawable) {
+            setPadding(
+                (prefixBitmap?.width!! + textWidth + mOriginalLeftPadding).toInt() + pseSpace,
+                paddingRight, paddingTop,
+                paddingBottom
+            )
+        } else {
+            setPadding(
+                (textWidth + mOriginalLeftPadding).toInt() + pseSpace,
+                paddingRight, paddingTop,
+                paddingBottom
+            )
+        }
+        // }
     }
 
     public fun setPrefixTextColor(prefixTextColor: Int) {
@@ -613,6 +619,7 @@ class PrefixSuffixEditText : AppCompatEditText {
         }
     var phoneUtil: PhoneNumberUtil? = PhoneNumberUtil.getInstance()
     private fun mask(countryCode: String?) {
+
         val countryCode =
             countryCode?.replace("+", "")//getCountryCodeFormString(countryCode?.toUpperCase()!!)
 

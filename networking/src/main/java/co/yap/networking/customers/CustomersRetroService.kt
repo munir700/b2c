@@ -1,6 +1,5 @@
 package co.yap.networking.customers
 
-import co.yap.networking.customers.responsedtos.KycResponse
 import co.yap.networking.customers.requestdtos.*
 import co.yap.networking.customers.responsedtos.*
 import co.yap.networking.customers.responsedtos.beneficiary.BankParamsResponse
@@ -19,7 +18,7 @@ interface CustomersRetroService {
 
     // User sign up request
     @POST(CustomersRepository.URL_SIGN_UP)
-    suspend fun signUp(@Body ignUpRequest: SignUpRequest): Response<SignUpResponse>
+    suspend fun signUp(@Body signUpRequest: SignUpRequest): Response<SignUpResponse>
 
     // In onboarding send verification email to verify uer
     @POST(CustomersRepository.URL_SEND_VERIFICATION_EMAIL)
@@ -139,6 +138,23 @@ interface CustomersRetroService {
 
     @GET(CustomersRepository.URL_SANCTIONED_COUNTRIES)
     suspend fun getSectionedCountries(): Response<SectionedCountriesResponseDTO>
+
+    /* Household */
+
+    @POST(CustomersRepository.URL_VERIFY_HOUSEHOLD_MOBILE)
+    suspend fun verifyHouseholdMobile(@Body verifyHouseholdMobileRequest: VerifyHouseholdMobileRequest): Response<ApiResponse>
+
+    @POST(CustomersRepository.URL_VERIFY_PARENT_HOUSEHOLD_MOBILE)
+    suspend fun verifyHouseholdParentMobile(@Query("mobileNo") mobileNumber: String?,@Body verifyHouseholdMobileRequest: VerifyHouseholdMobileRequest): Response<ApiResponse>
+
+    @POST(CustomersRepository.URL_HOUSEHOLD_USER_ONBOARD)
+    suspend fun onboardHouseholdUser(@Body householdOnboardRequest: HouseholdOnboardRequest): Response<HouseholdOnBoardingResponse>
+
+    @POST(CustomersRepository.URL_ADD_HOUSEHOLD_EMAIL)
+    suspend fun addHouseholdEmail(@Body addHouseholdEmailRequest: AddHouseholdEmailRequest): Response<ApiResponse>
+
+    @POST(CustomersRepository.URL_CREATE_HOUSEHOLD_PASSCODE)
+    suspend fun createHouseholdPasscode(@Body createPassCodeRequest: CreatePassCodeRequest): Response<ApiResponse>
 
 
 }

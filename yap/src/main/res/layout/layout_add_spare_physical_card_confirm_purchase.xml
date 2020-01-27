@@ -45,7 +45,7 @@
                 android:layout_marginTop="@dimen/margin_extra_small"
                 android:gravity="center"
                 android:text="@{viewModel.state.physicalCardFee}"
-                android:textColor="@color/colorPrimaryDark"
+                android:textColor="?attr/colorPrimaryDarkAttr"
                 android:textSize="@dimen/text_size_h5" />
 
             <LinearLayout
@@ -73,7 +73,7 @@
                     android:gravity="center_vertical"
                     android:paddingStart="@dimen/_4sdp"
                     android:text="@{viewModel.state.avaialableCardBalance}"
-                    android:textColor="@color/colorPrimary" />
+                    android:textColor="?attr/colorPrimaryAttr" />
 
 
             </LinearLayout>
@@ -178,7 +178,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:src="@drawable/ic_check"
-                        android:tint="@color/colorPrimary"
+                        android:tint="?attr/colorPrimaryAttr"
                         android:visibility="@{viewModel.state.physicalCardAddressCheckVisibility}" />
 
 
@@ -203,9 +203,9 @@
                         android:layout_marginTop="@dimen/margin_extra_small"
                         android:layout_marginEnd="@dimen/margin_small"
                         android:gravity="start"
-                        android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
-                        android:textColor="@color/colorPrimary"
+                        android:textColor="?attr/colorPrimaryAttr"
                         android:textSize="@dimen/text_size_c3"
+                        android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
                         app:text="@{Strings.screen_add_spare_card_button_change_location}"
                         tools:text="@string/screen_add_spare_card_button_change_location" />
 

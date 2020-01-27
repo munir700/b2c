@@ -62,6 +62,10 @@ object TransactionsRepository : BaseRepository(), TransactionsApi {
     const val URL_SWIFT_TRANSFER =
         "/transactions/api/swift"
 
+    // Household
+    const val URL_HOUSEHOLD_CARD_FEE_PACKAGE = "/transactions/api/fees/subscriptions/{pkg-type}"
+
+
     private val api: TransactionsRetroService =
         RetroNetwork.createService(TransactionsRetroService::class.java)
 
@@ -196,5 +200,8 @@ object TransactionsRepository : BaseRepository(), TransactionsApi {
 
     override suspend fun swiftTransferRequest(swiftTransactionRequestDTO: SwiftTransactionRequestDTO): RetroApiResponse<SendMoneyTransactionResponseDTO> =
         executeSafely(call = { api.swiftTransferRequest(swiftTransactionRequestDTO) })
+
+    override suspend fun getHousholdFeePackage(packageType: String): RetroApiResponse<CardFeeResponse> =
+        executeSafely(call = { api.getHousholdFeePackage(packageType) })
 
 }

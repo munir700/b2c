@@ -17,7 +17,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
 
-        app:srcCompat="@color/colorPrimary">
+        app:srcCompat="?attr/colorPrimaryAttr">
 
         <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:id="@+id/main_content"
@@ -73,7 +73,7 @@
                     android:background="@drawable/tag_background"
                     android:gravity="center"
                     android:text="AED"
-                    android:textColor="@color/colorPrimary"
+                    android:textColor="?attr/colorPrimaryAttr"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -86,7 +86,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/transparent"
-                android:theme="@style/AppTheme.AppBarOverlay"
+                android:theme="@style/CoreAppTheme.AppBarOverlay"
                 app:elevation="0dp">
 
                 <com.google.android.material.appbar.CollapsingToolbarLayout

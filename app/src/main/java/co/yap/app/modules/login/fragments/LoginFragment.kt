@@ -1,5 +1,6 @@
 package co.yap.app.modules.login.fragments
 
+import android.content.Context
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
@@ -12,6 +13,7 @@ import co.yap.app.modules.login.interfaces.ILogin
 import co.yap.app.modules.login.viewmodels.LoginViewModel
 import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.helpers.SharedPreferenceManager
+import co.yap.yapcore.helpers.extentions.trackEvent
 
 class LoginFragment : BaseBindingFragment<ILogin.ViewModel>(), ILogin.View {
 
@@ -48,15 +50,13 @@ class LoginFragment : BaseBindingFragment<ILogin.ViewModel>(), ILogin.View {
         val action =
             LoginFragmentDirections.actionLoginFragmentToVerifyPasscodeFragment(viewModel.state.twoWayTextWatcher)
         NavHostFragment.findNavController(this).navigate(action)
-         viewModel.state.twoWayTextWatcher = ""
-        // findNavController().navigate(action)
+        viewModel.state.twoWayTextWatcher = ""
+        trackEvent("sign in")
     }
 
     private val signUpButtonObserver = Observer<Boolean> {
         findNavController().navigate(R.id.action_loginFragment_to_accountSelectionFragment)
-//        val action = LoginFragmentDirections.actionLoginFragmentToDocumentsDashboardActivity("Bilal")
-//        findNavController().navigate(action)
+        trackEvent("sign up")
     }
-
 
 }

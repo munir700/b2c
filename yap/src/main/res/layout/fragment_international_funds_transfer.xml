@@ -282,7 +282,7 @@
                         android:layout_marginLeft="@dimen/_2sdp"
                         android:layout_marginRight="@dimen/_2sdp"
                         android:text="@{viewModel.state.fromFxRate}"
-                        android:textColor="@color/colorPrimaryDark"
+                        android:textColor="?attr/colorPrimaryDarkAttr"
                         tools:text="X AED" />
 
                     <TextView
@@ -302,7 +302,7 @@
                         android:layout_marginLeft="@dimen/_2sdp"
                         android:layout_marginRight="@dimen/_2sdp"
                         android:text="@{viewModel.state.toFxRate}"
-                        android:textColor="@color/colorPrimaryDark"
+                        android:textColor="?attr/colorPrimaryDarkAttr"
                         tools:text="X CAD" />
                 </LinearLayout>
 
