@@ -199,7 +199,7 @@ class VerifyPasscodeViewModel(application: Application) :
             SharedPreferenceManager(context).getValueString(SharedPreferenceManager.KEY_APP_UUID)
         launch {
             state.loading = true
-             when (val response = repository.logout(deviceId.toString())) {
+            when (val response = repository.logout(deviceId.toString())) {
                 is RetroApiResponse.Success -> {
                     state.loading = false
                     forgotPasscodeButtonPressEvent.setValue(EVENT_LOGOUT_SUCCESS)
@@ -212,7 +212,7 @@ class VerifyPasscodeViewModel(application: Application) :
         }
     }
 
-    private fun  setUserAttributes() {
+    private fun setUserAttributes() {
         MyUserManager.user?.let {
             val info: HashMap<String, Any> = HashMap()
             info[UserAttributes().accountType] = it.accountType ?: ""
@@ -220,8 +220,13 @@ class VerifyPasscodeViewModel(application: Application) :
             info[UserAttributes().nationality] = it.currentCustomer.nationality ?: ""
             info[UserAttributes().firstName] = it.currentCustomer.firstName ?: ""
             info[UserAttributes().lastName] = it.currentCustomer.lastName
-            info[UserAttributes().documentsVerified] = it.documentsVerified?:false
-            trackEventWithAttributes(info)
+            info[UserAttributes().documentsVerified] = it.documentsVerified ?: false
+            info[UserAttributes().mainUser] = it.accountType == "B2C_ACCOUNT"
+            info[UserAttributes().householdUser] = it.accountType == "B2C_HOUSEHOLD"
+            info[UserAttributes().youngUser] = false
+            info[UserAttributes().b2bUser] = false
+
+            it.uuid?.let { trackEventWithAttributes(it, info) }
         }
     }
 

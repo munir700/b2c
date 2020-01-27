@@ -6,5 +6,9 @@ data class UserAttributes(
     val nationality: String = "nationality",
     val firstName: String = "firstName",
     val lastName: String = "lastName",
-    val documentsVerified: String = "documentsVerified"
+    val documentsVerified: String = "documentsVerified",
+    val mainUser: String = "mainUser",
+    val householdUser: String = "householdUser",
+    val youngUser: String = "youngUser",
+    val b2bUser: String = "b2bUser"
 )
