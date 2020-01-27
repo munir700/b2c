@@ -9,6 +9,7 @@ data class UploadDocumentsRequest(
     val lastName: String,
     val nationality: String,
     val dateExpiry: Date,
+    val dateIssue: Date?=null,
     val dob: Date,
     val fullName: String,
     val gender: String, // M/F

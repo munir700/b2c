@@ -204,7 +204,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@{viewModel.state.addNoteTitle}"
-                android:textColor="@color/colorPrimary"
+                android:textColor="?attr/colorPrimaryAttr"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="Add a note" />

@@ -57,6 +57,8 @@ open class MapSupportActivity : BaseBindingActivity<ILocationSelection.ViewModel
             if (location != null) {
                 mDefaultLocation = LatLng(location.latitude, location.longitude)
                 viewModel.lastKnowLocation.value = mDefaultLocation
+                viewModel.address?.latitude = location.latitude
+                viewModel.address?.longitude = location.longitude
             }
         }
     }

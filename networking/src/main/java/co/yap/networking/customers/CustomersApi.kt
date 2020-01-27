@@ -58,6 +58,16 @@ interface CustomersApi {
     suspend fun getOtherBankParams(countryName: String): RetroApiResponse<ApiResponse>
 
     suspend fun getSectionedCountries(): RetroApiResponse<SectionedCountriesResponseDTO>
+    /* Household */
 
-    /*TODO ======================================  done*/
+    suspend fun verifyHouseholdMobile(verifyHouseholdMobileRequest: VerifyHouseholdMobileRequest): RetroApiResponse<ApiResponse>
+    suspend fun verifyHouseholdParentMobile(
+        mobileNumber: String?,verifyHouseholdMobileRequest: VerifyHouseholdMobileRequest
+    ): RetroApiResponse<ApiResponse>
+
+    suspend fun onboardHousehold(householdOnboardRequest: HouseholdOnboardRequest): RetroApiResponse<HouseholdOnBoardingResponse>
+    suspend fun addHouseholdEmail(addHouseholdEmailRequest: AddHouseholdEmailRequest): RetroApiResponse<ApiResponse>
+    suspend fun createHouseholdPasscode(createPassCodeRequest: CreatePassCodeRequest): RetroApiResponse<ApiResponse>
+
+
 }

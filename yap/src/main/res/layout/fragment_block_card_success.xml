@@ -100,7 +100,7 @@
                 android:layout_marginTop="@dimen/margin_medium"
                 android:gravity="center"
                 android:paddingTop="@dimen/margin_small"
-                android:textColor="@color/colorPrimary"
+                android:textColor="?attr/colorPrimaryAttr"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/btnReOrder"

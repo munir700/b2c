@@ -64,7 +64,6 @@ class EmailViewModel(application: Application) :
             )
     }
 
-
     private fun signUp() {
         launch {
             state.refreshField = true
@@ -199,7 +198,7 @@ class EmailViewModel(application: Application) :
                             nextButtonPressEvent.setValue(EVENT_NAVIGATE_NEXT)
                         }, 400)
                         MyUserManager.user = response.data.data[0]
-                        MyUserManager.user?.setLiveData() // DOnt remove this line
+//                        MyUserManager.user?.setLiveData() // DOnt remove this line
                         state.valid = true
                     }
                 }

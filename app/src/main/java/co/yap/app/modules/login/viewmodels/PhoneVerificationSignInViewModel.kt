@@ -2,12 +2,14 @@ package co.yap.app.modules.login.viewmodels
 
 import android.app.Application
 import android.os.Build
+import androidx.lifecycle.MutableLiveData
 import co.yap.app.login.EncryptionUtils
 import co.yap.app.modules.login.interfaces.IPhoneVerificationSignIn
 import co.yap.modules.onboarding.constants.Constants
 import co.yap.networking.authentication.AuthRepository
 import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.customers.requestdtos.DemographicDataRequest
+import co.yap.networking.customers.responsedtos.AccountInfo
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.messages.MessagesRepository
 import co.yap.networking.messages.requestdtos.CreateOtpGenericRequest
@@ -18,6 +20,7 @@ import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleLiveEvent
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.managers.MyUserManager
 import co.yap.yapcore.helpers.extentions.trackEvent
 import co.yap.yapcore.helpers.extentions.trackEventWithAttributes
 
@@ -32,7 +35,8 @@ class PhoneVerificationSignInViewModel(application: Application) :
     override val postDemographicDataResult: SingleLiveEvent<Boolean> = SingleLiveEvent()
     override val verifyOtpResult: SingleLiveEvent<Boolean> = SingleLiveEvent()
     private val customersRepository: CustomersRepository = CustomersRepository;
-    private val messagesRepository: MessagesRepository = MessagesRepository;
+    private val messagesRepository: MessagesRepository = MessagesRepository
+    override val accountInfo: MutableLiveData<AccountInfo> = MutableLiveData()
 
     override fun handlePressOnSendButton() {
         nextButtonPressEvent.postValue(true)
@@ -71,11 +75,6 @@ class PhoneVerificationSignInViewModel(application: Application) :
                         EncryptionUtils.encrypt(context, state.username)!!
                     )
                     verifyOtpResult.postValue(true)
-
-                    val info: Map<String, String> = HashMap()
-                    info["mobile-number-entered"]
-                    trackEventWithAttributes(info)
-                    trackEvent("mobile-number-entered")
                 }
                 is RetroApiResponse.Error -> {
                     state.toast = response.error.message
@@ -126,11 +125,27 @@ class PhoneVerificationSignInViewModel(application: Application) :
                     postDemographicDataResult.value = true
                 }
                 is RetroApiResponse.Error -> {
+                    state.loading = false
                     state.toast = response.error.message
                 }
+            }
+
+        }
+    }
+
+    override fun getAccountInfo() {
+        launch {
+            //state.loading = true
+            when (val response = customersRepository.getAccountInfo()) {
+                is RetroApiResponse.Success -> {
+                    if (response.data.data.isNotEmpty()) {
+                        MyUserManager.user = response.data.data[0]
+                        accountInfo.postValue(response.data.data[0])
+                    }
+                }
+                is RetroApiResponse.Error -> state.toast = response.error.message
             }
             state.loading = false
         }
     }
-
 }

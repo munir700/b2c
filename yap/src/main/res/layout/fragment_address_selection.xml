@@ -155,7 +155,7 @@
                         android:onClick="@{(v) -> viewModel.handlePressOnSelectLocation(v.id)}"
                         android:paddingRight="@dimen/margin_medium"
                         android:text="@={viewModel.state.addressField}"
-                        android:textColor="@color/colorPrimaryDark"
+                        android:textColor="?attr/colorPrimaryDarkAttr"
                         android:textColorHint="@color/grey"
                         android:textSize="@dimen/text_size_h3"
                         app:hint="@{Strings.screen_meeting_location_input_text_address_hint}"
@@ -199,7 +199,7 @@
                         android:minHeight="@dimen/_42sdp"
                         android:paddingRight="0dp"
                         android:text="@={viewModel.state.landmarkField}"
-                        android:textColor="@color/colorPrimaryDark"
+                        android:textColor="?attr/colorPrimaryDarkAttr"
                         android:textColorHint="@color/grey"
                         android:textSize="@dimen/text_size_h3"
                         app:drawableClick="@{viewModel.state.onDrawableClick}"
@@ -242,7 +242,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="@dimen/margin_extra_small"
                             android:onClick="@{(v) -> viewModel.handlePressOnCloseMap(v.id)}"
-                            android:textColor="@color/colorPrimary"
+                            android:textColor="?attr/colorPrimaryAttr"
                             app:text="@{Strings.screen_meeting_location_text_terms_and_conditions}"
                             tools:text="@string/screen_meeting_location_text_terms_and_conditions" />
 

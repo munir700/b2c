@@ -1,15 +1,4 @@
 <resources>
-    <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
-    </style>
-    
-    <style name="AppTheme.NoActionBar">
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
-    </style>
 
     <style name="CustomDialog">
         <item name="android:layout_width">match_parent</item>
@@ -60,14 +49,14 @@
     <style name="Title1" parent="AppFontRegular">
         <item name="android:textSize">@dimen/text_size_h7</item>
         <item name="android:lineSpacingExtra">10sp</item>
-        <item name="android:textColor">@color/colorPrimaryDark</item>
+        <item name="android:textColor">?attr/colorPrimaryDarkAttr</item>
     </style>
 
     <style name="ATitle1" parent="AppFontRegular">
         <item name="android:textSize">@dimen/text_size_h7</item>
         <item name="android:textStyle">normal</item>
         <item name="android:lineSpacingExtra">10sp</item>
-        <item name="android:textColor">@color/colorPrimaryDark</item>
+        <item name="android:textColor">?attr/colorPrimaryDarkAttr</item>
     </style>
 
 
@@ -75,14 +64,14 @@
         <item name="android:textSize">@dimen/text_size_h6</item>
         <item name="android:textStyle">normal</item>
         <item name="android:lineSpacingExtra">8sp</item>
-        <item name="android:textColor">@color/colorPrimaryDark</item>
+        <item name="android:textColor">?attr/colorPrimaryDarkAttr</item>
     </style>
 
 
     <style name="Title2" parent="AppFontRegular">
         <item name="android:textSize">@dimen/text_size_h6</item>
         <item name="android:lineSpacingExtra">8sp</item>
-        <item name="android:textColor">@color/colorPrimaryDark</item>
+        <item name="android:textColor">?attr/colorPrimaryDarkAttr</item>
     </style>
 
 
@@ -90,40 +79,40 @@
         <item name="android:textSize">@dimen/text_size_h5</item>
         <item name="android:textStyle">normal</item>
         <item name="android:lineSpacingExtra">9sp</item>
-        <item name="android:textColor">@color/colorPrimaryDark</item>
+        <item name="android:textColor">?attr/colorPrimaryDarkAttr</item>
     </style>
 
     <style name="Title3" parent="AppFontRegular">
         <item name="android:textSize">@dimen/text_size_h5</item>
         <item name="android:lineSpacingExtra">9sp</item>
-        <item name="android:textColor">@color/colorPrimaryDark</item>
+        <item name="android:textColor">?attr/colorPrimaryDarkAttr</item>
     </style>
 
     <style name="ALarge" parent="AppFontRegular">
         <item name="android:textSize">@dimen/text_size_h4</item>
         <item name="android:textStyle">normal</item>
         <item name="android:lineSpacingExtra">10sp</item>
-        <item name="android:textColor">@color/colorPrimaryDark</item>
+        <item name="android:textColor">?attr/colorPrimaryDarkAttr</item>
     </style>
 
     <style name="ARegular" parent="AppFontRegular">
         <item name="android:textSize">@dimen/text_size_h3</item>
         <item name="android:textStyle">normal</item>
         <item name="android:lineSpacingExtra">8sp</item>
-        <item name="android:textColor">@color/colorPrimaryDark</item>
+        <item name="android:textColor">?attr/colorPrimaryDarkAttr</item>
     </style>
 
     <style name="Large" parent="AppFontRegular">
         <item name="android:textSize">@dimen/text_size_h4</item>
         <item name="android:lineSpacingExtra">10sp</item>
-        <item name="android:textColor">@color/colorPrimaryDark</item>
+        <item name="android:textColor">?attr/colorPrimaryDarkAttr</item>
     </style>
 
 
     <style name="Regular" parent="AppFontRegular">
         <item name="android:textSize">@dimen/text_size_h3</item>
         <item name="android:lineSpacingExtra">8sp</item>
-        <item name="android:textColor">@color/colorPrimaryDark</item>
+        <item name="android:textColor">?attr/colorPrimaryDarkAttr</item>
     </style>
 
     <style name="ASmall" parent="AppFontRegular">
@@ -131,19 +120,26 @@
         <item name="android:fontFamily">sans-serif</item>
         <item name="android:textStyle">normal</item>
         <item name="android:lineSpacingExtra">6sp</item>
-        <item name="android:textColor">@color/colorPrimaryDark</item>
+        <item name="android:textColor">?attr/colorPrimaryDarkAttr</item>
+    </style>
+
+    <style name="smallMediumFont" parent="AppFontMedium">
+        <item name="android:textSize">@dimen/text_size_h2</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:lineSpacingExtra">6sp</item>
+        <item name="android:textColor">?attr/colorPrimaryDarkAttr</item>
     </style>
 
     <style name="Small" parent="AppFontRegular">
         <item name="android:textSize">@dimen/text_size_h2</item>
         <item name="android:lineSpacingExtra">6sp</item>
-        <item name="android:textColor">@color/colorPrimaryDark</item>
+        <item name="android:textColor">?attr/colorPrimaryDarkAttr</item>
     </style>
 
     <style name="Micro" parent="AppFontRegular">
         <item name="android:textSize">@dimen/text_size_h1</item>
         <item name="android:lineSpacingExtra">6sp</item>
-        <item name="android:textColor">@color/colorPrimaryDark</item>
+        <item name="android:textColor">?attr/colorPrimaryDarkAttr</item>
     </style>
 
 
@@ -152,7 +148,7 @@
         <item name="android:fontFamily">sans-serif</item>
         <item name="android:textStyle">normal</item>
         <item name="android:lineSpacingExtra">6sp</item>
-        <item name="android:textColor">@color/colorPrimaryDark</item>
+        <item name="android:textColor">?attr/colorPrimaryDarkAttr</item>
     </style>
 
     <!-- Grey text -->
@@ -241,6 +237,21 @@
         <item name="android:textColor">@color/greyDark</item>
     </style>
 
+    <style name="ASmallWhite" parent="AppFontRegular">
+        <item name="android:textSize">@dimen/text_size_h2</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:lineSpacingExtra">6sp</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="ASmallHyperLinkUnderline" parent="AppFontRegular">
+        <item name="android:textSize">@dimen/text_size_h2</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:background">@drawable/hyperlink_underline</item>
+        <item name="android:lineSpacingExtra">6sp</item>
+        <item name="android:textColor">@color/greyDark</item>
+    </style>
+
     <style name="SmallGrey" parent="AppFontRegular">
         <item name="android:textSize">@dimen/text_size_h2</item>
         <item name="android:lineSpacingExtra">6sp</item>
@@ -278,6 +289,7 @@
         <item name="android:paddingRight">@dimen/margin_extra_large</item>
         <item name="android:paddingTop">@dimen/margin_small</item>
         <item name="android:paddingBottom">@dimen/margin_small</item>
+        <item name="android:theme">?attr/primaryButtonTheme</item>
         <item name="btn_round_radius">50dp</item>
 
     </style>
@@ -291,6 +303,8 @@
         <item name="android:paddingTop">@dimen/margin_small</item>
         <item name="android:paddingBottom">@dimen/margin_small</item>
         <item name="btn_round_radius">50dp</item>
+        <item name="android:theme">?attr/primaryButtonTheme</item>
+
 
     </style>
 
@@ -320,6 +334,23 @@
         <item name="android:minHeight">@dimen/_48sdp</item>
         <item name="android:gravity">center</item>
         <item name="android:textColor">@color/colorWhite</item>
+        <item name="primaryButtonTheme">@style/Widget.Button.Primary</item>
+        <item name="android:theme">?attr/primaryButtonTheme</item>
+
+    </style>
+
+    <style name="BoldBtnStyle" parent="AppFontBold">
+        <item name="btn_text_size">@dimen/text_size_h4</item>
+        <item name="btn_shape_type">rectangle</item>
+        <item name="android:enabled">true</item>
+        <item name="btn_enable">false</item>
+        <item name="btn_round_radius">50dp</item>
+        <item name="android:minHeight">@dimen/_48sdp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@color/colorWhite</item>
+        <item name="primaryButtonTheme">@style/Widget.Button.Primary</item>
+        <item name="android:theme">?attr/primaryButtonTheme</item>
+
     </style>
 
     <!-- Progress bar -->
@@ -339,7 +370,7 @@
     </style>
 
     <style name="YAPProgressBarIndeterminate" parent="@style/Widget.AppCompat.ProgressBar">
-        <item name="android:color">@color/colorPrimaryDark</item>
+        <item name="android:color">?attr/colorPrimaryDarkAttr</item>
     </style>
 
     <style name="DialogTheme" parent="android:Theme.Dialog">
@@ -354,7 +385,8 @@
 
     <!-- Switch -->
     <style name="CustomSwitch" parent="Theme.AppCompat.Light">
-        <item name="colorControlActivated">@color/colorPrimary</item>
+        <item name="colorControlActivated">?attr/colorPrimaryAttr</item>
+<!--        <item name="colorControlActivated">?attr/colorPrimaryAttr</item>-->
     </style>
 
 
@@ -416,6 +448,122 @@
     <style name="ShowUpAnimation_BL">
         <item name="android:windowEnterAnimation">@anim/menu_show_up_bl</item>
         <item name="android:windowExitAnimation">@anim/menu_show_down_bl</item>
+    </style>
+
+
+    <!-- tooltip custom style -->
+
+    <style name="ToolTipAltStyle" parent="ToolTipLayoutDefaultStyle">
+        <item name="ttlm_padding">16dp</item>
+        <item name="ttlm_backgroundColor">@color/white</item>
+        <item name="ttlm_cornerRadius">6dp</item>
+        <item name="ttlm_arrowRatio">1.2</item>
+        <item name="ttlm_overlayStyle">@style/ToolTipOverlayAltStyle</item>
+        <item name="ttlm_textStyle">@style/ToolTipAltTextStyle</item>
+    </style>
+
+    <style name="ToolTipAltTextStyle" parent="ToolTipTextStyle">
+        <item name="android:textColor">@android:color/black</item>
+    </style>
+
+    <style name="ToolTipOverlayAltStyle" parent="ToolTipOverlayDefaultStyle">
+        <item name="android:color">#FF333333</item>
+        <item name="android:alpha">0.3</item>
+    </style>
+
+    <style name="TabTextAppearance" parent="TextAppearance.Design.Tab">
+        <item name="android:textSize">@dimen/text_size_h1</item>
+        <item name="android:textColor">?attr/colorPrimaryAttr</item>
+        <item name="android:textStyle">normal</item>
+        <item name="textAllCaps">false</item>
+        <item name="android:textAllCaps">false</item>
+    </style>
+
+    <style name="TabTextCardAnalytics" parent="TextAppearance.Design.Tab">
+        <item name="android:textSize">@dimen/text_size_h2</item>
+        <item name="android:textColor">?attr/colorPrimaryDarkAttr</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:lineSpacingExtra">6sp</item>
+        <item name="textAllCaps">false</item>
+        <item name="android:textAllCaps">false</item>
+    </style>
+
+    <style name="AppBottomSheetDialogTheme" parent="Theme.Design.Light.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/AppModalStyle</item>
+    </style>
+
+    <style name="AppModalStyle" parent="Widget.Design.BottomSheet.Modal">
+        <item name="android:background">@drawable/bg_round_top_corners</item>
+    </style>
+
+    <style name="AppSearchView" parent="Widget.AppCompat.SearchView">
+        <item name="android:textSize">@dimen/text_size_c4</item>
+        <item name="android:editTextColor">?attr/colorPrimaryDarkAttr</item>
+        <item name="android:textStyle">normal</item>
+        <item name="closeIcon">@android:color/transparent</item>
+
+    </style>
+
+    <!--    TextView Style-->
+    <style name="Yap.App.Widget.TextView" parent="TextAppearance.AppCompat.Title">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:fontFamily">@font/roboto_regular</item>
+        <item name="android:layout_gravity">center_vertical</item>
+
+    </style>
+
+    <style name="Yap.App.Widget.TextView.Label" parent="Yap.App.Widget.TextView">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">@dimen/text_size_h2</item>
+        <item name="android:lineSpacingExtra">6sp</item>
+        <item name="android:textColor">@color/greyDark</item>
+
+    </style>
+
+    <style name="Yap.App.Widget.TextInputEditText" parent="Widget.AppCompat.EditText">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">@dimen/text_size_h3</item>
+        <item name="android:theme">@style/Theme.EditText</item>
+        <item name="android:fontFamily">@font/roboto_regular</item>
+        <item name="android:textColor">?attr/colorPrimaryDarkAttr</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:maxLines">1</item>
+
+    </style>
+
+    <style name="Theme.EditText" parent="CoreAppTheme">
+        <item name="colorControlNormal">@color/greyLight</item>
+        <item name="colorControlActivated">@color/greyLight</item>
+        <item name="colorControlHighlight">@color/greyLight</item>
+    </style>
+
+    <!--    <style name="Yap.App.Widget.TextInputEditText.Name" parent="Yap.App.Widget.TextInputEditText">-->
+    <!--        <item name="android:layout_width">match_parent</item>-->
+    <!--        <item name="android:layout_height">wrap_content</item>-->
+    <!--        <item name="android:textSize">@dimen/text_size_h3</item>-->
+    <!--        <item name="android:lineSpacingExtra">8sp</item>-->
+    <!--        <item name="android:fontFamily">@font/roboto_regular</item>-->
+    <!--        <item name="android:textColor">?attr/colorPrimaryDarkAttr</item>-->
+
+    <!--    </style>-->
+
+
+
+    <style name="LargeBoldText" parent="AppFontBold">
+        <item name="android:textSize">@dimen/text_size_h6</item>
+        <item name="android:textColor">@color/textDarkColor</item>
+    </style>
+    <style name="LargeText" parent="AppFontRegular">
+        <item name="android:textSize">@dimen/text_size_h6</item>
+        <item name="android:textColor">@color/textDarkColor</item>
+    </style>
+    <style name="NormalText" parent="AppFontRegular">
+        <item name="android:textSize">@dimen/text_size_h2</item>
+        <item name="android:textColor">@color/textDarkColor</item>
     </style>
 
 </resources>

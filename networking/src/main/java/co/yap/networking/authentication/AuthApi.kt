@@ -5,8 +5,6 @@ import co.yap.networking.models.ApiResponse
 import co.yap.networking.models.RetroApiResponse
 
 interface AuthApi {
-    /*TODO: irfan ******************************/
-
     suspend fun getCSRFToken(): RetroApiResponse<ApiResponse>
     suspend fun refreshJWTToken(token: String): RetroApiResponse<LoginResponse>
     suspend fun login(username: String, password: String): RetroApiResponse<LoginResponse>

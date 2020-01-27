@@ -13,7 +13,7 @@ import co.yap.databinding.ContentOnboardingWelcomeBinding
 import co.yap.modules.onboarding.models.WelcomeContent
 import co.yap.yapcore.interfaces.IBindable
 
-class WelcomePagerAdapter(
+public class WelcomePagerAdapter(
     private val context: Context,
     private val contents: ArrayList<WelcomeContent>,
     private val layout: Int

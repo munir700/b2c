@@ -29,10 +29,7 @@ import androidx.databinding.*
 import co.yap.networking.cards.responsedtos.Card
 import co.yap.networking.customers.responsedtos.beneficiary.TopUpCard
 import co.yap.translation.Translator
-import co.yap.widgets.CoreButton
-import co.yap.widgets.CoreCircularImageView
-import co.yap.widgets.CoreDialerPad
-import co.yap.widgets.CorePaymentCard
+import co.yap.widgets.*
 import co.yap.yapcore.R
 import co.yap.yapcore.enums.CardDeliveryStatus
 import co.yap.yapcore.enums.CardStatus
@@ -485,6 +482,22 @@ object UIBinder {
         view.text = Translator.getString(view.context, textKey, *concat)
     }
 
+    @BindingAdapter("textVal", "concatVal")
+    @JvmStatic
+    fun setconcatVal(tv: TextView, textKey: String, concat: String) {
+        Translator.getString(tv.context, textKey)
+        tv.text =  String.format( Translator.getString(tv.context, textKey),'\n'+ concat)
+
+    }
+
+    @BindingAdapter("textVal", "noLineconcatVal")
+    @JvmStatic
+    fun setconcatValWithOutNewLine(tv: TextView, textKey: String, concat: String) {
+        Translator.getString(tv.context, textKey)
+        tv.text =  String.format( Translator.getString(tv.context, textKey), concat)
+
+    }
+
     @BindingAdapter("text", "concat")
     @JvmStatic
     fun setText(view: TextView, textId: Int, concat: Array<String>) {
@@ -602,11 +615,20 @@ object UIBinder {
             view.settingUIForNormal()
         }
     }
+    @JvmStatic
+    @BindingAdapter("componentDialerError")
+    fun setDialerError(view: CoreDialerPadV2, error: String) {
+        if (null != error && !error.isEmpty()) {
+            view.settingUIForError(error)
+        } else {
+            view.settingUIForNormal()
+        }
+    }
 
     @JvmStatic
     @BindingAdapter("passcodeTextWatcher")
     fun te132mp(view: CoreDialerPad, watcher: TextWatcher) {
-        view.editText.addTextChangedListener(watcher)
+        view.etPassCodeText?.addTextChangedListener(watcher)
     }
 
     @JvmStatic
@@ -719,7 +741,7 @@ object UIBinder {
 
         } else {
             YoYo.with(Techniques.SlideOutDown)
-                .duration(0)
+                .duration(300)
                 .playOn(view)
 
         }
@@ -746,7 +768,6 @@ object UIBinder {
             val selectedString = selection.substring(0, selection.length.coerceAtMost(100))
             view.setSelection(selectedString.length)
         }
-
     }
 
     @SuppressLint("ClickableViewAccessibility")

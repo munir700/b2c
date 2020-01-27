@@ -42,6 +42,7 @@
     <dimen name="text_content_margin">@dimen/_30sdp</dimen>
     <dimen name="btn_content_margin">@dimen/_15sdp</dimen>
     <dimen name="nav_drawer_width">@dimen/_300sdp</dimen>
+    <dimen name="btn_distance">@dimen/_480sdp</dimen>
 
     <!-- PADDING -->
     <dimen name="padding_onboarding_image">-110dp</dimen>

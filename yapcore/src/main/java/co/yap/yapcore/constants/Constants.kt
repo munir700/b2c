@@ -17,6 +17,12 @@ object Constants {
     const val FORGOT_CARD_PIN_ACTION: String = "FORGOT_CARD_PIN"
     const val BENEFICIARY_CASH_TRANSFER: String = "CASHPAYOUT"
 
+    const val LONGITUDE = "longitude"
+    const val LATITUDE = "latitude"
+    const val SUCCESS_RESULT = "SUCCESS_RESULT"
+    const val LOCATION_ADDRESS = "LOCATION_ADDRESS"
+    const val ERROR_MESSAGE = "ERROR_MESSAGE"
+
     const val TOP_UP: String = "TOP_UP"
     const val CARD: String = "CARD"
     const val KEY: String = "Key"
@@ -26,6 +32,8 @@ object Constants {
     const val START_POOLING: String = "START_POOLING"
     const val TOP_UP_VIA_EXTERNAL_CARD: String = "TOP_UP_VIA_CARD"
 
+    const val THEME_YAP: String = "CORE"
+    const val THEME_HOUSEHOLD: String = "HOUSEHOLD"
 
     //Transaction Category Constant
     const val Y_TO_Y_TRANSFER = "P003"
@@ -56,6 +64,7 @@ object Constants {
 
     const val MODE_STATUS_SCREEN: Int = 1
     const val MODE_HELP_SUPPORT: Int = 2
+    const val MODE_MEETING_CONFORMATION: Int = 12
     const val FORGOT_CARD_PIN_NAVIGATION: Int = 1
 
     const val DUMMY_CARD: Int = 22
@@ -113,4 +122,21 @@ object Constants {
     //Location Selection
     const val ADDRESS = "address"
     const val ADDRESS_SUCCESS = "address_success"
+
+    // Events for ViewState
+
+    const val EVENT_LOADING: Int = 1111
+    const val EVENT_EMPTY: Int = 2222
+    const val EVENT_CONTENT: Int = 3333
+    const val EVENT_ERROR: Int = 4444
+
+    //Notifications Actions
+
+    const val NOTIFICATION_ACTION_SET_PIN: String = "SET_PIN"
+    const val NOTIFICATION_ACTION_COMPLETE_VERIFICATION: String = "COMPLETE_VERIFICATION"
+
+    const val USER_STATUS_ON_BOARDED: String = "ON_BOARDED"
+    const val USER_STATUS_MEETING_SCHEDULED: String = "MEETING_SCHEDULED"
+    const val USER_STATUS_MEETING_SUCCESS: String = "MEETING_SUCCESS"
+
 }
