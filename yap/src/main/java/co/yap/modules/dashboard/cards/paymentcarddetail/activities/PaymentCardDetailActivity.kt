@@ -48,6 +48,7 @@ import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.enums.CardStatus
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.getCustomSnackbarSticky
+import co.yap.yapcore.helpers.extentions.preventTakeScreenShot
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.MyUserManager
 import com.ezaka.customer.app.utils.toCamelCase
@@ -335,6 +336,7 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
         btnCardDetails.setOnClickListener {
             mNavigator.startVerifyPassCodePresenterActivity(this) { resultCode, data ->
                 if (resultCode == Activity.RESULT_OK) {
+                    preventTakeScreenShot(false)
                     viewModel.getCardDetails()
                 }
             }

@@ -82,6 +82,9 @@ object Constants {
     const val POSITION: String = "Position"
     const val IS_NEW_BENEFICIARY: String = "IS_NEW_BENEFICIARY"
     const val DOMESTIC_BENEFICIARY: String = "DOMESTIC_BENEFICIARY"
+    const val CASHPAYOUT_BENEFICIARY: String = "CASHPAYOUT_BENEFICIARY"
+    const val RMT_BENEFICIARY: String = "RMT_BENEFICIARY"
+    const val SWIFT_BENEFICIARY: String = "SWIFT_BENEFICIARY"
 
 
     const val ADD_CASH_PICK_UP_SUCCESS = 10001

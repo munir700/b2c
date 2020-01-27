@@ -26,6 +26,7 @@ import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.biometric.BiometricCallback
 import co.yap.yapcore.helpers.biometric.BiometricManagerX
 import co.yap.yapcore.helpers.biometric.BiometricUtil
+import co.yap.yapcore.helpers.extentions.preventTakeScreenShot
 import co.yap.yapcore.helpers.extentions.trackEvent
 import co.yap.yapcore.managers.MyUserManager
 import kotlinx.android.synthetic.main.fragment_verify_passcode.*
@@ -34,17 +35,21 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
     IVerifyPasscode.View {
 
     private lateinit var sharedPreferenceManager: SharedPreferenceManager
+    //    private lateinit var mBiometricManager: BiometricManager
     private lateinit var mBiometricManagerX: BiometricManagerX
 
     override fun getBindingVariable(): Int = BR.viewModel
 
     override fun getLayoutId(): Int = R.layout.fragment_verify_passcode
 
+
     override val viewModel: IVerifyPasscode.ViewModel
         get() = ViewModelProviders.of(this).get(VerifyPasscodeViewModel::class.java)
 
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        preventTakeScreenShot(true)
         viewModel.signInButtonPressEvent.observe(this, signInButtonObserver)
         viewModel.loginSuccess.observe(this, loginSuccessObserver)
         viewModel.validateDeviceResult.observe(this, validateDeviceResultObserver)

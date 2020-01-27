@@ -9,6 +9,7 @@ import co.yap.networking.customers.responsedtos.beneficiary.TopUpBeneficiariesRe
 import co.yap.networking.customers.responsedtos.documents.GetMoreDocumentsResponse
 import co.yap.networking.customers.responsedtos.sendmoney.*
 import co.yap.networking.models.ApiResponse
+import co.yap.networking.models.RetroApiResponse
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Response
@@ -135,6 +136,9 @@ interface CustomersRetroService {
 
     @DELETE(CustomersRepository.URL_CURRENCIES_BY_COUNTRY_CODE)
     suspend fun getCurrenciesByCountryCode(@Path("country") country: String): Response<ApiResponse>
+
+    @GET(CustomersRepository.URL_SANCTIONED_COUNTRIES)
+    suspend fun getSectionedCountries(): Response<SectionedCountriesResponseDTO>
 
 
 }

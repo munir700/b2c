@@ -33,9 +33,11 @@ interface IBeneficiaryAccountDetails {
         val backButtonPressEvent: SingleLiveEvent<Boolean>
         val success: MutableLiveData<Boolean>
         var clickEvent: SingleClickEvent
+        val otpCreateObserver: MutableLiveData<Boolean>
         fun createBeneficiaryRequest()
         fun handlePressOnAddBank(id: Int)
         fun retry()
+        fun createOtp(action: String)
     }
 
     interface View : IBase.View<ViewModel>

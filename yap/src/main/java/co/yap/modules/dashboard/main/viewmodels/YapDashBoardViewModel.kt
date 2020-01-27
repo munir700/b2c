@@ -51,7 +51,7 @@ class YapDashBoardViewModel(application: Application) :
     private fun populateState() {
         MyUserManager.user?.let { it ->
             it.accountNo?.let { state.accountNo = it }
-            it.iban?.let { state.ibanNo = formateIbanString(it) }
+            it.iban?.let { state.ibanNo = formateIbanString(it) ?: "" }
             state.fullName = it.currentCustomer.getFullName()
             state.firstName = it.currentCustomer.firstName
             state.userNameImage.set(it.currentCustomer.getPicture() ?: "")

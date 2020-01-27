@@ -779,14 +779,17 @@ object Utils {
     }
 
 
-    fun formateIbanString(iban: String): String {
-        val sb = StringBuilder()
-        for (i in 0..iban.length - 1) {
-            if (i % 4 == 0 && i > 0) {
-                sb.append(" ")
+     fun formateIbanString(iban: String?): String? {
+        iban?.let {
+            val sb = StringBuilder()
+            for (i in 0..iban.length - 1) {
+                if (i % 4 == 0 && i > 0) {
+                    sb.append(" ")
+                }
+                sb.append(iban[i])
             }
-            sb.append(iban[i])
-        }
-        return sb.toString()
+            return sb.toString()
+        } ?: return null
+
     }
 }
