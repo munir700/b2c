@@ -24,11 +24,6 @@ class TempDialerFragment : OnboardingChildFragment<IEmail.ViewModel>() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        containerDialer.setOnClickListener(View.OnClickListener {
-            findNavController().navigate(R.id.action_dialerFragment_to_passCodeFragment)
-
-
-        })
     }
 
     override fun onDestroyView() {

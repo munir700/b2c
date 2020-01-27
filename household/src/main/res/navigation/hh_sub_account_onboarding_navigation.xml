@@ -47,23 +47,12 @@
             app:exitAnim="@anim/slide_out_left" />
     </fragment>
 
-    <fragment
-        android:id="@+id/passCodeFragment"
-        android:name="co.yap.household.onboarding.onboarding.fragments.TempPassCodeFragment"
-        android:label="Congratulations Fragment">
-        <action
-            android:id="@+id/action_passCodeFragment_to_emailHouseHoldFragment"
-            app:popUpToInclusive="true" />
-    </fragment>
 
     <fragment
         android:id="@+id/dialerFragment"
         android:name="co.yap.household.onboarding.onboarding.fragments.TempDialerFragment"
         android:label="Congratulations Fragment">
-        <action
-            android:id="@+id/action_dialerFragment_to_passCodeFragment"
-            app:destination="@id/passCodeFragment"
-            app:popUpToInclusive="true" />
+
     </fragment>
     <activity
         android:id="@+id/houseHoldCardsSelectionFragment"
