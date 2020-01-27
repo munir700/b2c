@@ -35,6 +35,10 @@ class EidInfoReviewViewModel(application: Application) :
     override val state: EidInfoReviewState = EidInfoReviewState()
     lateinit var sectionedCountries: SectionedCountriesResponseDTO
 
+    override var sanctionedCountry: String = "indian"
+    override var sanctionedNationality: String = "indian"
+
+
     override fun onCreate() {
         super.onCreate()
         getSectionedCountriesList()
@@ -58,9 +62,20 @@ class EidInfoReviewViewModel(application: Application) :
                 )
                 !it.isExpiryDateValid -> clickEvent.setValue(EVENT_ERROR_EXPIRED_EID)
                 !it.isDateOfBirthValid -> clickEvent.setValue(EVENT_ERROR_UNDER_AGE)
-                it.nationality == sectionedCountries.data.find { country -> country.name == it.nationality }?.name -> clickEvent.setValue(
-                    EVENT_ERROR_FROM_USA
-                )
+                it.nationality.equals("USA", true) -> {
+                    sanctionedCountry =
+                        sectionedCountries.data.find { country -> country.name == it.nationality }?.name.toString()
+                    sanctionedNationality = it.nationality
+                    clickEvent.setValue(EVENT_ERROR_FROM_USA)
+                }
+
+                it.nationality == sectionedCountries.data.find { country -> country.name == it.nationality }?.name -> {
+                    sanctionedCountry = it.nationality
+                    sanctionedNationality = it.nationality
+                    clickEvent.setValue(
+                        EVENT_ERROR_FROM_USA
+                    )
+                }
                 else -> {
                     performUploadDocumentsRequest()
                 }

@@ -54,5 +54,7 @@ interface IEidInfoReview {
         fun handleUserRejection(reason: Int)
         fun handleUserAcceptance(reason: Int)
         fun onEIDScanningComplete(result: IdentityScannerResult)
+        var sanctionedCountry:String
+        var sanctionedNationality:String
     }
 }
