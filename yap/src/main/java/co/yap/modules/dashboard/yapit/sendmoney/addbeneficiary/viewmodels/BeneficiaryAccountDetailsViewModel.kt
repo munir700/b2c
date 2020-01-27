@@ -9,10 +9,13 @@ import co.yap.modules.dashboard.yapit.sendmoney.viewmodels.SendMoneyBaseViewMode
 import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.networking.interfaces.IRepositoryHolder
+import co.yap.networking.messages.MessagesRepository
+import co.yap.networking.messages.requestdtos.CreateOtpGenericRequest
 import co.yap.networking.models.RetroApiResponse
 import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.SingleLiveEvent
+import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.SendMoneyBeneficiaryType
 
 class BeneficiaryAccountDetailsViewModel(application: Application) :
@@ -24,8 +27,11 @@ class BeneficiaryAccountDetailsViewModel(application: Application) :
     override val success: MutableLiveData<Boolean> = MutableLiveData(false)
     override val state: BeneficiaryAccountDetailsState = BeneficiaryAccountDetailsState()
     override val repository: CustomersRepository = CustomersRepository
+    private val messagesRepository: MessagesRepository = MessagesRepository
     override var clickEvent: SingleClickEvent = SingleClickEvent()
     override var beneficiary: Beneficiary? = Beneficiary()
+    override val otpCreateObserver: MutableLiveData<Boolean> = MutableLiveData()
+
 
     override fun onCreate() {
         super.onCreate()
@@ -68,12 +74,14 @@ class BeneficiaryAccountDetailsViewModel(application: Application) :
                 if (it.isNotEmpty())
                     when (SendMoneyBeneficiaryType.valueOf(it)) {
                         SendMoneyBeneficiaryType.SWIFT -> {
-                            parentViewModel?.beneficiary?.value?.accountNo = state.accountIban
-                            createBeneficiaryRequest()
+                            createOtp(Constants.SWIFT_BENEFICIARY)
+//                            parentViewModel?.beneficiary?.value?.accountNo = state.accountIban
+//                            createBeneficiaryRequest()
                         }
                         SendMoneyBeneficiaryType.RMT -> {
-                            parentViewModel?.beneficiary?.value?.accountNo = state.accountIban
-                            createBeneficiaryRequest()
+                            createOtp(Constants.RMT_BENEFICIARY)
+//                            parentViewModel?.beneficiary?.value?.accountNo = state.accountIban
+//                            createBeneficiaryRequest()
                         }
                         else -> {
                             clickEvent.setValue(id)
@@ -110,6 +118,27 @@ class BeneficiaryAccountDetailsViewModel(application: Application) :
                     }
                 }
             }
+        }
+    }
+
+    override fun createOtp(action: String) {
+        launch {
+            state.loading = true
+            when (val response =
+                messagesRepository.createOtpGeneric(
+                    createOtpGenericRequest = CreateOtpGenericRequest(
+                        action
+                    )
+                )) {
+                is RetroApiResponse.Success -> {
+                    otpCreateObserver.value = true
+                }
+                is RetroApiResponse.Error -> {
+                    state.toast = response.error.message
+                    state.loading = false
+                }
+            }
+            state.loading = false
         }
     }
 

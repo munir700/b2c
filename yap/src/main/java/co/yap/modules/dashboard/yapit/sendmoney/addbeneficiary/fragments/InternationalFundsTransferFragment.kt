@@ -181,7 +181,11 @@ class InternationalFundsTransferFragment :
                                     Utils.getFormattedCurrency(viewModel.state.maxLimit.toString()),
                                     availableBalance.toString()
                                 )
-                                showSnackBarForLimits(errorDescription)
+                                if (activity is BeneficiaryCashTransferActivity) {
+                                    (activity as BeneficiaryCashTransferActivity).viewModel.errorEvent.value =
+                                        errorDescription
+                                }
+                                //showSnackBarForLimits(errorDescription)
                             } else {
                                 viewModel.state.position?.let { position ->
                                     viewModel.state.beneficiaryCountry?.let { beneficiaryCountry ->
@@ -223,7 +227,14 @@ class InternationalFundsTransferFragment :
                                 }
                             }*/
                         } else {
-                            showErrorSnackBar()
+                            val des = Translator.getString(
+                                requireContext(),
+                                Strings.screen_y2y_funds_transfer_display_text_error_exceeding_amount
+                            )
+                            if (activity is BeneficiaryCashTransferActivity) {
+                                (activity as BeneficiaryCashTransferActivity).viewModel.errorEvent.value =
+                                    des
+                            }
                         }
                     }
 
@@ -346,25 +357,40 @@ class InternationalFundsTransferFragment :
     }
 
 
-    private fun showErrorSnackBar() {
-        val des = Translator.getString(
-            requireContext(),
-            Strings.screen_y2y_funds_transfer_display_text_error_exceeding_amount
-        )
-        CustomSnackbar.showErrorCustomSnackbar(
-            context = requireContext(),
-            layout = clFTSnackbar,
-            message = des
-        )
-    }
+//    private fun callTransactionApi() {
+//        (context as BeneficiaryCashTransferActivity).viewModel.state.beneficiary?.let { beneficiary ->
+//            beneficiary.beneficiaryType?.let { beneficiaryType ->
+//                if (beneficiaryType.isNotEmpty())
+//                    when (SendMoneyBeneficiaryType.valueOf(beneficiaryType)) {
+//                        SendMoneyBeneficiaryType.RMT -> {
+//                            beneficiary.id?.let { beneficiaryId ->
+//                                viewModel.rmtTransferRequest(beneficiaryId.toString())
+//                            }
+//                        }
+//                        SendMoneyBeneficiaryType.SWIFT -> {
+//                            beneficiary.id?.let { beneficiaryId ->
+//                                viewModel.swiftTransferRequest(beneficiaryId.toString())
+//                            }
+//                        }
+//                        else -> {
+//
+//                        }
+//                    }
+//            }
+//        }
+//    }
 
-    fun showSnackBarForLimits(errorMessage: String) {
-        CustomSnackbar.showErrorCustomSnackbar(
-            context = requireContext(),
-            layout = clFTSnackbar,
-            message = errorMessage
-        )
-    }
+//    private fun showErrorSnackBar() {
+//        val des = Translator.getString(
+//            requireContext(),
+//            Strings.screen_y2y_funds_transfer_display_text_error_exceeding_amount
+//        )
+//        CustomSnackbar.showErrorCustomSnackbar(
+//            context = requireContext(),
+//            layout = clFTSnackbar,
+//            message = des
+//        )
+//    }
 
     override fun onResume() {
         super.onResume()

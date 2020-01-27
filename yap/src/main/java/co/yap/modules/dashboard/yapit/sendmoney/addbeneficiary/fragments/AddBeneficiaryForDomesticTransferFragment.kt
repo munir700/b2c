@@ -9,7 +9,6 @@ import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
 import co.yap.BR
 import co.yap.R
 import co.yap.modules.dashboard.yapit.sendmoney.activities.BeneficiaryCashTransferActivity
@@ -58,8 +57,10 @@ class AddBeneficiaryForDomesticTransferFragment :
     private val otpSuccessObserver = Observer<Boolean> {
         if (it) {
             checkOtpSuccessFlow()
+            (activity as SendMoneyHomeActivity).viewModel.otpSuccess.value = false
         }
     }
+
     private val otpCreateObserver = Observer<Boolean> {
         if (it) {
             onConfirmClick()
@@ -127,7 +128,7 @@ class AddBeneficiaryForDomesticTransferFragment :
         viewModel.clickEvent.removeObservers(this)
         viewModel.otpCreateObserver.removeObservers(this)
         if (activity is SendMoneyHomeActivity) {
-            (activity as SendMoneyHomeActivity).viewModel.otpSuccess.removeObservers(this)
+            (activity as SendMoneyHomeActivity).viewModel.otpSuccess.removeObserver(otpSuccessObserver)
         }
     }
 
