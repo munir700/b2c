@@ -110,6 +110,7 @@ class AAPApplication : ChatApplication(BuildConfig.FLAVOR), NavigatorProvider {
         }
 
         //Leanplum.trackAllAppScreens()
+        com.leanplum.messagetemplates.MessageTemplates.register(this)
         Leanplum.start(this)
     }
 

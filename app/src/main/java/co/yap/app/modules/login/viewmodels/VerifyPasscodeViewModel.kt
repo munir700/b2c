@@ -18,6 +18,8 @@ import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.SingleLiveEvent
 import co.yap.yapcore.helpers.SharedPreferenceManager
+import co.yap.yapcore.helpers.extentions.trackEventWithAttributes
+import co.yap.yapcore.leanplum.UserAttributes
 import co.yap.yapcore.managers.MyUserManager
 import java.util.regex.Pattern
 
@@ -158,9 +160,10 @@ class VerifyPasscodeViewModel(application: Application) :
                 is RetroApiResponse.Success -> {
                     if (!response.data.data.isNullOrEmpty()) {
                         //MyUserManager.user = response.data.data[0]
-                        MyUserManager.user=response.data.data[0]
+                        MyUserManager.user = response.data.data[0]
                         accountInfo.postValue(response.data.data[0])
                         //MyUserManager.user?.setLiveData() // DOnt remove this line
+                        setUserAttributes()
                     }
                 }
                 is RetroApiResponse.Error -> state.toast = response.error.message
@@ -206,6 +209,19 @@ class VerifyPasscodeViewModel(application: Application) :
                     forgotPasscodeButtonPressEvent.setValue(EVENT_LOGOUT_SUCCESS)
                 }
             }
+        }
+    }
+
+    private fun  setUserAttributes() {
+        MyUserManager.user?.let {
+            val info: HashMap<String, Any> = HashMap()
+            info[UserAttributes().accountType] = it.accountType ?: ""
+            info[UserAttributes().email] = it.currentCustomer.email ?: ""
+            info[UserAttributes().nationality] = it.currentCustomer.nationality ?: ""
+            info[UserAttributes().firstName] = it.currentCustomer.firstName ?: ""
+            info[UserAttributes().lastName] = it.currentCustomer.lastName
+            info[UserAttributes().documentsVerified] = it.documentsVerified?:false
+            trackEventWithAttributes(info)
         }
     }
 

@@ -23,6 +23,7 @@ import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.managers.MyUserManager
 import co.yap.yapcore.helpers.extentions.trackEvent
 import co.yap.yapcore.helpers.extentions.trackEventWithAttributes
+import co.yap.yapcore.leanplum.UserAttributes
 
 class PhoneVerificationSignInViewModel(application: Application) :
     BaseViewModel<IPhoneVerificationSignIn.State>(application), IPhoneVerificationSignIn.ViewModel,
@@ -141,11 +142,25 @@ class PhoneVerificationSignInViewModel(application: Application) :
                     if (response.data.data.isNotEmpty()) {
                         MyUserManager.user = response.data.data[0]
                         accountInfo.postValue(response.data.data[0])
+                        setUserAttributes()
                     }
                 }
                 is RetroApiResponse.Error -> state.toast = response.error.message
             }
             state.loading = false
+        }
+    }
+
+    private fun  setUserAttributes() {
+        MyUserManager.user?.let {
+            val info: HashMap<String, Any> = HashMap()
+            info[UserAttributes().accountType] = it.accountType ?: ""
+            info[UserAttributes().email] = it.currentCustomer.email ?: ""
+            info[UserAttributes().nationality] = it.currentCustomer.nationality ?: ""
+            info[UserAttributes().firstName] = it.currentCustomer.firstName ?: ""
+            info[UserAttributes().lastName] = it.currentCustomer.lastName
+            info[UserAttributes().documentsVerified] = it.documentsVerified?:false
+            trackEventWithAttributes(info)
         }
     }
 }

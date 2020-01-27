@@ -95,6 +95,4 @@ class YapDashBoardViewModel(application: Application) :
             }
         }
     }
-
-
 }
