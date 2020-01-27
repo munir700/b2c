@@ -13,11 +13,18 @@
         app:destination="@id/DashboardActivity"
         app:popUpTo="@+id/kyc_navigation"
         app:popUpToInclusive="true" />
+
     <fragment
         android:id="@+id/informationErrorFragment"
         android:name="co.yap.modules.kyc.fragments.InformationErrorFragment"
         android:label="InformationErrorFragment"
-        tools:layout="@layout/fragment_information_error" />
+        tools:layout="@layout/fragment_information_error" >
+
+        <argument
+            android:name="countryName"
+            android:defaultValue=" "
+            app:argType="string" />
+    </fragment>
 
     <fragment
         android:id="@+id/KYCHomeFragment"
@@ -30,7 +37,6 @@
         <action
             android:id="@+id/action_KYCHomeFragment_to_AddressSelectionFragment"
             app:destination="@id/AddressSelectionFragment" />
-
     </fragment>
     <fragment
         android:id="@+id/eidInfoReviewFragment"
