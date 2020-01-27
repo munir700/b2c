@@ -76,6 +76,11 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     const val URL_CURRENCIES_BY_COUNTRY_CODE =
         "customers/api/country/{country}/currencies"
 
+    const val URL_VERIFY_HOUSEHOLD_MOBILE = "customers/api/on-board/verify/household-mobile"
+    const val URL_VERIFY_PARENT_HOUSEHOLD_MOBILE = "customers/api/verify/parent-mobile-no/household"
+    const val URL_HOUSEHOLD_USER_ONBOARD = "customers/api/on-board/household"
+    const val URL_ADD_HOUSEHOLD_EMAIL = "customers/api/on-board/household-email"
+    const val URL_CREATE_HOUSEHOLD_PASSCODE = "customers/api/on-board/household-passcode"
     const val URL_SANCTIONED_COUNTRIES = "customers/api/countries/sanctioned"
 
 
@@ -222,6 +227,25 @@ object CustomersRepository : BaseRepository(), CustomersApi {
 
     override suspend fun getOtherBankParams(countryName: String): RetroApiResponse<BankParamsResponse> =
         executeSafely(call = { api.getOtherBankParams(countryName) })
+
+    /* Household */
+    override suspend fun verifyHouseholdMobile(verifyHouseholdMobileRequest: VerifyHouseholdMobileRequest): RetroApiResponse<ApiResponse> =
+        executeSafely(call = { api.verifyHouseholdMobile(verifyHouseholdMobileRequest) })
+
+    override suspend fun verifyHouseholdParentMobile(
+        mobileNumber: String?,verifyHouseholdMobileRequest: VerifyHouseholdMobileRequest
+    ): RetroApiResponse<ApiResponse> =
+        executeSafely(call = { api.verifyHouseholdParentMobile(mobileNumber,verifyHouseholdMobileRequest) })
+
+    override suspend fun onboardHousehold(householdOnboardRequest: HouseholdOnboardRequest): RetroApiResponse<HouseholdOnBoardingResponse> =
+        executeSafely(call = { api.onboardHouseholdUser(householdOnboardRequest) })
+
+    override suspend fun addHouseholdEmail(addHouseholdEmailRequest: AddHouseholdEmailRequest): RetroApiResponse<ApiResponse> =
+        executeSafely(call = { api.addHouseholdEmail(addHouseholdEmailRequest) })
+
+    override suspend fun createHouseholdPasscode(createPassCodeRequest: CreatePassCodeRequest): RetroApiResponse<ApiResponse> =
+        executeSafely(call = { api.createHouseholdPasscode(createPassCodeRequest) })
+
 
     override suspend fun getSectionedCountries(): RetroApiResponse<SectionedCountriesResponseDTO> =
         executeSafely(call = { api.getSectionedCountries() })

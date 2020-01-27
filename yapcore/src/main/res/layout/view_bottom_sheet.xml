@@ -58,6 +58,6 @@
         android:layout_marginTop="@dimen/margin_medium"
         android:background="@null"
         android:paddingTop="@dimen/margin_medium"
-        android:textColor="@color/colorPrimary"/>
+        android:textColor="?attr/colorPrimaryAttr"/>
 
 </RelativeLayout>

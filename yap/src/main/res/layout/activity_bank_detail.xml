@@ -311,10 +311,10 @@
                 android:layout_width="@dimen/_64sdp"
                 android:layout_height="@dimen/_64sdp"
                 android:background="@drawable/bg_round_purple"
-                android:drawableTint="@color/colorPrimary"
+                android:drawableTint="?attr/colorPrimaryAttr"
                 android:gravity="center"
                 android:text="@{viewModel.state.initials}"
-                android:textColor="@color/colorPrimary"
+                android:textColor="?attr/colorPrimaryAttr"
                 tools:text="NM" />
         </LinearLayout>
 

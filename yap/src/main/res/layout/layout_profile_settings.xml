@@ -91,7 +91,7 @@
                     android:gravity="end"
                     android:onClick="@{(v) -> viewModel.handlePressOnPersonalDetail(v.id)}"
                     android:text="@string/screen_profile_settings_display_text_view"
-                    android:textColor="@color/colorPrimary"
+                    android:textColor="?attr/colorPrimaryAttr"
                     app:text="@{Strings.screen_profile_settings_display_text_view}" />
 
 
@@ -145,7 +145,7 @@
                     android:layout_height="wrap_content"
                     android:onClick="@{(v) -> viewModel.handlePressOnPrivacy(v.id)}"
                     android:text="@string/screen_profile_settings_display_text_view"
-                    android:textColor="@color/colorPrimary"
+                    android:textColor="?attr/colorPrimaryAttr"
                     app:text="@{Strings.screen_profile_settings_display_text_view}" />
 
             </LinearLayout>
@@ -183,7 +183,7 @@
                     android:layout_height="wrap_content"
                     android:onClick="@{(v) -> viewModel.handlePressOnPasscode(v.id)}"
                     android:text="@string/screen_profile_settings_display_text_change"
-                    android:textColor="@color/colorPrimary"
+                    android:textColor="?attr/colorPrimaryAttr"
                     app:text="@{Strings.screen_profile_settings_display_text_change}" />
 
             </LinearLayout>
@@ -220,7 +220,7 @@
                     android:layout_height="wrap_content"
                     android:onClick="@{(v) -> viewModel.handlePressOnPrivacy(v.id)}"
                     android:text="@string/screen_profile_settings_display_text_view"
-                    android:textColor="@color/colorPrimary"
+                    android:textColor="?attr/colorPrimaryAttr"
                     app:text="@{Strings.screen_profile_settings_display_text_view}" />
 
                 <!--                <androidx.appcompat.widget.SwitchCompat-->
@@ -318,7 +318,7 @@
                     android:layout_height="wrap_content"
                     android:onClick="@{(v) -> viewModel.handlePressOnTermsAndConditions(v.id)}"
                     android:text="@string/screen_profile_settings_display_text_view"
-                    android:textColor="@color/colorPrimary"
+                    android:textColor="?attr/colorPrimaryAttr"
                     app:text="@{Strings.screen_profile_settings_display_text_view}" />
 
             </LinearLayout>
@@ -355,7 +355,7 @@
                     android:layout_height="wrap_content"
                     android:onClick="@{(v) -> viewModel.handlePressOnInstagram(v.id)}"
                     android:text="@string/screen_profile_settings_display_text_follow_us"
-                    android:textColor="@color/colorPrimary"
+                    android:textColor="?attr/colorPrimaryAttr"
                     app:text="@{Strings.screen_profile_settings_display_text_follow_us}" />
 
             </LinearLayout>
@@ -392,7 +392,7 @@
                     android:layout_height="wrap_content"
                     android:onClick="@{(v) -> viewModel.handlePressOnTwitter(v.id)}"
                     android:text="@string/screen_profile_settings_display_text_follow_us"
-                    android:textColor="@color/colorPrimary"
+                    android:textColor="?attr/colorPrimaryAttr"
                     app:text="@{Strings.screen_profile_settings_display_text_follow_us}" />
 
             </LinearLayout>
@@ -429,7 +429,7 @@
                     android:layout_height="wrap_content"
                     android:onClick="@{(v) -> viewModel.handlePressOnFaceBook(v.id)}"
                     android:text="@string/screen_profile_settings_display_text_like_us"
-                    android:textColor="@color/colorPrimary"
+                    android:textColor="?attr/colorPrimaryAttr"
                     app:text="@{Strings.screen_profile_settings_display_text_like_us}" />
 
             </LinearLayout>
@@ -443,7 +443,7 @@
                 android:gravity="center"
                 android:onClick="@{(v) -> viewModel.handlePressOnLogOut(v.id)}"
                 android:text="@string/screen_profile_settings_display_text_logout"
-                android:textColor="@color/colorPrimary"
+                android:textColor="?attr/colorPrimaryAttr"
                 app:text="@{Strings.screen_profile_settings_display_text_logout}" />
         </LinearLayout>
     </ScrollView>

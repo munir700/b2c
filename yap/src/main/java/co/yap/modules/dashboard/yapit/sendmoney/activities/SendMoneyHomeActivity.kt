@@ -8,10 +8,8 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
 import co.yap.R
-import co.yap.modules.dashboard.more.profile.fragments.PersonalDetailsFragment
 import co.yap.modules.dashboard.yapit.sendmoney.interfaces.ISendMoney
 import co.yap.modules.dashboard.yapit.sendmoney.viewmodels.SendMoneyViewModel
-import co.yap.modules.kyc.activities.DocumentsDashboardActivity
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.IFragmentHolder
 import co.yap.yapcore.constants.Constants
@@ -49,10 +47,8 @@ class SendMoneyHomeActivity : BaseBindingActivity<ISendMoney.ViewModel>(), INavi
     override fun onDestroy() {
         viewModel.clickEvent.removeObservers(this)
         super.onDestroy()
-        PersonalDetailsFragment.checkMore = false
-        PersonalDetailsFragment.checkScanned = false
-        DocumentsDashboardActivity.isFromMoreSection = false
-        DocumentsDashboardActivity.hasStartedScanner = false
+//        DocumentsDashboardActivity.isFromMoreSection = false
+//        DocumentsDashboardActivity.hasStartedScanner = false
     }
 
     private val backButtonObserver = Observer<Int> { onBackPressed() }

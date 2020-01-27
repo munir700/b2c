@@ -3,7 +3,6 @@ package co.yap.modules.kyc.viewmodels
 import android.app.Application
 import android.text.TextUtils
 import co.yap.modules.dashboard.more.main.activities.MoreActivity
-import co.yap.modules.kyc.activities.DocumentsDashboardActivity
 import co.yap.modules.onboarding.interfaces.IEidInfoReview
 import co.yap.modules.onboarding.states.EidInfoReviewState
 import co.yap.networking.customers.CustomersRepository
@@ -35,14 +34,15 @@ class EidInfoReviewViewModel(application: Application) :
 
     override val clickEvent: SingleClickEvent = SingleClickEvent()
     override val state: EidInfoReviewState = EidInfoReviewState()
-    lateinit var sectionedCountries: SectionedCountriesResponseDTO
+    private var sectionedCountries: SectionedCountriesResponseDTO? = null
+
+    override var sanctionedCountry: String = "" // for runtime hanlding
+    override var sanctionedNationality: String = "" // for runtime hanlding
+
 
     override fun onCreate() {
         super.onCreate()
         getSectionedCountriesList()
-
-        state.titleName[0] = parentViewModel?.identity?.identity?.givenName
-        state.titleName[0] = parentViewModel?.name
         parentViewModel?.let { populateState(it.identity) }
     }
 
@@ -53,21 +53,28 @@ class EidInfoReviewViewModel(application: Application) :
 
     override fun handlePressOnConfirmBtn() {
         parentViewModel?.identity?.identity?.let {
-            //            val expiry = it.expirationDate.run { DateUtils.toDate(day, month, year) }
             when {
-                TextUtils.isEmpty(it.givenName) || TextUtils.isEmpty(it.nationality) -> clickEvent.setValue(
-                    EVENT_ERROR_INVALID_EID
-                )
-                !it.isExpiryDateValid -> clickEvent.setValue(EVENT_ERROR_EXPIRED_EID)
+                TextUtils.isEmpty(it.givenName) || TextUtils.isEmpty(it.nationality) ->
+                    clickEvent.setValue(EVENT_ERROR_INVALID_EID)
+                !it.isExpiryDateValid -> {
+                    clickEvent.setValue(EVENT_ERROR_EXPIRED_EID)
+                }
                 !it.isDateOfBirthValid -> {
-                    trackEvent(TrackEvents.EIDA_CALLBACK_UNDER_18)
                     clickEvent.setValue(EVENT_ERROR_UNDER_AGE)
+                    trackEvent(TrackEvents.EIDA_CALLBACK_UNDER_18)
                 }
                 it.nationality.equals("USA", true) -> {
-                    trackEvent(TrackEvents.EIDA_CALLBACK_US_CITIZEN)
+                    sanctionedCountry =
+                        sectionedCountries?.data?.find { country -> country.name == it.nationality }
+                            ?.name.toString()
+                    sanctionedNationality = it.nationality
                     clickEvent.setValue(EVENT_ERROR_FROM_USA)
+                    trackEvent(TrackEvents.EIDA_CALLBACK_US_CITIZEN)
                 }
-                it.nationality == sectionedCountries.data.find { country -> country.name == it.nationality }?.name -> {
+
+                it.nationality == sectionedCountries?.data?.find { country -> country.name == it.nationality }?.name -> {
+                    sanctionedCountry = it.nationality
+                    sanctionedNationality = it.nationality
                     clickEvent.setValue(
                         EVENT_ERROR_FROM_USA
                     )
@@ -93,7 +100,7 @@ class EidInfoReviewViewModel(application: Application) :
     }
 
 
-    fun uploadDocuments(result: IdentityScannerResult) {
+    private fun uploadDocuments(result: IdentityScannerResult) {
         val file = File(result.document.files[1].croppedFile)
         val fileReqBody = RequestBody.create(MediaType.parse("image/*"), file)
         val part =
@@ -178,21 +185,26 @@ class EidInfoReviewViewModel(application: Application) :
 
                 when (response) {
                     is RetroApiResponse.Success -> {
-                        if (DocumentsDashboardActivity.isFromMoreSection) {
+                        if (parentViewModel?.allowSkip?.value == true) {
                             clickEvent.setValue(EVENT_FINISH)
                             MoreActivity.showExpiredIcon = false
                         } else clickEvent.setValue(EVENT_NEXT)
                     }
                     is RetroApiResponse.Error -> {
-                        state.toast = response.error.message
+                        if (response.error.actualCode == EVENT_ALREADY_USED_EID) {
+                            clickEvent.setValue(EVENT_ALREADY_USED_EID)
+                            state.toast = response.error.message
+                        } else {
+                            clickEvent.setValue(EVENT_NEXT)
+                            state.toast = response.error.message
+                        }
                     }
                 }
             }
         }
     }
 
-    fun populateState(identity: IdentityScannerResult?) {
-
+    private fun populateState(identity: IdentityScannerResult?) {
         identity?.let {
             state.fullName = it.identity.givenName + " " + it.identity.sirName
             state.fullNameValid = state.fullName.isNotBlank()

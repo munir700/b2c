@@ -12,11 +12,12 @@ interface IYapDashboard {
     interface State : IBase.State {
         var accountType: AccountType
         var fullName: String
-        var firstName: String
+        var firstName: String?
         var accountNo: String
         var ibanNo: String
         var availableBalance: String
         var userNameImage: ObservableField<String>
+        var appVersion: ObservableField<String>
 
     }
 

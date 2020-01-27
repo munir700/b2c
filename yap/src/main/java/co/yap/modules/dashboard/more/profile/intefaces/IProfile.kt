@@ -9,7 +9,6 @@ import co.yap.yapcore.SingleClickEvent
 import java.io.File
 
 interface IProfile {
-
     interface State : IBase.State {
         var fullName: String
         var profilePictureUrl: String
@@ -18,30 +17,19 @@ interface IProfile {
         var imageUri: Uri
 
     }
-
     interface ViewModel : IBase.ViewModel<State> {
         val authRepository: AuthRepository
         var clickEvent: SingleClickEvent
-
         val showExpiredBadge: Boolean
-
         val data: GetMoreDocumentsResponse
-
         var PROFILE_PICTURE_UPLOADED: Int
         var EVENT_LOGOUT_SUCCESS: Int
-
         fun handlePressOnBackButton()
-
         fun handlePressOnPersonalDetail(id: Int)
-
         fun handlePressOnPrivacy(id: Int)
-
         fun handlePressOnPasscode(id: Int)
-
         fun handlePressOnAppNotification(id: Int)
-
         fun handlePressOnTermsAndConditions(id: Int)
-
         fun handlePressOnInstagram(id: Int)
 
         fun handlePressOnTwitter(id: Int)

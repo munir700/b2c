@@ -24,7 +24,6 @@ import com.google.gson.Gson
 import io.michaelrocks.libphonenumber.android.NumberParseException
 import io.michaelrocks.libphonenumber.android.PhoneNumberUtil
 import io.michaelrocks.libphonenumber.android.Phonenumber
-import java.io.PrintWriter
 import java.io.StringWriter
 import java.util.*
 
@@ -37,6 +36,8 @@ class CountryCodePicker : RelativeLayout {
 
     private var mInflater: LayoutInflater? = null
     var textView_selectedCountry: TextView? = null
+    var ivDropDownIconDrawable: ImageView? = null
+    var setIconVisibility: Boolean = false
     private var editText_registeredCarrierNumber: EditText? = null
     var holder: RelativeLayout? = null
         private set
@@ -133,6 +134,8 @@ class CountryCodePicker : RelativeLayout {
     var fastScrollerHandleColor = 0
         set
 
+    var tvCountryCodePickerColor: Int = R.color.greyDark
+
     var dialogBackgroundColor: Int = 0
         set
 
@@ -167,9 +170,10 @@ class CountryCodePicker : RelativeLayout {
     }
 
     fun setDefaultCountryUae() {
-        defaultCCPCountry= CCPCountry("ae", "971", "UAE", CCPCountry.DEFAULT_FLAG_RES)
-        selectedCCPCountry=defaultCCPCountry
+        defaultCCPCountry = CCPCountry("ae", "971", "UAE", CCPCountry.DEFAULT_FLAG_RES)
+        selectedCCPCountry = defaultCCPCountry
     }
+
     /**
      * This will set boolean for numberAutoFormattingEnabled and refresh formattingTextWatcher
      *
@@ -252,27 +256,43 @@ class CountryCodePicker : RelativeLayout {
                     internal var lastCheckedNumber: String? = null
 
 
-                    override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
+                    override fun beforeTextChanged(
+                        s: CharSequence,
+                        start: Int,
+                        count: Int,
+                        after: Int
+                    ) {
 
                     }
 
-                    override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+                    override fun onTextChanged(
+                        s: CharSequence,
+                        start: Int,
+                        before: Int,
+                        count: Int
+                    ) {
                         val selectedCountry = getSelectedCountry()
                         if (selectedCountry != null && (lastCheckedNumber == null || lastCheckedNumber != s.toString()) && countryDetectionBasedOnAreaAllowed) {
                             //possible countries
                             if (currentCountryGroup != null) {
-                                val enteredValue = getEditText_registeredCarrierNumber().text.toString()
+                                val enteredValue =
+                                    getEditText_registeredCarrierNumber().text.toString()
                                 if (enteredValue.length >= currentCountryGroup!!.areaCodeLength) {
-                                    val digitsValue = PhoneNumberUtil.normalizeDigitsOnly(enteredValue)
+                                    val digitsValue =
+                                        PhoneNumberUtil.normalizeDigitsOnly(enteredValue)
                                     if (digitsValue.length >= currentCountryGroup!!.areaCodeLength) {
                                         val currentAreaCode =
-                                            digitsValue.substring(0, currentCountryGroup!!.areaCodeLength)
-                                        if (currentAreaCode != lastCheckedAreaCode) {
-                                            val detectedCountry = currentCountryGroup!!.getCountryForAreaCode(
-                                                context,
-                                                getLanguageToApply(),
-                                                currentAreaCode
+                                            digitsValue.substring(
+                                                0,
+                                                currentCountryGroup!!.areaCodeLength
                                             )
+                                        if (currentAreaCode != lastCheckedAreaCode) {
+                                            val detectedCountry =
+                                                currentCountryGroup!!.getCountryForAreaCode(
+                                                    context,
+                                                    getLanguageToApply(),
+                                                    currentAreaCode
+                                                )
                                             if (!detectedCountry.equals(selectedCountry)) {
                                                 countryChangedDueToAreaCode = true
                                                 lastCursorPosition = Selection.getSelectionEnd(s)
@@ -322,7 +342,10 @@ class CountryCodePicker : RelativeLayout {
         get() {
             val defaultTitle = CCPCountry.getDialogTitle(mCntext, getLanguageToApply())
             if (customDialogTextProvider != null) {
-                return customDialogTextProvider!!.getCCPDialogTitle(getLanguageToApply(), defaultTitle!!)
+                return customDialogTextProvider!!.getCCPDialogTitle(
+                    getLanguageToApply(),
+                    defaultTitle!!
+                )
             } else {
                 return defaultTitle!!
             }
@@ -332,7 +355,10 @@ class CountryCodePicker : RelativeLayout {
         get() {
             val defaultHint = CCPCountry.getSearchHintMessage(mCntext, getLanguageToApply())
             if (customDialogTextProvider != null) {
-                return customDialogTextProvider!!.getCCPDialogSearchHintText(getLanguageToApply(), defaultHint!!)
+                return customDialogTextProvider!!.getCCPDialogSearchHintText(
+                    getLanguageToApply(),
+                    defaultHint!!
+                )
             } else {
                 return defaultHint!!
             }
@@ -340,9 +366,13 @@ class CountryCodePicker : RelativeLayout {
 
     val noResultACK: String
         get() {
-            val defaultNoResultACK = CCPCountry.getNoResultFoundAckMessage(mCntext, getLanguageToApply())
+            val defaultNoResultACK =
+                CCPCountry.getNoResultFoundAckMessage(mCntext, getLanguageToApply())
             if (customDialogTextProvider != null) {
-                return customDialogTextProvider!!.getCCPDialogNoResultACK(getLanguageToApply(), defaultNoResultACK!!)
+                return customDialogTextProvider!!.getCCPDialogNoResultACK(
+                    getLanguageToApply(),
+                    defaultNoResultACK!!
+                )
             } else {
                 return defaultNoResultACK!!
             }
@@ -419,7 +449,8 @@ class CountryCodePicker : RelativeLayout {
         get() {
             try {
                 val phoneNumber = enteredPhoneNumber
-                return getPhoneUtil().format(phoneNumber, PhoneNumberUtil.PhoneNumberFormat.E164).substring(1)
+                return getPhoneUtil().format(phoneNumber, PhoneNumberUtil.PhoneNumberFormat.E164)
+                    .substring(1)
             } catch (e: NumberParseException) {
                 Log.e(TAG, "getFullNumber: Could not parse number")
                 return selectedCountryCode
@@ -427,7 +458,12 @@ class CountryCodePicker : RelativeLayout {
         }
         set(fullNumber) {
             var country =
-                CCPCountry.getCountryForNumber(getContext(), getLanguageToApply(), preferredCountries, fullNumber)
+                CCPCountry.getCountryForNumber(
+                    getContext(),
+                    getLanguageToApply(),
+                    preferredCountries,
+                    fullNumber
+                )
             if (country == null)
                 country = defaultCCPCountry
             selectedCountry = country!!
@@ -477,7 +513,8 @@ class CountryCodePicker : RelativeLayout {
                 )
                 return getPhoneUtil().isValidNumber(phoneNumber)
             } else if (getEditText_registeredCarrierNumber() == null) {
-                Toast.makeText(context, "No editText for Carrier number found.", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "No editText for Carrier number found.", Toast.LENGTH_SHORT)
+                    .show()
                 return false
             } else {
                 return false
@@ -502,7 +539,11 @@ class CountryCodePicker : RelativeLayout {
 
     }
 
-    constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int) : super(context, attrs, defStyleAttr) {
+    constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int) : super(
+        context,
+        attrs,
+        defStyleAttr
+    ) {
         this.mCntext = context
         init(attrs)
     }
@@ -521,10 +562,20 @@ class CountryCodePicker : RelativeLayout {
         LayoutInflater.from(mCntext).inflate(R.layout.component_code_picker, this, true)
 
         textView_selectedCountry = findViewById(R.id.tvSelectedCountry)
+        ivDropDownIconDrawable = findViewById(R.id.ivDropDownIcon)
 
         holder = findViewById(R.id.countryCodeHolder)
         imageViewFlag = findViewById(R.id.ivFlag)
-        textView_selectedCountry!!.setText("+971")
+        if (setIconVisibility) {
+            relativeClickConsumer!!.setPadding(0, 0, 0, 0)
+            textView_selectedCountry!!.setText("971")
+
+        } else {
+            textView_selectedCountry!!.setText("+971")
+
+        }
+
+        textView_selectedCountry!!.setTextColor(tvCountryCodePickerColor)
         imageViewFlag!!.setImageResource(R.drawable.bitmap)
 
         linearFlagHolder = findViewById(R.id.llFlagHolder)
@@ -534,10 +585,10 @@ class CountryCodePicker : RelativeLayout {
             relativeClickConsumer!!.setOnClickListener(countryCodeHolderClickListener)
 
         }
-        if (ccp_hideFlag){
-            imageViewFlag!!.visibility=View.VISIBLE
-        }else{
-            imageViewFlag!!.visibility=View.GONE
+        if (ccp_hideFlag) {
+            imageViewFlag!!.visibility = View.VISIBLE
+        } else {
+            imageViewFlag!!.visibility = View.GONE
 
         }
         detectCountryWithAreaCode = true
@@ -546,63 +597,100 @@ class CountryCodePicker : RelativeLayout {
     }
 
     private fun applyCustomProperty(attrs: AttributeSet) {
-        val a = context.getTheme().obtainStyledAttributes(attrs, R.styleable.CountryCodePicker, 0, 0)
+        val a =
+            context.getTheme().obtainStyledAttributes(attrs, R.styleable.CountryCodePicker, 0, 0)
         //default country isoCountryCode2Digit
         try {
             //hide nameCode. If someone wants only phone isoCountryCode2Digit to avoid name collision for same country phone isoCountryCode2Digit.
             showNameCode = a.getBoolean(R.styleable.CountryCodePicker_ccp_showNameCode, true)
             ccp_onFlagClick = a.getBoolean(R.styleable.CountryCodePicker_ccp_onFlagClick, false)
             ccp_hideFlag = a.getBoolean(R.styleable.CountryCodePicker_ccp_hideFlag, true)
-            if (ccp_hideFlag){
-                imageViewFlag!!.visibility=View.VISIBLE
-            }else{
-                imageViewFlag!!.visibility=View.GONE
+            if (ccp_hideFlag) {
+                imageViewFlag!!.visibility = View.VISIBLE
+            } else {
+                imageViewFlag!!.visibility = View.GONE
 
             }
+
+            tvCountryCodePickerColor = a.getColor(
+                R.styleable.CountryCodePicker_ccp_pickerTextColor,
+                tvCountryCodePickerColor
+            )
+
+            textView_selectedCountry!!.setTextColor(tvCountryCodePickerColor)
+
+
+            setIconVisibility =
+                a.getBoolean(R.styleable.CountryCodePicker_ccp_showDropDown, setIconVisibility)
+            if (setIconVisibility) {
+                ivDropDownIconDrawable!!.visibility = View.VISIBLE
+                relativeClickConsumer!!.setPadding(0, 0, 0, 0)
+                textView_selectedCountry!!.setText("971")
+
+            }
+
             //number auto formatting
-            numberAutoFormattingEnabled = a.getBoolean(R.styleable.CountryCodePicker_ccp_autoFormatNumber, true)
+            numberAutoFormattingEnabled =
+                a.getBoolean(R.styleable.CountryCodePicker_ccp_autoFormatNumber, true)
             //show phone isoCountryCode2Digit.
             showPhoneCode = a.getBoolean(R.styleable.CountryCodePicker_ccp_showPhoneCode, true)
             //show phone isoCountryCode2Digit on dialog
             isCcpDialogShowPhoneCode =
                 a.getBoolean(R.styleable.CountryCodePicker_ccpDialog_showPhoneCode, showPhoneCode)
             //show name isoCountryCode2Digit on dialog
-            ccpDialogShowNameCode = a.getBoolean(R.styleable.CountryCodePicker_ccpDialog_showNameCode, true)
+            ccpDialogShowNameCode =
+                a.getBoolean(R.styleable.CountryCodePicker_ccpDialog_showNameCode, true)
             //show title on dialog
-            ccpDialogShowTitle = a.getBoolean(R.styleable.CountryCodePicker_ccpDialog_showTitle, true)
+            ccpDialogShowTitle =
+                a.getBoolean(R.styleable.CountryCodePicker_ccpDialog_showTitle, true)
             //show title on dialog
             ccpUseEmoji = a.getBoolean(R.styleable.CountryCodePicker_ccp_useFlagEmoji, false)
             //show title on dialog
-            ccpUseDummyEmojiForPreview = a.getBoolean(R.styleable.CountryCodePicker_ccp_useDummyEmojiForPreview, false)
+            ccpUseDummyEmojiForPreview =
+                a.getBoolean(R.styleable.CountryCodePicker_ccp_useDummyEmojiForPreview, false)
             //show flag on dialog
             ccpDialogShowFlag = a.getBoolean(R.styleable.CountryCodePicker_ccpDialog_showFlag, true)
             //ccpDialog initial scroll to selection
             isDialogInitialScrollToSelectionEnabled =
-                a.getBoolean(R.styleable.CountryCodePicker_ccpDialog_initialScrollToSelection, false)
+                a.getBoolean(
+                    R.styleable.CountryCodePicker_ccpDialog_initialScrollToSelection,
+                    false
+                )
             //show full name
             showFullName = a.getBoolean(R.styleable.CountryCodePicker_ccp_showFullName, false)
             //show fast scroller
-            isShowFastScroller = a.getBoolean(R.styleable.CountryCodePicker_ccpDialog_showFastScroller, true)
+            isShowFastScroller =
+                a.getBoolean(R.styleable.CountryCodePicker_ccpDialog_showFastScroller, true)
             //bubble color
-            fastScrollerBubbleColor = a.getColor(R.styleable.CountryCodePicker_ccpDialog_fastScroller_bubbleColor, 0)
+            fastScrollerBubbleColor =
+                a.getColor(R.styleable.CountryCodePicker_ccpDialog_fastScroller_bubbleColor, 0)
             //scroller handle color
-            fastScrollerHandleColor = a.getColor(R.styleable.CountryCodePicker_ccpDialog_fastScroller_handleColor, 0)
+            fastScrollerHandleColor =
+                a.getColor(R.styleable.CountryCodePicker_ccpDialog_fastScroller_handleColor, 0)
             //scroller text appearance
             fastScrollerBubbleTextAppearance =
-                a.getResourceId(R.styleable.CountryCodePicker_ccpDialog_fastScroller_bubbleTextAppearance, 0)
+                a.getResourceId(
+                    R.styleable.CountryCodePicker_ccpDialog_fastScroller_bubbleTextAppearance,
+                    0
+                )
             //auto detect language
-            isAutoDetectLanguageEnabled = a.getBoolean(R.styleable.CountryCodePicker_ccp_autoDetectLanguage, false)
+            isAutoDetectLanguageEnabled =
+                a.getBoolean(R.styleable.CountryCodePicker_ccp_autoDetectLanguage, false)
             //detect country from area isoCountryCode2Digit
-            detectCountryWithAreaCode = a.getBoolean(R.styleable.CountryCodePicker_ccp_areaCodeDetectedCountry, true)
+            detectCountryWithAreaCode =
+                a.getBoolean(R.styleable.CountryCodePicker_ccp_areaCodeDetectedCountry, true)
             //remember last selection
-            rememberLastSelection = a.getBoolean(R.styleable.CountryCodePicker_ccp_rememberLastSelection, false)
+            rememberLastSelection =
+                a.getBoolean(R.styleable.CountryCodePicker_ccp_rememberLastSelection, false)
             //example number hint enabled?
-            hintExampleNumberEnabled = a.getBoolean(R.styleable.CountryCodePicker_ccp_hintExampleNumber, false)
+            hintExampleNumberEnabled =
+                a.getBoolean(R.styleable.CountryCodePicker_ccp_hintExampleNumber, false)
             //international formatting only
             isInternationalFormattingOnlyEnabled =
                 a.getBoolean(R.styleable.CountryCodePicker_ccp_internationalFormattingOnly, true)
             //example number hint type
-            val hintNumberTypeIndex = a.getInt(R.styleable.CountryCodePicker_ccp_hintExampleNumberType, 0)
+            val hintNumberTypeIndex =
+                a.getInt(R.styleable.CountryCodePicker_ccp_hintExampleNumberType, 0)
             hintExampleNumberType = PhoneNumberType.values()[hintNumberTypeIndex]
             //memory tag name for selection
             selectionMemoryTag = a.getString(R.styleable.CountryCodePicker_ccp_selectionMemoryTag)
@@ -610,27 +698,37 @@ class CountryCodePicker : RelativeLayout {
                 selectionMemoryTag = "CCP_last_selection"
             }
             //country auto detection pref
-            val autoDetectionPrefValue = a.getInt(R.styleable.CountryCodePicker_ccp_countryAutoDetectionPref, 123)
-            selectedAutoDetectionPref = AutoDetectionPref.getPrefForValue((autoDetectionPrefValue).toString())
+            val autoDetectionPrefValue =
+                a.getInt(R.styleable.CountryCodePicker_ccp_countryAutoDetectionPref, 123)
+            selectedAutoDetectionPref =
+                AutoDetectionPref.getPrefForValue((autoDetectionPrefValue).toString())
             //auto detect county
-            isAutoDetectCountryEnabled = a.getBoolean(R.styleable.CountryCodePicker_ccp_autoDetectCountry, false)
+            isAutoDetectCountryEnabled =
+                a.getBoolean(R.styleable.CountryCodePicker_ccp_autoDetectCountry, false)
             //show arrow
             showArrow = a.getBoolean(R.styleable.CountryCodePicker_ccp_showArrow, true)
             //show close icon
-            isShowCloseIcon = a.getBoolean(R.styleable.CountryCodePicker_ccpDialog_showCloseIcon, false)
+            isShowCloseIcon =
+                a.getBoolean(R.styleable.CountryCodePicker_ccpDialog_showCloseIcon, false)
             //show flag
             showFlag(a.getBoolean(R.styleable.CountryCodePicker_ccp_showFlag, true))
             //autopop keyboard
-            dialogKeyboardAutoPopup = a.getBoolean(R.styleable.CountryCodePicker_ccpDialog_keyboardAutoPopup, true)
+            dialogKeyboardAutoPopup =
+                a.getBoolean(R.styleable.CountryCodePicker_ccpDialog_keyboardAutoPopup, true)
             setDialogKeyboardAutoPopup(dialogKeyboardAutoPopup)
             //if custom default language is specified, then set it as custom else sets english as custom
             val attrLanguage: Int
-            attrLanguage = a.getInt(R.styleable.CountryCodePicker_ccp_defaultLanguage, Language.ENGLISH.ordinal)
+            attrLanguage = a.getInt(
+                R.styleable.CountryCodePicker_ccp_defaultLanguage,
+                Language.ENGLISH.ordinal
+            )
             customDefaultLanguage = getLanguageEnum(attrLanguage)
             updateLanguageToApply()
             //custom master list
-            customMasterCountriesParam = a.getString(R.styleable.CountryCodePicker_ccp_customMasterCountries)
-            excludedCountriesParam = a.getString(R.styleable.CountryCodePicker_ccp_excludedCountries)
+            customMasterCountriesParam =
+                a.getString(R.styleable.CountryCodePicker_ccp_customMasterCountries)
+            excludedCountriesParam =
+                a.getString(R.styleable.CountryCodePicker_ccp_excludedCountries)
             if (!isInEditMode()) {
                 refreshCustomMasterList()
             }
@@ -642,7 +740,8 @@ class CountryCodePicker : RelativeLayout {
             }
             //text gravity
             if (a.hasValue(R.styleable.CountryCodePicker_ccp_textGravity)) {
-                ccpTextgGravity = a.getInt(R.styleable.CountryCodePicker_ccp_textGravity, TEXT_GRAVITY_CENTER)
+                ccpTextgGravity =
+                    a.getInt(R.styleable.CountryCodePicker_ccp_textGravity, TEXT_GRAVITY_CENTER)
             }
             applyTextGravity(ccpTextgGravity)
             //default country
@@ -665,7 +764,8 @@ class CountryCodePicker : RelativeLayout {
                 } else {
                     if (CCPCountry.getCountryForNameCodeFromEnglishList(defaultCountryNameCode!!) != null) {
                         setUsingNameCode = true
-                        defaultCCPCountry = CCPCountry.getCountryForNameCodeFromEnglishList(defaultCountryNameCode!!)
+                        defaultCCPCountry =
+                            CCPCountry.getCountryForNameCodeFromEnglishList(defaultCountryNameCode!!)
                         selectedCountry = this!!.defaultCCPCountry!!
 
                         setDefaultCountry(
@@ -690,7 +790,8 @@ class CountryCodePicker : RelativeLayout {
                 }
             }
 
-            var defaultCountryCode = a.getInteger(R.styleable.CountryCodePicker_ccp_defaultPhoneCode, -1)
+            var defaultCountryCode =
+                a.getInteger(R.styleable.CountryCodePicker_ccp_defaultPhoneCode, -1)
             if (!setUsingNameCode && defaultCountryCode != -1) {
                 if (!isInEditMode()) {
 
@@ -706,7 +807,8 @@ class CountryCodePicker : RelativeLayout {
 
                 } else {
 
-                    var defaultCountry = CCPCountry.getCountryForCodeFromEnglishList(defaultCountryCode.toString() + "")
+                    var defaultCountry =
+                        CCPCountry.getCountryForCodeFromEnglishList(defaultCountryCode.toString() + "")
                     if (defaultCCPCountry == null) {
                         defaultCountry =
                             CCPCountry.getCountryForCodeFromEnglishList(LIB_DEFAULT_COUNTRY_CODE.toString() + "")
@@ -738,7 +840,8 @@ class CountryCodePicker : RelativeLayout {
             arrowColor = a.getColor(R.styleable.CountryCodePicker_ccp_arrowColor, DEFAULT_UNSET)
             val contentColor: Int
             if (isInEditMode()) {
-                contentColor = a.getColor(R.styleable.CountryCodePicker_ccp_contentColor, DEFAULT_UNSET)
+                contentColor =
+                    a.getColor(R.styleable.CountryCodePicker_ccp_contentColor, DEFAULT_UNSET)
             } else {
                 contentColor = a.getColor(
                     R.styleable.CountryCodePicker_ccp_contentColor,
@@ -762,24 +865,30 @@ class CountryCodePicker : RelativeLayout {
                 setFlagBorderColor(borderFlagColor)
             }
             //dialog colors
-            dialogBackgroundColor = a.getColor(R.styleable.CountryCodePicker_ccpDialog_backgroundColor, 0)
+            dialogBackgroundColor =
+                a.getColor(R.styleable.CountryCodePicker_ccpDialog_backgroundColor, 0)
             dialogTextColor = a.getColor(R.styleable.CountryCodePicker_ccpDialog_textColor, 0)
-            dialogSearchEditTextTintColor = a.getColor(R.styleable.CountryCodePicker_ccpDialog_searchEditTextTint, 0)
+            dialogSearchEditTextTintColor =
+                a.getColor(R.styleable.CountryCodePicker_ccpDialog_searchEditTextTint, 0)
             //text size
             val textSize = a.getDimensionPixelSize(R.styleable.CountryCodePicker_ccp_textSize, 0)
             if (textSize > 0) {
-                textView_selectedCountry!!.setTextSize(TypedValue.COMPLEX_UNIT_PX, textSize.toFloat())
+                textView_selectedCountry!!.setTextSize(
+                    TypedValue.COMPLEX_UNIT_PX,
+                    textSize.toFloat()
+                )
 //                setFlagSize(textSize)
             }
             //if arrow size is explicitly defined
             val arrowSize = a.getDimensionPixelSize(R.styleable.CountryCodePicker_ccp_arrowSize, 0)
 
-            isSearchAllowed = a.getBoolean(R.styleable.CountryCodePicker_ccpDialog_allowSearch, true)
+            isSearchAllowed =
+                a.getBoolean(R.styleable.CountryCodePicker_ccpDialog_allowSearch, true)
             isCcpClickable = a.getBoolean(R.styleable.CountryCodePicker_ccp_clickable, true)
         } catch (e: Exception) {
             val sw = StringWriter()
-            val pw = PrintWriter(sw)
-            e.printStackTrace(pw)
+//            val pw = PrintWriter(sw)
+//            e.printStackTrace(pw)
 //            tvSelectedCountry!!.setText(sw.toString())
         } finally {
             a.recycle()
@@ -860,7 +969,10 @@ class CountryCodePicker : RelativeLayout {
     private fun updateHint() {
         if (editText_registeredCarrierNumber != null && hintExampleNumberEnabled) {
             var formattedNumber = ""
-            val exampleNumber = getPhoneUtil().getExampleNumberForType(selectedCountryNameCode, selectedHintNumberType)
+            val exampleNumber = getPhoneUtil().getExampleNumberForType(
+                selectedCountryNameCode,
+                selectedHintNumberType
+            )
             if (exampleNumber != null) {
                 formattedNumber = exampleNumber.getNationalNumber().toString() + ""
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -869,9 +981,11 @@ class CountryCodePicker : RelativeLayout {
                         selectedCountryNameCode
                     )
                 } else {
-                    formattedNumber = PhoneNumberUtils.formatNumber(selectedCountryCodeWithPlus + formattedNumber)
+                    formattedNumber =
+                        PhoneNumberUtils.formatNumber(selectedCountryCodeWithPlus + formattedNumber)
                 }
-                formattedNumber = formattedNumber.substring(selectedCountryCodeWithPlus.length).trim({ it <= ' ' })
+                formattedNumber = formattedNumber.substring(selectedCountryCodeWithPlus.length)
+                    .trim({ it <= ' ' })
             } else {
             }
             editText_registeredCarrierNumber!!.setHint(formattedNumber)
@@ -893,7 +1007,9 @@ class CountryCodePicker : RelativeLayout {
                 editText_registeredCarrierNumber!!.removeTextChangedListener(formattingTextWatcher)
             }
             if (areaCodeCountryDetectorTextWatcher != null) {
-                editText_registeredCarrierNumber!!.removeTextChangedListener(areaCodeCountryDetectorTextWatcher)
+                editText_registeredCarrierNumber!!.removeTextChangedListener(
+                    areaCodeCountryDetectorTextWatcher
+                )
             }
             if (numberAutoFormattingEnabled) {
                 formattingTextWatcher = InternationalPhoneTextWatcher(
@@ -905,7 +1021,9 @@ class CountryCodePicker : RelativeLayout {
             }
             if (detectCountryWithAreaCode) {
                 areaCodeCountryDetectorTextWatcher = countryDetectorTextWatcher()
-                editText_registeredCarrierNumber!!.addTextChangedListener(areaCodeCountryDetectorTextWatcher)
+                editText_registeredCarrierNumber!!.addTextChangedListener(
+                    areaCodeCountryDetectorTextWatcher
+                )
             }
 //            editText_registeredCarrierNumber!!.setText("")
 //            editText_registeredCarrierNumber!!.setText(digitsValue)
@@ -1044,7 +1162,8 @@ class CountryCodePicker : RelativeLayout {
         if (customMasterCountriesParam == null || customMasterCountriesParam!!.length == 0) {
             if (excludedCountriesParam != null && excludedCountriesParam!!.length != 0) {
                 excludedCountriesParam = excludedCountriesParam!!.toLowerCase()
-                val libraryMasterList = CCPCountry.getLibraryMasterCountryList(context, getLanguageToApply())
+                val libraryMasterList =
+                    CCPCountry.getLibraryMasterCountryList(context, getLanguageToApply())
                 val localCCPCountryList = ArrayList<CCPCountry>()
                 for (ccpCountry in libraryMasterList!!) {
                     if (!excludedCountriesParam!!.contains(ccpCountry.nameCode.toLowerCase())) {
@@ -1064,7 +1183,11 @@ class CountryCodePicker : RelativeLayout {
             val localCCPCountryList = ArrayList<CCPCountry>()
             for (nameCode in customMasterCountriesParam!!.split((",").toRegex()).dropLastWhile({ it.isEmpty() }).toTypedArray()) {
                 val ccpCountry =
-                    CCPCountry.getCountryForNameCodeFromLibraryMasterList(getContext(), getLanguageToApply(), nameCode)
+                    CCPCountry.getCountryForNameCodeFromLibraryMasterList(
+                        getContext(),
+                        getLanguageToApply(),
+                        nameCode
+                    )
                 if (ccpCountry != null) {
                     if (!isAlreadyInList(ccpCountry, localCCPCountryList)) {
                         localCCPCountryList.add(ccpCountry)
@@ -1318,7 +1441,8 @@ class CountryCodePicker : RelativeLayout {
 
     fun detectSIMCountry(loadDefaultWhenFails: Boolean): Boolean {
         try {
-            val telephonyManager = context.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
+            val telephonyManager =
+                context.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
             val simCountryISO = telephonyManager.getSimCountryIso()
             if (simCountryISO == null || simCountryISO.isEmpty()) {
                 if (loadDefaultWhenFails) {
@@ -1344,7 +1468,8 @@ class CountryCodePicker : RelativeLayout {
 
     fun detectNetworkCountry(loadDefaultWhenFails: Boolean): Boolean {
         try {
-            val telephonyManager = context.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
+            val telephonyManager =
+                context.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
             val networkCountryISO = telephonyManager.getNetworkCountryIso()
             if (networkCountryISO == null || networkCountryISO.isEmpty()) {
                 if (loadDefaultWhenFails) {

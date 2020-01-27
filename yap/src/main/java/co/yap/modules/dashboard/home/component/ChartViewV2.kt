@@ -14,6 +14,7 @@ import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import androidx.core.content.ContextCompat
 import co.yap.R
+import co.yap.yapcore.helpers.ThemeColorUtils
 
 class ChartViewV2(context: Context, attrs: AttributeSet) : View(context, attrs),
     View.OnTouchListener, View.OnFocusChangeListener {
@@ -22,7 +23,7 @@ class ChartViewV2(context: Context, attrs: AttributeSet) : View(context, attrs),
     private var barWeight: Int = 26
     var barHeight: Float = 99f
         set(value) {
-            field = ((getParentViewHeight() / 2) * (value)) +3
+            field = ((getParentViewHeight() / 2) * (value)) + 3
             isBarValueSet = true
 
             layoutParams.height = field.toInt()//context.dip2px(10f)
@@ -68,7 +69,7 @@ class ChartViewV2(context: Context, attrs: AttributeSet) : View(context, attrs),
                 ContextCompat.getColor(context, R.color.colorLightGreyGradient),
                 Shader.TileMode.CLAMP
             )
-            seletedColor = ContextCompat.getColor(context, R.color.colorPrimary)
+            seletedColor = ThemeColorUtils.colorPrimaryAttribute(context)
             customizePaint(context)
         }
 
@@ -76,9 +77,6 @@ class ChartViewV2(context: Context, attrs: AttributeSet) : View(context, attrs),
         //setOnTouchListener(this)
 
     }
-
-
-
 
 
     private fun customizePaint(context: Context) {
@@ -127,7 +125,7 @@ class ChartViewV2(context: Context, attrs: AttributeSet) : View(context, attrs),
 
     private fun fadeOutBarAnimation() {
         val fadeOutBarAnimation = AnimationUtils.loadAnimation(context, R.anim.fade_out)
-        fadeOutBarAnimation.duration =if(needAnimation) 300 else 0
+        fadeOutBarAnimation.duration = if (needAnimation) 300 else 0
         fadeOutBarAnimation.setAnimationListener(object : Animation.AnimationListener {
             override fun onAnimationStart(animation: Animation) {
 
@@ -156,7 +154,7 @@ class ChartViewV2(context: Context, attrs: AttributeSet) : View(context, attrs),
     private fun customizeAnimation(context: Context) {
 
         val fadeInBarAnimation = AnimationUtils.loadAnimation(context, R.anim.fade_in)
-        fadeInBarAnimation.duration =if(needAnimation) 400 else 300
+        fadeInBarAnimation.duration = if (needAnimation) 400 else 300
 
         this.startAnimation(fadeInBarAnimation)
 
@@ -164,8 +162,8 @@ class ChartViewV2(context: Context, attrs: AttributeSet) : View(context, attrs),
             override fun onAnimationStart(animation: Animation) {
                 paint.shader = null
                 paintShader = null
-                paint.color = ContextCompat.getColor(context, R.color.colorPrimary)
-                seletedColor = ContextCompat.getColor(context, R.color.colorPrimary)
+                paint.color = ThemeColorUtils.colorPrimaryAttribute(context)
+                seletedColor = ThemeColorUtils.colorPrimaryAttribute(context)
                 invalidate()
                 customizePaint(context)
             }
@@ -273,7 +271,7 @@ class ChartViewV2(context: Context, attrs: AttributeSet) : View(context, attrs),
                 paint.shader = null
                 paintShader = null
 
-                val pupleSelectedColor = ContextCompat.getColor(context, R.color.colorPrimary)
+                val pupleSelectedColor = ThemeColorUtils.colorPrimaryAttribute(context)
                 paint.color = pupleSelectedColor
                 seletedColor = pupleSelectedColor
                 invalidate()
@@ -292,7 +290,9 @@ class ChartViewV2(context: Context, attrs: AttributeSet) : View(context, attrs),
     }
 
     private fun getParentView() = parent as View
-    private fun getParentViewHeight() =resources.getDimension(R.dimen._80sdp)// getParentView().height
+    private fun getParentViewHeight() =
+        resources.getDimension(R.dimen._80sdp)// getParentView().height
+
     private fun getParentViewWidth() = getParentView().width
 
 }

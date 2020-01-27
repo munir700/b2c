@@ -55,6 +55,7 @@ class LoginViewModel(application: Application) : BaseViewModel<ILogin.State>(app
                 }
                 is RetroApiResponse.Error -> {
                     state.error = response.error.message
+                    println("")
                 }
             }
             state.loading = false

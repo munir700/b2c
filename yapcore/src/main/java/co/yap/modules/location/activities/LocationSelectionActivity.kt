@@ -110,6 +110,7 @@ class LocationSelectionActivity : MapSupportActivity(), ILocationSelection.View 
             viewModel.state.valid.set(viewModel.state.addressTitle.isNotBlank() && viewModel.state.isTermsChecked.get() == true)
         }
     }
+
     private val clickObserver = Observer<Int> {
         when (it) {
             R.id.nextButton -> {

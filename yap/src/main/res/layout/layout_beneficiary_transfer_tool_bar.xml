@@ -58,7 +58,7 @@
             android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
             tools:text="Cancel"
             android:text="@{viewModel.state.rightButtonText}"
-            android:textColor="@color/colorPrimary"
+            android:textColor="?attr/colorPrimaryAttr"
             android:visibility="@{viewModel.state.rightButtonVisibility? View.VISIBLE:View.INVISIBLE}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

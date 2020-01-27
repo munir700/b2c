@@ -40,7 +40,7 @@ class AddBeneficiaryViewModel(application: Application) :
             state.country = it.getName()
             state.country2DigitIsoCode = it.isoCountryCode2Digit ?: "AE"
             state.flagDrawableResId =
-                Country(isoCountryCode2Digit = it.isoCountryCode2Digit).getFlagDrawableResId()
+                Country(isoCountryCode2Digit = it.isoCountryCode2Digit).getFlagDrawableResId(context)
 
             parentViewModel?.beneficiary?.value?.beneficiaryType?.let { beneficiaryType ->
                 if (beneficiaryType.isEmpty()) return@let

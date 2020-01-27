@@ -16,6 +16,6 @@
         android:drawablePadding="@dimen/margin_medium"
         android:gravity="center_vertical"
         android:text="Choose a virtual or physical card"
-        android:textColor="@color/colorPrimary" />
+        android:textColor="?attr/colorPrimaryAttr" />
 
 </LinearLayout>

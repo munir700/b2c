@@ -36,12 +36,20 @@ import co.yap.modules.dashboard.main.fragments.YapDashboardChildFragment
 import co.yap.modules.dashboard.main.viewmodels.YapDashBoardViewModel
 import co.yap.modules.dashboard.transaction.activities.TransactionDetailsActivity
 import co.yap.modules.kyc.activities.DocumentsDashboardActivity
+import co.yap.modules.location.activities.LocationSelectionActivity
 import co.yap.modules.onboarding.constants.Constants
+import co.yap.modules.others.fragmentpresenter.activities.FragmentPresenterActivity
 import co.yap.modules.setcardpin.activities.SetCardPinWelcomeActivity
+import co.yap.networking.cards.responsedtos.Address
 import co.yap.networking.transactions.responsedtos.transaction.Content
 import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionListData
+import co.yap.translation.Strings
+import co.yap.yapcore.constants.Constants.ADDRESS
+import co.yap.yapcore.constants.Constants.ADDRESS_SUCCESS
 import co.yap.yapcore.constants.Constants.BROADCAST_UPDATE_TRANSACTION
+import co.yap.yapcore.constants.Constants.MODE_MEETING_CONFORMATION
 import co.yap.yapcore.constants.RequestCodes
+import co.yap.yapcore.enums.NotificationStatus
 import co.yap.yapcore.enums.PartnerBankStatus
 import co.yap.yapcore.helpers.CustomSnackbar
 import co.yap.yapcore.helpers.Utils
@@ -51,6 +59,7 @@ import co.yap.yapcore.managers.MyUserManager
 import com.google.android.material.appbar.AppBarLayout
 import com.yarolegovich.discretescrollview.transform.ScaleTransformer
 import kotlinx.android.synthetic.main.content_fragment_yap_home.*
+import kotlinx.android.synthetic.main.content_fragment_yap_home.view.*
 import kotlinx.android.synthetic.main.fragment_yap_home.*
 import kotlinx.android.synthetic.main.view_graph.*
 import kotlin.math.abs
@@ -151,6 +160,18 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                             viewModel.debitCardSerialNumber
                         )
                     )
+                }
+                viewModel.ON_ADD_NEW_ADDRESS_EVENT -> {
+                    startActivity(
+                        FragmentPresenterActivity.getIntent(
+                            requireContext(),
+                            MODE_MEETING_CONFORMATION,
+                            null
+                        )
+                    )
+                    MyUserManager.user?.notificationStatuses =
+                        NotificationStatus.MEETING_SCHEDULED.name
+                    activity?.finish()
                 }
                 R.id.ivMenu -> parentView?.toggleDrawer()
                 R.id.rlFilter -> {
@@ -273,7 +294,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
     }
 
     private fun checkUserStatus() {
-        
+
         when (MyUserManager.user?.notificationStatuses) {
             Constants.USER_STATUS_ON_BOARDED -> {
                 ivNoTransaction.visibility = View.VISIBLE
@@ -438,14 +459,15 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
         when (notification.action) {
             Constants.NOTIFICATION_ACTION_SET_PIN -> viewModel.getDebitCards()
             Constants.NOTIFICATION_ACTION_COMPLETE_VERIFICATION -> {
-                startActivity(
+
+                startActivityForResult(
                     DocumentsDashboardActivity.getIntent(
                         requireContext(),
-                        parentViewModel.state.firstName,
+                        MyUserManager.user?.currentCustomer?.firstName.toString(),
                         false
-                    )
+                    ), RequestCodes.REQUEST_KYC_DOCUMENTS
                 )
-                activity?.finish()
+                //activity?.finish()
             }
 
         }
@@ -467,14 +489,38 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-
-        if (resultCode == Activity.RESULT_OK) {
-            if (requestCode == RequestCodes.REQUEST_TXN_FILTER) {
-                val filters: TransactionFilters? =
-                    data?.getParcelableExtra<TransactionFilters?>("txnRequest")
-                if (viewModel.txnFilters != filters) {
-                    getFilterTransactions()
-                    setTransactionRequest(filters)
+        when (requestCode) {
+            RequestCodes.REQUEST_KYC_DOCUMENTS -> {
+                data?.let {
+                    val result = data.getBooleanExtra(DocumentsDashboardActivity.result, false)
+                    if (result)
+                        startActivityForResult(
+                            LocationSelectionActivity.newIntent(
+                                context = requireContext(),
+                                address = MyUserManager.userAddress ?: Address(),
+                                headingTitle = getString(Strings.screen_meeting_location_display_text_add_new_address_title),
+                                subHeadingTitle = getString(Strings.screen_meeting_location_display_text_subtitle)
+                            ), RequestCodes.REQUEST_FOR_LOCATION
+                        )
+                }
+            }
+            RequestCodes.REQUEST_FOR_LOCATION -> {
+                data?.let {
+                    val result = it.getBooleanExtra(ADDRESS_SUCCESS, false)
+                    if (result) {
+                        val address = it.getParcelableExtra<Address>(ADDRESS)
+                        viewModel.requestOrderCard(address)
+                    }
+                }
+            }
+            RequestCodes.REQUEST_TXN_FILTER -> {
+                if (resultCode == Activity.RESULT_OK) {
+                    val filters: TransactionFilters? =
+                        data?.getParcelableExtra<TransactionFilters?>("txnRequest")
+                    if (viewModel.txnFilters != filters) {
+                        getFilterTransactions()
+                        setTransactionRequest(filters)
+                    }
                 }
             }
         }
