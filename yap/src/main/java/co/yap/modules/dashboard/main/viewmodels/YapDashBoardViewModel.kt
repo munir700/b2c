@@ -13,6 +13,8 @@ import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.Utils.formateIbanString
+import co.yap.yapcore.helpers.extentions.trackEventWithAttributes
+import co.yap.yapcore.leanplum.UserAttributes
 import co.yap.yapcore.managers.MyUserManager
 import com.leanplum.Leanplum
 
@@ -63,6 +65,7 @@ class YapDashBoardViewModel(application: Application) :
             state.loading = true
             when (val response = customerRepository.getAccountInfo()) {
                 is RetroApiResponse.Success -> {
+
                     MyUserManager.user = response.data.data[0]
                     MyUserManager.user?.setLiveData() // DOnt remove this line
                     MyUserManager.user?.isDocumentsVerified?.let {
@@ -71,6 +74,7 @@ class YapDashBoardViewModel(application: Application) :
                     }
 
                     Leanplum.setUserId(MyUserManager.user?.uuid)
+                    setUserAttributes()
                     getAccountInfoSuccess.value = true
                     populateState()
                     if (MyUserManager.user?.currentCustomer?.isEmailVerified.equals("N", true)) {
@@ -95,5 +99,16 @@ class YapDashBoardViewModel(application: Application) :
         }
     }
 
-
+    private fun setUserAttributes() {
+        MyUserManager.user?.let {
+            val info: HashMap<String, Any> = HashMap()
+            info[UserAttributes().accountType] = it.accountType
+            info[UserAttributes().email] = it.currentCustomer.email
+            info[UserAttributes().nationality] = it.currentCustomer.nationality ?: ""
+            info[UserAttributes().firstName] = it.currentCustomer.firstName
+            info[UserAttributes().lastName] = it.currentCustomer.lastName
+            info[UserAttributes().documentsVerified] = it.documentsVerified
+            trackEventWithAttributes(info)
+        }
+    }
 }

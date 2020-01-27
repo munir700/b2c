@@ -14,6 +14,8 @@ class AccountInfo(
     var uuid: String,
     @SerializedName("defaultProfile")
     var defaultProfile: Boolean,
+    @SerializedName("accountType")
+    var accountType:String,
     @SerializedName("isActive")
     var isActive: String,
     @SerializedName("accountNo")

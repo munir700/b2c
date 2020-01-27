@@ -214,7 +214,6 @@ class EidInfoReviewViewModel(application: Application) :
                     }
                 }
             }
-
         }
     }
 }

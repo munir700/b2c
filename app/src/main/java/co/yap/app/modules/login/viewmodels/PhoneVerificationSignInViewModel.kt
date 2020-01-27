@@ -71,11 +71,6 @@ class PhoneVerificationSignInViewModel(application: Application) :
                         EncryptionUtils.encrypt(context, state.username)!!
                     )
                     verifyOtpResult.postValue(true)
-
-                    val info: Map<String, String> = HashMap()
-                    info["mobile-number-entered"]
-                    trackEventWithAttributes(info)
-                    trackEvent("mobile-number-entered")
                 }
                 is RetroApiResponse.Error -> {
                     state.toast = response.error.message

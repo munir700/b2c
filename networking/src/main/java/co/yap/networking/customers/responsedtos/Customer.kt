@@ -23,9 +23,9 @@ class Customer(
     var lastName: String,
     var uuid: String,
     var password: String?,
-
     var emailVerified: Boolean,
-    var mobileNoVerified: Boolean
+    var mobileNoVerified: Boolean,
+    var nationality: String?
 
 ) {
 
