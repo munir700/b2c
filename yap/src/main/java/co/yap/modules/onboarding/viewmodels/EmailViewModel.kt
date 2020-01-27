@@ -21,6 +21,7 @@ import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.trackEvent
 import co.yap.yapcore.helpers.extentions.trackEventWithAttributes
+import co.yap.yapcore.leanplum.TrackEvents
 import co.yap.yapcore.managers.MyUserManager
 import java.util.*
 import java.util.concurrent.TimeUnit
@@ -99,7 +100,7 @@ class EmailViewModel(application: Application) :
 //                    val info: Map<String, String> = HashMap()
 //                    info["mobile-number-entered"] = String("")
 //                    trackEventWithAttributes(info)
-                    trackEvent("email-address-entered")
+                    trackEvent(TrackEvents.EMAIL_ADDRESS_ENTERED)
                 }
 
                 is RetroApiResponse.Error -> {

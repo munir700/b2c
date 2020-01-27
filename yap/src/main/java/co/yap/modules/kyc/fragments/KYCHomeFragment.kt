@@ -17,6 +17,8 @@ import co.yap.modules.kyc.enums.DocScanStatus
 import co.yap.modules.kyc.interfaces.IKYCHome
 import co.yap.modules.kyc.states.KYCHomeState
 import co.yap.modules.kyc.viewmodels.KYCHomeViewModel
+import co.yap.yapcore.helpers.extentions.trackEvent
+import co.yap.yapcore.leanplum.TrackEvents
 
 import com.digitify.identityscanner.docscanner.activities.IdentityScannerActivity
 import com.digitify.identityscanner.docscanner.enums.DocumentType
@@ -61,6 +63,7 @@ class KYCHomeFragment : KYCChildFragment<IKYCHome.ViewModel>(), IKYCHome.View {
                     }
                 }
                 R.id.tvSkip -> {
+                    trackEvent(TrackEvents.CLICKS_ON_SKIP_TO_DASHBOARD)
                     checkScanned = false
                     findNavController().navigate(R.id.action_goto_DashboardActivity)
                     activity?.finish()

@@ -12,6 +12,8 @@ import co.yap.networking.models.RetroApiResponse
 import co.yap.translation.Strings.idenetity_scanner_sdk_screen_review_info_display_text_error_not_readable
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.helpers.DateUtils
+import co.yap.yapcore.helpers.extentions.trackEvent
+import co.yap.yapcore.leanplum.TrackEvents
 import com.digitify.identityscanner.core.arch.Gender
 import com.digitify.identityscanner.docscanner.models.Identity
 import com.digitify.identityscanner.docscanner.models.IdentityScannerResult
@@ -157,6 +159,7 @@ class KYCHomeViewModel(application: Application) : KYCChildViewModel<IKYCHome.St
                     //}
                 }
                 is RetroApiResponse.Error -> {
+                    trackEvent(TrackEvents.EIDA_CALLBACK_FAILURE)
                     state.toast = response.error.message
                 }
             }

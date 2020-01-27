@@ -14,6 +14,8 @@ import co.yap.networking.models.RetroApiResponse
 import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.helpers.DateUtils
+import co.yap.yapcore.helpers.extentions.trackEvent
+import co.yap.yapcore.leanplum.TrackEvents
 import com.digitify.identityscanner.core.arch.Gender
 import com.digitify.identityscanner.docscanner.enums.DocumentType
 import com.digitify.identityscanner.docscanner.models.Identity
@@ -57,10 +59,20 @@ class EidInfoReviewViewModel(application: Application) :
                     EVENT_ERROR_INVALID_EID
                 )
                 !it.isExpiryDateValid -> clickEvent.setValue(EVENT_ERROR_EXPIRED_EID)
-                !it.isDateOfBirthValid -> clickEvent.setValue(EVENT_ERROR_UNDER_AGE)
-                it.nationality == sectionedCountries.data.find { country -> country.name == it.nationality }?.name -> clickEvent.setValue(
-                    EVENT_ERROR_FROM_USA
-                )
+                !it.isDateOfBirthValid -> {
+                    trackEvent(TrackEvents.EIDA_CALLBACK_UNDER_18)
+                    clickEvent.setValue(EVENT_ERROR_UNDER_AGE)
+                }
+                it.nationality.equals("USA", true) -> {
+                    trackEvent(TrackEvents.EIDA_CALLBACK_US_CITIZEN)
+                    clickEvent.setValue(EVENT_ERROR_FROM_USA)
+                }
+                it.nationality == sectionedCountries.data.find { country -> country.name == it.nationality }?.name -> {
+                    clickEvent.setValue(
+                        EVENT_ERROR_FROM_USA
+                    )
+                    trackEvent(TrackEvents.EIDA_CALLBACK_PROHIBITED_CITIZENS)
+                }
                 else -> {
                     performUploadDocumentsRequest()
                 }
