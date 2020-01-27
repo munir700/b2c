@@ -14,8 +14,6 @@ import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.Utils.formateIbanString
-import co.yap.yapcore.helpers.extentions.trackEventWithAttributes
-import co.yap.yapcore.leanplum.UserAttributes
 import co.yap.yapcore.managers.MyUserManager
 import com.leanplum.Leanplum
 
@@ -27,6 +25,7 @@ class YapDashBoardViewModel(application: Application) :
     override val getAccountBalanceSuccess: MutableLiveData<Boolean> = MutableLiveData()
     override val clickEvent: SingleClickEvent = SingleClickEvent()
     override val state: YapDashBoardState = YapDashBoardState()
+    private val customerRepository: CustomersRepository = CustomersRepository
     private val cardsRepository: CardsRepository = CardsRepository
     override val showUnverifedscreen: MutableLiveData<Boolean> = MutableLiveData()
 
@@ -72,29 +71,17 @@ class YapDashBoardViewModel(application: Application) :
     }
 
     override fun getAccountInfo() {
-//        launch {
-//            state.loading = true
-//            when (val response = customerRepository.getAccountInfo()) {
-//                is RetroApiResponse.Success -> {
-//                    MyUserManager.user = response.data.data[0]
-////                    MyUserManager.user?.setLiveData() // DOnt remove this line
-                    MyUserManager.user?.isDocumentsVerified?.let {
-                        MoreActivity.showExpiredIcon =
-                            it == "N"
-                    }
+        MyUserManager.user?.isDocumentsVerified?.let {
+            MoreActivity.showExpiredIcon =
+                it == "N"
+        }
 
-                    Leanplum.setUserId(MyUserManager.user?.uuid)
-
-                    getAccountInfoSuccess.value = true
-                    populateState()
-                    if (MyUserManager.user?.currentCustomer?.isEmailVerified.equals("N", true)) {
-                        showUnverifedscreen.value = true
-                    }
-//                }
-//                is RetroApiResponse.Error -> state.toast = response.error.message
-//            }
-//            state.loading = false
-//        }
+        Leanplum.setUserId(MyUserManager.user?.uuid)
+        getAccountInfoSuccess.value = true
+        populateState()
+        if (MyUserManager.user?.currentCustomer?.isEmailVerified.equals("N", true)) {
+            showUnverifedscreen.value = true
+        }
     }
 
     override fun getAccountBalanceRequest() {
