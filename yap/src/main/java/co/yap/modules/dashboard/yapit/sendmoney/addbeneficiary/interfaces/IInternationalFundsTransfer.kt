@@ -61,6 +61,7 @@ interface IInternationalFundsTransfer {
         var otpAction: String?
         var reasonPosition: Int
         fun createOtp(id:Int)
+        fun getMoneyTransferLimits(productCode: String?)
     }
 
     interface View : IBase.View<ViewModel>

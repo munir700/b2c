@@ -27,6 +27,7 @@ import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.SendMoneyBeneficiaryProductCode
 import co.yap.yapcore.enums.SendMoneyBeneficiaryType
 import co.yap.yapcore.helpers.CustomSnackbar
+import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.toast
 import co.yap.yapcore.managers.MyUserManager
 import kotlinx.android.synthetic.main.fragment_beneficiary_overview.*
@@ -46,9 +47,11 @@ class InternationalFundsTransferFragment :
         super.onCreate(savedInstanceState)
         getBeneficiaryId()
         val productCode = getProductCode()
+        viewModel.getMoneyTransferLimits(productCode)
         viewModel.getTransactionFeeInternational(productCode)
         viewModel.getReasonList(productCode)
         viewModel.getTransactionInternationalfxList(productCode)
+
 
     }
 
@@ -151,15 +154,40 @@ class InternationalFundsTransferFragment :
                         +viewModel.state.transferFeeAmount
 
                         if (availableBalance > inputAmount) {
-                            if (viewModel.state.minLimit != null && viewModel.state.maxLimit != null) {
+                            if (viewModel.state.fxRateAmount?.toDouble() ?: 0.0 < viewModel.state.minLimit ?: 0.0 || viewModel.state.fxRateAmount?.toDouble() ?: 0.0 > viewModel.state.maxLimit ?: 0.0) {
+
+                                val errorDescription = getString(
+                                    Strings.scren_send_money_funds_transfer_display_text_amount_error
+                                ).format(
+                                    Utils.getFormattedCurrency(viewModel.state.minLimit.toString()),
+                                    Utils.getFormattedCurrency(viewModel.state.maxLimit.toString()),
+                                    availableBalance.toString()
+                                )
+                                if (activity is BeneficiaryCashTransferActivity) {
+                                    (activity as BeneficiaryCashTransferActivity).viewModel.errorEvent.value =
+                                        errorDescription
+                                }
+                                //showSnackBarForLimits(errorDescription)
+                            } else {
+                                viewModel.createOtp(R.id.btnNext)
+                            }
+
+                            /*if (viewModel.state.minLimit != null && viewModel.state.maxLimit != null) {
                                 if (inputAmount < viewModel.state.minLimit!!.toDouble() && inputAmount > viewModel.state.maxLimit!!.toDouble()) {
                                     showErrorSnackBar()
                                 } else {
                                     viewModel.createOtp(R.id.btnNext)
                                 }
-                            }
+                            }*/
                         } else {
-                            showErrorSnackBar()
+                            val des = Translator.getString(
+                                requireContext(),
+                                Strings.screen_y2y_funds_transfer_display_text_error_exceeding_amount
+                            )
+                            if (activity is BeneficiaryCashTransferActivity) {
+                                (activity as BeneficiaryCashTransferActivity).viewModel.errorEvent.value =
+                                    des
+                            }
                         }
                     }
 
@@ -302,9 +330,8 @@ class InternationalFundsTransferFragment :
                     }
             }
         }
-
     }
-
+/*
     private fun showErrorSnackBar() {
         val des = Translator.getString(
             requireContext(),
@@ -315,7 +342,7 @@ class InternationalFundsTransferFragment :
             layout = clFTSnackbar,
             message = des
         )
-    }
+    }*/
 
     override fun onResume() {
         super.onResume()

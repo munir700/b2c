@@ -18,6 +18,7 @@ interface ISystemPermission {
     interface State : IBase.State {
         var icon: Int
         var title: String
+        var subTitle: String
         var termsAndConditionsVisibility: Boolean
         var buttonTitle: String
     }

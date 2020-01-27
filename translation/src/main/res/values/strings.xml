@@ -102,6 +102,10 @@
     <string name="screen_system_permission_text_denied">No, thanks</string>
     <string name="screen_notification_permission_button_title">Yes, keep me up to date</string>
 
+    <string name="screen_system_permission_text_sub_title">Make sure your device settings for Touch ID are always on.</string>
+
+
+
     <!-- Verify passcode screen -->
     <string name="screen_verify_passcode_display_text_title">Enter your passcode to access your account</string>
     <string name="screen_verify_passcode_display_text_title_verify">Enter your passcode to continue</string>
@@ -124,7 +128,8 @@
     <string name="screen_meeting_confirmation_button_go_to_dashboard">Go to dashboard</string>
 
     <!-- Country not allowed screen -->
-    <string name="screen_kyc_information_error_display_text_title_from_usa">Looks like you\'re from the United States</string>
+    <string name="screen_kyc_information_error_display_text_title_from_usa">Looks like you\'re from the %1$s</string>
+<!--    <string name="screen_kyc_information_error_display_text_title_from_usa">Looks like you\'re from the United States</string>-->
     <string name="screen_kyc_information_error_display_text_explanation_from_usa">Sorry, we\'re unable to activate your YAP account at this time. We\'re working on it and we will let you know once resolved.</string>
     <string name="screen_kyc_information_error_display_text_title_under_age">18 birthdays for a YAP account</string>
     <string name="screen_kyc_information_error_display_text_explanation_under_age">Currently, you can only have an account with YAP if you\'re over 18 years of age. You can always continue signing up via our dashboard once you\'ve turned 18</string>
@@ -169,8 +174,11 @@
     <string name="screen_b2c_eid_info_review_button_not_under_age">No, I\'m over 18</string>
     <string name="screen_b2c_eid_info_review_display_text_error_expired_eid">Looks like your Emirates ID is expired</string>
     <string name="screen_b2c_eid_info_review_button_valid_emirates_id">No, I have a valid Emirates ID</string>
-    <string name="screen_b2c_eid_info_review_display_text_error_from_usa">Looks like you\'re from United States</string>
-    <string name="screen_b2c_eid_info_review_button_not_from_usa">No, I\'m not from USA</string>
+    <string name="screen_b2c_eid_info_review_display_text_error_from_usa">Looks like you\'re from %1$s</string>
+    <string name="screen_b2c_eid_info_review_button_not_from_usa">No, I\'m not from %1$s</string>
+
+<!--    <string name="screen_b2c_eid_info_review_display_text_error_from_usa">Looks like you\'re from United States</string>-->
+<!--    <string name="screen_b2c_eid_info_review_button_not_from_usa">No, I\'m not from USA</string>-->
 
     <!-- KYC SDK -->
     <string name="idenetity_scanner_sdk_screen_scanner_display_text_step_1">Step 1 of 2</string>
@@ -713,6 +721,8 @@
     <string name="screen_add_topup_card_display_text_succes_details">Top up now with this card?</string>
     <string name="screen_add_topup_card_succes_button_top_up_now">Yes, top up now"</string>
     <string name="screen_add_topup_card_succes_button_later">No, do it later</string>
+    <string name="screen_card_detail_alert_text_disappears">Disappears in %1s seconds</string>
+
 
     <!-- Screen Card Analytics -->
     <string name="screen_card_analytics_display_tab_title_category">Category</string>
@@ -736,6 +746,7 @@
     <string name="screen_funds_success_header">Transfer successful</string>
     <string name="screen_funds_confirmation_success_description">Your transfer of %1s %2s to %3s will be sent at the exchange rate of %4s</string>
     <string name="screen_funds_receive_description">%1s will receive %2s</string>
+    <string name="scren_send_money_funds_transfer_display_text_amount_error">Your entered amount should be between AED %1s and AED %2s, and your entered amount should be less than or equal to your current balance of AED %3s</string>
     <string name="screen_funds_transfer_fee_description">International transfer fee: %1s \n Note that the recipient\'s bank may have its own charges.</string>
 
     <!--    Screen cash pickup funds transfer success-->

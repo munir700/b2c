@@ -120,6 +120,9 @@
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
             app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_addBeneficiaryFragment_to_genericOtpFragment4"
+            app:destination="@id/genericOtpFragment4" />
 
         <!--        <action-->
         <!--            android:id="@+id/action_addBeneficiaryFragment_to_transferTypeFragment"-->
@@ -143,12 +146,12 @@
         <!--            app:exitAnim="@anim/slide_out_left"-->
         <!--            app:popUpToInclusive="true" />-->
 
-  <!--      <action
-            android:id="@+id/action_addBeneficiaryForCashFlowFragment_to_cashTransferFragment"
-            app:destination="@id/cashTransferFragment"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popUpToInclusive="true" />-->
+        <!--      <action
+                  android:id="@+id/action_addBeneficiaryForCashFlowFragment_to_cashTransferFragment"
+                  app:destination="@id/cashTransferFragment"
+                  app:enterAnim="@anim/slide_in_right"
+                  app:exitAnim="@anim/slide_out_left"
+                  app:popUpToInclusive="true" />-->
     </fragment>
 
     <fragment
@@ -156,6 +159,10 @@
         android:name="co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.fragments.AddBeneficiaryForDomesticTransferFragment"
         android:label="Add beneficiary"
         tools:layout="@layout/fragment_add_beneficiary_domestic_transfer">
+        <argument
+            android:name="successOtp"
+            android:defaultValue="false"
+            app:argType="boolean" />
 
         <!--        <action-->
         <!--            android:id="@+id/action_addBeneficiaryFragment_to_transferTypeFragment"-->
@@ -164,6 +171,11 @@
         <!--            app:exitAnim="@anim/slide_out_left"-->
         <!--            app:popUpToInclusive="true" />-->
 
+        <action
+            android:id="@+id/action_addBeneficiaryForDomesticTransferFragment_to_genericOtpFragment4"
+            app:destination="@id/genericOtpFragment4"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left" />
     </fragment>
 
 
@@ -193,6 +205,9 @@
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
             app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_beneficiaryAccountDetailsFragment_to_genericOtpFragment4"
+            app:destination="@id/genericOtpFragment4" />
     </fragment>
 
     <fragment
@@ -208,7 +223,6 @@
         tools:layout="@layout/fragment_international_funds_transfer">
 
     </fragment>
-
 
 
     <fragment
@@ -235,6 +249,40 @@
             app:exitAnim="@anim/slide_out_left"
             app:popUpToInclusive="true" />
 
+    </fragment>
+    <fragment
+        android:id="@+id/genericOtpFragment4"
+        android:name="co.yap.modules.others.otp.GenericOtpFragment"
+        android:label="GenericOtpFragment"
+        tools:layout="@layout/fragment_phone_verification">
+        <argument
+            android:name="username"
+            android:defaultValue=" "
+            app:argType="string" />
+        <argument
+            android:name="emailOtp"
+            android:defaultValue="false"
+            app:argType="boolean" />
+        <argument
+            android:name="mobileNumber"
+            android:defaultValue=" "
+            app:argType="string" />
+        <argument
+            android:name="otpType"
+            android:defaultValue=" "
+            app:argType="string" />
+        <action
+            android:id="@+id/action_genericOtpFragment4_to_addBeneficiaryForDomesticTransferFragment"
+            app:destination="@id/addBeneficiaryForDomesticTransferFragment"
+            app:exitAnim="@anim/slide_down" />
+        <action
+            android:id="@+id/action_genericOtpFragment4_to_addBeneficiaryFragment"
+            app:destination="@id/addBeneficiaryFragment"
+            app:exitAnim="@anim/slide_down" />
+        <action
+            android:id="@+id/action_genericOtpFragment4_to_beneficiaryAccountDetailsFragment"
+            app:destination="@id/beneficiaryAccountDetailsFragment"
+            app:exitAnim="@anim/slide_down" />
     </fragment>
 
 

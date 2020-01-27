@@ -48,14 +48,14 @@ class VerifyPasscodeViewModel(application: Application) :
             when (val response = repository.login(state.username, state.passcode)) {
                 is RetroApiResponse.Success -> {
                     loginSuccess.postValue(true)
+                    state.loading = false
                 }
                 is RetroApiResponse.Error -> {
                     // state.toast = response.error.message
                     loginSuccess.postValue(false)
-
+                    state.loading = false
                 }
             }
-            state.loading = false
         }
     }
 
@@ -119,7 +119,7 @@ class VerifyPasscodeViewModel(application: Application) :
         }
     }
 
-    fun isUsernameNumeric(username: String): Boolean {
+    private fun isUsernameNumeric(username: String): Boolean {
         var inputStr: CharSequence
         var isValid = false
         val expression = "^[0-9+]*\$"

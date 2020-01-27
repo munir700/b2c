@@ -4,13 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_nav_graph"
     app:startDestination="@id/splashFragment">
-<!--    app:startDestination="@id/loginFragment">-->
 
     <action
         android:id="@+id/action_goto_yapDashboardActivity"
-        app:destination="@id/yapDashboardActivity"
-        app:popUpTo="@+id/main_nav_graph"
-        app:popUpToInclusive="true" />
+        app:destination="@id/yapDashboardActivity" />
 
     <fragment
         android:id="@+id/splashFragment"
@@ -218,12 +215,12 @@
 
     <activity
         android:id="@+id/documentsDashboardActivity"
-        tools:layout="@layout/activity_documents_dashboard"
         android:name="co.yap.modules.kyc.activities.DocumentsDashboardActivity"
-        android:label="DocumentsDashboardActivity">
+        android:label="DocumentsDashboardActivity"
+        tools:layout="@layout/activity_documents_dashboard">
         <argument
             android:name="name"
-            app:argType="string"/>
+            app:argType="string" />
     </activity>
 </navigation>
 

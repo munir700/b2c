@@ -10,9 +10,12 @@ import co.yap.modules.dashboard.yapit.sendmoney.viewmodels.SendMoneyBaseViewMode
 import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.networking.interfaces.IRepositoryHolder
+import co.yap.networking.messages.MessagesRepository
+import co.yap.networking.messages.requestdtos.CreateOtpGenericRequest
 import co.yap.networking.models.RetroApiResponse
 import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
+import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.SendMoneyBeneficiaryType
 import co.yap.yapcore.helpers.Utils
 
@@ -23,7 +26,10 @@ class AddBeneficiaryViewModel(application: Application) :
     override val repository: CustomersRepository = CustomersRepository
     override val state: AddBeneficiaryStates = AddBeneficiaryStates()
     override var clickEvent: SingleClickEvent = SingleClickEvent()
+    private val messagesRepository: MessagesRepository = MessagesRepository
     override var addBeneficiarySuccess: MutableLiveData<Boolean> = MutableLiveData(false)
+    override val otpCreateObserver: MutableLiveData<Boolean> = MutableLiveData()
+
     override var beneficiary: Beneficiary? = Beneficiary()
 
     override fun onCreate() {
@@ -54,13 +60,34 @@ class AddBeneficiaryViewModel(application: Application) :
         }
     }
 
+    override fun createOtp(action: String) {
+        launch {
+            state.loading = true
+            when (val response =
+                messagesRepository.createOtpGeneric(
+                    createOtpGenericRequest = CreateOtpGenericRequest(
+                        action
+                    )
+                )) {
+                is RetroApiResponse.Success -> {
+                    otpCreateObserver.value = true
+                }
+                is RetroApiResponse.Error -> {
+                    state.toast = response.error.message
+                    state.loading = false
+                }
+            }
+            state.loading = false
+        }
+    }
+
+
     override fun handlePressOnAddNow(id: Int) {
         if (id == R.id.confirmButton) {
             setBeneficiaryDetail()
             when (state.transferType) {
                 "Cash Pickup" -> {
-                    parentViewModel?.beneficiary?.value?.currency = null
-                    addCashPickupBeneficiary()
+                    createOtp(Constants.CASHPAYOUT_BENEFICIARY)
                 }
                 else -> {
                 }

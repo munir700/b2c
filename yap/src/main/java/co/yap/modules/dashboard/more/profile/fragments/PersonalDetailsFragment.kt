@@ -26,6 +26,7 @@ import co.yap.translation.Strings
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.Constants.ADDRESS
 import co.yap.yapcore.constants.RequestCodes
+import co.yap.yapcore.helpers.extentions.preventTakeScreenShot
 import co.yap.yapcore.managers.MyUserManager
 import kotlinx.android.synthetic.main.fragment_personal_detail.*
 
@@ -71,6 +72,7 @@ class PersonalDetailsFragment : MoreBaseFragment<IPersonalDetail.ViewModel>(),
                 R.id.tvEditPhoneNumber -> {
                     mNavigator.startVerifyPassCodePresenterActivity(requireActivity()) { resultCode, data ->
                         if (resultCode == Activity.RESULT_OK) {
+                            preventTakeScreenShot(false)
                             findNavController().navigate(R.id.action_personalDetailsFragment_to_change_phone_number_navigation)
                         }
                     }
@@ -134,6 +136,7 @@ class PersonalDetailsFragment : MoreBaseFragment<IPersonalDetail.ViewModel>(),
 
         toggleAddressVisibility()
     }
+
 
     private fun toggleAddressVisibility() {
         if (MyUserManager.userAddress == null) {

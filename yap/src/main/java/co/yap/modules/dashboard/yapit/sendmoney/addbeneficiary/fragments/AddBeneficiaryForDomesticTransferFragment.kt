@@ -8,9 +8,11 @@ import android.text.TextWatcher
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.fragment.findNavController
 import co.yap.BR
 import co.yap.R
 import co.yap.modules.dashboard.yapit.sendmoney.activities.BeneficiaryCashTransferActivity
+import co.yap.modules.dashboard.yapit.sendmoney.activities.SendMoneyHomeActivity
 import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.interfaces.IAddBeneficiary
 import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.viewmodels.AddBeneficiaryViewModel
 import co.yap.modules.dashboard.yapit.sendmoney.fragments.SendMoneyBaseFragment
@@ -21,6 +23,7 @@ import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.enums.SendMoneyBeneficiaryType
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.interfaces.OnItemClickListener
+import co.yap.yapcore.managers.MyUserManager
 import kotlinx.android.synthetic.main.fragment_add_beneficiary_domestic_transfer.*
 
 
@@ -37,6 +40,13 @@ class AddBeneficiaryForDomesticTransferFragment :
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel.clickEvent.observe(this, observer)
+        viewModel.otpCreateObserver.observe(this, otpCreateObserver)
+        if (activity is SendMoneyHomeActivity) {
+            (activity as SendMoneyHomeActivity).viewModel.otpSuccess.observe(
+                this,
+                otpSuccessObserver
+            )
+        }
         viewModel.addBeneficiarySuccess.observe(this, Observer {
             if (it) {
                 addBeneficiarySuccessDialog()
@@ -44,9 +54,21 @@ class AddBeneficiaryForDomesticTransferFragment :
         })
     }
 
+    private val otpSuccessObserver = Observer<Boolean> {
+        if (it) {
+            checkOtpSuccessFlow()
+            (activity as SendMoneyHomeActivity).viewModel.otpSuccess.value = false
+        }
+    }
+
+    private val otpCreateObserver = Observer<Boolean> {
+        if (it) {
+            onConfirmClick()
+        }
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         etIban.addTextChangedListener(object : TextWatcher {
 
             override fun afterTextChanged(s: Editable) {
@@ -104,12 +126,16 @@ class AddBeneficiaryForDomesticTransferFragment :
     override fun onDestroy() {
         super.onDestroy()
         viewModel.clickEvent.removeObservers(this)
+        viewModel.otpCreateObserver.removeObservers(this)
+        if (activity is SendMoneyHomeActivity) {
+            (activity as SendMoneyHomeActivity).viewModel.otpSuccess.removeObserver(otpSuccessObserver)
+        }
     }
 
     val observer = Observer<Int> {
         when (it) {
             R.id.confirmButton -> {
-                onConfirmClick()
+                viewModel.createOtp(Constants.DOMESTIC_BENEFICIARY)
             }
         }
     }
@@ -160,14 +186,16 @@ class AddBeneficiaryForDomesticTransferFragment :
     }
 
     private fun onConfirmClick() {
-        val beneficiary = Beneficiary()
-        beneficiary.beneficiaryType = SendMoneyBeneficiaryType.DOMESTIC.name
-        beneficiary.title = viewModel.state.nickName
-        beneficiary.firstName = viewModel.state.firstName
-        beneficiary.lastName = viewModel.state.lastName
-        beneficiary.country = "AE"
-        beneficiary.accountNo = viewModel.state.iban
-        viewModel.addDomesticBeneficiary(beneficiary)
+        val action =
+            AddBeneficiaryForDomesticTransferFragmentDirections.actionAddBeneficiaryForDomesticTransferFragmentToGenericOtpFragment4(
+                "",
+                false,
+                MyUserManager.user?.currentCustomer?.getFormattedPhoneNumber(requireContext())
+                    ?: "",
+                Constants.DOMESTIC_BENEFICIARY
+            )
+        findNavController().navigate(action)
+        //findNavController().navigate(R.id.action_addBeneficiaryForDomesticTransferFragment_to_genericOtpFragment4)
     }
 
     private fun setIntentResult() {
@@ -175,6 +203,17 @@ class AddBeneficiaryForDomesticTransferFragment :
         intent.putExtra(Constants.BENEFICIARY_CHANGE, true)
         activity?.setResult(Activity.RESULT_OK, intent)
         activity?.finish()
+    }
+
+    private fun checkOtpSuccessFlow() {
+        val beneficiary = Beneficiary()
+        beneficiary.beneficiaryType = SendMoneyBeneficiaryType.DOMESTIC.name
+        beneficiary.title = viewModel.state.nickName
+        beneficiary.firstName = viewModel.state.firstName
+        beneficiary.lastName = viewModel.state.lastName
+        beneficiary.country = "AE"
+        beneficiary.accountNo = viewModel.state.iban.replace(" ", "")
+        viewModel.addDomesticBeneficiary(beneficiary)
     }
 
 }

@@ -264,6 +264,18 @@ class CashTransferState(application: Application) : BaseState(), ICashTransfer.S
                         Strings.screen_y2y_funds_transfer_display_text_error_exceeding_amount
                     )
                     return errorDescription
+                } else if (amount.toDouble() < minLimit || amount.toDouble() > maxLimit) {
+//                        amountBackground =
+//                            context.resources.getDrawable(co.yap.yapcore.R.drawable.bg_funds_error, null)
+                    errorDescription = Translator.getString(
+                        context,
+                        Strings.scren_send_money_funds_transfer_display_text_amount_error,
+                        Utils.getFormattedCurrency(minLimit.toString()),
+                        Utils.getFormattedCurrency(maxLimit.toString()), availableBalance.toString()
+                    )
+                    return errorDescription
+
+
                 } else {
                     amountBackground =
                         context.resources.getDrawable(co.yap.yapcore.R.drawable.bg_funds, null)
@@ -276,8 +288,9 @@ class CashTransferState(application: Application) : BaseState(), ICashTransfer.S
 
     private fun clearError() {
         if (amount != "") {
-            if (amount != ".") {
-                valid = amount.toDouble() >= minLimit
+            if (amount != "." && amount.toDouble() > 0.0) {
+                valid = true
+//                valid = amount.toDouble() >= minLimit
                 amountBackground =
                     context.resources.getDrawable(co.yap.yapcore.R.drawable.bg_funds, null)
             }
@@ -316,7 +329,7 @@ class CashTransferState(application: Application) : BaseState(), ICashTransfer.S
         return totalAmount
     }
 
-    private fun setSpannableFee(totalAmount: String) {
+    fun setSpannableFee(totalAmount: String) {
         transferFee =
             Translator.getString(
                 context,

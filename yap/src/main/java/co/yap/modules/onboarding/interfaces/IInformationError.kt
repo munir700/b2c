@@ -12,6 +12,7 @@ interface IInformationError {
     interface ViewModel : IBase.ViewModel<State> {
         var clickEvent: SingleClickEvent
         fun handlePressOnGoToDashboard()
+        var countryName: String
     }
 
     interface State : IBase.State {

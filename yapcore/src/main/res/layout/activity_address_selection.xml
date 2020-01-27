@@ -37,7 +37,7 @@
             android:visibility="visible"
             app:viewModel="@{viewModel}" />
 
-        <FrameLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/viewMapFragment"
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -54,6 +54,7 @@
                 app:viewModel="@{viewModel}" />
 
             <FrameLayout
+                app:layout_constraintTop_toTopOf="parent"
                 android:id="@+id/flTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -98,12 +99,14 @@
                 </LinearLayout>
             </FrameLayout>
 
-            <LinearLayout
-                android:id="@+id/flAddressDetail"
+            <RelativeLayout
+                android:id="@+id/rlCollapsedMapSection"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom"
-                android:orientation="vertical">
+                android:layout_height="0dp"
+                android:gravity="bottom|left"
+                android:onClick="@{(v) -> viewModel.handleOnPressView(v.id)}"
+                app:layout_constraintBottom_toTopOf="@id/flAddressDetail"
+                app:layout_constraintTop_toBottomOf="@id/flTitle">
 
                 <co.yap.widgets.CoreButton
                     android:id="@+id/btnLocation"
@@ -112,8 +115,8 @@
                     android:layout_height="@dimen/_28sdp"
                     android:layout_marginStart="@dimen/margin_medium"
                     android:layout_marginBottom="@dimen/margin_normal"
-                    android:gravity="center"
                     android:onClick="@{(v) -> viewModel.handleOnPressView(v.id)}"
+                    android:text="@string/screen_meeting_location_button_confirm_location"
                     android:textAllCaps="false"
                     android:textSize="@dimen/_11sdp"
                     app:btn_drawable="@drawable/location_group"
@@ -123,8 +126,18 @@
                     app:btn_has_bold_text="true"
                     app:btn_text_alignment_from_left="1.9"
                     app:btn_text_size="@dimen/_11sdp"
-                    android:text="@string/screen_meeting_location_button_confirm_location"
                     tools:text="@string/screen_meeting_location_button_confirm_location" />
+            </RelativeLayout>
+
+
+            <LinearLayout
+                android:id="@+id/flAddressDetail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/rlCollapsedMapSection">
 
                 <LinearLayout
                     android:id="@+id/lyAddressFields"
@@ -163,7 +176,6 @@
                         android:text="@={viewModel.state.addressTitle}"
                         android:textColor="@color/colorPrimaryDark"
                         android:textColorHint="@color/grey"
-                        android:enabled="false"
                         android:textSize="@dimen/text_size_h3"
                         app:hint="@{Strings.screen_meeting_location_input_text_address_hint}"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -269,6 +281,8 @@
                         tools:layout_editor_absoluteX="44dp" />
                 </LinearLayout>
             </LinearLayout>
-        </FrameLayout>
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

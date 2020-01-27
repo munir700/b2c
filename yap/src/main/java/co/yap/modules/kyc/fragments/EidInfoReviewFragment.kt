@@ -13,6 +13,7 @@ import co.yap.modules.kyc.activities.DocumentsDashboardActivity
 import co.yap.modules.kyc.viewmodels.EidInfoReviewViewModel
 import co.yap.modules.onboarding.interfaces.IEidInfoReview
 import co.yap.translation.Strings
+import co.yap.translation.Translator
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import com.digitify.identityscanner.docscanner.activities.IdentityScannerActivity
@@ -24,7 +25,7 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
 
     override fun getBindingVariable(): Int = BR.viewModel
 
-//    override fun getLayoutId(): Int = R.layout.activity_eid_info_review
+    //    override fun getLayoutId(): Int = R.layout.activity_eid_info_review
     override fun getLayoutId(): Int {
         if (getAppliedAppTheme()) return R.layout.activity_eid_info_review_house_hold
         else return R.layout.activity_eid_info_review
@@ -69,9 +70,17 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
                     if (activity is DocumentsDashboardActivity)
                         (activity as DocumentsDashboardActivity).goToDashBoard(
                             success = false,
-                            skippedPress = false,error = true
+                            skippedPress = false, error = true
                         )
                 }
+                viewModel.EVENT_NEXT_WITH_ERROR -> {
+                    val action =
+                        EidInfoReviewFragmentDirections.actionEidInfoReviewFragmentToInformationErrorFragment(
+                            viewModel.sanctionedCountry
+                        )
+                    findNavController().navigate(action)
+                }
+                viewModel.EVENT_NEXT -> findNavController().popBackStack()
                 viewModel.EVENT_FINISH -> onBackPressed()
             }
         })
@@ -141,15 +150,30 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
     }
 
     override fun showUSACitizenAlert() {
+
+        val title = Translator.getString(
+            requireContext(),
+            Strings.screen_b2c_eid_info_review_display_text_error_from_usa,
+            viewModel.sanctionedCountry
+        )
+
+        val sanctionedNationality = Translator.getString(
+            requireContext(),
+            Strings.screen_b2c_eid_info_review_button_not_from_usa,
+            viewModel.sanctionedNationality
+        )
+
+        //
+
         AlertDialog.Builder(requireContext()).apply {
             setCancelable(false)
-            setMessage(getString(Strings.screen_b2c_eid_info_review_display_text_error_from_usa))
+            setMessage(title)
             setPositiveButton(getString(Strings.common_button_yes)) { dialog, which ->
                 viewModel.handleUserAcceptance(
                     viewModel.EVENT_ERROR_FROM_USA
                 )
             }
-            setNegativeButton(getString(Strings.screen_b2c_eid_info_review_button_not_from_usa)) { dialog, which ->
+            setNegativeButton(sanctionedNationality) { dialog, which ->
                 viewModel.handleUserRejection(
                     viewModel.EVENT_ERROR_FROM_USA
                 )

@@ -16,8 +16,10 @@ import co.yap.yapcore.IFragmentHolder
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.defaults.DefaultNavigator
 import co.yap.yapcore.defaults.INavigator
+import co.yap.yapcore.helpers.CustomSnackbar
 import co.yap.yapcore.interfaces.BackPressImpl
 import co.yap.yapcore.interfaces.IBaseNavigator
+import kotlinx.android.synthetic.main.activity_beneficiary_cash_transfer.*
 
 
 class BeneficiaryCashTransferActivity : BaseBindingActivity<IBeneficiaryCashTransfer.ViewModel>(),
@@ -54,6 +56,21 @@ class BeneficiaryCashTransferActivity : BaseBindingActivity<IBeneficiaryCashTran
         super.onCreate(savedInstanceState)
         getBeneficiary()
         viewModel.clickEvent.observe(this, clickEvent)
+        viewModel.errorEvent.observe(this, errorEvent)
+    }
+
+    val errorEvent = Observer<String> {
+        if (!it.isNullOrEmpty()) {
+            showSnackBarForLimits(it)
+        }
+    }
+
+    fun showSnackBarForLimits(errorMessage: String) {
+        CustomSnackbar.showErrorCustomSnackbar(
+            context = this,
+            layout = clFTSnackbar,
+            message = errorMessage
+        )
     }
 
     val clickEvent = Observer<Int> {
@@ -80,7 +97,7 @@ class BeneficiaryCashTransferActivity : BaseBindingActivity<IBeneficiaryCashTran
 
             viewModel.state.position = intent.getIntExtra(Constants.POSITION, 0)
         }
-       // return intent.getSerializableExtra(ACCOUNT_TYPE) as AccountType
+        // return intent.getSerializableExtra(ACCOUNT_TYPE) as AccountType
     }
 
     override fun onBackPressed() {
@@ -89,6 +106,12 @@ class BeneficiaryCashTransferActivity : BaseBindingActivity<IBeneficiaryCashTran
         if (!BackPressImpl(fragment).onBackPressed()) {
             super.onBackPressed()
         }
+    }
+
+    override fun onDestroy() {
+        viewModel.clickEvent.removeObservers(this)
+        viewModel.errorEvent.removeObservers(this)
+        super.onDestroy()
     }
 
 }

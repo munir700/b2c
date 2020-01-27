@@ -27,6 +27,16 @@ class LoginFragment : BaseBindingFragment<ILogin.ViewModel>(), ILogin.View {
         super.onViewCreated(view, savedInstanceState)
         viewModel.signInButtonPressEvent.observe(this, signInButtonObserver)
         viewModel.signUpButtonPressEvent.observe(this, signUpButtonObserver)
+        val sharedPreferenceManager = SharedPreferenceManager(requireContext())
+        if (sharedPreferenceManager.getValueBoolien(
+                SharedPreferenceManager.KEY_IS_USER_LOGGED_IN,
+                false
+            )
+        ) {
+            val action =
+                LoginFragmentDirections.actionLoginFragmentToVerifyPasscodeFragment("")
+            NavHostFragment.findNavController(this).navigate(action)
+        }
     }
 
     override fun onDestroyView() {

@@ -8,6 +8,8 @@ import co.yap.R
 import co.yap.modules.kyc.activities.DocumentsDashboardActivity
 import co.yap.modules.kyc.viewmodels.InformationErrorViewModel
 import co.yap.modules.onboarding.interfaces.IInformationError
+import co.yap.translation.Strings
+import co.yap.translation.Translator
 
 class InformationErrorFragment : KYCChildFragment<IInformationError.ViewModel>() {
     override fun getBindingVariable(): Int = BR.viewModel
@@ -16,8 +18,18 @@ class InformationErrorFragment : KYCChildFragment<IInformationError.ViewModel>()
     override val viewModel: IInformationError.ViewModel
         get() = ViewModelProviders.of(this).get(InformationErrorViewModel::class.java)
 
+
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+
+        var countryName =
+            arguments?.let { InformationErrorFragmentArgs.fromBundle(it).countryName }.toString()
+        viewModel.countryName = Translator.getString(
+            requireContext(),
+            Strings.screen_kyc_information_error_display_text_title_from_usa, countryName
+
+        )
+
         viewModel.clickEvent.observe(this, Observer {
             if (activity is DocumentsDashboardActivity)
                 (activity as DocumentsDashboardActivity).goToDashBoard(

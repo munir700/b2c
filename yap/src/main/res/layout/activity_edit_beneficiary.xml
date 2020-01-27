@@ -45,7 +45,8 @@
                 android:onClick="@{(v) -> editBeneficiaryViewModel.handlePressOnConfirm(v.id)}"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_back_arrow_left" />
+                app:srcCompat="@drawable/ic_back_arrow_left"
+                tools:ignore="ContentDescription" />
 
 
             <androidx.appcompat.widget.AppCompatTextView
@@ -324,6 +325,7 @@
                 <androidx.appcompat.widget.AppCompatEditText
                     android:id="@+id/etFirstName"
                     style="@style/Yap.App.Widget.TextInputEditText"
+                    app:editable="@{false}"
                     android:imeOptions="actionNext"
                     android:maxLength="50"
                     android:text="@={editBeneficiaryViewModel.state.firstName}"
@@ -346,12 +348,12 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etLastName"
                     style="@style/Yap.App.Widget.TextInputEditText"
+                    app:editable="@{false}"
                     android:imeOptions="actionNext"
                     android:importantForAutofill="no"
                     android:maxLength="50"
                     android:text="@={editBeneficiaryViewModel.state.lastName}"
-                    app:hint="@{Strings.screen_add_beneficiary_detail_input_text_last_name_hint}"
-                    tools:text="322335" />
+                    app:hint="@{Strings.screen_add_beneficiary_detail_input_text_last_name_hint}" />
 
 
                 <androidx.appcompat.widget.AppCompatTextView
@@ -405,6 +407,7 @@
                     android:id="@+id/etAccountNumberRMT"
                     style="@style/Yap.App.Widget.TextInputEditText"
                     android:digits="1234567890 "
+                    app:editable="@{false}"
                     android:imeOptions="actionDone"
                     android:inputType="number"
                     android:singleLine="true"
@@ -488,13 +491,13 @@
                     app:layout_constraintTop_toBottomOf="@+id/tvSuccessHeading"
                     app:text="@{Strings.screen_beneficiary_overview_display_text_account_number_iban}"
                     app:textColor="@{editBeneficiaryViewModel.state.accountNumber.empty ? true : false}"
-                    tools:text="@string/screen_beneficiary_overview_display_text_account_number_iban"
-             />
+                    tools:text="@string/screen_beneficiary_overview_display_text_account_number_iban" />
 
                 <androidx.appcompat.widget.AppCompatEditText
                     android:id="@+id/etAccountNumber"
                     style="@style/Yap.App.Widget.TextInputEditText"
                     android:digits="1234567890 "
+                    app:editable="@{false}"
                     android:imeOptions="actionDone"
                     android:inputType="number"
                     android:singleLine="true"
@@ -520,6 +523,7 @@
                     android:id="@+id/etSwiftCode"
                     style="@style/Yap.App.Widget.TextInputEditText"
                     android:digits="1234567890 "
+                    app:editable="@{false}"
                     android:imeOptions="actionDone"
                     android:inputType="phone"
                     android:singleLine="true"
@@ -544,6 +548,7 @@
                     android:id="@+id/etBankREquiredFieldCode"
                     style="@style/Yap.App.Widget.TextInputEditText"
                     android:digits="1234567890 "
+                    app:editable="@{false}"
                     android:imeOptions="actionDone"
                     android:inputType="phone"
                     android:singleLine="true"

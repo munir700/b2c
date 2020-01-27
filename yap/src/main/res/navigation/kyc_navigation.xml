@@ -6,6 +6,18 @@
     app:startDestination="@id/KYCHomeFragment">
 
     <fragment
+        android:id="@+id/informationErrorFragment"
+        android:name="co.yap.modules.kyc.fragments.InformationErrorFragment"
+        android:label="InformationErrorFragment"
+        tools:layout="@layout/fragment_information_error" >
+
+        <argument
+            android:name="countryName"
+            android:defaultValue=" "
+            app:argType="string" />
+    </fragment>
+
+    <fragment
         android:id="@+id/KYCHomeFragment"
         android:name="co.yap.modules.kyc.fragments.KYCHomeFragment"
         android:label="KYCHomeFragment"
@@ -22,12 +34,7 @@
         android:name="name"
         android:defaultValue=" "
         app:argType="string" />
-    
-    <fragment
-        android:id="@+id/informationErrorFragment"
-        android:name="co.yap.modules.kyc.fragments.InformationErrorFragment"
-        android:label="InformationErrorFragment"
-        tools:layout="@layout/fragment_information_error" />
+
     <fragment
         android:id="@+id/eidInfoReviewFragment"
         android:name="co.yap.modules.kyc.fragments.EidInfoReviewFragment"

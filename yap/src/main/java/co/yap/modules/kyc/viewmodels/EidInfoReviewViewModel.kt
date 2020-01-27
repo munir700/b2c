@@ -7,6 +7,7 @@ import co.yap.modules.onboarding.interfaces.IEidInfoReview
 import co.yap.modules.onboarding.states.EidInfoReviewState
 import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.customers.requestdtos.UploadDocumentsRequest
+import co.yap.networking.customers.responsedtos.SectionedCountriesResponseDTO
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
 import co.yap.translation.Strings
@@ -31,9 +32,15 @@ class EidInfoReviewViewModel(application: Application) :
 
     override val clickEvent: SingleClickEvent = SingleClickEvent()
     override val state: EidInfoReviewState = EidInfoReviewState()
+    lateinit var sectionedCountries: SectionedCountriesResponseDTO
+
+    override var sanctionedCountry: String = "" // for runtime hanlding
+    override var sanctionedNationality: String = "" // for runtime hanlding
+
 
     override fun onCreate() {
         super.onCreate()
+        getSectionedCountriesList()
         parentViewModel?.let { populateState(it.identity) }
     }
 
@@ -49,7 +56,20 @@ class EidInfoReviewViewModel(application: Application) :
                     clickEvent.setValue(EVENT_ERROR_INVALID_EID)
                 !it.isExpiryDateValid -> clickEvent.setValue(EVENT_ERROR_EXPIRED_EID)
                 !it.isDateOfBirthValid -> clickEvent.setValue(EVENT_ERROR_UNDER_AGE)
-                it.nationality.equals("USA", true) -> clickEvent.setValue(EVENT_ERROR_FROM_USA)
+                it.nationality.equals("USA", true) -> {
+                    sanctionedCountry =
+                        sectionedCountries.data.find { country -> country.name == it.nationality }?.name.toString()
+                    sanctionedNationality = it.nationality
+                    clickEvent.setValue(EVENT_ERROR_FROM_USA)
+                }
+
+                it.nationality == sectionedCountries.data.find { country -> country.name == it.nationality }?.name -> {
+                    sanctionedCountry = it.nationality
+                    sanctionedNationality = it.nationality
+                    clickEvent.setValue(
+                        EVENT_ERROR_FROM_USA
+                    )
+                }
                 else -> {
                     performUploadDocumentsRequest()
                 }
@@ -116,10 +136,22 @@ class EidInfoReviewViewModel(application: Application) :
         }
     }
 
+    private fun getSectionedCountriesList() {
+        launch {
+            when (val response = repository.getSectionedCountries()) {
+                is RetroApiResponse.Success -> {
+                    sectionedCountries = response.data
+                }
+                is RetroApiResponse.Error -> {
+                    state.toast = response.error.message
+                }
+            }
+        }
+    }
+
     private fun performUploadDocumentsRequest() {
         parentViewModel?.identity?.let {
             launch {
-                //                if(BuildConfig.DEBUG) System.currentTimeMillis().toString() else it.identity.citizenNumber ,
                 val request = UploadDocumentsRequest(
                     documentType = if (it.document.type == DocumentType.EID) "EMIRATES_ID" else "PASSPORT",
                     firstName = it.identity.givenName,

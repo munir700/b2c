@@ -74,7 +74,6 @@ class VerifyPasscodeState : BaseState(), IVerifyPasscode.State {
 
     fun validate(text: String) {
         if (text.length in 7 downTo 4) {
-            validationPasscode(text)
             valid = true
 
         } else {
