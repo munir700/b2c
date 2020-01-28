@@ -480,7 +480,7 @@
 
     <!--    Email Verified Popup Screen-->
     <!-- <string name="screen_email_verified_popup_display_text_title">Hi %1$s, it looks like you haven’t verified your email address:</string>-->
-    <string name="screen_email_verified_popup_display_text_title">Hi %1$s, What are you waiting for?</string>
+    <string name="screen_email_verified_popup_display_text_title">Hi %1$s, what are you waiting for?</string>
     <!--    <string name="screen_email_verified_popup_display_text_sub_title">We have just resent you an email to verify your email address. Please log into your email and click the verification link to get access to your YAP Account.</string>-->
     <string name="screen_email_verified_popup_display_text_sub_title">Looks like you haven\'t verified %1$s yet. Do it now to unlock the full YAP experience!</string>
     <!--    <string name="screen_email_verified_popup_display_text_click_here">Having trouble? If you want to change your email address </string>-->
