@@ -119,3 +119,8 @@
 #-keepresourcexmlelements manifest/application/meta-data@value=GlideModule
 
 ##---------------End: proguard configuration for Glide  ----------
+
+#-keep class kotlin.reflect.** { *; }
+#-dontwarn kotlin.reflect.**
+#-keep class org.jetbrains.** { *; }
+#-keep class kotlin.reflect.jvm.internal.** { *; }
