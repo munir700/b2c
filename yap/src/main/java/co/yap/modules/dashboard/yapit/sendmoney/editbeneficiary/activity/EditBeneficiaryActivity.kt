@@ -13,6 +13,7 @@ import co.yap.R
 import co.yap.modules.dashboard.yapit.sendmoney.editbeneficiary.interfaces.IEditBeneficiary
 import co.yap.modules.dashboard.yapit.sendmoney.editbeneficiary.viewmodel.EditBeneficiaryViewModel
 import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
+import co.yap.widgets.MaskTextWatcher
 import co.yap.widgets.popmenu.PopupMenu
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.constants.Constants
@@ -51,18 +52,23 @@ class EditBeneficiaryActivity : BaseBindingActivity<IEditBeneficiary.ViewModel>(
                 bundle?.let {
                     viewModel.state.needOverView = it.getBoolean(OVERVIEW_BENEFICIARY, false)
                     viewModel.state.beneficiary = bundle.getParcelable(Beneficiary::class.java.name)
-                    viewModel.state.beneficiary?.accountNo?.length?.let {
-                        if (it >= 22)
-                            viewModel.state.beneficiary?.accountNo =
-                                Utils.formateIbanString(viewModel.state.beneficiary?.accountNo)
-                    }
+//                    viewModel.state.beneficiary?.accountNo?.length?.let {
+//                        if (it >= 22)
+//                            viewModel.state.beneficiary?.accountNo =
+//                                Utils.formateIbanString(viewModel.state.beneficiary?.accountNo)
+//                    }
                 }
             }
         }
 
         setObservers()
         currencyPopMenu = getCurrencyPopMenu(this, mutableListOf(), null, null)
-        formatIbanLogic()
+        //formatIbanLogic()
+
+       val maskTextWatcher = MaskTextWatcher(etAccountNumber, "#### #### #### #### #### #### ####")
+        etAccountNumber.addTextChangedListener(maskTextWatcher)
+        etAccountNumberRMT.addTextChangedListener(maskTextWatcher)
+        //etAccountNumber
     }
 
     private fun formatIbanLogic() {
