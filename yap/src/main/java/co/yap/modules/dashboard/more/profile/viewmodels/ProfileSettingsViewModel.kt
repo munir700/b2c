@@ -3,7 +3,6 @@ package co.yap.modules.dashboard.more.profile.viewmodels
 import android.annotation.SuppressLint
 import android.app.Application
 import android.content.Context
-import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.provider.MediaStore
 import android.view.View.GONE
@@ -22,20 +21,14 @@ import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.managers.MyUserManager
 import com.bumptech.glide.Glide
-import com.bumptech.glide.load.DataSource
-import com.bumptech.glide.load.engine.GlideException
-import com.bumptech.glide.request.RequestListener
-import com.bumptech.glide.request.target.Target
 import id.zelory.compressor.Compressor
-import io.reactivex.Scheduler
-import io.reactivex.functions.Consumer
+import io.reactivex.schedulers.Schedulers
 import okhttp3.MediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
-import io.reactivex.schedulers.Schedulers
 
 
 class ProfileSettingsViewModel(application: Application) :
@@ -152,15 +145,13 @@ class ProfileSettingsViewModel(application: Application) :
             when (val response = authRepository.logout(deviceId.toString())) {
                 is RetroApiResponse.Success -> {
                     clickEvent.setValue(EVENT_LOGOUT_SUCCESS)
+                    state.loading = true
                 }
                 is RetroApiResponse.Error -> {
                     state.toast = response.error.message
+                    state.loading = true
                 }
             }
-            // Set a little delay in case of no in
-            // TODO: Fix this delay issue. It should not be written with a delay
-            //Handler(Looper.getMainLooper()).postDelayed({ state.loading = false }, 500)
-
         }
     }
 

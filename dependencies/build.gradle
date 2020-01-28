@@ -120,7 +120,7 @@ project.ext {
             //Leanplum
             leanplumFcm              : 'com.leanplum:leanplum-fcm:5.2.3',
             leanplumLocation         : 'com.leanplum:leanplum-location:5.2.3',
-            leanplumCore             : 'com.leanplum:leanplum-core:5.2.3',
+            //leanplumCore             : 'com.leanplum:leanplum-core:5.2.3',
 
             //Logger
             timber                   : 'com.jakewharton.timber:timber:4.7.1',
@@ -255,7 +255,7 @@ project.ext {
             [configuration: "implementation", dependency: libraries.playServicesPlaces],
             [configuration: "implementation", dependency: libraries.playLibPlaces],
             [configuration: "api", dependency: libraries.leanplumFcm],
-            [configuration: "api", dependency: libraries.leanplumCore],
+            //[configuration: "api", dependency: libraries.leanplumCore],
             [configuration: "api", dependency: libraries.leanplumLocation],
             [configuration: "api", dependency: libraries.messagingFcm],
             [configuration: "api", dependency: libraries.playServicesLocation],

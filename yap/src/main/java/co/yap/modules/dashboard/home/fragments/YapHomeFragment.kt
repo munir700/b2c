@@ -62,7 +62,6 @@ import co.yap.yapcore.managers.MyUserManager
 import com.google.android.material.appbar.AppBarLayout
 import com.yarolegovich.discretescrollview.transform.ScaleTransformer
 import kotlinx.android.synthetic.main.content_fragment_yap_home.*
-import kotlinx.android.synthetic.main.content_fragment_yap_home.view.*
 import kotlinx.android.synthetic.main.fragment_yap_home.*
 import kotlinx.android.synthetic.main.view_graph.*
 import kotlin.math.abs
@@ -107,7 +106,6 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
 
         appbar.addOnOffsetChangedListener(AppBarLayout.OnOffsetChangedListener { appBarLayout, verticalOffset ->
             val pram = frameLayout.layoutParams
-
             if (abs(verticalOffset) <= 5) {
                 frameLayout.alpha = 1f
                 pram.height = appBarLayout.totalScrollRange
@@ -241,7 +239,8 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                 getRecycleViewAdaptor()?.addList(listToAppend)
             } else {
                 if (it.isEmpty()) {
-                    viewModel.state.isTransEmpty.set(true)
+                    if (0 < viewModel.state.filterCount.get() ?: 0)
+                        viewModel.state.isTransEmpty.set(true)
                 } else {
                     checkUserStatus()
                     getRecycleViewAdaptor()?.setList(it)
@@ -510,8 +509,8 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                     val filters: TransactionFilters? =
                         data?.getParcelableExtra<TransactionFilters?>("txnRequest")
                     if (viewModel.txnFilters != filters) {
-                        getFilterTransactions()
                         setTransactionRequest(filters)
+                        getFilterTransactions()
                     }
                 }
             }
@@ -549,11 +548,11 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
     }
 
     private fun getFilterTransactions() {
-        rvTransaction.adapter =
-            TransactionsHeaderAdapter(mutableListOf(), adaptorlistener)
+        //rvTransaction.adapter =
+        //    TransactionsHeaderAdapter(mutableListOf(), adaptorlistener)
 
-        rvTransactionsBarChart.adapter =
-            GraphBarsAdapter(mutableListOf(), viewModel)
+        //rvTransactionsBarChart.adapter =
+        //    GraphBarsAdapter(mutableListOf(), viewModel)
 
         viewModel.filterTransactions()
     }
