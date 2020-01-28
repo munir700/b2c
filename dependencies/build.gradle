@@ -200,7 +200,7 @@ project.ext {
             [configuration: "implementation", dependency: libraries.androidanimationseasing],
             [configuration: "implementation", dependency: libraries.expandableLayout],
             [configuration: "implementation", dependency: libraries.tooltip],
-            [configuration: "implementation", dependency: libraries.baloon],
+
             [configuration: "implementation", dependency: libraries.rangeSeekbar],
             [configuration: "implementation", dependency: libraries.swipeViewActions]
     ]
@@ -219,7 +219,7 @@ project.ext {
             [configuration: "implementation", dependency: libraries.androidanimationseasing],
             [configuration: "implementation", dependency: libraries.expandableLayout],
             [configuration: "implementation", dependency: libraries.tooltip],
-            [configuration: "implementation", dependency: libraries.baloon],
+           
             [configuration: "implementation", dependency: libraries.rangeSeekbar],
             [configuration: "implementation", dependency: libraries.swipeViewActions]
     ]
@@ -310,6 +310,7 @@ android {
             signingConfig signingConfigs.release
             minifyEnabled true
             debuggable true
+//            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
         debug{
