@@ -61,6 +61,7 @@ import co.yap.yapcore.managers.MyUserManager
 import com.google.android.material.appbar.AppBarLayout
 import com.yarolegovich.discretescrollview.transform.ScaleTransformer
 import kotlinx.android.synthetic.main.content_fragment_yap_home.*
+import kotlinx.android.synthetic.main.content_fragment_yap_home.view.*
 import kotlinx.android.synthetic.main.fragment_yap_home.*
 import kotlinx.android.synthetic.main.view_graph.*
 import kotlin.math.abs
@@ -152,7 +153,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                     startActivity(
                         SetCardPinWelcomeActivity.newIntent(
                             requireContext(),
-                            viewModel.debitCardSerialNumber
+                            MyUserManager.getPrimaryCard()
                         )
                     )
                 }
@@ -239,7 +240,11 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                 getRecycleViewAdaptor()?.addList(listToAppend)
             } else {
                 if (it.isEmpty()) {
-                    viewModel.state.isTransEmpty.set(0 >= viewModel.state.filterCount.get() ?: 0)
+                    if (0 >= viewModel.state.filterCount.get() ?: 0){
+                        viewModel.state.isTransEmpty.set(true)
+                    }else{
+                        viewModel.state.isTransEmpty.set(false)
+                    }
                 } else {
                     checkUserStatus()
                     getRecycleViewAdaptor()?.setList(it)
@@ -336,7 +341,9 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
 
     private fun showTransactionsAndGraph() {
         if (viewModel.transactionsLiveData.value.isNullOrEmpty()) {
-            viewModel.state.isTransEmpty.set(true)
+            if (0 >= viewModel.state.filterCount.get() ?: 0){
+                viewModel.state.isTransEmpty.set(true)
+            }
         } else {
             viewModel.state.isTransEmpty.set(false)
             view?.let {
