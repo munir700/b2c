@@ -55,6 +55,7 @@ import co.yap.yapcore.helpers.CustomSnackbar
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.fixSwipeToRefresh
 import co.yap.yapcore.helpers.extentions.trackEvent
+import co.yap.yapcore.helpers.extentions.launchActivity
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.leanplum.TrackEvents
 import co.yap.yapcore.managers.MyUserManager
@@ -297,7 +298,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
     }
 
     private fun checkUserStatus() {
-
+//        MyUserManager.user?.notificationStatuses=Constants.USER_STATUS_ON_BOARDED
         when (MyUserManager.user?.notificationStatuses) {
             Constants.USER_STATUS_ON_BOARDED -> {
                 ivNoTransaction.visibility = View.VISIBLE
@@ -462,15 +463,10 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
         when (notification.action) {
             Constants.NOTIFICATION_ACTION_SET_PIN -> viewModel.getDebitCards()
             Constants.NOTIFICATION_ACTION_COMPLETE_VERIFICATION -> {
-
-                startActivityForResult(
-                    DocumentsDashboardActivity.getIntent(
-                        requireContext(),
-                        MyUserManager.user?.currentCustomer?.firstName.toString(),
-                        false
-                    ), RequestCodes.REQUEST_KYC_DOCUMENTS
-                )
-                //activity?.finish()
+               launchActivity<DocumentsDashboardActivity>(requestCode = RequestCodes.REQUEST_KYC_DOCUMENTS){
+                   putExtra(co.yap.yapcore.constants.Constants.name, MyUserManager.user?.currentCustomer?.firstName.toString())
+                   putExtra(co.yap.yapcore.constants.Constants.data, false)
+                }
             }
 
         }
@@ -495,7 +491,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
         when (requestCode) {
             RequestCodes.REQUEST_KYC_DOCUMENTS -> {
                 data?.let {
-                    val result = data.getBooleanExtra(DocumentsDashboardActivity.result, false)
+                    val result = data.getBooleanExtra(co.yap.yapcore.constants.Constants.result, false)
                     if (result)
                         startActivityForResult(
                             LocationSelectionActivity.newIntent(

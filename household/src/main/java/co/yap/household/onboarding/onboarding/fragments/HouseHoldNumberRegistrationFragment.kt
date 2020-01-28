@@ -15,6 +15,7 @@ import co.yap.household.onboarding.onboarding.interfaces.IHouseHoldNumberRegistr
 import co.yap.household.onboarding.onboarding.viewmodels.HouseHoldNumberRegistrationViewModel
 import co.yap.modules.kyc.activities.DocumentsDashboardActivity
 import co.yap.modules.onboarding.activities.LiteDashboardActivity
+import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.enums.NotificationStatus
 import co.yap.yapcore.helpers.extentions.ExtraType
@@ -66,12 +67,12 @@ class HouseHoldNumberRegistrationFragment :
                 data?.let {
                     val success =
                         data.getValue(
-                            DocumentsDashboardActivity.result,
+                            Constants.result,
                             ExtraType.BOOLEAN.name
                         ) as? Boolean
                     val skipped =
                         data.getValue(
-                            DocumentsDashboardActivity.skipped,
+                            Constants.skipped,
                             ExtraType.BOOLEAN.name
                         ) as? Boolean
 
