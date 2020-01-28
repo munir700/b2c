@@ -36,8 +36,8 @@ android {
         }
 
         stg {
-            versionCode 15
-            versionName "0.1.5"
+            versionCode 16
+            versionName "0.1.6"
             applicationIdSuffix ".stg"
             buildConfigField("String", "BASE_URL", "\"https://stg.yap.co\"")
             resValue "string", "app_name", "YAP Stage"
