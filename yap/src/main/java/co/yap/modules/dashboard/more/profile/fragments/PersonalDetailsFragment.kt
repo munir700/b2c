@@ -86,7 +86,6 @@ class PersonalDetailsFragment : MoreBaseFragment<IPersonalDetail.ViewModel>(),
 
                 R.id.tvEditAddress -> {
                     viewModel.toggleToolBar(true)
-
                     changeAddress = true
                     startActivityForResult(
                         LocationSelectionActivity.newIntent(

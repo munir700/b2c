@@ -51,12 +51,10 @@ class LoginFragment : BaseBindingFragment<ILogin.ViewModel>(), ILogin.View {
             LoginFragmentDirections.actionLoginFragmentToVerifyPasscodeFragment(viewModel.state.twoWayTextWatcher)
         NavHostFragment.findNavController(this).navigate(action)
         viewModel.state.twoWayTextWatcher = ""
-        trackEvent("sign in")
     }
 
     private val signUpButtonObserver = Observer<Boolean> {
         findNavController().navigate(R.id.action_loginFragment_to_accountSelectionFragment)
-        trackEvent("sign up")
     }
 
 }

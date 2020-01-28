@@ -61,7 +61,6 @@ import co.yap.yapcore.managers.MyUserManager
 import com.google.android.material.appbar.AppBarLayout
 import com.yarolegovich.discretescrollview.transform.ScaleTransformer
 import kotlinx.android.synthetic.main.content_fragment_yap_home.*
-import kotlinx.android.synthetic.main.content_fragment_yap_home.view.*
 import kotlinx.android.synthetic.main.fragment_yap_home.*
 import kotlinx.android.synthetic.main.view_graph.*
 import kotlin.math.abs
@@ -105,14 +104,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
         }
 
         appbar.addOnOffsetChangedListener(AppBarLayout.OnOffsetChangedListener { appBarLayout, verticalOffset ->
-            // if (Math.abs(verticalOffset) - appBarLayout?.totalScrollRange!! == 0) {
-            //frameLayout.translationY = verticalOffset.toFloat()
-//            if (Math.abs(verticalOffset) > 0)
-//                frameLayout.alpha = 10 / Math.abs(verticalOffset).toFloat()
-//            val alp = frameLayout.alpha
-            //Log.d("vertical Alpha>>", "$alp")
             val pram = frameLayout.layoutParams
-
             if (abs(verticalOffset) <= 5) {
                 frameLayout.alpha = 1f
                 //Log.d("vertical Alpha>>", "$alp")
@@ -247,7 +239,8 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                 getRecycleViewAdaptor()?.addList(listToAppend)
             } else {
                 if (it.isEmpty()) {
-                    viewModel.state.isTransEmpty.set(true)
+                    if (0 < viewModel.state.filterCount.get() ?: 0)
+                        viewModel.state.isTransEmpty.set(true)
                 } else {
                     checkUserStatus()
                     getRecycleViewAdaptor()?.setList(it)
@@ -521,8 +514,8 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                     val filters: TransactionFilters? =
                         data?.getParcelableExtra<TransactionFilters?>("txnRequest")
                     if (viewModel.txnFilters != filters) {
-                        getFilterTransactions()
                         setTransactionRequest(filters)
+                        getFilterTransactions()
                     }
                 }
             }
@@ -560,11 +553,11 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
     }
 
     private fun getFilterTransactions() {
-        rvTransaction.adapter =
-            TransactionsHeaderAdapter(mutableListOf(), adaptorlistener)
+        //rvTransaction.adapter =
+        //    TransactionsHeaderAdapter(mutableListOf(), adaptorlistener)
 
-        rvTransactionsBarChart.adapter =
-            GraphBarsAdapter(mutableListOf(), viewModel)
+        //rvTransactionsBarChart.adapter =
+        //    GraphBarsAdapter(mutableListOf(), viewModel)
 
         viewModel.filterTransactions()
     }
