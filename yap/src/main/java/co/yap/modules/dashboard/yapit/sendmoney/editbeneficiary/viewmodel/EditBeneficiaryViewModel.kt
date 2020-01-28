@@ -12,9 +12,9 @@ import co.yap.yapcore.SingleClickEvent
 
 class EditBeneficiaryViewModel(application: Application) :
     SendMoneyBaseViewModel<IEditBeneficiary.State>(application), IEditBeneficiary.ViewModel
-, IRepositoryHolder<CustomersRepository> {
+    , IRepositoryHolder<CustomersRepository> {
     override val repository: CustomersRepository = CustomersRepository
-    override val state: EditBeneficiaryStates=EditBeneficiaryStates(application)
+    override val state: EditBeneficiaryStates = EditBeneficiaryStates(application)
 
     override var clickEvent: SingleClickEvent? = SingleClickEvent()
 
@@ -31,30 +31,13 @@ class EditBeneficiaryViewModel(application: Application) :
                 is RetroApiResponse.Success -> {
                     state.loading = false
                     onUpdateSuccess.value = true
-                   // state.toast = response.data.toString()
+                    // state.toast = response.data.toString()
                 }
 
                 is RetroApiResponse.Error -> {
                     state.loading = false
                     onUpdateSuccess.value = false
                     state.toast = response.error.message
-                }
-            }
-        }
-    }
-
-
-    //Irfan bhai? why
-    override fun getCurrenciesByCountryCode() {
-        launch {
-            when(val response = repository.getCurrenciesByCountryCode("PK"))
-            {
-                is RetroApiResponse.Success->
-                {
-
-                }
-                is RetroApiResponse.Error -> {
-
                 }
             }
         }

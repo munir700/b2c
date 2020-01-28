@@ -6,6 +6,7 @@ import android.content.Intent
 import android.util.Log
 import android.widget.Toast
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
+import co.yap.yapcore.helpers.AppInfo
 import com.liveperson.api.LivePersonCallbackImpl
 import com.liveperson.api.LivePersonIntents
 import com.liveperson.api.response.types.CloseReason
@@ -19,7 +20,7 @@ import com.liveperson.messaging.sdk.api.LivePerson
 import timber.log.Timber
 
 
-open class ChatApplication(flavour: String) : YAPApplication(flavour) {
+open class ChatApplication(appInfo: AppInfo) : YAPApplication(appInfo) {
 
     private val authKey = "17038977"
     private val atg = ChatApplication::class.java.simpleName
