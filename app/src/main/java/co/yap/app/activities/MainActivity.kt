@@ -34,5 +34,8 @@ open class MainActivity : DefaultActivity(), IFragmentHolder, INavigator {
             super.onBackPressed()
         }
     }
+    fun onBackPressedDummy() {
+            super.onBackPressed()
+        }
 
 }
