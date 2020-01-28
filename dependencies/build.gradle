@@ -313,7 +313,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
         debug{
-            minifyEnabled true
+            minifyEnabled false
             debuggable true
             signingConfig signingConfigs.debug
             //shrinkResources true
