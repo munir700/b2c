@@ -211,7 +211,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
         })
 
         viewModel.transactionsLiveData.observe(this, Observer {
-            if (viewModel.isLoadMore.value!!) {
+            if (true == viewModel.isLoadMore.value) {
                 if (getRecycleViewAdaptor()?.itemCount!! == 0) getBindings().appbar.setExpanded(true)
 
                 if (getRecycleViewAdaptor()?.itemCount!! > 0)
@@ -239,8 +239,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                 getRecycleViewAdaptor()?.addList(listToAppend)
             } else {
                 if (it.isEmpty()) {
-                    if (0 < viewModel.state.filterCount.get() ?: 0)
-                        viewModel.state.isTransEmpty.set(true)
+                    viewModel.state.isTransEmpty.set(0 >= viewModel.state.filterCount.get() ?: 0)
                 } else {
                     checkUserStatus()
                     getRecycleViewAdaptor()?.setList(it)
