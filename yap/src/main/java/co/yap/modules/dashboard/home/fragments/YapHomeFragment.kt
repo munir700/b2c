@@ -153,7 +153,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                     startActivity(
                         SetCardPinWelcomeActivity.newIntent(
                             requireContext(),
-                            viewModel.debitCardSerialNumber
+                            MyUserManager.getPrimaryCard()
                         )
                     )
                 }
