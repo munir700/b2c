@@ -453,7 +453,6 @@ class CountryCodePicker : RelativeLayout {
                 return getPhoneUtil().format(phoneNumber, PhoneNumberUtil.PhoneNumberFormat.E164)
                     .substring(1)
             } catch (e: NumberParseException) {
-                Log.e(TAG, "getFullNumber: Could not parse number")
                 return selectedCountryCode
             }
         }
@@ -489,7 +488,6 @@ class CountryCodePicker : RelativeLayout {
                     PhoneNumberUtil.PhoneNumberFormat.INTERNATIONAL
                 ).substring(1)
             } catch (e: NumberParseException) {
-                Log.e(TAG, "getFullNumber: Could not parse number")
                 return selectedCountryCode
             }
         }
@@ -500,7 +498,6 @@ class CountryCodePicker : RelativeLayout {
                 val phoneNumber = enteredPhoneNumber
                 return getPhoneUtil().format(phoneNumber, PhoneNumberUtil.PhoneNumberFormat.E164)
             } catch (e: NumberParseException) {
-                Log.e(TAG, "getFullNumber: Could not parse number")
                 return selectedCountryCode
             }
         }

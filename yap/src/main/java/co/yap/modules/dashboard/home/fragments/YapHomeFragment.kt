@@ -106,17 +106,10 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
         }
 
         appbar.addOnOffsetChangedListener(AppBarLayout.OnOffsetChangedListener { appBarLayout, verticalOffset ->
-            // if (Math.abs(verticalOffset) - appBarLayout?.totalScrollRange!! == 0) {
-            //frameLayout.translationY = verticalOffset.toFloat()
-//            if (Math.abs(verticalOffset) > 0)
-//                frameLayout.alpha = 10 / Math.abs(verticalOffset).toFloat()
-//            val alp = frameLayout.alpha
-            //Log.d("vertical Alpha>>", "$alp")
             val pram = frameLayout.layoutParams
 
             if (abs(verticalOffset) <= 5) {
                 frameLayout.alpha = 1f
-                //Log.d("vertical Alpha>>", "$alp")
                 pram.height = appBarLayout.totalScrollRange
                 frameLayout.layoutParams = pram
             } else {

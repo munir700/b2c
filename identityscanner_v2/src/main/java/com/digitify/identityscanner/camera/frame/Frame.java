@@ -42,7 +42,6 @@ public class Frame {
 
     private void ensureHasContent() {
         if (!hasContent()) {
-            LOG.e("Frame is dead! time:", mTime, "lastTime:", mLastTime);
             throw new RuntimeException("You should not access a released frame. " +
                     "If this frame was passed to a FrameProcessor, you can only use its contents " +
                     "synchronously, for the duration of the process() method.");

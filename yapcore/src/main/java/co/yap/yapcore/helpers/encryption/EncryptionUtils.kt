@@ -18,13 +18,9 @@ object EncryptionUtils {
                 keyStore = KeyStore.getInstance(EncryptionKeyGenerator.ANDROID_KEY_STORE)
                 keyStore!!.load(null)
             } catch (e: KeyStoreException) {
-                Log.e("get", e.printStackTrace().toString())
             } catch (e: CertificateException) {
-                Log.e("get", e.printStackTrace().toString())
             } catch (e: NoSuchAlgorithmException) {
-                Log.e("get", e.printStackTrace().toString())
             } catch (e: IOException) {
-                Log.e("get", e.printStackTrace().toString())
             }
 
             return keyStore
@@ -66,7 +62,6 @@ object EncryptionUtils {
                 keyStore.deleteEntry(EncryptionKeyGenerator.KEY_ALIAS)
             }
         } catch (e: KeyStoreException) {
-            Log.e("get", e.printStackTrace().toString())
         }
 
     }

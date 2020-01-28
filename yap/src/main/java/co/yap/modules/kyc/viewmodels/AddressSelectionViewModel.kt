@@ -404,7 +404,6 @@ class AddressSelectionViewModel(application: Application) :
                     })
             }
         } catch (e: Exception) {
-            Log.e("Exception: %s", "exception")
         }
     }
 

@@ -142,11 +142,7 @@ public class EglBaseSurface {
      * @return false on failure
      */
     public boolean swapBuffers() {
-        boolean result = mEglCore.swapBuffers(mEGLSurface);
-        if (!result) {
-            Log.d(TAG, "WARNING: swapBuffers() failed");
-        }
-        return result;
+        return mEglCore.swapBuffers(mEGLSurface);
     }
 
     /**

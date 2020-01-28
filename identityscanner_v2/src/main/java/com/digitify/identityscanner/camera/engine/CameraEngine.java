@@ -266,7 +266,6 @@ public abstract class CameraEngine implements
         if (!(throwable instanceof CameraException)) {
             // This is unexpected, either a bug or something the developer should know.
             // Release and crash the UI thread so we get bug reports.
-            LOG.e("uncaughtException:", "Unexpected exception:", throwable);
             mCrashHandler.post(new Runnable() {
                 @Override
                 public void run() {
@@ -1080,7 +1079,6 @@ public abstract class CameraEngine implements
         if (result != null) {
             mCallback.dispatchOnPictureTaken(result);
         } else {
-            LOG.e("onPictureResult", "result is null: something went wrong.", error);
             mCallback.dispatchError(new CameraException(error,
                     CameraException.REASON_PICTURE_FAILED));
         }

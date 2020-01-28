@@ -115,7 +115,6 @@ public class Camera1Engine extends CameraEngine implements
         try {
             mCamera.stopPreview();
         } catch (Exception e) {
-            LOG.e("stopPreview", "Could not stop preview", e);
         }
         return Tasks.forResult(null);
     }
@@ -190,7 +189,6 @@ public class Camera1Engine extends CameraEngine implements
                 throw new RuntimeException("Unknown CameraPreview output class.");
             }
         } catch (IOException e) {
-            LOG.e("onStartBind:", "Failed to bind.", e);
             throw new CameraException(e, CameraException.REASON_FAILED_TO_START_PREVIEW);
         }
 
@@ -230,7 +228,6 @@ public class Camera1Engine extends CameraEngine implements
         try {
             mCamera.startPreview();
         } catch (Exception e) {
-            LOG.e("onStartPreview", "Failed to start preview.", e);
             throw new CameraException(e, CameraException.REASON_FAILED_TO_START_PREVIEW);
         }
         LOG.i("onStartPreview", "Started preview.");
@@ -256,7 +253,6 @@ public class Camera1Engine extends CameraEngine implements
                 throw new RuntimeException("Unknown CameraPreview output class.");
             }
         } catch (IOException e) {
-            LOG.e("unbindFromSurface", "Could not release surface", e);
         }
         return Tasks.forResult(null);
     }
@@ -666,7 +662,6 @@ public class Camera1Engine extends CameraEngine implements
                         }
                     });
                 } catch (RuntimeException e) {
-                    LOG.e("startAutoFocus:", "Error calling autoFocus", e);
                     // Let the mFocusEndRunnable do its job. (could remove it and quickly dispatch
                     // onFocusEnd here, but let's make it simpler).
                 }
