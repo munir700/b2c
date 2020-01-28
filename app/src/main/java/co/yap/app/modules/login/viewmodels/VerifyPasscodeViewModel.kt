@@ -62,41 +62,46 @@ class VerifyPasscodeViewModel(application: Application) :
     }
 
     override fun handlePressOnForgotPasscodeButton(id: Int) {
-        var sharedPreferenceManager: SharedPreferenceManager = SharedPreferenceManager(context)
-        var username: String = ""
-        if (!sharedPreferenceManager.getValueBoolien(
+        val username = getUserName()
+        username?.let {
+            launch {
+                state.loading = true
+                when (val response = messagesRepository.createForgotPasscodeOTP(
+                    CreateForgotPasscodeOtpRequest(
+                        verifyUsername(username),
+                        emailOtp
+                    )
+                )) {
+                    is RetroApiResponse.Success -> {
+                        response.data.data?.let {
+                            mobileNumber = it
+                        }
+
+                        state.loading = false
+                        forgotPasscodeButtonPressEvent.setValue(id)
+                    }
+                    is RetroApiResponse.Error -> {
+                        state.toast = response.error.message
+                        state.loading = false
+                    }
+                }
+            }
+        }
+    }
+
+    private fun getUserName(): String? {
+        val sharedPreferenceManager = SharedPreferenceManager(context)
+        if (!SharedPreferenceManager(context).getValueBoolien(
                 SharedPreferenceManager.KEY_IS_USER_LOGGED_IN,
                 false
             )
         ) {
-            username = state.username
+            return state.username
         } else {
-            username = EncryptionUtils.decrypt(
-                context,
-                sharedPreferenceManager.getValueString(SharedPreferenceManager.KEY_USERNAME) as String
-            )!!
-        }
-        launch {
-            state.loading = true
-            when (val response = messagesRepository.createForgotPasscodeOTP(
-                CreateForgotPasscodeOtpRequest(
-                    verifyUsername(username),
-                    emailOtp
-                )
-            )) {
-                is RetroApiResponse.Success -> {
-                    response.data.data?.let {
-                        mobileNumber = it
-                    }
-
-                    state.loading = false
-                    forgotPasscodeButtonPressEvent.setValue(id)
-                }
-                is RetroApiResponse.Error -> {
-                    state.toast = response.error.message
-                    state.loading = false
-                }
-            }
+            sharedPreferenceManager.getValueString(SharedPreferenceManager.KEY_USERNAME)?.let {
+                return EncryptionUtils.decrypt(context, it)?.let { user_name -> return user_name }
+                    ?: return null
+            } ?: return null
         }
     }
 
