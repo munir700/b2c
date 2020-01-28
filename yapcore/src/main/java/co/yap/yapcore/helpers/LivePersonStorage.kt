@@ -3,6 +3,7 @@ package co.yap.yapcore.helpers
 import android.content.Context
 import android.content.SharedPreferences
 import android.preference.PreferenceManager
+import androidx.annotation.Keep
 
 
 class LivePersonStorage private constructor(context: Context) {
@@ -74,7 +75,7 @@ class LivePersonStorage private constructor(context: Context) {
     var pageId: String?
         get() = mDefaultSharedPreferences.getString(PAGE_ID, "")
         set(pageId) = mDefaultSharedPreferences.edit().putString(PAGE_ID, pageId).apply()
-
+    @Keep
     enum class SDKMode {
         ACTIVITY, FRAGMENT
     }

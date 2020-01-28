@@ -222,9 +222,8 @@ class ProfileSettingsViewModel(application: Application) :
 
                 is RetroApiResponse.Success -> {
                     data = response.data
-
-                    if (!data.data.dateExpiry.isNullOrEmpty()) {
-                        getExpiryDate(data.data.dateExpiry!!)
+                    data.data.dateExpiry?.let {
+                        getExpiryDate(it)
                     }
                 }
 

@@ -22,3 +22,7 @@
 
 #-keep class co.yap.modules.onboarding.enums.AccountType.** { *; }
 #-keep class co.yap.networking.** { *; }
+
+#If your project is obfuscated with DexGuard you may need to add the following line to the DexGuard configuration:
+#
+#-keepresourcefiles assets/io/michaelrocks/libphonenumber/android/**

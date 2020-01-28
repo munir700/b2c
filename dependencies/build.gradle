@@ -40,7 +40,6 @@ project.ext {
             viewpagerDots            : 'com.tbuonomo.andrui:viewpagerdotsindicator:3.0.3',
             otpView                  : 'com.github.aabhasr1:OtpView:v1.1.2',
             numberFomater            : 'io.michaelrocks:libphonenumber-android:8.10.13',
-            numberFomaterGoogle      : 'com.googlecode.libphonenumber:libphonenumber:v8.10.21',
             recyclerfastscroll       : 'com.futuremind.recyclerfastscroll:fastscroll:0.2.5',
             gson                     : 'com.google.code.gson:gson:2.8.5',
             discretescrollview       : "com.yarolegovich:discrete-scrollview:1.4.9",
@@ -131,8 +130,7 @@ project.ext {
             // RX Java
             rxAndroid                : 'io.reactivex.rxjava2:rxandroid:2.1.1',
             rxJava                   : 'io.reactivex.rxjava2:rxjava:2.1.5',
-            swipeViewActions         : 'com.nikhilpanju.recyclerviewenhanced:recyclerviewenhanced:1.1.0',
-            inline_activity_result   : 'com.github.florent37:inline-activity-result-kotlin:1.0.2',
+            inline_activity_result   : 'com.github.florent37:inline-activity-result-kotlin:1.0.3',
 
             //compression
             compression              : 'id.zelory:compressor:2.1.0'
@@ -293,14 +291,31 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
     }
-
+    signingConfigs {
+        release {
+            storeFile file("${android_releasekey_storefile}")
+            keyAlias "${android_releasekey_keyAlias}"
+            keyPassword "${android_releasekey_keyPassword}"
+            storePassword "${android_releasekey_storePassword}"
+        }
+        debug {
+            storeFile file("${android_debugkey_storefile}")
+            keyAlias "${android_debugkey_keyAlias}"
+            keyPassword "${android_debugkey_keyPassword}"
+            storePassword "${android_debugkey_storePassword}"
+        }
+    }
     buildTypes {
         release {
-            minifyEnabled false
+            signingConfig signingConfigs.release
+            minifyEnabled true
+            debuggable true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
         debug{
             minifyEnabled true
+            debuggable true
+            signingConfig signingConfigs.debug
             //shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
@@ -314,6 +329,7 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+
 }
 
 kapt {

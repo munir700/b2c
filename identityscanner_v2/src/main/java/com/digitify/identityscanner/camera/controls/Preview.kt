@@ -1,6 +1,7 @@
 package com.digitify.identityscanner.camera.controls
 
 
+import androidx.annotation.Keep
 import com.digitify.identityscanner.camera.CameraView
 
 /**
@@ -8,6 +9,7 @@ import com.digitify.identityscanner.camera.CameraView
  *
  * @see CameraView.setPreview
  */
+@Keep
 enum class Preview(private val value: Int) : Control {
 
     /**

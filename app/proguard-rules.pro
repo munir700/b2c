@@ -20,4 +20,4 @@
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
 #-keep class co.yap.modules.onboarding.enums.AccountType.** { *; }
-#-keep class co.yap.networking.** { *; }
+-keep class co.yap.networking.** { *; }

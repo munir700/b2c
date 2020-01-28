@@ -11,6 +11,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
+import androidx.annotation.Keep
 import androidx.annotation.LayoutRes
 import androidx.annotation.Nullable
 import co.yap.yapcore.R
@@ -21,7 +22,7 @@ class MultiStateView
     attrs: AttributeSet? = null,
     defStyle: Int = 0
 ) : FrameLayout(context, attrs, defStyle) {
-
+    @Keep
     enum class ViewState {
         CONTENT,
         LOADING,

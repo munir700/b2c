@@ -1,5 +1,8 @@
 package co.yap.yapcore.enums
 
+import androidx.annotation.Keep
+
+@Keep
 enum class PartnerBankStatus(val status: String) {
     SIGN_UP_PENDING("SIGN_UP_PENDING"),
     DOCUMENT_UPLOADED("DOCUMENT_UPLOADED"),

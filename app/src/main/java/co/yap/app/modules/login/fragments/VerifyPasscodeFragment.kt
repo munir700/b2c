@@ -5,6 +5,7 @@ import android.content.Intent
 import android.hardware.fingerprint.FingerprintManager
 import android.os.Bundle
 import android.view.View
+import androidx.annotation.Keep
 import androidx.databinding.library.baseAdapters.BR.accountType
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
@@ -381,7 +382,7 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
     override fun onAuthenticationError(errorCode: Int, errString: CharSequence) {
     }
 }
-
+@Keep
 enum class VerifyPassCodeEnum {
     VERIFY,
     ACCESS_ACCOUNT
