@@ -246,7 +246,7 @@
     <path
         android:pathData="M177.729,29.37l0,155.683l-97.657,0l0,-155.683z"
         android:strokeWidth="1"
-        android:fillColor="#5E35B1"
+        android:fillColor="?attr/colorPrimaryAttr"
         android:fillType="evenOdd"
         android:strokeColor="#00000000"/>
   </group>

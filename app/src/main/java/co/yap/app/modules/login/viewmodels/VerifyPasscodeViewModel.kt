@@ -1,12 +1,14 @@
 package co.yap.app.modules.login.viewmodels
 
 import android.app.Application
+import androidx.lifecycle.MutableLiveData
 import co.yap.app.constants.Constants
 import co.yap.app.login.EncryptionUtils
 import co.yap.app.modules.login.interfaces.IVerifyPasscode
 import co.yap.app.modules.login.states.VerifyPasscodeState
 import co.yap.networking.authentication.AuthRepository
 import co.yap.networking.customers.CustomersRepository
+import co.yap.networking.customers.responsedtos.AccountInfo
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.messages.MessagesRepository
 import co.yap.networking.messages.requestdtos.CreateForgotPasscodeOtpRequest
@@ -16,6 +18,9 @@ import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.SingleLiveEvent
 import co.yap.yapcore.helpers.SharedPreferenceManager
+import co.yap.yapcore.helpers.extentions.trackEventWithAttributes
+import co.yap.yapcore.leanplum.UserAttributes
+import co.yap.yapcore.managers.MyUserManager
 import java.util.regex.Pattern
 
 class VerifyPasscodeViewModel(application: Application) :
@@ -36,6 +41,7 @@ class VerifyPasscodeViewModel(application: Application) :
     override var EVENT_LOGOUT_SUCCESS: Int = 101
 
 
+    override val accountInfo: MutableLiveData<AccountInfo> = MutableLiveData()
     private val messagesRepository: MessagesRepository = MessagesRepository
 
     override fun login() {
@@ -147,6 +153,24 @@ class VerifyPasscodeViewModel(application: Application) :
         }
     }
 
+    override fun getAccountInfo() {
+        launch {
+            state.loading = true
+            when (val response = customersRepository.getAccountInfo()) {
+                is RetroApiResponse.Success -> {
+                    if (!response.data.data.isNullOrEmpty()) {
+                        //MyUserManager.user = response.data.data[0]
+                        MyUserManager.user = response.data.data[0]
+                        accountInfo.postValue(response.data.data[0])
+                        //MyUserManager.user?.setLiveData() // DOnt remove this line
+                        setUserAttributes()
+                    }
+                }
+                is RetroApiResponse.Error -> state.toast = response.error.message
+            }
+            state.loading = false
+        }
+    }
 
     override fun createOtp() {
         launch {
@@ -175,7 +199,7 @@ class VerifyPasscodeViewModel(application: Application) :
             SharedPreferenceManager(context).getValueString(SharedPreferenceManager.KEY_APP_UUID)
         launch {
             state.loading = true
-             when (val response = repository.logout(deviceId.toString())) {
+            when (val response = repository.logout(deviceId.toString())) {
                 is RetroApiResponse.Success -> {
                     state.loading = false
                     forgotPasscodeButtonPressEvent.setValue(EVENT_LOGOUT_SUCCESS)
@@ -185,6 +209,24 @@ class VerifyPasscodeViewModel(application: Application) :
                     forgotPasscodeButtonPressEvent.setValue(EVENT_LOGOUT_SUCCESS)
                 }
             }
+        }
+    }
+
+    private fun setUserAttributes() {
+        MyUserManager.user?.let {
+            val info: HashMap<String, Any> = HashMap()
+            info[UserAttributes().accountType] = it.accountType ?: ""
+            info[UserAttributes().email] = it.currentCustomer.email ?: ""
+            info[UserAttributes().nationality] = it.currentCustomer.nationality ?: ""
+            info[UserAttributes().firstName] = it.currentCustomer.firstName ?: ""
+            info[UserAttributes().lastName] = it.currentCustomer.lastName
+            info[UserAttributes().documentsVerified] = it.documentsVerified ?: false
+            info[UserAttributes().mainUser] = it.accountType == "B2C_ACCOUNT"
+            info[UserAttributes().householdUser] = it.accountType == "B2C_HOUSEHOLD"
+            info[UserAttributes().youngUser] = false
+            info[UserAttributes().b2bUser] = false
+
+            it.uuid?.let { trackEventWithAttributes(it, info) }
         }
     }
 

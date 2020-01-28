@@ -55,7 +55,7 @@
                     android:background="@drawable/bg_round_purple"
                     android:contentDescription="@string/empty_string"
                     android:padding="@dimen/_10sdp"
-                    android:tint="@color/colorPrimary"
+                    android:tint="?attr/colorPrimaryAttr"
                     app:srcCompat="@drawable/ic_support" />
 
                 <TextView
@@ -105,7 +105,7 @@
                     android:background="@drawable/bg_round_purple"
                     android:contentDescription="@string/empty_string"
                     android:padding="@dimen/_10sdp"
-                    android:tint="@color/colorPrimary"
+                    android:tint="?attr/colorPrimaryAttr"
                     app:srcCompat="@drawable/ic_chat" />
 
                 <TextView
@@ -155,7 +155,7 @@
                     android:background="@drawable/bg_round_purple"
                     android:contentDescription="@string/empty_string"
                     android:padding="@dimen/_10sdp"
-                    android:tint="@color/colorPrimary"
+                    android:tint="?attr/colorPrimaryAttr"
                     app:srcCompat="@drawable/ic_whatsapp" />
 
                 <TextView
@@ -205,7 +205,7 @@
                     android:background="@drawable/bg_round_purple"
                     android:contentDescription="@string/empty_string"
                     android:padding="@dimen/_10sdp"
-                    android:tint="@color/colorPrimary"
+                    android:tint="?attr/colorPrimaryAttr"
                     app:srcCompat="@drawable/ic_phone_vector" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
@@ -263,7 +263,7 @@
                     android:gravity="center|end"
                     android:lineSpacingExtra="8sp"
                     android:lines="1"
-                    android:textColor="@color/colorPrimaryDark"
+                    android:textColor="?attr/colorPrimaryDarkAttr"
                     android:textSize="@dimen/text_size_h2"
                     app:underline_text="@{viewModel.state.contactPhone}"
                     tools:text="+971 600 55 1214" />

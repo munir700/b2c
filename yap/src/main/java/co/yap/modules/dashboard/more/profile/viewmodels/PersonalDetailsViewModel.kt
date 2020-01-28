@@ -58,6 +58,10 @@ class PersonalDetailsViewModel(application: Application) :
         state.fullName = MyUserManager.user!!.currentCustomer.getFullName()
         state.phoneNumber = MyUserManager.user!!.currentCustomer.getFormattedPhoneNumber(context)
         state.email = MyUserManager.user?.currentCustomer?.email?:""
+        state.fullName = MyUserManager.user?.currentCustomer?.getFullName() ?: ""
+        state.phoneNumber =
+            MyUserManager.user?.currentCustomer?.getFormattedPhoneNumber(context) ?: ""
+        state.email = MyUserManager.user?.currentCustomer?.email ?: ""
         if (MyUserManager.userAddress == null) {
             requestGetAddressForPhysicalCard()
         } else {

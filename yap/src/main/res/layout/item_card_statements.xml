@@ -48,7 +48,7 @@
             android:layout_gravity="center_vertical"
             android:layout_marginEnd="@dimen/_7sdp"
             android:padding="@dimen/_10sdp"
-            android:textColor="@color/colorPrimary"
+            android:textColor="?attr/colorPrimaryAttr"
             app:text="@{Strings.screen_card_statement_display_text_view}"
             tools:text="@string/screen_card_statement_display_text_view" />
 

@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
     <LinearLayout
@@ -11,36 +10,34 @@
             android:id="@+id/rlTopMain"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            >
+            android:orientation="vertical">
+
 
             <EditText
-                android:tag="input"
                 android:layout_width="match_parent"
                 android:layout_height="52dp"
-                android:background="@drawable/bg_round_edit_text"
-                tools:autofillHints="First name"
-                tools:hint="First name"
+                android:drawablePadding="@dimen/margin_small"
+                android:focusableInTouchMode="true"
                 android:imeOptions="actionDone"
                 android:inputType="textEmailAddress"
                 android:paddingStart="20dp"
-                android:drawablePadding="@dimen/margin_small"
-                android:textColor="@color/colorPrimaryDark"
                 android:paddingEnd="20dp"
+                android:tag="input"
+                android:textColor="?attr/colorPrimaryDarkAttr"
                 android:textIsSelectable="true"
-                android:focusableInTouchMode="true"
                 android:textSize="@dimen/_15sdp"
-                />
+                tools:autofillHints="First name"
+                tools:hint="First name" />
 
             <TextView
                 android:id="@+id/tvError"
+                style="@style/AMicroGrey"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                style="@style/AMicroGrey"
-                android:textSize="12sp"
-                android:visibility="gone"
+                android:layout_marginTop="@dimen/margin_small"
                 android:paddingStart="@dimen/margin_extra_small"
-                android:layout_marginTop="@dimen/margin_small"/>
+                android:textSize="12sp"
+                android:visibility="gone" />
 
 
         </LinearLayout>

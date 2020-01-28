@@ -1,5 +1,6 @@
 package co.yap.countryutils.country
 
+import android.content.Context
 import android.os.Parcelable
 import co.yap.countryutils.country.utils.Currency
 import co.yap.countryutils.country.utils.CurrencyUtils
@@ -20,10 +21,6 @@ class Country(
     private var flagDrawableResId: Int = -1,
     private var currency: Currency? = null
 ) : Parcelable {
-
-
-    val isFlagAvailable: Boolean
-        get() = getFlagDrawableResId() > 0
 
     var isCashPickUpAllowed: Boolean?
         get() {
@@ -84,10 +81,10 @@ class Country(
         return equals || super.equals(obj)
     }
 
-    fun getFlagDrawableResId(): Int {
+    fun getFlagDrawableResId(context: Context): Int {
         if (flagDrawableResId <= 0) {
             if (!isoCountryCode2Digit.isNullOrEmpty())
-                flagDrawableResId = CurrencyUtils.getFlagDrawable(isoCountryCode2Digit!!)
+                flagDrawableResId = CurrencyUtils.getFlagDrawable(context, isoCountryCode2Digit!!)
         }
         return flagDrawableResId
     }

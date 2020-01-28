@@ -4,30 +4,47 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.icu.util.TimeZone
 import android.os.Build
+import android.os.Parcelable
 import android.telephony.TelephonyManager
+import com.google.gson.annotations.SerializedName
 import com.google.i18n.phonenumbers.PhoneNumberUtil
+import kotlinx.android.parcel.Parcelize
 import java.util.*
 
-
+@Parcelize
 class Customer(
 
-    var status: String,
+    @SerializedName("status")
+    var status: String? = null,
+    @SerializedName("profilePictureName")
     private var profilePictureName: String?,
-    var email: String,
+    @SerializedName("email")
+    var email: String? = "",
+    @SerializedName("countryCode")
     var countryCode: String,
+    @SerializedName("mobileNo")
     var mobileNo: String,
-    var customerId: String,
-    var isMobileNoVerified: String,
-    var isEmailVerified: String,
-    var firstName: String,
+    @SerializedName("customerId")
+    var customerId: String? = null,
+    @SerializedName("isMobileNoVerified")
+    var isMobileNoVerified: String? = null,
+    @SerializedName("isEmailVerified")
+    var isEmailVerified: String? = null,
+    @SerializedName("firstName")
+    var firstName: String? = "",
+    @SerializedName("lastName")
     var lastName: String,
-    var uuid: String,
+    @SerializedName("uuid")
+    var uuid: String? = "",
+    @SerializedName("password")
     var password: String?,
-
-    var emailVerified: Boolean,
-    var mobileNoVerified: Boolean
-
-) {
+    @SerializedName("nationality")
+    var nationality: String?,
+    @SerializedName("emailVerified")
+    var emailVerified: Boolean? = false,
+    @SerializedName("mobileNoVerified")
+    var mobileNoVerified: Boolean? = false
+) : Parcelable {
 
     fun getFullName(): String {
         return "$firstName $lastName"

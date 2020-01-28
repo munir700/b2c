@@ -12,9 +12,11 @@ import co.yap.modules.onboarding.constants.Constants
 import co.yap.modules.onboarding.interfaces.IPhoneVerification
 import co.yap.modules.onboarding.viewmodels.PhoneVerificationViewModel
 import co.yap.yapcore.helpers.SharedPreferenceManager
+import co.yap.yapcore.helpers.extentions.trackEvent
+import co.yap.yapcore.leanplum.TrackEvents
 
 
-open class PhoneVerificationFragment : OnboardingChildFragment<IPhoneVerification.ViewModel>(), IPhoneVerification.View {
+class PhoneVerificationFragment : OnboardingChildFragment<IPhoneVerification.ViewModel>(), IPhoneVerification.View {
 
     override fun getBindingVariable(): Int = BR.viewModel
 
@@ -46,6 +48,7 @@ open class PhoneVerificationFragment : OnboardingChildFragment<IPhoneVerificatio
 
         if (requestCode == Constants.REQUEST_CODE_CREATE_PASSCODE) {
             if (null != data) {
+                trackEvent(TrackEvents.OTP_CODE_ENTERED)
                 viewModel.setPasscode(data.getStringExtra(SharedPreferenceManager.KEY_PASSCODE))
                 findNavController().navigate(R.id.action_phoneVerificationFragment_to_nameFragment)
 

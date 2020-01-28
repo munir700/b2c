@@ -31,8 +31,8 @@ class EmailFragment : OnboardingChildFragment<IEmail.ViewModel>() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        val display = activity!!.windowManager.defaultDisplay
-        display.getRectSize(windowSize)
+        val display = activity?.windowManager?.defaultDisplay
+        display?.getRectSize(windowSize)
 
         viewModel.nextButtonPressEvent.observe(this, nextButtonObserver)
         viewModel.animationStartEvent.observe(this, Observer { startAnimation() })

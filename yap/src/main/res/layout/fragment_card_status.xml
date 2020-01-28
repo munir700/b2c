@@ -46,7 +46,7 @@
             android:background="@drawable/round_light_gery_background"
             android:gravity="center"
             android:text="@{viewModel.state.cardType}"
-            android:textColor="@color/colorPrimary"
+            android:textColor="?attr/colorPrimaryAttr"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/imgCard"

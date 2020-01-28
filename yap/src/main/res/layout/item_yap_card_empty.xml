@@ -62,7 +62,7 @@
             android:elevation="2dp"
             android:gravity="center"
             android:onClick="@{(v) -> viewModel.handlePressOnView(v)}"
-            android:textColor="@color/colorPrimaryDark"
+            android:textColor="?attr/colorPrimaryDarkAttr"
             app:layout_constraintEnd_toEndOf="@+id/lycard"
             app:layout_constraintStart_toStartOf="@+id/lycard"
             app:layout_constraintTop_toBottomOf="@+id/imgAddCard"

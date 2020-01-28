@@ -9,15 +9,16 @@
 
         <ImageView
             android:id="@+id/imgStoreShopping"
-            android:layout_width="@dimen/_22sdp"
-            android:layout_height="@dimen/_22sdp"
-            android:layout_margin="@dimen/margin_small"
+            android:layout_width="@dimen/_36sdp"
+            android:layout_height="@dimen/_36sdp"
+            android:layout_marginTop="@dimen/margin_extra_small"
+            android:layout_marginEnd="@dimen/margin_small"
             android:contentDescription="@string/empty_string"
             android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
-            android:tint="@color/colorPrimaryDark"
+            android:tint="?attr/colorPrimaryDarkAttr"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_shopping" />
+            app:srcCompat="@drawable/ic_shopping_store" />
 
         <RelativeLayout
             android:id="@+id/list_section"
@@ -66,7 +67,6 @@
             android:layout_marginStart="@dimen/margin_small"
             android:layout_marginEnd="@dimen/margin_small"
             android:gravity="center"
-            android:lineSpacingExtra="0dp"
             android:textAlignment="center"
             app:layout_constraintBottom_toBottomOf="@+id/imgStoreShopping"
             app:layout_constraintEnd_toEndOf="parent"

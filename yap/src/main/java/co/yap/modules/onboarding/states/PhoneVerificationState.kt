@@ -7,18 +7,20 @@ import co.yap.BR
 import co.yap.R
 import co.yap.modules.onboarding.interfaces.IPhoneVerification
 import co.yap.yapcore.BaseState
+import co.yap.yapcore.helpers.ThemeColorUtils
 
-open class PhoneVerificationState(application: Application) : BaseState(), IPhoneVerification.State {
+open class PhoneVerificationState(application: Application) : BaseState(),
+    IPhoneVerification.State {
     @get:Bindable
-    override var verificationTitle: String="I am your title"
+    override var verificationTitle: String = "I am your title"
         set(value) {
-            field=value
+            field = value
             notifyPropertyChanged(BR.verificationTitle)
         }
     @get:Bindable
-    override var verificationDescription: String=""
+    override var verificationDescription: String = ""
         set(value) {
-            field=value
+            field = value
             notifyPropertyChanged(BR.verificationDescription)
         }
 
@@ -92,7 +94,7 @@ open class PhoneVerificationState(application: Application) : BaseState(), IPhon
 
             override fun onFinish() {
                 validResend = true
-                color = mContext.resources.getColor(R.color.colorPrimary)
+                color = ThemeColorUtils.colorPrimaryAttribute(mContext)
                 timer = "00:00"
             }
         }.start()

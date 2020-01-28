@@ -7,7 +7,6 @@ import com.digitify.identityscanner.docscanner.models.IdentityScannerResult
 interface IEidInfoReview {
 
     interface State : IBase.State {
-        var titleName: Array<String?>
         var fullName: String
         var nationality: String
         var dateOfBirth: String
@@ -47,6 +46,8 @@ interface IEidInfoReview {
             get() = 7
         val EVENT_ERROR_INVALID_EID: Int
             get() = 8
+        val EVENT_ALREADY_USED_EID: Int
+            get() = 1041
 
         val clickEvent: SingleClickEvent
         fun handlePressOnRescanBtn()
@@ -54,5 +55,7 @@ interface IEidInfoReview {
         fun handleUserRejection(reason: Int)
         fun handleUserAcceptance(reason: Int)
         fun onEIDScanningComplete(result: IdentityScannerResult)
+        var sanctionedCountry:String
+        var sanctionedNationality:String
     }
 }

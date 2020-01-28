@@ -1,60 +1,50 @@
 package co.yap.modules.dashboard.store.viewmodels
 
 import android.app.Application
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.Transformations
-import androidx.paging.LivePagedListBuilder
-import androidx.paging.PagedList
+import androidx.lifecycle.MutableLiveData
+import co.yap.R
 import co.yap.modules.dashboard.store.interfaces.IYapStore
-import co.yap.modules.dashboard.store.paging.StoreDataSource
-import co.yap.modules.dashboard.store.paging.StoreDataSourceFactory
 import co.yap.modules.dashboard.store.states.YapStoreState
-import co.yap.networking.interfaces.IRepositoryHolder
-import co.yap.networking.store.StoresRepository
 import co.yap.networking.store.responsedtos.Store
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
-import co.yap.yapcore.helpers.PagingState
+import kotlinx.coroutines.delay
 
 class YapStoreViewModel(application: Application) : BaseViewModel<IYapStore.State>(application),
-    IYapStore.ViewModel,
-    IRepositoryHolder<StoresRepository> {
+    IYapStore.ViewModel {
 
     override val clickEvent: SingleClickEvent = SingleClickEvent()
     override val state: YapStoreState = YapStoreState()
-    override val repository: StoresRepository = StoresRepository
-    override lateinit var storesLiveData: LiveData<PagedList<Store>>
-    private val storeSourceFactory: StoreDataSourceFactory
-
-    init {
-        storeSourceFactory = StoreDataSourceFactory(repository)
-        storesLiveData = LivePagedListBuilder(
-            storeSourceFactory,
-            getPagingConfigs()
-        ).build()
-    }
+    override val storesLiveData: MutableLiveData<MutableList<Store>> = MutableLiveData()
 
     override fun handlePressOnView(id: Int) {
         clickEvent.setValue(id)
     }
 
-    override fun getState(): LiveData<PagingState> = Transformations.switchMap<StoreDataSource,
-            PagingState>(storeSourceFactory.storeDataSourceLiveData, StoreDataSource::state)
-
-    override fun listIsEmpty(): Boolean {
-        return storesLiveData.value?.isEmpty() ?: true
-    }
-
-    override fun retry() {
-        storeSourceFactory.storeDataSourceLiveData.value?.retry()
-    }
-
-    private fun getPagingConfigs(): PagedList.Config {
-        return PagedList.Config.Builder()
-            .setPageSize(20)
-            .setPrefetchDistance(10)
-            .setInitialLoadSizeHint(30 * 2)
-            .setEnablePlaceholders(false)
-            .build()
+    override fun getStoreList() {
+        // need api in future
+        val list = mutableListOf<Store>()
+        state.loading = true
+        launch {
+            delay(1000)
+            list.add(
+                Store(
+                    1,
+                    "YAP Young",
+                    "Open a bank account for your children and help empower them financially.",
+                    R.drawable.ic_store_young, R.drawable.ic_young_smile
+                )
+            )
+            list.add(
+                Store(
+                    2,
+                    "YAP Household",
+                    "Manage your household salaries digitally.",
+                    R.drawable.ic_store_household, R.drawable.ic_young_household
+                )
+            )
+            storesLiveData.value = list
+            state.loading = false
+        }
     }
 }
