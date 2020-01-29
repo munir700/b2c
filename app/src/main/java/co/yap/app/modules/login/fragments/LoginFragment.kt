@@ -1,6 +1,5 @@
 package co.yap.app.modules.login.fragments
 
-import android.content.Context
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
@@ -13,7 +12,7 @@ import co.yap.app.modules.login.interfaces.ILogin
 import co.yap.app.modules.login.viewmodels.LoginViewModel
 import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.helpers.SharedPreferenceManager
-import co.yap.yapcore.helpers.extentions.trackEvent
+import kotlinx.android.synthetic.main.fragment_log_in.*
 
 class LoginFragment : BaseBindingFragment<ILogin.ViewModel>(), ILogin.View {
 
@@ -42,12 +41,18 @@ class LoginFragment : BaseBindingFragment<ILogin.ViewModel>(), ILogin.View {
         super.onViewCreated(view, savedInstanceState)
         viewModel.signInButtonPressEvent.observe(this, signInButtonObserver)
         viewModel.signUpButtonPressEvent.observe(this, signUpButtonObserver)
+        viewModel.state.emailError.observe(this, Observer {
+            if (!it.isNullOrBlank()) {
+                etEmailField.settingErrorColor(R.color.error)
+            }
+        })
 
     }
 
     override fun onDestroyView() {
         viewModel.signInButtonPressEvent.removeObservers(this)
         viewModel.signUpButtonPressEvent.removeObservers(this)
+        viewModel.state.emailError.removeObservers(this)
         super.onDestroyView()
     }
 

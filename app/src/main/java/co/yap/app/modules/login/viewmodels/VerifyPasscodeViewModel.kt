@@ -98,10 +98,7 @@ class VerifyPasscodeViewModel(application: Application) :
         ) {
             return state.username
         } else {
-            sharedPreferenceManager.getValueString(SharedPreferenceManager.KEY_USERNAME)?.let {
-                return EncryptionUtils.decrypt(context, it)?.let { user_name -> return user_name }
-                    ?: return null
-            } ?: return null
+            return sharedPreferenceManager.getUserName()
         }
     }
 
