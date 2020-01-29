@@ -39,7 +39,7 @@ open class CurrentPasscodeFragment : ChangeCardPinFragment() {
                     val action =
                         CurrentPasscodeFragmentDirections.actionCurrentPasscodeFragmentToForgotPasscodeNavigation(
                             it,
-                            Utils.isUsernameNumeric(it),
+                            !Utils.isUsernameNumeric(it),
                             viewModel.mobileNumber,
                             Constants.FORGOT_PASSCODE_FROM_CHANGE_PASSCODE
                         )

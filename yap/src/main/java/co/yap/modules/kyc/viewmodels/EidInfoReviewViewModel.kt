@@ -52,7 +52,6 @@ class EidInfoReviewViewModel(application: Application) :
     }
 
     override fun handlePressOnConfirmBtn() {
-        sectionedCountries?.data?.get(1)?.isoCountryCode2Digit ="in"
         parentViewModel?.identity?.identity?.let {
             when {
                 TextUtils.isEmpty(it.givenName) || TextUtils.isEmpty(it.nationality) ->

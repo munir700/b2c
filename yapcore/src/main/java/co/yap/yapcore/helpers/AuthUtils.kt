@@ -4,13 +4,11 @@ import android.content.Context
 import android.content.Intent
 
 object AuthUtils {
-    var isFromVerifyPassCode = false
 
-    fun navigateToHardLogin(context: Context) {
-        if (!isFromVerifyPassCode) {
+    fun navigateToHardLogin(context: Context, isOnPassCode: Boolean = false) {
+
+        if (!isOnPassCode)
             navigateToSoftLogin(context)
-        }
-
         val sharedPreferenceManager = SharedPreferenceManager(context)
         val isFirstTimeUser: Boolean =
             sharedPreferenceManager.getValueBoolien(
@@ -35,11 +33,6 @@ object AuthUtils {
             SharedPreferenceManager.KEY_IS_FIRST_TIME_USER,
             isFirstTimeUser
         )
-    }
-
-    fun navigateToHardLoginFromVerifyPassCode(context: Context) {
-        isFromVerifyPassCode = true
-        navigateToHardLogin(context)
     }
 
     fun navigateToSoftLogin(context: Context) {

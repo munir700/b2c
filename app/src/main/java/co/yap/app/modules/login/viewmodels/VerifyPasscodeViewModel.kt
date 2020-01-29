@@ -3,7 +3,6 @@ package co.yap.app.modules.login.viewmodels
 import android.app.Application
 import androidx.lifecycle.MutableLiveData
 import co.yap.app.constants.Constants
-import co.yap.app.login.EncryptionUtils
 import co.yap.app.modules.login.interfaces.IVerifyPasscode
 import co.yap.app.modules.login.states.VerifyPasscodeState
 import co.yap.networking.authentication.AuthRepository
@@ -19,10 +18,10 @@ import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.SingleLiveEvent
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.helpers.extentions.toast
 import co.yap.yapcore.helpers.extentions.trackEventWithAttributes
 import co.yap.yapcore.leanplum.UserAttributes
 import co.yap.yapcore.managers.MyUserManager
-import java.util.regex.Pattern
 
 class VerifyPasscodeViewModel(application: Application) :
     BaseViewModel<IVerifyPasscode.State>(application),
@@ -68,7 +67,7 @@ class VerifyPasscodeViewModel(application: Application) :
                 when (val response = messagesRepository.createForgotPasscodeOTP(
                     CreateForgotPasscodeOtpRequest(
                         Utils.verifyUsername(username),
-                        Utils.isUsernameNumeric(username)
+                        !Utils.isUsernameNumeric(username)
                     )
                 )) {
                     is RetroApiResponse.Success -> {
@@ -85,7 +84,7 @@ class VerifyPasscodeViewModel(application: Application) :
                     }
                 }
             }
-        }
+        } ?: toast(context, "Invalid user name")
     }
 
     private fun getUserName(): String? {
@@ -156,25 +155,6 @@ class VerifyPasscodeViewModel(application: Application) :
 
     override fun handlePressOnSignInButton() {
         signInButtonPressEvent.postValue(true)
-    }
-
-
-    override fun logout() {
-        val deviceId: String? =
-            SharedPreferenceManager(context).getValueString(SharedPreferenceManager.KEY_APP_UUID)
-        launch {
-            state.loading = true
-            when (val response = repository.logout(deviceId.toString())) {
-                is RetroApiResponse.Success -> {
-                    state.loading = false
-                    forgotPasscodeButtonPressEvent.setValue(EVENT_LOGOUT_SUCCESS)
-                }
-                is RetroApiResponse.Error -> {
-                    state.loading = false
-                    forgotPasscodeButtonPressEvent.setValue(EVENT_LOGOUT_SUCCESS)
-                }
-            }
-        }
     }
 
     private fun setUserAttributes() {

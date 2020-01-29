@@ -20,7 +20,6 @@ interface IVerifyPasscode {
         fun createOtp()
         fun validateDevice()
         fun getAccountInfo()
-        fun logout()
         val signInButtonPressEvent: SingleLiveEvent<Boolean>
         val forgotPasscodeButtonPressEvent: SingleClickEvent
         val loginSuccess: SingleLiveEvent<Boolean>

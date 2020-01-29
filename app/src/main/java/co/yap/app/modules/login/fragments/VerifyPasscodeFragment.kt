@@ -6,28 +6,22 @@ import android.hardware.fingerprint.FingerprintManager
 import android.os.Bundle
 import android.view.View
 import androidx.annotation.Keep
-import androidx.databinding.library.baseAdapters.BR.accountType
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import co.yap.BR
 import co.yap.app.R
-import co.yap.app.YAPApplication
 import co.yap.app.activities.MainActivity
 import co.yap.app.constants.Constants
 import co.yap.app.login.EncryptionUtils
 import co.yap.app.modules.login.interfaces.IVerifyPasscode
 import co.yap.app.modules.login.viewmodels.VerifyPasscodeViewModel
 import co.yap.household.onboarding.OnboardingHouseHoldActivity
-import co.yap.modules.dashboard.more.main.activities.MoreActivity
 import co.yap.modules.onboarding.enums.AccountType
 import co.yap.modules.others.helper.Constants.REQUEST_CODE
-import co.yap.networking.cards.responsedtos.CardBalance
 import co.yap.networking.customers.responsedtos.AccountInfo
 import co.yap.widgets.NumberKeyboardListener
 import co.yap.yapcore.BaseBindingFragment
-import co.yap.yapcore.helpers.AuthUtils
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.biometric.BiometricCallback
@@ -125,7 +119,7 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
             if ((VerifyPassCodeEnum.valueOf(viewModel.state.verifyPassCodeEnum) == VerifyPassCodeEnum.VERIFY)) {
                 activity?.onBackPressed()
             } else {
-                viewModel.logout()
+                doLogout()
             }
         }
     }
@@ -157,36 +151,36 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
         viewModel.forgotPasscodeButtonPressEvent.observe(this, Observer {
             when (it) {
                 R.id.tvForgotPassword -> {
-                    if (sharedPreferenceManager.getValueBoolien(SharedPreferenceManager.KEY_IS_USER_LOGGED_IN, false)) {
+                    if (!sharedPreferenceManager.getValueBoolien(
+                            SharedPreferenceManager.KEY_IS_USER_LOGGED_IN,
+                            false
+                        )
+                    ) {
+                        goToNext(viewModel.state.username)
+                    } else {
                         sharedPreferenceManager.getUserName()?.let { username ->
                             viewModel.state.username = username
-                            val action =
-                                VerifyPasscodeFragmentDirections.actionVerifyPasscodeFragmentToForgotPasscodeNavigation(
-                                    username,
-                                    Utils.isUsernameNumeric(username),
-                                    viewModel.mobileNumber
-                                )
-                            findNavController().navigate(action)
+                            goToNext(viewModel.state.username)
                         } ?: toast("Invalid user name")
                     }
-                }
-                viewModel.EVENT_LOGOUT_SUCCESS -> {
-                    doLogout()
                 }
             }
         })
     }
 
 
+    private fun goToNext(name: String) {
+        val action =
+            VerifyPasscodeFragmentDirections.actionVerifyPasscodeFragmentToForgotPasscodeNavigation(
+                name,
+                !Utils.isUsernameNumeric(name),
+                viewModel.mobileNumber
+            )
+        findNavController().navigate(action)
+    }
+
     private fun doLogout() {
-        AuthUtils.navigateToHardLoginFromVerifyPassCode(requireContext())
-        MyUserManager.expireUserSession()
-        MyUserManager.cardBalance.value = CardBalance()
-        MyUserManager.cards = MutableLiveData()
-        MyUserManager.cards.value?.clear()
-        MyUserManager.userAddress = null
-        MoreActivity.showExpiredIcon = false
-        YAPApplication.clearFilters()
+        MyUserManager.doLogout(requireContext(),true)
         if (activity is MainActivity) {
             (activity as MainActivity).onBackPressedDummy()
         } else {
@@ -387,6 +381,7 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
     override fun onAuthenticationError(errorCode: Int, errString: CharSequence) {
     }
 }
+
 @Keep
 enum class VerifyPassCodeEnum {
     VERIFY,
