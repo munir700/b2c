@@ -6,17 +6,14 @@ import android.text.TextUtils
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import co.yap.yapcore.*
+import co.yap.yapcore.constants.Constants.EXTRA
+import co.yap.yapcore.constants.Constants.FRAGMENT_CLASS
 import co.yap.yapcore.helpers.extentions.createFragmentInstance
 import co.yap.yapcore.helpers.extentions.instantiateFragment
 
 
 class FrameActivity : BaseBindingActivity<IFrameActivity.ViewModel>(),
     IFrameActivity.View, IFragmentHolder {
-    companion object {
-        val FRAGMENT_CLASS = "fragment_class"
-        val SHOW_TOOLBAR = "_show_toolbar"
-        val EXTRA = "_bundle_extras"
-    }
 
     private lateinit var fragment: BaseBindingFragment<*>
     override fun getBindingVariable() = BR.frameActivityViewModel

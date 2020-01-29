@@ -438,7 +438,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="?attr/actionBarSize"
             android:background="@android:color/transparent"
-            android:rotation="180" />
+             />
 
         <!--    </RelativeLayout>-->
     </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -8,7 +8,6 @@ import co.yap.networking.customers.responsedtos.beneficiary.TopUpBeneficiariesRe
 import co.yap.networking.customers.responsedtos.documents.GetMoreDocumentsResponse
 import co.yap.networking.customers.responsedtos.sendmoney.*
 import co.yap.networking.models.ApiResponse
-import co.yap.networking.models.RetroApiResponse
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Response
@@ -121,6 +120,9 @@ interface CustomersRetroService {
     @POST(CustomersRepository.URL_ADD_BENEFICIARY)
     suspend fun addBeneficiary(@Body beneficiary: Beneficiary): Response<AddBeneficiaryResponseDTO>
 
+    @POST(CustomersRepository.URL_VALIDATE_BENEFICIARY)
+    suspend fun validateBeneficiary(@Body beneficiary: Beneficiary): Response<AddBeneficiaryResponseDTO>
+
     @POST(CustomersRepository.URL_SEARCH_BANKS)
     suspend fun findOtherBank(@Body otherBankQuery: OtherBankQuery): Response<RAKBankModel>
 
@@ -145,7 +147,7 @@ interface CustomersRetroService {
     suspend fun verifyHouseholdMobile(@Body verifyHouseholdMobileRequest: VerifyHouseholdMobileRequest): Response<ApiResponse>
 
     @POST(CustomersRepository.URL_VERIFY_PARENT_HOUSEHOLD_MOBILE)
-    suspend fun verifyHouseholdParentMobile(@Query("mobileNo") mobileNumber: String?,@Body verifyHouseholdMobileRequest: VerifyHouseholdMobileRequest): Response<ApiResponse>
+    suspend fun verifyHouseholdParentMobile(@Query("mobileNo") mobileNumber: String?, @Body verifyHouseholdMobileRequest: VerifyHouseholdMobileRequest): Response<ApiResponse>
 
     @POST(CustomersRepository.URL_HOUSEHOLD_USER_ONBOARD)
     suspend fun onboardHouseholdUser(@Body householdOnboardRequest: HouseholdOnboardRequest): Response<HouseholdOnBoardingResponse>

@@ -11,9 +11,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import co.yap.modules.frame.FrameActivity
-import co.yap.modules.frame.FrameActivity.Companion.EXTRA
-import co.yap.modules.frame.FrameActivity.Companion.FRAGMENT_CLASS
 import co.yap.yapcore.R
+import co.yap.yapcore.constants.Constants.EXTRA
+import co.yap.yapcore.constants.Constants.FRAGMENT_CLASS
 import com.github.florent37.inlineactivityresult.kotlin.startForResult
 
 /**
@@ -39,7 +39,6 @@ inline fun <reified T : Any> Fragment.launchActivity(
     options: Bundle? = null,
     noinline init: Intent.() -> Unit = {}
 ) {
-
     val intent = newIntent<T>(requireContext())
     intent.init()
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {

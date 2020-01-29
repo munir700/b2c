@@ -59,6 +59,7 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     const val URL_ADD_BENEFICIARY = "/customers/api/beneficiaries/bank-transfer"
     const val URL_SEARCH_BANK_PARAMS = "/customers/api/other_bank/params"
     const val URL_SEARCH_BANKS = "/customers/api/other_bank/query"
+    const val URL_VALIDATE_BENEFICIARY = "customers/api/validate/bank-transfer/beneficiary-details"
 
     val URL_GET_TRANSFER_REASONS = "/transactions/api/product-codes/{product-code}/purpose-reasons"
     val URL_INTERNAL_TRANSFER = "/transactions/api/internal-transfer"
@@ -201,6 +202,9 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     override suspend fun addBeneficiary(beneficiary: Beneficiary): RetroApiResponse<AddBeneficiaryResponseDTO> =
         executeSafely(call = { api.addBeneficiary(beneficiary) })
 
+    override suspend fun validateBeneficiary(beneficiary: Beneficiary): RetroApiResponse<ApiResponse> =
+        executeSafely(call = { api.validateBeneficiary(beneficiary) })
+
     override suspend fun editBeneficiary(beneficiary: Beneficiary?): RetroApiResponse<ApiResponse> =
         executeSafely(call = { api.editBeneficiary(beneficiary) })
 
@@ -233,9 +237,14 @@ object CustomersRepository : BaseRepository(), CustomersApi {
         executeSafely(call = { api.verifyHouseholdMobile(verifyHouseholdMobileRequest) })
 
     override suspend fun verifyHouseholdParentMobile(
-        mobileNumber: String?,verifyHouseholdMobileRequest: VerifyHouseholdMobileRequest
+        mobileNumber: String?, verifyHouseholdMobileRequest: VerifyHouseholdMobileRequest
     ): RetroApiResponse<ApiResponse> =
-        executeSafely(call = { api.verifyHouseholdParentMobile(mobileNumber,verifyHouseholdMobileRequest) })
+        executeSafely(call = {
+            api.verifyHouseholdParentMobile(
+                mobileNumber,
+                verifyHouseholdMobileRequest
+            )
+        })
 
     override suspend fun onboardHousehold(householdOnboardRequest: HouseholdOnboardRequest): RetroApiResponse<HouseholdOnBoardingResponse> =
         executeSafely(call = { api.onboardHouseholdUser(householdOnboardRequest) })
