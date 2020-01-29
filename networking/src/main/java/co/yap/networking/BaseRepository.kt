@@ -40,6 +40,7 @@ abstract class BaseRepository : IRepository {
             403 -> ApiError(response.code(), mapError(NetworkErrors.Forbidden))
             404 -> ApiError(response.code(), mapError(NetworkErrors.NotFound))
             502 -> ApiError(response.code(), mapError(NetworkErrors.BadGateway))
+            504 -> ApiError(response.code(), mapError(NetworkErrors.NoInternet))
             in 400..499 -> ApiError(
                 response.code(),
                 mapError(NetworkErrors.InternalServerError(response.errorBody()?.string()))

@@ -27,7 +27,6 @@ import com.google.android.libraries.places.api.net.FetchPhotoRequest
 import com.google.android.libraries.places.api.net.FindCurrentPlaceRequest
 import com.google.android.libraries.places.api.net.PlacesClient
 
-
 open class MapSupportActivity : BaseBindingActivity<ILocationSelection.ViewModel>() {
 
     private var mMap: GoogleMap? = null

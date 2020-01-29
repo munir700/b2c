@@ -5,6 +5,7 @@ import android.animation.Animator
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.location.LocationManager
 import android.os.Bundle
 import android.view.View
 import androidx.databinding.Observable
@@ -18,6 +19,7 @@ import co.yap.yapcore.constants.Constants.ADDRESS
 import co.yap.yapcore.constants.Constants.ADDRESS_SUCCESS
 import co.yap.yapcore.helpers.PermissionHelper
 import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.interfaces.OnItemClickListener
 import com.daimajia.androidanimations.library.Techniques
 import com.daimajia.androidanimations.library.YoYo
 import com.google.android.gms.maps.SupportMapFragment
@@ -52,6 +54,31 @@ class LocationSelectionActivity : MapSupportActivity(), ILocationSelection.View 
         flTitle.setOnTouchListener { _, _ -> true }
         lyAddressFields.setOnTouchListener { _, _ -> true }
         transparentImage.setOnTouchListener { _, _ -> !((viewModel.isMapExpanded.value) ?: false) }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        checkGPS()
+    }
+
+    private fun checkGPS() {
+        val locationManager = context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+            Utils.confirmationDialog(
+                context, "Location", "Your GPS seems to be disabled, do you want to enable it?",
+                "Yes", "No"
+                , object : OnItemClickListener {
+                    override fun onItemClick(view: View, data: Any, pos: Int) {
+                        if (data is Boolean) {
+                            if (data) {
+                                startActivity(Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS))
+                            } else {
+                                setIntentAction(false)
+                            }
+                        }
+                    }
+                })
+        }
     }
 
     private fun settAddressFromIntent() {
@@ -133,7 +160,7 @@ class LocationSelectionActivity : MapSupportActivity(), ILocationSelection.View 
             R.id.btnConfirm -> {
                 startAnimateLocationCard()
             }
-            R.id.tvTermsAndConditions ->{
+            R.id.tvTermsAndConditions -> {
                 Utils.openWebPage(Constants.URL_TERMS_CONDITION, "", this)
             }
             R.id.etAddressField -> {
