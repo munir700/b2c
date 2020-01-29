@@ -2,6 +2,7 @@ package co.yap.app.modules.login.states
 
 import android.graphics.drawable.Drawable
 import androidx.databinding.Bindable
+import androidx.lifecycle.MutableLiveData
 import co.yap.BR
 import co.yap.app.modules.login.interfaces.ILogin
 import co.yap.yapcore.BaseState
@@ -16,14 +17,7 @@ class LoginState : BaseState(), ILogin.State {
             notifyPropertyChanged(BR.valid)
         }
 
-    @get:Bindable
-    override var emailError: String = ""
-        set(value) {
-            field = value
-            notifyPropertyChanged(BR.emailError)
-            notifyPropertyChanged(BR.valid)
-        }
-
+    override var emailError: MutableLiveData<String> = MutableLiveData("")
 
     @get:Bindable
     override var valid: Boolean = false
@@ -34,7 +28,7 @@ class LoginState : BaseState(), ILogin.State {
 
 
     fun validate(): Boolean {
-        return (email.length > 5 && emailError.isEmpty())
+        return (email.length > 5 && emailError.value?.isEmpty()?:false)
     }
 
     @get:Bindable
@@ -84,7 +78,7 @@ class LoginState : BaseState(), ILogin.State {
     private fun setSuccessUI() {
         refreshField = true
         valid = true
-        emailError = ""
+        emailError.value = ""
         drawbleRight = null
     }
 
