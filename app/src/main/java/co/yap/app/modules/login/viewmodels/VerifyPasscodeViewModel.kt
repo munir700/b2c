@@ -18,6 +18,7 @@ import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.SingleLiveEvent
 import co.yap.yapcore.helpers.SharedPreferenceManager
+import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.trackEventWithAttributes
 import co.yap.yapcore.leanplum.UserAttributes
 import co.yap.yapcore.managers.MyUserManager
@@ -36,10 +37,8 @@ class VerifyPasscodeViewModel(application: Application) :
     override val createOtpResult: SingleLiveEvent<Boolean> = SingleLiveEvent()
     override var isFingerprintLogin: Boolean = false
     private val customersRepository: CustomersRepository = CustomersRepository
-    override var emailOtp: Boolean = false
     override var mobileNumber: String = ""
     override var EVENT_LOGOUT_SUCCESS: Int = 101
-
 
     override val accountInfo: MutableLiveData<AccountInfo> = MutableLiveData()
     private val messagesRepository: MessagesRepository = MessagesRepository
@@ -62,78 +61,44 @@ class VerifyPasscodeViewModel(application: Application) :
     }
 
     override fun handlePressOnForgotPasscodeButton(id: Int) {
-        var sharedPreferenceManager: SharedPreferenceManager = SharedPreferenceManager(context)
-        var username: String = ""
-        if (!sharedPreferenceManager.getValueBoolien(
+        val username = getUserName()
+        username?.let {
+            launch {
+                state.loading = true
+                when (val response = messagesRepository.createForgotPasscodeOTP(
+                    CreateForgotPasscodeOtpRequest(
+                        Utils.verifyUsername(username),
+                        Utils.isUsernameNumeric(username)
+                    )
+                )) {
+                    is RetroApiResponse.Success -> {
+                        response.data.data?.let {
+                            mobileNumber = it
+                        }
+
+                        state.loading = false
+                        forgotPasscodeButtonPressEvent.setValue(id)
+                    }
+                    is RetroApiResponse.Error -> {
+                        state.toast = response.error.message
+                        state.loading = false
+                    }
+                }
+            }
+        }
+    }
+
+    private fun getUserName(): String? {
+        val sharedPreferenceManager = SharedPreferenceManager(context)
+        return if (!SharedPreferenceManager(context).getValueBoolien(
                 SharedPreferenceManager.KEY_IS_USER_LOGGED_IN,
                 false
             )
         ) {
-            username = state.username
+            state.username
         } else {
-            username = EncryptionUtils.decrypt(
-                context,
-                sharedPreferenceManager.getValueString(SharedPreferenceManager.KEY_USERNAME) as String
-            )!!
+            sharedPreferenceManager.getUserName()
         }
-        launch {
-            state.loading = true
-            when (val response = messagesRepository.createForgotPasscodeOTP(
-                CreateForgotPasscodeOtpRequest(
-                    verifyUsername(username),
-                    emailOtp
-                )
-            )) {
-                is RetroApiResponse.Success -> {
-                    response.data.data?.let {
-                        mobileNumber = it
-                    }
-
-                    state.loading = false
-                    forgotPasscodeButtonPressEvent.setValue(id)
-                }
-                is RetroApiResponse.Error -> {
-                    state.toast = response.error.message
-                    state.loading = false
-                }
-            }
-        }
-    }
-
-    private fun verifyUsername(enteredUsername: String): String {
-        var username = enteredUsername
-        if (isUsernameNumeric(username)) {
-            emailOtp = false
-            if (username.startsWith("+")) {
-                username = username.replace("+", "00")
-                return username
-            } else if (username.startsWith("00")) {
-                return username
-            } else if (username.startsWith("0")) {
-                username = username.substring(1, username.length)
-                return username
-            } else {
-                return username
-            }
-        } else {
-            emailOtp = true
-            return username
-        }
-    }
-
-    private fun isUsernameNumeric(username: String): Boolean {
-        var inputStr: CharSequence
-        var isValid = false
-        val expression = "^[0-9+]*\$"
-
-        inputStr = username
-        val pattern = Pattern.compile(expression, Pattern.CASE_INSENSITIVE)
-        val matcher = pattern.matcher(inputStr)
-
-        if (matcher.matches()) {
-            isValid = true
-        }
-        return isValid
     }
 
     override fun validateDevice() {

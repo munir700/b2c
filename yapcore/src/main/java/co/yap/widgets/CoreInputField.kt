@@ -19,6 +19,7 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.RelativeLayout
 import androidx.annotation.RequiresApi
+import androidx.core.content.ContextCompat
 import androidx.core.text.color
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
@@ -304,7 +305,10 @@ class CoreInputField @JvmOverloads constructor(
         tvError.text = error
         tvError.visibility = View.VISIBLE
         setDrawableRightIcon(resources.getDrawable(R.drawable.invalid_name))
+    }
 
+    fun settingErrorColor(color: Int) {
+        tvError.setTextColor(ContextCompat.getColor(context, color))
     }
 
     fun settingUIForNormal() {

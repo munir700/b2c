@@ -287,7 +287,7 @@ class TopUpBeneficiariesActivity : BaseBindingActivity<ITopUpBeneficiaries.ViewM
     }
 
     private fun getUrl(): String? {
-        return when (YAPApplication.flavour) {
+        return when (YAPApplication.appInfo?.flavor) {
             "live" -> {
                 "https://demo.yap.co/admin-web/HostedSessionIntegration.html"
             }

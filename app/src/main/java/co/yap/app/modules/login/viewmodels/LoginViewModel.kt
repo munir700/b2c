@@ -13,6 +13,7 @@ import co.yap.networking.models.RetroApiResponse
 import co.yap.translation.Strings
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleLiveEvent
+import co.yap.yapcore.helpers.Utils
 import java.util.regex.Pattern
 
 class LoginViewModel(application: Application) : BaseViewModel<ILogin.State>(application), ILogin.ViewModel,
@@ -25,7 +26,7 @@ class LoginViewModel(application: Application) : BaseViewModel<ILogin.State>(app
     private val adminRepository: AdminRepository = AdminRepository
 
     override fun handlePressOnLogin() {
-        state.twoWayTextWatcher = verifyUsername(state.twoWayTextWatcher.trim())
+        state.twoWayTextWatcher = Utils.verifyUsername(state.twoWayTextWatcher.trim())
         validateUsername()
     }
 
@@ -50,7 +51,7 @@ class LoginViewModel(application: Application) : BaseViewModel<ILogin.State>(app
                     if (response.data.data) {
                         signInButtonPressEvent.postValue(true)
                     } else {
-                        state.emailError = getString(Strings.screen_sign_in_display_text_error_text)
+                        state.emailError.value = getString(Strings.screen_sign_in_display_text_error_text)
                     }
                 }
                 is RetroApiResponse.Error -> {
@@ -60,41 +61,5 @@ class LoginViewModel(application: Application) : BaseViewModel<ILogin.State>(app
             }
             state.loading = false
         }
-    }
-
-    private fun verifyUsername(enteredUsername: String): String {
-        var username = enteredUsername
-        return if (isUsernameNumeric(username)) {
-            when {
-                username.startsWith("+") -> {
-                    username = username.replace("+", "00")
-                    username
-                }
-                username.startsWith("00") -> username
-                username.startsWith("0") -> {
-                    username = username.substring(1, username.length)
-                    username
-                }
-                else -> username
-            }
-        } else {
-            username
-        }
-    }
-
-
-    private fun isUsernameNumeric(username: String): Boolean {
-        var inputStr: CharSequence
-        var isValid = false
-        val expression = "^[0-9+]*\$"
-
-        inputStr = username
-        val pattern = Pattern.compile(expression, Pattern.CASE_INSENSITIVE)
-        val matcher = pattern.matcher(inputStr)
-
-        if (matcher.matches()) {
-            isValid = true
-        }
-        return isValid
     }
 }

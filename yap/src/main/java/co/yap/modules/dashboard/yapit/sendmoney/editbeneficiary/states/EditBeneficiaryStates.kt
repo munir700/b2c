@@ -7,6 +7,7 @@ import co.yap.modules.dashboard.yapit.sendmoney.editbeneficiary.interfaces.IEdit
 import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.yapcore.BaseState
 import co.yap.yapcore.helpers.Utils
+import java.lang.StringBuilder
 
 class EditBeneficiaryStates(val application: Application) : BaseState(), IEditBeneficiary.State {
     @get:Bindable
@@ -65,14 +66,14 @@ class EditBeneficiaryStates(val application: Application) : BaseState(), IEditBe
         set(value) {
             field = value
             notifyPropertyChanged(BR.accountNumber)
-            beneficiary?.accountNo = field
+            //beneficiary?.accountNo = field
         }
     @get:Bindable
     override var swiftCode: String? = null
         set(value) {
             field = value
             notifyPropertyChanged(BR.swiftCode)
-            beneficiary?.swiftCode = field
+            //beneficiary?.swiftCode = field
         }
     @get:Bindable
     override var countryBankRequirementFieldCode: String? = ""
@@ -125,11 +126,20 @@ class EditBeneficiaryStates(val application: Application) : BaseState(), IEditBe
             }
 
             it.accountNo?.let {
-                if (it!!.length >= 22) {
-                    accountNumber = Utils.formateIbanString(it)
-                } else {
-                    accountNumber = it
-                }
+                accountNumber = it
+//                if (it.length >= 22) {
+//                    val no = StringBuilder()
+//                    it.forEachIndexed{index, c ->
+//                        no.append(c)
+//                        if(index%4==0)
+//                        {
+//                            no.append(" ")
+//                        }
+//                    }
+//                    accountNumber = Utils.formateIbanString(it)
+//                } else {
+//                    accountNumber = it
+//                }
             }
             it.swiftCode?.let { swiftCode = it }
             it.beneficiaryType?.let { transferType = it }

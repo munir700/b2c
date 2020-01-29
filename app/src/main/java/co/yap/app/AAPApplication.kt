@@ -1,7 +1,11 @@
 package co.yap.app
 
+import android.app.NotificationChannel
+import android.app.NotificationManager
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentActivity
 import co.yap.app.modules.login.activities.VerifyPassCodePresenterActivity
@@ -12,6 +16,7 @@ import co.yap.modules.others.helper.Constants.START_REQUEST_CODE
 import co.yap.networking.RetroNetwork
 import co.yap.networking.interfaces.NetworkConstraintsListener
 import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.helpers.AppInfo
 import co.yap.yapcore.helpers.AuthUtils
 import co.yap.yapcore.helpers.NetworkConnectionManager
 import co.yap.yapcore.helpers.SharedPreferenceManager
@@ -27,20 +32,28 @@ import timber.log.Timber.DebugTree
 import java.util.*
 
 
-class AAPApplication : ChatApplication(BuildConfig.FLAVOR), NavigatorProvider {
+class AAPApplication : ChatApplication(
+    AppInfo(
+        BuildConfig.VERSION_NAME,
+        BuildConfig.VERSION_CODE,
+        BuildConfig.FLAVOR,
+        BuildConfig.BUILD_TYPE
+    )
+), NavigatorProvider {
 
     override fun onCreate() {
         super.onCreate()
         SharedPreferenceManager(this).setThemeValue(Constants.THEME_YAP)
         initCrashLytics()
-        InitDebugTreeTimber()
+        initDebugTreeTimber()
         initNetworkLayer()
         setAppUniqueId(this)
         initFirebase()
         inItLeanPlum()
+        createChannel(packageName, "Default")
     }
 
-    private fun InitDebugTreeTimber() {
+    private fun initDebugTreeTimber() {
         if (BuildConfig.DEBUG) {
             Timber.plant(DebugTree())
         }
@@ -109,9 +122,33 @@ class AAPApplication : ChatApplication(BuildConfig.FLAVOR), NavigatorProvider {
             Leanplum.setAppIdForProductionMode(appId, prodKey)
         }
 
-        //Leanplum.trackAllAppScreens()
-        com.leanplum.messagetemplates.MessageTemplates.register(this)
+        Leanplum.setIsTestModeEnabled(true)
         Leanplum.start(this)
+    }
+
+    private fun createChannel(channelId: String, channelName: String) {
+        // TODO: Step 1.6 START create a channel
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val notificationChannel = NotificationChannel(
+                channelId,
+                channelName,
+                // TODO: Step 2.4 change importance
+                NotificationManager.IMPORTANCE_HIGH
+            )// TODO: Step 2.6 disable badges for this channel
+                .apply {
+                    setShowBadge(false)
+                }
+
+            notificationChannel.enableLights(true)
+            notificationChannel.lightColor = Color.RED
+            notificationChannel.enableVibration(true)
+            notificationChannel.description = "Default channel"
+            //getString(R.string.app_name)
+
+            val notificationManager = getSystemService(NotificationManager::class.java)
+            notificationManager.createNotificationChannel(notificationChannel)
+        }
+        // TODO: Step 1.6 END create a channel
     }
 
     private fun setAppUniqueId(context: Context) {
@@ -156,8 +193,9 @@ class AAPApplication : ChatApplication(BuildConfig.FLAVOR), NavigatorProvider {
                 } catch (e: Exception) {
                     if (e is ClassNotFoundException) {
                         longToast(
-                            "InlineActivityResult library not installed falling back to default method, please install \" +\n" +
-                                    "\"it from https://github.com/florent37/InlineActivityResult if you want to get inline activity results."
+                            "Something went wrong"
+                            //"InlineActivityResult library not installed falling back to default method, please install \" +\n" +
+                            //        "\"it from https://github.com/florent37/InlineActivityResult if you want to get inline activity results."
                         )
                         activity.startActivityForResult(
                             Intent(activity, VerifyPassCodePresenterActivity::class.java),

@@ -5,7 +5,6 @@ import android.content.Intent
 import android.hardware.fingerprint.FingerprintManager
 import android.os.Bundle
 import android.view.View
-import androidx.databinding.library.baseAdapters.BR.accountType
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -13,6 +12,7 @@ import androidx.navigation.fragment.findNavController
 import co.yap.BR
 import co.yap.app.R
 import co.yap.app.YAPApplication
+import co.yap.app.activities.MainActivity
 import co.yap.app.constants.Constants
 import co.yap.app.login.EncryptionUtils
 import co.yap.app.modules.login.interfaces.IVerifyPasscode
@@ -27,10 +27,12 @@ import co.yap.widgets.NumberKeyboardListener
 import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.helpers.AuthUtils
 import co.yap.yapcore.helpers.SharedPreferenceManager
+import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.biometric.BiometricCallback
 import co.yap.yapcore.helpers.biometric.BiometricManagerX
 import co.yap.yapcore.helpers.biometric.BiometricUtil
 import co.yap.yapcore.helpers.extentions.preventTakeScreenShot
+import co.yap.yapcore.helpers.extentions.toast
 import co.yap.yapcore.managers.MyUserManager
 import kotlinx.android.synthetic.main.fragment_verify_passcode.*
 
@@ -153,24 +155,18 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
         viewModel.forgotPasscodeButtonPressEvent.observe(this, Observer {
             when (it) {
                 R.id.tvForgotPassword -> {
-                    if (sharedPreferenceManager.getValueBoolien(
-                            SharedPreferenceManager.KEY_IS_USER_LOGGED_IN,
-                            false
-                        )
-                    ) {
-                        viewModel.state.username = EncryptionUtils.decrypt(
-                            requireActivity(),
-                            sharedPreferenceManager.getValueString(SharedPreferenceManager.KEY_USERNAME) as String
-                        ) as String
+                    if (sharedPreferenceManager.getValueBoolien(SharedPreferenceManager.KEY_IS_USER_LOGGED_IN, false)) {
+                        sharedPreferenceManager.getUserName()?.let { username ->
+                            viewModel.state.username = username
+                            val action =
+                                VerifyPasscodeFragmentDirections.actionVerifyPasscodeFragmentToForgotPasscodeNavigation(
+                                    username,
+                                    Utils.isUsernameNumeric(username),
+                                    viewModel.mobileNumber
+                                )
+                            findNavController().navigate(action)
+                        } ?: toast("Invalid user name")
                     }
-
-                    val action =
-                        VerifyPasscodeFragmentDirections.actionVerifyPasscodeFragmentToForgotPasscodeNavigation(
-                            viewModel.state.username,
-                            viewModel.emailOtp,
-                            viewModel.mobileNumber
-                        )
-                    findNavController().navigate(action)
                 }
                 viewModel.EVENT_LOGOUT_SUCCESS -> {
                     doLogout()
@@ -189,7 +185,11 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
         MyUserManager.userAddress = null
         MoreActivity.showExpiredIcon = false
         YAPApplication.clearFilters()
-        activity?.onBackPressed()
+        if (activity is MainActivity) {
+            (activity as MainActivity).onBackPressedDummy()
+        } else {
+            activity?.onBackPressed()
+        }
     }
 
     override fun onDestroyView() {
@@ -326,6 +326,10 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
     }
 
     override fun onBiometricAuthenticationNotSupported() {
+    }
+
+    override fun onBackPressed(): Boolean {
+        return true
     }
 
     override fun onBiometricAuthenticationNotAvailable() {

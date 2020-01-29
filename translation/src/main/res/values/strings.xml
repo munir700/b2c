@@ -46,7 +46,7 @@
     <string name="screen_sign_in_display_text_sign_up_prefix">Don\'t have an account?</string>
     <string name="screen_sign_in_display_text_sign_up">Sign up</string>
     <string name="screen_sign_in_display_text_sub_title">Enter the OTP sent to your registered mobile number to complete login</string>
-    <string name="screen_sign_in_display_text_error_text">That\'s not the right username. Please try again</string>
+    <string name="screen_sign_in_display_text_error_text">That\'s not the right email/phone number. Please try again.</string>
 
     <!-- Phone Number Screen -->
     <string name="screen_phone_number_display_text_title">What\'s your mobile number?</string>
@@ -203,7 +203,7 @@
 
     <!-- Set card PIN Welcome screen -->
     <string name="screen_set_card_pin_welcome_display_text_title">Great, looks like you just received your YAP card!</string>
-    <string name="screen_set_card_pin_welcome_display_text_sub_title">Now create a unique 4-digit PIN to be able to use your debit card for purchases and withdrawals</string>
+    <string name="screen_set_card_pin_welcome_display_text_sub_title">Now create a unique 4-digit PIN to be able to use your primary card for purchases and withdrawals</string>
     <string name="screen_set_card_pin_welcome_button_create_pin">Create PIN</string>
     <string name="screen_set_card_pin_welcome_button_create_pin_later">Do it later</string>
 
@@ -480,7 +480,7 @@
 
     <!--    Email Verified Popup Screen-->
     <!-- <string name="screen_email_verified_popup_display_text_title">Hi %1$s, it looks like you haven’t verified your email address:</string>-->
-    <string name="screen_email_verified_popup_display_text_title">Hi %1$s, What are you waiting for?</string>
+    <string name="screen_email_verified_popup_display_text_title">Hi %1$s, what are you waiting for?</string>
     <!--    <string name="screen_email_verified_popup_display_text_sub_title">We have just resent you an email to verify your email address. Please log into your email and click the verification link to get access to your YAP Account.</string>-->
     <string name="screen_email_verified_popup_display_text_sub_title">Looks like you haven\'t verified %1$s yet. Do it now to unlock the full YAP experience!</string>
     <!--    <string name="screen_email_verified_popup_display_text_click_here">Having trouble? If you want to change your email address </string>-->

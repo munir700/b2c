@@ -37,12 +37,4 @@ object Constants {
 
     const val REQUEST_CODE = "requestCode"
     const val START_REQUEST_CODE = 101
-
-
-    var VERSION_NAME: String = "1.0.0"
-    var VERSION_CODE: Int = 1
-    var FLAVOR: String = ""
-    var BUILD_TYPE: String = ""
-
-
 }

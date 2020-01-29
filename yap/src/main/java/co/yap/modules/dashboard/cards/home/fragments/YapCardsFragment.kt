@@ -182,7 +182,7 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
                         CardStatus.INACTIVE -> {
                             if (getCard(pos).cardType == "DEBIT") {
                                 if (MyUserManager.user?.notificationStatuses == USER_STATUS_MEETING_SUCCESS) {
-                                    openSetPinScreen(getCard(pos).cardSerialNumber)
+                                    openSetPinScreen(getCard(pos))
                                 }
                             } else {
                                 if (getCard(pos).deliveryStatus == null) {
@@ -191,7 +191,7 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
                                         CardDeliveryStatus.valueOf(it)
                                     }) {
                                         CardDeliveryStatus.SHIPPED -> {
-                                            openSetPinScreen(getCard(pos).cardSerialNumber)
+                                            openSetPinScreen(getCard(pos))
                                         }
                                         else -> {
                                             openStatusScreen(view, pos)
@@ -316,11 +316,11 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
         )
     }
 
-    private fun openSetPinScreen(cardSerialNumber: String) {
+    private fun openSetPinScreen(card: Card) {
         startActivityForResult(
             SetCardPinWelcomeActivity.newIntent(
                 requireContext(),
-                cardSerialNumber
+                card
             ), Constants.EVENT_CREATE_CARD_PIN
         )
     }
