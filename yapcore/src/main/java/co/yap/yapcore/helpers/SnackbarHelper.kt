@@ -6,7 +6,6 @@ import android.view.Gravity
 import android.view.View
 import android.widget.FrameLayout
 import android.widget.TextView
-import android.widget.Toast
 import androidx.annotation.ColorRes
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -15,11 +14,15 @@ import co.yap.yapcore.helpers.extentions.toastNow
 import com.google.android.material.snackbar.BaseTransientBottomBar.ANIMATION_MODE_FADE
 import com.google.android.material.snackbar.Snackbar
 
-fun Activity?.showSnackBar(msg: String, gravity: Int = Gravity.BOTTOM) {
+fun Activity?.showSnackBar(
+    msg: String,
+    gravity: Int = Gravity.BOTTOM,
+    duration: Int = Snackbar.LENGTH_LONG
+) {
     val snakbar = Snackbar.make(
         this?.window?.decorView?.findViewById(android.R.id.content)!!,
         validateString(msg),
-        Snackbar.LENGTH_LONG
+        duration
     )
 
     show(snakbar, gravity)
@@ -28,13 +31,13 @@ fun Activity?.showSnackBar(msg: String, gravity: Int = Gravity.BOTTOM) {
 fun Activity.showSnackBar(
     msg: String, @ColorRes viewBgColor: Int, @ColorRes colorOfMessage: Int,
     actionText: CharSequence,
-    gravity: Int = Gravity.BOTTOM,
+    gravity: Int = Gravity.BOTTOM, duration: Int = Snackbar.LENGTH_LONG,
     clickListener: View.OnClickListener
 ) {
     val snakbar = Snackbar.make(
         this.window?.decorView?.findViewById(android.R.id.content)!!,
         validateString(msg),
-        Snackbar.LENGTH_LONG
+        duration
     )
     snakbar.view.setBackgroundColor(ContextCompat.getColor(this, viewBgColor))
     snakbar.setTextColor(ContextCompat.getColor(this, colorOfMessage))
@@ -49,13 +52,13 @@ fun Activity.showSnackBar(
 fun Activity.showSnackBar(
     msg: String, @ColorRes viewBgColor: Int, @ColorRes colorOfMessage: Int,
     actionText: String,
-    gravity: Int = Gravity.BOTTOM,
+    gravity: Int = Gravity.BOTTOM, duration: Int = Snackbar.LENGTH_LONG,
     clickListener: View.OnClickListener
 ) {
     val snakbar = Snackbar.make(
         this.window?.decorView?.findViewById(android.R.id.content)!!,
         validateString(msg),
-        Snackbar.LENGTH_LONG
+        duration
     )
     snakbar.view.setBackgroundColor(ContextCompat.getColor(this, viewBgColor))
     snakbar.setTextColor(ContextCompat.getColor(this, colorOfMessage))
@@ -71,14 +74,14 @@ fun Activity.showSnackBar(
 fun Activity.showSnackBar(
     msg: String,
     actionText: String,
-    gravity: Int = Gravity.BOTTOM,
+    gravity: Int = Gravity.BOTTOM, duration: Int = Snackbar.LENGTH_LONG,
     clickListener: View.OnClickListener
 ) {
     val snakbar = Snackbar
         .make(
             this.window.decorView.findViewById(android.R.id.content),
             validateString(msg),
-            Snackbar.LENGTH_LONG
+            duration
         )
         .setAction(actionText, clickListener)
     show(snakbar, gravity)
@@ -92,11 +95,15 @@ fun Context?.showSnackBar(msg: String) {
     }
 }
 
-fun Fragment?.showSnackBar(msg: String, gravity: Int = Gravity.BOTTOM) {
+fun Fragment?.showSnackBar(
+    msg: String,
+    gravity: Int = Gravity.BOTTOM,
+    duration: Int = Snackbar.LENGTH_LONG
+) {
     val snakbar = Snackbar.make(
         this?.requireActivity()?.window?.decorView?.findViewById(android.R.id.content)!!,
         validateString(msg),
-        Snackbar.LENGTH_LONG
+        duration
     )
     show(snakbar, gravity)
 }
@@ -104,13 +111,13 @@ fun Fragment?.showSnackBar(msg: String, gravity: Int = Gravity.BOTTOM) {
 fun Fragment.showSnackBar(
     msg: String, @ColorRes viewBgColor: Int, @ColorRes colorOfMessage: Int,
     actionText: String,
-    gravity: Int = Gravity.BOTTOM,
+    gravity: Int = Gravity.BOTTOM, duration: Int = Snackbar.LENGTH_LONG,
     clickListener: View.OnClickListener
 ) {
     val snakbar = Snackbar.make(
-        this.requireActivity()?.window?.decorView?.findViewById(android.R.id.content)!!,
+        this.requireActivity().window?.decorView?.findViewById(android.R.id.content)!!,
         validateString(msg),
-        Snackbar.LENGTH_LONG
+        duration
     )
     snakbar.view.setBackgroundColor(ContextCompat.getColor(this.requireActivity(), viewBgColor))
     snakbar.setTextColor(ContextCompat.getColor(this.requireActivity(), colorOfMessage))
@@ -125,13 +132,13 @@ fun Fragment.showSnackBar(
 fun Fragment.showSnackBar(
     msg: String, @ColorRes viewBgColor: Int, @ColorRes colorOfMessage: Int,
     actionText: CharSequence,
-    gravity: Int = Gravity.BOTTOM,
+    gravity: Int = Gravity.BOTTOM, duration: Int = Snackbar.LENGTH_LONG,
     clickListener: View.OnClickListener
 ) {
     val snakbar = Snackbar.make(
         this.requireActivity()?.window?.decorView?.findViewById(android.R.id.content)!!,
         validateString(msg),
-        Snackbar.LENGTH_LONG
+        duration
     )
     snakbar.view.setBackgroundColor(ContextCompat.getColor(this.requireActivity(), viewBgColor))
     snakbar.setTextColor(ContextCompat.getColor(this.requireActivity(), colorOfMessage))
@@ -145,12 +152,12 @@ fun Fragment.showSnackBar(
 
 fun Fragment?.showSnackBar(
     msg: String, @ColorRes viewBgColor: Int, @ColorRes colorOfMessage: Int,
-    gravity: Int = Gravity.BOTTOM
+    gravity: Int = Gravity.BOTTOM, duration: Int = Snackbar.LENGTH_LONG
 ) {
     val snakbar = Snackbar.make(
         this?.requireActivity()?.window?.decorView?.findViewById(android.R.id.content)!!,
         validateString(msg),
-        Snackbar.LENGTH_LONG
+        duration
     )
     snakbar.view.setBackgroundColor(ContextCompat.getColor(this?.requireContext()!!, viewBgColor))
     snakbar.setTextColor(ContextCompat.getColor(this.requireContext(), colorOfMessage))
@@ -174,14 +181,14 @@ fun Fragment?.show1(msg: String, gravity: Int = Gravity.BOTTOM) {
 fun Fragment?.showSnackBar(
     msg: String,
     actionText: String,
-    gravity: Int = Gravity.BOTTOM,
+    gravity: Int = Gravity.BOTTOM, duration: Int = Snackbar.LENGTH_LONG,
     clickListener: View.OnClickListener
 ) {
     val snackbar = Snackbar
         .make(
             this?.requireActivity()?.window?.decorView?.findViewById(android.R.id.content)!!,
             validateString(msg),
-            Snackbar.LENGTH_LONG
+            duration
         )
         .setAction(actionText, clickListener)
     show(snackbar, gravity)
@@ -196,11 +203,11 @@ fun View?.showSnackBar(
     isCapsMesg: Boolean,
     messageSize: Int,
     actionTextColor: Int,
-    actionText: String, gravity: Int = Gravity.BOTTOM,
+    actionText: String, gravity: Int = Gravity.BOTTOM, duration: Int = Snackbar.LENGTH_LONG,
     clickListener: View.OnClickListener
 ) {
 
-    val snackbar = Snackbar.make(this!!, validateString(snackBarMsg), Snackbar.LENGTH_LONG)
+    val snackbar = Snackbar.make(this!!, validateString(snackBarMsg), duration)
     val snackbarView: View = snackbar.view
 
     // styling for rest of text
@@ -241,18 +248,22 @@ private fun show(snakbar: Snackbar, gravity: Int = Gravity.BOTTOM) {
 //    animation.addAnimation(fadeIn)
 //    animation.addAnimation(fadeOut)
 //    view.animation = animation
+    SnackBarQueue.snackBarQueue.add(snakbar)
     snakbar.show()
 }
+
+fun cancelAllSnackBar() =
+    SnackBarQueue.cancelSnackBars()
 
 // for view and action
 fun View?.showSnackBar(
     msg: String,
     actionText: String,
-    gravity: Int = Gravity.BOTTOM,
+    gravity: Int = Gravity.BOTTOM, duration: Int = Snackbar.LENGTH_LONG,
     clickListener: View.OnClickListener
 ) {
     val snakbar = Snackbar
-        .make(this!!, validateString(msg), Snackbar.LENGTH_LONG)
+        .make(this!!, validateString(msg), duration)
         .setAction(actionText, clickListener)
     show(snakbar, gravity)
 }
@@ -262,13 +273,13 @@ fun validateString(msg: String?): String {
 }
 
 private object SnackBarQueue {
-    val snackBarQueue = mutableListOf<Toast>()
+    val snackBarQueue = mutableListOf<Snackbar>()
 
     fun cancelSnackBars() {
-        snackBarQueue.forEach { it.cancel() }
+        snackBarQueue.forEach { it.dismiss() }
         snackBarQueue.clear()
     }
 
-    fun removeSnackBar(toast: Toast) = snackBarQueue.remove(toast)
+    fun removeSnackBar(snackBar: Snackbar) = snackBarQueue.remove(snackBar)
 
 }

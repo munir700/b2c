@@ -25,6 +25,7 @@ class BeneficiaryAccountDetailsViewModel(application: Application) :
 
     override val backButtonPressEvent: SingleLiveEvent<Boolean> = SingleLiveEvent()
     override val success: MutableLiveData<Boolean> = MutableLiveData(false)
+    override val isBeneficiaryValid: MutableLiveData<Boolean>  = MutableLiveData(false)
     override val state: BeneficiaryAccountDetailsState = BeneficiaryAccountDetailsState()
     override val repository: CustomersRepository = CustomersRepository
     private val messagesRepository: MessagesRepository = MessagesRepository
@@ -74,18 +75,18 @@ class BeneficiaryAccountDetailsViewModel(application: Application) :
                 if (it.isNotEmpty())
                     when (SendMoneyBeneficiaryType.valueOf(it)) {
 
-                        SendMoneyBeneficiaryType.SWIFT -> {
+                        SendMoneyBeneficiaryType.SWIFT,SendMoneyBeneficiaryType.RMT -> {
                             validateBeneficiaryDetails()
                             //createOtp(Constants.SWIFT_BENEFICIARY)
 //                            parentViewModel?.beneficiary?.value?.accountNo = state.accountIban
 //                            createBeneficiaryRequest()
                         }
-                        SendMoneyBeneficiaryType.RMT -> {
-                            validateBeneficiaryDetails()
-                            //createOtp(Constants.RMT_BENEFICIARY)
-//                            parentViewModel?.beneficiary?.value?.accountNo = state.accountIban
-//                            createBeneficiaryRequest()
-                        }
+//                        SendMoneyBeneficiaryType.RMT -> {
+//                            validateBeneficiaryDetails()
+//                            //createOtp(Constants.RMT_BENEFICIARY)
+////                            parentViewModel?.beneficiary?.value?.accountNo = state.accountIban
+////                            createBeneficiaryRequest()
+//                        }
                         else -> {
                             clickEvent.setValue(id)
                         }
@@ -132,12 +133,14 @@ class BeneficiaryAccountDetailsViewModel(application: Application) :
                 when (val response = repository.validateBeneficiary(it)) {
                     is RetroApiResponse.Success -> {
                         state.loading = false
-//                        success.value = true
-//                        beneficiary = response.data.data
+                        isBeneficiaryValid.value = true
+
+
                     }
 
                     is RetroApiResponse.Error -> {
                         state.loading = false
+                        isBeneficiaryValid.value = false
                         state.toast = response.error.message
                         //success.value = false
                     }

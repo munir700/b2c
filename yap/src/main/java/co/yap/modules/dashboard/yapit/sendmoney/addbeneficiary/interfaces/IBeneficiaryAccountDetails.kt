@@ -32,6 +32,7 @@ interface IBeneficiaryAccountDetails {
         var beneficiary: Beneficiary?
         val backButtonPressEvent: SingleLiveEvent<Boolean>
         val success: MutableLiveData<Boolean>
+        val isBeneficiaryValid: MutableLiveData<Boolean>
         var clickEvent: SingleClickEvent
         val otpCreateObserver: MutableLiveData<Boolean>
         fun createBeneficiaryRequest()

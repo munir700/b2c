@@ -9,6 +9,7 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.os.CountDownTimer
+import android.view.Gravity
 import android.view.View
 import android.view.Window
 import android.widget.ImageView
@@ -47,8 +48,11 @@ import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.enums.CardStatus
 import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.helpers.cancelAllSnackBar
 import co.yap.yapcore.helpers.extentions.getCustomSnackbarSticky
 import co.yap.yapcore.helpers.extentions.preventTakeScreenShot
+import co.yap.yapcore.helpers.showSnackBar
+import co.yap.yapcore.helpers.spannables.underline
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.MyUserManager
 import com.ezaka.customer.app.utils.toCamelCase
@@ -346,14 +350,25 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
     private fun checkFreezeUnfreezStatus() {
         viewModel.card.value?.blocked?.let {
             if (it) {
-                showSnackbar()
+
+                showSnackBar(
+                    msg = getString(Strings.screen_cards_display_text_freeze_card),
+                    viewBgColor = R.color.colorPrimary,
+                    colorOfMessage = R.color.white,
+                    gravity = Gravity.TOP,
+                    duration = Snackbar.LENGTH_INDEFINITE,
+                    actionText = underline(getString(Strings.screen_cards_display_text_freeze_card_action)),
+                    clickListener = View.OnClickListener { viewModel.freezeUnfreezeCard() }
+                )
+                //showSnackbar()
                 if (Constants.CARD_TYPE_DEBIT == viewModel.state.cardType) {
                     tvPrimaryCardStatus.text = "Unfreeze card"
                 } else {
                     tvSpareCardStatus.text = "Unfreeze card"
                 }
             } else {
-                dismissSnackbar()
+                cancelAllSnackBar()
+                //dismissSnackbar()
                 if (Constants.CARD_TYPE_DEBIT == viewModel.state.cardType) {
                     tvPrimaryCardStatus.text = "Freeze card"
                 } else {
@@ -391,10 +406,6 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
         tvAction.setOnClickListener {
             startReorderCardFlow()
         }
-    }
-
-    private fun dismissSnackbar() {
-        snackbar?.dismiss()
     }
 
     override fun onClick(eventType: Int) {

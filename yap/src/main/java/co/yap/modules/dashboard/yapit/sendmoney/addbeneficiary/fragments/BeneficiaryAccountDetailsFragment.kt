@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
+import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
@@ -15,12 +16,14 @@ import co.yap.modules.dashboard.yapit.sendmoney.activities.BeneficiaryCashTransf
 import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.interfaces.IBeneficiaryAccountDetails
 import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.viewmodels.BeneficiaryAccountDetailsViewModel
 import co.yap.modules.dashboard.yapit.sendmoney.fragments.SendMoneyBaseFragment
+import co.yap.modules.others.otp.GenericOtpFragment
 import co.yap.translation.Translator
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.enums.SendMoneyBeneficiaryType
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.launchActivity
+import co.yap.yapcore.helpers.extentions.startFragmentForResult
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.MyUserManager
 import kotlinx.android.synthetic.main.fragment_beneficiary_account_detail.*
@@ -70,6 +73,27 @@ class BeneficiaryAccountDetailsFragment :
                 }
             } else {
                 // error while creating beneficiary
+            }
+        })
+        viewModel.isBeneficiaryValid.observe(this , Observer {
+            if(it)
+            {
+                startFragmentForResult<GenericOtpFragment>(
+                    GenericOtpFragment::class.java.name,
+                    bundleOf(
+                        OtpDataModel::class.java.name to OtpDataModel(
+                            "",
+                            "",
+                            "",
+                            false,
+                            OtpToolBarData()
+                        )
+                    )
+                ) { resultCode, data ->
+                    if (resultCode == Activity.RESULT_OK) {
+                        showToast("success")
+                    }
+                }
             }
         })
     }
