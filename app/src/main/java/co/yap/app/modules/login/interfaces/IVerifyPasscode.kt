@@ -29,7 +29,6 @@ interface IVerifyPasscode {
         val createOtpResult: SingleLiveEvent<Boolean>
         var isFingerprintLogin: Boolean
         var mobileNumber: String
-        var emailOtp: Boolean
         var EVENT_LOGOUT_SUCCESS: Int
     }
 

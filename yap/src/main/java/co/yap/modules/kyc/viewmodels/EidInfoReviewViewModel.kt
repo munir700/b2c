@@ -52,6 +52,7 @@ class EidInfoReviewViewModel(application: Application) :
     }
 
     override fun handlePressOnConfirmBtn() {
+        sectionedCountries?.data?.get(1)?.isoCountryCode2Digit ="in"
         parentViewModel?.identity?.identity?.let {
             when {
                 TextUtils.isEmpty(it.givenName) || TextUtils.isEmpty(it.nationality) ->
@@ -71,7 +72,6 @@ class EidInfoReviewViewModel(application: Application) :
                     clickEvent.setValue(EVENT_ERROR_FROM_USA)
                     trackEvent(TrackEvents.EIDA_CALLBACK_US_CITIZEN)
                 }
-
                 it.isoCountryCode2Digit == sectionedCountries?.data?.find { country -> country.isoCountryCode2Digit == it.isoCountryCode2Digit }?.isoCountryCode2Digit -> {
                     sanctionedCountry = it.nationality
                     sanctionedNationality = it.nationality

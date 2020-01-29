@@ -25,7 +25,6 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
 
     override fun getBindingVariable(): Int = BR.viewModel
 
-    //    override fun getLayoutId(): Int = R.layout.activity_eid_info_review
     override fun getLayoutId(): Int {
         if (getAppliedAppTheme()) return R.layout.activity_eid_info_review_house_hold
         else return R.layout.activity_eid_info_review
