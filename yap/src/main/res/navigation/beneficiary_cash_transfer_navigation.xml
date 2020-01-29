@@ -109,35 +109,35 @@
         android:label="InternationalTransactionConfirmationFragment"
         tools:layout="@layout/fragment_international_transaction_confirmation">
         <argument
-            android:name="name"
+            android:name="beneficiaryName"
             android:defaultValue=" "
             app:argType="string" />
         <argument
-            android:name="transferAmountCurrency"
+            android:name="senderCurrency"
             android:defaultValue=" "
             app:argType="string" />
         <argument
-            android:name="transferAmount"
+            android:name="fxRateAmount"
             android:defaultValue=" "
             app:argType="string" />
         <argument
-            android:name="convertedReceivingAmount"
+            android:name="receiverCurrencyAmount"
             android:defaultValue=" "
             app:argType="string" />
         <argument
-            android:name="receivingCurrency"
+            android:name="toFxRateCurrency"
             android:defaultValue=" "
             app:argType="string" />
         <argument
-            android:name="transferFee"
+            android:name="totalAmount"
             android:defaultValue=" "
             app:argType="string" />
         <argument
-            android:name="fromAmount"
+            android:name="fromFxRate"
             android:defaultValue=" "
             app:argType="string" />
         <argument
-            android:name="toAmount"
+            android:name="toFxRate"
             android:defaultValue=" "
             app:argType="string" />
         <argument
@@ -157,10 +157,39 @@
             android:name="firstName"
             android:defaultValue=" "
             app:argType="string" />
+        <argument
+            android:name="fromFxRateCurrency"
+            android:defaultValue=" "
+            app:argType="string" />
+        <argument
+            android:name="reasonTransferCode"
+            android:defaultValue=" "
+            app:argType="string" />
+        <argument
+            android:name="transactionNote"
+            android:defaultValue=" "
+            app:argType="string" />
+        <argument
+            android:name="reasonTransferValue"
+            android:defaultValue=" "
+            app:argType="string" />
+        <argument
+            android:name="rate"
+            android:defaultValue=" "
+            app:argType="string" />
+        <argument
+            android:name="otpAction"
+            android:defaultValue=" "
+            app:argType="string" />
 
         <action
             android:id="@+id/action_internationalTransactionConfirmationFragment_to_transferSuccessFragment2"
             app:destination="@id/transferSuccessFragment2"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left" />
+        <action
+            android:id="@+id/action_internationalTransactionConfirmationFragment_to_genericOtpLogoFragment"
+            app:destination="@id/genericOtpLogoFragment"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left" />
     </fragment>

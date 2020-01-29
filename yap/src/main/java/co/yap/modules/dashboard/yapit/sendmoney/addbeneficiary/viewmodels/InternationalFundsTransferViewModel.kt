@@ -106,62 +106,62 @@ class InternationalFundsTransferViewModel(application: Application) :
         }
     }
 
-    override fun rmtTransferRequest(beneficiaryId: String?) {
-        launch {
-            state.loading = true
-            when (val response =
-                mTransactionsRepository.rmtTransferRequest(
-                    RMTTransactionRequestDTO(
-                        state.fxRateAmount?.toDouble(),
-                        state.fromFxRateCurrency,
-                        state.reasonTransferCode,
-                        beneficiaryId,
-                        state.transactionNote,
-                        state.reasonTransferValue
-                    )
-                )
-                ) {
-                is RetroApiResponse.Success -> {
-                    state.referenceNumber = response.data.data
-                    clickEvent.postValue(Constants.ADD_SUCCESS)
-                }
-                is RetroApiResponse.Error -> {
-                    state.toast = response.error.message
-                    state.loading = false
-                }
-            }
-            state.loading = false
-        }
-    }
-
-    override fun swiftTransferRequest(beneficiaryId: String?) {
-        launch {
-            state.loading = true
-            when (val response =
-                mTransactionsRepository.swiftTransferRequest(
-                    SwiftTransactionRequestDTO(
-                        beneficiaryId,
-                        state.fxRateAmount?.toDouble(),
-                        0.0,
-                        state.reasonTransferCode,
-                        state.reasonTransferValue,
-                        state.transactionNote,
-                        state.rate
-                    )
-                )
-                ) {
-                is RetroApiResponse.Success -> {
-                    state.referenceNumber = response.data.data
-                    clickEvent.postValue(Constants.ADD_SUCCESS)
-                }
-                is RetroApiResponse.Error -> {
-                    state.toast = response.error.message
-                    state.loading = false
-                }
-            }
-            state.loading = false
-        }
-    }
+//    override fun rmtTransferRequest(beneficiaryId: String?) {
+//        launch {
+//            state.loading = true
+//            when (val response =
+//                mTransactionsRepository.rmtTransferRequest(
+//                    RMTTransactionRequestDTO(
+//                        state.fxRateAmount?.toDouble(),
+//                        state.fromFxRateCurrency,
+//                        state.reasonTransferCode,
+//                        beneficiaryId,
+//                        state.transactionNote,
+//                        state.reasonTransferValue
+//                    )
+//                )
+//                ) {
+//                is RetroApiResponse.Success -> {
+//                    state.referenceNumber = response.data.data
+//                    clickEvent.postValue(Constants.ADD_SUCCESS)
+//                }
+//                is RetroApiResponse.Error -> {
+//                    state.toast = response.error.message
+//                    state.loading = false
+//                }
+//            }
+//            state.loading = false
+//        }
+//    }
+//
+//    override fun swiftTransferRequest(beneficiaryId: String?) {
+//        launch {
+//            state.loading = true
+//            when (val response =
+//                mTransactionsRepository.swiftTransferRequest(
+//                    SwiftTransactionRequestDTO(
+//                        beneficiaryId,
+//                        state.fxRateAmount?.toDouble(),
+//                        0.0,
+//                        state.reasonTransferCode,
+//                        state.reasonTransferValue,
+//                        state.transactionNote,
+//                        state.rate
+//                    )
+//                )
+//                ) {
+//                is RetroApiResponse.Success -> {
+//                    state.referenceNumber = response.data.data
+//                    clickEvent.postValue(Constants.ADD_SUCCESS)
+//                }
+//                is RetroApiResponse.Error -> {
+//                    state.toast = response.error.message
+//                    state.loading = false
+//                }
+//            }
+//            state.loading = false
+//        }
+//    }
 
 
     override fun getTransactionInternationalfxList(productCode: String?) {
@@ -222,7 +222,7 @@ class InternationalFundsTransferViewModel(application: Application) :
         }
     }
 
-    override fun createOtp(id: Int) {
+   /* override fun createOtp(id: Int) {
         launch {
             state.loading = true
             when (val response =
@@ -241,7 +241,7 @@ class InternationalFundsTransferViewModel(application: Application) :
             }
             state.loading = false
         }
-    }
+    }*/
 
     override fun getMoneyTransferLimits(productCode: String?) {
         launch {
