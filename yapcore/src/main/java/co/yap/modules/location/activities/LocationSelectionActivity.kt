@@ -137,7 +137,7 @@ class LocationSelectionActivity : MapSupportActivity(), ILocationSelection.View 
                 Utils.openWebPage(Constants.URL_TERMS_CONDITION, "", this)
             }
             R.id.etAddressField -> {
-
+                expandMap()
             }
             R.id.rlCollapsedMapSection -> {
                 expandMap()

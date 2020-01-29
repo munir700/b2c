@@ -22,7 +22,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.Window
 import android.view.inputmethod.InputMethodManager
-import android.widget.ProgressBar
 import androidx.annotation.ColorRes
 import androidx.core.content.ContextCompat
 import co.yap.networking.customers.requestdtos.Contact
@@ -79,7 +78,8 @@ object Utils {
             context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         val view = layoutInflater.inflate(R.layout.progress_dialogue_fragment, null)
         view.progressBar2.indeterminateDrawable.setColorFilter(
-            ThemeColorUtils.colorPressedBtnStateAttribute(context), android.graphics.PorterDuff.Mode.SRC_IN
+            ThemeColorUtils.colorPressedBtnStateAttribute(context),
+            android.graphics.PorterDuff.Mode.SRC_IN
         )
         return AlertDialog.Builder(context).run {
             setView(view)
@@ -201,6 +201,41 @@ object Utils {
                 || Build.MANUFACTURER.contains("Genymotion")
                 || Build.BRAND.startsWith("generic") && Build.DEVICE.startsWith("generic")
                 || "google_sdk" == Build.PRODUCT)
+    }
+
+    fun verifyUsername(enteredUsername: String): String {
+        var username = enteredUsername
+        return if (isUsernameNumeric(username)) {
+            when {
+                username.startsWith("+") -> {
+                    username = username.replace("+", "00")
+                    username
+                }
+                username.startsWith("00") -> username
+                username.startsWith("0") -> {
+                    username = username.substring(1, username.length)
+                    username
+                }
+                else -> username
+            }
+        } else {
+            username
+        }
+    }
+
+    fun isUsernameNumeric(username: String): Boolean {
+        val inputStr: CharSequence
+        var isValid = false
+        val expression = "^[0-9+]*\$"
+
+        inputStr = username
+        val pattern = Pattern.compile(expression, Pattern.CASE_INSENSITIVE)
+        val matcher = pattern.matcher(inputStr)
+
+        if (matcher.matches()) {
+            isValid = true
+        }
+        return isValid
     }
 
     fun validateEmail(email: String): Boolean {
@@ -776,7 +811,7 @@ object Utils {
     }
 
 
-     fun formateIbanString(iban: String?): String? {
+    fun formateIbanString(iban: String?): String? {
         iban?.let {
             val sb = StringBuilder()
             for (i in 0..iban.length - 1) {
