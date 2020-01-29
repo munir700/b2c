@@ -132,7 +132,6 @@ class EidInfoReviewViewModel(application: Application) :
                         populateState(result)
                         clickEvent.setValue(EVENT_FINISH)
                         state.toast = response.data.errors?.message!!
-
                         //clearData()
                     }
                 }

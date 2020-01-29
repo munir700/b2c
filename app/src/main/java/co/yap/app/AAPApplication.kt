@@ -21,7 +21,6 @@ import co.yap.yapcore.helpers.AuthUtils
 import co.yap.yapcore.helpers.NetworkConnectionManager
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.extentions.longToast
-import co.yap.yapcore.managers.AppCredentials
 import com.crashlytics.android.Crashlytics
 import com.github.florent37.inlineactivityresult.kotlin.startForResult
 import com.leanplum.Leanplum
@@ -112,14 +111,14 @@ class AAPApplication : ChatApplication(
         //Parser.parseVariables(this)
         LeanplumActivityHelper.enableLifecycleCallbacks(this)
 
-        val appId = AppCredentials.appId
-        val devKey = AppCredentials.devKey
-        val prodKey = AppCredentials.prodKey
+        val appId = BuildConfig.LEANPLUM_CLIENT_SECRET
+        val devKey = BuildConfig.LEANPLUM_API_KEY
+        //val prodKey = AppCredentials.prodKey
 
         if (BuildConfig.DEBUG) {
             Leanplum.setAppIdForDevelopmentMode(appId, devKey)
         } else {
-            Leanplum.setAppIdForProductionMode(appId, prodKey)
+            //Leanplum.setAppIdForProductionMode(appId, prodKey)
         }
 
         Leanplum.setIsTestModeEnabled(true)
