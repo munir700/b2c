@@ -72,7 +72,7 @@ class EidInfoReviewViewModel(application: Application) :
                     trackEvent(TrackEvents.EIDA_CALLBACK_US_CITIZEN)
                 }
 
-                it.nationality == sectionedCountries?.data?.find { country -> country.name == it.nationality }?.name -> {
+                it.isoCountryCode2Digit == sectionedCountries?.data?.find { country -> country.isoCountryCode2Digit == it.isoCountryCode2Digit }?.isoCountryCode2Digit -> {
                     sanctionedCountry = it.nationality
                     sanctionedNationality = it.nationality
                     clickEvent.setValue(

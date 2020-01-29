@@ -142,7 +142,7 @@ class YapCardStatusFragment : BaseBindingFragment<IYapCardStatus.ViewModel>(), I
                 startActivityForResult(
                     SetCardPinWelcomeActivity.newIntent(
                         requireContext(),
-                        card.cardSerialNumber
+                        card
                     ), Constants.EVENT_CREATE_CARD_PIN
                 )
             }

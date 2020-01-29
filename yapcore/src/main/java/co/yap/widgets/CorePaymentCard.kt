@@ -166,11 +166,11 @@ class CorePaymentCard @JvmOverloads constructor(context: Context, attrs: Attribu
             clMainContainer.setBackgroundColor(Color.parseColor("#$bgCardColor"))
         } catch (ex: IllegalArgumentException) {
             clMainContainer.setBackgroundColor(
-                ContextCompat.getColor(
-                    context,
+//                ContextCompat.getColor(
+//                    context,
                     ThemeColorUtils.colorPrimaryDarkAttribute(context)
                    /* R.color.colorPrimaryDark*/
-                )
+//                )
             )
         }
     }

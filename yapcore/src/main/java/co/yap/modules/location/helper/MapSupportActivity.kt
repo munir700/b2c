@@ -78,7 +78,7 @@ open class MapSupportActivity : BaseBindingActivity<ILocationSelection.ViewModel
         animateCameraToLocation(mDefaultLocation)
         mMap?.setOnMapClickListener {
             it?.let { latLng ->
-                showLoader(true)
+                //showLoader(true)
                 viewModel.state.loading = true
                 mDefaultLocation = latLng
                 viewModel.lastKnowLocation.value = mDefaultLocation
@@ -190,10 +190,11 @@ open class MapSupportActivity : BaseBindingActivity<ILocationSelection.ViewModel
                             viewModel.state.loading = false
                             viewModel.state.isShowLocationCard.set(true)
                         }
-
                         break
                     }
                 }
+            } else {
+                viewModel.state.loading = false
             }
         }
     }

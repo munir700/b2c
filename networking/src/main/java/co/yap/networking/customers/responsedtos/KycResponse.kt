@@ -7,7 +7,7 @@ import com.google.gson.annotations.SerializedName
 data class KycResponse(
     @SerializedName("Data")
     val data: Data?,
-    @SerializedName("errors")
+    @SerializedName("error")
     var errors: ApiError?
 ) : ApiResponse() {
     data class Data(
@@ -56,6 +56,12 @@ data class KycResponse(
         @SerializedName("valid_number")
         val valid_number: Boolean,
         @SerializedName("valid_score")
-        val valid_score: Int
+        val valid_score: Int,
+        @SerializedName("alpha_2_code")
+        val isoCountryCode2Digit: String,
+        @SerializedName("alpha_3_code")
+        val isoCountryCode3Digit: String,
+        @SerializedName("country_nation")
+        val country_nation: String
     ) : ApiResponse()
 }
