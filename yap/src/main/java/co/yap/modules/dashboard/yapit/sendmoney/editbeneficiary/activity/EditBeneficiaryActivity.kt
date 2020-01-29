@@ -17,6 +17,8 @@ import co.yap.widgets.MaskTextWatcher
 import co.yap.widgets.popmenu.PopupMenu
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.constants.Constants.EXTRA
+import co.yap.yapcore.constants.Constants.OVERVIEW_BENEFICIARY
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.getCurrencyPopMenu
 import kotlinx.android.synthetic.main.activity_edit_beneficiary.*
@@ -25,14 +27,6 @@ import kotlinx.android.synthetic.main.activity_edit_beneficiary.*
 class EditBeneficiaryActivity : BaseBindingActivity<IEditBeneficiary.ViewModel>(),
     IEditBeneficiary.View {
 
-    companion object {
-        const val Bundle_EXTRA = "bundle_extra"
-        const val OVERVIEW_BENEFICIARY = "overview_beneficiary"
-        const val REQUEST_CODE = 101
-        fun newIntent(context: Context): Intent {
-            return Intent(context, EditBeneficiaryActivity::class.java)
-        }
-    }
 
     override fun getBindingVariable() = BR.editBeneficiaryViewModel
 
@@ -46,8 +40,8 @@ class EditBeneficiaryActivity : BaseBindingActivity<IEditBeneficiary.ViewModel>(
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         intent?.let {
-            if (it.hasExtra(Bundle_EXTRA)) {
-                val bundle = it.getBundleExtra(Bundle_EXTRA)
+            if (it.hasExtra(EXTRA)) {
+                val bundle = it.getBundleExtra(EXTRA)
                 bundle?.let {
                     viewModel.state.needOverView = it.getBoolean(OVERVIEW_BENEFICIARY, false)
                     viewModel.state.beneficiary = bundle.getParcelable(Beneficiary::class.java.name)

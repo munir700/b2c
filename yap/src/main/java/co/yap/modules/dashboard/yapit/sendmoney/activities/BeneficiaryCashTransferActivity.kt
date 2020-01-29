@@ -25,21 +25,6 @@ import kotlinx.android.synthetic.main.activity_beneficiary_cash_transfer.*
 class BeneficiaryCashTransferActivity : BaseBindingActivity<IBeneficiaryCashTransfer.ViewModel>(),
     IFragmentHolder, INavigator {
 
-    companion object {
-        fun newIntent(
-            context: Context,
-            beneficiary: Beneficiary?,
-            position: Int = 0,
-            isNewBeneficiary: Boolean = false
-        ): Intent {
-            val intent = Intent(context, BeneficiaryCashTransferActivity::class.java)
-            intent.putExtra(Constants.BENEFICIARY, beneficiary)
-            intent.putExtra(Constants.POSITION, position)
-            intent.putExtra(Constants.IS_NEW_BENEFICIARY, isNewBeneficiary)
-            return intent
-        }
-    }
-
     override fun getBindingVariable(): Int = BR.viewModel
 
     override fun getLayoutId(): Int = R.layout.activity_beneficiary_cash_transfer

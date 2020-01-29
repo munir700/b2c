@@ -50,7 +50,6 @@ data class Beneficiary(
     @SerializedName("beneficiaryCountry")
     var beneficiaryCountry: String? = null
 ) : Parcelable {
-    fun fullName(): String {
-        return String.format("%s %s", firstName, lastName)
-    }
+    fun fullName()= "$firstName $lastName"
+
 }

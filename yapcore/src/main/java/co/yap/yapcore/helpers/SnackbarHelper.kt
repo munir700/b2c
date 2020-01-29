@@ -12,6 +12,7 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import co.yap.yapcore.R
 import co.yap.yapcore.helpers.extentions.toastNow
+import com.google.android.material.snackbar.BaseTransientBottomBar.ANIMATION_MODE_FADE
 import com.google.android.material.snackbar.Snackbar
 
 fun Activity?.showSnackBar(msg: String, gravity: Int = Gravity.BOTTOM) {
@@ -24,17 +25,50 @@ fun Activity?.showSnackBar(msg: String, gravity: Int = Gravity.BOTTOM) {
     show(snakbar, gravity)
 }
 
-fun Activity?.show1(msg: String) {
+fun Activity.showSnackBar(
+    msg: String, @ColorRes viewBgColor: Int, @ColorRes colorOfMessage: Int,
+    actionText: CharSequence,
+    gravity: Int = Gravity.BOTTOM,
+    clickListener: View.OnClickListener
+) {
     val snakbar = Snackbar.make(
-        this?.window?.decorView?.findViewById(android.R.id.content)!!,
+        this.window?.decorView?.findViewById(android.R.id.content)!!,
         validateString(msg),
         Snackbar.LENGTH_LONG
     )
-    show(snakbar)
+    snakbar.view.setBackgroundColor(ContextCompat.getColor(this, viewBgColor))
+    snakbar.setTextColor(ContextCompat.getColor(this, colorOfMessage))
+    val snackRootView = snakbar.view
+    val snackTextView = snackRootView
+        .findViewById<TextView>(R.id.snackbar_text)
+    snackTextView.setTextAppearance(this, R.style.AppFontLight)
+    snakbar.setAction(actionText, clickListener)
+    show(snakbar, gravity)
+}
+
+fun Activity.showSnackBar(
+    msg: String, @ColorRes viewBgColor: Int, @ColorRes colorOfMessage: Int,
+    actionText: String,
+    gravity: Int = Gravity.BOTTOM,
+    clickListener: View.OnClickListener
+) {
+    val snakbar = Snackbar.make(
+        this.window?.decorView?.findViewById(android.R.id.content)!!,
+        validateString(msg),
+        Snackbar.LENGTH_LONG
+    )
+    snakbar.view.setBackgroundColor(ContextCompat.getColor(this, viewBgColor))
+    snakbar.setTextColor(ContextCompat.getColor(this, colorOfMessage))
+    val snackRootView = snakbar.view
+    val snackTextView = snackRootView
+        .findViewById<TextView>(R.id.snackbar_text)
+    snackTextView.setTextAppearance(this, R.style.AppFontLight)
+    snakbar.setAction(actionText, clickListener)
+    show(snakbar, gravity)
 }
 
 // for activity and action
-fun Activity.show(
+fun Activity.showSnackBar(
     msg: String,
     actionText: String,
     gravity: Int = Gravity.BOTTOM,
@@ -47,7 +81,7 @@ fun Activity.show(
             Snackbar.LENGTH_LONG
         )
         .setAction(actionText, clickListener)
-    show(snakbar)
+    show(snakbar, gravity)
 }
 
 fun Context?.showSnackBar(msg: String) {
@@ -64,7 +98,49 @@ fun Fragment?.showSnackBar(msg: String, gravity: Int = Gravity.BOTTOM) {
         validateString(msg),
         Snackbar.LENGTH_LONG
     )
-    show(snakbar)
+    show(snakbar, gravity)
+}
+
+fun Fragment.showSnackBar(
+    msg: String, @ColorRes viewBgColor: Int, @ColorRes colorOfMessage: Int,
+    actionText: String,
+    gravity: Int = Gravity.BOTTOM,
+    clickListener: View.OnClickListener
+) {
+    val snakbar = Snackbar.make(
+        this.requireActivity()?.window?.decorView?.findViewById(android.R.id.content)!!,
+        validateString(msg),
+        Snackbar.LENGTH_LONG
+    )
+    snakbar.view.setBackgroundColor(ContextCompat.getColor(this.requireActivity(), viewBgColor))
+    snakbar.setTextColor(ContextCompat.getColor(this.requireActivity(), colorOfMessage))
+    val snackRootView = snakbar.view
+    val snackTextView = snackRootView
+        .findViewById<TextView>(R.id.snackbar_text)
+    snackTextView.setTextAppearance(this.requireActivity(), R.style.AppFontLight)
+    snakbar.setAction(actionText, clickListener)
+    show(snakbar, gravity)
+}
+
+fun Fragment.showSnackBar(
+    msg: String, @ColorRes viewBgColor: Int, @ColorRes colorOfMessage: Int,
+    actionText: CharSequence,
+    gravity: Int = Gravity.BOTTOM,
+    clickListener: View.OnClickListener
+) {
+    val snakbar = Snackbar.make(
+        this.requireActivity()?.window?.decorView?.findViewById(android.R.id.content)!!,
+        validateString(msg),
+        Snackbar.LENGTH_LONG
+    )
+    snakbar.view.setBackgroundColor(ContextCompat.getColor(this.requireActivity(), viewBgColor))
+    snakbar.setTextColor(ContextCompat.getColor(this.requireActivity(), colorOfMessage))
+    val snackRootView = snakbar.view
+    val snackTextView = snackRootView
+        .findViewById<TextView>(R.id.snackbar_text)
+    snackTextView.setTextAppearance(this.requireActivity(), R.style.AppFontLight)
+    snakbar.setAction(actionText, clickListener)
+    show(snakbar, gravity)
 }
 
 fun Fragment?.showSnackBar(
@@ -95,7 +171,7 @@ fun Fragment?.show1(msg: String, gravity: Int = Gravity.BOTTOM) {
 }
 
 // for activity and action
-fun Fragment?.show(
+fun Fragment?.showSnackBar(
     msg: String,
     actionText: String,
     gravity: Int = Gravity.BOTTOM,
@@ -108,7 +184,7 @@ fun Fragment?.show(
             Snackbar.LENGTH_LONG
         )
         .setAction(actionText, clickListener)
-    show(snackbar)
+    show(snackbar, gravity)
 }
 
 
@@ -150,6 +226,21 @@ private fun show(snakbar: Snackbar, gravity: Int = Gravity.BOTTOM) {
     val param = view.layoutParams as FrameLayout.LayoutParams
     param.gravity = gravity
     view.layoutParams = param
+    snakbar.animationMode = ANIMATION_MODE_FADE
+
+//    val fadeIn = AlphaAnimation(0f, 1f)
+//    fadeIn.interpolator = DecelerateInterpolator() //add this
+//    fadeIn.duration = 1000
+//
+//    val fadeOut = AlphaAnimation(1f, 0f)
+//    fadeOut.interpolator = AccelerateInterpolator() //and this
+//    fadeOut.startOffset = 1000
+//    fadeOut.duration = 1000
+//
+//    val animation = AnimationSet(false) //change to false
+//    animation.addAnimation(fadeIn)
+//    animation.addAnimation(fadeOut)
+//    view.animation = animation
     snakbar.show()
 }
 

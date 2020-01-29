@@ -20,6 +20,7 @@ import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.enums.SendMoneyBeneficiaryType
 import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.helpers.extentions.launchActivity
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.MyUserManager
 import kotlinx.android.synthetic.main.fragment_beneficiary_account_detail.*
@@ -110,13 +111,11 @@ class BeneficiaryAccountDetailsFragment :
     }
     private fun startMoneyTransfer() {
         viewModel.beneficiary?.let { beneficiary ->
-            requireActivity().startActivityForResult(
-                BeneficiaryCashTransferActivity.newIntent(
-                    requireActivity(),
-                    beneficiary,
-                    isNewBeneficiary = true
-                ), RequestCodes.REQUEST_TRANSFER_MONEY
-            )
+            launchActivity<BeneficiaryCashTransferActivity>(requestCode =RequestCodes.REQUEST_TRANSFER_MONEY){
+                putExtra(Constants.BENEFICIARY, beneficiary)
+                putExtra(Constants.POSITION, 0)
+               putExtra(Constants.IS_NEW_BENEFICIARY, true)
+            }
         }
     }
 

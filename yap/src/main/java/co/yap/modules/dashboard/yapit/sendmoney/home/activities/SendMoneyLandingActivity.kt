@@ -15,8 +15,6 @@ import co.yap.databinding.ActivitySendMoneyLandingBinding
 import co.yap.modules.dashboard.yapit.sendmoney.activities.BeneficiaryCashTransferActivity
 import co.yap.modules.dashboard.yapit.sendmoney.activities.SendMoneyHomeActivity
 import co.yap.modules.dashboard.yapit.sendmoney.editbeneficiary.activity.EditBeneficiaryActivity
-import co.yap.modules.dashboard.yapit.sendmoney.editbeneficiary.activity.EditBeneficiaryActivity.Companion.Bundle_EXTRA
-import co.yap.modules.dashboard.yapit.sendmoney.editbeneficiary.activity.EditBeneficiaryActivity.Companion.OVERVIEW_BENEFICIARY
 import co.yap.modules.dashboard.yapit.sendmoney.home.adapters.AllBeneficiariesAdapter
 import co.yap.modules.dashboard.yapit.sendmoney.home.adapters.RecentTransferAdaptor
 import co.yap.modules.dashboard.yapit.sendmoney.home.interfaces.ISendMoneyHome
@@ -25,9 +23,12 @@ import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.translation.Translator
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.constants.Constants.EXTRA
+import co.yap.yapcore.constants.Constants.OVERVIEW_BENEFICIARY
 import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.constants.RequestCodes.REQUEST_TRANSFER_MONEY
 import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.helpers.extentions.launchActivity
 import co.yap.yapcore.interfaces.OnItemClickListener
 import com.nikhilpanju.recyclerviewenhanced.RecyclerTouchListener
 import kotlinx.android.synthetic.main.layout_beneficiaries.*
@@ -45,7 +46,7 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
 
     companion object {
         private const val searching = "searching"
-        private var performedDeleteOperation :Boolean = false
+        private var performedDeleteOperation: Boolean = false
         const val data = "payLoad"
         fun newIntent(context: Context): Intent {
             return Intent(context, SendMoneyLandingActivity::class.java)
@@ -82,7 +83,7 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
         viewModel.clickEvent.observe(this, clickListener)
         viewModel.onDeleteSuccess.observe(this, Observer {
             getAdaptor().removeItemAt(positionToDelete)
-            performedDeleteOperation =true
+            performedDeleteOperation = true
             if (positionToDelete == 0)
                 viewModel.requestAllBeneficiaries()
         })
@@ -193,24 +194,22 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
 
     private fun startMoneyTransfer(beneficiary: Beneficiary?, position: Int) {
         Utils.hideKeyboard(getSearchView())
-        startActivityForResult(
-            BeneficiaryCashTransferActivity.newIntent(
-                this,
-                beneficiary,
-                position
-            ), REQUEST_TRANSFER_MONEY
-        )
+        launchActivity<BeneficiaryCashTransferActivity>(requestCode = RequestCodes.REQUEST_TRANSFER_MONEY) {
+            putExtra(Constants.BENEFICIARY, beneficiary)
+            putExtra(Constants.POSITION, position)
+            putExtra(Constants.IS_NEW_BENEFICIARY, false)
+        }
     }
 
     private fun openEditBeneficiary(beneficiary: Beneficiary?) {
         Utils.hideKeyboard(getSearchView())
         beneficiary?.let {
-            val intent = EditBeneficiaryActivity.newIntent(context = this)
             val bundle = Bundle()
             bundle.putBoolean(OVERVIEW_BENEFICIARY, false)
             bundle.putParcelable(Beneficiary::class.java.name, beneficiary)
-            intent.putExtra(Bundle_EXTRA, bundle)
-            startActivityForResult(intent, RequestCodes.REQUEST_NOTIFY_BENEFICIARY_LIST)
+            launchActivity<EditBeneficiaryActivity>(RequestCodes.REQUEST_NOTIFY_BENEFICIARY_LIST) {
+                putExtra(EXTRA, bundle)
+            }
         }
     }
 
@@ -260,8 +259,8 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
         // calling this function on resume because whenever user go for search and back to home it will set the searchView according to its state
         setSearchView(viewModel.isSearching.value!!)
 
-        if (performedDeleteOperation){
-            performedDeleteOperation=false
+        if (performedDeleteOperation) {
+            performedDeleteOperation = false
             viewModel.requestAllBeneficiaries()
         }
     }

@@ -139,4 +139,13 @@ object Constants {
     const val USER_STATUS_MEETING_SCHEDULED: String = "MEETING_SCHEDULED"
     const val USER_STATUS_MEETING_SUCCESS: String = "MEETING_SUCCESS"
 
+    const val name = "name"
+    const val data = "payLoad"
+    const val result = "result"
+    const val skipped = "skipped"
+    val FRAGMENT_CLASS = "fragment_class"
+    val SHOW_TOOLBAR = "_show_toolbar"
+    val EXTRA = "_bundle_extras"
+    const val OVERVIEW_BENEFICIARY = "overview_beneficiary"
+
 }

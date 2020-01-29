@@ -73,13 +73,16 @@ class BeneficiaryAccountDetailsViewModel(application: Application) :
             parentViewModel?.beneficiary?.value?.beneficiaryType?.let { it ->
                 if (it.isNotEmpty())
                     when (SendMoneyBeneficiaryType.valueOf(it)) {
+
                         SendMoneyBeneficiaryType.SWIFT -> {
-                            createOtp(Constants.SWIFT_BENEFICIARY)
+                            validateBeneficiaryDetails()
+                            //createOtp(Constants.SWIFT_BENEFICIARY)
 //                            parentViewModel?.beneficiary?.value?.accountNo = state.accountIban
 //                            createBeneficiaryRequest()
                         }
                         SendMoneyBeneficiaryType.RMT -> {
-                            createOtp(Constants.RMT_BENEFICIARY)
+                            validateBeneficiaryDetails()
+                            //createOtp(Constants.RMT_BENEFICIARY)
 //                            parentViewModel?.beneficiary?.value?.accountNo = state.accountIban
 //                            createBeneficiaryRequest()
                         }
@@ -119,6 +122,29 @@ class BeneficiaryAccountDetailsViewModel(application: Application) :
                 }
             }
         }
+    }
+
+    override fun validateBeneficiaryDetails() {
+        parentViewModel?.beneficiary?.value?.let {
+            it.accountNo = state.accountIban.replace(" ", "")
+            launch {
+                state.loading = true
+                when (val response = repository.validateBeneficiary(it)) {
+                    is RetroApiResponse.Success -> {
+                        state.loading = false
+//                        success.value = true
+//                        beneficiary = response.data.data
+                    }
+
+                    is RetroApiResponse.Error -> {
+                        state.loading = false
+                        state.toast = response.error.message
+                        //success.value = false
+                    }
+                }
+            }
+        }
+
     }
 
     override fun createOtp(action: String) {
