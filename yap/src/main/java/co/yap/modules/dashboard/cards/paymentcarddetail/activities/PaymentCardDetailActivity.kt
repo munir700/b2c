@@ -307,7 +307,6 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
             }
         }
 
-
         viewModel.card.value?.status?.let {
             when (it) {
                 CardStatus.ACTIVE.name -> {
@@ -351,7 +350,7 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
         viewModel.card.value?.blocked?.let {
             if (it) {
 
-                showSnackBar(
+                clSnackbar?.showSnackBar(
                     msg = getString(Strings.screen_cards_display_text_freeze_card),
                     viewBgColor = R.color.colorPrimary,
                     colorOfMessage = R.color.white,
@@ -396,16 +395,25 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
     }
 
     private fun showLostStolenSnackbar() {
-        snackbar = window.decorView.getCustomSnackbarSticky(
-            clSnackbar,
-            getString(Strings.screen_cards_display_text_lost_stolen_card),
-            getString(Strings.screen_cards_display_text_lost_stolen_card_action)
+        clSnackbar?.showSnackBar(
+            msg = getString(Strings.screen_cards_display_text_lost_stolen_card),
+            viewBgColor = R.color.colorPrimary,
+            colorOfMessage = R.color.white,
+            gravity = Gravity.TOP,
+            duration = Snackbar.LENGTH_INDEFINITE,
+            actionText = underline(getString(Strings.screen_cards_display_text_lost_stolen_card_action)),
+            clickListener = View.OnClickListener { startReorderCardFlow() }
         )
-        snackbar?.show()
-        val tvAction = snackbar?.view?.findViewById(co.yap.yapcore.R.id.tvAction) as TextView
-        tvAction.setOnClickListener {
-            startReorderCardFlow()
-        }
+//        snackbar = window.decorView.getCustomSnackbarSticky(
+//            clSnackbar,
+//            getString(Strings.screen_cards_display_text_lost_stolen_card),
+//            getString(Strings.screen_cards_display_text_lost_stolen_card_action)
+//        )
+//        snackbar?.show()
+//        val tvAction = snackbar?.view?.findViewById(co.yap.yapcore.R.id.tvAction) as TextView
+//        tvAction.setOnClickListener {
+//            startReorderCardFlow()
+//        }
     }
 
     override fun onClick(eventType: Int) {

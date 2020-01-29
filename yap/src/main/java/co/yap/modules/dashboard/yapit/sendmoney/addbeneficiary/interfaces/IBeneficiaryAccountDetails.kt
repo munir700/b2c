@@ -39,7 +39,7 @@ interface IBeneficiaryAccountDetails {
         fun validateBeneficiaryDetails()
         fun handlePressOnAddBank(id: Int)
         fun retry()
-        fun createOtp(action: String)
+//        fun createOtp(action: String)
     }
 
     interface View : IBase.View<ViewModel>

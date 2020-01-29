@@ -9,13 +9,10 @@ import co.yap.modules.dashboard.yapit.sendmoney.viewmodels.SendMoneyBaseViewMode
 import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.networking.interfaces.IRepositoryHolder
-import co.yap.networking.messages.MessagesRepository
-import co.yap.networking.messages.requestdtos.CreateOtpGenericRequest
 import co.yap.networking.models.RetroApiResponse
 import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.SingleLiveEvent
-import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.SendMoneyBeneficiaryType
 
 class BeneficiaryAccountDetailsViewModel(application: Application) :
@@ -25,10 +22,9 @@ class BeneficiaryAccountDetailsViewModel(application: Application) :
 
     override val backButtonPressEvent: SingleLiveEvent<Boolean> = SingleLiveEvent()
     override val success: MutableLiveData<Boolean> = MutableLiveData(false)
-    override val isBeneficiaryValid: MutableLiveData<Boolean>  = MutableLiveData(false)
+    override val isBeneficiaryValid: MutableLiveData<Boolean> = MutableLiveData(false)
     override val state: BeneficiaryAccountDetailsState = BeneficiaryAccountDetailsState()
     override val repository: CustomersRepository = CustomersRepository
-    private val messagesRepository: MessagesRepository = MessagesRepository
     override var clickEvent: SingleClickEvent = SingleClickEvent()
     override var beneficiary: Beneficiary? = Beneficiary()
     override val otpCreateObserver: MutableLiveData<Boolean> = MutableLiveData()
@@ -75,7 +71,7 @@ class BeneficiaryAccountDetailsViewModel(application: Application) :
                 if (it.isNotEmpty())
                     when (SendMoneyBeneficiaryType.valueOf(it)) {
 
-                        SendMoneyBeneficiaryType.SWIFT,SendMoneyBeneficiaryType.RMT -> {
+                        SendMoneyBeneficiaryType.SWIFT, SendMoneyBeneficiaryType.RMT -> {
                             validateBeneficiaryDetails()
                             //createOtp(Constants.SWIFT_BENEFICIARY)
 //                            parentViewModel?.beneficiary?.value?.accountNo = state.accountIban
@@ -101,7 +97,6 @@ class BeneficiaryAccountDetailsViewModel(application: Application) :
         setToolBarTitle(getString(Strings.screen_add_beneficiary_display_text_title))
         parentViewModel?.state?.toolbarVisibility?.set(true)
         parentViewModel?.state?.leftIcon?.set(true)
-        //toggleAddButtonVisibility(false)
     }
 
     override fun createBeneficiaryRequest() {
@@ -148,27 +143,6 @@ class BeneficiaryAccountDetailsViewModel(application: Application) :
             }
         }
 
-    }
-
-    override fun createOtp(action: String) {
-        launch {
-            state.loading = true
-            when (val response =
-                messagesRepository.createOtpGeneric(
-                    createOtpGenericRequest = CreateOtpGenericRequest(
-                        action
-                    )
-                )) {
-                is RetroApiResponse.Success -> {
-                    otpCreateObserver.value = true
-                }
-                is RetroApiResponse.Error -> {
-                    state.toast = response.error.message
-                    state.loading = false
-                }
-            }
-            state.loading = false
-        }
     }
 
     override fun retry() {
