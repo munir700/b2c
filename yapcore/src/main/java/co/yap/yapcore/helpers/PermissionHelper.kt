@@ -107,11 +107,9 @@ class PermissionHelper {
             if (denied) {
                 val currentShowRational = shouldShowRational(permissions)
                 if (!showRational && !currentShowRational) {
-                    Log.d(TAG, "PERMISSION: Permission Denied By System")
                     mPermissionCallback?.onPermissionDeniedBySystem()
                     deniedCallback(true)
                 } else {
-                    Log.i(TAG, "PERMISSION: Permission Denied")
                     //Checking if any single individual permission is granted then show user that permission
                     if (!grantedPermissions.isEmpty()) {
 
@@ -124,17 +122,12 @@ class PermissionHelper {
 
                 }
             } else {
-                Log.i(TAG, "PERMISSION: Permission Granted")
 
                 mPermissionCallback?.onPermissionGranted()
                 requestAllCallback()
             }
         }
     }
-
-    //====================================
-    //====================================
-
     interface PermissionCallback {
         fun onPermissionGranted()
 

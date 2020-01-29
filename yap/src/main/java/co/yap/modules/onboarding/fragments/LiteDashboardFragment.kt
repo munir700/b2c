@@ -20,6 +20,7 @@ import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.helpers.AuthUtils
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.biometric.BiometricUtil
+import co.yap.yapcore.helpers.extentions.launchActivity
 import co.yap.yapcore.managers.MyUserManager
 import kotlinx.android.synthetic.main.fragment_lite_dashboard.*
 
@@ -96,13 +97,17 @@ class LiteDashboardFragment : YapDashboardChildFragment<ILiteDashboard.ViewModel
                     findNavController().navigate(LiteDashboardFragmentDirections.actionLiteDashboardFragmentToSetCardPinWelcomeActivity())
                 }*/
             viewModel.EVENT_PRESS_COMPLETE_VERIFICATION -> {
-                startActivityForResult(
-                    DocumentsDashboardActivity.getIntent(
-                        requireContext(),
-                        MyUserManager.user?.currentCustomer?.firstName.toString(),
-                        false
-                    ), RequestCodes.REQUEST_KYC_DOCUMENTS
-                )
+                launchActivity<DocumentsDashboardActivity>(requestCode = RequestCodes.REQUEST_KYC_DOCUMENTS){
+                    putExtra(co.yap.yapcore.constants.Constants.name, MyUserManager.user?.currentCustomer?.firstName.toString())
+                    putExtra(co.yap.yapcore.constants.Constants.data, false)
+                }
+//                startActivityForResult(
+//                    DocumentsDashboardActivity.getIntent(
+//                        requireContext(),
+//                        MyUserManager.user?.currentCustomer?.firstName.toString(),
+//                        false
+//                    ), RequestCodes.REQUEST_KYC_DOCUMENTS
+//                )
 
             }
             viewModel.EVENT_PRESS_SET_CARD_PIN -> {
@@ -118,7 +123,7 @@ class LiteDashboardFragment : YapDashboardChildFragment<ILiteDashboard.ViewModel
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == RequestCodes.REQUEST_KYC_DOCUMENTS && resultCode == Activity.RESULT_OK) {
             data?.let {
-                val result = data.getBooleanExtra(DocumentsDashboardActivity.result, false)
+                val result = data.getBooleanExtra(co.yap.yapcore.constants.Constants.result, false)
                 val error = data.getBooleanExtra("error", false)
                 if(!result && error)
                 {

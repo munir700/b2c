@@ -12,6 +12,7 @@ import android.util.AttributeSet
 import android.view.*
 import android.widget.PopupWindow
 import android.widget.TextView
+import androidx.annotation.Keep
 import androidx.appcompat.widget.AppCompatEditText
 import co.yap.yapcore.R
 import co.yap.yapcore.helpers.Utils
@@ -304,7 +305,7 @@ class DrawableClickEditText(context: Context, attrs: AttributeSet) :
     interface OnDrawableClickListener {
         fun onClick(target: DrawablePosition)
     }
-
+    @Keep
     enum class DrawablePosition {
         LEFT,
         RIGHT,

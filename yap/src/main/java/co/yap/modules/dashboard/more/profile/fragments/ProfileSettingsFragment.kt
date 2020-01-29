@@ -206,14 +206,7 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
     }
 
     private fun doLogout() {
-        AuthUtils.navigateToHardLogin(requireContext())
-        MyUserManager.expireUserSession()
-        MyUserManager.cardBalance.value = CardBalance()
-        MyUserManager.cards = MutableLiveData()
-        MyUserManager.cards.value?.clear()
-        MyUserManager.userAddress = null
-        MoreActivity.showExpiredIcon = false
-        YAPApplication.clearFilters()
+        MyUserManager.doLogout(requireContext())
         activity?.finish()
     }
 

@@ -19,6 +19,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
+import androidx.annotation.Keep
 import co.yap.yapcore.R
 import com.google.gson.Gson
 import io.michaelrocks.libphonenumber.android.NumberParseException
@@ -452,7 +453,6 @@ class CountryCodePicker : RelativeLayout {
                 return getPhoneUtil().format(phoneNumber, PhoneNumberUtil.PhoneNumberFormat.E164)
                     .substring(1)
             } catch (e: NumberParseException) {
-                Log.e(TAG, "getFullNumber: Could not parse number")
                 return selectedCountryCode
             }
         }
@@ -488,7 +488,6 @@ class CountryCodePicker : RelativeLayout {
                     PhoneNumberUtil.PhoneNumberFormat.INTERNATIONAL
                 ).substring(1)
             } catch (e: NumberParseException) {
-                Log.e(TAG, "getFullNumber: Could not parse number")
                 return selectedCountryCode
             }
         }
@@ -499,7 +498,6 @@ class CountryCodePicker : RelativeLayout {
                 val phoneNumber = enteredPhoneNumber
                 return getPhoneUtil().format(phoneNumber, PhoneNumberUtil.PhoneNumberFormat.E164)
             } catch (e: NumberParseException) {
-                Log.e(TAG, "getFullNumber: Could not parse number")
                 return selectedCountryCode
             }
         }
@@ -1694,7 +1692,7 @@ class CountryCodePicker : RelativeLayout {
     fun overrideClickListener(clickListener: View.OnClickListener) {
         customClickListener = clickListener
     }
-
+    @Keep
     enum class Language {
         AFRIKAANS("af"),
         ARABIC("ar"),
@@ -1742,7 +1740,7 @@ class CountryCodePicker : RelativeLayout {
             this.code = code
         }
     }
-
+    @Keep
     enum class PhoneNumberType {
         MOBILE,
         FIXED_LINE,
@@ -1772,7 +1770,7 @@ class CountryCodePicker : RelativeLayout {
         // specific region.
         UNKNOWN
     }
-
+    @Keep
     enum class AutoDetectionPref private constructor(representation: String) {
         SIM_ONLY("1"),
         NETWORK_ONLY("2"),
@@ -1807,7 +1805,7 @@ class CountryCodePicker : RelativeLayout {
             }
         }
     }
-
+    @Keep
     enum class TextGravity private constructor(i: Int) {
         LEFT(-1), CENTER(0), RIGHT(1);
 

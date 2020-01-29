@@ -72,7 +72,6 @@ public class CoreSearchView extends RelativeLayout implements TextWatcher, TextV
 
 
     public void updateLoadingState(boolean isLoading) {
-        Log.d("usm_search_widget", "progressbar: isLoading= " + isLoading);
         if (enableProgressbar)
             pbLoadingIndicator.setVisibility(isLoading ? VISIBLE : View.GONE);
     }

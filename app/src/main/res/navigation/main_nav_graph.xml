@@ -213,14 +213,14 @@
         tools:layout="@layout/activity_on_boarding_existing_yap" />
 
 
-    <activity
-        android:id="@+id/documentsDashboardActivity"
-        android:name="co.yap.modules.kyc.activities.DocumentsDashboardActivity"
-        android:label="DocumentsDashboardActivity"
-        tools:layout="@layout/activity_documents_dashboard">
-        <argument
-            android:name="name"
-            app:argType="string" />
-    </activity>
+<!--    <activity-->
+<!--        android:id="@+id/documentsDashboardActivity"-->
+<!--        android:name="co.yap.modules.kyc.activities.DocumentsDashboardActivity"-->
+<!--        android:label="DocumentsDashboardActivity"-->
+<!--        tools:layout="@layout/activity_documents_dashboard">-->
+<!--        <argument-->
+<!--            android:name="name"-->
+<!--            app:argType="string" />-->
+<!--    </activity>-->
 </navigation>
 

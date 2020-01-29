@@ -4,11 +4,13 @@ import android.animation.Animator
 import android.graphics.Point
 import android.view.View
 import android.widget.FrameLayout
+import androidx.annotation.Keep
 import co.yap.widgets.arcmenu.FloatingActionMenu
 
 abstract class MenuAnimationHandler {
 
     // There are only two distinct animations at the moment.
+    @Keep
     enum class ActionType {
         OPENING, CLOSING
     }

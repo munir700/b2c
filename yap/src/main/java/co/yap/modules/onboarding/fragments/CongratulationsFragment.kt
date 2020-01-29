@@ -29,11 +29,14 @@ import co.yap.modules.kyc.activities.DocumentsDashboardActivity
 import co.yap.modules.onboarding.interfaces.ICongratulations
 import co.yap.modules.onboarding.viewmodels.CongratulationsViewModel
 import co.yap.translation.Strings
+import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.helpers.AnimationUtils
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.ExtraType
 import co.yap.yapcore.helpers.extentions.getValue
+import co.yap.yapcore.helpers.extentions.launchActivity
+import co.yap.yapcore.managers.MyUserManager
 import kotlinx.android.synthetic.main.fragment_onboarding_congratulations.*
 
 
@@ -70,13 +73,19 @@ class CongratulationsFragment : OnboardingChildFragment<ICongratulations.ViewMod
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
                 R.id.btnCompleteVerification -> {
-                    startActivityForResult(
-                        DocumentsDashboardActivity.getIntent(
-                            requireContext(),
-                            viewModel.state.nameList[0] ?: "",
-                            false
-                        ), RequestCodes.REQUEST_KYC_DOCUMENTS
-                    )
+
+                    launchActivity<DocumentsDashboardActivity>(requestCode = RequestCodes.REQUEST_KYC_DOCUMENTS){
+                        putExtra(Constants.name, viewModel.state.nameList[0] ?: "")
+                        putExtra(Constants.data, false)
+                    }
+
+//                    startActivityForResult(
+//                        DocumentsDashboardActivity.getIntent(
+//                            requireContext(),
+//                            viewModel.state.nameList[0] ?: "",
+//                            false
+//                        ), RequestCodes.REQUEST_KYC_DOCUMENTS
+//                    )
                 }
             }
         })
@@ -89,12 +98,12 @@ class CongratulationsFragment : OnboardingChildFragment<ICongratulations.ViewMod
                 data?.let {
                     val success =
                         data.getValue(
-                            DocumentsDashboardActivity.result,
+                            Constants.result,
                             ExtraType.BOOLEAN.name
                         ) as? Boolean
                     val skipped =
                         data.getValue(
-                            DocumentsDashboardActivity.skipped,
+                            Constants.skipped,
                             ExtraType.BOOLEAN.name
                         ) as? Boolean
 

@@ -19,10 +19,12 @@ import co.yap.household.onboarding.onboarding.interfaces.INewUserSuccess
 import co.yap.household.onboarding.onboarding.viewmodels.NewUserSuccessViewModel
 import co.yap.modules.kyc.activities.DocumentsDashboardActivity
 import co.yap.modules.onboarding.activities.LiteDashboardActivity
+import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.helpers.AnimationUtils
 import co.yap.yapcore.helpers.extentions.ExtraType
 import co.yap.yapcore.helpers.extentions.getValue
+import co.yap.yapcore.helpers.extentions.launchActivity
 import co.yap.yapcore.managers.MyUserManager
 import kotlinx.android.synthetic.main.fragment_new_user_success.*
 import kotlinx.coroutines.delay
@@ -50,14 +52,18 @@ class NewUserSuccessFragment :
         rootContainer.children.forEach { it.alpha = 0f }
 
         btnCompleteVerifiocation.setOnClickListener {
-            startActivityForResult(
-                DocumentsDashboardActivity.getIntent(
-                    requireContext(),
-                    MyUserManager.user?.currentCustomer?.firstName.toString(),
-
-                    false
-                ), RequestCodes.REQUEST_KYC_DOCUMENTS
-            )
+            launchActivity<DocumentsDashboardActivity>(requestCode = RequestCodes.REQUEST_KYC_DOCUMENTS){
+                putExtra(Constants.name, MyUserManager.user?.currentCustomer?.firstName.toString())
+                putExtra(Constants.data, false)
+            }
+//            startActivityForResult(
+//                DocumentsDashboardActivity.getIntent(
+//                    requireContext(),
+//                    MyUserManager.user?.currentCustomer?.firstName.toString(),
+//
+//                    false
+//                ), RequestCodes.REQUEST_KYC_DOCUMENTS
+//            )
         }
     }
 
@@ -76,12 +82,12 @@ class NewUserSuccessFragment :
                 data?.let {
                     val success =
                         data.getValue(
-                            DocumentsDashboardActivity.result,
+                            Constants.result,
                             ExtraType.BOOLEAN.name
                         ) as? Boolean
                     val skipped =
                         data.getValue(
-                            DocumentsDashboardActivity.skipped,
+                            Constants.skipped,
                             ExtraType.BOOLEAN.name
                         ) as? Boolean
 

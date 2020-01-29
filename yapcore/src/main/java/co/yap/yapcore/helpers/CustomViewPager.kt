@@ -5,8 +5,10 @@ import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.animation.DecelerateInterpolator
 import android.widget.Scroller
+import androidx.annotation.Keep
 import androidx.viewpager.widget.ViewPager
 
+@Keep
 class CustomViewPager : ViewPager {
 
     constructor(context: Context) : super(context) {

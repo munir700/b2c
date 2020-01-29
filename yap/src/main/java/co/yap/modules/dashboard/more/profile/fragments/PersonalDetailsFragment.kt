@@ -26,6 +26,7 @@ import co.yap.translation.Strings
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.Constants.ADDRESS
 import co.yap.yapcore.constants.RequestCodes
+import co.yap.yapcore.helpers.extentions.launchActivity
 import co.yap.yapcore.helpers.extentions.preventTakeScreenShot
 import co.yap.yapcore.managers.MyUserManager
 import kotlinx.android.synthetic.main.fragment_personal_detail.*
@@ -104,14 +105,21 @@ class PersonalDetailsFragment : MoreBaseFragment<IPersonalDetail.ViewModel>(),
 //                            PersonalDetailsFragmentDirections.actionPersonalDetailsFragmentToDocumentsDashboardActivity(
 //                                viewModel.state.fullName, true
 //                            )
+//
 //                        findNavController().navigate(action)
-                        startActivityForResult(
-                            DocumentsDashboardActivity.getIntent(
-                                requireContext(),
-                                MyUserManager.user?.currentCustomer?.firstName.toString(),
-                                true
-                            ), RequestCodes.REQUEST_KYC_DOCUMENTS
-                        )
+
+                        launchActivity<DocumentsDashboardActivity>(requestCode = RequestCodes.REQUEST_KYC_DOCUMENTS){
+                            putExtra(Constants.name, MyUserManager.user?.currentCustomer?.firstName.toString())
+                            putExtra(Constants.data, false)
+                        }
+
+//                        startActivityForResult(
+//                            DocumentsDashboardActivity.getIntent(
+//                                requireContext(),
+//                                MyUserManager.user?.currentCustomer?.firstName.toString(),
+//                                true
+//                            ), RequestCodes.REQUEST_KYC_DOCUMENTS
+//                        )
                     }
 
                 }

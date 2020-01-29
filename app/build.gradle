@@ -16,14 +16,14 @@ android {
             versionCode 10
             versionName "0.14"
             resValue "string", "app_name", "YAP"
-            buildConfigField("String", "BASE_URL", "\"https://demo.yap.co\"")
+            buildConfigField("String", "BASE_URL", "\"${api_endpoint_live}\"")
         }
 
         dev {
             versionCode 1
             versionName "0.1"
             applicationIdSuffix ".dev"
-            buildConfigField("String", "BASE_URL", "\"https://dev.yap.co\"")
+            buildConfigField("String", "BASE_URL", "\"${api_endpoint_dev}\"")
             resValue "string", "app_name", "YAP Dev"
         }
 
@@ -31,7 +31,7 @@ android {
             versionCode 43
             versionName "0.3.3"
             applicationIdSuffix ".qa"
-            buildConfigField("String", "BASE_URL", "\"https://qa.yap.co\"")
+            buildConfigField("String", "BASE_URL", "\"${api_endpoint_qa}\"")
             resValue "string", "app_name", "YAP QA"
         }
 
@@ -39,7 +39,7 @@ android {
             versionCode 16
             versionName "0.1.6"
             applicationIdSuffix ".stg"
-            buildConfigField("String", "BASE_URL", "\"https://stg.yap.co\"")
+            buildConfigField("String", "BASE_URL", "\"${api_endpoint_stg}\"")
             resValue "string", "app_name", "YAP Stage"
         }
     }

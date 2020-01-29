@@ -44,11 +44,12 @@ class SpareCardLandingFragment : AddPaymentChildFragment<ISpareCards.ViewModel>(
         viewModel.getVirtualCardFee()
         viewModel.getPhysicalCardFee()
     }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         addBenefitRecyclerView()
-        SharedPreferenceManager(context!!).removeValue(SharedPreferenceManager.KEY_AVAILABLE_BALANCE)
+        context?.let { SharedPreferenceManager(it).removeValue(SharedPreferenceManager.KEY_AVAILABLE_BALANCE) }
 
         activity?.let {
             ViewModelProviders.of(it).get(AddPaymentCardViewModel::class.java)
@@ -60,7 +61,12 @@ class SpareCardLandingFragment : AddPaymentChildFragment<ISpareCards.ViewModel>(
                 R.id.llAddVirtualCard -> {
                     val action =
                         SpareCardLandingFragmentDirections.actionSpareCardLandingFragmentToAddSpareCardFragment(
-                            getString(R.string.screen_spare_card_landing_display_text_virtual_card),"","","","",false
+                            getString(R.string.screen_spare_card_landing_display_text_virtual_card),
+                            "",
+                            "",
+                            "",
+                            "",
+                            false
                         )
                     findNavController().navigate(action)
                 }
@@ -69,7 +75,12 @@ class SpareCardLandingFragment : AddPaymentChildFragment<ISpareCards.ViewModel>(
 
                     val action =
                         SpareCardLandingFragmentDirections.actionSpareCardLandingFragmentToAddSpareCardFragment(
-                            getString(R.string.screen_spare_card_landing_display_text_physical_card),"","","","",false
+                            getString(R.string.screen_spare_card_landing_display_text_physical_card),
+                            "",
+                            "",
+                            "",
+                            "",
+                            false
                         )
                     findNavController().navigate(action)
                 }

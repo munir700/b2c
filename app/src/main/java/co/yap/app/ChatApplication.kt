@@ -17,6 +17,7 @@ import com.liveperson.infra.log.LPMobileLog
 import com.liveperson.messaging.TaskType
 import com.liveperson.messaging.model.AgentData
 import com.liveperson.messaging.sdk.api.LivePerson
+import timber.log.Timber
 
 
 open class ChatApplication(appInfo: AppInfo) : YAPApplication(appInfo) {
@@ -49,7 +50,7 @@ open class ChatApplication(appInfo: AppInfo) : YAPApplication(appInfo) {
 
             override fun onReceive(context: Context, intent: Intent) {
 
-                Log.d(atg, "Got LP intent event with action " + intent.action!!)
+                Timber.d("Got LP intent event with action " + intent.action!!)
                 when (intent.action) {
                     LivePersonIntents.ILivePersonIntentAction.LP_ON_AGENT_AVATAR_TAPPED_INTENT_ACTION -> onAgentAvatarTapped(
                         LivePersonIntents.getAgentData(intent)

@@ -41,7 +41,7 @@ class CurrentPasscodeViewModel(application: Application) : ChangeCardPinViewMode
                 state.loading = true
                 when (val response = messagesRepository.createForgotPasscodeOTP(
                     CreateForgotPasscodeOtpRequest(
-                        Utils.verifyUsername(it), Utils.isUsernameNumeric(it)
+                        Utils.verifyUsername(it), !Utils.isUsernameNumeric(it)
                     )
                 )) {
                     is RetroApiResponse.Success -> {

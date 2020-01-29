@@ -7,7 +7,6 @@ import co.yap.BR
 import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.yapcore.BaseRVAdapter
 import co.yap.yapcore.BaseViewHolder
-import kotlin.reflect.full.primaryConstructor
 
 class RecentTransferAdaptor(mValue: MutableList<Beneficiary>, navigation: NavController?) :
     BaseRVAdapter<Beneficiary, RecentTransferItemVM, RecentTransferAdaptor.ViewHolder>(
@@ -20,16 +19,18 @@ class RecentTransferAdaptor(mValue: MutableList<Beneficiary>, navigation: NavCon
         viewModel: RecentTransferItemVM,
         mDataBinding: ViewDataBinding, viewType: Int
     ): ViewHolder {
-        return ViewHolder::class.primaryConstructor?.call(
-            view,
+        return ViewHolder(view,
             viewModel,
-            mDataBinding
-        ) as ViewHolder
+            mDataBinding)
+//        return ViewHolder::class.primaryConstructor?.call(
+//            view,
+//            viewModel,
+//            mDataBinding
+//        ) as ViewHolder
     }
 
     override fun getViewModel() = RecentTransferItemVM()
     override fun getVariableId() = BR.recentTransferItemVM
-
     class ViewHolder(view: View, viewModel: RecentTransferItemVM, mDataBinding: ViewDataBinding) :
         BaseViewHolder<Beneficiary, RecentTransferItemVM>(view, viewModel, mDataBinding)
 }

@@ -11,6 +11,10 @@ import co.yap.modules.kyc.interfaces.IDocumentsDashboard
 import co.yap.modules.kyc.viewmodels.DocumentsDashboardViewModel
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.IFragmentHolder
+import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.constants.Constants.data
+import co.yap.yapcore.constants.Constants.result
+import co.yap.yapcore.constants.Constants.skipped
 import co.yap.yapcore.defaults.DefaultNavigator
 import co.yap.yapcore.defaults.INavigator
 import co.yap.yapcore.interfaces.BackPressImpl
@@ -19,18 +23,19 @@ import co.yap.yapcore.interfaces.IBaseNavigator
 class DocumentsDashboardActivity : BaseBindingActivity<IDocumentsDashboard.ViewModel>(), INavigator,
     IFragmentHolder {
 
-    companion object {
-        const val name = "name"
-        const val data = "payLoad"
-        const val result = "result"
-        const val skipped = "skipped"
-        fun getIntent(context: Context, customerName: String?, allowSkip: Boolean): Intent {
-            val intent = Intent(context, DocumentsDashboardActivity::class.java)
-            intent.putExtra(name, customerName)
-            intent.putExtra(data, allowSkip)
-            return intent
-        }
-    }
+//    companion object {
+//        const val name = "name"
+//        const val data = "payLoad"
+//        const val result = "result"
+//        const val skipped = "skipped"
+//        fun getIntent(context: Context, customerName: String?, allowSkip: Boolean): Intent {
+//            val intent = Intent(context, DocumentsDashboardActivity::class.java)
+//            intent.putExtra(name, customerName)
+//            intent.putExtra(data, allowSkip)
+//            DocumentsDashboardActivityArgs
+//            return intent
+//        }
+//    }
 
     override val viewModel: IDocumentsDashboard.ViewModel
         get() = ViewModelProviders.of(this).get(DocumentsDashboardViewModel::class.java)
@@ -62,8 +67,8 @@ class DocumentsDashboardActivity : BaseBindingActivity<IDocumentsDashboard.ViewM
     }
 
     private fun getBundledName(): String? {
-        return if (intent.hasExtra(name))
-            intent.getStringExtra(name)
+        return if (intent.hasExtra(Constants.name))
+            intent.getStringExtra(Constants.name)
         else null
     }
 
@@ -77,3 +82,9 @@ class DocumentsDashboardActivity : BaseBindingActivity<IDocumentsDashboard.ViewM
     }
 
 }
+
+//D:\android\Projects\Yap-Android\app\build\generated\source\navigation-args\dev\debug\co\yap\modules\kyc\activities
+//D:\android\Projects\Yap-Android\app\build\generated\source\navigation-args\dev\debug\co\yap\modules\kyc\activities
+//
+//D:\android\Projects\Yap-Android\yap\build\generated\source\navigation-args\debug\co\yap\modules\kyc\activities
+

@@ -1,6 +1,7 @@
 package com.digitify.identityscanner.camera.controls
 
 
+import androidx.annotation.Keep
 import com.digitify.identityscanner.camera.CameraView
 
 /**
@@ -10,6 +11,7 @@ import com.digitify.identityscanner.camera.CameraView
  *
  * @see CameraView.setMode
  */
+@Keep
 enum class Mode(private val value: Int) : Control {
 
     /**

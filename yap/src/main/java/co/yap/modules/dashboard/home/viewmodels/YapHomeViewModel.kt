@@ -175,15 +175,7 @@ class YapHomeViewModel(application: Application) :
 
     private fun setUpSectionHeader(response: RetroApiResponse.Success<HomeTransactionsResponse>): ArrayList<HomeTransactionListData> {
         val contentList = response.data.data.content as ArrayList<Content>
-        Collections.sort(contentList, object :
-            Comparator<Content> {
-            override fun compare(
-                o1: Content,
-                o2: Content
-            ): Int {
-                return o2.creationDate!!.compareTo(o1.creationDate!!)
-            }
-        })
+        contentList.sortWith(Comparator { o1, o2 -> o2.creationDate.compareTo(o1.creationDate) })
 
         val groupByDate = contentList.groupBy { item ->
             convertDate(item.creationDate!!)
@@ -204,7 +196,7 @@ class YapHomeViewModel(application: Application) :
             var closingBalanceOfTheDay: Double = contentsList.get(0).balanceAfter
             closingBalanceArray.add(closingBalanceOfTheDay)
 
-            var transactionModel: HomeTransactionListData = HomeTransactionListData(
+            var transactionModel = HomeTransactionListData(
                 "Type",
                 "AED",
                 transactionsDay.key!!,

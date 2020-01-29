@@ -79,9 +79,8 @@ class SharedPreferenceManager(val context: Context) {
         if (!isNumeric(text)) {
             val editor: SharedPreferences.Editor = sharedPref.edit()
             editor.putString(KEY_USERNAME, EncryptionUtils.encrypt(context, text)!!)
-            EncryptionUtils.encrypt(context, SharedPreferenceManager.KEY_PASSCODE)!!
-
-            editor!!.apply()
+            EncryptionUtils.encrypt(context, KEY_PASSCODE)!!
+            editor.apply()
         }
     }
 
