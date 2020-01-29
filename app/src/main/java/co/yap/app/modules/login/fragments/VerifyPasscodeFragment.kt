@@ -5,7 +5,6 @@ import android.content.Intent
 import android.hardware.fingerprint.FingerprintManager
 import android.os.Bundle
 import android.view.View
-import androidx.databinding.library.baseAdapters.BR.accountType
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -13,6 +12,7 @@ import androidx.navigation.fragment.findNavController
 import co.yap.BR
 import co.yap.app.R
 import co.yap.app.YAPApplication
+import co.yap.app.activities.MainActivity
 import co.yap.app.constants.Constants
 import co.yap.app.login.EncryptionUtils
 import co.yap.app.modules.login.interfaces.IVerifyPasscode
@@ -189,7 +189,11 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
         MyUserManager.userAddress = null
         MoreActivity.showExpiredIcon = false
         YAPApplication.clearFilters()
-        activity?.onBackPressed()
+        if (activity is MainActivity) {
+            (activity as MainActivity).onBackPressedDummy()
+        } else {
+            activity?.onBackPressed()
+        }
     }
 
     override fun onDestroyView() {
@@ -326,6 +330,10 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
     }
 
     override fun onBiometricAuthenticationNotSupported() {
+    }
+
+    override fun onBackPressed(): Boolean {
+        return true
     }
 
     override fun onBiometricAuthenticationNotAvailable() {

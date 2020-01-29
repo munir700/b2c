@@ -85,6 +85,13 @@ class SharedPreferenceManager(val context: Context) {
         }
     }
 
+    fun getUserName(): String? {
+        SharedPreferenceManager(context).getValueString(KEY_USERNAME)?.let {
+            return EncryptionUtils.decrypt(context, it)?.let { user_name -> return user_name }
+                ?: return null
+        } ?: return null
+    }
+
     private fun isNumeric(str: String): Boolean {
         return str.matches("-?\\d+(\\.\\d+)?".toRegex())  //match a number with optional '-' and decimal.
     }

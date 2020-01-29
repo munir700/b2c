@@ -1,7 +1,9 @@
 package co.yap.yapcore
 
 import android.app.Activity
+import android.app.AlertDialog
 import android.app.Dialog
+import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
@@ -214,5 +216,35 @@ abstract class BaseActivity<V : IBase.ViewModel<*>> : AppCompatActivity(), IBase
             (viewModel.state as BaseState).removeOnPropertyChangedCallback(stateObserver)
         }
     }
+
+
+    override fun onResume() {
+        super.onResume()
+//         if (DeviceUtils().isDeviceRooted(applicationContext)) {
+         if (DeviceUtils().isDeviceRooted()) {
+            showAlertDialogAndExitApp("This device is rooted. You can't use this app.")
+        }
+    }
+
+    open fun showAlertDialogAndExitApp(message: String?) {
+        val alertDialog: AlertDialog = AlertDialog.Builder(this@BaseActivity).create()
+        alertDialog.setTitle("Alert")
+        alertDialog.setMessage(message)
+        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+            object : DialogInterface.OnClickListener {
+                override fun onClick(dialog: DialogInterface, which: Int) {
+                    dialog.dismiss()
+                    val intent =
+                        Intent(Intent.ACTION_MAIN)
+                    intent.addCategory(Intent.CATEGORY_HOME)
+                    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                    startActivity(intent)
+                    finish()
+                }
+            })
+        alertDialog.setCancelable(false)
+        alertDialog.show()
+    }
+
 
 }

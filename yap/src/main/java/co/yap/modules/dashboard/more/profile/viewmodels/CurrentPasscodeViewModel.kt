@@ -1,7 +1,6 @@
 package co.yap.modules.dashboard.more.profile.viewmodels
 
 import android.app.Application
-import co.yap.app.login.EncryptionUtils
 import co.yap.modules.dashboard.cards.paymentcarddetail.viewmodels.ChangeCardPinViewModel
 import co.yap.networking.admin.AdminRepository
 import co.yap.networking.messages.MessagesRepository
@@ -10,7 +9,8 @@ import co.yap.networking.models.RetroApiResponse
 import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.helpers.SharedPreferenceManager
-import java.util.regex.Pattern
+import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.helpers.extentions.toast
 
 class CurrentPasscodeViewModel(application: Application) : ChangeCardPinViewModel(application) {
     override val clickEvent: SingleClickEvent = SingleClickEvent()
@@ -19,7 +19,6 @@ class CurrentPasscodeViewModel(application: Application) : ChangeCardPinViewMode
     private val messagesRepository: MessagesRepository = MessagesRepository
     private val adminRepository: AdminRepository = AdminRepository
 
-    override var emailOtp: Boolean = false
     override var mobileNumber: String = ""
 
     override fun onCreate() {
@@ -37,33 +36,29 @@ class CurrentPasscodeViewModel(application: Application) : ChangeCardPinViewMode
 
     override fun handlePressOnForgotPasscodeButton(id: Int) {
         val sharedPreferenceManager = SharedPreferenceManager(context)
-        var username = ""
-        username = EncryptionUtils.decrypt(
-            context,
-            sharedPreferenceManager.getValueString(SharedPreferenceManager.KEY_USERNAME) as String
-        )!!
-        launch {
-            state.loading = true
-            when (val response = messagesRepository.createForgotPasscodeOTP(
-                CreateForgotPasscodeOtpRequest(
-                    verifyUsername(username), emailOtp
-                )
-            )) {
-                is RetroApiResponse.Success -> {
-                    response.data.data?.let {
-                        mobileNumber = it
+        sharedPreferenceManager.getUserName()?.let {
+            launch {
+                state.loading = true
+                when (val response = messagesRepository.createForgotPasscodeOTP(
+                    CreateForgotPasscodeOtpRequest(
+                        Utils.verifyUsername(it), Utils.isUsernameNumeric(it)
+                    )
+                )) {
+                    is RetroApiResponse.Success -> {
+                        response.data.data?.let {
+                            mobileNumber = it
+                        }
+                        state.loading = false
+                        forgotPasscodeclickEvent.postValue(id)
                     }
-                    state.loading = false
-                    forgotPasscodeclickEvent.postValue(id)
-                }
-                is RetroApiResponse.Error -> {
-                    //state.toast = response.error.message
-
-                    state.loading = false
+                    is RetroApiResponse.Error -> {
+                        state.loading = false
+                    }
                 }
             }
-        }
+        } ?: toast(context, "Invalid user name")
     }
+
 
     private fun validateCurrentPasscode(id: Int) {
         launch {
@@ -82,41 +77,5 @@ class CurrentPasscodeViewModel(application: Application) : ChangeCardPinViewMode
             }
             state.loading = false
         }
-    }
-
-    private fun verifyUsername(enteredUsername: String): String {
-        var username = enteredUsername
-        if (isUsernameNumeric(username)) {
-            emailOtp = false
-            if (username.startsWith("+")) {
-                username = username.replace("+", "00")
-                return username
-            } else if (username.startsWith("00")) {
-                return username
-            } else if (username.startsWith("0")) {
-                username = username.substring(1, username.length)
-                return username
-            } else {
-                return username
-            }
-        } else {
-            emailOtp = true
-            return username
-        }
-    }
-
-    private fun isUsernameNumeric(username: String): Boolean {
-        val inputStr: CharSequence
-        var isValid = false
-        val expression = "^[0-9+]*\$"
-
-        inputStr = username
-        val pattern = Pattern.compile(expression, Pattern.CASE_INSENSITIVE)
-        val matcher = pattern.matcher(inputStr)
-
-        if (matcher.matches()) {
-            isValid = true
-        }
-        return isValid
     }
 }

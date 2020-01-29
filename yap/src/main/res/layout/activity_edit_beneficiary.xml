@@ -411,7 +411,7 @@
                     android:imeOptions="actionDone"
                     android:inputType="number"
                     android:singleLine="true"
-                    android:text="@={editBeneficiaryViewModel.state.accountNumber}"
+                    android:text="@{editBeneficiaryViewModel.state.accountNumber}"
                     android:visibility='@{(editBeneficiaryViewModel.state.beneficiary.beneficiaryType.equals("UAEFTS") || editBeneficiaryViewModel.state.beneficiary.beneficiaryType.equals("DOMESTIC")) ? View.VISIBLE : View.GONE }' />
 
                 <LinearLayout
@@ -501,7 +501,7 @@
                     android:imeOptions="actionDone"
                     android:inputType="number"
                     android:singleLine="true"
-                    android:text="@={editBeneficiaryViewModel.state.accountNumber}"
+                    android:text="@{editBeneficiaryViewModel.state.accountNumber}"
                     android:visibility='@{(editBeneficiaryViewModel.state.beneficiary.beneficiaryType.equals("RMT") || editBeneficiaryViewModel.state.beneficiary.beneficiaryType.equals("SWIFT")) ? View.VISIBLE : View.GONE }' />
                 <!---->
                 <androidx.appcompat.widget.AppCompatTextView
