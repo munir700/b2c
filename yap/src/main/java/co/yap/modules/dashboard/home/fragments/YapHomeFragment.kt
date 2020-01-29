@@ -212,7 +212,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
         })
 
         viewModel.transactionsLiveData.observe(this, Observer {
-            if (viewModel.isLoadMore.value!!) {
+            if (true == viewModel.isLoadMore.value) {
                 if (getRecycleViewAdaptor()?.itemCount!! == 0) getBindings().appbar.setExpanded(true)
 
                 if (getRecycleViewAdaptor()?.itemCount!! > 0)

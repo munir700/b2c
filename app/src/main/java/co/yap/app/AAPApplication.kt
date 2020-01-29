@@ -16,6 +16,7 @@ import co.yap.modules.others.helper.Constants.START_REQUEST_CODE
 import co.yap.networking.RetroNetwork
 import co.yap.networking.interfaces.NetworkConstraintsListener
 import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.helpers.AppInfo
 import co.yap.yapcore.helpers.AuthUtils
 import co.yap.yapcore.helpers.NetworkConnectionManager
 import co.yap.yapcore.helpers.SharedPreferenceManager
@@ -31,7 +32,14 @@ import timber.log.Timber.DebugTree
 import java.util.*
 
 
-class AAPApplication : ChatApplication(BuildConfig.FLAVOR), NavigatorProvider {
+class AAPApplication : ChatApplication(
+    AppInfo(
+        BuildConfig.VERSION_NAME,
+        BuildConfig.VERSION_CODE,
+        BuildConfig.FLAVOR,
+        BuildConfig.BUILD_TYPE
+    )
+), NavigatorProvider {
 
     override fun onCreate() {
         super.onCreate()
@@ -42,7 +50,7 @@ class AAPApplication : ChatApplication(BuildConfig.FLAVOR), NavigatorProvider {
         setAppUniqueId(this)
         initFirebase()
         inItLeanPlum()
-        createChannel(packageName,"Default")
+        createChannel(packageName, "Default")
     }
 
     private fun initDebugTreeTimber() {
@@ -114,6 +122,7 @@ class AAPApplication : ChatApplication(BuildConfig.FLAVOR), NavigatorProvider {
             Leanplum.setAppIdForProductionMode(appId, prodKey)
         }
 
+        Leanplum.setIsTestModeEnabled(true)
         Leanplum.start(this)
     }
 
@@ -184,8 +193,9 @@ class AAPApplication : ChatApplication(BuildConfig.FLAVOR), NavigatorProvider {
                 } catch (e: Exception) {
                     if (e is ClassNotFoundException) {
                         longToast(
-                            "InlineActivityResult library not installed falling back to default method, please install \" +\n" +
-                                    "\"it from https://github.com/florent37/InlineActivityResult if you want to get inline activity results."
+                            "Something went wrong"
+                            //"InlineActivityResult library not installed falling back to default method, please install \" +\n" +
+                            //        "\"it from https://github.com/florent37/InlineActivityResult if you want to get inline activity results."
                         )
                         activity.startActivityForResult(
                             Intent(activity, VerifyPassCodePresenterActivity::class.java),
