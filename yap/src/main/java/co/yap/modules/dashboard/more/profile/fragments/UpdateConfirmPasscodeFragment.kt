@@ -13,6 +13,8 @@ import co.yap.modules.dashboard.more.profile.viewmodels.UpdateConfirmPasscodeVie
 import co.yap.modules.setcardpin.interfaces.ISetCardPin
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.SharedPreferenceManager
+import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.helpers.extentions.toast
 import kotlinx.android.synthetic.main.activity_create_passcode.*
 
 class UpdateConfirmPasscodeFragment : ConfirmNewCardPinFragment() {
@@ -29,25 +31,26 @@ class UpdateConfirmPasscodeFragment : ConfirmNewCardPinFragment() {
         sharedPreferenceManager = SharedPreferenceManager(requireContext())
 
         viewModel.forgotPasscodeclickEvent.observe(this, Observer {
-            var username = ""
             if (sharedPreferenceManager.getValueBoolien(
                     SharedPreferenceManager.KEY_IS_USER_LOGGED_IN,
                     false
                 )
             ) {
-                username = EncryptionUtils.decrypt(
-                    requireContext(),
-                    sharedPreferenceManager.getValueString(SharedPreferenceManager.KEY_USERNAME) as String
-                ) as String
+                sharedPreferenceManager.getUserName()?.let {
+                    proceedNext(it)
+                } ?: toast("Invalid username")
             }
-            val action =
-                UpdateConfirmPasscodeFragmentDirections.actionUpdateConfirmPasscodeFragmentToForgotPasscodeNavigation(
-                    username,
-                    viewModel.emailOtp,
-                    viewModel.mobileNumber, Constants.FORGOT_PASSCODE_FROM_CHANGE_PASSCODE
-                )
-            findNavController().navigate(action)
         })
+    }
+
+    private fun proceedNext(username: String) {
+        val action =
+            UpdateConfirmPasscodeFragmentDirections.actionUpdateConfirmPasscodeFragmentToForgotPasscodeNavigation(
+                username,
+                !Utils.isUsernameNumeric(username),
+                viewModel.mobileNumber, Constants.FORGOT_PASSCODE_FROM_CHANGE_PASSCODE
+            )
+        findNavController().navigate(action)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {

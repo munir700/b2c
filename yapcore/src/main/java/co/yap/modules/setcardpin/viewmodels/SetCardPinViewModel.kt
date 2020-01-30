@@ -14,7 +14,6 @@ open class SetCardPinViewModel(application: Application) :
     ISetCardPin.ViewModel {
 
     override val forgotPasscodeclickEvent: SingleClickEvent= SingleClickEvent()
-    override var emailOtp: Boolean=false
     override var mobileNumber: String=""
     override var pincode: String = ""
     override val state: SetCardPinState = SetCardPinState()
