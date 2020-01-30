@@ -1,4 +1,4 @@
-package co.yap.app.login
+package co.yap.yapcore.helpers.encryption
 
 import android.os.Build
 import android.util.Base64
@@ -12,7 +12,7 @@ import javax.crypto.spec.IvParameterSpec
 internal class SecurityKey {
 
     private lateinit var secretKey: SecretKey
-    private lateinit  var keyPair: KeyPair
+    private lateinit var keyPair: KeyPair
 
     constructor(secretKey: SecretKey) {
         this.secretKey = secretKey
@@ -61,7 +61,11 @@ internal class SecurityKey {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             cipher = Cipher.getInstance(AES_MODE_FOR_POST_API_23)
-            cipher.init(mode, secretKey, GCMParameterSpec(128, AES_MODE_FOR_POST_API_23.toByteArray(), 0, 12))
+            cipher.init(
+                mode,
+                secretKey,
+                GCMParameterSpec(128, AES_MODE_FOR_POST_API_23.toByteArray(), 0, 12)
+            )
         } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
             cipher = Cipher.getInstance(RSA_MODE)
             cipher.init(mode, if (mode == Cipher.DECRYPT_MODE) keyPair.public else keyPair.private)

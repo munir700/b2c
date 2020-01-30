@@ -13,7 +13,7 @@ import co.yap.BR
 import co.yap.app.R
 import co.yap.app.activities.MainActivity
 import co.yap.app.constants.Constants
-import co.yap.app.login.EncryptionUtils
+import co.yap.yapcore.helpers.encryption.EncryptionUtils
 import co.yap.app.modules.login.interfaces.IVerifyPasscode
 import co.yap.app.modules.login.viewmodels.VerifyPasscodeViewModel
 import co.yap.household.onboarding.OnboardingHouseHoldActivity
@@ -180,7 +180,7 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
     }
 
     private fun doLogout() {
-        MyUserManager.doLogout(requireContext(),true)
+        MyUserManager.doLogout(requireContext(), true)
         if (activity is MainActivity) {
             (activity as MainActivity).onBackPressedDummy()
         } else {
@@ -207,16 +207,15 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
         ) {
             setUsername()
         } else {
-            if (null != sharedPreferenceManager.getValueString(SharedPreferenceManager.KEY_USERNAME)) {
-                viewModel.state.username = EncryptionUtils.decrypt(
-                    requireActivity(),
-                    sharedPreferenceManager.getValueString(SharedPreferenceManager.KEY_USERNAME) as String
-                ) as String
-            } else {
-                viewModel.state.username = ""
-            }
+            sharedPreferenceManager.getUserName()?.let {
+                viewModel.state.username = it
+            } ?: updateName()
         }
         viewModel.login()
+    }
+
+    private fun updateName() {
+        viewModel.state.username = ""
     }
 
     private val loginSuccessObserver = Observer<Boolean> {

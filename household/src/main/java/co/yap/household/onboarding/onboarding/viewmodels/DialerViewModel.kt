@@ -6,7 +6,7 @@ import android.os.Build
 import android.view.inputmethod.EditorInfo
 import android.widget.TextView
 import androidx.lifecycle.MutableLiveData
-import co.yap.app.login.EncryptionUtils
+import co.yap.yapcore.helpers.encryption.EncryptionUtils
 import co.yap.household.R
 import co.yap.household.onboarding.onboarding.interfaces.IEmail
 import co.yap.household.onboarding.onboarding.states.EmailState
@@ -18,17 +18,17 @@ import co.yap.networking.customers.requestdtos.SignUpRequest
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
 import co.yap.yapcore.SingleClickEvent
-import co.yap.yapcore.SingleLiveEvent
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.helpers.extentions.toast
 import java.util.*
 import java.util.concurrent.TimeUnit
 
-class DialerViewModel (application: Application) :
+class DialerViewModel(application: Application) :
     OnboardingChildViewModel<IEmail.State>(application), IEmail.ViewModel,
     IRepositoryHolder<CustomersRepository> {
 
-    override var hasDoneAnimation: Boolean=false
+    override var hasDoneAnimation: Boolean = false
     override var onEmailVerifySuccess: MutableLiveData<Boolean> = MutableLiveData(false)
     override val state: EmailState = EmailState(application)
     override var clickEvent: SingleClickEvent = SingleClickEvent()
@@ -69,13 +69,13 @@ class DialerViewModel (application: Application) :
             state.refreshField = true
             when (val response = repository.signUp(
                 SignUpRequest(
-                    parentViewModel!!.onboardingData.firstName,
-                    parentViewModel!!.onboardingData.lastName,
-                    parentViewModel!!.onboardingData.countryCode,
-                    parentViewModel!!.onboardingData.mobileNo,
+                    parentViewModel?.onboardingData?.firstName,
+                    parentViewModel?.onboardingData?.lastName,
+                    parentViewModel?.onboardingData?.countryCode,
+                    parentViewModel?.onboardingData?.mobileNo,
                     state.twoWayTextWatcher,
-                    parentViewModel!!.onboardingData.passcode,
-                    parentViewModel!!.onboardingData.accountType.toString()
+                    parentViewModel?.onboardingData?.passcode,
+                    parentViewModel?.onboardingData?.accountType.toString()
                 )
             )) {
                 is RetroApiResponse.Success -> {
@@ -83,17 +83,25 @@ class DialerViewModel (application: Application) :
                         SharedPreferenceManager.KEY_IS_USER_LOGGED_IN,
                         true
                     )
-                    sharedPreferenceManager.save(
-                        SharedPreferenceManager.KEY_PASSCODE,
+
+                    parentViewModel?.onboardingData?.passcode?.let { passcode ->
                         EncryptionUtils.encrypt(
                             context,
-                            parentViewModel!!.onboardingData.passcode
-                        )!!
-                    )
-                    sharedPreferenceManager.save(
-                        SharedPreferenceManager.KEY_USERNAME,
-                        EncryptionUtils.encrypt(context, state.twoWayTextWatcher)!!
-                    )
+                            passcode
+                        )?.let { encrypted ->
+                            sharedPreferenceManager.save(
+                                SharedPreferenceManager.KEY_PASSCODE,
+                                encrypted
+                            )
+                        } ?: toast(context, "Invalid pass code encryption")
+                    } ?: toast(context, "Invalid pass code")
+
+                    EncryptionUtils.encrypt(context, state.twoWayTextWatcher)?.let {
+                        sharedPreferenceManager.save(
+                            SharedPreferenceManager.KEY_USERNAME,
+                            it
+                        )
+                    }
                     state.loading = false
                     setVerificationLabel()
                 }

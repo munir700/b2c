@@ -1,8 +1,7 @@
-package co.yap.app.login
+package co.yap.yapcore.helpers.encryption
 
 import android.content.Context
 import android.os.Build
-import android.util.Log
 import java.io.IOException
 import java.security.KeyStore
 import java.security.KeyStoreException

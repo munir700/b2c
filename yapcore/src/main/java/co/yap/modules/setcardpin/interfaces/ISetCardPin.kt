@@ -32,7 +32,6 @@ interface ISetCardPin {
 
         fun forgotCardPinRequest(cardSerialNumber: String, newPin: String)
         //forgot passcode variables
-        var emailOtp: Boolean
         var mobileNumber: String
     }
 

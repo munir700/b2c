@@ -6,7 +6,7 @@ import android.os.Handler
 import android.view.inputmethod.EditorInfo
 import android.widget.TextView
 import co.yap.R
-import co.yap.app.login.EncryptionUtils
+import co.yap.yapcore.helpers.encryption.EncryptionUtils
 import co.yap.modules.onboarding.interfaces.IEmail
 import co.yap.modules.onboarding.states.EmailState
 import co.yap.networking.customers.CustomersRepository
@@ -19,8 +19,8 @@ import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.SingleLiveEvent
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.helpers.extentions.toast
 import co.yap.yapcore.helpers.extentions.trackEvent
-import co.yap.yapcore.helpers.extentions.trackEventWithAttributes
 import co.yap.yapcore.leanplum.TrackEvents
 import co.yap.yapcore.managers.MyUserManager
 import java.util.*
@@ -83,22 +83,26 @@ class EmailViewModel(application: Application) :
                         SharedPreferenceManager.KEY_IS_USER_LOGGED_IN,
                         true
                     )
-                    sharedPreferenceManager.save(
-                        SharedPreferenceManager.KEY_PASSCODE,
+
+                    parentViewModel?.onboardingData?.passcode?.let { passcode ->
                         EncryptionUtils.encrypt(
                             context,
-                            parentViewModel!!.onboardingData.passcode
-                        )!!
-                    )
-                    sharedPreferenceManager.save(
-                        SharedPreferenceManager.KEY_USERNAME,
-                        EncryptionUtils.encrypt(context, state.twoWayTextWatcher)!!
-                    )
+                            passcode
+                        )?.let {
+                            sharedPreferenceManager.save(SharedPreferenceManager.KEY_PASSCODE, it)
+                        } ?: toast(context, "Invalid pass code encryption")
+                    } ?: toast(context, "Invalid pass code")
+
+
+                    EncryptionUtils.encrypt(context, state.twoWayTextWatcher)?.let {
+                        sharedPreferenceManager.save(
+                            SharedPreferenceManager.KEY_USERNAME,
+                            it
+                        )
+                    }
+
                     state.loading = false
                     setVerificationLabel()
-//                    val info: Map<String, String> = HashMap()
-//                    info["mobile-number-entered"] = String("")
-//                    trackEventWithAttributes(info)
                     trackEvent(TrackEvents.EMAIL_ADDRESS_ENTERED)
                 }
 
@@ -125,9 +129,8 @@ class EmailViewModel(application: Application) :
             getString(R.string.screen_email_verification_b2b_display_text_email_confirmation)
 
         val verificationText: String =
-            parentViewModel!!.onboardingData.firstName + ", " + screen_email_verification_b2c_display_text_email_sent + " " + state.twoWayTextWatcher + "\n" + "\n" + screen_email_verification_b2c_display_text_email_confirmation
+            parentViewModel?.onboardingData?.firstName + ", " + screen_email_verification_b2c_display_text_email_sent + " " + state.twoWayTextWatcher + "\n" + "\n" + screen_email_verification_b2c_display_text_email_confirmation
         state.emailVerificationTitle = verificationText
-
 
         // mark that we have completed all verification stuff to handle proper back navigation
         state.verificationCompleted = true
