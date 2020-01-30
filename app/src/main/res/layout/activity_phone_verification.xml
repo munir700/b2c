@@ -57,7 +57,7 @@
             app:text="@{Strings.screen_sign_in_display_text_sub_title}"
             />
 
-        <co.yap.widgets.YapOtpTextView
+        <co.yap.widgets.otptextview.OtpTextView
             android:id="@+id/otpView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

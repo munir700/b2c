@@ -97,7 +97,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/tvCardNumber"
                 tools:text="Enter the CVV to top up your acccount with AED XXX" />
 
-            <co.yap.widgets.YapOtpTextView
+            <co.yap.widgets.otptextview.OtpTextView
                 android:id="@+id/cvvView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -119,7 +119,7 @@
                 app:requestKeyboard="@{true}"
                 app:width="@dimen/_45sdp" />
 
-            <co.yap.widgets.YapOtpTextView
+            <co.yap.widgets.otptextview.OtpTextView
                 android:id="@+id/cvvAmericanView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

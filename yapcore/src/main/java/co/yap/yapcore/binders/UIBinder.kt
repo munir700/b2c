@@ -1,8 +1,8 @@
 package co.yap.yapcore.binders
 
 
-import `in`.aabhasjindal.otptextview.OTPListener
-import `in`.aabhasjindal.otptextview.OtpTextView
+import co.yap.widgets.otptextview.OTPListener
+import co.yap.widgets.otptextview.OtpTextView
 import android.annotation.SuppressLint
 import android.content.ContentUris
 import android.content.Context

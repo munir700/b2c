@@ -60,13 +60,11 @@
             app:layout_constraintBottom_toTopOf="@+id/layout2"
             app:layout_constraintVertical_bias="0.0"/>
 
-        <co.yap.widgets.YapOtpTextView
+        <co.yap.widgets.otptextview.OtpTextView
             android:id="@+id/otpView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="?attr/colorPrimaryDarkAttr"
-            app:height="@dimen/_55sdp"
-            app:width="@dimen/_40sdp"
             app:bar_enabled="false"
             app:bar_height="@dimen/_2sdp"
             app:length="6"
@@ -77,9 +75,7 @@
             app:otp_box_background_error="@drawable/otp_bg_error"
             app:otp_box_background_success="@drawable/otp_bg_success"
             app:layout_constraintTop_toBottomOf="@+id/textView4"
-            android:layout_marginStart="@dimen/_8sdp"
             app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginEnd="@dimen/_8sdp"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginTop="32dp"
             app:requestKeyboard="@{true}"
