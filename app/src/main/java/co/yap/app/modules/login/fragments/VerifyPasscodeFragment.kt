@@ -13,7 +13,7 @@ import co.yap.BR
 import co.yap.app.R
 import co.yap.app.activities.MainActivity
 import co.yap.app.constants.Constants
-import co.yap.app.login.EncryptionUtils
+import co.yap.yapcore.helpers.encryption.EncryptionUtils
 import co.yap.app.modules.login.interfaces.IVerifyPasscode
 import co.yap.app.modules.login.viewmodels.VerifyPasscodeViewModel
 import co.yap.household.onboarding.OnboardingHouseHoldActivity

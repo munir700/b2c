@@ -1,4 +1,4 @@
-package co.yap.app.login
+package co.yap.yapcore.helpers.encryption
 
 import android.annotation.TargetApi
 import android.content.Context

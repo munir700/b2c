@@ -1,7 +1,7 @@
 package co.yap.modules.forgotpasscode.viewmodels
 
 import android.app.Application
-import co.yap.app.login.EncryptionUtils
+import co.yap.yapcore.helpers.encryption.EncryptionUtils
 import co.yap.networking.admin.AdminRepository
 import co.yap.networking.admin.requestdtos.ForgotPasscodeRequest
 import co.yap.networking.interfaces.IRepositoryHolder
@@ -32,10 +32,10 @@ class CreateNewPasscodeViewModel(application: Application) : CreatePasscodeViewM
                 is RetroApiResponse.Success -> {
                     nextButtonPressEvent.setValue(id)
                     state.loading = false
-                    sharedPreferenceManager.save(
-                        SharedPreferenceManager.KEY_PASSCODE,
-                        EncryptionUtils.encrypt(context, state.passcode)!!
-                    )
+                    EncryptionUtils.encrypt(context, state.passcode)?.let {
+                        sharedPreferenceManager.save(SharedPreferenceManager.KEY_PASSCODE, it)
+                    }
+
                 }
                 is RetroApiResponse.Error -> {
                     state.toast = response.error.message

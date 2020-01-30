@@ -3,7 +3,7 @@ package co.yap.app.modules.login.viewmodels
 import android.app.Application
 import android.os.Build
 import androidx.lifecycle.MutableLiveData
-import co.yap.app.login.EncryptionUtils
+import co.yap.yapcore.helpers.encryption.EncryptionUtils
 import co.yap.app.modules.login.interfaces.IPhoneVerificationSignIn
 import co.yap.modules.onboarding.constants.Constants
 import co.yap.networking.authentication.AuthRepository
@@ -20,10 +20,9 @@ import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleLiveEvent
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.Utils
-import co.yap.yapcore.managers.MyUserManager
-import co.yap.yapcore.helpers.extentions.trackEvent
 import co.yap.yapcore.helpers.extentions.trackEventWithAttributes
 import co.yap.yapcore.leanplum.UserAttributes
+import co.yap.yapcore.managers.MyUserManager
 
 class PhoneVerificationSignInViewModel(application: Application) :
     BaseViewModel<IPhoneVerificationSignIn.State>(application), IPhoneVerificationSignIn.ViewModel,
@@ -66,15 +65,12 @@ class PhoneVerificationSignInViewModel(application: Application) :
                         SharedPreferenceManager.KEY_IS_USER_LOGGED_IN,
                         true
                     )
-
-                    sharedPreferenceManager.save(
-                        SharedPreferenceManager.KEY_PASSCODE,
-                        EncryptionUtils.encrypt(context, state.passcode)!!
-                    )
-                    sharedPreferenceManager.save(
-                        SharedPreferenceManager.KEY_USERNAME,
-                        EncryptionUtils.encrypt(context, state.username)!!
-                    )
+                    EncryptionUtils.encrypt(context, state.passcode)?.let {
+                        sharedPreferenceManager.save(SharedPreferenceManager.KEY_PASSCODE, it)
+                    }
+                    EncryptionUtils.encrypt(context, state.username)?.let {
+                        sharedPreferenceManager.save(SharedPreferenceManager.KEY_USERNAME, it)
+                    }
                     verifyOtpResult.postValue(true)
                 }
                 is RetroApiResponse.Error -> {
@@ -151,7 +147,7 @@ class PhoneVerificationSignInViewModel(application: Application) :
         }
     }
 
-    private fun  setUserAttributes() {
+    private fun setUserAttributes() {
         MyUserManager.user?.let {
             val info: HashMap<String, Any> = HashMap()
             info[UserAttributes().accountType] = it.accountType ?: ""
@@ -159,7 +155,7 @@ class PhoneVerificationSignInViewModel(application: Application) :
             info[UserAttributes().nationality] = it.currentCustomer.nationality ?: ""
             info[UserAttributes().firstName] = it.currentCustomer.firstName ?: ""
             info[UserAttributes().lastName] = it.currentCustomer.lastName
-            info[UserAttributes().documentsVerified] = it.documentsVerified?:false
+            info[UserAttributes().documentsVerified] = it.documentsVerified ?: false
             trackEventWithAttributes(info)
         }
     }
