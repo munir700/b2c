@@ -69,11 +69,10 @@
 -keep class * extends dagger.internal.ModuleAdapter
 -keep class * extends dagger.internal.StaticInjection
 
-# Crashlytics 2.+
+-keepclassmembers class *{ @com.leanplum.annotations.* <fields>;}
+-keep class com.leanplum.** { *; }
+-dontwarn com.leanplum.**
 
--keep class com.crashlytics.** { *; }
--keep class com.crashlytics.android.**
--keepattributes SourceFile, LineNumberTable, *Annotation*
 
 ##---------------Begin: proguard configuration for Gson  ----------
 # Gson uses generic type information stored in a class file when working with fields. Proguard
@@ -124,3 +123,10 @@
 #-dontwarn kotlin.reflect.**
 #-keep class org.jetbrains.** { *; }
 #-keep class kotlin.reflect.jvm.internal.** { *; }
+
+#All Other rule will goes above
+# Crashlytics 2.+
+
+-keep class com.crashlytics.** { *; }
+-keep class com.crashlytics.android.**
+-keepattributes SourceFile, LineNumberTable, *Annotation*

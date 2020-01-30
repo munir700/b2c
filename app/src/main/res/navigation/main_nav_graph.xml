@@ -121,7 +121,7 @@
         <action
             android:id="@+id/action_verifyPasscodeFragment_to_phoneVerificationSignInFragment"
             app:destination="@id/phoneVerificationSignInFragment"
-            app:popExitAnim="@anim/fade_out_long" />
+            app:popExitAnim="@anim/fade_out" />
     </fragment>
 
 
