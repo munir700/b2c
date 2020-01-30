@@ -101,7 +101,7 @@ public class MenuListAdapter extends MenuBaseAdapter<PopupMenuItem> implements I
       if (menuColor == -2) background.setBackgroundColor(Color.WHITE);
       else background.setBackgroundColor(menuColor);
 
-      if (textColor == -2) title.setTextColor(ContextCompat.getColor(context, R.color.black));
+      if (textColor == -2) title.setTextColor(ContextCompat.getColor(context, android.R.color.black));
       else title.setTextColor(textColor);
     }
     return super.getView(index, view, viewGroup);

@@ -131,7 +131,7 @@
                 app:layout_constraintVertical_bias="0.0"
                 tools:text="We&apos;ve sent a verification code to \n +971 56 204 7636" />
 
-            <co.yap.widgets.YapOtpTextView
+            <co.yap.widgets.otptextview.OtpTextView
                 android:id="@+id/otp_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

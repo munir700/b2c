@@ -242,7 +242,6 @@ project.ext {
             [configuration: "api", dependency: libraries.coroutineAndroid],
             [configuration: "api", dependency: libraries.navigationFragmentKtx],
             [configuration: "api", dependency: libraries.navigationUItKtx],
-            [configuration: "api", dependency: libraries.otpView],
             [configuration: "api", dependency: libraries.discretescrollview],
             [configuration: "implementation", dependency: project(modules.networking)],
             [configuration: "implementation", dependency: libraries.numberFomater],
