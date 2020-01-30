@@ -9,7 +9,6 @@ import co.yap.translation.Translator
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.R
 import co.yap.yapcore.SingleClickEvent
-import com.google.android.gms.maps.model.LatLng
 
 class LocationSelectionViewModel(application: Application) :
     BaseViewModel<ILocationSelection.State>(application),
@@ -19,8 +18,6 @@ class LocationSelectionViewModel(application: Application) :
     override val state: LocationSelectionState = LocationSelectionState(application)
 
     override var address: Address? = null
-    override var lastKnowLocation: MutableLiveData<LatLng> = MutableLiveData()
-
     override fun handleOnPressView(id: Int) {
         clickEvent.setValue(id)
     }

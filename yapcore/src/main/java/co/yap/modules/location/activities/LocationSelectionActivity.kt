@@ -17,6 +17,7 @@ import co.yap.yapcore.R
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.Constants.ADDRESS
 import co.yap.yapcore.constants.Constants.ADDRESS_SUCCESS
+import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.helpers.PermissionHelper
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.interfaces.OnItemClickListener
@@ -51,14 +52,13 @@ class LocationSelectionActivity : MapSupportActivity(), ILocationSelection.View 
         checkPermission()
         settAddressFromIntent()
         updateHeadings()
+        addListeners()
+    }
+
+    private fun addListeners() {
         flTitle.setOnTouchListener { _, _ -> true }
         lyAddressFields.setOnTouchListener { _, _ -> true }
         transparentImage.setOnTouchListener { _, _ -> !((viewModel.isMapExpanded.value) ?: false) }
-    }
-
-    override fun onResume() {
-        super.onResume()
-        checkGPS()
     }
 
     private fun checkGPS() {
@@ -71,13 +71,18 @@ class LocationSelectionActivity : MapSupportActivity(), ILocationSelection.View 
                     override fun onItemClick(view: View, data: Any, pos: Int) {
                         if (data is Boolean) {
                             if (data) {
-                                startActivity(Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS))
+                                startActivityForResult(
+                                    Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS),
+                                    RequestCodes.REQUEST_FOR_GPS
+                                )
                             } else {
                                 setIntentAction(false)
                             }
                         }
                     }
                 })
+        } else {
+            initMapFragment()
         }
     }
 
@@ -175,7 +180,6 @@ class LocationSelectionActivity : MapSupportActivity(), ILocationSelection.View 
         }
     }
 
-
     private fun expandMap() {
         viewModel.isMapExpanded.value = true
         YoYo.with(Techniques.FadeOut)
@@ -196,7 +200,7 @@ class LocationSelectionActivity : MapSupportActivity(), ILocationSelection.View 
 
                 override fun onAnimationEnd(animation: Animator?) {
                     viewModel.state.isShowLocationCard.set(true)
-                    viewModel.lastKnowLocation.value?.let {
+                    mDefaultLocation?.let {
                         animateCameraToLocation(it)
                     }
                 }
@@ -287,7 +291,7 @@ class LocationSelectionActivity : MapSupportActivity(), ILocationSelection.View 
         )
         permissionHelper?.request(object : PermissionHelper.PermissionCallback {
             override fun onPermissionGranted() {
-                initMapFragment()
+                checkGPS()
             }
 
             override fun onIndividualPermissionGranted(grantedPermission: Array<String>) {
@@ -317,6 +321,13 @@ class LocationSelectionActivity : MapSupportActivity(), ILocationSelection.View 
                 permissions as Array<String>,
                 grantResults
             )
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == RequestCodes.REQUEST_FOR_GPS) {
+            checkGPS()
         }
     }
 

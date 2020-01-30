@@ -18,7 +18,6 @@ interface ILocationSelection {
         var clickEvent: SingleClickEvent
         var isMapExpanded: MutableLiveData<Boolean>
         var address: Address?
-        var lastKnowLocation: MutableLiveData<LatLng>
         fun onLocationSelected()
         fun handleOnPressView(id: Int)
     }
