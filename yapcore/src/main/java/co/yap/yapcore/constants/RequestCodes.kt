@@ -12,4 +12,5 @@ object RequestCodes {
     const val REQUEST_TXN_FILTER = 10008
     const val REQUEST_KYC_DOCUMENTS = 10009
     const val REQUEST_ADD_HOUSE_HOLD = 10010
+    const val REQUEST_FOR_GPS = 10011
 }

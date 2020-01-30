@@ -29,7 +29,6 @@ class TransactionFiltersActivity : BaseBindingActivity<ITransactionFilters.ViewM
     override val viewModel: ITransactionFilters.ViewModel
         get() = ViewModelProviders.of(this).get(TransactionFiltersViewModel::class.java)
 
-
     companion object {
         const val KEY_FILTER_TXN_FILTERS = "txnFilters"
         fun newIntent(
@@ -55,23 +54,18 @@ class TransactionFiltersActivity : BaseBindingActivity<ITransactionFilters.ViewM
         }
     }
 
-    private fun initViews() {
-        viewModel.txnFilters.value?.let {
-            cbInTransFilter.isChecked = it.incomingTxn ?: false
-            cbOutTransFilter.isChecked = it.outgoingTxn ?: false
-        }
-    }
-
-    override fun onDestroy() {
-        viewModel.clickEvent.removeObservers(this)
-        super.onDestroy()
-    }
-
     private fun setObservers() {
         viewModel.clickEvent.observe(this, clickEventObserver)
         viewModel.transactionFilters.observe(this, searchFilterAmountObserver)
         if (viewModel.state is BaseState) {
             (viewModel.state as BaseState).addOnPropertyChangedCallback(stateObserver)
+        }
+    }
+
+    private fun initViews() {
+        viewModel.txnFilters.value?.let {
+            cbInTransFilter.isChecked = it.incomingTxn ?: false
+            cbOutTransFilter.isChecked = it.outgoingTxn ?: false
         }
     }
 
@@ -162,7 +156,13 @@ class TransactionFiltersActivity : BaseBindingActivity<ITransactionFilters.ViewM
 
     private fun setIntentAction() {
         var appliedFilter = 0
-        if (viewModel.txnFilters.value?.amountEndRange?.toFloat() != rsbAmount.leftSeekBar.progress) appliedFilter++
+        viewModel.txnFilters.value?.amountEndRange?.let {
+            if (it.toFloat() != rsbAmount.leftSeekBar.progress) appliedFilter++
+            setIntentRequest(appliedFilter++)
+        } ?: setIntentRequest(appliedFilter)
+    }
+
+    private fun setIntentRequest(appliedFilter: Int) {
         val request = TransactionFilters(
             amountStartRange = Utils.getTwoDecimalPlaces(rsbAmount.minProgress.toDouble()),
             amountEndRange = Utils.getTwoDecimalPlaces(rsbAmount.leftSeekBar.progress.toDouble()),
@@ -176,13 +176,13 @@ class TransactionFiltersActivity : BaseBindingActivity<ITransactionFilters.ViewM
         finish()
     }
 
+    override fun onDestroy() {
+        viewModel.clickEvent.removeObservers(this)
+        super.onDestroy()
+    }
+
     override fun onBackPressed() {
         YAPApplication.hasFilterStateChanged = false
         super.onBackPressed()
     }
-
-    private inline fun <T : Any, R> whenNotNull(input: T?, callback: (T) -> R): R? {
-        return input?.let(callback)
-    }
-
 }

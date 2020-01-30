@@ -7,6 +7,7 @@ import android.graphics.Canvas
 import android.location.Address
 import android.location.Geocoder
 import android.os.Bundle
+import android.os.Looper
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProviders
 import co.yap.modules.location.interfaces.ILocationSelection
@@ -15,8 +16,7 @@ import co.yap.yapcore.BR
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.R
 import co.yap.yapcore.helpers.PermissionHelper
-import com.google.android.gms.location.FusedLocationProviderClient
-import com.google.android.gms.location.LocationServices
+import com.google.android.gms.location.*
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.*
@@ -33,14 +33,14 @@ open class MapSupportActivity : BaseBindingActivity<ILocationSelection.ViewModel
     private var defaultZoom = 15
     private var placesClient: PlacesClient? = null
     private var icon: BitmapDescriptor? = null
-    private var mDefaultLocation = LatLng(25.276987, 55.296249)
+    protected var mDefaultLocation: LatLng? = null
     private var markerOptions: MarkerOptions? = null
     private var mFusedLocationProviderClient: FusedLocationProviderClient? = null
     private var locationMarker: Marker? = null
     lateinit var context: Context
     var permissionHelper: PermissionHelper? = null
 
-    override val viewModel: ILocationSelection.ViewModel
+    override val viewModel: LocationSelectionViewModel
         get() = ViewModelProviders.of(this).get(LocationSelectionViewModel::class.java)
 
     override fun getBindingVariable(): Int = BR.viewModel
@@ -49,15 +49,18 @@ open class MapSupportActivity : BaseBindingActivity<ILocationSelection.ViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         context = this // do remove this line
+        initMap()
     }
 
     private fun getCurrentLocation() {
         mFusedLocationProviderClient?.lastLocation?.addOnSuccessListener { location ->
             if (location != null) {
                 mDefaultLocation = LatLng(location.latitude, location.longitude)
-                viewModel.lastKnowLocation.value = mDefaultLocation
                 viewModel.address?.latitude = location.latitude
                 viewModel.address?.longitude = location.longitude
+                setupMapOptions()
+            } else {
+                startLocationUpdates()
             }
         }
     }
@@ -65,23 +68,28 @@ open class MapSupportActivity : BaseBindingActivity<ILocationSelection.ViewModel
     protected fun onMapReady(googleMap: GoogleMap?) {
         googleMap?.let {
             mMap = googleMap
-            initMap()
-            setupMapOptions()
+            if (mDefaultLocation != null) {
+                setupMapOptions()
+            }
         }
     }
 
     private fun setupMapOptions() {
+        createMarker(mDefaultLocation)
         mMap?.uiSettings?.isZoomControlsEnabled = false
         mMap?.uiSettings?.isMapToolbarEnabled = false
         mMap?.uiSettings?.isCompassEnabled = false
-        animateCameraToLocation(mDefaultLocation)
+        mDefaultLocation?.let {
+            animateCameraToLocation(it)
+        }
         mMap?.setOnMapClickListener {
             it?.let { latLng ->
-                //showLoader(true)
-                viewModel.state.loading = true
-                mDefaultLocation = latLng
-                viewModel.lastKnowLocation.value = mDefaultLocation
-                setSelectedMapLocation(latLng)
+                viewModel.launch {
+                    //viewModel.viewModelBGScope.async {
+                    //mDefaultLocation = latLng
+                    setSelectedMapLocation(latLng)
+                    //}.await()
+                }
             }
         }
         getCurrentPlaceLikelihoods()
@@ -93,7 +101,6 @@ open class MapSupportActivity : BaseBindingActivity<ILocationSelection.ViewModel
         placesClient = Places.createClient(context)
         mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(context)
         getCurrentLocation()
-        createMarker(mDefaultLocation)
     }
 
     private fun setSelectedMapLocation(location: LatLng) {
@@ -119,7 +126,6 @@ open class MapSupportActivity : BaseBindingActivity<ILocationSelection.ViewModel
         } catch (e: IndexOutOfBoundsException) {
             e.printStackTrace()
         }
-        viewModel.state.loading = false
     }
 
     private fun createMarker(
@@ -161,7 +167,6 @@ open class MapSupportActivity : BaseBindingActivity<ILocationSelection.ViewModel
             Place.Field.NAME, Place.Field.ADDRESS,
             Place.Field.LAT_LNG, Place.Field.PHOTO_METADATAS
         )
-        viewModel.state.loading = true
 
         val request = FindCurrentPlaceRequest.builder(placeFields).build()
         val placeResponse = placesClient?.findCurrentPlace(request)
@@ -181,19 +186,18 @@ open class MapSupportActivity : BaseBindingActivity<ILocationSelection.ViewModel
 
                         viewModel.state.placeTitle.set(currentPlace.address)
                         createMarker(markerLatLng)
-                        animateCameraToLocation(mDefaultLocation)
+                        mDefaultLocation?.let {
+                            animateCameraToLocation(it)
+                        }
 
                         if (!currentPlace.photoMetadatas.isNullOrEmpty() && currentPlace.photoMetadatas?.size ?: 0 > 0) {
                             attemptFetchPhoto(currentPlace)
                         } else {
-                            viewModel.state.loading = false
                             viewModel.state.isShowLocationCard.set(true)
                         }
                         break
                     }
                 }
-            } else {
-                viewModel.state.loading = false
             }
         }
     }
@@ -224,5 +228,37 @@ open class MapSupportActivity : BaseBindingActivity<ILocationSelection.ViewModel
         photoTask?.addOnCompleteListener {
             viewModel.state.loading = false
         }
+    }
+
+    private fun startLocationUpdates() {
+        val locationRequest = LocationRequest.create()
+        locationRequest.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
+        locationRequest.interval = 10000
+        locationRequest.fastestInterval = (10000 / 2).toLong()
+        mFusedLocationProviderClient?.requestLocationUpdates(
+            locationRequest,
+            locationCallback,
+            Looper.getMainLooper()
+        )
+    }
+
+    private val locationCallback = object : LocationCallback() {
+        override fun onLocationResult(locationResult: LocationResult?) {
+            locationResult ?: return
+            if (!locationResult.locations.isNullOrEmpty()) {
+                mDefaultLocation = LatLng(
+                    locationResult.locations.first().latitude,
+                    locationResult.locations.first().longitude
+                )
+                if (mMap != null) {
+                    setupMapOptions()
+                    stopLocationUpdates()
+                }
+            }
+        }
+    }
+
+    private fun stopLocationUpdates() {
+        mFusedLocationProviderClient?.removeLocationUpdates(locationCallback)
     }
 }
