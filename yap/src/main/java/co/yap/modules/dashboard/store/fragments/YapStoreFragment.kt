@@ -9,14 +9,11 @@ import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
 import co.yap.R
 import co.yap.modules.dashboard.store.adaptor.YapStoreAdaptor
-import co.yap.modules.dashboard.store.household.activities.HouseHoldLandingActivity
 import co.yap.modules.dashboard.store.interfaces.IYapStore
 import co.yap.modules.dashboard.store.viewmodels.YapStoreViewModel
 import co.yap.networking.store.responsedtos.Store
 import co.yap.yapcore.BaseBindingFragment
-import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.RequestCodes
-import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.extentions.ExtraType
 import co.yap.yapcore.helpers.extentions.getValue
 import co.yap.yapcore.interfaces.OnItemClickListener
@@ -53,12 +50,12 @@ class YapStoreFragment : BaseBindingFragment<IYapStore.ViewModel>(), IYapStore.V
     val listener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
             if (data is Store) {
-                if (data.name == "YAP Household") {
-                    startActivityForResult(
-                        HouseHoldLandingActivity.newIntent(requireContext()),
-                        RequestCodes.REQUEST_ADD_HOUSE_HOLD
-                    )
-                }
+//                if (data.name == "YAP Household") {
+//                    startActivityForResult(
+//                        HouseHoldLandingActivity.newIntent(requireContext()),
+//                        RequestCodes.REQUEST_ADD_HOUSE_HOLD
+//                    )
+//                }
             }
         }
     }
