@@ -35,9 +35,9 @@
             tools:visibility="gone" />
 
         <include
+            tools:visibility="visible"
             android:id="@+id/layoutBeneficiaries"
             layout="@layout/layout_beneficiaries"
-            android:visibility="@{viewModel.state.hasBeneficiary?View.VISIBLE:View.GONE}"
             app:viewModel="@{viewModel}" />
 
     </LinearLayout>

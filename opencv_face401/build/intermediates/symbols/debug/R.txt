@@ -1,0 +1,12 @@
+int attr camera_id 0x7f040001
+int attr show_fps 0x7f040002
+int id any 0x7f0b0001
+int id back 0x7f0b0002
+int id dataBinding 0x7f0b0003
+int id front 0x7f0b0004
+int id onAttachStateChangeListener 0x7f0b0005
+int id onDateChanged 0x7f0b0006
+int id textWatcher 0x7f0b0007
+int[] styleable CameraBridgeViewBase { 0x7f040001, 0x7f040002 }
+int styleable CameraBridgeViewBase_camera_id 0
+int styleable CameraBridgeViewBase_show_fps 1
