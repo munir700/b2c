@@ -66,7 +66,7 @@ class GenericOtpViewModel(application: Application) :
                 state.loading = true
                 when (val response =
                     repository.verifyOtpGenericWithPhone(
-                        state.mobileNumber[0]!!.replace(" ", "").replace("+", "00"),
+                        state.mobileNumber[0]?.replace(" ", "")?.replace("+", "00") ?: "",
                         VerifyOtpGenericRequest(state.otpDataModel?.otpAction ?: "", state.otp)
                     )
                     ) {
@@ -76,7 +76,6 @@ class GenericOtpViewModel(application: Application) :
                     is RetroApiResponse.Error -> {
                         state.errorMessage = response.error.message
                         errorEvent.call()
-//                        state.toast = response.error.message
                         state.loading = false
                     }
                 }
@@ -98,7 +97,6 @@ class GenericOtpViewModel(application: Application) :
                     is RetroApiResponse.Error -> {
                         state.errorMessage = response.error.message
                         errorEvent.call()
-//                        state.toast = response.error.message
                         state.loading = false
                     }
                 }
@@ -127,8 +125,6 @@ class GenericOtpViewModel(application: Application) :
                 is RetroApiResponse.Error -> {
                     state.errorMessage = response.error.message
                     errorEvent.call()
-
-                    //state.toast = response.error.message
                     state.loading = false
                 }
             }
@@ -139,18 +135,16 @@ class GenericOtpViewModel(application: Application) :
     override fun initializeData() {
         createOtp()
         state.otpDataModel?.mobileNumber?.let {
-            if (it.startsWith("00")) {
-                state.mobileNumber[0] =
+            when {
+                it.startsWith("00") -> state.mobileNumber[0] =
                     it.replaceRange(
                         0,
                         2,
                         "+"
                     )
-            } else if (it.startsWith("+")) {
-                state.mobileNumber[0] =
+                it.startsWith("+") -> state.mobileNumber[0] =
                     Utils.getFormattedPhone(it)
-            } else {
-                state.mobileNumber[0] =
+                else -> state.mobileNumber[0] =
                     Utils.formatePhoneWithPlus(it)
             }
         }
@@ -162,10 +156,10 @@ class GenericOtpViewModel(application: Application) :
             state.loading = true
             when (val response =
                 repository.createOtpGenericWithPhone(
-                    phone = state.mobileNumber[0]!!.replace(
+                    phone = state.mobileNumber[0]?.replace(
                         " ",
                         ""
-                    ).replace("+", "00"),
+                    )?.replace("+", "00") ?: "",
                     createOtpGenericRequest = CreateOtpGenericRequest(Constants.CHANGE_MOBILE_NO)
                 )) {
                 is RetroApiResponse.Success -> {
@@ -177,7 +171,6 @@ class GenericOtpViewModel(application: Application) :
                 is RetroApiResponse.Error -> {
                     state.errorMessage = response.error.message
                     errorEvent.call()
-//                    state.toast = response.error.message
                     state.loading = false
                 }
             }

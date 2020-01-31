@@ -103,7 +103,6 @@ class BeneficiaryAccountDetailsFragment :
                 ) { resultCode, data ->
                     if (resultCode == Activity.RESULT_OK) {
                         viewModel.createBeneficiaryRequest()
-                        //showToast("success")
                     }
                 }
             }

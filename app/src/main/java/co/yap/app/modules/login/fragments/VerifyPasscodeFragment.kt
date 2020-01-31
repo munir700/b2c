@@ -13,7 +13,6 @@ import co.yap.BR
 import co.yap.app.R
 import co.yap.app.activities.MainActivity
 import co.yap.app.constants.Constants
-import co.yap.yapcore.helpers.encryption.EncryptionUtils
 import co.yap.app.modules.login.interfaces.IVerifyPasscode
 import co.yap.app.modules.login.viewmodels.VerifyPasscodeViewModel
 import co.yap.household.onboarding.OnboardingHouseHoldActivity
@@ -27,6 +26,7 @@ import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.biometric.BiometricCallback
 import co.yap.yapcore.helpers.biometric.BiometricManagerX
 import co.yap.yapcore.helpers.biometric.BiometricUtil
+import co.yap.yapcore.helpers.encryption.EncryptionUtils
 import co.yap.yapcore.helpers.extentions.preventTakeScreenShot
 import co.yap.yapcore.helpers.extentions.toast
 import co.yap.yapcore.managers.MyUserManager
@@ -215,6 +215,15 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
     }
 
     private fun updateName() {
+        if (sharedPreferenceManager.getValueBoolien(
+                SharedPreferenceManager.KEY_IS_USER_LOGGED_IN,
+                false
+            )
+        ) {
+            viewModel.state.username = MyUserManager.user?.currentCustomer?.email ?: ""
+            return
+        }
+
         viewModel.state.username = ""
     }
 
