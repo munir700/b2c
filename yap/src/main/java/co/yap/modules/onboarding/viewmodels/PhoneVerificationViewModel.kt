@@ -10,7 +10,6 @@ import co.yap.networking.messages.requestdtos.VerifyOtpOnboardingRequest
 import co.yap.networking.models.RetroApiResponse
 import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
-import co.yap.yapcore.SingleLiveEvent
 
 open class PhoneVerificationViewModel(application: Application) :
     OnboardingChildViewModel<IPhoneVerification.State>(application), IPhoneVerification.ViewModel,
@@ -36,7 +35,7 @@ open class PhoneVerificationViewModel(application: Application) :
         state.validResend = false
     }
 
-    override fun handlePressOnSendButton(id :Int) {
+    override fun handlePressOnSendButton(id: Int) {
         verifyOtp(id)
     }
 
@@ -46,13 +45,14 @@ open class PhoneVerificationViewModel(application: Application) :
             when (val response =
                 repository.createOtpOnboarding(
                     CreateOtpOnboardingRequest(
-                        parentViewModel!!.onboardingData.countryCode,
-                        parentViewModel!!.onboardingData.mobileNo,
-                        parentViewModel!!.onboardingData.accountType.toString()
+                        parentViewModel?.onboardingData?.countryCode ?: "",
+                        parentViewModel?.onboardingData?.mobileNo ?: "",
+                        parentViewModel?.onboardingData?.accountType.toString()
                     )
                 )) {
                 is RetroApiResponse.Success -> {
-                    state.toast = getString(Strings.screen_verify_phone_number_display_text_resend_otp_success)
+                    state.toast =
+                        getString(Strings.screen_verify_phone_number_display_text_resend_otp_success)
                     state.reverseTimer(10)
                     state.validResend = false
                 }
@@ -64,13 +64,13 @@ open class PhoneVerificationViewModel(application: Application) :
         }
     }
 
-    private fun verifyOtp(id:Int) {
+    private fun verifyOtp(id: Int) {
         launch {
             state.loading = true
             when (val response = repository.verifyOtpOnboarding(
                 VerifyOtpOnboardingRequest(
-                    parentViewModel!!.onboardingData.countryCode,
-                    parentViewModel!!.onboardingData.mobileNo,
+                    parentViewModel?.onboardingData?.countryCode ?: "",
+                    parentViewModel?.onboardingData?.mobileNo ?: "",
                     state.otp
                 )
             )) {
@@ -84,6 +84,6 @@ open class PhoneVerificationViewModel(application: Application) :
     }
 
     override fun setPasscode(passcode: String) {
-        parentViewModel!!.onboardingData.passcode = passcode
+        parentViewModel?.onboardingData?.passcode = passcode
     }
 }

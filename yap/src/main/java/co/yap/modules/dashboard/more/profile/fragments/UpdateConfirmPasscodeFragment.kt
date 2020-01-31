@@ -6,7 +6,6 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import co.yap.R
-import co.yap.yapcore.helpers.encryption.EncryptionUtils
 import co.yap.modules.dashboard.cards.paymentcarddetail.fragments.ConfirmNewCardPinFragment
 import co.yap.modules.dashboard.more.main.activities.MoreActivity
 import co.yap.modules.dashboard.more.profile.viewmodels.UpdateConfirmPasscodeViewModel
@@ -36,7 +35,7 @@ class UpdateConfirmPasscodeFragment : ConfirmNewCardPinFragment() {
                     false
                 )
             ) {
-                sharedPreferenceManager.getUserName()?.let {
+                sharedPreferenceManager.getDecryptedUserName()?.let {
                     proceedNext(it)
                 } ?: toast("Invalid username")
             }
@@ -65,10 +64,7 @@ class UpdateConfirmPasscodeFragment : ConfirmNewCardPinFragment() {
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
                 R.id.btnAction -> {
-                    EncryptionUtils.encrypt(requireContext(), viewModel.state.pincode)?.let {
-                        sharedPreferenceManager.save(SharedPreferenceManager.KEY_PASSCODE, it)
-                    }
-
+                    sharedPreferenceManager.savePassCodeWithEncryption(viewModel.state.pincode)
                     val action =
                         UpdateConfirmPasscodeFragmentDirections.actionUpdateConfirmPasscodeFragmentToSuccessFragment(
                             "Your passcode has been changed \n succesfully",

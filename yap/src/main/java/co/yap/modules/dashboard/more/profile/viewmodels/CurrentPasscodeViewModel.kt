@@ -36,7 +36,7 @@ class CurrentPasscodeViewModel(application: Application) : ChangeCardPinViewMode
 
     override fun handlePressOnForgotPasscodeButton(id: Int) {
         val sharedPreferenceManager = SharedPreferenceManager(context)
-        sharedPreferenceManager.getUserName()?.let {
+        sharedPreferenceManager.getDecryptedUserName()?.let {
             launch {
                 state.loading = true
                 when (val response = messagesRepository.createForgotPasscodeOTP(

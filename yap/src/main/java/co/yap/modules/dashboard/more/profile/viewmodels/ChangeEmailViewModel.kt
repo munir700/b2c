@@ -85,7 +85,7 @@ open class ChangeEmailViewModel(application: Application) :
                 repository.changeVerifiedEmail(state.newEmail)) {
                 is RetroApiResponse.Success -> {
                     MyUserManager.user?.currentCustomer?.email = state.newEmail
-                    sharedPreferenceManager.saveUserName(state.newEmail)
+                    sharedPreferenceManager.saveUserNameWithEncryption(state.newEmail)
                     changeEmailSuccessEvent.call()
 
 

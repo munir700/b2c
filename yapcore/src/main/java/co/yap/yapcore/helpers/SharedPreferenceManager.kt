@@ -12,8 +12,8 @@ class SharedPreferenceManager(val context: Context) {
 
     companion object {
         const val KEY_APP_UUID = "KEY_APP_UUID"
-        const val KEY_PASSCODE: String = "PASSCODE"
-        const val KEY_USERNAME: String = "USEERNAME"
+        private const val KEY_PASSCODE: String = "PASSCODE"
+        private const val KEY_USERNAME: String = "USEERNAME"
         const val KEY_TOUCH_ID_ENABLED: String = "TOUCH_ID_ENABLED"
         const val KEY_IS_USER_LOGGED_IN: String = "KEY_IS_USER_LOGGED_IN"
         const val KEY_IS_FIRST_TIME_USER: String = "KEY_IS_FIRST_TIME_USER"
@@ -27,7 +27,7 @@ class SharedPreferenceManager(val context: Context) {
     fun save(KEY_NAME: String, text: String) {
         val editor: SharedPreferences.Editor = sharedPref.edit()
         editor.putString(KEY_NAME, text)
-        editor!!.apply()
+        editor.apply()
     }
 
     fun save(KEY_NAME: String, value: Int) {
@@ -38,7 +38,7 @@ class SharedPreferenceManager(val context: Context) {
 
     fun save(KEY_NAME: String, status: Boolean) {
         val editor: SharedPreferences.Editor = sharedPref.edit()
-        editor.putBoolean(KEY_NAME, status!!)
+        editor.putBoolean(KEY_NAME, status)
         editor.apply()
     }
 
@@ -66,16 +66,8 @@ class SharedPreferenceManager(val context: Context) {
         editor.apply()
     }
 
-    fun saveUserName(text: String) {
-//
-//        sharedPreferenceManager.save(
-//            KEY_USERNAME, EncryptionUtils.encrypt(context, text)!!
-//        )
-//        sharedPreferenceManager.save(
-//            SharedPreferenceManager.KEY_PASSCODE,
-//            EncryptionUtils.encrypt(context, SharedPreferenceManager.KEY_PASSCODE)!!
-//        )
 
+    fun saveUserNameWithEncryption(text: String) {
         if (!isNumeric(text)) {
             val editor: SharedPreferences.Editor = sharedPref.edit()
             EncryptionUtils.encrypt(context, text)?.let {
@@ -84,16 +76,28 @@ class SharedPreferenceManager(val context: Context) {
                 editor.apply()
             }
         }
-
-//        val editor: SharedPreferences.Editor = sharedPref.edit()
-//        editor.putString(KEY_USERNAME, EncryptionUtils.encrypt(context, text)!!)
-//        EncryptionUtils.encrypt(context, KEY_PASSCODE)!!
-//        editor.apply()
     }
 
-    fun getUserName(): String? {
+
+    fun getDecryptedUserName(): String? {
         SharedPreferenceManager(context).getValueString(KEY_USERNAME)?.let {
             return EncryptionUtils.decrypt(context, it)?.let { user_name -> return user_name }
+                ?: return null
+        } ?: return null
+    }
+
+    fun savePassCodeWithEncryption(text: String) {
+        val editor: SharedPreferences.Editor = sharedPref.edit()
+        EncryptionUtils.encrypt(context, text)?.let {
+            editor.putString(KEY_PASSCODE, it)
+            EncryptionUtils.encrypt(context, KEY_PASSCODE)
+            editor.apply()
+        }
+    }
+
+    fun getDecryptedPassCode(): String? {
+        SharedPreferenceManager(context).getValueString(KEY_PASSCODE)?.let {
+            return EncryptionUtils.decrypt(context, it)?.let { passcode -> return passcode }
                 ?: return null
         } ?: return null
     }

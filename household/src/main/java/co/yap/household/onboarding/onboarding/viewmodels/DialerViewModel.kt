@@ -6,7 +6,6 @@ import android.os.Build
 import android.view.inputmethod.EditorInfo
 import android.widget.TextView
 import androidx.lifecycle.MutableLiveData
-import co.yap.yapcore.helpers.encryption.EncryptionUtils
 import co.yap.household.R
 import co.yap.household.onboarding.onboarding.interfaces.IEmail
 import co.yap.household.onboarding.onboarding.states.EmailState
@@ -83,25 +82,12 @@ class DialerViewModel(application: Application) :
                         SharedPreferenceManager.KEY_IS_USER_LOGGED_IN,
                         true
                     )
-
                     parentViewModel?.onboardingData?.passcode?.let { passcode ->
-                        EncryptionUtils.encrypt(
-                            context,
-                            passcode
-                        )?.let { encrypted ->
-                            sharedPreferenceManager.save(
-                                SharedPreferenceManager.KEY_PASSCODE,
-                                encrypted
-                            )
-                        } ?: toast(context, "Invalid pass code encryption")
+                        sharedPreferenceManager.savePassCodeWithEncryption(passcode)
                     } ?: toast(context, "Invalid pass code")
 
-                    EncryptionUtils.encrypt(context, state.twoWayTextWatcher)?.let {
-                        sharedPreferenceManager.save(
-                            SharedPreferenceManager.KEY_USERNAME,
-                            it
-                        )
-                    }
+                    sharedPreferenceManager.saveUserNameWithEncryption(state.twoWayTextWatcher)
+
                     state.loading = false
                     setVerificationLabel()
                 }

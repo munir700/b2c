@@ -26,7 +26,6 @@ import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.biometric.BiometricCallback
 import co.yap.yapcore.helpers.biometric.BiometricManagerX
 import co.yap.yapcore.helpers.biometric.BiometricUtil
-import co.yap.yapcore.helpers.encryption.EncryptionUtils
 import co.yap.yapcore.helpers.extentions.preventTakeScreenShot
 import co.yap.yapcore.helpers.extentions.toast
 import co.yap.yapcore.managers.MyUserManager
@@ -42,10 +41,8 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
 
     override fun getLayoutId(): Int = R.layout.fragment_verify_passcode
 
-
     override val viewModel: IVerifyPasscode.ViewModel
         get() = ViewModelProviders.of(this).get(VerifyPasscodeViewModel::class.java)
-
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -158,7 +155,7 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
                     ) {
                         goToNext(viewModel.state.username)
                     } else {
-                        sharedPreferenceManager.getUserName()?.let { username ->
+                        sharedPreferenceManager.getDecryptedUserName()?.let { username ->
                             viewModel.state.username = username
                             goToNext(viewModel.state.username)
                         } ?: toast("Invalid user name")
@@ -207,7 +204,7 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
         ) {
             setUsername()
         } else {
-            sharedPreferenceManager.getUserName()?.let {
+            sharedPreferenceManager.getDecryptedUserName()?.let {
                 viewModel.state.username = it
             } ?: updateName()
         }
@@ -355,33 +352,20 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
 
     override fun onAuthenticationSuccessful() {
         viewModel.isFingerprintLogin = true
-        sharedPreferenceManager?.let { sharedPreferenceManager ->
-            context?.let { context ->
-                val passCode =
-                    sharedPreferenceManager.getValueString(SharedPreferenceManager.KEY_PASSCODE)
-                passCode?.let {
-                    val passedCode = EncryptionUtils.decrypt(context, passCode)
-                    passedCode?.let { passedCode ->
-                        viewModel.state.passcode = passedCode
-                        dialer.upDatedDialerPad(viewModel.state.passcode)
-                    }
-                }
 
-                val userName =
-                    sharedPreferenceManager.getValueString(SharedPreferenceManager.KEY_USERNAME)
-                userName?.let {
-                    val encryptedUserName = EncryptionUtils.decrypt(context, userName)
-                    encryptedUserName?.let { encryptedUserName ->
-                        viewModel.state.username = encryptedUserName
-                    }
-                }
-
-                if (!viewModel.state.username.isNullOrEmpty() && !viewModel.state.passcode.isNullOrEmpty())
-                    viewModel.login()
-            }
+        sharedPreferenceManager.getDecryptedPassCode()?.let { passedCode ->
+            viewModel.state.passcode = passedCode
+            dialer.upDatedDialerPad(viewModel.state.passcode)
         }
 
+        sharedPreferenceManager.getDecryptedUserName()?.let { encryptedUserName ->
+            viewModel.state.username = encryptedUserName
+        }
+
+        if (!viewModel.state.username.isNullOrEmpty() && !viewModel.state.passcode.isNullOrEmpty())
+            viewModel.login()
     }
+
 
     override fun onAuthenticationHelp(helpCode: Int, helpString: CharSequence) {
     }
