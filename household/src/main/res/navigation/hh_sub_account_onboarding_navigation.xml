@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/emailHouseHoldFragment"
-        android:name="co.yap.household.onboarding.onboarding.fragments.NewUserEmailFragment"
+        android:name="co.yap.household.onboard.onboarding.fragments.NewUserEmailFragment"
         android:label="Email HouseHold Fragment"
         tools:layout="@layout/fragment_new_user_email">
         <action
@@ -17,7 +17,7 @@
     </fragment>
     <fragment
         android:id="@+id/houseHoldNumberRegistrationFragment"
-        android:name="co.yap.household.onboarding.onboarding.fragments.HouseHoldNumberRegistrationFragment"
+        android:name="co.yap.household.onboard.onboarding.fragments.HouseHoldNumberRegistrationFragment"
         android:label="houseHoldNumberRegistrationFragment"
         tools:layout="@layout/fragment_house_hold_number_registration">
         <action
@@ -32,12 +32,12 @@
 
     <fragment
         android:id="@+id/newUserCongratulationsFragment"
-        android:name="co.yap.household.onboarding.onboarding.fragments.NewUserSuccessFragment"
+        android:name="co.yap.household.onboard.onboarding.fragments.NewUserSuccessFragment"
         android:label="Congratulations Fragment" />
 
     <fragment
         android:id="@+id/houseHoldCreatePassCodeFragment"
-        android:name="co.yap.household.onboarding.onboarding.fragments.HouseHoldCreatePassCodeFragment"
+        android:name="co.yap.household.onboard.onboarding.fragments.HouseHoldCreatePassCodeFragment"
         android:label="HouseHoldCreatePassCodeFragment"
         tools:layout="@layout/fragment_house_hold_create_passcode">
         <action
@@ -50,23 +50,9 @@
 
     <fragment
         android:id="@+id/dialerFragment"
-        android:name="co.yap.household.onboarding.onboarding.fragments.TempDialerFragment"
+        android:name="co.yap.household.onboard.onboarding.fragments.TempDialerFragment"
         android:label="Congratulations Fragment">
 
     </fragment>
-    <activity
-        android:id="@+id/houseHoldCardsSelectionFragment"
-        android:name="co.yap.household.onboarding.onboarding.fragments.HouseHoldCardsSelectionActivity"
-        android:label="HouseHoldCardsSelectionFragment"
-        tools:layout="@layout/fragment_house_hold_card_selection" />
 
-    <action
-        android:id="@+id/action_goto_householdDashboardActivity"
-        app:destination="@id/householdDashboardActivity" />
-
-    <activity
-        android:id="@+id/householdDashboardActivity"
-        android:name="co.yap.modules.onboarding.activities.LiteDashboardActivity"
-        android:label="YapDashboardActivity"
-        tools:layout="@layout/activity_household_dashboard" />
 </navigation>

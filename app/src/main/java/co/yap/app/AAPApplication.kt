@@ -9,7 +9,7 @@ import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentActivity
 import co.yap.app.modules.login.activities.VerifyPassCodePresenterActivity
-import co.yap.household.onboarding.otherscreens.InvalidEIDActivity
+import co.yap.household.onboard.otherscreens.InvalidEIDActivity
 import co.yap.modules.dummy.ActivityNavigator
 import co.yap.modules.dummy.NavigatorProvider
 import co.yap.modules.others.helper.Constants.START_REQUEST_CODE
