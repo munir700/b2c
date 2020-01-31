@@ -40,7 +40,7 @@ class UpdateNewPasscodeFragment : SetNewCardPinFragment() {
                     false
                 )
             ) {
-                sharedPreferenceManager.getUserName()?.let {
+                sharedPreferenceManager.getDecryptedUserName()?.let {
                     proceed(it)
                 } ?: toast("Invalid username")
             }

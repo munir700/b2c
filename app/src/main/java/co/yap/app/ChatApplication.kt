@@ -39,7 +39,7 @@ open class ChatApplication(appInfo: AppInfo) : YAPApplication(appInfo) {
         createLivePersonReceiver()
         LocalBroadcastManager.getInstance(applicationContext)
             .registerReceiver(
-                mLivePersonReceiver!!,
+                mLivePersonReceiver,
                 LivePersonIntents.getIntentFilterForAllEvents()
             )
     }

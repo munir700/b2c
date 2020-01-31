@@ -29,7 +29,7 @@ class UpdateNewPasscodeViewModel(application: Application) : SetNewPinViewModel(
     }
 
     override fun handlePressOnForgotPasscodeButton(id: Int) {
-        val username = SharedPreferenceManager(context).getUserName()
+        val username = SharedPreferenceManager(context).getDecryptedUserName()
         username?.let {
             launch {
                 state.loading = true

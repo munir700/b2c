@@ -1,7 +1,6 @@
 package co.yap.app.modules.startup.fragments
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,7 +12,6 @@ import co.yap.app.modules.startup.interfaces.ISplash
 import co.yap.app.modules.startup.viewmodels.SplashViewModel
 import co.yap.yapcore.BaseFragment
 import co.yap.yapcore.helpers.SharedPreferenceManager
-import com.google.android.gms.location.LocationSettingsStatusCodes
 
 class SplashFragment : BaseFragment<ISplash.ViewModel>(), ISplash.View {
 
@@ -30,11 +28,6 @@ class SplashFragment : BaseFragment<ISplash.ViewModel>(), ISplash.View {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-   Log.i(
-        "TAGAddress",
-        "Location settings are inadequate, and cannot be fixed here. Dialog not created."
-        )
-        //MyUserManager.expireUserSession()
         viewModel.splashComplete.observe(this, Observer {
             val sharedPreferenceManager = SharedPreferenceManager(requireContext())
             if (sharedPreferenceManager.getValueBoolien(

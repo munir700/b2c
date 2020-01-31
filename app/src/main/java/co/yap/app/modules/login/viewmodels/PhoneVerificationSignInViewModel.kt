@@ -3,7 +3,6 @@ package co.yap.app.modules.login.viewmodels
 import android.app.Application
 import android.os.Build
 import androidx.lifecycle.MutableLiveData
-import co.yap.yapcore.helpers.encryption.EncryptionUtils
 import co.yap.app.modules.login.interfaces.IPhoneVerificationSignIn
 import co.yap.modules.onboarding.constants.Constants
 import co.yap.networking.authentication.AuthRepository
@@ -65,12 +64,8 @@ class PhoneVerificationSignInViewModel(application: Application) :
                         SharedPreferenceManager.KEY_IS_USER_LOGGED_IN,
                         true
                     )
-                    EncryptionUtils.encrypt(context, state.passcode)?.let {
-                        sharedPreferenceManager.save(SharedPreferenceManager.KEY_PASSCODE, it)
-                    }
-                    EncryptionUtils.encrypt(context, state.username)?.let {
-                        sharedPreferenceManager.save(SharedPreferenceManager.KEY_USERNAME, it)
-                    }
+                    sharedPreferenceManager.savePassCodeWithEncryption(state.passcode)
+                    sharedPreferenceManager.saveUserNameWithEncryption(state.username)
                     verifyOtpResult.postValue(true)
                 }
                 is RetroApiResponse.Error -> {

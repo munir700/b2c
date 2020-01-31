@@ -6,7 +6,6 @@ import android.os.Handler
 import android.view.inputmethod.EditorInfo
 import android.widget.TextView
 import co.yap.R
-import co.yap.yapcore.helpers.encryption.EncryptionUtils
 import co.yap.modules.onboarding.interfaces.IEmail
 import co.yap.modules.onboarding.states.EmailState
 import co.yap.networking.customers.CustomersRepository
@@ -84,26 +83,14 @@ class EmailViewModel(application: Application) :
                         true
                     )
 
-                    parentViewModel?.onboardingData?.passcode?.let { passcode ->
-                        EncryptionUtils.encrypt(
-                            context,
-                            passcode
-                        )?.let {
-                            sharedPreferenceManager.save(SharedPreferenceManager.KEY_PASSCODE, it)
-                        } ?: toast(context, "Invalid pass code encryption")
+                    parentViewModel?.onboardingData?.passcode?.let { passCode ->
+                        sharedPreferenceManager.savePassCodeWithEncryption(passCode)
                     } ?: toast(context, "Invalid pass code")
 
-
-                    EncryptionUtils.encrypt(context, state.twoWayTextWatcher)?.let {
-                        sharedPreferenceManager.save(
-                            SharedPreferenceManager.KEY_USERNAME,
-                            it
-                        )
-                    }
-
-                    state.loading = false
+                    sharedPreferenceManager.saveUserNameWithEncryption(state.twoWayTextWatcher)
                     setVerificationLabel()
                     trackEvent(TrackEvents.EMAIL_ADDRESS_ENTERED)
+                    state.loading = false
                 }
 
                 is RetroApiResponse.Error -> {
