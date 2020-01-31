@@ -77,10 +77,4 @@ class GenericOtpFragment : BaseBindingFragment<IGenericOtp.ViewModel>(), IGeneri
         }
 
     }
-
-    override fun onDestroy() {
-        super.onDestroy()
-
-    }
-
 }
