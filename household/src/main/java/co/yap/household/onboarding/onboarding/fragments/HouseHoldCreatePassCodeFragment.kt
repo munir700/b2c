@@ -7,7 +7,6 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import co.yap.household.BR
 import co.yap.household.R
-import co.yap.household.onboarding.fragments.OnboardingChildFragment
 import co.yap.household.onboarding.onboarding.interfaces.IHouseHoldCreatePassCode
 import co.yap.household.onboarding.onboarding.viewmodels.HouseHoldCreatePassCodeViewModel
 import co.yap.widgets.NumberKeyboardListener

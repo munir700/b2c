@@ -7,7 +7,7 @@
 
         <variable
             name="houseHoldViewModel"
-            type="co.yap.household.onboarding.onboarding.viewmodels.HouseHoldCardsSelectionViewModel" />
+            type="co.yap.household.onboarding.cardselection.HouseHoldCardsSelectionViewModel" />
 
         <import type="android.view.View" />
 

@@ -21,21 +21,21 @@
             android:theme="@style/AppThemeHouseHold.NoActionBar"
             android:windowSoftInputMode="adjustResize" />
         <activity
-            android:name="co.yap.household.onboarding.kycsuccess.KycSuccessActivity"
+            android:name="co.yap.household.onboarding.otherscreens.KycSuccessActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".onboarding.dashboard.main.activities.HouseholdDashboardActivity"
-            android:screenOrientation="portrait" />
-
-        <activity
-            android:name=".onboarding.onboarding.activities.EIDNotAcceptedActivity"
+            android:name=".dashboard.main.activities.HouseholdDashboardActivity"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".onboarding.onboarding.activities.OnboardingHouseHoldActivitySuccessActivity"
+            android:name=".onboarding.otherscreens.InvalidEIDActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".onboarding.otherscreens.HouseHoldSuccessActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".onboarding.onboarding.activities.OnBoardingExistingYapActivity"
+            android:name=".onboarding.otherscreens.ExistingHouseholdActivity"
             android:screenOrientation="portrait" />
     </application>
 

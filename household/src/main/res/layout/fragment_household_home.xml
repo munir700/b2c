@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="co.yap.household.onboarding.dashboard.home.viewmodels.HouseholdHomeViewModel" />
+            type="co.yap.household.dashboard.home.viewmodels.HouseholdHomeViewModel" />
 
         <import type="co.yap.translation.Strings" />
     </data>

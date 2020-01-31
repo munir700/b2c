@@ -1,16 +1,11 @@
 package co.yap.household.onboarding.onboarding.fragments
 
-import android.graphics.Rect
 import android.os.Bundle
-import android.view.View
 import androidx.lifecycle.ViewModelProviders
-import androidx.navigation.fragment.findNavController
 import co.yap.household.BR
 import co.yap.household.R
-import co.yap.household.onboarding.fragments.OnboardingChildFragment
 import co.yap.household.onboarding.onboarding.interfaces.IEmail
 import co.yap.household.onboarding.onboarding.viewmodels.DialerViewModel
-import kotlinx.android.synthetic.main.dialer_layout.*
 
 class TempDialerFragment : OnboardingChildFragment<IEmail.ViewModel>() {
 

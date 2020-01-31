@@ -12,8 +12,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import co.yap.household.BR
 import co.yap.household.R
-import co.yap.household.onboarding.OnboardingHouseHoldActivity
-import co.yap.household.onboarding.fragments.OnboardingChildFragment
+import co.yap.household.onboarding.onboarding.main.OnboardingHouseHoldActivity
 import co.yap.household.onboarding.onboarding.interfaces.IEmail
 import co.yap.household.onboarding.onboarding.viewmodels.EmailHouseHoldViewModel
 import co.yap.widgets.AnimatingProgressBar

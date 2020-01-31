@@ -9,11 +9,10 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import co.yap.household.BR
 import co.yap.household.R
-import co.yap.household.onboarding.fragments.OnboardingChildFragment
-import co.yap.household.onboarding.onboarding.activities.EIDNotAcceptedActivity
+import co.yap.household.onboarding.cardselection.HouseHoldCardsSelectionActivity
 import co.yap.household.onboarding.onboarding.interfaces.IHouseHoldNumberRegistration
 import co.yap.household.onboarding.onboarding.viewmodels.HouseHoldNumberRegistrationViewModel
-import co.yap.modules.kyc.activities.DocumentsDashboardActivity
+import co.yap.household.onboarding.otherscreens.InvalidEIDActivity
 import co.yap.modules.onboarding.activities.LiteDashboardActivity
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.RequestCodes
@@ -37,6 +36,7 @@ class HouseHoldNumberRegistrationFragment :
         super.onCreate(savedInstanceState)
         setObservers()
     }
+
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel.parentViewModel?.state?.accountInfo?.run {
@@ -52,8 +52,8 @@ class HouseHoldNumberRegistrationFragment :
                         findNavController().navigate(R.id.action_houseHoldNumberRegistrationFragment_to_emailHouseHoldFragment)
                     }
                     else -> {
-                      findNavController().navigate(R.id.action_goto_householdDashboardActivity)
-                      activity?.finish()
+                        findNavController().navigate(R.id.action_goto_householdDashboardActivity)
+                        activity?.finish()
                     }
                 }
         }
@@ -99,7 +99,7 @@ class HouseHoldNumberRegistrationFragment :
                                     startActivity(
                                         Intent(
                                             requireContext(),
-                                            EIDNotAcceptedActivity::class.java
+                                            InvalidEIDActivity::class.java
                                         )
                                     )
                                 }

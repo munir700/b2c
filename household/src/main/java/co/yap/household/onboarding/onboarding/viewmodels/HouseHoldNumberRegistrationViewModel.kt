@@ -5,7 +5,7 @@ import android.graphics.Color
 import androidx.lifecycle.MutableLiveData
 import co.yap.household.onboarding.onboarding.interfaces.IHouseHoldNumberRegistration
 import co.yap.household.onboarding.onboarding.states.HouseHoldNumberRegistrationState
-import co.yap.household.onboarding.viewmodels.OnboardingChildViewModel
+import co.yap.household.onboarding.onboarding.main.viewmodels.OnboardingChildViewModel
 import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.customers.requestdtos.VerifyHouseholdMobileRequest
 import co.yap.networking.interfaces.IRepositoryHolder

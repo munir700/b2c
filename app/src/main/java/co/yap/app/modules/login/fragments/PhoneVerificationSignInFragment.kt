@@ -9,7 +9,7 @@ import co.yap.BR
 import co.yap.app.R
 import co.yap.app.modules.login.interfaces.IPhoneVerificationSignIn
 import co.yap.app.modules.login.viewmodels.PhoneVerificationSignInViewModel
-import co.yap.household.onboarding.OnboardingHouseHoldActivity
+import co.yap.household.onboarding.onboarding.main.OnboardingHouseHoldActivity
 import co.yap.modules.onboarding.enums.AccountType
 import co.yap.networking.customers.responsedtos.AccountInfo
 import co.yap.yapcore.BaseBindingFragment

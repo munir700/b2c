@@ -4,7 +4,7 @@ import android.app.Application
 import androidx.lifecycle.MutableLiveData
 import co.yap.household.onboarding.onboarding.interfaces.IHouseHoldCreatePassCode
 import co.yap.household.onboarding.onboarding.states.HouseHoldCreatePassCodeState
-import co.yap.household.onboarding.viewmodels.OnboardingChildViewModel
+import co.yap.household.onboarding.onboarding.main.viewmodels.OnboardingChildViewModel
 import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.customers.requestdtos.CreatePassCodeRequest
 import co.yap.networking.interfaces.IRepositoryHolder

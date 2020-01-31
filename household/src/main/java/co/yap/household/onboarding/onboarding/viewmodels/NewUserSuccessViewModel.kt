@@ -4,7 +4,7 @@ import android.app.Application
 import co.yap.household.R
 import co.yap.household.onboarding.onboarding.interfaces.INewUserSuccess
 import co.yap.household.onboarding.onboarding.states.NewUserCongratulationsState
-import co.yap.household.onboarding.viewmodels.OnboardingChildViewModel
+import co.yap.household.onboarding.onboarding.main.viewmodels.OnboardingChildViewModel
 import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
 

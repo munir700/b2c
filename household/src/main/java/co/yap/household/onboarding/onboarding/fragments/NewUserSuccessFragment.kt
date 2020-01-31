@@ -13,10 +13,10 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.household.BR
 import co.yap.household.R
-import co.yap.household.onboarding.fragments.OnboardingChildFragment
-import co.yap.household.onboarding.onboarding.activities.EIDNotAcceptedActivity
+import co.yap.household.onboarding.cardselection.HouseHoldCardsSelectionActivity
 import co.yap.household.onboarding.onboarding.interfaces.INewUserSuccess
 import co.yap.household.onboarding.onboarding.viewmodels.NewUserSuccessViewModel
+import co.yap.household.onboarding.otherscreens.InvalidEIDActivity
 import co.yap.modules.kyc.activities.DocumentsDashboardActivity
 import co.yap.modules.onboarding.activities.LiteDashboardActivity
 import co.yap.yapcore.constants.Constants
@@ -52,7 +52,7 @@ class NewUserSuccessFragment :
         rootContainer.children.forEach { it.alpha = 0f }
 
         btnCompleteVerifiocation.setOnClickListener {
-            launchActivity<DocumentsDashboardActivity>(requestCode = RequestCodes.REQUEST_KYC_DOCUMENTS){
+            launchActivity<DocumentsDashboardActivity>(requestCode = RequestCodes.REQUEST_KYC_DOCUMENTS) {
                 putExtra(Constants.name, MyUserManager.user?.currentCustomer?.firstName.toString())
                 putExtra(Constants.data, false)
             }
@@ -113,7 +113,7 @@ class NewUserSuccessFragment :
                                     startActivity(
                                         Intent(
                                             requireContext(),
-                                            EIDNotAcceptedActivity::class.java
+                                            InvalidEIDActivity::class.java
                                         )
                                     )
                                 }

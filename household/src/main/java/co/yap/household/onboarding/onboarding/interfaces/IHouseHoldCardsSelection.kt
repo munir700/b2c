@@ -2,7 +2,7 @@ package co.yap.household.onboarding.onboarding.interfaces
 
 //import co.yap.household.onboarding.onboarding.fragments.CircleColorAdapter
 import androidx.lifecycle.MutableLiveData
-import co.yap.household.onboarding.onboarding.fragments.HouseHoldCardSelectionAdapter
+import co.yap.household.onboarding.cardselection.adaptor.HouseHoldCardSelectionAdapter
 import co.yap.networking.cards.requestdtos.OrderCardRequest
 import co.yap.networking.cards.responsedtos.Address
 import co.yap.yapcore.IBase
