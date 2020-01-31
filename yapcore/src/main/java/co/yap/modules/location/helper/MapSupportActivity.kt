@@ -70,6 +70,8 @@ open class MapSupportActivity : BaseBindingActivity<ILocationSelection.ViewModel
             mMap = googleMap
             if (mDefaultLocation != null) {
                 setupMapOptions()
+            } else {
+                getCurrentLocation()
             }
         }
     }
@@ -95,7 +97,7 @@ open class MapSupportActivity : BaseBindingActivity<ILocationSelection.ViewModel
         getCurrentPlaceLikelihoods()
     }
 
-    private fun initMap() {
+    protected fun initMap() {
         val apiKey = getString(R.string.google_maps_key)
         Places.initialize(context, apiKey)
         placesClient = Places.createClient(context)
@@ -261,4 +263,5 @@ open class MapSupportActivity : BaseBindingActivity<ILocationSelection.ViewModel
     private fun stopLocationUpdates() {
         mFusedLocationProviderClient?.removeLocationUpdates(locationCallback)
     }
+
 }
