@@ -26,6 +26,8 @@ import com.google.android.libraries.places.api.model.Place
 import com.google.android.libraries.places.api.net.FetchPhotoRequest
 import com.google.android.libraries.places.api.net.FindCurrentPlaceRequest
 import com.google.android.libraries.places.api.net.PlacesClient
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
 
 open class MapSupportActivity : BaseBindingActivity<ILocationSelection.ViewModel>() {
 
@@ -39,6 +41,7 @@ open class MapSupportActivity : BaseBindingActivity<ILocationSelection.ViewModel
     private var locationMarker: Marker? = null
     lateinit var context: Context
     var permissionHelper: PermissionHelper? = null
+    private var defaultPlacePhoto: Bitmap? = null
 
     override val viewModel: LocationSelectionViewModel
         get() = ViewModelProviders.of(this).get(LocationSelectionViewModel::class.java)
@@ -50,6 +53,11 @@ open class MapSupportActivity : BaseBindingActivity<ILocationSelection.ViewModel
         super.onCreate(savedInstanceState)
         context = this // do remove this line
         initMap()
+        icon = bitmapDescriptorFromVector(context, R.drawable.ic_location_pin)
+        defaultPlacePhoto = BitmapFactory.decodeResource(
+            context.resources,
+            R.drawable.location_place_holder
+        )
     }
 
     private fun getCurrentLocation() {
@@ -63,6 +71,14 @@ open class MapSupportActivity : BaseBindingActivity<ILocationSelection.ViewModel
                 startLocationUpdates()
             }
         }
+    }
+
+    private fun initMap() {
+        val apiKey = getString(R.string.google_maps_key)
+        Places.initialize(context, apiKey)
+        placesClient = Places.createClient(context)
+        mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(context)
+        getCurrentLocation()
     }
 
     protected fun onMapReady(googleMap: GoogleMap?) {
@@ -86,55 +102,56 @@ open class MapSupportActivity : BaseBindingActivity<ILocationSelection.ViewModel
         }
         mMap?.setOnMapClickListener {
             it?.let { latLng ->
-                viewModel.launch {
-                    //viewModel.viewModelBGScope.async {
-                    //mDefaultLocation = latLng
-                    setSelectedMapLocation(latLng)
-                    //}.await()
-                }
+                createMarker(latLng)
+                loadAysnMapInfo(latLng)
             }
         }
         getCurrentPlaceLikelihoods()
     }
 
-    protected fun initMap() {
-        val apiKey = getString(R.string.google_maps_key)
-        Places.initialize(context, apiKey)
-        placesClient = Places.createClient(context)
-        mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(context)
-        getCurrentLocation()
+    private fun loadAysnMapInfo(latLng: LatLng) {
+        viewModel.launch {
+            val address = viewModel.viewModelBGScope.async(Dispatchers.IO) {
+                getSelectedMapLocation(latLng)
+            }
+            populateCardState(address.await())
+        }
     }
 
-    private fun setSelectedMapLocation(location: LatLng) {
-        val geocoder = Geocoder(context)
+    private fun getSelectedMapLocation(location: LatLng): co.yap.networking.cards.responsedtos.Address? {
+        val geoCoder = Geocoder(context)
         try {
-            val list = geocoder.getFromLocation(location.latitude, location.longitude, 1)
+            val list = geoCoder.getFromLocation(location.latitude, location.longitude, 1)
             val selectedAddress: Address = list[0]
             val placeName =
                 selectedAddress.getAddressLine(0).split(",").toTypedArray()[0]
             val placeSubTitle = selectedAddress.getAddressLine(0)
-
-            animateCameraToLocation(location)
-            viewModel.address?.latitude = location.latitude
-            viewModel.address?.longitude = location.longitude
-            viewModel.state.placeTitle.set(placeName)
-            viewModel.state.placeSubTitle.set(placeSubTitle)
-            viewModel.state.placePhoto.set(
-                BitmapFactory.decodeResource(
-                    context.resources,
-                    R.drawable.location_place_holder
-                )
+            return co.yap.networking.cards.responsedtos.Address(
+                placeName,
+                placeSubTitle,
+                location.latitude,
+                location.longitude
             )
+
         } catch (e: IndexOutOfBoundsException) {
             e.printStackTrace()
         }
+        return null
     }
 
-    private fun createMarker(
-        markerLatLng: LatLng?
-    ) {
+    private fun populateCardState(address: co.yap.networking.cards.responsedtos.Address?) {
+        address?.let {
+            viewModel.address?.latitude = it.latitude
+            viewModel.address?.longitude = it.longitude
+            viewModel.state.placeTitle.set(it.address1)
+            viewModel.state.placeSubTitle.set(it.address2)
+            viewModel.state.placePhoto.set(defaultPlacePhoto)
+        }
+    }
+
+    private fun createMarker(markerLatLng: LatLng?) {
         locationMarker?.remove()
-        icon = bitmapDescriptorFromVector(context, R.drawable.ic_location_pin)
+        //icon = bitmapDescriptorFromVector(context, R.drawable.ic_location_pin)
         markerLatLng?.let {
             markerOptions = MarkerOptions()
                 .icon(icon)
@@ -181,16 +198,10 @@ open class MapSupportActivity : BaseBindingActivity<ILocationSelection.ViewModel
                         if (currentPlace.attributions != null) {
                             currentPlace.attributions?.joinToString(" ")
                         }
-                        val markerLatLng = currentPlace.latLng
                         if (currentPlace.address != null) {
                             viewModel.state.placeSubTitle.set(currentPlace.address.toString())
                         }
-
                         viewModel.state.placeTitle.set(currentPlace.address)
-                        createMarker(markerLatLng)
-                        mDefaultLocation?.let {
-                            animateCameraToLocation(it)
-                        }
 
                         if (!currentPlace.photoMetadatas.isNullOrEmpty() && currentPlace.photoMetadatas?.size ?: 0 > 0) {
                             attemptFetchPhoto(currentPlace)
