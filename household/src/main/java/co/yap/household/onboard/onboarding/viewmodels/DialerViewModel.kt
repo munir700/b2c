@@ -86,7 +86,7 @@ class DialerViewModel(application: Application) :
                         sharedPreferenceManager.savePassCodeWithEncryption(passcode)
                     } ?: toast(context, "Invalid pass code")
 
-                    sharedPreferenceManager.saveUserNameWithEncryption(state.twoWayTextWatcher)
+                    //sharedPreferenceManager. saveUserNameWithEncryption(state.twoWayTextWatcher)
 
                     state.loading = false
                     setVerificationLabel()

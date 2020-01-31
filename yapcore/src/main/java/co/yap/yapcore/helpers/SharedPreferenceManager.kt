@@ -66,22 +66,26 @@ class SharedPreferenceManager(val context: Context) {
         editor.apply()
     }
 
-
     fun saveUserNameWithEncryption(text: String) {
-        if (!isNumeric(text)) {
-            val editor: SharedPreferences.Editor = sharedPref.edit()
-            EncryptionUtils.encrypt(context, text)?.let {
-                editor.putString(KEY_USERNAME, it)
-                EncryptionUtils.encrypt(context, KEY_PASSCODE)
-                editor.apply()
-            }
+        val editor: SharedPreferences.Editor = sharedPref.edit()
+        EncryptionUtils.encrypt(context, text)?.let {
+            editor.putString(KEY_USERNAME, it)
+            editor.apply()
         }
     }
 
+    private fun isNumeric(str: String): Boolean {
+        return str.matches("-?\\d+(\\.\\d+)?".toRegex())  //match a number with optional '-' and decimal.
+    }
 
     fun getDecryptedUserName(): String? {
         SharedPreferenceManager(context).getValueString(KEY_USERNAME)?.let {
-            return EncryptionUtils.decrypt(context, it)?.let { user_name -> return user_name }
+            return EncryptionUtils.decrypt(
+                context,
+                it
+            )?.let { user_name ->
+                return user_name
+            }
                 ?: return null
         } ?: return null
     }
@@ -90,20 +94,19 @@ class SharedPreferenceManager(val context: Context) {
         val editor: SharedPreferences.Editor = sharedPref.edit()
         EncryptionUtils.encrypt(context, text)?.let {
             editor.putString(KEY_PASSCODE, it)
-            EncryptionUtils.encrypt(context, KEY_PASSCODE)
             editor.apply()
         }
     }
 
     fun getDecryptedPassCode(): String? {
         SharedPreferenceManager(context).getValueString(KEY_PASSCODE)?.let {
-            return EncryptionUtils.decrypt(context, it)?.let { passcode -> return passcode }
+            return EncryptionUtils.decrypt(context, it)?.let { passcode ->
+                return passcode
+            }
                 ?: return null
         } ?: return null
-    }
 
-    private fun isNumeric(str: String): Boolean {
-        return str.matches("-?\\d+(\\.\\d+)?".toRegex())  //match a number with optional '-' and decimal.
+
     }
 
     fun getThemeValue(): String? {

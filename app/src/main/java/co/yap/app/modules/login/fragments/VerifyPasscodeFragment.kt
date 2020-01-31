@@ -44,26 +44,46 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
     override val viewModel: IVerifyPasscode.ViewModel
         get() = ViewModelProviders.of(this).get(VerifyPasscodeViewModel::class.java)
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        sharedPreferenceManager = SharedPreferenceManager(requireContext())
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         preventTakeScreenShot(true)
+        addObservers()
+        dialer.hideFingerprintView()
+        receiveData()
+        updateUUID()
+        bioMetricLogic()
+        onbackPressLogic()
+    }
+
+    private fun addObservers() {
         viewModel.signInButtonPressEvent.observe(this, signInButtonObserver)
         viewModel.loginSuccess.observe(this, loginSuccessObserver)
         viewModel.validateDeviceResult.observe(this, validateDeviceResultObserver)
         viewModel.accountInfo.observe(this, onFetchAccountInfo)
         viewModel.createOtpResult.observe(this, createOtpObserver)
         setObservers()
+    }
 
+    private fun receiveData() {
         arguments?.let {
             viewModel.state.username = VerifyPasscodeFragmentArgs.fromBundle(it).username
             viewModel.state.verifyPassCodeEnum =
                 it.getString(REQUEST_CODE, VerifyPassCodeEnum.ACCESS_ACCOUNT.name)
         }
-        dialer.hideFingerprintView()
+    }
 
-        sharedPreferenceManager = SharedPreferenceManager(requireContext())
-        viewModel.state.deviceId =
-            sharedPreferenceManager.getValueString(SharedPreferenceManager.KEY_APP_UUID) as String
+    private fun updateUUID() {
+        sharedPreferenceManager.getValueString(SharedPreferenceManager.KEY_APP_UUID)?.let {
+            viewModel.state.deviceId = it
+        } ?: toast("Invalid UUID found")
+    }
+
+    private fun bioMetricLogic() {
         mBiometricManagerX = BiometricManagerX(
             requireContext(), mapOf(
                 Pair(
@@ -87,31 +107,18 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
             ) {
                 dialer.showFingerprintView()
                 showFingerprintDialog()
-//                Handler().postDelayed(
-//                    {
-//                        showFingerprintDialog()
-//                    }, 500
-//                )
             } else {
                 dialer.hideFingerprintView()
             }
         }
         dialer.setNumberKeyboardListener(object : NumberKeyboardListener {
-            override fun onNumberClicked(number: Int, text: String) {
-
-            }
-
             override fun onLeftButtonClicked() {
                 showFingerprintDialog()
             }
-
-            override fun onRightButtonClicked() {
-            }
         })
-//        dialer.onButtonClickListener = View.OnClickListener {
-//            if (it.id == R.id.btnFingerPrint)
-//                showFingerprintDialog()
+    }
 
+    private fun onbackPressLogic() {
         ivBackBtn.setOnClickListener {
             if ((VerifyPassCodeEnum.valueOf(viewModel.state.verifyPassCodeEnum) == VerifyPassCodeEnum.VERIFY)) {
                 activity?.onBackPressed()
@@ -148,11 +155,7 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
         viewModel.forgotPasscodeButtonPressEvent.observe(this, Observer {
             when (it) {
                 R.id.tvForgotPassword -> {
-                    if (!sharedPreferenceManager.getValueBoolien(
-                            SharedPreferenceManager.KEY_IS_USER_LOGGED_IN,
-                            false
-                        )
-                    ) {
+                    if (!isUserLoginIn()) {
                         goToNext(viewModel.state.username)
                     } else {
                         sharedPreferenceManager.getDecryptedUserName()?.let { username ->
@@ -194,14 +197,18 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
         super.onDestroyView()
     }
 
+
+    private fun isUserLoginIn(): Boolean {
+        return sharedPreferenceManager.getValueBoolien(
+            SharedPreferenceManager.KEY_IS_USER_LOGGED_IN,
+            false
+        )
+    }
+
     private val signInButtonObserver = Observer<Boolean> {
         viewModel.isFingerprintLogin = false
         viewModel.state.passcode = dialer.getText()
-        if (!sharedPreferenceManager.getValueBoolien(
-                SharedPreferenceManager.KEY_IS_USER_LOGGED_IN,
-                false
-            )
-        ) {
+        if (!isUserLoginIn()) {
             setUsername()
         } else {
             sharedPreferenceManager.getDecryptedUserName()?.let {
@@ -212,11 +219,7 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
     }
 
     private fun updateName() {
-        if (sharedPreferenceManager.getValueBoolien(
-                SharedPreferenceManager.KEY_IS_USER_LOGGED_IN,
-                false
-            )
-        ) {
+        if (isUserLoginIn()) {
             viewModel.state.username = MyUserManager.user?.currentCustomer?.email ?: ""
             return
         }

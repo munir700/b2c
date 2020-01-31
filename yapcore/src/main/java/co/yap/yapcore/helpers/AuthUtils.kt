@@ -2,6 +2,7 @@ package co.yap.yapcore.helpers
 
 import android.content.Context
 import android.content.Intent
+import java.util.*
 
 object AuthUtils {
 
@@ -20,11 +21,15 @@ object AuthUtils {
                 SharedPreferenceManager.KEY_IS_FINGERPRINT_PERMISSION_SHOWN,
                 false
             )
-        val uuid: String? =
-            sharedPreferenceManager.getValueString(SharedPreferenceManager.KEY_APP_UUID)
+        //val uuid: String? =
+        //    sharedPreferenceManager.getValueString(SharedPreferenceManager.KEY_APP_UUID)
 
         sharedPreferenceManager.clearSharedPreference()
-        sharedPreferenceManager.save(SharedPreferenceManager.KEY_APP_UUID, uuid.toString())
+        //sharedPreferenceManager.save(SharedPreferenceManager.KEY_APP_UUID, uuid.toString())
+        sharedPreferenceManager.save(
+            SharedPreferenceManager.KEY_APP_UUID,
+            UUID.randomUUID().toString()
+        )
         sharedPreferenceManager.save(
             SharedPreferenceManager.KEY_IS_FINGERPRINT_PERMISSION_SHOWN,
             isFingerprintPermissionShown

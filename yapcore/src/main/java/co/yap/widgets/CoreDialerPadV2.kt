@@ -395,17 +395,17 @@ interface NumberKeyboardListener {
     /**
      * Invoked when a number key is clicked.
      */
-    fun onNumberClicked(number: Int, text: String)
+    fun onNumberClicked(number: Int, text: String){}
 
     /**
      * Invoked when the left auxiliary button is clicked.
      */
-    fun onLeftButtonClicked()
+    fun onLeftButtonClicked(){}
 
     /**
      * Invoked when the right auxiliary button is clicked.
      */
-    fun onRightButtonClicked()
+    fun onRightButtonClicked(){}
 }
 
 

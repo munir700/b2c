@@ -6,10 +6,10 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.ViewModelProviders
 import androidx.viewpager.widget.ViewPager
 import co.yap.household.R
-import co.yap.household.databinding.ActivityHouseholdDashboardBinding
 import co.yap.household.dashboard.main.adaptors.HouseholdDashboardPagerAdaptor
 import co.yap.household.dashboard.main.interfaces.IHouseholdDashboard
 import co.yap.household.dashboard.main.viewmodels.HouseholdDashboardViewModel
+import co.yap.household.databinding.ActivityHouseholdDashboardBinding
 import co.yap.yapcore.BR
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.IFragmentHolder
