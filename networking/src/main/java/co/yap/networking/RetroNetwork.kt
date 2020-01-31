@@ -2,7 +2,6 @@ package co.yap.networking
 
 import android.app.Application
 import android.content.Context
-import android.content.Intent
 import android.os.Environment
 import co.yap.networking.intercepters.CookiesInterceptor
 import co.yap.networking.intercepters.NetworkConstraintsInterceptor
@@ -51,7 +50,12 @@ object RetroNetwork : Network {
 
     private fun buildOkHttpClient(context: Context): OkHttpClient {
         val logger = HttpLoggingInterceptor()
-        logger.level = HttpLoggingInterceptor.Level.BODY
+        if (BuildConfig.DEBUG) {
+            logger.level = HttpLoggingInterceptor.Level.BODY
+        } else {
+            logger.level = HttpLoggingInterceptor.Level.NONE
+        }
+
         return OkHttpClient.Builder()
             .connectTimeout(CONNECTION_TIMEOUT_SECONDS, TimeUnit.SECONDS)
             .writeTimeout(READ_TIMEOUT_SECONDS, TimeUnit.SECONDS)
