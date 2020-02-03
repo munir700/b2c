@@ -2,9 +2,9 @@ package co.yap.modules.dashboard.more.profile.viewmodels
 
 import android.app.Application
 import androidx.lifecycle.MutableLiveData
+import co.yap.modules.dashboard.more.main.viewmodels.MoreBaseViewModel
 import co.yap.modules.dashboard.more.profile.intefaces.IChangeEmail
 import co.yap.modules.dashboard.more.profile.states.ChangeEmailState
-import co.yap.modules.dashboard.more.main.viewmodels.MoreBaseViewModel
 import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.messages.MessagesRepository
@@ -13,7 +13,6 @@ import co.yap.networking.models.RetroApiResponse
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.SharedPreferenceManager
-import co.yap.yapcore.managers.MyUserManager
 
 
 open class ChangeEmailViewModel(application: Application) :
@@ -84,11 +83,7 @@ open class ChangeEmailViewModel(application: Application) :
             when (val response =
                 repository.changeVerifiedEmail(state.newEmail)) {
                 is RetroApiResponse.Success -> {
-                    MyUserManager.user?.currentCustomer?.email = state.newEmail
-                    sharedPreferenceManager.saveUserNameWithEncryption(state.newEmail)
                     changeEmailSuccessEvent.call()
-
-
                 }
                 is RetroApiResponse.Error -> {
                     state.loading = false

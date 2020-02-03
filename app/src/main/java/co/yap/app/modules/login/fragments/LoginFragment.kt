@@ -43,6 +43,7 @@ class LoginFragment : BaseBindingFragment<ILogin.ViewModel>(), ILogin.View {
         viewModel.signUpButtonPressEvent.observe(this, signUpButtonObserver)
         viewModel.state.emailError.observe(this, Observer {
             if (!it.isNullOrBlank()) {
+                etEmailField.settingUIForError(it)
                 etEmailField.settingErrorColor(R.color.error)
             }
         })

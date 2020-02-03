@@ -201,14 +201,14 @@
 
     <activity
         android:id="@+id/householdOnboard"
-        android:name="co.yap.household.onboarding.OnboardingHouseHoldActivity"
+        android:name="co.yap.household.onboard.onboarding.main.OnBoardingHouseHoldActivity"
         android:label="householdOnboard"
         tools:layout="@layout/activity_main_house_hold" />
 
 
     <activity
         android:id="@+id/householdOnBoardingExistingYAP"
-        android:name="co.yap.household.onboarding.onboarding.activities.OnBoardingExistingYapActivity"
+        android:name="co.yap.household.onboard.otherscreens.ExistingHouseholdActivity"
         android:label="OnBoardingExistingYAP"
         tools:layout="@layout/activity_on_boarding_existing_yap" />
 
