@@ -156,10 +156,12 @@ class TransactionFiltersActivity : BaseBindingActivity<ITransactionFilters.ViewM
 
     private fun setIntentAction() {
         var appliedFilter = 0
+        if (cbInTransFilter.isChecked) appliedFilter++
+        if (cbOutTransFilter.isChecked) appliedFilter++
         viewModel.txnFilters.value?.amountEndRange?.let {
-            if (it.toFloat() != rsbAmount.leftSeekBar.progress) appliedFilter++
-            setIntentRequest(appliedFilter++)
-        } ?: setIntentRequest(appliedFilter)
+            if (rsbAmount.leftSeekBar.progress != viewModel.transactionFilters.value?.maxAmount?.toFloat()) appliedFilter++
+            setIntentRequest(appliedFilter)
+        } ?: setIntentRequest(appliedFilter++)
     }
 
     private fun setIntentRequest(appliedFilter: Int) {
