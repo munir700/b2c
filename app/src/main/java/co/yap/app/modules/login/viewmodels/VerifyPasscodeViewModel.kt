@@ -96,7 +96,7 @@ class VerifyPasscodeViewModel(application: Application) :
         ) {
             state.username
         } else {
-            sharedPreferenceManager.getUserName()
+            sharedPreferenceManager.getDecryptedUserName()
         }
     }
 

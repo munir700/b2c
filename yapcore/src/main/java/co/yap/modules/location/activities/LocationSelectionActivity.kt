@@ -7,6 +7,7 @@ import android.content.Context
 import android.content.Intent
 import android.location.LocationManager
 import android.os.Bundle
+import android.provider.Settings
 import android.view.View
 import androidx.databinding.Observable
 import androidx.lifecycle.Observer
@@ -62,8 +63,7 @@ class LocationSelectionActivity : MapSupportActivity(), ILocationSelection.View 
     }
 
     private fun checkGPS() {
-        val locationManager = context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
-        if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+        if (!isGPSEnabled()) {
             Utils.confirmationDialog(
                 context, "Location", "Your GPS seems to be disabled, do you want to enable it?",
                 "Yes", "No"
@@ -72,11 +72,9 @@ class LocationSelectionActivity : MapSupportActivity(), ILocationSelection.View 
                         if (data is Boolean) {
                             if (data) {
                                 startActivityForResult(
-                                    Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS),
+                                    Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS),
                                     RequestCodes.REQUEST_FOR_GPS
                                 )
-                            } else {
-                                setIntentAction(false)
                             }
                         }
                     }
@@ -118,9 +116,11 @@ class LocationSelectionActivity : MapSupportActivity(), ILocationSelection.View 
             if (it) {
                 rlCollapsedMapSection.visibility = View.GONE
                 lyAddressFields.visibility = View.GONE
+                ivClose.visibility = View.VISIBLE
             } else {
                 rlCollapsedMapSection.visibility = View.VISIBLE
                 lyAddressFields.visibility = View.VISIBLE
+                ivClose.visibility = View.GONE
             }
         })
     }
@@ -150,7 +150,7 @@ class LocationSelectionActivity : MapSupportActivity(), ILocationSelection.View 
             }
 
             R.id.btnLocation -> {
-                expandMap()
+                onMapClickAction()
             }
 
             R.id.ivClose -> {
@@ -169,13 +169,28 @@ class LocationSelectionActivity : MapSupportActivity(), ILocationSelection.View 
                 Utils.openWebPage(Constants.URL_TERMS_CONDITION, "", this)
             }
             R.id.etAddressField -> {
-                expandMap()
+                onMapClickAction()
             }
             R.id.rlCollapsedMapSection -> {
-                expandMap()
+                onMapClickAction()
             }
             R.id.tbIvClose -> {
                 setIntentAction(false)
+            }
+        }
+    }
+
+    private fun onMapClickAction() {
+        if (!isPermissionGranted(Manifest.permission.ACCESS_FINE_LOCATION)) {
+            if (!shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_FINE_LOCATION)) {
+                showExplicitPermissionDialog()
+            } else {
+                checkPermission()
+            }
+        } else {
+            checkGPS()
+            if (isGPSEnabled()) {
+                expandMap()
             }
         }
     }
@@ -294,19 +309,34 @@ class LocationSelectionActivity : MapSupportActivity(), ILocationSelection.View 
                 checkGPS()
             }
 
-            override fun onIndividualPermissionGranted(grantedPermission: Array<String>) {
-                showToast("Can't proceed without permissions")
-            }
+            override fun onIndividualPermissionGranted(grantedPermission: Array<String>) {}
 
-            override fun onPermissionDenied() {
-                showToast("Can't proceed without permissions")
-
-            }
+            override fun onPermissionDenied() {}
 
             override fun onPermissionDeniedBySystem() {
-                showToast("Can't proceed without permissions")
+                showExplicitPermissionDialog()
             }
         })
+    }
+
+    private fun isGPSEnabled(): Boolean {
+        val locationManager = context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
+    }
+
+    private fun showExplicitPermissionDialog() {
+        Utils.confirmationDialog(
+            context, "Location", "Need permission for location, do you want to enable it?",
+            "Yes", "No"
+            , object : OnItemClickListener {
+                override fun onItemClick(view: View, data: Any, pos: Int) {
+                    if (data is Boolean) {
+                        if (data) {
+                            permissionHelper?.openAppDetailsActivity()
+                        }
+                    }
+                }
+            })
     }
 
     override fun onRequestPermissionsResult(
@@ -316,7 +346,7 @@ class LocationSelectionActivity : MapSupportActivity(), ILocationSelection.View 
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (permissionHelper != null) {
-            permissionHelper!!.onRequestPermissionsResult(
+            permissionHelper?.onRequestPermissionsResult(
                 requestCode,
                 permissions as Array<String>,
                 grantResults
@@ -343,4 +373,5 @@ class LocationSelectionActivity : MapSupportActivity(), ILocationSelection.View 
         viewModel.clickEvent.removeObservers(this)
         viewModel.isMapExpanded.removeObservers(this)
     }
+
 }

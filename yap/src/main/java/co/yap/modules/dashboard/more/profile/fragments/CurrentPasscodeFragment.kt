@@ -35,7 +35,7 @@ open class CurrentPasscodeFragment : ChangeCardPinFragment() {
                     false
                 )
             ) {
-                sharedPreferenceManager.getUserName()?.let {
+                sharedPreferenceManager.getDecryptedUserName()?.let {
                     val action =
                         CurrentPasscodeFragmentDirections.actionCurrentPasscodeFragmentToForgotPasscodeNavigation(
                             it,

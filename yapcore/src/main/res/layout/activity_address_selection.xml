@@ -23,18 +23,11 @@
         android:layout_gravity="center_vertical"
         android:background="@color/white"
         android:orientation="vertical">
-
         <include
-            android:id="@+id/toolbar"
-            android:layout_marginTop="@dimen/small"
+            android:id="@+id/mapView"
+            layout="@layout/layout_google_maps"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/viewMapFragment"
-            layout="@layout/layout_location_selection_toolbar"
-            android:visibility="visible"
+            android:layout_height="match_parent"
             app:viewModel="@{viewModel}" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -44,30 +37,31 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/toolbar">
-
-            <include
-                android:id="@+id/mapView"
-                layout="@layout/layout_google_maps"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:viewModel="@{viewModel}" />
-
+            app:layout_constraintTop_toTopOf="parent">
             <FrameLayout
-                app:layout_constraintTop_toTopOf="parent"
                 android:id="@+id/flTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/white"
                 android:orientation="vertical"
                 tools:ignore="MissingConstraints">
-
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="top"
                     android:orientation="vertical">
-
+                    <include
+                        android:id="@+id/toolbar"
+                        layout="@layout/layout_location_selection_toolbar"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/small"
+                        android:visibility="@{viewModel.state.toolbarVisibility? View.VISIBLE:View.GONE}"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/viewMapFragment"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:viewModel="@{viewModel}" />
                     <TextView
                         android:id="@+id/tvAddressSelectionHeading"
                         style="@style/ATitle3"
@@ -127,7 +121,6 @@
                     app:btn_text_size="@dimen/_11sdp"
                     tools:text="@string/screen_meeting_location_button_confirm_location" />
             </RelativeLayout>
-
 
             <LinearLayout
                 android:id="@+id/flAddressDetail"
@@ -283,7 +276,6 @@
                         tools:layout_editor_absoluteX="44dp" />
                 </LinearLayout>
             </LinearLayout>
-
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>

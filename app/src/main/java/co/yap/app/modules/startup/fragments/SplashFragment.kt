@@ -28,7 +28,6 @@ class SplashFragment : BaseFragment<ISplash.ViewModel>(), ISplash.View {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        //MyUserManager.expireUserSession()
         viewModel.splashComplete.observe(this, Observer {
             val sharedPreferenceManager = SharedPreferenceManager(requireContext())
             if (sharedPreferenceManager.getValueBoolien(

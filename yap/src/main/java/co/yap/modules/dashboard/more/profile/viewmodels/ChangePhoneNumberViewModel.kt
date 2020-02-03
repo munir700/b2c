@@ -32,8 +32,8 @@ class ChangePhoneNumberViewModel(application: Application) :
     override fun getCcp(etMobileNumber: EditText) {
         //  etMobileNumber.requestFocus()
         state.etMobileNumber = etMobileNumber
-        state.etMobileNumber!!.requestFocus()
-        state.etMobileNumber!!.setOnEditorActionListener(onEditorActionListener())
+        state.etMobileNumber?.requestFocus()
+        state.etMobileNumber?.setOnEditorActionListener(onEditorActionListener())
     }
 
     private fun validateMobileNumber(view: View) {

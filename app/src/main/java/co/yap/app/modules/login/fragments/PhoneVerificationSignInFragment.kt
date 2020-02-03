@@ -9,7 +9,7 @@ import co.yap.BR
 import co.yap.app.R
 import co.yap.app.modules.login.interfaces.IPhoneVerificationSignIn
 import co.yap.app.modules.login.viewmodels.PhoneVerificationSignInViewModel
-import co.yap.household.onboarding.OnboardingHouseHoldActivity
+import co.yap.household.onboard.onboarding.main.OnBoardingHouseHoldActivity
 import co.yap.modules.onboarding.enums.AccountType
 import co.yap.networking.customers.responsedtos.AccountInfo
 import co.yap.yapcore.BaseBindingFragment
@@ -58,9 +58,9 @@ class PhoneVerificationSignInFragment : BaseBindingFragment<IPhoneVerificationSi
             if (accountType == AccountType.B2C_HOUSEHOLD.name) {
                 val bundle = Bundle()
                 SharedPreferenceManager(requireContext()).setThemeValue(co.yap.yapcore.constants.Constants.THEME_HOUSEHOLD)
-                bundle.putBoolean(OnboardingHouseHoldActivity.EXISTING_USER, false)
-                bundle.putParcelable(OnboardingHouseHoldActivity.USER_INFO, it)
-                startActivity(OnboardingHouseHoldActivity.getIntent(requireContext(), bundle))
+                bundle.putBoolean(OnBoardingHouseHoldActivity.EXISTING_USER, false)
+                bundle.putParcelable(OnBoardingHouseHoldActivity.USER_INFO, it)
+                startActivity(OnBoardingHouseHoldActivity.getIntent(requireContext(), bundle))
                 activity?.finish()
             } else {
                 findNavController().navigate(R.id.action_goto_yapDashboardActivity)

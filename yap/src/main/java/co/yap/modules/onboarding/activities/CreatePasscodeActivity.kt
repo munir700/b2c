@@ -11,7 +11,6 @@ import co.yap.modules.forgotpasscode.interfaces.ICreatePasscode
 import co.yap.modules.forgotpasscode.viewmodels.CreatePasscodeViewModel
 import co.yap.modules.onboarding.constants.Constants
 import co.yap.yapcore.BaseBindingActivity
-import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.preventTakeScreenShot
 import kotlinx.android.synthetic.main.activity_create_passcode.*
@@ -50,7 +49,7 @@ class CreatePasscodeActivity : BaseBindingActivity<ICreatePasscode.ViewModel>(),
 
     override fun setObservers() {
         val intent = Intent()
-        intent.putExtra(SharedPreferenceManager.KEY_PASSCODE, viewModel.state.passcode)
+        intent.putExtra("PASSCODE", viewModel.state.passcode)
         setResult(Constants.REQUEST_CODE_CREATE_PASSCODE, intent)
         finish()
     }
@@ -62,7 +61,7 @@ class CreatePasscodeActivity : BaseBindingActivity<ICreatePasscode.ViewModel>(),
 
     private val nextButtonObserver = Observer<Boolean> {
         val intent = Intent()
-        intent.putExtra(SharedPreferenceManager.KEY_PASSCODE, viewModel.state.passcode)
+        intent.putExtra("PASSCODE", viewModel.state.passcode)
         setResult(Constants.REQUEST_CODE_CREATE_PASSCODE, intent)
         finish()
     }

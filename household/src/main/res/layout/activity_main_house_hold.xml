@@ -6,7 +6,7 @@
 
         <variable
             name="viewModelHouseHold"
-            type="co.yap.household.onboarding.viewmodels.OnboardingHouseHoldViewModel" />
+            type="co.yap.household.onboard.onboarding.main.viewmodels.OnboardingHouseHoldViewModel" />
     </data>
 
 

@@ -49,7 +49,7 @@ class PhoneVerificationFragment : OnboardingChildFragment<IPhoneVerification.Vie
         if (requestCode == Constants.REQUEST_CODE_CREATE_PASSCODE) {
             if (null != data) {
                 trackEvent(TrackEvents.OTP_CODE_ENTERED)
-                viewModel.setPasscode(data.getStringExtra(SharedPreferenceManager.KEY_PASSCODE))
+                viewModel.setPasscode(data.getStringExtra("PASSCODE"))
                 findNavController().navigate(R.id.action_phoneVerificationFragment_to_nameFragment)
 
             }

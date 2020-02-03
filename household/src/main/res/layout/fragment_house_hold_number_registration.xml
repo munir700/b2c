@@ -7,7 +7,7 @@
 
         <variable
             name="houseHoldViewModel"
-            type="co.yap.household.onboarding.onboarding.viewmodels.HouseHoldNumberRegistrationViewModel" />
+            type="co.yap.household.onboard.onboarding.viewmodels.HouseHoldNumberRegistrationViewModel" />
 
         <import type="co.yap.translation.Strings" />
 
