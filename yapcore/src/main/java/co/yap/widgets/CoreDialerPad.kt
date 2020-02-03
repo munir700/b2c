@@ -253,9 +253,9 @@ class CoreDialerPad @JvmOverloads constructor(
     fun setDrawabeTint() {
 
         var drawbleRight: Drawable =
-            DrawableCompat.wrap(context!!.getDrawable(R.drawable.ic_fingerprint_purple))
+            DrawableCompat.wrap(context.getDrawable(R.drawable.ic_fingerprint_purple))
         if (SharedPreferenceManager(context!!).getThemeValue().equals(Constants.THEME_HOUSEHOLD)) {
-            DrawableCompat.setTint(drawbleRight!!, Color.RED);
+            DrawableCompat.setTint(drawbleRight, Color.RED);
         }
 
         btnFingerPrint.setImageDrawable(

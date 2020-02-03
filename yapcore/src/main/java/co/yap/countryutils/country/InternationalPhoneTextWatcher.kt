@@ -11,7 +11,6 @@ import com.google.i18n.phonenumbers.PhoneNumberUtil
 
 @Suppress("DEPRECATED_IDENTITY_EQUALS")
 class InternationalPhoneTextWatcher(
-    context: Context?,
     countryNameCode: String?,
     countryPhoneCode: Int,
     internationalOnly: Boolean

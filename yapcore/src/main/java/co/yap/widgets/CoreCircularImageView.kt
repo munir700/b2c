@@ -18,6 +18,7 @@ import androidx.annotation.ColorInt
 import androidx.annotation.ColorRes
 import androidx.annotation.DrawableRes
 import androidx.annotation.RequiresApi
+import androidx.core.content.ContextCompat
 import co.yap.yapcore.R
 
 class CoreCircularImageView :ImageView {
@@ -190,7 +191,7 @@ class CoreCircularImageView :ImageView {
     }
 
     fun setCircleBackgroundColorResource(@ColorRes circleBackgroundRes: Int) {
-        circleBackgroundColor = context.resources.getColor(circleBackgroundRes)
+        circleBackgroundColor = ContextCompat.getColor(context,circleBackgroundRes)
     }
 
     override fun setImageBitmap(bm: Bitmap) {
