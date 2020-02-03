@@ -51,10 +51,10 @@ class Currency(
                 countryCode
             )
         if (c != null) {
-            code = c!!.code
-            name = c!!.name
-            flag = c!!.flag
-            symbol = c!!.symbol
+            code = c.code
+            name = c.name
+            flag = c.flag
+            symbol = c.symbol
         }
     }
 

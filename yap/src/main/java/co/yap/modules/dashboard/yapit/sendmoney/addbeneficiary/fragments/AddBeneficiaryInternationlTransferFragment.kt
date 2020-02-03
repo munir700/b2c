@@ -55,7 +55,6 @@ class AddBeneficiaryInternationlTransferFragment :
         initComponents()
         etMobileNumber.addTextChangedListener(
             InternationalPhoneTextWatcher(
-                requireContext(),
                 viewModel.state.country2DigitIsoCode,
                 viewModel.state.countryCode.toInt(),
                 true

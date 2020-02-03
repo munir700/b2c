@@ -3,6 +3,7 @@ package co.yap.modules.forgotpasscode.states
 import android.app.Application
 import android.os.CountDownTimer
 import android.text.SpannableStringBuilder
+import androidx.core.content.ContextCompat
 import androidx.databinding.Bindable
 import co.yap.yapcore.BR
 import co.yap.modules.forgotpasscode.interfaces.IForgotPasscodeOtp
@@ -61,7 +62,7 @@ class ForgotPasscodeOtpState(application: Application) : BaseState(), IForgotPas
 
 
     @get:Bindable
-    override var color: Int = mContext.resources.getColor(R.color.disabled)
+    override var color: Int = ContextCompat.getColor(mContext,R.color.disabled)
         set(value) {
             field = value
             notifyPropertyChanged(BR.color)
@@ -126,11 +127,11 @@ class ForgotPasscodeOtpState(application: Application) : BaseState(), IForgotPas
     }
 
     override fun reverseTimer(Seconds: Int) {
-        color = mContext.resources.getColor(R.color.disabled)
+        color = ContextCompat.getColor(mContext,R.color.disabled)
         object : CountDownTimer((Seconds * 1000 + 1000).toLong(), 1000) {
             override fun onTick(millisUntilFinished: Long) {
                 var seconds = (millisUntilFinished / 1000).toInt()
-                val minutes = seconds / 60
+//                val minutes = seconds / 60
                 seconds %= 60
                 val timerMsg: String
                 if (seconds == 10) {
