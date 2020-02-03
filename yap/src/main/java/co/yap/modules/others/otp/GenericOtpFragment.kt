@@ -24,12 +24,12 @@ open class GenericOtpFragment : ForgotPasscodeOtpFragment() {
         args?.mobileNumber?.let {
             if (it.startsWith("00")) {
                 viewModel.state.mobileNumber[0] =
-                    args!!.mobileNumber.replaceRange(
+                    args?.mobileNumber?.replaceRange(
                         0,
                         2,
                         "+"
                     )
-            } else if (args?.mobileNumber!!.startsWith("+")) {
+            } else if (args?.mobileNumber?.startsWith("+") == true) {
                 viewModel.state.mobileNumber[0] =
                     Utils.getFormattedPhone(args?.mobileNumber.toString())
             } else {
