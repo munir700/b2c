@@ -543,8 +543,8 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
             viewModel.cardTransactionRequest.amountStartRange = it.amountStartRange
             viewModel.cardTransactionRequest.amountEndRange = it.amountEndRange
             viewModel.cardTransactionRequest.title = null
-            viewModel.cardTransactionRequest.totalAppliedFilter = getTotalAppliedFilter()
-            viewModel.state.filterCount.set(viewModel.cardTransactionRequest.totalAppliedFilter)
+            viewModel.cardTransactionRequest.totalAppliedFilter = it.totalAppliedFilter
+            viewModel.state.filterCount.set(it.totalAppliedFilter)
         }
     }
 
@@ -555,14 +555,6 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
             co.yap.yapcore.constants.Constants.MANUAL_CREDIT
         else
             co.yap.yapcore.constants.Constants.MANUAL_DEBIT
-    }
-
-    private fun getTotalAppliedFilter(): Int {
-        var count = viewModel.transactionFilters.totalAppliedFilter
-        if (viewModel.transactionFilters.incomingTxn == true) count++
-        if (viewModel.transactionFilters.outgoingTxn == true) count++
-
-        return count
     }
 
     private fun startReorderCardFlow() {
