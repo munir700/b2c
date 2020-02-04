@@ -180,7 +180,7 @@
                 android:enabled="@{viewModel.state.validResend}"
                 android:gravity="center"
                 android:lineSpacingExtra="1sp"
-                android:onClick="@{(v) -> viewModel.handlePressOnResendOTP(v.id)}"
+                android:onClick="@{(v) -> viewModel.handlePressOnResendOTP(context)}"
                 android:textAllCaps="false"
                 android:textColor="@{viewModel.state.color}"
                 app:layout_constraintBottom_toTopOf="@+id/done"

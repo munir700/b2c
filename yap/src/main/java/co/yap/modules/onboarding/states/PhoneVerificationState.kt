@@ -1,6 +1,7 @@
 package co.yap.modules.onboarding.states
 
 import android.app.Application
+import android.content.Context
 import android.os.CountDownTimer
 import androidx.databinding.Bindable
 import co.yap.BR
@@ -76,8 +77,8 @@ open class PhoneVerificationState(application: Application) : BaseState(),
         return validateOtp
     }
 
-    override fun reverseTimer(Seconds: Int) {
-        color = mContext.resources.getColor(R.color.disabled)
+    override fun reverseTimer(Seconds: Int, context: Context) {
+        color = context.resources.getColor(R.color.disabled)
         object : CountDownTimer((Seconds * 1000 + 1000).toLong(), 1000) {
             override fun onTick(millisUntilFinished: Long) {
                 var seconds = (millisUntilFinished / 1000).toInt()
@@ -94,7 +95,7 @@ open class PhoneVerificationState(application: Application) : BaseState(),
 
             override fun onFinish() {
                 validResend = true
-                color = ThemeColorUtils.colorPrimaryAttribute(mContext)
+                color = ThemeColorUtils.colorPrimaryAttribute(context)
                 timer = "00:00"
             }
         }.start()
