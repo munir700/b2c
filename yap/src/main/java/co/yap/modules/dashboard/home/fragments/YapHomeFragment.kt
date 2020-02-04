@@ -51,7 +51,6 @@ import co.yap.yapcore.constants.Constants.MODE_MEETING_CONFORMATION
 import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.enums.NotificationStatus
 import co.yap.yapcore.enums.PartnerBankStatus
-import co.yap.yapcore.helpers.CustomSnackbar
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.fixSwipeToRefresh
 import co.yap.yapcore.helpers.extentions.launchActivity
@@ -60,7 +59,6 @@ import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.leanplum.TrackEvents
 import co.yap.yapcore.managers.MyUserManager
 import com.google.android.material.appbar.AppBarLayout
-import com.leanplum.Leanplum
 import com.yarolegovich.discretescrollview.transform.ScaleTransformer
 import kotlinx.android.synthetic.main.content_fragment_yap_home.*
 import kotlinx.android.synthetic.main.fragment_yap_home.*
@@ -235,6 +233,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                 getRecycleViewAdaptor()?.addList(listToAppend)
             } else {
                 if (it.isEmpty()) {
+                    transactionViewHelper?.setTooltipVisibility(View.GONE)
                     if (0 >= viewModel.state.filterCount.get() ?: 0) {
                         viewModel.state.isTransEmpty.set(true)
                     } else {
@@ -553,7 +552,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
 //
         rvTransactionsBarChart.adapter =
             GraphBarsAdapter(mutableListOf(), viewModel)
-
+        transactionViewHelper?.setTooltipVisibility(View.GONE)
         viewModel.filterTransactions()
     }
 
@@ -575,14 +574,6 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
 
     private fun getBindings(): FragmentYapHomeBinding {
         return viewDataBinding as FragmentYapHomeBinding
-    }
-
-    private fun showErrorSnackBar(error: String) {
-        CustomSnackbar.showErrorCustomSnackbar(
-            context = requireContext(),
-            layout = getBindings().clSnackbar,
-            message = error
-        )
     }
 
     private fun registerTransactionBroadcast() {
