@@ -96,7 +96,8 @@ class YapMoreFragment : YapDashboardChildFragment<IMoreHome.ViewModel>(), IMoreH
             if (data is MoreOption) {
                 when (data.id) {
                     Constants.MORE_NOTIFICATION -> {
-                        openNotifications()
+                        //openNotifications()
+                        Utils.showComingSoon(requireContext())
                     }
                     Constants.MORE_LOCATE_ATM -> {
                         openMaps()
