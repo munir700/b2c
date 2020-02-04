@@ -10,11 +10,14 @@ import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import co.yap.R
 import co.yap.modules.dashboard.home.interfaces.NotificationItemClickListener
-import co.yap.modules.dashboard.home.models.Notification
+import co.yap.modules.yapnotification.models.Notification
 import kotlinx.android.synthetic.main.view_notifications.view.*
 
-
-class NotificationAdapter( val listItems: ArrayList<Notification>, val context: Context, val clickListener: NotificationItemClickListener) :
+class NotificationAdapter(
+    val listItems: ArrayList<Notification>,
+    val context: Context,
+    val clickListener: NotificationItemClickListener
+) :
     RecyclerView.Adapter<NotificationAdapter.ViewHolder>() {
 
 

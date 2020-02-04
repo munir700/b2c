@@ -15,6 +15,7 @@ object DateUtils {
     val FORMAT_MON_YEAR = "MMMM yyyy"//2015-11-28 10:17:18
     val FORMAT_MONTH_YEAR = "MMMM, yyyy"//2015-11-28 10:17:18
     val FORMAT_DATE_MON_YEAR = "MMMM dd, yyyy"//2015-11-28 10:17:18
+    val LEANPLUM_FORMATOR = "dd MMMM, yyyy"
 
 //    Jan 29, 2019・10:35am
 
@@ -125,6 +126,18 @@ object DateUtils {
         }
 
         return d
+    }
+
+    fun stringToDateLeanPlum(dateStr: String): String? {
+        val formatter = SimpleDateFormat(LEANPLUM_FORMATOR, Locale.getDefault())
+        formatter.timeZone = GMT
+        return try {
+            formatter.isLenient = false
+            formatter.format(dateStr)
+        } catch (e: Exception) {
+            e.printStackTrace()
+            null
+        }
     }
 
     @SuppressLint("SimpleDateFormat")

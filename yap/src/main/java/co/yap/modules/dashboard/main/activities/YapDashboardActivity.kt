@@ -48,6 +48,7 @@ import co.yap.yapcore.enums.PartnerBankStatus
 import co.yap.yapcore.helpers.PermissionHelper
 import co.yap.yapcore.helpers.extentions.dimen
 import co.yap.yapcore.managers.MyUserManager
+import com.leanplum.Leanplum
 import kotlinx.android.synthetic.main.activity_yap_dashboard.*
 import kotlinx.android.synthetic.main.layout_drawer_yap_dashboard.*
 import net.cachapa.expandablelayout.ExpandableLayout
@@ -74,6 +75,7 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
         addObservers()
         addListeners()
         setupYapButton()
+        Leanplum.getInbox()
     }
 
 
