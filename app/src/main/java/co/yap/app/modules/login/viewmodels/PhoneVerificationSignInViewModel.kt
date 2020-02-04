@@ -86,7 +86,7 @@ class PhoneVerificationSignInViewModel(application: Application) :
                 is RetroApiResponse.Success -> {
                     state.toast =
                         getString(Strings.screen_verify_phone_number_display_text_resend_otp_success)
-                    state.reverseTimer(10,context)
+                    state.reverseTimer(10, context)
                     state.valid = false
                 }
                 is RetroApiResponse.Error -> {
@@ -152,7 +152,7 @@ class PhoneVerificationSignInViewModel(application: Application) :
             info[UserAttributes().firstName] = it.currentCustomer.firstName ?: ""
             info[UserAttributes().lastName] = it.currentCustomer.lastName
             info[UserAttributes().documentsVerified] = it.documentsVerified ?: false
-            trackEventWithAttributes(info)
+            it.uuid?.let { uuid -> trackEventWithAttributes(uuid, info) }
         }
     }
 }
