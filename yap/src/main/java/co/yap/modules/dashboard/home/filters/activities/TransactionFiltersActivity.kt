@@ -159,7 +159,7 @@ class TransactionFiltersActivity : BaseBindingActivity<ITransactionFilters.ViewM
         viewModel.txnFilters.value?.amountEndRange?.let {
             if (rsbAmount.leftSeekBar.progress != viewModel.transactionFilters.value?.maxAmount?.toFloat()) appliedFilter++
             setIntentRequest(appliedFilter)
-        } ?: setIntentRequest(appliedFilter++)
+        } ?: setIntentRequest(appliedFilter+1)
     }
 
     private fun setIntentRequest(appliedFilter: Int) {
