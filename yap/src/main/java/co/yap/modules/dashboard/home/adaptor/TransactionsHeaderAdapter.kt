@@ -105,7 +105,9 @@ class TransactionsHeaderAdapter(
 
             homeTransaction.totalAmount = value
             itemTransactionListHeaderBinding.viewModel =
-                ItemHeaderTransactionsViewModel(homeTransaction)
+                ItemHeaderTransactionsViewModel(
+                    homeTransaction
+                )
             itemTransactionListHeaderBinding.executePendingBindings()
         }
     }

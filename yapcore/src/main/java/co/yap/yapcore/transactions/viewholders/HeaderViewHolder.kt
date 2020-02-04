@@ -1,0 +1,66 @@
+package co.yap.yapcore.transactions.viewholders
+
+import android.view.View
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.PagerSnapHelper
+import androidx.recyclerview.widget.RecyclerView
+import co.yap.networking.transactions.responsedtos.transaction.Content
+import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionListData
+import co.yap.yapcore.databinding.ItemTransactionHeaderBinding
+import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.interfaces.OnItemClickListener
+import co.yap.yapcore.transactions.TransactionContentAdapter
+import co.yap.yapcore.transactions.viewmodels.ItemTransactionHeaderViewModel
+
+class HeaderViewHolder(private val itemTransactionListHeaderBinding: ItemTransactionHeaderBinding) :
+    RecyclerView.ViewHolder(itemTransactionListHeaderBinding.root) {
+
+    fun onBind(homeTransaction: HomeTransactionListData, adaptorClick: OnItemClickListener) {
+        itemTransactionListHeaderBinding.rvExpandedTransactionsListing.layoutManager =
+            LinearLayoutManager(
+                itemTransactionListHeaderBinding.rvExpandedTransactionsListing.context,
+                LinearLayoutManager.VERTICAL, false
+            )
+
+        val snapHelper = PagerSnapHelper()
+        itemTransactionListHeaderBinding.rvExpandedTransactionsListing.onFlingListener = null
+        snapHelper.attachToRecyclerView(itemTransactionListHeaderBinding.rvExpandedTransactionsListing)
+
+        val mutableList = mutableListOf<Content>()
+        mutableList.addAll(homeTransaction.content)
+
+        val adaptor =
+            TransactionContentAdapter(mutableList)
+        itemTransactionListHeaderBinding.rvExpandedTransactionsListing.adapter = adaptor
+        adaptor.allowFullItemClickListener = true
+        adaptor.setItemListener(object : OnItemClickListener {
+            override fun onItemClick(view: View, data: Any, pos: Int) {
+                adaptorClick.onItemClick(view, data, pos)
+            }
+        })
+
+        var total = 0.0
+        homeTransaction.content.map {
+            if (it.txnType == "DEBIT") total -= it.amount else total += it.amount
+        }
+
+        var value: String
+        when {
+            total.toString().startsWith("-") -> {
+                value = Utils.getFormattedCurrency((total * -1).toString())
+                value = "- $value"
+            }
+            else -> {
+                value = Utils.getFormattedCurrency(total.toString())
+                value = "+ $value"
+            }
+        }
+
+        homeTransaction.totalAmount = value
+        itemTransactionListHeaderBinding.viewModel =
+            ItemTransactionHeaderViewModel(
+                homeTransaction
+            )
+        itemTransactionListHeaderBinding.executePendingBindings()
+    }
+}

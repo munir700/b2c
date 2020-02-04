@@ -6,7 +6,6 @@ import androidx.recyclerview.widget.RecyclerView
 import co.yap.modules.dashboard.cards.paymentcarddetail.statments.adaptor.CardStatementsAdaptor
 import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.adaptor.AddBeneficiariesAdaptor
 import co.yap.networking.customers.responsedtos.beneficiary.BankParams
-import co.yap.networking.customers.responsedtos.sendmoney.RAKBank
 import co.yap.networking.transactions.responsedtos.CardStatement
 
 object BindingHelper {
@@ -27,6 +26,5 @@ object BindingHelper {
             if (recycleview.adapter is AddBeneficiariesAdaptor)
                 (recycleview.adapter as AddBeneficiariesAdaptor).setList(list.get() as List<BankParams>)
     }
-
 
 }

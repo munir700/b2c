@@ -1,0 +1,29 @@
+package co.yap.household.helpers
+
+import androidx.databinding.BindingAdapter
+import androidx.databinding.ObservableField
+import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionListData
+import co.yap.yapcore.transactions.TransactionRecyclerView
+
+object HouseholdUIBinder {
+    @BindingAdapter("txnList","isLoadMore")
+    @JvmStatic
+    fun setViewContainerAsLinearLayout(
+        recyclerView: TransactionRecyclerView,
+        list: ObservableField<MutableList<HomeTransactionListData>>,
+        isLoadMore: Boolean
+    ) {
+        if (isLoadMore) {
+            if (recyclerView.getRecycleViewAdaptor()?.itemCount ?: 0 > 0)
+                recyclerView.getRecycleViewAdaptor()?.removeItemAt(
+                    recyclerView.getRecycleViewAdaptor()?.itemCount ?: 0 - 1
+                )
+
+            recyclerView.addListToAdapter(list.get() ?: mutableListOf())
+        } else {
+            if (!list.get().isNullOrEmpty()) {
+                recyclerView.setListToAdapter(list.get() ?: mutableListOf())
+            }
+        }
+    }
+}

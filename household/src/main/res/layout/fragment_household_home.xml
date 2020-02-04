@@ -114,6 +114,7 @@
             android:layout_marginTop="@dimen/_10sdp"
             android:background="@color/divider"
             app:layout_constraintTop_toBottomOf="@id/clTransactionHeader" />
+
         <co.yap.widgets.MultiStateView
             android:layout_marginTop="@dimen/small"
             android:id="@+id/multiStateView"
@@ -127,13 +128,12 @@
             app:msv_emptyView="@layout/layout_home_no_transaction"
             app:msv_loadingView="@layout/layout_loading_view">
 
-            <androidx.recyclerview.widget.RecyclerView
+            <co.yap.yapcore.transactions.TransactionRecyclerView
                 android:id="@+id/recyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_alignParentTop="true"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+                app:isLoadMore="@{viewModel.isLoadMore.booleanValue()}"
+                app:txnList="@{viewModel.state.transactionList}" />
         </co.yap.widgets.MultiStateView>
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

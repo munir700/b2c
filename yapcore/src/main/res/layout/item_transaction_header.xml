@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="co.yap.yapcore.transactions.viewmodels.ItemTransactionHeaderViewModel"/>
+
+        <import type="co.yap.translation.Strings" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:orientation="vertical"
+        android:paddingBottom="@dimen/margin_normal">
+
+        <TextView
+            android:id="@+id/tvTransactionDate"
+            style="@style/SmallGrey"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_medium"
+            android:layout_marginTop="@dimen/margin_normal"
+            tools:text="April 12"
+            android:text="@{viewModel.itemViewModel.date}"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tvTotalAmount"
+            style="@style/SmallGrey"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_normal"
+            android:layout_marginEnd="@dimen/margin_medium"
+            android:text="@{viewModel.itemViewModel.totalAmount}"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="-200.00" />
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_expanded_transactions_listing"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_24sdp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvTransactionDate"
+            app:layout_constraintVertical_bias="0.0"
+            tools:itemCount="4"
+            tools:listitem="@layout/item_transaction_list_content"
+            tools:layout_editor_absoluteX="-16dp" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

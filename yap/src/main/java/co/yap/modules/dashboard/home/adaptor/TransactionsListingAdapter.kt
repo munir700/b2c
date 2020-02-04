@@ -58,7 +58,6 @@ class TransactionsListingAdapter(private val list: MutableList<Content>) :
                     "- " + Utils.getFormattedCurrency(transaction.amount.toString())
             }
 
-
             transaction.title = transaction.title ?: "Unknown"
             itemTransactionListBinding.tvNameInitials?.text =
                 transaction.title?.let { Utils.shortName(it) }

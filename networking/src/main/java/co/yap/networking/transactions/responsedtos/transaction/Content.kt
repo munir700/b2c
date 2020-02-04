@@ -60,6 +60,8 @@ data class Content(
     @SerializedName("userType1")
     var userType1: String,
     @SerializedName("title")
-    var title: String?
+    var title: String?,
+    @SerializedName("imgUrl")
+    var txnImgUrl: String? = ""
 
 )
