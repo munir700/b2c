@@ -1,6 +1,7 @@
 package co.yap.modules.otp
 
 import android.app.Application
+import android.content.Context
 import android.os.CountDownTimer
 import android.text.SpannableStringBuilder
 import androidx.core.content.ContextCompat
@@ -66,7 +67,7 @@ class GenericOtpState(application: Application) : BaseState(), IGenericOtp.State
 
 
     @get:Bindable
-    override var color: Int = ContextCompat.getColor(mContext,R.color.disabled)
+    override var color: Int = ContextCompat.getColor(mContext, R.color.disabled)
         set(value) {
             field = value
             notifyPropertyChanged(BR.color)
@@ -121,9 +122,9 @@ class GenericOtpState(application: Application) : BaseState(), IGenericOtp.State
             notifyPropertyChanged(BR.beneficiaryCountry)
         }
     @get:Bindable
-    override var errorMessage: String? =""
+    override var errorMessage: String? = ""
         set(value) {
-            field=value
+            field = value
             notifyPropertyChanged(BR.errorMessage)
         }
 
@@ -136,9 +137,9 @@ class GenericOtpState(application: Application) : BaseState(), IGenericOtp.State
         return validateOtp
     }
 
-    override fun reverseTimer(Seconds: Int) {
+    override fun reverseTimer(Seconds: Int, context: Context) {
 
-        color = ContextCompat.getColor(mContext,R.color.disabled)
+        color = ContextCompat.getColor(context, R.color.disabled)
         object : CountDownTimer((Seconds * 1000 + 1000).toLong(), 1000) {
             override fun onTick(millisUntilFinished: Long) {
                 var seconds = (millisUntilFinished / 1000).toInt()
@@ -155,7 +156,7 @@ class GenericOtpState(application: Application) : BaseState(), IGenericOtp.State
 
             override fun onFinish() {
                 validResend = true
-                color = mContext.resources.getColor(R.color.colorPrimary)
+                color = context.resources.getColor(R.color.colorPrimary)
                 timer = "00:00"
             }
         }.start()
