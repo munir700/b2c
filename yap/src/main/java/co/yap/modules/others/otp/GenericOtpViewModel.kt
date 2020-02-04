@@ -1,6 +1,7 @@
 package co.yap.modules.others.otp
 
 import android.app.Application
+import android.content.Context
 import co.yap.modules.forgotpasscode.viewmodels.ForgotPasscodeOtpViewModel
 import co.yap.networking.messages.MessagesRepository
 import co.yap.networking.messages.requestdtos.CreateOtpGenericRequest
@@ -41,8 +42,6 @@ open class GenericOtpViewModel(application: Application) : ForgotPasscodeOtpView
 
             }
         }
-
-        state.reverseTimer(10)
         state.validResend = false
     }
 
@@ -95,17 +94,17 @@ open class GenericOtpViewModel(application: Application) : ForgotPasscodeOtpView
         }
     }
 
-    override fun handlePressOnResendOTP(id: Int) {
+    override fun handlePressOnResendOTP(context: Context) {
         /*  if (action == Constants.CHANGE_EMAIL || action == Constants.FORGOT_CARD_PIN_ACTION || action == Constants.BENEFICIARY_CASH_TRANSFER|| action == Constants.DOMESTIC_BENEFICIARY) {
               createOtp()
           } else*/ if (action == Constants.CHANGE_MOBILE_NO) {
-            createOtpForPhoneNumber()
+            createOtpForPhoneNumber(context)
         } else {
-            createOtp()
+            createOtp(context)
         }
     }
 
-    fun createOtp() {
+    fun createOtp(context: Context) {
         launch {
             state.loading = true
             when (val response =
@@ -117,7 +116,7 @@ open class GenericOtpViewModel(application: Application) : ForgotPasscodeOtpView
                 is RetroApiResponse.Success -> {
                     state.toast =
                         getString(Strings.screen_verify_phone_number_display_text_resend_otp_success)
-                    state.reverseTimer(10)
+                    state.reverseTimer(10, context)
                     state.validResend = false
                 }
                 is RetroApiResponse.Error -> {
@@ -129,7 +128,7 @@ open class GenericOtpViewModel(application: Application) : ForgotPasscodeOtpView
         }
     }
 
-    private fun createOtpForPhoneNumber() {
+    private fun createOtpForPhoneNumber(context: Context) {
 
         launch {
             state.loading = true
@@ -144,7 +143,7 @@ open class GenericOtpViewModel(application: Application) : ForgotPasscodeOtpView
                 is RetroApiResponse.Success -> {
                     state.toast =
                         getString(Strings.screen_verify_phone_number_display_text_resend_otp_success)
-                    state.reverseTimer(10)
+                    state.reverseTimer(10, context)
                     state.validResend = false
                 }
                 is RetroApiResponse.Error -> {

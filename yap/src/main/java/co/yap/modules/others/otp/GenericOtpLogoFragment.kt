@@ -26,6 +26,7 @@ class GenericOtpLogoFragment : GenericOtpFragment() {
     override fun getLayoutId(): Int = R.layout.fragment_generic_otp_logo
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        viewModel.state.reverseTimer(10,requireContext())
     }
 
     override fun loadData() {
