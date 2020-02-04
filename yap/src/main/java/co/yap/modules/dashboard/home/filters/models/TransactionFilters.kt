@@ -5,8 +5,8 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 data class TransactionFilters(
-    var amountStartRange: Double? = -1.0,
-    var amountEndRange: Double? = -1.0,
+    var amountStartRange: Double? = null,
+    var amountEndRange: Double? = null,
     var incomingTxn: Boolean? = false,
     var outgoingTxn: Boolean? = false,
     var totalAppliedFilter: Int = 0

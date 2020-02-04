@@ -51,7 +51,6 @@ import co.yap.yapcore.constants.Constants.MODE_MEETING_CONFORMATION
 import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.enums.NotificationStatus
 import co.yap.yapcore.enums.PartnerBankStatus
-import co.yap.yapcore.helpers.CustomSnackbar
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.fixSwipeToRefresh
 import co.yap.yapcore.helpers.extentions.launchActivity
@@ -187,12 +186,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                     }
                 }
 
-                R.id.lyAnalytics -> startActivity(
-                    Intent(
-                        requireContext(),
-                        CardAnalyticsActivity::class.java
-                    )
-                )
+                R.id.lyAnalytics -> launchActivity<CardAnalyticsActivity>()//startFragment(CardAnalyticsDetailsFragment::class.java.name)
                 R.id.lyAdd -> Utils.showComingSoon(requireContext())
 
             }
@@ -239,6 +233,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                 getRecycleViewAdaptor()?.addList(listToAppend)
             } else {
                 if (it.isEmpty()) {
+                    transactionViewHelper?.setTooltipVisibility(View.GONE)
                     if (0 >= viewModel.state.filterCount.get() ?: 0) {
                         viewModel.state.isTransEmpty.set(true)
                     } else {
@@ -557,7 +552,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
 //
         rvTransactionsBarChart.adapter =
             GraphBarsAdapter(mutableListOf(), viewModel)
-
+        transactionViewHelper?.setTooltipVisibility(View.GONE)
         viewModel.filterTransactions()
     }
 
@@ -579,14 +574,6 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
 
     private fun getBindings(): FragmentYapHomeBinding {
         return viewDataBinding as FragmentYapHomeBinding
-    }
-
-    private fun showErrorSnackBar(error: String) {
-        CustomSnackbar.showErrorCustomSnackbar(
-            context = requireContext(),
-            layout = getBindings().clSnackbar,
-            message = error
-        )
     }
 
     private fun registerTransactionBroadcast() {

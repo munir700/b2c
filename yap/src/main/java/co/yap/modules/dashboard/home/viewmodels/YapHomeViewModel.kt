@@ -27,10 +27,7 @@ class YapHomeViewModel(application: Application) :
     override lateinit var debitCardSerialNumber: String
     override val clickEvent: SingleClickEvent = SingleClickEvent()
     override val state: YapHomeState = YapHomeState()
-    override var txnFilters: TransactionFilters = TransactionFilters(
-        null,
-        null, false, outgoingTxn = false
-    )
+    override var txnFilters: TransactionFilters = TransactionFilters()
 
     private val cardsRepository: CardsRepository = CardsRepository
     private val transactionsRepository: TransactionsRepository = TransactionsRepository
