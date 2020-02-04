@@ -1,6 +1,7 @@
 package co.yap.modules.others.otp
 
 import android.app.Application
+import android.content.Context
 import co.yap.translation.Strings
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.SendMoneyBeneficiaryType
@@ -38,11 +39,10 @@ class GenericOtpLogoViewModel(application: Application) :
                     Strings.screen_cash_pickup_funds_display_otp_text_description
             }
         }
-        state.reverseTimer(10)
         state.validResend = false
     }
 
-    override fun handlePressOnResendOTP(id: Int) {
-        createOtp()
+    override fun handlePressOnResendOTP(context: Context) {
+        createOtp(context)
     }
 }

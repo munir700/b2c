@@ -1,6 +1,7 @@
 package co.yap.modules.onboarding.viewmodels
 
 import android.app.Application
+import android.content.Context
 import co.yap.modules.onboarding.interfaces.IPhoneVerification
 import co.yap.modules.onboarding.states.PhoneVerificationState
 import co.yap.networking.interfaces.IRepositoryHolder
@@ -31,7 +32,6 @@ open class PhoneVerificationViewModel(application: Application) :
         state.verificationTitle = getString(Strings.screen_verify_phone_number_display_text_title)
         state.verificationDescription = Strings.screen_verify_phone_number_display_text_sub_title
         state.mobileNumber[0] = parentViewModel?.onboardingData?.formattedMobileNumber
-        state.reverseTimer(10)
         state.validResend = false
     }
 
@@ -39,7 +39,7 @@ open class PhoneVerificationViewModel(application: Application) :
         verifyOtp(id)
     }
 
-    override fun handlePressOnResendOTP() {
+    override fun handlePressOnResendOTP(context: Context) {
         launch {
             state.loading = true
             when (val response =
@@ -53,7 +53,7 @@ open class PhoneVerificationViewModel(application: Application) :
                 is RetroApiResponse.Success -> {
                     state.toast =
                         getString(Strings.screen_verify_phone_number_display_text_resend_otp_success)
-                    state.reverseTimer(10)
+                    state.reverseTimer(10,context)
                     state.validResend = false
                 }
                 is RetroApiResponse.Error -> {

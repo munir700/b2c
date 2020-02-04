@@ -1,6 +1,7 @@
 package co.yap.modules.forgotpasscode.states
 
 import android.app.Application
+import android.content.Context
 import android.os.CountDownTimer
 import android.text.SpannableStringBuilder
 import androidx.core.content.ContextCompat
@@ -126,8 +127,8 @@ class ForgotPasscodeOtpState(application: Application) : BaseState(), IForgotPas
         return validateOtp
     }
 
-    override fun reverseTimer(Seconds: Int) {
-        color = ContextCompat.getColor(mContext,R.color.disabled)
+    override fun reverseTimer(Seconds: Int,context: Context) {
+        color = ContextCompat.getColor(context,R.color.disabled)
         object : CountDownTimer((Seconds * 1000 + 1000).toLong(), 1000) {
             override fun onTick(millisUntilFinished: Long) {
                 var seconds = (millisUntilFinished / 1000).toInt()
@@ -144,7 +145,7 @@ class ForgotPasscodeOtpState(application: Application) : BaseState(), IForgotPas
 
             override fun onFinish() {
                 validResend = true
-                color = ThemeColorUtils.colorPrimaryAttribute(mContext)
+                color = ThemeColorUtils.colorPrimaryAttribute(context)
                 timer = "00:00"
             }
         }.start()

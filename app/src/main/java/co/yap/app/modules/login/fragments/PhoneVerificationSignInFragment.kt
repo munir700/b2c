@@ -26,6 +26,7 @@ class PhoneVerificationSignInFragment : BaseBindingFragment<IPhoneVerificationSi
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        viewModel.state.reverseTimer(10, requireContext())
         viewModel.nextButtonPressEvent.observe(this, nextButtonObserver)
         viewModel.verifyOtpResult.observe(this, verifyOtpResultObserver)
         viewModel.postDemographicDataResult.observe(this, postDemographicDataObserver)

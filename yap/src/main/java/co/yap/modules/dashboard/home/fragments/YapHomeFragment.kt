@@ -60,6 +60,7 @@ import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.leanplum.TrackEvents
 import co.yap.yapcore.managers.MyUserManager
 import com.google.android.material.appbar.AppBarLayout
+import com.leanplum.Leanplum
 import com.yarolegovich.discretescrollview.transform.ScaleTransformer
 import kotlinx.android.synthetic.main.content_fragment_yap_home.*
 import kotlinx.android.synthetic.main.fragment_yap_home.*

@@ -55,7 +55,7 @@ class TransactionsListingAdapter(private val list: MutableList<Content>) :
                     )
                 )
                 itemTransactionListBinding.tvTransactionAmount?.text =
-                    "- " + Utils.getFormattedCurrency(transaction.amount.toString())
+                    "- " + Utils.getFormattedCurrency(transaction.totalAmount.toString())
             }
 
 
