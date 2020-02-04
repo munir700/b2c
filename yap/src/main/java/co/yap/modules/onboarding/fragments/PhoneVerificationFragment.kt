@@ -2,6 +2,7 @@ package co.yap.modules.onboarding.fragments
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
@@ -28,6 +29,11 @@ class PhoneVerificationFragment : OnboardingChildFragment<IPhoneVerification.Vie
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         setObservers()
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        viewModel.state.reverseTimer(10, requireContext())
     }
     override fun setObservers() {
         viewModel.nextButtonPressEvent.observe(this, Observer {

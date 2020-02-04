@@ -1,5 +1,6 @@
 package co.yap.modules.onboarding.interfaces
 
+import android.content.Context
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.SingleLiveEvent
@@ -17,7 +18,7 @@ interface IPhoneVerification {
         //  fun handlePressOnSend()
         fun handlePressOnSendButton(id: Int)
 
-        fun handlePressOnResendOTP()
+        fun handlePressOnResendOTP(context: Context)
         fun setPasscode(passcode: String)
     }
 
@@ -31,7 +32,7 @@ interface IPhoneVerification {
         var valid: Boolean
         var timer: String
         var validResend: Boolean
-        fun reverseTimer(Seconds: Int)
+        fun reverseTimer(Seconds: Int, context: Context)
         var color: Int
     }
 }

@@ -32,7 +32,6 @@ import co.yap.yapcore.helpers.extentions.launchActivity
 import co.yap.yapcore.interfaces.OnItemClickListener
 import com.nikhilpanju.recyclerviewenhanced.RecyclerTouchListener
 import kotlinx.android.synthetic.main.layout_beneficiaries.*
-import kotlinx.android.synthetic.main.layout_beneficiaries.view.*
 
 class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>(),
     ISendMoneyHome.View {
@@ -77,7 +76,7 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
     private fun initComponents() {
         getBinding().layoutBeneficiaries.rvAllBeneficiaries.adapter =
             AllBeneficiariesAdapter(mutableListOf())
-        getAdaptor().setItemListener(adaptorlistener)
+        getAdaptor().setItemListener(adaptorListener)
         getAdaptor().allowFullItemClickListener = true
         initSwipeListener()
     }
@@ -162,7 +161,7 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
         }
     }
 
-    private val adaptorlistener = object : OnItemClickListener {
+    private val adaptorListener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
             if (data is Beneficiary) {
                 startMoneyTransfer(data, pos)

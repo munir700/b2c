@@ -32,9 +32,9 @@ fun ViewModel.trackEvent(eventName: String) {
     fireEvent(eventName)
 }
 
-fun ViewModel.trackEventWithAttributes(attributes: Map<String, *>) {
-    Leanplum.setUserAttributes(attributes)
-}
+//fun ViewModel.trackEventWithAttributes(attributes: Map<String, *>) {
+//    Leanplum.setUserAttributes(attributes)
+//}
 
 fun ViewModel.trackEventWithAttributes(clientId: String, attributes: Map<String, *>) {
     Leanplum.setUserAttributes(clientId, attributes)

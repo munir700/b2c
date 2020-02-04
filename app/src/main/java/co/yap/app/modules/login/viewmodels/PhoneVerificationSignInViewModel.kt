@@ -1,6 +1,7 @@
 package co.yap.app.modules.login.viewmodels
 
 import android.app.Application
+import android.content.Context
 import android.os.Build
 import androidx.lifecycle.MutableLiveData
 import co.yap.app.modules.login.interfaces.IPhoneVerificationSignIn
@@ -43,7 +44,7 @@ class PhoneVerificationSignInViewModel(application: Application) :
 
     override fun onCreate() {
         super.onCreate()
-        state.reverseTimer(10)
+        //state.reverseTimer(10,context)
         state.valid = false
     }
 
@@ -77,7 +78,7 @@ class PhoneVerificationSignInViewModel(application: Application) :
         }
     }
 
-    override fun handlePressOnResend() {
+    override fun handlePressOnResend(context: Context) {
         launch {
             state.loading = true
             when (val response =
@@ -85,7 +86,7 @@ class PhoneVerificationSignInViewModel(application: Application) :
                 is RetroApiResponse.Success -> {
                     state.toast =
                         getString(Strings.screen_verify_phone_number_display_text_resend_otp_success)
-                    state.reverseTimer(10)
+                    state.reverseTimer(10, context)
                     state.valid = false
                 }
                 is RetroApiResponse.Error -> {
@@ -151,7 +152,7 @@ class PhoneVerificationSignInViewModel(application: Application) :
             info[UserAttributes().firstName] = it.currentCustomer.firstName ?: ""
             info[UserAttributes().lastName] = it.currentCustomer.lastName
             info[UserAttributes().documentsVerified] = it.documentsVerified ?: false
-            trackEventWithAttributes(info)
+            it.uuid?.let { uuid -> trackEventWithAttributes(uuid, info) }
         }
     }
 }

@@ -169,7 +169,12 @@ class LocationSelectionActivity : MapSupportActivity(), ILocationSelection.View 
                 Utils.openWebPage(Constants.URL_TERMS_CONDITION, "", this)
             }
             R.id.etAddressField -> {
-                onMapClickAction()
+                if (etAddressField.length() > 0){
+                    etAddressField.isFocusable=true
+                    etAddressField.isFocusableInTouchMode=true
+                }else{
+                    onMapClickAction()
+                }
             }
             R.id.rlCollapsedMapSection -> {
                 onMapClickAction()

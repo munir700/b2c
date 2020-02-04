@@ -54,15 +54,15 @@ import co.yap.yapcore.enums.PartnerBankStatus
 import co.yap.yapcore.helpers.CustomSnackbar
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.fixSwipeToRefresh
-import co.yap.yapcore.helpers.extentions.trackEvent
 import co.yap.yapcore.helpers.extentions.launchActivity
+import co.yap.yapcore.helpers.extentions.trackEvent
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.leanplum.TrackEvents
 import co.yap.yapcore.managers.MyUserManager
 import com.google.android.material.appbar.AppBarLayout
+import com.leanplum.Leanplum
 import com.yarolegovich.discretescrollview.transform.ScaleTransformer
 import kotlinx.android.synthetic.main.content_fragment_yap_home.*
-import kotlinx.android.synthetic.main.content_fragment_yap_home.view.*
 import kotlinx.android.synthetic.main.fragment_yap_home.*
 import kotlinx.android.synthetic.main.view_graph.*
 import kotlin.math.abs
@@ -240,9 +240,9 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                 getRecycleViewAdaptor()?.addList(listToAppend)
             } else {
                 if (it.isEmpty()) {
-                    if (0 >= viewModel.state.filterCount.get() ?: 0){
+                    if (0 >= viewModel.state.filterCount.get() ?: 0) {
                         viewModel.state.isTransEmpty.set(true)
-                    }else{
+                    } else {
                         viewModel.state.isTransEmpty.set(false)
                     }
                 } else {
@@ -341,7 +341,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
 
     private fun showTransactionsAndGraph() {
         if (viewModel.transactionsLiveData.value.isNullOrEmpty()) {
-            if (0 >= viewModel.state.filterCount.get() ?: 0){
+            if (0 >= viewModel.state.filterCount.get() ?: 0) {
                 viewModel.state.isTransEmpty.set(true)
             }
         } else {
@@ -461,9 +461,12 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
         when (notification.action) {
             Constants.NOTIFICATION_ACTION_SET_PIN -> viewModel.getDebitCards()
             Constants.NOTIFICATION_ACTION_COMPLETE_VERIFICATION -> {
-               launchActivity<DocumentsDashboardActivity>(requestCode = RequestCodes.REQUEST_KYC_DOCUMENTS){
-                   putExtra(co.yap.yapcore.constants.Constants.name, MyUserManager.user?.currentCustomer?.firstName.toString())
-                   putExtra(co.yap.yapcore.constants.Constants.data, false)
+                launchActivity<DocumentsDashboardActivity>(requestCode = RequestCodes.REQUEST_KYC_DOCUMENTS) {
+                    putExtra(
+                        co.yap.yapcore.constants.Constants.name,
+                        MyUserManager.user?.currentCustomer?.firstName.toString()
+                    )
+                    putExtra(co.yap.yapcore.constants.Constants.data, false)
                 }
             }
 
@@ -489,7 +492,8 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
         when (requestCode) {
             RequestCodes.REQUEST_KYC_DOCUMENTS -> {
                 data?.let {
-                    val result = data.getBooleanExtra(co.yap.yapcore.constants.Constants.result, false)
+                    val result =
+                        data.getBooleanExtra(co.yap.yapcore.constants.Constants.result, false)
                     if (result)
                         startActivityForResult(
                             LocationSelectionActivity.newIntent(
@@ -532,7 +536,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
             homeTransactionsRequest.amountStartRange = it.amountStartRange
             homeTransactionsRequest.amountEndRange = it.amountEndRange
             homeTransactionsRequest.title = null
-            homeTransactionsRequest.totalAppliedFilter = getTotalAppliedFilter()
+            homeTransactionsRequest.totalAppliedFilter = it.totalAppliedFilter
         }
     }
 
@@ -545,20 +549,15 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
             co.yap.yapcore.constants.Constants.MANUAL_DEBIT
     }
 
-    private fun getTotalAppliedFilter(): Int {
-        var count = viewModel.txnFilters.totalAppliedFilter
-        if (viewModel.txnFilters.incomingTxn == true) count++
-        if (viewModel.txnFilters.outgoingTxn == true) count++
-
-        return count
-    }
 
     private fun getFilterTransactions() {
-        //rvTransaction.adapter =
-        //    TransactionsHeaderAdapter(mutableListOf(), adaptorlistener)
 
-        //rvTransactionsBarChart.adapter =
-        //    GraphBarsAdapter(mutableListOf(), viewModel)
+        // clear the transaction list to show filtered list and if there is error occur prevent to show old data
+        rvTransaction.adapter =
+            TransactionsHeaderAdapter(mutableListOf(), adaptorlistener)
+//
+        rvTransactionsBarChart.adapter =
+            GraphBarsAdapter(mutableListOf(), viewModel)
 
         viewModel.filterTransactions()
     }
