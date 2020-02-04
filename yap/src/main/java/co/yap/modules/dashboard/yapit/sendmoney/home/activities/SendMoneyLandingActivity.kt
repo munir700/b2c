@@ -76,6 +76,8 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
     private fun initComponents() {
         getBinding().layoutBeneficiaries.rvAllBeneficiaries.adapter =
             AllBeneficiariesAdapter(mutableListOf())
+        getAdaptor().setItemListener(adaptorListener)
+        getAdaptor().allowFullItemClickListener = true
         initSwipeListener()
     }
 
@@ -159,13 +161,19 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
         }
     }
 
+    private val adaptorListener = object : OnItemClickListener {
+        override fun onItemClick(view: View, data: Any, pos: Int) {
+            if (data is Beneficiary) {
+                startMoneyTransfer(data, pos)
+            }
+        }
+    }
+
     private fun initSwipeListener() {
         onTouchListener = RecyclerTouchListener(this, rvAllBeneficiaries)
             .setClickable(
                 object : RecyclerTouchListener.OnRowClickListener {
                     override fun onRowClicked(position: Int) {
-                        val beneficiary = viewModel.allBeneficiariesLiveData.value?.get(position)
-                        startMoneyTransfer(beneficiary, position)
                     }
 
                     override fun onIndependentViewClicked(
@@ -181,11 +189,11 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
                 when (viewID) {
                     R.id.btnDelete -> {
                         positionToDelete = position
-                        val beneficiary = viewModel.allBeneficiariesLiveData.value?.get(position)
-                        beneficiary?.let { confirmDeleteBeneficiary(it) }
+                        val beneficiary = getAdaptor().getDataList()[position]
+                        confirmDeleteBeneficiary(beneficiary)
                     }
                     R.id.btnEdit -> {
-                        val beneficiary = viewModel.allBeneficiariesLiveData.value?.get(position)
+                        val beneficiary = getAdaptor().getDataList()[position]
                         openEditBeneficiary(beneficiary)
                     }
                 }
@@ -250,7 +258,6 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
         rvAllBeneficiaries.removeOnItemTouchListener(onTouchListener)
         super.onPause()
     }
-
 
     override fun onResume() {
         super.onResume()

@@ -82,6 +82,8 @@ class PersonalDetailsFragment : MoreBaseFragment<IPersonalDetail.ViewModel>(),
                 }
 
                 R.id.tvEditEmail -> {
+                    viewModel.toggleToolBar(true)
+                    viewModel.updateToolBarText("")
                     findNavController().navigate(R.id.action_personalDetailsFragment_to_change_email_navigation)
                 }
 
@@ -157,12 +159,12 @@ class PersonalDetailsFragment : MoreBaseFragment<IPersonalDetail.ViewModel>(),
         super.onPause()
         viewModel.clickEvent.removeObservers(this)
         viewModel.onUpdateAddressSuccess.removeObservers(this)
-        if (changeAddress) {
-            viewModel.toggleToolBar(true)
-            viewModel.updateToolBarText("")
-
-            changeAddress = true
-        }
+//        if (changeAddress) {
+//            viewModel.toggleToolBar(true)
+//            viewModel.updateToolBarText("")
+//
+//            changeAddress = true
+//        }
     }
 
     override fun onDestroy() {
