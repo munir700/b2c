@@ -7,10 +7,11 @@ import co.yap.R
 import co.yap.networking.models.ApiResponse
 import co.yap.yapcore.BaseListItemViewModel
 
-class CardAnalyticsDetailsItemViewModel : BaseListItemViewModel<ApiResponse>() {
+class CardAnalyticsDetailsItemVM : BaseListItemViewModel<ApiResponse>() {
     private lateinit var mItem: ApiResponse
     override fun setItem(item: ApiResponse, position: Int) {
         mItem = item
+        notifyChange()
     }
 
     override fun getItem() = mItem

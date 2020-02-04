@@ -186,4 +186,5 @@ abstract class BaseListItemViewModel<ITEM : Any> : ViewModel(), Observable, OnIt
 
     @LayoutRes
     public abstract fun layoutRes(): Int
+
 }
