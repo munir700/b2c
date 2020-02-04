@@ -12,9 +12,9 @@ class YapStoreItemViewHolder(private val itemYapStoreBinding: ItemYapStoreBindin
 
     fun onBind(store: Store?) {
         itemYapStoreBinding.viewModel = YapStoreItemViewModel(store)
-        if (store?.name == "YAP Household") {
+        /*if (store?.name == "YAP Household") {
             itemYapStoreBinding.labelCardType.visibility = View.GONE
-        }
+        }*/
         itemYapStoreBinding.executePendingBindings()
     }
 }
