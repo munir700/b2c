@@ -4,7 +4,6 @@ import android.app.Application
 import androidx.lifecycle.MutableLiveData
 import co.yap.modules.dashboard.cards.paymentcarddetail.addfunds.interfaces.IFundActions
 import co.yap.modules.dashboard.cards.paymentcarddetail.addfunds.states.FundActionsState
-import co.yap.modules.others.helper.Constants
 import co.yap.networking.customers.responsedtos.beneficiary.TopUpCard
 import co.yap.networking.customers.responsedtos.beneficiary.TopUpTransactionModel
 import co.yap.networking.models.RetroApiResponse
@@ -14,6 +13,7 @@ import co.yap.networking.transactions.requestdtos.RemoveFundsRequest
 import co.yap.networking.transactions.responsedtos.FundTransferDenominations
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
+import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.managers.MyUserManager
 import kotlinx.coroutines.delay
@@ -162,9 +162,9 @@ open class FundActionsViewModel(application: Application) :
             when (val response = transactionsRepository.getFundTransferDenominations(productCode)) {
                 is RetroApiResponse.Success -> {
                     var fundsType: String? = null
-                    if (productCode == Constants.ADD_FUNDS_PRODUCT_CODE) {
+                    if (productCode == Constants.SUPP_CARD) {
                         fundsType = "+"
-                    } else if (productCode == Constants.REMOVE_FUNDS_PRODUCT_CODE) {
+                    } else if (productCode == co.yap.modules.others.helper.Constants.REMOVE_FUNDS_PRODUCT_CODE) {
                         fundsType = "-"
                     } else {
                         fundsType = "+"
