@@ -212,7 +212,12 @@ class AddressSelectionFragment : BaseMapFragment<IAddressSelection.ViewModel>(),
 //                }
 
                 R.id.etAddressField -> {
-                    onMapClickAction()
+                    if (etAddressField.length() > 0) {
+                        etAddressField.isFocusable = true
+                        etAddressField.isFocusableInTouchMode = true
+                    } else {
+                        onMapClickAction()
+                    }
                 }
                 //
                 R.id.btnLocation -> {
