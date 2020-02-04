@@ -10,7 +10,7 @@ object DateUtils {
     private const val DEFAULT_DATE_FORMAT: String = "dd/MM/yyyy"
     val GMT = TimeZone.getTimeZone("GMT")
     val TIME_ZONE_Default = TimeZone.getDefault()
-    val FORMAT_LONG_OUTPUT = "MMM dd, YYYY・HH:mma"//2015-11-28 10:17:18//2016-12-12 12:23:00
+    val FORMAT_LONG_OUTPUT = "MMM dd, yyyy・HH:mma"//2015-11-28 10:17:18//2016-12-12 12:23:00
     val FORMAT_LONG_INPUT = "yyyy-MM-dd'T'HH:mm:ss"//2015-11-28 10:17:18
     val FORMAT_MON_YEAR = "MMMM yyyy"//2015-11-28 10:17:18
     val FORMAT_MONTH_YEAR = "MMMM, yyyy"//2015-11-28 10:17:18
@@ -160,13 +160,13 @@ object DateUtils {
 
     @SuppressLint("SimpleDateFormat")
     fun getCurrentDate(): String {
-        val sdf = SimpleDateFormat("YYYY-MM-dd")
+        val sdf = SimpleDateFormat("yyyy-MM-dd")
         return sdf.format(Date())
     }
 
 //    @SuppressLint("SimpleDateFormat")
 //    fun getCurrentDate(): Date {
-//        val sdf = SimpleDateFormat("YYYY-MM-dd")
+//        val sdf = SimpleDateFormat("yyyy-MM-dd")
 //        return sdf.format(Date())
 //    }
 
