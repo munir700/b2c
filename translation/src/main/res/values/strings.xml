@@ -14,6 +14,8 @@
     <string name="common_amount_hint">0.00</string>
     <string name="common_display_text_nothing_to_report">Nothing to report yet</string>
     <string name="common_button_logout">Logout</string>
+    <string name="error_view_text">No results found\ntab to retry</string>
+    <string name="empty_view_text">No results found</string>
 
 
     <!-- Home Screen -->
