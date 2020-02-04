@@ -34,9 +34,10 @@ open class ForgotPasscodeOtpFragment : BaseBindingFragment<IForgotPasscodeOtp.Vi
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        if (activity is ForgotPasscodeActivity){
+        viewModel.state.reverseTimer(10, requireContext())
+        if (activity is ForgotPasscodeActivity) {
             (activity as ForgotPasscodeActivity).preventTakeDeviceScreenShot.value = false
-        }else{
+        } else {
             preventTakeScreenShot(false)
         }
 
@@ -60,11 +61,11 @@ open class ForgotPasscodeOtpFragment : BaseBindingFragment<IForgotPasscodeOtp.Vi
 
     override fun setObservers() {
         viewModel.nextButtonPressEvent.observe(this, Observer {
-                val action =
-                    ForgotPasscodeOtpFragmentDirections.actionForgotPasscodeFragmentToCreateNewPasscodeFragment(
-                        args!!.mobileNumber,args!!.navigationType
-                    )
-                findNavController().navigate(action)
+            val action =
+                ForgotPasscodeOtpFragmentDirections.actionForgotPasscodeFragmentToCreateNewPasscodeFragment(
+                    args!!.mobileNumber, args!!.navigationType
+                )
+            findNavController().navigate(action)
         })
     }
 
