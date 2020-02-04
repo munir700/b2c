@@ -225,10 +225,13 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
                 }
             }
             R.id.llAddFunds -> {
-                startActivityForResult(
-                    AddFundsActivity.newIntent(this, viewModel.card.value!!),
-                    Constants.REQUEST_ADD_REMOVE_FUNDS
-                )
+                viewModel.card.value?.let { card ->
+                    startActivityForResult(
+                        AddFundsActivity.newIntent(this, card),
+                        Constants.REQUEST_ADD_REMOVE_FUNDS
+                    )
+                }
+
             }
             R.id.llFreezeSpareCard -> {
                 viewModel.freezeUnfreezeCard()

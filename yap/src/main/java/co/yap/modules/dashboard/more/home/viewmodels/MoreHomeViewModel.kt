@@ -11,6 +11,7 @@ import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.managers.MyUserManager
+import com.leanplum.Leanplum
 
 class MoreHomeViewModel(application: Application) :
     MoreBaseViewModel<IMoreHome.State>(application), IMoreHome.ViewModel/*,
@@ -46,8 +47,8 @@ class MoreHomeViewModel(application: Application) :
                 "Notifications",
                 R.drawable.ic_notification_more,
                 ContextCompat.getColor(context, R.color.colorSecondaryOrange),
-                false,
-                4
+                Leanplum.getInbox().unreadCount() > 0,
+                Leanplum.getInbox().unreadCount()
             )
         )
         //colorSecondaryGreen

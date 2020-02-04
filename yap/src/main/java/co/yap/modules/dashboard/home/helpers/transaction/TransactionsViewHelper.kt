@@ -110,7 +110,7 @@ class TransactionsViewHelper(
     }
 
     fun setTooltipOnZero() {
-        tooltip?.visibility = View.VISIBLE
+        setTooltipVisibility(View.VISIBLE)
         addToolTipDelay(300) {
             val newView =
                 transactionsView.rvTransactionsBarChart.getChildAt(0)
@@ -121,6 +121,11 @@ class TransactionsViewHelper(
                 )
             }
         }
+    }
+    fun setTooltipVisibility( visibility:Int = View.VISIBLE)
+    {
+            transactionsView.tvTransactionDate?.visibility = visibility
+            tooltip?.visibility = visibility
     }
 
     fun addTooltip(view: View?, data: HomeTransactionListData) {

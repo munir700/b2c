@@ -18,6 +18,7 @@ import co.yap.modules.dashboard.more.home.interfaces.IMoreHome
 import co.yap.modules.dashboard.more.home.models.MoreOption
 import co.yap.modules.dashboard.more.home.viewmodels.MoreHomeViewModel
 import co.yap.modules.dashboard.more.main.activities.MoreActivity
+import co.yap.modules.dashboard.more.notification.activities.NotificationsActivity
 import co.yap.modules.others.fragmentpresenter.activities.FragmentPresenterActivity
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.Utils
@@ -95,7 +96,7 @@ class YapMoreFragment : YapDashboardChildFragment<IMoreHome.ViewModel>(), IMoreH
             if (data is MoreOption) {
                 when (data.id) {
                     Constants.MORE_NOTIFICATION -> {
-                        Utils.showComingSoon(requireContext())
+                        openNotifications()
                     }
                     Constants.MORE_LOCATE_ATM -> {
                         openMaps()
@@ -114,6 +115,10 @@ class YapMoreFragment : YapDashboardChildFragment<IMoreHome.ViewModel>(), IMoreH
                 }
             }
         }
+    }
+
+    private fun openNotifications() {
+        startActivity(Intent(requireContext(), NotificationsActivity::class.java))
     }
 
     private fun openMaps() {

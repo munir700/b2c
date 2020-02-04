@@ -219,6 +219,9 @@
         <activity
             android:name=".modules.location.activities.LocationSelectionActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".modules.dashboard.more.notification.activities.NotificationsActivity"
+            android:screenOrientation="portrait" />
 
     </application>
 </manifest>

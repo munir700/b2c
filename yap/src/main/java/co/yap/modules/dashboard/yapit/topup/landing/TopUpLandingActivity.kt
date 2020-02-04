@@ -56,7 +56,7 @@ class TopUpLandingActivity : BaseBindingActivity<ITopUpLanding.ViewModel>() {
         }
     }
 
-    fun startBankFragment() {
+    private fun startBankFragment() {
         startFragment<TopUpBankDetailsFragment>(
             TopUpBankDetailsFragment::class.java.name, false,
             bundleOf(
