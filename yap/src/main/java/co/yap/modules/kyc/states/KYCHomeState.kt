@@ -1,7 +1,6 @@
 package co.yap.modules.kyc.states
 
 import androidx.databinding.Bindable
-import androidx.databinding.ObservableField
 import androidx.databinding.library.baseAdapters.BR
 import co.yap.modules.kyc.enums.DocScanStatus
 import co.yap.modules.kyc.interfaces.IKYCHome

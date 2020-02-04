@@ -39,8 +39,8 @@ class CardAnalyticsViewModel(application: Application) :
         parentVM?.let {
             parentViewModel = it
         }
-        DateUtils.datetoString(currentCalendar.time, "YYYY-MM-dd")
-        fetchCardCategoryAnalytics(DateUtils.datetoString(currentCalendar.time, "YYYY-MM-dd"))
+        DateUtils.datetoString(currentCalendar.time, "yyyy-MM-dd")
+        fetchCardCategoryAnalytics(DateUtils.datetoString(currentCalendar.time, "yyyy-MM-dd"))
         state.nextMonth = false
         MyUserManager.user?.creationDate?.let {
             val date =
@@ -90,7 +90,7 @@ class CardAnalyticsViewModel(application: Application) :
                 fetchCardCategoryAnalytics(
                     DateUtils.datetoString(
                         currentCalendar.time,
-                        "YYYY-MM-dd"
+                        "yyyy-MM-dd"
                     )
                 )
             }
@@ -110,7 +110,7 @@ class CardAnalyticsViewModel(application: Application) :
                 fetchCardCategoryAnalytics(
                     DateUtils.datetoString(
                         currentCalendar.time,
-                        "YYYY-MM-dd"
+                        "yyyy-MM-dd"
                     )
                 )
             }

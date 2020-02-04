@@ -45,11 +45,9 @@ class TransactionFiltersActivity : BaseBindingActivity<ITransactionFilters.ViewM
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setObservers()
-        if (intent != null) {
-            if (intent.hasExtra(KEY_FILTER_TXN_FILTERS)) {
-                val txnFilters =
-                    intent.getParcelableExtra<TransactionFilters>(KEY_FILTER_TXN_FILTERS)
-                viewModel.txnFilters.value = txnFilters
+        intent?.let {
+            if (it.hasExtra(KEY_FILTER_TXN_FILTERS)) {
+                viewModel.txnFilters.value = it.getParcelableExtra(KEY_FILTER_TXN_FILTERS)
             }
         }
     }

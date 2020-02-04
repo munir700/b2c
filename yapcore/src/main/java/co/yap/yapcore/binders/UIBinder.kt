@@ -1,8 +1,6 @@
 package co.yap.yapcore.binders
 
 
-import co.yap.widgets.otptextview.OTPListener
-import co.yap.widgets.otptextview.OtpTextView
 import android.annotation.SuppressLint
 import android.content.ContentUris
 import android.content.Context
@@ -26,10 +24,13 @@ import androidx.annotation.RequiresApi
 import androidx.cardview.widget.CardView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.databinding.*
+import androidx.recyclerview.widget.RecyclerView
 import co.yap.networking.cards.responsedtos.Card
 import co.yap.networking.customers.responsedtos.beneficiary.TopUpCard
 import co.yap.translation.Translator
 import co.yap.widgets.*
+import co.yap.widgets.otptextview.OTPListener
+import co.yap.widgets.otptextview.OtpTextView
 import co.yap.yapcore.R
 import co.yap.yapcore.enums.CardDeliveryStatus
 import co.yap.yapcore.enums.CardStatus
@@ -486,7 +487,7 @@ object UIBinder {
     @JvmStatic
     fun setconcatVal(tv: TextView, textKey: String, concat: String) {
         Translator.getString(tv.context, textKey)
-        tv.text =  String.format( Translator.getString(tv.context, textKey),'\n'+ concat)
+        tv.text = String.format(Translator.getString(tv.context, textKey), '\n' + concat)
 
     }
 
@@ -494,7 +495,7 @@ object UIBinder {
     @JvmStatic
     fun setconcatValWithOutNewLine(tv: TextView, textKey: String, concat: String) {
         Translator.getString(tv.context, textKey)
-        tv.text =  String.format( Translator.getString(tv.context, textKey), concat)
+        tv.text = String.format(Translator.getString(tv.context, textKey), concat)
 
     }
 
@@ -615,6 +616,7 @@ object UIBinder {
             view.settingUIForNormal()
         }
     }
+
     @JvmStatic
     @BindingAdapter("componentDialerError")
     fun setDialerError(view: CoreDialerPadV2, error: String) {
@@ -654,7 +656,7 @@ object UIBinder {
     @BindingAdapter("otp")
     fun setOtp(view: OtpTextView, value: String) {
         if (view.otp != value) {
-            view.setOTP( value)
+            view.setOTP(value)
         }
     }
 
@@ -884,6 +886,17 @@ object UIBinder {
         editText.isFocusableInTouchMode = editable
         editText.isClickable = editable
         editText.isCursorVisible = editable
+    }
+
+    @JvmStatic
+    @BindingAdapter("app:mAdapter")
+    fun setAdapter(
+        view: RecyclerView,
+        adapter: RecyclerView.Adapter<out RecyclerView.ViewHolder>?
+    ) {
+        if (null == adapter)
+            return
+        view.adapter = adapter
     }
 
 }

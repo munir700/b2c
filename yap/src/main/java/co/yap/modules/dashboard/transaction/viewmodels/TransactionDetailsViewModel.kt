@@ -86,7 +86,7 @@ class TransactionDetailsViewModel(application: Application) :
 
                     state.totalAmount =
                         response.data.data?.currency + " " + Utils.getFormattedCurrency(response.data.data?.totalAmount.toString())
-                    //val dateFormat = SimpleDateFormat("MMM dd, YYYY ・ HH:mmaa")
+                    //val dateFormat = SimpleDateFormat("MMM dd, yyyy ・ HH:mmaa")
                     try {
                         val date =
                             stringToDate(response.data.data?.creationDate!!, FORMAT_LONG_INPUT)
