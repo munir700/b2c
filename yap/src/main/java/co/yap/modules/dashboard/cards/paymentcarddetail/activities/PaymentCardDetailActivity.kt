@@ -49,7 +49,6 @@ import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.enums.CardStatus
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.cancelAllSnackBar
-import co.yap.yapcore.helpers.extentions.getCustomSnackbarSticky
 import co.yap.yapcore.helpers.extentions.preventTakeScreenShot
 import co.yap.yapcore.helpers.showSnackBar
 import co.yap.yapcore.helpers.spannables.underline
@@ -381,20 +380,20 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
     }
 
     private fun showSnackbar() {
-        if (snackbar?.isShown != true) {
-            snackbar = window.decorView.getCustomSnackbarSticky(
-                clSnackbar,
-                getString(Strings.screen_cards_display_text_freeze_card),
-                getString(Strings.screen_cards_display_text_freeze_card_action)
-            )
-
-            snackbar?.show()
-
-            val tvAction = snackbar?.view?.findViewById(co.yap.yapcore.R.id.tvAction) as TextView
-            tvAction.setOnClickListener {
-                viewModel.freezeUnfreezeCard()
-            }
-        }
+//        if (snackbar?.isShown != true) {
+//            snackbar = window.decorView.getCustomSnackbarSticky(
+//                clSnackbar,
+//                getString(Strings.screen_cards_display_text_freeze_card),
+//                getString(Strings.screen_cards_display_text_freeze_card_action)
+//            )
+//
+//            snackbar?.show()
+//
+//            val tvAction = snackbar?.view?.findViewById(co.yap.yapcore.R.id.tvAction) as TextView
+//            tvAction.setOnClickListener {
+//                viewModel.freezeUnfreezeCard()
+//            }
+//        }
     }
 
     private fun showLostStolenSnackbar() {

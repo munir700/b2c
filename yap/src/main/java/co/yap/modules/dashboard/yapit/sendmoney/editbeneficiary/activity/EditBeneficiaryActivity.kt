@@ -51,9 +51,12 @@ class EditBeneficiaryActivity : BaseBindingActivity<IEditBeneficiary.ViewModel>(
     }
 
     private fun maskIban() {
-        val maskTextWatcher = MaskTextWatcher(etAccountNumber, "#### #### #### #### #### #### ####")
-        etAccountNumber.addTextChangedListener(maskTextWatcher)
-        etAccountNumberRMT.addTextChangedListener(maskTextWatcher)
+        etAccountNumber?.let {
+            val maskTextWatcher =
+                MaskTextWatcher(it, "#### #### #### #### #### #### ####")
+            it.addTextChangedListener(maskTextWatcher)
+            etAccountNumberRMT?.let { watcher -> watcher.addTextChangedListener(maskTextWatcher) }
+        }
     }
 
     override fun setObservers() {

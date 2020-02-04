@@ -55,9 +55,10 @@ class PersonalDetailsViewModel(application: Application) :
     override fun onResume() {
         super.onResume()
         setToolBarTitle(getString(Strings.screen_personal_detail_display_text_title))
-        state.fullName = MyUserManager.user!!.currentCustomer.getFullName()
-        state.phoneNumber = MyUserManager.user!!.currentCustomer.getFormattedPhoneNumber(context)
-        state.email = MyUserManager.user?.currentCustomer?.email?:""
+        state.fullName = MyUserManager.user?.currentCustomer?.getFullName() ?: ""
+        state.phoneNumber =
+            MyUserManager.user?.currentCustomer?.getFormattedPhoneNumber(context) ?: ""
+        state.email = MyUserManager.user?.currentCustomer?.email ?: ""
         state.fullName = MyUserManager.user?.currentCustomer?.getFullName() ?: ""
         state.phoneNumber =
             MyUserManager.user?.currentCustomer?.getFormattedPhoneNumber(context) ?: ""
@@ -65,7 +66,7 @@ class PersonalDetailsViewModel(application: Application) :
         if (MyUserManager.userAddress == null) {
             requestGetAddressForPhysicalCard()
         } else {
-            address = MyUserManager.userAddress?:Address()
+            address = MyUserManager.userAddress ?: Address()
             setUpAddressFields()
         }
     }
@@ -92,11 +93,11 @@ class PersonalDetailsViewModel(application: Application) :
         var addressDetail = ""
 
         if (!address?.address2.isNullOrEmpty()) {
-            addresstitle = address?.address2?:""
+            addresstitle = address?.address2 ?: ""
         }
 
         if (!address?.address1.isNullOrEmpty()) {
-            addressDetail = address?.address1?:""
+            addressDetail = address?.address1 ?: ""
         }
 
         state.address = addressDetail

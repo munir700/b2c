@@ -69,8 +69,10 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
     }
 
     private fun setupList() {
-        adapter.setList(MyUserManager.cards.value!!)
-        updateCardCount()
+        MyUserManager.cards.value?.let {
+            adapter.setList(it)
+            updateCardCount()
+        }
     }
 
     private fun updateCardCount() {
@@ -335,6 +337,7 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
             )
         }
     }
+
     private fun getCard(pos: Int): Card {
         return adapter.getDataForPosition(pos)
     }

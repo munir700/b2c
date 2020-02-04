@@ -8,21 +8,17 @@ import android.view.View
 import androidx.annotation.NonNull
 import androidx.appcompat.app.AlertDialog
 import androidx.core.net.toUri
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import co.yap.BR
 import co.yap.R
-import co.yap.app.YAPApplication
 import co.yap.modules.dashboard.cards.paymentcarddetail.fragments.CardClickListener
 import co.yap.modules.dashboard.more.main.activities.MoreActivity
 import co.yap.modules.dashboard.more.main.fragments.MoreBaseFragment
 import co.yap.modules.dashboard.more.profile.intefaces.IProfile
 import co.yap.modules.dashboard.more.profile.viewmodels.ProfileSettingsViewModel
 import co.yap.modules.others.helper.Constants
-import co.yap.networking.cards.responsedtos.CardBalance
-import co.yap.yapcore.helpers.AuthUtils
 import co.yap.yapcore.helpers.PermissionHelper
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.Utils
@@ -267,7 +263,8 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
                 }
 
                 R.id.tvLikeUsOnFaceBook -> {
-                    startActivity(Utils.getOpenFacebookIntent(requireContext()))
+                    Utils.getOpenFacebookIntent(requireContext())
+                        ?.let { startActivity(it) }
                 }
 
                 R.id.ivProfilePic -> {
@@ -281,8 +278,10 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
                 }
 
                 R.id.rlAddNewProfilePic -> {
-                    updatePhotoBottomSheet = UpdatePhotoBottomSheet(this)
-                    updatePhotoBottomSheet.show(this!!.fragmentManager!!, "")
+                    this.fragmentManager?.let {
+                        updatePhotoBottomSheet = UpdatePhotoBottomSheet(this)
+                        updatePhotoBottomSheet.show(it, "")
+                    }
                 }
 
                 viewModel.PROFILE_PICTURE_UPLOADED -> {
