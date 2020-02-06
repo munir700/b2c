@@ -6,15 +6,17 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
 import co.yap.R
+import co.yap.databinding.FragmentNotificationsHomeBinding
 import co.yap.modules.dashboard.more.notification.interfaces.INotificationHome
 import co.yap.modules.dashboard.more.notification.viewmodels.NotificationsHomeViewModel
+import co.yap.modules.yapnotification.models.Notification
 import co.yap.yapcore.interfaces.OnItemClickListener
 import com.nikhilpanju.recyclerviewenhanced.RecyclerTouchListener
 
 class NotificationHomeFragment : NotificationsBaseFragment<INotificationHome.ViewModel>() {
     private lateinit var onTouchListener: RecyclerTouchListener
 
-    override val viewModel: INotificationHome.ViewModel
+    override val viewModel: NotificationsHomeViewModel
         get() = ViewModelProviders.of(this).get(NotificationsHomeViewModel::class.java)
 
     override fun getBindingVariable(): Int = BR.viewModel
@@ -30,6 +32,10 @@ class NotificationHomeFragment : NotificationsBaseFragment<INotificationHome.Vie
                 onBackPressed()
             }
         })
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         getBinding().recyclerNotification.adapter = viewModel.adapter
         viewModel.adapter.allowFullItemClickListener = true
         viewModel.adapter.setItemListener(listener)
@@ -38,6 +44,7 @@ class NotificationHomeFragment : NotificationsBaseFragment<INotificationHome.Vie
 
     val listener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
+            viewModel.parentViewModel?.notification = data as? Notification
         }
     }
 
@@ -81,7 +88,7 @@ class NotificationHomeFragment : NotificationsBaseFragment<INotificationHome.Vie
         viewModel.clickEvent.removeObservers(this)
     }
 
-    fun getBinding(): NotificationsHomeBinding {
-        return viewDataBinding as NotificationsHomeBinding
+    fun getBinding(): FragmentNotificationsHomeBinding {
+        return viewDataBinding as FragmentNotificationsHomeBinding
     }
 }

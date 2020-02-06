@@ -13,4 +13,8 @@ abstract class NotificationsBaseViewModel<S : IBase.State>(application: Applicat
     fun setToolBarTitle(title: String) {
         parentViewModel?.state?.toolbarTitle = title
     }
+
+    fun toggleToolBarVisibility(visibility: Boolean) {
+        parentViewModel?.state?.toolbarVisibility?.set(visibility)
+    }
 }

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/more_notifications_navigation"
+    app:startDestination="@id/notificationHomeFragment">
+
+    <fragment
+        android:id="@+id/notificationHomeFragment"
+        android:name="co.yap.modules.dashboard.more.notification.fragments.NotificationHomeFragment"
+        tools:layout="@layout/fragment_notifications_home"
+        android:label="NotificationHomeFragment" />
+</navigation>
