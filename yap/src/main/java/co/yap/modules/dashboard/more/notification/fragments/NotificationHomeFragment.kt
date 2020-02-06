@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.fragment.findNavController
 import co.yap.BR
 import co.yap.R
 import co.yap.databinding.FragmentNotificationsHomeBinding
@@ -45,6 +46,9 @@ class NotificationHomeFragment : NotificationsBaseFragment<INotificationHome.Vie
     val listener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
             viewModel.parentViewModel?.notification = data as? Notification
+            val action =
+                NotificationHomeFragmentDirections.actionNotificationHomeFragmentToNotificationDetailFragment()
+            findNavController().navigate(action)
         }
     }
 
