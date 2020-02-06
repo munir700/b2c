@@ -13,13 +13,11 @@ import co.yap.modules.yapnotification.adaptors.YapNotificationAdapter
 import co.yap.modules.yapnotification.interfaces.NotificationItemClickListener
 import co.yap.modules.yapnotification.models.Notification
 import co.yap.networking.transactions.responsedtos.transaction.Content
-import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionListData
 import co.yap.widgets.MultiStateView
 import co.yap.yapcore.BR
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.transactions.interfaces.LoadMoreListener
-import com.yarolegovich.discretescrollview.transform.ScaleTransformer
 
 class HouseholdHomeFragment : HouseholdDashboardBaseFragment<IHouseholdHome.ViewModel>(),
     IHouseholdHome.View, NotificationItemClickListener {
@@ -33,35 +31,20 @@ class HouseholdHomeFragment : HouseholdDashboardBaseFragment<IHouseholdHome.View
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setObservers()
-        initNotificationAdaptor()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        getViewBinding().recyclerView.setItemClickListener(adaptorClickListener)
-        getViewBinding().recyclerView.setLoadMoreListener(loadMoreListener)
-
-
-    }
-
-    private fun initNotificationAdaptor() {
-        mAdapter = YapNotificationAdapter(
-            ArrayList(),
-            requireContext(),
-            this
-        )
+        getViewBinding().transactionRecyclerView.setItemClickListener(adaptorClickListener)
+        getViewBinding().transactionRecyclerView.setLoadMoreListener(loadMoreListener)
     }
 
     override fun setObservers() {
         viewModel.viewState.observe(this, viewStateObserver)
         viewModel.clickEvent.observe(this, clickObserver)
         viewModel.notificationList.observe(this, Observer {
-            setNotificationAdapter(it)
-            setDiscreteScrollView()
-        })
-        viewModel.transactionsLiveData.observe(this, transactionsDataObserver)
 
-        viewModel.isLoadMore.observe(this, loadMoreObserver)
+        })
     }
 
     private val clickObserver = Observer<Int> {
@@ -96,85 +79,19 @@ class HouseholdHomeFragment : HouseholdDashboardBaseFragment<IHouseholdHome.View
 
     private val loadMoreListener = object : LoadMoreListener {
         override fun onLoadMore() {
-            if (viewModel.isLoadMore.value == false && viewModel.isLast.value == false) {
-                viewModel.isLoadMore.value = true
-            }
+            if (viewModel.isLast.value == false) {
+                viewModel.homeTransactionRequest.number =
+                    viewModel.homeTransactionRequest.number.inc()
+                viewModel.loadMore()
+            } //in else case remove observer from recycleview
         }
     }
 
-    private val transactionsDataObserver = Observer<List<HomeTransactionListData>> {
-        if (true == viewModel.isLoadMore.value) {
-            val listToAppend: MutableList<HomeTransactionListData> = mutableListOf()
-
-            val oldData: MutableList<HomeTransactionListData>? =
-                getViewBinding().recyclerView.getRecycleViewAdaptor()?.getDataList()
-
-            for (parentItem in it) {
-                var shouldAppend = false
-                for (i in 0 until oldData?.size!!) {
-                    if (parentItem.date == oldData[i].date) {
-                        if (parentItem.content.size != oldData[i].content.size) {
-                            shouldAppend = true
-                            break
-                        }
-                        shouldAppend = true
-                        break
-                    }
-                }
-                if (!shouldAppend)
-                    listToAppend.add(parentItem)
-            }
-            viewModel.viewState.value = Constants.EVENT_CONTENT
-            viewModel.state.transactionList.set(listToAppend)
-        } else {
-            if (it.isEmpty()) {
-                viewModel.viewState.value = Constants.EVENT_EMPTY
-            } else {
-                viewModel.viewState.value = Constants.EVENT_CONTENT
-                val list: MutableList<HomeTransactionListData> = mutableListOf()
-                list.addAll(it)
-                viewModel.state.transactionList.set(list)
-            }
-        }
-    }
-
-    private val loadMoreObserver = Observer<Boolean> {
-        if (it) {
-            getViewBinding().recyclerView.setItemToAdapter()
-            viewModel.loadMore()
-        }
-    }
-
-    private fun setNotificationAdapter(notificationList: ArrayList<Notification>) {
-        mAdapter = YapNotificationAdapter(
-            notificationList,
-            requireContext(),
-            this
-        )
-        mAdapter?.notifyDataSetChanged()
-    }
-
-    private fun setDiscreteScrollView() {
-        getViewBinding().rvNotificationList.setSlideOnFling(false)
-        getViewBinding().rvNotificationList.setOverScrollEnabled(true)
-        getViewBinding().rvNotificationList.adapter = mAdapter
-        //rvNotificationList.addOnItemChangedListener(this)
-        //rvNotificationList.addScrollStateChangeListener(this)
-        getViewBinding().rvNotificationList.smoothScrollToPosition(0)
-        getViewBinding().rvNotificationList.setItemTransitionTimeMillis(100)
-        getViewBinding().rvNotificationList.setItemTransformer(
-            ScaleTransformer.Builder()
-                .setMinScale(0.8f)
-                .build()
-        )
-    }
 
     override fun onDestroy() {
         super.onDestroy()
         viewModel.viewState.removeObserver(viewStateObserver)
         viewModel.clickEvent.removeObserver(clickObserver)
-        viewModel.isLoadMore.removeObserver(loadMoreObserver)
-        viewModel.transactionsLiveData.removeObserver(transactionsDataObserver)
     }
 
     private fun getViewBinding(): FragmentHouseholdHomeBinding {

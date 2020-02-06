@@ -23,7 +23,7 @@ interface IHouseholdHome {
         val transactionsLiveData: MutableLiveData<List<HomeTransactionListData>>
         var MAX_CLOSING_BALANCE: Double
         fun handlePressOnView(id: Int)
-        fun requestTransactions()
+        fun requestTransactions(isLoadMore: Boolean = false)
         fun loadMore()
     }
 

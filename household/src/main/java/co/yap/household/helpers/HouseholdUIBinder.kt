@@ -2,28 +2,34 @@ package co.yap.household.helpers
 
 import androidx.databinding.BindingAdapter
 import androidx.databinding.ObservableField
+import androidx.recyclerview.widget.RecyclerView
 import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionListData
 import co.yap.yapcore.transactions.TransactionRecyclerView
+import co.yap.yapcore.transactions.TransactionsAdapter
 
 object HouseholdUIBinder {
-    @BindingAdapter("txnList","isLoadMore")
+    @BindingAdapter("txnList")
     @JvmStatic
     fun setViewContainerAsLinearLayout(
         recyclerView: TransactionRecyclerView,
-        list: ObservableField<MutableList<HomeTransactionListData>>,
-        isLoadMore: Boolean
+        list: ObservableField<MutableList<HomeTransactionListData>>
     ) {
-        if (isLoadMore) {
-            if (recyclerView.getRecycleViewAdaptor()?.itemCount ?: 0 > 0)
-                recyclerView.getRecycleViewAdaptor()?.removeItemAt(
-                    recyclerView.getRecycleViewAdaptor()?.itemCount ?: 0 - 1
-                )
+        if (true == getRecycleViewAdaptor(recyclerView.rvTransaction)?.isLoaderMore?.value && !list.get().isNullOrEmpty()) {
+            getRecycleViewAdaptor(recyclerView.rvTransaction)?.addList(
+                list.get() ?: mutableListOf()
+            )
+            getRecycleViewAdaptor(recyclerView.rvTransaction)?.isLoaderMore?.value = false
 
-            recyclerView.addListToAdapter(list.get() ?: mutableListOf())
         } else {
             if (!list.get().isNullOrEmpty()) {
-                recyclerView.setListToAdapter(list.get() ?: mutableListOf())
+                getRecycleViewAdaptor(recyclerView.rvTransaction)?.setList(
+                    list.get() ?: mutableListOf()
+                )
             }
         }
+    }
+
+    private fun getRecycleViewAdaptor(recyclerView: RecyclerView?): TransactionsAdapter? {
+        return recyclerView?.adapter as? TransactionsAdapter
     }
 }

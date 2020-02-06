@@ -15,7 +15,7 @@ import co.yap.yapcore.transactions.viewmodels.ItemTransactionHeaderViewModel
 class HeaderViewHolder(private val itemTransactionListHeaderBinding: ItemTransactionHeaderBinding) :
     RecyclerView.ViewHolder(itemTransactionListHeaderBinding.root) {
 
-    fun onBind(homeTransaction: HomeTransactionListData, adaptorClick: OnItemClickListener) {
+    fun onBind(homeTransaction: HomeTransactionListData, adaptorClick: OnItemClickListener?) {
         itemTransactionListHeaderBinding.rvExpandedTransactionsListing.layoutManager =
             LinearLayoutManager(
                 itemTransactionListHeaderBinding.rvExpandedTransactionsListing.context,
@@ -35,7 +35,7 @@ class HeaderViewHolder(private val itemTransactionListHeaderBinding: ItemTransac
         adaptor.allowFullItemClickListener = true
         adaptor.setItemListener(object : OnItemClickListener {
             override fun onItemClick(view: View, data: Any, pos: Int) {
-                adaptorClick.onItemClick(view, data, pos)
+                adaptorClick?.onItemClick(view, data, pos)
             }
         })
 

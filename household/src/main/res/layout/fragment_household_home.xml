@@ -129,10 +129,9 @@
             app:msv_loadingView="@layout/layout_loading_view">
 
             <co.yap.yapcore.transactions.TransactionRecyclerView
-                android:id="@+id/recyclerView"
+                android:id="@+id/transactionRecyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                app:isLoadMore="@{viewModel.isLoadMore.booleanValue()}"
                 app:txnList="@{viewModel.state.transactionList}" />
         </co.yap.widgets.MultiStateView>
     </androidx.constraintlayout.widget.ConstraintLayout>

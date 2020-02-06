@@ -24,6 +24,7 @@ import kotlin.Comparator
 class HouseholdHomeViewModel(application: Application) :
     HouseholdDashboardBaseViewModel<IHouseholdHome.State>(application),
     IHouseholdHome.ViewModel, IRepositoryHolder<TransactionsRepository> {
+
     override val repository: TransactionsRepository = TransactionsRepository
     override val state: HouseholdHomeState =
         HouseholdHomeState()
@@ -31,15 +32,13 @@ class HouseholdHomeViewModel(application: Application) :
     override var viewState: MutableLiveData<Int> = MutableLiveData(Constants.EVENT_LOADING)
     override var notificationList: MutableLiveData<ArrayList<Notification>> = MutableLiveData()
     override val transactionsLiveData: MutableLiveData<List<HomeTransactionListData>> =
-        MutableLiveData()
+        MutableLiveData(arrayListOf())
     override val isLoadMore: MutableLiveData<Boolean> = MutableLiveData(false)
     override val isLast: MutableLiveData<Boolean> = MutableLiveData(false)
     override var homeTransactionRequest: HomeTransactionsRequest =
         HomeTransactionsRequest(0, 100, null, null, null)
     override var MAX_CLOSING_BALANCE: Double = 0.0
-    var sortedCombinedTransactionList: ArrayList<HomeTransactionListData> = arrayListOf()
     var closingBalanceArray: ArrayList<Double> = arrayListOf()
-
 
     override fun onCreate() {
         super.onCreate()
@@ -103,11 +102,14 @@ class HouseholdHomeViewModel(application: Application) :
         }
     }
 
-    override fun requestTransactions() {
-        launch {
+    override fun requestTransactions(isLoadMore: Boolean) {
 
-            if (!isLoadMore.value!!)
-                viewState.value = Constants.EVENT_LOADING
+        var sortedCombinedTransactionList =
+            transactionsLiveData.value as? ArrayList<HomeTransactionListData>
+
+        val oldTransactionList =
+            transactionsLiveData.value as? ArrayList<HomeTransactionListData>
+        launch {
             when (val response =
                 repository.getAccountTransactions(homeTransactionRequest)) {
                 is RetroApiResponse.Success -> {
@@ -116,29 +118,29 @@ class HouseholdHomeViewModel(application: Application) :
                         setUpSectionHeader(response)
 
                     if (false /*isRefreshing.value!!*/) {
-                        sortedCombinedTransactionList.clear()
+                        sortedCombinedTransactionList?.clear()
                     }
                     /*isRefreshing.value!! -->  isRefreshing.value = false*/
 
-                    if (!sortedCombinedTransactionList.equals(transactionModelData)) {
-                        sortedCombinedTransactionList.addAll(transactionModelData)
+                    if (sortedCombinedTransactionList?.equals(transactionModelData) == false) {
+                        sortedCombinedTransactionList?.addAll(transactionModelData)
                     }
 
                     val unionList =
-                        (sortedCombinedTransactionList.asSequence() + transactionModelData.asSequence())
+                        (sortedCombinedTransactionList?.asSequence()?.plus(transactionModelData.asSequence()))
                             .distinct()
-                            .groupBy({ it.date })
+                            .groupBy { it.date }
 
-                    for (lists in unionList.entries) {
+                    for (lists in unionList!!.entries) {
                         if (lists.value.size > 1) {// sortedCombinedTransactionList.equals(transactionModelData fails in this case
-                            val contentsList: java.util.ArrayList<Content> = arrayListOf()
+                            val contentsList: ArrayList<Content> = arrayListOf()
 
                             for (transactionsDay in lists.value) {
                                 contentsList.addAll(transactionsDay.content)
 
                             }
 
-                            contentsList.sortByDescending { it ->
+                            contentsList.sortByDescending {
                                 it.creationDate
                             }
 
@@ -150,9 +152,9 @@ class HouseholdHomeViewModel(application: Application) :
                                 "Type",
                                 "AED",
                                 /* transactionsDay.key!!*/
-                                convertDate(contentsList.get(0).creationDate)!!,
-                                contentsList.get(0).totalAmount.toString(),
-                                contentsList.get(0).balanceAfter,
+                                convertDate(contentsList[0].creationDate)!!,
+                                contentsList[0].totalAmount.toString(),
+                                contentsList[0].balanceAfter,
                                 0.00 /*  "calculate the percentage as per formula from the keys".toDouble()*/,
                                 contentsList,
 
@@ -182,7 +184,7 @@ class HouseholdHomeViewModel(application: Application) :
 
                             }
                             if (replaceNow) {
-                                sortedCombinedTransactionList.add(
+                                sortedCombinedTransactionList?.add(
                                     numbersToReplace,
                                     transactionModel
                                 )
@@ -190,14 +192,40 @@ class HouseholdHomeViewModel(application: Application) :
                         }
                     }
 
+                    //
+                    if (isLoadMore) {
+                        val listToAppend: MutableList<HomeTransactionListData> = mutableListOf()
+                        val oldData: ArrayList<HomeTransactionListData>? = oldTransactionList
+                        for (parentItem in sortedCombinedTransactionList) {
+                            var shouldAppend = false
+                            for (i in 0 until oldData?.size!!) {
+                                if (parentItem.date == oldData[i].date) {
+                                    if (parentItem.content.size != oldData[i].content.size) {
+                                        shouldAppend = true
+                                        break
+                                    }
+                                    shouldAppend = true
+                                    break
+                                }
+                            }
+                            if (!shouldAppend)
+                                listToAppend.add(parentItem)
+                        }
+                        state.transactionList.set(listToAppend)
+                    } else {
+                        if (sortedCombinedTransactionList.isEmpty()) {
+                            viewState.value = Constants.EVENT_EMPTY
+                        } else {
+                            state.transactionList.set(sortedCombinedTransactionList)
+                            viewState.value = Constants.EVENT_CONTENT
+                        }
+                    }
                     transactionsLiveData.value = sortedCombinedTransactionList
-                    isLoadMore.value = false
                 }
                 is RetroApiResponse.Error -> {
                     state.loading = false
                     viewState.value = Constants.EVENT_EMPTY
                     /*/isRefreshing.value = false*/
-                    isLoadMore.value = false
                 }
             }
 
@@ -205,7 +233,7 @@ class HouseholdHomeViewModel(application: Application) :
     }
 
     private fun setUpSectionHeader(response: RetroApiResponse.Success<HomeTransactionsResponse>): ArrayList<HomeTransactionListData> {
-        val contentList = response.data.data.content as java.util.ArrayList<Content>
+        val contentList = response.data.data.content as ArrayList<Content>
         contentList.sortWith(Comparator { o1, o2 -> o2.creationDate.compareTo(o1.creationDate) })
         val groupByDate = contentList.groupBy { item ->
             convertDate(item.creationDate)
@@ -216,20 +244,20 @@ class HouseholdHomeViewModel(application: Application) :
 
         for (transactionsDay in groupByDate.entries) {
 
-            val contentsList = transactionsDay.value as java.util.ArrayList<Content>
+            val contentsList = transactionsDay.value as ArrayList<Content>
             contentsList.sortByDescending {
                 it.creationDate
             }
 
-            val closingBalanceOfTheDay: Double = contentsList.get(0).balanceAfter
+            val closingBalanceOfTheDay: Double = contentsList[0].balanceAfter
             closingBalanceArray.add(closingBalanceOfTheDay)
 
             val transactionModel = HomeTransactionListData(
                 "Type",
                 "AED",
                 transactionsDay.key!!,
-                contentsList.get(0).totalAmount.toString(),
-                contentsList.get(0).balanceAfter,
+                contentsList[0].totalAmount.toString(),
+                contentsList[0].balanceAfter,
                 0.00 /*  "calculate the percentage as per formula from the keys".toDouble()*/,
                 contentsList,
 

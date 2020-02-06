@@ -27,10 +27,11 @@ class TransactionContentViewHolder(private val itemTransactionListBinding: ItemT
             "debit" -> setTxnAmountData(transaction, R.color.colorPrimaryDark)
         }
         transaction.title = transaction.title ?: "Unknown"
+        transaction.category = ""
         transaction.category = Translator.getString(
             context,
             R.string.screen_fragment_home_transaction_time_category,
-            splitTimeString(transaction.updatedDate),
+            splitTimeString(content.updatedDate),
             transaction.category.toLowerCase().capitalize()
         )
 
@@ -88,8 +89,12 @@ class TransactionContentViewHolder(private val itemTransactionListBinding: ItemT
     }
 
     private fun splitTimeString(timeString: String): String {
-        val originalTimeStrings = timeString.split("T").toTypedArray()
-        val splitTimeStrings = originalTimeStrings[1].split(":").toTypedArray()
-        return splitTimeStrings[0] + ":" + splitTimeStrings[1]
+        if (!timeString.isBlank()) {
+            val originalTimeStrings = timeString.split("T").toTypedArray()
+            val splitTimeStrings = originalTimeStrings[1].split(":").toTypedArray()
+            return splitTimeStrings[0] + ":" + splitTimeStrings[1]
+        }
+        return ""
+
     }
 }

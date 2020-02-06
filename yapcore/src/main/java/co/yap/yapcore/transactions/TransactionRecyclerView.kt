@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionListData
 import co.yap.yapcore.R
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.transactions.interfaces.LoadMoreListener
@@ -16,7 +15,7 @@ class TransactionRecyclerView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null
 ) : LinearLayout(context, attrs) {
-    private var rvTransaction: RecyclerView? = null
+    var rvTransaction: RecyclerView? = null
     private var clickListener: OnItemClickListener? = null
     private var onLoadMoreListener: LoadMoreListener? = null
 
@@ -28,6 +27,10 @@ class TransactionRecyclerView @JvmOverloads constructor(
         addView(view)
         rvTransaction = view.findViewById(R.id.rvTransactions)
         initAdapter()
+        setScrollCallback()
+    }
+
+    private fun setScrollCallback() {
         rvTransaction?.addOnScrollListener(
             object :
                 RecyclerView.OnScrollListener() {
@@ -37,6 +40,7 @@ class TransactionRecyclerView @JvmOverloads constructor(
                         rvTransaction?.layoutManager as LinearLayoutManager
                     val lastVisiblePosition = layoutManager.findLastVisibleItemPosition()
                     if (lastVisiblePosition == layoutManager.itemCount - 1) {
+                        (rvTransaction?.adapter as? TransactionsAdapter)?.isLoaderMore?.value = true
                         onLoadMoreListener?.onLoadMore()
                     }
                 }
@@ -46,30 +50,8 @@ class TransactionRecyclerView @JvmOverloads constructor(
     private fun initAdapter() {
         rvTransaction?.layoutManager = LinearLayoutManager(context)
         rvTransaction?.adapter =
-            TransactionsAdapter(mutableListOf(), object : OnItemClickListener {
-                override fun onItemClick(view: View, data: Any, pos: Int) {
-                    clickListener?.onItemClick(view, data, pos)
-                }
-            })
-        getRecycleViewAdaptor()?.allowFullItemClickListener = true
-    }
-
-    fun addListToAdapter(list: MutableList<HomeTransactionListData>) {
-        getRecycleViewAdaptor()?.addList(list)
-    }
-
-    fun setListToAdapter(list: MutableList<HomeTransactionListData>) {
-        getRecycleViewAdaptor()?.setList(list)
-    }
-
-    fun setItemToAdapter() {
-        val item: HomeTransactionListData? =
-            getRecycleViewAdaptor()?.getDataForPosition(getRecycleViewAdaptor()?.itemCount ?: 0 - 1)
-                ?.copy()
-        item?.let {
-            it.totalAmount = "loader"
-            getRecycleViewAdaptor()?.run { addListItem(it) }
-        }
+            TransactionsAdapter(mutableListOf(), clickListener)
+        (rvTransaction?.adapter as? TransactionsAdapter)?.allowFullItemClickListener = true
     }
 
     fun setItemClickListener(clickListener: OnItemClickListener) {
@@ -78,13 +60,5 @@ class TransactionRecyclerView @JvmOverloads constructor(
 
     fun setLoadMoreListener(onLoadMoreListener: LoadMoreListener) {
         this.onLoadMoreListener = onLoadMoreListener
-    }
-
-    fun getRecycleViewAdaptor(): TransactionsAdapter? {
-        return if (rvTransaction?.adapter is TransactionsAdapter) {
-            (rvTransaction?.adapter as TransactionsAdapter)
-        } else {
-            null
-        }
     }
 }
