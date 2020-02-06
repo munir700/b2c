@@ -1,7 +1,6 @@
 package co.yap.modules.dashboard.more.notification.fragments
 
 import android.os.Bundle
-import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
@@ -19,42 +18,21 @@ class NotificationDetailFragment : MoreBaseFragment<INotificationDetail.ViewMode
     override val viewModel: INotificationDetail.ViewModel
         get() = ViewModelProviders.of(this).get(NotificationDetailViewModel::class.java)
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        viewModel.clickEvent.observe(this, clickObserver)
     }
 
+    private val clickObserver = Observer<Int> {
+        when (it) {
+            R.id.tvDeleteNotification -> {
+                showToast("Under Development")
+            }
+        }
+    }
 
     override fun onDestroy() {
         viewModel.clickEvent.removeObservers(this)
         super.onDestroy()
     }
-
-
-    override fun onPause() {
-        viewModel.clickEvent.removeObservers(this)
-        super.onPause()
-
-    }
-
-    override fun onResume() {
-        super.onResume()
-
-        viewModel.clickEvent.observe(this, Observer {
-            when (it) {
-
-                R.id.tvDeleteNotification -> {
-                    showToast("Delete Notification")
-                }
-
-            }
-        })
-
-    }
-
-    override fun onBackPressed(): Boolean {
-        return super.onBackPressed()
-    }
-
 }

@@ -8,16 +8,13 @@ import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
 
 class NotificationDetailViewModel(application: Application) :
-    BaseViewModel<INotificationDetail.State>(application), INotificationDetail.ViewModel {
+    NotificationsBaseViewModel<INotificationDetail.State>(application), INotificationDetail.ViewModel {
 
     override val state: NotificationDetailState = NotificationDetailState()
     override val clickEvent: SingleClickEvent = SingleClickEvent()
-
 
     override fun handlePressOnDeleteNotification(id: Int) {
         clickEvent.setValue(id)
     }
 
-    override var notification: Notification =
-        Notification("title", "description", "type", "action", "imageUrl", "No","04 July, 2019")
 }

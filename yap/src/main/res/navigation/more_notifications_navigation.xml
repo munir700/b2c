@@ -9,5 +9,17 @@
         android:id="@+id/notificationHomeFragment"
         android:name="co.yap.modules.dashboard.more.notification.fragments.NotificationHomeFragment"
         tools:layout="@layout/fragment_notifications_home"
-        android:label="NotificationHomeFragment" />
+        android:label="NotificationHomeFragment">
+        <action
+            android:id="@+id/action_notificationHomeFragment_to_notificationDetailFragment"
+            app:destination="@id/notificationDetailFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popUpToInclusive="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/notificationDetailFragment"
+        android:name="co.yap.modules.dashboard.more.notification.fragments.NotificationDetailFragment"
+        android:label="NotificationDetailFragment"
+        tools:layout="@layout/fragment_notification_detail" />
 </navigation>
