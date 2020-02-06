@@ -1444,4 +1444,8 @@ object Strings {
     const val screen_card_detail_alert_text_disappears: String =
         "screen_card_detail_alert_text_disappears"
 
+    //Notification Detail
+    const val screen_notification_detail_display_text_delete: String =
+        "screen_notification_detail_display_text_delete"
+
 }

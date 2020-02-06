@@ -909,5 +909,8 @@
 
     <string name="screen_yap_house_hold_confirm_payment_share_text">Hi %1s,\n%2s has added you as their Household on YAP. Download YAP from the link below and login with these credentials:\n\nUsername: %3s\nPasscode:%4s\n\nDownload on App Store:\n%5s\n\nDownload on Play Store:\n%6s</string>
 
+    <!-- Notification Detail -->
+    <string name="screen_notification_detail_display_text_delete">Delete notification</string>
+
 </resources>
 
