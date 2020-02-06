@@ -18,5 +18,6 @@ class NotificationDetailViewModel(application: Application) :
         clickEvent.setValue(id)
     }
 
-    override lateinit var notification: Notification
+    override var notification: Notification =
+        Notification("title", "description", "type", "action", "imageUrl", "No","04 July, 2019")
 }

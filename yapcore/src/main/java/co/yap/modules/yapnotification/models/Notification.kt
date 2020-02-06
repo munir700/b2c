@@ -6,5 +6,6 @@ class Notification(
     var type: String,
     var action: String,
     var imageUrl: String,
-    var sticky: String, val date: String? = ""
+    var sticky: String,
+    val date: String? = ""
 )
