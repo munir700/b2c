@@ -19,6 +19,8 @@ object Strings {
     const val common_display_text_nothing_to_report: String =
         "common_display_text_nothing_to_report"
     const val common_button_logout: String = "common_button_logout"
+    const val common_text_fee: String = "common_text_fee"
+
 
 
     //Home screen
