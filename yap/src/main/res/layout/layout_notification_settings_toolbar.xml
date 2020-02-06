@@ -5,7 +5,12 @@
 
     <data>
 
+        <variable
+            name="viewModel"
+            type="co.yap.modules.dashboard.more.notification.viewmodels.NotificationSettingsViewModel" />
+
         <import type="co.yap.translation.Strings" />
+
 
     </data>
 

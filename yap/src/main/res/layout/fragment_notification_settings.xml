@@ -4,6 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
+        <variable
+            name="viewModel"
+            type="co.yap.modules.dashboard.more.notification.viewmodels.NotificationSettingsViewModel" />
+
         <import type="co.yap.translation.Strings" />
     </data>
 
@@ -44,13 +49,12 @@
                 tools:text="@string/screen_notification_settings_display_text_in_app_notifications" />
 
 
-
             <Switch
                 android:id="@+id/swWithdrawal"
                 style="@style/ASmallGrey"
                 android:layout_width="wrap_content"
-                android:checked="@{viewModel.state.inAppNotificationsAllowed}"
                 android:layout_height="wrap_content"
+                android:checked="@{viewModel.state.inAppNotificationsAllowed}"
                 android:onCheckedChanged="@{viewModel::onSwitchChanged}"
                 android:theme="@style/CustomSwitch"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -95,9 +99,9 @@
             <Switch
                 android:id="@+id/swOnlineTra"
                 style="@style/ASmallGrey"
-                android:checked="@{viewModel.state.card.smsNotificationsAllowed}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:checked="@{viewModel.state.smsNotificationsAllowed}"
                 android:onCheckedChanged="@{viewModel::onSwitchChanged}"
                 android:theme="@style/CustomSwitch"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -142,9 +146,9 @@
             <Switch
                 android:id="@+id/swAbroad"
                 style="@style/ASmallGrey"
-                android:checked="@{viewModel.state.card.emailNotificationsAllowed}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:checked="@{viewModel.state.emailNotificationsAllowed}"
                 android:onCheckedChanged="@{viewModel::onSwitchChanged}"
                 android:theme="@style/CustomSwitch"
                 app:layout_constraintEnd_toEndOf="parent"
