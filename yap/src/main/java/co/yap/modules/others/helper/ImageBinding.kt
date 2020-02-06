@@ -61,7 +61,7 @@ object ImageBinding {
         imageUrl: String,
         fullName: String,
         position: Int,
-        colorType: String
+        colorType: String =""
     ) {
         val builder = TextDrawable.builder()
         builder.beginConfig().width(imageView.context.dimen(R.dimen._40sdp))

@@ -16,6 +16,7 @@
     <string name="common_button_logout">Logout</string>
     <string name="error_view_text">No results found\ntab to retry</string>
     <string name="empty_view_text">No results found</string>
+    <string name="common_text_fee">Fee: %1s</string>
 
 
     <!-- Home Screen -->

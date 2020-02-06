@@ -2,7 +2,6 @@ package co.yap.modules.dashboard.yapit.y2y.transfer.interfaces
 
 import android.graphics.drawable.Drawable
 import androidx.databinding.ViewDataBinding
-import co.yap.databinding.FragmentY2yFundsTransferBinding
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
 
@@ -17,6 +16,7 @@ class IY2YFundsTransfer {
         val errorEvent: SingleClickEvent
         fun handlePressOnView(id: Int)
         var receiverUUID: String
+        fun getTransactionFee()
 
     }
 
@@ -34,5 +34,7 @@ class IY2YFundsTransfer {
         var fullName: String
         var noteValue: String
         var imageUrl: String
+        var transferFee: CharSequence?
+        var fee: String?
     }
 }

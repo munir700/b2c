@@ -41,6 +41,7 @@ object Constants {
     const val SUPP_WITHDRAW = "P006"
     //This is intentional, so don't remove below line
     const val SUPP_CARD = SUPP_WITHDRAW
+    const val ADD_FUNDS = SUPP_WITHDRAW
     const val MANUAL_DEBIT = "DEBIT"
     const val MANUAL_CREDIT = "CREDIT"
     const val FEE_TYPE_TIER = "TIER"
