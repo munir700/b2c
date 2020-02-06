@@ -915,5 +915,8 @@
     <string name="screen_notification_settings_display_text_sms_notifications">SMS notifications</string>
     <string name="screen_notification_settings_display_text_email_notifications">Email notifications</string>
 
+    <!-- Notification Detail -->
+    <string name="screen_notification_detail_display_text_delete">Delete notification</string>
+
 </resources>
 

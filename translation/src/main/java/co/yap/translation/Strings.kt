@@ -1454,4 +1454,8 @@ object Strings {
     const val screen_notification_settings_display_text_email_notifications: String =
         "screen_notification_settings_display_text_email_notifications"
 
+    //Notification Detail
+    const val screen_notification_detail_display_text_delete: String =
+        "screen_notification_detail_display_text_delete"
+
 }
