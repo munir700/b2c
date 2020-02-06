@@ -105,6 +105,18 @@ class Y2YFundsTransferState(application: Application) : BaseState(), IY2YFundsTr
             field = value
             notifyPropertyChanged(BR.imageUrl)
         }
+    @get:Bindable
+    override var transferFee: CharSequence? = ""
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.transferFee)
+        }
+    @get:Bindable
+    override var fee: String? = "50"
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.fee)
+        }
 
     fun checkValidity(): String {
         if (amount.isNotEmpty() && !availableBalance.isNullOrEmpty()) {

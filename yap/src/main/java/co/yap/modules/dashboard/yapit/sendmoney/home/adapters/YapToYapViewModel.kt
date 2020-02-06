@@ -8,7 +8,7 @@ import co.yap.modules.dashboard.yapit.y2y.home.interfaces.IYapToYap
 import co.yap.modules.dashboard.yapit.y2y.home.states.YapToYapState
 import co.yap.modules.dashboard.yapit.y2y.main.viewmodels.Y2YBaseViewModel
 import co.yap.networking.customers.CustomersRepository
-import co.yap.networking.customers.responsedtos.beneficiary.RecentBeneficiary
+import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
 import co.yap.yapcore.SingleClickEvent
@@ -17,7 +17,7 @@ class YapToYapViewModel(application: Application) : Y2YBaseViewModel<IYapToYap.S
     IYapToYap.ViewModel, IRepositoryHolder<CustomersRepository> {
     val adapter = ObservableField<RecentTransferAdaptor>()
 
-    override val recentTransferData: MutableLiveData<List<RecentBeneficiary>> = MutableLiveData()
+    override val recentTransferData: MutableLiveData<List<Beneficiary>> = MutableLiveData()
 
     override val state: IYapToYap.State = YapToYapState()
     override val clickEvent: SingleClickEvent = SingleClickEvent()

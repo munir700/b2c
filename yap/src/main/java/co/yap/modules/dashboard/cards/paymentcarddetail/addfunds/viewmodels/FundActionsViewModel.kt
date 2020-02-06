@@ -31,6 +31,7 @@ open class FundActionsViewModel(application: Application) :
     override val thirdDenominationClickEvent: SingleClickEvent = SingleClickEvent()
     override var error: String = ""
     override var cardSerialNumber: String = ""
+
     override val topUpTransactionModelLiveData: MutableLiveData<TopUpTransactionModel>? =
         MutableLiveData()
 
@@ -95,6 +96,25 @@ open class FundActionsViewModel(application: Application) :
             )
         }
         thirdDenominationClickEvent.call()
+    }
+
+    override fun getFee(productCode: String) {
+        launch {
+            state.loading = true
+            when (val response = transactionsRepository.getTransactionFee(
+                productCode
+            )) {
+                is RetroApiResponse.Success -> {
+                    state.fee = Utils.getFormattedCurrency(response.data.data)
+                    clickEvent.postValue(Constants.CARD_FEE)
+                }
+                is RetroApiResponse.Error -> {
+                    state.errorDescription = response.error.message
+                    errorEvent.call()
+                }
+            }
+            state.loading = false
+        }
     }
 
     override fun addFunds() {

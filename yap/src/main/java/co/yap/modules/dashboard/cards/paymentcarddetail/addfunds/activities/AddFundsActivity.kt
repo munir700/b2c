@@ -23,13 +23,14 @@ import co.yap.modules.dashboard.cards.paymentcarddetail.addfunds.interfaces.IFun
 import co.yap.modules.dashboard.cards.paymentcarddetail.addfunds.viewmodels.AddFundsViewModel
 import co.yap.modules.others.helper.Constants
 import co.yap.networking.cards.responsedtos.Card
-import co.yap.networking.cards.responsedtos.CardBalance
 import co.yap.translation.Strings
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.helpers.AnimationUtils
 import co.yap.yapcore.helpers.CustomSnackbar
 import co.yap.yapcore.helpers.DecimalDigitsInputFilter
 import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.helpers.spannables.color
+import co.yap.yapcore.helpers.spannables.getText
 import co.yap.yapcore.managers.MyUserManager
 import com.daimajia.androidanimations.library.Techniques
 import com.daimajia.androidanimations.library.YoYo
@@ -103,6 +104,7 @@ open class AddFundsActivity : BaseBindingActivity<IFundActions.ViewModel>(),
     }
 
     override fun setObservers() {
+        viewModel.getFee(co.yap.yapcore.constants.Constants.ADD_FUNDS)
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
                 R.id.btnAction -> (if (viewModel.state.buttonTitle != getString(Strings.screen_success_funds_transaction_display_text_button)) {
@@ -124,11 +126,23 @@ open class AddFundsActivity : BaseBindingActivity<IFundActions.ViewModel>(),
                     viewModel.state.buttonTitle =
                         getString(Strings.screen_success_funds_transaction_display_text_button)
                 }
+                co.yap.yapcore.constants.Constants.CARD_FEE -> {
+                    viewModel.state.transferFee =
+                        resources.getText(
+                            getString(Strings.common_text_fee), this.color(
+                                R.color.colorPrimaryDark,
+                                "${viewModel.state.currencyType} ${Utils.getFormattedCurrency(
+                                    viewModel.state.fee
+                                )}"
+                            )
+                        )
+                }
 
             }
 
         })
     }
+
 
     private fun setupData() {
         card = intent.getParcelableExtra(CARD)

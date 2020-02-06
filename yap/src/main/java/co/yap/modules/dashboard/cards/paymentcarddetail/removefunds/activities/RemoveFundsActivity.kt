@@ -20,6 +20,8 @@ import co.yap.networking.cards.responsedtos.Card
 import co.yap.networking.cards.responsedtos.CardBalance
 import co.yap.translation.Strings
 import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.helpers.spannables.color
+import co.yap.yapcore.helpers.spannables.getText
 import co.yap.yapcore.managers.MyUserManager
 import kotlinx.android.synthetic.main.activity_fund_actions.*
 
@@ -71,6 +73,7 @@ class RemoveFundsActivity : AddFundsActivity() {
     }
 
     override fun setObservers() {
+        viewModel.getFee(Constants.REMOVE_FUNDS_PRODUCT_CODE)
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
                 R.id.btnAction -> (if (viewModel.state.buttonTitle != getString(Strings.screen_success_funds_transaction_display_text_button)) {
@@ -90,6 +93,17 @@ class RemoveFundsActivity : AddFundsActivity() {
                     etAmount.visibility = View.GONE
                     viewModel.state.buttonTitle =
                         getString(Strings.screen_success_funds_transaction_display_text_button)
+                }
+                co.yap.yapcore.constants.Constants.CARD_FEE -> {
+                    viewModel.state.transferFee =
+                        resources.getText(
+                            getString(Strings.common_text_fee), this.color(
+                                R.color.colorPrimaryDark,
+                                "${viewModel.state.currencyType} ${Utils.getFormattedCurrency(
+                                    viewModel.state.fee
+                                )}"
+                            )
+                        )
                 }
             }
 
