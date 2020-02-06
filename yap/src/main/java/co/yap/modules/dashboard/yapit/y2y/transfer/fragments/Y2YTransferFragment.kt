@@ -24,6 +24,8 @@ import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.CustomSnackbar
 import co.yap.yapcore.helpers.DecimalDigitsInputFilter
 import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.helpers.spannables.color
+import co.yap.yapcore.helpers.spannables.getText
 import co.yap.yapcore.managers.MyUserManager
 import kotlinx.android.synthetic.main.fragment_y2y_funds_transfer.*
 
@@ -41,6 +43,7 @@ class Y2YTransferFragment : Y2YBaseFragment<IY2YFundsTransfer.ViewModel>(), IY2Y
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel.state.availableBalance = MyUserManager.cardBalance.value?.availableBalance
+        viewModel.getTransactionFee()
         setObservers()
     }
 
@@ -51,24 +54,40 @@ class Y2YTransferFragment : Y2YBaseFragment<IY2YFundsTransfer.ViewModel>(), IY2Y
 
     override fun setObservers() {
 
-        viewModel.clickEvent.observe(this, Observer {
-            // Send Broadcast for updating transactions list in `Home Fragment`
-            val intent = Intent(Constants.BROADCAST_UPDATE_TRANSACTION)
-            LocalBroadcastManager.getInstance(requireContext()).sendBroadcast(intent)
-
-            val action =
-                Y2YTransferFragmentDirections.actionY2YTransferFragmentToY2YFundsTransferSuccessFragment(
-                    viewModel.state.fullName,
-                    "AED",
-                    viewModel.state.amount,args.position
-                )
-            findNavController().navigate(action)
-        })
+        viewModel.clickEvent.observe(this, clickEvent)
         viewModel.errorEvent.observe(this, Observer {
             showErrorSnackBar()
         })
 
 
+    }
+
+    val clickEvent = Observer<Int> {
+        when (it) {
+            R.id.btnConfirm -> {
+                // Send Broadcast for updating transactions list in `Home Fragment`
+                val intent = Intent(Constants.BROADCAST_UPDATE_TRANSACTION)
+                LocalBroadcastManager.getInstance(requireContext()).sendBroadcast(intent)
+
+                val action =
+                    Y2YTransferFragmentDirections.actionY2YTransferFragmentToY2YFundsTransferSuccessFragment(
+                        viewModel.state.fullName,
+                        "AED",
+                        viewModel.state.amount, args.position
+                    )
+                findNavController().navigate(action)
+            }
+            Constants.CARD_FEE -> {
+                viewModel.state.transferFee =
+                    resources.getText(
+                        getString(Strings.common_text_fee), requireContext().color(
+                            R.color.colorPrimaryDark,
+                            "${viewModel.state.currencyType} ${Utils.getFormattedCurrency(viewModel.state.fee)}"
+                        )
+                    )
+            }
+
+        }
     }
 
     private fun setUpData() {
@@ -89,7 +108,6 @@ class Y2YTransferFragment : Y2YBaseFragment<IY2YFundsTransfer.ViewModel>(), IY2Y
                 getBinding().lyUserImage.tvNameInitials.context, args.position
             )
         )
-
 
         viewModel.state.availableBalanceText =
             " " + getString(Strings.common_text_currency_type) + " " + Utils.getFormattedCurrency(

@@ -19,6 +19,8 @@ data class Beneficiary(
     var mobileNo: String? = null,
     @SerializedName("title")
     var title: String? = null,
+    @SerializedName("beneficiaryUuid")
+    var beneficiaryUuid: String? = null,
     @SerializedName("accountNo")
     var accountNo: String? = null,
     @SerializedName("lastUsedDate")

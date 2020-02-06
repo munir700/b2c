@@ -37,6 +37,7 @@ interface IFundActions {
         fun createTransactionSession()
         var error: String
         var cardSerialNumber: String
+        fun getFee(productCode: String)
         // For top up transaction pooling api
         fun startPooling(showLoader: Boolean)
 
@@ -66,6 +67,8 @@ interface IFundActions {
 
         var transactionFee: String
         var transactionFeeSpannableString: String?
+        var transferFee: CharSequence?
+        var fee: String?
 
         //success screen variables
         var topUpSuccess: String

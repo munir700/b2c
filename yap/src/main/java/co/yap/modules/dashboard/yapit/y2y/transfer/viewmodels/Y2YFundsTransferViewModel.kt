@@ -9,6 +9,8 @@ import co.yap.networking.transactions.TransactionsRepository
 import co.yap.networking.transactions.requestdtos.Y2YFundsTransferRequest
 import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
+import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.helpers.Utils
 
 class Y2YFundsTransferViewModel(application: Application) :
     Y2YBaseViewModel<IY2YFundsTransfer.State>(application),
@@ -19,15 +21,17 @@ class Y2YFundsTransferViewModel(application: Application) :
     private val repository: TransactionsRepository = TransactionsRepository
     override var receiverUUID: String = ""
 
+
     override fun onCreate() {
         super.onCreate()
         state.availableBalanceGuide =
             getString(Strings.screen_add_funds_display_text_available_balance)
+        state.currencyType = "AED"
     }
 
     override fun handlePressOnView(id: Int) {
         if (state.checkValidity() == "") {
-           // clickEvent.postValue(id)
+            // clickEvent.postValue(id)
 //            temporary comment this service for
             y2yFundsTransferRequest(id)
 
@@ -51,6 +55,25 @@ class Y2YFundsTransferViewModel(application: Application) :
                     state.loading = false
                     state.errorDescription = response.error.message
                     errorEvent.postValue(id)
+                }
+            }
+            state.loading = false
+        }
+    }
+
+    override fun getTransactionFee() {
+        launch {
+            state.loading = true
+            when (val response = repository.getTransactionFee(
+                Constants.Y_TO_Y_TRANSFER
+            )) {
+                is RetroApiResponse.Success -> {
+                    state.fee = Utils.getFormattedCurrency(response.data.data)
+                    clickEvent.postValue(Constants.CARD_FEE)
+                }
+                is RetroApiResponse.Error -> {
+                    state.errorDescription = response.error.message
+                    errorEvent.call()
                 }
             }
             state.loading = false
