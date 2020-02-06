@@ -143,6 +143,17 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
         }
     }
 
+    private fun openTransactionFilters() {
+        if (PartnerBankStatus.ACTIVATED.status == MyUserManager.user?.partnerBankStatus)
+            startActivityForResult(
+                TransactionFiltersActivity.newIntent(
+                    requireContext(),
+                    viewModel.txnFilters
+                ),
+                RequestCodes.REQUEST_TXN_FILTER
+            )
+    }
+
     override fun setObservers() {
         listenForToolbarExpansion()
         viewModel.clickEvent.observe(this, Observer {
@@ -169,23 +180,16 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                 }
                 R.id.ivMenu -> parentView?.toggleDrawer()
                 R.id.rlFilter -> {
-                    if (null != viewModel.transactionsLiveData.value && viewModel.transactionsLiveData.value?.isEmpty() == true && homeTransactionsRequest.totalAppliedFilter == 0 || viewModel.state.isTransEmpty.get() == true) {
-                        if (PartnerBankStatus.ACTIVATED.status == MyUserManager.user?.partnerBankStatus)
-
-//                            showErrorSnackBar("No Transactions Found")
-                            return@Observer
+                    if (viewModel.state.isTransEmpty.get() == false) {
+                        openTransactionFilters()
                     } else {
-                        if (PartnerBankStatus.ACTIVATED.status == MyUserManager.user?.partnerBankStatus)
-                            startActivityForResult(
-                                TransactionFiltersActivity.newIntent(
-                                    requireContext(),
-                                    viewModel.txnFilters
-                                ),
-                                RequestCodes.REQUEST_TXN_FILTER
-                            )
+                        if (homeTransactionsRequest.totalAppliedFilter > 0) {
+                            openTransactionFilters()
+                        } else {
+                            return@Observer
+                        }
                     }
                 }
-
                 R.id.lyAnalytics -> launchActivity<CardAnalyticsActivity>()//startFragment(CardAnalyticsDetailsFragment::class.java.name)
                 R.id.lyAdd -> Utils.showComingSoon(requireContext())
 
@@ -234,11 +238,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
             } else {
                 if (it.isEmpty()) {
                     transactionViewHelper?.setTooltipVisibility(View.GONE)
-                    if (0 >= viewModel.state.filterCount.get() ?: 0) {
-                        viewModel.state.isTransEmpty.set(true)
-                    } else {
-                        viewModel.state.isTransEmpty.set(false)
-                    }
+                    viewModel.state.isTransEmpty.set(true)
                 } else {
                     checkUserStatus()
                     getRecycleViewAdaptor()?.setList(it)
@@ -547,11 +547,11 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
     private fun getFilterTransactions() {
 
         // clear the transaction list to show filtered list and if there is error occur prevent to show old data
-        rvTransaction.adapter =
-            TransactionsHeaderAdapter(mutableListOf(), adaptorlistener)
+//        rvTransaction.adapter =
+//            TransactionsHeaderAdapter(mutableListOf(), adaptorlistener)
 //
-        rvTransactionsBarChart.adapter =
-            GraphBarsAdapter(mutableListOf(), viewModel)
+//        rvTransactionsBarChart.adapter =
+//            GraphBarsAdapter(mutableListOf(), viewModel)
         transactionViewHelper?.setTooltipVisibility(View.GONE)
         viewModel.filterTransactions()
     }
