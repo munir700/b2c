@@ -30,7 +30,8 @@ class NotificationsViewModel(application: Application) :
                         "",
                         it.imageFilePath,
                         "",
-                        it.deliveryTimestamp.toString()
+                        it.deliveryTimestamp.toString(),
+                        it.isRead
                     )
                 )
             }
