@@ -90,8 +90,12 @@ class ChartViewV2(context: Context, attrs: AttributeSet) : View(context, attrs),
     @SuppressLint("ResourceType")
     protected override fun onDraw(canvas: Canvas) {
         //height * (1 - (barHeight ?: 0f))
-        rectF.set(0f, 0f, barWeight.toFloat(), getParentViewHeight())
-        canvas.drawRoundRect(rectF, roundRadius.toFloat(), roundRadius.toFloat(), paint)
+        try {
+            rectF.set(0f, 0f, barWeight.toFloat(), getParentViewHeight())
+            canvas.drawRoundRect(rectF, roundRadius.toFloat(), roundRadius.toFloat(), paint)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
     }
 
 //    override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {

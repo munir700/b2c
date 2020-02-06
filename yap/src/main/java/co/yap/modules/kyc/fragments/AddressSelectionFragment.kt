@@ -45,6 +45,7 @@ import com.google.android.gms.maps.model.BitmapDescriptor
 import kotlinx.android.synthetic.main.fragment_address_selection.*
 import kotlinx.android.synthetic.main.layout_maps.*
 
+@Deprecated("Use Location Selection Activity instead")
 class AddressSelectionFragment : BaseMapFragment<IAddressSelection.ViewModel>(),
     OnMapReadyCallback {
     var checkOnMapClicked: Boolean = false

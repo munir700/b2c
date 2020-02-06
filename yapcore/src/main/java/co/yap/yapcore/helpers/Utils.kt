@@ -455,16 +455,21 @@ object Utils {
 
     }
 
-    fun getOpenFacebookIntent(context: Context): Intent {
+    fun getOpenFacebookIntent(context: Context): Intent? {
 
         return try {
             context.packageManager.getPackageInfo("com.facebook.katana", 0)
             Intent(ACTION_VIEW, Uri.parse("fb://page/288432705359181"))
         } catch (e: Exception) {
-            Intent(
-                ACTION_VIEW,
-                Uri.parse("https://www.facebook.com/Yap-Now-288432705359181/")
-            )
+            try {
+                Intent(
+                    ACTION_VIEW,
+                    Uri.parse("https://www.facebook.com/Yap-Now-288432705359181/")
+                )
+            } catch (e: Exception) {
+                null
+            }
+
         }
 
     }

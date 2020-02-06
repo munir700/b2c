@@ -59,7 +59,7 @@ fun View.getCustomSnackbarSticky(
     snackbar = Snackbar.make(view, "", Snackbar.LENGTH_INDEFINITE)
     val layout = snackbar.view as Snackbar.SnackbarLayout
     val layoutInflater: LayoutInflater = LayoutInflater.from(context)
-    val snackView = layoutInflater.inflate(R.layout.snackbar_card_status, null)
+    val snackView: View? = layoutInflater.inflate(R.layout.snackbar_card_status, null)
     layout.addView(snackView, 0)
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
         snackbar.view.setBackgroundColor(context.getColor(R.color.colorPrimary))
