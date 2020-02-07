@@ -3,7 +3,6 @@ package co.yap.modules.dashboard.more.yapforyou.viewmodels
 import android.app.Application
 import androidx.core.content.ContextCompat
 import co.yap.R
-import co.yap.modules.dashboard.more.main.viewmodels.MoreBaseViewModel
 import co.yap.modules.dashboard.more.yapforyou.AchievementTask
 import co.yap.modules.dashboard.more.yapforyou.Achievements
 import co.yap.modules.dashboard.more.yapforyou.interfaces.IYAPForYou
@@ -14,10 +13,8 @@ import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
 
 class YAPForYouViewModel(application: Application) :
-    MoreBaseViewModel<IYAPForYou.State>(application), IYAPForYou.ViewModel,
+    YapForYouBaseViewModel<IYAPForYou.State>(application), IYAPForYou.ViewModel,
     IRepositoryHolder<CustomersRepository> {
-
-    override var selectedAchievement: Achievements= getAchievements().get(0)
 
     override val repository: CustomersRepository = CustomersRepository
 
@@ -26,13 +23,10 @@ class YAPForYouViewModel(application: Application) :
 
     override var clickEvent: SingleClickEvent = SingleClickEvent()
 
-    override fun handlePressOnBadge(id: Int) {
+    override fun handlePressOnView(id: Int) {
         clickEvent.setValue(id)
     }
 
-    override fun handlePressOnBackButton() {
-
-    }
 
     var BetterTogetherList: ArrayList<AchievementTask> = arrayListOf(
         AchievementTask("Invite a friend", true),
@@ -43,16 +37,12 @@ class YAPForYouViewModel(application: Application) :
 
     override fun onResume() {
         super.onResume()
-        setToolBarTitle(getString(Strings.screen_yap_for_you_display_text_title))
-        toggleAchievementsBadgeVisibility(parentViewModel!!.BadgeVisibility)
+        parentViewModel?.state?.toolbarTitle =
+            getString(Strings.screen_yap_for_you_display_text_title)
+        parentViewModel?.state?.leftIcon?.set(R.drawable.ic_back_arrow_left)
+        parentViewModel?.state?.rightIcon?.set(R.drawable.ic_trade)
 
     }
-
-    override fun onCreate() {
-        super.onCreate()
-
-    }
-
 
     override fun getAchievements(): MutableList<Achievements> {
         val list = mutableListOf<Achievements>()

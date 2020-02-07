@@ -43,6 +43,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/ivAchievement"
+                android:text="@{viewModel.parentViewModel.achievement.title}"
                 tools:text="Better together" />
 
             <TextView
@@ -53,6 +54,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvAchievementName"
+                android:text="@{viewModel.parentViewModel.achievement.percentage}"
                 tools:text="75% completed" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>

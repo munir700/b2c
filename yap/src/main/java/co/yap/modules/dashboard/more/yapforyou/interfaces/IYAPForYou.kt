@@ -6,16 +6,12 @@ import co.yap.yapcore.SingleClickEvent
 
 interface IYAPForYou {
 
-    interface State : IBase.State {
-
-    }
+    interface State : IBase.State
 
     interface ViewModel : IBase.ViewModel<State> {
         var clickEvent: SingleClickEvent
-        fun handlePressOnBackButton()
-        fun handlePressOnBadge(id: Int)
+        fun handlePressOnView(id: Int)
         fun getAchievements(): MutableList<Achievements>
-        var selectedAchievement:Achievements
     }
 
     interface View : IBase.View<ViewModel>

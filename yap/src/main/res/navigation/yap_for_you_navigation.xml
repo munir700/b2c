@@ -11,5 +11,17 @@
         android:label="yap for you"
         tools:layout="@layout/fragment_yap_for_you">
 
+        <action
+            android:id="@+id/action_YAPForYouFragment_to_achievementDetailFragment"
+            app:destination="@id/achievementDetailFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_out_left"
+            app:popExitAnim="@anim/slide_down" />
     </fragment>
+    <fragment
+        android:id="@+id/achievementDetailFragment"
+        android:name="co.yap.modules.dashboard.more.yapforyou.fragments.AchievementDetailFragment"
+        android:label="AchievementDetailFragment"
+        tools:layout="@layout/fragment_achievement_detail" />
 </navigation>

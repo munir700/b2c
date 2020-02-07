@@ -39,7 +39,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_medium"
-            android:text="@={viewModel.selectedAchievement.title}"
+            android:text="@={viewModel.parentViewModel.achievement.title}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/imgProfile"
@@ -54,7 +54,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvTitle"
             app:text="@{Strings.screen_yap_for_you_display_text_completed_percentage}"
-
+            android:text="@{viewModel.parentViewModel.achievement.percentage}"
             tools:text="75% completed" />
 
         <!--screen_yap_for_you_display_text_completed_percentage-->
@@ -69,6 +69,7 @@
             android:paddingTop="0dp"
             android:paddingBottom="0dp"
             app:btn_enable="true"
+            android:onClick="@{(v)->viewModel.handlePressOnView(v.id)}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvCompltedPercentage"
