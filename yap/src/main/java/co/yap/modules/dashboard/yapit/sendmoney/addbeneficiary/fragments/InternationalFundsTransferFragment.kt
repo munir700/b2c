@@ -23,7 +23,6 @@ import co.yap.translation.Translator
 import co.yap.widgets.spinneradapter.ViewHolderArrayAdapter
 import co.yap.yapcore.enums.SendMoneyBeneficiaryProductCode
 import co.yap.yapcore.enums.SendMoneyBeneficiaryType
-import co.yap.yapcore.helpers.CustomSnackbar
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.toast
 import co.yap.yapcore.managers.MyUserManager
@@ -204,11 +203,11 @@ class InternationalFundsTransferFragment :
                                                 beneficiaryCountry,
                                                 viewModel.state.firstName
                                                     ?: viewModel.state.beneficiaryName,
-                                                viewModel.state.fromFxRateCurrency?: "",
-                                                viewModel.state.reasonTransferCode?: "",
+                                                viewModel.state.fromFxRateCurrency ?: "",
+                                                viewModel.state.reasonTransferCode ?: "",
                                                 viewModel.state.transactionNote ?: "",
-                                                viewModel.state.reasonTransferValue?: "",
-                                                viewModel.state.rate?: "",
+                                                viewModel.state.reasonTransferValue ?: "",
+                                                viewModel.state.rate ?: "",
                                                 viewModel.otpAction ?: ""
                                             )
                                         findNavController().navigate(action)
@@ -349,6 +348,7 @@ class InternationalFundsTransferFragment :
     private fun getBeneficiaryId() {
         if (context is BeneficiaryCashTransferActivity) {
             (context as BeneficiaryCashTransferActivity).viewModel.state.beneficiary?.let { beneficiary ->
+                viewModel.state.beneficiary = beneficiary
                 beneficiary.id?.let { beneficiaryId ->
                     viewModel.state.beneficiaryId = beneficiaryId.toString()
                 }

@@ -3,6 +3,7 @@ package co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.interfaces
 import android.graphics.drawable.Drawable
 import android.text.SpannableStringBuilder
 import androidx.lifecycle.MutableLiveData
+import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.networking.transactions.responsedtos.InternationalFundsTransferReasonList
 import co.yap.networking.transactions.responsedtos.transaction.RemittanceFeeResponse
 import co.yap.yapcore.IBase
@@ -28,6 +29,8 @@ interface ICashTransfer {
         fun uaeftsTransferRequest(beneficiaryId: String?)
         fun getTransactionFeeInternational()
         fun getMoneyTransferLimits(productCode: String?)
+        fun getMoneyTransferDailyLimits()
+        fun getCountryLimits()
 
     }
 
@@ -68,5 +71,6 @@ interface ICashTransfer {
         var reasonsVisibility: Boolean?
         var produceCode: String?
         var otpAction: String?
+        var beneficiary: Beneficiary?
     }
 }
