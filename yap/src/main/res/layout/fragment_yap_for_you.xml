@@ -19,19 +19,6 @@
         android:layout_height="match_parent"
         android:background="@color/colorWhite">
 
-<!--        <ImageView-->
-<!--            android:id="@+id/ivBadge"-->
-<!--            android:layout_width="@dimen/_26sdp"-->
-<!--            android:layout_height="@dimen/_26sdp"-->
-<!--            android:layout_marginTop="@dimen/_21sdp"-->
-<!--            android:layout_marginEnd="@dimen/margin_normal_large"-->
-<!--            android:contentDescription="@string/empty_string"-->
-<!--            android:onClick="@{(v) -> viewModel.handlePressOnBadge(v.id)}"-->
-<!--            app:layout_constraintEnd_toEndOf="parent"-->
-<!--            app:layout_constraintTop_toTopOf="parent"-->
-<!--            app:srcCompat="@drawable/ic_trade" />-->
-
-
         <co.yap.widgets.CoreCircularImageView
             android:id="@+id/imgProfile"
             android:layout_width="@dimen/_64sdp"
@@ -52,6 +39,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_medium"
+            android:text="@={viewModel.selectedAchievement.title}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/imgProfile"
@@ -62,10 +50,13 @@
             style="@style/SmallGrey"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
+             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvTitle"
+            app:text="@{Strings.screen_yap_for_you_display_text_completed_percentage}"
+
             tools:text="75% completed" />
+
         <!--screen_yap_for_you_display_text_completed_percentage-->
 
 
@@ -85,7 +76,7 @@
             tools:text="@string/screen_yap_for_you_display_text_view" />
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycler_options"
+            android:id="@+id/rvYapForYou"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_marginStart="@dimen/margin_small"

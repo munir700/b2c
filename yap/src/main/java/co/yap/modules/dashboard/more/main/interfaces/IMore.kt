@@ -18,6 +18,7 @@ interface IMore {
         val backButtonPressEvent: SingleLiveEvent<Boolean>
         var preventTakeDeviceScreenShot: MutableLiveData<Boolean>
         var BadgeVisibility: Boolean
+        val badgeButtonPressEvent: SingleLiveEvent<Boolean>
     }
 
     interface View : IBase.View<ViewModel>
