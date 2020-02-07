@@ -16,7 +16,7 @@ class YAPForYouViewModel(application: Application) :
     MoreBaseViewModel<IYAPForYou.State>(application), IYAPForYou.ViewModel,
     IRepositoryHolder<CustomersRepository> {
 
-    override var selectedAchievement: Achievements= getAchievements().get(0)
+    override var selectedAchievement: Achievements = getAchievements().get(0)
 
     override val repository: CustomersRepository = CustomersRepository
 
@@ -44,6 +44,8 @@ class YAPForYouViewModel(application: Application) :
         super.onResume()
         setToolBarTitle(getString(Strings.screen_yap_for_you_display_text_title))
         toggleAchievementsBadgeVisibility(parentViewModel!!.BadgeVisibility)
+        state.selectedAchievementPercentage = getAchievements().get(0)?.percentage.toString()
+        state.selectedAchievementTitle = getAchievements().get(0).title
 
     }
 
@@ -59,7 +61,7 @@ class YAPForYouViewModel(application: Application) :
             Achievements(
                 1,
                 "Get started",
-                "100",
+                "100%",
                 ContextCompat.getColor(context, R.color.colorPrimaryAlt),
                 true,
                 arrayListOf(
@@ -74,7 +76,7 @@ class YAPForYouViewModel(application: Application) :
             Achievements(
                 2,
                 "Up and running",
-                "100",
+                "100%",
                 ContextCompat.getColor(context, R.color.colorSecondaryBlue),
                 true,
                 BetterTogetherList
@@ -84,7 +86,7 @@ class YAPForYouViewModel(application: Application) :
             Achievements(
                 3,
                 "Better together",
-                "75",
+                "75%",
                 ContextCompat.getColor(context, R.color.lightYellow),
                 false,
                 arrayListOf(
@@ -99,7 +101,7 @@ class YAPForYouViewModel(application: Application) :
             Achievements(
                 4,
                 "Take the leap",
-                "0",
+                "0%",
                 ContextCompat.getColor(context, R.color.lightAqua),
                 false,
                 arrayListOf(
@@ -114,7 +116,7 @@ class YAPForYouViewModel(application: Application) :
             Achievements(
                 5,
                 "YAP Store",
-                "0",
+                "0%",
                 ContextCompat.getColor(context, R.color.lightPink),
                 false,
                 arrayListOf(

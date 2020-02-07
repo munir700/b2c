@@ -26,7 +26,7 @@ class YAPForYouFragment : MoreBaseFragment<IYAPForYou.ViewModel>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-         setupRecycleView()
+        setupRecycleView()
     }
 
     override fun onDestroy() {
@@ -54,13 +54,13 @@ class YAPForYouFragment : MoreBaseFragment<IYAPForYou.ViewModel>() {
     }
 
 
-
-
     private fun setupRecycleView() {
         adapter = YAPForYouAdapter(requireContext(), viewModel.getAchievements())
         rvYapForYou.adapter = adapter
         adapter.allowFullItemClickListener = true
         adapter.setItemListener(listener)
+        viewModel.state.selectedAchievementPercentage = viewModel.getAchievements().get(0)?.percentage.toString()
+        viewModel.state.selectedAchievementTitle = viewModel.getAchievements().get(0).title
     }
 
     private fun setObservers() {
@@ -72,10 +72,11 @@ class YAPForYouFragment : MoreBaseFragment<IYAPForYou.ViewModel>() {
 
             if (data is Achievements) {
                 viewModel.selectedAchievement = data
-
+                viewModel.state.selectedAchievementTitle = data.title
+                viewModel.state.selectedAchievementPercentage = data?.percentage.toString()
                 when (data.id) {
                     1 -> {
-                         showToast(data.id.toString())
+                        showToast(data.id.toString())
 
                     }
                     2 -> {

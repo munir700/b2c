@@ -486,9 +486,17 @@ object UIBinder {
     @BindingAdapter("textVal", "concatVal")
     @JvmStatic
     fun setconcatVal(tv: TextView, textKey: String, concat: String) {
-        Translator.getString(tv.context, textKey)
-        tv.text = String.format(Translator.getString(tv.context, textKey), '\n' + concat)
+             Translator.getString(tv.context, textKey)
+            tv.text = String.format(Translator.getString(tv.context, textKey), '\n' + concat)
+    }
 
+    @BindingAdapter("textVal", "concatenatedVal")
+    @JvmStatic
+    fun setconcatedVal(tv: TextView, textKey: String, concat: String?) {
+        if (!concat.isNullOrEmpty()){
+            Translator.getString(tv.context, textKey)
+            tv.text = String.format(Translator.getString(tv.context, textKey), concat)
+        }
     }
 
     @BindingAdapter("textVal", "noLineconcatVal")

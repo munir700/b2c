@@ -60,10 +60,11 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:gravity="center"
-            android:text="@{viewModel.achievements.percentage}"
             android:textSize="@dimen/_10sdp"
+            app:concatenatedVal="@{viewModel.achievements.percentage}"
             app:layout_constraintTop_toBottomOf="@+id/tvTitle"
-            tools:text="android:asdasdas" />
+            app:textVal="@{Strings.screen_yap_for_you_display_text_completed_percentage}"
+            tools:text="75% completed" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
