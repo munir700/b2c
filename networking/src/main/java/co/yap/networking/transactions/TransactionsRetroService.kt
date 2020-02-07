@@ -144,4 +144,7 @@ interface TransactionsRetroService {
     @GET(TransactionsRepository.URL_HOUSEHOLD_CARD_FEE_PACKAGE)
     suspend fun getHousholdFeePackage(@Path("pkg-type") packageType: String): Response<CardFeeResponse>
 
+    @GET(TransactionsRepository.URL_GET_DAILY_TRANSACTION_LIMITS)
+    suspend fun getDailyTransactionLimits(): Response<DailyTransactionResponseDTO>
+
 }

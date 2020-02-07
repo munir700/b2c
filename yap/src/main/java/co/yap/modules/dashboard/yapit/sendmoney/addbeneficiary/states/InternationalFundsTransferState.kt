@@ -6,6 +6,7 @@ import android.view.View
 import androidx.databinding.Bindable
 import androidx.databinding.library.baseAdapters.BR
 import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.interfaces.IInternationalFundsTransfer
+import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.networking.transactions.responsedtos.transaction.RemittanceFeeResponse
 import co.yap.translation.Strings
 import co.yap.translation.Translator
@@ -281,6 +282,13 @@ class InternationalFundsTransferState(val application: Application) : BaseState(
         set(value) {
             field = value
             notifyPropertyChanged(BR.feeType)
+        }
+
+    @get:Bindable
+    override var beneficiary: Beneficiary?= Beneficiary()
+        set(value) {
+            field=value
+            notifyPropertyChanged(BR.beneficiary)
         }
 
     fun validate() {

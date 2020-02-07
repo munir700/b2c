@@ -4,10 +4,7 @@ import co.yap.networking.customers.requestdtos.*
 import co.yap.networking.customers.responsedtos.*
 import co.yap.networking.customers.responsedtos.beneficiary.RecentBeneficiariesResponse
 import co.yap.networking.customers.responsedtos.beneficiary.TopUpBeneficiariesResponse
-import co.yap.networking.customers.responsedtos.sendmoney.AddBeneficiaryResponseDTO
-import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
-import co.yap.networking.customers.responsedtos.sendmoney.CountryModel
-import co.yap.networking.customers.responsedtos.sendmoney.GetAllBeneficiaryResponse
+import co.yap.networking.customers.responsedtos.sendmoney.*
 import co.yap.networking.models.ApiResponse
 import co.yap.networking.models.RetroApiResponse
 import okhttp3.MultipartBody
@@ -63,12 +60,17 @@ interface CustomersApi {
 
     suspend fun verifyHouseholdMobile(verifyHouseholdMobileRequest: VerifyHouseholdMobileRequest): RetroApiResponse<ApiResponse>
     suspend fun verifyHouseholdParentMobile(
-        mobileNumber: String?,verifyHouseholdMobileRequest: VerifyHouseholdMobileRequest
+        mobileNumber: String?, verifyHouseholdMobileRequest: VerifyHouseholdMobileRequest
     ): RetroApiResponse<ApiResponse>
 
     suspend fun onboardHousehold(householdOnboardRequest: HouseholdOnboardRequest): RetroApiResponse<HouseholdOnBoardingResponse>
     suspend fun addHouseholdEmail(addHouseholdEmailRequest: AddHouseholdEmailRequest): RetroApiResponse<ApiResponse>
     suspend fun createHouseholdPasscode(createPassCodeRequest: CreatePassCodeRequest): RetroApiResponse<ApiResponse>
+    suspend fun getCountryDataWithISODigit(countryCodeWith2Digit: String): RetroApiResponse<Country>
+    suspend fun getCountryTransactionLimits(
+        countryCode: String,
+        currencyCode: String
+    ): RetroApiResponse<CountryLimitsResponseDTO>
 
 
 }

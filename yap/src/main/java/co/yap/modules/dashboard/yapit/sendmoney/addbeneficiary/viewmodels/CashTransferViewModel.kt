@@ -6,6 +6,7 @@ import co.yap.R
 import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.interfaces.ICashTransfer
 import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.states.CashTransferState
 import co.yap.modules.dashboard.yapit.sendmoney.viewmodels.SendMoneyBaseViewModel
+import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.messages.MessagesRepository
 import co.yap.networking.messages.requestdtos.CreateOtpGenericRequest
 import co.yap.networking.models.RetroApiResponse
@@ -30,7 +31,7 @@ class CashTransferViewModel(application: Application) :
     private val messagesRepository: MessagesRepository = MessagesRepository
     private var listItemRemittanceFee: List<RemittanceFeeResponse.RemittanceFee.TierRateDTO> =
         ArrayList()
-
+    private val customersRepository: CustomersRepository = CustomersRepository
 
     override val state: CashTransferState = CashTransferState(application)
     override val clickEvent: SingleClickEvent = SingleClickEvent()
@@ -329,6 +330,52 @@ class CashTransferViewModel(application: Application) :
                 is RetroApiResponse.Success -> {
                     state.maxLimit = response.data.data?.maxLimit?.toDouble() ?: 0.00
                     state.minLimit = response.data.data?.minLimit?.toDouble() ?: 0.00
+                    getCountryLimits()
+                }
+                is RetroApiResponse.Error -> {
+                    state.toast = response.error.message
+                }
+            }
+        }
+
+    }
+
+    //This api is not being used anywhere for now
+    override fun getMoneyTransferDailyLimits() {
+        launch {
+            when (val response = transactionRepository.getDailyTransactionLimits()) {
+                is RetroApiResponse.Success -> {
+                    //API call pending and pending logic
+                    response.data.data.totalDebitAmount?.let { totalDebitAmount ->
+                        var totalCalculatedLimit =
+                            (response.data.data.dailyLimitConsumer ?: 0.0 - totalDebitAmount)
+
+                    }
+                    state.maxLimit = response.data.data.dailyLimitConsumer ?: 0.00
+                    // state.minLimit = response.data.data.minLimit?.toDouble() ?: 0.00
+                }
+                is RetroApiResponse.Error -> {
+                    state.toast = response.error.message
+                }
+            }
+        }
+    }
+
+    override fun getCountryLimits() {
+
+        launch {
+            when (val response = customersRepository.getCountryTransactionLimits(
+                state.beneficiary?.country ?: "",
+                state.beneficiary?.currency ?: ""
+            )) {
+                is RetroApiResponse.Success -> {
+                    //Use parse extension
+                    if (response.data.data?.toDouble() ?: 0.0 > 0.0) {
+                        state.maxLimit = response.data.data?.toDouble() ?: 0.0
+                        if (response.data.data?.toDouble() ?: 0.0 < state.minLimit) {
+                            state.minLimit = 1.0
+                        }
+                    }
                 }
                 is RetroApiResponse.Error -> {
                     state.toast = response.error.message

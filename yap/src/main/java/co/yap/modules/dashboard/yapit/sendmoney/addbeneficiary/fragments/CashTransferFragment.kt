@@ -56,6 +56,7 @@ class CashTransferFragment : SendMoneyBaseFragment<ICashTransfer.ViewModel>(), I
         startFlows()
         viewModel.getTransactionFeeInternational()
         viewModel.getMoneyTransferLimits(viewModel.state.produceCode)
+
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -355,6 +356,7 @@ class CashTransferFragment : SendMoneyBaseFragment<ICashTransfer.ViewModel>(), I
 
     private fun startFlows() {
         (context as BeneficiaryCashTransferActivity).viewModel.state.beneficiary?.let { beneficiary ->
+            viewModel.state.beneficiary = beneficiary
             beneficiary.beneficiaryType?.let { beneficiaryType ->
                 if (beneficiaryType.isNotEmpty())
                     when (SendMoneyBeneficiaryType.valueOf(beneficiaryType)) {

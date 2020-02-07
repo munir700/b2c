@@ -2,6 +2,7 @@ package co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.interfaces
 
 import android.text.SpannableStringBuilder
 import androidx.lifecycle.MutableLiveData
+import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.networking.transactions.responsedtos.InternationalFundsTransferReasonList
 import co.yap.networking.transactions.responsedtos.transaction.RemittanceFeeResponse
 import co.yap.yapcore.IBase
@@ -29,7 +30,7 @@ interface IInternationalFundsTransfer {
 
         var internationalFee: String?
         var formattedFee: String?
-        var referenceNumber:String?
+        var referenceNumber: String?
         var fromFxRate: String?
         var fromFxRateCurrency: String?
         var toFxRate: String?
@@ -41,11 +42,12 @@ interface IInternationalFundsTransfer {
         var reasonTransferValue: String?
         var reasonTransferCode: String?
         var listItemRemittanceFee: List<RemittanceFeeResponse.RemittanceFee.TierRateDTO>
-        var transferFeeAmount:Double
+        var transferFeeAmount: Double
         var maxLimit: Double?
         var minLimit: Double?
         var transactionNote: String?
         var feeType: String?
+        var beneficiary: Beneficiary?
     }
 
     interface ViewModel : IBase.ViewModel<State> {
@@ -56,12 +58,16 @@ interface IInternationalFundsTransfer {
         fun getTransactionFeeInternational(productCode: String?)
         fun getReasonList(productCode: String?)
         fun getTransactionInternationalfxList(productCode: String?)
-//        fun rmtTransferRequest(beneficiaryId: String?)
+        //        fun rmtTransferRequest(beneficiaryId: String?)
 //        fun swiftTransferRequest(beneficiaryId: String?)
         var otpAction: String?
         var reasonPosition: Int
         //fun createOtp(id:Int)
         fun getMoneyTransferLimits(productCode: String?)
+
+        fun getMoneyTransferDailyLimits()
+        fun getCountryLimits()
+
     }
 
     interface View : IBase.View<ViewModel>

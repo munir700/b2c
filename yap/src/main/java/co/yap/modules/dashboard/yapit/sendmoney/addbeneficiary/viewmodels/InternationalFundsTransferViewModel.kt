@@ -8,13 +8,10 @@ import co.yap.modules.dashboard.yapit.sendmoney.viewmodels.SendMoneyBaseViewMode
 import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.messages.MessagesRepository
-import co.yap.networking.messages.requestdtos.CreateOtpGenericRequest
 import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.transactions.TransactionsRepository
-import co.yap.networking.transactions.requestdtos.RMTTransactionRequestDTO
 import co.yap.networking.transactions.requestdtos.RemittanceFeeRequest
 import co.yap.networking.transactions.requestdtos.RxListRequest
-import co.yap.networking.transactions.requestdtos.SwiftTransactionRequestDTO
 import co.yap.networking.transactions.responsedtos.InternationalFundsTransferReasonList
 import co.yap.networking.transactions.responsedtos.transaction.RemittanceFeeResponse
 import co.yap.translation.Strings
@@ -222,26 +219,26 @@ class InternationalFundsTransferViewModel(application: Application) :
         }
     }
 
-   /* override fun createOtp(id: Int) {
-        launch {
-            state.loading = true
-            when (val response =
-                messagesRepository.createOtpGeneric(
-                    createOtpGenericRequest = CreateOtpGenericRequest(
-                        otpAction.toString()
-                    )
-                )) {
-                is RetroApiResponse.Success -> {
-                    clickEvent.postValue(200)
-                }
-                is RetroApiResponse.Error -> {
-                    state.toast = response.error.message
-                    state.loading = false
-                }
-            }
-            state.loading = false
-        }
-    }*/
+    /* override fun createOtp(id: Int) {
+         launch {
+             state.loading = true
+             when (val response =
+                 messagesRepository.createOtpGeneric(
+                     createOtpGenericRequest = CreateOtpGenericRequest(
+                         otpAction.toString()
+                     )
+                 )) {
+                 is RetroApiResponse.Success -> {
+                     clickEvent.postValue(200)
+                 }
+                 is RetroApiResponse.Error -> {
+                     state.toast = response.error.message
+                     state.loading = false
+                 }
+             }
+             state.loading = false
+         }
+     }*/
 
     override fun getMoneyTransferLimits(productCode: String?) {
         launch {
@@ -249,6 +246,49 @@ class InternationalFundsTransferViewModel(application: Application) :
                 is RetroApiResponse.Success -> {
                     state.maxLimit = response.data.data?.maxLimit?.toDouble() ?: 0.00
                     state.minLimit = response.data.data?.minLimit?.toDouble() ?: 0.00
+                    getCountryLimits()
+                }
+                is RetroApiResponse.Error -> {
+                    state.toast = response.error.message
+                }
+            }
+        }
+
+    }
+
+    //This api is not being used anywhere for now
+    override fun getMoneyTransferDailyLimits() {
+        launch {
+            when (val response = mTransactionsRepository.getDailyTransactionLimits()) {
+                is RetroApiResponse.Success -> {
+                    //API call pending and pending logic
+                    response.data.data.totalDebitAmount?.let {
+                        var totalCalculatedLimit =
+                            (response.data.data.dailyLimitConsumer ?: 0.0 - it)
+
+                    }
+                    // state.minLimit = response.data.data.minLimit?.toDouble() ?: 0.00
+                }
+                is RetroApiResponse.Error -> {
+                    state.toast = response.error.message
+                }
+            }
+        }
+    }
+
+    override fun getCountryLimits() {
+        launch {
+            when (val response = repository.getCountryTransactionLimits(
+                state.beneficiary?.country ?: "",
+                state.beneficiary?.currency ?: ""
+            )) {
+                is RetroApiResponse.Success -> {
+                    if (response.data.data?.toDouble() ?: 0.0 > 0.0) {
+                        state.maxLimit = response.data.data?.toDouble()
+                        if (response.data.data?.toDouble() ?: 0.0 < state.minLimit?.toDouble() ?: 0.0) {
+                            state.minLimit = 1.0
+                        }
+                    }
                 }
                 is RetroApiResponse.Error -> {
                     state.toast = response.error.message
