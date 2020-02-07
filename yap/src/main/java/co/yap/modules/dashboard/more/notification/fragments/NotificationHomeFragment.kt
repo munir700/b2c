@@ -28,7 +28,6 @@ class NotificationHomeFragment : NotificationsBaseFragment<INotificationHome.Vie
 
     override fun getLayoutId(): Int = R.layout.fragment_notifications_home
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel.parentViewModel?.clickEvent?.observe(this, clickEventObserver)
