@@ -24,4 +24,8 @@ abstract class MoreBaseViewModel<S : IBase.State>(application: Application) :
 
         }
     }
+
+    fun toggleAchievementsBadgeVisibility(visibility: Boolean) {
+        parentViewModel?.state?.tootlBarBadgeVisibility= visibility
+    }
 }

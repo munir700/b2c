@@ -91,4 +91,10 @@ class MoreActivity : BaseBindingActivity<IMore.ViewModel>(), INavigator,
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+      viewModel!!.BadgeVisibility= false
+
+    }
+
 }

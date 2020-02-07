@@ -99,6 +99,7 @@ class ProfileSettingsViewModel(application: Application) :
 
     override fun onResume() {
         super.onResume()
+        toggleAchievementsBadgeVisibility(parentViewModel!!.BadgeVisibility)
         // setToolBarTitle(getString(Strings.screen_profile_settings_display_text_title))
     }
 

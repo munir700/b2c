@@ -33,6 +33,11 @@ class YAPForYouActivity : BaseBindingActivity<IMore.ViewModel>(), INavigator,
 
     }
 
+    override fun onResume() {
+        super.onResume()
+        viewModel.BadgeVisibility= true
+    }
+
     override fun onDestroy() {
         viewModel.backButtonPressEvent.removeObservers(this)
         viewModel.preventTakeDeviceScreenShot.removeObservers(this)
