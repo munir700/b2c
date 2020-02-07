@@ -2,6 +2,7 @@ package co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.viewmodels
 
 import android.app.Application
 import androidx.lifecycle.MutableLiveData
+import co.yap.R
 import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.interfaces.IBeneficiaryAccountDetails
 import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.states.BeneficiaryAccountDetailsState
 import co.yap.modules.dashboard.yapit.sendmoney.viewmodels.SendMoneyBaseViewModel
@@ -36,11 +37,9 @@ class BeneficiaryAccountDetailsViewModel(application: Application) :
                 when (SendMoneyBeneficiaryType.valueOf(beneficiaryType)) {
                     SendMoneyBeneficiaryType.SWIFT -> {
                         state.showlyIban.set(true)
-                        //state.showlyConfirmIban.set(true)
                     }
                     SendMoneyBeneficiaryType.RMT -> {
                         state.showlyIban.set(true)
-                        //state.showlyConfirmIban.set(true)
                     }
                     else -> {
 
@@ -91,11 +90,27 @@ class BeneficiaryAccountDetailsViewModel(application: Application) :
 //            clickEvent.setValue(id)
 //    }
 
+//    override fun handlePressOnAddBank(id: Int) {
+//        parentViewModel?.beneficiary?.value?.let {
+//            it.accountNo = state.accountIban.replace(" ", "")
+//        }
+//        clickEvent.setValue(id)
+
     override fun handlePressOnAddBank(id: Int) {
-        parentViewModel?.beneficiary?.value?.let {
-            it.accountNo = state.accountIban.replace(" ", "")
-        }
-        clickEvent.setValue(id)
+        if (id == R.id.confirmButton) {
+            parentViewModel?.beneficiary?.value?.beneficiaryType?.let { it ->
+                if (it.isNotEmpty())
+                    when (SendMoneyBeneficiaryType.valueOf(it)) {
+                        SendMoneyBeneficiaryType.SWIFT, SendMoneyBeneficiaryType.RMT -> {
+                            validateBeneficiaryDetails()
+                        }
+                        else -> {
+                            clickEvent.setValue(id)
+                        }
+                    }
+            }
+        } else
+            clickEvent.setValue(id)
     }
 
     override fun onResume() {
@@ -135,8 +150,6 @@ class BeneficiaryAccountDetailsViewModel(application: Application) :
                     is RetroApiResponse.Success -> {
                         state.loading = false
                         isBeneficiaryValid.value = true
-
-
                     }
 
                     is RetroApiResponse.Error -> {
