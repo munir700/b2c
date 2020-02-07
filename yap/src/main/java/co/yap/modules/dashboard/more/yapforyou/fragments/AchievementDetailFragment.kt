@@ -9,7 +9,7 @@ import co.yap.modules.dashboard.more.yapforyou.interfaces.IAchievementDetail
 import co.yap.modules.dashboard.more.yapforyou.viewmodels.AchievementDetailViewModel
 import co.yap.yapcore.BR
 
-class AchievementDetailFragment : MoreBaseFragment<IAchievementDetail.ViewModel>(),
+class AchievementDetailFragment : YapForYouBaseFragment<IAchievementDetail.ViewModel>(),
     IAchievementDetail.View {
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.layout_item_beneficiary

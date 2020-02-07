@@ -5,7 +5,8 @@
     <data>
         <variable
             name="viewModel"
-            type="co.yap.modules.dashboard.more.main.viewmodels.MoreViewModel" />
+            type="co.yap.modules.dashboard.more.yapforyou.viewmodels.YapForYouMainViewModel" />
+
     </data>
 
     <LinearLayout
@@ -16,8 +17,7 @@
 
         <include
             android:id="@+id/toolbar"
-            layout="@layout/layout_more_toolbar"
-            android:visibility="@{viewModel.state.tootlBarVisibility}"
+            layout="@layout/layout_yap_for_you_toolbar"
             app:viewModel="@{viewModel}" />
 
         <fragment

@@ -14,7 +14,7 @@ import co.yap.modules.dashboard.more.yapforyou.viewmodels.YAPForYouViewModel
 import co.yap.yapcore.interfaces.OnItemClickListener
 import kotlinx.android.synthetic.main.fragment_yap_for_you.*
 
-class YAPForYouFragment : MoreBaseFragment<IYAPForYou.ViewModel>() {
+class YAPForYouFragment : YapForYouBaseFragment<IYAPForYou.ViewModel>() {
 
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.fragment_yap_for_you

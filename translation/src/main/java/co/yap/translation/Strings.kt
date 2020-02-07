@@ -1460,6 +1460,7 @@ object Strings {
     //Notification Listing
     const val screen_notification_listing_display_text_toolbar_title: String =
         "screen_notification_listing_display_text_toolbar_title"
+
     //Yap for you
     const val screen_yap_for_you_display_text_title: String = "screen_yap_for_you_display_text_title"
     const val screen_yap_for_you_display_text_sub_title: String = "screen_yap_for_you_display_text_sub_title"
