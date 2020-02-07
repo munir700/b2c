@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="co.yap.modules.dashboard.more.yapforyou.viewmodels.AchievementTaskItemViewModel" />
+            type="co.yap.modules.dashboard.more.yapforyou.itemviewmodels.AchievementTaskItemViewModel" />
     </data>
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -17,9 +17,10 @@
         <TextView
             android:id="@+id/tvTitle"
             style="@style/ASmall"
+            android:layout_marginStart="@dimen/small"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:drawableStart="@{viewModel.task.completed ? @drawable/ic_checked_icon : @drawable/ic_checked_icon}"
+            android:drawableStart="@{viewModel.task.completed ? @drawable/ic_checked_icon : @drawable/empty_circle}"
             android:text="@{viewModel.task.taskName}"
             android:drawablePadding="@dimen/margin_medium"
             android:gravity="center_vertical"
@@ -28,9 +29,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             tools:drawableStart="@drawable/ic_checked_icon"
+            android:textColor="?attr/colorPrimaryAttr"
             tools:text="Send money to someone outside YAP" />
-<!--        android:textColor="?attr/colorPrimaryAttr"-->
-
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 </layout>

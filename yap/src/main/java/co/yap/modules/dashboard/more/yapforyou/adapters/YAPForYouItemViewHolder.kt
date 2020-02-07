@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import co.yap.R
 import co.yap.databinding.ItemYapForYouBinding
 import co.yap.modules.dashboard.more.yapforyou.Achievements
-import co.yap.modules.dashboard.more.yapforyou.viewmodels.YAPForYouItemViewModel
+import co.yap.modules.dashboard.more.yapforyou.itemviewmodels.YAPForYouItemViewModel
 import co.yap.yapcore.interfaces.OnItemClickListener
 
 class YAPForYouItemViewHolder(private val itemYapForYouBinding: ItemYapForYouBinding) :
@@ -29,7 +29,11 @@ class YAPForYouItemViewHolder(private val itemYapForYouBinding: ItemYapForYouBin
         itemYapForYouBinding.imgIcon.background = wrappedDrawable
 
         itemYapForYouBinding.viewModel =
-            YAPForYouItemViewModel(achievements, position, onItemClickListener)
+            YAPForYouItemViewModel(
+                achievements,
+                position,
+                onItemClickListener
+            )
         itemYapForYouBinding.executePendingBindings()
 
     }

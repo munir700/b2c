@@ -79,14 +79,12 @@ class YAPForYouFragment : YapForYouBaseFragment<IYAPForYou.ViewModel>() {
     }
 
     private fun setSelectedAchievement(achievement: Achievements) {
-        achievement.also {
-            it.percentage =
-                getString(Strings.screen_yap_for_you_display_text_completed_percentage).format(
-                    "${it.percentage.toString()}%"
-                )
-        }
         viewModel.parentViewModel?.achievement = achievement
+        viewModel.parentViewModel?.achievement?.percentage =
+            getString(Strings.screen_yap_for_you_display_text_completed_percentage).format(
+                "${achievement.percentage.toString()}%"
+            )
         viewModel.state.selectedAchievementTitle = achievement.title
-        viewModel.state.selectedAchievementPercentage = achievement.percentage.toString()
+        viewModel.state.selectedAchievementPercentage = viewModel.parentViewModel?.achievement?.percentage
     }
 }

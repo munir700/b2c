@@ -1,4 +1,4 @@
-package co.yap.modules.dashboard.more.yapforyou.viewmodels
+package co.yap.modules.dashboard.more.yapforyou.itemviewmodels
 
 import android.view.View
 import co.yap.modules.dashboard.more.yapforyou.Achievements

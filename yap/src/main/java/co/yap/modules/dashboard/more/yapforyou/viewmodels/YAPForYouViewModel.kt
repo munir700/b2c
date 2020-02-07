@@ -23,7 +23,7 @@ class YAPForYouViewModel(application: Application) :
 
 
     var BetterTogetherList: ArrayList<AchievementTask> = arrayListOf(
-        AchievementTask("Invite a friend", true),
+        AchievementTask("Invite a friend", false),
         AchievementTask("Do a Y2Y transfer", true),
         AchievementTask("Split bills with friends", false),
         AchievementTask("Send money to someone outside YAP", true)
@@ -48,7 +48,7 @@ class YAPForYouViewModel(application: Application) :
             Achievements(
                 1,
                 "Get started",
-                "100%",
+                "100",
                 ContextCompat.getColor(context, R.color.colorPrimaryAltHouseHold),
                 true,
                 arrayListOf(
@@ -63,7 +63,7 @@ class YAPForYouViewModel(application: Application) :
             Achievements(
                 2,
                 "Up and running",
-                "100%",
+                "100",
                 ContextCompat.getColor(context, R.color.colorBlue),
                 true,
                 BetterTogetherList
@@ -73,7 +73,7 @@ class YAPForYouViewModel(application: Application) :
             Achievements(
                 3,
                 "Better together",
-                "75%",
+                "75",
                 ContextCompat.getColor(context, R.color.lightYellow),
                 false,
                 BetterTogetherList
@@ -83,7 +83,7 @@ class YAPForYouViewModel(application: Application) :
             Achievements(
                 4,
                 "Take the leap",
-                "0%",
+                "0",
                 ContextCompat.getColor(context, R.color.lightAqua),
                 false,
                 BetterTogetherList
@@ -93,7 +93,7 @@ class YAPForYouViewModel(application: Application) :
             Achievements(
                 5,
                 "YAP Store",
-                "0%",
+                "0",
                 ContextCompat.getColor(context, R.color.lightPink),
                 false,
                 BetterTogetherList
