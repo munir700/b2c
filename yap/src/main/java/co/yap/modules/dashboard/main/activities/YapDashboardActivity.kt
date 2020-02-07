@@ -45,7 +45,7 @@ import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.IFragmentHolder
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.PartnerBankStatus
-import co.yap.yapcore.helpers.PermissionHelper
+import co.yap.yapcore.helpers.permissions.PermissionHelper
 import co.yap.yapcore.helpers.extentions.dimen
 import co.yap.yapcore.managers.MyUserManager
 import com.leanplum.Leanplum

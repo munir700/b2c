@@ -83,7 +83,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-import co.yap.yapcore.helpers.PermissionHelper;
+import co.yap.yapcore.helpers.permissions.PermissionHelper;
 import co.yap.yapcore.helpers.extentions.ToastKt;
 
 import static android.view.View.MeasureSpec.AT_MOST;

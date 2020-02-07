@@ -878,6 +878,12 @@
     <string name="screen_success_house_hold_make_sure_to_text">Make sure to keep your Emirates ID with you</string>
     <string name="screen_success_house_hold_card_deliver_text">Your card will be delivered to:</string>
 
+<!--    ATM_CDM-->
+    <string name="screen_more_atm_cdm_custom_button_get_direction">Get direction</string>
+    <string name="location_permission">Location Permission</string>
+    <string name="location_permission_msg">Yap determines your current location. Your location may be shown on map and is used to provide things such direction and in order to serve personalize alert. This allows for a better overall app experience.</string>
+
+
 
 
     <!--    Card color selection screen-->
