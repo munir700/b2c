@@ -62,7 +62,7 @@ class YAPForYouViewModel(application: Application) :
                 1,
                 "Get started",
                 "100%",
-                ContextCompat.getColor(context, R.color.colorPrimaryAlt),
+                ContextCompat.getColor(context, R.color.colorPrimaryAltHouseHold),
                 true,
                 arrayListOf(
                     "Invite a friend",
@@ -77,7 +77,7 @@ class YAPForYouViewModel(application: Application) :
                 2,
                 "Up and running",
                 "100%",
-                ContextCompat.getColor(context, R.color.colorSecondaryBlue),
+                ContextCompat.getColor(context, R.color.colorBlue),
                 true,
                 BetterTogetherList
             )
