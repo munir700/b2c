@@ -1,7 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+
+        <variable
+            name="viewModel"
+            type="co.yap.modules.dashboard.more.yapforyou.viewmodels.AchievementTaskItemViewModel" />
+    </data>
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -12,15 +19,16 @@
             style="@style/ASmall"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:drawableStart="@drawable/ic_checked_icon"
+            android:drawableStart="@{viewModel.task.completed ? @drawable/ic_checked_icon : @drawable/ic_checked_icon}"
+            android:text="@{viewModel.task.taskName}"
             android:drawablePadding="@dimen/margin_medium"
             android:gravity="center_vertical"
-            android:text="Choose a virtual or physical card"
-
+            app:layout_constraintTop_toTopOf="parent"
             android:textSize="@dimen/_12sdp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            tools:drawableStart="@drawable/ic_checked_icon"
+            tools:text="Send money to someone outside YAP" />
 <!--        android:textColor="?attr/colorPrimaryAttr"-->
 
     </androidx.constraintlayout.widget.ConstraintLayout>

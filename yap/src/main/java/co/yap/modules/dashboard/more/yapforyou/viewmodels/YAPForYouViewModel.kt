@@ -4,6 +4,7 @@ import android.app.Application
 import androidx.core.content.ContextCompat
 import co.yap.R
 import co.yap.modules.dashboard.more.main.viewmodels.MoreBaseViewModel
+import co.yap.modules.dashboard.more.yapforyou.AchievementTask
 import co.yap.modules.dashboard.more.yapforyou.Achievements
 import co.yap.modules.dashboard.more.yapforyou.interfaces.IYAPForYou
 import co.yap.modules.dashboard.more.yapforyou.states.YAPForYouState
@@ -33,11 +34,11 @@ class YAPForYouViewModel(application: Application) :
 
     }
 
-    var BetterTogetherList: ArrayList<String> = arrayListOf(
-        "Invite a friend",
-        "Do a Y2Y transfer",
-        "Split bills with friends",
-        "Send money to someone outside YAP"
+    var BetterTogetherList: ArrayList<AchievementTask> = arrayListOf(
+        AchievementTask("Invite a friend", true),
+        AchievementTask("Do a Y2Y transfer", true),
+        AchievementTask("Split bills with friends", false),
+        AchievementTask("Send money to someone outside YAP", true)
     )
 
     override fun onResume() {
@@ -63,10 +64,10 @@ class YAPForYouViewModel(application: Application) :
                 ContextCompat.getColor(context, R.color.colorPrimaryAlt),
                 true,
                 arrayListOf(
-                    "Invite a friend",
-                    "Do a Y2Y transfer",
-                    "Split bills with friends",
-                    "Send money to someone outside YAP"
+                    AchievementTask("Invite a friend", true),
+                    AchievementTask("Do a Y2Y transfer", true),
+                    AchievementTask("Split bills with friends", false),
+                    AchievementTask("Send money to someone outside YAP", true)
                 )
             )
         )
@@ -87,12 +88,7 @@ class YAPForYouViewModel(application: Application) :
                 "75",
                 ContextCompat.getColor(context, R.color.lightYellow),
                 false,
-                arrayListOf(
-                    "Invite a friend",
-                    "Do a Y2Y transfer",
-                    "Split bills with friends",
-                    "Send money to someone outside YAP"
-                )
+                BetterTogetherList
             )
         )
         list.add(
@@ -102,12 +98,7 @@ class YAPForYouViewModel(application: Application) :
                 "0",
                 ContextCompat.getColor(context, R.color.lightAqua),
                 false,
-                arrayListOf(
-                    "Invite a friend",
-                    "Do a Y2Y transfer",
-                    "Split bills with friends",
-                    "Send money to someone outside YAP"
-                )
+                BetterTogetherList
             )
         )
         list.add(
@@ -117,12 +108,7 @@ class YAPForYouViewModel(application: Application) :
                 "0",
                 ContextCompat.getColor(context, R.color.lightPink),
                 false,
-                arrayListOf(
-                    "Invite a friend",
-                    "Do a Y2Y transfer",
-                    "Split bills with friends",
-                    "Send money to someone outside YAP"
-                )
+                BetterTogetherList
             )
         )
         list.add(
@@ -135,7 +121,6 @@ class YAPForYouViewModel(application: Application) :
                 null
             )
         )
-
 
         return list
     }

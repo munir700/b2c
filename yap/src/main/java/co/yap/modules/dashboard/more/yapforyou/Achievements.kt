@@ -12,5 +12,5 @@ data class Achievements(
     var percentage: String?,
     val bgColor: Int,
     var hasCompleted: Boolean?,
-    var checkList: ArrayList<String>?
+    var checkList: ArrayList<AchievementTask>?
 ) : Parcelable
