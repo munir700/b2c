@@ -13,6 +13,7 @@ import co.yap.R
 import co.yap.databinding.FragmentMoreHomeBinding
 import co.yap.modules.dashboard.main.fragments.YapDashboardChildFragment
 import co.yap.modules.dashboard.more.bankdetails.activities.BankDetailActivity
+import co.yap.modules.dashboard.more.cdm.CdmMapFragment
 import co.yap.modules.dashboard.more.home.adaptor.YapMoreAdaptor
 import co.yap.modules.dashboard.more.home.interfaces.IMoreHome
 import co.yap.modules.dashboard.more.home.models.MoreOption
@@ -23,8 +24,10 @@ import co.yap.modules.others.fragmentpresenter.activities.FragmentPresenterActiv
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.Utils.formateIbanString
+import co.yap.yapcore.helpers.extentions.startFragment
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.MyUserManager
+import com.leanplum.Leanplum
 
 
 class YapMoreFragment : YapDashboardChildFragment<IMoreHome.ViewModel>(), IMoreHome.View {
@@ -52,8 +55,19 @@ class YapMoreFragment : YapDashboardChildFragment<IMoreHome.ViewModel>(), IMoreH
     override fun onResume() {
         super.onResume()
         initComponents()
+        updateNotificationCounter()
     }
 
+    private fun updateNotificationCounter() {
+        if (::adapter.isInitialized) {
+            if (!adapter.getDataList().isNullOrEmpty()) {
+                val item = adapter.getDataForPosition(0)
+                item.hasBadge = Leanplum.getInbox().unreadCount() > 0
+                item.badgeCount = Leanplum.getInbox().unreadCount()
+                adapter.setItemAt(0, item)
+            }
+        }
+    }
 
     private fun initComponents() {
         getBinding().tvName.text =
@@ -68,6 +82,7 @@ class YapMoreFragment : YapDashboardChildFragment<IMoreHome.ViewModel>(), IMoreH
                 ContextCompat.getColor(requireContext(), R.color.colorPrimaryDark)
             )
         }
+
         MyUserManager.user?.bank?.swiftCode?.let {
             val bicSpan = SpannableString("BIC $it")
             getBinding().tvBic.text = Utils.setSpan(
@@ -96,11 +111,12 @@ class YapMoreFragment : YapDashboardChildFragment<IMoreHome.ViewModel>(), IMoreH
             if (data is MoreOption) {
                 when (data.id) {
                     Constants.MORE_NOTIFICATION -> {
-                        //openNotifications()
-                        Utils.showComingSoon(requireContext())
+                        openNotifications()
+//                        Utils.showComingSoon(requireContext())
                     }
                     Constants.MORE_LOCATE_ATM -> {
-                        openMaps()
+                        startFragment(CdmMapFragment::class.java.name)
+                        //openMaps()
                     }
                     Constants.MORE_INVITE_FRIEND -> {
                         Utils.showComingSoon(requireContext())

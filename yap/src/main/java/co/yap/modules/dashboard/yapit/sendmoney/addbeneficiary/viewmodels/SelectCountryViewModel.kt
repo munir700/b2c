@@ -114,7 +114,8 @@ class SelectCountryViewModel(application: Application) :
                                     isoNum = it.isoNum,
                                     signUpAllowed = it.signUpAllowed,
                                     name = it.name,
-                                    currency = getDefaultCountry(it.currencyList)
+                                    currency = getDefaultCountry(it.currencyList),
+                                    ibanMandatory = it.ibanMandatory
                                 )
                             })
                             populateSpinnerData.setValue(countries)
@@ -147,7 +148,6 @@ class SelectCountryViewModel(application: Application) :
                     )
                     break
                 }
-
             }
         }
         return currency

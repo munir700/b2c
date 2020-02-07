@@ -20,8 +20,6 @@ import com.digitify.identityscanner.camera.CameraException;
 import com.digitify.identityscanner.camera.CameraListener;
 import com.digitify.identityscanner.camera.CameraOptions;
 import com.digitify.identityscanner.camera.PictureResult;
-import com.digitify.identityscanner.camera.frame.Frame;
-import com.digitify.identityscanner.camera.frame.FrameProcessor;
 import com.digitify.identityscanner.components.Overlay;
 import com.digitify.identityscanner.components.TransparentCardView;
 import com.digitify.identityscanner.databinding.FragmentCameraBinding;
@@ -35,11 +33,8 @@ import com.digitify.identityscanner.utils.ImageUtils;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.security.Permission;
-
 import co.yap.translation.Strings;
 import co.yap.translation.Translator;
-import co.yap.yapcore.helpers.PermissionHelper;
 
 public class YapCameraFragment extends BaseFragment implements ICamera.View, CameraListener {
 

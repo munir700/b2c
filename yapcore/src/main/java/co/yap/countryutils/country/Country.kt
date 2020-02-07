@@ -4,8 +4,8 @@ import android.content.Context
 import android.os.Parcelable
 import co.yap.countryutils.country.utils.Currency
 import co.yap.countryutils.country.utils.CurrencyUtils
+import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
-
 
 @Parcelize
 class Country(
@@ -19,7 +19,8 @@ class Country(
     var signUpAllowed: Boolean? = false,
     private var name: String? = null,
     private var flagDrawableResId: Int = -1,
-    private var currency: Currency? = null
+    private var currency: Currency? = null,
+    var ibanMandatory: Boolean? = false
 ) : Parcelable {
 
     var isCashPickUpAllowed: Boolean?

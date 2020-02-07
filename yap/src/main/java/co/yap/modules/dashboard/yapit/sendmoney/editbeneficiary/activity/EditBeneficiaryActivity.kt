@@ -15,6 +15,7 @@ import co.yap.widgets.popmenu.PopupMenu
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.Constants.EXTRA
+import co.yap.yapcore.constants.Constants.IS_IBAN_NEEDED
 import co.yap.yapcore.constants.Constants.OVERVIEW_BENEFICIARY
 import co.yap.yapcore.helpers.extentions.getCurrencyPopMenu
 import kotlinx.android.synthetic.main.activity_edit_beneficiary.*
@@ -40,6 +41,7 @@ class EditBeneficiaryActivity : BaseBindingActivity<IEditBeneficiary.ViewModel>(
                 val bundle = it.getBundleExtra(EXTRA)
                 bundle?.let {
                     viewModel.state.needOverView = it.getBoolean(OVERVIEW_BENEFICIARY, false)
+                    viewModel.state.needIban = it.getBoolean(IS_IBAN_NEEDED, false)
                     viewModel.state.beneficiary = bundle.getParcelable(Beneficiary::class.java.name)
                 }
             }
@@ -67,8 +69,17 @@ class EditBeneficiaryActivity : BaseBindingActivity<IEditBeneficiary.ViewModel>(
                     setResult(Activity.RESULT_CANCELED, intent)
                     finish()
                 }
-                R.id.confirmButton ->
-                    viewModel.requestUpdateBeneficiary()
+                R.id.confirmButton -> {
+
+                    if (viewModel.state.needOverView!!) {
+                        intent.putExtra(Constants.BENEFICIARY_CHANGE, true)
+                        intent.putExtra(Beneficiary::class.java.name, viewModel.state.beneficiary)
+                        setResult(Activity.RESULT_OK, intent)
+                        finish()
+                    } else {
+                        viewModel.requestUpdateBeneficiary()
+                    }
+                }
                 R.id.tvChangeCurrency ->
                     currencyPopMenu?.showAsAnchorRightBottom(tvChangeCurrency)
             }

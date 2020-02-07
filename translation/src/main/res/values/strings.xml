@@ -654,7 +654,7 @@
     <!--  Beneficiary overview screen -->
 
     <string name="screen_beneficiary_overview_display_text_title">Beneficiary overview</string>
-    <string name="screen_beneficiary_overview_display_text_account_number_iban">Account/IBAN number</string>
+    <string name="screen_beneficiary_overview_display_text_account_number_iban">IBAN</string>
     <string name="screen_beneficiary_overview_display_text_swift_code">Swift code</string>
     <string name="screen_beneficiary_overview_display_text_field_code">Country Bank Requirement Field code</string>
     <string name="screen_beneficiary_overview_button_confirm">Confirm</string>
@@ -879,6 +879,12 @@
     <string name="screen_success_house_hold_make_sure_to_text">Make sure to keep your Emirates ID with you</string>
     <string name="screen_success_house_hold_card_deliver_text">Your card will be delivered to:</string>
 
+<!--    ATM_CDM-->
+    <string name="screen_more_atm_cdm_custom_button_get_direction">Get direction</string>
+    <string name="location_permission">Location Permission</string>
+    <string name="location_permission_msg">Yap determines your current location. Your location may be shown on map and is used to provide things such direction and in order to serve personalize alert. This allows for a better overall app experience.</string>
+
+
 
 
     <!--    Card color selection screen-->
@@ -908,6 +914,20 @@
     <string name="screen_household_home_display_text_transactions_filers_title">Filter</string>
 
     <string name="screen_yap_house_hold_confirm_payment_share_text">Hi %1s,\n%2s has added you as their Household on YAP. Download YAP from the link below and login with these credentials:\n\nUsername: %3s\nPasscode:%4s\n\nDownload on App Store:\n%5s\n\nDownload on Play Store:\n%6s</string>
+
+    <!-- Notification Listing -->
+    <string name="screen_notification_listing_display_text_toolbar_title">Notifications</string>
+    <string name="screen_notification_listing_display_text_delete_alert_title">Delete</string>
+    <string name="screen_notification_listing_display_text_delete_message">Are you sure you want to delete beneficiary?</string>
+
+    <!--    Notification settings screen-->
+    <string name="screen_notification_settings_display_text_toolbar_title">Notification settings</string>
+    <string name="screen_notification_settings_display_text_in_app_notifications">In-app notifications</string>
+    <string name="screen_notification_settings_display_text_sms_notifications">SMS notifications</string>
+    <string name="screen_notification_settings_display_text_email_notifications">Email notifications</string>
+
+    <!-- Notification Detail -->
+    <string name="screen_notification_detail_display_text_delete">Delete notification</string>
 
 </resources>
 

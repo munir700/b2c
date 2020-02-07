@@ -15,10 +15,12 @@ import co.yap.R
 import co.yap.modules.dashboard.yapit.sendmoney.activities.BeneficiaryCashTransferActivity
 import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.interfaces.IBeneficiaryAccountDetails
 import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.viewmodels.BeneficiaryAccountDetailsViewModel
+import co.yap.modules.dashboard.yapit.sendmoney.editbeneficiary.activity.EditBeneficiaryActivity
 import co.yap.modules.dashboard.yapit.sendmoney.fragments.SendMoneyBaseFragment
 import co.yap.modules.otp.GenericOtpFragment
 import co.yap.modules.otp.OtpDataModel
 import co.yap.modules.otp.OtpToolBarData
+import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.translation.Translator
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.RequestCodes
@@ -141,8 +143,18 @@ class BeneficiaryAccountDetailsFragment :
 
             }
         })
+    }
 
-
+    private fun openEditBeneficiary(beneficiary: Beneficiary?) {
+        beneficiary?.let {
+            val bundle = Bundle()
+            bundle.putBoolean(Constants.OVERVIEW_BENEFICIARY, true)
+            bundle.putBoolean(Constants.IS_IBAN_NEEDED, true)
+            bundle.putParcelable(Beneficiary::class.java.name, beneficiary)
+            launchActivity<EditBeneficiaryActivity>(RequestCodes.REQUEST_NOTIFY_BENEFICIARY_LIST) {
+                putExtra(Constants.EXTRA, bundle)
+            }
+        }
     }
 
     private fun startMoneyTransfer() {
@@ -167,8 +179,8 @@ class BeneficiaryAccountDetailsFragment :
 
     private val observer = Observer<Int> {
         when (it) {
-            R.id.confirmButton ->
-                viewModel.createBeneficiaryRequest()
+            R.id.confirmButton -> openEditBeneficiary(viewModel.parentViewModel?.beneficiary?.value)
+                //viewModel.createBeneficiaryRequest()
         }
     }
 

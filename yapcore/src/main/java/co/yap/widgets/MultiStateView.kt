@@ -381,3 +381,79 @@ private const val VIEW_STATE_CONTENT = 0
 private const val VIEW_STATE_ERROR = 1
 private const val VIEW_STATE_EMPTY = 2
 private const val VIEW_STATE_LOADING = 3
+
+/**
+ * Status of a resource that is provided to the UI.
+ *
+ *
+ * These are usually created by the Repo classes where they return
+ * `LiveData<Resource<T>>` to pass back the latest data to the UI with its fetch status.
+ */
+enum class Status(val value: Int) {
+    IDEAL(0),
+    SUCCESS(1),
+    LOADING(2),
+    ERROR(3),
+    EMPTY(4),
+    NETWORK(5)
+}
+
+class State(
+    var status: Status,
+    var message: String?
+) {
+
+    var hardAlert = false
+
+    override fun toString(): String {
+        return "status: $status, message: $message"
+    }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        val state = other as State
+//        other as State
+
+        if (status != state.status) return false
+        if (message != state.message) return false
+        if (hardAlert != state.hardAlert) return false
+
+        return if (message != null) message == state.message else state.message == null
+    }
+
+    override fun hashCode(): Int {
+        var result = status.hashCode()
+        result = 31 * result + (message?.hashCode() ?: 0)
+        result = 31 * result + hardAlert.hashCode()
+        return result
+    }
+
+    companion object {
+
+        fun loading(message: String?): State {
+            return State(Status.LOADING, message)
+        }
+
+        fun error(message: String): State {
+            return State(Status.ERROR, message)
+        }
+
+        fun success(@Nullable message: String?): State {
+            return State(Status.SUCCESS, message)
+        }
+
+        fun empty(@Nullable message: String?): State {
+            return State(Status.EMPTY, message)
+        }
+
+        fun network(@Nullable message: String?): State {
+            return State(Status.NETWORK, message)
+        }
+
+        fun ideal(@Nullable message: String?): State {
+            return State(Status.IDEAL, message)
+        }
+    }
+}

@@ -22,7 +22,6 @@ object Strings {
     const val common_text_fee: String = "common_text_fee"
 
 
-
     //Home screen
     const val screen_home_display_text_tag_line: String = "screen_home_display_text_tag_line"
     const val screen_home_display_text_account_selection: String =
@@ -1443,5 +1442,25 @@ object Strings {
 
     const val screen_card_detail_alert_text_disappears: String =
         "screen_card_detail_alert_text_disappears"
+
+
+    //    Notification settings screen
+    const val screen_notification_settings_display_text_toolbar_title: String =
+        "screen_notification_settings_display_text_toolbar_title"
+    const val screen_notification_settings_display_text_in_app_notifications: String =
+        "screen_notification_settings_display_text_in_app_notifications"
+    const val screen_notification_settings_display_text_sms_notifications: String =
+        "screen_notification_settings_display_text_sms_notifications"
+    const val screen_notification_settings_display_text_email_notifications: String =
+        "screen_notification_settings_display_text_email_notifications"
+
+    //Notification Detail
+    const val screen_notification_detail_display_text_delete: String =
+        "screen_notification_detail_display_text_delete"
+
+    //Notification Listing
+    const val screen_notification_listing_display_text_toolbar_title: String =
+        "screen_notification_listing_display_text_toolbar_title"
+
 
 }
