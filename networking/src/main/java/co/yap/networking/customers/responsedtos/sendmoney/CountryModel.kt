@@ -26,6 +26,8 @@ data class CountryModel(
         var name: String? = "",
         @SerializedName("signUpAllowed")
         var signUpAllowed: Boolean? = false,
+        @SerializedName("ibanMandatory")
+        var ibanMandatory: Boolean? = false,
         @SerializedName("currencyList")
         var currencyList: List<Currency>? = arrayListOf()
     ) {

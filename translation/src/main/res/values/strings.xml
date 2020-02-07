@@ -910,14 +910,26 @@
     <string name="screen_yap_house_hold_confirm_payment_share_text">Hi %1s,\n%2s has added you as their Household on YAP. Download YAP from the link below and login with these credentials:\n\nUsername: %3s\nPasscode:%4s\n\nDownload on App Store:\n%5s\n\nDownload on Play Store:\n%6s</string>
 
 
+    <!-- Notification Listing -->
+    <string name="screen_notification_listing_display_text_toolbar_title">Notifications</string>
+    <string name="screen_notification_listing_display_text_delete_alert_title">Delete</string>
+    <string name="screen_notification_listing_display_text_delete_message">Are you sure you want to delete beneficiary?</string>
+
+    <!--    Notification settings screen-->
+    <string name="screen_notification_settings_display_text_toolbar_title">Notification settings</string>
+    <string name="screen_notification_settings_display_text_in_app_notifications">In-app notifications</string>
+    <string name="screen_notification_settings_display_text_sms_notifications">SMS notifications</string>
+    <string name="screen_notification_settings_display_text_email_notifications">Email notifications</string>
+
+    <!-- Notification Detail -->
+    <string name="screen_notification_detail_display_text_delete">Delete notification</string>
+
     <!-- YAP for you -->
     <string name="screen_yap_for_you_display_text_title">YAP for you</string>
     <string name="screen_yap_for_you_display_text_sub_title">Bank your way and become a YAP pro</string>
     <string name="screen_yap_for_you_display_text_current_chievement">Current achievement</string>
     <string name="screen_yap_for_you_display_text_completed_percentage">%1s completed</string>
     <string name="screen_yap_for_you_display_text_view">View</string>
-
-
 
 </resources>
 

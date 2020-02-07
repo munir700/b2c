@@ -26,6 +26,7 @@ import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.Utils.formateIbanString
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.MyUserManager
+import com.leanplum.Leanplum
 
 
 class YapMoreFragment : YapDashboardChildFragment<IMoreHome.ViewModel>(), IMoreHome.View {
@@ -53,8 +54,19 @@ class YapMoreFragment : YapDashboardChildFragment<IMoreHome.ViewModel>(), IMoreH
     override fun onResume() {
         super.onResume()
         initComponents()
+        updateNotificationCounter()
     }
 
+    private fun updateNotificationCounter() {
+        if (::adapter.isInitialized) {
+            if (!adapter.getDataList().isNullOrEmpty()) {
+                val item = adapter.getDataForPosition(0)
+                item.hasBadge = Leanplum.getInbox().unreadCount() > 0
+                item.badgeCount = Leanplum.getInbox().unreadCount()
+                adapter.setItemAt(0, item)
+            }
+        }
+    }
 
     private fun initComponents() {
         getBinding().tvName.text =
@@ -69,6 +81,7 @@ class YapMoreFragment : YapDashboardChildFragment<IMoreHome.ViewModel>(), IMoreH
                 ContextCompat.getColor(requireContext(), R.color.colorPrimaryDark)
             )
         }
+
         MyUserManager.user?.bank?.swiftCode?.let {
             val bicSpan = SpannableString("BIC $it")
             getBinding().tvBic.text = Utils.setSpan(
@@ -97,8 +110,8 @@ class YapMoreFragment : YapDashboardChildFragment<IMoreHome.ViewModel>(), IMoreH
             if (data is MoreOption) {
                 when (data.id) {
                     Constants.MORE_NOTIFICATION -> {
-                        //openNotifications()
-                        Utils.showComingSoon(requireContext())
+                        openNotifications()
+//                        Utils.showComingSoon(requireContext())
                     }
                     Constants.MORE_LOCATE_ATM -> {
                         openMaps()
