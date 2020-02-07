@@ -1444,4 +1444,10 @@ object Strings {
     const val screen_card_detail_alert_text_disappears: String =
         "screen_card_detail_alert_text_disappears"
 
+    //Yap for you
+    const val screen_yap_for_you_display_text_title: String = "screen_yap_for_you_display_text_title"
+    const val screen_yap_for_you_display_text_current_chievement: String = "screen_yap_for_you_display_text_current_chievement"
+    const val screen_yap_for_you_display_text_completed_percentage: String = "screen_yap_for_you_display_text_completed_percentage"
+    const val screen_yap_for_you_display_text_view: String = "screen_yap_for_you_display_text_view"
+
 }

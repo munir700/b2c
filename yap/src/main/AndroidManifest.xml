@@ -83,6 +83,14 @@
         </activity>
 
         <activity
+            android:name=".modules.dashboard.more.yapforyou.activities.YAPForYouActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/CoreAppTheme.NoActionBar"
+            android:windowSoftInputMode="adjustResize">
+            <nav-graph android:value="@navigation/more_main_navigation" />
+        </activity>
+
+        <activity
             android:name=".modules.dashboard.cards.reportcard.activities.ReportLostOrStolenCardActivity"
             android:screenOrientation="portrait"
             android:theme="@style/CoreAppTheme.NoActionBar">
