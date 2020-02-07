@@ -64,6 +64,7 @@
             app:concatenatedVal="@{viewModel.achievements.percentage}"
             app:layout_constraintTop_toBottomOf="@+id/tvTitle"
             app:textVal="@{Strings.screen_yap_for_you_display_text_completed_percentage}"
+            android:visibility="@{viewModel.achievements.percentage != null ?View.VISIBLE:View.GONE}"
             tools:text="75% completed" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

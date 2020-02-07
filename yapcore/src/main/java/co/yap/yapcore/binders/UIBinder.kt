@@ -18,6 +18,8 @@ import android.text.style.UnderlineSpan
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.widget.*
 import androidx.annotation.RequiresApi
@@ -486,16 +488,19 @@ object UIBinder {
     @BindingAdapter("textVal", "concatVal")
     @JvmStatic
     fun setconcatVal(tv: TextView, textKey: String, concat: String) {
-             Translator.getString(tv.context, textKey)
-            tv.text = String.format(Translator.getString(tv.context, textKey), '\n' + concat)
+        Translator.getString(tv.context, textKey)
+        tv.text = String.format(Translator.getString(tv.context, textKey), '\n' + concat)
     }
 
     @BindingAdapter("textVal", "concatenatedVal")
     @JvmStatic
     fun setconcatedVal(tv: TextView, textKey: String, concat: String?) {
-        if (!concat.isNullOrEmpty()){
+        if (!concat.isNullOrEmpty() && !concat.equals("null")) {
+            tv.visibility = VISIBLE
             Translator.getString(tv.context, textKey)
             tv.text = String.format(Translator.getString(tv.context, textKey), concat)
+        } else {
+            tv.visibility = GONE
         }
     }
 
