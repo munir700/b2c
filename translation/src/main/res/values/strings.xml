@@ -654,7 +654,7 @@
     <!--  Beneficiary overview screen -->
 
     <string name="screen_beneficiary_overview_display_text_title">Beneficiary overview</string>
-    <string name="screen_beneficiary_overview_display_text_account_number_iban">Account/IBAN number</string>
+    <string name="screen_beneficiary_overview_display_text_account_number_iban">IBAN</string>
     <string name="screen_beneficiary_overview_display_text_swift_code">Swift code</string>
     <string name="screen_beneficiary_overview_display_text_field_code">Country Bank Requirement Field code</string>
     <string name="screen_beneficiary_overview_button_confirm">Confirm</string>

@@ -63,6 +63,39 @@ class BeneficiaryAccountDetailsViewModel(application: Application) :
         }
     }
 
+//    override fun handlePressOnAddBank(id: Int) {
+//        if (id == R.id.confirmButton) {
+//            parentViewModel?.beneficiary?.value?.beneficiaryType?.let { it ->
+//                if (it.isNotEmpty())
+//                    when (SendMoneyBeneficiaryType.valueOf(it)) {
+//
+//                        SendMoneyBeneficiaryType.SWIFT, SendMoneyBeneficiaryType.RMT -> {
+//                            validateBeneficiaryDetails()
+//                            //createOtp(Constants.SWIFT_BENEFICIARY)
+////                            parentViewModel?.beneficiary?.value?.accountNo = state.accountIban
+////                            createBeneficiaryRequest()
+//                        }
+////                        SendMoneyBeneficiaryType.RMT -> {
+////                            validateBeneficiaryDetails()
+////                            //createOtp(Constants.RMT_BENEFICIARY)
+//////                            parentViewModel?.beneficiary?.value?.accountNo = state.accountIban
+//////                            createBeneficiaryRequest()
+////                        }
+//                        else -> {
+//                            clickEvent.setValue(id)
+//                        }
+//                    }
+//            }
+//        } else
+//            clickEvent.setValue(id)
+//    }
+
+//    override fun handlePressOnAddBank(id: Int) {
+//        parentViewModel?.beneficiary?.value?.let {
+//            it.accountNo = state.accountIban.replace(" ", "")
+//        }
+//        clickEvent.setValue(id)
+
     override fun handlePressOnAddBank(id: Int) {
         if (id == R.id.confirmButton) {
             parentViewModel?.beneficiary?.value?.beneficiaryType?.let { it ->
