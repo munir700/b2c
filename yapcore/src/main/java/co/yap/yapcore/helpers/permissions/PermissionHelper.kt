@@ -1,11 +1,10 @@
-package co.yap.yapcore.helpers
+package co.yap.yapcore.helpers.permissions
 
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
-import android.os.Build
 import android.provider.Settings
 import android.util.Log
 import androidx.core.app.ActivityCompat
@@ -64,7 +63,7 @@ class PermissionHelper {
             if (activity != null)
                 ActivityCompat.requestPermissions(activity!!, filterNotGrantedPermission(permissions!!), REQUEST_CODE)
             else
-                fragment!!.requestPermissions(filterNotGrantedPermission(permissions!!), REQUEST_CODE)
+                fragment?.requestPermissions(filterNotGrantedPermission(permissions!!), REQUEST_CODE)
         } else {
             Log.i(TAG, "PERMISSION: Permission Granted")
             mPermissionCallback?.onPermissionGranted()

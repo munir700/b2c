@@ -38,6 +38,8 @@ object CardsRepository : BaseRepository(), CardsApi {
     const val URL_REORDER_DEBIT_CARD = "/cards/api/cards/debit/reorder"
     const val URL_REORDER_SUPPLEMENTARY_CARD = "/cards/api/cards/supplementary/reorder"
 
+    const val URL_ATM_CDM = "cards/api/atm-cdm/"
+
     private val API: CardsRetroService = RetroNetwork.createService(CardsRetroService::class.java)
 
     override suspend fun createCardPin(
@@ -147,6 +149,9 @@ object CardsRepository : BaseRepository(), CardsApi {
         AuthRepository.executeSafely(call = {
             API.reorderSupplementaryCard(reorderCardRequest)
         })
+
+    override suspend fun getCardsAtmCdm() =
+        AuthRepository.executeSafely(call = { API.getCardsAtmCdm() })
 
     override suspend fun getHouseHoldCardsDesign(accountType: String): RetroApiResponse<HouseHoldCardsDesignResponse> =
         AuthRepository.executeSafely(call = { API.getHouseHoldCardsDesign(accountType) })

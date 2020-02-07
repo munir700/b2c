@@ -1,6 +1,7 @@
 package co.yap.networking.cards
 
 import co.yap.networking.cards.requestdtos.*
+import co.yap.networking.cards.responsedtos.AtmCdmResponse
 import co.yap.networking.cards.responsedtos.CardBalanceResponseDTO
 import co.yap.networking.cards.responsedtos.CardDetailResponseDTO
 import co.yap.networking.cards.responsedtos.GetCardsResponse
@@ -53,6 +54,7 @@ interface CardsApi {
 
     suspend fun reorderDebitCard(reorderCardRequest: ReorderCardRequest): RetroApiResponse<ApiResponse>
     suspend fun reorderSupplementryCard(reorderCardRequest: ReorderCardRequest): RetroApiResponse<ApiResponse>
+    suspend fun getCardsAtmCdm(): RetroApiResponse<AtmCdmResponse>
 
     suspend fun getHouseHoldCardsDesign(
         accountType: String
