@@ -7,17 +7,11 @@ import co.yap.modules.dashboard.more.yapforyou.AchievementTask
 import co.yap.modules.dashboard.more.yapforyou.Achievements
 import co.yap.modules.dashboard.more.yapforyou.interfaces.IYAPForYou
 import co.yap.modules.dashboard.more.yapforyou.states.YAPForYouState
-import co.yap.networking.customers.CustomersRepository
-import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
 
 class YAPForYouViewModel(application: Application) :
-    YapForYouBaseViewModel<IYAPForYou.State>(application), IYAPForYou.ViewModel,
-    IRepositoryHolder<CustomersRepository> {
-
-    override val repository: CustomersRepository = CustomersRepository
-
+    YapForYouBaseViewModel<IYAPForYou.State>(application), IYAPForYou.ViewModel {
     override val state: YAPForYouState =
         YAPForYouState()
 
@@ -37,12 +31,16 @@ class YAPForYouViewModel(application: Application) :
 
     override fun onResume() {
         super.onResume()
+        parentViewModel?.state?.toolbarVisibility?.set(true)
         parentViewModel?.state?.toolbarTitle =
             getString(Strings.screen_yap_for_you_display_text_title)
         parentViewModel?.state?.leftIcon?.set(R.drawable.ic_back_arrow_left)
         parentViewModel?.state?.rightIcon?.set(R.drawable.ic_trade)
+        state.selectedAchievementPercentage = getAchievements()[0].percentage.toString()
+        state.selectedAchievementTitle = getAchievements()[0].title
 
     }
+
 
     override fun getAchievements(): MutableList<Achievements> {
         val list = mutableListOf<Achievements>()
@@ -50,8 +48,8 @@ class YAPForYouViewModel(application: Application) :
             Achievements(
                 1,
                 "Get started",
-                "100",
-                ContextCompat.getColor(context, R.color.colorPrimaryAlt),
+                "100%",
+                ContextCompat.getColor(context, R.color.colorPrimaryAltHouseHold),
                 true,
                 arrayListOf(
                     AchievementTask("Invite a friend", true),
@@ -65,8 +63,8 @@ class YAPForYouViewModel(application: Application) :
             Achievements(
                 2,
                 "Up and running",
-                "100",
-                ContextCompat.getColor(context, R.color.colorSecondaryBlue),
+                "100%",
+                ContextCompat.getColor(context, R.color.colorBlue),
                 true,
                 BetterTogetherList
             )
@@ -75,7 +73,7 @@ class YAPForYouViewModel(application: Application) :
             Achievements(
                 3,
                 "Better together",
-                "75",
+                "75%",
                 ContextCompat.getColor(context, R.color.lightYellow),
                 false,
                 BetterTogetherList
@@ -85,7 +83,7 @@ class YAPForYouViewModel(application: Application) :
             Achievements(
                 4,
                 "Take the leap",
-                "0",
+                "0%",
                 ContextCompat.getColor(context, R.color.lightAqua),
                 false,
                 BetterTogetherList
@@ -95,7 +93,7 @@ class YAPForYouViewModel(application: Application) :
             Achievements(
                 5,
                 "YAP Store",
-                "0",
+                "0%",
                 ContextCompat.getColor(context, R.color.lightPink),
                 false,
                 BetterTogetherList

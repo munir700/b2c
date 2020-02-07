@@ -27,7 +27,7 @@ class YAPForYouFragment : YapForYouBaseFragment<IYAPForYou.ViewModel>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-         setupRecycleView()
+        setupRecycleView()
     }
 
     override fun onDestroy() {
@@ -61,6 +61,9 @@ class YAPForYouFragment : YapForYouBaseFragment<IYAPForYou.ViewModel>() {
         rvYapForYou.adapter = adapter
         adapter.allowFullItemClickListener = true
         adapter.setItemListener(listener)
+        viewModel.state.selectedAchievementPercentage =
+            viewModel.getAchievements()[0].percentage.toString()
+        viewModel.state.selectedAchievementTitle = viewModel.getAchievements().get(0).title
     }
 
     private fun setObservers() {
@@ -69,43 +72,21 @@ class YAPForYouFragment : YapForYouBaseFragment<IYAPForYou.ViewModel>() {
 
     private val listener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
-
             if (data is Achievements) {
-                data.also {
-                    it.percentage = getString(Strings.screen_yap_for_you_display_text_completed_percentage).format(
-                            "${ it.percentage.toString()}%"
-                        )
-                }
-
-                viewModel.parentViewModel?.achievement = data
-
-                when (data.id) {
-                    1 -> {
-                         showToast(data.id.toString())
-                    }
-                    2 -> {
-                        showToast(data.id.toString())
-                    }
-                    3 -> {
-                        showToast(data.id.toString())
-                    }
-                    4 -> {
-                        showToast(data.id.toString())
-
-                    }
-                    5 -> {
-                        showToast(data.id.toString())
-
-                    }
-                    6 -> {
-                        showToast(data.id.toString())
-                    }
-                }
+                setSelectedAchievement(data)
             }
         }
     }
 
-    override fun onBackPressed(): Boolean {
-        return super.onBackPressed()
+    private fun setSelectedAchievement(achievement: Achievements) {
+        achievement.also {
+            it.percentage =
+                getString(Strings.screen_yap_for_you_display_text_completed_percentage).format(
+                    "${it.percentage.toString()}%"
+                )
+        }
+        viewModel.parentViewModel?.achievement = achievement
+        viewModel.state.selectedAchievementTitle = achievement.title
+        viewModel.state.selectedAchievementPercentage = achievement.percentage.toString()
     }
 }
