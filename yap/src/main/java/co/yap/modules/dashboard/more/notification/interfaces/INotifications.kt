@@ -1,6 +1,8 @@
 package co.yap.modules.dashboard.more.notification.interfaces
 
+import android.database.Observable
 import androidx.databinding.ObservableBoolean
+import androidx.databinding.ObservableField
 import co.yap.modules.yapnotification.models.Notification
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
@@ -17,7 +19,7 @@ interface INotifications {
 
     interface State : IBase.State {
         var toolbarVisibility: ObservableBoolean
-        var rightIcon: ObservableBoolean
-        var leftIcon: ObservableBoolean
+        var rightIcon: ObservableField<Int>
+        var leftIcon: ObservableField<Int>
     }
 }

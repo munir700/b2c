@@ -7,6 +7,7 @@ class Notification(
     var action: String?,
     var imageUrl: String?,
     var sticky: String?,
-    val date: String? = "",
-    val isRead: Boolean? = false
+    var date: String? = "",
+    val isRead: Boolean? = false,
+    var id: String? = ""
 )

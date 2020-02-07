@@ -31,10 +31,10 @@
             android:focusable="true"
             android:foreground="?attr/selectableItemBackground"
             android:onClick="@{(v) -> viewModel.handlePressButton(v.id)}"
-            android:visibility="@{viewModel.state.leftIcon? View.VISIBLE:View.GONE}"
+            android:visibility="@{viewModel.state.leftIcon==-1? View.GONE:View.VISIBLE}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_back_arrow_left" />
+            app:src="@{viewModel.state.leftIcon}" />
 
         <TextView
             android:id="@+id/tvTitle"
@@ -59,10 +59,10 @@
             android:focusable="true"
             android:foreground="?attr/selectableItemBackground"
             android:onClick="@{v->viewModel.handlePressButton(v.id)}"
-            android:visibility="@{viewModel.state.rightIcon? View.VISIBLE:View.GONE}"
+            android:visibility="@{viewModel.state.rightIcon==-1? View.GONE:View.VISIBLE}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_settings" />
+            app:src="@{viewModel.state.rightIcon}" />
 
     </RelativeLayout>
 </layout>

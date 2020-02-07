@@ -1,10 +1,9 @@
 package co.yap.modules.dashboard.more.notification.viewmodels
 
 import android.app.Application
+import co.yap.R
 import co.yap.modules.dashboard.more.notification.interfaces.INotificationDetail
 import co.yap.modules.dashboard.more.notification.states.NotificationDetailState
-import co.yap.modules.yapnotification.models.Notification
-import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
 
 class NotificationDetailViewModel(application: Application) :
@@ -17,4 +16,11 @@ class NotificationDetailViewModel(application: Application) :
         clickEvent.setValue(id)
     }
 
+    override fun onCreate() {
+        super.onCreate()
+        parentViewModel?.state?.toolbarVisibility?.set(true)
+        parentViewModel?.state?.toolbarTitle = parentViewModel?.notification?.title ?: ""
+        parentViewModel?.state?.rightIcon?.set(-1)
+        parentViewModel?.state?.leftIcon?.set(R.drawable.ic_back_arrow_left)
+    }
 }
