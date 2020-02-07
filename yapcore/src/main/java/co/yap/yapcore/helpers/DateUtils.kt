@@ -128,16 +128,18 @@ object DateUtils {
         return d
     }
 
-    fun stringToDateLeanPlum(dateStr: String): String? {
+    fun stringToDateLeanPlum(dateStr: String): Date? {
+        var d: Date? = null
         val formatter = SimpleDateFormat(LEANPLUM_FORMATOR, Locale.getDefault())
         formatter.timeZone = GMT
-        return try {
+        try {
             formatter.isLenient = false
-            formatter.format(dateStr)
+            d = formatter.parse(dateStr)
         } catch (e: Exception) {
-            e.printStackTrace()
-            null
+            d = null
         }
+
+        return d
     }
 
     @SuppressLint("SimpleDateFormat")
