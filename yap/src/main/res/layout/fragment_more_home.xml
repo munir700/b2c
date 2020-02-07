@@ -24,12 +24,12 @@
             android:id="@+id/imgSettings"
             android:layout_width="@dimen/_26sdp"
             android:layout_height="@dimen/_26sdp"
+            android:layout_marginTop="@dimen/_21sdp"
             android:layout_marginEnd="@dimen/margin_normal_large"
             android:contentDescription="@string/empty_string"
             android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginTop="@dimen/_21sdp"
             app:srcCompat="@drawable/ic_settings" />
 
 
@@ -109,13 +109,61 @@
             android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
             android:paddingTop="0dp"
             android:paddingBottom="0dp"
-
             app:btn_enable="true"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvBic"
             app:text="@{Strings.screen_more_display_text_bank_details}"
             tools:text="@string/screen_more_display_text_bank_details" />
+
+        <LinearLayout
+            android:id="@+id/yapForYou"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin_medium"
+            android:layout_marginTop="@dimen/margin_large"
+            android:background="@drawable/cornor_edges_gery"
+            android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
+            android:orientation="horizontal"
+            android:paddingRight="@dimen/small"
+            android:paddingBottom="@dimen/margin_small"
+            app:layout_constraintTop_toBottomOf="@+id/btnBankDetails">
+
+            <ImageView
+                android:layout_width="@dimen/_46sdp"
+                android:layout_height="@dimen/_46sdp"
+                android:layout_marginLeft="@dimen/margin_small"
+                android:layout_marginTop="@dimen/margin_normal_large"
+                android:layout_marginRight="@dimen/margin_small"
+                android:layout_marginBottom="@dimen/small"
+                android:src="@drawable/bg_round_purple" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_medium"
+                android:orientation="vertical">
+
+
+                <TextView
+                    style="@style/Title3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/screen_yap_for_you_display_text_title"
+                    android:textSize="@dimen/_15sdp"
+                    app:text="@{Strings.screen_yap_for_you_display_text_title}" />
+
+                <TextView
+                    style="@style/MicroGrey"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_2sdp"
+                    android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
+                    android:text="@string/screen_yap_for_you_display_text_sub_title"
+                    app:text="@{Strings.screen_yap_for_you_display_text_sub_title}" />
+            </LinearLayout>
+
+        </LinearLayout>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_options"
@@ -130,7 +178,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/btnBankDetails"
+            app:layout_constraintTop_toBottomOf="@+id/yapForYou"
             app:spanCount="2"
             tools:itemCount="5"
             tools:listitem="@layout/item_yap_more" />

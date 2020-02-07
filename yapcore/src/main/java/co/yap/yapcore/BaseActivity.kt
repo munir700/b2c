@@ -220,9 +220,8 @@ abstract class BaseActivity<V : IBase.ViewModel<*>> : AppCompatActivity(), IBase
 
     override fun onResume() {
         super.onResume()
-//         if (DeviceUtils().isDeviceRooted(applicationContext)) {
          if (DeviceUtils().isDeviceRooted()) {
-            showAlertDialogAndExitApp("This device is rooted. You can't use this app.")
+//            showAlertDialogAndExitApp("This device is rooted. You can't use this app.")
         }
     }
 

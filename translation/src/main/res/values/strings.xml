@@ -912,6 +912,7 @@
 
     <!-- YAP for you -->
     <string name="screen_yap_for_you_display_text_title">YAP for you</string>
+    <string name="screen_yap_for_you_display_text_sub_title">Bank your way and become a YAP pro</string>
     <string name="screen_yap_for_you_display_text_current_chievement">Current achievement</string>
     <string name="screen_yap_for_you_display_text_completed_percentage">%1s% completed</string>
     <string name="screen_yap_for_you_display_text_view">View</string>

@@ -15,6 +15,7 @@ interface IMoreHome {
     interface ViewModel : IBase.ViewModel<State> {
         val clickEvent: SingleClickEvent
         fun handlePressOnView(id: Int)
+        fun handlePressOnYAPforYou(id: Int)
         fun getMoreOptions(): MutableList<MoreOption>
     }
 

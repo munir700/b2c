@@ -26,6 +26,7 @@ class YAPForYouFragment : MoreBaseFragment<IYAPForYou.ViewModel>() {
         if (context is YAPForYouActivity) {
 //            (context as YAPForYouActivity).visibleToolbar()
             (context as YAPForYouActivity).viewModel.preventTakeDeviceScreenShot.value = false
+
         }
     }
 
