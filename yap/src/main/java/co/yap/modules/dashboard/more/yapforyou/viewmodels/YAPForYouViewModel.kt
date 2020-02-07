@@ -3,7 +3,6 @@ package co.yap.modules.dashboard.more.yapforyou.viewmodels
 import android.app.Application
 import androidx.core.content.ContextCompat
 import co.yap.R
-import co.yap.modules.dashboard.more.home.models.Achievements
 import co.yap.modules.dashboard.more.main.viewmodels.MoreBaseViewModel
 import co.yap.modules.dashboard.more.yapforyou.Achievements
 import co.yap.modules.dashboard.more.yapforyou.interfaces.IYAPForYou
@@ -16,6 +15,8 @@ import co.yap.yapcore.SingleClickEvent
 class YAPForYouViewModel(application: Application) :
     MoreBaseViewModel<IYAPForYou.State>(application), IYAPForYou.ViewModel,
     IRepositoryHolder<CustomersRepository> {
+
+    override var selectedAchievement: Achievements= getAchievements().get(0)
 
     override val repository: CustomersRepository = CustomersRepository
 
@@ -52,7 +53,7 @@ class YAPForYouViewModel(application: Application) :
     }
 
 
-    fun getAchievements(): MutableList<Achievements> {
+    override fun getAchievements(): MutableList<Achievements> {
         val list = mutableListOf<Achievements>()
         list.add(
             Achievements(
@@ -138,4 +139,5 @@ class YAPForYouViewModel(application: Application) :
 
         return list
     }
+
 }

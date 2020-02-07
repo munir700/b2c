@@ -39,6 +39,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_medium"
+            android:text="@={viewModel.selectedAchievement.title}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/imgProfile"
@@ -49,10 +50,13 @@
             style="@style/SmallGrey"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
+             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvTitle"
+            app:text="@{Strings.screen_yap_for_you_display_text_completed_percentage}"
+
             tools:text="75% completed" />
+
         <!--screen_yap_for_you_display_text_completed_percentage-->
 
 
@@ -72,7 +76,7 @@
             tools:text="@string/screen_yap_for_you_display_text_view" />
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycler_options"
+            android:id="@+id/rvYapForYou"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_marginStart="@dimen/margin_small"
