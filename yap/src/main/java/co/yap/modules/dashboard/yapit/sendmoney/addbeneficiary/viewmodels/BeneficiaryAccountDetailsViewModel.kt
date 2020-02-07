@@ -2,7 +2,6 @@ package co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.viewmodels
 
 import android.app.Application
 import androidx.lifecycle.MutableLiveData
-import co.yap.R
 import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.interfaces.IBeneficiaryAccountDetails
 import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.states.BeneficiaryAccountDetailsState
 import co.yap.modules.dashboard.yapit.sendmoney.viewmodels.SendMoneyBaseViewModel
@@ -65,31 +64,38 @@ class BeneficiaryAccountDetailsViewModel(application: Application) :
         }
     }
 
-    override fun handlePressOnAddBank(id: Int) {
-        if (id == R.id.confirmButton) {
-            parentViewModel?.beneficiary?.value?.beneficiaryType?.let { it ->
-                if (it.isNotEmpty())
-                    when (SendMoneyBeneficiaryType.valueOf(it)) {
-
-                        SendMoneyBeneficiaryType.SWIFT, SendMoneyBeneficiaryType.RMT -> {
-                            validateBeneficiaryDetails()
-                            //createOtp(Constants.SWIFT_BENEFICIARY)
-//                            parentViewModel?.beneficiary?.value?.accountNo = state.accountIban
-//                            createBeneficiaryRequest()
-                        }
-//                        SendMoneyBeneficiaryType.RMT -> {
+//    override fun handlePressOnAddBank(id: Int) {
+//        if (id == R.id.confirmButton) {
+//            parentViewModel?.beneficiary?.value?.beneficiaryType?.let { it ->
+//                if (it.isNotEmpty())
+//                    when (SendMoneyBeneficiaryType.valueOf(it)) {
+//
+//                        SendMoneyBeneficiaryType.SWIFT, SendMoneyBeneficiaryType.RMT -> {
 //                            validateBeneficiaryDetails()
-//                            //createOtp(Constants.RMT_BENEFICIARY)
+//                            //createOtp(Constants.SWIFT_BENEFICIARY)
 ////                            parentViewModel?.beneficiary?.value?.accountNo = state.accountIban
 ////                            createBeneficiaryRequest()
 //                        }
-                        else -> {
-                            clickEvent.setValue(id)
-                        }
-                    }
-            }
-        } else
-            clickEvent.setValue(id)
+////                        SendMoneyBeneficiaryType.RMT -> {
+////                            validateBeneficiaryDetails()
+////                            //createOtp(Constants.RMT_BENEFICIARY)
+//////                            parentViewModel?.beneficiary?.value?.accountNo = state.accountIban
+//////                            createBeneficiaryRequest()
+////                        }
+//                        else -> {
+//                            clickEvent.setValue(id)
+//                        }
+//                    }
+//            }
+//        } else
+//            clickEvent.setValue(id)
+//    }
+
+    override fun handlePressOnAddBank(id: Int) {
+        parentViewModel?.beneficiary?.value?.let {
+            it.accountNo = state.accountIban.replace(" ", "")
+        }
+        clickEvent.setValue(id)
     }
 
     override fun onResume() {

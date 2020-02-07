@@ -2,12 +2,11 @@ package co.yap.modules.dashboard.yapit.sendmoney.editbeneficiary.states
 
 import android.app.Application
 import androidx.databinding.Bindable
-import androidx.databinding.library.baseAdapters.BR
+import co.yap.BR
 import co.yap.modules.dashboard.yapit.sendmoney.editbeneficiary.interfaces.IEditBeneficiary
 import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.yapcore.BaseState
 import co.yap.yapcore.helpers.Utils
-import java.lang.StringBuilder
 
 class EditBeneficiaryStates(val application: Application) : BaseState(), IEditBeneficiary.State {
     @get:Bindable
@@ -87,6 +86,13 @@ class EditBeneficiaryStates(val application: Application) : BaseState(), IEditBe
             field = value
             notifyPropertyChanged(BR.needOverView)
         }
+    @get:Bindable
+    override var needIban: Boolean? = false
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.needIban)
+        }
+
     @get:Bindable
     override var beneficiary: Beneficiary? = Beneficiary()
         set(value) {

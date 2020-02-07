@@ -29,6 +29,7 @@ interface IEditBeneficiary {
         var countryBankRequirementFieldCode: String?
         var beneficiary: Beneficiary?
         var needOverView:Boolean?
+        var needIban:Boolean?
         var valid: Boolean?
     }
 }
