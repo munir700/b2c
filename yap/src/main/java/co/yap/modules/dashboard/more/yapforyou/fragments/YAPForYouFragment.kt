@@ -7,10 +7,8 @@ import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
 import co.yap.R
 import co.yap.modules.dashboard.more.main.fragments.MoreBaseFragment
-import co.yap.modules.dashboard.more.yapforyou.activities.YAPForYouActivity
 import co.yap.modules.dashboard.more.yapforyou.interfaces.IYAPForYou
 import co.yap.modules.dashboard.more.yapforyou.viewmodels.YAPForYouViewModel
-import co.yap.yapcore.helpers.Utils
 
 class YAPForYouFragment : MoreBaseFragment<IYAPForYou.ViewModel>() {
 
@@ -23,11 +21,7 @@ class YAPForYouFragment : MoreBaseFragment<IYAPForYou.ViewModel>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        if (context is YAPForYouActivity) {
-//            (context as YAPForYouActivity).visibleToolbar()
-            (context as YAPForYouActivity).viewModel.preventTakeDeviceScreenShot.value = false
 
-        }
     }
 
     override fun onDestroy() {
@@ -47,9 +41,9 @@ class YAPForYouFragment : MoreBaseFragment<IYAPForYou.ViewModel>() {
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
 
-                R.id.tvFollowOnInstagram -> {
-                    Utils.openInstagram(requireContext())
-                }
+//                R.id.tvFollowOnInstagram -> {
+//                    Utils.openInstagram(requireContext())
+//                }
             }
         })
     }
