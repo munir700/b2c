@@ -23,8 +23,9 @@
             android:layout_gravity="center_horizontal"
             android:contentDescription="@string/empty_string"
             android:src="@drawable/ic_store_b2b"
+            app:colorType="@{`Beneficiary`}"
             app:fullName="@{recentTransferItemVM.item.title}"
-            app:imageUrl="@{recentTransferItemVM.item.beneficiaryPictureUrl}"
+            app:imageUrl="@{recentTransferItemVM.item.beneficiaryPictureUrl!=null?recentTransferItemVM.item.beneficiaryPictureUrl:``}"
             app:position="@{recentTransferItemVM.position}" />
 
         <androidx.appcompat.widget.AppCompatTextView

@@ -93,6 +93,24 @@ class ReportLostOrStolenCardViewModels(application: Application) :
                 is RetroApiResponse.Error -> {
                     state.toast = response.error.message
 
+                    //
+//                    if (state.cardType == Translator.getString(
+//                            context,
+//                            Strings.screen_spare_card_landing_display_text_virtual_card
+//                        )
+//                    ) {
+//                        state.loading = false
+//                        toggleToolBarVisibility(false)
+//                        clickEvent.setValue(CARD_REORDER_SUCCESS)
+//                    } else {
+//                        if (state.cardType == CardType.DEBIT.type)
+//                            getDebitCardFee()
+//                        else
+//                            getPhysicalCardFee()
+//                    }
+
+                    //
+
 /*                  //remove
                     state.loading = false
                     toggleToolBarVisibility(false)

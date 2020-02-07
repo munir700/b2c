@@ -35,7 +35,7 @@ class BlockCardSuccessFragment : BaseBindingFragment<IDefault.ViewModel>() {
 
         tvFeeCaption.text = "$reOrderFeeValue " +
                 Translator.getString(
-                    context!!,
+                    requireContext(),
                     Strings.screen_card_blocked_display_text_note_android
                 )
 

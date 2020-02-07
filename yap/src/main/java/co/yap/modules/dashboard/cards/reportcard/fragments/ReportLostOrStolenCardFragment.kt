@@ -42,6 +42,7 @@ class ReportLostOrStolenCardFragment :
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -55,20 +56,20 @@ class ReportLostOrStolenCardFragment :
         } else {
             if (card.physical) {
                 viewModel.state.cardType = Translator.getString(
-                    context!!,
+                    requireContext(),
                     screen_spare_card_landing_display_text_physical_card
                 )
 
             } else {
                 viewModel.state.cardType = Translator.getString(
-                    context!!,
+                    requireContext(),
                     screen_spare_card_landing_display_text_virtual_card
                 )
             }
         }
         llDamagedCard.setOnClickListener {
             viewModel.state.valid = true
-            viewModel.HOT_LIST_REASON =REASON_DAMAGE
+            viewModel.HOT_LIST_REASON = REASON_DAMAGE
 
             llDamagedCard.isActivated = true
             llStolenCard.isActivated = false
@@ -106,13 +107,13 @@ class ReportLostOrStolenCardFragment :
                     llStolenCard.isActivated = false
 
                     if (viewModel.state.cardType == Translator.getString(
-                            context!!,
+                            requireContext(),
                             screen_spare_card_landing_display_text_virtual_card
                         )
                     ) {
                         reportCardSuccess = true
                         setupActionsIntent()
-                        activity!!.finish()
+                        activity?.finish()
                     } else {
 
                         val action =
@@ -131,17 +132,17 @@ class ReportLostOrStolenCardFragment :
         val builder = AlertDialog.Builder(this.requireActivity())
         builder.setTitle(
             Translator.getString(
-                context!!, screen_report_card_display_text_block_alert_title
+                requireContext(), screen_report_card_display_text_block_alert_title
             )
         )
         builder.setMessage(
             Translator.getString(
-                context!!, screen_report_card_display_text_block_alert_message
+                requireContext(), screen_report_card_display_text_block_alert_message
             )
         )
         builder.setPositiveButton(
             Translator.getString(
-                context!!, screen_report_card_display_button_block_alert_confirm
+                requireContext(), screen_report_card_display_button_block_alert_confirm
             )
         ) { dialog, which ->
 

@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import co.yap.BR
 import co.yap.app.R
+import co.yap.app.constants.Constants
 import co.yap.app.modules.login.interfaces.IPhoneVerificationSignIn
 import co.yap.app.modules.login.viewmodels.PhoneVerificationSignInViewModel
 import co.yap.household.onboard.onboarding.main.OnBoardingHouseHoldActivity
@@ -14,6 +15,7 @@ import co.yap.modules.onboarding.enums.AccountType
 import co.yap.networking.customers.responsedtos.AccountInfo
 import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.helpers.SharedPreferenceManager
+import co.yap.yapcore.helpers.biometric.BiometricUtil
 
 class PhoneVerificationSignInFragment : BaseBindingFragment<IPhoneVerificationSignIn.ViewModel>() {
 
@@ -64,8 +66,20 @@ class PhoneVerificationSignInFragment : BaseBindingFragment<IPhoneVerificationSi
                 startActivity(OnBoardingHouseHoldActivity.getIntent(requireContext(), bundle))
                 activity?.finish()
             } else {
-                findNavController().navigate(R.id.action_goto_yapDashboardActivity)
-                activity?.finish()
+                if (BiometricUtil.isFingerprintSupported
+                    && BiometricUtil.isHardwareSupported(requireActivity())
+                    && BiometricUtil.isPermissionGranted(requireActivity())
+                    && BiometricUtil.isFingerprintAvailable(requireActivity())
+                ) {
+                    val action =
+                        PhoneVerificationSignInFragmentDirections.actionPhoneVerificationSignInFragmentToSystemPermissionFragment(
+                            Constants.TOUCH_ID_SCREEN_TYPE
+                        )
+                    findNavController().navigate(action)
+                } else {
+                    findNavController().navigate(R.id.action_goto_yapDashboardActivity)
+                    activity?.finish()
+                }
             }
         }
     }

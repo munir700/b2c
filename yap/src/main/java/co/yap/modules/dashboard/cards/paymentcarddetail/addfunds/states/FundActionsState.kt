@@ -193,6 +193,19 @@ class FundActionsState(application: Application) : BaseState(), IFundActions.Sta
             notifyPropertyChanged(BR.transactionFeeSpannableString)
         }
 
+    @get:Bindable
+    override var transferFee: CharSequence? = ""
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.transferFee)
+        }
+    @get:Bindable
+    override var fee: String? = "50"
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.fee)
+        }
+
     fun checkValidity(type: String): String {
         try {
             if (amount != "") {
