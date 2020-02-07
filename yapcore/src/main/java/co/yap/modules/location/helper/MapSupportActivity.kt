@@ -15,7 +15,7 @@ import co.yap.modules.location.viewmodels.LocationSelectionViewModel
 import co.yap.yapcore.BR
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.R
-import co.yap.yapcore.helpers.PermissionHelper
+import co.yap.yapcore.helpers.permissions.PermissionHelper
 import com.google.android.gms.location.*
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
