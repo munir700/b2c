@@ -15,11 +15,15 @@
             app:destination="@id/notificationDetailFragment"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_out_left"
+            app:popExitAnim="@anim/slide_down"
             app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_notificationHomeFragment_to_notificationSettingsFragment"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_out_left"
+            app:popExitAnim="@anim/slide_down"
             app:destination="@id/notificationSettingsFragment" />
     </fragment>
     <fragment

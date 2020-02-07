@@ -29,7 +29,7 @@
             android:layout_marginStart="@dimen/_5sdp"
             android:clickable="true"
             android:focusable="true"
-            android:foreground="?attr/selectableItemBackground"
+            android:background="@color/transparent"
             android:onClick="@{(v) -> viewModel.handlePressButton(v.id)}"
             android:visibility="@{viewModel.state.leftIcon==-1? View.GONE:View.VISIBLE}"
             app:layout_constraintStart_toStartOf="parent"
