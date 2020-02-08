@@ -14,12 +14,14 @@ object HouseholdUIBinder {
         recyclerView: TransactionRecyclerView,
         list: ObservableField<MutableList<HomeTransactionListData>>
     ) {
-        if (true == getRecycleViewAdaptor(recyclerView.rvTransaction)?.isLoaderMore?.value && !list.get().isNullOrEmpty()) {
+        if (true == getRecycleViewAdaptor(recyclerView.rvTransaction)?.isLoaderMore?.value && null != list.get()) {
+            getRecycleViewAdaptor(recyclerView.rvTransaction)?.isLoaderMore?.value = false
+            getRecycleViewAdaptor(recyclerView.rvTransaction)?.itemCount?.let {
+                getRecycleViewAdaptor(recyclerView.rvTransaction)?.notifyItemRemoved(it)
+            }
             getRecycleViewAdaptor(recyclerView.rvTransaction)?.addList(
                 list.get() ?: mutableListOf()
             )
-            getRecycleViewAdaptor(recyclerView.rvTransaction)?.isLoaderMore?.value = false
-
         } else {
             if (!list.get().isNullOrEmpty()) {
                 getRecycleViewAdaptor(recyclerView.rvTransaction)?.setList(

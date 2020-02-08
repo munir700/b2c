@@ -36,9 +36,10 @@ class HouseholdHomeViewModel(application: Application) :
     override val isLoadMore: MutableLiveData<Boolean> = MutableLiveData(false)
     override val isLast: MutableLiveData<Boolean> = MutableLiveData(false)
     override var homeTransactionRequest: HomeTransactionsRequest =
-        HomeTransactionsRequest(0, 100, null, null, null)
+        HomeTransactionsRequest(0, 30, null, null, null)
     override var MAX_CLOSING_BALANCE: Double = 0.0
     var closingBalanceArray: ArrayList<Double> = arrayListOf()
+
 
     override fun onCreate() {
         super.onCreate()
@@ -104,11 +105,14 @@ class HouseholdHomeViewModel(application: Application) :
 
     override fun requestTransactions(isLoadMore: Boolean) {
 
-        var sortedCombinedTransactionList =
-            transactionsLiveData.value as? ArrayList<HomeTransactionListData>
+        val sortedCombinedTransactionList: ArrayList<HomeTransactionListData> = arrayListOf()
+        val oldTransactionList: ArrayList<HomeTransactionListData> = arrayListOf()
 
-        val oldTransactionList =
-            transactionsLiveData.value as? ArrayList<HomeTransactionListData>
+        transactionsLiveData.value?.let {
+            sortedCombinedTransactionList.addAll(it)
+            oldTransactionList.addAll(it)
+        }
+
         launch {
             when (val response =
                 repository.getAccountTransactions(homeTransactionRequest)) {
@@ -123,11 +127,11 @@ class HouseholdHomeViewModel(application: Application) :
                     /*isRefreshing.value!! -->  isRefreshing.value = false*/
 
                     if (sortedCombinedTransactionList?.equals(transactionModelData) == false) {
-                        sortedCombinedTransactionList?.addAll(transactionModelData)
+                        sortedCombinedTransactionList.addAll(transactionModelData)
                     }
 
                     val unionList =
-                        (sortedCombinedTransactionList?.asSequence()?.plus(transactionModelData.asSequence()))
+                        (sortedCombinedTransactionList.asSequence().plus(transactionModelData.asSequence()))
                             .distinct()
                             .groupBy { it.date }
 
@@ -195,12 +199,11 @@ class HouseholdHomeViewModel(application: Application) :
                     //
                     if (isLoadMore) {
                         val listToAppend: MutableList<HomeTransactionListData> = mutableListOf()
-                        val oldData: ArrayList<HomeTransactionListData>? = oldTransactionList
                         for (parentItem in sortedCombinedTransactionList) {
                             var shouldAppend = false
-                            for (i in 0 until oldData?.size!!) {
-                                if (parentItem.date == oldData[i].date) {
-                                    if (parentItem.content.size != oldData[i].content.size) {
+                            for (i in 0 until oldTransactionList.size) {
+                                if (parentItem.date == oldTransactionList[i].date) {
+                                    if (parentItem.content.size != oldTransactionList[i].content.size) {
                                         shouldAppend = true
                                         break
                                     }
@@ -279,7 +282,7 @@ class HouseholdHomeViewModel(application: Application) :
     }
 
     override fun loadMore() {
-        requestTransactions()
+        requestTransactions(true)
     }
 
     private fun convertDate(creationDate: String): String? {

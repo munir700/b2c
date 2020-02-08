@@ -36,13 +36,23 @@ class TransactionRecyclerView @JvmOverloads constructor(
                 RecyclerView.OnScrollListener() {
                 override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                     super.onScrolled(recyclerView, dx, dy)
+
                     val layoutManager =
                         rvTransaction?.layoutManager as LinearLayoutManager
                     val lastVisiblePosition = layoutManager.findLastVisibleItemPosition()
-                    if (lastVisiblePosition == layoutManager.itemCount - 1) {
-                        (rvTransaction?.adapter as? TransactionsAdapter)?.isLoaderMore?.value = true
+                    if (lastVisiblePosition == layoutManager.itemCount - 1 &&
+                        false == (rvTransaction?.adapter as? TransactionsAdapter)?.isLoaderMore?.value
+                    ) {
+                        (rvTransaction?.adapter as? TransactionsAdapter)?.isLoaderMore?.value =
+                            true
                         onLoadMoreListener?.onLoadMore()
+                        (rvTransaction?.adapter as? TransactionsAdapter)?.itemCount?.let {
+                            (rvTransaction?.adapter as? TransactionsAdapter)?.notifyItemInserted(
+                                it
+                            )
+                        }
                     }
+
                 }
             })
     }

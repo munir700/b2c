@@ -17,6 +17,7 @@ import co.yap.widgets.MultiStateView
 import co.yap.yapcore.BR
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.interfaces.OnItemClickListener
+import co.yap.yapcore.transactions.TransactionsAdapter
 import co.yap.yapcore.transactions.interfaces.LoadMoreListener
 
 class HouseholdHomeFragment : HouseholdDashboardBaseFragment<IHouseholdHome.ViewModel>(),
@@ -83,7 +84,14 @@ class HouseholdHomeFragment : HouseholdDashboardBaseFragment<IHouseholdHome.View
                 viewModel.homeTransactionRequest.number =
                     viewModel.homeTransactionRequest.number.inc()
                 viewModel.loadMore()
-            } //in else case remove observer from recycleview
+            } else {
+                (getViewBinding().transactionRecyclerView.rvTransaction?.adapter as? TransactionsAdapter)?.itemCount?.let {
+                    (getViewBinding().transactionRecyclerView.rvTransaction?.adapter as? TransactionsAdapter)?.notifyItemRemoved(
+                        it
+                    )
+                }
+
+            }
         }
     }
 

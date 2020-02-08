@@ -20,6 +20,10 @@ class TransactionsAdapter(
     private val empty = 1
     private val actual = 2
 
+    init {
+        isLoaderMore.value = false
+    }
+
     override fun getLayoutIdForViewType(viewType: Int): Int =
         if (viewType == actual) R.layout.item_transaction_header else R.layout.item_empty
 
