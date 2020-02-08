@@ -35,8 +35,12 @@ class InternationalTransactionConfirmationFragment :
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-    }
+        if (context is BeneficiaryCashTransferActivity) {
+            viewModel.beneficiary =
+                (context as BeneficiaryCashTransferActivity).viewModel.state.beneficiary
+        }
 
+    }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setUpViews()
@@ -115,23 +119,7 @@ class InternationalTransactionConfirmationFragment :
     val clickEvent = Observer<Int> {
         when (it) {
             R.id.confirmButton -> {
-                viewModel.createOtp()
-//                do this after otp success
-                /*  viewModel.state.referenceNumber?.let { referenceNumber ->
-                      viewModel.state.position?.let { position ->
-                          viewModel.state.beneficiaryCountry?.let { beneficiaryCountry ->
-                              val action =
-                                  InternationalTransactionConfirmationFragmentDirections.actionInternationalTransactionConfirmationFragmentToTransferSuccessFragment2(
-                                      "",
-                                      args.senderCurrency,
-                                      Utils.getFormattedCurrency(args.fxRateAmount),
-                                      referenceNumber, position, beneficiaryCountry
-                                  )
-                              findNavController().navigate(action)
-                          }
-                      }
-                  }*/
-
+                viewModel.requestForTransfer()
             }
             viewModel.CREATE_OTP_SUCCESS_EVENT -> {
                 viewModel.state.position?.let { position ->
@@ -167,14 +155,6 @@ class InternationalTransactionConfirmationFragment :
                         }
                     }
                 }
-                /*   viewModel.state.position?.let { position ->
-                       viewModel.state.beneficiaryCountry?.let { beneficiaryCountry ->
-                           val action=
-                           findNavController().navigate(action)
-                       }
-
-                   }*/
-
             }
         }
     }
@@ -197,34 +177,11 @@ class InternationalTransactionConfirmationFragment :
         if (context is BeneficiaryCashTransferActivity) {
             (context as BeneficiaryCashTransferActivity).viewModel.state.otpSuccess?.let { success ->
                 if (success) {
-                    callTransactionApi()
+                    viewModel.proceedToTransferAmount()
                 }
                 (context as BeneficiaryCashTransferActivity).viewModel.state.otpSuccess = false
             }
         }
     }
 
-    private fun callTransactionApi() {
-        (context as BeneficiaryCashTransferActivity).viewModel.state.beneficiary?.let { beneficiary ->
-            beneficiary.beneficiaryType?.let { beneficiaryType ->
-                if (beneficiaryType.isNotEmpty())
-                    when (SendMoneyBeneficiaryType.valueOf(beneficiaryType)) {
-                        SendMoneyBeneficiaryType.RMT -> {
-                            beneficiary.id?.let { beneficiaryId ->
-                                viewModel.rmtTransferRequest(beneficiaryId.toString())
-                            }
-                        }
-                        SendMoneyBeneficiaryType.SWIFT -> {
-                            beneficiary.id?.let { beneficiaryId ->
-                                viewModel.swiftTransferRequest(beneficiaryId.toString())
-                            }
-                        }
-                        else -> {
-
-                        }
-                    }
-            }
-        }
-
-    }
 }

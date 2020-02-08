@@ -5,6 +5,7 @@ import android.text.SpannableStringBuilder
 import androidx.lifecycle.MutableLiveData
 import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.networking.transactions.responsedtos.InternationalFundsTransferReasonList
+import co.yap.networking.transactions.responsedtos.TransactionThresholdModel
 import co.yap.networking.transactions.responsedtos.transaction.RemittanceFeeResponse
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
@@ -22,15 +23,16 @@ interface ICashTransfer {
         var transactionData: ArrayList<InternationalFundsTransferReasonList.ReasonList>
         val populateSpinnerData: MutableLiveData<ArrayList<InternationalFundsTransferReasonList.ReasonList>>
         var receiverUUID: String
+        var transactionThreshold: MutableLiveData<TransactionThresholdModel>
         fun getTransactionFeeForCashPayout(productCode: String?)
         fun cashPayoutTransferRequest(beneficiaryId: Int?)
-        fun getTransactionInternationalReasonList()
         fun domesticTransferRequest(beneficiaryId: String?)
         fun uaeftsTransferRequest(beneficiaryId: String?)
-        fun getTransactionFeeInternational()
         fun getMoneyTransferLimits(productCode: String?)
-        fun getMoneyTransferDailyLimits()
-        fun getCountryLimits()
+        fun getCountryLimit()
+        fun getTransactionThresholds()
+        fun proceedToTransferAmount()
+        fun getCashTransferReasonList()
 
     }
 

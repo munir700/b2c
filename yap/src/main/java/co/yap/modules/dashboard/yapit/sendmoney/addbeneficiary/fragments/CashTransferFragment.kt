@@ -19,9 +19,7 @@ import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import co.yap.R
-import co.yap.databinding.FragmentCashTransferBinding
 import co.yap.modules.dashboard.yapit.sendmoney.activities.BeneficiaryCashTransferActivity
-import co.yap.modules.dashboard.yapit.sendmoney.adapters.ReasonListAdapter
 import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.interfaces.ICashTransfer
 import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.viewmodels.CashTransferViewModel
 import co.yap.modules.dashboard.yapit.sendmoney.fragments.SendMoneyBaseFragment
@@ -42,9 +40,6 @@ import kotlinx.android.synthetic.main.fragment_y2y_funds_transfer.etAmount
 
 class CashTransferFragment : SendMoneyBaseFragment<ICashTransfer.ViewModel>(), ICashTransfer.View {
 
-//    val args: Y2YTransferFragmentArgs by navArgs()
-
-    private var mReasonListAdapter: ReasonListAdapter? = null
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.fragment_cash_transfer
 
@@ -53,10 +48,12 @@ class CashTransferFragment : SendMoneyBaseFragment<ICashTransfer.ViewModel>(), I
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        if (context is BeneficiaryCashTransferActivity) {
+            viewModel.state.beneficiary =
+                (context as BeneficiaryCashTransferActivity).viewModel.state.beneficiary
+        }
+        viewModel.state.produceCode = getProductCode()
         startFlows()
-        viewModel.getTransactionFeeInternational()
-        viewModel.getMoneyTransferLimits(viewModel.state.produceCode)
-
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -76,41 +73,7 @@ class CashTransferFragment : SendMoneyBaseFragment<ICashTransfer.ViewModel>(), I
         viewModel.populateSpinnerData.observe(this, Observer {
             if (it == null) return@Observer
             setSpinnerAdapter(it)
-//            it.add(
-//                0,
-//                InternationalFundsTransferReasonList.ReasonList("Select a Reason", "0")
-//            )
-
-//            reasonsSpinnerCashTransfer.adapter = getReasonListAdapter(it)
-
-//            reasonsSpinnerCashTransfer.adapter =
-//                ViewHolderArrayAdapter(requireContext(), it, { parent ->
-//                    ReasonDropDownViewHolder.inflate(parent)
-//                }, { parent ->
-//                    ReasonDropDownViewHolder.inflate(parent)
-//                }, { viewHolder, position, item ->
-//                    viewHolder.bind(item)
-//                }, { viewHolder, position, item ->
-//                    viewHolder.bind(item)
-//                })
-//            reasonsSpinnerCashTransfer.onItemSelectedListener =
-//                object : AdapterView.OnItemSelectedListener {
-//                    override fun onNothingSelected(parent: AdapterView<*>?) {
-//                    }
-//
-//                    override fun onItemSelected(
-//                        parent: AdapterView<*>?,
-//                        view: View?,
-//                        position: Int,
-//                        id: Long
-//                    ) {
-//                        viewModel.reasonPosition = position
-//                        viewModel.state.reasonTransferValue = it[position].reason
-//                        viewModel.state.reasonTransferCode = it[position].code
-//                    }
-//                }
         })
-        //reasonsSpinnerCashTransfer.setSelection(viewModel.reasonPosition)
     }
 
     private fun setSpinnerAdapter(list: ArrayList<InternationalFundsTransferReasonList.ReasonList>) {
@@ -190,7 +153,7 @@ class CashTransferFragment : SendMoneyBaseFragment<ICashTransfer.ViewModel>(), I
         if (context is BeneficiaryCashTransferActivity) {
             (context as BeneficiaryCashTransferActivity).viewModel.state.otpSuccess?.let {
                 if (it) {
-                    callTransactionApi()
+                    viewModel.proceedToTransferAmount()
                 }
                 (context as BeneficiaryCashTransferActivity).viewModel.state.otpSuccess = false
             }
@@ -241,38 +204,6 @@ class CashTransferFragment : SendMoneyBaseFragment<ICashTransfer.ViewModel>(), I
         })
     }
 
-    private fun callTransactionApi() {
-        (context as BeneficiaryCashTransferActivity).viewModel.state.beneficiary?.let { beneficiary ->
-            beneficiary.beneficiaryType?.let { beneficiaryType ->
-                if (beneficiaryType.isNotEmpty())
-                    when (SendMoneyBeneficiaryType.valueOf(beneficiaryType)) {
-                        SendMoneyBeneficiaryType.CASHPAYOUT -> {
-                            beneficiary.id?.let { beneficiaryId ->
-                                viewModel.cashPayoutTransferRequest(beneficiaryId)
-                            }
-                        }
-                        //Rak to Rak(yap to rak(Internal transfer))
-                        SendMoneyBeneficiaryType.DOMESTIC -> {
-                            beneficiary.id?.let { beneficiaryId ->
-                                viewModel.domesticTransferRequest(beneficiaryId.toString())
-                            }
-                        }
-                        //UAE non RAK(within UAE(External transfer))
-                        SendMoneyBeneficiaryType.UAEFTS -> {
-                            beneficiary.id?.let { beneficiaryId ->
-                                viewModel.uaeftsTransferRequest(beneficiaryId.toString())
-                            }
-
-                        }
-                        else -> {
-
-                        }
-                    }
-            }
-        }
-
-    }
-
     private fun showErrorSnackBar() {
         CustomSnackbar.showErrorCustomSnackbar(
             context = requireContext(),
@@ -281,18 +212,28 @@ class CashTransferFragment : SendMoneyBaseFragment<ICashTransfer.ViewModel>(), I
         )
     }
 
-    override fun onDestroy() {
-        viewModel.clickEvent.removeObservers(this)
-        super.onDestroy()
-    }
-
-
-    override fun onBackPressed(): Boolean {
-        return super.onBackPressed()
-    }
-
-    private fun getBindings(): FragmentCashTransferBinding {
-        return viewDataBinding as FragmentCashTransferBinding
+    private fun startFlows() {
+        viewModel.state.beneficiary?.beneficiaryType?.let { beneficiaryType ->
+            if (beneficiaryType.isNotEmpty())
+                when (SendMoneyBeneficiaryType.valueOf(beneficiaryType)) {
+                    //RMT is for international( RMT(linked with Rak))
+                    SendMoneyBeneficiaryType.RMT -> {
+                        skipCashTransferFragment()
+                    }
+                    //Swift is for international(non RMT(Not linked with Rak))
+                    SendMoneyBeneficiaryType.SWIFT -> {
+                        skipCashTransferFragment()
+                    }
+                    else -> {
+                        viewModel.state.availableBalance =
+                            MyUserManager.cardBalance.value?.availableBalance
+                        viewModel.getMoneyTransferLimits(viewModel.state.produceCode)
+                        viewModel.getTransactionFeeForCashPayout(viewModel.state.produceCode)
+                        viewModel.getCashTransferReasonList()
+                        setObservers()
+                    }
+                }
+        }
     }
 
     private fun getProductCode(): String {
@@ -354,29 +295,9 @@ class CashTransferFragment : SendMoneyBaseFragment<ICashTransfer.ViewModel>(), I
         return ""
     }
 
-    private fun startFlows() {
-        (context as BeneficiaryCashTransferActivity).viewModel.state.beneficiary?.let { beneficiary ->
-            viewModel.state.beneficiary = beneficiary
-            beneficiary.beneficiaryType?.let { beneficiaryType ->
-                if (beneficiaryType.isNotEmpty())
-                    when (SendMoneyBeneficiaryType.valueOf(beneficiaryType)) {
-                        //RMT is for international( RMT(linked with Rak))
-                        SendMoneyBeneficiaryType.RMT -> {
-                            skipCashTransferFragment()
-                        }
-                        //Swift is for international(non RMT(Not linked with Rak))
-                        SendMoneyBeneficiaryType.SWIFT -> {
-                            skipCashTransferFragment()
-                        }
-                        else -> {
-                            viewModel.state.availableBalance =
-                                MyUserManager.cardBalance.value?.availableBalance
-                            viewModel.getTransactionFeeForCashPayout(getProductCode())
-                            setObservers()
-                        }
-                    }
-            }
-        }
+    override fun onDestroy() {
+        viewModel.clickEvent.removeObservers(this)
+        super.onDestroy()
     }
 
     private fun skipCashTransferFragment() {
