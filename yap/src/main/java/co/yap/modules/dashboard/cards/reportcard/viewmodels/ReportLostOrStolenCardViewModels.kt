@@ -1,9 +1,9 @@
 package co.yap.modules.dashboard.cards.reportcard.viewmodels
 
 import android.app.Application
-import co.yap.modules.dashboard.cards.addpaymentcard.viewmodels.AddPaymentChildViewModel
 import co.yap.modules.dashboard.cards.reportcard.interfaces.IRepostOrStolenCard
 import co.yap.modules.dashboard.cards.reportcard.states.ReportOrStolenCardState
+import co.yap.modules.others.helper.Constants
 import co.yap.networking.cards.CardsRepository
 import co.yap.networking.cards.requestdtos.CardsHotlistRequest
 import co.yap.networking.cards.responsedtos.Card
@@ -14,10 +14,9 @@ import co.yap.translation.Strings
 import co.yap.translation.Translator
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.SingleLiveEvent
-import co.yap.yapcore.enums.CardType
 
 class ReportLostOrStolenCardViewModels(application: Application) :
-    AddPaymentChildViewModel<IRepostOrStolenCard.State>(application),
+    ReportLostOrStolenCardChildViewModels<IRepostOrStolenCard.State>(application),
     IRepostOrStolenCard.ViewModel,
     IRepositoryHolder<CardsRepository> {
 
@@ -37,7 +36,7 @@ class ReportLostOrStolenCardViewModels(application: Application) :
 
     override fun onResume() {
         super.onResume()
-        toggleToolBarVisibility(true)
+        toggleReportCardToolBarVisibility(true)
         setToolBarTitle(getString(Strings.screen_report_card_display_text_title))
 
     }
@@ -67,7 +66,7 @@ class ReportLostOrStolenCardViewModels(application: Application) :
 
     override fun requestConfirmBlockCard(card: Card) {
 
-        val cardsHotlistReequest: CardsHotlistRequest =
+        val cardsHotlistReequest =
             CardsHotlistRequest(card.cardSerialNumber, HOT_LIST_REASON.toString())
 
         launch {
@@ -81,10 +80,10 @@ class ReportLostOrStolenCardViewModels(application: Application) :
                         )
                     ) {
                         state.loading = false
-                        toggleToolBarVisibility(false)
+                        toggleReportCardToolBarVisibility(false)
                         clickEvent.setValue(CARD_REORDER_SUCCESS)
                     } else {
-                        if (state.cardType == CardType.DEBIT.type)
+                        if (parentViewModel?.card?.cardType == Constants.CARD_TYPE_DEBIT)
                             getDebitCardFee()
                         else
                             getPhysicalCardFee()
@@ -92,7 +91,6 @@ class ReportLostOrStolenCardViewModels(application: Application) :
                 }
                 is RetroApiResponse.Error -> {
                     state.toast = response.error.message
-
                     //
 //                    if (state.cardType == Translator.getString(
 //                            context,
@@ -100,10 +98,10 @@ class ReportLostOrStolenCardViewModels(application: Application) :
 //                        )
 //                    ) {
 //                        state.loading = false
-//                        toggleToolBarVisibility(false)
+//                        toggleReportCardToolBarVisibility(false)
 //                        clickEvent.setValue(CARD_REORDER_SUCCESS)
 //                    } else {
-//                        if (state.cardType == CardType.DEBIT.type)
+//                        if (parentViewModel?.card?.cardType == Constants.CARD_TYPE_DEBIT)
 //                            getDebitCardFee()
 //                        else
 //                            getPhysicalCardFee()
@@ -126,7 +124,7 @@ class ReportLostOrStolenCardViewModels(application: Application) :
             when (val response = transactionRepository.getCardFee("physical")) {
                 is RetroApiResponse.Success -> {
                     cardFee = response.data.data?.currency + " " + response.data.data?.amount
-                    toggleToolBarVisibility(false)
+                    toggleReportCardToolBarVisibility(false)
                     clickEvent.setValue(CARD_REORDER_SUCCESS)
 
                 }
@@ -141,8 +139,8 @@ class ReportLostOrStolenCardViewModels(application: Application) :
         launch {
             when (val response = transactionRepository.getDebitCardFee()) {
                 is RetroApiResponse.Success -> {
-                    cardFee = response.data.data?.amount ?: "0.0"
-                    toggleToolBarVisibility(false)
+                    cardFee = ("${response.data.data?.currency} ${response.data.data?.amount}")
+                    toggleReportCardToolBarVisibility(false)
                     clickEvent.setValue(CARD_REORDER_SUCCESS)
                 }
 

@@ -7,8 +7,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
 import co.yap.R
-import co.yap.modules.dashboard.cards.addpaymentcard.interfaces.IAddPaymentCard
-import co.yap.modules.dashboard.cards.addpaymentcard.viewmodels.AddPaymentCardViewModel
+import co.yap.modules.dashboard.cards.reportcard.interfaces.IReportStolenActivity
 import co.yap.networking.cards.responsedtos.Card
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.IFragmentHolder
@@ -17,7 +16,7 @@ import co.yap.yapcore.defaults.INavigator
 import co.yap.yapcore.interfaces.BackPressImpl
 import co.yap.yapcore.interfaces.IBaseNavigator
 
-class ReportLostOrStolenCardActivity : BaseBindingActivity<IAddPaymentCard.ViewModel>(),
+class ReportLostOrStolenCardActivity : BaseBindingActivity<IReportStolenActivity.ViewModel>(),
     INavigator,
     IFragmentHolder {
     companion object {
@@ -28,17 +27,16 @@ class ReportLostOrStolenCardActivity : BaseBindingActivity<IAddPaymentCard.ViewM
             return intent
         }
 
-        lateinit var reportCard: Card
+        //lateinit var reportCard: Card
         var reportCardSuccess: Boolean = false
 
     }
 
     override fun getBindingVariable(): Int = BR.viewModel
-
     override fun getLayoutId(): Int = R.layout.activity_report_or_stolen_cards
 
-    override val viewModel: IAddPaymentCard.ViewModel
-        get() = ViewModelProviders.of(this).get(AddPaymentCardViewModel::class.java)
+    override val viewModel: IReportStolenActivity.ViewModel
+        get() = ViewModelProviders.of(this).get(ReportLostStolenActivityViewModel::class.java)
 
     override val navigator: IBaseNavigator
         get() = DefaultNavigator(
@@ -49,10 +47,8 @@ class ReportLostOrStolenCardActivity : BaseBindingActivity<IAddPaymentCard.ViewM
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel.backButtonPressEvent.observe(this, backButtonObserver)
-//        viewModel.card = intent.getParcelableExtra(CARD)
         if (intent != null && intent.hasExtra(CARD))
-            reportCard = intent.getParcelableExtra(CARD)
-
+            viewModel.card = intent.getParcelableExtra(CARD)
     }
 
     override fun onDestroy() {

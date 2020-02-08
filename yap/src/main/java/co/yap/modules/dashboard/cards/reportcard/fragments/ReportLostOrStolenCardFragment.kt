@@ -10,13 +10,10 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import co.yap.BR
 import co.yap.R
-import co.yap.modules.dashboard.cards.addpaymentcard.fragments.AddPaymentChildFragment
-import co.yap.modules.dashboard.cards.reportcard.activities.ReportLostOrStolenCardActivity.Companion.reportCard
 import co.yap.modules.dashboard.cards.reportcard.activities.ReportLostOrStolenCardActivity.Companion.reportCardSuccess
 import co.yap.modules.dashboard.cards.reportcard.interfaces.IRepostOrStolenCard
 import co.yap.modules.dashboard.cards.reportcard.viewmodels.ReportLostOrStolenCardViewModels
 import co.yap.modules.others.helper.Constants
-import co.yap.networking.cards.responsedtos.Card
 import co.yap.translation.Strings.screen_report_card_display_button_block_alert_cancel
 import co.yap.translation.Strings.screen_report_card_display_button_block_alert_confirm
 import co.yap.translation.Strings.screen_report_card_display_text_block_alert_message
@@ -26,9 +23,8 @@ import co.yap.translation.Strings.screen_spare_card_landing_display_text_virtual
 import co.yap.translation.Translator
 import kotlinx.android.synthetic.main.fragment_lost_or_stolen_card.*
 
-
 class ReportLostOrStolenCardFragment :
-    AddPaymentChildFragment<IRepostOrStolenCard.ViewModel>(), IRepostOrStolenCard.View {
+    ReportOrLOstCardChildFragment<IRepostOrStolenCard.ViewModel>(), IRepostOrStolenCard.View {
     val REASON_DAMAGE: Int = 2
     val REASON_LOST_STOLEN: Int = 4
 
@@ -36,25 +32,19 @@ class ReportLostOrStolenCardFragment :
 
     override fun getLayoutId(): Int = R.layout.fragment_lost_or_stolen_card
 
-    override val viewModel: IRepostOrStolenCard.ViewModel
+    override val viewModel: ReportLostOrStolenCardViewModels
         get() = ViewModelProviders.of(this).get(ReportLostOrStolenCardViewModels::class.java)
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val card: Card = reportCard
+        viewModel.state.cardType = viewModel.parentViewModel?.card?.cardType ?: ""
+        viewModel.state.maskedCardNumber = viewModel.parentViewModel?.card?.maskedCardNo ?: ""
 
-        viewModel.state.cardType = card.cardType
-        viewModel.state.maskedCardNumber = card.maskedCardNo
-
-        if (Constants.CARD_TYPE_DEBIT == card.cardType) {
+        if (Constants.CARD_TYPE_DEBIT == viewModel.parentViewModel?.card?.cardType) {
             viewModel.state.cardType = Constants.TEXT_PRIMARY_CARD
         } else {
-            if (card.physical) {
+            if (true == viewModel.parentViewModel?.card?.physical) {
                 viewModel.state.cardType = Translator.getString(
                     requireContext(),
                     screen_spare_card_landing_display_text_physical_card
@@ -115,10 +105,9 @@ class ReportLostOrStolenCardFragment :
                         setupActionsIntent()
                         activity?.finish()
                     } else {
-
                         val action =
                             ReportLostOrStolenCardFragmentDirections.actionReportLostOrStolenCardFragmentToBlockCardSuccessFragment(
-                                viewModel.cardFee
+                                viewModel.cardFee + " AED"
                             )
                         findNavController().navigate(action)
                     }
@@ -145,9 +134,9 @@ class ReportLostOrStolenCardFragment :
                 requireContext(), screen_report_card_display_button_block_alert_confirm
             )
         ) { dialog, which ->
-
-            viewModel.requestConfirmBlockCard(reportCard)
-
+            viewModel.parentViewModel?.card?.let {
+                viewModel.requestConfirmBlockCard(it)
+            }
         }
 
         builder.setNegativeButton(
