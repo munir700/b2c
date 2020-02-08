@@ -26,6 +26,8 @@ import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.enums.SendMoneyBeneficiaryType
 import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.helpers.extentions.ExtraType
+import co.yap.yapcore.helpers.extentions.getValue
 import co.yap.yapcore.helpers.extentions.launchActivity
 import co.yap.yapcore.helpers.extentions.startFragmentForResult
 import co.yap.yapcore.interfaces.OnItemClickListener
@@ -44,6 +46,10 @@ class BeneficiaryAccountDetailsFragment :
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        addObservers()
+    }
+
+    private fun addObservers() {
         viewModel.clickEvent.observe(this, observer)
         viewModel.success.observe(this, Observer {
             if (it) {
@@ -68,6 +74,7 @@ class BeneficiaryAccountDetailsFragment :
                                 if (data is Boolean) {
                                     if (data) {
                                         startMoneyTransfer()
+                                        setIntentResult()
                                     } else {
                                         setIntentResult()
                                     }
@@ -149,7 +156,7 @@ class BeneficiaryAccountDetailsFragment :
         beneficiary?.let {
             val bundle = Bundle()
             bundle.putBoolean(Constants.OVERVIEW_BENEFICIARY, true)
-            bundle.putBoolean(Constants.IS_IBAN_NEEDED, true)
+            bundle.putString(Constants.IS_IBAN_NEEDED, "Yes")
             bundle.putParcelable(Beneficiary::class.java.name, beneficiary)
             launchActivity<EditBeneficiaryActivity>(RequestCodes.REQUEST_NOTIFY_BENEFICIARY_LIST) {
                 putExtra(Constants.EXTRA, bundle)
@@ -157,9 +164,25 @@ class BeneficiaryAccountDetailsFragment :
         }
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == Activity.RESULT_OK) {
+            val beneficiary =
+                data?.getValue(
+                    Beneficiary::class.java.name,
+                    ExtraType.PARCEABLE.name
+                ) as? Beneficiary
+            beneficiary?.let {
+                viewModel.parentViewModel?.beneficiary?.value =
+                    it // to update the existing beneficary
+                viewModel.validateBeneficiaryDetails(it)
+            }
+        }
+    }
+
     private fun startMoneyTransfer() {
         viewModel.beneficiary?.let { beneficiary ->
-            launchActivity<BeneficiaryCashTransferActivity>(requestCode = RequestCodes.REQUEST_TRANSFER_MONEY) {
+            requireActivity().launchActivity<BeneficiaryCashTransferActivity>(requestCode = RequestCodes.REQUEST_TRANSFER_MONEY) {
                 putExtra(Constants.BENEFICIARY, beneficiary)
                 putExtra(Constants.POSITION, 0)
                 putExtra(Constants.IS_NEW_BENEFICIARY, true)
@@ -176,11 +199,9 @@ class BeneficiaryAccountDetailsFragment :
         }
     }
 
-
     private val observer = Observer<Int> {
         when (it) {
             R.id.confirmButton -> openEditBeneficiary(viewModel.parentViewModel?.beneficiary?.value)
-                //viewModel.createBeneficiaryRequest()
         }
     }
 
@@ -229,5 +250,4 @@ class BeneficiaryAccountDetailsFragment :
         viewModel.otpCreateObserver.removeObservers(this)
         viewModel.parentViewModel?.otpSuccess?.removeObserver(otpSuccessObserver)
     }
-
 }

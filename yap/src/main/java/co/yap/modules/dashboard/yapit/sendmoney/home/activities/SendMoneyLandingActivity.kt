@@ -76,8 +76,6 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
     private fun initComponents() {
         getBinding().layoutBeneficiaries.rvAllBeneficiaries.adapter =
             AllBeneficiariesAdapter(mutableListOf())
-        getAdaptor().setItemListener(adaptorListener)
-        getAdaptor().allowFullItemClickListener = true
         initSwipeListener()
     }
 
@@ -161,19 +159,14 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
         }
     }
 
-    private val adaptorListener = object : OnItemClickListener {
-        override fun onItemClick(view: View, data: Any, pos: Int) {
-            if (data is Beneficiary) {
-                startMoneyTransfer(data, pos)
-            }
-        }
-    }
 
     private fun initSwipeListener() {
         onTouchListener = RecyclerTouchListener(this, rvAllBeneficiaries)
             .setClickable(
                 object : RecyclerTouchListener.OnRowClickListener {
                     override fun onRowClicked(position: Int) {
+                        startMoneyTransfer(getAdaptor().getDataForPosition(position), position)
+
                     }
 
                     override fun onIndependentViewClicked(
@@ -214,6 +207,7 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
         beneficiary?.let {
             val bundle = Bundle()
             bundle.putBoolean(OVERVIEW_BENEFICIARY, false)
+            bundle.putString(Constants.IS_IBAN_NEEDED, "loadFromServer")
             bundle.putParcelable(Beneficiary::class.java.name, beneficiary)
             launchActivity<EditBeneficiaryActivity>(RequestCodes.REQUEST_NOTIFY_BENEFICIARY_LIST) {
                 putExtra(EXTRA, bundle)

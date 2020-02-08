@@ -92,6 +92,12 @@ class EditBeneficiaryStates(val application: Application) : BaseState(), IEditBe
             field = value
             notifyPropertyChanged(BR.needIban)
         }
+    @get:Bindable
+    override var showIban: Boolean? = false
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.showIban)
+        }
 
     @get:Bindable
     override var beneficiary: Beneficiary? = Beneficiary()

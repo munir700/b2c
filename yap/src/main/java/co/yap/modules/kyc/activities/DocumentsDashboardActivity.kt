@@ -23,20 +23,6 @@ import co.yap.yapcore.interfaces.IBaseNavigator
 class DocumentsDashboardActivity : BaseBindingActivity<IDocumentsDashboard.ViewModel>(), INavigator,
     IFragmentHolder {
 
-//    companion object {
-//        const val name = "name"
-//        const val data = "payLoad"
-//        const val result = "result"
-//        const val skipped = "skipped"
-//        fun getIntent(context: Context, customerName: String?, allowSkip: Boolean): Intent {
-//            val intent = Intent(context, DocumentsDashboardActivity::class.java)
-//            intent.putExtra(name, customerName)
-//            intent.putExtra(data, allowSkip)
-//            DocumentsDashboardActivityArgs
-//            return intent
-//        }
-//    }
-
     override val viewModel: IDocumentsDashboard.ViewModel
         get() = ViewModelProviders.of(this).get(DocumentsDashboardViewModel::class.java)
 
@@ -80,11 +66,4 @@ class DocumentsDashboardActivity : BaseBindingActivity<IDocumentsDashboard.ViewM
         setResult(Activity.RESULT_OK, intent)
         finish()
     }
-
 }
-
-//D:\android\Projects\Yap-Android\app\build\generated\source\navigation-args\dev\debug\co\yap\modules\kyc\activities
-//D:\android\Projects\Yap-Android\app\build\generated\source\navigation-args\dev\debug\co\yap\modules\kyc\activities
-//
-//D:\android\Projects\Yap-Android\yap\build\generated\source\navigation-args\debug\co\yap\modules\kyc\activities
-

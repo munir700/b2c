@@ -13,6 +13,7 @@ interface IEditBeneficiary {
         var clickEvent: SingleClickEvent?
         fun handlePressOnConfirm(id: Int)
         fun requestUpdateBeneficiary()
+        fun requestCountryInfo()
         var onUpdateSuccess:MutableLiveData<Boolean>
     }
     interface State : IBase.State {
@@ -30,6 +31,7 @@ interface IEditBeneficiary {
         var beneficiary: Beneficiary?
         var needOverView:Boolean?
         var needIban:Boolean?
+        var showIban:Boolean?
         var valid: Boolean?
     }
 }

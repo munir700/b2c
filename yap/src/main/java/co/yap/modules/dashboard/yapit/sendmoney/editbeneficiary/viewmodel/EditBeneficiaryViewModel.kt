@@ -42,4 +42,24 @@ class EditBeneficiaryViewModel(application: Application) :
             }
         }
     }
+
+    override fun requestCountryInfo() {
+        launch {
+            state.loading = true
+            when (val response =
+                repository.getCountryDataWithISODigit(
+                    state.beneficiary?.country ?: ""
+                )) {
+                is RetroApiResponse.Success -> {
+                    state.loading = false
+                    state.needIban = response.data.ibanMandatory
+                }
+                is RetroApiResponse.Error -> {
+                    state.loading = false
+                    state.toast = response.error.message
+                }
+
+            }
+        }
+    }
 }
