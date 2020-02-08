@@ -1,4 +1,6 @@
 package co.yap.networking.transactions.responsedtos.topuptransactionsession
 
-data class AuthenticationRedirect(val simple: Simple3DEnrollmentObject) {
+import com.google.gson.annotations.SerializedName
+
+data class AuthenticationRedirect(@SerializedName("Simple3DEnrollmentObject") val simple: Simple3DEnrollmentObject) {
 }

@@ -1,3 +1,5 @@
 package co.yap.networking.transactions.responsedtos
 
-class AddRemoveFunds(val transactionId: String, val balance: String)
+import com.google.gson.annotations.SerializedName
+
+class AddRemoveFunds(@SerializedName("transactionId") val transactionId: String, @SerializedName("balance") val balance: String)
