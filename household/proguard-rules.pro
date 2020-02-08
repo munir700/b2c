@@ -149,4 +149,4 @@
 -printconfiguration ~/tmp/full-r8-config.txt
 
 -keep class android.support.** { *; }
--keep interface android.support.** { *; }
+-keep interface android.support.** { *; } 
