@@ -131,3 +131,8 @@
     public void println(...);
     public void print(...);
 }
+
+-printconfiguration ~/tmp/full-r8-config.txt
+
+-keep class android.support.** { *; }
+-keep interface android.support.** { *; }
