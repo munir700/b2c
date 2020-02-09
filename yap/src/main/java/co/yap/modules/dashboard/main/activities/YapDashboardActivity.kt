@@ -45,8 +45,8 @@ import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.IFragmentHolder
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.PartnerBankStatus
-import co.yap.yapcore.helpers.permissions.PermissionHelper
 import co.yap.yapcore.helpers.extentions.dimen
+import co.yap.yapcore.helpers.permissions.PermissionHelper
 import co.yap.yapcore.managers.MyUserManager
 import kotlinx.android.synthetic.main.activity_yap_dashboard.*
 import kotlinx.android.synthetic.main.layout_drawer_yap_dashboard.*
@@ -266,7 +266,6 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
     }
 
     override fun onDestroy() {
-//        MyUserManager.expireUserSession()
         viewModel.clickEvent.removeObservers(this)
         super.onDestroy()
     }
@@ -359,12 +358,11 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
                     //getViewBinding().ivYapIt
                 }
                 R.id.yapCards -> {
-
-                    if (PartnerBankStatus.ACTIVATED.status == MyUserManager.user?.partnerBankStatus) {
-                        getViewBinding().viewPager.setCurrentItem(2, false)
-                    } else {
-                        showToast("Account activation pending")
-                    }
+                    //if (PartnerBankStatus.ACTIVATED.status == MyUserManager.user?.partnerBankStatus) {
+                    getViewBinding().viewPager.setCurrentItem(2, false)
+                    //} else {
+                    //    showToast("Account activation pending")
+                    //}
                 }
                 R.id.yapMore -> {
                     getViewBinding().viewPager.setCurrentItem(3, false)

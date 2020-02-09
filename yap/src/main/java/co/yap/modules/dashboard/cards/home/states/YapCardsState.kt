@@ -10,7 +10,6 @@ import co.yap.yapcore.BaseState
 class YapCardsState : BaseState(), IYapCards.State {
 
     override var enableAddCard: ObservableBoolean = ObservableBoolean(true)
-    override var listUpdated: MutableLiveData<Boolean> = MutableLiveData()
 
     @get:Bindable
     override var noOfCard: String = ""
