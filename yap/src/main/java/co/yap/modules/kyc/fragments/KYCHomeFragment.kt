@@ -26,11 +26,11 @@ class KYCHomeFragment : KYCChildFragment<IKYCHome.ViewModel>(), IKYCHome.View {
     override fun getBindingVariable(): Int = BR.viewModel
 
     override fun getLayoutId(): Int {
-        if (getAppliedAppTheme()) return R.layout.fragment_kyc_home_house_hold
-        else return R.layout.fragment_kyc_home
+        return if (getAppliedAppTheme()) R.layout.fragment_kyc_home_house_hold
+        else R.layout.fragment_kyc_home
     }
 
-    fun getAppliedAppTheme(): Boolean {
+    private fun getAppliedAppTheme(): Boolean {
         return SharedPreferenceManager(activity!!).getThemeValue().equals(Constants.THEME_HOUSEHOLD)
     }
 

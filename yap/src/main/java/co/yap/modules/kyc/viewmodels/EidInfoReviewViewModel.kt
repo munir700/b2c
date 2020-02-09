@@ -121,7 +121,7 @@ class EidInfoReviewViewModel(application: Application) :
                         val identity = Identity()
                         identity.nationality = data.nationality
                         identity.gender =
-                            if (data.sex.equals("M")) Gender.Male else Gender.Female
+                            if (data.sex.equals("M",true)) Gender.Male else Gender.Female
                         identity.sirName = data.surname
                         identity.givenName = data.names
                         identity.expirationDate =

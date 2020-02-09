@@ -358,11 +358,7 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
                     //getViewBinding().ivYapIt
                 }
                 R.id.yapCards -> {
-                    //if (PartnerBankStatus.ACTIVATED.status == MyUserManager.user?.partnerBankStatus) {
                     getViewBinding().viewPager.setCurrentItem(2, false)
-                    //} else {
-                    //    showToast("Account activation pending")
-                    //}
                 }
                 R.id.yapMore -> {
                     getViewBinding().viewPager.setCurrentItem(3, false)
@@ -372,17 +368,12 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
         }
         //Don't remove it not by mistake
         bottomNav.setOnNavigationItemReselectedListener {
-            it
             when (it.itemId) {
                 R.id.yapIt -> {
                     checkPermission()
                 }
                 R.id.yapCards -> {
-                    if (PartnerBankStatus.ACTIVATED.status == MyUserManager.user?.partnerBankStatus) {
-                        getViewBinding().viewPager.setCurrentItem(2, false)
-                    } else {
-                        showToast("Account activation pending")
-                    }
+                    getViewBinding().viewPager.setCurrentItem(2, false)
                 }
             }
         }

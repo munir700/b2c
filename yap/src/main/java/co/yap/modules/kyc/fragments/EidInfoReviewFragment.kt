@@ -80,7 +80,13 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
                     findNavController().navigate(action)
                 }
                 viewModel.EVENT_NEXT -> findNavController().popBackStack()
-                viewModel.EVENT_FINISH -> onBackPressed()
+                viewModel.EVENT_FINISH -> {
+                    if (activity is DocumentsDashboardActivity)
+                        (activity as DocumentsDashboardActivity).goToDashBoard(
+                            success = false,
+                            skippedPress = false, error = true
+                        )
+                }
             }
         })
     }
@@ -191,10 +197,10 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
         )
     }
 
-    override fun onBackPressed(): Boolean {
-        if (viewModel.parentViewModel?.allowSkip?.value == true) {
-            activity?.finish()
-        }
-        return true
-    }
+//    override fun onBackPressed(): Boolean {
+//        if (viewModel.parentViewModel?.allowSkip?.value == true) {
+//            activity?.finish()
+//        }
+//        return true
+//    }
 }

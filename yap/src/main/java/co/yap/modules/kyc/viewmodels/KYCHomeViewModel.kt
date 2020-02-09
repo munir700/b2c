@@ -155,7 +155,7 @@ class KYCHomeViewModel(application: Application) : KYCChildViewModel<IKYCHome.St
                         parentViewModel?.identity = result
                         state.eidScanStatus = DocScanStatus.SCAN_COMPLETED
                     } else {
-                        state.toast = response.data.errors?.message!!
+                        state.toast = response.data.errors?.message ?: "Invalid image"
                     }
                     //}
                 }
