@@ -24,6 +24,7 @@ import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.translation.Translator
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.RequestCodes
+import co.yap.yapcore.enums.OTPActions
 import co.yap.yapcore.enums.SendMoneyBeneficiaryType
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.ExtraType
@@ -92,8 +93,8 @@ class BeneficiaryAccountDetailsFragment :
                 viewModel.parentViewModel?.beneficiary?.value?.beneficiaryType?.let {
                     if (it.isNotEmpty())
                         action = when (SendMoneyBeneficiaryType.valueOf(it)) {
-                            SendMoneyBeneficiaryType.SWIFT -> Constants.SWIFT_BENEFICIARY
-                            SendMoneyBeneficiaryType.RMT -> Constants.RMT_BENEFICIARY
+                            SendMoneyBeneficiaryType.SWIFT -> OTPActions.SWIFT_BENEFICIARY.name
+                            SendMoneyBeneficiaryType.RMT -> OTPActions.RMT_BENEFICIARY.name
                             else -> " "
                         }
                 }

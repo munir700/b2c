@@ -17,7 +17,7 @@
     <string name="error_view_text">No results found\ntab to retry</string>
     <string name="empty_view_text">No results found</string>
     <string name="common_text_fee">Fee: %1s</string>
-
+    <string name="common_display_text_daily_limit_error">You are exceeding your daily transfer limit of %1s. You are left with limit of %2s for today.</string>
 
     <!-- Home Screen -->
     <string name="screen_home_display_text_tag_line">The Personalized Banking App</string>
