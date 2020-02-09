@@ -1,13 +1,13 @@
 package co.yap.modules.dashboard.cards.reportcard.viewmodels
 
 import android.app.Application
-import co.yap.modules.dashboard.cards.reportcard.interfaces.IReportOrLostBase
+import co.yap.modules.dashboard.cards.reportcard.interfaces.IReportStolenActivity
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.IBase
 
 abstract class ReportLostOrStolenCardChildViewModels<S : IBase.State>(application: Application) :
     BaseViewModel<S>(application) {
-    var parentViewModel: IReportOrLostBase.ViewModel? = null
+    var parentViewModel: IReportStolenActivity.ViewModel? = null
 
     fun setToolBarTitle(title: String) {
         parentViewModel?.state?.tootlBarTitle = title

@@ -17,8 +17,6 @@ import co.yap.translation.Translator
 import co.yap.yapcore.helpers.Utils
 import kotlinx.android.synthetic.main.fragment_beneficiary_overview.*
 
-// Need to check whether to add account detail screen on click of bank details box & hide button or
-
 class BeneficiaryOverviewFragment : SendMoneyBaseFragment<IBeneficiaryOverview.ViewModel>(),
     IBeneficiaryOverview.View {
 
@@ -49,9 +47,10 @@ class BeneficiaryOverviewFragment : SendMoneyBaseFragment<IBeneficiaryOverview.V
         viewModel.beneficiary =
             arguments?.let { BeneficiaryOverviewFragmentArgs.fromBundle(it).beneficiary }!!
         if (viewModel.beneficiary.accountNo!!.length >= 22) {
-            viewModel.beneficiary.accountNo= Utils.formateIbanString(  viewModel.beneficiary.accountNo!!)
+            viewModel.beneficiary.accountNo =
+                Utils.formateIbanString(viewModel.beneficiary.accountNo!!)
         } else {
-            viewModel.beneficiary.accountNo=  viewModel.beneficiary.accountNo!!
+            viewModel.beneficiary.accountNo = viewModel.beneficiary.accountNo!!
         }
 
         viewModel.state.beneficiary = viewModel.beneficiary

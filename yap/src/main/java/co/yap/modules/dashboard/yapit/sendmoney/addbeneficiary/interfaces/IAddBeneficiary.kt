@@ -46,6 +46,7 @@ interface IAddBeneficiary {
         fun handlePressOnAddNow(id: Int)
         fun handlePressOnAddDomestic(id: Int)
         fun addCashPickupBeneficiary()
+        fun validateBeneficiaryDetails(objBeneficiary: Beneficiary)
         fun addDomesticBeneficiary(objBeneficiary: Beneficiary?)
         var addBeneficiarySuccess: MutableLiveData<Boolean>
         var beneficiary: Beneficiary?
