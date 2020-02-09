@@ -57,15 +57,12 @@ class KYCHomeViewModel(application: Application) : KYCChildViewModel<IKYCHome.St
 
     override fun onEIDScanningComplete(result: IdentityScannerResult) {
         uploadDocuments(result)
-
-//        parentViewModel?.identity = result
-//        state.eidScanStatus = DocScanStatus.SCAN_COMPLETED
     }
-
 
     private fun uploadDocuments(result: IdentityScannerResult) {
         if (!result.document.files.isNullOrEmpty() && result.document.files.size < 3) {
             val file = File(result.document.files[1].croppedFile)
+            parentViewModel?.paths?.clear()
             parentViewModel?.paths?.add(result.document.files[0].croppedFile)
             parentViewModel?.paths?.add(result.document.files[1].croppedFile)
 
@@ -97,7 +94,6 @@ class KYCHomeViewModel(application: Application) : KYCChildViewModel<IKYCHome.St
                         } else {
                             state.toast = response.data.errors?.message ?: "Invalid image"
                         }
-                        //}
                     }
 
                     is RetroApiResponse.Error -> {

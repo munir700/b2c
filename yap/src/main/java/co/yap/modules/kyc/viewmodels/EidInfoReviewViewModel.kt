@@ -117,7 +117,7 @@ class EidInfoReviewViewModel(application: Application) :
                         val identity = Identity()
                         identity.nationality = data.nationality
                         identity.gender =
-                            if (data.sex.equals("M",true)) Gender.Male else Gender.Female
+                            if (data.sex.equals("M", true)) Gender.Male else Gender.Female
                         identity.sirName = data.surname
                         identity.givenName = data.names
                         identity.expirationDate =
@@ -190,13 +190,22 @@ class EidInfoReviewViewModel(application: Application) :
                         } else clickEvent.setValue(EVENT_NEXT)
                     }
                     is RetroApiResponse.Error -> {
-                        if (response.error.actualCode == EVENT_ALREADY_USED_EID) {
+                        if (response.error.message.contains(EVENT_ALREADY_USED_EID.toString())) {
                             clickEvent.setValue(EVENT_ALREADY_USED_EID)
                             state.toast = response.error.message
                         } else {
-                            clickEvent.setValue(EVENT_NEXT)
                             state.toast = response.error.message
                         }
+//                        if (response.error.actualCode.equals(
+//                                EVENT_ALREADY_USED_EID.toString(),
+//                                true
+//                            )
+//                        ) {
+//                            clickEvent.setValue(EVENT_ALREADY_USED_EID)
+//                            state.toast = response.error.message
+//                        } else {
+//                            state.toast = response.error.message
+//                        }
                     }
                 }
             }
@@ -209,7 +218,7 @@ class EidInfoReviewViewModel(application: Application) :
             state.fullNameValid = state.fullName.isNotBlank()
             state.nationality = it.nationality
             state.nationalityValid =
-                state.nationality.isNotBlank() && !state.nationality.equals("USA", false)
+                state.nationality.isNotBlank() && !state.nationality.equals("USA", true)
             state.dateOfBirth = DateUtils.dateToString(it.dateOfBirth)
             state.dateOfBirthValid = it.isDateOfBirthValid
             state.expiryDate = DateUtils.dateToString(it.expirationDate)
