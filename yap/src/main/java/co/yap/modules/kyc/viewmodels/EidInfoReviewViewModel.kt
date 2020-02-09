@@ -16,14 +16,12 @@ import co.yap.yapcore.helpers.DateUtils
 import co.yap.yapcore.helpers.extentions.trackEvent
 import co.yap.yapcore.leanplum.TrackEvents
 import com.digitify.identityscanner.core.arch.Gender
-import com.digitify.identityscanner.docscanner.enums.DocumentType
 import com.digitify.identityscanner.docscanner.models.Identity
 import com.digitify.identityscanner.docscanner.models.IdentityScannerResult
 import okhttp3.MediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import java.io.File
-import java.util.*
 
 class EidInfoReviewViewModel(application: Application) :
     KYCChildViewModel<IEidInfoReview.State>(application),
@@ -43,18 +41,16 @@ class EidInfoReviewViewModel(application: Application) :
     override fun onCreate() {
         super.onCreate()
         getSectionedCountriesList()
-        parentViewModel?.let { populateState(it.identity) }
+        parentViewModel?.identity?.let { populateState(it) }
     }
 
     override fun handlePressOnRescanBtn() {
-        parentViewModel?.let { populateState(it.identity) }
+        parentViewModel?.identity?.let { populateState(it) }
         clickEvent.setValue(EVENT_RESCAN)
     }
 
     override fun handlePressOnConfirmBtn() {
-        sectionedCountries?.data?.get(1)?.isoCountryCode2Digit = "us"
-
-        parentViewModel?.identity?.identity?.let {
+        parentViewModel?.identity?.let {
             when {
                 TextUtils.isEmpty(it.givenName) || TextUtils.isEmpty(it.nationality) ->
                     clickEvent.setValue(EVENT_ERROR_INVALID_EID)
@@ -129,16 +125,16 @@ class EidInfoReviewViewModel(application: Application) :
                         identity.dateOfBirth =
                             DateUtils.stringToDate(data.date_of_birth, "yyMMdd")
                         identity.citizenNumber = data.optional1
-                        identity.isoCountryCode2Digit = "us"//data.isoCountryCode2Digit
+                        identity.isoCountryCode2Digit = data.isoCountryCode2Digit
                         result.identity = identity
 
-                        parentViewModel?.identity = result
+                        parentViewModel?.identity = identity
 
-                        populateState(result)
+                        populateState(parentViewModel?.identity)
                     } else {
                         result.identity = Identity()
-                        parentViewModel?.identity = result
-                        populateState(result)
+                        parentViewModel?.identity = Identity()
+                        populateState(Identity())
                         clickEvent.setValue(EVENT_FINISH)
                         state.toast = response.data.errors?.message!!
                         //clearData()
@@ -170,20 +166,16 @@ class EidInfoReviewViewModel(application: Application) :
         parentViewModel?.identity?.let {
             launch {
                 val request = UploadDocumentsRequest(
-                    documentType = if (it.document.type == DocumentType.EID) "EMIRATES_ID" else "PASSPORT",
-                    firstName = it.identity.givenName,
-                    lastName = it.identity.sirName,
-                    dateExpiry = it.identity.expirationDate,
-                    dob = it.identity.dateOfBirth,
-                    fullName = it.identity.givenName + " " + it.identity.sirName,
-                    gender = it.identity.gender.mrz.toString(),
-                    nationality = it.identity.nationality,
-                    identityNo = it.identity.citizenNumber,
-                    filePaths = it.document.files.run {
-                        val files: ArrayList<String> = arrayListOf()
-                        forEach { files.add(it.originalFile) }
-                        files
-                    }
+                    documentType = "EMIRATES_ID",
+                    firstName = it.givenName,
+                    lastName = it.sirName,
+                    dateExpiry = it.expirationDate,
+                    dob = it.dateOfBirth,
+                    fullName = it.givenName + " " + it.sirName,
+                    gender = it.gender.mrz.toString(),
+                    nationality = it.nationality,
+                    identityNo = it.citizenNumber,
+                    filePaths = parentViewModel?.paths ?: arrayListOf()
                 )
 
                 state.loading = true
@@ -211,19 +203,19 @@ class EidInfoReviewViewModel(application: Application) :
         }
     }
 
-    private fun populateState(identity: IdentityScannerResult?) {
+    private fun populateState(identity: Identity?) {
         identity?.let {
-            state.fullName = it.identity.givenName + " " + it.identity.sirName
+            state.fullName = it.givenName + " " + it.sirName
             state.fullNameValid = state.fullName.isNotBlank()
-            state.nationality = it.identity.nationality
+            state.nationality = it.nationality
             state.nationalityValid =
                 state.nationality.isNotBlank() && !state.nationality.equals("USA", false)
-            state.dateOfBirth = DateUtils.dateToString(it.identity.dateOfBirth)
-            state.dateOfBirthValid = it.identity.isDateOfBirthValid
-            state.expiryDate = DateUtils.dateToString(it.identity.expirationDate)
-            state.expiryDateValid = it.identity.isExpiryDateValid
+            state.dateOfBirth = DateUtils.dateToString(it.dateOfBirth)
+            state.dateOfBirthValid = it.isDateOfBirthValid
+            state.expiryDate = DateUtils.dateToString(it.expirationDate)
+            state.expiryDateValid = it.isExpiryDateValid
             state.genderValid = true
-            state.gender = it.identity.gender.run {
+            state.gender = it.gender.run {
                 when {
                     this == Gender.Male -> getString(Strings.screen_b2c_eid_info_review_display_text_gender_male)
                     this == Gender.Female -> getString(Strings.screen_b2c_eid_info_review_display_text_gender_female)
