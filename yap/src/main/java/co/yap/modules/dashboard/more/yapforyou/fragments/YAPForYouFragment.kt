@@ -73,7 +73,7 @@ class YAPForYouFragment : YapForYouBaseFragment<IYAPForYou.ViewModel>() {
     private val listener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
             if (data is Achievements) {
-                setSelectedAchievement(data)
+                setSelectedAchievement(data.copy())
             }
         }
     }
