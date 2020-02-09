@@ -43,28 +43,11 @@ class AAPApplication : ChatApplication(
     override fun onCreate() {
         super.onCreate()
         SharedPreferenceManager(this).setThemeValue(Constants.THEME_YAP)
-        initCrashLytics()
-        initDebugTreeTimber()
         initNetworkLayer()
         setAppUniqueId(this)
         initFirebase()
         inItLeanPlum()
         createChannel(packageName, "Default")
-    }
-
-    private fun initDebugTreeTimber() {
-        if (BuildConfig.DEBUG) {
-            Timber.plant(DebugTree())
-        }
-    }
-
-
-    private fun initCrashLytics() {
-        val fabric = Fabric.Builder(this)
-            .kits(Crashlytics())
-            .debuggable(BuildConfig.DEBUG) // Enables Crashlytics debugger
-            .build()
-        Fabric.with(fabric)
     }
 
     private fun initNetworkLayer() {
@@ -90,16 +73,14 @@ class AAPApplication : ChatApplication(
      */
 
     private fun initFirebase() {
-        val fabric = Fabric.Builder(this)
-            .kits(Crashlytics())
-            .debuggable(BuildConfig.DEBUG) // Enables Crashlytics debugger
-            .build()
-        Fabric.with(fabric)
-
         if (BuildConfig.DEBUG) {
+            val fabric = Fabric.Builder(this)
+                .kits(Crashlytics())
+                .debuggable(BuildConfig.DEBUG)
+                .build()
+            Fabric.with(fabric)
             Timber.plant(DebugTree())
         }
-
     }
 
     /**
