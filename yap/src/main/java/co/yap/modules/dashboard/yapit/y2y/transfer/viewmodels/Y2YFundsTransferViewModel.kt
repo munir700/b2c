@@ -1,12 +1,14 @@
 package co.yap.modules.dashboard.yapit.y2y.transfer.viewmodels
 
 import android.app.Application
+import androidx.lifecycle.MutableLiveData
 import co.yap.modules.dashboard.yapit.y2y.main.viewmodels.Y2YBaseViewModel
 import co.yap.modules.dashboard.yapit.y2y.transfer.interfaces.IY2YFundsTransfer
 import co.yap.modules.dashboard.yapit.y2y.transfer.states.Y2YFundsTransferState
 import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.transactions.TransactionsRepository
 import co.yap.networking.transactions.requestdtos.Y2YFundsTransferRequest
+import co.yap.networking.transactions.responsedtos.TransactionThresholdModel
 import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.constants.Constants
@@ -18,29 +20,29 @@ class Y2YFundsTransferViewModel(application: Application) :
     override val state: Y2YFundsTransferState = Y2YFundsTransferState(application)
     override val clickEvent: SingleClickEvent = SingleClickEvent()
     override val errorEvent: SingleClickEvent = SingleClickEvent()
+    override val transactionThreshold: MutableLiveData<TransactionThresholdModel> =
+        MutableLiveData()
     private val repository: TransactionsRepository = TransactionsRepository
     override var receiverUUID: String = ""
-
+    override val transferFundSuccess: MutableLiveData<Boolean> = MutableLiveData(false)
 
     override fun onCreate() {
         super.onCreate()
         state.availableBalanceGuide =
             getString(Strings.screen_add_funds_display_text_available_balance)
         state.currencyType = "AED"
+        getTransactionThresholds()
     }
 
     override fun handlePressOnView(id: Int) {
         if (state.checkValidity() == "") {
-            // clickEvent.postValue(id)
-//            temporary comment this service for
-            y2yFundsTransferRequest(id)
-
+            clickEvent.setValue(id)
         } else {
             errorEvent.postValue(id)
         }
     }
 
-    private fun y2yFundsTransferRequest(id: Int) {
+    override fun proceedToTransferAmount() {
         val y2yFundsTransfer = Y2YFundsTransferRequest(
             receiverUUID, state.fullName, state.amount, false, state.noteValue
         )
@@ -48,13 +50,13 @@ class Y2YFundsTransferViewModel(application: Application) :
             state.loading = true
             when (val response = repository.y2yFundsTransferRequest(y2yFundsTransfer)) {
                 is RetroApiResponse.Success -> {
-                    clickEvent.postValue(id)
+                    transferFundSuccess.value = true
                 }
 
                 is RetroApiResponse.Error -> {
                     state.loading = false
                     state.errorDescription = response.error.message
-                    errorEvent.postValue(id)
+                    errorEvent.call()
                 }
             }
             state.loading = false
@@ -77,6 +79,19 @@ class Y2YFundsTransferViewModel(application: Application) :
                 }
             }
             state.loading = false
+        }
+    }
+
+    override fun getTransactionThresholds() {
+        launch {
+            when (val response = repository.getTransactionThresholds()) {
+                is RetroApiResponse.Success -> {
+                    transactionThreshold.value = response.data.data
+                }
+                is RetroApiResponse.Error -> {
+                    state.toast = response.error.message
+                }
+            }
         }
     }
 
