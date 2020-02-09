@@ -52,6 +52,8 @@ class EidInfoReviewViewModel(application: Application) :
     }
 
     override fun handlePressOnConfirmBtn() {
+        sectionedCountries?.data?.get(1)?.isoCountryCode2Digit = "us"
+
         parentViewModel?.identity?.identity?.let {
             when {
                 TextUtils.isEmpty(it.givenName) || TextUtils.isEmpty(it.nationality) ->
@@ -63,15 +65,19 @@ class EidInfoReviewViewModel(application: Application) :
                     clickEvent.setValue(EVENT_ERROR_UNDER_AGE)
                     trackEvent(TrackEvents.EIDA_CALLBACK_UNDER_18)
                 }
-                it.nationality.equals("USA", true) -> {
-                    sanctionedCountry =
-                        sectionedCountries?.data?.find { country -> country.name == it.nationality }
-                            ?.name.toString()
+                it.nationality.equals("USA", true) || it.isoCountryCode2Digit.equals(
+                    "US",
+                    true
+                ) -> {
+                    sanctionedCountry = it.nationality
                     sanctionedNationality = it.nationality
                     clickEvent.setValue(EVENT_ERROR_FROM_USA)
                     trackEvent(TrackEvents.EIDA_CALLBACK_US_CITIZEN)
                 }
-                it.isoCountryCode2Digit == sectionedCountries?.data?.find { country -> country.isoCountryCode2Digit == it.isoCountryCode2Digit }?.isoCountryCode2Digit -> {
+                it.isoCountryCode2Digit.equals(
+                    sectionedCountries?.data?.find { country -> country.isoCountryCode2Digit == it.isoCountryCode2Digit }?.isoCountryCode2Digit,
+                    true
+                ) -> {
                     sanctionedCountry = it.nationality
                     sanctionedNationality = it.nationality
                     clickEvent.setValue(
@@ -123,8 +129,11 @@ class EidInfoReviewViewModel(application: Application) :
                         identity.dateOfBirth =
                             DateUtils.stringToDate(data.date_of_birth, "yyMMdd")
                         identity.citizenNumber = data.optional1
+                        identity.isoCountryCode2Digit = "us"//data.isoCountryCode2Digit
                         result.identity = identity
+
                         parentViewModel?.identity = result
+
                         populateState(result)
                     } else {
                         result.identity = Identity()
