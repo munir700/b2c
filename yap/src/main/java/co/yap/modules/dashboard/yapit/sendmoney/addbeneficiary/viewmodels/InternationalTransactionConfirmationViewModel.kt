@@ -165,15 +165,17 @@ class InternationalTransactionConfirmationViewModel(application: Application) :
 
     override fun getTransactionThresholds() {
         launch {
+            state.loading = true
             when (val response = mTransactionsRepository.getTransactionThresholds()) {
                 is RetroApiResponse.Success -> {
                     transactionThreshold.value = response.data.data
+                    state.loading = false
                 }
                 is RetroApiResponse.Error -> {
+                    state.loading = false
                     state.toast = response.error.message
                 }
             }
         }
     }
-
 }

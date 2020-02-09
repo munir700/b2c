@@ -102,7 +102,7 @@ class CashTransferViewModel(application: Application) :
                                 dailyLimit,
                                 remainingDailyLimit
                             )
-                        return remainingDailyLimit > enteredAmount
+                        return enteredAmount > remainingDailyLimit
 
                     } ?: return false
                 } ?: return false
@@ -115,7 +115,7 @@ class CashTransferViewModel(application: Application) :
             it.totalDebitAmountRemittance?.let { totalSMConsumedAmount ->
                 state.amount.toDoubleOrNull()?.let { enteredAmount ->
                     val remainingOtpLimit = it.otpLimit ?: 0.0 - totalSMConsumedAmount
-                    return remainingOtpLimit > enteredAmount
+                    return enteredAmount > remainingOtpLimit
                 } ?: return false
             } ?: return false
         } ?: return false
