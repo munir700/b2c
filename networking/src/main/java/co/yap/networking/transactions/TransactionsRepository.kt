@@ -61,7 +61,8 @@ object TransactionsRepository : BaseRepository(), TransactionsApi {
         "/transactions/api/rmt"
     const val URL_SWIFT_TRANSFER =
         "/transactions/api/swift"
-
+    const val URL_GET_TRANSACTION_THRESHOLDS =
+        "/transactions/api/transaction-thresholds"
     // Household
     const val URL_HOUSEHOLD_CARD_FEE_PACKAGE = "/transactions/api/fees/subscriptions/{pkg-type}"
 
@@ -198,5 +199,8 @@ object TransactionsRepository : BaseRepository(), TransactionsApi {
 
     override suspend fun getHousholdFeePackage(packageType: String): RetroApiResponse<CardFeeResponse> =
         executeSafely(call = { api.getHousholdFeePackage(packageType) })
+
+    override suspend fun getTransactionThresholds(): RetroApiResponse<TransactionThresholdResponseDTO> =
+        executeSafely(call = { api.getTransactionThresholds() })
 
 }

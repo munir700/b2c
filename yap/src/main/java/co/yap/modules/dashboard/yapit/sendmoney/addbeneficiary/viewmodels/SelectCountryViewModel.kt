@@ -9,7 +9,6 @@ import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.interfaces.ISelec
 import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.states.SelectCountryState
 import co.yap.modules.dashboard.yapit.sendmoney.viewmodels.SendMoneyBaseViewModel
 import co.yap.networking.customers.CustomersRepository
-import co.yap.networking.customers.responsedtos.sendmoney.CountryModel
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
 import co.yap.translation.Strings
@@ -134,7 +133,7 @@ class SelectCountryViewModel(application: Application) :
         }
     }
 
-    private fun getDefaultCountry(currencyList: List<CountryModel.Data.Currency>?): Currency? {
+    private fun getDefaultCountry(currencyList: List<co.yap.networking.customers.responsedtos.sendmoney.Currency>?): Currency? {
         var currency: Currency? = null
         currencyList?.let {
             for (item in it) {

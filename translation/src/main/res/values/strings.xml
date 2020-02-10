@@ -17,7 +17,7 @@
     <string name="error_view_text">No results found\ntab to retry</string>
     <string name="empty_view_text">No results found</string>
     <string name="common_text_fee">Fee: %1s</string>
-
+    <string name="common_display_text_daily_limit_error">You are exceeding your daily transfer limit of %1s. You are left with limit of %2s for today.</string>
 
     <!-- Home Screen -->
     <string name="screen_home_display_text_tag_line">The Personalized Banking App</string>
@@ -654,7 +654,7 @@
     <!--  Beneficiary overview screen -->
 
     <string name="screen_beneficiary_overview_display_text_title">Beneficiary overview</string>
-    <string name="screen_beneficiary_overview_display_text_account_number_iban">Account/IBAN number</string>
+    <string name="screen_beneficiary_overview_display_text_account_number_iban">IBAN</string>
     <string name="screen_beneficiary_overview_display_text_swift_code">Swift code</string>
     <string name="screen_beneficiary_overview_display_text_field_code">Country Bank Requirement Field code</string>
     <string name="screen_beneficiary_overview_button_confirm">Confirm</string>
@@ -878,6 +878,12 @@
     <string name="screen_success_house_hold_we_will_call_you_to_text">We will call you to confirm the time.</string>
     <string name="screen_success_house_hold_make_sure_to_text">Make sure to keep your Emirates ID with you</string>
     <string name="screen_success_house_hold_card_deliver_text">Your card will be delivered to:</string>
+
+<!--    ATM_CDM-->
+    <string name="screen_more_atm_cdm_custom_button_get_direction">Get direction</string>
+    <string name="location_permission">Location Permission</string>
+    <string name="location_permission_msg">Yap determines your current location. Your location may be shown on map and is used to provide things such direction and in order to serve personalize alert. This allows for a better overall app experience.</string>
+
 
 
 

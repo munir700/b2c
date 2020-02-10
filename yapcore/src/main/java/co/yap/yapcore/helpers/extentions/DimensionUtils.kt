@@ -113,3 +113,6 @@ internal fun Context.contextDrawable(resource: Int): Drawable? {
 fun getScreenWidth(): Int {
     return Resources.getSystem().displayMetrics.widthPixels
 }
+fun getScreenHeight(): Int {
+    return Resources.getSystem().displayMetrics.widthPixels
+}

@@ -1,0 +1,10 @@
+package co.yap.yapcore.enums
+
+enum class OTPActions {
+    Y2Y,
+    SWIFT_BENEFICIARY,
+    RMT_BENEFICIARY,
+    CASHPAYOUT_BENEFICIARY,
+    DOMESTIC_BENEFICIARY,
+    IS_NEW_BENEFICIARY
+}

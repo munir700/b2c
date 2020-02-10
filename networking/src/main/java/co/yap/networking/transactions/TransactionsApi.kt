@@ -58,5 +58,5 @@ interface TransactionsApi {
     suspend fun rmtTransferRequest(rmtTransactionRequestDTO: RMTTransactionRequestDTO): RetroApiResponse<SendMoneyTransactionResponseDTO>
     suspend fun swiftTransferRequest(swiftTransactionRequestDTO: SwiftTransactionRequestDTO): RetroApiResponse<SendMoneyTransactionResponseDTO>
     suspend fun getHousholdFeePackage(packageType:String):RetroApiResponse<CardFeeResponse>
-
+    suspend fun getTransactionThresholds():RetroApiResponse<TransactionThresholdResponseDTO>
 }

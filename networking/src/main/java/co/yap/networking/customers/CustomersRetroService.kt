@@ -106,6 +106,11 @@ interface CustomersRetroService {
     @GET(CustomersRepository.URL_CARDS_LIMITS)
     suspend fun getCardsLimit(): Response<CardsLimitResponse>
 
+    @GET(CustomersRepository.URL_GET_COUNTRY_DATA_WITH_ISO_DIGIT)
+    suspend fun getCountryDataWithISODigit(@Path("country-code") countryCodeWith2Digit: String): Response<Country>
+
+    @GET(CustomersRepository.URL_GET_COUNTRY_TRANSACTION_LIMITS)
+    suspend fun getCountryTransactionLimits(@Query("countryCode") countryCode: String, @Query("currencyCode") currencyCode: String): Response<CountryLimitsResponseDTO>
 
     /*  send money */
     @GET(CustomersRepository.URL_GET_RECENT_BENEFICIARIES)

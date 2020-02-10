@@ -29,7 +29,6 @@ class BeneficiaryAccountDetailsViewModel(application: Application) :
     override var beneficiary: Beneficiary? = Beneficiary()
     override val otpCreateObserver: MutableLiveData<Boolean> = MutableLiveData()
 
-
     override fun onCreate() {
         super.onCreate()
         parentViewModel?.beneficiary?.value?.beneficiaryType?.let { beneficiaryType ->
@@ -63,28 +62,21 @@ class BeneficiaryAccountDetailsViewModel(application: Application) :
         }
     }
 
-    override fun handlePressOnAddBank(id: Int) {
-        if (id == R.id.confirmButton) {
-            parentViewModel?.beneficiary?.value?.beneficiaryType?.let { it ->
-                if (it.isNotEmpty())
-                    when (SendMoneyBeneficiaryType.valueOf(it)) {
-                        SendMoneyBeneficiaryType.SWIFT, SendMoneyBeneficiaryType.RMT -> {
-                            validateBeneficiaryDetails()
-                        }
-                        else -> {
-                            clickEvent.setValue(id)
-                        }
-                    }
-            }
-        } else
-            clickEvent.setValue(id)
-    }
-
     override fun onResume() {
         super.onResume()
         setToolBarTitle(getString(Strings.screen_add_beneficiary_display_text_title))
         parentViewModel?.state?.toolbarVisibility?.set(true)
         parentViewModel?.state?.leftIcon?.set(true)
+    }
+
+    override fun handlePressOnAddBank(id: Int) {
+        if (id == R.id.confirmButton) {
+            parentViewModel?.beneficiary?.value?.also { it ->
+                it.accountNo = state.accountIban.replace(" ", "")
+                clickEvent.setValue(id)
+            }
+        } else
+            clickEvent.setValue(id)
     }
 
     override fun createBeneficiaryRequest() {
@@ -108,27 +100,23 @@ class BeneficiaryAccountDetailsViewModel(application: Application) :
         }
     }
 
-    override fun validateBeneficiaryDetails() {
-        parentViewModel?.beneficiary?.value?.let {
-            it.accountNo = state.accountIban.replace(" ", "")
-            launch {
-                state.loading = true
-                when (val response = repository.validateBeneficiary(it)) {
-                    is RetroApiResponse.Success -> {
-                        state.loading = false
-                        isBeneficiaryValid.value = true
-                    }
+    override fun validateBeneficiaryDetails(beneficiary: Beneficiary) {
+        launch {
+            state.loading = true
+            when (val response = repository.validateBeneficiary(beneficiary)) {
+                is RetroApiResponse.Success -> {
+                    state.loading = false
+                    isBeneficiaryValid.value = true
+                }
 
-                    is RetroApiResponse.Error -> {
-                        state.loading = false
-                        isBeneficiaryValid.value = false
-                        state.toast = response.error.message
-                        //success.value = false
-                    }
+                is RetroApiResponse.Error -> {
+                    state.loading = false
+                    isBeneficiaryValid.value = false
+                    state.toast = response.error.message
+                    //success.value = false
                 }
             }
         }
-
     }
 
     override fun retry() {

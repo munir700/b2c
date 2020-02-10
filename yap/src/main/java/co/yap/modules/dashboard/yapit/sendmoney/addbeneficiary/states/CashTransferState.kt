@@ -8,6 +8,7 @@ import androidx.databinding.Bindable
 import androidx.databinding.library.baseAdapters.BR
 import androidx.lifecycle.MutableLiveData
 import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.interfaces.ICashTransfer
+import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.networking.transactions.responsedtos.InternationalFundsTransferReasonList
 import co.yap.networking.transactions.responsedtos.transaction.RemittanceFeeResponse
 import co.yap.translation.Strings
@@ -192,6 +193,12 @@ class CashTransferState(application: Application) : BaseState(), ICashTransfer.S
         set(value) {
             field = value
             notifyPropertyChanged(BR.otpAction)
+        }
+    @get:Bindable
+    override var beneficiary: Beneficiary?= Beneficiary()
+        set(value) {
+            field=value
+            notifyPropertyChanged(BR.beneficiary)
         }
 
 

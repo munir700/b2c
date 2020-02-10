@@ -60,6 +60,26 @@ class AddBeneficiaryViewModel(application: Application) :
         }
     }
 
+    override fun handlePressOnAddNow(id: Int) {
+        if (id == R.id.confirmButton) {
+            setBeneficiaryDetail()
+            parentViewModel?.beneficiary?.value?.beneficiaryType?.let { beneficiaryType ->
+                if (beneficiaryType.isEmpty()) return@let
+                when (SendMoneyBeneficiaryType.valueOf(beneficiaryType)) {
+                    SendMoneyBeneficiaryType.CASHPAYOUT -> {
+                        parentViewModel?.beneficiary?.value?.let { validateBeneficiaryDetails(it) }
+                    }
+                    else -> {
+                        state.transferType = "Bank Transfer"
+                    }
+                }
+            }
+            clickEvent.setValue(id)
+        } else {
+            clickEvent.setValue(id)
+        }
+    }
+
     override fun createOtp(action: String) {
         launch {
             state.loading = true
@@ -81,20 +101,20 @@ class AddBeneficiaryViewModel(application: Application) :
         }
     }
 
-
-    override fun handlePressOnAddNow(id: Int) {
-        if (id == R.id.confirmButton) {
-            setBeneficiaryDetail()
-            when (state.transferType) {
-                "Cash Pickup" -> {
+    override fun validateBeneficiaryDetails(beneficiaryy: Beneficiary) {
+        launch {
+            state.loading = true
+            when (val response = repository.validateBeneficiary(beneficiaryy)) {
+                is RetroApiResponse.Success -> {
+                    state.loading = false
                     createOtp(Constants.CASHPAYOUT_BENEFICIARY)
                 }
-                else -> {
+
+                is RetroApiResponse.Error -> {
+                    state.loading = false
+                    state.toast = response.error.message
                 }
             }
-            clickEvent.setValue(id)
-        } else {
-            clickEvent.setValue(id)
         }
     }
 

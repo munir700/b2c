@@ -3,6 +3,7 @@ package co.yap.networking.customers.responsedtos
 import android.os.Parcelable
 import androidx.lifecycle.MutableLiveData
 import co.yap.networking.customers.responsedtos.sendmoney.CountryModel
+import co.yap.networking.customers.responsedtos.sendmoney.Currency
 import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
 import kotlinx.android.parcel.RawValue
@@ -40,7 +41,7 @@ class AccountInfo(
     @SerializedName("bank")
     var bank: Bank? = Bank(),
     @SerializedName("currency")
-    var currency: CountryModel.Data.Currency = CountryModel.Data.Currency(),
+    var currency: Currency = Currency(),
     @SerializedName("notificationStatuses")
     var notificationStatuses: String,
     @SerializedName("toClose")

@@ -5,11 +5,14 @@ import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
 import co.yap.BR
 import co.yap.yapcore.BaseState
+import co.yap.yapcore.enums.PartnerBankStatus
+import co.yap.yapcore.managers.MyUserManager
 
 class TopUpBeneficiariesState : BaseState(), ITopUpBeneficiaries.State {
 
     override val valid: ObservableField<Boolean> = ObservableField(true)
-    override val enableAddCard: ObservableBoolean = ObservableBoolean(true)
+    override val enableAddCard: ObservableBoolean =
+        ObservableBoolean(PartnerBankStatus.ACTIVATED.status == MyUserManager.user?.partnerBankStatus)
     override var noOfCard: ObservableField<String> = ObservableField("")
     override var alias: ObservableField<String> = ObservableField("")
     override var message: ObservableField<String> =
@@ -20,7 +23,6 @@ class TopUpBeneficiariesState : BaseState(), ITopUpBeneficiaries.State {
         set(value) {
             field = value
             notifyPropertyChanged(BR.tootlBarTitle)
-
         }
 
     @get:Bindable

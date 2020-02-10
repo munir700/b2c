@@ -6,18 +6,6 @@
     app:startDestination="@id/KYCHomeFragment">
 
     <fragment
-        android:id="@+id/informationErrorFragment"
-        android:name="co.yap.modules.kyc.fragments.InformationErrorFragment"
-        android:label="InformationErrorFragment"
-        tools:layout="@layout/fragment_information_error" >
-
-        <argument
-            android:name="countryName"
-            android:defaultValue=" "
-            app:argType="string" />
-    </fragment>
-
-    <fragment
         android:id="@+id/KYCHomeFragment"
         android:name="co.yap.modules.kyc.fragments.KYCHomeFragment"
         android:label="KYCHomeFragment"
@@ -25,10 +13,20 @@
         <action
             android:id="@+id/action_KYCHomeFragment_to_eidInfoReviewFragment"
             app:destination="@id/eidInfoReviewFragment" />
-        <action
-            android:id="@+id/action_KYCHomeFragment_to_AddressSelectionFragment"
-            app:destination="@id/AddressSelectionFragment" />
     </fragment>
+
+    <fragment
+        android:id="@+id/informationErrorFragment"
+        android:name="co.yap.modules.kyc.fragments.InformationErrorFragment"
+        android:label="InformationErrorFragment"
+        tools:layout="@layout/fragment_information_error">
+
+        <argument
+            android:name="countryName"
+            android:defaultValue=" "
+            app:argType="string" />
+    </fragment>
+
 
     <argument
         android:name="name"
@@ -51,37 +49,6 @@
         android:label="AddressSelectionFragment"
         tools:layout="@layout/fragment_meeting_confirmation" />
 
-    <fragment
-        android:id="@+id/AddressSelectionFragment"
-        android:name="co.yap.modules.kyc.fragments.AddressSelectionFragment"
-        android:label="AddressSelectionActivity"
-        tools:layout="@layout/fragment_address_selection">
-
-        <argument
-            android:name="isFromPhysicalCardsScreen"
-            android:defaultValue="false"
-            app:argType="boolean" />
-        <argument
-            android:name="isFromBlockCardsScreen"
-            android:defaultValue="false"
-            app:argType="boolean" />
-        <argument
-            android:name="isFromPersonalDetail"
-            android:defaultValue="false"
-            app:argType="boolean" />
-
-
-        <action
-            android:id="@+id/action_AddressSelectionActivity_to_MeetingConfirmationFragment"
-            app:destination="@id/MeetingConfirmationFragment"
-            app:popUpToInclusive="false" />
-        <action
-            android:id="@+id/action_addressSelectionFragment_to_successFragment"
-            app:destination="@id/successFragment"
-            app:popUpTo="@+id/personalDetailsFragment"
-            app:popUpToInclusive="true" />
-
-    </fragment>
     <fragment
         android:id="@+id/successFragment"
         android:name="co.yap.modules.dashboard.more.profile.fragments.SuccessFragment"

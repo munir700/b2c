@@ -23,11 +23,9 @@ import co.yap.translation.Translator
 import co.yap.widgets.spinneradapter.ViewHolderArrayAdapter
 import co.yap.yapcore.enums.SendMoneyBeneficiaryProductCode
 import co.yap.yapcore.enums.SendMoneyBeneficiaryType
-import co.yap.yapcore.helpers.CustomSnackbar
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.toast
 import co.yap.yapcore.managers.MyUserManager
-import kotlinx.android.synthetic.main.fragment_beneficiary_overview.*
 import kotlinx.android.synthetic.main.fragment_international_funds_transfer.*
 
 
@@ -48,8 +46,7 @@ class InternationalFundsTransferFragment :
         viewModel.getTransactionFeeInternational(productCode)
         viewModel.getReasonList(productCode)
         viewModel.getTransactionInternationalfxList(productCode)
-
-
+        viewModel.getTransactionThresholds1()
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -80,41 +77,6 @@ class InternationalFundsTransferFragment :
             }
         })
     }
-//
-//    private fun successOtpFlow() {
-//        if (context is BeneficiaryCashTransferActivity) {
-//            (context as BeneficiaryCashTransferActivity).viewModel.state.otpSuccess?.let { success ->
-//                if (success) {
-//                    callTransactionApi()
-//                }
-//                (context as BeneficiaryCashTransferActivity).viewModel.state.otpSuccess = false
-//            }
-//        }
-//    }
-//
-//    private fun callTransactionApi() {
-//        (context as BeneficiaryCashTransferActivity).viewModel.state.beneficiary?.let { beneficiary ->
-//            beneficiary.beneficiaryType?.let { beneficiaryType ->
-//                if (beneficiaryType.isNotEmpty())
-//                    when (SendMoneyBeneficiaryType.valueOf(beneficiaryType)) {
-//                        SendMoneyBeneficiaryType.RMT -> {
-//                            beneficiary.id?.let { beneficiaryId ->
-//                                viewModel.rmtTransferRequest(beneficiaryId.toString())
-//                            }
-//                        }
-//                        SendMoneyBeneficiaryType.SWIFT -> {
-//                            beneficiary.id?.let { beneficiaryId ->
-//                                viewModel.swiftTransferRequest(beneficiaryId.toString())
-//                            }
-//                        }
-//                        else -> {
-//
-//                        }
-//                    }
-//            }
-//        }
-//
-//    }
 
     private fun setObservers() {
         viewModel.clickEvent.observe(this, clickEvent)
@@ -164,155 +126,140 @@ class InternationalFundsTransferFragment :
                 if (viewModel.state.reasonTransferValue.equals("Select a Reason")) {
                     toast("Select a Reason")
                 } else {
-
-                    val availableBalance =
-                        MyUserManager.cardBalance.value?.availableBalance?.toDouble()
-                    if (availableBalance != null) {
-                        val inputAmount = viewModel.state.fxRateAmount?.toDouble() ?: 0.0
-                        +viewModel.state.transferFeeAmount
-
-                        if (availableBalance > inputAmount) {
-                            if (viewModel.state.fxRateAmount?.toDouble() ?: 0.0 < viewModel.state.minLimit ?: 0.0 || viewModel.state.fxRateAmount?.toDouble() ?: 0.0 > viewModel.state.maxLimit ?: 0.0) {
-
-                                val errorDescription = getString(
-                                    Strings.scren_send_money_funds_transfer_display_text_amount_error
-                                ).format(
-                                    Utils.getFormattedCurrency(viewModel.state.minLimit.toString()),
-                                    Utils.getFormattedCurrency(viewModel.state.maxLimit.toString()),
-                                    availableBalance.toString()
-                                )
-                                if (activity is BeneficiaryCashTransferActivity) {
-                                    (activity as BeneficiaryCashTransferActivity).viewModel.errorEvent.value =
-                                        errorDescription
-                                }
-                                //showSnackBarForLimits(errorDescription)
-                            } else {
-                                viewModel.state.position?.let { position ->
-                                    viewModel.state.beneficiaryCountry?.let { beneficiaryCountry ->
-                                        val action =
-                                            InternationalFundsTransferFragmentDirections.actionInternationalFundsTransferFragmentToInternationalTransactionConfirmationFragment(
-                                                viewModel.state.beneficiaryName,
-                                                viewModel.state.senderCurrency.toString(),
-                                                viewModel.state.fxRateAmount.toString(),
-                                                viewModel.state.receiverCurrencyAmount.toString(),
-                                                viewModel.state.toFxRateCurrency ?: "",
-                                                viewModel.state.totalAmount.toString(),
-                                                viewModel.state.fromFxRate.toString(),
-                                                viewModel.state.toFxRate.toString(),
-                                                viewModel.state.referenceNumber.toString(),
-                                                position,
-                                                beneficiaryCountry,
-                                                viewModel.state.firstName
-                                                    ?: viewModel.state.beneficiaryName,
-                                                viewModel.state.fromFxRateCurrency?: "",
-                                                viewModel.state.reasonTransferCode?: "",
-                                                viewModel.state.transactionNote ?: "",
-                                                viewModel.state.reasonTransferValue?: "",
-                                                viewModel.state.rate?: "",
-                                                viewModel.otpAction ?: ""
-                                            )
-                                        findNavController().navigate(action)
-                                    }
-
-                                }
-
-                                // viewModel.createOtp(R.id.btnNext)
-                            }
-
-                            /*if (viewModel.state.minLimit != null && viewModel.state.maxLimit != null) {
-                                if (inputAmount < viewModel.state.minLimit!!.toDouble() && inputAmount > viewModel.state.maxLimit!!.toDouble()) {
-                                    showErrorSnackBar()
-                                } else {
-                                    viewModel.createOtp(R.id.btnNext)
-                                }
-                            }*/
-                        } else {
-                            val des = Translator.getString(
-                                requireContext(),
-                                Strings.screen_y2y_funds_transfer_display_text_error_exceeding_amount
-                            )
-                            if (activity is BeneficiaryCashTransferActivity) {
-                                (activity as BeneficiaryCashTransferActivity).viewModel.errorEvent.value =
-                                    des
-                            }
-                        }
-                    }
-
-//                val action =
-//                    InternationalFundsTransferFragmentDirections.actionInternationalFundsTransferFragmentToGenericOtpLogoFragment(
-//                        false,
-//                        viewModel.otpAction.toString(),
-//                        viewModel.state.fxRateAmount.toString()
-//                    )
-//                findNavController().navigate(action)
-                }
-
-            }
-            200 -> {
-                viewModel.state.position?.let { position ->
-                    viewModel.state.beneficiaryCountry?.let { beneficiaryCountry ->
-                        val action =
-                            InternationalFundsTransferFragmentDirections.actionInternationalFundsTransferFragmentToGenericOtpLogoFragment(
-                                false,
-                                viewModel.otpAction.toString(),
-                                viewModel.state.fxRateAmount.toString(),
-                                position,
-                                beneficiaryCountry
-                            )
-                        findNavController().navigate(action)
-                    }
+                    val totalAmount = viewModel.state.fxRateAmount?.toDoubleOrNull() ?: 0.0.plus(
+                        viewModel.state.transferFeeAmount
+                    )
+                    viewModel.state.totalTransferAmount.set(totalAmount)
+                    startFlow()
                 }
             }
-//            Constants.ADD_SUCCESS -> {
-//                // Send Broadcast for updating transactions list in `Home Fragment`
-//                val intent = Intent(Constants.BROADCAST_UPDATE_TRANSACTION)
-//                LocalBroadcastManager.getInstance(requireContext()).sendBroadcast(intent)
-//                viewModel.state.position?.let { position ->
-//                    viewModel.state.beneficiaryCountry?.let { beneficiaryCountry ->
-//                        val action =
-//                            InternationalFundsTransferFragmentDirections.actionInternationalFundsTransferFragmentToInternationalTransactionConfirmationFragment(
-//                                viewModel.state.beneficiaryName,
-//                                viewModel.state.senderCurrency.toString(),
-//                                viewModel.state.fxRateAmount.toString(),
-//                                viewModel.state.receiverCurrencyAmount.toString(),
-//                                viewModel.state.toFxRateCurrency ?: "",
-//                                viewModel.state.totalAmount.toString(),
-//                                viewModel.state.fromFxRate.toString(),
-//                                viewModel.state.toFxRate.toString(),
-//                                viewModel.state.referenceNumber.toString(),
-//                                position,
-//                                beneficiaryCountry,
-//                                viewModel.state.firstName ?: viewModel.state.beneficiaryName
-//                            )
-//                        findNavController().navigate(action)
-//                    }
-//
-//                }
-//
-//            }
+
             R.id.viewSpinnerClickReason -> {
                 reasonsSpinner.performClick()
             }
         }
     }
 
+    private fun isBalanceAvailable(): Boolean {
+        val availableBalance =
+            MyUserManager.cardBalance.value?.availableBalance?.toDoubleOrNull()
+        if (availableBalance != null) {
+            val totalTransferAmount = viewModel.state.fxRateAmount?.toDoubleOrNull() ?: 0.0
+            +viewModel.state.transferFeeAmount
+
+            return (availableBalance > totalTransferAmount)
+        } else
+            return false
+    }
+
+    private fun startFlow() {
+        if (isBalanceAvailable()) {
+            if (viewModel.state.totalTransferAmount.get() ?: 0.0 < viewModel.state.minLimit ?: 0.0 || viewModel.state.totalTransferAmount.get() ?: 0.0 > viewModel.state.maxLimit ?: 0.0) {
+                setLowerAndUpperLimitError()
+            } else {
+                if (isDailyLimitReached())
+                    showLimitError()
+                else
+                    moveToConfirmTransferScreen()
+            }
+        } else {
+            showBalanceNotAvailableError()
+        }
+    }
+
+    private fun setLowerAndUpperLimitError() {
+        viewModel.state.errorDescription = getString(
+            Strings.scren_send_money_funds_transfer_display_text_amount_error
+        ).format(
+            Utils.getFormattedCurrency(viewModel.state.minLimit.toString()),
+            Utils.getFormattedCurrency(viewModel.state.maxLimit.toString()),
+            MyUserManager.cardBalance.value?.availableBalance?.toDoubleOrNull()
+        )
+        showLimitError()
+    }
+
+    private fun showBalanceNotAvailableError() {
+        val des = Translator.getString(
+            requireContext(),
+            Strings.screen_y2y_funds_transfer_display_text_error_exceeding_amount
+        )
+        if (activity is BeneficiaryCashTransferActivity) {
+            (activity as BeneficiaryCashTransferActivity).viewModel.errorEvent.value =
+                des
+        }
+    }
+
+    private fun showLimitError() {
+        if (activity is BeneficiaryCashTransferActivity) {
+            (activity as BeneficiaryCashTransferActivity).viewModel.errorEvent.value =
+                viewModel.state.errorDescription
+        }
+    }
+
+    private fun isDailyLimitReached(): Boolean {
+        viewModel.transactionThreshold.value?.let {
+            it.dailyLimit?.let { dailyLimit ->
+                it.totalDebitAmount?.let { totalConsumedAmount ->
+                    viewModel.state.totalTransferAmount.get()?.let { enteredAmount ->
+                        val remainingDailyLimit = dailyLimit - totalConsumedAmount
+                        viewModel.state.errorDescription =
+                            getString(Strings.common_display_text_daily_limit_error).format(
+                                dailyLimit,
+                                remainingDailyLimit
+                            )
+                        return (enteredAmount > remainingDailyLimit)
+
+                    } ?: return false
+                } ?: return false
+            } ?: return false
+        } ?: return false
+
+    }
+
+    private fun moveToConfirmTransferScreen() {
+        viewModel.state.position?.let { position ->
+            viewModel.state.beneficiaryCountry?.let { beneficiaryCountry ->
+                val action =
+                    InternationalFundsTransferFragmentDirections.actionInternationalFundsTransferFragmentToInternationalTransactionConfirmationFragment(
+                        viewModel.state.beneficiaryName,
+                        viewModel.state.senderCurrency.toString(),
+                        viewModel.state.fxRateAmount.toString(),
+                        viewModel.state.receiverCurrencyAmount.toString(),
+                        viewModel.state.toFxRateCurrency ?: "",
+                        viewModel.state.totalAmount.toString(),
+                        viewModel.state.fromFxRate.toString(),
+                        viewModel.state.toFxRate.toString(),
+                        viewModel.state.referenceNumber.toString(),
+                        position,
+                        beneficiaryCountry,
+                        viewModel.state.firstName
+                            ?: viewModel.state.beneficiaryName,
+                        viewModel.state.fromFxRateCurrency ?: "",
+                        viewModel.state.reasonTransferCode ?: "",
+                        viewModel.state.transactionNote ?: "",
+                        viewModel.state.reasonTransferValue ?: "",
+                        viewModel.state.rate ?: "",
+                        viewModel.otpAction ?: ""
+                    )
+                findNavController().navigate(action)
+            }
+
+        }
+
+    }
+
     private fun editBeneficiaryScreen() {
-        etnickName.isEnabled = true
-        etFirstName.isEnabled = true
-        etLastName.isEnabled = true
-        etAccountIbanNumber.isEnabled = true
-        etnickName.isEnabled = true
-        etSwiftCode.isEnabled = true
-        etBankREquiredFieldCode.isEnabled = true
+//    etnickName.isEnabled = true
+//    etFirstName.isEnabled = true
+//    etLastName.isEnabled = true
+//    etAccountIbanNumber.isEnabled = true
+//    etnickName.isEnabled = true
+//    etSwiftCode.isEnabled = true
+//    etBankREquiredFieldCode.isEnabled = true
     }
 
-
-    override fun onBackPressed(): Boolean {
-        return super.onBackPressed()
-    }
 
     private fun getProductCode(): String {
-
         if (context is BeneficiaryCashTransferActivity) {
             (context as BeneficiaryCashTransferActivity).let { beneficiaryCashTransaferActivity ->
                 beneficiaryCashTransaferActivity.viewModel.state.toolBarTitle = getString(
@@ -349,48 +296,13 @@ class InternationalFundsTransferFragment :
     private fun getBeneficiaryId() {
         if (context is BeneficiaryCashTransferActivity) {
             (context as BeneficiaryCashTransferActivity).viewModel.state.beneficiary?.let { beneficiary ->
+                viewModel.state.beneficiary = beneficiary
                 beneficiary.id?.let { beneficiaryId ->
                     viewModel.state.beneficiaryId = beneficiaryId.toString()
                 }
             }
         }
     }
-
-
-//    private fun callTransactionApi() {
-//        (context as BeneficiaryCashTransferActivity).viewModel.state.beneficiary?.let { beneficiary ->
-//            beneficiary.beneficiaryType?.let { beneficiaryType ->
-//                if (beneficiaryType.isNotEmpty())
-//                    when (SendMoneyBeneficiaryType.valueOf(beneficiaryType)) {
-//                        SendMoneyBeneficiaryType.RMT -> {
-//                            beneficiary.id?.let { beneficiaryId ->
-//                                viewModel.rmtTransferRequest(beneficiaryId.toString())
-//                            }
-//                        }
-//                        SendMoneyBeneficiaryType.SWIFT -> {
-//                            beneficiary.id?.let { beneficiaryId ->
-//                                viewModel.swiftTransferRequest(beneficiaryId.toString())
-//                            }
-//                        }
-//                        else -> {
-//
-//                        }
-//                    }
-//            }
-//        }
-//    }
-
-//    private fun showErrorSnackBar() {
-//        val des = Translator.getString(
-//            requireContext(),
-//            Strings.screen_y2y_funds_transfer_display_text_error_exceeding_amount
-//        )
-//        CustomSnackbar.showErrorCustomSnackbar(
-//            context = requireContext(),
-//            layout = clFTSnackbar,
-//            message = des
-//        )
-//    }
 
     override fun onResume() {
         super.onResume()

@@ -7,6 +7,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
 import co.yap.R
+import co.yap.databinding.ActivityEditBeneficiaryBinding
 import co.yap.modules.dashboard.yapit.sendmoney.editbeneficiary.interfaces.IEditBeneficiary
 import co.yap.modules.dashboard.yapit.sendmoney.editbeneficiary.viewmodel.EditBeneficiaryViewModel
 import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
@@ -15,6 +16,7 @@ import co.yap.widgets.popmenu.PopupMenu
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.Constants.EXTRA
+import co.yap.yapcore.constants.Constants.IS_IBAN_NEEDED
 import co.yap.yapcore.constants.Constants.OVERVIEW_BENEFICIARY
 import co.yap.yapcore.helpers.extentions.getCurrencyPopMenu
 import kotlinx.android.synthetic.main.activity_edit_beneficiary.*
@@ -38,9 +40,12 @@ class EditBeneficiaryActivity : BaseBindingActivity<IEditBeneficiary.ViewModel>(
         intent?.let {
             if (it.hasExtra(EXTRA)) {
                 val bundle = it.getBundleExtra(EXTRA)
-                bundle?.let {
-                    viewModel.state.needOverView = it.getBoolean(OVERVIEW_BENEFICIARY, false)
-                    viewModel.state.beneficiary = bundle.getParcelable(Beneficiary::class.java.name)
+                bundle?.let { bundleData ->
+                    viewModel.state.needOverView =
+                        bundleData.getBoolean(OVERVIEW_BENEFICIARY, false)
+                    updateAccountTitle(bundleData)
+                    viewModel.state.beneficiary =
+                        bundleData.getParcelable(Beneficiary::class.java.name)
                 }
             }
         }
@@ -48,6 +53,19 @@ class EditBeneficiaryActivity : BaseBindingActivity<IEditBeneficiary.ViewModel>(
         setObservers()
         currencyPopMenu = getCurrencyPopMenu(this, mutableListOf(), null, null)
         maskIban()
+    }
+
+    private fun updateAccountTitle(bundleData: Bundle) {
+        when (bundleData.getString(IS_IBAN_NEEDED)) {
+            "loadFromServer" -> {
+                viewModel.requestCountryInfo()
+                viewModel.state.showIban = false //binding needed
+            }
+            "Yes" -> {
+                viewModel.state.needIban = true
+                viewModel.state.showIban = true //binding needed
+            }
+        }
     }
 
     private fun maskIban() {
@@ -67,8 +85,20 @@ class EditBeneficiaryActivity : BaseBindingActivity<IEditBeneficiary.ViewModel>(
                     setResult(Activity.RESULT_CANCELED, intent)
                     finish()
                 }
-                R.id.confirmButton ->
-                    viewModel.requestUpdateBeneficiary()
+                R.id.confirmButton -> {
+                    if (viewModel.state.needOverView!!) {
+                        val intent = Intent()
+                        intent.putExtra(Constants.BENEFICIARY_CHANGE, true)
+                        intent.putExtra(
+                            Beneficiary::class.java.name,
+                            viewModel.state.beneficiary
+                        )
+                        setResult(Activity.RESULT_OK, intent)
+                        finish()
+                    } else {
+                        viewModel.requestUpdateBeneficiary()
+                    }
+                }
                 R.id.tvChangeCurrency ->
                     currencyPopMenu?.showAsAnchorRightBottom(tvChangeCurrency)
             }
@@ -86,5 +116,9 @@ class EditBeneficiaryActivity : BaseBindingActivity<IEditBeneficiary.ViewModel>(
             }
 
         })
+    }
+
+    private fun getbinding(): ActivityEditBeneficiaryBinding {
+        return viewDataBinding as ActivityEditBeneficiaryBinding
     }
 }

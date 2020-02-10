@@ -27,7 +27,6 @@ import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.MyUserManager
 import kotlinx.android.synthetic.main.fragment_add_beneficiary_domestic_transfer.*
 
-
 class AddBeneficiaryForDomesticTransferFragment :
     SendMoneyBaseFragment<IAddBeneficiary.ViewModel>(),
     IAddBeneficiary.View {
@@ -129,7 +128,9 @@ class AddBeneficiaryForDomesticTransferFragment :
         viewModel.clickEvent.removeObservers(this)
         viewModel.otpCreateObserver.removeObservers(this)
         if (activity is SendMoneyHomeActivity) {
-            (activity as SendMoneyHomeActivity).viewModel.otpSuccess.removeObserver(otpSuccessObserver)
+            (activity as SendMoneyHomeActivity).viewModel.otpSuccess.removeObserver(
+                otpSuccessObserver
+            )
         }
     }
 
@@ -163,6 +164,9 @@ class AddBeneficiaryForDomesticTransferFragment :
                         if (data is Boolean) {
                             if (data) {
                                 startMoneyTransfer()
+                                activity?.let {
+                                    setIntentResult()
+                                }
                             } else {
                                 activity?.let {
                                     setIntentResult()
@@ -176,7 +180,7 @@ class AddBeneficiaryForDomesticTransferFragment :
 
     private fun startMoneyTransfer() {
         viewModel.beneficiary?.let {
-            launchActivity<BeneficiaryCashTransferActivity>(requestCode =RequestCodes.REQUEST_TRANSFER_MONEY){
+            launchActivity<BeneficiaryCashTransferActivity>(requestCode = RequestCodes.REQUEST_TRANSFER_MONEY) {
                 putExtra(Constants.BENEFICIARY, it)
                 putExtra(Constants.POSITION, 0)
                 putExtra(Constants.IS_NEW_BENEFICIARY, true)

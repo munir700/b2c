@@ -19,7 +19,7 @@ import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.Constants.ADDRESS
 import co.yap.yapcore.constants.Constants.ADDRESS_SUCCESS
 import co.yap.yapcore.constants.RequestCodes
-import co.yap.yapcore.helpers.PermissionHelper
+import co.yap.yapcore.helpers.permissions.PermissionHelper
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.interfaces.OnItemClickListener
 import com.daimajia.androidanimations.library.Techniques

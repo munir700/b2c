@@ -8,9 +8,6 @@ import co.yap.yapcore.BaseState
 
 class KYCHomeState : BaseState(), IKYCHome.State {
 
-    //override val fromMoreSection: ObservableField<Boolean> = ObservableField(true)
-    //override val name: Array<String?> = arrayOfNulls(1)
-
     @get:Bindable
     override var valid: Boolean = validate()
         get() = validate()
