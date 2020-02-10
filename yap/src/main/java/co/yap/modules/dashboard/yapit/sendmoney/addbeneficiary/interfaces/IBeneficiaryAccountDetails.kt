@@ -36,7 +36,7 @@ interface IBeneficiaryAccountDetails {
         var clickEvent: SingleClickEvent
         val otpCreateObserver: MutableLiveData<Boolean>
         fun createBeneficiaryRequest()
-        fun validateBeneficiaryDetails()
+        fun validateBeneficiaryDetails(beneficiary: Beneficiary)
         fun handlePressOnAddBank(id: Int)
         fun retry()
 //        fun createOtp(action: String)

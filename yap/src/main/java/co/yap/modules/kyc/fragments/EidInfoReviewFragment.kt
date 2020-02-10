@@ -42,7 +42,13 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
 
         if (viewModel.parentViewModel?.allowSkip?.value == true) {
             openCardScanner()
-            tbBtnBack.setOnClickListener { activity?.finish() }
+            tbBtnBack.setOnClickListener {
+                if (activity is DocumentsDashboardActivity)
+                    (activity as DocumentsDashboardActivity).goToDashBoard(
+                        success = false,
+                        skippedPress = true
+                    )
+            }
         }
         addObservers()
     }
@@ -55,9 +61,7 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
                 viewModel.EVENT_ERROR_UNDER_AGE -> showUnderAgeAlert()
                 viewModel.EVENT_ERROR_FROM_USA -> showUSACitizenAlert()
                 viewModel.EVENT_RESCAN -> openCardScanner()
-                viewModel.EVENT_NEXT_WITH_ERROR -> findNavController().navigate(R.id.action_eidInfoReviewFragment_to_informationErrorFragment)
                 viewModel.EVENT_NEXT -> {
-                    //findNavController().popBackStack()
                     if (activity is DocumentsDashboardActivity)
                         (activity as DocumentsDashboardActivity).goToDashBoard(
                             success = true,
@@ -65,7 +69,6 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
                         )
                 }
                 viewModel.EVENT_ALREADY_USED_EID -> {
-                    //findNavController().popBackStack()
                     if (activity is DocumentsDashboardActivity)
                         (activity as DocumentsDashboardActivity).goToDashBoard(
                             success = false,
@@ -79,8 +82,13 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
                         )
                     findNavController().navigate(action)
                 }
-                viewModel.EVENT_NEXT -> findNavController().popBackStack()
-                viewModel.EVENT_FINISH -> onBackPressed()
+                viewModel.EVENT_FINISH -> {
+                    if (activity is DocumentsDashboardActivity)
+                        (activity as DocumentsDashboardActivity).goToDashBoard(
+                            success = false,
+                            skippedPress = false, error = true
+                        )
+                }
             }
         })
     }
@@ -189,12 +197,5 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
             ),
             IdentityScannerActivity.SCAN_EID_CAM
         )
-    }
-
-    override fun onBackPressed(): Boolean {
-        if (viewModel.parentViewModel?.allowSkip?.value == true) {
-            activity?.finish()
-        }
-        return true
     }
 }

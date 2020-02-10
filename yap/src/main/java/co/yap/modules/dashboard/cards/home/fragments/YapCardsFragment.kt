@@ -46,7 +46,6 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
     override val viewModel: IYapCards.ViewModel
         get() = ViewModelProviders.of(this).get(YapCardsViewModel::class.java)
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel.clickEvent.observe(this, observer)
@@ -54,25 +53,17 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         setupPager()
-        if (MyUserManager.cards.value == null || MyUserManager.cards.value!!.isEmpty()) {
-            viewModel.getCards()
-        } else {
-            setupList()
-        }
-
-        viewModel.state.listUpdated.observe(this, Observer {
-            if (it)
-                setupList()
+        viewModel.getCards()
+        viewModel.cards.observe(this, Observer {
+            if (!it.isNullOrEmpty())
+                setupList(it)
         })
     }
 
-    private fun setupList() {
-        MyUserManager.cards.value?.let {
-            adapter.setList(it)
-            updateCardCount()
-        }
+    private fun setupList(cards: ArrayList<Card>) {
+        adapter.setList(cards)
+        updateCardCount()
     }
 
     private fun updateCardCount() {
@@ -89,8 +80,8 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
             offscreenPageLimit = 3
         }
 
-        val pageMarginPx = Utils.getDimensionInPercent(context!!, true, 14)
-        val offsetPx = Utils.getDimensionInPercent(context!!, true, 14)
+        val pageMarginPx = Utils.getDimensionInPercent(requireContext(), true, 14)
+        val offsetPx = Utils.getDimensionInPercent(requireContext(), true, 14)
         viewPager2.setPageTransformer { page, position ->
             val viewPager = page.parent.parent as ViewPager2
             val offset = position * -(2 * offsetPx + pageMarginPx)
@@ -214,7 +205,6 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-
         when (requestCode) {
             EVENT_PAYMENT_CARD_DETAIL -> {
                 if (resultCode == Activity.RESULT_OK) {
@@ -223,32 +213,30 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
                     val cardBlocked = data?.getBooleanExtra("cardBlocked", false)
                     val cardReorder = data?.getBooleanExtra("cardReorder", false)
 
-                    if (removed!!) {
+                    if (true == removed) {
                         adapter.removeItemAt(selectedCardPosition)
                         adapter.notifyDataSetChanged()
                         updateCardCount()
-                    } else if (cardBlocked!!) {
+                    } else if (true == cardBlocked) {
                         adapter.removeAllItems()
                         viewModel.getCards()
-                    } else if (cardReorder!!) {
+                    } else if (true == cardReorder) {
                         adapter.removeAllItems()
                         viewModel.getCards()
                     } else {
-                        adapter.setItemAt(selectedCardPosition, updatedCard!!)
+                        updatedCard?.let { adapter.setItemAt(selectedCardPosition, it) }
                     }
                 }
             }
-
             EVENT_CARD_ADDED -> {
                 if (resultCode == Activity.RESULT_OK) {
                     val updatedCard: Boolean? = data?.getBooleanExtra("cardAdded", false)
-                    if (updatedCard!!) {
+                    if (true == updatedCard) {
                         adapter.removeAllItems()
                         viewModel.getCards()
                     }
                 }
             }
-
             Constants.EVENT_CREATE_CARD_PIN -> {
                 if (resultCode == Activity.RESULT_OK) {
                     val isPinCreated: Boolean? =
@@ -274,7 +262,6 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
                     }
                 }
             }
-
             RequestCodes.REQUEST_ADD_FUNDS_WHEN_ADD -> {
                 adapter.removeAllItems()
                 viewModel.getCards()
@@ -282,7 +269,7 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
             RequestCodes.REQUEST_REORDER_CARD -> {
                 if (resultCode == Activity.RESULT_OK) {
                     val cardReorder = data?.getBooleanExtra("cardReorder", false)
-                    if (cardReorder!!) {
+                    if (true == cardReorder) {
                         adapter.removeAllItems()
                         viewModel.getCards()
                     }
@@ -350,5 +337,4 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
         viewModel.clickEvent.removeObservers(this)
         super.onDestroy()
     }
-
 }

@@ -9,10 +9,6 @@
         android:name="co.yap.modules.dashboard.cards.reportcard.fragments.ReportLostOrStolenCardFragment"
         tools:layout="@layout/fragment_lost_or_stolen_card">
 
-        <argument
-            android:name="card"
-            app:argType="co.yap.networking.cards.responsedtos.Card" />
-
         <action
             android:id="@+id/action_reportLostOrStolenCardFragment_to_blockCardSuccessFragment"
             app:destination="@id/blockCardSuccessFragment"

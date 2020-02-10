@@ -15,9 +15,7 @@ import co.yap.modules.kyc.activities.DocumentsDashboardActivity
 import co.yap.modules.onboarding.constants.Constants
 import co.yap.modules.onboarding.interfaces.ILiteDashboard
 import co.yap.modules.onboarding.viewmodels.LiteDashboardViewModel
-import co.yap.networking.cards.responsedtos.CardBalance
 import co.yap.yapcore.constants.RequestCodes
-import co.yap.yapcore.helpers.AuthUtils
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.biometric.BiometricUtil
 import co.yap.yapcore.helpers.extentions.launchActivity
@@ -40,6 +38,7 @@ class LiteDashboardFragment : YapDashboardChildFragment<ILiteDashboard.ViewModel
         super.onCreate(savedInstanceState)
 
     }
+
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         mNavigator = (activity?.applicationContext as NavigatorProvider).provideNavigator()
@@ -92,13 +91,19 @@ class LiteDashboardFragment : YapDashboardChildFragment<ILiteDashboard.ViewModel
 
     private val observer = Observer<Int> {
         when (it) {
-            viewModel.EVENT_LOGOUT_SUCCESS -> doLogout()
+            viewModel.EVENT_LOGOUT_SUCCESS -> {
+                MyUserManager.doLogout(requireContext())
+                activity?.finish()
+            }
             /*    viewModel.EVENT_GET_DEBIT_CARDS_SUCCESS -> {
                     findNavController().navigate(LiteDashboardFragmentDirections.actionLiteDashboardFragmentToSetCardPinWelcomeActivity())
                 }*/
             viewModel.EVENT_PRESS_COMPLETE_VERIFICATION -> {
-                launchActivity<DocumentsDashboardActivity>(requestCode = RequestCodes.REQUEST_KYC_DOCUMENTS){
-                    putExtra(co.yap.yapcore.constants.Constants.name, MyUserManager.user?.currentCustomer?.firstName.toString())
+                launchActivity<DocumentsDashboardActivity>(requestCode = RequestCodes.REQUEST_KYC_DOCUMENTS) {
+                    putExtra(
+                        co.yap.yapcore.constants.Constants.name,
+                        MyUserManager.user?.currentCustomer?.firstName.toString()
+                    )
                     putExtra(co.yap.yapcore.constants.Constants.data, false)
                 }
 //                startActivityForResult(
@@ -125,11 +130,10 @@ class LiteDashboardFragment : YapDashboardChildFragment<ILiteDashboard.ViewModel
             data?.let {
                 val result = data.getBooleanExtra(co.yap.yapcore.constants.Constants.result, false)
                 val error = data.getBooleanExtra("error", false)
-                if(!result && error)
-                {
+                if (!result && error) {
                     mNavigator.startEIDNotAcceptedActivity(requireActivity())
 
-                }else {
+                } else {
                     btnCompleteVerification.visibility = if (result) View.GONE else View.VISIBLE
                 }
             }
@@ -156,14 +160,6 @@ class LiteDashboardFragment : YapDashboardChildFragment<ILiteDashboard.ViewModel
                 btnCompleteVerification.visibility = View.GONE
             }
         }
-    }
-
-    private fun doLogout() {
-        AuthUtils.navigateToHardLogin(requireContext())
-        MyUserManager.cardBalance.value = CardBalance()
-        MyUserManager.cards.value?.clear()
-        MyUserManager.expireUserSession()
-        activity?.finish()
     }
 
     private fun showLogoutDialog() {

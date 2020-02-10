@@ -26,11 +26,11 @@ class KYCHomeFragment : KYCChildFragment<IKYCHome.ViewModel>(), IKYCHome.View {
     override fun getBindingVariable(): Int = BR.viewModel
 
     override fun getLayoutId(): Int {
-        if (getAppliedAppTheme()) return R.layout.fragment_kyc_home_house_hold
-        else return R.layout.fragment_kyc_home
+        return if (getAppliedAppTheme()) R.layout.fragment_kyc_home_house_hold
+        else R.layout.fragment_kyc_home
     }
 
-    fun getAppliedAppTheme(): Boolean {
+    private fun getAppliedAppTheme(): Boolean {
         return SharedPreferenceManager(activity!!).getThemeValue().equals(Constants.THEME_HOUSEHOLD)
     }
 
@@ -49,15 +49,11 @@ class KYCHomeFragment : KYCChildFragment<IKYCHome.ViewModel>(), IKYCHome.View {
             when (it) {
                 R.id.cvCard -> openCardScanner()
                 R.id.btnNext -> {
-                    if (viewModel.parentViewModel?.allowSkip?.value == false) {
-                        if (activity is DocumentsDashboardActivity)
-                            (activity as DocumentsDashboardActivity).goToDashBoard(
-                                success = true,
-                                skippedPress = false
-                            )
-                    } else {
-                        findNavController().navigate(R.id.action_KYCHomeFragment_to_AddressSelectionFragment)
-                    }
+                    if (activity is DocumentsDashboardActivity)
+                        (activity as DocumentsDashboardActivity).goToDashBoard(
+                            success = true,
+                            skippedPress = false
+                        )
                 }
 
                 R.id.tvSkip -> {

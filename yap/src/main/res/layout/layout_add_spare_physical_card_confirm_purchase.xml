@@ -127,7 +127,8 @@
                         android:id="@+id/flLocationPin"
                         android:layout_width="@dimen/_42sdp"
                         android:layout_height="@dimen/_42sdp"
-                        android:background="@drawable/bg_round_purple">
+                        android:background="@drawable/bg_round_purple"
+                        android:backgroundTint="?attr/colorPrimaryAttr">
 
 
                         <ImageView

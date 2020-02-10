@@ -431,20 +431,6 @@ object UIBinder {
             }
     }
 
-    private fun isExpire(expiryDate: String): Boolean {
-        val today = Calendar.getInstance()
-        val dateFormatter = SimpleDateFormat("MM/YY", Locale.ENGLISH)
-        val expireDate = Calendar.getInstance()
-        expireDate.time = dateFormatter.parse(expiryDate)
-
-        var year = expireDate.get(Calendar.YEAR) - today.get(Calendar.YEAR)
-        var month = expireDate.get(Calendar.MONTH) - today.get(Calendar.MONTH)
-        return if (year > 0)
-            false
-        else
-            !(year == 0 && month > 0)
-    }
-
     @BindingAdapter("src")
     @JvmStatic
     fun setImageResId(view: ImageView, resId: Int) {

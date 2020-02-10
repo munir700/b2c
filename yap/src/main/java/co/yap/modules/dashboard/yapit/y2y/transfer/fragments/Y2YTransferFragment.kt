@@ -1,5 +1,6 @@
 package co.yap.modules.dashboard.yapit.y2y.transfer.fragments
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
@@ -8,6 +9,7 @@ import android.text.TextWatcher
 import android.view.Gravity
 import android.view.Gravity.CENTER_VERTICAL
 import android.view.View
+import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
@@ -18,16 +20,22 @@ import co.yap.databinding.FragmentY2yFundsTransferBinding
 import co.yap.modules.dashboard.yapit.y2y.main.fragments.Y2YBaseFragment
 import co.yap.modules.dashboard.yapit.y2y.transfer.interfaces.IY2YFundsTransfer
 import co.yap.modules.dashboard.yapit.y2y.transfer.viewmodels.Y2YFundsTransferViewModel
+import co.yap.modules.otp.GenericOtpFragment
+import co.yap.modules.otp.OtpDataModel
+import co.yap.modules.otp.OtpToolBarData
 import co.yap.translation.Strings
 import co.yap.yapcore.BR
 import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.enums.OTPActions
 import co.yap.yapcore.helpers.CustomSnackbar
 import co.yap.yapcore.helpers.DecimalDigitsInputFilter
 import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.helpers.extentions.startFragmentForResult
 import co.yap.yapcore.helpers.spannables.color
 import co.yap.yapcore.helpers.spannables.getText
 import co.yap.yapcore.managers.MyUserManager
 import kotlinx.android.synthetic.main.fragment_y2y_funds_transfer.*
+import kotlin.math.abs
 
 
 class Y2YTransferFragment : Y2YBaseFragment<IY2YFundsTransfer.ViewModel>(), IY2YFundsTransfer.View {
@@ -53,29 +61,35 @@ class Y2YTransferFragment : Y2YBaseFragment<IY2YFundsTransfer.ViewModel>(), IY2Y
     }
 
     override fun setObservers() {
-
         viewModel.clickEvent.observe(this, clickEvent)
         viewModel.errorEvent.observe(this, Observer {
             showErrorSnackBar()
         })
+        viewModel.transferFundSuccess.observe(this, transferFundSuccessObserver)
 
 
+    }
+
+    private val transferFundSuccessObserver = Observer<Boolean> {
+        if (it) {
+            moveToFundTransferSuccess()
+        }
     }
 
     val clickEvent = Observer<Int> {
         when (it) {
             R.id.btnConfirm -> {
-                // Send Broadcast for updating transactions list in `Home Fragment`
-                val intent = Intent(Constants.BROADCAST_UPDATE_TRANSACTION)
-                LocalBroadcastManager.getInstance(requireContext()).sendBroadcast(intent)
-
-                val action =
-                    Y2YTransferFragmentDirections.actionY2YTransferFragmentToY2YFundsTransferSuccessFragment(
-                        viewModel.state.fullName,
-                        "AED",
-                        viewModel.state.amount, args.position
-                    )
-                findNavController().navigate(action)
+                when {
+                    isDailyLimitReached() -> {
+                        viewModel.errorEvent.call()
+                    }
+                    isOtpRequired() -> {
+                        createOtp()
+                    }
+                    else -> {
+                        viewModel.proceedToTransferAmount()
+                    }
+                }
             }
             Constants.CARD_FEE -> {
                 viewModel.state.transferFee =
@@ -87,6 +101,25 @@ class Y2YTransferFragment : Y2YBaseFragment<IY2YFundsTransfer.ViewModel>(), IY2Y
                     )
             }
 
+        }
+    }
+
+    private fun createOtp() {
+        startFragmentForResult<GenericOtpFragment>(
+            GenericOtpFragment::class.java.name,
+            bundleOf(
+                OtpDataModel::class.java.name to OtpDataModel(
+                    OTPActions.Y2Y.name,
+                    MyUserManager.user?.currentCustomer?.getCompletePhone(),
+                    MyUserManager.user?.currentCustomer?.getFullName(),
+                    false,
+                    OtpToolBarData()
+                )
+            )
+        ) { resultCode, data ->
+            if (resultCode == Activity.RESULT_OK) {
+                viewModel.proceedToTransferAmount()
+            }
         }
     }
 
@@ -129,6 +162,50 @@ class Y2YTransferFragment : Y2YBaseFragment<IY2YFundsTransfer.ViewModel>(), IY2Y
                     etAmount.gravity = Gravity.CENTER_HORIZONTAL or CENTER_VERTICAL
                 }
         })
+    }
+
+    private fun isDailyLimitReached(): Boolean {
+        viewModel.transactionThreshold.value?.let {
+            it.dailyLimit?.let { dailyLimit ->
+                it.totalDebitAmount?.let { totalConsumedAmount ->
+                    viewModel.state.amount.toDoubleOrNull()?.let { enteredAmount ->
+                        val remainingDailyLimit = abs(dailyLimit - totalConsumedAmount)
+                        viewModel.state.errorDescription =
+                            getString(Strings.common_display_text_daily_limit_error).format(
+                                dailyLimit,
+                                remainingDailyLimit
+                            )
+                        return enteredAmount > remainingDailyLimit
+
+                    } ?: return false
+                } ?: return false
+            } ?: return false
+        } ?: return false
+    }
+
+    private fun isOtpRequired(): Boolean {
+        viewModel.transactionThreshold.value?.let {
+            it.totalDebitAmountRemittance?.let { totalSMConsumedAmount ->
+                viewModel.state.amount.toDoubleOrNull()?.let { enteredAmount ->
+                    val remainingOtpLimit = it.otpLimit ?: 0.0 - totalSMConsumedAmount
+                    return enteredAmount > remainingOtpLimit
+                } ?: return false
+            } ?: return false
+        } ?: return false
+    }
+
+    private fun moveToFundTransferSuccess() {
+        // Send Broadcast for updating transactions list in `Home Fragment`
+        val intent = Intent(Constants.BROADCAST_UPDATE_TRANSACTION)
+        LocalBroadcastManager.getInstance(requireContext()).sendBroadcast(intent)
+
+        val action =
+            Y2YTransferFragmentDirections.actionY2YTransferFragmentToY2YFundsTransferSuccessFragment(
+                viewModel.state.fullName,
+                "AED",
+                viewModel.state.amount, args.position
+            )
+        findNavController().navigate(action)
     }
 
     private fun showErrorSnackBar() {

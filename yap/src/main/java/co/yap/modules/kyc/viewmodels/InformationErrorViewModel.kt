@@ -33,7 +33,7 @@ class InformationErrorViewModel(application: Application) : KYCChildViewModel<II
 
     private fun populateState() {
         if (countryName.isNullOrEmpty()){
-            parentViewModel?.identity?.identity?.let {
+            parentViewModel?.identity?.let {
                 val expiry = it.expirationDate.run { DateUtils.toDate(day, month, year) }
                 when {
                     DateUtils.isDatePassed(expiry) -> state.apply {
