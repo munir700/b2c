@@ -14,6 +14,7 @@ class YapForYouMainViewModel(application: Application) :
     override val state: YapForYouMainState = YapForYouMainState()
     override var clickEvent: SingleClickEvent = SingleClickEvent()
     override var achievement: Achievements? = null
+    override var achievements: MutableList<Achievements> = mutableListOf()
 
     override fun handlePressButton(id: Int) {
         clickEvent.setValue(id)

@@ -937,5 +937,8 @@
     <string name="screen_yap_for_you_display_text_completed_percentage">%1s completed</string>
     <string name="screen_yap_for_you_display_text_view">View</string>
 
+    <!-- YAP for you (Your Achievements) -->
+    <string name="screen_your_achievements_display_text_toolbar_title">Your achievements</string>
+
 </resources>
 

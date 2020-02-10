@@ -13,6 +13,7 @@ interface IYapForYouMain {
     interface ViewModel : IBase.ViewModel<State> {
         var clickEvent: SingleClickEvent
         var achievement: Achievements?
+        var achievements: MutableList<Achievements>
         fun handlePressButton(id: Int)
     }
 

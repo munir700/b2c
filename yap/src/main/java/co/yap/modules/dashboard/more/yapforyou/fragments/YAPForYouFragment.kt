@@ -25,6 +25,10 @@ class YAPForYouFragment : YapForYouBaseFragment<IYAPForYou.ViewModel>() {
     override val viewModel: YAPForYouViewModel
         get() = ViewModelProviders.of(this).get(YAPForYouViewModel::class.java)
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setObservers()
+    }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupRecycleView()
@@ -63,11 +67,21 @@ class YAPForYouFragment : YapForYouBaseFragment<IYAPForYou.ViewModel>() {
         adapter.setItemListener(listener)
         viewModel.state.selectedAchievementPercentage =
             viewModel.getAchievements()[0].percentage.toString()
-        viewModel.state.selectedAchievementTitle = viewModel.getAchievements().get(0).title
+        viewModel.state.selectedAchievementTitle = viewModel.getAchievements()[0].title
     }
 
     private fun setObservers() {
-//        viewModel.clickEvent.observe(this, observer)
+        viewModel.parentViewModel?.clickEvent?.observe(this, clickObserver)
+    }
+
+    private val clickObserver = Observer<Int> {
+        when (it) {
+            R.id.tbBtnAchievements -> {
+                val action =
+                    YAPForYouFragmentDirections.actionYAPForYouFragmentToCompletedAchievementsFragment()
+                findNavController().navigate(action)
+            }
+        }
     }
 
     private val listener = object : OnItemClickListener {

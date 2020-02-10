@@ -7,12 +7,11 @@ import co.yap.R
 import co.yap.databinding.FragmentCompletedAchievementsBinding
 import co.yap.modules.dashboard.more.yapforyou.interfaces.ICompletedAchievements
 import co.yap.modules.dashboard.more.yapforyou.viewmodels.CompletedAchievementsViewModel
+import co.yap.yapcore.BR
 
 class CompletedAchievementsFragment : YapForYouBaseFragment<ICompletedAchievements.ViewModel>(),
     ICompletedAchievements.View {
-    override fun getBindingVariable(): Int {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+    override fun getBindingVariable(): Int = BR.viewModel
 
     override fun getLayoutId(): Int = R.layout.fragment_completed_achievements
 
@@ -21,7 +20,7 @@ class CompletedAchievementsFragment : YapForYouBaseFragment<ICompletedAchievemen
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        getBinding().rvCompletedAchievements.adapter = viewModel.adapter
     }
 
     override fun addObservers() {

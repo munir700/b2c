@@ -50,7 +50,7 @@
             android:visibility="@{viewModel.state.toolbarTitle.isEmpty()? View.GONE:View.VISIBLE}" />
 
         <ImageView
-            android:id="@+id/tbBtnSettings"
+            android:id="@+id/tbBtnAchievements"
             android:layout_width="@dimen/_25sdp"
             android:layout_height="@dimen/_25sdp"
             android:layout_alignParentEnd="true"

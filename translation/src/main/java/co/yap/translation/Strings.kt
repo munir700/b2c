@@ -1469,4 +1469,7 @@ object Strings {
     const val screen_yap_for_you_display_text_current_chievement: String = "screen_yap_for_you_display_text_current_chievement"
     const val screen_yap_for_you_display_text_completed_percentage: String = "screen_yap_for_you_display_text_completed_percentage"
     const val screen_yap_for_you_display_text_view: String = "screen_yap_for_you_display_text_view"
+
+    // YAP for you (Your Achievements)
+    const val screen_your_achievements_display_text_toolbar_title: String = "screen_your_achievements_display_text_toolbar_title"
 }

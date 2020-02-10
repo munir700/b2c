@@ -21,6 +21,11 @@ class YAPForYouViewModel(application: Application) :
         clickEvent.setValue(id)
     }
 
+    override fun onCreate() {
+        super.onCreate()
+        parentViewModel?.achievements = getAchievements()
+    }
+
 
     var BetterTogetherList: ArrayList<AchievementTask> = arrayListOf(
         AchievementTask("Invite a friend", false),
@@ -31,11 +36,19 @@ class YAPForYouViewModel(application: Application) :
 
     override fun onResume() {
         super.onResume()
+        setToolbarData()
+        setInitialAchievement()
+    }
+
+    private fun setToolbarData() {
         parentViewModel?.state?.toolbarVisibility?.set(true)
         parentViewModel?.state?.toolbarTitle =
             getString(Strings.screen_yap_for_you_display_text_title)
         parentViewModel?.state?.leftIcon?.set(R.drawable.ic_back_arrow_left)
         parentViewModel?.state?.rightIcon?.set(R.drawable.ic_trade)
+    }
+
+    private fun setInitialAchievement() {
         parentViewModel?.achievement = getAchievements()[0].copy()
         parentViewModel?.achievement?.percentage =
             getString(Strings.screen_yap_for_you_display_text_completed_percentage).format(
@@ -45,7 +58,6 @@ class YAPForYouViewModel(application: Application) :
         state.selectedAchievementTitle = parentViewModel?.achievement?.title ?: ""
 
     }
-
 
     override fun getAchievements(): MutableList<Achievements> {
         val list = mutableListOf<Achievements>()
