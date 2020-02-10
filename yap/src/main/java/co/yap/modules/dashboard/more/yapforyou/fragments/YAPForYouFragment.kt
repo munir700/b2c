@@ -85,6 +85,7 @@ class YAPForYouFragment : YapForYouBaseFragment<IYAPForYou.ViewModel>() {
                 "${achievement.percentage.toString()}%"
             )
         viewModel.state.selectedAchievementTitle = achievement.title
-        viewModel.state.selectedAchievementPercentage = viewModel.parentViewModel?.achievement?.percentage
+        viewModel.state.selectedAchievementPercentage =
+            viewModel.parentViewModel?.achievement?.percentage
     }
 }
