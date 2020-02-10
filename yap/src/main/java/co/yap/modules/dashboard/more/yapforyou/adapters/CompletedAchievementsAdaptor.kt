@@ -4,14 +4,12 @@ import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
 import co.yap.R
 import co.yap.databinding.ItemCompletedAchievementBinding
-import co.yap.modules.dashboard.more.yapforyou.Achievements
+import co.yap.modules.dashboard.more.yapforyou.Achievement
 import co.yap.modules.dashboard.more.yapforyou.itemviewmodels.CompletedAchievementItemViewModel
-import co.yap.translation.Strings
-import co.yap.translation.Translator
 import co.yap.yapcore.BaseBindingRecyclerAdapter
 
-class CompletedAchievementsAdaptor(val list: MutableList<Achievements>) :
-    BaseBindingRecyclerAdapter<Achievements, CompletedAchievementsAdaptor.CompletedItemViewHolder>(
+class CompletedAchievementsAdaptor(val list: MutableList<Achievement>) :
+    BaseBindingRecyclerAdapter<Achievement, CompletedAchievementsAdaptor.CompletedItemViewHolder>(
         list
     ) {
 
@@ -29,16 +27,9 @@ class CompletedAchievementsAdaptor(val list: MutableList<Achievements>) :
     class CompletedItemViewHolder(private val itemCompletedAchievementBinding: ItemCompletedAchievementBinding) :
         RecyclerView.ViewHolder(itemCompletedAchievementBinding.root) {
 
-        fun onBind(achievement: Achievements) {
+        fun onBind(achievement: Achievement) {
             val item = achievement.copy()
-            if (item.percentage?.toIntOrNull() == 100) {
-               item.percentage =  Translator.getString(
-                    itemCompletedAchievementBinding.tvCompltedPercentage.context,
-                    Strings.screen_yap_for_you_display_text_completed_percentage
-                ).format(
-                    "${item.percentage}%"
-                )
-
+            if (item.percentage ?: 0.0 == 100.00) {
                 itemCompletedAchievementBinding.viewModel =
                     CompletedAchievementItemViewModel(item)
                 itemCompletedAchievementBinding.executePendingBindings()

@@ -1,11 +1,8 @@
 package co.yap.modules.dashboard.more.yapforyou.adapters
 
-import androidx.appcompat.content.res.AppCompatResources
-import androidx.core.graphics.drawable.DrawableCompat
 import androidx.recyclerview.widget.RecyclerView
-import co.yap.R
 import co.yap.databinding.ItemYapForYouBinding
-import co.yap.modules.dashboard.more.yapforyou.Achievements
+import co.yap.modules.dashboard.more.yapforyou.Achievement
 import co.yap.modules.dashboard.more.yapforyou.itemviewmodels.YAPForYouItemViewModel
 import co.yap.yapcore.interfaces.OnItemClickListener
 
@@ -14,7 +11,7 @@ class YAPForYouItemViewHolder(private val itemYapForYouBinding: ItemYapForYouBin
 
     fun onBind(
         position: Int,
-        achievements: Achievements,
+        achievements: Achievement,
         dimensions: IntArray,
         onItemClickListener: OnItemClickListener?
     ) {

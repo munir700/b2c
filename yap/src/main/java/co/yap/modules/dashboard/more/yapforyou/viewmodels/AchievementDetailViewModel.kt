@@ -29,7 +29,7 @@ class AchievementDetailViewModel(application: Application) :
 
     override fun onCreate() {
         super.onCreate()
-        parentViewModel?.achievement?.checkList?.let {
+        parentViewModel?.achievement?.feature?.let {
             adapter.setList(it)
         }
     }

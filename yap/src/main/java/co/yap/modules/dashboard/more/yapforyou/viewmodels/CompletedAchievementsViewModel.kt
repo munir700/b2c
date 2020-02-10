@@ -19,14 +19,7 @@ class CompletedAchievementsViewModel(application: Application) :
     override fun onCreate() {
         super.onCreate()
         val list = parentViewModel?.achievements ?: mutableListOf()
-        adapter.setList(list)
-//        list.forEach {
-////            it.percentage =
-////                getString(Strings.screen_yap_for_you_display_text_completed_percentage).format(
-////                    "${it.percentage.toString()}%"
-////                )
-////        }
-
+        adapter.setList(list.filter { it.percentage == 100.00 })
     }
 
     override fun onResume() {

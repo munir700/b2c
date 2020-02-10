@@ -1,7 +1,7 @@
 package co.yap.modules.dashboard.more.yapforyou.viewmodels
 
 import android.app.Application
-import co.yap.modules.dashboard.more.yapforyou.Achievements
+import co.yap.modules.dashboard.more.yapforyou.Achievement
 import co.yap.modules.dashboard.more.yapforyou.interfaces.IYapForYouMain
 import co.yap.modules.dashboard.more.yapforyou.states.YapForYouMainState
 import co.yap.yapcore.BaseViewModel
@@ -13,8 +13,8 @@ class YapForYouMainViewModel(application: Application) :
 
     override val state: YapForYouMainState = YapForYouMainState()
     override var clickEvent: SingleClickEvent = SingleClickEvent()
-    override var achievement: Achievements? = null
-    override var achievements: MutableList<Achievements> = mutableListOf()
+    override var achievement: Achievement? = null
+    override var achievements: MutableList<Achievement> = mutableListOf()
 
     override fun handlePressButton(id: Int) {
         clickEvent.setValue(id)

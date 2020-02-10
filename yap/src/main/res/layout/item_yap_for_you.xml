@@ -30,13 +30,12 @@
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
             android:layout_gravity="center"
+            android:src="@{viewModel.achievement.percentage==100.00? @drawable/ic_badge_dark_purple : @drawable/ic_badge_light_purple }"
             android:contentDescription=""
+            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:src="@{viewModel.achievements.image}"
-
-            />
+            tools:src="@drawable/ic_badge_light_purple" />
 
         <TextView
             android:id="@+id/tvTitle"
@@ -46,11 +45,10 @@
             android:layout_gravity="center"
             android:layout_marginTop="@dimen/margin_small"
             android:gravity="center"
-            android:text="@{viewModel.achievements.title}"
+            android:text="@{viewModel.achievement.name}"
             android:textSize="@dimen/_10sdp"
             app:layout_constraintTop_toBottomOf="@+id/imgIcon"
             tools:text="android:asdasdas" />
-
         <TextView
             android:id="@+id/tvPercentage"
             style="@style/AMicroGrey"
@@ -59,10 +57,9 @@
             android:layout_gravity="center"
             android:gravity="center"
             android:textSize="@dimen/_10sdp"
-            android:visibility="@{viewModel.achievements.percentage != null ?View.VISIBLE:View.GONE}"
-            app:concatenatedVal="@{viewModel.achievements.percentage}"
+            android:text="@{String.format(@string/screen_yap_for_you_display_text_completed_percentage ,viewModel.achievement.percentage)}"
             app:layout_constraintTop_toBottomOf="@+id/tvTitle"
-            app:textVal="@{Strings.screen_yap_for_you_display_text_completed_percentage}"
+            android:visibility="@{viewModel.achievement.percentage != null ?View.VISIBLE:View.GONE}"
             tools:text="75% completed" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

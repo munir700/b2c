@@ -2,7 +2,7 @@ package co.yap.modules.dashboard.more.yapforyou.interfaces
 
 import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
-import co.yap.modules.dashboard.more.yapforyou.Achievements
+import co.yap.modules.dashboard.more.yapforyou.Achievement
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
 
@@ -12,8 +12,8 @@ interface IYapForYouMain {
 
     interface ViewModel : IBase.ViewModel<State> {
         var clickEvent: SingleClickEvent
-        var achievement: Achievements?
-        var achievements: MutableList<Achievements>
+        var achievement: Achievement?
+        var achievements: MutableList<Achievement>
         fun handlePressButton(id: Int)
     }
 

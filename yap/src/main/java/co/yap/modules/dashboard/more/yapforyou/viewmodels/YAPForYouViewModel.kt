@@ -1,10 +1,9 @@
 package co.yap.modules.dashboard.more.yapforyou.viewmodels
 
 import android.app.Application
-import androidx.core.content.ContextCompat
 import co.yap.R
+import co.yap.modules.dashboard.more.yapforyou.Achievement
 import co.yap.modules.dashboard.more.yapforyou.AchievementTask
-import co.yap.modules.dashboard.more.yapforyou.Achievements
 import co.yap.modules.dashboard.more.yapforyou.interfaces.IYAPForYou
 import co.yap.modules.dashboard.more.yapforyou.states.YAPForYouState
 import co.yap.translation.Strings
@@ -26,14 +25,6 @@ class YAPForYouViewModel(application: Application) :
         parentViewModel?.achievements = getAchievements()
     }
 
-
-    var BetterTogetherList: ArrayList<AchievementTask> = arrayListOf(
-        AchievementTask("Invite a friend", false),
-        AchievementTask("Do a Y2Y transfer", true),
-        AchievementTask("Split bills with friends", false),
-        AchievementTask("Send money to someone outside YAP", true)
-    )
-
     override fun onResume() {
         super.onResume()
         setToolbarData()
@@ -50,26 +41,20 @@ class YAPForYouViewModel(application: Application) :
 
     private fun setInitialAchievement() {
         parentViewModel?.achievement = getAchievements()[0].copy()
-        parentViewModel?.achievement?.percentage =
-            getString(Strings.screen_yap_for_you_display_text_completed_percentage).format(
-                "${parentViewModel?.achievement?.percentage.toString()}%"
-            )
-        state.selectedAchievementPercentage = parentViewModel?.achievement?.percentage
-        state.selectedAchievementTitle = parentViewModel?.achievement?.title ?: ""
+        state.selectedAchievementPercentage =
+            getString(Strings.screen_yap_for_you_display_text_completed_percentage).format("${parentViewModel?.achievement?.percentage}%")
+        state.selectedAchievementTitle = parentViewModel?.achievement?.name ?: ""
 
     }
 
-    override fun getAchievements(): MutableList<Achievements> {
-        val list = mutableListOf<Achievements>()
+    override fun getAchievements(): MutableList<Achievement> {
+        val list = mutableListOf<Achievement>()
         list.add(
-            Achievements(
-                1,
-                "Get started",
-                "100",
-//                ContextCompat.getColor(context, R.color.colorPrimaryAltHouseHold),
-                R.drawable.ic_round_badge_dark_purple,
-                true,
-                arrayListOf(
+            Achievement(
+                name = "Get started",
+                colorCode = "ffddee",
+                percentage = 100.00,
+                feature = arrayListOf(
                     AchievementTask("Invite a friend", true),
                     AchievementTask("Do a Y2Y transfer", true),
                     AchievementTask("Split bills with friends", false),
@@ -78,62 +63,52 @@ class YAPForYouViewModel(application: Application) :
             )
         )
         list.add(
-            Achievements(
-                2,
-                "Up and running",
-                "100",
-//                ContextCompat.getColor(context, R.color.colorBlue),
-                R.drawable.ic_round_badge_dark_blue,
-                true,
-                BetterTogetherList
+            Achievement(
+                name = "Up and running",
+                colorCode = "ffddee",
+                percentage = 100.00,
+                feature = tasksList
             )
         )
         list.add(
-            Achievements(
-                3,
-                "Better together",
-                "75",
-//                ContextCompat.getColor(context, R.color.lightYellow),
-                R.drawable.ic_round_badge_dark_peach,
-                false,
-                BetterTogetherList
+            Achievement(
+                name = "Better together",
+                colorCode = "ffddee",
+                percentage = 75.00,
+                feature = tasksList
             )
         )
         list.add(
-            Achievements(
-                4,
-                "Take the leap",
-                "0",
-//                ContextCompat.getColor(context, R.color.lightAqua),
-                R.drawable.ic_round_badge_light_green,
-                false,
-                BetterTogetherList
+            Achievement(
+                name = "Take the leap",
+                colorCode = "ffddee",
+                percentage = 00.00,
+                feature = tasksList
             )
         )
         list.add(
-            Achievements(
-                5,
-                "YAP Store",
-                "0",
-//                ContextCompat.getColor(context, R.color.lightPink),
-                R.drawable.ic_round_badge_light_pink,
-                false,
-                BetterTogetherList
+            Achievement(
+                name = "YAP Store",
+                colorCode = "ffddee",
+                percentage = 00.00,
+                feature = tasksList
             )
         )
         list.add(
-            Achievements(
-                6,
-                "You’re a Pro!",
-                null,
-//                ContextCompat.getColor(context, R.color.colorDisabledBtn),
-                R.drawable.ic_round_badge_light_grey,
-                null,
-                null
+            Achievement(
+                name = "You’re a Pro!",
+                colorCode = "ffddee",
+                percentage = 00.00,
+                feature = tasksList
             )
         )
-
         return list
     }
 
+    private var tasksList: ArrayList<AchievementTask> = arrayListOf(
+        AchievementTask("Invite a friend", false),
+        AchievementTask("Do a Y2Y transfer", true),
+        AchievementTask("Split bills with friends", false),
+        AchievementTask("Send money to someone outside YAP", true)
+    )
 }

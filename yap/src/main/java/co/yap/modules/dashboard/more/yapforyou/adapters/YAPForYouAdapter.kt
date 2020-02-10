@@ -5,12 +5,12 @@ import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
 import co.yap.R
 import co.yap.databinding.ItemYapForYouBinding
-import co.yap.modules.dashboard.more.yapforyou.Achievements
+import co.yap.modules.dashboard.more.yapforyou.Achievement
 import co.yap.yapcore.BaseBindingRecyclerAdapter
 import co.yap.yapcore.helpers.Utils
 
-class YAPForYouAdapter(context: Context, private val list: MutableList<Achievements>) :
-    BaseBindingRecyclerAdapter<Achievements, RecyclerView.ViewHolder>(list) {
+class YAPForYouAdapter(context: Context, private val list: MutableList<Achievement>) :
+    BaseBindingRecyclerAdapter<Achievement, RecyclerView.ViewHolder>(list) {
 
     private var dimensions: IntArray = Utils.getCardDimensions(context, 43, 45)
 

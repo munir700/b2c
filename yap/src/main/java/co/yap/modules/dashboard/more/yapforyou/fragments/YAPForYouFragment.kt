@@ -7,7 +7,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import co.yap.BR
 import co.yap.R
-import co.yap.modules.dashboard.more.yapforyou.Achievements
+import co.yap.modules.dashboard.more.yapforyou.Achievement
 import co.yap.modules.dashboard.more.yapforyou.adapters.YAPForYouAdapter
 import co.yap.modules.dashboard.more.yapforyou.interfaces.IYAPForYou
 import co.yap.modules.dashboard.more.yapforyou.viewmodels.YAPForYouViewModel
@@ -67,7 +67,7 @@ class YAPForYouFragment : YapForYouBaseFragment<IYAPForYou.ViewModel>() {
         adapter.setItemListener(listener)
         viewModel.state.selectedAchievementPercentage =
             viewModel.getAchievements()[0].percentage.toString()
-        viewModel.state.selectedAchievementTitle = viewModel.getAchievements()[0].title
+        viewModel.state.selectedAchievementTitle = viewModel.getAchievements()[0].name ?: ""
     }
 
     private fun setObservers() {
@@ -86,23 +86,16 @@ class YAPForYouFragment : YapForYouBaseFragment<IYAPForYou.ViewModel>() {
 
     private val listener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
-            if (data is Achievements) {
+            if (data is Achievement) {
                 setSelectedAchievement(data.copy())
             }
         }
     }
 
-    private fun setSelectedAchievement(achievement: Achievements) {
+    private fun setSelectedAchievement(achievement: Achievement) {
         viewModel.parentViewModel?.achievement = achievement
-        viewModel.parentViewModel?.achievement?.percentage?.let {
-            viewModel.parentViewModel?.achievement?.percentage =
-                getString(Strings.screen_yap_for_you_display_text_completed_percentage).format(
-                    "${it}%"
-                )
-        }
-
-        viewModel.state.selectedAchievementTitle = achievement.title
+        viewModel.state.selectedAchievementTitle = achievement.name ?: ""
         viewModel.state.selectedAchievementPercentage =
-            viewModel.parentViewModel?.achievement?.percentage
+            getString(Strings.screen_yap_for_you_display_text_completed_percentage).format("${achievement.percentage}%")
     }
 }
