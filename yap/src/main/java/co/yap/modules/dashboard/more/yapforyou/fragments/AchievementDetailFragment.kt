@@ -35,5 +35,4 @@ class AchievementDetailFragment : YapForYouBaseFragment<IAchievementDetail.ViewM
         return (viewDataBinding as FragmentAchievementDetailBinding)
     }
 
-
 }

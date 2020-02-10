@@ -36,8 +36,13 @@ class YAPForYouViewModel(application: Application) :
             getString(Strings.screen_yap_for_you_display_text_title)
         parentViewModel?.state?.leftIcon?.set(R.drawable.ic_back_arrow_left)
         parentViewModel?.state?.rightIcon?.set(R.drawable.ic_trade)
-        state.selectedAchievementPercentage = getAchievements()[0].percentage.toString()
-        state.selectedAchievementTitle = getAchievements()[0].title
+        parentViewModel?.achievement = getAchievements()[0].copy()
+        parentViewModel?.achievement?.percentage =
+            getString(Strings.screen_yap_for_you_display_text_completed_percentage).format(
+                "${parentViewModel?.achievement?.percentage.toString()}%"
+            )
+        state.selectedAchievementPercentage = parentViewModel?.achievement?.percentage
+        state.selectedAchievementTitle = parentViewModel?.achievement?.title ?: ""
 
     }
 
