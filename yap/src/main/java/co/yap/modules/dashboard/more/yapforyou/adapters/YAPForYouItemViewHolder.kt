@@ -19,14 +19,14 @@ class YAPForYouItemViewHolder(private val itemYapForYouBinding: ItemYapForYouBin
         onItemClickListener: OnItemClickListener?
     ) {
 
-        val unwrappedDrawable = AppCompatResources.getDrawable(
-            itemYapForYouBinding.imgIcon.context,
-            R.drawable.bg_circle_container
-        )
-        val wrappedDrawable = DrawableCompat.wrap(unwrappedDrawable!!)
-        DrawableCompat.setTint(wrappedDrawable, achievements.bgColor)
+//        val unwrappedDrawable = AppCompatResources.getDrawable(
+//            itemYapForYouBinding.imgIcon.context,
+//            R.drawable.bg_circle_container
+//        )
+//        val wrappedDrawable = DrawableCompat.wrap(unwrappedDrawable!!)
+//        DrawableCompat.setTint(wrappedDrawable, achievements.image)
 
-        itemYapForYouBinding.imgIcon.background = wrappedDrawable
+//        itemYapForYouBinding.imgIcon.background = wrappedDrawable
 
         itemYapForYouBinding.viewModel =
             YAPForYouItemViewModel(

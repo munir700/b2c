@@ -10,7 +10,7 @@ data class Achievements(
     val id: Int,
     var title: String,
     var percentage: String?,
-    val bgColor: Int,
+//    val bgColor: Int,
     val image: Int,
     var hasCompleted: Boolean?,
     var checkList: ArrayList<AchievementTask>?

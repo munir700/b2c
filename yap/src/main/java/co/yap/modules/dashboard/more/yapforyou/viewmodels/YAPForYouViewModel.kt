@@ -66,8 +66,8 @@ class YAPForYouViewModel(application: Application) :
                 1,
                 "Get started",
                 "100",
-                ContextCompat.getColor(context, R.color.colorPrimaryAltHouseHold),
-                R.drawable.ic_trade,
+//                ContextCompat.getColor(context, R.color.colorPrimaryAltHouseHold),
+                R.drawable.ic_round_badge_dark_purple,
                 true,
                 arrayListOf(
                     AchievementTask("Invite a friend", true),
@@ -82,8 +82,8 @@ class YAPForYouViewModel(application: Application) :
                 2,
                 "Up and running",
                 "100",
-                ContextCompat.getColor(context, R.color.colorBlue),
-                R.drawable.ic_trade,
+//                ContextCompat.getColor(context, R.color.colorBlue),
+                R.drawable.ic_round_badge_dark_blue,
                 true,
                 BetterTogetherList
             )
@@ -93,8 +93,8 @@ class YAPForYouViewModel(application: Application) :
                 3,
                 "Better together",
                 "75",
-                ContextCompat.getColor(context, R.color.lightYellow),
-                R.drawable.path,
+//                ContextCompat.getColor(context, R.color.lightYellow),
+                R.drawable.ic_round_badge_dark_peach,
                 false,
                 BetterTogetherList
             )
@@ -104,8 +104,8 @@ class YAPForYouViewModel(application: Application) :
                 4,
                 "Take the leap",
                 "0",
-                ContextCompat.getColor(context, R.color.lightAqua),
-                R.drawable.path,
+//                ContextCompat.getColor(context, R.color.lightAqua),
+                R.drawable.ic_round_badge_light_green,
                 false,
                 BetterTogetherList
             )
@@ -115,8 +115,8 @@ class YAPForYouViewModel(application: Application) :
                 5,
                 "YAP Store",
                 "0",
-                ContextCompat.getColor(context, R.color.lightPink),
-                R.drawable.path,
+//                ContextCompat.getColor(context, R.color.lightPink),
+                R.drawable.ic_round_badge_light_pink,
                 false,
                 BetterTogetherList
             )
@@ -126,8 +126,8 @@ class YAPForYouViewModel(application: Application) :
                 6,
                 "You’re a Pro!",
                 null,
-                ContextCompat.getColor(context, R.color.colorDisabledBtn),
-                R.drawable.path,
+//                ContextCompat.getColor(context, R.color.colorDisabledBtn),
+                R.drawable.ic_round_badge_light_grey,
                 null,
                 null
             )
