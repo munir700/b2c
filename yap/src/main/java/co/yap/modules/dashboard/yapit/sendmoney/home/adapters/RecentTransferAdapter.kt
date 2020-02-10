@@ -19,14 +19,11 @@ class RecentTransferAdaptor(mValue: MutableList<Beneficiary>, navigation: NavCon
         viewModel: RecentTransferItemVM,
         mDataBinding: ViewDataBinding, viewType: Int
     ): ViewHolder {
-        return ViewHolder(view,
+        return ViewHolder(
+            view,
             viewModel,
-            mDataBinding)
-//        return ViewHolder::class.primaryConstructor?.call(
-//            view,
-//            viewModel,
-//            mDataBinding
-//        ) as ViewHolder
+            mDataBinding
+        )
     }
 
     override fun getViewModel() = RecentTransferItemVM()

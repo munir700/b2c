@@ -35,6 +35,7 @@ import co.yap.yapcore.helpers.spannables.color
 import co.yap.yapcore.helpers.spannables.getText
 import co.yap.yapcore.managers.MyUserManager
 import kotlinx.android.synthetic.main.fragment_y2y_funds_transfer.*
+import kotlin.math.abs
 
 
 class Y2YTransferFragment : Y2YBaseFragment<IY2YFundsTransfer.ViewModel>(), IY2YFundsTransfer.View {
@@ -168,7 +169,7 @@ class Y2YTransferFragment : Y2YBaseFragment<IY2YFundsTransfer.ViewModel>(), IY2Y
             it.dailyLimit?.let { dailyLimit ->
                 it.totalDebitAmount?.let { totalConsumedAmount ->
                     viewModel.state.amount.toDoubleOrNull()?.let { enteredAmount ->
-                        val remainingDailyLimit = dailyLimit - totalConsumedAmount
+                        val remainingDailyLimit = abs(dailyLimit - totalConsumedAmount)
                         viewModel.state.errorDescription =
                             getString(Strings.common_display_text_daily_limit_error).format(
                                 dailyLimit,
