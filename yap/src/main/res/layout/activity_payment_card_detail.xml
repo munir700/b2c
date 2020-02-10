@@ -62,6 +62,8 @@
                         android:layout_height="@dimen/_22sdp"
                         android:layout_marginEnd="5dp"
                         android:background="@drawable/bg_round_purple"
+                        android:backgroundTint="?attr/colorPrimaryAttr"
+                        android:tint="?attr/colorPrimaryAttr"
                         android:gravity="center"
                         android:text="@{viewModel.state.filterCount.toString()}"
                         android:textColor="@color/colorPrimary"

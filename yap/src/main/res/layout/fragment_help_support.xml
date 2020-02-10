@@ -55,6 +55,7 @@
                     android:background="@drawable/bg_round_purple"
                     android:contentDescription="@string/empty_string"
                     android:padding="@dimen/_10sdp"
+                    android:backgroundTint="?attr/colorPrimaryAttr"
                     android:tint="?attr/colorPrimaryAttr"
                     app:srcCompat="@drawable/ic_support" />
 
@@ -106,6 +107,7 @@
                     android:contentDescription="@string/empty_string"
                     android:padding="@dimen/_10sdp"
                     android:tint="?attr/colorPrimaryAttr"
+                    android:backgroundTint="?attr/colorPrimaryAttr"
                     app:srcCompat="@drawable/ic_chat" />
 
                 <TextView
@@ -156,6 +158,7 @@
                     android:contentDescription="@string/empty_string"
                     android:padding="@dimen/_10sdp"
                     android:tint="?attr/colorPrimaryAttr"
+                    android:backgroundTint="?attr/colorPrimaryAttr"
                     app:srcCompat="@drawable/ic_whatsapp" />
 
                 <TextView
@@ -206,6 +209,7 @@
                     android:contentDescription="@string/empty_string"
                     android:padding="@dimen/_10sdp"
                     android:tint="?attr/colorPrimaryAttr"
+                    android:backgroundTint="?attr/colorPrimaryAttr"
                     app:srcCompat="@drawable/ic_phone_vector" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
