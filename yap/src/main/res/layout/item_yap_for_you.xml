@@ -31,14 +31,15 @@
             android:layout_centerVertical="true"
             android:layout_gravity="center"
             android:layout_marginTop="8dp"
-            android:contentDescription="@string/empty_string"
+            android:contentDescription=""
             android:padding="@dimen/_11sdp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:background="@color/greyDark"
-            tools:src="@drawable/ic_notification" />
+            app:src="@{viewModel.achievements.image}"
 
+            />
+        <!--        tools:src="@drawable/ic_notification"-->
 
         <TextView
             android:id="@+id/tvTitle"
@@ -61,10 +62,10 @@
             android:layout_gravity="center"
             android:gravity="center"
             android:textSize="@dimen/_10sdp"
+            android:visibility="@{viewModel.achievements.percentage != null ?View.VISIBLE:View.GONE}"
             app:concatenatedVal="@{viewModel.achievements.percentage}"
             app:layout_constraintTop_toBottomOf="@+id/tvTitle"
             app:textVal="@{Strings.screen_yap_for_you_display_text_completed_percentage}"
-            android:visibility="@{viewModel.achievements.percentage != null ?View.VISIBLE:View.GONE}"
             tools:text="75% completed" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

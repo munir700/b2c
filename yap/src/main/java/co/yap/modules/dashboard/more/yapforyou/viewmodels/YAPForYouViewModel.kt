@@ -55,6 +55,7 @@ class YAPForYouViewModel(application: Application) :
                 "Get started",
                 "100",
                 ContextCompat.getColor(context, R.color.colorPrimaryAltHouseHold),
+                R.drawable.ic_trade,
                 true,
                 arrayListOf(
                     AchievementTask("Invite a friend", true),
@@ -70,6 +71,7 @@ class YAPForYouViewModel(application: Application) :
                 "Up and running",
                 "100",
                 ContextCompat.getColor(context, R.color.colorBlue),
+                R.drawable.ic_trade,
                 true,
                 BetterTogetherList
             )
@@ -80,6 +82,7 @@ class YAPForYouViewModel(application: Application) :
                 "Better together",
                 "75",
                 ContextCompat.getColor(context, R.color.lightYellow),
+                R.drawable.path,
                 false,
                 BetterTogetherList
             )
@@ -90,6 +93,7 @@ class YAPForYouViewModel(application: Application) :
                 "Take the leap",
                 "0",
                 ContextCompat.getColor(context, R.color.lightAqua),
+                R.drawable.path,
                 false,
                 BetterTogetherList
             )
@@ -100,6 +104,7 @@ class YAPForYouViewModel(application: Application) :
                 "YAP Store",
                 "0",
                 ContextCompat.getColor(context, R.color.lightPink),
+                R.drawable.path,
                 false,
                 BetterTogetherList
             )
@@ -110,6 +115,7 @@ class YAPForYouViewModel(application: Application) :
                 "You’re a Pro!",
                 null,
                 ContextCompat.getColor(context, R.color.colorDisabledBtn),
+                R.drawable.path,
                 null,
                 null
             )
