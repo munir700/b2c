@@ -12,9 +12,9 @@ import co.yap.BR
 import co.yap.R
 import co.yap.databinding.FragmentTopUpCardFundsBinding
 import co.yap.modules.dashboard.cards.paymentcarddetail.addfunds.interfaces.IFundActions
+import co.yap.modules.dashboard.yapit.topup.addtopupcard.activities.AddTopUpCardActivity
 import co.yap.modules.dashboard.yapit.topup.topupamount.activities.TopUpCardActivity
 import co.yap.modules.dashboard.yapit.topup.topupamount.viewModels.TopUpCardFundsViewModel
-import co.yap.modules.dashboard.yapit.topup.addtopupcard.activities.AddTopUpCardActivity
 import co.yap.translation.Strings
 import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.constants.Constants
@@ -154,7 +154,7 @@ class TopUpCardFundsFragment : BaseBindingFragment<IFundActions.ViewModel>(),
                 viewModel.state.transactionFeeSpannableString,
                 viewModel.state.transactionFee
             )
-        } else if (viewModel.state.transactionFee.toDouble() > 0) {
+        } else if (viewModel.state.transactionFee.toDouble() >= 0) {
             viewModel.state.transactionFeeSpannableString =
                 getString(Strings.screen_topup_transfer_display_text_transaction_fee)
                     .format(
@@ -162,7 +162,7 @@ class TopUpCardFundsFragment : BaseBindingFragment<IFundActions.ViewModel>(),
                     )
             getBindings().tvFeeDescription.text = Utils.getSppnableStringForAmount(
                 requireContext(),
-                viewModel.state.transactionFeeSpannableString!!,
+                viewModel.state.transactionFeeSpannableString ?: "",
                 viewModel.state.currencyType,
                 viewModel.state.transactionFee
             )
