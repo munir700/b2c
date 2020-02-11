@@ -213,18 +213,23 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
                     val cardBlocked = data?.getBooleanExtra("cardBlocked", false)
                     val cardReorder = data?.getBooleanExtra("cardReorder", false)
 
-                    if (true == removed) {
-                        adapter.removeItemAt(selectedCardPosition)
-                        adapter.notifyDataSetChanged()
-                        updateCardCount()
-                    } else if (true == cardBlocked) {
-                        adapter.removeAllItems()
-                        viewModel.getCards()
-                    } else if (true == cardReorder) {
-                        adapter.removeAllItems()
-                        viewModel.getCards()
-                    } else {
-                        updatedCard?.let { adapter.setItemAt(selectedCardPosition, it) }
+                    when {
+                        true == removed -> {
+                            adapter.removeItemAt(selectedCardPosition)
+                            adapter.notifyDataSetChanged()
+                            updateCardCount()
+                        }
+                        true == cardBlocked -> {
+                            adapter.removeAllItems()
+                            viewModel.getCards()
+                        }
+                        true == cardReorder -> {
+                            adapter.removeAllItems()
+                            viewModel.getCards()
+                        }
+                        else -> {
+                            updatedCard?.let { adapter.setItemAt(selectedCardPosition, it) }
+                        }
                     }
                 }
             }

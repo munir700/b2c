@@ -81,7 +81,8 @@ class AddSpareCardFragment : AddPaymentChildFragment<IAddSpareCard.ViewModel>(),
 
                 R.id.btnDoneAddingSpareVirtualCard -> {
                     setupActionsIntent()
-                    activity!!.finish()
+                    openDetailScreen()
+                    activity?.finish()
                 }
 
                 R.id.btnConfirm -> {
@@ -141,6 +142,16 @@ class AddSpareCardFragment : AddPaymentChildFragment<IAddSpareCard.ViewModel>(),
                 )
             }
         }
+    }
+
+
+    private fun openDetailScreen() {
+//        startActivityForResult(
+//            PaymentCardDetailActivity.newIntent(
+//                requireContext(),
+//                Card()
+//            ), EVENT_PAYMENT_CARD_DETAIL
+//        )
     }
 
     private fun onReorderCard() {

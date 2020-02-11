@@ -5,6 +5,7 @@
     <string name="common_button_next">Next</string>
     <string name="common_display_text_error_no_internet">Internet connection appears to be offline</string>
     <string name="common_button_yes">Yes</string>
+    <string name="common_button_add">Add</string>
     <string name="common_button_cancel">Cancel</string>
     <string name="common_button_settings">Settings</string>
     <string name="common_button_save">Save</string>
@@ -268,7 +269,7 @@
     <!-- Spare Card Landing Screen -->
 
     <string name="screen_spare_card_landing_display_text_title">Add a spare card</string>
-    <string name="screen_spare_card_landing_display_text_spare_card">Spare card</string>
+    <string name="screen_spare_card_landing_display_text_spare_card">Virtual spare card</string>
     <string name="screen_spare_card_landing_display_text_select_card_type">Select a type of card</string>
     <string name="screen_spare_card_landing_display_text_virtual_card">Virtual card</string>
     <string name="screen_spare_card_landing_display_text_physical_card">Physical card</string>
@@ -294,6 +295,8 @@
     <string name="screen_add_spare_card_display_text_alert_title">Looks like you don\'t have enough funds in your account. Top up now to continue with this purchase</string>
     <string name="screen_add_spare_card_display_button_block_alert_top_up">Top up</string>
     <string name="screen_add_spare_card_display_button_block_alert_skip">Skip for now</string>
+
+    <string name="screen_add_spare_card_display_text_fee">One time fee of %1$s</string>
 
 
     <!-- Add Spare card location -->

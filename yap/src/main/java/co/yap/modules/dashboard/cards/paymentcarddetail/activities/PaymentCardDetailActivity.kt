@@ -91,7 +91,7 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        mNavigator = (this?.applicationContext as NavigatorProvider).provideNavigator()
+        mNavigator = (this.applicationContext as NavigatorProvider).provideNavigator()
 
 
         setUpTransactionsListRecyclerView()

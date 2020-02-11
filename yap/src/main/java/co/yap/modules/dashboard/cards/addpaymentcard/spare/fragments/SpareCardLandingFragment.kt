@@ -42,7 +42,6 @@ class SpareCardLandingFragment : AddPaymentChildFragment<ISpareCards.ViewModel>(
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel.getVirtualCardFee()
-        viewModel.getPhysicalCardFee()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -53,22 +52,16 @@ class SpareCardLandingFragment : AddPaymentChildFragment<ISpareCards.ViewModel>(
 
         activity?.let {
             ViewModelProviders.of(it).get(AddPaymentCardViewModel::class.java)
-                .state.tootlBarTitle = "Add a spare card"
+                .state.tootlBarTitle = "Add a virtual spare card"
         }
 
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
+                R.id.addSpareCard -> {
+                    gotoAddSpareVirtualCardConfirmScreen()
+                }
                 R.id.llAddVirtualCard -> {
-                    val action =
-                        SpareCardLandingFragmentDirections.actionSpareCardLandingFragmentToAddSpareCardFragment(
-                            getString(R.string.screen_spare_card_landing_display_text_virtual_card),
-                            "",
-                            "",
-                            "",
-                            "",
-                            false
-                        )
-                    findNavController().navigate(action)
+                    gotoAddSpareVirtualCardConfirmScreen()
                 }
 
                 R.id.llAddPhysicalCard -> {
@@ -88,6 +81,19 @@ class SpareCardLandingFragment : AddPaymentChildFragment<ISpareCards.ViewModel>(
             }
         })
 
+    }
+
+    private fun gotoAddSpareVirtualCardConfirmScreen() {
+        val action =
+            SpareCardLandingFragmentDirections.actionSpareCardLandingFragmentToAddSpareCardFragment(
+                getString(R.string.screen_spare_card_landing_display_text_virtual_card),
+                "",
+                "",
+                "",
+                "",
+                false
+            )
+        findNavController().navigate(action)
     }
 
     private fun addBenefitRecyclerView() {
