@@ -55,7 +55,7 @@ abstract class BaseRepository : IRepository {
         }
     }
 
-    private fun fetchErrorFromBody(response: String?): ServerError {
+    private fun fetchErrorFromBody(code: Int, response: String?): ServerError {
         response?.let {
             if (it.isNotBlank()) {
                 try {
@@ -65,11 +65,15 @@ abstract class BaseRepository : IRepository {
                         val errors = obj.getJSONArray("errors")
                         if (errors.length() > 0) {
                             val message = errors.getJSONObject(0).getString("message")
-                            val code = errors.getJSONObject(0).getInt("code")
+                            val actualCode = errors.getJSONObject(0).getInt("code")
                             return if (message != "null") {
-                                ServerError(code, errors.getJSONObject(0).getString("message"))
+                                ServerError(
+                                    code,
+                                    errors.getJSONObject(0).getString("message"),
+                                    actualCode
+                                )
                             } else {
-                                ServerError(code, "Something went wrong")
+                                ServerError(code, "Something went wrong", actualCode)
                             }
                         }
                     } else if (obj.has("error")) {
@@ -114,10 +118,10 @@ abstract class BaseRepository : IRepository {
                 code,
                 "You don't have access to this information"
             )
-            is NetworkErrors.InternalServerError -> fetchErrorFromBody(error.response)
+            is NetworkErrors.InternalServerError -> fetchErrorFromBody(code, error.response)
             is NetworkErrors.UnknownError -> ServerError(code, "Something went wrong.")
         }
     }
 
-    data class ServerError(val code: Int?, val message: String?)
+    data class ServerError(val code: Int?, val message: String?, val actualCode: Int = -1)
 }
