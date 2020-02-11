@@ -92,7 +92,7 @@
 
     <color name="colorAccentHouseHold">#fc6253</color>
 
-<!--    d32f2f-->
+    <!--    d32f2f-->
     <color name="colorPrimaryHouseHold">#fc6253</color>
     <color name="colorPrimaryDarkHouseHold">#272262</color>
     <color name="colorPrimaryLightHouseHold">#7c4dff</color>
@@ -110,13 +110,18 @@
     <color name="grey88848d">#c9c8d8</color>
 
 
-<!--    //-->
-
     <color name="colorBlue">#478df4</color>
     <color name="lightYellow">#40f57f17</color>
     <color name="lightAqua">#4000b9ae</color>
     <color name="lightPink">#40f44774</color>
 
+    <!-- colors for achievements-->
+    <color name="colorDarkPurple">#BB42EB</color>
+    <color name="colorDarkBlue">#478DF4</color>
+    <color name="colorDarkAqua">#00B9AE</color>
+    <color name="colorDarkPink">#F44774</color>
+    <color name="colorDarkGrey">#272262</color>
+    <color name="colorDarkPeach">#F57F17</color>
 
 
 </resources>

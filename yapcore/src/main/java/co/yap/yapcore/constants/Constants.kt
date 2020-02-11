@@ -152,5 +152,4 @@ object Constants {
     const val OVERVIEW_BENEFICIARY = "overview_beneficiary"
     const val IS_IBAN_NEEDED = "is_iban_need"
 
-
 }

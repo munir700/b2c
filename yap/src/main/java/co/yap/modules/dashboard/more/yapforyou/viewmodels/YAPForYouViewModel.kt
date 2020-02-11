@@ -4,6 +4,8 @@ import android.app.Application
 import co.yap.R
 import co.yap.modules.dashboard.more.yapforyou.Achievement
 import co.yap.modules.dashboard.more.yapforyou.AchievementTask
+import co.yap.modules.dashboard.more.yapforyou.AchievmentIcons
+import co.yap.modules.dashboard.more.yapforyou.CategoriesIcon
 import co.yap.modules.dashboard.more.yapforyou.interfaces.IYAPForYou
 import co.yap.modules.dashboard.more.yapforyou.states.YAPForYouState
 import co.yap.translation.Strings
@@ -47,6 +49,20 @@ class YAPForYouViewModel(application: Application) :
 
     }
 
+    fun getImageFromEnum(color: Int, percent: Double): Int? {
+
+        var categoriesIcon: CategoriesIcon = CategoriesIcon(percent, color.toString())
+
+        return categoriesIcon.achievmentIcons.roundBadgeIcon
+    }
+
+    fun getAchievmentIcons(color: Int, percent: Double): AchievmentIcons? {
+
+        var categoriesIcon: CategoriesIcon = CategoriesIcon(percent, color.toString())
+
+        return categoriesIcon.achievmentIcons
+    }
+
     override fun getAchievements(): MutableList<Achievement> {
         val list = mutableListOf<Achievement>()
         list.add(
@@ -59,7 +75,10 @@ class YAPForYouViewModel(application: Application) :
                     AchievementTask("Do a Y2Y transfer", true),
                     AchievementTask("Split bills with friends", false),
                     AchievementTask("Send money to someone outside YAP", true)
-                )
+                ),
+                icon = getImageFromEnum(R.color.colorDarkPurple, 100.00),
+                achievmentIcons = getAchievmentIcons(R.color.colorDarkPink, 00.00)
+
             )
         )
         list.add(
@@ -67,15 +86,21 @@ class YAPForYouViewModel(application: Application) :
                 name = "Up and running",
                 colorCode = "ffddee",
                 percentage = 100.00,
-                feature = tasksList
+                feature = tasksList,
+                icon = getImageFromEnum(R.color.colorDarkBlue, 100.00),
+                achievmentIcons = getAchievmentIcons(R.color.colorDarkPink, 00.00)
+
             )
         )
         list.add(
             Achievement(
                 name = "Better together",
-                colorCode = "ffddee",
+                colorCode = "ffc430",
                 percentage = 75.00,
-                feature = tasksList
+                feature = tasksList,
+                icon = getImageFromEnum(R.color.colorDarkPeach, 75.00),
+                achievmentIcons = getAchievmentIcons(R.color.colorDarkPink, 75.00)
+
             )
         )
         list.add(
@@ -83,7 +108,9 @@ class YAPForYouViewModel(application: Application) :
                 name = "Take the leap",
                 colorCode = "ffddee",
                 percentage = 00.00,
-                feature = tasksList
+                feature = tasksList,
+                icon = getImageFromEnum(R.color.colorDarkPink, 00.00),
+                achievmentIcons = getAchievmentIcons(R.color.colorDarkPink, 00.00)
             )
         )
         list.add(
@@ -91,7 +118,10 @@ class YAPForYouViewModel(application: Application) :
                 name = "YAP Store",
                 colorCode = "ffddee",
                 percentage = 00.00,
-                feature = tasksList
+                feature = tasksList,
+                icon = getImageFromEnum(R.color.colorDarkAqua, 00.00),
+                achievmentIcons = getAchievmentIcons(R.color.colorDarkPink, 00.00)
+
             )
         )
         list.add(
@@ -99,7 +129,10 @@ class YAPForYouViewModel(application: Application) :
                 name = "You’re a Pro!",
                 colorCode = "ffddee",
                 percentage = 00.00,
-                feature = tasksList
+                feature = tasksList,
+                icon = getImageFromEnum(R.color.colorDarkGrey, 00.00),
+                achievmentIcons = getAchievmentIcons(R.color.colorDarkPink, 00.00)
+
             )
         )
         return list

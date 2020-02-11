@@ -13,5 +13,8 @@ data class Achievement(
     @SerializedName("percentage")
     var percentage: Double?,
     @SerializedName("feature")
-    val feature: List<AchievementTask>
+    val feature: List<AchievementTask>,
+    val icon: Int?,
+    val achievmentIcons: AchievmentIcons?
+
 ) : Parcelable

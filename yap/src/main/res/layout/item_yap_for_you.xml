@@ -30,12 +30,12 @@
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
             android:layout_gravity="center"
-            android:src="@{viewModel.achievement.percentage==100.00? @drawable/ic_badge_dark_purple : @drawable/ic_badge_light_purple }"
             android:contentDescription=""
-            app:layout_constraintTop_toTopOf="parent"
+            app:achievementIcon="@{viewModel.achievement.icon}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            tools:src="@drawable/ic_badge_light_purple" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:src="@drawable/ic_round_badge_light_purple" />
 
         <TextView
             android:id="@+id/tvTitle"
@@ -49,6 +49,7 @@
             android:textSize="@dimen/_10sdp"
             app:layout_constraintTop_toBottomOf="@+id/imgIcon"
             tools:text="android:asdasdas" />
+
         <TextView
             android:id="@+id/tvPercentage"
             style="@style/AMicroGrey"
@@ -56,10 +57,10 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:gravity="center"
-            android:textSize="@dimen/_10sdp"
             android:text="@{String.format(@string/screen_yap_for_you_display_text_completed_percentage ,viewModel.achievement.percentage)}"
-            app:layout_constraintTop_toBottomOf="@+id/tvTitle"
+            android:textSize="@dimen/_10sdp"
             android:visibility="@{viewModel.achievement.percentage != null ?View.VISIBLE:View.GONE}"
+            app:layout_constraintTop_toBottomOf="@+id/tvTitle"
             tools:text="75% completed" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
