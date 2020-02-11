@@ -1,5 +1,6 @@
 package co.yap.yapcore
 
+import android.app.Dialog
 import android.content.Context
 import android.os.Bundle
 import android.view.View
@@ -12,15 +13,12 @@ import co.yap.yapcore.interfaces.OnBackPressedListener
 abstract class BaseFragment<V : IBase.ViewModel<*>> : BaseNavFragment(), IBase.View<V>,
     OnBackPressedListener {
 
+    private var progress: Dialog? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
-        // This callback will only be called when MyFragment is at least Started.
-//        requireActivity().onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
-//            override fun handleOnBackPressed() {
-//                onBackPressed()
-//            }
-//        })
+        progress = Utils.createProgressDialog(requireContext())
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -30,6 +28,7 @@ abstract class BaseFragment<V : IBase.ViewModel<*>> : BaseNavFragment(), IBase.V
 
     override fun onDestroyView() {
         unregisterStateListeners()
+        progress?.dismiss()
         super.onDestroyView()
     }
 
@@ -55,10 +54,9 @@ abstract class BaseFragment<V : IBase.ViewModel<*>> : BaseNavFragment(), IBase.V
 
 
     override fun showLoader(isVisible: Boolean) {
-        getBaseView()?.showLoader(isVisible)
-
-        // Always hide keyboard
+        if (isVisible) progress?.show() else progress?.dismiss()
         Utils.hideKeyboard(this.view)
+        //getBaseView()?.showLoader(isVisible)
     }
 
     override fun showToast(msg: String) {
