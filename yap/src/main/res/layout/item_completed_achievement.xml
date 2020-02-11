@@ -27,7 +27,7 @@
                 android:layout_width="@dimen/_64sdp"
                 android:layout_height="@dimen/_64sdp"
                 android:contentDescription="@string/empty_string"
-                android:src="@{viewModel.achievement.percentage==100.00? @drawable/ic_badge_dark_purple : @drawable/ic_badge_light_purple }"
+                app:achievementIcon="@{viewModel.achievement.achievmentIcons.roundBadgeIcon}"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:src="@drawable/ic_badge_light_peach" />
