@@ -30,4 +30,11 @@ class UnverifiedChangeEmailFragment : ChangeEmailFragment() {
         })
 
     }
+
+    override fun onDestroy() {
+        viewModel.clickEvent.removeObservers(this)
+        viewModel.success.removeObservers(this)
+        viewModel.changeEmailSuccessEvent.removeObservers(this)
+        super.onDestroy()
+    }
 }
