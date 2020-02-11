@@ -190,22 +190,16 @@ class EidInfoReviewViewModel(application: Application) :
                         } else clickEvent.setValue(EVENT_NEXT)
                     }
                     is RetroApiResponse.Error -> {
-                        if (response.error.message.contains(EVENT_ALREADY_USED_EID.toString())) {
+                        if (response.error.actualCode.equals(
+                                EVENT_ALREADY_USED_EID.toString(),
+                                true
+                            )
+                        ) {
                             clickEvent.setValue(EVENT_ALREADY_USED_EID)
                             state.toast = response.error.message
                         } else {
                             state.toast = response.error.message
                         }
-//                        if (response.error.actualCode.equals(
-//                                EVENT_ALREADY_USED_EID.toString(),
-//                                true
-//                            )
-//                        ) {
-//                            clickEvent.setValue(EVENT_ALREADY_USED_EID)
-//                            state.toast = response.error.message
-//                        } else {
-//                            state.toast = response.error.message
-//                        }
                     }
                 }
             }

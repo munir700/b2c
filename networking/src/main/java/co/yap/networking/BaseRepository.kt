@@ -65,7 +65,7 @@ abstract class BaseRepository : IRepository {
                         val errors = obj.getJSONArray("errors")
                         if (errors.length() > 0) {
                             val message = errors.getJSONObject(0).getString("message")
-                            val actualCode = errors.getJSONObject(0).getInt("code")
+                            val actualCode = errors.getJSONObject(0).getString("code")
                             return if (message != "null") {
                                 ServerError(
                                     code,
@@ -84,9 +84,8 @@ abstract class BaseRepository : IRepository {
                         }
                         return ServerError(0, error)
                     }
-
                 } catch (e: JSONException) {
-                    // return "Server sent some malformed address :o"
+                    ServerError(code, "Something went wrong")
                 }
             }
         }
@@ -94,7 +93,11 @@ abstract class BaseRepository : IRepository {
     }
 
     private fun getApiError(error: ServerError): ApiError {
-        return ApiError(error.code ?: getDefaultCode(), error.message ?: getDefaultMessage())
+        return ApiError(
+            error.code ?: getDefaultCode(),
+            error.message ?: getDefaultMessage(),
+            error.actualCode
+        )
     }
 
     private fun getDefaultMessage(): String {
@@ -104,7 +107,6 @@ abstract class BaseRepository : IRepository {
     private fun getDefaultCode(): Int {
         return 0
     }
-
 
     private fun mapError(error: NetworkErrors, code: Int = 0): ServerError {
         return when (error) {
@@ -124,5 +126,5 @@ abstract class BaseRepository : IRepository {
         }
     }
 
-    data class ServerError(val code: Int?, val message: String?, val actualCode: Int = -1)
+    data class ServerError(val code: Int?, val message: String?, val actualCode: String = "-1")
 }
