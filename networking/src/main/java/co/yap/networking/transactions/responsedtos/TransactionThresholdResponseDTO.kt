@@ -5,5 +5,5 @@ import com.google.gson.annotations.SerializedName
 
 data class TransactionThresholdResponseDTO(
     @SerializedName("data")
-    var data: TransactionThresholdModel
+    val data: TransactionThresholdModel
 ) : ApiResponse()
