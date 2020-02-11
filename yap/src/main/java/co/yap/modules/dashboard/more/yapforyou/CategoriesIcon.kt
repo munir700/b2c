@@ -2,14 +2,10 @@ package co.yap.modules.dashboard.more.yapforyou
 
 import co.yap.R
 
-  class CategoriesIcon constructor(
+class CategoriesIcon constructor(
     percentage: Double?,
     colorCode: String
 ) {
-
-    //  CategoryIconDetails(percentage, colorCode);
-//    CategoryIconDetails(ACHIEVEMENTPERCENTAGE, ACHIEVEMENTCOLOR);
-
     var percentage: Double?
     var colorCode: String
     var badge: Int = 0

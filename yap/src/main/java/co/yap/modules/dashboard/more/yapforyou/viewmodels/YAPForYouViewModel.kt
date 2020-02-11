@@ -25,6 +25,8 @@ class YAPForYouViewModel(application: Application) :
     override fun onCreate() {
         super.onCreate()
         parentViewModel?.achievements = getAchievements()
+        parentViewModel?.achievement = getAchievements().get(0)
+
     }
 
     override fun onResume() {
@@ -49,12 +51,6 @@ class YAPForYouViewModel(application: Application) :
 
     }
 
-    fun getImageFromEnum(color: Int, percent: Double): Int? {
-
-        var categoriesIcon: CategoriesIcon = CategoriesIcon(percent, color.toString())
-
-        return categoriesIcon.achievmentIcons.roundBadgeIcon
-    }
 
     fun getAchievmentIcons(color: Int, percent: Double): AchievmentIcons? {
 
@@ -76,8 +72,8 @@ class YAPForYouViewModel(application: Application) :
                     AchievementTask("Split bills with friends", false),
                     AchievementTask("Send money to someone outside YAP", true)
                 ),
-                icon = getImageFromEnum(R.color.colorDarkPurple, 100.00),
-                achievmentIcons = getAchievmentIcons(R.color.colorDarkPink, 00.00)
+                icon = getAchievmentIcons(R.color.colorDarkPurple, 100.00)?.roundBadgeIcon,
+                achievmentIcons = getAchievmentIcons(R.color.colorDarkPurple, 00.00)
 
             )
         )
@@ -87,8 +83,8 @@ class YAPForYouViewModel(application: Application) :
                 colorCode = "ffddee",
                 percentage = 100.00,
                 feature = tasksList,
-                icon = getImageFromEnum(R.color.colorDarkBlue, 100.00),
-                achievmentIcons = getAchievmentIcons(R.color.colorDarkPink, 00.00)
+                icon = getAchievmentIcons(R.color.colorDarkBlue, 100.00)?.roundBadgeIcon,
+                achievmentIcons = getAchievmentIcons(R.color.colorDarkBlue, 00.00)
 
             )
         )
@@ -98,8 +94,8 @@ class YAPForYouViewModel(application: Application) :
                 colorCode = "ffc430",
                 percentage = 75.00,
                 feature = tasksList,
-                icon = getImageFromEnum(R.color.colorDarkPeach, 75.00),
-                achievmentIcons = getAchievmentIcons(R.color.colorDarkPink, 75.00)
+                icon = getAchievmentIcons(R.color.colorDarkPeach, 75.00)?.roundBadgeIcon,
+                achievmentIcons = getAchievmentIcons(R.color.colorDarkPeach, 75.00)
 
             )
         )
@@ -109,7 +105,7 @@ class YAPForYouViewModel(application: Application) :
                 colorCode = "ffddee",
                 percentage = 00.00,
                 feature = tasksList,
-                icon = getImageFromEnum(R.color.colorDarkPink, 00.00),
+                icon = getAchievmentIcons(R.color.colorDarkPink, 00.00)?.roundBadgeIcon,
                 achievmentIcons = getAchievmentIcons(R.color.colorDarkPink, 00.00)
             )
         )
@@ -119,8 +115,8 @@ class YAPForYouViewModel(application: Application) :
                 colorCode = "ffddee",
                 percentage = 00.00,
                 feature = tasksList,
-                icon = getImageFromEnum(R.color.colorDarkAqua, 00.00),
-                achievmentIcons = getAchievmentIcons(R.color.colorDarkPink, 00.00)
+                icon = getAchievmentIcons(R.color.colorDarkAqua, 00.00)?.roundBadgeIcon,
+                achievmentIcons = getAchievmentIcons(R.color.colorDarkAqua, 00.00)
 
             )
         )
@@ -130,11 +126,12 @@ class YAPForYouViewModel(application: Application) :
                 colorCode = "ffddee",
                 percentage = 00.00,
                 feature = tasksList,
-                icon = getImageFromEnum(R.color.colorDarkGrey, 00.00),
-                achievmentIcons = getAchievmentIcons(R.color.colorDarkPink, 00.00)
+                icon = getAchievmentIcons(R.color.colorDarkGrey, 00.00)?.roundBadgeIcon,
+                achievmentIcons = getAchievmentIcons(R.color.colorDarkGrey, 00.00)
 
             )
         )
+
         return list
     }
 

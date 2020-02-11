@@ -67,6 +67,8 @@ class YAPForYouFragment : YapForYouBaseFragment<IYAPForYou.ViewModel>() {
         adapter.setItemListener(listener)
         viewModel.state.selectedAchievementPercentage =
             viewModel.getAchievements()[0].percentage.toString()
+        viewModel.state.selectedAchievementImage =
+            viewModel.getAchievements()[0].achievmentIcons?.mainBadgeIcon
         viewModel.state.selectedAchievementTitle = viewModel.getAchievements()[0].name ?: ""
     }
 
@@ -95,6 +97,7 @@ class YAPForYouFragment : YapForYouBaseFragment<IYAPForYou.ViewModel>() {
     private fun setSelectedAchievement(achievement: Achievement) {
         viewModel.parentViewModel?.achievement = achievement
         viewModel.state.selectedAchievementTitle = achievement.name ?: ""
+        viewModel.state.selectedAchievementImage = achievement.achievmentIcons?.mainBadgeIcon
         viewModel.state.selectedAchievementPercentage =
             getString(Strings.screen_yap_for_you_display_text_completed_percentage).format("${achievement.percentage}%")
     }

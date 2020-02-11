@@ -27,11 +27,11 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_large"
             android:contentDescription="@string/empty_string"
-            android:src="@{viewModel.parentViewModel.achievement.percentage == 100.00? @drawable/ic_badge_dark_purple : @drawable/ic_badge_light_purple }"
+            app:achievementIcon="@{viewModel.state.selectedAchievementImage}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            tools:src="@drawable/ic_badge_light_peach"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:src="@drawable/ic_badge_light_peach" />
 
         <TextView
             android:id="@+id/tvTitle"
@@ -50,11 +50,11 @@
             style="@style/SmallGrey"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="@{viewModel.state.selectedAchievementPercentage}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvTitle"
             app:text="@{Strings.screen_yap_for_you_display_text_completed_percentage}"
-            android:text="@{viewModel.state.selectedAchievementPercentage}"
             tools:text="75% completed" />
 
         <!--screen_yap_for_you_display_text_completed_percentage-->
@@ -66,11 +66,11 @@
             android:layout_width="wrap_content"
             android:layout_height="@dimen/_22sdp"
             android:layout_marginTop="@dimen/margin_medium"
+            android:onClick="@{(v)->viewModel.handlePressOnView(v.id)}"
             android:paddingTop="0dp"
             android:paddingBottom="0dp"
-            app:btn_enable="true"
             android:visibility="@{viewModel.state.selectedAchievementPercentage == null? View.INVISIBLE : View.VISIBLE}"
-            android:onClick="@{(v)->viewModel.handlePressOnView(v.id)}"
+            app:btn_enable="true"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvCompltedPercentage"
