@@ -61,10 +61,11 @@ class TopUpCardFundsViewModel(application: Application) : FundActionsViewModel(a
             )) {
                 is RetroApiResponse.Success -> {
                     state.transactionFee = response.data.data
-                    if (state.transactionFee.toDouble() == 0.0) {
+                    //Commented because QA said to remove "No fee" text.
+                   /* if (state.transactionFee.toDouble() == 0.0) {
                         state.transactionFee =
                             getString(Strings.screen_topup_transfer_display_text_transaction_no_fee)
-                    }
+                    }*/
                     clickEvent.postValue(Constants.CARD_FEE)
                 }
                 is RetroApiResponse.Error -> {
