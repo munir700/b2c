@@ -1,5 +1,7 @@
 package co.yap.networking.transactions.responsedtos.topuptransactionsession
 
-data class Simple3DEnrollmentObject(var htmlBodyContent: String) {
+import com.google.gson.annotations.SerializedName
+
+data class Simple3DEnrollmentObject(@SerializedName("htmlBodyContent") var htmlBodyContent: String) {
 
 }

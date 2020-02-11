@@ -1,3 +1,5 @@
 package co.yap.networking.transactions.requestdtos
 
-data class RxListRequest(val beneficiary_id: String?)
+import com.google.gson.annotations.SerializedName
+
+data class RxListRequest( @SerializedName("beneficiary_id") val beneficiary_id: String?)

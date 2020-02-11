@@ -16,7 +16,7 @@ data class OtherBankQuery(
 ) : ApiResponse(), Parcelable {
     @Parcelize
     data class Params(
-        var id: String? = null,
-        var value: String? = null
+        @SerializedName("id") var id: String? = null,
+        @SerializedName("value") var value: String? = null
     ) : ApiResponse(), Parcelable
 }

@@ -1,3 +1,5 @@
 package co.yap.networking.transactions.requestdtos
 
-class CreateSessionRequest(var order:Order)
+import com.google.gson.annotations.SerializedName
+
+class CreateSessionRequest(@SerializedName("order") var order: Order)

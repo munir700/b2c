@@ -1,5 +1,9 @@
 package co.yap.networking.transactions.responsedtos
 
 import co.yap.networking.models.ApiResponse
+import com.google.gson.annotations.SerializedName
 
-data class TransactionThresholdResponseDTO(var data: TransactionThresholdModel) : ApiResponse()
+data class TransactionThresholdResponseDTO(
+    @SerializedName("data")
+    var data: TransactionThresholdModel
+) : ApiResponse()

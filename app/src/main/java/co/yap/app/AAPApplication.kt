@@ -46,7 +46,6 @@ class AAPApplication : ChatApplication(
         initNetworkLayer()
         setAppUniqueId(this)
         initFirebase()
-        inItLeanPlum()
         createChannel(packageName, "Default")
     }
 
@@ -80,6 +79,7 @@ class AAPApplication : ChatApplication(
                 .build()
             Fabric.with(fabric)
             Timber.plant(DebugTree())
+            inItLeanPlum()
         }
     }
 
