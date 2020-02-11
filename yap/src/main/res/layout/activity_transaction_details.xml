@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
@@ -13,7 +14,7 @@
         <import type="android.view.View" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/white">
@@ -54,45 +55,58 @@
                 android:layout_height="wrap_content"
                 android:text="Sender"
                 android:visibility="@{viewModel.state.isYtoYTransfer? View.VISIBLE : View.GONE }"
+
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/tvSenderName"
                 tools:text="Sender" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline1"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.35" />
 
             <TextView
                 android:id="@+id/tvSenderName"
                 style="@style/ASmall"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:gravity="end"
                 android:text="@{viewModel.state.transactionSender}"
                 android:visibility="@{viewModel.state.isYtoYTransfer? View.VISIBLE : View.GONE }"
-                app:layout_constraintBottom_toBottomOf="@+id/tvSenderLable"
+                app:layout_constraintBottom_toTopOf="@+id/tvReceiverName"
+                app:layout_constraintLeft_toRightOf="@+id/guideline1"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/tvSenderLable"
-                tools:text="Hassnain Ali" />
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Hassnain hhvc vc veervevevevreveveveverververvferferferferferferfefefefrerf" />
 
             <TextView
                 android:id="@+id/tvReceiverLable"
                 style="@style/ASmallGrey"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_medium"
+
                 android:text="Receiver"
                 android:visibility="@{viewModel.state.isYtoYTransfer? View.VISIBLE : View.GONE }"
+
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvSenderLable"
+                app:layout_constraintTop_toTopOf="@+id/tvReceiverName"
                 tools:text="Receiver" />
 
             <TextView
                 android:id="@+id/tvReceiverName"
                 style="@style/ASmall"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_medium"
+                android:gravity="end"
                 android:text="@{viewModel.state.transactionReceiver}"
                 android:visibility="@{viewModel.state.isYtoYTransfer? View.VISIBLE : View.GONE}"
-                app:layout_constraintBottom_toBottomOf="@+id/tvReceiverLable"
+                app:layout_constraintLeft_toRightOf="@+id/guideline1"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/tvReceiverLable"
-                tools:text="Faheem Riaz" />
+                app:layout_constraintTop_toBottomOf="@+id/tvSenderName"
+                tools:text="Faheemveervevevevreveveveverververvferferferferferferf Riaz" />
 
 
             <TextView
@@ -101,20 +115,21 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@{viewModel.state.spentTitle}"
-                android:layout_marginTop="@dimen/margin_medium"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvReceiverLable"
+                app:layout_constraintTop_toTopOf="@+id/tvCardSpendAmount"
                 tools:text="Spent" />
 
             <TextView
                 android:id="@+id/tvCardSpendAmount"
                 style="@style/ASmall"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_medium"
+                android:gravity="end"
                 android:text="@{viewModel.state.spentAmount}"
-                app:layout_constraintBottom_toBottomOf="@+id/tvCardSpent"
+                app:layout_constraintLeft_toRightOf="@+id/guideline1"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/tvCardSpent"
+                app:layout_constraintTop_toBottomOf="@+id/tvReceiverName"
                 tools:text="1500" />
 
             <TextView
@@ -122,21 +137,23 @@
                 style="@style/ASmallGrey"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_medium"
                 android:text="@{viewModel.state.feeTitle}"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvCardSpent"
+                app:layout_constraintTop_toTopOf="@+id/tvFeeAmount"
                 tools:text="Fee" />
 
             <TextView
                 android:id="@+id/tvFeeAmount"
                 style="@style/ASmall"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_medium"
+                android:gravity="end"
                 android:text="@{viewModel.state.feeAmount!=null?viewModel.state.feeAmount:`0.00`}"
-                app:layout_constraintBottom_toBottomOf="@+id/tvFee"
+                app:layout_constraintLeft_toRightOf="@+id/guideline1"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/tvFee"
+
+                app:layout_constraintTop_toBottomOf="@+id/tvCardSpendAmount"
                 tools:text="1000" />
 
 
@@ -145,21 +162,23 @@
                 style="@style/ASmallGrey"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_medium"
+
                 android:text="@{viewModel.state.totalTitle}"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvFee"
+                app:layout_constraintTop_toTopOf="@+id/tvTotalAmountValue"
                 tools:text="Total" />
 
             <TextView
                 android:id="@+id/tvTotalAmountValue"
                 style="@style/ASmall"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_medium"
+                android:gravity="end"
                 android:text="@{viewModel.state.totalAmount}"
-                app:layout_constraintBottom_toBottomOf="@+id/tvTotalAmount"
+                app:layout_constraintLeft_toRightOf="@+id/guideline1"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/tvTotalAmount"
+                app:layout_constraintTop_toBottomOf="@+id/tvFeeAmount"
                 tools:text="2500" />
 
 

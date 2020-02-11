@@ -70,6 +70,7 @@
         <activity
             android:name="co.yap.modules.dashboard.unverifiedemail.UnVerifiedEmailActivity"
             android:screenOrientation="portrait"
+            android:launchMode="singleTop"
             android:theme="@style/CoreAppTheme.NoActionBar">
             <nav-graph android:value="@navigation/unverified_change_email_navigation" />
         </activity>
