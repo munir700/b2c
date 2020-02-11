@@ -23,14 +23,14 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <co.yap.widgets.CoreCircularImageView
+            <ImageView
                 android:id="@+id/ivAchievement"
-                android:layout_width="@dimen/_64sdp"
-                android:layout_height="@dimen/_64sdp"
+                android:layout_width="@dimen/_84sdp"
+                android:layout_height="@dimen/_84sdp"
                 android:layout_marginTop="@dimen/margin_large"
                 android:contentDescription="@string/empty_string"
+                app:achievementIcon="@{viewModel.parentViewModel.achievement.achievmentIcons.mainBadgeIcon}"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:src="@{viewModel.parentViewModel.achievement.percentage==100.00? @drawable/ic_badge_dark_purple : @drawable/ic_badge_light_purple }"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -40,10 +40,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/small"
+                android:text="@{viewModel.parentViewModel.achievement.name}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/ivAchievement"
-                android:text="@{viewModel.parentViewModel.achievement.name}"
                 tools:text="Better together" />
 
             <TextView
@@ -51,10 +51,10 @@
                 style="@style/AMicroGrey"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:text="@{String.format(@string/screen_yap_for_you_display_text_completed_percentage ,viewModel.parentViewModel.achievement.percentage)}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvAchievementName"
-                android:text="@{String.format(@string/screen_yap_for_you_display_text_completed_percentage ,viewModel.parentViewModel.achievement.percentage)}"
                 tools:text="75% completed" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -63,13 +63,13 @@
             android:id="@+id/rvAchievements"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/achievementContainer"
             app:layout_constraintVertical_bias="0.19"
             tools:itemCount="4"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             tools:listitem="@layout/item_achievement" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
