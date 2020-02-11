@@ -79,17 +79,15 @@
                 app:layout_constraintLeft_toRightOf="@+id/guideline1"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:text="Hassnain hhvc vc veervevevevreveveveverververvferferferferferferfefefefrerf" />
+                tools:text="Hassnain Ali" />
 
             <TextView
                 android:id="@+id/tvReceiverLable"
                 style="@style/ASmallGrey"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-
                 android:text="Receiver"
                 android:visibility="@{viewModel.state.isYtoYTransfer? View.VISIBLE : View.GONE }"
-
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/tvReceiverName"
                 tools:text="Receiver" />
@@ -106,7 +104,7 @@
                 app:layout_constraintLeft_toRightOf="@+id/guideline1"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvSenderName"
-                tools:text="Faheemveervevevevreveveveverververvferferferferferferf Riaz" />
+                tools:text="Faheem Riaz" />
 
 
             <TextView
