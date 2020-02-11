@@ -105,6 +105,7 @@ abstract class BaseRepository : IRepository {
         return 0
     }
 
+
     private fun mapError(error: NetworkErrors, code: Int = 0): ServerError {
         return when (error) {
             is NetworkErrors.NoInternet -> ServerError(code, "Internet appears to be offline.")
@@ -119,7 +120,7 @@ abstract class BaseRepository : IRepository {
                 "You don't have access to this information"
             )
             is NetworkErrors.InternalServerError -> fetchErrorFromBody(code, error.response)
-            is NetworkErrors.UnknownError -> ServerError(code, "Something went wrong.")
+            is NetworkErrors.UnknownError -> ServerError(code, getDefaultMessage())
         }
     }
 
