@@ -36,7 +36,6 @@ import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.ExtraType
 import co.yap.yapcore.helpers.extentions.getValue
 import co.yap.yapcore.helpers.extentions.launchActivity
-import co.yap.yapcore.managers.MyUserManager
 import kotlinx.android.synthetic.main.fragment_onboarding_congratulations.*
 
 

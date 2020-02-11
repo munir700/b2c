@@ -71,11 +71,6 @@ class YapDashBoardViewModel(application: Application) :
     }
 
     override fun getAccountInfo() {
-        MyUserManager.user?.isDocumentsVerified?.let {
-            MoreActivity.showExpiredIcon =
-                it == "N"
-        }
-
         Leanplum.setUserId(MyUserManager.user?.uuid)
         getAccountInfoSuccess.value = true
         populateState()

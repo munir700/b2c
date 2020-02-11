@@ -12,7 +12,6 @@ import androidx.navigation.fragment.findNavController
 import co.yap.BR
 import co.yap.R
 import co.yap.modules.dashboard.more.main.activities.MoreActivity
-import co.yap.modules.dashboard.more.main.activities.MoreActivity.Companion.showExpiredIcon
 import co.yap.modules.dashboard.more.main.fragments.MoreBaseFragment
 import co.yap.modules.dashboard.more.profile.intefaces.IPersonalDetail
 import co.yap.modules.dashboard.more.profile.viewmodels.PersonalDetailsViewModel
@@ -54,7 +53,6 @@ class PersonalDetailsFragment : MoreBaseFragment<IPersonalDetail.ViewModel>(),
         super.onViewCreated(view, savedInstanceState)
         if (context is MoreActivity)
             (context as MoreActivity).visibleToolbar()
-        viewModel.state.errorVisibility = showExpiredIcon
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -64,7 +62,6 @@ class PersonalDetailsFragment : MoreBaseFragment<IPersonalDetail.ViewModel>(),
 
     override fun onResume() {
         super.onResume()
-        viewModel.state.errorVisibility = showExpiredIcon
         viewModel.toggleToolBar(true)
 
         viewModel.clickEvent.observe(this, Observer {
@@ -102,28 +99,14 @@ class PersonalDetailsFragment : MoreBaseFragment<IPersonalDetail.ViewModel>(),
                 }
 
                 R.id.cvCard -> {
-                    if (viewModel.state.errorVisibility) {
-//                        val action =
-//                            PersonalDetailsFragmentDirections.actionPersonalDetailsFragmentToDocumentsDashboardActivity(
-//                                viewModel.state.fullName, true
-//                            )
-//
-//                        findNavController().navigate(action)
-
+                    MyUserManager.user?.isDocumentsVerified?.let {
+                        if (!it.equals("Y", true)) {
                         launchActivity<DocumentsDashboardActivity>(requestCode = RequestCodes.REQUEST_KYC_DOCUMENTS){
                             putExtra(Constants.name, MyUserManager.user?.currentCustomer?.firstName.toString())
                             putExtra(Constants.data, false)
                         }
-
-//                        startActivityForResult(
-//                            DocumentsDashboardActivity.getIntent(
-//                                requireContext(),
-//                                MyUserManager.user?.currentCustomer?.firstName.toString(),
-//                                true
-//                            ), RequestCodes.REQUEST_KYC_DOCUMENTS
-//                        )
                     }
-
+                    }
                 }
 
                 viewModel.UPDATE_ADDRESS_UI -> {
@@ -159,12 +142,6 @@ class PersonalDetailsFragment : MoreBaseFragment<IPersonalDetail.ViewModel>(),
         super.onPause()
         viewModel.clickEvent.removeObservers(this)
         viewModel.onUpdateAddressSuccess.removeObservers(this)
-//        if (changeAddress) {
-//            viewModel.toggleToolBar(true)
-//            viewModel.updateToolBarText("")
-//
-//            changeAddress = true
-//        }
     }
 
     override fun onDestroy() {

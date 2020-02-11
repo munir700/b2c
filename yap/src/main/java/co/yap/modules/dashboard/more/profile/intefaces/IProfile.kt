@@ -13,14 +13,12 @@ interface IProfile {
         var fullName: String
         var profilePictureUrl: String
         var nameInitialsVisibility: Int
-        var errorBadgeVisibility: Int
         var imageUri: Uri
 
     }
     interface ViewModel : IBase.ViewModel<State> {
         val authRepository: AuthRepository
         var clickEvent: SingleClickEvent
-        val showExpiredBadge: Boolean
         val data: GetMoreDocumentsResponse
         var PROFILE_PICTURE_UPLOADED: Int
         var EVENT_LOGOUT_SUCCESS: Int

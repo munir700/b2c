@@ -14,7 +14,6 @@ interface IPersonalDetail {
         var email: String?
         var address: String
         var drawbleRight: Drawable?
-        var errorVisibility: Boolean
         var verificationText: String
     }
 

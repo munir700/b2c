@@ -12,8 +12,10 @@ abstract class KYCChildFragment<V : IBase.ViewModel<*>> : BaseBindingFragment<V>
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (viewModel is KYCChildViewModel<*>) {
-            (viewModel as KYCChildViewModel<*>).parentViewModel =
-                ViewModelProviders.of(activity!!).get(DocumentsDashboardViewModel::class.java)
+            (viewModel as KYCChildViewModel<*>).parentViewModel = activity?.let {
+                ViewModelProviders.of(it).get(DocumentsDashboardViewModel::class.java)
+            }
+
         }
     }
 }

@@ -19,14 +19,6 @@ class ProfileStates : BaseState(), IProfile.State {
         }
 
     @get:Bindable
-    override var errorBadgeVisibility: Int = GONE
-        set(value) {
-            field = value
-            notifyPropertyChanged(BR.errorBadgeVisibility)
-
-        }
-
-    @get:Bindable
     override var fullName: String = ""
         set(value) {
             field = value

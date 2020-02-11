@@ -7,8 +7,6 @@ import android.net.Uri
 import android.provider.MediaStore
 import android.view.View.GONE
 import android.view.View.VISIBLE
-import co.yap.modules.dashboard.more.main.activities.MoreActivity
-import co.yap.modules.dashboard.more.main.activities.MoreActivity.Companion.isDocumentRequired
 import co.yap.modules.dashboard.more.main.viewmodels.MoreBaseViewModel
 import co.yap.modules.dashboard.more.profile.intefaces.IProfile
 import co.yap.modules.dashboard.more.profile.states.ProfileStates
@@ -37,7 +35,6 @@ class ProfileSettingsViewModel(application: Application) :
 
     override var PROFILE_PICTURE_UPLOADED: Int = 100
     override var EVENT_LOGOUT_SUCCESS: Int = 101
-    override var showExpiredBadge: Boolean = false
     override lateinit var data: GetMoreDocumentsResponse
     override val authRepository: AuthRepository = AuthRepository
     override val repository: CustomersRepository = CustomersRepository
@@ -210,7 +207,6 @@ class ProfileSettingsViewModel(application: Application) :
 
         launch {
             when (val response = repository.getMoreDocumentsByType("EMIRATES_ID")) {
-
                 is RetroApiResponse.Success -> {
                     data = response.data
                     data.data.dateExpiry?.let {
@@ -219,20 +215,18 @@ class ProfileSettingsViewModel(application: Application) :
                 }
 
                 is RetroApiResponse.Error -> {
-                    state.errorBadgeVisibility = VISIBLE
-                    MoreActivity.showExpiredIcon = true
-                    showExpiredBadge = true
-                    if (response.error.message.equals("HomeTransactionListData not found")) {
-                        isDocumentRequired = true
-                    }
+                    MyUserManager.user?.isDocumentsVerified = "N"
+                    //if (response.error.message.equals("HomeTransactionListData not found")) {
+                    //    isDocumentRequired = true
+                    //}
                 }
             }
         }
     }
 
-    fun getExpiryDate(expiryDateString: String) {
+    private fun getExpiryDate(expiryDateString: String) {
 
-        var simpleDateFormat = SimpleDateFormat("yyyy-MM-dd")
+        val simpleDateFormat = SimpleDateFormat("yyyy-MM-dd")
         val expireyDate = simpleDateFormat.parse(expiryDateString)
         val cal = Calendar.getInstance()
         cal.add(Calendar.DAY_OF_YEAR, -1)
@@ -241,15 +235,9 @@ class ProfileSettingsViewModel(application: Application) :
         val previousDayDate = simpleDateFormat.parse(prevDay)
 
         if (expireyDate > previousDayDate) {
-            state.errorBadgeVisibility = GONE
-            showExpiredBadge = false
-            MoreActivity.showExpiredIcon = false
-
+            MyUserManager.user?.isDocumentsVerified = "Y"
         } else {
-            state.errorBadgeVisibility = VISIBLE
-            showExpiredBadge = true
-            MoreActivity.showExpiredIcon = true
+            MyUserManager.user?.isDocumentsVerified = "N"
         }
-
     }
 }

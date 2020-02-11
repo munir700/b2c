@@ -2,6 +2,7 @@ package co.yap.modules.dashboard.more.profile.viewmodels
 
 import android.app.Application
 import androidx.lifecycle.MutableLiveData
+import co.yap.R
 import co.yap.modules.dashboard.more.main.viewmodels.MoreBaseViewModel
 import co.yap.modules.dashboard.more.profile.intefaces.IPersonalDetail
 import co.yap.modules.dashboard.more.profile.states.PersonalDetailState
@@ -11,6 +12,7 @@ import co.yap.networking.cards.responsedtos.Address
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
 import co.yap.translation.Strings
+import co.yap.translation.Translator
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.managers.MyUserManager
 
@@ -69,6 +71,7 @@ class PersonalDetailsViewModel(application: Application) :
             address = MyUserManager.userAddress ?: Address()
             setUpAddressFields()
         }
+        setUpVerificationLayout()
     }
 
     private fun requestGetAddressForPhysicalCard() {
@@ -126,6 +129,32 @@ class PersonalDetailsViewModel(application: Application) :
                     state.loading = false
                 }
             }
+        }
+    }
+
+    private fun setUpVerificationLayout() {
+        if (MyUserManager.user?.isDocumentsVerified.equals("Y", true)) {
+            state.drawbleRight =
+                context.resources.getDrawable(co.yap.yapcore.R.drawable.ic_tick_enabled)
+            state.verificationText = Translator.getString(
+                context,
+                Strings.screen_personal_detail_display_text_verification_completed
+            )
+        } else {
+            state.drawbleRight =
+                context.resources.getDrawable(R.drawable.ic_doc_error)
+            if (MyUserManager.user?.isDocumentsVerified.equals("Y", true)) { // third condition here
+                state.verificationText = Translator.getString(
+                    context,
+                    Strings.screen_personal_detail_display_text_verification_required
+                )
+            } else {
+                state.verificationText = Translator.getString(
+                    context,
+                    Strings.screen_personal_detail_display_text_verification_expired
+                )
+            }
+
         }
     }
 }

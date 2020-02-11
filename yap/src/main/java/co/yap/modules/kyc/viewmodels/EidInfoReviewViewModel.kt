@@ -184,9 +184,8 @@ class EidInfoReviewViewModel(application: Application) :
 
                 when (response) {
                     is RetroApiResponse.Success -> {
-                        if (parentViewModel?.allowSkip?.value == true) {
+                        if (parentViewModel?.skipFirstScreen?.value == true) {
                             clickEvent.setValue(EVENT_FINISH)
-                            MoreActivity.showExpiredIcon = false
                         } else clickEvent.setValue(EVENT_NEXT)
                     }
                     is RetroApiResponse.Error -> {

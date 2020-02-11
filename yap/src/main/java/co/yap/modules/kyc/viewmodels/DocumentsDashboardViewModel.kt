@@ -2,6 +2,7 @@ package co.yap.modules.kyc.viewmodels
 
 import android.app.Application
 import androidx.lifecycle.MutableLiveData
+import co.yap.modules.kyc.activities.DocumentsResponse
 import co.yap.modules.kyc.interfaces.IDocumentsDashboard
 import co.yap.modules.kyc.states.DocumentsDashboardState
 import co.yap.yapcore.BaseViewModel
@@ -15,5 +16,6 @@ class DocumentsDashboardViewModel(application: Application) :
     override var identity: Identity? = null
     override var paths: ArrayList<String> = arrayListOf()
     override var name: MutableLiveData<String> = MutableLiveData("")
-    override var allowSkip: MutableLiveData<Boolean> = MutableLiveData(false)
+    override var skipFirstScreen: MutableLiveData<Boolean> = MutableLiveData(false)
+    override var finishKyc: MutableLiveData<DocumentsResponse> = MutableLiveData(DocumentsResponse())
 }
