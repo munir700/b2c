@@ -2,6 +2,9 @@ package co.yap.yapcore.helpers
 
 import android.content.Context
 import android.content.SharedPreferences
+import co.yap.yapcore.constants.Constants.KEY_PASSCODE
+import co.yap.yapcore.constants.Constants.KEY_THEME
+import co.yap.yapcore.constants.Constants.KEY_USERNAME
 import co.yap.yapcore.helpers.encryption.EncryptionUtils
 
 class SharedPreferenceManager(val context: Context) {
@@ -10,19 +13,7 @@ class SharedPreferenceManager(val context: Context) {
     private val sharedPref: SharedPreferences =
         context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
 
-    companion object {
-        const val KEY_APP_UUID = "KEY_APP_UUID"
-        private const val KEY_PASSCODE: String = "PASSCODE"
-        private const val KEY_USERNAME: String = "USEERNAME"
-        const val KEY_TOUCH_ID_ENABLED: String = "TOUCH_ID_ENABLED"
-        const val KEY_IS_USER_LOGGED_IN: String = "KEY_IS_USER_LOGGED_IN"
-        const val KEY_IS_FIRST_TIME_USER: String = "KEY_IS_FIRST_TIME_USER"
-        const val KEY_IS_FINGERPRINT_PERMISSION_SHOWN: String =
-            "KEY_IS_FINGERPRINT_PERMISSION_SHOWN"
-        const val KEY_AVAILABLE_BALANCE: String = "AVAILABLE_BALANCE"
-        const val KEY_THEME = "KEY_THEME"
-
-    }
+    companion object : SingletonHolder<SharedPreferenceManager, Context>(::SharedPreferenceManager)
 
     fun save(KEY_NAME: String, text: String) {
         val editor: SharedPreferences.Editor = sharedPref.edit()

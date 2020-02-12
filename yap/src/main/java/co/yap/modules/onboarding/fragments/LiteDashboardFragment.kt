@@ -15,6 +15,8 @@ import co.yap.modules.kyc.activities.DocumentsDashboardActivity
 import co.yap.modules.onboarding.constants.Constants
 import co.yap.modules.onboarding.interfaces.ILiteDashboard
 import co.yap.modules.onboarding.viewmodels.LiteDashboardViewModel
+import co.yap.yapcore.constants.Constants.KEY_IS_FINGERPRINT_PERMISSION_SHOWN
+import co.yap.yapcore.constants.Constants.KEY_TOUCH_ID_ENABLED
 import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.biometric.BiometricUtil
@@ -50,7 +52,7 @@ class LiteDashboardFragment : YapDashboardChildFragment<ILiteDashboard.ViewModel
         ) {
             val isTouchIdEnabled: Boolean =
                 sharedPreferenceManager.getValueBoolien(
-                    SharedPreferenceManager.KEY_TOUCH_ID_ENABLED,
+                    KEY_TOUCH_ID_ENABLED,
                     false
                 )
             swTouchId.isChecked = isTouchIdEnabled
@@ -59,13 +61,13 @@ class LiteDashboardFragment : YapDashboardChildFragment<ILiteDashboard.ViewModel
             swTouchId.setOnCheckedChangeListener { _, isChecked ->
                 if (isChecked) {
                     sharedPreferenceManager.save(
-                        SharedPreferenceManager.KEY_IS_FINGERPRINT_PERMISSION_SHOWN,
+                        KEY_IS_FINGERPRINT_PERMISSION_SHOWN,
                         true
                     )
-                    sharedPreferenceManager.save(SharedPreferenceManager.KEY_TOUCH_ID_ENABLED, true)
+                    sharedPreferenceManager.save(KEY_TOUCH_ID_ENABLED, true)
                 } else {
                     sharedPreferenceManager.save(
-                        SharedPreferenceManager.KEY_TOUCH_ID_ENABLED,
+                        KEY_TOUCH_ID_ENABLED,
                         false
                     )
                 }
