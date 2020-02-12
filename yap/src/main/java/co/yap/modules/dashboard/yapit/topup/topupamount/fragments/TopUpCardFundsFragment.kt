@@ -21,6 +21,7 @@ import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.CustomSnackbar
 import co.yap.yapcore.helpers.DecimalDigitsInputFilter
 import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.helpers.extentions.launchActivity
 import co.yap.yapcore.managers.MyUserManager
 
 class TopUpCardFundsFragment : BaseBindingFragment<IFundActions.ViewModel>(),
@@ -80,14 +81,15 @@ class TopUpCardFundsFragment : BaseBindingFragment<IFundActions.ViewModel>(),
         })
 
         viewModel.htmlLiveData.observe(this, Observer {
-            startActivityForResult(
+            if (!it.isNullOrEmpty()) {
+                launchActivity<AddTopUpCardActivity>(requestCode = Constants.EVENT_TOP_UP_CARD_TRANSACTION) {
+                    putExtra(Constants.KEY, it)
+                    putExtra(Constants.TYPE, Constants.TYPE_TOP_UP_TRANSACTION)
+                }
+            } else {
+                return@Observer
+            }
 
-                AddTopUpCardActivity.newIntent(
-                    requireContext(),
-                    viewModel.htmlLiveData.value.toString(),
-                    Constants.TYPE_TOP_UP_TRANSACTION
-                ), Constants.EVENT_TOP_UP_CARD_TRANSACTION
-            )
         })
 
         viewModel.topUpTransactionModelLiveData?.observe(this, Observer {
