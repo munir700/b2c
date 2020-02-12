@@ -102,7 +102,6 @@ class ProfileSettingsViewModel(application: Application) :
 
     override fun onCreate() {
         super.onCreate()
-
         requestProfileDocumentsInformation()
         MyUserManager.user?.let {
             state.fullName = it.currentCustomer.getFullName()
@@ -217,9 +216,6 @@ class ProfileSettingsViewModel(application: Application) :
 
                 is RetroApiResponse.Error -> {
                     MyUserManager.user?.isDocumentsVerified = "N"
-                    //if (response.error.message.equals("HomeTransactionListData not found")) {
-                    //    isDocumentRequired = true
-                    //}
                 }
             }
         }
