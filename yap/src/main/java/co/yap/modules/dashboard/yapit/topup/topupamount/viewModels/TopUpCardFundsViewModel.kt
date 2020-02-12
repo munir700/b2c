@@ -62,10 +62,10 @@ class TopUpCardFundsViewModel(application: Application) : FundActionsViewModel(a
                 is RetroApiResponse.Success -> {
                     state.transactionFee = response.data.data
                     //Commented because QA said to remove "No fee" text.
-                   /* if (state.transactionFee.toDouble() == 0.0) {
-                        state.transactionFee =
-                            getString(Strings.screen_topup_transfer_display_text_transaction_no_fee)
-                    }*/
+                    /* if (state.transactionFee.toDouble() == 0.0) {
+                         state.transactionFee =
+                             getString(Strings.screen_topup_transfer_display_text_transaction_no_fee)
+                     }*/
                     clickEvent.postValue(Constants.CARD_FEE)
                 }
                 is RetroApiResponse.Error -> {
@@ -116,9 +116,11 @@ class TopUpCardFundsViewModel(application: Application) : FundActionsViewModel(a
                 )
             )) {
                 is RetroApiResponse.Success -> {
-                    secureId = response.data.data.`3DSecureId`
-                    htmlLiveData.value =
-                        response.data.data.`3DSecure`.authenticationRedirect.simple.htmlBodyContent
+                    secureId = response.data.data._3DSecureId
+                    htmlLiveData.value = response.data.data._3DSecure.authenticationRedirect.simple?.htmlBodyContent?.let { it }
+//                    htmlLiveData.value =
+//                        response.data.data._3DSecure.authenticationRedirect.simple?.htmlBodyContent
+//                            ?: ""
                     // state.toast = response.data.data.secure3dId
                     //clickEvent.postValue(100)
                 }
