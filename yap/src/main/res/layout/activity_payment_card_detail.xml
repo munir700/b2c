@@ -74,7 +74,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="2dp"
-                        android:tint="@{viewModel.state.isTxnsEmpty()? @color/grey: @color/colorPrimaryDark}"
+                        android:tint="@{viewModel.state.isTxnsEmpty() &amp;&amp; viewModel.state.filterCount==0? @color/grey: @color/colorPrimaryDark}"
                         android:src="@drawable/ic_filter" />
 
                     <TextView
@@ -83,7 +83,7 @@
                         android:text="Filter"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="@{viewModel.state.isTxnsEmpty()? @color/grey: @color/colorPrimaryDark}" />
+                        android:textColor="@{viewModel.state.isTxnsEmpty() &amp;&amp; viewModel.state.filterCount==0? @color/grey: @color/colorPrimaryDark}" />
 
                 </LinearLayout>
 
