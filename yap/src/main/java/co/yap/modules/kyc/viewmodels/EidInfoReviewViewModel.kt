@@ -86,7 +86,6 @@ class EidInfoReviewViewModel(application: Application) :
                         EVENT_ERROR_FROM_USA
                     )
                     trackEvent(TrackEvents.EIDA_CALLBACK_PROHIBITED_CITIZENS)
-                    performUploadDocumentsRequest()
                 }
                 else -> {
                     performUploadDocumentsRequest()
@@ -180,7 +179,7 @@ class EidInfoReviewViewModel(application: Application) :
                     dob = it.dateOfBirth,
                     fullName = it.givenName + " " + it.sirName,
                     gender = it.gender.mrz.toString(),
-                    nationality = it.nationality,
+                    nationality = it.isoCountryCode2Digit.toUpperCase(),
                     identityNo = if (YAPApplication.appInfo?.build_type == "debug") (700000000000000..800000000000000).random().toString() else it.citizenNumber,
                     filePaths = parentViewModel?.paths ?: arrayListOf()
                 )
