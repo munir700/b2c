@@ -111,13 +111,16 @@ class KYCHomeViewModel(application: Application) : KYCChildViewModel<IKYCHome.St
 
     override fun requestDocuments() {
         launch {
+            state.loading = true
             when (val response = repository.getDocuments()) {
                 is RetroApiResponse.Success -> {
                     response.data.data?.let {
                         if (it.isNotEmpty()) state.eidScanStatus = DocScanStatus.DOCS_UPLOADED
                     }
+                    state.loading = false
                 }
                 is RetroApiResponse.Error -> {
+                    state.loading = false
                     state.toast = response.error.message
                 }
             }
