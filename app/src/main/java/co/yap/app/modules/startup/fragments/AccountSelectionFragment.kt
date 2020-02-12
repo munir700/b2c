@@ -40,6 +40,7 @@ class AccountSelectionFragment : BaseBindingFragment<IAccountSelection.ViewModel
     var isVideoFinished = false
     var mediaPlayer: MediaPlayer? = null
     var timer: CountDownTimer? = null
+    private var animatorSet: AnimatorSet? = null
 
     private var captions = listOf(
         "Bank your way", "Get an account in seconds", "Money transfers made simple",
@@ -57,6 +58,7 @@ class AccountSelectionFragment : BaseBindingFragment<IAccountSelection.ViewModel
             Uri.parse("android.resource://" + requireActivity().packageName + "/" + R.raw.yap_demo_intro)
 
         videoView?.setVideoURI(uri)
+        captionsIndex = 0
         layoutButtons.postDelayed({
             YoYo.with(Techniques.FadeIn).duration(1500)
                 .onStart { layoutButtons.visibility = View.VISIBLE }.playOn(layoutButtons)
@@ -116,8 +118,8 @@ class AccountSelectionFragment : BaseBindingFragment<IAccountSelection.ViewModel
 //    }
 
     fun playCaptionAnimation() {
-        if (!isPaused) {
-            tvCaption.text = captions[captionsIndex]
+        if (!isPaused && captionsIndex != -1) {
+            tvCaption?.text = captions[captionsIndex]
             val fadeIn = ObjectAnimator.ofFloat(
                 tvCaption,
                 View.ALPHA,
@@ -134,10 +136,10 @@ class AccountSelectionFragment : BaseBindingFragment<IAccountSelection.ViewModel
             fadeOut.interpolator = AccelerateInterpolator() //add this
             fadeOut.duration = 500
             fadeOut.startDelay = captionDelays[captionsIndex].toLong()
-            val set = AnimatorSet()
-            set.interpolator = AccelerateDecelerateInterpolator()
-            set.playSequentially(fadeIn, fadeOut)
-            set.addListener(object : Animator.AnimatorListener {
+            animatorSet = AnimatorSet()
+            animatorSet?.interpolator = AccelerateDecelerateInterpolator()
+            animatorSet?.playSequentially(fadeIn, fadeOut)
+            animatorSet?.addListener(object : Animator.AnimatorListener {
                 override fun onAnimationRepeat(animation: Animator?) {
                 }
 
@@ -154,7 +156,7 @@ class AccountSelectionFragment : BaseBindingFragment<IAccountSelection.ViewModel
                     tvCaption.visibility = View.VISIBLE
                 }
             })
-            set.start()
+            animatorSet?.start()
         }
     }
 
@@ -195,6 +197,16 @@ class AccountSelectionFragment : BaseBindingFragment<IAccountSelection.ViewModel
         }
         timer?.cancel()
         viewModel.clickEvent.removeObservers(this)
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        animatorSet?.cancel()
+        animatorSet = null
+        stopPosition = 0
+        captionsIndex = -1
+        isPaused = false
+        isVideoFinished = false
     }
 }
 
