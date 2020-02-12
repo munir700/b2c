@@ -16,10 +16,13 @@ import co.yap.modules.dashboard.yapit.topup.addtopupcard.activities.AddTopUpCard
 import co.yap.modules.dashboard.yapit.topup.carddetail.TopupCardDetailActivity
 import co.yap.modules.dashboard.yapit.topup.topupamount.activities.TopUpCardActivity
 import co.yap.modules.others.helper.Constants
+import co.yap.modules.others.helper.Constants.EVENT_ADD_TOPUP_CARD
 import co.yap.networking.customers.responsedtos.beneficiary.TopUpCard
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.SingleClickEvent
+import co.yap.yapcore.constants.Constants.TYPE_ADD_CARD
 import co.yap.yapcore.constants.RequestCodes
+import co.yap.yapcore.helpers.extentions.launchActivity
 import co.yap.yapcore.interfaces.OnItemClickListener
 import com.yarolegovich.discretescrollview.DiscreteScrollView
 import com.yarolegovich.discretescrollview.transform.Pivot
@@ -275,13 +278,10 @@ class TopUpBeneficiariesActivity : BaseBindingActivity<ITopUpBeneficiaries.ViewM
 
     private fun addCardProcess() {
         getUrl()?.let {
-            startActivityForResult(
-                AddTopUpCardActivity.newIntent(
-                    this,
-                    it,
-                    co.yap.yapcore.constants.Constants.TYPE_ADD_CARD
-                ), Constants.EVENT_ADD_TOPUP_CARD
-            )
+            launchActivity<AddTopUpCardActivity>(requestCode = EVENT_ADD_TOPUP_CARD) {
+                putExtra(co.yap.yapcore.constants.Constants.KEY, it)
+                putExtra(co.yap.yapcore.constants.Constants.TYPE, TYPE_ADD_CARD)
+            }
         }
 
     }

@@ -55,7 +55,6 @@
                 android:layout_height="wrap_content"
                 android:text="Sender"
                 android:visibility="@{viewModel.state.isYtoYTransfer? View.VISIBLE : View.GONE }"
-
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/tvSenderName"
                 tools:text="Sender" />
