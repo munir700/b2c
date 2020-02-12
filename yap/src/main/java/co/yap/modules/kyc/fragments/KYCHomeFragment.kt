@@ -39,6 +39,7 @@ class KYCHomeFragment : KYCChildFragment<IKYCHome.ViewModel>(), IKYCHome.View {
             when (it) {
                 R.id.cvCard -> openCardScanner()
                 R.id.btnNext -> {
+                    // on press next move user to location screen
                     viewModel.parentViewModel?.finishKyc?.value = DocumentsResponse(true)
                 }
 
