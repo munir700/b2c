@@ -16,6 +16,7 @@ import co.yap.networking.models.RetroApiResponse
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.SingleLiveEvent
+import co.yap.yapcore.constants.Constants.KEY_IS_USER_LOGGED_IN
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.toast
@@ -90,7 +91,7 @@ class VerifyPasscodeViewModel(application: Application) :
     private fun getUserName(): String? {
         val sharedPreferenceManager = SharedPreferenceManager(context)
         return if (!SharedPreferenceManager(context).getValueBoolien(
-                SharedPreferenceManager.KEY_IS_USER_LOGGED_IN,
+                KEY_IS_USER_LOGGED_IN,
                 false
             )
         ) {

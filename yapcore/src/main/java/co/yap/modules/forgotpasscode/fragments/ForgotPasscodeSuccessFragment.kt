@@ -13,6 +13,7 @@ import co.yap.yapcore.BR
 import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.R
 import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.constants.Constants.KEY_IS_USER_LOGGED_IN
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.extentions.preventTakeScreenShot
 
@@ -35,7 +36,7 @@ class ForgotPasscodeSuccessFragment : BaseBindingFragment<IForgotPasscodeSuccess
             if (args.navigationType==Constants.FORGOT_PASSCODE_FROM_CHANGE_PASSCODE){
                 activity?.finish()
             }else{
-                sharedPreferenceManager.save(SharedPreferenceManager.KEY_IS_USER_LOGGED_IN, false)
+                sharedPreferenceManager.save(KEY_IS_USER_LOGGED_IN, false)
                 val intent=Intent(context,Class.forName("co.yap.app.activities.MainActivity"))
 
                 intent.flags=Intent.FLAG_ACTIVITY_CLEAR_TASK
