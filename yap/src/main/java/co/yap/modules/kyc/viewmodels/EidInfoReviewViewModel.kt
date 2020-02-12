@@ -191,7 +191,6 @@ class EidInfoReviewViewModel(application: Application) :
                 when (response) {
                     is RetroApiResponse.Success -> {
                         clickEvent.setValue(EVENT_NEXT)
-                        MoreActivity.showExpiredIcon = false
                     }
                     is RetroApiResponse.Error -> {
                         if (response.error.actualCode.equals(
