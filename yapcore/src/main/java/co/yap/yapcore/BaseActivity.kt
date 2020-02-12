@@ -3,7 +3,6 @@ package co.yap.yapcore
 import android.app.Activity
 import android.app.AlertDialog
 import android.app.Dialog
-import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
@@ -13,7 +12,6 @@ import android.view.WindowManager
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.graphics.toColor
 import androidx.databinding.Observable
 import co.yap.translation.Strings
 import co.yap.translation.Translator
@@ -220,7 +218,7 @@ abstract class BaseActivity<V : IBase.ViewModel<*>> : AppCompatActivity(), IBase
 
     override fun onResume() {
         super.onResume()
-          if (DeviceUtils().isDeviceRooted()) {
+        if (DeviceUtils().isDeviceRooted()) {
 //            showAlertDialogAndExitApp("This device is rooted. You can't use this app.")
         }
     }
@@ -229,18 +227,17 @@ abstract class BaseActivity<V : IBase.ViewModel<*>> : AppCompatActivity(), IBase
         val alertDialog: AlertDialog = AlertDialog.Builder(this@BaseActivity).create()
         alertDialog.setTitle("Alert")
         alertDialog.setMessage(message)
-        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
-            object : DialogInterface.OnClickListener {
-                override fun onClick(dialog: DialogInterface, which: Int) {
-                    dialog.dismiss()
-                    val intent =
-                        Intent(Intent.ACTION_MAIN)
-                    intent.addCategory(Intent.CATEGORY_HOME)
-                    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-                    startActivity(intent)
-                    finish()
-                }
-            })
+        alertDialog.setButton(
+            AlertDialog.BUTTON_NEUTRAL, "OK"
+        ) { dialog, which ->
+            dialog.dismiss()
+            val intent =
+                Intent(Intent.ACTION_MAIN)
+            intent.addCategory(Intent.CATEGORY_HOME)
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+            startActivity(intent)
+            finish()
+        }
         alertDialog.setCancelable(false)
         alertDialog.show()
     }

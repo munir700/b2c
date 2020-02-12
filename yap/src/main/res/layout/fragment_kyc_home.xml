@@ -102,8 +102,8 @@
                     android:layout_height="wrap_content"
                     app:layout_constraintStart_toStartOf="@+id/tvEid"
                     app:layout_constraintTop_toBottomOf="@+id/tvEid"
-                    app:text="@{Strings.screen_b2c_kyc_home_emirates_id_scan}"
-                    tools:text="@string/screen_b2c_kyc_home_emirates_id_scan" />
+                    app:text="@{viewModel.state.eidScanStatus == DocScanStatus.DOCS_UPLOADED ? Strings.screen_b2c_eid_info_review_display_text_emirates_id_heading : Strings.screen_b2c_kyc_home_emirates_id_scan}"
+                    tools:text="@string/screen_b2c_eid_info_review_display_text_emirates_id_heading" />
 
                 <ImageView
                     android:layout_width="@dimen/_32sdp"
@@ -112,7 +112,8 @@
                     android:visibility="@{viewModel.state.eidScanStatus == DocScanStatus.DOCS_UPLOADED ? View.VISIBLE : View.GONE}"
                     app:layout_constraintBottom_toBottomOf="@+id/textView5"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf= "@+id/textView5"
+                    app:layout_constraintHorizontal_bias="0.89"
+                    app:layout_constraintStart_toEndOf="@+id/textView5"
                     app:layout_constraintTop_toTopOf="@+id/tvEid"
                     app:srcCompat="@drawable/ic_tick_enabled" />
 

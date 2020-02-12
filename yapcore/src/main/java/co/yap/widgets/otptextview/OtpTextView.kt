@@ -30,10 +30,11 @@ open class OtpTextView : FrameLayout {
         get() = InputFilter { source, start, end, _, _, _ ->
             for (i in start until end) {
                 if (!Pattern.compile(
-                                PATTERN
+                        PATTERN
                     )
-                                .matcher(source[i].toString())
-                                .matches()) {
+                        .matcher(source[i].toString())
+                        .matches()
+                ) {
                     return@InputFilter ""
                 }
             }
@@ -51,7 +52,11 @@ open class OtpTextView : FrameLayout {
         init(attrs)
     }
 
-    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(context, attrs, defStyleAttr) {
+    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(
+        context,
+        attrs,
+        defStyleAttr
+    ) {
         init(attrs)
     }
 
@@ -69,26 +74,60 @@ open class OtpTextView : FrameLayout {
     private fun generateViews(styles: TypedArray, attrs: AttributeSet?) {
         itemViews = ArrayList()
         if (length > 0) {
+
             val otp = styles.getString(R.styleable.OtpTextView_otp)
-            val width = styles.getDimension(
-                R.styleable.OtpTextView_width, context.dip2px(
-                    DEFAULT_WIDTH
-                ).toFloat()).toInt()
-            val height = styles.getDimension(R.styleable.OtpTextView_height, context.dip2px( DEFAULT_HEIGHT).toFloat()).toInt()
-            val space = styles.getDimension(R.styleable.OtpTextView_box_margin, context.dip2px( DEFAULT_SPACE).toFloat()).toInt()
-            val spaceLeft = styles.getDimension(R.styleable.OtpTextView_box_margin_left, context.dip2px( DEFAULT_SPACE_LEFT).toFloat()).toInt()
-            val spaceRight = styles.getDimension(R.styleable.OtpTextView_box_margin_right, context.dip2px( DEFAULT_SPACE_RIGHT).toFloat()).toInt()
-            val spaceTop = styles.getDimension(R.styleable.OtpTextView_box_margin_top, context.dip2px( DEFAULT_SPACE_TOP).toFloat()).toInt()
-            val spaceBottom = styles.getDimension(R.styleable.OtpTextView_box_margin_bottom, context.dip2px( DEFAULT_SPACE_BOTTOM).toFloat()).toInt()
-            val params = LinearLayout.LayoutParams(getScreenWidth() / (length+2), getScreenWidth()/(length+2) + (getScreenWidth()/(length+2))/4)
-            //getScreenWidth()/(length+2) + (getScreenWidth()/(length+2))/4
+            val width = if (styles.hasValue(R.styleable.OtpTextView_custom_width)) {
+                styles.getDimension(
+                    R.styleable.OtpTextView_custom_width, context.dip2px(
+                        DEFAULT_WIDTH
+                    ).toFloat()
+                ).toInt()
+            } else {
+                getScreenWidth() / (length + 2)
+            }
+           val  height = if (styles.hasValue(R.styleable.OtpTextView_custom_height)) {
+                styles.getDimension(
+                    R.styleable.OtpTextView_custom_height,
+                    context.dip2px(DEFAULT_HEIGHT).toFloat()
+                ).toInt()
+            } else {
+                getScreenWidth() / (length + 2) + (getScreenWidth() / (length + 2)) / 4
+            }
+
+
+            val space = styles.getDimension(
+                R.styleable.OtpTextView_box_margin,
+                context.dip2px(DEFAULT_SPACE).toFloat()
+            ).toInt()
+            val spaceLeft = styles.getDimension(
+                R.styleable.OtpTextView_box_margin_left,
+                context.dip2px(DEFAULT_SPACE_LEFT).toFloat()
+            ).toInt()
+            val spaceRight = styles.getDimension(
+                R.styleable.OtpTextView_box_margin_right,
+                context.dip2px(DEFAULT_SPACE_RIGHT).toFloat()
+            ).toInt()
+            val spaceTop = styles.getDimension(
+                R.styleable.OtpTextView_box_margin_top,
+                context.dip2px(DEFAULT_SPACE_TOP).toFloat()
+            ).toInt()
+            val spaceBottom = styles.getDimension(
+                R.styleable.OtpTextView_box_margin_bottom,
+                context.dip2px(DEFAULT_SPACE_BOTTOM).toFloat()
+            ).toInt()
+
+            val params = LinearLayout.LayoutParams(width, height)
+
             if (space > 0) {
                 params.setMargins(space, space, space, space)
             } else {
                 params.setMargins(spaceLeft, spaceTop, spaceRight, spaceBottom)
             }
 
-            val editTextLayoutParams = LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+            val editTextLayoutParams = LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
+            )
             editTextLayoutParams.gravity = Gravity.CENTER
             otpChildEditText = OTPChildEditText(context)
             otpChildEditText?.filters = arrayOf(filter, InputFilter.LengthFilter(length))
@@ -96,7 +135,10 @@ open class OtpTextView : FrameLayout {
             addView(otpChildEditText, editTextLayoutParams)
 
 
-            val linearLayoutParams = LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+            val linearLayoutParams = LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
+            )
             val linearLayout = LinearLayout(context)
 
             addView(linearLayout, linearLayoutParams)
@@ -218,8 +260,8 @@ open class OtpTextView : FrameLayout {
     companion object {
 
         private const val DEFAULT_LENGTH = 4
-        private const val DEFAULT_HEIGHT = 48
-        private const val DEFAULT_WIDTH = 48
+        private const val DEFAULT_HEIGHT = 0
+        private const val DEFAULT_WIDTH = 0
         private const val DEFAULT_SPACE = -1
         private const val DEFAULT_SPACE_LEFT = 4
         private const val DEFAULT_SPACE_RIGHT = 4

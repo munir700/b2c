@@ -2,6 +2,7 @@ package co.yap.modules.kyc.viewmodels
 
 import android.app.Application
 import android.text.TextUtils
+import co.yap.app.YAPApplication
 import co.yap.modules.dashboard.more.main.activities.MoreActivity
 import co.yap.modules.onboarding.interfaces.IEidInfoReview
 import co.yap.modules.onboarding.states.EidInfoReviewState
@@ -71,7 +72,12 @@ class EidInfoReviewViewModel(application: Application) :
                     trackEvent(TrackEvents.EIDA_CALLBACK_US_CITIZEN)
                 }
                 it.isoCountryCode2Digit.equals(
-                    sectionedCountries?.data?.find { country -> country.isoCountryCode2Digit == it.isoCountryCode2Digit }?.isoCountryCode2Digit,
+                    sectionedCountries?.data?.find { country ->
+                        country.isoCountryCode2Digit.equals(
+                            it.isoCountryCode2Digit,
+                            true
+                        )
+                    }?.isoCountryCode2Digit,
                     true
                 ) -> {
                     sanctionedCountry = it.nationality
@@ -173,8 +179,8 @@ class EidInfoReviewViewModel(application: Application) :
                     dob = it.dateOfBirth,
                     fullName = it.givenName + " " + it.sirName,
                     gender = it.gender.mrz.toString(),
-                    nationality = it.nationality,
-                    identityNo = it.citizenNumber,
+                    nationality = it.isoCountryCode2Digit.toUpperCase(),
+                    identityNo = if (YAPApplication.appInfo?.build_type == "debug") (700000000000000..800000000000000).random().toString() else it.citizenNumber,
                     filePaths = parentViewModel?.paths ?: arrayListOf()
                 )
 
@@ -184,27 +190,19 @@ class EidInfoReviewViewModel(application: Application) :
 
                 when (response) {
                     is RetroApiResponse.Success -> {
-                        if (parentViewModel?.skipFirstScreen?.value == true) {
-                            clickEvent.setValue(EVENT_FINISH)
-                        } else clickEvent.setValue(EVENT_NEXT)
+                        clickEvent.setValue(EVENT_NEXT)
                     }
                     is RetroApiResponse.Error -> {
-                        if (response.error.message.contains(EVENT_ALREADY_USED_EID.toString())) {
+                        if (response.error.actualCode.equals(
+                                EVENT_ALREADY_USED_EID.toString(),
+                                true
+                            )
+                        ) {
                             clickEvent.setValue(EVENT_ALREADY_USED_EID)
                             state.toast = response.error.message
                         } else {
                             state.toast = response.error.message
                         }
-//                        if (response.error.actualCode.equals(
-//                                EVENT_ALREADY_USED_EID.toString(),
-//                                true
-//                            )
-//                        ) {
-//                            clickEvent.setValue(EVENT_ALREADY_USED_EID)
-//                            state.toast = response.error.message
-//                        } else {
-//                            state.toast = response.error.message
-//                        }
                     }
                 }
             }

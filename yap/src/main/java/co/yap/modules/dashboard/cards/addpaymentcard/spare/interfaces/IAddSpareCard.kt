@@ -3,6 +3,7 @@ package co.yap.modules.dashboard.cards.addpaymentcard.spare.interfaces
 import co.yap.modules.dashboard.cards.addpaymentcard.spare.helpers.physical.AddSparePhysicalCardLogicHelper
 import co.yap.modules.dashboard.cards.addpaymentcard.spare.helpers.virtual.AddSpareVirtualCardLogicHelper
 import co.yap.networking.cards.responsedtos.Address
+import co.yap.networking.cards.responsedtos.Card
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.helpers.SharedPreferenceManager
@@ -35,6 +36,7 @@ interface IAddSpareCard {
         var latitude: String
         var longitude: String
         var address: Address?
+        var paymentCard: Card?
 
         val CONFIRM_PHYSICAL_PURCHASE: Int
         val CONFIRM_VIRTUAL_PURCHASE: Int
@@ -57,9 +59,5 @@ interface IAddSpareCard {
         fun requestInitialData()
     }
 
-    interface View : IBase.View<ViewModel> /*{
-        var addSparePhysicalCardViewHelper: AddSparePhysicalCardViewHelper?
-        var addSpareVirtualCardViewHelper: AddSpareVirtualCardViewHelper?
-
-    }*/
+    interface View : IBase.View<ViewModel>
 }

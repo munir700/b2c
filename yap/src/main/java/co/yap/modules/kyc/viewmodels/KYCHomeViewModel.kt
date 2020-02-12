@@ -32,13 +32,9 @@ class KYCHomeViewModel(application: Application) : KYCChildViewModel<IKYCHome.St
 
     override fun onCreate() {
         super.onCreate()
+        requestDocuments()
         parentViewModel?.name?.value =
             getString(Strings.screen_b2c_kyc_home_display_text_sub_heading).format(parentViewModel?.name?.value)
-    }
-
-    override fun onResume() {
-        super.onResume()
-        requestDocuments()
     }
 
     override fun handlePressOnNextButton(id: Int) {
@@ -111,13 +107,16 @@ class KYCHomeViewModel(application: Application) : KYCChildViewModel<IKYCHome.St
 
     override fun requestDocuments() {
         launch {
+            state.loading = true
             when (val response = repository.getDocuments()) {
                 is RetroApiResponse.Success -> {
                     response.data.data?.let {
                         if (it.isNotEmpty()) state.eidScanStatus = DocScanStatus.DOCS_UPLOADED
                     }
+                    state.loading = false
                 }
                 is RetroApiResponse.Error -> {
+                    state.loading = false
                     state.toast = response.error.message
                 }
             }
