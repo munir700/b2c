@@ -112,44 +112,7 @@
             app:argType="boolean" />
     </activity>
 
-    <fragment
-        android:id="@+id/addressSelectionFragment"
-        android:name="co.yap.modules.kyc.fragments.AddressSelectionFragment"
-        android:label="AddressSelectionActivity"
-        tools:layout="@layout/fragment_address_selection">
 
-        <argument
-            android:name="isFromPhysicalCardsScreen"
-            android:defaultValue="false"
-            app:argType="boolean" />
-        <argument
-            android:name="isFromBlockCardsScreen"
-            android:defaultValue="false"
-            app:argType="boolean" />
-        <argument
-            android:name="isFromPersonalDetail"
-            android:defaultValue="false"
-            app:argType="boolean" />
-
-        <action
-            android:id="@+id/action_addressSelectionFragment_to_personalDetailsFragment"
-            app:destination="@id/personalDetailsFragment"
-            app:popUpTo="@+id/personalDetailsFragment"
-            app:popUpToInclusive="true" />
-
-
-        <action
-            android:id="@+id/action_addressSelectionFragment_to_addSpareCardFragment"
-            app:destination="@id/addSpareCardFragment"
-            app:popUpTo="@+id/addSpareCardFragment"
-            app:popUpToInclusive="true" />
-        <action
-            android:id="@+id/action_addressSelectionFragment_to_successFragment"
-            app:destination="@id/successFragment"
-            app:popUpTo="@+id/personalDetailsFragment"
-            app:popUpToInclusive="false" />
-
-    </fragment>
     <fragment
         android:id="@+id/successFragment"
         android:name="co.yap.modules.dashboard.more.profile.fragments.SuccessFragment"
