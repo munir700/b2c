@@ -1468,5 +1468,17 @@ object Strings {
     const val screen_notification_listing_display_text_toolbar_title: String =
         "screen_notification_listing_display_text_toolbar_title"
 
-
+    //    Invite a friend screen
+    const val screen_invite_friend_display_text_title: String =
+        "screen_invite_friend_display_text_title"
+    const val screen_invite_friend_display_text_reward: String =
+        "screen_invite_friend_display_text_reward"
+    const val screen_invite_friend_display_text_referal_reward: String =
+        "screen_invite_friend_display_text_referal_reward"
+    const val screen_invite_friend_display_text_referal_code: String =
+        "screen_invite_friend_display_text_referal_code"
+    const val screen_invite_friend_button_share: String =
+        "screen_invite_friend_button_share"
+    const val screen_invite_friend_display_text_share_url: String =
+        "screen_invite_friend_display_text_share_url"
 }

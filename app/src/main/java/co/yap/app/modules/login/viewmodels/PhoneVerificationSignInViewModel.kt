@@ -18,6 +18,8 @@ import co.yap.networking.models.RetroApiResponse
 import co.yap.translation.Strings
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleLiveEvent
+import co.yap.yapcore.constants.Constants.KEY_APP_UUID
+import co.yap.yapcore.constants.Constants.KEY_IS_USER_LOGGED_IN
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.trackEventWithAttributes
@@ -62,7 +64,7 @@ class PhoneVerificationSignInViewModel(application: Application) :
                     val sharedPreferenceManager = SharedPreferenceManager(context)
 
                     sharedPreferenceManager.save(
-                        SharedPreferenceManager.KEY_IS_USER_LOGGED_IN,
+                        KEY_IS_USER_LOGGED_IN,
                         true
                     )
                     sharedPreferenceManager.savePassCodeWithEncryption(state.passcode)
@@ -100,7 +102,7 @@ class PhoneVerificationSignInViewModel(application: Application) :
     override fun postDemographicData() {
         val sharedPreferenceManager = SharedPreferenceManager(context)
         val deviceId: String? =
-            sharedPreferenceManager.getValueString(SharedPreferenceManager.KEY_APP_UUID)
+            sharedPreferenceManager.getValueString(KEY_APP_UUID)
         launch {
             state.loading = true
             when (val response =

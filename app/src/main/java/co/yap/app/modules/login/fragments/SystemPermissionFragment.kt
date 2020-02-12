@@ -12,6 +12,7 @@ import co.yap.app.constants.Constants
 import co.yap.app.modules.login.interfaces.ISystemPermission
 import co.yap.app.modules.login.viewmodels.SystemPermissionViewModel
 import co.yap.yapcore.BaseBindingFragment
+import co.yap.yapcore.constants.Constants.KEY_TOUCH_ID_ENABLED
 import co.yap.yapcore.helpers.SharedPreferenceManager
 
 @Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
@@ -29,7 +30,7 @@ class SystemPermissionFragment : BaseBindingFragment<ISystemPermission.ViewModel
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        sharedPreferenceManager = SharedPreferenceManager(context as MainActivity)
+        sharedPreferenceManager = SharedPreferenceManager(requireContext())
 
         viewModel.screenType = getScreenType()
         viewModel.registerLifecycleOwner(this)
@@ -46,7 +47,7 @@ class SystemPermissionFragment : BaseBindingFragment<ISystemPermission.ViewModel
 
     private val permissionGrantedObserver = Observer<Boolean> {
         if (viewModel.screenType == Constants.TOUCH_ID_SCREEN_TYPE) {
-            sharedPreferenceManager.save(SharedPreferenceManager.KEY_TOUCH_ID_ENABLED, true)
+            sharedPreferenceManager.save(KEY_TOUCH_ID_ENABLED, true)
             val action =
                 SystemPermissionFragmentDirections.actionSystemPermissionFragmentToSystemPermissionFragmentNotification(
                     Constants.NOTIFICATION_SCREEN_TYPE
@@ -59,7 +60,7 @@ class SystemPermissionFragment : BaseBindingFragment<ISystemPermission.ViewModel
 
     private val permissionNotGrantedObserver = Observer<Boolean> {
         if (viewModel.screenType == Constants.TOUCH_ID_SCREEN_TYPE) {
-            sharedPreferenceManager.save(SharedPreferenceManager.KEY_TOUCH_ID_ENABLED, false)
+            sharedPreferenceManager.save(KEY_TOUCH_ID_ENABLED, false)
             val action =
                 SystemPermissionFragmentDirections.actionSystemPermissionFragmentToSystemPermissionFragmentNotification(
                     Constants.NOTIFICATION_SCREEN_TYPE

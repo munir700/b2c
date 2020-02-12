@@ -71,7 +71,12 @@ class EidInfoReviewViewModel(application: Application) :
                     trackEvent(TrackEvents.EIDA_CALLBACK_US_CITIZEN)
                 }
                 it.isoCountryCode2Digit.equals(
-                    sectionedCountries?.data?.find { country -> country.isoCountryCode2Digit == it.isoCountryCode2Digit }?.isoCountryCode2Digit,
+                    sectionedCountries?.data?.find { country ->
+                        country.isoCountryCode2Digit.equals(
+                            it.isoCountryCode2Digit,
+                            true
+                        )
+                    }?.isoCountryCode2Digit,
                     true
                 ) -> {
                     sanctionedCountry = it.nationality
@@ -190,22 +195,16 @@ class EidInfoReviewViewModel(application: Application) :
                         } else clickEvent.setValue(EVENT_NEXT)
                     }
                     is RetroApiResponse.Error -> {
-                        if (response.error.message.contains(EVENT_ALREADY_USED_EID.toString())) {
+                        if (response.error.actualCode.equals(
+                                EVENT_ALREADY_USED_EID.toString(),
+                                true
+                            )
+                        ) {
                             clickEvent.setValue(EVENT_ALREADY_USED_EID)
                             state.toast = response.error.message
                         } else {
                             state.toast = response.error.message
                         }
-//                        if (response.error.actualCode.equals(
-//                                EVENT_ALREADY_USED_EID.toString(),
-//                                true
-//                            )
-//                        ) {
-//                            clickEvent.setValue(EVENT_ALREADY_USED_EID)
-//                            state.toast = response.error.message
-//                        } else {
-//                            state.toast = response.error.message
-//                        }
                     }
                 }
             }

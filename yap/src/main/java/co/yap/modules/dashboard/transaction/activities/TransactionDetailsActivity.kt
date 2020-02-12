@@ -79,6 +79,9 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
                         ), Constants.INTENT_ADD_NOTE_REQUEST
                     )
                 }
+            R.id.ivShareButton -> {
+
+            }
         }
     }
 
@@ -94,4 +97,31 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
         }
 
     }
+
+    //This comment is intentional
+   /* private fun shareInfo() {
+        val sharingIntent = Intent(Intent.ACTION_SEND)
+        sharingIntent.type = "text/plain"
+        // not set because ios team is not doing this.
+        //sharingIntent.putExtra(Intent.EXTRA_SUBJECT, viewModel.state.title.get())
+        sharingIntent.putExtra(Intent.EXTRA_TEXT, getBody())
+        startActivity(Intent.createChooser(sharingIntent, "Share"))
+    }
+
+    private fun getBody(): String {
+        if (viewModel.state.isYtoYTransfer.get() == true) {
+            return "Sender: ${viewModel.state.transactionSender}\n" +
+                    "Receiver: ${viewModel.state.transactionReceiver}\n" +
+                    "${viewModel.state.spentTitle}: ${viewModel.state.spentAmount}\n" +
+                    "${viewModel.state.feeTitle}: ${viewModel.state.feeAmount}\n" +
+                    "${viewModel.state.totalTitle}: ${viewModel.state.totalAmount}\n" +
+                    "Transaction note: ${viewModel.state.noteValue}\n"
+        } else {
+            return "${viewModel.state.spentTitle}: ${viewModel.state.spentAmount}\n" +
+                    "${viewModel.state.feeTitle}: ${viewModel.state.feeAmount}\n" +
+                    "${viewModel.state.totalTitle}: ${viewModel.state.totalAmount}\n" +
+                    "Transaction note: ${viewModel.state.noteValue}\n"
+        }
+
+    }*/
 }

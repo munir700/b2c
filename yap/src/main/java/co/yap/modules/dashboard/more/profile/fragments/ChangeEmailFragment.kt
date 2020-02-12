@@ -77,6 +77,8 @@ open class ChangeEmailFragment : MoreBaseFragment<IChangeEmail.ViewModel>(), ICh
 
     override fun onDestroy() {
         viewModel.clickEvent.removeObservers(this)
+        viewModel.success.removeObservers(this)
+        viewModel.changeEmailSuccessEvent.removeObservers(this)
         super.onDestroy()
     }
 }
