@@ -10,6 +10,7 @@ object Strings {
     const val common_display_text_error_no_internet: String =
         "common_display_text_error_no_internet"
     const val common_button_yes: String = "common_button_yes"
+    const val common_button_add: String = "common_button_add"
     const val common_button_cancel: String = "common_button_cancel"
     const val common_button_settings: String = "common_button_settings"
     const val common_button_save: String = "common_button_save"
@@ -471,6 +472,9 @@ object Strings {
         "screen_add_spare_card_display_button_block_alert_top_up"
     const val screen_add_spare_card_display_button_block_alert_skip: String =
         "screen_add_spare_card_display_button_block_alert_skip"
+
+    const val screen_add_spare_card_display_text_fee: String =
+        "screen_add_spare_card_display_text_fee"
 
 
     // Add funds Screen

@@ -11,6 +11,7 @@ import co.yap.networking.cards.CardsRepository
 import co.yap.networking.cards.requestdtos.AddPhysicalSpareCardRequest
 import co.yap.networking.cards.requestdtos.AddVirtualSpareCardRequest
 import co.yap.networking.cards.responsedtos.Address
+import co.yap.networking.cards.responsedtos.Card
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.transactions.TransactionsRepository
@@ -32,6 +33,7 @@ class AddSpareCardViewModel(application: Application) :
     override var latitude: String = ""
     override var longitude: String = ""
     override var address: Address? = null
+    override var paymentCard: Card? = null
     override var availableBalance: String = ""
     override var sharedPreferenceManager = SharedPreferenceManager(context)
     override var isFromaddressScreen: Boolean = false
@@ -103,8 +105,10 @@ class AddSpareCardViewModel(application: Application) :
                 AddVirtualSpareCardRequest(MyUserManager.user?.currentCustomer?.getFullName())
             )) {
                 is RetroApiResponse.Success -> {
+                    paymentCard = response.data.data
                     clickEvent.setValue(ADD_VIRTUAL_SPARE_SUCCESS_EVENT)
                 }
+
                 is RetroApiResponse.Error -> state.toast = response.error.message
             }
             state.loading = false
