@@ -64,6 +64,7 @@
                     android:layout_marginStart="@dimen/margin_normal"
                     android:layout_marginTop="@dimen/margin_xl"
                     android:layout_marginEnd="@dimen/margin_normal"
+                    app:showKeyboard="false"
                     android:layout_marginBottom="@dimen/margin_small"
                     app:coreInputDrawableRight="@{viewModel.state.drawbleRight}"
                     app:coreInputError="@{viewModel.state.emailError}"

@@ -11,6 +11,7 @@ import co.yap.modules.dashboard.more.main.activities.MoreActivity
 import co.yap.modules.dashboard.more.profile.viewmodels.CurrentPasscodeViewModel
 import co.yap.modules.setcardpin.interfaces.ISetCardPin
 import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.constants.Constants.KEY_IS_USER_LOGGED_IN
 import co.yap.yapcore.databinding.FragmentSetCardPinBinding
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.Utils
@@ -31,7 +32,7 @@ open class CurrentPasscodeFragment : ChangeCardPinFragment() {
         viewModel.forgotPasscodeclickEvent.observe(this, Observer {
 
             if (sharedPreferenceManager.getValueBoolien(
-                    SharedPreferenceManager.KEY_IS_USER_LOGGED_IN,
+                   KEY_IS_USER_LOGGED_IN,
                     false
                 )
             ) {
