@@ -92,8 +92,6 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mNavigator = (this.applicationContext as NavigatorProvider).provideNavigator()
-
-
         setUpTransactionsListRecyclerView()
         setObservers()
         setupView()
@@ -102,7 +100,6 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
     private fun getBindings(): ActivityPaymentCardDetailBinding {
         return viewDataBinding as ActivityPaymentCardDetailBinding
     }
-
 
     override fun setObservers() {
         viewModel.clickEvent.observe(this, clickObserver)
@@ -176,35 +173,6 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
             }
         })
 
-        ///
-
-//        viewModel.transactionsLiveData.observe(this, Observer {
-//            tvNoTransaction.visibility = if (it.isEmpty()) View.VISIBLE else View.GONE
-//            if (viewModel.isLoadMore.value!!) {
-//                getRecycleViewAdaptor().setList(it)
-//            } else {
-//                getRecycleViewAdaptor().setList(it)
-//            }
-//        })
-//
-//        getRecycleViewAdaptor().setItemListener(listener)
-//        rvTransaction.addOnScrollListener(object :
-//            RecyclerView.OnScrollListener() {
-//            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-//                super.onScrolled(recyclerView, dx, dy);
-//                val layoutManager =
-//                    rvTransaction.layoutManager as LinearLayoutManager
-//                val lastVisiblePosition = layoutManager.findLastVisibleItemPosition()
-//                if (lastVisiblePosition == layoutManager.itemCount - 1) {
-//                    if (!viewModel.isLoadMore.value!!) {
-//                        viewModel.isLoadMore.value = true
-//                        viewModel.cardTransactionRequest.number =
-//                            viewModel.cardTransactionRequest.number + 1
-//                        viewModel.loadMore()
-//                    }
-//                }
-//            }
-//        })
     }
 
     private val clickObserver = Observer<Int> {
@@ -256,15 +224,17 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
                 )
             }
             R.id.rlFilter -> {
-                if (viewModel.state.isTxnsEmpty.get() == false || viewModel.state.filterCount.get() ?: 0 > 0)
-                    startActivityForResult(
-                        TransactionFiltersActivity.newIntent(
-                            this,
-                            viewModel.transactionFilters
-                        ),
-                        RequestCodes.REQUEST_TXN_FILTER
-                    )
+                if (viewModel.state.isTxnsEmpty.get() == false) {
+                    openTransactionFilters()
+                } else {
+                    if (viewModel.state.filterCount.get() ?: 0 > 0) {
+                        openTransactionFilters()
+                    } else {
+                        return@Observer
+                    }
+                }
             }
+
             viewModel.EVENT_FREEZE_UNFREEZE_CARD -> {
                 cardFreezeUnfreeze = true
                 viewModel.card.value?.blocked = viewModel.card.value?.blocked != true
@@ -283,6 +253,16 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
                 finish()
             }
         }
+    }
+
+    private fun openTransactionFilters() {
+        startActivityForResult(
+            TransactionFiltersActivity.newIntent(
+                this,
+                viewModel.transactionFilters
+            ),
+            RequestCodes.REQUEST_TXN_FILTER
+        )
     }
 
     val listener = object : OnItemClickListener {
@@ -361,7 +341,6 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
                     actionText = underline(getString(Strings.screen_cards_display_text_freeze_card_action)),
                     clickListener = View.OnClickListener { viewModel.freezeUnfreezeCard() }
                 )
-                //showSnackbar()
                 if (Constants.CARD_TYPE_DEBIT == viewModel.state.cardType) {
                     tvPrimaryCardStatus.text = "Unfreeze card"
                 } else {
@@ -369,7 +348,6 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
                 }
             } else {
                 cancelAllSnackBar()
-                //dismissSnackbar()
                 if (Constants.CARD_TYPE_DEBIT == viewModel.state.cardType) {
                     tvPrimaryCardStatus.text = "Freeze card"
                 } else {
@@ -377,23 +355,6 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
                 }
             }
         }
-    }
-
-    private fun showSnackbar() {
-//        if (snackbar?.isShown != true) {
-//            snackbar = window.decorView.getCustomSnackbarSticky(
-//                clSnackbar,
-//                getString(Strings.screen_cards_display_text_freeze_card),
-//                getString(Strings.screen_cards_display_text_freeze_card_action)
-//            )
-//
-//            snackbar?.show()
-//
-//            val tvAction = snackbar?.view?.findViewById(co.yap.yapcore.R.id.tvAction) as TextView
-//            tvAction.setOnClickListener {
-//                viewModel.freezeUnfreezeCard()
-//            }
-//        }
     }
 
     private fun showLostStolenSnackbar() {
@@ -406,16 +367,6 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
             actionText = underline(getString(Strings.screen_cards_display_text_lost_stolen_card_action)),
             clickListener = View.OnClickListener { startReorderCardFlow() }
         )
-//        snackbar = window.decorView.getCustomSnackbarSticky(
-//            clSnackbar,
-//            getString(Strings.screen_cards_display_text_lost_stolen_card),
-//            getString(Strings.screen_cards_display_text_lost_stolen_card_action)
-//        )
-//        snackbar?.show()
-//        val tvAction = snackbar?.view?.findViewById(co.yap.yapcore.R.id.tvAction) as TextView
-//        tvAction.setOnClickListener {
-//            startReorderCardFlow()
-//        }
     }
 
     override fun onClick(eventType: Int) {

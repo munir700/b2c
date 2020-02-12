@@ -2,6 +2,7 @@ package co.yap.modules.kyc.viewmodels
 
 import android.app.Application
 import android.text.TextUtils
+import co.yap.app.YAPApplication
 import co.yap.modules.dashboard.more.main.activities.MoreActivity
 import co.yap.modules.onboarding.interfaces.IEidInfoReview
 import co.yap.modules.onboarding.states.EidInfoReviewState
@@ -85,6 +86,7 @@ class EidInfoReviewViewModel(application: Application) :
                         EVENT_ERROR_FROM_USA
                     )
                     trackEvent(TrackEvents.EIDA_CALLBACK_PROHIBITED_CITIZENS)
+                    performUploadDocumentsRequest()
                 }
                 else -> {
                     performUploadDocumentsRequest()
@@ -179,7 +181,7 @@ class EidInfoReviewViewModel(application: Application) :
                     fullName = it.givenName + " " + it.sirName,
                     gender = it.gender.mrz.toString(),
                     nationality = it.nationality,
-                    identityNo = it.citizenNumber,
+                    identityNo = if (YAPApplication.appInfo?.build_type == "debug") (700000000000000..800000000000000).random().toString() else it.citizenNumber,
                     filePaths = parentViewModel?.paths ?: arrayListOf()
                 )
 
@@ -189,10 +191,8 @@ class EidInfoReviewViewModel(application: Application) :
 
                 when (response) {
                     is RetroApiResponse.Success -> {
-                        if (parentViewModel?.allowSkip?.value == true) {
-                            clickEvent.setValue(EVENT_FINISH)
-                            MoreActivity.showExpiredIcon = false
-                        } else clickEvent.setValue(EVENT_NEXT)
+                        clickEvent.setValue(EVENT_NEXT)
+                        MoreActivity.showExpiredIcon = false
                     }
                     is RetroApiResponse.Error -> {
                         if (response.error.actualCode.equals(
