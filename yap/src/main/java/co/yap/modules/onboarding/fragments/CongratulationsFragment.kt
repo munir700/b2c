@@ -26,8 +26,11 @@ import androidx.navigation.fragment.findNavController
 import co.yap.BR
 import co.yap.R
 import co.yap.modules.kyc.activities.DocumentsDashboardActivity
+import co.yap.modules.location.activities.LocationSelectionActivity
 import co.yap.modules.onboarding.interfaces.ICongratulations
 import co.yap.modules.onboarding.viewmodels.CongratulationsViewModel
+import co.yap.modules.others.fragmentpresenter.activities.FragmentPresenterActivity
+import co.yap.networking.cards.responsedtos.Address
 import co.yap.translation.Strings
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.RequestCodes
@@ -69,66 +72,104 @@ class CongratulationsFragment : OnboardingChildFragment<ICongratulations.ViewMod
 
 
     override fun setObservers() {
-        viewModel.clickEvent.observe(this, Observer {
-            when (it) {
-                R.id.btnCompleteVerification -> {
+        viewModel.clickEvent.observe(this, clickObserver)
+        viewModel.orderCardSuccess.observe(this, onCardOrderSuccess)
+    }
 
-                    launchActivity<DocumentsDashboardActivity>(requestCode = RequestCodes.REQUEST_KYC_DOCUMENTS){
-                        putExtra(Constants.name, viewModel.state.nameList[0] ?: "")
-                        putExtra(Constants.data, false)
-                    }
+    override fun removeObservers() {
+        viewModel.clickEvent.removeObserver(clickObserver)
+        viewModel.orderCardSuccess.removeObserver(onCardOrderSuccess)
+    }
 
-//                    startActivityForResult(
-//                        DocumentsDashboardActivity.getIntent(
-//                            requireContext(),
-//                            viewModel.state.nameList[0] ?: "",
-//                            false
-//                        ), RequestCodes.REQUEST_KYC_DOCUMENTS
-//                    )
+
+    private val clickObserver = Observer<Int> {
+        when (it) {
+            R.id.btnCompleteVerification -> {
+                launchActivity<DocumentsDashboardActivity>(requestCode = RequestCodes.REQUEST_KYC_DOCUMENTS) {
+                    putExtra(Constants.name, viewModel.state.nameList[0] ?: "")
+                    putExtra(Constants.data, false)
                 }
             }
-        })
+        }
+    }
+
+    private val onCardOrderSuccess = Observer<Boolean> {
+        if (it) {
+            startActivity(
+                FragmentPresenterActivity.getIntent(
+                    requireContext(),
+                    Constants.MODE_MEETING_CONFORMATION,
+                    null
+                )
+            )
+            activity?.finish()
+        }else{
+            val action =
+                CongratulationsFragmentDirections.actionCongratulationsFragmentToYapDashboardActivity()
+            findNavController().navigate(action)
+            activity?.finishAffinity()
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK) {
-            if (requestCode == RequestCodes.REQUEST_KYC_DOCUMENTS) {
-                data?.let {
-                    val success =
-                        data.getValue(
-                            Constants.result,
-                            ExtraType.BOOLEAN.name
-                        ) as? Boolean
-                    val skipped =
-                        data.getValue(
-                            Constants.skipped,
-                            ExtraType.BOOLEAN.name
-                        ) as? Boolean
+            when (requestCode) {
+                RequestCodes.REQUEST_KYC_DOCUMENTS -> handleKYCRequestResult(data)
+                RequestCodes.REQUEST_FOR_LOCATION -> handleLocationRequestResult(data)
+            }
+        }
+    }
 
-                    success?.let {
-                        if (it) {
+
+    private fun handleKYCRequestResult(data: Intent?) {
+        data?.let {
+            val success =
+                data.getValue(
+                    Constants.result,
+                    ExtraType.BOOLEAN.name
+                ) as? Boolean
+            val skipped =
+                data.getValue(
+                    Constants.skipped,
+                    ExtraType.BOOLEAN.name
+                ) as? Boolean
+
+            success?.let {
+                if (it) {
+                    startActivityForResult(
+                        LocationSelectionActivity.newIntent(
+                            context = requireContext(),
+                            address = MyUserManager.userAddress ?: Address(),
+                            headingTitle = getString(Strings.screen_meeting_location_display_text_add_new_address_title),
+                            subHeadingTitle = getString(Strings.screen_meeting_location_display_text_subtitle)
+                        ), RequestCodes.REQUEST_FOR_LOCATION
+                    )
+                } else {
+                    skipped?.let { skip ->
+                        if (skip) {
                             val action =
                                 CongratulationsFragmentDirections.actionCongratulationsFragmentToYapDashboardActivity()
                             findNavController().navigate(action)
                             activity?.finishAffinity()
                         } else {
-                            skipped?.let { skip ->
-                                if (skip) {
-                                    val action =
-                                        CongratulationsFragmentDirections.actionCongratulationsFragmentToYapDashboardActivity()
-                                    findNavController().navigate(action)
-                                    activity?.finishAffinity()
-                                } else {
-                                    val action =
-                                        CongratulationsFragmentDirections.actionCongratulationsFragmentToYapDashboardActivity()
-                                    findNavController().navigate(action)
-                                    activity?.finishAffinity()
-                                }
-                            }
+                            val action =
+                                CongratulationsFragmentDirections.actionCongratulationsFragmentToYapDashboardActivity()
+                            findNavController().navigate(action)
+                            activity?.finishAffinity()
                         }
                     }
                 }
+            }
+        }
+    }
+
+    private fun handleLocationRequestResult(data: Intent?) {
+        data?.let {
+            val result = it.getBooleanExtra(Constants.ADDRESS_SUCCESS, false)
+            if (result) {
+                val address = it.getParcelableExtra<Address>(Constants.ADDRESS)
+                viewModel.requestOrderCard(address)
             }
         }
     }
@@ -232,8 +273,10 @@ class CongratulationsFragment : OnboardingChildFragment<ICongratulations.ViewMod
         }
     }
 
-//    override fun onBackPressed(): Boolean =
-//        run { (activity as? OnboardingActivity)?.finish().let { true } }
+    override fun onDestroy() {
+        super.onDestroy()
+        removeObservers()
+    }
 
     override fun onBackPressed(): Boolean {
         return true

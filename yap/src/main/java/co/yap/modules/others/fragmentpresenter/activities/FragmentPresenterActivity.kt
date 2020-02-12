@@ -92,10 +92,6 @@ class FragmentPresenterActivity : BaseBindingActivity<IFragmentPresenter.ViewMod
         super.onDestroy()
     }
 
-    fun getViewBinding(): ActivityFragmentPresenterBinding {
-        return (viewDataBinding as ActivityFragmentPresenterBinding)
-    }
-
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 

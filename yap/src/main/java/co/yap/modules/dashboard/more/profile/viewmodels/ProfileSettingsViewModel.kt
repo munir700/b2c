@@ -16,6 +16,7 @@ import co.yap.networking.customers.responsedtos.documents.GetMoreDocumentsRespon
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
 import co.yap.yapcore.SingleClickEvent
+import co.yap.yapcore.constants.Constants.KEY_APP_UUID
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.managers.MyUserManager
 import com.bumptech.glide.Glide
@@ -136,7 +137,7 @@ class ProfileSettingsViewModel(application: Application) :
 
     override fun logout() {
         val deviceId: String? =
-            sharedPreferenceManager.getValueString(SharedPreferenceManager.KEY_APP_UUID)
+            sharedPreferenceManager.getValueString(KEY_APP_UUID)
         launch {
             state.loading = true
             when (val response = authRepository.logout(deviceId.toString())) {

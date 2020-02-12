@@ -16,6 +16,8 @@ import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.SingleLiveEvent
+import co.yap.yapcore.constants.Constants.KEY_APP_UUID
+import co.yap.yapcore.constants.Constants.KEY_IS_USER_LOGGED_IN
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.toast
@@ -79,7 +81,7 @@ class EmailViewModel(application: Application) :
             )) {
                 is RetroApiResponse.Success -> {
                     sharedPreferenceManager.save(
-                        SharedPreferenceManager.KEY_IS_USER_LOGGED_IN,
+                        KEY_IS_USER_LOGGED_IN,
                         true
                     )
 
@@ -150,7 +152,7 @@ class EmailViewModel(application: Application) :
     override fun postDemographicData() {
 
         val deviceId: String? =
-            sharedPreferenceManager.getValueString(SharedPreferenceManager.KEY_APP_UUID)
+            sharedPreferenceManager.getValueString(KEY_APP_UUID)
         launch {
             state.valid = false
             state.loading = true
