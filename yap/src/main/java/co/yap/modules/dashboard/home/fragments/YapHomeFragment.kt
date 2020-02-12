@@ -41,6 +41,7 @@ import co.yap.modules.others.fragmentpresenter.activities.FragmentPresenterActiv
 import co.yap.modules.setcardpin.activities.SetCardPinWelcomeActivity
 import co.yap.modules.yapnotification.models.Notification
 import co.yap.networking.cards.responsedtos.Address
+import co.yap.networking.cards.responsedtos.Card
 import co.yap.networking.transactions.responsedtos.transaction.Content
 import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionListData
 import co.yap.translation.Strings
@@ -49,6 +50,8 @@ import co.yap.yapcore.constants.Constants.ADDRESS_SUCCESS
 import co.yap.yapcore.constants.Constants.BROADCAST_UPDATE_TRANSACTION
 import co.yap.yapcore.constants.Constants.MODE_MEETING_CONFORMATION
 import co.yap.yapcore.constants.RequestCodes
+import co.yap.yapcore.enums.AccountStatus
+import co.yap.yapcore.enums.CardDeliveryStatus
 import co.yap.yapcore.enums.NotificationStatus
 import co.yap.yapcore.enums.PartnerBankStatus
 import co.yap.yapcore.helpers.Utils
@@ -174,6 +177,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                             null
                         )
                     )
+
                     MyUserManager.user?.notificationStatuses =
                         NotificationStatus.MEETING_SCHEDULED.name
                     activity?.finish()
@@ -288,17 +292,21 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
     }
 
     private fun checkUserStatus() {
-//        MyUserManager.user?.notificationStatuses=Constants.USER_STATUS_ON_BOARDED
+
         when (MyUserManager.user?.notificationStatuses) {
-            Constants.USER_STATUS_ON_BOARDED -> {
+            AccountStatus.ON_BOARDED.name, AccountStatus.CAPTURED_EID.name -> {
                 ivNoTransaction.visibility = View.VISIBLE
                 addCompleteVerificationNotification()
             }
-            Constants.USER_STATUS_MEETING_SUCCESS -> {
-                ivNoTransaction.visibility = View.VISIBLE
-                addSetPinNotification()
+
+            AccountStatus.MEETING_SUCCESS.name -> {
+                if (isShowSetPin(MyUserManager.getPrimaryCard())) {
+                    ivNoTransaction.visibility = View.VISIBLE
+                    addSetPinNotification()
+                }//todo:handle else case after confirmation for business logic
             }
-            Constants.USER_STATUS_MEETING_SCHEDULED -> {
+
+            AccountStatus.MEETING_SCHEDULED.name -> {
                 ivNoTransaction.visibility = View.VISIBLE
                 notificationsList.clear()
                 mAdapter = NotificationAdapter(
@@ -308,7 +316,8 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                 )
                 mAdapter.notifyDataSetChanged()
             }
-            co.yap.yapcore.constants.Constants.USER_STATUS_CARD_ACTIVATED -> {
+
+            AccountStatus.CARD_ACTIVATED.name -> {
                 notificationsList.clear()
                 mAdapter = NotificationAdapter(
                     notificationsList,
@@ -331,6 +340,10 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
         } else {
             viewModel.state.isTransEmpty.set(true)
         }
+    }
+
+    private fun isShowSetPin(paymentCard: Card?): Boolean {
+        return (paymentCard?.deliveryStatus == CardDeliveryStatus.SHIPPED.name && !paymentCard.pinCreated)
     }
 
     private fun showTransactionsAndGraph() {
