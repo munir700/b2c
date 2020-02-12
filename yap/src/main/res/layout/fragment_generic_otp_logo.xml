@@ -141,7 +141,6 @@
                 android:textColor="?attr/colorPrimaryDarkAttr"
                 app:bar_enabled="false"
                 app:bar_height="@dimen/_2sdp"
-                app:height="@dimen/_55sdp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView4"
@@ -154,7 +153,7 @@
                 app:otp_box_background_success="@drawable/otp_bg_success"
                 app:otp_text_size="@dimen/_24sdp"
                 app:requestKeyboard="@{true}"
-                app:width="@dimen/_40sdp" />
+                 />
 
 
             <TextView
