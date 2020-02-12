@@ -46,15 +46,6 @@ class AddSpareCardFragment : AddPaymentChildFragment<IAddSpareCard.ViewModel>(),
         getUpArguments()
         navController = findNavController()
         setObservers()
-
-//        if (viewModel.state.cardType == getString(R.string.screen_spare_card_landing_display_text_physical_card)) {
-//            AddSparePhysicalCardViewHelper(
-//                this.activity!!,
-//                navController,
-//                view,
-//                viewModel
-//            )
-//        }
     }
 
     private fun setObservers() {
@@ -81,20 +72,11 @@ class AddSpareCardFragment : AddPaymentChildFragment<IAddSpareCard.ViewModel>(),
 
                 R.id.btnDoneAddingSpareVirtualCard -> {
                     setupActionsIntent()
-                    openDetailScreen()
                     activity?.finish()
                 }
 
                 R.id.btnConfirm -> {
                     viewModel.state.toggleVisibility = true
-//                    if (viewModel.isFromaddressScreen) {
-//                        viewModel.address = Address(
-//                            viewModel.state.physicalCardAddressSubTitle,
-//                            viewModel.state.physicalCardAddressTitle,
-//                            viewModel.latitude.toDouble(),
-//                            viewModel.longitude.toDouble()
-//                        )
-//                    }
                 }
 
                 R.id.tvChangeLocation -> {
@@ -142,16 +124,6 @@ class AddSpareCardFragment : AddPaymentChildFragment<IAddSpareCard.ViewModel>(),
                 )
             }
         }
-    }
-
-
-    private fun openDetailScreen() {
-//        startActivityForResult(
-//            PaymentCardDetailActivity.newIntent(
-//                requireContext(),
-//                Card()
-//            ), EVENT_PAYMENT_CARD_DETAIL
-//        )
     }
 
     private fun onReorderCard() {
@@ -245,6 +217,7 @@ class AddSpareCardFragment : AddPaymentChildFragment<IAddSpareCard.ViewModel>(),
     private fun setupActionsIntent() {
         val returnIntent = Intent()
         returnIntent.putExtra("cardAdded", true)
+        returnIntent.putExtra("paymentCard", viewModel.paymentCard)
         activity?.setResult(Activity.RESULT_OK, returnIntent)
     }
 
