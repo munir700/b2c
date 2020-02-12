@@ -1,10 +1,7 @@
 package co.yap.networking.cards
 
 import co.yap.networking.cards.requestdtos.*
-import co.yap.networking.cards.responsedtos.AtmCdmResponse
-import co.yap.networking.cards.responsedtos.CardBalanceResponseDTO
-import co.yap.networking.cards.responsedtos.CardDetailResponseDTO
-import co.yap.networking.cards.responsedtos.GetCardsResponse
+import co.yap.networking.cards.responsedtos.*
 import co.yap.networking.customers.responsedtos.HouseHoldCardsDesignResponse
 import co.yap.networking.models.ApiResponse
 import co.yap.networking.models.RetroApiResponse
@@ -28,7 +25,7 @@ interface CardsApi {
     suspend fun configOnlineBanking(cardLimitConfigRequest: CardLimitConfigRequest): RetroApiResponse<ApiResponse>
     suspend fun addSpareVirtualCard(
         addVirtualSpareCardRequest: AddVirtualSpareCardRequest
-    ): RetroApiResponse<ApiResponse>
+    ): RetroApiResponse<AddSpareVirualCardResponse>
 
     suspend fun addSparePhysicalCard(
         addPhysicalSpareCardRequest: AddPhysicalSpareCardRequest

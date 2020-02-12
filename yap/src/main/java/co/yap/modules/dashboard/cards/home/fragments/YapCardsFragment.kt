@@ -213,26 +213,33 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
                     val cardBlocked = data?.getBooleanExtra("cardBlocked", false)
                     val cardReorder = data?.getBooleanExtra("cardReorder", false)
 
-                    if (true == removed) {
-                        adapter.removeItemAt(selectedCardPosition)
-                        adapter.notifyDataSetChanged()
-                        updateCardCount()
-                    } else if (true == cardBlocked) {
-                        adapter.removeAllItems()
-                        viewModel.getCards()
-                    } else if (true == cardReorder) {
-                        adapter.removeAllItems()
-                        viewModel.getCards()
-                    } else {
-                        updatedCard?.let { adapter.setItemAt(selectedCardPosition, it) }
+                    when {
+                        true == removed -> {
+                            adapter.removeItemAt(selectedCardPosition)
+                            adapter.notifyDataSetChanged()
+                            updateCardCount()
+                        }
+                        true == cardBlocked -> {
+                            adapter.removeAllItems()
+                            viewModel.getCards()
+                        }
+                        true == cardReorder -> {
+                            adapter.removeAllItems()
+                            viewModel.getCards()
+                        }
+                        else -> {
+                            updatedCard?.let { adapter.setItemAt(selectedCardPosition, it) }
+                        }
                     }
                 }
             }
             EVENT_CARD_ADDED -> {
                 if (resultCode == Activity.RESULT_OK) {
                     val updatedCard: Boolean? = data?.getBooleanExtra("cardAdded", false)
+                    val paymentCard: Card? = data?.getParcelableExtra("paymentCard")
                     if (true == updatedCard) {
                         adapter.removeAllItems()
+                        openDetailScreen(card = paymentCard)
                         viewModel.getCards()
                     }
                 }
@@ -278,12 +285,20 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
         }
     }
 
-    private fun openDetailScreen(pos: Int) {
+    private fun openDetailScreen(pos: Int = 0, card: Card? = null) {
         selectedCardPosition = pos
+        card?.let {
+            gotoPaymentCardDetailScreen(it)
+        } ?: gotoPaymentCardDetailScreen(getCard(pos))
+
+
+    }
+
+    private fun gotoPaymentCardDetailScreen(paymentCard: Card) {
         startActivityForResult(
             PaymentCardDetailActivity.newIntent(
                 requireContext(),
-                getCard(pos)
+                paymentCard
             ), EVENT_PAYMENT_CARD_DETAIL
         )
     }

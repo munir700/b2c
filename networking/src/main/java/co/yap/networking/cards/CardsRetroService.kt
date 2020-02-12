@@ -39,7 +39,7 @@ interface CardsRetroService {
 
     // add spare virtual card
     @POST(CardsRepository.URL_ADD_SPARE_VIRTUAL_CARD)
-    suspend fun addSpareVirtualCardRequest(@Body addVirtualSpareCardRequest: AddVirtualSpareCardRequest): Response<ApiResponse>
+    suspend fun addSpareVirtualCardRequest(@Body addVirtualSpareCardRequest: AddVirtualSpareCardRequest): Response<AddSpareVirualCardResponse>
 
     // add spare physical card
     @POST(CardsRepository.URL_ADD_SPARE_PHYSICAL_CARD)
