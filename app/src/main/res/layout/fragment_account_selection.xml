@@ -16,14 +16,17 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/white"
-        android:orientation="vertical"
         android:keepScreenOn="true"
+        android:orientation="vertical"
         tools:context="co.yap.app.activities.MainActivity">
 
-        <VideoView
-            android:id="@+id/videoView"
+        <co.yap.widgets.video.AndExoPlayerView
+            android:id="@+id/andExoPlayerView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            app:andexo_aspect_ratio="aspect_match"
+            app:andexo_play_when_ready="true"
+            app:andexo_resize_mode="Zoom"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
