@@ -1,147 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="@dimen/margin_normal"
     android:background="@drawable/bg_white_round">
 
-    <RelativeLayout
-        android:id="@+id/rlCross"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/margin_medium">
-
-        <ImageView
-            android:id="@+id/ivCross"
-            android:layout_width="@dimen/_26sdp"
-            android:layout_height="@dimen/_26sdp"
-            android:layout_alignParentEnd="true"
-            android:layout_marginTop="@dimen/margin_normal_large"
-            android:layout_marginBottom="@dimen/margin_small"
-            android:contentDescription="@string/empty_string"
-            android:src="@drawable/ic_close_dark" />
-    </RelativeLayout>
 
     <ImageView
-        android:id="@+id/ivCard"
-        android:layout_width="@dimen/_100sdp"
-        android:layout_height="@dimen/_150sdp"
-        android:layout_below="@+id/rlCross"
-        android:layout_centerHorizontal="true"
-        android:background="@drawable/card_spare"
-        android:contentDescription="@string/empty_string" />
+        android:id="@+id/ivCross"
+        android:layout_width="@dimen/_26sdp"
+        android:layout_height="@dimen/_26sdp"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="@dimen/margin_normal_large"
+        android:layout_marginEnd="@dimen/margin_medium"
+        android:layout_marginBottom="@dimen/margin_small"
+        android:contentDescription="@string/empty_string"
+        android:src="@drawable/ic_close_dark"
+        app:layout_constraintBottom_toTopOf="@+id/cardsPager"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/tvCardType"
-        style="@style/Regular"
+
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/cardsPager"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/ivCard"
-        android:layout_gravity="center"
-        android:layout_marginStart="@dimen/margin_large"
-        android:layout_marginTop="@dimen/margin_normal"
-        android:layout_marginEnd="@dimen/margin_large"
-        android:gravity="center"
-        android:text="Spare Card" />
+        android:src="@drawable/card_spare"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ivCross"
+        tools:ignore="MissingConstraints" />
 
-    <RelativeLayout
-        android:id="@+id/rlCardNumber"
+
+    <com.tbuonomo.viewpagerdotsindicator.WormDotsIndicator
+        android:id="@+id/worm_dots_indicator"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/tvCardType"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="@dimen/margin_large">
-
-        <TextView
-            android:id="@+id/tvCardNumber"
-            style="@style/AMicroGrey"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Card number" />
-
-        <TextView
-            android:id="@+id/tvCardNumberValue"
-            style="@style/Regular"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/tvCardNumber"
-            android:layout_centerHorizontal="true"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:text="5381 2301 0000 7021" />
-    </RelativeLayout>
+        android:layout_marginTop="@dimen/margin_medium_large"
+        android:layout_marginBottom="@dimen/margin_medium"
+        app:dotsColor="?attr/colorPrimaryAttr"
+        app:dotsCornerRadius="8dp"
+        app:dotsSize="12dp"
+        app:dotsSpacing="4dp"
+        app:dotsStrokeColor="@color/grey"
+        app:dotsStrokeWidth="6dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cardsPager" />
 
 
-    <RelativeLayout
-        android:id="@+id/rlCardNumberBottom"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/rlCardNumber"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="@dimen/margin_large">
-
-        <RelativeLayout
-            android:id="@+id/rlCardValidity"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_normal">
-
-            <TextView
-                android:id="@+id/tvCardValidity"
-                style="@style/AMicroGrey"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Valid until" />
-
-            <TextView
-                android:id="@+id/tvCardValidityValue"
-                style="@style/Regular"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/tvCardValidity"
-                android:layout_centerHorizontal="true"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:text="06/2020" />
-        </RelativeLayout>
-
-
-        <RelativeLayout
-            android:id="@+id/rlCvv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/_64sdp"
-            android:layout_marginTop="@dimen/margin_normal"
-            android:layout_toEndOf="@+id/rlCardValidity">
-
-            <TextView
-                android:id="@+id/tvCvv"
-                style="@style/AMicroGrey"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="CVV " />
-
-            <TextView
-                android:id="@+id/tvCvvValue"
-                style="@style/Regular"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/tvCvv"
-                android:layout_centerHorizontal="true"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:text="123" />
-        </RelativeLayout>
-    </RelativeLayout>
-
-    <TextView
-        android:id="@+id/tvTimer"
-        style="@style/AMicroGrey"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/rlCardNumberBottom"
-        android:layout_marginBottom="@dimen/margin_medium_large"
-        android:gravity="center"
-        android:text="@string/screen_card_detail_alert_text_disappears"
-        android:textSize="@dimen/_13sdp" />
-</RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
