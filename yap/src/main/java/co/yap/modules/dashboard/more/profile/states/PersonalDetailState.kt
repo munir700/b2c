@@ -60,7 +60,7 @@ class PersonalDetailState(val application: Application) : BaseState(), IPersonal
 
     @get:Bindable
     override var drawbleRight: Drawable? =
-        application!!.resources.getDrawable(co.yap.yapcore.R.drawable.ic_tick_enabled)
+        application.resources.getDrawable(co.yap.yapcore.R.drawable.ic_tick_enabled)
         set(value) {
             field = value
             notifyPropertyChanged(BR.drawbleRight)
