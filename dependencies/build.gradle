@@ -37,7 +37,7 @@ project.ext {
             kotlinreflect            : "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version",
             databindingCompiler      : 'com.android.databinding:compiler:3.4.1',
             material                 : 'com.google.android.material:material:1.2.0-alpha01',
-            viewpagerDots            : 'com.tbuonomo.andrui:viewpagerdotsindicator:3.0.3',
+            viewpagerDots            : 'com.tbuonomo.andrui:viewpagerdotsindicator:4.1.2',
             otpView                  : 'com.github.aabhasr1:OtpView:v1.1.2',
             numberFomater            : 'io.michaelrocks:libphonenumber-android:8.10.13',
             recyclerfastscroll       : 'com.futuremind.recyclerfastscroll:fastscroll:0.2.5',
