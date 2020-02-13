@@ -61,7 +61,8 @@
         <!--android:name="com.leanplum.LeanplumPushFirebaseMessagingService"-->
         <service
             android:name="co.yap.app.service.CustomFirebaseMessagingService"
-            android:exported="false">
+            android:exported="false"
+            android:protectionLevel="signature">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
