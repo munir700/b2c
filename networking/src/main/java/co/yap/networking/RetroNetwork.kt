@@ -9,6 +9,7 @@ import co.yap.networking.intercepters.SessionValidator
 import co.yap.networking.interfaces.Network
 import co.yap.networking.interfaces.NetworkConstraintsListener
 import okhttp3.Cache
+import okhttp3.CertificatePinner
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -49,6 +50,18 @@ object RetroNetwork : Network {
     }
 
     private fun buildOkHttpClient(context: Context): OkHttpClient {
+        //add ssl pinning certificate code start
+
+        //"yap.co should be replace with base url
+        val certPinner = CertificatePinner.Builder()
+            .add(
+                "yap.co",
+                "sha256/4hw5tz+scE+TW+mlai5YipDfFWn1dqvfLG+nU7tq1V8="
+            )
+            .build()// as per old code and article
+
+        //add ssl pinning certificate code end
+
         val logger = HttpLoggingInterceptor()
         logger.level =
             if (BuildConfig.DEBUG) HttpLoggingInterceptor.Level.BODY else HttpLoggingInterceptor.Level.NONE
@@ -58,6 +71,7 @@ object RetroNetwork : Network {
             .readTimeout(READ_TIMEOUT_SECONDS, TimeUnit.SECONDS)
             .retryOnConnectionFailure(true)
             .cache(getCache())
+            .certificatePinner(certPinner)      //add ssl pinning certificate code start
             .addInterceptor(logger)
             .addInterceptor(CookiesInterceptor())
             .addInterceptor(object : NetworkConstraintsInterceptor(context) {
