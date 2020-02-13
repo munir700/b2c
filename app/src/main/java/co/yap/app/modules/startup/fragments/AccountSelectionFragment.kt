@@ -3,9 +3,7 @@ package co.yap.app.modules.startup.fragments
 import android.animation.Animator
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
-import android.media.MediaPlayer
 import android.os.Bundle
-import android.os.CountDownTimer
 import android.view.View
 import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.animation.AccelerateInterpolator
@@ -36,16 +34,14 @@ class AccountSelectionFragment : BaseBindingFragment<IAccountSelection.ViewModel
     override fun getBindingVariable(): Int = BR.viewModel
 
     override fun getLayoutId(): Int = R.layout.fragment_account_selection
-    var totalDuration: Long = 0
-    var currentDuration: Int = 0
-    var stopPosition: Int = 0
+
+    override val viewModel: IAccountSelection.ViewModel
+        get() = ViewModelProviders.of(this).get(AccountSelectionViewModel::class.java)
+
     var captionsIndex: Int = 0
     var isPaused = false
-    var isVideoFinished = false
-    var mediaPlayer: MediaPlayer? = null
-    var timer: CountDownTimer? = null
-    private var animatorSet: AnimatorSet? = null
 
+    private var animatorSet: AnimatorSet? = null
     private var captions = listOf(
         "Bank your way", "Get an account in seconds", "Money transfers made simple",
         "Track your spending", "Split bills effortlessly", "Spend locally wherever you go",
@@ -53,8 +49,6 @@ class AccountSelectionFragment : BaseBindingFragment<IAccountSelection.ViewModel
 
     )
     private var captionDelays = listOf(2000, 1000, 2000, 2000, 3000, 2000, 3000, 4000)
-    override val viewModel: IAccountSelection.ViewModel
-        get() = ViewModelProviders.of(this).get(AccountSelectionViewModel::class.java)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -142,14 +136,13 @@ class AccountSelectionFragment : BaseBindingFragment<IAccountSelection.ViewModel
                 }
 
                 override fun onAnimationStart(animation: Animator?) {
-                    tvCaption.visibility = View.VISIBLE
+                    tvCaption?.visibility = View.VISIBLE
 
                 }
             })
             animatorSet?.start()
         }
     }
-
 
 
     override fun onResume() {
@@ -180,8 +173,6 @@ class AccountSelectionFragment : BaseBindingFragment<IAccountSelection.ViewModel
         super.onPause()
         isPaused = true
         animatorSet?.pause()
-
-        timer?.cancel()
         viewModel.clickEvent.removeObservers(this)
     }
 
@@ -189,10 +180,8 @@ class AccountSelectionFragment : BaseBindingFragment<IAccountSelection.ViewModel
         super.onDestroyView()
         animatorSet?.cancel()
         animatorSet = null
-        stopPosition = 0
         captionsIndex = -1
         isPaused = false
-        isVideoFinished = false
     }
 }
 
