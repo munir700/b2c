@@ -210,7 +210,7 @@ class AndExoPlayerView : LinearLayout {
             null,
             null
         )
-        player?.repeatMode = Player.REPEAT_MODE_ALL
+        player?.repeatMode = Player.REPEAT_MODE_ONE
         player?.prepare(audioSource)
     }
 

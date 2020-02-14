@@ -30,9 +30,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_medium_large"
                 android:text="@{viewModel.state.confirmHeading}"
+                android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                android:visibility="gone"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="Confirm transfer" />
 
@@ -167,6 +167,7 @@
                 android:layout_marginTop="@dimen/margin_medium_large"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
+                android:visibility="@{viewModel.state.cutOffTimeMsg!=null? View.VISIBLE:View.GONE}"
                 app:layout_constraintTop_toBottomOf="@+id/tvFeeDescription"
                 app:srcCompat="@drawable/ic_access_alarm" />
 
@@ -174,19 +175,20 @@
                 style="@style/MicroGrey"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Transfers made before 2:00 PM UAE time will be processed on the same day. All transfers made after this time will be carried out on the next business day"
-                android:layout_marginTop="@dimen/margin_medium"
-                android:gravity="center"
                 android:layout_marginStart="@dimen/margin_medium"
+                android:layout_marginTop="@dimen/margin_medium"
                 android:layout_marginEnd="@dimen/margin_medium"
+                android:gravity="center"
+                android:text="@{viewModel.state.cutOffTimeMsg}"
+                android:visibility="@{viewModel.state.cutOffTimeMsg!=null? View.VISIBLE:View.GONE}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/appCompatImageView" />
+                app:layout_constraintTop_toBottomOf="@+id/appCompatImageView"
+                tools:text="Transfers made before 2:00 PM UAE time will be processed on the same day. All transfers made after this time will be carried out on the next business day" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/llData"
                 android:layout_width="match_parent"
-                android:visibility="gone"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_medium"
                 android:layout_marginTop="@dimen/margin_medium"
@@ -195,6 +197,7 @@
                 android:background="@drawable/card_border_selector"
                 android:paddingTop="@dimen/margin_medium"
                 android:paddingBottom="@dimen/margin_medium"
+                android:visibility="gone"
                 app:layout_constraintBottom_toTopOf="@+id/confirmButton"
                 app:layout_constraintTop_toBottomOf="@+id/tvFeeDescription"
                 app:layout_constraintVertical_bias="0.900"
