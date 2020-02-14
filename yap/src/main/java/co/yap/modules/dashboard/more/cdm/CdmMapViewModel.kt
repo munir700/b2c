@@ -14,6 +14,7 @@ import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.helpers.extentions.getScreenHeight
 import co.yap.yapcore.helpers.extentions.getScreenWidth
+import co.yap.yapcore.helpers.extentions.isValidLatLng
 import co.yap.yapcore.helpers.extentions.parseToDouble
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -105,6 +106,7 @@ class CdmMapViewModel(application: Application) : BaseViewModel<ICdmMap.State>(a
                             moveCameraToCurrentLocation = false
                             state.stateLiveData.postValue(State.success(""))
                             val latLans = ArrayList<LatLng>()
+                            var validLatLng: LatLng = LatLng(0.0, 0.0)
                             for (i in it.indices) {
                                 val latLan = LatLng(
                                     it[i]?.latitude?.parseToDouble()!!,
@@ -112,12 +114,22 @@ class CdmMapViewModel(application: Application) : BaseViewModel<ICdmMap.State>(a
                                 )
                                 if (i == 0) {
                                     state.atmCdmData = it[i]
-                                    animateMapToLocation(latLan)
+                                    //animateMapToLocation(latLan)
                                 }
-                                addMarker(latLan, it[i], i)
-                                latLans.add(latLan)
-                            }
+                                if(isValidLatLng(latLan.latitude,latLan.longitude))
+                                {
+                                    addMarker(latLan, it[i], i)
+                                    latLans.add(latLan)
+                                    if(validLatLng.latitude==0.0 && validLatLng.longitude==0.0)
+                                    {moveCameraToCurrentLocation = false
+                                        validLatLng = latLan
+                                        animateMapToLocation(validLatLng)
+                                    }
+                                }
 
+
+                            }
+                            //animateMapToLocation(latLans)
                         } else {
                             state.stateLiveData.postValue(State.empty(""))
                         }
@@ -154,7 +166,7 @@ class CdmMapViewModel(application: Application) : BaseViewModel<ICdmMap.State>(a
 
         mMap?.run {
             val location = CameraUpdateFactory.newLatLngZoom(
-                latlan, 15f
+                latlan, 9f
             )
             animateCamera(location)
         }
@@ -172,7 +184,7 @@ class CdmMapViewModel(application: Application) : BaseViewModel<ICdmMap.State>(a
             val width = getScreenWidth()
             val height = getScreenHeight()
             val padding = (width * 0.10).toInt()
-            val cu = CameraUpdateFactory.newLatLngBounds(bounds, width, height, padding);
+            val cu = CameraUpdateFactory.newLatLngBounds(bounds, width, height, padding)
             animateCamera(cu)
 
         }

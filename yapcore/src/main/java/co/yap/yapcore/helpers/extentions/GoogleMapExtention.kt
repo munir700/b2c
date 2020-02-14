@@ -14,6 +14,8 @@ fun isValidLatLng(lat: Double, lng: Double): Boolean {
         return false
     } else if (lng < -180 || lng > 180) {
         return false
+    } else if (lat == 0.0 && lng == 0.0) {
+        return false
     }
     return true
 }
