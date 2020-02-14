@@ -4,6 +4,7 @@ import android.animation.Animator
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.os.Bundle
+import android.os.Handler
 import android.view.View
 import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.animation.AccelerateInterpolator
@@ -37,6 +38,7 @@ class AccountSelectionFragment : BaseBindingFragment<IAccountSelection.ViewModel
     var isPaused = false
     var isVideoFinished = false
     private var animatorSet: AnimatorSet? = null
+    val handler = Handler()
 
     private var captions = listOf(
         "Bank your way", "Get an account in seconds", "Money transfers made simple",
@@ -53,10 +55,8 @@ class AccountSelectionFragment : BaseBindingFragment<IAccountSelection.ViewModel
 
         andExoPlayerView.setSource(R.raw.yap_demo_intro)
         captionsIndex = 0
-        layoutButtons.postDelayed({
-            YoYo.with(Techniques.FadeIn).duration(1500)
-                .onStart { layoutButtons.visibility = View.VISIBLE }.playOn(layoutButtons)
-        }, 1000)
+        handler.postDelayed(runnable, 1000)
+
         andExoPlayerView.setExoPlayerCallBack(object : ExoPlayerCallBack {
             override fun onError() {
 
@@ -90,6 +90,13 @@ class AccountSelectionFragment : BaseBindingFragment<IAccountSelection.ViewModel
             override fun onRepeatModeChanged(repeatMode: Int) {
             }
         })
+    }
+
+    private val runnable = Runnable {
+        layoutButtons?.let {
+            YoYo.with(Techniques.FadeIn).duration(1500)
+                .onStart { layoutButtons?.visibility = View.VISIBLE }.playOn(layoutButtons)
+        }
     }
 
     fun playCaptionAnimation() {
@@ -141,7 +148,6 @@ class AccountSelectionFragment : BaseBindingFragment<IAccountSelection.ViewModel
     }
 
 
-
     override fun onResume() {
         super.onResume()
         isPaused = false
@@ -175,6 +181,7 @@ class AccountSelectionFragment : BaseBindingFragment<IAccountSelection.ViewModel
 
     override fun onDestroyView() {
         super.onDestroyView()
+        handler.removeCallbacks(runnable)
         animatorSet?.cancel()
         animatorSet = null
         captionsIndex = -1
