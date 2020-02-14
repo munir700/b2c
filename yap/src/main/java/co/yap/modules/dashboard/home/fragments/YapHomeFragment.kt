@@ -138,12 +138,11 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
     private val adaptorlistener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
             if (data is Content) {
-                startActivity(
-                    TransactionDetailsActivity.newIntent(
-                        requireContext(),
-                        data.transactionId
-                    )
-                )
+                launchActivity<TransactionDetailsActivity> {
+                    putExtra("txnType", data.txnType)
+                    putExtra("transactionId", data.transactionId)
+                    putExtra("productCode", data.productCode)
+                }
             }
         }
     }
