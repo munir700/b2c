@@ -923,12 +923,4 @@ object UIBinder {
             return
         view.adapter = adapter
     }
-
-    @BindingAdapter("achievementIcon")
-    @JvmStatic
-    fun setAchievementIcon(view: ImageView, achievementIcon: Int) {
-        view.setImageResource(achievementIcon)
-
-    }
-
 }

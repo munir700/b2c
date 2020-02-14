@@ -4,7 +4,7 @@ import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
 import co.yap.R
 import co.yap.databinding.ItemCompletedAchievementBinding
-import co.yap.modules.dashboard.more.yapforyou.Achievement
+import co.yap.networking.transactions.responsedtos.achievement.Achievement
 import co.yap.modules.dashboard.more.yapforyou.itemviewmodels.CompletedAchievementItemViewModel
 import co.yap.yapcore.BaseBindingRecyclerAdapter
 

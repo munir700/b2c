@@ -1,5 +1,6 @@
 package co.yap.networking.transactions
 
+import co.yap.networking.transactions.responsedtos.achievement.AchievementsResponseDTO
 import co.yap.networking.models.ApiResponse
 import co.yap.networking.transactions.requestdtos.*
 import co.yap.networking.transactions.responsedtos.*
@@ -146,5 +147,8 @@ interface TransactionsRetroService {
 
     @GET(TransactionsRepository.URL_GET_TRANSACTION_THRESHOLDS)
     suspend fun getTransactionThresholds(): Response<TransactionThresholdResponseDTO>
+
+    @GET(TransactionsRepository.URL_GET_ACHIEVEMENTS)
+    suspend fun getAchievements(): Response<AchievementsResponseDTO>
 
 }

@@ -1,4 +1,4 @@
-package co.yap.modules.dashboard.more.yapforyou
+package co.yap.networking.transactions.responsedtos.achievement
 
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
@@ -12,9 +12,7 @@ data class Achievement(
     val name: String?,
     @SerializedName("percentage")
     var percentage: Double?,
-    @SerializedName("feature")
-    val feature: List<AchievementTask>,
-    val icon: Int?,
-    val achievmentIcons: AchievmentIcons?
-
+    @SerializedName("features")
+    val features: List<AchievementTask>?,
+    var icon: Int = -1
 ) : Parcelable

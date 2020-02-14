@@ -21,21 +21,30 @@
         android:layout_height="match_parent"
         android:background="@color/colorWhite">
 
+        <TextView
+            android:id="@+id/tvHeading"
+            style="@style/ATitle3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Current achievement"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
         <ImageView
             android:id="@+id/imgProfile"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_large"
+            android:layout_marginTop="@dimen/small"
             android:contentDescription="@string/empty_string"
-            app:achievementIcon="@{viewModel.state.selectedAchievementImage}"
+            android:src="@drawable/ic_badge_dark_blue"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:src="@drawable/ic_badge_light_peach" />
+            app:layout_constraintTop_toBottomOf="@+id/tvHeading"
+            tools:src="@drawable/ic_badge_dark_blue" />
 
         <TextView
             android:id="@+id/tvTitle"
-            style="@style/Title3"
+            style="@style/ARegular"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_medium"
@@ -50,12 +59,10 @@
             style="@style/SmallGrey"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{viewModel.state.selectedAchievementPercentage}"
+            android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvTitle"
-            app:text="@{Strings.screen_yap_for_you_display_text_completed_percentage}"
-            tools:text="75% completed" />
+            app:layout_constraintTop_toBottomOf="@+id/tvTitle" />
 
         <!--screen_yap_for_you_display_text_completed_percentage-->
 
@@ -69,13 +76,14 @@
             android:onClick="@{(v)->viewModel.handlePressOnView(v.id)}"
             android:paddingTop="0dp"
             android:paddingBottom="0dp"
-            android:visibility="@{viewModel.state.selectedAchievementPercentage == null? View.INVISIBLE : View.VISIBLE}"
             app:btn_enable="true"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvCompltedPercentage"
             app:text="@{Strings.screen_yap_for_you_display_text_view}"
             tools:text="@string/screen_yap_for_you_display_text_view" />
+        <!--        android:visibility="@{viewModel.state.selectedAchievementPercentage == null? View.INVISIBLE : View.VISIBLE}"-->
+
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvYapForYou"

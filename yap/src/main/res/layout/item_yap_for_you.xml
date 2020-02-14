@@ -14,7 +14,7 @@
         <import type="android.view.View" />
     </data>
 
-
+    <!--    app:src="@{viewModel.achievement.icon}"-->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -30,8 +30,7 @@
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
             android:layout_gravity="center"
-            android:contentDescription=""
-            app:achievementIcon="@{viewModel.achievement.icon}"
+            app:src="@{viewModel.icon}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -59,10 +58,10 @@
             android:gravity="center"
             android:text="@{String.format(@string/screen_yap_for_you_display_text_completed_percentage ,viewModel.achievement.percentage)}"
             android:textSize="@dimen/_10sdp"
-            android:visibility="@{viewModel.achievement.percentage != null ?View.VISIBLE:View.GONE}"
+            android:visibility="gone"
             app:layout_constraintTop_toBottomOf="@+id/tvTitle"
             tools:text="75% completed" />
-
+        <!--        android:visibility="@{viewModel.achievement.percentage != null ?View.VISIBLE:View.GONE}"-->
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>

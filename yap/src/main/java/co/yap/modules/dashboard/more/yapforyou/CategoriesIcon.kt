@@ -19,6 +19,7 @@ class CategoriesIcon constructor(
         this.roundBadge = roundBadge
 
 
+
         when (Integer.valueOf(colorCode)) {
 
             R.color.colorDarkPurple -> {

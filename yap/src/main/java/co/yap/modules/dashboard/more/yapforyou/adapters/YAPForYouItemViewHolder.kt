@@ -1,9 +1,10 @@
 package co.yap.modules.dashboard.more.yapforyou.adapters
 
 import androidx.recyclerview.widget.RecyclerView
+import co.yap.R
 import co.yap.databinding.ItemYapForYouBinding
-import co.yap.modules.dashboard.more.yapforyou.Achievement
 import co.yap.modules.dashboard.more.yapforyou.itemviewmodels.YAPForYouItemViewModel
+import co.yap.networking.transactions.responsedtos.achievement.Achievement
 import co.yap.yapcore.interfaces.OnItemClickListener
 
 class YAPForYouItemViewHolder(private val itemYapForYouBinding: ItemYapForYouBinding) :
@@ -12,7 +13,6 @@ class YAPForYouItemViewHolder(private val itemYapForYouBinding: ItemYapForYouBin
     fun onBind(
         position: Int,
         achievements: Achievement,
-        dimensions: IntArray,
         onItemClickListener: OnItemClickListener?
     ) {
 
@@ -25,13 +25,27 @@ class YAPForYouItemViewHolder(private val itemYapForYouBinding: ItemYapForYouBin
 
 //        itemYapForYouBinding.imgIcon.background = wrappedDrawable
 
+        val icon = getAchievementIcon(position)
         itemYapForYouBinding.viewModel =
             YAPForYouItemViewModel(
-                achievements,
-                position,
-                onItemClickListener
+                achievement = achievements,
+                position = position,
+                icon = icon,
+                onItemClickListener = onItemClickListener
             )
         itemYapForYouBinding.executePendingBindings()
 
+    }
+
+    private fun getAchievementIcon(position: Int): Int {
+        return when (position) {
+            0 -> R.drawable.ic_round_badge_dark_purple
+            1 -> R.drawable.ic_round_badge_dark_blue
+            2 -> R.drawable.ic_round_badge_dark_peach
+            3 -> R.drawable.ic_round_badge_dark_green
+            4 -> R.drawable.ic_round_badge_dark_pink
+            5 -> R.drawable.ic_round_badge_dark_green
+            else -> R.drawable.ic_round_badge_dark_grey
+        }
     }
 }

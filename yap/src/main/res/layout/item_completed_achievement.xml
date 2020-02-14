@@ -27,7 +27,6 @@
                 android:layout_width="@dimen/_64sdp"
                 android:layout_height="@dimen/_64sdp"
                 android:contentDescription="@string/empty_string"
-                app:achievementIcon="@{viewModel.achievement.achievmentIcons.roundBadgeIcon}"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:src="@drawable/ic_badge_light_peach" />
@@ -60,11 +59,13 @@
                     style="@style/SmallGrey"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@{String.format(@string/screen_yap_for_you_display_text_completed_percentage ,viewModel.achievement.percentage).concat(`%`)}"
+                    android:visibility="gone"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tvTitle"
                     tools:text="75% completed" />
+<!--                android:text="@{String.format(@string/screen_yap_for_you_display_text_completed_percentage ,viewModel.achievement.percentage).concat(`%`)}"-->
+
             </LinearLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>

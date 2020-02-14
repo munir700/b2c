@@ -136,7 +136,7 @@
                 android:layout_marginTop="@dimen/margin_normal_large"
                 android:layout_marginRight="@dimen/margin_small"
                 android:layout_marginBottom="@dimen/small"
-                android:src="@drawable/bg_round_purple" />
+                android:src="@drawable/ic_round_badge_dark_blue" />
 
             <LinearLayout
                 android:layout_width="wrap_content"

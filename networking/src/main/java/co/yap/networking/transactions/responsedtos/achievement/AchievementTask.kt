@@ -1,4 +1,4 @@
-package co.yap.modules.dashboard.more.yapforyou
+package co.yap.networking.transactions.responsedtos.achievement
 
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName

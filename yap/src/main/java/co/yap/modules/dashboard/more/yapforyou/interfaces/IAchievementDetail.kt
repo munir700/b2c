@@ -1,5 +1,6 @@
 package co.yap.modules.dashboard.more.yapforyou.interfaces
 
+import androidx.databinding.ObservableField
 import co.yap.databinding.FragmentAchievementDetailBinding
 import co.yap.modules.dashboard.more.yapforyou.adapters.AchievementTaskAdaptor
 import co.yap.yapcore.IBase
@@ -19,5 +20,7 @@ interface IAchievementDetail {
         fun handlePressOnButton(id: Int)
     }
 
-    interface State : IBase.State
+    interface State : IBase.State{
+        var achievementIcon:ObservableField<Int>
+    }
 }
