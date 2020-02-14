@@ -41,7 +41,7 @@ class MultiStateView
     var listener: StateListener? = null
 
     var animateLayoutChanges: Boolean = false
-
+    var animateViewChangesDuration: Int = 400
     var viewState: ViewState = ViewState.CONTENT
         set(value) {
             val previousField = field
@@ -52,13 +52,15 @@ class MultiStateView
                 listener?.onStateChanged(value)
             }
         }
-    var reloadListener: OnReloadListener? = null
+    private var reloadListener: OnReloadListener? = null
 
     init {
         val inflater = LayoutInflater.from(getContext())
         val a = getContext().obtainStyledAttributes(attrs, R.styleable.MultiStateView)
 
         val loadingViewResId = a.getResourceId(R.styleable.MultiStateView_msv_loadingView, -1)
+        animateViewChangesDuration =
+            a.getInteger(R.styleable.MultiStateView_msv_animateViewChangesDuration, 400)
         if (loadingViewResId > -1) {
             val inflatedLoadingView = inflater.inflate(loadingViewResId, this, false)
             loadingView = inflatedLoadingView
@@ -77,11 +79,10 @@ class MultiStateView
             val inflatedErrorView = inflater.inflate(errorViewResId, this, false)
             errorView = inflatedErrorView
             addView(inflatedErrorView, inflatedErrorView.layoutParams)
-//            toolbar: Toolbar? by bindView<Toolbar>(R.id.toolbar)
-//TODO user listener
-//            errorView?.findViewById<PathwayButton>(R.id.retry)?.setOnClickListener {
-//                reloadListener?.onReload(it)
-//            }
+
+            errorView?.findViewById<View>(R.id.btnRetry)?.setOnClickListener {
+                reloadListener?.onReload(it)
+            }
         }
 
         viewState = when (a.getInt(R.styleable.MultiStateView_msv_viewState, VIEW_STATE_CONTENT)) {
@@ -110,6 +111,10 @@ class MultiStateView
             ViewState.EMPTY -> emptyView
             ViewState.ERROR -> errorView
         }
+    }
+
+    fun setOnReloadListener(reloadListener: OnReloadListener) {
+        this.reloadListener = reloadListener
     }
 
     /**
@@ -316,7 +321,7 @@ class MultiStateView
         }
 
         ObjectAnimator.ofFloat(previousView, "alpha", 1.0f, 0.0f).apply {
-            duration = 250L
+            duration = animateViewChangesDuration.toLong()
             addListener(object : AnimatorListenerAdapter() {
                 override fun onAnimationStart(animation: Animator?) {
                     previousView.visibility = View.VISIBLE
@@ -326,7 +331,7 @@ class MultiStateView
                     previousView.visibility = View.GONE
                     val currentView = requireNotNull(getView(viewState))
                     currentView.visibility = View.VISIBLE
-                    ObjectAnimator.ofFloat(currentView, "alpha", 0.0f, 1.0f).setDuration(250L)
+                    ObjectAnimator.ofFloat(currentView, "alpha", 0.0f, 1.0f).setDuration(animateViewChangesDuration.toLong())
                         .start()
                 }
             })
