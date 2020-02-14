@@ -11,8 +11,8 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import co.yap.BR
 import co.yap.R
+import co.yap.modules.dashboard.main.activities.YapDashboardActivity
 import co.yap.modules.dashboard.more.main.activities.MoreActivity
-import co.yap.modules.dashboard.more.main.activities.MoreActivity.Companion.showExpiredIcon
 import co.yap.modules.dashboard.more.main.fragments.MoreBaseFragment
 import co.yap.modules.dashboard.more.profile.intefaces.IPersonalDetail
 import co.yap.modules.dashboard.more.profile.viewmodels.PersonalDetailsViewModel
@@ -20,12 +20,16 @@ import co.yap.modules.dummy.ActivityNavigator
 import co.yap.modules.dummy.NavigatorProvider
 import co.yap.modules.kyc.activities.DocumentsDashboardActivity
 import co.yap.modules.location.activities.LocationSelectionActivity
+import co.yap.modules.others.fragmentpresenter.activities.FragmentPresenterActivity
 import co.yap.networking.cards.requestdtos.UpdateAddressRequest
 import co.yap.networking.cards.responsedtos.Address
 import co.yap.translation.Strings
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.Constants.ADDRESS
 import co.yap.yapcore.constants.RequestCodes
+import co.yap.yapcore.enums.EIDStatus
+import co.yap.yapcore.helpers.extentions.ExtraType
+import co.yap.yapcore.helpers.extentions.getValue
 import co.yap.yapcore.helpers.extentions.launchActivity
 import co.yap.yapcore.helpers.extentions.preventTakeScreenShot
 import co.yap.yapcore.managers.MyUserManager
@@ -54,7 +58,6 @@ class PersonalDetailsFragment : MoreBaseFragment<IPersonalDetail.ViewModel>(),
         super.onViewCreated(view, savedInstanceState)
         if (context is MoreActivity)
             (context as MoreActivity).visibleToolbar()
-        viewModel.state.errorVisibility = showExpiredIcon
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -64,12 +67,10 @@ class PersonalDetailsFragment : MoreBaseFragment<IPersonalDetail.ViewModel>(),
 
     override fun onResume() {
         super.onResume()
-        viewModel.state.errorVisibility = showExpiredIcon
         viewModel.toggleToolBar(true)
-
+        viewModel.orderCardSuccess.observe(this, onCardOrderSuccess)
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
-
                 R.id.tvEditPhoneNumber -> {
                     mNavigator.startVerifyPassCodePresenterActivity(requireActivity()) { resultCode, data ->
                         if (resultCode == Activity.RESULT_OK) {
@@ -77,8 +78,6 @@ class PersonalDetailsFragment : MoreBaseFragment<IPersonalDetail.ViewModel>(),
                             findNavController().navigate(R.id.action_personalDetailsFragment_to_change_phone_number_navigation)
                         }
                     }
-                    //startActivityForResult(Intent(context, VerifyPassCodePresenterActivity::class.java),VerifyPassCodePresenterActivity.START_REQUEST_CODE)
-                    // findNavController().navigate(R.id.action_personalDetailsFragment_to_change_phone_number_navigation)
                 }
 
                 R.id.tvEditEmail -> {
@@ -102,28 +101,15 @@ class PersonalDetailsFragment : MoreBaseFragment<IPersonalDetail.ViewModel>(),
                 }
 
                 R.id.cvCard -> {
-                    if (viewModel.state.errorVisibility) {
-//                        val action =
-//                            PersonalDetailsFragmentDirections.actionPersonalDetailsFragmentToDocumentsDashboardActivity(
-//                                viewModel.state.fullName, true
-//                            )
-//
-//                        findNavController().navigate(action)
-
-                        launchActivity<DocumentsDashboardActivity>(requestCode = RequestCodes.REQUEST_KYC_DOCUMENTS){
-                            putExtra(Constants.name, MyUserManager.user?.currentCustomer?.firstName.toString())
+                    if (canOpenEIDCard()) {
+                        launchActivity<DocumentsDashboardActivity>(requestCode = RequestCodes.REQUEST_KYC_DOCUMENTS) {
+                            putExtra(
+                                Constants.name,
+                                MyUserManager.user?.currentCustomer?.firstName.toString()
+                            )
                             putExtra(Constants.data, false)
                         }
-
-//                        startActivityForResult(
-//                            DocumentsDashboardActivity.getIntent(
-//                                requireContext(),
-//                                MyUserManager.user?.currentCustomer?.firstName.toString(),
-//                                true
-//                            ), RequestCodes.REQUEST_KYC_DOCUMENTS
-//                        )
                     }
-
                 }
 
                 viewModel.UPDATE_ADDRESS_UI -> {
@@ -146,6 +132,15 @@ class PersonalDetailsFragment : MoreBaseFragment<IPersonalDetail.ViewModel>(),
         toggleAddressVisibility()
     }
 
+    private fun canOpenEIDCard(): Boolean {
+        return when (MyUserManager.eidStatus) {
+            EIDStatus.NOT_SET, EIDStatus.EXPIRED -> {
+                true
+            }
+            else -> false
+        }
+    }
+
 
     private fun toggleAddressVisibility() {
         if (MyUserManager.userAddress == null) {
@@ -159,12 +154,7 @@ class PersonalDetailsFragment : MoreBaseFragment<IPersonalDetail.ViewModel>(),
         super.onPause()
         viewModel.clickEvent.removeObservers(this)
         viewModel.onUpdateAddressSuccess.removeObservers(this)
-//        if (changeAddress) {
-//            viewModel.toggleToolBar(true)
-//            viewModel.updateToolBarText("")
-//
-//            changeAddress = true
-//        }
+        viewModel.orderCardSuccess.removeObserver(onCardOrderSuccess)
     }
 
     override fun onDestroy() {
@@ -174,6 +164,27 @@ class PersonalDetailsFragment : MoreBaseFragment<IPersonalDetail.ViewModel>(),
         if (changeAddress) {
             viewModel.toggleToolBar(true)
             changeAddress = true
+        }
+    }
+
+    private val onCardOrderSuccess = Observer<Boolean> {
+        if (it) {
+            startActivityForResult(
+                FragmentPresenterActivity.getIntent(
+                    requireContext(),
+                    Constants.MODE_MEETING_CONFORMATION,
+                    null
+                ), RequestCodes.REQUEST_MEETING_CONFIRMED
+            )
+
+        } else {
+            startActivity(
+                Intent(
+                    requireContext(),
+                    YapDashboardActivity::class.java
+                )
+            )
+            activity?.finishAffinity()
         }
     }
 
@@ -202,9 +213,69 @@ class PersonalDetailsFragment : MoreBaseFragment<IPersonalDetail.ViewModel>(),
                             updateUserAddress(it)
                         }
                     }
+                }
+                RequestCodes.REQUEST_KYC_DOCUMENTS -> handleKYCRequestResult(data)
+                RequestCodes.REQUEST_LOCATION_FOR_KYC -> handleLocationRequestResult(data)
+                RequestCodes.REQUEST_MEETING_CONFIRMED -> handleMeetingConfirmationRequest(data)
 
+            }
+        }
+    }
+
+    private fun handleKYCRequestResult(data: Intent?) {
+        data?.let {
+            val success =
+                data.getValue(
+                    Constants.result,
+                    ExtraType.BOOLEAN.name
+                ) as? Boolean
+            val skipped =
+                data.getValue(
+                    Constants.skipped,
+                    ExtraType.BOOLEAN.name
+                ) as? Boolean
+
+            success?.let {
+                if (it) {
+                    startActivityForResult(
+                        LocationSelectionActivity.newIntent(
+                            context = requireContext(),
+                            address = MyUserManager.userAddress ?: Address(),
+                            headingTitle = getString(Strings.screen_meeting_location_display_text_add_new_address_title),
+                            subHeadingTitle = getString(Strings.screen_meeting_location_display_text_subtitle)
+                        ), RequestCodes.REQUEST_LOCATION_FOR_KYC
+                    )
+                } else {
+                    skipped?.let {
+                        startActivity(
+                            Intent(
+                                requireContext(),
+                                YapDashboardActivity::class.java
+                            )
+                        )
+                        activity?.finishAffinity()
+                    }
                 }
             }
+        }
+    }
+
+    private fun handleLocationRequestResult(data: Intent?) {
+        data?.let {
+            val result = it.getBooleanExtra(Constants.ADDRESS_SUCCESS, false)
+            if (result) {
+                val address = it.getParcelableExtra<Address>(ADDRESS)
+                MyUserManager.userAddress = address
+                viewModel.requestOrderCard(address)
+            }
+        }
+    }
+
+    private fun handleMeetingConfirmationRequest(data: Intent?) {
+        data?.let {
+            //did'nt handle intent data for now
+            startActivity(Intent(requireContext(), YapDashboardActivity::class.java))
+            activity?.finish()
         }
     }
 

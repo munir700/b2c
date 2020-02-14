@@ -13,4 +13,6 @@ object RequestCodes {
     const val REQUEST_KYC_DOCUMENTS = 10009
     const val REQUEST_ADD_HOUSE_HOLD = 10010
     const val REQUEST_FOR_GPS = 10011
+    const val REQUEST_MEETING_CONFIRMED = 10012
+    const val REQUEST_LOCATION_FOR_KYC = 10013
 }

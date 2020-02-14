@@ -18,7 +18,7 @@ class CongratulationsViewModel(application: Application) :
     override val clickEvent: SingleClickEvent = SingleClickEvent()
     override val state: CongratulationsState = CongratulationsState()
     override val repository: CardsRepository = CardsRepository
-    override val orderCardSuccess: MutableLiveData<Boolean> = MutableLiveData(false)
+    override val orderCardSuccess: MutableLiveData<Boolean> = MutableLiveData()
     override var elapsedOnboardingTime: Long = 0
 
     override fun onCreate() {

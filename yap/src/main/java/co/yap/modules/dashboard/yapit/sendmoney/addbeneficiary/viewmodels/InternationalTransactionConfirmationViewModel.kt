@@ -15,6 +15,7 @@ import co.yap.networking.transactions.responsedtos.TransactionThresholdModel
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.enums.SendMoneyBeneficiaryProductCode
 import co.yap.yapcore.enums.SendMoneyBeneficiaryType
 
 class InternationalTransactionConfirmationViewModel(application: Application) :
@@ -33,7 +34,9 @@ class InternationalTransactionConfirmationViewModel(application: Application) :
     override fun onCreate() {
         super.onCreate()
         getTransactionThresholds()
+        getCutOffTimeConfiguration()
     }
+
     override fun handlePressOnButtonClick(id: Int) {
         clickEvent.postValue(id)
     }
@@ -177,5 +180,50 @@ class InternationalTransactionConfirmationViewModel(application: Application) :
                 }
             }
         }
+    }
+
+    override fun getCutOffTimeConfiguration() {
+
+        beneficiary?.run {
+            beneficiaryType?.let { beneficiaryType ->
+                if (beneficiaryType.isNotEmpty())
+                    when (SendMoneyBeneficiaryType.valueOf(beneficiaryType)) {
+                        SendMoneyBeneficiaryType.SWIFT, SendMoneyBeneficiaryType.UAEFTS -> {
+                            launch {
+                                when (val response =
+                                    mTransactionsRepository.getCutOffTimeConfiguration(
+                                        getProductCode(),
+                                        currency
+                                    )) {
+                                    is RetroApiResponse.Success -> {
+                                        response.data.data?.let {
+                                            state.cutOffTimeMsg =  it.errorMsg
+                                        }
+
+                                    }
+                                    is RetroApiResponse.Error -> {
+                                        state.toast = response.error.message
+                                    }
+                                }
+                            }
+                        }
+                    }
+            }
+        }
+    }
+
+    private fun getProductCode(): String? {
+        beneficiary?.beneficiaryType?.let {
+            when (SendMoneyBeneficiaryType.valueOf(it)) {
+                SendMoneyBeneficiaryType.SWIFT -> {
+                    return SendMoneyBeneficiaryProductCode.P011.name
+                }
+                SendMoneyBeneficiaryType.UAEFTS -> {
+                    SendMoneyBeneficiaryProductCode.P010.name
+                }
+                else -> null
+            }
+        }
+        return null
     }
 }

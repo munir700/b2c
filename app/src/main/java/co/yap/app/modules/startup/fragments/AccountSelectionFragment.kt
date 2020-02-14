@@ -4,6 +4,7 @@ import android.animation.Animator
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.os.Bundle
+import android.os.Handler
 import android.view.View
 import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.animation.AccelerateInterpolator
@@ -25,7 +26,6 @@ import com.google.android.exoplayer2.Player
 import com.google.android.exoplayer2.source.TrackGroupArray
 import com.google.android.exoplayer2.trackselection.TrackSelectionArray
 import kotlinx.android.synthetic.main.fragment_account_selection.*
-import timber.log.Timber
 
 
 class AccountSelectionFragment : BaseBindingFragment<IAccountSelection.ViewModel>(),
@@ -34,32 +34,29 @@ class AccountSelectionFragment : BaseBindingFragment<IAccountSelection.ViewModel
     override fun getBindingVariable(): Int = BR.viewModel
 
     override fun getLayoutId(): Int = R.layout.fragment_account_selection
-
-    override val viewModel: IAccountSelection.ViewModel
-        get() = ViewModelProviders.of(this).get(AccountSelectionViewModel::class.java)
-
     var captionsIndex: Int = 0
     var isPaused = false
-
+    var isVideoFinished = false
     private var animatorSet: AnimatorSet? = null
+    val handler = Handler()
+
     private var captions = listOf(
         "Bank your way", "Get an account in seconds", "Money transfers made simple",
         "Track your spending", "Split bills effortlessly", "Spend locally wherever you go",
         "Instant spending notifications", "An app for everyone"
 
     )
-    private var captionDelays = listOf(2000, 1000, 2000, 2000, 3000, 2000, 3000, 4000)
+    private var captionDelays = listOf(1800, 1000, 1800, 1800, 2500, 1800, 2800, 3000)
+    override val viewModel: IAccountSelection.ViewModel
+        get() = ViewModelProviders.of(this).get(AccountSelectionViewModel::class.java)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         andExoPlayerView.setSource(R.raw.yap_demo_intro)
-        andExoPlayerView.player?.duration
         captionsIndex = 0
-        layoutButtons.postDelayed({
-            YoYo.with(Techniques.FadeIn).duration(1500)
-                .onStart { layoutButtons.visibility = View.VISIBLE }.playOn(layoutButtons)
-        }, 1000)
+        handler.postDelayed(runnable, 1000)
+
         andExoPlayerView.setExoPlayerCallBack(object : ExoPlayerCallBack {
             override fun onError() {
 
@@ -78,7 +75,7 @@ class AccountSelectionFragment : BaseBindingFragment<IAccountSelection.ViewModel
                 layoutButtons.postDelayed({
                     captionsIndex = 0
                     playCaptionAnimation()
-                }, 3000)
+                }, 1800)
             }
 
             override fun onPlayerStateChanged(playWhenReady: Boolean, playbackState: Int) {
@@ -93,6 +90,13 @@ class AccountSelectionFragment : BaseBindingFragment<IAccountSelection.ViewModel
             override fun onRepeatModeChanged(repeatMode: Int) {
             }
         })
+    }
+
+    private val runnable = Runnable {
+        layoutButtons?.let {
+            YoYo.with(Techniques.FadeIn).duration(1500)
+                .onStart { layoutButtons?.visibility = View.VISIBLE }.playOn(layoutButtons)
+        }
     }
 
     fun playCaptionAnimation() {
@@ -128,7 +132,6 @@ class AccountSelectionFragment : BaseBindingFragment<IAccountSelection.ViewModel
 
                         playCaptionAnimation()
                     }
-                    Timber.i("captionsIndex>> $captionsIndex")
                 }
 
                 override fun onAnimationCancel(animation: Animator?) {
@@ -178,10 +181,12 @@ class AccountSelectionFragment : BaseBindingFragment<IAccountSelection.ViewModel
 
     override fun onDestroyView() {
         super.onDestroyView()
+        handler.removeCallbacks(runnable)
         animatorSet?.cancel()
         animatorSet = null
         captionsIndex = -1
         isPaused = false
+        isVideoFinished = false
     }
 }
 

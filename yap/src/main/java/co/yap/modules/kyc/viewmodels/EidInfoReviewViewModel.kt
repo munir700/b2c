@@ -3,7 +3,6 @@ package co.yap.modules.kyc.viewmodels
 import android.app.Application
 import android.text.TextUtils
 import co.yap.app.YAPApplication
-import co.yap.modules.dashboard.more.main.activities.MoreActivity
 import co.yap.modules.onboarding.interfaces.IEidInfoReview
 import co.yap.modules.onboarding.states.EidInfoReviewState
 import co.yap.networking.customers.CustomersRepository
@@ -13,9 +12,11 @@ import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
 import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
+import co.yap.yapcore.enums.EIDStatus
 import co.yap.yapcore.helpers.DateUtils
 import co.yap.yapcore.helpers.extentions.trackEvent
 import co.yap.yapcore.leanplum.TrackEvents
+import co.yap.yapcore.managers.MyUserManager
 import com.digitify.identityscanner.core.arch.Gender
 import com.digitify.identityscanner.docscanner.models.Identity
 import com.digitify.identityscanner.docscanner.models.IdentityScannerResult
@@ -190,8 +191,8 @@ class EidInfoReviewViewModel(application: Application) :
 
                 when (response) {
                     is RetroApiResponse.Success -> {
+                        MyUserManager.eidStatus = EIDStatus.VALID
                         clickEvent.setValue(EVENT_NEXT)
-                        MoreActivity.showExpiredIcon = false
                     }
                     is RetroApiResponse.Error -> {
                         if (response.error.actualCode.equals(

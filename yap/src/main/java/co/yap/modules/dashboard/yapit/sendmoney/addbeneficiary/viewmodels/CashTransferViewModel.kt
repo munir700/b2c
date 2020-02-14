@@ -55,6 +55,7 @@ class CashTransferViewModel(application: Application) :
         state.currencyType = "AED"
         state.setSpannableFee("0.0")
         getTransactionThresholds()
+        getCutOffTimeConfiguration()
     }
 
     override fun onResume() {
@@ -385,8 +386,8 @@ class CashTransferViewModel(application: Application) :
                     state.toast = response.error.message
                 }
             }
-            }
         }
+    }
 
     private fun setMaxMinLimits(limit: Double?) {
         limit?.let {
@@ -399,4 +400,33 @@ class CashTransferViewModel(application: Application) :
         }
     }
 
+    override fun getCutOffTimeConfiguration() {
+
+        state.beneficiary?.run {
+            beneficiaryType?.let { beneficiaryType ->
+                if (beneficiaryType.isNotEmpty())
+                    when (SendMoneyBeneficiaryType.valueOf(beneficiaryType)) {
+                        SendMoneyBeneficiaryType.SWIFT, SendMoneyBeneficiaryType.UAEFTS -> {
+                            launch {
+                                when (val response =
+                                    transactionRepository.getCutOffTimeConfiguration(
+                                        state.produceCode,
+                                        currency
+                                    )) {
+                                    is RetroApiResponse.Success -> {
+                                        response.data.data?.let {
+                                            state.cutOffTimeMsg =  it.errorMsg
+                                        }
+
+                                    }
+                                    is RetroApiResponse.Error -> {
+                                        state.toast = response.error.message
+                                    }
+                                }
+                            }
+                        }
+                    }
+            }
+        }
+    }
 }

@@ -4,6 +4,7 @@ import android.net.Uri
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import androidx.databinding.Bindable
+import androidx.databinding.ObservableField
 import androidx.databinding.library.baseAdapters.BR
 import co.yap.modules.dashboard.more.profile.intefaces.IProfile
 import co.yap.yapcore.BaseState
@@ -15,14 +16,6 @@ class ProfileStates : BaseState(), IProfile.State {
         set(value) {
             field = value
             notifyPropertyChanged(BR.nameInitialsVisibility)
-
-        }
-
-    @get:Bindable
-    override var errorBadgeVisibility: Int = GONE
-        set(value) {
-            field = value
-            notifyPropertyChanged(BR.errorBadgeVisibility)
 
         }
 
@@ -54,4 +47,6 @@ class ProfileStates : BaseState(), IProfile.State {
 
             }
         }
+
+    override var isShowErrorIcon: ObservableField<Boolean> = ObservableField(false)
 }

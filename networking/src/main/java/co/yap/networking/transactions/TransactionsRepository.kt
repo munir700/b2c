@@ -63,6 +63,8 @@ object TransactionsRepository : BaseRepository(), TransactionsApi {
         "/transactions/api/swift"
     const val URL_GET_TRANSACTION_THRESHOLDS =
         "/transactions/api/transaction-thresholds"
+    const val URL_GET_CUTT_OFF_TIME_CONFIGURATION =
+        "/transactions/api/cut-off-time-configuration"
     // Household
     const val URL_HOUSEHOLD_CARD_FEE_PACKAGE = "/transactions/api/fees/subscriptions/{pkg-type}"
 
@@ -202,5 +204,8 @@ object TransactionsRepository : BaseRepository(), TransactionsApi {
 
     override suspend fun getTransactionThresholds(): RetroApiResponse<TransactionThresholdResponseDTO> =
         executeSafely(call = { api.getTransactionThresholds() })
+
+    override suspend fun getCutOffTimeConfiguration(productCode: String?, currency: String?) =
+        executeSafely(call = { api.getCutOffTimeConfiguration(productCode, currency) })
 
 }

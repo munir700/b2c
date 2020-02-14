@@ -36,8 +36,8 @@ open class ChangeEmailFragment : MoreBaseFragment<IChangeEmail.ViewModel>(), ICh
                     ChangeEmailFragmentDirections.actionChangeEmailFragmentToGenericOtpFragment(
                         otpType = Constants.CHANGE_EMAIL,
                         mobileNumber = Utils.getFormattedMobileNumber(
-                            MyUserManager.user!!.currentCustomer.countryCode,
-                            MyUserManager.user!!.currentCustomer.mobileNo
+                            MyUserManager.user?.currentCustomer?.countryCode ?: "",
+                            MyUserManager.user?.currentCustomer?.mobileNo ?: ""
                         )
                     )
                 findNavController().navigate(action)
