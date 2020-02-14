@@ -72,7 +72,6 @@ class YapDashBoardViewModel(application: Application) :
 
     override fun getAccountInfo() {
         launch {
-            state.loading = true
             when (val response = customerRepository.getAccountInfo()) {
                 is RetroApiResponse.Success -> {
                     MyUserManager.user = response.data.data[0]
@@ -91,22 +90,6 @@ class YapDashBoardViewModel(application: Application) :
 
                 is RetroApiResponse.Error -> state.toast = response.error.message
             }
-            state.loading = false
-        }
-    }
-
-
-     fun getAccountInfo2() {
-        MyUserManager.user?.isDocumentsVerified?.let {
-            MoreActivity.showExpiredIcon =
-                it == "N"
-        }
-
-        Leanplum.setUserId(MyUserManager.user?.uuid)
-        getAccountInfoSuccess.value = true
-        populateState()
-        if (MyUserManager.user?.currentCustomer?.isEmailVerified.equals("N", true)) {
-            showUnverifedscreen.value = true
         }
     }
 

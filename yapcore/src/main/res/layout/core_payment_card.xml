@@ -5,16 +5,16 @@
     android:id="@+id/clRoot"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="@dimen/margin_extra_small"
-    android:background="@color/white"
-    android:elevation="@dimen/_5sdp"
-    app:cardCornerRadius="@dimen/_5sdp">
+    app:cardElevation="@dimen/_3sdp"
+    app:cardCornerRadius="@dimen/_8sdp"
+    android:layout_margin="@dimen/_8sdp"
+    app:cardUseCompatPadding="false">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/clMainContainer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="?attr/colorPrimaryDarkAttr">
+        android:background="@drawable/show_gradient">
 
         <ImageView
             android:id="@+id/ivChip"
