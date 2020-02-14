@@ -147,4 +147,7 @@ interface TransactionsRetroService {
     @GET(TransactionsRepository.URL_GET_TRANSACTION_THRESHOLDS)
     suspend fun getTransactionThresholds(): Response<TransactionThresholdResponseDTO>
 
+    @GET(TransactionsRepository.URL_GET_CUTT_OFF_TIME_CONFIGURATION)
+    suspend fun getCutOffTimeConfiguration(@Query("productCode") productCode: String?, @Query("currency") currency: String?): Response<CutOffTime>
+
 }

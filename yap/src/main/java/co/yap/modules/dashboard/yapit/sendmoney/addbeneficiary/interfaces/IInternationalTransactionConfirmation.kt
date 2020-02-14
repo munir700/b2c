@@ -27,6 +27,7 @@ interface IInternationalTransactionConfirmation {
         fun requestForTransfer()
         fun getTransactionThresholds()
         fun proceedToTransferAmount()
+        fun getCutOffTimeConfiguration()
     }
 
     interface State : IBase.State {
@@ -40,6 +41,7 @@ interface IInternationalTransactionConfirmation {
         var receivingAmountDescription: CharSequence?
         var transferFeeDescription: CharSequence?
         var beneficiaryCountry: String?
+        var cutOffTimeMsg: String?
         var args: InternationalTransactionConfirmationFragmentArgs?
 
     }

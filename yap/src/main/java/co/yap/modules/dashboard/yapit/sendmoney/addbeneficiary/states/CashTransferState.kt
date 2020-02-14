@@ -251,6 +251,12 @@ class CashTransferState(application: Application) : BaseState(), ICashTransfer.S
             field = value
             notifyPropertyChanged(BR.feeType)
         }
+    @get:Bindable
+    override var cutOffTimeMsg: String? = null
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.cutOffTimeMsg)
+        }
 
     @get:Bindable
     override val populateSpinnerData: MutableLiveData<List<InternationalFundsTransferReasonList.ReasonList>> =
