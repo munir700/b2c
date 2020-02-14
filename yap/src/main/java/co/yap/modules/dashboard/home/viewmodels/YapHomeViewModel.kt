@@ -229,7 +229,7 @@ class YapHomeViewModel(application: Application) :
 
     override fun getDebitCards() {
         launch {
-            state.loading = true
+//            state.loading = true
             when (val response = cardsRepository.getDebitCards("DEBIT")) {
                 is RetroApiResponse.Success -> {
                     response.data.data?.let { it ->
@@ -245,7 +245,7 @@ class YapHomeViewModel(application: Application) :
                 }
                 is RetroApiResponse.Error -> state.toast = response.error.message
             }
-            state.loading = false
+//            state.loading = false
         }
 
     }
