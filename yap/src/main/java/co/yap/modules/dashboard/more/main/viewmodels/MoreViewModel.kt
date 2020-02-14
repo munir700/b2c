@@ -13,6 +13,8 @@ class MoreViewModel(application: Application) :
 
     override val backButtonPressEvent: SingleLiveEvent<Boolean> = SingleLiveEvent()
     override var preventTakeDeviceScreenShot: MutableLiveData<Boolean> = MutableLiveData(false)
+    override var BadgeVisibility: Boolean=false
+    override val badgeButtonPressEvent: SingleLiveEvent<Boolean> = SingleLiveEvent()
     override val state: MoreStates = MoreStates()
 
     override fun handlePressOnBackButton() {
@@ -20,6 +22,11 @@ class MoreViewModel(application: Application) :
     }
 
     override fun handlePressOnTickButton() {
+
+    }
+
+    override fun handlePressOnBadge() {
+        badgeButtonPressEvent.value= true
 
     }
 }

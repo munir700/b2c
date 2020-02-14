@@ -1,5 +1,6 @@
 package co.yap.networking.transactions
 
+import co.yap.networking.transactions.responsedtos.achievement.AchievementsResponseDTO
 import co.yap.networking.models.ApiResponse
 import co.yap.networking.transactions.requestdtos.*
 import co.yap.networking.transactions.responsedtos.*
@@ -149,5 +150,8 @@ interface TransactionsRetroService {
 
     @GET(TransactionsRepository.URL_GET_CUTT_OFF_TIME_CONFIGURATION)
     suspend fun getCutOffTimeConfiguration(@Query("productCode") productCode: String?, @Query("currency") currency: String?): Response<CutOffTime>
+
+    @GET(TransactionsRepository.URL_GET_ACHIEVEMENTS)
+    suspend fun getAchievements(): Response<AchievementsResponseDTO>
 
 }

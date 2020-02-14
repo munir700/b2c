@@ -1,5 +1,6 @@
 package co.yap.networking.transactions
 
+import co.yap.networking.transactions.responsedtos.achievement.AchievementsResponseDTO
 import co.yap.networking.BaseRepository
 import co.yap.networking.RetroNetwork
 import co.yap.networking.models.ApiResponse
@@ -65,9 +66,10 @@ object TransactionsRepository : BaseRepository(), TransactionsApi {
         "/transactions/api/transaction-thresholds"
     const val URL_GET_CUTT_OFF_TIME_CONFIGURATION =
         "/transactions/api/cut-off-time-configuration"
+    const val URL_GET_ACHIEVEMENTS = "/transactions/api/yap-achievements"
+
     // Household
     const val URL_HOUSEHOLD_CARD_FEE_PACKAGE = "/transactions/api/fees/subscriptions/{pkg-type}"
-
 
     private val api: TransactionsRetroService =
         RetroNetwork.createService(TransactionsRetroService::class.java)
@@ -204,6 +206,9 @@ object TransactionsRepository : BaseRepository(), TransactionsApi {
 
     override suspend fun getTransactionThresholds(): RetroApiResponse<TransactionThresholdResponseDTO> =
         executeSafely(call = { api.getTransactionThresholds() })
+
+    override suspend fun getAchievements(): RetroApiResponse<AchievementsResponseDTO> =
+        executeSafely(call = { api.getAchievements() })
 
     override suspend fun getCutOffTimeConfiguration(productCode: String?, currency: String?) =
         executeSafely(call = { api.getCutOffTimeConfiguration(productCode, currency) })
