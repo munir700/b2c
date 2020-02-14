@@ -72,7 +72,7 @@ class AccountSelectionFragment : BaseBindingFragment<IAccountSelection.ViewModel
                 animatorSet?.cancel()
                 animatorSet = null
                 //captionsIndex = 0
-                layoutButtons.postDelayed({
+                tvCaption?.postDelayed({
                     captionsIndex = 0
                     playCaptionAnimation()
                 }, 1800)
@@ -81,7 +81,7 @@ class AccountSelectionFragment : BaseBindingFragment<IAccountSelection.ViewModel
             override fun onPlayerStateChanged(playWhenReady: Boolean, playbackState: Int) {
                 if (playbackState == Player.STATE_READY) {
                     captionsIndex = 0
-                    layoutButtons.postDelayed({
+                    tvCaption?.postDelayed({
                         playCaptionAnimation()
                     }, 1800)
                 }
@@ -98,52 +98,57 @@ class AccountSelectionFragment : BaseBindingFragment<IAccountSelection.ViewModel
                 .onStart { layoutButtons?.visibility = View.VISIBLE }.playOn(layoutButtons)
         }
     }
+    private val layoutButtonsRunnable = Runnable {
+        layoutButtons?.let {  playCaptionAnimation()}
+    }
 
     fun playCaptionAnimation() {
-        if (!isPaused && captionsIndex != -1) {
-            tvCaption?.text = captions[captionsIndex]
-            val fadeIn = ObjectAnimator.ofFloat(
-                tvCaption,
-                View.ALPHA,
-                0f, 1f
-            )
-            fadeIn.interpolator = DecelerateInterpolator() //add this
-            fadeIn.duration = 400
+        tvCaption?.let {
+            if (!isPaused && captionsIndex != -1) {
+                tvCaption?.text = captions[captionsIndex]
+                val fadeIn = ObjectAnimator.ofFloat(
+                    it,
+                    View.ALPHA,
+                    0f, 1f
+                )
+                fadeIn.interpolator = DecelerateInterpolator() //add this
+                fadeIn.duration = 400
 
-            val fadeOut = ObjectAnimator.ofFloat(
-                tvCaption,
-                View.ALPHA,
-                1f, 0f
-            )
-            fadeOut.interpolator = AccelerateInterpolator() //add this
-            fadeOut.duration = 400
-            fadeOut.startDelay = captionDelays[captionsIndex].toLong()
-            animatorSet = AnimatorSet()
-            animatorSet?.interpolator = AccelerateDecelerateInterpolator()
-            animatorSet?.playSequentially(fadeIn, fadeOut)
-            animatorSet?.addListener(object : Animator.AnimatorListener {
-                override fun onAnimationRepeat(animation: Animator?) {
-                }
-
-                override fun onAnimationEnd(animation: Animator?) {
-
-                    captionsIndex += 1
-                    if (captionsIndex < captions.size) {
-
-                        playCaptionAnimation()
+                val fadeOut = ObjectAnimator.ofFloat(
+                    it,
+                    View.ALPHA,
+                    1f, 0f
+                )
+                fadeOut.interpolator = AccelerateInterpolator() //add this
+                fadeOut.duration = 400
+                fadeOut.startDelay = captionDelays[captionsIndex].toLong()
+                animatorSet = AnimatorSet()
+                animatorSet?.interpolator = AccelerateDecelerateInterpolator()
+                animatorSet?.playSequentially(fadeIn, fadeOut)
+                animatorSet?.addListener(object : Animator.AnimatorListener {
+                    override fun onAnimationRepeat(animation: Animator?) {
                     }
-                }
 
-                override fun onAnimationCancel(animation: Animator?) {
-                    captionsIndex = 0
-                }
+                    override fun onAnimationEnd(animation: Animator?) {
 
-                override fun onAnimationStart(animation: Animator?) {
-                    tvCaption?.visibility = View.VISIBLE
+                        captionsIndex += 1
+                        if (captionsIndex < captions.size) {
 
-                }
-            })
-            animatorSet?.start()
+                            playCaptionAnimation()
+                        }
+                    }
+
+                    override fun onAnimationCancel(animation: Animator?) {
+                        captionsIndex = 0
+                    }
+
+                    override fun onAnimationStart(animation: Animator?) {
+                        tvCaption?.visibility = View.VISIBLE
+
+                    }
+                })
+                animatorSet?.start()
+            }
         }
     }
 

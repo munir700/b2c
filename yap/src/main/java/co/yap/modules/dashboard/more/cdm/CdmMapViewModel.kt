@@ -30,6 +30,7 @@ class CdmMapViewModel(application: Application) : BaseViewModel<ICdmMap.State>(a
             field = value
             mMap?.run {
                 isMyLocationEnabled = true
+                uiSettings.isMyLocationButtonEnabled = false
                 if (moveCameraToCurrentLocation)
                     animateMapToLocation(LatLng(value?.latitude!!, value.longitude))
 
@@ -43,15 +44,15 @@ class CdmMapViewModel(application: Application) : BaseViewModel<ICdmMap.State>(a
                 mMap?.run {
                     isIndoorEnabled = false
                     isBuildingsEnabled = true
-                    isTrafficEnabled = true
+                    isTrafficEnabled = false
                     uiSettings.isZoomControlsEnabled = false
                     uiSettings.isCompassEnabled = true
                     uiSettings.isMapToolbarEnabled = true
-                    uiSettings.setAllGesturesEnabled(true)
                     uiSettings.isMyLocationButtonEnabled = false
-                    mMap?.setOnMyLocationButtonClickListener {
-                        true
-                    }
+                    uiSettings.setAllGesturesEnabled(true)
+//                    mMap?.setOnMyLocationButtonClickListener {
+//                        false
+//                    }
                 }
 
             }

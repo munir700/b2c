@@ -87,8 +87,6 @@
     </declare-styleable>
 
 
-    
-
     <!-- Font Awesome attr-->
     <declare-styleable name="FontTextView">
         <attr name="brand_icon" format="boolean" />
@@ -440,6 +438,7 @@
             <enum name="loading" value="3" />
         </attr>
         <attr name="msv_animateViewChanges" format="boolean" />
+        <attr name="msv_animateViewChangesDuration" format="integer|reference" />
     </declare-styleable>
 
     <declare-styleable name="AspectRatioImageView">

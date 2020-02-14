@@ -40,6 +40,11 @@ class CdmMapFragment : LocationCheckFragment<ICdmMap.ViewModel>(), ICdmMap.View,
         initMap()
         viewModel.state.stateLiveData.observe(this, Observer { handleState(it) })
         viewModel.clickEvent.observe(this, Observer { handleClickEvent(it) })
+        multiStateView.setOnReloadListener(object : MultiStateView.OnReloadListener {
+            override fun onReload(view: View) {
+                viewModel.getCardsAtmCdm()
+            }
+        })
 
     }
 
