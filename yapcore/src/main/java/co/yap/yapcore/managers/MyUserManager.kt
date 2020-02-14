@@ -12,6 +12,7 @@ import co.yap.networking.customers.responsedtos.AccountInfo
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
 import co.yap.yapcore.enums.CardType
+import co.yap.yapcore.enums.EIDStatus
 import co.yap.yapcore.helpers.AuthUtils
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -23,6 +24,7 @@ object MyUserManager : IRepositoryHolder<CardsRepository> {
     var userAddress: Address? = null
     var cardBalance: MutableLiveData<CardBalance> = MutableLiveData()
     var cards: MutableLiveData<Card> = MutableLiveData()
+    var eidStatus: EIDStatus = EIDStatus.NOT_SET
     var addressPhotoUrl: Bitmap? = null
 
     fun updateCardBalance() {

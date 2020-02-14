@@ -7,6 +7,7 @@ import co.yap.modules.dashboard.more.main.viewmodels.MoreBaseViewModel
 import co.yap.modules.dashboard.more.profile.intefaces.IPersonalDetail
 import co.yap.modules.dashboard.more.profile.states.PersonalDetailState
 import co.yap.networking.cards.CardsRepository
+import co.yap.networking.cards.requestdtos.OrderCardRequest
 import co.yap.networking.cards.requestdtos.UpdateAddressRequest
 import co.yap.networking.cards.responsedtos.Address
 import co.yap.networking.interfaces.IRepositoryHolder
@@ -14,6 +15,7 @@ import co.yap.networking.models.RetroApiResponse
 import co.yap.translation.Strings
 import co.yap.translation.Translator
 import co.yap.yapcore.SingleClickEvent
+import co.yap.yapcore.enums.EIDStatus
 import co.yap.yapcore.managers.MyUserManager
 
 class PersonalDetailsViewModel(application: Application) :
@@ -22,6 +24,7 @@ class PersonalDetailsViewModel(application: Application) :
 
     override var UPDATE_ADDRESS_UI: Int = 10
     override var onUpdateAddressSuccess: MutableLiveData<Boolean> = MutableLiveData(false)
+    override val orderCardSuccess: MutableLiveData<Boolean> = MutableLiveData()
 
     override val repository: CardsRepository = CardsRepository
     var address: Address? = null
@@ -132,29 +135,70 @@ class PersonalDetailsViewModel(application: Application) :
         }
     }
 
-    private fun setUpVerificationLayout() {
-        if (MyUserManager.user?.isDocumentsVerified.equals("Y", true)) {
-            state.drawbleRight =
-                context.resources.getDrawable(co.yap.yapcore.R.drawable.ic_tick_enabled)
-            state.verificationText = Translator.getString(
-                context,
-                Strings.screen_personal_detail_display_text_verification_completed
+    override fun requestOrderCard(address: Address?) {
+        address?.let {
+            val orderCardRequest = OrderCardRequest(
+                it.address1,
+                "",
+                it.address1,
+                it.address2,
+                it.latitude,
+                it.longitude,
+                "UAE", "Dubai"
             )
-        } else {
-            state.drawbleRight =
-                context.resources.getDrawable(R.drawable.ic_doc_error)
-            if (MyUserManager.user?.isDocumentsVerified.equals("Y", true)) { // third condition here
-                state.verificationText = Translator.getString(
-                    context,
-                    Strings.screen_personal_detail_display_text_verification_required
-                )
-            } else {
-                state.verificationText = Translator.getString(
-                    context,
-                    Strings.screen_personal_detail_display_text_verification_expired
-                )
-            }
+            launch {
+                state.loading = true
+                when (val response = repository.orderCard(orderCardRequest)) {
+                    is RetroApiResponse.Success -> {
+                        orderCardSuccess.value = true
+                        state.loading = false
+                    }
 
+                    is RetroApiResponse.Error -> {
+                        state.loading = false
+                        orderCardSuccess.value = false
+                        state.toast = response.error.message
+//
+                    }
+                }
+            }
         }
     }
+
+    private fun setUpVerificationLayout() {
+
+        when (MyUserManager.eidStatus) {
+            EIDStatus.EXPIRED -> populateExpiredDocumentData()
+            EIDStatus.VALID -> populateVerifiedDocumentData()
+            EIDStatus.NOT_SET -> populateRequiredDocumentData()
+        }
+    }
+
+    private fun populateVerifiedDocumentData() {
+        state.drawbleRight =
+            context.resources.getDrawable(co.yap.yapcore.R.drawable.ic_tick_enabled)
+        state.verificationText = Translator.getString(
+            context,
+            Strings.screen_personal_detail_display_text_verification_completed
+        )
+    }
+
+    private fun populateExpiredDocumentData() {
+        state.drawbleRight =
+            context.resources.getDrawable(R.drawable.ic_doc_error)
+        state.verificationText = Translator.getString(
+            context,
+            Strings.screen_personal_detail_display_text_verification_expired
+        )
+    }
+
+    private fun populateRequiredDocumentData() {
+        state.drawbleRight =
+            context.resources.getDrawable(R.drawable.ic_doc_error)
+        state.verificationText = Translator.getString(
+            context,
+            Strings.screen_personal_detail_display_text_verification_required
+        )
+    }
+
 }

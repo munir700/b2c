@@ -294,9 +294,4 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
         })
 
     }
-
-    override fun onBackPressed(): Boolean {
-        return super.onBackPressed()
-    }
-
 }

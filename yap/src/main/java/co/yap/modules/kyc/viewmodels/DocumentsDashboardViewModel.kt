@@ -17,5 +17,5 @@ class DocumentsDashboardViewModel(application: Application) :
     override var paths: ArrayList<String> = arrayListOf()
     override var name: MutableLiveData<String> = MutableLiveData("")
     override var skipFirstScreen: MutableLiveData<Boolean> = MutableLiveData(false)
-    override var finishKyc: MutableLiveData<DocumentsResponse> = MutableLiveData(DocumentsResponse())
+    override var finishKyc: MutableLiveData<DocumentsResponse> = MutableLiveData()
 }

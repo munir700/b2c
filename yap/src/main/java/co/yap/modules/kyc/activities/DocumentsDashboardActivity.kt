@@ -47,6 +47,11 @@ class DocumentsDashboardActivity : BaseBindingActivity<IDocumentsDashboard.ViewM
                     success = true,
                     skippedPress = false
                 )
+            else
+                goToDashBoard(
+                    success = false,
+                    skippedPress = true
+                )
         })
     }
 

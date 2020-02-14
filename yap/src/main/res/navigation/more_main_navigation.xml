@@ -92,11 +92,19 @@
             app:exitAnim="@anim/slide_out_left"
             app:popUpToInclusive="true"
             app:destination="@id/successFragment" />
+        <action
+            android:id="@+id/action_personalDetailsFragment_to_yapDashboardActivity"
+            app:destination="@id/yapDashboardActivity" />
     </fragment>
     <include app:graph="@navigation/change_email_navigation" />
     <include app:graph="@navigation/change_phone_number_navigation" />
     <include app:graph="@navigation/change_pascode_navigation" />
 
+    <activity
+        android:id="@+id/yapDashboardActivity"
+        android:name="co.yap.modules.dashboard.main.activities.YapDashboardActivity"
+        android:label="YapDashboardActivity"
+        tools:layout="@layout/activity_yap_dashboard" />
     <activity
         android:id="@+id/documentsDashboardActivity"
         android:name="co.yap.modules.kyc.activities.DocumentsDashboardActivity"

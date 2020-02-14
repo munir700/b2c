@@ -12,11 +12,11 @@ import co.yap.modules.dashboard.more.profile.intefaces.IProfile
 import co.yap.modules.dashboard.more.profile.states.ProfileStates
 import co.yap.networking.authentication.AuthRepository
 import co.yap.networking.customers.CustomersRepository
-import co.yap.networking.customers.responsedtos.documents.GetMoreDocumentsResponse
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.constants.Constants.KEY_APP_UUID
+import co.yap.yapcore.enums.EIDStatus
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.managers.MyUserManager
 import com.bumptech.glide.Glide
@@ -36,7 +36,6 @@ class ProfileSettingsViewModel(application: Application) :
 
     override var PROFILE_PICTURE_UPLOADED: Int = 100
     override var EVENT_LOGOUT_SUCCESS: Int = 101
-    override lateinit var data: GetMoreDocumentsResponse
     override val authRepository: AuthRepository = AuthRepository
     override val repository: CustomersRepository = CustomersRepository
     private val sharedPreferenceManager = SharedPreferenceManager(application)
@@ -204,25 +203,25 @@ class ProfileSettingsViewModel(application: Application) :
     }
 
     override fun requestProfileDocumentsInformation() {
-
         launch {
             when (val response = repository.getMoreDocumentsByType("EMIRATES_ID")) {
                 is RetroApiResponse.Success -> {
-                    data = response.data
-                    data.data.dateExpiry?.let {
+                    val data = response.data
+                    data.data?.dateExpiry?.let {
                         getExpiryDate(it)
                     }
                 }
 
                 is RetroApiResponse.Error -> {
-                    MyUserManager.user?.isDocumentsVerified = "N"
+                    if (response.error.statusCode == 400 || response.error.actualCode == "1073")
+                        state.isShowErrorIcon.set(true)
+                        MyUserManager.eidStatus = EIDStatus.NOT_SET  //set the document is required if not found
                 }
             }
         }
     }
 
     private fun getExpiryDate(expiryDateString: String) {
-
         val simpleDateFormat = SimpleDateFormat("yyyy-MM-dd")
         val expireyDate = simpleDateFormat.parse(expiryDateString)
         val cal = Calendar.getInstance()
@@ -230,11 +229,8 @@ class ProfileSettingsViewModel(application: Application) :
 
         val prevDay = simpleDateFormat.format(cal.time)
         val previousDayDate = simpleDateFormat.parse(prevDay)
-
-        if (expireyDate > previousDayDate) {
-            MyUserManager.user?.isDocumentsVerified = "Y"
-        } else {
-            MyUserManager.user?.isDocumentsVerified = "N"
-        }
+        state.isShowErrorIcon.set(expireyDate < previousDayDate)
+        MyUserManager.eidStatus =
+            if (expireyDate < previousDayDate) EIDStatus.EXPIRED else EIDStatus.VALID
     }
 }

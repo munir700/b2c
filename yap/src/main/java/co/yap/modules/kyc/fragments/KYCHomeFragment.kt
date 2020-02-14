@@ -20,7 +20,7 @@ import com.digitify.identityscanner.docscanner.enums.DocumentType
 
 class KYCHomeFragment : KYCChildFragment<IKYCHome.ViewModel>(), IKYCHome.View {
 
-    override fun getBindingVariable(): Int = BR.viewModel
+    override fun getBindingVariable(): Int = co.yap.yapcore.BR.viewModel
 
     override fun getLayoutId(): Int = R.layout.fragment_kyc_home
 
@@ -44,6 +44,7 @@ class KYCHomeFragment : KYCChildFragment<IKYCHome.ViewModel>(), IKYCHome.View {
                 }
 
                 R.id.tvSkip -> {
+                    //on skip move user to
                     viewModel.parentViewModel?.finishKyc?.value = DocumentsResponse(false)
                     trackEvent(TrackEvents.CLICKS_ON_SKIP_TO_DASHBOARD)
                 }

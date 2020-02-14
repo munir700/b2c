@@ -60,7 +60,7 @@ class AccountInfo(
     @SerializedName("iban")
     var iban: String? = null,
     @SerializedName("documentsVerified")
-    var documentsVerified: Boolean? = false,
-    @SerializedName("isDocumentsVerified")
-    var isDocumentsVerified: String? = null
+    var documentsVerified: Boolean? = false
+
+
 ) : Parcelable
