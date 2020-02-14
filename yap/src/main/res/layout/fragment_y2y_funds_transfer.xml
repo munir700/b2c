@@ -116,15 +116,27 @@
                     tools:text="0.00" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
+            <TextView
+                android:id="@+id/tvFee"
+                style="@style/MicroGrey"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_medium_large"
+                android:text="@{viewModel.state.transferFee}"
+                app:layout_constraintBottom_toTopOf="@+id/clAvailableAmount"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/etAmountLayout"
+                tools:text="Fee: AED 500" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/clAvailableAmount"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
-                android:layout_marginTop="@dimen/margin_medium_large"
+                android:layout_marginTop="@dimen/margin_extra_small"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/etAmountLayout">
+                app:layout_constraintTop_toBottomOf="@+id/tvFee">
 
                 <TextView
                     android:id="@+id/tvAvailableBalanceGuide"
@@ -148,18 +160,6 @@
                     tools:text="AED 500" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <TextView
-                android:id="@+id/tvFee"
-                style="@style/MicroGrey"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_extra_small"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                android:text="@{viewModel.state.transferFee}"
-                app:layout_constraintTop_toBottomOf="@+id/clAvailableAmount"
-                tools:text="Fee: AED 500" />
-
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/etNote"
                 android:layout_width="match_parent"
@@ -171,7 +171,7 @@
                 android:singleLine="true"
                 android:text="@={viewModel.state.noteValue}"
                 app:hint="@{Strings.screen_y2y_funds_transfer_display_text_note_placeholder}"
-                app:layout_constraintTop_toBottomOf="@+id/tvFee"
+                app:layout_constraintTop_toBottomOf="@+id/clAvailableAmount"
                 tools:hint="Type a note here" />
 
             <co.yap.widgets.CoreButton

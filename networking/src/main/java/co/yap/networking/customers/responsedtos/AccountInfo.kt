@@ -62,8 +62,6 @@ class AccountInfo(
     var soleProprietary: Boolean,
     @SerializedName("iban")
     var iban: String? = null,
-    @SerializedName("ibdocumentsVerifiedan")
-    var ibdocumentsVerifiedan: Boolean?=false,
     @SerializedName("documentsVerified")
     var documentsVerified: Boolean?=false,
     @SerializedName("isDocumentsVerified")

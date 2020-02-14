@@ -1,6 +1,8 @@
 package co.yap.networking.cards.requestdtos
 
+import com.google.gson.annotations.SerializedName
+
 
 data class CreateCardPinRequest(
-    val newPin: String
+    @SerializedName("newPin") val newPin: String
 )

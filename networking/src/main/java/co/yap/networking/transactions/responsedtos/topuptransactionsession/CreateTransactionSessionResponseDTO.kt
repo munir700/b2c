@@ -1,7 +1,7 @@
 package co.yap.networking.transactions.responsedtos.topuptransactionsession
 
 import co.yap.networking.models.ApiResponse
-import co.yap.networking.transactions.responsedtos.topuptransactionsession.CreateSessionResponseObject
+import com.google.gson.annotations.SerializedName
 
-data class CreateTransactionSessionResponseDTO(val data: CreateSessionResponseObject) :
+data class CreateTransactionSessionResponseDTO(@SerializedName("data") val data: CreateSessionResponseObject) :
     ApiResponse()

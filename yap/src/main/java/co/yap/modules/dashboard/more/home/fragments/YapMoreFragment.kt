@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.text.SpannableString
 import android.view.View
 import androidx.core.content.ContextCompat
+import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
@@ -120,7 +121,13 @@ class YapMoreFragment : YapDashboardChildFragment<IMoreHome.ViewModel>(), IMoreH
                         //openMaps()
                     }
                     Constants.MORE_INVITE_FRIEND -> {
-                        Utils.showComingSoon(requireContext())
+                        startFragment(
+                            InviteFriendFragment::class.java.name, false,
+                            bundleOf(
+
+                            )
+                        )
+
                     }
                     Constants.MORE_HELP_SUPPORT -> {
                         startActivity(

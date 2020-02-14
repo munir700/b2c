@@ -27,6 +27,7 @@ import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.toast
 import co.yap.yapcore.managers.MyUserManager
 import kotlinx.android.synthetic.main.fragment_international_funds_transfer.*
+import kotlin.math.abs
 
 
 class InternationalFundsTransferFragment :
@@ -201,7 +202,7 @@ class InternationalFundsTransferFragment :
             it.dailyLimit?.let { dailyLimit ->
                 it.totalDebitAmount?.let { totalConsumedAmount ->
                     viewModel.state.totalTransferAmount.get()?.let { enteredAmount ->
-                        val remainingDailyLimit = dailyLimit - totalConsumedAmount
+                        val remainingDailyLimit = abs(dailyLimit - totalConsumedAmount)
                         viewModel.state.errorDescription =
                             getString(Strings.common_display_text_daily_limit_error).format(
                                 dailyLimit,

@@ -1,6 +1,6 @@
 package co.yap.networking.transactions.responsedtos.topuptransactionsession
 
-import co.yap.networking.transactions.responsedtos.topuptransactionsession.AuthenticationRedirect
+import com.google.gson.annotations.SerializedName
 
-data class Enrollment3DSecure(val authenticationRedirect: AuthenticationRedirect) {
+data class Enrollment3DSecure(@SerializedName("authenticationRedirect") val authenticationRedirect: AuthenticationRedirect) {
 }

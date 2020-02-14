@@ -1,7 +1,6 @@
 package co.yap.yapcore.managers
 
 import android.content.Context
-import android.graphics.Bitmap
 import androidx.lifecycle.MutableLiveData
 import co.yap.app.YAPApplication
 import co.yap.networking.cards.CardsRepository
@@ -23,7 +22,6 @@ object MyUserManager : IRepositoryHolder<CardsRepository> {
     var userAddress: Address? = null
     var cardBalance: MutableLiveData<CardBalance> = MutableLiveData()
     var cards: MutableLiveData<Card> = MutableLiveData()
-    var addressPhotoUrl: Bitmap? = null
 
     fun updateCardBalance() {
         getAccountBalanceRequest()

@@ -63,7 +63,7 @@
         <attr name="view_max_length" format="integer" />
         <attr name="view_id" format="integer" />
         <attr name="view_plain_background" format="boolean" />
-
+        <attr name="showKeyboard" format="boolean" />
         <attr name="view_input_text_imei_actions" format="enum">
             <enum name="IME_ACTION_DONE" value="1" />
             <enum name="IME_ACTION_NEXT" value="2" />
@@ -457,8 +457,8 @@
         <attr name="hide_otp" format="boolean" />
         <attr name="hide_otp_drawable" format="reference" />
         <attr name="length" format="integer" />
-        <attr name="width" format="dimension" />
-        <attr name="height" format="dimension" />
+        <attr name="custom_width" format="dimension" />
+        <attr name="custom_height" format="dimension" />
         <attr name="box_margin" format="dimension" />
         <attr name="box_margin_left" format="dimension" />
         <attr name="box_margin_right" format="dimension" />
@@ -483,5 +483,25 @@
         <attr name="bar_success_color" format="color" />
         <attr name="text_typeface" format="string" />
     </declare-styleable>
+
+    <declare-styleable name="AndExoPlayerView">
+        <attr name="andexo_resize_mode" />
+        <attr name="andexo_aspect_ratio" />
+        <attr name="andexo_play_when_ready" format="boolean" />/>
+    </declare-styleable>
+
+    <attr name="andexo_resize_mode" format="enum">
+        <enum name="Fit" value="1" />
+        <enum name="Fill" value="2" />
+        <enum name="Zoom" value="3" />
+    </attr>
+
+    <attr name="andexo_aspect_ratio" format="enum">
+        <enum name="aspect_1_1" value="1" />
+        <enum name="aspect_16_9" value="2" />
+        <enum name="aspect_4_3" value="3" />
+        <enum name="aspect_match" value="4" />
+        <enum name="aspect_mp3" value="5" />
+    </attr>
 
 </resources>

@@ -8,20 +8,21 @@ import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.os.CountDownTimer
 import android.view.Gravity
 import android.view.View
 import android.view.Window
 import android.widget.ImageView
-import android.widget.TextView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.viewpager2.widget.ViewPager2
 import co.yap.BR
 import co.yap.R
 import co.yap.databinding.ActivityPaymentCardDetailBinding
+import co.yap.modules.dashboard.cards.paymentcarddetail.activities.carddetaildialog.CardDetailsDialogPagerAdapter
+import co.yap.modules.dashboard.cards.paymentcarddetail.activities.carddetaildialog.CardDetailsModel
 import co.yap.modules.dashboard.cards.paymentcarddetail.addfunds.activities.AddFundsActivity
 import co.yap.modules.dashboard.cards.paymentcarddetail.forgotcardpin.activities.ForgotCardPinActivity
 import co.yap.modules.dashboard.cards.paymentcarddetail.fragments.CardClickListener
@@ -43,7 +44,6 @@ import co.yap.modules.others.helper.Constants
 import co.yap.networking.cards.responsedtos.Card
 import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionListData
 import co.yap.translation.Strings
-import co.yap.translation.Translator
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.enums.CardStatus
@@ -56,6 +56,7 @@ import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.MyUserManager
 import com.ezaka.customer.app.utils.toCamelCase
 import com.google.android.material.snackbar.Snackbar
+import com.tbuonomo.viewpagerdotsindicator.WormDotsIndicator
 import kotlinx.android.synthetic.main.activity_payment_card_detail.*
 import kotlinx.android.synthetic.main.layout_card_info.*
 
@@ -91,9 +92,7 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        mNavigator = (this?.applicationContext as NavigatorProvider).provideNavigator()
-
-
+        mNavigator = (this.applicationContext as NavigatorProvider).provideNavigator()
         setUpTransactionsListRecyclerView()
         setObservers()
         setupView()
@@ -102,7 +101,6 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
     private fun getBindings(): ActivityPaymentCardDetailBinding {
         return viewDataBinding as ActivityPaymentCardDetailBinding
     }
-
 
     override fun setObservers() {
         viewModel.clickEvent.observe(this, clickObserver)
@@ -176,35 +174,6 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
             }
         })
 
-        ///
-
-//        viewModel.transactionsLiveData.observe(this, Observer {
-//            tvNoTransaction.visibility = if (it.isEmpty()) View.VISIBLE else View.GONE
-//            if (viewModel.isLoadMore.value!!) {
-//                getRecycleViewAdaptor().setList(it)
-//            } else {
-//                getRecycleViewAdaptor().setList(it)
-//            }
-//        })
-//
-//        getRecycleViewAdaptor().setItemListener(listener)
-//        rvTransaction.addOnScrollListener(object :
-//            RecyclerView.OnScrollListener() {
-//            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-//                super.onScrolled(recyclerView, dx, dy);
-//                val layoutManager =
-//                    rvTransaction.layoutManager as LinearLayoutManager
-//                val lastVisiblePosition = layoutManager.findLastVisibleItemPosition()
-//                if (lastVisiblePosition == layoutManager.itemCount - 1) {
-//                    if (!viewModel.isLoadMore.value!!) {
-//                        viewModel.isLoadMore.value = true
-//                        viewModel.cardTransactionRequest.number =
-//                            viewModel.cardTransactionRequest.number + 1
-//                        viewModel.loadMore()
-//                    }
-//                }
-//            }
-//        })
     }
 
     private val clickObserver = Observer<Int> {
@@ -256,15 +225,17 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
                 )
             }
             R.id.rlFilter -> {
-                if (viewModel.state.isTxnsEmpty.get() == false || viewModel.state.filterCount.get() ?: 0 > 0)
-                    startActivityForResult(
-                        TransactionFiltersActivity.newIntent(
-                            this,
-                            viewModel.transactionFilters
-                        ),
-                        RequestCodes.REQUEST_TXN_FILTER
-                    )
+                if (viewModel.state.isTxnsEmpty.get() == false) {
+                    openTransactionFilters()
+                } else {
+                    if (viewModel.state.filterCount.get() ?: 0 > 0) {
+                        openTransactionFilters()
+                    } else {
+                        return@Observer
+                    }
+                }
             }
+
             viewModel.EVENT_FREEZE_UNFREEZE_CARD -> {
                 cardFreezeUnfreeze = true
                 viewModel.card.value?.blocked = viewModel.card.value?.blocked != true
@@ -283,6 +254,16 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
                 finish()
             }
         }
+    }
+
+    private fun openTransactionFilters() {
+        startActivityForResult(
+            TransactionFiltersActivity.newIntent(
+                this,
+                viewModel.transactionFilters
+            ),
+            RequestCodes.REQUEST_TXN_FILTER
+        )
     }
 
     val listener = object : OnItemClickListener {
@@ -361,7 +342,6 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
                     actionText = underline(getString(Strings.screen_cards_display_text_freeze_card_action)),
                     clickListener = View.OnClickListener { viewModel.freezeUnfreezeCard() }
                 )
-                //showSnackbar()
                 if (Constants.CARD_TYPE_DEBIT == viewModel.state.cardType) {
                     tvPrimaryCardStatus.text = "Unfreeze card"
                 } else {
@@ -369,7 +349,6 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
                 }
             } else {
                 cancelAllSnackBar()
-                //dismissSnackbar()
                 if (Constants.CARD_TYPE_DEBIT == viewModel.state.cardType) {
                     tvPrimaryCardStatus.text = "Freeze card"
                 } else {
@@ -377,23 +356,6 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
                 }
             }
         }
-    }
-
-    private fun showSnackbar() {
-//        if (snackbar?.isShown != true) {
-//            snackbar = window.decorView.getCustomSnackbarSticky(
-//                clSnackbar,
-//                getString(Strings.screen_cards_display_text_freeze_card),
-//                getString(Strings.screen_cards_display_text_freeze_card_action)
-//            )
-//
-//            snackbar?.show()
-//
-//            val tvAction = snackbar?.view?.findViewById(co.yap.yapcore.R.id.tvAction) as TextView
-//            tvAction.setOnClickListener {
-//                viewModel.freezeUnfreezeCard()
-//            }
-//        }
     }
 
     private fun showLostStolenSnackbar() {
@@ -406,16 +368,6 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
             actionText = underline(getString(Strings.screen_cards_display_text_lost_stolen_card_action)),
             clickListener = View.OnClickListener { startReorderCardFlow() }
         )
-//        snackbar = window.decorView.getCustomSnackbarSticky(
-//            clSnackbar,
-//            getString(Strings.screen_cards_display_text_lost_stolen_card),
-//            getString(Strings.screen_cards_display_text_lost_stolen_card_action)
-//        )
-//        snackbar?.show()
-//        val tvAction = snackbar?.view?.findViewById(co.yap.yapcore.R.id.tvAction) as TextView
-//        tvAction.setOnClickListener {
-//            startReorderCardFlow()
-//        }
     }
 
     override fun onClick(eventType: Int) {
@@ -577,22 +529,14 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
         dialog.setContentView(R.layout.dialog_card_details)
         dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         val btnClose = dialog.findViewById(R.id.ivCross) as ImageView
-        val tvCardNumber = dialog.findViewById(R.id.tvCardNumberValue) as TextView
-        val tvCardValidity = dialog.findViewById(R.id.tvCardValidityValue) as TextView
-        val tvCvvV = dialog.findViewById(R.id.tvCvvValue) as TextView
-        val tvCardType = dialog.findViewById(R.id.tvCardType) as TextView
-        val tvTimer = dialog.findViewById(R.id.tvTimer) as TextView
-        tvCardValidity.text = viewModel.cardDetail.expiryDate
-        tvCvvV.text = viewModel.cardDetail.cvv
-        var cdTimer = ("15")
-
+        var cardType = ""
         if (null != viewModel.cardDetail.cardNumber) {
             if (viewModel.cardDetail.cardNumber?.trim()?.contains(" ")!!) {
                 tvCardNumber.text = viewModel.cardDetail.cardNumber
             } else {
                 if (viewModel.cardDetail.cardNumber?.length == 16) {
                     val formattedCardNumber: StringBuilder =
-                        StringBuilder(viewModel.cardDetail.cardNumber)
+                        StringBuilder(viewModel.cardDetail.cardNumber ?: "")
                     formattedCardNumber.insert(4, " ")
                     formattedCardNumber.insert(9, " ")
                     formattedCardNumber.insert(14, " ")
@@ -602,43 +546,45 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
         }
 
         if (Constants.CARD_TYPE_DEBIT == viewModel.state.cardType) {
-            tvCardType.text = "Primary card"
+            cardType = "Primary card"
         } else {
             if (viewModel.card.value?.nameUpdated!!) {
-                tvCardType.text = viewModel.card.value?.cardName!!
+                cardType = viewModel.card.value?.cardName!!
             } else {
                 if (viewModel.card.value?.physical!!) {
-                    tvCardType.text = Constants.TEXT_SPARE_CARD_PHYSICAL
+                    cardType = Constants.TEXT_SPARE_CARD_PHYSICAL
                 } else {
-                    tvCardType.text = Constants.TEXT_SPARE_CARD_VIRTUAL
+                    cardType = Constants.TEXT_SPARE_CARD_VIRTUAL
                 }
             }
         }
-        val timer = object : CountDownTimer(16000, 1000) {
-            override fun onTick(millisUntilFinished: Long) {
-
-                cdTimer = (millisUntilFinished / 1000).toString()
-                tvTimer.text = Translator.getString(
-                    tvTimer.context,
-                    Strings.screen_card_detail_alert_text_disappears,
-                    cdTimer
-                )
-
-            }
-
-            override fun onFinish() {
-                dialog.dismiss()
-            }
-        }
-
 
         btnClose.setOnClickListener {
-            timer.cancel()
             dialog.dismiss()
         }
+        val indicator = dialog.findViewById<WormDotsIndicator>(R.id.worm_dots_indicator)
+        val viewPager = dialog.findViewById<ViewPager2>(R.id.cardsPager)
+        val pagerList = mutableListOf<CardDetailsModel>()
+        pagerList.add(
+            CardDetailsModel(
+                cardExpiry = viewModel.cardDetail.expiryDate,
+                cardType = cardType,
+                cardNumber = viewModel.cardDetail.cardNumber, cardCvv = viewModel.cardDetail.cvv
+            )
+        )
+        pagerList.add(
+            CardDetailsModel(
+                cardExpiry = viewModel.cardDetail.expiryDate,
+                cardType = cardType,
+                cardNumber = viewModel.cardDetail.cardNumber, cardCvv = viewModel.cardDetail.cvv
+            )
+        )
+        val cardDetailsPagerAdapter = CardDetailsDialogPagerAdapter(pagerList)
+        viewPager?.adapter = cardDetailsPagerAdapter
+        indicator?.setViewPager2(viewPager)
         dialog.show()
-        timer.start()
     }
+
 
     private fun setUpTransactionsListRecyclerView() {
         rvTransaction.setHasFixedSize(true)
@@ -718,4 +664,5 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
         val dialog: AlertDialog = builder.create()
         dialog.show()
     }
+
 }

@@ -16,116 +16,102 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/white"
+        android:keepScreenOn="true"
         android:orientation="vertical"
-        android:paddingTop="@dimen/margin_medium"
         tools:context="co.yap.app.activities.MainActivity">
 
-
-        <ImageView
-            android:id="@+id/ivLogo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="@dimen/margin_medium_large"
-            android:layout_marginEnd="8dp"
-            android:layout_marginBottom="8dp"
-            app:layout_constraintBottom_toTopOf="@+id/tvTagLine"
+        <co.yap.widgets.video.AndExoPlayerView
+            android:id="@+id/andExoPlayerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:andexo_aspect_ratio="aspect_match"
+            app:andexo_play_when_ready="true"
+            app:andexo_resize_mode="Zoom"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/logo" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/tvTagLine"
-            style="@style/ARegularGrey"
-            android:layout_width="match_parent"
+            android:id="@+id/tvCaption"
+            style="@style/AppFontBold"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_medium"
+            android:layout_marginBottom="@dimen/margin_large"
             android:gravity="center"
-            app:layout_constraintTop_toBottomOf="@+id/ivLogo"
-            app:text="@{Strings.screen_home_display_text_tag_line}" />
-
-        <ImageView
-            android:id="@+id/ivOnboarding"
-            android:layout_width="360dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_medium_large"
-            android:layout_marginBottom="8dp"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size_h2"
             app:layout_constraintBottom_toTopOf="@+id/layoutButtons"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.49"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvTagLine"
-            app:srcCompat="@drawable/group"
-            tools:ignore="MissingConstraints" />
+            tools:text="@string/screen_home_display_text_sign_in_title" />
 
 
-        <LinearLayout
+        <androidx.appcompat.widget.LinearLayoutCompat
             android:id="@+id/layoutButtons"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:gravity="center"
-            android:orientation="horizontal"
-            android:weightSum="1"
-            app:layout_constraintBottom_toTopOf="@+id/relativeLayout"
+            android:orientation="vertical"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             tools:ignore="MissingConstraints">
+
 
             <co.yap.widgets.CoreButton
                 android:id="@+id/btnPersonal"
                 style="@style/RectangleBtnStyle"
                 android:layout_width="@dimen/_196sdp"
-                android:layout_height="@dimen/_52sdp"
+                android:layout_height="@dimen/_38sdp"
                 android:layout_marginEnd="@dimen/_6sdp"
                 android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
                 android:paddingTop="@dimen/margin_normal_large"
-                android:paddingEnd="@dimen/margin_extra_large"
-                android:paddingBottom="@dimen/margin_normal_large"
                 android:textStyle="bold"
                 app:btn_enable="true"
                 app:text="@{Strings.screen_welcome_button_get_started}" />
 
-        </LinearLayout>
 
-        <RelativeLayout
+            <RelativeLayout
 
-            android:id="@+id/relativeLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            app:layout_constraintBottom_toBottomOf="parent">
-
-            <TextView
-                android:id="@+id/tvDisplayTextSignIn"
-                style="@style/ASmallGrey"
-                android:layout_width="wrap_content"
+                android:id="@+id/relativeLayout"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_medium"
-                android:layout_marginTop="@dimen/margin_normal_large"
                 android:gravity="center"
-                app:text="@{Strings.screen_home_display_text_sign_in_title}"
-                tools:ignore="MissingConstraints"
-                tools:text="@string/screen_home_display_text_sign_in_title" />
+                app:layout_constraintBottom_toBottomOf="parent">
 
-            <TextView
-                android:id="@+id/tvSignIn"
-                style="@style/ASmallGrey"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/_5sdp"
-                android:layout_toRightOf="@+id/tvDisplayTextSignIn"
-                android:gravity="center"
-                android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
-                android:paddingTop="@dimen/margin_normal_large"
-                android:paddingEnd="@dimen/margin_large"
-                android:paddingBottom="@dimen/margin_large"
-                android:textColor="?attr/colorPrimaryAttr"
-                app:layout_constraintLeft_toRightOf="@+id/tvDisplayTextSignIn"
-                app:text="@{Strings.screen_home_display_text_sign_in_action}"
-                tools:ignore="MissingConstraints"
-                tools:text="@string/screen_home_display_text_sign_in_action" />
-        </RelativeLayout>
+                <TextView
+                    android:id="@+id/tvDisplayTextSignIn"
+                    style="@style/ASmallGrey"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_medium"
+                    android:layout_marginTop="@dimen/margin_normal_large"
+                    android:gravity="center"
+                    android:textColor="@color/semi_white_80"
+                    app:text="@{Strings.screen_home_display_text_sign_in_title}"
+                    tools:ignore="MissingConstraints"
+                    tools:text="@string/screen_home_display_text_sign_in_title" />
 
+                <TextView
+                    android:id="@+id/tvSignIn"
+                    style="@style/ASmallGrey"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_5sdp"
+                    android:layout_toRightOf="@+id/tvDisplayTextSignIn"
+                    android:gravity="center"
+                    android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
+                    android:paddingTop="@dimen/margin_normal_large"
+                    android:paddingEnd="@dimen/margin_large"
+                    android:paddingBottom="@dimen/margin_large"
+                    android:textColor="@color/white"
+                    app:layout_constraintLeft_toRightOf="@+id/tvDisplayTextSignIn"
+                    app:text="@{Strings.screen_home_display_text_sign_in_action}"
+                    tools:ignore="MissingConstraints"
+                    tools:text="@string/screen_home_display_text_sign_in_action" />
+            </RelativeLayout>
+        </androidx.appcompat.widget.LinearLayoutCompat>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

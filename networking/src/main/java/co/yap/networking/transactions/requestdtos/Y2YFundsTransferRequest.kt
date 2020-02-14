@@ -1,10 +1,12 @@
 package co.yap.networking.transactions.requestdtos
 
+import com.google.gson.annotations.SerializedName
+
 data class Y2YFundsTransferRequest(
-    var receiverUUID: String?,
-    var beneficiaryName: String?,
-    var amount: String?,
-    var otpVerificationReq: Boolean?,
-    var transactionNote: String?
+    @SerializedName("receiverUUID") var receiverUUID: String?,
+    @SerializedName("beneficiaryName") var beneficiaryName: String?,
+    @SerializedName("amount") var amount: String?,
+    @SerializedName("otpVerificationReq") var otpVerificationReq: Boolean?,
+    @SerializedName("transactionNote") var transactionNote: String?
 ) {
 }

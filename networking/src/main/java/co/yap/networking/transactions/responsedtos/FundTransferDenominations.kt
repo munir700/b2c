@@ -1,3 +1,5 @@
 package co.yap.networking.transactions.responsedtos
 
-class FundTransferDenominations(val amount: String, val active: Boolean)
+import com.google.gson.annotations.SerializedName
+
+class FundTransferDenominations(@SerializedName("amount") val amount: String, @SerializedName("active") val active: Boolean)

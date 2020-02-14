@@ -1,7 +1,6 @@
 package co.yap.modules.kyc.activities
 
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.lifecycle.ViewModelProviders

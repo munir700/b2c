@@ -24,6 +24,7 @@ import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.SendMoneyBeneficiaryType
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.toast
+import kotlin.math.abs
 
 class CashTransferViewModel(application: Application) :
     SendMoneyBaseViewModel<ICashTransfer.State>(application),
@@ -96,7 +97,7 @@ class CashTransferViewModel(application: Application) :
             it.dailyLimit?.let { dailyLimit ->
                 it.totalDebitAmount?.let { totalConsumedAmount ->
                     state.amount.toDoubleOrNull()?.let { enteredAmount ->
-                        val remainingDailyLimit = dailyLimit - totalConsumedAmount
+                        val remainingDailyLimit = abs(dailyLimit - totalConsumedAmount)
                         state.errorDescription =
                             getString(Strings.common_display_text_daily_limit_error).format(
                                 dailyLimit,

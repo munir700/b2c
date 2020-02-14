@@ -16,6 +16,7 @@ import co.yap.modules.others.helper.Constants.START_REQUEST_CODE
 import co.yap.networking.RetroNetwork
 import co.yap.networking.interfaces.NetworkConstraintsListener
 import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.constants.Constants.KEY_APP_UUID
 import co.yap.yapcore.helpers.AppInfo
 import co.yap.yapcore.helpers.AuthUtils
 import co.yap.yapcore.helpers.NetworkConnectionManager
@@ -46,7 +47,6 @@ class AAPApplication : ChatApplication(
         initNetworkLayer()
         setAppUniqueId(this)
         initFirebase()
-        inItLeanPlum()
         createChannel(packageName, "Default")
     }
 
@@ -80,6 +80,7 @@ class AAPApplication : ChatApplication(
                 .build()
             Fabric.with(fabric)
             Timber.plant(DebugTree())
+            inItLeanPlum()
         }
     }
 
@@ -102,7 +103,7 @@ class AAPApplication : ChatApplication(
             Leanplum.setAppIdForProductionMode(appId, devKey)
         }
 
-        Leanplum.setIsTestModeEnabled(true)
+        //Leanplum.setIsTestModeEnabled(true)
         Leanplum.start(this)
     }
 
@@ -134,10 +135,10 @@ class AAPApplication : ChatApplication(
     private fun setAppUniqueId(context: Context) {
         var uuid: String?
         val sharedPrefs = SharedPreferenceManager(context)
-        uuid = sharedPrefs.getValueString(SharedPreferenceManager.KEY_APP_UUID)
+        uuid = sharedPrefs.getValueString(KEY_APP_UUID)
         if (uuid == null) {
             uuid = UUID.randomUUID().toString()
-            sharedPrefs.save(SharedPreferenceManager.KEY_APP_UUID, uuid)
+            sharedPrefs.save(KEY_APP_UUID, uuid)
         }
     }
 

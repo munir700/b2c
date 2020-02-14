@@ -33,16 +33,6 @@ class AddTopUpCardActivity : BaseBindingActivity<IAddTopUpCard.ViewModel>(), IAd
     var cardNumber: String? = null
     var type: String? = null
 
-    companion object {
-        fun newIntent(context: Context, url: String, type: String): Intent {
-            val intent = Intent(context, AddTopUpCardActivity::class.java)
-            intent.putExtra(Constants.KEY, url)
-            intent.putExtra(Constants.TYPE, type)
-            return intent
-        }
-    }
-
-
     override val viewModel: IAddTopUpCard.ViewModel
         get() = ViewModelProviders.of(this).get(AddTopUpCardViewModel::class.java)
 

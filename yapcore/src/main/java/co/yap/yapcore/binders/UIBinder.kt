@@ -49,7 +49,6 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.daimajia.androidanimations.library.Techniques
 import com.daimajia.androidanimations.library.YoYo
 import java.text.SimpleDateFormat
-import java.util.*
 
 object UIBinder {
     @BindingAdapter("tvColor")
@@ -287,6 +286,10 @@ object UIBinder {
                     imageView.visibility = View.VISIBLE
                     imageView.setImageResource(R.drawable.ic_status_ontheway)
                 }
+                CardStatus.EXPIRED -> {
+                    imageView.visibility = View.VISIBLE
+                    imageView.setImageResource(R.drawable.ic_status_expired)
+                }
 
             }
     }
@@ -315,61 +318,63 @@ object UIBinder {
                     )
                 }
                 CardStatus.INACTIVE -> {
-                    if (card.cardType == "DEBIT") {
-                        if (MyUserManager.user?.notificationStatuses == "MEETING_SUCCESS") {
-                            if (card.deliveryStatus == CardDeliveryStatus.SHIPPED.name) {
-                                text.visibility = View.VISIBLE
-                                text.text = Translator.getString(
-                                    text.context,
-                                    R.string.screen_cards_display_text_set_message
-                                )
-                            } else {
-                                text.visibility = View.VISIBLE
-                                text.text = Translator.getString(
-                                    text.context,
-                                    R.string.screen_cards_display_text_pending_delivery
-                                )
-                            }
-                        } else {
-                            text.visibility = View.VISIBLE
-                            text.text = Translator.getString(
-                                text.context,
-                                R.string.screen_cards_display_text_pending_delivery
-                            )
-                        }
-                    } else {
-                        if (card.deliveryStatus == null) {
-                            text.visibility = View.GONE
-                        } else {
-                            when (card.deliveryStatus?.let { CardDeliveryStatus.valueOf(it) }) {
-                                CardDeliveryStatus.SHIPPED -> {
-                                    text.visibility = View.VISIBLE
-                                    text.text = Translator.getString(
-                                        text.context,
-                                        R.string.screen_cards_display_text_set_message
-                                    )
-                                }
-                                else -> {
-                                    text.visibility = View.VISIBLE
-                                    text.text = Translator.getString(
-                                        text.context,
-                                        R.string.screen_cards_display_text_pending_delivery
-                                    )
-                                }
-                            }
-                        }
-                    }
+                    setTextForInactiveCard(text = text, card = card)
+                }
+                CardStatus.EXPIRED -> {
+                    text.visibility = View.VISIBLE
+                    text.text = Translator.getString(
+                        text.context,
+                        R.string.screen_cards_display_text_expired_card
+                    )
                 }
             }
     }
 
-    // Card status message text
-    @BindingAdapter("underline_text")
-    @JvmStatic
-    fun setCardStatus(text: TextView, value: String) {
-        val content = SpannableString(value)
-        content.setSpan(UnderlineSpan(), 0, content.length, 0)
-        text.text = content
+    private fun setTextForInactiveCard(text: TextView, card: Card) {
+        if (card.cardType == "DEBIT") {
+            if (MyUserManager.user?.notificationStatuses == "MEETING_SUCCESS") {
+                if (card.deliveryStatus == CardDeliveryStatus.SHIPPED.name) {
+                    text.visibility = View.VISIBLE
+                    text.text = Translator.getString(
+                        text.context,
+                        R.string.screen_cards_display_text_set_message
+                    )
+                } else {
+                    text.visibility = View.VISIBLE
+                    text.text = Translator.getString(
+                        text.context,
+                        R.string.screen_cards_display_text_pending_delivery
+                    )
+                }
+            } else {
+                text.visibility = View.VISIBLE
+                text.text = Translator.getString(
+                    text.context,
+                    R.string.screen_cards_display_text_pending_delivery
+                )
+            }
+        } else {
+            if (card.deliveryStatus == null) {
+                text.visibility = View.GONE
+            } else {
+                when (card.deliveryStatus?.let { CardDeliveryStatus.valueOf(it) }) {
+                    CardDeliveryStatus.SHIPPED -> {
+                        text.visibility = View.VISIBLE
+                        text.text = Translator.getString(
+                            text.context,
+                            R.string.screen_cards_display_text_set_message
+                        )
+                    }
+                    else -> {
+                        text.visibility = View.VISIBLE
+                        text.text = Translator.getString(
+                            text.context,
+                            R.string.screen_cards_display_text_pending_delivery
+                        )
+                    }
+                }
+            }
+        }
     }
 
     //Core action Button text
@@ -396,41 +401,62 @@ object UIBinder {
                     )
                 }
                 CardStatus.INACTIVE -> {
-                    if (card.cardType == "DEBIT") {
-                        if (MyUserManager.user?.notificationStatuses == "MEETING_SUCCESS") {
-                            if (card.deliveryStatus == CardDeliveryStatus.SHIPPED.name) {
-                                coreButton.visibility = View.VISIBLE
-                                coreButton.text = Translator.getString(
-                                    coreButton.context,
-                                    R.string.screen_cards_display_text_set_pin
-                                )
-                            } else {
-                                coreButton.visibility = View.GONE
-                            }
-                        } else {
-                            coreButton.visibility = View.GONE
-                        }
-                    } else {
-                        if (card.deliveryStatus == null) {
-                            coreButton.visibility = View.GONE
-                        } else {
-                            when (card.deliveryStatus?.let { CardDeliveryStatus.valueOf(it) }) {
-                                CardDeliveryStatus.SHIPPED -> {
-                                    coreButton.visibility = View.VISIBLE
-                                    coreButton.text = Translator.getString(
-                                        coreButton.context,
-                                        R.string.screen_cards_display_text_set_pin
-                                    )
-                                }
-                                else -> {
-                                    coreButton.visibility = View.GONE
-                                }
-                            }
-                        }
-                    }
+                    setCardButtonTextForInactive(coreButton, card)
                 }
 
+                CardStatus.EXPIRED -> {
+                    coreButton.visibility = View.VISIBLE
+                    coreButton.text = Translator.getString(
+                        coreButton.context,
+                        R.string.screen_cards_button_update_card
+                    )
+                }
             }
+    }
+
+    private fun setCardButtonTextForInactive(coreButton: TextView, card: Card) {
+        if (card.cardType == "DEBIT") {
+            if (MyUserManager.user?.notificationStatuses == "MEETING_SUCCESS") {
+                if (card.deliveryStatus == CardDeliveryStatus.SHIPPED.name) {
+                    coreButton.visibility = View.VISIBLE
+                    coreButton.text = Translator.getString(
+                        coreButton.context,
+                        R.string.screen_cards_display_text_set_pin
+                    )
+                } else {
+                    coreButton.visibility = View.GONE
+                }
+            } else {
+                coreButton.visibility = View.GONE
+            }
+        } else {
+            if (card.deliveryStatus == null) {
+                coreButton.visibility = View.GONE
+            } else {
+                when (card.deliveryStatus?.let { CardDeliveryStatus.valueOf(it) }) {
+                    CardDeliveryStatus.SHIPPED -> {
+                        coreButton.visibility = View.VISIBLE
+                        coreButton.text = Translator.getString(
+                            coreButton.context,
+                            R.string.screen_cards_display_text_set_pin
+                        )
+                    }
+                    else -> {
+                        coreButton.visibility = View.GONE
+                    }
+                }
+            }
+        }
+    }
+
+
+    // Card status message text
+    @BindingAdapter("underline_text")
+    @JvmStatic
+    fun setCardStatus(text: TextView, value: String) {
+        val content = SpannableString(value)
+        content.setSpan(UnderlineSpan(), 0, content.length, 0)
+        text.text = content
     }
 
     @BindingAdapter("src")

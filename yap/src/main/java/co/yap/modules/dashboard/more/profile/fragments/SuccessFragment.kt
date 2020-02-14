@@ -39,8 +39,6 @@ class SuccessFragment : BaseBindingFragment<ISuccess.ViewModel>(),
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-
         viewModel.buttonClickEvent.observe(this, Observer {
             if (successType == Constants.CHANGE_PASSCODE) {
                 findNavController().popBackStack(R.id.profileSettingsFragment, true)
@@ -69,7 +67,7 @@ class SuccessFragment : BaseBindingFragment<ISuccess.ViewModel>(),
 
     private fun loadData() {
         successType = args.successType
-        val fcs = ForegroundColorSpan(ContextCompat.getColor(context!!, R.color.colorPrimaryDark))
+        val fcs = ForegroundColorSpan(ContextCompat.getColor(requireContext(), R.color.colorPrimaryDark))
 
         val separatedPrimary =
             args.staticString.split(args.destinationValue)
@@ -86,23 +84,16 @@ class SuccessFragment : BaseBindingFragment<ISuccess.ViewModel>(),
         if (primaryStr.contains(addressStr)) {
             cvLocationCard.visibility = VISIBLE
             addressField =
-                MyUserManager.userAddress!!.address1 + " " + MyUserManager.userAddress!!.address2
-            tvSuccessSubHeading.setTextColor(activity!!.resources.getColor(R.color.greyDark))
+                MyUserManager.userAddress?.address1 + " " + MyUserManager.userAddress?.address2
+            tvSuccessSubHeading.setTextColor(ContextCompat.getColor(requireContext(), R.color.greyDark))
 
             tvSuccessSubHeading.text = addressStr
-            if (!MyUserManager.userAddress!!.address2.isNullOrEmpty()) {
-                tvAddressTitle.setText(MyUserManager.userAddress!!.address2)
+            if (!MyUserManager.userAddress?.address2.isNullOrEmpty()) {
+                tvAddressTitle.setText(MyUserManager.userAddress?.address2)
             }
-            if (!MyUserManager.userAddress!!.address1.isNullOrEmpty()) {
-                tvAddressSubTitle.setText(MyUserManager.userAddress!!.address1)
+            if (!MyUserManager.userAddress?.address1.isNullOrEmpty()) {
+                tvAddressSubTitle.setText(MyUserManager.userAddress?.address1)
             }
-
-            Glide.with(ivLocationPhoto.context)
-                .load(MyUserManager.addressPhotoUrl)
-                .placeholder(R.drawable.location_place_holder)
-                .transforms(CenterCrop(), RoundedCorners(15))
-                .into(ivLocationPhoto)
-
         } else {
             tvSuccessSubHeading.text = primaryStr
         }
