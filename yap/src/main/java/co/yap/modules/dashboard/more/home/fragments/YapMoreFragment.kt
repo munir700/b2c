@@ -21,6 +21,7 @@ import co.yap.modules.dashboard.more.home.models.MoreOption
 import co.yap.modules.dashboard.more.home.viewmodels.MoreHomeViewModel
 import co.yap.modules.dashboard.more.main.activities.MoreActivity
 import co.yap.modules.dashboard.more.notification.activities.NotificationsActivity
+import co.yap.modules.dashboard.more.yapforyou.activities.YAPForYouActivity
 import co.yap.modules.others.fragmentpresenter.activities.FragmentPresenterActivity
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.Utils
@@ -173,6 +174,10 @@ class YapMoreFragment : YapDashboardChildFragment<IMoreHome.ViewModel>(), IMoreH
             }
             R.id.btnBankDetails -> {
                 startActivity(BankDetailActivity.newIntent(requireContext()))
+            }
+            R.id.yapForYou -> {
+                startActivity(Intent(requireContext(), YAPForYouActivity::class.java))
+
             }
         }
     }

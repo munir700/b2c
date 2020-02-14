@@ -1449,7 +1449,6 @@ object Strings {
     const val screen_card_detail_alert_text_disappears: String =
         "screen_card_detail_alert_text_disappears"
 
-
     //    Notification settings screen
     const val screen_notification_settings_display_text_toolbar_title: String =
         "screen_notification_settings_display_text_toolbar_title"
@@ -1481,4 +1480,13 @@ object Strings {
         "screen_invite_friend_button_share"
     const val screen_invite_friend_display_text_share_url: String =
         "screen_invite_friend_display_text_share_url"
+    //Yap for you
+    const val screen_yap_for_you_display_text_title: String = "screen_yap_for_you_display_text_title"
+    const val screen_yap_for_you_display_text_sub_title: String = "screen_yap_for_you_display_text_sub_title"
+    const val screen_yap_for_you_display_text_current_chievement: String = "screen_yap_for_you_display_text_current_chievement"
+    const val screen_yap_for_you_display_text_completed_percentage: String = "screen_yap_for_you_display_text_completed_percentage"
+    const val screen_yap_for_you_display_text_view: String = "screen_yap_for_you_display_text_view"
+
+    // YAP for you (Your Achievements)
+    const val screen_your_achievements_display_text_toolbar_title: String = "screen_your_achievements_display_text_toolbar_title"
 }

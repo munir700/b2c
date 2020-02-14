@@ -35,6 +35,10 @@ class MoreHomeViewModel(application: Application) :
         }
     }
 
+    override fun handlePressOnYAPforYou(id: Int) {
+        clickEvent.setValue(id)
+    }
+
     override fun handlePressOnView(id: Int) {
         clickEvent.setValue(id)
     }
