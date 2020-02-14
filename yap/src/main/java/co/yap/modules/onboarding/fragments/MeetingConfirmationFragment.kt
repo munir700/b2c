@@ -1,21 +1,19 @@
 package co.yap.modules.onboarding.fragments
 
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import androidx.activity.OnBackPressedCallback
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
 import co.yap.R
 import co.yap.modules.dashboard.main.activities.YapDashboardActivity
-import co.yap.modules.kyc.activities.DocumentsDashboardActivity
 import co.yap.modules.onboarding.interfaces.IMeetingConfirmation
 import co.yap.modules.onboarding.viewmodels.MeetingConfirmationViewModel
 import co.yap.modules.others.fragmentpresenter.activities.FragmentPresenterActivity
 import co.yap.yapcore.BaseBindingFragment
-import co.yap.yapcore.interfaces.OnBackPressedListener
 
 class MeetingConfirmationFragment : BaseBindingFragment<IMeetingConfirmation.viewModel>() {
 
@@ -29,15 +27,8 @@ class MeetingConfirmationFragment : BaseBindingFragment<IMeetingConfirmation.vie
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.goToDashboardButtonPressEvent.observe(this, Observer {
-            if (activity is DocumentsDashboardActivity)
-                (activity as DocumentsDashboardActivity).goToDashBoard(
-                    success = true,
-                    skippedPress = false
-                )
-            else if (activity is FragmentPresenterActivity) {
-                startActivity(Intent(requireContext(),YapDashboardActivity::class.java))
-                activity?.finish()
-
+            if (activity is FragmentPresenterActivity) {
+                setIntentData()
             }
         })
     }
@@ -54,4 +45,10 @@ class MeetingConfirmationFragment : BaseBindingFragment<IMeetingConfirmation.vie
         return false
     }
 
+    private fun setIntentData() {
+        val intent = Intent()
+        intent.putExtra("dashboard", true)
+        activity?.setResult(Activity.RESULT_OK, intent)
+        activity?.finish()
+    }
 }

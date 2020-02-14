@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName
 
 data class GetMoreDocumentsResponse(
     @SerializedName("data")
-    var data: Data,
+    var data: Data?,
     @SerializedName("errors")
     var errors: Any?
 ) : ApiResponse() {

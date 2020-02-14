@@ -181,7 +181,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
 
                     MyUserManager.user?.notificationStatuses =
                         NotificationStatus.MEETING_SCHEDULED.name
-                    activity?.finish()
+//                    activity?.finish()
                 }
                 R.id.ivMenu -> parentView?.toggleDrawer()
                 R.id.rlFilter -> {
