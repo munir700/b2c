@@ -5,10 +5,10 @@ import androidx.lifecycle.MutableLiveData
 import co.yap.app.YAPApplication
 import co.yap.modules.dashboard.main.interfaces.IYapDashboard
 import co.yap.modules.dashboard.main.states.YapDashBoardState
-import co.yap.modules.dashboard.more.main.activities.MoreActivity
 import co.yap.networking.cards.CardsRepository
 import co.yap.networking.cards.responsedtos.CardBalance
 import co.yap.networking.customers.CustomersRepository
+import co.yap.networking.customers.responsedtos.AccountInfo
 import co.yap.networking.models.RetroApiResponse
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
@@ -76,11 +76,6 @@ class YapDashBoardViewModel(application: Application) :
             when (val response = customerRepository.getAccountInfo()) {
                 is RetroApiResponse.Success -> {
                     MyUserManager.user = response.data.data[0]
-                    MyUserManager.user?.isDocumentsVerified?.let {
-                        MoreActivity.showExpiredIcon =
-                            it == "N"
-                    }
-
                     Leanplum.setUserId(MyUserManager.user?.uuid)
                     getAccountInfoSuccess.value = true
                     populateState()
@@ -92,21 +87,6 @@ class YapDashBoardViewModel(application: Application) :
                 is RetroApiResponse.Error -> state.toast = response.error.message
             }
             state.loading = false
-        }
-    }
-
-
-     fun getAccountInfo2() {
-        MyUserManager.user?.isDocumentsVerified?.let {
-            MoreActivity.showExpiredIcon =
-                it == "N"
-        }
-
-        Leanplum.setUserId(MyUserManager.user?.uuid)
-        getAccountInfoSuccess.value = true
-        populateState()
-        if (MyUserManager.user?.currentCustomer?.isEmailVerified.equals("N", true)) {
-            showUnverifedscreen.value = true
         }
     }
 

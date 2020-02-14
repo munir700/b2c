@@ -9,37 +9,27 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import co.yap.R
-import co.yap.modules.kyc.activities.DocumentsDashboardActivity
+import co.yap.modules.kyc.activities.DocumentsResponse
 import co.yap.modules.kyc.enums.DocScanStatus
 import co.yap.modules.kyc.interfaces.IKYCHome
 import co.yap.modules.kyc.viewmodels.KYCHomeViewModel
-import co.yap.yapcore.constants.Constants
-import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.extentions.trackEvent
 import co.yap.yapcore.leanplum.TrackEvents
-
 import com.digitify.identityscanner.docscanner.activities.IdentityScannerActivity
 import com.digitify.identityscanner.docscanner.enums.DocumentType
 
 class KYCHomeFragment : KYCChildFragment<IKYCHome.ViewModel>(), IKYCHome.View {
 
-    override fun getBindingVariable(): Int = BR.viewModel
+    override fun getBindingVariable(): Int = co.yap.yapcore.BR.viewModel
 
-    override fun getLayoutId(): Int {
-        return if (getAppliedAppTheme()) R.layout.fragment_kyc_home_house_hold
-        else R.layout.fragment_kyc_home
-    }
-
-    private fun getAppliedAppTheme(): Boolean {
-        return SharedPreferenceManager(activity!!).getThemeValue().equals(Constants.THEME_HOUSEHOLD)
-    }
+    override fun getLayoutId(): Int = R.layout.fragment_kyc_home
 
     override val viewModel: KYCHomeViewModel
         get() = ViewModelProviders.of(this).get(KYCHomeViewModel::class.java)
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        showHideOptionsOnFlags()
+        shouldSkipScreen()
         addObservers()
     }
 
@@ -49,33 +39,25 @@ class KYCHomeFragment : KYCChildFragment<IKYCHome.ViewModel>(), IKYCHome.View {
             when (it) {
                 R.id.cvCard -> openCardScanner()
                 R.id.btnNext -> {
-                    if (activity is DocumentsDashboardActivity)
-                        (activity as DocumentsDashboardActivity).goToDashBoard(
-                            success = true,
-                            skippedPress = false
-                        )
+                    // on press next move user to location screen
+                    viewModel.parentViewModel?.finishKyc?.value = DocumentsResponse(true)
                 }
 
                 R.id.tvSkip -> {
-                    if (activity is DocumentsDashboardActivity)
-                        (activity as DocumentsDashboardActivity).goToDashBoard(
-                            success = false,
-                            skippedPress = true
-                        )
+                    //on skip move user to
+                    viewModel.parentViewModel?.finishKyc?.value = DocumentsResponse(false)
                     trackEvent(TrackEvents.CLICKS_ON_SKIP_TO_DASHBOARD)
                 }
             }
         })
     }
 
-    private fun showHideOptionsOnFlags() {
-        viewModel.parentViewModel?.allowSkip?.value?.let {
+    private fun shouldSkipScreen() {
+        viewModel.parentViewModel?.skipFirstScreen?.value?.let {
             if (it) {
-                //viewModel.parentViewModel?.allowSkip?.value = !it
                 findNavController().navigate(R.id.action_KYCHomeFragment_to_eidInfoReviewFragment)
             } else {
                 viewModel.state.eidScanStatus = DocScanStatus.SCAN_PENDING
-                viewModel.parentViewModel?.allowSkip?.value = it
             }
         }
     }
