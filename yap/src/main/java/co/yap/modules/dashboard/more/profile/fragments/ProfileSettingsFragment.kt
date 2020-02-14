@@ -230,9 +230,7 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
                 R.id.tvPersonalDetailView -> {
 
                     val action =
-                        ProfileSettingsFragmentDirections.actionProfileSettingsFragmentToPersonalDetailsFragment(
-                            viewModel.showExpiredBadge
-                        )
+                        ProfileSettingsFragmentDirections.actionProfileSettingsFragmentToPersonalDetailsFragment()
                     findNavController().navigate(action)
                 }
 
@@ -296,9 +294,4 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
         })
 
     }
-
-    override fun onBackPressed(): Boolean {
-        return super.onBackPressed()
-    }
-
 }

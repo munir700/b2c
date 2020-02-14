@@ -25,6 +25,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import co.yap.BR
 import co.yap.R
+import co.yap.modules.dashboard.main.activities.YapDashboardActivity
 import co.yap.modules.kyc.activities.DocumentsDashboardActivity
 import co.yap.modules.location.activities.LocationSelectionActivity
 import co.yap.modules.onboarding.interfaces.ICongratulations
@@ -96,14 +97,13 @@ class CongratulationsFragment : OnboardingChildFragment<ICongratulations.ViewMod
 
     private val onCardOrderSuccess = Observer<Boolean> {
         if (it) {
-            startActivity(
+            startActivityForResult(
                 FragmentPresenterActivity.getIntent(
                     requireContext(),
                     Constants.MODE_MEETING_CONFORMATION,
                     null
-                )
+                ), RequestCodes.REQUEST_MEETING_CONFIRMED
             )
-            activity?.finish()
         }else{
             val action =
                 CongratulationsFragmentDirections.actionCongratulationsFragmentToYapDashboardActivity()
@@ -118,10 +118,10 @@ class CongratulationsFragment : OnboardingChildFragment<ICongratulations.ViewMod
             when (requestCode) {
                 RequestCodes.REQUEST_KYC_DOCUMENTS -> handleKYCRequestResult(data)
                 RequestCodes.REQUEST_FOR_LOCATION -> handleLocationRequestResult(data)
+                RequestCodes.REQUEST_MEETING_CONFIRMED -> handleMeetingConfirmationRequest(data)
             }
         }
     }
-
 
     private fun handleKYCRequestResult(data: Intent?) {
         data?.let {
@@ -172,6 +172,16 @@ class CongratulationsFragment : OnboardingChildFragment<ICongratulations.ViewMod
                 val address = it.getParcelableExtra<Address>(Constants.ADDRESS)
                 viewModel.requestOrderCard(address)
             }
+        }
+    }
+
+    private fun handleMeetingConfirmationRequest(data: Intent?) {
+        data?.let {
+            //did'nt handle intent data for now
+            val action =
+                CongratulationsFragmentDirections.actionCongratulationsFragmentToYapDashboardActivity()
+            findNavController().navigate(action)
+            activity?.finishAffinity()
         }
     }
 

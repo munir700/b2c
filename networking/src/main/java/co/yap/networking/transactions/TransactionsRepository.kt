@@ -64,6 +64,8 @@ object TransactionsRepository : BaseRepository(), TransactionsApi {
         "/transactions/api/swift"
     const val URL_GET_TRANSACTION_THRESHOLDS =
         "/transactions/api/transaction-thresholds"
+    const val URL_GET_CUTT_OFF_TIME_CONFIGURATION =
+        "/transactions/api/cut-off-time-configuration"
     const val URL_GET_ACHIEVEMENTS = "/transactions/api/yap-achievements"
 
     // Household
@@ -207,5 +209,8 @@ object TransactionsRepository : BaseRepository(), TransactionsApi {
 
     override suspend fun getAchievements(): RetroApiResponse<AchievementsResponseDTO> =
         executeSafely(call = { api.getAchievements() })
+
+    override suspend fun getCutOffTimeConfiguration(productCode: String?, currency: String?) =
+        executeSafely(call = { api.getCutOffTimeConfiguration(productCode, currency) })
 
 }

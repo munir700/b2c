@@ -58,6 +58,7 @@ import co.yap.yapcore.enums.PartnerBankStatus
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.fixSwipeToRefresh
 import co.yap.yapcore.helpers.extentions.launchActivity
+import co.yap.yapcore.helpers.extentions.toast
 import co.yap.yapcore.helpers.extentions.trackEvent
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.leanplum.TrackEvents
@@ -181,7 +182,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
 
                     MyUserManager.user?.notificationStatuses =
                         NotificationStatus.MEETING_SCHEDULED.name
-                    activity?.finish()
+//                    activity?.finish()
                 }
                 R.id.ivMenu -> parentView?.toggleDrawer()
                 R.id.rlFilter -> {
@@ -311,7 +312,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                 if (isShowSetPin(MyUserManager.getPrimaryCard())) {
                     ivNoTransaction.visibility = View.VISIBLE
                     addSetPinNotification()
-                }//todo:handle else case after confirmation for business logic
+                }else toast("Invalid card found")
             }
 
             AccountStatus.MEETING_SCHEDULED.name -> {

@@ -33,16 +33,6 @@ class CorePaymentCard @JvmOverloads constructor(context: Context, attrs: Attribu
     var view: View = LayoutInflater.from(context)
         .inflate(R.layout.core_payment_card, this, true)
 
-
-//              ivChip         tvBankName       tvCardNumber        ivCardType                   tvCardExpiry
-
-//small         12/12          4.8sp            6.4sp               height 4.7/width15           4.8sp(not sure)
-
-//medium        15/15           6sp             8SP                 5.9/16                       6SP(not sure)
-
-//large         21/21           12SP            16sp                11/                         12sp(not sure)
-
-
     init {
         attrs?.let {
             val typedArray = context.obtainStyledAttributes(it, R.styleable.CorePaymentCard, 0, 0)
@@ -52,8 +42,6 @@ class CorePaymentCard @JvmOverloads constructor(context: Context, attrs: Attribu
             )
             ivCardType.setImageDrawable(typedArray.getDrawable(R.styleable.CorePaymentCard_card_type))
             setCardSizeTypeDimensions()
-
-
             typedArray.recycle()
         }
     }
@@ -163,13 +151,15 @@ class CorePaymentCard @JvmOverloads constructor(context: Context, attrs: Attribu
 
     fun setCardBackground(bgCardColor: String) {
         try {
-            clMainContainer.setBackgroundColor(Color.parseColor("#$bgCardColor"))
+            val bg = clMainContainer.background
+            bg.setTint(Color.parseColor("#$bgCardColor"))
+            //clMainContainer.setBackgroundColor(Color.parseColor("#$bgCardColor"))
         } catch (ex: IllegalArgumentException) {
             clMainContainer.setBackgroundColor(
 //                ContextCompat.getColor(
 //                    context,
-                    ThemeColorUtils.colorPrimaryDarkAttribute(context)
-                   /* R.color.colorPrimaryDark*/
+                ThemeColorUtils.colorPrimaryDarkAttribute(context)
+                /* R.color.colorPrimaryDark*/
 //                )
             )
         }
