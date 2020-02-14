@@ -71,7 +71,7 @@ class YapDashBoardViewModel(application: Application) :
 
     override fun getAccountInfo() {
         launch {
-            state.loading = true
+            //state.loading = true
             when (val response = customerRepository.getAccountInfo()) {
                 is RetroApiResponse.Success -> {
                     MyUserManager.user = response.data.data[0]
