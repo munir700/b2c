@@ -263,6 +263,30 @@
                 tools:text="1500" />
 
             <TextView
+                android:id="@+id/tvVat"
+                style="@style/ASmallGrey"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Vat"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/tvVatAmount"
+                tools:text="Vat"
+                tools:ignore="HardcodedText" />
+
+            <TextView
+                android:id="@+id/tvVatAmount"
+                style="@style/ASmall"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_medium"
+                android:gravity="end"
+                android:text="@{viewModel.state.vatAmount}"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintLeft_toRightOf="@+id/guideline1"
+                app:layout_constraintTop_toBottomOf="@+id/tvCardSpendAmount"
+                tools:text="1500" />
+
+            <TextView
                 android:id="@+id/tvFee"
                 style="@style/ASmallGrey"
                 android:layout_width="wrap_content"
@@ -283,7 +307,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toRightOf="@+id/guideline1"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvCardSpendAmount"
+                app:layout_constraintTop_toBottomOf="@+id/tvVatAmount"
                 tools:text="1000" />
 
 

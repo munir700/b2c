@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.os.Build
+import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentActivity
 import co.yap.app.modules.login.activities.VerifyPassCodePresenterActivity
@@ -16,6 +17,7 @@ import co.yap.modules.others.helper.Constants.START_REQUEST_CODE
 import co.yap.networking.RetroNetwork
 import co.yap.networking.interfaces.NetworkConstraintsListener
 import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.constants.Constants.EXTRA
 import co.yap.yapcore.constants.Constants.KEY_APP_UUID
 import co.yap.yapcore.helpers.AppInfo
 import co.yap.yapcore.helpers.AuthUtils
@@ -160,11 +162,12 @@ class AAPApplication : ChatApplication(
             }
 
             override fun startVerifyPassCodePresenterActivity(
-                activity: FragmentActivity,
+                activity: FragmentActivity, bundle: Bundle,
                 completionHandler: ((resultCode: Int, data: Intent?) -> Unit)?
             ) {
                 try {
                     val intent = Intent(activity, VerifyPassCodePresenterActivity::class.java)
+                    intent.putExtra(EXTRA, bundle)
                     (activity as AppCompatActivity).startForResult(intent) { result ->
                         completionHandler?.invoke(result.resultCode, result.data)
                     }.onFailed { result ->

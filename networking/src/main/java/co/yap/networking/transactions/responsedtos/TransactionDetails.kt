@@ -48,6 +48,8 @@ data class TransactionDetails(
     val count: Int?,
     @SerializedName("feeAmount")
     val feeAmount: Double?,
+    @SerializedName("vat")
+    val vat: Double?,
     @SerializedName("transactionNote")
     val transactionNote: String?,
     @SerializedName("senderName")

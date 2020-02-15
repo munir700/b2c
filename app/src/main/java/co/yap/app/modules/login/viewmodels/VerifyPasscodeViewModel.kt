@@ -13,6 +13,7 @@ import co.yap.networking.messages.MessagesRepository
 import co.yap.networking.messages.requestdtos.CreateForgotPasscodeOtpRequest
 import co.yap.networking.messages.requestdtos.CreateOtpGenericRequest
 import co.yap.networking.models.RetroApiResponse
+import co.yap.translation.Translator
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.SingleLiveEvent
@@ -30,7 +31,7 @@ class VerifyPasscodeViewModel(application: Application) :
 
     override val forgotPasscodeButtonPressEvent: SingleClickEvent = SingleClickEvent()
     override val repository: AuthRepository = AuthRepository
-    override val state: VerifyPasscodeState = VerifyPasscodeState()
+    override val state: VerifyPasscodeState = VerifyPasscodeState(application)
     override val signInButtonPressEvent: SingleLiveEvent<Boolean> = SingleLiveEvent()
     override val loginSuccess: SingleLiveEvent<Boolean> = SingleLiveEvent()
     override val validateDeviceResult: SingleLiveEvent<Boolean> = SingleLiveEvent()
@@ -44,6 +45,7 @@ class VerifyPasscodeViewModel(application: Application) :
     private val messagesRepository: MessagesRepository = MessagesRepository
 
     override fun login() {
+
         launch {
             state.loading = true
             when (val response = repository.login(state.username, state.passcode)) {

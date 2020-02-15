@@ -173,6 +173,8 @@ object Strings {
         "screen_verify_passcode_display_text_title_verify"
     const val screen_verify_passcode_button_sign_in: String =
         "screen_verify_passcode_button_sign_in"
+    const val screen_verify_passcode_button_verify: String =
+        "screen_verify_passcode_button_verify"
     const val screen_verify_passcode_text_forgot_password: String =
         "screen_verify_passcode_text_forgot_password"
 

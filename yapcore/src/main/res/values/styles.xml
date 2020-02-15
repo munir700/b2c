@@ -540,6 +540,11 @@
         <item name="colorControlActivated">@color/greyLight</item>
         <item name="colorControlHighlight">@color/greyLight</item>
     </style>
+    <style name="Theme.EditText.Primary" parent="CoreAppTheme">
+        <item name="colorControlNormal">@color/greyLight</item>
+        <item name="colorControlActivated">@color/colorPrimary</item>
+        <item name="colorControlHighlight">@color/colorPrimary</item>
+    </style>
 
     <!--    <style name="Yap.App.Widget.TextInputEditText.Name" parent="Yap.App.Widget.TextInputEditText">-->
     <!--        <item name="android:layout_width">match_parent</item>-->

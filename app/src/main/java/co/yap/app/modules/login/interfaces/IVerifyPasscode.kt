@@ -35,6 +35,7 @@ interface IVerifyPasscode {
         var deviceId: String
         var username: String
         var dialerError: String
+        var btnVerifyPassCodeText: String?
         var passcode: String
         var valid: Boolean
         fun getTextWatcher(): TextWatcher

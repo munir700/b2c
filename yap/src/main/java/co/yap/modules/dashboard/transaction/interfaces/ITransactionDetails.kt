@@ -31,6 +31,7 @@ interface ITransactionDetails {
         var addNoteTitle: String
         var noteValue: String?
         var currency: String?
+        var vatAmount: String?
         //var content: Content?
     }
 }
