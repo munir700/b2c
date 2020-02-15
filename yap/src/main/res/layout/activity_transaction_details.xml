@@ -108,8 +108,7 @@
             android:layout_height="@dimen/_35sdp"
             android:layout_marginStart="@dimen/margin_medium"
             android:layout_marginTop="@dimen/margin_normal_large"
-            android:background="@drawable/bg_round_purple"
-            android:backgroundTint="?attr/colorPrimaryAttr"
+            android:background="@drawable/bg_round_purple_enabled"
             android:onClick="@{(v)-> viewModel.handlePressOnEditNoteClickEvent(v.id)}"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/vLine">
