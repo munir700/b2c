@@ -56,7 +56,7 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
         }
 
 
-        Glide.with(activity!!)
+        Glide.with(requireActivity())
 
         val sharedPreferenceManager: SharedPreferenceManager =
             SharedPreferenceManager(requireContext())

@@ -146,7 +146,7 @@ class ProfileSettingsViewModel(application: Application) :
                 }
                 is RetroApiResponse.Error -> {
                     state.toast = response.error.message
-                    state.loading = true
+                    state.loading = false
                 }
             }
         }
