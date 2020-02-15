@@ -97,16 +97,13 @@ class CashTransferViewModel(application: Application) :
             it.dailyLimit?.let { dailyLimit ->
                 it.totalDebitAmount?.let { totalConsumedAmount ->
                     state.amount.toDoubleOrNull()?.let { enteredAmount ->
-
                         val remainingDailyLimit =
                             if ((dailyLimit - totalConsumedAmount) < 0.0) 0.0 else (dailyLimit - totalConsumedAmount)
                         state.errorDescription =
-                            getString(Strings.common_display_text_daily_limit_error).format(
-                                dailyLimit,
-                                remainingDailyLimit
+                            if (enteredAmount > dailyLimit) getString(Strings.common_display_text_daily_limit_error_single_transaction) else getString(
+                                Strings.common_display_text_daily_limit_error_single_transaction
                             )
                         return enteredAmount > remainingDailyLimit
-
                     } ?: return false
                 } ?: return false
             } ?: return false
@@ -416,7 +413,7 @@ class CashTransferViewModel(application: Application) :
                                     )) {
                                     is RetroApiResponse.Success -> {
                                         response.data.data?.let {
-                                            state.cutOffTimeMsg =  it.errorMsg
+                                            state.cutOffTimeMsg = it.errorMsg
                                         }
 
                                     }

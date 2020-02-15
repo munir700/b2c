@@ -21,9 +21,11 @@ object Strings {
         "common_display_text_nothing_to_report"
     const val common_button_logout: String = "common_button_logout"
     const val common_text_fee: String = "common_text_fee"
-    const val common_display_text_daily_limit_error: String =
-        "common_display_text_daily_limit_error"
 
+    const val common_display_text_daily_limit_error_single_transaction: String =
+        "common_display_text_daily_limit_error_single_transaction"
+    const val common_display_text_daily_limit_error_multiple_transactions: String =
+        "common_display_text_daily_limit_error_multiple_transactions"
 
     //Home screen
     const val screen_home_display_text_tag_line: String = "screen_home_display_text_tag_line"
@@ -1481,12 +1483,17 @@ object Strings {
     const val screen_invite_friend_display_text_share_url: String =
         "screen_invite_friend_display_text_share_url"
     //Yap for you
-    const val screen_yap_for_you_display_text_title: String = "screen_yap_for_you_display_text_title"
-    const val screen_yap_for_you_display_text_sub_title: String = "screen_yap_for_you_display_text_sub_title"
-    const val screen_yap_for_you_display_text_current_chievement: String = "screen_yap_for_you_display_text_current_chievement"
-    const val screen_yap_for_you_display_text_completed_percentage: String = "screen_yap_for_you_display_text_completed_percentage"
+    const val screen_yap_for_you_display_text_title: String =
+        "screen_yap_for_you_display_text_title"
+    const val screen_yap_for_you_display_text_sub_title: String =
+        "screen_yap_for_you_display_text_sub_title"
+    const val screen_yap_for_you_display_text_current_chievement: String =
+        "screen_yap_for_you_display_text_current_chievement"
+    const val screen_yap_for_you_display_text_completed_percentage: String =
+        "screen_yap_for_you_display_text_completed_percentage"
     const val screen_yap_for_you_display_text_view: String = "screen_yap_for_you_display_text_view"
 
     // YAP for you (Your Achievements)
-    const val screen_your_achievements_display_text_toolbar_title: String = "screen_your_achievements_display_text_toolbar_title"
+    const val screen_your_achievements_display_text_toolbar_title: String =
+        "screen_your_achievements_display_text_toolbar_title"
 }

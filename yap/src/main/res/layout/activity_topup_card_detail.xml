@@ -26,30 +26,18 @@
             layout="@layout/layout_topup_card_detail_toolbar"
             app:viewModel="@{viewModel}" />
 
-        <!--        <co.yap.widgets.CorePaymentCard-->
-        <!--            android:id="@+id/paymentCard"-->
-        <!--            app:cardExpiry="@{viewModel.state.cardInfo.expiry}"-->
-        <!--            app:cardNickname="@{viewModel.state.cardInfo.alias}"-->
-        <!--            app:card_type="@drawable/ic_visa_card"-->
-        <!--            app:cardNumber="@{viewModel.state.cardInfo.number}"-->
-        <!--            app:card_background="@drawable/bg_gradient_master_card"-->
-        <!--            android:layout_width="wrap_content"-->
-        <!--            android:layout_height="wrap_content"-->
-        <!--            app:layout_constraintEnd_toEndOf="parent"-->
-        <!--            app:layout_constraintStart_toStartOf="parent"-->
-        <!--            app:layout_constraintTop_toBottomOf="@id/toolbarCardDetail" />-->
         <co.yap.widgets.CorePaymentCard
             android:id="@+id/paymentCard"
             android:layout_width="@dimen/_220sdp"
             android:layout_height="@dimen/_139sdp"
+            app:cardBackgroundColor="@{viewModel.state.cardInfo.color}"
             app:cardExpiry="@{viewModel.state.cardInfo.expiry}"
             app:cardNickname="@{viewModel.state.cardInfo.alias}"
             app:cardNumber="@{viewModel.state.cardInfo.number}"
-            app:cardBackgroundColor="@{viewModel.state.cardInfo.color}"
             app:cardType="@{viewModel.state.cardInfo.logo}"
+            app:card_size_type="large"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:card_size_type="large"
             app:layout_constraintTop_toBottomOf="@id/toolbarCardDetail" />
 
         <TextView
@@ -79,9 +67,9 @@
             <TextView
                 android:id="@+id/tvHintNick"
                 style="@style/ASmallGrey"
-                app:layout_constraintStart_toStartOf="parent"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:text="@{Strings.screen_topup_card_detail_display_text_hint_card_nickname}"
                 tools:text="@string/screen_topup_card_detail_display_text_hint_card_nickname" />
@@ -116,7 +104,7 @@
                 app:layout_constraintStart_toStartOf="@id/vLine"
                 app:layout_constraintTop_toBottomOf="@id/vLine"
                 app:text="@{Strings.screen_topup_card_detail_display_text_hint_card_info}"
-                tools:text="@string/screen_topup_card_detail_display_text_hint_card_info"/>
+                tools:text="@string/screen_topup_card_detail_display_text_hint_card_info" />
 
             <TextView
                 android:id="@+id/tvCardInfo"
@@ -153,7 +141,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:text="@{Strings.screen_topup_card_detail_display_text_hint_card_type}"
-                    tools:text="@string/screen_topup_card_detail_display_text_hint_card_type"/>
+                    tools:text="@string/screen_topup_card_detail_display_text_hint_card_type" />
 
                 <TextView
                     android:id="@+id/tvCardType"
@@ -215,9 +203,9 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/_22sdp"
             android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
+            android:padding="@dimen/_10sdp"
             android:textColor="?attr/colorPrimaryAttr"
             app:btn_enable="true"
-            android:padding="@dimen/_10sdp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

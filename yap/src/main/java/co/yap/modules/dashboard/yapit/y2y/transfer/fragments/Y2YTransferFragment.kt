@@ -35,7 +35,6 @@ import co.yap.yapcore.helpers.spannables.color
 import co.yap.yapcore.helpers.spannables.getText
 import co.yap.yapcore.managers.MyUserManager
 import kotlinx.android.synthetic.main.fragment_y2y_funds_transfer.*
-import kotlin.math.abs
 
 
 class Y2YTransferFragment : Y2YBaseFragment<IY2YFundsTransfer.ViewModel>(), IY2YFundsTransfer.View {
@@ -169,11 +168,11 @@ class Y2YTransferFragment : Y2YBaseFragment<IY2YFundsTransfer.ViewModel>(), IY2Y
             it.dailyLimit?.let { dailyLimit ->
                 it.totalDebitAmount?.let { totalConsumedAmount ->
                     viewModel.state.amount.toDoubleOrNull()?.let { enteredAmount ->
-                        val remainingDailyLimit = abs(dailyLimit - totalConsumedAmount)
+                        val remainingDailyLimit =
+                            if ((dailyLimit - totalConsumedAmount) < 0.0) 0.0 else (dailyLimit - totalConsumedAmount)
                         viewModel.state.errorDescription =
-                            getString(Strings.common_display_text_daily_limit_error).format(
-                                dailyLimit,
-                                remainingDailyLimit
+                            if (enteredAmount > dailyLimit) getString(Strings.common_display_text_daily_limit_error_single_transaction) else getString(
+                                Strings.common_display_text_daily_limit_error_single_transaction
                             )
                         return enteredAmount > remainingDailyLimit
 
@@ -185,9 +184,9 @@ class Y2YTransferFragment : Y2YBaseFragment<IY2YFundsTransfer.ViewModel>(), IY2Y
 
     private fun isOtpRequired(): Boolean {
         viewModel.transactionThreshold.value?.let {
-            it.totalDebitAmountRemittance?.let { totalSMConsumedAmount ->
+            it.totalDebitAmountY2Y?.let { totalSMConsumedAmount ->
                 viewModel.state.amount.toDoubleOrNull()?.let { enteredAmount ->
-                    val remainingOtpLimit = it.otpLimit ?: 0.0 - totalSMConsumedAmount
+                    val remainingOtpLimit = it.otpLimitY2Y ?: 0.0 - totalSMConsumedAmount
                     return enteredAmount > remainingOtpLimit
                 } ?: return false
             } ?: return false
