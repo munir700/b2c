@@ -55,6 +55,8 @@ data class TransactionDetails(
     @SerializedName("senderName")
     val senderName: String?,
     @SerializedName("receiverName")
-    val receiverName: String?
+    val receiverName: String?,
+    @SerializedName("postedFees")
+    val postedFees: String?
 ):Parcelable
 
