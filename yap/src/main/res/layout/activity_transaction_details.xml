@@ -33,13 +33,13 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/toolbar" />
 
-        <co.yap.widgets.CoreCircularImageView
+        <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/ivPicture"
             android:layout_width="@dimen/_35sdp"
             android:layout_height="@dimen/_35sdp"
             android:layout_marginStart="@dimen/margin_medium"
             android:layout_marginTop="@dimen/margin_medium"
-            android:background="@drawable/bg_round_purple_enabled"
+            android:background="@drawable/bg_round_purple"
             android:padding="@dimen/margin_small"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/ivMap"
