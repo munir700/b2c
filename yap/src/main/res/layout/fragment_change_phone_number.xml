@@ -72,16 +72,19 @@
                 android:digits="1234567890 "
                 android:drawableEnd="@{viewModel.state.drawbleRight}"
                 android:imeOptions="actionDone"
+                android:importantForAutofill="no"
                 android:inputType="phone"
+                android:theme="@style/Theme.EditText.Primary"
                 android:maxLength="@{viewModel.state.mobileNoLength}"
                 android:singleLine="true"
                 android:text="@={viewModel.state.mobile}"
                 android:textColor="?attr/colorPrimaryDarkAttr"
                 android:textSize="@dimen/_15sdp"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintLeft_toRightOf="@+id/ccpSelector"
                 app:layout_constraintStart_toEndOf="@+id/ccpSelector"
-                android:importantForAutofill="no" />
+                tools:layout_editor_absoluteY="0dp" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

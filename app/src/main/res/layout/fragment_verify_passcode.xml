@@ -89,7 +89,7 @@
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/dialer"
             app:layout_constraintVertical_bias="0.75"
-            app:text="@{Strings.screen_verify_passcode_button_sign_in}"
+            android:text="@{viewModel.state.btnVerifyPassCodeText}"
             tools:text="@string/screen_verify_passcode_button_sign_in" />
 
         <TextView

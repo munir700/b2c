@@ -51,6 +51,7 @@
                 android:theme="@style/Theme.EditText.Primary"
                 android:layout_marginStart="@dimen/margin_medium_large"
                 android:layout_marginEnd="@dimen/margin_medium_large"
+                android:theme="@style/Theme.EditText.Primary"
                 android:background="@{viewModel.state.backgroundNew}"
                 android:drawableEnd="@{viewModel.state.drawableNew}"
                 app:hint="@{Strings.screen_change_email_placeholder_email_address}"

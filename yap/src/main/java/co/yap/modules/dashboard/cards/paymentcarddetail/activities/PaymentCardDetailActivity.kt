@@ -12,6 +12,7 @@ import android.view.Gravity
 import android.view.View
 import android.view.Window
 import android.widget.ImageView
+import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
@@ -45,6 +46,7 @@ import co.yap.networking.cards.responsedtos.Card
 import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionListData
 import co.yap.translation.Strings
 import co.yap.yapcore.BaseBindingActivity
+import co.yap.yapcore.constants.Constants.VERIFY_PASS_CODE_BTN_TEXT
 import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.enums.CardStatus
 import co.yap.yapcore.helpers.Utils
@@ -320,7 +322,10 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
         checkFreezeUnfreezStatus()
 
         btnCardDetails.setOnClickListener {
-            mNavigator.startVerifyPassCodePresenterActivity(this) { resultCode, data ->
+            mNavigator.startVerifyPassCodePresenterActivity(
+                this,
+                bundleOf(VERIFY_PASS_CODE_BTN_TEXT to getString(Strings.screen_verify_passcode_button_verify))
+            ) { resultCode, data ->
                 if (resultCode == Activity.RESULT_OK) {
                     preventTakeScreenShot(false)
                     viewModel.getCardDetails()
@@ -530,9 +535,10 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
         dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         val btnClose = dialog.findViewById(R.id.ivCross) as ImageView
         var cardType = ""
+        var cardNumber: String? = ""
         if (null != viewModel.cardDetail.cardNumber) {
             if (viewModel.cardDetail.cardNumber?.trim()?.contains(" ")!!) {
-                tvCardNumber.text = viewModel.cardDetail.cardNumber
+                cardNumber = viewModel.cardDetail.cardNumber
             } else {
                 if (viewModel.cardDetail.cardNumber?.length == 16) {
                     val formattedCardNumber: StringBuilder =
@@ -540,7 +546,7 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
                     formattedCardNumber.insert(4, " ")
                     formattedCardNumber.insert(9, " ")
                     formattedCardNumber.insert(14, " ")
-                    tvCardNumber.text = formattedCardNumber
+                    cardNumber = formattedCardNumber.toString()
                 }
             }
         }
@@ -569,14 +575,14 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
             CardDetailsModel(
                 cardExpiry = viewModel.cardDetail.expiryDate,
                 cardType = cardType,
-                cardNumber = viewModel.cardDetail.cardNumber, cardCvv = viewModel.cardDetail.cvv
+                cardNumber = cardNumber, cardCvv = viewModel.cardDetail.cvv
             )
         )
         pagerList.add(
             CardDetailsModel(
                 cardExpiry = viewModel.cardDetail.expiryDate,
                 cardType = cardType,
-                cardNumber = viewModel.cardDetail.cardNumber, cardCvv = viewModel.cardDetail.cvv
+                cardNumber = cardNumber, cardCvv = viewModel.cardDetail.cvv
             )
         )
         val cardDetailsPagerAdapter = CardDetailsDialogPagerAdapter(pagerList)

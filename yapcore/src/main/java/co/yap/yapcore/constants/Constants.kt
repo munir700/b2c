@@ -164,6 +164,7 @@ object Constants {
         "KEY_IS_FINGERPRINT_PERMISSION_SHOWN"
     const val KEY_AVAILABLE_BALANCE: String = "AVAILABLE_BALANCE"
     const val KEY_THEME = "KEY_THEME"
+    const val VERIFY_PASS_CODE_BTN_TEXT = "verify_pass_code_btn_text"
 
 
 }

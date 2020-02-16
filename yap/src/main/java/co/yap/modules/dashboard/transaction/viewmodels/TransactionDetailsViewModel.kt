@@ -70,10 +70,15 @@ class TransactionDetailsViewModel(application: Application) :
                     }
                     state.spentAmount =
                         response.data.data?.currency + " " + Utils.getFormattedCurrency(response.data.data?.amount.toString())
+                    state.vatAmount = if (response.data.data?.vat != null) {
+                        response.data.data?.currency + " " + Utils.getFormattedCurrency(response.data.data?.vat.toString())
+                    } else {
+                        "${response.data.data?.currency} ${Utils.getFormattedCurrency("0.00")}"
+                    }
                     if (response.data.data?.feeAmount != null)
                         state.feeAmount =
-                            response.data.data?.currency + " " + response.data.data?.feeAmount else state.feeAmount =
-                        response.data.data?.currency + " " + "0.00"
+                            response.data.data?.currency + " " + Utils.getFormattedCurrency(response.data.data?.feeAmount.toString()) else state.feeAmount =
+                        response.data.data?.currency + " " + Utils.getFormattedCurrency("0.00")
 
                     if (response.data.data?.transactionNote != null && response.data.data?.transactionNote != "") {
                         state.addNoteTitle =

@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
+import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
@@ -72,7 +73,9 @@ class PersonalDetailsFragment : MoreBaseFragment<IPersonalDetail.ViewModel>(),
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
                 R.id.tvEditPhoneNumber -> {
-                    mNavigator.startVerifyPassCodePresenterActivity(requireActivity()) { resultCode, data ->
+                    mNavigator.startVerifyPassCodePresenterActivity(requireActivity(),
+                        bundleOf(Constants.VERIFY_PASS_CODE_BTN_TEXT to getString(Strings.screen_verify_passcode_button_verify))
+                    ) { resultCode, data ->
                         if (resultCode == Activity.RESULT_OK) {
                             preventTakeScreenShot(false)
                             findNavController().navigate(R.id.action_personalDetailsFragment_to_change_phone_number_navigation)
