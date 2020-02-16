@@ -114,8 +114,8 @@ class CashTransferViewModel(application: Application) :
         transactionThreshold.value?.let {
             it.totalDebitAmountRemittance?.let { totalSMConsumedAmount ->
                 state.amount.toDoubleOrNull()?.let { enteredAmount ->
-                    val remainingOtpLimit = it.otpLimit ?: 0.0 - totalSMConsumedAmount
-                    return enteredAmount > remainingOtpLimit
+                    val remainingOtpLimit = it.otpLimit?.minus(totalSMConsumedAmount)
+                    return enteredAmount > (remainingOtpLimit ?: 0.0)
                 } ?: return false
             } ?: return false
         } ?: return false

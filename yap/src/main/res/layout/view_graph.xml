@@ -1,19 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginTop="@dimen/_10sdp"
-    android:orientation="vertical">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <co.yap.widgets.HorizontalNonScrollRecyclerView
-        android:id="@+id/rvTransactionsBarChart"
+    <data>
+
+        <variable
+            name="viewModel"
+            type="co.yap.modules.dashboard.home.viewmodels.YapHomeViewModel" />
+
+        <import type="android.view.View" />
+
+    </data>
+
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/_80sdp"
-        android:layout_gravity="bottom"
-        android:gravity="bottom|start"
-        android:background="@color/transparent"
-        tools:listitem="@layout/item_bar_chart_v2" />
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:orientation="vertical">
 
-</FrameLayout>
+        <co.yap.widgets.HorizontalNonScrollRecyclerView
+            android:id="@+id/rvTransactionsBarChart"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_80sdp"
+            android:layout_gravity="bottom"
+            android:background="@color/transparent"
+            android:gravity="bottom|start"
+            tools:listitem="@layout/item_bar_chart_v2" />
+
+    </FrameLayout>

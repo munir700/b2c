@@ -121,34 +121,29 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/margin_medium"
-            android:layout_marginTop="@dimen/margin_large"
             android:background="@drawable/cornor_edges_gery"
             android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
             android:orientation="horizontal"
-            android:paddingRight="@dimen/small"
-            android:paddingBottom="@dimen/margin_small"
             app:layout_constraintTop_toBottomOf="@+id/btnBankDetails">
 
             <ImageView
-                android:layout_width="@dimen/_46sdp"
-                android:layout_height="@dimen/_46sdp"
-                android:layout_marginLeft="@dimen/margin_small"
-                android:layout_marginTop="@dimen/margin_normal_large"
-                android:layout_marginRight="@dimen/margin_small"
-                android:layout_marginBottom="@dimen/small"
-                android:src="@drawable/ic_round_badge_dark_blue" />
+                android:layout_width="@dimen/_40sdp"
+                android:layout_height="match_parent"
+                android:layout_margin="@dimen/margin_small"
+                android:padding="@dimen/_3sdp"
+                android:src="@drawable/ic_yap_for_you" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_medium"
+                android:layout_height="match_parent"
+                android:gravity="center|start"
                 android:orientation="vertical">
-
 
                 <TextView
                     style="@style/Title3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:singleLine="true"
                     android:text="@string/screen_yap_for_you_display_text_title"
                     android:textSize="@dimen/_15sdp"
                     app:text="@{Strings.screen_yap_for_you_display_text_title}" />
@@ -159,6 +154,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_2sdp"
                     android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
+                    android:singleLine="true"
                     android:text="@string/screen_yap_for_you_display_text_sub_title"
                     app:text="@{Strings.screen_yap_for_you_display_text_sub_title}" />
             </LinearLayout>
@@ -170,7 +166,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_marginStart="@dimen/margin_small"
-            android:layout_marginTop="@dimen/margin_medium"
+            android:layout_marginTop="@dimen/margin_small"
             android:layout_marginEnd="@dimen/margin_small"
             android:dividerHeight="2dp"
             android:visibility="visible"

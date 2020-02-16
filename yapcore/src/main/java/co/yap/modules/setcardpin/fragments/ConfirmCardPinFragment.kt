@@ -24,9 +24,6 @@ open class ConfirmCardPinFragment : SetCardPinFragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         loadData()
-       /* tvTitle.text = Translator.getString(requireContext(), Strings.screen_confirm_card_pin_display_text_title)
-        btnAction.text = Translator.getString(requireContext(), Strings.screen_confirm_card_pin_button_create_pin)*/
-//        viewModel.pincode = arguments?.let { ConfirmCardPinFragmentArgs.fromBundle(it).pincode } as String
     }
 
     override fun setObservers() {

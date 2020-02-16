@@ -18,7 +18,7 @@ open class ConfirmCardPinViewModel(application: Application) : SetCardPinViewMod
         clickEvent.setValue(id)
     }
 
-    override fun setCardPin(cardSerialName : String) {
+    override fun setCardPin(cardSerialName: String) {
         launch {
             state.loading = true
             when (val response = repository.createCardPin(
@@ -26,10 +26,13 @@ open class ConfirmCardPinViewModel(application: Application) : SetCardPinViewMod
                 cardSerialName
             )) {
                 is RetroApiResponse.Success -> {
+                    kotlinx.coroutines.delay(600)
                     clickEvent.setValue(EVENT_SET_CARD_PIN_SUCCESS)
                     MyUserManager.user?.notificationStatuses = "CARD_ACTIVATED"
                 }
-                is RetroApiResponse.Error -> state.toast = response.error.message
+                is RetroApiResponse.Error -> {
+                    state.toast = response.error.message
+                }
             }
             state.loading = false
         }

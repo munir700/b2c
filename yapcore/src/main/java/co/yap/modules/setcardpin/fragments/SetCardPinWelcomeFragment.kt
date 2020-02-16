@@ -11,7 +11,8 @@ import co.yap.yapcore.BR
 import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.R
 
-class SetCardPinWelcomeFragment : BaseBindingFragment<ISetCardPinWelcome.ViewModel>(), ISetCardPinWelcome.View {
+class SetCardPinWelcomeFragment : BaseBindingFragment<ISetCardPinWelcome.ViewModel>(),
+    ISetCardPinWelcome.View {
 
     override fun getBindingVariable(): Int = BR.viewModel
 
@@ -22,7 +23,7 @@ class SetCardPinWelcomeFragment : BaseBindingFragment<ISetCardPinWelcome.ViewMod
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        if(activity is SetCardPinWelcomeActivity){
+        if (activity is SetCardPinWelcomeActivity) {
             (activity as SetCardPinWelcomeActivity).preventTakeDeviceScreenShot.value = false
         }
         viewModel.clickEvent.observe(this, Observer {

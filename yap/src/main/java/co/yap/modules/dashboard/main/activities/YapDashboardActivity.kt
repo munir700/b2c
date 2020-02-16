@@ -68,9 +68,7 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         setupPager()
-        viewModel.getAccountBalanceRequest()
         addObservers()
         addListeners()
         setupYapButton()
