@@ -75,9 +75,9 @@ class TransactionDetailsViewModel(application: Application) :
                     } else {
                         "${response.data.data?.currency} ${Utils.getFormattedCurrency("0.00")}"
                     }
-                    if (response.data.data?.feeAmount != null)
+                    if (response.data.data?.postedFees != null)
                         state.feeAmount =
-                            response.data.data?.currency + " " + Utils.getFormattedCurrency(response.data.data?.feeAmount.toString()) else state.feeAmount =
+                            response.data.data?.currency + " " + Utils.getFormattedCurrency(response.data.data?.postedFees.toString()) else state.feeAmount =
                         response.data.data?.currency + " " + Utils.getFormattedCurrency("0.00")
 
                     if (response.data.data?.transactionNote != null && response.data.data?.transactionNote != "") {
@@ -95,6 +95,8 @@ class TransactionDetailsViewModel(application: Application) :
                         state.totalAmount =
                             Utils.getFormattedCurrency(response.data.data?.totalAmount.toString())
                     }
+                    state.totalAmountCalculated =
+                        "${response.data.data?.currency} ${Utils.getFormattedCurrency(response.data.data?.totalAmount.toString())}"
 
                     state.currency = response.data.data?.currency
 
