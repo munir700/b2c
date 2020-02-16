@@ -13,7 +13,6 @@ import co.yap.networking.messages.MessagesRepository
 import co.yap.networking.messages.requestdtos.CreateForgotPasscodeOtpRequest
 import co.yap.networking.messages.requestdtos.CreateOtpGenericRequest
 import co.yap.networking.models.RetroApiResponse
-import co.yap.translation.Translator
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.SingleLiveEvent
@@ -173,9 +172,12 @@ class VerifyPasscodeViewModel(application: Application) :
             info[UserAttributes().householdUser] = it.accountType == "B2C_HOUSEHOLD"
             info[UserAttributes().youngUser] = false
             info[UserAttributes().b2bUser] = false
-
+            info[UserAttributes().country] = "AE"
+            info[UserAttributes().city] = ""
+            it.currentCustomer.customerId?.let { customerId ->
+                info[UserAttributes().customerId] = customerId
+            }
             it.uuid?.let { trackEventWithAttributes(it, info) }
         }
     }
-
 }

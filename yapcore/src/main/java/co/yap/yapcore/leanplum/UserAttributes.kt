@@ -10,5 +10,9 @@ data class UserAttributes(
     val mainUser: String = "mainUser",
     val householdUser: String = "householdUser",
     val youngUser: String = "youngUser",
-    val b2bUser: String = "b2bUser"
+    val b2bUser: String = "b2bUser",
+    val country: String = "country",
+    val city: String = "city",
+    val uuid: String = "uuid",
+    val customerId: String = "customerId"
 )
