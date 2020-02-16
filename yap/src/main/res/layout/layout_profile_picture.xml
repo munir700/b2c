@@ -16,16 +16,11 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/_116sdp"
+        android:layout_height="wrap_content"
         android:background="@color/white"
         android:gravity="center|center_vertical">
 
-        <RelativeLayout
-            android:id="@+id/rlPicture"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="center|center_vertical"
-            android:gravity="center|center_vertical">
+
 
             <TextView
                 android:id="@+id/tvAccountHolderNameInitials"
@@ -83,5 +78,4 @@
                 </FrameLayout>
             </RelativeLayout>
         </RelativeLayout>
-    </RelativeLayout>
 </layout>
