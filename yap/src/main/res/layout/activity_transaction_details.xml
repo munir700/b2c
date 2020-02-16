@@ -266,10 +266,10 @@
                 style="@style/ASmallGrey"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Vat"
+                android:text="VAT"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/tvVatAmount"
-                tools:text="Vat"
+                tools:text="VAT"
                 tools:ignore="HardcodedText" />
 
             <TextView

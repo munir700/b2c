@@ -73,7 +73,8 @@ class PersonalDetailsFragment : MoreBaseFragment<IPersonalDetail.ViewModel>(),
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
                 R.id.tvEditPhoneNumber -> {
-                    mNavigator.startVerifyPassCodePresenterActivity(requireActivity(),
+                    mNavigator.startVerifyPassCodePresenterActivity(
+                        requireActivity(),
                         bundleOf(Constants.VERIFY_PASS_CODE_BTN_TEXT to getString(Strings.screen_verify_passcode_button_verify))
                     ) { resultCode, data ->
                         if (resultCode == Activity.RESULT_OK) {

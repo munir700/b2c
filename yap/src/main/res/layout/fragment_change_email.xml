@@ -48,7 +48,6 @@
                 android:id="@+id/etNewEmail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:theme="@style/Theme.EditText.Primary"
                 android:layout_marginStart="@dimen/margin_medium_large"
                 android:layout_marginEnd="@dimen/margin_medium_large"
                 android:theme="@style/Theme.EditText.Primary"

@@ -55,6 +55,7 @@ class DocumentsDashboardActivity : BaseBindingActivity<IDocumentsDashboard.ViewM
         })
     }
 
+
     override fun onBackPressed() {
         val fragment = supportFragmentManager.findFragmentById(R.id.kyc_host_fragment)
         viewModel.skipFirstScreen.value?.let {

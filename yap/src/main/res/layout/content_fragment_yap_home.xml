@@ -36,8 +36,7 @@
             <include
                 android:id="@+id/vGraph"
                 layout="@layout/view_graph"
-                android:visibility="@{viewModel.state.isTransEmpty?View.GONE:View.VISIBLE}"
-                app:viewModel="@{viewModel}" />
+                android:visibility="@{viewModel.state.isTransEmpty?View.GONE:View.VISIBLE}" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvTransactionDate"
@@ -54,7 +53,7 @@
                 tools:text="April 2019" />
 
             <androidx.appcompat.widget.LinearLayoutCompat
-                android:id="@+id/frameLayout"
+                android:id="@+id/lyHomeAction"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"

@@ -65,7 +65,10 @@ import co.yap.yapcore.leanplum.TrackEvents
 import co.yap.yapcore.managers.MyUserManager
 import com.google.android.material.appbar.AppBarLayout
 import com.yarolegovich.discretescrollview.transform.ScaleTransformer
+import kotlinx.android.synthetic.main.content_fragment_yap_home.*
+import kotlinx.android.synthetic.main.view_graph.*
 import kotlin.math.abs
+
 
 class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHome.View,
     NotificationItemClickListener, SwipeRefreshLayout.OnRefreshListener {
@@ -104,24 +107,23 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
         getRecycleViewAdaptor()?.allowFullItemClickListener = true
 
         getBindings().refreshLayout.setOnRefreshListener(this)
-        getBindings().lyInclude.vGraph.rvTransactionsBarChart.adapter =
-            GraphBarsAdapter(mutableListOf(), viewModel)
+        rvTransactionsBarChart.adapter = GraphBarsAdapter(mutableListOf(), viewModel)
 
         getBindings().lyInclude.rvTransaction.apply {
             fixSwipeToRefresh(getBindings().refreshLayout)
         }
 
         getBindings().appbar.addOnOffsetChangedListener(AppBarLayout.OnOffsetChangedListener { appBarLayout, verticalOffset ->
-            val pram = getBindings().lyInclude.frameLayout.layoutParams
+            val pram = getBindings().lyInclude.lyHomeAction.layoutParams
             if (abs(verticalOffset) <= 5) {
-                getBindings().lyInclude.frameLayout.alpha = 1f
+                getBindings().lyInclude.lyHomeAction.alpha = 1f
                 pram.height = appBarLayout.totalScrollRange
-                getBindings().lyInclude.frameLayout.layoutParams = pram
+                getBindings().lyInclude.lyHomeAction.layoutParams = pram
             } else {
                 if (Math.abs(verticalOffset) > 0)
-                    getBindings().lyInclude.frameLayout.alpha = 10 / abs(verticalOffset).toFloat()
-                pram.height = appBarLayout?.totalScrollRange?.plus(verticalOffset) ?: 0
-                getBindings().lyInclude.frameLayout.layoutParams = pram
+                    getBindings().lyInclude.lyHomeAction.alpha = 10 / abs(verticalOffset).toFloat()
+                pram.height = appBarLayout?.totalScrollRange?.plus(verticalOffset)!!
+                getBindings().lyInclude.lyHomeAction.layoutParams = pram
             }
         })
     }
@@ -221,17 +223,12 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
             setAvailableBalance(value.availableBalance.toString())
         })
 
-        viewModel.transactionsLiveData.observe(this, Observer
-        {
+        viewModel.transactionsLiveData.observe(this, Observer {
             if (true == viewModel.isLoadMore.value) {
-                if (getRecycleViewAdaptor()?.itemCount == 0) getBindings().appbar.setExpanded(
-                    true
-                )
+                if (getRecycleViewAdaptor()?.itemCount!! == 0) getBindings().appbar.setExpanded(true)
 
-                if (getRecycleViewAdaptor()?.itemCount ?: 0 > 0)
-                    getRecycleViewAdaptor()?.removeItemAt(
-                        (getRecycleViewAdaptor()?.itemCount ?: 0) - 1
-                    )
+                if (getRecycleViewAdaptor()?.itemCount!! > 0)
+                    getRecycleViewAdaptor()?.removeItemAt(getRecycleViewAdaptor()?.itemCount!! - 1)
 
                 val listToAppend: MutableList<HomeTransactionListData> = mutableListOf()
                 val oldData = getGraphRecycleViewAdapter()?.getDataList()
@@ -308,26 +305,31 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
     private fun checkUserStatus() {
         when (MyUserManager.user?.notificationStatuses) {
             AccountStatus.ON_BOARDED.name, AccountStatus.CAPTURED_EID.name -> {
+                ivNoTransaction.visibility = View.VISIBLE
                 addCompleteVerificationNotification()
             }
 
             AccountStatus.MEETING_SUCCESS.name -> {
                 if (isShowSetPin(MyUserManager.getPrimaryCard())) {
+                    ivNoTransaction.visibility = View.VISIBLE
                     addSetPinNotification()
                 } else toast("Invalid card found")
             }
 
             AccountStatus.MEETING_SCHEDULED.name -> {
+                ivNoTransaction.visibility = View.VISIBLE
                 clearNotification()
             }
 
             AccountStatus.CARD_ACTIVATED.name -> {
+                ivNoTransaction.visibility = View.VISIBLE
                 clearNotification()
             }
         }
 
         if (PartnerBankStatus.ACTIVATED.status == MyUserManager.user?.partnerBankStatus) {
             showTransactionsAndGraph()
+            //clearNotification() // why to clear
         } else {
             viewModel.state.isTransEmpty.set(true)
         }
@@ -563,16 +565,16 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
     }
 
     private fun getRecycleViewAdaptor(): TransactionsHeaderAdapter? {
-        return if (getBindings().lyInclude.rvNotificationList.adapter is TransactionsHeaderAdapter) {
-            (getBindings().lyInclude.rvNotificationList.adapter as TransactionsHeaderAdapter)
+        return if (getBindings().lyInclude.rvTransaction.adapter is TransactionsHeaderAdapter) {
+            (getBindings().lyInclude.rvTransaction.adapter as TransactionsHeaderAdapter)
         } else {
             null
         }
     }
 
     private fun getGraphRecycleViewAdapter(): GraphBarsAdapter? {
-        return if (getBindings().lyInclude.vGraph.rvTransactionsBarChart.adapter is GraphBarsAdapter) {
-            (getBindings().lyInclude.vGraph.rvTransactionsBarChart.adapter as GraphBarsAdapter)
+        return if (rvTransactionsBarChart.adapter is GraphBarsAdapter) {
+            (rvTransactionsBarChart.adapter as GraphBarsAdapter)
         } else {
             null
         }

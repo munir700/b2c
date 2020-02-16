@@ -186,7 +186,7 @@ class Y2YTransferFragment : Y2YBaseFragment<IY2YFundsTransfer.ViewModel>(), IY2Y
         viewModel.transactionThreshold.value?.let {
             it.totalDebitAmountY2Y?.let { totalY2YConsumedAmount ->
                 viewModel.state.amount.toDoubleOrNull()?.let { enteredAmount ->
-                    val remainingOtpLimit = it.otpLimit?.minus(totalY2YConsumedAmount)
+                    val remainingOtpLimit = it.otpLimitY2Y?.minus(totalY2YConsumedAmount)
                     return enteredAmount > (remainingOtpLimit ?: 0.0)
                 } ?: return false
             } ?: return false
