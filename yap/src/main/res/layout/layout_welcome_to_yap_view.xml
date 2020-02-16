@@ -2,12 +2,13 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
+    android:id="@+id/clWelcomeYap"
     android:layout_height="wrap_content">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cvYapIt"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="@dimen/_35sdp"
+        android:layout_height="@dimen/_35sdp"
         app:cardBackgroundColor="@color/transparent"
         app:cardCornerRadius="32dp"
         app:cardElevation="@dimen/_2sdp"
@@ -18,8 +19,8 @@
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/ivYapIt"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/_35sdp"
+            android:layout_height="@dimen/_35sdp"
             android:background="@color/white"
             app:backgroundTint="@color/white"
             app:elevation="0dp"
@@ -43,7 +44,7 @@
 
         <TextView
             android:id="@+id/tvWelcomeToYap"
-            style="@style/Regular"
+            style="@style/ASmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Welcome to YAP"
@@ -55,7 +56,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            style="@style/RegularGrey"
+            style="@style/SmallGrey"
             android:textColor="@color/colorPrimary"
             app:layout_constraintTop_toBottomOf="@+id/tvWelcomeToYap"
             android:text="Tap here to get started"

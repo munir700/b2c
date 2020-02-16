@@ -33,6 +33,7 @@ import co.yap.modules.dashboard.home.interfaces.NotificationItemClickListener
 import co.yap.modules.dashboard.home.viewmodels.YapHomeViewModel
 import co.yap.modules.dashboard.main.fragments.YapDashboardChildFragment
 import co.yap.modules.dashboard.main.viewmodels.YapDashBoardViewModel
+import co.yap.modules.dashboard.more.yapforyou.activities.YAPForYouActivity
 import co.yap.modules.dashboard.transaction.activities.TransactionDetailsActivity
 import co.yap.modules.dashboard.yapit.topup.landing.TopUpLandingActivity
 import co.yap.modules.kyc.activities.DocumentsDashboardActivity
@@ -46,6 +47,7 @@ import co.yap.networking.cards.responsedtos.Card
 import co.yap.networking.transactions.responsedtos.transaction.Content
 import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionListData
 import co.yap.translation.Strings
+import co.yap.widgets.MultiStateView
 import co.yap.yapcore.constants.Constants.ADDRESS
 import co.yap.yapcore.constants.Constants.ADDRESS_SUCCESS
 import co.yap.yapcore.constants.Constants.BROADCAST_UPDATE_TRANSACTION
@@ -65,7 +67,6 @@ import co.yap.yapcore.leanplum.TrackEvents
 import co.yap.yapcore.managers.MyUserManager
 import com.google.android.material.appbar.AppBarLayout
 import com.yarolegovich.discretescrollview.transform.ScaleTransformer
-import kotlinx.android.synthetic.main.content_fragment_yap_home.*
 import kotlinx.android.synthetic.main.view_graph.*
 import kotlin.math.abs
 
@@ -96,8 +97,18 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
         registerTransactionBroadcast()
         initComponents()
         setObservers()
+        setClickOnWelcomeYapItem()
         setAvailableBalance(viewModel.state.availableBalance)
         trackEvent(TrackEvents.YAP_ONBOARDED)
+    }
+
+    private fun setClickOnWelcomeYapItem() {
+        getBindings().lyInclude.multiStateView.getView(MultiStateView.ViewState.EMPTY)
+            ?.setOnClickListener { openYapForYou() }
+    }
+
+    private fun openYapForYou() {
+        startActivity(Intent(requireContext(), YAPForYouActivity::class.java))
     }
 
     private fun initComponents() {
@@ -252,6 +263,15 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                 getRecycleViewAdaptor()?.addList(listToAppend)
             } else {
                 if (it.isEmpty()) {
+                    //if transaction is empty and filer is applied then state would be Error where no transaction image show
+                    if (homeTransactionsRequest.totalAppliedFilter > 0) {
+                        getBindings().lyInclude.multiStateView.viewState =
+                            MultiStateView.ViewState.ERROR
+                    } else {
+                        //if transaction is empty and filer is not applied then state would be Empty where a single row appears welcome to yap
+                        getBindings().lyInclude.multiStateView.viewState =
+                            MultiStateView.ViewState.EMPTY
+                    }
                     transactionViewHelper?.setTooltipVisibility(View.GONE)
                     viewModel.state.isTransEmpty.set(true)
                 } else {
@@ -305,24 +325,24 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
     private fun checkUserStatus() {
         when (MyUserManager.user?.notificationStatuses) {
             AccountStatus.ON_BOARDED.name, AccountStatus.CAPTURED_EID.name -> {
-                ivNoTransaction.visibility = View.VISIBLE
+//                ivNoTransaction.visibility = View.VISIBLE
                 addCompleteVerificationNotification()
             }
 
             AccountStatus.MEETING_SUCCESS.name -> {
                 if (isShowSetPin(MyUserManager.getPrimaryCard())) {
-                    ivNoTransaction.visibility = View.VISIBLE
+//                    ivNoTransaction.visibility = View.VISIBLE
                     addSetPinNotification()
                 } else toast("Invalid card found")
             }
 
             AccountStatus.MEETING_SCHEDULED.name -> {
-                ivNoTransaction.visibility = View.VISIBLE
+//                ivNoTransaction.visibility = View.VISIBLE
                 clearNotification()
             }
 
             AccountStatus.CARD_ACTIVATED.name -> {
-                ivNoTransaction.visibility = View.VISIBLE
+//                ivNoTransaction.visibility = View.VISIBLE
                 clearNotification()
             }
         }
@@ -349,6 +369,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                 viewModel.state.isTransEmpty.set(true)
             }
         } else {
+            getBindings().lyInclude.multiStateView.viewState = MultiStateView.ViewState.CONTENT
             viewModel.state.isTransEmpty.set(false)
             view?.let {
                 transactionViewHelper = TransactionsViewHelper(
