@@ -28,3 +28,4 @@
             tools:listitem="@layout/item_bar_chart_v2" />
 
     </FrameLayout>
+</layout>
