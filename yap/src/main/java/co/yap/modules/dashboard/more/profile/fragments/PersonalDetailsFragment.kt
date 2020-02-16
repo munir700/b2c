@@ -111,7 +111,7 @@ class PersonalDetailsFragment : MoreBaseFragment<IPersonalDetail.ViewModel>(),
                                 Constants.name,
                                 MyUserManager.user?.currentCustomer?.firstName.toString()
                             )
-                            putExtra(Constants.data, false)
+                            putExtra(Constants.data, true)
                         }
                     }
                 }
@@ -182,13 +182,7 @@ class PersonalDetailsFragment : MoreBaseFragment<IPersonalDetail.ViewModel>(),
             )
 
         } else {
-            startActivity(
-                Intent(
-                    requireContext(),
-                    YapDashboardActivity::class.java
-                )
-            )
-            activity?.finishAffinity()
+
         }
     }
 
@@ -241,6 +235,8 @@ class PersonalDetailsFragment : MoreBaseFragment<IPersonalDetail.ViewModel>(),
 
             success?.let {
                 if (it) {
+                    MyUserManager.eidStatus = EIDStatus.VALID
+                    viewModel.setUpVerificationLayout()
                     startActivityForResult(
                         LocationSelectionActivity.newIntent(
                             context = requireContext(),
@@ -250,15 +246,7 @@ class PersonalDetailsFragment : MoreBaseFragment<IPersonalDetail.ViewModel>(),
                         ), RequestCodes.REQUEST_LOCATION_FOR_KYC
                     )
                 } else {
-                    skipped?.let {
-                        startActivity(
-                            Intent(
-                                requireContext(),
-                                YapDashboardActivity::class.java
-                            )
-                        )
-                        activity?.finishAffinity()
-                    }
+
                 }
             }
         }

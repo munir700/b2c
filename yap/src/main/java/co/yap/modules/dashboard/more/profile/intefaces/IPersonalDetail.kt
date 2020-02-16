@@ -46,6 +46,8 @@ interface IPersonalDetail {
 
         fun requestOrderCard(address: Address?)
 
+        fun setUpVerificationLayout()
+
     }
 
     interface View : IBase.View<ViewModel>
