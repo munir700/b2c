@@ -153,14 +153,9 @@ class CorePaymentCard @JvmOverloads constructor(context: Context, attrs: Attribu
         try {
             val bg = clMainContainer.background
             bg.setTint(Color.parseColor("#$bgCardColor"))
-            //clMainContainer.setBackgroundColor(Color.parseColor("#$bgCardColor"))
         } catch (ex: IllegalArgumentException) {
             clMainContainer.setBackgroundColor(
-//                ContextCompat.getColor(
-//                    context,
                 ThemeColorUtils.colorPrimaryDarkAttribute(context)
-                /* R.color.colorPrimaryDark*/
-//                )
             )
         }
     }

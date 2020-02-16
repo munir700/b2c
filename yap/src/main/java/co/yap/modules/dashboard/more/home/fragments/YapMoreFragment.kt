@@ -23,9 +23,12 @@ import co.yap.modules.dashboard.more.main.activities.MoreActivity
 import co.yap.modules.dashboard.more.notification.activities.NotificationsActivity
 import co.yap.modules.dashboard.more.yapforyou.activities.YAPForYouActivity
 import co.yap.modules.others.fragmentpresenter.activities.FragmentPresenterActivity
+import co.yap.widgets.SpaceGridItemDecoration
+import co.yap.widgets.SpacesItemDecoration
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.Utils.formateIbanString
+import co.yap.yapcore.helpers.extentions.dimen
 import co.yap.yapcore.helpers.extentions.startFragment
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.MyUserManager
@@ -100,6 +103,8 @@ class YapMoreFragment : YapDashboardChildFragment<IMoreHome.ViewModel>(), IMoreH
     private fun setupRecycleView() {
         adapter = YapMoreAdaptor(requireContext(), viewModel.getMoreOptions())
         getBinding().recyclerOptions.adapter = adapter
+
+        getBinding().recyclerOptions.addItemDecoration(SpaceGridItemDecoration(dimen(R.dimen.margin_normal_large)?:16, 2, true))
         adapter.allowFullItemClickListener = true
         adapter.setItemListener(listener)
     }
@@ -113,8 +118,8 @@ class YapMoreFragment : YapDashboardChildFragment<IMoreHome.ViewModel>(), IMoreH
             if (data is MoreOption) {
                 when (data.id) {
                     Constants.MORE_NOTIFICATION -> {
-                        openNotifications()
-//                        Utils.showComingSoon(requireContext())
+                        //openNotifications()
+                        Utils.showComingSoon(requireContext())
                     }
                     Constants.MORE_LOCATE_ATM -> {
                         startFragment(CdmMapFragment::class.java.name)

@@ -893,7 +893,7 @@ object UIBinder {
     @JvmStatic
     @BindingAdapter("cardBackgroundColor")
     fun setCardBackground(view: CorePaymentCard, cardBackgroundColor: String?) {
-        if (cardBackgroundColor != null)
+        if (!cardBackgroundColor.isNullOrBlank())
             view.setCardBackground(cardBackgroundColor)
     }
 

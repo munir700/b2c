@@ -1,51 +1,46 @@
 package co.yap.modules.dashboard.home.adaptor
 
-import android.content.Context
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
-import androidx.cardview.widget.CardView
+import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
 import co.yap.R
+import co.yap.databinding.ViewNotificationsBinding
 import co.yap.modules.dashboard.home.interfaces.NotificationItemClickListener
 import co.yap.modules.yapnotification.models.Notification
-import kotlinx.android.synthetic.main.view_notifications.view.*
+import co.yap.yapcore.BaseBindingRecyclerAdapter
 
 class NotificationAdapter(
-    val listItems: ArrayList<Notification>,
-    val context: Context,
+    val listItems: MutableList<Notification>,
     val clickListener: NotificationItemClickListener
 ) :
-    RecyclerView.Adapter<NotificationAdapter.ViewHolder>() {
+    BaseBindingRecyclerAdapter<Notification, NotificationAdapter.ViewHolder>(listItems) {
 
 
-    override fun onCreateViewHolder(p0: ViewGroup, p1: Int): ViewHolder {
-        val v = LayoutInflater.from(p0?.context).inflate(R.layout.view_notifications, p0, false)
-        return ViewHolder(v)
+    override fun onCreateViewHolder(binding: ViewDataBinding): ViewHolder {
+        return ViewHolder(binding as ViewNotificationsBinding)
     }
 
-    override fun getItemCount(): Int {
-        return listItems.size
-    }
+    override fun getLayoutIdForViewType(viewType: Int): Int = R.layout.view_notifications
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val notification: Notification = listItems[position]
 
-        holder.tvTitle.text = notification.title
-        holder.tvDescription.text = notification.description
+        holder.binding?.tvTitle?.text = notification.title
+        holder.binding?.tvDescription?.text = notification.description
     }
 
-    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val ivNotification: ImageView = itemView.ivNotification
-        val ivCross: ImageView = itemView.ivCross
-        val tvTitle: TextView = itemView.tvTitle
-        val tvDescription: TextView = itemView.tvDescription
-        val cvNotification: CardView = itemView.cvNotification
+    inner class ViewHolder(binding: ViewNotificationsBinding) :
+        RecyclerView.ViewHolder(binding.root) {
+//        val ivNotification: ImageView = itemView.ivNotification
+//        val ivCross: ImageView = itemView.ivCross
+//        val tvTitle: TextView = itemView.tvTitle
+//        val tvDescription: TextView = itemView.tvDescription
+//        val cvNotification: CardView = itemView.cvNotification
+
+        val binding: ViewNotificationsBinding?
 
         init {
-            cvNotification.setOnClickListener {
+            this.binding = binding
+            binding.cvNotification.setOnClickListener {
                 try {
                     clickListener.onClick(listItems[adapterPosition])
                 } catch (e: Exception) {

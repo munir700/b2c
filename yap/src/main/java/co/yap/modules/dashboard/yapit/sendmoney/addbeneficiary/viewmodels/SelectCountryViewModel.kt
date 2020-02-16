@@ -89,7 +89,8 @@ class SelectCountryViewModel(application: Application) :
                 state.loading = true
                 when (val response = repository.getAllCountries()) {
                     is RetroApiResponse.Success -> {
-                        response.data.data?.let { it ->
+                        val sortedList = response.data.data?.sortedWith(compareBy { it.name })
+                        sortedList?.let { it ->
                             countries.clear()
                             countries.add(
                                 0,
