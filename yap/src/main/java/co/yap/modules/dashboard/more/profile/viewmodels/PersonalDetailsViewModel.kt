@@ -165,8 +165,7 @@ class PersonalDetailsViewModel(application: Application) :
         }
     }
 
-    private fun setUpVerificationLayout() {
-
+    override fun setUpVerificationLayout() {
         when (MyUserManager.eidStatus) {
             EIDStatus.EXPIRED -> populateExpiredDocumentData()
             EIDStatus.VALID -> populateVerifiedDocumentData()

@@ -109,50 +109,58 @@ class EidInfoReviewViewModel(application: Application) :
 
 
     private fun uploadDocuments(result: IdentityScannerResult) {
-        val file = File(result.document.files[1].croppedFile)
-        val fileReqBody = RequestBody.create(MediaType.parse("image/*"), file)
-        val part =
-            MultipartBody.Part.createFormData("image", file.name, fileReqBody)
-        launch {
-            state.loading = true
-            when (val response = repository.detectCardData(part)) {
 
-                is RetroApiResponse.Success -> {
+        if (!result.document.files.isNullOrEmpty() && result.document.files.size < 3) {
+            val file = File(result.document.files[1].croppedFile)
+            parentViewModel?.paths?.clear()
+            parentViewModel?.paths?.add(result.document.files[0].croppedFile)
+            parentViewModel?.paths?.add(result.document.files[1].croppedFile)
 
-                    val data = response.data.data
-                    if (data != null) {
-                        val identity = Identity()
-                        identity.nationality = data.nationality
-                        identity.gender =
-                            if (data.sex.equals("M", true)) Gender.Male else Gender.Female
-                        identity.sirName = data.surname
-                        identity.givenName = data.names
-                        identity.expirationDate =
-                            DateUtils.stringToDate(data.expiration_date, "yyMMdd")
-                        identity.dateOfBirth =
-                            DateUtils.stringToDate(data.date_of_birth, "yyMMdd")
-                        identity.citizenNumber = data.optional1
-                        identity.isoCountryCode2Digit = data.isoCountryCode2Digit
-                        result.identity = identity
 
-                        parentViewModel?.identity = identity
+            val fileReqBody = RequestBody.create(MediaType.parse("image/*"), file)
+            val part =
+                MultipartBody.Part.createFormData("image", file.name, fileReqBody)
+            launch {
+                state.loading = true
+                when (val response = repository.detectCardData(part)) {
 
-                        populateState(parentViewModel?.identity)
-                    } else {
-                        result.identity = Identity()
-                        parentViewModel?.identity = Identity()
-                        populateState(Identity())
+                    is RetroApiResponse.Success -> {
+
+                        val data = response.data.data
+                        if (data != null) {
+                            val identity = Identity()
+                            identity.nationality = data.nationality
+                            identity.gender =
+                                if (data.sex.equals("M", true)) Gender.Male else Gender.Female
+                            identity.sirName = data.surname
+                            identity.givenName = data.names
+                            identity.expirationDate =
+                                DateUtils.stringToDate(data.expiration_date, "yyMMdd")
+                            identity.dateOfBirth =
+                                DateUtils.stringToDate(data.date_of_birth, "yyMMdd")
+                            identity.citizenNumber = data.optional1
+                            identity.isoCountryCode2Digit = data.isoCountryCode2Digit
+                            result.identity = identity
+
+                            parentViewModel?.identity = identity
+
+                            populateState(parentViewModel?.identity)
+                        } else {
+                            result.identity = Identity()
+                            parentViewModel?.identity = Identity()
+                            populateState(Identity())
+                            clickEvent.setValue(EVENT_FINISH)
+                            state.toast = response.data.errors?.message!!
+                            //clearData()
+                        }
+                    }
+                    is RetroApiResponse.Error -> {
+                        state.toast = response.error.message
                         clickEvent.setValue(EVENT_FINISH)
-                        state.toast = response.data.errors?.message!!
-                        //clearData()
                     }
                 }
-                is RetroApiResponse.Error -> {
-                    state.toast = response.error.message
-                    clickEvent.setValue(EVENT_FINISH)
-                }
+                state.loading = false
             }
-            state.loading = false
         }
     }
 

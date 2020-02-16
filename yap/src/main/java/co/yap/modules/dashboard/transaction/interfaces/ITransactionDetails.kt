@@ -32,6 +32,7 @@ interface ITransactionDetails {
         var noteValue: String?
         var currency: String?
         var vatAmount: String?
+        var totalAmountCalculated: String?
         //var content: Content?
     }
 }

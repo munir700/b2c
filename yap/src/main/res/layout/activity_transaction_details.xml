@@ -46,6 +46,7 @@
             tools:src="@drawable/ic_plus_transactions"
 
             />
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/clAmount"
             android:layout_width="0dp"
@@ -54,20 +55,21 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/ivPicture"
             app:layout_constraintTop_toTopOf="@+id/ivPicture">
+
             <TextView
                 android:id="@+id/tvTransactionHeading"
                 style="@style/Large"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
                 android:layout_marginStart="@dimen/margin_medium"
-                android:lineSpacingExtra="@dimen/_1sdp"
                 android:layout_marginEnd="@dimen/margin_small"
-                android:maxLines="2"
                 android:ellipsize="end"
-                app:layout_constraintEnd_toStartOf="@+id/tvTotalAmountValue"
+                android:lineSpacingExtra="@dimen/_1sdp"
+                android:maxLines="2"
                 android:text="@{viewModel.state.transactionTitle!=null?viewModel.state.transactionTitle:`Unknown`}"
+                app:layout_constraintEnd_toStartOf="@+id/tvTotalAmountValue"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
                 tools:text="Transaction DetailsTrans" />
 
             <TextView
@@ -76,8 +78,8 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="@{viewModel.state.totalAmount}"
-                app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
                 tools:text="2500" />
 
             <TextView
@@ -269,8 +271,8 @@
                 android:text="VAT"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/tvVatAmount"
-                tools:text="VAT"
-                tools:ignore="HardcodedText" />
+                tools:ignore="HardcodedText"
+                tools:text="VAT" />
 
             <TextView
                 android:id="@+id/tvVatAmount"
@@ -280,8 +282,8 @@
                 android:layout_marginTop="@dimen/margin_medium"
                 android:gravity="end"
                 android:text="@{viewModel.state.vatAmount}"
-                app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintLeft_toRightOf="@+id/guideline1"
+                app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvCardSpendAmount"
                 tools:text="1500" />
 
@@ -303,38 +305,36 @@
                 android:layout_marginTop="@dimen/margin_medium"
                 android:gravity="end"
                 android:text="@{viewModel.state.feeAmount!=null?viewModel.state.feeAmount:`0.00`}"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toRightOf="@+id/guideline1"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvVatAmount"
                 tools:text="1000" />
 
 
-            <!-- <TextView
+             <TextView
                  android:id="@+id/tvTotalAmount"
-                 style="@sty
-                 33le/ASmallGrey"
+                 style="@style/ASmallGrey"
                  android:layout_width="wrap_content"
                  android:layout_height="wrap_content"
-
                  android:text="@{viewModel.state.totalTitle}"
                  app:layout_constraintLeft_toLeftOf="parent"
-                 app:layout_constraintTop_toTopOf="@+id/tvTotalAmountValue"
+                 app:layout_constraintTop_toTopOf="@+id/tvTotalAmountValueCalculated"
                  tools:text="Total" />
 
              <TextView
-                 android:id="@+id/tvTotalAmountValue"
+                 android:id="@+id/tvTotalAmountValueCalculated"
                  style="@style/ASmall"
                  android:layout_width="0dp"
                  android:layout_height="wrap_content"
                  android:layout_marginTop="@dimen/margin_medium"
                  android:gravity="end"
-                 android:text="@{viewModel.state.totalAmount}"
+                 android:text="@{viewModel.state.totalAmountCalculated}"
                  app:layout_constraintLeft_toRightOf="@+id/guideline1"
                  app:layout_constraintRight_toRightOf="parent"
                  app:layout_constraintTop_toBottomOf="@+id/tvFeeAmount"
-                 tools:text="2500" />-->
+                 tools:text="2500" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
