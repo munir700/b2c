@@ -118,7 +118,7 @@ class SelectCountryViewModel(application: Application) :
                                     ibanMandatory = it.ibanMandatory
                                 )
                             })
-                            populateSpinnerData.setValue(countries)
+                            populateSpinnerData.value = countries
                         }
                         state.loading = false
                     }
