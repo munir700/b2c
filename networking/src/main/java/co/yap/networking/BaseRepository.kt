@@ -41,7 +41,7 @@ abstract class BaseRepository : IRepository {
             404 -> getApiError(mapError(NetworkErrors.NotFound, response.code()))
             502 -> getApiError(mapError(NetworkErrors.BadGateway, response.code()))
             504 -> getApiError(mapError(NetworkErrors.NoInternet, response.code()))
-            in 400..499 -> getApiError(
+            in 400..500 -> getApiError(
                 mapError(
                     NetworkErrors.InternalServerError(response.errorBody()?.string()),
                     response.code()
