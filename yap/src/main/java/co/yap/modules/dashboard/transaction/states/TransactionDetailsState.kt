@@ -89,6 +89,12 @@ class TransactionDetailsState : BaseState(), ITransactionDetails.State {
             field = value
             notifyPropertyChanged(BR.vatAmount)
         }
+    @get:Bindable
+    override var totalAmountCalculated: String? = ""
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.totalAmountCalculated)
+        }
 //    @get:Bindable
 //    override var content: Content? = null
 //        set(value) {
