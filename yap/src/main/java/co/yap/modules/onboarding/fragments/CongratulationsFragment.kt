@@ -25,7 +25,6 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import co.yap.BR
 import co.yap.R
-import co.yap.modules.dashboard.main.activities.YapDashboardActivity
 import co.yap.modules.kyc.activities.DocumentsDashboardActivity
 import co.yap.modules.location.activities.LocationSelectionActivity
 import co.yap.modules.onboarding.interfaces.ICongratulations
@@ -60,8 +59,8 @@ class CongratulationsFragment : OnboardingChildFragment<ICongratulations.ViewMod
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val display = activity!!.windowManager.defaultDisplay
-        display.getRectSize(windowSize)
+        val display = activity?.windowManager?.defaultDisplay
+        display?.getRectSize(windowSize)
 
         // hide all in the beginning
         rootContainer.children.forEach { it.alpha = 0f }
@@ -104,11 +103,8 @@ class CongratulationsFragment : OnboardingChildFragment<ICongratulations.ViewMod
                     null
                 ), RequestCodes.REQUEST_MEETING_CONFIRMED
             )
-        }else{
-            val action =
-                CongratulationsFragmentDirections.actionCongratulationsFragmentToYapDashboardActivity()
-            findNavController().navigate(action)
-            activity?.finishAffinity()
+        } else {
+            goToDashboard()
         }
     }
 
@@ -148,17 +144,7 @@ class CongratulationsFragment : OnboardingChildFragment<ICongratulations.ViewMod
                     )
                 } else {
                     skipped?.let { skip ->
-                        if (skip) {
-                            val action =
-                                CongratulationsFragmentDirections.actionCongratulationsFragmentToYapDashboardActivity()
-                            findNavController().navigate(action)
-                            activity?.finishAffinity()
-                        } else {
-                            val action =
-                                CongratulationsFragmentDirections.actionCongratulationsFragmentToYapDashboardActivity()
-                            findNavController().navigate(action)
-                            activity?.finishAffinity()
-                        }
+                        goToDashboard()
                     }
                 }
             }
@@ -171,19 +157,23 @@ class CongratulationsFragment : OnboardingChildFragment<ICongratulations.ViewMod
             if (result) {
                 val address = it.getParcelableExtra<Address>(Constants.ADDRESS)
                 viewModel.requestOrderCard(address)
+            } else {
+                goToDashboard()
             }
-        }
+        } ?: goToDashboard()
     }
 
     private fun handleMeetingConfirmationRequest(data: Intent?) {
-        data?.let {
-            //did'nt handle intent data for now
-            val action =
-                CongratulationsFragmentDirections.actionCongratulationsFragmentToYapDashboardActivity()
-            findNavController().navigate(action)
-            activity?.finishAffinity()
-        }
+        goToDashboard()
     }
+
+    private fun goToDashboard() {
+        val action =
+            CongratulationsFragmentDirections.actionCongratulationsFragmentToYapDashboardActivity()
+        findNavController().navigate(action)
+        activity?.finishAffinity()
+    }
+
 
     private fun runAnimations() {
         AnimationUtils.runSequentially(
