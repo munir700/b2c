@@ -67,12 +67,16 @@ class Y2YFundsTransferViewModel(application: Application) :
     override fun getTransactionFee() {
         launch {
             state.loading = true
-            when (val response = repository.getTransactionFee(
-                TransactionProductCode.Y2Y_TRANSFER.pCode
+            when (val response = repository.getTransactionFeeWithProductCode(
+                TransactionProductCode.Y2Y_TRANSFER.pCode, null
             )) {
                 is RetroApiResponse.Success -> {
-                    state.fee = Utils.getFormattedCurrency(response.data.data)
-                    clickEvent.postValue(Constants.CARD_FEE)
+                    if (response.data.data?.feeType == Constants.FEE_TYPE_FLAT) {
+                        val feeAmount = response.data.data?.tierRateDTOList?.get(0)?.feeAmount
+                        state.fee = Utils.getFormattedCurrency(feeAmount.toString())
+                        clickEvent.postValue(Constants.CARD_FEE)
+                    }
+
                 }
                 is RetroApiResponse.Error -> {
                     state.errorDescription = response.error.message
