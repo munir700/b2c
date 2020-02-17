@@ -44,7 +44,7 @@ class AllBeneficiariesAdapter(
 
     override fun filterItem(constraint: CharSequence?, item: Beneficiary): Boolean {
         val filterString = constraint.toString().toLowerCase()
-        val filterableString = item.fullName().toLowerCase()
+        val filterableString = item.title?.toLowerCase() ?: item.fullName()
 
         return filterableString.contains(filterString)
     }
