@@ -7,6 +7,7 @@ import co.yap.modules.dashboard.yapit.y2y.transfer.interfaces.IY2YFundsTransfer
 import co.yap.modules.dashboard.yapit.y2y.transfer.states.Y2YFundsTransferState
 import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.transactions.TransactionsRepository
+import co.yap.networking.transactions.requestdtos.RemittanceFeeRequest
 import co.yap.networking.transactions.requestdtos.Y2YFundsTransferRequest
 import co.yap.networking.transactions.responsedtos.TransactionThresholdModel
 import co.yap.translation.Strings
@@ -68,12 +69,14 @@ class Y2YFundsTransferViewModel(application: Application) :
         launch {
             state.loading = true
             when (val response = repository.getTransactionFeeWithProductCode(
-                TransactionProductCode.Y2Y_TRANSFER.pCode, null
+                TransactionProductCode.Y2Y_TRANSFER.pCode, RemittanceFeeRequest()
             )) {
                 is RetroApiResponse.Success -> {
                     if (response.data.data?.feeType == Constants.FEE_TYPE_FLAT) {
                         val feeAmount = response.data.data?.tierRateDTOList?.get(0)?.feeAmount
-                        state.fee = Utils.getFormattedCurrency(feeAmount.toString())
+                        val VATAmount = response.data.data?.tierRateDTOList?.get(0)?.vatAmount
+                        state.fee =
+                            Utils.getFormattedCurrency(feeAmount?.plus(VATAmount ?: 0.0).toString())
                         clickEvent.postValue(Constants.CARD_FEE)
                     }
 

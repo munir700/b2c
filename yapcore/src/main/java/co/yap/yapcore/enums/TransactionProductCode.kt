@@ -1,7 +1,7 @@
 package co.yap.yapcore.enums
 
 enum class TransactionProductCode(val pCode: String) {
-    Y2Y_TRANSFER("P009"),
+    Y2Y_TRANSFER("P003"),
     WITHDRAW("P004"),
     CARD_REORDER("P005"),
     SUPPLEMENTRY_CARD("P006"),

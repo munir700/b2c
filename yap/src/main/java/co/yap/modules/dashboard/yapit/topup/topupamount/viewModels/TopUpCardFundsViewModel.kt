@@ -11,6 +11,7 @@ import co.yap.networking.transactions.TransactionsRepository
 import co.yap.networking.transactions.requestdtos.Check3DEnrollmentSessionRequest
 import co.yap.networking.transactions.requestdtos.CreateSessionRequest
 import co.yap.networking.transactions.requestdtos.Order
+import co.yap.networking.transactions.requestdtos.RemittanceFeeRequest
 import co.yap.translation.Strings
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.TransactionProductCode
@@ -58,7 +59,7 @@ class TopUpCardFundsViewModel(application: Application) : FundActionsViewModel(a
         launch {
             state.loading = true
             when (val response = transactionsRepository.getTransactionFeeWithProductCode(
-                TransactionProductCode.TOPUP_BY_CARD.pCode, null
+                TransactionProductCode.TOPUP_BY_CARD.pCode, RemittanceFeeRequest()
             )) {
                 is RetroApiResponse.Success -> {
                     if (response.data.data?.feeType == Constants.FEE_TYPE_FLAT) {
@@ -114,7 +115,7 @@ class TopUpCardFundsViewModel(application: Application) : FundActionsViewModel(a
             // state.loading = true
             when (val response = transactionsRepository.check3DEnrollmentSession(
                 Check3DEnrollmentSessionRequest(
-                    topupCrad.id?.toInt()!!,
+                    topupCrad.id?.toIntOrNull(),
                     Order(state.currencyType, state.amount.toString()),
                     Session(sessionId)
                 )
