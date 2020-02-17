@@ -7,11 +7,13 @@ import co.yap.modules.dashboard.yapit.y2y.transfer.interfaces.IY2YFundsTransfer
 import co.yap.modules.dashboard.yapit.y2y.transfer.states.Y2YFundsTransferState
 import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.transactions.TransactionsRepository
+import co.yap.networking.transactions.requestdtos.RemittanceFeeRequest
 import co.yap.networking.transactions.requestdtos.Y2YFundsTransferRequest
 import co.yap.networking.transactions.responsedtos.TransactionThresholdModel
 import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.enums.TransactionProductCode
 import co.yap.yapcore.helpers.Utils
 
 class Y2YFundsTransferViewModel(application: Application) :
@@ -66,12 +68,18 @@ class Y2YFundsTransferViewModel(application: Application) :
     override fun getTransactionFee() {
         launch {
             state.loading = true
-            when (val response = repository.getTransactionFee(
-                Constants.Y_TO_Y_TRANSFER
+            when (val response = repository.getTransactionFeeWithProductCode(
+                TransactionProductCode.Y2Y_TRANSFER.pCode, RemittanceFeeRequest()
             )) {
                 is RetroApiResponse.Success -> {
-                    state.fee = Utils.getFormattedCurrency(response.data.data)
-                    clickEvent.postValue(Constants.CARD_FEE)
+                    if (response.data.data?.feeType == Constants.FEE_TYPE_FLAT) {
+                        val feeAmount = response.data.data?.tierRateDTOList?.get(0)?.feeAmount
+                        val VATAmount = response.data.data?.tierRateDTOList?.get(0)?.vatAmount
+                        state.fee =
+                            Utils.getFormattedCurrency(feeAmount?.plus(VATAmount ?: 0.0).toString())
+                        clickEvent.postValue(Constants.CARD_FEE)
+                    }
+
                 }
                 is RetroApiResponse.Error -> {
                     state.errorDescription = response.error.message

@@ -94,7 +94,7 @@ object TransactionsRepository : BaseRepository(), TransactionsApi {
 
     override suspend fun getTransactionFeeWithProductCode(
         productCode: String?,
-        mRemittanceFeeRequest: RemittanceFeeRequest
+        mRemittanceFeeRequest: RemittanceFeeRequest?
     ): RetroApiResponse<RemittanceFeeResponse> =
         executeSafely(call = {
             api.getTransactionFeeWithProductCode(

@@ -116,7 +116,7 @@ interface TransactionsRetroService {
 
     //Get transaction fee
     @POST(TransactionsRepository.URL_GET_TRANSACTION_FEE_WITH_PRODUCT_CODE)
-    suspend fun getTransactionFeeWithProductCode(@Path("product-code") productCode: String?, @Body mRemittanceFeeRequest: RemittanceFeeRequest): Response<RemittanceFeeResponse>
+    suspend fun getTransactionFeeWithProductCode(@Path("product-code") productCode: String?, @Body mRemittanceFeeRequest: RemittanceFeeRequest?): Response<RemittanceFeeResponse>
 
     //Get transaction international purpose reasons.
     @GET(TransactionsRepository.URL_GET_INTERNATIONAL_TRANSACTION_REASON_LIST)
