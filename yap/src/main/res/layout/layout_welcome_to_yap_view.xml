@@ -6,7 +6,31 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <co.yap.widgets.CoreCircularImageView
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cvYapIt"
+        android:layout_width="@dimen/_60sdp"
+        android:layout_height="@dimen/_60sdp"
+        app:cardCornerRadius="32dp"
+        app:cardElevation="@dimen/_2sdp"
+        app:cardUseCompatPadding="true"
+        app:layout_constraintEnd_toStartOf="@+id/clData"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+    <ImageView
+        android:id="@+id/ivYapIt"
+        android:layout_width="@dimen/_18sdp"
+        android:layout_height="@dimen/_18sdp"
+        android:layout_gravity="center"
+        app:layout_constraintStart_toStartOf="@+id/cvYapIt"
+        app:layout_constraintEnd_toEndOf="@+id/cvYapIt"
+        app:layout_constraintTop_toTopOf="@+id/cvYapIt"
+        app:layout_constraintBottom_toBottomOf="@+id/cvYapIt"
+        android:background="@color/white"
+        app:backgroundTint="@color/white"
+        app:elevation="5dp"
+        app:srcCompat="@drawable/ic_yap_it" />
+<!--    <co.yap.widgets.CoreCircularImageView
         android:id="@+id/cvYapIt"
         android:layout_width="@dimen/_40sdp"
         android:layout_height="@dimen/_40sdp"
@@ -17,12 +41,13 @@
         android:src="@drawable/ic_yap_it"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:src="@drawable/ic_yap_it" />
+        tools:src="@drawable/ic_yap_it" />-->
+    </androidx.cardview.widget.CardView>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/clData"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/margin_small"
         app:layout_constraintBottom_toBottomOf="@+id/cvYapIt"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/cvYapIt"
