@@ -12,6 +12,7 @@ import co.yap.networking.transactions.responsedtos.TransactionThresholdModel
 import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.enums.TransactionProductCode
 import co.yap.yapcore.helpers.Utils
 
 class Y2YFundsTransferViewModel(application: Application) :
@@ -67,7 +68,7 @@ class Y2YFundsTransferViewModel(application: Application) :
         launch {
             state.loading = true
             when (val response = repository.getTransactionFee(
-                Constants.Y_TO_Y_TRANSFER
+                TransactionProductCode.Y2Y_TRANSFER.pCode
             )) {
                 is RetroApiResponse.Success -> {
                     state.fee = Utils.getFormattedCurrency(response.data.data)
