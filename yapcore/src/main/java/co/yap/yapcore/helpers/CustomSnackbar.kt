@@ -5,7 +5,6 @@ import android.os.Build
 import android.text.SpannableString
 import android.text.style.UnderlineSpan
 import android.view.LayoutInflater
-import android.view.View
 import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import android.widget.TextView
@@ -21,8 +20,7 @@ object CustomSnackbar {
         message: String
     ) {
         layout.bringToFront()
-        val snackbar: Snackbar?
-        snackbar = Snackbar.make(layout, message, Snackbar.LENGTH_LONG)
+        val snackbar = Snackbar.make(layout, message, 5000)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             snackbar.view.setBackgroundColor(context.getColor(R.color.errorLightBackground))
         } else {
@@ -39,7 +37,7 @@ object CustomSnackbar {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             snackbarText.setTextColor(context.getColor(R.color.error))
             snackbar.setActionTextColor(context.getColor(R.color.error))
-        }else{
+        } else {
             snackbarText.setTextColor(context.resources.getColor(R.color.error))
             snackbar.setActionTextColor(context.resources.getColor(R.color.error))
         }
@@ -59,12 +57,12 @@ object CustomSnackbar {
         context: Context,
         coordinatorLayout: CoordinatorLayout,
         message: String
-    ) : Snackbar {
+    ): Snackbar {
         coordinatorLayout.bringToFront()
         val snackbar: Snackbar?
         snackbar = Snackbar.make(coordinatorLayout, "", Snackbar.LENGTH_INDEFINITE)
         val layout = snackbar.view as Snackbar.SnackbarLayout
-        val layoutInflater : LayoutInflater = LayoutInflater.from(context)
+        val layoutInflater: LayoutInflater = LayoutInflater.from(context)
         val snackView = layoutInflater.inflate(R.layout.snackbar_card_status, null)
 
         layout.addView(snackView, 0)

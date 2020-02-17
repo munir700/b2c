@@ -57,6 +57,7 @@ class TopUpCardSuccessFragment : BaseBindingFragment<ITopUpCardSuccess.ViewModel
                 args.currencyType,
                 Utils.getFormattedCurrencyWithoutComma(it.availableBalance)
             )
+            getBindings().ivSuccessCheckMark.visibility = View.VISIBLE
             viewModel.state.loading = false
         })
     }

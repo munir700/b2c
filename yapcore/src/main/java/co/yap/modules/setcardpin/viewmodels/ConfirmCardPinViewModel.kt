@@ -6,6 +6,7 @@ import co.yap.networking.cards.requestdtos.CreateCardPinRequest
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
 import co.yap.yapcore.SingleClickEvent
+import co.yap.yapcore.enums.AccountStatus
 import co.yap.yapcore.managers.MyUserManager
 
 open class ConfirmCardPinViewModel(application: Application) : SetCardPinViewModel(application),
@@ -28,7 +29,7 @@ open class ConfirmCardPinViewModel(application: Application) : SetCardPinViewMod
                 is RetroApiResponse.Success -> {
                     kotlinx.coroutines.delay(600)
                     clickEvent.setValue(EVENT_SET_CARD_PIN_SUCCESS)
-                    MyUserManager.user?.notificationStatuses = "CARD_ACTIVATED"
+                    MyUserManager.user?.notificationStatuses = AccountStatus.CARD_ACTIVATED.name
                 }
                 is RetroApiResponse.Error -> {
                     state.toast = response.error.message
