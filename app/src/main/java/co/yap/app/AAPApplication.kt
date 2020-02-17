@@ -75,7 +75,7 @@ class AAPApplication : ChatApplication(
      */
 
     private fun initFirebase() {
-        if (BuildConfig.DEBUG) {
+        if (!BuildConfig.DEBUG) {
             val fabric = Fabric.Builder(this)
                 .kits(Crashlytics())
                 .debuggable(BuildConfig.DEBUG)
