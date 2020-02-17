@@ -24,6 +24,7 @@ import android.view.Window
 import android.view.inputmethod.InputMethodManager
 import androidx.annotation.ColorRes
 import androidx.core.content.ContextCompat
+import co.yap.modules.webview.WebActivity
 import co.yap.networking.customers.requestdtos.Contact
 import co.yap.translation.Strings
 import co.yap.translation.Translator
@@ -32,9 +33,7 @@ import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.extentions.shortToast
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.MyUserManager
-import com.google.android.material.appbar.AppBarLayout
 import com.google.i18n.phonenumbers.PhoneNumberUtil
-import com.thefinestartist.finestwebview.FinestWebView
 import kotlinx.android.synthetic.main.progress_dialogue_fragment.view.*
 import java.math.RoundingMode
 import java.text.DecimalFormat
@@ -783,31 +782,7 @@ object Utils {
 
     fun openWebPage(url: String, title: String?, activity: Activity?) {
         activity?.let {
-            FinestWebView.Builder(it)
-                .titleDefault(title ?: "")
-                .updateTitleFromHtml(true)
-                .toolbarScrollFlags(AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL or AppBarLayout.LayoutParams.SCROLL_FLAG_ENTER_ALWAYS)
-                .gradientDivider(false)
-                .dividerHeight(2)
-                .titleColor(ContextCompat.getColor(it, R.color.colorPrimaryDark))
-                .toolbarColorRes(R.color.colorWhite)
-                .dividerColorRes(R.color.colorPrimaryDark)
-                .iconDefaultColorRes(R.color.colorPrimary)
-                .iconDisabledColorRes(R.color.light_grey)
-                .iconPressedColorRes(R.color.colorPrimaryDark)
-                .progressBarHeight(convertDpToPx(it, 3f))
-                .progressBarColorRes(R.color.colorPrimaryDark)
-                .backPressToClose(false)
-                .webViewUseWideViewPort(true)
-                .webViewSupportZoom(true)
-                .webViewBuiltInZoomControls(true)
-                .setCustomAnimations(
-                    R.anim.activity_open_enter,
-                    R.anim.activity_open_exit,
-                    R.anim.activity_close_enter,
-                    R.anim.activity_close_exit
-                )
-                .show(url)
+            activity.startActivity(WebActivity.newIntent(it, url))
         }
     }
 

@@ -184,12 +184,12 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                     )
                 }
                 viewModel.ON_ADD_NEW_ADDRESS_EVENT -> {
-                    startActivity(
+                    startActivityForResult(
                         FragmentPresenterActivity.getIntent(
                             requireContext(),
                             MODE_MEETING_CONFORMATION,
                             null
-                        )
+                        ), RequestCodes.REQUEST_MEETING_CONFIRMED
                     )
 
                     MyUserManager.user?.notificationStatuses =
@@ -542,6 +542,9 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                         getFilterTransactions()
                     }
                 }
+            }
+            RequestCodes.REQUEST_MEETING_CONFIRMED -> {
+                checkUserStatus()
             }
         }
     }
