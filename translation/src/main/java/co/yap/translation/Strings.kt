@@ -691,12 +691,14 @@ object Strings {
         "screen_personal_detail_display_text_edit"
     const val screen_personal_detail_display_text_emirates_id: String =
         "screen_personal_detail_display_text_emirates_id"
-    const val screen_personal_detail_display_text_verification_completed: String =
-        "screen_personal_detail_display_text_verification_completed"
-    const val screen_personal_detail_display_text_verification_expired: String =
-        "screen_personal_detail_display_text_verification_expired"
-    const val screen_personal_detail_display_text_verification_required: String =
-        "screen_personal_detail_display_text_verification_required"
+    const val screen_personal_details_display_text_emirates_id_details: String =
+        "screen_personal_details_display_text_emirates_id_details"
+    const val screen_personal_details_display_text_expired_emirates_id_details: String =
+        "screen_personal_details_display_text_expired_emirates_id_details"
+    const val screen_personal_details_display_text_required_emirates_id_details: String =
+        "screen_personal_details_display_text_required_emirates_id_details"
+    const val screen_personal_details_display_text_emirates_id_details_update: String =
+        "screen_personal_details_display_text_emirates_id_details_update"
 
 
     // logout dialogue

@@ -4,7 +4,6 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import android.view.View.GONE
 import android.view.View.VISIBLE
 import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
@@ -12,6 +11,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import co.yap.BR
 import co.yap.R
+import co.yap.databinding.FragmentPersonalDetailBinding
 import co.yap.modules.dashboard.main.activities.YapDashboardActivity
 import co.yap.modules.dashboard.more.main.activities.MoreActivity
 import co.yap.modules.dashboard.more.main.fragments.MoreBaseFragment
@@ -29,12 +29,12 @@ import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.Constants.ADDRESS
 import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.enums.EIDStatus
+import co.yap.yapcore.enums.PartnerBankStatus
 import co.yap.yapcore.helpers.extentions.ExtraType
 import co.yap.yapcore.helpers.extentions.getValue
 import co.yap.yapcore.helpers.extentions.launchActivity
 import co.yap.yapcore.helpers.extentions.preventTakeScreenShot
 import co.yap.yapcore.managers.MyUserManager
-import kotlinx.android.synthetic.main.fragment_personal_detail.*
 
 
 class PersonalDetailsFragment : MoreBaseFragment<IPersonalDetail.ViewModel>(),
@@ -47,7 +47,7 @@ class PersonalDetailsFragment : MoreBaseFragment<IPersonalDetail.ViewModel>(),
 
     override fun getLayoutId(): Int = R.layout.fragment_personal_detail
 
-    override val viewModel: IPersonalDetail.ViewModel
+    override val viewModel: PersonalDetailsViewModel
         get() = ViewModelProviders.of(this).get(PersonalDetailsViewModel::class.java)
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -112,6 +112,7 @@ class PersonalDetailsFragment : MoreBaseFragment<IPersonalDetail.ViewModel>(),
                                 MyUserManager.user?.currentCustomer?.firstName.toString()
                             )
                             putExtra(Constants.data, true)
+                            putExtra("document", viewModel.parentViewModel?.document)
                         }
                     }
                 }
@@ -141,16 +142,15 @@ class PersonalDetailsFragment : MoreBaseFragment<IPersonalDetail.ViewModel>(),
             EIDStatus.NOT_SET, EIDStatus.EXPIRED -> {
                 true
             }
-            else -> false
+            EIDStatus.VALID -> MyUserManager.user?.partnerBankStatus.equals(PartnerBankStatus.ACTIVATED.status)
         }
     }
 
-
     private fun toggleAddressVisibility() {
         if (MyUserManager.userAddress == null) {
-            llAddress.visibility = GONE
+            getBinding().llAddress.visibility = View.GONE
         } else {
-            llAddress.visibility = VISIBLE
+            getBinding().llAddress.visibility = VISIBLE
         }
     }
 
@@ -279,5 +279,9 @@ class PersonalDetailsFragment : MoreBaseFragment<IPersonalDetail.ViewModel>(),
             address.longitude.toString()
         )
         viewModel.requestUpdateAddress(updateAddressRequest)
+    }
+
+    private fun getBinding(): FragmentPersonalDetailBinding {
+        return (viewDataBinding as FragmentPersonalDetailBinding)
     }
 }

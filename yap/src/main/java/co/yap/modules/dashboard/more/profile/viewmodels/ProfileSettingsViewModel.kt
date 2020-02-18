@@ -207,6 +207,9 @@ class ProfileSettingsViewModel(application: Application) :
         launch {
             when (val response = repository.getMoreDocumentsByType("EMIRATES_ID")) {
                 is RetroApiResponse.Success -> {
+                    parentViewModel?.document =
+                        response.data.data?.customerDocuments?.get(0)?.documentInformation
+
                     val data = response.data
                     data.data?.dateExpiry?.let {
                         getExpiryDate(it)

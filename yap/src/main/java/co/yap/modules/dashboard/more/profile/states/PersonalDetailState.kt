@@ -49,7 +49,7 @@ class PersonalDetailState(val application: Application) : BaseState(), IPersonal
     @get:Bindable
     override var verificationText: String = Translator.getString(
         application,
-        Strings.screen_personal_detail_display_text_verification_completed
+        Strings.screen_personal_details_display_text_emirates_id_details
     )
         set(value) {
             field = value

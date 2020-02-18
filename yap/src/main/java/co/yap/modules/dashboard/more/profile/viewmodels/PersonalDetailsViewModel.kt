@@ -178,7 +178,7 @@ class PersonalDetailsViewModel(application: Application) :
             context.resources.getDrawable(co.yap.yapcore.R.drawable.ic_tick_enabled)
         state.verificationText = Translator.getString(
             context,
-            Strings.screen_personal_detail_display_text_verification_completed
+            Strings.screen_personal_details_display_text_emirates_id_details_update
         )
     }
 
@@ -187,7 +187,7 @@ class PersonalDetailsViewModel(application: Application) :
             context.resources.getDrawable(R.drawable.ic_doc_error)
         state.verificationText = Translator.getString(
             context,
-            Strings.screen_personal_detail_display_text_verification_expired
+            Strings.screen_personal_details_display_text_expired_emirates_id_details
         )
     }
 
@@ -196,7 +196,7 @@ class PersonalDetailsViewModel(application: Application) :
             context.resources.getDrawable(R.drawable.ic_doc_error)
         state.verificationText = Translator.getString(
             context,
-            Strings.screen_personal_detail_display_text_verification_required
+            Strings.screen_personal_details_display_text_required_emirates_id_details
         )
     }
 
