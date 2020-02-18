@@ -65,6 +65,10 @@ class EmailViewModel(application: Application) :
             )
     }
 
+
+
+
+
     private fun signUp() {
         launch {
             state.refreshField = true
@@ -134,7 +138,7 @@ class EmailViewModel(application: Application) :
             when (val response = repository.sendVerificationEmail(
                 SendVerificationEmailRequest(
                     state.twoWayTextWatcher,
-                    parentViewModel!!.onboardingData.accountType.toString()
+                    parentViewModel?.onboardingData?.accountType.toString()
                 )
             )) {
                 is RetroApiResponse.Error -> {
