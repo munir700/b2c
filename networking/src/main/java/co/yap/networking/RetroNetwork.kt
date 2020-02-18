@@ -51,16 +51,12 @@ object RetroNetwork : Network {
 
     private fun buildOkHttpClient(context: Context): OkHttpClient {
         //add ssl pinning certificate code start
-
-        //"yap.co should be replace with base url
         val certPinner = CertificatePinner.Builder()
             .add(
-                 "*.yap.co",
+                "*.yap.co",
                 "sha256/jr1RBEN+F3KtPTYBMhudiTGBRAg8k2qZPEg3WbSerXU="
-//                "sha256/OEVCRDUxMDQ0MzdFMTc3MkFEM0QzNjAxMzIxQjlEODkzMTgxNDQwODNDOTM2QTk5M0M0ODM3NTlCNDlFQUQ3NQ=="
-//                "sha256/QzggOTcgMzIgRDggNUEgRTIgOTggMzcgMDAgOEQgMEEgRUYgMEMgMzIgMjYgOTggNTIgNjcgNkIgODMgQTMgOTQgRjQgMzggMkMgMDcgOUUgRjUgNTggRjYgMEIgQkU="
-            )
-            .build()// as per old code and article
+             )
+            .build()
 
         //add ssl pinning certificate code end
 
