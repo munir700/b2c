@@ -84,6 +84,7 @@ class KYCHomeViewModel(application: Application) : KYCChildViewModel<IKYCHome.St
                                 DateUtils.stringToDate(data.date_of_birth, "yyMMdd")
                             identity.citizenNumber = data.optional1
                             identity.isoCountryCode2Digit = data.isoCountryCode2Digit
+                            identity.isoCountryCode3Digit = data.isoCountryCode3Digit
                             result.identity = identity
                             parentViewModel?.identity = identity
                             state.eidScanStatus = DocScanStatus.SCAN_COMPLETED
