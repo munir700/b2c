@@ -9,9 +9,12 @@ import androidx.recyclerview.widget.RecyclerView
 import co.yap.R
 import co.yap.databinding.ItemTransactionListBinding
 import co.yap.networking.transactions.responsedtos.transaction.Content
-import co.yap.translation.Translator
+import co.yap.translation.Translator.getString
 import co.yap.yapcore.BaseBindingRecyclerAdapter
 import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.helpers.DateUtils.FORMATE_TIME_24H
+import co.yap.yapcore.helpers.DateUtils.FORMAT_LONG_INPUT
+import co.yap.yapcore.helpers.DateUtils.reformatStringDate
 import co.yap.yapcore.helpers.StringUtils
 import co.yap.yapcore.helpers.Utils
 
@@ -38,7 +41,7 @@ class TransactionsListingAdapter(private val list: MutableList<Content>) :
 
             val transaction: Content = content
             val context: Context = itemTransactionListBinding.tvCurrency.context
-            if (transaction.txnType.toLowerCase() == "credit") {
+            if (transaction.txnType?.toLowerCase() == "credit") {
                 itemTransactionListBinding.tvTransactionAmount?.setTextColor(
                     ContextCompat.getColor(
                         context,
@@ -47,7 +50,7 @@ class TransactionsListingAdapter(private val list: MutableList<Content>) :
                 )
                 itemTransactionListBinding.tvTransactionAmount?.text =
                     "+ " + Utils.getFormattedCurrency(transaction.amount.toString())
-            } else if (transaction.txnType.toLowerCase() == "debit") {
+            } else if (transaction.txnType?.toLowerCase() == "debit") {
                 itemTransactionListBinding.tvTransactionAmount?.setTextColor(
                     ContextCompat.getColor(
                         context,
@@ -60,17 +63,20 @@ class TransactionsListingAdapter(private val list: MutableList<Content>) :
 
 
             transaction.title = transaction.title ?: "Unknown"
-            itemTransactionListBinding.tvNameInitials?.text =
-                transaction.title?.let { Utils.shortName(it) }
 
-//            itemTransactionListBinding.tvTransactionName?.text = transaction?.senderName
-            // itemTransactionListBinding.tvNameInitials?.text = transaction?.senderName?.let { shortName(it) }
-            itemTransactionListBinding.tvTransactionTimeAndCategory?.text = Translator.getString(
-                context,
-                R.string.screen_fragment_home_transaction_time_category,
-                splitTimeString(transaction.updatedDate!!),
-                transaction.category!!.toLowerCase().capitalize()
-            )
+//            itemTransactionListBinding.tvNameInitials?.text =
+//                transaction.title?.let { Utils.shortName(it) }
+            itemTransactionListBinding.tvTransactionNote?.text = transaction.transactionNote
+            itemTransactionListBinding.tvTransactionTimeAndCategory?.text =
+                transaction.updatedDate?.let { it ->
+                    getString(
+                        context,
+                        R.string.screen_fragment_home_transaction_time_category,
+                        reformatStringDate(it, FORMAT_LONG_INPUT, FORMATE_TIME_24H),
+                        transaction.category!!.toLowerCase().capitalize()
+                    )
+
+                }
             itemTransactionListBinding.tvCurrency?.text = transaction.currency
             if (transaction.productCode == Constants.Y_TO_Y_TRANSFER) {
                 itemTransactionListBinding.ivTransaction.setImageDrawable(context.getDrawable(R.drawable.ic_yap_to_yap))
@@ -110,8 +116,8 @@ class TransactionsListingAdapter(private val list: MutableList<Content>) :
                 }
 
             }
-
-            setDataAgainstProductCode(transaction.productCode, transaction)
+            itemTransactionListBinding.tvTransactionName?.text = transaction.title
+//            setDataAgainstProductCode(transaction.productCode!!, transaction)
             //itemTransactionListBinding.viewModel = YapStoreDetailItemViewModel(store)
             //itemTransactionListBinding.executePendingBindings()
         }
@@ -121,7 +127,7 @@ class TransactionsListingAdapter(private val list: MutableList<Content>) :
             when (productCode) {
                 Constants.Y_TO_Y_TRANSFER -> {
                     itemTransactionListBinding.tvTransactionName?.text =
-                        "${StringUtils.getFirstname(transaction.senderName)} to ${StringUtils.getFirstname(
+                        "${StringUtils.getFirstname(transaction.senderName!!)} to ${StringUtils.getFirstname(
                             transaction.receiverName.toString()
                         )}"
                 }
@@ -131,10 +137,10 @@ class TransactionsListingAdapter(private val list: MutableList<Content>) :
             }
         }
 
-        private fun splitTimeString(timeString: String): String {
-            val originalTimeStrings = timeString.split("T").toTypedArray()
-            var splitTimeStrings = originalTimeStrings[1].split(":").toTypedArray()
-            return splitTimeStrings[0] + ":" + splitTimeStrings[1]
-        }
+//        private fun splitTimeString(timeString: String?): String {
+//            val originalTimeStrings = timeString.split("T").toTypedArray()
+//            var splitTimeStrings = originalTimeStrings[1].split(":").toTypedArray()
+//            return splitTimeStrings[0] + ":" + splitTimeStrings[1]
+//        }
     }
 }

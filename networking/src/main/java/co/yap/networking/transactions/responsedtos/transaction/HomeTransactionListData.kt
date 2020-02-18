@@ -10,11 +10,11 @@ data class HomeTransactionListData(
     @SerializedName("totalAmountType")
     var totalAmountType: String,
     @SerializedName("date")
-    var date: String,
+    var date: String?,
     @SerializedName("totalAmount")
     var totalAmount: String,
     @SerializedName("closingBalance")
-    var closingBalance: Double,
+    var closingBalance: Double?,
     @SerializedName("amountPercentage")
     var amountPercentage: Double,
     @SerializedName("content")
