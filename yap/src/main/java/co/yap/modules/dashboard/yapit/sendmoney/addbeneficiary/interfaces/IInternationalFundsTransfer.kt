@@ -52,6 +52,7 @@ interface IInternationalFundsTransfer {
         var beneficiary: Beneficiary?
         var totalTransferAmount: ObservableField<Double>
         var errorDescription: String
+        var availableBalanceString: CharSequence?
     }
 
     interface ViewModel : IBase.ViewModel<State> {
