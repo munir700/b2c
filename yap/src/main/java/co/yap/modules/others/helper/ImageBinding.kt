@@ -111,14 +111,15 @@ object ImageBinding {
     fun loadAvatar1(
         imageView: ImageView,
         imageUrl: String,
-        fullName: String,
+        fullName: String?,
         position: Int,
         isBackground: Boolean = true
     ) {
         if (fullName.isNullOrEmpty()) return
+        val fName = fullName?:""
 
         val colors = imageView.context.resources.getIntArray(co.yap.yapcore.R.array.analyticsColors)
-        val resId = getResId("ic_${getDrawableName(fullName)}")
+        val resId = getResId("ic_${getDrawableName(fName)}")
         if (resId != -1) {
             val resImg = ContextCompat.getDrawable(imageView.context, resId)
             if (isBackground)
@@ -129,7 +130,7 @@ object ImageBinding {
             setCircleCropImage(imageView, imageUrl, resImg!!)
 
         } else {
-            setDrawable(imageView, imageUrl, fullName, position)
+            setDrawable(imageView, imageUrl, fName, position)
         }
     }
 
