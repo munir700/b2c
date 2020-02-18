@@ -55,8 +55,10 @@ object RetroNetwork : Network {
         //"yap.co should be replace with base url
         val certPinner = CertificatePinner.Builder()
             .add(
-                "yap.co",
-                "sha256/4hw5tz+scE+TW+mlai5YipDfFWn1dqvfLG+nU7tq1V8="
+                 "*.yap.co",
+                "sha256/jr1RBEN+F3KtPTYBMhudiTGBRAg8k2qZPEg3WbSerXU="
+//                "sha256/OEVCRDUxMDQ0MzdFMTc3MkFEM0QzNjAxMzIxQjlEODkzMTgxNDQwODNDOTM2QTk5M0M0ODM3NTlCNDlFQUQ3NQ=="
+//                "sha256/QzggOTcgMzIgRDggNUEgRTIgOTggMzcgMDAgOEQgMEEgRUYgMEMgMzIgMjYgOTggNTIgNjcgNkIgODMgQTMgOTQgRjQgMzggMkMgMDcgOUUgRjUgNTggRjYgMEIgQkU="
             )
             .build()// as per old code and article
 
