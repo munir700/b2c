@@ -2,6 +2,7 @@ package co.yap.modules.others.helper
 
 import android.net.Uri
 import android.widget.ImageView
+import androidx.annotation.ColorRes
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
@@ -54,6 +55,29 @@ object ImageBinding {
         )
     }
 
+    fun loadAvatar(
+        imageView: ImageView,
+        beneficiaryPicture: String,
+        fullName: String, @ColorRes color: Int
+    ) {
+
+        val builder = TextDrawable.builder()
+        builder.beginConfig().width(imageView.context.dimen(R.dimen._35sdp))
+            .height(imageView.context.dimen(R.dimen._35sdp))
+            .fontSize(imageView.context.dimen(R.dimen.text_size_h4))
+            .useFont(ResourcesCompat.getFont(imageView.context, R.font.roboto_regular)!!).bold()
+            .toUpperCase()
+            .textColor(ContextCompat.getColor(imageView.context, R.color.colorPrimary))
+        setCircleCropImage(
+            imageView,
+            beneficiaryPicture,
+            builder.buildRect(
+                Utils.shortName(fullName),
+                ContextCompat.getColor(imageView.context, color)
+            )
+        )
+    }
+
     @JvmStatic
     @BindingAdapter(value = ["imageUrl", "fullName", "position", "colorType"], requireAll = false)
     fun loadAvatar(
@@ -61,7 +85,7 @@ object ImageBinding {
         imageUrl: String,
         fullName: String,
         position: Int,
-        colorType: String =""
+        colorType: String = ""
     ) {
         val builder = TextDrawable.builder()
         builder.beginConfig().width(imageView.context.dimen(R.dimen._40sdp))
@@ -87,14 +111,15 @@ object ImageBinding {
     fun loadAvatar1(
         imageView: ImageView,
         imageUrl: String,
-        fullName: String,
+        fullName: String?,
         position: Int,
         isBackground: Boolean = true
     ) {
         if (fullName.isNullOrEmpty()) return
+        val fName = fullName?:""
 
         val colors = imageView.context.resources.getIntArray(co.yap.yapcore.R.array.analyticsColors)
-        val resId = getResId("ic_${getDrawableName(fullName)}")
+        val resId = getResId("ic_${getDrawableName(fName)}")
         if (resId != -1) {
             val resImg = ContextCompat.getDrawable(imageView.context, resId)
             if (isBackground)
@@ -105,7 +130,7 @@ object ImageBinding {
             setCircleCropImage(imageView, imageUrl, resImg!!)
 
         } else {
-            setDrawable(imageView, imageUrl, fullName, position)
+            setDrawable(imageView, imageUrl, fName, position)
         }
     }
 
