@@ -104,7 +104,6 @@ project.ext {
 
             // Live chat
             livechat                 : 'com.liveperson.android:lp_messaging_sdk:4.2.1',
-            fineWebView              : 'com.thefinestartist:finestwebview:1.2.7',
 
             //phone lib
             phoneLib                 : 'com.googlecode.libphonenumber:libphonenumber:7.2.2',
@@ -161,7 +160,6 @@ project.ext {
             [configuration: "implementation", dependency: libraries.paging],
             [configuration: "implementation", dependency: libraries.viewpager2],
             [configuration: "implementation", dependency: libraries.livechat],
-            [configuration: "implementation", dependency: libraries.fineWebView],
             [configuration: "implementation", dependency: libraries.phoneLib],
             [configuration: "implementation", dependency: libraries.easyImage],
             [configuration: "implementation", dependency: libraries.timber],

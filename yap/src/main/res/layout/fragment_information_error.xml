@@ -30,29 +30,16 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             android:gravity="center"
-            tools:text="@string/screen_kyc_information_error_display_text_title_from_usa"
+            tools:text="We're so sorry"
             android:text="@{viewModel.state.errorTitle}"
 
-            />
-
-        <ImageView
-            android:id="@+id/ivMeetingSuccess"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            tools:src="@drawable/ic_country"
-            android:background="@{viewModel.state.errorImage}"
-            android:layout_marginStart="@dimen/margin_xl"
-            android:layout_marginEnd="@dimen/margin_xl"
-            app:layout_constraintTop_toBottomOf="@+id/tvTitle"
-            android:layout_marginTop="@dimen/margin_large"
-            android:contentDescription="@string/empty_string"
             />
 
         <TextView
             android:id="@+id/tvMeetingGuide"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@+id/ivMeetingSuccess"
+            app:layout_constraintTop_toBottomOf="@+id/tvTitle"
             app:layout_constraintLeft_toLeftOf="parent"
             style="@style/ASmallGrey"
             app:layout_constraintRight_toRightOf="parent"

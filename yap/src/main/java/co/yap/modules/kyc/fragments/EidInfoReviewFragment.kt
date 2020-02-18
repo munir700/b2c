@@ -13,7 +13,6 @@ import co.yap.modules.kyc.activities.DocumentsResponse
 import co.yap.modules.kyc.viewmodels.EidInfoReviewViewModel
 import co.yap.modules.onboarding.interfaces.IEidInfoReview
 import co.yap.translation.Strings
-import co.yap.translation.Translator
 import com.digitify.identityscanner.docscanner.activities.IdentityScannerActivity
 import com.digitify.identityscanner.docscanner.enums.DocumentType
 import kotlinx.android.synthetic.main.activity_eid_info_review.*
@@ -30,7 +29,6 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-
         if (viewModel.parentViewModel?.skipFirstScreen?.value == true) {
             openCardScanner()
             tbBtnBack.setOnClickListener {
@@ -124,7 +122,8 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (data == null && viewModel.parentViewModel?.skipFirstScreen?.value == true) {
-            activity?.finish()
+//            if (MyUserManager.eidStatus != EIDStatus.EXPIRED)
+//                activity?.finish()
         }
         if (requestCode == IdentityScannerActivity.SCAN_EID_CAM && resultCode == Activity.RESULT_OK) {
             data?.let {
@@ -134,35 +133,11 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
     }
 
     override fun showUSACitizenAlert() {
-
-        val title = Translator.getString(
-            requireContext(),
-            Strings.screen_b2c_eid_info_review_display_text_error_from_usa,
-            viewModel.sanctionedCountry
-        )
-
-        val sanctionedNationality = Translator.getString(
-            requireContext(),
-            Strings.screen_b2c_eid_info_review_button_not_from_usa,
-            viewModel.sanctionedNationality
-        )
-
-        //
-
-        AlertDialog.Builder(requireContext()).apply {
-            setCancelable(false)
-            setMessage(title)
-            setPositiveButton(getString(Strings.common_button_yes)) { dialog, which ->
-                viewModel.handleUserAcceptance(
-                    viewModel.EVENT_ERROR_FROM_USA
-                )
-            }
-            setNegativeButton(sanctionedNationality) { dialog, which ->
-                viewModel.handleUserRejection(
-                    viewModel.EVENT_ERROR_FROM_USA
-                )
-            }
-        }.create().show()
+        val action =
+            EidInfoReviewFragmentDirections.actionEidInfoReviewFragmentToInformationErrorFragment(
+                viewModel.sanctionedCountry
+            )
+        findNavController().navigate(action)
     }
 
     override fun openCardScanner() {

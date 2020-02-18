@@ -34,6 +34,7 @@ import co.yap.widgets.*
 import co.yap.widgets.otptextview.OTPListener
 import co.yap.widgets.otptextview.OtpTextView
 import co.yap.yapcore.R
+import co.yap.yapcore.enums.AccountStatus
 import co.yap.yapcore.enums.CardDeliveryStatus
 import co.yap.yapcore.enums.CardStatus
 import co.yap.yapcore.enums.SendMoneyBeneficiaryType
@@ -416,7 +417,7 @@ object UIBinder {
 
     private fun setCardButtonTextForInactive(coreButton: TextView, card: Card) {
         if (card.cardType == "DEBIT") {
-            if (MyUserManager.user?.notificationStatuses == "MEETING_SUCCESS") {
+            if (MyUserManager.user?.notificationStatuses == AccountStatus.MEETING_SUCCESS.name) {
                 if (card.deliveryStatus == CardDeliveryStatus.SHIPPED.name) {
                     coreButton.visibility = View.VISIBLE
                     coreButton.text = Translator.getString(

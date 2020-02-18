@@ -29,7 +29,7 @@
             android:onClick="@{(v) ->  viewModel.handlePressOnBackButton(v.id)}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/close" />
+            app:srcCompat="@drawable/ic_close" />
 
 
         <TextView

@@ -56,12 +56,6 @@
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".modules.onboarding.activities.InformationErrorActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".modules.onboarding.activities.EidInfoReviewActivity"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".modules.kyc.activities.DocumentsDashboardActivity"
             android:screenOrientation="portrait"
             android:theme="@style/CoreAppTheme.NoActionBar">
@@ -144,12 +138,6 @@
         <activity
             android:name=".modules.others.fragmentpresenter.activities.FragmentPresenterActivity"
             android:screenOrientation="portrait" />
-
-        <activity
-            android:name="com.thefinestartist.finestwebview.FinestWebViewActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize"
-            android:screenOrientation="sensor"
-            android:theme="@style/FinestWebViewTheme.Light" />
 
         <activity
             android:name="co.yap.modules.dashboard.home.filters.activities.TransactionFiltersActivity"
