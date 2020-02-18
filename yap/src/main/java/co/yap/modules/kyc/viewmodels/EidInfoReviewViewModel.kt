@@ -143,6 +143,7 @@ class EidInfoReviewViewModel(application: Application) :
                                 DateUtils.stringToDate(data.date_of_birth, "yyMMdd")
                             identity.citizenNumber = data.optional1
                             identity.isoCountryCode2Digit = data.isoCountryCode2Digit
+                            identity.isoCountryCode3Digit = data.isoCountryCode3Digit
                             result.identity = identity
 
                             parentViewModel?.identity = identity
@@ -191,7 +192,7 @@ class EidInfoReviewViewModel(application: Application) :
                     dob = it.dateOfBirth,
                     fullName = it.givenName + " " + it.sirName,
                     gender = it.gender.mrz.toString(),
-                    nationality = it.isoCountryCode2Digit.toUpperCase(),
+                    nationality = it.isoCountryCode3Digit.toUpperCase(),
                     identityNo = if (YAPApplication.appInfo?.build_type == "debug") (700000000000000..800000000000000).random().toString() else it.citizenNumber,
                     filePaths = parentViewModel?.paths ?: arrayListOf()
                 )
