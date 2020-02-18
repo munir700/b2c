@@ -35,7 +35,6 @@ import co.yap.yapcore.helpers.DecimalDigitsInputFilter
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.managers.MyUserManager
 import kotlinx.android.synthetic.main.fragment_cash_transfer.*
-import kotlinx.android.synthetic.main.fragment_y2y_funds_transfer.clFTSnackbar
 import kotlinx.android.synthetic.main.fragment_y2y_funds_transfer.etAmount
 
 class CashTransferFragment : SendMoneyBaseFragment<ICashTransfer.ViewModel>(), ICashTransfer.View {
@@ -205,11 +204,15 @@ class CashTransferFragment : SendMoneyBaseFragment<ICashTransfer.ViewModel>(), I
     }
 
     private fun showErrorSnackBar() {
-        CustomSnackbar.showErrorCustomSnackbar(
+        if (activity is BeneficiaryCashTransferActivity) {
+            (activity as BeneficiaryCashTransferActivity).viewModel.errorEvent.value =
+                viewModel.state.errorDescription
+        }
+     /*   CustomSnackbar.showErrorCustomSnackbar(
             context = requireContext(),
             layout = clFTSnackbar,
             message = viewModel.state.errorDescription
-        )
+        )*/
     }
 
     private fun startFlows() {

@@ -15,6 +15,7 @@ class Y2YViewModel(application: Application) : BaseViewModel<IY2Y.State>(applica
     override val yapContactLiveData: MutableLiveData<List<Contact>> = MutableLiveData()
     override var isSearching: MutableLiveData<Boolean> = MutableLiveData(false)
     override val searchQuery: MutableLiveData<String> = MutableLiveData("")
+    override var errorEvent: MutableLiveData<String> = MutableLiveData()
     override val state: Y2YState = Y2YState()
 
     override fun handlePressOnBackButton(id: Int) {
