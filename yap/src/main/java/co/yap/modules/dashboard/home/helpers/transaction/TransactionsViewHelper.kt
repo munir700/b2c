@@ -88,10 +88,10 @@ class TransactionsViewHelper(
                         removeRvTransactionScroll()
                         transactionsView.rvTransaction.smoothScrollToPosition(position)
                         setRvTransactionScroll()
-                        if (position==0){
-                                transactionsView.appbar.setExpanded(true)
+                        if (position == 0) {
+                            transactionsView.appbar.setExpanded(true)
 
-                            }
+                        }
 
                     }
                 }
@@ -122,16 +122,22 @@ class TransactionsViewHelper(
             }
         }
     }
-    fun setTooltipVisibility( visibility:Int = View.VISIBLE)
-    {
-            transactionsView.tvTransactionDate?.visibility = visibility
-            tooltip?.visibility = visibility
+
+    fun setTooltipVisibility(visibility: Int = View.VISIBLE) {
+        transactionsView.tvTransactionDate?.visibility = visibility
+        tooltip?.visibility = visibility
     }
 
     fun addTooltip(view: View?, data: HomeTransactionListData) {
         transactionsView.tvTransactionDate.visibility = View.VISIBLE
-        transactionsView.tvTransactionDate.text =
-            DateUtils.reformatStringDate(data.date, FORMAT_DATE_MON_YEAR, FORMAT_MON_YEAR)
+        transactionsView.tvTransactionDate.text = data.date?.let {
+            DateUtils.reformatStringDate(
+                it,
+                FORMAT_DATE_MON_YEAR,
+                FORMAT_MON_YEAR
+            )
+        }
+
         view?.let {
             val text = String.format(
                 Locale.US,
@@ -142,13 +148,15 @@ class TransactionsViewHelper(
             tooltip?.apply {
                 visibility = View.VISIBLE
                 it.bringToFront()
-                this.text = SpannableString(text).apply {
-                    setSpan(
-                        ForegroundColorSpan(ContextCompat.getColor(context, R.color.greyDark)),
-                        0,
-                        data.date.length,
-                        Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
-                    )
+                this.text = data.date?.let {
+                    SpannableString(text).apply {
+                        setSpan(
+                            ForegroundColorSpan(ContextCompat.getColor(context, R.color.greyDark)),
+                            0,
+                            it.length,
+                            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+                        )
+                    }
                 }
 
                 val viewPosition = IntArray(2)

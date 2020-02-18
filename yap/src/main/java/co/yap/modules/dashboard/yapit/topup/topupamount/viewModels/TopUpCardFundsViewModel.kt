@@ -59,7 +59,7 @@ class TopUpCardFundsViewModel(application: Application) : FundActionsViewModel(a
         launch {
             state.loading = true
             when (val response = transactionsRepository.getTransactionFeeWithProductCode(
-                TransactionProductCode.TOPUP_BY_CARD.pCode, RemittanceFeeRequest()
+                TransactionProductCode.TOP_UP_VIA_CARD.pCode, RemittanceFeeRequest()
             )) {
                 is RetroApiResponse.Success -> {
                     if (response.data.data?.feeType == Constants.FEE_TYPE_FLAT) {
