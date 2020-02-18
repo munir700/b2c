@@ -34,6 +34,7 @@ import co.yap.yapcore.helpers.extentions.startFragmentForResult
 import co.yap.yapcore.helpers.spannables.color
 import co.yap.yapcore.helpers.spannables.getText
 import co.yap.yapcore.managers.MyUserManager
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_y2y_funds_transfer.*
 
 
@@ -61,8 +62,9 @@ class Y2YTransferFragment : Y2YBaseFragment<IY2YFundsTransfer.ViewModel>(), IY2Y
 
     override fun setObservers() {
         viewModel.clickEvent.observe(this, clickEvent)
+        viewModel.enteredAmount.observe(this, enterAmountObserver)
         viewModel.errorEvent.observe(this, Observer {
-            showErrorSnackBar()
+            // showErrorSnackBar()
         })
         viewModel.transferFundSuccess.observe(this, transferFundSuccessObserver)
 
@@ -73,6 +75,17 @@ class Y2YTransferFragment : Y2YBaseFragment<IY2YFundsTransfer.ViewModel>(), IY2Y
         if (it) {
             moveToFundTransferSuccess()
         }
+    }
+    private val enterAmountObserver = Observer<String> {
+        when {
+            isBalanceAvailable(it) -> showErrorSnackBar(true)
+            isDailyLimitReached() -> showErrorSnackBar(true)
+            else -> showErrorSnackBar(false)
+        }
+    }
+
+    private fun isBalanceAvailable(enteredAmount: String?): Boolean {
+        return viewModel.state.checkValidity(enteredAmount ?: "").isNotBlank()
     }
 
     val clickEvent = Observer<Int> {
@@ -167,7 +180,7 @@ class Y2YTransferFragment : Y2YBaseFragment<IY2YFundsTransfer.ViewModel>(), IY2Y
         viewModel.transactionThreshold.value?.let {
             it.dailyLimit?.let { dailyLimit ->
                 it.totalDebitAmount?.let { totalConsumedAmount ->
-                    viewModel.state.amount.toDoubleOrNull()?.let { enteredAmount ->
+                    viewModel.enteredAmount.value?.toDoubleOrNull()?.let { enteredAmount ->
                         val remainingDailyLimit =
                             if ((dailyLimit - totalConsumedAmount) < 0.0) 0.0 else (dailyLimit - totalConsumedAmount)
                         viewModel.state.errorDescription =
@@ -185,7 +198,7 @@ class Y2YTransferFragment : Y2YBaseFragment<IY2YFundsTransfer.ViewModel>(), IY2Y
     private fun isOtpRequired(): Boolean {
         viewModel.transactionThreshold.value?.let {
             it.totalDebitAmountY2Y?.let { totalY2YConsumedAmount ->
-                viewModel.state.amount.toDoubleOrNull()?.let { enteredAmount ->
+                viewModel.enteredAmount.value?.toDoubleOrNull()?.let { enteredAmount ->
                     val remainingOtpLimit = it.otpLimitY2Y?.minus(totalY2YConsumedAmount)
                     return enteredAmount > (remainingOtpLimit ?: 0.0)
                 } ?: return false
@@ -202,21 +215,26 @@ class Y2YTransferFragment : Y2YBaseFragment<IY2YFundsTransfer.ViewModel>(), IY2Y
             Y2YTransferFragmentDirections.actionY2YTransferFragmentToY2YFundsTransferSuccessFragment(
                 viewModel.state.fullName,
                 "AED",
-                viewModel.state.amount, args.position
+                viewModel.enteredAmount.value ?: "", args.position
             )
         findNavController().navigate(action)
     }
 
-    private fun showErrorSnackBar() {
+    private fun showErrorSnackBar(isShowBar: Boolean) {
+        if (isShowBar)
         CustomSnackbar.showErrorCustomSnackbar(
             context = requireContext(),
             layout = clFTSnackbar,
-            message = viewModel.state.errorDescription
+            message = viewModel.state.errorDescription,
+            duration = Snackbar.LENGTH_INDEFINITE
         )
+        else
+            CustomSnackbar.cancelAllSnackBar()
     }
 
     override fun onDestroy() {
         viewModel.clickEvent.removeObservers(this)
+        viewModel.enteredAmount.removeObservers(this)
         super.onDestroy()
 
     }

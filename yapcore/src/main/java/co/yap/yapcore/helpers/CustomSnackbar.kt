@@ -4,7 +4,9 @@ import android.content.Context
 import android.os.Build
 import android.text.SpannableString
 import android.text.style.UnderlineSpan
+import android.view.Gravity
 import android.view.LayoutInflater
+import android.view.View
 import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import android.widget.TextView
@@ -17,10 +19,11 @@ object CustomSnackbar {
     fun showErrorCustomSnackbar(
         context: Context,
         layout: CoordinatorLayout,
-        message: String
+        message: String,
+        duration: Int = 5000
     ) {
         layout.bringToFront()
-        val snackbar = Snackbar.make(layout, message, 5000)
+        val snackbar = Snackbar.make(layout, message, duration)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             snackbar.view.setBackgroundColor(context.getColor(R.color.errorLightBackground))
         } else {
@@ -50,6 +53,8 @@ object CustomSnackbar {
                 break
             }
         }
+
+        SnackBarQueue.snackBarQueue.add(snackbar)
         snackbar.show()
     }
 
@@ -91,4 +96,19 @@ object CustomSnackbar {
         return snackbar
     }
 
+
+    fun cancelAllSnackBar() =
+        SnackBarQueue.cancelSnackBars()
+
+    private object SnackBarQueue {
+        val snackBarQueue = mutableListOf<Snackbar>()
+
+        fun cancelSnackBars() {
+            snackBarQueue.forEach { it.dismiss() }
+            snackBarQueue.clear()
+        }
+
+        fun removeSnackBar(snackBar: Snackbar) = snackBarQueue.remove(snackBar)
+
+    }
 }
