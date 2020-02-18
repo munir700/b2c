@@ -1,7 +1,9 @@
 package co.yap.networking.customers.responsedtos.documents
 
+import android.os.Parcelable
 import co.yap.networking.models.ApiResponse
 import com.google.gson.annotations.SerializedName
+import kotlinx.android.parcel.Parcelize
 
 data class GetMoreDocumentsResponse(
     @SerializedName("data")
@@ -12,8 +14,8 @@ data class GetMoreDocumentsResponse(
     data class Data(
         @SerializedName("active")
         var active: Boolean? = false,
-//        @SerializedName("customerDocuments")
-//        var customerDocuments: List<CustomerDocument>? = ArrayList(),
+        @SerializedName("customerDocuments")
+        var customerDocuments: List<CustomerDocument>? = ArrayList(),
         @SerializedName("customerUUID")
         var customerUUID: String? = "",
         @SerializedName("dateExpiry")
@@ -60,8 +62,8 @@ data class GetMoreDocumentsResponse(
             var customerId: String? = "",
             @SerializedName("customerUUID")
             var customerUUID: String? = "",
-//            @SerializedName("documentInformation")
-//            var documentInformation: DocumentInformation? = DocumentInformation(),
+            @SerializedName("documentInformation")
+            var documentInformation: DocumentInformation? = DocumentInformation(),
             @SerializedName("documentType")
             var documentType: String? = "",
             @SerializedName("expired")
@@ -77,6 +79,7 @@ data class GetMoreDocumentsResponse(
             @SerializedName("uploadDate")
             var uploadDate: String? = ""
         ) {
+            @Parcelize
             data class DocumentInformation(
                 @SerializedName("active")
                 var active: Boolean? = false,
@@ -110,7 +113,7 @@ data class GetMoreDocumentsResponse(
                 var updatedBy: String? = "",
                 @SerializedName("updatedDate")
                 var updatedDate: String? = ""
-            )
+            ) : Parcelable
         }
     }
 }
