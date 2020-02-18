@@ -29,7 +29,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             android:tint="?attr/colorPrimaryDark"
-            app:srcCompat="@drawable/close" />
+            app:srcCompat="@drawable/ic_close" />
 
 
         <TextView

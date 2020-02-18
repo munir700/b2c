@@ -11,8 +11,10 @@ import co.yap.networking.transactions.TransactionsRepository
 import co.yap.networking.transactions.requestdtos.Check3DEnrollmentSessionRequest
 import co.yap.networking.transactions.requestdtos.CreateSessionRequest
 import co.yap.networking.transactions.requestdtos.Order
+import co.yap.networking.transactions.requestdtos.RemittanceFeeRequest
 import co.yap.translation.Strings
 import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.enums.TransactionProductCode
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.managers.MyUserManager
 import kotlinx.coroutines.delay
@@ -56,17 +58,20 @@ class TopUpCardFundsViewModel(application: Application) : FundActionsViewModel(a
     private fun getTransactionFee() {
         launch {
             state.loading = true
-            when (val response = transactionsRepository.getTransactionFee(
-                Constants.TOP_UP_VIA_CARD
+            when (val response = transactionsRepository.getTransactionFeeWithProductCode(
+                TransactionProductCode.TOPUP_BY_CARD.pCode, RemittanceFeeRequest()
             )) {
                 is RetroApiResponse.Success -> {
-                    state.transactionFee = response.data.data
+                    if (response.data.data?.feeType == Constants.FEE_TYPE_FLAT) {
+                        val feeAmount = response.data.data?.tierRateDTOList?.get(0)?.feeAmount
+                        state.transactionFee = Utils.getFormattedCurrency(feeAmount.toString())
+                        clickEvent.postValue(Constants.CARD_FEE)
+                    }
                     //Commented because QA said to remove "No fee" text.
                     /* if (state.transactionFee.toDouble() == 0.0) {
                          state.transactionFee =
                              getString(Strings.screen_topup_transfer_display_text_transaction_no_fee)
                      }*/
-                    clickEvent.postValue(Constants.CARD_FEE)
                 }
                 is RetroApiResponse.Error -> {
                     state.errorDescription = response.error.message
@@ -110,7 +115,7 @@ class TopUpCardFundsViewModel(application: Application) : FundActionsViewModel(a
             // state.loading = true
             when (val response = transactionsRepository.check3DEnrollmentSession(
                 Check3DEnrollmentSessionRequest(
-                    topupCrad.id?.toInt()!!,
+                    topupCrad.id?.toIntOrNull(),
                     Order(state.currencyType, state.amount.toString()),
                     Session(sessionId)
                 )

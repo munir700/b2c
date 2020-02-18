@@ -3,8 +3,10 @@ package co.yap.modules.dashboard.cards.paymentcarddetail.activities
 import android.app.Activity
 import android.app.AlertDialog
 import android.app.Dialog
+import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
@@ -62,7 +64,6 @@ import com.tbuonomo.viewpagerdotsindicator.WormDotsIndicator
 import kotlinx.android.synthetic.main.activity_payment_card_detail.*
 import kotlinx.android.synthetic.main.layout_card_info.*
 
-
 class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewModel>(),
     IPaymentCardDetail.View, CardClickListener {
 
@@ -94,6 +95,7 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        registerTransactionBroadcast()
         mNavigator = (this.applicationContext as NavigatorProvider).provideNavigator()
         setUpTransactionsListRecyclerView()
         setObservers()
@@ -614,6 +616,7 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
 
     override fun onDestroy() {
         super.onDestroy()
+        unregisterTransactionBroadcast()
         viewModel.clickEvent.removeObservers(this)
     }
 
@@ -669,6 +672,29 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
         }
         val dialog: AlertDialog = builder.create()
         dialog.show()
+    }
+
+    private fun registerTransactionBroadcast() {
+        LocalBroadcastManager.getInstance(this)
+            .registerReceiver(
+                broadCastReceiver,
+                IntentFilter(co.yap.yapcore.constants.Constants.BROADCAST_UPDATE_TRANSACTION)
+            )
+    }
+
+    private fun unregisterTransactionBroadcast() {
+        LocalBroadcastManager.getInstance(this)
+            .unregisterReceiver(broadCastReceiver)
+    }
+
+    private val broadCastReceiver = object : BroadcastReceiver() {
+        override fun onReceive(contxt: Context?, intent: Intent?) {
+            when (intent?.action) {
+                co.yap.yapcore.constants.Constants.BROADCAST_UPDATE_TRANSACTION -> {
+                    viewModel.requestAccountTransactions()
+                }
+            }
+        }
     }
 
 }

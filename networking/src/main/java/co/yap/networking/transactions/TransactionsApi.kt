@@ -17,7 +17,7 @@ interface TransactionsApi {
     suspend fun getDebitCardFee(): RetroApiResponse<CardFeeResponse>
     suspend fun getTransactionFeeWithProductCode(
         productCode: String?,
-        mRemittanceFeeRequest: RemittanceFeeRequest
+        mRemittanceFeeRequest: RemittanceFeeRequest?
     ): RetroApiResponse<ApiResponse>
 
     suspend fun getTransactionInternationalReasonList(productCode: String?): RetroApiResponse<InternationalFundsTransferReasonList>

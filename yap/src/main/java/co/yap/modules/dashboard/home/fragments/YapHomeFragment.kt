@@ -53,10 +53,7 @@ import co.yap.yapcore.constants.Constants.ADDRESS_SUCCESS
 import co.yap.yapcore.constants.Constants.BROADCAST_UPDATE_TRANSACTION
 import co.yap.yapcore.constants.Constants.MODE_MEETING_CONFORMATION
 import co.yap.yapcore.constants.RequestCodes
-import co.yap.yapcore.enums.AccountStatus
-import co.yap.yapcore.enums.CardDeliveryStatus
-import co.yap.yapcore.enums.NotificationStatus
-import co.yap.yapcore.enums.PartnerBankStatus
+import co.yap.yapcore.enums.*
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.fixSwipeToRefresh
 import co.yap.yapcore.helpers.extentions.launchActivity
@@ -187,17 +184,16 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                     )
                 }
                 viewModel.ON_ADD_NEW_ADDRESS_EVENT -> {
-                    startActivity(
+                    startActivityForResult(
                         FragmentPresenterActivity.getIntent(
                             requireContext(),
                             MODE_MEETING_CONFORMATION,
                             null
-                        )
+                        ), RequestCodes.REQUEST_MEETING_CONFIRMED
                     )
 
                     MyUserManager.user?.notificationStatuses =
                         NotificationStatus.MEETING_SCHEDULED.name
-//                    activity?.finish()
                 }
                 R.id.ivMenu -> parentView?.toggleDrawer()
                 R.id.rlFilter -> {
@@ -325,24 +321,20 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
     private fun checkUserStatus() {
         when (MyUserManager.user?.notificationStatuses) {
             AccountStatus.ON_BOARDED.name, AccountStatus.CAPTURED_EID.name -> {
-//                ivNoTransaction.visibility = View.VISIBLE
                 addCompleteVerificationNotification()
+            }
+
+            AccountStatus.MEETING_SCHEDULED.name -> {
+                clearNotification()
             }
 
             AccountStatus.MEETING_SUCCESS.name -> {
                 if (isShowSetPin(MyUserManager.getPrimaryCard())) {
-//                    ivNoTransaction.visibility = View.VISIBLE
                     addSetPinNotification()
                 } else toast("Invalid card found")
             }
 
-            AccountStatus.MEETING_SCHEDULED.name -> {
-//                ivNoTransaction.visibility = View.VISIBLE
-                clearNotification()
-            }
-
             AccountStatus.CARD_ACTIVATED.name -> {
-//                ivNoTransaction.visibility = View.VISIBLE
                 clearNotification()
             }
         }
@@ -482,7 +474,6 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
 
     override fun onClick(notification: Notification) {
         when (notification.action) {
-            Constants.NOTIFICATION_ACTION_SET_PIN -> viewModel.getDebitCards()
             Constants.NOTIFICATION_ACTION_COMPLETE_VERIFICATION -> {
                 launchActivity<DocumentsDashboardActivity>(requestCode = RequestCodes.REQUEST_KYC_DOCUMENTS) {
                     putExtra(
@@ -493,6 +484,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                 }
             }
 
+            Constants.NOTIFICATION_ACTION_SET_PIN -> viewModel.getDebitCards()
         }
     }
 
@@ -517,7 +509,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                 data?.let {
                     val result =
                         data.getBooleanExtra(co.yap.yapcore.constants.Constants.result, false)
-                    if (result)
+                    if (result) {
                         startActivityForResult(
                             LocationSelectionActivity.newIntent(
                                 context = requireContext(),
@@ -526,6 +518,8 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                                 subHeadingTitle = getString(Strings.screen_meeting_location_display_text_subtitle)
                             ), RequestCodes.REQUEST_FOR_LOCATION
                         )
+                        MyUserManager.user?.notificationStatuses = AccountStatus.CAPTURED_EID.name
+                    }
                 }
             }
             RequestCodes.REQUEST_FOR_LOCATION -> {
@@ -534,6 +528,8 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                     if (result) {
                         val address = it.getParcelableExtra<Address>(ADDRESS)
                         viewModel.requestOrderCard(address)
+                    }else{
+
                     }
                 }
             }
@@ -546,6 +542,9 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                         getFilterTransactions()
                     }
                 }
+            }
+            RequestCodes.REQUEST_MEETING_CONFIRMED -> {
+                checkUserStatus()
             }
         }
     }
