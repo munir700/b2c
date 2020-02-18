@@ -17,6 +17,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import co.yap.R
 import co.yap.databinding.FragmentY2yFundsTransferBinding
+import co.yap.modules.dashboard.yapit.y2y.home.activities.YapToYapDashboardActivity
 import co.yap.modules.dashboard.yapit.y2y.main.fragments.Y2YBaseFragment
 import co.yap.modules.dashboard.yapit.y2y.transfer.interfaces.IY2YFundsTransfer
 import co.yap.modules.dashboard.yapit.y2y.transfer.viewmodels.Y2YFundsTransferViewModel
@@ -27,7 +28,6 @@ import co.yap.translation.Strings
 import co.yap.yapcore.BR
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.OTPActions
-import co.yap.yapcore.helpers.CustomSnackbar
 import co.yap.yapcore.helpers.DecimalDigitsInputFilter
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.startFragmentForResult
@@ -208,11 +208,16 @@ class Y2YTransferFragment : Y2YBaseFragment<IY2YFundsTransfer.ViewModel>(), IY2Y
     }
 
     private fun showErrorSnackBar() {
-        CustomSnackbar.showErrorCustomSnackbar(
-            context = requireContext(),
-            layout = clFTSnackbar,
-            message = viewModel.state.errorDescription
-        )
+        if (activity is YapToYapDashboardActivity) {
+            (activity as YapToYapDashboardActivity).viewModel.errorEvent.value =
+                viewModel.state.errorDescription
+        }
+
+        /*   CustomSnackbar.showErrorCustomSnackbar(
+               context = requireContext(),
+               layout = clFTSnackbar,
+               message = viewModel.state.errorDescription
+           )*/
     }
 
     override fun onDestroy() {

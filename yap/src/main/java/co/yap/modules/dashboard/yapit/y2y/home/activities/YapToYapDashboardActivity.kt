@@ -8,6 +8,7 @@ import android.view.inputmethod.InputMethodManager
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.R
+import co.yap.databinding.ActivityYapToYapDashboardBinding
 import co.yap.modules.dashboard.yapit.y2y.main.interfaces.IY2Y
 import co.yap.modules.dashboard.yapit.y2y.main.viewmodels.Y2YViewModel
 import co.yap.yapcore.BR
@@ -15,6 +16,7 @@ import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.IFragmentHolder
 import co.yap.yapcore.defaults.DefaultNavigator
 import co.yap.yapcore.defaults.INavigator
+import co.yap.yapcore.helpers.CustomSnackbar
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.interfaces.BackPressImpl
 import co.yap.yapcore.interfaces.IBaseNavigator
@@ -50,9 +52,16 @@ class YapToYapDashboardActivity : BaseBindingActivity<IY2Y.ViewModel>(), INaviga
         super.onCreate(savedInstanceState)
         viewModel.isSearching.value = intent.getBooleanExtra(searching, false)
         viewModel.clickEvent.observe(this, clickEventObserver)
+        viewModel.errorEvent.observe(this, errorEvent)
         main.setOnTouchListener { _, _ ->
             val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
             imm.hideSoftInputFromWindow(currentFocus?.windowToken, 0)
+        }
+    }
+
+    val errorEvent = Observer<String> {
+        if (!it.isNullOrEmpty()) {
+            showErrorSnackBar(it)
         }
     }
 
@@ -67,6 +76,14 @@ class YapToYapDashboardActivity : BaseBindingActivity<IY2Y.ViewModel>(), INaviga
         }
     }
 
+    private fun showErrorSnackBar(errorMessage: String) {
+        CustomSnackbar.showErrorCustomSnackbar(
+            context = this,
+            layout = clSnackBar,
+            message = errorMessage
+        )
+    }
+
     private fun getBody(): String {
         return Utils.getGeneralInvitationBody(this)
     }
@@ -76,5 +93,15 @@ class YapToYapDashboardActivity : BaseBindingActivity<IY2Y.ViewModel>(), INaviga
         if (!BackPressImpl(fragment).onBackPressed()) {
             super.onBackPressed()
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        viewModel.clickEvent.removeObservers(this)
+        viewModel.errorEvent.removeObservers(this)
+    }
+
+    fun getBindings(): ActivityYapToYapDashboardBinding {
+        return viewDataBinding as ActivityYapToYapDashboardBinding
     }
 }
