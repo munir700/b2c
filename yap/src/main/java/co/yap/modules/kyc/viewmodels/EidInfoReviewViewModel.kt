@@ -88,6 +88,9 @@ class EidInfoReviewViewModel(application: Application) :
                     )
                     trackEvent(TrackEvents.EIDA_CALLBACK_PROHIBITED_CITIZENS)
                 }
+                it.citizenNumber != parentViewModel?.document?.identityNo && it.givenName + " " + it.sirName != parentViewModel?.document?.fullName -> {
+                    state.toast = "Your EID doesn't match with the current EID."
+                }
                 else -> {
                     performUploadDocumentsRequest()
                 }
