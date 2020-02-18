@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.navArgs
 import co.yap.BR
 import co.yap.R
+import co.yap.databinding.FragmentTransferSuccessBinding
 import co.yap.modules.dashboard.yapit.sendmoney.activities.BeneficiaryCashTransferActivity
 import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.interfaces.ITransferSuccess
 import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.viewmodels.TransferSuccessViewModel
@@ -18,6 +19,10 @@ import co.yap.modules.dashboard.yapit.y2y.home.phonecontacts.InviteBottomSheet
 import co.yap.translation.Strings
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.SendMoneyBeneficiaryType
+import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.helpers.spannables.color
+import co.yap.yapcore.helpers.spannables.getText
+import co.yap.yapcore.managers.MyUserManager
 
 
 class TransferSuccessFragment : SendMoneyBaseFragment<ITransferSuccess.ViewModel>(),
@@ -32,16 +37,29 @@ class TransferSuccessFragment : SendMoneyBaseFragment<ITransferSuccess.ViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        viewModel.getAccountBalanceRequest()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         if (activity is BeneficiaryCashTransferActivity) {
+            viewModel.updatedCardBalanceEvent.observe(this, Observer {
+                viewModel.state.availableBalanceString =
+                    resources.getText(
+                        getString(Strings.screen_cash_transfer_display_text_available_balance),
+                        requireContext().color(
+                            R.color.colorPrimaryDark,
+                            "${"AED"} ${Utils.getFormattedCurrency(MyUserManager.cardBalance.value?.availableBalance)}"
+                        )
+                    )
+                getBindings().tvAvailableBalance.visibility = View.VISIBLE
+                getBindings().flTransactionComplete.visibility = View.VISIBLE
+//            viewModel.state.loading = false
+            })
             setData()
             viewModel.state.amount = "${args.currencyType} ${args.amount}"
             viewModel.state.referenceNumber = args.referenceNumber
             viewModel.state.position = args.position
-
         }
     }
 
@@ -60,6 +78,7 @@ class TransferSuccessFragment : SendMoneyBaseFragment<ITransferSuccess.ViewModel
             }
         })
     }
+
     private fun setResultData() {
         val intent = Intent()
         intent.putExtra(Constants.MONEY_TRANSFERED, true)
@@ -73,7 +92,6 @@ class TransferSuccessFragment : SendMoneyBaseFragment<ITransferSuccess.ViewModel
             inviteFriendBottomSheet.show(it, "")
         }
     }
-
 
 
     override fun onResume() {
@@ -92,6 +110,7 @@ class TransferSuccessFragment : SendMoneyBaseFragment<ITransferSuccess.ViewModel
 
     private fun setData() {
         if (context is BeneficiaryCashTransferActivity) {
+
             (context as BeneficiaryCashTransferActivity).viewModel.state.beneficiary?.let { beneficiary ->
                 beneficiary.beneficiaryType?.let { beneficiaryType ->
                     if (beneficiaryType.isNotEmpty())
@@ -245,6 +264,10 @@ class TransferSuccessFragment : SendMoneyBaseFragment<ITransferSuccess.ViewModel
             }
         }
         return false
+    }
+
+    private fun getBindings(): FragmentTransferSuccessBinding {
+        return viewDataBinding as FragmentTransferSuccessBinding
     }
 
 }

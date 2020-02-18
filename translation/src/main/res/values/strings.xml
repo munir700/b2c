@@ -671,7 +671,7 @@
     <string name="screen_crash_transfer_success_display_text_agent_location">Pickup agent location</string>
     <string name="screen_crash_transfer_success_display_text_share_code">Share this code</string>
     <string name="screen_crash_transfer_success_button_text_back">Back to dashboard</string>
-
+    <string name="screen_cash_transfer_display_text_available_balance">Your available balance is %1s</string>
 
     <!-- International Funds Transfer -->
 
