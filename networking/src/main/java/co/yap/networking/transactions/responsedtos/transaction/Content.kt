@@ -109,7 +109,7 @@ data class Content(
     @SerializedName("receiverMobileNo")
     val receiverMobileNo: String? = null,
     @SerializedName("receiverName")
-    val receiverName: String? = null,
+    var receiverName: String? = null,
     @SerializedName("remarks")
     val remarks: String? = null,
     @SerializedName("senderEmail")
@@ -117,7 +117,7 @@ data class Content(
     @SerializedName("senderMobileNo")
     val senderMobileNo: String? = null,
     @SerializedName("senderName")
-    val senderName: String? = null,
+    var senderName: String? = null,
     @SerializedName("settlementAmount")
     val settlementAmount: Double? = null,
     @SerializedName("settlementCurrency")

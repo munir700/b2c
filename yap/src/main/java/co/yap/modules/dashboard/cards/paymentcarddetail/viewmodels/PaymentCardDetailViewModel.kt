@@ -98,8 +98,8 @@ class PaymentCardDetailViewModel(application: Application) :
                                 "AED",
                                 /* transactionsDay.key!!*/
                                 convertDate(contentsList[0].creationDate),
-                                contentsList.get(0).totalAmount.toString(),
-                                contentsList.get(0).balanceAfter,
+                                contentsList[0].totalAmount.toString(),
+                                contentsList[0].balanceAfter,
                                 0.00 /*  "calculate the percentage as per formula from the keys".toDouble()*/,
                                 contentsList,
 
