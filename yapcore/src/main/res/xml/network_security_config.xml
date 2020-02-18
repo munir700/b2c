@@ -4,7 +4,8 @@
         <domain includeSubdomains="true">>*.yap.co</domain>
         <pin-set>
             <pin digest="SHA-256">jr1RBEN+F3KtPTYBMhudiTGBRAg8k2qZPEg3WbSerXU=</pin>
-            <pin digest="SHA-256">jr1RBEN+F3KtPTYBMhudiTGBRAg8k2qZPEg3WbSerXU=</pin>
+
+            <pin digest="SHA-256">8Rw90Ej3Ttt8RRkrg+WYDS9n7IS03bk5bjP/UXPtaY8=</pin>
         </pin-set>
         <domain-config cleartextTrafficPermitted="false">
             <domain includeSubdomains="true">secure.*.yap.co</domain>
