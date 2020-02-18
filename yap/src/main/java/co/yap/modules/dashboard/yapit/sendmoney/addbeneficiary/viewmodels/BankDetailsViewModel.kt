@@ -37,34 +37,41 @@ class BankDetailsViewModel(application: Application) :
         override fun afterTextChanged(editable: Editable?) {
             launch {
                 delay(300)
-                if (paramsAdaptor.getDataList() != null) {
-                    val mandatoryFields =
-                        paramsAdaptor?.getDataList()!!.filter { it.isMandatory == "Y" }
-                    var isValid = false
-                    for (field in mandatoryFields.iterator()) {
+                val mandatoryFields =
+                    paramsAdaptor.getDataList().filter { it.isMandatory == "Y" }
+                var isValid = false
+                for (field in mandatoryFields.iterator()) {
+                    if (field.minCharacters?.toInt() != null &&
+                        field.minCharacters?.toInt()!! > field.data?.length ?: 0
+                    ) {
+                        isValid = false
+                        break
+                    } else {
+                        isValid = true
+                    }
+                }
+                if (!isValid && mandatoryFields.isNullOrEmpty()) {
+                    for (field in paramsAdaptor.getDataList().iterator()) {
                         if (field.minCharacters?.toInt() != null &&
-                            field.minCharacters?.toInt()!! > field.data?.length ?: 0
+                            field.minCharacters?.toIntOrNull()?:0 > field.data?.length ?: 0
                         ) {
                             isValid = false
-                            break
+
                         } else {
                             isValid = true
+                            break
                         }
-                    }
-                    if (!isValid && mandatoryFields.isNullOrEmpty()) {
-                        for (field in paramsAdaptor?.getDataList()!!.iterator()) {
-                            if (field.data?.length ?: 0 > 0) {
-                                isValid = true
-                                break
-                            } else {
-                                isValid = false
-                            }
+//                        if (field.data?.length ?: 0 > 0) {
+//                            isValid = true
+//                            break
+//                        } else {
+//                            isValid = false
+//                        }
 
-                        }
                     }
-
-                    state.valid = isValid
                 }
+
+                state.valid = isValid
             }
         }
 

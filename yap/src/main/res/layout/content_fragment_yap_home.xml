@@ -32,7 +32,6 @@
                 android:layout_height="wrap_content"
                 app:dsv_orientation="horizontal" />
 
-
             <!--     Content Graph Center       -->
             <include
                 android:id="@+id/vGraph"
@@ -54,7 +53,7 @@
                 tools:text="April 2019" />
 
             <androidx.appcompat.widget.LinearLayoutCompat
-                android:id="@+id/frameLayout"
+                android:id="@+id/lyHomeAction"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
@@ -63,12 +62,12 @@
 
                 <LinearLayout
                     android:id="@+id/lyAdd"
-                    android:onClick="@{(v)->viewModel.handlePressOnView(v.id)}"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_marginStart="@dimen/_18sdp"
                     android:layout_marginEnd="@dimen/_18sdp"
+                    android:onClick="@{(v)->viewModel.handlePressOnView(v.id)}"
                     android:orientation="vertical">
 
                     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -182,9 +181,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="2dp"
-                        android:tint="@{viewModel.state.isTransEmpty() &amp;&amp; viewModel.state.filterCount==0? @color/grey: @color/colorPrimaryDark}"
                         android:layout_toEndOf="@+id/tvFilterCount"
-                        android:src="@drawable/ic_filter" />
+                        android:src="@drawable/ic_filter"
+                        android:tint="@{viewModel.state.isTransEmpty() &amp;&amp; viewModel.state.filterCount==0? @color/grey: @color/colorPrimaryDark}" />
 
                     <TextView
                         android:id="@+id/tvFilters"
@@ -195,7 +194,7 @@
                         android:layout_toEndOf="@+id/ivFilters"
                         android:text="Filter"
                         android:textColor="@{viewModel.state.isTransEmpty() &amp;&amp; viewModel.state.filterCount==0? @color/grey: @color/colorPrimaryDark}" />
-<!--                        android:textColor="?attr/colorPrimaryAttr" />-->
+                    <!--                        android:textColor="?attr/colorPrimaryAttr" />-->
 
                 </RelativeLayout>
 
@@ -207,22 +206,30 @@
                 android:background="@color/divider"
                 android:paddingTop="@dimen/_12sdp" />
 
-            <!--     Content List-->
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rvTransaction"
+            <co.yap.widgets.MultiStateView
+                android:id="@+id/multiStateView"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:visibility="@{viewModel.state.isTransEmpty?View.GONE:View.VISIBLE}"
-                tools:listitem="@layout/item_transaction_list" />
-
-            <ImageView
-                android:id="@+id/ivNoTransaction"
-                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginBottom="@dimen/margin_extra_large"
-                android:visibility="@{viewModel.state.isTransEmpty?View.VISIBLE:View.GONE}"
-                app:srcCompat="@drawable/ic_no_transaction" />
+                app:msv_errorView="@layout/error_view_no_transaction_found"
+                app:msv_emptyView="@layout/layout_welcome_to_yap_view"
+                app:msv_viewState="empty"
+                >
+                <!--     Content List-->
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvTransaction"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    tools:listitem="@layout/item_transaction_list" />
+            </co.yap.widgets.MultiStateView>
+
+<!--            <ImageView-->
+<!--                android:id="@+id/ivNoTransaction"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="match_parent"-->
+<!--                android:layout_gravity="center_horizontal"-->
+<!--                android:layout_marginBottom="@dimen/margin_extra_large"-->
+<!--                android:visibility="@{viewModel.state.isTransEmpty?View.VISIBLE:View.GONE}"-->
+<!--                app:srcCompat="@drawable/ic_no_transaction" />-->
 
         </LinearLayout>
 

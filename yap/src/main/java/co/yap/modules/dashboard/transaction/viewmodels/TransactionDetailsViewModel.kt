@@ -24,7 +24,7 @@ class TransactionDetailsViewModel(application: Application) :
     override val state: TransactionDetailsState = TransactionDetailsState()
     override var clickEvent: SingleClickEvent = SingleClickEvent()
     private var transactionRepository: TransactionsRepository = TransactionsRepository
-    override var transactionId: String = ""
+    override var transactionId: String? = ""
 
 
     override fun onCreate() {
@@ -70,10 +70,15 @@ class TransactionDetailsViewModel(application: Application) :
                     }
                     state.spentAmount =
                         response.data.data?.currency + " " + Utils.getFormattedCurrency(response.data.data?.amount.toString())
-                    if (response.data.data?.feeAmount != null)
+                    state.vatAmount = if (response.data.data?.vat != null) {
+                        response.data.data?.currency + " " + Utils.getFormattedCurrency(response.data.data?.vat.toString())
+                    } else {
+                        "${response.data.data?.currency} ${Utils.getFormattedCurrency("0.00")}"
+                    }
+                    if (response.data.data?.postedFees != null)
                         state.feeAmount =
-                        response.data.data?.currency + " " + response.data.data?.feeAmount else state.feeAmount =
-                        response.data.data?.currency + " " + "0.00"
+                            response.data.data?.currency + " " + Utils.getFormattedCurrency(response.data.data?.postedFees.toString()) else state.feeAmount =
+                        response.data.data?.currency + " " + Utils.getFormattedCurrency("0.00")
 
                     if (response.data.data?.transactionNote != null && response.data.data?.transactionNote != "") {
                         state.addNoteTitle =
@@ -83,9 +88,20 @@ class TransactionDetailsViewModel(application: Application) :
                         state.noteValue =
                             getString(Strings.screen_transaction_details_display_text_note_description)
                     }
+                    if (response.data.data?.txnType == Constants.MANUAL_DEBIT) {
+                        state.totalAmount =
+                            "- ${Utils.getFormattedCurrency(response.data.data?.totalAmount.toString())}"
+                    } else {
+                        state.totalAmount =
+                            Utils.getFormattedCurrency(response.data.data?.totalAmount.toString())
+                    }
+                    state.totalAmountCalculated =
+                        "${response.data.data?.currency} ${Utils.getFormattedCurrency(response.data.data?.totalAmount.toString())}"
 
-                    state.totalAmount =
-                        response.data.data?.currency + " " + Utils.getFormattedCurrency(response.data.data?.totalAmount.toString())
+                    state.currency = response.data.data?.currency
+
+                    /*state.totalAmount =
+                        response.data.data?.currency + " " + Utils.getFormattedCurrency(response.data.data?.totalAmount.toString())*/
                     //val dateFormat = SimpleDateFormat("MMM dd, yyyy ・ HH:mmaa")
                     try {
                         val date =

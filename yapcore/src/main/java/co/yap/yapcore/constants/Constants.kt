@@ -79,8 +79,6 @@ object Constants {
     const val MERCHANT_AVERAGE_AMOUNT_VALUE: Int = 8
 
 
-    //Add Card Payment gateway URL
-    const val URL_ADD_TOPUP_CARD = "https://dev.yap.co/admin-web/HostedSessionIntegration.html"
     const val URL_TERMS_CONDITION = "https://yap.co/terms"
 
     //HTML Key
@@ -164,6 +162,7 @@ object Constants {
         "KEY_IS_FINGERPRINT_PERMISSION_SHOWN"
     const val KEY_AVAILABLE_BALANCE: String = "AVAILABLE_BALANCE"
     const val KEY_THEME = "KEY_THEME"
+    const val VERIFY_PASS_CODE_BTN_TEXT = "verify_pass_code_btn_text"
 
 
 }

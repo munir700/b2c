@@ -16,7 +16,7 @@
         android:textSize="@dimen/text_size_h2" />
 
     <co.yap.widgets.CoreButton
-        android:id="@+id/btnGoToDashboard"
+        android:id="@+id/btnRetry"
         style="@style/RectangleBtnStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

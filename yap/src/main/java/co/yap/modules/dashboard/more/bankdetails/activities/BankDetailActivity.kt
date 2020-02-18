@@ -9,6 +9,7 @@ import co.yap.BR
 import co.yap.R
 import co.yap.modules.dashboard.more.bankdetails.interfaces.IBankDetail
 import co.yap.modules.dashboard.more.bankdetails.viewmodel.BankDetailViewModel
+import co.yap.modules.dashboard.more.main.activities.MoreActivity
 import co.yap.yapcore.BaseBindingActivity
 
 class BankDetailActivity : BaseBindingActivity<IBankDetail.ViewModel>(), IBankDetail.View {
@@ -39,6 +40,9 @@ class BankDetailActivity : BaseBindingActivity<IBankDetail.ViewModel>(), IBankDe
                 }
                 R.id.tbBtnBack -> {
                     onBackPressed()
+                }
+                R.id.tbBtnSettings -> {
+                    startActivity(MoreActivity.newIntent(this))
                 }
             }
         })

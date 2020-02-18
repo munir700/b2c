@@ -154,7 +154,7 @@
                 android:focusable="true"
                 android:onClick="@{(v) -> viewModel.handlePressOnSkipButton(v.id)}"
                 android:textColor="?attr/colorPrimaryAttr"
-                android:visibility="@{viewModel.parentViewModel.allowSkip? View.GONE : View.VISIBLE}"
+                android:visibility="@{viewModel.parentViewModel.skipFirstScreen==true? View.GONE : View.VISIBLE}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"

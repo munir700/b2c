@@ -1,7 +1,10 @@
 package co.yap.networking.transactions.responsedtos.transaction
 
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import kotlinx.android.parcel.Parcelize
 
+@Parcelize
 data class Content(
     @SerializedName("accountUuid1")
     var accountUuid1: String,
@@ -62,4 +65,4 @@ data class Content(
     @SerializedName("title")
     var title: String?
 
-)
+):Parcelable

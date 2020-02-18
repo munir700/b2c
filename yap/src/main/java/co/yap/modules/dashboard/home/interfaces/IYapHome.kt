@@ -21,7 +21,6 @@ interface IYapHome {
         val EVENT_SET_COMPLETE_VEERIFICATION: Int get() = 2
         val ON_ADD_NEW_ADDRESS_EVENT: Int get() = 3
         var MAX_CLOSING_BALANCE: Double
-        var debitCardSerialNumber: String
         val clickEvent: SingleClickEvent
         var txnFilters: TransactionFilters
         fun getDebitCards()
@@ -34,7 +33,6 @@ interface IYapHome {
         fun filterTransactions()
         fun requestAccountTransactions()
         fun requestOrderCard(address: Address?)
-
     }
 
     interface State : IBase.State {

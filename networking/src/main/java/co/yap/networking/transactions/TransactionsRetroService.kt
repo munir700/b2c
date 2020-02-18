@@ -1,5 +1,6 @@
 package co.yap.networking.transactions
 
+import co.yap.networking.transactions.responsedtos.achievement.AchievementsResponseDTO
 import co.yap.networking.models.ApiResponse
 import co.yap.networking.transactions.requestdtos.*
 import co.yap.networking.transactions.responsedtos.*
@@ -115,7 +116,7 @@ interface TransactionsRetroService {
 
     //Get transaction fee
     @POST(TransactionsRepository.URL_GET_TRANSACTION_FEE_WITH_PRODUCT_CODE)
-    suspend fun getTransactionFeeWithProductCode(@Path("product-code") productCode: String?, @Body mRemittanceFeeRequest: RemittanceFeeRequest): Response<RemittanceFeeResponse>
+    suspend fun getTransactionFeeWithProductCode(@Path("product-code") productCode: String?, @Body mRemittanceFeeRequest: RemittanceFeeRequest?): Response<RemittanceFeeResponse>
 
     //Get transaction international purpose reasons.
     @GET(TransactionsRepository.URL_GET_INTERNATIONAL_TRANSACTION_REASON_LIST)
@@ -146,5 +147,11 @@ interface TransactionsRetroService {
 
     @GET(TransactionsRepository.URL_GET_TRANSACTION_THRESHOLDS)
     suspend fun getTransactionThresholds(): Response<TransactionThresholdResponseDTO>
+
+    @GET(TransactionsRepository.URL_GET_CUTT_OFF_TIME_CONFIGURATION)
+    suspend fun getCutOffTimeConfiguration(@Query("productCode") productCode: String?, @Query("currency") currency: String?): Response<CutOffTime>
+
+    @GET(TransactionsRepository.URL_GET_ACHIEVEMENTS)
+    suspend fun getAchievements(): Response<AchievementsResponseDTO>
 
 }

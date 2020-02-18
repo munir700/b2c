@@ -30,7 +30,7 @@ class VerifyPasscodeViewModel(application: Application) :
 
     override val forgotPasscodeButtonPressEvent: SingleClickEvent = SingleClickEvent()
     override val repository: AuthRepository = AuthRepository
-    override val state: VerifyPasscodeState = VerifyPasscodeState()
+    override val state: VerifyPasscodeState = VerifyPasscodeState(application)
     override val signInButtonPressEvent: SingleLiveEvent<Boolean> = SingleLiveEvent()
     override val loginSuccess: SingleLiveEvent<Boolean> = SingleLiveEvent()
     override val validateDeviceResult: SingleLiveEvent<Boolean> = SingleLiveEvent()
@@ -44,6 +44,7 @@ class VerifyPasscodeViewModel(application: Application) :
     private val messagesRepository: MessagesRepository = MessagesRepository
 
     override fun login() {
+
         launch {
             state.loading = true
             when (val response = repository.login(state.username, state.passcode)) {
@@ -171,9 +172,12 @@ class VerifyPasscodeViewModel(application: Application) :
             info[UserAttributes().householdUser] = it.accountType == "B2C_HOUSEHOLD"
             info[UserAttributes().youngUser] = false
             info[UserAttributes().b2bUser] = false
-
+            info[UserAttributes().country] = "AE"
+            info[UserAttributes().city] = ""
+            it.currentCustomer.customerId?.let { customerId ->
+                info[UserAttributes().customerId] = customerId
+            }
             it.uuid?.let { trackEventWithAttributes(it, info) }
         }
     }
-
 }

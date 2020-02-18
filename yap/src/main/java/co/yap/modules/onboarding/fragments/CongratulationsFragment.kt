@@ -59,8 +59,8 @@ class CongratulationsFragment : OnboardingChildFragment<ICongratulations.ViewMod
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val display = activity!!.windowManager.defaultDisplay
-        display.getRectSize(windowSize)
+        val display = activity?.windowManager?.defaultDisplay
+        display?.getRectSize(windowSize)
 
         // hide all in the beginning
         rootContainer.children.forEach { it.alpha = 0f }
@@ -96,19 +96,15 @@ class CongratulationsFragment : OnboardingChildFragment<ICongratulations.ViewMod
 
     private val onCardOrderSuccess = Observer<Boolean> {
         if (it) {
-            startActivity(
+            startActivityForResult(
                 FragmentPresenterActivity.getIntent(
                     requireContext(),
                     Constants.MODE_MEETING_CONFORMATION,
                     null
-                )
+                ), RequestCodes.REQUEST_MEETING_CONFIRMED
             )
-            activity?.finish()
-        }else{
-            val action =
-                CongratulationsFragmentDirections.actionCongratulationsFragmentToYapDashboardActivity()
-            findNavController().navigate(action)
-            activity?.finishAffinity()
+        } else {
+            goToDashboard()
         }
     }
 
@@ -118,10 +114,10 @@ class CongratulationsFragment : OnboardingChildFragment<ICongratulations.ViewMod
             when (requestCode) {
                 RequestCodes.REQUEST_KYC_DOCUMENTS -> handleKYCRequestResult(data)
                 RequestCodes.REQUEST_FOR_LOCATION -> handleLocationRequestResult(data)
+                RequestCodes.REQUEST_MEETING_CONFIRMED -> handleMeetingConfirmationRequest(data)
             }
         }
     }
-
 
     private fun handleKYCRequestResult(data: Intent?) {
         data?.let {
@@ -148,17 +144,7 @@ class CongratulationsFragment : OnboardingChildFragment<ICongratulations.ViewMod
                     )
                 } else {
                     skipped?.let { skip ->
-                        if (skip) {
-                            val action =
-                                CongratulationsFragmentDirections.actionCongratulationsFragmentToYapDashboardActivity()
-                            findNavController().navigate(action)
-                            activity?.finishAffinity()
-                        } else {
-                            val action =
-                                CongratulationsFragmentDirections.actionCongratulationsFragmentToYapDashboardActivity()
-                            findNavController().navigate(action)
-                            activity?.finishAffinity()
-                        }
+                        goToDashboard()
                     }
                 }
             }
@@ -171,9 +157,23 @@ class CongratulationsFragment : OnboardingChildFragment<ICongratulations.ViewMod
             if (result) {
                 val address = it.getParcelableExtra<Address>(Constants.ADDRESS)
                 viewModel.requestOrderCard(address)
+            } else {
+                goToDashboard()
             }
-        }
+        } ?: goToDashboard()
     }
+
+    private fun handleMeetingConfirmationRequest(data: Intent?) {
+        goToDashboard()
+    }
+
+    private fun goToDashboard() {
+        val action =
+            CongratulationsFragmentDirections.actionCongratulationsFragmentToYapDashboardActivity()
+        findNavController().navigate(action)
+        activity?.finishAffinity()
+    }
+
 
     private fun runAnimations() {
         AnimationUtils.runSequentially(

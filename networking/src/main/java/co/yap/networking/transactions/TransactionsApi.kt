@@ -17,7 +17,7 @@ interface TransactionsApi {
     suspend fun getDebitCardFee(): RetroApiResponse<CardFeeResponse>
     suspend fun getTransactionFeeWithProductCode(
         productCode: String?,
-        mRemittanceFeeRequest: RemittanceFeeRequest
+        mRemittanceFeeRequest: RemittanceFeeRequest?
     ): RetroApiResponse<ApiResponse>
 
     suspend fun getTransactionInternationalReasonList(productCode: String?): RetroApiResponse<InternationalFundsTransferReasonList>
@@ -59,4 +59,6 @@ interface TransactionsApi {
     suspend fun swiftTransferRequest(swiftTransactionRequestDTO: SwiftTransactionRequestDTO): RetroApiResponse<SendMoneyTransactionResponseDTO>
     suspend fun getHousholdFeePackage(packageType:String):RetroApiResponse<CardFeeResponse>
     suspend fun getTransactionThresholds():RetroApiResponse<TransactionThresholdResponseDTO>
+    suspend fun getCutOffTimeConfiguration(productCode: String?, currency: String?):RetroApiResponse<CutOffTime>
+    suspend fun getAchievements():RetroApiResponse<ApiResponse>
 }

@@ -33,6 +33,7 @@ interface ICashTransfer {
         fun getTransactionThresholds()
         fun proceedToTransferAmount()
         fun getCashTransferReasonList()
+        fun getCutOffTimeConfiguration()
 
     }
 
@@ -55,6 +56,7 @@ interface ICashTransfer {
         var imageUrl: String
         var feeStringVisibility: Boolean
         var feeType: String?
+        var cutOffTimeMsg: String?
 
         var transferFee: String
         var transferFeeSpannable: SpannableStringBuilder?

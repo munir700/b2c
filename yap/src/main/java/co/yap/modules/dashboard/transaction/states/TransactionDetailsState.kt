@@ -4,6 +4,7 @@ import androidx.databinding.Bindable
 import androidx.databinding.ObservableField
 import co.yap.BR
 import co.yap.modules.dashboard.transaction.interfaces.ITransactionDetails
+import co.yap.networking.transactions.responsedtos.transaction.Content
 import co.yap.yapcore.BaseState
 
 class TransactionDetailsState : BaseState(), ITransactionDetails.State {
@@ -76,6 +77,30 @@ class TransactionDetailsState : BaseState(), ITransactionDetails.State {
             field = value
             notifyPropertyChanged(BR.noteValue)
         }
+    @get:Bindable
+    override var currency: String? = ""
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.currency)
+        }
+    @get:Bindable
+    override var vatAmount: String? = ""
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.vatAmount)
+        }
+    @get:Bindable
+    override var totalAmountCalculated: String? = ""
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.totalAmountCalculated)
+        }
+//    @get:Bindable
+//    override var content: Content? = null
+//        set(value) {
+//            field = value
+//            notifyPropertyChanged(BR.content)
+//        }
 
     override var isYtoYTransfer: ObservableField<Boolean> = ObservableField(false)
 

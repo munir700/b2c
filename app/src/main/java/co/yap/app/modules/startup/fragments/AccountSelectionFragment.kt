@@ -3,10 +3,8 @@ package co.yap.app.modules.startup.fragments
 import android.animation.Animator
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
-import android.media.MediaPlayer
-import android.net.Uri
 import android.os.Bundle
-import android.os.CountDownTimer
+import android.os.Handler
 import android.view.View
 import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.animation.AccelerateInterpolator
@@ -19,10 +17,14 @@ import co.yap.app.R
 import co.yap.app.modules.startup.interfaces.IAccountSelection
 import co.yap.app.modules.startup.viewmodels.AccountSelectionViewModel
 import co.yap.modules.onboarding.enums.AccountType
+import co.yap.widgets.video.ExoPlayerCallBack
 import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.helpers.extentions.trackEvent
 import com.daimajia.androidanimations.library.Techniques
 import com.daimajia.androidanimations.library.YoYo
+import com.google.android.exoplayer2.Player
+import com.google.android.exoplayer2.source.TrackGroupArray
+import com.google.android.exoplayer2.trackselection.TrackSelectionArray
 import kotlinx.android.synthetic.main.fragment_account_selection.*
 
 
@@ -32,142 +34,129 @@ class AccountSelectionFragment : BaseBindingFragment<IAccountSelection.ViewModel
     override fun getBindingVariable(): Int = BR.viewModel
 
     override fun getLayoutId(): Int = R.layout.fragment_account_selection
-    var totalDuration: Long = 0
-    var currentDuration: Int = 0
-    var stopPosition: Int = 0
     var captionsIndex: Int = 0
     var isPaused = false
     var isVideoFinished = false
-    var mediaPlayer: MediaPlayer? = null
-    var timer: CountDownTimer? = null
     private var animatorSet: AnimatorSet? = null
+    val handler = Handler()
 
     private var captions = listOf(
         "Bank your way", "Get an account in seconds", "Money transfers made simple",
         "Track your spending", "Split bills effortlessly", "Spend locally wherever you go",
-        "Instant spending notifications", "An app for everyone", ""
+        "Instant spending notifications", "An app for everyone"
 
     )
-    private var captionDelays = listOf(2000, 1000, 2000, 2000, 3000, 2000, 3000, 3000, 1000)
+    private var captionDelays = listOf(1800, 1000, 1800, 1800, 2500, 1800, 2800, 3000)
     override val viewModel: IAccountSelection.ViewModel
         get() = ViewModelProviders.of(this).get(AccountSelectionViewModel::class.java)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val uri: Uri =
-            Uri.parse("android.resource://" + requireActivity().packageName + "/" + R.raw.yap_demo_intro)
 
-        videoView?.setVideoURI(uri)
+        andExoPlayerView.setSource(R.raw.yap_demo_intro)
         captionsIndex = 0
-        layoutButtons.postDelayed({
+        handler.postDelayed(runnable, 1000)
+
+        andExoPlayerView.setExoPlayerCallBack(object : ExoPlayerCallBack {
+            override fun onError() {
+
+            }
+
+            override fun onTracksChanged(
+                trackGroups: TrackGroupArray,
+                trackSelections: TrackSelectionArray
+            ) {
+            }
+
+            override fun onPositionDiscontinuity(reason: Int) {
+                animatorSet?.cancel()
+                animatorSet = null
+                //captionsIndex = 0
+                tvCaption?.postDelayed({
+                    captionsIndex = 0
+                    playCaptionAnimation()
+                }, 1800)
+            }
+
+            override fun onPlayerStateChanged(playWhenReady: Boolean, playbackState: Int) {
+                if (playbackState == Player.STATE_READY) {
+                    captionsIndex = 0
+                    tvCaption?.postDelayed({
+                        playCaptionAnimation()
+                    }, 1800)
+                }
+            }
+
+            override fun onRepeatModeChanged(repeatMode: Int) {
+            }
+        })
+    }
+
+    private val runnable = Runnable {
+        layoutButtons?.let {
             YoYo.with(Techniques.FadeIn).duration(1500)
-                .onStart { layoutButtons.visibility = View.VISIBLE }.playOn(layoutButtons)
-        }, 1000)
-        videoView?.setOnPreparedListener { mp ->
-            if (stopPosition == 0 && !isVideoFinished) {
-
-                layoutButtons.postDelayed({ playCaptionAnimation() }, 1000)
-            }
-            mediaPlayer = mp
-            totalDuration = mediaPlayer?.duration?.toLong()!!
-            if (!isVideoFinished)
-                videoView?.start()
-
-
-            //playCaptionAnimation()
-            initVideoViewProgress(totalDuration)
+                .onStart { layoutButtons?.visibility = View.VISIBLE }.playOn(layoutButtons)
         }
-        videoView?.setOnCompletionListener {
-            stopPosition = 0
-            isVideoFinished = true
-            timer?.cancel()
-        }
-
-
     }
-
-    private fun initVideoViewProgress(duration: Long) {
-        timer = object : CountDownTimer(duration, 100) {
-            override fun onFinish() {
-                stopPosition = 0
-            }
-
-            override fun onTick(millisUntilFinished: Long) {
-                //currentDuration = videoView?.currentPosition!! / 1000
-
-            }
-        }
-        timer?.start()
+    private val layoutButtonsRunnable = Runnable {
+        layoutButtons?.let {  playCaptionAnimation()}
     }
-
-//    private fun playCaptionAnimation() {
-//        if (!isPaused) {
-//            tvCaption.text = captions[captionsIndex]
-//            val tech = if(captions[captionsIndex].isEmpty()) Techniques.FadeOut else Techniques.FadeIn
-//            YoYo.with(tech).duration(captionDelays[captionsIndex].toLong())
-//                .onEnd {
-//                    captionsIndex += 1
-//                    if (captionsIndex < captions.size)
-//                        playCaptionAnimation()
-//                    //toast("Animation END>> $captionsIndex")
-//                }.playOn(tvCaption)
-//        }
-//
-//
-//
-//    }
 
     fun playCaptionAnimation() {
-        if (!isPaused && captionsIndex != -1) {
-            tvCaption?.text = captions[captionsIndex]
-            val fadeIn = ObjectAnimator.ofFloat(
-                tvCaption,
-                View.ALPHA,
-                0f, 1f
-            )
-            fadeIn.interpolator = DecelerateInterpolator() //add this
-            fadeIn.duration = 500
+        tvCaption?.let {
+            if (!isPaused && captionsIndex != -1) {
+                tvCaption?.text = captions[captionsIndex]
+                val fadeIn = ObjectAnimator.ofFloat(
+                    it,
+                    View.ALPHA,
+                    0f, 1f
+                )
+                fadeIn.interpolator = DecelerateInterpolator() //add this
+                fadeIn.duration = 400
 
-            val fadeOut = ObjectAnimator.ofFloat(
-                tvCaption,
-                View.ALPHA,
-                1f, 0f
-            )
-            fadeOut.interpolator = AccelerateInterpolator() //add this
-            fadeOut.duration = 500
-            fadeOut.startDelay = captionDelays[captionsIndex].toLong()
-            animatorSet = AnimatorSet()
-            animatorSet?.interpolator = AccelerateDecelerateInterpolator()
-            animatorSet?.playSequentially(fadeIn, fadeOut)
-            animatorSet?.addListener(object : Animator.AnimatorListener {
-                override fun onAnimationRepeat(animation: Animator?) {
-                }
+                val fadeOut = ObjectAnimator.ofFloat(
+                    it,
+                    View.ALPHA,
+                    1f, 0f
+                )
+                fadeOut.interpolator = AccelerateInterpolator() //add this
+                fadeOut.duration = 400
+                fadeOut.startDelay = captionDelays[captionsIndex].toLong()
+                animatorSet = AnimatorSet()
+                animatorSet?.interpolator = AccelerateDecelerateInterpolator()
+                animatorSet?.playSequentially(fadeIn, fadeOut)
+                animatorSet?.addListener(object : Animator.AnimatorListener {
+                    override fun onAnimationRepeat(animation: Animator?) {
+                    }
 
-                override fun onAnimationEnd(animation: Animator?) {
-                    captionsIndex += 1
-                    if (captionsIndex < captions.size)
-                        playCaptionAnimation()
-                }
+                    override fun onAnimationEnd(animation: Animator?) {
 
-                override fun onAnimationCancel(animation: Animator?) {
-                }
+                        captionsIndex += 1
+                        if (captionsIndex < captions.size) {
 
-                override fun onAnimationStart(animation: Animator?) {
-                    tvCaption.visibility = View.VISIBLE
-                }
-            })
-            animatorSet?.start()
+                            playCaptionAnimation()
+                        }
+                    }
+
+                    override fun onAnimationCancel(animation: Animator?) {
+                        captionsIndex = 0
+                    }
+
+                    override fun onAnimationStart(animation: Animator?) {
+                        tvCaption?.visibility = View.VISIBLE
+
+                    }
+                })
+                animatorSet?.start()
+            }
         }
     }
+
 
     override fun onResume() {
         super.onResume()
-        if (stopPosition > 0 && !isVideoFinished) {
-            videoView.seekTo(stopPosition)
-            videoView?.resume()
-            initVideoViewProgress(totalDuration - stopPosition)
-        }
         isPaused = false
+        animatorSet?.resume()
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
                 R.id.tvSignIn -> {
@@ -191,19 +180,15 @@ class AccountSelectionFragment : BaseBindingFragment<IAccountSelection.ViewModel
     override fun onPause() {
         super.onPause()
         isPaused = true
-        if (!isVideoFinished) {
-            stopPosition = videoView.currentPosition //stopPosition is an int
-            videoView?.pause()
-        }
-        timer?.cancel()
+        animatorSet?.pause()
         viewModel.clickEvent.removeObservers(this)
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
+        handler.removeCallbacks(runnable)
         animatorSet?.cancel()
         animatorSet = null
-        stopPosition = 0
         captionsIndex = -1
         isPaused = false
         isVideoFinished = false

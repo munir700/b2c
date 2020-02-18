@@ -31,10 +31,6 @@ class MoreActivity : BaseBindingActivity<IMore.ViewModel>(), INavigator,
             intent.putExtra("isDrawerNav", isDrawerNav)
             return intent
         }
-
-        var isDocumentRequired: Boolean = false
-        var showExpiredIcon: Boolean = false
-
     }
 
     override fun getBindingVariable(): Int = BR.viewModel
@@ -89,6 +85,12 @@ class MoreActivity : BaseBindingActivity<IMore.ViewModel>(), INavigator,
             super.onBackPressed()
 
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+      viewModel!!.BadgeVisibility= false
+
     }
 
 }

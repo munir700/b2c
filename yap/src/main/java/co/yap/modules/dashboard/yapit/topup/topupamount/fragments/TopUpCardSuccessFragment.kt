@@ -25,11 +25,12 @@ class TopUpCardSuccessFragment : BaseBindingFragment<ITopUpCardSuccess.ViewModel
     val args: VerifyCardCvvFragmentArgs by navArgs()
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.fragment_top_up_card_success
-    override val viewModel: ITopUpCardSuccess.ViewModel
+    override val viewModel: TopUpCardSuccessViewModel
         get() = ViewModelProviders.of(this).get(TopUpCardSuccessViewModel::class.java)
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        MyUserManager.updateCardBalance()
+        viewModel.getAccountBalanceRequest()
         setObservers()
     }
 
@@ -49,12 +50,6 @@ class TopUpCardSuccessFragment : BaseBindingFragment<ITopUpCardSuccess.ViewModel
                     Utils.getFormattedCurrency(it.availableBalance)
                 )
             )
-            /*  getBindings().tvNewSpareCardBalance.text = Utils.getSpannableStringForLargerBalance(
-                  requireContext(),
-                  viewModel.state.availableBalanceSpanable.get().toString(),
-                  "${args.currencyType} ${Utils.getFormattedCurrency(it.availableBalance)}"
-
-              )*/
 
             getBindings().tvNewSpareCardBalance.text = Utils.getSpannableStringForLargerBalance(
                 requireContext(),
@@ -62,6 +57,8 @@ class TopUpCardSuccessFragment : BaseBindingFragment<ITopUpCardSuccess.ViewModel
                 args.currencyType,
                 Utils.getFormattedCurrencyWithoutComma(it.availableBalance)
             )
+            getBindings().ivSuccessCheckMark.visibility = View.VISIBLE
+            viewModel.state.loading = false
         })
     }
 

@@ -25,6 +25,7 @@ import co.yap.yapcore.constants.Constants.KEY_APP_UUID
 import co.yap.yapcore.constants.Constants.KEY_IS_FINGERPRINT_PERMISSION_SHOWN
 import co.yap.yapcore.constants.Constants.KEY_IS_USER_LOGGED_IN
 import co.yap.yapcore.constants.Constants.KEY_TOUCH_ID_ENABLED
+import co.yap.yapcore.constants.Constants.VERIFY_PASS_CODE_BTN_TEXT
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.biometric.BiometricCallback
@@ -74,8 +75,11 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
     }
 
     private fun receiveData() {
-        arguments?.let {
+        arguments?.let { it ->
             viewModel.state.username = VerifyPasscodeFragmentArgs.fromBundle(it).username
+            it.getString(VERIFY_PASS_CODE_BTN_TEXT)?.let {
+                viewModel.state.btnVerifyPassCodeText = it
+            }
             viewModel.state.verifyPassCodeEnum =
                 it.getString(REQUEST_CODE, VerifyPassCodeEnum.ACCESS_ACCOUNT.name)
         }

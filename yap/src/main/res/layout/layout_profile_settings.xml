@@ -1,10 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
+        <import type="android.view.View" />
+
         <import type="co.yap.translation.Strings" />
+
+        <import type="co.yap.yapcore.managers.MyUserManager" />
 
         <variable
             name="viewModel"
@@ -18,20 +23,19 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:background="@color/colorWhite"
             android:orientation="vertical"
             android:paddingLeft="@dimen/margin_medium"
             android:paddingRight="@dimen/margin_medium"
-            android:paddingBottom="@dimen/margin_medium">
-
+            android:paddingBottom="@dimen/margin_medium"
+            tools:ignore="ContentDescription">
 
             <TextView
                 android:id="@+id/tvProfileCaption"
                 style="@style/ASmallGrey"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_normal"
                 android:layout_marginBottom="@dimen/margin_normal"
                 android:gravity="center"
                 android:text="@string/screen_profile_settings_display_text_profile"
@@ -68,7 +72,7 @@
                     android:layout_marginLeft="@dimen/margin_normal"
                     android:background="@drawable/bg_round_red"
                     android:backgroundTint="@color/error"
-                    android:visibility="@{viewModel.state.errorBadgeVisibility}">
+                    android:visibility="@{viewModel.state.isShowErrorIcon?View.VISIBLE:View.GONE}">
 
 
                     <ImageView
@@ -133,7 +137,8 @@
                     style="@style/ASmall"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/margin_normal"
+                    android:layout_marginStart="@dimen/margin_normal"
+                    android:layout_marginEnd="@dimen/margin_normal"
                     android:layout_weight=".7"
                     android:text="@string/screen_profile_settings_display_text_privacy"
                     app:text="@{Strings.screen_profile_settings_display_text_privacy}" />
@@ -171,7 +176,8 @@
                     style="@style/ASmall"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/margin_normal"
+                    android:layout_marginStart="@dimen/margin_normal"
+                    android:layout_marginEnd="@dimen/margin_normal"
                     android:layout_weight=".7"
                     android:text="@string/screen_profile_settings_display_text_passcode"
                     app:text="@{Strings.screen_profile_settings_display_text_passcode}" />
@@ -208,7 +214,8 @@
                     style="@style/ASmall"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/margin_normal"
+                    android:layout_marginStart="@dimen/margin_normal"
+                    android:layout_marginEnd="@dimen/margin_normal"
                     android:layout_weight=".7"
                     android:text="@string/screen_profile_settings_display_text_app_notifications"
                     app:text="@{Strings.screen_profile_settings_display_text_app_notifications}" />
@@ -221,7 +228,19 @@
                     android:onClick="@{(v) -> viewModel.handlePressOnPrivacy(v.id)}"
                     android:text="@string/screen_profile_settings_display_text_view"
                     android:textColor="?attr/colorPrimaryAttr"
+                    android:visibility="gone"
                     app:text="@{Strings.screen_profile_settings_display_text_view}" />
+
+                <androidx.appcompat.widget.SwitchCompat
+                    android:id="@+id/swNotifications"
+                    style="@style/ASmallGrey"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:gravity="end"
+                    android:paddingStart="0dp"
+                    android:paddingEnd="-2dp"
+                    android:theme="@style/CustomSwitch" />
 
                 <!--                <androidx.appcompat.widget.SwitchCompat-->
                 <!--                    android:id="@+id/switchNotification"-->
@@ -252,21 +271,23 @@
                     style="@style/ASmall"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/margin_normal"
+                    android:layout_marginStart="@dimen/margin_normal"
+                    android:layout_marginEnd="@dimen/margin_normal"
                     android:layout_weight=".7"
-                    android:text="Sign In with fingerprint   " />
+                    android:text="Sign In with fingerprint   "
+                    tools:ignore="HardcodedText" />
 
 
-                <Switch
+                <androidx.appcompat.widget.SwitchCompat
                     android:id="@+id/swTouchId"
                     style="@style/ASmallGrey"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:theme="@style/CustomSwitch"
-                    android:gravity="end|right"
-                    android:layout_gravity="end|right"
-                    android:paddingRight="-2dp"
-                   />
+                    android:layout_gravity="end"
+                    android:gravity="end"
+                    android:paddingStart="0dp"
+                    android:paddingEnd="-2dp"
+                    android:theme="@style/CustomSwitch" />
 
             </LinearLayout>
 
@@ -306,7 +327,8 @@
                     style="@style/ASmall"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/margin_normal"
+                    android:layout_marginStart="@dimen/margin_normal"
+                    android:layout_marginEnd="@dimen/margin_normal"
                     android:layout_weight=".7"
                     android:text="@string/screen_profile_settings_display_terms_and_conditions"
                     app:text="@{Strings.screen_profile_settings_display_terms_and_conditions}" />
@@ -343,7 +365,8 @@
                     style="@style/ASmall"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/margin_normal"
+                    android:layout_marginStart="@dimen/margin_normal"
+                    android:layout_marginEnd="@dimen/margin_normal"
                     android:layout_weight=".7"
                     android:text="@string/screen_profile_settings_display_text_instagram"
                     app:text="@{Strings.screen_profile_settings_display_text_instagram}" />
@@ -380,7 +403,8 @@
                     style="@style/ASmall"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/margin_normal"
+                    android:layout_marginStart="@dimen/margin_normal"
+                    android:layout_marginEnd="@dimen/margin_normal"
                     android:layout_weight=".7"
                     android:text="@string/screen_profile_settings_display_text_twitter"
                     app:text="@{Strings.screen_profile_settings_display_text_twitter}" />

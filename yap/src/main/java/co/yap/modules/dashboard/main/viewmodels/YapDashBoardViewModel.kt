@@ -5,10 +5,10 @@ import androidx.lifecycle.MutableLiveData
 import co.yap.app.YAPApplication
 import co.yap.modules.dashboard.main.interfaces.IYapDashboard
 import co.yap.modules.dashboard.main.states.YapDashBoardState
-import co.yap.modules.dashboard.more.main.activities.MoreActivity
 import co.yap.networking.cards.CardsRepository
 import co.yap.networking.cards.responsedtos.CardBalance
 import co.yap.networking.customers.CustomersRepository
+import co.yap.networking.customers.responsedtos.AccountInfo
 import co.yap.networking.models.RetroApiResponse
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
@@ -20,14 +20,13 @@ import com.leanplum.Leanplum
 class YapDashBoardViewModel(application: Application) :
     BaseViewModel<IYapDashboard.State>(application), IYapDashboard.ViewModel {
 
-
-    override val getAccountInfoSuccess: MutableLiveData<Boolean> = MutableLiveData()
     override val getAccountBalanceSuccess: MutableLiveData<Boolean> = MutableLiveData()
     override val clickEvent: SingleClickEvent = SingleClickEvent()
     override val state: YapDashBoardState = YapDashBoardState()
     private val customerRepository: CustomersRepository = CustomersRepository
     private val cardsRepository: CardsRepository = CardsRepository
     override val showUnverifedscreen: MutableLiveData<Boolean> = MutableLiveData()
+    override val accountInfo: MutableLiveData<AccountInfo>? = MutableLiveData()
 
     override fun handlePressOnNavigationItem(id: Int) {
         clickEvent.setValue(id)
@@ -41,7 +40,7 @@ class YapDashBoardViewModel(application: Application) :
 
     override fun onCreate() {
         super.onCreate()
-        getAccountInfo()
+        getAccountBalanceRequest()
         updateVersion()
     }
 
@@ -72,17 +71,11 @@ class YapDashBoardViewModel(application: Application) :
 
     override fun getAccountInfo() {
         launch {
-            state.loading = true
             when (val response = customerRepository.getAccountInfo()) {
                 is RetroApiResponse.Success -> {
+                    accountInfo?.value = response.data.data[0]
                     MyUserManager.user = response.data.data[0]
-                    MyUserManager.user?.isDocumentsVerified?.let {
-                        MoreActivity.showExpiredIcon =
-                            it == "N"
-                    }
-
                     Leanplum.setUserId(MyUserManager.user?.uuid)
-                    getAccountInfoSuccess.value = true
                     populateState()
                     if (MyUserManager.user?.currentCustomer?.isEmailVerified.equals("N", true)) {
                         showUnverifedscreen.value = true
@@ -91,22 +84,6 @@ class YapDashBoardViewModel(application: Application) :
 
                 is RetroApiResponse.Error -> state.toast = response.error.message
             }
-            state.loading = false
-        }
-    }
-
-
-     fun getAccountInfo2() {
-        MyUserManager.user?.isDocumentsVerified?.let {
-            MoreActivity.showExpiredIcon =
-                it == "N"
-        }
-
-        Leanplum.setUserId(MyUserManager.user?.uuid)
-        getAccountInfoSuccess.value = true
-        populateState()
-        if (MyUserManager.user?.currentCustomer?.isEmailVerified.equals("N", true)) {
-            showUnverifedscreen.value = true
         }
     }
 
@@ -116,8 +93,12 @@ class YapDashBoardViewModel(application: Application) :
                 is RetroApiResponse.Success -> {
                     MyUserManager.cardBalance.value =
                         CardBalance(availableBalance = response.data.data?.availableBalance.toString())
+                    getAccountInfo()
                 }
-                is RetroApiResponse.Error -> state.toast = response.error.message
+                is RetroApiResponse.Error -> {
+                    state.toast = response.error.message
+                    getAccountInfo()
+                }
             }
         }
     }

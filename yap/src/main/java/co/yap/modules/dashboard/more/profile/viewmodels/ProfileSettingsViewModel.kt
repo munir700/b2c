@@ -7,18 +7,16 @@ import android.net.Uri
 import android.provider.MediaStore
 import android.view.View.GONE
 import android.view.View.VISIBLE
-import co.yap.modules.dashboard.more.main.activities.MoreActivity
-import co.yap.modules.dashboard.more.main.activities.MoreActivity.Companion.isDocumentRequired
 import co.yap.modules.dashboard.more.main.viewmodels.MoreBaseViewModel
 import co.yap.modules.dashboard.more.profile.intefaces.IProfile
 import co.yap.modules.dashboard.more.profile.states.ProfileStates
 import co.yap.networking.authentication.AuthRepository
 import co.yap.networking.customers.CustomersRepository
-import co.yap.networking.customers.responsedtos.documents.GetMoreDocumentsResponse
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.constants.Constants.KEY_APP_UUID
+import co.yap.yapcore.enums.EIDStatus
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.managers.MyUserManager
 import com.bumptech.glide.Glide
@@ -38,8 +36,6 @@ class ProfileSettingsViewModel(application: Application) :
 
     override var PROFILE_PICTURE_UPLOADED: Int = 100
     override var EVENT_LOGOUT_SUCCESS: Int = 101
-    override var showExpiredBadge: Boolean = false
-    override lateinit var data: GetMoreDocumentsResponse
     override val authRepository: AuthRepository = AuthRepository
     override val repository: CustomersRepository = CustomersRepository
     private val sharedPreferenceManager = SharedPreferenceManager(application)
@@ -100,12 +96,12 @@ class ProfileSettingsViewModel(application: Application) :
 
     override fun onResume() {
         super.onResume()
+        toggleAchievementsBadgeVisibility(parentViewModel!!.BadgeVisibility)
         // setToolBarTitle(getString(Strings.screen_profile_settings_display_text_title))
     }
 
     override fun onCreate() {
         super.onCreate()
-
         requestProfileDocumentsInformation()
         MyUserManager.user?.let {
             state.fullName = it.currentCustomer.getFullName()
@@ -150,7 +146,7 @@ class ProfileSettingsViewModel(application: Application) :
                 }
                 is RetroApiResponse.Error -> {
                     state.toast = response.error.message
-                    state.loading = true
+                    state.loading = false
                 }
             }
         }
@@ -208,49 +204,37 @@ class ProfileSettingsViewModel(application: Application) :
     }
 
     override fun requestProfileDocumentsInformation() {
-
         launch {
             when (val response = repository.getMoreDocumentsByType("EMIRATES_ID")) {
-
                 is RetroApiResponse.Success -> {
-                    data = response.data
-                    data.data.dateExpiry?.let {
+                    parentViewModel?.document =
+                        response.data.data?.customerDocuments?.get(0)?.documentInformation
+
+                    val data = response.data
+                    data.data?.dateExpiry?.let {
                         getExpiryDate(it)
                     }
                 }
 
                 is RetroApiResponse.Error -> {
-                    state.errorBadgeVisibility = VISIBLE
-                    MoreActivity.showExpiredIcon = true
-                    showExpiredBadge = true
-                    if (response.error.message.equals("HomeTransactionListData not found")) {
-                        isDocumentRequired = true
-                    }
+                    if (response.error.statusCode == 400 || response.error.actualCode == "1073")
+                        state.isShowErrorIcon.set(true)
+                        MyUserManager.eidStatus = EIDStatus.NOT_SET  //set the document is required if not found
                 }
             }
         }
     }
 
-    fun getExpiryDate(expiryDateString: String) {
-
-        var simpleDateFormat = SimpleDateFormat("yyyy-MM-dd")
+    private fun getExpiryDate(expiryDateString: String) {
+        val simpleDateFormat = SimpleDateFormat("yyyy-MM-dd")
         val expireyDate = simpleDateFormat.parse(expiryDateString)
         val cal = Calendar.getInstance()
         cal.add(Calendar.DAY_OF_YEAR, -1)
 
         val prevDay = simpleDateFormat.format(cal.time)
         val previousDayDate = simpleDateFormat.parse(prevDay)
-
-        if (expireyDate > previousDayDate) {
-            state.errorBadgeVisibility = GONE
-            showExpiredBadge = false
-            MoreActivity.showExpiredIcon = false
-
-        } else {
-            state.errorBadgeVisibility = VISIBLE
-            showExpiredBadge = true
-            MoreActivity.showExpiredIcon = true
-        }
-
+        state.isShowErrorIcon.set(expireyDate < previousDayDate)
+        MyUserManager.eidStatus =
+            if (expireyDate < previousDayDate) EIDStatus.EXPIRED else EIDStatus.VALID
     }
 }

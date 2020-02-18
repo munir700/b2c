@@ -5,7 +5,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
 import co.yap.R
-import co.yap.modules.kyc.activities.DocumentsDashboardActivity
+import co.yap.modules.kyc.activities.DocumentsResponse
 import co.yap.modules.kyc.viewmodels.InformationErrorViewModel
 import co.yap.modules.onboarding.interfaces.IInformationError
 import co.yap.translation.Strings
@@ -15,27 +15,22 @@ class InformationErrorFragment : KYCChildFragment<IInformationError.ViewModel>()
     override fun getBindingVariable(): Int = BR.viewModel
 
     override fun getLayoutId(): Int = R.layout.fragment_information_error
-    override val viewModel: IInformationError.ViewModel
+    override val viewModel: InformationErrorViewModel
         get() = ViewModelProviders.of(this).get(InformationErrorViewModel::class.java)
 
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        var countryName =
+        val countryName =
             arguments?.let { InformationErrorFragmentArgs.fromBundle(it).countryName }.toString()
         viewModel.countryName = Translator.getString(
             requireContext(),
             Strings.screen_kyc_information_error_display_text_title_from_usa, countryName
-
         )
 
         viewModel.clickEvent.observe(this, Observer {
-            if (activity is DocumentsDashboardActivity)
-                (activity as DocumentsDashboardActivity).goToDashBoard(
-                    success = false,
-                    skippedPress = true
-                )
+            viewModel.parentViewModel?.finishKyc?.value = DocumentsResponse(false)
         })
     }
 
@@ -44,5 +39,6 @@ class InformationErrorFragment : KYCChildFragment<IInformationError.ViewModel>()
         super.onDestroyView()
     }
 
+    override fun onBackPressed(): Boolean = true
 
 }

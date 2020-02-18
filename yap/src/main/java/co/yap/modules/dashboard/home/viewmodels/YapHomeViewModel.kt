@@ -10,12 +10,15 @@ import co.yap.modules.dashboard.main.viewmodels.YapDashboardChildViewModel
 import co.yap.networking.cards.CardsRepository
 import co.yap.networking.cards.requestdtos.OrderCardRequest
 import co.yap.networking.cards.responsedtos.Address
+import co.yap.networking.cards.responsedtos.Card
 import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.transactions.TransactionsRepository
 import co.yap.networking.transactions.responsedtos.transaction.Content
 import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionListData
 import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionsResponse
 import co.yap.yapcore.SingleClickEvent
+import co.yap.yapcore.enums.CardType
+import co.yap.yapcore.managers.MyUserManager
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -23,8 +26,6 @@ class YapHomeViewModel(application: Application) :
     YapDashboardChildViewModel<IYapHome.State>(application),
     IYapHome.ViewModel {
 
-
-    override lateinit var debitCardSerialNumber: String
     override val clickEvent: SingleClickEvent = SingleClickEvent()
     override val state: YapHomeState = YapHomeState()
     override var txnFilters: TransactionFilters = TransactionFilters()
@@ -63,7 +64,7 @@ class YapHomeViewModel(application: Application) :
 
     override fun requestAccountTransactions() {
         launch {
-            if (!isLoadMore.value!!)
+            if (isLoadMore.value == false)
                 state.loading = true
             when (val response =
                 transactionsRepository.getAccountTransactions(YAPApplication.homeTransactionsRequest)) {
@@ -72,12 +73,12 @@ class YapHomeViewModel(application: Application) :
                     val transactionModelData: ArrayList<HomeTransactionListData> =
                         setUpSectionHeader(response)
 
-                    if (isRefreshing.value!!) {
+                    if (isRefreshing.value == true) {
                         sortedCombinedTransactionList.clear()
                     }
                     isRefreshing.value = false
 
-                    if (!sortedCombinedTransactionList.equals(transactionModelData)) {
+                    if (sortedCombinedTransactionList != transactionModelData) {
                         sortedCombinedTransactionList.addAll(transactionModelData)
                     }
 
@@ -229,25 +230,27 @@ class YapHomeViewModel(application: Application) :
 
     override fun getDebitCards() {
         launch {
-            state.loading = true
             when (val response = cardsRepository.getDebitCards("DEBIT")) {
                 is RetroApiResponse.Success -> {
-                    response.data.data?.let { it ->
+                    response.data.data?.let {
                         if (it.isNotEmpty()) {
-                            response.data.data?.let {
-                                debitCardSerialNumber = it[0].cardSerialNumber
+                            val primaryCard = getPrimaryCard(response.data.data)
+                            primaryCard?.let {
+                                MyUserManager.cards.value = primaryCard
+                                clickEvent.setValue(EVENT_SET_CARD_PIN)
                             }
-
-                            clickEvent.setValue(EVENT_SET_CARD_PIN)
+                        } else {
+                            state.toast = "Debit card not found."
                         }
                     }
-
                 }
                 is RetroApiResponse.Error -> state.toast = response.error.message
             }
-            state.loading = false
         }
+    }
 
+    private fun getPrimaryCard(cards: ArrayList<Card>?): Card? {
+        return cards?.firstOrNull { it.cardType == CardType.DEBIT.type }
     }
 
     override fun requestOrderCard(address: Address?) {

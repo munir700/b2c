@@ -27,7 +27,6 @@ import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.toast
 import co.yap.yapcore.managers.MyUserManager
 import kotlinx.android.synthetic.main.fragment_international_funds_transfer.*
-import kotlin.math.abs
 
 
 class InternationalFundsTransferFragment :
@@ -68,7 +67,7 @@ class InternationalFundsTransferFragment :
 //                } else {
 //                    getBindings().etSenderAmount.gravity = Gravity.START or Gravity.CENTER_VERTICAL
 //                }
-                if (p0?.length!! > 0) {
+                if (p0?.length ?: 0 > 0) {
                     getBindings().etSenderAmount.gravity =
                         Gravity.CENTER_HORIZONTAL or Gravity.CENTER_VERTICAL
                 } else {
@@ -202,12 +201,14 @@ class InternationalFundsTransferFragment :
             it.dailyLimit?.let { dailyLimit ->
                 it.totalDebitAmount?.let { totalConsumedAmount ->
                     viewModel.state.totalTransferAmount.get()?.let { enteredAmount ->
-                        val remainingDailyLimit = abs(dailyLimit - totalConsumedAmount)
+                        val remainingDailyLimit =
+                            if ((dailyLimit - totalConsumedAmount) < 0.0) 0.0 else (dailyLimit - totalConsumedAmount)
+
                         viewModel.state.errorDescription =
-                            getString(Strings.common_display_text_daily_limit_error).format(
-                                dailyLimit,
-                                remainingDailyLimit
+                            if (enteredAmount > dailyLimit) getString(Strings.common_display_text_daily_limit_error_single_transaction) else getString(
+                                Strings.common_display_text_daily_limit_error_single_transaction
                             )
+
                         return (enteredAmount > remainingDailyLimit)
 
                     } ?: return false

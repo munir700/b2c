@@ -18,6 +18,8 @@ import android.text.style.UnderlineSpan
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.widget.*
 import androidx.annotation.RequiresApi
@@ -32,6 +34,7 @@ import co.yap.widgets.*
 import co.yap.widgets.otptextview.OTPListener
 import co.yap.widgets.otptextview.OtpTextView
 import co.yap.yapcore.R
+import co.yap.yapcore.enums.AccountStatus
 import co.yap.yapcore.enums.CardDeliveryStatus
 import co.yap.yapcore.enums.CardStatus
 import co.yap.yapcore.enums.SendMoneyBeneficiaryType
@@ -414,7 +417,7 @@ object UIBinder {
 
     private fun setCardButtonTextForInactive(coreButton: TextView, card: Card) {
         if (card.cardType == "DEBIT") {
-            if (MyUserManager.user?.notificationStatuses == "MEETING_SUCCESS") {
+            if (MyUserManager.user?.notificationStatuses == AccountStatus.MEETING_SUCCESS.name) {
                 if (card.deliveryStatus == CardDeliveryStatus.SHIPPED.name) {
                     coreButton.visibility = View.VISIBLE
                     coreButton.text = Translator.getString(
@@ -500,7 +503,18 @@ object UIBinder {
     fun setconcatVal(tv: TextView, textKey: String, concat: String) {
         Translator.getString(tv.context, textKey)
         tv.text = String.format(Translator.getString(tv.context, textKey), '\n' + concat)
+    }
 
+    @BindingAdapter("textVal", "concatenatedVal")
+    @JvmStatic
+    fun setconcatedVal(tv: TextView, textKey: String, concat: String?) {
+        if (!concat.isNullOrEmpty() && !concat.equals("null")) {
+            tv.visibility = VISIBLE
+            Translator.getString(tv.context, textKey)
+            tv.text = String.format(Translator.getString(tv.context, textKey), concat)
+        } else {
+            tv.visibility = GONE
+        }
     }
 
     @BindingAdapter("textVal", "noLineconcatVal")
@@ -880,7 +894,7 @@ object UIBinder {
     @JvmStatic
     @BindingAdapter("cardBackgroundColor")
     fun setCardBackground(view: CorePaymentCard, cardBackgroundColor: String?) {
-        if (cardBackgroundColor != null)
+        if (!cardBackgroundColor.isNullOrBlank())
             view.setCardBackground(cardBackgroundColor)
     }
 
@@ -910,5 +924,4 @@ object UIBinder {
             return
         view.adapter = adapter
     }
-
 }

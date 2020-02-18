@@ -3,6 +3,7 @@ package co.yap.modules.dashboard.more.profile.intefaces
 import android.graphics.drawable.Drawable
 import androidx.lifecycle.MutableLiveData
 import co.yap.networking.cards.requestdtos.UpdateAddressRequest
+import co.yap.networking.cards.responsedtos.Address
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
 
@@ -14,7 +15,6 @@ interface IPersonalDetail {
         var email: String?
         var address: String
         var drawbleRight: Drawable?
-        var errorVisibility: Boolean
         var verificationText: String
     }
 
@@ -24,6 +24,7 @@ interface IPersonalDetail {
 
         var UPDATE_ADDRESS_UI : Int
         var onUpdateAddressSuccess:MutableLiveData<Boolean>
+        val orderCardSuccess:MutableLiveData<Boolean>
 
         fun handlePressOnBackButton()
 
@@ -42,6 +43,10 @@ interface IPersonalDetail {
         fun updateToolBarText(heading: String)
 
         fun requestUpdateAddress(updateAddressRequest: UpdateAddressRequest)
+
+        fun requestOrderCard(address: Address?)
+
+        fun setUpVerificationLayout()
 
     }
 

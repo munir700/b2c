@@ -24,7 +24,6 @@ import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.SendMoneyBeneficiaryType
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.toast
-import kotlin.math.abs
 
 class CashTransferViewModel(application: Application) :
     SendMoneyBaseViewModel<ICashTransfer.State>(application),
@@ -55,6 +54,7 @@ class CashTransferViewModel(application: Application) :
         state.currencyType = "AED"
         state.setSpannableFee("0.0")
         getTransactionThresholds()
+        getCutOffTimeConfiguration()
     }
 
     override fun onResume() {
@@ -97,14 +97,13 @@ class CashTransferViewModel(application: Application) :
             it.dailyLimit?.let { dailyLimit ->
                 it.totalDebitAmount?.let { totalConsumedAmount ->
                     state.amount.toDoubleOrNull()?.let { enteredAmount ->
-                        val remainingDailyLimit = abs(dailyLimit - totalConsumedAmount)
+                        val remainingDailyLimit =
+                            if ((dailyLimit - totalConsumedAmount) < 0.0) 0.0 else (dailyLimit - totalConsumedAmount)
                         state.errorDescription =
-                            getString(Strings.common_display_text_daily_limit_error).format(
-                                dailyLimit,
-                                remainingDailyLimit
+                            if (enteredAmount > dailyLimit) getString(Strings.common_display_text_daily_limit_error_single_transaction) else getString(
+                                Strings.common_display_text_daily_limit_error_single_transaction
                             )
                         return enteredAmount > remainingDailyLimit
-
                     } ?: return false
                 } ?: return false
             } ?: return false
@@ -115,8 +114,8 @@ class CashTransferViewModel(application: Application) :
         transactionThreshold.value?.let {
             it.totalDebitAmountRemittance?.let { totalSMConsumedAmount ->
                 state.amount.toDoubleOrNull()?.let { enteredAmount ->
-                    val remainingOtpLimit = it.otpLimit ?: 0.0 - totalSMConsumedAmount
-                    return enteredAmount > remainingOtpLimit
+                    val remainingOtpLimit = it.otpLimit?.minus(totalSMConsumedAmount)
+                    return enteredAmount > (remainingOtpLimit ?: 0.0)
                 } ?: return false
             } ?: return false
         } ?: return false
@@ -385,8 +384,8 @@ class CashTransferViewModel(application: Application) :
                     state.toast = response.error.message
                 }
             }
-            }
         }
+    }
 
     private fun setMaxMinLimits(limit: Double?) {
         limit?.let {
@@ -399,4 +398,33 @@ class CashTransferViewModel(application: Application) :
         }
     }
 
+    override fun getCutOffTimeConfiguration() {
+
+        state.beneficiary?.run {
+            beneficiaryType?.let { beneficiaryType ->
+                if (beneficiaryType.isNotEmpty())
+                    when (SendMoneyBeneficiaryType.valueOf(beneficiaryType)) {
+                        SendMoneyBeneficiaryType.SWIFT, SendMoneyBeneficiaryType.UAEFTS -> {
+                            launch {
+                                when (val response =
+                                    transactionRepository.getCutOffTimeConfiguration(
+                                        state.produceCode,
+                                        currency
+                                    )) {
+                                    is RetroApiResponse.Success -> {
+                                        response.data.data?.let {
+                                            state.cutOffTimeMsg = it.errorMsg
+                                        }
+
+                                    }
+                                    is RetroApiResponse.Error -> {
+                                        state.toast = response.error.message
+                                    }
+                                }
+                            }
+                        }
+                    }
+            }
+        }
+    }
 }

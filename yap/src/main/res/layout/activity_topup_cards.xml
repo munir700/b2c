@@ -120,26 +120,26 @@
                 android:id="@+id/txtCardName"
                 style="@style/SmallGrey"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/margin_extra_small"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:paddingBottom="@dimen/margin_extra_small"
                 android:text="@{viewModel.state.alias}"
                 android:textColor="?attr/colorPrimaryDarkAttr"
                 android:visibility="visible"
-                tools:text="Citi Bank Claksjdlasjdlkasjdlkasjdard" />
+                tools:text="Citi Bank Claksjdlasjdl" />
 
             <TextView
                 android:id="@+id/txtSecure"
                 style="@style/MicroGrey"
                 android:layout_width="wrap_content"
-                android:layout_height="0dp"
+                android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:drawableStart="@drawable/ic_secured"
                 android:drawablePadding="@dimen/_minus10sdp"
                 android:gravity="center"
                 android:text="Secured by YAP"
-                android:visibility="visible" />
+                android:visibility="@{viewModel.state.valid ? View.VISIBLE:View.GONE}" />
         </LinearLayout>
 
         <co.yap.widgets.CoreButton

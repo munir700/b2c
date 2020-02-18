@@ -3,10 +3,13 @@ package co.yap.modules.dashboard.yapit.topup.topupamount.viewModels
 import android.app.Application
 import co.yap.modules.dashboard.yapit.topup.topupamount.interfaces.ITopUpCardSuccess
 import co.yap.modules.dashboard.yapit.topup.topupamount.states.TopUpCardSuccessState
+import co.yap.networking.cards.responsedtos.CardBalance
+import co.yap.networking.models.RetroApiResponse
 import co.yap.translation.Strings
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.managers.MyUserManager
 
 
 class TopUpCardSuccessViewModel(application: Application) :
@@ -30,6 +33,23 @@ class TopUpCardSuccessViewModel(application: Application) :
                 Utils.getFormattedCurrency(state.amount)
             )
 
+    }
+
+    fun getAccountBalanceRequest() {
+        launch {
+            state.loading = true
+            when (val response = MyUserManager.repository.getAccountBalanceRequest()) {
+                is RetroApiResponse.Success -> {
+                    MyUserManager.cardBalance.value =
+                        (CardBalance(availableBalance = response.data.data?.availableBalance.toString()))
+                    kotlinx.coroutines.delay(1000)
+                    state.loading = false
+                }
+                is RetroApiResponse.Error -> {
+                    state.loading = false
+                }
+            }
+        }
     }
 
 

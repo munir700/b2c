@@ -32,13 +32,9 @@ class KYCHomeViewModel(application: Application) : KYCChildViewModel<IKYCHome.St
 
     override fun onCreate() {
         super.onCreate()
+        requestDocuments()
         parentViewModel?.name?.value =
             getString(Strings.screen_b2c_kyc_home_display_text_sub_heading).format(parentViewModel?.name?.value)
-    }
-
-    override fun onResume() {
-        super.onResume()
-        requestDocuments()
     }
 
     override fun handlePressOnNextButton(id: Int) {
@@ -88,6 +84,7 @@ class KYCHomeViewModel(application: Application) : KYCChildViewModel<IKYCHome.St
                                 DateUtils.stringToDate(data.date_of_birth, "yyMMdd")
                             identity.citizenNumber = data.optional1
                             identity.isoCountryCode2Digit = data.isoCountryCode2Digit
+                            identity.isoCountryCode3Digit = data.isoCountryCode3Digit
                             result.identity = identity
                             parentViewModel?.identity = identity
                             state.eidScanStatus = DocScanStatus.SCAN_COMPLETED
