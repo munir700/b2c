@@ -1,12 +1,12 @@
 package co.yap.networking.transactions
 
-import co.yap.networking.transactions.responsedtos.achievement.AchievementsResponseDTO
 import co.yap.networking.BaseRepository
 import co.yap.networking.RetroNetwork
 import co.yap.networking.models.ApiResponse
 import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.transactions.requestdtos.*
 import co.yap.networking.transactions.responsedtos.*
+import co.yap.networking.transactions.responsedtos.achievement.AchievementsResponseDTO
 import co.yap.networking.transactions.responsedtos.topuptransactionsession.Check3DEnrollmentSessionResponse
 import co.yap.networking.transactions.responsedtos.topuptransactionsession.CreateTransactionSessionResponseDTO
 import co.yap.networking.transactions.responsedtos.transaction.FxRateResponse
@@ -24,6 +24,7 @@ object TransactionsRepository : BaseRepository(), TransactionsApi {
     const val URL_GET_DEBIT_CARD_FEE =
         "/transactions/api/fees/reorder/debit-card/subscription/physical"
     const val URL_GET_CARD_STATEMENTS = "/transactions/api/card-statements"
+    const val URL_GET_ACCOUNT_STATEMENTS = "/transactions/api/account-statements"
     const val URL_Y2Y_FUNDS_TRANSFER = "/transactions/api/y2y"
     const val URL_ADD_EDIT_NOTE = "/transactions/api/transaction-note"
     const val URL_SEARCH_FILTER_AMOUNT = "/transactions/api/transactions/search-filter/amount"
@@ -114,6 +115,9 @@ object TransactionsRepository : BaseRepository(), TransactionsApi {
 
     override suspend fun getCardStatements(cardSerialNumber: String?): RetroApiResponse<CardStatementsResponse> =
         executeSafely(call = { api.getCardStatements(cardSerialNumber) })
+
+    override suspend fun getAccountStatements(): RetroApiResponse<CardStatementsResponse> =
+        executeSafely(call = { api.getAccountStatements() })
 
     override suspend fun y2yFundsTransferRequest(y2YFundsTransferRequest: Y2YFundsTransferRequest): RetroApiResponse<ApiResponse> =
         executeSafely(call = { api.y2yFundsTransferRequest(y2YFundsTransferRequest) })

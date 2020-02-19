@@ -1,9 +1,9 @@
 package co.yap.networking.transactions
 
-import co.yap.networking.transactions.responsedtos.achievement.AchievementsResponseDTO
 import co.yap.networking.models.ApiResponse
 import co.yap.networking.transactions.requestdtos.*
 import co.yap.networking.transactions.responsedtos.*
+import co.yap.networking.transactions.responsedtos.achievement.AchievementsResponseDTO
 import co.yap.networking.transactions.responsedtos.topuptransactionsession.Check3DEnrollmentSessionResponse
 import co.yap.networking.transactions.responsedtos.topuptransactionsession.CreateTransactionSessionResponseDTO
 import co.yap.networking.transactions.responsedtos.transaction.FxRateResponse
@@ -41,6 +41,9 @@ interface TransactionsRetroService {
     // Get Card Statements
     @GET(TransactionsRepository.URL_GET_CARD_STATEMENTS)
     suspend fun getCardStatements(@Query("cardSerialNumber") cardSerialNumber: String?): Response<CardStatementsResponse>
+
+    @GET(TransactionsRepository.URL_GET_ACCOUNT_STATEMENTS)
+    suspend fun getAccountStatements(): Response<CardStatementsResponse>
 
     // Get Card Statements
     @POST(TransactionsRepository.URL_Y2Y_FUNDS_TRANSFER)

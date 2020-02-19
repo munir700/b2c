@@ -22,6 +22,7 @@ interface TransactionsApi {
 
     suspend fun getTransactionInternationalReasonList(productCode: String?): RetroApiResponse<InternationalFundsTransferReasonList>
     suspend fun getCardStatements(cardSerialNumber: String?): RetroApiResponse<CardStatementsResponse>
+    suspend fun getAccountStatements(): RetroApiResponse<CardStatementsResponse>
     suspend fun getTransactionInternationalRXList(
         RxNumber: String?,
         mRxListRequest: RxListRequest
