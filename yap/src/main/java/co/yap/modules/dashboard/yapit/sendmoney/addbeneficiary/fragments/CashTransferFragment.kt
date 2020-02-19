@@ -238,7 +238,7 @@ class CashTransferFragment : SendMoneyBaseFragment<ICashTransfer.ViewModel>(), I
                             resources.getText(
                                 getString(Strings.screen_cash_transfer_display_text_available_balance), requireContext().color(
                                     R.color.colorPrimaryDark,
-                                    "${"AED"} ${viewModel.state.availableBalance}"
+                                    "${"AED"} ${Utils.getFormattedCurrency(viewModel.state.availableBalance)}"
                                 )
                             )
                         viewModel.getMoneyTransferLimits(viewModel.state.produceCode)
