@@ -3,6 +3,7 @@ package co.yap.modules.dashboard.cards.paymentcarddetail.viewmodels
 import android.app.Application
 import android.os.Handler
 import androidx.lifecycle.MutableLiveData
+import co.yap.R
 import co.yap.modules.dashboard.cards.paymentcarddetail.interfaces.IPaymentCardDetail
 import co.yap.modules.dashboard.cards.paymentcarddetail.states.PaymentCardDetailState
 import co.yap.modules.dashboard.helpers.transaction.TransactionLogicHelper
@@ -20,6 +21,7 @@ import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionLi
 import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionsResponse
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
+import co.yap.yapcore.enums.CardStatus
 import co.yap.yapcore.helpers.Utils
 import java.text.SimpleDateFormat
 import java.util.*
@@ -208,7 +210,18 @@ class PaymentCardDetailViewModel(application: Application) :
     }
 
     override fun handlePressOnView(id: Int) {
-        clickEvent.setValue(id)
+        if (!isBlockedAction(id))
+            clickEvent.setValue(id)
+    }
+
+    private fun isBlockedAction(id: Int): Boolean {
+        return if (card.value?.status == CardStatus.EXPIRED.name) {
+            when (id) {
+                R.id.llFreezeSpareCard, R.id.llFreezePrimaryCard, R.id.llCardLimits -> true
+                else -> false
+            }
+        } else
+            false
     }
 
     override fun onResume() {

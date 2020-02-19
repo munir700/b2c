@@ -13,6 +13,7 @@ import co.yap.translation.Translator
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.enums.CardStatus
 import co.yap.yapcore.enums.CardType
 import co.yap.yapcore.managers.MyUserManager
 

@@ -129,6 +129,9 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
                             }
                             CardStatus.HOTLISTED -> {
                             }
+                            CardStatus.EXPIRED ->{
+                                openDetailScreen(pos)
+                            }
                             CardStatus.INACTIVE -> {
                                 if (getCard(pos).deliveryStatus == null) {
                                     openDetailScreen(pos)

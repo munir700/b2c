@@ -188,11 +188,12 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
             }
             R.id.ivMenu -> {
                 if (Constants.CARD_TYPE_DEBIT == viewModel.state.cardType) {
-                    primaryCardBottomSheet = PrimaryCardBottomSheet(this)
+                    primaryCardBottomSheet =
+                        PrimaryCardBottomSheet(viewModel.card.value?.status ?: "", this)
                     primaryCardBottomSheet.show(supportFragmentManager, "")
                 } else {
                     spareCardBottomSheet =
-                        SpareCardBottomSheet(viewModel.card.value?.physical!!, this)
+                        SpareCardBottomSheet(viewModel.card.value?.physical ?: false, this)
                     spareCardBottomSheet.show(supportFragmentManager, "")
                 }
             }
@@ -282,6 +283,11 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
 
     private fun setupView() {
         viewModel.card.value = intent.getParcelableExtra(CARD)
+        // the alpha is not getting set through binding
+        getBindings().ivSpareFreeze.alpha = if(viewModel.card.value?.status == CardStatus.EXPIRED.name) 0.5f else 1.0f
+        getBindings().ivPrimaryFreeze.alpha = if(viewModel.card.value?.status == CardStatus.EXPIRED.name) 0.5f else 1.0f
+        getBindings().ivSetLimits.alpha = if(viewModel.card.value?.status == CardStatus.EXPIRED.name) 0.5f else 1.0f
+
         viewModel.state.cardType = viewModel.card.value?.cardType!!
         viewModel.state.cardPanNumber = viewModel.card.value?.maskedCardNo!!
         viewModel.card.value?.cardName?.let { cardName ->
@@ -377,6 +383,7 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
         )
     }
 
+
     override fun onClick(eventType: Int) {
 
         if (Constants.CARD_TYPE_DEBIT == viewModel.state.cardType) {
@@ -386,7 +393,6 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
         }
 
         when (eventType) {
-
             Constants.EVENT_ADD_CARD_NAME -> {
                 startActivityForResult(
                     UpdateCardNameActivity.newIntent(this, viewModel.card.value!!),
