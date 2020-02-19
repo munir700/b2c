@@ -101,16 +101,22 @@ class TransferSuccessState : BaseState(), ITransferSuccess.State {
             notifyPropertyChanged(BR.beneficiaryCountry)
         }
     @get:Bindable
-    override var transferAmountHeading: String?=""
+    override var transferAmountHeading: String? = ""
         set(value) {
-            field=value
+            field = value
             notifyPropertyChanged(BR.transferAmountHeading)
         }
     @get:Bindable
-    override var buttonTitle: String?=""
+    override var buttonTitle: String? = ""
         set(value) {
-            field=value
+            field = value
             notifyPropertyChanged(BR.buttonTitle)
+        }
+    @get:Bindable
+    override var availableBalanceString: CharSequence? = ""
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.availableBalanceString)
         }
 
     @get:Bindable

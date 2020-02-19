@@ -19,6 +19,7 @@ import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import co.yap.R
+import co.yap.databinding.FragmentCashTransferBinding
 import co.yap.modules.dashboard.yapit.sendmoney.activities.BeneficiaryCashTransferActivity
 import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.interfaces.ICashTransfer
 import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.viewmodels.CashTransferViewModel
@@ -33,8 +34,11 @@ import co.yap.yapcore.enums.SendMoneyBeneficiaryType
 import co.yap.yapcore.helpers.CustomSnackbar
 import co.yap.yapcore.helpers.DecimalDigitsInputFilter
 import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.helpers.spannables.color
+import co.yap.yapcore.helpers.spannables.getText
 import co.yap.yapcore.managers.MyUserManager
 import kotlinx.android.synthetic.main.fragment_cash_transfer.*
+import kotlinx.android.synthetic.main.fragment_y2y_funds_transfer.etAmount
 
 class CashTransferFragment : SendMoneyBaseFragment<ICashTransfer.ViewModel>(), ICashTransfer.View {
 
@@ -231,11 +235,15 @@ class CashTransferFragment : SendMoneyBaseFragment<ICashTransfer.ViewModel>(), I
     }
 
     private fun showErrorSnackBar() {
-        CustomSnackbar.showErrorCustomSnackbar(
+        if (activity is BeneficiaryCashTransferActivity) {
+            (activity as BeneficiaryCashTransferActivity).viewModel.errorEvent.value =
+                viewModel.state.errorDescription
+        }
+     /*   CustomSnackbar.showErrorCustomSnackbar(
             context = requireContext(),
             layout = clFTSnackbar,
             message = viewModel.state.errorDescription
-        )
+        )*/
     }
 
     private fun startFlows() {
@@ -253,6 +261,14 @@ class CashTransferFragment : SendMoneyBaseFragment<ICashTransfer.ViewModel>(), I
                     else -> {
                         viewModel.state.availableBalance =
                             MyUserManager.cardBalance.value?.availableBalance
+
+                        viewModel.state.availableBalanceString =
+                            resources.getText(
+                                getString(Strings.screen_cash_transfer_display_text_available_balance), requireContext().color(
+                                    R.color.colorPrimaryDark,
+                                    "${"AED"} ${viewModel.state.availableBalance}"
+                                )
+                            )
                         viewModel.getMoneyTransferLimits(viewModel.state.produceCode)
                         viewModel.getTransactionFeeForCashPayout(viewModel.state.produceCode)
                         viewModel.getCashTransferReasonList()
@@ -361,5 +377,9 @@ class CashTransferFragment : SendMoneyBaseFragment<ICashTransfer.ViewModel>(), I
         fun bind(reason: InternationalFundsTransferReasonList.ReasonList) {
             title.text = reason.reason
         }
+    }
+
+    fun getBindings(): FragmentCashTransferBinding {
+        return viewDataBinding as FragmentCashTransferBinding
     }
 }

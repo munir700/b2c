@@ -41,6 +41,7 @@ interface ICashTransfer {
     interface State : IBase.State {
         var amountBackground: Drawable?
         var feeAmountSpannableString: SpannableStringBuilder?
+        var availableBalanceString: CharSequence?
         var feeAmountString: String
         var amount: String
         var valid: Boolean
