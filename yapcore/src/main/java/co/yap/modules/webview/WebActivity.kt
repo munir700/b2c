@@ -1,42 +1,53 @@
 package co.yap.modules.webview
 
 import android.annotation.SuppressLint
-import android.content.Context
-import android.content.Intent
 import android.net.http.SslError
 import android.os.Bundle
 import android.view.KeyEvent
+import android.view.View
 import android.webkit.SslErrorHandler
 import android.webkit.WebChromeClient
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.ProgressBar
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.AppCompatTextView
 import co.yap.yapcore.R
 import kotlinx.android.synthetic.main.activity_web.*
 
 class WebActivity : AppCompatActivity() {
     companion object {
         const val PAGE_URL = ""
+        const val TOOL_BAR_TITLE = ""
         const val MAX_PROGRESS = 100
-        fun newIntent(context: Context, pageUrl: String): Intent {
-            val intent = Intent(context, WebActivity::class.java)
-            intent.putExtra(PAGE_URL, pageUrl)
-            return intent
-        }
     }
 
-    private lateinit var pageUrl: String
+    private var pageUrl: String? = null
+    private var title: String? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_web)
-        // get pageUrl from String
+        if (!intent.hasExtra(PAGE_URL)) finish()
         pageUrl = intent.getStringExtra(PAGE_URL)
-            ?: throw IllegalStateException("field $PAGE_URL missing in Intent")
+        if (pageUrl.isNullOrEmpty()) finish()
+        setContentView(R.layout.activity_web)
+
+
+        if (intent.hasExtra(TOOL_BAR_TITLE)) {
+            title = intent.getStringExtra(TOOL_BAR_TITLE)
+            findViewById<AppCompatTextView>(R.id.tvTitle).text = title
+
+        }
         initWebView()
         setWebClient()
+
+
+
         handlePullToRefresh()
-        loadUrl(pageUrl)
+        loadUrl(pageUrl ?: "")
+    }
+
+    fun backClick(view: View) {
+        this.finish()
     }
 
 //    FinestWebView.Builder(it)
