@@ -40,17 +40,14 @@ class SplashViewModel(application: Application) : BaseViewModel<ISplash.State>(a
 
     override fun getAppUpdate() {
         launch {
-            state.loading = true
             when (val response = adminRepository.appUpdate()) {
                 is RetroApiResponse.Success -> {
                     response.data.data?.let {
-                        if (it.isNullOrEmpty()) appUpdate.value = it[0]
-                        state.loading = false
+                        if (!it.isNullOrEmpty()) appUpdate.value = it[0]
                     }
                 }
                 is RetroApiResponse.Error -> {
                     state.toast = response.error.message
-                    state.loading = false
                 }
             }
         }
