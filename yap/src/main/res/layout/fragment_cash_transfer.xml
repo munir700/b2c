@@ -26,30 +26,6 @@
             android:layout_height="0dp"
             android:background="@color/white">
 
-            <androidx.coordinatorlayout.widget.CoordinatorLayout
-                android:id="@+id/clFTSnackbar"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@android:color/transparent"
-                android:rotation="180"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <!--     <LinearLayout
-                     android:id="@+id/lnUserImage"
-                     android:layout_width="wrap_content"
-                     android:layout_height="wrap_content"
-                     android:layout_marginTop="@dimen/margin_medium_large"
-                     app:layout_constraintLeft_toLeftOf="parent"
-                     app:layout_constraintRight_toRightOf="parent"
-                     app:layout_constraintTop_toTopOf="parent">
-
-                     <include
-                         android:id="@+id/lyUserImage"
-                         layout="@layout/layout_y_to_y_transfer_initial_image"
-                         app:image="@{viewModel.state.imageUrl}"
-                         app:name="@{viewModel.state.fullName}" />
-                 </LinearLayout>-->
-
             <co.yap.widgets.CoreCircularImageView
                 android:id="@+id/ivUserImage"
                 android:layout_width="@dimen/_62sdp"
@@ -165,7 +141,7 @@
 
 
             <TextView
-                android:id="@+id/tvAvailableBalanceGuide"
+                android:id="@+id/tvFee"
                 style="@style/MicroGrey"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -177,7 +153,23 @@
                 android:textAlignment="center"
                 android:visibility="@{viewModel.state.feeStringVisibility?View.VISIBLE:View.GONE}"
                 app:layout_constraintTop_toBottomOf="@+id/etAmountLayout"
+                tools:text="An AED 50.00 fee will be charged to your YAP account for this transfer" />
+
+            <TextView
+                android:id="@+id/tvAvailableBalance"
+                style="@style/MicroGrey"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_medium_large"
+                android:layout_marginTop="@dimen/margin_medium_large"
+                android:layout_marginEnd="@dimen/margin_medium_large"
+                android:gravity="center"
+                android:text="@{viewModel.state.availableBalanceString}"
+                android:textAlignment="center"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvFee"
                 tools:text="Your available balance is " />
+
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/etNote"
@@ -190,7 +182,7 @@
                 android:singleLine="true"
                 android:text="@={viewModel.state.noteValue}"
                 app:hint="@{Strings.screen_y2y_funds_transfer_display_text_note_placeholder}"
-                app:layout_constraintTop_toBottomOf="@+id/tvAvailableBalanceGuide"
+                app:layout_constraintTop_toBottomOf="@+id/tvAvailableBalance"
                 tools:hint="Type a note here" />
 
 
@@ -235,8 +227,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_medium_large"
-                app:layout_constraintEnd_toEndOf="parent"
                 android:visibility="@{viewModel.state.cutOffTimeMsg!=null? View.VISIBLE:View.GONE}"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/layoutReasonsSpinner"
                 app:srcCompat="@drawable/ic_access_alarm" />
@@ -250,8 +242,8 @@
                 android:layout_marginTop="@dimen/margin_medium"
                 android:layout_marginEnd="@dimen/margin_medium"
                 android:gravity="center"
-                android:visibility="@{viewModel.state.cutOffTimeMsg!=null? View.VISIBLE:View.GONE}"
                 android:text="@{viewModel.state.cutOffTimeMsg}"
+                android:visibility="@{viewModel.state.cutOffTimeMsg!=null? View.VISIBLE:View.GONE}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/appCompatImageView"

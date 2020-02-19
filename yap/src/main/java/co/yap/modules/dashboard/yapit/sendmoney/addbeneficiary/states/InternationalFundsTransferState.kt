@@ -37,6 +37,12 @@ class InternationalFundsTransferState(val application: Application) : BaseState(
             field = value
             notifyPropertyChanged(BR.errorDescription)
         }
+    @get:Bindable
+    override var availableBalanceString: CharSequence? = ""
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.availableBalanceString)
+        }
 
     @get:Bindable
     override var reasonTransferValue: String? = ""

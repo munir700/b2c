@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import co.yap.modules.kyc.activities.DocumentsResponse
 import co.yap.modules.kyc.interfaces.IDocumentsDashboard
 import co.yap.modules.kyc.states.DocumentsDashboardState
+import co.yap.networking.customers.responsedtos.documents.GetMoreDocumentsResponse
 import co.yap.yapcore.BaseViewModel
 import com.digitify.identityscanner.docscanner.models.Identity
 
@@ -18,4 +19,6 @@ class DocumentsDashboardViewModel(application: Application) :
     override var name: MutableLiveData<String> = MutableLiveData("")
     override var skipFirstScreen: MutableLiveData<Boolean> = MutableLiveData(false)
     override var finishKyc: MutableLiveData<DocumentsResponse> = MutableLiveData()
+    override var document: GetMoreDocumentsResponse.Data.CustomerDocument.DocumentInformation? =
+        null
 }

@@ -691,12 +691,14 @@ object Strings {
         "screen_personal_detail_display_text_edit"
     const val screen_personal_detail_display_text_emirates_id: String =
         "screen_personal_detail_display_text_emirates_id"
-    const val screen_personal_detail_display_text_verification_completed: String =
-        "screen_personal_detail_display_text_verification_completed"
-    const val screen_personal_detail_display_text_verification_expired: String =
-        "screen_personal_detail_display_text_verification_expired"
-    const val screen_personal_detail_display_text_verification_required: String =
-        "screen_personal_detail_display_text_verification_required"
+    const val screen_personal_details_display_text_emirates_id_details: String =
+        "screen_personal_details_display_text_emirates_id_details"
+    const val screen_personal_details_display_text_expired_emirates_id_details: String =
+        "screen_personal_details_display_text_expired_emirates_id_details"
+    const val screen_personal_details_display_text_required_emirates_id_details: String =
+        "screen_personal_details_display_text_required_emirates_id_details"
+    const val screen_personal_details_display_text_emirates_id_details_update: String =
+        "screen_personal_details_display_text_emirates_id_details_update"
 
 
     // logout dialogue
@@ -1054,6 +1056,8 @@ object Strings {
         "screen_crash_transfer_success_display_text_share_code"
     const val screen_crash_transfer_success_button_text_back: String =
         "screen_crash_transfer_success_button_text_back"
+    const val screen_cash_transfer_display_text_available_balance: String =
+        "screen_cash_transfer_display_text_available_balance"
 
     //    International Funds Transfer
     const val screen_international_funds_transfer_display_text_title: String =

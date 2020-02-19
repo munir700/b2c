@@ -432,9 +432,10 @@
     <string name="screen_personal_detail_display_text_address">Address</string>
     <string name="screen_personal_detail_display_text_edit">Edit</string>
     <string name="screen_personal_detail_display_text_emirates_id">Emirates ID</string>
-    <string name="screen_personal_detail_display_text_verification_completed">Verification completed</string>
-    <string name="screen_personal_detail_display_text_verification_expired">Your EID is expired.\nTap to update to ensure account continuity</string>
-    <string name="screen_personal_detail_display_text_verification_required">Your EID is required.\nTap to update to ensure account continuity</string>
+    <string name="screen_personal_details_display_text_emirates_id_details">Verification completed</string>
+    <string name="screen_personal_details_display_text_expired_emirates_id_details">Your EID is expired.\nTap to update to ensure account continuity</string>
+    <string name="screen_personal_details_display_text_required_emirates_id_details">Your EID is required.\nTap to update to ensure account continuity</string>
+    <string name="screen_personal_details_display_text_emirates_id_details_update">Your EID is valid.\nTap to update a new EID</string>
 
     <!-- logout dialogue -->
 
@@ -671,7 +672,7 @@
     <string name="screen_crash_transfer_success_display_text_agent_location">Pickup agent location</string>
     <string name="screen_crash_transfer_success_display_text_share_code">Share this code</string>
     <string name="screen_crash_transfer_success_button_text_back">Back to dashboard</string>
-
+    <string name="screen_cash_transfer_display_text_available_balance">Your available balance is %1s</string>
 
     <!-- International Funds Transfer -->
 

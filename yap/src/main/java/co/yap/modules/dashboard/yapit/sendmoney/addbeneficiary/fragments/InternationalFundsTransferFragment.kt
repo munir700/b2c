@@ -25,6 +25,8 @@ import co.yap.yapcore.enums.SendMoneyBeneficiaryProductCode
 import co.yap.yapcore.enums.SendMoneyBeneficiaryType
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.toast
+import co.yap.yapcore.helpers.spannables.color
+import co.yap.yapcore.helpers.spannables.getText
 import co.yap.yapcore.managers.MyUserManager
 import kotlinx.android.synthetic.main.fragment_international_funds_transfer.*
 
@@ -52,6 +54,13 @@ class InternationalFundsTransferFragment :
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         //successOtpFlow()
+        viewModel.state.availableBalanceString =
+            resources.getText(
+                getString(Strings.screen_cash_transfer_display_text_available_balance), requireContext().color(
+                    R.color.colorPrimaryDark,
+                    "${"AED"} ${MyUserManager.cardBalance.value?.availableBalance}"
+                )
+            )
         getBindings().etSenderAmount.filters =
             arrayOf(InputFilter.LengthFilter(7), co.yap.widgets.DecimalDigitsInputFilter(2))
         getBindings().etSenderAmount.addTextChangedListener(object : TextWatcher {
