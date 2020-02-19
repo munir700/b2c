@@ -22,6 +22,7 @@ interface TransactionsApi {
 
     suspend fun getTransactionInternationalReasonList(productCode: String?): RetroApiResponse<InternationalFundsTransferReasonList>
     suspend fun getCardStatements(cardSerialNumber: String?): RetroApiResponse<CardStatementsResponse>
+    suspend fun getAccountStatements(): RetroApiResponse<CardStatementsResponse>
     suspend fun getTransactionInternationalRXList(
         RxNumber: String?,
         mRxListRequest: RxListRequest
@@ -59,6 +60,10 @@ interface TransactionsApi {
     suspend fun swiftTransferRequest(swiftTransactionRequestDTO: SwiftTransactionRequestDTO): RetroApiResponse<SendMoneyTransactionResponseDTO>
     suspend fun getHousholdFeePackage(packageType:String):RetroApiResponse<CardFeeResponse>
     suspend fun getTransactionThresholds():RetroApiResponse<TransactionThresholdResponseDTO>
-    suspend fun getCutOffTimeConfiguration(productCode: String?, currency: String?):RetroApiResponse<CutOffTime>
+    suspend fun getCutOffTimeConfiguration(
+        productCode: String?,
+        currency: String?,
+        amount: String?
+    ): RetroApiResponse<CutOffTime>
     suspend fun getAchievements():RetroApiResponse<ApiResponse>
 }

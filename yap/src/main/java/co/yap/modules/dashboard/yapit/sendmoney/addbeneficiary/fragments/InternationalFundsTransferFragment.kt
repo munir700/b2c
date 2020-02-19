@@ -56,9 +56,10 @@ class InternationalFundsTransferFragment :
         //successOtpFlow()
         viewModel.state.availableBalanceString =
             resources.getText(
-                getString(Strings.screen_cash_transfer_display_text_available_balance), requireContext().color(
+                getString(Strings.screen_cash_transfer_display_text_available_balance),
+                requireContext().color(
                     R.color.colorPrimaryDark,
-                    "${"AED"} ${MyUserManager.cardBalance.value?.availableBalance}"
+                    "${"AED"} ${Utils.getFormattedCurrency(MyUserManager.cardBalance.value?.availableBalance)}"
                 )
             )
         getBindings().etSenderAmount.filters =

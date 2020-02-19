@@ -67,16 +67,23 @@ class CashTransferViewModel(application: Application) :
         if (R.id.btnConfirm == id) {
             if (state.checkValidity() == "") {
                 if (!state.reasonTransferValue.equals("Select a Reason")) {
-                    when {
-                        isDailyLimitReached() -> {
+                    if (!isUaeftsBeneficiary()) {
+                        when {
+                            isDailyLimitReached() -> {
+                                errorEvent.call()
+                            }
+                            isOtpRequired() -> {
+                                createOtp(id = id)
+                            }
+                            else -> {
+                                proceedToTransferAmount()
+                            }
+                        }
+                    } else {
+                        if (isDailyLimitReached())
                             errorEvent.call()
-                        }
-                        isOtpRequired() -> {
-                            createOtp(id = id)
-                        }
-                        else -> {
-                            proceedToTransferAmount()
-                        }
+                        else
+                            clickEvent.setValue(id)
                     }
                 } else {
                     toast(
@@ -90,6 +97,12 @@ class CashTransferViewModel(application: Application) :
         } else {
             clickEvent.setValue(id)
         }
+    }
+
+    private fun isUaeftsBeneficiary(): Boolean {
+        state.beneficiary?.beneficiaryType?.let {
+            return (it == SendMoneyBeneficiaryType.UAEFTS.type)
+        } ?: return false
     }
 
     private fun isDailyLimitReached(): Boolean {
@@ -135,12 +148,6 @@ class CashTransferViewModel(application: Application) :
                         SendMoneyBeneficiaryType.DOMESTIC -> {
                             beneficiary.id?.let { beneficiaryId ->
                                 domesticTransferRequest(beneficiaryId.toString())
-                            }
-                        }
-                        //UAE non RAK(within UAE(External transfer))
-                        SendMoneyBeneficiaryType.UAEFTS -> {
-                            beneficiary.id?.let { beneficiaryId ->
-                                uaeftsTransferRequest(beneficiaryId.toString())
                             }
                         }
                         else -> {
@@ -316,7 +323,7 @@ class CashTransferViewModel(application: Application) :
                     } else {
                         totalAmount = 0.0
                     }
-
+                    state.originalTransferFeeAmount.set(totalAmount.toString())
                     state.feeAmountString =
                         getString(Strings.screen_cash_pickup_funds_display_text_fee).format(
                             state.currencyType,
@@ -400,31 +407,32 @@ class CashTransferViewModel(application: Application) :
 
     override fun getCutOffTimeConfiguration() {
 
-        state.beneficiary?.run {
-            beneficiaryType?.let { beneficiaryType ->
-                if (beneficiaryType.isNotEmpty())
-                    when (SendMoneyBeneficiaryType.valueOf(beneficiaryType)) {
-                        SendMoneyBeneficiaryType.SWIFT, SendMoneyBeneficiaryType.UAEFTS -> {
-                            launch {
-                                when (val response =
-                                    transactionRepository.getCutOffTimeConfiguration(
-                                        state.produceCode,
-                                        currency
-                                    )) {
-                                    is RetroApiResponse.Success -> {
-                                        response.data.data?.let {
-                                            state.cutOffTimeMsg = it.errorMsg
-                                        }
-
-                                    }
-                                    is RetroApiResponse.Error -> {
-                                        state.toast = response.error.message
-                                    }
-                                }
-                            }
-                        }
-                    }
-            }
-        }
+//        state.beneficiary?.run {
+//            beneficiaryType?.let { beneficiaryType ->
+//                if (beneficiaryType.isNotEmpty())
+//                    when (SendMoneyBeneficiaryType.valueOf(beneficiaryType)) {
+//                        SendMoneyBeneficiaryType.SWIFT, SendMoneyBeneficiaryType.UAEFTS -> {
+//                            launch {
+//                                when (val response =
+//                                    transactionRepository.getCutOffTimeConfiguration(
+//                                        state.produceCode,
+//                                        currency
+//                                    )) {
+//                                    is RetroApiResponse.Success -> {
+//                                        response.data.data?.let {
+//                                            state.cutOffTimeMsg = it.errorMsg
+//                                        }
+//
+//                                    }
+//                                    is RetroApiResponse.Error -> {
+//                                        state.toast = response.error.message
+//                                    }
+//                                }
+//                            }
+//                        }
+//                    }
+//            }
+//        }
+//    }
     }
 }
