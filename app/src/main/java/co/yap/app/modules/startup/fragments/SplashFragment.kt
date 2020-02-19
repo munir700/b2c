@@ -42,9 +42,7 @@ class SplashFragment : BaseFragment<ISplash.ViewModel>(), ISplash.View {
         })
 
         viewModel.appUpdate.observe(this, Observer {
-
-            if (it!!.androidForceUpdate) {
-                // show dialog with single button
+            if (it != null && it.androidForceUpdate) {
                 activity?.alert(
                     getString(R.string.screen_splash_display_text_force_update),
                     getString(R.string.screen_splash_button_force_update),

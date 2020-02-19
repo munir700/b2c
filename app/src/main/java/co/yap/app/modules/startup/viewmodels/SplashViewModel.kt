@@ -43,8 +43,14 @@ class SplashViewModel(application: Application) : BaseViewModel<ISplash.State>(a
             when (val response = adminRepository.appUpdate()) {
                 is RetroApiResponse.Success -> {
                     response.data.data?.let {
-                        if (!it.isNullOrEmpty()) appUpdate.value = it[0]
+                        if (it.isNotEmpty()) {
+                            appUpdate.value = it[0]
+                        } else {
+                            appUpdate.value = null
+                        }
+                        return@let
                     }
+                    appUpdate.value = null
                 }
                 is RetroApiResponse.Error -> {
                     state.toast = response.error.message 
