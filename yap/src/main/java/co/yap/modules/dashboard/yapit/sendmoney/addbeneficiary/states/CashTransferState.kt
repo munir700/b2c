@@ -5,6 +5,7 @@ import android.content.Context
 import android.graphics.drawable.Drawable
 import android.text.SpannableStringBuilder
 import androidx.databinding.Bindable
+import androidx.databinding.ObservableField
 import androidx.databinding.library.baseAdapters.BR
 import androidx.lifecycle.MutableLiveData
 import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.interfaces.ICashTransfer
@@ -21,6 +22,7 @@ class CashTransferState(application: Application) : BaseState(), ICashTransfer.S
 
     val context: Context = application.applicationContext
 
+    override var originalTransferFeeAmount: ObservableField<String> = ObservableField()
     @get:Bindable
     override var fullName: String = ""
         set(value) {
@@ -47,6 +49,12 @@ class CashTransferState(application: Application) : BaseState(), ICashTransfer.S
         set(value) {
             field = value
             notifyPropertyChanged(BR.feeAmountSpannableString)
+        }
+    @get:Bindable
+    override var availableBalanceString: CharSequence? = ""
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.availableBalanceString)
         }
 
     @get:Bindable
@@ -195,9 +203,9 @@ class CashTransferState(application: Application) : BaseState(), ICashTransfer.S
             notifyPropertyChanged(BR.otpAction)
         }
     @get:Bindable
-    override var beneficiary: Beneficiary?= Beneficiary()
+    override var beneficiary: Beneficiary? = Beneficiary()
         set(value) {
-            field=value
+            field = value
             notifyPropertyChanged(BR.beneficiary)
         }
 
@@ -266,7 +274,7 @@ class CashTransferState(application: Application) : BaseState(), ICashTransfer.S
     fun checkValidity(): String {
         if (amount != "") {
             if (amount.isNotEmpty() && !availableBalance.isNullOrEmpty()) {
-                if (amount.toDouble() > availableBalance!!.toDouble()) {
+                if (amount.toDoubleOrNull() ?: 0.0 > availableBalance?.toDoubleOrNull() ?: 0.0) {
                     amountBackground =
                         context.resources.getDrawable(
                             co.yap.yapcore.R.drawable.bg_funds_error,
@@ -277,7 +285,7 @@ class CashTransferState(application: Application) : BaseState(), ICashTransfer.S
                         Strings.screen_y2y_funds_transfer_display_text_error_exceeding_amount
                     )
                     return errorDescription
-                } else if (amount.toDouble() < minLimit || amount.toDouble() > maxLimit) {
+                } else if (amount.toDoubleOrNull() ?: 0.0 < minLimit || amount.toDoubleOrNull() ?: 0.0 > maxLimit) {
 //                        amountBackground =
 //                            context.resources.getDrawable(co.yap.yapcore.R.drawable.bg_funds_error, null)
                     errorDescription = Translator.getString(
@@ -301,7 +309,7 @@ class CashTransferState(application: Application) : BaseState(), ICashTransfer.S
 
     private fun clearError() {
         if (amount != "") {
-            if (amount != "." && amount.toDouble() > 0.0) {
+            if (amount != "." && amount.toDoubleOrNull() ?: 0.0 > 0.0) {
                 valid = true
 //                valid = amount.toDouble() >= minLimit
                 amountBackground =

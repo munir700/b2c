@@ -223,7 +223,7 @@
                     android:layout_marginTop="@dimen/_60sdp"
                     android:layout_marginRight="@dimen/margin_btn_side_paddings_xl"
                     android:layout_marginBottom="@dimen/margin_medium_large"
-                    android:onClick="@{(v) -> viewModel.handlePressOnAddDomestic(v.id)}"
+                    android:onClick="@{(v) -> viewModel.handlePressOnAddNow(v.id)}"
                     app:enableCoreButton="@{viewModel.state.valid}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:text="@{Strings.screen_add_beneficiary_button_next}"

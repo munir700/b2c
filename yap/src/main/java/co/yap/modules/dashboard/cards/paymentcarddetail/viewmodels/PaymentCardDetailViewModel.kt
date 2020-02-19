@@ -37,7 +37,7 @@ class PaymentCardDetailViewModel(application: Application) :
         TransactionLogicHelper(context)
 
     override var MAX_CLOSING_BALANCE: Double = 0.0
-    var closingBalanceArray: ArrayList<Double> = arrayListOf()
+    private var closingBalanceArray: ArrayList<Double> = arrayListOf()
     override lateinit var debitCardSerialNumber: String
     private val transactionsRepository: TransactionsRepository = TransactionsRepository
     override val transactionsLiveData: MutableLiveData<List<HomeTransactionListData>> =
@@ -46,7 +46,7 @@ class PaymentCardDetailViewModel(application: Application) :
     override val isLast: MutableLiveData<Boolean> = MutableLiveData(false)
     override var transactionFilters: TransactionFilters = TransactionFilters()
 
-    var sortedCombinedTransactionList: ArrayList<HomeTransactionListData> = arrayListOf()
+    private var sortedCombinedTransactionList: ArrayList<HomeTransactionListData> = arrayListOf()
 
     override var cardTransactionRequest: CardTransactionRequest =
         CardTransactionRequest(0, 20, "", null, null)
@@ -74,7 +74,7 @@ class PaymentCardDetailViewModel(application: Application) :
                     val unionList =
                         (sortedCombinedTransactionList.asSequence() + transactionModelData.asSequence())
                             .distinct()
-                            .groupBy({ it.date })
+                            .groupBy { it.date }
 
                     for (lists in unionList.entries) {
                         if (lists.value.size > 1) {// sortedCombinedTransactionList.equals(transactionModelData fails in this case
@@ -90,16 +90,16 @@ class PaymentCardDetailViewModel(application: Application) :
                             }
 
 
-                            var closingBalanceOfTheDay: Double = contentsList.get(0).balanceAfter
+                            var closingBalanceOfTheDay = contentsList[0].balanceAfter ?: 0.0
                             closingBalanceArray.add(closingBalanceOfTheDay)
 
                             var transactionModel: HomeTransactionListData = HomeTransactionListData(
                                 "Type",
                                 "AED",
                                 /* transactionsDay.key!!*/
-                                convertDate(contentsList.get(0).creationDate)!!,
-                                contentsList.get(0).totalAmount.toString(),
-                                contentsList.get(0).balanceAfter,
+                                convertDate(contentsList[0].creationDate),
+                                contentsList[0].totalAmount.toString(),
+                                contentsList[0].balanceAfter,
                                 0.00 /*  "calculate the percentage as per formula from the keys".toDouble()*/,
                                 contentsList,
 
@@ -120,7 +120,7 @@ class PaymentCardDetailViewModel(application: Application) :
                             val iterator = sortedCombinedTransactionList.iterator()
                             while (iterator.hasNext()) {
                                 val item = iterator.next()
-                                if (item.date.equals(convertDate(contentsList.get(0).creationDate))) {
+                                if (item.date == convertDate(contentsList[0].creationDate)) {
                                     numberstoReplace = sortedCombinedTransactionList.indexOf(item)
                                     iterator.remove()
                                     replaceNow = true
@@ -157,7 +157,9 @@ class PaymentCardDetailViewModel(application: Application) :
 
     private fun setUpSectionHeader(response: RetroApiResponse.Success<HomeTransactionsResponse>): ArrayList<HomeTransactionListData> {
         val contentList = response.data.data.content as ArrayList<Content>
-        contentList.sortWith(Comparator { o1, o2 -> o2.creationDate.compareTo(o1.creationDate) })
+        contentList.sortWith(Comparator { o1, o2 ->
+            o2.creationDate?.compareTo(o1?.creationDate!!)!!
+        })
         val groupByDate = contentList.groupBy { item ->
             convertDate(item.creationDate)
         }
@@ -172,15 +174,15 @@ class PaymentCardDetailViewModel(application: Application) :
                 it.creationDate
             }
 
-            val closingBalanceOfTheDay: Double = contentsList.get(0).balanceAfter
+            val closingBalanceOfTheDay = contentsList[0].balanceAfter ?: 0.0
             closingBalanceArray.add(closingBalanceOfTheDay)
 
             val transactionModel = HomeTransactionListData(
                 "Type",
                 "AED",
                 transactionsDay.key!!,
-                contentsList.get(0).totalAmount.toString(),
-                contentsList.get(0).balanceAfter,
+                contentsList[0].totalAmount.toString(),
+                contentsList[0].balanceAfter,
                 0.00 /*  "calculate the percentage as per formula from the keys".toDouble()*/,
                 contentsList,
 
@@ -311,16 +313,19 @@ class PaymentCardDetailViewModel(application: Application) :
 
     }
 
-    private fun convertDate(creationDate: String): String? {
-        val parser = SimpleDateFormat("yyyy-MM-dd")
-        parser.setTimeZone(TimeZone.getTimeZone("UTC"))
-        val convertedDate = parser.parse(creationDate)
+    private fun convertDate(creationDate: String?): String? {
+        creationDate?.let {
+            val parser = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+            parser.timeZone = TimeZone.getTimeZone("UTC")
+            val convertedDate = parser.parse(creationDate)
 
-        val pattern = "MMMM dd, yyyy"
-        val simpleDateFormat = SimpleDateFormat(pattern)
-        val date = simpleDateFormat.format(convertedDate)
+            val pattern = "MMMM dd, yyyy"
+            val simpleDateFormat = SimpleDateFormat(pattern, Locale.getDefault())
+            val date = simpleDateFormat.format(convertedDate)
 
-        return date
+            return date
+        }
+        return ""
     }
 
 }

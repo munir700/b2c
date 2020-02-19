@@ -672,7 +672,7 @@
     <string name="screen_crash_transfer_success_display_text_agent_location">Pickup agent location</string>
     <string name="screen_crash_transfer_success_display_text_share_code">Share this code</string>
     <string name="screen_crash_transfer_success_button_text_back">Back to dashboard</string>
-
+    <string name="screen_cash_transfer_display_text_available_balance">Your available balance is %1s</string>
 
     <!-- International Funds Transfer -->
 
@@ -755,6 +755,8 @@
     <string name="screen_funds_confirmation_success_description">Your transfer of %1s %2s to %3s will be sent at the exchange rate of %4s</string>
     <string name="screen_funds_receive_description">%1s will receive %2s</string>
     <string name="scren_send_money_funds_transfer_display_text_amount_error">Your entered amount should be between AED %1s and AED %2s, and your entered amount should be less than or equal to your current balance of AED %3s</string>
+    <string name="scren_send_money_funds_transfer_confirmation_display_text_amount_uaefts">%1s will receive %2s</string>
+    <string name="scren_send_money_funds_transfer_confirmation_display_text_fee">Fee: %1s\nNote that the recipient\'s bank may have its own charges.</string>
     <string name="screen_funds_transfer_fee_description">International transfer fee: %1s \n Note that the recipient\'s bank may have its own charges.</string>
 
     <!--    Screen cash pickup funds transfer success-->
