@@ -1,12 +1,12 @@
 package co.yap.networking.transactions
 
-import co.yap.networking.transactions.responsedtos.achievement.AchievementsResponseDTO
 import co.yap.networking.BaseRepository
 import co.yap.networking.RetroNetwork
 import co.yap.networking.models.ApiResponse
 import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.transactions.requestdtos.*
 import co.yap.networking.transactions.responsedtos.*
+import co.yap.networking.transactions.responsedtos.achievement.AchievementsResponseDTO
 import co.yap.networking.transactions.responsedtos.topuptransactionsession.Check3DEnrollmentSessionResponse
 import co.yap.networking.transactions.responsedtos.topuptransactionsession.CreateTransactionSessionResponseDTO
 import co.yap.networking.transactions.responsedtos.transaction.FxRateResponse
@@ -210,7 +210,11 @@ object TransactionsRepository : BaseRepository(), TransactionsApi {
     override suspend fun getAchievements(): RetroApiResponse<AchievementsResponseDTO> =
         executeSafely(call = { api.getAchievements() })
 
-    override suspend fun getCutOffTimeConfiguration(productCode: String?, currency: String?) =
-        executeSafely(call = { api.getCutOffTimeConfiguration(productCode, currency) })
+    override suspend fun getCutOffTimeConfiguration(
+        productCode: String?,
+        currency: String?,
+        amount: String?
+    ) =
+        executeSafely(call = { api.getCutOffTimeConfiguration(productCode, currency, amount) })
 
 }

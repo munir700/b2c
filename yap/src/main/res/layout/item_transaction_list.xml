@@ -9,10 +9,9 @@
         android:layout_height="wrap_content"
         android:background="@color/white"
         android:orientation="vertical"
-        android:paddingTop="@dimen/margin_normal"
         android:paddingStart="@dimen/margin_normal"
-        android:paddingEnd="@dimen/margin_normal"
-       >
+        android:paddingTop="@dimen/margin_normal"
+        android:paddingEnd="@dimen/margin_normal">
 
         <FrameLayout
             android:id="@+id/flImageLayout"
@@ -35,8 +34,8 @@
                 android:id="@+id/ivIncoming"
                 android:layout_width="38dp"
                 android:layout_height="38dp"
-                android:layout_marginEnd="-10dp"
                 android:layout_gravity="bottom|end"
+                android:layout_marginEnd="-10dp"
                 android:visibility="visible"
                 app:srcCompat="@drawable/ic_incoming_transaction" />
         </FrameLayout>
@@ -82,11 +81,10 @@
 
             <TextView
                 android:id="@+id/tvTransactionTimeAndCategory"
-                style="@style/ASmall"
+                style="@style/ASmallGrey"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:textColor="@color/colorSecondaryGreen"
                 tools:text="- 21.00" />
 
             <TextView
@@ -117,11 +115,10 @@
             android:layout_width="0dp"
             android:layout_height="1dp"
             android:layout_marginStart="@dimen/margin_normal"
-            android:layout_marginTop="@dimen/margin_extra_small"
+            android:layout_marginTop="@dimen/_6sdp"
             android:background="@color/divider"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/flImageLayout"
             app:layout_constraintTop_toBottomOf="@+id/tvTransactionNote" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
-

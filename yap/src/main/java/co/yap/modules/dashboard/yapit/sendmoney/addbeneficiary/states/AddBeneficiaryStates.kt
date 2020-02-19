@@ -11,6 +11,13 @@ class AddBeneficiaryStates : BaseState(),
     IAddBeneficiary.State {
 
     @get:Bindable
+    override var otpType: String? = ""
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.otpType)
+        }
+
+    @get:Bindable
     override var selectedBeneficiaryType: String? = ""
         set(value) {
             field = value
@@ -101,7 +108,7 @@ class AddBeneficiaryStates : BaseState(),
     @get:Bindable
     override var mobileNo: String = ""
         set(value) {
-            field = value.replace(" ","")
+            field = value.replace(" ", "")
             notifyPropertyChanged(co.yap.BR.mobile)
             if (mobileNo.length < 9) {
                 mobileNoLength = 11
