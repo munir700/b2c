@@ -193,7 +193,8 @@ class InternationalTransactionConfirmationViewModel(application: Application) :
                                 when (val response =
                                     mTransactionsRepository.getCutOffTimeConfiguration(
                                         getProductCode(),
-                                        currency
+                                        currency,
+                                        "0.00"
                                     )) {
                                     is RetroApiResponse.Success -> {
                                         response.data.data?.let {
