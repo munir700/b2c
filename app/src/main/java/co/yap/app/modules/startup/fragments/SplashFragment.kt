@@ -51,8 +51,9 @@ class SplashFragment : BaseFragment<ISplash.ViewModel>(), ISplash.View {
                 ) {
                     appUpdate = true
                     val browserIntent =
-                        Intent(Intent.ACTION_VIEW, Uri.parse("http://www.google.com"))
+                        Intent(Intent.ACTION_VIEW, Uri.parse("http://www.yap.com"))
                     startActivity(browserIntent)
+                    activity?.finish()
                 }
             } else {
                 val sharedPreferenceManager = SharedPreferenceManager(requireContext())
@@ -71,13 +72,6 @@ class SplashFragment : BaseFragment<ISplash.ViewModel>(), ISplash.View {
                 }
             }
         })
-    }
-
-    override fun onResume() {
-        super.onResume()
-        if (appUpdate) {
-            activity?.finish()
-        }
     }
 
     override fun onDestroyView() {

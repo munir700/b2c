@@ -11,7 +11,8 @@ import co.yap.networking.models.RetroApiResponse
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleLiveEvent
 
-class SplashViewModel(application: Application) : BaseViewModel<ISplash.State>(application), ISplash.ViewModel,
+class SplashViewModel(application: Application) : BaseViewModel<ISplash.State>(application),
+    ISplash.ViewModel,
     IRepositoryHolder<AuthRepository> {
 
     override val state: SplashState = SplashState()
@@ -19,10 +20,8 @@ class SplashViewModel(application: Application) : BaseViewModel<ISplash.State>(a
     override val repository: AuthRepository = AuthRepository
     private val adminRepository: AdminRepository = AdminRepository
 
-
     override val splashComplete: SingleLiveEvent<Boolean> = SingleLiveEvent()
     override var appUpdate: SingleLiveEvent<AppUpdate> = SingleLiveEvent()
-
 
     override fun onCreate() {
         super.onCreate()
@@ -33,7 +32,8 @@ class SplashViewModel(application: Application) : BaseViewModel<ISplash.State>(a
         launch {
             when (val response = repository.getCSRFToken()) {
                 is RetroApiResponse.Success -> splashComplete.value = true
-                is RetroApiResponse.Error -> state.toast = if(response.error.statusCode == 504) "" else response.error.message
+                is RetroApiResponse.Error -> state.toast =
+                    if (response.error.statusCode == 504) "" else response.error.message
             }
         }
     }
@@ -53,7 +53,7 @@ class SplashViewModel(application: Application) : BaseViewModel<ISplash.State>(a
                     appUpdate.value = null
                 }
                 is RetroApiResponse.Error -> {
-                    state.toast = response.error.message 
+                    state.toast = response.error.message
                 }
             }
         }
