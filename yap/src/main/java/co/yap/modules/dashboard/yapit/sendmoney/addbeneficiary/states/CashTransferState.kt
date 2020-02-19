@@ -5,6 +5,7 @@ import android.content.Context
 import android.graphics.drawable.Drawable
 import android.text.SpannableStringBuilder
 import androidx.databinding.Bindable
+import androidx.databinding.ObservableField
 import androidx.databinding.library.baseAdapters.BR
 import androidx.lifecycle.MutableLiveData
 import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.interfaces.ICashTransfer
@@ -21,6 +22,7 @@ class CashTransferState(application: Application) : BaseState(), ICashTransfer.S
 
     val context: Context = application.applicationContext
 
+    override var originalTransferFeeAmount: ObservableField<String> = ObservableField()
     @get:Bindable
     override var fullName: String = ""
         set(value) {

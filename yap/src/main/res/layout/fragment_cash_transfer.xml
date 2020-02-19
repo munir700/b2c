@@ -34,22 +34,6 @@
                 android:rotation="180"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <!--     <LinearLayout
-                     android:id="@+id/lnUserImage"
-                     android:layout_width="wrap_content"
-                     android:layout_height="wrap_content"
-                     android:layout_marginTop="@dimen/margin_medium_large"
-                     app:layout_constraintLeft_toLeftOf="parent"
-                     app:layout_constraintRight_toRightOf="parent"
-                     app:layout_constraintTop_toTopOf="parent">
-
-                     <include
-                         android:id="@+id/lyUserImage"
-                         layout="@layout/layout_y_to_y_transfer_initial_image"
-                         app:image="@{viewModel.state.imageUrl}"
-                         app:name="@{viewModel.state.fullName}" />
-                 </LinearLayout>-->
-
             <co.yap.widgets.CoreCircularImageView
                 android:id="@+id/ivUserImage"
                 android:layout_width="@dimen/_62sdp"
@@ -230,33 +214,6 @@
 
             </RelativeLayout>
 
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/appCompatImageView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_medium_large"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:visibility="@{viewModel.state.cutOffTimeMsg!=null? View.VISIBLE:View.GONE}"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/layoutReasonsSpinner"
-                app:srcCompat="@drawable/ic_access_alarm" />
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/tvCutOffTime"
-                style="@style/MicroGrey"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_medium"
-                android:layout_marginTop="@dimen/margin_medium"
-                android:layout_marginEnd="@dimen/margin_medium"
-                android:gravity="center"
-                android:visibility="@{viewModel.state.cutOffTimeMsg!=null? View.VISIBLE:View.GONE}"
-                android:text="@{viewModel.state.cutOffTimeMsg}"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/appCompatImageView"
-                tools:text="Transfers made before 2:00 PM UAE time will be processed on the same day. All transfers made after this time will be carried out on the next business day" />
-
             <co.yap.widgets.CoreButton
                 android:id="@+id/btnConfirm"
                 style="@style/RectangleBtnStyle"
@@ -270,9 +227,9 @@
                 app:enableCoreButton="@{viewModel.state.valid}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintTop_toBottomOf="@+id/layoutReasonsSpinner"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvCutOffTime"
                 app:layout_constraintVertical_bias="0.987"
                 app:text="@{Strings.screen_yap_to_yap_transfer_display_text_button}" />
         </androidx.constraintlayout.widget.ConstraintLayout>
