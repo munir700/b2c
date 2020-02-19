@@ -47,7 +47,7 @@ class SplashViewModel(application: Application) : BaseViewModel<ISplash.State>(a
                     }
                 }
                 is RetroApiResponse.Error -> {
-                    state.toast = response.error.message
+                    state.toast = response.error.message 
                 }
             }
         }
