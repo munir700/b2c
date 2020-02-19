@@ -42,9 +42,7 @@ class SplashFragment : BaseFragment<ISplash.ViewModel>(), ISplash.View {
         })
 
         viewModel.appUpdate.observe(this, Observer {
-
-            if (it!!.androidForceUpdate) {
-                // show dialog with single button
+            if (it.androidForceUpdate) {
                 activity?.alert(
                     getString(R.string.screen_splash_display_text_force_update),
                     getString(R.string.screen_splash_button_force_update),
@@ -53,8 +51,9 @@ class SplashFragment : BaseFragment<ISplash.ViewModel>(), ISplash.View {
                 ) {
                     appUpdate = true
                     val browserIntent =
-                        Intent(Intent.ACTION_VIEW, Uri.parse("http://www.google.com"))
+                        Intent(Intent.ACTION_VIEW, Uri.parse("http://www.yap.com"))
                     startActivity(browserIntent)
+                    activity?.finish()
                 }
             } else {
                 val sharedPreferenceManager = SharedPreferenceManager(requireContext())
@@ -73,13 +72,6 @@ class SplashFragment : BaseFragment<ISplash.ViewModel>(), ISplash.View {
                 }
             }
         })
-    }
-
-    override fun onResume() {
-        super.onResume()
-        if (appUpdate) {
-            activity?.finish()
-        }
     }
 
     override fun onDestroyView() {
