@@ -214,7 +214,11 @@ object TransactionsRepository : BaseRepository(), TransactionsApi {
     override suspend fun getAchievements(): RetroApiResponse<AchievementsResponseDTO> =
         executeSafely(call = { api.getAchievements() })
 
-    override suspend fun getCutOffTimeConfiguration(productCode: String?, currency: String?) =
-        executeSafely(call = { api.getCutOffTimeConfiguration(productCode, currency) })
+    override suspend fun getCutOffTimeConfiguration(
+        productCode: String?,
+        currency: String?,
+        amount: String?
+    ) =
+        executeSafely(call = { api.getCutOffTimeConfiguration(productCode, currency, amount) })
 
 }

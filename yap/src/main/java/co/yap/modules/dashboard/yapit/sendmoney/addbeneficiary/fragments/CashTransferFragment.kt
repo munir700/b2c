@@ -117,17 +117,12 @@ class CashTransferFragment : SendMoneyBaseFragment<ICashTransfer.ViewModel>(), I
     val clickEvent = Observer<Int> {
         when (it) {
             R.id.btnConfirm -> {
-                val action =
-                    CashTransferFragmentDirections.actionCashTransferFragmentToGenericOtpLogoFragment(
-                        false,
-                        viewModel.state.otpAction ?: "",
-                        viewModel.state.amount
-                        , viewModel.state.position
+                if (isUaeftsBeneficiary())
+                    moveToConfirmationScreen()
+                else
+                    moveToOtp()
 
-                    )
-                findNavController().navigate(action)
             }
-
             R.id.viewTriggerSpinnerClickReasonCash -> {
                 reasonsSpinnerCashTransfer.performClick()
             }
@@ -149,6 +144,39 @@ class CashTransferFragment : SendMoneyBaseFragment<ICashTransfer.ViewModel>(), I
                 }
             }
         }
+    }
+
+    private fun isUaeftsBeneficiary(): Boolean {
+        viewModel.state.beneficiary?.beneficiaryType?.let {
+            return (it == SendMoneyBeneficiaryType.UAEFTS.type)
+        } ?: return false
+    }
+
+    private fun moveToOtp() {
+        val action =
+            CashTransferFragmentDirections.actionCashTransferFragmentToGenericOtpLogoFragment(
+                false,
+                viewModel.state.otpAction ?: "",
+                viewModel.state.amount
+                , viewModel.state.position
+
+            )
+        findNavController().navigate(action)
+    }
+
+
+    private fun moveToConfirmationScreen() {
+        val action =
+            CashTransferFragmentDirections.actionCashTransferFragmentToCashTransferConfirmationFragment(
+                viewModel.state.amount,
+                viewModel.state.reasonTransferCode.toString(),
+                viewModel.state.reasonTransferValue.toString(),
+                viewModel.state.noteValue.toString(),
+                viewModel.state.originalTransferFeeAmount.get().toString(),
+                viewModel.state.position
+            )
+        findNavController().navigate(action)
+
     }
 
     private fun setUpData() {
