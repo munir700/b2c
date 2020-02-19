@@ -108,7 +108,7 @@ class YapHomeViewModel(application: Application) :
                                 "Type",
                                 "AED",
                                 /* transactionsDay.key!!*/
-                                convertDate(contentsList[0].creationDate)!!,
+                                convertDate(contentsList[0].creationDate),
                                 contentsList[0].totalAmount.toString(),
                                 contentsList[0].balanceAfter,
                                 0.00 /*  "calculate the percentage as per formula from the keys".toDouble()*/,
@@ -176,7 +176,11 @@ class YapHomeViewModel(application: Application) :
 
     private fun setUpSectionHeader(response: RetroApiResponse.Success<HomeTransactionsResponse>): ArrayList<HomeTransactionListData> {
         val contentList = response.data.data.content as ArrayList<Content>
-        contentList.sortWith(Comparator { o1, o2 -> o2.creationDate?.compareTo(o1?.creationDate!!)!! })
+        contentList.sortWith(Comparator { o1, o2 ->
+            o2.creationDate?.compareTo(
+                o1?.creationDate ?: ""
+            ) ?: 0
+        })
 
         val groupByDate = contentList.groupBy { item ->
             convertDate(item.creationDate!!)
@@ -223,7 +227,7 @@ class YapHomeViewModel(application: Application) :
 //            transactionLogicHelper.transactionList =
 //                transactionModelData
             MAX_CLOSING_BALANCE =
-                closingBalanceArray.max()!!
+                closingBalanceArray.max() ?: 0.0
         }
         return transactionModelData
     }

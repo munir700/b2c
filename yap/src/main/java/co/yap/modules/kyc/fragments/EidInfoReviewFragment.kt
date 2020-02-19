@@ -129,6 +129,8 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
             data?.let {
                 viewModel.onEIDScanningComplete(it.getParcelableExtra(IdentityScannerActivity.SCAN_RESULT))
             }
+        }else{
+            viewModel.parentViewModel?.finishKyc?.value = DocumentsResponse(false)
         }
     }
 

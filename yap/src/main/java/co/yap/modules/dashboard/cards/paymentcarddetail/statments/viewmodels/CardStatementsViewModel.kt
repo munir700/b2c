@@ -74,6 +74,27 @@ class CardStatementsViewModel(application: Application) :
             }
         }
     }
+    override fun loadStatementsFromDashBoard() {
+        launch {
+            state.loading = true
+            when (val response =
+                transactionRepository.getAccountStatements()) {
+                is RetroApiResponse.Success -> {
+                    response.data.data?.let { it ->
+//                        val firstCardStatement = it.minBy { c -> c.year!! }
+//                        minYear = firstCardStatement?.year?.toInt()!!
+                        state.statementList = it
+                        filerDataByYear(state.year.get())
+                    }
+                    state.loading = false
+                }
+                is RetroApiResponse.Error -> {
+                    state.toast = response.error.message
+                    state.loading = false
+                }
+            }
+        }
+    }
 
     private fun filerDataByYear(year: String?) {
         state.statementList?.filter { it.year == year }?.let {
