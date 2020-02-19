@@ -1,5 +1,7 @@
 package co.yap.app.modules.startup.fragments
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -13,8 +15,11 @@ import co.yap.app.modules.startup.viewmodels.SplashViewModel
 import co.yap.yapcore.BaseFragment
 import co.yap.yapcore.constants.Constants.KEY_IS_FIRST_TIME_USER
 import co.yap.yapcore.helpers.SharedPreferenceManager
+import co.yap.yapcore.helpers.alert
 
 class SplashFragment : BaseFragment<ISplash.ViewModel>(), ISplash.View {
+
+    var appUpdate: Boolean = false
 
     override val viewModel: ISplash.ViewModel
         get() = ViewModelProviders.of(this).get(SplashViewModel::class.java)
@@ -25,26 +30,56 @@ class SplashFragment : BaseFragment<ISplash.ViewModel>(), ISplash.View {
         savedInstanceState: Bundle?
     ): View? {
         return inflater.inflate(R.layout.fragment_splash, container, false)
+
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.splashComplete.observe(this, Observer {
-            val sharedPreferenceManager = SharedPreferenceManager(requireContext())
-            if (sharedPreferenceManager.getValueBoolien(
-                    KEY_IS_FIRST_TIME_USER,
-                    true
-                )
-            ) {
-                sharedPreferenceManager.save(
-                    KEY_IS_FIRST_TIME_USER,
-                    false
-                )
-                findNavController().navigate(R.id.action_splashFragment_to_accountSelectionFragment)
-            } else {
-                findNavController().navigate(R.id.action_splashFragment_to_loginFragment)
+            if (it) {
+                viewModel.getAppUpdate()
             }
         })
+
+        viewModel.appUpdate.observe(this, Observer {
+
+            if (it!!.androidForceUpdate) {
+                // show dialog with single button
+                activity?.alert(
+                    getString(R.string.screen_splash_display_text_force_update),
+                    getString(R.string.screen_splash_button_force_update),
+                    getString(R.string.screen_splash_button_force_update),
+                    false
+                ) {
+                    appUpdate = true
+                    val browserIntent =
+                        Intent(Intent.ACTION_VIEW, Uri.parse("http://www.google.com"))
+                    startActivity(browserIntent)
+                }
+            } else {
+                val sharedPreferenceManager = SharedPreferenceManager(requireContext())
+                if (sharedPreferenceManager.getValueBoolien(
+                        KEY_IS_FIRST_TIME_USER,
+                        true
+                    )
+                ) {
+                    sharedPreferenceManager.save(
+                        KEY_IS_FIRST_TIME_USER,
+                        false
+                    )
+                    findNavController().navigate(R.id.action_splashFragment_to_accountSelectionFragment)
+                } else {
+                    findNavController().navigate(R.id.action_splashFragment_to_loginFragment)
+                }
+            }
+        })
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (appUpdate) {
+            activity?.finish()
+        }
     }
 
     override fun onDestroyView() {
