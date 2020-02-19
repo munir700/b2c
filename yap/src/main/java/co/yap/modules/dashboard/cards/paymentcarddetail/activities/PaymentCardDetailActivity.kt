@@ -53,6 +53,7 @@ import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.enums.CardStatus
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.cancelAllSnackBar
+import co.yap.yapcore.helpers.confirm
 import co.yap.yapcore.helpers.extentions.preventTakeScreenShot
 import co.yap.yapcore.helpers.showSnackBar
 import co.yap.yapcore.helpers.spannables.underline
@@ -434,9 +435,15 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
                     )
                 }
             }
-
             Constants.EVENT_REMOVE_CARD -> {
-                showRemoveCardPopup()
+                confirm(
+                    message = "Once removed, the balance from this card will be transferred to your main card.",
+                    title = "Remove card from YAP account",
+                    positiveButton = "CONFIRM",
+                    negativeButton = "CANCEL"
+                ) {
+                    viewModel.removeCard()
+                }
             }
         }
     }
@@ -663,21 +670,6 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
         val returnIntent = Intent()
         returnIntent.putExtra("cardReorder", true)
         setResult(Activity.RESULT_OK, returnIntent)
-    }
-
-    private fun showRemoveCardPopup() {
-        val builder = AlertDialog.Builder(this@PaymentCardDetailActivity)
-        builder.setTitle("Remove card from YAP account")
-        builder.setMessage("Once removed, the balance from this card will be transferred to your main card.")
-        builder.setPositiveButton("CONFIRM") { _, _ ->
-            viewModel.removeCard()
-        }
-
-        builder.setNeutralButton("CANCEL") { _, _ ->
-
-        }
-        val dialog: AlertDialog = builder.create()
-        dialog.show()
     }
 
     private fun registerTransactionBroadcast() {
