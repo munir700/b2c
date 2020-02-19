@@ -37,7 +37,7 @@ object ImageBinding {
 
     @JvmStatic
     @BindingAdapter(value = ["beneficiaryPicture", "fullName"], requireAll = true)
-    fun loadAvatar(imageView: ImageView, beneficiaryPicture: String, fullName: String) {
+    fun loadAvatar(imageView: ImageView, beneficiaryPicture: String?, fullName: String?) {
 
         val builder = TextDrawable.builder()
         builder.beginConfig().width(imageView.context.dimen(R.dimen._40sdp))
@@ -47,9 +47,9 @@ object ImageBinding {
             .textColor(ContextCompat.getColor(imageView.context, R.color.purple))
         setCircleCropImage(
             imageView,
-            beneficiaryPicture,
+            beneficiaryPicture?:"",
             builder.buildRect(
-                Utils.shortName(fullName),
+                Utils.shortName(fullName?:""),
                 ContextCompat.getColor(imageView.context, R.color.disabledLight)
             )
         )
@@ -57,8 +57,8 @@ object ImageBinding {
 
     fun loadAvatar(
         imageView: ImageView,
-        beneficiaryPicture: String,
-        fullName: String, @ColorRes color: Int
+        beneficiaryPicture: String?,
+        fullName: String?, @ColorRes color: Int
     ) {
 
         val builder = TextDrawable.builder()
@@ -70,9 +70,9 @@ object ImageBinding {
             .textColor(ContextCompat.getColor(imageView.context, R.color.colorPrimary))
         setCircleCropImage(
             imageView,
-            beneficiaryPicture,
+            beneficiaryPicture?:"",
             builder.buildRect(
-                Utils.shortName(fullName),
+                Utils.shortName(fullName?:""),
                 ContextCompat.getColor(imageView.context, color)
             )
         )
@@ -82,8 +82,8 @@ object ImageBinding {
     @BindingAdapter(value = ["imageUrl", "fullName", "position", "colorType"], requireAll = false)
     fun loadAvatar(
         imageView: ImageView,
-        imageUrl: String,
-        fullName: String,
+        imageUrl: String?,
+        fullName: String?,
         position: Int,
         colorType: String = ""
     ) {
@@ -95,9 +95,9 @@ object ImageBinding {
             .textColor(getTextColorFromType(colorType, imageView, position))
         setCircleCropImage(
             imageView,
-            imageUrl,
+            imageUrl?:"",
             builder.buildRect(
-                Utils.shortName(fullName),
+                Utils.shortName(fullName?:""),
                 getBgColorFromType(colorType, imageView, position)
             )
         )
@@ -110,7 +110,7 @@ object ImageBinding {
     )
     fun loadAvatar1(
         imageView: ImageView,
-        imageUrl: String,
+        imageUrl: String?,
         fullName: String?,
         position: Int,
         isBackground: Boolean = true
@@ -127,7 +127,7 @@ object ImageBinding {
             else {
                 resImg?.setTint(getAnalyticsColor(colors, position))
             }
-            setCircleCropImage(imageView, imageUrl, resImg!!)
+            setCircleCropImage(imageView, imageUrl?:"", resImg!!)
 
         } else {
             setDrawable(imageView, imageUrl, fName, position)
@@ -161,8 +161,8 @@ object ImageBinding {
 
     private fun setDrawable(
         imageView: ImageView,
-        imageUrl: String,
-        fullName: String,
+        imageUrl: String?,
+        fullName: String?,
         position: Int
     ) {
         val colors = imageView.context.resources.getIntArray(co.yap.yapcore.R.array.analyticsColors)
@@ -174,9 +174,9 @@ object ImageBinding {
             .textColor(getAnalyticsColor(colors, position))
         setCircleCropImage(
             imageView,
-            imageUrl,
+            imageUrl?:"",
             builder.buildRect(
-                Utils.shortName(fullName),
+                Utils.shortName(fullName?:""),
                 Utils.getBackgroundColor(imageView.context, position = position)
             )
         )

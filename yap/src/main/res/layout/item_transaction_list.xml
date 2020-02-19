@@ -65,11 +65,8 @@
             <TextView
                 android:id="@+id/tvTransactionAmount"
                 style="@style/SmallGrey"
-
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_extra_small"
-
                 tools:text="18:25" />
         </androidx.appcompat.widget.LinearLayoutCompat>
 
