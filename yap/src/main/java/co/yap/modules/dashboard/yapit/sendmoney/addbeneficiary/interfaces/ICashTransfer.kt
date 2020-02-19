@@ -2,6 +2,7 @@ package co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.interfaces
 
 import android.graphics.drawable.Drawable
 import android.text.SpannableStringBuilder
+import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
 import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.networking.transactions.responsedtos.InternationalFundsTransferReasonList
@@ -77,5 +78,7 @@ interface ICashTransfer {
         var produceCode: String?
         var otpAction: String?
         var beneficiary: Beneficiary?
+
+        var originalTransferFeeAmount:ObservableField<String>
     }
 }
