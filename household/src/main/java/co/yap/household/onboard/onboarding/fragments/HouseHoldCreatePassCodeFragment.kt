@@ -2,6 +2,7 @@ package co.yap.household.onboard.onboarding.fragments
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
@@ -9,9 +10,11 @@ import co.yap.household.BR
 import co.yap.household.R
 import co.yap.household.onboard.onboarding.interfaces.IHouseHoldCreatePassCode
 import co.yap.household.onboard.onboarding.viewmodels.HouseHoldCreatePassCodeViewModel
+import co.yap.modules.webview.WebViewFragment
 import co.yap.widgets.NumberKeyboardListener
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.helpers.extentions.startFragment
 import kotlinx.android.synthetic.main.fragment_house_hold_create_passcode.*
 
 class HouseHoldCreatePassCodeFragment :
@@ -41,7 +44,12 @@ class HouseHoldCreatePassCodeFragment :
                     viewModel.createPassCodeRequest()
                 }
                 R.id.tvTermsAndConditions -> {
-                    Utils.openWebPage(Constants.URL_TERMS_CONDITION, "", activity)
+                    startFragment(
+                        fragmentName = WebViewFragment::class.java.name, bundle = bundleOf(
+                            Constants.PAGE_URL to Constants.URL_TERMS_CONDITION
+                        ),showToolBar = true
+                    )
+                    //Utils.openWebPage(Constants.URL_TERMS_CONDITION, "", activity)
                 }
             }
         })

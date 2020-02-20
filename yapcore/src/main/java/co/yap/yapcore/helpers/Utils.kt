@@ -24,13 +24,11 @@ import android.view.Window
 import android.view.inputmethod.InputMethodManager
 import androidx.annotation.ColorRes
 import androidx.core.content.ContextCompat
-import co.yap.modules.webview.WebActivity
 import co.yap.networking.customers.requestdtos.Contact
 import co.yap.translation.Strings
 import co.yap.translation.Translator
 import co.yap.yapcore.R
 import co.yap.yapcore.constants.Constants
-import co.yap.yapcore.helpers.extentions.launchActivity
 import co.yap.yapcore.helpers.extentions.shortToast
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.MyUserManager
@@ -778,16 +776,6 @@ object Utils {
                 itemClick.onItemClick(View(context), false, 0)
             }
             .show()
-    }
-
-
-    fun openWebPage(url: String, title: String? = "", activity: Activity?) {
-        activity?.run {
-            launchActivity<WebActivity> {
-                putExtra(WebActivity.PAGE_URL, url)
-                putExtra(WebActivity.TOOL_BAR_TITLE, title)
-            }
-        }
     }
 
     fun showComingSoon(context: Context) {
