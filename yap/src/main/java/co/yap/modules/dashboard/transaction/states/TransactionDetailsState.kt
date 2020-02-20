@@ -4,7 +4,6 @@ import androidx.databinding.Bindable
 import androidx.databinding.ObservableField
 import co.yap.BR
 import co.yap.modules.dashboard.transaction.interfaces.ITransactionDetails
-import co.yap.networking.transactions.responsedtos.transaction.Content
 import co.yap.yapcore.BaseState
 
 class TransactionDetailsState : BaseState(), ITransactionDetails.State {
@@ -103,6 +102,15 @@ class TransactionDetailsState : BaseState(), ITransactionDetails.State {
 //        }
 
     override var isYtoYTransfer: ObservableField<Boolean> = ObservableField(false)
+
+
+    @get:Bindable
+    override var spentVisibility: Boolean = false
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.spentVisibility)
+        }
+
 
     @get:Bindable
     override var transactionSender: String? = ""

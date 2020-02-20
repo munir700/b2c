@@ -11,6 +11,7 @@ import co.yap.translation.Strings
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.enums.TransactionCategory
 import co.yap.yapcore.helpers.DateUtils.FORMAT_LONG_INPUT
 import co.yap.yapcore.helpers.DateUtils.FORMAT_LONG_OUTPUT
 import co.yap.yapcore.helpers.DateUtils.datetoString
@@ -60,6 +61,7 @@ class TransactionDetailsViewModel(application: Application) :
                 is RetroApiResponse.Success -> {
                     //success
                     setSenderOrReceiver(response.data.data)
+                    spentVisibility(response.data.data)
                     state.transactionTitle = response.data.data?.title
                     if (response.data.data?.txnType != Constants.TRANSACTION_TYPE_CREDIT) {
                         state.spentTitle =
@@ -134,4 +136,15 @@ class TransactionDetailsViewModel(application: Application) :
             }
         }
     }
+
+    private fun spentVisibility(data: TransactionDetails?) {
+        data?.let {
+            when (data.category) {
+                TransactionCategory.SUPPORT_FEE.name -> {
+                    state.spentVisibility = false
+                }
+            }
+        }
+    }
+
 }
