@@ -82,11 +82,9 @@
                 style="@style/ASmallGrey"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_10sdp"
                 android:gravity="center"
                 app:cardStatus="@{viewModel.paymentCard}"
                 tools:text="This card has expired" />
-
             <TextView
                 android:id="@+id/tvCardStatusAction"
                 android:layout_width="wrap_content"
@@ -115,6 +113,7 @@
             app:layout_constraintTop_toBottomOf="@+id/tvCardName"
             tools:text="Update Card"
             tools:visibility="invisible">
+
 
             <ImageView
                 android:id="@+id/imgDetail"
