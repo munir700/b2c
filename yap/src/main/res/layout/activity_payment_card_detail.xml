@@ -11,6 +11,8 @@
             type="co.yap.modules.dashboard.cards.paymentcarddetail.viewmodels.PaymentCardDetailViewModel" />
 
         <import type="android.view.View" />
+
+        <import type="co.yap.yapcore.enums.CardStatus" />
         <import type="co.yap.modules.others.helper.Constants" />
 
         <import type="co.yap.translation.Strings" />
@@ -243,6 +245,7 @@
                                     android:orientation="vertical">
 
                                     <ImageView
+                                        android:id="@+id/ivSpareFreeze"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:layout_gravity="center_horizontal"
@@ -312,6 +315,7 @@
                                     android:orientation="vertical">
 
                                     <ImageView
+                                        android:id="@+id/ivPrimaryFreeze"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:layout_gravity="center_horizontal"
@@ -338,6 +342,7 @@
                                     android:orientation="vertical">
 
                                     <ImageView
+                                        android:id="@+id/ivSetLimits"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:layout_gravity="center_horizontal"

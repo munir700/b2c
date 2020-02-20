@@ -82,10 +82,10 @@ class AddBeneficiaryViewModel(application: Application) :
                         }
                     }
                     else -> {
-                        state.transferType = "Bank Transfer"
+                        clickEvent.setValue(id)
                     }
                 }
-            } ?: clickEvent.setValue(id)
+            }
         } else {
             clickEvent.setValue(id)
         }
