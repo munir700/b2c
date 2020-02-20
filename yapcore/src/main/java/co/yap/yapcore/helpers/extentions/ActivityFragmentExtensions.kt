@@ -12,7 +12,11 @@ import androidx.annotation.IdRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProviders
 import co.yap.modules.frame.FrameActivity
+import co.yap.yapcore.BaseBindingFragment
+import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.R
 import co.yap.yapcore.constants.Constants.EXTRA
 import co.yap.yapcore.constants.Constants.FRAGMENT_CLASS
@@ -290,5 +294,13 @@ fun Fragment.openAppSetting(requestCode: Int = RequestCodes.REQUEST_FOR_GPS) {
     intent.data = uri
     startActivityForResult(intent, requestCode)
 }
+
+inline fun <reified T : BaseViewModel<*>> Fragment.viewModel(factory: ViewModelProvider.Factory, body: T.() -> Unit): T {
+    val vm = ViewModelProviders.of(this, factory)[T::class.java]
+    vm.body()
+    return vm
+}
+
+fun BaseBindingFragment<*>.close() = fragmentManager?.popBackStack()
 
 
