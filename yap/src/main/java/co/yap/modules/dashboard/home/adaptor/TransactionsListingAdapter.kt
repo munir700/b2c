@@ -51,7 +51,11 @@ class TransactionsListingAdapter(private val list: MutableList<Content>) :
             }
 
             itemTransactionListBinding.tvTransactionNote?.visibility =
-                if (transaction.transactionNote.isNullOrEmpty()) View.GONE else View.VISIBLE
+                if (transaction.transactionNote.isNullOrEmpty() || transaction.transactionNote.equals(
+                        "null"
+                    )
+                ) View.GONE else View.VISIBLE
+
             itemTransactionListBinding.tvCurrency?.text = transaction.currency
 
 
