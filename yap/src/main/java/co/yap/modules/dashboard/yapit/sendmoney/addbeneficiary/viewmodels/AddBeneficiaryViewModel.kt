@@ -82,10 +82,10 @@ class AddBeneficiaryViewModel(application: Application) :
                         }
                     }
                     else -> {
-                        state.transferType = "Bank Transfer"
+                        clickEvent.setValue(id)
                     }
                 }
-            } ?: clickEvent.setValue(id)
+            }
         } else {
             clickEvent.setValue(id)
         }
@@ -147,7 +147,8 @@ class AddBeneficiaryViewModel(application: Application) :
     }
 
     override fun addCashPickupBeneficiary() {
-        parentViewModel?.beneficiary?.value?.let {
+        parentViewModel?.beneficiary?.value?.also {
+            it.accountNo = null
             launch {
                 state.loading = true
                 when (val response = repository.addBeneficiary(it)) {

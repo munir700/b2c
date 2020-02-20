@@ -9,10 +9,9 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
 
-
     <application
         android:networkSecurityConfig="@xml/network_security_config"
-        >
+        android:supportsRtl="true">
         <activity
             android:name="co.yap.modules.frame.FrameActivity"
             android:theme="@style/AppTheme.NoActionBar" />
@@ -26,11 +25,6 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
-
-        <activity
-            android:name="co.yap.modules.webview.WebActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize"
-            android:screenOrientation="portrait" />
     </application>
 
 </manifest>
