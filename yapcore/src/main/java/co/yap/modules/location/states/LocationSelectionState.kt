@@ -26,6 +26,7 @@ class LocationSelectionState(application: Application) : BaseState(), ILocationS
     )
     override var isShowLocationCard: ObservableField<Boolean> = ObservableField(false)
     override var showTermsCondition: ObservableField<Boolean> = ObservableField(false)
+    override var isLocationInAllowedCountry: ObservableField<Boolean> = ObservableField(false)
     override var addressSubtitle: ObservableField<String> = ObservableField("")
     override var isTermsChecked: ObservableField<Boolean> = ObservableField(false)
     override var valid: ObservableField<Boolean> = ObservableField(false)

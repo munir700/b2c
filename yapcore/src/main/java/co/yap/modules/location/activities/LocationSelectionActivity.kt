@@ -227,8 +227,8 @@ class LocationSelectionActivity : MapSupportActivity(), ILocationSelection.View 
                 }
 
                 override fun onAnimationEnd(animation: Animator?) {
-                    viewModel.state.isShowLocationCard.set(true)
                     mDefaultLocation?.let {
+                        loadAysnMapInfo(it)
                         animateCameraToLocation(it)
                     }
                 }

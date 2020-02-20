@@ -6,7 +6,6 @@ import androidx.lifecycle.MutableLiveData
 import co.yap.networking.cards.responsedtos.Address
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
-import com.google.android.gms.maps.model.LatLng
 
 
 interface ILocationSelection {
@@ -35,6 +34,7 @@ interface ILocationSelection {
         var isTermsChecked: ObservableField<Boolean>
         var valid: ObservableField<Boolean>
         var showTermsCondition: ObservableField<Boolean>
+        var isLocationInAllowedCountry: ObservableField<Boolean>
 
     }
 }
