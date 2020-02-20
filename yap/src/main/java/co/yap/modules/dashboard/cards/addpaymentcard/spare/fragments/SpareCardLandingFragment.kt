@@ -24,11 +24,6 @@ class SpareCardLandingFragment : AddPaymentChildFragment<ISpareCards.ViewModel>(
     SpareCardsLandingAdapter.OnItemClickedListener {
 
     override fun onItemClick(benefitsModel: BenefitsModel) {
-        val action =
-            SpareCardLandingFragmentDirections.actionSpareCardLandingFragmentToBenefitsFragment(
-                benefitsModel
-            )
-        findNavController().navigate(action)
 
     }
 
@@ -104,7 +99,7 @@ class SpareCardLandingFragment : AddPaymentChildFragment<ISpareCards.ViewModel>(
         rvBenefits.adapter =
             SpareCardsLandingAdapter(
                 viewModel.loadJSONDummyList(),
-                this
+                null
             )
     }
 

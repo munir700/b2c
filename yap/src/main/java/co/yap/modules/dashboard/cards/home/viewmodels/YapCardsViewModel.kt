@@ -43,6 +43,9 @@ class YapCardsViewModel(application: Application) : BaseViewModel<IYapCards.Stat
                             }
                             if (state.enableAddCard.get())
                                 cardsList?.add(getAddCard())
+
+                            cardsList?.get(0)?.status = CardStatus.EXPIRED.name
+                            cardsList?.get(1)?.status = CardStatus.EXPIRED.name
                             cards.value = cardsList
                         }
                     }
