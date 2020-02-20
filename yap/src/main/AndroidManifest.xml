@@ -2,7 +2,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="co.yap">
 
-
     <uses-sdk
         android:protectionLevel="signature"
         tools:overrideLibrary="com.leanplum, com.google.android.gms" />

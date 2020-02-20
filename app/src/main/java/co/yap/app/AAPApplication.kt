@@ -15,10 +15,7 @@ import co.yap.networking.interfaces.NetworkConstraintsListener
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.Constants.EXTRA
 import co.yap.yapcore.constants.Constants.KEY_APP_UUID
-import co.yap.yapcore.helpers.AppInfo
-import co.yap.yapcore.helpers.AuthUtils
-import co.yap.yapcore.helpers.NetworkConnectionManager
-import co.yap.yapcore.helpers.SharedPreferenceManager
+import co.yap.yapcore.helpers.*
 import co.yap.yapcore.helpers.extentions.longToast
 import com.crashlytics.android.Crashlytics
 import com.github.florent37.inlineactivityresult.kotlin.startForResult
@@ -41,10 +38,12 @@ class AAPApplication : ChatApplication(
 
     override fun onCreate() {
         super.onCreate()
-        SharedPreferenceManager(this).setThemeValue(Constants.THEME_YAP)
-        initNetworkLayer()
-        setAppUniqueId(this)
-        initFirebase()
+        if (!DeviceUtils().isDeviceRooted()) {
+            SharedPreferenceManager(this).setThemeValue(Constants.THEME_YAP)
+            initNetworkLayer()
+            setAppUniqueId(this)
+            initFirebase()
+        }
     }
 
     private fun initNetworkLayer() {
