@@ -1,5 +1,6 @@
 package co.yap.app.modules.startup.interfaces
 
+import co.yap.networking.admin.responsedtos.AppUpdate
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleLiveEvent
 
@@ -9,6 +10,8 @@ interface ISplash {
 
     interface ViewModel : IBase.ViewModel<State> {
         val splashComplete: SingleLiveEvent<Boolean>
+        var appUpdate: SingleLiveEvent<AppUpdate>
+        fun getAppUpdate()
     }
 
     interface State : IBase.State

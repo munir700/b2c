@@ -1,6 +1,7 @@
 package co.yap.networking.admin
 
 import co.yap.networking.admin.requestdtos.ForgotPasscodeRequest
+import co.yap.networking.admin.responsedtos.AppUpdateResponse
 import co.yap.networking.admin.responsedtos.VerifyUsernameResponse
 import co.yap.networking.models.ApiResponse
 import retrofit2.Response
@@ -24,6 +25,10 @@ interface AdminRetroService {
     //change passcode
     @POST(AdminRepository.URL_CHANGE_PASSCODE)
     suspend fun changePasscode(@Query("new-password") newPasscode: String): Response<ApiResponse>
+
+    //  App Update
+    @GET(AdminRepository.URL_APP_VERSION)
+    suspend fun appUpdate(): Response<AppUpdateResponse>
 
 
 }

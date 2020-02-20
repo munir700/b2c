@@ -42,6 +42,9 @@ interface TransactionsRetroService {
     @GET(TransactionsRepository.URL_GET_CARD_STATEMENTS)
     suspend fun getCardStatements(@Query("cardSerialNumber") cardSerialNumber: String?): Response<CardStatementsResponse>
 
+    @GET(TransactionsRepository.URL_GET_ACCOUNT_STATEMENTS)
+    suspend fun getAccountStatements(): Response<CardStatementsResponse>
+
     // Get Card Statements
     @POST(TransactionsRepository.URL_Y2Y_FUNDS_TRANSFER)
     suspend fun y2yFundsTransferRequest(@Body y2YFundsTransferRequest: Y2YFundsTransferRequest?): Response<ApiResponse>
