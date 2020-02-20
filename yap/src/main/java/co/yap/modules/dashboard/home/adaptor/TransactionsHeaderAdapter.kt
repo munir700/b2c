@@ -12,6 +12,7 @@ import co.yap.modules.dashboard.home.helpers.transaction.ItemHeaderTransactionsV
 import co.yap.networking.transactions.responsedtos.transaction.Content
 import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionListData
 import co.yap.yapcore.BaseBindingRecyclerAdapter
+import co.yap.yapcore.enums.TxnType
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.interfaces.OnItemClickListener
 
@@ -88,7 +89,7 @@ class TransactionsHeaderAdapter(
 
             var total = 0.0
             homeTransaction.content.map {
-                if (it.txnType == "DEBIT") total -= it.amount?:0.0 else total += it.amount!!
+                if (it.txnType == TxnType.DEBIT.type) total -= (it.totalAmount ?: 0.0) else total += (it.totalAmount?:0.0)
             }
 
             var value: String

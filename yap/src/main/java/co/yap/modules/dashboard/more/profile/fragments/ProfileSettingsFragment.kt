@@ -8,6 +8,7 @@ import android.view.View
 import androidx.annotation.NonNull
 import androidx.appcompat.app.AlertDialog
 import androidx.core.net.toUri
+import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
@@ -19,11 +20,13 @@ import co.yap.modules.dashboard.more.main.fragments.MoreBaseFragment
 import co.yap.modules.dashboard.more.profile.intefaces.IProfile
 import co.yap.modules.dashboard.more.profile.viewmodels.ProfileSettingsViewModel
 import co.yap.modules.others.helper.Constants
+import co.yap.modules.webview.WebViewFragment
 import co.yap.yapcore.constants.Constants.KEY_IS_FINGERPRINT_PERMISSION_SHOWN
 import co.yap.yapcore.constants.Constants.KEY_TOUCH_ID_ENABLED
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.biometric.BiometricUtil
+import co.yap.yapcore.helpers.extentions.startFragment
 import co.yap.yapcore.helpers.permissions.PermissionHelper
 import co.yap.yapcore.managers.MyUserManager
 import com.bumptech.glide.Glide
@@ -247,11 +250,13 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
                 }
 
                 R.id.tvTermsAndConditionView -> {
-                    Utils.openWebPage(
-                        co.yap.yapcore.constants.Constants.URL_TERMS_CONDITION,
-                        "",
-                        activity
-                    )
+                    startFragment(fragmentName = WebViewFragment::class.java.name , bundle = bundleOf(
+                        co.yap.yapcore.constants.Constants.PAGE_URL to co.yap.yapcore.constants.Constants.URL_TERMS_CONDITION),showToolBar = true )
+//                    Utils.openWebPage(
+//                        co.yap.yapcore.constants.Constants.URL_TERMS_CONDITION,
+//                        "",
+//                        activity
+//                    )
                 }
 
                 R.id.tvFollowOnInstagram -> {

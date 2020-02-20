@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.annotation.Nullable
+import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
@@ -18,8 +19,11 @@ import co.yap.modules.dashboard.more.help.adaptor.HelpSupportAdaptor
 import co.yap.modules.dashboard.more.help.interfaces.IHelpSupport
 import co.yap.modules.dashboard.more.help.viewmodels.HelpSupportViewModel
 import co.yap.modules.dashboard.more.main.fragments.MoreBaseFragment
+import co.yap.modules.webview.WebViewFragment
+import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.LivePersonStorage
 import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.helpers.extentions.startFragment
 import com.liveperson.infra.*
 import com.liveperson.infra.callbacks.InitLivePersonCallBack
 import com.liveperson.messaging.sdk.api.LivePerson
@@ -201,7 +205,12 @@ class HelpSupportFragment : MoreBaseFragment<IHelpSupport.ViewModel>(), IHelpSup
     }
 
     private fun openFaqsPage(url: String) {
-        Utils.openWebPage(url, viewModel.state.title.get() ?: "", activity)
+        startFragment(
+            fragmentName = WebViewFragment::class.java.name,
+            bundle = bundleOf(Constants.PAGE_URL to url
+            ), toolBarTitle = viewModel.state.title.get() ?: "" ,showToolBar = true
+        )
+        //Utils.openWebPage(url, viewModel.state.title.get() ?: "", activity)
     }
 
     private fun openDialer() {
