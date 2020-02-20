@@ -147,7 +147,8 @@ class AddBeneficiaryViewModel(application: Application) :
     }
 
     override fun addCashPickupBeneficiary() {
-        parentViewModel?.beneficiary?.value?.let {
+        parentViewModel?.beneficiary?.value?.also {
+            it.accountNo = null
             launch {
                 state.loading = true
                 when (val response = repository.addBeneficiary(it)) {
