@@ -2,21 +2,24 @@ package co.yap.app.modules.login.fragments
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import co.yap.app.BR
 import co.yap.app.R
-import co.yap.app.activities.MainActivity
 import co.yap.app.constants.Constants
 import co.yap.app.modules.login.interfaces.ISystemPermission
 import co.yap.app.modules.login.viewmodels.SystemPermissionViewModel
+import co.yap.modules.webview.WebViewFragment
 import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.constants.Constants.KEY_TOUCH_ID_ENABLED
 import co.yap.yapcore.helpers.SharedPreferenceManager
+import co.yap.yapcore.helpers.extentions.startFragment
 
 @Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
-class SystemPermissionFragment : BaseBindingFragment<ISystemPermission.ViewModel>(), ISystemPermission.View {
+class SystemPermissionFragment : BaseBindingFragment<ISystemPermission.ViewModel>(),
+    ISystemPermission.View {
 
     private lateinit var sharedPreferenceManager: SharedPreferenceManager
 
@@ -37,12 +40,17 @@ class SystemPermissionFragment : BaseBindingFragment<ISystemPermission.ViewModel
 
         viewModel.permissionGrantedPressEvent.observe(this, permissionGrantedObserver)
         viewModel.permissionNotGrantedPressEvent.observe(this, permissionNotGrantedObserver)
+        viewModel.handlePressOnTermsAndConditionsPressEvent.observe(
+            this,
+            handlePressOnTermsAndConditionsObserver
+        )
     }
 
     override fun onDestroyView() {
-        super.onDestroyView()
         viewModel.permissionGrantedPressEvent.removeObservers(this)
         viewModel.permissionNotGrantedPressEvent.removeObservers(this)
+        super.onDestroyView()
+
     }
 
     private val permissionGrantedObserver = Observer<Boolean> {
@@ -68,6 +76,18 @@ class SystemPermissionFragment : BaseBindingFragment<ISystemPermission.ViewModel
             findNavController().navigate(action)
         } else {
             navigateToDashboard()
+        }
+    }
+
+    private val handlePressOnTermsAndConditionsObserver = Observer<Int> {
+        when (it) {
+            R.id.tvTermsAndConditions -> {
+                startFragment(
+                    fragmentName = WebViewFragment::class.java.name, bundle = bundleOf(
+                        co.yap.yapcore.constants.Constants.PAGE_URL to co.yap.yapcore.constants.Constants.URL_TERMS_CONDITION
+                    ), showToolBar = true
+                )
+            }
         }
     }
 
