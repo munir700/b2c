@@ -13,7 +13,6 @@ import co.yap.translation.Translator
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.constants.Constants
-import co.yap.yapcore.enums.CardStatus
 import co.yap.yapcore.enums.CardType
 import co.yap.yapcore.managers.MyUserManager
 
@@ -44,8 +43,6 @@ class YapCardsViewModel(application: Application) : BaseViewModel<IYapCards.Stat
                             if (state.enableAddCard.get())
                                 cardsList?.add(getAddCard())
 
-                            cardsList?.get(0)?.status = CardStatus.EXPIRED.name
-                            cardsList?.get(1)?.status = CardStatus.EXPIRED.name
                             cards.value = cardsList
                         }
                     }
