@@ -113,8 +113,8 @@ class Y2YTransferFragment : Y2YBaseFragment<IY2YFundsTransfer.ViewModel>(), IY2Y
             requireContext(),
             Strings.common_display_text_min_max_limit_error_transaction,
             Utils.getFormattedCurrency(viewModel.state.minLimit.toString()),
-            Utils.getFormattedCurrency(viewModel.state.maxLimit.toString()),
-            viewModel.state.availableBalance.toString()
+            Utils.getFormattedCurrency(viewModel.state.maxLimit.toString())
+
         )
     }
 

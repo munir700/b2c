@@ -179,11 +179,11 @@ class InternationalFundsTransferFragment :
 
     private fun setLowerAndUpperLimitError() {
         viewModel.state.errorDescription = getString(
-            Strings.scren_send_money_funds_transfer_display_text_amount_error
+            Strings.common_display_text_min_max_limit_error_transaction
         ).format(
             Utils.getFormattedCurrency(viewModel.state.minLimit.toString()),
-            Utils.getFormattedCurrency(viewModel.state.maxLimit.toString()),
-            MyUserManager.cardBalance.value?.availableBalance?.toDoubleOrNull()
+            Utils.getFormattedCurrency(viewModel.state.maxLimit.toString())
+
         )
         showLimitError()
     }
