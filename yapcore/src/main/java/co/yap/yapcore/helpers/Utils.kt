@@ -30,6 +30,7 @@ import co.yap.translation.Strings
 import co.yap.translation.Translator
 import co.yap.yapcore.R
 import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.helpers.extentions.launchActivity
 import co.yap.yapcore.helpers.extentions.shortToast
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.MyUserManager
@@ -780,9 +781,12 @@ object Utils {
     }
 
 
-    fun openWebPage(url: String, title: String?, activity: Activity?) {
-        activity?.let {
-            activity.startActivity(WebActivity.newIntent(it, url))
+    fun openWebPage(url: String, title: String? = "", activity: Activity?) {
+        activity?.run {
+            launchActivity<WebActivity> {
+                putExtra(WebActivity.PAGE_URL, url)
+                putExtra(WebActivity.TOOL_BAR_TITLE, title)
+            }
         }
     }
 

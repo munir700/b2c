@@ -64,7 +64,9 @@ class TopUpCardFundsViewModel(application: Application) : FundActionsViewModel(a
                 is RetroApiResponse.Success -> {
                     if (response.data.data?.feeType == Constants.FEE_TYPE_FLAT) {
                         val feeAmount = response.data.data?.tierRateDTOList?.get(0)?.feeAmount
-                        state.transactionFee = Utils.getFormattedCurrency(feeAmount.toString())
+                        val VATAmount = response.data.data?.tierRateDTOList?.get(0)?.vatAmount
+                        state.transactionFee =
+                            Utils.getFormattedCurrency(feeAmount?.plus(VATAmount ?: 0.0).toString())
                         clickEvent.postValue(Constants.CARD_FEE)
                     }
                     //Commented because QA said to remove "No fee" text.
