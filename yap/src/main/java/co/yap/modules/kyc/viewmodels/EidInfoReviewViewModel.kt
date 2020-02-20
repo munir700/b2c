@@ -88,9 +88,9 @@ class EidInfoReviewViewModel(application: Application) :
                     )
                     trackEvent(TrackEvents.EIDA_CALLBACK_PROHIBITED_CITIZENS)
                 }
-                parentViewModel?.document != null && it.citizenNumber != parentViewModel?.document?.identityNo && it.givenName + " " + it.sirName != parentViewModel?.document?.fullName -> {
-                    state.toast = "Your EID doesn't match with the current EID."
-                }
+//                parentViewModel?.document != null && it.citizenNumber != parentViewModel?.document?.identityNo && it.givenName + " " + it.sirName != parentViewModel?.document?.fullName -> {
+//                    state.toast = "Your EID doesn't match with the current EID."
+//                }
                 else -> {
                     performUploadDocumentsRequest()
                 }
@@ -203,6 +203,16 @@ class EidInfoReviewViewModel(application: Application) :
 
                 when (response) {
                     is RetroApiResponse.Success -> {
+                        when (MyUserManager.eidStatus) {
+                            EIDStatus.EXPIRED, EIDStatus.VALID -> {
+                                MyUserManager.eidStatus = EIDStatus.VALID
+                                clickEvent.setValue(EVENT_EID_UPDATE)
+                            }
+                            EIDStatus.NOT_SET -> {
+                                MyUserManager.eidStatus = EIDStatus.VALID
+                                clickEvent.setValue(EVENT_NEXT)
+                            }
+                        }
                         MyUserManager.eidStatus = EIDStatus.VALID
                         clickEvent.setValue(EVENT_NEXT)
                     }
