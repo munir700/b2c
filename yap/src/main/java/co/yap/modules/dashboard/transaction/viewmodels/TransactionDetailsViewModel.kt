@@ -141,7 +141,10 @@ class TransactionDetailsViewModel(application: Application) :
         data?.let {
             when (data.category) {
                 TransactionCategory.SUPPORT_FEE.name -> {
-                    state.spentVisibility = false
+                    state.spentVisibility.set(false)
+                }
+                else->{
+                    state.spentVisibility.set(true)
                 }
             }
         }

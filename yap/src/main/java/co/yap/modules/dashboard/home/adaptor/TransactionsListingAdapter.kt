@@ -243,6 +243,7 @@ class TransactionsListingAdapter(private val list: MutableList<Content>) :
                     }
 
                     else -> {
+                        itemTransactionListBinding.ivTransaction?.setImageResource(if(transaction.txnType == TxnType.DEBIT.type)R.drawable.ic_outgoing else R.drawable.ic_incoming )
                     }
                 }
             }

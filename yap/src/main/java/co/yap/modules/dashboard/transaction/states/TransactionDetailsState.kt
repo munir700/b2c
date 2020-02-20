@@ -104,13 +104,10 @@ class TransactionDetailsState : BaseState(), ITransactionDetails.State {
     override var isYtoYTransfer: ObservableField<Boolean> = ObservableField(false)
 
 
-    @get:Bindable
-    override var spentVisibility: Boolean = false
+    override var spentVisibility: ObservableField<Boolean> = ObservableField(false)
         set(value) {
-            field = value
-            notifyPropertyChanged(BR.spentVisibility)
+            field = ObservableField(value)
         }
-
 
     @get:Bindable
     override var transactionSender: String? = ""
