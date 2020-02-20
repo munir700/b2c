@@ -2,7 +2,6 @@ package co.yap.modules.dashboard.cards.paymentcarddetail.interfaces
 
 import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Observer
 import co.yap.modules.dashboard.helpers.transaction.TransactionLogicHelper
 import co.yap.modules.dashboard.home.filters.models.TransactionFilters
 import co.yap.networking.cards.responsedtos.Card
@@ -57,7 +56,8 @@ interface IPaymentCardDetail {
         var blocked: Boolean
         var physical: Boolean
         var balanceLoading: Boolean
-        var filterCount:ObservableField<Int>
-        var isTxnsEmpty:ObservableField<Boolean>
+        var filterCount: ObservableField<Int>
+        var cardStatus: ObservableField<String>
+        var isTxnsEmpty: ObservableField<Boolean>
     }
 }

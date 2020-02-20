@@ -1,7 +1,6 @@
 package co.yap.modules.dashboard.cards.paymentcarddetail.activities
 
 import android.app.Activity
-import android.app.AlertDialog
 import android.app.Dialog
 import android.content.BroadcastReceiver
 import android.content.Context
@@ -284,13 +283,10 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
 
     private fun setupView() {
         viewModel.card.value = intent.getParcelableExtra(CARD)
-        // the alpha is not getting set through binding
-        getBindings().ivSpareFreeze.alpha = if(viewModel.card.value?.status == CardStatus.EXPIRED.name) 0.5f else 1.0f
-        getBindings().ivPrimaryFreeze.alpha = if(viewModel.card.value?.status == CardStatus.EXPIRED.name) 0.5f else 1.0f
-        getBindings().ivSetLimits.alpha = if(viewModel.card.value?.status == CardStatus.EXPIRED.name) 0.5f else 1.0f
+        viewModel.state.cardStatus.set(viewModel.card.value?.status)
 
-        viewModel.state.cardType = viewModel.card.value?.cardType!!
-        viewModel.state.cardPanNumber = viewModel.card.value?.maskedCardNo!!
+        viewModel.state.cardType = viewModel.card.value?.cardType ?: ""
+        viewModel.state.cardPanNumber = viewModel.card.value?.maskedCardNo ?: ""
         viewModel.card.value?.cardName?.let { cardName ->
             viewModel.card.value?.nameUpdated?.let {
                 if (it) {
