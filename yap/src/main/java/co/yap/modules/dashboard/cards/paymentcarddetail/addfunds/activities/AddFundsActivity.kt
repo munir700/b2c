@@ -25,6 +25,7 @@ import co.yap.modules.others.helper.Constants
 import co.yap.networking.cards.responsedtos.Card
 import co.yap.translation.Strings
 import co.yap.yapcore.BaseBindingActivity
+import co.yap.yapcore.enums.TransactionProductCode
 import co.yap.yapcore.helpers.AnimationUtils
 import co.yap.yapcore.helpers.CustomSnackbar
 import co.yap.yapcore.helpers.DecimalDigitsInputFilter
@@ -104,7 +105,7 @@ open class AddFundsActivity : BaseBindingActivity<IFundActions.ViewModel>(),
     }
 
     override fun setObservers() {
-        viewModel.getFee(co.yap.yapcore.constants.Constants.ADD_FUNDS)
+        viewModel.getFee(TransactionProductCode.TOP_UP_SUPPLEMENTARY_CARD.pCode)
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
                 R.id.btnAction -> (if (viewModel.state.buttonTitle != getString(Strings.screen_success_funds_transaction_display_text_button)) {

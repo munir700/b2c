@@ -13,5 +13,7 @@ enum class TransactionProductCode(val pCode: String) {
     MANUAL_ADJUSTMENT("P014"),
     FEE_DEDUCT("P015"),
     DOMESTIC("P023"), // P023 is same as YAP_TO_RAK
-    POS("P019")
+    POS("P019"),
+    SUPPORT_FEE("P042")
+
 }

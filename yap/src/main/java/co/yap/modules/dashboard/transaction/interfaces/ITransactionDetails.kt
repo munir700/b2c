@@ -33,6 +33,7 @@ interface ITransactionDetails {
         var currency: String?
         var vatAmount: String?
         var totalAmountCalculated: String?
+        var spentVisibility: ObservableField<Boolean>
         //var content: Content?
     }
 }

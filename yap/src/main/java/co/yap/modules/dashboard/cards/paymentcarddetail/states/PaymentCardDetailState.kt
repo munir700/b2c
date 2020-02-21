@@ -6,8 +6,9 @@ import co.yap.BR
 import co.yap.modules.dashboard.cards.paymentcarddetail.interfaces.IPaymentCardDetail
 import co.yap.yapcore.BaseState
 
-class PaymentCardDetailState : BaseState(), IPaymentCardDetail.State{
+class PaymentCardDetailState : BaseState(), IPaymentCardDetail.State {
 
+    override var cardStatus: ObservableField<String> = ObservableField("")
 
     @get:Bindable
     override var accountType: String = ""

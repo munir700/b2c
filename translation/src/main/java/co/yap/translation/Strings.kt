@@ -27,6 +27,9 @@ object Strings {
     const val common_display_text_daily_limit_error_multiple_transactions: String =
         "common_display_text_daily_limit_error_multiple_transactions"
 
+    const val common_display_text_min_max_limit_error_transaction: String =
+        "common_display_text_min_max_limit_error_transaction"
+
     //Home screen
     const val screen_home_display_text_tag_line: String = "screen_home_display_text_tag_line"
     const val screen_home_display_text_account_selection: String =

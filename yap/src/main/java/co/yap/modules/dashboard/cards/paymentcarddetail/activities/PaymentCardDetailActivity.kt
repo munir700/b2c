@@ -1,7 +1,6 @@
 package co.yap.modules.dashboard.cards.paymentcarddetail.activities
 
 import android.app.Activity
-import android.app.AlertDialog
 import android.app.Dialog
 import android.content.BroadcastReceiver
 import android.content.Context
@@ -189,11 +188,12 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
             }
             R.id.ivMenu -> {
                 if (Constants.CARD_TYPE_DEBIT == viewModel.state.cardType) {
-                    primaryCardBottomSheet = PrimaryCardBottomSheet(this)
+                    primaryCardBottomSheet =
+                        PrimaryCardBottomSheet(viewModel.card.value?.status ?: "", this)
                     primaryCardBottomSheet.show(supportFragmentManager, "")
                 } else {
                     spareCardBottomSheet =
-                        SpareCardBottomSheet(viewModel.card.value?.physical!!, this)
+                        SpareCardBottomSheet(viewModel.card.value?.physical ?: false, this)
                     spareCardBottomSheet.show(supportFragmentManager, "")
                 }
             }
@@ -283,8 +283,10 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
 
     private fun setupView() {
         viewModel.card.value = intent.getParcelableExtra(CARD)
-        viewModel.state.cardType = viewModel.card.value?.cardType!!
-        viewModel.state.cardPanNumber = viewModel.card.value?.maskedCardNo!!
+        viewModel.state.cardStatus.set(viewModel.card.value?.status)
+
+        viewModel.state.cardType = viewModel.card.value?.cardType ?: ""
+        viewModel.state.cardPanNumber = viewModel.card.value?.maskedCardNo ?: ""
         viewModel.card.value?.cardName?.let { cardName ->
             viewModel.card.value?.nameUpdated?.let {
                 if (it) {
@@ -378,6 +380,7 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
         )
     }
 
+
     override fun onClick(eventType: Int) {
 
         if (Constants.CARD_TYPE_DEBIT == viewModel.state.cardType) {
@@ -387,7 +390,6 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
         }
 
         when (eventType) {
-
             Constants.EVENT_ADD_CARD_NAME -> {
                 startActivityForResult(
                     UpdateCardNameActivity.newIntent(this, viewModel.card.value!!),
