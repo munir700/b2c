@@ -1,8 +1,11 @@
 package co.yap.modules.termandcondition.fragment
 
 import android.annotation.SuppressLint
+import android.net.http.SslError
 import android.os.Bundle
 import android.view.View
+import android.webkit.SslErrorHandler
+import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.lifecycle.ViewModelProviders
 import co.yap.modules.termandcondition.interfaces.ITermAndCondition
@@ -31,7 +34,14 @@ class TermAndConditionFragment : BaseBindingFragment<ITermAndCondition.ViewModel
 
     private fun loadTermAndCondition() {
         termConditionWebView.settings.javaScriptEnabled = true
-        termConditionWebView.webViewClient = WebViewClient()
+        termConditionWebView.webViewClient = object : WebViewClient() {
+            override
+            fun onReceivedSslError(view: WebView?, handler: SslErrorHandler?, error: SslError?) {
+//                val serverCertificate: SslCertificate = error?.certificate!!
+                handler?.proceed()
+            }
+
+        }
         termConditionWebView.loadUrl("https://yap.co/")
     }
 

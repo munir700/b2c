@@ -5,8 +5,10 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
+import android.net.http.SslError
 import android.os.Bundle
 import android.view.View
+import android.webkit.SslErrorHandler
 import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import android.webkit.WebViewClient
@@ -55,6 +57,11 @@ class AddTopUpCardActivity : BaseBindingActivity<IAddTopUpCard.ViewModel>(), IAd
     @SuppressLint("SetJavaScriptEnabled")
     private fun setupWebViewForAddCard() {
         wb.webViewClient = object : WebViewClient() {
+            override
+            fun onReceivedSslError(view: WebView?, handler: SslErrorHandler?, error: SslError?) {
+//                val serverCertificate: SslCertificate = error?.certificate!!
+                handler?.proceed()
+            }
             override fun shouldOverrideUrlLoading(
                 view: WebView?,
                 request: WebResourceRequest?
@@ -93,6 +100,11 @@ class AddTopUpCardActivity : BaseBindingActivity<IAddTopUpCard.ViewModel>(), IAd
     @SuppressLint("SetJavaScriptEnabled")
     private fun setupWebViewForTopUpCardTransaction() {
         wb.webViewClient = object : WebViewClient() {
+            override
+            fun onReceivedSslError(view: WebView?, handler: SslErrorHandler?, error: SslError?) {
+//                val serverCertificate: SslCertificate = error?.certificate!!
+                handler?.proceed()
+            }
             override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
                 url?.let {
                     if (it.contains("yap.co") || it.contains("transactions")) {

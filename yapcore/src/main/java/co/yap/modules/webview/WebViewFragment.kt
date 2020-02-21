@@ -1,8 +1,10 @@
 package co.yap.modules.webview
 
 import android.annotation.SuppressLint
+import android.net.http.SslCertificate
 import android.net.http.SslError
 import android.os.Bundle
+import android.text.TextUtils
 import android.view.View
 import android.webkit.SslErrorHandler
 import android.webkit.WebChromeClient
@@ -16,6 +18,7 @@ import co.yap.yapcore.R
 import co.yap.yapcore.constants.Constants.PAGE_URL
 import co.yap.yapcore.constants.Constants.TOOLBAR_TITLE
 import kotlinx.android.synthetic.main.fragment_webview.*
+
 
 class WebViewFragment : BaseBindingFragment<IWebViewFragment.ViewModel>(), IWebViewFragment.View {
     override fun getBindingVariable() = BR.webViewFragmentViewModel
@@ -45,6 +48,14 @@ class WebViewFragment : BaseBindingFragment<IWebViewFragment.ViewModel>(), IWebV
         webView.settings.loadWithOverviewMode = true
         webView.settings.useWideViewPort = true
         webView.settings.domStorageEnabled = true
+        webView.webViewClient = object : WebViewClient() {
+            override
+            fun onReceivedSslError(view: WebView?, handler: SslErrorHandler?, error: SslError?) {
+//                val serverCertificate: SslCertificate = error?.certificate!!
+                handler?.proceed()
+            }
+
+        }
     }
 
     private fun setWebClient() {
