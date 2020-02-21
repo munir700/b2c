@@ -14,7 +14,7 @@ enum class SignupEvents(val type: String) {
     SIGN_UP_END("Signup_end"),
     SIGN_UP_DATE("Signup_date"),
     SIGN_UP_TIME("Signup_time"),
-    SIGN_UP_LENGHT("Signup_length"),
+    SIGN_UP_LENGTH("Signup_length"),
 }
 
 @Keep

@@ -7,9 +7,7 @@ import co.yap.BR
 import co.yap.R
 import co.yap.modules.onboarding.interfaces.IName
 import co.yap.modules.onboarding.viewmodels.NameViewModel
-import co.yap.yapcore.helpers.extentions.trackEvent
 import co.yap.yapcore.leanplum.SignupEvents
-import co.yap.yapcore.leanplum.TrackEvents
 import com.leanplum.Leanplum
 import kotlinx.android.synthetic.main.fragment_name.*
 

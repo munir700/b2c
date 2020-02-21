@@ -96,7 +96,6 @@ class CongratulationsFragment : OnboardingChildFragment<ICongratulations.ViewMod
                     putExtra(Constants.data, false)
                 }
                 Leanplum.track(SignupEvents.SIGN_UP_END.type)
-                Leanplum.track(SignupEvents.SIGN_UP_LENGHT.type,)
             }
         }
     }
@@ -110,6 +109,7 @@ class CongratulationsFragment : OnboardingChildFragment<ICongratulations.ViewMod
                     null
                 ), RequestCodes.REQUEST_MEETING_CONFIRMED
             )
+            Leanplum.track(KYCEvents.KYC_ORDERED.type)
         } else {
             goToDashboard()
         }
@@ -265,7 +265,7 @@ class CongratulationsFragment : OnboardingChildFragment<ICongratulations.ViewMod
     ): ValueAnimator {
         val text = getString(Strings.screen_onboarding_congratulations_display_text_sub_title)
         val parts = text.split("%1s")
-        Leanplum.track(SignupEvents.SIGN_UP_LENGHT.type, parts[1])
+        Leanplum.track(SignupEvents.SIGN_UP_LENGTH.type, parts[1])
         return AnimationUtils.valueCounter(initialValue, finalValue, 1500).apply {
             addUpdateListener { animator ->
                 textview.text = SpannableStringBuilder().run {

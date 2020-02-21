@@ -7,8 +7,6 @@ import co.yap.BR
 import co.yap.R
 import co.yap.modules.onboarding.interfaces.IMobile
 import co.yap.modules.onboarding.viewmodels.MobileViewModel
-import co.yap.yapcore.helpers.extentions.trackEvent
-import co.yap.yapcore.leanplum.TrackEvents
 import kotlinx.android.synthetic.main.fragment_mobile.*
 
 
