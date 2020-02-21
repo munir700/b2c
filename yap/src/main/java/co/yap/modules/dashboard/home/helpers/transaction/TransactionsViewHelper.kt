@@ -29,7 +29,7 @@ import java.util.*
 
 class TransactionsViewHelper(
     val context: Context, val transactionsView: View,
-    val viewModel: IYapHome.ViewModel,val isNotificationVisible:Boolean=false
+    val viewModel: IYapHome.ViewModel
 
 ) {
     private var tooltip: TooltipView? = null
@@ -179,10 +179,9 @@ class TransactionsViewHelper(
 
                 y = view.bottom.toFloat() - view.height - 140
                 // y = viewPosition[1].toFloat() - this.height - toolbarHeight - view.height - Utils.convertDpToPx(context, 20f)
-
-                if (isNotificationVisible) {
-                    val notificationView =
-                        transactionsView.findViewById<DiscreteScrollView>(R.id.rvNotificationList)
+                val notificationView =
+                    transactionsView.findViewById<DiscreteScrollView>(R.id.rvNotificationList)
+                if (notificationView.adapter?.itemCount?:0 > 0) {
                     y += notificationView.height
                 }
             }
