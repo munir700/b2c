@@ -86,6 +86,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
 
     override fun getLayoutId(): Int = R.layout.fragment_yap_home
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         parentViewModel =
@@ -370,8 +371,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                 transactionViewHelper = TransactionsViewHelper(
                     requireContext(),
                     it,
-                    viewModel,
-                    mAdapter.itemCount > 0
+                    viewModel
                 )
                 getGraphRecycleViewAdapter()?.helper = transactionViewHelper
             }
