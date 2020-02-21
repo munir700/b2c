@@ -35,7 +35,4 @@ class TermAndConditionFragment : BaseBindingFragment<ITermAndCondition.ViewModel
         termConditionWebView.loadUrl("https://yap.co/")
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
 }

@@ -45,12 +45,6 @@ class WebViewFragment : BaseBindingFragment<IWebViewFragment.ViewModel>(), IWebV
         webView.settings.loadWithOverviewMode = true
         webView.settings.useWideViewPort = true
         webView.settings.domStorageEnabled = true
-        webView.webViewClient = object : WebViewClient() {
-            override
-            fun onReceivedSslError(view: WebView?, handler: SslErrorHandler?, error: SslError?) {
-                handler?.proceed()
-            }
-        }
     }
 
     private fun setWebClient() {
@@ -69,6 +63,7 @@ class WebViewFragment : BaseBindingFragment<IWebViewFragment.ViewModel>(), IWebV
                 }
             }
         }
+
     }
 
     private fun loadUrl(pageUrl: String) {

@@ -10,5 +10,4 @@ data class OtpDataModel(
     var username: String? = "",
     var emailOtp: Boolean? = false,
     var toolBarData: OtpToolBarData? = OtpToolBarData()
-) : Parcelable {
-}
+) : Parcelable
