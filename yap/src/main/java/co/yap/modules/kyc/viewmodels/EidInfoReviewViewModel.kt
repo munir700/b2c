@@ -204,6 +204,16 @@ class EidInfoReviewViewModel(application: Application) :
 
                 when (response) {
                     is RetroApiResponse.Success -> {
+                        when (MyUserManager.eidStatus) {
+                            EIDStatus.EXPIRED, EIDStatus.VALID -> {
+                                MyUserManager.eidStatus = EIDStatus.VALID
+                                clickEvent.setValue(EVENT_EID_UPDATE)
+                            }
+                            EIDStatus.NOT_SET -> {
+                                MyUserManager.eidStatus = EIDStatus.VALID
+                                clickEvent.setValue(EVENT_NEXT)
+                            }
+                        }
                         MyUserManager.eidStatus = EIDStatus.VALID
                         clickEvent.setValue(EVENT_NEXT)
                     }

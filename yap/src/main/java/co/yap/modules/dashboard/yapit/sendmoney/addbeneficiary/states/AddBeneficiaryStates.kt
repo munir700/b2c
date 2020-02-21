@@ -6,6 +6,7 @@ import androidx.databinding.library.baseAdapters.BR
 import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.interfaces.IAddBeneficiary
 import co.yap.yapcore.BaseState
 import co.yap.yapcore.enums.SendMoneyBeneficiaryType.*
+import co.yap.yapcore.helpers.StringUtils
 
 class AddBeneficiaryStates : BaseState(),
     IAddBeneficiary.State {
@@ -249,7 +250,7 @@ class AddBeneficiaryStates : BaseState(),
                 }
                 DOMESTIC -> {
                     valid =
-                        nickName.length > 1 && firstName.length > 1 && lastName.length > 1 && iban.isNotEmpty() && confirmIban.isNotEmpty() && iban == confirmIban
+                        nickName.length > 1 && firstName.length > 1 && lastName.length > 1  && iban.isNotEmpty() && confirmIban.isNotEmpty() && StringUtils.isValidIBAN(iban) && iban == confirmIban
                 }
                 CASHPAYOUT -> {
                     valid =

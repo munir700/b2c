@@ -49,6 +49,9 @@ interface IEidInfoReview {
         val EVENT_ALREADY_USED_EID: Int
             get() = 1041
 
+        val EVENT_EID_UPDATE: Int
+            get() = 9
+
         val clickEvent: SingleClickEvent
         fun handlePressOnRescanBtn()
         fun handlePressOnConfirmBtn()
