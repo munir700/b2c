@@ -13,8 +13,6 @@ import co.yap.modules.kyc.activities.DocumentsResponse
 import co.yap.modules.kyc.enums.DocScanStatus
 import co.yap.modules.kyc.interfaces.IKYCHome
 import co.yap.modules.kyc.viewmodels.KYCHomeViewModel
-import co.yap.yapcore.helpers.extentions.trackEvent
-import co.yap.yapcore.leanplum.TrackEvents
 import com.digitify.identityscanner.docscanner.activities.IdentityScannerActivity
 import com.digitify.identityscanner.docscanner.enums.DocumentType
 
@@ -46,7 +44,6 @@ class KYCHomeFragment : KYCChildFragment<IKYCHome.ViewModel>(), IKYCHome.View {
                 R.id.tvSkip -> {
                     //on skip move user to
                     viewModel.parentViewModel?.finishKyc?.value = DocumentsResponse(false)
-                    trackEvent(TrackEvents.CLICKS_ON_SKIP_TO_DASHBOARD)
                 }
             }
         })
