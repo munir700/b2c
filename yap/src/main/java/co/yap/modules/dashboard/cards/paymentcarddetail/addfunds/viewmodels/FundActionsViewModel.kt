@@ -9,6 +9,7 @@ import co.yap.networking.customers.responsedtos.beneficiary.TopUpTransactionMode
 import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.transactions.TransactionsRepository
 import co.yap.networking.transactions.requestdtos.AddFundsRequest
+import co.yap.networking.transactions.requestdtos.RemittanceFeeRequest
 import co.yap.networking.transactions.requestdtos.RemoveFundsRequest
 import co.yap.networking.transactions.responsedtos.FundTransferDenominations
 import co.yap.yapcore.BaseViewModel
@@ -101,12 +102,17 @@ open class FundActionsViewModel(application: Application) :
     override fun getFee(productCode: String) {
         launch {
             state.loading = true
-            when (val response = transactionsRepository.getTransactionFee(
-                productCode
+            when (val response = transactionsRepository.getTransactionFeeWithProductCode(
+                productCode, RemittanceFeeRequest()
             )) {
                 is RetroApiResponse.Success -> {
-                    state.fee = Utils.getFormattedCurrency(response.data.data)
-                    clickEvent.postValue(Constants.CARD_FEE)
+                    if (response.data.data?.feeType == Constants.FEE_TYPE_FLAT) {
+                        val feeAmount = response.data.data?.tierRateDTOList?.get(0)?.feeAmount
+                        val VATAmount = response.data.data?.tierRateDTOList?.get(0)?.vatAmount
+                        state.fee =
+                            Utils.getFormattedCurrency(feeAmount?.plus(VATAmount ?: 0.0).toString())
+                        clickEvent.postValue(Constants.CARD_FEE)
+                    }
                 }
                 is RetroApiResponse.Error -> {
                     state.errorDescription = response.error.message

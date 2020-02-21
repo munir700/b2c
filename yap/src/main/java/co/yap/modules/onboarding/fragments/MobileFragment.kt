@@ -27,7 +27,7 @@ class MobileFragment : OnboardingChildFragment<IMobile.ViewModel>() {
             trackEvent(TrackEvents.MOBILE_NUMBER_ENTERED)
             navigate(R.id.phoneVerificationFragment)
         })
-        viewModel.getCcp(etMobileNumber)!!
+        viewModel.getCcp(etMobileNumber)
     }
 
     override fun onDestroyView() {

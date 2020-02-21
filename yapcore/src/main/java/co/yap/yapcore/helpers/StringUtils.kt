@@ -117,5 +117,50 @@ object StringUtils {
         } else ""
 
     }
+
+    fun isValidIBAN(iban: String): Boolean {
+        var inputStr: CharSequence = ""
+        var isValid = false
+        val expression =
+            "^[A-Z]{2}[0-9]{2}[0-9A-Z]{1,31}$"
+        inputStr = iban
+        val pattern = Pattern.compile(expression)
+        val matcher = pattern.matcher(inputStr)
+
+        if (matcher.matches() && iban.isNotEmpty()) {
+            isValid = true
+        }
+        return isValid
+    }
+
+    fun isValidAccountNumber(accountNo: String): Boolean {
+        var inputStr: CharSequence = ""
+        var isValid = false
+        val expression =
+            "^[0-9]{4,34}$"
+        inputStr = accountNo
+        val pattern = Pattern.compile(expression)
+        val matcher = pattern.matcher(inputStr)
+
+        if (matcher.matches() && accountNo.isNotEmpty()) {
+            isValid = true
+        }
+        return isValid
+    }
+
+    fun isValidSwift(swift: String): Boolean {
+        var inputStr: CharSequence = ""
+        var isValid = false
+        val expression =
+            "^[0-9A-Z]{4,11}$"
+        inputStr = swift
+        val pattern = Pattern.compile(expression)
+        val matcher = pattern.matcher(inputStr)
+
+        if (matcher.matches() && swift.isNotEmpty()) {
+            isValid = true
+        }
+        return isValid
+    }
 }
 

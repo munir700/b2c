@@ -25,6 +25,7 @@ import co.yap.modules.otp.GenericOtpFragment
 import co.yap.modules.otp.OtpDataModel
 import co.yap.modules.otp.OtpToolBarData
 import co.yap.translation.Strings
+import co.yap.translation.Translator
 import co.yap.yapcore.BR
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.OTPActions
@@ -79,6 +80,10 @@ class Y2YTransferFragment : Y2YBaseFragment<IY2YFundsTransfer.ViewModel>(), IY2Y
         when (it) {
             R.id.btnConfirm -> {
                 when {
+                    viewModel.state.amount.toDoubleOrNull() ?: 0.0 < viewModel.state.minLimit || viewModel.state.amount.toDoubleOrNull() ?: 0.0 > viewModel.state.maxLimit -> {
+                        setUpperLowerLimitError()
+                        viewModel.errorEvent.call()
+                    }
                     isDailyLimitReached() -> {
                         viewModel.errorEvent.call()
                     }
@@ -101,6 +106,16 @@ class Y2YTransferFragment : Y2YBaseFragment<IY2YFundsTransfer.ViewModel>(), IY2Y
             }
 
         }
+    }
+
+    private fun setUpperLowerLimitError() {
+        viewModel.state.errorDescription = Translator.getString(
+            requireContext(),
+            Strings.common_display_text_min_max_limit_error_transaction,
+            Utils.getFormattedCurrency(viewModel.state.minLimit.toString()),
+            Utils.getFormattedCurrency(viewModel.state.maxLimit.toString())
+
+        )
     }
 
     private fun createOtp() {

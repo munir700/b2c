@@ -214,7 +214,6 @@
                 android:layout_height="match_parent"
                 app:msv_errorView="@layout/error_view_no_transaction_found"
                 app:msv_emptyView="@layout/layout_welcome_to_yap_view"
-                app:msv_viewState="empty"
                 >
                 <!--     Content List-->
                 <androidx.recyclerview.widget.RecyclerView

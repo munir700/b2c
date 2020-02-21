@@ -109,7 +109,7 @@ open class MapSupportActivity : BaseBindingActivity<ILocationSelection.ViewModel
         getCurrentPlaceLikelihoods()
     }
 
-    private fun loadAysnMapInfo(latLng: LatLng) {
+    protected fun loadAysnMapInfo(latLng: LatLng) {
         viewModel.launch {
             val address = viewModel.viewModelBGScope.async(Dispatchers.IO) {
                 getSelectedMapLocation(latLng)
@@ -126,6 +126,7 @@ open class MapSupportActivity : BaseBindingActivity<ILocationSelection.ViewModel
             val placeName =
                 selectedAddress.getAddressLine(0).split(",").toTypedArray()[0]
             val placeSubTitle = selectedAddress.getAddressLine(0)
+            viewModel.state.isLocationInAllowedCountry.set(selectedAddress.countryCode == "AE")
             return co.yap.networking.cards.responsedtos.Address(
                 placeName,
                 placeSubTitle,
@@ -140,13 +141,22 @@ open class MapSupportActivity : BaseBindingActivity<ILocationSelection.ViewModel
     }
 
     private fun populateCardState(address: co.yap.networking.cards.responsedtos.Address?) {
-        address?.let {
-            viewModel.address?.latitude = it.latitude
-            viewModel.address?.longitude = it.longitude
-            viewModel.state.placeTitle.set(it.address1)
-            viewModel.state.placeSubTitle.set(it.address2)
-            viewModel.state.placePhoto.set(defaultPlacePhoto)
-        }
+        if (viewModel.state.isLocationInAllowedCountry.get() == true){
+            viewModel.state.isShowLocationCard.set(true)
+            address?.let {
+                viewModel.address?.latitude = it.latitude
+                viewModel.address?.longitude = it.longitude
+                viewModel.state.placeTitle.set(it.address1)
+                viewModel.state.placeSubTitle.set(it.address2)
+                viewModel.state.placePhoto.set(defaultPlacePhoto)
+            }}
+        else
+            showNotAllowedError()
+    }
+
+    private fun showNotAllowedError() {
+        viewModel.state.isShowLocationCard.set(false)
+        viewModel.state.toast = "Your location must be in the UAE."
     }
 
     private fun createMarker(markerLatLng: LatLng?) {

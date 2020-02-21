@@ -290,9 +290,9 @@ class CashTransferState(application: Application) : BaseState(), ICashTransfer.S
 //                            context.resources.getDrawable(co.yap.yapcore.R.drawable.bg_funds_error, null)
                     errorDescription = Translator.getString(
                         context,
-                        Strings.scren_send_money_funds_transfer_display_text_amount_error,
+                        Strings.common_display_text_min_max_limit_error_transaction,
                         Utils.getFormattedCurrency(minLimit.toString()),
-                        Utils.getFormattedCurrency(maxLimit.toString()), availableBalance.toString()
+                        Utils.getFormattedCurrency(maxLimit.toString())
                     )
                     return errorDescription
 

@@ -42,6 +42,7 @@ class YapCardsViewModel(application: Application) : BaseViewModel<IYapCards.Stat
                             }
                             if (state.enableAddCard.get())
                                 cardsList?.add(getAddCard())
+
                             cards.value = cardsList
                         }
                     }
