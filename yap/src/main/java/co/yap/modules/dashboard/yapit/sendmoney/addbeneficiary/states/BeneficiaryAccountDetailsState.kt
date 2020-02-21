@@ -5,10 +5,14 @@ import androidx.databinding.ObservableField
 import androidx.databinding.library.baseAdapters.BR
 import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.interfaces.IBeneficiaryAccountDetails
 import co.yap.yapcore.BaseState
+import co.yap.yapcore.helpers.StringUtils
 
 class BeneficiaryAccountDetailsState : BaseState(), IBeneficiaryAccountDetails.State {
 
     override var showlyIban: ObservableField<Boolean> = ObservableField(false)
+
+    override var isIbanMandatory: ObservableField<Boolean> = ObservableField(false)
+
     //override var showlyConfirmIban: ObservableField<Boolean> = ObservableField(false)
 
     @get:Bindable
@@ -59,12 +63,17 @@ class BeneficiaryAccountDetailsState : BaseState(), IBeneficiaryAccountDetails.S
         }
 
     private fun validateNonRmt() {
-        valid = !accountIban.isNullOrEmpty() && accountIban.length >= 14
+        if (isIbanMandatory.get() == true){
+            valid = StringUtils.isValidIBAN(accountIban.replace(" ", ""))
+        }else{
+            valid = StringUtils.isValidAccountNumber(accountIban.replace(" ", ""))
+        }
+
         notifyPropertyChanged(BR.valid)
     }
 
     fun validate() {
-        if (!countryBankRequirementFieldCode.isNullOrEmpty() && !beneficiaryAccountNumber.isNullOrEmpty() && !swiftCode.isNullOrEmpty() && !accountIban.isNullOrEmpty()) {
+        if (countryBankRequirementFieldCode.isNotBlank() || beneficiaryAccountNumber.isNotBlank() || swiftCode.isNotBlank() || accountIban.isNotBlank()) {
             valid = true
             notifyPropertyChanged(BR.valid)
         }

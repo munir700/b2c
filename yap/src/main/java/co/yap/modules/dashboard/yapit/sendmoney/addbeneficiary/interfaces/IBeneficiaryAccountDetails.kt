@@ -24,6 +24,7 @@ interface IBeneficiaryAccountDetails {
         var bankPhoneNumber: String
 
         var showlyIban: ObservableField<Boolean>
+        var isIbanMandatory:ObservableField<Boolean>
         //var showlyConfirmIban: ObservableField<Boolean>
 
     }
