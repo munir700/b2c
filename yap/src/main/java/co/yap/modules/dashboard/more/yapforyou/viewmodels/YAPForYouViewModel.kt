@@ -40,7 +40,7 @@ class YAPForYouViewModel(application: Application) :
         parentViewModel?.state?.toolbarTitle =
             getString(Strings.screen_yap_for_you_display_text_title)
         parentViewModel?.state?.leftIcon?.set(R.drawable.ic_back_arrow_left)
-        parentViewModel?.state?.rightIcon?.set(-1)
+        parentViewModel?.state?.rightIcon?.set(R.drawable.ic_trade)
     }
 
 
@@ -57,82 +57,6 @@ class YAPForYouViewModel(application: Application) :
         return categoriesIcon.achievmentIcons
     }
 
-//    fun getAchievements2(): MutableList<Achievement> {
-//        val list = mutableListOf<Achievement>()
-//        list.add(
-//            Achievement(
-//                name = "Get started",
-//                colorCode = "ffddee",
-//                percentage = 100.00,
-//                feature = arrayListOf(
-//                    AchievementTask("Invite a friend", true),
-//                    AchievementTask("Do a Y2Y transfer", true),
-//                    AchievementTask("Split bills with friends", false),
-//                    AchievementTask("Send money to someone outside YAP", true)
-//                ),
-//                icon = getAchievmentIcons(R.color.colorDarkPurple, 100.00)?.roundBadgeIcon,
-//                achievmentIcons = getAchievmentIcons(R.color.colorDarkPurple, 00.00)
-//
-//            )
-//        )
-//        list.add(
-//            Achievement(
-//                name = "Up and running",
-//                colorCode = "ffddee",
-//                percentage = 100.00,
-//                feature = tasksList,
-//                icon = getAchievmentIcons(R.color.colorDarkBlue, 100.00)?.roundBadgeIcon,
-//                achievmentIcons = getAchievmentIcons(R.color.colorDarkBlue, 00.00)
-//
-//            )
-//        )
-//        list.add(
-//            Achievement(
-//                name = "Better together",
-//                colorCode = "ffc430",
-//                percentage = 75.00,
-//                feature = tasksList,
-//                icon = getAchievmentIcons(R.color.colorDarkPeach, 75.00)?.roundBadgeIcon,
-//                achievmentIcons = getAchievmentIcons(R.color.colorDarkPeach, 75.00)
-//
-//            )
-//        )
-//        list.add(
-//            Achievement(
-//                name = "Take the leap",
-//                colorCode = "ffddee",
-//                percentage = 00.00,
-//                feature = tasksList,
-//                icon = getAchievmentIcons(R.color.colorDarkPink, 00.00)?.roundBadgeIcon,
-//                achievmentIcons = getAchievmentIcons(R.color.colorDarkPink, 00.00)
-//            )
-//        )
-//        list.add(
-//            Achievement(
-//                name = "YAP Store",
-//                colorCode = "ffddee",
-//                percentage = 00.00,
-//                feature = tasksList,
-//                icon = getAchievmentIcons(R.color.colorDarkAqua, 00.00)?.roundBadgeIcon,
-//                achievmentIcons = getAchievmentIcons(R.color.colorDarkAqua, 00.00)
-//
-//            )
-//        )
-//        list.add(
-//            Achievement(
-//                name = "You’re a Pro!",
-//                colorCode = "ffddee",
-//                percentage = 00.00,
-//                feature = tasksList,
-//                icon = getAchievmentIcons(R.color.colorDarkGrey, 00.00)?.roundBadgeIcon,
-//                achievmentIcons = getAchievmentIcons(R.color.colorDarkGrey, 00.00)
-//
-//            )
-//        )
-//
-//        return list
-//    }
-
     override fun getAchievements() {
         launch {
             state.loading = true
@@ -140,6 +64,7 @@ class YAPForYouViewModel(application: Application) :
                 is RetroApiResponse.Success -> {
                     parentViewModel?.achievements =
                         response.data.data as MutableList<Achievement>
+                    achievementDataFactory()
                     adaptor.setList(parentViewModel?.achievements ?: mutableListOf())
                     if (!response.data.data.isNullOrEmpty())
                         setInitialAchievement()
@@ -163,4 +88,26 @@ class YAPForYouViewModel(application: Application) :
 //        for(achievement in )
 //
 //    }
+
+    private fun achievementDataFactory(){
+        var position = 0
+        for(achievement in parentViewModel?.achievements?: mutableListOf()){
+            achievement.also {
+                it.icon = getAchievementIcon(position)
+                position++
+            }
+        }
+    }
+
+    override fun getAchievementIcon(position: Int,isWithBadged:Boolean): Int {
+        return when (position) {
+            0 -> if(!isWithBadged) R.drawable.ic_round_badge_dark_purple else R.drawable.ic_badge_dark_purple
+            1 -> if(!isWithBadged) R.drawable.ic_round_badge_dark_blue else R.drawable.ic_badge_dark_blue
+            2 -> if(!isWithBadged) R.drawable.ic_round_badge_light_peach else R.drawable.ic_badge_light_peach
+            3 -> if(!isWithBadged) R.drawable.lock else R.drawable.lock
+            4 -> if(!isWithBadged) R.drawable.lock else R.drawable.lock
+            5 -> if(!isWithBadged) R.drawable.lock else R.drawable.lock
+            else -> R.drawable.ic_round_badge_dark_grey
+        }
+    }
 }

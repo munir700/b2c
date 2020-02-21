@@ -53,7 +53,10 @@ import co.yap.yapcore.constants.Constants.ADDRESS_SUCCESS
 import co.yap.yapcore.constants.Constants.BROADCAST_UPDATE_TRANSACTION
 import co.yap.yapcore.constants.Constants.MODE_MEETING_CONFORMATION
 import co.yap.yapcore.constants.RequestCodes
-import co.yap.yapcore.enums.*
+import co.yap.yapcore.enums.AccountStatus
+import co.yap.yapcore.enums.CardDeliveryStatus
+import co.yap.yapcore.enums.NotificationStatus
+import co.yap.yapcore.enums.PartnerBankStatus
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.fixSwipeToRefresh
 import co.yap.yapcore.helpers.extentions.launchActivity
@@ -367,7 +370,8 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                 transactionViewHelper = TransactionsViewHelper(
                     requireContext(),
                     it,
-                    viewModel
+                    viewModel,
+                    mAdapter.itemCount > 0
                 )
                 getGraphRecycleViewAdapter()?.helper = transactionViewHelper
             }
@@ -528,7 +532,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                     if (result) {
                         val address = it.getParcelableExtra<Address>(ADDRESS)
                         viewModel.requestOrderCard(address)
-                    }else{
+                    } else {
 
                     }
                 }
