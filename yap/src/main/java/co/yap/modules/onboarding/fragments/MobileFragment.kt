@@ -24,7 +24,6 @@ class MobileFragment : OnboardingChildFragment<IMobile.ViewModel>() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel.nextButtonPressEvent.observe(this, Observer {
-            trackEvent(TrackEvents.MOBILE_NUMBER_ENTERED)
             navigate(R.id.phoneVerificationFragment)
         })
         viewModel.getCcp(etMobileNumber)

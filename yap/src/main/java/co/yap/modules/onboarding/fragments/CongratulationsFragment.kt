@@ -39,8 +39,13 @@ import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.ExtraType
 import co.yap.yapcore.helpers.extentions.getValue
 import co.yap.yapcore.helpers.extentions.launchActivity
+import co.yap.yapcore.leanplum.KYCEvents
+import co.yap.yapcore.leanplum.SignupEvents
 import co.yap.yapcore.managers.MyUserManager
+import com.leanplum.Leanplum
 import kotlinx.android.synthetic.main.fragment_onboarding_congratulations.*
+import java.text.SimpleDateFormat
+import java.util.*
 
 
 class CongratulationsFragment : OnboardingChildFragment<ICongratulations.ViewModel>(),
@@ -90,6 +95,8 @@ class CongratulationsFragment : OnboardingChildFragment<ICongratulations.ViewMod
                     putExtra(Constants.name, viewModel.state.nameList[0] ?: "")
                     putExtra(Constants.data, false)
                 }
+                Leanplum.track(SignupEvents.SIGN_UP_END.type)
+                Leanplum.track(SignupEvents.SIGN_UP_LENGHT.type,)
             }
         }
     }
@@ -144,6 +151,14 @@ class CongratulationsFragment : OnboardingChildFragment<ICongratulations.ViewMod
                     )
                 } else {
                     skipped?.let { skip ->
+                        Leanplum.track(KYCEvents.SKIP_KYC.type)
+                        val formattedDate =
+                            SimpleDateFormat("dd-MMM-yyyy").format(Calendar.getInstance().time)
+
+                        val formattedTime =
+                            SimpleDateFormat("hh-mm").format(Calendar.getInstance().time)
+                        Leanplum.track(SignupEvents.SIGN_UP_DATE.type, formattedDate)
+                        Leanplum.track(SignupEvents.SIGN_UP_TIME.type, formattedTime)
                         goToDashboard()
                     }
                 }
@@ -218,7 +233,6 @@ class CongratulationsFragment : OnboardingChildFragment<ICongratulations.ViewMod
         )
 
         val counter = counterAnimation(1, viewModel.elapsedOnboardingTime.toInt(), tvSubTitle)
-
         val moveFromCenterToTop = AnimationUtils.runTogether(
             AnimationUtils.slideVertical(
                 view = tvTitle,
@@ -251,7 +265,7 @@ class CongratulationsFragment : OnboardingChildFragment<ICongratulations.ViewMod
     ): ValueAnimator {
         val text = getString(Strings.screen_onboarding_congratulations_display_text_sub_title)
         val parts = text.split("%1s")
-
+        Leanplum.track(SignupEvents.SIGN_UP_LENGHT.type, parts[1])
         return AnimationUtils.valueCounter(initialValue, finalValue, 1500).apply {
             addUpdateListener { animator ->
                 textview.text = SpannableStringBuilder().run {

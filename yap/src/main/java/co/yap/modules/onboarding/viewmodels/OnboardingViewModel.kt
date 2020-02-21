@@ -1,6 +1,7 @@
 package co.yap.modules.onboarding.viewmodels
 
 import android.app.Application
+import androidx.lifecycle.MutableLiveData
 import co.yap.modules.onboarding.enums.AccountType
 import co.yap.modules.onboarding.interfaces.IOnboarding
 import co.yap.modules.onboarding.models.OnboardingData
@@ -14,6 +15,7 @@ class OnboardingViewModel(application: Application) : BaseViewModel<IOnboarding.
     override var onboardingData: OnboardingData = OnboardingData("", "", "", "", "", "", AccountType.B2C_ACCOUNT,"","")
     override val state: OnboardingState = OnboardingState()
     override val backButtonPressEvent: SingleLiveEvent<Boolean> = SingleLiveEvent()
+    override val isPhoneNumberEntered: MutableLiveData<Boolean> = MutableLiveData(false)
 
     override fun handlePressOnBackButton() {
         backButtonPressEvent.value = true
