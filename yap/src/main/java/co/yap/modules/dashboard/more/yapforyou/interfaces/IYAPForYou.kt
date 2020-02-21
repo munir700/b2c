@@ -17,6 +17,7 @@ interface IYAPForYou {
         var adaptor: YAPForYouAdapter
         fun handlePressOnView(id: Int)
         fun getAchievements()
+        fun getAchievementIcon(position: Int,isWithBadged:Boolean = false): Int
     }
 
     interface View : IBase.View<ViewModel>
