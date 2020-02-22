@@ -17,7 +17,6 @@ import co.yap.yapcore.constants.Constants.KEY_TOUCH_ID_ENABLED
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.extentions.startFragment
 import co.yap.yapcore.leanplum.KYCEvents
-import co.yap.yapcore.leanplum.SignupEvents
 import com.leanplum.Leanplum
 
 @Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")

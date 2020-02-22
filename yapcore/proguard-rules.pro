@@ -156,6 +156,9 @@
 -keep class android.support.** { *; }
 -keep interface android.support.** { *; }
 
+-keep class * extends android.webkit.WebChromeClient { *; }
+-dontwarn im.delight.android.webview.**
+
 # adjust SDK Progard
 #-keep class com.adjust.sdk.** { *; }
 #-keep class com.google.android.gms.common.ConnectionResult {

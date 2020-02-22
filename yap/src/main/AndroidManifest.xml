@@ -171,8 +171,9 @@
         <activity
             android:name="co.yap.modules.dashboard.yapit.topup.carddetail.TopupCardDetailActivity"
             android:screenOrientation="portrait" />
+
         <activity
-            android:name="co.yap.modules.dashboard.yapit.topup.addtopupcard.activities.AddTopUpCardActivity"
+            android:name="co.yap.modules.dashboard.yapit.topup.addtopupcard.activities.AddTopUpCardActivityV2"
             android:screenOrientation="portrait" />
 
         <activity
