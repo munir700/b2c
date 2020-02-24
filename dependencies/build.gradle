@@ -115,6 +115,7 @@ project.ext {
             analytics                : 'com.google.firebase:firebase-analytics:17.2.0',
             messagingFcm             : 'com.google.firebase:firebase-messaging:19.0.0',
             playServicesLocation     : 'com.google.android.gms:play-services-location:16.0.0',
+            playServicesAnalytics     : 'com.google.android.gms:play-services-analytics:16.0.4',
 
             //Leanplum
             leanplumFcm              : 'com.leanplum:leanplum-fcm:5.2.3',
@@ -133,7 +134,14 @@ project.ext {
 
             //compression
             compression              : 'id.zelory:compressor:2.1.0',
-            exoplayer                : 'com.google.android.exoplayer:exoplayer:2.10.3'
+            exoplayer                : 'com.google.android.exoplayer:exoplayer:2.10.3',
+
+            //adjust
+            adjust                : 'com.adjust.sdk:adjust-android:4.20.0',
+            adjust_referrer       : 'com.android.installreferrer:installreferrer:1.0',
+            adjust_web_bridge       : 'com.adjust.sdk:adjust-android-webbridge:4.20.0'
+
+
     ]
 
     // Test dependencies which need to be added in all modules
@@ -167,7 +175,10 @@ project.ext {
             [configuration: "implementation", dependency: libraries.rxAndroid],
             [configuration: "implementation", dependency: libraries.rxJava],
             [configuration: "implementation", dependency: libraries.compression],
-            [configuration: "implementation", dependency: libraries.exoplayer]
+            [configuration: "implementation", dependency: libraries.exoplayer],
+            [configuration: "implementation", dependency: libraries.adjust],
+            [configuration: "implementation", dependency: libraries.adjust_referrer],
+            [configuration: "implementation", dependency: libraries.adjust_web_bridge]
 
     ]
 

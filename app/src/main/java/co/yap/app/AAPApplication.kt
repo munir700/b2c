@@ -1,5 +1,6 @@
 package co.yap.app
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -17,6 +18,9 @@ import co.yap.yapcore.constants.Constants.EXTRA
 import co.yap.yapcore.constants.Constants.KEY_APP_UUID
 import co.yap.yapcore.helpers.*
 import co.yap.yapcore.helpers.extentions.longToast
+import com.adjust.sdk.Adjust
+import com.adjust.sdk.AdjustConfig
+import com.adjust.sdk.LogLevel
 import com.crashlytics.android.Crashlytics
 import com.github.florent37.inlineactivityresult.kotlin.startForResult
 import com.leanplum.Leanplum
@@ -43,6 +47,8 @@ class AAPApplication : ChatApplication(
             initNetworkLayer()
             setAppUniqueId(this)
             initFirebase()
+            initializeAdjustSDK()
+            registerActivityLifecycleCallbacks(AdjustLifecycleCallbacks())
         }
     }
 
@@ -156,6 +162,49 @@ class AAPApplication : ChatApplication(
                 }
 
             }
+        }
+    }
+
+    /*
+    * IMPORTANT
+    * 1- Make sure to set the environment to "AdjustConfig.ENVIRONMENT_PRODUCTION" before you publish the app.
+    * 2- Use AdjustConfig.ENVIRONMENT_SANDBOX use this while you testing your app
+    * */
+    private fun initializeAdjustSDK() {
+        val appToken = "am0wjeshw5xc"
+        val environment: String = AdjustConfig.ENVIRONMENT_SANDBOX
+//        val environment: String = AdjustConfig.ENVIRONMENT_PRODUCTION
+        val config = AdjustConfig(this, appToken, environment)
+        config.setLogLevel(LogLevel.VERBOSE);
+        Adjust.onCreate(config)
+    }
+
+    private class AdjustLifecycleCallbacks : ActivityLifecycleCallbacks {
+        override fun onActivityResumed(activity: Activity?) {
+            Adjust.onResume()
+        }
+
+        override fun onActivityStarted(activity: Activity?) {
+        }
+
+        override fun onActivityDestroyed(activity: Activity?) {
+
+        }
+
+        override fun onActivitySaveInstanceState(activity: Activity?, outState: Bundle?) {
+
+        }
+
+        override fun onActivityStopped(activity: Activity?) {
+
+        }
+
+        override fun onActivityCreated(activity: Activity?, savedInstanceState: Bundle?) {
+
+        }
+
+        override fun onActivityPaused(activity: Activity?) {
+            Adjust.onPause()
         }
     }
 }
