@@ -21,6 +21,7 @@ import co.yap.yapcore.helpers.DateUtils.FORMAT_DATE_MON_YEAR
 import co.yap.yapcore.helpers.DateUtils.FORMAT_MON_YEAR
 import co.yap.yapcore.helpers.RecyclerTouchListener
 import co.yap.yapcore.helpers.Utils
+import com.yarolegovich.discretescrollview.DiscreteScrollView
 import kotlinx.android.synthetic.main.content_fragment_yap_home.view.*
 import kotlinx.android.synthetic.main.fragment_yap_home.view.*
 import kotlinx.android.synthetic.main.view_graph.view.*
@@ -178,6 +179,11 @@ class TransactionsViewHelper(
 
                 y = view.bottom.toFloat() - view.height - 140
                 // y = viewPosition[1].toFloat() - this.height - toolbarHeight - view.height - Utils.convertDpToPx(context, 20f)
+                val notificationView =
+                    transactionsView.findViewById<DiscreteScrollView>(R.id.rvNotificationList)
+                if (notificationView.adapter?.itemCount?:0 > 0) {
+                    y += notificationView.height
+                }
             }
 
         }

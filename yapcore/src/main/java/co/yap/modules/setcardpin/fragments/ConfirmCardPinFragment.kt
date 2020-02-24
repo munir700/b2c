@@ -1,7 +1,6 @@
 package co.yap.modules.setcardpin.fragments
 
 import android.os.Bundle
-import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
@@ -13,7 +12,9 @@ import co.yap.translation.Strings
 import co.yap.translation.Translator
 import co.yap.yapcore.R
 import co.yap.yapcore.enums.AccountStatus
+import co.yap.yapcore.leanplum.KYCEvents
 import co.yap.yapcore.managers.MyUserManager
+import com.leanplum.Leanplum
 import kotlinx.android.synthetic.main.fragment_set_card_pin.*
 
 open class ConfirmCardPinFragment : SetCardPinFragment() {
@@ -44,7 +45,7 @@ open class ConfirmCardPinFragment : SetCardPinFragment() {
                     }
                 }
                 viewModel.EVENT_SET_CARD_PIN_SUCCESS -> {
-                    // todo move all constants in yapcore
+                    Leanplum.track(KYCEvents.CARD_ACTIVE.type)
                     findNavController().navigate(R.id.action_confirmCardPinFragment_to_setCardPinSuccessFragment)
                     MyUserManager.user?.notificationStatuses = AccountStatus.CARD_ACTIVATED.name
                 }

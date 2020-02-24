@@ -36,7 +36,7 @@ class AAPApplication : ChatApplication(
         BuildConfig.VERSION_NAME,
         BuildConfig.VERSION_CODE,
         BuildConfig.FLAVOR,
-        BuildConfig.BUILD_TYPE
+        BuildConfig.BUILD_TYPE,BuildConfig.BASE_URL
     )
 ), NavigatorProvider {
 
@@ -107,9 +107,11 @@ class AAPApplication : ChatApplication(
             Leanplum.setAppIdForProductionMode(appId, devKey)
         }
 
-        Leanplum.setIsTestModeEnabled(true)
+        //Leanplum.setIsTestModeEnabled(true)
         Leanplum.start(this)
     }
+
+
 
     private fun setAppUniqueId(context: Context) {
         var uuid: String?

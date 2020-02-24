@@ -25,7 +25,10 @@
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
 
-    <application>
+    <application
+        android:allowBackup="false"
+        tools:remove="android:debuggable"
+        tools:replace="android:allowBackup">
         <activity
             android:name=".modules.onboarding.activities.LiteDashboardActivity"
             android:screenOrientation="portrait">
@@ -168,8 +171,9 @@
         <activity
             android:name="co.yap.modules.dashboard.yapit.topup.carddetail.TopupCardDetailActivity"
             android:screenOrientation="portrait" />
+
         <activity
-            android:name="co.yap.modules.dashboard.yapit.topup.addtopupcard.activities.AddTopUpCardActivity"
+            android:name="co.yap.modules.dashboard.yapit.topup.addtopupcard.activities.AddTopUpCardActivityV2"
             android:screenOrientation="portrait" />
 
         <activity

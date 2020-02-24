@@ -252,11 +252,6 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
                 R.id.tvTermsAndConditionView -> {
                     startFragment(fragmentName = WebViewFragment::class.java.name , bundle = bundleOf(
                         co.yap.yapcore.constants.Constants.PAGE_URL to co.yap.yapcore.constants.Constants.URL_TERMS_CONDITION),showToolBar = true )
-//                    Utils.openWebPage(
-//                        co.yap.yapcore.constants.Constants.URL_TERMS_CONDITION,
-//                        "",
-//                        activity
-//                    )
                 }
 
                 R.id.tvFollowOnInstagram -> {

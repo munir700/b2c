@@ -69,7 +69,4 @@ class CreateNewPasscodeFragment : BaseBindingFragment<ICreatePasscode.ViewModel>
         return viewDataBinding as FragmentCreateNewPasscodeBinding
     }
 
-    override fun onPause() {
-        super.onPause()
-    }
 }

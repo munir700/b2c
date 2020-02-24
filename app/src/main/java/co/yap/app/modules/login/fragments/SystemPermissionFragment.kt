@@ -16,6 +16,8 @@ import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.constants.Constants.KEY_TOUCH_ID_ENABLED
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.extentions.startFragment
+import co.yap.yapcore.leanplum.KYCEvents
+import com.leanplum.Leanplum
 
 @Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
 class SystemPermissionFragment : BaseBindingFragment<ISystemPermission.ViewModel>(),
@@ -56,6 +58,7 @@ class SystemPermissionFragment : BaseBindingFragment<ISystemPermission.ViewModel
     private val permissionGrantedObserver = Observer<Boolean> {
         if (viewModel.screenType == Constants.TOUCH_ID_SCREEN_TYPE) {
             sharedPreferenceManager.save(KEY_TOUCH_ID_ENABLED, true)
+            Leanplum.track(KYCEvents.SIGN_UP_ENABLED_PERMISSION.type,"TouchID")
             val action =
                 SystemPermissionFragmentDirections.actionSystemPermissionFragmentToSystemPermissionFragmentNotification(
                     Constants.NOTIFICATION_SCREEN_TYPE

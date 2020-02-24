@@ -12,13 +12,16 @@ import co.yap.networking.messages.MessagesRepository
 import co.yap.networking.messages.requestdtos.CreateOtpOnboardingRequest
 import co.yap.networking.models.RetroApiResponse
 import co.yap.yapcore.SingleLiveEvent
+import co.yap.yapcore.leanplum.SignupEvents
+import com.leanplum.Leanplum
 import java.util.*
 
-class MobileViewModel(application: Application) : OnboardingChildViewModel<IMobile.State>(application),
+class MobileViewModel(application: Application) :
+    OnboardingChildViewModel<IMobile.State>(application),
     IMobile.ViewModel, IRepositoryHolder<MessagesRepository> {
 
     override val repository: MessagesRepository = MessagesRepository
-    override val state: MobileState = MobileState(application)
+    override val state: MobileState = MobileState(application, this)
     override val nextButtonPressEvent: SingleLiveEvent<Boolean> = SingleLiveEvent()
 
     override fun onResume() {
@@ -36,6 +39,7 @@ class MobileViewModel(application: Application) : OnboardingChildViewModel<IMobi
     override fun handlePressOnNext() {
         // Record the updatedDate
         parentViewModel?.onboardingData?.startTime = Date()
+        Leanplum.track(SignupEvents.SIGN_UP_NUMBER.type)
         // Send OTP request
         createOtp()
     }
@@ -43,7 +47,7 @@ class MobileViewModel(application: Application) : OnboardingChildViewModel<IMobi
     override fun onEditorActionListener(): TextView.OnEditorActionListener {
         return TextView.OnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
-                if (state.valid){
+                if (state.valid) {
                     handlePressOnNext()
                 }
             }
@@ -55,7 +59,10 @@ class MobileViewModel(application: Application) : OnboardingChildViewModel<IMobi
         var mobileNumber: String = state.mobile.trim().replace(state.countryCode.trim(), "")
         mobileNumber = state.mobile.trim().replace(" ", "")
         val formattedMobileNumber: String =
-            state.countryCode.trim() + " " + state.mobile.trim().replace(state.countryCode.trim(), "")
+            state.countryCode.trim() + " " + state.mobile.trim().replace(
+                state.countryCode.trim(),
+                ""
+            )
         val countryCode: String = state.countryCode.trim().replace("+", "00")
 
         launch {

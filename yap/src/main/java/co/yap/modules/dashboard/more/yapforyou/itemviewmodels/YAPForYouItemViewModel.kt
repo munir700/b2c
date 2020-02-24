@@ -7,7 +7,6 @@ import co.yap.yapcore.interfaces.OnItemClickListener
 class YAPForYouItemViewModel(
     val achievement: Achievement,
     val position: Int,
-    val icon: Int = -1,
     private val onItemClickListener: OnItemClickListener?
 ) {
     fun handlePressOnView(view: View) {

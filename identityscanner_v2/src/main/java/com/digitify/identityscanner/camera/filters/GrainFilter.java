@@ -15,7 +15,6 @@ import java.util.Random;
  */
 public class GrainFilter extends BaseFilter implements OneParameterFilter {
 
-    private final static Random RANDOM = new Random();
     private final static String FRAGMENT_SHADER = "#extension GL_OES_EGL_image_external : require\n"
             + "precision mediump float;\n"
             + "vec2 seed;\n"
@@ -38,8 +37,8 @@ public class GrainFilter extends BaseFilter implements OneParameterFilter {
             + "  return fract(sum)*scale;\n"
             + "}\n"
             + "void main() {\n"
-            + "  seed[0] = " + RANDOM.nextFloat() + ";\n"
-            + "  seed[1] = " + RANDOM.nextFloat() + ";\n"
+            + "  seed[0] = " + System.currentTimeMillis() + ";\n"
+            + "  seed[1] = " + System.currentTimeMillis() + ";\n"
             + "  float noise = texture2D(tex_sampler_1, "+DEFAULT_FRAGMENT_TEXTURE_COORDINATE_NAME
             + " + vec2(-stepX, -stepY)).r * 0.224;\n"
             + "  noise += texture2D(tex_sampler_1, "+DEFAULT_FRAGMENT_TEXTURE_COORDINATE_NAME

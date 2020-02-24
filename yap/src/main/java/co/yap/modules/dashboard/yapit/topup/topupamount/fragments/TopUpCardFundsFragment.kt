@@ -12,7 +12,7 @@ import co.yap.BR
 import co.yap.R
 import co.yap.databinding.FragmentTopUpCardFundsBinding
 import co.yap.modules.dashboard.cards.paymentcarddetail.addfunds.interfaces.IFundActions
-import co.yap.modules.dashboard.yapit.topup.addtopupcard.activities.AddTopUpCardActivity
+import co.yap.modules.dashboard.yapit.topup.addtopupcard.activities.AddTopUpCardActivityV2
 import co.yap.modules.dashboard.yapit.topup.topupamount.activities.TopUpCardActivity
 import co.yap.modules.dashboard.yapit.topup.topupamount.viewModels.TopUpCardFundsViewModel
 import co.yap.translation.Strings
@@ -82,7 +82,7 @@ class TopUpCardFundsFragment : BaseBindingFragment<IFundActions.ViewModel>(),
 
         viewModel.htmlLiveData.observe(this, Observer {
             if (!it.isNullOrEmpty()) {
-                launchActivity<AddTopUpCardActivity>(requestCode = Constants.EVENT_TOP_UP_CARD_TRANSACTION) {
+                launchActivity<AddTopUpCardActivityV2>(requestCode = Constants.EVENT_TOP_UP_CARD_TRANSACTION) {
                     putExtra(Constants.KEY, it)
                     putExtra(Constants.TYPE, Constants.TYPE_TOP_UP_TRANSACTION)
                 }
