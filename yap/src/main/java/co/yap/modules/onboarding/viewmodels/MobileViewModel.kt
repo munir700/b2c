@@ -1,7 +1,6 @@
 package co.yap.modules.onboarding.viewmodels
 
 import android.app.Application
-import android.view.KeyEvent
 import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import android.widget.TextView
@@ -39,7 +38,6 @@ class MobileViewModel(application: Application) :
     override fun handlePressOnNext() {
         // Record the updatedDate
         parentViewModel?.onboardingData?.startTime = Date()
-        Leanplum.track(SignupEvents.SIGN_UP_NUMBER.type)
         // Send OTP request
         createOtp()
     }
@@ -64,7 +62,7 @@ class MobileViewModel(application: Application) :
                 ""
             )
         val countryCode: String = state.countryCode.trim().replace("+", "00")
-
+        Leanplum.track(SignupEvents.SIGN_UP_NUMBER.type, countryCode + mobileNumber)
         launch {
             state.loading = true
             when (val response = repository.createOtpOnboarding(
@@ -83,6 +81,7 @@ class MobileViewModel(application: Application) :
                 is RetroApiResponse.Error -> {
                     state.error = response.error.message
                     state.mobileError = response.error.message
+                    Leanplum.track(SignupEvents.SIGN_UP_NUMBER_ERROR.type, response.error.message)
                 }
             }
             state.loading = false

@@ -46,7 +46,10 @@ class NameFragment : OnboardingChildFragment<IName.ViewModel>(), IName.View {
     }
 
     private val nextButtonObserver = Observer<Boolean> {
-        Leanplum.track(SignupEvents.SIGN_UP_NAME.type)
+        Leanplum.track(
+            SignupEvents.SIGN_UP_NAME.type,
+            viewModel.state.firstName + " " + viewModel.state.firstName
+        )
         navigate(R.id.emailFragment)
     }
 }

@@ -322,7 +322,8 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
     private fun checkUserStatus() {
         when (MyUserManager.user?.notificationStatuses) {
             AccountStatus.ON_BOARDED.name, AccountStatus.CAPTURED_EID.name -> {
-                addCompleteVerificationNotification()
+                if (PartnerBankStatus.ACTIVATED.status != MyUserManager.user?.partnerBankStatus)
+                    addCompleteVerificationNotification()
             }
 
             AccountStatus.MEETING_SCHEDULED.name -> {
