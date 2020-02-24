@@ -134,8 +134,20 @@
                     android:ellipsize="end"
                     android:gravity="bottom"
                     android:lines="1"
-                    android:text="@{viewModel.beneficiary.fullName()}"
+                    android:text="@{viewModel.beneficiary.title}"
                     tools:text="Bril Lizzie Hugsadsadflksjdflkjsalk,nmbmfdjlsajfdllsjdflksjdflkjlsdfjklksdjfkljsdfalkfjaskljflkasfjlkasdjlfjfjlkasdfjklhes" />
+
+                <TextView
+                    android:id="@+id/tvFullName"
+                    style="@style/AMicroGrey"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:ellipsize="end"
+                    android:gravity="bottom"
+                    android:lines="1"
+                    android:text="@{viewModel.beneficiary.fullName()}"
+                    tools:text="Bril Lizzie " />
 
             </LinearLayout>
 
@@ -144,9 +156,9 @@
                 android:layout_width="@dimen/_70sdp"
                 android:layout_height="0dp"
                 android:gravity="center"
-                app:layout_constraintBottom_toBottomOf="@+id/content"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/content">
+                app:layout_constraintTop_toTopOf="parent">
 
 
                 <ImageView
@@ -165,8 +177,8 @@
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/flag_img"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="@dimen/_25sdp"
+                    android:layout_height="@dimen/_25sdp"
                     tools:src="@drawable/flag_ae"
                     app:setFlagDrawable ="@{viewModel.beneficiary.country}" />
 
