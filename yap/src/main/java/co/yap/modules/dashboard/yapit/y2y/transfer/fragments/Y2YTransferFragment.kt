@@ -15,9 +15,9 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import co.yap.BR
 import co.yap.R
 import co.yap.databinding.FragmentY2yFundsTransferBinding
-import co.yap.modules.dashboard.yapit.y2y.home.activities.YapToYapDashboardActivity
 import co.yap.modules.dashboard.yapit.y2y.main.fragments.Y2YBaseFragment
 import co.yap.modules.dashboard.yapit.y2y.transfer.interfaces.IY2YFundsTransfer
 import co.yap.modules.dashboard.yapit.y2y.transfer.viewmodels.Y2YFundsTransferViewModel
@@ -26,7 +26,6 @@ import co.yap.modules.otp.OtpDataModel
 import co.yap.modules.otp.OtpToolBarData
 import co.yap.translation.Strings
 import co.yap.translation.Translator
-import co.yap.yapcore.BR
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.OTPActions
 import co.yap.yapcore.helpers.DecimalDigitsInputFilter
@@ -35,7 +34,6 @@ import co.yap.yapcore.helpers.extentions.startFragmentForResult
 import co.yap.yapcore.helpers.spannables.color
 import co.yap.yapcore.helpers.spannables.getText
 import co.yap.yapcore.managers.MyUserManager
-import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_y2y_funds_transfer.*
 
 
@@ -93,7 +91,7 @@ class Y2YTransferFragment : Y2YBaseFragment<IY2YFundsTransfer.ViewModel>(), IY2Y
         when (it) {
             R.id.btnConfirm -> {
                 when {
-                    viewModel.enteredAmount.value?.toDoubleOrNull() ?: 0.0 < viewModel.state.minLimit || viewModel.state.amount.toDoubleOrNull() ?: 0.0 > viewModel.state.maxLimit -> {
+                    viewModel.enteredAmount.value?.toDoubleOrNull() ?: 0.0 < viewModel.state.minLimit || viewModel.enteredAmount.value?.toDoubleOrNull() ?: 0.0 > viewModel.state.maxLimit -> {
                         setUpperLowerLimitError()
                         viewModel.errorEvent.call()
                     }
@@ -235,28 +233,23 @@ class Y2YTransferFragment : Y2YBaseFragment<IY2YFundsTransfer.ViewModel>(), IY2Y
         findNavController().navigate(action)
     }
 
+    //    private fun showErrorSnackBar(isShowBar: Boolean) {
+//        if (isShowBar)
+//        CustomSnackbar.showErrorCustomSnackbar(
+//            context = requireContext(),
+//            layout = getBinding().clFTSnackbar,
+//            message = viewModel.state.errorDescription,
+//            duration = Snackbar.LENGTH_INDEFINITE
+//        )
+//        else
+//            CustomSnackbar.cancelAllSnackBar()
+//    }
     private fun showErrorSnackBar(isShowBar: Boolean) {
         if (isShowBar)
-        CustomSnackbar.showErrorCustomSnackbar(
-            context = requireContext(),
-            layout = clFTSnackbar,
-            message = viewModel.state.errorDescription,
-            duration = Snackbar.LENGTH_INDEFINITE
-        )
+            viewModel.parentViewModel?.errorEvent?.value = viewModel.state.errorDescription
         else
-            CustomSnackbar.cancelAllSnackBar()
-    }
-    private fun showErrorSnackBar() {
-        if (activity is YapToYapDashboardActivity) {
-            (activity as YapToYapDashboardActivity).viewModel.errorEvent.value =
-                viewModel.state.errorDescription
-        }
+            viewModel.parentViewModel?.errorEvent?.value = null
 
-        /*   CustomSnackbar.showErrorCustomSnackbar(
-               context = requireContext(),
-               layout = clFTSnackbar,
-               message = viewModel.state.errorDescription
-           )*/
     }
 
     override fun onDestroy() {

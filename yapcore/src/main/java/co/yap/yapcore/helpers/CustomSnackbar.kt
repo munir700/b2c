@@ -21,7 +21,7 @@ object CustomSnackbar {
         layout: CoordinatorLayout,
         message: String,
         duration: Int = 5000
-    ) {
+    ):Snackbar {
         layout.bringToFront()
         val snackbar = Snackbar.make(layout, message, duration)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -55,7 +55,7 @@ object CustomSnackbar {
         }
 
         SnackBarQueue.snackBarQueue.add(snackbar)
-        snackbar.show()
+        return snackbar
     }
 
     fun getCustomSnackbarSticky(

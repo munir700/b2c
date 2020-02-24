@@ -7,11 +7,11 @@ import android.os.Parcelable
 import android.view.inputmethod.InputMethodManager
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import co.yap.BR
 import co.yap.R
 import co.yap.databinding.ActivityYapToYapDashboardBinding
 import co.yap.modules.dashboard.yapit.y2y.main.interfaces.IY2Y
 import co.yap.modules.dashboard.yapit.y2y.main.viewmodels.Y2YViewModel
-import co.yap.yapcore.BR
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.IFragmentHolder
 import co.yap.yapcore.defaults.DefaultNavigator
@@ -20,6 +20,7 @@ import co.yap.yapcore.helpers.CustomSnackbar
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.interfaces.BackPressImpl
 import co.yap.yapcore.interfaces.IBaseNavigator
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_yap_to_yap_dashboard.*
 
 class YapToYapDashboardActivity : BaseBindingActivity<IY2Y.ViewModel>(), INavigator,
@@ -38,7 +39,7 @@ class YapToYapDashboardActivity : BaseBindingActivity<IY2Y.ViewModel>(), INaviga
     }
 
 
-    override fun getBindingVariable(): Int = BR.viewModel
+    override fun getBindingVariable(): Int =  BR.viewModel
     override fun getLayoutId(): Int = R.layout.activity_yap_to_yap_dashboard
     override val viewModel: IY2Y.ViewModel get() = ViewModelProviders.of(this).get(Y2YViewModel::class.java)
 
@@ -60,9 +61,10 @@ class YapToYapDashboardActivity : BaseBindingActivity<IY2Y.ViewModel>(), INaviga
     }
 
     val errorEvent = Observer<String> {
-        if (!it.isNullOrEmpty()) {
+        if (!it.isNullOrEmpty())
             showErrorSnackBar(it)
-        }
+        else
+            hideErrorSnackBar()
     }
 
     private val clickEventObserver = Observer<Int> {
@@ -77,11 +79,17 @@ class YapToYapDashboardActivity : BaseBindingActivity<IY2Y.ViewModel>(), INaviga
     }
 
     private fun showErrorSnackBar(errorMessage: String) {
-        CustomSnackbar.showErrorCustomSnackbar(
+
+        val snackbar = CustomSnackbar.showErrorCustomSnackbar(
             context = this,
             layout = clSnackBar,
-            message = errorMessage
+            message = errorMessage,
+            duration = Snackbar.LENGTH_INDEFINITE
         )
+    }
+
+    private fun hideErrorSnackBar() {
+        CustomSnackbar.cancelAllSnackBar()
     }
 
     private fun getBody(): String {
