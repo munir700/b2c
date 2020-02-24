@@ -53,6 +53,8 @@ import co.yap.yapcore.enums.CardStatus
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.cancelAllSnackBar
 import co.yap.yapcore.helpers.confirm
+import co.yap.yapcore.helpers.extentions.disableScroll
+import co.yap.yapcore.helpers.extentions.enableScroll
 import co.yap.yapcore.helpers.extentions.preventTakeScreenShot
 import co.yap.yapcore.helpers.showSnackBar
 import co.yap.yapcore.helpers.spannables.underline
@@ -67,7 +69,6 @@ import kotlinx.android.synthetic.main.layout_card_info.*
 class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewModel>(),
     IPaymentCardDetail.View, CardClickListener {
 
-    private var snackbar: Snackbar? = null
     private lateinit var primaryCardBottomSheet: PrimaryCardBottomSheet
     private lateinit var spareCardBottomSheet: SpareCardBottomSheet
 
@@ -141,8 +142,10 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
                 getRecycleViewAdaptor().addList(listToAppend)
             } else {
                 if (it.isEmpty()) {
+                    collapsingToolbar.disableScroll()
                     viewModel.state.isTxnsEmpty.set(true)
                 } else {
+                    collapsingToolbar.enableScroll()
                     viewModel.state.isTxnsEmpty.set(false)
                     getRecycleViewAdaptor().setList(it)
                 }
