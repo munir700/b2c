@@ -35,7 +35,6 @@ class AddBeneficiaryViewModel(application: Application) :
     override fun onCreate() {
         super.onCreate()
         state.selectedBeneficiaryType = parentViewModel?.beneficiary?.value?.beneficiaryType
-
         parentViewModel?.selectedCountry?.value?.let {
             state.country = it.getName()
             state.country2DigitIsoCode = it.isoCountryCode2Digit ?: "AE"
@@ -67,14 +66,26 @@ class AddBeneficiaryViewModel(application: Application) :
                 if (beneficiaryType.isEmpty()) return@let
                 when (SendMoneyBeneficiaryType.valueOf(beneficiaryType)) {
                     SendMoneyBeneficiaryType.CASHPAYOUT -> {
-                        parentViewModel?.beneficiary?.value?.let { validateBeneficiaryDetails(it) }
+                        parentViewModel?.beneficiary?.value?.let {
+                            validateBeneficiaryDetails(
+                                it,
+                                Constants.CASHPAYOUT_BENEFICIARY
+                            )
+                        }
+                    }
+                    SendMoneyBeneficiaryType.DOMESTIC -> {
+                        parentViewModel?.beneficiary?.value?.let {
+                            validateBeneficiaryDetails(
+                                it,
+                                Constants.DOMESTIC_BENEFICIARY
+                            )
+                        }
                     }
                     else -> {
-                        state.transferType = "Bank Transfer"
+                        clickEvent.setValue(id)
                     }
                 }
             }
-            clickEvent.setValue(id)
         } else {
             clickEvent.setValue(id)
         }
@@ -90,6 +101,7 @@ class AddBeneficiaryViewModel(application: Application) :
                     )
                 )) {
                 is RetroApiResponse.Success -> {
+                    state.otpType = action
                     otpCreateObserver.value = true
                 }
                 is RetroApiResponse.Error -> {
@@ -101,13 +113,13 @@ class AddBeneficiaryViewModel(application: Application) :
         }
     }
 
-    override fun validateBeneficiaryDetails(beneficiaryy: Beneficiary) {
+    override fun validateBeneficiaryDetails(beneficiaryy: Beneficiary, otpType: String) {
         launch {
             state.loading = true
             when (val response = repository.validateBeneficiary(beneficiaryy)) {
                 is RetroApiResponse.Success -> {
                     state.loading = false
-                    createOtp(Constants.CASHPAYOUT_BENEFICIARY)
+                    createOtp(otpType)
                 }
 
                 is RetroApiResponse.Error -> {
@@ -123,6 +135,7 @@ class AddBeneficiaryViewModel(application: Application) :
         parentViewModel?.beneficiary?.value?.firstName = state.firstName
         parentViewModel?.beneficiary?.value?.lastName = state.lastName
         parentViewModel?.beneficiary?.value?.mobileNo = state.mobileNo
+        parentViewModel?.beneficiary?.value?.accountNo = state.iban.replace(" ", "")
         parentViewModel?.selectedCountry?.value?.let {
             parentViewModel?.beneficiary?.value?.currency = it.getCurrency()?.code
             parentViewModel?.beneficiary?.value?.country = it.isoCountryCode2Digit
@@ -134,7 +147,8 @@ class AddBeneficiaryViewModel(application: Application) :
     }
 
     override fun addCashPickupBeneficiary() {
-        parentViewModel?.beneficiary?.value?.let {
+        parentViewModel?.beneficiary?.value?.also {
+            it.accountNo = null
             launch {
                 state.loading = true
                 when (val response = repository.addBeneficiary(it)) {

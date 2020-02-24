@@ -110,7 +110,6 @@ class AddBeneficiaryInternationlTransferFragment :
 
     private val otpSuccessObserver = Observer<Boolean> {
         if (it) {
-            viewModel.parentViewModel?.beneficiary?.value?.currency = null
             viewModel.addCashPickupBeneficiary()
             viewModel.parentViewModel?.otpSuccess?.value = false
         }

@@ -29,22 +29,8 @@ class AchievementDetailViewModel(application: Application) :
 
     override fun onCreate() {
         super.onCreate()
-        state.achievementIcon.set(getAchievementDetailIcon(parentViewModel?.selectedPosition))
         parentViewModel?.achievement?.features?.let {
             adapter.setList(it)
         }
     }
-
-    private fun getAchievementDetailIcon(selectedPosition: Int?): Int {
-        return when (selectedPosition) {
-            0 -> R.drawable.ic_badge_dark_purple
-            1 -> R.drawable.ic_badge_dark_blue
-            2 -> R.drawable.ic_badge_dark_peach
-            3 -> R.drawable.ic_badge_dark_green
-            4 -> R.drawable.ic_badge_dark_pink
-            5 -> R.drawable.ic_badge_dark_green
-            else -> R.drawable.ic_badge_dark_grey
-        }
-    }
-
 }

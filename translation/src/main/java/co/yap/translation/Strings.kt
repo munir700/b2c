@@ -28,6 +28,9 @@ object Strings {
     const val common_display_text_available_balance_error: String =
         "common_display_text_available_balance_error"
 
+    const val common_display_text_min_max_limit_error_transaction: String =
+        "common_display_text_min_max_limit_error_transaction"
+
     //Home screen
     const val screen_home_display_text_tag_line: String = "screen_home_display_text_tag_line"
     const val screen_home_display_text_account_selection: String =
@@ -1057,6 +1060,8 @@ object Strings {
         "screen_crash_transfer_success_display_text_share_code"
     const val screen_crash_transfer_success_button_text_back: String =
         "screen_crash_transfer_success_button_text_back"
+    const val screen_cash_transfer_display_text_available_balance: String =
+        "screen_cash_transfer_display_text_available_balance"
 
     //    International Funds Transfer
     const val screen_international_funds_transfer_display_text_title: String =
@@ -1190,6 +1195,11 @@ object Strings {
         "screen_funds_transfer_fee_description"
     const val scren_send_money_funds_transfer_display_text_amount_error: String =
         "scren_send_money_funds_transfer_display_text_amount_error"
+    const val scren_send_money_funds_transfer_confirmation_display_text_amount_uaefts: String =
+        "scren_send_money_funds_transfer_confirmation_display_text_amount_uaefts"
+    const val scren_send_money_funds_transfer_confirmation_display_text_fee: String =
+        "scren_send_money_funds_transfer_confirmation_display_text_fee"
+
 
 
     // Screen cash pickup funds transfer success

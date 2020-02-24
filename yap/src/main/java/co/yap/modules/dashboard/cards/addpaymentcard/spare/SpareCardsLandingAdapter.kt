@@ -18,7 +18,7 @@ class SpareCardsLandingAdapter(
 
     override fun onCreateViewHolder(p0: ViewGroup, p1: Int): ViewHolder {
         val v = LayoutInflater.from(p0.context).inflate(R.layout.item_benefits, p0, false)
-        return ViewHolder(v, listener)
+        return ViewHolder(v)
     }
 
     override fun getItemCount(): Int {
@@ -31,15 +31,10 @@ class SpareCardsLandingAdapter(
         holder.tvBenefit.text = benefitsModel.benfitTitle
 
 
-        holder.itemView.setOnClickListener(object : View.OnClickListener {
-            override fun onClick(v: View?) {
-                listener!!.onItemClick(benefitsModel)
-            }
-
-        })
+        holder.itemView.setOnClickListener { listener?.onItemClick(benefitsModel) }
     }
 
-    class ViewHolder(itemView: View, listener: OnItemClickedListener?) :
+    class ViewHolder(itemView: View) :
         RecyclerView.ViewHolder(itemView) {
         val tvBenefit: TextView = itemView.tvBenefit
     }

@@ -1,9 +1,7 @@
 package co.yap.modules.onboarding.viewmodels
 
 import android.app.Application
-import co.yap.BR
 import co.yap.R
-import co.yap.modules.onboarding.activities.OnboardingActivity
 import co.yap.modules.onboarding.enums.AccountType
 import co.yap.modules.onboarding.interfaces.IWelcome
 import co.yap.modules.onboarding.models.WelcomeContent
@@ -12,7 +10,8 @@ import co.yap.translation.Strings
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleLiveEvent
 
-class WelcomeViewModel(application: Application) : BaseViewModel<IWelcome.State>(application), IWelcome.ViewModel {
+class WelcomeViewModel(application: Application) : BaseViewModel<IWelcome.State>(application),
+    IWelcome.ViewModel {
 
     override var onGetStartedPressEvent: SingleLiveEvent<Boolean> = SingleLiveEvent()
     override lateinit var accountType: AccountType

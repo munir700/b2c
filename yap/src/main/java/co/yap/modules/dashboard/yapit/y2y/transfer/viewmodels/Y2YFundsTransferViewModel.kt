@@ -35,6 +35,7 @@ class Y2YFundsTransferViewModel(application: Application) :
             getString(Strings.screen_add_funds_display_text_available_balance)
         state.currencyType = "AED"
         getTransactionThresholds()
+        getTransactionLimits()
     }
 
     override fun handlePressOnView(id: Int) {
@@ -98,6 +99,22 @@ class Y2YFundsTransferViewModel(application: Application) :
                 }
             }
         }
+    }
+
+    override fun getTransactionLimits() {
+        launch {
+            when (val response =
+                repository.getFundTransferLimits(TransactionProductCode.Y2Y_TRANSFER.pCode)) {
+                is RetroApiResponse.Success -> {
+                    state.maxLimit = response.data.data?.maxLimit?.toDouble() ?: 0.00
+                    state.minLimit = response.data.data?.minLimit?.toDouble() ?: 0.00
+                }
+                is RetroApiResponse.Error -> {
+                    state.toast = response.error.message
+                }
+            }
+        }
+
     }
 
     override fun onResume() {

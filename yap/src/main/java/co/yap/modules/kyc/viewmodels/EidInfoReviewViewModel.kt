@@ -14,12 +14,12 @@ import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.enums.EIDStatus
 import co.yap.yapcore.helpers.DateUtils
-import co.yap.yapcore.helpers.extentions.trackEvent
-import co.yap.yapcore.leanplum.TrackEvents
+import co.yap.yapcore.leanplum.KYCEvents
 import co.yap.yapcore.managers.MyUserManager
 import com.digitify.identityscanner.core.arch.Gender
 import com.digitify.identityscanner.docscanner.models.Identity
 import com.digitify.identityscanner.docscanner.models.IdentityScannerResult
+import com.leanplum.Leanplum
 import okhttp3.MediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -61,7 +61,8 @@ class EidInfoReviewViewModel(application: Application) :
                 }
                 !it.isDateOfBirthValid -> {
                     clickEvent.setValue(EVENT_ERROR_UNDER_AGE)
-                    trackEvent(TrackEvents.EIDA_CALLBACK_UNDER_18)
+                    Leanplum.track(KYCEvents.EID_UNDER_AGE_18.type)
+
                 }
                 it.nationality.equals("USA", true) || it.isoCountryCode2Digit.equals(
                     "US",
@@ -70,7 +71,7 @@ class EidInfoReviewViewModel(application: Application) :
                     sanctionedCountry = it.nationality
                     sanctionedNationality = it.nationality
                     clickEvent.setValue(EVENT_ERROR_FROM_USA)
-                    trackEvent(TrackEvents.EIDA_CALLBACK_US_CITIZEN)
+                    Leanplum.track(KYCEvents.KYC_US_CITIIZEN.type)
                 }
                 it.isoCountryCode2Digit.equals(
                     sectionedCountries?.data?.find { country ->
@@ -86,7 +87,7 @@ class EidInfoReviewViewModel(application: Application) :
                     clickEvent.setValue(
                         EVENT_ERROR_FROM_USA
                     )
-                    trackEvent(TrackEvents.EIDA_CALLBACK_PROHIBITED_CITIZENS)
+                    Leanplum.track(KYCEvents.KYC_PROHIBITED_CITIIZEN.type)
                 }
                 parentViewModel?.document != null && it.citizenNumber != parentViewModel?.document?.identityNo && it.givenName + " " + it.sirName != parentViewModel?.document?.fullName -> {
                     state.toast = "Your EID doesn't match with the current EID."
@@ -203,6 +204,16 @@ class EidInfoReviewViewModel(application: Application) :
 
                 when (response) {
                     is RetroApiResponse.Success -> {
+                        when (MyUserManager.eidStatus) {
+                            EIDStatus.EXPIRED, EIDStatus.VALID -> {
+                                MyUserManager.eidStatus = EIDStatus.VALID
+                                clickEvent.setValue(EVENT_EID_UPDATE)
+                            }
+                            EIDStatus.NOT_SET -> {
+                                MyUserManager.eidStatus = EIDStatus.VALID
+                                clickEvent.setValue(EVENT_NEXT)
+                            }
+                        }
                         MyUserManager.eidStatus = EIDStatus.VALID
                         clickEvent.setValue(EVENT_NEXT)
                     }

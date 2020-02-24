@@ -6,9 +6,17 @@ import androidx.databinding.library.baseAdapters.BR
 import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.interfaces.IAddBeneficiary
 import co.yap.yapcore.BaseState
 import co.yap.yapcore.enums.SendMoneyBeneficiaryType.*
+import co.yap.yapcore.helpers.StringUtils
 
 class AddBeneficiaryStates : BaseState(),
     IAddBeneficiary.State {
+
+    @get:Bindable
+    override var otpType: String? = ""
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.otpType)
+        }
 
     @get:Bindable
     override var selectedBeneficiaryType: String? = ""
@@ -101,7 +109,7 @@ class AddBeneficiaryStates : BaseState(),
     @get:Bindable
     override var mobileNo: String = ""
         set(value) {
-            field = value.replace(" ","")
+            field = value.replace(" ", "")
             notifyPropertyChanged(co.yap.BR.mobile)
             if (mobileNo.length < 9) {
                 mobileNoLength = 11
@@ -242,7 +250,7 @@ class AddBeneficiaryStates : BaseState(),
                 }
                 DOMESTIC -> {
                     valid =
-                        nickName.length > 1 && firstName.length > 1 && lastName.length > 1 && iban.isNotEmpty() && confirmIban.isNotEmpty() && iban == confirmIban
+                        nickName.length > 1 && firstName.length > 1 && lastName.length > 1  && iban.isNotEmpty() && confirmIban.isNotEmpty() && StringUtils.isValidIBAN(iban) && iban == confirmIban
                 }
                 CASHPAYOUT -> {
                     valid =

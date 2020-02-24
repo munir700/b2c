@@ -46,9 +46,11 @@ import co.yap.yapcore.IFragmentHolder
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.PartnerBankStatus
 import co.yap.yapcore.helpers.extentions.dimen
+import co.yap.yapcore.helpers.extentions.launchActivity
 import co.yap.yapcore.helpers.permissions.PermissionHelper
 import co.yap.yapcore.managers.MyUserManager
 import kotlinx.android.synthetic.main.activity_yap_dashboard.*
+
 import kotlinx.android.synthetic.main.layout_drawer_yap_dashboard.*
 import net.cachapa.expandablelayout.ExpandableLayout
 
@@ -296,7 +298,7 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
 
     override fun onBackPressed() {
         if (actionMenu?.isOpen!! && !actionMenu?.isAnimating()!!) {
-            actionMenu?.toggle(ivYapIt, true)
+            actionMenu?.toggle(getViewBinding().ivYapIt, true)
         } else if (drawerLayout.isDrawerOpen(GravityCompat.END)) closeDrawer()
         else if (getViewBinding().viewPager.currentItem != 0) {
             bottomNav.selectedItemId = R.id.yapHome
@@ -316,7 +318,11 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
         }
         getViewBinding().includedDrawerLayout.lStatements.lnAnalytics.setOnClickListener {
             MyUserManager.getPrimaryCard()?.let {
-                startActivity(CardStatementsActivity.newIntent(this, it))
+                launchActivity<CardStatementsActivity> {
+                    putExtra(CardStatementsActivity.CARD, it)
+                    putExtra("isFromDrawer",true)
+                }
+                //startActivity(CardStatementsActivity.newIntent(this, it))
                 closeDrawer()
             }
         }

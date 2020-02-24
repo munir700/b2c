@@ -21,9 +21,9 @@ import co.yap.yapcore.constants.Constants.KEY_IS_USER_LOGGED_IN
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.toast
-import co.yap.yapcore.helpers.extentions.trackEvent
-import co.yap.yapcore.leanplum.TrackEvents
+import co.yap.yapcore.leanplum.SignupEvents
 import co.yap.yapcore.managers.MyUserManager
+import com.leanplum.Leanplum
 import java.util.*
 import java.util.concurrent.TimeUnit
 
@@ -65,6 +65,10 @@ class EmailViewModel(application: Application) :
             )
     }
 
+
+
+
+
     private fun signUp() {
         launch {
             state.refreshField = true
@@ -91,7 +95,7 @@ class EmailViewModel(application: Application) :
 
                     sharedPreferenceManager.saveUserNameWithEncryption(state.twoWayTextWatcher)
                     setVerificationLabel()
-                    trackEvent(TrackEvents.EMAIL_ADDRESS_ENTERED)
+                    Leanplum.track(SignupEvents.SIGN_UP_EMAIL.type)
                     state.loading = false
                 }
 
@@ -134,7 +138,7 @@ class EmailViewModel(application: Application) :
             when (val response = repository.sendVerificationEmail(
                 SendVerificationEmailRequest(
                     state.twoWayTextWatcher,
-                    parentViewModel!!.onboardingData.accountType.toString()
+                    parentViewModel?.onboardingData?.accountType.toString()
                 )
             )) {
                 is RetroApiResponse.Error -> {

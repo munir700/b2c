@@ -1,11 +1,7 @@
 package co.yap.app
 
-import android.app.NotificationChannel
-import android.app.NotificationManager
 import android.content.Context
 import android.content.Intent
-import android.graphics.Color
-import android.os.Build
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentActivity
@@ -19,10 +15,7 @@ import co.yap.networking.interfaces.NetworkConstraintsListener
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.Constants.EXTRA
 import co.yap.yapcore.constants.Constants.KEY_APP_UUID
-import co.yap.yapcore.helpers.AppInfo
-import co.yap.yapcore.helpers.AuthUtils
-import co.yap.yapcore.helpers.NetworkConnectionManager
-import co.yap.yapcore.helpers.SharedPreferenceManager
+import co.yap.yapcore.helpers.*
 import co.yap.yapcore.helpers.extentions.longToast
 import com.crashlytics.android.Crashlytics
 import com.github.florent37.inlineactivityresult.kotlin.startForResult
@@ -45,11 +38,12 @@ class AAPApplication : ChatApplication(
 
     override fun onCreate() {
         super.onCreate()
-        SharedPreferenceManager(this).setThemeValue(Constants.THEME_YAP)
-        initNetworkLayer()
-        setAppUniqueId(this)
-        initFirebase()
-        createChannel(packageName, "Default")
+        if (!DeviceUtils().isDeviceRooted()) {
+            SharedPreferenceManager(this).setThemeValue(Constants.THEME_YAP)
+            initNetworkLayer()
+            setAppUniqueId(this)
+            initFirebase()
+        }
     }
 
     private fun initNetworkLayer() {
@@ -78,9 +72,11 @@ class AAPApplication : ChatApplication(
         if (!BuildConfig.DEBUG) {
             val fabric = Fabric.Builder(this)
                 .kits(Crashlytics())
-                .debuggable(BuildConfig.DEBUG)
                 .build()
             Fabric.with(fabric)
+        }
+
+        if (BuildConfig.DEBUG) {
             Timber.plant(DebugTree())
             inItLeanPlum()
         }
@@ -105,33 +101,8 @@ class AAPApplication : ChatApplication(
             Leanplum.setAppIdForProductionMode(appId, devKey)
         }
 
-        Leanplum.setIsTestModeEnabled(true)
+        //Leanplum.setIsTestModeEnabled(true)
         Leanplum.start(this)
-    }
-
-    private fun createChannel(channelId: String, channelName: String) {
-        // TODO: Step 1.6 START create a channel
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val notificationChannel = NotificationChannel(
-                channelId,
-                channelName,
-                // TODO: Step 2.4 change importance
-                NotificationManager.IMPORTANCE_HIGH
-            )// TODO: Step 2.6 disable badges for this channel
-                .apply {
-                    setShowBadge(false)
-                }
-
-            notificationChannel.enableLights(true)
-            notificationChannel.lightColor = Color.RED
-            notificationChannel.enableVibration(true)
-            notificationChannel.description = "Default channel"
-            //getString(R.string.app_name)
-
-            val notificationManager = getSystemService(NotificationManager::class.java)
-            notificationManager.createNotificationChannel(notificationChannel)
-        }
-        // TODO: Step 1.6 END create a channel
     }
 
     private fun setAppUniqueId(context: Context) {
@@ -176,11 +147,7 @@ class AAPApplication : ChatApplication(
 
                 } catch (e: Exception) {
                     if (e is ClassNotFoundException) {
-                        longToast(
-                            "Something went wrong"
-                            //"InlineActivityResult library not installed falling back to default method, please install \" +\n" +
-                            //        "\"it from https://github.com/florent37/InlineActivityResult if you want to get inline activity results."
-                        )
+                        longToast("Something went wrong")
                         activity.startActivityForResult(
                             Intent(activity, VerifyPassCodePresenterActivity::class.java),
                             START_REQUEST_CODE

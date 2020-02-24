@@ -24,7 +24,6 @@ import android.view.Window
 import android.view.inputmethod.InputMethodManager
 import androidx.annotation.ColorRes
 import androidx.core.content.ContextCompat
-import co.yap.modules.webview.WebActivity
 import co.yap.networking.customers.requestdtos.Contact
 import co.yap.translation.Strings
 import co.yap.translation.Translator
@@ -777,13 +776,6 @@ object Utils {
                 itemClick.onItemClick(View(context), false, 0)
             }
             .show()
-    }
-
-
-    fun openWebPage(url: String, title: String?, activity: Activity?) {
-        activity?.let {
-            activity.startActivity(WebActivity.newIntent(it, url))
-        }
     }
 
     fun showComingSoon(context: Context) {

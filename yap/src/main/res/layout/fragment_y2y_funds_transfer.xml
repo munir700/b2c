@@ -21,14 +21,6 @@
             android:layout_width="match_parent"
             android:layout_height="0dp">
 
-            <androidx.coordinatorlayout.widget.CoordinatorLayout
-                android:id="@+id/clFTSnackbar"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@android:color/transparent"
-                android:rotation="180"
-                app:layout_constraintTop_toTopOf="parent" />
-
             <LinearLayout
                 android:id="@+id/lnUserImage"
                 android:layout_width="wrap_content"

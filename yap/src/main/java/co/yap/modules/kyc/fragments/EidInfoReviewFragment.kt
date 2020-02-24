@@ -64,6 +64,9 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
                 viewModel.EVENT_FINISH -> {
                     viewModel.parentViewModel?.finishKyc?.value = DocumentsResponse(false, "true")
                 }
+                viewModel.EVENT_EID_UPDATE ->{
+                    viewModel.parentViewModel?.finishKyc?.value = DocumentsResponse(false)
+                }
             }
         })
     }
@@ -129,6 +132,8 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
             data?.let {
                 viewModel.onEIDScanningComplete(it.getParcelableExtra(IdentityScannerActivity.SCAN_RESULT))
             }
+        }else{
+            viewModel.parentViewModel?.finishKyc?.value = DocumentsResponse(false)
         }
     }
 

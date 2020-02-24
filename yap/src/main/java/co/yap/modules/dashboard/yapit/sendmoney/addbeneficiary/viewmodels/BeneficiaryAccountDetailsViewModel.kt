@@ -31,6 +31,7 @@ class BeneficiaryAccountDetailsViewModel(application: Application) :
 
     override fun onCreate() {
         super.onCreate()
+        state.isIbanMandatory.set(parentViewModel?.selectedCountry?.value?.ibanMandatory)
         parentViewModel?.beneficiary?.value?.beneficiaryType?.let { beneficiaryType ->
             if (beneficiaryType.isNotEmpty())
                 when (SendMoneyBeneficiaryType.valueOf(beneficiaryType)) {

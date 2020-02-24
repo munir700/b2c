@@ -24,6 +24,7 @@ class IY2YFundsTransfer {
         fun getTransactionFee()
         fun getTransactionThresholds()
         fun proceedToTransferAmount()
+        fun getTransactionLimits()
 
     }
 

@@ -16,7 +16,8 @@ object DateUtils {
     val FORMAT_MONTH_YEAR = "MMMM, yyyy"//2015-11-28 10:17:18
     val FORMAT_DATE_MON_YEAR = "MMMM dd, yyyy"//2015-11-28 10:17:18
     val LEANPLUM_FORMATOR = "dd MMMM, yyyy"
-
+    val FORMATE_TIME_24H = "HH:mm"
+//2020-02-16T13:20:05
 //    Jan 29, 2019・10:35am
 
     fun getAge(date: Date): Int {
@@ -73,7 +74,7 @@ object DateUtils {
         date: String,
         inputFormatter: String? = DEFAULT_DATE_FORMAT,
         outFormatter: String? = DEFAULT_DATE_FORMAT
-    ): String? {
+    ): String {
         var result = ""
         val formatter = SimpleDateFormat(outFormatter, Locale.getDefault())
         try {
@@ -84,6 +85,10 @@ object DateUtils {
         return result
 
     }
+
+
+
+
 
     fun dateToString(day: Int, month: Int, year: Int, format: String = DEFAULT_DATE_FORMAT) =
         SimpleDateFormat(format, Locale.US).format(toDate(day, month, year))

@@ -1,7 +1,6 @@
 package co.yap.modules.dashboard.cards.paymentcarddetail.activities
 
 import android.app.Activity
-import android.app.AlertDialog
 import android.app.Dialog
 import android.content.BroadcastReceiver
 import android.content.Context
@@ -53,6 +52,7 @@ import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.enums.CardStatus
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.cancelAllSnackBar
+import co.yap.yapcore.helpers.confirm
 import co.yap.yapcore.helpers.extentions.preventTakeScreenShot
 import co.yap.yapcore.helpers.showSnackBar
 import co.yap.yapcore.helpers.spannables.underline
@@ -188,11 +188,12 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
             }
             R.id.ivMenu -> {
                 if (Constants.CARD_TYPE_DEBIT == viewModel.state.cardType) {
-                    primaryCardBottomSheet = PrimaryCardBottomSheet(this)
+                    primaryCardBottomSheet =
+                        PrimaryCardBottomSheet(viewModel.card.value?.status ?: "", this)
                     primaryCardBottomSheet.show(supportFragmentManager, "")
                 } else {
                     spareCardBottomSheet =
-                        SpareCardBottomSheet(viewModel.card.value?.physical!!, this)
+                        SpareCardBottomSheet(viewModel.card.value?.physical ?: false, this)
                     spareCardBottomSheet.show(supportFragmentManager, "")
                 }
             }
@@ -282,8 +283,10 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
 
     private fun setupView() {
         viewModel.card.value = intent.getParcelableExtra(CARD)
-        viewModel.state.cardType = viewModel.card.value?.cardType!!
-        viewModel.state.cardPanNumber = viewModel.card.value?.maskedCardNo!!
+        viewModel.state.cardStatus.set(viewModel.card.value?.status)
+
+        viewModel.state.cardType = viewModel.card.value?.cardType ?: ""
+        viewModel.state.cardPanNumber = viewModel.card.value?.maskedCardNo ?: ""
         viewModel.card.value?.cardName?.let { cardName ->
             viewModel.card.value?.nameUpdated?.let {
                 if (it) {
@@ -377,6 +380,7 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
         )
     }
 
+
     override fun onClick(eventType: Int) {
 
         if (Constants.CARD_TYPE_DEBIT == viewModel.state.cardType) {
@@ -386,7 +390,6 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
         }
 
         when (eventType) {
-
             Constants.EVENT_ADD_CARD_NAME -> {
                 startActivityForResult(
                     UpdateCardNameActivity.newIntent(this, viewModel.card.value!!),
@@ -428,9 +431,15 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
                     )
                 }
             }
-
             Constants.EVENT_REMOVE_CARD -> {
-                showRemoveCardPopup()
+                confirm(
+                    message = "Once removed, the balance from this card will be transferred to your main card.",
+                    title = "Remove card from YAP account",
+                    positiveButton = "CONFIRM",
+                    negativeButton = "CANCEL"
+                ) {
+                    viewModel.removeCard()
+                }
             }
         }
     }
@@ -657,21 +666,6 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
         val returnIntent = Intent()
         returnIntent.putExtra("cardReorder", true)
         setResult(Activity.RESULT_OK, returnIntent)
-    }
-
-    private fun showRemoveCardPopup() {
-        val builder = AlertDialog.Builder(this@PaymentCardDetailActivity)
-        builder.setTitle("Remove card from YAP account")
-        builder.setMessage("Once removed, the balance from this card will be transferred to your main card.")
-        builder.setPositiveButton("CONFIRM") { _, _ ->
-            viewModel.removeCard()
-        }
-
-        builder.setNeutralButton("CANCEL") { _, _ ->
-
-        }
-        val dialog: AlertDialog = builder.create()
-        dialog.show()
     }
 
     private fun registerTransactionBroadcast() {

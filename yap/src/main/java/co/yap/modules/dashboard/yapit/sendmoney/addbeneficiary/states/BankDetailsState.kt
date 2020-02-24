@@ -6,6 +6,7 @@ import androidx.databinding.library.baseAdapters.BR
 import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.interfaces.IBankDetails
 import co.yap.yapcore.BaseState
 import co.yap.yapcore.enums.SendMoneyBeneficiaryType
+import co.yap.yapcore.helpers.StringUtils
 
 class BankDetailsState : BaseState(), IBankDetails.State {
 
@@ -99,7 +100,7 @@ class BankDetailsState : BaseState(), IBankDetails.State {
                 }
                 SendMoneyBeneficiaryType.SWIFT -> {
                     valid =
-                        !bankBranch.isNullOrEmpty() && !bankCity.isNullOrEmpty() && !swiftCode.isNullOrEmpty() && !bankName.isNullOrEmpty()
+                        bankBranch.isNotBlank() && bankCity.isNotBlank() && swiftCode.isNotBlank() && bankName.isNotBlank() && StringUtils.isValidSwift(swiftCode)
                 }
                 SendMoneyBeneficiaryType.DOMESTIC -> {
                 }

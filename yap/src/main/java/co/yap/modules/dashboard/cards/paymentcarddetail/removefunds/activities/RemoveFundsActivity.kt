@@ -19,6 +19,7 @@ import co.yap.modules.others.helper.Constants
 import co.yap.networking.cards.responsedtos.Card
 import co.yap.networking.cards.responsedtos.CardBalance
 import co.yap.translation.Strings
+import co.yap.yapcore.enums.TransactionProductCode
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.spannables.color
 import co.yap.yapcore.helpers.spannables.getText
@@ -73,7 +74,7 @@ class RemoveFundsActivity : AddFundsActivity() {
     }
 
     override fun setObservers() {
-        viewModel.getFee(Constants.REMOVE_FUNDS_PRODUCT_CODE)
+        viewModel.getFee(TransactionProductCode.WITHDRAW_SUPPLEMENTARY_CARD.pCode)
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
                 R.id.btnAction -> (if (viewModel.state.buttonTitle != getString(Strings.screen_success_funds_transaction_display_text_button)) {

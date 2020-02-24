@@ -12,9 +12,8 @@ import co.yap.modules.onboarding.activities.CreatePasscodeActivity
 import co.yap.modules.onboarding.constants.Constants
 import co.yap.modules.onboarding.interfaces.IPhoneVerification
 import co.yap.modules.onboarding.viewmodels.PhoneVerificationViewModel
-import co.yap.yapcore.helpers.SharedPreferenceManager
-import co.yap.yapcore.helpers.extentions.trackEvent
-import co.yap.yapcore.leanplum.TrackEvents
+import co.yap.yapcore.leanplum.SignupEvents
+import com.leanplum.Leanplum
 
 
 class PhoneVerificationFragment : OnboardingChildFragment<IPhoneVerification.ViewModel>(), IPhoneVerification.View {
@@ -54,9 +53,10 @@ class PhoneVerificationFragment : OnboardingChildFragment<IPhoneVerification.Vie
 
         if (requestCode == Constants.REQUEST_CODE_CREATE_PASSCODE) {
             if (null != data) {
-                trackEvent(TrackEvents.OTP_CODE_ENTERED)
+                //trackEvent(TrackEvents.OTP_CODE_ENTERED)
                 viewModel.setPasscode(data.getStringExtra("PASSCODE"))
                 findNavController().navigate(R.id.action_phoneVerificationFragment_to_nameFragment)
+                Leanplum.track(SignupEvents.SIGN_UP_PASSCODE_CREATED.type)
 
             }
         }

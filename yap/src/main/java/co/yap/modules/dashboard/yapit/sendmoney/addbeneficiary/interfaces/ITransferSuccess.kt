@@ -4,7 +4,7 @@ import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
 
 interface ITransferSuccess {
-    interface View : IBase.View<ViewModel>{
+    interface View : IBase.View<ViewModel> {
         fun setObservers()
 
     }
@@ -12,7 +12,9 @@ interface ITransferSuccess {
     interface ViewModel : IBase.ViewModel<State> {
         val backButtonPressEvent: SingleClickEvent
         var clickEvent: SingleClickEvent
+        var updatedCardBalanceEvent:SingleClickEvent
         fun handlePressOnButtonClick(id: Int)
+        fun getAccountBalanceRequest()
     }
 
     interface State : IBase.State {
@@ -31,6 +33,7 @@ interface ITransferSuccess {
         var beneficiaryCountry: String?
         var transferAmountHeading: String?
         var buttonTitle: String?
+        var availableBalanceString: CharSequence?
 
     }
 }
