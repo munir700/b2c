@@ -17,6 +17,7 @@ import co.yap.yapcore.constants.Constants.EXTRA
 import co.yap.yapcore.constants.Constants.KEY_APP_UUID
 import co.yap.yapcore.helpers.*
 import co.yap.yapcore.helpers.extentions.longToast
+import co.yap.yapcore.initializeAdjustSdk
 import com.crashlytics.android.Crashlytics
 import com.github.florent37.inlineactivityresult.kotlin.startForResult
 import com.leanplum.Leanplum
@@ -32,9 +33,8 @@ class AAPApplication : ChatApplication(
         BuildConfig.VERSION_NAME,
         BuildConfig.VERSION_CODE,
         BuildConfig.FLAVOR,
-        BuildConfig.BUILD_TYPE,
-        BuildConfig.BASE_URL
-    )
+        BuildConfig.BUILD_TYPE, BuildConfig.BASE_URL
+        )
 ), NavigatorProvider {
 
     override fun onCreate() {
@@ -44,6 +44,7 @@ class AAPApplication : ChatApplication(
             initNetworkLayer()
             setAppUniqueId(this)
             initFirebase()
+            initializeAdjustSdk(BuildConfig.ADJUST_APP_TOKEN)
         } else {
             //onTerminate()
         }

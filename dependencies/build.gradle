@@ -134,8 +134,13 @@ project.ext {
             //compression
             compression              : 'id.zelory:compressor:2.1.0',
             exoplayer                : 'com.google.android.exoplayer:exoplayer:2.10.3',
-            adjust_android           : 'com.adjust.sdk:adjust-android:4.20.0',
-            installreferrer           : 'com.android.installreferrer:installreferrer:1.1.1',
+
+            //adjust
+            adjust                : 'com.adjust.sdk:adjust-android:4.20.0',
+            adjust_referrer       : 'com.android.installreferrer:installreferrer:1.0',
+            adjust_web_bridge       : 'com.adjust.sdk:adjust-android-webbridge:4.20.0'
+
+
     ]
 
     // Test dependencies which need to be added in all modules
@@ -169,7 +174,10 @@ project.ext {
             [configuration: "implementation", dependency: libraries.rxAndroid],
             [configuration: "implementation", dependency: libraries.rxJava],
             [configuration: "implementation", dependency: libraries.compression],
-            [configuration: "implementation", dependency: libraries.exoplayer]
+            [configuration: "implementation", dependency: libraries.exoplayer],
+            [configuration: "implementation", dependency: libraries.adjust],
+            [configuration: "implementation", dependency: libraries.adjust_referrer],
+            [configuration: "implementation", dependency: libraries.adjust_web_bridge]
 
     ]
 
