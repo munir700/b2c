@@ -7,6 +7,7 @@ import co.yap.yapcore.IFragmentHolder
 import co.yap.yapcore.defaults.DefaultActivity
 import co.yap.yapcore.defaults.DefaultNavigator
 import co.yap.yapcore.defaults.INavigator
+import co.yap.yapcore.helpers.DeviceUtils
 import co.yap.yapcore.interfaces.BackPressImpl
 import co.yap.yapcore.interfaces.IBaseNavigator
 
@@ -21,8 +22,12 @@ open class MainActivity : DefaultActivity(), IFragmentHolder, INavigator {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        YAPApplication.AUTO_RESTART_APP = false
-        setContentView(R.layout.activity_main)
+        if (DeviceUtils().isDeviceRooted()) {
+            showAlertDialogAndExitApp("This device is rooted. You can't use this app.")
+        } else {
+            YAPApplication.AUTO_RESTART_APP = false
+            setContentView(R.layout.activity_main)
+        }
 
     }
 

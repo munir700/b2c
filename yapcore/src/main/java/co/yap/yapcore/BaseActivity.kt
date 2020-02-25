@@ -221,29 +221,24 @@ abstract class BaseActivity<V : IBase.ViewModel<*>> : AppCompatActivity(), IBase
 
     override fun onResume() {
         super.onResume()
-        if (DeviceUtils().isDeviceRooted()) {
-            showAlertDialogAndExitApp("This device is rooted. You can't use this app.")
-        }
+//        if (DeviceUtils().isDeviceRooted()) {
+//            showAlertDialogAndExitApp("This device is rooted. You can't use this app.")
+//        }
     }
 
     open fun showAlertDialogAndExitApp(message: String?) {
         val alertDialog: AlertDialog = AlertDialog.Builder(this@BaseActivity).create()
         alertDialog.setTitle("Alert")
         alertDialog.setMessage(message)
+        alertDialog.setCancelable(false)
         alertDialog.setButton(
             AlertDialog.BUTTON_NEUTRAL, "OK"
         ) { dialog, which ->
             dialog.dismiss()
-            val intent =
-                Intent(Intent.ACTION_MAIN)
-            intent.addCategory(Intent.CATEGORY_HOME)
-            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-            startActivity(intent)
             finish()
         }
         alertDialog.setCancelable(false)
         alertDialog.show()
     }
-
 
 }

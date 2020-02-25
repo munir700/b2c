@@ -37,10 +37,6 @@ class DeviceUtils {
         return executedSuccesfully
     }
 
-
-    //
-
-
     fun isDeviceRooted(): Boolean {
         return checkRootMethod1() || checkRootMethod2() || checkRootMethod3()
     }
