@@ -149,10 +149,11 @@ class InternationalFundsTransferState(val application: Application) : BaseState(
         }
 
     @get:Bindable
-    override var rate: String? = "0.0"
+    override var rate: String? = ""
         set(value) {
             field = value
             notifyPropertyChanged(BR.rate)
+            checkValidation()
         }
     @get:Bindable
     override var toFxRateCurrency: String? = ""
@@ -316,6 +317,11 @@ class InternationalFundsTransferState(val application: Application) : BaseState(
     }
 
     private fun checkValidation() {
+        if (rate.isNullOrBlank()) {
+            valid = false
+            return
+        }
+
         if (!receiverCurrencyAmountFxRate.isNullOrEmpty()) {
             if (fxRateAmount.isNullOrEmpty() && feeType == Constants.FEE_TYPE_TIER) {
                 setSpanable(0.0)
@@ -343,8 +349,8 @@ class InternationalFundsTransferState(val application: Application) : BaseState(
                                 setSpanable(amount ?: 0.0)
                             }
                             val amountFxRate = amount
-                            val receiveFxRate = rate!!.toDouble()
-                            val result = amountFxRate?.times(receiveFxRate)
+                            val receiveFxRate = rate?.toDoubleOrNull()
+                            val result = amountFxRate?.times(receiveFxRate ?: 0.0)
                             receiverCurrencyAmount =
                                 String.format(
                                     Locale.getDefault(),

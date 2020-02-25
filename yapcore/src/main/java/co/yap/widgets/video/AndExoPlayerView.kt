@@ -361,7 +361,7 @@ class AndExoPlayerView : LinearLayout {
                 playerView?.controllerShowTimeoutMs = 0
                 playerView?.controllerHideOnTouch = false
                 val mp3Height =
-                    getContext().resources.getDimensionPixelSize(R.dimen._40sdp)
+                    context.resources.getDimensionPixelSize(R.dimen._40sdp)
                 playerView?.layoutParams = FrameLayout.LayoutParams(
                     ViewGroup.LayoutParams.MATCH_PARENT,
                     mp3Height

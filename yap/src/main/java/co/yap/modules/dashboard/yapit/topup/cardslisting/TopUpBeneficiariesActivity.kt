@@ -12,7 +12,7 @@ import co.yap.BR
 import co.yap.R
 import co.yap.app.YAPApplication
 import co.yap.databinding.ActivityTopupCardsBinding
-import co.yap.modules.dashboard.yapit.topup.addtopupcard.activities.AddTopUpCardActivity
+import co.yap.modules.dashboard.yapit.topup.addtopupcard.activities.AddTopUpCardActivityV2
 import co.yap.modules.dashboard.yapit.topup.carddetail.TopupCardDetailActivity
 import co.yap.modules.dashboard.yapit.topup.topupamount.activities.TopUpCardActivity
 import co.yap.modules.others.helper.Constants
@@ -278,7 +278,7 @@ class TopUpBeneficiariesActivity : BaseBindingActivity<ITopUpBeneficiaries.ViewM
 
     private fun addCardProcess() {
         getUrl()?.let {
-            launchActivity<AddTopUpCardActivity>(requestCode = EVENT_ADD_TOPUP_CARD) {
+            launchActivity<AddTopUpCardActivityV2>(requestCode = EVENT_ADD_TOPUP_CARD) {
                 putExtra(co.yap.yapcore.constants.Constants.KEY, it)
                 putExtra(co.yap.yapcore.constants.Constants.TYPE, TYPE_ADD_CARD)
             }
@@ -289,16 +289,17 @@ class TopUpBeneficiariesActivity : BaseBindingActivity<ITopUpBeneficiaries.ViewM
     private fun getUrl(): String? {
         return when (YAPApplication.appInfo?.flavor) {
             "live" -> {
-                "https://demo.yap.co/admin-web/HostedSessionIntegration.html"
+                "${YAPApplication.appInfo?.baseUrl}admin-web/HostedSessionIntegration.html"
             }
             "dev" -> {
-                "https://dev.yap.co/admin-web/HostedSessionIntegration.html"
+                "${YAPApplication.appInfo?.baseUrl}admin-web/HostedSessionIntegration.html"
             }
             "qa" -> {
-                "https://qa.yap.co/admin-web/HostedSessionIntegration.html"
+                "${YAPApplication.appInfo?.baseUrl}admin-web/HostedSessionIntegration.html"
             }
             "stg" -> {
-                "https://stg.yap.co/admin-web/HostedSessionIntegration.html"
+
+                "${YAPApplication.appInfo?.baseUrl}admin-web/HostedSessionIntegration.html"
             }
             else -> null
         }

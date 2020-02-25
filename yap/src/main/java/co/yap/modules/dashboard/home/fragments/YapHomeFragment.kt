@@ -322,7 +322,10 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
     private fun checkUserStatus() {
         when (MyUserManager.user?.notificationStatuses) {
             AccountStatus.ON_BOARDED.name, AccountStatus.CAPTURED_EID.name -> {
-                addCompleteVerificationNotification()
+                if (PartnerBankStatus.ACTIVATED.status != MyUserManager.user?.partnerBankStatus) {
+                    clearNotification()
+                    addCompleteVerificationNotification()
+                }
             }
 
             AccountStatus.MEETING_SCHEDULED.name -> {
@@ -331,6 +334,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
 
             AccountStatus.MEETING_SUCCESS.name -> {
                 if (isShowSetPin(MyUserManager.getPrimaryCard())) {
+                    clearNotification()
                     addSetPinNotification()
                 } else toast("Invalid card found")
             }

@@ -10,7 +10,7 @@ class FontTextView : AppCompatTextView {
     private var isBrandingIcon: Boolean = false
     private var isSolidIcon: Boolean = false
 
-    constructor(context: Context) : super(context) {}
+    constructor(context: Context) : super(context)
 
     @JvmOverloads
     constructor(context: Context, attrs: AttributeSet, defStyle: Int = 0) : super(context, attrs, defStyle) {

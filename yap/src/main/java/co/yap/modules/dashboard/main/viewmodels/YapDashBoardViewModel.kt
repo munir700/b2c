@@ -73,8 +73,9 @@ class YapDashBoardViewModel(application: Application) :
         launch {
             when (val response = customerRepository.getAccountInfo()) {
                 is RetroApiResponse.Success -> {
-                    accountInfo?.value = response.data.data[0]
                     MyUserManager.user = response.data.data[0]
+                    accountInfo?.value = response.data.data[0]
+
                     Leanplum.setUserId(MyUserManager.user?.uuid)
                     populateState()
                     if (MyUserManager.user?.currentCustomer?.isEmailVerified.equals("N", true)) {

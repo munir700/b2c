@@ -127,7 +127,7 @@ interface TransactionsRetroService {
 
     //Get transaction international purpose reasons.
     @POST(TransactionsRepository.URL_GET_INTERNATIONAL_RX_RATE_LIST)
-    suspend fun getInternationalRXRateList(@Path("product-code") RXNumber: String?, @Body mRxListRequest: RxListRequest): Response<FxRateResponse>
+    suspend fun getInternationalRXRateList(@Path("product-code") productCode: String?, @Body mRxListRequest: RxListRequest): Response<FxRateResponse>
 
     //Domestic transfer request
     @POST(TransactionsRepository.URL_DOMESTIC_TRANSFER)

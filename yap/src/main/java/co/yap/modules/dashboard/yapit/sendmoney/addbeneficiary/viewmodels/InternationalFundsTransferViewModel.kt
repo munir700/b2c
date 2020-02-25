@@ -87,7 +87,8 @@ class InternationalFundsTransferViewModel(application: Application) :
                         }
 
                     } else if (state.feeType == Constants.FEE_TYPE_TIER) {
-                        listItemRemittanceFee = response.data.data!!.tierRateDTOList!!
+                        listItemRemittanceFee =
+                            response.data.data?.tierRateDTOList ?: mutableListOf()
                         state.listItemRemittanceFee = listItemRemittanceFee
                     }
                     //state.loading = false

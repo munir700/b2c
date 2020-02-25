@@ -124,12 +124,6 @@
 #-keep class org.jetbrains.** { *; }
 #-keep class kotlin.reflect.jvm.internal.** { *; }
 
-#All Other rule will goes above
-# Crashlytics 2.+
-
--keep class com.crashlytics.** { *; }
--keep class com.crashlytics.android.**
--keepattributes SourceFile, LineNumberTable, *Annotation*
 
 # Disable Android logging
 -assumenosideeffects class android.util.Log {
@@ -151,6 +145,9 @@
 -keep class android.support.** { *; }
 -keep interface android.support.** { *; }
 
+-keep class * extends android.webkit.WebChromeClient { *; }
+-dontwarn im.delight.android.webview.**
+
 # adjust SDK Progard
 #-keep class com.adjust.sdk.** { *; }
 #-keep class com.google.android.gms.common.ConnectionResult {
@@ -164,3 +161,9 @@
 #    boolean isLimitAdTrackingEnabled();
 #}
 #-keep public class com.android.installreferrer.** { *; }
+
+#All Other rule will goes above (Important)
+# Crashlytics 2.+
+-keep class com.crashlytics.** { *; }
+-keep class com.crashlytics.android.**
+-keepattributes SourceFile, LineNumberTable, *Annotation*

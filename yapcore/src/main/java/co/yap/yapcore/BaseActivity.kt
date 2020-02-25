@@ -33,6 +33,9 @@ abstract class BaseActivity<V : IBase.ViewModel<*>> : AppCompatActivity(), IBase
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+//        window.setFlags(
+//            WindowManager.LayoutParams.FLAG_BLUR_BEHIND,
+//            WindowManager.LayoutParams.FLAG_BLUR_BEHIND)
         applySelectedTheme(SharedPreferenceManager(this))
         this.window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
         this.window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
