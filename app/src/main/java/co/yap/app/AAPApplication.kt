@@ -15,11 +15,10 @@ import co.yap.networking.interfaces.NetworkConstraintsListener
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.Constants.EXTRA
 import co.yap.yapcore.constants.Constants.KEY_APP_UUID
-import co.yap.yapcore.helpers.AppInfo
-import co.yap.yapcore.helpers.AuthUtils
-import co.yap.yapcore.helpers.NetworkConnectionManager
-import co.yap.yapcore.helpers.SharedPreferenceManager
+import co.yap.yapcore.helpers.*
 import co.yap.yapcore.helpers.extentions.longToast
+import co.yap.yapcore.initializeAdjustSdk
+import co.yap.yapcore.initializeAdjustSdk
 import com.crashlytics.android.Crashlytics
 import com.github.florent37.inlineactivityresult.kotlin.startForResult
 import com.leanplum.Leanplum
@@ -46,6 +45,7 @@ class AAPApplication : ChatApplication(
         setAppUniqueId(this)
         initFireBase()
         inItLeanPlum()
+        initializeAdjustSdk(BuildConfig.ADJUST_APP_TOKEN)
     }
 
     private fun initNetworkLayer() {

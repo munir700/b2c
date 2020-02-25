@@ -11,8 +11,10 @@ import co.yap.networking.messages.requestdtos.VerifyOtpOnboardingRequest
 import co.yap.networking.models.RetroApiResponse
 import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
+import co.yap.yapcore.adjust.AdjustEvents
 import co.yap.yapcore.helpers.extentions.trackEvent
 import co.yap.yapcore.leanplum.SignupEvents
+import co.yap.yapcore.trackAdjustEvent
 import com.leanplum.Leanplum
 
 open class PhoneVerificationViewModel(application: Application) :
@@ -79,6 +81,7 @@ open class PhoneVerificationViewModel(application: Application) :
             )) {
                 is RetroApiResponse.Success -> {
                     trackEvent(SignupEvents.SIGN_UP_OTP_CORRECT.type)
+                    trackAdjustEvent(AdjustEvents.SIGN_UP_MOBILE_NUMBER_VERIFIED.type)
                     nextButtonPressEvent.call()
                 }
                 is RetroApiResponse.Error -> state.toast = response.error.message
