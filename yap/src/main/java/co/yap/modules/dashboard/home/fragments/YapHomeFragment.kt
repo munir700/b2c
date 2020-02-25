@@ -334,8 +334,10 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
 
             AccountStatus.MEETING_SUCCESS.name -> {
                 if (isShowSetPin(MyUserManager.getPrimaryCard())) {
-                    clearNotification()
-                    addSetPinNotification()
+                    if (PartnerBankStatus.ACTIVATED.status == MyUserManager.user?.partnerBankStatus) {
+                        clearNotification()
+                        addSetPinNotification()
+                    }
                 } else toast("Invalid card found")
             }
 

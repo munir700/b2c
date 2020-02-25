@@ -14,6 +14,8 @@ import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.Utils.formateIbanString
+import co.yap.yapcore.helpers.extentions.trackEvent
+import co.yap.yapcore.helpers.extentions.trackerId
 import co.yap.yapcore.managers.MyUserManager
 import com.leanplum.Leanplum
 
@@ -75,8 +77,7 @@ class YapDashBoardViewModel(application: Application) :
                 is RetroApiResponse.Success -> {
                     MyUserManager.user = response.data.data[0]
                     accountInfo?.value = response.data.data[0]
-
-                    Leanplum.setUserId(MyUserManager.user?.uuid)
+                    trackerId(MyUserManager.user?.uuid)
                     populateState()
                     if (MyUserManager.user?.currentCustomer?.isEmailVerified.equals("N", true)) {
                         showUnverifedscreen.value = true

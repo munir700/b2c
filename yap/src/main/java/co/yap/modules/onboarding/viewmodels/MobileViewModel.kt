@@ -12,6 +12,7 @@ import co.yap.networking.messages.requestdtos.CreateOtpOnboardingRequest
 import co.yap.networking.models.RetroApiResponse
 import co.yap.yapcore.SingleLiveEvent
 import co.yap.yapcore.adjust.AdjustEvents
+import co.yap.yapcore.helpers.extentions.trackEvent
 import co.yap.yapcore.leanplum.SignupEvents
 import co.yap.yapcore.trackAdjustEvent
 import com.leanplum.Leanplum
@@ -69,7 +70,7 @@ class MobileViewModel(application: Application) :
                 ""
             )
         val countryCode: String = state.countryCode.trim().replace("+", "00")
-        Leanplum.track(SignupEvents.SIGN_UP_NUMBER.type, countryCode + mobileNumber)
+        trackEvent(SignupEvents.SIGN_UP_NUMBER.type, countryCode + mobileNumber)
         launch {
             state.loading = true
             when (val response = repository.createOtpOnboarding(
@@ -88,7 +89,7 @@ class MobileViewModel(application: Application) :
                 is RetroApiResponse.Error -> {
                     state.error = response.error.message
                     state.mobileError = response.error.message
-                    Leanplum.track(SignupEvents.SIGN_UP_NUMBER_ERROR.type, response.error.message)
+                    trackEvent(SignupEvents.SIGN_UP_NUMBER_ERROR.type, response.error.message)
                 }
             }
             state.loading = false

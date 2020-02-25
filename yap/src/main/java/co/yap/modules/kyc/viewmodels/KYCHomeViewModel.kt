@@ -11,6 +11,7 @@ import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.helpers.DateUtils
 import co.yap.yapcore.helpers.extentions.toast
+import co.yap.yapcore.helpers.extentions.trackEvent
 import co.yap.yapcore.leanplum.KYCEvents
 import com.digitify.identityscanner.core.arch.Gender
 import com.digitify.identityscanner.docscanner.models.Identity
@@ -90,12 +91,12 @@ class KYCHomeViewModel(application: Application) : KYCChildViewModel<IKYCHome.St
                             state.eidScanStatus = DocScanStatus.SCAN_COMPLETED
                         } else {
                             state.toast = response.data.errors?.message ?: "Invalid image"
-                            Leanplum.track(KYCEvents.EID_FAILURE.type)
+                            trackEvent(KYCEvents.EID_FAILURE.type)
                         }
                     }
 
                     is RetroApiResponse.Error -> {
-                        Leanplum.track(KYCEvents.EID_FAILURE.type)
+                        trackEvent(KYCEvents.EID_FAILURE.type)
                         state.toast = response.error.message
                     }
                 }
