@@ -26,15 +26,13 @@ import co.yap.networking.cards.responsedtos.Card
 import co.yap.translation.Strings
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.enums.TransactionProductCode
-import co.yap.yapcore.helpers.AnimationUtils
-import co.yap.yapcore.helpers.CustomSnackbar
-import co.yap.yapcore.helpers.DecimalDigitsInputFilter
-import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.helpers.*
 import co.yap.yapcore.helpers.spannables.color
 import co.yap.yapcore.helpers.spannables.getText
 import co.yap.yapcore.managers.MyUserManager
 import com.daimajia.androidanimations.library.Techniques
 import com.daimajia.androidanimations.library.YoYo
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_fund_actions.*
 import kotlinx.android.synthetic.main.layout_card_info.*
 
@@ -184,10 +182,10 @@ open class AddFundsActivity : BaseBindingActivity<IFundActions.ViewModel>(),
     }
 
     private fun showErrorSnackBar() {
-        CustomSnackbar.showErrorCustomSnackbar(
-            context = this,
-            layout = clSnackbar,
-            message = viewModel.state.errorDescription
+        clSnackbar.showSnackBar(
+            msg = viewModel.state.errorDescription,
+            viewBgColor = R.color.errorLightBackground,
+            colorOfMessage = R.color.error
         )
     }
 

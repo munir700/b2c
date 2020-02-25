@@ -9,7 +9,7 @@ import co.yap.BR
 import co.yap.R
 import co.yap.modules.dashboard.store.household.onboarding.interfaces.IHouseHoldUserContact
 import co.yap.modules.dashboard.store.household.onboarding.viewmodels.HouseHoldUserContactViewModel
-import co.yap.yapcore.helpers.CustomSnackbar
+import co.yap.yapcore.helpers.showSnackBar
 import kotlinx.android.synthetic.main.fragment_house_hold_user_contact_info.*
 import kotlinx.android.synthetic.main.fragment_mobile.etMobileNumber
 
@@ -47,12 +47,11 @@ class HouseHoldUserContactFragment : BaseOnBoardingFragment<IHouseHoldUserContac
             if (it) findNavController().navigate(R.id.action_houseHoldUserContactFragment_to_HHConfirmPaymentFragment)
         })
         viewModel.verifyMobileError.observe(this, Observer {
-            CustomSnackbar.showErrorCustomSnackbar(
-                context = requireContext(),
-                layout = clSnackbarHouseHold,
-                message = it
+            clSnackbarHouseHold.showSnackBar(
+                msg = it,
+                viewBgColor = R.color.errorLightBackground,
+                colorOfMessage = R.color.error
             )
-            // showSnackBar(it, R.color.colorSnackBarBackGround,R.color.colorSecondaryMagenta, Gravity.TOP)
         })
     }
 
