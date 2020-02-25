@@ -55,6 +55,7 @@ object CustomSnackbar {
         }
 
         SnackBarQueue.snackBarQueue.add(snackbar)
+        snackbar.show()
         return snackbar
     }
 
