@@ -5,7 +5,6 @@ import android.app.Application
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
-import co.yap.app.YAPApplication
 import com.adjust.sdk.Adjust
 import com.adjust.sdk.AdjustConfig
 import com.adjust.sdk.AdjustEvent
@@ -17,9 +16,8 @@ import com.adjust.sdk.LogLevel
 * -> Adjust SDK
 * */
 
-fun Application.initializeAdjustSdk() {
+fun Application.initializeAdjustSdk(appToken: String) {
     val environment: String
-    val appToken = YAPApplication.appInfo?.adjustSdkToken
     if (!BuildConfig.DEBUG) {
         environment = AdjustConfig.ENVIRONMENT_PRODUCTION
         val config = AdjustConfig(this, appToken, environment, true)

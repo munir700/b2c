@@ -33,8 +33,8 @@ class AAPApplication : ChatApplication(
         BuildConfig.VERSION_NAME,
         BuildConfig.VERSION_CODE,
         BuildConfig.FLAVOR,
-        BuildConfig.BUILD_TYPE, BuildConfig.BASE_URL, BuildConfig.ADJUST_APP_TOKEN
-    )
+        BuildConfig.BUILD_TYPE, BuildConfig.BASE_URL
+        )
 ), NavigatorProvider {
 
     override fun onCreate() {
@@ -44,7 +44,7 @@ class AAPApplication : ChatApplication(
             initNetworkLayer()
             setAppUniqueId(this)
             initFirebase()
-            initializeAdjustSdk()
+            initializeAdjustSdk(BuildConfig.ADJUST_APP_TOKEN)
         } else {
             //onTerminate()
         }
