@@ -66,9 +66,6 @@ class EmailViewModel(application: Application) :
     }
 
 
-
-
-
     private fun signUp() {
         launch {
             state.refreshField = true
@@ -93,9 +90,9 @@ class EmailViewModel(application: Application) :
                         sharedPreferenceManager.savePassCodeWithEncryption(passCode)
                     } ?: toast(context, "Invalid pass code")
 
+                    Leanplum.track(SignupEvents.SIGN_UP_EMAIL.type, state.twoWayTextWatcher)
                     sharedPreferenceManager.saveUserNameWithEncryption(state.twoWayTextWatcher)
                     setVerificationLabel()
-                    Leanplum.track(SignupEvents.SIGN_UP_EMAIL.type)
                     state.loading = false
                 }
 

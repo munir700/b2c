@@ -99,6 +99,14 @@ class CongratulationsFragment : OnboardingChildFragment<ICongratulations.ViewMod
                     putExtra(Constants.data, false)
                 }
                 Leanplum.track(SignupEvents.SIGN_UP_END.type)
+                Leanplum.track(
+                    SignupEvents.SIGN_UP_DATE.type,
+                    SimpleDateFormat("dd/MMM/yyyy").format(Calendar.getInstance().time)
+                )
+                Leanplum.track(
+                    SignupEvents.SIGN_UP_TIME.type,
+                    SimpleDateFormat("hh:mm").format(Calendar.getInstance().time)
+                )
             }
         }
     }
@@ -155,13 +163,6 @@ class CongratulationsFragment : OnboardingChildFragment<ICongratulations.ViewMod
                 } else {
                     skipped?.let { skip ->
                         Leanplum.track(KYCEvents.SKIP_KYC.type)
-                        val formattedDate =
-                            SimpleDateFormat("dd-MMM-yyyy").format(Calendar.getInstance().time)
-
-                        val formattedTime =
-                            SimpleDateFormat("hh-mm").format(Calendar.getInstance().time)
-                        Leanplum.track(SignupEvents.SIGN_UP_DATE.type, formattedDate)
-                        Leanplum.track(SignupEvents.SIGN_UP_TIME.type, formattedTime)
                         goToDashboard()
                     }
                 }
@@ -268,12 +269,15 @@ class CongratulationsFragment : OnboardingChildFragment<ICongratulations.ViewMod
     ): ValueAnimator {
         val text = getString(Strings.screen_onboarding_congratulations_display_text_sub_title)
         val parts = text.split("%1s")
-        Leanplum.track(SignupEvents.SIGN_UP_LENGTH.type, parts[1])
         return AnimationUtils.valueCounter(initialValue, finalValue, 1500).apply {
             addUpdateListener { animator ->
                 textview.text = SpannableStringBuilder().run {
                     append(parts[0])
                     val counterText = animator.animatedValue.toString() + parts[1]
+                    Leanplum.track(
+                        SignupEvents.SIGN_UP_LENGTH.type,
+                        animator.animatedValue.toString()
+                    )
                     append(counterText.toSpannable().apply {
                         setSpan(
                             ForegroundColorSpan(
