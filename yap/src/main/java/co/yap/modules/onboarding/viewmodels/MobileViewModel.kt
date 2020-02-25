@@ -12,7 +12,9 @@ import co.yap.networking.messages.MessagesRepository
 import co.yap.networking.messages.requestdtos.CreateOtpOnboardingRequest
 import co.yap.networking.models.RetroApiResponse
 import co.yap.yapcore.SingleLiveEvent
+import co.yap.yapcore.adjust.AdjustEvents
 import co.yap.yapcore.leanplum.SignupEvents
+import co.yap.yapcore.trackAdjustEvent
 import com.leanplum.Leanplum
 import java.util.*
 
@@ -27,6 +29,11 @@ class MobileViewModel(application: Application) :
     override fun onResume() {
         super.onResume()
         setProgress(20)
+    }
+
+    override fun onCreate() {
+        super.onCreate()
+        trackAdjustEvent(AdjustEvents.SIGN_UP_START.type)
     }
 
     override fun getCcp(editText: EditText) {
