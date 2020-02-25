@@ -64,7 +64,6 @@ class CashTransferConfirmationViewModel(application: Application) :
     }
 
     override fun getCutOffTimeConfiguration() {
-
         launch {
             when (val response =
                 repository.getCutOffTimeConfiguration(
