@@ -25,6 +25,7 @@ import co.yap.modules.others.helper.Constants
 import co.yap.networking.cards.responsedtos.Card
 import co.yap.translation.Strings
 import co.yap.yapcore.BaseBindingActivity
+import co.yap.yapcore.adjust.AdjustEvents
 import co.yap.yapcore.enums.TransactionProductCode
 import co.yap.yapcore.helpers.AnimationUtils
 import co.yap.yapcore.helpers.CustomSnackbar
@@ -33,6 +34,7 @@ import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.spannables.color
 import co.yap.yapcore.helpers.spannables.getText
 import co.yap.yapcore.managers.MyUserManager
+import co.yap.yapcore.trackAdjustEvent
 import com.daimajia.androidanimations.library.Techniques
 import com.daimajia.androidanimations.library.YoYo
 import kotlinx.android.synthetic.main.activity_fund_actions.*
@@ -111,6 +113,7 @@ open class AddFundsActivity : BaseBindingActivity<IFundActions.ViewModel>(),
                 R.id.btnAction -> (if (viewModel.state.buttonTitle != getString(Strings.screen_success_funds_transaction_display_text_button)) {
                     viewModel.addFunds()
                 } else {
+                    trackAdjustEvent(AdjustEvents.TOP_UP_END.type)
                     if (fundsAdded) {
                         setupActionsIntent()
                     }

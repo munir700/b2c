@@ -99,7 +99,7 @@ class AccountSelectionFragment : BaseBindingFragment<IAccountSelection.ViewModel
         }
     }
     private val layoutButtonsRunnable = Runnable {
-        layoutButtons?.let {  playCaptionAnimation()}
+        layoutButtons?.let { playCaptionAnimation() }
     }
 
     fun playCaptionAnimation() {
