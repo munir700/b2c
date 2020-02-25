@@ -13,6 +13,7 @@ import co.yap.networking.transactions.responsedtos.TransactionThresholdModel
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.enums.SendMoneyBeneficiaryType
 import co.yap.yapcore.enums.TransactionProductCode
 
 class CashTransferConfirmationViewModel(application: Application) :
@@ -64,11 +65,10 @@ class CashTransferConfirmationViewModel(application: Application) :
     }
 
     override fun getCutOffTimeConfiguration() {
-
         launch {
             when (val response =
                 repository.getCutOffTimeConfiguration(
-                    TransactionProductCode.UAEFTS.pCode,
+                    getProductCode(),
                     "AED",
                     state.enteredAmount.get()
                 )) {
@@ -114,6 +114,16 @@ class CashTransferConfirmationViewModel(application: Application) :
             }
             state.loading = false
         }
+    }
+
+    private fun getProductCode(): String {
+        return (when (beneficiary?.beneficiaryType) {
+            SendMoneyBeneficiaryType.UAEFTS.type -> TransactionProductCode.UAEFTS.pCode
+
+            SendMoneyBeneficiaryType.DOMESTIC.type -> TransactionProductCode.DOMESTIC.pCode
+
+            else -> ""
+        })
     }
 
 }

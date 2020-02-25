@@ -148,7 +148,7 @@ class CashTransferFragment : SendMoneyBaseFragment<ICashTransfer.ViewModel>(), I
 
     private fun isUaeftsBeneficiary(): Boolean {
         viewModel.state.beneficiary?.beneficiaryType?.let {
-            return (it == SendMoneyBeneficiaryType.UAEFTS.type)
+            return (it == SendMoneyBeneficiaryType.UAEFTS.type||it == SendMoneyBeneficiaryType.DOMESTIC.type)
         } ?: return false
     }
 

@@ -1,6 +1,5 @@
 package co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.states
 
-import android.text.SpannableStringBuilder
 import androidx.databinding.ObservableField
 import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.interfaces.ICashTransferConfirmation
 import co.yap.yapcore.BaseState

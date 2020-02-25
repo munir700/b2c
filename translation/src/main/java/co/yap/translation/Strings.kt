@@ -1198,6 +1198,10 @@ object Strings {
         "scren_send_money_funds_transfer_confirmation_display_text_amount_uaefts"
     const val scren_send_money_funds_transfer_confirmation_display_text_fee: String =
         "scren_send_money_funds_transfer_confirmation_display_text_fee"
+    const val scren_send_money_funds_transfer_confirmation_display_text_disclaimer: String =
+        "scren_send_money_funds_transfer_confirmation_display_text_disclaimer"
+    const val scren_send_money_funds_transfer_confirmation_display_text_disclaimer_terms: String =
+        "scren_send_money_funds_transfer_confirmation_display_text_disclaimer_terms"
 
 
 
