@@ -29,7 +29,6 @@ import timber.log.Timber
 import timber.log.Timber.DebugTree
 import java.util.*
 
-
 class AAPApplication : ChatApplication(
     AppInfo(
         BuildConfig.VERSION_NAME,
@@ -45,7 +44,8 @@ class AAPApplication : ChatApplication(
         initNetworkLayer()
         SharedPreferenceManager(this).setThemeValue(Constants.THEME_YAP)
         setAppUniqueId(this)
-        initFirebase()
+        initFireBase()
+        inItLeanPlum()
     }
 
     private fun initNetworkLayer() {
@@ -65,7 +65,7 @@ class AAPApplication : ChatApplication(
         })
     }
 
-    private fun initFirebase() {
+    private fun initFireBase() {
         if (BuildConfig.DEBUG) {
             Timber.plant(DebugTree())
         } else {
@@ -73,7 +73,6 @@ class AAPApplication : ChatApplication(
                 .kits(Crashlytics())
                 .build()
             Fabric.with(fabric)
-            inItLeanPlum()
         }
     }
 
