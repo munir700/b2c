@@ -45,6 +45,8 @@ class AAPApplication : ChatApplication(
             setAppUniqueId(this)
             initFirebase()
             initializeAdjustSdk()
+        } else {
+            //onTerminate()
         }
     }
 
@@ -65,37 +67,25 @@ class AAPApplication : ChatApplication(
         })
     }
 
-
-    /**
-     * In this function initialize Firebase.
-     */
-
     private fun initFirebase() {
-        if (!BuildConfig.DEBUG) {
+        if (BuildConfig.DEBUG) {
+            Timber.plant(DebugTree())
+        } else {
             val fabric = Fabric.Builder(this)
                 .kits(Crashlytics())
                 .build()
             Fabric.with(fabric)
-        }
-
-        if (BuildConfig.DEBUG) {
-            Timber.plant(DebugTree())
             inItLeanPlum()
         }
     }
 
-    /**
-     * In this function initialize Leanplum.
-     */
     private fun inItLeanPlum() {
-
         Leanplum.setApplicationContext(this)
         //Parser.parseVariables(this)
         LeanplumActivityHelper.enableLifecycleCallbacks(this)
 
         val appId = BuildConfig.LEANPLUM_CLIENT_SECRET
         val devKey = BuildConfig.LEANPLUM_API_KEY
-        //val prodKey = AppCredentials.prodKey
 
         if (BuildConfig.DEBUG) {
             Leanplum.setAppIdForDevelopmentMode(appId, devKey)
@@ -106,7 +96,6 @@ class AAPApplication : ChatApplication(
         //Leanplum.setIsTestModeEnabled(true)
         Leanplum.start(this)
     }
-
 
     private fun setAppUniqueId(context: Context) {
         var uuid: String?
