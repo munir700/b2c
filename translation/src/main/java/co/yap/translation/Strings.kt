@@ -21,11 +21,12 @@ object Strings {
         "common_display_text_nothing_to_report"
     const val common_button_logout: String = "common_button_logout"
     const val common_text_fee: String = "common_text_fee"
-
     const val common_display_text_daily_limit_error_single_transaction: String =
         "common_display_text_daily_limit_error_single_transaction"
     const val common_display_text_daily_limit_error_multiple_transactions: String =
         "common_display_text_daily_limit_error_multiple_transactions"
+    const val common_display_text_available_balance_error: String =
+        "common_display_text_available_balance_error"
 
     const val common_display_text_min_max_limit_error_transaction: String =
         "common_display_text_min_max_limit_error_transaction"

@@ -5,7 +5,6 @@ import android.content.Context
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -246,40 +245,32 @@ fun View?.showSnackBar(
         val layout = snakbar.view as Snackbar.SnackbarLayout
         val layoutInflater: LayoutInflater = LayoutInflater.from(it.context)
         val snackView = layoutInflater.inflate(R.layout.snackbar_card_status, null)
-        layout.addView(snackView,0)
+        layout.addView(snackView, 0)
         snakbar.view.setBackgroundColor(ContextCompat.getColor(it.context, viewBgColor))
         val tvMessage = layout.findViewById(R.id.tvMessage) as TextView
         tvMessage.text = validateString(msg)
         val tvAction = layout.findViewById(R.id.tvAction) as TextView
         tvAction.text = actionText
         tvAction.setOnClickListener(clickListener)
-
-//        snakbar.setTextColor(ContextCompat.getColor(it.context, colorOfMessage))
-//        val snackRootView = snakbar.view
-//        val snackTextView = snackRootView
-//            .findViewById<TextView>(R.id.snackbar_text)
-//        snackTextView.setTextAppearance(R.style.AppFontLight)
-//        snakbar.setActionTextColor(ContextCompat.getColor(it.context, colorOfMessage))
-//        snakbar.setAction(actionText, clickListener)
         show(snakbar, gravity)
     }
 
 }
 
-private fun show(snakbar: Snackbar, gravity: Int = Gravity.BOTTOM) {
+private fun show(snakbar: Snackbar, gravity: Int = Gravity.BOTTOM, addToQueue: Boolean = true) {
     val view = snakbar.view
 
-    when(view.layoutParams){
-        is CoordinatorLayout.LayoutParams-> {
+    when (view.layoutParams) {
+        is CoordinatorLayout.LayoutParams -> {
             val param = view.layoutParams as CoordinatorLayout.LayoutParams
             param.gravity = gravity
             view.layoutParams = param
         }
-        is LinearLayout.LayoutParams-> {
+        is LinearLayout.LayoutParams -> {
             val param = view.layoutParams as LinearLayout.LayoutParams
             param.gravity = gravity
         }
-        else->{
+        else -> {
             val param = view.layoutParams as FrameLayout.LayoutParams
             param.gravity = gravity
             view.layoutParams = param
@@ -292,7 +283,6 @@ private fun show(snakbar: Snackbar, gravity: Int = Gravity.BOTTOM) {
         view.layoutParams = param
     }
     snakbar.animationMode = ANIMATION_MODE_FADE
-
 //    val fadeIn = AlphaAnimation(0f, 1f)
 //    fadeIn.interpolator = DecelerateInterpolator() //add this
 //    fadeIn.duration = 1000
@@ -306,16 +296,28 @@ private fun show(snakbar: Snackbar, gravity: Int = Gravity.BOTTOM) {
 //    animation.addAnimation(fadeIn)
 //    animation.addAnimation(fadeOut)
 //    view.animation = animation
-    SnackBarQueue.snackBarQueue.add(snakbar)
+    if (addToQueue) {
+        SnackBarQueue.snackBarQueue.add(snakbar)
+    }
+    snakbar.addCallback(object : Snackbar.Callback() {
+        override fun onShown(sb: Snackbar?) {
+            super.onShown(sb)
+        }
+
+        override fun onDismissed(sb: Snackbar?, event: Int) {
+            super.onDismissed(sb, event)
+            // SnackBarQueue.snackBarQueue.remove(sb)
+
+        }
+    })
     snakbar.show()
 }
 
-private fun View.findSuitableLayoutParams() = when(this.layoutParams) {
-        is CoordinatorLayout.LayoutParams-> this.layoutParams as CoordinatorLayout.LayoutParams
-        is LinearLayout.LayoutParams-> this.layoutParams as LinearLayout.LayoutParams
-        else-> this.layoutParams as LinearLayout.LayoutParams
-    }
-
+private fun View.findSuitableLayoutParams() = when (this.layoutParams) {
+    is CoordinatorLayout.LayoutParams -> this.layoutParams as CoordinatorLayout.LayoutParams
+    is LinearLayout.LayoutParams -> this.layoutParams as LinearLayout.LayoutParams
+    else -> this.layoutParams as LinearLayout.LayoutParams
+}
 
 
 fun cancelAllSnackBar() =
@@ -328,15 +330,58 @@ fun View?.showSnackBar(
     gravity: Int = Gravity.BOTTOM, duration: Int = Snackbar.LENGTH_LONG,
     clickListener: View.OnClickListener
 ) {
-    val snakbar = Snackbar
-        .make(this!!, validateString(msg), duration)
-        .setAction(actionText, clickListener)
-    show(snakbar, gravity)
+    this?.let {
+        val snakbar = Snackbar
+            .make(it, validateString(msg), duration)
+            .setAction(actionText, clickListener)
+        show(snakbar, gravity)
+    }
+
+}
+
+fun View?.showSnackBar(
+    msg: String, @ColorRes viewBgColor: Int, @ColorRes colorOfMessage: Int,
+    gravity: Int = Gravity.BOTTOM, duration: Int = Snackbar.LENGTH_LONG
+): Snackbar? {
+    this?.let {
+        val snakbar = Snackbar
+            .make(it, validateString(msg), duration)
+        snakbar.view.setBackgroundColor(ContextCompat.getColor(it.context, viewBgColor))
+        snakbar.setTextColor(ContextCompat.getColor(it.context, colorOfMessage))
+        val snackRootView = snakbar.view
+        val snackTextView = snackRootView
+            .findViewById<TextView>(R.id.snackbar_text)
+        snackTextView.setTextAppearance(R.style.Micro)
+        cancelAllSnackBar()
+        show(snakbar, gravity)
+        return snakbar
+    }
+    return null
+}
+
+fun Snackbar?.updateSnackBarText(msg: String) {
+    this?.let {
+        val snackRootView = this.view
+        val snackTextView = snackRootView
+            .findViewById<TextView>(R.id.snackbar_text)
+        snackTextView.text = validateString(msg)
+    }
 }
 
 fun validateString(msg: String?): String {
     return msg ?: "null"
 }
+
+fun getSnackBarQueue() = SnackBarQueue.snackBarQueue
+
+fun getSnackBarFromQueue(index: Int): Snackbar? {
+    return if (getSnackBarQueue().size > 0) {
+        SnackBarQueue.snackBarQueue[index]
+    } else
+        null
+
+}
+
 
 private object SnackBarQueue {
     val snackBarQueue = mutableListOf<Snackbar>()

@@ -19,6 +19,7 @@ class IY2YFundsTransfer {
         val transactionThreshold: MutableLiveData<TransactionThresholdModel>
         var receiverUUID: String
         val transferFundSuccess:MutableLiveData<Boolean>
+        var enteredAmount:MutableLiveData<String>
         fun handlePressOnView(id: Int)
         fun getTransactionFee()
         fun getTransactionThresholds()
@@ -29,7 +30,6 @@ class IY2YFundsTransfer {
 
     interface State : IBase.State {
         var amountBackground: Drawable?
-        var amount: String
         var valid: Boolean
         var minLimit: Double
         var availableBalance: String?

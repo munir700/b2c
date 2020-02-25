@@ -15,9 +15,9 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import co.yap.BR
 import co.yap.R
 import co.yap.databinding.FragmentY2yFundsTransferBinding
-import co.yap.modules.dashboard.yapit.y2y.home.activities.YapToYapDashboardActivity
 import co.yap.modules.dashboard.yapit.y2y.main.fragments.Y2YBaseFragment
 import co.yap.modules.dashboard.yapit.y2y.transfer.interfaces.IY2YFundsTransfer
 import co.yap.modules.dashboard.yapit.y2y.transfer.viewmodels.Y2YFundsTransferViewModel
@@ -26,11 +26,11 @@ import co.yap.modules.otp.OtpDataModel
 import co.yap.modules.otp.OtpToolBarData
 import co.yap.translation.Strings
 import co.yap.translation.Translator
-import co.yap.yapcore.BR
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.OTPActions
 import co.yap.yapcore.helpers.DecimalDigitsInputFilter
 import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.helpers.cancelAllSnackBar
 import co.yap.yapcore.helpers.extentions.startFragmentForResult
 import co.yap.yapcore.helpers.spannables.color
 import co.yap.yapcore.helpers.spannables.getText
@@ -62,8 +62,9 @@ class Y2YTransferFragment : Y2YBaseFragment<IY2YFundsTransfer.ViewModel>(), IY2Y
 
     override fun setObservers() {
         viewModel.clickEvent.observe(this, clickEvent)
+        viewModel.enteredAmount.observe(this, enterAmountObserver)
         viewModel.errorEvent.observe(this, Observer {
-            showErrorSnackBar()
+            // showErrorSnackBar()
         })
         viewModel.transferFundSuccess.observe(this, transferFundSuccessObserver)
 
@@ -75,12 +76,23 @@ class Y2YTransferFragment : Y2YBaseFragment<IY2YFundsTransfer.ViewModel>(), IY2Y
             moveToFundTransferSuccess()
         }
     }
+    private val enterAmountObserver = Observer<String> {
+        when {
+            isBalanceAvailable(it) -> showErrorSnackBar(true)
+            isDailyLimitReached() -> showErrorSnackBar(true)
+            else -> showErrorSnackBar(false)
+        }
+    }
+
+    private fun isBalanceAvailable(enteredAmount: String?): Boolean {
+        return viewModel.state.checkValidity(enteredAmount ?: "").isNotBlank()
+    }
 
     val clickEvent = Observer<Int> {
         when (it) {
             R.id.btnConfirm -> {
                 when {
-                    viewModel.state.amount.toDoubleOrNull() ?: 0.0 < viewModel.state.minLimit || viewModel.state.amount.toDoubleOrNull() ?: 0.0 > viewModel.state.maxLimit -> {
+                    viewModel.enteredAmount.value?.toDoubleOrNull() ?: 0.0 < viewModel.state.minLimit || viewModel.enteredAmount.value?.toDoubleOrNull() ?: 0.0 > viewModel.state.maxLimit -> {
                         setUpperLowerLimitError()
                         viewModel.errorEvent.call()
                     }
@@ -182,7 +194,7 @@ class Y2YTransferFragment : Y2YBaseFragment<IY2YFundsTransfer.ViewModel>(), IY2Y
         viewModel.transactionThreshold.value?.let {
             it.dailyLimit?.let { dailyLimit ->
                 it.totalDebitAmount?.let { totalConsumedAmount ->
-                    viewModel.state.amount.toDoubleOrNull()?.let { enteredAmount ->
+                    viewModel.enteredAmount.value?.toDoubleOrNull()?.let { enteredAmount ->
                         val remainingDailyLimit =
                             if ((dailyLimit - totalConsumedAmount) < 0.0) 0.0 else (dailyLimit - totalConsumedAmount)
                         viewModel.state.errorDescription =
@@ -200,7 +212,7 @@ class Y2YTransferFragment : Y2YBaseFragment<IY2YFundsTransfer.ViewModel>(), IY2Y
     private fun isOtpRequired(): Boolean {
         viewModel.transactionThreshold.value?.let {
             it.totalDebitAmountY2Y?.let { totalY2YConsumedAmount ->
-                viewModel.state.amount.toDoubleOrNull()?.let { enteredAmount ->
+                viewModel.enteredAmount.value?.toDoubleOrNull()?.let { enteredAmount ->
                     val remainingOtpLimit = it.otpLimitY2Y?.minus(totalY2YConsumedAmount)
                     return enteredAmount > (remainingOtpLimit ?: 0.0)
                 } ?: return false
@@ -217,26 +229,34 @@ class Y2YTransferFragment : Y2YBaseFragment<IY2YFundsTransfer.ViewModel>(), IY2Y
             Y2YTransferFragmentDirections.actionY2YTransferFragmentToY2YFundsTransferSuccessFragment(
                 viewModel.state.fullName,
                 "AED",
-                viewModel.state.amount, args.position
+                viewModel.enteredAmount.value ?: "", args.position
             )
         findNavController().navigate(action)
     }
 
-    private fun showErrorSnackBar() {
-        if (activity is YapToYapDashboardActivity) {
-            (activity as YapToYapDashboardActivity).viewModel.errorEvent.value =
-                viewModel.state.errorDescription
-        }
+    //    private fun showErrorSnackBar(isShowBar: Boolean) {
+//        if (isShowBar)
+//        CustomSnackbar.showErrorCustomSnackbar(
+//            context = requireContext(),
+//            layout = getBinding().clFTSnackbar,
+//            message = viewModel.state.errorDescription,
+//            duration = Snackbar.LENGTH_INDEFINITE
+//        )
+//        else
+//            CustomSnackbar.cancelAllSnackBar()
+//    }
+    private fun showErrorSnackBar(isShowBar: Boolean) {
+        if (isShowBar)
+            viewModel.parentViewModel?.errorEvent?.value = viewModel.state.errorDescription
+        else
+            viewModel.parentViewModel?.errorEvent?.value = null
 
-        /*   CustomSnackbar.showErrorCustomSnackbar(
-               context = requireContext(),
-               layout = clFTSnackbar,
-               message = viewModel.state.errorDescription
-           )*/
     }
 
     override fun onDestroy() {
         viewModel.clickEvent.removeObservers(this)
+        cancelAllSnackBar()
+        viewModel.enteredAmount.removeObservers(this)
         super.onDestroy()
 
     }
