@@ -796,4 +796,34 @@ object Utils {
         } ?: return null
 
     }
+
+    fun checkForUpdate(
+        existingVersion: String,
+        newVersion: String
+    ): Boolean {
+        var existingVersion = existingVersion
+        var newVersion = newVersion
+        if (existingVersion.isEmpty() || newVersion.isEmpty()) {
+            return false
+        }
+        existingVersion = existingVersion.replace("\\.".toRegex(), "")
+        newVersion = newVersion.replace("\\.".toRegex(), "")
+        val existingVersionLength = existingVersion.length
+        val newVersionLength = newVersion.length
+        val versionBuilder = java.lang.StringBuilder()
+        if (newVersionLength > existingVersionLength) {
+            versionBuilder.append(existingVersion)
+            for (i in existingVersionLength until newVersionLength) {
+                versionBuilder.append("0")
+            }
+            existingVersion = versionBuilder.toString()
+        } else if (existingVersionLength > newVersionLength) {
+            versionBuilder.append(newVersion)
+            for (i in newVersionLength until existingVersionLength) {
+                versionBuilder.append("0")
+            }
+            newVersion = versionBuilder.toString()
+        }
+        return newVersion.toInt() > existingVersion.toInt()
+    }
 }
