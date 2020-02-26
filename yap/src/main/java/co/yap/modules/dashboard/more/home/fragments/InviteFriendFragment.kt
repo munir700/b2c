@@ -10,6 +10,7 @@ import co.yap.modules.dashboard.more.home.interfaces.IInviteFriend
 import co.yap.modules.dashboard.more.home.viewmodels.InviteFriendViewModel
 import co.yap.translation.Strings
 import co.yap.yapcore.BaseBindingFragment
+import co.yap.yapcore.constants.Constants
 
 class InviteFriendFragment : BaseBindingFragment<IInviteFriend.ViewModel>(), IInviteFriend.View {
     override fun getBindingVariable(): Int = BR.viewModel
@@ -51,7 +52,8 @@ class InviteFriendFragment : BaseBindingFragment<IInviteFriend.ViewModel>(), IIn
     private fun getBody(): String {
         return getString(Strings.screen_invite_friend_display_text_share_url).format(
             "www.apple.com",
-            "www.playstore.com"
+            Constants.SHARE_ADJUST_LINK
+
         )
     }
 

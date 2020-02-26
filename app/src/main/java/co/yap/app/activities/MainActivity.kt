@@ -1,5 +1,6 @@
 package co.yap.app.activities
 
+import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import co.yap.app.R
@@ -48,4 +49,9 @@ open class MainActivity : DefaultActivity(), IFragmentHolder, INavigator {
         super.onBackPressed()
     }
 
+    override fun onNewIntent(intent: Intent) {
+        super.onNewIntent(intent)
+        val data: Uri = intent.getData()
+        // data.toString() -> This is your deep_link parameter value.
+    }
 }

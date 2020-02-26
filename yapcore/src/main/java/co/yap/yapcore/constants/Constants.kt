@@ -168,7 +168,7 @@ object Constants {
     const val PAGE_URL = "_page_url"
     const val TOOLBAR_TITLE = "toolbar_title"
 
-
+    const val SHARE_ADJUST_LINK = "https://app.adjust.com/abc123?deep_link=adjustExample%3A%2F%2F"
 
 
 }
