@@ -3,8 +3,6 @@ package co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.fragments
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -20,6 +18,7 @@ import co.yap.translation.Translator
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.helpers.extentions.applyIBANMask
 import co.yap.yapcore.helpers.extentions.launchActivity
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.MyUserManager
@@ -67,59 +66,10 @@ class AddBeneficiaryForDomesticTransferFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        etIban.addTextChangedListener(object : TextWatcher {
-
-            override fun afterTextChanged(s: Editable) {
-                var i = 4
-                while (i < s.length) {
-                    if (s.toString()[i] != ' ') {
-                        s.insert(i, " ")
-                    }
-                    i += 5
-                }
-            }
-
-            override fun beforeTextChanged(
-                s: CharSequence, start: Int,
-                count: Int, after: Int
-            ) {
-            }
-
-            override fun onTextChanged(
-                s: CharSequence, start: Int,
-                before: Int, count: Int
-            ) {
-
-            }
-        })
-
-        etConfirmIban.addTextChangedListener(object : TextWatcher {
-
-            override fun afterTextChanged(s: Editable) {
-                var i = 4
-                while (i < s.length) {
-                    if (s.toString()[i] != ' ') {
-                        s.insert(i, " ")
-                    }
-                    i += 5
-                }
-            }
-
-            override fun beforeTextChanged(
-                s: CharSequence, start: Int,
-                count: Int, after: Int
-            ) {
-            }
-
-            override fun onTextChanged(
-                s: CharSequence, start: Int,
-                before: Int, count: Int
-            ) {
-
-            }
-        })
-
+        etIban.applyIBANMask()
+        etConfirmIban.applyIBANMask()
     }
+
 
     override fun onDestroy() {
         super.onDestroy()

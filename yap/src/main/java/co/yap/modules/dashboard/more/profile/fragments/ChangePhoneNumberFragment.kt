@@ -26,9 +26,9 @@ class ChangePhoneNumberFragment : MoreBaseFragment<IChangePhoneNumber.ViewModel>
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel.changePhoneNumberSuccessEvent.observe(this, Observer {
-            MyUserManager.user?.currentCustomer?.mobileNo = viewModel.state.mobile
+            MyUserManager.user?.currentCustomer?.mobileNo = viewModel.state.mobile.replace(" ", "")
             MyUserManager.user?.currentCustomer?.countryCode = viewModel.state.countryCode
-            SharedPreferenceManager(requireContext()).saveUserNameWithEncryption(viewModel.state.mobile)
+            SharedPreferenceManager(requireContext()).saveUserNameWithEncryption( viewModel.state.mobile.replace(" ", ""))
             val action =
                 ChangePhoneNumberFragmentDirections.actionChangePhoneNumberFragmentToSuccessFragment(
                     getString(Strings.screen_phone_number_success_display_text_sub_heading),

@@ -63,10 +63,10 @@ class BeneficiaryAccountDetailsState : BaseState(), IBeneficiaryAccountDetails.S
         }
 
     private fun validateNonRmt() {
-        if (isIbanMandatory.get() == true){
-            valid = StringUtils.isValidIBAN(accountIban.replace(" ", ""))
+        valid = if (isIbanMandatory.get() == true){
+            StringUtils.isValidIBAN(accountIban.replace(" ", ""))
         }else{
-            valid = StringUtils.isValidAccountNumber(accountIban.replace(" ", ""))
+            StringUtils.isValidAccountNumber(accountIban.replace(" ", ""))
         }
 
         notifyPropertyChanged(BR.valid)
