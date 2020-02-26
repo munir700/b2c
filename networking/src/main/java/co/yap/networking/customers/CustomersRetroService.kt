@@ -163,5 +163,8 @@ interface CustomersRetroService {
     @POST(CustomersRepository.URL_CREATE_HOUSEHOLD_PASSCODE)
     suspend fun createHouseholdPasscode(@Body createPassCodeRequest: CreatePassCodeRequest): Response<ApiResponse>
 
+    @POST(CustomersRepository.URL_SAVE_REFERAL_INVITATION)
+    suspend fun saveReferalInvitation(@Body saveReferalRequest: SaveReferalRequest): Response<ApiResponse>
+
 
 }

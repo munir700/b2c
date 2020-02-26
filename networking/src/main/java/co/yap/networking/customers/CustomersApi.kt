@@ -8,6 +8,8 @@ import co.yap.networking.customers.responsedtos.sendmoney.*
 import co.yap.networking.models.ApiResponse
 import co.yap.networking.models.RetroApiResponse
 import okhttp3.MultipartBody
+import retrofit2.Response
+import retrofit2.http.Body
 
 interface CustomersApi {
     suspend fun signUp(signUpRequest: SignUpRequest): RetroApiResponse<SignUpResponse>
@@ -72,5 +74,6 @@ interface CustomersApi {
         currencyCode: String
     ): RetroApiResponse<CountryLimitsResponseDTO>
 
+    suspend fun saveReferalInvitation(@Body saveReferalRequest: SaveReferalRequest): RetroApiResponse<ApiResponse>
 
 }
