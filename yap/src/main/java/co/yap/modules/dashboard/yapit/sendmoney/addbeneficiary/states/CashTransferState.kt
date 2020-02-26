@@ -15,7 +15,6 @@ import co.yap.networking.transactions.responsedtos.transaction.RemittanceFeeResp
 import co.yap.translation.Strings
 import co.yap.translation.Translator
 import co.yap.yapcore.BaseState
-import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.Utils
 
 class CashTransferState(application: Application) : BaseState(), ICashTransfer.State {
@@ -62,17 +61,6 @@ class CashTransferState(application: Application) : BaseState(), ICashTransfer.S
         set(value) {
             field = value
             notifyPropertyChanged(BR.amount)
-            clearError()
-
-            if (feeType == Constants.FEE_TYPE_TIER) {
-                if (amount.isNotEmpty() && amount != ".") {
-                    setSpannableFee(findFee(amount.toDouble()).toString())
-                } else {
-                    setSpannableFee("0.0")
-                }
-            }
-
-
         }
 
     @get:Bindable
@@ -223,6 +211,13 @@ class CashTransferState(application: Application) : BaseState(), ICashTransfer.S
             field = value
             notifyPropertyChanged(BR.reasonTransferCode)
         }
+    @get:Bindable
+    override var totalAmount: Double? = 0.0
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.totalAmount)
+        }
+    override var totalTransferAmount: ObservableField<Double> = ObservableField(0.0)
 
     @get:Bindable
     override var transferFee: String = ""
@@ -236,6 +231,12 @@ class CashTransferState(application: Application) : BaseState(), ICashTransfer.S
         set(value) {
             field = value
             notifyPropertyChanged(BR.transferFeeSpannable)
+        }
+    @get:Bindable
+    override var transferFeeAmount: Double = 0.0
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.transferFeeAmount)
         }
 
     @get:Bindable
@@ -307,7 +308,7 @@ class CashTransferState(application: Application) : BaseState(), ICashTransfer.S
     }
 
 
-    private fun clearError() {
+    override fun clearError() {
         if (amount != "") {
             if (amount != "." && amount.toDoubleOrNull() ?: 0.0 > 0.0) {
                 valid = true
@@ -321,10 +322,10 @@ class CashTransferState(application: Application) : BaseState(), ICashTransfer.S
     }
 
 
-    private fun findFee(
+    override fun findFee(
         value: Double
     ): Double {
-        var totalAmount = 0.0
+        totalAmount = 0.0
         val remittanceTierFee: ArrayList<RemittanceFeeResponse.RemittanceFee.TierRateDTO> =
             ArrayList()
         //listItemRemittanceFee.filter { item -> item.amountFrom?.toDouble() <= value && item.amountTo!! >= value }
@@ -333,7 +334,7 @@ class CashTransferState(application: Application) : BaseState(), ICashTransfer.S
         while (iterator.hasNext()) {
             val item = iterator.next()
             if (item.amountFrom != null && item.amountTo != null) {
-                if (item.amountFrom!! <= value && item.amountTo!! >= value) {
+                if (item.amountFrom?:0.0 <= value && item.amountTo!! >= value) {
                     remittanceTierFee.add(item)
                     break
                 }
@@ -344,13 +345,14 @@ class CashTransferState(application: Application) : BaseState(), ICashTransfer.S
             val feeAmount = remittanceTierFee[0].feeAmount
             val feeAmountVAT = remittanceTierFee[0].vatAmount
             if (feeAmount != null) {
-                totalAmount = feeAmount + feeAmountVAT!!
+                totalAmount = feeAmount + (feeAmountVAT?:0.0)
             }
         }
-        return totalAmount
+        transferFeeAmount = totalAmount ?: 0.0
+        return totalAmount ?: 0.0
     }
 
-    fun setSpannableFee(totalAmount: String) {
+    override fun setSpannableFee(totalAmount: String) {
         transferFee =
             Translator.getString(
                 context,
