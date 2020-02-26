@@ -9,7 +9,10 @@ import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
+import co.yap.app.AAPApplication
+import co.yap.app.BuildConfig
 import co.yap.app.R
+import co.yap.app.YAPApplication
 import co.yap.app.modules.startup.interfaces.ISplash
 import co.yap.app.modules.startup.viewmodels.SplashViewModel
 import co.yap.yapcore.BaseFragment
@@ -37,7 +40,23 @@ class SplashFragment : BaseFragment<ISplash.ViewModel>(), ISplash.View {
         super.onViewCreated(view, savedInstanceState)
         viewModel.splashComplete.observe(this, Observer {
             if (it) {
-                viewModel.getAppUpdate()
+                if (BuildConfig.DEBUG) {
+                    val sharedPreferenceManager = SharedPreferenceManager(requireContext())
+                    if (sharedPreferenceManager.getValueBoolien(
+                            KEY_IS_FIRST_TIME_USER,
+                            true
+                        )
+                    ) {
+                        sharedPreferenceManager.save(
+                            KEY_IS_FIRST_TIME_USER,
+                            false
+                        )
+                        findNavController().navigate(R.id.action_splashFragment_to_accountSelectionFragment)
+                    } else {
+                        findNavController().navigate(R.id.action_splashFragment_to_loginFragment)
+                    }
+                } else
+                    viewModel.getAppUpdate()
             }
         })
 

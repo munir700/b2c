@@ -89,7 +89,7 @@ class EidInfoReviewViewModel(application: Application) :
                     )
                     Leanplum.track(KYCEvents.KYC_PROHIBITED_CITIIZEN.type)
                 }
-                parentViewModel?.document != null && it.citizenNumber != parentViewModel?.document?.identityNo && it.givenName + " " + it.sirName != parentViewModel?.document?.fullName -> {
+                parentViewModel?.document != null && it.citizenNumber != parentViewModel?.document?.identityNo -> {
                     state.toast = "Your EID doesn't match with the current EID."
                 }
                 else -> {

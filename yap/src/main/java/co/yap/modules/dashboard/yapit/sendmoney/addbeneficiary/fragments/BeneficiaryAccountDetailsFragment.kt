@@ -22,6 +22,7 @@ import co.yap.modules.otp.OtpDataModel
 import co.yap.modules.otp.OtpToolBarData
 import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.translation.Translator
+import co.yap.widgets.MaskTextWatcher
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.enums.OTPActions
@@ -126,33 +127,16 @@ class BeneficiaryAccountDetailsFragment :
             this,
             otpSuccessObserver
         )
-        etIban.addTextChangedListener(object : TextWatcher {
-
-            override fun afterTextChanged(s: Editable) {
-                var i = 4
-                while (i < s.length) {
-                    if (s.toString()[i] != ' ') {
-                        s.insert(i, " ")
-                    }
-                    i += 5
-                }
-            }
-
-            override fun beforeTextChanged(
-                s: CharSequence, start: Int,
-                count: Int, after: Int
-            ) {
-            }
-
-            override fun onTextChanged(
-                s: CharSequence, start: Int,
-                before: Int, count: Int
-            ) {
-
-            }
-        })
+        maskIban()
     }
 
+    private fun maskIban() {
+        etIban?.let {
+            val maskTextWatcher =
+                MaskTextWatcher(it, "#### #### #### #### #### #### ####")
+            it.addTextChangedListener(maskTextWatcher)
+        }
+    }
     private fun openEditBeneficiary(beneficiary: Beneficiary?) {
         beneficiary?.let {
             val bundle = Bundle()
