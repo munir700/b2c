@@ -59,19 +59,21 @@ interface ICashTransfer {
         var feeStringVisibility: Boolean
         var feeType: String?
         var cutOffTimeMsg: String?
-
+        fun clearError()
+        fun findFee(value: Double): Double
+        fun setSpannableFee(totalAmount: String)
         var transferFee: String
         var transferFeeSpannable: SpannableStringBuilder?
         var listItemRemittanceFee: List<RemittanceFeeResponse.RemittanceFee.TierRateDTO>
-
-
+        var transferFeeAmount: Double
+        var totalTransferAmount: ObservableField<Double>
         var transactionData: ArrayList<InternationalFundsTransferReasonList.ReasonList>
         val populateSpinnerData: MutableLiveData<List<InternationalFundsTransferReasonList.ReasonList>>
         var ibanNumber: String?
         var ibanVisibility: Boolean?
         var beneficiaryCountry: String?
         var referenceNumber: String?
-
+        var totalAmount: Double?
         var reasonTransferValue: String?
         var reasonTransferCode: String?
         var reasonsVisibility: Boolean?
@@ -79,6 +81,6 @@ interface ICashTransfer {
         var otpAction: String?
         var beneficiary: Beneficiary?
 
-        var originalTransferFeeAmount:ObservableField<String>
+        var originalTransferFeeAmount: ObservableField<String>
     }
 }

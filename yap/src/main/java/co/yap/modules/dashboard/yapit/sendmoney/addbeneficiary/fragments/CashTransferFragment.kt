@@ -26,6 +26,7 @@ import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.viewmodels.CashTr
 import co.yap.modules.dashboard.yapit.sendmoney.fragments.SendMoneyBaseFragment
 import co.yap.networking.transactions.responsedtos.InternationalFundsTransferReasonList
 import co.yap.translation.Strings
+import co.yap.translation.Translator
 import co.yap.widgets.spinneradapter.ViewHolderArrayAdapter
 import co.yap.yapcore.BR
 import co.yap.yapcore.constants.Constants
@@ -33,6 +34,7 @@ import co.yap.yapcore.enums.SendMoneyBeneficiaryProductCode
 import co.yap.yapcore.enums.SendMoneyBeneficiaryType
 import co.yap.yapcore.helpers.DecimalDigitsInputFilter
 import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.helpers.cancelAllSnackBar
 import co.yap.yapcore.helpers.spannables.color
 import co.yap.yapcore.helpers.spannables.getText
 import co.yap.yapcore.managers.MyUserManager
@@ -216,6 +218,33 @@ class CashTransferFragment : SendMoneyBaseFragment<ICashTransfer.ViewModel>(), I
             arrayOf(InputFilter.LengthFilter(7), DecimalDigitsInputFilter(2))
         etAmount.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(p0: Editable?) {
+                viewModel.state.clearError()
+                if (viewModel.state.feeType == Constants.FEE_TYPE_TIER) {
+                    if (viewModel.state.amount.isNotEmpty() && viewModel.state.amount != ".") {
+                        viewModel.state.setSpannableFee(viewModel.state.findFee(viewModel.state.amount.toDouble()).toString())
+                    } else {
+                        viewModel.state.setSpannableFee("0.0")
+                    }
+                }
+                if (viewModel.state.amount.isNotEmpty()) {
+                    val totalAmount = viewModel.state.amount.toDoubleOrNull() ?: 0.0.plus(
+                        viewModel.state.transferFeeAmount
+                    )
+                    viewModel.state.totalTransferAmount.set(totalAmount)
+                    if (isBalanceAvailable()) {
+                        if (isDailyLimitReached()) {
+                            showLimitError()
+                            viewModel.state.valid = false
+                        } else {
+                            cancelAllSnackBar()
+                            viewModel.state.valid = true
+                        }
+                    } else {
+                        viewModel.state.valid = false
+                        showBalanceNotAvailableError()
+                    }
+                }
+
             }
 
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
@@ -231,6 +260,58 @@ class CashTransferFragment : SendMoneyBaseFragment<ICashTransfer.ViewModel>(), I
 
             }
         })
+    }
+
+    private fun showBalanceNotAvailableError() {
+        val des = Translator.getString(
+            requireContext(),
+            Strings.common_display_text_available_balance_error
+        ).format(Utils.getFormattedCurrency(MyUserManager.cardBalance.value?.availableBalance))
+        if (activity is BeneficiaryCashTransferActivity) {
+            (activity as BeneficiaryCashTransferActivity).viewModel.errorEvent.value =
+                des
+        }
+    }
+
+    private fun showLimitError() {
+        if (activity is BeneficiaryCashTransferActivity) {
+            (activity as BeneficiaryCashTransferActivity).viewModel.errorEvent.value =
+                viewModel.state.errorDescription
+        }
+    }
+
+    private fun isBalanceAvailable(): Boolean {
+        val availableBalance =
+            MyUserManager.cardBalance.value?.availableBalance?.toDoubleOrNull()
+        if (availableBalance != null) {
+            val totalTransferAmount = viewModel.state.amount.toDoubleOrNull() ?: 0.0
+            +viewModel.state.transferFeeAmount
+
+            return (availableBalance > totalTransferAmount)
+        } else
+            return false
+    }
+
+    private fun isDailyLimitReached(): Boolean {
+        viewModel.transactionThreshold.value?.let {
+            it.dailyLimit?.let { dailyLimit ->
+                it.totalDebitAmount?.let { totalConsumedAmount ->
+                    viewModel.state.totalTransferAmount.get()?.let { enteredAmount ->
+                        val remainingDailyLimit =
+                            if ((dailyLimit - totalConsumedAmount) < 0.0) 0.0 else (dailyLimit - totalConsumedAmount)
+
+                        viewModel.state.errorDescription =
+                            if (enteredAmount > dailyLimit) getString(Strings.common_display_text_daily_limit_error_single_transaction) else getString(
+                                Strings.common_display_text_daily_limit_error_single_transaction
+                            )
+
+                        return (enteredAmount > remainingDailyLimit)
+
+                    } ?: return false
+                } ?: return false
+            } ?: return false
+        } ?: return false
+
     }
 
     private fun showErrorSnackBar() {
