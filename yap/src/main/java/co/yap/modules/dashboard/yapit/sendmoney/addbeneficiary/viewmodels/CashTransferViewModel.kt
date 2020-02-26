@@ -308,32 +308,31 @@ class CashTransferViewModel(application: Application) :
                 ) {
                 is RetroApiResponse.Success -> {
                     state.feeType = response.data.data?.feeType
-                    var totalAmount = 0.0
                     if (state.feeType == Constants.FEE_TYPE_FLAT) {
                         val feeAmount = response.data.data?.tierRateDTOList?.get(0)?.feeAmount
                         val feeAmountVAT =
                             response.data.data?.tierRateDTOList?.get(0)?.vatAmount
                         if (feeAmount != null) {
-                            totalAmount = feeAmount + feeAmountVAT!!
+                            state.totalAmount = feeAmount + feeAmountVAT!!
                         }
 
                     } else if (state.feeType == Constants.FEE_TYPE_TIER) {
                         listItemRemittanceFee = response.data.data!!.tierRateDTOList!!
                         state.listItemRemittanceFee = listItemRemittanceFee
                     } else {
-                        totalAmount = 0.0
+                        state.totalAmount = 0.0
                     }
-                    state.originalTransferFeeAmount.set(totalAmount.toString())
+                    state.originalTransferFeeAmount.set(state.totalAmount.toString())
                     state.feeAmountString =
                         getString(Strings.screen_cash_pickup_funds_display_text_fee).format(
                             state.currencyType,
-                            Utils.getFormattedCurrency(totalAmount.toString())
+                            Utils.getFormattedCurrency(state.totalAmount.toString())
                         )
                     state.feeAmountSpannableString = Utils.getSppnableStringForAmount(
                         context,
                         state.feeAmountString,
                         state.currencyType,
-                        Utils.getFormattedCurrencyWithoutComma(totalAmount.toString())
+                        Utils.getFormattedCurrencyWithoutComma(state.totalAmount.toString())
                     )
                     if (state.reasonsVisibility == true) {
                         getCashTransferReasonList()

@@ -14,6 +14,7 @@ import co.yap.translation.Translator
 import co.yap.yapcore.BaseState
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.helpers.cancelAllSnackBar
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -68,13 +69,6 @@ class InternationalFundsTransferState(val application: Application) : BaseState(
         set(value) {
             field = value
             notifyPropertyChanged(BR.fxRateAmount)
-            clearError()
-            /*fxRateAmount?.let {
-                if (it.isNotEmpty() && it != ".") {
-                    valid = it.toDouble() > 1.0
-                }
-            }*/
-            checkValidation()
         }
 
     @get:Bindable
@@ -302,9 +296,9 @@ class InternationalFundsTransferState(val application: Application) : BaseState(
         }
 
     @get:Bindable
-    override var beneficiary: Beneficiary?= Beneficiary()
+    override var beneficiary: Beneficiary? = Beneficiary()
         set(value) {
-            field=value
+            field = value
             notifyPropertyChanged(BR.beneficiary)
         }
 
@@ -316,7 +310,7 @@ class InternationalFundsTransferState(val application: Application) : BaseState(
         }
     }
 
-    private fun checkValidation() {
+    override fun checkValidation() {
         if (rate.isNullOrBlank()) {
             valid = false
             return
@@ -412,7 +406,7 @@ class InternationalFundsTransferState(val application: Application) : BaseState(
 
     }
 
-    private fun clearError() {
+    override fun clearError() {
         if (fxRateAmount != "") {
             if (fxRateAmount != "." && fxRateAmount?.toDouble() ?: 0.0 > 0.0) {
                 valid = true
@@ -422,6 +416,7 @@ class InternationalFundsTransferState(val application: Application) : BaseState(
             }
         } else if (fxRateAmount == "") {
             valid = false
+            cancelAllSnackBar()
         }
     }
 

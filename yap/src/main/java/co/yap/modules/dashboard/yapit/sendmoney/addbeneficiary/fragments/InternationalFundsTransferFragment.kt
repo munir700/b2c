@@ -24,6 +24,7 @@ import co.yap.widgets.spinneradapter.ViewHolderArrayAdapter
 import co.yap.yapcore.enums.SendMoneyBeneficiaryProductCode
 import co.yap.yapcore.enums.SendMoneyBeneficiaryType
 import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.helpers.cancelAllSnackBar
 import co.yap.yapcore.helpers.extentions.toast
 import co.yap.yapcore.helpers.spannables.color
 import co.yap.yapcore.helpers.spannables.getText
@@ -66,6 +67,26 @@ class InternationalFundsTransferFragment :
             arrayOf(InputFilter.LengthFilter(7), co.yap.widgets.DecimalDigitsInputFilter(2))
         getBindings().etSenderAmount.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(p0: Editable?) {
+                viewModel.state.clearError()
+                viewModel.state.checkValidation()
+                if (!viewModel.state.fxRateAmount.isNullOrEmpty()) {
+                    val totalAmount = viewModel.state.fxRateAmount?.toDoubleOrNull() ?: 0.0.plus(
+                        viewModel.state.transferFeeAmount
+                    )
+                    viewModel.state.totalTransferAmount.set(totalAmount)
+                    if (isBalanceAvailable()) {
+                        if (isDailyLimitReached()) {
+                            showLimitError()
+                            viewModel.state.valid = false
+                        } else {
+                            cancelAllSnackBar()
+                            viewModel.state.valid = true
+                        }
+                    } else {
+                        viewModel.state.valid = false
+                        showBalanceNotAvailableError()
+                    }
+                }
             }
 
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
@@ -136,10 +157,10 @@ class InternationalFundsTransferFragment :
                 if (viewModel.state.reasonTransferValue.equals("Select a Reason")) {
                     toast("Select a Reason")
                 } else {
-                    val totalAmount = viewModel.state.fxRateAmount?.toDoubleOrNull() ?: 0.0.plus(
+                    /*val totalAmount = viewModel.state.fxRateAmount?.toDoubleOrNull() ?: 0.0.plus(
                         viewModel.state.transferFeeAmount
                     )
-                    viewModel.state.totalTransferAmount.set(totalAmount)
+                    viewModel.state.totalTransferAmount.set(totalAmount)*/
                     startFlow()
                 }
             }
@@ -183,7 +204,6 @@ class InternationalFundsTransferFragment :
         ).format(
             Utils.getFormattedCurrency(viewModel.state.minLimit.toString()),
             Utils.getFormattedCurrency(viewModel.state.maxLimit.toString())
-
         )
         showLimitError()
     }
@@ -191,8 +211,8 @@ class InternationalFundsTransferFragment :
     private fun showBalanceNotAvailableError() {
         val des = Translator.getString(
             requireContext(),
-            Strings.screen_y2y_funds_transfer_display_text_error_exceeding_amount
-        )
+            Strings.common_display_text_available_balance_error
+        ).format(Utils.getFormattedCurrency(MyUserManager.cardBalance.value?.availableBalance))
         if (activity is BeneficiaryCashTransferActivity) {
             (activity as BeneficiaryCashTransferActivity).viewModel.errorEvent.value =
                 des
@@ -330,5 +350,10 @@ class InternationalFundsTransferFragment :
 
     fun getBindings(): FragmentInternationalFundsTransferBinding {
         return viewDataBinding as FragmentInternationalFundsTransferBinding
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        cancelAllSnackBar()
     }
 }

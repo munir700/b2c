@@ -412,7 +412,7 @@
                     android:layout_marginRight="@dimen/margin_xxl"
                     android:layout_marginBottom="@dimen/margin_medium_large"
                     android:onClick="@{(v)->viewModel.handlePressOnButton(v.id)}"
-                    android:text="@string/common_button_next"
+                    app:text="@{Strings.screen_yap_to_yap_transfer_display_text_button}"
                     app:enableCoreButton="@{viewModel.state.valid}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     tools:ignore="MissingConstraints"
