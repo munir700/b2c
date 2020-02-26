@@ -6,7 +6,6 @@ import androidx.lifecycle.MutableLiveData
 import co.yap.R
 import co.yap.modules.dashboard.cards.paymentcarddetail.interfaces.IPaymentCardDetail
 import co.yap.modules.dashboard.cards.paymentcarddetail.states.PaymentCardDetailState
-import co.yap.modules.dashboard.helpers.transaction.TransactionLogicHelper
 import co.yap.modules.dashboard.home.filters.models.TransactionFilters
 import co.yap.networking.cards.CardsRepository
 import co.yap.networking.cards.requestdtos.CardLimitConfigRequest
@@ -35,8 +34,6 @@ class PaymentCardDetailViewModel(application: Application) :
     override var card: MutableLiveData<Card> = MutableLiveData()
     override lateinit var cardDetail: CardDetail
     override val clickEvent: SingleClickEvent = SingleClickEvent()
-    override val transactionLogicHelper: TransactionLogicHelper =
-        TransactionLogicHelper(context)
 
     override var MAX_CLOSING_BALANCE: Double = 0.0
     private var closingBalanceArray: ArrayList<Double> = arrayListOf()

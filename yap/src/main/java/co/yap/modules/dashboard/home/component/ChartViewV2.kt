@@ -180,14 +180,14 @@ class ChartViewV2(context: Context, attrs: AttributeSet) : View(context, attrs),
             override fun onAnimationRepeat(animation: Animation) {}
         })
     }
-
-    fun setBarHeight(height: Double) {
-        // layoutParams = LinearLayout.LayoutParams(width, 0, height.toFloat())
-
-        barHeight = (this.height * height).toFloat()
-
-        invalidate()
-    }
+//
+//    fun setBarHeight(height: Double) {
+//        // layoutParams = LinearLayout.LayoutParams(width, 0, height.toFloat())
+//
+//        barHeight = (this.height * height).toFloat()
+//
+//        invalidate()
+//    }
 
 
     fun unSelectHighlightedBarOnGraphClick(highlighted: Boolean) {
