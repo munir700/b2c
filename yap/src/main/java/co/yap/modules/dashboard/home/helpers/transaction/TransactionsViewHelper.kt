@@ -21,7 +21,7 @@ import co.yap.yapcore.helpers.DateUtils.FORMAT_DATE_MON_YEAR
 import co.yap.yapcore.helpers.DateUtils.FORMAT_MON_YEAR
 import co.yap.yapcore.helpers.RecyclerTouchListener
 import co.yap.yapcore.helpers.Utils
-import com.yarolegovich.discretescrollview.DiscreteScrollView
+import co.yap.yapcore.helpers.extentions.dimen
 import kotlinx.android.synthetic.main.content_fragment_yap_home.view.*
 import kotlinx.android.synthetic.main.fragment_yap_home.view.*
 import kotlinx.android.synthetic.main.view_graph.view.*
@@ -118,7 +118,7 @@ class TransactionsViewHelper(
             if (null != newView) {
                 addTooltip(
                     newView.findViewById(R.id.transactionBar),
-                    viewModel.transactionsLiveData.value!![0]
+                    viewModel.transactionsLiveData.value!![0], true
                 )
             }
         }
@@ -129,7 +129,7 @@ class TransactionsViewHelper(
         tooltip?.visibility = visibility
     }
 
-    fun addTooltip(view: View?, data: HomeTransactionListData) {
+    fun addTooltip(view: View?, data: HomeTransactionListData, firstTime: Boolean = false) {
         transactionsView.tvTransactionDate.visibility = View.VISIBLE
         transactionsView.tvTransactionDate.text = data.date?.let {
             DateUtils.reformatStringDate(
@@ -175,15 +175,21 @@ class TransactionsViewHelper(
                     translationX = viewPosition[0].toFloat()
                     arrowX = 0f
                 }
-
-
-                y = view.bottom.toFloat() - view.height - 140
-                // y = viewPosition[1].toFloat() - this.height - toolbarHeight - view.height - Utils.convertDpToPx(context, 20f)
-                val notificationView =
-                    transactionsView.findViewById<DiscreteScrollView>(R.id.rvNotificationList)
-                if (notificationView.adapter?.itemCount?:0 > 0) {
-                    y += notificationView.height
+                if (firstTime) {
+                    addToolTipDelay(10) {
+                        y = (it.y - this.height) + context.dimen(R.dimen._8sdp)
+                    }
+                } else {
+                    y = (it.y - this.height) + context.dimen(R.dimen._8sdp)
                 }
+
+
+                // y = viewPosition[1].toFloat() - this.height - toolbarHeight - view.height - Utils.convertDpToPx(context, 20f)
+//                val notificationView =
+//                    transactionsView.findViewById<DiscreteScrollView>(R.id.rvNotificationList)
+//                if (notificationView.adapter?.itemCount?:0 > 0) {
+//                    y += notificationView.height
+//                }
             }
 
         }
