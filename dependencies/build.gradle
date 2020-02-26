@@ -138,7 +138,7 @@ project.ext {
             //adjust
             adjust                : 'com.adjust.sdk:adjust-android:4.20.0',
             adjust_referrer       : 'com.android.installreferrer:installreferrer:1.0',
-            adjust_web_bridge       : 'com.adjust.sdk:adjust-android-webbridge:4.20.0'
+//            adjust_web_bridge       : 'com.adjust.sdk:adjust-android-webbridge:4.20.0'
 
 
     ]
@@ -176,8 +176,8 @@ project.ext {
             [configuration: "implementation", dependency: libraries.compression],
             [configuration: "implementation", dependency: libraries.exoplayer],
             [configuration: "implementation", dependency: libraries.adjust],
-            [configuration: "implementation", dependency: libraries.adjust_referrer],
-            [configuration: "implementation", dependency: libraries.adjust_web_bridge]
+            [configuration: "implementation", dependency: libraries.adjust_referrer]
+//            [configuration: "implementation", dependency: libraries.adjust_web_bridge]
 
     ]
 

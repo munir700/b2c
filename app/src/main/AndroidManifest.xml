@@ -20,9 +20,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        tools:remove="android:debuggable"
         android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning"
+        tools:remove="android:debuggable"
         tools:replace="android:theme,android:allowBackup">
         <activity
             android:name=".activities.MainActivity"
@@ -37,6 +37,13 @@
             <intent-filter>
                 <action android:name="co.yap.app.OPEN_LOGIN" />
                 <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="adjustExample" />
             </intent-filter>
         </activity>
 

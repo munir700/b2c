@@ -1,5 +1,6 @@
 package co.yap.app.activities
 
+import android.net.Uri
 import android.os.Bundle
 import co.yap.app.R
 import co.yap.app.YAPApplication
@@ -10,6 +11,7 @@ import co.yap.yapcore.defaults.INavigator
 import co.yap.yapcore.helpers.DeviceUtils
 import co.yap.yapcore.interfaces.BackPressImpl
 import co.yap.yapcore.interfaces.IBaseNavigator
+import com.adjust.sdk.Adjust
 
 
 open class MainActivity : DefaultActivity(), IFragmentHolder, INavigator {
@@ -27,6 +29,10 @@ open class MainActivity : DefaultActivity(), IFragmentHolder, INavigator {
         } else {
             YAPApplication.AUTO_RESTART_APP = false
             setContentView(R.layout.activity_main)
+
+            val intent = getIntent()
+            val data: Uri? = intent.data
+            Adjust.appWillOpenUrl(data, applicationContext)
         }
 
     }
