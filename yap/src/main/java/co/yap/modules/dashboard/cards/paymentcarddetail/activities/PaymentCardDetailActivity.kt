@@ -47,6 +47,7 @@ import co.yap.networking.cards.responsedtos.Card
 import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionListData
 import co.yap.translation.Strings
 import co.yap.yapcore.BaseBindingActivity
+import co.yap.yapcore.adjust.AdjustEvents
 import co.yap.yapcore.constants.Constants.VERIFY_PASS_CODE_BTN_TEXT
 import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.enums.CardStatus
@@ -60,6 +61,7 @@ import co.yap.yapcore.helpers.showSnackBar
 import co.yap.yapcore.helpers.spannables.underline
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.MyUserManager
+import co.yap.yapcore.trackAdjustEvent
 import com.ezaka.customer.app.utils.toCamelCase
 import com.google.android.material.snackbar.Snackbar
 import com.tbuonomo.viewpagerdotsindicator.WormDotsIndicator
@@ -201,6 +203,7 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
                 }
             }
             R.id.llAddFunds -> {
+                trackAdjustEvent(AdjustEvents.TOP_UP_START.type)
                 viewModel.card.value?.let { card ->
                     startActivityForResult(
                         AddFundsActivity.newIntent(this, card),

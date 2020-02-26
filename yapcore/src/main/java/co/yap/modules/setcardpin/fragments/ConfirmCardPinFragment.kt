@@ -12,9 +12,9 @@ import co.yap.translation.Strings
 import co.yap.translation.Translator
 import co.yap.yapcore.R
 import co.yap.yapcore.enums.AccountStatus
+import co.yap.yapcore.helpers.extentions.trackEvent
 import co.yap.yapcore.leanplum.KYCEvents
 import co.yap.yapcore.managers.MyUserManager
-import com.leanplum.Leanplum
 import kotlinx.android.synthetic.main.fragment_set_card_pin.*
 
 open class ConfirmCardPinFragment : SetCardPinFragment() {
@@ -45,7 +45,7 @@ open class ConfirmCardPinFragment : SetCardPinFragment() {
                     }
                 }
                 viewModel.EVENT_SET_CARD_PIN_SUCCESS -> {
-                    Leanplum.track(KYCEvents.CARD_ACTIVE.type)
+                    trackEvent(KYCEvents.CARD_ACTIVE.type)
                     findNavController().navigate(R.id.action_confirmCardPinFragment_to_setCardPinSuccessFragment)
                     MyUserManager.user?.notificationStatuses = AccountStatus.CARD_ACTIVATED.name
                 }

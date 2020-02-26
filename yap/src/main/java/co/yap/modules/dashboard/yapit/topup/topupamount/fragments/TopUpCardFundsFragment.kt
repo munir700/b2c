@@ -18,10 +18,10 @@ import co.yap.modules.dashboard.yapit.topup.topupamount.viewModels.TopUpCardFund
 import co.yap.translation.Strings
 import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.constants.Constants
-import co.yap.yapcore.helpers.CustomSnackbar
 import co.yap.yapcore.helpers.DecimalDigitsInputFilter
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.launchActivity
+import co.yap.yapcore.helpers.showSnackBar
 import co.yap.yapcore.managers.MyUserManager
 
 class TopUpCardFundsFragment : BaseBindingFragment<IFundActions.ViewModel>(),
@@ -120,10 +120,10 @@ class TopUpCardFundsFragment : BaseBindingFragment<IFundActions.ViewModel>(),
     }
 
     private fun showErrorSnackBar() {
-        CustomSnackbar.showErrorCustomSnackbar(
-            context = requireContext(),
-            layout = getBindings().clSnackbar,
-            message = viewModel.state.errorDescription
+        getBindings().clSnackbar.showSnackBar(
+            msg = viewModel.state.errorDescription,
+            viewBgColor = R.color.errorLightBackground,
+            colorOfMessage = R.color.error
         )
     }
 

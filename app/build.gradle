@@ -18,6 +18,7 @@ android {
             buildConfigField("String", "BASE_URL", "\"${api_endpoint_live}\"")
             buildConfigField("String", "LEANPLUM_CLIENT_SECRET", "\"${leanplum_client_secret_key}\"")
             buildConfigField("String", "LEANPLUM_API_KEY", "\"${leanplum_api_prod_key}\"")
+            buildConfigField("String", "ADJUST_APP_TOKEN", "\"${adjust_app_tocken}\"")
         }
 
         dev {
@@ -27,6 +28,7 @@ android {
             buildConfigField("String", "BASE_URL", "\"${api_endpoint_dev}\"")
             buildConfigField("String", "LEANPLUM_CLIENT_SECRET", "\"${leanplum_client_secret_key}\"")
             buildConfigField("String", "LEANPLUM_API_KEY", "\"${leanplum_api_debug_key}\"")
+            buildConfigField("String", "ADJUST_APP_TOKEN", "\"${adjust_app_tocken}\"")
             resValue "string", "app_name", "YAP Dev"
         }
 
@@ -37,16 +39,18 @@ android {
             buildConfigField("String", "BASE_URL", "\"${api_endpoint_qa}\"")
             buildConfigField("String", "LEANPLUM_CLIENT_SECRET", "\"${leanplum_client_secret_key}\"")
             buildConfigField("String", "LEANPLUM_API_KEY", "\"${leanplum_api_debug_key}\"")
+            buildConfigField("String", "ADJUST_APP_TOKEN", "\"${adjust_app_tocken}\"")
             resValue "string", "app_name", "YAP QA"
         }
 
         stg {
-            versionCode 42
-            versionName "0.4.2"
+            versionCode 45
+            versionName "0.4.5"
             applicationIdSuffix ".stg"
             buildConfigField("String", "BASE_URL", "\"${api_endpoint_stg}\"")
             buildConfigField("String", "LEANPLUM_CLIENT_SECRET", "\"${leanplum_client_secret_key}\"")
             buildConfigField("String", "LEANPLUM_API_KEY", "\"${leanplum_api_debug_key}\"")
+            buildConfigField("String", "ADJUST_APP_TOKEN", "\"${adjust_app_tocken}\"")
             resValue "string", "app_name", "YAP Stage"
         }
     }

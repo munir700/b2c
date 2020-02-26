@@ -31,7 +31,6 @@ import co.yap.yapcore.BR
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.SendMoneyBeneficiaryProductCode
 import co.yap.yapcore.enums.SendMoneyBeneficiaryType
-import co.yap.yapcore.helpers.CustomSnackbar
 import co.yap.yapcore.helpers.DecimalDigitsInputFilter
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.spannables.color
@@ -148,7 +147,7 @@ class CashTransferFragment : SendMoneyBaseFragment<ICashTransfer.ViewModel>(), I
 
     private fun isUaeftsBeneficiary(): Boolean {
         viewModel.state.beneficiary?.beneficiaryType?.let {
-            return (it == SendMoneyBeneficiaryType.UAEFTS.type)
+            return (it == SendMoneyBeneficiaryType.UAEFTS.type||it == SendMoneyBeneficiaryType.DOMESTIC.type)
         } ?: return false
     }
 

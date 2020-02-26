@@ -17,6 +17,8 @@ import co.yap.yapcore.constants.Constants.EXTRA
 import co.yap.yapcore.constants.Constants.KEY_APP_UUID
 import co.yap.yapcore.helpers.*
 import co.yap.yapcore.helpers.extentions.longToast
+import co.yap.yapcore.initializeAdjustSdk
+import co.yap.yapcore.initializeAdjustSdk
 import com.crashlytics.android.Crashlytics
 import com.github.florent37.inlineactivityresult.kotlin.startForResult
 import com.leanplum.Leanplum
@@ -25,7 +27,6 @@ import io.fabric.sdk.android.Fabric
 import timber.log.Timber
 import timber.log.Timber.DebugTree
 import java.util.*
-
 
 class AAPApplication : ChatApplication(
     AppInfo(
@@ -39,14 +40,12 @@ class AAPApplication : ChatApplication(
 
     override fun onCreate() {
         super.onCreate()
-        if (!DeviceUtils().isDeviceRooted()) {
-            SharedPreferenceManager(this).setThemeValue(Constants.THEME_YAP)
-            initNetworkLayer()
-            setAppUniqueId(this)
-            initFirebase()
-        } else {
-            //onTerminate()
-        }
+        initNetworkLayer()
+        SharedPreferenceManager(this).setThemeValue(Constants.THEME_YAP)
+        setAppUniqueId(this)
+        initFireBase()
+        inItLeanPlum()
+        initializeAdjustSdk(BuildConfig.ADJUST_APP_TOKEN)
     }
 
     private fun initNetworkLayer() {
@@ -66,7 +65,7 @@ class AAPApplication : ChatApplication(
         })
     }
 
-    private fun initFirebase() {
+    private fun initFireBase() {
         if (BuildConfig.DEBUG) {
             Timber.plant(DebugTree())
         } else {
@@ -74,7 +73,6 @@ class AAPApplication : ChatApplication(
                 .kits(Crashlytics())
                 .build()
             Fabric.with(fabric)
-            inItLeanPlum()
         }
     }
 

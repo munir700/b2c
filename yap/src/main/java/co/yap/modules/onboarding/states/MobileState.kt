@@ -19,6 +19,7 @@ import co.yap.yapcore.BaseState
 import co.yap.yapcore.R
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.SharedPreferenceManager
+import co.yap.yapcore.helpers.extentions.trackEvent
 import co.yap.yapcore.leanplum.SignupEvents
 import com.leanplum.Leanplum
 
@@ -55,7 +56,7 @@ class MobileState(application: Application, var viewModel: MobileViewModel) : Ba
             notifyPropertyChanged(BR.mobile)
             if (viewModel.parentViewModel?.isPhoneNumberEntered?.value == false) {
                 viewModel.parentViewModel?.isPhoneNumberEntered?.value = true
-                Leanplum.track(SignupEvents.SIGN_UP_START.type)
+                trackEvent(SignupEvents.SIGN_UP_START.type)
             }
             if (mobile.length < 9) {
                 mobileNoLength = 11

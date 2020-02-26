@@ -14,6 +14,7 @@ import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.enums.EIDStatus
 import co.yap.yapcore.helpers.DateUtils
+import co.yap.yapcore.helpers.extentions.trackEvent
 import co.yap.yapcore.leanplum.KYCEvents
 import co.yap.yapcore.managers.MyUserManager
 import com.digitify.identityscanner.core.arch.Gender
@@ -61,7 +62,7 @@ class EidInfoReviewViewModel(application: Application) :
                 }
                 !it.isDateOfBirthValid -> {
                     clickEvent.setValue(EVENT_ERROR_UNDER_AGE)
-                    Leanplum.track(KYCEvents.EID_UNDER_AGE_18.type)
+                    trackEvent(KYCEvents.EID_UNDER_AGE_18.type)
 
                 }
                 it.nationality.equals("USA", true) || it.isoCountryCode2Digit.equals(
@@ -71,7 +72,7 @@ class EidInfoReviewViewModel(application: Application) :
                     sanctionedCountry = it.nationality
                     sanctionedNationality = it.nationality
                     clickEvent.setValue(EVENT_ERROR_FROM_USA)
-                    Leanplum.track(KYCEvents.KYC_US_CITIIZEN.type)
+                    trackEvent(KYCEvents.KYC_US_CITIIZEN.type)
                 }
                 it.isoCountryCode2Digit.equals(
                     sectionedCountries?.data?.find { country ->
@@ -87,7 +88,7 @@ class EidInfoReviewViewModel(application: Application) :
                     clickEvent.setValue(
                         EVENT_ERROR_FROM_USA
                     )
-                    Leanplum.track(KYCEvents.KYC_PROHIBITED_CITIIZEN.type)
+                    trackEvent(KYCEvents.KYC_PROHIBITED_CITIIZEN.type)
                 }
                 parentViewModel?.document != null && it.citizenNumber != parentViewModel?.document?.identityNo -> {
                     state.toast = "Your EID doesn't match with the current EID."

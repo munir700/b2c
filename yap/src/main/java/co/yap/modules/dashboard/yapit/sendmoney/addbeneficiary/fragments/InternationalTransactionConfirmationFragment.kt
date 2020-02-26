@@ -2,7 +2,14 @@ package co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.fragments
 
 import android.content.Intent
 import android.os.Bundle
+import android.text.Spannable
+import android.text.SpannableStringBuilder
+import android.text.method.LinkMovementMethod
+import android.text.style.ClickableSpan
+import android.text.style.ForegroundColorSpan
 import android.view.View
+import androidx.core.content.ContextCompat
+import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
@@ -14,11 +21,14 @@ import co.yap.databinding.FragmentInternationalTransactionConfirmationBinding
 import co.yap.modules.dashboard.yapit.sendmoney.activities.BeneficiaryCashTransferActivity
 import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.interfaces.IInternationalTransactionConfirmation
 import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.viewmodels.InternationalTransactionConfirmationViewModel
+import co.yap.modules.webview.WebViewFragment
 import co.yap.translation.Strings
 import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.constants.Constants.URL_DISCLAIMER_TERMS
 import co.yap.yapcore.enums.SendMoneyBeneficiaryType
 import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.helpers.extentions.startFragment
 import co.yap.yapcore.helpers.spannables.color
 import co.yap.yapcore.helpers.spannables.getText
 
@@ -50,6 +60,7 @@ class InternationalTransactionConfirmationFragment :
     private fun setUpViews() {
         if (activity is BeneficiaryCashTransferActivity) {
             setData()
+            setDisclaimerText()
             (activity as BeneficiaryCashTransferActivity).viewModel.state.toolBarVisibility = true
             (activity as BeneficiaryCashTransferActivity).viewModel.state.rightButtonVisibility =
                 false
@@ -157,6 +168,38 @@ class InternationalTransactionConfirmationFragment :
                 }
             }
         }
+    }
+    private fun setDisclaimerText(){
+        val myClickableSpan = object : ClickableSpan() {
+            override fun onClick(widget: View) {
+                startFragment(
+                    fragmentName = WebViewFragment::class.java.name, bundle = bundleOf(
+                        Constants.PAGE_URL to URL_DISCLAIMER_TERMS
+                    ), showToolBar = true
+                )
+            }
+        }
+        val newValue =
+            getString(Strings.scren_send_money_funds_transfer_confirmation_display_text_disclaimer).plus(
+                " "
+            )
+        val clickValue =
+            getString(Strings.scren_send_money_funds_transfer_confirmation_display_text_disclaimer_terms)
+        val spanStr = SpannableStringBuilder("$newValue $clickValue")
+        spanStr.setSpan(
+            myClickableSpan,
+            (newValue.length + 1),
+            (newValue.length + 1) + clickValue.length,
+            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+        )
+        spanStr.setSpan(
+            ForegroundColorSpan(ContextCompat.getColor(requireContext(), R.color.colorPrimary)),
+            (newValue.length + 1),
+            (newValue.length + 1) + clickValue.length,
+            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+        )
+        getBinding().tvDisclaimer.text = spanStr
+        getBinding().tvDisclaimer.movementMethod = LinkMovementMethod.getInstance()
     }
 
     override fun onResume() {

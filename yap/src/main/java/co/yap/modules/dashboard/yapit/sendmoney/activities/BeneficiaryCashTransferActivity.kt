@@ -1,7 +1,6 @@
 package co.yap.modules.dashboard.yapit.sendmoney.activities
 
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.lifecycle.Observer
@@ -16,7 +15,7 @@ import co.yap.yapcore.IFragmentHolder
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.defaults.DefaultNavigator
 import co.yap.yapcore.defaults.INavigator
-import co.yap.yapcore.helpers.CustomSnackbar
+import co.yap.yapcore.helpers.showSnackBar
 import co.yap.yapcore.interfaces.BackPressImpl
 import co.yap.yapcore.interfaces.IBaseNavigator
 import kotlinx.android.synthetic.main.activity_beneficiary_cash_transfer.*
@@ -46,16 +45,12 @@ class BeneficiaryCashTransferActivity : BaseBindingActivity<IBeneficiaryCashTran
 
     val errorEvent = Observer<String> {
         if (!it.isNullOrEmpty()) {
-            showSnackBarForLimits(it)
+            clFTSnackbar.showSnackBar(
+                msg = it,
+                viewBgColor = R.color.errorLightBackground,
+                colorOfMessage = R.color.error
+            )
         }
-    }
-
-    fun showSnackBarForLimits(errorMessage: String) {
-        CustomSnackbar.showErrorCustomSnackbar(
-            context = this,
-            layout = clFTSnackbar,
-            message = errorMessage
-        )
     }
 
     val clickEvent = Observer<Int> {

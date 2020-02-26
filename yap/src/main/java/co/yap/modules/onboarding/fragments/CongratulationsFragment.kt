@@ -32,6 +32,7 @@ import co.yap.modules.onboarding.viewmodels.CongratulationsViewModel
 import co.yap.modules.others.fragmentpresenter.activities.FragmentPresenterActivity
 import co.yap.networking.cards.responsedtos.Address
 import co.yap.translation.Strings
+import co.yap.yapcore.adjust.AdjustEvents
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.helpers.AnimationUtils
@@ -39,9 +40,11 @@ import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.ExtraType
 import co.yap.yapcore.helpers.extentions.getValue
 import co.yap.yapcore.helpers.extentions.launchActivity
+import co.yap.yapcore.helpers.extentions.trackEvent
 import co.yap.yapcore.leanplum.KYCEvents
 import co.yap.yapcore.leanplum.SignupEvents
 import co.yap.yapcore.managers.MyUserManager
+import co.yap.yapcore.trackAdjustEvent
 import com.leanplum.Leanplum
 import kotlinx.android.synthetic.main.fragment_onboarding_congratulations.*
 import java.text.SimpleDateFormat
@@ -91,16 +94,17 @@ class CongratulationsFragment : OnboardingChildFragment<ICongratulations.ViewMod
     private val clickObserver = Observer<Int> {
         when (it) {
             R.id.btnCompleteVerification -> {
+                trackAdjustEvent(AdjustEvents.KYC_START.type)
                 launchActivity<DocumentsDashboardActivity>(requestCode = RequestCodes.REQUEST_KYC_DOCUMENTS) {
                     putExtra(Constants.name, viewModel.state.nameList[0] ?: "")
                     putExtra(Constants.data, false)
                 }
-                Leanplum.track(SignupEvents.SIGN_UP_END.type)
-                Leanplum.track(
+                trackEvent(SignupEvents.SIGN_UP_END.type)
+                trackEvent(
                     SignupEvents.SIGN_UP_DATE.type,
                     SimpleDateFormat("dd/MMM/yyyy").format(Calendar.getInstance().time)
                 )
-                Leanplum.track(
+                trackEvent(
                     SignupEvents.SIGN_UP_TIME.type,
                     SimpleDateFormat("hh:mm").format(Calendar.getInstance().time)
                 )
@@ -117,7 +121,7 @@ class CongratulationsFragment : OnboardingChildFragment<ICongratulations.ViewMod
                     null
                 ), RequestCodes.REQUEST_MEETING_CONFIRMED
             )
-            Leanplum.track(KYCEvents.KYC_ORDERED.type)
+            trackEvent(KYCEvents.KYC_ORDERED.type)
         } else {
             goToDashboard()
         }
@@ -159,7 +163,7 @@ class CongratulationsFragment : OnboardingChildFragment<ICongratulations.ViewMod
                     )
                 } else {
                     skipped?.let { skip ->
-                        Leanplum.track(KYCEvents.SKIP_KYC.type)
+                        trackEvent(KYCEvents.SKIP_KYC.type)
                         goToDashboard()
                     }
                 }
@@ -271,7 +275,7 @@ class CongratulationsFragment : OnboardingChildFragment<ICongratulations.ViewMod
                 textview.text = SpannableStringBuilder().run {
                     append(parts[0])
                     val counterText = animator.animatedValue.toString() + parts[1]
-                    Leanplum.track(
+                    trackEvent(
                         SignupEvents.SIGN_UP_LENGTH.type,
                         animator.animatedValue.toString()
                     )

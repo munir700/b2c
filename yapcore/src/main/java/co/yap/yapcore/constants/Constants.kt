@@ -80,6 +80,7 @@ object Constants {
 
 
     const val URL_TERMS_CONDITION = "https://yap.co/terms"
+    const val URL_DISCLAIMER_TERMS = "https://www.yap.com/terms/transfers"
 
     //HTML Key
     const val URL_TOP_UP_TRANSACTION_HTML = "URL_TOP_UP_TRANSACTION_HTML"

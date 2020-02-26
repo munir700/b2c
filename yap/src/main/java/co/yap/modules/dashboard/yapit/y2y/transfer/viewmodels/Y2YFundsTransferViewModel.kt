@@ -27,6 +27,7 @@ class Y2YFundsTransferViewModel(application: Application) :
     private val repository: TransactionsRepository = TransactionsRepository
     override var receiverUUID: String = ""
     override val transferFundSuccess: MutableLiveData<Boolean> = MutableLiveData(false)
+    override var enteredAmount: MutableLiveData<String> = MutableLiveData()
 
     override fun onCreate() {
         super.onCreate()
@@ -38,16 +39,12 @@ class Y2YFundsTransferViewModel(application: Application) :
     }
 
     override fun handlePressOnView(id: Int) {
-        if (state.checkValidity() == "") {
-            clickEvent.setValue(id)
-        } else {
-            errorEvent.postValue(id)
-        }
+        clickEvent.setValue(id)
     }
 
     override fun proceedToTransferAmount() {
         val y2yFundsTransfer = Y2YFundsTransferRequest(
-            receiverUUID, state.fullName, state.amount, false, state.noteValue
+            receiverUUID, state.fullName, enteredAmount.value, false, state.noteValue
         )
         launch {
             state.loading = true

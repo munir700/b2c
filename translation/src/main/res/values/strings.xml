@@ -20,6 +20,7 @@
     <string name="common_text_fee">Fee: %1s</string>
     <string name="common_display_text_daily_limit_error_single_transaction">This amount exceeds your daily transaction limit</string>
     <string name="common_display_text_daily_limit_error_multiple_transactions">You have exceeded your daily transaction limit</string>
+    <string name="common_display_text_available_balance_error">Your entered amount should be less than or equal to your current balance of AED %1s</string>
     <string name="common_display_text_min_max_limit_error_transaction">Your entered amount should be between AED %1s and AED %2s</string>
 
 
@@ -759,6 +760,9 @@
     <string name="scren_send_money_funds_transfer_display_text_amount_error">Your entered amount should be between AED %1s and AED %2s, and your entered amount should be less than or equal to your current balance of AED %3s</string>
     <string name="scren_send_money_funds_transfer_confirmation_display_text_amount_uaefts">%1s will receive %2s</string>
     <string name="scren_send_money_funds_transfer_confirmation_display_text_fee">Fee: %1s\nNote that the recipient\'s bank may have its own charges.</string>
+    <string name="scren_send_money_funds_transfer_confirmation_display_text_disclaimer">Click here for full list of </string>
+    <string name="scren_send_money_funds_transfer_confirmation_display_text_disclaimer_terms">Terms &amp; Conditions</string>
+
     <string name="screen_funds_transfer_fee_description">International transfer fee: %1s \n Note that the recipient\'s bank may have its own charges.</string>
 
     <!--    Screen cash pickup funds transfer success-->

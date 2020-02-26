@@ -10,7 +10,6 @@ open class YAPApplication(myAppInfo: AppInfo) : Application() {
         var appInfo: AppInfo? = null
         const val pageSize = 1000
         var hasFilterStateChanged = false
-        var isAllChecked = false
         var homeTransactionsRequest: HomeTransactionsRequest = HomeTransactionsRequest(
             0,
             pageSize,
