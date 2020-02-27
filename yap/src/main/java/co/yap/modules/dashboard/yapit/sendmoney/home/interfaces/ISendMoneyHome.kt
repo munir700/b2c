@@ -20,8 +20,6 @@ interface ISendMoneyHome {
 
     interface ViewModel : IBase.ViewModel<State> {
         var clickEvent: SingleClickEvent
-        var allBeneficiariesList: List<Beneficiary>
-        var recentBeneficiariesList: List<Beneficiary>
         var pagingState: MutableLiveData<PagingState>
         val allBeneficiariesLiveData: MutableLiveData<List<Beneficiary>>
         val onDeleteSuccess: MutableLiveData<Int>
