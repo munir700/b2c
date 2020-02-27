@@ -19,6 +19,7 @@ import co.yap.widgets.MaskTextWatcher
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.helpers.extentions.applyIBANMask
 import co.yap.yapcore.helpers.extentions.launchActivity
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.MyUserManager
@@ -66,18 +67,11 @@ class AddBeneficiaryForDomesticTransferFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        maskIban()
+        etIban.applyIBANMask()
+        etConfirmIban.applyIBANMask()
     }
 
-    private fun maskIban() {
-        etIban?.let {
-            val maskTextWatcher =
-                MaskTextWatcher(it, "#### #### #### #### #### #### ####")
-            it.addTextChangedListener(maskTextWatcher)
-            etConfirmIban?.let { watcher -> watcher.addTextChangedListener(maskTextWatcher) }
-        }
 
-    }
     override fun onDestroy() {
         super.onDestroy()
         viewModel.clickEvent.removeObservers(this)

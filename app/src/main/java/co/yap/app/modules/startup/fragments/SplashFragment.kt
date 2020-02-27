@@ -16,6 +16,7 @@ import co.yap.app.modules.startup.viewmodels.SplashViewModel
 import co.yap.yapcore.BaseFragment
 import co.yap.yapcore.constants.Constants.KEY_IS_FIRST_TIME_USER
 import co.yap.yapcore.helpers.SharedPreferenceManager
+import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.alert
 
 class SplashFragment : BaseFragment<ISplash.ViewModel>(), ISplash.View {
@@ -47,7 +48,11 @@ class SplashFragment : BaseFragment<ISplash.ViewModel>(), ISplash.View {
         })
 
         viewModel.appUpdate.observe(this, Observer {
-            if (it != null && it.androidForceUpdate) {
+            if (it != null && it.androidForceUpdate && Utils.checkForUpdate(
+                    BuildConfig.VERSION_NAME,
+                    it.androidAppVersionNumber
+                )
+            ) {
                 activity?.alert(
                     getString(R.string.screen_splash_display_text_force_update),
                     getString(R.string.screen_splash_button_force_update),

@@ -3,8 +3,6 @@ package co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.fragments
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import android.view.View
 import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
@@ -22,16 +20,12 @@ import co.yap.modules.otp.OtpDataModel
 import co.yap.modules.otp.OtpToolBarData
 import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.translation.Translator
-import co.yap.widgets.MaskTextWatcher
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.enums.OTPActions
 import co.yap.yapcore.enums.SendMoneyBeneficiaryType
 import co.yap.yapcore.helpers.Utils
-import co.yap.yapcore.helpers.extentions.ExtraType
-import co.yap.yapcore.helpers.extentions.getValue
-import co.yap.yapcore.helpers.extentions.launchActivity
-import co.yap.yapcore.helpers.extentions.startFragmentForResult
+import co.yap.yapcore.helpers.extentions.*
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.MyUserManager
 import kotlinx.android.synthetic.main.fragment_beneficiary_account_detail.*
@@ -127,16 +121,9 @@ class BeneficiaryAccountDetailsFragment :
             this,
             otpSuccessObserver
         )
-        maskIban()
+        etIban.applyIBANMask()
     }
 
-    private fun maskIban() {
-        etIban?.let {
-            val maskTextWatcher =
-                MaskTextWatcher(it, "#### #### #### #### #### #### ####")
-            it.addTextChangedListener(maskTextWatcher)
-        }
-    }
     private fun openEditBeneficiary(beneficiary: Beneficiary?) {
         beneficiary?.let {
             val bundle = Bundle()

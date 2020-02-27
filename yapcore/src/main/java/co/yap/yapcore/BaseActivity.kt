@@ -154,6 +154,7 @@ abstract class BaseActivity<V : IBase.ViewModel<*>> : AppCompatActivity(), IBase
     override fun onDestroy() {
         NetworkConnectionManager.unsubscribe(this)
         unregisterStateListeners()
+        cancelAllSnackBar()
         progress?.dismiss()
         super.onDestroy()
     }

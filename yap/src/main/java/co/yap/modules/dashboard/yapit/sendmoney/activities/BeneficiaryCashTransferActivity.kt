@@ -15,9 +15,13 @@ import co.yap.yapcore.IFragmentHolder
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.defaults.DefaultNavigator
 import co.yap.yapcore.defaults.INavigator
+import co.yap.yapcore.helpers.cancelAllSnackBar
+import co.yap.yapcore.helpers.getSnackBarFromQueue
 import co.yap.yapcore.helpers.showSnackBar
+import co.yap.yapcore.helpers.updateSnackBarText
 import co.yap.yapcore.interfaces.BackPressImpl
 import co.yap.yapcore.interfaces.IBaseNavigator
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_beneficiary_cash_transfer.*
 
 
@@ -44,13 +48,25 @@ class BeneficiaryCashTransferActivity : BaseBindingActivity<IBeneficiaryCashTran
     }
 
     val errorEvent = Observer<String> {
-        if (!it.isNullOrEmpty()) {
-            clFTSnackbar.showSnackBar(
-                msg = it,
-                viewBgColor = R.color.errorLightBackground,
-                colorOfMessage = R.color.error
-            )
-        }
+        if (!it.isNullOrEmpty())
+            showErrorSnackBar(it)
+        else
+            hideErrorSnackBar()
+    }
+    private fun showErrorSnackBar(errorMessage: String) {
+        getSnackBarFromQueue(0)?.let {
+            if (it.isShown) {
+                it.updateSnackBarText(errorMessage)
+            }
+        } ?: clFTSnackbar.showSnackBar(
+            msg = errorMessage,
+            viewBgColor = R.color.errorLightBackground,
+            colorOfMessage = R.color.error, duration = Snackbar.LENGTH_INDEFINITE
+        )
+    }
+
+    private fun hideErrorSnackBar() {
+        cancelAllSnackBar()
     }
 
     val clickEvent = Observer<Int> {
