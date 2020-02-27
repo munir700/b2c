@@ -17,6 +17,7 @@ import co.yap.networking.cards.responsedtos.Card
 import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.CardDeliveryStatus
+import co.yap.yapcore.enums.CardType
 import kotlinx.android.synthetic.main.widget_step_indicator_layout.*
 
 
@@ -54,7 +55,7 @@ class YapCardStatusFragment : BaseBindingFragment<IYapCardStatus.ViewModel>(), I
 
 
             when (card?.deliveryStatus?.let { CardDeliveryStatus.valueOf(it) }) {
-                CardDeliveryStatus.BOOKED, CardDeliveryStatus.FAILED, CardDeliveryStatus.ORDERED -> {
+                CardDeliveryStatus.ORDERED, CardDeliveryStatus.FAILED -> {
                     tbBtnOneOrdered.setImageResource(R.drawable.ic_tick)
                     tvOrdered.setTextColor(
                         ContextCompat.getColor(
@@ -62,8 +63,7 @@ class YapCardStatusFragment : BaseBindingFragment<IYapCardStatus.ViewModel>(), I
                         )
                     )
                 }
-
-                CardDeliveryStatus.SHIPPING -> {
+                CardDeliveryStatus.BOOKED -> {
                     tbBtnOneOrdered.setImageResource(R.drawable.ic_tick)
                     tvOrdered.setTextColor(
                         ContextCompat.getColor(
@@ -72,6 +72,7 @@ class YapCardStatusFragment : BaseBindingFragment<IYapCardStatus.ViewModel>(), I
                     )
 
                     tbProgressBarBuilding.progress = 100
+
                     tbBtnBuilding.setImageResource(R.drawable.ic_tick)
                     tvBuilding.text = "Built"
                     tvBuilding.setTextColor(
@@ -81,8 +82,9 @@ class YapCardStatusFragment : BaseBindingFragment<IYapCardStatus.ViewModel>(), I
                         )
                     )
                 }
-                CardDeliveryStatus.SHIPPED -> {
-                    viewModel.state.message.set(if (card?.cardType == "DEBIT") "Your Primary card is shipped" else "Your Spare physical card is shipped")
+
+                CardDeliveryStatus.SHIPPED, CardDeliveryStatus.SHIPPING -> {
+                    viewModel.state.message.set(if (card?.cardType == CardType.DEBIT.type) "Your Primary card is shipped" else "Your Spare physical card is shipped")
                     tbBtnOneOrdered.setImageResource(R.drawable.ic_tick)
                     tvOrdered.setTextColor(
                         ContextCompat.getColor(
@@ -102,7 +104,8 @@ class YapCardStatusFragment : BaseBindingFragment<IYapCardStatus.ViewModel>(), I
 
                     viewModel.state.shippingProgress = 100
                     tbBtnShipping.setImageResource(R.drawable.ic_tick)
-                    tvShipping.text = "Shipped"
+                    tvShipping.text =
+                        if (CardDeliveryStatus.SHIPPED.name == card?.deliveryStatus) "Shipped" else "Shipping"
                     tvShipping.setTextColor(
                         ContextCompat.getColor(
                             requireContext(),
