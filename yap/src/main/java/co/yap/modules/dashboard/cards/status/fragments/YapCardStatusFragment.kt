@@ -84,7 +84,7 @@ class YapCardStatusFragment : BaseBindingFragment<IYapCardStatus.ViewModel>(), I
                 }
 
                 CardDeliveryStatus.SHIPPED, CardDeliveryStatus.SHIPPING -> {
-                    viewModel.state.message.set(if (card?.cardType == CardType.DEBIT.type) "Your Primary card is shipped" else "Your Spare physical card is shipped")
+                    viewModel.state.message.set(if (card?.cardType == CardType.DEBIT.type && CardDeliveryStatus.SHIPPED.name == card?.deliveryStatus) "Your Primary card is shipped" else "")
                     tbBtnOneOrdered.setImageResource(R.drawable.ic_tick)
                     tvOrdered.setTextColor(
                         ContextCompat.getColor(
@@ -112,7 +112,7 @@ class YapCardStatusFragment : BaseBindingFragment<IYapCardStatus.ViewModel>(), I
                             R.color.colorPrimary
                         )
                     )
-                    viewModel.state.valid = true
+                    viewModel.state.valid = CardDeliveryStatus.SHIPPED.name == card?.deliveryStatus
                 }
             }
         }
