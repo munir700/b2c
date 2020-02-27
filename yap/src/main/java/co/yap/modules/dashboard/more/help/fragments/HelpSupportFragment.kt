@@ -3,6 +3,7 @@ package co.yap.modules.dashboard.more.help.fragments
 import android.content.Context
 import android.content.Intent
 import android.content.Intent.ACTION_DIAL
+import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
@@ -20,10 +21,12 @@ import co.yap.modules.dashboard.more.help.interfaces.IHelpSupport
 import co.yap.modules.dashboard.more.help.viewmodels.HelpSupportViewModel
 import co.yap.modules.dashboard.more.main.fragments.MoreBaseFragment
 import co.yap.modules.webview.WebViewFragment
+import co.yap.networking.customers.requestdtos.Contact
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.LivePersonStorage
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.startFragment
+import co.yap.yapcore.helpers.extentions.toast
 import com.liveperson.infra.*
 import com.liveperson.infra.callbacks.InitLivePersonCallBack
 import com.liveperson.messaging.sdk.api.LivePerson
@@ -72,12 +75,12 @@ class HelpSupportFragment : MoreBaseFragment<IHelpSupport.ViewModel>(), IHelpSup
                 viewModel.getFaqsUrl()
             }
             R.id.lyChat -> {
-                Utils.showComingSoon(requireContext())
-                //chatSetup()
+                //Utils.showComingSoon(requireContext())
+                chatSetup()
             }
             R.id.lyLiveWhatsApp -> {
-                Utils.showComingSoon(requireContext())
-                //chatSetup()
+                // Utils.showComingSoon(requireContext())
+                OpenWhatsApp()
             }
             R.id.lyCall -> {
                 openDialer()
@@ -86,6 +89,31 @@ class HelpSupportFragment : MoreBaseFragment<IHelpSupport.ViewModel>(), IHelpSup
                 activity?.finish()
             }
         }
+    }
+
+    private fun OpenWhatsApp() {
+        val contact = "+971 4 365 3789" // use country code with your phone number
+        val url = "https://api.whatsapp.com/send?phone=$contact"
+        try {
+            val pm = requireContext().packageManager
+            pm?.getPackageInfo("com.whatsapp", PackageManager.GET_ACTIVITIES)
+            val i = Intent(Intent.ACTION_VIEW)
+            i.data = Uri.parse(url)
+            requireContext().startActivity(i)
+        } catch (e: PackageManager.NameNotFoundException) {
+            toast("Whatsapp app not installed in your phone")
+        }
+    }
+
+    private fun inviteViaWhatsapp(contact: Contact) {
+        val url =
+            "https://api.whatsapp.com/send?phone=${Utils.getFormattedPhoneNumber(
+                requireContext(),
+                "${contact.countryCode}${contact.mobileNo!!}"
+            )}&text=${Utils.getBody(requireContext(), contact)}"
+        val i = Intent(Intent.ACTION_VIEW)
+        i.data = Uri.parse(url)
+        startActivity(i)
     }
 
     private fun chatSetup() {
@@ -207,8 +235,9 @@ class HelpSupportFragment : MoreBaseFragment<IHelpSupport.ViewModel>(), IHelpSup
     private fun openFaqsPage(url: String) {
         startFragment(
             fragmentName = WebViewFragment::class.java.name,
-            bundle = bundleOf(Constants.PAGE_URL to url
-            ), toolBarTitle = viewModel.state.title.get() ?: "" ,showToolBar = true
+            bundle = bundleOf(
+                Constants.PAGE_URL to url
+            ), toolBarTitle = viewModel.state.title.get() ?: "", showToolBar = true
         )
         //Utils.openWebPage(url, viewModel.state.title.get() ?: "", activity)
     }
