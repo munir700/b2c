@@ -4,8 +4,10 @@
     <LinearLayout
         android:layout_width="@dimen/_9sdp"
         android:layout_height="match_parent"
-        android:layout_marginLeft="1dp"
-        android:layout_marginRight="1dp"
+        android:layout_marginLeft="@dimen/margin_one_dp"
+        android:layout_marginRight="@dimen/margin_one_dp"
+        android:layout_marginStart="@dimen/margin_one_dp"
+        android:layout_marginEnd="@dimen/margin_one_dp"
         android:gravity="bottom"
         android:soundEffectsEnabled="false"
         android:orientation="vertical">

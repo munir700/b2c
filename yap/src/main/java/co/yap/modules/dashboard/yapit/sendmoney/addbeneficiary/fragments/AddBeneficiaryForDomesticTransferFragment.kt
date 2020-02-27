@@ -15,6 +15,7 @@ import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.interfaces.IAddBe
 import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.viewmodels.AddBeneficiaryViewModel
 import co.yap.modules.dashboard.yapit.sendmoney.fragments.SendMoneyBaseFragment
 import co.yap.translation.Translator
+import co.yap.widgets.MaskTextWatcher
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.helpers.Utils

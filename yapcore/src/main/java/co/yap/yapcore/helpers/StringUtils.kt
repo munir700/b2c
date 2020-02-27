@@ -1,7 +1,9 @@
 package co.yap.yapcore.helpers
 
+import android.util.Log
 import org.json.JSONArray
 import java.util.regex.Pattern
+
 
 object StringUtils {
 
@@ -118,18 +120,17 @@ object StringUtils {
 
     }
 
-    fun isValidIBAN(iban: String): Boolean {
+    fun isValidIBAN(iban: String, code: String?): Boolean {
         var inputStr: CharSequence = ""
         var isValid = false
-        val expression =
-            "^[A-Z]{2}[0-9]{2}[0-9A-Z]{1,31}$"
-        inputStr = iban
-        val pattern = Pattern.compile(expression)
-        val matcher = pattern.matcher(inputStr)
+        val expression = "^($code)[0-9]{2}[0-9A-Z]{1,31}$"
+         inputStr = iban
+         val pattern = Pattern.compile(expression)
+         val matcher = pattern.matcher(inputStr)
 
-        if (matcher.matches() && iban.isNotEmpty()) {
-            isValid = true
-        }
+         if (matcher.matches() && iban.isNotEmpty()) {
+             isValid = true
+         }
         return isValid
     }
 
