@@ -3,6 +3,8 @@ package co.yap.app.activities
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.text.format.DateFormat
+import android.util.Log
 import co.yap.app.R
 import co.yap.app.YAPApplication
 import co.yap.yapcore.IFragmentHolder
@@ -13,7 +15,8 @@ import co.yap.yapcore.helpers.DeviceUtils
 import co.yap.yapcore.interfaces.BackPressImpl
 import co.yap.yapcore.interfaces.IBaseNavigator
 import com.adjust.sdk.Adjust
- import java.net.URL
+import java.net.URL
+import java.util.*
 
 
 open class MainActivity : DefaultActivity(), IFragmentHolder, INavigator {
@@ -32,18 +35,30 @@ open class MainActivity : DefaultActivity(), IFragmentHolder, INavigator {
             YAPApplication.AUTO_RESTART_APP = false
             setContentView(R.layout.activity_main)
 
-            val intent = getIntent()
-            val data: Uri? = intent.data
-            Adjust.appWillOpenUrl(data, applicationContext)
-
-             if (null!=data){
-                val url = URL(data?.scheme, data?.host, data?.path)
-                 val customerId =  data?.path
-
-
-            }
+            getDataFromDeepLinkIntent()
         }
 
+    }
+
+    private fun getDataFromDeepLinkIntent() {
+        val intent = getIntent()
+        val data: Uri? = intent.data
+        Adjust.appWillOpenUrl(data, applicationContext)
+
+        if (null != data) {
+            val url = URL(
+                data?.scheme,
+                data?.host,
+                data?.path
+            )// to retrive customer id from url placed in path
+            val customerId = data?.path
+            val date = DateFormat.format(
+                "yyyy-MM-dd hh:mm:ss",
+                Date()
+            ) as String
+
+            Log.i("abc", date.toString())
+        }
     }
 
     override fun onBackPressed() {
@@ -60,6 +75,7 @@ open class MainActivity : DefaultActivity(), IFragmentHolder, INavigator {
     override fun onNewIntent(intent: Intent) {
         super.onNewIntent(intent)
         val data: Uri = intent.getData()
+        getDataFromDeepLinkIntent()
         // data.toString() -> This is your deep_link parameter value.
     }
 }

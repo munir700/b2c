@@ -169,6 +169,9 @@ object Constants {
     const val TOOLBAR_TITLE = "toolbar_title"
 
 
+      var SHARE_ADJUST_LINK = ""
+
+
 
 
 }
