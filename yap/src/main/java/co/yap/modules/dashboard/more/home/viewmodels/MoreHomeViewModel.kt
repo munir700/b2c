@@ -14,12 +14,10 @@ import co.yap.yapcore.managers.MyUserManager
 import com.leanplum.Leanplum
 
 class MoreHomeViewModel(application: Application) :
-    MoreBaseViewModel<IMoreHome.State>(application), IMoreHome.ViewModel/*,
-    IRepositoryHolder<CustomersRepository>*/ {
+    MoreBaseViewModel<IMoreHome.State>(application), IMoreHome.ViewModel {
 
     override val clickEvent: SingleClickEvent = SingleClickEvent()
     override val state: MoreState = MoreState()
-
 
     override fun onResume() {
         super.onResume()
