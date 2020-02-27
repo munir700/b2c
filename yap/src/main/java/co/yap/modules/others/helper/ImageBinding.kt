@@ -3,6 +3,7 @@ package co.yap.modules.others.helper
 import android.net.Uri
 import android.widget.ImageView
 import androidx.annotation.ColorRes
+import androidx.annotation.DimenRes
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
@@ -58,13 +59,13 @@ object ImageBinding {
     fun loadAvatar(
         imageView: ImageView,
         beneficiaryPicture: String?,
-        fullName: String?, @ColorRes color: Int
+        fullName: String?, @ColorRes color: Int, @DimenRes fontSize: Int = R.dimen.text_size_h5
     ) {
 
         val builder = TextDrawable.builder()
         builder.beginConfig().width(imageView.context.dimen(R.dimen._35sdp))
             .height(imageView.context.dimen(R.dimen._35sdp))
-            .fontSize(imageView.context.dimen(R.dimen.text_size_h5))
+            .fontSize(imageView.context.dimen(fontSize))
             .useFont(ResourcesCompat.getFont(imageView.context, R.font.roboto_regular)!!).bold()
             .toUpperCase()
             .textColor(ContextCompat.getColor(imageView.context, R.color.colorPrimary))
