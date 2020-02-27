@@ -10,6 +10,9 @@ import co.yap.modules.dashboard.more.home.interfaces.IInviteFriend
 import co.yap.modules.dashboard.more.home.viewmodels.InviteFriendViewModel
 import co.yap.translation.Strings
 import co.yap.yapcore.BaseBindingFragment
+import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.constants.Constants.SHARE_ADJUST_LINK
+import co.yap.yapcore.managers.MyUserManager
 
 class InviteFriendFragment : BaseBindingFragment<IInviteFriend.ViewModel>(), IInviteFriend.View {
     override fun getBindingVariable(): Int = BR.viewModel
@@ -49,9 +52,18 @@ class InviteFriendFragment : BaseBindingFragment<IInviteFriend.ViewModel>(), IIn
     }
 
     private fun getBody(): String {
+        val name = MyUserManager.user?.currentCustomer?.customerId
+//        SHARE_ADJUST_LINK = "https://app.adjust.com/abc123?deep_link=adjustExample%3A%2F%2F"
+//        SHARE_ADJUST_LINK = "http://www.google.com/search?digitify"
+//        SHARE_ADJUST_LINK = "https://digitify.atlassian.net/browse/YH-57"
+        SHARE_ADJUST_LINK = "https://digitify.atlassian.net/jira/people/5c46bf494c070827c2a1a4a0"
+//        SHARE_ADJUST_LINK = "https://app.adjust.com/$name?deep_link=adjustExample%3A%2F%2F"
+
+
         return getString(Strings.screen_invite_friend_display_text_share_url).format(
             "www.apple.com",
-            "www.playstore.com"
+            Constants.SHARE_ADJUST_LINK
+
         )
     }
 

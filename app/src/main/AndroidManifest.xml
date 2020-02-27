@@ -20,9 +20,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        tools:remove="android:debuggable"
         android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning"
+        tools:remove="android:debuggable"
         tools:replace="android:theme,android:allowBackup">
         <activity
             android:name=".activities.MainActivity"
@@ -37,6 +37,105 @@
             <intent-filter>
                 <action android:name="co.yap.app.OPEN_LOGIN" />
                 <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <!--                <data android:scheme="adjustExample" />-->
+
+                <!--                <data-->
+                <!--                    android:host="adjust.com"-->
+                <!--                    android:pathPrefix="/adjust.com/"-->
+                <!--                    android:scheme="adjustExample" />-->
+
+                <!--                <data-->
+                <!--                    android:host="fayvo.com"-->
+                <!--                    android:pathPrefix="/fayvo.com?linktype="-->
+                <!--                    android:scheme="fayvo-app" />-->
+                <!--                <data-->
+                <!--                    android:host="fayvo.com"-->
+                <!--                    android:pathPrefix="/favyo_webservices/getVerificationCode?VerificationCode="-->
+                <!--                    android:scheme="http" />-->
+                <!--                <data-->
+                <!--                    android:host="app.adjust.com"-->
+                <!--                    android:pathPrefix="/app.adjust.com/abc123?deep_link="-->
+                <!--                    android:scheme="yap-app" />-->
+                <!--                &lt;!&ndash;                //    const val SHARE_ADJUST_LINK = "https://app.adjust.com/abc123?deep_link=adjustExample%3A%2F%2F"&ndash;&gt;-->
+
+                <!--                <data-->
+                <!--                    android:host="app.adjust.com"-->
+                <!--                    android:pathPrefix="/abc123?deep_link="-->
+                <!--                    android:scheme="http" />-->
+                <!--                <data-->
+                <!--                    android:host="app.adjust.com"-->
+                <!--                    android:pathPrefix="/abc123?deep_link="-->
+                <!--                    android:scheme="https" />-->
+
+                <data
+                    android:scheme="http"
+                    android:host="google.com" />
+                <data
+                    android:scheme="https"
+                    android:host="digitify.atlassian.net"
+                    android:path="/people"/>
+
+<!--                <data android:scheme="myapp"-->
+<!--                    android:host="myhost"-->
+<!--                    android:pathPrefix="/help"/>-->
+
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:scheme="http"
+                    android:host="google.com" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:scheme="https"
+                    android:host="digitify.atlassian.net" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:scheme="https"
+                    android:host="digitify.atlassian.net" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:scheme="http"
+                    android:host="digitify.atlassian.net" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:scheme="https"
+                    android:host="www.example.com" />
             </intent-filter>
         </activity>
 
