@@ -2,7 +2,6 @@ package co.yap.modules.dashboard.cards.paymentcarddetail.interfaces
 
 import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
-import co.yap.modules.dashboard.helpers.transaction.TransactionLogicHelper
 import co.yap.modules.dashboard.home.filters.models.TransactionFilters
 import co.yap.networking.cards.responsedtos.Card
 import co.yap.networking.cards.responsedtos.CardDetail
@@ -25,7 +24,6 @@ interface IPaymentCardDetail {
         val clickEvent: SingleClickEvent
         var card: MutableLiveData<Card>
         var cardDetail: CardDetail
-        val transactionLogicHelper: TransactionLogicHelper
         fun handlePressOnView(id: Int)
         fun getCardBalance()
         fun freezeUnfreezeCard()

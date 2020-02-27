@@ -347,11 +347,11 @@ fun View?.showSnackBar(
         val snakbar = Snackbar
             .make(it, validateString(msg), duration)
         snakbar.view.setBackgroundColor(ContextCompat.getColor(it.context, viewBgColor))
-        snakbar.setTextColor(ContextCompat.getColor(it.context, colorOfMessage))
         val snackRootView = snakbar.view
         val snackTextView = snackRootView
             .findViewById<TextView>(R.id.snackbar_text)
         snackTextView.setTextAppearance(R.style.Micro)
+        snakbar.setTextColor(ContextCompat.getColor(snakbar.view.context, colorOfMessage))
         cancelAllSnackBar()
         show(snakbar, gravity)
         return snakbar
