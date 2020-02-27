@@ -31,8 +31,6 @@ class SendMoneyHomeScreenViewModel(application: Application) :
     override val adapter = ObservableField<RecentTransferAdaptor>()
     override val searchQuery: MutableLiveData<String> = MutableLiveData()
     override val isSearching: MutableLiveData<Boolean> = MutableLiveData(false)
-    override var allBeneficiariesList: List<Beneficiary> = arrayListOf()
-    override var recentBeneficiariesList: List<Beneficiary> = arrayListOf()
 
     override fun handlePressOnView(id: Int) {
         clickEvent.setValue(id)
@@ -63,8 +61,7 @@ class SendMoneyHomeScreenViewModel(application: Application) :
             when (val response = repository.getAllBeneficiaries()) {
                 is RetroApiResponse.Success -> {
                     state.loading = false
-                    allBeneficiariesList = response.data.data
-                    allBeneficiariesLiveData.value = allBeneficiariesList
+                    allBeneficiariesLiveData.value = response.data.data
                 }
 
                 is RetroApiResponse.Error -> {

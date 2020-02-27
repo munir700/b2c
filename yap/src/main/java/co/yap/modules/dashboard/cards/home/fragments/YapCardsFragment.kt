@@ -18,15 +18,13 @@ import co.yap.modules.dashboard.cards.paymentcarddetail.activities.PaymentCardDe
 import co.yap.modules.dashboard.cards.paymentcarddetail.addfunds.activities.AddFundsActivity
 import co.yap.modules.dashboard.cards.reordercard.activities.ReorderCardActivity
 import co.yap.modules.dashboard.main.fragments.YapDashboardChildFragment
-import co.yap.modules.onboarding.constants.Constants.USER_STATUS_MEETING_SUCCESS
 import co.yap.modules.others.fragmentpresenter.activities.FragmentPresenterActivity
 import co.yap.modules.setcardpin.activities.SetCardPinWelcomeActivity
 import co.yap.networking.cards.responsedtos.Card
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.RequestCodes
-import co.yap.yapcore.enums.CardDeliveryStatus
-import co.yap.yapcore.enums.CardStatus
+import co.yap.yapcore.enums.*
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.MyUserManager
@@ -176,15 +174,15 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
                             startReorderCardFlow(getCard(pos))
                         }
                         CardStatus.INACTIVE -> {
-                            if (getCard(pos).cardType == "DEBIT") {
-                                if (MyUserManager.user?.notificationStatuses == USER_STATUS_MEETING_SUCCESS) {
+                            if (getCard(pos).cardType == CardType.DEBIT.type) {
+                                if (MyUserManager.user?.notificationStatuses == AccountStatus.MEETING_SUCCESS.name && PartnerBankStatus.ACTIVATED.status == MyUserManager.user?.partnerBankStatus) {
                                     openSetPinScreen(getCard(pos))
                                 }
                             } else {
                                 if (getCard(pos).deliveryStatus == null) {
                                 } else {
-                                    when (getCard(pos).deliveryStatus?.let {
-                                        CardDeliveryStatus.valueOf(it)
+                                    when (getCard(pos).deliveryStatus?.let {deliveryStatus->
+                                        CardDeliveryStatus.valueOf(deliveryStatus)
                                     }) {
                                         CardDeliveryStatus.SHIPPED -> {
                                             openSetPinScreen(getCard(pos))
