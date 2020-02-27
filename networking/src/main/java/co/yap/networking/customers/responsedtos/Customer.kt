@@ -40,6 +40,8 @@ class Customer(
     var password: String?,
     @SerializedName("nationality")
     var nationality: String?,
+    @SerializedName("nationalityId")
+    var identityNo: String?,
     @SerializedName("emailVerified")
     var emailVerified: Boolean? = false,
     @SerializedName("mobileNoVerified")
