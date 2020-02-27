@@ -39,10 +39,10 @@
             android:importantForAutofill="no"
             android:maxLength="50"
             android:text="@{MyUserManager.INSTANCE.getUser().currentCustomer.fullName}"
-            tools:text="Sufyan Shabbir"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvFullNameHeading" />
+            app:layout_constraintTop_toBottomOf="@+id/tvFullNameHeading"
+            tools:text="Sufyan Shabbir" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvIBanHeading"
@@ -67,10 +67,10 @@
             android:importantForAutofill="no"
             android:maxLength="50"
             android:text="@{MyUserManager.INSTANCE.getUser().iban}"
-            tools:text="1234567897877"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvIBanHeading" />
+            app:layout_constraintTop_toBottomOf="@+id/tvIBanHeading"
+            tools:text="1234567897877" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvSwiftCodeHeading"
@@ -95,10 +95,10 @@
             android:importantForAutofill="no"
             android:maxLength="50"
             android:text="@{MyUserManager.INSTANCE.getUser().bank.swiftCode}"
-            tools:text="QR135336DA4"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvSwiftCodeHeading" />
+            app:layout_constraintTop_toBottomOf="@+id/tvSwiftCodeHeading"
+            tools:text="QR135336DA4" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvAccountNoHeading"
@@ -127,5 +127,35 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvAccountNoHeading"
             tools:text="123456789012" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvBankAddressHeading"
+            style="@style/SmallGrey"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_medium"
+            android:layout_marginTop="@dimen/margin_normal"
+            android:layout_marginEnd="@dimen/margin_medium"
+            android:text="Bank &amp; Address"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvAccountNo"
+            tools:text="Bank &amp; Address" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvBankAddress"
+            style="@style/Yap.App.Widget.TextInputEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_medium"
+            android:layout_marginEnd="@dimen/margin_medium"
+            android:imeOptions="actionNext"
+            android:maxLines="7"
+            android:singleLine="false"
+            android:text="@{MyUserManager.INSTANCE.getUser().bank.name +`\n`+MyUserManager.INSTANCE.getUser().bank.address}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvBankAddressHeading"
+            tools:text="J3 johar town" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
