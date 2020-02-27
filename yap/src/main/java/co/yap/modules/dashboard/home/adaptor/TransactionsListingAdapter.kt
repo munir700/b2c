@@ -61,6 +61,9 @@ class TransactionsListingAdapter(private val list: MutableList<Content>) :
             )
             if (txnTypeIconResId != -1)
                 itemTransactionListBinding.ivIncoming?.setImageResource(txnTypeIconResId)
+            else
+                itemTransactionListBinding.ivIncoming?.setImageResource(android.R.color.transparent)
+
 
             var txnAmountPreFix = ""
             when (TxnType.valueOf(transaction.txnType ?: "")) {
@@ -100,7 +103,7 @@ class TransactionsListingAdapter(private val list: MutableList<Content>) :
                         "",
                         transactionTitle,
                         android.R.color.transparent,
-                        R.dimen.text_size_h3
+                        R.dimen.text_size_h2
                     )
                 } else {
                     val transactionIconResId =
@@ -136,73 +139,66 @@ class TransactionsListingAdapter(private val list: MutableList<Content>) :
 
             if (productCode.isBlank() || txnType.isBlank() || transactionStatus.isBlank()) return -1
 
-            if (transactionStatus == TransactionStatus.FAILED.name) {
-                return R.drawable.ic_reverted
+            return if (transactionStatus == TransactionStatus.FAILED.name) {
+                R.drawable.ic_reverted
             } else
-                return (when (productCode) {
-                    TransactionProductCode.CASH_PAYOUT.pCode, TransactionProductCode.ATM_WITHDRAWL.pCode, TransactionProductCode.MASTER_CARD_ATM_WITHDRAWAL.pCode, TransactionProductCode.CASH_ADVANCE.pCode, TransactionProductCode.ATM_DEPOSIT.pCode -> {
-                        //Cash cases
-                        R.drawable.ic_transaction_cash
+                when {
+                    isCash(productCode) -> R.drawable.ic_transaction_cash
+                    isBank(productCode) -> R.drawable.ic_transaction_bank
+                    isFee(productCode) -> R.drawable.ic_package_standered
+                    isRefund(productCode) -> R.drawable.ic_refund
+                    TransactionProductCode.TOP_UP_SUPPLEMENTARY_CARD.pCode == productCode || TransactionProductCode.WITHDRAW_SUPPLEMENTARY_CARD.pCode == productCode -> {
+                        if (txnType == TxnType.DEBIT.type) R.drawable.ic_minus_transactions else R.drawable.ic_plus_transactions
                     }
-                    TransactionProductCode.UAEFTS.pCode, TransactionProductCode.DOMESTIC.pCode, TransactionProductCode.RMT.pCode, TransactionProductCode.SWIFT.pCode, TransactionProductCode.TOP_UP_VIA_CARD.pCode, TransactionProductCode.CASH_DEPOSIT_AT_RAK.pCode, TransactionProductCode.CHEQUE_DEPOSIT_AT_RAK.pCode, TransactionProductCode.INWARD_REMITTANCE.pCode, TransactionProductCode.LOCAL_INWARD_TRANSFER.pCode, TransactionProductCode.PAYMENT_TRANSACTION.pCode, TransactionProductCode.MOTO.pCode, TransactionProductCode.ECOM.pCode -> {
-                        //Bank cases
-                        R.drawable.ic_transaction_bank
-                    }
-                    TransactionProductCode.MANUAL_ADJUSTMENT.pCode, TransactionProductCode.VIRTUAL_ISSUANCE_FEE.pCode, TransactionProductCode.FSS_FUNDS_WITHDRAWAL.pCode, TransactionProductCode.CARD_REORDER.pCode, TransactionProductCode.FEE_DEDUCT.pCode, TransactionProductCode.PHYSICAL_ISSUANCE_FEE.pCode, TransactionProductCode.BALANCE_INQUIRY.pCode, TransactionProductCode.PIN_CHANGE.pCode, TransactionProductCode.MINISTATEMENT.pCode, TransactionProductCode.ACCOUNT_STATUS_INQUIRY.pCode, TransactionProductCode.FSS_FEE_NOTIFICATION.pCode -> {
-                        //Fee cases
-                        R.drawable.ic_package_standered
-                    }
-                    TransactionProductCode.REFUND_MASTER_CARD.pCode, TransactionProductCode.REVERSAL_MASTER_CARD.pCode, TransactionProductCode.REVERSAL_OF_TXN_ON_FAILURE.pCode -> {
-                        //Refund cases
-                        R.drawable.ic_refund
-                    }
-                    TransactionProductCode.Y2Y_TRANSFER.pCode -> {
-                        R.drawable.ic_yap_to_yap
-                    }
-                    TransactionProductCode.TOP_UP_SUPPLEMENTARY_CARD.pCode, TransactionProductCode.WITHDRAW_SUPPLEMENTARY_CARD.pCode -> {
-                        if (txnType == TxnType.DEBIT.type) R.drawable.ic_plus_transactions else R.drawable.ic_minus_transactions
-                    }
-                    else ->
-                        -1
-
-                })
+                    else -> -1
+                }
         }
-
 
         private fun getCategoryTitle(
             productCode: String,
             txnType: String = ""
         ): String {
-
             if (productCode.isBlank() || txnType.isBlank()) return "Transaction"
-
-            return (when (productCode) {
-                TransactionProductCode.MANUAL_ADJUSTMENT.pCode, TransactionProductCode.VIRTUAL_ISSUANCE_FEE.pCode, TransactionProductCode.FSS_FUNDS_WITHDRAWAL.pCode, TransactionProductCode.CARD_REORDER.pCode, TransactionProductCode.FEE_DEDUCT.pCode, TransactionProductCode.PHYSICAL_ISSUANCE_FEE.pCode, TransactionProductCode.BALANCE_INQUIRY.pCode, TransactionProductCode.PIN_CHANGE.pCode, TransactionProductCode.MINISTATEMENT.pCode, TransactionProductCode.ACCOUNT_STATUS_INQUIRY.pCode, TransactionProductCode.FSS_FEE_NOTIFICATION.pCode -> {
-                    //Fee cases
-                    "Fee"
-                }
-                TransactionProductCode.REFUND_MASTER_CARD.pCode, TransactionProductCode.REVERSAL_MASTER_CARD.pCode, TransactionProductCode.REVERSAL_OF_TXN_ON_FAILURE.pCode -> {
-                    //Refund cases
-                    "Refund"
-                }
-                TransactionProductCode.DOMESTIC.pCode, TransactionProductCode.RMT.pCode, TransactionProductCode.SWIFT.pCode, TransactionProductCode.UAEFTS.pCode, TransactionProductCode.INWARD_REMITTANCE.pCode, TransactionProductCode.LOCAL_INWARD_TRANSFER.pCode -> {
-                    "Transfer"
-                }
-                TransactionProductCode.Y2Y_TRANSFER.pCode -> {
-                    "YTY transfer"
-                }
-                TransactionProductCode.TOP_UP_VIA_CARD.pCode -> "Top up"
-
-                TransactionProductCode.CASH_DEPOSIT_AT_RAK.pCode, TransactionProductCode.CHEQUE_DEPOSIT_AT_RAK.pCode -> "Deposit"
-
-                TransactionProductCode.ATM_WITHDRAWL.pCode, TransactionProductCode.MASTER_CARD_ATM_WITHDRAWAL.pCode -> "Cash"
-
-                TransactionProductCode.TOP_UP_SUPPLEMENTARY_CARD.pCode, TransactionProductCode.WITHDRAW_SUPPLEMENTARY_CARD.pCode -> {
+            return when {
+                isFee(productCode) -> "Fee"
+                isRefund(productCode) -> "Refund"
+                TransactionProductCode.Y2Y_TRANSFER.pCode == productCode -> "YTY transfer"
+                TransactionProductCode.TOP_UP_VIA_CARD.pCode == productCode -> "Top up"
+                TransactionProductCode.CASH_DEPOSIT_AT_RAK.pCode == productCode || TransactionProductCode.CHEQUE_DEPOSIT_AT_RAK.pCode == productCode -> "Deposit"
+                TransactionProductCode.ATM_WITHDRAWL.pCode == productCode || TransactionProductCode.MASTER_CARD_ATM_WITHDRAWAL.pCode == productCode -> "Cash"
+                TransactionProductCode.TOP_UP_SUPPLEMENTARY_CARD.pCode == productCode || TransactionProductCode.WITHDRAW_SUPPLEMENTARY_CARD.pCode == productCode -> {
                     if (txnType == TxnType.DEBIT.type) "Withdrawn from virtual card" else "Added to virtual card"
                 }
-                else ->
-                    "Transaction"
+                else -> return (when (productCode) {
+                    TransactionProductCode.DOMESTIC.pCode, TransactionProductCode.RMT.pCode, TransactionProductCode.SWIFT.pCode, TransactionProductCode.UAEFTS.pCode, TransactionProductCode.INWARD_REMITTANCE.pCode, TransactionProductCode.LOCAL_INWARD_TRANSFER.pCode -> {
+                        "Transfer"
+                    }
+                    else ->
+                        "Transaction"
+                })
+            }
+        }
 
+        private fun getTxnTypeIcon(
+            productCode: String,
+            txnStatus: String,
+            txnType: String = ""
+        ): Int {
+            if (TransactionStatus.FAILED.name == txnStatus) return -1
+
+            return if (TransactionStatus.PENDING.name == txnStatus || TransactionStatus.IN_PROGRESS.name == txnStatus && !isFee(
+                    productCode
+                )
+            )
+                R.drawable.ic_time
+            else (when (txnType) {
+                TxnType.DEBIT.type -> {
+                    R.drawable.ic_outgoing_transaction
+                }
+                TxnType.CREDIT.type -> {
+                    R.drawable.ic_incoming_transaction
+                }
+                else -> -1
             })
         }
 
@@ -221,32 +217,37 @@ class TransactionsListingAdapter(private val list: MutableList<Content>) :
             })
         }
 
-        private fun getTxnTypeIcon(
-            productCode: String,
-            txnStatus: String,
-            txnType: String = ""
-        ): Int {
-            return if (TransactionStatus.PENDING.name == txnStatus || TransactionStatus.IN_PROGRESS.name == txnStatus && !isFee(
-                    productCode
-                )
-            )
-                R.drawable.ic_time
-            else return if (TransactionStatus.FAILED.name == txnStatus) -1
-            else (when (txnType) {
-                TxnType.DEBIT.type -> {
-                    R.drawable.ic_outgoing_transaction
+
+        private fun isFee(productCode: String): Boolean {
+            return (when (productCode) {
+                TransactionProductCode.MANUAL_ADJUSTMENT.pCode, TransactionProductCode.VIRTUAL_ISSUANCE_FEE.pCode, TransactionProductCode.FSS_FUNDS_WITHDRAWAL.pCode, TransactionProductCode.CARD_REORDER.pCode, TransactionProductCode.FEE_DEDUCT.pCode, TransactionProductCode.PHYSICAL_ISSUANCE_FEE.pCode, TransactionProductCode.BALANCE_INQUIRY.pCode, TransactionProductCode.PIN_CHANGE.pCode, TransactionProductCode.MINISTATEMENT.pCode, TransactionProductCode.ACCOUNT_STATUS_INQUIRY.pCode, TransactionProductCode.FSS_FEE_NOTIFICATION.pCode -> {
+                    true
                 }
-                TxnType.CREDIT.type -> {
-                    R.drawable.ic_incoming_transaction
-                }
-                else -> -1
+                else -> false
             })
         }
 
-        private fun isFee(productCode: String): Boolean {
-            //Fee cases
+        private fun isBank(productCode: String): Boolean {
             return (when (productCode) {
-                TransactionProductCode.MANUAL_ADJUSTMENT.pCode, TransactionProductCode.VIRTUAL_ISSUANCE_FEE.pCode, TransactionProductCode.FSS_FUNDS_WITHDRAWAL.pCode, TransactionProductCode.CARD_REORDER.pCode, TransactionProductCode.FEE_DEDUCT.pCode, TransactionProductCode.PHYSICAL_ISSUANCE_FEE.pCode, TransactionProductCode.BALANCE_INQUIRY.pCode, TransactionProductCode.PIN_CHANGE.pCode, TransactionProductCode.MINISTATEMENT.pCode, TransactionProductCode.ACCOUNT_STATUS_INQUIRY.pCode, TransactionProductCode.FSS_FEE_NOTIFICATION.pCode -> {
+                TransactionProductCode.UAEFTS.pCode, TransactionProductCode.DOMESTIC.pCode, TransactionProductCode.RMT.pCode, TransactionProductCode.SWIFT.pCode, TransactionProductCode.TOP_UP_VIA_CARD.pCode, TransactionProductCode.CASH_DEPOSIT_AT_RAK.pCode, TransactionProductCode.CHEQUE_DEPOSIT_AT_RAK.pCode, TransactionProductCode.INWARD_REMITTANCE.pCode, TransactionProductCode.LOCAL_INWARD_TRANSFER.pCode, TransactionProductCode.PAYMENT_TRANSACTION.pCode, TransactionProductCode.MOTO.pCode, TransactionProductCode.ECOM.pCode -> {
+                    true
+                }
+                else -> false
+            })
+        }
+
+        private fun isCash(productCode: String): Boolean {
+            return (when (productCode) {
+                TransactionProductCode.CASH_PAYOUT.pCode, TransactionProductCode.ATM_WITHDRAWL.pCode, TransactionProductCode.MASTER_CARD_ATM_WITHDRAWAL.pCode, TransactionProductCode.CASH_ADVANCE.pCode, TransactionProductCode.ATM_DEPOSIT.pCode -> {
+                    true
+                }
+                else -> false
+            })
+        }
+
+        private fun isRefund(productCode: String): Boolean {
+            return (when (productCode) {
+                TransactionProductCode.REFUND_MASTER_CARD.pCode, TransactionProductCode.REVERSAL_MASTER_CARD.pCode, TransactionProductCode.REVERSAL_OF_TXN_ON_FAILURE.pCode -> {
                     true
                 }
                 else -> false
