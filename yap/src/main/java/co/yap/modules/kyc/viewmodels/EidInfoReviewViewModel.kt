@@ -156,7 +156,7 @@ class EidInfoReviewViewModel(application: Application) :
                             parentViewModel?.identity = Identity()
                             populateState(Identity())
                             clickEvent.setValue(EVENT_FINISH)
-                            state.toast = response.data.errors?.message!!
+                            state.toast = response.data.errors?.message?:"Error Occurred"
                             //clearData()
                         }
                     }

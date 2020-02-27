@@ -81,20 +81,19 @@
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/linearLayout3"
+                android:id="@+id/linearLayout6"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_small"
                 android:orientation="horizontal"
-                app:layout_constraintBottom_toTopOf="@+id/linearLayout6"
-                app:layout_constraintTop_toBottomOf="@+id/linearLayout5">
+                app:layout_constraintBottom_toTopOf="@+id/linearLayout7"
+                app:layout_constraintTop_toBottomOf="@+id/linearLayout3">
 
                 <TextView
                     android:id="@+id/tvSwift"
                     style="@style/ASmallGrey"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-
                     android:gravity="start"
                     android:lines="1"
                     android:text="SWIFT/BIC"
@@ -120,13 +119,13 @@
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/linearLayout6"
+                android:id="@+id/linearLayout3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_small"
                 android:orientation="horizontal"
-                app:layout_constraintBottom_toTopOf="@+id/linearLayout7"
-                app:layout_constraintTop_toBottomOf="@+id/linearLayout3">
+                app:layout_constraintBottom_toTopOf="@+id/linearLayout6"
+                app:layout_constraintTop_toBottomOf="@+id/linearLayout5">
 
                 <TextView
                     android:id="@+id/tvIban"

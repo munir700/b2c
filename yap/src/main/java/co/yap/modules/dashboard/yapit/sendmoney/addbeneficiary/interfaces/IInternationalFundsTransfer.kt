@@ -53,6 +53,8 @@ interface IInternationalFundsTransfer {
         var totalTransferAmount: ObservableField<Double>
         var errorDescription: String
         var availableBalanceString: CharSequence?
+        fun clearError()
+        fun checkValidation()
     }
 
     interface ViewModel : IBase.ViewModel<State> {

@@ -10,6 +10,7 @@ import androidx.navigation.fragment.findNavController
 import co.yap.BR
 import co.yap.R
 import co.yap.modules.kyc.activities.DocumentsResponse
+import co.yap.modules.kyc.enums.KYCAction
 import co.yap.modules.kyc.viewmodels.EidInfoReviewViewModel
 import co.yap.modules.onboarding.interfaces.IEidInfoReview
 import co.yap.translation.Strings
@@ -51,7 +52,8 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
                 }
 
                 viewModel.EVENT_ALREADY_USED_EID -> {
-                    viewModel.parentViewModel?.finishKyc?.value = DocumentsResponse(false, "true")
+                    viewModel.parentViewModel?.finishKyc?.value =
+                        DocumentsResponse(false, KYCAction.ACTION_EID_FAILED.name)
                 }
 
                 viewModel.EVENT_NEXT_WITH_ERROR -> {
@@ -62,10 +64,12 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
                     findNavController().navigate(action)
                 }
                 viewModel.EVENT_FINISH -> {
-                    viewModel.parentViewModel?.finishKyc?.value = DocumentsResponse(false, "true")
+                    viewModel.parentViewModel?.finishKyc?.value =
+                        DocumentsResponse(false, KYCAction.ACTION_EID_FAILED.name)
                 }
                 viewModel.EVENT_EID_UPDATE ->{
-                    viewModel.parentViewModel?.finishKyc?.value = DocumentsResponse(false)
+                    viewModel.parentViewModel?.finishKyc?.value =
+                        DocumentsResponse(false, KYCAction.ACTION_EID_UPDATE.name)
                 }
             }
         })

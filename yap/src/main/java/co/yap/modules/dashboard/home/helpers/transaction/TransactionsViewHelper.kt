@@ -26,7 +26,6 @@ import com.yarolegovich.discretescrollview.DiscreteScrollView
 import kotlinx.android.synthetic.main.content_fragment_yap_home.view.*
 import kotlinx.android.synthetic.main.fragment_yap_home.view.*
 import kotlinx.android.synthetic.main.view_graph.view.*
-import timber.log.Timber
 import java.util.*
 
 class TransactionsViewHelper(
@@ -47,9 +46,7 @@ class TransactionsViewHelper(
         initCustomTooltip()
         //setTooltipOnZero()
         setRvTransactionScroll()
-
     }
-
 
     private fun setOnGraphBarClickListeners() {
 
@@ -175,8 +172,8 @@ class TransactionsViewHelper(
                     // Adjust position of arrow of tooltip
                     arrowX = viewPosition[0] - x + (it.width / 2)
                 } else {
-                    val viewWidth = it.width+(context.dimen(R.dimen.margin_one_dp)*2)
-                    if ((viewPosition[0]-viewWidth) > 0) {
+                    val viewWidth = it.width + (context.dimen(R.dimen.margin_one_dp) * 2)
+                    if ((viewPosition[0] - viewWidth) > 0) {
                         translationX = viewPosition[0].toFloat() - context.dimen(R.dimen._2sdp)
                         arrowX =
                             viewPosition[0] - x + (it.width / 2)
@@ -185,38 +182,31 @@ class TransactionsViewHelper(
                         arrowX = 0f
                     }
                 }
-                Timber.i("Tooltip translationX>> $translationX")
                 val notificationView =
                     transactionsView.findViewById<DiscreteScrollView>(R.id.rvNotificationList)
                 if (firstTime) {
                     addToolTipDelay(10) {
                         y = (it.y - this.height) + context.dimen(R.dimen._6sdp)
-                        if (notificationView.adapter?.itemCount?:0 > 0) {
+                        if (notificationView.adapter?.itemCount ?: 0 > 0) {
                             y += notificationView.height
                         }
                     }
                 } else {
                     y = (it.y - this.height) + context.dimen(R.dimen._6sdp)
-                    if (notificationView.adapter?.itemCount?:0 > 0) {
+                    if (notificationView.adapter?.itemCount ?: 0 > 0) {
                         y += notificationView.height
                     }
                 }
-                // y = viewPosition[1].toFloat() - this.height - toolbarHeight - view.height - Utils.convertDpToPx(context, 20f)
-
-
             }
-
         }
-
     }
 
     private fun removeRvTransactionScroll() {
+        rvTransactionScrollListener?.let { transactionsView.rvTransaction.removeOnScrollListener(it) }
 
-        transactionsView.rvTransaction.removeOnScrollListener(rvTransactionScrollListener!!)
     }
 
     private fun setRvTransactionScroll() {
-
         rvTransactionScrollListener =
             object : OnScrollListener() {
                 override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
@@ -241,8 +231,6 @@ class TransactionsViewHelper(
                     if (!checkScroll) {
                         val graphLayoutManager =
                             transactionsView.rvTransactionsBarChart.layoutManager as LinearLayoutManager
-                        // if dy is greater then 0 mean scroll to bottom
-                        // if dy is less then 0 means scroll to top
                         val view =
                             transactionsView.rvTransactionsBarChart.layoutManager?.findViewByPosition(
                                 position
@@ -253,7 +241,6 @@ class TransactionsViewHelper(
                                 transactionsView.rvTransactionsBarChart.scrollToPosition(
                                     graphLayoutManager.findLastCompletelyVisibleItemPosition() + 1
                                 )
-
                             }
                         } else if (dy < 0) {
                             if (position <= graphLayoutManager.findFirstVisibleItemPosition()) {
@@ -263,15 +250,12 @@ class TransactionsViewHelper(
                                 )
 
                             }
-
                         }
                     }
-
-
                 }
             }
+        rvTransactionScrollListener?.let { transactionsView.rvTransaction.addOnScrollListener(it) }
 
-        transactionsView.rvTransaction.addOnScrollListener(rvTransactionScrollListener!!)
 
     }
 
@@ -282,5 +266,4 @@ class TransactionsViewHelper(
     fun onToolbarExpanded() {
         toolbarCollapsed = false
     }
-
 }
