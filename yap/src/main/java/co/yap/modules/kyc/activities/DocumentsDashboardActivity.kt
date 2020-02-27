@@ -49,12 +49,14 @@ class DocumentsDashboardActivity : BaseBindingActivity<IDocumentsDashboard.ViewM
             if (it.success)
                 goToDashBoard(
                     success = true,
-                    skippedPress = false
+                    skippedPress = false,
+                    status = it.status
                 )
             else
                 goToDashBoard(
                     success = false,
-                    skippedPress = true
+                    skippedPress = true,
+                    status = it.status
                 )
         })
     }
@@ -73,11 +75,11 @@ class DocumentsDashboardActivity : BaseBindingActivity<IDocumentsDashboard.ViewM
         }
     }
 
-    fun goToDashBoard(success: Boolean, skippedPress: Boolean, error: Boolean = false) {
+    private fun goToDashBoard(success: Boolean, skippedPress: Boolean, status: String = "") {
         val intent = Intent()
         intent.putExtra(Constants.result, success)
         intent.putExtra(Constants.skipped, skippedPress)
-        intent.putExtra("error", error)
+        intent.putExtra("status", status)
         setResult(Activity.RESULT_OK, intent)
         finish()
     }
