@@ -243,7 +243,7 @@
                     app:currency_symbol="$"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tvFullName"
-                    app:show_commas="true"
+                    app:show_commas="false"
                     app:show_currency="false" />
 
                 <LinearLayout

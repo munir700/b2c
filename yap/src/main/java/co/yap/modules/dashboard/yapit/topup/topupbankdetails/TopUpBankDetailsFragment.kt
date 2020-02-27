@@ -45,10 +45,12 @@ class TopUpBankDetailsFragment : BaseBindingFragment<ITopUpBankDetails.ViewModel
     }
 
     private fun getBody(): String {
-        return "Pay to: ${MyUserManager.user?.currentCustomer?.getFullName()}\n" +
+        return "Name: ${MyUserManager.user?.currentCustomer?.getFullName()}\n" +
                 "IBAN: ${MyUserManager.user?.iban}\n" +
                 "Swift/BIC: ${MyUserManager.user?.bank?.swiftCode}\n" +
-                "Account number: ${MyUserManager.user?.accountNo}\n"
+                "Account: ${MyUserManager.user?.accountNo}\n" +
+                "Bank: ${MyUserManager.user?.bank?.name}\n"+
+                "Address: ${MyUserManager.user?.bank?.address}\n"
     }
 
     override fun onDestroy() {

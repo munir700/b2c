@@ -32,8 +32,7 @@ class YapCardStatusFragment : BaseBindingFragment<IYapCardStatus.ViewModel>(), I
         }
     }
 
-    lateinit var args: Bundle
-    lateinit var card: Card
+    var card: Card? = null
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.fragment_card_status
 
@@ -42,23 +41,20 @@ class YapCardStatusFragment : BaseBindingFragment<IYapCardStatus.ViewModel>(), I
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        if (arguments != null) {
-            args = arguments!!
-            card = arguments!!.getParcelable("dataList")
-        }
-
+        card = arguments?.getParcelable("dataList")
         setObservers()
         updateBindings()
     }
 
     private fun updateBindings() {
         if (card != null) {
-            viewModel.state.title.set(if (card.cardType == "DEBIT") "Primary card" else "Spare physical card")
-            viewModel.state.cardType.set(if (card.cardType == "DEBIT") "Primary card" else "Spare physical card")
-            viewModel.state.message.set(if (card.cardType == "DEBIT") "Your Primary card is on its way" else "Your Spare physical card is on its way")
+            viewModel.state.title.set(if (card?.cardType == "DEBIT") "Primary card" else "Spare physical card")
+            viewModel.state.cardType.set(if (card?.cardType == "DEBIT") "Primary card" else "Spare physical card")
+            viewModel.state.message.set(if (card?.cardType == "DEBIT") "Your Primary card is on its way" else "Your Spare physical card is on its way")
 
-            when (card.deliveryStatus?.let { CardDeliveryStatus.valueOf(it) }) {
-                CardDeliveryStatus.BOOKED -> {
+
+            when (card?.deliveryStatus?.let { CardDeliveryStatus.valueOf(it) }) {
+                CardDeliveryStatus.BOOKED, CardDeliveryStatus.FAILED, CardDeliveryStatus.ORDERED -> {
                     tbBtnOneOrdered.setImageResource(R.drawable.ic_tick)
                     tvOrdered.setTextColor(
                         ContextCompat.getColor(
@@ -66,17 +62,8 @@ class YapCardStatusFragment : BaseBindingFragment<IYapCardStatus.ViewModel>(), I
                         )
                     )
                 }
-                CardDeliveryStatus.ORDERED -> {
-                    tbBtnOneOrdered.setImageResource(R.drawable.ic_tick)
-                    tvOrdered.setTextColor(
-                        ContextCompat.getColor(
-                            requireContext(), R.color.colorPrimary
-                        )
-                    )
 
-                }
                 CardDeliveryStatus.SHIPPING -> {
-
                     tbBtnOneOrdered.setImageResource(R.drawable.ic_tick)
                     tvOrdered.setTextColor(
                         ContextCompat.getColor(
@@ -95,7 +82,7 @@ class YapCardStatusFragment : BaseBindingFragment<IYapCardStatus.ViewModel>(), I
                     )
                 }
                 CardDeliveryStatus.SHIPPED -> {
-                    viewModel.state.message.set(if (card.cardType == "DEBIT") "Your Primary card is shipped" else "Your Spare physical card is shipped")
+                    viewModel.state.message.set(if (card?.cardType == "DEBIT") "Your Primary card is shipped" else "Your Spare physical card is shipped")
                     tbBtnOneOrdered.setImageResource(R.drawable.ic_tick)
                     tvOrdered.setTextColor(
                         ContextCompat.getColor(
@@ -113,7 +100,6 @@ class YapCardStatusFragment : BaseBindingFragment<IYapCardStatus.ViewModel>(), I
                         )
                     )
 
-
                     viewModel.state.shippingProgress = 100
                     tbBtnShipping.setImageResource(R.drawable.ic_tick)
                     tvShipping.text = "Shipped"
@@ -124,9 +110,6 @@ class YapCardStatusFragment : BaseBindingFragment<IYapCardStatus.ViewModel>(), I
                         )
                     )
                     viewModel.state.valid = true
-                }
-                CardDeliveryStatus.FAILED -> {
-
                 }
             }
         }
