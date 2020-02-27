@@ -5,14 +5,15 @@
     <color name="brand_bubble_stroke_color">@color/colorPrimaryDark</color>
     <color name="brand_bubble_message_text_color">@color/colorPrimaryDark</color>
     <color name="brand_bubble_message_link_text_color">@color/colorPrimaryDark</color>
-    <color name="brand_bubble_timestamp_text_color">@color/colorPrimaryDark</color>
-    <color name="brand_bubble_background_color">#667C4DFF</color>
+    <color name="brand_bubble_timestamp_text_color">@color/grey</color>
+    <color name="brand_bubble_background_color">@color/greyLight</color>
     <color name="brand_logo_background_color">@color/grey</color>
+    <color name="lp_brand_header_text_color">@color/colorPrimary</color>
 
     <color name="consumer_bubble_link_preview_background_color">@color/colorPrimaryDark</color>
     <color name="agent_bubble_message_link_text_color">@color/colorPrimaryDark</color>
     <color name="agent_bubble_timestamp_text_color">@color/colorPrimaryDark</color>
-    <color name="agent_bubble_background_color">#667C4DFF</color>
+    <color name="agent_bubble_background_color">#46474A</color>
     <color name="agent_avatar_background_color">#667C4DFF</color>
 
     <color name="system_bubble_text_color">@color/colorPrimaryDark</color>
