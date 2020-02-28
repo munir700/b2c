@@ -362,6 +362,11 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
         mAdapter.removeAllItems()
     }
 
+    override fun onCloseClick(notification: Notification) {
+        super.onCloseClick(notification)
+        clearNotification()
+    }
+
     private fun isShowSetPin(paymentCard: Card?): Boolean {
         return (paymentCard?.deliveryStatus == CardDeliveryStatus.SHIPPED.name && !paymentCard.pinCreated)
     }
@@ -524,7 +529,9 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                 }
             }
 
-            Constants.NOTIFICATION_ACTION_SET_PIN -> {viewModel.getDebitCards()}
+            Constants.NOTIFICATION_ACTION_SET_PIN -> {
+                viewModel.getDebitCards()
+            }
 
             Constants.NOTIFICATION_ACTION_SET_UPDATE_EID -> {
                 launchActivity<DocumentsDashboardActivity>(requestCode = RequestCodes.REQUEST_KYC_DOCUMENTS) {
