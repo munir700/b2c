@@ -52,7 +52,6 @@ class EditBeneficiaryActivity : BaseBindingActivity<IEditBeneficiary.ViewModel>(
 
         setObservers()
         currencyPopMenu = getCurrencyPopMenu(this, mutableListOf(), null, null)
-        maskIban()
     }
 
     private fun updateAccountTitle(bundleData: Bundle) {
@@ -65,15 +64,6 @@ class EditBeneficiaryActivity : BaseBindingActivity<IEditBeneficiary.ViewModel>(
                 viewModel.state.needIban = true
                 viewModel.state.showIban = true //binding needed
             }
-        }
-    }
-
-    private fun maskIban() {
-        etAccountNumber?.let {
-            val maskTextWatcher =
-                MaskTextWatcher(it, "#### #### #### #### #### #### ####")
-            it.addTextChangedListener(maskTextWatcher)
-            etAccountNumberRMT?.let { watcher -> watcher.addTextChangedListener(maskTextWatcher) }
         }
     }
 
