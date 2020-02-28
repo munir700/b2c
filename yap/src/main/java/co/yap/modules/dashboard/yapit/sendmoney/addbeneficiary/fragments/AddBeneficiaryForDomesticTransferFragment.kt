@@ -15,15 +15,12 @@ import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.interfaces.IAddBe
 import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.viewmodels.AddBeneficiaryViewModel
 import co.yap.modules.dashboard.yapit.sendmoney.fragments.SendMoneyBaseFragment
 import co.yap.translation.Translator
-import co.yap.widgets.MaskTextWatcher
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.helpers.Utils
-import co.yap.yapcore.helpers.extentions.applyIBANMask
 import co.yap.yapcore.helpers.extentions.launchActivity
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.MyUserManager
-import kotlinx.android.synthetic.main.fragment_add_beneficiary_domestic_transfer.*
 
 class AddBeneficiaryForDomesticTransferFragment :
     SendMoneyBaseFragment<IAddBeneficiary.ViewModel>(),
@@ -67,8 +64,6 @@ class AddBeneficiaryForDomesticTransferFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        etIban.applyIBANMask()
-        etConfirmIban.applyIBANMask()
     }
 
 
