@@ -37,6 +37,7 @@ import co.yap.modules.dashboard.more.yapforyou.activities.YAPForYouActivity
 import co.yap.modules.dashboard.transaction.activities.TransactionDetailsActivity
 import co.yap.modules.dashboard.yapit.topup.landing.TopUpLandingActivity
 import co.yap.modules.kyc.activities.DocumentsDashboardActivity
+import co.yap.modules.kyc.enums.KYCAction
 import co.yap.modules.location.activities.LocationSelectionActivity
 import co.yap.modules.onboarding.constants.Constants
 import co.yap.modules.others.fragmentpresenter.activities.FragmentPresenterActivity
@@ -44,6 +45,7 @@ import co.yap.modules.setcardpin.activities.SetCardPinWelcomeActivity
 import co.yap.modules.yapnotification.models.Notification
 import co.yap.networking.cards.responsedtos.Address
 import co.yap.networking.cards.responsedtos.Card
+import co.yap.networking.customers.responsedtos.documents.GetMoreDocumentsResponse
 import co.yap.networking.transactions.responsedtos.transaction.Content
 import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionListData
 import co.yap.translation.Strings
@@ -58,9 +60,7 @@ import co.yap.yapcore.enums.CardDeliveryStatus
 import co.yap.yapcore.enums.NotificationStatus
 import co.yap.yapcore.enums.PartnerBankStatus
 import co.yap.yapcore.helpers.Utils
-import co.yap.yapcore.helpers.extentions.fixSwipeToRefresh
-import co.yap.yapcore.helpers.extentions.launchActivity
-import co.yap.yapcore.helpers.extentions.toast
+import co.yap.yapcore.helpers.extentions.*
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.MyUserManager
 import com.google.android.material.appbar.AppBarLayout
@@ -348,6 +348,10 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
             AccountStatus.CARD_ACTIVATED.name -> {
                 clearNotification()
             }
+            AccountStatus.EID_EXPIRED.name -> {
+                clearNotification()
+                addEidExpiredNotification()
+            }
         }
 
         if (PartnerBankStatus.ACTIVATED.status == MyUserManager.user?.partnerBankStatus) {
@@ -360,6 +364,11 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
 
     private fun clearNotification() {
         mAdapter.removeAllItems()
+    }
+
+    override fun onCloseClick(notification: Notification) {
+        super.onCloseClick(notification)
+        clearNotification()
     }
 
     private fun isShowSetPin(paymentCard: Card?): Boolean {
@@ -444,9 +453,38 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
 
     }
 
+    private fun addEidExpiredNotification() {
+        notificationsList.add(
+            Notification(
+                "Renewed ID",
+                "Your Emirates ID has expired. Please update your account with the renewed ID as soon as you can.",
+                "",
+                Constants.NOTIFICATION_ACTION_SET_UPDATE_EID,
+                "",
+                ""
+            )
+        )
+        mAdapter = NotificationAdapter(
+            notificationsList,
+            this
+        )
+        getBindings().lyInclude.rvNotificationList.setSlideOnFling(false)
+        getBindings().lyInclude.rvNotificationList.setOverScrollEnabled(true)
+        getBindings().lyInclude.rvNotificationList.adapter = mAdapter
+        //rvNotificationList.addOnItemChangedListener(this)
+        //rvNotificationList.addScrollStateChangeListener(this)
+        getBindings().lyInclude.rvNotificationList.smoothScrollToPosition(0)
+        getBindings().lyInclude.rvNotificationList.setItemTransitionTimeMillis(100)
+        getBindings().lyInclude.rvNotificationList.setItemTransformer(
+            ScaleTransformer.Builder()
+                .setMinScale(0.8f)
+                .build()
+        )
+    }
+
     override fun onResume() {
         super.onResume()
-        if (co.yap.yapcore.constants.Constants.USER_STATUS_CARD_ACTIVATED == MyUserManager.user?.notificationStatuses) {
+        if (AccountStatus.CARD_ACTIVATED.name == MyUserManager.user?.notificationStatuses) {
             checkUserStatus()
         }
         viewModel.state.filterCount.set(homeTransactionsRequest.totalAppliedFilter)
@@ -495,7 +533,25 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                 }
             }
 
-            Constants.NOTIFICATION_ACTION_SET_PIN -> viewModel.getDebitCards()
+            Constants.NOTIFICATION_ACTION_SET_PIN -> {
+                viewModel.getDebitCards()
+            }
+
+            Constants.NOTIFICATION_ACTION_SET_UPDATE_EID -> {
+                launchActivity<DocumentsDashboardActivity>(requestCode = RequestCodes.REQUEST_KYC_DOCUMENTS) {
+                    putExtra(
+                        co.yap.yapcore.constants.Constants.name,
+                        MyUserManager.user?.currentCustomer?.firstName.toString()
+                    )
+                    putExtra(co.yap.yapcore.constants.Constants.data, true)
+                    putExtra(
+                        "document",
+                        GetMoreDocumentsResponse.Data.CustomerDocument.DocumentInformation(
+                            identityNo = MyUserManager.user?.currentCustomer?.identityNo
+                        )
+                    )
+                }
+            }
         }
     }
 
@@ -530,6 +586,13 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                             ), RequestCodes.REQUEST_FOR_LOCATION
                         )
                         MyUserManager.user?.notificationStatuses = AccountStatus.CAPTURED_EID.name
+                    } else {
+                        val kycAction =
+                            data.getValue(
+                                "status",
+                                ExtraType.STRING.name
+                            ) as? String
+                        if (KYCAction.ACTION_EID_UPDATE.name == kycAction) checkUserStatus()
                     }
                 }
             }

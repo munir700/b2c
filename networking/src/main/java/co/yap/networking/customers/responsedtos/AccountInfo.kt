@@ -33,8 +33,6 @@ class AccountInfo(
     var onBoardingStatus: String,
     @SerializedName("customer")
     var currentCustomer: Customer,
-    @SerializedName("documentInformation")
-    var documentInformation: String? = "",
     @SerializedName("bank")
     var bank: Bank? = Bank(),
     @SerializedName("currency")

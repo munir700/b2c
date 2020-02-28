@@ -21,7 +21,6 @@ import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.toast
 import co.yap.yapcore.helpers.extentions.trackEventWithAttributes
-import co.yap.yapcore.leanplum.UserAttributes
 import co.yap.yapcore.managers.MyUserManager
 
 class VerifyPasscodeViewModel(application: Application) :
@@ -160,24 +159,6 @@ class VerifyPasscodeViewModel(application: Application) :
     }
 
     private fun setUserAttributes() {
-        MyUserManager.user?.let {
-            val info: HashMap<String, Any> = HashMap()
-            info[UserAttributes().accountType] = it.accountType ?: ""
-            info[UserAttributes().email] = it.currentCustomer.email ?: ""
-            info[UserAttributes().nationality] = it.currentCustomer.nationality ?: ""
-            info[UserAttributes().firstName] = it.currentCustomer.firstName ?: ""
-            info[UserAttributes().lastName] = it.currentCustomer.lastName
-            info[UserAttributes().documentsVerified] = it.documentsVerified ?: false
-            info[UserAttributes().mainUser] = it.accountType == "B2C_ACCOUNT"
-            info[UserAttributes().householdUser] = it.accountType == "B2C_HOUSEHOLD"
-            info[UserAttributes().youngUser] = false
-            info[UserAttributes().b2bUser] = false
-            info[UserAttributes().country] = "AE"
-            info[UserAttributes().city] = ""
-            it.currentCustomer.customerId?.let { customerId ->
-                info[UserAttributes().customerId] = customerId
-            }
-            it.uuid?.let { trackEventWithAttributes(it, info) }
-        }
+        trackEventWithAttributes(MyUserManager.user)
     }
 }

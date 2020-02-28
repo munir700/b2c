@@ -1,13 +1,10 @@
 package co.yap.modules.dashboard.more.help.fragments
 
-import android.content.Context
 import android.content.Intent
 import android.content.Intent.ACTION_DIAL
-import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
 import androidx.annotation.Nullable
 import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
@@ -21,13 +18,17 @@ import co.yap.modules.dashboard.more.help.interfaces.IHelpSupport
 import co.yap.modules.dashboard.more.help.viewmodels.HelpSupportViewModel
 import co.yap.modules.dashboard.more.main.fragments.MoreBaseFragment
 import co.yap.modules.webview.WebViewFragment
-import co.yap.networking.customers.requestdtos.Contact
+import co.yap.networking.CookiesManager
 import co.yap.yapcore.constants.Constants
-import co.yap.yapcore.helpers.LivePersonStorage
-import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.helpers.extentions.OpenWhatsApp
+import co.yap.yapcore.helpers.extentions.makeCall
 import co.yap.yapcore.helpers.extentions.startFragment
 import co.yap.yapcore.helpers.extentions.toast
-import com.liveperson.infra.*
+import co.yap.yapcore.managers.MyUserManager
+import com.liveperson.infra.CampaignInfo
+import com.liveperson.infra.ConversationViewParams
+import com.liveperson.infra.InitLivePersonProperties
+import com.liveperson.infra.LPAuthenticationParams
 import com.liveperson.infra.callbacks.InitLivePersonCallBack
 import com.liveperson.messaging.sdk.api.LivePerson
 import com.liveperson.messaging.sdk.api.model.ConsumerProfile
@@ -41,6 +42,10 @@ class HelpSupportFragment : MoreBaseFragment<IHelpSupport.ViewModel>(), IHelpSup
 
     override fun getLayoutId(): Int = R.layout.fragment_help_support
 
+    val accountId = "17038977"
+    val appInstallId = "17038977"
+    val FCMID = "17038977"
+
     override val viewModel: IHelpSupport.ViewModel
         get() = ViewModelProviders.of(this).get(HelpSupportViewModel::class.java)
 
@@ -51,11 +56,7 @@ class HelpSupportFragment : MoreBaseFragment<IHelpSupport.ViewModel>(), IHelpSup
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initComponents()
         viewModel.getHelpDeskPhone()
-    }
-
-    private fun initComponents() {
     }
 
     private fun setObservers() {
@@ -75,15 +76,13 @@ class HelpSupportFragment : MoreBaseFragment<IHelpSupport.ViewModel>(), IHelpSup
                 viewModel.getFaqsUrl()
             }
             R.id.lyChat -> {
-                //Utils.showComingSoon(requireContext())
                 chatSetup()
             }
             R.id.lyLiveWhatsApp -> {
-                // Utils.showComingSoon(requireContext())
                 OpenWhatsApp()
             }
             R.id.lyCall -> {
-                openDialer()
+                requireContext().makeCall(viewModel.state.contactPhone.get())
             }
             R.id.tbBtnBack -> {
                 activity?.finish()
@@ -91,79 +90,18 @@ class HelpSupportFragment : MoreBaseFragment<IHelpSupport.ViewModel>(), IHelpSup
         }
     }
 
-    private fun OpenWhatsApp() {
-        val contact = "+971 4 365 3789" // use country code with your phone number
-        val url = "https://api.whatsapp.com/send?phone=$contact"
-        try {
-            val pm = requireContext().packageManager
-            pm?.getPackageInfo("com.whatsapp", PackageManager.GET_ACTIVITIES)
-            val i = Intent(Intent.ACTION_VIEW)
-            i.data = Uri.parse(url)
-            requireContext().startActivity(i)
-        } catch (e: PackageManager.NameNotFoundException) {
-            toast("Whatsapp app not installed in your phone")
-        }
-    }
-
-    private fun inviteViaWhatsapp(contact: Contact) {
-        val url =
-            "https://api.whatsapp.com/send?phone=${Utils.getFormattedPhoneNumber(
-                requireContext(),
-                "${contact.countryCode}${contact.mobileNo!!}"
-            )}&text=${Utils.getBody(requireContext(), contact)}"
-        val i = Intent(Intent.ACTION_VIEW)
-        i.data = Uri.parse(url)
-        startActivity(i)
-    }
-
     private fun chatSetup() {
-        storeParams()
         LivePerson.initialize(
-            requireContext().applicationContext,
+            requireContext(),
             InitLivePersonProperties(
-                LivePersonStorage.getInstance(context!!)?.account,
-                LivePersonStorage.SDK_SAMPLE_FCM_APP_ID,
-                null,
+                "17038977", "17038977",
                 object : InitLivePersonCallBack {
-
                     override fun onInitSucceed() {
-                        LivePersonStorage.getInstance(requireContext())?.sdkMode =
-                            (LivePersonStorage.SDKMode.ACTIVITY)
-                        LivePersonStorage.getInstance(requireContext())?.firstName = ""
-                        LivePersonStorage.getInstance(requireContext())?.lastName = ""
-                        LivePersonStorage.getInstance(requireContext())?.phoneNumber = ""
-                        LivePersonStorage.getInstance(requireContext())?.authCode = ""
-                        LivePersonStorage.getInstance(requireContext())?.publicKey = ""
-                        activity!!.runOnUiThread(Runnable {
-                            openActivity()
-                        })
+                        openActivity()
                     }
 
                     override fun onInitFailed(e: Exception) {
-                        Toast.makeText(context!!, "Init failed", Toast.LENGTH_SHORT).show()
-                    }
-                })
-        )
-    }
-
-    private fun storeParams() {
-        LivePersonStorage.getInstance(requireContext())?.account = "17038977"
-        LivePersonStorage.getInstance(requireContext())?.appInstallId = "17038977"
-    }
-
-    private fun initActivityConversation() {
-
-        LivePerson.initialize(
-            context!!,
-            InitLivePersonProperties(
-                LivePersonStorage.getInstance(context!!)?.account,
-                LivePersonStorage.SDK_SAMPLE_FCM_APP_ID,
-                object : InitLivePersonCallBack {
-                    override fun onInitSucceed() {
-
-                    }
-
-                    override fun onInitFailed(e: Exception) {
+                        toast("Unable to open chat")
                     }
                 })
         )
@@ -171,27 +109,30 @@ class HelpSupportFragment : MoreBaseFragment<IHelpSupport.ViewModel>(), IHelpSup
 
     private fun openActivity() {
 
-        val authCode = LivePersonStorage.getInstance(context!!)?.authCode
-        val publicKey = LivePersonStorage.getInstance(context!!)?.publicKey
+        val authCode = "authCode"
+        val publicKey = "publicKey"
 
-        val authParams = LPAuthenticationParams()
-        authParams.authKey = authCode
-        authParams.addCertificatePinningKey(publicKey)
+        val authParams = LPAuthenticationParams(LPAuthenticationParams.LPAuthenticationType.AUTH)
+        // authParams.authKey = authCode
+        authParams.hostAppJWT = CookiesManager.jwtToken
+        //authParams.addCertificatePinningKey(publicKey)
 
-        val campaignInfo = getCampaignInfo(context!!)
+        //  val campaignInfo = getCampaignInfo()
         val params = ConversationViewParams()
-            .setHistoryConversationsStateToDisplay(LPConversationsHistoryStateToDisplay.ALL)
-            .setCampaignInfo(campaignInfo).setReadOnlyMode(isReadOnly())
+
+        /*.setHistoryConversationsStateToDisplay(LPConversationsHistoryStateToDisplay.ALL)
+        .setCampaignInfo(campaignInfo).setReadOnlyMode(isReadOnly())*/
         //        setWelcomeMessage(params);  //This method sets the welcome message with quick replies. Uncomment this line to enable this feature.
         LivePerson.showConversation(requireActivity(), authParams, params)
 
         val consumerProfile = ConsumerProfile.Builder()
-            .setFirstName(LivePersonStorage.getInstance(requireContext())?.firstName)
-            .setLastName(LivePersonStorage.getInstance(requireContext())?.lastName)
-            .setPhoneNumber(LivePersonStorage.getInstance(requireContext())?.phoneNumber)
+            .setFirstName(MyUserManager.user?.currentCustomer?.firstName)
+            .setLastName(MyUserManager.user?.currentCustomer?.lastName)
+            .setPhoneNumber(MyUserManager.user?.currentCustomer?.getCompletePhone())
             .build()
 
         LivePerson.setUserProfile(consumerProfile)
+
 
         //Constructing the notification builder for the upload/download foreground service and passing it to the SDK.
         //val uploadBuilder = NotificationUI.createUploadNotificationBuilder(getApplicationContext())
@@ -201,35 +142,13 @@ class HelpSupportFragment : MoreBaseFragment<IHelpSupport.ViewModel>(), IHelpSup
         //LivePerson.setImageServiceDownloadNotificationBuilder(downloadBuilder)
     }
 
-    private fun isReadOnly(): Boolean {
-        return false
-    }
-
     @Nullable
-    fun getCampaignInfo(context: Context): CampaignInfo? {
-        var campaignInfo: CampaignInfo? = null
-        if (LivePersonStorage.getInstance(context)?.campaignId != null || LivePersonStorage.getInstance(
-                context
-            )?.engagementId != null ||
-            LivePersonStorage.getInstance(context)?.sessionId != null || LivePersonStorage.getInstance(
-                context
-            )?.visitorId != null
-        ) {
-
-            try {
-                campaignInfo = CampaignInfo(
-                    LivePersonStorage.getInstance(context)?.campaignId!!,
-                    LivePersonStorage.getInstance(context)?.engagementId!!,
-                    LivePersonStorage.getInstance(context)?.interactionContextId!!,
-                    LivePersonStorage.getInstance(context)?.sessionId,
-                    LivePersonStorage.getInstance(context)?.visitorId
-                )
-            } catch (e: BadArgumentException) {
-                return null
-            }
-
-        }
-        return campaignInfo
+    fun getCampaignInfo(): CampaignInfo? {
+        return CampaignInfo(
+            "campaignId".toLong(), "engagementId".toLong(),
+            "interactionContextId", "sessionId",
+            "visitorId"
+        )
     }
 
     private fun openFaqsPage(url: String) {
@@ -239,15 +158,7 @@ class HelpSupportFragment : MoreBaseFragment<IHelpSupport.ViewModel>(), IHelpSup
                 Constants.PAGE_URL to url
             ), toolBarTitle = viewModel.state.title.get() ?: "", showToolBar = true
         )
-        //Utils.openWebPage(url, viewModel.state.title.get() ?: "", activity)
     }
-
-    private fun openDialer() {
-        val intent = Intent(ACTION_DIAL)
-        intent.data = Uri.parse("tel:" + viewModel.state.contactPhone.get())
-        startActivity(intent)
-    }
-
     override fun onResume() {
         super.onResume()
         if (activity is YapDashboardActivity)
