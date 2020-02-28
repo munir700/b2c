@@ -48,7 +48,7 @@ class NotificationAdapter(
                 }
             }
 
-            binding.ivClose.setOnClickListener {
+            binding.ivCross.setOnClickListener {
                 try {
                     clickListener.onCloseClick(listItems[adapterPosition])
                 } catch (ex: Exception) {
