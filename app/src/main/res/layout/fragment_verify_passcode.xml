@@ -70,6 +70,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_normal"
             app:componentDialerError='@{viewModel.state.dialerError}'
+            app:isScreenLocked="@{viewModel.state.isScreenLocked}"
             app:dialer_pass_code="passcode"
             app:layout_constraintTop_toBottomOf="@id/tvVerifyPasscodeTitle"
             app:passcodeTextWatcher="@{viewModel.state.getTextWatcher()}" />

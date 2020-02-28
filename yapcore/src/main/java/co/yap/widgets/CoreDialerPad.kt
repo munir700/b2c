@@ -30,6 +30,7 @@ class CoreDialerPad @JvmOverloads constructor(
 ) : LinearLayout(context, attrs, defStyle, defStyleRes) {
 
     var etPassCodeText: EditText? = null
+    var buttonRemove: ImageView? = null
     var list: ArrayList<Int> = ArrayList()
     var dialerType = 0
     var showDialerPassCodeView: Boolean = true
@@ -45,6 +46,7 @@ class CoreDialerPad @JvmOverloads constructor(
     private var listener: NumberKeyboardListener? = null
     private var view: View =
         inflate(context, R.layout.core_dialer_pad, null)
+    private val keypads: ArrayList<View> = ArrayList()
 
     private val onClickListener: OnClickListener = OnClickListener {
         if (it.id == R.id.button1) {
@@ -141,7 +143,8 @@ class CoreDialerPad @JvmOverloads constructor(
     init {
         orientation = VERTICAL
         addView(view)
-        etPassCodeText = view.findViewById<EditText>(R.id.etPassCodeText)
+        etPassCodeText = view.findViewById(R.id.etPassCodeText)
+        buttonRemove = view.findViewById(R.id.buttonRemove)
         // editText = etPassCodeText
 
 
@@ -152,19 +155,20 @@ class CoreDialerPad @JvmOverloads constructor(
             dialerMaxLength = 6 //To enforce 6 chars
             etPassCodeText?.filters =
                 arrayOf<InputFilter>(InputFilter.LengthFilter(dialerMaxLength))
+            keypads.add(view.findViewById<View>(R.id.button1))
+            keypads.add(view.findViewById<View>(R.id.button2))
+            keypads.add(view.findViewById<View>(R.id.button3))
+            keypads.add(view.findViewById<View>(R.id.button4))
+            keypads.add(view.findViewById<View>(R.id.button5))
+            keypads.add(view.findViewById<View>(R.id.button6))
+            keypads.add(view.findViewById<View>(R.id.button7))
+            keypads.add(view.findViewById<View>(R.id.button8))
+            keypads.add(view.findViewById<View>(R.id.button9))
+            keypads.add(view.findViewById<View>(R.id.button0))
+            keypads.add(view.findViewById<View>(R.id.btnFingerPrint))
 
             if (dialerType == 1) performPassCode()
-            view.findViewById<View>(R.id.button1).setOnClickListener(onClickListener)
-            view.findViewById<View>(R.id.button2).setOnClickListener(onClickListener)
-            view.findViewById<View>(R.id.button3).setOnClickListener(onClickListener)
-            view.findViewById<View>(R.id.button4).setOnClickListener(onClickListener)
-            view.findViewById<View>(R.id.button5).setOnClickListener(onClickListener)
-            view.findViewById<View>(R.id.button6).setOnClickListener(onClickListener)
-            view.findViewById<View>(R.id.button7).setOnClickListener(onClickListener)
-            view.findViewById<View>(R.id.button8).setOnClickListener(onClickListener)
-            view.findViewById<View>(R.id.button9).setOnClickListener(onClickListener)
-            view.findViewById<View>(R.id.button0).setOnClickListener(onClickListener)
-            view.findViewById<View>(R.id.btnFingerPrint).setOnClickListener(onClickListener)
+            addClickListeners()
 
             view.findViewById<ImageView>(R.id.buttonRemove).setOnClickListener {
                 removePasscodeFromList()
@@ -175,6 +179,30 @@ class CoreDialerPad @JvmOverloads constructor(
                 }
                 listener?.onRightButtonClicked()
             }
+        }
+    }
+
+    private fun addClickListeners() {
+        for (view in keypads)
+            view.setOnClickListener(onClickListener)
+    }
+
+    private fun lockKeypad() {
+        for (view in keypads) {
+            view.isEnabled = false
+            buttonRemove?.isEnabled = false
+            view.alpha = 0.5f
+            buttonRemove?.alpha = 0.5f
+        }
+    }
+
+    private fun unlockKeypad() {
+        for (view in keypads) {
+            view.isEnabled = true
+            buttonRemove?.isEnabled = true
+            view.alpha = 1.0f
+            buttonRemove?.alpha = 1.0f
+            clearAllData()
         }
     }
 
@@ -196,10 +224,22 @@ class CoreDialerPad @JvmOverloads constructor(
         return inputEditText?.text.toString()
     }
 
+    private fun clearAllData() {
+        etPassCodeText?.setText("")
+        inputEditText?.setText("")
+        list.clear()
+        view.findViewById<ImageView>(R.id.ivOne).visibility = View.GONE
+        view.findViewById<ImageView>(R.id.ivTwo).visibility = View.GONE
+        view.findViewById<ImageView>(R.id.ivThree).visibility = View.GONE
+        view.findViewById<ImageView>(R.id.ivFour).visibility = View.GONE
+        view.findViewById<ImageView>(R.id.ivFive).visibility = View.GONE
+        view.findViewById<ImageView>(R.id.ivSix).visibility = View.GONE
+    }
     fun reset() {
         etPassCodeText?.text = null
         //editText.text = null
         etPassCodeText?.setText("")
+        inputEditText?.setText("")
         //editText.setText("")
     }
 
@@ -217,9 +257,11 @@ class CoreDialerPad @JvmOverloads constructor(
         etPassCodeText?.startAnimation(animShake)
     }
 
-    fun settingUIForError(error: String) {
+    fun settingUIForError(error: String, isScreenLocked: Boolean = false) {
         view.findViewById<TextView>(R.id.tvError).visibility = View.VISIBLE
         view.findViewById<TextView>(R.id.tvError).text = error
+        if (isScreenLocked) lockKeypad() else unlockKeypad()
+
     }
 
     fun showFingerprintView() {
@@ -231,9 +273,11 @@ class CoreDialerPad @JvmOverloads constructor(
     }
 
 
-    fun settingUIForNormal() {
+    fun settingUIForNormal(isScreenLocked: Boolean = false) {
         tvError.visibility = View.INVISIBLE
+        if (isScreenLocked) lockKeypad() else unlockKeypad()
     }
+
 
     fun performPassCode() {
         etPassCodeText?.textSize =

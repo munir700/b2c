@@ -1,6 +1,7 @@
 package co.yap.app.modules.login.viewmodels
 
 import android.app.Application
+import android.os.CountDownTimer
 import androidx.lifecycle.MutableLiveData
 import co.yap.app.constants.Constants
 import co.yap.app.modules.login.interfaces.IVerifyPasscode
@@ -12,6 +13,7 @@ import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.messages.MessagesRepository
 import co.yap.networking.messages.requestdtos.CreateForgotPasscodeOtpRequest
 import co.yap.networking.messages.requestdtos.CreateOtpGenericRequest
+import co.yap.networking.models.ApiError
 import co.yap.networking.models.RetroApiResponse
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
@@ -23,6 +25,7 @@ import co.yap.yapcore.helpers.extentions.toast
 import co.yap.yapcore.helpers.extentions.trackEventWithAttributes
 import co.yap.yapcore.leanplum.UserAttributes
 import co.yap.yapcore.managers.MyUserManager
+import java.util.concurrent.TimeUnit
 
 class VerifyPasscodeViewModel(application: Application) :
     BaseViewModel<IVerifyPasscode.State>(application),
@@ -55,10 +58,67 @@ class VerifyPasscodeViewModel(application: Application) :
                 is RetroApiResponse.Error -> {
                     // state.toast = response.error.message
                     loginSuccess.postValue(false)
+                    response.error.actualCode = "303"
+                    response.error.message = "10"
                     state.loading = false
+                    handleAttemptsError(response.error)
                 }
             }
         }
+    }
+
+    private fun handleAttemptsError(error: ApiError) {
+        when (error.actualCode) {
+            "302" -> showAccountBlockedError()
+            "303" -> showBlockForSomeTimeError(error.message)
+        }
+    }
+
+    private fun showAccountBlockedError() {
+        state.dialerError =
+            "Too many attempts. For your security your account is blocked. Please click on forgot passcode to reset your passcode"
+        state.isScreenLocked.set(true)
+        state.valid = false
+    }
+
+    private fun showBlockForSomeTimeError(message: String) {
+        TimeUnit.SECONDS.toMinutes(message.toLongOrNull() ?: 0)
+        val totalSeconds = message.toLongOrNull() ?: 0
+        startCountDownTimer(totalSeconds)
+        state.isScreenLocked.set(true)
+        state.valid = false
+    }
+
+    private fun startCountDownTimer(totalSeconds: Long) {
+        val timer = object : CountDownTimer(TimeUnit.SECONDS.toMillis(totalSeconds), 1000) {
+            override fun onTick(millisUntilFinished: Long) {
+                state.dialerError =
+                    "Too many attempts. Please wait for ${timerString(
+                        minutes = TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished),
+                        seconds = TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished) -
+                                TimeUnit.MINUTES.toSeconds(
+                                    TimeUnit.MILLISECONDS.toMinutes(
+                                        millisUntilFinished
+                                    )
+                                )
+                    )}"
+            }
+
+            override fun onFinish() {
+                state.isScreenLocked.set(false)
+                state.dialerError = ""
+                state.valid = false
+            }
+        }
+        timer.start()
+    }
+
+    private fun timerString(minutes: Long, seconds: Long): String {
+        return String.format(
+            "%02d:%02d",
+            minutes,
+            seconds
+        )
     }
 
     override fun handlePressOnForgotPasscodeButton(id: Int) {

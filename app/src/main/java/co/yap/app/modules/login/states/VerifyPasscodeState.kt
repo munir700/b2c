@@ -4,13 +4,13 @@ import android.app.Application
 import android.text.Editable
 import android.text.TextWatcher
 import androidx.databinding.Bindable
+import androidx.databinding.ObservableField
 import co.yap.app.BR
 import co.yap.app.modules.login.fragments.VerifyPassCodeEnum
 import co.yap.app.modules.login.interfaces.IVerifyPasscode
 import co.yap.translation.Strings
 import co.yap.translation.Translator
 import co.yap.yapcore.BaseState
-import java.lang.Appendable
 
 class VerifyPasscodeState(application: Application) : BaseState(), IVerifyPasscode.State {
 
@@ -81,15 +81,10 @@ class VerifyPasscodeState(application: Application) : BaseState(), IVerifyPassco
             notifyPropertyChanged(BR.verifyPassCodeEnum)
         }
 
+    override var isScreenLocked: ObservableField<Boolean> = ObservableField()
+
     fun validate(text: String) {
-        if (text.length in 7 downTo 4) {
-            valid = true
-
-        } else {
-            dialerError = ""
-            valid = false
-
-        }
+        valid = text.length in 7 downTo 4
     }
 
     override fun getTextWatcher(): TextWatcher {

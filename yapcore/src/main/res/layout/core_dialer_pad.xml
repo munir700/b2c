@@ -108,18 +108,22 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
+            android:padding="@dimen/small"
             android:textColor="@color/error"
+            android:foregroundGravity="center"
+            android:layout_margin="@dimen/margin_extra_small"
             android:textSize="12sp"
-
+            app:layout_constraintEnd_toEndOf="parent"
+            android:visibility="visible"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/llTopMain"
-            tools:text="Error" />
+            tools:text="Too many attempts. For your security your your account is blocked. Please click on forgot passcode to reset your passcode" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <LinearLayout
         android:id="@+id/llPasscodeFirstRow"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin_normal"
         android:gravity="center_horizontal"
         android:orientation="horizontal"
         app:layout_constraintTop_toBottomOf="@+id/clPassCodeViews">
