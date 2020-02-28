@@ -22,8 +22,8 @@
     <color name="agent_bubble_message_link_text_color">@color/colorPrimaryDark</color>
     <color name="agent_bubble_timestamp_text_color">@color/grey</color>
     <color name="agent_bubble_background_color">#80C9C8D8</color>
-    <color name="agent_avatar_background_color">@color/transparent</color>
-    <color name="agent_avatar_icon_color">@android:color/black</color>
+    <color name="agent_avatar_background_color">@color/white</color>
+    <color name="agent_avatar_icon_color">@android:color/white</color>
     <bool name="show_agent_typing_in_message_bubble">true</bool>
 
     <!--consumer bubble-->
@@ -268,6 +268,9 @@
     <!--  Bottom: Conversation will scroll to the bottom regardless if there are unread messages or not.(Default)  -->
     <!--  FirstUnreadMessage: Conversation will scroll to first unread message. If no unread messages exist, conversation will scroll to the bottom.  -->
     <string name="lp_scroll_when_scroll_down" translatable="false">Bottom</string>
+
+
+<!--    <string name="brand_name" templateMergeStrategy="preserve" translatable="false">YAP Support</string>-->
 
     <!--  End of scroll behavior settings.  -->
 

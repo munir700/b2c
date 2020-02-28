@@ -20,20 +20,6 @@ fun isValidLatLng(lat: Double, lng: Double): Boolean {
     return true
 }
 
-fun Context.openUrl(url: String, newTask: Boolean = false): Boolean {
-    return try {
-        val intent = Intent().apply {
-            action = Intent.ACTION_VIEW
-            data = Uri.parse(url)
-            if (newTask) addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-        }
-        startActivity(intent)
-        true
-    } catch (e: Exception) {
-        false
-    }
-}
-
 fun Activity.openGoogleMapDirection(start: LatLng, destination: LatLng) {
     val uri: String = String.format(
         Locale.ENGLISH,
