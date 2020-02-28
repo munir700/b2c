@@ -20,6 +20,7 @@ import co.yap.modules.dashboard.more.help.interfaces.IHelpSupport
 import co.yap.modules.dashboard.more.help.viewmodels.HelpSupportViewModel
 import co.yap.modules.dashboard.more.main.fragments.MoreBaseFragment
 import co.yap.modules.webview.WebViewFragment
+import co.yap.networking.CookiesManager
 import co.yap.networking.customers.requestdtos.Contact
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.Utils
@@ -121,9 +122,7 @@ class HelpSupportFragment : MoreBaseFragment<IHelpSupport.ViewModel>(), IHelpSup
         LivePerson.initialize(
             requireContext(),
             InitLivePersonProperties(
-                accountId,
-                FCMID,
-                null,
+                "17038977","17038977",
                 object : InitLivePersonCallBack {
                     override fun onInitSucceed() {
                         openActivity()
@@ -141,14 +140,15 @@ class HelpSupportFragment : MoreBaseFragment<IHelpSupport.ViewModel>(), IHelpSup
         val authCode = "authCode"
         val publicKey = "publicKey"
 
-        val authParams = LPAuthenticationParams()
-        authParams.authKey = authCode
-        authParams.addCertificatePinningKey(publicKey)
+        val authParams = LPAuthenticationParams(LPAuthenticationParams.LPAuthenticationType.AUTH)
+       // authParams.authKey = authCode
+        authParams.hostAppJWT= CookiesManager.jwtToken
+        //authParams.addCertificatePinningKey(publicKey)
 
-        val campaignInfo = getCampaignInfo()
+      //  val campaignInfo = getCampaignInfo()
         val params = ConversationViewParams()
-            .setHistoryConversationsStateToDisplay(LPConversationsHistoryStateToDisplay.ALL)
-            .setCampaignInfo(campaignInfo).setReadOnlyMode(isReadOnly())
+            /*.setHistoryConversationsStateToDisplay(LPConversationsHistoryStateToDisplay.ALL)
+            .setCampaignInfo(campaignInfo).setReadOnlyMode(isReadOnly())*/
         //        setWelcomeMessage(params);  //This method sets the welcome message with quick replies. Uncomment this line to enable this feature.
         LivePerson.showConversation(requireActivity(), authParams, params)
 
