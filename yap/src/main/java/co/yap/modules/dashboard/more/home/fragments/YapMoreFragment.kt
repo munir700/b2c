@@ -66,7 +66,7 @@ class YapMoreFragment : YapDashboardChildFragment<IMoreHome.ViewModel>(), IMoreH
         if (::adapter.isInitialized) {
             if (!adapter.getDataList().isNullOrEmpty()) {
                 val item = adapter.getDataForPosition(0)
-                item.hasBadge = Leanplum.getInbox().unreadCount() > 0
+                item.hasBadge = false //Leanplum.getInbox().unreadCount() > 0
                 item.badgeCount = Leanplum.getInbox().unreadCount()
                 adapter.setItemAt(0, item)
             }

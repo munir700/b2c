@@ -96,13 +96,6 @@ fun EditText.afterTextChanged(afterTextChanged: (String) -> Unit) {
         }
     })
 }
-
-fun AppCompatEditText.applyIBANMask() {
-    val maskTextWatcher =
-        MaskTextWatcher(this, "#### #### #### #### #### #### ####")
-    this.addTextChangedListener(maskTextWatcher)
-}
-
 fun AppCompatActivity.addFragment(tag: String?, id: Int, fragment: Fragment) {
     val fragmentTransaction = supportFragmentManager.beginTransaction()
     fragmentTransaction.add(id, fragment, tag)

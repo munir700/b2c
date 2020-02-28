@@ -101,7 +101,7 @@ class CashTransferViewModel(application: Application) :
 
     private fun isUaeftsBeneficiary(): Boolean {
         state.beneficiary?.beneficiaryType?.let {
-            return (it == SendMoneyBeneficiaryType.UAEFTS.type)
+            return (it == SendMoneyBeneficiaryType.UAEFTS.type || it == SendMoneyBeneficiaryType.DOMESTIC.type)
         } ?: return false
     }
 
