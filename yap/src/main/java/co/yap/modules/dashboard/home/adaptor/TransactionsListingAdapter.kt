@@ -97,7 +97,7 @@ class TransactionsListingAdapter(private val list: MutableList<Content>) :
             val categoryTitle: String =
                 getCategoryTitle(transaction.productCode ?: "", transaction.txnType ?: "")
             transaction.productCode?.let {
-                if (TransactionProductCode.Y2Y_TRANSFER.pCode == transaction.productCode ?: "") {
+                if (TransactionProductCode.Y2Y_TRANSFER.pCode == transaction.productCode ?: "" || TransactionProductCode.POS_PURCHASE.pCode == transaction.productCode) {
                     ImageBinding.loadAvatar(
                         itemTransactionListBinding.ivTransaction,
                         "",

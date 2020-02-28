@@ -142,7 +142,6 @@ class CardAnalyticsViewModel(application: Application) :
                     }
 
                     fetchCardMerchantAnalytics(currentMonth)
-//                    state.loading = false
 
                 }
                 is RetroApiResponse.Error -> {
@@ -152,70 +151,10 @@ class CardAnalyticsViewModel(application: Application) :
                 }
             }
         }
-        /*categoryList.add(
-            TxnAnalytic(
-                "https://yap-live.s3.eu-west-1.amazonaws.com/amazon.png",
-                "Amazon",
-                "887.12",
-                20.00,
-                24
-            )
-        )
-        categoryList.add(
-            TxnAnalytic(
-                "https://yap-live.s3.eu-west-1.amazonaws.com/amazon.png",
-                "Amazon",
-                "887.12",
-                20.00,
-                24
-            )
-        )
-        categoryList.add(
-            TxnAnalytic(
-                "https://yap-live.s3.eu-west-1.amazonaws.com/amazon.png",
-                "Amazon",
-                "887.12",
-                20.00,
-                24
-            )
-        )
-        categoryList.add(
-            TxnAnalytic(
-                "https://yap-live.s3.eu-west-1.amazonaws.com/amazon.png",
-                "Amazon",
-                "887.12",
-                20.00,
-                24
-            )
-        )
-        categoryList.add(
-            TxnAnalytic(
-                "https://yap-live.s3.eu-west-1.amazonaws.com/amazon.png",
-                "Amazon",
-                "887.12",
-                20.00,
-                24
-            )
-        )
-
-
-        parentVM?.categoryAnalyticsItemLiveData?.value = categoryList*/
-
-        /*list2.add(
-            TxnAnalytic(
-                "https://yap-live.s3.eu-west-1.amazonaws.com/amazon.png",
-                "Amazon",
-                "887.12",
-                20.00,
-                24
-            )
-        )*/
-
 
     }
 
     override fun fetchCardMerchantAnalytics(currentMonth: String) {
-//        val merchantList = ArrayList<TxnAnalytic>()
         launch {
             when (val response = repository.getAnalyticsByMerchantName(
                 MyUserManager.getCardSerialNumber(),

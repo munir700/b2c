@@ -9,11 +9,16 @@ import co.yap.R
 import co.yap.databinding.ActivityTransactionDetailsBinding
 import co.yap.modules.dashboard.transaction.interfaces.ITransactionDetails
 import co.yap.modules.dashboard.transaction.viewmodels.TransactionDetailsViewModel
+import co.yap.modules.others.helper.ImageBinding
 import co.yap.modules.others.note.activities.TransactionNoteActivity
 import co.yap.translation.Strings
 import co.yap.yapcore.BR
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.enums.Transaction
+import co.yap.yapcore.enums.TransactionProductCode
+import co.yap.yapcore.enums.TransactionStatus
+import co.yap.yapcore.enums.TxnType
 
 class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewModel>(),
     ITransactionDetails.View {
@@ -30,8 +35,8 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
         super.onCreate(savedInstanceState)
         viewModel.clickEvent.observe(this, clickEvent)
         viewModel.transactionId = intent?.getStringExtra("transactionId")
-
-
+        viewModel.state.categoryName.set(intent?.getStringExtra("categoryName"))
+        viewModel.state.transactionAddress.set(intent?.getStringExtra("merchantAddress"))
         setTransactionImage()
     }
 
@@ -121,48 +126,61 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
 
      }*/
 
-    fun setTransactionImage() {
+    private fun setTransactionImage() {
         val productCode = intent?.getStringExtra("productCode")
         val txnType = intent?.getStringExtra("txnType")
-        if (productCode == Constants.Y_TO_Y_TRANSFER) {
-            getBindings().ivPicture.setImageDrawable(this.getDrawable(R.drawable.ic_yap_to_yap))
-        } else {
-            if (productCode == Constants.TOP_UP_VIA_CARD) {
-                getBindings().ivPicture.setImageDrawable(this.getDrawable(R.drawable.ic_top_up))
-            } else {
-                if (productCode == Constants.SUPP_WITHDRAW || txnType == Constants.SUPP_CARD_TOP_UP) {
-                    if (txnType == Constants.MANUAL_DEBIT) {
-                        getBindings().ivPicture.setImageDrawable(
-                            this.getDrawable(
-                                R.drawable.ic_minus_transactions
-                            )
-                        )
-                        getBindings().ivPicture.setPadding(0, 0, 0, 0)
-                    } else if (txnType == Constants.MANUAL_CREDIT) {
-                        getBindings().ivPicture.setImageDrawable(
-                            this.getDrawable(
-                                R.drawable.ic_plus_transactions
-                            )
-                        )
-                        getBindings().ivPicture.setPadding(0, 0, 0, 0)
-                    }
-                } else if (txnType == Constants.MANUAL_DEBIT) {
-                    getBindings().ivPicture.setImageDrawable(
-                        this.getDrawable(
-                            R.drawable.ic_outgoing
-                        )
-                    )
-                } else if (txnType == Constants.MANUAL_CREDIT) {
-                    getBindings().ivPicture.setImageDrawable(
-                        this.getDrawable(
-                            R.drawable.ic_incoming
-                        )
-                    )
-                }
-            }
+        val status = intent?.getStringExtra("status")
+        val title = intent?.getStringExtra("title")
+        viewModel.state.transactionTitle = title ?: "Unknown"
 
+        when {
+            TransactionProductCode.Y2Y_TRANSFER.pCode == productCode ?: "" -> {
+                ImageBinding.loadAvatar(
+                    getBindings().ivPicture,
+                    "",
+                    viewModel.state.transactionTitle,
+                    android.R.color.transparent,
+                    R.dimen.text_size_h2
+                )
+            }
+            TransactionProductCode.POS_PURCHASE.pCode == productCode ?: "" -> {
+                ImageBinding.loadAvatar(
+                    getBindings().ivPicture,
+                    "",
+                    viewModel.state.transactionTitle,
+                    android.R.color.transparent,
+                    R.dimen.text_size_h2
+                )
+            }
+            else -> {
+                val resId = getTransactionIcon(productCode ?: "", txnType ?: "", status ?: "")
+                getBindings().ivPicture.setImageResource(resId)
+            }
         }
     }
+
+    private fun getTransactionIcon(
+        productCode: String,
+        txnType: String = "",
+        transactionStatus: String
+    ): Int {
+        if (productCode.isBlank() || txnType.isBlank() || transactionStatus.isBlank()) return 0
+
+        return if (transactionStatus == TransactionStatus.FAILED.name) {
+            R.drawable.ic_reverted
+        } else
+            when {
+                Transaction.isCash(productCode) -> R.drawable.ic_transaction_cash
+                Transaction.isBank(productCode) -> R.drawable.ic_transaction_bank
+                Transaction.isFee(productCode) -> R.drawable.ic_package_standered
+                Transaction.isRefund(productCode) -> R.drawable.ic_refund
+                TransactionProductCode.TOP_UP_SUPPLEMENTARY_CARD.pCode == productCode || TransactionProductCode.WITHDRAW_SUPPLEMENTARY_CARD.pCode == productCode -> {
+                    if (txnType == TxnType.DEBIT.type) R.drawable.ic_minus_transactions else R.drawable.ic_plus_transactions
+                }
+                else -> 0
+            }
+    }
+
 
     fun getBindings(): ActivityTransactionDetailsBinding {
         return viewDataBinding as ActivityTransactionDetailsBinding
