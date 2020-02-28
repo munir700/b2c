@@ -56,7 +56,7 @@ class InviteFriendFragment : BaseBindingFragment<IInviteFriend.ViewModel>(), IIn
 //        SHARE_ADJUST_LINK = "https://app.adjust.com/abc123?deep_link=adjustExample%3A%2F%2F"
 //        SHARE_ADJUST_LINK = "http://www.google.com/search?digitify"
 //        SHARE_ADJUST_LINK = "https://digitify.atlassian.net/browse/YH-57"
-        SHARE_ADJUST_LINK = "https://digitify.atlassian.net/jira/people/5c46bf494c070827c2a1a4a0"
+         SHARE_ADJUST_LINK = "https://grwl.adj.st?adjust_t=q3o2z0e_sv94i35&user_id=abd34321"
 //        SHARE_ADJUST_LINK = "https://app.adjust.com/$name?deep_link=adjustExample%3A%2F%2F"
 
 

@@ -58,6 +58,7 @@ open class MainActivity : DefaultActivity(), IFragmentHolder, INavigator {
             ) as String
 
             Log.i("abc", date.toString())
+            Log.i("abcurl",url.toString())
         }
     }
 
