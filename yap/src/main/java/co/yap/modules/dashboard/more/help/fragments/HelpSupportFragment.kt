@@ -147,6 +147,7 @@ class HelpSupportFragment : MoreBaseFragment<IHelpSupport.ViewModel>(), IHelpSup
 
       //  val campaignInfo = getCampaignInfo()
         val params = ConversationViewParams()
+
             /*.setHistoryConversationsStateToDisplay(LPConversationsHistoryStateToDisplay.ALL)
             .setCampaignInfo(campaignInfo).setReadOnlyMode(isReadOnly())*/
         //        setWelcomeMessage(params);  //This method sets the welcome message with quick replies. Uncomment this line to enable this feature.
