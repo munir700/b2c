@@ -122,4 +122,9 @@ class TransactionDetailsState : BaseState(), ITransactionDetails.State {
             field = value
             notifyPropertyChanged(BR.transactionReceiver)
         }
+
+    override var categoryTitle: ObservableField<String> = ObservableField("")
+    override var categoryIcon: ObservableField<Int> = ObservableField()
+    override var categoryName: ObservableField<String> = ObservableField()
+    override var transactionAddress: ObservableField<String> = ObservableField("")
 }

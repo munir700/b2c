@@ -156,6 +156,10 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                     putExtra("txnType", data.txnType)
                     putExtra("transactionId", data.transactionId)
                     putExtra("productCode", data.productCode)
+                    putExtra("status", data.status)
+                    putExtra("title", data.title)
+                    putExtra("categoryName", data.merchantCategoryName)
+                    putExtra("merchantAddress", data.cardAcceptorLocation)
                 }
             }
         }
