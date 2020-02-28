@@ -2,8 +2,10 @@ package co.yap.modules.dashboard.transaction.viewmodels
 
 import android.annotation.SuppressLint
 import android.app.Application
+import co.yap.R
 import co.yap.modules.dashboard.transaction.interfaces.ITransactionDetails
 import co.yap.modules.dashboard.transaction.states.TransactionDetailsState
+import co.yap.modules.others.helper.ImageBinding
 import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.transactions.TransactionsRepository
 import co.yap.networking.transactions.responsedtos.TransactionDetails
@@ -11,7 +13,10 @@ import co.yap.translation.Strings
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.enums.Transaction
 import co.yap.yapcore.enums.TransactionCategory
+import co.yap.yapcore.enums.TransactionProductCode
+import co.yap.yapcore.enums.TxnType
 import co.yap.yapcore.helpers.DateUtils.FORMAT_LONG_INPUT
 import co.yap.yapcore.helpers.DateUtils.FORMAT_LONG_OUTPUT
 import co.yap.yapcore.helpers.DateUtils.datetoString
@@ -61,6 +66,8 @@ class TransactionDetailsViewModel(application: Application) :
                 is RetroApiResponse.Success -> {
                     //success
                     setSenderOrReceiver(response.data.data)
+                    state.categoryTitle.set(getCategoryTitle(response.data.data))
+                    state.categoryIcon.set(getCategoryIcon(response.data.data))
                     spentVisibility(response.data.data)
                     state.transactionTitle = response.data.data?.title
                     if (response.data.data?.txnType != Constants.TRANSACTION_TYPE_CREDIT) {
@@ -128,13 +135,60 @@ class TransactionDetailsViewModel(application: Application) :
     private fun setSenderOrReceiver(data: TransactionDetails?) {
         data?.let {
             when (data.productCode) {
-                Constants.Y_TO_Y_TRANSFER -> {
+                TransactionProductCode.Y2Y_TRANSFER.pCode -> {
                     state.isYtoYTransfer.set(true)
                     state.transactionSender = data.senderName
                     state.transactionReceiver = data.receiverName
                 }
             }
         }
+    }
+
+    private fun getCategoryTitle(transaction: TransactionDetails?): String {
+        transaction?.productCode?.let { productCode ->
+            if (Transaction.isFee(productCode)) {
+                return "Fee"
+            }
+            return (when (productCode) {
+                TransactionProductCode.Y2Y_TRANSFER.pCode -> if (transaction.txnType == TxnType.DEBIT.type) "Outgoing Transfer" else "Incoming Transfer"
+                TransactionProductCode.TOP_UP_VIA_CARD.pCode -> "Incoming Transfer"
+                TransactionProductCode.TOP_UP_SUPPLEMENTARY_CARD.pCode, TransactionProductCode.WITHDRAW_SUPPLEMENTARY_CARD.pCode -> ""
+                TransactionProductCode.UAEFTS.pCode, TransactionProductCode.DOMESTIC.pCode, TransactionProductCode.SWIFT.pCode, TransactionProductCode.RMT.pCode, TransactionProductCode.CASH_PAYOUT.pCode -> {
+                    "Outgoing Transfer"
+                }
+                TransactionProductCode.CARD_REORDER.pCode -> "Fee"
+                TransactionProductCode.INWARD_REMITTANCE.pCode, TransactionProductCode.LOCAL_INWARD_TRANSFER.pCode -> "Incoming Funds"
+                TransactionProductCode.ATM_WITHDRAWL.pCode, TransactionProductCode.POS_PURCHASE.pCode, TransactionProductCode.MASTER_CARD_ATM_WITHDRAWAL.pCode -> {
+                    "Cash"
+                }
+                else -> ""
+            })
+        } ?: return ""
+    }
+
+    private fun getCategoryIcon(transaction: TransactionDetails?): Int {
+        transaction?.productCode?.let { productCode ->
+            if (Transaction.isFee(productCode)) {
+                return R.drawable.ic_expense
+            }
+            return (when (productCode) {
+                TransactionProductCode.Y2Y_TRANSFER.pCode -> R.drawable.ic_send_money
+                TransactionProductCode.TOP_UP_SUPPLEMENTARY_CARD.pCode, TransactionProductCode.WITHDRAW_SUPPLEMENTARY_CARD.pCode -> 0
+                TransactionProductCode.UAEFTS.pCode, TransactionProductCode.DOMESTIC.pCode, TransactionProductCode.SWIFT.pCode, TransactionProductCode.RMT.pCode, TransactionProductCode.CASH_PAYOUT.pCode -> {
+                    R.drawable.ic_send_money
+                }
+                TransactionProductCode.CARD_REORDER.pCode -> R.drawable.ic_expense
+                TransactionProductCode.ATM_WITHDRAWL.pCode, TransactionProductCode.MASTER_CARD_ATM_WITHDRAWAL.pCode, TransactionProductCode.CASH_DEPOSIT_AT_RAK.pCode, TransactionProductCode.CHEQUE_DEPOSIT_AT_RAK.pCode, TransactionProductCode.INWARD_REMITTANCE.pCode, TransactionProductCode.LOCAL_INWARD_TRANSFER.pCode, TransactionProductCode.TOP_UP_VIA_CARD.pCode -> {
+                    R.drawable.ic_cash
+                }
+                TransactionProductCode.POS_PURCHASE.pCode -> {
+                    val resId =ImageBinding.getResId("ic_${ImageBinding.getDrawableName(state.categoryName.get()?:"")}")
+                    if (resId == -1) R.drawable.ic_other else resId
+                }
+
+                else -> 0
+            })
+        } ?: return 0
     }
 
     private fun spentVisibility(data: TransactionDetails?) {

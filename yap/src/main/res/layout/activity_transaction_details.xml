@@ -41,7 +41,6 @@
             android:layout_marginStart="@dimen/margin_medium"
             android:layout_marginTop="@dimen/margin_medium"
             android:background="@drawable/bg_round_purple_enabled"
-            android:padding="@dimen/margin_small"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/ivMap"
             tools:src="@drawable/ic_plus_transactions"
@@ -53,13 +52,15 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/margin_normal_large"
+            app:layout_constraintBottom_toBottomOf="@+id/vLine"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/ivPicture"
-            app:layout_constraintTop_toTopOf="@+id/ivPicture">
+            app:layout_constraintTop_toTopOf="@+id/ivPicture"
+            app:layout_constraintVertical_bias="0.0">
 
             <TextView
                 android:id="@+id/tvTransactionHeading"
-                style="@style/Large"
+                style="@style/Regular"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_medium"
@@ -71,7 +72,54 @@
                 app:layout_constraintEnd_toStartOf="@+id/tvTotalAmountValue"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:text="Transaction DetailsTrans" />
+                tools:text="Transaction " />
+
+            <TextView
+                android:id="@+id/tvAddress"
+                style="@style/AMicroGrey"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:lineSpacingExtra="2dp"
+                android:maxLines="1"
+                android:text="@{viewModel.state.transactionAddress}"
+                android:visibility="@{viewModel.state.transactionAddress.isEmpty() || viewModel.state.transactionAddress ==null ?View.GONE:View.VISIBLE}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/tvTotalAmountValue"
+                app:layout_constraintStart_toStartOf="@+id/tvTransactionHeading"
+                app:layout_constraintTop_toBottomOf="@+id/tvTransactionHeading"
+                tools:text="transaction notes"
+                tools:visibility="visible" />
+
+            <ImageView
+                android:id="@+id/ivCategoryIcon"
+                android:layout_width="@dimen/_13sdp"
+                android:layout_height="@dimen/_13sdp"
+                android:layout_marginTop="@dimen/_2sdp"
+                android:contentDescription="@string/empty_string"
+                android:tint="@color/colorSecondaryOrange"
+                app:layout_constraintStart_toStartOf="@+id/tvTransactionHeading"
+                app:layout_constraintTop_toBottomOf="@+id/tvAddress"
+                app:src="@{viewModel.state.categoryIcon}"
+                tools:src="@drawable/ic_send_money" />
+
+            <TextView
+                android:id="@+id/tvTransactionSubheading"
+                style="@style/AMicroGrey"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_3sdp"
+                android:layout_marginEnd="@dimen/margin_small"
+                android:ellipsize="end"
+                android:lineSpacingExtra="2dp"
+                android:maxLines="1"
+                android:text="@{viewModel.state.categoryTitle}"
+                android:textColor="@color/colorSecondaryOrange"
+                app:layout_constraintBottom_toBottomOf="@+id/ivCategoryIcon"
+                app:layout_constraintEnd_toStartOf="@+id/tvCurrency"
+                app:layout_constraintStart_toEndOf="@+id/ivCategoryIcon"
+                app:layout_constraintTop_toTopOf="@+id/ivCategoryIcon"
+                tools:text="Outgoing Transfer" />
 
             <TextView
                 android:id="@+id/tvTotalAmountValue"
