@@ -45,7 +45,6 @@ import co.yap.yapcore.leanplum.KYCEvents
 import co.yap.yapcore.leanplum.SignupEvents
 import co.yap.yapcore.managers.MyUserManager
 import co.yap.yapcore.trackAdjustEvent
-import com.leanplum.Leanplum
 import kotlinx.android.synthetic.main.fragment_onboarding_congratulations.*
 import java.text.SimpleDateFormat
 import java.util.*
@@ -107,6 +106,10 @@ class CongratulationsFragment : OnboardingChildFragment<ICongratulations.ViewMod
                 trackEvent(
                     SignupEvents.SIGN_UP_TIME.type,
                     SimpleDateFormat("hh:mm").format(Calendar.getInstance().time)
+                )
+                trackEvent(
+                    SignupEvents.SIGN_UP_LENGTH.type,
+                    viewModel.elapsedOnboardingTime.toString()
                 )
             }
         }
@@ -177,6 +180,7 @@ class CongratulationsFragment : OnboardingChildFragment<ICongratulations.ViewMod
             if (result) {
                 val address = it.getParcelableExtra<Address>(Constants.ADDRESS)
                 viewModel.requestOrderCard(address)
+                // send city to leanPlum dashboard
             } else {
                 goToDashboard()
             }
@@ -275,10 +279,6 @@ class CongratulationsFragment : OnboardingChildFragment<ICongratulations.ViewMod
                 textview.text = SpannableStringBuilder().run {
                     append(parts[0])
                     val counterText = animator.animatedValue.toString() + parts[1]
-                    trackEvent(
-                        SignupEvents.SIGN_UP_LENGTH.type,
-                        animator.animatedValue.toString()
-                    )
                     append(counterText.toSpannable().apply {
                         setSpan(
                             ForegroundColorSpan(
