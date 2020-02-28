@@ -88,7 +88,7 @@
                     android:maxLines="3"
                     app:layout_constraintStart_toStartOf="@+id/tvTitle"
                     app:layout_constraintTop_toBottomOf="@+id/tvTitle"
-                    tools:text="On May 24th, International money transfer won’t be available from 7 p.m. to 11 p.m." />
+                    tools:text="On May 24th, International money transfer wonï¿½t be available from 7 p.m. to 11 p.m." />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
 
