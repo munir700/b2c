@@ -1,9 +1,9 @@
 package co.yap.app.modules.login.viewmodels
 
 import android.app.Application
+import android.content.Context
 import android.os.Build
 import androidx.lifecycle.MutableLiveData
-import co.yap.app.login.EncryptionUtils
 import co.yap.app.modules.login.interfaces.IPhoneVerificationSignIn
 import co.yap.modules.onboarding.constants.Constants
 import co.yap.networking.authentication.AuthRepository
@@ -18,8 +18,11 @@ import co.yap.networking.models.RetroApiResponse
 import co.yap.translation.Strings
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleLiveEvent
+import co.yap.yapcore.constants.Constants.KEY_APP_UUID
+import co.yap.yapcore.constants.Constants.KEY_IS_USER_LOGGED_IN
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.helpers.extentions.trackEventWithAttributes
 import co.yap.yapcore.managers.MyUserManager
 
 class PhoneVerificationSignInViewModel(application: Application) :
@@ -42,7 +45,7 @@ class PhoneVerificationSignInViewModel(application: Application) :
 
     override fun onCreate() {
         super.onCreate()
-        state.reverseTimer(10)
+        //state.reverseTimer(10,context)
         state.valid = false
     }
 
@@ -60,18 +63,11 @@ class PhoneVerificationSignInViewModel(application: Application) :
                     val sharedPreferenceManager = SharedPreferenceManager(context)
 
                     sharedPreferenceManager.save(
-                        SharedPreferenceManager.KEY_IS_USER_LOGGED_IN,
+                        KEY_IS_USER_LOGGED_IN,
                         true
                     )
-
-                    sharedPreferenceManager.save(
-                        SharedPreferenceManager.KEY_PASSCODE,
-                        EncryptionUtils.encrypt(context, state.passcode)!!
-                    )
-                    sharedPreferenceManager.save(
-                        SharedPreferenceManager.KEY_USERNAME,
-                        EncryptionUtils.encrypt(context, state.username)!!
-                    )
+                    sharedPreferenceManager.savePassCodeWithEncryption(state.passcode)
+                    sharedPreferenceManager.saveUserNameWithEncryption(state.username)
                     verifyOtpResult.postValue(true)
                 }
                 is RetroApiResponse.Error -> {
@@ -83,7 +79,7 @@ class PhoneVerificationSignInViewModel(application: Application) :
         }
     }
 
-    override fun handlePressOnResend() {
+    override fun handlePressOnResend(context: Context) {
         launch {
             state.loading = true
             when (val response =
@@ -91,7 +87,7 @@ class PhoneVerificationSignInViewModel(application: Application) :
                 is RetroApiResponse.Success -> {
                     state.toast =
                         getString(Strings.screen_verify_phone_number_display_text_resend_otp_success)
-                    state.reverseTimer(10)
+                    state.reverseTimer(10, context)
                     state.valid = false
                 }
                 is RetroApiResponse.Error -> {
@@ -105,7 +101,7 @@ class PhoneVerificationSignInViewModel(application: Application) :
     override fun postDemographicData() {
         val sharedPreferenceManager = SharedPreferenceManager(context)
         val deviceId: String? =
-            sharedPreferenceManager.getValueString(SharedPreferenceManager.KEY_APP_UUID)
+            sharedPreferenceManager.getValueString(KEY_APP_UUID)
         launch {
             state.loading = true
             when (val response =
@@ -139,6 +135,7 @@ class PhoneVerificationSignInViewModel(application: Application) :
                     if (response.data.data.isNotEmpty()) {
                         MyUserManager.user = response.data.data[0]
                         accountInfo.postValue(response.data.data[0])
+                        setUserAttributes()
                     }
                 }
                 is RetroApiResponse.Error -> state.toast = response.error.message
@@ -146,4 +143,9 @@ class PhoneVerificationSignInViewModel(application: Application) :
             state.loading = false
         }
     }
+
+    private fun setUserAttributes() {
+        trackEventWithAttributes(MyUserManager.user)
+    }
+
 }

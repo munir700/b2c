@@ -14,7 +14,6 @@ import java.util.Random;
  */
 public class DocumentaryFilter extends BaseFilter {
 
-    private final static Random RANDOM = new Random();
     private final static String FRAGMENT_SHADER = "#extension GL_OES_EGL_image_external : require\n"
             + "precision mediump float;\n"
             + "uniform samplerExternalOES sTexture;\n"
@@ -36,8 +35,8 @@ public class DocumentaryFilter extends BaseFilter {
             + "  return fract(part1 + part2 + part3);\n"
             + "}\n"
             + "void main() {\n"
-            + "  seed[0] = " + RANDOM.nextFloat() + ";\n"
-            + "  seed[1] = " + RANDOM.nextFloat() + ";\n"
+            + "  seed[0] = " + System.currentTimeMillis() + ";\n"
+            + "  seed[1] = " + System.currentTimeMillis() + ";\n"
             + "  stepsize = " + 1.0f / 255.0f + ";\n"
 
             // black white

@@ -63,7 +63,7 @@
         <attr name="view_max_length" format="integer" />
         <attr name="view_id" format="integer" />
         <attr name="view_plain_background" format="boolean" />
-
+        <attr name="showKeyboard" format="boolean" />
         <attr name="view_input_text_imei_actions" format="enum">
             <enum name="IME_ACTION_DONE" value="1" />
             <enum name="IME_ACTION_NEXT" value="2" />
@@ -85,6 +85,7 @@
         </attr>
 
     </declare-styleable>
+
 
     <!-- Font Awesome attr-->
     <declare-styleable name="FontTextView">
@@ -437,6 +438,7 @@
             <enum name="loading" value="3" />
         </attr>
         <attr name="msv_animateViewChanges" format="boolean" />
+        <attr name="msv_animateViewChangesDuration" format="integer|reference" />
     </declare-styleable>
 
     <declare-styleable name="AspectRatioImageView">
@@ -447,5 +449,58 @@
             <enum name="height" value="1" />
         </attr>
     </declare-styleable>
+
+    <declare-styleable name="OtpTextView">
+        <attr name="android:textColor" />
+        <attr name="otp" format="string" />
+        <attr name="hide_otp" format="boolean" />
+        <attr name="hide_otp_drawable" format="reference" />
+        <attr name="length" format="integer" />
+        <attr name="custom_width" format="dimension" />
+        <attr name="custom_height" format="dimension" />
+        <attr name="box_margin" format="dimension" />
+        <attr name="box_margin_left" format="dimension" />
+        <attr name="box_margin_right" format="dimension" />
+        <attr name="box_margin_top" format="dimension" />
+        <attr name="box_margin_bottom" format="dimension" />
+        <attr name="bar_height" format="dimension" />
+        <attr name="bar_enabled" format="boolean" />
+        <attr name="otp_box_background" format="reference" />
+        <attr name="otp_box_background_active" format="reference" />
+        <attr name="otp_box_background_inactive" format="reference" />
+        <attr name="otp_box_background_success" format="reference" />
+        <attr name="otp_box_background_error" format="reference" />
+        <attr name="bar_margin" format="dimension" />
+        <attr name="bar_margin_bottom" format="dimension" />
+        <attr name="bar_margin_right" format="dimension" />
+        <attr name="bar_margin_left" format="dimension" />
+        <attr name="bar_margin_top" format="dimension" />
+        <attr name="otp_text_size" format="dimension" />
+        <attr name="bar_active_color" format="color" />
+        <attr name="bar_inactive_color" format="color" />
+        <attr name="bar_error_color" format="color" />
+        <attr name="bar_success_color" format="color" />
+        <attr name="text_typeface" format="string" />
+    </declare-styleable>
+
+    <declare-styleable name="AndExoPlayerView">
+        <attr name="andexo_resize_mode" />
+        <attr name="andexo_aspect_ratio" />
+        <attr name="andexo_play_when_ready" format="boolean" />/>
+    </declare-styleable>
+
+    <attr name="andexo_resize_mode" format="enum">
+        <enum name="Fit" value="1" />
+        <enum name="Fill" value="2" />
+        <enum name="Zoom" value="3" />
+    </attr>
+
+    <attr name="andexo_aspect_ratio" format="enum">
+        <enum name="aspect_1_1" value="1" />
+        <enum name="aspect_16_9" value="2" />
+        <enum name="aspect_4_3" value="3" />
+        <enum name="aspect_match" value="4" />
+        <enum name="aspect_mp3" value="5" />
+    </attr>
 
 </resources>

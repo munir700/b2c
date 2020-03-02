@@ -1,4 +1,4 @@
-package co.yap.app.login
+package co.yap.yapcore.helpers.encryption
 
 import android.annotation.TargetApi
 import android.content.Context
@@ -6,7 +6,6 @@ import android.os.Build
 import android.security.KeyPairGeneratorSpec
 import android.security.keystore.KeyGenParameterSpec
 import android.security.keystore.KeyProperties
-import android.util.Log
 import java.io.FileNotFoundException
 import java.io.IOException
 import java.math.BigInteger
@@ -26,7 +25,8 @@ object EncryptionKeyGenerator {
     internal fun generateSecretKey(keyStore: KeyStore): SecurityKey? {
         try {
             if (!keyStore.containsAlias(KEY_ALIAS)) {
-                val keyGenerator = KeyGenerator.getInstance(KeyProperties.KEY_ALGORITHM_AES,
+                val keyGenerator = KeyGenerator.getInstance(
+                    KeyProperties.KEY_ALGORITHM_AES,
                     ANDROID_KEY_STORE
                 )
                 keyGenerator.init(
@@ -43,24 +43,17 @@ object EncryptionKeyGenerator {
                 return SecurityKey(keyGenerator.generateKey())
             }
         } catch (e: KeyStoreException) {
-            Log.e("generateSecretKey", e.printStackTrace().toString())
         } catch (e: NoSuchProviderException) {
-            Log.e("generateSecretKey", e.printStackTrace().toString())
         } catch (e: NoSuchAlgorithmException) {
-            Log.e("generateSecretKey", e.printStackTrace().toString())
         } catch (e: InvalidAlgorithmParameterException) {
-            Log.e("generateSecretKey", e.printStackTrace().toString())
         }
 
         try {
             val entry = keyStore.getEntry(KEY_ALIAS, null) as KeyStore.SecretKeyEntry
             return SecurityKey(entry.secretKey)
         } catch (e: KeyStoreException) {
-            Log.e("generateSecretKey", e.printStackTrace().toString())
         } catch (e: NoSuchAlgorithmException) {
-            Log.e("generateSecretKey", e.printStackTrace().toString())
         } catch (e: UnrecoverableEntryException) {
-            Log.e("generateSecretKey", e.printStackTrace().toString())
         }
 
         return null
@@ -82,20 +75,17 @@ object EncryptionKeyGenerator {
                     .setEndDate(end.time)
                     .build()
 
-                val kpg = KeyPairGenerator.getInstance("RSA",
+                val kpg = KeyPairGenerator.getInstance(
+                    "RSA",
                     ANDROID_KEY_STORE
                 )
                 kpg.initialize(spec)
                 kpg.generateKeyPair()
             }
         } catch (e: KeyStoreException) {
-            Log.e("generateSecretKey", e.printStackTrace().toString())
         } catch (e: NoSuchAlgorithmException) {
-            Log.e("generateSecretKey", e.printStackTrace().toString())
         } catch (e: InvalidAlgorithmParameterException) {
-            Log.e("generateSecretKey", e.printStackTrace().toString())
         } catch (e: NoSuchProviderException) {
-            Log.e("generateSecretKey", e.printStackTrace().toString())
         }
 
         try {
@@ -104,11 +94,8 @@ object EncryptionKeyGenerator {
                 KeyPair(entry.certificate.publicKey, entry.privateKey)
             )
         } catch (e: KeyStoreException) {
-            Log.e("generateSecretKey", e.printStackTrace().toString())
         } catch (e: NoSuchAlgorithmException) {
-            Log.e("generateSecretKey", e.printStackTrace().toString())
         } catch (e: UnrecoverableEntryException) {
-            Log.e("generateSecretKey", e.printStackTrace().toString())
         }
 
         return null
@@ -137,33 +124,30 @@ object EncryptionKeyGenerator {
             // Fetch Secret Key
             val pkEntry = androidCAStore.getEntry(KEY_ALIAS, protParam) as KeyStore.SecretKeyEntry
 
-            Log.e("Secret Key Fetched ", pkEntry.secretKey.encoded.toString())
             return SecurityKey(pkEntry.secretKey)
         } catch (e: KeyStoreException) {
-            Log.e("generateSecretKey", e.printStackTrace().toString())
         } catch (e: IOException) {
-            Log.e("generateSecretKey", e.printStackTrace().toString())
 
         } catch (e: CertificateException) {
-            Log.e("generateSecretKey", e.printStackTrace().toString())
 
         } catch (e: NoSuchAlgorithmException) {
-            Log.e("generateSecretKey ", e.printStackTrace().toString())
 
         } catch (e: UnrecoverableEntryException) {
-            Log.e("generateSecretKey", e.printStackTrace().toString())
 
         }
 
         return null
     }
 
-    private fun loadKeyStore(context: Context, androidCAStore: KeyStore, password: CharArray): Boolean {
+    private fun loadKeyStore(
+        context: Context,
+        androidCAStore: KeyStore,
+        password: CharArray
+    ): Boolean {
         val fis: java.io.FileInputStream
         try {
             fis = context.openFileInput(KEY_STORE_FILE_NAME)
         } catch (e: FileNotFoundException) {
-            Log.e("loadKeyStore : ", e.printStackTrace().toString())
 
             return false
         }
@@ -172,17 +156,19 @@ object EncryptionKeyGenerator {
             androidCAStore.load(fis, password)
             return true
         } catch (e: IOException) {
-            Log.e("loadKeyStore : ", e.printStackTrace().toString())
         } catch (e: NoSuchAlgorithmException) {
-            Log.e("loadKeyStore : ", e.printStackTrace().toString())
         } catch (e: CertificateException) {
-            Log.e("loadKeyStore : ", e.printStackTrace().toString())
         }
 
         return false
     }
 
-    @Throws(NoSuchAlgorithmException::class, KeyStoreException::class, IOException::class, CertificateException::class)
+    @Throws(
+        NoSuchAlgorithmException::class,
+        KeyStoreException::class,
+        IOException::class,
+        CertificateException::class
+    )
     private fun saveMyKeystore(
         context: Context, androidCAStore: KeyStore, password: CharArray,
         protParam: KeyStore.ProtectionParameter
@@ -201,6 +187,5 @@ object EncryptionKeyGenerator {
         } finally {
             fos?.close()
         }
-        Log.e("Secret Key Saved : ", String(mySecretKey.encoded))
     }
 }

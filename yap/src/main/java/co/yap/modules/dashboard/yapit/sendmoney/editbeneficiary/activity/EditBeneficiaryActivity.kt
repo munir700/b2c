@@ -1,22 +1,23 @@
 package co.yap.modules.dashboard.yapit.sendmoney.editbeneficiary.activity
 
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
 import co.yap.R
+import co.yap.databinding.ActivityEditBeneficiaryBinding
 import co.yap.modules.dashboard.yapit.sendmoney.editbeneficiary.interfaces.IEditBeneficiary
 import co.yap.modules.dashboard.yapit.sendmoney.editbeneficiary.viewmodel.EditBeneficiaryViewModel
 import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
+import co.yap.widgets.MaskTextWatcher
 import co.yap.widgets.popmenu.PopupMenu
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.constants.Constants
-import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.constants.Constants.EXTRA
+import co.yap.yapcore.constants.Constants.IS_IBAN_NEEDED
+import co.yap.yapcore.constants.Constants.OVERVIEW_BENEFICIARY
 import co.yap.yapcore.helpers.extentions.getCurrencyPopMenu
 import kotlinx.android.synthetic.main.activity_edit_beneficiary.*
 
@@ -24,14 +25,6 @@ import kotlinx.android.synthetic.main.activity_edit_beneficiary.*
 class EditBeneficiaryActivity : BaseBindingActivity<IEditBeneficiary.ViewModel>(),
     IEditBeneficiary.View {
 
-    companion object {
-        const val Bundle_EXTRA = "bundle_extra"
-        const val OVERVIEW_BENEFICIARY = "overview_beneficiary"
-        const val REQUEST_CODE = 101
-        fun newIntent(context: Context): Intent {
-            return Intent(context, EditBeneficiaryActivity::class.java)
-        }
-    }
 
     override fun getBindingVariable() = BR.editBeneficiaryViewModel
 
@@ -44,55 +37,35 @@ class EditBeneficiaryActivity : BaseBindingActivity<IEditBeneficiary.ViewModel>(
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel.getCurrenciesByCountryCode()
         intent?.let {
-            if (it.hasExtra(Bundle_EXTRA)) {
-                val bundle = it.getBundleExtra(Bundle_EXTRA)
-                bundle?.let {
-                    viewModel.state.needOverView = it.getBoolean(OVERVIEW_BENEFICIARY, false)
-                    viewModel.state.beneficiary = bundle.getParcelable(Beneficiary::class.java.name)
-                    if (viewModel.state.beneficiary!!.accountNo!!.length >= 22) {
-                        viewModel.state.beneficiary!!.accountNo =
-                            Utils.formateIbanString(viewModel.state.beneficiary!!.accountNo!!)
-                    }
+            if (it.hasExtra(EXTRA)) {
+                val bundle = it.getBundleExtra(EXTRA)
+                bundle?.let { bundleData ->
+                    viewModel.state.needOverView =
+                        bundleData.getBoolean(OVERVIEW_BENEFICIARY, false)
+                    updateAccountTitle(bundleData)
+                    viewModel.state.beneficiary =
+                        bundleData.getParcelable(Beneficiary::class.java.name)
                 }
             }
         }
 
         setObservers()
         currencyPopMenu = getCurrencyPopMenu(this, mutableListOf(), null, null)
-
-
-        if (viewModel.state.beneficiary!!.accountNo!!.length >= 22) {
-            etAccountNumber.addTextChangedListener(object : TextWatcher {
-
-                override fun afterTextChanged(s: Editable) {
-                    var i = 4
-                    while (i < s.length) {
-                        if (s.toString()[i] != ' ') {
-                            s.insert(i, " ")
-                        }
-                        i += 5
-                    }
-                }
-
-                override fun beforeTextChanged(
-                    s: CharSequence, start: Int,
-                    count: Int, after: Int
-                ) {
-                }
-
-                override fun onTextChanged(
-                    s: CharSequence, start: Int,
-                    before: Int, count: Int
-                ) {
-
-                }
-            })
-        }
-
     }
 
+    private fun updateAccountTitle(bundleData: Bundle) {
+        when (bundleData.getString(IS_IBAN_NEEDED)) {
+            "loadFromServer" -> {
+                viewModel.requestCountryInfo()
+                viewModel.state.showIban = false //binding needed
+            }
+            "Yes" -> {
+                viewModel.state.needIban = true
+                viewModel.state.showIban = true //binding needed
+            }
+        }
+    }
 
     override fun setObservers() {
         viewModel.clickEvent?.observe(this, Observer {
@@ -102,8 +75,20 @@ class EditBeneficiaryActivity : BaseBindingActivity<IEditBeneficiary.ViewModel>(
                     setResult(Activity.RESULT_CANCELED, intent)
                     finish()
                 }
-                R.id.confirmButton ->
-                    viewModel.requestUpdateBeneficiary()
+                R.id.confirmButton -> {
+                    if (viewModel.state.needOverView!!) {
+                        val intent = Intent()
+                        intent.putExtra(Constants.BENEFICIARY_CHANGE, true)
+                        intent.putExtra(
+                            Beneficiary::class.java.name,
+                            viewModel.state.beneficiary
+                        )
+                        setResult(Activity.RESULT_OK, intent)
+                        finish()
+                    } else {
+                        viewModel.requestUpdateBeneficiary()
+                    }
+                }
                 R.id.tvChangeCurrency ->
                     currencyPopMenu?.showAsAnchorRightBottom(tvChangeCurrency)
             }
@@ -121,5 +106,9 @@ class EditBeneficiaryActivity : BaseBindingActivity<IEditBeneficiary.ViewModel>(
             }
 
         })
+    }
+
+    private fun getbinding(): ActivityEditBeneficiaryBinding {
+        return viewDataBinding as ActivityEditBeneficiaryBinding
     }
 }

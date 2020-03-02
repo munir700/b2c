@@ -15,8 +15,6 @@ import co.yap.databinding.ActivitySendMoneyLandingBinding
 import co.yap.modules.dashboard.yapit.sendmoney.activities.BeneficiaryCashTransferActivity
 import co.yap.modules.dashboard.yapit.sendmoney.activities.SendMoneyHomeActivity
 import co.yap.modules.dashboard.yapit.sendmoney.editbeneficiary.activity.EditBeneficiaryActivity
-import co.yap.modules.dashboard.yapit.sendmoney.editbeneficiary.activity.EditBeneficiaryActivity.Companion.Bundle_EXTRA
-import co.yap.modules.dashboard.yapit.sendmoney.editbeneficiary.activity.EditBeneficiaryActivity.Companion.OVERVIEW_BENEFICIARY
 import co.yap.modules.dashboard.yapit.sendmoney.home.adapters.AllBeneficiariesAdapter
 import co.yap.modules.dashboard.yapit.sendmoney.home.adapters.RecentTransferAdaptor
 import co.yap.modules.dashboard.yapit.sendmoney.home.interfaces.ISendMoneyHome
@@ -25,9 +23,12 @@ import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.translation.Translator
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.constants.Constants.EXTRA
+import co.yap.yapcore.constants.Constants.OVERVIEW_BENEFICIARY
 import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.constants.RequestCodes.REQUEST_TRANSFER_MONEY
 import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.helpers.extentions.launchActivity
 import co.yap.yapcore.interfaces.OnItemClickListener
 import com.nikhilpanju.recyclerviewenhanced.RecyclerTouchListener
 import kotlinx.android.synthetic.main.layout_beneficiaries.*
@@ -40,12 +41,12 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.activity_send_money_landing
 
-    override val viewModel: ISendMoneyHome.ViewModel
+    override val viewModel: SendMoneyHomeScreenViewModel
         get() = ViewModelProviders.of(this).get(SendMoneyHomeScreenViewModel::class.java)
 
     companion object {
         private const val searching = "searching"
-        private var performedDeleteOperation :Boolean = false
+        private var performedDeleteOperation: Boolean = false
         const val data = "payLoad"
         fun newIntent(context: Context): Intent {
             return Intent(context, SendMoneyLandingActivity::class.java)
@@ -67,7 +68,6 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
         viewModel.isSearching.value = intent.getBooleanExtra(searching, false)
         viewModel.isSearching.value?.let {
             viewModel.state.isSearching.set(it)
-            setSearchView(it)
         }
         setObservers()
     }
@@ -82,7 +82,7 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
         viewModel.clickEvent.observe(this, clickListener)
         viewModel.onDeleteSuccess.observe(this, Observer {
             getAdaptor().removeItemAt(positionToDelete)
-            performedDeleteOperation =true
+            performedDeleteOperation = true
             if (positionToDelete == 0)
                 viewModel.requestAllBeneficiaries()
         })
@@ -96,9 +96,8 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
                 viewModel.state.isNoBeneficiary.set(false)
                 viewModel.state.hasBeneficiary.set(true)
                 getAdaptor().setList(it)
-                if (viewModel.state.isSearching.get()!!)
-                    Utils.hideKeyboard(getSearchView())
             }
+            setSearchView(viewModel.isSearching.value ?: false)
         })
         //Beneficiaries list Search Query observer
         viewModel.searchQuery.observe(this, Observer {
@@ -148,6 +147,7 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
                     return true
                 }
             })
+
         }
     }
 
@@ -158,13 +158,14 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
         }
     }
 
+
     private fun initSwipeListener() {
         onTouchListener = RecyclerTouchListener(this, rvAllBeneficiaries)
             .setClickable(
                 object : RecyclerTouchListener.OnRowClickListener {
                     override fun onRowClicked(position: Int) {
-                        val beneficiary = viewModel.allBeneficiariesLiveData.value?.get(position)
-                        startMoneyTransfer(beneficiary, position)
+                        startMoneyTransfer(getAdaptor().getDataForPosition(position), position)
+
                     }
 
                     override fun onIndependentViewClicked(
@@ -180,11 +181,11 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
                 when (viewID) {
                     R.id.btnDelete -> {
                         positionToDelete = position
-                        val beneficiary = viewModel.allBeneficiariesLiveData.value?.get(position)
-                        beneficiary?.let { confirmDeleteBeneficiary(it) }
+                        val beneficiary = getAdaptor().getDataList()[position]
+                        confirmDeleteBeneficiary(beneficiary)
                     }
                     R.id.btnEdit -> {
-                        val beneficiary = viewModel.allBeneficiariesLiveData.value?.get(position)
+                        val beneficiary = getAdaptor().getDataList()[position]
                         openEditBeneficiary(beneficiary)
                     }
                 }
@@ -193,24 +194,23 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
 
     private fun startMoneyTransfer(beneficiary: Beneficiary?, position: Int) {
         Utils.hideKeyboard(getSearchView())
-        startActivityForResult(
-            BeneficiaryCashTransferActivity.newIntent(
-                this,
-                beneficiary,
-                position
-            ), REQUEST_TRANSFER_MONEY
-        )
+        launchActivity<BeneficiaryCashTransferActivity>(requestCode = REQUEST_TRANSFER_MONEY) {
+            putExtra(Constants.BENEFICIARY, beneficiary)
+            putExtra(Constants.POSITION, position)
+            putExtra(Constants.IS_NEW_BENEFICIARY, false)
+        }
     }
 
     private fun openEditBeneficiary(beneficiary: Beneficiary?) {
         Utils.hideKeyboard(getSearchView())
         beneficiary?.let {
-            val intent = EditBeneficiaryActivity.newIntent(context = this)
             val bundle = Bundle()
             bundle.putBoolean(OVERVIEW_BENEFICIARY, false)
+            bundle.putString(Constants.IS_IBAN_NEEDED, "loadFromServer")
             bundle.putParcelable(Beneficiary::class.java.name, beneficiary)
-            intent.putExtra(Bundle_EXTRA, bundle)
-            startActivityForResult(intent, RequestCodes.REQUEST_NOTIFY_BENEFICIARY_LIST)
+            launchActivity<EditBeneficiaryActivity>(RequestCodes.REQUEST_NOTIFY_BENEFICIARY_LIST) {
+                putExtra(EXTRA, bundle)
+            }
         }
     }
 
@@ -252,16 +252,16 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
         super.onPause()
     }
 
-
     override fun onResume() {
         super.onResume()
         rvAllBeneficiaries.addOnItemTouchListener(onTouchListener)
-        viewModel.state.isSearching.set(viewModel.isSearching.value!!)
+        viewModel.state.isSearching.notifyChange()
+        //viewModel.state.isSearching.set(viewModel.isSearching.value?:false)
         // calling this function on resume because whenever user go for search and back to home it will set the searchView according to its state
-        setSearchView(viewModel.isSearching.value!!)
+//        setSearchView(viewModel.isSearching.value ?: false)
 
-        if (performedDeleteOperation){
-            performedDeleteOperation=false
+        if (performedDeleteOperation) {
+            performedDeleteOperation = false
             viewModel.requestAllBeneficiaries()
         }
     }
@@ -285,7 +285,9 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
             R.id.tbBtnBack -> finish()
             R.id.layoutSearchView -> {
                 viewModel.isSearching.value?.let { isSearching ->
-                    if (!isSearching) {
+                    if (isSearching) {
+                        setSearchView(isSearching)
+                    } else {
                         startActivityForResult(getIntent(this, true, null), REQUEST_TRANSFER_MONEY)
                     }
                 }

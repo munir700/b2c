@@ -11,16 +11,19 @@ import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.ImageView
+import androidx.annotation.Keep
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.AppCompatEditText
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import co.yap.widgets.MaskTextWatcher
 import co.yap.yapcore.helpers.Utils
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.google.android.material.navigation.NavigationView
-
+@Keep
 enum class ExtraType {
     STRING, INT, BOOLEAN, DOUBLE, LONG,PARCEABLE;
 }
@@ -46,18 +49,18 @@ fun Intent.getValue(key: String, type: String): Any? {
     } else return null
 }
 
-fun Activity.preventTakeScreenshot() {
-    window.setFlags(
-        WindowManager.LayoutParams.FLAG_SECURE,
-        WindowManager.LayoutParams.FLAG_SECURE
-    )
+fun Activity.preventTakeScreenShot(isPrevent: Boolean) {
+    if (isPrevent)
+        window?.addFlags(WindowManager.LayoutParams.FLAG_SECURE)
+    else
+        window?.clearFlags(WindowManager.LayoutParams.FLAG_SECURE)
 }
 
-fun Fragment.preventTakeScreenshot() {
-    activity?.window?.setFlags(
-        WindowManager.LayoutParams.FLAG_SECURE,
-        WindowManager.LayoutParams.FLAG_SECURE
-    )
+fun Fragment.preventTakeScreenShot(isPrevent: Boolean) {
+    if (isPrevent)
+        activity?.window?.addFlags(WindowManager.LayoutParams.FLAG_SECURE)
+    else
+        activity?.window?.clearFlags(WindowManager.LayoutParams.FLAG_SECURE)
 }
 
 fun ImageView.loadImage(path: String, requestOptions: RequestOptions) {
@@ -93,7 +96,6 @@ fun EditText.afterTextChanged(afterTextChanged: (String) -> Unit) {
         }
     })
 }
-
 fun AppCompatActivity.addFragment(tag: String?, id: Int, fragment: Fragment) {
     val fragmentTransaction = supportFragmentManager.beginTransaction()
     fragmentTransaction.add(id, fragment, tag)

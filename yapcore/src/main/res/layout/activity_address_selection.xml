@@ -16,37 +16,28 @@
     </data>
 
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/clContainer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center_vertical"
         android:background="@color/white"
         android:orientation="vertical">
-
         <include
-            android:id="@+id/toolbar"
-            layout="@layout/layout_location_selection_toolbar"
-            android:visibility="visible"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:viewModel="@{viewModel}" />
-
-        <FrameLayout
-            android:id="@+id/viewMapFragment"
+            android:id="@+id/mapView"
+            layout="@layout/layout_google_maps"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+            app:viewModel="@{viewModel}" />
 
-            <include
-                android:id="@+id/mapView"
-                layout="@layout/layout_google_maps"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:minHeight="@dimen/_240sdp"
-                app:viewModel="@{viewModel}" />
-
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/viewMapFragment"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
             <FrameLayout
                 android:id="@+id/flTitle"
                 android:layout_width="match_parent"
@@ -54,14 +45,23 @@
                 android:background="@color/white"
                 android:orientation="vertical"
                 tools:ignore="MissingConstraints">
-
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="top"
-                    android:background="@color/white"
                     android:orientation="vertical">
-
+                    <include
+                        android:id="@+id/toolbar"
+                        layout="@layout/layout_location_selection_toolbar"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/small"
+                        android:visibility="@{viewModel.state.toolbarVisibility? View.VISIBLE:View.GONE}"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/viewMapFragment"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:viewModel="@{viewModel}" />
                     <TextView
                         android:id="@+id/tvAddressSelectionHeading"
                         style="@style/ATitle3"
@@ -69,10 +69,10 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/margin_small"
                         android:layout_marginEnd="@dimen/margin_small"
-                        android:ellipsize="end"
                         android:gravity="center"
-                        android:lineSpacingExtra="0sp"
                         android:maxLines="2"
+                        android:ellipsize="end"
+                        android:lineSpacingExtra="0sp"
                         android:text="@{viewModel.state.headingTitle}"
                         android:textSize="@dimen/_18sdp"
                         app:layout_constraintTop_toTopOf="parent"
@@ -92,12 +92,14 @@
                 </LinearLayout>
             </FrameLayout>
 
-            <LinearLayout
-                android:id="@+id/flAddressDetail"
+            <RelativeLayout
+                android:id="@+id/rlCollapsedMapSection"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom"
-                android:orientation="vertical">
+                android:layout_height="0dp"
+                android:gravity="bottom|left"
+                android:onClick="@{(v) -> viewModel.handleOnPressView(v.id)}"
+                app:layout_constraintBottom_toTopOf="@id/flAddressDetail"
+                app:layout_constraintTop_toBottomOf="@id/flTitle">
 
                 <co.yap.widgets.CoreButton
                     android:id="@+id/btnLocation"
@@ -106,7 +108,6 @@
                     android:layout_height="@dimen/_28sdp"
                     android:layout_marginStart="@dimen/margin_medium"
                     android:layout_marginBottom="@dimen/margin_normal"
-                    android:gravity="center"
                     android:onClick="@{(v) -> viewModel.handleOnPressView(v.id)}"
                     android:text="@string/screen_meeting_location_button_confirm_location"
                     android:textAllCaps="false"
@@ -119,6 +120,16 @@
                     app:btn_text_alignment_from_left="1.9"
                     app:btn_text_size="@dimen/_11sdp"
                     tools:text="@string/screen_meeting_location_button_confirm_location" />
+            </RelativeLayout>
+
+            <LinearLayout
+                android:id="@+id/flAddressDetail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/rlCollapsedMapSection">
 
                 <LinearLayout
                     android:id="@+id/lyAddressFields"
@@ -152,16 +163,15 @@
                         android:layout_marginStart="@dimen/_13sdp"
                         android:layout_marginTop="4dp"
                         android:layout_marginEnd="@dimen/margin_medium"
-                        android:clickable="true"
-                        android:cursorVisible="false"
-                        android:focusable="false"
-                        android:onClick="@{(v)->viewModel.handleOnPressView(v.id)}"
                         android:inputType="textPersonName"
                         android:maxLength="100"
+                        android:focusable="false"
+                        android:focusableInTouchMode="false"
                         android:text="@={viewModel.state.addressTitle}"
                         android:textColor="@color/colorPrimaryDark"
                         android:textColorHint="@color/grey"
                         android:textSize="@dimen/text_size_h3"
+                        android:onClick="@{(v) -> viewModel.handleOnPressView(v.id)}"
                         app:hint="@{Strings.screen_meeting_location_input_text_address_hint}"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -196,16 +206,16 @@
                         android:inputType="textPersonName"
                         android:maxLength="100"
                         android:minHeight="@dimen/_42sdp"
-                        android:text="@={viewModel.state.addressSubtitle}"
                         android:textColor="@color/colorPrimaryDark"
                         android:textColorHint="@color/grey"
                         android:textSize="@dimen/text_size_h3"
-                        app:drawableClick="@{viewModel.state.addressSubtitle.isEmpty()?false : true}"
+                        android:text="@={viewModel.state.addressSubtitle}"
                         app:hint="@{Strings.screen_meeting_location_input_text_landmark_hint}"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/tvLandMark"
                         app:textSelection="@{viewModel.state.addressSubtitle}"
+                        app:drawableClick="@{viewModel.state.addressSubtitle.isEmpty()?false : true}"
                         tools:hint="@string/screen_meeting_location_input_text_landmark_hint"
                         tools:ignore="MissingConstraints" />
 
@@ -259,13 +269,14 @@
                         android:layout_marginBottom="@dimen/margin_medium_large"
                         android:gravity="bottom"
                         android:onClick="@{(v) -> viewModel.handleOnPressView(v.id)}"
+                        app:text="@{Strings.common_button_next}"
+                        tools:text="@string/common_button_next"
                         app:enableCoreButton="@{viewModel.state.valid}"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:text="@{Strings.common_button_next}"
-                        tools:layout_editor_absoluteX="44dp"
-                        tools:text="@string/common_button_next" />
+                        tools:layout_editor_absoluteX="44dp" />
                 </LinearLayout>
             </LinearLayout>
-        </FrameLayout>
-    </LinearLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

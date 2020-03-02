@@ -66,7 +66,6 @@ public class GlUtils {
         int program = GLES20.glCreateProgram();
         checkError("glCreateProgram");
         if (program == 0) {
-            LOG.e("Could not create program");
         }
         GLES20.glAttachShader(program, vertexShader);
         checkError("glAttachShader");

@@ -1,7 +1,9 @@
 package co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.states
 
+import android.os.Bundle
 import androidx.databinding.Bindable
 import co.yap.BR
+import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.fragments.InternationalTransactionConfirmationFragmentArgs
 import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.interfaces.IInternationalTransactionConfirmation
 import co.yap.yapcore.BaseState
 
@@ -66,5 +68,17 @@ class InternationalTransactionConfirmationState : BaseState(),
         set(value) {
             field = value
             notifyPropertyChanged(BR.beneficiaryCountry)
+        }
+    @get:Bindable
+    override var args: InternationalTransactionConfirmationFragmentArgs? = null
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.args)
+        }
+    @get:Bindable
+    override var cutOffTimeMsg: String? = null
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.cutOffTimeMsg)
         }
 }

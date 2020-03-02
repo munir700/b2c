@@ -18,7 +18,7 @@ data class Card(
     var status: String,
     val shipmentStatus: String?,
     val deliveryStatus: String?,
-    var blocked: Boolean ,
+    var blocked: Boolean,
     val delivered: Boolean,
     var cardSerialNumber: String,
     var maskedCardNo: String,

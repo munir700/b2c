@@ -1,5 +1,8 @@
 package co.yap.yapcore.enums
 
+import androidx.annotation.Keep
+
+@Keep
 enum class NotificationStatus {
     ON_BOARDED,
     MEETING_SCHEDULED,
@@ -8,5 +11,6 @@ enum class NotificationStatus {
     CARD_ACTIVATED,
     PARNET_MOBILE_VERIFICATION_PENDING,
     PASS_CODE_PENDING,
-    EMAIL_PENDING;
+    EID_RESCAN_REQ,
+    EMAIL_PENDING
 }

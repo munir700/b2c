@@ -7,6 +7,7 @@ import android.graphics.Canvas
 import android.location.Address
 import android.location.Geocoder
 import android.os.Bundle
+import android.os.Looper
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProviders
 import co.yap.modules.location.interfaces.ILocationSelection
@@ -14,9 +15,8 @@ import co.yap.modules.location.viewmodels.LocationSelectionViewModel
 import co.yap.yapcore.BR
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.R
-import co.yap.yapcore.helpers.PermissionHelper
-import com.google.android.gms.location.FusedLocationProviderClient
-import com.google.android.gms.location.LocationServices
+import co.yap.yapcore.helpers.permissions.PermissionHelper
+import com.google.android.gms.location.*
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.*
@@ -26,7 +26,8 @@ import com.google.android.libraries.places.api.model.Place
 import com.google.android.libraries.places.api.net.FetchPhotoRequest
 import com.google.android.libraries.places.api.net.FindCurrentPlaceRequest
 import com.google.android.libraries.places.api.net.PlacesClient
-
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
 
 open class MapSupportActivity : BaseBindingActivity<ILocationSelection.ViewModel>() {
 
@@ -34,14 +35,15 @@ open class MapSupportActivity : BaseBindingActivity<ILocationSelection.ViewModel
     private var defaultZoom = 15
     private var placesClient: PlacesClient? = null
     private var icon: BitmapDescriptor? = null
-    private var mDefaultLocation = LatLng(25.276987, 55.296249)
+    protected var mDefaultLocation: LatLng? = null
     private var markerOptions: MarkerOptions? = null
     private var mFusedLocationProviderClient: FusedLocationProviderClient? = null
     private var locationMarker: Marker? = null
     lateinit var context: Context
     var permissionHelper: PermissionHelper? = null
+    private var defaultPlacePhoto: Bitmap? = null
 
-    override val viewModel: ILocationSelection.ViewModel
+    override val viewModel: LocationSelectionViewModel
         get() = ViewModelProviders.of(this).get(LocationSelectionViewModel::class.java)
 
     override fun getBindingVariable(): Int = BR.viewModel
@@ -50,42 +52,25 @@ open class MapSupportActivity : BaseBindingActivity<ILocationSelection.ViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         context = this // do remove this line
+        initMap()
+        icon = bitmapDescriptorFromVector(context, R.drawable.ic_location_pin)
+        defaultPlacePhoto = BitmapFactory.decodeResource(
+            context.resources,
+            R.drawable.location_place_holder
+        )
     }
 
     private fun getCurrentLocation() {
         mFusedLocationProviderClient?.lastLocation?.addOnSuccessListener { location ->
             if (location != null) {
                 mDefaultLocation = LatLng(location.latitude, location.longitude)
-                viewModel.lastKnowLocation.value = mDefaultLocation
                 viewModel.address?.latitude = location.latitude
                 viewModel.address?.longitude = location.longitude
+                setupMapOptions()
+            } else {
+                startLocationUpdates()
             }
         }
-    }
-
-    protected fun onMapReady(googleMap: GoogleMap?) {
-        googleMap?.let {
-            mMap = googleMap
-            initMap()
-            setupMapOptions()
-        }
-    }
-
-    private fun setupMapOptions() {
-        mMap?.uiSettings?.isZoomControlsEnabled = false
-        mMap?.uiSettings?.isMapToolbarEnabled = false
-        mMap?.uiSettings?.isCompassEnabled = false
-        animateCameraToLocation(mDefaultLocation)
-        mMap?.setOnMapClickListener {
-            it?.let { latLng ->
-                showLoader(true)
-                viewModel.state.loading = true
-                mDefaultLocation = latLng
-                viewModel.lastKnowLocation.value = mDefaultLocation
-                setSelectedMapLocation(latLng)
-            }
-        }
-        getCurrentPlaceLikelihoods()
     }
 
     private fun initMap() {
@@ -94,40 +79,89 @@ open class MapSupportActivity : BaseBindingActivity<ILocationSelection.ViewModel
         placesClient = Places.createClient(context)
         mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(context)
         getCurrentLocation()
-        createMarker(mDefaultLocation)
     }
 
-    private fun setSelectedMapLocation(location: LatLng) {
-        val geocoder = Geocoder(context)
+    protected fun onMapReady(googleMap: GoogleMap?) {
+        googleMap?.let {
+            mMap = googleMap
+            if (mDefaultLocation != null) {
+                setupMapOptions()
+            } else {
+                getCurrentLocation()
+            }
+        }
+    }
+
+    private fun setupMapOptions() {
+        createMarker(mDefaultLocation)
+        mMap?.uiSettings?.isZoomControlsEnabled = false
+        mMap?.uiSettings?.isMapToolbarEnabled = false
+        mMap?.uiSettings?.isCompassEnabled = false
+        mDefaultLocation?.let {
+            animateCameraToLocation(it)
+        }
+        mMap?.setOnMapClickListener {
+            it?.let { latLng ->
+                createMarker(latLng)
+                loadAysnMapInfo(latLng)
+            }
+        }
+        getCurrentPlaceLikelihoods()
+    }
+
+    protected fun loadAysnMapInfo(latLng: LatLng) {
+        viewModel.launch {
+            val address = viewModel.viewModelBGScope.async(Dispatchers.IO) {
+                getSelectedMapLocation(latLng)
+            }
+            populateCardState(address.await())
+        }
+    }
+
+    private fun getSelectedMapLocation(location: LatLng): co.yap.networking.cards.responsedtos.Address? {
+        val geoCoder = Geocoder(context)
         try {
-            val list = geocoder.getFromLocation(location.latitude, location.longitude, 1)
+            val list = geoCoder.getFromLocation(location.latitude, location.longitude, 1)
             val selectedAddress: Address = list[0]
             val placeName =
                 selectedAddress.getAddressLine(0).split(",").toTypedArray()[0]
             val placeSubTitle = selectedAddress.getAddressLine(0)
-
-            animateCameraToLocation(location)
-            viewModel.address?.latitude = location.latitude
-            viewModel.address?.longitude = location.longitude
-            viewModel.state.placeTitle.set(placeName)
-            viewModel.state.placeSubTitle.set(placeSubTitle)
-            viewModel.state.placePhoto.set(
-                BitmapFactory.decodeResource(
-                    context.resources,
-                    R.drawable.location_place_holder
-                )
+            viewModel.state.isLocationInAllowedCountry.set(selectedAddress.countryCode == "AE")
+            return co.yap.networking.cards.responsedtos.Address(
+                placeName,
+                placeSubTitle,
+                location.latitude,
+                location.longitude
             )
+
         } catch (e: IndexOutOfBoundsException) {
             e.printStackTrace()
         }
-        viewModel.state.loading = false
+        return null
     }
 
-    private fun createMarker(
-        markerLatLng: LatLng?
-    ) {
+    private fun populateCardState(address: co.yap.networking.cards.responsedtos.Address?) {
+        if (viewModel.state.isLocationInAllowedCountry.get() == true){
+            viewModel.state.isShowLocationCard.set(true)
+            address?.let {
+                viewModel.address?.latitude = it.latitude
+                viewModel.address?.longitude = it.longitude
+                viewModel.state.placeTitle.set(it.address1)
+                viewModel.state.placeSubTitle.set(it.address2)
+                viewModel.state.placePhoto.set(defaultPlacePhoto)
+            }}
+        else
+            showNotAllowedError()
+    }
+
+    private fun showNotAllowedError() {
+        viewModel.state.isShowLocationCard.set(false)
+        viewModel.state.toast = "Your location must be in the UAE."
+    }
+
+    private fun createMarker(markerLatLng: LatLng?) {
         locationMarker?.remove()
-        icon = bitmapDescriptorFromVector(context, R.drawable.ic_location_pin)
+        //icon = bitmapDescriptorFromVector(context, R.drawable.ic_location_pin)
         markerLatLng?.let {
             markerOptions = MarkerOptions()
                 .icon(icon)
@@ -162,7 +196,6 @@ open class MapSupportActivity : BaseBindingActivity<ILocationSelection.ViewModel
             Place.Field.NAME, Place.Field.ADDRESS,
             Place.Field.LAT_LNG, Place.Field.PHOTO_METADATAS
         )
-        viewModel.state.loading = true
 
         val request = FindCurrentPlaceRequest.builder(placeFields).build()
         val placeResponse = placesClient?.findCurrentPlace(request)
@@ -175,22 +208,16 @@ open class MapSupportActivity : BaseBindingActivity<ILocationSelection.ViewModel
                         if (currentPlace.attributions != null) {
                             currentPlace.attributions?.joinToString(" ")
                         }
-                        val markerLatLng = currentPlace.latLng
                         if (currentPlace.address != null) {
                             viewModel.state.placeSubTitle.set(currentPlace.address.toString())
                         }
-
                         viewModel.state.placeTitle.set(currentPlace.address)
-                        createMarker(markerLatLng)
-                        animateCameraToLocation(mDefaultLocation)
 
                         if (!currentPlace.photoMetadatas.isNullOrEmpty() && currentPlace.photoMetadatas?.size ?: 0 > 0) {
                             attemptFetchPhoto(currentPlace)
                         } else {
-                            viewModel.state.loading = false
                             viewModel.state.isShowLocationCard.set(true)
                         }
-
                         break
                     }
                 }
@@ -225,4 +252,37 @@ open class MapSupportActivity : BaseBindingActivity<ILocationSelection.ViewModel
             viewModel.state.loading = false
         }
     }
+
+    private fun startLocationUpdates() {
+        val locationRequest = LocationRequest.create()
+        locationRequest.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
+        locationRequest.interval = 10000
+        locationRequest.fastestInterval = (10000 / 2).toLong()
+        mFusedLocationProviderClient?.requestLocationUpdates(
+            locationRequest,
+            locationCallback,
+            Looper.getMainLooper()
+        )
+    }
+
+    private val locationCallback = object : LocationCallback() {
+        override fun onLocationResult(locationResult: LocationResult?) {
+            locationResult ?: return
+            if (!locationResult.locations.isNullOrEmpty()) {
+                mDefaultLocation = LatLng(
+                    locationResult.locations.first().latitude,
+                    locationResult.locations.first().longitude
+                )
+                if (mMap != null) {
+                    setupMapOptions()
+                    stopLocationUpdates()
+                }
+            }
+        }
+    }
+
+    private fun stopLocationUpdates() {
+        mFusedLocationProviderClient?.removeLocationUpdates(locationCallback)
+    }
+
 }

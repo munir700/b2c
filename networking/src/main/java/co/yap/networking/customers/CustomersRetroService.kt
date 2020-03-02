@@ -106,6 +106,11 @@ interface CustomersRetroService {
     @GET(CustomersRepository.URL_CARDS_LIMITS)
     suspend fun getCardsLimit(): Response<CardsLimitResponse>
 
+    @GET(CustomersRepository.URL_GET_COUNTRY_DATA_WITH_ISO_DIGIT)
+    suspend fun getCountryDataWithISODigit(@Path("country-code") countryCodeWith2Digit: String): Response<Country>
+
+    @GET(CustomersRepository.URL_GET_COUNTRY_TRANSACTION_LIMITS)
+    suspend fun getCountryTransactionLimits(@Query("countryCode") countryCode: String, @Query("currencyCode") currencyCode: String): Response<CountryLimitsResponseDTO>
 
     /*  send money */
     @GET(CustomersRepository.URL_GET_RECENT_BENEFICIARIES)
@@ -119,6 +124,9 @@ interface CustomersRetroService {
 
     @POST(CustomersRepository.URL_ADD_BENEFICIARY)
     suspend fun addBeneficiary(@Body beneficiary: Beneficiary): Response<AddBeneficiaryResponseDTO>
+
+    @POST(CustomersRepository.URL_VALIDATE_BENEFICIARY)
+    suspend fun validateBeneficiary(@Body beneficiary: Beneficiary): Response<AddBeneficiaryResponseDTO>
 
     @POST(CustomersRepository.URL_SEARCH_BANKS)
     suspend fun findOtherBank(@Body otherBankQuery: OtherBankQuery): Response<RAKBankModel>
@@ -135,13 +143,16 @@ interface CustomersRetroService {
     @DELETE(CustomersRepository.URL_CURRENCIES_BY_COUNTRY_CODE)
     suspend fun getCurrenciesByCountryCode(@Path("country") country: String): Response<ApiResponse>
 
+    @GET(CustomersRepository.URL_SANCTIONED_COUNTRIES)
+    suspend fun getSectionedCountries(): Response<SectionedCountriesResponseDTO>
+
     /* Household */
 
     @POST(CustomersRepository.URL_VERIFY_HOUSEHOLD_MOBILE)
     suspend fun verifyHouseholdMobile(@Body verifyHouseholdMobileRequest: VerifyHouseholdMobileRequest): Response<ApiResponse>
 
     @POST(CustomersRepository.URL_VERIFY_PARENT_HOUSEHOLD_MOBILE)
-    suspend fun verifyHouseholdParentMobile(@Query("mobileNo") mobileNumber: String?,@Body verifyHouseholdMobileRequest: VerifyHouseholdMobileRequest): Response<ApiResponse>
+    suspend fun verifyHouseholdParentMobile(@Query("mobileNo") mobileNumber: String?, @Body verifyHouseholdMobileRequest: VerifyHouseholdMobileRequest): Response<ApiResponse>
 
     @POST(CustomersRepository.URL_HOUSEHOLD_USER_ONBOARD)
     suspend fun onboardHouseholdUser(@Body householdOnboardRequest: HouseholdOnboardRequest): Response<HouseholdOnBoardingResponse>

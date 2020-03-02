@@ -11,21 +11,21 @@ import co.yap.modules.setcardpin.viewmodels.ConfirmCardPinViewModel
 import co.yap.translation.Strings
 import co.yap.translation.Translator
 import co.yap.yapcore.R
+import co.yap.yapcore.enums.AccountStatus
+import co.yap.yapcore.helpers.extentions.trackEvent
+import co.yap.yapcore.leanplum.KYCEvents
 import co.yap.yapcore.managers.MyUserManager
 import kotlinx.android.synthetic.main.fragment_set_card_pin.*
 
 open class ConfirmCardPinFragment : SetCardPinFragment() {
 
-    private val args:ConfirmCardPinFragmentArgs by navArgs()
+    private val args: ConfirmCardPinFragmentArgs by navArgs()
     override val viewModel: ISetCardPin.ViewModel
         get() = ViewModelProviders.of(this).get(ConfirmCardPinViewModel::class.java)
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         loadData()
-       /* tvTitle.text = Translator.getString(requireContext(), Strings.screen_confirm_card_pin_display_text_title)
-        btnAction.text = Translator.getString(requireContext(), Strings.screen_confirm_card_pin_button_create_pin)*/
-//        viewModel.pincode = arguments?.let { ConfirmCardPinFragmentArgs.fromBundle(it).pincode } as String
     }
 
     override fun setObservers() {
@@ -44,21 +44,29 @@ open class ConfirmCardPinFragment : SetCardPinFragment() {
                         dialer.startAnimationDigits()
                     }
                 }
-                viewModel.EVENT_SET_CARD_PIN_SUCCESS ->  {
-                    // todo move all constants in yapcore
+                viewModel.EVENT_SET_CARD_PIN_SUCCESS -> {
+                    trackEvent(KYCEvents.CARD_ACTIVE.type)
                     findNavController().navigate(R.id.action_confirmCardPinFragment_to_setCardPinSuccessFragment)
-                    MyUserManager.user?.notificationStatuses = "CARD_ACTIVATED"
+                    MyUserManager.user?.notificationStatuses = AccountStatus.CARD_ACTIVATED.name
                 }
             }
         })
     }
 
     override fun loadData() {
-        tvTitle.text = Translator.getString(requireContext(), Strings.screen_confirm_card_pin_display_text_title)
-        btnAction.text = Translator.getString(requireContext(), Strings.screen_confirm_card_pin_button_create_pin)
-        viewModel.pincode = arguments?.let { ConfirmCardPinFragmentArgs.fromBundle(it).pincode } as String
+        tvTitle.text = Translator.getString(
+            requireContext(),
+            Strings.screen_confirm_card_pin_display_text_title
+        )
+        btnAction.text = Translator.getString(
+            requireContext(),
+            Strings.screen_confirm_card_pin_button_create_pin
+        )
+        viewModel.pincode =
+            arguments?.let { ConfirmCardPinFragmentArgs.fromBundle(it).pincode } as String
 
     }
+
     override fun onDestroyView() {
         viewModel.clickEvent.removeObservers(this)
         super.onDestroyView()

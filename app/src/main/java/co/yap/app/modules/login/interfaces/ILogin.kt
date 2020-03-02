@@ -2,6 +2,7 @@ package co.yap.app.modules.login.interfaces
 
 import android.graphics.drawable.Drawable
 import android.widget.TextView
+import androidx.lifecycle.MutableLiveData
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleLiveEvent
 
@@ -19,7 +20,7 @@ interface ILogin {
 
     interface State : IBase.State {
         var email: String
-        var emailError: String
+        var emailError: MutableLiveData<String>
         var valid: Boolean
         var twoWayTextWatcher: String
         var drawbleRight: Drawable?

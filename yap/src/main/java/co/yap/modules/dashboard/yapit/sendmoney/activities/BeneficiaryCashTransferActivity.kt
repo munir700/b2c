@@ -1,7 +1,6 @@
 package co.yap.modules.dashboard.yapit.sendmoney.activities
 
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.lifecycle.Observer
@@ -16,27 +15,18 @@ import co.yap.yapcore.IFragmentHolder
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.defaults.DefaultNavigator
 import co.yap.yapcore.defaults.INavigator
+import co.yap.yapcore.helpers.cancelAllSnackBar
+import co.yap.yapcore.helpers.getSnackBarFromQueue
+import co.yap.yapcore.helpers.showSnackBar
+import co.yap.yapcore.helpers.updateSnackBarText
 import co.yap.yapcore.interfaces.BackPressImpl
 import co.yap.yapcore.interfaces.IBaseNavigator
+import com.google.android.material.snackbar.Snackbar
+import kotlinx.android.synthetic.main.activity_beneficiary_cash_transfer.*
 
 
 class BeneficiaryCashTransferActivity : BaseBindingActivity<IBeneficiaryCashTransfer.ViewModel>(),
     IFragmentHolder, INavigator {
-
-    companion object {
-        fun newIntent(
-            context: Context,
-            beneficiary: Beneficiary?,
-            position: Int = 0,
-            isNewBeneficiary: Boolean = false
-        ): Intent {
-            val intent = Intent(context, BeneficiaryCashTransferActivity::class.java)
-            intent.putExtra(Constants.BENEFICIARY, beneficiary)
-            intent.putExtra(Constants.POSITION, position)
-            intent.putExtra(Constants.IS_NEW_BENEFICIARY, isNewBeneficiary)
-            return intent
-        }
-    }
 
     override fun getBindingVariable(): Int = BR.viewModel
 
@@ -54,6 +44,29 @@ class BeneficiaryCashTransferActivity : BaseBindingActivity<IBeneficiaryCashTran
         super.onCreate(savedInstanceState)
         getBeneficiary()
         viewModel.clickEvent.observe(this, clickEvent)
+        viewModel.errorEvent.observe(this, errorEvent)
+    }
+
+    val errorEvent = Observer<String> {
+        if (!it.isNullOrEmpty())
+            showErrorSnackBar(it)
+        else
+            hideErrorSnackBar()
+    }
+    private fun showErrorSnackBar(errorMessage: String) {
+        getSnackBarFromQueue(0)?.let {
+            if (it.isShown) {
+                it.updateSnackBarText(errorMessage)
+            }
+        } ?: clFTSnackbar.showSnackBar(
+            msg = errorMessage,
+            viewBgColor = R.color.errorLightBackground,
+            colorOfMessage = R.color.error, duration = Snackbar.LENGTH_INDEFINITE
+        )
+    }
+
+    private fun hideErrorSnackBar() {
+        cancelAllSnackBar()
     }
 
     val clickEvent = Observer<Int> {
@@ -80,7 +93,7 @@ class BeneficiaryCashTransferActivity : BaseBindingActivity<IBeneficiaryCashTran
 
             viewModel.state.position = intent.getIntExtra(Constants.POSITION, 0)
         }
-       // return intent.getSerializableExtra(ACCOUNT_TYPE) as AccountType
+        // return intent.getSerializableExtra(ACCOUNT_TYPE) as AccountType
     }
 
     override fun onBackPressed() {
@@ -89,6 +102,12 @@ class BeneficiaryCashTransferActivity : BaseBindingActivity<IBeneficiaryCashTran
         if (!BackPressImpl(fragment).onBackPressed()) {
             super.onBackPressed()
         }
+    }
+
+    override fun onDestroy() {
+        viewModel.clickEvent.removeObservers(this)
+        viewModel.errorEvent.removeObservers(this)
+        super.onDestroy()
     }
 
 }

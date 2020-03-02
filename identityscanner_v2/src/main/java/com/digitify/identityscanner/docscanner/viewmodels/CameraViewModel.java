@@ -6,24 +6,19 @@ import android.text.TextUtils;
 import androidx.annotation.NonNull;
 
 import com.digitify.identityscanner.R;
+import com.digitify.identityscanner.base.BaseAndroidViewModel;
 import com.digitify.identityscanner.core.arch.SingleLiveEvent;
 import com.digitify.identityscanner.core.arch.WorkerHandler;
 import com.digitify.identityscanner.docscanner.enums.DocumentPageType;
 import com.digitify.identityscanner.docscanner.enums.DocumentType;
 import com.digitify.identityscanner.docscanner.interfaces.ICamera;
 import com.digitify.identityscanner.docscanner.states.CameraState;
-import com.digitify.identityscanner.base.BaseAndroidViewModel;
 
 import java.io.File;
 
 import co.yap.translation.Strings;
 
 public class CameraViewModel extends BaseAndroidViewModel implements ICamera.ViewModel {
-    private WorkerHandler workHandler = WorkerHandler.get("camera_processing");
-
-    private int mFrameCount = 0;
-    private int FRAME_PROCESS_RATE = 3;
-
     private DocumentType documentType;
     private DocumentPageType scanMode;
     private SingleLiveEvent<String> capturedImage;
@@ -46,73 +41,6 @@ public class CameraViewModel extends BaseAndroidViewModel implements ICamera.Vie
         if (validateFile(file.getAbsolutePath())) setCapturedImage(file.getAbsolutePath());
         getState().setCapturing(false);
     }
-    //    @Override
-//    public synchronized void processFrame(Mat frame) {
-//        if (mFrameCount++ % FRAME_PROCESS_RATE != 0) return;
-//        workHandler.post(() -> {
-//            switch (getDocumentType()) {
-//                case EID:
-//                    proceedWithCardDetection(frame);
-//                    break;
-//                case PASSPORT:
-//                    proceedWithMrzDetection(frame);
-//                    break;
-//            }
-//        });
-//    }
-
-//    private void proceedWithMrzDetection(Mat frame) {
-//        Passport passport = getPassportDetector().detect(frame);
-//        validateImageReadiness(passport);
-//    }
-
-//    private void proceedWithCardDetection(Mat frame) {
-//        Card card = getCardDetector().detect(frame);
-//        validateImageReadiness(card);
-//    }
-//
-//    private void validateImageReadiness(Entity card) {
-//        if (card.isValid()) {
-//            // we found a card. so show the visual
-//            getState().setCardRect(card.getBoundingBox());
-//            return;
-//        }
-//
-//        getState().setCardRect(null);
-//    }
-
-//    @Override
-//    public void handleOnPressCapture(Mat snapshot) {
-//        if (!getState().isCapturing()) {
-//            getState().setCapturing(true);
-//            if (!snapshot.empty()) {
-//                Bitmap image = OpenCVUtils.convertToBitmap(snapshot);
-//                String file = ImageUtils.savePicture(getApplication().getApplicationContext(), image);
-//                if (validateFile(file)) setCapturedImage(file);
-//            }
-//            getState().setCapturing(false);
-//        }
-//    }
-
-//    @Override
-//    public void handleOnPressQuickCapture(Mat snapshot) {
-//        if (!getState().isCapturing()) {
-//
-//            getState().setCapturing(true);
-//            Entity entity = null;
-//            if (getDocumentType() == DocumentType.PASSPORT)
-//                entity = getPassportDetector().detect(snapshot);
-//            if (getDocumentType() == DocumentType.EID) entity = getCardDetector().detect(snapshot);
-//
-//            if (entity != null && entity.isValid()) {
-//                String file = ImageUtils.savePicture(getApplication().getApplicationContext(), entity.getBitmap());
-//                if (validateFile(file)) setCapturedDocument(file);
-//            } else {
-//                setInstructions(getString(Strings.idenetity_scanner_sdk_screen_review_info_display_text_error_detecting_document));
-//            }
-//            getState().setCapturing(false);
-//        }
-//    }
 
     private boolean validateFile(String file) {
         if (TextUtils.isEmpty(file)) {

@@ -29,7 +29,6 @@ class TransactionFiltersActivity : BaseBindingActivity<ITransactionFilters.ViewM
     override val viewModel: ITransactionFilters.ViewModel
         get() = ViewModelProviders.of(this).get(TransactionFiltersViewModel::class.java)
 
-
     companion object {
         const val KEY_FILTER_TXN_FILTERS = "txnFilters"
         fun newIntent(
@@ -46,25 +45,11 @@ class TransactionFiltersActivity : BaseBindingActivity<ITransactionFilters.ViewM
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setObservers()
-        if (intent != null) {
-            if (intent.hasExtra(KEY_FILTER_TXN_FILTERS)) {
-                val txnFilters =
-                    intent.getParcelableExtra<TransactionFilters>(KEY_FILTER_TXN_FILTERS)
-                viewModel.txnFilters.value = txnFilters
+        intent?.let {
+            if (it.hasExtra(KEY_FILTER_TXN_FILTERS)) {
+                viewModel.txnFilters.value = it.getParcelableExtra(KEY_FILTER_TXN_FILTERS)
             }
         }
-    }
-
-    private fun initViews() {
-        viewModel.txnFilters.value?.let {
-            cbInTransFilter.isChecked = it.incomingTxn ?: false
-            cbOutTransFilter.isChecked = it.outgoingTxn ?: false
-        }
-    }
-
-    override fun onDestroy() {
-        viewModel.clickEvent.removeObservers(this)
-        super.onDestroy()
     }
 
     private fun setObservers() {
@@ -72,6 +57,13 @@ class TransactionFiltersActivity : BaseBindingActivity<ITransactionFilters.ViewM
         viewModel.transactionFilters.observe(this, searchFilterAmountObserver)
         if (viewModel.state is BaseState) {
             (viewModel.state as BaseState).addOnPropertyChangedCallback(stateObserver)
+        }
+    }
+
+    private fun initViews() {
+        viewModel.txnFilters.value?.let {
+            cbInTransFilter.isChecked = it.incomingTxn ?: false
+            cbOutTransFilter.isChecked = it.outgoingTxn ?: false
         }
     }
 
@@ -162,7 +154,15 @@ class TransactionFiltersActivity : BaseBindingActivity<ITransactionFilters.ViewM
 
     private fun setIntentAction() {
         var appliedFilter = 0
-        if (viewModel.txnFilters.value?.amountEndRange?.toFloat() != rsbAmount.leftSeekBar.progress) appliedFilter++
+        if (cbInTransFilter.isChecked) appliedFilter++
+        if (cbOutTransFilter.isChecked) appliedFilter++
+        viewModel.txnFilters.value?.amountEndRange?.let {
+            if (rsbAmount.leftSeekBar.progress != viewModel.transactionFilters.value?.maxAmount?.toFloat()) appliedFilter++
+            setIntentRequest(appliedFilter)
+        } ?: setIntentRequest(appliedFilter+1)
+    }
+
+    private fun setIntentRequest(appliedFilter: Int) {
         val request = TransactionFilters(
             amountStartRange = Utils.getTwoDecimalPlaces(rsbAmount.minProgress.toDouble()),
             amountEndRange = Utils.getTwoDecimalPlaces(rsbAmount.leftSeekBar.progress.toDouble()),
@@ -176,13 +176,13 @@ class TransactionFiltersActivity : BaseBindingActivity<ITransactionFilters.ViewM
         finish()
     }
 
+    override fun onDestroy() {
+        viewModel.clickEvent.removeObservers(this)
+        super.onDestroy()
+    }
+
     override fun onBackPressed() {
         YAPApplication.hasFilterStateChanged = false
         super.onBackPressed()
     }
-
-    private inline fun <T : Any, R> whenNotNull(input: T?, callback: (T) -> R): R? {
-        return input?.let(callback)
-    }
-
 }

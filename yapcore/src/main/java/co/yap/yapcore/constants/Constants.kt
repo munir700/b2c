@@ -39,6 +39,9 @@ object Constants {
     const val Y_TO_Y_TRANSFER = "P003"
     const val SUPP_CARD_TOP_UP = "P004"
     const val SUPP_WITHDRAW = "P006"
+    //This is intentional, so don't remove below line
+    const val SUPP_CARD = SUPP_WITHDRAW
+    const val ADD_FUNDS = SUPP_WITHDRAW
     const val MANUAL_DEBIT = "DEBIT"
     const val MANUAL_CREDIT = "CREDIT"
     const val FEE_TYPE_TIER = "TIER"
@@ -76,9 +79,8 @@ object Constants {
     const val MERCHANT_AVERAGE_AMOUNT_VALUE: Int = 8
 
 
-    //Add Card Payment gateway URL
-    const val URL_ADD_TOPUP_CARD = "https://dev.yap.co/admin-web/HostedSessionIntegration.html"
     const val URL_TERMS_CONDITION = "https://yap.co/terms"
+    const val URL_DISCLAIMER_TERMS = "https://www.yap.com/terms/transfers"
 
     //HTML Key
     const val URL_TOP_UP_TRANSACTION_HTML = "URL_TOP_UP_TRANSACTION_HTML"
@@ -90,6 +92,10 @@ object Constants {
     const val BENEFICIARY: String = "Beneficiary"
     const val POSITION: String = "Position"
     const val IS_NEW_BENEFICIARY: String = "IS_NEW_BENEFICIARY"
+    const val DOMESTIC_BENEFICIARY: String = "DOMESTIC_BENEFICIARY"
+    const val CASHPAYOUT_BENEFICIARY: String = "CASHPAYOUT_BENEFICIARY"
+    const val RMT_BENEFICIARY: String = "RMT_BENEFICIARY"
+    const val SWIFT_BENEFICIARY: String = "SWIFT_BENEFICIARY"
 
 
     const val ADD_CASH_PICK_UP_SUCCESS = 10001
@@ -134,5 +140,35 @@ object Constants {
     const val USER_STATUS_ON_BOARDED: String = "ON_BOARDED"
     const val USER_STATUS_MEETING_SCHEDULED: String = "MEETING_SCHEDULED"
     const val USER_STATUS_MEETING_SUCCESS: String = "MEETING_SUCCESS"
+
+    const val name = "name"
+    const val data = "payLoad"
+    const val result = "result"
+    const val skipped = "skipped"
+    val FRAGMENT_CLASS = "fragment_class"
+    val SHOW_TOOLBAR = "_show_toolbar"
+    val EXTRA = "_bundle_extras"
+    const val OVERVIEW_BENEFICIARY = "overview_beneficiary"
+    const val IS_IBAN_NEEDED = "is_iban_need"
+
+    // SharedPreference  Keys
+
+    const val KEY_APP_UUID = "KEY_APP_UUID"
+    const val KEY_PASSCODE: String = "PASSCODE"
+    const val KEY_USERNAME: String = "USEERNAME"
+    const val KEY_TOUCH_ID_ENABLED: String = "TOUCH_ID_ENABLED"
+    const val KEY_IS_USER_LOGGED_IN: String = "KEY_IS_USER_LOGGED_IN"
+    const val KEY_IS_FIRST_TIME_USER: String = "KEY_IS_FIRST_TIME_USER"
+    const val KEY_IS_FINGERPRINT_PERMISSION_SHOWN: String =
+        "KEY_IS_FINGERPRINT_PERMISSION_SHOWN"
+    const val KEY_AVAILABLE_BALANCE: String = "AVAILABLE_BALANCE"
+    const val KEY_THEME = "KEY_THEME"
+    const val VERIFY_PASS_CODE_BTN_TEXT = "verify_pass_code_btn_text"
+
+    const val PAGE_URL = "_page_url"
+    const val TOOLBAR_TITLE = "toolbar_title"
+
+
+
 
 }

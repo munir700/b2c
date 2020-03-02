@@ -17,8 +17,6 @@ object Constants {
     const val EVENT_REMOVE_CARD: Int = 5
     const val EVENT_FORGOT_CARD_PIN: Int = 6
     const val EVENT_LOST_STOLEN_CARD: Int = 7
-
-    const val ADD_FUNDS_PRODUCT_CODE: String = "P001"
     const val REMOVE_FUNDS_PRODUCT_CODE: String = "P004"
 
 
@@ -37,12 +35,4 @@ object Constants {
 
     const val REQUEST_CODE = "requestCode"
     const val START_REQUEST_CODE = 101
-
-
-    var VERSION_NAME: String = "1.0.0"
-    var VERSION_CODE: Int = 1
-    var FLAVOR: String = ""
-    var BUILD_TYPE: String = ""
-
-
 }

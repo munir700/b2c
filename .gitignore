@@ -13,10 +13,13 @@
 /authentication/build
 /household/build
 /identityscanner_v2/build
+/identityscanner/build
 .DS_Store
 /build
 /captures
+/app/stg/release
 /.idea/project.xml
 /.idea/codeStyles/*
 /.idea/codeStyles/Project.xml
 .externalNativeBuild
+app/~/tmp/full-r8-config.txt

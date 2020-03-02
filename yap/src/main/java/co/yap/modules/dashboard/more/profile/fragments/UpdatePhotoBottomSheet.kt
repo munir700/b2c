@@ -12,6 +12,7 @@ import kotlinx.android.synthetic.main.bottom_sheet_update_card.view.*
 
 
 class UpdatePhotoBottomSheet(private val mListener: CardClickListener) : BottomSheetDialogFragment() {
+    override fun getTheme(): Int = R.style.AppBottomSheetDialogTheme
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {

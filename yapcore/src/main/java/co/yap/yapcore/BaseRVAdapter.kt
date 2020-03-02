@@ -14,17 +14,19 @@ import androidx.recyclerview.widget.RecyclerView
 import co.yap.yapcore.interfaces.OnItemClickListener
 
 
-abstract class BaseRVAdapter<T:Any, VM : BaseListItemViewModel<T>, VH : BaseViewHolder<T, VM>>
-    (private var datas: MutableList<T>,private var navigation: NavController?) :
+abstract class BaseRVAdapter<T : Any, VM : BaseListItemViewModel<T>, VH : BaseViewHolder<T, VM>>
+    (private var datas: MutableList<T>, private var navigation: NavController?) :
     RecyclerView.Adapter<VH>() {
 
 
     @Nullable
     var onItemClickListener: OnItemClickListener? = null
+
     override fun getItemCount() = datas.count()
 
     override fun onBindViewHolder(holder: VH, position: Int) {
-        holder.setItem(datas[position], position)
+        if (datas.size > position)
+            holder.setItem(datas[position], position)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VH {
@@ -34,7 +36,11 @@ abstract class BaseRVAdapter<T:Any, VM : BaseListItemViewModel<T>, VH : BaseView
         mDataBinding?.setVariable(getVariableId(), viewModel)
         val holder: VH = getViewHolder(view, viewModel, mDataBinding!!, viewType)
         holder.itemView.setOnClickListener {
-            onItemClickListener?.onItemClick(it,datas[holder.adapterPosition],holder.adapterPosition)
+            onItemClickListener?.onItemClick(
+                it,
+                datas[holder.adapterPosition],
+                holder.adapterPosition
+            )
 
         }
         return holder
@@ -42,8 +48,8 @@ abstract class BaseRVAdapter<T:Any, VM : BaseListItemViewModel<T>, VH : BaseView
 
     protected fun createViewModel(): VM {
         val viewModel: VM = getViewModel()
-        viewModel.onCreate(Bundle(),navigation)
-        navigation?.let {  onItemClickListener = viewModel}
+        viewModel.onCreate(Bundle(), navigation)
+        navigation?.let { onItemClickListener = viewModel }
 
         return viewModel
     }
@@ -65,6 +71,7 @@ abstract class BaseRVAdapter<T:Any, VM : BaseListItemViewModel<T>, VH : BaseView
         this.datas.addAll(datas)
         notifyDataSetChanged()
     }
+
     fun setData(@Nullable newData: MutableList<T>) {
         if (this.datas !== newData) {
             this.datas = newData

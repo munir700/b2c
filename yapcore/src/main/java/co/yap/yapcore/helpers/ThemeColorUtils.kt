@@ -36,8 +36,7 @@ object ThemeColorUtils {
                 it,
                 true
             )
-        }
-            .data
+        }.data
     }
 
     fun colorPrimaryDarkAttribute(context: Context): Int {
@@ -113,7 +112,6 @@ object ThemeColorUtils {
             )
         }.data
     }
-
 
 
     fun colorPrimaryDisabledBtnAttribute(context: Context): Int {

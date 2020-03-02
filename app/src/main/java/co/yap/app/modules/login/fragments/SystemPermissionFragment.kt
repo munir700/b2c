@@ -2,20 +2,27 @@ package co.yap.app.modules.login.fragments
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import co.yap.app.BR
 import co.yap.app.R
-import co.yap.app.activities.MainActivity
 import co.yap.app.constants.Constants
 import co.yap.app.modules.login.interfaces.ISystemPermission
 import co.yap.app.modules.login.viewmodels.SystemPermissionViewModel
+import co.yap.modules.webview.WebViewFragment
 import co.yap.yapcore.BaseBindingFragment
+import co.yap.yapcore.constants.Constants.KEY_TOUCH_ID_ENABLED
 import co.yap.yapcore.helpers.SharedPreferenceManager
+import co.yap.yapcore.helpers.extentions.startFragment
+import co.yap.yapcore.helpers.extentions.trackEvent
+import co.yap.yapcore.leanplum.KYCEvents
+import com.leanplum.Leanplum
 
 @Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
-class SystemPermissionFragment : BaseBindingFragment<ISystemPermission.ViewModel>(), ISystemPermission.View {
+class SystemPermissionFragment : BaseBindingFragment<ISystemPermission.ViewModel>(),
+    ISystemPermission.View {
 
     private lateinit var sharedPreferenceManager: SharedPreferenceManager
 
@@ -29,24 +36,30 @@ class SystemPermissionFragment : BaseBindingFragment<ISystemPermission.ViewModel
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        sharedPreferenceManager = SharedPreferenceManager(context as MainActivity)
+        sharedPreferenceManager = SharedPreferenceManager(requireContext())
 
         viewModel.screenType = getScreenType()
         viewModel.registerLifecycleOwner(this)
 
         viewModel.permissionGrantedPressEvent.observe(this, permissionGrantedObserver)
         viewModel.permissionNotGrantedPressEvent.observe(this, permissionNotGrantedObserver)
+        viewModel.handlePressOnTermsAndConditionsPressEvent.observe(
+            this,
+            handlePressOnTermsAndConditionsObserver
+        )
     }
 
     override fun onDestroyView() {
-        super.onDestroyView()
         viewModel.permissionGrantedPressEvent.removeObservers(this)
         viewModel.permissionNotGrantedPressEvent.removeObservers(this)
+        super.onDestroyView()
+
     }
 
     private val permissionGrantedObserver = Observer<Boolean> {
         if (viewModel.screenType == Constants.TOUCH_ID_SCREEN_TYPE) {
-            sharedPreferenceManager.save(SharedPreferenceManager.KEY_TOUCH_ID_ENABLED, true)
+            sharedPreferenceManager.save(KEY_TOUCH_ID_ENABLED, true)
+            trackEvent(KYCEvents.SIGN_UP_ENABLED_PERMISSION.type,"TouchID")
             val action =
                 SystemPermissionFragmentDirections.actionSystemPermissionFragmentToSystemPermissionFragmentNotification(
                     Constants.NOTIFICATION_SCREEN_TYPE
@@ -59,7 +72,7 @@ class SystemPermissionFragment : BaseBindingFragment<ISystemPermission.ViewModel
 
     private val permissionNotGrantedObserver = Observer<Boolean> {
         if (viewModel.screenType == Constants.TOUCH_ID_SCREEN_TYPE) {
-            sharedPreferenceManager.save(SharedPreferenceManager.KEY_TOUCH_ID_ENABLED, false)
+            sharedPreferenceManager.save(KEY_TOUCH_ID_ENABLED, false)
             val action =
                 SystemPermissionFragmentDirections.actionSystemPermissionFragmentToSystemPermissionFragmentNotification(
                     Constants.NOTIFICATION_SCREEN_TYPE
@@ -67,6 +80,18 @@ class SystemPermissionFragment : BaseBindingFragment<ISystemPermission.ViewModel
             findNavController().navigate(action)
         } else {
             navigateToDashboard()
+        }
+    }
+
+    private val handlePressOnTermsAndConditionsObserver = Observer<Int> {
+        when (it) {
+            R.id.tvTermsAndConditions -> {
+                startFragment(
+                    fragmentName = WebViewFragment::class.java.name, bundle = bundleOf(
+                        co.yap.yapcore.constants.Constants.PAGE_URL to co.yap.yapcore.constants.Constants.URL_TERMS_CONDITION
+                    ), showToolBar = true
+                )
+            }
         }
     }
 

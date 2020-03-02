@@ -26,15 +26,28 @@ import androidx.navigation.fragment.findNavController
 import co.yap.BR
 import co.yap.R
 import co.yap.modules.kyc.activities.DocumentsDashboardActivity
+import co.yap.modules.location.activities.LocationSelectionActivity
 import co.yap.modules.onboarding.interfaces.ICongratulations
 import co.yap.modules.onboarding.viewmodels.CongratulationsViewModel
+import co.yap.modules.others.fragmentpresenter.activities.FragmentPresenterActivity
+import co.yap.networking.cards.responsedtos.Address
 import co.yap.translation.Strings
+import co.yap.yapcore.adjust.AdjustEvents
+import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.helpers.AnimationUtils
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.ExtraType
 import co.yap.yapcore.helpers.extentions.getValue
+import co.yap.yapcore.helpers.extentions.launchActivity
+import co.yap.yapcore.helpers.extentions.trackEvent
+import co.yap.yapcore.leanplum.KYCEvents
+import co.yap.yapcore.leanplum.SignupEvents
+import co.yap.yapcore.managers.MyUserManager
+import co.yap.yapcore.trackAdjustEvent
 import kotlinx.android.synthetic.main.fragment_onboarding_congratulations.*
+import java.text.SimpleDateFormat
+import java.util.*
 
 
 class CongratulationsFragment : OnboardingChildFragment<ICongratulations.ViewModel>(),
@@ -53,8 +66,8 @@ class CongratulationsFragment : OnboardingChildFragment<ICongratulations.ViewMod
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val display = activity!!.windowManager.defaultDisplay
-        display.getRectSize(windowSize)
+        val display = activity?.windowManager?.defaultDisplay
+        display?.getRectSize(windowSize)
 
         // hide all in the beginning
         rootContainer.children.forEach { it.alpha = 0f }
@@ -67,63 +80,124 @@ class CongratulationsFragment : OnboardingChildFragment<ICongratulations.ViewMod
 
 
     override fun setObservers() {
-        viewModel.clickEvent.observe(this, Observer {
-            when (it) {
-                R.id.btnCompleteVerification -> {
-                    startActivityForResult(
-                        DocumentsDashboardActivity.getIntent(
-                            requireContext(),
-                            viewModel.state.nameList[0] ?: "",
-                            false
-                        ), RequestCodes.REQUEST_KYC_DOCUMENTS
-                    )
+        viewModel.clickEvent.observe(this, clickObserver)
+        viewModel.orderCardSuccess.observe(this, onCardOrderSuccess)
+    }
+
+    override fun removeObservers() {
+        viewModel.clickEvent.removeObserver(clickObserver)
+        viewModel.orderCardSuccess.removeObserver(onCardOrderSuccess)
+    }
+
+
+    private val clickObserver = Observer<Int> {
+        when (it) {
+            R.id.btnCompleteVerification -> {
+                trackAdjustEvent(AdjustEvents.KYC_START.type)
+                launchActivity<DocumentsDashboardActivity>(requestCode = RequestCodes.REQUEST_KYC_DOCUMENTS) {
+                    putExtra(Constants.name, viewModel.state.nameList[0] ?: "")
+                    putExtra(Constants.data, false)
                 }
+                trackEvent(SignupEvents.SIGN_UP_END.type)
+                trackEvent(
+                    SignupEvents.SIGN_UP_DATE.type,
+                    SimpleDateFormat("dd/MMM/yyyy").format(Calendar.getInstance().time)
+                )
+                trackEvent(
+                    SignupEvents.SIGN_UP_TIME.type,
+                    SimpleDateFormat("hh:mm").format(Calendar.getInstance().time)
+                )
+                trackEvent(
+                    SignupEvents.SIGN_UP_LENGTH.type,
+                    viewModel.elapsedOnboardingTime.toString()
+                )
             }
-        })
+        }
+    }
+
+    private val onCardOrderSuccess = Observer<Boolean> {
+        if (it) {
+            startActivityForResult(
+                FragmentPresenterActivity.getIntent(
+                    requireContext(),
+                    Constants.MODE_MEETING_CONFORMATION,
+                    null
+                ), RequestCodes.REQUEST_MEETING_CONFIRMED
+            )
+            trackEvent(KYCEvents.KYC_ORDERED.type)
+        } else {
+            goToDashboard()
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK) {
-            if (requestCode == RequestCodes.REQUEST_KYC_DOCUMENTS) {
-                data?.let {
-                    val success =
-                        data.getValue(
-                            DocumentsDashboardActivity.result,
-                            ExtraType.BOOLEAN.name
-                        ) as? Boolean
-                    val skipped =
-                        data.getValue(
-                            DocumentsDashboardActivity.skipped,
-                            ExtraType.BOOLEAN.name
-                        ) as? Boolean
+            when (requestCode) {
+                RequestCodes.REQUEST_KYC_DOCUMENTS -> handleKYCRequestResult(data)
+                RequestCodes.REQUEST_FOR_LOCATION -> handleLocationRequestResult(data)
+                RequestCodes.REQUEST_MEETING_CONFIRMED -> handleMeetingConfirmationRequest(data)
+            }
+        }
+    }
 
-                    success?.let {
-                        if (it) {
-                            val action =
-                                CongratulationsFragmentDirections.actionCongratulationsFragmentToYapDashboardActivity()
-                            findNavController().navigate(action)
-                            activity?.finishAffinity()
-                        } else {
-                            skipped?.let { skip ->
-                                if (skip) {
-                                    val action =
-                                        CongratulationsFragmentDirections.actionCongratulationsFragmentToYapDashboardActivity()
-                                    findNavController().navigate(action)
-                                    activity?.finishAffinity()
-                                } else {
-                                    val action =
-                                        CongratulationsFragmentDirections.actionCongratulationsFragmentToYapDashboardActivity()
-                                    findNavController().navigate(action)
-                                    activity?.finishAffinity()
-                                }
-                            }
-                        }
+    private fun handleKYCRequestResult(data: Intent?) {
+        data?.let {
+            val success =
+                data.getValue(
+                    Constants.result,
+                    ExtraType.BOOLEAN.name
+                ) as? Boolean
+            val skipped =
+                data.getValue(
+                    Constants.skipped,
+                    ExtraType.BOOLEAN.name
+                ) as? Boolean
+
+            success?.let {
+                if (it) {
+                    startActivityForResult(
+                        LocationSelectionActivity.newIntent(
+                            context = requireContext(),
+                            address = MyUserManager.userAddress ?: Address(),
+                            headingTitle = getString(Strings.screen_meeting_location_display_text_add_new_address_title),
+                            subHeadingTitle = getString(Strings.screen_meeting_location_display_text_subtitle)
+                        ), RequestCodes.REQUEST_FOR_LOCATION
+                    )
+                } else {
+                    skipped?.let { skip ->
+                        trackEvent(KYCEvents.SKIP_KYC.type)
+                        goToDashboard()
                     }
                 }
             }
         }
     }
+
+    private fun handleLocationRequestResult(data: Intent?) {
+        data?.let {
+            val result = it.getBooleanExtra(Constants.ADDRESS_SUCCESS, false)
+            if (result) {
+                val address = it.getParcelableExtra<Address>(Constants.ADDRESS)
+                viewModel.requestOrderCard(address)
+                // send city to leanPlum dashboard
+            } else {
+                goToDashboard()
+            }
+        } ?: goToDashboard()
+    }
+
+    private fun handleMeetingConfirmationRequest(data: Intent?) {
+        goToDashboard()
+    }
+
+    private fun goToDashboard() {
+        val action =
+            CongratulationsFragmentDirections.actionCongratulationsFragmentToYapDashboardActivity()
+        findNavController().navigate(action)
+        activity?.finishAffinity()
+    }
+
 
     private fun runAnimations() {
         AnimationUtils.runSequentially(
@@ -168,7 +242,6 @@ class CongratulationsFragment : OnboardingChildFragment<ICongratulations.ViewMod
         )
 
         val counter = counterAnimation(1, viewModel.elapsedOnboardingTime.toInt(), tvSubTitle)
-
         val moveFromCenterToTop = AnimationUtils.runTogether(
             AnimationUtils.slideVertical(
                 view = tvTitle,
@@ -201,7 +274,6 @@ class CongratulationsFragment : OnboardingChildFragment<ICongratulations.ViewMod
     ): ValueAnimator {
         val text = getString(Strings.screen_onboarding_congratulations_display_text_sub_title)
         val parts = text.split("%1s")
-
         return AnimationUtils.valueCounter(initialValue, finalValue, 1500).apply {
             addUpdateListener { animator ->
                 textview.text = SpannableStringBuilder().run {
@@ -224,8 +296,10 @@ class CongratulationsFragment : OnboardingChildFragment<ICongratulations.ViewMod
         }
     }
 
-//    override fun onBackPressed(): Boolean =
-//        run { (activity as? OnboardingActivity)?.finish().let { true } }
+    override fun onDestroy() {
+        super.onDestroy()
+        removeObservers()
+    }
 
     override fun onBackPressed(): Boolean {
         return true

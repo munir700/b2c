@@ -4,14 +4,17 @@ import android.app.Application
 import android.text.SpannableStringBuilder
 import android.view.View
 import androidx.databinding.Bindable
+import androidx.databinding.ObservableField
 import androidx.databinding.library.baseAdapters.BR
 import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.interfaces.IInternationalFundsTransfer
+import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.networking.transactions.responsedtos.transaction.RemittanceFeeResponse
 import co.yap.translation.Strings
 import co.yap.translation.Translator
 import co.yap.yapcore.BaseState
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.helpers.cancelAllSnackBar
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -25,6 +28,21 @@ class InternationalFundsTransferState(val application: Application) : BaseState(
             field = value
             notifyPropertyChanged(BR.transferFee)
 
+        }
+
+    override var totalTransferAmount: ObservableField<Double> = ObservableField(0.0)
+
+    @get:Bindable
+    override var errorDescription: String = ""
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.errorDescription)
+        }
+    @get:Bindable
+    override var availableBalanceString: CharSequence? = ""
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.availableBalanceString)
         }
 
     @get:Bindable
@@ -51,12 +69,6 @@ class InternationalFundsTransferState(val application: Application) : BaseState(
         set(value) {
             field = value
             notifyPropertyChanged(BR.fxRateAmount)
-            fxRateAmount?.let {
-                if (it.isNotEmpty() && it != ".") {
-                    valid = it.toDouble() > 1.0
-                }
-            }
-            checkValidation()
         }
 
     @get:Bindable
@@ -131,10 +143,11 @@ class InternationalFundsTransferState(val application: Application) : BaseState(
         }
 
     @get:Bindable
-    override var rate: String? = "0.0"
+    override var rate: String? = ""
         set(value) {
             field = value
             notifyPropertyChanged(BR.rate)
+            checkValidation()
         }
     @get:Bindable
     override var toFxRateCurrency: String? = ""
@@ -282,6 +295,13 @@ class InternationalFundsTransferState(val application: Application) : BaseState(
             notifyPropertyChanged(BR.feeType)
         }
 
+    @get:Bindable
+    override var beneficiary: Beneficiary? = Beneficiary()
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.beneficiary)
+        }
+
     fun validate() {
         if (!senderAmount.isNullOrEmpty()) {
             if (senderAmount.toInt() >= 1 && !beneficiaryAmount.isNullOrEmpty()/* &&  reason must be selected as well */) {
@@ -290,7 +310,12 @@ class InternationalFundsTransferState(val application: Application) : BaseState(
         }
     }
 
-    private fun checkValidation() {
+    override fun checkValidation() {
+        if (rate.isNullOrBlank()) {
+            valid = false
+            return
+        }
+
         if (!receiverCurrencyAmountFxRate.isNullOrEmpty()) {
             if (fxRateAmount.isNullOrEmpty() && feeType == Constants.FEE_TYPE_TIER) {
                 setSpanable(0.0)
@@ -318,8 +343,8 @@ class InternationalFundsTransferState(val application: Application) : BaseState(
                                 setSpanable(amount ?: 0.0)
                             }
                             val amountFxRate = amount
-                            val receiveFxRate = rate!!.toDouble()
-                            val result = amountFxRate?.times(receiveFxRate)
+                            val receiveFxRate = rate?.toDoubleOrNull()
+                            val result = amountFxRate?.times(receiveFxRate ?: 0.0)
                             receiverCurrencyAmount =
                                 String.format(
                                     Locale.getDefault(),
@@ -381,5 +406,18 @@ class InternationalFundsTransferState(val application: Application) : BaseState(
 
     }
 
+    override fun clearError() {
+        if (fxRateAmount != "") {
+            if (fxRateAmount != "." && fxRateAmount?.toDouble() ?: 0.0 > 0.0) {
+                valid = true
+//                valid = amount.toDouble() >= minLimit
+/*                amountBackground =
+                    context.resources.getDrawable(co.yap.yapcore.R.drawable.bg_funds, null)*/
+            }
+        } else if (fxRateAmount == "") {
+            valid = false
+            cancelAllSnackBar()
+        }
+    }
 
 }

@@ -24,12 +24,12 @@
             android:id="@+id/imgSettings"
             android:layout_width="@dimen/_26sdp"
             android:layout_height="@dimen/_26sdp"
+            android:layout_marginTop="@dimen/margin_large"
             android:layout_marginEnd="@dimen/margin_normal_large"
             android:contentDescription="@string/empty_string"
             android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginTop="@dimen/_21sdp"
             app:srcCompat="@drawable/ic_settings" />
 
 
@@ -109,7 +109,6 @@
             android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
             android:paddingTop="0dp"
             android:paddingBottom="0dp"
-
             app:btn_enable="true"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -117,20 +116,77 @@
             app:text="@{Strings.screen_more_display_text_bank_details}"
             tools:text="@string/screen_more_display_text_bank_details" />
 
+        <androidx.cardview.widget.CardView
+            android:id="@+id/yapForYou"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_medium"
+            android:layout_marginStart="@dimen/margin_normal_large"
+            android:layout_marginEnd="@dimen/margin_normal_large"
+            app:cardCornerRadius="@dimen/_10sdp"
+            app:cardElevation="1dp"
+            app:cardUseCompatPadding="false"
+            app:cardMaxElevation="1dp"
+            android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
+            android:outlineSpotShadowColor="@color/greyDark"
+            app:layout_constraintTop_toBottomOf="@+id/btnBankDetails">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="@dimen/margin_normal"
+                android:paddingBottom="@dimen/margin_normal"
+                android:background="@drawable/cornor_edges_gery"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="@dimen/_46sdp"
+                    android:layout_height="@dimen/_46sdp"
+                    android:layout_marginLeft="@dimen/margin_small"
+                    android:layout_gravity="center"
+                    android:layout_marginRight="@dimen/margin_small"
+                    android:src="@drawable/ic_yap_for_you" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:orientation="vertical">
+
+
+                    <TextView
+                        style="@style/Title3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/screen_yap_for_you_display_text_title"
+                        android:textSize="@dimen/_15sdp"
+                        app:text="@{Strings.screen_yap_for_you_display_text_title}" />
+
+                    <TextView
+                        style="@style/MicroGrey"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_2sdp"
+                        android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
+                        android:text="@string/screen_yap_for_you_display_text_sub_title"
+                        app:text="@{Strings.screen_yap_for_you_display_text_sub_title}" />
+                </LinearLayout>
+
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycler_options"
+            android:id="@+id/recyclerOptions"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_marginStart="@dimen/margin_small"
             android:layout_marginTop="@dimen/margin_medium"
-            android:layout_marginEnd="@dimen/margin_small"
             android:dividerHeight="2dp"
             android:visibility="visible"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/btnBankDetails"
+            app:layout_constraintTop_toBottomOf="@+id/yapForYou"
             app:spanCount="2"
             tools:itemCount="5"
             tools:listitem="@layout/item_yap_more" />

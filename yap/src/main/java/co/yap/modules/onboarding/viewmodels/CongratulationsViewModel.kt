@@ -1,21 +1,31 @@
 package co.yap.modules.onboarding.viewmodels
 
 import android.app.Application
+import androidx.lifecycle.MutableLiveData
 import co.yap.modules.onboarding.interfaces.ICongratulations
 import co.yap.modules.onboarding.states.CongratulationsState
+import co.yap.networking.cards.CardsRepository
+import co.yap.networking.cards.requestdtos.OrderCardRequest
+import co.yap.networking.cards.responsedtos.Address
+import co.yap.networking.interfaces.IRepositoryHolder
+import co.yap.networking.models.RetroApiResponse
 import co.yap.yapcore.SingleClickEvent
-import java.util.*
-import java.util.concurrent.TimeUnit
+import co.yap.yapcore.adjust.AdjustEvents
+import co.yap.yapcore.trackAdjustEvent
 
 class CongratulationsViewModel(application: Application) :
     OnboardingChildViewModel<ICongratulations.State>(application),
+    IRepositoryHolder<CardsRepository>,
     ICongratulations.ViewModel {
     override val clickEvent: SingleClickEvent = SingleClickEvent()
     override val state: CongratulationsState = CongratulationsState()
+    override val repository: CardsRepository = CardsRepository
+    override val orderCardSuccess: MutableLiveData<Boolean> = MutableLiveData()
     override var elapsedOnboardingTime: Long = 0
 
     override fun onCreate() {
         super.onCreate()
+        trackAdjustEvent(AdjustEvents.SIGN_UP_END.type)
         // calculate elapsed updatedDate for onboarding
         elapsedOnboardingTime = parentViewModel?.onboardingData?.elapsedOnboardingTime ?: 0
         state.nameList[0] = parentViewModel?.onboardingData?.firstName
@@ -46,6 +56,39 @@ class CongratulationsViewModel(application: Application) :
             unmaskedIban
         }
     }
+
+    override fun requestOrderCard(address: Address?) {
+        address?.let {
+            val orderCardRequest = OrderCardRequest(
+                it.address1,
+                "",
+                it.address1,
+                it.address2,
+                it.latitude,
+                it.longitude,
+                "UAE", "Dubai"
+            )
+            launch {
+                state.loading = true
+                when (val response = repository.orderCard(orderCardRequest)) {
+                    is RetroApiResponse.Success -> {
+                        orderCardSuccess.value = true
+                        state.loading = false
+                    }
+
+                    is RetroApiResponse.Error -> {
+                        state.loading = false
+                        orderCardSuccess.value = false
+                        state.toast = response.error.message
+//
+                    }
+                }
+            }
+        }
+
+    }
+
+
 
 
 }

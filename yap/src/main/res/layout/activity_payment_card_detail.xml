@@ -11,6 +11,9 @@
             type="co.yap.modules.dashboard.cards.paymentcarddetail.viewmodels.PaymentCardDetailViewModel" />
 
         <import type="android.view.View" />
+
+        <import type="co.yap.yapcore.enums.CardStatus" />
+
         <import type="co.yap.modules.others.helper.Constants" />
 
         <import type="co.yap.translation.Strings" />
@@ -48,10 +51,10 @@
 
                 <LinearLayout
                     android:id="@+id/rlFilter"
-                    android:gravity="center"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
+                    android:gravity="center"
                     android:onClick="@{v -> viewModel.handlePressOnView(v.getId())}"
                     android:visibility="visible">
 
@@ -62,26 +65,29 @@
                         android:layout_height="@dimen/_22sdp"
                         android:layout_marginEnd="5dp"
                         android:background="@drawable/bg_round_purple"
+                        android:backgroundTint="?attr/colorPrimaryAttr"
                         android:gravity="center"
                         android:text="@{viewModel.state.filterCount.toString()}"
                         android:textColor="@color/colorPrimary"
+                        android:tint="?attr/colorPrimaryAttr"
                         android:visibility="@{viewModel.state.filterCount > 0 ? View.VISIBLE:View.GONE}"
                         tools:text="6" />
+
                     <ImageView
                         android:id="@+id/ivFilters"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="2dp"
-                        android:tint="@{viewModel.state.isTxnsEmpty()? @color/grey: @color/colorPrimaryDark}"
-                        android:src="@drawable/ic_filter" />
+                        android:src="@drawable/ic_filter"
+                        android:tint="@{viewModel.state.isTxnsEmpty() &amp;&amp; viewModel.state.filterCount==0? @color/grey: @color/colorPrimaryDark}" />
 
                     <TextView
                         android:id="@+id/tvFilters"
                         style="@style/ASmall"
-                        android:text="Filter"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="@{viewModel.state.isTxnsEmpty()? @color/grey: @color/colorPrimaryDark}" />
+                        android:text="Filter"
+                        android:textColor="@{viewModel.state.isTxnsEmpty() &amp;&amp; viewModel.state.filterCount==0? @color/grey: @color/colorPrimaryDark}" />
 
                 </LinearLayout>
 
@@ -117,16 +123,16 @@
         <!--        </androidx.core.widget.NestedScrollView>-->
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/appbar"
-            android:visibility="visible"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/white"
             android:fitsSystemWindows="true"
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            android:visibility="visible"
             app:elevation="0dp">
 
             <com.google.android.material.appbar.CollapsingToolbarLayout
-                android:id="@+id/collapsing_toolbar"
+                android:id="@+id/collapsingToolbar"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 app:elevation="0dp"
@@ -241,9 +247,11 @@
                                     android:orientation="vertical">
 
                                     <ImageView
+                                        android:id="@+id/ivSpareFreeze"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:layout_gravity="center_horizontal"
+                                        android:alpha="@{viewModel.state.cardStatus.equals(CardStatus.EXPIRED.name) ? 0.5f : 1.0f}"
                                         android:src="@drawable/ic_freeze_card" />
 
                                     <TextView
@@ -310,9 +318,11 @@
                                     android:orientation="vertical">
 
                                     <ImageView
+                                        android:id="@+id/ivPrimaryFreeze"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:layout_gravity="center_horizontal"
+                                        android:alpha="@{viewModel.state.cardStatus.equals(CardStatus.EXPIRED.name)? 0.5f : 1.0f}"
                                         android:src="@drawable/ic_freeze_card" />
 
                                     <TextView
@@ -336,9 +346,11 @@
                                     android:orientation="vertical">
 
                                     <ImageView
+                                        android:id="@+id/ivSetLimits"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:layout_gravity="center_horizontal"
+                                        android:alpha="@{viewModel.state.cardStatus.equals(CardStatus.EXPIRED.name)? 0.5f : 1.0f}"
                                         android:src="@drawable/ic_card_limits" />
 
                                     <TextView
@@ -437,8 +449,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="?attr/actionBarSize"
-            android:background="@android:color/transparent"
-            android:rotation="180" />
+            android:background="@android:color/transparent" />
 
         <!--    </RelativeLayout>-->
     </androidx.coordinatorlayout.widget.CoordinatorLayout>

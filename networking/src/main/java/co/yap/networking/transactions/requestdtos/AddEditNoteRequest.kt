@@ -1,3 +1,8 @@
 package co.yap.networking.transactions.requestdtos
 
-data class AddEditNoteRequest(val transactionId: String?, val transactionNote: String?)
+import com.google.gson.annotations.SerializedName
+
+data class AddEditNoteRequest(
+    @SerializedName("transactionId") val transactionId: String?,
+    @SerializedName("transactionNote") val transactionNote: String?
+)

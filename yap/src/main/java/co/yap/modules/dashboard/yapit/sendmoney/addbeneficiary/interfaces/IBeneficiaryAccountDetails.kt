@@ -24,6 +24,7 @@ interface IBeneficiaryAccountDetails {
         var bankPhoneNumber: String
 
         var showlyIban: ObservableField<Boolean>
+        var isIbanMandatory:ObservableField<Boolean>
         //var showlyConfirmIban: ObservableField<Boolean>
 
     }
@@ -32,10 +33,14 @@ interface IBeneficiaryAccountDetails {
         var beneficiary: Beneficiary?
         val backButtonPressEvent: SingleLiveEvent<Boolean>
         val success: MutableLiveData<Boolean>
+        val isBeneficiaryValid: MutableLiveData<Boolean>
         var clickEvent: SingleClickEvent
+        val otpCreateObserver: MutableLiveData<Boolean>
         fun createBeneficiaryRequest()
+        fun validateBeneficiaryDetails(beneficiary: Beneficiary)
         fun handlePressOnAddBank(id: Int)
         fun retry()
+//        fun createOtp(action: String)
     }
 
     interface View : IBase.View<ViewModel>

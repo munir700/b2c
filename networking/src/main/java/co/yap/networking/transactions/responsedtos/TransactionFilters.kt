@@ -1,3 +1,6 @@
 package co.yap.networking.transactions.responsedtos
 
-class TransactionFilters (var minAmount: Double?, var maxAmount: Double?)
+import com.google.gson.annotations.SerializedName
+
+class TransactionFilters (@SerializedName("minAmount") var minAmount: Double?,
+                          @SerializedName("maxAmount") var maxAmount: Double?)

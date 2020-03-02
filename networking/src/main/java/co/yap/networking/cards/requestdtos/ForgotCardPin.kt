@@ -1,3 +1,5 @@
 package co.yap.networking.cards.requestdtos
 
-data class ForgotCardPin(var newPin: String)
+import com.google.gson.annotations.SerializedName
+
+data class ForgotCardPin(@SerializedName("newPin") var newPin: String)

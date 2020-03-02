@@ -3,6 +3,7 @@ package co.yap.networking.admin
 import co.yap.networking.BaseRepository
 import co.yap.networking.RetroNetwork
 import co.yap.networking.admin.requestdtos.ForgotPasscodeRequest
+import co.yap.networking.admin.responsedtos.AppUpdateResponse
 import co.yap.networking.admin.responsedtos.VerifyUsernameResponse
 import co.yap.networking.models.ApiResponse
 import co.yap.networking.models.RetroApiResponse
@@ -13,6 +14,7 @@ object AdminRepository : BaseRepository(), AdminApi {
     const val URL_FORGOT_PASSCODE = "/admin/api/forgot-password"
     const val URL_VALIDATE_CURRENT_PASSCODE = "/admin/api/user/verify-passcode"
     const val URL_CHANGE_PASSCODE = "/admin/api/user/change-password"
+    const val URL_APP_VERSION = "/admin/api/mobile-app-versions"
 
     private val API: AdminRetroService = RetroNetwork.createService(AdminRetroService::class.java)
 
@@ -27,4 +29,6 @@ object AdminRepository : BaseRepository(), AdminApi {
 
     override suspend fun changePasscode(newPasscode: String): RetroApiResponse<ApiResponse> =
         executeSafely(call = { API.changePasscode(newPasscode) })
+
+    override suspend fun appUpdate(): RetroApiResponse<AppUpdateResponse> = executeSafely(call = {API.appUpdate()})
 }

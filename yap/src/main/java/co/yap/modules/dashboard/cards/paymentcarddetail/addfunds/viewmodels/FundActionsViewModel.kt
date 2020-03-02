@@ -4,16 +4,17 @@ import android.app.Application
 import androidx.lifecycle.MutableLiveData
 import co.yap.modules.dashboard.cards.paymentcarddetail.addfunds.interfaces.IFundActions
 import co.yap.modules.dashboard.cards.paymentcarddetail.addfunds.states.FundActionsState
-import co.yap.modules.others.helper.Constants
 import co.yap.networking.customers.responsedtos.beneficiary.TopUpCard
 import co.yap.networking.customers.responsedtos.beneficiary.TopUpTransactionModel
 import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.transactions.TransactionsRepository
 import co.yap.networking.transactions.requestdtos.AddFundsRequest
+import co.yap.networking.transactions.requestdtos.RemittanceFeeRequest
 import co.yap.networking.transactions.requestdtos.RemoveFundsRequest
 import co.yap.networking.transactions.responsedtos.FundTransferDenominations
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
+import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.managers.MyUserManager
 import kotlinx.coroutines.delay
@@ -31,6 +32,7 @@ open class FundActionsViewModel(application: Application) :
     override val thirdDenominationClickEvent: SingleClickEvent = SingleClickEvent()
     override var error: String = ""
     override var cardSerialNumber: String = ""
+
     override val topUpTransactionModelLiveData: MutableLiveData<TopUpTransactionModel>? =
         MutableLiveData()
 
@@ -95,6 +97,30 @@ open class FundActionsViewModel(application: Application) :
             )
         }
         thirdDenominationClickEvent.call()
+    }
+
+    override fun getFee(productCode: String) {
+        launch {
+            state.loading = true
+            when (val response = transactionsRepository.getTransactionFeeWithProductCode(
+                productCode, RemittanceFeeRequest()
+            )) {
+                is RetroApiResponse.Success -> {
+                    if (response.data.data?.feeType == Constants.FEE_TYPE_FLAT) {
+                        val feeAmount = response.data.data?.tierRateDTOList?.get(0)?.feeAmount
+                        val VATAmount = response.data.data?.tierRateDTOList?.get(0)?.vatAmount
+                        state.fee =
+                            Utils.getFormattedCurrency(feeAmount?.plus(VATAmount ?: 0.0).toString())
+                        clickEvent.postValue(Constants.CARD_FEE)
+                    }
+                }
+                is RetroApiResponse.Error -> {
+                    state.errorDescription = response.error.message
+                    errorEvent.call()
+                }
+            }
+            state.loading = false
+        }
     }
 
     override fun addFunds() {
@@ -162,9 +188,9 @@ open class FundActionsViewModel(application: Application) :
             when (val response = transactionsRepository.getFundTransferDenominations(productCode)) {
                 is RetroApiResponse.Success -> {
                     var fundsType: String? = null
-                    if (productCode == Constants.ADD_FUNDS_PRODUCT_CODE) {
+                    if (productCode == Constants.SUPP_CARD) {
                         fundsType = "+"
-                    } else if (productCode == Constants.REMOVE_FUNDS_PRODUCT_CODE) {
+                    } else if (productCode == co.yap.modules.others.helper.Constants.REMOVE_FUNDS_PRODUCT_CODE) {
                         fundsType = "-"
                     } else {
                         fundsType = "+"

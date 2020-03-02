@@ -32,10 +32,10 @@
                 android:layout_height="@dimen/_40sdp"
                 android:layout_gravity="center_horizontal"
                 android:contentDescription="@string/empty_string"
-                app:layout_constraintStart_toStartOf="parent"
-                app:isBackground="@{true}"
-                app:fullName="@{viewModel.analyticsItem.title}"
+                app:fullName="@{viewModel.analyticsItem.title==null?` `:viewModel.analyticsItem.title}"
                 app:imageUrl="@{viewModel.analyticsItem.logoUrl == null ? ` ` : viewModel.analyticsItem.logoUrl}"
+                app:isBackground="@{true}"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:position="@{viewModel.position}" />
 

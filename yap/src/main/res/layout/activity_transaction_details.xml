@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
@@ -13,7 +14,7 @@
         <import type="android.view.View" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/white">
@@ -23,162 +24,150 @@
             layout="@layout/layout_transaction_details_toolbar"
             app:viewModel="@{viewModel}" />
 
-        <TextView
-            android:id="@+id/tvTransactionHeading"
-            style="@style/Large"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:padding="@dimen/margin_normal"
-            android:text="@{viewModel.state.transactionTitle!=null?viewModel.state.transactionTitle:`Unknown`}"
+        <ImageView
+            android:id="@+id/ivMap"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_120sdp"
+            android:background="@drawable/ic_map"
+            android:contentDescription="@string/empty_string"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/toolbar"
-            tools:text="Transaction Details" />
+            app:layout_constraintTop_toBottomOf="@+id/toolbar" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/ivPicture"
+            android:layout_width="@dimen/_35sdp"
+            android:layout_height="@dimen/_35sdp"
+            android:layout_marginStart="@dimen/margin_medium"
+            android:layout_marginTop="@dimen/margin_medium"
+            android:background="@drawable/bg_round_purple_enabled"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ivMap"
+            tools:src="@drawable/ic_plus_transactions"
+
+            />
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/clTransactionDetails"
-            android:layout_width="match_parent"
+            android:id="@+id/clAmount"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:background="@color/greySoftSelected"
-            android:paddingStart="@dimen/margin_medium"
-            android:paddingTop="@dimen/margin_large"
-            android:paddingEnd="@dimen/margin_medium"
-            android:paddingBottom="@dimen/margin_large"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvTransactionHeading">
+            android:layout_marginEnd="@dimen/margin_normal_large"
+            app:layout_constraintBottom_toBottomOf="@+id/vLine"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/ivPicture"
+            app:layout_constraintTop_toTopOf="@+id/ivPicture"
+            app:layout_constraintVertical_bias="0.0">
 
             <TextView
-                android:id="@+id/tvSenderLable"
-                style="@style/ASmallGrey"
-                android:layout_width="wrap_content"
+                android:id="@+id/tvTransactionHeading"
+                style="@style/Regular"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="Sender"
-                android:visibility="@{viewModel.state.isYtoYTransfer? View.VISIBLE : View.GONE }"
-                app:layout_constraintLeft_toLeftOf="parent"
+                android:layout_marginStart="@dimen/margin_medium"
+                android:layout_marginEnd="@dimen/margin_small"
+                android:ellipsize="end"
+                android:lineSpacingExtra="@dimen/_1sdp"
+                android:maxLines="2"
+                android:text="@{viewModel.state.transactionTitle!=null?viewModel.state.transactionTitle:`Unknown`}"
+                app:layout_constraintEnd_toStartOf="@+id/tvTotalAmountValue"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:text="Sender" />
+                tools:text="Transaction " />
 
             <TextView
-                android:id="@+id/tvSenderName"
-                style="@style/ASmall"
-                android:layout_width="wrap_content"
+                android:id="@+id/tvAddress"
+                style="@style/AMicroGrey"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="@{viewModel.state.transactionSender}"
-                android:visibility="@{viewModel.state.isYtoYTransfer? View.VISIBLE : View.GONE }"
-                app:layout_constraintBottom_toBottomOf="@+id/tvSenderLable"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/tvSenderLable"
-                tools:text="Hassnain Ali" />
+                android:ellipsize="end"
+                android:lineSpacingExtra="2dp"
+                android:maxLines="1"
+                android:text="@{viewModel.state.transactionAddress}"
+                android:visibility="@{viewModel.state.transactionAddress.isEmpty() || viewModel.state.transactionAddress ==null ?View.GONE:View.VISIBLE}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/tvTotalAmountValue"
+                app:layout_constraintStart_toStartOf="@+id/tvTransactionHeading"
+                app:layout_constraintTop_toBottomOf="@+id/tvTransactionHeading"
+                tools:text="transaction notes"
+                tools:visibility="visible" />
+
+            <ImageView
+                android:id="@+id/ivCategoryIcon"
+                android:layout_width="@dimen/_13sdp"
+                android:layout_height="@dimen/_13sdp"
+                android:layout_marginTop="@dimen/_2sdp"
+                android:contentDescription="@string/empty_string"
+                android:tint="@color/colorSecondaryOrange"
+                app:layout_constraintStart_toStartOf="@+id/tvTransactionHeading"
+                app:layout_constraintTop_toBottomOf="@+id/tvAddress"
+                app:src="@{viewModel.state.categoryIcon}"
+                tools:src="@drawable/ic_send_money" />
 
             <TextView
-                android:id="@+id/tvReceiverLable"
-                style="@style/ASmallGrey"
-                android:layout_width="wrap_content"
+                android:id="@+id/tvTransactionSubheading"
+                style="@style/AMicroGrey"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_medium"
-                android:text="Receiver"
-                android:visibility="@{viewModel.state.isYtoYTransfer? View.VISIBLE : View.GONE }"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvSenderLable"
-                tools:text="Receiver" />
-
-            <TextView
-                android:id="@+id/tvReceiverName"
-                style="@style/ASmall"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@{viewModel.state.transactionReceiver}"
-                android:visibility="@{viewModel.state.isYtoYTransfer? View.VISIBLE : View.GONE}"
-                app:layout_constraintBottom_toBottomOf="@+id/tvReceiverLable"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/tvReceiverLable"
-                tools:text="Faheem Riaz" />
-
-
-            <TextView
-                android:id="@+id/tvCardSpent"
-                style="@style/ASmallGrey"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@{viewModel.state.spentTitle}"
-                android:layout_marginTop="@dimen/margin_medium"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvReceiverLable"
-                tools:text="Spent" />
-
-            <TextView
-                android:id="@+id/tvCardSpendAmount"
-                style="@style/ASmall"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@{viewModel.state.spentAmount}"
-                app:layout_constraintBottom_toBottomOf="@+id/tvCardSpent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/tvCardSpent"
-                tools:text="1500" />
-
-            <TextView
-                android:id="@+id/tvFee"
-                style="@style/ASmallGrey"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_medium"
-                android:text="@{viewModel.state.feeTitle}"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvCardSpent"
-                tools:text="Fee" />
-
-            <TextView
-                android:id="@+id/tvFeeAmount"
-                style="@style/ASmall"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@{viewModel.state.feeAmount!=null?viewModel.state.feeAmount:`0.00`}"
-                app:layout_constraintBottom_toBottomOf="@+id/tvFee"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/tvFee"
-                tools:text="1000" />
-
-
-            <TextView
-                android:id="@+id/tvTotalAmount"
-                style="@style/ASmallGrey"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_medium"
-                android:text="@{viewModel.state.totalTitle}"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvFee"
-                tools:text="Total" />
+                android:layout_marginStart="@dimen/_3sdp"
+                android:layout_marginEnd="@dimen/margin_small"
+                android:ellipsize="end"
+                android:lineSpacingExtra="2dp"
+                android:maxLines="1"
+                android:text="@{viewModel.state.categoryTitle}"
+                android:textColor="@color/colorSecondaryOrange"
+                app:layout_constraintBottom_toBottomOf="@+id/ivCategoryIcon"
+                app:layout_constraintEnd_toStartOf="@+id/tvCurrency"
+                app:layout_constraintStart_toEndOf="@+id/ivCategoryIcon"
+                app:layout_constraintTop_toTopOf="@+id/ivCategoryIcon"
+                tools:text="Outgoing Transfer" />
 
             <TextView
                 android:id="@+id/tvTotalAmountValue"
-                style="@style/ASmall"
-                android:layout_width="wrap_content"
+                style="@style/Large"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="@{viewModel.state.totalAmount}"
-                app:layout_constraintBottom_toBottomOf="@+id/tvTotalAmount"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/tvTotalAmount"
+                app:layout_constraintTop_toTopOf="parent"
                 tools:text="2500" />
 
-
+            <TextView
+                android:id="@+id/tvCurrency"
+                style="@style/ASmallGrey"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{viewModel.state.currency}"
+                app:layout_constraintEnd_toEndOf="@+id/tvTotalAmountValue"
+                app:layout_constraintTop_toBottomOf="@+id/tvTotalAmountValue"
+                tools:text="AED" />
         </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        <View
+            android:id="@+id/vLine"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginTop="@dimen/margin_normal_large"
+            android:background="@color/divider"
+            app:layout_constraintEnd_toEndOf="@id/clAmount"
+            app:layout_constraintStart_toStartOf="@+id/clAmount"
+            app:layout_constraintTop_toBottomOf="@id/clAmount" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/clEditIcon"
             android:layout_width="@dimen/_35sdp"
             android:layout_height="@dimen/_35sdp"
             android:layout_marginStart="@dimen/margin_medium"
-            android:layout_marginTop="@dimen/margin_medium_large"
-            android:background="@drawable/bg_round_purple"
+            android:layout_marginTop="@dimen/margin_normal_large"
+            android:background="@drawable/bg_round_purple_enabled"
             android:onClick="@{(v)-> viewModel.handlePressOnEditNoteClickEvent(v.id)}"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/clTransactionDetails">
+            app:layout_constraintTop_toBottomOf="@+id/vLine">
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:contentDescription="@string/empty_string"
                 android:src="@drawable/ic_edit"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
@@ -223,6 +212,180 @@
                 app:layout_constraintStart_toStartOf="@+id/tvNoteHeading"
                 app:layout_constraintTop_toBottomOf="@+id/tvNoteHeading"
                 tools:text="transaction notes" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/clTransactionDetails"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_medium"
+            android:background="@color/greySoftSelected"
+            android:paddingStart="@dimen/margin_medium"
+            android:paddingEnd="@dimen/margin_medium"
+            android:paddingBottom="@dimen/margin_medium"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/clEditIcon">
+
+            <TextView
+                android:id="@+id/tvSenderLable"
+                style="@style/ASmallGrey"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Sender"
+                android:visibility="@{viewModel.state.isYtoYTransfer? View.VISIBLE : View.GONE }"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/tvSenderName"
+                tools:ignore="HardcodedText"
+                tools:text="Sender" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline1"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.35" />
+
+            <TextView
+                android:id="@+id/tvSenderName"
+                style="@style/ASmall"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_large"
+                android:gravity="end"
+                android:text="@{viewModel.state.transactionSender}"
+                android:visibility="@{viewModel.state.isYtoYTransfer? View.VISIBLE : View.GONE }"
+                app:layout_constraintBottom_toTopOf="@+id/tvReceiverName"
+                app:layout_constraintLeft_toRightOf="@+id/guideline1"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Hassnain Ali" />
+
+            <TextView
+                android:id="@+id/tvReceiverLable"
+                style="@style/ASmallGrey"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Receiver"
+                android:visibility="@{viewModel.state.isYtoYTransfer? View.VISIBLE : View.GONE }"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/tvReceiverName"
+                tools:ignore="HardcodedText"
+                tools:text="Receiver" />
+
+            <TextView
+                android:id="@+id/tvReceiverName"
+                style="@style/ASmall"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_medium"
+                android:layout_marginBottom="@dimen/margin_medium"
+                android:gravity="end"
+                android:text="@{viewModel.state.transactionReceiver}"
+                android:visibility="@{viewModel.state.isYtoYTransfer? View.VISIBLE : View.GONE}"
+                app:layout_constraintBottom_toTopOf="@+id/tvCardSpendAmount"
+                app:layout_constraintLeft_toRightOf="@+id/guideline1"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvSenderName"
+                tools:text="Faheem Riaz" />
+
+
+            <TextView
+                android:id="@+id/tvCardSpent"
+                style="@style/ASmallGrey"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{viewModel.state.spentTitle}"
+                android:visibility="@{viewModel.state.spentVisibility?View.VISIBLE:View.GONE}"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/tvCardSpendAmount"
+                tools:text="Spent" />
+
+            <TextView
+                android:id="@+id/tvCardSpendAmount"
+                style="@style/ASmall"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_medium"
+                android:gravity="end"
+                android:text="@{viewModel.state.spentAmount}"
+                android:visibility="@{viewModel.state.spentVisibility?View.VISIBLE:View.GONE}"
+                app:layout_constraintLeft_toRightOf="@+id/guideline1"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvReceiverName"
+                tools:text="1500" />
+
+            <TextView
+                android:id="@+id/tvVat"
+                style="@style/ASmallGrey"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="VAT"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/tvVatAmount"
+                tools:ignore="HardcodedText"
+                tools:text="VAT" />
+
+            <TextView
+                android:id="@+id/tvVatAmount"
+                style="@style/ASmall"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_medium"
+                android:gravity="end"
+                android:text="@{viewModel.state.vatAmount}"
+                app:layout_constraintLeft_toRightOf="@+id/guideline1"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvCardSpendAmount"
+                tools:text="1500" />
+
+            <TextView
+                android:id="@+id/tvFee"
+                style="@style/ASmallGrey"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{viewModel.state.feeTitle}"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/tvFeeAmount"
+                tools:text="Fee" />
+
+            <TextView
+                android:id="@+id/tvFeeAmount"
+                style="@style/ASmall"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_medium"
+                android:gravity="end"
+                android:text="@{viewModel.state.feeAmount!=null?viewModel.state.feeAmount:`0.00`}"
+                app:layout_constraintLeft_toRightOf="@+id/guideline1"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvVatAmount"
+                tools:text="1000" />
+
+
+            <TextView
+                android:id="@+id/tvTotalAmount"
+                style="@style/ASmallGrey"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{viewModel.state.totalTitle}"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/tvTotalAmountValueCalculated"
+                tools:text="Total" />
+
+            <TextView
+                android:id="@+id/tvTotalAmountValueCalculated"
+                style="@style/ASmall"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_medium"
+                android:gravity="end"
+                android:text="@{viewModel.state.totalAmountCalculated}"
+                app:layout_constraintLeft_toRightOf="@+id/guideline1"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvFeeAmount"
+                tools:text="2500" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

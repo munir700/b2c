@@ -1,6 +1,7 @@
 package co.yap.app.modules.login.interfaces
 
 import co.yap.yapcore.IBase
+import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.SingleLiveEvent
 
 interface ISystemPermission {
@@ -11,13 +12,16 @@ interface ISystemPermission {
         var screenType: String
         fun permissionGranted()
         fun permissionNotGranted()
+        fun handlePressOnTermsAndConditions(id:Int)
         val permissionGrantedPressEvent: SingleLiveEvent<Boolean>
         val permissionNotGrantedPressEvent: SingleLiveEvent<Boolean>
+        val handlePressOnTermsAndConditionsPressEvent: SingleClickEvent
     }
 
     interface State : IBase.State {
         var icon: Int
         var title: String
+        var subTitle: String
         var termsAndConditionsVisibility: Boolean
         var buttonTitle: String
     }

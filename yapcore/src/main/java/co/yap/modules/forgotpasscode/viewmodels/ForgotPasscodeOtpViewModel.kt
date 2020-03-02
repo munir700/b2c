@@ -1,6 +1,7 @@
 package co.yap.modules.forgotpasscode.viewmodels
 
 import android.app.Application
+import android.content.Context
 import co.yap.modules.forgotpasscode.interfaces.IForgotPasscodeOtp
 import co.yap.modules.forgotpasscode.states.ForgotPasscodeOtpState
 import co.yap.networking.interfaces.IRepositoryHolder
@@ -12,7 +13,8 @@ import co.yap.translation.Strings
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
 
-open class ForgotPasscodeOtpViewModel(application: Application) : BaseViewModel<IForgotPasscodeOtp.State>(application),
+open class ForgotPasscodeOtpViewModel(application: Application) :
+    BaseViewModel<IForgotPasscodeOtp.State>(application),
     IForgotPasscodeOtp.ViewModel, IRepositoryHolder<MessagesRepository> {
 
     override val state: ForgotPasscodeOtpState =
@@ -26,10 +28,9 @@ open class ForgotPasscodeOtpViewModel(application: Application) : BaseViewModel<
 
     override fun onCreate() {
         super.onCreate()
-        state.verificationTitle =getString(Strings.screen_forgot_passcode_otp_display_text_heading)
+        state.verificationTitle = getString(Strings.screen_forgot_passcode_otp_display_text_heading)
         state.verificationDescription = Strings.screen_verify_phone_number_display_text_sub_title
         //state.mobileNumber[0] = "jhv"
-        state.reverseTimer(10)
         state.validResend = false
     }
 
@@ -37,17 +38,23 @@ open class ForgotPasscodeOtpViewModel(application: Application) : BaseViewModel<
         verifyOtp(id)
     }
 
-    override fun handlePressOnResendOTP(id: Int) {
+    override fun handlePressOnResendOTP(context: Context) {
         launch {
             state.loading = true
-            when (val response=repository.createForgotPasscodeOTP(CreateForgotPasscodeOtpRequest(destination.toString(),emailOtp!!))) {
-                is RetroApiResponse.Success ->{
-                    state.toast=getString(Strings.screen_verify_phone_number_display_text_resend_otp_success)
-                    state.reverseTimer(10)
+            when (val response = repository.createForgotPasscodeOTP(
+                CreateForgotPasscodeOtpRequest(
+                    destination.toString(),
+                    emailOtp!!
+                )
+            )) {
+                is RetroApiResponse.Success -> {
+                    state.toast =
+                        getString(Strings.screen_verify_phone_number_display_text_resend_otp_success)
+                    state.reverseTimer(10, context)
                     state.validResend = false
                     state.loading = false
                 }
-                is RetroApiResponse.Error->{
+                is RetroApiResponse.Error -> {
                     state.toast = response.error.message
                     state.loading = false
                 }
@@ -62,7 +69,13 @@ open class ForgotPasscodeOtpViewModel(application: Application) : BaseViewModel<
         launch {
             state.loading = true
             when (val response =
-                repository.verifyForgotPasscodeOtp(VerifyForgotPasscodeOtpRequest(destination.toString(), state.otp, emailOtp!!))) {
+                repository.verifyForgotPasscodeOtp(
+                    VerifyForgotPasscodeOtpRequest(
+                        destination.toString(),
+                        state.otp,
+                        emailOtp ?: false
+                    )
+                )) {
                 is RetroApiResponse.Success -> {
                     nextButtonPressEvent.setValue(id)
                 }

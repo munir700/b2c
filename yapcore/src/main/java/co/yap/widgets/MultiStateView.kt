@@ -11,6 +11,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
+import androidx.annotation.Keep
 import androidx.annotation.LayoutRes
 import androidx.annotation.Nullable
 import co.yap.yapcore.R
@@ -21,7 +22,7 @@ class MultiStateView
     attrs: AttributeSet? = null,
     defStyle: Int = 0
 ) : FrameLayout(context, attrs, defStyle) {
-
+    @Keep
     enum class ViewState {
         CONTENT,
         LOADING,
@@ -40,7 +41,7 @@ class MultiStateView
     var listener: StateListener? = null
 
     var animateLayoutChanges: Boolean = false
-
+    var animateViewChangesDuration: Int = 400
     var viewState: ViewState = ViewState.CONTENT
         set(value) {
             val previousField = field
@@ -51,13 +52,15 @@ class MultiStateView
                 listener?.onStateChanged(value)
             }
         }
-    var reloadListener: OnReloadListener? = null
+    private var reloadListener: OnReloadListener? = null
 
     init {
         val inflater = LayoutInflater.from(getContext())
         val a = getContext().obtainStyledAttributes(attrs, R.styleable.MultiStateView)
 
         val loadingViewResId = a.getResourceId(R.styleable.MultiStateView_msv_loadingView, -1)
+        animateViewChangesDuration =
+            a.getInteger(R.styleable.MultiStateView_msv_animateViewChangesDuration, 400)
         if (loadingViewResId > -1) {
             val inflatedLoadingView = inflater.inflate(loadingViewResId, this, false)
             loadingView = inflatedLoadingView
@@ -76,11 +79,10 @@ class MultiStateView
             val inflatedErrorView = inflater.inflate(errorViewResId, this, false)
             errorView = inflatedErrorView
             addView(inflatedErrorView, inflatedErrorView.layoutParams)
-//            toolbar: Toolbar? by bindView<Toolbar>(R.id.toolbar)
-//TODO user listener
-//            errorView?.findViewById<PathwayButton>(R.id.retry)?.setOnClickListener {
-//                reloadListener?.onReload(it)
-//            }
+
+            errorView?.findViewById<View>(R.id.btnRetry)?.setOnClickListener {
+                reloadListener?.onReload(it)
+            }
         }
 
         viewState = when (a.getInt(R.styleable.MultiStateView_msv_viewState, VIEW_STATE_CONTENT)) {
@@ -109,6 +111,10 @@ class MultiStateView
             ViewState.EMPTY -> emptyView
             ViewState.ERROR -> errorView
         }
+    }
+
+    fun setOnReloadListener(reloadListener: OnReloadListener) {
+        this.reloadListener = reloadListener
     }
 
     /**
@@ -315,7 +321,7 @@ class MultiStateView
         }
 
         ObjectAnimator.ofFloat(previousView, "alpha", 1.0f, 0.0f).apply {
-            duration = 250L
+            duration = animateViewChangesDuration.toLong()
             addListener(object : AnimatorListenerAdapter() {
                 override fun onAnimationStart(animation: Animator?) {
                     previousView.visibility = View.VISIBLE
@@ -325,7 +331,7 @@ class MultiStateView
                     previousView.visibility = View.GONE
                     val currentView = requireNotNull(getView(viewState))
                     currentView.visibility = View.VISIBLE
-                    ObjectAnimator.ofFloat(currentView, "alpha", 0.0f, 1.0f).setDuration(250L)
+                    ObjectAnimator.ofFloat(currentView, "alpha", 0.0f, 1.0f).setDuration(animateViewChangesDuration.toLong())
                         .start()
                 }
             })
@@ -380,3 +386,79 @@ private const val VIEW_STATE_CONTENT = 0
 private const val VIEW_STATE_ERROR = 1
 private const val VIEW_STATE_EMPTY = 2
 private const val VIEW_STATE_LOADING = 3
+
+/**
+ * Status of a resource that is provided to the UI.
+ *
+ *
+ * These are usually created by the Repo classes where they return
+ * `LiveData<Resource<T>>` to pass back the latest data to the UI with its fetch status.
+ */
+enum class Status(val value: Int) {
+    IDEAL(0),
+    SUCCESS(1),
+    LOADING(2),
+    ERROR(3),
+    EMPTY(4),
+    NETWORK(5)
+}
+
+class State(
+    var status: Status,
+    var message: String?
+) {
+
+    var hardAlert = false
+
+    override fun toString(): String {
+        return "status: $status, message: $message"
+    }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        val state = other as State
+//        other as State
+
+        if (status != state.status) return false
+        if (message != state.message) return false
+        if (hardAlert != state.hardAlert) return false
+
+        return if (message != null) message == state.message else state.message == null
+    }
+
+    override fun hashCode(): Int {
+        var result = status.hashCode()
+        result = 31 * result + (message?.hashCode() ?: 0)
+        result = 31 * result + hardAlert.hashCode()
+        return result
+    }
+
+    companion object {
+
+        fun loading(message: String?): State {
+            return State(Status.LOADING, message)
+        }
+
+        fun error(message: String): State {
+            return State(Status.ERROR, message)
+        }
+
+        fun success(@Nullable message: String?): State {
+            return State(Status.SUCCESS, message)
+        }
+
+        fun empty(@Nullable message: String?): State {
+            return State(Status.EMPTY, message)
+        }
+
+        fun network(@Nullable message: String?): State {
+            return State(Status.NETWORK, message)
+        }
+
+        fun ideal(@Nullable message: String?): State {
+            return State(Status.IDEAL, message)
+        }
+    }
+}

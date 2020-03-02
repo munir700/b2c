@@ -1,30 +1,27 @@
 package co.yap.modules.dashboard.more.profile.viewmodels
 
+import android.annotation.SuppressLint
 import android.app.Application
 import android.content.Context
-import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.provider.MediaStore
 import android.view.View.GONE
 import android.view.View.VISIBLE
-import co.yap.modules.dashboard.more.main.activities.MoreActivity
-import co.yap.modules.dashboard.more.main.activities.MoreActivity.Companion.isDocumentRequired
 import co.yap.modules.dashboard.more.main.viewmodels.MoreBaseViewModel
 import co.yap.modules.dashboard.more.profile.intefaces.IProfile
 import co.yap.modules.dashboard.more.profile.states.ProfileStates
 import co.yap.networking.authentication.AuthRepository
 import co.yap.networking.customers.CustomersRepository
-import co.yap.networking.customers.responsedtos.documents.GetMoreDocumentsResponse
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
 import co.yap.yapcore.SingleClickEvent
+import co.yap.yapcore.constants.Constants.KEY_APP_UUID
+import co.yap.yapcore.enums.EIDStatus
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.managers.MyUserManager
 import com.bumptech.glide.Glide
-import com.bumptech.glide.load.DataSource
-import com.bumptech.glide.load.engine.GlideException
-import com.bumptech.glide.request.RequestListener
-import com.bumptech.glide.request.target.Target
+import id.zelory.compressor.Compressor
+import io.reactivex.schedulers.Schedulers
 import okhttp3.MediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -39,11 +36,8 @@ class ProfileSettingsViewModel(application: Application) :
 
     override var PROFILE_PICTURE_UPLOADED: Int = 100
     override var EVENT_LOGOUT_SUCCESS: Int = 101
-    override var showExpiredBadge: Boolean = false
-    override lateinit var data: GetMoreDocumentsResponse
     override val authRepository: AuthRepository = AuthRepository
     override val repository: CustomersRepository = CustomersRepository
-    lateinit var multiPartImageFile: MultipartBody.Part
     private val sharedPreferenceManager = SharedPreferenceManager(application)
 
     override val state: ProfileStates =
@@ -102,12 +96,12 @@ class ProfileSettingsViewModel(application: Application) :
 
     override fun onResume() {
         super.onResume()
+        toggleAchievementsBadgeVisibility(parentViewModel!!.BadgeVisibility)
         // setToolBarTitle(getString(Strings.screen_profile_settings_display_text_title))
     }
 
     override fun onCreate() {
         super.onCreate()
-
         requestProfileDocumentsInformation()
         MyUserManager.user?.let {
             state.fullName = it.currentCustomer.getFullName()
@@ -120,13 +114,10 @@ class ProfileSettingsViewModel(application: Application) :
         }
     }
 
+    @SuppressLint("CheckResult")
     override fun uploadProfconvertUriToFile(selectedImageUri: Uri) {
         val file = File(selectedImageUri.path)
-        val reqFile = RequestBody.create(MediaType.parse("image/"), file)
-        multiPartImageFile =
-            MultipartBody.Part.createFormData("profile-picture", file.name, reqFile)
-
-        requestUploadProfilePicture()
+        requestUploadProfilePicture(file)
     }
 
     override fun getRealPathFromUri(context: Context, uri: Uri): String {
@@ -145,29 +136,47 @@ class ProfileSettingsViewModel(application: Application) :
 
     override fun logout() {
         val deviceId: String? =
-            sharedPreferenceManager.getValueString(SharedPreferenceManager.KEY_APP_UUID)
+            sharedPreferenceManager.getValueString(KEY_APP_UUID)
         launch {
             state.loading = true
             when (val response = authRepository.logout(deviceId.toString())) {
                 is RetroApiResponse.Success -> {
                     clickEvent.setValue(EVENT_LOGOUT_SUCCESS)
+                    state.loading = true
                 }
                 is RetroApiResponse.Error -> {
                     state.toast = response.error.message
+                    state.loading = false
                 }
             }
-            // Set a little delay in case of no in
-            // TODO: Fix this delay issue. It should not be written with a delay
-            //Handler(Looper.getMainLooper()).postDelayed({ state.loading = false }, 500)
+        }
+    }
+
+    override fun requestUploadProfilePicture(file: File) {
+        launch {
+            state.loading = true
+            Compressor(context)
+                .compressToFileAsFlowable(file)
+                .subscribeOn(Schedulers.io())
+                .observeOn(Schedulers.computation())
+                .subscribe(
+                    {
+                        uploadCall(it)
+                    },
+                    { throwable ->
+                        throwable.printStackTrace()
+                        launch { uploadCall(file) }
+                    })
 
         }
     }
 
-    override fun requestUploadProfilePicture() {
-
+    private fun uploadCall(file: File) {
         launch {
-            state.loading = true
 
+            val reqFile = RequestBody.create(MediaType.parse("image/"), file)
+            val multiPartImageFile: MultipartBody.Part =
+                MultipartBody.Part.createFormData("profile-picture", file.name, reqFile)
             when (val response = repository.uploadProfilePicture(multiPartImageFile)) {
                 is RetroApiResponse.Success -> {
 
@@ -176,32 +185,10 @@ class ProfileSettingsViewModel(application: Application) :
                             it.imageURL?.let { state.profilePictureUrl = it }
                             MyUserManager.user!!.currentCustomer.setPicture(it.imageURL)
                             Glide.with(context)
-                                .load(it.imageURL).listener(object : RequestListener<Drawable>
-                                {
-                                    override fun onLoadFailed(
-                                        e: GlideException?,
-                                        model: Any?,
-                                        target: Target<Drawable>?,
-                                        isFirstResource: Boolean
-                                    ): Boolean {
-                                        state.loading = false
-                                        return false
-                                    }
-
-                                    override fun onResourceReady(
-                                        resource: Drawable?,
-                                        model: Any?,
-                                        target: Target<Drawable>?,
-                                        dataSource: DataSource?,
-                                        isFirstResource: Boolean
-                                    ): Boolean {
-                                        state.loading = false
-                                        return false
-                                    }
-                                }).preload()
-
+                                .load(it.imageURL).preload()
                             state.fullName = MyUserManager.user!!.currentCustomer.getFullName()
                             state.nameInitialsVisibility = VISIBLE
+                            state.loading = false
                         }
                     }
                 }
@@ -211,60 +198,43 @@ class ProfileSettingsViewModel(application: Application) :
                     state.fullName = MyUserManager.user!!.currentCustomer.getFullName()
                     state.nameInitialsVisibility = GONE
                     state.loading = false
-
                 }
-
             }
-
-
         }
     }
 
     override fun requestProfileDocumentsInformation() {
-
         launch {
             when (val response = repository.getMoreDocumentsByType("EMIRATES_ID")) {
-
                 is RetroApiResponse.Success -> {
-                    data = response.data
+                    parentViewModel?.document =
+                        response.data.data?.customerDocuments?.get(0)?.documentInformation
 
-                    if (!data.data.dateExpiry.isNullOrEmpty()) {
-                        getExpiryDate(data.data.dateExpiry!!)
+                    val data = response.data
+                    data.data?.dateExpiry?.let {
+                        getExpiryDate(it)
                     }
                 }
 
                 is RetroApiResponse.Error -> {
-                    state.errorBadgeVisibility = VISIBLE
-                    MoreActivity.showExpiredIcon = true
-                    showExpiredBadge = true
-                    if (response.error.message.equals("HomeTransactionListData not found")) {
-                        isDocumentRequired = true
-                    }
+                    if (response.error.statusCode == 400 || response.error.actualCode == "1073")
+                        state.isShowErrorIcon.set(true)
+                        MyUserManager.eidStatus = EIDStatus.NOT_SET  //set the document is required if not found
                 }
             }
         }
     }
 
-    fun getExpiryDate(expiryDateString: String) {
-
-        var simpleDateFormat = SimpleDateFormat("yyyy-MM-dd")
+    private fun getExpiryDate(expiryDateString: String) {
+        val simpleDateFormat = SimpleDateFormat("yyyy-MM-dd")
         val expireyDate = simpleDateFormat.parse(expiryDateString)
         val cal = Calendar.getInstance()
         cal.add(Calendar.DAY_OF_YEAR, -1)
 
         val prevDay = simpleDateFormat.format(cal.time)
         val previousDayDate = simpleDateFormat.parse(prevDay)
-
-        if (expireyDate > previousDayDate) {
-            state.errorBadgeVisibility = GONE
-            showExpiredBadge = false
-            MoreActivity.showExpiredIcon = false
-
-        } else {
-            state.errorBadgeVisibility = VISIBLE
-            showExpiredBadge = true
-            MoreActivity.showExpiredIcon = true
-        }
-
+        state.isShowErrorIcon.set(expireyDate < previousDayDate)
+        MyUserManager.eidStatus =
+            if (expireyDate < previousDayDate) EIDStatus.EXPIRED else EIDStatus.VALID
     }
 }

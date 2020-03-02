@@ -11,14 +11,13 @@ import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.managers.MyUserManager
+import com.leanplum.Leanplum
 
 class MoreHomeViewModel(application: Application) :
-    MoreBaseViewModel<IMoreHome.State>(application), IMoreHome.ViewModel/*,
-    IRepositoryHolder<CustomersRepository>*/ {
+    MoreBaseViewModel<IMoreHome.State>(application), IMoreHome.ViewModel {
 
     override val clickEvent: SingleClickEvent = SingleClickEvent()
     override val state: MoreState = MoreState()
-
 
     override fun onResume() {
         super.onResume()
@@ -34,6 +33,10 @@ class MoreHomeViewModel(application: Application) :
         }
     }
 
+    override fun handlePressOnYAPforYou(id: Int) {
+        clickEvent.setValue(id)
+    }
+
     override fun handlePressOnView(id: Int) {
         clickEvent.setValue(id)
     }
@@ -47,7 +50,7 @@ class MoreHomeViewModel(application: Application) :
                 R.drawable.ic_notification_more,
                 ContextCompat.getColor(context, R.color.colorSecondaryOrange),
                 false,
-                4
+                Leanplum.getInbox().unreadCount()
             )
         )
         //colorSecondaryGreen

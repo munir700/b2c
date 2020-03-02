@@ -14,6 +14,7 @@ import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.IFragmentHolder
 import co.yap.yapcore.defaults.DefaultNavigator
 import co.yap.yapcore.defaults.INavigator
+import co.yap.yapcore.helpers.extentions.preventTakeScreenShot
 import co.yap.yapcore.interfaces.BackPressImpl
 import co.yap.yapcore.interfaces.IBaseNavigator
 import kotlinx.android.synthetic.main.activity_add_payment_cards.*
@@ -30,10 +31,6 @@ class MoreActivity : BaseBindingActivity<IMore.ViewModel>(), INavigator,
             intent.putExtra("isDrawerNav", isDrawerNav)
             return intent
         }
-
-        var isDocumentRequired: Boolean = false
-        var showExpiredIcon: Boolean = false
-
     }
 
     override fun getBindingVariable(): Int = BR.viewModel
@@ -49,10 +46,14 @@ class MoreActivity : BaseBindingActivity<IMore.ViewModel>(), INavigator,
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel.backButtonPressEvent.observe(this, backButtonObserver)
+        viewModel.preventTakeDeviceScreenShot.observe(this, Observer {
+            preventTakeScreenShot(it)
+        })
     }
 
     override fun onDestroy() {
         viewModel.backButtonPressEvent.removeObservers(this)
+        viewModel.preventTakeDeviceScreenShot.removeObservers(this)
         super.onDestroy()
     }
 
@@ -84,6 +85,12 @@ class MoreActivity : BaseBindingActivity<IMore.ViewModel>(), INavigator,
             super.onBackPressed()
 
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+      viewModel!!.BadgeVisibility= false
+
     }
 
 }

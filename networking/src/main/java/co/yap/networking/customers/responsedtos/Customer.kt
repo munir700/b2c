@@ -19,7 +19,7 @@ class Customer(
     @SerializedName("profilePictureName")
     private var profilePictureName: String?,
     @SerializedName("email")
-    var email: String?="",
+    var email: String? = "",
     @SerializedName("countryCode")
     var countryCode: String,
     @SerializedName("mobileNo")
@@ -31,19 +31,22 @@ class Customer(
     @SerializedName("isEmailVerified")
     var isEmailVerified: String? = null,
     @SerializedName("firstName")
-    var firstName: String?="",
+    var firstName: String? = "",
     @SerializedName("lastName")
     var lastName: String,
     @SerializedName("uuid")
     var uuid: String? = "",
     @SerializedName("password")
     var password: String?,
+    @SerializedName("nationality")
+    var nationality: String?,
+    @SerializedName("nationalityId")
+    var identityNo: String?,
     @SerializedName("emailVerified")
     var emailVerified: Boolean? = false,
     @SerializedName("mobileNoVerified")
     var mobileNoVerified: Boolean? = false
-
-):Parcelable {
+) : Parcelable {
 
     fun getFullName(): String {
         return "$firstName $lastName"

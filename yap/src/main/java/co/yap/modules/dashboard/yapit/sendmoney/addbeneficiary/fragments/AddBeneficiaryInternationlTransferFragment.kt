@@ -15,7 +15,6 @@ import co.yap.modules.dashboard.yapit.sendmoney.activities.BeneficiaryCashTransf
 import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.interfaces.IAddBeneficiary
 import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.viewmodels.AddBeneficiaryViewModel
 import co.yap.modules.dashboard.yapit.sendmoney.fragments.SendMoneyBaseFragment
-import co.yap.yapcore.helpers.extentions.getCurrencyPopMenu
 import co.yap.translation.Translator
 import co.yap.widgets.popmenu.OnMenuItemClickListener
 import co.yap.widgets.popmenu.PopupMenu
@@ -24,7 +23,10 @@ import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.enums.SendMoneyBeneficiaryType
 import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.helpers.extentions.getCurrencyPopMenu
+import co.yap.yapcore.helpers.extentions.launchActivity
 import co.yap.yapcore.interfaces.OnItemClickListener
+import co.yap.yapcore.managers.MyUserManager
 import kotlinx.android.synthetic.main.activity_edit_beneficiary.tvChangeCurrency
 import kotlinx.android.synthetic.main.fragment_add_beneficiary_international_bank_transfer.*
 
@@ -53,12 +55,17 @@ class AddBeneficiaryInternationlTransferFragment :
         initComponents()
         etMobileNumber.addTextChangedListener(
             InternationalPhoneTextWatcher(
-                requireContext(),
                 viewModel.state.country2DigitIsoCode,
                 viewModel.state.countryCode.toInt(),
                 true
             )
         )
+        viewModel.otpCreateObserver.observe(this, otpCreateObserver)
+        viewModel.parentViewModel?.otpSuccess?.observe(
+            this,
+            otpSuccessObserver
+        )
+
     }
 
     private fun initComponents() {
@@ -99,6 +106,31 @@ class AddBeneficiaryInternationlTransferFragment :
 
             }
         }
+    }
+
+    private val otpSuccessObserver = Observer<Boolean> {
+        if (it) {
+            viewModel.addCashPickupBeneficiary()
+            viewModel.parentViewModel?.otpSuccess?.value = false
+        }
+    }
+
+    private val otpCreateObserver = Observer<Boolean> {
+        if (it) {
+            moveToOptScreen()
+        }
+    }
+
+    private fun moveToOptScreen() {
+        val action =
+            AddBeneficiaryInternationlTransferFragmentDirections.actionAddBeneficiaryFragmentToGenericOtpFragment4(
+                "",
+                false,
+                MyUserManager.user?.currentCustomer?.getFormattedPhoneNumber(requireContext())
+                    ?: "",
+                Constants.CASHPAYOUT_BENEFICIARY
+            )
+        findNavController().navigate(action)
     }
 
     private val popupItemClickListener =
@@ -153,6 +185,7 @@ class AddBeneficiaryInternationlTransferFragment :
                         if (data is Boolean) {
                             if (data) {
                                 startMoneyTransfer()
+                                setIntentResult()
                             } else {
                                 activity?.let {
                                     setIntentResult()
@@ -165,14 +198,12 @@ class AddBeneficiaryInternationlTransferFragment :
     }
 
     private fun startMoneyTransfer() {
-        viewModel.beneficiary?.let { beneficiary ->
-            requireActivity().startActivityForResult(
-                BeneficiaryCashTransferActivity.newIntent(
-                    requireActivity(),
-                    beneficiary,
-                    isNewBeneficiary = true
-                ), RequestCodes.REQUEST_TRANSFER_MONEY
-            )
+        viewModel.beneficiary?.let {
+            launchActivity<BeneficiaryCashTransferActivity>(requestCode = RequestCodes.REQUEST_TRANSFER_MONEY) {
+                putExtra(Constants.BENEFICIARY, it)
+                putExtra(Constants.POSITION, 0)
+                putExtra(Constants.IS_NEW_BENEFICIARY, true)
+            }
         }
     }
 
@@ -186,6 +217,9 @@ class AddBeneficiaryInternationlTransferFragment :
     override fun onDestroy() {
         super.onDestroy()
         viewModel.clickEvent.removeObservers(this)
+        viewModel.otpCreateObserver.removeObservers(this)
+        viewModel.parentViewModel?.otpSuccess?.removeObserver(otpSuccessObserver)
+
     }
 
     override fun onBackPressed(): Boolean {
@@ -195,9 +229,5 @@ class AddBeneficiaryInternationlTransferFragment :
         }
         return false
     }
-
-//    private fun getBindings(): FragmentAddBeneficiaryInternationalBankTransferBinding? {
-//        return viewDataBinding as? FragmentAddBeneficiaryInternationalBankTransferBinding
-//    }
 
 }

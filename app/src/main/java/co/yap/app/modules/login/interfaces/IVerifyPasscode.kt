@@ -20,7 +20,6 @@ interface IVerifyPasscode {
         fun createOtp()
         fun validateDevice()
         fun getAccountInfo()
-        fun logout()
         val signInButtonPressEvent: SingleLiveEvent<Boolean>
         val forgotPasscodeButtonPressEvent: SingleClickEvent
         val loginSuccess: SingleLiveEvent<Boolean>
@@ -29,7 +28,6 @@ interface IVerifyPasscode {
         val createOtpResult: SingleLiveEvent<Boolean>
         var isFingerprintLogin: Boolean
         var mobileNumber: String
-        var emailOtp: Boolean
         var EVENT_LOGOUT_SUCCESS: Int
     }
 
@@ -37,6 +35,7 @@ interface IVerifyPasscode {
         var deviceId: String
         var username: String
         var dialerError: String
+        var btnVerifyPassCodeText: String?
         var passcode: String
         var valid: Boolean
         fun getTextWatcher(): TextWatcher

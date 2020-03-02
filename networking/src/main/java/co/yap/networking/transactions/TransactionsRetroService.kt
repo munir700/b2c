@@ -3,6 +3,7 @@ package co.yap.networking.transactions
 import co.yap.networking.models.ApiResponse
 import co.yap.networking.transactions.requestdtos.*
 import co.yap.networking.transactions.responsedtos.*
+import co.yap.networking.transactions.responsedtos.achievement.AchievementsResponseDTO
 import co.yap.networking.transactions.responsedtos.topuptransactionsession.Check3DEnrollmentSessionResponse
 import co.yap.networking.transactions.responsedtos.topuptransactionsession.CreateTransactionSessionResponseDTO
 import co.yap.networking.transactions.responsedtos.transaction.FxRateResponse
@@ -40,6 +41,9 @@ interface TransactionsRetroService {
     // Get Card Statements
     @GET(TransactionsRepository.URL_GET_CARD_STATEMENTS)
     suspend fun getCardStatements(@Query("cardSerialNumber") cardSerialNumber: String?): Response<CardStatementsResponse>
+
+    @GET(TransactionsRepository.URL_GET_ACCOUNT_STATEMENTS)
+    suspend fun getAccountStatements(): Response<CardStatementsResponse>
 
     // Get Card Statements
     @POST(TransactionsRepository.URL_Y2Y_FUNDS_TRANSFER)
@@ -115,7 +119,7 @@ interface TransactionsRetroService {
 
     //Get transaction fee
     @POST(TransactionsRepository.URL_GET_TRANSACTION_FEE_WITH_PRODUCT_CODE)
-    suspend fun getTransactionFeeWithProductCode(@Path("product-code") productCode: String?, @Body mRemittanceFeeRequest: RemittanceFeeRequest): Response<RemittanceFeeResponse>
+    suspend fun getTransactionFeeWithProductCode(@Path("product-code") productCode: String?, @Body mRemittanceFeeRequest: RemittanceFeeRequest?): Response<RemittanceFeeResponse>
 
     //Get transaction international purpose reasons.
     @GET(TransactionsRepository.URL_GET_INTERNATIONAL_TRANSACTION_REASON_LIST)
@@ -123,7 +127,7 @@ interface TransactionsRetroService {
 
     //Get transaction international purpose reasons.
     @POST(TransactionsRepository.URL_GET_INTERNATIONAL_RX_RATE_LIST)
-    suspend fun getInternationalRXRateList(@Path("product-code") RXNumber: String?, @Body mRxListRequest: RxListRequest): Response<FxRateResponse>
+    suspend fun getInternationalRXRateList(@Path("product-code") productCode: String?, @Body mRxListRequest: RxListRequest): Response<FxRateResponse>
 
     //Domestic transfer request
     @POST(TransactionsRepository.URL_DOMESTIC_TRANSFER)
@@ -143,5 +147,18 @@ interface TransactionsRetroService {
 
     @GET(TransactionsRepository.URL_HOUSEHOLD_CARD_FEE_PACKAGE)
     suspend fun getHousholdFeePackage(@Path("pkg-type") packageType: String): Response<CardFeeResponse>
+
+    @GET(TransactionsRepository.URL_GET_TRANSACTION_THRESHOLDS)
+    suspend fun getTransactionThresholds(): Response<TransactionThresholdResponseDTO>
+
+    @GET(TransactionsRepository.URL_GET_CUTT_OFF_TIME_CONFIGURATION)
+    suspend fun getCutOffTimeConfiguration(
+        @Query("productCode") productCode: String?,
+        @Query("currency") currency: String?,
+        @Query("amount") amount: String?
+    ): Response<CutOffTime>
+
+    @GET(TransactionsRepository.URL_GET_ACHIEVEMENTS)
+    suspend fun getAchievements(): Response<AchievementsResponseDTO>
 
 }

@@ -2,7 +2,7 @@ package co.yap.modules.dashboard.yapit.sendmoney.editbeneficiary.states
 
 import android.app.Application
 import androidx.databinding.Bindable
-import androidx.databinding.library.baseAdapters.BR
+import co.yap.BR
 import co.yap.modules.dashboard.yapit.sendmoney.editbeneficiary.interfaces.IEditBeneficiary
 import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.yapcore.BaseState
@@ -65,14 +65,14 @@ class EditBeneficiaryStates(val application: Application) : BaseState(), IEditBe
         set(value) {
             field = value
             notifyPropertyChanged(BR.accountNumber)
-            beneficiary?.accountNo = field
+            //beneficiary?.accountNo = field
         }
     @get:Bindable
     override var swiftCode: String? = null
         set(value) {
             field = value
             notifyPropertyChanged(BR.swiftCode)
-            beneficiary?.swiftCode = field
+            //beneficiary?.swiftCode = field
         }
     @get:Bindable
     override var countryBankRequirementFieldCode: String? = ""
@@ -86,6 +86,19 @@ class EditBeneficiaryStates(val application: Application) : BaseState(), IEditBe
             field = value
             notifyPropertyChanged(BR.needOverView)
         }
+    @get:Bindable
+    override var needIban: Boolean? = false
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.needIban)
+        }
+    @get:Bindable
+    override var showIban: Boolean? = false
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.showIban)
+        }
+
     @get:Bindable
     override var beneficiary: Beneficiary? = Beneficiary()
         set(value) {
@@ -125,11 +138,20 @@ class EditBeneficiaryStates(val application: Application) : BaseState(), IEditBe
             }
 
             it.accountNo?.let {
-                if (it!!.length >= 22) {
-                    accountNumber = Utils.formateIbanString(it)
-                } else {
-                    accountNumber = it
-                }
+                accountNumber = it
+//                if (it.length >= 22) {
+//                    val no = StringBuilder()
+//                    it.forEachIndexed{index, c ->
+//                        no.append(c)
+//                        if(index%4==0)
+//                        {
+//                            no.append(" ")
+//                        }
+//                    }
+//                    accountNumber = Utils.formateIbanString(it)
+//                } else {
+//                    accountNumber = it
+//                }
             }
             it.swiftCode?.let { swiftCode = it }
             it.beneficiaryType?.let { transferType = it }

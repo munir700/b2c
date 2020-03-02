@@ -60,13 +60,11 @@
             app:layout_constraintBottom_toTopOf="@+id/layout2"
             app:layout_constraintVertical_bias="0.0"/>
 
-        <in.aabhasjindal.otptextview.OtpTextView
-            android:id="@+id/otp_view"
+        <co.yap.widgets.otptextview.OtpTextView
+            android:id="@+id/otpView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="?attr/colorPrimaryDarkAttr"
-            app:height="@dimen/_55sdp"
-            app:width="@dimen/_40sdp"
             app:bar_enabled="false"
             app:bar_height="@dimen/_2sdp"
             app:length="6"
@@ -77,9 +75,7 @@
             app:otp_box_background_error="@drawable/otp_bg_error"
             app:otp_box_background_success="@drawable/otp_bg_success"
             app:layout_constraintTop_toBottomOf="@+id/textView4"
-            android:layout_marginStart="@dimen/_8sdp"
             app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginEnd="@dimen/_8sdp"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginTop="32dp"
             app:requestKeyboard="@{true}"
@@ -94,7 +90,7 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             android:layout_marginTop="@dimen/margin_small"
-            app:layout_constraintTop_toBottomOf="@+id/otp_view"
+            app:layout_constraintTop_toBottomOf="@+id/otpView"
             android:text="@{viewModel.state.timer}"
             />
 
@@ -113,7 +109,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"
             android:textAllCaps="false"
-            android:onClick="@{(v) -> viewModel.handlePressOnResendOTP()}"
+            android:onClick="@{(v) -> viewModel.handlePressOnResendOTP(context)}"
             android:id="@+id/button10"
             android:enabled="@{viewModel.state.validResend}"
             android:layout_marginBottom="@dimen/margin_medium"

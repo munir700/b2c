@@ -19,6 +19,7 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.RelativeLayout
 import androidx.annotation.RequiresApi
+import androidx.core.content.ContextCompat
 import androidx.core.text.color
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
@@ -55,19 +56,18 @@ class CoreInputField @JvmOverloads constructor(
     private var PHONE_NUMBER_LENGTH: Int = 16
     var editText: EditText
     var checkFocusChange: Boolean = false
-    var view_plain_background: Boolean = false
-    private var viewDataBinding: ViewDataBinding
+    private var view_plain_background: Boolean = false
+    private var viewDataBinding: ViewDataBinding = DataBindingUtil.inflate(
+        LayoutInflater.from(context),
+        R.layout.custom_widget_edit_text,
+        this,
+        true
+    )
+    private var showKeyboard: Boolean = true
 
     init {
-        viewDataBinding =
-            DataBindingUtil.inflate(
-                LayoutInflater.from(context),
-                R.layout.custom_widget_edit_text,
-                this,
-                true
-            )
         viewDataBinding.executePendingBindings()
-        editText = findViewWithTag("input")
+        editText = viewDataBinding.root.findViewById(R.id.etCoreInput)
 
         attrs?.let {
             typedArray = context.obtainStyledAttributes(it, R.styleable.CoreInputField, 0, 0)
@@ -78,7 +78,7 @@ class CoreInputField @JvmOverloads constructor(
                         R.string.empty_string
                     )
             )
-
+            showKeyboard = typedArray.getBoolean(R.styleable.CoreInputField_showKeyboard, true)
             inputType = typedArray.getInt(R.styleable.CoreInputField_view_input_type, inputType)
             maxLength = typedArray.getInt(R.styleable.CoreInputField_view_max_length, maxLength)
             checkFocusChange =
@@ -182,12 +182,14 @@ class CoreInputField @JvmOverloads constructor(
             PHONE_INPUT_TYPE -> {
                 editText.inputType = InputType.TYPE_CLASS_NUMBER
                 setPhoneNumberField()
-                requestKeyboard()
+                if (showKeyboard)
+                    requestKeyboard()
             }
 
             EMAIL_INPUT_TYPE -> {
                 editText.inputType = InputType.TYPE_TEXT_VARIATION_PASSWORD
-                requestKeyboard()
+                if (showKeyboard)
+                    requestKeyboard()
             }
         }
     }
@@ -304,7 +306,10 @@ class CoreInputField @JvmOverloads constructor(
         tvError.text = error
         tvError.visibility = View.VISIBLE
         setDrawableRightIcon(resources.getDrawable(R.drawable.invalid_name))
+    }
 
+    fun settingErrorColor(color: Int) {
+        tvError.setTextColor(ContextCompat.getColor(context, color))
     }
 
     fun settingUIForNormal() {

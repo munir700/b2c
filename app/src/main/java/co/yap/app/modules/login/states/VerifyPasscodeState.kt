@@ -1,14 +1,18 @@
 package co.yap.app.modules.login.states
 
+import android.app.Application
 import android.text.Editable
 import android.text.TextWatcher
 import androidx.databinding.Bindable
 import co.yap.app.BR
 import co.yap.app.modules.login.fragments.VerifyPassCodeEnum
 import co.yap.app.modules.login.interfaces.IVerifyPasscode
+import co.yap.translation.Strings
+import co.yap.translation.Translator
 import co.yap.yapcore.BaseState
+import java.lang.Appendable
 
-class VerifyPasscodeState : BaseState(), IVerifyPasscode.State {
+class VerifyPasscodeState(application: Application) : BaseState(), IVerifyPasscode.State {
 
     @get:Bindable
     override var deviceId: String = ""
@@ -30,7 +34,12 @@ class VerifyPasscodeState : BaseState(), IVerifyPasscode.State {
             field = value
             notifyPropertyChanged(BR.dialerError)
         }
-
+    @get:Bindable
+    override var btnVerifyPassCodeText: String? = Translator.getString(application , Strings.screen_verify_passcode_button_sign_in )
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.btnVerifyPassCodeText)
+        }
     @get:Bindable
     override var passcode: String = ""
         set(value) {
@@ -74,7 +83,6 @@ class VerifyPasscodeState : BaseState(), IVerifyPasscode.State {
 
     fun validate(text: String) {
         if (text.length in 7 downTo 4) {
-            validationPasscode(text)
             valid = true
 
         } else {

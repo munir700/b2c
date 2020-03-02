@@ -60,8 +60,8 @@
                     android:id="@+id/clSnackbar"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:elevation="@dimen/_10sdp"
                     android:background="@android:color/transparent"
-                    android:rotation="180"
                     app:layout_constraintTop_toTopOf="parent" />
 
 

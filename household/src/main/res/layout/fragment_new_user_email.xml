@@ -7,7 +7,7 @@
 
         <variable
             name="emailHouseHoldViewModel"
-            type="co.yap.household.onboarding.onboarding.viewmodels.EmailHouseHoldViewModel" />
+            type="co.yap.household.onboard.onboarding.viewmodels.EmailHouseHoldViewModel" />
 
         <import type="co.yap.translation.Strings" />
 

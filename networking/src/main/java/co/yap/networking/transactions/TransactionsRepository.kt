@@ -6,6 +6,7 @@ import co.yap.networking.models.ApiResponse
 import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.transactions.requestdtos.*
 import co.yap.networking.transactions.responsedtos.*
+import co.yap.networking.transactions.responsedtos.achievement.AchievementsResponseDTO
 import co.yap.networking.transactions.responsedtos.topuptransactionsession.Check3DEnrollmentSessionResponse
 import co.yap.networking.transactions.responsedtos.topuptransactionsession.CreateTransactionSessionResponseDTO
 import co.yap.networking.transactions.responsedtos.transaction.FxRateResponse
@@ -23,6 +24,7 @@ object TransactionsRepository : BaseRepository(), TransactionsApi {
     const val URL_GET_DEBIT_CARD_FEE =
         "/transactions/api/fees/reorder/debit-card/subscription/physical"
     const val URL_GET_CARD_STATEMENTS = "/transactions/api/card-statements"
+    const val URL_GET_ACCOUNT_STATEMENTS = "/transactions/api/account-statements"
     const val URL_Y2Y_FUNDS_TRANSFER = "/transactions/api/y2y"
     const val URL_ADD_EDIT_NOTE = "/transactions/api/transaction-note"
     const val URL_SEARCH_FILTER_AMOUNT = "/transactions/api/transactions/search-filter/amount"
@@ -61,10 +63,14 @@ object TransactionsRepository : BaseRepository(), TransactionsApi {
         "/transactions/api/rmt"
     const val URL_SWIFT_TRANSFER =
         "/transactions/api/swift"
+    const val URL_GET_TRANSACTION_THRESHOLDS =
+        "/transactions/api/transaction-thresholds"
+    const val URL_GET_CUTT_OFF_TIME_CONFIGURATION =
+        "/transactions/api/cut-off-time-configuration"
+    const val URL_GET_ACHIEVEMENTS = "/transactions/api/yap-achievements"
 
     // Household
     const val URL_HOUSEHOLD_CARD_FEE_PACKAGE = "/transactions/api/fees/subscriptions/{pkg-type}"
-
 
     private val api: TransactionsRetroService =
         RetroNetwork.createService(TransactionsRetroService::class.java)
@@ -89,7 +95,7 @@ object TransactionsRepository : BaseRepository(), TransactionsApi {
 
     override suspend fun getTransactionFeeWithProductCode(
         productCode: String?,
-        mRemittanceFeeRequest: RemittanceFeeRequest
+        mRemittanceFeeRequest: RemittanceFeeRequest?
     ): RetroApiResponse<RemittanceFeeResponse> =
         executeSafely(call = {
             api.getTransactionFeeWithProductCode(
@@ -101,11 +107,6 @@ object TransactionsRepository : BaseRepository(), TransactionsApi {
     override suspend fun getTransactionInternationalReasonList(productCode: String?): RetroApiResponse<InternationalFundsTransferReasonList> =
         executeSafely(call = { api.getInternationalTransactionReasonList(productCode) })
 
-    //    override suspend fun getTransactionInternationalRXList(
-//        productCode: String,
-//        mRxListRequest: RxListRequest
-//    ): RetroApiResponse<ApiResponse> =
-//        executeSafely(call = { api.getInternationalRXRateList(productCode, mRxListRequest) })
     override suspend fun getTransactionInternationalRXList(
         productCode: String?,
         mRxListRequest: RxListRequest
@@ -114,6 +115,9 @@ object TransactionsRepository : BaseRepository(), TransactionsApi {
 
     override suspend fun getCardStatements(cardSerialNumber: String?): RetroApiResponse<CardStatementsResponse> =
         executeSafely(call = { api.getCardStatements(cardSerialNumber) })
+
+    override suspend fun getAccountStatements(): RetroApiResponse<CardStatementsResponse> =
+        executeSafely(call = { api.getAccountStatements() })
 
     override suspend fun y2yFundsTransferRequest(y2YFundsTransferRequest: Y2YFundsTransferRequest): RetroApiResponse<ApiResponse> =
         executeSafely(call = { api.y2yFundsTransferRequest(y2YFundsTransferRequest) })
@@ -203,5 +207,18 @@ object TransactionsRepository : BaseRepository(), TransactionsApi {
 
     override suspend fun getHousholdFeePackage(packageType: String): RetroApiResponse<CardFeeResponse> =
         executeSafely(call = { api.getHousholdFeePackage(packageType) })
+
+    override suspend fun getTransactionThresholds(): RetroApiResponse<TransactionThresholdResponseDTO> =
+        executeSafely(call = { api.getTransactionThresholds() })
+
+    override suspend fun getAchievements(): RetroApiResponse<AchievementsResponseDTO> =
+        executeSafely(call = { api.getAchievements() })
+
+    override suspend fun getCutOffTimeConfiguration(
+        productCode: String?,
+        currency: String?,
+        amount: String?
+    ) =
+        executeSafely(call = { api.getCutOffTimeConfiguration(productCode, currency, amount) })
 
 }

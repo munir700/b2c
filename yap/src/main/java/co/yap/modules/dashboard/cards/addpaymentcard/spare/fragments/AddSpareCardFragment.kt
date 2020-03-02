@@ -15,17 +15,17 @@ import co.yap.R
 import co.yap.modules.dashboard.cards.addpaymentcard.activities.AddPaymentCardActivity
 import co.yap.modules.dashboard.cards.addpaymentcard.activities.AddPaymentCardActivity.Companion.onBackPressCheck
 import co.yap.modules.dashboard.cards.addpaymentcard.fragments.AddPaymentChildFragment
-import co.yap.modules.dashboard.cards.addpaymentcard.spare.helpers.physical.AddSparePhysicalCardViewHelper
 import co.yap.modules.dashboard.cards.addpaymentcard.spare.helpers.virtual.AddSpareVirtualCardViewHelper
 import co.yap.modules.dashboard.cards.addpaymentcard.spare.interfaces.IAddSpareCard
 import co.yap.modules.dashboard.cards.addpaymentcard.spare.viewmodels.AddSpareCardViewModel
 import co.yap.modules.dashboard.cards.reordercard.activities.ReorderCardActivity
+import co.yap.modules.location.activities.LocationSelectionActivity
 import co.yap.networking.cards.responsedtos.Address
 import co.yap.translation.Strings
 import co.yap.translation.Translator
 import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.managers.MyUserManager
-
 
 class AddSpareCardFragment : AddPaymentChildFragment<IAddSpareCard.ViewModel>(),
     IAddSpareCard.View {
@@ -46,15 +46,6 @@ class AddSpareCardFragment : AddPaymentChildFragment<IAddSpareCard.ViewModel>(),
         getUpArguments()
         navController = findNavController()
         setObservers()
-
-        if (viewModel.state.cardType == getString(R.string.screen_spare_card_landing_display_text_physical_card)) {
-            AddSparePhysicalCardViewHelper(
-                this.activity!!,
-                navController,
-                view,
-                viewModel
-            )
-        }
     }
 
     private fun setObservers() {
@@ -81,19 +72,22 @@ class AddSpareCardFragment : AddPaymentChildFragment<IAddSpareCard.ViewModel>(),
 
                 R.id.btnDoneAddingSpareVirtualCard -> {
                     setupActionsIntent()
-                    activity!!.finish()
+                    activity?.finish()
                 }
 
                 R.id.btnConfirm -> {
                     viewModel.state.toggleVisibility = true
-                    if (viewModel.isFromaddressScreen) {
-                        viewModel.address = Address(
-                            viewModel.state.physicalCardAddressSubTitle,
-                            viewModel.state.physicalCardAddressTitle,
-                            viewModel.latitude.toDouble(),
-                            viewModel.longitude.toDouble()
-                        )
-                    }
+                }
+
+                R.id.tvChangeLocation -> {
+                    startActivityForResult(
+                        LocationSelectionActivity.newIntent(
+                            context = requireContext(),
+                            address = viewModel.address ?: Address(),
+                            headingTitle = getString(Strings.screen_meeting_location_display_text_add_new_address_title),
+                            subHeadingTitle = getString(Strings.screen_meeting_location_display_text_add_new_address_subtitle)
+                        ), RequestCodes.REQUEST_FOR_LOCATION
+                    )
                 }
 
             }
@@ -199,36 +193,6 @@ class AddSpareCardFragment : AddPaymentChildFragment<IAddSpareCard.ViewModel>(),
             arguments?.let { AddSpareCardFragmentArgs.fromBundle(it).isFromBlockCard } as Boolean
         viewModel.requestInitialData()
 
-        val physicalCardAddressTitle = arguments?.let {
-            AddSpareCardFragmentArgs.fromBundle(it).newDeliveryAddressTitle
-        } as String
-        if (!physicalCardAddressTitle.isNullOrEmpty()) {
-            viewModel.state.physicalCardAddressSubTitle = physicalCardAddressTitle
-            viewModel.state.enableConfirmLocation = true
-        }
-        val physicalCardAddressSubTitle = arguments?.let {
-            AddSpareCardFragmentArgs.fromBundle(it).newDeliveryAddressSubTitle
-        } as String
-
-        if (!physicalCardAddressSubTitle.isNullOrEmpty() && physicalCardAddressSubTitle != " ") {
-            viewModel.state.physicalCardAddressTitle = physicalCardAddressSubTitle
-            viewModel.isFromaddressScreen = true
-            viewModel.state.enableConfirmLocation = true
-        }
-        //
-
-        val latitude = arguments?.let {
-            AddSpareCardFragmentArgs.fromBundle(it).latitude
-        } as String
-        if (!latitude.isNullOrEmpty()) {
-            viewModel.latitude = latitude
-        }
-        val longitude = arguments?.let {
-            AddSpareCardFragmentArgs.fromBundle(it).longitude
-        } as String
-        if (!longitude.isNullOrEmpty()) {
-            viewModel.longitude = longitude
-        }
     }
 
     override fun onDestroy() {
@@ -253,6 +217,7 @@ class AddSpareCardFragment : AddPaymentChildFragment<IAddSpareCard.ViewModel>(),
     private fun setupActionsIntent() {
         val returnIntent = Intent()
         returnIntent.putExtra("cardAdded", true)
+        returnIntent.putExtra("paymentCard", viewModel.paymentCard)
         activity?.setResult(Activity.RESULT_OK, returnIntent)
     }
 
@@ -286,6 +251,33 @@ class AddSpareCardFragment : AddPaymentChildFragment<IAddSpareCard.ViewModel>(),
 
         val dialog: AlertDialog = builder.create()
         dialog.show()
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == Activity.RESULT_OK) {
+            when (requestCode) {
+                RequestCodes.REQUEST_FOR_LOCATION -> {
+                    val isUpdated = data?.getBooleanExtra(Constants.ADDRESS_SUCCESS, false)
+                    isUpdated?.let { it ->
+                        if (it) {
+                            val address: Address? =
+                                data.getParcelableExtra(Constants.ADDRESS)
+                            address?.let {
+                                viewModel.address = it
+                                setupAddressCard()
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private fun setupAddressCard() {
+        viewModel.state.physicalCardAddressTitle = viewModel.address?.address1 ?: ""
+        viewModel.state.physicalCardAddressSubTitle = viewModel.address?.address2 ?: ""
+        viewModel.state.enableConfirmLocation = true
     }
 
     private fun updateTransactionOnHome() {

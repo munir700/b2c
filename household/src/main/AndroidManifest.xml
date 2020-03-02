@@ -1,13 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="co.yap.household">
 
-    <uses-permission android:name="android.permission.CALL_PHONE" />
-
-    <application android:supportsRtl="true">
+    <application
+        tools:remove="android:debuggable"
+        android:allowBackup="false"
+        tools:replace="android:allowBackup"
+        android:supportsRtl="true">
 
         <activity
-            android:name=".onboarding.OnboardingHouseHoldActivity"
+            android:name=".onboard.onboarding.main.OnBoardingHouseHoldActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:theme="@style/AppThemeHouseHold.NoActionBar"
@@ -16,26 +19,26 @@
         </activity>
 
         <activity
-            android:name=".onboarding.onboarding.fragments.HouseHoldCardsSelectionActivity"
+            android:name=".onboard.cardselection.HouseHoldCardsSelectionActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppThemeHouseHold.NoActionBar"
             android:windowSoftInputMode="adjustResize" />
         <activity
-            android:name="co.yap.household.onboarding.kycsuccess.KycSuccessActivity"
+            android:name="co.yap.household.onboard.otherscreens.KycSuccessActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".onboarding.dashboard.main.activities.HouseholdDashboardActivity"
-            android:screenOrientation="portrait" />
-
-        <activity
-            android:name=".onboarding.onboarding.activities.EIDNotAcceptedActivity"
+            android:name=".dashboard.main.activities.HouseholdDashboardActivity"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".onboarding.onboarding.activities.OnboardingHouseHoldActivitySuccessActivity"
+            android:name=".onboard.otherscreens.InvalidEIDActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".onboard.otherscreens.HouseHoldSuccessActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".onboarding.onboarding.activities.OnBoardingExistingYapActivity"
+            android:name=".onboard.otherscreens.ExistingHouseholdActivity"
             android:screenOrientation="portrait" />
     </application>
 

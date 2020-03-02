@@ -22,4 +22,11 @@ class MoreStates : BaseState(), IMore.State {
             notifyPropertyChanged(BR.tootlBarVisibility)
 
         }
+
+    @get:Bindable
+    override var tootlBarBadgeVisibility: Boolean = false
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.tootlBarBadgeVisibility)
+        }
 }

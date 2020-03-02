@@ -4,13 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_nav_graph"
     app:startDestination="@id/splashFragment">
-<!--    app:startDestination="@id/loginFragment">-->
 
     <action
         android:id="@+id/action_goto_yapDashboardActivity"
-        app:destination="@id/yapDashboardActivity"
-        app:popUpTo="@+id/main_nav_graph"
-        app:popUpToInclusive="true" />
+        app:destination="@id/yapDashboardActivity" />
 
     <fragment
         android:id="@+id/splashFragment"
@@ -124,7 +121,7 @@
         <action
             android:id="@+id/action_verifyPasscodeFragment_to_phoneVerificationSignInFragment"
             app:destination="@id/phoneVerificationSignInFragment"
-            app:popExitAnim="@anim/fade_out_long" />
+            app:popExitAnim="@anim/fade_out" />
     </fragment>
 
 
@@ -168,6 +165,11 @@
             android:name="passcode"
             android:defaultValue=" "
             app:argType="string" />
+
+        <action
+            android:id="@+id/action_phoneVerificationSignInFragment_to_systemPermissionFragment"
+            app:destination="@id/systemPermissionFragment"
+            app:popExitAnim="@anim/fade_out_long" />
     </fragment>
 
     <include app:graph="@navigation/forgot_passcode_navigation" />
@@ -204,26 +206,26 @@
 
     <activity
         android:id="@+id/householdOnboard"
-        android:name="co.yap.household.onboarding.OnboardingHouseHoldActivity"
+        android:name="co.yap.household.onboard.onboarding.main.OnBoardingHouseHoldActivity"
         android:label="householdOnboard"
         tools:layout="@layout/activity_main_house_hold" />
 
 
     <activity
         android:id="@+id/householdOnBoardingExistingYAP"
-        android:name="co.yap.household.onboarding.onboarding.activities.OnBoardingExistingYapActivity"
+        android:name="co.yap.household.onboard.otherscreens.ExistingHouseholdActivity"
         android:label="OnBoardingExistingYAP"
         tools:layout="@layout/activity_on_boarding_existing_yap" />
 
 
-    <activity
-        android:id="@+id/documentsDashboardActivity"
-        tools:layout="@layout/activity_documents_dashboard"
-        android:name="co.yap.modules.kyc.activities.DocumentsDashboardActivity"
-        android:label="DocumentsDashboardActivity">
-        <argument
-            android:name="name"
-            app:argType="string"/>
-    </activity>
+<!--    <activity-->
+<!--        android:id="@+id/documentsDashboardActivity"-->
+<!--        android:name="co.yap.modules.kyc.activities.DocumentsDashboardActivity"-->
+<!--        android:label="DocumentsDashboardActivity"-->
+<!--        tools:layout="@layout/activity_documents_dashboard">-->
+<!--        <argument-->
+<!--            android:name="name"-->
+<!--            app:argType="string" />-->
+<!--    </activity>-->
 </navigation>
 

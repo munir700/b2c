@@ -47,8 +47,6 @@ class SendMoneyHomeActivity : BaseBindingActivity<ISendMoney.ViewModel>(), INavi
     override fun onDestroy() {
         viewModel.clickEvent.removeObservers(this)
         super.onDestroy()
-//        DocumentsDashboardActivity.isFromMoreSection = false
-//        DocumentsDashboardActivity.hasStartedScanner = false
     }
 
     private val backButtonObserver = Observer<Int> { onBackPressed() }

@@ -173,10 +173,6 @@ class ContactsDataSource(
                     var photoContentUri: Uri? = getPhotoUri(contactId2)
                     if (photoContentUri== null) photoContentUri= Uri.EMPTY
 
-                    Log.d(
-                        "contact",
-                        "getAllContacts: $name $phoneNo $email $countryCode  ${photoContentUri}"
-                    )
                     val contact = Contact(
                         name,
                         countryCode,

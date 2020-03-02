@@ -15,12 +15,10 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_5sdp"
-        android:background="@color/white"
         android:gravity="center_vertical"
-        android:padding="@dimen/_8sdp"
+        android:padding="@dimen/_4sdp"
         tools:visibility="visible"
-        android:visibility="@{viewModel.state.toolbarVisibility? View.VISIBLE:View.GONE}">
+       >
 
         <ImageView
             android:id="@+id/tbIvClose"
@@ -28,7 +26,6 @@
             android:layout_height="@dimen/_28sdp"
             android:layout_alignParentStart="true"
             android:clickable="true"
-            android:contentDescription=""
             android:focusable="true"
             android:foreground="?attr/selectableItemBackground"
             android:onClick="@{(v) -> viewModel.handleOnPressView(v.id)}"
@@ -44,7 +41,9 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:text="@{viewModel.state.toolbarTitle}"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
+            tools:text="Title"
             app:layout_constraintStart_toEndOf="@+id/tbIvClose"
             app:layout_constraintTop_toTopOf="parent" />
 

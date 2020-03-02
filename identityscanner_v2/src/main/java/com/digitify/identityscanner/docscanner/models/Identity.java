@@ -60,6 +60,8 @@ public class Identity implements Parcelable {
     private String sirName="";
     private String nationality="";
     private String issuingCountry = "";
+    public String isoCountryCode2Digit = "";
+    public String isoCountryCode3Digit = "";
 
     public Identity() {
     }
@@ -73,6 +75,8 @@ public class Identity implements Parcelable {
         this.issuingCountry = in.readString();
         this.documentNumber = in.readString();
         this.citizenNumber = in.readString();
+        this.isoCountryCode2Digit = in.readString();
+        this.isoCountryCode3Digit = in.readString();
         this.dateOfBirth = (Date) in.readSerializable();
         this.expirationDate = (Date) in.readSerializable();
         expiryDateValid = in.readInt() == 1;
@@ -192,6 +196,8 @@ public class Identity implements Parcelable {
         dest.writeString(this.issuingCountry);
         dest.writeString(this.documentNumber);
         dest.writeString(this.citizenNumber);
+        dest.writeString(this.isoCountryCode2Digit);
+        dest.writeString(this.isoCountryCode3Digit);
         dest.writeSerializable(this.dateOfBirth);
         dest.writeSerializable(this.expirationDate);
         dest.writeInt(expiryDateValid ? 1 : 0);

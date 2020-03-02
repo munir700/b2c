@@ -12,6 +12,7 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
+        android:animateLayoutChanges="true"
         android:layout_height="match_parent"
         android:orientation="vertical">
 
@@ -131,6 +132,7 @@
             android:layout_height="@dimen/_60sdp"
             android:layout_marginTop="@dimen/margin_extra_large"
             android:contentDescription="@string/empty_string"
+            android:visibility="gone"
             android:src="@drawable/ic_checkmark"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"

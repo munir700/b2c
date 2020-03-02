@@ -7,6 +7,9 @@ import co.yap.BR
 import co.yap.R
 import co.yap.modules.onboarding.interfaces.IName
 import co.yap.modules.onboarding.viewmodels.NameViewModel
+import co.yap.yapcore.helpers.extentions.trackEvent
+import co.yap.yapcore.leanplum.SignupEvents
+import com.leanplum.Leanplum
 import kotlinx.android.synthetic.main.fragment_name.*
 
 class NameFragment : OnboardingChildFragment<IName.ViewModel>(), IName.View {
@@ -44,6 +47,10 @@ class NameFragment : OnboardingChildFragment<IName.ViewModel>(), IName.View {
     }
 
     private val nextButtonObserver = Observer<Boolean> {
+        trackEvent(
+            SignupEvents.SIGN_UP_NAME.type,
+            viewModel.state.firstName + " " + viewModel.state.firstName
+        )
         navigate(R.id.emailFragment)
     }
 }

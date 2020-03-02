@@ -9,6 +9,7 @@ import co.yap.networking.customers.responsedtos.beneficiary.BankParamsResponse
 import co.yap.networking.customers.responsedtos.documents.GetMoreDocumentsResponse
 import co.yap.networking.customers.responsedtos.sendmoney.AddBeneficiaryResponseDTO
 import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
+import co.yap.networking.customers.responsedtos.sendmoney.Country
 import co.yap.networking.customers.responsedtos.sendmoney.RAKBankModel
 import co.yap.networking.models.ApiResponse
 import co.yap.networking.models.RetroApiResponse
@@ -43,6 +44,10 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     const val URL_TOPUP_BENEFICIARIES = "customers/api/mastercard/beneficiaries"
     const val URL_CREATE_BENEFICIARIY = "customers/api/mastercard/beneficiaries"
     const val URL_CARDS_LIMITS = "customers/api/mastercard/beneficiaries/limits"
+    const val URL_GET_COUNTRY_DATA_WITH_ISO_DIGIT =
+        "customers/api/countries/CountryCode2Digit/{country-code}"
+    const val URL_GET_COUNTRY_TRANSACTION_LIMITS =
+        "/customers/api/bank-transfer/transaction/limit"
 
     const val URL_DETECT = "digi-ocr/detect/"
 
@@ -59,6 +64,7 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     const val URL_ADD_BENEFICIARY = "/customers/api/beneficiaries/bank-transfer"
     const val URL_SEARCH_BANK_PARAMS = "/customers/api/other_bank/params"
     const val URL_SEARCH_BANKS = "/customers/api/other_bank/query"
+    const val URL_VALIDATE_BENEFICIARY = "customers/api/validate/bank-transfer/beneficiary-details"
 
     val URL_GET_TRANSFER_REASONS = "/transactions/api/product-codes/{product-code}/purpose-reasons"
     val URL_INTERNAL_TRANSFER = "/transactions/api/internal-transfer"
@@ -76,13 +82,13 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     const val URL_CURRENCIES_BY_COUNTRY_CODE =
         "customers/api/country/{country}/currencies"
 
-    /* Household */
-
     const val URL_VERIFY_HOUSEHOLD_MOBILE = "customers/api/on-board/verify/household-mobile"
     const val URL_VERIFY_PARENT_HOUSEHOLD_MOBILE = "customers/api/verify/parent-mobile-no/household"
     const val URL_HOUSEHOLD_USER_ONBOARD = "customers/api/on-board/household"
     const val URL_ADD_HOUSEHOLD_EMAIL = "customers/api/on-board/household-email"
     const val URL_CREATE_HOUSEHOLD_PASSCODE = "customers/api/on-board/household-passcode"
+    const val URL_SANCTIONED_COUNTRIES = "customers/api/countries/sanctioned"
+
 
     //.................... End region of old projects apis................................................
 
@@ -201,6 +207,9 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     override suspend fun addBeneficiary(beneficiary: Beneficiary): RetroApiResponse<AddBeneficiaryResponseDTO> =
         executeSafely(call = { api.addBeneficiary(beneficiary) })
 
+    override suspend fun validateBeneficiary(beneficiary: Beneficiary): RetroApiResponse<ApiResponse> =
+        executeSafely(call = { api.validateBeneficiary(beneficiary) })
+
     override suspend fun editBeneficiary(beneficiary: Beneficiary?): RetroApiResponse<ApiResponse> =
         executeSafely(call = { api.editBeneficiary(beneficiary) })
 
@@ -233,9 +242,14 @@ object CustomersRepository : BaseRepository(), CustomersApi {
         executeSafely(call = { api.verifyHouseholdMobile(verifyHouseholdMobileRequest) })
 
     override suspend fun verifyHouseholdParentMobile(
-        mobileNumber: String?,verifyHouseholdMobileRequest: VerifyHouseholdMobileRequest
+        mobileNumber: String?, verifyHouseholdMobileRequest: VerifyHouseholdMobileRequest
     ): RetroApiResponse<ApiResponse> =
-        executeSafely(call = { api.verifyHouseholdParentMobile(mobileNumber,verifyHouseholdMobileRequest) })
+        executeSafely(call = {
+            api.verifyHouseholdParentMobile(
+                mobileNumber,
+                verifyHouseholdMobileRequest
+            )
+        })
 
     override suspend fun onboardHousehold(householdOnboardRequest: HouseholdOnboardRequest): RetroApiResponse<HouseholdOnBoardingResponse> =
         executeSafely(call = { api.onboardHouseholdUser(householdOnboardRequest) })
@@ -246,4 +260,15 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     override suspend fun createHouseholdPasscode(createPassCodeRequest: CreatePassCodeRequest): RetroApiResponse<ApiResponse> =
         executeSafely(call = { api.createHouseholdPasscode(createPassCodeRequest) })
 
+    override suspend fun getCountryDataWithISODigit(countryCodeWith2Digit: String): RetroApiResponse<Country> =
+        executeSafely(call = { api.getCountryDataWithISODigit(countryCodeWith2Digit) })
+
+    override suspend fun getCountryTransactionLimits(
+        countryCode: String,
+        currencyCode: String
+    ): RetroApiResponse<CountryLimitsResponseDTO> =
+        executeSafely(call = { api.getCountryTransactionLimits(countryCode, currencyCode) })
+
+    override suspend fun getSectionedCountries(): RetroApiResponse<SectionedCountriesResponseDTO> =
+        executeSafely(call = { api.getSectionedCountries() })
 }

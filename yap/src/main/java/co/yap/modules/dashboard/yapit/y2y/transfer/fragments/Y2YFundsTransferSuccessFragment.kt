@@ -12,6 +12,7 @@ import co.yap.modules.dashboard.yapit.y2y.main.fragments.Y2YBaseFragment
 import co.yap.modules.dashboard.yapit.y2y.transfer.interfaces.IY2YFundsTransferSuccess
 import co.yap.modules.dashboard.yapit.y2y.transfer.viewmodels.Y2YFundsTransferSuccessViewModel
 import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.managers.MyUserManager
 
 class Y2YFundsTransferSuccessFragment : Y2YBaseFragment<IY2YFundsTransferSuccess.ViewModel>(),
     IY2YFundsTransferSuccess.View {
@@ -25,6 +26,7 @@ class Y2YFundsTransferSuccessFragment : Y2YBaseFragment<IY2YFundsTransferSuccess
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        MyUserManager.updateCardBalance()
         viewModel.clickEvent.observe(this, Observer {
             activity?.finish()
         })

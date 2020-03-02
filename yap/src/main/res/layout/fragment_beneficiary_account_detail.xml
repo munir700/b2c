@@ -145,7 +145,7 @@
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintRight_toRightOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/tvSuccessHeading"
-                        app:text="@{Strings.screen_beneficiary_account_details_display_text_iban}"
+                        app:text="@{viewModel.parentViewModel.selectedCountry.ibanMandatory ? Strings.screen_beneficiary_account_details_display_text_iban : Strings.screen_beneficiary_account_details_display_text_account_number}"
                         app:textColor="@{viewModel.state.accountIban.empty ? true : false}"
                         tools:text="@string/screen_beneficiary_account_details_display_text_iban" />
 
@@ -158,6 +158,7 @@
                         android:drawableEnd="@drawable/ic_support"
                         android:drawableRight="@drawable/ic_support"
                         android:hint="xxxxxxxxx"
+                        app:ibanMask="@{`#### #### #### #### #### #### ####`}"
                         android:imeOptions="actionNext"
                         android:importantForAutofill="no"
                         android:maxLength="50"
@@ -167,139 +168,6 @@
                         app:isDrawableShownWhenTextIsEmpty="true"
                         app:popupContentValue="@string/screen_add_beneficiary_display_help_content" />
 
-                </LinearLayout>
-
-                <!--                <LinearLayout-->
-                <!--                    android:id="@+id/lyConfirmIban"-->
-                <!--                    android:layout_width="match_parent"-->
-                <!--                    android:layout_height="wrap_content"-->
-                <!--                    android:orientation="vertical"-->
-                <!--                    android:visibility="@{viewModel.state.showlyConfirmIban ? View.VISIBLE : View.GONE}"-->
-                <!--                    app:layout_constraintLeft_toLeftOf="parent"-->
-                <!--                    app:layout_constraintRight_toRightOf="parent"-->
-                <!--                    app:layout_constraintTop_toBottomOf="@+id/tvSuccessHeading">-->
-
-                <!--                    <TextView-->
-                <!--                        style="@style/Small"-->
-                <!--                        android:layout_width="match_parent"-->
-                <!--                        android:layout_height="wrap_content"-->
-                <!--                        android:layout_marginTop="@dimen/margin_medium_large"-->
-                <!--                        android:text="Confirm IBAN"-->
-                <!--                        app:layout_constraintLeft_toLeftOf="parent"-->
-                <!--                        app:layout_constraintRight_toRightOf="parent"-->
-                <!--                        app:layout_constraintTop_toBottomOf="@+id/tvSuccessHeading"-->
-                <!--                        app:textColor="@{viewModel.state.accountConfirmIban.empty ? true : false}"-->
-                <!--                        tools:text="@string/screen_beneficiary_account_details_display_text_iban" />-->
-
-                <!--                    <EditText-->
-                <!--                        android:id="@+id/etConfirmIBAN"-->
-                <!--                        style="@style/Regular"-->
-                <!--                        android:layout_width="match_parent"-->
-                <!--                        android:layout_height="wrap_content"-->
-                <!--                        android:backgroundTint="@color/greyLight"-->
-                <!--                        android:hint="34564567"-->
-                <!--                        android:imeOptions="actionNext"-->
-                <!--                        android:importantForAutofill="no"-->
-                <!--                        android:maxLength="50"-->
-                <!--                        android:text="@={viewModel.state.accountConfirmIban}" />-->
-
-                <!--                </LinearLayout>-->
-
-                <LinearLayout
-                    android:id="@+id/lyaccount"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:visibility="gone"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tvSuccessHeading">
-
-                    <TextView
-                        style="@style/Small"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/margin_normal"
-                        app:text="@{Strings.screen_beneficiary_account_details_display_text_account_number}"
-                        app:textColor="@{viewModel.state.beneficiaryAccountNumber.empty ? true : false}"
-                        tools:text="@string/screen_beneficiary_account_details_display_text_account_number" />
-
-                    <EditText
-                        android:id="@+id/etAccountNumber"
-                        style="@style/Regular"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:backgroundTint="@color/greyLight"
-                        android:hint="123445679012"
-                        android:imeOptions="actionNext"
-                        android:importantForAutofill="no"
-                        android:maxLength="50"
-                        android:text="@={viewModel.state.beneficiaryAccountNumber}" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/lySwiftCode"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:visibility="gone"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tvSuccessHeading">
-
-                    <TextView
-                        style="@style/Small"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/margin_normal"
-                        app:text="@{Strings.screen_beneficiary_account_details_display_text_swift_code}"
-                        app:textColor="@{viewModel.state.swiftCode.empty ? true : false}"
-                        tools:text="@string/screen_beneficiary_account_details_display_text_swift_code" />
-
-                    <EditText
-                        android:id="@+id/etSwiftCode"
-                        style="@style/Regular"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:backgroundTint="@color/greyLight"
-                        android:hint="34564567"
-                        android:imeOptions="actionNext"
-                        android:importantForAutofill="no"
-                        android:maxLength="50"
-                        android:text="@={viewModel.state.swiftCode}" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/lyFieldCode"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:visibility="gone"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tvSuccessHeading">
-
-                    <TextView
-                        style="@style/Small"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/margin_normal"
-                        app:text="@{Strings.screen_beneficiary_account_details_display_text_field_code}"
-                        app:textColor="@{viewModel.state.countryBankRequirementFieldCode.empty ? true : false}"
-                        tools:text="@string/screen_beneficiary_account_details_display_text_field_code" />
-
-                    <EditText
-                        android:id="@+id/etBankREquiredFieldCode"
-                        style="@style/Regular"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="@dimen/_100sdp"
-                        android:backgroundTint="@color/greyLight"
-                        android:hint="1234"
-                        android:imeOptions="actionNext"
-                        android:importantForAutofill="no"
-                        android:maxLength="50"
-                        android:text="@={viewModel.state.countryBankRequirementFieldCode}" />
                 </LinearLayout>
             </LinearLayout>
 

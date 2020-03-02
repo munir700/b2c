@@ -11,14 +11,20 @@ import android.widget.EditText
 import androidx.core.graphics.drawable.DrawableCompat
 import androidx.databinding.Bindable
 import co.yap.BR
+import co.yap.modules.onboarding.interfaces.IMeetingConfirmation
 import co.yap.modules.onboarding.interfaces.IMobile
+import co.yap.modules.onboarding.viewmodels.MobileViewModel
 import co.yap.widgets.mobile.CountryCodePicker
 import co.yap.yapcore.BaseState
 import co.yap.yapcore.R
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.SharedPreferenceManager
+import co.yap.yapcore.helpers.extentions.trackEvent
+import co.yap.yapcore.leanplum.SignupEvents
+import com.leanplum.Leanplum
 
-class MobileState(application: Application) : BaseState(), IMobile.State {
+class MobileState(application: Application, var viewModel: MobileViewModel) : BaseState(),
+    IMobile.State {
 
     val VISIBLE: Int = 0x00000000
     val GONE: Int = 0x00000008
@@ -28,7 +34,7 @@ class MobileState(application: Application) : BaseState(), IMobile.State {
 
     @get:Bindable
     override var background: Drawable? =
-        mContext!!.getDrawable(R.drawable.bg_round_edit_text)
+        mContext.getDrawable(R.drawable.bg_round_edit_text)
         set(value) {
 //            setDrawabeTint()
             field = value
@@ -48,11 +54,13 @@ class MobileState(application: Application) : BaseState(), IMobile.State {
         set(value) {
             field = value
             notifyPropertyChanged(BR.mobile)
+            if (viewModel.parentViewModel?.isPhoneNumberEntered?.value == false) {
+                viewModel.parentViewModel?.isPhoneNumberEntered?.value = true
+                trackEvent(SignupEvents.SIGN_UP_START.type)
+            }
             if (mobile.length < 9) {
                 mobileNoLength = 11
-
             }
-
         }
 
     @get:Bindable
@@ -104,9 +112,9 @@ class MobileState(application: Application) : BaseState(), IMobile.State {
     private fun registerCarrierEditText() {
 
         val ccpLoadNumber: CountryCodePicker? = CountryCodePicker(mContext)
-        ccpLoadNumber!!.registerCarrierNumberEditText(this.etMobileNumber!!)
+        ccpLoadNumber?.registerCarrierNumberEditText(this.etMobileNumber!!)
 
-        ccpLoadNumber.setPhoneNumberValidityChangeListener(object :
+        ccpLoadNumber?.setPhoneNumberValidityChangeListener(object :
             CountryCodePicker.PhoneNumberValidityChangeListener {
             override fun onValidityChanged(isValidNumber: Boolean) {
                 if (isValidNumber) {
@@ -142,22 +150,18 @@ class MobileState(application: Application) : BaseState(), IMobile.State {
     }
 
     private fun findKeyBoardFocus() {
-        etMobileNumber!!.getViewTreeObserver().addOnGlobalLayoutListener(
-            object : ViewTreeObserver.OnGlobalLayoutListener {
-                override fun onGlobalLayout() {
-                    if (etMobileNumber!!.isFocused()) {
-                        if (!keyboardShown(etMobileNumber!!.getRootView())) {
-                            activeFieldValue = false
-                        } else {
-                            activeFieldValue = true
-                        }
+        etMobileNumber?.let {
+            it.viewTreeObserver?.addOnGlobalLayoutListener(
+                ViewTreeObserver.OnGlobalLayoutListener {
+                    if (it.isFocused) {
+                        activeFieldValue = keyboardShown(it.rootView)
                     }
-                    return
-                }
-            })
+                    return@OnGlobalLayoutListener
+                })
+        }
     }
 
-    fun keyboardShown(rootView: View): Boolean {
+    private fun keyboardShown(rootView: View): Boolean {
         val softKeyboardHeight = 100
         val r = Rect()
         rootView.getWindowVisibleDisplayFrame(r)
@@ -175,9 +179,9 @@ class MobileState(application: Application) : BaseState(), IMobile.State {
     private fun setErrorResponseLayout() {
         if (!mobileError.isNullOrEmpty()) {
 
-            drawbleRight = mContext!!.resources.getDrawable(R.drawable.invalid_name)
+            drawbleRight = mContext.resources.getDrawable(R.drawable.invalid_name)
             background =
-                mContext!!.resources.getDrawable(R.drawable.bg_round_error_layout)
+                mContext.resources.getDrawable(R.drawable.bg_round_error_layout)
             errorVisibility = VISIBLE
             //valid = false
         }
@@ -185,7 +189,7 @@ class MobileState(application: Application) : BaseState(), IMobile.State {
 
     private fun setSuccessUI() {
         drawbleRight = null
-        background = mContext!!.resources.getDrawable(R.drawable.bg_round_edit_text)
+        background = mContext.resources.getDrawable(R.drawable.bg_round_edit_text)
         activeFieldValue = true
         mobileError = ""
         valid = false
@@ -194,9 +198,12 @@ class MobileState(application: Application) : BaseState(), IMobile.State {
 
     @SuppressLint("ResourceType")
     fun setDrawabeTint() {
-        drawbleRight = DrawableCompat.wrap(mContext!!.getDrawable(R.drawable.path))
-        if (SharedPreferenceManager(mContext!!).getThemeValue().equals(Constants.THEME_HOUSEHOLD)) {
-            DrawableCompat.setTint(drawbleRight!!, Color.RED);
+        drawbleRight = DrawableCompat.wrap(mContext.getDrawable(R.drawable.path))
+        drawbleRight?.let {
+            if (SharedPreferenceManager(mContext).getThemeValue().equals(Constants.THEME_HOUSEHOLD)) {
+                DrawableCompat.setTint(it, Color.RED)
+            }
         }
+
     }
 }

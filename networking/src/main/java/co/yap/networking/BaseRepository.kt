@@ -37,22 +37,25 @@ abstract class BaseRepository : IRepository {
 
     private fun <T : ApiResponse> detectError(response: Response<T>): ApiError {
         return when (response.code()) {
-            403 -> ApiError(response.code(), mapError(NetworkErrors.Forbidden))
-            404 -> ApiError(response.code(), mapError(NetworkErrors.NotFound))
-            502 -> ApiError(response.code(), mapError(NetworkErrors.BadGateway))
-            in 400..499 -> ApiError(
-                response.code(),
-                mapError(NetworkErrors.InternalServerError(response.errorBody()?.string()))
+            403 -> getApiError(mapError(NetworkErrors.Forbidden, response.code()))
+            404 -> getApiError(mapError(NetworkErrors.NotFound, response.code()))
+            502 -> getApiError(mapError(NetworkErrors.BadGateway, response.code()))
+            504 -> getApiError(mapError(NetworkErrors.NoInternet, response.code()))
+            in 400..500 -> getApiError(
+                mapError(
+                    NetworkErrors.InternalServerError(response.errorBody()?.string()),
+                    response.code()
+                )
             )
-            -1009 -> ApiError(response.code(), mapError(NetworkErrors.NoInternet))
-            -1001 -> ApiError(response.code(), mapError(NetworkErrors.RequestTimedOut))
+            -1009 -> getApiError(mapError(NetworkErrors.NoInternet, response.code()))
+            -1001 -> getApiError(mapError(NetworkErrors.RequestTimedOut, response.code()))
             else -> {
-                ApiError(response.code(), mapError(NetworkErrors.UnknownError()))
+                getApiError(mapError(NetworkErrors.UnknownError(), response.code()))
             }
         }
     }
-    
-    private fun fetchErrorFromBody(response: String?): String? {
+
+    private fun fetchErrorFromBody(code: Int, response: String?): ServerError {
         response?.let {
             if (it.isNotBlank()) {
                 try {
@@ -62,39 +65,66 @@ abstract class BaseRepository : IRepository {
                         val errors = obj.getJSONArray("errors")
                         if (errors.length() > 0) {
                             val message = errors.getJSONObject(0).getString("message")
+                            val actualCode = errors.getJSONObject(0).getString("code")
                             return if (message != "null") {
-                                errors.getJSONObject(0).getString("message")
+                                ServerError(
+                                    code,
+                                    errors.getJSONObject(0).getString("message"),
+                                    actualCode
+                                )
                             } else {
-                                "Something went wrong"
+                                ServerError(code, "Something went wrong", actualCode)
                             }
                         }
                     } else if (obj.has("error")) {
                         // most probably.. unauthorised error
                         val error = obj.getString("error") ?: "Something went wrong"
                         if (error.contains("unauthorized")) {
-                            return ""
+                            return ServerError(0, "")
                         }
-                        return error
+                        return ServerError(0, error)
                     }
-
                 } catch (e: JSONException) {
-                    // return "Server sent some malformed address :o"
+                    ServerError(code, "Something went wrong")
                 }
             }
         }
-        return null
+        return ServerError(0, "")
     }
 
-    private fun mapError(error: NetworkErrors): String {
+    private fun getApiError(error: ServerError): ApiError {
+        return ApiError(
+            error.code ?: getDefaultCode(),
+            error.message ?: getDefaultMessage(),
+            error.actualCode
+        )
+    }
+
+    private fun getDefaultMessage(): String {
+        return "Something went wrong."
+    }
+
+    private fun getDefaultCode(): Int {
+        return 0
+    }
+
+    private fun mapError(error: NetworkErrors, code: Int = 0): ServerError {
         return when (error) {
-            is NetworkErrors.NoInternet -> "Internet appears to be offline."
-            is NetworkErrors.RequestTimedOut -> "Internet appears to be offline. Please check your internet connection and try again."
-            is NetworkErrors.BadGateway -> "Bad Gateway"
-            is NetworkErrors.NotFound -> "Resource Not Found"
-            is NetworkErrors.Forbidden -> "You don't have access to this information"
-            is NetworkErrors.InternalServerError -> fetchErrorFromBody(error.response)
-                ?: error.response ?: "Something went wrong"
-            is NetworkErrors.UnknownError -> "Something went wrong."
+            is NetworkErrors.NoInternet -> ServerError(code, "Internet appears to be offline.")
+            is NetworkErrors.RequestTimedOut -> ServerError(
+                code,
+                "Internet appears to be offline. Please check your internet connection and try again."
+            )
+            is NetworkErrors.BadGateway -> ServerError(code, "Bad Gateway")
+            is NetworkErrors.NotFound -> ServerError(code, "Resource Not Found")
+            is NetworkErrors.Forbidden -> ServerError(
+                code,
+                "You don't have access to this information"
+            )
+            is NetworkErrors.InternalServerError -> fetchErrorFromBody(code, error.response)
+            is NetworkErrors.UnknownError -> ServerError(code, getDefaultMessage())
         }
     }
+
+    data class ServerError(val code: Int?, val message: String?, val actualCode: String = "-1")
 }

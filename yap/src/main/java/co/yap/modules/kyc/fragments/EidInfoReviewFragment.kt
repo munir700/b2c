@@ -9,12 +9,11 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import co.yap.BR
 import co.yap.R
-import co.yap.modules.kyc.activities.DocumentsDashboardActivity
+import co.yap.modules.kyc.activities.DocumentsResponse
+import co.yap.modules.kyc.enums.KYCAction
 import co.yap.modules.kyc.viewmodels.EidInfoReviewViewModel
 import co.yap.modules.onboarding.interfaces.IEidInfoReview
 import co.yap.translation.Strings
-import co.yap.yapcore.constants.Constants
-import co.yap.yapcore.helpers.SharedPreferenceManager
 import com.digitify.identityscanner.docscanner.activities.IdentityScannerActivity
 import com.digitify.identityscanner.docscanner.enums.DocumentType
 import kotlinx.android.synthetic.main.activity_eid_info_review.*
@@ -24,25 +23,18 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
 
     override fun getBindingVariable(): Int = BR.viewModel
 
-//    override fun getLayoutId(): Int = R.layout.activity_eid_info_review
-    override fun getLayoutId(): Int {
-        if (getAppliedAppTheme()) return R.layout.activity_eid_info_review_house_hold
-        else return R.layout.activity_eid_info_review
-    }
-
-    fun getAppliedAppTheme(): Boolean {
-        return SharedPreferenceManager(activity!!).getThemeValue().equals(Constants.THEME_HOUSEHOLD)
-    }
+    override fun getLayoutId(): Int = R.layout.activity_eid_info_review
 
     override val viewModel: EidInfoReviewViewModel
         get() = ViewModelProviders.of(this).get(EidInfoReviewViewModel::class.java)
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-
-        if (viewModel.parentViewModel?.allowSkip?.value == true) {
+        if (viewModel.parentViewModel?.skipFirstScreen?.value == true) {
             openCardScanner()
-            tbBtnBack.setOnClickListener { activity?.finish() }
+            tbBtnBack.setOnClickListener {
+                viewModel.parentViewModel?.finishKyc?.value = DocumentsResponse(false)
+            }
         }
         addObservers()
     }
@@ -55,24 +47,30 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
                 viewModel.EVENT_ERROR_UNDER_AGE -> showUnderAgeAlert()
                 viewModel.EVENT_ERROR_FROM_USA -> showUSACitizenAlert()
                 viewModel.EVENT_RESCAN -> openCardScanner()
-                viewModel.EVENT_NEXT_WITH_ERROR -> findNavController().navigate(R.id.action_eidInfoReviewFragment_to_informationErrorFragment)
                 viewModel.EVENT_NEXT -> {
-                    //findNavController().popBackStack()
-                    if (activity is DocumentsDashboardActivity)
-                        (activity as DocumentsDashboardActivity).goToDashBoard(
-                            success = true,
-                            skippedPress = false
-                        )
+                    viewModel.parentViewModel?.finishKyc?.value = DocumentsResponse(true)
                 }
+
                 viewModel.EVENT_ALREADY_USED_EID -> {
-                    //findNavController().popBackStack()
-                    if (activity is DocumentsDashboardActivity)
-                        (activity as DocumentsDashboardActivity).goToDashBoard(
-                            success = false,
-                            skippedPress = false,error = true
-                        )
+                    viewModel.parentViewModel?.finishKyc?.value =
+                        DocumentsResponse(false, KYCAction.ACTION_EID_FAILED.name)
                 }
-                viewModel.EVENT_FINISH -> onBackPressed()
+
+                viewModel.EVENT_NEXT_WITH_ERROR -> {
+                    val action =
+                        EidInfoReviewFragmentDirections.actionEidInfoReviewFragmentToInformationErrorFragment(
+                            viewModel.sanctionedCountry
+                        )
+                    findNavController().navigate(action)
+                }
+                viewModel.EVENT_FINISH -> {
+                    viewModel.parentViewModel?.finishKyc?.value =
+                        DocumentsResponse(false, KYCAction.ACTION_EID_FAILED.name)
+                }
+                viewModel.EVENT_EID_UPDATE ->{
+                    viewModel.parentViewModel?.finishKyc?.value =
+                        DocumentsResponse(false, KYCAction.ACTION_EID_UPDATE.name)
+                }
             }
         })
     }
@@ -130,31 +128,25 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (data == null && viewModel.parentViewModel?.allowSkip?.value == true) {
-            activity?.finish()
+        if (data == null && viewModel.parentViewModel?.skipFirstScreen?.value == true) {
+//            if (MyUserManager.eidStatus != EIDStatus.EXPIRED)
+//                activity?.finish()
         }
         if (requestCode == IdentityScannerActivity.SCAN_EID_CAM && resultCode == Activity.RESULT_OK) {
             data?.let {
                 viewModel.onEIDScanningComplete(it.getParcelableExtra(IdentityScannerActivity.SCAN_RESULT))
             }
+        }else{
+            viewModel.parentViewModel?.finishKyc?.value = DocumentsResponse(false)
         }
     }
 
     override fun showUSACitizenAlert() {
-        AlertDialog.Builder(requireContext()).apply {
-            setCancelable(false)
-            setMessage(getString(Strings.screen_b2c_eid_info_review_display_text_error_from_usa))
-            setPositiveButton(getString(Strings.common_button_yes)) { dialog, which ->
-                viewModel.handleUserAcceptance(
-                    viewModel.EVENT_ERROR_FROM_USA
-                )
-            }
-            setNegativeButton(getString(Strings.screen_b2c_eid_info_review_button_not_from_usa)) { dialog, which ->
-                viewModel.handleUserRejection(
-                    viewModel.EVENT_ERROR_FROM_USA
-                )
-            }
-        }.create().show()
+        val action =
+            EidInfoReviewFragmentDirections.actionEidInfoReviewFragmentToInformationErrorFragment(
+                viewModel.sanctionedCountry
+            )
+        findNavController().navigate(action)
     }
 
     override fun openCardScanner() {
@@ -166,12 +158,5 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
             ),
             IdentityScannerActivity.SCAN_EID_CAM
         )
-    }
-
-    override fun onBackPressed(): Boolean {
-        if (viewModel.parentViewModel?.allowSkip?.value == true) {
-            activity?.finish()
-        }
-        return true
     }
 }

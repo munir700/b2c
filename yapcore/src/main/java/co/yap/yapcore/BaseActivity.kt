@@ -1,6 +1,7 @@
 package co.yap.yapcore
 
 import android.app.Activity
+import android.app.AlertDialog
 import android.app.Dialog
 import android.content.Intent
 import android.graphics.Color
@@ -11,7 +12,6 @@ import android.view.WindowManager
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.graphics.toColor
 import androidx.databinding.Observable
 import co.yap.translation.Strings
 import co.yap.translation.Translator
@@ -33,6 +33,9 @@ abstract class BaseActivity<V : IBase.ViewModel<*>> : AppCompatActivity(), IBase
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+//        window.setFlags(
+//            WindowManager.LayoutParams.FLAG_BLUR_BEHIND,
+//            WindowManager.LayoutParams.FLAG_BLUR_BEHIND)
         applySelectedTheme(SharedPreferenceManager(this))
         this.window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
         this.window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
@@ -151,6 +154,7 @@ abstract class BaseActivity<V : IBase.ViewModel<*>> : AppCompatActivity(), IBase
     override fun onDestroy() {
         NetworkConnectionManager.unsubscribe(this)
         unregisterStateListeners()
+        cancelAllSnackBar()
         progress?.dismiss()
         super.onDestroy()
     }
@@ -213,6 +217,29 @@ abstract class BaseActivity<V : IBase.ViewModel<*>> : AppCompatActivity(), IBase
         if (viewModel.state is BaseState) {
             (viewModel.state as BaseState).removeOnPropertyChangedCallback(stateObserver)
         }
+    }
+
+
+    override fun onResume() {
+        super.onResume()
+//        if (DeviceUtils().isDeviceRooted()) {
+//            showAlertDialogAndExitApp("This device is rooted. You can't use this app.")
+//        }
+    }
+
+    open fun showAlertDialogAndExitApp(message: String?) {
+        val alertDialog: AlertDialog = AlertDialog.Builder(this@BaseActivity).create()
+        alertDialog.setTitle("Alert")
+        alertDialog.setMessage(message)
+        alertDialog.setCancelable(false)
+        alertDialog.setButton(
+            AlertDialog.BUTTON_NEUTRAL, "OK"
+        ) { dialog, which ->
+            dialog.dismiss()
+            finish()
+        }
+        alertDialog.setCancelable(false)
+        alertDialog.show()
     }
 
 }

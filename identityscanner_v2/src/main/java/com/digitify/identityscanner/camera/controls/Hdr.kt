@@ -1,5 +1,6 @@
 package com.digitify.identityscanner.camera.controls
 
+import androidx.annotation.Keep
 
 
 /**
@@ -7,6 +8,7 @@ package com.digitify.identityscanner.camera.controls
  *
  * @see CameraView.setHdr
  */
+@Keep
 enum class Hdr(private val value: Int) : Control {
 
     /**

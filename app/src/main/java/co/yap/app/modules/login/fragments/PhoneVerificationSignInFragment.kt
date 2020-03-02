@@ -7,13 +7,15 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import co.yap.BR
 import co.yap.app.R
+import co.yap.app.constants.Constants
 import co.yap.app.modules.login.interfaces.IPhoneVerificationSignIn
 import co.yap.app.modules.login.viewmodels.PhoneVerificationSignInViewModel
-import co.yap.household.onboarding.OnboardingHouseHoldActivity
+import co.yap.household.onboard.onboarding.main.OnBoardingHouseHoldActivity
 import co.yap.modules.onboarding.enums.AccountType
 import co.yap.networking.customers.responsedtos.AccountInfo
 import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.helpers.SharedPreferenceManager
+import co.yap.yapcore.helpers.biometric.BiometricUtil
 
 class PhoneVerificationSignInFragment : BaseBindingFragment<IPhoneVerificationSignIn.ViewModel>() {
 
@@ -26,6 +28,7 @@ class PhoneVerificationSignInFragment : BaseBindingFragment<IPhoneVerificationSi
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        viewModel.state.reverseTimer(10, requireContext())
         viewModel.nextButtonPressEvent.observe(this, nextButtonObserver)
         viewModel.verifyOtpResult.observe(this, verifyOtpResultObserver)
         viewModel.postDemographicDataResult.observe(this, postDemographicDataObserver)
@@ -58,13 +61,25 @@ class PhoneVerificationSignInFragment : BaseBindingFragment<IPhoneVerificationSi
             if (accountType == AccountType.B2C_HOUSEHOLD.name) {
                 val bundle = Bundle()
                 SharedPreferenceManager(requireContext()).setThemeValue(co.yap.yapcore.constants.Constants.THEME_HOUSEHOLD)
-                bundle.putBoolean(OnboardingHouseHoldActivity.EXISTING_USER, false)
-                bundle.putParcelable(OnboardingHouseHoldActivity.USER_INFO, it)
-                startActivity(OnboardingHouseHoldActivity.getIntent(requireContext(), bundle))
+                bundle.putBoolean(OnBoardingHouseHoldActivity.EXISTING_USER, false)
+                bundle.putParcelable(OnBoardingHouseHoldActivity.USER_INFO, it)
+                startActivity(OnBoardingHouseHoldActivity.getIntent(requireContext(), bundle))
                 activity?.finish()
             } else {
-                findNavController().navigate(R.id.action_goto_yapDashboardActivity)
-                activity?.finish()
+                if (BiometricUtil.isFingerprintSupported
+                    && BiometricUtil.isHardwareSupported(requireActivity())
+                    && BiometricUtil.isPermissionGranted(requireActivity())
+                    && BiometricUtil.isFingerprintAvailable(requireActivity())
+                ) {
+                    val action =
+                        PhoneVerificationSignInFragmentDirections.actionPhoneVerificationSignInFragmentToSystemPermissionFragment(
+                            Constants.TOUCH_ID_SCREEN_TYPE
+                        )
+                    findNavController().navigate(action)
+                } else {
+                    findNavController().navigate(R.id.action_goto_yapDashboardActivity)
+                    activity?.finish()
+                }
             }
         }
     }

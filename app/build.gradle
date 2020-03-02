@@ -3,7 +3,6 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'io.fabric'
 apply plugin: 'com.google.gms.google-services'
 
-
 android {
     defaultConfig {
         applicationId "co.yap"
@@ -16,30 +15,42 @@ android {
             versionCode 10
             versionName "0.14"
             resValue "string", "app_name", "YAP"
-            buildConfigField("String", "BASE_URL", "\"https://demo.yap.co\"")
+            buildConfigField("String", "BASE_URL", "\"${api_endpoint_live}\"")
+            buildConfigField("String", "LEANPLUM_CLIENT_SECRET", "\"${leanplum_client_secret_key}\"")
+            buildConfigField("String", "LEANPLUM_API_KEY", "\"${leanplum_api_prod_key}\"")
+            buildConfigField("String", "ADJUST_APP_TOKEN", "\"${adjust_app_tocken}\"")
         }
 
         dev {
             versionCode 1
             versionName "0.1"
             applicationIdSuffix ".dev"
-            buildConfigField("String", "BASE_URL", "\"https://dev.yap.co\"")
+            buildConfigField("String", "BASE_URL", "\"${api_endpoint_dev}\"")
+            buildConfigField("String", "LEANPLUM_CLIENT_SECRET", "\"${leanplum_client_secret_key}\"")
+            buildConfigField("String", "LEANPLUM_API_KEY", "\"${leanplum_api_debug_key}\"")
+            buildConfigField("String", "ADJUST_APP_TOKEN", "\"${adjust_app_tocken}\"")
             resValue "string", "app_name", "YAP Dev"
         }
 
         qa {
-            versionCode 41
-            versionName "0.3.1"
+            versionCode 54
+            versionName "0.4.4"
             applicationIdSuffix ".qa"
-            buildConfigField("String", "BASE_URL", "\"https://qa.yap.co\"")
+            buildConfigField("String", "BASE_URL", "\"${api_endpoint_qa}\"")
+            buildConfigField("String", "LEANPLUM_CLIENT_SECRET", "\"${leanplum_client_secret_key}\"")
+            buildConfigField("String", "LEANPLUM_API_KEY", "\"${leanplum_api_debug_key}\"")
+            buildConfigField("String", "ADJUST_APP_TOKEN", "\"${adjust_app_tocken}\"")
             resValue "string", "app_name", "YAP QA"
         }
 
         stg {
-            versionCode 14
-            versionName "0.1.4"
+            versionCode 48
+            versionName "0.4.8"
             applicationIdSuffix ".stg"
-            buildConfigField("String", "BASE_URL", "\"https://stg.yap.co\"")
+            buildConfigField("String", "BASE_URL", "\"${api_endpoint_stg}\"")
+            buildConfigField("String", "LEANPLUM_CLIENT_SECRET", "\"${leanplum_client_secret_key}\"")
+            buildConfigField("String", "LEANPLUM_API_KEY", "\"${leanplum_api_debug_key}\"")
+            buildConfigField("String", "ADJUST_APP_TOKEN", "\"${adjust_app_tocken}\"")
             resValue "string", "app_name", "YAP Stage"
         }
     }

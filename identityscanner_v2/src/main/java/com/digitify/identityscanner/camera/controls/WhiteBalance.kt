@@ -1,6 +1,7 @@
 package com.digitify.identityscanner.camera.controls
 
 
+import androidx.annotation.Keep
 import com.digitify.identityscanner.camera.CameraOptions
 import com.digitify.identityscanner.camera.CameraView
 
@@ -9,6 +10,7 @@ import com.digitify.identityscanner.camera.CameraView
  *
  * @see CameraView.setWhiteBalance
  */
+@Keep
 enum class WhiteBalance(private val value: Int) : Control {
 
     /**

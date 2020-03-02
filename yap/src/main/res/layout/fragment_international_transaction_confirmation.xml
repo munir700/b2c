@@ -30,6 +30,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_medium_large"
                 android:text="@{viewModel.state.confirmHeading}"
+                android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -159,6 +160,49 @@
                 app:layout_constraintTop_toBottomOf="@+id/tvReceivingAmount"
                 tools:text="International transfer fee: AED XX \n Note that the recipient's bank may have its own charges." />
 
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/appCompatImageView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_medium_large"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                android:visibility="@{viewModel.state.cutOffTimeMsg!=null? View.VISIBLE:View.GONE}"
+                app:layout_constraintTop_toBottomOf="@+id/tvFeeDescription"
+                app:srcCompat="@drawable/ic_access_alarm" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvCutOffTime"
+                style="@style/MicroGrey"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_medium"
+                android:layout_marginTop="@dimen/margin_medium"
+                android:layout_marginEnd="@dimen/margin_medium"
+                android:gravity="center"
+                android:text="@{viewModel.state.cutOffTimeMsg}"
+                android:visibility="@{viewModel.state.cutOffTimeMsg!=null? View.VISIBLE:View.GONE}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/appCompatImageView"
+                tools:text="Transfers made before 2:00 PM UAE time will be processed on the same day. All transfers made after this time will be carried out on the next business day" />
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvDisclaimer"
+                style="@style/MicroGrey"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_medium"
+                android:layout_marginTop="@dimen/margin_medium"
+                android:layout_marginEnd="@dimen/margin_medium"
+                android:gravity="center"
+                app:layout_constraintBottom_toTopOf="@+id/confirmButton"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvCutOffTime"
+                app:layout_constraintVertical_bias="0.016"
+                tools:text="@string/scren_send_money_funds_transfer_confirmation_display_text_disclaimer" />
+
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/llData"
                 android:layout_width="match_parent"
@@ -170,6 +214,7 @@
                 android:background="@drawable/card_border_selector"
                 android:paddingTop="@dimen/margin_medium"
                 android:paddingBottom="@dimen/margin_medium"
+                android:visibility="gone"
                 app:layout_constraintBottom_toTopOf="@+id/confirmButton"
                 app:layout_constraintTop_toBottomOf="@+id/tvFeeDescription"
                 app:layout_constraintVertical_bias="0.900"

@@ -1,7 +1,6 @@
 package co.yap.app.modules.login.viewmodels
 
 import android.app.Application
-import android.view.KeyEvent
 import android.view.inputmethod.EditorInfo
 import android.widget.TextView
 import co.yap.app.modules.login.interfaces.ILogin
@@ -13,9 +12,10 @@ import co.yap.networking.models.RetroApiResponse
 import co.yap.translation.Strings
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleLiveEvent
-import java.util.regex.Pattern
+import co.yap.yapcore.helpers.Utils
 
-class LoginViewModel(application: Application) : BaseViewModel<ILogin.State>(application), ILogin.ViewModel,
+class LoginViewModel(application: Application) : BaseViewModel<ILogin.State>(application),
+    ILogin.ViewModel,
     IRepositoryHolder<AuthRepository> {
 
     override val signInButtonPressEvent: SingleLiveEvent<Boolean> = SingleLiveEvent()
@@ -25,7 +25,7 @@ class LoginViewModel(application: Application) : BaseViewModel<ILogin.State>(app
     private val adminRepository: AdminRepository = AdminRepository
 
     override fun handlePressOnLogin() {
-        state.twoWayTextWatcher = verifyUsername(state.twoWayTextWatcher.trim())
+        state.twoWayTextWatcher = Utils.verifyUsername(state.twoWayTextWatcher.trim())
         validateUsername()
     }
 
@@ -34,13 +34,11 @@ class LoginViewModel(application: Application) : BaseViewModel<ILogin.State>(app
     }
 
     override fun onEditorActionListener(): TextView.OnEditorActionListener {
-        return object : TextView.OnEditorActionListener {
-            override fun onEditorAction(v: TextView?, actionId: Int, event: KeyEvent?): Boolean {
-                if (actionId == EditorInfo.IME_ACTION_DONE) {
-                    handlePressOnLogin()
-                }
-                return false
+        return TextView.OnEditorActionListener { _, actionId, _ ->
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                handlePressOnLogin()
             }
+            false
         }
     }
 
@@ -52,50 +50,16 @@ class LoginViewModel(application: Application) : BaseViewModel<ILogin.State>(app
                     if (response.data.data) {
                         signInButtonPressEvent.postValue(true)
                     } else {
-                        state.emailError = getString(Strings.screen_sign_in_display_text_error_text)
+                        state.emailError.value =
+                            getString(Strings.screen_sign_in_display_text_error_text)
                     }
                 }
                 is RetroApiResponse.Error -> {
                     state.error = response.error.message
-                    println("")
+                    state.emailError.value = response.error.message
                 }
             }
             state.loading = false
         }
-    }
-
-    private fun verifyUsername(enteredUsername: String): String {
-        var username = enteredUsername
-        if (isUsernameNumeric(username)) {
-            if (username.startsWith("+")) {
-                username = username.replace("+", "00")
-                return username
-            } else if (username.startsWith("00")) {
-                return username
-            } else if (username.startsWith("0")) {
-                username = username.substring(1, username.length)
-                return username
-            } else {
-                return username
-            }
-        } else {
-            return username
-        }
-    }
-
-
-    fun isUsernameNumeric(username: String): Boolean {
-        var inputStr: CharSequence
-        var isValid = false
-        val expression = "^[0-9+]*\$"
-
-        inputStr = username
-        val pattern = Pattern.compile(expression, Pattern.CASE_INSENSITIVE)
-        val matcher = pattern.matcher(inputStr)
-
-        if (matcher.matches()) {
-            isValid = true
-        }
-        return isValid
     }
 }

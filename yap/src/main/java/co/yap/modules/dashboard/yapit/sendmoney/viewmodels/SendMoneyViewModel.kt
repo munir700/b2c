@@ -8,7 +8,6 @@ import co.yap.modules.dashboard.yapit.sendmoney.states.SendMoneyState
 import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
-import co.yap.yapcore.SingleLiveEvent
 
 class SendMoneyViewModel(application: Application) :
     BaseViewModel<ISendMoney.State>(application),
@@ -19,6 +18,7 @@ class SendMoneyViewModel(application: Application) :
     override var selectedCountry: MutableLiveData<Country> = MutableLiveData(Country())
     //override var transferType: MutableLiveData<String> = MutableLiveData("")
     override var beneficiary: MutableLiveData<Beneficiary> = MutableLiveData(Beneficiary())
+    override var otpSuccess: MutableLiveData<Boolean> = MutableLiveData()
 
     override fun handlePressButton(id: Int) {
         clickEvent.setValue(id)

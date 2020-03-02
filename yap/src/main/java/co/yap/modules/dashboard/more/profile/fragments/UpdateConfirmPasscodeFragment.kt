@@ -6,12 +6,15 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import co.yap.R
-import co.yap.app.login.EncryptionUtils
 import co.yap.modules.dashboard.cards.paymentcarddetail.fragments.ConfirmNewCardPinFragment
+import co.yap.modules.dashboard.more.main.activities.MoreActivity
 import co.yap.modules.dashboard.more.profile.viewmodels.UpdateConfirmPasscodeViewModel
 import co.yap.modules.setcardpin.interfaces.ISetCardPin
 import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.constants.Constants.KEY_IS_USER_LOGGED_IN
 import co.yap.yapcore.helpers.SharedPreferenceManager
+import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.helpers.extentions.toast
 import kotlinx.android.synthetic.main.activity_create_passcode.*
 
 class UpdateConfirmPasscodeFragment : ConfirmNewCardPinFragment() {
@@ -25,44 +28,44 @@ class UpdateConfirmPasscodeFragment : ConfirmNewCardPinFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-
         sharedPreferenceManager = SharedPreferenceManager(requireContext())
 
         viewModel.forgotPasscodeclickEvent.observe(this, Observer {
-            var username = ""
             if (sharedPreferenceManager.getValueBoolien(
-                    SharedPreferenceManager.KEY_IS_USER_LOGGED_IN,
+                    KEY_IS_USER_LOGGED_IN,
                     false
                 )
             ) {
-                username = EncryptionUtils.decrypt(
-                    requireContext(),
-                    sharedPreferenceManager.getValueString(SharedPreferenceManager.KEY_USERNAME) as String
-                ) as String
+                sharedPreferenceManager.getDecryptedUserName()?.let {
+                    proceedNext(it)
+                } ?: toast("Invalid username")
             }
-            val action =
-                UpdateConfirmPasscodeFragmentDirections.actionUpdateConfirmPasscodeFragmentToForgotPasscodeNavigation(
-                    username,
-                    viewModel.emailOtp,
-                    viewModel.mobileNumber, Constants.FORGOT_PASSCODE_FROM_CHANGE_PASSCODE
-                )
-            findNavController().navigate(action)
         })
+    }
+
+    private fun proceedNext(username: String) {
+        val action =
+            UpdateConfirmPasscodeFragmentDirections.actionUpdateConfirmPasscodeFragmentToForgotPasscodeNavigation(
+                username,
+                !Utils.isUsernameNumeric(username),
+                viewModel.mobileNumber, Constants.FORGOT_PASSCODE_FROM_CHANGE_PASSCODE
+            )
+        findNavController().navigate(action)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         loadData()
+        if (activity is MoreActivity) {
+            (activity as MoreActivity).viewModel.preventTakeDeviceScreenShot.value = true
+        }
     }
 
     override fun setObservers() {
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
                 R.id.btnAction -> {
-                    sharedPreferenceManager.save(
-                        SharedPreferenceManager.KEY_PASSCODE,
-                        EncryptionUtils.encrypt(requireContext(), viewModel.state.pincode)!!
-                    )
+                    sharedPreferenceManager.savePassCodeWithEncryption(viewModel.state.pincode)
                     val action =
                         UpdateConfirmPasscodeFragmentDirections.actionUpdateConfirmPasscodeFragmentToSuccessFragment(
                             "Your passcode has been changed \n succesfully",

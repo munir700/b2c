@@ -27,7 +27,7 @@ class BankDetailViewModel(application: Application) : BaseViewModel<IBankDetail.
         MyUserManager.user?.currentCustomer?.getPicture()?.let {
             state.image.set(it)
         }
-        state.initials.set(Utils.shortName(state.name.get()!!))
+        state.name.get()?.let { state.initials.set(Utils.shortName(it)) }
     }
 
     override fun handlePressOnView(id: Int) {

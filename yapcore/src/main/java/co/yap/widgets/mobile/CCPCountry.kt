@@ -53,9 +53,7 @@ class CCPCountry : Comparable<CCPCountry> {
 
     fun log() {
         try {
-            Log.d(TAG, "Country->$nameCode:$phoneCode:$name")
         } catch (ex: NullPointerException) {
-            Log.d(TAG, "Null")
         }
 
     }

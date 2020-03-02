@@ -3,11 +3,11 @@ package co.yap.app.activities
 import android.os.Bundle
 import co.yap.app.R
 import co.yap.app.YAPApplication
-import co.yap.household.onboarding.onboarding.activities.EIDNotAcceptedActivity
 import co.yap.yapcore.IFragmentHolder
 import co.yap.yapcore.defaults.DefaultActivity
 import co.yap.yapcore.defaults.DefaultNavigator
 import co.yap.yapcore.defaults.INavigator
+import co.yap.yapcore.helpers.DeviceUtils
 import co.yap.yapcore.interfaces.BackPressImpl
 import co.yap.yapcore.interfaces.IBaseNavigator
 
@@ -22,9 +22,12 @@ open class MainActivity : DefaultActivity(), IFragmentHolder, INavigator {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-//        theme.applyStyle(co.yap.yapcore.R.style.AppThemeHouseHold, true)
-        YAPApplication.AUTO_RESTART_APP = false
-        setContentView(R.layout.activity_main)
+        if (DeviceUtils().isDeviceRooted()) {
+            showAlertDialogAndExitApp("This device is rooted. You can't use this app.")
+        } else {
+            YAPApplication.AUTO_RESTART_APP = false
+            setContentView(R.layout.activity_main)
+        }
 
     }
 
@@ -33,6 +36,10 @@ open class MainActivity : DefaultActivity(), IFragmentHolder, INavigator {
         if (!BackPressImpl(fragment).onBackPressed()) {
             super.onBackPressed()
         }
+    }
+
+    fun onBackPressedDummy() {
+        super.onBackPressed()
     }
 
 }

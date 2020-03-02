@@ -19,6 +19,8 @@ data class Beneficiary(
     var mobileNo: String? = null,
     @SerializedName("title")
     var title: String? = null,
+    @SerializedName("beneficiaryUuid")
+    var beneficiaryUuid: String? = null,
     @SerializedName("accountNo")
     var accountNo: String? = null,
     @SerializedName("lastUsedDate")
@@ -50,7 +52,6 @@ data class Beneficiary(
     @SerializedName("beneficiaryCountry")
     var beneficiaryCountry: String? = null
 ) : Parcelable {
-    fun fullName(): String {
-        return String.format("%s %s", firstName, lastName)
-    }
+    fun fullName()= "$firstName $lastName"
+
 }

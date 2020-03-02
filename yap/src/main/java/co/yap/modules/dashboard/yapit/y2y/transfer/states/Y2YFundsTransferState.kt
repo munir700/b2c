@@ -31,14 +31,6 @@ class Y2YFundsTransferState(application: Application) : BaseState(), IY2YFundsTr
         }
 
     @get:Bindable
-    override var amount: String = ""
-        set(value) {
-            field = value
-            notifyPropertyChanged(BR.amount)
-            clearError()
-        }
-
-    @get:Bindable
     override var valid: Boolean = false
         set(value) {
             field = value
@@ -105,36 +97,38 @@ class Y2YFundsTransferState(application: Application) : BaseState(), IY2YFundsTr
             field = value
             notifyPropertyChanged(BR.imageUrl)
         }
+    @get:Bindable
+    override var transferFee: CharSequence? = ""
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.transferFee)
+        }
+    @get:Bindable
+    override var fee: String? = "50"
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.fee)
+        }
 
-    fun checkValidity(): String {
-        if (amount.isNotEmpty() && !availableBalance.isNullOrEmpty()) {
-            if (amount.toDouble() > availableBalance!!.toDouble()) {
+    fun checkValidity(amount: String): String {
+        if (amount.isNotEmpty() && !availableBalance.isNullOrEmpty() && amount.toDoubleOrNull() ?: 0.0 >= minLimit) {
+            if (amount.toDoubleOrNull() ?: 0.0 > availableBalance?.toDoubleOrNull() ?: 0.0) {
                 amountBackground =
                     context.resources.getDrawable(co.yap.yapcore.R.drawable.bg_funds_error, null)
                 errorDescription = Translator.getString(
                     context,
-                    Strings.screen_y2y_funds_transfer_display_text_error_exceeding_amount
-                )
+                    Strings.common_display_text_available_balance_error
+                ).format(availableBalance)
+                valid = false
                 return errorDescription
             } else {
                 amountBackground =
                     context.resources.getDrawable(co.yap.yapcore.R.drawable.bg_funds, null)
+                valid = true
             }
-        }
+        } else
+            valid = false
+
         return ""
     }
-
-
-    private fun clearError() {
-        if (amount != "") {
-            if (amount != ".") {
-                valid = amount.toDouble() >= minLimit
-                amountBackground =
-                    context.resources.getDrawable(co.yap.yapcore.R.drawable.bg_funds, null)
-            }
-        } else if (amount == "") {
-            valid = false
-        }
-    }
-
 }

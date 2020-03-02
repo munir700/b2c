@@ -36,8 +36,8 @@ open class ChangeEmailFragment : MoreBaseFragment<IChangeEmail.ViewModel>(), ICh
                     ChangeEmailFragmentDirections.actionChangeEmailFragmentToGenericOtpFragment(
                         otpType = Constants.CHANGE_EMAIL,
                         mobileNumber = Utils.getFormattedMobileNumber(
-                            MyUserManager.user!!.currentCustomer.countryCode,
-                            MyUserManager.user!!.currentCustomer.mobileNo
+                            MyUserManager.user?.currentCustomer?.countryCode ?: "",
+                            MyUserManager.user?.currentCustomer?.mobileNo ?: ""
                         )
                     )
                 findNavController().navigate(action)
@@ -55,7 +55,9 @@ open class ChangeEmailFragment : MoreBaseFragment<IChangeEmail.ViewModel>(), ICh
 
         viewModel.changeEmailSuccessEvent.observe(this, Observer {
             MyUserManager.user?.currentCustomer?.email = viewModel.state.newEmail
-            viewModel.sharedPreferenceManager.saveUserName(viewModel.state.newEmail)
+            viewModel.sharedPreferenceManager.saveUserNameWithEncryption(
+                viewModel.state.newEmail
+            )
             val action =
                 ChangeEmailFragmentDirections.actionChangeEmailFragmentToChangeEmailSuccessFragment(
                     getString(Strings.screen_email_address_success_display_text_sub_heading),
@@ -75,6 +77,8 @@ open class ChangeEmailFragment : MoreBaseFragment<IChangeEmail.ViewModel>(), ICh
 
     override fun onDestroy() {
         viewModel.clickEvent.removeObservers(this)
+        viewModel.success.removeObservers(this)
+        viewModel.changeEmailSuccessEvent.removeObservers(this)
         super.onDestroy()
     }
 }

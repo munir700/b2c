@@ -3,6 +3,7 @@ package co.yap.modules.onboarding.activities
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
@@ -10,10 +11,12 @@ import co.yap.R
 import co.yap.modules.forgotpasscode.interfaces.ICreatePasscode
 import co.yap.modules.forgotpasscode.viewmodels.CreatePasscodeViewModel
 import co.yap.modules.onboarding.constants.Constants
+import co.yap.modules.webview.WebViewFragment
 import co.yap.yapcore.BaseBindingActivity
-import co.yap.yapcore.helpers.SharedPreferenceManager
+import co.yap.yapcore.constants.Constants.URL_TERMS_CONDITION
 import co.yap.yapcore.helpers.Utils
-import co.yap.yapcore.helpers.extentions.preventTakeScreenshot
+import co.yap.yapcore.helpers.extentions.preventTakeScreenShot
+import co.yap.yapcore.helpers.extentions.startFragment
 import kotlinx.android.synthetic.main.activity_create_passcode.*
 
 
@@ -37,20 +40,25 @@ class CreatePasscodeActivity : BaseBindingActivity<ICreatePasscode.ViewModel>(),
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        preventTakeScreenshot()
         dialer.hideFingerprintView()
         viewModel.nextButtonPressEvent.observe(this, Observer {
             if (it == R.id.tvTermsAndConditions) {
-                Utils.openWebPage(co.yap.yapcore.constants.Constants.URL_TERMS_CONDITION, "", this)
+                startFragment<WebViewFragment>(
+                    fragmentName = WebViewFragment::class.java.name, bundle = bundleOf(
+                        co.yap.yapcore.constants.Constants.PAGE_URL to URL_TERMS_CONDITION
+                    ), showToolBar = true
+                )
+                //Utils.openWebPage(co.yap.yapcore.constants.Constants.URL_TERMS_CONDITION, "", this)
             } else
                 setObservers()
         })
+        preventTakeScreenShot(true)
 
     }
 
     override fun setObservers() {
         val intent = Intent()
-        intent.putExtra(SharedPreferenceManager.KEY_PASSCODE, viewModel.state.passcode)
+        intent.putExtra("PASSCODE", viewModel.state.passcode)
         setResult(Constants.REQUEST_CODE_CREATE_PASSCODE, intent)
         finish()
     }
@@ -62,7 +70,7 @@ class CreatePasscodeActivity : BaseBindingActivity<ICreatePasscode.ViewModel>(),
 
     private val nextButtonObserver = Observer<Boolean> {
         val intent = Intent()
-        intent.putExtra(SharedPreferenceManager.KEY_PASSCODE, viewModel.state.passcode)
+        intent.putExtra("PASSCODE", viewModel.state.passcode)
         setResult(Constants.REQUEST_CODE_CREATE_PASSCODE, intent)
         finish()
     }

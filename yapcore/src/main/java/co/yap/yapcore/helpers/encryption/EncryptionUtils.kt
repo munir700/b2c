@@ -1,8 +1,7 @@
-package co.yap.app.login
+package co.yap.yapcore.helpers.encryption
 
 import android.content.Context
 import android.os.Build
-import android.util.Log
 import java.io.IOException
 import java.security.KeyStore
 import java.security.KeyStoreException
@@ -18,13 +17,9 @@ object EncryptionUtils {
                 keyStore = KeyStore.getInstance(EncryptionKeyGenerator.ANDROID_KEY_STORE)
                 keyStore!!.load(null)
             } catch (e: KeyStoreException) {
-                Log.e("get", e.printStackTrace().toString())
             } catch (e: CertificateException) {
-                Log.e("get", e.printStackTrace().toString())
             } catch (e: NoSuchAlgorithmException) {
-                Log.e("get", e.printStackTrace().toString())
             } catch (e: IOException) {
-                Log.e("get", e.printStackTrace().toString())
             }
 
             return keyStore
@@ -66,7 +61,6 @@ object EncryptionUtils {
                 keyStore.deleteEntry(EncryptionKeyGenerator.KEY_ALIAS)
             }
         } catch (e: KeyStoreException) {
-            Log.e("get", e.printStackTrace().toString())
         }
 
     }

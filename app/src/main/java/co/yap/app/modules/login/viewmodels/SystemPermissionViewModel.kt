@@ -9,6 +9,7 @@ import co.yap.app.modules.login.interfaces.ISystemPermission
 import co.yap.app.modules.login.states.SystemPermissionState
 import co.yap.translation.Strings
 import co.yap.yapcore.BaseViewModel
+import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.SingleLiveEvent
 
 class SystemPermissionViewModel(application: Application) : BaseViewModel<ISystemPermission.State>(application),
@@ -16,13 +17,14 @@ class SystemPermissionViewModel(application: Application) : BaseViewModel<ISyste
 
     override val permissionGrantedPressEvent: SingleLiveEvent<Boolean> = SingleLiveEvent()
     override val permissionNotGrantedPressEvent: SingleLiveEvent<Boolean> = SingleLiveEvent()
+    override val handlePressOnTermsAndConditionsPressEvent: SingleClickEvent = SingleClickEvent()
+
     override var screenType: String = ""
 
     override fun onCreate() {
         super.onCreate()
         setupViews()
     }
-
 
     override fun permissionGranted() {
         permissionGrantedPressEvent.value = true
@@ -32,6 +34,9 @@ class SystemPermissionViewModel(application: Application) : BaseViewModel<ISyste
         permissionNotGrantedPressEvent.value = true
     }
 
+    override fun handlePressOnTermsAndConditions(id: Int) {
+        handlePressOnTermsAndConditionsPressEvent.postValue(id)
+    }
 
     fun setupViews() {
         if (screenType == Constants.TOUCH_ID_SCREEN_TYPE) touchIdViews() else notificationViews()
@@ -43,6 +48,7 @@ class SystemPermissionViewModel(application: Application) : BaseViewModel<ISyste
     fun touchIdViews() {
         state.icon = R.drawable.ic_fingerprint
         state.title = getString(Strings.screen_system_permission_text_title)
+        state.subTitle = getString(Strings.screen_system_permission_text_sub_title)
         state.termsAndConditionsVisibility = true
         state.buttonTitle = getString(Strings.screen_system_permission_button_touch_id)
     }

@@ -8,30 +8,31 @@ import android.view.View
 import androidx.annotation.NonNull
 import androidx.appcompat.app.AlertDialog
 import androidx.core.net.toUri
-import androidx.lifecycle.MutableLiveData
+import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import co.yap.BR
 import co.yap.R
-import co.yap.app.YAPApplication
 import co.yap.modules.dashboard.cards.paymentcarddetail.fragments.CardClickListener
 import co.yap.modules.dashboard.more.main.activities.MoreActivity
 import co.yap.modules.dashboard.more.main.fragments.MoreBaseFragment
 import co.yap.modules.dashboard.more.profile.intefaces.IProfile
 import co.yap.modules.dashboard.more.profile.viewmodels.ProfileSettingsViewModel
 import co.yap.modules.others.helper.Constants
-import co.yap.networking.cards.responsedtos.CardBalance
-import co.yap.yapcore.helpers.AuthUtils
-import co.yap.yapcore.helpers.PermissionHelper
+import co.yap.modules.webview.WebViewFragment
+import co.yap.yapcore.constants.Constants.KEY_IS_FINGERPRINT_PERMISSION_SHOWN
+import co.yap.yapcore.constants.Constants.KEY_TOUCH_ID_ENABLED
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.biometric.BiometricUtil
+import co.yap.yapcore.helpers.extentions.startFragment
+import co.yap.yapcore.helpers.permissions.PermissionHelper
 import co.yap.yapcore.managers.MyUserManager
 import com.bumptech.glide.Glide
-import kotlinx.android.synthetic.main.fragment_lite_dashboard.swTouchId
 import kotlinx.android.synthetic.main.layout_profile_picture.*
 import kotlinx.android.synthetic.main.layout_profile_settings.*
+
 import pl.aprilapps.easyphotopicker.DefaultCallback
 import pl.aprilapps.easyphotopicker.EasyImage
 import java.io.File
@@ -52,10 +53,13 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        if (context is MoreActivity)
+        if (context is MoreActivity) {
             (context as MoreActivity).visibleToolbar()
+            (context as MoreActivity).viewModel.preventTakeDeviceScreenShot.value = false
+        }
 
-        Glide.with(activity!!)
+
+        Glide.with(requireActivity())
 
         val sharedPreferenceManager: SharedPreferenceManager =
             SharedPreferenceManager(requireContext())
@@ -67,7 +71,7 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
         ) {
             val isTouchIdEnabled: Boolean =
                 sharedPreferenceManager.getValueBoolien(
-                    SharedPreferenceManager.KEY_TOUCH_ID_ENABLED,
+                    KEY_TOUCH_ID_ENABLED,
                     false
                 )
             swTouchId.isChecked = isTouchIdEnabled
@@ -76,13 +80,13 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
             swTouchId.setOnCheckedChangeListener { _, isChecked ->
                 if (isChecked) {
                     sharedPreferenceManager.save(
-                        SharedPreferenceManager.KEY_IS_FINGERPRINT_PERMISSION_SHOWN,
+                        KEY_IS_FINGERPRINT_PERMISSION_SHOWN,
                         true
                     )
-                    sharedPreferenceManager.save(SharedPreferenceManager.KEY_TOUCH_ID_ENABLED, true)
+                    sharedPreferenceManager.save(KEY_TOUCH_ID_ENABLED, true)
                 } else {
                     sharedPreferenceManager.save(
-                        SharedPreferenceManager.KEY_TOUCH_ID_ENABLED,
+                        KEY_TOUCH_ID_ENABLED,
                         false
                     )
                 }
@@ -148,10 +152,13 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
     }
 
 
-    private fun onPhotosReturned(path: File, position: Int, source: EasyImage.ImageSource?) {
-        viewModel.uploadProfconvertUriToFile(path.toUri())
-        viewModel.state.imageUri = path.toUri()
-        ivProfilePic.setImageURI(path.toUri())
+    private fun onPhotosReturned(path: File?, position: Int, source: EasyImage.ImageSource?) {
+        path?.let {
+            viewModel.uploadProfconvertUriToFile(it.toUri())
+            viewModel.state.imageUri = it.toUri()
+            ivProfilePic.setImageURI(it.toUri())
+        }
+
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -164,7 +171,7 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
                     source: EasyImage.ImageSource?,
                     type: Int
                 ) {
-                    onPhotosReturned(imageFile!!, type, source)
+                    onPhotosReturned(imageFile, type, source)
                 }
 
                 override fun onImagePickerError(
@@ -200,14 +207,7 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
     }
 
     private fun doLogout() {
-        AuthUtils.navigateToHardLogin(requireContext())
-        MyUserManager.expireUserSession()
-        MyUserManager.cardBalance.value = CardBalance()
-        MyUserManager.cards = MutableLiveData()
-        MyUserManager.cards.value?.clear()
-        MyUserManager.userAddress = null
-        MoreActivity.showExpiredIcon = false
-        YAPApplication.clearFilters()
+        MyUserManager.doLogout(requireContext())
         activity?.finish()
     }
 
@@ -233,9 +233,7 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
                 R.id.tvPersonalDetailView -> {
 
                     val action =
-                        ProfileSettingsFragmentDirections.actionProfileSettingsFragmentToPersonalDetailsFragment(
-                            viewModel.showExpiredBadge
-                        )
+                        ProfileSettingsFragmentDirections.actionProfileSettingsFragmentToPersonalDetailsFragment()
                     findNavController().navigate(action)
                 }
 
@@ -252,11 +250,8 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
                 }
 
                 R.id.tvTermsAndConditionView -> {
-                    Utils.openWebPage(
-                        co.yap.yapcore.constants.Constants.URL_TERMS_CONDITION,
-                        "",
-                        activity
-                    )
+                    startFragment(fragmentName = WebViewFragment::class.java.name , bundle = bundleOf(
+                        co.yap.yapcore.constants.Constants.PAGE_URL to co.yap.yapcore.constants.Constants.URL_TERMS_CONDITION),showToolBar = true )
                 }
 
                 R.id.tvFollowOnInstagram -> {
@@ -268,7 +263,8 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
                 }
 
                 R.id.tvLikeUsOnFaceBook -> {
-                    startActivity(Utils.getOpenFacebookIntent(requireContext()))
+                    Utils.getOpenFacebookIntent(requireContext())
+                        ?.let { startActivity(it) }
                 }
 
                 R.id.ivProfilePic -> {
@@ -282,8 +278,10 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
                 }
 
                 R.id.rlAddNewProfilePic -> {
-                    updatePhotoBottomSheet = UpdatePhotoBottomSheet(this)
-                    updatePhotoBottomSheet.show(this!!.fragmentManager!!, "")
+                    this.fragmentManager?.let {
+                        updatePhotoBottomSheet = UpdatePhotoBottomSheet(this)
+                        updatePhotoBottomSheet.show(it, "")
+                    }
                 }
 
                 viewModel.PROFILE_PICTURE_UPLOADED -> {
@@ -296,9 +294,4 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
         })
 
     }
-
-    override fun onBackPressed(): Boolean {
-        return super.onBackPressed()
-    }
-
 }
