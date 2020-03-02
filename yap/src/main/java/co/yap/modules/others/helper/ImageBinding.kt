@@ -187,11 +187,11 @@ object ImageBinding {
         return colors[position % colors.size]
     }
 
-    private fun getDrawableName(title: String): String {
+     fun getDrawableName(title: String): String {
         return title.replace(" ", "_").toLowerCase()
     }
 
-    private fun getResId(drawableName: String): Int {
+     fun getResId(drawableName: String): Int {
         return try {
             val res = R.drawable::class.java
             val field = res.getField(drawableName)

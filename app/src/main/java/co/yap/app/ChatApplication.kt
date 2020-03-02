@@ -50,7 +50,6 @@ open class ChatApplication(appInfo: AppInfo) : YAPApplication(appInfo) {
 
             override fun onReceive(context: Context, intent: Intent) {
 
-                Timber.d("Got LP intent event with action " + intent.action!!)
                 when (intent.action) {
                     LivePersonIntents.ILivePersonIntentAction.LP_ON_AGENT_AVATAR_TAPPED_INTENT_ACTION -> onAgentAvatarTapped(
                         LivePersonIntents.getAgentData(intent)

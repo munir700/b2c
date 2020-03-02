@@ -1,7 +1,6 @@
 package co.yap.modules.dashboard.transaction.interfaces
 
 import androidx.databinding.ObservableField
-import co.yap.networking.transactions.responsedtos.transaction.Content
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
 
@@ -34,6 +33,10 @@ interface ITransactionDetails {
         var vatAmount: String?
         var totalAmountCalculated: String?
         var spentVisibility: ObservableField<Boolean>
+        var categoryTitle: ObservableField<String>
+        var categoryIcon: ObservableField<Int>
+        var categoryName: ObservableField<String>
+        var transactionAddress: ObservableField<String>
         //var content: Content?
     }
 }

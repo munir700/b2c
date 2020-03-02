@@ -410,10 +410,10 @@
                     android:imeOptions="actionDone"
                     android:inputType="number"
                     android:singleLine="true"
-                    app:ibanMask="@{`#### #### #### #### #### #### ####`}"
                     android:text="@{editBeneficiaryViewModel.state.accountNumber}"
                     android:visibility='@{(editBeneficiaryViewModel.state.beneficiary.beneficiaryType.equals("UAEFTS") || editBeneficiaryViewModel.state.beneficiary.beneficiaryType.equals("DOMESTIC")) ? View.VISIBLE : View.GONE }'
-                    app:editable="@{false}" />
+                    app:editable="@{false}"
+                    app:ibanMask="@{`#### #### #### #### #### #### ####`}" />
 
                 <LinearLayout
                     android:id="@+id/llBankDetail"
@@ -500,11 +500,11 @@
                     android:digits="1234567890 "
                     android:imeOptions="actionDone"
                     android:inputType="number"
-                    app:ibanMask="@{`#### #### #### #### #### #### ####`}"
                     android:singleLine="true"
                     android:text="@{editBeneficiaryViewModel.state.accountNumber}"
                     android:visibility='@{(editBeneficiaryViewModel.state.beneficiary.beneficiaryType.equals("RMT") || editBeneficiaryViewModel.state.beneficiary.beneficiaryType.equals("SWIFT")) ? View.VISIBLE : View.GONE }'
-                    app:editable="@{false}" />
+                    app:editable="@{false}"
+                    app:ibanMask="@{`#### #### #### #### #### #### ####`}" />
                 <!---->
                 <androidx.appcompat.widget.AppCompatTextView
                     style="@style/Small"
@@ -512,7 +512,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_normal"
                     android:text="@string/screen_beneficiary_overview_display_text_swift_code"
-                    android:visibility='@{(editBeneficiaryViewModel.state.beneficiary.beneficiaryType.equals("RMT") || editBeneficiaryViewModel.state.beneficiary.beneficiaryType.equals("SWIFT")) ? View.VISIBLE : View.GONE }'
+                    android:visibility='@{(editBeneficiaryViewModel.state.beneficiary.beneficiaryType.equals("SWIFT")) ? View.VISIBLE : View.GONE }'
                     app:layout_constraintLeft_toLeftOf="parent"
 
                     app:layout_constraintRight_toRightOf="parent"
@@ -529,7 +529,7 @@
                     android:inputType="phone"
                     android:singleLine="true"
                     android:text="@={editBeneficiaryViewModel.state.swiftCode}"
-                    android:visibility='@{(editBeneficiaryViewModel.state.beneficiary.beneficiaryType.equals("RMT") || editBeneficiaryViewModel.state.beneficiary.beneficiaryType.equals("SWIFT")) ? View.VISIBLE : View.GONE }'
+                    android:visibility='@{(editBeneficiaryViewModel.state.beneficiary.beneficiaryType.equals("SWIFT")) ? View.VISIBLE : View.GONE }'
                     app:editable="@{false}" />
                 <!---->
                 <TextView

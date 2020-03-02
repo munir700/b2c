@@ -20,10 +20,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
+        tools:remove="android:debuggable"
         android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning"
-        tools:remove="android:debuggable"
-        tools:replace="android:theme,android:allowBackup">
+        tools:replace="android:theme,android:allowBackup,android:label">
         <activity
             android:name=".activities.MainActivity"
             android:label="@string/app_name"
@@ -37,14 +37,6 @@
             <intent-filter>
                 <action android:name="co.yap.app.OPEN_LOGIN" />
                 <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-
-            <intent-filter>
-                <category android:name="android.intent.category.DEFAULT" />
-
-                <data
-                    android:host="grwl.adj.st"
-                    android:scheme="https" />
             </intent-filter>
         </activity>
 
@@ -85,16 +77,6 @@
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
-
-        <receiver
-            android:name="co.yap.modules.others.helper.AdjustReferrerReceiver"
-            android:exported="true"
-            android:permission="android.permission.INSTALL_PACKAGES">
-            <intent-filter>
-                <action android:name="com.android.vending.INSTALL_REFERRER" />
-            </intent-filter>
-        </receiver>
-
     </application>
 
 </manifest>
