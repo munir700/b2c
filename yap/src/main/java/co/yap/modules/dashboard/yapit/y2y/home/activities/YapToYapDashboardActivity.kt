@@ -85,7 +85,7 @@ class YapToYapDashboardActivity : BaseBindingActivity<IY2Y.ViewModel>(), INaviga
         } ?: clSnackBar.showSnackBar(
             msg = errorMessage,
             viewBgColor = R.color.errorLightBackground,
-            colorOfMessage = R.color.error, duration = Snackbar.LENGTH_INDEFINITE
+            colorOfMessage = R.color.error, duration = Snackbar.LENGTH_INDEFINITE, marginTop = 0
         )
     }
 
