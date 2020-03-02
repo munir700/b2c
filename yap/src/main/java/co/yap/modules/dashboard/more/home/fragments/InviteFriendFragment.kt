@@ -11,7 +11,6 @@ import co.yap.modules.dashboard.more.home.viewmodels.InviteFriendViewModel
 import co.yap.translation.Strings
 import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.constants.Constants
-import co.yap.yapcore.constants.Constants.SHARE_ADJUST_LINK
 import co.yap.yapcore.managers.MyUserManager
 
 
@@ -54,7 +53,9 @@ class InviteFriendFragment : BaseBindingFragment<IInviteFriend.ViewModel>(), IIn
 
     private fun getBody(): String {
         val userId = MyUserManager.user?.currentCustomer?.customerId
-        SHARE_ADJUST_LINK = "https://grwl.adj.st?adjust_t=q3o2z0e_sv94i35&user_id=" + userId
+//        SHARE_ADJUST_LINK = "https://grwl.adj.st?adjust_t=q3o2z0e_sv94i35&user_id=" + userId
+        Constants.SHARE_ADJUST_LINK =
+            "https://grwl.adj.st?adjust_t=q3o2z0e_sv94i35&deep_link=yap_referral&user_id=" + userId
 
         return getString(Strings.screen_invite_friend_display_text_share_url).format(
             "www.apple.com",
