@@ -66,36 +66,34 @@
                 <!--                    android:pathPrefix="/abc123?deep_link="-->
                 <!--                    android:scheme="https" />-->
 
-                <data
-                    android:host="google.com"
-                    android:scheme="http" />
-
-                <data
-                    android:host="digitify.atlassian.net"
-                    android:path="/people"
-                    android:scheme="https" />
+<!--                <data-->
+<!--                    android:host="google.com"-->
+<!--                    android:scheme="http" />-->
 
 <!--                <data-->
-<!--                    android:host="app.adjust.com"-->
-<!--                    android:pathPrefix="/grwl.adj.st/abc123?deep_link="-->
-<!--                    android:scheme="yapReferral" />-->
+<!--                    android:host="digitify.atlassian.net"-->
+<!--                    android:path="/people"-->
+<!--                    android:scheme="https" />-->
 
-<!--                https://grwl.adj.st?adjust_t=q3o2z0e_sv94i35&user_id=abd34321-->
+                <!--                <data-->
+                <!--                    android:host="app.adjust.com"-->
+                <!--                    android:pathPrefix="/grwl.adj.st/abc123?deep_link="-->
+                <!--                    android:scheme="yapReferral" />-->
+
+                <!--                https://grwl.adj.st?adjust_t=q3o2z0e_sv94i35&user_id=abd34321-->
                 <data
                     android:host="grwl.adj.st"
-                    android:pathPrefix="/?adjust_t=q3o2z0e_sv94i35"
-                    android:scheme="https"
-                   />  <!--android:scheme="yap_referral"-->
+                    android:scheme="https" />  <!--android:scheme="yap_referral"-->
 
                 <!--                <data android:scheme="myapp"-->
                 <!--                    android:host="myhost"-->
                 <!--                    android:pathPrefix="/help"/>-->
+                <!--                    android:pathPrefix="/?adjust_t=q3o2z0e_sv94i35"-->
 
                 <data
                     android:host="grwl.adj.st"
-                    android:pathPrefix="/?adjust_t=q3o2z0e_sv94i35"
-                    android:scheme="yap_referral"
-                    />
+                     android:scheme="yap_referral" />
+
 
             </intent-filter>
             <intent-filter>
@@ -118,36 +116,36 @@
                     android:host="digitify.atlassian.net"
                     android:scheme="https" />
             </intent-filter>
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.VIEW" />-->
 
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
+<!--                <category android:name="android.intent.category.DEFAULT" />-->
+<!--                <category android:name="android.intent.category.BROWSABLE" />-->
 
-                <data
-                    android:host="digitify.atlassian.net"
-                    android:scheme="https" />
-            </intent-filter>
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
+<!--                <data-->
+<!--                    android:host="digitify.atlassian.net"-->
+<!--                    android:scheme="https" />-->
+<!--            </intent-filter>-->
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.VIEW" />-->
 
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
+<!--                <category android:name="android.intent.category.DEFAULT" />-->
+<!--                <category android:name="android.intent.category.BROWSABLE" />-->
 
-                <data
-                    android:host="digitify.atlassian.net"
-                    android:scheme="http" />
-            </intent-filter>
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
+<!--                <data-->
+<!--                    android:host="digitify.atlassian.net"-->
+<!--                    android:scheme="http" />-->
+<!--            </intent-filter>-->
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.VIEW" />-->
 
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
+<!--                <category android:name="android.intent.category.DEFAULT" />-->
+<!--                <category android:name="android.intent.category.BROWSABLE" />-->
 
-                <data
-                    android:host="www.example.com"
-                    android:scheme="https" />
-            </intent-filter>
+<!--                <data-->
+<!--                    android:host="www.example.com"-->
+<!--                    android:scheme="https" />-->
+<!--            </intent-filter>-->
         </activity>
 
         <activity
@@ -188,11 +186,11 @@
             </intent-filter>
         </service>
 
-       //
+        //
         <receiver
             android:name="co.yap.modules.others.helper.AdjustReferrerReceiver"
-            android:permission="android.permission.INSTALL_PACKAGES"
-            android:exported="true" >
+            android:exported="true"
+            android:permission="android.permission.INSTALL_PACKAGES">
             <intent-filter>
                 <action android:name="com.android.vending.INSTALL_REFERRER" />
             </intent-filter>
