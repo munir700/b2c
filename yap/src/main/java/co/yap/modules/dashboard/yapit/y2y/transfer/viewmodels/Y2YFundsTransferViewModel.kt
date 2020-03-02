@@ -56,7 +56,8 @@ class Y2YFundsTransferViewModel(application: Application) :
                 is RetroApiResponse.Error -> {
                     state.loading = false
                     state.errorDescription = response.error.message
-                    errorEvent.call()
+                    parentViewModel?.errorEvent?.value = state.errorDescription
+                    //errorEvent.call()
                 }
             }
             state.loading = false

@@ -25,7 +25,7 @@ fun BaseState.trackEvent(eventName: String, value: String = "") {
     fireEventWithAttribute(eventName, value)
 }
 
-fun ViewModel.trackEventWithAttributes(user: AccountInfo?) {
+fun ViewModel.trackEventWithAttributes(user: AccountInfo?, signup_length: String = "") {
     user?.let {
         val info: HashMap<String, Any> = HashMap()
         info[UserAttributes().accountType] = it.accountType ?: ""
@@ -38,8 +38,11 @@ fun ViewModel.trackEventWithAttributes(user: AccountInfo?) {
         info[UserAttributes().householdUser] = it.accountType == "B2C_HOUSEHOLD"
         info[UserAttributes().youngUser] = false
         info[UserAttributes().b2bUser] = false
-        info[UserAttributes().country] = "UAE"
+        info[UserAttributes().country] = "United Arab Emirates"
         info[UserAttributes().city] = "UNKNOWN"
+        info[UserAttributes().signup_timestamp] = it.creationDate ?: System.currentTimeMillis()
+        if (!signup_length.isNullOrEmpty())
+            info[UserAttributes().signup_length] = signup_length
         it.currentCustomer.customerId?.let { customerId ->
             info[UserAttributes().customerId] = customerId
         }
