@@ -2,6 +2,7 @@ package co.yap.modules.dashboard.transaction.viewmodels
 
 import android.annotation.SuppressLint
 import android.app.Application
+import androidx.lifecycle.MutableLiveData
 import co.yap.R
 import co.yap.modules.dashboard.transaction.interfaces.ITransactionDetails
 import co.yap.modules.dashboard.transaction.states.TransactionDetailsState
@@ -9,6 +10,7 @@ import co.yap.modules.others.helper.ImageBinding
 import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.transactions.TransactionsRepository
 import co.yap.networking.transactions.responsedtos.TransactionDetails
+import co.yap.networking.transactions.responsedtos.transaction.Content
 import co.yap.translation.Strings
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
@@ -30,7 +32,8 @@ class TransactionDetailsViewModel(application: Application) :
     override val state: TransactionDetailsState = TransactionDetailsState()
     override var clickEvent: SingleClickEvent = SingleClickEvent()
     private var transactionRepository: TransactionsRepository = TransactionsRepository
-    override var transactionId: String? = ""
+    override var transaction: Content = Content()
+    override var transactionDetail: MutableLiveData<TransactionDetails> = MutableLiveData()
 
 
     override fun onCreate() {
@@ -62,9 +65,10 @@ class TransactionDetailsViewModel(application: Application) :
 
         launch {
             state.loading = true
-            when (val response = transactionRepository.getTransactionDetails(transactionId)) {
+            when (val response = transactionRepository.getTransactionDetails(transaction.transactionId)) {
                 is RetroApiResponse.Success -> {
                     //success
+                    transactionDetail.value = response.data.data
                     setSenderOrReceiver(response.data.data)
                     state.categoryTitle.set(getCategoryTitle(response.data.data))
                     state.categoryIcon.set(getCategoryIcon(response.data.data))
@@ -77,7 +81,6 @@ class TransactionDetailsViewModel(application: Application) :
                         state.spentTitle =
                             getString(Strings.screen_transaction_details_display_text_received)
                     }
-                    state.spentAmount =
                         response.data.data?.currency + " " + Utils.getFormattedCurrency(response.data.data?.amount.toString())
                     state.vatAmount = if (response.data.data?.vat != null) {
                         response.data.data?.currency + " " + Utils.getFormattedCurrency(response.data.data?.vat.toString())

@@ -28,7 +28,7 @@
             android:id="@+id/ivMap"
             android:layout_width="match_parent"
             android:layout_height="@dimen/_120sdp"
-            android:background="@drawable/ic_map"
+            android:src="@drawable/ic_image_brown_background"
             android:contentDescription="@string/empty_string"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

@@ -1,6 +1,9 @@
 package co.yap.modules.dashboard.transaction.interfaces
 
 import androidx.databinding.ObservableField
+import androidx.lifecycle.MutableLiveData
+import co.yap.networking.transactions.responsedtos.TransactionDetails
+import co.yap.networking.transactions.responsedtos.transaction.Content
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
 
@@ -11,7 +14,8 @@ interface ITransactionDetails {
         fun handlePressOnShareButton(id: Int)
         fun handlePressOnEditNoteClickEvent(id: Int)
         var clickEvent: SingleClickEvent
-        var transactionId: String?
+        var transaction: Content
+        var transactionDetail: MutableLiveData<TransactionDetails>
 
     }
 

@@ -11,6 +11,7 @@ import co.yap.modules.dashboard.transaction.interfaces.ITransactionDetails
 import co.yap.modules.dashboard.transaction.viewmodels.TransactionDetailsViewModel
 import co.yap.modules.others.helper.ImageBinding
 import co.yap.modules.others.note.activities.TransactionNoteActivity
+import co.yap.networking.transactions.responsedtos.transaction.Content
 import co.yap.translation.Strings
 import co.yap.yapcore.BR
 import co.yap.yapcore.BaseBindingActivity
@@ -23,7 +24,6 @@ import co.yap.yapcore.enums.TxnType
 class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewModel>(),
     ITransactionDetails.View {
 
-
     override fun getBindingVariable(): Int = BR.viewModel
 
     override fun getLayoutId(): Int = R.layout.activity_transaction_details
@@ -34,9 +34,10 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel.clickEvent.observe(this, clickEvent)
-        viewModel.transactionId = intent?.getStringExtra("transactionId")
-        viewModel.state.categoryName.set(intent?.getStringExtra("categoryName"))
-        viewModel.state.transactionAddress.set(intent?.getStringExtra("merchantAddress"))
+        viewModel.transaction = intent?.getParcelableExtra("transaction") as Content
+        viewModel.state.categoryName.set(viewModel.transaction.merchantCategoryName)
+        viewModel.state.transactionAddress.set(viewModel.transaction.cardAcceptorLocation)
+        setMapImageView()
         setTransactionImage()
     }
 
@@ -50,7 +51,7 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
                         TransactionNoteActivity.newIntent(
                             this,
                             "",
-                            viewModel.transactionId ?: ""
+                            viewModel.transaction.transactionId ?: ""
                         ), Constants.INTENT_ADD_NOTE_REQUEST
                     )
                 } else {
@@ -58,7 +59,7 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
                         TransactionNoteActivity.newIntent(
                             this,
                             viewModel.state.noteValue,
-                            viewModel.transactionId ?: ""
+                            viewModel.transaction.transactionId ?: ""
                         ), Constants.INTENT_ADD_NOTE_REQUEST
                     )
                 }
@@ -68,7 +69,7 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
                         TransactionNoteActivity.newIntent(
                             this,
                             "",
-                            viewModel.transactionId ?: ""
+                            viewModel.transaction.transactionId ?: ""
                         ), Constants.INTENT_ADD_NOTE_REQUEST
                     )
                 } else {
@@ -76,7 +77,7 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
                         TransactionNoteActivity.newIntent(
                             this,
                             viewModel.state.noteValue,
-                            viewModel.transactionId ?: ""
+                            viewModel.transaction.transactionId ?: ""
                         ), Constants.INTENT_ADD_NOTE_REQUEST
                     )
                 }
@@ -86,51 +87,15 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
         }
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == Constants.INTENT_ADD_NOTE_REQUEST) {
-            if (resultCode == Activity.RESULT_OK) {
-                viewModel.state.addNoteTitle =
-                    getString(Strings.screen_transaction_details_display_text_edit_note)
-                viewModel.state.noteValue =
-                    data?.getStringExtra(Constants.KEY_NOTE_VALUE).toString()
-            }
-        }
-
+    private fun setMapImageView() {
+        getBindings().ivMap.setImageResource(getMapImage())
     }
 
-    //This comment is intentional
-    /* private fun shareInfo() {
-         val sharingIntent = Intent(Intent.ACTION_SEND)
-         sharingIntent.type = "text/plain"
-         // not set because ios team is not doing this.
-         //sharingIntent.putExtra(Intent.EXTRA_SUBJECT, viewModel.state.title.get())
-         sharingIntent.putExtra(Intent.EXTRA_TEXT, getBody())
-         startActivity(Intent.createChooser(sharingIntent, "Share"))
-     }
-
-     private fun getBody(): String {
-         if (viewModel.state.isYtoYTransfer.get() == true) {
-             return "Sender: ${viewModel.state.transactionSender}\n" +
-                     "Receiver: ${viewModel.state.transactionReceiver}\n" +
-                     "${viewModel.state.spentTitle}: ${viewModel.state.spentAmount}\n" +
-                     "${viewModel.state.feeTitle}: ${viewModel.state.feeAmount}\n" +
-                     "${viewModel.state.totalTitle}: ${viewModel.state.totalAmount}\n" +
-                     "Transaction note: ${viewModel.state.noteValue}\n"
-         } else {
-             return "${viewModel.state.spentTitle}: ${viewModel.state.spentAmount}\n" +
-                     "${viewModel.state.feeTitle}: ${viewModel.state.feeAmount}\n" +
-                     "${viewModel.state.totalTitle}: ${viewModel.state.totalAmount}\n" +
-                     "Transaction note: ${viewModel.state.noteValue}\n"
-         }
-
-     }*/
-
     private fun setTransactionImage() {
-        val productCode = intent?.getStringExtra("productCode")
-        val txnType = intent?.getStringExtra("txnType")
-        val status = intent?.getStringExtra("status")
-        val title = intent?.getStringExtra("title")
+        val productCode = viewModel.transaction.productCode
+        val txnType = viewModel.transaction.txnType
+        val status = viewModel.transaction.status
+        val title = viewModel.transaction.title
         viewModel.state.transactionTitle = title ?: "Unknown"
 
         when {
@@ -181,6 +146,33 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
             }
     }
 
+    private fun getMapImage(): Int {
+        val productCode = viewModel.transaction.productCode
+        if (Transaction.isFee(productCode ?: "")) {
+            return R.drawable.ic_image_light_red_background
+        }
+        return (when (productCode) {
+            TransactionProductCode.Y2Y_TRANSFER.pCode -> R.drawable.ic_image_blue_background
+            TransactionProductCode.TOP_UP_SUPPLEMENTARY_CARD.pCode, TransactionProductCode.WITHDRAW_SUPPLEMENTARY_CARD.pCode -> R.drawable.ic_image_blue_background
+            TransactionProductCode.UAEFTS.pCode, TransactionProductCode.DOMESTIC.pCode, TransactionProductCode.RMT.pCode, TransactionProductCode.SWIFT.pCode, TransactionProductCode.CASH_PAYOUT.pCode, TransactionProductCode.TOP_UP_VIA_CARD.pCode, TransactionProductCode.INWARD_REMITTANCE.pCode, TransactionProductCode.LOCAL_INWARD_TRANSFER.pCode -> R.drawable.ic_image_light_blue_background
+            TransactionProductCode.CARD_REORDER.pCode -> R.drawable.ic_image_light_red_background
+            TransactionProductCode.ATM_WITHDRAWL.pCode, TransactionProductCode.POS_PURCHASE.pCode, TransactionProductCode.CASH_DEPOSIT_AT_RAK.pCode, TransactionProductCode.MASTER_CARD_ATM_WITHDRAWAL.pCode, TransactionProductCode.CHEQUE_DEPOSIT_AT_RAK.pCode -> R.drawable.ic_map
+            else -> 0
+        })
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == Constants.INTENT_ADD_NOTE_REQUEST) {
+            if (resultCode == Activity.RESULT_OK) {
+                viewModel.state.addNoteTitle =
+                    getString(Strings.screen_transaction_details_display_text_edit_note)
+                viewModel.state.noteValue =
+                    data?.getStringExtra(Constants.KEY_NOTE_VALUE).toString()
+            }
+        }
+
+    }
 
     fun getBindings(): ActivityTransactionDetailsBinding {
         return viewDataBinding as ActivityTransactionDetailsBinding
