@@ -50,6 +50,7 @@ object CustomersRepository : BaseRepository(), CustomersApi {
         "/customers/api/bank-transfer/transaction/limit"
 
     const val URL_DETECT = "digi-ocr/detect/"
+    const val URL_SAVE_REFERAL_INVITATION = "/customers/api/save-referral-invitation"
 
 
     // Bank transfer information as per old project integration................................................
@@ -271,4 +272,8 @@ object CustomersRepository : BaseRepository(), CustomersApi {
 
     override suspend fun getSectionedCountries(): RetroApiResponse<SectionedCountriesResponseDTO> =
         executeSafely(call = { api.getSectionedCountries() })
+
+    override suspend fun saveReferalInvitation(saveReferalRequest: SaveReferalRequest): RetroApiResponse<ApiResponse> =
+        executeSafely(call = { api.saveReferalInvitation(saveReferalRequest) })
+
 }

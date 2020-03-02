@@ -35,7 +35,7 @@ open class MainActivity : DefaultActivity(), IFragmentHolder, INavigator {
             YAPApplication.AUTO_RESTART_APP = false
             setContentView(R.layout.activity_main)
 
-            getDataFromDeepLinkIntent()
+//            getDataFromDeepLinkIntent()
         }
 
     }
@@ -82,7 +82,7 @@ open class MainActivity : DefaultActivity(), IFragmentHolder, INavigator {
     override fun onNewIntent(intent: Intent) {
         super.onNewIntent(intent)
         val data: Uri = intent.getData()
-        getDataFromDeepLinkIntent()
+//        getDataFromDeepLinkIntent()
         // data.toString() -> This is your deep_link parameter value.
     }
 }

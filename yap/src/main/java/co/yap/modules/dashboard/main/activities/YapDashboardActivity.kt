@@ -44,13 +44,14 @@ import co.yap.widgets.arcmenu.animation.SlideInAnimationHandler
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.IFragmentHolder
 import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.constants.Constants.INVITER_ADJUST_ID
 import co.yap.yapcore.enums.PartnerBankStatus
+import co.yap.yapcore.helpers.alert
 import co.yap.yapcore.helpers.extentions.dimen
 import co.yap.yapcore.helpers.extentions.launchActivity
 import co.yap.yapcore.helpers.permissions.PermissionHelper
 import co.yap.yapcore.managers.MyUserManager
 import kotlinx.android.synthetic.main.activity_yap_dashboard.*
-
 import kotlinx.android.synthetic.main.layout_drawer_yap_dashboard.*
 import net.cachapa.expandablelayout.ExpandableLayout
 
@@ -74,6 +75,19 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
         addObservers()
         addListeners()
         setupYapButton()
+        tempDeepLinkURiTest()// to test on playstore
+    }
+
+    private fun tempDeepLinkURiTest() {
+        if (null != Constants.INVITER_ADJUST_URI) {
+            alert(
+                 Constants.INVITER_ADJUST_URI.toString(),
+            INVITER_ADJUST_ID+'\n',
+                 "ok",//
+                true
+            )
+        }
+
     }
 
     private fun setupYapButton() {
@@ -320,7 +334,7 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
             MyUserManager.getPrimaryCard()?.let {
                 launchActivity<CardStatementsActivity> {
                     putExtra(CardStatementsActivity.CARD, it)
-                    putExtra("isFromDrawer",true)
+                    putExtra("isFromDrawer", true)
                 }
                 //startActivity(CardStatementsActivity.newIntent(this, it))
                 closeDrawer()

@@ -1,5 +1,7 @@
 package co.yap.yapcore.constants
 
+import android.net.Uri
+
 object Constants {
     const val addCard = "addCard"
     const val isPinCreated = "isPinCreated"
@@ -170,6 +172,8 @@ object Constants {
 
 
       var SHARE_ADJUST_LINK = ""
+      var INVITER_ADJUST_URI :Uri?=null
+      var INVITER_ADJUST_ID :String="nullDefaultValue"
 
 
 
