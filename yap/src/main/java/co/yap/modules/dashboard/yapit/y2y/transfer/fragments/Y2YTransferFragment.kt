@@ -32,10 +32,16 @@ import co.yap.yapcore.helpers.DecimalDigitsInputFilter
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.cancelAllSnackBar
 import co.yap.yapcore.helpers.extentions.startFragmentForResult
+import co.yap.yapcore.helpers.showSnackBar
 import co.yap.yapcore.helpers.spannables.color
 import co.yap.yapcore.helpers.spannables.getText
 import co.yap.yapcore.managers.MyUserManager
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_y2y_funds_transfer.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 
 class Y2YTransferFragment : Y2YBaseFragment<IY2YFundsTransfer.ViewModel>(), IY2YFundsTransfer.View {
@@ -64,7 +70,11 @@ class Y2YTransferFragment : Y2YBaseFragment<IY2YFundsTransfer.ViewModel>(), IY2Y
         viewModel.clickEvent.observe(this, clickEvent)
         viewModel.enteredAmount.observe(this, enterAmountObserver)
         viewModel.errorEvent.observe(this, Observer {
-            // showErrorSnackBar()
+            showSnackBar(
+                msg = viewModel.state.errorDescription,
+                viewBgColor = R.color.errorLightBackground,gravity = Gravity.TOP,
+                colorOfMessage = R.color.error, duration = Snackbar.LENGTH_LONG
+            )
         })
         viewModel.transferFundSuccess.observe(this, transferFundSuccessObserver)
 

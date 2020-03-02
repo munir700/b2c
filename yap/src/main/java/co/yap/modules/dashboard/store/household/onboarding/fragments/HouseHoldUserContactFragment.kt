@@ -50,7 +50,7 @@ class HouseHoldUserContactFragment : BaseOnBoardingFragment<IHouseHoldUserContac
             clSnackbarHouseHold.showSnackBar(
                 msg = it,
                 viewBgColor = R.color.errorLightBackground,
-                colorOfMessage = R.color.error
+                colorOfMessage = R.color.error, marginTop = 0
             )
         })
     }

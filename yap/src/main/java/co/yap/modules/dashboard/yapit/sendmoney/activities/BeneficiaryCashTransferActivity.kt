@@ -61,7 +61,7 @@ class BeneficiaryCashTransferActivity : BaseBindingActivity<IBeneficiaryCashTran
         } ?: clFTSnackbar.showSnackBar(
             msg = errorMessage,
             viewBgColor = R.color.errorLightBackground,
-            colorOfMessage = R.color.error, duration = Snackbar.LENGTH_INDEFINITE
+            colorOfMessage = R.color.error, duration = Snackbar.LENGTH_INDEFINITE, marginTop = 0
         )
     }
 
