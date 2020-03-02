@@ -50,15 +50,21 @@ open class MainActivity : DefaultActivity(), IFragmentHolder, INavigator {
                 data?.scheme,
                 data?.host,
                 data?.path
-            )// to retrive customer id from url placed in path
-            val customerId = data?.path
+            ) // to retrive customer id from url placed in path
+//            val customerId = data?.path
+            val customerId = data.getQueryParameter("user_id");
             val date = DateFormat.format(
                 "yyyy-MM-dd hh:mm:ss",
                 Date()
             ) as String
 
-            Log.i("abc", date.toString())
-            Log.i("abcurl",url.toString())
+
+            Log.i("url", url.toString())
+            Log.i("urluserid", customerId.toString())
+            Log.i(
+                "urlDate",
+                date.toString()
+            )// this is the current dat & time when user is retriving this url on local app
         }
     }
 

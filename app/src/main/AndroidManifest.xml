@@ -48,33 +48,6 @@
                 <data
                     android:host="grwl.adj.st"
                     android:scheme="https" />
-                <!--                    android:pathPrefix="/?adjust_t=q3o2z0e_sv94i35"-->
-
-                <data
-                    android:host="grwl.adj.st"
-                    android:scheme="yap_referral" />
-
-
-            </intent-filter>
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-
-                <data
-                    android:host="google.com"
-                    android:scheme="http" />
-            </intent-filter>
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-
-                <data
-                    android:host="digitify.atlassian.net"
-                    android:scheme="https" />
             </intent-filter>
         </activity>
 
