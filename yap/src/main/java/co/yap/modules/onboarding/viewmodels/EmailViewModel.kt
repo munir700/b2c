@@ -10,12 +10,15 @@ import co.yap.modules.onboarding.interfaces.IEmail
 import co.yap.modules.onboarding.states.EmailState
 import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.customers.requestdtos.DemographicDataRequest
+import co.yap.networking.customers.requestdtos.SaveReferalRequest
 import co.yap.networking.customers.requestdtos.SendVerificationEmailRequest
 import co.yap.networking.customers.requestdtos.SignUpRequest
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.SingleLiveEvent
+import co.yap.yapcore.constants.Constants.INVITEE_RECEIEVED_DATE
+import co.yap.yapcore.constants.Constants.INVITER_ADJUST_ID
 import co.yap.yapcore.constants.Constants.KEY_APP_UUID
 import co.yap.yapcore.constants.Constants.KEY_IS_USER_LOGGED_IN
 import co.yap.yapcore.helpers.SharedPreferenceManager
@@ -24,7 +27,6 @@ import co.yap.yapcore.helpers.extentions.toast
 import co.yap.yapcore.helpers.extentions.trackEvent
 import co.yap.yapcore.leanplum.SignupEvents
 import co.yap.yapcore.managers.MyUserManager
-import com.leanplum.Leanplum
 import java.util.*
 import java.util.concurrent.TimeUnit
 
@@ -169,7 +171,10 @@ class EmailViewModel(application: Application) :
                     "Android"
                 )
             )) {
-                is RetroApiResponse.Success -> getAccountInfo()
+                is RetroApiResponse.Success -> {
+                    requestSaveReferral()
+                    getAccountInfo()
+                }
                 is RetroApiResponse.Error -> {
                     state.valid = true
                     state.loading = false
@@ -214,6 +219,29 @@ class EmailViewModel(application: Application) :
                 }
             }
             false
+        }
+    }
+
+    //save referral invitation api integration
+    fun requestSaveReferral() {
+        if (!INVITEE_RECEIEVED_DATE.isNullOrEmpty() && !INVITER_ADJUST_ID.isNullOrEmpty()) {
+            launch {
+                when (val response =
+                    repository.saveReferalInvitation(
+                        SaveReferalRequest(
+                            INVITER_ADJUST_ID,
+                            INVITEE_RECEIEVED_DATE
+                        )
+                    )) {
+
+                    is RetroApiResponse.Success -> {
+
+                    }
+                    is RetroApiResponse.Error -> {
+                    }
+                }
+                state.loading = false
+            }
         }
     }
 }

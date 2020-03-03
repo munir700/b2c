@@ -9,6 +9,7 @@ import android.util.Log
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
 import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.constants.Constants.INVITEE_RECEIEVED_DATE
 import co.yap.yapcore.constants.Constants.INVITER_ADJUST_ID
 import co.yap.yapcore.constants.Constants.INVITER_ADJUST_URI
 import com.adjust.sdk.Adjust
@@ -83,7 +84,7 @@ fun Application.initializeAdjustSdk(appToken: String) {
         true
     }
 //    val uri = Uri.parse("https://grwl.adj.st?adjust_t=q3o2z0e_sv94i35&deep_link=yap_referral&user_id=ABD120000")
-//     getInviterInfoFromDeepLinkUri(uri)
+//    getInviterInfoFromDeepLinkUri(uri)
 
     //
     Adjust.onCreate(config)
@@ -105,6 +106,7 @@ private fun getInviterInfoFromDeepLinkUri(data: Uri) {
 
 //    "https://grwl.adj.st?adjust_t=q3o2z0e_sv94i35&deep_link=yap_referral&user_id=" + userId
     INVITER_ADJUST_ID = customerId.toString()
+    INVITEE_RECEIEVED_DATE= date
     Log.i("url", url.toString())
     Log.i("urluserid", customerId.toString())
     Log.i(
