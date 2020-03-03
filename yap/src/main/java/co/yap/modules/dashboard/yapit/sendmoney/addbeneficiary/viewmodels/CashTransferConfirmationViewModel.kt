@@ -8,6 +8,7 @@ import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.transactions.TransactionsRepository
+import co.yap.networking.transactions.requestdtos.DomesticTransactionRequestDTO
 import co.yap.networking.transactions.requestdtos.UAEFTSTransactionRequestDTO
 import co.yap.networking.transactions.responsedtos.TransactionThresholdModel
 import co.yap.yapcore.BaseViewModel
@@ -42,7 +43,12 @@ class CashTransferConfirmationViewModel(application: Application) :
     override fun proceedToTransferAmount() {
         beneficiary?.let { beneficiary ->
             beneficiary.id?.let { beneficiaryId ->
-                uaeftsTransferRequest(beneficiaryId.toString())
+                if (beneficiary.beneficiaryType?.isNotEmpty() == true)
+                    when (SendMoneyBeneficiaryType.valueOf(beneficiary.beneficiaryType ?: "")) {
+                        SendMoneyBeneficiaryType.UAEFTS -> uaeftsTransferRequest(beneficiaryId.toString())
+                        SendMoneyBeneficiaryType.DOMESTIC -> domesticTransferRequest(beneficiaryId.toString())
+                        else -> state.toast = "Invalid Beneficiary Type"
+                    }
             }
         }
     }
@@ -107,6 +113,36 @@ class CashTransferConfirmationViewModel(application: Application) :
                 }
                 is RetroApiResponse.Error -> {
                     state.toast = response.error.message
+//                    state.errorDescription = response.error.message
+//                    errorEvent.call()
+                    state.loading = false
+                }
+            }
+            state.loading = false
+        }
+    }
+
+    override fun domesticTransferRequest(beneficiaryId: String?) {
+        launch {
+            state.loading = true
+            when (val response =
+                repository.domesticTransferRequest(
+                    DomesticTransactionRequestDTO(
+                        beneficiaryId,
+                        state.enteredAmount.get()?.toDouble(),
+                        0.0,
+                        reasonCode,
+                        reason,
+                        transferNote
+                    )
+
+                )
+                ) {
+                is RetroApiResponse.Success -> {
+                    state.referenceNumber.set(response.data.data)
+                    clickEvent.postValue(Constants.ADD_CASH_PICK_UP_SUCCESS)
+                }
+                is RetroApiResponse.Error -> {
 //                    state.errorDescription = response.error.message
 //                    errorEvent.call()
                     state.loading = false
