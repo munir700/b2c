@@ -251,7 +251,7 @@ class AddBeneficiaryStates(val viewModel: AddBeneficiaryViewModel) : BaseState()
                 }
                 DOMESTIC -> {
                     valid =
-                        nickName.length > 1 && firstName.length > 1 && lastName.length > 1  && iban.isNotEmpty() && confirmIban.isNotEmpty() && StringUtils.isValidIBAN(iban, viewModel.parentViewModel?.selectedCountry?.value?.isoCountryCode2Digit) && iban == confirmIban
+                        nickName.length > 1 && firstName.length > 1 && lastName.length > 1  && iban.isNotEmpty() && confirmIban.isNotEmpty() && StringUtils.isValidIBAN(iban.replace(" ", ""), viewModel.parentViewModel?.selectedCountry?.value?.isoCountryCode2Digit) && iban == confirmIban
                 }
                 CASHPAYOUT -> {
                     valid =
