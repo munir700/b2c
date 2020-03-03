@@ -13,8 +13,7 @@ enum class OTPActions {
     UAEFTS,
     RMT,
     CASHPAYOUT,
-    DOMESTIC,
-    INTERNAL_TRANSFER,
     DOMESTIC_TRANSFER,
+    INTERNAL_TRANSFER,
     Y2Y
 }
