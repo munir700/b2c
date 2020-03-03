@@ -60,8 +60,11 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
                 TransactionProductCode.Y2Y_TRANSFER.pCode == transaction.productCode ?: "" || TransactionProductCode.POS_PURCHASE.pCode == transaction.productCode ?: "" -> {
                     ImageBinding.loadAvatar(
                         getBindings().ivPicture,
-                        "",
-                        viewModel.transaction.get()?.title,
+                        if (TxnType.valueOf(
+                                transaction.txnType ?: ""
+                            ) == TxnType.DEBIT
+                        ) transaction.receiverProfilePictureUrl else transaction.senderProfilePictureUrl,
+                        transaction.title,
                         android.R.color.transparent,
                         R.dimen.text_size_h2
                     )
