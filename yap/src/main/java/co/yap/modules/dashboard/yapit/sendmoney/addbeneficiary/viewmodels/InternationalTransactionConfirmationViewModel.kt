@@ -52,7 +52,7 @@ class InternationalTransactionConfirmationViewModel(application: Application) :
                             it.fromFxRateCurrency,
                             it.reasonTransferCode,
                             beneficiaryId,
-                            it.transactionNote,
+                            if (it.transactionNote.isBlank()) null else it.transactionNote,
                             it.reasonTransferValue
                         )
                     )
