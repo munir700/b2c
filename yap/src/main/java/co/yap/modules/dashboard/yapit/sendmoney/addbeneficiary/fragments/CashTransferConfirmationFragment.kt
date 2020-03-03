@@ -29,10 +29,10 @@ import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.Constants.URL_DISCLAIMER_TERMS
 import co.yap.yapcore.enums.OTPActions
+import co.yap.yapcore.enums.SendMoneyBeneficiaryType
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.startFragment
 import co.yap.yapcore.helpers.extentions.startFragmentForResult
-import co.yap.yapcore.helpers.extentions.toast
 import co.yap.yapcore.helpers.spannables.color
 import co.yap.yapcore.helpers.spannables.getText
 import co.yap.yapcore.managers.MyUserManager
@@ -88,7 +88,6 @@ class CashTransferConfirmationFragment :
 
         viewModel.state.position.set(
             arguments?.let { CashTransferConfirmationFragmentArgs.fromBundle(it).position })
-
 
     }
 
@@ -208,7 +207,7 @@ class CashTransferConfirmationFragment :
             GenericOtpFragment::class.java.name,
             bundleOf(
                 OtpDataModel::class.java.name to OtpDataModel(
-                    OTPActions.UAEFTS.name,
+                    getOtpAction(),
                     MyUserManager.user?.currentCustomer?.getFormattedPhoneNumber(requireContext()),
                     MyUserManager.user?.currentCustomer?.getFullName(),
                     false
@@ -221,6 +220,15 @@ class CashTransferConfirmationFragment :
         }
     }
 
+    private fun getOtpAction(): String? {
+        viewModel.beneficiary?.beneficiaryType?.let { type ->
+            return (when (type) {
+                SendMoneyBeneficiaryType.DOMESTIC.type -> OTPActions.DOMESTIC_TRANSFER.name
+                SendMoneyBeneficiaryType.UAEFTS.type -> OTPActions.UAEFTS.name
+                else -> null
+            })
+        } ?: return null
+    }
 
     override fun getViewBinding(): FragmentCashTransferConfirmationBinding {
         return (viewDataBinding as FragmentCashTransferConfirmationBinding)

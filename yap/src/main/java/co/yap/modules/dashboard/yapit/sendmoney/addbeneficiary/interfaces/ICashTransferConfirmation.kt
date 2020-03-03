@@ -29,6 +29,7 @@ interface ICashTransferConfirmation {
         fun proceedToTransferAmount()
         fun getCutOffTimeConfiguration()
         fun uaeftsTransferRequest(beneficiaryId: String?)
+        fun domesticTransferRequest(beneficiaryId: String?)
     }
 
     interface State : IBase.State {

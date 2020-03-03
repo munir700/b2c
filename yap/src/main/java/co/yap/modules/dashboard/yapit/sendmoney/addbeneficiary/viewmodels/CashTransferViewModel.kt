@@ -12,7 +12,6 @@ import co.yap.networking.messages.requestdtos.CreateOtpGenericRequest
 import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.transactions.TransactionsRepository
 import co.yap.networking.transactions.requestdtos.CashPayoutRequestDTO
-import co.yap.networking.transactions.requestdtos.DomesticTransactionRequestDTO
 import co.yap.networking.transactions.requestdtos.RemittanceFeeRequest
 import co.yap.networking.transactions.requestdtos.UAEFTSTransactionRequestDTO
 import co.yap.networking.transactions.responsedtos.InternationalFundsTransferReasonList
@@ -54,7 +53,6 @@ class CashTransferViewModel(application: Application) :
         state.currencyType = "AED"
         state.setSpannableFee("0.0")
         getTransactionThresholds()
-        getCutOffTimeConfiguration()
     }
 
     override fun onResume() {
@@ -144,14 +142,7 @@ class CashTransferViewModel(application: Application) :
                                 cashPayoutTransferRequest(beneficiaryId)
                             }
                         }
-                        //Rak to Rak(yap to rak(Internal transfer))
-                        SendMoneyBeneficiaryType.DOMESTIC -> {
-                            beneficiary.id?.let { beneficiaryId ->
-                                domesticTransferRequest(beneficiaryId.toString())
-                            }
-                        }
                         else -> {
-
                         }
                     }
             }
@@ -219,36 +210,6 @@ class CashTransferViewModel(application: Application) :
                         beneficiaryId,
                         state.noteValue
                     )
-                )
-                ) {
-                is RetroApiResponse.Success -> {
-                    state.referenceNumber = response.data.data
-                    clickEvent.postValue(Constants.ADD_CASH_PICK_UP_SUCCESS)
-                }
-                is RetroApiResponse.Error -> {
-                    state.errorDescription = response.error.message
-                    errorEvent.call()
-                    state.loading = false
-                }
-            }
-            state.loading = false
-        }
-    }
-
-    override fun domesticTransferRequest(beneficiaryId: String?) {
-        launch {
-            state.loading = true
-            when (val response =
-                transactionRepository.domesticTransferRequest(
-                    DomesticTransactionRequestDTO(
-                        beneficiaryId,
-                        state.amount.toDouble(),
-                        0.0,
-                        state.reasonTransferCode,
-                        state.reasonTransferValue,
-                        state.noteValue
-                    )
-
                 )
                 ) {
                 is RetroApiResponse.Success -> {
@@ -404,34 +365,4 @@ class CashTransferViewModel(application: Application) :
         }
     }
 
-    override fun getCutOffTimeConfiguration() {
-
-//        state.beneficiary?.run {
-//            beneficiaryType?.let { beneficiaryType ->
-//                if (beneficiaryType.isNotEmpty())
-//                    when (SendMoneyBeneficiaryType.valueOf(beneficiaryType)) {
-//                        SendMoneyBeneficiaryType.SWIFT, SendMoneyBeneficiaryType.UAEFTS -> {
-//                            launch {
-//                                when (val response =
-//                                    transactionRepository.getCutOffTimeConfiguration(
-//                                        state.produceCode,
-//                                        currency
-//                                    )) {
-//                                    is RetroApiResponse.Success -> {
-//                                        response.data.data?.let {
-//                                            state.cutOffTimeMsg = it.errorMsg
-//                                        }
-//
-//                                    }
-//                                    is RetroApiResponse.Error -> {
-//                                        state.toast = response.error.message
-//                                    }
-//                                }
-//                            }
-//                        }
-//                    }
-//            }
-//        }
-//    }
-    }
 }
