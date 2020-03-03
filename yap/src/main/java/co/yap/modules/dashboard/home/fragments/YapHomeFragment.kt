@@ -153,9 +153,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
         override fun onItemClick(view: View, data: Any, pos: Int) {
             if (data is Content) {
                 launchActivity<TransactionDetailsActivity> {
-                    putExtra("txnType", data.txnType)
-                    putExtra("transactionId", data.transactionId)
-                    putExtra("productCode", data.productCode)
+                    putExtra("transaction", data)
                 }
             }
         }
@@ -362,6 +360,11 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
         mAdapter.removeAllItems()
     }
 
+    override fun onCloseClick(notification: Notification) {
+        super.onCloseClick(notification)
+        clearNotification()
+    }
+
     private fun isShowSetPin(paymentCard: Card?): Boolean {
         return (paymentCard?.deliveryStatus == CardDeliveryStatus.SHIPPED.name && !paymentCard.pinCreated)
     }
@@ -524,7 +527,9 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                 }
             }
 
-            Constants.NOTIFICATION_ACTION_SET_PIN -> {viewModel.getDebitCards()}
+            Constants.NOTIFICATION_ACTION_SET_PIN -> {
+                viewModel.getDebitCards()
+            }
 
             Constants.NOTIFICATION_ACTION_SET_UPDATE_EID -> {
                 launchActivity<DocumentsDashboardActivity>(requestCode = RequestCodes.REQUEST_KYC_DOCUMENTS) {

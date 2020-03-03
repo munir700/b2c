@@ -105,18 +105,21 @@ object DateUtils {
     }
 
     fun datetoString(date: Date?, format: String, timeZone: TimeZone = TIME_ZONE_Default): String {
-        var result = ""
-        val formatter = SimpleDateFormat(format, Locale.getDefault())
-        formatter.timeZone = timeZone
-        val symbols = DateFormatSymbols(Locale.getDefault())
-        symbols.amPmStrings = arrayOf("am", "pm")
-        formatter.dateFormatSymbols = symbols
-        try {
-            result = formatter.format(date!!)
-        } catch (e: Exception) {
-        }
+        date?.let {
+            var result = ""
+            val formatter = SimpleDateFormat(format, Locale.getDefault())
+            formatter.timeZone = timeZone
+            val symbols = DateFormatSymbols(Locale.getDefault())
+            symbols.amPmStrings = arrayOf("am", "pm")
+            formatter.dateFormatSymbols = symbols
+            try {
+                result = formatter.format(it)
+            } catch (e: Exception) {
+            }
 
-        return result
+            return result
+        }?:return ""
+
     }
 
     fun stringToDate(dateStr: String, format: String, timeZone: TimeZone = GMT): Date? {

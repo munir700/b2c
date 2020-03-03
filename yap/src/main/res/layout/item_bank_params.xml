@@ -30,7 +30,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/_3sdp"
             android:layout_marginTop="@dimen/margin_small"
-            android:text="@{viewModel.bankParams.name}"
+            android:text="@{viewModel.bankParams.isMandatory().equals(`Y`) ? viewModel.bankParams.name + ` *` : viewModel.bankParams.name}"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"

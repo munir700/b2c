@@ -6,6 +6,7 @@ import android.os.Build
 import androidx.lifecycle.MutableLiveData
 import co.yap.app.modules.login.interfaces.IPhoneVerificationSignIn
 import co.yap.modules.onboarding.constants.Constants
+import co.yap.modules.onboarding.viewmodels.OnboardingChildViewModel
 import co.yap.networking.authentication.AuthRepository
 import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.customers.requestdtos.DemographicDataRequest
@@ -16,18 +17,17 @@ import co.yap.networking.messages.requestdtos.CreateOtpGenericRequest
 import co.yap.networking.messages.requestdtos.VerifyOtpGenericRequest
 import co.yap.networking.models.RetroApiResponse
 import co.yap.translation.Strings
-import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleLiveEvent
 import co.yap.yapcore.constants.Constants.KEY_APP_UUID
 import co.yap.yapcore.constants.Constants.KEY_IS_USER_LOGGED_IN
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.trackEventWithAttributes
-import co.yap.yapcore.leanplum.UserAttributes
 import co.yap.yapcore.managers.MyUserManager
 
 class PhoneVerificationSignInViewModel(application: Application) :
-    BaseViewModel<IPhoneVerificationSignIn.State>(application), IPhoneVerificationSignIn.ViewModel,
+    OnboardingChildViewModel<IPhoneVerificationSignIn.State>(application),
+    IPhoneVerificationSignIn.ViewModel,
     IRepositoryHolder<AuthRepository> {
 
     override val repository: AuthRepository = AuthRepository
@@ -146,25 +146,10 @@ class PhoneVerificationSignInViewModel(application: Application) :
     }
 
     private fun setUserAttributes() {
-        MyUserManager.user?.let {
-            val info: HashMap<String, Any> = HashMap()
-            info[UserAttributes().accountType] = it.accountType ?: ""
-            info[UserAttributes().email] = it.currentCustomer.email ?: ""
-            info[UserAttributes().nationality] = it.currentCustomer.nationality ?: ""
-            info[UserAttributes().firstName] = it.currentCustomer.firstName ?: ""
-            info[UserAttributes().lastName] = it.currentCustomer.lastName
-            info[UserAttributes().documentsVerified] = it.documentsVerified ?: false
-            info[UserAttributes().mainUser] = it.accountType == "B2C_ACCOUNT"
-            info[UserAttributes().householdUser] = it.accountType == "B2C_HOUSEHOLD"
-            info[UserAttributes().youngUser] = false
-            info[UserAttributes().b2bUser] = false
-            info[UserAttributes().country] = "AE"
-            info[UserAttributes().city] = ""
-            it.currentCustomer.customerId?.let { customerId ->
-                info[UserAttributes().customerId] = customerId
-            }
-            it.uuid?.let { trackEventWithAttributes(it, info) }
-        }
+        trackEventWithAttributes(
+            MyUserManager.user,
+            parentViewModel?.onboardingData?.elapsedOnboardingTime.toString()
+        )
     }
 
 }

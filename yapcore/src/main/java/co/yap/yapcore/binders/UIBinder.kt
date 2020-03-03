@@ -23,6 +23,7 @@ import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.widget.*
 import androidx.annotation.RequiresApi
+import androidx.appcompat.widget.AppCompatEditText
 import androidx.cardview.widget.CardView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.databinding.*
@@ -925,4 +926,11 @@ object UIBinder {
             return
         view.adapter = adapter
     }
+
+    @JvmStatic
+    @BindingAdapter("ibanMask")
+    fun maskIbanNo(view: AppCompatEditText, ibanMask: String?) {
+        ibanMask?.let { view.addTextChangedListener(MaskTextWatcher(view, it)) }
+    }
+
 }

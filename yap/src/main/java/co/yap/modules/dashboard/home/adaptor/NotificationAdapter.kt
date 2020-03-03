@@ -47,6 +47,14 @@ class NotificationAdapter(
                     e.printStackTrace()
                 }
             }
+
+            binding.ivCross.setOnClickListener {
+                try {
+                    clickListener.onCloseClick(listItems[adapterPosition])
+                } catch (ex: Exception) {
+                    ex.printStackTrace()
+                }
+            }
         }
     }
 }

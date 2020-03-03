@@ -1,9 +1,7 @@
 package co.yap.modules.dashboard.more.help.fragments
 
-import android.content.Context
 import android.content.Intent
 import android.content.Intent.ACTION_DIAL
-import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
@@ -21,13 +19,16 @@ import co.yap.modules.dashboard.more.help.viewmodels.HelpSupportViewModel
 import co.yap.modules.dashboard.more.main.fragments.MoreBaseFragment
 import co.yap.modules.webview.WebViewFragment
 import co.yap.networking.CookiesManager
-import co.yap.networking.customers.requestdtos.Contact
 import co.yap.yapcore.constants.Constants
-import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.helpers.extentions.OpenWhatsApp
+import co.yap.yapcore.helpers.extentions.makeCall
 import co.yap.yapcore.helpers.extentions.startFragment
 import co.yap.yapcore.helpers.extentions.toast
 import co.yap.yapcore.managers.MyUserManager
-import com.liveperson.infra.*
+import com.liveperson.infra.CampaignInfo
+import com.liveperson.infra.ConversationViewParams
+import com.liveperson.infra.InitLivePersonProperties
+import com.liveperson.infra.LPAuthenticationParams
 import com.liveperson.infra.callbacks.InitLivePersonCallBack
 import com.liveperson.messaging.sdk.api.LivePerson
 import com.liveperson.messaging.sdk.api.model.ConsumerProfile
@@ -55,11 +56,7 @@ class HelpSupportFragment : MoreBaseFragment<IHelpSupport.ViewModel>(), IHelpSup
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initComponents()
         viewModel.getHelpDeskPhone()
-    }
-
-    private fun initComponents() {
     }
 
     private fun setObservers() {
@@ -85,7 +82,7 @@ class HelpSupportFragment : MoreBaseFragment<IHelpSupport.ViewModel>(), IHelpSup
                 OpenWhatsApp()
             }
             R.id.lyCall -> {
-                openDialer()
+                requireContext().makeCall(viewModel.state.contactPhone.get())
             }
             R.id.tbBtnBack -> {
                 activity?.finish()
@@ -93,36 +90,11 @@ class HelpSupportFragment : MoreBaseFragment<IHelpSupport.ViewModel>(), IHelpSup
         }
     }
 
-    private fun OpenWhatsApp() {
-        val contact = "+971 4 365 3789" // use country code with your phone number
-        val url = "https://api.whatsapp.com/send?phone=$contact"
-        try {
-            val pm = requireContext().packageManager
-            pm?.getPackageInfo("com.whatsapp", PackageManager.GET_ACTIVITIES)
-            val i = Intent(Intent.ACTION_VIEW)
-            i.data = Uri.parse(url)
-            requireContext().startActivity(i)
-        } catch (e: PackageManager.NameNotFoundException) {
-            toast("Whatsapp app not installed in your phone")
-        }
-    }
-
-    private fun inviteViaWhatsapp(contact: Contact) {
-        val url =
-            "https://api.whatsapp.com/send?phone=${Utils.getFormattedPhoneNumber(
-                requireContext(),
-                "${contact.countryCode}${contact.mobileNo!!}"
-            )}&text=${Utils.getBody(requireContext(), contact)}"
-        val i = Intent(Intent.ACTION_VIEW)
-        i.data = Uri.parse(url)
-        startActivity(i)
-    }
-
     private fun chatSetup() {
         LivePerson.initialize(
             requireContext(),
             InitLivePersonProperties(
-                "17038977","17038977",
+                "17038977", "17038977",
                 object : InitLivePersonCallBack {
                     override fun onInitSucceed() {
                         openActivity()
@@ -141,14 +113,15 @@ class HelpSupportFragment : MoreBaseFragment<IHelpSupport.ViewModel>(), IHelpSup
         val publicKey = "publicKey"
 
         val authParams = LPAuthenticationParams(LPAuthenticationParams.LPAuthenticationType.AUTH)
-       // authParams.authKey = authCode
-        authParams.hostAppJWT= CookiesManager.jwtToken
+        // authParams.authKey = authCode
+        authParams.hostAppJWT = CookiesManager.jwtToken
         //authParams.addCertificatePinningKey(publicKey)
 
-      //  val campaignInfo = getCampaignInfo()
+        //  val campaignInfo = getCampaignInfo()
         val params = ConversationViewParams()
-            /*.setHistoryConversationsStateToDisplay(LPConversationsHistoryStateToDisplay.ALL)
-            .setCampaignInfo(campaignInfo).setReadOnlyMode(isReadOnly())*/
+
+        /*.setHistoryConversationsStateToDisplay(LPConversationsHistoryStateToDisplay.ALL)
+        .setCampaignInfo(campaignInfo).setReadOnlyMode(isReadOnly())*/
         //        setWelcomeMessage(params);  //This method sets the welcome message with quick replies. Uncomment this line to enable this feature.
         LivePerson.showConversation(requireActivity(), authParams, params)
 
@@ -160,16 +133,13 @@ class HelpSupportFragment : MoreBaseFragment<IHelpSupport.ViewModel>(), IHelpSup
 
         LivePerson.setUserProfile(consumerProfile)
 
+
         //Constructing the notification builder for the upload/download foreground service and passing it to the SDK.
         //val uploadBuilder = NotificationUI.createUploadNotificationBuilder(getApplicationContext())
         //val downloadBuilder =
         //    NotificationUI.createDownloadNotificationBuilder(getApplicationContext())
         //LivePerson.setImageServiceUploadNotificationBuilder(uploadBuilder)
         //LivePerson.setImageServiceDownloadNotificationBuilder(downloadBuilder)
-    }
-
-    private fun isReadOnly(): Boolean {
-        return false
     }
 
     @Nullable
@@ -189,13 +159,6 @@ class HelpSupportFragment : MoreBaseFragment<IHelpSupport.ViewModel>(), IHelpSup
             ), toolBarTitle = viewModel.state.title.get() ?: "", showToolBar = true
         )
     }
-
-    private fun openDialer() {
-        val intent = Intent(ACTION_DIAL)
-        intent.data = Uri.parse("tel:" + viewModel.state.contactPhone.get())
-        startActivity(intent)
-    }
-
     override fun onResume() {
         super.onResume()
         if (activity is YapDashboardActivity)

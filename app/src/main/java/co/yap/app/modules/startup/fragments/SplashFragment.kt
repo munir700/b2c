@@ -18,6 +18,7 @@ import co.yap.yapcore.constants.Constants.KEY_IS_FIRST_TIME_USER
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.alert
+import co.yap.yapcore.helpers.extentions.openPlayStore
 
 class SplashFragment : BaseFragment<ISplash.ViewModel>(), ISplash.View {
 
@@ -60,12 +61,7 @@ class SplashFragment : BaseFragment<ISplash.ViewModel>(), ISplash.View {
                     false
                 ) {
                     appUpdate = true
-                    val browserIntent =
-                        Intent(
-                            Intent.ACTION_VIEW,
-                            Uri.parse("https://play.google.com/store/apps/details?id=${requireContext().packageName}")
-                        )
-                    startActivity(browserIntent)
+                    requireContext().openPlayStore()
                     activity?.finish()
                 }
             } else {
