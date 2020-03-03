@@ -261,7 +261,13 @@ class CoreDialerPad @JvmOverloads constructor(
         view.findViewById<TextView>(R.id.tvError).visibility = View.VISIBLE
         view.findViewById<TextView>(R.id.tvError).text = error
         if (isScreenLocked) lockKeypad() else unlockKeypad()
+    }
 
+    fun setPasscodeVisiblity(isAccountBlocked:Boolean){
+        if(isAccountBlocked)
+            llPasscode?.visibility = View.GONE
+        else
+            llPasscode?.visibility = View.VISIBLE
     }
 
     fun showFingerprintView() {
@@ -274,7 +280,7 @@ class CoreDialerPad @JvmOverloads constructor(
 
 
     fun settingUIForNormal(isScreenLocked: Boolean = false) {
-        tvError.visibility = View.INVISIBLE
+        tvError.visibility = View.GONE
         if (isScreenLocked) lockKeypad() else unlockKeypad()
     }
 

@@ -636,12 +636,22 @@ object UIBinder {
     }
 
     @JvmStatic
-    @BindingAdapter(value = ["componentDialerError", "isScreenLocked"], requireAll = false)
-    fun setDialerError(view: CoreDialerPad, error: String?, isScreenLocked: Boolean = false) {
+    @BindingAdapter(
+        value = ["componentDialerError", "isScreenLocked", "isAccountLocked"],
+        requireAll = false
+    )
+    fun setDialerError(
+        view: CoreDialerPad,
+        error: String?,
+        isScreenLocked: Boolean = false,
+        isAccountLocked: Boolean = false
+    ) {
         if (null != error && error.isNotEmpty()) {
             view.settingUIForError(error, isScreenLocked)
+            view.setPasscodeVisiblity(isAccountLocked)
         } else {
             view.settingUIForNormal(isScreenLocked)
+            view.setPasscodeVisiblity(isAccountLocked)
         }
     }
 

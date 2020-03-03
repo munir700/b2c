@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import co.yap.app.constants.Constants
 import co.yap.app.modules.login.interfaces.IVerifyPasscode
 import co.yap.app.modules.login.states.VerifyPasscodeState
+import co.yap.networking.admin.AdminRepository
 import co.yap.networking.authentication.AuthRepository
 import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.customers.responsedtos.AccountInfo
@@ -32,6 +33,7 @@ class VerifyPasscodeViewModel(application: Application) :
 
     override val forgotPasscodeButtonPressEvent: SingleClickEvent = SingleClickEvent()
     override val repository: AuthRepository = AuthRepository
+    private val adminRepository: AdminRepository = AdminRepository
     override val state: VerifyPasscodeState = VerifyPasscodeState(application)
     override val signInButtonPressEvent: SingleLiveEvent<Boolean> = SingleLiveEvent()
     override val loginSuccess: SingleLiveEvent<Boolean> = SingleLiveEvent()
@@ -55,12 +57,25 @@ class VerifyPasscodeViewModel(application: Application) :
                     state.loading = false
                 }
                 is RetroApiResponse.Error -> {
-                    // state.toast = response.error.message
                     loginSuccess.postValue(false)
-                    response.error.actualCode = "303"
-                    response.error.message = "10"
                     state.loading = false
                     handleAttemptsError(response.error)
+                }
+            }
+        }
+    }
+
+    override fun verifyPasscode() {
+        launch {
+            state.loading = true
+            when (val response = adminRepository.validateCurrentPasscode(state.passcode)) {
+                is RetroApiResponse.Success -> {
+                    loginSuccess.postValue(true)
+                    state.loading = false
+                }
+                is RetroApiResponse.Error -> {
+                    loginSuccess.postValue(false)
+                    state.loading = false
                 }
             }
         }
@@ -73,10 +88,11 @@ class VerifyPasscodeViewModel(application: Application) :
         }
     }
 
-    private fun showAccountBlockedError() {
+    override fun showAccountBlockedError() {
         state.dialerError =
             "Too many attempts. For your security your account is blocked. Please click on forgot passcode to reset your passcode"
         state.isScreenLocked.set(true)
+        state.isAccountLocked.set(true)
         state.valid = false
     }
 
@@ -85,6 +101,7 @@ class VerifyPasscodeViewModel(application: Application) :
         val totalSeconds = message.toLongOrNull() ?: 0
         startCountDownTimer(totalSeconds)
         state.isScreenLocked.set(true)
+        state.isAccountLocked.set(false)
         state.valid = false
     }
 

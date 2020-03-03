@@ -21,6 +21,8 @@ interface IVerifyPasscode {
         fun createOtp()
         fun validateDevice()
         fun getAccountInfo()
+        fun verifyPasscode()
+        fun showAccountBlockedError()
         val signInButtonPressEvent: SingleLiveEvent<Boolean>
         val forgotPasscodeButtonPressEvent: SingleClickEvent
         val loginSuccess: SingleLiveEvent<Boolean>
@@ -45,5 +47,6 @@ interface IVerifyPasscode {
         var similar: Boolean
         var verifyPassCodeEnum: String
         var isScreenLocked: ObservableField<Boolean>
+        var isAccountLocked: ObservableField<Boolean>
     }
 }
