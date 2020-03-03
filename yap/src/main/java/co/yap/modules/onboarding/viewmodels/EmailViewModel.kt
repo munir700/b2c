@@ -240,7 +240,6 @@ class EmailViewModel(application: Application) :
                     is RetroApiResponse.Error -> {
                     }
                 }
-                state.loading = false
             }
         }
     }
