@@ -44,7 +44,7 @@ class Y2YFundsTransferViewModel(application: Application) :
 
     override fun proceedToTransferAmount() {
         val y2yFundsTransfer = Y2YFundsTransferRequest(
-            receiverUUID, state.fullName, enteredAmount.value, false, state.noteValue
+            receiverUUID, state.fullName, enteredAmount.value, false, if(state.noteValue.isBlank()) null else state.noteValue
         )
         launch {
             state.loading = true

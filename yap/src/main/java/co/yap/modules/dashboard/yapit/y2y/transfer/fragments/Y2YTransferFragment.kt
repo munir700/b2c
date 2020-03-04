@@ -83,7 +83,7 @@ class Y2YTransferFragment : Y2YBaseFragment<IY2YFundsTransfer.ViewModel>(), IY2Y
     private val enterAmountObserver = Observer<String> {
         when {
             isBalanceAvailable(it) -> showErrorSnackBar(viewModel.state.errorDescription, Snackbar.LENGTH_INDEFINITE)
-            isDailyLimitReached() -> showErrorSnackBar(viewModel.state.errorDescription, Snackbar.LENGTH_INDEFINITE)
+            //isDailyLimitReached() -> showErrorSnackBar(viewModel.state.errorDescription, Snackbar.LENGTH_INDEFINITE)
             else -> cancelAllSnackBar()
         }
     }
@@ -100,9 +100,9 @@ class Y2YTransferFragment : Y2YBaseFragment<IY2YFundsTransfer.ViewModel>(), IY2Y
                         setUpperLowerLimitError()
                         viewModel.errorEvent.call()
                     }
-                    isDailyLimitReached() -> {
-                        viewModel.errorEvent.call()
-                    }
+//                    isDailyLimitReached() -> {
+//                        viewModel.errorEvent.call()
+//                    }
                     isOtpRequired() -> {
                         createOtp()
                     }

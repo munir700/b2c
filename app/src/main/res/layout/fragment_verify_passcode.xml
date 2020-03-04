@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<layout xmlns:tools="http://schemas.android.com/tools">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -15,8 +17,7 @@
         <import type="android.view.View" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/white"
@@ -51,9 +52,7 @@
             style="@style/Large"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_medium"
             android:layout_marginTop="@dimen/margin_small"
-            android:layout_marginEnd="@dimen/margin_medium"
             android:gravity="center"
             android:lineSpacingExtra="0dp"
             android:textAlignment="center"
@@ -68,9 +67,11 @@
             android:id="@+id/dialer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_normal"
             app:componentDialerError='@{viewModel.state.dialerError}'
+            app:isScreenLocked="@{viewModel.state.isScreenLocked}"
+            app:isAccountLocked="@{viewModel.state.isAccountLocked}"
             app:dialer_pass_code="passcode"
+            app:layout_constraintBottom_toTopOf="@id/btnVerifyPasscode"
             app:layout_constraintTop_toBottomOf="@id/tvVerifyPasscodeTitle"
             app:passcodeTextWatcher="@{viewModel.state.getTextWatcher()}" />
 

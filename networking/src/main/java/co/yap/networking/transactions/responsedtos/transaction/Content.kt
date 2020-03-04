@@ -153,5 +153,10 @@ data class Content(
     @SerializedName("userType2")
     val userType2: String? = null,
     @SerializedName("vatAmount")
-    val vatAmount: Double? = null
-):Parcelable
+    val vatAmount: Double? = null,
+    @SerializedName("senderProfilePictureUrl")
+    val senderProfilePictureUrl: String? = null,
+    @SerializedName("receiverProfilePictureUrl")
+    val receiverProfilePictureUrl: String? = null
+
+) : Parcelable

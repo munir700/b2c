@@ -279,13 +279,7 @@ class InternationalFundsTransferState(val application: Application) : BaseState(
     @get:Bindable
     override var transactionNote: String? = null
         set(value) {
-            value?.let {
-                field = if (it.isEmpty()) {
-                    null
-                } else {
-                    value
-                }
-            }
+            field = if (value.isNullOrBlank()) null else value
             notifyPropertyChanged(BR.transactionNote)
         }
     @get:Bindable
