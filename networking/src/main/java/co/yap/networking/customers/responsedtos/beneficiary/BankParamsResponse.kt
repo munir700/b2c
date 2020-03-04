@@ -21,7 +21,7 @@ data class BankParams(
     @SerializedName("other_bank_country")
     val otherBankCountry: String?,
     @SerializedName("name")
-    val name: String?,
+    var name: String?,
     @SerializedName("is_mandatory")
     val isMandatory: String?,
     @SerializedName("min_characters")
