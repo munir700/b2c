@@ -33,8 +33,8 @@
             android:id="@+id/ivMap"
             android:layout_width="match_parent"
             android:layout_height="@dimen/_120sdp"
-            android:src="@drawable/ic_image_brown_background"
             android:contentDescription="@string/empty_string"
+            android:src="@drawable/ic_image_brown_background"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/toolbar" />
@@ -125,6 +125,7 @@
                 app:layout_constraintStart_toEndOf="@+id/ivCategoryIcon"
                 app:layout_constraintTop_toTopOf="@+id/ivCategoryIcon"
                 tools:text="Outgoing Transfer" />
+
             <TextView
                 android:id="@+id/tvTotalAmountValue"
                 style="@style/Large"
@@ -196,7 +197,7 @@
                 style="@style/Small"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{viewModel.state.txnNoteValue.isEmpty()? @string/screen_transaction_details_display_text_add_note : @string/screen_transaction_details_display_text_edit_note}"
+                android:text="@{viewModel.state.txnNoteValue==null||viewModel.state.txnNoteValue.isEmpty()? @string/screen_transaction_details_display_text_add_note : @string/screen_transaction_details_display_text_edit_note}"
                 android:textColor="?attr/colorPrimaryAttr"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -328,6 +329,7 @@
                 app:layout_constraintTop_toTopOf="@+id/tvVatAmount"
                 tools:ignore="HardcodedText"
                 tools:text="VAT" />
+
             <TextView
                 android:id="@+id/tvVatAmount"
                 style="@style/ASmall"
@@ -348,9 +350,10 @@
                 android:layout_height="wrap_content"
                 android:text="@string/screen_transaction_details_display_text_fee"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:text="@{Strings.screen_transaction_details_display_text_fee}"
                 app:layout_constraintTop_toTopOf="@+id/tvFeeAmount"
+                app:text="@{Strings.screen_transaction_details_display_text_fee}"
                 tools:text="Fee" />
+
             <TextView
                 android:id="@+id/tvFeeAmount"
                 style="@style/ASmall"
@@ -372,9 +375,10 @@
                 android:layout_height="wrap_content"
                 android:text="@string/screen_transaction_details_display_text_total_amount"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:text="@{Strings.screen_transaction_details_display_text_total_amount}"
                 app:layout_constraintTop_toTopOf="@+id/tvTotalAmountValueCalculated"
+                app:text="@{Strings.screen_transaction_details_display_text_total_amount}"
                 tools:text="Total" />
+
             <TextView
                 android:id="@+id/tvTotalAmountValueCalculated"
                 style="@style/ASmall"

@@ -23,7 +23,7 @@ interface ICashTransferConfirmation {
         var transactionThreshold: MutableLiveData<TransactionThresholdModel>
         var reasonCode: String
         var reason: String
-        var transferNote: String
+        var transferNote: String?
         fun handlePressOnView(id: Int)
         fun getTransactionThresholds()
         fun proceedToTransferAmount()

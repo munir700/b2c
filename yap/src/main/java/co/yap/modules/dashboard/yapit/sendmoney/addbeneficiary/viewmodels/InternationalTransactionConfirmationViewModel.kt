@@ -52,7 +52,7 @@ class InternationalTransactionConfirmationViewModel(application: Application) :
                             it.fromFxRateCurrency,
                             it.reasonTransferCode,
                             beneficiaryId,
-                            it.transactionNote,
+                            if (it.transactionNote.isBlank()) null else it.transactionNote,
                             it.reasonTransferValue
                         )
                     )
@@ -198,7 +198,7 @@ class InternationalTransactionConfirmationViewModel(application: Application) :
                                     )) {
                                     is RetroApiResponse.Success -> {
                                         response.data.data?.let {
-                                            state.cutOffTimeMsg =  it.errorMsg
+                                            state.cutOffTimeMsg = it.errorMsg
                                         }
 
                                     }

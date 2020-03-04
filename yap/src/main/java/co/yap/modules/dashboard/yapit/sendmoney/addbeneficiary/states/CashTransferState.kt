@@ -126,13 +126,7 @@ class CashTransferState(application: Application) : BaseState(), ICashTransfer.S
     @get:Bindable
     override var noteValue: String? = null
         set(value) {
-            value?.let {
-                field = if (it.isEmpty()) {
-                    null
-                } else {
-                    value
-                }
-            }
+            field = if(value.isNullOrBlank()) null else value
             notifyPropertyChanged(BR.noteValue)
         }
 

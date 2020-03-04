@@ -80,7 +80,6 @@ class CashTransferConfirmationFragment :
             arguments?.let { CashTransferConfirmationFragmentArgs.fromBundle(it).reason }.toString()
         viewModel.transferNote =
             arguments?.let { CashTransferConfirmationFragmentArgs.fromBundle(it).transferNote }
-                .toString()
 
         viewModel.state.transferFee.set(
             arguments?.let { CashTransferConfirmationFragmentArgs.fromBundle(it).transferFee }

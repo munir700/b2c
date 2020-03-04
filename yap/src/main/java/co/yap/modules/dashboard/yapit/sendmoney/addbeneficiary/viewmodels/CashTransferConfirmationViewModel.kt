@@ -27,7 +27,7 @@ class CashTransferConfirmationViewModel(application: Application) :
     override var beneficiary: Beneficiary? = null
     override var reasonCode: String = ""
     override var reason: String = ""
-    override var transferNote: String = ""
+    override var transferNote: String? = null
 
     override fun onCreate() {
         super.onCreate()
