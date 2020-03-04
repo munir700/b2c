@@ -39,7 +39,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/toolbar" />
 
-        <androidx.appcompat.widget.AppCompatImageView
+        <co.yap.widgets.CoreCircularImageView
             android:id="@+id/ivPicture"
             android:layout_width="@dimen/_35sdp"
             android:layout_height="@dimen/_35sdp"
@@ -47,10 +47,7 @@
             android:layout_marginTop="@dimen/margin_medium"
             android:background="@drawable/bg_round_purple_enabled"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/ivMap"
-            tools:src="@drawable/ic_plus_transactions"
-
-            />
+            app:layout_constraintTop_toBottomOf="@+id/ivMap" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/clAmount"
@@ -196,7 +193,7 @@
                 style="@style/Small"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{viewModel.state.txnNoteValue.isEmpty()? @string/screen_transaction_details_display_text_add_note : @string/screen_transaction_details_display_text_edit_note}"
+                android:text="@{viewModel.state.txnNoteValue==null || viewModel.state.txnNoteValue.isEmpty()? @string/screen_transaction_details_display_text_add_note : @string/screen_transaction_details_display_text_edit_note}"
                 android:textColor="?attr/colorPrimaryAttr"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -210,7 +207,7 @@
                 android:ellipsize="end"
                 android:lineSpacingExtra="2dp"
                 android:maxLines="2"
-                android:text="@{viewModel.state.txnNoteValue==null||viewModel.state.txnNoteValue.isEmpty()? @string/screen_transaction_details_display_text_note_description : viewModel.state.txnNoteValue}"
+                android:text="@{viewModel.state.txnNoteValue==null || viewModel.state.txnNoteValue.isEmpty()? @string/screen_transaction_details_display_text_note_description : viewModel.state.txnNoteValue}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/tvNoteHeading"
