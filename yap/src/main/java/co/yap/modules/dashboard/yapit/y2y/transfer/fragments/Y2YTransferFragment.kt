@@ -28,20 +28,13 @@ import co.yap.translation.Strings
 import co.yap.translation.Translator
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.OTPActions
-import co.yap.yapcore.helpers.DecimalDigitsInputFilter
-import co.yap.yapcore.helpers.Utils
-import co.yap.yapcore.helpers.cancelAllSnackBar
+import co.yap.yapcore.helpers.*
 import co.yap.yapcore.helpers.extentions.startFragmentForResult
-import co.yap.yapcore.helpers.showSnackBar
 import co.yap.yapcore.helpers.spannables.color
 import co.yap.yapcore.helpers.spannables.getText
 import co.yap.yapcore.managers.MyUserManager
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_y2y_funds_transfer.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 
 
 class Y2YTransferFragment : Y2YBaseFragment<IY2YFundsTransfer.ViewModel>(), IY2YFundsTransfer.View {
@@ -70,11 +63,12 @@ class Y2YTransferFragment : Y2YBaseFragment<IY2YFundsTransfer.ViewModel>(), IY2Y
         viewModel.clickEvent.observe(this, clickEvent)
         viewModel.enteredAmount.observe(this, enterAmountObserver)
         viewModel.errorEvent.observe(this, Observer {
-            showSnackBar(
-                msg = viewModel.state.errorDescription,
-                viewBgColor = R.color.errorLightBackground,gravity = Gravity.TOP,
-                colorOfMessage = R.color.error, duration = Snackbar.LENGTH_LONG
-            )
+            showErrorSnackBar(viewModel.state.errorDescription, Snackbar.LENGTH_LONG)
+            /*       showSnackBar(
+                       msg = viewModel.state.errorDescription,
+                       viewBgColor = R.color.errorLightBackground, gravity = Gravity.TOP,
+                       colorOfMessage = R.color.error, duration = Snackbar.LENGTH_LONG
+                   )*/
         })
         viewModel.transferFundSuccess.observe(this, transferFundSuccessObserver)
 
@@ -88,9 +82,9 @@ class Y2YTransferFragment : Y2YBaseFragment<IY2YFundsTransfer.ViewModel>(), IY2Y
     }
     private val enterAmountObserver = Observer<String> {
         when {
-            isBalanceAvailable(it) -> showErrorSnackBar(true)
-            //isDailyLimitReached() -> showErrorSnackBar(true)
-            else -> showErrorSnackBar(false)
+            isBalanceAvailable(it) -> showErrorSnackBar(viewModel.state.errorDescription, Snackbar.LENGTH_INDEFINITE)
+            //isDailyLimitReached() -> showErrorSnackBar(viewModel.state.errorDescription, Snackbar.LENGTH_INDEFINITE)
+            else -> cancelAllSnackBar()
         }
     }
 
@@ -244,23 +238,16 @@ class Y2YTransferFragment : Y2YBaseFragment<IY2YFundsTransfer.ViewModel>(), IY2Y
         findNavController().navigate(action)
     }
 
-    //    private fun showErrorSnackBar(isShowBar: Boolean) {
-//        if (isShowBar)
-//        CustomSnackbar.showErrorCustomSnackbar(
-//            context = requireContext(),
-//            layout = getBinding().clFTSnackbar,
-//            message = viewModel.state.errorDescription,
-//            duration = Snackbar.LENGTH_INDEFINITE
-//        )
-//        else
-//            CustomSnackbar.cancelAllSnackBar()
-//    }
-    private fun showErrorSnackBar(isShowBar: Boolean) {
-        if (isShowBar)
-            viewModel.parentViewModel?.errorEvent?.value = viewModel.state.errorDescription
-        else
-            viewModel.parentViewModel?.errorEvent?.value = null
-
+    private fun showErrorSnackBar(errorMessage: String, length: Int) {
+        getSnackBarFromQueue(0)?.let {
+            if (it.isShown) {
+                it.updateSnackBarText(errorMessage)
+            }
+        } ?: showSnackBar(
+            msg = viewModel.state.errorDescription,
+            viewBgColor = R.color.errorLightBackground, gravity = Gravity.TOP,
+            colorOfMessage = R.color.error, duration = length
+        )
     }
 
     override fun onDestroy() {
