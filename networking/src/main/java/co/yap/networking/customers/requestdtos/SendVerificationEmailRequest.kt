@@ -2,4 +2,7 @@ package co.yap.networking.customers.requestdtos
 
 import com.google.gson.annotations.SerializedName
 
-data class SendVerificationEmailRequest(val email: String, @SerializedName("account_type") val accountType: String)
+data class SendVerificationEmailRequest(
+    @SerializedName("email") val email: String,
+    @SerializedName("accountType") val accountType: String
+)

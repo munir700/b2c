@@ -21,6 +21,7 @@ interface IY2Y {
         val yapContactLiveData: MutableLiveData<List<Contact>>
         val isSearching: MutableLiveData<Boolean>
         val searchQuery: MutableLiveData<String>
+        var errorEvent: MutableLiveData<String>
     }
 
     interface View : IBase.View<ViewModel>

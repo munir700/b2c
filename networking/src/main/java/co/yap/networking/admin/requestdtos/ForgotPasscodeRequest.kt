@@ -1,4 +1,7 @@
 package co.yap.networking.admin.requestdtos
 
-data class ForgotPasscodeRequest(val mobileNo:String,val newPassword:String) {
+import com.google.gson.annotations.SerializedName
+
+data class ForgotPasscodeRequest(@SerializedName("mobileNo") val mobileNo:String,
+                                 @SerializedName ("newPassword")val newPassword:String) {
 }

@@ -45,10 +45,12 @@ import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.IFragmentHolder
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.PartnerBankStatus
-import co.yap.yapcore.helpers.PermissionHelper
 import co.yap.yapcore.helpers.extentions.dimen
+import co.yap.yapcore.helpers.extentions.launchActivity
+import co.yap.yapcore.helpers.permissions.PermissionHelper
 import co.yap.yapcore.managers.MyUserManager
 import kotlinx.android.synthetic.main.activity_yap_dashboard.*
+
 import kotlinx.android.synthetic.main.layout_drawer_yap_dashboard.*
 import net.cachapa.expandablelayout.ExpandableLayout
 
@@ -69,12 +71,10 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setupPager()
-        viewModel.getAccountBalanceRequest()
         addObservers()
         addListeners()
         setupYapButton()
     }
-
 
     private fun setupYapButton() {
         actionMenu = FloatingActionMenu.Builder(this)
@@ -266,7 +266,6 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
     }
 
     override fun onDestroy() {
-//        MyUserManager.expireUserSession()
         viewModel.clickEvent.removeObservers(this)
         super.onDestroy()
     }
@@ -299,7 +298,7 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
 
     override fun onBackPressed() {
         if (actionMenu?.isOpen!! && !actionMenu?.isAnimating()!!) {
-            actionMenu?.toggle(ivYapIt, true)
+            actionMenu?.toggle(getViewBinding().ivYapIt, true)
         } else if (drawerLayout.isDrawerOpen(GravityCompat.END)) closeDrawer()
         else if (getViewBinding().viewPager.currentItem != 0) {
             bottomNav.selectedItemId = R.id.yapHome
@@ -319,7 +318,11 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
         }
         getViewBinding().includedDrawerLayout.lStatements.lnAnalytics.setOnClickListener {
             MyUserManager.getPrimaryCard()?.let {
-                startActivity(CardStatementsActivity.newIntent(this, it))
+                launchActivity<CardStatementsActivity> {
+                    putExtra(CardStatementsActivity.CARD, it)
+                    putExtra("isFromDrawer",true)
+                }
+                //startActivity(CardStatementsActivity.newIntent(this, it))
                 closeDrawer()
             }
         }
@@ -359,12 +362,7 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
                     //getViewBinding().ivYapIt
                 }
                 R.id.yapCards -> {
-
-                    if (PartnerBankStatus.ACTIVATED.status == MyUserManager.user?.partnerBankStatus) {
-                        getViewBinding().viewPager.setCurrentItem(2, false)
-                    } else {
-                        showToast("Account activation pending")
-                    }
+                    getViewBinding().viewPager.setCurrentItem(2, false)
                 }
                 R.id.yapMore -> {
                     getViewBinding().viewPager.setCurrentItem(3, false)
@@ -374,17 +372,12 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
         }
         //Don't remove it not by mistake
         bottomNav.setOnNavigationItemReselectedListener {
-            it
             when (it.itemId) {
                 R.id.yapIt -> {
                     checkPermission()
                 }
                 R.id.yapCards -> {
-                    if (PartnerBankStatus.ACTIVATED.status == MyUserManager.user?.partnerBankStatus) {
-                        getViewBinding().viewPager.setCurrentItem(2, false)
-                    } else {
-                        showToast("Account activation pending")
-                    }
+                    getViewBinding().viewPager.setCurrentItem(2, false)
                 }
             }
         }

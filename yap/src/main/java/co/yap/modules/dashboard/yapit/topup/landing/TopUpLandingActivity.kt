@@ -4,14 +4,16 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.R
-import co.yap.modules.dashboard.more.bankdetails.activities.BankDetailActivity
 import co.yap.modules.dashboard.yapit.topup.cardslisting.TopUpBeneficiariesActivity
+import co.yap.modules.dashboard.yapit.topup.topupbankdetails.TopUpBankDetailsFragment
 import co.yap.yapcore.BR
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.constants.RequestCodes
+import co.yap.yapcore.helpers.extentions.startFragment
 
 
 class TopUpLandingActivity : BaseBindingActivity<ITopUpLanding.ViewModel>() {
@@ -39,7 +41,8 @@ class TopUpLandingActivity : BaseBindingActivity<ITopUpLanding.ViewModel>() {
     private val clickEventObserver = Observer<Int> {
         when (it) {
             R.id.llBankTransferType -> {
-                startActivity(BankDetailActivity.newIntent(this))
+                startBankFragment()
+                // startActivity(BankDetailActivity.newIntent(this))
             }
             R.id.llCardsTransferType -> {
                 startActivityForResult(
@@ -51,6 +54,15 @@ class TopUpLandingActivity : BaseBindingActivity<ITopUpLanding.ViewModel>() {
                 onBackPressed()
             }
         }
+    }
+
+    private fun startBankFragment() {
+        startFragment<TopUpBankDetailsFragment>(
+            TopUpBankDetailsFragment::class.java.name, false,
+            bundleOf(
+            )
+        )
+
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

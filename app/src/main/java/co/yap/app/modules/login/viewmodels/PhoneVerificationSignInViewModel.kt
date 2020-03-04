@@ -1,6 +1,7 @@
 package co.yap.app.modules.login.viewmodels
 
 import android.app.Application
+import android.content.Context
 import android.os.Build
 import androidx.lifecycle.MutableLiveData
 import co.yap.app.modules.login.interfaces.IPhoneVerificationSignIn
@@ -17,10 +18,11 @@ import co.yap.networking.models.RetroApiResponse
 import co.yap.translation.Strings
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleLiveEvent
+import co.yap.yapcore.constants.Constants.KEY_APP_UUID
+import co.yap.yapcore.constants.Constants.KEY_IS_USER_LOGGED_IN
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.trackEventWithAttributes
-import co.yap.yapcore.leanplum.UserAttributes
 import co.yap.yapcore.managers.MyUserManager
 
 class PhoneVerificationSignInViewModel(application: Application) :
@@ -43,7 +45,7 @@ class PhoneVerificationSignInViewModel(application: Application) :
 
     override fun onCreate() {
         super.onCreate()
-        state.reverseTimer(10)
+        //state.reverseTimer(10,context)
         state.valid = false
     }
 
@@ -61,7 +63,7 @@ class PhoneVerificationSignInViewModel(application: Application) :
                     val sharedPreferenceManager = SharedPreferenceManager(context)
 
                     sharedPreferenceManager.save(
-                        SharedPreferenceManager.KEY_IS_USER_LOGGED_IN,
+                        KEY_IS_USER_LOGGED_IN,
                         true
                     )
                     sharedPreferenceManager.savePassCodeWithEncryption(state.passcode)
@@ -77,7 +79,7 @@ class PhoneVerificationSignInViewModel(application: Application) :
         }
     }
 
-    override fun handlePressOnResend() {
+    override fun handlePressOnResend(context: Context) {
         launch {
             state.loading = true
             when (val response =
@@ -85,7 +87,7 @@ class PhoneVerificationSignInViewModel(application: Application) :
                 is RetroApiResponse.Success -> {
                     state.toast =
                         getString(Strings.screen_verify_phone_number_display_text_resend_otp_success)
-                    state.reverseTimer(10)
+                    state.reverseTimer(10, context)
                     state.valid = false
                 }
                 is RetroApiResponse.Error -> {
@@ -99,7 +101,7 @@ class PhoneVerificationSignInViewModel(application: Application) :
     override fun postDemographicData() {
         val sharedPreferenceManager = SharedPreferenceManager(context)
         val deviceId: String? =
-            sharedPreferenceManager.getValueString(SharedPreferenceManager.KEY_APP_UUID)
+            sharedPreferenceManager.getValueString(KEY_APP_UUID)
         launch {
             state.loading = true
             when (val response =
@@ -143,15 +145,7 @@ class PhoneVerificationSignInViewModel(application: Application) :
     }
 
     private fun setUserAttributes() {
-        MyUserManager.user?.let {
-            val info: HashMap<String, Any> = HashMap()
-            info[UserAttributes().accountType] = it.accountType ?: ""
-            info[UserAttributes().email] = it.currentCustomer.email ?: ""
-            info[UserAttributes().nationality] = it.currentCustomer.nationality ?: ""
-            info[UserAttributes().firstName] = it.currentCustomer.firstName ?: ""
-            info[UserAttributes().lastName] = it.currentCustomer.lastName
-            info[UserAttributes().documentsVerified] = it.documentsVerified ?: false
-            trackEventWithAttributes(info)
-        }
+        trackEventWithAttributes(MyUserManager.user)
     }
+
 }

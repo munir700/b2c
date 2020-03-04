@@ -1,11 +1,8 @@
 package co.yap.app
 
-import android.app.NotificationChannel
-import android.app.NotificationManager
 import android.content.Context
 import android.content.Intent
-import android.graphics.Color
-import android.os.Build
+import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentActivity
 import co.yap.app.modules.login.activities.VerifyPassCodePresenterActivity
@@ -16,11 +13,12 @@ import co.yap.modules.others.helper.Constants.START_REQUEST_CODE
 import co.yap.networking.RetroNetwork
 import co.yap.networking.interfaces.NetworkConstraintsListener
 import co.yap.yapcore.constants.Constants
-import co.yap.yapcore.helpers.AppInfo
-import co.yap.yapcore.helpers.AuthUtils
-import co.yap.yapcore.helpers.NetworkConnectionManager
-import co.yap.yapcore.helpers.SharedPreferenceManager
+import co.yap.yapcore.constants.Constants.EXTRA
+import co.yap.yapcore.constants.Constants.KEY_APP_UUID
+import co.yap.yapcore.helpers.*
 import co.yap.yapcore.helpers.extentions.longToast
+import co.yap.yapcore.initializeAdjustSdk
+import co.yap.yapcore.initializeAdjustSdk
 import com.crashlytics.android.Crashlytics
 import com.github.florent37.inlineactivityresult.kotlin.startForResult
 import com.leanplum.Leanplum
@@ -30,41 +28,24 @@ import timber.log.Timber
 import timber.log.Timber.DebugTree
 import java.util.*
 
-
 class AAPApplication : ChatApplication(
     AppInfo(
         BuildConfig.VERSION_NAME,
         BuildConfig.VERSION_CODE,
         BuildConfig.FLAVOR,
-        BuildConfig.BUILD_TYPE
+        BuildConfig.BUILD_TYPE,
+        BuildConfig.BASE_URL
     )
 ), NavigatorProvider {
 
     override fun onCreate() {
         super.onCreate()
-        SharedPreferenceManager(this).setThemeValue(Constants.THEME_YAP)
-        initCrashLytics()
-        initDebugTreeTimber()
         initNetworkLayer()
+        SharedPreferenceManager(this).setThemeValue(Constants.THEME_YAP)
         setAppUniqueId(this)
-        initFirebase()
+        initFireBase()
         inItLeanPlum()
-        createChannel(packageName, "Default")
-    }
-
-    private fun initDebugTreeTimber() {
-        if (BuildConfig.DEBUG) {
-            Timber.plant(DebugTree())
-        }
-    }
-
-
-    private fun initCrashLytics() {
-        val fabric = Fabric.Builder(this)
-            .kits(Crashlytics())
-            .debuggable(BuildConfig.DEBUG) // Enables Crashlytics debugger
-            .build()
-        Fabric.with(fabric)
+        initializeAdjustSdk(BuildConfig.ADJUST_APP_TOKEN)
     }
 
     private fun initNetworkLayer() {
@@ -84,36 +65,24 @@ class AAPApplication : ChatApplication(
         })
     }
 
-
-    /**
-     * In this function initialize Firebase.
-     */
-
-    private fun initFirebase() {
-        val fabric = Fabric.Builder(this)
-            .kits(Crashlytics())
-            .debuggable(BuildConfig.DEBUG) // Enables Crashlytics debugger
-            .build()
-        Fabric.with(fabric)
-
+    private fun initFireBase() {
         if (BuildConfig.DEBUG) {
             Timber.plant(DebugTree())
+        } else {
+            val fabric = Fabric.Builder(this)
+                .kits(Crashlytics())
+                .build()
+            Fabric.with(fabric)
         }
-
     }
 
-    /**
-     * In this function initialize Leanplum.
-     */
     private fun inItLeanPlum() {
-
         Leanplum.setApplicationContext(this)
         //Parser.parseVariables(this)
         LeanplumActivityHelper.enableLifecycleCallbacks(this)
 
         val appId = BuildConfig.LEANPLUM_CLIENT_SECRET
         val devKey = BuildConfig.LEANPLUM_API_KEY
-        //val prodKey = AppCredentials.prodKey
 
         if (BuildConfig.DEBUG) {
             Leanplum.setAppIdForDevelopmentMode(appId, devKey)
@@ -121,42 +90,17 @@ class AAPApplication : ChatApplication(
             Leanplum.setAppIdForProductionMode(appId, devKey)
         }
 
-//        Leanplum.setIsTestModeEnabled(true)
+        //Leanplum.setIsTestModeEnabled(true)
         Leanplum.start(this)
-    }
-
-    private fun createChannel(channelId: String, channelName: String) {
-        // TODO: Step 1.6 START create a channel
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val notificationChannel = NotificationChannel(
-                channelId,
-                channelName,
-                // TODO: Step 2.4 change importance
-                NotificationManager.IMPORTANCE_HIGH
-            )// TODO: Step 2.6 disable badges for this channel
-                .apply {
-                    setShowBadge(false)
-                }
-
-            notificationChannel.enableLights(true)
-            notificationChannel.lightColor = Color.RED
-            notificationChannel.enableVibration(true)
-            notificationChannel.description = "Default channel"
-            //getString(R.string.app_name)
-
-            val notificationManager = getSystemService(NotificationManager::class.java)
-            notificationManager.createNotificationChannel(notificationChannel)
-        }
-        // TODO: Step 1.6 END create a channel
     }
 
     private fun setAppUniqueId(context: Context) {
         var uuid: String?
         val sharedPrefs = SharedPreferenceManager(context)
-        uuid = sharedPrefs.getValueString(SharedPreferenceManager.KEY_APP_UUID)
+        uuid = sharedPrefs.getValueString(KEY_APP_UUID)
         if (uuid == null) {
             uuid = UUID.randomUUID().toString()
-            sharedPrefs.save(SharedPreferenceManager.KEY_APP_UUID, uuid)
+            sharedPrefs.save(KEY_APP_UUID, uuid)
         }
     }
 
@@ -178,11 +122,12 @@ class AAPApplication : ChatApplication(
             }
 
             override fun startVerifyPassCodePresenterActivity(
-                activity: FragmentActivity,
+                activity: FragmentActivity, bundle: Bundle,
                 completionHandler: ((resultCode: Int, data: Intent?) -> Unit)?
             ) {
                 try {
                     val intent = Intent(activity, VerifyPassCodePresenterActivity::class.java)
+                    intent.putExtra(EXTRA, bundle)
                     (activity as AppCompatActivity).startForResult(intent) { result ->
                         completionHandler?.invoke(result.resultCode, result.data)
                     }.onFailed { result ->
@@ -191,11 +136,7 @@ class AAPApplication : ChatApplication(
 
                 } catch (e: Exception) {
                     if (e is ClassNotFoundException) {
-                        longToast(
-                            "Something went wrong"
-                            //"InlineActivityResult library not installed falling back to default method, please install \" +\n" +
-                            //        "\"it from https://github.com/florent37/InlineActivityResult if you want to get inline activity results."
-                        )
+                        longToast("Something went wrong")
                         activity.startActivityForResult(
                             Intent(activity, VerifyPassCodePresenterActivity::class.java),
                             START_REQUEST_CODE

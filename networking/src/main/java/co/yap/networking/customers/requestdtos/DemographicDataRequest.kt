@@ -1,3 +1,12 @@
 package co.yap.networking.customers.requestdtos
 
-data class DemographicDataRequest(val action: String, val osVersion: String, val deviceId: String, val deviceName: String, val deviceModel: String, val osType: String)
+import com.google.gson.annotations.SerializedName
+
+data class DemographicDataRequest(
+    @SerializedName("action") val action: String,
+    @SerializedName("osVersion") val osVersion: String,
+    @SerializedName("deviceId") val deviceId: String,
+    @SerializedName("deviceName") val deviceName: String,
+    @SerializedName("deviceModel") val deviceModel: String,
+    @SerializedName("osType") val osType: String
+)

@@ -26,7 +26,7 @@ class GenericOtpFragment : BaseBindingFragment<IGenericOtp.ViewModel>(), IGeneri
             }
         }
         setObservers()
-        viewModel.initializeData()
+        viewModel.initializeData(requireContext())
     }
 
     override fun setObservers() {
@@ -65,7 +65,7 @@ class GenericOtpFragment : BaseBindingFragment<IGenericOtp.ViewModel>(), IGeneri
                 .setPositiveButton(
                     "Retry"
                 ) { _, _ ->
-                    viewModel.createOtp()
+                    viewModel.createOtp(context = requireContext())
                 }
 
                 .setNegativeButton(

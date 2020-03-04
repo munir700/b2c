@@ -10,12 +10,15 @@ import co.yap.modules.dashboard.main.viewmodels.YapDashboardChildViewModel
 import co.yap.networking.cards.CardsRepository
 import co.yap.networking.cards.requestdtos.OrderCardRequest
 import co.yap.networking.cards.responsedtos.Address
+import co.yap.networking.cards.responsedtos.Card
 import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.transactions.TransactionsRepository
 import co.yap.networking.transactions.responsedtos.transaction.Content
 import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionListData
 import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionsResponse
 import co.yap.yapcore.SingleClickEvent
+import co.yap.yapcore.enums.CardType
+import co.yap.yapcore.managers.MyUserManager
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -23,14 +26,9 @@ class YapHomeViewModel(application: Application) :
     YapDashboardChildViewModel<IYapHome.State>(application),
     IYapHome.ViewModel {
 
-
-    override lateinit var debitCardSerialNumber: String
     override val clickEvent: SingleClickEvent = SingleClickEvent()
     override val state: YapHomeState = YapHomeState()
-    override var txnFilters: TransactionFilters = TransactionFilters(
-        null,
-        null, false, outgoingTxn = false
-    )
+    override var txnFilters: TransactionFilters = TransactionFilters()
 
     private val cardsRepository: CardsRepository = CardsRepository
     private val transactionsRepository: TransactionsRepository = TransactionsRepository
@@ -66,7 +64,7 @@ class YapHomeViewModel(application: Application) :
 
     override fun requestAccountTransactions() {
         launch {
-            if (!isLoadMore.value!!)
+            if (isLoadMore.value == false)
                 state.loading = true
             when (val response =
                 transactionsRepository.getAccountTransactions(YAPApplication.homeTransactionsRequest)) {
@@ -75,19 +73,19 @@ class YapHomeViewModel(application: Application) :
                     val transactionModelData: ArrayList<HomeTransactionListData> =
                         setUpSectionHeader(response)
 
-                    if (isRefreshing.value!!) {
+                    if (isRefreshing.value == true) {
                         sortedCombinedTransactionList.clear()
                     }
                     isRefreshing.value = false
 
-                    if (!sortedCombinedTransactionList.equals(transactionModelData)) {
+                    if (sortedCombinedTransactionList != transactionModelData) {
                         sortedCombinedTransactionList.addAll(transactionModelData)
                     }
 
                     val unionList =
                         (sortedCombinedTransactionList.asSequence() + transactionModelData.asSequence())
                             .distinct()
-                            .groupBy({ it.date })
+                            .groupBy { it.date }
 
                     for (lists in unionList.entries) {
                         if (lists.value.size > 1) {// sortedCombinedTransactionList.equals(transactionModelData fails in this case
@@ -103,16 +101,16 @@ class YapHomeViewModel(application: Application) :
                             }
 
 
-                            var closingBalanceOfTheDay: Double = contentsList.get(0).balanceAfter
+                            var closingBalanceOfTheDay = contentsList[0].balanceAfter ?: 0.0
                             closingBalanceArray.add(closingBalanceOfTheDay)
 
-                            var transactionModel: HomeTransactionListData = HomeTransactionListData(
+                            var transactionModel = HomeTransactionListData(
                                 "Type",
                                 "AED",
                                 /* transactionsDay.key!!*/
-                                convertDate(contentsList.get(0).creationDate)!!,
-                                contentsList.get(0).totalAmount.toString(),
-                                contentsList.get(0).balanceAfter,
+                                convertDate(contentsList[0].creationDate),
+                                contentsList[0].totalAmount.toString(),
+                                contentsList[0].balanceAfter,
                                 0.00 /*  "calculate the percentage as per formula from the keys".toDouble()*/,
                                 contentsList,
 
@@ -178,7 +176,11 @@ class YapHomeViewModel(application: Application) :
 
     private fun setUpSectionHeader(response: RetroApiResponse.Success<HomeTransactionsResponse>): ArrayList<HomeTransactionListData> {
         val contentList = response.data.data.content as ArrayList<Content>
-        contentList.sortWith(Comparator { o1, o2 -> o2.creationDate.compareTo(o1.creationDate) })
+        contentList.sortWith(Comparator { o1, o2 ->
+            o2.creationDate?.compareTo(
+                o1?.creationDate ?: ""
+            ) ?: 0
+        })
 
         val groupByDate = contentList.groupBy { item ->
             convertDate(item.creationDate!!)
@@ -196,15 +198,15 @@ class YapHomeViewModel(application: Application) :
                 it.creationDate
             }
 
-            var closingBalanceOfTheDay: Double = contentsList.get(0).balanceAfter
+            var closingBalanceOfTheDay: Double = contentsList[0].balanceAfter ?: 0.0
             closingBalanceArray.add(closingBalanceOfTheDay)
 
             var transactionModel = HomeTransactionListData(
                 "Type",
                 "AED",
                 transactionsDay.key!!,
-                contentsList.get(0).totalAmount.toString(),
-                contentsList.get(0).balanceAfter,
+                contentsList[0].totalAmount.toString(),
+                contentsList[0].balanceAfter,
                 0.00 /*  "calculate the percentage as per formula from the keys".toDouble()*/,
                 contentsList,
 
@@ -225,32 +227,34 @@ class YapHomeViewModel(application: Application) :
 //            transactionLogicHelper.transactionList =
 //                transactionModelData
             MAX_CLOSING_BALANCE =
-                closingBalanceArray.max()!!
+                closingBalanceArray.max() ?: 0.0
         }
         return transactionModelData
     }
 
     override fun getDebitCards() {
         launch {
-            state.loading = true
             when (val response = cardsRepository.getDebitCards("DEBIT")) {
                 is RetroApiResponse.Success -> {
-                    response.data.data?.let { it ->
+                    response.data.data?.let {
                         if (it.isNotEmpty()) {
-                            response.data.data?.let {
-                                debitCardSerialNumber = it[0].cardSerialNumber
+                            val primaryCard = getPrimaryCard(response.data.data)
+                            primaryCard?.let {
+                                MyUserManager.cards.value = primaryCard
+                                clickEvent.setValue(EVENT_SET_CARD_PIN)
                             }
-
-                            clickEvent.setValue(EVENT_SET_CARD_PIN)
+                        } else {
+                            state.toast = "Debit card not found."
                         }
                     }
-
                 }
                 is RetroApiResponse.Error -> state.toast = response.error.message
             }
-            state.loading = false
         }
+    }
 
+    private fun getPrimaryCard(cards: ArrayList<Card>?): Card? {
+        return cards?.firstOrNull { it.cardType == CardType.DEBIT.type }
     }
 
     override fun requestOrderCard(address: Address?) {
@@ -285,15 +289,18 @@ class YapHomeViewModel(application: Application) :
 
     }
 
-    private fun convertDate(creationDate: String): String? {
-        val parser = SimpleDateFormat("yyyy-MM-dd")
-        parser.setTimeZone(TimeZone.getTimeZone("UTC"))
-        val convertedDate = parser.parse(creationDate)
+    private fun convertDate(creationDate: String?): String? {
+        creationDate?.let {
+            val parser = SimpleDateFormat("yyyy-MM-dd")
+            parser.setTimeZone(TimeZone.getTimeZone("UTC"))
+            val convertedDate = parser.parse(creationDate)
 
-        val pattern = "MMMM dd, yyyy"
-        val simpleDateFormat = SimpleDateFormat(pattern)
-        val date = simpleDateFormat.format(convertedDate)
+            val pattern = "MMMM dd, yyyy"
+            val simpleDateFormat = SimpleDateFormat(pattern)
+            val date = simpleDateFormat.format(convertedDate)
 
-        return date
+            return date
+        }
+        return ""
     }
 }

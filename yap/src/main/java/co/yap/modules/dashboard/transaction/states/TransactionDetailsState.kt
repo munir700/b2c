@@ -76,8 +76,38 @@ class TransactionDetailsState : BaseState(), ITransactionDetails.State {
             field = value
             notifyPropertyChanged(BR.noteValue)
         }
+    @get:Bindable
+    override var currency: String? = ""
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.currency)
+        }
+    @get:Bindable
+    override var vatAmount: String? = ""
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.vatAmount)
+        }
+    @get:Bindable
+    override var totalAmountCalculated: String? = ""
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.totalAmountCalculated)
+        }
+//    @get:Bindable
+//    override var content: Content? = null
+//        set(value) {
+//            field = value
+//            notifyPropertyChanged(BR.content)
+//        }
 
     override var isYtoYTransfer: ObservableField<Boolean> = ObservableField(false)
+
+
+    override var spentVisibility: ObservableField<Boolean> = ObservableField(false)
+        set(value) {
+            field = ObservableField(value)
+        }
 
     @get:Bindable
     override var transactionSender: String? = ""
@@ -92,4 +122,9 @@ class TransactionDetailsState : BaseState(), ITransactionDetails.State {
             field = value
             notifyPropertyChanged(BR.transactionReceiver)
         }
+
+    override var categoryTitle: ObservableField<String> = ObservableField("")
+    override var categoryIcon: ObservableField<Int> = ObservableField()
+    override var categoryName: ObservableField<String> = ObservableField()
+    override var transactionAddress: ObservableField<String> = ObservableField("")
 }

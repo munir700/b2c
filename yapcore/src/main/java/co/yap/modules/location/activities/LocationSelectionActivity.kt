@@ -9,18 +9,21 @@ import android.location.LocationManager
 import android.os.Bundle
 import android.provider.Settings
 import android.view.View
+import androidx.core.os.bundleOf
 import androidx.databinding.Observable
 import androidx.lifecycle.Observer
 import co.yap.modules.location.helper.MapSupportActivity
 import co.yap.modules.location.interfaces.ILocationSelection
+import co.yap.modules.webview.WebViewFragment
 import co.yap.networking.cards.responsedtos.Address
 import co.yap.yapcore.R
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.Constants.ADDRESS
 import co.yap.yapcore.constants.Constants.ADDRESS_SUCCESS
 import co.yap.yapcore.constants.RequestCodes
-import co.yap.yapcore.helpers.PermissionHelper
 import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.helpers.extentions.startFragment
+import co.yap.yapcore.helpers.permissions.PermissionHelper
 import co.yap.yapcore.interfaces.OnItemClickListener
 import com.daimajia.androidanimations.library.Techniques
 import com.daimajia.androidanimations.library.YoYo
@@ -166,10 +169,20 @@ class LocationSelectionActivity : MapSupportActivity(), ILocationSelection.View 
                 startAnimateLocationCard()
             }
             R.id.tvTermsAndConditions -> {
-                Utils.openWebPage(Constants.URL_TERMS_CONDITION, "", this)
+                startFragment<WebViewFragment>(
+                    fragmentName = WebViewFragment::class.java.name, bundle = bundleOf(
+                        Constants.PAGE_URL to Constants.URL_TERMS_CONDITION
+                    ) , showToolBar = true
+                )
+                //Utils.openWebPage(Constants.URL_TERMS_CONDITION, "", this)
             }
             R.id.etAddressField -> {
-                onMapClickAction()
+                if (etAddressField.length() > 0) {
+                    etAddressField.isFocusable = true
+                    etAddressField.isFocusableInTouchMode = true
+                } else {
+                    onMapClickAction()
+                }
             }
             R.id.rlCollapsedMapSection -> {
                 onMapClickAction()
@@ -214,8 +227,8 @@ class LocationSelectionActivity : MapSupportActivity(), ILocationSelection.View 
                 }
 
                 override fun onAnimationEnd(animation: Animator?) {
-                    viewModel.state.isShowLocationCard.set(true)
                     mDefaultLocation?.let {
+                        loadAysnMapInfo(it)
                         animateCameraToLocation(it)
                     }
                 }

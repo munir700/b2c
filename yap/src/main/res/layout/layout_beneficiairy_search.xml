@@ -35,7 +35,6 @@
             app:layout_constraintTop_toTopOf="parent"
             app:queryBackground="@color/transparent"
             app:queryHint="Search"
-            app:requestKeyboard="@{viewModel.state.isSearching()? true : false}"
             app:searchIcon="@drawable/ic_search_grey" />
 
         <ImageView

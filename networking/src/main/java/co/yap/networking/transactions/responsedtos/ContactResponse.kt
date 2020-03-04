@@ -1,6 +1,8 @@
 package co.yap.networking.transactions.responsedtos
 
+import com.google.gson.annotations.SerializedName
+
 data class ContactResponse(
-    val data: Data?,
-    val errors: Any?
+    @SerializedName("data") val data: Data?,
+    @SerializedName("errors")  val errors: Any?
 )

@@ -12,15 +12,16 @@ import co.yap.BR
 import co.yap.R
 import co.yap.databinding.FragmentTopUpCardFundsBinding
 import co.yap.modules.dashboard.cards.paymentcarddetail.addfunds.interfaces.IFundActions
+import co.yap.modules.dashboard.yapit.topup.addtopupcard.activities.AddTopUpCardActivityV2
 import co.yap.modules.dashboard.yapit.topup.topupamount.activities.TopUpCardActivity
 import co.yap.modules.dashboard.yapit.topup.topupamount.viewModels.TopUpCardFundsViewModel
-import co.yap.modules.dashboard.yapit.topup.addtopupcard.activities.AddTopUpCardActivity
 import co.yap.translation.Strings
 import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.constants.Constants
-import co.yap.yapcore.helpers.CustomSnackbar
 import co.yap.yapcore.helpers.DecimalDigitsInputFilter
 import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.helpers.extentions.launchActivity
+import co.yap.yapcore.helpers.showSnackBar
 import co.yap.yapcore.managers.MyUserManager
 
 class TopUpCardFundsFragment : BaseBindingFragment<IFundActions.ViewModel>(),
@@ -80,14 +81,15 @@ class TopUpCardFundsFragment : BaseBindingFragment<IFundActions.ViewModel>(),
         })
 
         viewModel.htmlLiveData.observe(this, Observer {
-            startActivityForResult(
+            if (!it.isNullOrEmpty()) {
+                launchActivity<AddTopUpCardActivityV2>(requestCode = Constants.EVENT_TOP_UP_CARD_TRANSACTION) {
+                    putExtra(Constants.KEY, it)
+                    putExtra(Constants.TYPE, Constants.TYPE_TOP_UP_TRANSACTION)
+                }
+            } else {
+                return@Observer
+            }
 
-                AddTopUpCardActivity.newIntent(
-                    requireContext(),
-                    viewModel.htmlLiveData.value.toString(),
-                    Constants.TYPE_TOP_UP_TRANSACTION
-                ), Constants.EVENT_TOP_UP_CARD_TRANSACTION
-            )
         })
 
         viewModel.topUpTransactionModelLiveData?.observe(this, Observer {
@@ -118,10 +120,10 @@ class TopUpCardFundsFragment : BaseBindingFragment<IFundActions.ViewModel>(),
     }
 
     private fun showErrorSnackBar() {
-        CustomSnackbar.showErrorCustomSnackbar(
-            context = requireContext(),
-            layout = getBindings().clSnackbar,
-            message = viewModel.state.errorDescription
+        getBindings().clSnackbar.showSnackBar(
+            msg = viewModel.state.errorDescription,
+            viewBgColor = R.color.errorLightBackground,
+            colorOfMessage = R.color.error
         )
     }
 
@@ -154,7 +156,7 @@ class TopUpCardFundsFragment : BaseBindingFragment<IFundActions.ViewModel>(),
                 viewModel.state.transactionFeeSpannableString,
                 viewModel.state.transactionFee
             )
-        } else if (viewModel.state.transactionFee.toDouble() > 0) {
+        } else if (viewModel.state.transactionFee.toDouble() >= 0) {
             viewModel.state.transactionFeeSpannableString =
                 getString(Strings.screen_topup_transfer_display_text_transaction_fee)
                     .format(
@@ -162,7 +164,7 @@ class TopUpCardFundsFragment : BaseBindingFragment<IFundActions.ViewModel>(),
                     )
             getBindings().tvFeeDescription.text = Utils.getSppnableStringForAmount(
                 requireContext(),
-                viewModel.state.transactionFeeSpannableString!!,
+                viewModel.state.transactionFeeSpannableString ?: "",
                 viewModel.state.currencyType,
                 viewModel.state.transactionFee
             )

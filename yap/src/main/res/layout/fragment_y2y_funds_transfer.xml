@@ -21,14 +21,6 @@
             android:layout_width="match_parent"
             android:layout_height="0dp">
 
-            <androidx.coordinatorlayout.widget.CoordinatorLayout
-                android:id="@+id/clFTSnackbar"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@android:color/transparent"
-                android:rotation="180"
-                app:layout_constraintTop_toTopOf="parent" />
-
             <LinearLayout
                 android:id="@+id/lnUserImage"
                 android:layout_width="wrap_content"
@@ -52,11 +44,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_normal"
+                android:gravity="center"
                 android:text="@{viewModel.state.fullName}"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/lnUserImage"
-                android:gravity="center"
                 tools:text="Sufyan Shabbir Sufyan Shabbir Sufyan Shabbir Sufyan Shabbir Sufyan Shabbir Sufyan Shabbir Sufyan Shabbir  Sufyan Shabbir" />
 
             <co.yap.widgets.CoreCircularImageView
@@ -99,32 +91,44 @@
                     style="@style/ATitle2"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:gravity="center_horizontal|center_vertical"
-                    tools:text="0.00"
                     android:background="@null"
+                    android:gravity="center_horizontal|center_vertical"
                     android:imeOptions="actionDone"
                     android:importantForAutofill="no"
                     android:inputType="numberDecimal"
                     android:labelFor="@+id/etAmount"
                     android:maxLength="7"
                     android:maxLines="1"
-                    android:text="@={viewModel.state.amount}"
+                    android:text="@={viewModel.enteredAmount}"
                     app:hint="@{Strings.common_amount_hint}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="0.00" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
+            <TextView
+                android:id="@+id/tvFee"
+                style="@style/MicroGrey"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_medium_large"
+                android:text="@{viewModel.state.transferFee}"
+                app:layout_constraintBottom_toTopOf="@+id/clAvailableAmount"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/etAmountLayout"
+                tools:text="Fee: AED 500" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/clAvailableAmount"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
-                android:layout_marginTop="@dimen/margin_medium_large"
+                android:layout_marginTop="@dimen/margin_extra_small"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/etAmountLayout">
+                app:layout_constraintTop_toBottomOf="@+id/tvFee">
 
                 <TextView
                     android:id="@+id/tvAvailableBalanceGuide"
@@ -163,7 +167,7 @@
                 tools:hint="Type a note here" />
 
             <co.yap.widgets.CoreButton
-                android:id="@+id/btnInvite"
+                android:id="@+id/btnConfirm"
                 style="@style/RectangleBtnStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

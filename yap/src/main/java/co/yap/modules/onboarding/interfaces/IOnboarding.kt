@@ -1,5 +1,6 @@
 package co.yap.modules.onboarding.interfaces
 
+import androidx.lifecycle.MutableLiveData
 import co.yap.modules.onboarding.models.OnboardingData
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleLiveEvent
@@ -13,6 +14,7 @@ interface IOnboarding {
         fun handlePressOnTickButton()
         var onboardingData: OnboardingData
         val backButtonPressEvent: SingleLiveEvent<Boolean>
+        val isPhoneNumberEntered: MutableLiveData<Boolean>
     }
 
     interface State : IBase.State {

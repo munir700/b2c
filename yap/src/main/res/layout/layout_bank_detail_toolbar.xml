@@ -50,7 +50,6 @@
             android:layout_alignParentEnd="true"
             android:layout_marginEnd="@dimen/_5sdp"
             android:clickable="true"
-            android:visibility="invisible"
             android:focusable="true"
             android:foreground="?attr/selectableItemBackground"
             android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"

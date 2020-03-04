@@ -1,6 +1,7 @@
 package co.yap.modules.onboarding.viewmodels
 
 import android.app.Application
+import android.content.Context
 import co.yap.modules.onboarding.interfaces.IPhoneVerification
 import co.yap.modules.onboarding.states.PhoneVerificationState
 import co.yap.networking.interfaces.IRepositoryHolder
@@ -10,6 +11,11 @@ import co.yap.networking.messages.requestdtos.VerifyOtpOnboardingRequest
 import co.yap.networking.models.RetroApiResponse
 import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
+import co.yap.yapcore.adjust.AdjustEvents
+import co.yap.yapcore.helpers.extentions.trackEvent
+import co.yap.yapcore.leanplum.SignupEvents
+import co.yap.yapcore.trackAdjustEvent
+import com.leanplum.Leanplum
 
 open class PhoneVerificationViewModel(application: Application) :
     OnboardingChildViewModel<IPhoneVerification.State>(application), IPhoneVerification.ViewModel,
@@ -31,7 +37,6 @@ open class PhoneVerificationViewModel(application: Application) :
         state.verificationTitle = getString(Strings.screen_verify_phone_number_display_text_title)
         state.verificationDescription = Strings.screen_verify_phone_number_display_text_sub_title
         state.mobileNumber[0] = parentViewModel?.onboardingData?.formattedMobileNumber
-        state.reverseTimer(10)
         state.validResend = false
     }
 
@@ -39,7 +44,7 @@ open class PhoneVerificationViewModel(application: Application) :
         verifyOtp(id)
     }
 
-    override fun handlePressOnResendOTP() {
+    override fun handlePressOnResendOTP(context: Context) {
         launch {
             state.loading = true
             when (val response =
@@ -53,7 +58,7 @@ open class PhoneVerificationViewModel(application: Application) :
                 is RetroApiResponse.Success -> {
                     state.toast =
                         getString(Strings.screen_verify_phone_number_display_text_resend_otp_success)
-                    state.reverseTimer(10)
+                    state.reverseTimer(10,context)
                     state.validResend = false
                 }
                 is RetroApiResponse.Error -> {
@@ -75,6 +80,8 @@ open class PhoneVerificationViewModel(application: Application) :
                 )
             )) {
                 is RetroApiResponse.Success -> {
+                    trackEvent(SignupEvents.SIGN_UP_OTP_CORRECT.type)
+                    trackAdjustEvent(AdjustEvents.SIGN_UP_MOBILE_NUMBER_VERIFIED.type)
                     nextButtonPressEvent.call()
                 }
                 is RetroApiResponse.Error -> state.toast = response.error.message

@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+
+        <import type="android.view.View"></import>
 
         <variable
             name="viewModel"
@@ -40,10 +41,19 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_gravity="center_horizontal"
-            android:layout_marginEnd="@dimen/_14sdp"
+            android:layout_marginEnd="@dimen/_30sdp"
             android:layout_toEndOf="@id/tbBtnBack"
             android:gravity="center"
             android:text="@={viewModel.state.tootlBarTitle}" />
+
+        <ImageView
+            android:id="@+id/ivBadge"
+            android:layout_width="@dimen/_26sdp"
+            android:layout_height="@dimen/_26sdp"
+            android:layout_alignParentEnd="true"
+            android:onClick="@{(v) -> viewModel.handlePressOnBadge()}"
+            android:visibility="@{viewModel.state.tootlBarBadgeVisibility?View.VISIBLE:View.GONE}"
+            app:srcCompat="@drawable/ic_trade" />
 
     </RelativeLayout>
 </layout>

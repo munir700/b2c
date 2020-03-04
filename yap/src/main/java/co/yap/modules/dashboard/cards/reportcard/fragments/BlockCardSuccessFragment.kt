@@ -7,50 +7,46 @@ import android.view.View
 import androidx.lifecycle.ViewModelProviders
 import co.yap.R
 import co.yap.modules.dashboard.cards.reordercard.activities.ReorderCardActivity
-import co.yap.modules.dashboard.cards.reportcard.activities.ReportLostOrStolenCardActivity.Companion.reportCard
 import co.yap.modules.dashboard.cards.reportcard.activities.ReportLostOrStolenCardActivity.Companion.reportCardSuccess
 import co.yap.modules.dashboard.cards.reportcard.viewmodels.BlockCardSuccessViewModel
-import co.yap.networking.cards.responsedtos.Card
 import co.yap.translation.Strings
 import co.yap.translation.Translator
-import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.defaults.IDefault
 import kotlinx.android.synthetic.main.fragment_block_card_success.*
 
-class BlockCardSuccessFragment : BaseBindingFragment<IDefault.ViewModel>() {
+class BlockCardSuccessFragment : ReportOrLOstCardChildFragment<IDefault.ViewModel>() {
     override fun getBindingVariable(): Int = 0
 
     override fun getLayoutId(): Int = R.layout.fragment_block_card_success
 
-    override val viewModel: IDefault.ViewModel
+    override val viewModel: BlockCardSuccessViewModel
         get() = ViewModelProviders.of(this).get(BlockCardSuccessViewModel::class.java)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val card: Card = reportCard
+
         val reOrderFeeValue =
             arguments?.let { BlockCardSuccessFragmentArgs.fromBundle(it).cardReorderFee } as String
 
-
         tvFeeCaption.text = "$reOrderFeeValue " +
                 Translator.getString(
-                    context!!,
+                    requireContext(),
                     Strings.screen_card_blocked_display_text_note_android
                 )
 
         btnReOrder.setOnClickListener {
-            startActivityForResult(
-                ReorderCardActivity.newIntent(requireContext(), card),
-                RequestCodes.REQUEST_REORDER_CARD
-            )
+            viewModel.parentViewModel?.card?.let {
+                startActivityForResult(
+                    ReorderCardActivity.newIntent(requireContext(), it),
+                    RequestCodes.REQUEST_REORDER_CARD
+                )
+            }
         }
-
         tvAddLater.setOnClickListener {
             reportCardSuccess = true
             setupActionsIntent()
-             activity!!.finish()
-
+            activity?.finish()
         }
     }
 
@@ -66,12 +62,15 @@ class BlockCardSuccessFragment : BaseBindingFragment<IDefault.ViewModel>() {
                     val cardReorder = data?.getBooleanExtra("cardReorder", false)
                     cardReorder?.let {
                         if (it) {
-                            setupActionsReorderIntent()
+                            setupActionsReorderIntent(true)
                             activity?.finish()
                         }
                     }
                 }
             }
+        } else {
+            setupActionsIntent()
+            activity?.finish()
         }
     }
 
@@ -81,9 +80,9 @@ class BlockCardSuccessFragment : BaseBindingFragment<IDefault.ViewModel>() {
         activity?.setResult(Activity.RESULT_OK, returnIntent)
     }
 
-    private fun setupActionsReorderIntent() {
+    private fun setupActionsReorderIntent(isReordered: Boolean) {
         val returnIntent = Intent()
-        returnIntent.putExtra("cardReorder", true)
+        returnIntent.putExtra("cardReorder", isReordered)
         activity?.setResult(Activity.RESULT_OK, returnIntent)
     }
 }

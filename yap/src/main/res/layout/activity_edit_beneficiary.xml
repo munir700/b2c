@@ -59,8 +59,8 @@
                 android:layout_marginEnd="@dimen/_14sdp"
                 android:layout_toEndOf="@id/tbBtnBack"
                 android:gravity="center"
-                android:text="@string/screen_edit_beneficiary_display_text_title"
-                app:text="@{Strings.screen_edit_beneficiary_display_text_title}"
+                android:text="@{editBeneficiaryViewModel.state.needOverView ? @string/screen_add_beneficiary_display_text_title:@string/screen_edit_beneficiary_display_text_title}"
+                app:text="@{editBeneficiaryViewModel.state.needOverView ? Strings.screen_add_beneficiary_display_text_title:Strings.screen_edit_beneficiary_display_text_title}"
                 tools:text="@string/screen_edit_beneficiary_display_text_title" />
 
         </RelativeLayout>
@@ -325,10 +325,10 @@
                 <androidx.appcompat.widget.AppCompatEditText
                     android:id="@+id/etFirstName"
                     style="@style/Yap.App.Widget.TextInputEditText"
-                    app:editable="@{false}"
                     android:imeOptions="actionNext"
                     android:maxLength="50"
                     android:text="@={editBeneficiaryViewModel.state.firstName}"
+                    app:editable="@{false}"
                     app:hint="@{Strings.screen_add_beneficiary_detail_input_text_first_name_hint}" />
 
 
@@ -348,11 +348,11 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etLastName"
                     style="@style/Yap.App.Widget.TextInputEditText"
-                    app:editable="@{false}"
                     android:imeOptions="actionNext"
                     android:importantForAutofill="no"
                     android:maxLength="50"
                     android:text="@={editBeneficiaryViewModel.state.lastName}"
+                    app:editable="@{false}"
                     app:hint="@{Strings.screen_add_beneficiary_detail_input_text_last_name_hint}" />
 
 
@@ -394,12 +394,12 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_normal"
-                    android:text="@string/screen_beneficiary_overview_display_text_account_number_iban"
+                    android:text="@{editBeneficiaryViewModel.state.needIban == false ? @string/screen_edit_beneficiary_display_text_account_number:@string/screen_beneficiary_overview_display_text_account_number_iban}"
                     android:visibility='@{(editBeneficiaryViewModel.state.beneficiary.beneficiaryType.equals("UAEFTS") || editBeneficiaryViewModel.state.beneficiary.beneficiaryType.equals("DOMESTIC")) ? View.VISIBLE : View.GONE }'
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tvSuccessHeading"
-                    app:text="@{Strings.screen_beneficiary_overview_display_text_account_number_iban}"
+                    app:text="@{editBeneficiaryViewModel.state.needIban == false ? Strings.screen_edit_beneficiary_display_text_account_number:Strings.screen_beneficiary_overview_display_text_account_number_iban}"
                     app:textColor="@{editBeneficiaryViewModel.state.accountNumber.empty ? true : false}"
                     tools:text="@string/screen_beneficiary_overview_display_text_account_number_iban" />
 
@@ -407,12 +407,13 @@
                     android:id="@+id/etAccountNumberRMT"
                     style="@style/Yap.App.Widget.TextInputEditText"
                     android:digits="1234567890 "
-                    app:editable="@{false}"
                     android:imeOptions="actionDone"
                     android:inputType="number"
                     android:singleLine="true"
                     android:text="@{editBeneficiaryViewModel.state.accountNumber}"
-                    android:visibility='@{(editBeneficiaryViewModel.state.beneficiary.beneficiaryType.equals("UAEFTS") || editBeneficiaryViewModel.state.beneficiary.beneficiaryType.equals("DOMESTIC")) ? View.VISIBLE : View.GONE }' />
+                    android:visibility='@{(editBeneficiaryViewModel.state.beneficiary.beneficiaryType.equals("UAEFTS") || editBeneficiaryViewModel.state.beneficiary.beneficiaryType.equals("DOMESTIC")) ? View.VISIBLE : View.GONE }'
+                    app:editable="@{false}"
+                    app:ibanMask="@{`#### #### #### #### #### #### ####`}" />
 
                 <LinearLayout
                     android:id="@+id/llBankDetail"
@@ -484,12 +485,12 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_normal"
-                    android:text="@string/screen_beneficiary_overview_display_text_account_number_iban"
+                    android:text="@{editBeneficiaryViewModel.state.needIban == false ? @string/screen_edit_beneficiary_display_text_account_number:@string/screen_beneficiary_overview_display_text_account_number_iban}"
                     android:visibility='@{(editBeneficiaryViewModel.state.beneficiary.beneficiaryType.equals("RMT") || editBeneficiaryViewModel.state.beneficiary.beneficiaryType.equals("SWIFT")) ? View.VISIBLE : View.GONE }'
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tvSuccessHeading"
-                    app:text="@{Strings.screen_beneficiary_overview_display_text_account_number_iban}"
+                    app:text="@{editBeneficiaryViewModel.state.needIban == false ? Strings.screen_edit_beneficiary_display_text_account_number:Strings.screen_beneficiary_overview_display_text_account_number_iban}"
                     app:textColor="@{editBeneficiaryViewModel.state.accountNumber.empty ? true : false}"
                     tools:text="@string/screen_beneficiary_overview_display_text_account_number_iban" />
 
@@ -497,12 +498,13 @@
                     android:id="@+id/etAccountNumber"
                     style="@style/Yap.App.Widget.TextInputEditText"
                     android:digits="1234567890 "
-                    app:editable="@{false}"
                     android:imeOptions="actionDone"
                     android:inputType="number"
                     android:singleLine="true"
                     android:text="@{editBeneficiaryViewModel.state.accountNumber}"
-                    android:visibility='@{(editBeneficiaryViewModel.state.beneficiary.beneficiaryType.equals("RMT") || editBeneficiaryViewModel.state.beneficiary.beneficiaryType.equals("SWIFT")) ? View.VISIBLE : View.GONE }' />
+                    android:visibility='@{(editBeneficiaryViewModel.state.beneficiary.beneficiaryType.equals("RMT") || editBeneficiaryViewModel.state.beneficiary.beneficiaryType.equals("SWIFT")) ? View.VISIBLE : View.GONE }'
+                    app:editable="@{false}"
+                    app:ibanMask="@{`#### #### #### #### #### #### ####`}" />
                 <!---->
                 <androidx.appcompat.widget.AppCompatTextView
                     style="@style/Small"
@@ -510,7 +512,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_normal"
                     android:text="@string/screen_beneficiary_overview_display_text_swift_code"
-                    android:visibility='@{(editBeneficiaryViewModel.state.beneficiary.beneficiaryType.equals("RMT") || editBeneficiaryViewModel.state.beneficiary.beneficiaryType.equals("SWIFT")) ? View.VISIBLE : View.GONE }'
+                    android:visibility='@{(editBeneficiaryViewModel.state.beneficiary.beneficiaryType.equals("SWIFT")) ? View.VISIBLE : View.GONE }'
                     app:layout_constraintLeft_toLeftOf="parent"
 
                     app:layout_constraintRight_toRightOf="parent"
@@ -523,12 +525,12 @@
                     android:id="@+id/etSwiftCode"
                     style="@style/Yap.App.Widget.TextInputEditText"
                     android:digits="1234567890 "
-                    app:editable="@{false}"
                     android:imeOptions="actionDone"
                     android:inputType="phone"
                     android:singleLine="true"
                     android:text="@={editBeneficiaryViewModel.state.swiftCode}"
-                    android:visibility='@{(editBeneficiaryViewModel.state.beneficiary.beneficiaryType.equals("RMT") || editBeneficiaryViewModel.state.beneficiary.beneficiaryType.equals("SWIFT")) ? View.VISIBLE : View.GONE }' />
+                    android:visibility='@{(editBeneficiaryViewModel.state.beneficiary.beneficiaryType.equals("SWIFT")) ? View.VISIBLE : View.GONE }'
+                    app:editable="@{false}" />
                 <!---->
                 <TextView
                     style="@style/Small"
@@ -548,13 +550,12 @@
                     android:id="@+id/etBankREquiredFieldCode"
                     style="@style/Yap.App.Widget.TextInputEditText"
                     android:digits="1234567890 "
-                    app:editable="@{false}"
                     android:imeOptions="actionDone"
                     android:inputType="phone"
                     android:singleLine="true"
                     android:text="@={editBeneficiaryViewModel.state.countryBankRequirementFieldCode}"
-                    android:visibility="gone" />
-
+                    android:visibility="gone"
+                    app:editable="@{false}" />
 
                 <co.yap.widgets.CoreButton
                     android:id="@+id/confirmButton"

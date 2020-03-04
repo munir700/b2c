@@ -16,14 +16,14 @@ import co.yap.networking.cards.responsedtos.Card
 import co.yap.networking.transactions.responsedtos.CardStatement
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.interfaces.OnItemClickListener
-import java.util.*
 
 class CardStatementsActivity : BaseBindingActivity<ICardStatments.ViewModel>(),
     ICardStatments.View {
 
     companion object {
-        private const val CARD = "card"
-        fun newIntent(context: Context, card: Card): Intent {
+        const val CARD = "card"
+        var isFromDrawer: Boolean = false
+        fun newIntent(context: Context, card: Card, IsFromDrawer: Boolean = false): Intent {
             val intent = Intent(context, CardStatementsActivity::class.java)
             intent.putExtra(CARD, card)
             return intent
@@ -40,7 +40,12 @@ class CardStatementsActivity : BaseBindingActivity<ICardStatments.ViewModel>(),
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel.card = intent.getParcelableExtra(CARD)
-        viewModel.loadStatements(viewModel.card.cardSerialNumber)
+        isFromDrawer = intent.getBooleanExtra("isFromDrawer", false)
+        if (isFromDrawer) {
+            viewModel.loadStatementsFromDashBoard()
+        } else {
+            viewModel.loadStatements(viewModel.card.cardSerialNumber)
+        }
         viewModel.clickEvent.observe(this, Observer {
             if (it == R.id.tbBtnBack) {
                 onBackPressed()
@@ -50,6 +55,7 @@ class CardStatementsActivity : BaseBindingActivity<ICardStatments.ViewModel>(),
         viewModel.adapter.get()?.allowFullItemClickListener = true
         viewModel.adapter.get()?.setItemListener(listener)
     }
+
     val listener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
             val browserIntent =

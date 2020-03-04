@@ -1,5 +1,7 @@
 package co.yap.modules.onboarding.interfaces
 
+import androidx.lifecycle.MutableLiveData
+import co.yap.networking.cards.responsedtos.Address
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
 
@@ -7,12 +9,15 @@ interface ICongratulations {
 
     interface View : IBase.View<ViewModel>{
         fun setObservers()
+        fun removeObservers()
     }
 
     interface ViewModel : IBase.ViewModel<State> {
-        var elapsedOnboardingTime: Long
-        fun handlePressOnCompleteVerification(id: Int)
         val clickEvent: SingleClickEvent
+        var elapsedOnboardingTime: Long
+        val orderCardSuccess:MutableLiveData<Boolean>
+        fun handlePressOnCompleteVerification(id: Int)
+        fun requestOrderCard(address: Address?)
     }
 
     interface State : IBase.State {

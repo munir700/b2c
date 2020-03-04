@@ -36,8 +36,8 @@ open class ChangeEmailFragment : MoreBaseFragment<IChangeEmail.ViewModel>(), ICh
                     ChangeEmailFragmentDirections.actionChangeEmailFragmentToGenericOtpFragment(
                         otpType = Constants.CHANGE_EMAIL,
                         mobileNumber = Utils.getFormattedMobileNumber(
-                            MyUserManager.user!!.currentCustomer.countryCode,
-                            MyUserManager.user!!.currentCustomer.mobileNo
+                            MyUserManager.user?.currentCustomer?.countryCode ?: "",
+                            MyUserManager.user?.currentCustomer?.mobileNo ?: ""
                         )
                     )
                 findNavController().navigate(action)
@@ -77,6 +77,8 @@ open class ChangeEmailFragment : MoreBaseFragment<IChangeEmail.ViewModel>(), ICh
 
     override fun onDestroy() {
         viewModel.clickEvent.removeObservers(this)
+        viewModel.success.removeObservers(this)
+        viewModel.changeEmailSuccessEvent.removeObservers(this)
         super.onDestroy()
     }
 }

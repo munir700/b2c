@@ -1,6 +1,7 @@
 package co.yap.modules.dashboard.cards.home.viewmodels
 
 import android.app.Application
+import androidx.lifecycle.MutableLiveData
 import co.yap.R
 import co.yap.modules.dashboard.cards.home.interfaces.IYapCards
 import co.yap.modules.dashboard.cards.home.states.YapCardsState
@@ -12,6 +13,7 @@ import co.yap.translation.Translator
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.enums.CardType
 import co.yap.yapcore.managers.MyUserManager
 
 class YapCardsViewModel(application: Application) : BaseViewModel<IYapCards.State>(application),
@@ -20,6 +22,7 @@ class YapCardsViewModel(application: Application) : BaseViewModel<IYapCards.Stat
     override val clickEvent: SingleClickEvent = SingleClickEvent()
     override val state: YapCardsState = YapCardsState()
     override val repository: CardsRepository = CardsRepository
+    override val cards: MutableLiveData<ArrayList<Card>> = MutableLiveData(arrayListOf())
 
     override fun getCards() {
         launch {
@@ -28,10 +31,19 @@ class YapCardsViewModel(application: Application) : BaseViewModel<IYapCards.Stat
                 is RetroApiResponse.Success -> {
                     response.data.data?.let {
                         if (it.isNotEmpty()) {
-                            MyUserManager.cards.value = response.data.data
+
+                            val cardsList = response.data.data
+                            val primaryCard = getPrimaryCard(cardsList)
+                            cardsList?.remove(primaryCard)
+
+                            primaryCard?.let {
+                                cardsList?.add(0, primaryCard)
+                                MyUserManager.cards.value = primaryCard
+                            }
                             if (state.enableAddCard.get())
-                                MyUserManager.cards.value?.add(getAddCard())
-                            state.listUpdated.value = true
+                                cardsList?.add(getAddCard())
+
+                            cards.value = cardsList
                         }
                     }
                 }
@@ -39,6 +51,10 @@ class YapCardsViewModel(application: Application) : BaseViewModel<IYapCards.Stat
             }
             state.loading = false
         }
+    }
+
+    private fun getPrimaryCard(cards: ArrayList<Card>?): Card? {
+        return cards?.firstOrNull { it.cardType == CardType.DEBIT.type }
     }
 
     override fun updateCardCount(size: Int) {
@@ -57,7 +73,6 @@ class YapCardsViewModel(application: Application) : BaseViewModel<IYapCards.Stat
     }
 
     private fun getAddCard(): Card {
-
         return Card(
             newPin = "",
             cardType = "DEBIT",

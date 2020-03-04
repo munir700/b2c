@@ -32,7 +32,10 @@
             android:layout_marginTop="@dimen/_32sdp"
             android:background="@color/light_grey_background"
             android:orientation="vertical"
-            android:padding="@dimen/margin_normal_large"
+            android:paddingEnd="@dimen/margin_normal_large"
+            android:paddingStart="@dimen/margin_normal_large"
+            android:paddingTop="@dimen/margin_normal_large"
+            android:paddingBottom="@dimen/margin_medium_large"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/imgProfile">
@@ -42,7 +45,7 @@
                 android:id="@+id/linearLayout5"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_small"
+                android:layout_marginTop="@dimen/margin_medium_large"
                 android:orientation="horizontal"
                 app:layout_constraintBottom_toTopOf="@+id/linearLayout3"
                 app:layout_constraintTop_toTopOf="parent">
@@ -52,7 +55,7 @@
                     style="@style/ASmallGrey"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
+
                     android:gravity="start"
                     android:lines="1"
                     android:text="Name"
@@ -63,9 +66,9 @@
                 <TextView
                     android:id="@+id/tvNameValue"
                     style="@style/Small"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-
+                    android:layout_marginStart="@dimen/margin_normal"
                     android:layout_weight="1"
                     android:gravity="end"
                     android:lines="1"
@@ -73,47 +76,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/imgProfile"
-                    tools:text="Logan Pearson" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/linearLayout3"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_small"
-                android:orientation="horizontal"
-                app:layout_constraintBottom_toTopOf="@+id/linearLayout6"
-                app:layout_constraintTop_toBottomOf="@+id/linearLayout5">
-
-                <TextView
-                    android:id="@+id/tvSwift"
-                    style="@style/ASmallGrey"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-
-                    android:layout_weight="1"
-                    android:gravity="start"
-                    android:lines="1"
-                    android:text="SWIFT/BIC"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/imgProfile" />
-
-                <TextView
-                    android:id="@+id/tvSwiftValue"
-                    style="@style/Small"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-
-                    android:layout_weight="1"
-                    android:gravity="end"
-                    android:lines="1"
-                    android:text="@{viewModel.state.swift}"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/imgProfile"
-                    tools:text="QWERTY123" />
+                    tools:text="Logancx Pearson" />
 
             </LinearLayout>
 
@@ -127,12 +90,49 @@
                 app:layout_constraintTop_toBottomOf="@+id/linearLayout3">
 
                 <TextView
+                    android:id="@+id/tvSwift"
+                    style="@style/ASmallGrey"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="start"
+                    android:lines="1"
+                    android:text="SWIFT/BIC"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/imgProfile" />
+
+                <TextView
+                    android:id="@+id/tvSwiftValue"
+                    style="@style/Small"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_normal"
+                    android:layout_weight="1"
+                    android:gravity="end"
+                    android:lines="1"
+                    android:text="@{viewModel.state.swift}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/imgProfile"
+                    tools:text="QWERTY123" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/linearLayout3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_small"
+                android:orientation="horizontal"
+                app:layout_constraintBottom_toTopOf="@+id/linearLayout6"
+                app:layout_constraintTop_toBottomOf="@+id/linearLayout5">
+
+                <TextView
                     android:id="@+id/tvIban"
                     style="@style/ASmallGrey"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
 
-                    android:layout_weight="1"
                     android:gravity="start"
                     android:lines="1"
                     android:text="IBAN"
@@ -143,11 +143,12 @@
                 <TextView
                     android:id="@+id/tvIbanValue"
                     style="@style/Small"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="end"
                     android:lines="1"
+                    android:layout_marginStart="@dimen/margin_normal"
                     android:text="@{viewModel.state.iban}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -171,7 +172,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
 
-                    android:layout_weight="1"
                     android:gravity="start"
                     android:lines="1"
                     android:text="Account"
@@ -182,9 +182,9 @@
                 <TextView
                     android:id="@+id/tvAccountValue"
                     style="@style/Small"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-
+                    android:layout_marginStart="@dimen/margin_normal"
                     android:layout_weight="1"
                     android:gravity="end"
                     android:lines="1"
@@ -211,7 +211,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
 
-                    android:layout_weight="1"
                     android:gravity="start"
                     android:lines="1"
                     android:text="Bank"
@@ -222,9 +221,9 @@
                 <TextView
                     android:id="@+id/tvBankValue"
                     style="@style/Small"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-
+                    android:layout_marginStart="@dimen/margin_normal"
                     android:layout_weight="1"
                     android:gravity="end"
                     android:lines="1"
@@ -242,7 +241,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_small"
                 android:orientation="horizontal"
-                android:paddingBottom="@dimen/margin_medium"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/linearLayout8">
 
@@ -252,7 +250,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
 
-                    android:layout_weight="1"
                     android:gravity="start"
                     android:lines="1"
                     android:text="Address"
@@ -263,9 +260,9 @@
                 <TextView
                     android:id="@+id/tvAddressValue"
                     style="@style/Small"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-
+                    android:layout_marginStart="@dimen/margin_normal"
                     android:layout_weight="1"
                     android:gravity="end"
                     android:lines="1"
@@ -311,7 +308,7 @@
                 android:layout_width="@dimen/_64sdp"
                 android:layout_height="@dimen/_64sdp"
                 android:background="@drawable/bg_round_purple"
-                android:drawableTint="?attr/colorPrimaryAttr"
+                android:backgroundTint="?attr/colorPrimaryAttr"
                 android:gravity="center"
                 android:text="@{viewModel.state.initials}"
                 android:textColor="?attr/colorPrimaryAttr"

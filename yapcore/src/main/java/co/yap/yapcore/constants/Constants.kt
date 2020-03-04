@@ -39,6 +39,9 @@ object Constants {
     const val Y_TO_Y_TRANSFER = "P003"
     const val SUPP_CARD_TOP_UP = "P004"
     const val SUPP_WITHDRAW = "P006"
+    //This is intentional, so don't remove below line
+    const val SUPP_CARD = SUPP_WITHDRAW
+    const val ADD_FUNDS = SUPP_WITHDRAW
     const val MANUAL_DEBIT = "DEBIT"
     const val MANUAL_CREDIT = "CREDIT"
     const val FEE_TYPE_TIER = "TIER"
@@ -76,9 +79,8 @@ object Constants {
     const val MERCHANT_AVERAGE_AMOUNT_VALUE: Int = 8
 
 
-    //Add Card Payment gateway URL
-    const val URL_ADD_TOPUP_CARD = "https://dev.yap.co/admin-web/HostedSessionIntegration.html"
     const val URL_TERMS_CONDITION = "https://yap.co/terms"
+    const val URL_DISCLAIMER_TERMS = "https://www.yap.com/terms/transfers"
 
     //HTML Key
     const val URL_TOP_UP_TRANSACTION_HTML = "URL_TOP_UP_TRANSACTION_HTML"
@@ -147,6 +149,26 @@ object Constants {
     val SHOW_TOOLBAR = "_show_toolbar"
     val EXTRA = "_bundle_extras"
     const val OVERVIEW_BENEFICIARY = "overview_beneficiary"
+    const val IS_IBAN_NEEDED = "is_iban_need"
+
+    // SharedPreference  Keys
+
+    const val KEY_APP_UUID = "KEY_APP_UUID"
+    const val KEY_PASSCODE: String = "PASSCODE"
+    const val KEY_USERNAME: String = "USEERNAME"
+    const val KEY_TOUCH_ID_ENABLED: String = "TOUCH_ID_ENABLED"
+    const val KEY_IS_USER_LOGGED_IN: String = "KEY_IS_USER_LOGGED_IN"
+    const val KEY_IS_FIRST_TIME_USER: String = "KEY_IS_FIRST_TIME_USER"
+    const val KEY_IS_FINGERPRINT_PERMISSION_SHOWN: String =
+        "KEY_IS_FINGERPRINT_PERMISSION_SHOWN"
+    const val KEY_AVAILABLE_BALANCE: String = "AVAILABLE_BALANCE"
+    const val KEY_THEME = "KEY_THEME"
+    const val VERIFY_PASS_CODE_BTN_TEXT = "verify_pass_code_btn_text"
+
+    const val PAGE_URL = "_page_url"
+    const val TOOLBAR_TITLE = "toolbar_title"
+
+
 
 
 }

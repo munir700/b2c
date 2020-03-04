@@ -1,10 +1,7 @@
 package co.yap.networking.cards
 
 import co.yap.networking.cards.requestdtos.*
-import co.yap.networking.cards.responsedtos.CardBalanceResponseDTO
-import co.yap.networking.cards.responsedtos.CardDetailResponseDTO
-import co.yap.networking.cards.responsedtos.GetCardsResponse
-import co.yap.networking.cards.responsedtos.GetPhysicalAddress
+import co.yap.networking.cards.responsedtos.*
 import co.yap.networking.customers.responsedtos.HouseHoldCardsDesignResponse
 import co.yap.networking.models.ApiResponse
 import retrofit2.Response
@@ -42,7 +39,7 @@ interface CardsRetroService {
 
     // add spare virtual card
     @POST(CardsRepository.URL_ADD_SPARE_VIRTUAL_CARD)
-    suspend fun addSpareVirtualCardRequest(@Body addVirtualSpareCardRequest: AddVirtualSpareCardRequest): Response<ApiResponse>
+    suspend fun addSpareVirtualCardRequest(@Body addVirtualSpareCardRequest: AddVirtualSpareCardRequest): Response<AddSpareVirualCardResponse>
 
     // add spare physical card
     @POST(CardsRepository.URL_ADD_SPARE_PHYSICAL_CARD)
@@ -98,5 +95,9 @@ interface CardsRetroService {
     // reorder supplementary card
     @POST(CardsRepository.URL_REORDER_SUPPLEMENTARY_CARD)
     suspend fun reorderSupplementaryCard(@Body reorderCardRequest: ReorderCardRequest): Response<ApiResponse>
+
+    // reorder supplementary card
+    @GET(CardsRepository.URL_ATM_CDM)
+    suspend fun getCardsAtmCdm(): Response<AtmCdmResponse>
 
 }

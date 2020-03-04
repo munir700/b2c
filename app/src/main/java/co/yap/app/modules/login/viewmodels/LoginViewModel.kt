@@ -1,7 +1,6 @@
 package co.yap.app.modules.login.viewmodels
 
 import android.app.Application
-import android.view.KeyEvent
 import android.view.inputmethod.EditorInfo
 import android.widget.TextView
 import co.yap.app.modules.login.interfaces.ILogin
@@ -14,9 +13,9 @@ import co.yap.translation.Strings
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleLiveEvent
 import co.yap.yapcore.helpers.Utils
-import java.util.regex.Pattern
 
-class LoginViewModel(application: Application) : BaseViewModel<ILogin.State>(application), ILogin.ViewModel,
+class LoginViewModel(application: Application) : BaseViewModel<ILogin.State>(application),
+    ILogin.ViewModel,
     IRepositoryHolder<AuthRepository> {
 
     override val signInButtonPressEvent: SingleLiveEvent<Boolean> = SingleLiveEvent()
@@ -51,12 +50,13 @@ class LoginViewModel(application: Application) : BaseViewModel<ILogin.State>(app
                     if (response.data.data) {
                         signInButtonPressEvent.postValue(true)
                     } else {
-                        state.emailError.value = getString(Strings.screen_sign_in_display_text_error_text)
+                        state.emailError.value =
+                            getString(Strings.screen_sign_in_display_text_error_text)
                     }
                 }
                 is RetroApiResponse.Error -> {
                     state.error = response.error.message
-                    println("")
+                    state.emailError.value = response.error.message
                 }
             }
             state.loading = false

@@ -3,8 +3,6 @@ package co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.fragments
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import android.view.View
 import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
@@ -15,20 +13,24 @@ import co.yap.R
 import co.yap.modules.dashboard.yapit.sendmoney.activities.BeneficiaryCashTransferActivity
 import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.interfaces.IBeneficiaryAccountDetails
 import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.viewmodels.BeneficiaryAccountDetailsViewModel
+import co.yap.modules.dashboard.yapit.sendmoney.editbeneficiary.activity.EditBeneficiaryActivity
 import co.yap.modules.dashboard.yapit.sendmoney.fragments.SendMoneyBaseFragment
 import co.yap.modules.otp.GenericOtpFragment
 import co.yap.modules.otp.OtpDataModel
 import co.yap.modules.otp.OtpToolBarData
+import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.translation.Translator
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.RequestCodes
+import co.yap.yapcore.enums.OTPActions
 import co.yap.yapcore.enums.SendMoneyBeneficiaryType
 import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.helpers.extentions.ExtraType
+import co.yap.yapcore.helpers.extentions.getValue
 import co.yap.yapcore.helpers.extentions.launchActivity
 import co.yap.yapcore.helpers.extentions.startFragmentForResult
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.MyUserManager
-import kotlinx.android.synthetic.main.fragment_beneficiary_account_detail.*
 
 class BeneficiaryAccountDetailsFragment :
     SendMoneyBaseFragment<IBeneficiaryAccountDetails.ViewModel>(),
@@ -42,6 +44,10 @@ class BeneficiaryAccountDetailsFragment :
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        addObservers()
+    }
+
+    private fun addObservers() {
         viewModel.clickEvent.observe(this, observer)
         viewModel.success.observe(this, Observer {
             if (it) {
@@ -66,6 +72,7 @@ class BeneficiaryAccountDetailsFragment :
                                 if (data is Boolean) {
                                     if (data) {
                                         startMoneyTransfer()
+                                        setIntentResult()
                                     } else {
                                         setIntentResult()
                                     }
@@ -83,8 +90,8 @@ class BeneficiaryAccountDetailsFragment :
                 viewModel.parentViewModel?.beneficiary?.value?.beneficiaryType?.let {
                     if (it.isNotEmpty())
                         action = when (SendMoneyBeneficiaryType.valueOf(it)) {
-                            SendMoneyBeneficiaryType.SWIFT -> Constants.SWIFT_BENEFICIARY
-                            SendMoneyBeneficiaryType.RMT -> Constants.RMT_BENEFICIARY
+                            SendMoneyBeneficiaryType.SWIFT -> OTPActions.SWIFT_BENEFICIARY.name
+                            SendMoneyBeneficiaryType.RMT -> OTPActions.RMT_BENEFICIARY.name
                             else -> " "
                         }
                 }
@@ -116,38 +123,39 @@ class BeneficiaryAccountDetailsFragment :
             this,
             otpSuccessObserver
         )
-        etIban.addTextChangedListener(object : TextWatcher {
+    }
 
-            override fun afterTextChanged(s: Editable) {
-                var i = 4
-                while (i < s.length) {
-                    if (s.toString()[i] != ' ') {
-                        s.insert(i, " ")
-                    }
-                    i += 5
-                }
+    private fun openEditBeneficiary(beneficiary: Beneficiary?) {
+        beneficiary?.let {
+            val bundle = Bundle()
+            bundle.putBoolean(Constants.OVERVIEW_BENEFICIARY, true)
+            bundle.putString(Constants.IS_IBAN_NEEDED, "Yes")
+            bundle.putParcelable(Beneficiary::class.java.name, beneficiary)
+            launchActivity<EditBeneficiaryActivity>(RequestCodes.REQUEST_NOTIFY_BENEFICIARY_LIST) {
+                putExtra(Constants.EXTRA, bundle)
             }
+        }
+    }
 
-            override fun beforeTextChanged(
-                s: CharSequence, start: Int,
-                count: Int, after: Int
-            ) {
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == Activity.RESULT_OK) {
+            val beneficiary =
+                data?.getValue(
+                    Beneficiary::class.java.name,
+                    ExtraType.PARCEABLE.name
+                ) as? Beneficiary
+            beneficiary?.let {
+                viewModel.parentViewModel?.beneficiary?.value =
+                    it // to update the existing beneficary
+                viewModel.validateBeneficiaryDetails(it)
             }
-
-            override fun onTextChanged(
-                s: CharSequence, start: Int,
-                before: Int, count: Int
-            ) {
-
-            }
-        })
-
-
+        }
     }
 
     private fun startMoneyTransfer() {
         viewModel.beneficiary?.let { beneficiary ->
-            launchActivity<BeneficiaryCashTransferActivity>(requestCode = RequestCodes.REQUEST_TRANSFER_MONEY) {
+            requireActivity().launchActivity<BeneficiaryCashTransferActivity>(requestCode = RequestCodes.REQUEST_TRANSFER_MONEY) {
                 putExtra(Constants.BENEFICIARY, beneficiary)
                 putExtra(Constants.POSITION, 0)
                 putExtra(Constants.IS_NEW_BENEFICIARY, true)
@@ -164,11 +172,9 @@ class BeneficiaryAccountDetailsFragment :
         }
     }
 
-
     private val observer = Observer<Int> {
         when (it) {
-            R.id.confirmButton ->
-                viewModel.createBeneficiaryRequest()
+            R.id.confirmButton -> openEditBeneficiary(viewModel.parentViewModel?.beneficiary?.value)
         }
     }
 
@@ -217,5 +223,4 @@ class BeneficiaryAccountDetailsFragment :
         viewModel.otpCreateObserver.removeObservers(this)
         viewModel.parentViewModel?.otpSuccess?.removeObserver(otpSuccessObserver)
     }
-
 }

@@ -2,19 +2,18 @@ package co.yap.modules.kyc.viewmodels
 
 import android.app.Application
 import co.yap.modules.kyc.enums.DocScanStatus
-import co.yap.modules.kyc.fragments.CardScanResponse
-import co.yap.modules.kyc.fragments.UploadIdCardRetroService
 import co.yap.modules.kyc.interfaces.IKYCHome
 import co.yap.modules.kyc.states.KYCHomeState
 import co.yap.networking.customers.CustomersRepository
+import co.yap.networking.customers.responsedtos.KycResponse
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
 import co.yap.translation.Strings
-import co.yap.translation.Strings.idenetity_scanner_sdk_screen_review_info_display_text_error_not_readable
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.helpers.DateUtils
+import co.yap.yapcore.helpers.extentions.toast
 import co.yap.yapcore.helpers.extentions.trackEvent
-import co.yap.yapcore.leanplum.TrackEvents
+import co.yap.yapcore.leanplum.KYCEvents
 import com.digitify.identityscanner.core.arch.Gender
 import com.digitify.identityscanner.docscanner.models.Identity
 import com.digitify.identityscanner.docscanner.models.IdentityScannerResult
@@ -28,6 +27,9 @@ import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.http.Multipart
+import retrofit2.http.POST
+import retrofit2.http.Part
 import java.io.File
 import java.util.concurrent.TimeUnit
 
@@ -42,13 +44,9 @@ class KYCHomeViewModel(application: Application) : KYCChildViewModel<IKYCHome.St
 
     override fun onCreate() {
         super.onCreate()
+        requestDocuments()
         parentViewModel?.name?.value =
             getString(Strings.screen_b2c_kyc_home_display_text_sub_heading).format(parentViewModel?.name?.value)
-    }
-
-    override fun onResume() {
-        super.onResume()
-        requestDocuments()
     }
 
     override fun handlePressOnNextButton(id: Int) {
@@ -67,12 +65,87 @@ class KYCHomeViewModel(application: Application) : KYCChildViewModel<IKYCHome.St
 
     override fun onEIDScanningComplete(result: IdentityScannerResult) {
         uploadDocuments(result)
-
-//        parentViewModel?.identity = result
-//        state.eidScanStatus = DocScanStatus.SCAN_COMPLETED
+        //uploadDocument(result)
     }
 
-    // TODO Remove this method
+    private fun uploadDocuments(result: IdentityScannerResult) {
+        if (!result.document.files.isNullOrEmpty() && result.document.files.size < 3) {
+            val file = File(result.document.files[1].croppedFile)
+            parentViewModel?.paths?.clear()
+            parentViewModel?.paths?.add(result.document.files[0].croppedFile)
+            parentViewModel?.paths?.add(result.document.files[1].croppedFile)
+
+            val fileReqBody = RequestBody.create(MediaType.parse("image/*"), file)
+            val part =
+                MultipartBody.Part.createFormData("image", file.name, fileReqBody)
+            launch {
+                state.loading = true
+                when (val response = repository.detectCardData(part)) {
+
+                    is RetroApiResponse.Success -> {
+                        val data = response.data.data
+                        if (data != null) {
+                            val identity = Identity()
+                            identity.nationality = data.nationality
+                            identity.gender =
+                                if (data.sex.equals("M", true)) Gender.Male else Gender.Female
+                            identity.sirName = data.surname
+                            identity.givenName = data.names
+                            identity.expirationDate =
+                                DateUtils.stringToDate(data.expiration_date, "yyMMdd")
+                            identity.dateOfBirth =
+                                DateUtils.stringToDate(data.date_of_birth, "yyMMdd")
+                            identity.citizenNumber = data.optional1
+                            identity.isoCountryCode2Digit = data.isoCountryCode2Digit
+                            identity.isoCountryCode3Digit = data.isoCountryCode3Digit
+                            result.identity = identity
+                            parentViewModel?.identity = identity
+                            state.eidScanStatus = DocScanStatus.SCAN_COMPLETED
+                        } else {
+                            state.toast = response.data.errors?.message ?: "Invalid image"
+                            trackEvent(KYCEvents.EID_FAILURE.type)
+                        }
+                    }
+
+                    is RetroApiResponse.Error -> {
+                        trackEvent(KYCEvents.EID_FAILURE.type)
+                        state.toast = response.error.message
+                    }
+                }
+
+                state.loading = false
+            }
+        } else {
+            toast(context, "No image found")
+        }
+    }
+
+    override fun requestDocuments() {
+        launch {
+            state.loading = true
+            when (val response = repository.getDocuments()) {
+                is RetroApiResponse.Success -> {
+                    response.data.data?.let {
+                        if (it.isNotEmpty()) state.eidScanStatus = DocScanStatus.DOCS_UPLOADED
+                    }
+                    state.loading = false
+                }
+                is RetroApiResponse.Error -> {
+                    state.loading = false
+                    state.toast = response.error.message
+                }
+            }
+        }
+    }
+
+    // Test start
+    //its for local instance testing
+    interface UploadIdCardRetroService {
+        @Multipart
+        @POST(CustomersRepository.URL_DETECT)
+        fun detectCardData(@Part file: MultipartBody.Part): Call<KycResponse>
+    }
+
     fun uploadDocument(result: IdentityScannerResult) {
         val logger = HttpLoggingInterceptor()
         logger.level = HttpLoggingInterceptor.Level.BODY
@@ -80,70 +153,34 @@ class KYCHomeViewModel(application: Application) : KYCChildViewModel<IKYCHome.St
             .connectTimeout(100, TimeUnit.SECONDS)
             .writeTimeout(100, TimeUnit.SECONDS)
             .readTimeout(100, TimeUnit.SECONDS)
-            .addInterceptor(logger).build()
+            //.addInterceptor(CookiesInterceptor())
+            .addInterceptor(logger)
+            .build()
         val retro: Retrofit = Retrofit.Builder()
-            .baseUrl("http://172.21.200.181:8000/")
+            .baseUrl("http://192.168.0.86:8000/")
             .addConverterFactory(GsonConverterFactory.create())
             .client(client).build()
         val service = retro.create(UploadIdCardRetroService::class.java)
-        val file = File(result.document.files[1].croppedFile)
-        val fileReqBody = RequestBody.create(MediaType.parse("image/*"), file)
-        val part =
-            MultipartBody.Part.createFormData("image", file.name, fileReqBody)
-        state.loading = true
-        service.uploadIdCard(file = part).enqueue(object : Callback<CardScanResponse> {
-            override fun onFailure(call: Call<CardScanResponse>, t: Throwable) {
-                state.loading = false
-            }
 
-            override fun onResponse(
-                call: Call<CardScanResponse>,
-                response: Response<CardScanResponse>?
-            ) {
-                state.loading = false
-                if (response?.body()?.success!!) {
-                    val identity = Identity()
-                    identity.nationality = response.body()?.nationality
-                    identity.gender =
-                        if (response.body()?.sex.equals("M")) Gender.Male else Gender.Female
-                    identity.sirName = response.body()?.surname
-                    identity.givenName = response.body()?.names
-                    identity.citizenNumber = response.body()?.number
-                    identity.expirationDate =
-                        DateUtils.stringToDate(response.body()?.expiration_date!!, "yyMMdd")
-                    identity.dateOfBirth =
-                        DateUtils.stringToDate(response.body()?.date_of_birth!!, "yyMMdd")
+        if (!result.document.files.isNullOrEmpty() && result.document.files.size < 3) {
+            val file = File(result.document.files[1].croppedFile)
+            parentViewModel?.paths?.clear()
+            parentViewModel?.paths?.add(result.document.files[0].croppedFile)
+            parentViewModel?.paths?.add(result.document.files[1].croppedFile)
 
-                    result.identity = identity
-                    parentViewModel?.identity = result
-                    state.eidScanStatus = DocScanStatus.SCAN_COMPLETED
-                } else {
-                    state.toast = getString(
-                        idenetity_scanner_sdk_screen_review_info_display_text_error_not_readable
-                    )
-                }
+            val fileReqBody = RequestBody.create(MediaType.parse("image/*"), file)
+            val part =
+                MultipartBody.Part.createFormData("image", file.name, fileReqBody)
 
-            }
-        })
 
-    }
-
-    private fun uploadDocuments(result: IdentityScannerResult) {
-        val file = File(result.document.files[1].croppedFile)
-        val fileReqBody = RequestBody.create(MediaType.parse("image/*"), file)
-        val part =
-            MultipartBody.Part.createFormData("image", file.name, fileReqBody)
-        launch {
-            state.loading = true
-            when (val response = repository.detectCardData(part)) {
-
-                is RetroApiResponse.Success -> {
-                    val data = response.data.data
+            service.detectCardData(part).enqueue(object : Callback<KycResponse> {
+                override fun onResponse(call: Call<KycResponse>, data: Response<KycResponse>) {
+                    val data = data.body()?.data
                     if (data != null) {
-                        var identity = Identity()
+                        val identity = Identity()
                         identity.nationality = data.nationality
                         identity.gender =
-                            if (data.sex.equals("M")) Gender.Male else Gender.Female
+                            if (data.sex.equals("M", true)) Gender.Male else Gender.Female
                         identity.sirName = data.surname
                         identity.givenName = data.names
                         identity.expirationDate =
@@ -151,35 +188,25 @@ class KYCHomeViewModel(application: Application) : KYCChildViewModel<IKYCHome.St
                         identity.dateOfBirth =
                             DateUtils.stringToDate(data.date_of_birth, "yyMMdd")
                         identity.citizenNumber = data.optional1
+                        identity.isoCountryCode2Digit = data.isoCountryCode2Digit
+                        identity.isoCountryCode3Digit = data.isoCountryCode3Digit
                         result.identity = identity
-                        parentViewModel?.identity = result
+                        parentViewModel?.identity = identity
                         state.eidScanStatus = DocScanStatus.SCAN_COMPLETED
                     } else {
-                        state.toast = response.data.errors?.message!!
+                        state.toast =  "Invalid image"
+                        trackEvent(KYCEvents.EID_FAILURE.type)
                     }
-                    //}
                 }
-                is RetroApiResponse.Error -> {
-                    trackEvent(TrackEvents.EIDA_CALLBACK_FAILURE)
-                    state.toast = response.error.message
-                }
-            }
-            state.loading = false
-        }
-    }
 
-    override fun requestDocuments() {
-        launch {
-            when (val response = repository.getDocuments()) {
-                is RetroApiResponse.Success -> {
-                    response.data.data?.let {
-                        if (it.isNotEmpty()) state.eidScanStatus = DocScanStatus.DOCS_UPLOADED
-                    }
+                override fun onFailure(call: Call<KycResponse>, t: Throwable) {
+                    trackEvent(KYCEvents.EID_FAILURE.type)
+                    state.toast = t.toString()
                 }
-                is RetroApiResponse.Error -> {
-                    state.toast = response.error.message
-                }
-            }
+            })
+
+            // test and
         }
+        // test and
     }
 }

@@ -45,11 +45,9 @@ class TransactionFiltersActivity : BaseBindingActivity<ITransactionFilters.ViewM
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setObservers()
-        if (intent != null) {
-            if (intent.hasExtra(KEY_FILTER_TXN_FILTERS)) {
-                val txnFilters =
-                    intent.getParcelableExtra<TransactionFilters>(KEY_FILTER_TXN_FILTERS)
-                viewModel.txnFilters.value = txnFilters
+        intent?.let {
+            if (it.hasExtra(KEY_FILTER_TXN_FILTERS)) {
+                viewModel.txnFilters.value = it.getParcelableExtra(KEY_FILTER_TXN_FILTERS)
             }
         }
     }
@@ -156,10 +154,12 @@ class TransactionFiltersActivity : BaseBindingActivity<ITransactionFilters.ViewM
 
     private fun setIntentAction() {
         var appliedFilter = 0
+        if (cbInTransFilter.isChecked) appliedFilter++
+        if (cbOutTransFilter.isChecked) appliedFilter++
         viewModel.txnFilters.value?.amountEndRange?.let {
-            if (it.toFloat() != rsbAmount.leftSeekBar.progress) appliedFilter++
-            setIntentRequest(appliedFilter++)
-        } ?: setIntentRequest(appliedFilter)
+            if (rsbAmount.leftSeekBar.progress != viewModel.transactionFilters.value?.maxAmount?.toFloat()) appliedFilter++
+            setIntentRequest(appliedFilter)
+        } ?: setIntentRequest(appliedFilter+1)
     }
 
     private fun setIntentRequest(appliedFilter: Int) {

@@ -19,6 +19,7 @@ interface ICardStatments {
         var card: Card
         fun handlePressOnView(id: Int)
         fun loadStatements(serialNumber: String)
+        fun loadStatementsFromDashBoard()
         val adapter: ObservableField<CardStatementsAdaptor>
     }
 

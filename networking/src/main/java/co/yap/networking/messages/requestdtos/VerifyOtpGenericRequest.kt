@@ -1,3 +1,5 @@
 package co.yap.networking.messages.requestdtos
 
-data class VerifyOtpGenericRequest(val action: String, val otp: String)
+import com.google.gson.annotations.SerializedName
+
+data class VerifyOtpGenericRequest(@SerializedName("action") val action: String, @SerializedName("otp") val otp: String)

@@ -54,6 +54,7 @@ class SpareCardLandingViewModel(application: Application) :
             state.loading = false
         }
     }
+
     override fun getPhysicalCardFee() {
         launch {
             when (val response = transactionRepository.getCardFee("physical")) {

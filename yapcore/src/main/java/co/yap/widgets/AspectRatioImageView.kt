@@ -45,12 +45,12 @@ class AspectRatioImageView @JvmOverloads constructor(
         val newHeight: Int
         when (dominantMeasurement) {
             MEASUREMENT_WIDTH -> {
-                newWidth = getMeasuredWidth()
+                newWidth = measuredWidth
                 newHeight = (newWidth * aspectRatio).toInt()
             }
 
             MEASUREMENT_HEIGHT -> {
-                newHeight = getMeasuredHeight()
+                newHeight = measuredHeight
                 newWidth = (newHeight * aspectRatio).toInt()
             }
 

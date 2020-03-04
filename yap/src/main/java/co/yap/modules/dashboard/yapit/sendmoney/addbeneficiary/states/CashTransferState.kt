@@ -5,21 +5,23 @@ import android.content.Context
 import android.graphics.drawable.Drawable
 import android.text.SpannableStringBuilder
 import androidx.databinding.Bindable
+import androidx.databinding.ObservableField
 import androidx.databinding.library.baseAdapters.BR
 import androidx.lifecycle.MutableLiveData
 import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.interfaces.ICashTransfer
+import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.networking.transactions.responsedtos.InternationalFundsTransferReasonList
 import co.yap.networking.transactions.responsedtos.transaction.RemittanceFeeResponse
 import co.yap.translation.Strings
 import co.yap.translation.Translator
 import co.yap.yapcore.BaseState
-import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.Utils
 
 class CashTransferState(application: Application) : BaseState(), ICashTransfer.State {
 
     val context: Context = application.applicationContext
 
+    override var originalTransferFeeAmount: ObservableField<String> = ObservableField()
     @get:Bindable
     override var fullName: String = ""
         set(value) {
@@ -47,23 +49,18 @@ class CashTransferState(application: Application) : BaseState(), ICashTransfer.S
             field = value
             notifyPropertyChanged(BR.feeAmountSpannableString)
         }
+    @get:Bindable
+    override var availableBalanceString: CharSequence? = ""
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.availableBalanceString)
+        }
 
     @get:Bindable
     override var amount: String = ""
         set(value) {
             field = value
             notifyPropertyChanged(BR.amount)
-            clearError()
-
-            if (feeType == Constants.FEE_TYPE_TIER) {
-                if (amount.isNotEmpty() && amount != ".") {
-                    setSpannableFee(findFee(amount.toDouble()).toString())
-                } else {
-                    setSpannableFee("0.0")
-                }
-            }
-
-
         }
 
     @get:Bindable
@@ -193,6 +190,12 @@ class CashTransferState(application: Application) : BaseState(), ICashTransfer.S
             field = value
             notifyPropertyChanged(BR.otpAction)
         }
+    @get:Bindable
+    override var beneficiary: Beneficiary? = Beneficiary()
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.beneficiary)
+        }
 
 
     @get:Bindable
@@ -208,6 +211,13 @@ class CashTransferState(application: Application) : BaseState(), ICashTransfer.S
             field = value
             notifyPropertyChanged(BR.reasonTransferCode)
         }
+    @get:Bindable
+    override var totalAmount: Double? = 0.0
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.totalAmount)
+        }
+    override var totalTransferAmount: ObservableField<Double> = ObservableField(0.0)
 
     @get:Bindable
     override var transferFee: String = ""
@@ -221,6 +231,12 @@ class CashTransferState(application: Application) : BaseState(), ICashTransfer.S
         set(value) {
             field = value
             notifyPropertyChanged(BR.transferFeeSpannable)
+        }
+    @get:Bindable
+    override var transferFeeAmount: Double = 0.0
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.transferFeeAmount)
         }
 
     @get:Bindable
@@ -244,6 +260,12 @@ class CashTransferState(application: Application) : BaseState(), ICashTransfer.S
             field = value
             notifyPropertyChanged(BR.feeType)
         }
+    @get:Bindable
+    override var cutOffTimeMsg: String? = null
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.cutOffTimeMsg)
+        }
 
     @get:Bindable
     override val populateSpinnerData: MutableLiveData<List<InternationalFundsTransferReasonList.ReasonList>> =
@@ -253,7 +275,7 @@ class CashTransferState(application: Application) : BaseState(), ICashTransfer.S
     fun checkValidity(): String {
         if (amount != "") {
             if (amount.isNotEmpty() && !availableBalance.isNullOrEmpty()) {
-                if (amount.toDouble() > availableBalance!!.toDouble()) {
+                if (amount.toDoubleOrNull() ?: 0.0 > availableBalance?.toDoubleOrNull() ?: 0.0) {
                     amountBackground =
                         context.resources.getDrawable(
                             co.yap.yapcore.R.drawable.bg_funds_error,
@@ -264,14 +286,14 @@ class CashTransferState(application: Application) : BaseState(), ICashTransfer.S
                         Strings.screen_y2y_funds_transfer_display_text_error_exceeding_amount
                     )
                     return errorDescription
-                } else if (amount.toDouble() < minLimit || amount.toDouble() > maxLimit) {
+                } else if (amount.toDoubleOrNull() ?: 0.0 < minLimit || amount.toDoubleOrNull() ?: 0.0 > maxLimit) {
 //                        amountBackground =
 //                            context.resources.getDrawable(co.yap.yapcore.R.drawable.bg_funds_error, null)
                     errorDescription = Translator.getString(
                         context,
-                        Strings.scren_send_money_funds_transfer_display_text_amount_error,
+                        Strings.common_display_text_min_max_limit_error_transaction,
                         Utils.getFormattedCurrency(minLimit.toString()),
-                        Utils.getFormattedCurrency(maxLimit.toString()), availableBalance.toString()
+                        Utils.getFormattedCurrency(maxLimit.toString())
                     )
                     return errorDescription
 
@@ -286,9 +308,9 @@ class CashTransferState(application: Application) : BaseState(), ICashTransfer.S
     }
 
 
-    private fun clearError() {
+    override fun clearError() {
         if (amount != "") {
-            if (amount != "." && amount.toDouble() > 0.0) {
+            if (amount != "." && amount.toDoubleOrNull() ?: 0.0 > 0.0) {
                 valid = true
 //                valid = amount.toDouble() >= minLimit
                 amountBackground =
@@ -300,10 +322,10 @@ class CashTransferState(application: Application) : BaseState(), ICashTransfer.S
     }
 
 
-    private fun findFee(
+    override fun findFee(
         value: Double
     ): Double {
-        var totalAmount = 0.0
+        totalAmount = 0.0
         val remittanceTierFee: ArrayList<RemittanceFeeResponse.RemittanceFee.TierRateDTO> =
             ArrayList()
         //listItemRemittanceFee.filter { item -> item.amountFrom?.toDouble() <= value && item.amountTo!! >= value }
@@ -312,7 +334,7 @@ class CashTransferState(application: Application) : BaseState(), ICashTransfer.S
         while (iterator.hasNext()) {
             val item = iterator.next()
             if (item.amountFrom != null && item.amountTo != null) {
-                if (item.amountFrom!! <= value && item.amountTo!! >= value) {
+                if (item.amountFrom?:0.0 <= value && item.amountTo!! >= value) {
                     remittanceTierFee.add(item)
                     break
                 }
@@ -323,13 +345,14 @@ class CashTransferState(application: Application) : BaseState(), ICashTransfer.S
             val feeAmount = remittanceTierFee[0].feeAmount
             val feeAmountVAT = remittanceTierFee[0].vatAmount
             if (feeAmount != null) {
-                totalAmount = feeAmount + feeAmountVAT!!
+                totalAmount = feeAmount + (feeAmountVAT?:0.0)
             }
         }
-        return totalAmount
+        transferFeeAmount = totalAmount ?: 0.0
+        return totalAmount ?: 0.0
     }
 
-    fun setSpannableFee(totalAmount: String) {
+    override fun setSpannableFee(totalAmount: String) {
         transferFee =
             Translator.getString(
                 context,

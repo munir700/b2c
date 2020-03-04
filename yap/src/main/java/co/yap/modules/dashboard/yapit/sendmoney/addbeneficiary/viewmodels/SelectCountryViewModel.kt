@@ -9,7 +9,6 @@ import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.interfaces.ISelec
 import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.states.SelectCountryState
 import co.yap.modules.dashboard.yapit.sendmoney.viewmodels.SendMoneyBaseViewModel
 import co.yap.networking.customers.CustomersRepository
-import co.yap.networking.customers.responsedtos.sendmoney.CountryModel
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
 import co.yap.translation.Strings
@@ -90,7 +89,8 @@ class SelectCountryViewModel(application: Application) :
                 state.loading = true
                 when (val response = repository.getAllCountries()) {
                     is RetroApiResponse.Success -> {
-                        response.data.data?.let { it ->
+                        val sortedList = response.data.data?.sortedWith(compareBy { it.name })
+                        sortedList?.let { it ->
                             countries.clear()
                             countries.add(
                                 0,
@@ -115,10 +115,14 @@ class SelectCountryViewModel(application: Application) :
                                     isoNum = it.isoNum,
                                     signUpAllowed = it.signUpAllowed,
                                     name = it.name,
-                                    currency = getDefaultCountry(it.currencyList)
+                                    currency = getDefaultCountry(
+                                        it.currencyList,
+                                        it.isoCountryCode2Digit
+                                    ),
+                                    ibanMandatory = it.ibanMandatory
                                 )
                             })
-                            populateSpinnerData.setValue(countries)
+                            populateSpinnerData.value = countries
                         }
                         state.loading = false
                     }
@@ -133,11 +137,14 @@ class SelectCountryViewModel(application: Application) :
         }
     }
 
-    private fun getDefaultCountry(currencyList: List<CountryModel.Data.Currency>?): Currency? {
+    private fun getDefaultCountry(
+        currencyList: List<co.yap.networking.customers.responsedtos.sendmoney.Currency>?,
+        isoCountryCode2Digit: String? = null
+    ): Currency? {
         var currency: Currency? = null
         currencyList?.let {
             for (item in it) {
-                if (item.default != null && item.default!!) {
+                if (item.default != null && item.default == true) {
                     currency = Currency(
                         code = item.code,
                         default = item.default,
@@ -148,9 +155,36 @@ class SelectCountryViewModel(application: Application) :
                     )
                     break
                 }
-
             }
         }
+        return if (currency == null)
+            getDefaultCurrencyIfNull(currencyList, isoCountryCode2Digit)
+        else
+            currency
+    }
+
+    private fun getDefaultCurrencyIfNull(
+        currencyList: List<co.yap.networking.customers.responsedtos.sendmoney.Currency>?,
+        isoCountryCode2Digit: String?
+    ): Currency? {
+        var currency: Currency? = null
+        currencyList?.let {
+            for (item in it) {
+                val curr2DigitCode = item.code?.substring(0..1)
+                if (curr2DigitCode.equals(isoCountryCode2Digit, true)) {
+                    currency = Currency(
+                        code = item.code,
+                        default = item.default,
+                        name = item.name,
+                        active = item.active,
+                        cashPickUp = item.cashPickUp,
+                        rmtCountry = item.rmtCountry
+                    )
+                    break
+                }
+            }
+        }
+
         return currency
     }
 

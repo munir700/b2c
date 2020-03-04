@@ -1,6 +1,5 @@
 package co.yap.modules.kyc.interfaces
 
-import androidx.databinding.ObservableField
 import co.yap.modules.kyc.enums.DocScanStatus
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent

@@ -56,6 +56,7 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
             chart.setHoleColor(Color.TRANSPARENT)
             chart.setTransparentCircleColor(Color.WHITE)
             chart.setTransparentCircleAlpha(200)
+//            chart.holeRadius = // 78f  For Rounded corner graph with spaces
             chart.holeRadius = 70f
             chart.transparentCircleRadius = 70f
             chart.setDrawCenterText(true)
@@ -66,6 +67,8 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
             chart.legend.isEnabled = false // Hide the legend
             chart.setEntryLabelColor(Color.WHITE)
             chart.setEntryLabelTextSize(0f)
+//            chart.setDrawRoundedSlices(true)  // For Rounded corner graph with spaces
+
             setData(data)
         }
     }
@@ -92,6 +95,7 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
         val dataSet = PieDataSet(entries, "")
         dataSet.setDrawIcons(false)
         dataSet.sliceSpace = 0f
+//        dataSet.sliceSpace = 5f   // For Rounded corner graph with spaces
         dataSet.iconsOffset = MPPointF(0f, 40f)
         dataSet.selectionShift = 20f
         dataSet.setDrawValues(false)

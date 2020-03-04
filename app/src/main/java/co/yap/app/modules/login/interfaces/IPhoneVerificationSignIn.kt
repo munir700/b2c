@@ -1,5 +1,6 @@
 package co.yap.app.modules.login.interfaces
 
+import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import co.yap.networking.customers.responsedtos.AccountInfo
 import co.yap.yapcore.IBase
@@ -15,7 +16,7 @@ interface IPhoneVerificationSignIn {
         val postDemographicDataResult: SingleLiveEvent<Boolean>
         val accountInfo: MutableLiveData<AccountInfo>
         fun postDemographicData()
-        fun handlePressOnResend()
+        fun handlePressOnResend(context: Context)
         fun handlePressOnSendButton()
         fun verifyOtp()
         fun getAccountInfo()
@@ -28,7 +29,7 @@ interface IPhoneVerificationSignIn {
         var timer: String
         var valid: Boolean
         var validateBtn: Boolean
-        fun reverseTimer(Seconds: Int)
+        fun reverseTimer(Seconds: Int,context: Context)
         var color: Int
     }
 }

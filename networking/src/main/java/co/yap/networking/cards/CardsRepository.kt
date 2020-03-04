@@ -4,10 +4,7 @@ import co.yap.networking.BaseRepository
 import co.yap.networking.RetroNetwork
 import co.yap.networking.authentication.AuthRepository
 import co.yap.networking.cards.requestdtos.*
-import co.yap.networking.cards.responsedtos.CardBalanceResponseDTO
-import co.yap.networking.cards.responsedtos.CardDetailResponseDTO
-import co.yap.networking.cards.responsedtos.GetCardsResponse
-import co.yap.networking.cards.responsedtos.GetPhysicalAddress
+import co.yap.networking.cards.responsedtos.*
 import co.yap.networking.customers.responsedtos.HouseHoldCardsDesignResponse
 import co.yap.networking.models.ApiResponse
 import co.yap.networking.models.RetroApiResponse
@@ -37,6 +34,8 @@ object CardsRepository : BaseRepository(), CardsApi {
     const val URL_REPORT_LOST_OR_STOLEN_CARD = "/cards/api/card-hot-list"
     const val URL_REORDER_DEBIT_CARD = "/cards/api/cards/debit/reorder"
     const val URL_REORDER_SUPPLEMENTARY_CARD = "/cards/api/cards/supplementary/reorder"
+
+    const val URL_ATM_CDM = "cards/api/atm-cdm/"
 
     private val API: CardsRetroService = RetroNetwork.createService(CardsRetroService::class.java)
 
@@ -78,7 +77,7 @@ object CardsRepository : BaseRepository(), CardsApi {
 
     override suspend fun addSpareVirtualCard(
         addVirtualSpareCardRequest: AddVirtualSpareCardRequest
-    ): RetroApiResponse<ApiResponse> =
+    ): RetroApiResponse<AddSpareVirualCardResponse> =
         AuthRepository.executeSafely(call = {
             API.addSpareVirtualCardRequest(
                 addVirtualSpareCardRequest
@@ -147,6 +146,9 @@ object CardsRepository : BaseRepository(), CardsApi {
         AuthRepository.executeSafely(call = {
             API.reorderSupplementaryCard(reorderCardRequest)
         })
+
+    override suspend fun getCardsAtmCdm() =
+        AuthRepository.executeSafely(call = { API.getCardsAtmCdm() })
 
     override suspend fun getHouseHoldCardsDesign(accountType: String): RetroApiResponse<HouseHoldCardsDesignResponse> =
         AuthRepository.executeSafely(call = { API.getHouseHoldCardsDesign(accountType) })

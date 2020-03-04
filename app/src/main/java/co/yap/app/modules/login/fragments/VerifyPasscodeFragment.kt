@@ -21,6 +21,11 @@ import co.yap.modules.others.helper.Constants.REQUEST_CODE
 import co.yap.networking.customers.responsedtos.AccountInfo
 import co.yap.widgets.NumberKeyboardListener
 import co.yap.yapcore.BaseBindingFragment
+import co.yap.yapcore.constants.Constants.KEY_APP_UUID
+import co.yap.yapcore.constants.Constants.KEY_IS_FINGERPRINT_PERMISSION_SHOWN
+import co.yap.yapcore.constants.Constants.KEY_IS_USER_LOGGED_IN
+import co.yap.yapcore.constants.Constants.KEY_TOUCH_ID_ENABLED
+import co.yap.yapcore.constants.Constants.VERIFY_PASS_CODE_BTN_TEXT
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.biometric.BiometricCallback
@@ -70,15 +75,18 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
     }
 
     private fun receiveData() {
-        arguments?.let {
+        arguments?.let { it ->
             viewModel.state.username = VerifyPasscodeFragmentArgs.fromBundle(it).username
+            it.getString(VERIFY_PASS_CODE_BTN_TEXT)?.let {
+                viewModel.state.btnVerifyPassCodeText = it
+            }
             viewModel.state.verifyPassCodeEnum =
                 it.getString(REQUEST_CODE, VerifyPassCodeEnum.ACCESS_ACCOUNT.name)
         }
     }
 
     private fun updateUUID() {
-        sharedPreferenceManager.getValueString(SharedPreferenceManager.KEY_APP_UUID)?.let {
+        sharedPreferenceManager.getValueString(KEY_APP_UUID)?.let {
             viewModel.state.deviceId = it
         } ?: toast("Invalid UUID found")
     }
@@ -101,7 +109,7 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
         ) {
 
             if (sharedPreferenceManager.getValueBoolien(
-                    SharedPreferenceManager.KEY_TOUCH_ID_ENABLED,
+                    KEY_TOUCH_ID_ENABLED,
                     false
                 )
             ) {
@@ -200,7 +208,7 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
 
     private fun isUserLoginIn(): Boolean {
         return sharedPreferenceManager.getValueBoolien(
-            SharedPreferenceManager.KEY_IS_USER_LOGGED_IN,
+            KEY_IS_USER_LOGGED_IN,
             false
         )
     }
@@ -230,7 +238,7 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
     private val loginSuccessObserver = Observer<Boolean> {
         if (it) {
             if (viewModel.isFingerprintLogin) {
-                sharedPreferenceManager.save(SharedPreferenceManager.KEY_IS_USER_LOGGED_IN, true)
+                sharedPreferenceManager.save(KEY_IS_USER_LOGGED_IN, true)
                 navigateToDashboard()
             } else {
                 if ((VerifyPassCodeEnum.valueOf(viewModel.state.verifyPassCodeEnum) == VerifyPassCodeEnum.VERIFY)) {
@@ -254,9 +262,9 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
 
     private val onFetchAccountInfo = Observer<AccountInfo> {
         it?.run {
-            sharedPreferenceManager.save(SharedPreferenceManager.KEY_IS_USER_LOGGED_IN, true)
+            sharedPreferenceManager.save(KEY_IS_USER_LOGGED_IN, true)
             if (!sharedPreferenceManager.getValueBoolien(
-                    SharedPreferenceManager.KEY_IS_FINGERPRINT_PERMISSION_SHOWN,
+                    KEY_IS_FINGERPRINT_PERMISSION_SHOWN,
                     false
                 )
             ) {
@@ -271,12 +279,12 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
                         )
                     findNavController().navigate(action)
                     sharedPreferenceManager.save(
-                        SharedPreferenceManager.KEY_IS_FINGERPRINT_PERMISSION_SHOWN,
+                        KEY_IS_FINGERPRINT_PERMISSION_SHOWN,
                         true
                     )
                 } else {
                     sharedPreferenceManager.save(
-                        SharedPreferenceManager.KEY_IS_FINGERPRINT_PERMISSION_SHOWN,
+                        KEY_IS_FINGERPRINT_PERMISSION_SHOWN,
                         true
                     )
                     val action =

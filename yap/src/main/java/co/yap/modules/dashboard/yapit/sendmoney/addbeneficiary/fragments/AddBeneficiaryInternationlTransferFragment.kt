@@ -110,7 +110,6 @@ class AddBeneficiaryInternationlTransferFragment :
 
     private val otpSuccessObserver = Observer<Boolean> {
         if (it) {
-            viewModel.parentViewModel?.beneficiary?.value?.currency = null
             viewModel.addCashPickupBeneficiary()
             viewModel.parentViewModel?.otpSuccess?.value = false
         }
@@ -186,6 +185,7 @@ class AddBeneficiaryInternationlTransferFragment :
                         if (data is Boolean) {
                             if (data) {
                                 startMoneyTransfer()
+                                setIntentResult()
                             } else {
                                 activity?.let {
                                     setIntentResult()
@@ -229,9 +229,5 @@ class AddBeneficiaryInternationlTransferFragment :
         }
         return false
     }
-
-//    private fun getBindings(): FragmentAddBeneficiaryInternationalBankTransferBinding? {
-//        return viewDataBinding as? FragmentAddBeneficiaryInternationalBankTransferBinding
-//    }
 
 }

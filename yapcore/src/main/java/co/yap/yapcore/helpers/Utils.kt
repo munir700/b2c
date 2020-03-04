@@ -32,9 +32,7 @@ import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.extentions.shortToast
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.MyUserManager
-import com.google.android.material.appbar.AppBarLayout
 import com.google.i18n.phonenumbers.PhoneNumberUtil
-import com.thefinestartist.finestwebview.FinestWebView
 import kotlinx.android.synthetic.main.progress_dialogue_fragment.view.*
 import java.math.RoundingMode
 import java.text.DecimalFormat
@@ -455,16 +453,21 @@ object Utils {
 
     }
 
-    fun getOpenFacebookIntent(context: Context): Intent {
+    fun getOpenFacebookIntent(context: Context): Intent? {
 
         return try {
             context.packageManager.getPackageInfo("com.facebook.katana", 0)
             Intent(ACTION_VIEW, Uri.parse("fb://page/288432705359181"))
         } catch (e: Exception) {
-            Intent(
-                ACTION_VIEW,
-                Uri.parse("https://www.facebook.com/Yap-Now-288432705359181/")
-            )
+            try {
+                Intent(
+                    ACTION_VIEW,
+                    Uri.parse("https://www.facebook.com/Yap-Now-288432705359181/")
+                )
+            } catch (e: Exception) {
+                null
+            }
+
         }
 
     }
@@ -775,37 +778,6 @@ object Utils {
             .show()
     }
 
-
-    fun openWebPage(url: String, title: String?, activity: Activity?) {
-        activity?.let {
-            FinestWebView.Builder(it)
-                .titleDefault(title ?: "")
-                .updateTitleFromHtml(true)
-                .toolbarScrollFlags(AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL or AppBarLayout.LayoutParams.SCROLL_FLAG_ENTER_ALWAYS)
-                .gradientDivider(false)
-                .dividerHeight(2)
-                .titleColor(ContextCompat.getColor(it, R.color.colorPrimaryDark))
-                .toolbarColorRes(R.color.colorWhite)
-                .dividerColorRes(R.color.colorPrimaryDark)
-                .iconDefaultColorRes(R.color.colorPrimary)
-                .iconDisabledColorRes(R.color.light_grey)
-                .iconPressedColorRes(R.color.colorPrimaryDark)
-                .progressBarHeight(convertDpToPx(it, 3f))
-                .progressBarColorRes(R.color.colorPrimaryDark)
-                .backPressToClose(false)
-                .webViewUseWideViewPort(true)
-                .webViewSupportZoom(true)
-                .webViewBuiltInZoomControls(true)
-                .setCustomAnimations(
-                    R.anim.activity_open_enter,
-                    R.anim.activity_open_exit,
-                    R.anim.activity_close_enter,
-                    R.anim.activity_close_exit
-                )
-                .show(url)
-        }
-    }
-
     fun showComingSoon(context: Context) {
         context.shortToast("Coming Soon")
     }
@@ -823,5 +795,35 @@ object Utils {
             return sb.toString()
         } ?: return null
 
+    }
+
+    fun checkForUpdate(
+        existingVersion: String,
+        newVersion: String
+    ): Boolean {
+        var existingVersion = existingVersion
+        var newVersion = newVersion
+        if (existingVersion.isEmpty() || newVersion.isEmpty()) {
+            return false
+        }
+        existingVersion = existingVersion.replace("\\.".toRegex(), "")
+        newVersion = newVersion.replace("\\.".toRegex(), "")
+        val existingVersionLength = existingVersion.length
+        val newVersionLength = newVersion.length
+        val versionBuilder = java.lang.StringBuilder()
+        if (newVersionLength > existingVersionLength) {
+            versionBuilder.append(existingVersion)
+            for (i in existingVersionLength until newVersionLength) {
+                versionBuilder.append("0")
+            }
+            existingVersion = versionBuilder.toString()
+        } else if (existingVersionLength > newVersionLength) {
+            versionBuilder.append(newVersion)
+            for (i in newVersionLength until existingVersionLength) {
+                versionBuilder.append("0")
+            }
+            newVersion = versionBuilder.toString()
+        }
+        return newVersion.toInt() > existingVersion.toInt()
     }
 }

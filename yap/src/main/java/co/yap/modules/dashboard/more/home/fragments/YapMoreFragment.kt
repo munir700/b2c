@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.text.SpannableString
 import android.view.View
 import androidx.core.content.ContextCompat
+import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
@@ -13,23 +14,30 @@ import co.yap.R
 import co.yap.databinding.FragmentMoreHomeBinding
 import co.yap.modules.dashboard.main.fragments.YapDashboardChildFragment
 import co.yap.modules.dashboard.more.bankdetails.activities.BankDetailActivity
+import co.yap.modules.dashboard.more.cdm.CdmMapFragment
 import co.yap.modules.dashboard.more.home.adaptor.YapMoreAdaptor
 import co.yap.modules.dashboard.more.home.interfaces.IMoreHome
 import co.yap.modules.dashboard.more.home.models.MoreOption
 import co.yap.modules.dashboard.more.home.viewmodels.MoreHomeViewModel
 import co.yap.modules.dashboard.more.main.activities.MoreActivity
+import co.yap.modules.dashboard.more.notification.activities.NotificationsActivity
+import co.yap.modules.dashboard.more.yapforyou.activities.YAPForYouActivity
 import co.yap.modules.others.fragmentpresenter.activities.FragmentPresenterActivity
+import co.yap.widgets.SpaceGridItemDecoration
+import co.yap.widgets.SpacesItemDecoration
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.Utils.formateIbanString
+import co.yap.yapcore.helpers.extentions.dimen
+import co.yap.yapcore.helpers.extentions.startFragment
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.MyUserManager
+import com.leanplum.Leanplum
 
 
 class YapMoreFragment : YapDashboardChildFragment<IMoreHome.ViewModel>(), IMoreHome.View {
 
     lateinit var adapter: YapMoreAdaptor
-    lateinit var str: CharArray
     override fun getBindingVariable(): Int = BR.viewModel
 
     override fun getLayoutId(): Int = R.layout.fragment_more_home
@@ -51,8 +59,19 @@ class YapMoreFragment : YapDashboardChildFragment<IMoreHome.ViewModel>(), IMoreH
     override fun onResume() {
         super.onResume()
         initComponents()
+        updateNotificationCounter()
     }
 
+    private fun updateNotificationCounter() {
+        if (::adapter.isInitialized) {
+            if (!adapter.getDataList().isNullOrEmpty()) {
+                val item = adapter.getDataForPosition(0)
+                item.hasBadge = false //Leanplum.getInbox().unreadCount() > 0
+                item.badgeCount = Leanplum.getInbox().unreadCount()
+                adapter.setItemAt(0, item)
+            }
+        }
+    }
 
     private fun initComponents() {
         getBinding().tvName.text =
@@ -67,6 +86,7 @@ class YapMoreFragment : YapDashboardChildFragment<IMoreHome.ViewModel>(), IMoreH
                 ContextCompat.getColor(requireContext(), R.color.colorPrimaryDark)
             )
         }
+
         MyUserManager.user?.bank?.swiftCode?.let {
             val bicSpan = SpannableString("BIC $it")
             getBinding().tvBic.text = Utils.setSpan(
@@ -82,6 +102,8 @@ class YapMoreFragment : YapDashboardChildFragment<IMoreHome.ViewModel>(), IMoreH
     private fun setupRecycleView() {
         adapter = YapMoreAdaptor(requireContext(), viewModel.getMoreOptions())
         getBinding().recyclerOptions.adapter = adapter
+
+        getBinding().recyclerOptions.addItemDecoration(SpaceGridItemDecoration(dimen(R.dimen.margin_normal_large)?:16, 2, true))
         adapter.allowFullItemClickListener = true
         adapter.setItemListener(listener)
     }
@@ -95,13 +117,21 @@ class YapMoreFragment : YapDashboardChildFragment<IMoreHome.ViewModel>(), IMoreH
             if (data is MoreOption) {
                 when (data.id) {
                     Constants.MORE_NOTIFICATION -> {
+                        //openNotifications()
                         Utils.showComingSoon(requireContext())
                     }
                     Constants.MORE_LOCATE_ATM -> {
-                        openMaps()
+                        startFragment(CdmMapFragment::class.java.name)
+                        //openMaps()
                     }
                     Constants.MORE_INVITE_FRIEND -> {
-                        Utils.showComingSoon(requireContext())
+                        startFragment(
+                            InviteFriendFragment::class.java.name, false,
+                            bundleOf(
+
+                            )
+                        )
+
                     }
                     Constants.MORE_HELP_SUPPORT -> {
                         startActivity(
@@ -114,6 +144,10 @@ class YapMoreFragment : YapDashboardChildFragment<IMoreHome.ViewModel>(), IMoreH
                 }
             }
         }
+    }
+
+    private fun openNotifications() {
+        startActivity(Intent(requireContext(), NotificationsActivity::class.java))
     }
 
     private fun openMaps() {
@@ -144,6 +178,10 @@ class YapMoreFragment : YapDashboardChildFragment<IMoreHome.ViewModel>(), IMoreH
             }
             R.id.btnBankDetails -> {
                 startActivity(BankDetailActivity.newIntent(requireContext()))
+            }
+            R.id.yapForYou -> {
+                startActivity(Intent(requireContext(), YAPForYouActivity::class.java))
+
             }
         }
     }

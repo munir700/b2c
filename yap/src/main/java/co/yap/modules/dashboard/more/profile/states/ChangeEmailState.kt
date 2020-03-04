@@ -11,7 +11,7 @@ import co.yap.yapcore.helpers.Utils
 
 class ChangeEmailState(application: Application) : BaseState(), IChangeEmail.State {
 
-    val context = application.applicationContext
+    val context = application
 
     @get:Bindable
     override var newEmail: String = ""

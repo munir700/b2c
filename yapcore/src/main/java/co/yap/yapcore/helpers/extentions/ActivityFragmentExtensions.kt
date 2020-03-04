@@ -3,18 +3,28 @@ package co.yap.yapcore.helpers.extentions
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.provider.Settings
 import androidx.annotation.AnimRes
 import androidx.annotation.IdRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProviders
 import co.yap.modules.frame.FrameActivity
+import co.yap.yapcore.BaseBindingFragment
+import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.R
 import co.yap.yapcore.constants.Constants.EXTRA
 import co.yap.yapcore.constants.Constants.FRAGMENT_CLASS
+import co.yap.yapcore.constants.Constants.SHOW_TOOLBAR
+import co.yap.yapcore.constants.Constants.TOOLBAR_TITLE
+import co.yap.yapcore.constants.RequestCodes
 import com.github.florent37.inlineactivityresult.kotlin.startForResult
+
 
 /**
  * Extensions for simpler launching of Activities
@@ -34,6 +44,7 @@ inline fun <reified T : Any> Activity.launchActivity(
         startActivityForResult(intent, requestCode)
     }
 }
+
 inline fun <reified T : Any> Fragment.launchActivity(
     requestCode: Int = -1,
     options: Bundle? = null,
@@ -167,10 +178,15 @@ fun FragmentActivity.addFragment(
 fun <T : Fragment> FragmentActivity.startFragment(
     fragmentName: String,
     clearAllPrevious: Boolean = false,
-    bundle: Bundle = Bundle(), requestCode: Int = -1
+    bundle: Bundle = Bundle(),
+    requestCode: Int = -1,
+    showToolBar: Boolean = false,
+    toolBarTitle: String = ""
 ) {
     val intent = Intent(this, FrameActivity::class.java)
     intent.putExtra(FRAGMENT_CLASS, fragmentName)
+    intent.putExtra(SHOW_TOOLBAR, showToolBar)
+    intent.putExtra(TOOLBAR_TITLE, toolBarTitle)
     intent.putExtra(EXTRA, bundle)
     if (requestCode > 0) {
         startActivityForResult(intent, requestCode)
@@ -186,11 +202,17 @@ fun <T : Fragment> FragmentActivity.startFragment(
 fun Fragment.startFragment(
     fragmentName: String,
     clearAllPrevious: Boolean = false,
-    bundle: Bundle = Bundle(), requestCode: Int = -1
+    bundle: Bundle = Bundle(),
+    requestCode: Int = -1,
+    showToolBar: Boolean = false,
+    toolBarTitle: String = ""
 ) {
     val intent = Intent(requireActivity(), FrameActivity::class.java)
     intent.putExtra(FRAGMENT_CLASS, fragmentName)
     intent.putExtra(EXTRA, bundle)
+    intent.putExtra(SHOW_TOOLBAR, showToolBar)
+    intent.putExtra(SHOW_TOOLBAR, showToolBar)
+    intent.putExtra(TOOLBAR_TITLE, toolBarTitle)
     if (requestCode > 0) {
         startActivityForResult(intent, requestCode)
     } else {
@@ -219,8 +241,7 @@ fun <T : Fragment> FragmentActivity.startFragmentForResult(
             completionHandler?.invoke(result.resultCode, result.data)
         }
 
-    }
-    catch (e: Exception) {
+    } catch (e: Exception) {
         if (e is ClassNotFoundException) {
             toast(
                 "InlineActivityResult library not installed falling back to default method, please install \" +\n" +
@@ -240,15 +261,14 @@ fun <T : Fragment> Fragment.startFragmentForResult(
     try {
         intent.putExtra(FRAGMENT_CLASS, fragmentName)
         intent.putExtra(EXTRA, bundle)
-
+        intent.putExtra(SHOW_TOOLBAR, false)
         this.startForResult(intent) { result ->
             completionHandler?.invoke(result.resultCode, result.data)
         }.onFailed { result ->
             completionHandler?.invoke(result.resultCode, result.data)
         }
 
-    }
-    catch (e: Exception) {
+    } catch (e: Exception) {
         if (e is ClassNotFoundException) {
             toast(
                 "InlineActivityResult library not installed falling back to default method, please install \" +\n" +
@@ -258,5 +278,29 @@ fun <T : Fragment> Fragment.startFragmentForResult(
         }
     }
 }
+
+fun Activity.openAppSetting(requestCode: Int = RequestCodes.REQUEST_FOR_GPS) {
+    val intent =
+        Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+    val uri: Uri = Uri.fromParts("package", packageName, null)
+    intent.data = uri
+    startActivityForResult(intent, requestCode)
+}
+
+fun Fragment.openAppSetting(requestCode: Int = RequestCodes.REQUEST_FOR_GPS) {
+    val intent =
+        Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+    val uri: Uri = Uri.fromParts("package", requireActivity().packageName, null)
+    intent.data = uri
+    startActivityForResult(intent, requestCode)
+}
+
+inline fun <reified T : BaseViewModel<*>> Fragment.viewModel(factory: ViewModelProvider.Factory, body: T.() -> Unit): T {
+    val vm = ViewModelProviders.of(this, factory)[T::class.java]
+    vm.body()
+    return vm
+}
+
+fun BaseBindingFragment<*>.close() = fragmentManager?.popBackStack()
 
 

@@ -17,7 +17,7 @@
         android:layout_height="wrap_content"
         android:background="@color/white"
         android:orientation="vertical"
-        android:paddingBottom="@dimen/margin_normal">
+        android:paddingBottom="@dimen/margin_extra_small">
 
         <TextView
             android:id="@+id/tvTransactionDate"
@@ -25,7 +25,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_medium"
-            android:layout_marginTop="@dimen/margin_normal"
+            android:layout_marginTop="@dimen/margin_small"
             tools:text="April 12"
             android:text="@{viewModel.itemViewModel.date}"
             app:layout_constraintLeft_toLeftOf="parent"
@@ -36,7 +36,7 @@
             style="@style/SmallGrey"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_normal"
+            android:layout_marginTop="@dimen/margin_small"
             android:layout_marginEnd="@dimen/margin_medium"
             android:text="@{viewModel.itemViewModel.totalAmount}"
             app:layout_constraintRight_toRightOf="parent"
@@ -48,7 +48,7 @@
             android:id="@+id/rv_expanded_transactions_listing"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_24sdp"
+            android:layout_marginTop="@dimen/margin_normal"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvTransactionDate"
             app:layout_constraintVertical_bias="0.0"

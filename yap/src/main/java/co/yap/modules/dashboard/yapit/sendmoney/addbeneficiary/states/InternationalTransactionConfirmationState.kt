@@ -75,4 +75,10 @@ class InternationalTransactionConfirmationState : BaseState(),
             field = value
             notifyPropertyChanged(BR.args)
         }
+    @get:Bindable
+    override var cutOffTimeMsg: String? = null
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.cutOffTimeMsg)
+        }
 }

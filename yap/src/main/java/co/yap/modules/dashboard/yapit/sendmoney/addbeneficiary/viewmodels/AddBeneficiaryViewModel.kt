@@ -24,7 +24,7 @@ class AddBeneficiaryViewModel(application: Application) :
     IRepositoryHolder<CustomersRepository> {
 
     override val repository: CustomersRepository = CustomersRepository
-    override val state: AddBeneficiaryStates = AddBeneficiaryStates()
+    override val state: AddBeneficiaryStates = AddBeneficiaryStates(this)
     override var clickEvent: SingleClickEvent = SingleClickEvent()
     private val messagesRepository: MessagesRepository = MessagesRepository
     override var addBeneficiarySuccess: MutableLiveData<Boolean> = MutableLiveData(false)
@@ -35,7 +35,6 @@ class AddBeneficiaryViewModel(application: Application) :
     override fun onCreate() {
         super.onCreate()
         state.selectedBeneficiaryType = parentViewModel?.beneficiary?.value?.beneficiaryType
-
         parentViewModel?.selectedCountry?.value?.let {
             state.country = it.getName()
             state.country2DigitIsoCode = it.isoCountryCode2Digit ?: "AE"
@@ -60,6 +59,38 @@ class AddBeneficiaryViewModel(application: Application) :
         }
     }
 
+    override fun handlePressOnAddNow(id: Int) {
+        if (id == R.id.confirmButton) {
+            setBeneficiaryDetail()
+            parentViewModel?.beneficiary?.value?.beneficiaryType?.let { beneficiaryType ->
+                if (beneficiaryType.isEmpty()) return@let
+                when (SendMoneyBeneficiaryType.valueOf(beneficiaryType)) {
+                    SendMoneyBeneficiaryType.CASHPAYOUT -> {
+                        parentViewModel?.beneficiary?.value?.let {
+                            validateBeneficiaryDetails(
+                                it,
+                                Constants.CASHPAYOUT_BENEFICIARY
+                            )
+                        }
+                    }
+                    SendMoneyBeneficiaryType.DOMESTIC -> {
+                        parentViewModel?.beneficiary?.value?.let {
+                            validateBeneficiaryDetails(
+                                it,
+                                Constants.DOMESTIC_BENEFICIARY
+                            )
+                        }
+                    }
+                    else -> {
+                        clickEvent.setValue(id)
+                    }
+                }
+            }
+        } else {
+            clickEvent.setValue(id)
+        }
+    }
+
     override fun createOtp(action: String) {
         launch {
             state.loading = true
@@ -70,6 +101,7 @@ class AddBeneficiaryViewModel(application: Application) :
                     )
                 )) {
                 is RetroApiResponse.Success -> {
+                    state.otpType = action
                     otpCreateObserver.value = true
                 }
                 is RetroApiResponse.Error -> {
@@ -81,20 +113,20 @@ class AddBeneficiaryViewModel(application: Application) :
         }
     }
 
-
-    override fun handlePressOnAddNow(id: Int) {
-        if (id == R.id.confirmButton) {
-            setBeneficiaryDetail()
-            when (state.transferType) {
-                "Cash Pickup" -> {
-                    createOtp(Constants.CASHPAYOUT_BENEFICIARY)
+    override fun validateBeneficiaryDetails(beneficiaryy: Beneficiary, otpType: String) {
+        launch {
+            state.loading = true
+            when (val response = repository.validateBeneficiary(beneficiaryy)) {
+                is RetroApiResponse.Success -> {
+                    state.loading = false
+                    createOtp(otpType)
                 }
-                else -> {
+
+                is RetroApiResponse.Error -> {
+                    state.loading = false
+                    state.toast = response.error.message
                 }
             }
-            clickEvent.setValue(id)
-        } else {
-            clickEvent.setValue(id)
         }
     }
 
@@ -103,6 +135,7 @@ class AddBeneficiaryViewModel(application: Application) :
         parentViewModel?.beneficiary?.value?.firstName = state.firstName
         parentViewModel?.beneficiary?.value?.lastName = state.lastName
         parentViewModel?.beneficiary?.value?.mobileNo = state.mobileNo
+        parentViewModel?.beneficiary?.value?.accountNo = state.iban.replace(" ", "")
         parentViewModel?.selectedCountry?.value?.let {
             parentViewModel?.beneficiary?.value?.currency = it.getCurrency()?.code
             parentViewModel?.beneficiary?.value?.country = it.isoCountryCode2Digit
@@ -114,7 +147,8 @@ class AddBeneficiaryViewModel(application: Application) :
     }
 
     override fun addCashPickupBeneficiary() {
-        parentViewModel?.beneficiary?.value?.let {
+        parentViewModel?.beneficiary?.value?.also {
+            it.accountNo = null
             launch {
                 state.loading = true
                 when (val response = repository.addBeneficiary(it)) {

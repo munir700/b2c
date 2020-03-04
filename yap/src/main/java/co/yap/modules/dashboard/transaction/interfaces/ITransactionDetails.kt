@@ -1,6 +1,5 @@
 package co.yap.modules.dashboard.transaction.interfaces
 
-import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
@@ -12,7 +11,7 @@ interface ITransactionDetails {
         fun handlePressOnShareButton(id: Int)
         fun handlePressOnEditNoteClickEvent(id: Int)
         var clickEvent: SingleClickEvent
-        var transactionId: String
+        var transactionId: String?
 
     }
 
@@ -30,5 +29,14 @@ interface ITransactionDetails {
         var totalAmount: String
         var addNoteTitle: String
         var noteValue: String?
+        var currency: String?
+        var vatAmount: String?
+        var totalAmountCalculated: String?
+        var spentVisibility: ObservableField<Boolean>
+        var categoryTitle: ObservableField<String>
+        var categoryIcon: ObservableField<Int>
+        var categoryName: ObservableField<String>
+        var transactionAddress: ObservableField<String>
+        //var content: Content?
     }
 }
