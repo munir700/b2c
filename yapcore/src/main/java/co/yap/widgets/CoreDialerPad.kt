@@ -11,7 +11,10 @@ import android.util.AttributeSet
 import android.view.View
 import android.view.View.OnClickListener
 import android.view.animation.AnimationUtils
-import android.widget.*
+import android.widget.EditText
+import android.widget.ImageButton
+import android.widget.ImageView
+import android.widget.LinearLayout
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.graphics.drawable.DrawableCompat
 import co.yap.yapcore.R
@@ -257,9 +260,16 @@ class CoreDialerPad @JvmOverloads constructor(
         etPassCodeText?.startAnimation(animShake)
     }
 
-    fun settingUIForError(error: String, isScreenLocked: Boolean = false) {
-        view.findViewById<TextView>(R.id.tvError).visibility = View.VISIBLE
-        view.findViewById<TextView>(R.id.tvError).text = error
+    fun showError(error: String) {
+        tvError.visibility = View.VISIBLE
+        tvError.text = error
+    }
+
+    fun removeError() {
+        tvError.visibility = View.INVISIBLE
+    }
+
+    fun settingUIForError(isScreenLocked: Boolean = false) {
         if (isScreenLocked) lockKeypad() else unlockKeypad()
     }
 
@@ -280,7 +290,6 @@ class CoreDialerPad @JvmOverloads constructor(
 
 
     fun settingUIForNormal(isScreenLocked: Boolean = false) {
-        tvError.visibility = View.GONE
         if (isScreenLocked) lockKeypad() else unlockKeypad()
     }
 
