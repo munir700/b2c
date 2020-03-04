@@ -198,7 +198,7 @@ class InternationalTransactionConfirmationViewModel(application: Application) :
                                     )) {
                                     is RetroApiResponse.Success -> {
                                         response.data.data?.let {
-                                            state.cutOffTimeMsg =  it.errorMsg
+                                            state.cutOffTimeMsg = it.errorMsg
                                         }
 
                                     }
