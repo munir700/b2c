@@ -19,12 +19,14 @@ import co.yap.modules.dashboard.cards.addpaymentcard.spare.helpers.virtual.AddSp
 import co.yap.modules.dashboard.cards.addpaymentcard.spare.interfaces.IAddSpareCard
 import co.yap.modules.dashboard.cards.addpaymentcard.spare.viewmodels.AddSpareCardViewModel
 import co.yap.modules.dashboard.cards.reordercard.activities.ReorderCardActivity
+import co.yap.modules.dashboard.yapit.topup.cardslisting.TopUpBeneficiariesActivity
 import co.yap.modules.location.activities.LocationSelectionActivity
 import co.yap.networking.cards.responsedtos.Address
 import co.yap.translation.Strings
 import co.yap.translation.Translator
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.RequestCodes
+import co.yap.yapcore.helpers.extentions.launchActivity
 import co.yap.yapcore.managers.MyUserManager
 
 class AddSpareCardFragment : AddPaymentChildFragment<IAddSpareCard.ViewModel>(),
@@ -233,11 +235,11 @@ class AddSpareCardFragment : AddPaymentChildFragment<IAddSpareCard.ViewModel>(),
         )
         builder.setPositiveButton(
             Translator.getString(
-                context!!, Strings.screen_add_spare_card_display_button_block_alert_top_up
+                requireContext(), Strings.screen_add_spare_card_display_button_block_alert_top_up
             )
         ) { dialog, which ->
-
-
+            launchActivity<TopUpBeneficiariesActivity>()
+//            startActivity(TopUpLandingActivity.getIntent(requireContext()))
         }
 
         builder.setNegativeButton(

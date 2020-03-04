@@ -77,6 +77,10 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
     private fun receiveData() {
         arguments?.let { it ->
             viewModel.state.username = VerifyPasscodeFragmentArgs.fromBundle(it).username
+            if (VerifyPasscodeFragmentArgs.fromBundle(it).isAccountBlocked) {
+                viewModel.showAccountBlockedError()
+            }
+
             it.getString(VERIFY_PASS_CODE_BTN_TEXT)?.let {
                 viewModel.state.btnVerifyPassCodeText = it
             }
@@ -223,7 +227,10 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
                 viewModel.state.username = it
             } ?: updateName()
         }
-        viewModel.login()
+        if ((VerifyPassCodeEnum.valueOf(viewModel.state.verifyPassCodeEnum) == VerifyPassCodeEnum.VERIFY))
+            viewModel.verifyPasscode()
+        else
+            viewModel.login()
     }
 
     private fun updateName() {
@@ -373,8 +380,12 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
             viewModel.state.username = encryptedUserName
         }
 
-        if (!viewModel.state.username.isNullOrEmpty() && !viewModel.state.passcode.isNullOrEmpty())
-            viewModel.login()
+        if (!viewModel.state.username.isNullOrEmpty() && !viewModel.state.passcode.isNullOrEmpty()) {
+            if ((VerifyPassCodeEnum.valueOf(viewModel.state.verifyPassCodeEnum) == VerifyPassCodeEnum.VERIFY))
+                viewModel.verifyPasscode()
+            else
+                viewModel.login()
+        }
     }
 
     override fun onAuthenticationHelp(helpCode: Int, helpString: CharSequence) {

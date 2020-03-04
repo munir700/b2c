@@ -188,7 +188,7 @@ open class AddFundsActivity : BaseBindingActivity<IFundActions.ViewModel>(),
         clSnackbar.showSnackBar(
             msg = viewModel.state.errorDescription,
             viewBgColor = R.color.errorLightBackground,
-            colorOfMessage = R.color.error
+            colorOfMessage = R.color.error , marginTop = 0
         )
     }
 

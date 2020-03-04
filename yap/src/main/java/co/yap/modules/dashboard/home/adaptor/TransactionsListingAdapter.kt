@@ -100,7 +100,10 @@ class TransactionsListingAdapter(private val list: MutableList<Content>) :
                 if (TransactionProductCode.Y2Y_TRANSFER.pCode == transaction.productCode ?: "" || TransactionProductCode.POS_PURCHASE.pCode == transaction.productCode) {
                     ImageBinding.loadAvatar(
                         itemTransactionListBinding.ivTransaction,
-                        "",
+                        if (TxnType.valueOf(
+                                transaction.txnType ?: ""
+                            ) == TxnType.DEBIT
+                        ) transaction.receiverProfilePictureUrl else transaction.senderProfilePictureUrl,
                         transactionTitle,
                         android.R.color.transparent,
                         R.dimen.text_size_h2
@@ -213,6 +216,15 @@ class TransactionsListingAdapter(private val list: MutableList<Content>) :
                             ?: transaction.title
                     )
                 }
+                TransactionProductCode.TOP_UP_VIA_CARD.pCode -> {
+                    transaction.maskedCardNo?.let {
+                        String.format("%s %s", "Top-Up by*", it.substring(it.length - 4, it.length))
+                    }
+                        ?: transaction.title ?: "Unknown"
+
+                }
+
+
                 else -> transaction.title ?: "Unknown"
             })
         }

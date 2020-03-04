@@ -196,11 +196,11 @@
                     style="@style/Regular"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:singleLine="true"
                     android:backgroundTint="@color/greyLight"
                     android:imeOptions="actionNext"
                     android:importantForAutofill="no"
                     android:maxLength="50"
+                    android:singleLine="true"
                     android:text="@={viewModel.state.nickName}"
                     app:hint="@{Strings.screen_add_beneficiary_detail_input_text_nick_name_hint}" />
 
@@ -227,8 +227,8 @@
                     android:backgroundTint="@color/greyLight"
                     android:imeOptions="actionNext"
                     android:importantForAutofill="no"
-                    android:singleLine="true"
                     android:maxLength="50"
+                    android:singleLine="true"
                     android:text="@={viewModel.state.firstName}"
                     app:hint="@{Strings.screen_add_beneficiary_detail_display_text_transfer_first_name}" />
 
@@ -332,12 +332,12 @@
                 <co.yap.widgets.CoreButton
                     android:id="@+id/confirmButton"
                     style="@style/FragmentsBtnStyle"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/margin_btn_side_paddings_xl"
-                    android:layout_marginTop="@dimen/_60sdp"
-                    android:layout_marginRight="@dimen/margin_btn_side_paddings_xl"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="@dimen/_34sdp"
                     android:layout_marginBottom="@dimen/margin_medium_large"
+                    android:minWidth="@dimen/_180sdp"
                     android:onClick="@{(v) -> viewModel.handlePressOnAddDomestic(v.id)}"
                     app:enableCoreButton="@{viewModel.state.valid}"
                     app:layout_constraintBottom_toBottomOf="parent"

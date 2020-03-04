@@ -1,6 +1,7 @@
 package co.yap.app.modules.login.interfaces
 
 import android.text.TextWatcher
+import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
 import co.yap.networking.customers.responsedtos.AccountInfo
 import co.yap.yapcore.IBase
@@ -20,6 +21,8 @@ interface IVerifyPasscode {
         fun createOtp()
         fun validateDevice()
         fun getAccountInfo()
+        fun verifyPasscode()
+        fun showAccountBlockedError()
         val signInButtonPressEvent: SingleLiveEvent<Boolean>
         val forgotPasscodeButtonPressEvent: SingleClickEvent
         val loginSuccess: SingleLiveEvent<Boolean>
@@ -43,5 +46,7 @@ interface IVerifyPasscode {
         var sequence: Boolean
         var similar: Boolean
         var verifyPassCodeEnum: String
+        var isScreenLocked: ObservableField<Boolean>
+        var isAccountLocked: ObservableField<Boolean>
     }
 }

@@ -11,6 +11,11 @@
 
         <import type="co.yap.translation.Strings" />
 
+        <import type="co.yap.yapcore.enums.TxnType" />
+
+        <import type="co.yap.yapcore.helpers.Utils" />
+
+
         <import type="android.view.View" />
     </data>
 
@@ -28,13 +33,13 @@
             android:id="@+id/ivMap"
             android:layout_width="match_parent"
             android:layout_height="@dimen/_120sdp"
-            android:background="@drawable/ic_map"
+            android:src="@drawable/ic_image_brown_background"
             android:contentDescription="@string/empty_string"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/toolbar" />
 
-        <androidx.appcompat.widget.AppCompatImageView
+        <co.yap.widgets.CoreCircularImageView
             android:id="@+id/ivPicture"
             android:layout_width="@dimen/_35sdp"
             android:layout_height="@dimen/_35sdp"
@@ -42,10 +47,7 @@
             android:layout_marginTop="@dimen/margin_medium"
             android:background="@drawable/bg_round_purple_enabled"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/ivMap"
-            tools:src="@drawable/ic_plus_transactions"
-
-            />
+            app:layout_constraintTop_toBottomOf="@+id/ivMap" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/clAmount"
@@ -68,7 +70,7 @@
                 android:ellipsize="end"
                 android:lineSpacingExtra="@dimen/_1sdp"
                 android:maxLines="2"
-                android:text="@{viewModel.state.transactionTitle!=null?viewModel.state.transactionTitle:`Unknown`}"
+                android:text="@{viewModel.transaction.title!=null?viewModel.transaction.title:`Unknown`}"
                 app:layout_constraintEnd_toStartOf="@+id/tvTotalAmountValue"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -82,8 +84,8 @@
                 android:ellipsize="end"
                 android:lineSpacingExtra="2dp"
                 android:maxLines="1"
-                android:text="@{viewModel.state.transactionAddress}"
-                android:visibility="@{viewModel.state.transactionAddress.isEmpty() || viewModel.state.transactionAddress ==null ?View.GONE:View.VISIBLE}"
+                android:text="@{viewModel.transaction.cardAcceptorLocation.toString()}"
+                android:visibility="@{viewModel.transaction.cardAcceptorLocation ==null || viewModel.transaction.cardAcceptorLocation.isEmpty() ?View.GONE:View.VISIBLE}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/tvTotalAmountValue"
                 app:layout_constraintStart_toStartOf="@+id/tvTransactionHeading"
@@ -120,13 +122,12 @@
                 app:layout_constraintStart_toEndOf="@+id/ivCategoryIcon"
                 app:layout_constraintTop_toTopOf="@+id/ivCategoryIcon"
                 tools:text="Outgoing Transfer" />
-
             <TextView
                 android:id="@+id/tvTotalAmountValue"
                 style="@style/Large"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="@{viewModel.state.totalAmount}"
+                android:text="@{viewModel.transaction.txnType.equals(TxnType.DEBIT.type) ? `- `+Utils.INSTANCE.getFormattedCurrency(viewModel.transaction.totalAmount.toString()) : Utils.INSTANCE.getFormattedCurrency(viewModel.transaction.totalAmount.toString()) }"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="2500" />
@@ -136,7 +137,7 @@
                 style="@style/ASmallGrey"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{viewModel.state.currency}"
+                android:text="@{viewModel.transaction.currency.toString()}"
                 app:layout_constraintEnd_toEndOf="@+id/tvTotalAmountValue"
                 app:layout_constraintTop_toBottomOf="@+id/tvTotalAmountValue"
                 tools:text="AED" />
@@ -192,7 +193,7 @@
                 style="@style/Small"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{viewModel.state.addNoteTitle}"
+                android:text="@{viewModel.state.txnNoteValue==null || viewModel.state.txnNoteValue.isEmpty()? @string/screen_transaction_details_display_text_add_note : @string/screen_transaction_details_display_text_edit_note}"
                 android:textColor="?attr/colorPrimaryAttr"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -206,7 +207,7 @@
                 android:ellipsize="end"
                 android:lineSpacingExtra="2dp"
                 android:maxLines="2"
-                android:text="@{viewModel.state.noteValue}"
+                android:text="@{viewModel.state.txnNoteValue==null || viewModel.state.txnNoteValue.isEmpty()? @string/screen_transaction_details_display_text_note_description : viewModel.state.txnNoteValue}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/tvNoteHeading"
@@ -254,7 +255,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_large"
                 android:gravity="end"
-                android:text="@{viewModel.state.transactionSender}"
+                android:text="@{viewModel.transaction.senderName.toString()}"
                 android:visibility="@{viewModel.state.isYtoYTransfer? View.VISIBLE : View.GONE }"
                 app:layout_constraintBottom_toTopOf="@+id/tvReceiverName"
                 app:layout_constraintLeft_toRightOf="@+id/guideline1"
@@ -282,7 +283,7 @@
                 android:layout_marginTop="@dimen/margin_medium"
                 android:layout_marginBottom="@dimen/margin_medium"
                 android:gravity="end"
-                android:text="@{viewModel.state.transactionReceiver}"
+                android:text="@{viewModel.transaction.receiverName.toString()}"
                 android:visibility="@{viewModel.state.isYtoYTransfer? View.VISIBLE : View.GONE}"
                 app:layout_constraintBottom_toTopOf="@+id/tvCardSpendAmount"
                 app:layout_constraintLeft_toRightOf="@+id/guideline1"
@@ -296,8 +297,7 @@
                 style="@style/ASmallGrey"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{viewModel.state.spentTitle}"
-                android:visibility="@{viewModel.state.spentVisibility?View.VISIBLE:View.GONE}"
+                android:text="@{viewModel.transaction.txnType.equals(TxnType.DEBIT.type)? @string/screen_transaction_details_display_text_spent : @string/screen_transaction_details_display_text_received}"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/tvCardSpendAmount"
                 tools:text="Spent" />
@@ -309,8 +309,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_medium"
                 android:gravity="end"
-                android:text="@{viewModel.state.spentAmount}"
-                android:visibility="@{viewModel.state.spentVisibility?View.VISIBLE:View.GONE}"
+                android:text="@{viewModel.transaction.currency+` `+Utils.INSTANCE.getFormattedCurrency(viewModel.transaction.amount.toString()) }"
                 app:layout_constraintLeft_toRightOf="@+id/guideline1"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvReceiverName"
@@ -326,7 +325,6 @@
                 app:layout_constraintTop_toTopOf="@+id/tvVatAmount"
                 tools:ignore="HardcodedText"
                 tools:text="VAT" />
-
             <TextView
                 android:id="@+id/tvVatAmount"
                 style="@style/ASmall"
@@ -334,7 +332,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_medium"
                 android:gravity="end"
-                android:text="@{viewModel.state.vatAmount}"
+                android:text="@{viewModel.transaction.vatAmount==null ? `0.00` :viewModel.transaction.currency+` `+Utils.INSTANCE.getFormattedCurrency(viewModel.transaction.vatAmount.toString())  }"
                 app:layout_constraintLeft_toRightOf="@+id/guideline1"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvCardSpendAmount"
@@ -345,11 +343,11 @@
                 style="@style/ASmallGrey"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{viewModel.state.feeTitle}"
+                android:text="@string/screen_transaction_details_display_text_fee"
                 app:layout_constraintLeft_toLeftOf="parent"
+                app:text="@{Strings.screen_transaction_details_display_text_fee}"
                 app:layout_constraintTop_toTopOf="@+id/tvFeeAmount"
                 tools:text="Fee" />
-
             <TextView
                 android:id="@+id/tvFeeAmount"
                 style="@style/ASmall"
@@ -357,7 +355,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_medium"
                 android:gravity="end"
-                android:text="@{viewModel.state.feeAmount!=null?viewModel.state.feeAmount:`0.00`}"
+                android:text="@{viewModel.transaction.postedFees!=null?viewModel.transaction.currency+` `+Utils.INSTANCE.getFormattedCurrency(viewModel.transaction.postedFees.toString()) :`0.00`}"
                 app:layout_constraintLeft_toRightOf="@+id/guideline1"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvVatAmount"
@@ -369,11 +367,11 @@
                 style="@style/ASmallGrey"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{viewModel.state.totalTitle}"
+                android:text="@string/screen_transaction_details_display_text_total_amount"
                 app:layout_constraintLeft_toLeftOf="parent"
+                app:text="@{Strings.screen_transaction_details_display_text_total_amount}"
                 app:layout_constraintTop_toTopOf="@+id/tvTotalAmountValueCalculated"
                 tools:text="Total" />
-
             <TextView
                 android:id="@+id/tvTotalAmountValueCalculated"
                 style="@style/ASmall"
@@ -381,7 +379,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_medium"
                 android:gravity="end"
-                android:text="@{viewModel.state.totalAmountCalculated}"
+                android:text="@{viewModel.transaction.currency+` `+Utils.INSTANCE.getFormattedCurrency(viewModel.transaction.totalAmount.toString())}"
                 app:layout_constraintLeft_toRightOf="@+id/guideline1"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvFeeAmount"

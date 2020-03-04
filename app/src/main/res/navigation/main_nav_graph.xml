@@ -101,6 +101,12 @@
         <argument
             android:name="username"
             app:argType="string" />
+
+        <argument
+            android:name="isAccountBlocked"
+            app:argType="boolean"
+            android:defaultValue="false"
+            />
         <action
             android:id="@+id/action_verifyPasscodeFragment_to_forgot_passcode_navigation"
             app:destination="@id/forgot_passcode_navigation">
