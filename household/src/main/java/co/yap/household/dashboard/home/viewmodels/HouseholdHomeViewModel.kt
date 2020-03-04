@@ -149,14 +149,14 @@ class HouseholdHomeViewModel(application: Application) :
                             }
 
 
-                            val closingBalanceOfTheDay: Double = contentsList[0].balanceAfter
+                            val closingBalanceOfTheDay: Double = contentsList[0].balanceAfter!!
                             closingBalanceArray.add(closingBalanceOfTheDay)
 
                             val transactionModel = HomeTransactionListData(
                                 "Type",
                                 "AED",
                                 /* transactionsDay.key!!*/
-                                convertDate(contentsList[0].creationDate)!!,
+                                convertDate(contentsList[0].creationDate!!)!!,
                                 contentsList[0].totalAmount.toString(),
                                 contentsList[0].balanceAfter,
                                 0.00 /*  "calculate the percentage as per formula from the keys".toDouble()*/,
@@ -179,7 +179,7 @@ class HouseholdHomeViewModel(application: Application) :
                             val iterator = sortedCombinedTransactionList.iterator()
                             while (iterator.hasNext()) {
                                 val item = iterator.next()
-                                if (item.date == convertDate(contentsList[0].creationDate)) {
+                                if (item.date == convertDate(contentsList[0].creationDate!!)) {
                                     numbersToReplace = sortedCombinedTransactionList.indexOf(item)
                                     iterator.remove()
                                     replaceNow = true
@@ -237,9 +237,9 @@ class HouseholdHomeViewModel(application: Application) :
 
     private fun setUpSectionHeader(response: RetroApiResponse.Success<HomeTransactionsResponse>): ArrayList<HomeTransactionListData> {
         val contentList = response.data.data.content as ArrayList<Content>
-        contentList.sortWith(Comparator { o1, o2 -> o2.creationDate.compareTo(o1.creationDate) })
+        contentList.sortWith(Comparator { o1, o2 -> o2.creationDate?.compareTo(o1.creationDate!!)!! })
         val groupByDate = contentList.groupBy { item ->
-            convertDate(item.creationDate)
+            convertDate(item.creationDate!!)
         }
 
         val transactionModelData: ArrayList<HomeTransactionListData> =
@@ -252,7 +252,7 @@ class HouseholdHomeViewModel(application: Application) :
                 it.creationDate
             }
 
-            val closingBalanceOfTheDay: Double = contentsList[0].balanceAfter
+            val closingBalanceOfTheDay: Double = contentsList[0].balanceAfter!!
             closingBalanceArray.add(closingBalanceOfTheDay)
 
             val transactionModel = HomeTransactionListData(

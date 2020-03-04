@@ -22,27 +22,28 @@ class TransactionContentViewHolder(private val itemTransactionListBinding: ItemT
         val txnImageResId: Int?
         val context: Context = itemTransactionListBinding.tvCurrency.context
 
-        when (transaction.txnType.toLowerCase()) {
+        when (transaction.txnType?.toLowerCase()) {
             "credit" -> setTxnAmountData(transaction, R.color.colorSecondaryGreen)
             "debit" -> setTxnAmountData(transaction, R.color.colorPrimaryDark)
         }
+
         transaction.title = transaction.title ?: "Unknown"
-        transaction.category = ""
-        transaction.category = Translator.getString(
-            context,
-            R.string.screen_fragment_home_transaction_time_category,
-            splitTimeString(content.updatedDate),
-            transaction.category.toLowerCase().capitalize()
-        )
+//        transaction.category = ""
+//        transaction.category = Translator.getString(
+//            context,
+//            R.string.screen_fragment_home_transaction_time_category,
+//            splitTimeString(content.updatedDate),
+//            transaction.category.toLowerCase().capitalize()
+//        )
 
         if (transaction.productCode == Constants.Y_TO_Y_TRANSFER) {
             txnImageResId = R.drawable.ic_yap_to_yap
-            transaction.title = "${StringUtils.getFirstname(transaction.senderName)} to ${
+            transaction.title = "${StringUtils.getFirstname(transaction.senderName!!)} to ${
             StringUtils.getFirstname(
                 transaction.receiverName.toString()
             )}"
         } else {
-            txnImageResId = getTransactionImage(transaction.productCode, transaction.txnType)
+            txnImageResId = getTransactionImage(transaction.productCode!!, transaction.txnType!!)
         }
 
         itemTransactionListBinding.viewModel =

@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import co.yap.networking.transactions.responsedtos.transaction.Content
 import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionListData
 import co.yap.yapcore.databinding.ItemTransactionHeaderBinding
+import co.yap.yapcore.enums.TxnType
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.transactions.TransactionContentAdapter
@@ -41,7 +42,8 @@ class HeaderViewHolder(private val itemTransactionListHeaderBinding: ItemTransac
 
         var total = 0.0
         homeTransaction.content.map {
-            if (it.txnType == "DEBIT") total -= it.amount else total += it.amount
+            if (it.txnType == TxnType.DEBIT.type) total -= (it.totalAmount
+                ?: 0.0) else total += (it.totalAmount ?: 0.0)
         }
 
         var value: String
