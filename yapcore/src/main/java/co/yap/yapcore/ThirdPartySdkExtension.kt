@@ -29,7 +29,7 @@ fun Application.initializeAdjustSdk(appToken: String) {
         config.setLogLevel(LogLevel.VERBOSE);
         Adjust.onCreate(config)
     }
-    registerActivityLifecycleCallbacks(AdjustLifecycleCallbacks())
+    //registerActivityLifecycleCallbacks(AdjustLifecycleCallbacks())
 }
 
 private class AdjustLifecycleCallbacks : Application.ActivityLifecycleCallbacks {
