@@ -472,7 +472,7 @@ object UIBinder {
     @JvmStatic
     @BindingAdapter("CoreDialerError")
     fun setDialerErrorMessage(view: CoreDialerPad, error: String) {
-        if (!error.isEmpty()) view.settingUIForError(error) else view.settingUIForNormal()
+        if (!error.isEmpty()) view.showError(error) else view.removeError()
     }
 
     @BindingAdapter("src")
@@ -638,20 +638,38 @@ object UIBinder {
     @JvmStatic
     @BindingAdapter(
         value = ["componentDialerError", "isScreenLocked", "isAccountLocked"],
-        requireAll = false
+        requireAll = true
     )
-    fun setDialerError(
+    fun setDialerInLockedState(
         view: CoreDialerPad,
         error: String?,
         isScreenLocked: Boolean = false,
         isAccountLocked: Boolean = false
     ) {
         if (null != error && error.isNotEmpty()) {
-            view.settingUIForError(error, isScreenLocked)
+            view.showError(error)
+            view.settingUIForError(isScreenLocked)
             view.setPasscodeVisiblity(isAccountLocked)
         } else {
+            view.removeError()
             view.settingUIForNormal(isScreenLocked)
             view.setPasscodeVisiblity(isAccountLocked)
+        }
+    }
+
+    @JvmStatic
+    @BindingAdapter(
+        value = ["componentDialerError"],
+        requireAll = false
+    )
+    fun setPasscodeError(
+        view: CoreDialerPad,
+        error: String?
+    ) {
+        if (null != error && error.isNotEmpty()) {
+            view.showError(error)
+        } else {
+            view.removeError()
         }
     }
 

@@ -69,8 +69,8 @@ open class ForgotPasscodeOtpFragment : BaseBindingFragment<IForgotPasscodeOtp.Vi
         })
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
+    override fun onDestroy() {
+        super.onDestroy()
         viewModel.nextButtonPressEvent.removeObservers(this)
     }
 }

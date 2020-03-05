@@ -1,8 +1,5 @@
 package co.yap.modules.dashboard.more.help.fragments
 
-import android.content.Intent
-import android.content.Intent.ACTION_DIAL
-import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import androidx.annotation.Nullable
@@ -25,10 +22,7 @@ import co.yap.yapcore.helpers.extentions.makeCall
 import co.yap.yapcore.helpers.extentions.startFragment
 import co.yap.yapcore.helpers.extentions.toast
 import co.yap.yapcore.managers.MyUserManager
-import com.liveperson.infra.CampaignInfo
-import com.liveperson.infra.ConversationViewParams
-import com.liveperson.infra.InitLivePersonProperties
-import com.liveperson.infra.LPAuthenticationParams
+import com.liveperson.infra.*
 import com.liveperson.infra.callbacks.InitLivePersonCallBack
 import com.liveperson.messaging.sdk.api.LivePerson
 import com.liveperson.messaging.sdk.api.model.ConsumerProfile
@@ -94,7 +88,7 @@ class HelpSupportFragment : MoreBaseFragment<IHelpSupport.ViewModel>(), IHelpSup
         LivePerson.initialize(
             requireContext(),
             InitLivePersonProperties(
-                "17038977", "17038977",
+                "17038977", MyUserManager.user?.uuid,
                 object : InitLivePersonCallBack {
                     override fun onInitSucceed() {
                         openActivity()
@@ -117,12 +111,14 @@ class HelpSupportFragment : MoreBaseFragment<IHelpSupport.ViewModel>(), IHelpSup
         authParams.hostAppJWT = CookiesManager.jwtToken
         //authParams.addCertificatePinningKey(publicKey)
 
-        //  val campaignInfo = getCampaignInfo()
-        val params = ConversationViewParams()
+//          val campaignInfo = getCampaignInfo()
+        val params = ConversationViewParams(false)
+            .setHistoryConversationsStateToDisplay(LPConversationsHistoryStateToDisplay.OPEN)
 
         /*.setHistoryConversationsStateToDisplay(LPConversationsHistoryStateToDisplay.ALL)
-        .setCampaignInfo(campaignInfo).setReadOnlyMode(isReadOnly())*/
-        //        setWelcomeMessage(params);  //This method sets the welcome message with quick replies. Uncomment this line to enable this feature.
+        .setCampaignInfo(campaignInfo)*/
+        //.setReadOnlyMode(isReadOnly())
+//                setWelcomeMessage(params);  //This method sets the welcome message with quick replies. Uncomment this line to enable this feature.
         LivePerson.showConversation(requireActivity(), authParams, params)
 
         val consumerProfile = ConsumerProfile.Builder()
@@ -159,6 +155,7 @@ class HelpSupportFragment : MoreBaseFragment<IHelpSupport.ViewModel>(), IHelpSup
             ), toolBarTitle = viewModel.state.title.get() ?: "", showToolBar = true
         )
     }
+
     override fun onResume() {
         super.onResume()
         if (activity is YapDashboardActivity)
