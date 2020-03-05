@@ -6,8 +6,8 @@ import android.widget.TextView
 import androidx.lifecycle.MutableLiveData
 import co.yap.app.modules.login.interfaces.ILogin
 import co.yap.app.modules.login.states.LoginState
-import co.yap.networking.admin.AdminRepository
 import co.yap.networking.authentication.AuthRepository
+import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.ApiError
 import co.yap.networking.models.RetroApiResponse
@@ -24,7 +24,7 @@ class LoginViewModel(application: Application) : BaseViewModel<ILogin.State>(app
     override val signUpButtonPressEvent: SingleLiveEvent<Boolean> = SingleLiveEvent()
     override val state: LoginState = LoginState()
     override val repository: AuthRepository = AuthRepository
-    private val adminRepository: AdminRepository = AdminRepository
+    private val customersRepository: CustomersRepository = CustomersRepository
     override var isAccountBlocked: MutableLiveData<Boolean> = MutableLiveData(false)
 
     override fun handlePressOnLogin() {
@@ -47,7 +47,7 @@ class LoginViewModel(application: Application) : BaseViewModel<ILogin.State>(app
     private fun validateUsername() {
         launch {
             state.loading = true
-            when (val response = adminRepository.verifyUsername(state.twoWayTextWatcher)) {
+            when (val response = customersRepository.verifyUsername(state.twoWayTextWatcher)) {
                 is RetroApiResponse.Success -> {
                     if (response.data.data) {
                         signInButtonPressEvent.postValue(true)

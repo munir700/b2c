@@ -1,5 +1,8 @@
 package co.yap.networking.customers
 
+import co.yap.networking.customers.requestdtos.ForgotPasscodeRequest
+import co.yap.networking.customers.responsedtos.AppUpdateResponse
+import co.yap.networking.customers.responsedtos.VerifyUsernameResponse
 import co.yap.networking.customers.requestdtos.*
 import co.yap.networking.customers.responsedtos.*
 import co.yap.networking.customers.responsedtos.beneficiary.BankParamsResponse
@@ -163,5 +166,30 @@ interface CustomersRetroService {
     @POST(CustomersRepository.URL_CREATE_HOUSEHOLD_PASSCODE)
     suspend fun createHouseholdPasscode(@Body createPassCodeRequest: CreatePassCodeRequest): Response<ApiResponse>
 
+
+    /*
+   * fun that comes from admin repo
+   * */
+
+    // Verify username
+    @POST(CustomersRepository.URL_VERIFY_USERNAME)
+    suspend fun verifyUsername(@Query("username") username: String): Response<VerifyUsernameResponse>
+
+    //Forgot passcode request
+    @PUT(CustomersRepository.URL_FORGOT_PASSCODE)
+    suspend fun forgotPasscode(@Body forgotPasscodeRequest: ForgotPasscodeRequest): Response<ApiResponse>
+
+
+    //validate current passcode
+    @GET(CustomersRepository.URL_VALIDATE_CURRENT_PASSCODE)
+    suspend fun validateCurrentPasscode(@Query("passcode") passcode: String): Response<ApiResponse>
+
+    //change passcode
+    @POST(CustomersRepository.URL_CHANGE_PASSCODE)
+    suspend fun changePasscode(@Query("new-password") newPasscode: String): Response<ApiResponse>
+
+    //  App Update
+    @GET(CustomersRepository.URL_APP_VERSION)
+    suspend fun appUpdate(): Response<AppUpdateResponse>
 
 }
