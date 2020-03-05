@@ -112,8 +112,6 @@ class InternationalTransactionConfirmationFragment :
                 )
             )
 
-        val tst = args.totalAmount
-        println(tst)
         viewModel.state.transferFeeDescription =
             resources.getText(
                 getString(Strings.screen_funds_transfer_fee_description), requireContext().color(
