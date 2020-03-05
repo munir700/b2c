@@ -11,6 +11,7 @@ class BankParamItemViewHolder(private val itemBankParamsBinding: ItemBankParamsB
     RecyclerView.ViewHolder(itemBankParamsBinding.root) {
 
     fun onBind(bankParams: BankParams, isLastIndex: Boolean, watcher: TextWatcher) {
+        bankParams.name = bankParams.name?.toLowerCase()?.capitalize()
         itemBankParamsBinding.viewModel = BankParamsItemViewModel(bankParams, 0, null)
         itemBankParamsBinding.executePendingBindings()
         itemBankParamsBinding.etBankName.addTextChangedListener(watcher)
