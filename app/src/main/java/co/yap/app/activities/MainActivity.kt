@@ -5,6 +5,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.text.format.DateFormat
 import android.util.Log
+import android.view.View
 import co.yap.app.R
 import co.yap.app.YAPApplication
 import co.yap.yapcore.IFragmentHolder
@@ -12,10 +13,11 @@ import co.yap.yapcore.defaults.DefaultActivity
 import co.yap.yapcore.defaults.DefaultNavigator
 import co.yap.yapcore.defaults.INavigator
 import co.yap.yapcore.helpers.DeviceUtils
+import co.yap.yapcore.helpers.extentions.toast
 import co.yap.yapcore.interfaces.BackPressImpl
 import co.yap.yapcore.interfaces.IBaseNavigator
 import com.adjust.sdk.Adjust
-import java.net.URL
+ import java.net.URL
 import java.util.*
 
 
@@ -29,17 +31,49 @@ open class MainActivity : DefaultActivity(), IFragmentHolder, INavigator {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        onFireIntentClick()
+
         if (DeviceUtils().isDeviceRooted()) {
             showAlertDialogAndExitApp("This device is rooted. You can't use this app.")
         } else {
             YAPApplication.AUTO_RESTART_APP = false
             setContentView(R.layout.activity_main)
 
+
+            val intent = getIntent()
+            val data: Uri? = intent.data
+            Adjust.appWillOpenUrl(data, applicationContext)
+            if (null != data) {
+
+                toast(data.toString()+"MainActivity")
+            }
+
 //            getDataFromDeepLinkIntent()
         }
 
     }
 
+
+    public override fun onResume() {
+        super.onResume()
+//
+//        if (Adjust.isEnabled()) {
+//            toast("Adjust.isEnabled()")
+//        } else {
+//            toast("Adjust.isdisabled()")
+//        }
+    }
+
+    open fun onFireIntentClick() {
+        val intent =
+            Intent("com.android.vending.INSTALL_REFERRER")
+        intent.setPackage("co.yap.app")
+        intent.putExtra(
+            "referrer",
+            "utm_source=test&utm_medium=test&utm_term=test&utm_content=test&utm_campaign=test"
+        )
+        sendBroadcast(intent)
+    }
     private fun getDataFromDeepLinkIntent() {
         val intent = getIntent()
         val data: Uri? = intent.data

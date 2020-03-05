@@ -6,7 +6,7 @@ import android.content.Intent
 import android.net.Uri
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.Constants.INVITER_ADJUST_ID_TEST
-import co.yap.yapcore.helpers.alert
+import co.yap.yapcore.helpers.SharedPreferenceManager
 import com.adjust.sdk.Adjust
 import com.adjust.sdk.AdjustReferrerReceiver
 import java.net.URL
@@ -17,7 +17,7 @@ class InstallReceiver : BroadcastReceiver() {
         AdjustReferrerReceiver().onReceive(context, intent)
         // Google Analytics receiver.
 
-         val data: Uri? = intent?.data
+        val data: Uri? = intent?.data
         Adjust.appWillOpenUrl(data, context)
 
         if (null != data) {
@@ -26,8 +26,15 @@ class InstallReceiver : BroadcastReceiver() {
                 data?.host,
                 data?.path
             )
-            INVITER_ADJUST_ID_TEST= data.toString()
-        // And any other receiver which needs the intent.
+            INVITER_ADJUST_ID_TEST = data.toString()
+            context?.let {
+                SharedPreferenceManager(it).save(
+                    Constants.INVITER_ADJUST_ID_TEST,
+                    data.toString() + "local"
+                )
+            }
+
+            // And any other receiver which needs the intent.
+        }
     }
 }
-    }

@@ -12,6 +12,8 @@ import co.yap.translation.Strings
 import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.managers.MyUserManager
+import com.adjust.sdk.Adjust
+import com.adjust.sdk.AdjustEvent
 
 
 class InviteFriendFragment : BaseBindingFragment<IInviteFriend.ViewModel>(), IInviteFriend.View {
@@ -56,15 +58,19 @@ class InviteFriendFragment : BaseBindingFragment<IInviteFriend.ViewModel>(), IIn
 
         val userId = MyUserManager.user?.currentCustomer?.customerId
 //        SHARE_ADJUST_LINK = "https://grwl.adj.st?adjust_t=q3o2z0e_sv94i35&user_id=" + userId
-        Constants.SHARE_ADJUST_LINK = "https://grwl.adj.st?adjust_t=q3o2z0e_sv94i35&deep_link=yap_referralinviter=3000000633&time=1583325419.356368"
+//        Constants.SHARE_ADJUST_LINK = "https://grwl.adj.st?adjust_t=q3o2z0e_sv94i35&inviter=3000000633&time=1583325419.356368"// by ios team
 //        https://grwl.adj.st?adjust_t=q3o2z0e_sv94i35&inviter=3000000633&time=1583325419.356368
-//        Constants.SHARE_ADJUST_LINK = "https://grwl.adj.st?adjust_t=q3o2z0e_sv94i35&deep_link=yap_referral&user_id=" + userId
+        Constants.SHARE_ADJUST_LINK =
+            "https://grwl.adj.st?adjust_t=q3o2z0e_sv94i35&deep_link=yap_referral&inviter=" + userId
 
         return getString(Strings.screen_invite_friend_display_text_share_url).format(
             "www.apple.com",
             Constants.SHARE_ADJUST_LINK
-
         )
+
+        val adjustEvent = AdjustEvent("adjust_t=q3o2z0e_sv94i35&deep")
+        adjustEvent.addCallbackParameter("inviter", userId)
+        Adjust.trackEvent(adjustEvent)
     }
 
     override fun onDestroy() {

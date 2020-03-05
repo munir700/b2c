@@ -81,17 +81,18 @@
         </service>
 
 
-        <receiver
-            android:name="com.adjust.sdk.AdjustReferrerReceiver"
-            android:permission="android.permission.INSTALL_PACKAGES"
-            android:exported="true" >
-            <intent-filter>
-                <action android:name="com.android.vending.INSTALL_REFERRER" />
-            </intent-filter>
-        </receiver>
+
+<!--        <receiver-->
+<!--            android:name="co.yap.modules.others.helper.InstallReceiver"-->
+<!--            android:permission="android.permission.INSTALL_PACKAGES"-->
+<!--            android:exported="true" >-->
+<!--            <intent-filter>-->
+<!--                <action android:name="com.android.vending.INSTALL_REFERRER" />-->
+<!--            </intent-filter>-->
+<!--        </receiver>-->
 
         <receiver
-            android:name="co.yap.modules.others.helper.InstallReceiver"
+            android:name="com.adjust.sdk.AdjustReferrerReceiver"
             android:permission="android.permission.INSTALL_PACKAGES"
             android:exported="true" >
             <intent-filter>
