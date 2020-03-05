@@ -1,5 +1,8 @@
 package co.yap.networking.customers
 
+import co.yap.networking.customers.requestdtos.ForgotPasscodeRequest
+import co.yap.networking.customers.responsedtos.AppUpdateResponse
+import co.yap.networking.customers.responsedtos.VerifyUsernameResponse
 import co.yap.networking.customers.requestdtos.*
 import co.yap.networking.customers.responsedtos.*
 import co.yap.networking.customers.responsedtos.beneficiary.RecentBeneficiariesResponse
@@ -71,6 +74,16 @@ interface CustomersApi {
         countryCode: String,
         currencyCode: String
     ): RetroApiResponse<CountryLimitsResponseDTO>
+
+    /*
+    * fun that comes from admin repo to be replaced
+    * */
+    suspend fun verifyUsername(username: String): RetroApiResponse<VerifyUsernameResponse>
+    suspend fun forgotPasscode(forgotPasscodeRequest: ForgotPasscodeRequest): RetroApiResponse<ApiResponse>
+    suspend fun validateCurrentPasscode(passcode:String): RetroApiResponse<ApiResponse>
+    suspend fun changePasscode(newPasscode:String): RetroApiResponse<ApiResponse>
+    suspend fun appUpdate(): RetroApiResponse<AppUpdateResponse>
+
 
 
 }
