@@ -36,9 +36,8 @@ class HelpSupportFragment : MoreBaseFragment<IHelpSupport.ViewModel>(), IHelpSup
 
     override fun getLayoutId(): Int = R.layout.fragment_help_support
 
-    val accountId = "17038977"
-    val appInstallId = "17038977"
-    val FCMID = "17038977"
+    val brandId = "17038977"
+    val appInstallId = MyUserManager.user?.uuid
 
     override val viewModel: IHelpSupport.ViewModel
         get() = ViewModelProviders.of(this).get(HelpSupportViewModel::class.java)
@@ -85,10 +84,11 @@ class HelpSupportFragment : MoreBaseFragment<IHelpSupport.ViewModel>(), IHelpSup
     }
 
     private fun chatSetup() {
+//        val monitoringParams = MonitoringInitParams(appInstallId)
         LivePerson.initialize(
             requireContext(),
             InitLivePersonProperties(
-                "17038977", MyUserManager.user?.uuid,
+                brandId, appInstallId,
                 object : InitLivePersonCallBack {
                     override fun onInitSucceed() {
                         openActivity()
@@ -102,40 +102,18 @@ class HelpSupportFragment : MoreBaseFragment<IHelpSupport.ViewModel>(), IHelpSup
     }
 
     private fun openActivity() {
-
-        val authCode = "authCode"
-        val publicKey = "publicKey"
-
         val authParams = LPAuthenticationParams(LPAuthenticationParams.LPAuthenticationType.AUTH)
-        // authParams.authKey = authCode
         authParams.hostAppJWT = CookiesManager.jwtToken
-        //authParams.addCertificatePinningKey(publicKey)
-
-//          val campaignInfo = getCampaignInfo()
         val params = ConversationViewParams(false)
             .setHistoryConversationsStateToDisplay(LPConversationsHistoryStateToDisplay.OPEN)
-
-        /*.setHistoryConversationsStateToDisplay(LPConversationsHistoryStateToDisplay.ALL)
-        .setCampaignInfo(campaignInfo)*/
-        //.setReadOnlyMode(isReadOnly())
-//                setWelcomeMessage(params);  //This method sets the welcome message with quick replies. Uncomment this line to enable this feature.
+            .setReadOnlyMode(false)
         LivePerson.showConversation(requireActivity(), authParams, params)
-
         val consumerProfile = ConsumerProfile.Builder()
             .setFirstName(MyUserManager.user?.currentCustomer?.firstName)
             .setLastName(MyUserManager.user?.currentCustomer?.lastName)
             .setPhoneNumber(MyUserManager.user?.currentCustomer?.getCompletePhone())
             .build()
-
         LivePerson.setUserProfile(consumerProfile)
-
-
-        //Constructing the notification builder for the upload/download foreground service and passing it to the SDK.
-        //val uploadBuilder = NotificationUI.createUploadNotificationBuilder(getApplicationContext())
-        //val downloadBuilder =
-        //    NotificationUI.createDownloadNotificationBuilder(getApplicationContext())
-        //LivePerson.setImageServiceUploadNotificationBuilder(uploadBuilder)
-        //LivePerson.setImageServiceDownloadNotificationBuilder(downloadBuilder)
     }
 
     @Nullable
