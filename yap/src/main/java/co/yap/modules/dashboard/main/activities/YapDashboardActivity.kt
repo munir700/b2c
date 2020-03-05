@@ -76,6 +76,14 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
         addListeners()
         setupYapButton()
         tempDeepLinkURiTest()// to test on playstore
+        if (null != Constants.INVITER_ADJUST_ID_TEST) {
+            alert(
+                Constants.INVITER_ADJUST_ID_TEST.toString(),
+                Constants.INVITER_ADJUST_ID_TEST +'\n',
+                "INVITER_ADJUST_ID_TEST",//
+                true
+            )
+        }
     }
 
     private fun tempDeepLinkURiTest() {
@@ -87,6 +95,7 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
                 true
             )
         }
+
 
     }
 

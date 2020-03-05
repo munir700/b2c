@@ -174,6 +174,7 @@ object Constants {
       var SHARE_ADJUST_LINK = ""
       var INVITER_ADJUST_URI :Uri?=null
       var INVITER_ADJUST_ID :String=""
+      var INVITER_ADJUST_ID_TEST :String=""
 //      var INVITER_ADJUST_ID :String="nullDefaultValue"
       var INVITEE_RECEIEVED_DATE :String = ""
 

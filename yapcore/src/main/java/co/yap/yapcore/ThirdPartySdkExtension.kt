@@ -8,7 +8,6 @@ import android.text.format.DateFormat
 import android.util.Log
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
-import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.Constants.INVITEE_RECEIEVED_DATE
 import co.yap.yapcore.constants.Constants.INVITER_ADJUST_ID
 import co.yap.yapcore.constants.Constants.INVITER_ADJUST_URI
@@ -29,10 +28,10 @@ fun Application.initializeAdjustSdk(appToken: String) {
 
 
     val environment: String
-    environment = AdjustConfig.ENVIRONMENT_SANDBOX
+    environment = AdjustConfig.ENVIRONMENT_PRODUCTION
     val config = AdjustConfig(this, appToken, environment)
-    config.setLogLevel(LogLevel.VERBOSE);
-    Adjust.onCreate(config)
+    config.setLogLevel(LogLevel.VERBOSE)
+//    Adjust.onCreate(config)
 
 //    if (!BuildConfig.DEBUG) {// will modify this check for production later
 //        environment = AdjustConfig.ENVIRONMENT_PRODUCTION
@@ -73,14 +72,13 @@ fun Application.initializeAdjustSdk(appToken: String) {
     }
 //
 
-
     // Evaluate deferred deep link to be launched.
     config.setOnDeeplinkResponseListener { deeplink ->
         Log.v("example", "Deferred deep link callback called!")
         Log.v("example", "Deep link URL: $deeplink")
-         getInviterInfoFromDeepLinkUri(deeplink)
+//        Constants.INVITER_ADJUST_URI= deeplink
+        getInviterInfoFromDeepLinkUri(deeplink)
 
-        Constants.INVITER_ADJUST_URI= deeplink
         true
     }
 //    val uri = Uri.parse("https://grwl.adj.st?adjust_t=q3o2z0e_sv94i35&deep_link=yap_referral&user_id=ABD120000")
@@ -91,14 +89,14 @@ fun Application.initializeAdjustSdk(appToken: String) {
 }
 
 private fun getInviterInfoFromDeepLinkUri(data: Uri) {
-    INVITER_ADJUST_URI=data
+    INVITER_ADJUST_URI = data
     val url = URL(
         data?.scheme,
         data?.host,
         data?.path
     )
 
-    val customerId = data.getQueryParameter("user_id");
+    val customerId = data.getQueryParameter("inviter");
     val date = DateFormat.format(
         "yyyy-MM-dd hh:mm:ss",
         Date()
@@ -106,7 +104,7 @@ private fun getInviterInfoFromDeepLinkUri(data: Uri) {
 
 //    "https://grwl.adj.st?adjust_t=q3o2z0e_sv94i35&deep_link=yap_referral&user_id=" + userId
     INVITER_ADJUST_ID = customerId.toString()
-    INVITEE_RECEIEVED_DATE= date
+    INVITEE_RECEIEVED_DATE = date
     Log.i("url", url.toString())
     Log.i("urluserid", customerId.toString())
     Log.i(
