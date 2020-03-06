@@ -8,7 +8,6 @@ import co.yap.networking.customers.responsedtos.sendmoney.*
 import co.yap.networking.models.ApiResponse
 import co.yap.networking.models.RetroApiResponse
 import okhttp3.MultipartBody
-import retrofit2.Response
 import retrofit2.http.Body
 
 interface CustomersApi {
@@ -75,5 +74,15 @@ interface CustomersApi {
     ): RetroApiResponse<CountryLimitsResponseDTO>
 
     suspend fun saveReferalInvitation(@Body saveReferalRequest: SaveReferalRequest): RetroApiResponse<ApiResponse>
+    /*
+    * fun that comes from admin repo to be replaced
+    * */
+    suspend fun verifyUsername(username: String): RetroApiResponse<VerifyUsernameResponse>
+
+    suspend fun forgotPasscode(forgotPasscodeRequest: ForgotPasscodeRequest): RetroApiResponse<ApiResponse>
+    suspend fun validateCurrentPasscode(passcode: String): RetroApiResponse<ApiResponse>
+    suspend fun changePasscode(newPasscode: String): RetroApiResponse<ApiResponse>
+    suspend fun appUpdate(): RetroApiResponse<AppUpdateResponse>
+
 
 }

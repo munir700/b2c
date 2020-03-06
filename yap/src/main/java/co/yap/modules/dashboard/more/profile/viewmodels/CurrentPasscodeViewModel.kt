@@ -2,7 +2,7 @@ package co.yap.modules.dashboard.more.profile.viewmodels
 
 import android.app.Application
 import co.yap.modules.dashboard.cards.paymentcarddetail.viewmodels.ChangeCardPinViewModel
-import co.yap.networking.admin.AdminRepository
+import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.messages.MessagesRepository
 import co.yap.networking.messages.requestdtos.CreateForgotPasscodeOtpRequest
 import co.yap.networking.models.RetroApiResponse
@@ -17,7 +17,7 @@ class CurrentPasscodeViewModel(application: Application) : ChangeCardPinViewMode
     override var errorEvent: SingleClickEvent = SingleClickEvent()
     override val forgotPasscodeclickEvent: SingleClickEvent = SingleClickEvent()
     private val messagesRepository: MessagesRepository = MessagesRepository
-    private val adminRepository: AdminRepository = AdminRepository
+    private val customersRepository: CustomersRepository = CustomersRepository
 
     override var mobileNumber: String = ""
 
@@ -63,7 +63,7 @@ class CurrentPasscodeViewModel(application: Application) : ChangeCardPinViewMode
     private fun validateCurrentPasscode(id: Int) {
         launch {
             state.loading = true
-            when (val response = adminRepository.validateCurrentPasscode(
+            when (val response = customersRepository.validateCurrentPasscode(
                 state.pincode
             )) {
                 is RetroApiResponse.Success -> {

@@ -1,6 +1,6 @@
 package co.yap.app.modules.startup.interfaces
 
-import co.yap.networking.admin.responsedtos.AppUpdate
+import co.yap.networking.customers.responsedtos.AppUpdate
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleLiveEvent
 

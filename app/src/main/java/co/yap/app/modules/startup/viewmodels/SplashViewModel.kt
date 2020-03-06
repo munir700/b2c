@@ -3,9 +3,9 @@ package co.yap.app.modules.startup.viewmodels
 import android.app.Application
 import co.yap.app.modules.startup.interfaces.ISplash
 import co.yap.app.modules.startup.states.SplashState
-import co.yap.networking.admin.AdminRepository
-import co.yap.networking.admin.responsedtos.AppUpdate
+import co.yap.networking.customers.responsedtos.AppUpdate
 import co.yap.networking.authentication.AuthRepository
+import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
 import co.yap.yapcore.BaseViewModel
@@ -18,7 +18,7 @@ class SplashViewModel(application: Application) : BaseViewModel<ISplash.State>(a
     override val state: SplashState = SplashState()
 
     override val repository: AuthRepository = AuthRepository
-    private val adminRepository: AdminRepository = AdminRepository
+    private val customersRepository: CustomersRepository = CustomersRepository
 
     override val splashComplete: SingleLiveEvent<Boolean> = SingleLiveEvent()
     override var appUpdate: SingleLiveEvent<AppUpdate> = SingleLiveEvent()
@@ -40,7 +40,7 @@ class SplashViewModel(application: Application) : BaseViewModel<ISplash.State>(a
 
     override fun getAppUpdate() {
         launch {
-            when (val response = adminRepository.appUpdate()) {
+            when (val response = customersRepository.appUpdate()) {
                 is RetroApiResponse.Success -> {
                     response.data.data?.let {
                         if (it.isNotEmpty()) {

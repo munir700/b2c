@@ -1,16 +1,16 @@
 package co.yap.modules.forgotpasscode.viewmodels
 
 import android.app.Application
-import co.yap.networking.admin.AdminRepository
-import co.yap.networking.admin.requestdtos.ForgotPasscodeRequest
+import co.yap.networking.customers.requestdtos.ForgotPasscodeRequest
+import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
 import co.yap.yapcore.R
 import co.yap.yapcore.helpers.SharedPreferenceManager
 
 class CreateNewPasscodeViewModel(application: Application) : CreatePasscodeViewModel(application),
-    IRepositoryHolder<AdminRepository> {
-    override val repository: AdminRepository = AdminRepository
+    IRepositoryHolder<CustomersRepository> {
+    override val repository: CustomersRepository = CustomersRepository
     private val sharedPreferenceManager = SharedPreferenceManager(context)
 
     override fun handlePressOnCreatePasscodeButton(id: Int) {
@@ -27,7 +27,12 @@ class CreateNewPasscodeViewModel(application: Application) : CreatePasscodeViewM
         launch {
             state.loading = true
             when (val response =
-                repository.forgotPasscode(ForgotPasscodeRequest(mobileNumber, state.passcode))) {
+                repository.forgotPasscode(
+                    ForgotPasscodeRequest(
+                        mobileNumber,
+                        state.passcode
+                    )
+                )) {
                 is RetroApiResponse.Success -> {
                     nextButtonPressEvent.setValue(id)
                     state.loading = false
