@@ -20,9 +20,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        tools:remove="android:debuggable"
         android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning"
+        tools:remove="android:debuggable"
         tools:replace="android:theme,android:allowBackup,android:label">
         <activity
             android:name=".activities.MainActivity"
@@ -80,21 +80,19 @@
             </intent-filter>
         </service>
 
-
-
-<!--        <receiver-->
-<!--            android:name="co.yap.modules.others.helper.InstallReceiver"-->
-<!--            android:permission="android.permission.INSTALL_PACKAGES"-->
-<!--            android:exported="true" >-->
-<!--            <intent-filter>-->
-<!--                <action android:name="com.android.vending.INSTALL_REFERRER" />-->
-<!--            </intent-filter>-->
-<!--        </receiver>-->
+        <!--        <receiver-->
+        <!--            android:name="com.adjust.sdk.AdjustReferrerReceiver"-->
+        <!--            android:permission="android.permission.INSTALL_PACKAGES"-->
+        <!--            android:exported="true" >-->
+        <!--            <intent-filter>-->
+        <!--                <action android:name="com.android.vending.INSTALL_REFERRER" />-->
+        <!--            </intent-filter>-->
+        <!--        </receiver>-->
 
         <receiver
-            android:name="com.adjust.sdk.AdjustReferrerReceiver"
-            android:permission="android.permission.INSTALL_PACKAGES"
-            android:exported="true" >
+            android:name="co.yap.modules.others.helper.InstallReceiver"
+            android:exported="true"
+            android:permission="android.permission.INSTALL_PACKAGES">
             <intent-filter>
                 <action android:name="com.android.vending.INSTALL_REFERRER" />
             </intent-filter>

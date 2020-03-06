@@ -5,7 +5,6 @@ import android.net.Uri
 import android.os.Bundle
 import android.text.format.DateFormat
 import android.util.Log
-import android.view.View
 import co.yap.app.R
 import co.yap.app.YAPApplication
 import co.yap.yapcore.IFragmentHolder
@@ -17,7 +16,7 @@ import co.yap.yapcore.helpers.extentions.toast
 import co.yap.yapcore.interfaces.BackPressImpl
 import co.yap.yapcore.interfaces.IBaseNavigator
 import com.adjust.sdk.Adjust
- import java.net.URL
+import java.net.URL
 import java.util.*
 
 
@@ -31,7 +30,6 @@ open class MainActivity : DefaultActivity(), IFragmentHolder, INavigator {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        onFireIntentClick()
 
         if (DeviceUtils().isDeviceRooted()) {
             showAlertDialogAndExitApp("This device is rooted. You can't use this app.")
@@ -45,8 +43,9 @@ open class MainActivity : DefaultActivity(), IFragmentHolder, INavigator {
             Adjust.appWillOpenUrl(data, applicationContext)
             if (null != data) {
 
-                toast(data.toString()+"MainActivity")
+                toast(data.toString() + "MainActivity")
             }
+            Log.v(" Adjust", "datais " + data)
 
 //            getDataFromDeepLinkIntent()
         }
@@ -63,17 +62,38 @@ open class MainActivity : DefaultActivity(), IFragmentHolder, INavigator {
 //            toast("Adjust.isdisabled()")
 //        }
     }
+//    2020-03-06 10:21:44.511 25426-25426/? I/FA: Install referrer extras are: adjust_reftag=cYsDahJoAisje&utm_source=yap_android
+//    2020-03-06 10:21:44.757 2704-25521/? V/FA-SVC: InstallReferrer API result: adjust_reftag=cYsDahJoAisje&utm_source=yap_android
+//    2020-03-06 10:21:44.790 25426-25448/? V/FA: InstallReferrer API result: adjust_reftag=cYsDahJoAisje&utm_source=yap_android
+//    open fun onFireIntentClick() {
+//        val intent =
+//            Intent("com.android.vending.INSTALL_REFERRER")
+//        intent.setPackage("co.yap.app")
+//        intent.putExtra(
+//            "referrer",
+//            "utm_source=test&utm_medium=test&utm_term=test&utm_content=test&utm_campaign=test"
+//        )
+//        sendBroadcast(intent)
+//    }
+ //    2020-03-06 12:41:46.460 8306-8306/? I/FA: Install referrer extras are: adjust_reftag=cdH1laBccPZ41&utm_source=yap_android
+//    2020-03-06 12:41:46.855 2704-8407/? V/FA-SVC: InstallReferrer API result: adjust_reftag=cdH1laBccPZ41&utm_source=yap_android
+//    2020-03-06 12:41:46.927 8306-8328/? V/FA: InstallReferrer API result: adjust_reftag=cdH1laBccPZ41&utm_source=yap_android
+//    open fun onFireIntentClick() {
+//        val intent =
+//            Intent("com.android.vending.INSTALL_REFERRER")
+//        intent.setPackage("co.yap.app")
+//        intent.putExtra(
+//            "referrer",
+//            "inviter=abd123t"
+//        )
+//        intent.putExtra(
+//            "inviter",
+//            "abd123t333"
+//        )
+//        sendBroadcast(intent)
+//    }
 
-    open fun onFireIntentClick() {
-        val intent =
-            Intent("com.android.vending.INSTALL_REFERRER")
-        intent.setPackage("co.yap.app")
-        intent.putExtra(
-            "referrer",
-            "utm_source=test&utm_medium=test&utm_term=test&utm_content=test&utm_campaign=test"
-        )
-        sendBroadcast(intent)
-    }
+
     private fun getDataFromDeepLinkIntent() {
         val intent = getIntent()
         val data: Uri? = intent.data

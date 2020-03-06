@@ -57,6 +57,8 @@ class InviteFriendFragment : BaseBindingFragment<IInviteFriend.ViewModel>(), IIn
         val userId = MyUserManager.user?.currentCustomer?.customerId
         val adjustEvent = AdjustEvent("adjust_t=q3o2z0e_sv94i35&deep")
         adjustEvent.addCallbackParameter("inviter", userId)
+        adjustEvent.setCallbackId("userId");
+
         Adjust.trackEvent(adjustEvent)
 
 //        SHARE_ADJUST_LINK = "https://grwl.adj.st?adjust_t=q3o2z0e_sv94i35&user_id=" + userId
@@ -72,7 +74,17 @@ class InviteFriendFragment : BaseBindingFragment<IInviteFriend.ViewModel>(), IIn
 
 
     }
-
+//    open fun onFireIntentClick() {
+//        val intent =
+//            Intent("com.android.vending.INSTALL_REFERRER")
+//        intent.setPackage("co.yap.app")
+//        intent.putExtra(
+//            "referrer",
+//            "inviter=abd123&utm_medium=test&utm_term=test&utm_content=test&utm_campaign=test"
+//        )
+//
+//        activity?.sendBroadcast(intent)
+//    }
     override fun onDestroy() {
         super.onDestroy()
         viewModel.clickEvent.removeObservers(this)

@@ -41,7 +41,7 @@ fun Application.initializeAdjustSdk(appToken: String) {
     config.setAppSecret(1, 1236756048, 110233912, 2039250280, 199413548)
     config.setLogLevel(LogLevel.VERBOSE)
     config.setSendInBackground(true)
-//    Adjust.onCreate(config)
+ //    Adjust.onCreate(config)
 
 //    if (!BuildConfig.DEBUG) {// will modify this check for production later
 //        environment = AdjustConfig.ENVIRONMENT_PRODUCTION
@@ -55,24 +55,38 @@ fun Application.initializeAdjustSdk(appToken: String) {
 //        Adjust.onCreate(config)
 //    }
 
-    // add Session and event callbacks
-// Set event success tracking delegate.
+
+    config.setOnAttributionChangedListener { attribution ->
+        Log.v(" Adjust", "Attribution callback called!")
+         Log.v(" Adjust", "Attribution: $attribution")
+    }
+
     // Set event success tracking delegate.
-    config.setOnEventTrackingSucceededListener {
-        // ...
+    config.setOnEventTrackingSucceededListener { eventSuccessResponseData ->
+         Log.v(" Adjust", "Event success callback called!")
+         Log.v(" Adjust", "Event success data: $eventSuccessResponseData")
     }
 
-// Set event failure tracking delegate.
     // Set event failure tracking delegate.
-    config.setOnEventTrackingFailedListener {
-        // ...
+    config.setOnEventTrackingFailedListener { eventFailureResponseData ->
+         Log.v(" Adjust", "Event failure callback called!")
+         Log.v(" Adjust", "Event failure data: $eventFailureResponseData")
     }
 
-// Set session success tracking delegate.
     // Set session success tracking delegate.
-    config.setOnSessionTrackingSucceededListener {
-        // ...
+    config.setOnSessionTrackingSucceededListener { sessionSuccessResponseData ->
+         Log.v(" Adjust", "Session success callback called!")
+         Log.v(" Adjust", "Session success data: $sessionSuccessResponseData")
     }
+
+    // Set session failure tracking delegate.
+    config.setOnSessionTrackingFailedListener { sessionFailureResponseData ->
+         Log.v("Adjust", "Session failure callback called!")
+         Log.v(" Adjust", "Session failure data: $sessionFailureResponseData")
+    }
+    
+  
+ 
 
 // Set session failure tracking delegate.
     // Set session failure tracking delegate.
@@ -83,8 +97,8 @@ fun Application.initializeAdjustSdk(appToken: String) {
 
     // Evaluate deferred deep link to be launched.
     config.setOnDeeplinkResponseListener { deeplink ->
-        Log.v("example", "Deferred deep link callback called!")
-        Log.v("example", "Deep link URL: $deeplink")
+        Log.v(" Adjust", "Deferred deep link callback called!")
+        Log.v(" Adjust", "Deep link URL: $deeplink")
 //        Constants.INVITER_ADJUST_URI= deeplink
         getInviterInfoFromDeepLinkUri(deeplink)
         toast("setOnDeeplinkResponseListener called:  $deeplink")
