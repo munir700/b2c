@@ -13,6 +13,9 @@ import co.yap.networking.models.RetroApiResponse
 import co.yap.yapcore.enums.CardType
 import co.yap.yapcore.enums.EIDStatus
 import co.yap.yapcore.helpers.AuthUtils
+import com.liveperson.infra.LPAuthenticationParams
+import com.liveperson.messaging.sdk.api.LivePerson
+import com.liveperson.messaging.sdk.api.callbacks.LogoutLivePersonCallback
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
@@ -68,6 +71,16 @@ object MyUserManager : IRepositoryHolder<CardsRepository> {
     fun doLogout(context: Context, isOnPassCode: Boolean = false) {
         AuthUtils.navigateToHardLogin(context, isOnPassCode)
         expireUserSession()
+        LivePerson.logOut(context, "", "", object : LogoutLivePersonCallback {
+            override fun onLogoutSucceed() {
+                val authParams = LPAuthenticationParams()
+                authParams.hostAppJWT = ""
+            }
+
+            override fun onLogoutFailed() {
+
+            }
+        })
         cardBalance.value = CardBalance()
         cards = MutableLiveData()
         userAddress = null

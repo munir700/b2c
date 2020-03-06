@@ -6,7 +6,6 @@ import androidx.lifecycle.MutableLiveData
 import co.yap.app.constants.Constants
 import co.yap.app.modules.login.interfaces.IVerifyPasscode
 import co.yap.app.modules.login.states.VerifyPasscodeState
-import co.yap.networking.admin.AdminRepository
 import co.yap.networking.authentication.AuthRepository
 import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.customers.responsedtos.AccountInfo
@@ -33,7 +32,6 @@ class VerifyPasscodeViewModel(application: Application) :
 
     override val forgotPasscodeButtonPressEvent: SingleClickEvent = SingleClickEvent()
     override val repository: AuthRepository = AuthRepository
-    private val adminRepository: AdminRepository = AdminRepository
     override val state: VerifyPasscodeState = VerifyPasscodeState(application)
     override val signInButtonPressEvent: SingleLiveEvent<Boolean> = SingleLiveEvent()
     override val loginSuccess: SingleLiveEvent<Boolean> = SingleLiveEvent()
@@ -68,7 +66,7 @@ class VerifyPasscodeViewModel(application: Application) :
     override fun verifyPasscode() {
         launch {
             state.loading = true
-            when (val response = adminRepository.validateCurrentPasscode(state.passcode)) {
+            when (val response = customersRepository.validateCurrentPasscode(state.passcode)) {
                 is RetroApiResponse.Success -> {
                     loginSuccess.postValue(true)
                     state.loading = false

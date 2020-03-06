@@ -60,31 +60,33 @@ class TransactionsListingAdapter(private val list: MutableList<Content>) :
                 transaction.status ?: "", transaction.txnType ?: ""
             )
             if (txnTypeIconResId != -1)
-                itemTransactionListBinding.ivIncoming?.setImageResource(txnTypeIconResId)
+                itemTransactionListBinding.ivIncoming.setImageResource(txnTypeIconResId)
             else
-                itemTransactionListBinding.ivIncoming?.setImageResource(android.R.color.transparent)
-
+                itemTransactionListBinding.ivIncoming.setImageResource(android.R.color.transparent)
 
             var txnAmountPreFix = ""
-            when (TxnType.valueOf(transaction.txnType ?: "")) {
-                TxnType.CREDIT -> {
-                    txnAmountPreFix = "+"
-                    itemTransactionListBinding.tvTransactionAmount?.setTextColor(
-                        context.getColors(
-                            R.color.colorSecondaryGreen
+            transaction.txnType?.let {
+                when (it) {
+                    TxnType.CREDIT.type -> {
+                        txnAmountPreFix = "+"
+                        itemTransactionListBinding.tvTransactionAmount?.setTextColor(
+                            context.getColors(
+                                R.color.colorSecondaryGreen
+                            )
                         )
-                    )
-                }
-                TxnType.DEBIT -> {
-                    txnAmountPreFix = "-"
-                    itemTransactionListBinding.tvTransactionAmount?.setTextColor(
-                        context.getColors(
-                            R.color.colorPrimaryDark
+                    }
+                    TxnType.DEBIT.type -> {
+                        txnAmountPreFix = "-"
+                        itemTransactionListBinding.tvTransactionAmount?.setTextColor(
+                            context.getColors(
+                                R.color.colorPrimaryDark
+                            )
                         )
-                    )
+                    }
                 }
             }
-            itemTransactionListBinding.tvTransactionAmount?.text =
+
+            itemTransactionListBinding.tvTransactionAmount.text =
                 String.format(
                     "%s %s", txnAmountPreFix,
                     Utils.getFormattedCurrency(transaction.totalAmount.toString())

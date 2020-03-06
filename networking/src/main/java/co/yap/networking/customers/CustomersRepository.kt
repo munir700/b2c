@@ -3,6 +3,9 @@ package co.yap.networking.customers
 import co.yap.networking.BaseRepository
 import co.yap.networking.CookiesManager
 import co.yap.networking.RetroNetwork
+import co.yap.networking.customers.requestdtos.ForgotPasscodeRequest
+import co.yap.networking.customers.responsedtos.AppUpdateResponse
+import co.yap.networking.customers.responsedtos.VerifyUsernameResponse
 import co.yap.networking.customers.requestdtos.*
 import co.yap.networking.customers.responsedtos.*
 import co.yap.networking.customers.responsedtos.beneficiary.BankParamsResponse
@@ -91,6 +94,16 @@ object CustomersRepository : BaseRepository(), CustomersApi {
 
 
     //.................... End region of old projects apis................................................
+
+    /*
+   * Url's that comes from admin repo
+   * */
+    const val URL_VERIFY_USERNAME = "/customers/api/verify-user"
+    const val URL_FORGOT_PASSCODE = "/customers/api/forgot-password"
+    const val URL_VALIDATE_CURRENT_PASSCODE = "/customers/api/user/verify-passcode"
+    const val URL_CHANGE_PASSCODE = "/customers/api/user/change-password"
+    const val URL_APP_VERSION = "/customers/api/mobile-app-versions"
+    //.................... End region of admin repo urls................................................
 
 
     private val api: CustomersRetroService =
@@ -271,4 +284,19 @@ object CustomersRepository : BaseRepository(), CustomersApi {
 
     override suspend fun getSectionedCountries(): RetroApiResponse<SectionedCountriesResponseDTO> =
         executeSafely(call = { api.getSectionedCountries() })
+
+
+    override suspend fun verifyUsername(username: String): RetroApiResponse<VerifyUsernameResponse> =
+        executeSafely(call = { api.verifyUsername(username) })
+
+    override suspend fun forgotPasscode(forgotPasscodeRequest: ForgotPasscodeRequest): RetroApiResponse<ApiResponse> =
+        executeSafely(call = { api.forgotPasscode(forgotPasscodeRequest) })
+
+    override suspend fun validateCurrentPasscode(passcode: String): RetroApiResponse<ApiResponse> =
+        executeSafely(call = { api.validateCurrentPasscode(passcode) })
+
+    override suspend fun changePasscode(newPasscode: String): RetroApiResponse<ApiResponse> =
+        executeSafely(call = { api.changePasscode(newPasscode) })
+
+    override suspend fun appUpdate(): RetroApiResponse<AppUpdateResponse> = executeSafely(call = {api.appUpdate()})
 }

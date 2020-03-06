@@ -26,6 +26,8 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.widget.AppCompatEditText
 import androidx.cardview.widget.CardView
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat
+import androidx.core.content.res.ResourcesCompat
 import androidx.databinding.*
 import androidx.recyclerview.widget.RecyclerView
 import co.yap.networking.cards.responsedtos.Card
@@ -42,7 +44,9 @@ import co.yap.yapcore.enums.SendMoneyBeneficiaryType
 import co.yap.yapcore.helpers.DateUtils
 import co.yap.yapcore.helpers.StringUtils
 import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.helpers.extentions.dimen
 import co.yap.yapcore.helpers.extentions.loadImage
+import co.yap.yapcore.helpers.glide.setCircleCropImage
 import co.yap.yapcore.interfaces.IBindable
 import co.yap.yapcore.managers.MyUserManager
 import com.bumptech.glide.Glide
@@ -472,7 +476,7 @@ object UIBinder {
     @JvmStatic
     @BindingAdapter("CoreDialerError")
     fun setDialerErrorMessage(view: CoreDialerPad, error: String) {
-        if (!error.isEmpty()) view.settingUIForError(error) else view.settingUIForNormal()
+        if (!error.isEmpty()) view.showError(error) else view.removeError()
     }
 
     @BindingAdapter("src")
@@ -638,20 +642,38 @@ object UIBinder {
     @JvmStatic
     @BindingAdapter(
         value = ["componentDialerError", "isScreenLocked", "isAccountLocked"],
-        requireAll = false
+        requireAll = true
     )
-    fun setDialerError(
+    fun setDialerInLockedState(
         view: CoreDialerPad,
         error: String?,
         isScreenLocked: Boolean = false,
         isAccountLocked: Boolean = false
     ) {
         if (null != error && error.isNotEmpty()) {
-            view.settingUIForError(error, isScreenLocked)
+            view.showError(error)
+            view.settingUIForError(isScreenLocked)
             view.setPasscodeVisiblity(isAccountLocked)
         } else {
+            view.removeError()
             view.settingUIForNormal(isScreenLocked)
             view.setPasscodeVisiblity(isAccountLocked)
+        }
+    }
+
+    @JvmStatic
+    @BindingAdapter(
+        value = ["componentDialerError"],
+        requireAll = false
+    )
+    fun setPasscodeError(
+        view: CoreDialerPad,
+        error: String?
+    ) {
+        if (null != error && error.isNotEmpty()) {
+            view.showError(error)
+        } else {
+            view.removeError()
         }
     }
 
@@ -943,4 +965,27 @@ object UIBinder {
         ibanMask?.let { view.addTextChangedListener(MaskTextWatcher(view, it)) }
     }
 
+    @JvmStatic
+    @BindingAdapter(value = ["imageUrl", "fullName", "resId"], requireAll = true)
+    fun loadAvatar(imageView: ImageView, imageUrl: String?, fullName: String?, resId: Int = -1) {
+
+        if (resId != -1) {
+            imageView.setImageResource(resId)
+        } else {
+            val builder = TextDrawable.builder()
+            builder.beginConfig().width(imageView.context.dimen(R.dimen._35sdp))
+                .height(imageView.context.dimen(R.dimen._35sdp))
+                .fontSize(imageView.context.dimen(R.dimen.text_size_h2))
+                .useFont(ResourcesCompat.getFont(imageView.context, R.font.roboto_regular)!!)
+                .textColor(ContextCompat.getColor(imageView.context, R.color.purple))
+            setCircleCropImage(
+                imageView,
+                imageUrl ?: "",
+                builder.buildRect(
+                    Utils.shortName(fullName ?: "Unknown"),
+                    ContextCompat.getColor(imageView.context, android.R.color.transparent)
+                )
+            )
+        }
+    }
 }
