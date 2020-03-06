@@ -40,10 +40,12 @@ import co.yap.modules.dashboard.cards.reportcard.activities.ReportLostOrStolenCa
 import co.yap.modules.dashboard.home.adaptor.TransactionsHeaderAdapter
 import co.yap.modules.dashboard.home.filters.activities.TransactionFiltersActivity
 import co.yap.modules.dashboard.home.filters.models.TransactionFilters
+import co.yap.modules.dashboard.transaction.activities.TransactionDetailsActivity
 import co.yap.modules.dummy.ActivityNavigator
 import co.yap.modules.dummy.NavigatorProvider
 import co.yap.modules.others.helper.Constants
 import co.yap.networking.cards.responsedtos.Card
+import co.yap.networking.transactions.responsedtos.transaction.Content
 import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionListData
 import co.yap.translation.Strings
 import co.yap.yapcore.BaseBindingActivity
@@ -56,6 +58,7 @@ import co.yap.yapcore.helpers.cancelAllSnackBar
 import co.yap.yapcore.helpers.confirm
 import co.yap.yapcore.helpers.extentions.disableScroll
 import co.yap.yapcore.helpers.extentions.enableScroll
+import co.yap.yapcore.helpers.extentions.launchActivity
 import co.yap.yapcore.helpers.extentions.preventTakeScreenShot
 import co.yap.yapcore.helpers.showSnackBar
 import co.yap.yapcore.helpers.spannables.underline
@@ -275,12 +278,6 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
             ),
             RequestCodes.REQUEST_TXN_FILTER
         )
-    }
-
-    val listener = object : OnItemClickListener {
-        override fun onItemClick(view: View, data: Any, pos: Int) {
-
-        }
     }
 
     private fun getRecycleViewAdaptor(): TransactionsHeaderAdapter {
@@ -618,14 +615,11 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
 
     private val adaptorlistener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
-//            if (data is Content) {
-//                startActivity(
-//                    TransactionDetailsActivity.newIntent(
-//                        applicationContext,
-//                        (data as HomeTransactionListData).content[0].transactionId
-//                    )
-//                )
-//            }
+            if (data is Content) {
+                launchActivity<TransactionDetailsActivity> {
+                    putExtra("transaction", data)
+                }
+            }
         }
     }
 
