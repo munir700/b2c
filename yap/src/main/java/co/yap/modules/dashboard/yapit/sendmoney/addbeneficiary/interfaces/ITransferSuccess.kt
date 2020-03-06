@@ -1,5 +1,6 @@
 package co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.interfaces
 
+import androidx.databinding.ObservableField
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
 
@@ -34,6 +35,7 @@ interface ITransferSuccess {
         var transferAmountHeading: String?
         var buttonTitle: String?
         var availableBalanceString: CharSequence?
+        var cutOffTimeMsg: ObservableField<String>
 
     }
 }
