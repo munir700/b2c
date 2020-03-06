@@ -1,4 +1,5 @@
 package co.yap.widgets
+
 import android.text.Editable
 import android.text.TextWatcher
 import androidx.appcompat.widget.AppCompatEditText
@@ -52,7 +53,8 @@ class MaskTextWatcher(
                         }
                     }
                     if (list.isNullOrEmpty()) return@forEach
-                    formatted.append(c)
+
+                    formatted.append(if (c.isLetter()) c.toUpperCase() else c)
                     list.removeAt(0)
                 } else {
                     formatted.append(m)
@@ -104,4 +106,5 @@ class MaskTextWatcher(
         return if (position < textLength) position else textLength
     }
 }
+
 internal fun Char.isPlaceHolder(): Boolean = this == '#'

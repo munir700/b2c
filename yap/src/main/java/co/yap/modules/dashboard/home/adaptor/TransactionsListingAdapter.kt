@@ -64,26 +64,28 @@ class TransactionsListingAdapter(private val list: MutableList<Content>) :
             else
                 itemTransactionListBinding.ivIncoming.setImageResource(android.R.color.transparent)
 
-
             var txnAmountPreFix = ""
-            when (TxnType.valueOf(transaction.txnType ?: "")) {
-                TxnType.CREDIT -> {
-                    txnAmountPreFix = "+"
-                    itemTransactionListBinding.tvTransactionAmount.setTextColor(
-                        context.getColors(
-                            R.color.colorSecondaryGreen
+            transaction.txnType?.let {
+                when (it) {
+                    TxnType.CREDIT.type -> {
+                        txnAmountPreFix = "+"
+                        itemTransactionListBinding.tvTransactionAmount?.setTextColor(
+                            context.getColors(
+                                R.color.colorSecondaryGreen
+                            )
                         )
-                    )
-                }
-                TxnType.DEBIT -> {
-                    txnAmountPreFix = "-"
-                    itemTransactionListBinding.tvTransactionAmount.setTextColor(
-                        context.getColors(
-                            R.color.colorPrimaryDark
+                    }
+                    TxnType.DEBIT.type -> {
+                        txnAmountPreFix = "-"
+                        itemTransactionListBinding.tvTransactionAmount?.setTextColor(
+                            context.getColors(
+                                R.color.colorPrimaryDark
+                            )
                         )
-                    )
+                    }
                 }
             }
+
             itemTransactionListBinding.tvTransactionAmount.text =
                 String.format(
                     "%s %s", txnAmountPreFix,
@@ -100,7 +102,10 @@ class TransactionsListingAdapter(private val list: MutableList<Content>) :
                 if (TransactionProductCode.Y2Y_TRANSFER.pCode == transaction.productCode ?: "" || TransactionProductCode.POS_PURCHASE.pCode == transaction.productCode) {
                     ImageBinding.loadAvatar(
                         itemTransactionListBinding.ivTransaction,
-                        "",
+                        if (TxnType.valueOf(
+                                transaction.txnType ?: ""
+                            ) == TxnType.DEBIT
+                        ) transaction.receiverProfilePictureUrl else transaction.senderProfilePictureUrl,
                         transactionTitle,
                         android.R.color.transparent,
                         R.dimen.text_size_h2
@@ -213,6 +218,15 @@ class TransactionsListingAdapter(private val list: MutableList<Content>) :
                             ?: transaction.title
                     )
                 }
+                TransactionProductCode.TOP_UP_VIA_CARD.pCode -> {
+                    transaction.maskedCardNo?.let {
+                        String.format("%s %s", "Top-Up by*", it.substring(it.length - 4, it.length))
+                    }
+                        ?: transaction.title ?: "Unknown"
+
+                }
+
+
                 else -> transaction.title ?: "Unknown"
             })
         }

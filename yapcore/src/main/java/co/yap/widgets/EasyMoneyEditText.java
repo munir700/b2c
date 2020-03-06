@@ -107,7 +107,7 @@ public class EasyMoneyEditText extends AppCompatEditText {
                     if (valStr.equals("") || getValueInt()<=0.0) {
                         long val = 0;
                         setText("");
-                        setHint("0.0");
+                        setHint("0.00");
                     } else {
                         // Some decimal number
                         if (valStr.contains(".")) {

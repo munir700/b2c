@@ -3,11 +3,13 @@ package co.yap.app.modules.login.viewmodels
 import android.app.Application
 import android.view.inputmethod.EditorInfo
 import android.widget.TextView
+import androidx.lifecycle.MutableLiveData
 import co.yap.app.modules.login.interfaces.ILogin
 import co.yap.app.modules.login.states.LoginState
-import co.yap.networking.admin.AdminRepository
 import co.yap.networking.authentication.AuthRepository
+import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.interfaces.IRepositoryHolder
+import co.yap.networking.models.ApiError
 import co.yap.networking.models.RetroApiResponse
 import co.yap.translation.Strings
 import co.yap.yapcore.BaseViewModel
@@ -22,7 +24,8 @@ class LoginViewModel(application: Application) : BaseViewModel<ILogin.State>(app
     override val signUpButtonPressEvent: SingleLiveEvent<Boolean> = SingleLiveEvent()
     override val state: LoginState = LoginState()
     override val repository: AuthRepository = AuthRepository
-    private val adminRepository: AdminRepository = AdminRepository
+    private val customersRepository: CustomersRepository = CustomersRepository
+    override var isAccountBlocked: MutableLiveData<Boolean> = MutableLiveData(false)
 
     override fun handlePressOnLogin() {
         state.twoWayTextWatcher = Utils.verifyUsername(state.twoWayTextWatcher.trim())
@@ -32,7 +35,6 @@ class LoginViewModel(application: Application) : BaseViewModel<ILogin.State>(app
     override fun handlePressOnSignUp() {
         signUpButtonPressEvent.value = true
     }
-
     override fun onEditorActionListener(): TextView.OnEditorActionListener {
         return TextView.OnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
@@ -45,7 +47,7 @@ class LoginViewModel(application: Application) : BaseViewModel<ILogin.State>(app
     private fun validateUsername() {
         launch {
             state.loading = true
-            when (val response = adminRepository.verifyUsername(state.twoWayTextWatcher)) {
+            when (val response = customersRepository.verifyUsername(state.twoWayTextWatcher)) {
                 is RetroApiResponse.Success -> {
                     if (response.data.data) {
                         signInButtonPressEvent.postValue(true)
@@ -55,11 +57,23 @@ class LoginViewModel(application: Application) : BaseViewModel<ILogin.State>(app
                     }
                 }
                 is RetroApiResponse.Error -> {
-                    state.error = response.error.message
-                    state.emailError.value = response.error.message
+                    handleBlockedAccountError(response.error)
                 }
             }
             state.loading = false
+        }
+    }
+
+    private fun handleBlockedAccountError(error: ApiError) {
+        when (error.actualCode) {
+            "AD-10018" -> {
+                isAccountBlocked.value = true
+            }
+            else -> {
+                state.error = error.message
+                state.emailError.value = error.message
+            }
+
         }
     }
 }

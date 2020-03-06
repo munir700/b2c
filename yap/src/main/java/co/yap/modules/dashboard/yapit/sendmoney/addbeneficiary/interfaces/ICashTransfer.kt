@@ -27,14 +27,12 @@ interface ICashTransfer {
         var transactionThreshold: MutableLiveData<TransactionThresholdModel>
         fun getTransactionFeeForCashPayout(productCode: String?)
         fun cashPayoutTransferRequest(beneficiaryId: Int?)
-        fun domesticTransferRequest(beneficiaryId: String?)
         fun uaeftsTransferRequest(beneficiaryId: String?)
         fun getMoneyTransferLimits(productCode: String?)
         fun getCountryLimit()
         fun getTransactionThresholds()
         fun proceedToTransferAmount()
         fun getCashTransferReasonList()
-        fun getCutOffTimeConfiguration()
 
     }
 

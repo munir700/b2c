@@ -13,7 +13,7 @@ class KycSuccessActivity : DefaultActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        trackAdjustEvent(AdjustEvents.DELIVERY_CONFIRMED.type)
+        //trackAdjustEvent(AdjustEvents.DELIVERY_CONFIRMED.type)
         setContentView(R.layout.activity_kyc_success)
 
         btnTopUp.setOnClickListener {

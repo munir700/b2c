@@ -16,9 +16,7 @@ import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.R
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.Constants.PAGE_URL
-import co.yap.yapcore.constants.Constants.TOOLBAR_TITLE
 import co.yap.yapcore.databinding.FragmentCreateNewPasscodeBinding
-import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.preventTakeScreenShot
 import co.yap.yapcore.helpers.extentions.startFragment
 

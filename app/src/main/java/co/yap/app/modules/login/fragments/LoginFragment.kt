@@ -26,7 +26,7 @@ class LoginFragment : BaseBindingFragment<ILogin.ViewModel>(), ILogin.View {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        viewModel.isAccountBlocked.observe(this, accountBlockedObserver)
         val sharedPreferenceManager = SharedPreferenceManager.getInstance(requireContext())
         if (sharedPreferenceManager.getValueBoolien(
                 KEY_IS_USER_LOGGED_IN,
@@ -51,6 +51,7 @@ class LoginFragment : BaseBindingFragment<ILogin.ViewModel>(), ILogin.View {
 
         viewModel.signInButtonPressEvent.observe(this, signInButtonObserver)
         viewModel.signUpButtonPressEvent.observe(this, signUpButtonObserver)
+
         viewModel.state.emailError.observe(this, Observer {
             if (!it.isNullOrBlank()) {
                 etEmailField.settingUIForError(it)
@@ -58,6 +59,11 @@ class LoginFragment : BaseBindingFragment<ILogin.ViewModel>(), ILogin.View {
             }
         })
 
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        viewModel.isAccountBlocked.removeObservers(this)
     }
 
     override fun onDestroyView() {
@@ -69,13 +75,28 @@ class LoginFragment : BaseBindingFragment<ILogin.ViewModel>(), ILogin.View {
 
     private val signInButtonObserver = Observer<Boolean> {
         val action =
-            LoginFragmentDirections.actionLoginFragmentToVerifyPasscodeFragment(viewModel.state.twoWayTextWatcher)
+            LoginFragmentDirections.actionLoginFragmentToVerifyPasscodeFragment(
+                viewModel.state.twoWayTextWatcher,
+                isAccountBlocked = false
+            )
         NavHostFragment.findNavController(this).navigate(action)
         viewModel.state.twoWayTextWatcher = ""
     }
 
+    private val accountBlockedObserver = Observer<Boolean> { isAccountBlocked ->
+        if (isAccountBlocked) {
+            val action =
+                LoginFragmentDirections.actionLoginFragmentToVerifyPasscodeFragment(
+                    viewModel.state.twoWayTextWatcher,
+                    isAccountBlocked
+                )
+            NavHostFragment.findNavController(this).navigate(action)
+            viewModel.state.twoWayTextWatcher = ""
+        }
+    }
+
+
     private val signUpButtonObserver = Observer<Boolean> {
         findNavController().navigate(R.id.action_loginFragment_to_accountSelectionFragment)
     }
-
 }

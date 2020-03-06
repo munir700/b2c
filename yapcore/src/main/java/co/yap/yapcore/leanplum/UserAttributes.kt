@@ -14,5 +14,10 @@ data class UserAttributes(
     val country: String = "country",
     val city: String = "city",
     val uuid: String = "uuid",
-    val customerId: String = "customerId"
+    val customerId: String = "customerId",
+    val signup_timestamp: String = "signup_timestamp",
+    val signup_length: String = "Signup_length",
+    val faceID_enabled: String = "faceID_enabled",
+    val touchID_enabled: String = "touchID_enabled",
+    val account_active: String = "account_active"
 )
