@@ -158,7 +158,7 @@ class InternationalTransactionConfirmationFragment :
                                     "",
                                     args.senderCurrency,
                                     Utils.getFormattedCurrency(args.fxRateAmount),
-                                    referenceNumber, position, beneficiaryCountry
+                                    referenceNumber, position, beneficiaryCountry,viewModel.state.cutOffTimeMsg?:""
                                 )
                             findNavController().navigate(action)
                         }
