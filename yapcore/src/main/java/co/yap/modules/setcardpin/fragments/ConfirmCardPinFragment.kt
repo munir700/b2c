@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import co.yap.modules.setcardpin.activities.SetCardPinWelcomeActivity
+import co.yap.modules.setcardpin.interfaces.ISetCardPin
 import co.yap.modules.setcardpin.viewmodels.ConfirmCardPinViewModel
 import co.yap.translation.Strings
 import co.yap.translation.Translator
@@ -20,7 +21,7 @@ import kotlinx.android.synthetic.main.fragment_set_card_pin.*
 open class ConfirmCardPinFragment : SetCardPinFragment() {
 
     private val args: ConfirmCardPinFragmentArgs by navArgs()
-    override val viewModel: ConfirmCardPinViewModel
+    override val viewModel: ISetCardPin.ViewModel
         get() = ViewModelProviders.of(this).get(ConfirmCardPinViewModel::class.java)
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -46,7 +47,7 @@ open class ConfirmCardPinFragment : SetCardPinFragment() {
                 }
                 viewModel.EVENT_SET_CARD_PIN_SUCCESS -> {
                     trackEvent(KYCEvents.CARD_ACTIVE.type)
-                    viewModel.trackEventWithAttributes(MyUserManager.user, account_active = true)
+                    trackEventWithAttributes(MyUserManager.user, account_active = true)
                     findNavController().navigate(R.id.action_confirmCardPinFragment_to_setCardPinSuccessFragment)
                     MyUserManager.user?.notificationStatuses = AccountStatus.CARD_ACTIVATED.name
                 }
