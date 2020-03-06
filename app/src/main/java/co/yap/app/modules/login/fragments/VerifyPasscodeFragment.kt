@@ -308,8 +308,6 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
                     bundle.putParcelable(OnBoardingHouseHoldActivity.USER_INFO, it)
                     startActivity(OnBoardingHouseHoldActivity.getIntent(requireContext(), bundle))
                     activity?.finish()
-//                    findNavController().navigate(R.id.action_goto_yapDashboardActivity)
-//                    activity?.finish()
                 }
             }
         }

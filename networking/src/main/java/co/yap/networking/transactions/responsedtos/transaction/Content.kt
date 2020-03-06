@@ -1,9 +1,7 @@
 package co.yap.networking.transactions.responsedtos.transaction
-
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
-
 @Parcelize
 data class Content(
     @SerializedName("accountUuid1")
@@ -35,7 +33,7 @@ data class Content(
     @SerializedName("cardType")
     val cardType: String? = null,
     @SerializedName("category")
-    val category: String? = null,
+    var category: String? = null,
     @SerializedName("country")
     val country: String? = null,
     @SerializedName("createdBy")
@@ -154,6 +152,8 @@ data class Content(
     val userType2: String? = null,
     @SerializedName("vatAmount")
     val vatAmount: Double? = null,
-    @SerializedName("imgUrl")
-    var txnImgUrl: String? = ""
-):Parcelable
+    @SerializedName("senderProfilePictureUrl")
+    val senderProfilePictureUrl: String? = null,
+    @SerializedName("receiverProfilePictureUrl")
+    val receiverProfilePictureUrl: String? = null
+) : Parcelable

@@ -2,16 +2,21 @@ package co.yap.yapcore.transactions.viewholders
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.res.ColorStateList
 import androidx.core.content.ContextCompat
-import androidx.core.view.setPadding
+import androidx.core.widget.ImageViewCompat
 import androidx.recyclerview.widget.RecyclerView
 import co.yap.networking.transactions.responsedtos.transaction.Content
 import co.yap.translation.Translator
 import co.yap.yapcore.R
-import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.databinding.ItemTransactionListContentBinding
-import co.yap.yapcore.helpers.StringUtils
+import co.yap.yapcore.enums.Transaction
+import co.yap.yapcore.enums.TransactionProductCode
+import co.yap.yapcore.enums.TransactionStatus
+import co.yap.yapcore.enums.TxnType
+import co.yap.yapcore.helpers.DateUtils
 import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.helpers.extentions.getColors
 import co.yap.yapcore.transactions.viewmodels.ItemTransactionContentViewModel
 
 class TransactionContentViewHolder(private val itemTransactionListBinding: ItemTransactionListContentBinding) :
@@ -19,83 +24,162 @@ class TransactionContentViewHolder(private val itemTransactionListBinding: ItemT
 
     fun onBind(content: Content) {
         val transaction: Content = content
-        val txnImageResId: Int?
         val context: Context = itemTransactionListBinding.tvCurrency.context
 
-        when (transaction.txnType?.toLowerCase()) {
-            "credit" -> setTxnAmountData(transaction, R.color.colorSecondaryGreen)
-            "debit" -> setTxnAmountData(transaction, R.color.colorPrimaryDark)
-        }
-
-        transaction.title = transaction.title ?: "Unknown"
-//        transaction.category = ""
-//        transaction.category = Translator.getString(
-//            context,
-//            R.string.screen_fragment_home_transaction_time_category,
-//            splitTimeString(content.updatedDate),
-//            transaction.category.toLowerCase().capitalize()
-//        )
-
-        if (transaction.productCode == Constants.Y_TO_Y_TRANSFER) {
-            txnImageResId = R.drawable.ic_yap_to_yap
-            transaction.title = "${StringUtils.getFirstname(transaction.senderName!!)} to ${
-            StringUtils.getFirstname(
-                transaction.receiverName.toString()
-            )}"
-        } else {
-            txnImageResId = getTransactionImage(transaction.productCode!!, transaction.txnType!!)
-        }
-
+        transaction.title = getTransactionTitle(transaction)
+        transaction.category = Translator.getString(
+            context,
+            R.string.screen_fragment_home_transaction_time_category,
+            DateUtils.reformatStringDate(
+                transaction.updatedDate ?: "",
+                DateUtils.FORMAT_LONG_INPUT,
+                DateUtils.FORMATE_TIME_24H
+            ), getCategoryTitle(transaction.productCode, transaction.txnType)
+        )
+        setTxnAmount(transaction)
+        handleProductBaseCases(context, transaction)
         itemTransactionListBinding.viewModel =
             ItemTransactionContentViewModel(
                 transaction,
-                txnImageResId
+                getTxnResId(transaction)
             )
         itemTransactionListBinding.executePendingBindings()
     }
 
-    @SuppressLint("SetTextI18n")
-    private fun setTxnAmountData(transaction: Content, txtColor: Int) {
-        itemTransactionListBinding.tvTransactionAmount?.setTextColor(
-            ContextCompat.getColor(
-                itemTransactionListBinding.tvTransactionAmount.context,
-                txtColor
-            )
-        )
-
-        itemTransactionListBinding.tvTransactionAmount?.text =
-            "+ " + Utils.getFormattedCurrency(transaction.amount.toString())
+    private fun getTxnResId(transaction: Content): Int {
+        return if (TransactionProductCode.Y2Y_TRANSFER.pCode == transaction.productCode || TransactionProductCode.POS_PURCHASE.pCode == transaction.productCode) {
+            -1
+        } else {
+            getTransactionIcon(transaction.productCode, transaction.txnType, transaction.status)
+        }
     }
 
-    private fun getTransactionImage(productCode: String, txnType: String): Int? {
-        if (productCode == Constants.TOP_UP_VIA_CARD) {
-            return (R.drawable.ic_top_up)
-        } else {
-            if (productCode == Constants.SUPP_WITHDRAW || txnType == Constants.SUPP_CARD_TOP_UP) {
-                if (txnType == Constants.MANUAL_DEBIT) {
-                    itemTransactionListBinding.ivTransaction.setPadding(0)
-                    return R.drawable.ic_minus_transactions
-                } else if (txnType == Constants.MANUAL_CREDIT) {
-                    itemTransactionListBinding.ivTransaction.setPadding(0)
-                    return R.drawable.ic_plus_transactions
-                }
-            } else if (txnType == Constants.MANUAL_DEBIT) {
-                return R.drawable.ic_plus_transactions
-            } else if (txnType == Constants.MANUAL_CREDIT) {
-                return R.drawable.ic_plus_transactions
+    @SuppressLint("SetTextI18n")
+    private fun setTxnAmount(transaction: Content) {
+        var txnAmountPreFix = ""
+        when (transaction.txnType ?: "") {
+            TxnType.CREDIT.type -> {
+                txnAmountPreFix = "+"
+                itemTransactionListBinding.tvTransactionAmount.setTextColor(
+                    ContextCompat.getColor(
+                        itemTransactionListBinding.tvTransactionAmount.context,
+                        R.color.colorSecondaryGreen
+                    )
+                )
+            }
+            TxnType.DEBIT.type -> {
+                txnAmountPreFix = "-"
+                itemTransactionListBinding.tvTransactionAmount.setTextColor(
+                    ContextCompat.getColor(
+                        itemTransactionListBinding.tvTransactionAmount.context,
+                        R.color.colorPrimaryDark
+                    )
+                )
             }
         }
 
-        return null
+        itemTransactionListBinding.tvTransactionAmount.text =
+            String.format(
+                "%s %s", txnAmountPreFix,
+                Utils.getFormattedCurrency(transaction.totalAmount.toString())
+            )
     }
 
-    private fun splitTimeString(timeString: String): String {
-        if (!timeString.isBlank()) {
-            val originalTimeStrings = timeString.split("T").toTypedArray()
-            val splitTimeStrings = originalTimeStrings[1].split(":").toTypedArray()
-            return splitTimeStrings[0] + ":" + splitTimeStrings[1]
+
+    private fun handleProductBaseCases(context: Context, transaction: Content) {
+        transaction.productCode?.let {
+            ImageViewCompat.setImageTintList(
+                itemTransactionListBinding.ivTransaction,
+                ColorStateList.valueOf(context.getColors(R.color.colorPrimary))
+            )
         }
-        return ""
-
     }
+
+    private fun getTransactionTitle(transaction: Content): String {
+        return (when (transaction.productCode) {
+            TransactionProductCode.Y2Y_TRANSFER.pCode -> {
+                String.format(
+                    "%s %s",
+                    if (transaction.txnType == TxnType.DEBIT.type) "To" else "From",
+                    if (transaction.txnType == TxnType.DEBIT.type) transaction.receiverName
+                        ?: transaction.title else transaction.senderName
+                        ?: transaction.title
+                )
+            }
+            else -> transaction.title ?: "Unknown"
+        })
+    }
+
+    private fun getTransactionIcon(
+        productCode: String?,
+        txnType: String? = "",
+        transactionStatus: String?
+    ): Int {
+
+        if (productCode.isNullOrBlank() || txnType.isNullOrBlank() || transactionStatus.isNullOrBlank()) return -1
+
+        return if (transactionStatus == TransactionStatus.FAILED.name) {
+            R.drawable.ic_reverted
+        } else
+            when {
+                Transaction.isCash(productCode) -> R.drawable.ic_transaction_cash
+                Transaction.isBank(productCode) -> R.drawable.ic_transaction_bank
+                Transaction.isFee(productCode) -> R.drawable.ic_package_standered
+                Transaction.isRefund(productCode) -> R.drawable.ic_refund
+                TransactionProductCode.TOP_UP_SUPPLEMENTARY_CARD.pCode == productCode || TransactionProductCode.WITHDRAW_SUPPLEMENTARY_CARD.pCode == productCode -> {
+                    if (txnType == TxnType.DEBIT.type) R.drawable.ic_minus_transactions else R.drawable.ic_plus_transactions
+                }
+                else -> -1
+            }
+    }
+
+    private fun getCategoryTitle(
+        productCode: String?,
+        txnType: String? = ""
+    ): String {
+        if (productCode.isNullOrBlank() || txnType.isNullOrBlank()) return "Transaction"
+        return when {
+            Transaction.isFee(productCode) -> "Fee"
+            Transaction.isRefund(productCode) -> "Refund"
+            TransactionProductCode.Y2Y_TRANSFER.pCode == productCode -> "YTY transfer"
+            TransactionProductCode.TOP_UP_VIA_CARD.pCode == productCode -> "Top up"
+            TransactionProductCode.CASH_DEPOSIT_AT_RAK.pCode == productCode || TransactionProductCode.CHEQUE_DEPOSIT_AT_RAK.pCode == productCode -> "Deposit"
+            TransactionProductCode.ATM_WITHDRAWL.pCode == productCode || TransactionProductCode.MASTER_CARD_ATM_WITHDRAWAL.pCode == productCode -> "Cash"
+            TransactionProductCode.TOP_UP_SUPPLEMENTARY_CARD.pCode == productCode || TransactionProductCode.WITHDRAW_SUPPLEMENTARY_CARD.pCode == productCode -> {
+                if (txnType == TxnType.DEBIT.type) "Withdrawn from virtual card" else "Added to virtual card"
+            }
+            else -> return (when (productCode) {
+                TransactionProductCode.DOMESTIC.pCode, TransactionProductCode.RMT.pCode, TransactionProductCode.SWIFT.pCode, TransactionProductCode.UAEFTS.pCode, TransactionProductCode.INWARD_REMITTANCE.pCode, TransactionProductCode.LOCAL_INWARD_TRANSFER.pCode -> {
+                    "Transfer"
+                }
+                else ->
+                    "Transaction"
+            })
+        }
+    }
+
+    private fun getTxnTypeIcon(
+        productCode: String,
+        txnStatus: String,
+        txnType: String = ""
+    ): Int {
+        if (TransactionStatus.FAILED.name == txnStatus) return -1
+
+        return if (TransactionStatus.PENDING.name == txnStatus || TransactionStatus.IN_PROGRESS.name == txnStatus && !Transaction.isFee(
+                productCode
+            )
+        )
+            R.drawable.ic_time
+        else (when (txnType) {
+            TxnType.DEBIT.type -> {
+                R.drawable.ic_outgoing_transaction
+            }
+            TxnType.CREDIT.type -> {
+                R.drawable.ic_incoming_transaction
+            }
+            else -> -1
+        })
+    }
+
+
 }

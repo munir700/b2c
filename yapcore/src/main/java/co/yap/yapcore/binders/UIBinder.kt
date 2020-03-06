@@ -939,7 +939,7 @@ object UIBinder {
 
     @JvmStatic
     @BindingAdapter(value = ["imageUrl", "fullName", "resId"], requireAll = true)
-    fun loadAvatar(imageView: ImageView, imageUrl: String, fullName: String, resId: Int = -1) {
+    fun loadAvatar(imageView: ImageView, imageUrl: String?, fullName: String?, resId: Int = -1) {
 
         if (resId != -1) {
             imageView.setImageResource(resId)
@@ -952,9 +952,9 @@ object UIBinder {
                 .textColor(ContextCompat.getColor(imageView.context, R.color.purple))
             setCircleCropImage(
                 imageView,
-                imageUrl,
+                imageUrl ?: "",
                 builder.buildRect(
-                    Utils.shortName(fullName),
+                    Utils.shortName(fullName ?: "Unknown"),
                     ContextCompat.getColor(imageView.context, R.color.disabledLight)
                 )
             )
