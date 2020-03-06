@@ -12,7 +12,7 @@ project.ext {
     playServicesVersion = '16.0.0'
     supportLibraryVersion = "28.0.3"
     retrofitVersion = "2.6.0"
-    daggerVersion = "2.16"
+    daggerVersion = "2.26"
     okhttpVersion = "3.12.1"
     okhttpLoggerVersion = "3.10.0"
     okhttpGsonVersion = "2.5.0"
