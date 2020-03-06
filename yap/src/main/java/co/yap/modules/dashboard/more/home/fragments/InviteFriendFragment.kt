@@ -54,9 +54,11 @@ class InviteFriendFragment : BaseBindingFragment<IInviteFriend.ViewModel>(), IIn
     }
 
     private fun getBody(): String {
-
-
         val userId = MyUserManager.user?.currentCustomer?.customerId
+        val adjustEvent = AdjustEvent("adjust_t=q3o2z0e_sv94i35&deep")
+        adjustEvent.addCallbackParameter("inviter", userId)
+        Adjust.trackEvent(adjustEvent)
+
 //        SHARE_ADJUST_LINK = "https://grwl.adj.st?adjust_t=q3o2z0e_sv94i35&user_id=" + userId
 //        Constants.SHARE_ADJUST_LINK = "https://grwl.adj.st?adjust_t=q3o2z0e_sv94i35&inviter=3000000633&time=1583325419.356368"// by ios team
 //        https://grwl.adj.st?adjust_t=q3o2z0e_sv94i35&inviter=3000000633&time=1583325419.356368
@@ -68,9 +70,7 @@ class InviteFriendFragment : BaseBindingFragment<IInviteFriend.ViewModel>(), IIn
             Constants.SHARE_ADJUST_LINK
         )
 
-        val adjustEvent = AdjustEvent("adjust_t=q3o2z0e_sv94i35&deep")
-        adjustEvent.addCallbackParameter("inviter", userId)
-        Adjust.trackEvent(adjustEvent)
+
     }
 
     override fun onDestroy() {
