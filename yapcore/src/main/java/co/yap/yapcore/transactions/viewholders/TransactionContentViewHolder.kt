@@ -37,11 +37,14 @@ class TransactionContentViewHolder(private val itemTransactionListBinding: ItemT
             ), getCategoryTitle(transaction.productCode, transaction.txnType)
         )
         setTxnAmount(transaction)
-        handleProductBaseCases(context, transaction)
         itemTransactionListBinding.viewModel =
             ItemTransactionContentViewModel(
                 transaction,
-                getTxnResId(transaction)
+                getTxnResId(transaction),
+                getTxnTypeIcon(
+                    transaction.productCode ?: "",
+                    transaction.status ?: "", transaction.txnType ?: ""
+                )
             )
         itemTransactionListBinding.executePendingBindings()
     }
@@ -86,15 +89,6 @@ class TransactionContentViewHolder(private val itemTransactionListBinding: ItemT
     }
 
 
-    private fun handleProductBaseCases(context: Context, transaction: Content) {
-        transaction.productCode?.let {
-            ImageViewCompat.setImageTintList(
-                itemTransactionListBinding.ivTransaction,
-                ColorStateList.valueOf(context.getColors(R.color.colorPrimary))
-            )
-        }
-    }
-
     private fun getTransactionTitle(transaction: Content): String {
         return (when (transaction.productCode) {
             TransactionProductCode.Y2Y_TRANSFER.pCode -> {
@@ -105,6 +99,13 @@ class TransactionContentViewHolder(private val itemTransactionListBinding: ItemT
                         ?: transaction.title else transaction.senderName
                         ?: transaction.title
                 )
+            }
+            TransactionProductCode.TOP_UP_VIA_CARD.pCode -> {
+                transaction.maskedCardNo?.let {
+                    String.format("%s %s", "Top-Up by*", it.substring(it.length - 4, it.length))
+                }
+                    ?: transaction.title ?: "Unknown"
+
             }
             else -> transaction.title ?: "Unknown"
         })

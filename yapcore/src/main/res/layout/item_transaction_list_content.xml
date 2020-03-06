@@ -22,6 +22,7 @@
         android:background="@color/white"
         android:orientation="vertical">
 
+
         <co.yap.widgets.CoreCircularImageView
             android:id="@+id/ivTransaction"
             android:layout_width="@dimen/_35sdp"
@@ -31,12 +32,22 @@
             android:contentDescription="@string/empty_string"
             tools:src="@drawable/ic_plus_transactions"
             android:background="@drawable/bg_round_purple_enabled"
-            android:padding="@dimen/margin_small"
             app:fullName="@{viewModel.itemViewModel.title.toString()}"
             app:imageUrl="@{viewModel.itemViewModel.txnType.equals(TxnType.DEBIT.type) ? viewModel.itemViewModel.receiverProfilePictureUrl  : viewModel.itemViewModel.senderProfilePictureUrl}"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:resId="@{viewModel.txnImageResId == null?  -1 : viewModel.txnImageResId}" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/ivIncoming"
+            android:layout_width="38dp"
+            android:layout_height="38dp"
+            android:padding="@dimen/small"
+            android:visibility="visible"
+            app:src="@{viewModel.txnTxnStatusResId == -1? android.R.color.transparent : viewModel.txnTxnStatusResId}"
+            app:srcCompat="@drawable/ic_transaction_pending"
+            tools:layout_editor_absoluteX="16dp"
+            tools:layout_editor_absoluteY="37dp" />
 
         <TextView
             android:id="@+id/tvTransactionName"
