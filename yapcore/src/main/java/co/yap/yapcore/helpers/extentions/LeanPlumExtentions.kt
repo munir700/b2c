@@ -28,6 +28,15 @@ fun BaseState.trackEvent(eventName: String, value: String = "") {
     fireEventWithAttribute(eventName, value)
 }
 
+fun Fragment.trackEventWithAttributes(
+    user: AccountInfo?,
+    signup_length: String = "",
+    account_active: Boolean = false,
+    context: Context? = null
+) {
+    trackEventWithAttributes(user,signup_length,account_active,context)
+}
+
 fun ViewModel.trackEventWithAttributes(
     user: AccountInfo?,
     signup_length: String = "",
