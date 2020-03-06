@@ -43,17 +43,17 @@ class InternationalTransactionConfirmationViewModel(application: Application) :
 
     override fun rmtTransferRequest(beneficiaryId: String?) {
         launch {
-            state.args?.let {
+            state.args.let {
                 state.loading = true
                 when (val response =
                     mTransactionsRepository.rmtTransferRequest(
                         RMTTransactionRequestDTO(
-                            it.fxRateAmount.toDouble(),
-                            it.fromFxRateCurrency,
-                            it.reasonTransferCode,
+                            it?.fxRateAmount?.toDouble(),
+                            it?.fromFxRateCurrency,
+                            it?.reasonTransferCode,
                             beneficiaryId,
-                            if (it.transactionNote.isBlank()) null else it.transactionNote,
-                            it.reasonTransferValue
+                            if (it?.transactionNote.isNullOrBlank()) null else it?.transactionNote,
+                            it?.reasonTransferValue
                         )
                     )
                     ) {
