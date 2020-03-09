@@ -217,14 +217,17 @@
         tools:layout="@layout/activity_main_house_hold" />
 
 
-    <activity
+    <fragment
         android:id="@+id/householdOnBoardingExistingYAP"
-        android:name="co.yap.household.onboard.otherscreens.ExistingHouseholdActivity"
+        android:name="co.yap.household.onboard.onboarding.existinghousehold.ExistingHouseholdFragment"
         android:label="OnBoardingExistingYAP"
         tools:layout="@layout/activity_on_boarding_existing_yap" />
 
+    <action
+        android:id="@+id/action_goto_householdOnBoardingExistingYAP"
+        app:destination="@id/householdOnBoardingExistingYAP" />
 
-<!--    <activity-->
+    <!--    <activity-->
 <!--        android:id="@+id/documentsDashboardActivity"-->
 <!--        android:name="co.yap.modules.kyc.activities.DocumentsDashboardActivity"-->
 <!--        android:label="DocumentsDashboardActivity"-->
