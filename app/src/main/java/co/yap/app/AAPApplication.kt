@@ -42,7 +42,6 @@ class AAPApplication : ChatApplication(
         super.onCreate()
         initNetworkLayer()
         SharedPreferenceManager(this).setThemeValue(Constants.THEME_YAP)
-        setAppUniqueId(this)
         initFireBase()
         inItLeanPlum()
         initializeAdjustSdk(BuildConfig.ADJUST_APP_TOKEN)
