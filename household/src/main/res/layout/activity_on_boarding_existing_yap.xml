@@ -6,7 +6,9 @@
     <data>
 
         <import type="co.yap.translation.Strings" />
-
+        <variable
+            name="existingHouseHoldViewModel"
+            type="co.yap.household.onboard.onboarding.existinghousehold.ExistingHouseholdViewModel" />
     </data>
 
     <ScrollView
@@ -60,10 +62,10 @@
                     android:layout_marginEnd="@dimen/margin_large"
                     android:gravity="center"
                     android:lineSpacingExtra="9sp"
-                    android:text="@string/screen_house_hold_onBoarding_existing_title_display_text"
+                    android:text="@{@string/screen_house_hold_onBoarding_existing_title_display_text(existingHouseHoldViewModel.state.firstName ,existingHouseHoldViewModel.state.lastName)}"
                     android:textColor="@color/kyc_success_text_color"
                     app:layout_constraintTop_toBottomOf="@+id/rl_house_hold"
-                    app:text="@{Strings.screen_house_hold_onBoarding_existing_title_display_text}"
+                    app:text="@{String.format(Strings.screen_house_hold_onBoarding_existing_title_display_text, existingHouseHoldViewModel.state.firstName, existingHouseHoldViewModel.state.lastName)}"
                     tools:text="@string/screen_house_hold_onBoarding_existing_title_display_text" />
 
 
@@ -109,6 +111,7 @@
                     android:layout_marginRight="@dimen/margin_medium_large"
                     android:paddingTop="@dimen/margin_medium"
                     android:paddingBottom="@dimen/margin_medium"
+                    android:onClick="@{(v) -> existingHouseHoldViewModel.handlePressOnView(v.id)}"
                     android:text="@string/screen_house_hold_onBoarding_existing_title_accept"
                     app:btn_enable="true"
                     app:btn_pressed_color="@color/colorPrimaryHouseHold"
@@ -134,7 +137,8 @@
                     android:textColor="@color/colorPrimaryHouseHold"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/btnTopUp"
-                    app:text="@{Strings.screen_house_hold_onBoarding_existing_title_display_text}"
+                    android:onClick="@{(v) -> existingHouseHoldViewModel.handlePressOnView(v.id)}"
+                    app:text="@{Strings.screen_house_hold_onBoarding_existing_title_decline_request}"
                     tools:layout_editor_absoluteX="31dp"
                     tools:text="@string/screen_house_hold_onBoarding_existing_title_decline_request" />
 

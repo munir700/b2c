@@ -1,4 +1,4 @@
-package co.yap.household.onboard.otherscreens
+package co.yap.household.onboard.onboarding.kycsuccess
 
 import android.content.Intent
 import android.os.Bundle
