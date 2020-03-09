@@ -13,6 +13,7 @@ import co.yap.yapcore.constants.Constants.INVITEE_RECEIEVED_DATE
 import co.yap.yapcore.constants.Constants.INVITER_ADJUST_ID
 import co.yap.yapcore.constants.Constants.INVITER_ADJUST_URI
 import co.yap.yapcore.helpers.SharedPreferenceManager
+import co.yap.yapcore.helpers.extentions.longToast
 import co.yap.yapcore.helpers.extentions.toast
 import com.adjust.sdk.Adjust
 import com.adjust.sdk.AdjustConfig
@@ -59,12 +60,20 @@ fun Application.initializeAdjustSdk(appToken: String) {
     config.setOnAttributionChangedListener { attribution ->
         Log.v(" Adjust", "Attribution callback called!")
          Log.v(" Adjust", "Attribution: $attribution")
+        longToast(
+            "attribution $attribution"
+        )
+        val attribution = Adjust.getAttribution()
+
     }
 
     // Set event success tracking delegate.
     config.setOnEventTrackingSucceededListener { eventSuccessResponseData ->
          Log.v(" Adjust", "Event success callback called!")
          Log.v(" Adjust", "Event success data: $eventSuccessResponseData")
+        longToast(
+            "eventSuccessResponseData $eventSuccessResponseData"
+        )
     }
 
     // Set event failure tracking delegate.
@@ -77,7 +86,10 @@ fun Application.initializeAdjustSdk(appToken: String) {
     config.setOnSessionTrackingSucceededListener { sessionSuccessResponseData ->
          Log.v(" Adjust", "Session success callback called!")
          Log.v(" Adjust", "Session success data: $sessionSuccessResponseData")
-    }
+
+        longToast(
+            "eventSuccessResponseData $sessionSuccessResponseData"
+        )}
 
     // Set session failure tracking delegate.
     config.setOnSessionTrackingFailedListener { sessionFailureResponseData ->
@@ -102,6 +114,9 @@ fun Application.initializeAdjustSdk(appToken: String) {
 //        Constants.INVITER_ADJUST_URI= deeplink
         getInviterInfoFromDeepLinkUri(deeplink)
         toast("setOnDeeplinkResponseListener called:  $deeplink")
+        longToast(
+            "setOnDeeplinkResponseListener ${deeplink.toString()}"
+        )
         SharedPreferenceManager(this).save(Constants.INVITER_ADJUST_ID_TEST, deeplink.toString()+" setOnDeeplinkResponseListener")
 
         true

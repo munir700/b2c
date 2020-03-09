@@ -12,6 +12,7 @@ import co.yap.yapcore.defaults.DefaultActivity
 import co.yap.yapcore.defaults.DefaultNavigator
 import co.yap.yapcore.defaults.INavigator
 import co.yap.yapcore.helpers.DeviceUtils
+import co.yap.yapcore.helpers.extentions.longToast
 import co.yap.yapcore.helpers.extentions.toast
 import co.yap.yapcore.interfaces.BackPressImpl
 import co.yap.yapcore.interfaces.IBaseNavigator
@@ -47,7 +48,7 @@ open class MainActivity : DefaultActivity(), IFragmentHolder, INavigator {
             }
             Log.v(" Adjust", "datais " + data)
 
-//            getDataFromDeepLinkIntent()
+            getDataFromDeepLinkIntent()
         }
 
     }
@@ -106,7 +107,7 @@ open class MainActivity : DefaultActivity(), IFragmentHolder, INavigator {
                 data?.path
             ) // to retrive customer id from url placed in path
 //            val customerId = data?.path
-            val customerId = data.getQueryParameter("user_id");
+            val customerId = data.getQueryParameter("inviter");
             val date = DateFormat.format(
                 "yyyy-MM-dd hh:mm:ss",
                 Date()
@@ -137,6 +138,33 @@ open class MainActivity : DefaultActivity(), IFragmentHolder, INavigator {
         super.onNewIntent(intent)
         val data: Uri = intent.getData()
 //        getDataFromDeepLinkIntent()
-        // data.toString() -> This is your deep_link parameter value.
+//         data.toString()
+//        val intent = getIntent()
+//        val data: Uri? = intent.data
+        Adjust.appWillOpenUrl(data, applicationContext)
+
+        if (null != data) {
+            val url = URL(
+                data?.scheme,
+                data?.host,
+                data?.path
+            ) // to retrive customer id from url placed in path
+//            val customerId = data?.path
+            val customerId = data.getQueryParameter("inviter");
+            val date = DateFormat.format(
+                "yyyy-MM-dd hh:mm:ss",
+                Date()
+            ) as String
+            longToast(
+                "customerId $customerId"
+            )
+
+            Log.i("url", url.toString())
+            Log.i("urluserid", customerId.toString())
+            Log.i(
+                "urlDate",
+                date.toString()
+            )// this is the current dat & time when user is retriving this url on local app
+        }
     }
 }

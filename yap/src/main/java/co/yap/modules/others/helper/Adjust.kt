@@ -52,7 +52,7 @@ class InstallReceiver : BroadcastReceiver() {
                     data.toString() + "local uri"
                 )
             }
-            Log.v(" Adjust", "rawReferrer " +rawReferrer)
+            Log.v(" Adjust", "InstallReceiver " +rawReferrer)
 
             // And any other receiver which needs the intent.
         }

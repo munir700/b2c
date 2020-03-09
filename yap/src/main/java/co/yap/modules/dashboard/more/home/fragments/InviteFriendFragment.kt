@@ -57,7 +57,7 @@ class InviteFriendFragment : BaseBindingFragment<IInviteFriend.ViewModel>(), IIn
         val userId = MyUserManager.user?.currentCustomer?.customerId
         val adjustEvent = AdjustEvent("adjust_t=q3o2z0e_sv94i35&deep")
         adjustEvent.addCallbackParameter("inviter", userId)
-        adjustEvent.setCallbackId("userId");
+        adjustEvent.setCallbackId("inviter")
 
         Adjust.trackEvent(adjustEvent)
 

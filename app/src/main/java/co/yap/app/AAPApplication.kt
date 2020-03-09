@@ -44,6 +44,7 @@ class AAPApplication : ChatApplication(
     override fun onCreate() {
         super.onCreate()
         initializeAdjustSdk(BuildConfig.ADJUST_APP_TOKEN)
+
         initNetworkLayer()
         SharedPreferenceManager(this).setThemeValue(Constants.THEME_YAP)
         setAppUniqueId(this)
