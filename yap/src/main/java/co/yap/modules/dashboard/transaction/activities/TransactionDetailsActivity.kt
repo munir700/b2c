@@ -15,9 +15,12 @@ import co.yap.networking.transactions.responsedtos.transaction.Content
 import co.yap.yapcore.BR
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.constants.Constants
-import co.yap.yapcore.enums.Transaction
+import co.yap.yapcore.enums.TransactionLabelsCode
 import co.yap.yapcore.enums.TransactionProductCode
 import co.yap.yapcore.enums.TxnType
+import co.yap.yapcore.helpers.extentions.getLabelValues
+import co.yap.yapcore.helpers.extentions.getTransactionIcon
+import co.yap.yapcore.helpers.extentions.getTransactionTitle
 
 class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewModel>(),
     ITransactionDetails.View {
@@ -50,7 +53,7 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
     }
 
     private fun setTransactionTitle() {
-        viewModel.state.transactionTitle.set(Transaction.getTransactionTitle(viewModel.transaction.get()))
+        viewModel.state.transactionTitle.set(viewModel.transaction.get().getTransactionTitle())
     }
 
     private fun setMapImageView() {
@@ -73,8 +76,7 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
                     )
                 }
                 else -> {
-                    val resId = Transaction.getTransactionIcon(transaction)
-                    getBindings().ivPicture.setImageResource(resId)
+                    getBindings().ivPicture.setImageResource(transaction.getTransactionIcon())
                 }
             }
         }
@@ -82,11 +84,11 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
 
 
     private fun getMapImage(): Int {
-        viewModel.transaction.get()?.let { transition ->
-            if (Transaction.isFee(transition.productCode ?: "")) {
+        viewModel.transaction.get()?.let { transaction ->
+            if (transaction.getLabelValues() == TransactionLabelsCode.IS_TRANSACTION_FEE) {
                 return R.drawable.ic_image_light_red_background
             }
-            return (when (transition.productCode) {
+            return (when (transaction.productCode) {
                 TransactionProductCode.Y2Y_TRANSFER.pCode -> R.drawable.ic_image_blue_background
                 TransactionProductCode.TOP_UP_SUPPLEMENTARY_CARD.pCode, TransactionProductCode.WITHDRAW_SUPPLEMENTARY_CARD.pCode -> R.drawable.ic_image_blue_background
                 TransactionProductCode.UAEFTS.pCode, TransactionProductCode.DOMESTIC.pCode, TransactionProductCode.RMT.pCode, TransactionProductCode.SWIFT.pCode, TransactionProductCode.CASH_PAYOUT.pCode, TransactionProductCode.TOP_UP_VIA_CARD.pCode, TransactionProductCode.INWARD_REMITTANCE.pCode, TransactionProductCode.LOCAL_INWARD_TRANSFER.pCode -> R.drawable.ic_image_light_blue_background

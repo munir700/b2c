@@ -38,25 +38,29 @@ fun Content?.getTransactionIcon(): Int {
         return if (transaction.status == TransactionStatus.FAILED.name) {
             R.drawable.ic_reverted
         } else
-            when {
-                isCash(transaction.productCode ?: "") -> R.drawable.ic_transaction_cash
-                isBank(transaction.productCode ?: "") -> R.drawable.ic_transaction_bank
-                Transaction.isFee(transaction.productCode ?: "") -> R.drawable.ic_package_standered
-                Transaction.isRefund(transaction.productCode ?: "") -> R.drawable.ic_refund
-                TransactionProductCode.TOP_UP_SUPPLEMENTARY_CARD.pCode == transaction.productCode ?: "" || TransactionProductCode.WITHDRAW_SUPPLEMENTARY_CARD.pCode == transaction.productCode ?: "" -> {
-                    if (transaction.txnType == TxnType.DEBIT.type) R.drawable.ic_minus_transactions else R.drawable.ic_plus_transactions
+            when (transaction.getLabelValues()) {
+                TransactionLabelsCode.IS_CASH -> R.drawable.ic_transaction_cash
+                TransactionLabelsCode.IS_BANK -> R.drawable.ic_transaction_bank
+                TransactionLabelsCode.IS_TRANSACTION_FEE -> R.drawable.ic_package_standered
+                TransactionLabelsCode.IS_REFUND -> R.drawable.ic_refund
+                else -> {
+                    when {
+                        TransactionProductCode.TOP_UP_SUPPLEMENTARY_CARD.pCode == transaction.productCode ?: "" || TransactionProductCode.WITHDRAW_SUPPLEMENTARY_CARD.pCode == transaction.productCode ?: "" -> {
+                            if (transaction.txnType == TxnType.DEBIT.type) R.drawable.ic_minus_transactions else R.drawable.ic_plus_transactions
+                        }
+                        else -> 0
+                    }
                 }
-                else -> 0
             }
     } ?: 0
 }
 
-fun Content?.getCategoryTitle(): String {
+fun Content?.getTransactionTypeTitle(): String {
     this?.let { txn ->
         if (txn.productCode.isNullOrBlank() || txn.txnType.isNullOrBlank()) return "Transaction"
         return when {
-            Transaction.isFee(txn.productCode ?: "") -> "Fee"
-            Transaction.isRefund(txn.productCode ?: "") -> "Refund"
+            txn.getLabelValues() == TransactionLabelsCode.IS_TRANSACTION_FEE -> "Fee"
+            txn.getLabelValues() == TransactionLabelsCode.IS_TRANSACTION_FEE -> "Refund"
             TransactionProductCode.Y2Y_TRANSFER.pCode == txn.productCode -> "YTY transfer"
             TransactionProductCode.TOP_UP_VIA_CARD.pCode == txn.productCode -> "Top up"
             TransactionProductCode.CASH_DEPOSIT_AT_RAK.pCode == txn.productCode || TransactionProductCode.CHEQUE_DEPOSIT_AT_RAK.pCode == txn.productCode -> "Deposit"
@@ -73,6 +77,99 @@ fun Content?.getCategoryTitle(): String {
             })
         }
     } ?: return "Transaction"
+}
+
+fun Content?.getTransactionTypeIcon(): Int {
+    this?.let { transaction ->
+        if (TransactionStatus.FAILED.name == transaction.status) return android.R.color.transparent
+
+        return if (TransactionStatus.PENDING.name == transaction.status || TransactionStatus.IN_PROGRESS.name == transaction.status && transaction.getLabelValues() != TransactionLabelsCode.IS_TRANSACTION_FEE
+        )
+            R.drawable.ic_time
+        else (when (txnType) {
+            TxnType.DEBIT.type -> {
+                R.drawable.ic_outgoing_transaction
+            }
+            TxnType.CREDIT.type -> {
+                R.drawable.ic_incoming_transaction
+            }
+            else -> android.R.color.transparent
+        })
+    } ?: return android.R.color.transparent
+}
+
+fun Content?.getCategoryIcon(): Int {
+    this?.let { transaction ->
+        if (transaction.getLabelValues() == TransactionLabelsCode.IS_TRANSACTION_FEE) {
+            return R.drawable.ic_expense
+        }
+        return (when (transaction.productCode) {
+            TransactionProductCode.Y2Y_TRANSFER.pCode -> R.drawable.ic_send_money
+            TransactionProductCode.TOP_UP_SUPPLEMENTARY_CARD.pCode, TransactionProductCode.WITHDRAW_SUPPLEMENTARY_CARD.pCode -> 0
+            TransactionProductCode.UAEFTS.pCode, TransactionProductCode.DOMESTIC.pCode, TransactionProductCode.SWIFT.pCode, TransactionProductCode.RMT.pCode, TransactionProductCode.CASH_PAYOUT.pCode -> {
+                R.drawable.ic_send_money
+            }
+            TransactionProductCode.CARD_REORDER.pCode -> R.drawable.ic_expense
+            TransactionProductCode.ATM_WITHDRAWL.pCode, TransactionProductCode.MASTER_CARD_ATM_WITHDRAWAL.pCode, TransactionProductCode.CASH_DEPOSIT_AT_RAK.pCode, TransactionProductCode.CHEQUE_DEPOSIT_AT_RAK.pCode, TransactionProductCode.INWARD_REMITTANCE.pCode, TransactionProductCode.LOCAL_INWARD_TRANSFER.pCode, TransactionProductCode.TOP_UP_VIA_CARD.pCode -> {
+                R.drawable.ic_cash
+            }
+            TransactionProductCode.POS_PURCHASE.pCode -> getMerchantCategoryIcon()
+
+            else -> 0
+        })
+    } ?: return 0
+}
+
+fun Content?.getCategoryTitle(): String {
+    this?.let { transaction ->
+        transaction.productCode?.let { productCode ->
+            if (TransactionLabelsCode.IS_TRANSACTION_FEE == getLabelValues()) {
+                return "Fee"
+            }
+            return (when (productCode) {
+                TransactionProductCode.Y2Y_TRANSFER.pCode -> if (transaction.txnType == TxnType.DEBIT.type) "Outgoing Transfer" else "Incoming Transfer"
+                TransactionProductCode.TOP_UP_VIA_CARD.pCode -> "Incoming Transfer"
+                TransactionProductCode.TOP_UP_SUPPLEMENTARY_CARD.pCode, TransactionProductCode.WITHDRAW_SUPPLEMENTARY_CARD.pCode -> ""
+                TransactionProductCode.UAEFTS.pCode, TransactionProductCode.DOMESTIC.pCode, TransactionProductCode.SWIFT.pCode, TransactionProductCode.RMT.pCode, TransactionProductCode.CASH_PAYOUT.pCode -> {
+                    "Outgoing Transfer"
+                }
+                TransactionProductCode.CARD_REORDER.pCode -> "Fee"
+                TransactionProductCode.INWARD_REMITTANCE.pCode, TransactionProductCode.LOCAL_INWARD_TRANSFER.pCode -> "Incoming Funds"
+                TransactionProductCode.ATM_WITHDRAWL.pCode, TransactionProductCode.POS_PURCHASE.pCode, TransactionProductCode.MASTER_CARD_ATM_WITHDRAWAL.pCode -> {
+                    "Cash"
+                }
+                else -> ""
+            })
+        } ?: return ""
+    } ?: return ""
+}
+
+fun Content?.getMerchantCategoryIcon(): Int {
+    this?.let { transaction ->
+        return (when {
+            transaction.merchantCategoryName.equals(
+                "shopping",
+                true
+            ) -> R.drawable.ic_shopping_no_bg
+            transaction.merchantCategoryName.equals(
+                "education",
+                true
+            ) -> R.drawable.ic_education_no_bg
+            transaction.merchantCategoryName.equals(
+                "utilities",
+                true
+            ) -> R.drawable.ic_utilities_no_bg
+            transaction.merchantCategoryName.equals(
+                "healthAndBeauty",
+                true
+            ) -> R.drawable.ic_health_and_beauty_no_bg
+            transaction.merchantCategoryName.equals(
+                "Insurance",
+                true
+            ) -> R.drawable.ic_insurance_no_bg
+            else -> R.drawable.ic_other_no_bg
+        })
+    } ?: return R.drawable.ic_other_no_bg
 }
 
 fun Content?.getLabelValues(): TransactionLabelsCode? {
