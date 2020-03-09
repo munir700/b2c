@@ -6,7 +6,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentActivity
 import co.yap.app.modules.login.activities.VerifyPassCodePresenterActivity
-import co.yap.household.onboard.otherscreens.InvalidEIDActivity
+import co.yap.household.onboard.onboarding.invalideid.InvalidEIDFragment
 import co.yap.modules.dummy.ActivityNavigator
 import co.yap.modules.dummy.NavigatorProvider
 import co.yap.modules.others.helper.Constants.START_REQUEST_CODE
@@ -17,7 +17,6 @@ import co.yap.yapcore.constants.Constants.EXTRA
 import co.yap.yapcore.constants.Constants.KEY_APP_UUID
 import co.yap.yapcore.helpers.*
 import co.yap.yapcore.helpers.extentions.longToast
-import co.yap.yapcore.initializeAdjustSdk
 import co.yap.yapcore.initializeAdjustSdk
 import com.crashlytics.android.Crashlytics
 import com.github.florent37.inlineactivityresult.kotlin.startForResult
@@ -116,7 +115,7 @@ class AAPApplication : ChatApplication(
                 activity.startActivity(
                     Intent(
                         activity,
-                        InvalidEIDActivity::class.java
+                        InvalidEIDFragment::class.java
                     )
                 )
             }
