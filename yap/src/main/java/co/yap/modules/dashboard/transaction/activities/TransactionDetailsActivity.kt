@@ -15,10 +15,9 @@ import co.yap.networking.transactions.responsedtos.transaction.Content
 import co.yap.yapcore.BR
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.constants.Constants
-import co.yap.yapcore.enums.TransactionLabelsCode
 import co.yap.yapcore.enums.TransactionProductCode
 import co.yap.yapcore.enums.TxnType
-import co.yap.yapcore.helpers.extentions.getLabelValues
+import co.yap.yapcore.helpers.extentions.getMapImage
 import co.yap.yapcore.helpers.extentions.getTransactionIcon
 import co.yap.yapcore.helpers.extentions.getTransactionTitle
 
@@ -57,7 +56,7 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
     }
 
     private fun setMapImageView() {
-        getBindings().ivMap.setImageResource(getMapImage())
+        getBindings().ivMap.setImageResource(viewModel.transaction.get().getMapImage())
     }
 
     private fun setTransactionImage() {
@@ -81,24 +80,6 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
             }
         }
     }
-
-
-    private fun getMapImage(): Int {
-        viewModel.transaction.get()?.let { transaction ->
-            if (transaction.getLabelValues() == TransactionLabelsCode.IS_TRANSACTION_FEE) {
-                return R.drawable.ic_image_light_red_background
-            }
-            return (when (transaction.productCode) {
-                TransactionProductCode.Y2Y_TRANSFER.pCode -> R.drawable.ic_image_blue_background
-                TransactionProductCode.TOP_UP_SUPPLEMENTARY_CARD.pCode, TransactionProductCode.WITHDRAW_SUPPLEMENTARY_CARD.pCode -> R.drawable.ic_image_blue_background
-                TransactionProductCode.UAEFTS.pCode, TransactionProductCode.DOMESTIC.pCode, TransactionProductCode.RMT.pCode, TransactionProductCode.SWIFT.pCode, TransactionProductCode.CASH_PAYOUT.pCode, TransactionProductCode.TOP_UP_VIA_CARD.pCode, TransactionProductCode.INWARD_REMITTANCE.pCode, TransactionProductCode.LOCAL_INWARD_TRANSFER.pCode -> R.drawable.ic_image_light_blue_background
-                TransactionProductCode.CARD_REORDER.pCode -> R.drawable.ic_image_light_red_background
-                TransactionProductCode.ATM_WITHDRAWL.pCode, TransactionProductCode.POS_PURCHASE.pCode, TransactionProductCode.CASH_DEPOSIT_AT_RAK.pCode, TransactionProductCode.MASTER_CARD_ATM_WITHDRAWAL.pCode, TransactionProductCode.CHEQUE_DEPOSIT_AT_RAK.pCode -> R.drawable.ic_map
-                else -> 0
-            })
-        } ?: return 0
-    }
-
 
     private fun openNoteScreen(noteValue: String = "") {
         startActivityForResult(

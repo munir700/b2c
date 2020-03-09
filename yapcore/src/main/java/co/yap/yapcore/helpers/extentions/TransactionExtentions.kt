@@ -172,6 +172,23 @@ fun Content?.getMerchantCategoryIcon(): Int {
     } ?: return R.drawable.ic_other_no_bg
 }
 
+
+fun Content?.getMapImage(): Int {
+    this?.let { transaction ->
+        if (TransactionLabelsCode.IS_TRANSACTION_FEE == getLabelValues()) {
+            return R.drawable.ic_image_light_red_background
+        }
+        return (when (transaction.productCode) {
+            TransactionProductCode.Y2Y_TRANSFER.pCode -> R.drawable.ic_image_blue_background
+            TransactionProductCode.TOP_UP_SUPPLEMENTARY_CARD.pCode, TransactionProductCode.WITHDRAW_SUPPLEMENTARY_CARD.pCode -> R.drawable.ic_image_blue_background
+            TransactionProductCode.UAEFTS.pCode, TransactionProductCode.DOMESTIC.pCode, TransactionProductCode.RMT.pCode, TransactionProductCode.SWIFT.pCode, TransactionProductCode.CASH_PAYOUT.pCode, TransactionProductCode.TOP_UP_VIA_CARD.pCode, TransactionProductCode.INWARD_REMITTANCE.pCode, TransactionProductCode.LOCAL_INWARD_TRANSFER.pCode -> R.drawable.ic_image_light_blue_background
+            TransactionProductCode.CARD_REORDER.pCode -> R.drawable.ic_image_light_red_background
+            TransactionProductCode.ATM_WITHDRAWL.pCode, TransactionProductCode.POS_PURCHASE.pCode, TransactionProductCode.CASH_DEPOSIT_AT_RAK.pCode, TransactionProductCode.MASTER_CARD_ATM_WITHDRAWAL.pCode, TransactionProductCode.CHEQUE_DEPOSIT_AT_RAK.pCode -> R.drawable.ic_map
+            else -> 0
+        })
+    } ?: return 0
+}
+
 fun Content?.getLabelValues(): TransactionLabelsCode? {
     this?.productCode?.let { productCode ->
         return (when (productCode) {
