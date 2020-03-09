@@ -12,14 +12,15 @@ import co.yap.household.R
 import co.yap.household.dashboard.main.activities.HouseholdDashboardActivity
 import co.yap.household.onboard.cardselection.HouseHoldCardsSelectionActivity
 import co.yap.household.onboard.onboarding.interfaces.IHouseHoldNumberRegistration
+import co.yap.household.onboard.onboarding.invalideid.InvalidEIDFragment
 import co.yap.household.onboard.onboarding.viewmodels.HouseHoldNumberRegistrationViewModel
-import co.yap.household.onboard.otherscreens.InvalidEIDActivity
 import co.yap.modules.onboarding.activities.LiteDashboardActivity
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.enums.NotificationStatus
 import co.yap.yapcore.helpers.extentions.ExtraType
 import co.yap.yapcore.helpers.extentions.getValue
+import co.yap.yapcore.helpers.extentions.startFragment
 import kotlinx.android.synthetic.main.fragment_house_hold_number_registration.*
 
 
@@ -102,12 +103,14 @@ class HouseHoldNumberRegistrationFragment :
                                     )
 
                                 } else {
-                                    startActivity(
+                                   /* startActivity(
                                         Intent(
                                             requireContext(),
-                                            InvalidEIDActivity::class.java
+                                            InvalidEIDFragment::class.java
                                         )
-                                    )
+                                    )*/
+
+                                    startFragment(InvalidEIDFragment::class.java.name)
                                 }
                             }
                         }
