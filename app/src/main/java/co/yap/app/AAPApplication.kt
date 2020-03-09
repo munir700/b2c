@@ -17,6 +17,7 @@ import co.yap.yapcore.constants.Constants.EXTRA
 import co.yap.yapcore.constants.Constants.KEY_APP_UUID
 import co.yap.yapcore.helpers.*
 import co.yap.yapcore.helpers.extentions.longToast
+import co.yap.yapcore.helpers.extentions.startFragment
 import co.yap.yapcore.initializeAdjustSdk
 import com.crashlytics.android.Crashlytics
 import com.github.florent37.inlineactivityresult.kotlin.startForResult
@@ -111,13 +112,7 @@ class AAPApplication : ChatApplication(
     override fun provideNavigator(): ActivityNavigator {
         return object : ActivityNavigator {
             override fun startEIDNotAcceptedActivity(activity: FragmentActivity) {
-
-                activity.startActivity(
-                    Intent(
-                        activity,
-                        InvalidEIDFragment::class.java
-                    )
-                )
+                activity.startFragment<InvalidEIDFragment>(InvalidEIDFragment::class.java.name)
             }
 
             override fun startVerifyPassCodePresenterActivity(
