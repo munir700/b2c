@@ -1,10 +1,13 @@
 package co.yap.yapcore.helpers.extentions
 
 import android.app.Activity
+import android.content.Context
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
 import co.yap.networking.customers.responsedtos.AccountInfo
 import co.yap.yapcore.BaseState
+import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.leanplum.UserAttributes
 import com.leanplum.Leanplum
 
@@ -25,7 +28,21 @@ fun BaseState.trackEvent(eventName: String, value: String = "") {
     fireEventWithAttribute(eventName, value)
 }
 
-fun ViewModel.trackEventWithAttributes(user: AccountInfo?, signup_length: String = "") {
+fun Fragment.trackEventWithAttributes(
+    user: AccountInfo?,
+    signup_length: String = "",
+    account_active: Boolean = false,
+    context: Context? = null
+) {
+    trackEventWithAttributes(user,signup_length,account_active,context)
+}
+
+fun ViewModel.trackEventWithAttributes(
+    user: AccountInfo?,
+    signup_length: String = "",
+    account_active: Boolean = false,
+    context: Context? = null
+) {
     user?.let {
         val info: HashMap<String, Any> = HashMap()
         info[UserAttributes().accountType] = it.accountType ?: ""
@@ -41,6 +58,13 @@ fun ViewModel.trackEventWithAttributes(user: AccountInfo?, signup_length: String
         info[UserAttributes().country] = "United Arab Emirates"
         info[UserAttributes().city] = "UNKNOWN"
         info[UserAttributes().signup_timestamp] = it.creationDate ?: System.currentTimeMillis()
+        info[UserAttributes().faceID_enabled] = context?.let {
+            return@let SharedPreferenceManager(context).getValueBoolien(
+                Constants.KEY_TOUCH_ID_ENABLED,
+                false
+            )
+        } ?: false
+        info[UserAttributes().account_active] = account_active
         if (!signup_length.isNullOrEmpty())
             info[UserAttributes().signup_length] = signup_length
         it.currentCustomer.customerId?.let { customerId ->

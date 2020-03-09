@@ -11,15 +11,15 @@ class HouseholdDashboardPagerAdaptor(fm: FragmentManager) :
     var active = Fragment()
 
     override fun getCount(): Int {
-        return 4
+        return 1
     }
 
     override fun getItem(position: Int): Fragment {
         when (position) {
             0 -> active = HouseholdHomeFragment()
-            1 -> active = HouseholdHomeFragment()
-            2 -> active = HouseholdHomeFragment()
-            3 -> active = HouseholdHomeFragment()
+            //1 -> active = HouseholdHomeFragment()
+            //2 -> active = HouseholdHomeFragment()
+            //3 -> active = HouseholdHomeFragment()
         }
         return active
     }

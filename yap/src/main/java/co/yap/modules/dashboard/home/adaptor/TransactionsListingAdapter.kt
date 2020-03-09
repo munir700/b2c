@@ -60,9 +60,9 @@ class TransactionsListingAdapter(private val list: MutableList<Content>) :
                 transaction.status ?: "", transaction.txnType ?: ""
             )
             if (txnTypeIconResId != -1)
-                itemTransactionListBinding.ivIncoming?.setImageResource(txnTypeIconResId)
+                itemTransactionListBinding.ivIncoming.setImageResource(txnTypeIconResId)
             else
-                itemTransactionListBinding.ivIncoming?.setImageResource(android.R.color.transparent)
+                itemTransactionListBinding.ivIncoming.setImageResource(android.R.color.transparent)
 
             var txnAmountPreFix = ""
             transaction.txnType?.let {
@@ -86,7 +86,7 @@ class TransactionsListingAdapter(private val list: MutableList<Content>) :
                 }
             }
 
-            itemTransactionListBinding.tvTransactionAmount?.text =
+            itemTransactionListBinding.tvTransactionAmount.text =
                 String.format(
                     "%s %s", txnAmountPreFix,
                     Utils.getFormattedCurrency(transaction.totalAmount.toString())
