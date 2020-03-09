@@ -1,20 +1,24 @@
 package co.yap.household.dashboard.home.fragments
 
 import android.os.Bundle
+import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.household.R
-import co.yap.household.databinding.FragmentHouseholdHomeBinding
 import co.yap.household.dashboard.home.interfaces.IHouseholdHome
 import co.yap.household.dashboard.home.viewmodels.HouseholdHomeViewModel
 import co.yap.household.dashboard.main.fragments.HouseholdDashboardBaseFragment
+import co.yap.household.databinding.FragmentHouseholdHomeBinding
 import co.yap.modules.yapnotification.adaptors.YapNotificationAdapter
 import co.yap.modules.yapnotification.interfaces.NotificationItemClickListener
 import co.yap.modules.yapnotification.models.Notification
+import co.yap.networking.transactions.responsedtos.transaction.Content
 import co.yap.widgets.MultiStateView
 import co.yap.yapcore.BR
 import co.yap.yapcore.constants.Constants
-import com.yarolegovich.discretescrollview.transform.ScaleTransformer
+import co.yap.yapcore.interfaces.OnItemClickListener
+import co.yap.yapcore.transactions.TransactionsAdapter
+import co.yap.yapcore.transactions.interfaces.LoadMoreListener
 
 class HouseholdHomeFragment : HouseholdDashboardBaseFragment<IHouseholdHome.ViewModel>(),
     IHouseholdHome.View, NotificationItemClickListener {
@@ -28,23 +32,19 @@ class HouseholdHomeFragment : HouseholdDashboardBaseFragment<IHouseholdHome.View
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setObservers()
-        initNotificationAdaptor()
     }
 
-    private fun initNotificationAdaptor() {
-        mAdapter = YapNotificationAdapter(
-            ArrayList(),
-            requireContext(),
-            this
-        )
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        getViewBinding().transactionRecyclerView.setItemClickListener(adaptorClickListener)
+        getViewBinding().transactionRecyclerView.setLoadMoreListener(loadMoreListener)
     }
 
     override fun setObservers() {
         viewModel.viewState.observe(this, viewStateObserver)
         viewModel.clickEvent.observe(this, clickObserver)
         viewModel.notificationList.observe(this, Observer {
-            setNotificationAdapter(it)
-            setDiscreteScrollView()
+
         })
     }
 
@@ -70,32 +70,31 @@ class HouseholdHomeFragment : HouseholdDashboardBaseFragment<IHouseholdHome.View
                 getViewBinding().multiStateView.viewState = MultiStateView.ViewState.CONTENT
             }
         }
-
     }
 
-    private fun setNotificationAdapter(notificationList: ArrayList<Notification>) {
-        mAdapter = YapNotificationAdapter(
-            notificationList,
-            requireContext(),
-            this
-        )
-        mAdapter?.notifyDataSetChanged()
+    private val adaptorClickListener = object : OnItemClickListener {
+        override fun onItemClick(view: View, data: Any, pos: Int) {
+            showToast("data is " + (data as Content).title)
+        }
     }
 
-    private fun setDiscreteScrollView() {
-        getViewBinding().rvNotificationList.setSlideOnFling(false)
-        getViewBinding().rvNotificationList.setOverScrollEnabled(true)
-        getViewBinding().rvNotificationList.adapter = mAdapter
-        //rvNotificationList.addOnItemChangedListener(this)
-        //rvNotificationList.addScrollStateChangeListener(this)
-        getViewBinding().rvNotificationList.smoothScrollToPosition(0)
-        getViewBinding().rvNotificationList.setItemTransitionTimeMillis(100)
-        getViewBinding().rvNotificationList.setItemTransformer(
-            ScaleTransformer.Builder()
-                .setMinScale(0.8f)
-                .build()
-        )
+    private val loadMoreListener = object : LoadMoreListener {
+        override fun onLoadMore() {
+            if (viewModel.isLast.value == false) {
+                viewModel.homeTransactionRequest.number =
+                    viewModel.homeTransactionRequest.number.inc()
+                viewModel.loadMore()
+            } else {
+                (getViewBinding().transactionRecyclerView.rvTransaction?.adapter as? TransactionsAdapter)?.itemCount?.let {
+                    (getViewBinding().transactionRecyclerView.rvTransaction?.adapter as? TransactionsAdapter)?.notifyItemRemoved(
+                        it
+                    )
+                }
+
+            }
+        }
     }
+
 
     override fun onDestroy() {
         super.onDestroy()
@@ -110,4 +109,5 @@ class HouseholdHomeFragment : HouseholdDashboardBaseFragment<IHouseholdHome.View
     override fun onClick(notification: Notification) {
 
     }
+
 }

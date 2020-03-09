@@ -2,7 +2,7 @@ package co.yap.modules.dashboard.more.profile.viewmodels
 
 import android.app.Application
 import co.yap.modules.dashboard.cards.paymentcarddetail.viewmodels.ConfirmNewCardPinViewModel
-import co.yap.networking.admin.AdminRepository
+import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.messages.MessagesRepository
 import co.yap.networking.messages.requestdtos.CreateForgotPasscodeOtpRequest
 import co.yap.networking.models.RetroApiResponse
@@ -11,13 +11,12 @@ import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.toast
-import java.util.regex.Pattern
 
 class UpdateConfirmPasscodeViewModel(application: Application) :
     ConfirmNewCardPinViewModel(application) {
     override val clickEvent: SingleClickEvent = SingleClickEvent()
     override val forgotPasscodeclickEvent: SingleClickEvent = SingleClickEvent()
-    private val adminRepository: AdminRepository = AdminRepository
+    private val customersRepository: CustomersRepository = CustomersRepository
     private val messagesRepository: MessagesRepository = MessagesRepository
     override fun onCreate() {
         super.onCreate()
@@ -40,7 +39,7 @@ class UpdateConfirmPasscodeViewModel(application: Application) :
     private fun changePasscode(id: Int) {
         launch {
             state.loading = true
-            when (val response = adminRepository.changePasscode(state.pincode)) {
+            when (val response = customersRepository.changePasscode(state.pincode)) {
                 is RetroApiResponse.Success -> {
                     state.loading = false
                     clickEvent.postValue(id)
