@@ -78,16 +78,14 @@ object DateUtils {
         var result = ""
         val formatter = SimpleDateFormat(outFormatter, Locale.getDefault())
         try {
-            result = formatter.format(stringToDate(date, inputFormatter))
+            formatter.timeZone = TIME_ZONE_Default
+            result = formatter.format(stringToDate(date, inputFormatter ?: "", timeZone = GMT))
         } catch (e: Exception) {
         }
 
         return result
 
     }
-
-
-
 
 
     fun dateToString(day: Int, month: Int, year: Int, format: String = DEFAULT_DATE_FORMAT) =
@@ -118,7 +116,7 @@ object DateUtils {
             }
 
             return result
-        }?:return ""
+        } ?: return ""
 
     }
 
