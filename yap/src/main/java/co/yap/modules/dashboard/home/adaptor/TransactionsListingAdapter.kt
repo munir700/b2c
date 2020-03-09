@@ -21,6 +21,7 @@ import co.yap.yapcore.helpers.DateUtils.FORMAT_LONG_INPUT
 import co.yap.yapcore.helpers.DateUtils.reformatStringDate
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.getColors
+import co.yap.yapcore.helpers.extentions.getTransactionIcon
 
 
 class TransactionsListingAdapter(private val list: MutableList<Content>) :
@@ -112,8 +113,7 @@ class TransactionsListingAdapter(private val list: MutableList<Content>) :
                         R.dimen.text_size_h2
                     )
                 } else {
-                    val transactionIconResId =
-                        Transaction.getTransactionIcon(transaction)
+                    val transactionIconResId = transaction.getTransactionIcon()
                     if (transactionIconResId != -1)
                         itemTransactionListBinding.ivTransaction.setImageResource(
                             transactionIconResId
