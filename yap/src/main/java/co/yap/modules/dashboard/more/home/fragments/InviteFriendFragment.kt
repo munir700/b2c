@@ -68,7 +68,7 @@ class InviteFriendFragment : BaseBindingFragment<IInviteFriend.ViewModel>(), IIn
 //            "https://grwl.adj.st?adjust_t=q3o2z0e_sv94i35&deep_link=yap_referral&inviter=" + userId
 
         Constants.SHARE_ADJUST_LINK =
-            "https://app.adjust.com/q3o2z0e?adjust_t=q3o2z0e_sv94i35&deep_link=yap_referral&inviter=" + userId
+            "https://app.adjust.com/q3o2z0e?deep_link=yap_referral&inviter=" + userId
 //            "https://grwl.adj.st?adjust_t=q3o2z0e_sv94i35&deep_link=yap_referral&inviter=" + userId
 
         return getString(Strings.screen_invite_friend_display_text_share_url).format(
