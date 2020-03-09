@@ -60,6 +60,7 @@ class TransferSuccessFragment : SendMoneyBaseFragment<ITransferSuccess.ViewModel
             viewModel.state.amount = "${args.currencyType} ${args.amount}"
             viewModel.state.referenceNumber = args.referenceNumber
             viewModel.state.position = args.position
+            viewModel.state.cutOffTimeMsg.set(args.cutOffTime)
         }
     }
 

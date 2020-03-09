@@ -85,6 +85,10 @@
             android:name="country"
             android:defaultValue=" "
             app:argType="string" />
+        <argument
+            android:name="cutOffTime"
+            android:defaultValue=""
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/internationalFundsTransferFragment"

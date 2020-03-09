@@ -184,7 +184,8 @@ class CashTransferConfirmationFragment :
                     "AED",
                     Utils.getFormattedCurrency(viewModel.state.enteredAmount.get()),
                     viewModel.state.referenceNumber.get().toString(),
-                    viewModel.state.position.get() ?: 0
+                    viewModel.state.position.get() ?: 0,
+                    viewModel.state.cutOffTimeMsg.get()?:""
                 )
             findNavController().navigate(action)
         }
