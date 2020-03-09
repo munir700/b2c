@@ -17,7 +17,6 @@ import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.Transaction
 import co.yap.yapcore.enums.TransactionProductCode
-import co.yap.yapcore.enums.TransactionStatus
 import co.yap.yapcore.enums.TxnType
 
 class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewModel>(),
@@ -36,6 +35,7 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
         viewModel.transaction.set(intent?.getParcelableExtra("transaction") as Content)
         setMapImageView()
         setTransactionImage()
+        setTransactionTitle()
     }
 
     var clickEvent = Observer<Int> {
@@ -49,6 +49,9 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
         }
     }
 
+    private fun setTransactionTitle() {
+        viewModel.state.transactionTitle.set(Transaction.getTransactionTitle(viewModel.transaction.get()))
+    }
 
     private fun setMapImageView() {
         getBindings().ivMap.setImageResource(getMapImage())
@@ -64,35 +67,19 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
                                 transaction.txnType ?: ""
                             ) == TxnType.DEBIT
                         ) transaction.receiverProfilePictureUrl else transaction.senderProfilePictureUrl,
-                        transaction.title,
+                        if (transaction.txnType == TxnType.DEBIT.type) transaction.receiverName else transaction.senderName,
                         android.R.color.transparent,
                         R.dimen.text_size_h2
                     )
                 }
                 else -> {
-                    val resId = getTransactionIcon(transaction)
+                    val resId = Transaction.getTransactionIcon(transaction)
                     getBindings().ivPicture.setImageResource(resId)
                 }
             }
         }
     }
 
-    private fun getTransactionIcon(transaction: Content): Int {
-        if (transaction.productCode.isNullOrBlank() || transaction.txnType.isNullOrBlank() || transaction.status.isNullOrBlank()) return 0
-        return if (transaction.status == TransactionStatus.FAILED.name) {
-            R.drawable.ic_reverted
-        } else
-            when {
-                Transaction.isCash(transaction.productCode ?: "") -> R.drawable.ic_transaction_cash
-                Transaction.isBank(transaction.productCode ?: "") -> R.drawable.ic_transaction_bank
-                Transaction.isFee(transaction.productCode ?: "") -> R.drawable.ic_package_standered
-                Transaction.isRefund(transaction.productCode ?: "") -> R.drawable.ic_refund
-                TransactionProductCode.TOP_UP_SUPPLEMENTARY_CARD.pCode == transaction.productCode ?: "" || TransactionProductCode.WITHDRAW_SUPPLEMENTARY_CARD.pCode == transaction.productCode ?: "" -> {
-                    if (transaction.txnType == TxnType.DEBIT.type) R.drawable.ic_minus_transactions else R.drawable.ic_plus_transactions
-                }
-                else -> 0
-            }
-    }
 
     private fun getMapImage(): Int {
         viewModel.transaction.get()?.let { transition ->
@@ -109,6 +96,7 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
             })
         } ?: return 0
     }
+
 
     private fun openNoteScreen(noteValue: String = "") {
         startActivityForResult(
