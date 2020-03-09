@@ -22,5 +22,6 @@ interface ITransactionDetails {
         var spentVisibility: ObservableField<Boolean>
         var categoryTitle: ObservableField<String>
         var categoryIcon: ObservableField<Int>
+        var transactionTitle: ObservableField<String>
     }
 }

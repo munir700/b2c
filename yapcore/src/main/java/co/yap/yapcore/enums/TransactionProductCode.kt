@@ -1,6 +1,76 @@
 package co.yap.yapcore.enums
 
+import co.yap.networking.transactions.responsedtos.transaction.Content
+import co.yap.yapcore.R
+
 object Transaction{
+    fun getTransactionTitle(transaction: Content?): String {
+        transaction?.let { transaction ->
+            return (when (transaction.productCode) {
+                TransactionProductCode.Y2Y_TRANSFER.pCode -> {
+                    String.format(
+                        "%s %s",
+                        if (transaction.txnType == TxnType.DEBIT.type) "To" else "From",
+                        if (transaction.txnType == TxnType.DEBIT.type) transaction.receiverName
+                            ?: transaction.title else transaction.senderName
+                            ?: transaction.title
+                    )
+                }
+                TransactionProductCode.TOP_UP_VIA_CARD.pCode -> {
+                    transaction.maskedCardNo?.let {
+                        String.format("%s %s", "Top-Up by*", it.substring(it.length - 4, it.length))
+                    }
+                        ?: transaction.title ?: "Unknown"
+
+                }
+
+
+                else -> transaction.title ?: "Unknown"
+            })
+        } ?: return "Unknown"
+    }
+
+    fun getTransactionIcon(transaction: Content?): Int {
+        if (transaction?.productCode.isNullOrBlank() || transaction?.txnType.isNullOrBlank() || transaction?.status.isNullOrBlank()) return 0
+        return if (transaction?.status == TransactionStatus.FAILED.name) {
+            R.drawable.ic_reverted
+        } else
+            when {
+                isCash(transaction?.productCode ?: "") -> R.drawable.ic_transaction_cash
+                isBank(transaction?.productCode ?: "") -> R.drawable.ic_transaction_bank
+                isFee(transaction?.productCode ?: "") -> R.drawable.ic_package_standered
+                isRefund(transaction?.productCode ?: "") -> R.drawable.ic_refund
+                TransactionProductCode.TOP_UP_SUPPLEMENTARY_CARD.pCode == transaction?.productCode ?: "" || TransactionProductCode.WITHDRAW_SUPPLEMENTARY_CARD.pCode == transaction?.productCode ?: "" -> {
+                    if (transaction?.txnType == TxnType.DEBIT.type) R.drawable.ic_minus_transactions else R.drawable.ic_plus_transactions
+                }
+                else -> 0
+            }
+    }
+
+    fun getCategoryTitle(transaction: Content?): String {
+        transaction?.let { txn ->
+            if (txn.productCode.isNullOrBlank() || txn.txnType.isNullOrBlank()) return "Transaction"
+            return when {
+                isFee(txn.productCode ?: "") -> "Fee"
+                isRefund(txn.productCode ?: "") -> "Refund"
+                TransactionProductCode.Y2Y_TRANSFER.pCode == txn.productCode -> "YTY transfer"
+                TransactionProductCode.TOP_UP_VIA_CARD.pCode == txn.productCode -> "Top up"
+                TransactionProductCode.CASH_DEPOSIT_AT_RAK.pCode == txn.productCode || TransactionProductCode.CHEQUE_DEPOSIT_AT_RAK.pCode == txn.productCode -> "Deposit"
+                TransactionProductCode.ATM_WITHDRAWL.pCode == txn.productCode || TransactionProductCode.MASTER_CARD_ATM_WITHDRAWAL.pCode == txn.productCode -> "Cash"
+                TransactionProductCode.TOP_UP_SUPPLEMENTARY_CARD.pCode == txn.productCode || TransactionProductCode.WITHDRAW_SUPPLEMENTARY_CARD.pCode == txn.productCode -> {
+                    if (txn.txnType == TxnType.DEBIT.type) "Withdrawn from virtual card" else "Added to virtual card"
+                }
+                else -> return (when (txn.productCode) {
+                    TransactionProductCode.DOMESTIC.pCode, TransactionProductCode.RMT.pCode, TransactionProductCode.SWIFT.pCode, TransactionProductCode.UAEFTS.pCode, TransactionProductCode.INWARD_REMITTANCE.pCode, TransactionProductCode.LOCAL_INWARD_TRANSFER.pCode -> {
+                        "Transfer"
+                    }
+                    else ->
+                        "Transaction"
+                })
+            }
+        } ?: return "Transaction"
+    }
+
      fun isFee(productCode: String): Boolean {
         return (when (productCode) {
             TransactionProductCode.MANUAL_ADJUSTMENT.pCode, TransactionProductCode.VIRTUAL_ISSUANCE_FEE.pCode, TransactionProductCode.FSS_FUNDS_WITHDRAWAL.pCode, TransactionProductCode.CARD_REORDER.pCode, TransactionProductCode.FEE_DEDUCT.pCode, TransactionProductCode.PHYSICAL_ISSUANCE_FEE.pCode, TransactionProductCode.BALANCE_INQUIRY.pCode, TransactionProductCode.PIN_CHANGE.pCode, TransactionProductCode.MINISTATEMENT.pCode, TransactionProductCode.ACCOUNT_STATUS_INQUIRY.pCode, TransactionProductCode.FSS_FEE_NOTIFICATION.pCode -> {
