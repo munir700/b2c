@@ -7,6 +7,9 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
 import co.yap.app.AAPApplication
+import co.yap.household.di.components.DaggerHouseHoldComponent
+import co.yap.household.di.components.HouseHoldComponent
+import co.yap.household.di.components.HouseHoldComponentProvider
 import co.yap.yapcore.dagger.di.components.CoreComponent
 import co.yap.yapcore.dagger.di.components.CoreComponentProvider
 import co.yap.yapcore.dagger.di.components.DaggerCoreComponent
@@ -18,11 +21,14 @@ import dagger.android.support.HasSupportFragmentInjector
 /**
  * Helper class to automatically inject fragments if they implement [Injectable].
  */
-object AppInjector: CoreComponentProvider {
+object AppInjector : HouseHoldComponentProvider, CoreComponentProvider {
     private lateinit var coreComponent: CoreComponent
+    private lateinit var holdComponent: HouseHoldComponent
     fun init(application: AAPApplication): AppComponent {
         val component = DaggerAppComponent.builder()
-            .application(application).coreComponent(provideCoreComponent())
+            .application(application)
+            .coreComponent(provideCoreComponent())
+            .houseHoldComponent(provideHouseHoldComponent())
             .build()
         component.inject(application)
 
@@ -80,6 +86,15 @@ object AppInjector: CoreComponentProvider {
                     }, true
                 )
         }
+    }
+
+    override fun provideHouseHoldComponent(): HouseHoldComponent {
+        if (!this::holdComponent.isInitialized) {
+            holdComponent = DaggerHouseHoldComponent
+                .builder()
+                .build()
+        }
+        return holdComponent
     }
 
     override fun provideCoreComponent(): CoreComponent {
