@@ -10,8 +10,10 @@ import co.yap.modules.dashboard.more.home.interfaces.IInviteFriend
 import co.yap.modules.dashboard.more.home.viewmodels.InviteFriendViewModel
 import co.yap.translation.Strings
 import co.yap.yapcore.BaseBindingFragment
+import co.yap.yapcore.adjust.AdjustEvents
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.managers.MyUserManager
+import co.yap.yapcore.trackAdjustEvent
 import com.adjust.sdk.Adjust
 import com.adjust.sdk.AdjustEvent
 
@@ -55,15 +57,22 @@ class InviteFriendFragment : BaseBindingFragment<IInviteFriend.ViewModel>(), IIn
 
     private fun getBody(): String {
         val userId = MyUserManager.user?.currentCustomer?.customerId
-        val adjustEvent = AdjustEvent("adjust_t=q3o2z0e_sv94i35&deep")
-        adjustEvent.addCallbackParameter("inviter", userId)
-        adjustEvent.setCallbackId("inviter")
+//        val adjustEvent = AdjustEvent("am0wjeshw5xc")
+//        val adjustEvent = AdjustEvent("adjust_t=q3o2z0e_sv94i35&deep")
+//        adjustEvent.addCallbackParameter("inviter", userId)
+        trackAdjustEvent(AdjustEvents.INVITER.type)
 
-        Adjust.trackEvent(adjustEvent)
+//        adjustEvent.setCallbackId("inviter")
+
+//        Adjust.trackEvent(adjustEvent)
 
 //        Constants.SHARE_ADJUST_LINK = "https://grwl.adj.st?adjust_t=q3o2z0e_sv94i35&inviter=3000000633&time=1583325419.356368"// by ios team
 //        https://grwl.adj.st?adjust_t=q3o2z0e_sv94i35&inviter=3000000633&time=1583325419.356368
-        Constants.SHARE_ADJUST_LINK = "https://grwl.adj.st?adjust_t=q3o2z0e_sv94i35&deep_link=yap_referral%3A%2F%2Finviter=" + userId
+//        Constants.SHARE_ADJUST_LINK = "https://grwl.adj.st?adjust_t=q3o2z0e_sv94i35&deep_link=yap_referral://" + userId
+        Constants.SHARE_ADJUST_LINK = "https://app.adjust.com/q3o2z0e_sv94i35?deep_link=yap_referral%3A%2F%2Finviter=" + userId
+//https://app.adjust.com/abc123?deep_link=adjustExample%3A%2F%2F
+
+//        Constants.SHARE_ADJUST_LINK = "https://grwl.adj.st?adjust_t=q3o2z0e_sv94i35&deep_link=yap_referral%3A%2F%2Finviter=" + userId
 //        Constants.SHARE_ADJUST_LINK = "https://app.adjust.com/q3o2z0e?deep_link=yap_referral&inviter=" + userId
 
         return getString(Strings.screen_invite_friend_display_text_share_url).format(

@@ -32,7 +32,7 @@ fun Application.initializeAdjustSdk(appToken: String) {
 
 
     val environment: String
-    environment = AdjustConfig.ENVIRONMENT_PRODUCTION
+    environment = AdjustConfig.ENVIRONMENT_SANDBOX
     val config = AdjustConfig(this, appToken, environment)
 
 
