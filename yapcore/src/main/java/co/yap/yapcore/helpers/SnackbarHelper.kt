@@ -378,6 +378,20 @@ fun Snackbar?.updateSnackBarText(msg: String) {
     }
 }
 
+fun Fragment?.showTextUpdatedAbleSnackBar(errorMessage: String, length: Int) {
+    this?.let {
+        getSnackBarFromQueue(0)?.let {
+            if (it.isShown) {
+                it.updateSnackBarText(errorMessage)
+            }
+        } ?: showSnackBar(
+            msg = errorMessage,
+            viewBgColor = R.color.errorLightBackground, gravity = Gravity.TOP,
+            colorOfMessage = R.color.error, duration = length
+        )
+    }
+}
+
 fun validateString(msg: String?): String {
     return msg ?: "null"
 }

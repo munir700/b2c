@@ -37,13 +37,13 @@ class TransferSuccessFragment : SendMoneyBaseFragment<ITransferSuccess.ViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel.getAccountBalanceRequest()
+       // viewModel.getAccountBalanceRequest()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         if (activity is BeneficiaryCashTransferActivity) {
-            viewModel.updatedCardBalanceEvent.observe(this, Observer {
+           /* viewModel.updatedCardBalanceEvent.observe(this, Observer {
                 viewModel.state.availableBalanceString =
                     resources.getText(
                         getString(Strings.screen_cash_transfer_display_text_available_balance),
@@ -53,9 +53,10 @@ class TransferSuccessFragment : SendMoneyBaseFragment<ITransferSuccess.ViewModel
                         )
                     )
                 getBindings().tvAvailableBalance.visibility = View.VISIBLE
-                getBindings().flTransactionComplete.visibility = View.VISIBLE
 //            viewModel.state.loading = false
-            })
+            })*/
+            getBindings().flTransactionComplete.visibility = View.VISIBLE
+
             setData()
             viewModel.state.amount = "${args.currencyType} ${args.amount}"
             viewModel.state.referenceNumber = args.referenceNumber

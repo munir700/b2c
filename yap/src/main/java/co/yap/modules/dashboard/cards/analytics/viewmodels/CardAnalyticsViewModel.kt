@@ -46,7 +46,7 @@ class CardAnalyticsViewModel(application: Application) :
             val date =
                 DateUtils.stringToDate(
                     it,
-                    DateUtils.FORMAT_LONG_INPUT, TIME_ZONE_Default
+                    DateUtils.FORMAT_LONG_INPUT
                 )
             state.selectedMonth = DateUtils.dateToString(currentCalendar.time, FORMAT_MONTH_YEAR)
             date?.let { it ->
