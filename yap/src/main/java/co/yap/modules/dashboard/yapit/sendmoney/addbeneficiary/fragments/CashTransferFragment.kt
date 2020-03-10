@@ -172,7 +172,7 @@ class CashTransferFragment : SendMoneyBaseFragment<ICashTransfer.ViewModel>(), I
                 viewModel.state.amount,
                 viewModel.state.reasonTransferCode.toString(),
                 viewModel.state.reasonTransferValue.toString(),
-                viewModel.state.noteValue.toString(),
+                viewModel.state.noteValue?:"",
                 viewModel.state.originalTransferFeeAmount.get().toString(),
                 viewModel.state.position
             )

@@ -20,13 +20,11 @@ interface IVerifyPasscode {
         fun login()
         fun createOtp()
         fun validateDevice()
-        fun getAccountInfo()
         fun verifyPasscode()
         fun showAccountBlockedError()
         val signInButtonPressEvent: SingleLiveEvent<Boolean>
         val forgotPasscodeButtonPressEvent: SingleClickEvent
         val loginSuccess: SingleLiveEvent<Boolean>
-        val accountInfo: MutableLiveData<AccountInfo>
         val validateDeviceResult: SingleLiveEvent<Boolean>
         val createOtpResult: SingleLiveEvent<Boolean>
         var isFingerprintLogin: Boolean

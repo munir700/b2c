@@ -2,12 +2,12 @@ package co.yap.modules.onboarding.viewmodels
 
 import android.app.Application
 import androidx.lifecycle.MutableLiveData
-import co.yap.modules.onboarding.enums.AccountType
 import co.yap.modules.onboarding.interfaces.IOnboarding
 import co.yap.modules.onboarding.models.OnboardingData
 import co.yap.modules.onboarding.states.OnboardingState
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleLiveEvent
+import co.yap.yapcore.enums.AccountType
 
 class OnboardingViewModel(application: Application) : BaseViewModel<IOnboarding.State>(application),
     IOnboarding.ViewModel {
