@@ -21,8 +21,9 @@ import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.DecimalDigitsInputFilter
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.launchActivity
-import co.yap.yapcore.helpers.showSnackBar
+import co.yap.yapcore.helpers.showTextUpdatedAbleSnackBar
 import co.yap.yapcore.managers.MyUserManager
+import com.google.android.material.snackbar.Snackbar
 
 class TopUpCardFundsFragment : BaseBindingFragment<IFundActions.ViewModel>(),
     IFundActions.View {
@@ -77,7 +78,7 @@ class TopUpCardFundsFragment : BaseBindingFragment<IFundActions.ViewModel>(),
 
         viewModel.clickEvent.observe(this, clickEvent)
         viewModel.errorEvent.observe(this, Observer {
-            showErrorSnackBar()
+            showTextUpdatedAbleSnackBar(viewModel.state.errorDescription, Snackbar.LENGTH_INDEFINITE)
         })
 
         viewModel.htmlLiveData.observe(this, Observer {
@@ -119,13 +120,14 @@ class TopUpCardFundsFragment : BaseBindingFragment<IFundActions.ViewModel>(),
         }
     }
 
-    private fun showErrorSnackBar() {
-        getBindings().clSnackbar.showSnackBar(
-            msg = viewModel.state.errorDescription,
-            viewBgColor = R.color.errorLightBackground,
-            colorOfMessage = R.color.error, marginTop = 0
-        )
-    }
+    /*  private fun showErrorSnackBar() {
+          getBindings().clSnackbar.showSnackBar(
+              msg = viewModel.state.errorDescription,
+              viewBgColor = R.color.errorLightBackground,
+              colorOfMessage = R.color.error, marginTop = 0
+          )
+      }*/
+
 
     private fun setupData() {
         getBindings().etAmount.filters =

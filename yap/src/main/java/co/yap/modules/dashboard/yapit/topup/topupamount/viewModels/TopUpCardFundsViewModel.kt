@@ -114,7 +114,6 @@ class TopUpCardFundsViewModel(application: Application) : FundActionsViewModel(a
         orderId: String
     ) {
         launch {
-            // state.loading = true
             when (val response = transactionsRepository.check3DEnrollmentSession(
                 Check3DEnrollmentSessionRequest(
                     topupCrad.id?.toIntOrNull(),
@@ -170,11 +169,8 @@ class TopUpCardFundsViewModel(application: Application) : FundActionsViewModel(a
                             state.loading = false
                         }
                     }
-                    // state.toast = response.data.data.secure3dId
-                    //clickEvent.postValue(100)
                 }
                 is RetroApiResponse.Error -> {
-                    //  state.toast = response.error.message
                     state.errorDescription = response.error.message
                     errorEvent.call()
                 }
