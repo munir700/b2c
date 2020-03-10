@@ -50,7 +50,6 @@ import co.yap.yapcore.helpers.extentions.launchActivity
 import co.yap.yapcore.helpers.permissions.PermissionHelper
 import co.yap.yapcore.managers.MyUserManager
 import kotlinx.android.synthetic.main.activity_yap_dashboard.*
-
 import kotlinx.android.synthetic.main.layout_drawer_yap_dashboard.*
 import net.cachapa.expandablelayout.ExpandableLayout
 
@@ -320,7 +319,7 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
             MyUserManager.getPrimaryCard()?.let {
                 launchActivity<CardStatementsActivity> {
                     putExtra(CardStatementsActivity.CARD, it)
-                    putExtra("isFromDrawer",true)
+                    putExtra("isFromDrawer", true)
                 }
                 //startActivity(CardStatementsActivity.newIntent(this, it))
                 closeDrawer()
