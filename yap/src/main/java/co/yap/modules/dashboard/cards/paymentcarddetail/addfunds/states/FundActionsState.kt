@@ -3,7 +3,6 @@ package co.yap.modules.dashboard.cards.paymentcarddetail.addfunds.states
 import android.app.Application
 import android.content.Context
 import android.graphics.drawable.Drawable
-import android.text.SpannableStringBuilder
 import androidx.databinding.Bindable
 import androidx.databinding.ObservableField
 import co.yap.BR
@@ -14,11 +13,11 @@ import co.yap.translation.Translator
 import co.yap.yapcore.BaseState
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.Utils
-import okhttp3.internal.Util
-import java.lang.Exception
+import co.yap.yapcore.helpers.cancelAllSnackBar
 
 class FundActionsState(application: Application) : BaseState(), IFundActions.State {
     var context: Context = application.applicationContext
+
     @get:Bindable
     override var cardNumber: String = ""
         set(value) {
@@ -104,7 +103,10 @@ class FundActionsState(application: Application) : BaseState(), IFundActions.Sta
             field = value
             notifyPropertyChanged(BR.amount)
             clearError()
+
+
         }
+
     @get:Bindable
     override var denominationAmount: String = ""
         set(value) {
@@ -199,6 +201,7 @@ class FundActionsState(application: Application) : BaseState(), IFundActions.Sta
             field = value
             notifyPropertyChanged(BR.transferFee)
         }
+
     @get:Bindable
     override var fee: String? = "50"
         set(value) {
@@ -212,7 +215,10 @@ class FundActionsState(application: Application) : BaseState(), IFundActions.Sta
                 when {
                     amount?.toDouble()!! > availableBalance.toDouble() -> {
                         amountBackground =
-                            context.resources.getDrawable(co.yap.yapcore.R.drawable.bg_funds_error, null)
+                            context.resources.getDrawable(
+                                co.yap.yapcore.R.drawable.bg_funds_error,
+                                null
+                            )
                         if (Constants.TYPE_REMOVE_FUNDS == type) {
                             errorDescription = Translator.getString(
                                 context,
@@ -233,7 +239,10 @@ class FundActionsState(application: Application) : BaseState(), IFundActions.Sta
                     }
                     amount?.toDouble()!! > maxLimit -> {
                         amountBackground =
-                            context.resources.getDrawable(co.yap.yapcore.R.drawable.bg_funds_error, null)
+                            context.resources.getDrawable(
+                                co.yap.yapcore.R.drawable.bg_funds_error,
+                                null
+                            )
 
                         errorDescription = Translator.getString(
                             context,
@@ -250,18 +259,22 @@ class FundActionsState(application: Application) : BaseState(), IFundActions.Sta
                     }
                 }
             }
-        }catch (e:Exception){
-           return ""
+        } catch (e: Exception) {
+            return ""
         }
         return ""
     }
+
     fun checkValidityForAddTopUpFromExternalCard(): String {
         try {
             if (amount != "") {
                 when {
-                    amount?.toDouble()!! > maxLimit -> {
+                    amount?.toDoubleOrNull() ?: 0.0 > maxLimit -> {
                         amountBackground =
-                            context.resources.getDrawable(co.yap.yapcore.R.drawable.bg_funds_error, null)
+                            context.resources.getDrawable(
+                                co.yap.yapcore.R.drawable.bg_funds_error,
+                                null
+                            )
 
                         errorDescription = Translator.getString(
                             context,
@@ -278,13 +291,14 @@ class FundActionsState(application: Application) : BaseState(), IFundActions.Sta
                     }
                 }
             }
-        }catch (e:Exception){
-           return ""
+        } catch (e: Exception) {
+            return ""
         }
         return ""
     }
 
     private fun clearError() {
+        cancelAllSnackBar()
         if (amount != "") {
             if (amount != ".") {
                 valid = amount?.toDouble()!! >= minLimit

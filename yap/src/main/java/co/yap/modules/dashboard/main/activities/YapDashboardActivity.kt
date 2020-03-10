@@ -180,7 +180,7 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
             when (it) {
                 R.id.btnCopy -> viewModel.copyAccountInfoToClipboard()
                 R.id.lUserInfo -> expandableLayout.toggle(true)
-                R.id.lAnalytics -> showToast("m in analytics")
+                R.id.lAnalytics -> {}
             }
         })
 
