@@ -20,7 +20,6 @@ import co.yap.yapcore.managers.MyUserManager
 import com.digitify.identityscanner.core.arch.Gender
 import com.digitify.identityscanner.docscanner.models.Identity
 import com.digitify.identityscanner.docscanner.models.IdentityScannerResult
-import com.leanplum.Leanplum
 import okhttp3.MediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -39,6 +38,8 @@ class EidInfoReviewViewModel(application: Application) :
 
     override var sanctionedCountry: String = "" // for runtime hanlding
     override var sanctionedNationality: String = "" // for runtime hanlding
+    override var errorTitle: String = ""
+    override var errorBody: String = ""
 
 
     override fun onCreate() {
@@ -58,17 +59,28 @@ class EidInfoReviewViewModel(application: Application) :
                 TextUtils.isEmpty(it.givenName) || TextUtils.isEmpty(it.nationality) ->
                     clickEvent.setValue(EVENT_ERROR_INVALID_EID)
                 !it.isExpiryDateValid -> {
+                    errorTitle =
+                        getString(Strings.screen_kyc_information_error_display_text_title_expired_card)
+                    errorBody =
+                        getString(Strings.screen_kyc_information_error_display_text_explanation_expired_card)
+
                     clickEvent.setValue(EVENT_ERROR_EXPIRED_EID)
                 }
                 !it.isDateOfBirthValid -> {
+                    errorTitle =
+                        getString(Strings.screen_kyc_information_error_display_text_title_under_age)
+                    errorBody =
+                        getString(Strings.screen_kyc_information_error_display_text_explanation_under_age)
                     clickEvent.setValue(EVENT_ERROR_UNDER_AGE)
                     trackEvent(KYCEvents.EID_UNDER_AGE_18.type)
-
                 }
                 it.nationality.equals("USA", true) || it.isoCountryCode2Digit.equals(
                     "US",
                     true
                 ) -> {
+                    errorTitle = "It's not you, its US"
+                    errorBody =
+                        "We're sorry, we aren't able to create bank accounts for US Citizens at this point. Stay tuned though, we'll announce it everywhere if this changes!"
                     sanctionedCountry = it.nationality
                     sanctionedNationality = it.nationality
                     clickEvent.setValue(EVENT_ERROR_FROM_USA)
@@ -83,11 +95,12 @@ class EidInfoReviewViewModel(application: Application) :
                     }?.isoCountryCode2Digit,
                     true
                 ) -> {
+                    errorTitle = "We're so sorry"//countryName
+                    errorBody =
+                        "Unfortunately, we cannot go ahead with creating your account at this time. Thank you for your interest in YAP."
                     sanctionedCountry = it.nationality
                     sanctionedNationality = it.nationality
-                    clickEvent.setValue(
-                        EVENT_ERROR_FROM_USA
-                    )
+                    handleUserAcceptance(EVENT_ERROR_FROM_USA)
                     trackEvent(KYCEvents.KYC_PROHIBITED_CITIIZEN.type)
                 }
                 parentViewModel?.document != null && it.citizenNumber != parentViewModel?.document?.identityNo -> {

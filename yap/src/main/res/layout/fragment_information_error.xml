@@ -8,6 +8,8 @@
             type="co.yap.modules.kyc.viewmodels.InformationErrorViewModel"/>
 
         <import type="co.yap.translation.Strings"/>
+
+        <import type="android.view.View" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -31,15 +33,27 @@
             app:layout_constraintRight_toRightOf="parent"
             android:gravity="center"
             tools:text="We're so sorry"
-            android:text="@{viewModel.state.errorTitle}"
+            android:text="@{viewModel.state.errorTitle}" />
 
-            />
+        <ImageView
+            android:id="@+id/ivUSACountry"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_xl"
+            android:layout_marginTop="@dimen/margin_large"
+            android:layout_marginEnd="@dimen/margin_xl"
+            android:contentDescription="@string/empty_string"
+            android:visibility="@{viewModel.state.isUSACitizen==true ? View.VISIBLE : View.GONE}"
+            app:layout_constraintTop_toBottomOf="@+id/tvTitle"
+            app:srcCompat="@drawable/ic_country"
+            tools:src="@drawable/ic_country" />
+
 
         <TextView
             android:id="@+id/tvMeetingGuide"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@+id/tvTitle"
+            app:layout_constraintTop_toBottomOf="@+id/ivUSACountry"
             app:layout_constraintLeft_toLeftOf="parent"
             style="@style/ASmallGrey"
             app:layout_constraintRight_toRightOf="parent"
