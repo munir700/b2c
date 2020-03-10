@@ -1,10 +1,9 @@
 package co.yap.modules.onboarding.states
 
 import android.app.Application
-import android.graphics.drawable.Drawable
 import androidx.databinding.Bindable
+import androidx.databinding.ObservableField
 import co.yap.BR
-import co.yap.R
 import co.yap.modules.onboarding.interfaces.IInformationError
 import co.yap.yapcore.BaseState
 
@@ -16,12 +15,7 @@ class InformationErrorState(application: Application) : BaseState(), IInformatio
             field=value
             notifyPropertyChanged(BR.errorTitle)
         }
-    @get:Bindable
-    override var errorImage: Drawable= mContext.resources.getDrawable(R.drawable.ic_country)
-        set(value) {
-            field=value
-            notifyPropertyChanged(BR.errorImage)
-        }
+
     @get:Bindable
     override var errorGuide: String=""
         set(value) {
@@ -34,4 +28,6 @@ class InformationErrorState(application: Application) : BaseState(), IInformatio
             field=value
             notifyPropertyChanged(BR.buttonTitle)
         }
+
+    override var isUSACitizen: ObservableField<Boolean> = ObservableField(false)
 }
