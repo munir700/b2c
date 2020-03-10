@@ -1,22 +1,17 @@
 package co.yap.yapcore.helpers.extentions
 
-import android.app.Activity
 import android.content.Context
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
 import co.yap.networking.customers.responsedtos.AccountInfo
 import co.yap.yapcore.BaseState
-import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.constants.Constants.KEY_TOUCH_ID_ENABLED
 import co.yap.yapcore.helpers.SharedPreferenceManager
+import co.yap.yapcore.helpers.biometric.BiometricUtil
 import co.yap.yapcore.leanplum.UserAttributes
 import com.leanplum.Leanplum
 
-
 fun Fragment.trackEvent(eventName: String, value: String = "") {
-    fireEventWithAttribute(eventName, value)
-}
-
-fun Activity.trackEvent(eventName: String, value: String = "") {
     fireEventWithAttribute(eventName, value)
 }
 
@@ -28,19 +23,28 @@ fun BaseState.trackEvent(eventName: String, value: String = "") {
     fireEventWithAttribute(eventName, value)
 }
 
-fun Fragment.trackEventWithAttributes(
+fun Fragment.trackEventInFragments(
     user: AccountInfo?,
     signup_length: String = "",
-    account_active: Boolean = false,
+    account_active: String? = null,
     context: Context? = null
 ) {
-    trackEventWithAttributes(user,signup_length,account_active,context)
+    trackAttributes(user, signup_length, account_active, context)
 }
 
 fun ViewModel.trackEventWithAttributes(
     user: AccountInfo?,
     signup_length: String = "",
-    account_active: Boolean = false,
+    account_active: String? = null,
+    context: Context? = null
+) {
+    trackAttributes(user, signup_length, account_active, context)
+}
+
+fun trackAttributes(
+    user: AccountInfo?,
+    signup_length: String = "",
+    account_active: String? = null,
     context: Context? = null
 ) {
     user?.let {
@@ -58,20 +62,27 @@ fun ViewModel.trackEventWithAttributes(
         info[UserAttributes().country] = "United Arab Emirates"
         info[UserAttributes().city] = "UNKNOWN"
         info[UserAttributes().signup_timestamp] = it.creationDate ?: System.currentTimeMillis()
-        info[UserAttributes().faceID_enabled] = context?.let {
-            return@let SharedPreferenceManager(context).getValueBoolien(
-                Constants.KEY_TOUCH_ID_ENABLED,
-                false
-            )
-        } ?: false
-        info[UserAttributes().account_active] = account_active
-        if (!signup_length.isNullOrEmpty())
+        info[UserAttributes().biometric_login_enabled] = isBioMetricEnabled(context)
+        account_active?.let {
+            info[UserAttributes().account_active] = account_active
+        }
+        if (signup_length.isNotEmpty())
             info[UserAttributes().signup_length] = signup_length
         it.currentCustomer.customerId?.let { customerId ->
             info[UserAttributes().customerId] = customerId
         }
         it.uuid?.let { Leanplum.setUserAttributes(it, info) }
     }
+}
+
+private fun isBioMetricEnabled(context: Context?): Boolean {
+    return context?.let {
+        return@let (BiometricUtil.hasBioMetricFeature(it) && SharedPreferenceManager(it).getValueBoolien(
+            KEY_TOUCH_ID_ENABLED,
+            false
+        ))
+
+    } ?: false
 }
 
 fun ViewModel.trackerId(id: String?) {

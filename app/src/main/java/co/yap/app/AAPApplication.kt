@@ -130,7 +130,7 @@ class AAPApplication : ChatApplication(
         if (BuildConfig.DEBUG) {
             Leanplum.setAppIdForDevelopmentMode(appId, devKey)
         } else {
-            Leanplum.setAppIdForProductionMode(appId, devKey)
+            Leanplum.setAppIdForDevelopmentMode(appId, devKey)
         }
 
         //Leanplum.setIsTestModeEnabled(true)

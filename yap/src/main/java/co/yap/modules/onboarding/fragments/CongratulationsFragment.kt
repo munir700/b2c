@@ -36,6 +36,7 @@ import co.yap.yapcore.adjust.AdjustEvents
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.helpers.AnimationUtils
+import co.yap.yapcore.helpers.DateUtils
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.ExtraType
 import co.yap.yapcore.helpers.extentions.getValue
@@ -104,8 +105,8 @@ class CongratulationsFragment : OnboardingChildFragment<ICongratulations.ViewMod
                     SimpleDateFormat("dd/MMM/yyyy").format(Calendar.getInstance().time)
                 )
                 trackEvent(
-                    SignupEvents.SIGN_UP_TIME.type,
-                    SimpleDateFormat("hh:mm").format(Calendar.getInstance().time)
+                    SignupEvents.SIGN_UP_TIMESTAMP.type,
+                    SimpleDateFormat(DateUtils.LeanPlumEventFormat).format(Calendar.getInstance().time)
                 )
                 trackEvent(
                     SignupEvents.SIGN_UP_LENGTH.type,
