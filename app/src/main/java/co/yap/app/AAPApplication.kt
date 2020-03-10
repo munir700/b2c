@@ -15,7 +15,10 @@ import co.yap.networking.interfaces.NetworkConstraintsListener
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.Constants.EXTRA
 import co.yap.yapcore.constants.Constants.KEY_APP_UUID
-import co.yap.yapcore.helpers.*
+import co.yap.yapcore.helpers.AppInfo
+import co.yap.yapcore.helpers.AuthUtils
+import co.yap.yapcore.helpers.NetworkConnectionManager
+import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.extentions.longToast
 import co.yap.yapcore.initializeAdjustSdk
 import com.android.installreferrer.api.InstallReferrerClient
@@ -47,13 +50,13 @@ class AAPApplication : ChatApplication(
 
         initNetworkLayer()
         SharedPreferenceManager(this).setThemeValue(Constants.THEME_YAP)
-        setAppUniqueId(this)
         initFireBase()
         inItLeanPlum()
 
         testApp()
+         initializeAdjustSdk(BuildConfig.ADJUST_APP_TOKEN)
+        //testApp()
     }
-
 
     private fun testApp() {
         val referrerClient = InstallReferrerClient.newBuilder(this).build()

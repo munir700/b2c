@@ -70,7 +70,7 @@
                 android:ellipsize="end"
                 android:lineSpacingExtra="@dimen/_1sdp"
                 android:maxLines="2"
-                android:text="@{viewModel.transaction.title!=null?viewModel.transaction.title:`Unknown`}"
+                android:text="@{viewModel.state.transactionTitle}"
                 app:layout_constraintEnd_toStartOf="@+id/tvTotalAmountValue"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"

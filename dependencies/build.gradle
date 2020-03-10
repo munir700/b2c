@@ -136,12 +136,10 @@ project.ext {
             exoplayer                : 'com.google.android.exoplayer:exoplayer:2.10.3',
 
             //adjust
-            adjust                : 'com.adjust.sdk:adjust-android:4.20.0',
-            adjust_referrer       : 'com.android.installreferrer:installreferrer:1.1',
-//            adjust_web_bridge       : 'com.adjust.sdk:adjust-android-webbridge:4.20.0'
 
-
-    ]
+            adjust                   : 'com.adjust.sdk:adjust-android:4.20.0',
+            adjust_referrer          : 'com.android.installreferrer:installreferrer:1.1'
+     ]
 
     // Test dependencies which need to be added in all modules
     testDependencies = [
@@ -177,8 +175,6 @@ project.ext {
             [configuration: "implementation", dependency: libraries.exoplayer],
             [configuration: "implementation", dependency: libraries.adjust],
             [configuration: "implementation", dependency: libraries.adjust_referrer]
-//            [configuration: "implementation", dependency: libraries.adjust_web_bridge]
-
     ]
 
     // dependencies which need to be added in app module only in conjunction with commonDependencies
