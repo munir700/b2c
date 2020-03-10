@@ -1,9 +1,9 @@
 package co.yap.modules.onboarding.interfaces
 
-import co.yap.modules.onboarding.enums.AccountType
 import co.yap.modules.onboarding.models.WelcomeContent
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleLiveEvent
+import co.yap.yapcore.enums.AccountType
 
 interface IWelcome {
 

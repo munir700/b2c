@@ -16,7 +16,6 @@ import co.yap.app.constants.Constants
 import co.yap.app.modules.login.interfaces.IVerifyPasscode
 import co.yap.app.modules.login.viewmodels.VerifyPasscodeViewModel
 import co.yap.household.onboard.onboarding.main.OnBoardingHouseHoldActivity
-import co.yap.modules.onboarding.enums.AccountType
 import co.yap.modules.others.helper.Constants.REQUEST_CODE
 import co.yap.networking.customers.responsedtos.AccountInfo
 import co.yap.widgets.NumberKeyboardListener
@@ -26,6 +25,7 @@ import co.yap.yapcore.constants.Constants.KEY_IS_FINGERPRINT_PERMISSION_SHOWN
 import co.yap.yapcore.constants.Constants.KEY_IS_USER_LOGGED_IN
 import co.yap.yapcore.constants.Constants.KEY_TOUCH_ID_ENABLED
 import co.yap.yapcore.constants.Constants.VERIFY_PASS_CODE_BTN_TEXT
+import co.yap.yapcore.enums.AccountStatus
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.biometric.BiometricCallback
@@ -33,6 +33,7 @@ import co.yap.yapcore.helpers.biometric.BiometricManagerX
 import co.yap.yapcore.helpers.biometric.BiometricUtil
 import co.yap.yapcore.helpers.extentions.preventTakeScreenShot
 import co.yap.yapcore.helpers.extentions.toast
+import co.yap.yapcore.helpers.extentions.trackEventWithAttributes
 import co.yap.yapcore.managers.MyUserManager
 import kotlinx.android.synthetic.main.fragment_verify_passcode.*
 
@@ -69,7 +70,7 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
         viewModel.signInButtonPressEvent.observe(this, signInButtonObserver)
         viewModel.loginSuccess.observe(this, loginSuccessObserver)
         viewModel.validateDeviceResult.observe(this, validateDeviceResultObserver)
-        viewModel.accountInfo.observe(this, onFetchAccountInfo)
+        MyUserManager.users.observe(this, onFetchAccountInfo)
         viewModel.createOtpResult.observe(this, createOtpObserver)
         setObservers()
     }
@@ -206,9 +207,9 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
         viewModel.validateDeviceResult.removeObservers(this)
         viewModel.createOtpResult.removeObservers(this)
         viewModel.forgotPasscodeButtonPressEvent.removeObservers(this)
+        MyUserManager.users.removeObservers(this)
         super.onDestroyView()
     }
-
 
     private fun isUserLoginIn(): Boolean {
         return sharedPreferenceManager.getValueBoolien(
@@ -267,8 +268,9 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
         }
     }
 
-    private val onFetchAccountInfo = Observer<AccountInfo> {
+    private val onFetchAccountInfo = Observer<ArrayList<AccountInfo>?> {
         it?.run {
+            setUserAttributes()
             sharedPreferenceManager.save(KEY_IS_USER_LOGGED_IN, true)
             if (!sharedPreferenceManager.getValueBoolien(
                     KEY_IS_FINGERPRINT_PERMISSION_SHOWN,
@@ -301,19 +303,41 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
                     findNavController().navigate(action)
                 }
             } else {
-                if (accountType == AccountType.B2C_HOUSEHOLD.name) {
-                    SharedPreferenceManager(requireContext()).setThemeValue(co.yap.yapcore.constants.Constants.THEME_HOUSEHOLD)
-                    val bundle = Bundle()
-                    bundle.putBoolean(OnBoardingHouseHoldActivity.EXISTING_USER, false)
-                    bundle.putParcelable(OnBoardingHouseHoldActivity.USER_INFO, it)
-                    startActivity(OnBoardingHouseHoldActivity.getIntent(requireContext(), bundle))
-                    activity?.finish()
-                } else {
-                    findNavController().navigate(R.id.action_goto_yapDashboardActivity)
-                    activity?.finish()
+                when {
+                    MyUserManager.householdUser != null && MyUserManager.yapUser != null -> {
+                        if (MyUserManager.householdUser?.notificationStatuses == AccountStatus.ON_BOARDED.name)
+                            gotoYapDashboard()
+                        else
+                            gotoHouseHoldOnboarding(true, MyUserManager.householdUser)
+                    }
+
+                    MyUserManager.householdUser != null -> {
+                        gotoHouseHoldOnboarding(false, MyUserManager.householdUser)
+                    }
+
+                    else -> {
+                        gotoYapDashboard()
+                    }
                 }
             }
         }
+    }
+
+    private fun gotoHouseHoldOnboarding(isExisting: Boolean, user: AccountInfo?) {
+        SharedPreferenceManager(requireContext()).setThemeValue(co.yap.yapcore.constants.Constants.THEME_HOUSEHOLD)
+        val bundle = Bundle()
+        bundle.putBoolean(OnBoardingHouseHoldActivity.EXISTING_USER, isExisting)
+        bundle.putParcelable(
+            OnBoardingHouseHoldActivity.USER_INFO,
+            user
+        )
+        startActivity(OnBoardingHouseHoldActivity.getIntent(requireContext(), bundle))
+        activity?.finish()
+    }
+
+    private fun gotoYapDashboard() {
+        findNavController().navigate(R.id.action_goto_yapDashboardActivity)
+        activity?.finish()
     }
 
     private val createOtpObserver = Observer<Boolean> {
@@ -337,7 +361,7 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
             activity?.setResult(Activity.RESULT_OK, intent)
             activity?.finish()
         } else {
-            viewModel.getAccountInfo()
+            MyUserManager.getAccountInfo()
         }
     }
 
@@ -392,6 +416,10 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
     }
 
     override fun onAuthenticationError(errorCode: Int, errString: CharSequence) {
+    }
+
+    private fun setUserAttributes() {
+        trackEventWithAttributes(MyUserManager.user)
     }
 }
 

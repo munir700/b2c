@@ -2,13 +2,11 @@ package co.yap.app.modules.login.viewmodels
 
 import android.app.Application
 import android.os.CountDownTimer
-import androidx.lifecycle.MutableLiveData
 import co.yap.app.constants.Constants
 import co.yap.app.modules.login.interfaces.IVerifyPasscode
 import co.yap.app.modules.login.states.VerifyPasscodeState
 import co.yap.networking.authentication.AuthRepository
 import co.yap.networking.customers.CustomersRepository
-import co.yap.networking.customers.responsedtos.AccountInfo
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.messages.MessagesRepository
 import co.yap.networking.messages.requestdtos.CreateForgotPasscodeOtpRequest
@@ -42,7 +40,6 @@ class VerifyPasscodeViewModel(application: Application) :
     override var mobileNumber: String = ""
     override var EVENT_LOGOUT_SUCCESS: Int = 101
 
-    override val accountInfo: MutableLiveData<AccountInfo> = MutableLiveData()
     private val messagesRepository: MessagesRepository = MessagesRepository
 
     override fun login() {
@@ -190,25 +187,6 @@ class VerifyPasscodeViewModel(application: Application) :
                     state.loading = false
                 }
             }
-        }
-    }
-
-    override fun getAccountInfo() {
-        launch {
-            state.loading = true
-            when (val response = customersRepository.getAccountInfo()) {
-                is RetroApiResponse.Success -> {
-                    if (!response.data.data.isNullOrEmpty()) {
-                        //MyUserManager.user = response.data.data[0]
-                        MyUserManager.user = response.data.data[0]
-                        accountInfo.postValue(response.data.data[0])
-                        //MyUserManager.user?.setLiveData() // DOnt remove this line
-                        setUserAttributes()
-                    }
-                }
-                is RetroApiResponse.Error -> state.toast = response.error.message
-            }
-            state.loading = false
         }
     }
 
