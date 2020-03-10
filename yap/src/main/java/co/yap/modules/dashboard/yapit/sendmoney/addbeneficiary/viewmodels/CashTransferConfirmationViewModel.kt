@@ -103,7 +103,7 @@ class CashTransferConfirmationViewModel(application: Application) :
                         0.0,
                         reasonCode,
                         reason,
-                        transferNote
+                        if(transferNote.isNullOrBlank()) null else transferNote
                     )
                 )
                 ) {
@@ -113,8 +113,6 @@ class CashTransferConfirmationViewModel(application: Application) :
                 }
                 is RetroApiResponse.Error -> {
                     state.toast = response.error.message
-//                    state.errorDescription = response.error.message
-//                    errorEvent.call()
                     state.loading = false
                 }
             }
@@ -133,7 +131,7 @@ class CashTransferConfirmationViewModel(application: Application) :
                         0.0,
                         reasonCode,
                         reason,
-                        transferNote
+                        if(transferNote.isNullOrBlank()) null else transferNote
                     )
 
                 )

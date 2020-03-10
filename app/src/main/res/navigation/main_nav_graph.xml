@@ -60,7 +60,7 @@
         tools:layout="@layout/fragment_onboarding_welcome">
         <argument
             android:name="@string/arg_account_type"
-            app:argType="co.yap.modules.onboarding.enums.AccountType" />
+            app:argType="co.yap.yapcore.enums.AccountType" />
         <action
             android:id="@+id/action_welcomeFragment_to_onboardingActivity"
             app:destination="@id/onboardingActivity"
@@ -73,7 +73,7 @@
         tools:layout="@layout/activity_onboarding_navigation">
         <argument
             android:name="@string/arg_account_type"
-            app:argType="co.yap.modules.onboarding.enums.AccountType" />
+            app:argType="co.yap.yapcore.enums.AccountType" />
     </activity>
     <fragment
         android:id="@+id/loginFragment"

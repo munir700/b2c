@@ -45,7 +45,7 @@ class AddSparePhysicalCardSuccessFragment : DefaultFragment() {
             // Spare physical card added event
             reportCardSuccess=true
             setupActionsIntent()
-            activity!!.finish()
+            activity?.finish()
         }
     }
 

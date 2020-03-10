@@ -47,7 +47,12 @@ open class CreatePasscodeState : BaseState(), ICreatePasscode.State {
 
 
     fun validate() {
-        valid = passcode.length in 7 downTo 4
+        if (passcode.length in 7 downTo 4) {
+            valid = true
+        } else {
+            dialerError = ""
+            valid = false
+        }
     }
 
     override fun getTextWatcher(): TextWatcher {

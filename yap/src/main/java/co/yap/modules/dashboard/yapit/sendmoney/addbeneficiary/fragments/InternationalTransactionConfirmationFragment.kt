@@ -112,8 +112,6 @@ class InternationalTransactionConfirmationFragment :
                 )
             )
 
-        val tst = args.totalAmount
-        println(tst)
         viewModel.state.transferFeeDescription =
             resources.getText(
                 getString(Strings.screen_funds_transfer_fee_description), requireContext().color(
@@ -160,7 +158,7 @@ class InternationalTransactionConfirmationFragment :
                                     "",
                                     args.senderCurrency,
                                     Utils.getFormattedCurrency(args.fxRateAmount),
-                                    referenceNumber, position, beneficiaryCountry
+                                    referenceNumber, position, beneficiaryCountry,viewModel.state.cutOffTimeMsg?:""
                                 )
                             findNavController().navigate(action)
                         }

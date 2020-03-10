@@ -54,6 +54,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_small"
             android:gravity="center"
+            android:layout_margin="@dimen/margin_normal"
             android:lineSpacingExtra="0dp"
             android:textAlignment="center"
             app:layout_constraintBottom_toTopOf="@+id/dialer"
