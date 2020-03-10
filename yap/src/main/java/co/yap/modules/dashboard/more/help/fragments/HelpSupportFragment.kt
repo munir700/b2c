@@ -36,8 +36,8 @@ class HelpSupportFragment : MoreBaseFragment<IHelpSupport.ViewModel>(), IHelpSup
 
     override fun getLayoutId(): Int = R.layout.fragment_help_support
 
-    val brandId = "17038977"
-    val appInstallId = MyUserManager.user?.uuid
+    private val brandId = "17038977"
+    private val appInstallId = MyUserManager.user?.uuid
 
     override val viewModel: IHelpSupport.ViewModel
         get() = ViewModelProviders.of(this).get(HelpSupportViewModel::class.java)
