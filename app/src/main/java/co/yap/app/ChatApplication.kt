@@ -20,7 +20,7 @@ import com.liveperson.messaging.sdk.api.LivePerson
 import timber.log.Timber
 
 
-open class ChatApplication(appInfo: AppInfo) : YAPApplication(appInfo) {
+abstract class ChatApplication(appInfo: AppInfo) : YAPApplication(appInfo) {
 
     private val authKey = "17038977"
     private val atg = ChatApplication::class.java.simpleName

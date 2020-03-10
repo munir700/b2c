@@ -31,6 +31,7 @@ abstract class BaseActivity<V : IBase.ViewModel<*>> : AppCompatActivity(), IBase
     private lateinit var permissionsManager: PermissionsManager
     private var progress: Dialog? = null
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 //        window.setFlags(
@@ -217,14 +218,6 @@ abstract class BaseActivity<V : IBase.ViewModel<*>> : AppCompatActivity(), IBase
         if (viewModel.state is BaseState) {
             (viewModel.state as BaseState).removeOnPropertyChangedCallback(stateObserver)
         }
-    }
-
-
-    override fun onResume() {
-        super.onResume()
-//        if (DeviceUtils().isDeviceRooted()) {
-//            showAlertDialogAndExitApp("This device is rooted. You can't use this app.")
-//        }
     }
 
     open fun showAlertDialogAndExitApp(message: String?) {
