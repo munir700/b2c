@@ -61,15 +61,10 @@ class InviteFriendFragment : BaseBindingFragment<IInviteFriend.ViewModel>(), IIn
 
         Adjust.trackEvent(adjustEvent)
 
-//        SHARE_ADJUST_LINK = "https://grwl.adj.st?adjust_t=q3o2z0e_sv94i35&user_id=" + userId
 //        Constants.SHARE_ADJUST_LINK = "https://grwl.adj.st?adjust_t=q3o2z0e_sv94i35&inviter=3000000633&time=1583325419.356368"// by ios team
 //        https://grwl.adj.st?adjust_t=q3o2z0e_sv94i35&inviter=3000000633&time=1583325419.356368
-//        Constants.SHARE_ADJUST_LINK =
-//            "https://grwl.adj.st?adjust_t=q3o2z0e_sv94i35&deep_link=yap_referral&inviter=" + userId
-
-        Constants.SHARE_ADJUST_LINK =
-            "https://app.adjust.com/q3o2z0e?deep_link=yap_referral&inviter=" + userId
-//            "https://grwl.adj.st?adjust_t=q3o2z0e_sv94i35&deep_link=yap_referral&inviter=" + userId
+        Constants.SHARE_ADJUST_LINK = "https://grwl.adj.st?adjust_t=q3o2z0e_sv94i35&deep_link=yap_referral%3A%2F%2Finviter=" + userId
+//        Constants.SHARE_ADJUST_LINK = "https://app.adjust.com/q3o2z0e?deep_link=yap_referral&inviter=" + userId
 
         return getString(Strings.screen_invite_friend_display_text_share_url).format(
             "www.apple.com",
