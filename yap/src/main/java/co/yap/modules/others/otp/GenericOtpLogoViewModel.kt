@@ -6,6 +6,7 @@ import co.yap.translation.Strings
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.SendMoneyBeneficiaryType
 import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 
 class GenericOtpLogoViewModel(application: Application) :
     GenericOtpViewModel(application = application) {
@@ -19,7 +20,7 @@ class GenericOtpLogoViewModel(application: Application) :
                 descriptionString =
                     getString(Strings.screen_cash_pickup_funds_display_otp_text_description).format(
                         state.currencyType,
-                        Utils.getFormattedCurrency(state.amount),
+                        state.amount?.toFormattedCurrency(),
                         state.fullName
                     )
                 state.currencyType?.let {

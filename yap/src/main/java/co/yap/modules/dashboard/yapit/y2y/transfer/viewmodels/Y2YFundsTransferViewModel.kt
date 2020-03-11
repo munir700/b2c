@@ -15,6 +15,7 @@ import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.TransactionProductCode
 import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 
 class Y2YFundsTransferViewModel(application: Application) :
     Y2YBaseViewModel<IY2YFundsTransfer.State>(application),
@@ -75,7 +76,7 @@ class Y2YFundsTransferViewModel(application: Application) :
                         val feeAmount = response.data.data?.tierRateDTOList?.get(0)?.feeAmount
                         val VATAmount = response.data.data?.tierRateDTOList?.get(0)?.vatAmount
                         state.fee =
-                            Utils.getFormattedCurrency(feeAmount?.plus(VATAmount ?: 0.0).toString())
+                            feeAmount?.plus(VATAmount ?: 0.0).toString().toFormattedCurrency()
                         clickEvent.postValue(Constants.CARD_FEE)
                     }
 

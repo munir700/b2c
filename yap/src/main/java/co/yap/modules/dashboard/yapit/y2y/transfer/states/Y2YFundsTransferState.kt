@@ -9,6 +9,7 @@ import co.yap.modules.dashboard.yapit.y2y.transfer.interfaces.IY2YFundsTransfer
 import co.yap.translation.Strings
 import co.yap.translation.Translator
 import co.yap.yapcore.BaseState
+import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 
 class Y2YFundsTransferState(application: Application) : BaseState(), IY2YFundsTransfer.State {
 
@@ -118,7 +119,7 @@ class Y2YFundsTransferState(application: Application) : BaseState(), IY2YFundsTr
                 errorDescription = Translator.getString(
                     context,
                     Strings.common_display_text_available_balance_error
-                ).format(availableBalance)
+                ).format(availableBalance?.toFormattedCurrency())
                 valid = false
                 return errorDescription
             } else {

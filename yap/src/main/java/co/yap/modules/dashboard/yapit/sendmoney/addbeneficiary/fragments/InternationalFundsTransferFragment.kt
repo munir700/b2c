@@ -25,6 +25,7 @@ import co.yap.yapcore.enums.SendMoneyBeneficiaryProductCode
 import co.yap.yapcore.enums.SendMoneyBeneficiaryType
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.cancelAllSnackBar
+import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 import co.yap.yapcore.helpers.extentions.toast
 import co.yap.yapcore.helpers.spannables.color
 import co.yap.yapcore.helpers.spannables.getText
@@ -60,7 +61,7 @@ class InternationalFundsTransferFragment :
                 getString(Strings.screen_cash_transfer_display_text_available_balance),
                 requireContext().color(
                     R.color.colorPrimaryDark,
-                    "${"AED"} ${Utils.getFormattedCurrency(MyUserManager.cardBalance.value?.availableBalance)}"
+                    "${"AED"} ${MyUserManager.cardBalance.value?.availableBalance?.toFormattedCurrency()}"
                 )
             )
         getBindings().etSenderAmount.filters =
@@ -202,8 +203,8 @@ class InternationalFundsTransferFragment :
         viewModel.state.errorDescription = getString(
             Strings.common_display_text_min_max_limit_error_transaction
         ).format(
-            Utils.getFormattedCurrency(viewModel.state.minLimit.toString()),
-            Utils.getFormattedCurrency(viewModel.state.maxLimit.toString())
+            viewModel.state.minLimit.toString().toFormattedCurrency(),
+            viewModel.state.maxLimit.toString().toFormattedCurrency()
         )
         showLimitError()
     }
@@ -212,7 +213,7 @@ class InternationalFundsTransferFragment :
         val des = Translator.getString(
             requireContext(),
             Strings.common_display_text_available_balance_error
-        ).format(Utils.getFormattedCurrency(MyUserManager.cardBalance.value?.availableBalance))
+        ).format(MyUserManager.cardBalance.value?.availableBalance?.toFormattedCurrency())
         if (activity is BeneficiaryCashTransferActivity) {
             (activity as BeneficiaryCashTransferActivity).viewModel.errorEvent.value =
                 des

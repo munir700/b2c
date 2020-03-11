@@ -53,7 +53,6 @@ import co.yap.yapcore.adjust.AdjustEvents
 import co.yap.yapcore.constants.Constants.VERIFY_PASS_CODE_BTN_TEXT
 import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.enums.CardStatus
-import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.cancelAllSnackBar
 import co.yap.yapcore.helpers.confirm
 import co.yap.yapcore.helpers.extentions.disableScroll
@@ -65,7 +64,8 @@ import co.yap.yapcore.helpers.spannables.underline
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.MyUserManager
 import co.yap.yapcore.trackAdjustEvent
-import com.ezaka.customer.app.utils.toCamelCase
+import co.yap.yapcore.helpers.extentions.toCamelCase
+import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 import com.google.android.material.snackbar.Snackbar
 import com.tbuonomo.viewpagerdotsindicator.WormDotsIndicator
 import kotlinx.android.synthetic.main.activity_payment_card_detail.*
@@ -471,7 +471,7 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
                     viewModel.card.value?.availableBalance =
                         data?.getStringExtra("newBalance").toString()
                     viewModel.state.cardBalance =
-                        "AED " + Utils.getFormattedCurrency(data?.getStringExtra("newBalance").toString())
+                        "AED " + data?.getStringExtra("newBalance").toString().toFormattedCurrency()
                 }
             }
 

@@ -22,6 +22,7 @@ import co.yap.yapcore.helpers.DateUtils.FORMAT_MON_YEAR
 import co.yap.yapcore.helpers.RecyclerTouchListener
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.dimen
+import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 import com.yarolegovich.discretescrollview.DiscreteScrollView
 import kotlinx.android.synthetic.main.content_fragment_yap_home.view.*
 import kotlinx.android.synthetic.main.fragment_yap_home.view.*
@@ -143,7 +144,7 @@ class TransactionsViewHelper(
                 Locale.US,
                 "%s AED %s",
                 data.date,
-                Utils.getFormattedCurrency(data.closingBalance.toString())
+                data.closingBalance.toString().toFormattedCurrency()
             )
             tooltip?.apply {
                 visibility = View.VISIBLE
