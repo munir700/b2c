@@ -240,7 +240,7 @@ class InternationalFundsTransferFragment :
                                 Strings.common_display_text_daily_limit_error_single_transaction
                             )
 
-                        return (enteredAmount > remainingDailyLimit)
+                        return (enteredAmount >= remainingDailyLimit)
 
                     } ?: return false
                 } ?: return false
@@ -272,7 +272,8 @@ class InternationalFundsTransferFragment :
                         viewModel.state.transactionNote ?: "",
                         viewModel.state.reasonTransferValue ?: "",
                         viewModel.state.rate ?: "",
-                        viewModel.otpAction ?: ""
+                        viewModel.otpAction ?: "",
+                        viewModel.state.srRate
                     )
                 findNavController().navigate(action)
             }

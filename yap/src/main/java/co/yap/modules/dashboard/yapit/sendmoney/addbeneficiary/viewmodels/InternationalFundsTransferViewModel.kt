@@ -127,6 +127,7 @@ class InternationalFundsTransferViewModel(application: Application) :
                     state.toFxRate =
                         "${state.toFxRateCurrency} ${response.data.data.fxRates?.get(0)?.convertedAmount?.toFormattedCurrency()}"
                     state.rate = response.data.data.fxRates?.get(0)?.convertedAmount
+                    state.srRate = response.data.data.fxRates?.get(0)?.rate ?: "0"
                     state.loading = false
                 }
                 is RetroApiResponse.Error -> {

@@ -30,7 +30,6 @@ class TopUpCardFundsViewModel(application: Application) : FundActionsViewModel(a
     override fun initateVM(item: TopUpCard) {
         topupCrad = item
         state.cardInfo.set(item)
-
         state.toolBarHeader = getString(Strings.screen_topup_transfer_display_text_screen_title)
         state.enterAmountHeading =
             getString(Strings.screen_topup_transfer_display_text_amount_title)
@@ -89,7 +88,7 @@ class TopUpCardFundsViewModel(application: Application) : FundActionsViewModel(a
         launch {
             state.loading = true
             when (val response = transactionsRepository.createTransactionSession(
-                CreateSessionRequest(Order(state.currencyType, state.amount.toString()))
+                CreateSessionRequest(Order(state.currencyType, enteredAmount.value.toString()))
             )) {
                 is RetroApiResponse.Success -> {
                     orderId = response.data.data.order.id
@@ -118,7 +117,7 @@ class TopUpCardFundsViewModel(application: Application) : FundActionsViewModel(a
             when (val response = transactionsRepository.check3DEnrollmentSession(
                 Check3DEnrollmentSessionRequest(
                     topupCrad.id?.toIntOrNull(),
-                    Order(state.currencyType, state.amount.toString()),
+                    Order(state.currencyType, enteredAmount.value.toString()),
                     Session(sessionId)
                 )
             )) {
@@ -164,7 +163,7 @@ class TopUpCardFundsViewModel(application: Application) : FundActionsViewModel(a
                             topUpTransactionModelLiveData?.value = TopUpTransactionModel(
                                 orderId,
                                 state.currencyType,
-                                state.amount,
+                                enteredAmount.value.toString(),
                                 topupCrad.id?.toInt(),
                                 secureId
                             )
