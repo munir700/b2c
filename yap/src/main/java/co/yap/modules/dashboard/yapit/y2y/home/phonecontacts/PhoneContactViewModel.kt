@@ -5,7 +5,9 @@ import android.app.Application
 import android.content.Context
 import android.content.pm.PackageManager
 import android.database.Cursor
+import android.os.Build
 import android.provider.ContactsContract
+import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -17,6 +19,7 @@ import co.yap.networking.models.RetroApiResponse
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.helpers.PagingState
 import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.managers.MyUserManager
 import com.google.i18n.phonenumbers.PhoneNumberUtil
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
@@ -55,12 +58,14 @@ class PhoneContactViewModel(application: Application) :
         super.onCleared()
     }
 
+    @RequiresApi(Build.VERSION_CODES.N)
     override fun getY2YBeneficiaries() {
 
         pagingState.value = PagingState.LOADING
         if (listIsEmpty()) {
             launch {
                 val localContacts = getLocalContacts()
+                localContacts.removeIf { it.mobileNo == MyUserManager.user?.currentCustomer?.mobileNo }
                 if (localContacts.isEmpty()) {
                     phoneContactLiveData.value = mutableListOf()
                     pagingState.value = PagingState.DONE
@@ -104,7 +109,6 @@ class PhoneContactViewModel(application: Application) :
     }
 
     private fun fetchContacts(context: Context): MutableList<Contact> {
-
         if (ContextCompat.checkSelfPermission(
                 context,
                 Manifest.permission.READ_CONTACTS
