@@ -32,6 +32,7 @@ open class FundActionsViewModel(application: Application) :
     override val thirdDenominationClickEvent: SingleClickEvent = SingleClickEvent()
     override var error: String = ""
     override var cardSerialNumber: String = ""
+    override var enteredAmount: MutableLiveData<String> = MutableLiveData()
 
     override val topUpTransactionModelLiveData: MutableLiveData<TopUpTransactionModel>? =
         MutableLiveData()
