@@ -53,6 +53,7 @@ interface IInternationalFundsTransfer {
         var totalTransferAmount: ObservableField<Double>
         var errorDescription: String
         var availableBalanceString: CharSequence?
+        var srRate: String // because o lot of rates are already there
         fun clearError()
         fun checkValidation()
     }

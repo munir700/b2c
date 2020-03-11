@@ -21,7 +21,16 @@ import kotlin.collections.ArrayList
 class InternationalFundsTransferState(val application: Application) : BaseState(),
     IInternationalFundsTransfer.State {
 
+
     val context = application.applicationContext
+
+    @get:Bindable
+    override var srRate: String = ""
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.srRate)
+        }
+
     @get:Bindable
     override var transferFee: String = ""
         set(value) {
