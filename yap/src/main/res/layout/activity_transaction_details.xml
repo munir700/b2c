@@ -127,7 +127,7 @@
                 style="@style/Large"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="@{viewModel.transaction.txnType.equals(TxnType.DEBIT.type) ? `- `+Utils.INSTANCE.getFormattedCurrency(viewModel.transaction.totalAmount.toString()) : Utils.INSTANCE.getFormattedCurrency(viewModel.transaction.totalAmount.toString()) }"
+                android:text="@{viewModel.transaction.txnType.equals(TxnType.DEBIT.type) ? `- `+Utils.INSTANCE.getFormattedCurrency(viewModel.transaction.totalAmount.toString()) : Utils.INSTANCE.getFormattedCurrency(viewModel.transaction.amount.toString()) }"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="2500" />
