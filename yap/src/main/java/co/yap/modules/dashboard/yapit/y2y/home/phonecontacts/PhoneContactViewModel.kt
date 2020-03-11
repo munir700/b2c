@@ -7,7 +7,6 @@ import android.content.pm.PackageManager
 import android.database.Cursor
 import android.os.Build
 import android.provider.ContactsContract
-import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -58,14 +57,18 @@ class PhoneContactViewModel(application: Application) :
         super.onCleared()
     }
 
-    @RequiresApi(Build.VERSION_CODES.N)
     override fun getY2YBeneficiaries() {
 
         pagingState.value = PagingState.LOADING
         if (listIsEmpty()) {
             launch {
                 val localContacts = getLocalContacts()
-                localContacts.removeIf { it.mobileNo == MyUserManager.user?.currentCustomer?.mobileNo }
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                    localContacts.removeIf { it.mobileNo == MyUserManager.user?.currentCustomer?.mobileNo }
+                } else {
+                    localContacts.remove(localContacts.find { it.mobileNo == MyUserManager.user?.currentCustomer?.mobileNo })
+                }
+
                 if (localContacts.isEmpty()) {
                     phoneContactLiveData.value = mutableListOf()
                     pagingState.value = PagingState.DONE
