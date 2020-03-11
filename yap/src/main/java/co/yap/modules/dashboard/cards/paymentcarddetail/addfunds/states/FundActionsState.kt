@@ -309,4 +309,5 @@ class FundActionsState(application: Application) : BaseState(), IFundActions.Sta
             valid = false
         }
     }
+
 }
