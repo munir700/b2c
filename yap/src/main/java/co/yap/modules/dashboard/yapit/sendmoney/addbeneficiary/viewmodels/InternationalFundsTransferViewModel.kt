@@ -18,6 +18,7 @@ import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 
 class InternationalFundsTransferViewModel(application: Application) :
     SendMoneyBaseViewModel<IInternationalFundsTransfer.State>(application),
@@ -75,7 +76,7 @@ class InternationalFundsTransferViewModel(application: Application) :
                             state.transferFee =
                                 getString(Strings.screen_international_funds_transfer_display_text_fee).format(
                                     "AED",
-                                    Utils.getFormattedCurrency(state.totalAmount.toString())
+                                    state.totalAmount.toString().toFormattedCurrency()
                                 )
                             state.transferFeeSpannable =
                                 Utils.getSppnableStringForAmount(
@@ -121,11 +122,12 @@ class InternationalFundsTransferViewModel(application: Application) :
                     state.receiverCurrencyAmountFxRate = response.data.data.value?.amount
                     state.fromFxRateCurrency = response.data.data.fromCurrencyCode
                     state.fromFxRate =
-                        "${state.fromFxRateCurrency} ${Utils.getFormattedCurrency(response.data.data.value?.amount)}"
+                        "${state.fromFxRateCurrency} ${response.data.data.value?.amount?.toFormattedCurrency()}"
                     state.toFxRateCurrency = response.data.data.toCurrencyCode
                     state.toFxRate =
-                        "${state.toFxRateCurrency} ${Utils.getFormattedCurrency(response.data.data.fxRates?.get(0)?.convertedAmount)}"
+                        "${state.toFxRateCurrency} ${response.data.data.fxRates?.get(0)?.convertedAmount?.toFormattedCurrency()}"
                     state.rate = response.data.data.fxRates?.get(0)?.convertedAmount
+                    state.srRate = response.data.data.fxRates?.get(0)?.rate ?: "0"
                     state.loading = false
                 }
                 is RetroApiResponse.Error -> {

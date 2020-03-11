@@ -27,7 +27,10 @@ import co.yap.translation.Strings
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.adjust.AdjustEvents
 import co.yap.yapcore.enums.TransactionProductCode
-import co.yap.yapcore.helpers.*
+import co.yap.yapcore.helpers.AnimationUtils
+import co.yap.yapcore.helpers.DecimalDigitsInputFilter
+import co.yap.yapcore.helpers.extentions.toFormattedCurrency
+import co.yap.yapcore.helpers.showTextUpdatedAbleSnackBar
 import co.yap.yapcore.helpers.spannables.color
 import co.yap.yapcore.helpers.spannables.getText
 import co.yap.yapcore.managers.MyUserManager
@@ -37,6 +40,7 @@ import com.daimajia.androidanimations.library.YoYo
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_fund_actions.*
 import kotlinx.android.synthetic.main.layout_card_info.*
+import kotlinx.android.synthetic.main.layout_fund_actions_tool_bar.*
 
 
 open class AddFundsActivity : BaseBindingActivity<IFundActions.ViewModel>(),
@@ -119,6 +123,7 @@ open class AddFundsActivity : BaseBindingActivity<IFundActions.ViewModel>(),
                 })
 
                 R.id.ivCross -> this.finish()
+                R.id.tbIvClose -> this.finish()
 
                 viewModel.EVENT_ADD_FUNDS_SUCCESS -> {
                     fundsAdded = true
@@ -133,9 +138,7 @@ open class AddFundsActivity : BaseBindingActivity<IFundActions.ViewModel>(),
                         resources.getText(
                             getString(Strings.common_text_fee), this.color(
                                 R.color.colorPrimaryDark,
-                                "${viewModel.state.currencyType} ${Utils.getFormattedCurrency(
-                                    viewModel.state.fee
-                                )}"
+                                "${viewModel.state.currencyType} ${viewModel.state.fee?.toFormattedCurrency()}"
                             )
                         )
                 }
@@ -163,9 +166,8 @@ open class AddFundsActivity : BaseBindingActivity<IFundActions.ViewModel>(),
         viewModel.state.availableBalance =
             MyUserManager.cardBalance.value?.availableBalance.toString()
         viewModel.state.availableBalanceText =
-            " " + getString(Strings.common_text_currency_type) + " " + Utils.getFormattedCurrency(
-                viewModel.state.availableBalance
-            )
+            " " + getString(Strings.common_text_currency_type) + " " +
+                    viewModel.state.availableBalance.toFormattedCurrency()
 
         etAmount.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(p0: Editable?) {
@@ -185,18 +187,19 @@ open class AddFundsActivity : BaseBindingActivity<IFundActions.ViewModel>(),
     }
 
     private fun showErrorSnackBar() {
-        clSnackbar.showSnackBar(
-            msg = viewModel.state.errorDescription,
-            viewBgColor = R.color.errorLightBackground,
-            colorOfMessage = R.color.error , marginTop = 0
-        )
+        showTextUpdatedAbleSnackBar(viewModel.state.errorDescription, Snackbar.LENGTH_INDEFINITE)
+        /*    clSnackbar.showSnackBar(
+                msg = viewModel.state.errorDescription,
+                viewBgColor = R.color.errorLightBackground,
+                colorOfMessage = R.color.error, marginTop = 0
+            )*/
     }
 
     fun performSuccessOperations() {
         YoYo.with(Techniques.FadeOut)
             .duration(300)
             .repeat(0)
-            .playOn(ivCross)
+            .playOn(tbIvClose)
         clBottom.children.forEach { it.alpha = 0f }
         btnAction.alpha = 0f
         clRightData.children.forEach { it.alpha = 0f }
@@ -266,7 +269,7 @@ open class AddFundsActivity : BaseBindingActivity<IFundActions.ViewModel>(),
         viewModel.state.topUpSuccess =
             getString(Strings.screen_success_funds_transaction_display_text_top_up).format(
                 viewModel.state.currencyType,
-                Utils.getFormattedCurrency(viewModel.state.amount)
+                viewModel.state.amount?.toFormattedCurrency()
             )
 
         val fcs = ForegroundColorSpan(ContextCompat.getColor(this, R.color.colorPrimaryDark))
@@ -277,9 +280,8 @@ open class AddFundsActivity : BaseBindingActivity<IFundActions.ViewModel>(),
         str.setSpan(
             fcs,
             separated[0].length,
-            separated[0].length + viewModel.state.currencyType.length + Utils.getFormattedCurrency(
-                viewModel.state.amount
-            ).length + 1,
+            separated[0].length + viewModel.state.currencyType.length + (viewModel.state.amount?.toFormattedCurrency()?.length
+                ?: 0) + 1,
             Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
         )
         tvTopUp.text = str
@@ -292,7 +294,7 @@ open class AddFundsActivity : BaseBindingActivity<IFundActions.ViewModel>(),
         viewModel.state.primaryCardUpdatedBalance =
             getString(Strings.screen_success_funds_transaction_display_text_primary_balance).format(
                 viewModel.state.currencyType,
-                Utils.getFormattedCurrency(MyUserManager.cardBalance.value?.availableBalance.toString())
+                MyUserManager.cardBalance.value?.availableBalance.toString().toFormattedCurrency()
             )
 
         val separatedPrimary =
@@ -313,7 +315,7 @@ open class AddFundsActivity : BaseBindingActivity<IFundActions.ViewModel>(),
         viewModel.state.spareCardUpdatedBalance =
             getString(Strings.screen_success_funds_transaction_display_text_success_updated_prepaid_card_balance).format(
                 viewModel.state.currencyType,
-                Utils.getFormattedCurrency(updatedSpareCardBalance)
+                updatedSpareCardBalance.toFormattedCurrency()
             )
 
         val separatedSpare =

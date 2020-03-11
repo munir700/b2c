@@ -14,6 +14,7 @@ import co.yap.yapcore.BaseState
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.cancelAllSnackBar
+import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 
 class FundActionsState(application: Application) : BaseState(), IFundActions.State {
     var context: Context = application.applicationContext
@@ -224,7 +225,7 @@ class FundActionsState(application: Application) : BaseState(), IFundActions.Sta
                                 context,
                                 Strings.screen_remove_funds_display_text_available_balance_error,
                                 currencyType,
-                                Utils.getFormattedCurrency(availableBalance)
+                                availableBalance.toFormattedCurrency() ?: ""
                             )
 
                         } else {
@@ -232,7 +233,7 @@ class FundActionsState(application: Application) : BaseState(), IFundActions.Sta
                                 context,
                                 Strings.screen_add_funds_display_text_available_balance_error,
                                 currencyType,
-                                Utils.getFormattedCurrency(availableBalance)
+                                availableBalance.toFormattedCurrency() ?: ""
                             )
                         }
                         return errorDescription
@@ -248,7 +249,7 @@ class FundActionsState(application: Application) : BaseState(), IFundActions.Sta
                             context,
                             Strings.screen_add_funds_display_text_max_limit_error,
                             currencyType,
-                            Utils.getFormattedCurrency(maxLimit.toString())
+                            maxLimit.toString().toFormattedCurrency()?:""
                         )
                         return errorDescription
 
@@ -280,7 +281,7 @@ class FundActionsState(application: Application) : BaseState(), IFundActions.Sta
                             context,
                             Strings.screen_add_funds_display_text_max_limit_error,
                             currencyType,
-                            Utils.getFormattedCurrency(maxLimit.toString())
+                            maxLimit.toString().toFormattedCurrency()?:""
                         )
                         return errorDescription
 

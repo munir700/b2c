@@ -30,6 +30,7 @@ import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.OTPActions
 import co.yap.yapcore.helpers.*
 import co.yap.yapcore.helpers.extentions.startFragmentForResult
+import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 import co.yap.yapcore.helpers.spannables.color
 import co.yap.yapcore.helpers.spannables.getText
 import co.yap.yapcore.managers.MyUserManager
@@ -82,7 +83,10 @@ class Y2YTransferFragment : Y2YBaseFragment<IY2YFundsTransfer.ViewModel>(), IY2Y
     }
     private val enterAmountObserver = Observer<String> {
         when {
-            isBalanceAvailable(it) -> showErrorSnackBar(viewModel.state.errorDescription, Snackbar.LENGTH_INDEFINITE)
+            isBalanceAvailable(it) -> showErrorSnackBar(
+                viewModel.state.errorDescription,
+                Snackbar.LENGTH_INDEFINITE
+            )
             //isDailyLimitReached() -> showErrorSnackBar(viewModel.state.errorDescription, Snackbar.LENGTH_INDEFINITE)
             else -> cancelAllSnackBar()
         }
@@ -116,7 +120,7 @@ class Y2YTransferFragment : Y2YBaseFragment<IY2YFundsTransfer.ViewModel>(), IY2Y
                     resources.getText(
                         getString(Strings.common_text_fee), requireContext().color(
                             R.color.colorPrimaryDark,
-                            "${viewModel.state.currencyType} ${Utils.getFormattedCurrency(viewModel.state.fee)}"
+                            "${viewModel.state.currencyType} ${viewModel.state.fee?.toFormattedCurrency()}"
                         )
                     )
             }
@@ -128,8 +132,8 @@ class Y2YTransferFragment : Y2YBaseFragment<IY2YFundsTransfer.ViewModel>(), IY2Y
         viewModel.state.errorDescription = Translator.getString(
             requireContext(),
             Strings.common_display_text_min_max_limit_error_transaction,
-            Utils.getFormattedCurrency(viewModel.state.minLimit.toString()),
-            Utils.getFormattedCurrency(viewModel.state.maxLimit.toString())
+            viewModel.state.minLimit.toString().toFormattedCurrency() ?: "",
+            viewModel.state.maxLimit.toString()
 
         )
     }
@@ -173,9 +177,9 @@ class Y2YTransferFragment : Y2YBaseFragment<IY2YFundsTransfer.ViewModel>(), IY2Y
         )
 
         viewModel.state.availableBalanceText =
-            " " + getString(Strings.common_text_currency_type) + " " + Utils.getFormattedCurrency(
-                viewModel.state.availableBalance
-            )
+            " " + getString(Strings.common_text_currency_type) + " " +
+                    viewModel.state.availableBalance?.toFormattedCurrency()
+
         etAmount.filters =
             arrayOf(InputFilter.LengthFilter(7), DecimalDigitsInputFilter(2))
         etAmount.addTextChangedListener(object : TextWatcher {
@@ -205,7 +209,7 @@ class Y2YTransferFragment : Y2YBaseFragment<IY2YFundsTransfer.ViewModel>(), IY2Y
                             if (enteredAmount > dailyLimit) getString(Strings.common_display_text_daily_limit_error_single_transaction) else getString(
                                 Strings.common_display_text_daily_limit_error_single_transaction
                             )
-                        return enteredAmount > remainingDailyLimit
+                        return enteredAmount >= remainingDailyLimit
 
                     } ?: return false
                 } ?: return false
@@ -218,7 +222,7 @@ class Y2YTransferFragment : Y2YBaseFragment<IY2YFundsTransfer.ViewModel>(), IY2Y
             it.totalDebitAmountY2Y?.let { totalY2YConsumedAmount ->
                 viewModel.enteredAmount.value?.toDoubleOrNull()?.let { enteredAmount ->
                     val remainingOtpLimit = it.otpLimitY2Y?.minus(totalY2YConsumedAmount)
-                    return enteredAmount > (remainingOtpLimit ?: 0.0)
+                    return enteredAmount >= (remainingOtpLimit ?: 0.0)
                 } ?: return false
             } ?: return false
         } ?: return false

@@ -187,6 +187,10 @@
             android:name="otpAction"
             android:defaultValue=" "
             app:argType="string" />
+        <argument
+            android:name="srRate"
+            android:defaultValue=" "
+            app:argType="string" />
 
         <action
             android:id="@+id/action_internationalTransactionConfirmationFragment_to_transferSuccessFragment2"
