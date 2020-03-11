@@ -9,6 +9,7 @@ import co.yap.translation.Strings
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 import co.yap.yapcore.managers.MyUserManager
 
 
@@ -30,7 +31,7 @@ class TopUpCardSuccessViewModel(application: Application) :
         state.topUpSuccess =
             getString(Strings.screen_topup_success_display_text_success_transaction_message).format(
                 state.currencyType,
-                Utils.getFormattedCurrency(state.amount)
+                state.amount.toFormattedCurrency()
             )
 
     }

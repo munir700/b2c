@@ -13,6 +13,7 @@ import co.yap.networking.models.RetroApiResponse
 import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 import co.yap.yapcore.managers.MyUserManager
 
 class HouseHoldConfirmPaymentViewModel(application: Application) :
@@ -51,7 +52,7 @@ class HouseHoldConfirmPaymentViewModel(application: Application) :
         val balanceString = getString(Strings.screen_topup_transfer_display_text_available_balance)
             .format(
                 state.currencyType.get().toString(),
-                Utils.getFormattedCurrency(MyUserManager.cardBalance.value?.availableBalance.toString())
+                MyUserManager.cardBalance.value?.availableBalance.toString().toFormattedCurrency()
             )
         state.availableBalance.set(
             Utils.getSppnableStringForAmount(

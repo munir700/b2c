@@ -16,6 +16,7 @@ import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 import co.yap.yapcore.managers.MyUserManager
 import kotlinx.coroutines.delay
 
@@ -110,7 +111,7 @@ open class FundActionsViewModel(application: Application) :
                         val feeAmount = response.data.data?.tierRateDTOList?.get(0)?.feeAmount
                         val VATAmount = response.data.data?.tierRateDTOList?.get(0)?.vatAmount
                         state.fee =
-                            Utils.getFormattedCurrency(feeAmount?.plus(VATAmount ?: 0.0).toString())
+                            feeAmount?.plus(VATAmount ?: 0.0).toString().toFormattedCurrency()
                         clickEvent.postValue(Constants.CARD_FEE)
                     }
                 }

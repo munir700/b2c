@@ -499,7 +499,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
 
     private fun setAvailableBalance(balance: String) {
         try {
-            val ss1 = SpannableString(Utils.getFormattedCurrency(balance))
+            val ss1 = SpannableString(balance.toFormattedCurrency())
             if (ss1.isNotEmpty() && ss1.contains(".")) {
                 val balanceAfterDot = ss1.split(".")
                 ss1.setSpan(

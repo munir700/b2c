@@ -1,4 +1,4 @@
-package com.ezaka.customer.app.utils
+package co.yap.yapcore.helpers.extentions
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -10,6 +10,7 @@ import androidx.annotation.NonNull
 import androidx.annotation.Nullable
 import androidx.annotation.StringRes
 import com.google.android.material.textfield.TextInputLayout
+import java.text.DecimalFormat
 
 /**
  * Checks if a string is a valid email
@@ -65,7 +66,20 @@ fun shortName(cardFullName: String): String {
     return shortName.toUpperCase()
 }
 
-//fun String.capitalizeWords(): String = split(" ").map { it.capitalize() }.joinToString(" ")
 @SuppressLint("DefaultLocale")
 fun String.toCamelCase(): String = split(" ").joinToString(" ") { it.toLowerCase().capitalize() }
+
+fun String.toFormattedCurrency(): String? {
+    return try {
+        if (!this.isBlank()) {
+            val m = java.lang.Double.parseDouble(this)
+            val formatter = DecimalFormat("###,###,##0.00")
+            formatter.format(m)
+        } else {
+            ""
+        }
+    } catch (e: Exception) {
+        ""
+    }
+}
 

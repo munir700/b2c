@@ -26,9 +26,8 @@ import co.yap.translation.Strings
 import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.Constants.URL_DISCLAIMER_TERMS
-import co.yap.yapcore.enums.SendMoneyBeneficiaryType
-import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.startFragment
+import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 import co.yap.yapcore.helpers.spannables.color
 import co.yap.yapcore.helpers.spannables.getText
 
@@ -41,7 +40,8 @@ class InternationalTransactionConfirmationFragment :
     override fun getLayoutId(): Int = R.layout.fragment_international_transaction_confirmation
 
     override val viewModel: IInternationalTransactionConfirmation.ViewModel
-        get() = ViewModelProviders.of(this).get(InternationalTransactionConfirmationViewModel::class.java)
+        get() = ViewModelProviders.of(this)
+            .get(InternationalTransactionConfirmationViewModel::class.java)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,6 +51,7 @@ class InternationalTransactionConfirmationFragment :
         }
 
     }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setUpViews()
@@ -87,7 +88,7 @@ class InternationalTransactionConfirmationFragment :
             requireContext().color(R.color.colorPrimaryDark, args.senderCurrency)
             , requireContext().color(
                 R.color.colorPrimaryDark,
-                Utils.getFormattedCurrency(args.fxRateAmount)
+                args.fxRateAmount.toFormattedCurrency() ?: ""
             ),
             // viewModel.state.name
             args.firstName
@@ -108,7 +109,7 @@ class InternationalTransactionConfirmationFragment :
                 args.firstName,
                 requireContext().color(
                     R.color.colorPrimaryDark,
-                    "${Utils.getFormattedCurrency(args.receiverCurrencyAmount)} ${args.toFxRateCurrency}"
+                    "${args.receiverCurrencyAmount.toFormattedCurrency()} ${args.toFxRateCurrency}"
                 )
             )
 
@@ -116,7 +117,7 @@ class InternationalTransactionConfirmationFragment :
             resources.getText(
                 getString(Strings.screen_funds_transfer_fee_description), requireContext().color(
                     R.color.colorPrimaryDark,
-                    "${"AED"} ${Utils.getFormattedCurrency(args.totalAmount)}"
+                    "${"AED"} ${args.totalAmount.toFormattedCurrency()}"
                 )
             )
     }
@@ -157,8 +158,11 @@ class InternationalTransactionConfirmationFragment :
                                 InternationalTransactionConfirmationFragmentDirections.actionInternationalTransactionConfirmationFragmentToTransferSuccessFragment2(
                                     "",
                                     args.senderCurrency,
-                                    Utils.getFormattedCurrency(args.fxRateAmount),
-                                    referenceNumber, position, beneficiaryCountry,viewModel.state.cutOffTimeMsg?:""
+                                    args.fxRateAmount.toFormattedCurrency() ?: "",
+                                    referenceNumber,
+                                    position,
+                                    beneficiaryCountry,
+                                    viewModel.state.cutOffTimeMsg ?: ""
                                 )
                             findNavController().navigate(action)
                         }
@@ -167,7 +171,8 @@ class InternationalTransactionConfirmationFragment :
             }
         }
     }
-    private fun setDisclaimerText(){
+
+    private fun setDisclaimerText() {
         val myClickableSpan = object : ClickableSpan() {
             override fun onClick(widget: View) {
                 startFragment(

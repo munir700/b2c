@@ -16,11 +16,8 @@ import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.DateUtils
 import co.yap.yapcore.helpers.DateUtils.FORMAT_MONTH_YEAR
-import co.yap.yapcore.helpers.DateUtils.FORMAT_MON_YEAR
-import co.yap.yapcore.helpers.DateUtils.TIME_ZONE_Default
-import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.managers.MyUserManager
-import java.text.SimpleDateFormat
+import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 import java.util.*
 
 class CardAnalyticsViewModel(application: Application) :
@@ -132,10 +129,10 @@ class CardAnalyticsViewModel(application: Application) :
                             response.data.data?.monthlyAvgAmount?.toString()
                         state.setUpString(
                             state.currencyType,
-                            Utils.getFormattedCurrency(state.monthlyCategoryAvgAmount)
+                            state.monthlyCategoryAvgAmount?.toFormattedCurrency()
                         )
                         state.totalCategorySpent =
-                            state.currencyType + " ${Utils.getFormattedCurrency(response.data.data?.totalTxnAmount.toString())}"
+                            state.currencyType + " ${response.data.data?.totalTxnAmount.toString().toFormattedCurrency()}"
                         state.totalSpent = state.totalCategorySpent
                         clickEvent.postValue(Constants.CATEGORY_AVERAGE_AMOUNT_VALUE)
                         parentVM?.categoryAnalyticsItemLiveData?.value = it.txnAnalytics
@@ -164,10 +161,10 @@ class CardAnalyticsViewModel(application: Application) :
                     state.monthlyMerchantAvgAmount =
                         response.data.data?.monthlyAvgAmount?.toString()
                     state.totalMerchantSpent =
-                        state.currencyType + " ${Utils.getFormattedCurrency(response.data.data?.totalTxnAmount.toString())}"
+                        state.currencyType + " ${response.data.data?.totalTxnAmount.toString().toFormattedCurrency()}"
                     state.setUpStringForMerchant(
                         state.currencyType,
-                        Utils.getFormattedCurrency(state.monthlyMerchantAvgAmount)
+                        state.monthlyMerchantAvgAmount?.toFormattedCurrency()
                     )
                     parentVM?.merchantAnalyticsItemLiveData?.value =
                         response.data.data?.txnAnalytics

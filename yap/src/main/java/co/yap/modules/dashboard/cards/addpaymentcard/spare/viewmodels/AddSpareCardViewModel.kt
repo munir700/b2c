@@ -18,8 +18,8 @@ import co.yap.networking.transactions.TransactionsRepository
 import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.helpers.SharedPreferenceManager
-import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.managers.MyUserManager
+import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 import kotlinx.coroutines.delay
 
 
@@ -66,7 +66,7 @@ class AddSpareCardViewModel(application: Application) :
 
     override fun requestInitialData() {
         state.avaialableCardBalance =
-            "AED ${Utils.getFormattedCurrency(MyUserManager.cardBalance.value?.availableBalance.toString())}"
+            "AED ${MyUserManager.cardBalance.value?.availableBalance.toString().toFormattedCurrency()}"
         if (isFromBlockCardScreen || cardType != getString(R.string.screen_spare_card_landing_display_text_virtual_card)) {
             state.loading = true
             requestGetAddressForPhysicalCard()
