@@ -349,6 +349,7 @@ class CashTransferFragment : SendMoneyBaseFragment<ICashTransfer.ViewModel>(), I
                                     "${"AED"} ${Utils.getFormattedCurrency(viewModel.state.availableBalance)}"
                                 )
                             )
+                        viewModel.state.setSpannableFee("0.0")
                         viewModel.getMoneyTransferLimits(viewModel.state.produceCode)
                         viewModel.getTransactionFeeForCashPayout(viewModel.state.produceCode)
                         viewModel.getCashTransferReasonList()
