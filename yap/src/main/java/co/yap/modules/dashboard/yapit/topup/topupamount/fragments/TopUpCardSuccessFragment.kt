@@ -18,6 +18,7 @@ import co.yap.translation.Strings
 import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 import co.yap.yapcore.managers.MyUserManager
 
 class TopUpCardSuccessFragment : BaseBindingFragment<ITopUpCardSuccess.ViewModel>(),
@@ -47,7 +48,7 @@ class TopUpCardSuccessFragment : BaseBindingFragment<ITopUpCardSuccess.ViewModel
             viewModel.state.availableBalanceSpanable.set(
                 getString(Strings.screen_topup_success_display_text_account_balance_title).format(
                     args.currencyType,
-                    Utils.getFormattedCurrency(it.availableBalance)
+                    it.availableBalance?.toFormattedCurrency()
                 )
             )
 

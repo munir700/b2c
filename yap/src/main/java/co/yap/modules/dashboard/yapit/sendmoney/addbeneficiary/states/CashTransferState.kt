@@ -16,12 +16,14 @@ import co.yap.translation.Strings
 import co.yap.translation.Translator
 import co.yap.yapcore.BaseState
 import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 
 class CashTransferState(application: Application) : BaseState(), ICashTransfer.State {
 
     val context: Context = application.applicationContext
 
     override var originalTransferFeeAmount: ObservableField<String> = ObservableField()
+
     @get:Bindable
     override var fullName: String = ""
         set(value) {
@@ -37,18 +39,21 @@ class CashTransferState(application: Application) : BaseState(), ICashTransfer.S
             field = value
             notifyPropertyChanged(BR.amountBackground)
         }
+
     @get:Bindable
     override var feeAmountString: String = ""
         set(value) {
             field = value
             notifyPropertyChanged(BR.feeAmountString)
         }
+
     @get:Bindable
     override var feeAmountSpannableString: SpannableStringBuilder? = SpannableStringBuilder("")
         set(value) {
             field = value
             notifyPropertyChanged(BR.feeAmountSpannableString)
         }
+
     @get:Bindable
     override var availableBalanceString: CharSequence? = ""
         set(value) {
@@ -69,12 +74,14 @@ class CashTransferState(application: Application) : BaseState(), ICashTransfer.S
             field = value
             notifyPropertyChanged(BR.valid)
         }
+
     @get:Bindable
     override var minLimit: Double = 1.00
         set(value) {
             field = value
             notifyPropertyChanged(BR.minLimit)
         }
+
     @get:Bindable
     override var position: Int = 0
         set(value) {
@@ -95,6 +102,7 @@ class CashTransferState(application: Application) : BaseState(), ICashTransfer.S
             field = value
             notifyPropertyChanged(BR.errorDescription)
         }
+
     @get:Bindable
     override var currencyType: String = ""
         set(value) {
@@ -136,54 +144,63 @@ class CashTransferState(application: Application) : BaseState(), ICashTransfer.S
             field = value
             notifyPropertyChanged(BR.imageUrl)
         }
+
     @get:Bindable
     override var feeStringVisibility: Boolean = true
         set(value) {
             field = value
             notifyPropertyChanged(BR.feeStringVisibility)
         }
+
     @get:Bindable
     override var ibanNumber: String? = ""
         set(value) {
             field = value
             notifyPropertyChanged(BR.ibanNumber)
         }
+
     @get:Bindable
     override var ibanVisibility: Boolean? = false
         set(value) {
             field = value
             notifyPropertyChanged(BR.ibanVisibility)
         }
+
     @get:Bindable
     override var beneficiaryCountry: String? = ""
         set(value) {
             field = value
             notifyPropertyChanged(BR.beneficiaryCountry)
         }
+
     @get:Bindable
     override var referenceNumber: String? = ""
         set(value) {
             field = value
             notifyPropertyChanged(BR.referenceNumber)
         }
+
     @get:Bindable
     override var reasonsVisibility: Boolean? = true
         set(value) {
             field = value
             notifyPropertyChanged(BR.reasonsVisibility)
         }
+
     @get:Bindable
     override var produceCode: String? = ""
         set(value) {
             field = value
             notifyPropertyChanged(BR.produceCode)
         }
+
     @get:Bindable
     override var otpAction: String? = ""
         set(value) {
             field = value
             notifyPropertyChanged(BR.otpAction)
         }
+
     @get:Bindable
     override var beneficiary: Beneficiary? = Beneficiary()
         set(value) {
@@ -205,6 +222,7 @@ class CashTransferState(application: Application) : BaseState(), ICashTransfer.S
             field = value
             notifyPropertyChanged(BR.reasonTransferCode)
         }
+
     @get:Bindable
     override var totalAmount: Double? = 0.0
         set(value) {
@@ -226,6 +244,7 @@ class CashTransferState(application: Application) : BaseState(), ICashTransfer.S
             field = value
             notifyPropertyChanged(BR.transferFeeSpannable)
         }
+
     @get:Bindable
     override var transferFeeAmount: Double = 0.0
         set(value) {
@@ -248,12 +267,14 @@ class CashTransferState(application: Application) : BaseState(), ICashTransfer.S
             field = value
             notifyPropertyChanged(BR.transactionData)
         }
+
     @get:Bindable
     override var feeType: String? = ""
         set(value) {
             field = value
             notifyPropertyChanged(BR.feeType)
         }
+
     @get:Bindable
     override var cutOffTimeMsg: String? = null
         set(value) {
@@ -286,8 +307,8 @@ class CashTransferState(application: Application) : BaseState(), ICashTransfer.S
                     errorDescription = Translator.getString(
                         context,
                         Strings.common_display_text_min_max_limit_error_transaction,
-                        Utils.getFormattedCurrency(minLimit.toString()),
-                        Utils.getFormattedCurrency(maxLimit.toString())
+                        minLimit.toString().toFormattedCurrency() ?: "",
+                        maxLimit.toString().toFormattedCurrency() ?: ""
                     )
                     return errorDescription
 
@@ -328,7 +349,7 @@ class CashTransferState(application: Application) : BaseState(), ICashTransfer.S
         while (iterator.hasNext()) {
             val item = iterator.next()
             if (item.amountFrom != null && item.amountTo != null) {
-                if (item.amountFrom?:0.0 <= value && item.amountTo!! >= value) {
+                if (item.amountFrom ?: 0.0 <= value && item.amountTo!! >= value) {
                     remittanceTierFee.add(item)
                     break
                 }
@@ -339,7 +360,7 @@ class CashTransferState(application: Application) : BaseState(), ICashTransfer.S
             val feeAmount = remittanceTierFee[0].feeAmount
             val feeAmountVAT = remittanceTierFee[0].vatAmount
             if (feeAmount != null) {
-                totalAmount = feeAmount + (feeAmountVAT?:0.0)
+                totalAmount = feeAmount + (feeAmountVAT ?: 0.0)
             }
         }
         transferFeeAmount = totalAmount ?: 0.0
@@ -353,7 +374,7 @@ class CashTransferState(application: Application) : BaseState(), ICashTransfer.S
                 Strings.screen_cash_pickup_funds_display_text_fee
             ).format(
                 "AED",
-                Utils.getFormattedCurrency(totalAmount)
+                totalAmount.toFormattedCurrency()
             )
         feeAmountSpannableString =
             Utils.getSppnableStringForAmount(

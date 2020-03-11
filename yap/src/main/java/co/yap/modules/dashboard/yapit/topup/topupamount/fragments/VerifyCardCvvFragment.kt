@@ -19,6 +19,7 @@ import co.yap.translation.Strings
 import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 
 class VerifyCardCvvFragment : BaseBindingFragment<IVerifyCardCvv.ViewModel>(), IVerifyCardCvv.View {
     val args: VerifyCardCvvFragmentArgs by navArgs()
@@ -41,7 +42,7 @@ class VerifyCardCvvFragment : BaseBindingFragment<IVerifyCardCvv.ViewModel>(), I
         viewModel.state.cvvSpanableString.set(
             getString(Strings.screen_topup_card_cvv_display_text_cvv).format(
                 args.currencyType,
-                Utils.getFormattedCurrency(args.amount)
+                args.amount.toFormattedCurrency()
             )
         )
         getBindings().tvTopUpDescription.text = Utils.getSppnableStringForAmount(
@@ -93,7 +94,7 @@ class VerifyCardCvvFragment : BaseBindingFragment<IVerifyCardCvv.ViewModel>(), I
 
     }
 
-   private fun getBindings(): FragmentVerifyCardCvvBinding {
+    private fun getBindings(): FragmentVerifyCardCvvBinding {
         return viewDataBinding as FragmentVerifyCardCvvBinding
     }
 }

@@ -15,6 +15,7 @@ import co.yap.yapcore.BaseState
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.cancelAllSnackBar
+import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -370,9 +371,9 @@ class InternationalFundsTransferState(val application: Application) : BaseState(
                 Strings.screen_international_funds_transfer_display_text_fee
             ).format(
                 "AED",
-                Utils.getFormattedCurrency(findFee(amount).toString())
+                findFee(amount).toString().toFormattedCurrency()
             )
-        formattedFee = "${"AED"} ${Utils.getFormattedCurrency(findFee(amount).toString())}"
+        formattedFee = "${"AED"} ${findFee(amount).toString().toFormattedCurrency()}"
         internationalFee = "${"AED"} ${findFee(amount)}"
 
         notifyPropertyChanged(BR.transferFee)

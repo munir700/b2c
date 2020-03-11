@@ -33,6 +33,7 @@ import co.yap.yapcore.enums.SendMoneyBeneficiaryType
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.startFragment
 import co.yap.yapcore.helpers.extentions.startFragmentForResult
+import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 import co.yap.yapcore.helpers.spannables.color
 import co.yap.yapcore.helpers.spannables.getText
 import co.yap.yapcore.managers.MyUserManager
@@ -99,7 +100,7 @@ class CashTransferConfirmationFragment :
                 viewModel.beneficiary?.firstName,
                 requireContext().color(
                     R.color.colorPrimaryDark,
-                    "${"AED"} ${Utils.getFormattedCurrency(viewModel.state.enteredAmount.get())}"
+                    "${"AED"} ${viewModel.state.enteredAmount.get()?.toFormattedCurrency()}"
                 )
             )
         )
@@ -144,7 +145,7 @@ class CashTransferConfirmationFragment :
                 getString(Strings.scren_send_money_funds_transfer_confirmation_display_text_fee),
                 requireContext().color(
                     R.color.colorPrimaryDark,
-                    "${"AED"} ${Utils.getFormattedCurrency(viewModel.state.transferFee.get())}"
+                    "${"AED"} ${viewModel.state.transferFee.get()?.toFormattedCurrency()}"
                 )
             )
         )
@@ -182,7 +183,7 @@ class CashTransferConfirmationFragment :
                 CashTransferConfirmationFragmentDirections.actionCashTransferConfirmationFragmentToTransferSuccessFragment2(
                     "",
                     "AED",
-                    Utils.getFormattedCurrency(viewModel.state.enteredAmount.get()),
+                    viewModel.state.enteredAmount.get()?.toFormattedCurrency()?:"",
                     viewModel.state.referenceNumber.get().toString(),
                     viewModel.state.position.get() ?: 0,
                     viewModel.state.cutOffTimeMsg.get()?:""

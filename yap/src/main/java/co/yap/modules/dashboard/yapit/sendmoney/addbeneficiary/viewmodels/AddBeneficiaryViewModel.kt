@@ -18,6 +18,7 @@ import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.SendMoneyBeneficiaryType
 import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.managers.MyUserManager
 
 class AddBeneficiaryViewModel(application: Application) :
     SendMoneyBaseViewModel<IAddBeneficiary.State>(application), IAddBeneficiary.ViewModel,
@@ -75,10 +76,14 @@ class AddBeneficiaryViewModel(application: Application) :
                     }
                     SendMoneyBeneficiaryType.DOMESTIC -> {
                         parentViewModel?.beneficiary?.value?.let {
-                            validateBeneficiaryDetails(
-                                it,
-                                Constants.DOMESTIC_BENEFICIARY
-                            )
+                            if (!isLoggedinUserIBAN(it))
+                                validateBeneficiaryDetails(
+                                    it,
+                                    Constants.DOMESTIC_BENEFICIARY
+                                )
+                            else
+                                state.toast =
+                                    getString(Strings.screen_add_beneficiary_detail_display_text_error_iban_current_user)
                         }
                     }
                     else -> {
@@ -89,6 +94,13 @@ class AddBeneficiaryViewModel(application: Application) :
         } else {
             clickEvent.setValue(id)
         }
+    }
+
+    private fun isLoggedinUserIBAN(beneficiary: Beneficiary): Boolean {
+        MyUserManager.user?.iban?.let {
+            return beneficiary.accountNo.equals(it, true)
+        } ?: return false
+
     }
 
     override fun createOtp(action: String) {

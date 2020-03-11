@@ -35,6 +35,7 @@ import co.yap.yapcore.enums.SendMoneyBeneficiaryType
 import co.yap.yapcore.helpers.DecimalDigitsInputFilter
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.cancelAllSnackBar
+import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 import co.yap.yapcore.helpers.spannables.color
 import co.yap.yapcore.helpers.spannables.getText
 import co.yap.yapcore.managers.MyUserManager
@@ -137,7 +138,7 @@ class CashTransferFragment : SendMoneyBaseFragment<ICashTransfer.ViewModel>(), I
                         CashTransferFragmentDirections.actionCashTransferFragmentToTransferSuccessFragment2(
                             "",
                             viewModel.state.currencyType,
-                            Utils.getFormattedCurrency(viewModel.state.amount),
+                            viewModel.state.amount.toFormattedCurrency()?:"",
                             referenceNumber,
                             viewModel.state.position
                         )
@@ -210,9 +211,9 @@ class CashTransferFragment : SendMoneyBaseFragment<ICashTransfer.ViewModel>(), I
         }
 
         viewModel.state.availableBalanceText =
-            " " + getString(Strings.common_text_currency_type) + " " + Utils.getFormattedCurrency(
-                viewModel.state.availableBalance
-            )
+            " " + getString(Strings.common_text_currency_type) + " " +
+                viewModel.state.availableBalance?.toFormattedCurrency()
+
 
         etAmount.filters =
             arrayOf(InputFilter.LengthFilter(7), DecimalDigitsInputFilter(2))
@@ -266,7 +267,7 @@ class CashTransferFragment : SendMoneyBaseFragment<ICashTransfer.ViewModel>(), I
         val des = Translator.getString(
             requireContext(),
             Strings.common_display_text_available_balance_error
-        ).format(Utils.getFormattedCurrency(MyUserManager.cardBalance.value?.availableBalance))
+        ).format(MyUserManager.cardBalance.value?.availableBalance?.toFormattedCurrency())
         if (activity is BeneficiaryCashTransferActivity) {
             (activity as BeneficiaryCashTransferActivity).viewModel.errorEvent.value =
                 des
@@ -319,11 +320,6 @@ class CashTransferFragment : SendMoneyBaseFragment<ICashTransfer.ViewModel>(), I
             (activity as BeneficiaryCashTransferActivity).viewModel.errorEvent.value =
                 viewModel.state.errorDescription
         }
-     /*   CustomSnackbar.showErrorCustomSnackbar(
-            context = requireContext(),
-            layout = clFTSnackbar,
-            message = viewModel.state.errorDescription
-        )*/
     }
 
     private fun startFlows() {
@@ -346,9 +342,10 @@ class CashTransferFragment : SendMoneyBaseFragment<ICashTransfer.ViewModel>(), I
                             resources.getText(
                                 getString(Strings.screen_cash_transfer_display_text_available_balance), requireContext().color(
                                     R.color.colorPrimaryDark,
-                                    "${"AED"} ${Utils.getFormattedCurrency(viewModel.state.availableBalance)}"
+                                    "${"AED"} ${viewModel.state.availableBalance?.toFormattedCurrency()}"
                                 )
                             )
+                        viewModel.state.setSpannableFee("0.0")
                         viewModel.getMoneyTransferLimits(viewModel.state.produceCode)
                         viewModel.getTransactionFeeForCashPayout(viewModel.state.produceCode)
                         viewModel.getCashTransferReasonList()

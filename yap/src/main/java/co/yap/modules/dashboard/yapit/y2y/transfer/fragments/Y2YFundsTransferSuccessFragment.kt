@@ -12,6 +12,7 @@ import co.yap.modules.dashboard.yapit.y2y.main.fragments.Y2YBaseFragment
 import co.yap.modules.dashboard.yapit.y2y.transfer.interfaces.IY2YFundsTransferSuccess
 import co.yap.modules.dashboard.yapit.y2y.transfer.viewmodels.Y2YFundsTransferSuccessViewModel
 import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 import co.yap.yapcore.managers.MyUserManager
 
 class Y2YFundsTransferSuccessFragment : Y2YBaseFragment<IY2YFundsTransferSuccess.ViewModel>(),
@@ -41,7 +42,7 @@ class Y2YFundsTransferSuccessFragment : Y2YBaseFragment<IY2YFundsTransferSuccess
     private fun setUpData() {
         viewModel.state.title = args.title
         viewModel.state.transferredAmount =
-            args.currencyType + " " + Utils.getFormattedCurrency(args.amount)
+            args.currencyType + " " + args.amount.toFormattedCurrency()
 
         getBinding().lyUserImage.tvNameInitials.background = Utils.getContactBackground(
             getBinding().lyUserImage.tvNameInitials.context,
