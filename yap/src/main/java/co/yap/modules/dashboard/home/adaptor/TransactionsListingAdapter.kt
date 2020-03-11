@@ -81,7 +81,7 @@ class TransactionsListingAdapter(private val list: MutableList<Content>) :
             itemTransactionListBinding.tvTransactionAmount.text =
                 String.format(
                     "%s %s", txnAmountPreFix,
-                    Utils.getFormattedCurrency(transaction.totalAmount.toString())
+                    Utils.getFormattedCurrency(if (TxnType.CREDIT.type == transaction.txnType) transaction.amount.toString() else transaction.totalAmount.toString())
                 )
         }
 
