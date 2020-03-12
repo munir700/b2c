@@ -262,8 +262,8 @@
     <string name="screen_cards_button_update_card">Update card</string>
     <string name="screen_cards_button_unfreeze_card">Unfreeze card</string>
     <string name="screen_cards_display_text_cards_count">You have %d cards</string>
-    <string name="screen_cards_display_text_set_pin">Set PIN</string>
-    <string name="screen_cards_display_text_set_message">Set pin to activate card</string>
+    <string name="screen_cards_display_text_set_pin">Let’s do it</string>
+    <string name="screen_cards_display_text_set_message">Create a PIN to start using your card</string>
     <string name="screen_cards_display_text_add_card">Add card</string>
     <string name="screen_cards_display_text_lost_stolen_card">Card reported damaged or lost/stolen.</string>
     <string name="screen_cards_display_text_lost_stolen_card_action">Reorder Now</string>
