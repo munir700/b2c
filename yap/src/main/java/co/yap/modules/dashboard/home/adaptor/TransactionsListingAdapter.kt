@@ -8,7 +8,7 @@ import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
 import co.yap.R
 import co.yap.databinding.ItemTransactionListBinding
-import co.yap.modules.others.helper.ImageBinding
+import co.yap.yapcore.helpers.ImageBinding
 import co.yap.networking.transactions.responsedtos.transaction.Content
 import co.yap.translation.Translator.getString
 import co.yap.yapcore.BaseBindingRecyclerAdapter
@@ -17,7 +17,6 @@ import co.yap.yapcore.enums.TxnType
 import co.yap.yapcore.helpers.DateUtils.FORMATE_TIME_24H
 import co.yap.yapcore.helpers.DateUtils.FORMAT_LONG_INPUT
 import co.yap.yapcore.helpers.DateUtils.reformatStringDate
-import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.*
 
 
