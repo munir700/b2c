@@ -127,7 +127,7 @@
                 style="@style/Large"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="@{viewModel.transaction.txnType.equals(TxnType.DEBIT.type) ? `- `+Utils.INSTANCE.getFormattedCurrency(viewModel.transaction.totalAmount.toString()) : Utils.INSTANCE.getFormattedCurrency(viewModel.transaction.amount.toString()) }"
+                android:text="@{viewModel.transaction.txnType.equals(TxnType.DEBIT.type) ? `- `+Utils.INSTANCE.getFormattedCurrency(viewModel.transaction.totalAmount.toString()) : `+ `+Utils.INSTANCE.getFormattedCurrency(viewModel.transaction.amount.toString()) }"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="2500" />
@@ -246,14 +246,14 @@
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:orientation="vertical"
-                app:layout_constraintGuide_percent="0.35" />
+                app:layout_constraintGuide_begin="150dp" />
 
             <TextView
                 android:id="@+id/tvSenderName"
                 style="@style/ASmall"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_large"
+                android:layout_marginTop="@dimen/margin_medium"
                 android:gravity="end"
                 android:text="@{viewModel.transaction.senderName.toString()}"
                 android:visibility="@{viewModel.state.isYtoYTransfer? View.VISIBLE : View.GONE }"
@@ -280,8 +280,8 @@
                 style="@style/ASmall"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_medium"
-                android:layout_marginBottom="@dimen/margin_medium"
+                android:layout_marginTop="@dimen/small"
+                android:layout_marginBottom="@dimen/small"
                 android:gravity="end"
                 android:text="@{viewModel.transaction.receiverName.toString()}"
                 android:visibility="@{viewModel.state.isYtoYTransfer? View.VISIBLE : View.GONE}"
@@ -291,7 +291,29 @@
                 app:layout_constraintTop_toBottomOf="@+id/tvSenderName"
                 tools:text="Faheem Riaz" />
 
+            <TextView
+                android:id="@+id/tvVat"
+                style="@style/ASmallGrey"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Vat"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/tvVatAmount"
+                tools:ignore="HardcodedText"
+                tools:text="VAT" />
 
+            <TextView
+                android:id="@+id/tvVatAmount"
+                style="@style/ASmall"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/small"
+                android:gravity="end"
+                android:text="@{viewModel.transaction.vatAmount==null ? `0.00` :viewModel.transaction.currency+` `+Utils.INSTANCE.getFormattedCurrency(viewModel.transaction.vatAmount.toString())  }"
+                app:layout_constraintLeft_toRightOf="@+id/guideline1"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvCardSpendAmount"
+                tools:text="1500" />
             <TextView
                 android:id="@+id/tvCardSpent"
                 style="@style/ASmallGrey"
@@ -307,35 +329,12 @@
                 style="@style/ASmall"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_medium"
+                android:layout_marginTop="@dimen/small"
                 android:gravity="end"
                 android:text="@{viewModel.transaction.currency+` `+Utils.INSTANCE.getFormattedCurrency(viewModel.transaction.amount.toString()) }"
                 app:layout_constraintLeft_toRightOf="@+id/guideline1"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvReceiverName"
-                tools:text="1500" />
-
-            <TextView
-                android:id="@+id/tvVat"
-                style="@style/ASmallGrey"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="VAT"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/tvVatAmount"
-                tools:ignore="HardcodedText"
-                tools:text="VAT" />
-            <TextView
-                android:id="@+id/tvVatAmount"
-                style="@style/ASmall"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_medium"
-                android:gravity="end"
-                android:text="@{viewModel.transaction.vatAmount==null ? `0.00` :viewModel.transaction.currency+` `+Utils.INSTANCE.getFormattedCurrency(viewModel.transaction.vatAmount.toString())  }"
-                app:layout_constraintLeft_toRightOf="@+id/guideline1"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvCardSpendAmount"
                 tools:text="1500" />
 
             <TextView
@@ -353,7 +352,7 @@
                 style="@style/ASmall"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_medium"
+                android:layout_marginTop="@dimen/small"
                 android:gravity="end"
                 android:text="@{viewModel.transaction.postedFees!=null?viewModel.transaction.currency+` `+Utils.INSTANCE.getFormattedCurrency(viewModel.transaction.postedFees.toString()) :`0.00`}"
                 app:layout_constraintLeft_toRightOf="@+id/guideline1"
@@ -377,7 +376,7 @@
                 style="@style/ASmall"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_medium"
+                android:layout_marginTop="@dimen/small"
                 android:gravity="end"
                 android:text="@{viewModel.transaction.currency+` `+Utils.INSTANCE.getFormattedCurrency(viewModel.transaction.totalAmount.toString())}"
                 app:layout_constraintLeft_toRightOf="@+id/guideline1"

@@ -10,7 +10,9 @@ import co.yap.translation.Strings
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.enums.OTPActions
 import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 
 class GenericOtpViewModel(application: Application) :
     BaseViewModel<IGenericOtp.State>(application = application), IGenericOtp.ViewModel {
@@ -35,6 +37,25 @@ class GenericOtpViewModel(application: Application) :
                     getString(Strings.screen_forgot_pin_display_text_heading)
                 state.verificationDescription =
                     Strings.screen_verify_phone_number_display_text_sub_title
+            }
+            OTPActions.DOMESTIC_TRANSFER.name, OTPActions.UAEFTS.name, OTPActions.SWIFT.name, OTPActions.RMT.name, OTPActions.CASHPAYOUT.name -> {
+                state.verificationTitle =
+                    state.otpDataModel?.username ?: ""
+                state.verificationDescription =
+                    Strings.screen_verify_phone_number_display_text_sub_title
+                val descriptionString =
+                    getString(Strings.screen_cash_pickup_funds_display_otp_text_description).format(
+                        state.currencyType,
+                        state.otpDataModel?.amount?.toFormattedCurrency(),
+                        state.otpDataModel?.username
+                    )
+                state.verificationDescriptionForLogo =
+                    Utils.getSppnableStringForAmount(
+                        context,
+                        descriptionString,
+                        state.currencyType ?: "",
+                        Utils.getFormattedCurrencyWithoutComma(state.otpDataModel?.amount)
+                    )
             }
 
             else -> {
@@ -74,9 +95,9 @@ class GenericOtpViewModel(application: Application) :
                         clickEvent.setValue(id)
                     }
                     is RetroApiResponse.Error -> {
-                        state.errorMessage = response.error.message
+                        state.toast = response.error.message
                         state.otp=""
-                        errorEvent.call()
+                        //errorEvent.call()
                         state.loading = false
                     }
                 }
@@ -96,9 +117,9 @@ class GenericOtpViewModel(application: Application) :
                         clickEvent.setValue(id)
                     }
                     is RetroApiResponse.Error -> {
-                        state.errorMessage = response.error.message
-                        errorEvent.call()
+                        state.toast = response.error.message
                         state.otp=""
+                       // errorEvent.call()
                         state.loading = false
                     }
                 }
