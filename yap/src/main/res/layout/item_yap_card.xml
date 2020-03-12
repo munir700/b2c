@@ -83,8 +83,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
+                android:maxLines="2"
+                android:ellipsize="end"
                 app:cardStatus="@{viewModel.paymentCard}"
-                tools:text="This card has expired" />
+                tools:text="This caasddas sa sdsad asdsaasdrd has expired" />
             <TextView
                 android:id="@+id/tvCardStatusAction"
                 android:layout_width="wrap_content"
