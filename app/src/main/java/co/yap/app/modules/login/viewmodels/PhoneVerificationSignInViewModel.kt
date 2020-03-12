@@ -136,7 +136,9 @@ class PhoneVerificationSignInViewModel(application: Application) :
                     if (response.data.data.isNotEmpty()) {
                         MyUserManager.user = response.data.data[0]
                         accountInfo.postValue(response.data.data[0])
-                        setUserAttributes()
+                        trackEventWithAttributes(
+                            MyUserManager.user
+                        )
                     }
                 }
                 is RetroApiResponse.Error -> state.toast = response.error.message
@@ -144,12 +146,4 @@ class PhoneVerificationSignInViewModel(application: Application) :
             state.loading = false
         }
     }
-
-    private fun setUserAttributes() {
-        trackEventWithAttributes(
-            MyUserManager.user,
-            parentViewModel?.onboardingData?.elapsedOnboardingTime.toString()
-        )
-    }
-
 }

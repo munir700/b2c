@@ -318,10 +318,9 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
         getViewBinding().includedDrawerLayout.lStatements.lnAnalytics.setOnClickListener {
             MyUserManager.getPrimaryCard()?.let {
                 launchActivity<CardStatementsActivity> {
-                    putExtra(CardStatementsActivity.CARD, it)
+                    putExtra("card", it)
                     putExtra("isFromDrawer", true)
                 }
-                //startActivity(CardStatementsActivity.newIntent(this, it))
                 closeDrawer()
             }
         }

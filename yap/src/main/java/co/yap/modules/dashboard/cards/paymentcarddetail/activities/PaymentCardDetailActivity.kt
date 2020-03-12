@@ -55,17 +55,12 @@ import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.enums.CardStatus
 import co.yap.yapcore.helpers.cancelAllSnackBar
 import co.yap.yapcore.helpers.confirm
-import co.yap.yapcore.helpers.extentions.disableScroll
-import co.yap.yapcore.helpers.extentions.enableScroll
-import co.yap.yapcore.helpers.extentions.launchActivity
-import co.yap.yapcore.helpers.extentions.preventTakeScreenShot
+import co.yap.yapcore.helpers.extentions.*
 import co.yap.yapcore.helpers.showSnackBar
 import co.yap.yapcore.helpers.spannables.underline
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.MyUserManager
 import co.yap.yapcore.trackAdjustEvent
-import co.yap.yapcore.helpers.extentions.toCamelCase
-import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 import com.google.android.material.snackbar.Snackbar
 import com.tbuonomo.viewpagerdotsindicator.WormDotsIndicator
 import kotlinx.android.synthetic.main.activity_payment_card_detail.*
@@ -413,16 +408,20 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
             }
 
             Constants.EVENT_FORGOT_CARD_PIN -> {
-                startActivity(
-                    ForgotCardPinActivity.newIntent(
-                        this,
-                        viewModel.card.value!!.cardSerialNumber
+                viewModel.card.value?.cardSerialNumber?.let {
+                    startActivity(
+                        ForgotCardPinActivity.newIntent(this, it)
                     )
-                )
+                }
             }
 
             Constants.EVENT_VIEW_STATEMENTS -> {
-                startActivity(CardStatementsActivity.newIntent(this, viewModel.card.value!!))
+                viewModel.card.value?.let {
+                    launchActivity<CardStatementsActivity> {
+                        putExtra("card", it)
+                        putExtra("isFromDrawer", false)
+                    }
+                }
             }
             Constants.EVENT_REPORT_CARD -> {
                 viewModel.card.value?.let {

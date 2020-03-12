@@ -1,6 +1,5 @@
 package co.yap.modules.dashboard.cards.paymentcarddetail.statments.activities
 
-import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -12,23 +11,12 @@ import co.yap.R
 import co.yap.modules.dashboard.cards.paymentcarddetail.statments.adaptor.CardStatementsAdaptor
 import co.yap.modules.dashboard.cards.paymentcarddetail.statments.interfaces.ICardStatments
 import co.yap.modules.dashboard.cards.paymentcarddetail.statments.viewmodels.CardStatementsViewModel
-import co.yap.networking.cards.responsedtos.Card
 import co.yap.networking.transactions.responsedtos.CardStatement
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.interfaces.OnItemClickListener
 
 class CardStatementsActivity : BaseBindingActivity<ICardStatments.ViewModel>(),
     ICardStatments.View {
-
-    companion object {
-        const val CARD = "card"
-        var isFromDrawer: Boolean = false
-        fun newIntent(context: Context, card: Card, IsFromDrawer: Boolean = false): Intent {
-            val intent = Intent(context, CardStatementsActivity::class.java)
-            intent.putExtra(CARD, card)
-            return intent
-        }
-    }
 
     override val viewModel: ICardStatments.ViewModel
         get() = ViewModelProviders.of(this).get(CardStatementsViewModel::class.java)
@@ -39,8 +27,8 @@ class CardStatementsActivity : BaseBindingActivity<ICardStatments.ViewModel>(),
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel.card = intent.getParcelableExtra(CARD)
-        isFromDrawer = intent.getBooleanExtra("isFromDrawer", false)
+        viewModel.card = intent.getParcelableExtra("card")
+        val isFromDrawer = intent.getBooleanExtra("isFromDrawer", false)
         if (isFromDrawer) {
             viewModel.loadStatementsFromDashBoard()
         } else {

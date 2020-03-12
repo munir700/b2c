@@ -199,11 +199,9 @@ class VerifyPasscodeViewModel(application: Application) :
             when (val response = customersRepository.getAccountInfo()) {
                 is RetroApiResponse.Success -> {
                     if (!response.data.data.isNullOrEmpty()) {
-                        //MyUserManager.user = response.data.data[0]
                         MyUserManager.user = response.data.data[0]
                         accountInfo.postValue(response.data.data[0])
-                        //MyUserManager.user?.setLiveData() // DOnt remove this line
-                        setUserAttributes()
+                        trackEventWithAttributes(MyUserManager.user)
                     }
                 }
                 is RetroApiResponse.Error -> state.toast = response.error.message
@@ -231,9 +229,5 @@ class VerifyPasscodeViewModel(application: Application) :
 
     override fun handlePressOnSignInButton() {
         signInButtonPressEvent.postValue(true)
-    }
-
-    private fun setUserAttributes() {
-        trackEventWithAttributes(MyUserManager.user)
     }
 }

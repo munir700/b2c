@@ -25,7 +25,7 @@ fun BaseState.trackEvent(eventName: String, value: String = "") {
 
 fun Fragment.trackEventInFragments(
     user: AccountInfo?,
-    signup_length: String = "",
+    signup_length: String? = null,
     account_active: String? = null,
     context: Context? = null
 ) {
@@ -34,7 +34,7 @@ fun Fragment.trackEventInFragments(
 
 fun ViewModel.trackEventWithAttributes(
     user: AccountInfo?,
-    signup_length: String = "",
+    signup_length: String? = null,
     account_active: String? = null,
     context: Context? = null
 ) {
@@ -43,7 +43,7 @@ fun ViewModel.trackEventWithAttributes(
 
 fun trackAttributes(
     user: AccountInfo?,
-    signup_length: String = "",
+    signup_length: String? = null,
     account_active: String? = null,
     context: Context? = null
 ) {
@@ -66,8 +66,9 @@ fun trackAttributes(
         account_active?.let {
             info[UserAttributes().account_active] = account_active
         }
-        if (signup_length.isNotEmpty())
+        signup_length?.let {
             info[UserAttributes().signup_length] = signup_length
+        }
         it.currentCustomer.customerId?.let { customerId ->
             info[UserAttributes().customerId] = customerId
         }
