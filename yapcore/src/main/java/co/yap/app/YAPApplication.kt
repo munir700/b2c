@@ -1,6 +1,5 @@
 package co.yap.app
 
-import android.app.Application
 import co.yap.networking.transactions.requestdtos.HomeTransactionsRequest
 import co.yap.yapcore.helpers.AppInfo
 import dagger.android.support.DaggerApplication

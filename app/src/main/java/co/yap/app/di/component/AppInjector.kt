@@ -30,13 +30,13 @@ object AppInjector : HouseHoldComponentProvider, CoreComponentProvider {
             .coreComponent(provideCoreComponent())
             .houseHoldComponent(provideHouseHoldComponent())
             .build()
-        component.inject(application)
+       // component.inject(application)
 
         // handle injection for all activities created
         application.registerActivityLifecycleCallbacks(object :
             Application.ActivityLifecycleCallbacks {
             override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {
-                handleActivity(activity)
+                //handleActivity(activity)
             }
 
             override fun onActivityStarted(activity: Activity) {
@@ -91,7 +91,7 @@ object AppInjector : HouseHoldComponentProvider, CoreComponentProvider {
     override fun provideHouseHoldComponent(): HouseHoldComponent {
         if (!this::holdComponent.isInitialized) {
             holdComponent = DaggerHouseHoldComponent
-                .builder()
+                .builder().coreComponent(coreComponent)
                 .build()
         }
         return holdComponent

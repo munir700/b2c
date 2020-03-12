@@ -30,7 +30,7 @@ abstract class BaseActivity<V : IBase.ViewModel<*>> : AppCompatActivity(), IBase
     private var checkConnectivity: Boolean = true
     private lateinit var permissionsManager: PermissionsManager
     private var progress: Dialog? = null
-
+    override var shouldRegisterViewModelLifeCycle: Boolean = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,8 +44,8 @@ abstract class BaseActivity<V : IBase.ViewModel<*>> : AppCompatActivity(), IBase
         NetworkConnectionManager.init(this)
         NetworkConnectionManager.subscribe(this)
         permissionsManager = PermissionsManager(this, this, this)
-        registerStateListeners()
-
+        if (shouldRegisterViewModelLifeCycle)
+            registerStateListeners()
         progress = Utils.createProgressDialog(this)
     }
 
@@ -154,7 +154,8 @@ abstract class BaseActivity<V : IBase.ViewModel<*>> : AppCompatActivity(), IBase
 
     override fun onDestroy() {
         NetworkConnectionManager.unsubscribe(this)
-        unregisterStateListeners()
+        if (shouldRegisterViewModelLifeCycle)
+            unregisterStateListeners()
         cancelAllSnackBar()
         progress?.dismiss()
         super.onDestroy()
@@ -202,7 +203,7 @@ abstract class BaseActivity<V : IBase.ViewModel<*>> : AppCompatActivity(), IBase
         }
     }
 
-    private fun registerStateListeners() {
+    open fun registerStateListeners() {
         if (viewModel is BaseViewModel<*>) {
             viewModel.registerLifecycleOwner(this)
         }
@@ -211,7 +212,7 @@ abstract class BaseActivity<V : IBase.ViewModel<*>> : AppCompatActivity(), IBase
         }
     }
 
-    private fun unregisterStateListeners() {
+    open fun unregisterStateListeners() {
         if (viewModel is BaseViewModel<*>) {
             viewModel.unregisterLifecycleOwner(this)
         }
@@ -234,5 +235,4 @@ abstract class BaseActivity<V : IBase.ViewModel<*>> : AppCompatActivity(), IBase
         alertDialog.setCancelable(false)
         alertDialog.show()
     }
-
 }

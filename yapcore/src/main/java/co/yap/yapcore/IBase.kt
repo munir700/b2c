@@ -13,6 +13,7 @@ interface IBase {
         fun requestPermissions()
         fun getString(resourceKey: String): String
         fun performDataBinding()
+        var shouldRegisterViewModelLifeCycle:Boolean
     }
 
     interface ViewModel<S : State> : ILifecycle {

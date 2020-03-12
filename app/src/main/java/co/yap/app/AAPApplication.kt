@@ -45,7 +45,7 @@ class AAPApplication : ChatApplication(
         BuildConfig.BUILD_TYPE,
         BuildConfig.BASE_URL
     )
-), NavigatorProvider,HasActivityInjector  {
+), NavigatorProvider, HasActivityInjector {
     @Inject
     lateinit var activityInjector: DispatchingAndroidInjector<Activity>
     lateinit var sAppComponent: AppComponent
@@ -155,7 +155,16 @@ class AAPApplication : ChatApplication(
         }
     }
 
-    override fun applicationInjector()=sAppComponent
+    override fun applicationInjector(): AndroidInjector<out DaggerApplication> {
+        return if (!this::sAppComponent.isInitialized) {
+            sAppComponent = AppInjector.init(this)
+            sAppComponent
+        } else {
+            sAppComponent
+        }
+
+    }
+
 
     override fun activityInjector() = activityInjector
 }

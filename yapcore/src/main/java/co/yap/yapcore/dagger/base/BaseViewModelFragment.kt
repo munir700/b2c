@@ -7,8 +7,8 @@ import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
 import co.yap.yapcore.BaseActivity
 import co.yap.yapcore.BaseBindingFragment
-import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.IBase
+import co.yap.yapcore.dagger.base.viewmodel.DaggerBaseViewModel
 import co.yap.yapcore.dagger.di.ViewModelInjectionField
 import co.yap.yapcore.dagger.di.components.Injectable
 import co.yap.yapcore.dagger.di.qualifiers.ViewModelInjection
@@ -21,23 +21,27 @@ import javax.inject.Inject
  * Created by Muhammad Irfan Arshad
  *
  */
-abstract class BaseViewModelFragment<VB : ViewDataBinding, S : IBase.State, VM : BaseViewModel<S>> :
+abstract class BaseViewModelFragment<VB : ViewDataBinding, S : IBase.State, VM : DaggerBaseViewModel<S>> :
     BaseBindingFragment<VM>(),
     HasSupportFragmentInjector,
     Injectable {
     @Inject
     lateinit var fragmentInjector: DispatchingAndroidInjector<Fragment>
+
     @Inject
     lateinit var mActivity: BaseActivity<*>
+
     @Inject
     @ViewModelInjection
     lateinit var mViewModel: ViewModelInjectionField<VM>
+
     override lateinit var viewModel: VM
 
-
+    override var shouldRegisterViewModelLifeCycle: Boolean = false
     override fun performDataBinding() {
         viewModel = mViewModel.get()
-//        mViewModel.onCreate(arguments, navigatorHelper)
+        registerStateListeners()
+        viewModel.onCreate(arguments)
         viewDataBinding.setVariable(getBindingVariable(), viewModel)
         getMViewDataBinding().lifecycleOwner = this
         getMViewDataBinding().executePendingBindings()
@@ -58,9 +62,14 @@ abstract class BaseViewModelFragment<VB : ViewDataBinding, S : IBase.State, VM :
     fun getMViewDataBinding() = viewDataBinding as VB
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        check(mActivity is BaseViewModelActivity<*, *, *>) {
-            throw  IllegalStateException("All fragment's container must extend BaseViewModelActivity<*,*,*>")
-        }
+//        check(mActivity is BaseViewModelActivity<*, *, *>) {
+//            throw  IllegalStateException("All fragment's container must extend BaseViewModelActivity<*,*,*>")
+//        }
+    }
+
+    override fun onDestroyView() {
+        unregisterStateListeners()
+        super.onDestroyView()
     }
 
     protected fun getmViewModel() = mViewModel

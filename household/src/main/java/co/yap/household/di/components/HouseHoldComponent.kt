@@ -5,11 +5,12 @@ import co.yap.household.di.module.HouseHoldModule
 import co.yap.household.di.module.activity.ActivityInjectorsModule
 import co.yap.household.di.module.fragment.FragmentInjectorsModule
 import co.yap.yapcore.dagger.di.components.CoreComponent
-import co.yap.yapcore.dagger.di.qualifiers.FeatureScope
+import dagger.BindsInstance
 import dagger.Component
 import dagger.android.AndroidInjectionModule
 import dagger.android.AndroidInjector
 import dagger.android.support.AndroidSupportInjectionModule
+import dagger.android.support.DaggerApplication
 
 //@FeatureScope
 @Component(
@@ -18,6 +19,14 @@ import dagger.android.support.AndroidSupportInjectionModule
         AndroidSupportInjectionModule::class,
         ActivityInjectorsModule::class,
         FragmentInjectorsModule::class, HouseHoldModule::class],
-    dependencies = [CoreComponent::class]
+            dependencies = [ CoreComponent::class]
 )
-interface HouseHoldComponent:AndroidInjector<HouseHoldApplication>
+interface HouseHoldComponent:AndroidInjector<DaggerApplication>
+{
+//    @Component.Builder
+//    interface Builder {
+//        @BindsInstance
+//       // fun coreComponent(coreComponent: CoreComponent): Builder
+//        fun build(): HouseHoldComponent
+//    }
+}

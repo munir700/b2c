@@ -6,12 +6,13 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import co.yap.yapcore.BaseViewModel
+import co.yap.yapcore.dagger.base.viewmodel.DaggerBaseViewModel
 import javax.inject.Inject
 import kotlin.reflect.KClass
 
 typealias ViewModelInjectionField<T> = dagger.Lazy<T>
 
-class InjectionViewModelProvider<VM : BaseViewModel<*>> @Inject constructor(
+class InjectionViewModelProvider<VM : DaggerBaseViewModel<*>> @Inject constructor(
     private val lazyViewModel: dagger.Lazy<VM>
 ) {
 

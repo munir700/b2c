@@ -16,7 +16,7 @@ class CoreModule {
 
     @Provides
     @Singleton
-    fun provideApplication(app: YAPApplication): Application = app
+    fun provideApplication(app: Application): Application = app
 
     @Provides
     @Singleton

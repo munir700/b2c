@@ -10,10 +10,13 @@ import co.yap.household.dashboard.main.adaptors.HouseholdDashboardPagerAdaptor
 import co.yap.household.dashboard.main.interfaces.IHouseholdDashboard
 import co.yap.household.dashboard.main.viewmodels.HouseholdDashboardViewModel
 import co.yap.household.databinding.ActivityHouseholdDashboardBinding
+import co.yap.household.onboard.onboarding.kycsuccess.KycSuccessFragment
 import co.yap.yapcore.BR
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.IFragmentHolder
+import co.yap.yapcore.helpers.extentions.launchActivity
 import co.yap.yapcore.helpers.extentions.navViewWidth
+import co.yap.yapcore.helpers.extentions.startFragment
 import kotlinx.android.synthetic.main.activity_household_dashboard.*
 
 class HouseholdDashboardActivity : BaseBindingActivity<IHouseholdDashboard.ViewModel>(),
@@ -29,6 +32,7 @@ class HouseholdDashboardActivity : BaseBindingActivity<IHouseholdDashboard.ViewM
         super.onCreate(savedInstanceState)
         getViewBinding().drawerNav.navViewWidth(85)
         setupPager()
+        getViewBinding().ivYapIt.setOnClickListener { startFragment<KycSuccessFragment>(fragmentName = KycSuccessFragment::class.java.name) }
     }
 
     private fun setupPager() {

@@ -6,6 +6,10 @@
     <data>
 
 
+        <variable
+            name="kycSuccessVM"
+            type="co.yap.household.onboard.onboarding.kycsuccess.KycSuccessVM" />
+
         <import type="co.yap.translation.Strings" />
 
     </data>
