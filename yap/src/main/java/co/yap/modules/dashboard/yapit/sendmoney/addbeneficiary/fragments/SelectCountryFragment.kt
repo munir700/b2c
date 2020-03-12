@@ -56,22 +56,30 @@ class SelectCountryFragment : SendMoneyBaseFragment<ISelectCountry.ViewModel>(),
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
                 R.id.nextButton -> {
-                    viewModel.state.selectedCountry?.getCurrency()?.let { it ->
-                        if (viewModel.state.selectedCountry?.isoCountryCode2Digit == "AE") {
-                            findNavController().navigate(R.id.action_selectCountryFragment_to_DomesticFragment)
-                        } else {
-                            it.cashPickUp?.let { cashPickup ->
-                                if (cashPickup) {
-                                    moveToTransferType()
-                                } else {
-                                    moveToAddBeneficiary()
+                    if (isDefaultCurrencyExist()) {
+                        viewModel.state.selectedCountry?.getCurrency()?.let { it ->
+                            if (viewModel.state.selectedCountry?.isoCountryCode2Digit == "AE") {
+                                findNavController().navigate(R.id.action_selectCountryFragment_to_DomesticFragment)
+                            } else {
+                                it.cashPickUp?.let { cashPickup ->
+                                    if (cashPickup) {
+                                        moveToTransferType()
+                                    } else {
+                                        moveToAddBeneficiary()
+                                    }
                                 }
                             }
                         }
+                    } else {
+                        showToast("Default currency not found")
                     }
                 }
             }
         })
+    }
+
+    private fun isDefaultCurrencyExist(): Boolean {
+        return viewModel.state.selectedCountry?.getCurrency()?.default == true
     }
 
     private fun moveToAddBeneficiary() {
