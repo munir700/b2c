@@ -79,7 +79,10 @@ open class ForgotPasscodeOtpViewModel(application: Application) :
                 is RetroApiResponse.Success -> {
                     nextButtonPressEvent.setValue(id)
                 }
-                is RetroApiResponse.Error -> state.toast = response.error.message
+                is RetroApiResponse.Error ->{
+                    state.toast = response.error.message
+                    state.otp=""
+                }
             }
             state.loading = false
         }

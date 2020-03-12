@@ -75,6 +75,7 @@ class GenericOtpViewModel(application: Application) :
                     }
                     is RetroApiResponse.Error -> {
                         state.errorMessage = response.error.message
+                        state.otp=""
                         errorEvent.call()
                         state.loading = false
                     }
@@ -97,6 +98,7 @@ class GenericOtpViewModel(application: Application) :
                     is RetroApiResponse.Error -> {
                         state.errorMessage = response.error.message
                         errorEvent.call()
+                        state.otp=""
                         state.loading = false
                     }
                 }

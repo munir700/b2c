@@ -66,6 +66,7 @@ open class GenericOtpViewModel(application: Application) : ForgotPasscodeOtpView
                     }
                     is RetroApiResponse.Error -> {
                         state.toast = response.error.message
+                        state.otp=""
                         state.loading = false
                     }
                 }
@@ -86,6 +87,7 @@ open class GenericOtpViewModel(application: Application) : ForgotPasscodeOtpView
                     }
                     is RetroApiResponse.Error -> {
                         state.toast = response.error.message
+                        state.otp=""
                         state.loading = false
                     }
                 }
