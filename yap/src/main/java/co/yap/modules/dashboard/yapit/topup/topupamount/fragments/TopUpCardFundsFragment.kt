@@ -100,7 +100,7 @@ class TopUpCardFundsFragment : BaseBindingFragment<IFundActions.ViewModel>(),
                     viewModel.topUpTransactionModelLiveData
                 val action =
                     TopUpCardFundsFragmentDirections.actionTopUpCardFundsFragmentToVerifyCardCvvFragment(
-                        viewModel.state.amount.toString(),
+                        viewModel.enteredAmount.value.toString(),
                         viewModel.state.currencyType
                     )
                 findNavController().navigate(

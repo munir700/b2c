@@ -8,7 +8,7 @@ import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
 import co.yap.R
 import co.yap.databinding.ItemTransactionListBinding
-import co.yap.modules.others.helper.ImageBinding
+import co.yap.yapcore.helpers.ImageBinding
 import co.yap.networking.transactions.responsedtos.transaction.Content
 import co.yap.translation.Translator.getString
 import co.yap.yapcore.BaseBindingRecyclerAdapter
@@ -17,7 +17,6 @@ import co.yap.yapcore.enums.TxnType
 import co.yap.yapcore.helpers.DateUtils.FORMATE_TIME_24H
 import co.yap.yapcore.helpers.DateUtils.FORMAT_LONG_INPUT
 import co.yap.yapcore.helpers.DateUtils.reformatStringDate
-import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.*
 
 
@@ -88,13 +87,18 @@ class TransactionsListingAdapter(private val list: MutableList<Content>) :
 
         private fun handleProductBaseCases(context: Context, transaction: Content) {
             val transactionTitle = transaction.getTransactionTitle()
+            val txnIconResId = transaction.getTransactionIcon()
             val categoryTitle: String =
-                transaction.getCategoryTitle()
+                transaction.getTransactionTypeTitle()
             transaction.productCode?.let {
                 if (TransactionProductCode.Y2Y_TRANSFER.pCode == it || TransactionProductCode.POS_PURCHASE.pCode == it) {
                     setY2YUserImage(transaction, itemTransactionListBinding)
                 } else {
-                    itemTransactionListBinding.ivTransaction.setImageResource(transaction.getTransactionIcon())
+                    if (txnIconResId != -1)
+                        itemTransactionListBinding.ivTransaction.setImageResource(txnIconResId)
+                    else
+                        setInitialsAsTxnImage(transaction, itemTransactionListBinding)
+
                     ImageViewCompat.setImageTintList(
                         itemTransactionListBinding.ivTransaction,
                         ColorStateList.valueOf(context.getColors(R.color.colorPrimary))
@@ -123,6 +127,20 @@ class TransactionsListingAdapter(private val list: MutableList<Content>) :
                     ) == TxnType.DEBIT
                 ) transaction.receiverProfilePictureUrl else transaction.senderProfilePictureUrl,
                 if (transaction.txnType == TxnType.DEBIT.type) transaction.receiverName else transaction.senderName,
+                android.R.color.transparent,
+                R.dimen.text_size_h2
+            )
+        }
+
+
+        private fun setInitialsAsTxnImage(
+            transaction: Content,
+            itemTransactionListBinding: ItemTransactionListBinding
+        ) {
+            ImageBinding.loadAvatar(
+                itemTransactionListBinding.ivTransaction,
+                "",
+                transaction.title,
                 android.R.color.transparent,
                 R.dimen.text_size_h2
             )

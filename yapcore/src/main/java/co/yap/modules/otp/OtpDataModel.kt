@@ -9,5 +9,7 @@ data class OtpDataModel(
     var mobileNumber: String? = "",
     var username: String? = "",
     var emailOtp: Boolean? = false,
+    var amount: String? = "",
+    var logoData: LogoData? = null,
     var toolBarData: OtpToolBarData? = OtpToolBarData()
 ) : Parcelable

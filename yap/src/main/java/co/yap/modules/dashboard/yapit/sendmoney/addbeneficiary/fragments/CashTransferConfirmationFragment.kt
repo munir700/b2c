@@ -21,6 +21,7 @@ import co.yap.modules.dashboard.yapit.sendmoney.activities.BeneficiaryCashTransf
 import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.interfaces.ICashTransferConfirmation
 import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.viewmodels.CashTransferConfirmationViewModel
 import co.yap.modules.otp.GenericOtpFragment
+import co.yap.modules.otp.LogoData
 import co.yap.modules.otp.OtpDataModel
 import co.yap.modules.webview.WebViewFragment
 import co.yap.translation.Strings
@@ -30,7 +31,6 @@ import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.Constants.URL_DISCLAIMER_TERMS
 import co.yap.yapcore.enums.OTPActions
 import co.yap.yapcore.enums.SendMoneyBeneficiaryType
-import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.startFragment
 import co.yap.yapcore.helpers.extentions.startFragmentForResult
 import co.yap.yapcore.helpers.extentions.toFormattedCurrency
@@ -106,7 +106,7 @@ class CashTransferConfirmationFragment :
         )
     }
 
-    private fun setDisclaimerText(){
+    private fun setDisclaimerText() {
         val myClickableSpan = object : ClickableSpan() {
             override fun onClick(widget: View) {
                 startFragment(
@@ -183,10 +183,10 @@ class CashTransferConfirmationFragment :
                 CashTransferConfirmationFragmentDirections.actionCashTransferConfirmationFragmentToTransferSuccessFragment2(
                     "",
                     "AED",
-                    viewModel.state.enteredAmount.get()?.toFormattedCurrency()?:"",
+                    viewModel.state.enteredAmount.get()?.toFormattedCurrency() ?: "",
                     viewModel.state.referenceNumber.get().toString(),
                     viewModel.state.position.get() ?: 0,
-                    viewModel.state.cutOffTimeMsg.get()?:""
+                    viewModel.state.cutOffTimeMsg.get() ?: ""
                 )
             findNavController().navigate(action)
         }
@@ -208,12 +208,21 @@ class CashTransferConfirmationFragment :
             GenericOtpFragment::class.java.name,
             bundleOf(
                 OtpDataModel::class.java.name to OtpDataModel(
-                    getOtpAction(),
-                    MyUserManager.user?.currentCustomer?.getFormattedPhoneNumber(requireContext()),
-                    MyUserManager.user?.currentCustomer?.getFullName(),
-                    false
+                    otpAction = getOtpAction(),
+                    mobileNumber = MyUserManager.user?.currentCustomer?.getFormattedPhoneNumber(
+                        requireContext()
+                    ),
+                    amount = viewModel.state.enteredAmount.get(),
+                    username = viewModel.beneficiary?.fullName(),
+                    emailOtp = false,
+                    logoData = LogoData(
+                        imageUrl = viewModel.beneficiary?.beneficiaryPictureUrl,
+                        position = viewModel.state.position.get()
+                    )
                 )
-            )
+            ),
+            showToolBar = true,
+            toolBarTitle = getString(Strings.screen_cash_pickup_funds_display_otp_header)
         ) { resultCode, _ ->
             if (resultCode == Activity.RESULT_OK) {
                 viewModel.proceedToTransferAmount()
