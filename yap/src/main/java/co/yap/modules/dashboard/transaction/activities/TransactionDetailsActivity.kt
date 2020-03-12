@@ -3,6 +3,7 @@ package co.yap.modules.dashboard.transaction.activities
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.R
@@ -56,7 +57,11 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
     }
 
     private fun setMapImageView() {
-        getBindings().ivMap.setImageResource(viewModel.transaction.get().getMapImage())
+        val mapResId = viewModel.transaction.get().getMapImage()
+        if (mapResId != -1)
+            getBindings().ivMap.setImageResource(mapResId)
+        else
+            getBindings().ivMap.visibility = View.GONE
     }
 
     private fun setTransactionImage() {
@@ -75,10 +80,25 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
                     )
                 }
                 else -> {
-                    getBindings().ivPicture.setImageResource(transaction.getTransactionIcon())
+                    val txnIconResId = transaction.getTransactionIcon()
+                    if (txnIconResId != -1)
+                        getBindings().ivPicture.setImageResource(txnIconResId)
+                    else
+                        setInitialsAsTxnImage(transaction)
                 }
             }
         }
+    }
+
+    private fun setInitialsAsTxnImage(transaction: Content) {
+        ImageBinding.loadAvatar(
+            getBindings().ivPicture,
+            "",
+            transaction.title,
+            android.R.color.transparent,
+            R.dimen.text_size_h2
+        )
+
     }
 
     private fun openNoteScreen(noteValue: String = "") {

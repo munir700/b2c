@@ -96,12 +96,13 @@ class SelectCountryViewModel(application: Application) :
                                 0,
                                 Country(name = getString(Strings.screen_add_beneficiary_display_text_select_country))
                             )
+                            populateSpinnerData.value = countries
                             countries.addAll(it.map {
                                 Country(
                                     id = it.id,
                                     isoCountryCode3Digit = it.isoCountryCode2Digit,
                                     isoCountryCode2Digit = it.isoCountryCode2Digit,
-                                    supportedCurrencies = it.currencyList?.map { cur ->
+                                    supportedCurrencies = it.currencyList?.filter { curr -> curr.active == true }?.map { cur ->
                                         Currency(
                                             code = cur.code,
                                             default = cur.default,
@@ -115,14 +116,13 @@ class SelectCountryViewModel(application: Application) :
                                     isoNum = it.isoNum,
                                     signUpAllowed = it.signUpAllowed,
                                     name = it.name,
-                                    currency = getDefaultCountry(
-                                        it.currencyList,
+                                    currency = getDefaultCurrency(
+                                        it.currencyList?.filter { curr -> curr.active == true },
                                         it.isoCountryCode2Digit
                                     ),
                                     ibanMandatory = it.ibanMandatory
                                 )
                             })
-                            populateSpinnerData.value = countries
                         }
                         state.loading = false
                     }
@@ -137,7 +137,7 @@ class SelectCountryViewModel(application: Application) :
         }
     }
 
-    private fun getDefaultCountry(
+    private fun getDefaultCurrency(
         currencyList: List<co.yap.networking.customers.responsedtos.sendmoney.Currency>?,
         isoCountryCode2Digit: String? = null
     ): Currency? {
@@ -157,10 +157,11 @@ class SelectCountryViewModel(application: Application) :
                 }
             }
         }
-        return if (currency == null)
-            getDefaultCurrencyIfNull(currencyList, isoCountryCode2Digit)
-        else
-            currency
+
+//        return if (currency == null)
+//            getDefaultCurrencyIfNull(currencyList, isoCountryCode2Digit)
+//        else
+        return currency
     }
 
     private fun getDefaultCurrencyIfNull(
