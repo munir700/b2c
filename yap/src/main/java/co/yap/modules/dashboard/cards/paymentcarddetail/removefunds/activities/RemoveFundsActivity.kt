@@ -87,6 +87,7 @@ class RemoveFundsActivity : AddFundsActivity() {
                     this.finish()
                 })
                 R.id.ivCross -> this.finish()
+                R.id.tbIvClose -> this.finish()
 
                 viewModel.EVENT_REMOVE_FUNDS_SUCCESS -> {
                     fundsRemoved = true
