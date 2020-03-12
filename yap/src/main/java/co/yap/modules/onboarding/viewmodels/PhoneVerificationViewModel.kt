@@ -15,7 +15,6 @@ import co.yap.yapcore.adjust.AdjustEvents
 import co.yap.yapcore.helpers.extentions.trackEvent
 import co.yap.yapcore.leanplum.SignupEvents
 import co.yap.yapcore.trackAdjustEvent
-import com.leanplum.Leanplum
 
 open class PhoneVerificationViewModel(application: Application) :
     OnboardingChildViewModel<IPhoneVerification.State>(application), IPhoneVerification.ViewModel,
@@ -24,6 +23,7 @@ open class PhoneVerificationViewModel(application: Application) :
     override val nextButtonPressEvent: SingleClickEvent = SingleClickEvent()
 
     override val state: PhoneVerificationState = PhoneVerificationState(application)
+
     //override val nextButtonPressEvent: SingleLiveEvent<Boolean> = SingleLiveEvent()
     override val repository: MessagesRepository = MessagesRepository
 
@@ -58,7 +58,7 @@ open class PhoneVerificationViewModel(application: Application) :
                 is RetroApiResponse.Success -> {
                     state.toast =
                         getString(Strings.screen_verify_phone_number_display_text_resend_otp_success)
-                    state.reverseTimer(10,context)
+                    state.reverseTimer(10, context)
                     state.validResend = false
                 }
                 is RetroApiResponse.Error -> {
@@ -84,7 +84,10 @@ open class PhoneVerificationViewModel(application: Application) :
                     trackAdjustEvent(AdjustEvents.SIGN_UP_MOBILE_NUMBER_VERIFIED.type)
                     nextButtonPressEvent.call()
                 }
-                is RetroApiResponse.Error -> state.toast = response.error.message
+                is RetroApiResponse.Error -> {
+                    state.toast = response.error.message
+                    state.otp = ""
+                }
             }
             state.loading = false
         }

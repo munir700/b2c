@@ -1,4 +1,4 @@
-package co.yap.modules.others.helper
+package co.yap.yapcore.helpers
 
 import android.net.Uri
 import android.widget.ImageView
@@ -8,10 +8,9 @@ import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.databinding.BindingAdapter
-import co.yap.R
 import co.yap.widgets.PrefixSuffixEditText
 import co.yap.widgets.TextDrawable
-import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.R
 import co.yap.yapcore.helpers.extentions.dimen
 import co.yap.yapcore.helpers.glide.setCircleCropImage
 import co.yap.yapcore.helpers.glide.setImage
@@ -93,13 +92,23 @@ object ImageBinding {
             .height(imageView.context.dimen(R.dimen._40sdp))
             .fontSize(imageView.context.dimen(R.dimen.text_size_h3))
             .useFont(ResourcesCompat.getFont(imageView.context, R.font.roboto_regular)!!)
-            .textColor(getTextColorFromType(colorType, imageView, position))
+            .textColor(
+                getTextColorFromType(
+                    colorType,
+                    imageView,
+                    position
+                )
+            )
         setCircleCropImage(
             imageView,
             imageUrl?:"",
             builder.buildRect(
                 Utils.shortName(fullName?:""),
-                getBgColorFromType(colorType, imageView, position)
+                getBgColorFromType(
+                    colorType,
+                    imageView,
+                    position
+                )
             )
         )
     }
@@ -120,18 +129,35 @@ object ImageBinding {
         val fName = fullName?:""
 
         val colors = imageView.context.resources.getIntArray(co.yap.yapcore.R.array.analyticsColors)
-        val resId = getResId("ic_${getDrawableName(fName)}")
+        val resId = getResId(
+            "ic_${getDrawableName(fName)}"
+        )
         if (resId != -1) {
             val resImg = ContextCompat.getDrawable(imageView.context, resId)
             if (isBackground)
-                resImg?.setTint(getAnalyticsColor(colors, position))
+                resImg?.setTint(
+                    getAnalyticsColor(
+                        colors,
+                        position
+                    )
+                )
             else {
-                resImg?.setTint(getAnalyticsColor(colors, position))
+                resImg?.setTint(
+                    getAnalyticsColor(
+                        colors,
+                        position
+                    )
+                )
             }
             setCircleCropImage(imageView, imageUrl?:"", resImg!!)
 
         } else {
-            setDrawable(imageView, imageUrl, fName, position)
+            setDrawable(
+                imageView,
+                imageUrl,
+                fName,
+                position
+            )
         }
     }
 
@@ -153,7 +179,9 @@ object ImageBinding {
     @BindingAdapter("app:setFlagDrawable")
     fun setIsoCountryDrawable(imageView: ImageView, isoCountryCode: String?) {
         isoCountryCode?.let {
-            val resId = getResId("flag_${getDrawableName(it)}")
+            val resId = getResId(
+                "flag_${getDrawableName(it)}"
+            )
             if (resId != -1) {
                 imageView.setImageResource(resId)
             }
@@ -172,7 +200,12 @@ object ImageBinding {
             .height(imageView.context.dimen(R.dimen._40sdp))
             .fontSize(imageView.context.dimen(R.dimen.text_size_h3))
             .useFont(ResourcesCompat.getFont(imageView.context, R.font.roboto_regular)!!)
-            .textColor(getAnalyticsColor(colors, position))
+            .textColor(
+                getAnalyticsColor(
+                    colors,
+                    position
+                )
+            )
         setCircleCropImage(
             imageView,
             imageUrl?:"",
@@ -226,7 +259,11 @@ object ImageBinding {
     @BindingAdapter(value = ["countryCode", "countryName"], requireAll = false)
     fun setPhonePrefix(view: PrefixSuffixEditText, countryCode: String, countryName: String) {
 
-        val resId = getResId("flag_${getDrawableName(countryName)}")
+        val resId = getResId(
+            "flag_${getDrawableName(
+                countryName
+            )}"
+        )
         if (resId != -1) {
             view.prefixDrawable = ContextCompat.getDrawable(view.context, resId)
         }
