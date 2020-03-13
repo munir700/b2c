@@ -58,7 +58,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:singleLine="true"
-                android:textColor="@color/greyNormalDark"
+                android:textColor="@color/colorMidnightExpress"
                 tools:text="Amazon" />
 
             <TextView
@@ -92,8 +92,6 @@
                 style="@style/SmallGrey"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/greyNormalDark"
-
                 tools:text="AED" />
         </androidx.appcompat.widget.LinearLayoutCompat>
 

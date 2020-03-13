@@ -84,7 +84,7 @@ fun Content?.getTransactionTypeTitle(): String {
 
 fun Content?.getTransactionTypeIcon(): Int {
     this?.let { transaction ->
-        if (TransactionStatus.FAILED.name == transaction.status) return android.R.color.transparent
+        if (TransactionStatus.FAILED.name == transaction.status || transaction.status == TransactionStatus.CANCELLED.name) return android.R.color.transparent
 
         return if (TransactionStatus.PENDING.name == transaction.status || TransactionStatus.IN_PROGRESS.name == transaction.status && transaction.getLabelValues() != TransactionLabelsCode.IS_TRANSACTION_FEE
         )
@@ -211,3 +211,8 @@ fun Content?.getLabelValues(): TransactionLabelsCode? {
         })
     } ?: return null
 }
+
+fun Content?.isTransactionCancelled(): Boolean {
+    return this?.status == TransactionStatus.CANCELLED.name
+}
+

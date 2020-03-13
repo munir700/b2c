@@ -13,6 +13,8 @@
 
         <import type="co.yap.yapcore.enums.TxnType" />
 
+        <import type="co.yap.yapcore.enums.TransactionStatus" />
+
         <import type="co.yap.yapcore.helpers.Utils" />
 
 
@@ -70,6 +72,7 @@
                 android:ellipsize="end"
                 android:lineSpacingExtra="@dimen/_1sdp"
                 android:maxLines="2"
+                android:textColor="@{viewModel.transaction.status.equals(TransactionStatus.CANCELLED.name)? @color/greyNormalDark : @color/colorPrimaryDark}"
                 android:text="@{viewModel.state.transactionTitle}"
                 app:layout_constraintEnd_toStartOf="@+id/tvTotalAmountValue"
                 app:layout_constraintStart_toStartOf="parent"
@@ -84,7 +87,7 @@
                 android:ellipsize="end"
                 android:lineSpacingExtra="2dp"
                 android:maxLines="1"
-                android:text="@{viewModel.transaction.cardAcceptorLocation.toString()}"
+                android:text="@{viewModel.transaction.status.equals(TransactionStatus.CANCELLED.name)? `Transfer rejected` : viewModel.transaction.cardAcceptorLocation.toString()}"
                 android:visibility="@{viewModel.transaction.cardAcceptorLocation ==null || viewModel.transaction.cardAcceptorLocation.isEmpty() ?View.GONE:View.VISIBLE}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/tvTotalAmountValue"
@@ -127,6 +130,7 @@
                 style="@style/Large"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:textColor="@{viewModel.transaction.status.equals(TransactionStatus.CANCELLED.name)? @color/greyNormalDark : @color/colorPrimaryDark}"
                 android:text="@{viewModel.transaction.txnType.equals(TxnType.DEBIT.type) ? `- `+Utils.INSTANCE.getFormattedCurrency(viewModel.transaction.totalAmount.toString()) : `+ `+Utils.INSTANCE.getFormattedCurrency(viewModel.transaction.amount.toString()) }"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -176,6 +180,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/clNote"
             android:layout_width="0dp"
@@ -185,7 +190,7 @@
             android:onClick="@{(v)-> viewModel.handlePressOnEditNoteClickEvent(v.id)}"
             app:layout_constraintLeft_toRightOf="@+id/clEditIcon"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/clTransactionDetails"
+            app:layout_constraintTop_toBottomOf="@+id/tvPaymentDetail"
             app:layout_constraintTop_toTopOf="@+id/clEditIcon">
 
             <TextView
@@ -216,19 +221,57 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
+        <TextView
+            android:id="@+id/tvPaymentDetail"
+            style="@style/ASmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Payment details"
+            android:layout_marginTop="@dimen/margin_normal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@id/clEditIcon"
+            app:layout_constraintTop_toBottomOf="@+id/clEditIcon"
+            tools:text="Payment detail" />
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/clTransactionDetails"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_medium"
+            android:layout_marginTop="@dimen/small"
             android:background="@color/greySoftSelected"
             android:paddingStart="@dimen/margin_medium"
             android:paddingEnd="@dimen/margin_medium"
             android:paddingBottom="@dimen/margin_medium"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/clEditIcon">
+            app:layout_constraintTop_toBottomOf="@+id/tvPaymentDetail">
 
+            <LinearLayout
+                android:id="@+id/cancelReasonLy"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <TextView
+                    android:id="@+id/tvCanceReason"
+                    style="@style/AMicro"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/small"
+                    android:layout_marginBottom="@dimen/margin_normal"
+                    android:layout_weight="1"
+                    android:text="@{viewModel.transaction.cancelReason}"
+                    app:layout_constraintBottom_toTopOf="@+id/tvReceiverName"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:ignore="HardcodedText"
+                    tools:text="cancel reasodja dhsajd h,asgdjsdas asdsa asdas asdas asdas asdsad asdsa sadsad adas asdsad a ghasd gjs aahsgd" />
+
+            </LinearLayout>
             <TextView
                 android:id="@+id/tvSenderLable"
                 style="@style/ASmallGrey"
@@ -260,7 +303,7 @@
                 app:layout_constraintBottom_toTopOf="@+id/tvReceiverName"
                 app:layout_constraintLeft_toRightOf="@+id/guideline1"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/cancelReasonLy"
                 tools:text="Hassnain Ali" />
 
             <TextView
