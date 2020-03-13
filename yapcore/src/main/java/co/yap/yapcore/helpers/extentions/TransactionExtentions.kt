@@ -35,10 +35,12 @@ fun Content?.getTransactionTitle(): String {
 
 fun Content?.getTransactionIcon(): Int {
     return this?.let { transaction ->
-        return if (transaction.status == TransactionStatus.FAILED.name) {
-            R.drawable.ic_reverted
-        } else
-            when (transaction.getLabelValues()) {
+        return when (transaction.status) {
+            TransactionStatus.CANCELLED.name -> R.drawable.ic_exclamation
+            TransactionStatus.FAILED.name -> {
+                R.drawable.ic_reverted
+            }
+            else -> when (transaction.getLabelValues()) {
                 TransactionLabelsCode.IS_CASH -> R.drawable.ic_transaction_cash
                 TransactionLabelsCode.IS_BANK -> R.drawable.ic_transaction_bank
                 TransactionLabelsCode.IS_TRANSACTION_FEE -> R.drawable.ic_package_standered
@@ -52,12 +54,13 @@ fun Content?.getTransactionIcon(): Int {
                     }
                 }
             }
+        }
     } ?: 0
 }
 
 fun Content?.getTransactionTypeTitle(): String {
     this?.let { txn ->
-        if (txn.productCode.isNullOrBlank() || txn.txnType.isNullOrBlank()) return "Transaction"
+        if (txn.status == TransactionStatus.CANCELLED.name) return "Transfer rejected"
         return when {
             txn.getLabelValues() == TransactionLabelsCode.IS_TRANSACTION_FEE -> "Fee"
             txn.getLabelValues() == TransactionLabelsCode.IS_TRANSACTION_FEE -> "Refund"

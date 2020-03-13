@@ -8,21 +8,21 @@ import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
 import co.yap.R
 import co.yap.databinding.ItemTransactionListBinding
-import co.yap.yapcore.helpers.ImageBinding
 import co.yap.networking.transactions.responsedtos.transaction.Content
 import co.yap.translation.Translator.getString
 import co.yap.yapcore.BaseBindingRecyclerAdapter
 import co.yap.yapcore.enums.TransactionProductCode
+import co.yap.yapcore.enums.TransactionStatus
 import co.yap.yapcore.enums.TxnType
 import co.yap.yapcore.helpers.DateUtils.FORMATE_TIME_24H
 import co.yap.yapcore.helpers.DateUtils.FORMAT_LONG_INPUT
 import co.yap.yapcore.helpers.DateUtils.reformatStringDate
+import co.yap.yapcore.helpers.ImageBinding
 import co.yap.yapcore.helpers.extentions.*
 
 
 class TransactionsListingAdapter(private val list: MutableList<Content>) :
     BaseBindingRecyclerAdapter<Content, RecyclerView.ViewHolder>(list) {
-
 
     override fun getLayoutIdForViewType(viewType: Int): Int = R.layout.item_transaction_list
 
@@ -39,6 +39,7 @@ class TransactionsListingAdapter(private val list: MutableList<Content>) :
         RecyclerView.ViewHolder(itemTransactionListBinding.root) {
 
         fun onBind(transaction: Content) {
+//            transaction.status = TransactionStatus.CANCELLED.name
             val context: Context = itemTransactionListBinding.tvCurrency.context
             handleProductBaseCases(context, transaction)
 
@@ -80,7 +81,7 @@ class TransactionsListingAdapter(private val list: MutableList<Content>) :
             itemTransactionListBinding.tvTransactionAmount.text =
                 String.format(
                     "%s %s", txnAmountPreFix,
-                   if (TxnType.CREDIT.type == transaction.txnType) transaction.amount.toString().toFormattedCurrency() else transaction.totalAmount.toString().toFormattedCurrency()
+                    if (TxnType.CREDIT.type == transaction.txnType) transaction.amount.toString().toFormattedCurrency() else transaction.totalAmount.toString().toFormattedCurrency()
                 )
         }
 
@@ -91,9 +92,14 @@ class TransactionsListingAdapter(private val list: MutableList<Content>) :
             val categoryTitle: String =
                 transaction.getTransactionTypeTitle()
             transaction.productCode?.let {
-                if (TransactionProductCode.Y2Y_TRANSFER.pCode == it || TransactionProductCode.POS_PURCHASE.pCode == it) {
-                    setY2YUserImage(transaction, itemTransactionListBinding)
+                if (transaction.status == TransactionStatus.CANCELLED.name) {
+                    val bgiv = itemTransactionListBinding.ivTransaction.background
+                    bgiv.setTint(context.getColors(R.color.greyNormalDark))
+                    itemTransactionListBinding.ivTransaction.setImageResource(txnIconResId)
                 } else {
+                    if (TransactionProductCode.Y2Y_TRANSFER.pCode == it || TransactionProductCode.POS_PURCHASE.pCode == it) {
+                        setY2YUserImage(transaction, itemTransactionListBinding)
+                    }
                     if (txnIconResId != -1)
                         itemTransactionListBinding.ivTransaction.setImageResource(txnIconResId)
                     else

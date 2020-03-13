@@ -125,7 +125,7 @@ data class Content(
     @SerializedName("settlementRate")
     val settlementRate: String? = null,
     @SerializedName("status")
-    val status: String? = null,
+    var status: String? = null,
     @SerializedName("terminalId")
     val terminalId: String? = null,
     @SerializedName("title")
