@@ -78,7 +78,10 @@ class TopUpCardFundsFragment : BaseBindingFragment<IFundActions.ViewModel>(),
     override fun setObservers() {
         viewModel.clickEvent.observe(this, clickEvent)
         viewModel.errorEvent.observe(this, Observer {
-            showTextUpdatedAbleSnackBar(viewModel.state.errorDescription, Snackbar.LENGTH_INDEFINITE)
+            showTextUpdatedAbleSnackBar(
+                viewModel.state.errorDescription,
+                Snackbar.LENGTH_INDEFINITE
+            )
         })
         viewModel.enteredAmount.observe(this, enterAmountObserver)
 
@@ -108,7 +111,6 @@ class TopUpCardFundsFragment : BaseBindingFragment<IFundActions.ViewModel>(),
                 )
             }
         })
-
     }
 
     var clickEvent = Observer<Int> {
@@ -116,7 +118,7 @@ class TopUpCardFundsFragment : BaseBindingFragment<IFundActions.ViewModel>(),
             R.id.btnAction -> {
                 viewModel.createTransactionSession()
             }
-            R.id.ivCross -> activity?.finish()
+            R.id.tbIvClose -> activity?.finish()
             Constants.CARD_FEE -> setUpFeeData()
         }
     }
@@ -217,6 +219,7 @@ class TopUpCardFundsFragment : BaseBindingFragment<IFundActions.ViewModel>(),
         super.onDestroy()
         viewModel.enteredAmount.removeObservers(this)
     }
+
     private fun getBindings(): FragmentTopUpCardFundsBinding {
         return viewDataBinding as FragmentTopUpCardFundsBinding
     }
