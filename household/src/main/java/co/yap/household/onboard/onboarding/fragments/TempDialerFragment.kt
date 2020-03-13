@@ -7,6 +7,7 @@ import co.yap.household.R
 import co.yap.household.onboard.onboarding.interfaces.IEmail
 import co.yap.household.onboard.onboarding.viewmodels.DialerViewModel
 
+@Deprecated("Not used anymore")
 class TempDialerFragment : OnboardingChildFragment<IEmail.ViewModel>() {
 
 

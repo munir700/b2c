@@ -12,6 +12,8 @@ interface IBase {
         fun isPermissionGranted(permission: String): Boolean
         fun requestPermissions()
         fun getString(resourceKey: String): String
+        fun performDataBinding()
+        var shouldRegisterViewModelLifeCycle:Boolean
     }
 
     interface ViewModel<S : State> : ILifecycle {

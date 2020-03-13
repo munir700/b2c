@@ -1,10 +1,10 @@
 package co.yap.app
 
-import android.app.Application
 import co.yap.networking.transactions.requestdtos.HomeTransactionsRequest
 import co.yap.yapcore.helpers.AppInfo
+import dagger.android.support.DaggerApplication
 
-open class YAPApplication(myAppInfo: AppInfo) : Application() {
+abstract class YAPApplication(myAppInfo: AppInfo) : DaggerApplication() {
     companion object {
         var AUTO_RESTART_APP = true
         var appInfo: AppInfo? = null

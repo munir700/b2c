@@ -175,7 +175,7 @@ fun FragmentActivity.addFragment(
     ft.commit()
 }
 
-fun <T : Fragment> FragmentActivity.startFragment(
+inline fun <reified T : Fragment> FragmentActivity.startFragment(
     fragmentName: String,
     clearAllPrevious: Boolean = false,
     bundle: Bundle = Bundle(),
@@ -184,7 +184,7 @@ fun <T : Fragment> FragmentActivity.startFragment(
     toolBarTitle: String = ""
 ) {
     val intent = Intent(this, FrameActivity::class.java)
-    intent.putExtra(FRAGMENT_CLASS, fragmentName)
+    intent.putExtra(FRAGMENT_CLASS, T::class.java.name)
     intent.putExtra(SHOW_TOOLBAR, showToolBar)
     intent.putExtra(TOOLBAR_TITLE, toolBarTitle)
     intent.putExtra(EXTRA, bundle)
