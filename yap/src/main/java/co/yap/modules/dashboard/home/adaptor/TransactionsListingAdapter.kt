@@ -80,7 +80,7 @@ class TransactionsListingAdapter(private val list: MutableList<Content>) :
             itemTransactionListBinding.tvTransactionAmount.text =
                 String.format(
                     "%s %s", txnAmountPreFix,
-                   if (TxnType.CREDIT.type == transaction.txnType) transaction.amount.toString().toFormattedCurrency() else transaction.totalAmount.toString().toFormattedCurrency()
+                    if (TxnType.CREDIT.type == transaction.txnType) transaction.amount.toString().toFormattedCurrency() else transaction.totalAmount.toString().toFormattedCurrency()
                 )
         }
 
@@ -91,7 +91,7 @@ class TransactionsListingAdapter(private val list: MutableList<Content>) :
             val categoryTitle: String =
                 transaction.getTransactionTypeTitle()
             transaction.productCode?.let {
-                if (TransactionProductCode.Y2Y_TRANSFER.pCode == it || TransactionProductCode.POS_PURCHASE.pCode == it) {
+                if (TransactionProductCode.Y2Y_TRANSFER.pCode == it) {
                     setY2YUserImage(transaction, itemTransactionListBinding)
                 } else {
                     if (txnIconResId != -1)

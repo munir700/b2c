@@ -142,7 +142,7 @@ class TransactionsViewHelper(
         view?.let {
             val text = String.format(
                 Locale.US,
-                "%s AED %s",
+                "%s \nAED %s",
                 data.date,
                 data.closingBalance.toString().toFormattedCurrency()
             )
