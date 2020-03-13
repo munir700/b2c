@@ -18,8 +18,8 @@ import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionLi
 import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionsResponse
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.enums.CardType
+import co.yap.yapcore.helpers.extentions.getFormattedDate
 import co.yap.yapcore.managers.MyUserManager
-import java.text.SimpleDateFormat
 import java.util.*
 
 class YapHomeViewModel(application: Application) :
@@ -108,7 +108,7 @@ class YapHomeViewModel(application: Application) :
                                 "Type",
                                 "AED",
                                 /* transactionsDay.key!!*/
-                                convertDate(contentsList[0].creationDate),
+                                contentsList[0].getFormattedDate(),
                                 contentsList[0].totalAmount.toString(),
                                 contentsList[0].balanceAfter,
                                 0.00 /*  "calculate the percentage as per formula from the keys".toDouble()*/,
@@ -122,7 +122,8 @@ class YapHomeViewModel(application: Application) :
                                 response.data.data.size,
                                 response.data.data.sort,
                                 response.data.data.totalElements,
-                                response.data.data.totalPages
+                                response.data.data.totalPages,
+                                contentsList[0].creationDate
                             )
                             var numberstoReplace: Int = 0
                             var replaceNow: Boolean = false
@@ -131,7 +132,7 @@ class YapHomeViewModel(application: Application) :
                             val iterator = sortedCombinedTransactionList.iterator()
                             while (iterator.hasNext()) {
                                 val item = iterator.next()
-                                if (item.date.equals(convertDate(contentsList.get(0).creationDate))) {
+                                if (item.date.equals(contentsList[0].getFormattedDate())) {
                                     numberstoReplace = sortedCombinedTransactionList.indexOf(item)
                                     iterator.remove()
                                     replaceNow = true
@@ -183,7 +184,7 @@ class YapHomeViewModel(application: Application) :
         })
 
         val groupByDate = contentList.groupBy { item ->
-            convertDate(item.creationDate!!)
+            item.getFormattedDate()
         }
 
         var transactionModelData: ArrayList<HomeTransactionListData> =
@@ -204,7 +205,7 @@ class YapHomeViewModel(application: Application) :
             var transactionModel = HomeTransactionListData(
                 "Type",
                 "AED",
-                transactionsDay.key!!,
+                transactionsDay.key,
                 contentsList[0].totalAmount.toString(),
                 contentsList[0].balanceAfter,
                 0.00 /*  "calculate the percentage as per formula from the keys".toDouble()*/,
@@ -218,7 +219,8 @@ class YapHomeViewModel(application: Application) :
                 response.data.data.size,
                 response.data.data.sort,
                 response.data.data.totalElements,
-                response.data.data.totalPages
+                response.data.data.totalPages,
+                contentsList[0].creationDate.toString()
             )
             transactionModelData.add(transactionModel)
 
@@ -286,21 +288,7 @@ class YapHomeViewModel(application: Application) :
                 }
             }
         }
-
     }
 
-    private fun convertDate(creationDate: String?): String? {
-        creationDate?.let {
-            val parser = SimpleDateFormat("yyyy-MM-dd")
-            parser.setTimeZone(TimeZone.getTimeZone("UTC"))
-            val convertedDate = parser.parse(creationDate)
-
-            val pattern = "MMMM dd, yyyy"
-            val simpleDateFormat = SimpleDateFormat(pattern)
-            val date = simpleDateFormat.format(convertedDate)
-
-            return date
-        }
-        return ""
-    }
 }
+

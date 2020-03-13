@@ -17,10 +17,7 @@ import co.yap.modules.dashboard.home.interfaces.IYapHome
 import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionListData
 import co.yap.widgets.tooltipview.TooltipView
 import co.yap.yapcore.helpers.DateUtils
-import co.yap.yapcore.helpers.DateUtils.FORMAT_DATE_MON_YEAR
-import co.yap.yapcore.helpers.DateUtils.FORMAT_MON_YEAR
 import co.yap.yapcore.helpers.RecyclerTouchListener
-import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.dimen
 import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 import com.yarolegovich.discretescrollview.DiscreteScrollView
@@ -131,19 +128,21 @@ class TransactionsViewHelper(
 
     fun addTooltip(view: View?, data: HomeTransactionListData, firstTime: Boolean = false) {
         transactionsView.tvTransactionDate.visibility = View.VISIBLE
-        transactionsView.tvTransactionDate.text = data.date?.let {
-            DateUtils.reformatStringDate(
-                it,
-                FORMAT_DATE_MON_YEAR,
-                FORMAT_MON_YEAR
-            )
-        }
+        transactionsView.tvTransactionDate.text = DateUtils.reformatStringDate(
+            data.originalDate ?: "",
+            "yyyy-MM-dd",
+            DateUtils.FORMAT_MON_YEAR
+        )
 
         view?.let {
             val text = String.format(
                 Locale.US,
                 "%s \nAED %s",
-                data.date,
+                DateUtils.reformatStringDate(
+                    data.originalDate ?: "",
+                    "yyyy-MM-dd",
+                    DateUtils.FORMAT_DATE_MON_YEAR
+                ),
                 data.closingBalance.toString().toFormattedCurrency()
             )
             tooltip?.apply {
@@ -154,7 +153,7 @@ class TransactionsViewHelper(
                         setSpan(
                             ForegroundColorSpan(ContextCompat.getColor(context, R.color.greyDark)),
                             0,
-                            it.length,
+                            text.substring(0, text.indexOf("\n")).length,
                             Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
                         )
                     }

@@ -23,7 +23,6 @@ import co.yap.yapcore.helpers.extentions.*
 class TransactionsListingAdapter(private val list: MutableList<Content>) :
     BaseBindingRecyclerAdapter<Content, RecyclerView.ViewHolder>(list) {
 
-
     override fun getLayoutIdForViewType(viewType: Int): Int = R.layout.item_transaction_list
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
