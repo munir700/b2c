@@ -223,11 +223,8 @@ class AddSpareCardFragment : AddPaymentChildFragment<IAddSpareCard.ViewModel>(),
         activity?.setResult(Activity.RESULT_OK, returnIntent)
     }
 
-
     private fun showDialog() {
-
         val builder = AlertDialog.Builder(this.requireActivity())
-
         builder.setMessage(
             Translator.getString(
                 context!!, Strings.screen_add_spare_card_display_text_alert_title
