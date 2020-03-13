@@ -7,14 +7,15 @@ import co.yap.networking.transactions.responsedtos.*
 import co.yap.networking.transactions.responsedtos.topuptransactionsession.Check3DEnrollmentSessionResponse
 import co.yap.networking.transactions.responsedtos.topuptransactionsession.CreateTransactionSessionResponseDTO
 import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionsResponse
+import co.yap.networking.transactions.responsedtos.transaction.RemittanceFeeResponse
 
 interface TransactionsApi {
     suspend fun addFunds(addFundsRequest: AddFundsRequest): RetroApiResponse<AddRemoveFundsResponse>
     suspend fun removeFunds(removeFundsResponse: RemoveFundsRequest): RetroApiResponse<AddRemoveFundsResponse>
     suspend fun getFundTransferLimits(productCode: String?): RetroApiResponse<FundTransferLimitsResponse>
     suspend fun getFundTransferDenominations(productCode: String): RetroApiResponse<FundTransferDenominationsResponse>
-    suspend fun getCardFee(cardType: String): RetroApiResponse<CardFeeResponse>
-    suspend fun getDebitCardFee(): RetroApiResponse<CardFeeResponse>
+    suspend fun getCardFee(cardType: String): RetroApiResponse<RemittanceFeeResponse>
+    suspend fun getDebitCardFee(): RetroApiResponse<RemittanceFeeResponse>
     suspend fun getTransactionFeeWithProductCode(
         productCode: String?,
         mRemittanceFeeRequest: RemittanceFeeRequest?
@@ -58,7 +59,7 @@ interface TransactionsApi {
     suspend fun uaeftsTransferRequest(uaeftsTransactionRequestDTO: UAEFTSTransactionRequestDTO): RetroApiResponse<SendMoneyTransactionResponseDTO>
     suspend fun rmtTransferRequest(rmtTransactionRequestDTO: RMTTransactionRequestDTO): RetroApiResponse<SendMoneyTransactionResponseDTO>
     suspend fun swiftTransferRequest(swiftTransactionRequestDTO: SwiftTransactionRequestDTO): RetroApiResponse<SendMoneyTransactionResponseDTO>
-    suspend fun getHousholdFeePackage(packageType:String):RetroApiResponse<CardFeeResponse>
+    suspend fun getHousholdFeePackage(packageType:String):RetroApiResponse<RemittanceFeeResponse>
     suspend fun getTransactionThresholds():RetroApiResponse<TransactionThresholdResponseDTO>
     suspend fun getCutOffTimeConfiguration(
         productCode: String?,

@@ -17,9 +17,11 @@ import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.transactions.TransactionsRepository
 import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
+import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.SharedPreferenceManager
-import co.yap.yapcore.managers.MyUserManager
+import co.yap.yapcore.helpers.extentions.toFormattedAmountWithCurrency
 import co.yap.yapcore.helpers.extentions.toFormattedCurrency
+import co.yap.yapcore.managers.MyUserManager
 import kotlinx.coroutines.delay
 
 
@@ -183,8 +185,17 @@ class AddSpareCardViewModel(application: Application) :
         launch {
             when (val response = repositoryTransaction.getCardFee(cardType)) {
                 is RetroApiResponse.Success -> {
-                    state.physicalCardFee =
-                        response.data.data?.currency + " " + response.data.data?.amount
+                    if (response.data.data != null) {
+                        if (response.data.data?.feeType == Constants.FEE_TYPE_FLAT) {
+                            val feeAmount = response.data.data?.tierRateDTOList?.get(0)?.feeAmount
+                            val VATAmount = response.data.data?.tierRateDTOList?.get(0)?.vatAmount
+                            state.physicalCardFee =
+                                feeAmount?.plus(VATAmount ?: 0.0).toString()
+                                    .toFormattedAmountWithCurrency()
+                        }
+                    } else {
+                        state.physicalCardFee = "0.0".toFormattedAmountWithCurrency()
+                    }
                 }
                 is RetroApiResponse.Error -> {
                     state.toast = response.error.message

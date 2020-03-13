@@ -11,8 +11,8 @@ import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.transactions.TransactionsRepository
 import co.yap.yapcore.SingleClickEvent
+import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.CardType
-import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 import co.yap.yapcore.managers.MyUserManager
 
@@ -90,8 +90,19 @@ class RenewCardViewModel(application: Application) :
         launch {
             when (val response = repository.getDebitCardFee()) {
                 is RetroApiResponse.Success -> {
-                    fee = response.data.data?.amount ?: "0.0"
-                    state.cardFee.set("${response.data.data?.currency} ${response.data.data?.amount}")
+                    if (response.data.data != null) {
+                        if (response.data.data?.feeType == Constants.FEE_TYPE_FLAT) {
+                            val feeAmount = response.data.data?.tierRateDTOList?.get(0)?.feeAmount
+                            val VATAmount = response.data.data?.tierRateDTOList?.get(0)?.vatAmount
+                            fee =
+                                feeAmount?.plus(VATAmount ?: 0.0).toString().toFormattedCurrency()
+                                    ?: "0.0"
+                        }
+                    } else {
+                        fee = "0.0".toFormattedCurrency() ?: "0.0"
+                    }
+
+                    state.cardFee.set("AED $fee")
                 }
 
                 is RetroApiResponse.Error -> {
@@ -105,8 +116,19 @@ class RenewCardViewModel(application: Application) :
         launch {
             when (val response = repository.getCardFee(CardType.PHYSICAL.type)) {
                 is RetroApiResponse.Success -> {
-                    fee = response.data.data?.amount ?: "0.0"
-                    state.cardFee.set("${response.data.data?.currency} ${response.data.data?.amount}")
+                    if (response.data.data != null) {
+                        if (response.data.data?.feeType == Constants.FEE_TYPE_FLAT) {
+                            val feeAmount = response.data.data?.tierRateDTOList?.get(0)?.feeAmount
+                            val VATAmount = response.data.data?.tierRateDTOList?.get(0)?.vatAmount
+                            fee =
+                                feeAmount?.plus(VATAmount ?: 0.0).toString().toFormattedCurrency()
+                                    ?: "0.0"
+                        }
+                    } else {
+                        fee = "0.0".toFormattedCurrency() ?: "0.0"
+                    }
+
+                    state.cardFee.set("AED $fee")
                 }
 
                 is RetroApiResponse.Error -> {

@@ -32,11 +32,11 @@ interface TransactionsRetroService {
 
     // Get Supplementry Card Fee
     @GET(TransactionsRepository.URL_GET_CARD_FEE)
-    suspend fun getCardFee(@Path("card-type") cardType: String?): Response<CardFeeResponse>
+    suspend fun getCardFee(@Path("card-type") cardType: String?): Response<RemittanceFeeResponse>
 
     // Get Debit Card Fee
     @GET(TransactionsRepository.URL_GET_DEBIT_CARD_FEE)
-    suspend fun getDebitCardFee(): Response<CardFeeResponse>
+    suspend fun getDebitCardFee(): Response<RemittanceFeeResponse>
 
     // Get Card Statements
     @GET(TransactionsRepository.URL_GET_CARD_STATEMENTS)
@@ -146,7 +146,7 @@ interface TransactionsRetroService {
     suspend fun swiftTransferRequest(@Body swiftTransactionRequestDTO: SwiftTransactionRequestDTO): Response<SendMoneyTransactionResponseDTO>
 
     @GET(TransactionsRepository.URL_HOUSEHOLD_CARD_FEE_PACKAGE)
-    suspend fun getHousholdFeePackage(@Path("pkg-type") packageType: String): Response<CardFeeResponse>
+    suspend fun getHousholdFeePackage(@Path("pkg-type") packageType: String): Response<RemittanceFeeResponse>
 
     @GET(TransactionsRepository.URL_GET_TRANSACTION_THRESHOLDS)
     suspend fun getTransactionThresholds(): Response<TransactionThresholdResponseDTO>
