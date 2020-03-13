@@ -10,14 +10,15 @@ import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.transactions.TransactionsRepository
 import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
+import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.helpers.extentions.toFormattedAmountWithCurrency
 import org.json.JSONObject
 import java.io.IOException
 import java.nio.charset.StandardCharsets
 
 
 class SpareCardLandingViewModel(application: Application) :
-    AddPaymentChildViewModel<ISpareCards.State>(application), ISpareCards.ViewModel/*,
-    IRepositoryHolder<CustomersRepository>*/ {
+    AddPaymentChildViewModel<ISpareCards.State>(application), ISpareCards.ViewModel {
 
     private val transactionRepository : TransactionsRepository = TransactionsRepository
     override val clickEvent: SingleClickEvent = SingleClickEvent()
@@ -34,8 +35,10 @@ class SpareCardLandingViewModel(application: Application) :
 
     override fun onCreate() {
         super.onCreate()
-        state.virtualCardFee = parentViewModel?.virtualCardFee ?: ""
-        state.physicalCardFee = parentViewModel?.physicalCardFee ?: ""
+        state.virtualCardFee =
+            parentViewModel?.virtualCardFee ?: "0.0".toFormattedAmountWithCurrency()
+        state.physicalCardFee =
+            parentViewModel?.physicalCardFee ?: "0.0".toFormattedAmountWithCurrency()
     }
 
     override fun getVirtualCardFee() {
@@ -43,8 +46,16 @@ class SpareCardLandingViewModel(application: Application) :
             state.loading = true
             when (val response = transactionRepository.getCardFee("virtual")) {
                 is RetroApiResponse.Success -> {
-                    state.virtualCardFee =
-                        response.data.data?.currency + " " + response.data.data?.amount
+                    if (response.data.data != null) {
+                        if (response.data.data?.feeType == Constants.FEE_TYPE_FLAT) {
+                            val feeAmount = response.data.data?.tierRateDTOList?.get(0)?.feeAmount
+                            val VATAmount = response.data.data?.tierRateDTOList?.get(0)?.vatAmount
+                            state.virtualCardFee = feeAmount?.plus(VATAmount ?: 0.0).toString()
+                                .toFormattedAmountWithCurrency()
+                        }
+                    } else {
+                        state.virtualCardFee = "0.0".toFormattedAmountWithCurrency()
+                    }
                     parentViewModel?.virtualCardFee = state.virtualCardFee
                 }
                 is RetroApiResponse.Error -> {
@@ -59,8 +70,18 @@ class SpareCardLandingViewModel(application: Application) :
         launch {
             when (val response = transactionRepository.getCardFee("physical")) {
                 is RetroApiResponse.Success -> {
-                    state.physicalCardFee =
-                        response.data.data?.currency + " " + response.data.data?.amount
+                    if (response.data.data != null) {
+                        if (response.data.data?.feeType == Constants.FEE_TYPE_FLAT) {
+                            val feeAmount = response.data.data?.tierRateDTOList?.get(0)?.feeAmount
+                            val VATAmount = response.data.data?.tierRateDTOList?.get(0)?.vatAmount
+                            state.virtualCardFee =
+                                feeAmount?.plus(VATAmount ?: 0.0).toString()
+                                    .toFormattedAmountWithCurrency()
+                        }
+                    } else {
+                        state.physicalCardFee = "0.0".toFormattedAmountWithCurrency()
+                    }
+
                     parentViewModel?.physicalCardFee = state.physicalCardFee
                 }
                 is RetroApiResponse.Error -> {
@@ -82,11 +103,11 @@ class SpareCardLandingViewModel(application: Application) :
         val mainDataList = mainObj.getJSONArray("dataList")
         if (mainDataList != null) {
 
-            for (i in 0 until mainDataList!!.length()) {
+            for (i in 0 until mainDataList.length()) {
                 //
-                val parentArrayList = mainDataList!!.getJSONObject(i)
-                var benfitTitle: String = parentArrayList.getString("benfitTitle")
-                var benfitDetail: String = parentArrayList.getString("benfitDetail")
+                val parentArrayList = mainDataList.getJSONObject(i)
+                val benfitTitle: String = parentArrayList.getString("benfitTitle")
+                val benfitDetail: String = parentArrayList.getString("benfitDetail")
 
 
                 val benefitsModel: BenefitsModel = BenefitsModel(

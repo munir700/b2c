@@ -108,13 +108,17 @@ open class FundActionsViewModel(application: Application) :
                 productCode, RemittanceFeeRequest()
             )) {
                 is RetroApiResponse.Success -> {
-                    if (response.data.data?.feeType == Constants.FEE_TYPE_FLAT) {
-                        val feeAmount = response.data.data?.tierRateDTOList?.get(0)?.feeAmount
-                        val VATAmount = response.data.data?.tierRateDTOList?.get(0)?.vatAmount
-                        state.fee =
-                            feeAmount?.plus(VATAmount ?: 0.0).toString().toFormattedCurrency()
-                        clickEvent.postValue(Constants.CARD_FEE)
+                    if (response.data.data != null) {
+                        if (response.data.data?.feeType == Constants.FEE_TYPE_FLAT) {
+                            val feeAmount = response.data.data?.tierRateDTOList?.get(0)?.feeAmount
+                            val VATAmount = response.data.data?.tierRateDTOList?.get(0)?.vatAmount
+                            state.fee =
+                                feeAmount?.plus(VATAmount ?: 0.0).toString().toFormattedCurrency()
+                        }
+                    } else {
+                        state.fee = "0.0".toFormattedCurrency()
                     }
+                    clickEvent.postValue(Constants.CARD_FEE)
                 }
                 is RetroApiResponse.Error -> {
                     state.errorDescription = response.error.message

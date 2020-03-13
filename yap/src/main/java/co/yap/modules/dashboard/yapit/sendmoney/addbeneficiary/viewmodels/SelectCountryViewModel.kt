@@ -138,30 +138,34 @@ class SelectCountryViewModel(application: Application) :
     }
 
     private fun getDefaultCurrency(
-        currencyList: List<co.yap.networking.customers.responsedtos.sendmoney.Currency>?,
+        activeCurrencies: List<co.yap.networking.customers.responsedtos.sendmoney.Currency>?,
         isoCountryCode2Digit: String? = null
     ): Currency? {
-        var currency: Currency? = null
-        currencyList?.let {
-            for (item in it) {
-                if (item.default != null && item.default == true) {
-                    currency = Currency(
-                        code = item.code,
-                        default = item.default,
-                        name = item.name,
-                        active = item.active,
-                        cashPickUp = item.cashPickUp,
-                        rmtCountry = item.rmtCountry
-                    )
-                    break
-                }
-            }
-        }
+        val defaultCurrency = activeCurrencies?.firstOrNull { it.default == true }
+        return defaultCurrency?.let { item ->
+            return Currency(
+                code = item.code,
+                default = item.default,
+                name = item.name,
+                active = item.active,
+                cashPickUp = item.cashPickUp,
+                rmtCountry = item.rmtCountry
+            )
+        } ?: getFirst(activeCurrencies)
+    }
 
-//        return if (currency == null)
-//            getDefaultCurrencyIfNull(currencyList, isoCountryCode2Digit)
-//        else
-        return currency
+    private fun getFirst(activeCurrencies: List<co.yap.networking.customers.responsedtos.sendmoney.Currency>?): Currency? {
+        return activeCurrencies?.firstOrNull { activeCurr -> activeCurr.active == true }
+            ?.let { item ->
+                return Currency(
+                    code = item.code,
+                    default = item.default,
+                    name = item.name,
+                    active = item.active,
+                    cashPickUp = item.cashPickUp,
+                    rmtCountry = item.rmtCountry
+                )
+            }
     }
 
     private fun getDefaultCurrencyIfNull(

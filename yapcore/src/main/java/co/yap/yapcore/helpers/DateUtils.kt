@@ -80,7 +80,7 @@ object DateUtils {
         var result = ""
         val formatter = SimpleDateFormat(outFormatter, Locale.getDefault())
         try {
-           // formatter.timeZone = TIME_ZONE_Default
+            // formatter.timeZone = TIME_ZONE_Default
             result = formatter.format(stringToDate(date, inputFormatter ?: ""))
         } catch (e: Exception) {
         }
@@ -208,7 +208,4 @@ object DateUtils {
         }
 
     }
-
 }
-//"date" : "2019-11",
-//November , 2019

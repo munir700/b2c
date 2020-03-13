@@ -151,8 +151,8 @@ open class AddFundsActivity : BaseBindingActivity<IFundActions.ViewModel>(),
 
     private fun setupData() {
         card = intent.getParcelableExtra(CARD)
-        viewModel.state.cardNumber = card!!.maskedCardNo
-        viewModel.cardSerialNumber = card!!.cardSerialNumber
+        viewModel.state.cardNumber = card?.maskedCardNo ?: ""
+        viewModel.cardSerialNumber = card?.cardSerialNumber ?: ""
 
         if (Constants.CARD_TYPE_PREPAID == card?.cardType) {
             if (card?.physical!!) {

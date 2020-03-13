@@ -40,7 +40,6 @@ class TransactionsListingAdapter(private val list: MutableList<Content>) :
         RecyclerView.ViewHolder(itemTransactionListBinding.root) {
 
         fun onBind(transaction: Content) {
-//            transaction.status = TransactionStatus.CANCELLED.name
             val context: Context = itemTransactionListBinding.tvCurrency.context
             handleProductBaseCases(context, transaction)
 

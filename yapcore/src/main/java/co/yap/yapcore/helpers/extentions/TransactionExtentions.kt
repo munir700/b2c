@@ -1,11 +1,14 @@
 package co.yap.yapcore.helpers.extentions
 
+import android.text.format.DateFormat
 import co.yap.networking.transactions.responsedtos.transaction.Content
 import co.yap.yapcore.R
 import co.yap.yapcore.enums.TransactionLabelsCode
 import co.yap.yapcore.enums.TransactionProductCode
 import co.yap.yapcore.enums.TransactionStatus
 import co.yap.yapcore.enums.TxnType
+import java.text.SimpleDateFormat
+import java.util.*
 
 fun Content?.getTransactionTitle(): String {
     this?.let { transaction ->
@@ -175,7 +178,6 @@ fun Content?.getMerchantCategoryIcon(): Int {
     } ?: return R.drawable.ic_other_no_bg
 }
 
-
 fun Content?.getMapImage(): Int {
     this?.let { transaction ->
         if (TransactionLabelsCode.IS_TRANSACTION_FEE == getLabelValues()) {
@@ -212,6 +214,31 @@ fun Content?.getLabelValues(): TransactionLabelsCode? {
     } ?: return null
 }
 
+fun Content?.getFormattedDate(): String? {
+    this?.creationDate?.let {
+        val parser = SimpleDateFormat("yyyy-MM-dd")
+        parser.timeZone = TimeZone.getTimeZone("UTC")
+        val convertedDate = parser.parse(creationDate)
+
+        val smsTime: Calendar = Calendar.getInstance()
+        smsTime.timeInMillis = convertedDate.time
+        smsTime.timeZone = TimeZone.getDefault()
+
+        val now: Calendar = Calendar.getInstance()
+        val timeFormatString = "MMMM dd"
+        val dateTimeFormatString = "EEEE, MMMM d"
+        val HOURS = 60 * 60 * 60.toLong()
+        return if (now.get(Calendar.DATE) === smsTime.get(Calendar.DATE)) {
+            "Today, " + DateFormat.format(timeFormatString, smsTime)
+        } else if (now.get(Calendar.DATE) - smsTime.get(Calendar.DATE) === 1) {
+            "Yesterday, " + DateFormat.format(timeFormatString, smsTime)
+        } else if (now.get(Calendar.YEAR) === smsTime.get(Calendar.YEAR)) {
+            DateFormat.format(dateTimeFormatString, smsTime).toString()
+        } else {
+            DateFormat.format(timeFormatString, smsTime).toString()
+        }
+    } ?: return null
+}
 fun Content?.isTransactionCancelled(): Boolean {
     return this?.status == TransactionStatus.CANCELLED.name
 }

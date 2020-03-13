@@ -56,7 +56,7 @@ class SelectCountryFragment : SendMoneyBaseFragment<ISelectCountry.ViewModel>(),
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
                 R.id.nextButton -> {
-                    if (isDefaultCurrencyExist()) {
+                    if (!isDefaultCurrencyExist()) {
                         viewModel.state.selectedCountry?.getCurrency()?.let { it ->
                             if (viewModel.state.selectedCountry?.isoCountryCode2Digit == "AE") {
                                 findNavController().navigate(R.id.action_selectCountryFragment_to_DomesticFragment)
@@ -71,7 +71,7 @@ class SelectCountryFragment : SendMoneyBaseFragment<ISelectCountry.ViewModel>(),
                             }
                         }
                     } else {
-                        showToast("Default currency not found")
+                        showToast("No active currencies found for selected country")
                     }
                 }
             }
@@ -79,7 +79,7 @@ class SelectCountryFragment : SendMoneyBaseFragment<ISelectCountry.ViewModel>(),
     }
 
     private fun isDefaultCurrencyExist(): Boolean {
-        return viewModel.state.selectedCountry?.getCurrency()?.default == true
+        return null == viewModel.state.selectedCountry?.getCurrencySM()
     }
 
     private fun moveToAddBeneficiary() {
