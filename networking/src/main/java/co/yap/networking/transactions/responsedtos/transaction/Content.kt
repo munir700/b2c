@@ -159,6 +159,6 @@ data class Content(
     @SerializedName("receiverProfilePictureUrl")
     val receiverProfilePictureUrl: String? = null,
     @SerializedName("cancelReason")
-    val cancelReason: String? = "Sorry ! You dont have the sufficient funds to complete this transfer, so we've cancelled it for oyu. peka fojcsk"
+    val cancelReason: String? = null
 
 ) : Parcelable

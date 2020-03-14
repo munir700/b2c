@@ -120,7 +120,6 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
         transaction?.let {
             getBindings().tvTotalAmountValue.paintFlags =
                 if (transaction.isTransactionCancelled()) getBindings().tvTotalAmountValue.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG else 0
-            getBindings().tvAddress.visibility = if(transaction.isTransactionCancelled()) View.VISIBLE else View.GONE
         }
     }
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

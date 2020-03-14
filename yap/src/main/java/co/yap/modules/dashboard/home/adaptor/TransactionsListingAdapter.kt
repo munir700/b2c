@@ -29,7 +29,6 @@ class TransactionsListingAdapter(private val list: MutableList<Content>) :
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         super.onBindViewHolder(holder, position)
-        if (position / 5 == 0) list[position].status = TransactionStatus.CANCELLED.name
         (holder as TransactionListingViewHolder).onBind(list[position])
     }
 
