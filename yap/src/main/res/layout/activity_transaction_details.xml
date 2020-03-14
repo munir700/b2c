@@ -47,6 +47,7 @@
             android:layout_height="@dimen/_35sdp"
             android:layout_marginStart="@dimen/margin_medium"
             android:layout_marginTop="@dimen/margin_medium"
+            android:alpha="@{viewModel.transaction.status.equals(TransactionStatus.CANCELLED.name)? 0.5f : 1.0f}"
             android:background="@drawable/bg_round_purple_enabled"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/ivMap" />
@@ -87,13 +88,14 @@
                 android:ellipsize="end"
                 android:lineSpacingExtra="2dp"
                 android:maxLines="1"
+                android:textColor="@{viewModel.transaction.status.equals(TransactionStatus.CANCELLED.name)? @color/greyNormalDark : @color/greyDark}"
                 android:text="@{viewModel.transaction.status.equals(TransactionStatus.CANCELLED.name)? `Transfer rejected` : viewModel.transaction.cardAcceptorLocation.toString()}"
-                android:visibility="@{viewModel.transaction.cardAcceptorLocation ==null || viewModel.transaction.cardAcceptorLocation.isEmpty() ?View.GONE:View.VISIBLE}"
+                android:visibility="@{(viewModel.transaction.cardAcceptorLocation ==null || viewModel.transaction.cardAcceptorLocation.isEmpty()) &amp;&amp; !viewModel.transaction.status.equals(TransactionStatus.CANCELLED.name)?View.GONE:View.VISIBLE}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/tvTotalAmountValue"
                 app:layout_constraintStart_toStartOf="@+id/tvTransactionHeading"
                 app:layout_constraintTop_toBottomOf="@+id/tvTransactionHeading"
-                tools:text="transaction notes"
+                tools:text="transaction rejected"
                 tools:visibility="visible" />
 
             <ImageView
@@ -259,11 +261,14 @@
                 <TextView
                     android:id="@+id/tvCanceReason"
                     style="@style/AMicro"
+                    tools:visibility="gone"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/small"
                     android:layout_marginBottom="@dimen/margin_normal"
                     android:layout_weight="1"
+                    android:visibility="@{viewModel.transaction.status.equals(TransactionStatus.CANCELLED.name)? View.VISIBLE : View.GONE}"
+
                     android:text="@{viewModel.transaction.cancelReason}"
                     app:layout_constraintBottom_toTopOf="@+id/tvReceiverName"
                     app:layout_constraintStart_toStartOf="parent"

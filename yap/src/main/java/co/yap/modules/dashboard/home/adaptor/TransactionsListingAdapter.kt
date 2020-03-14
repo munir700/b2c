@@ -29,6 +29,7 @@ class TransactionsListingAdapter(private val list: MutableList<Content>) :
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         super.onBindViewHolder(holder, position)
+        if (position / 5 == 0) list[position].status = TransactionStatus.CANCELLED.name
         (holder as TransactionListingViewHolder).onBind(list[position])
     }
 
@@ -80,7 +81,7 @@ class TransactionsListingAdapter(private val list: MutableList<Content>) :
 
             itemTransactionListBinding.tvTransactionAmount.text =
                 String.format(
-                    "%s %s", if (transaction.isTransactionCancelled()) "" else txnAmountPreFix,
+                    "%s %s", txnAmountPreFix,
                     if (TxnType.CREDIT.type == transaction.txnType) transaction.amount.toString().toFormattedCurrency() else transaction.totalAmount.toString().toFormattedCurrency()
                 )
             setContentDataColor(transaction, itemTransactionListBinding)
@@ -93,9 +94,9 @@ class TransactionsListingAdapter(private val list: MutableList<Content>) :
             val categoryTitle: String =
                 transaction.getTransactionTypeTitle()
             transaction.productCode?.let {
+
                 if (transaction.isTransactionCancelled()) {
-                    val bgiv = itemTransactionListBinding.ivTransaction.background
-                    bgiv.setTint(context.getColors(R.color.greyNormalDark))
+                    itemTransactionListBinding.ivTransaction.alpha = 0.4f
                     itemTransactionListBinding.ivTransaction.setImageResource(txnIconResId)
                 } else {
                     if (TransactionProductCode.Y2Y_TRANSFER.pCode == it) {
@@ -105,7 +106,7 @@ class TransactionsListingAdapter(private val list: MutableList<Content>) :
                         itemTransactionListBinding.ivTransaction.setImageResource(txnIconResId)
                     else
                         setInitialsAsTxnImage(transaction, itemTransactionListBinding)
-
+                        itemTransactionListBinding.ivTransaction.alpha = 1.0f
                         ImageViewCompat.setImageTintList(
                             itemTransactionListBinding.ivTransaction,
                             ColorStateList.valueOf(context.getColors(R.color.colorPrimary))

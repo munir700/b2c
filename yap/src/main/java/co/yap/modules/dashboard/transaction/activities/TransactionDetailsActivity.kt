@@ -71,7 +71,7 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
     private fun setTransactionImage() {
         viewModel.transaction.get()?.let { transaction ->
             when {
-                TransactionProductCode.Y2Y_TRANSFER.pCode == transaction.productCode ?: "" || TransactionProductCode.POS_PURCHASE.pCode == transaction.productCode ?: "" -> {
+                TransactionProductCode.Y2Y_TRANSFER.pCode == transaction.productCode ?: "" -> {
                     ImageBinding.loadAvatar(
                         getBindings().ivPicture,
                         if (TxnType.valueOf(
