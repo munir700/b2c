@@ -1,7 +1,6 @@
 package co.yap.yapcore.helpers
 
 import android.annotation.SuppressLint
-import java.text.DateFormatSymbols
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -11,14 +10,14 @@ object DateUtils {
     val GMT = TimeZone.getTimeZone("GMT")
     val UTC = TimeZone.getTimeZone("UTC")
     val TIME_ZONE_Default = TimeZone.getDefault()
-    val FORMAT_LONG_OUTPUT = "MMM dd, yyyy・HH:mma"//2015-11-28 10:17:18//2016-12-12 12:23:00
+    val FORMAT_LONG_OUTPUT = "MMM dd, yyyy・hh:mm a"//2015-11-28 10:17:18//2016-12-12 12:23:00
     val FORMAT_LONG_INPUT = "yyyy-MM-dd'T'HH:mm:ss"//2015-11-28 10:17:18
     val LeanPlumEventFormat = "yyyy-MM-dd HH:mm:ss"//2015-11-28 10:17:18
     val FORMAT_MON_YEAR = "MMMM yyyy"//2015-11-28 10:17:18
     val FORMAT_MONTH_YEAR = "MMMM, yyyy"//2015-11-28 10:17:18
     val FORMAT_DATE_MON_YEAR = "MMMM dd, yyyy"//2015-11-28 10:17:18
     val LEANPLUM_FORMATOR = "dd MMMM, yyyy"
-    val FORMATE_TIME_24H = "HH:mm"
+    val FORMATE_TIME_24H = "hh:mm a"
 //2020-02-16T13:20:05
 //    Jan 29, 2019・10:35am
 
@@ -108,9 +107,9 @@ object DateUtils {
             var result = ""
             val formatter = SimpleDateFormat(format, Locale.getDefault())
             formatter.timeZone = timeZone
-            val symbols = DateFormatSymbols(Locale.getDefault())
-            symbols.amPmStrings = arrayOf("am", "pm")
-            formatter.dateFormatSymbols = symbols
+//            val symbols = DateFormatSymbols(Locale.getDefault())
+//            symbols.amPmStrings = arrayOf("am", "pm")
+//            formatter.dateFormatSymbols = symbols
             try {
                 result = formatter.format(it)
             } catch (e: Exception) {
