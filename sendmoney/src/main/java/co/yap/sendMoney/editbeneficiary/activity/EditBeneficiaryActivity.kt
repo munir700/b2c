@@ -1,4 +1,4 @@
-package co.yap.modules.dashboard.yapit.sendmoney.editbeneficiary.activity
+package co.yap.sendMoney.editbeneficiary.activity
 
 import android.app.Activity
 import android.content.Intent
@@ -11,6 +11,7 @@ import co.yap.databinding.ActivityEditBeneficiaryBinding
 import co.yap.modules.dashboard.yapit.sendmoney.editbeneficiary.interfaces.IEditBeneficiary
 import co.yap.modules.dashboard.yapit.sendmoney.editbeneficiary.viewmodel.EditBeneficiaryViewModel
 import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
+import co.yap.widgets.MaskTextWatcher
 import co.yap.widgets.popmenu.PopupMenu
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.constants.Constants

@@ -1,4 +1,4 @@
-package co.yap.modules.dashboard.yapit.sendmoney.activities
+package co.yap.sendMoney.activities
 
 import android.app.Activity
 import android.content.Intent
@@ -17,6 +17,7 @@ import co.yap.yapcore.defaults.DefaultNavigator
 import co.yap.yapcore.defaults.INavigator
 import co.yap.yapcore.helpers.cancelAllSnackBar
 import co.yap.yapcore.helpers.getSnackBarFromQueue
+import co.yap.yapcore.helpers.showSnackBar
 import co.yap.yapcore.helpers.updateSnackBarText
 import co.yap.yapcore.interfaces.BackPressImpl
 import co.yap.yapcore.interfaces.IBaseNavigator
