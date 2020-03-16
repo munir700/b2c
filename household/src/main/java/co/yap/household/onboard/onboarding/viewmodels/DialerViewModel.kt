@@ -24,7 +24,7 @@ import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.toast
 import java.util.*
 import java.util.concurrent.TimeUnit
-
+@Deprecated("Not used anymore")
 class DialerViewModel(application: Application) :
     OnboardingChildViewModel<IEmail.State>(application), IEmail.ViewModel,
     IRepositoryHolder<CustomersRepository> {

@@ -14,7 +14,7 @@ abstract class BaseFragment<V : IBase.ViewModel<*>> : BaseNavFragment(), IBase.V
     OnBackPressedListener {
 
     private var progress: Dialog? = null
-
+    override var shouldRegisterViewModelLifeCycle: Boolean = true
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
@@ -23,11 +23,13 @@ abstract class BaseFragment<V : IBase.ViewModel<*>> : BaseNavFragment(), IBase.V
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        registerStateListeners()
+        if (shouldRegisterViewModelLifeCycle)
+            registerStateListeners()
     }
 
     override fun onDestroyView() {
-        unregisterStateListeners()
+        if (shouldRegisterViewModelLifeCycle)
+            unregisterStateListeners()
         progress?.dismiss()
         super.onDestroyView()
     }
@@ -116,7 +118,7 @@ abstract class BaseFragment<V : IBase.ViewModel<*>> : BaseNavFragment(), IBase.V
         }
     }
 
-    private fun registerStateListeners() {
+    open fun registerStateListeners() {
         if (viewModel is BaseViewModel<*>) {
             viewModel.registerLifecycleOwner(this)
         }
@@ -125,7 +127,7 @@ abstract class BaseFragment<V : IBase.ViewModel<*>> : BaseNavFragment(), IBase.V
         }
     }
 
-    private fun unregisterStateListeners() {
+    open fun unregisterStateListeners() {
         if (viewModel is BaseViewModel<*>) {
             viewModel.unregisterLifecycleOwner(this)
         }

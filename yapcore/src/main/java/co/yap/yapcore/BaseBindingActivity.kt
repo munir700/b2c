@@ -8,7 +8,7 @@ import co.yap.app.YAPApplication
 
 abstract class BaseBindingActivity<V : IBase.ViewModel<*>> : BaseActivity<V>() {
 
-    lateinit var viewDataBinding: ViewDataBinding
+    open lateinit var viewDataBinding: ViewDataBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         // For runtime permission handling if user
@@ -26,7 +26,7 @@ abstract class BaseBindingActivity<V : IBase.ViewModel<*>> : BaseActivity<V>() {
         startActivity(intent)
     }
 
-    private fun performDataBinding() {
+    override fun performDataBinding() {
         viewDataBinding = DataBindingUtil.setContentView(this, getLayoutId())
         viewDataBinding.setVariable(getBindingVariable(), viewModel)
         viewDataBinding.executePendingBindings()
