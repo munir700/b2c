@@ -44,7 +44,6 @@
             android:lineSpacingExtra="2dp"
             android:text="@{String.format(@string/screen_on_boarding_existing_message,houseHoldSuccessViewModel.state.name)}"
             android:textColor="@color/kyc_success_text_color_light_gray"
-            app:text="@{String.format(Strings.screen_on_boarding_existing_message,houseHoldSuccessViewModel.state.name)}"
             tools:text="@string/screen_on_boarding_existing_message" />
 
         <FrameLayout

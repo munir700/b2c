@@ -65,7 +65,6 @@
                     android:text="@{@string/screen_house_hold_onBoarding_existing_title_display_text(existingHouseHoldViewModel.state.firstName ,existingHouseHoldViewModel.state.lastName)}"
                     android:textColor="@color/kyc_success_text_color"
                     app:layout_constraintTop_toBottomOf="@+id/rl_house_hold"
-                    app:text="@{String.format(Strings.screen_house_hold_onBoarding_existing_title_display_text, existingHouseHoldViewModel.state.firstName, existingHouseHoldViewModel.state.lastName)}"
                     tools:text="@string/screen_house_hold_onBoarding_existing_title_display_text" />
 
 

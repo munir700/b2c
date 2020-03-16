@@ -14,6 +14,7 @@ import co.yap.networking.customers.responsedtos.sendmoney.AddBeneficiaryResponse
 import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.networking.customers.responsedtos.sendmoney.Country
 import co.yap.networking.customers.responsedtos.sendmoney.RAKBankModel
+import co.yap.networking.household.responsedtos.ValidateParentMobileResponse
 import co.yap.networking.models.ApiResponse
 import co.yap.networking.models.RetroApiResponse
 import okhttp3.MediaType
@@ -256,7 +257,7 @@ object CustomersRepository : BaseRepository(), CustomersApi {
 
     override suspend fun verifyHouseholdParentMobile(
         mobileNumber: String?, verifyHouseholdMobileRequest: VerifyHouseholdMobileRequest
-    ): RetroApiResponse<ApiResponse> =
+    ): RetroApiResponse<ValidateParentMobileResponse> =
         executeSafely(call = {
             api.verifyHouseholdParentMobile(
                 mobileNumber,

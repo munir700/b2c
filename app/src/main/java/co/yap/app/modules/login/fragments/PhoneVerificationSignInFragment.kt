@@ -34,14 +34,14 @@ class PhoneVerificationSignInFragment : OnboardingChildFragment<IPhoneVerificati
         viewModel.nextButtonPressEvent.observe(this, nextButtonObserver)
         viewModel.verifyOtpResult.observe(this, verifyOtpResultObserver)
         viewModel.postDemographicDataResult.observe(this, postDemographicDataObserver)
-        MyUserManager.users.observe(this, onFetchAccountInfo)
+        MyUserManager.isUserAccountInfo?.observe(this, onFetchAccountInfo)
         setUsername()
         setPasscode()
     }
 
     override fun onDestroy() {
         viewModel.nextButtonPressEvent.removeObservers(this)
-        MyUserManager.users.removeObservers(this)
+        MyUserManager.isUserAccountInfo?.removeObservers(this)
         super.onDestroy()
     }
 
@@ -57,36 +57,35 @@ class PhoneVerificationSignInFragment : OnboardingChildFragment<IPhoneVerificati
         MyUserManager.getAccountInfo()
     }
 
-    private val onFetchAccountInfo = Observer<ArrayList<AccountInfo>?> {
-        it?.run {
-            setUserAttributes()
-            when {
-                MyUserManager.householdUser != null && MyUserManager.yapUser != null -> {
-                    if (MyUserManager.householdUser?.notificationStatuses == AccountStatus.ON_BOARDED.name)
-                        gotoYapDashboard()
-                    else
-                        gotoHouseHoldOnboarding(true, MyUserManager.householdUser)
-                }
-
-                MyUserManager.householdUser != null -> {
-                    gotoHouseHoldOnboarding(false, MyUserManager.householdUser)
-                }
-                else -> {
-                    gotoYapDashboard()
-                }
+    private val onFetchAccountInfo = Observer<Boolean> {
+        if(it) {
+//            setUserAttributes()
+            if (MyUserManager.shouldGoToHousehold()) {
+                gotoHouseHold(MyUserManager.isOnBoarded(), MyUserManager.user)
+            } else {
+                gotoYapDashboard()
             }
         }
     }
 
-    private fun gotoHouseHoldOnboarding(isExisting: Boolean, user: AccountInfo?) {
-        SharedPreferenceManager(requireContext()).setThemeValue(co.yap.yapcore.constants.Constants.THEME_HOUSEHOLD)
-        val bundle = Bundle()
-        bundle.putBoolean(OnBoardingHouseHoldActivity.EXISTING_USER, isExisting)
-        bundle.putParcelable(
-            OnBoardingHouseHoldActivity.USER_INFO,
-            user
-        )
-        startActivity(OnBoardingHouseHoldActivity.getIntent(requireContext(), bundle))
+    private fun gotoHouseHold(isExisting: Boolean, user: AccountInfo?) {
+        if(!isExisting) {
+            SharedPreferenceManager(requireContext()).setThemeValue(co.yap.yapcore.constants.Constants.THEME_HOUSEHOLD)
+            val bundle = Bundle()
+            bundle.putBoolean(OnBoardingHouseHoldActivity.EXISTING_USER, isExisting)
+            bundle.putParcelable(
+                OnBoardingHouseHoldActivity.USER_INFO,
+                user
+            )
+            startActivity(OnBoardingHouseHoldActivity.getIntent(requireContext(), bundle))
+            activity?.finish()
+        }else{
+            goToHouseHoldDashboard()
+        }
+    }
+
+    private fun goToHouseHoldDashboard() {
+        findNavController().navigate(R.id.action_goto_householdOnBoardingExistingYAP)
         activity?.finish()
     }
 

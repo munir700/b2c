@@ -6,10 +6,12 @@ import androidx.lifecycle.ViewModelProviders
 import co.yap.household.BR
 import co.yap.household.R
 import co.yap.household.onboard.onboarding.main.OnBoardingHouseHoldActivity
+import co.yap.networking.customers.responsedtos.AccountInfo
 import co.yap.yapcore.BaseBindingFragment
 
 class HouseHoldSuccessFragment : BaseBindingFragment<IHouseHoldSuccess.ViewModel>() {
-     lateinit var EXISTING_USER:String
+    private var existingUser:Boolean = false
+    private var accountInfo: AccountInfo? = null
 
     override fun getBindingVariable(): Int {
         return BR.houseHoldSuccessViewModel
@@ -25,7 +27,12 @@ class HouseHoldSuccessFragment : BaseBindingFragment<IHouseHoldSuccess.ViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            EXISTING_USER = it.getString(OnBoardingHouseHoldActivity.EXISTING_USER, "")
+            existingUser = it.getBoolean(OnBoardingHouseHoldActivity.EXISTING_USER, false)
+            accountInfo = it.getParcelable(OnBoardingHouseHoldActivity.USER_INFO)
+
+            accountInfo?.let {
+                viewModel.setUserData(it)
+            }
         }
         addObservers()
     }
@@ -38,7 +45,8 @@ class HouseHoldSuccessFragment : BaseBindingFragment<IHouseHoldSuccess.ViewModel
         when (it) {
             R.id.btnCompleteVerification -> {
                 val bundle = Bundle()
-                bundle.putBoolean(OnBoardingHouseHoldActivity.EXISTING_USER, false)
+                bundle.putBoolean(OnBoardingHouseHoldActivity.EXISTING_USER, existingUser)
+                bundle.putParcelable(OnBoardingHouseHoldActivity.USER_INFO, accountInfo)
                 startActivity(OnBoardingHouseHoldActivity.getIntent(requireContext(), bundle))
             }
 

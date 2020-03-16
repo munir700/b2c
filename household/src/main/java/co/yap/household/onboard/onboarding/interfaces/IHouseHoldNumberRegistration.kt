@@ -14,7 +14,7 @@ interface IHouseHoldNumberRegistration {
         var clickEvent: SingleClickEvent?
         fun handlePressOnConfirm(id: Int)
         fun verifyHouseholdParentMobile()
-        var isParentMobileValid:MutableLiveData<Boolean>?
+        var parentMobileValidationResponse:MutableLiveData<String>?
     }
 
     interface State : IBase.State {

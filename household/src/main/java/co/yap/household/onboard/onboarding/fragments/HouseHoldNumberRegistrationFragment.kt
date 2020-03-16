@@ -20,6 +20,7 @@ import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.enums.NotificationStatus
 import co.yap.yapcore.helpers.extentions.ExtraType
 import co.yap.yapcore.helpers.extentions.getValue
+import co.yap.yapcore.helpers.extentions.launchActivity
 import co.yap.yapcore.helpers.extentions.startFragment
 import kotlinx.android.synthetic.main.fragment_house_hold_number_registration.*
 
@@ -127,9 +128,16 @@ class HouseHoldNumberRegistrationFragment :
         dialer.hideFingerprintView()
     }
 
-    private val isParentMobileValid = Observer<Boolean>
+    private val validationResponse = Observer<String>
     {
-        if (it) {
+        if (!it.isNullOrEmpty()) {
+            if (it == NotificationStatus.ON_BOARDED.toString())  {
+                launchActivity<HouseHoldCardsSelectionActivity>()
+            }else{
+                findNavController().navigate(R.id.to_houseHoldCreatePassCodeFragment)
+            }
+
+        }else{
             findNavController().navigate(R.id.to_houseHoldCreatePassCodeFragment)
         }
     }
@@ -140,12 +148,7 @@ class HouseHoldNumberRegistrationFragment :
                 R.id.btnConfirm -> {
                     viewModel.state.existingYapUser?.let {
                         if (it) {
-                            startActivity(
-                                Intent(
-                                    requireContext(),
-                                    HouseHoldCardsSelectionActivity::class.java
-                                )
-                            )
+                            launchActivity<HouseholdDashboardActivity>()
                         } else {
                             viewModel.verifyHouseholdParentMobile()
                             //
@@ -156,13 +159,13 @@ class HouseHoldNumberRegistrationFragment :
                 }
             }
         })
-        viewModel.isParentMobileValid?.observe(this, isParentMobileValid)
+        viewModel.parentMobileValidationResponse?.observe(this, validationResponse)
     }
 
     override fun onDestroy() {
         super.onDestroy()
         viewModel.clickEvent?.removeObservers(this)
-        viewModel.isParentMobileValid?.removeObservers(this)
+        viewModel.parentMobileValidationResponse?.removeObservers(this)
     }
 
     override fun onBackPressed(): Boolean = false

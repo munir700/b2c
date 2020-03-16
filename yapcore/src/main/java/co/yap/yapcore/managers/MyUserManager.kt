@@ -11,6 +11,8 @@ import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.customers.responsedtos.AccountInfo
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
+import co.yap.yapcore.SingleLiveEvent
+import co.yap.yapcore.enums.AccountStatus
 import co.yap.yapcore.enums.AccountType
 import co.yap.yapcore.enums.CardType
 import co.yap.yapcore.enums.EIDStatus
@@ -27,9 +29,8 @@ object MyUserManager : IRepositoryHolder<CardsRepository> {
     private val customersRepository: CustomersRepository = CustomersRepository
 
     var user: AccountInfo? = null
-    var yapUser: AccountInfo? = null
-    var householdUser: AccountInfo? = null
-    var users: MutableLiveData<ArrayList<AccountInfo>?> = MutableLiveData()
+    var isUserAccountInfo: SingleLiveEvent<Boolean> = SingleLiveEvent()
+    private var users: ArrayList<AccountInfo> = ArrayList<AccountInfo>()
     var userAddress: Address? = null
     var cardBalance: MutableLiveData<CardBalance> = MutableLiveData()
     var cards: MutableLiveData<Card> = MutableLiveData()
@@ -38,7 +39,6 @@ object MyUserManager : IRepositoryHolder<CardsRepository> {
     fun updateCardBalance() {
         getAccountBalanceRequest()
     }
-
 
     private fun getAccountBalanceRequest() {
 
@@ -59,29 +59,57 @@ object MyUserManager : IRepositoryHolder<CardsRepository> {
             when (val response = customersRepository.getAccountInfo()) {
                 is RetroApiResponse.Success -> {
                     if (!response.data.data.isNullOrEmpty()) {
-                        users.value = response.data.data as ArrayList<AccountInfo>
-                        user = getYapUserAccount()
-                        yapUser = getYapUserAccount()
-                        householdUser = getHouseholdUserAccount()
+
+                        users = response.data.data as ArrayList<AccountInfo>
+                        var yapUser = getYapUserAccount(users)
+                        var householdUser = getHouseholdUserAccount(users)
+
+                        if (householdUser != null && yapUser != null) {
+                            user = householdUser
+                        } else if (householdUser != null) {
+                            user = householdUser
+                        } else if (yapUser != null) {
+                            user = yapUser
+                        }
+
+                        isUserAccountInfo.postValue(true)
                     }
                 }
                 is RetroApiResponse.Error -> {
-
+                    isUserAccountInfo.postValue(false)
                 }
             }
         }
     }
 
-    private fun getYapUserAccount(): AccountInfo? {
-        users.value?.let {
-            return it.find { obj1 -> obj1.accountType == AccountType.B2C_ACCOUNT.name }
-        } ?: return null
+    fun shouldGoToHousehold(): Boolean {
+        val yapUser = users.find { obj1 -> obj1.accountType == AccountType.B2C_ACCOUNT.name }
+        val householdUser =
+            users.find { obj1 -> obj1.accountType == AccountType.B2C_HOUSEHOLD.name }
+
+        if ((yapUser != null && householdUser != null) || (yapUser == null && householdUser != null)) {
+            return true
+        }
+        return false
     }
 
-    private fun getHouseholdUserAccount(): AccountInfo? {
-        users.value?.let {
-            return it.find { obj1 -> obj1.accountType == AccountType.B2C_HOUSEHOLD.name }
-        } ?: return null
+    /*
+        isOnBoarded:  This method is used for Household user to check if it's on boarded or not
+     */
+
+    fun isOnBoarded(): Boolean {
+        if (user?.notificationStatuses == AccountStatus.ON_BOARDED.name) {
+            return true
+        }
+        return false
+    }
+
+    fun getYapUserAccount(data: java.util.ArrayList<AccountInfo>): AccountInfo? {
+        return data?.find { obj1 -> obj1.accountType == AccountType.B2C_ACCOUNT.name }
+    }
+
+    fun getHouseholdUserAccount(data: java.util.ArrayList<AccountInfo>): AccountInfo? {
+        return data?.find { obj1 -> obj1.accountType == AccountType.B2C_HOUSEHOLD.name }
     }
 
     fun getCardSerialNumber(): String {
