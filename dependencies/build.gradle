@@ -25,7 +25,8 @@ project.ext {
             yap        : ':yap',
             household  : ':household',
             yapcore    : ':yapcore',
-            kyc        : ':identityscanner_v2'
+            kyc        : ':identityscanner_v2',
+            send_money : ':send_money'
     ]
 
     // All libraries that any module can contain
@@ -281,6 +282,15 @@ project.ext {
             [configuration: "implementation", dependency: libraries.coroutineCore],
             [configuration: "implementation", dependency: libraries.coroutineAndroid],
     ]
+
+    // dependencies which need to be added in translation module only in conjunction with commonDependencies
+    sendMoneyDependencies = [
+            [configuration: "implementation", dependency: project(modules.networking)],
+            [configuration: "implementation", dependency: project(modules.yapcore)],
+            [configuration: "implementation", dependency: project(modules.translation)],
+            [configuration: "implementation", dependency: project(modules.networking)]
+    ]
+
 
 }
 
