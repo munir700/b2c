@@ -288,7 +288,27 @@ project.ext {
             [configuration: "implementation", dependency: project(modules.networking)],
             [configuration: "implementation", dependency: project(modules.yapcore)],
             [configuration: "implementation", dependency: project(modules.translation)],
-            [configuration: "implementation", dependency: project(modules.networking)]
+            [configuration: "implementation", dependency: project(modules.networking)],
+            [configuration: "api", dependency: libraries.appcompat],
+            [configuration: "api", dependency: libraries.constraintLayout],
+            [configuration: "api", dependency: libraries.constraintlayoutSolver],
+            [configuration: "api", dependency: libraries.legacySupportV13],
+            [configuration: "api", dependency: libraries.legacySupportV4],
+            [configuration: "api", dependency: libraries.cardview],
+            [configuration: "api", dependency: libraries.recyclerview],
+            [configuration: "api", dependency: libraries.vectordrawable],
+            [configuration: "api", dependency: libraries.lifecycleRuntime],
+            [configuration: "api", dependency: libraries.lifecycleCommonJava],
+            [configuration: "api", dependency: libraries.lifecycleExtensions],
+            [configuration: "api", dependency: libraries.coroutineCore],
+            [configuration: "api", dependency: libraries.coroutineAndroid],
+            [configuration: "api", dependency: libraries.navigationFragmentKtx],
+            [configuration: "api", dependency: libraries.navigationUItKtx],
+            [configuration: "implementation", dependency: libraries.numberFomater],
+            [configuration: "implementation", dependency: libraries.gson],
+            [configuration: "implementation", dependency: libraries.glideTransformation],
+            [configuration: "implementation", dependency: libraries.androidanimations],
+            [configuration: "implementation", dependency: libraries.androidanimationseasing]
     ]
 
 
