@@ -207,7 +207,7 @@
                 android:layout_marginEnd="@dimen/margin_medium"
                 android:gravity="center"
                 android:text="@{viewModel.state.cutOffTimeMsg}"
-                android:visibility="@{viewModel.state.cutOffTimeMsg==null || viewModel.state.cutOffTimeMsg.isEmpty()? View.GONE:View.VISIBLE}"
+                android:visibility="@{viewModel.state.cutOffTimeMsg.isEmpty()? View.GONE:View.VISIBLE}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/appCompatImageView"
