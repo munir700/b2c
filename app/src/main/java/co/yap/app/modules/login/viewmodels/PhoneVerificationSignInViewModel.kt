@@ -4,6 +4,7 @@ import android.app.Application
 import android.content.Context
 import android.os.Build
 import androidx.lifecycle.MutableLiveData
+import co.yap.R
 import co.yap.app.modules.login.interfaces.IPhoneVerificationSignIn
 import co.yap.modules.onboarding.constants.Constants
 import co.yap.modules.onboarding.viewmodels.OnboardingChildViewModel
@@ -22,6 +23,7 @@ import co.yap.yapcore.constants.Constants.KEY_APP_UUID
 import co.yap.yapcore.constants.Constants.KEY_IS_USER_LOGGED_IN
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.helpers.extentions.getColors
 import co.yap.yapcore.helpers.extentions.trackEventWithAttributes
 import co.yap.yapcore.managers.MyUserManager
 
@@ -73,6 +75,8 @@ class PhoneVerificationSignInViewModel(application: Application) :
                 }
                 is RetroApiResponse.Error -> {
                     state.toast = response.error.message
+                    state.otp = ""
+                    otpUiBlocked(response.error.actualCode)
                     state.loading = false
                 }
             }
@@ -93,6 +97,7 @@ class PhoneVerificationSignInViewModel(application: Application) :
                 }
                 is RetroApiResponse.Error -> {
                     state.toast = response.error.message
+                    otpUiBlocked(response.error.actualCode)
                 }
             }
             state.loading = false
@@ -144,6 +149,17 @@ class PhoneVerificationSignInViewModel(application: Application) :
                 is RetroApiResponse.Error -> state.toast = response.error.message
             }
             state.loading = false
+        }
+    }
+
+    private fun otpUiBlocked(errorCode: String) {
+        when (errorCode) {
+            "1095" -> {
+                state.validateBtn = false
+                state.valid = false
+                state.color = context.getColors(R.color.disabled)
+                state.isOtpBlocked.set(true)
+            }
         }
     }
 }
