@@ -3,20 +3,21 @@ package co.yap.app.activities
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.text.format.DateFormat
 import android.util.Log
 import co.yap.app.R
 import co.yap.app.YAPApplication
 import co.yap.yapcore.IFragmentHolder
+import co.yap.yapcore.constants.Constants.INVITEE_RECEIEVED_DATE
+import co.yap.yapcore.constants.Constants.INVITER_ADJUST_ID
 import co.yap.yapcore.defaults.DefaultActivity
 import co.yap.yapcore.defaults.DefaultNavigator
 import co.yap.yapcore.defaults.INavigator
 import co.yap.yapcore.helpers.DeviceUtils
+import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.interfaces.BackPressImpl
 import co.yap.yapcore.interfaces.IBaseNavigator
 import com.adjust.sdk.Adjust
 import java.net.URL
-import java.util.*
 
 
 open class MainActivity : DefaultActivity(), IFragmentHolder, INavigator {
@@ -56,7 +57,15 @@ open class MainActivity : DefaultActivity(), IFragmentHolder, INavigator {
             val time = data.getQueryParameter("time")
             val date = time.replace("$", " ")
 
-
+//            SharedPreferenceManager(this).save(Constants.INVITER_ADJUST_ID)
+            SharedPreferenceManager(this).save(
+                INVITER_ADJUST_ID,
+                customerId
+            )
+            SharedPreferenceManager(this).save(
+                INVITEE_RECEIEVED_DATE,
+                date
+            )
             Log.i("url", url.toString())
             Log.i("urluserid", customerId.toString())
             Log.i(
