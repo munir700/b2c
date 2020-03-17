@@ -2,6 +2,7 @@ package co.yap.modules.onboarding.viewmodels
 
 import android.app.Application
 import android.content.Context
+import co.yap.R
 import co.yap.modules.onboarding.interfaces.IPhoneVerification
 import co.yap.modules.onboarding.states.PhoneVerificationState
 import co.yap.networking.interfaces.IRepositoryHolder
@@ -12,6 +13,7 @@ import co.yap.networking.models.RetroApiResponse
 import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.adjust.AdjustEvents
+import co.yap.yapcore.helpers.extentions.getColors
 import co.yap.yapcore.helpers.extentions.trackEvent
 import co.yap.yapcore.leanplum.SignupEvents
 import co.yap.yapcore.trackAdjustEvent
@@ -63,6 +65,7 @@ open class PhoneVerificationViewModel(application: Application) :
                 }
                 is RetroApiResponse.Error -> {
                     state.toast = response.error.message
+                    otpUiBlocked(response.error.actualCode)
                 }
             }
             state.loading = false
@@ -87,6 +90,7 @@ open class PhoneVerificationViewModel(application: Application) :
                 is RetroApiResponse.Error -> {
                     state.toast = response.error.message
                     state.otp = ""
+                    otpUiBlocked(response.error.actualCode)
                 }
             }
             state.loading = false
@@ -95,5 +99,16 @@ open class PhoneVerificationViewModel(application: Application) :
 
     override fun setPasscode(passcode: String) {
         parentViewModel?.onboardingData?.passcode = passcode
+    }
+
+    private fun otpUiBlocked(errorCode: String) {
+        when (errorCode) {
+            "1095" -> {
+                state.validResend = false
+                state.valid = false
+                state.color = context.getColors(R.color.disabled)
+                state.isOtpBlocked.set(true)
+            }
+        }
     }
 }

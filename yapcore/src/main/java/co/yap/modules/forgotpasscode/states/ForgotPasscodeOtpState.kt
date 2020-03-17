@@ -6,8 +6,9 @@ import android.os.CountDownTimer
 import android.text.SpannableStringBuilder
 import androidx.core.content.ContextCompat
 import androidx.databinding.Bindable
-import co.yap.yapcore.BR
+import androidx.databinding.ObservableField
 import co.yap.modules.forgotpasscode.interfaces.IForgotPasscodeOtp
+import co.yap.yapcore.BR
 import co.yap.yapcore.BaseState
 import co.yap.yapcore.R
 import co.yap.yapcore.helpers.ThemeColorUtils
@@ -120,9 +121,11 @@ class ForgotPasscodeOtpState(application: Application) : BaseState(), IForgotPas
 
     private fun validate(): Boolean {
         var validateOtp: Boolean = false
-        if (!otp.isNullOrEmpty() && otp.length == 6) {
-            validateOtp = true
-            valid = true
+        if (isOtpBlocked.get() == false) {
+            if (!otp.isNullOrEmpty() && otp.length == 6) {
+                validateOtp = true
+                valid = true
+            }
         }
         return validateOtp
     }
@@ -150,4 +153,6 @@ class ForgotPasscodeOtpState(application: Application) : BaseState(), IForgotPas
             }
         }.start()
     }
+
+    override val isOtpBlocked: ObservableField<Boolean> = ObservableField(false)
 }
