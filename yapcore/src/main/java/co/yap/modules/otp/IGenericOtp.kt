@@ -2,6 +2,7 @@ package co.yap.modules.otp
 
 import android.content.Context
 import android.text.SpannableStringBuilder
+import androidx.databinding.ObservableField
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
 
@@ -41,5 +42,6 @@ interface IGenericOtp {
         var amount: String?
         var beneficiaryCountry: String?
         var errorMessage: String?
+        var isOtpBlocked: ObservableField<Boolean>
     }
 }

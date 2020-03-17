@@ -4,6 +4,7 @@ import android.app.Application
 import android.content.Context
 import android.os.CountDownTimer
 import androidx.databinding.Bindable
+import androidx.databinding.ObservableField
 import co.yap.BR
 import co.yap.R
 import co.yap.modules.onboarding.interfaces.IPhoneVerification
@@ -70,11 +71,14 @@ open class PhoneVerificationState(application: Application) : BaseState(),
 
     private fun validate(): Boolean {
         var validateOtp: Boolean = false
-        if (!otp.isNullOrEmpty() && otp.length == 6) {
-            validateOtp = true
-            valid = true
-        }
-        return validateOtp
+        return if (isOtpBlocked.get() == false) {
+            if (!otp.isNullOrEmpty() && otp.length == 6) {
+                validateOtp = true
+                valid = true
+            }
+            validateOtp
+        } else
+            validateOtp
     }
 
     override fun reverseTimer(Seconds: Int, context: Context) {
@@ -100,4 +104,6 @@ open class PhoneVerificationState(application: Application) : BaseState(),
             }
         }.start()
     }
+
+    override var isOtpBlocked: ObservableField<Boolean> = ObservableField(false)
 }

@@ -23,7 +23,6 @@ import co.yap.translation.Translator
 import co.yap.widgets.spinneradapter.ViewHolderArrayAdapter
 import co.yap.yapcore.enums.SendMoneyBeneficiaryProductCode
 import co.yap.yapcore.enums.SendMoneyBeneficiaryType
-import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.cancelAllSnackBar
 import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 import co.yap.yapcore.helpers.extentions.toast
@@ -292,7 +291,6 @@ class InternationalFundsTransferFragment :
 //    etBankREquiredFieldCode.isEnabled = true
     }
 
-
     private fun getProductCode(): String {
         if (context is BeneficiaryCashTransferActivity) {
             (context as BeneficiaryCashTransferActivity).let { beneficiaryCashTransaferActivity ->
@@ -324,7 +322,6 @@ class InternationalFundsTransferFragment :
             }
         }
         return ""
-
     }
 
     private fun getBeneficiaryId() {
@@ -342,7 +339,6 @@ class InternationalFundsTransferFragment :
         super.onResume()
         setObservers()
     }
-
 
     override fun onPause() {
         super.onPause()

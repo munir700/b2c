@@ -4,6 +4,7 @@ import android.app.Application
 import android.content.Context
 import android.os.CountDownTimer
 import androidx.databinding.Bindable
+import androidx.databinding.ObservableField
 import co.yap.BR
 import co.yap.R
 import co.yap.app.modules.login.interfaces.IPhoneVerificationSignIn
@@ -46,7 +47,8 @@ class PhoneVerificationSignInState(application: Application) : BaseState(),
         set(value) {
             field = value
             notifyPropertyChanged(BR.otp)
-            validate()
+            if (isOtpBlocked.get() == false)
+                validate()
         }
 
     @get:Bindable
@@ -89,12 +91,15 @@ class PhoneVerificationSignInState(application: Application) : BaseState(),
 
     private fun validate(): Boolean {
         var vlidateOtp: Boolean = false
-        if (!otp.isNullOrEmpty() && otp.length == 6) {
+        if (otp.isNotEmpty() && otp.length == 6) {
             vlidateOtp = true
             validateBtn = true
 
+        } else {
+            validateBtn = false
         }
         return vlidateOtp
-
     }
+
+    override var isOtpBlocked: ObservableField<Boolean> = ObservableField(false)
 }
