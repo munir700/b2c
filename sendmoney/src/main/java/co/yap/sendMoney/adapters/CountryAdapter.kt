@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.TextView
-import co.yap.R
+import co.yap.sendMoney.R
 import co.yap.countryutils.country.Country
 import co.yap.widgets.CoreCircularImageView
 

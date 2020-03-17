@@ -10,7 +10,7 @@ import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
-import co.yap.R
+import co.yap.sendMoney.R
 import co.yap.databinding.ActivitySendMoneyLandingBinding
 import co.yap.sendMoney.activities.BeneficiaryCashTransferActivity
 import co.yap.sendMoney.activities.SendMoneyHomeActivity
@@ -27,6 +27,7 @@ import co.yap.yapcore.constants.Constants.EXTRA
 import co.yap.yapcore.constants.Constants.OVERVIEW_BENEFICIARY
 import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.constants.RequestCodes.REQUEST_TRANSFER_MONEY
+import co.yap.yapcore.helpers.RecyclerTouchListener
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.launchActivity
 import co.yap.yapcore.interfaces.OnItemClickListener

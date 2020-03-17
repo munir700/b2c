@@ -11,7 +11,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import co.yap.BR
-import co.yap.R
+import co.yap.sendMoney.R
 import co.yap.databinding.FragmentInternationalFundsTransferBinding
 import co.yap.sendMoney.activities.BeneficiaryCashTransferActivity
 import co.yap.sendMoney.addbeneficiary.interfaces.IInternationalFundsTransfer

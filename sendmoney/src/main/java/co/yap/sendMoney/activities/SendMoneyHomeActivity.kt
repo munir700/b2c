@@ -7,7 +7,7 @@ import android.os.Bundle
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
-import co.yap.R
+import co.yap.sendMoney.R
 import co.yap.sendMoney.interfaces.ISendMoney
 import co.yap.sendMoney.viewmodels.SendMoneyViewModel
 import co.yap.yapcore.BaseBindingActivity

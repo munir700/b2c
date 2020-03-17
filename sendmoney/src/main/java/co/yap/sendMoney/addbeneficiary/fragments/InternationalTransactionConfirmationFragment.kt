@@ -16,7 +16,7 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import co.yap.BR
-import co.yap.R
+import co.yap.sendMoney.R
 import co.yap.databinding.FragmentInternationalTransactionConfirmationBinding
 import co.yap.sendMoney.activities.BeneficiaryCashTransferActivity
 import co.yap.sendMoney.addbeneficiary.interfaces.IInternationalTransactionConfirmation

@@ -6,7 +6,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import co.yap.BR
-import co.yap.R
+import co.yap.sendMoney.R
 import co.yap.sendMoney.addbeneficiary.interfaces.ITransferType
 import co.yap.sendMoney.addbeneficiary.viewmodels.TransferTypeViewModel
 import co.yap.sendMoney.fragments.SendMoneyBaseFragment

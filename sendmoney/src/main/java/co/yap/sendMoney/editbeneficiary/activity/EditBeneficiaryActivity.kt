@@ -6,7 +6,7 @@ import android.os.Bundle
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
-import co.yap.R
+import co.yap.sendMoney.R
 import co.yap.databinding.ActivityEditBeneficiaryBinding
 import co.yap.sendMoney.editbeneficiary.interfaces.IEditBeneficiary
 import co.yap.sendMoney.editbeneficiary.viewmodel.EditBeneficiaryViewModel

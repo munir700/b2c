@@ -3,7 +3,7 @@ package co.yap.sendMoney.addbeneficiary.adaptor
 import android.view.View
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
- import co.yap.databinding.ItemRakBankBinding
+import co.yap.databinding.ItemRakBankBinding
 import co.yap.networking.customers.responsedtos.sendmoney.RAKBank.Bank
 import co.yap.yapcore.BaseBindingRecyclerAdapter
 import co.yap.yapcore.interfaces.OnItemClickListener

@@ -7,7 +7,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import co.yap.BR
-import co.yap.R
+import co.yap.sendMoney.R
 import co.yap.sendMoney.adapters.CountryAdapter
 import co.yap.sendMoney.addbeneficiary.interfaces.ISelectCountry
 import co.yap.sendMoney.addbeneficiary.viewmodels.SelectCountryViewModel

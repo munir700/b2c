@@ -8,7 +8,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import co.yap.BR
-import co.yap.R
+import co.yap.sendMoney.R
 import co.yap.databinding.ActivitySendMoneyLandingBinding
 import co.yap.sendMoney.fragments.SendMoneyBaseFragment
 import co.yap.sendMoney.home.adapters.AllBeneficiariesAdapter

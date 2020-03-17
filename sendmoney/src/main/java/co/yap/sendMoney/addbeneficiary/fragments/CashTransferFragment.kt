@@ -18,7 +18,7 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
-import co.yap.R
+import co.yap.sendMoney.R
 import co.yap.databinding.FragmentCashTransferBinding
 import co.yap.sendMoney.activities.BeneficiaryCashTransferActivity
 import co.yap.sendMoney.addbeneficiary.interfaces.ICashTransfer

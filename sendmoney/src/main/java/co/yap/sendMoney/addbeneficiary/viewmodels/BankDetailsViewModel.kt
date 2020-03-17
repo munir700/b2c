@@ -5,7 +5,7 @@ import android.text.Editable
 import android.text.TextWatcher
 import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
-import co.yap.R
+import co.yap.sendMoney.R
 import co.yap.sendMoney.addbeneficiary.adaptor.AddBeneficiariesAdaptor
 import co.yap.sendMoney.addbeneficiary.adaptor.RAKBankAdaptor
 import co.yap.sendMoney.addbeneficiary.interfaces.IBankDetails

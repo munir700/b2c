@@ -9,7 +9,7 @@ import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
-import co.yap.R
+import co.yap.sendMoney.R
 import co.yap.sendMoney.addbeneficiary.interfaces.IAddBeneficiary
 import co.yap.sendMoney.addbeneficiary.viewmodels.AddBeneficiaryViewModel
 import co.yap.sendMoney.fragments.SendMoneyBaseFragment

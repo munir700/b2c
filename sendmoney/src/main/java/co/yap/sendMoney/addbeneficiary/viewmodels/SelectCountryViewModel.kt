@@ -2,7 +2,7 @@ package co.yap.sendMoney.addbeneficiary.viewmodels
 
 import android.app.Application
 import androidx.lifecycle.MutableLiveData
-import co.yap.R
+import co.yap.sendMoney.R
 import co.yap.countryutils.country.Country
 import co.yap.countryutils.country.utils.Currency
 import co.yap.sendMoney.addbeneficiary.interfaces.ISelectCountry
