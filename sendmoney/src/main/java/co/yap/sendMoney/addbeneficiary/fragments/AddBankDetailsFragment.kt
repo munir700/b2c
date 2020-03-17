@@ -9,9 +9,9 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import co.yap.BR
 import co.yap.R
-import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.interfaces.IBankDetails
-import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.viewmodels.BankDetailsViewModel
-import co.yap.modules.dashboard.yapit.sendmoney.fragments.SendMoneyBaseFragment
+import co.yap.sendMoney.addbeneficiary.interfaces.IBankDetails
+import co.yap.sendMoney.addbeneficiary.viewmodels.BankDetailsViewModel
+import co.yap.sendMoney.fragments.SendMoneyBaseFragment
 import co.yap.networking.customers.requestdtos.OtherBankQuery
 import co.yap.networking.customers.responsedtos.sendmoney.RAKBank.Bank
 import co.yap.yapcore.constants.Constants

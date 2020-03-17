@@ -10,9 +10,9 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
 import co.yap.R
-import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.interfaces.IAddBeneficiary
-import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.viewmodels.AddBeneficiaryViewModel
-import co.yap.modules.dashboard.yapit.sendmoney.fragments.SendMoneyBaseFragment
+import co.yap.sendMoney.addbeneficiary.interfaces.IAddBeneficiary
+import co.yap.sendMoney.addbeneficiary.viewmodels.AddBeneficiaryViewModel
+import co.yap.sendMoney.fragments.SendMoneyBaseFragment
 import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.translation.Translator
 import co.yap.yapcore.constants.Constants

@@ -3,9 +3,9 @@ package co.yap.sendMoney.addbeneficiary.viewmodels
 import android.app.Application
 import androidx.lifecycle.MutableLiveData
 import co.yap.R
-import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.interfaces.ICashTransfer
-import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.states.CashTransferState
-import co.yap.modules.dashboard.yapit.sendmoney.viewmodels.SendMoneyBaseViewModel
+import co.yap.sendMoney.addbeneficiary.interfaces.ICashTransfer
+import co.yap.sendMoney.addbeneficiary.states.CashTransferState
+import co.yap.sendMoney.viewmodels.SendMoneyBaseViewModel
 import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.messages.MessagesRepository
 import co.yap.networking.messages.requestdtos.CreateOtpGenericRequest

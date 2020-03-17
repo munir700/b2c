@@ -1,9 +1,9 @@
 package co.yap.sendMoney.addbeneficiary.viewmodels
 
 import android.app.Application
-import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.interfaces.ITransferType
-import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.states.TransferTypeState
-import co.yap.modules.dashboard.yapit.sendmoney.viewmodels.SendMoneyBaseViewModel
+import co.yap.sendMoney.addbeneficiary.interfaces.ITransferType
+import co.yap.sendMoney.addbeneficiary.states.TransferTypeState
+import co.yap.sendMoney.viewmodels.SendMoneyBaseViewModel
 import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.translation.Strings

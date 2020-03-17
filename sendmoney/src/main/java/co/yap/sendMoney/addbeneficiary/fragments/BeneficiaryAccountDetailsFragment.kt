@@ -10,11 +10,11 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import co.yap.BR
 import co.yap.R
-import co.yap.modules.dashboard.yapit.sendmoney.activities.BeneficiaryCashTransferActivity
-import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.interfaces.IBeneficiaryAccountDetails
-import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.viewmodels.BeneficiaryAccountDetailsViewModel
-import co.yap.modules.dashboard.yapit.sendmoney.editbeneficiary.activity.EditBeneficiaryActivity
-import co.yap.modules.dashboard.yapit.sendmoney.fragments.SendMoneyBaseFragment
+import co.yap.sendMoney.activities.BeneficiaryCashTransferActivity
+import co.yap.sendMoney.addbeneficiary.interfaces.IBeneficiaryAccountDetails
+import co.yap.sendMoney.addbeneficiary.viewmodels.BeneficiaryAccountDetailsViewModel
+import co.yap.sendMoney.editbeneficiary.activity.EditBeneficiaryActivity
+import co.yap.sendMoney.fragments.SendMoneyBaseFragment
 import co.yap.modules.otp.GenericOtpFragment
 import co.yap.modules.otp.OtpDataModel
 import co.yap.modules.otp.OtpToolBarData

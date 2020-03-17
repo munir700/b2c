@@ -8,8 +8,8 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
 import co.yap.R
-import co.yap.modules.dashboard.yapit.sendmoney.interfaces.ISendMoney
-import co.yap.modules.dashboard.yapit.sendmoney.viewmodels.SendMoneyViewModel
+import co.yap.sendMoney.interfaces.ISendMoney
+import co.yap.sendMoney.viewmodels.SendMoneyViewModel
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.IFragmentHolder
 import co.yap.yapcore.constants.Constants

@@ -10,11 +10,11 @@ import androidx.navigation.fragment.findNavController
 import co.yap.BR
 import co.yap.R
 import co.yap.databinding.ActivitySendMoneyLandingBinding
-import co.yap.modules.dashboard.yapit.sendmoney.fragments.SendMoneyBaseFragment
-import co.yap.modules.dashboard.yapit.sendmoney.home.adapters.AllBeneficiariesAdapter
-import co.yap.modules.dashboard.yapit.sendmoney.home.adapters.RecentTransferAdaptor
-import co.yap.modules.dashboard.yapit.sendmoney.home.interfaces.ISendMoneyHome
-import co.yap.modules.dashboard.yapit.sendmoney.home.viewmodels.SendMoneyHomeScreenViewModel
+import co.yap.sendMoney.fragments.SendMoneyBaseFragment
+import co.yap.sendMoney.home.adapters.AllBeneficiariesAdapter
+import co.yap.sendMoney.home.adapters.RecentTransferAdaptor
+import co.yap.sendMoney.home.interfaces.ISendMoneyHome
+import co.yap.sendMoney.home.viewmodels.SendMoneyHomeScreenViewModel
 import co.yap.networking.customers.requestdtos.Contact
 import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.translation.Translator

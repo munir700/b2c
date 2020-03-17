@@ -17,9 +17,9 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.navigation.fragment.findNavController
 import co.yap.R
 import co.yap.databinding.FragmentCashTransferConfirmationBinding
-import co.yap.modules.dashboard.yapit.sendmoney.activities.BeneficiaryCashTransferActivity
-import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.interfaces.ICashTransferConfirmation
-import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.viewmodels.CashTransferConfirmationViewModel
+import co.yap.sendMoney.activities.BeneficiaryCashTransferActivity
+import co.yap.sendMoney.addbeneficiary.interfaces.ICashTransferConfirmation
+import co.yap.sendMoney.addbeneficiary.viewmodels.CashTransferConfirmationViewModel
 import co.yap.modules.otp.GenericOtpFragment
 import co.yap.modules.otp.LogoData
 import co.yap.modules.otp.OtpDataModel

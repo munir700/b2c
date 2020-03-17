@@ -8,8 +8,8 @@ import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
 import co.yap.R
 import co.yap.databinding.ActivityEditBeneficiaryBinding
-import co.yap.modules.dashboard.yapit.sendmoney.editbeneficiary.interfaces.IEditBeneficiary
-import co.yap.modules.dashboard.yapit.sendmoney.editbeneficiary.viewmodel.EditBeneficiaryViewModel
+import co.yap.sendMoney.editbeneficiary.interfaces.IEditBeneficiary
+import co.yap.sendMoney.editbeneficiary.viewmodel.EditBeneficiaryViewModel
 import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.widgets.MaskTextWatcher
 import co.yap.widgets.popmenu.PopupMenu

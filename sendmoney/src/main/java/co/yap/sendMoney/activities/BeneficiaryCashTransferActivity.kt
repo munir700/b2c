@@ -7,8 +7,6 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
 import co.yap.R
-import co.yap.modules.dashboard.yapit.sendmoney.interfaces.IBeneficiaryCashTransfer
-import co.yap.modules.dashboard.yapit.sendmoney.viewmodels.BeneficiaryCashTransferViewModel
 import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.IFragmentHolder
@@ -53,6 +51,7 @@ class BeneficiaryCashTransferActivity : BaseBindingActivity<IBeneficiaryCashTran
         else
             hideErrorSnackBar()
     }
+
     private fun showErrorSnackBar(errorMessage: String) {
         getSnackBarFromQueue(0)?.let {
             if (it.isShown) {

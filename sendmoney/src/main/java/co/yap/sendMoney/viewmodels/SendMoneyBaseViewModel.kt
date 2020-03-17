@@ -1,7 +1,7 @@
 package co.yap.sendMoney.viewmodels
 
 import android.app.Application
-import co.yap.modules.dashboard.yapit.sendmoney.interfaces.ISendMoney
+import co.yap.sendMoney.interfaces.ISendMoney
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.IBase
 

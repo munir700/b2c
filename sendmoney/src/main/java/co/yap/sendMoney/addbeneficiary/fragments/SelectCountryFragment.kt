@@ -8,10 +8,10 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import co.yap.BR
 import co.yap.R
-import co.yap.modules.dashboard.yapit.sendmoney.adapters.CountryAdapter
-import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.interfaces.ISelectCountry
-import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.viewmodels.SelectCountryViewModel
-import co.yap.modules.dashboard.yapit.sendmoney.fragments.SendMoneyBaseFragment
+import co.yap.sendMoney.adapters.CountryAdapter
+import co.yap.sendMoney.addbeneficiary.interfaces.ISelectCountry
+import co.yap.sendMoney.addbeneficiary.viewmodels.SelectCountryViewModel
+import co.yap.sendMoney.fragments.SendMoneyBaseFragment
 import kotlinx.android.synthetic.main.fragment_select_country.*
 
 

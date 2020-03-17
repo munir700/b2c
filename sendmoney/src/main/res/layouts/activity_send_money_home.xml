@@ -8,7 +8,7 @@
 
         <variable
             name="viewModel"
-            type="co.yap.modules.dashboard.yapit.sendmoney.viewmodels.SendMoneyViewModel" />
+            type="co.yap.sendMoney.viewmodels.SendMoneyViewModel" />
     </data>
 
     <LinearLayout

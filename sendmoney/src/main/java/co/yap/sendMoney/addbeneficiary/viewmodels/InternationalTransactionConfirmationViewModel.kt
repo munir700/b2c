@@ -2,8 +2,8 @@ package co.yap.sendMoney.addbeneficiary.viewmodels
 
 import android.app.Application
 import androidx.lifecycle.MutableLiveData
-import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.interfaces.IInternationalTransactionConfirmation
-import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.states.InternationalTransactionConfirmationState
+import co.yap.sendMoney.addbeneficiary.interfaces.IInternationalTransactionConfirmation
+import co.yap.sendMoney.addbeneficiary.states.InternationalTransactionConfirmationState
 import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.networking.messages.MessagesRepository
 import co.yap.networking.messages.requestdtos.CreateOtpGenericRequest

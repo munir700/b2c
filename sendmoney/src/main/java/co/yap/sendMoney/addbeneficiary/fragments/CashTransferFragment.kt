@@ -20,10 +20,10 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import co.yap.R
 import co.yap.databinding.FragmentCashTransferBinding
-import co.yap.modules.dashboard.yapit.sendmoney.activities.BeneficiaryCashTransferActivity
-import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.interfaces.ICashTransfer
-import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.viewmodels.CashTransferViewModel
-import co.yap.modules.dashboard.yapit.sendmoney.fragments.SendMoneyBaseFragment
+import co.yap.sendMoney.activities.BeneficiaryCashTransferActivity
+import co.yap.sendMoney.addbeneficiary.interfaces.ICashTransfer
+import co.yap.sendMoney.addbeneficiary.viewmodels.CashTransferViewModel
+import co.yap.sendMoney.fragments.SendMoneyBaseFragment
 import co.yap.networking.transactions.responsedtos.InternationalFundsTransferReasonList
 import co.yap.translation.Strings
 import co.yap.translation.Translator

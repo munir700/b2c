@@ -1,10 +1,10 @@
 package co.yap.sendMoney.addbeneficiary.viewmodels
 
 import android.app.Application
-import co.yap.modules.dashboard.yapit.sendmoney.activities.BeneficiaryCashTransferActivity
-import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.interfaces.ITransferSuccess
-import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.states.TransferSuccessState
-import co.yap.modules.dashboard.yapit.sendmoney.viewmodels.SendMoneyBaseViewModel
+import co.yap.sendMoney.activities.BeneficiaryCashTransferActivity
+import co.yap.sendMoney.addbeneficiary.interfaces.ITransferSuccess
+import co.yap.sendMoney.addbeneficiary.states.TransferSuccessState
+import co.yap.sendMoney.viewmodels.SendMoneyBaseViewModel
 import co.yap.networking.cards.responsedtos.CardBalance
 import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.interfaces.IRepositoryHolder

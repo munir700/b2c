@@ -2,8 +2,8 @@ package co.yap.sendMoney.addbeneficiary.viewmodels
 
 import android.app.Application
 import androidx.lifecycle.MutableLiveData
-import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.interfaces.ICashTransferConfirmation
-import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.states.CashTransferConfirmationState
+import co.yap.sendMoney.addbeneficiary.interfaces.ICashTransferConfirmation
+import co.yap.sendMoney.addbeneficiary.states.CashTransferConfirmationState
 import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse

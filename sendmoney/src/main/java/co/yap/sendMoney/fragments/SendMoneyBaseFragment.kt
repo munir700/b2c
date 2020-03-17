@@ -2,8 +2,8 @@ package co.yap.sendMoney.fragments
 
 import android.os.Bundle
 import androidx.lifecycle.ViewModelProviders
-import co.yap.modules.dashboard.yapit.sendmoney.viewmodels.SendMoneyBaseViewModel
-import co.yap.modules.dashboard.yapit.sendmoney.viewmodels.SendMoneyViewModel
+import co.yap.sendMoney.viewmodels.SendMoneyBaseViewModel
+import co.yap.sendMoney.viewmodels.SendMoneyViewModel
 import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.IBase
 

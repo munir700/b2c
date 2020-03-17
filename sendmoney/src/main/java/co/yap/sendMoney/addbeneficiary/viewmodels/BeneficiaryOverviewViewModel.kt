@@ -2,9 +2,9 @@ package co.yap.sendMoney.addbeneficiary.viewmodels
 
 import android.app.Application
 import androidx.lifecycle.MutableLiveData
-import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.interfaces.IBeneficiaryOverview
-import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.states.BeneficiaryOverviewState
-import co.yap.modules.dashboard.yapit.sendmoney.viewmodels.SendMoneyBaseViewModel
+import co.yap.sendMoney.addbeneficiary.interfaces.IBeneficiaryOverview
+import co.yap.sendMoney.addbeneficiary.states.BeneficiaryOverviewState
+import co.yap.sendMoney.viewmodels.SendMoneyBaseViewModel
 import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.networking.interfaces.IRepositoryHolder

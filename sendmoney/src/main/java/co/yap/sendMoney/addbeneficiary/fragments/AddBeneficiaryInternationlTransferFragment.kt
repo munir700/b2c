@@ -11,10 +11,10 @@ import co.yap.BR
 import co.yap.R
 import co.yap.countryutils.country.InternationalPhoneTextWatcher
 import co.yap.countryutils.country.utils.Currency
-import co.yap.modules.dashboard.yapit.sendmoney.activities.BeneficiaryCashTransferActivity
-import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.interfaces.IAddBeneficiary
-import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.viewmodels.AddBeneficiaryViewModel
-import co.yap.modules.dashboard.yapit.sendmoney.fragments.SendMoneyBaseFragment
+import co.yap.sendMoney.activities.BeneficiaryCashTransferActivity
+import co.yap.sendMoney.addbeneficiary.interfaces.IAddBeneficiary
+import co.yap.sendMoney.addbeneficiary.viewmodels.AddBeneficiaryViewModel
+import co.yap.sendMoney.fragments.SendMoneyBaseFragment
 import co.yap.translation.Translator
 import co.yap.widgets.popmenu.OnMenuItemClickListener
 import co.yap.widgets.popmenu.PopupMenu

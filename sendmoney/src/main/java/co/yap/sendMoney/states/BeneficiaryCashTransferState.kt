@@ -2,7 +2,7 @@ package co.yap.sendMoney.states
 
 import androidx.databinding.Bindable
 import co.yap.BR
-import co.yap.modules.dashboard.yapit.sendmoney.interfaces.IBeneficiaryCashTransfer
+import co.yap.sendMoney.interfaces.IBeneficiaryCashTransfer
 import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.yapcore.BaseState
 

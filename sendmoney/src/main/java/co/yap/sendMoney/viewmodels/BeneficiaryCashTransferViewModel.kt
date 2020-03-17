@@ -2,8 +2,8 @@ package co.yap.sendMoney.viewmodels
 
 import android.app.Application
 import androidx.lifecycle.MutableLiveData
-import co.yap.modules.dashboard.yapit.sendmoney.interfaces.IBeneficiaryCashTransfer
-import co.yap.modules.dashboard.yapit.sendmoney.states.BeneficiaryCashTransferState
+import co.yap.sendMoney.interfaces.IBeneficiaryCashTransfer
+import co.yap.sendMoney.states.BeneficiaryCashTransferState
 import co.yap.translation.Strings
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent

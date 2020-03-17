@@ -5,9 +5,9 @@ import androidx.lifecycle.MutableLiveData
 import co.yap.R
 import co.yap.countryutils.country.Country
 import co.yap.countryutils.country.utils.Currency
-import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.interfaces.ISelectCountry
-import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.states.SelectCountryState
-import co.yap.modules.dashboard.yapit.sendmoney.viewmodels.SendMoneyBaseViewModel
+import co.yap.sendMoney.addbeneficiary.interfaces.ISelectCountry
+import co.yap.sendMoney.addbeneficiary.states.SelectCountryState
+import co.yap.sendMoney.viewmodels.SendMoneyBaseViewModel
 import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse

@@ -1,7 +1,7 @@
 package co.yap.sendMoney.states
 
 import androidx.databinding.ObservableBoolean
-import co.yap.modules.dashboard.yapit.sendmoney.interfaces.ISendMoney
+import co.yap.sendMoney.interfaces.ISendMoney
 import co.yap.yapcore.BaseState
 
 class SendMoneyState : BaseState(), ISendMoney.State {

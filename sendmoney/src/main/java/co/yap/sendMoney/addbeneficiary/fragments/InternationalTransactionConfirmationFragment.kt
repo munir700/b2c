@@ -18,9 +18,9 @@ import androidx.navigation.fragment.navArgs
 import co.yap.BR
 import co.yap.R
 import co.yap.databinding.FragmentInternationalTransactionConfirmationBinding
-import co.yap.modules.dashboard.yapit.sendmoney.activities.BeneficiaryCashTransferActivity
-import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.interfaces.IInternationalTransactionConfirmation
-import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.viewmodels.InternationalTransactionConfirmationViewModel
+import co.yap.sendMoney.activities.BeneficiaryCashTransferActivity
+import co.yap.sendMoney.addbeneficiary.interfaces.IInternationalTransactionConfirmation
+import co.yap.sendMoney.addbeneficiary.viewmodels.InternationalTransactionConfirmationViewModel
 import co.yap.modules.webview.WebViewFragment
 import co.yap.translation.Strings
 import co.yap.yapcore.BaseBindingFragment

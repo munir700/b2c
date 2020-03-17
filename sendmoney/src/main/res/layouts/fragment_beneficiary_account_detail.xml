@@ -11,7 +11,7 @@
 
         <variable
             name="viewModel"
-            type="co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.viewmodels.BeneficiaryAccountDetailsViewModel" />
+            type="co.yap.sendMoney.addbeneficiary.viewmodels.BeneficiaryAccountDetailsViewModel" />
     </data>
 
     <ScrollView
