@@ -216,8 +216,7 @@ class TopUpBeneficiariesActivity : BaseBindingActivity<ITopUpBeneficiaries.ViewM
         }
         when (it) {
             R.id.tbBtnAddCard -> {
-
-                if (viewModel.remainingCardsLimit > 0) {
+                if (viewModel.remainingCardsLimit >= 0) {
                     addCardProcess()
                 } else {
                     showToast("You can only add 10 cards.")
@@ -225,18 +224,27 @@ class TopUpBeneficiariesActivity : BaseBindingActivity<ITopUpBeneficiaries.ViewM
 
             }
             R.id.btnSelect -> {
-                val item = mAdapter.getDataForPosition(getBinding().rvTopUpCards.currentItem)
-                if (item.alias != "addCard")
-                    startTopUpActivity(item)
+                if (mAdapter.getDataList().isNotEmpty()) {
+                    val item: TopUpCard? =
+                        mAdapter.getDataForPosition(getBinding().rvTopUpCards.currentItem)
+                    if (item?.alias != "addCard")
+                        item?.let { card ->
+                            startTopUpActivity(card)
+                        }
+                }
             }
             R.id.paymentCard -> {
-                val item = mAdapter.getDataForPosition(getBinding().rvTopUpCards.currentItem)
-                startTopUpActivity(item)
+                if (mAdapter.getDataList().isNotEmpty()) {
+                    val item = mAdapter.getDataForPosition(getBinding().rvTopUpCards.currentItem)
+                    startTopUpActivity(item)
+                }
             }
 
             R.id.imgStatus -> {
-                val item = mAdapter.getDataForPosition(getBinding().rvTopUpCards.currentItem)
-                openCardDetail(item)
+                if (mAdapter.getDataList().isNotEmpty()) {
+                    val item = mAdapter.getDataForPosition(getBinding().rvTopUpCards.currentItem)
+                    openCardDetail(item)
+                }
             }
             R.id.tbBtnBack -> {
                 onBackPressed()
@@ -340,5 +348,4 @@ class TopUpBeneficiariesActivity : BaseBindingActivity<ITopUpBeneficiaries.ViewM
             }
         }
     }
-
 }
