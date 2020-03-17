@@ -85,7 +85,7 @@ open class ForgotPasscodeOtpViewModel(application: Application) :
                 is RetroApiResponse.Error ->{
                     state.toast = response.error.message
                     state.otp=""
-                    otpUiBlocked("1095")
+                    otpUiBlocked(response.error.actualCode)
                 }
             }
             state.loading = false
