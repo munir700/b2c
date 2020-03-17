@@ -1,29 +1,57 @@
-<manifest package="co.yap.send_money" />
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="co.yap.sendMoney">
 
+    <!-- will remove it after segregation -->
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        android:protectionLevel="signature" />
+    <uses-permission
+        android:name="android.permission.READ_EXTERNAL_STORAGE"
+        android:protectionLevel="signature" />
+    <uses-permission
+        android:name="android.permission.READ_CONTACTS"
+        android:protectionLevel="signature" />
 
-    <!--<application-->
-    <!--android:allowBackup="false"-->
-    <!--tools:remove="android:debuggable"-->
-    <!--tools:replace="android:allowBackup">-->
-    <!--<activity-->
-    <!--    android:name="co.yap.modules.dashboard.yapit.sendmoney.activities.SendMoneyHomeActivity"-->
-    <!--    android:screenOrientation="portrait"-->
-    <!--    android:windowSoftInputMode="adjustResize">-->
-    <!--    <nav-graph android:value="@navigation/send_money_main_navigation" />-->
-    <!--</activity>-->
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
 
-    <!--&lt;!&ndash; Send Money Edit Beneficiary &ndash;&gt;-->
-    <!--<activity-->
-    <!--    android:name=".modules.dashboard.yapit.sendmoney.editbeneficiary.activity.EditBeneficiaryActivity"-->
-    <!--    android:screenOrientation="portrait" />-->
-    <!--&lt;!&ndash;Update Flag to hide keyboard&ndash;&gt;-->
-    <!--<activity-->
-    <!--    android:name=".modules.dashboard.yapit.sendmoney.activities.BeneficiaryCashTransferActivity"-->
-    <!--    android:screenOrientation="portrait"-->
-    <!--    android:windowSoftInputMode="stateHidden" />-->
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="true" />
 
-    <!--<activity-->
-    <!--    android:name=".modules.dashboard.yapit.sendmoney.home.activities.SendMoneyLandingActivity"-->
-    <!--    android:screenOrientation="portrait"-->
-    <!--    android:windowSoftInputMode="stateAlwaysHidden" />-->
-    <!--</application>-->
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <application
+        android:allowBackup="false"
+        tools:remove="android:debuggable"
+        tools:replace="android:allowBackup">
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/google_maps_key" />
+
+        <activity
+            android:name="co.yap.sendMoney.activities.SendMoneyHomeActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize">
+            <nav-graph android:value="@navigation/send_money_main_navigation" />
+        </activity>
+
+        <!-- Send Money Edit Beneficiary -->
+        <activity
+            android:name="co.yap.sendMoney.editbeneficiary.activity.EditBeneficiaryActivity"
+            android:screenOrientation="portrait" />
+
+        <!--Update Flag to hide keyboard-->
+        <activity
+            android:name="co.yap.sendMoney.activities.BeneficiaryCashTransferActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden" />
+
+        <activity
+            android:name="co.yap.sendMoney.home.activities.SendMoneyLandingActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysHidden" />
+    </application>
+</manifest>
