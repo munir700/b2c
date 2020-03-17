@@ -23,7 +23,7 @@
         android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning"
         tools:remove="android:debuggable"
-        tools:replace="android:theme,android:allowBackup,android:label">
+        tools:replace="android:theme,android:allowBackup">
         <activity
             android:name=".activities.MainActivity"
             android:label="@string/app_name"
@@ -37,8 +37,17 @@
             <intent-filter>
                 <action android:name="co.yap.app.OPEN_LOGIN" />
                 <category android:name="android.intent.category.DEFAULT" />
-                <data android:scheme="yap_referral" />
+            </intent-filter>
 
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="grwl.adj.st"
+                    android:scheme="https" />
             </intent-filter>
         </activity>
 
@@ -80,17 +89,8 @@
             </intent-filter>
         </service>
 
-        <!--        <receiver-->
-        <!--            android:name="com.adjust.sdk.AdjustReferrerReceiver"-->
-        <!--            android:permission="android.permission.INSTALL_PACKAGES"-->
-        <!--            android:exported="true" >-->
-        <!--            <intent-filter>-->
-        <!--                <action android:name="com.android.vending.INSTALL_REFERRER" />-->
-        <!--            </intent-filter>-->
-        <!--        </receiver>-->
-
         <receiver
-            android:name="co.yap.modules.others.helper.InstallReceiver"
+            android:name="com.adjust.sdk.AdjustReferrerReceiver"
             android:exported="true"
             android:permission="android.permission.INSTALL_PACKAGES">
             <intent-filter>

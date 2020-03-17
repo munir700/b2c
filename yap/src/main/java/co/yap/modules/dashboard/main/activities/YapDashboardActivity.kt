@@ -77,28 +77,28 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
         addObservers()
         addListeners()
         setupYapButton()
-        tempDeepLinkURiTest()// to test on playstore
+//        tempDeepLinkURiTest()// to test on playstore
 
-        if ( !Constants.INVITER_ADJUST_ID_TEST.isNullOrEmpty()) {
-            alert(
-                Constants.INVITER_ADJUST_ID_TEST.toString(),
-                Constants.INVITER_ADJUST_ID_TEST +'\n',
-                "INVITER_ADJUST_ID_TEST",//
-                true
-            )
-        }else{
-
-            if (  !SharedPreferenceManager(this).getValueString(Constants.INVITER_ADJUST_ID_TEST).toString().isNullOrEmpty()){
-                Constants.INVITER_ADJUST_ID_TEST=  SharedPreferenceManager(this).getValueString(Constants.INVITER_ADJUST_ID_TEST).toString()
-                alert(
-                    Constants.INVITER_ADJUST_ID_TEST.toString(),
-                    Constants.INVITER_ADJUST_ID_TEST +'\n',
-                    "else case",//
-                    true
-                )
-            }
-
-        }
+//        if ( !Constants.INVITER_ADJUST_ID_TEST.isNullOrEmpty()) {
+//            alert(
+//                Constants.INVITER_ADJUST_ID_TEST.toString(),
+//                Constants.INVITER_ADJUST_ID_TEST +'\n',
+//                "INVITER_ADJUST_ID_TEST",//
+//                true
+//            )
+//        }else{
+//
+//            if (  !SharedPreferenceManager(this).getValueString(Constants.INVITER_ADJUST_ID_TEST).toString().isNullOrEmpty()){
+//                Constants.INVITER_ADJUST_ID_TEST=  SharedPreferenceManager(this).getValueString(Constants.INVITER_ADJUST_ID_TEST).toString()
+//                alert(
+//                    Constants.INVITER_ADJUST_ID_TEST.toString(),
+//                    Constants.INVITER_ADJUST_ID_TEST +'\n',
+//                    "else case",//
+//                    true
+//                )
+//            }
+//
+//        }
     }
 
     private fun tempDeepLinkURiTest() {
