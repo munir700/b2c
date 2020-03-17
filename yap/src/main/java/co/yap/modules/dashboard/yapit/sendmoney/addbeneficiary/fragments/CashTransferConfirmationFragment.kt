@@ -112,7 +112,7 @@ class CashTransferConfirmationFragment :
                 startFragment(
                     fragmentName = WebViewFragment::class.java.name, bundle = bundleOf(
                         Constants.PAGE_URL to URL_DISCLAIMER_TERMS
-                    ), showToolBar = true
+                    ), showToolBar = false
                 )
             }
         }

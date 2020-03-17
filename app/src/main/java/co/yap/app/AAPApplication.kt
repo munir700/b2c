@@ -50,7 +50,6 @@ class AAPApplication : ChatApplication(
         initFireBase()
         inItLeanPlum()
         initializeAdjustSdk(BuildConfig.ADJUST_APP_TOKEN)
-        //testApp()
     }
 
     private fun testApp() {

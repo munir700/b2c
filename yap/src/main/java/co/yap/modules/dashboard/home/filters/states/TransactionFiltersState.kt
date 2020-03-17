@@ -10,4 +10,5 @@ class TransactionFiltersState : BaseState(), ITransactionFilters.State {
     override var selectedStartRange: ObservableField<Double> = ObservableField(0.00)
     override var selectedEndRange: ObservableField<Double> = ObservableField(0.00)
     override var selectedTxnType: ObservableField<String?> = ObservableField()
+    override var hasInternet: ObservableField<Boolean> = ObservableField(false)
 }

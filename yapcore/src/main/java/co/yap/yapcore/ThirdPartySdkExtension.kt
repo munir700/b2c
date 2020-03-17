@@ -19,7 +19,7 @@ import com.adjust.sdk.LogLevel
 fun Application.initializeAdjustSdk(appToken: String) {
     val environment: String
     if (!BuildConfig.DEBUG) {
-        environment = AdjustConfig.ENVIRONMENT_PRODUCTION
+        environment = AdjustConfig.ENVIRONMENT_SANDBOX
         val config = AdjustConfig(this, appToken, environment, true)
         config.setLogLevel(LogLevel.SUPRESS);
         Adjust.onCreate(config)

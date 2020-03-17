@@ -69,13 +69,11 @@ class WebViewFragment : BaseBindingFragment<IWebViewFragment.ViewModel>(), IWebV
         }
         webView?.addHttpHeader("X-Requested-With", "")
         webView?.loadUrl(pageUrl ?: "")
-
-
     }
+
 
     override fun onPageStarted(url: String?, favicon: Bitmap?) {
         progressBar.visibility = ProgressBar.VISIBLE
-
     }
 
     override fun onPageFinished(url: String?) {
@@ -83,6 +81,7 @@ class WebViewFragment : BaseBindingFragment<IWebViewFragment.ViewModel>(), IWebV
     }
 
     override fun onPageError(errorCode: Int, description: String?, failingUrl: String?) {
+        progressBar.visibility = ProgressBar.GONE
     }
 
     override fun onDownloadRequested(
@@ -93,6 +92,14 @@ class WebViewFragment : BaseBindingFragment<IWebViewFragment.ViewModel>(), IWebV
         contentDisposition: String?,
         userAgent: String?
     ) {
+        // some file is available for download
+        // either handle the download yourself or use the code below
+        if (AdvancedWebView.handleDownload(requireContext(), url, suggestedFilename)) {
+            // download successfully handled
+        } else {
+            // download couldn't be handled because user has disabled download manager app on the device
+            // TODO show some notice to the user
+        }
     }
 
     override fun onExternalPageRequest(url: String?) {

@@ -16,6 +16,7 @@ import co.yap.modules.dashboard.home.filters.viewmodels.TransactionFiltersViewMo
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.BaseState
 import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.helpers.extentions.isNetworkAvailable
 import com.jaygoo.widget.OnRangeChangedListener
 import com.jaygoo.widget.RangeSeekBar
 import kotlinx.android.synthetic.main.activity_transaction_filters.*
@@ -50,6 +51,11 @@ class TransactionFiltersActivity : BaseBindingActivity<ITransactionFilters.ViewM
                 viewModel.txnFilters.value = it.getParcelableExtra(KEY_FILTER_TXN_FILTERS)
             }
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.state.hasInternet.set(isNetworkAvailable())
     }
 
     private fun setObservers() {
@@ -116,7 +122,9 @@ class TransactionFiltersActivity : BaseBindingActivity<ITransactionFilters.ViewM
             R.id.tvClearFilters -> {
                 resetAllFilters()
             }
-            R.id.btnApplyFilters -> setIntentAction()
+            R.id.btnApplyFilters -> if (isNetworkAvailable()) setIntentAction() else showToast(
+                "Internet appears to be offline."
+            )
             R.id.IvClose -> {
                 finish()
             }
@@ -125,18 +133,18 @@ class TransactionFiltersActivity : BaseBindingActivity<ITransactionFilters.ViewM
 
     private val searchFilterAmountObserver =
         Observer<co.yap.networking.transactions.responsedtos.TransactionFilters> {
-        if (it != null) {
-            initViews()
-            setRangeSeekBar(it)
+            if (it != null) {
+                initViews()
+                setRangeSeekBar(it)
+            }
         }
-    }
 
     //Observer used to check if something went wrong with api then close the activity
     private val stateObserver = object : Observable.OnPropertyChangedCallback() {
         override fun onPropertyChanged(sender: Observable?, propertyId: Int) {
             if (propertyId == BR.error && viewModel.state.error.isNotBlank()) {
-                showToast("Internal Server Error")
-                finish()
+                //showToast(viewModel.state.error)
+                //finish()
             }
         }
     }
@@ -159,7 +167,7 @@ class TransactionFiltersActivity : BaseBindingActivity<ITransactionFilters.ViewM
         viewModel.txnFilters.value?.amountEndRange?.let {
             if (rsbAmount.leftSeekBar.progress != viewModel.transactionFilters.value?.maxAmount?.toFloat()) appliedFilter++
             setIntentRequest(appliedFilter)
-        } ?: setIntentRequest(appliedFilter+1)
+        } ?: setIntentRequest(appliedFilter + 1)
     }
 
     private fun setIntentRequest(appliedFilter: Int) {
