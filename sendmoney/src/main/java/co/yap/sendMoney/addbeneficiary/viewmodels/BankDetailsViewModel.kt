@@ -1,16 +1,16 @@
-package co.yap.sendMoney.addbeneficiary.viewmodels
+package co.yap.sendmoney.addbeneficiary.viewmodels
 
 import android.app.Application
 import android.text.Editable
 import android.text.TextWatcher
 import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
-import co.yap.sendMoney.R
-import co.yap.sendMoney.addbeneficiary.adaptor.AddBeneficiariesAdaptor
-import co.yap.sendMoney.addbeneficiary.adaptor.RAKBankAdaptor
-import co.yap.sendMoney.addbeneficiary.interfaces.IBankDetails
-import co.yap.sendMoney.addbeneficiary.states.BankDetailsState
-import co.yap.sendMoney.viewmodels.SendMoneyBaseViewModel
+import co.yap.sendmoney.R
+import co.yap.sendmoney.addbeneficiary.adaptor.AddBeneficiariesAdaptor
+import co.yap.sendmoney.addbeneficiary.adaptor.RAKBankAdaptor
+import co.yap.sendmoney.addbeneficiary.interfaces.IBankDetails
+import co.yap.sendmoney.addbeneficiary.states.BankDetailsState
+import co.yap.sendmoney.viewmodels.SendMoneyBaseViewModel
 import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.customers.requestdtos.OtherBankQuery
 import co.yap.networking.customers.responsedtos.beneficiary.BankParams

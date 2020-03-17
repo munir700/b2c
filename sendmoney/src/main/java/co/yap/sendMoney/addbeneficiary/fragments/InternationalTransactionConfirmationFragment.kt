@@ -1,4 +1,4 @@
-package co.yap.sendMoney.addbeneficiary.fragments
+package co.yap.sendmoney.addbeneficiary.fragments
 
 import android.content.Intent
 import android.os.Bundle
@@ -15,12 +15,12 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import co.yap.BR
-import co.yap.sendMoney.R
+import co.yap.sendmoney.BR
+import co.yap.sendmoney.R
 import co.yap.databinding.FragmentInternationalTransactionConfirmationBinding
-import co.yap.sendMoney.activities.BeneficiaryCashTransferActivity
-import co.yap.sendMoney.addbeneficiary.interfaces.IInternationalTransactionConfirmation
-import co.yap.sendMoney.addbeneficiary.viewmodels.InternationalTransactionConfirmationViewModel
+import co.yap.sendmoney.activities.BeneficiaryCashTransferActivity
+import co.yap.sendmoney.addbeneficiary.interfaces.IInternationalTransactionConfirmation
+import co.yap.sendmoney.addbeneficiary.viewmodels.InternationalTransactionConfirmationViewModel
 import co.yap.modules.webview.WebViewFragment
 import co.yap.translation.Strings
 import co.yap.yapcore.BaseBindingFragment

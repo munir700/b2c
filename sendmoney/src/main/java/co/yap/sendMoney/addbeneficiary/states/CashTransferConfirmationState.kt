@@ -1,7 +1,7 @@
-package co.yap.sendMoney.addbeneficiary.states
+package co.yap.sendmoney.addbeneficiary.states
 
 import androidx.databinding.ObservableField
-import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.interfaces.ICashTransferConfirmation
+ import co.yap.sendmoney.addbeneficiary.interfaces.ICashTransferConfirmation
 import co.yap.yapcore.BaseState
 
 class CashTransferConfirmationState : BaseState(), ICashTransferConfirmation.State {

@@ -1,9 +1,9 @@
-package co.yap.sendMoney.home.adapters
+package co.yap.sendmoney.home.adapters
 
 import android.view.View
 import androidx.databinding.ViewDataBinding
 import androidx.navigation.NavController
-import co.yap.BR
+import co.yap.sendmoney.BR
 import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.yapcore.BaseRVAdapter
 import co.yap.yapcore.BaseViewHolder

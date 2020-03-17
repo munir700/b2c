@@ -1,9 +1,9 @@
-package co.yap.sendMoney.editbeneficiary.states
+package co.yap.sendmoney.editbeneficiary.states
 
 import android.app.Application
 import androidx.databinding.Bindable
-import co.yap.BR
-import co.yap.sendMoney.editbeneficiary.interfaces.IEditBeneficiary
+import co.yap.sendmoney.BR
+import co.yap.sendmoney.editbeneficiary.interfaces.IEditBeneficiary
 import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.yapcore.BaseState
 import co.yap.yapcore.helpers.Utils

@@ -7,7 +7,7 @@
 
         <variable
             name="adapter"
-            type="co.yap.sendMoney.home.adapters.RecentTransferAdaptor" />
+            type="co.yap.sendmoney.home.adapters.RecentTransferAdaptor" />
 
         <import type="co.yap.translation.Strings" />
 

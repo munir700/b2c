@@ -1,16 +1,17 @@
-package co.yap.sendMoney.activities
+package co.yap.sendmoney.activities
 
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import co.yap.sendMoney.R
+import co.yap.sendmoney.R
 import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
-import co.yap.sendMoney.interfaces.IBeneficiaryCashTransfer
-import co.yap.sendMoney.viewmodels.BeneficiaryCashTransferViewModel
+ import co.yap.sendmoney.interfaces.IBeneficiaryCashTransfer
+import co.yap.sendmoney.viewmodels.BeneficiaryCashTransferViewModel
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.IFragmentHolder
+import co.yap.sendmoney.BR
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.defaults.DefaultNavigator
 import co.yap.yapcore.defaults.INavigator

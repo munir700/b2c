@@ -1,4 +1,4 @@
-package co.yap.sendMoney.addbeneficiary.fragments
+package co.yap.sendmoney.addbeneficiary.fragments
 
 import android.app.Activity
 import android.content.Intent
@@ -8,13 +8,13 @@ import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
-import co.yap.BR
-import co.yap.sendMoney.R
-import co.yap.sendMoney.activities.BeneficiaryCashTransferActivity
-import co.yap.sendMoney.addbeneficiary.interfaces.IBeneficiaryAccountDetails
-import co.yap.sendMoney.addbeneficiary.viewmodels.BeneficiaryAccountDetailsViewModel
-import co.yap.sendMoney.editbeneficiary.activity.EditBeneficiaryActivity
-import co.yap.sendMoney.fragments.SendMoneyBaseFragment
+import co.yap.sendmoney.BR
+import co.yap.sendmoney.R
+import co.yap.sendmoney.activities.BeneficiaryCashTransferActivity
+import co.yap.sendmoney.addbeneficiary.interfaces.IBeneficiaryAccountDetails
+import co.yap.sendmoney.addbeneficiary.viewmodels.BeneficiaryAccountDetailsViewModel
+import co.yap.sendmoney.editbeneficiary.activity.EditBeneficiaryActivity
+import co.yap.sendmoney.fragments.SendMoneyBaseFragment
 import co.yap.modules.otp.GenericOtpFragment
 import co.yap.modules.otp.OtpDataModel
 import co.yap.modules.otp.OtpToolBarData

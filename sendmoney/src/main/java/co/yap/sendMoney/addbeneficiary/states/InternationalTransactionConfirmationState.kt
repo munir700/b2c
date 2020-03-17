@@ -1,10 +1,9 @@
-package co.yap.sendMoney.addbeneficiary.states
+package co.yap.sendmoney.addbeneficiary.states
 
-import android.os.Bundle
 import androidx.databinding.Bindable
-import co.yap.BR
-import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.fragments.InternationalTransactionConfirmationFragmentArgs
-import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.interfaces.IInternationalTransactionConfirmation
+import co.yap.sendmoney.BR
+import co.yap.sendmoney.addbeneficiary.fragments.InternationalTransactionConfirmationFragmentArgs
+import co.yap.sendmoney.addbeneficiary.interfaces.IInternationalTransactionConfirmation
 import co.yap.yapcore.BaseState
 
 class InternationalTransactionConfirmationState : BaseState(),

@@ -1,8 +1,7 @@
-package co.yap.sendMoney.addbeneficiary.interfaces
+package co.yap.sendmoney.addbeneficiary.interfaces
 
 import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Observer
 import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent

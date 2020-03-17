@@ -1,10 +1,9 @@
-package co.yap.sendMoney.addbeneficiary.viewmodels
+package co.yap.sendmoney.addbeneficiary.viewmodels
 
 import android.app.Application
-import co.yap.sendMoney.activities.BeneficiaryCashTransferActivity
-import co.yap.sendMoney.addbeneficiary.interfaces.ITransferSuccess
-import co.yap.sendMoney.addbeneficiary.states.TransferSuccessState
-import co.yap.sendMoney.viewmodels.SendMoneyBaseViewModel
+import co.yap.sendmoney.addbeneficiary.interfaces.ITransferSuccess
+import co.yap.sendmoney.addbeneficiary.states.TransferSuccessState
+import co.yap.sendmoney.viewmodels.SendMoneyBaseViewModel
 import co.yap.networking.cards.responsedtos.CardBalance
 import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.interfaces.IRepositoryHolder

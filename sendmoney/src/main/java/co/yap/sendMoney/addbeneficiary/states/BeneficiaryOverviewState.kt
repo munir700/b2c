@@ -1,10 +1,10 @@
-package co.yap.sendMoney.addbeneficiary.states
+package co.yap.sendmoney.addbeneficiary.states
 
 import android.graphics.drawable.Drawable
 import androidx.databinding.Bindable
 import androidx.databinding.library.baseAdapters.BR
-import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.interfaces.IBeneficiaryOverview
-import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
+ import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
+import co.yap.sendmoney.addbeneficiary.interfaces.IBeneficiaryOverview
 import co.yap.yapcore.BaseState
 import co.yap.yapcore.helpers.Utils.formateIbanString
 

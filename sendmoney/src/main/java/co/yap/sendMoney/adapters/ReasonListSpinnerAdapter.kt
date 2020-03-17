@@ -1,4 +1,4 @@
-package co.yap.sendMoney.adapters
+package co.yap.sendmoney.adapters
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -7,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.TextView
-import co.yap.sendMoney.R
+import co.yap.sendmoney.R
 import co.yap.networking.transactions.responsedtos.InternationalFundsTransferReasonList
 
 class ReasonListSpinnerAdapter(

@@ -1,9 +1,9 @@
-package co.yap.sendMoney.home.adapters
+package co.yap.sendmoney.home.adapters
 
 import android.os.Bundle
 import android.view.View
 import androidx.navigation.NavController
-import co.yap.sendMoney.R
+import co.yap.sendmoney.R
  import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.yapcore.BaseListItemViewModel
 

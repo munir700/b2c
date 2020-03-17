@@ -1,4 +1,4 @@
-package co.yap.sendMoney.addbeneficiary.states
+package co.yap.sendmoney.addbeneficiary.states
 
 import android.app.Application
 import android.text.SpannableStringBuilder
@@ -6,9 +6,9 @@ import android.view.View
 import androidx.databinding.Bindable
 import androidx.databinding.ObservableField
 import androidx.databinding.library.baseAdapters.BR
-import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.interfaces.IInternationalFundsTransfer
-import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
+ import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.networking.transactions.responsedtos.transaction.RemittanceFeeResponse
+import co.yap.sendmoney.addbeneficiary.interfaces.IInternationalFundsTransfer
 import co.yap.translation.Strings
 import co.yap.translation.Translator
 import co.yap.yapcore.BaseState
@@ -48,6 +48,7 @@ class InternationalFundsTransferState(val application: Application) : BaseState(
             field = value
             notifyPropertyChanged(BR.errorDescription)
         }
+
     @get:Bindable
     override var availableBalanceString: CharSequence? = ""
         set(value) {
@@ -61,6 +62,7 @@ class InternationalFundsTransferState(val application: Application) : BaseState(
             field = value
             notifyPropertyChanged(BR.reasonTransferValue)
         }
+
     @get:Bindable
     override var reasonTransferCode: String? = ""
         set(value) {
@@ -74,6 +76,7 @@ class InternationalFundsTransferState(val application: Application) : BaseState(
             field = value
             notifyPropertyChanged(BR.transferFeeSpannable)
         }
+
     @get:Bindable
     override var fxRateAmount: String? = ""
         set(value) {
@@ -102,30 +105,35 @@ class InternationalFundsTransferState(val application: Application) : BaseState(
             notifyPropertyChanged(BR.receiverCurrencyAmountFxRate)
 
         }
+
     @get:Bindable
     override var firstName: String? = ""
         set(value) {
             field = value
             notifyPropertyChanged(BR.firstName)
         }
+
     @get:Bindable
     override var totalAmount: Double? = 0.0
         set(value) {
             field = value
             notifyPropertyChanged(BR.totalAmount)
         }
+
     @get:Bindable
     override var internationalFee: String? = ""
         set(value) {
             field = value
             notifyPropertyChanged(BR.internationalFee)
         }
+
     @get:Bindable
     override var formattedFee: String? = ""
         set(value) {
             field = value
             notifyPropertyChanged(BR.formattedFee)
         }
+
     @get:Bindable
     override var referenceNumber: String? = ""
         set(value) {
@@ -139,12 +147,14 @@ class InternationalFundsTransferState(val application: Application) : BaseState(
             field = value
             notifyPropertyChanged(BR.fromFxRate)
         }
+
     @get:Bindable
     override var fromFxRateCurrency: String? = ""
         set(value) {
             field = value
             notifyPropertyChanged(BR.fromFxRateCurrency)
         }
+
     @get:Bindable
     override var toFxRate: String? = "0.0"
         set(value) {
@@ -159,6 +169,7 @@ class InternationalFundsTransferState(val application: Application) : BaseState(
             notifyPropertyChanged(BR.rate)
             checkValidation()
         }
+
     @get:Bindable
     override var toFxRateCurrency: String? = ""
         set(value) {
@@ -247,18 +258,21 @@ class InternationalFundsTransferState(val application: Application) : BaseState(
             field = value
             notifyPropertyChanged(BR.valid)
         }
+
     @get:Bindable
     override var beneficiaryId: String? = ""
         set(value) {
             field = value
             notifyPropertyChanged(BR.beneficiaryId)
         }
+
     @get:Bindable
     override var position: Int? = 0
         set(value) {
             field = value
             notifyPropertyChanged(BR.position)
         }
+
     @get:Bindable
     override var listItemRemittanceFee: List<RemittanceFeeResponse.RemittanceFee.TierRateDTO> =
         ArrayList()
@@ -274,24 +288,28 @@ class InternationalFundsTransferState(val application: Application) : BaseState(
             field = value
             notifyPropertyChanged(BR.transferFeeAmount)
         }
+
     @get:Bindable
     override var maxLimit: Double? = 0.0
         set(value) {
             field = value
             notifyPropertyChanged(BR.maxLimit)
         }
+
     @get:Bindable
     override var minLimit: Double? = 0.0
         set(value) {
             field = value
             notifyPropertyChanged(BR.minLimit)
         }
+
     @get:Bindable
     override var transactionNote: String? = null
         set(value) {
             field = if (value.isNullOrBlank()) null else value
             notifyPropertyChanged(BR.transactionNote)
         }
+
     @get:Bindable
     override var feeType: String? = ""
         set(value) {

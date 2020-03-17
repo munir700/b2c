@@ -1,17 +1,16 @@
-package co.yap.sendMoney.editbeneficiary.activity
+package co.yap.sendmoney.editbeneficiary.activity
 
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import co.yap.BR
-import co.yap.sendMoney.R
+import co.yap.sendmoney.BR
+import co.yap.sendmoney.R
 import co.yap.databinding.ActivityEditBeneficiaryBinding
-import co.yap.sendMoney.editbeneficiary.interfaces.IEditBeneficiary
-import co.yap.sendMoney.editbeneficiary.viewmodel.EditBeneficiaryViewModel
+import co.yap.sendmoney.editbeneficiary.interfaces.IEditBeneficiary
+import co.yap.sendmoney.editbeneficiary.viewmodel.EditBeneficiaryViewModel
 import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
-import co.yap.widgets.MaskTextWatcher
 import co.yap.widgets.popmenu.PopupMenu
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.constants.Constants

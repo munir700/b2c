@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/cashTransferFragment"
-        android:name="co.yap.sendMoney.addbeneficiary.fragments.CashTransferFragment"
+        android:name="co.yap.sendmoney.addbeneficiary.fragments.CashTransferFragment"
         tools:layout="@layout/fragment_cash_transfer">
         <action
             android:id="@+id/action_cashTransferFragment_to_transferSuccessFragment2"
@@ -58,7 +58,7 @@
 
     <fragment
         android:id="@+id/transferSuccessFragment2"
-        android:name="co.yap.sendMoney.addbeneficiary.fragments.TransferSuccessFragment"
+        android:name="co.yap.sendmoney.addbeneficiary.fragments.TransferSuccessFragment"
         android:label="TransferSuccessFragment"
         tools:layout="@layout/fragment_transfer_success">
         <argument
@@ -92,7 +92,7 @@
     </fragment>
     <fragment
         android:id="@+id/internationalFundsTransferFragment"
-        android:name="co.yap.sendMoney.addbeneficiary.fragments.InternationalFundsTransferFragment"
+        android:name="co.yap.sendmoney.addbeneficiary.fragments.InternationalFundsTransferFragment"
         android:label="InternationalFundsTransferFragment"
         tools:layout="@layout/fragment_international_funds_transfer">
 
@@ -111,7 +111,7 @@
     </fragment>
     <fragment
         android:id="@+id/internationalTransactionConfirmationFragment"
-        android:name="co.yap.sendMoney.addbeneficiary.fragments.InternationalTransactionConfirmationFragment"
+        android:name="co.yap.sendmoney.addbeneficiary.fragments.InternationalTransactionConfirmationFragment"
         android:label="InternationalTransactionConfirmationFragment"
         tools:layout="@layout/fragment_international_transaction_confirmation">
         <argument
@@ -205,7 +205,7 @@
     </fragment>
     <fragment
         android:id="@+id/cashTransferConfirmationFragment"
-        android:name="co.yap.sendMoney.addbeneficiary.fragments.CashTransferConfirmationFragment"
+        android:name="co.yap.sendmoney.addbeneficiary.fragments.CashTransferConfirmationFragment"
         android:label="CashTransferConfirmationFragment"
         tools:layout="@layout/fragment_cash_transfer_confirmation">
         <argument

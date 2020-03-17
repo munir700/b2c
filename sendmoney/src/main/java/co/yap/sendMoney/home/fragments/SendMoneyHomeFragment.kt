@@ -1,4 +1,4 @@
-package co.yap.sendMoney.home.fragments
+package co.yap.sendmoney.home.fragments
 
 import android.annotation.SuppressLint
 import android.content.DialogInterface
@@ -7,14 +7,14 @@ import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
-import co.yap.BR
-import co.yap.sendMoney.R
+import co.yap.sendmoney.BR
+import co.yap.sendmoney.R
 import co.yap.databinding.ActivitySendMoneyLandingBinding
-import co.yap.sendMoney.fragments.SendMoneyBaseFragment
-import co.yap.sendMoney.home.adapters.AllBeneficiariesAdapter
-import co.yap.sendMoney.home.adapters.RecentTransferAdaptor
-import co.yap.sendMoney.home.interfaces.ISendMoneyHome
-import co.yap.sendMoney.home.viewmodels.SendMoneyHomeScreenViewModel
+import co.yap.sendmoney.fragments.SendMoneyBaseFragment
+import co.yap.sendmoney.home.adapters.AllBeneficiariesAdapter
+import co.yap.sendmoney.home.adapters.RecentTransferAdaptor
+import co.yap.sendmoney.home.interfaces.ISendMoneyHome
+import co.yap.sendmoney.home.viewmodels.SendMoneyHomeScreenViewModel
 import co.yap.networking.customers.requestdtos.Contact
 import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.translation.Translator

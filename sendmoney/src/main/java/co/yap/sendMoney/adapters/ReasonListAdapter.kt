@@ -1,8 +1,8 @@
-package co.yap.sendMoney.adapters
+package co.yap.sendmoney.adapters
 
 import android.content.Context
 import androidx.databinding.ViewDataBinding
-import co.yap.BR
+import co.yap.sendmoney.BR
 import co.yap.networking.transactions.responsedtos.InternationalFundsTransferReasonList
 import co.yap.yapcore.BaseBindingArrayAdapter
 import co.yap.yapcore.BaseBindingHolder

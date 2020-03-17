@@ -1,4 +1,4 @@
-package co.yap.sendMoney.addbeneficiary.models
+package co.yap.sendmoney.addbeneficiary.models
 
 import co.yap.countryutils.country.Country
 

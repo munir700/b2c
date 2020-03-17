@@ -1,6 +1,5 @@
-package co.yap.sendMoney.addbeneficiary.interfaces
+package co.yap.sendmoney.addbeneficiary.interfaces
 
-import android.text.SpannableStringBuilder
 import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
 import co.yap.databinding.FragmentCashTransferConfirmationBinding

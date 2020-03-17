@@ -1,4 +1,4 @@
-package co.yap.sendMoney.addbeneficiary.fragments
+package co.yap.sendmoney.addbeneficiary.fragments
 
 import android.content.Intent
 import android.os.Bundle
@@ -18,12 +18,12 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
-import co.yap.sendMoney.R
+import co.yap.sendmoney.R
 import co.yap.databinding.FragmentCashTransferBinding
-import co.yap.sendMoney.activities.BeneficiaryCashTransferActivity
-import co.yap.sendMoney.addbeneficiary.interfaces.ICashTransfer
-import co.yap.sendMoney.addbeneficiary.viewmodels.CashTransferViewModel
-import co.yap.sendMoney.fragments.SendMoneyBaseFragment
+import co.yap.sendmoney.activities.BeneficiaryCashTransferActivity
+import co.yap.sendmoney.addbeneficiary.interfaces.ICashTransfer
+import co.yap.sendmoney.addbeneficiary.viewmodels.CashTransferViewModel
+import co.yap.sendmoney.fragments.SendMoneyBaseFragment
 import co.yap.networking.transactions.responsedtos.InternationalFundsTransferReasonList
 import co.yap.translation.Strings
 import co.yap.translation.Translator
@@ -33,7 +33,6 @@ import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.SendMoneyBeneficiaryProductCode
 import co.yap.yapcore.enums.SendMoneyBeneficiaryType
 import co.yap.yapcore.helpers.DecimalDigitsInputFilter
-import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.cancelAllSnackBar
 import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 import co.yap.yapcore.helpers.spannables.color

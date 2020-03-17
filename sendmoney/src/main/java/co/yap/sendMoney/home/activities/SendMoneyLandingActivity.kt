@@ -1,4 +1,4 @@
-package co.yap.sendMoney.home.activities
+package co.yap.sendmoney.home.activities
 
 import android.app.Activity
 import android.content.Context
@@ -9,16 +9,16 @@ import android.view.View
 import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import co.yap.BR
-import co.yap.sendMoney.R
+import co.yap.sendmoney.BR
+import co.yap.sendmoney.R
 import co.yap.databinding.ActivitySendMoneyLandingBinding
-import co.yap.sendMoney.activities.BeneficiaryCashTransferActivity
-import co.yap.sendMoney.activities.SendMoneyHomeActivity
-import co.yap.sendMoney.editbeneficiary.activity.EditBeneficiaryActivity
-import co.yap.sendMoney.home.adapters.AllBeneficiariesAdapter
-import co.yap.sendMoney.home.adapters.RecentTransferAdaptor
-import co.yap.sendMoney.home.interfaces.ISendMoneyHome
-import co.yap.sendMoney.home.viewmodels.SendMoneyHomeScreenViewModel
+import co.yap.sendmoney.activities.BeneficiaryCashTransferActivity
+import co.yap.sendmoney.activities.SendMoneyHomeActivity
+import co.yap.sendmoney.editbeneficiary.activity.EditBeneficiaryActivity
+import co.yap.sendmoney.home.adapters.AllBeneficiariesAdapter
+import co.yap.sendmoney.home.adapters.RecentTransferAdaptor
+import co.yap.sendmoney.home.interfaces.ISendMoneyHome
+import co.yap.sendmoney.home.viewmodels.SendMoneyHomeScreenViewModel
 import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.translation.Translator
 import co.yap.yapcore.BaseBindingActivity

@@ -1,4 +1,4 @@
-package co.yap.sendMoney.addbeneficiary.states
+package co.yap.sendmoney.addbeneficiary.states
 
 import android.app.Application
 import android.content.Context

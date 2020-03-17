@@ -1,4 +1,4 @@
-package co.yap.sendMoney.addbeneficiary.fragments
+package co.yap.sendmoney.addbeneficiary.fragments
 
 import android.os.Bundle
 import android.text.Editable
@@ -10,20 +10,19 @@ import android.widget.AdapterView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
-import co.yap.BR
-import co.yap.sendMoney.R
+import co.yap.sendmoney.BR
+import co.yap.sendmoney.R
 import co.yap.databinding.FragmentInternationalFundsTransferBinding
-import co.yap.sendMoney.activities.BeneficiaryCashTransferActivity
-import co.yap.sendMoney.addbeneficiary.interfaces.IInternationalFundsTransfer
-import co.yap.sendMoney.addbeneficiary.viewmodels.InternationalFundsTransferViewModel
-import co.yap.sendMoney.fragments.SendMoneyBaseFragment
+import co.yap.sendmoney.activities.BeneficiaryCashTransferActivity
+import co.yap.sendmoney.addbeneficiary.interfaces.IInternationalFundsTransfer
+import co.yap.sendmoney.addbeneficiary.viewmodels.InternationalFundsTransferViewModel
+import co.yap.sendmoney.fragments.SendMoneyBaseFragment
 import co.yap.networking.transactions.responsedtos.InternationalFundsTransferReasonList
 import co.yap.translation.Strings
 import co.yap.translation.Translator
 import co.yap.widgets.spinneradapter.ViewHolderArrayAdapter
 import co.yap.yapcore.enums.SendMoneyBeneficiaryProductCode
 import co.yap.yapcore.enums.SendMoneyBeneficiaryType
-import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.cancelAllSnackBar
 import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 import co.yap.yapcore.helpers.extentions.toast

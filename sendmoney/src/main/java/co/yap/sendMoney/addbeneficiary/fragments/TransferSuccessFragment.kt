@@ -1,4 +1,4 @@
-package co.yap.sendMoney.addbeneficiary.fragments
+package co.yap.sendmoney.addbeneficiary.fragments
 
 import android.app.Activity
 import android.content.Intent
@@ -8,21 +8,17 @@ import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.navArgs
-import co.yap.BR
-import co.yap.sendMoney.R
+import co.yap.sendmoney.BR
+import co.yap.sendmoney.R
 import co.yap.databinding.FragmentTransferSuccessBinding
-import co.yap.sendMoney.activities.BeneficiaryCashTransferActivity
-import co.yap.sendMoney.addbeneficiary.interfaces.ITransferSuccess
-import co.yap.sendMoney.addbeneficiary.viewmodels.TransferSuccessViewModel
-import co.yap.sendMoney.fragments.SendMoneyBaseFragment
+import co.yap.sendmoney.activities.BeneficiaryCashTransferActivity
+import co.yap.sendmoney.addbeneficiary.interfaces.ITransferSuccess
+import co.yap.sendmoney.addbeneficiary.viewmodels.TransferSuccessViewModel
+import co.yap.sendmoney.fragments.SendMoneyBaseFragment
 import co.yap.modules.dashboard.yapit.y2y.home.phonecontacts.InviteBottomSheet
 import co.yap.translation.Strings
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.SendMoneyBeneficiaryType
-import co.yap.yapcore.helpers.Utils
-import co.yap.yapcore.helpers.spannables.color
-import co.yap.yapcore.helpers.spannables.getText
-import co.yap.yapcore.managers.MyUserManager
 
 
 class TransferSuccessFragment : SendMoneyBaseFragment<ITransferSuccess.ViewModel>(),

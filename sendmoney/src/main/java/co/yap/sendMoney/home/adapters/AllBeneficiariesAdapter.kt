@@ -1,10 +1,11 @@
-package co.yap.sendMoney.home.adapters
+package co.yap.sendmoney.home.adapters
 
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
-import co.yap.sendMoney.R
+import co.yap.sendmoney.R
 import co.yap.databinding.LayoutItemBeneficiaryBinding
 import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
+import co.yap.sendMoney.databinding.LayoutItemBeneficiaryBinding
 import co.yap.yapcore.BaseBindingSearchRecylerAdapter
 import co.yap.yapcore.interfaces.OnItemClickListener
 

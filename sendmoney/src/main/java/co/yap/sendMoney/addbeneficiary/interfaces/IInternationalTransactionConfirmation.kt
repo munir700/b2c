@@ -1,7 +1,7 @@
-package co.yap.sendMoney.addbeneficiary.interfaces
+package co.yap.sendmoney.addbeneficiary.interfaces
 
 import androidx.lifecycle.MutableLiveData
-import co.yap.sendMoney.addbeneficiary.fragments.InternationalTransactionConfirmationFragmentArgs
+import co.yap.sendmoney.addbeneficiary.fragments.InternationalTransactionConfirmationFragmentArgs
 import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.networking.transactions.responsedtos.TransactionThresholdModel
 import co.yap.yapcore.IBase
