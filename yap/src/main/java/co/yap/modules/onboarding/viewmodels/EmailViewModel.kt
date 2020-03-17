@@ -24,7 +24,6 @@ import co.yap.yapcore.helpers.extentions.toast
 import co.yap.yapcore.helpers.extentions.trackEvent
 import co.yap.yapcore.leanplum.SignupEvents
 import co.yap.yapcore.managers.MyUserManager
-import com.leanplum.Leanplum
 import java.util.*
 import java.util.concurrent.TimeUnit
 
@@ -94,6 +93,7 @@ class EmailViewModel(application: Application) :
                     trackEvent(SignupEvents.SIGN_UP_EMAIL.type, state.twoWayTextWatcher)
                     sharedPreferenceManager.saveUserNameWithEncryption(state.twoWayTextWatcher)
                     setVerificationLabel()
+                    state.setSuccessUI()
                     state.loading = false
                 }
 
