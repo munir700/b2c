@@ -8,10 +8,12 @@ import co.yap.networking.messages.requestdtos.VerifyOtpGenericRequest
 import co.yap.networking.models.RetroApiResponse
 import co.yap.translation.Strings
 import co.yap.yapcore.BaseViewModel
+import co.yap.yapcore.R
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.OTPActions
 import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.helpers.extentions.getColors
 import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 
 class GenericOtpViewModel(application: Application) :
@@ -97,6 +99,7 @@ class GenericOtpViewModel(application: Application) :
                     is RetroApiResponse.Error -> {
                         state.toast = response.error.message
                         state.otp=""
+                        otpUiBlocked(response.error.actualCode)
                         //errorEvent.call()
                         state.loading = false
                     }
@@ -119,6 +122,7 @@ class GenericOtpViewModel(application: Application) :
                     is RetroApiResponse.Error -> {
                         state.toast = response.error.message
                         state.otp=""
+                        otpUiBlocked(response.error.actualCode)
                        // errorEvent.call()
                         state.loading = false
                     }
@@ -146,7 +150,7 @@ class GenericOtpViewModel(application: Application) :
                     state.validResend = false
                 }
                 is RetroApiResponse.Error -> {
-                    state.errorMessage = response.error.message
+                    otpUiBlocked(response.error.actualCode)
                     errorEvent.call()
                     state.loading = false
                 }
@@ -195,10 +199,21 @@ class GenericOtpViewModel(application: Application) :
                     state.errorMessage = response.error.message
                     errorEvent.call()
                     state.loading = false
+                    otpUiBlocked(response.error.actualCode)
                 }
             }
             state.loading = false
         }
     }
 
+    private fun otpUiBlocked(errorCode: String) {
+        when (errorCode) {
+            "1095" -> {
+                state.validResend = false
+                state.valid = false
+                state.color = context.getColors(R.color.disabled)
+                state.isOtpBlocked.set(true)
+            }
+        }
+    }
 }

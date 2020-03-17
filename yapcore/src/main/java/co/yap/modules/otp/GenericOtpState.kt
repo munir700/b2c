@@ -6,6 +6,7 @@ import android.os.CountDownTimer
 import android.text.SpannableStringBuilder
 import androidx.core.content.ContextCompat
 import androidx.databinding.Bindable
+import androidx.databinding.ObservableField
 import co.yap.yapcore.BR
 import co.yap.yapcore.BaseState
 import co.yap.yapcore.R
@@ -144,4 +145,6 @@ class GenericOtpState(application: Application) : BaseState(), IGenericOtp.State
             }
         }.start()
     }
+
+    override var isOtpBlocked: ObservableField<Boolean> = ObservableField(false)
 }
