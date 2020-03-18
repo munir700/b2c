@@ -9,6 +9,7 @@ import co.yap.household.R
 import co.yap.household.dashboard.main.adaptors.HouseholdDashboardPagerAdaptor
 import co.yap.household.dashboard.main.interfaces.IHouseholdDashboard
 import co.yap.household.dashboard.main.viewmodels.HouseholdDashboardViewModel
+import co.yap.household.dashboard2.home.HouseholdHomeFragment
 import co.yap.household.databinding.ActivityHouseholdDashboardBinding
 import co.yap.household.onboard.onboarding.kycsuccess.KycSuccessFragment
 import co.yap.yapcore.BR
@@ -32,7 +33,7 @@ class HouseholdDashboardActivity : BaseBindingActivity<IHouseholdDashboard.ViewM
         super.onCreate(savedInstanceState)
         getViewBinding().drawerNav.navViewWidth(85)
         setupPager()
-        getViewBinding().ivYapIt.setOnClickListener { startFragment<KycSuccessFragment>(fragmentName = KycSuccessFragment::class.java.name) }
+        getViewBinding().ivYapIt.setOnClickListener { startFragment<HouseholdHomeFragment>() }
     }
 
     private fun setupPager() {

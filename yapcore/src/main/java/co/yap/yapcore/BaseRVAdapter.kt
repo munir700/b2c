@@ -15,7 +15,7 @@ import co.yap.yapcore.interfaces.OnItemClickListener
 
 
 abstract class BaseRVAdapter<T : Any, VM : BaseListItemViewModel<T>, VH : BaseViewHolder<T, VM>>
-    (private var datas: MutableList<T>, private var navigation: NavController?) :
+    ( internal var datas: MutableList<T>, private var navigation: NavController?) :
     RecyclerView.Adapter<VH>() {
 
 

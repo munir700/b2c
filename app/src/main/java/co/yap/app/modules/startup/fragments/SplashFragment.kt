@@ -36,7 +36,7 @@ class SplashFragment : BaseFragment<ISplash.ViewModel>(), ISplash.View {
 
     }
 
-    override fun performDataBinding() {
+    override fun performDataBinding(savedInstanceState: Bundle?) {
 
     }
 

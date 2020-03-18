@@ -1,5 +1,6 @@
 package co.yap.yapcore.dagger.di
 
+import androidx.annotation.Keep
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModel
@@ -11,7 +12,7 @@ import javax.inject.Inject
 import kotlin.reflect.KClass
 
 typealias ViewModelInjectionField<T> = dagger.Lazy<T>
-
+@Keep
 class InjectionViewModelProvider<VM : DaggerBaseViewModel<*>> @Inject constructor(
     private val lazyViewModel: dagger.Lazy<VM>
 ) {
