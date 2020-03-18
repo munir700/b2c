@@ -15,6 +15,7 @@ import co.yap.networking.messages.requestdtos.CreateForgotPasscodeOtpRequest
 import co.yap.networking.messages.requestdtos.CreateOtpGenericRequest
 import co.yap.networking.models.ApiError
 import co.yap.networking.models.RetroApiResponse
+import co.yap.translation.Strings
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.SingleLiveEvent
@@ -41,12 +42,10 @@ class VerifyPasscodeViewModel(application: Application) :
     private val customersRepository: CustomersRepository = CustomersRepository
     override var mobileNumber: String = ""
     override var EVENT_LOGOUT_SUCCESS: Int = 101
-
     override val accountInfo: MutableLiveData<AccountInfo> = MutableLiveData()
     private val messagesRepository: MessagesRepository = MessagesRepository
 
     override fun login() {
-
         launch {
             state.loading = true
             when (val response = repository.login(state.username, state.passcode)) {
@@ -87,8 +86,7 @@ class VerifyPasscodeViewModel(application: Application) :
     }
 
     override fun showAccountBlockedError() {
-        state.dialerError =
-            "Too many attempts. For your security your account is blocked. Please click on forgot passcode to reset your passcode"
+        state.dialerError = getString(Strings.screen_verify_passcode_text_account_locked)
         state.isScreenLocked.set(true)
         state.isAccountLocked.set(true)
         state.valid = false
@@ -199,11 +197,9 @@ class VerifyPasscodeViewModel(application: Application) :
             when (val response = customersRepository.getAccountInfo()) {
                 is RetroApiResponse.Success -> {
                     if (!response.data.data.isNullOrEmpty()) {
-                        //MyUserManager.user = response.data.data[0]
                         MyUserManager.user = response.data.data[0]
                         accountInfo.postValue(response.data.data[0])
-                        //MyUserManager.user?.setLiveData() // DOnt remove this line
-                        setUserAttributes()
+                        trackEventWithAttributes(MyUserManager.user)
                     }
                 }
                 is RetroApiResponse.Error -> state.toast = response.error.message
@@ -231,9 +227,5 @@ class VerifyPasscodeViewModel(application: Application) :
 
     override fun handlePressOnSignInButton() {
         signInButtonPressEvent.postValue(true)
-    }
-
-    private fun setUserAttributes() {
-        trackEventWithAttributes(MyUserManager.user)
     }
 }

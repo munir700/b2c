@@ -24,8 +24,8 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/colorWhite"
             android:animateLayoutChanges="true"
+            android:background="@color/colorWhite"
             android:orientation="vertical">
 
             <TextView
@@ -156,11 +156,10 @@
                 android:layout_marginTop="@dimen/_20sdp"
                 android:background="@drawable/transaction_complete_selector"
                 android:visibility="gone"
-                tools:visibility="visible"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvAmount">
+                app:layout_constraintTop_toBottomOf="@+id/tvAmount"
+                tools:visibility="visible">
 
 
                 <ImageView
@@ -179,11 +178,10 @@
                 android:layout_marginStart="@dimen/margin_medium_large"
                 android:layout_marginTop="@dimen/margin_medium_large"
                 android:layout_marginEnd="@dimen/margin_medium_large"
-                android:visibility="gone"
-                tools:visibility="visible"
                 android:gravity="center"
                 android:text="@{viewModel.state.availableBalanceString}"
                 android:textAlignment="center"
+                android:visibility="gone"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/flTransactionComplete"
                 tools:text="Your available balance is " />
@@ -196,7 +194,7 @@
                 android:visibility="@{viewModel.state.cutOffTimeMsg==null || viewModel.state.cutOffTimeMsg.isEmpty()? View.GONE:View.VISIBLE}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvAvailableBalance"
+                app:layout_constraintTop_toBottomOf="@+id/flTransactionComplete"
                 app:srcCompat="@drawable/ic_access_alarm" />
 
             <androidx.appcompat.widget.AppCompatTextView
@@ -209,7 +207,7 @@
                 android:layout_marginEnd="@dimen/margin_medium"
                 android:gravity="center"
                 android:text="@{viewModel.state.cutOffTimeMsg}"
-                android:visibility="@{viewModel.state.cutOffTimeMsg==null || viewModel.state.cutOffTimeMsg.isEmpty()? View.GONE:View.VISIBLE}"
+                android:visibility="@{viewModel.state.cutOffTimeMsg.isEmpty()? View.GONE:View.VISIBLE}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/appCompatImageView"

@@ -125,7 +125,7 @@ data class Content(
     @SerializedName("settlementRate")
     val settlementRate: String? = null,
     @SerializedName("status")
-    val status: String? = null,
+    var status: String? = null,
     @SerializedName("terminalId")
     val terminalId: String? = null,
     @SerializedName("title")
@@ -157,6 +157,8 @@ data class Content(
     @SerializedName("senderProfilePictureUrl")
     val senderProfilePictureUrl: String? = null,
     @SerializedName("receiverProfilePictureUrl")
-    val receiverProfilePictureUrl: String? = null
+    val receiverProfilePictureUrl: String? = null,
+    @SerializedName("cancelReason")
+    val cancelReason: String? = null
 
 ) : Parcelable

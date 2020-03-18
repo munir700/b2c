@@ -22,6 +22,7 @@ import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.SendMoneyBeneficiaryType
 import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 import co.yap.yapcore.helpers.extentions.toast
 
 class CashTransferViewModel(application: Application) :
@@ -51,7 +52,6 @@ class CashTransferViewModel(application: Application) :
         state.availableBalanceGuide =
             getString(Strings.screen_add_funds_display_text_available_balance)
         state.currencyType = "AED"
-        state.setSpannableFee("0.0")
         getTransactionThresholds()
     }
 
@@ -114,7 +114,7 @@ class CashTransferViewModel(application: Application) :
                             if (enteredAmount > dailyLimit) getString(Strings.common_display_text_daily_limit_error_single_transaction) else getString(
                                 Strings.common_display_text_daily_limit_error_single_transaction
                             )
-                        return enteredAmount > remainingDailyLimit
+                        return enteredAmount >= remainingDailyLimit
                     } ?: return false
                 } ?: return false
             } ?: return false
@@ -126,7 +126,7 @@ class CashTransferViewModel(application: Application) :
             it.totalDebitAmountRemittance?.let { totalSMConsumedAmount ->
                 state.amount.toDoubleOrNull()?.let { enteredAmount ->
                     val remainingOtpLimit = it.otpLimit?.minus(totalSMConsumedAmount)
-                    return enteredAmount > (remainingOtpLimit ?: 0.0)
+                    return enteredAmount >= (remainingOtpLimit ?: 0.0)
                 } ?: return false
             } ?: return false
         } ?: return false
@@ -287,7 +287,7 @@ class CashTransferViewModel(application: Application) :
                     state.feeAmountString =
                         getString(Strings.screen_cash_pickup_funds_display_text_fee).format(
                             state.currencyType,
-                            Utils.getFormattedCurrency(state.totalAmount.toString())
+                            state.totalAmount.toString().toFormattedCurrency()
                         )
                     state.feeAmountSpannableString = Utils.getSppnableStringForAmount(
                         context,

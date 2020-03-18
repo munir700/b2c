@@ -31,12 +31,11 @@ class CardStatementsViewModel(application: Application) :
         super.onCreate()
         state.nextMonth = false
         state.year.set(currentCalendar.get(Calendar.YEAR).toString())
-//        minYear = currentCalendar.get(Calendar.YEAR)
         MyUserManager.user?.creationDate?.let { it ->
             val date =
                 DateUtils.stringToDate(
                     it,
-                    DateUtils.FORMAT_LONG_INPUT, DateUtils.TIME_ZONE_Default
+                    DateUtils.FORMAT_LONG_INPUT
                 )
             date?.let {
                 creationCalender.time = it
@@ -44,7 +43,7 @@ class CardStatementsViewModel(application: Application) :
                 if (creationCalender.get(Calendar.YEAR) == currentCalendar.get(Calendar.YEAR)) {
                     state.previousMonth = false
                 } else {
-                    if (creationCalender.get(Calendar.YEAR) < currentCalendar.get(Calendar.YEAR) ) {
+                    if (creationCalender.get(Calendar.YEAR) < currentCalendar.get(Calendar.YEAR)) {
                         state.previousMonth = true
                     }
                 }
@@ -60,8 +59,6 @@ class CardStatementsViewModel(application: Application) :
                 transactionRepository.getCardStatements(serialNumber)) {
                 is RetroApiResponse.Success -> {
                     response.data.data?.let { it ->
-//                        val firstCardStatement = it.minBy { c -> c.year!! }
-//                        minYear = firstCardStatement?.year?.toInt()!!
                         state.statementList = it
                         filerDataByYear(state.year.get())
                     }
@@ -74,6 +71,7 @@ class CardStatementsViewModel(application: Application) :
             }
         }
     }
+
     override fun loadStatementsFromDashBoard() {
         launch {
             state.loading = true
@@ -81,8 +79,6 @@ class CardStatementsViewModel(application: Application) :
                 transactionRepository.getAccountStatements()) {
                 is RetroApiResponse.Success -> {
                     response.data.data?.let { it ->
-//                        val firstCardStatement = it.minBy { c -> c.year!! }
-//                        minYear = firstCardStatement?.year?.toInt()!!
                         state.statementList = it
                         filerDataByYear(state.year.get())
                     }
@@ -98,7 +94,7 @@ class CardStatementsViewModel(application: Application) :
 
     private fun filerDataByYear(year: String?) {
         state.statementList?.filter { it.year == year }?.let {
-            adapter.get()?.setList(it)
+            adapter.get()?.setList(it.asReversed())
             state.hasRecords.set(it.isNotEmpty())
         }
     }
@@ -145,5 +141,4 @@ class CardStatementsViewModel(application: Application) :
     override fun handlePressOnView(id: Int) {
         clickEvent.setValue(id)
     }
-
 }

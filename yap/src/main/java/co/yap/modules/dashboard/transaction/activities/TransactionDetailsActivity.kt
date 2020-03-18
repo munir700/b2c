@@ -2,24 +2,28 @@ package co.yap.modules.dashboard.transaction.activities
 
 import android.app.Activity
 import android.content.Intent
+import android.graphics.Paint
 import android.os.Bundle
+import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.R
 import co.yap.databinding.ActivityTransactionDetailsBinding
 import co.yap.modules.dashboard.transaction.interfaces.ITransactionDetails
 import co.yap.modules.dashboard.transaction.viewmodels.TransactionDetailsViewModel
-import co.yap.modules.others.helper.ImageBinding
 import co.yap.modules.others.note.activities.TransactionNoteActivity
 import co.yap.networking.transactions.responsedtos.transaction.Content
 import co.yap.yapcore.BR
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.TransactionProductCode
+import co.yap.yapcore.enums.TransactionStatus
 import co.yap.yapcore.enums.TxnType
+import co.yap.yapcore.helpers.ImageBinding
 import co.yap.yapcore.helpers.extentions.getMapImage
 import co.yap.yapcore.helpers.extentions.getTransactionIcon
 import co.yap.yapcore.helpers.extentions.getTransactionTitle
+import co.yap.yapcore.helpers.extentions.isTransactionCancelled
 
 class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewModel>(),
     ITransactionDetails.View {
@@ -38,6 +42,7 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
         setMapImageView()
         setTransactionImage()
         setTransactionTitle()
+        setContentDataColor(viewModel.transaction.get())
     }
 
     var clickEvent = Observer<Int> {
@@ -56,13 +61,17 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
     }
 
     private fun setMapImageView() {
-        getBindings().ivMap.setImageResource(viewModel.transaction.get().getMapImage())
+        val mapResId = viewModel.transaction.get().getMapImage()
+        if (mapResId != -1)
+            getBindings().ivMap.setImageResource(mapResId)
+        else
+            getBindings().ivMap.visibility = View.GONE
     }
 
     private fun setTransactionImage() {
         viewModel.transaction.get()?.let { transaction ->
             when {
-                TransactionProductCode.Y2Y_TRANSFER.pCode == transaction.productCode ?: "" || TransactionProductCode.POS_PURCHASE.pCode == transaction.productCode ?: "" -> {
+                TransactionProductCode.Y2Y_TRANSFER.pCode == transaction.productCode ?: "" -> {
                     ImageBinding.loadAvatar(
                         getBindings().ivPicture,
                         if (TxnType.valueOf(
@@ -75,10 +84,25 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
                     )
                 }
                 else -> {
-                    getBindings().ivPicture.setImageResource(transaction.getTransactionIcon())
+                    val txnIconResId = transaction.getTransactionIcon()
+                    if (txnIconResId != -1)
+                        getBindings().ivPicture.setImageResource(txnIconResId)
+                    else
+                        setInitialsAsTxnImage(transaction)
                 }
             }
         }
+    }
+
+    private fun setInitialsAsTxnImage(transaction: Content) {
+        ImageBinding.loadAvatar(
+            getBindings().ivPicture,
+            "",
+            transaction.title,
+            android.R.color.transparent,
+            R.dimen.text_size_h2
+        )
+
     }
 
     private fun openNoteScreen(noteValue: String = "") {
@@ -91,6 +115,13 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
         )
     }
 
+    private fun setContentDataColor(transaction: Content?) {
+        //strike-thru textview
+        transaction?.let {
+            getBindings().tvTotalAmountValue.paintFlags =
+                if (transaction.isTransactionCancelled()) getBindings().tvTotalAmountValue.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG else 0
+        }
+    }
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == Constants.INTENT_ADD_NOTE_REQUEST) {
@@ -102,6 +133,7 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
         }
 
     }
+
 
     fun getBindings(): ActivityTransactionDetailsBinding {
         return viewDataBinding as ActivityTransactionDetailsBinding

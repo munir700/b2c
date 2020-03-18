@@ -3,12 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-<!--    <data>-->
+    <!--    <data>-->
 
-<!--        <variable-->
-<!--            name="viewModel"-->
-<!--            type="co.yap.modules.yapnotification.models.Notification" />-->
-<!--    </data>-->
+    <!--        <variable-->
+    <!--            name="viewModel"-->
+    <!--            type="co.yap.modules.yapnotification.models.Notification" />-->
+    <!--    </data>-->
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cvNotification"
@@ -41,7 +41,7 @@
                 android:layout_height="wrap_content"
                 android:contentDescription="@string/empty_string"
                 android:src="@drawable/ic_ico_close"
-                android:visibility="visible"
+                android:visibility="gone"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 

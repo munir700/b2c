@@ -34,6 +34,8 @@ interface IFundActions {
         val thirdDenominationClickEvent: SingleClickEvent
         val htmlLiveData: MutableLiveData<String>
         val topUpTransactionModelLiveData:MutableLiveData<TopUpTransactionModel>?
+        var enteredAmount: MutableLiveData<String>
+
         fun createTransactionSession()
         var error: String
         var cardSerialNumber: String

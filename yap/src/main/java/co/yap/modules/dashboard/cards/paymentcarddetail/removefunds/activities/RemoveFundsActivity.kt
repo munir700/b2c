@@ -21,6 +21,7 @@ import co.yap.networking.cards.responsedtos.CardBalance
 import co.yap.translation.Strings
 import co.yap.yapcore.enums.TransactionProductCode
 import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 import co.yap.yapcore.helpers.spannables.color
 import co.yap.yapcore.helpers.spannables.getText
 import co.yap.yapcore.managers.MyUserManager
@@ -51,7 +52,7 @@ class RemoveFundsActivity : AddFundsActivity() {
             hideKeyboard()
             etAmount.setText("")
             etAmount.append(viewModel.state.denominationAmount)
-            val position=etAmount.length()
+            val position = etAmount.length()
             etAmount.setSelection(position)
             etAmount.clearFocus()
         })
@@ -59,7 +60,7 @@ class RemoveFundsActivity : AddFundsActivity() {
             hideKeyboard()
             etAmount.setText("")
             etAmount.append(viewModel.state.denominationAmount)
-            val position=etAmount.length()
+            val position = etAmount.length()
             etAmount.setSelection(position)
             etAmount.clearFocus()
         })
@@ -67,7 +68,7 @@ class RemoveFundsActivity : AddFundsActivity() {
             hideKeyboard()
             etAmount.setText("")
             etAmount.append(viewModel.state.denominationAmount)
-            val position=etAmount.length()
+            val position = etAmount.length()
             etAmount.setSelection(position)
             etAmount.clearFocus()
         })
@@ -86,6 +87,7 @@ class RemoveFundsActivity : AddFundsActivity() {
                     this.finish()
                 })
                 R.id.ivCross -> this.finish()
+                R.id.tbIvClose -> this.finish()
 
                 viewModel.EVENT_REMOVE_FUNDS_SUCCESS -> {
                     fundsRemoved = true
@@ -100,9 +102,8 @@ class RemoveFundsActivity : AddFundsActivity() {
                         resources.getText(
                             getString(Strings.common_text_fee), this.color(
                                 R.color.colorPrimaryDark,
-                                "${viewModel.state.currencyType} ${Utils.getFormattedCurrency(
-                                    viewModel.state.fee
-                                )}"
+                                "${viewModel.state.currencyType} ${
+                                viewModel.state.fee?.toFormattedCurrency()}"
                             )
                         )
                 }
@@ -117,19 +118,18 @@ class RemoveFundsActivity : AddFundsActivity() {
         val card: Card = intent.getParcelableExtra(CARD)
         viewModel.state.cardNumber = card.maskedCardNo
         viewModel.cardSerialNumber = card.cardSerialNumber
-        if (Constants.CARD_TYPE_PREPAID == card?.cardType) {
-            if(card?.physical!!){
+        if (Constants.CARD_TYPE_PREPAID == card.cardType) {
+            if (card.physical) {
                 viewModel.state.cardName = Constants.TEXT_SPARE_CARD_PHYSICAL
-            }else{
+            } else {
                 viewModel.state.cardName = Constants.TEXT_SPARE_CARD_VIRTUAL
             }
         }
         viewModel.state.availableBalance = card.availableBalance
 //        viewModel.state.availableBalance =  MyUserManager.cardBalance.value?.availableBalance.toString()
         viewModel.state.availableBalanceText =
-            " " + getString(Strings.common_text_currency_type) + " " + Utils.getFormattedCurrency(
-                card.availableBalance
-            )
+            " " + getString(Strings.common_text_currency_type) + " " +
+                    card.availableBalance.toFormattedCurrency()
     }
 
     override fun onDestroy() {
@@ -141,7 +141,7 @@ class RemoveFundsActivity : AddFundsActivity() {
         viewModel.state.topUpSuccess =
             getString(Strings.screen_success_remove_funds_transaction_display_text_moved_success).format(
                 viewModel.state.currencyType,
-                Utils.getFormattedCurrency(viewModel.state.amount)
+                viewModel.state.amount?.toFormattedCurrency()
             )
 
         val fcs = ForegroundColorSpan(ContextCompat.getColor(this, R.color.colorPrimaryDark))
@@ -152,22 +152,22 @@ class RemoveFundsActivity : AddFundsActivity() {
         str.setSpan(
             fcs,
             separated[0].length,
-            separated[0].length + viewModel.state.currencyType.length + Utils.getFormattedCurrency(
-                viewModel.state.amount
-            ).length + 1,
+            separated[0].length + viewModel.state.currencyType.length + (viewModel.state.amount?.toFormattedCurrency()?.length
+                ?: 0) + 1,
             Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
         )
         tvTopUp.text = str
 
         val updatedCardBalance: String =
-            (MyUserManager.cardBalance.value?.availableBalance.toString().toDouble() + viewModel.state.amount!!.toDouble()).toString()
+            (MyUserManager.cardBalance.value?.availableBalance.toString()
+                .toDouble() + viewModel.state.amount!!.toDouble()).toString()
         MyUserManager.cardBalance.value =
             CardBalance(availableBalance = updatedCardBalance)
 
         viewModel.state.primaryCardUpdatedBalance =
             getString(Strings.screen_success_funds_transaction_display_text_primary_balance).format(
                 viewModel.state.currencyType,
-                Utils.getFormattedCurrency(MyUserManager.cardBalance.value?.availableBalance.toString())
+                MyUserManager.cardBalance.value?.availableBalance.toString().toFormattedCurrency()
             )
 
         val separatedPrimary =
@@ -188,7 +188,7 @@ class RemoveFundsActivity : AddFundsActivity() {
         viewModel.state.spareCardUpdatedBalance =
             getString(Strings.screen_success_funds_transaction_display_text_success_updated_prepaid_card_balance).format(
                 viewModel.state.currencyType,
-                Utils.getFormattedCurrency(updatedSpareCardBalance)
+                updatedSpareCardBalance.toFormattedCurrency()
             )
 
         val separatedSpare =

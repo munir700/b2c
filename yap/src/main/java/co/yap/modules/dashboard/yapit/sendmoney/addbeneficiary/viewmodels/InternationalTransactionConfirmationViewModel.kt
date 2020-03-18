@@ -84,7 +84,7 @@ class InternationalTransactionConfirmationViewModel(application: Application) :
                             it.reasonTransferCode,
                             it.reasonTransferValue,
                             it.transactionNote,
-                            it.rate
+                            it.srRate
                         )
                     )
                     ) {
@@ -136,7 +136,7 @@ class InternationalTransactionConfirmationViewModel(application: Application) :
             it.totalDebitAmountRemittance?.let { totalSMConsumedAmount ->
                 state.args?.fxRateAmount?.toDoubleOrNull()?.let { enteredAmount ->
                     val remainingOtpLimit = it.otpLimit?.minus(totalSMConsumedAmount)
-                    return enteredAmount > (remainingOtpLimit ?: 0.0)
+                    return enteredAmount >= (remainingOtpLimit ?: 0.0)
                 } ?: return false
             } ?: return false
         } ?: return false
@@ -194,7 +194,7 @@ class InternationalTransactionConfirmationViewModel(application: Application) :
                                     mTransactionsRepository.getCutOffTimeConfiguration(
                                         getProductCode(),
                                         currency,
-                                        "0.00"
+                                        state.args?.fxRateAmount
                                     )) {
                                     is RetroApiResponse.Success -> {
                                         response.data.data?.let {

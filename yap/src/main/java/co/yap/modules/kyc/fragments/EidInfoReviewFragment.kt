@@ -59,7 +59,7 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
                 viewModel.EVENT_NEXT_WITH_ERROR -> {
                     val action =
                         EidInfoReviewFragmentDirections.actionEidInfoReviewFragmentToInformationErrorFragment(
-                            viewModel.sanctionedCountry
+                            viewModel.errorTitle, viewModel.errorBody
                         )
                     findNavController().navigate(action)
                 }
@@ -126,6 +126,28 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
         }.create().show()
     }
 
+    override fun showUSACitizenAlert() {
+        AlertDialog.Builder(requireContext()).apply {
+            setCancelable(true)
+            setMessage(
+                getString(Strings.screen_b2c_eid_info_review_display_text_error_from_usa).format(
+                    viewModel.sanctionedCountry
+                )
+            )
+            setPositiveButton(getString(Strings.common_button_yes)) { dialog, which ->
+                viewModel.handleUserAcceptance(
+                    viewModel.EVENT_ERROR_FROM_USA
+                )
+            }
+            setNegativeButton(getString(Strings.screen_b2c_eid_info_review_button_not_from_usa).format(viewModel.sanctionedCountry)
+            ) { dialog, which ->
+                viewModel.handleUserRejection(
+                    viewModel.EVENT_ERROR_FROM_USA
+                )
+            }
+        }.create().show()
+    }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (data == null && viewModel.parentViewModel?.skipFirstScreen?.value == true) {
@@ -139,14 +161,6 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
         }else{
             viewModel.parentViewModel?.finishKyc?.value = DocumentsResponse(false)
         }
-    }
-
-    override fun showUSACitizenAlert() {
-        val action =
-            EidInfoReviewFragmentDirections.actionEidInfoReviewFragmentToInformationErrorFragment(
-                viewModel.sanctionedCountry
-            )
-        findNavController().navigate(action)
     }
 
     override fun openCardScanner() {

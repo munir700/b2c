@@ -80,8 +80,9 @@ class AddBeneficiaryInternationlTransferFragment :
         // setting the default select currecny on selected state
         val index: Int =
             currencies?.indexOf(viewModel.parentViewModel?.selectedCountry?.value?.getCurrency())
-                ?: 0
-        currencyPopMenu?.selectedPosition = index
+                ?: -1
+        if (index != -1)
+            currencyPopMenu?.selectedPosition = index
     }
 
     private fun getCurrencyList(currencies: List<Currency>?): ArrayList<PopupMenuItem> {
@@ -223,7 +224,7 @@ class AddBeneficiaryInternationlTransferFragment :
     }
 
     override fun onBackPressed(): Boolean {
-        if (currencyPopMenu?.isShowing!!) {
+        if (currencyPopMenu?.isShowing == true) {
             currencyPopMenu?.dismiss()
             return true
         }

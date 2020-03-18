@@ -4,7 +4,6 @@ import android.content.Context
 import android.os.Parcelable
 import co.yap.countryutils.country.utils.Currency
 import co.yap.countryutils.country.utils.CurrencyUtils
-import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
@@ -70,6 +69,10 @@ class Country(
                     )
             }
         }
+        return currency
+    }
+
+    fun getCurrencySM(): Currency? {
         return currency
     }
 

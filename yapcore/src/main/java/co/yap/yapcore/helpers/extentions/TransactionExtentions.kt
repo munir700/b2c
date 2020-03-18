@@ -1,11 +1,14 @@
 package co.yap.yapcore.helpers.extentions
 
+import android.text.format.DateFormat
 import co.yap.networking.transactions.responsedtos.transaction.Content
 import co.yap.yapcore.R
 import co.yap.yapcore.enums.TransactionLabelsCode
 import co.yap.yapcore.enums.TransactionProductCode
 import co.yap.yapcore.enums.TransactionStatus
 import co.yap.yapcore.enums.TxnType
+import java.text.SimpleDateFormat
+import java.util.*
 
 fun Content?.getTransactionTitle(): String {
     this?.let { transaction ->
@@ -35,10 +38,12 @@ fun Content?.getTransactionTitle(): String {
 
 fun Content?.getTransactionIcon(): Int {
     return this?.let { transaction ->
-        return if (transaction.status == TransactionStatus.FAILED.name) {
-            R.drawable.ic_reverted
-        } else
-            when (transaction.getLabelValues()) {
+        return when (transaction.status) {
+            TransactionStatus.CANCELLED.name -> R.drawable.ic_exclamation
+            TransactionStatus.FAILED.name -> {
+                R.drawable.ic_reverted
+            }
+            else -> when (transaction.getLabelValues()) {
                 TransactionLabelsCode.IS_CASH -> R.drawable.ic_transaction_cash
                 TransactionLabelsCode.IS_BANK -> R.drawable.ic_transaction_bank
                 TransactionLabelsCode.IS_TRANSACTION_FEE -> R.drawable.ic_package_standered
@@ -48,22 +53,23 @@ fun Content?.getTransactionIcon(): Int {
                         TransactionProductCode.TOP_UP_SUPPLEMENTARY_CARD.pCode == transaction.productCode ?: "" || TransactionProductCode.WITHDRAW_SUPPLEMENTARY_CARD.pCode == transaction.productCode ?: "" -> {
                             if (transaction.txnType == TxnType.DEBIT.type) R.drawable.ic_minus_transactions else R.drawable.ic_plus_transactions
                         }
-                        else -> 0
+                        else -> -1
                     }
                 }
             }
+        }
     } ?: 0
 }
 
 fun Content?.getTransactionTypeTitle(): String {
     this?.let { txn ->
-        if (txn.productCode.isNullOrBlank() || txn.txnType.isNullOrBlank()) return "Transaction"
+        if (txn.status == TransactionStatus.CANCELLED.name) return "Transfer rejected"
         return when {
             txn.getLabelValues() == TransactionLabelsCode.IS_TRANSACTION_FEE -> "Fee"
             txn.getLabelValues() == TransactionLabelsCode.IS_TRANSACTION_FEE -> "Refund"
             TransactionProductCode.Y2Y_TRANSFER.pCode == txn.productCode -> "YTY transfer"
             TransactionProductCode.TOP_UP_VIA_CARD.pCode == txn.productCode -> "Top up"
-            TransactionProductCode.CASH_DEPOSIT_AT_RAK.pCode == txn.productCode || TransactionProductCode.CHEQUE_DEPOSIT_AT_RAK.pCode == txn.productCode -> "Deposit"
+            TransactionProductCode.CASH_DEPOSIT_AT_RAK.pCode == txn.productCode || TransactionProductCode.CHEQUE_DEPOSIT_AT_RAK.pCode == txn.productCode || TransactionProductCode.ATM_DEPOSIT.pCode == txn.productCode -> "Deposit"
             TransactionProductCode.ATM_WITHDRAWL.pCode == txn.productCode || TransactionProductCode.MASTER_CARD_ATM_WITHDRAWAL.pCode == txn.productCode -> "Cash"
             TransactionProductCode.TOP_UP_SUPPLEMENTARY_CARD.pCode == txn.productCode || TransactionProductCode.WITHDRAW_SUPPLEMENTARY_CARD.pCode == txn.productCode -> {
                 if (txn.txnType == TxnType.DEBIT.type) "Withdrawn from virtual card" else "Added to virtual card"
@@ -81,7 +87,7 @@ fun Content?.getTransactionTypeTitle(): String {
 
 fun Content?.getTransactionTypeIcon(): Int {
     this?.let { transaction ->
-        if (TransactionStatus.FAILED.name == transaction.status) return android.R.color.transparent
+        if (TransactionStatus.FAILED.name == transaction.status || transaction.status == TransactionStatus.CANCELLED.name) return android.R.color.transparent
 
         return if (TransactionStatus.PENDING.name == transaction.status || TransactionStatus.IN_PROGRESS.name == transaction.status && transaction.getLabelValues() != TransactionLabelsCode.IS_TRANSACTION_FEE
         )
@@ -172,7 +178,6 @@ fun Content?.getMerchantCategoryIcon(): Int {
     } ?: return R.drawable.ic_other_no_bg
 }
 
-
 fun Content?.getMapImage(): Int {
     this?.let { transaction ->
         if (TransactionLabelsCode.IS_TRANSACTION_FEE == getLabelValues()) {
@@ -183,10 +188,10 @@ fun Content?.getMapImage(): Int {
             TransactionProductCode.TOP_UP_SUPPLEMENTARY_CARD.pCode, TransactionProductCode.WITHDRAW_SUPPLEMENTARY_CARD.pCode -> R.drawable.ic_image_blue_background
             TransactionProductCode.UAEFTS.pCode, TransactionProductCode.DOMESTIC.pCode, TransactionProductCode.RMT.pCode, TransactionProductCode.SWIFT.pCode, TransactionProductCode.CASH_PAYOUT.pCode, TransactionProductCode.TOP_UP_VIA_CARD.pCode, TransactionProductCode.INWARD_REMITTANCE.pCode, TransactionProductCode.LOCAL_INWARD_TRANSFER.pCode -> R.drawable.ic_image_light_blue_background
             TransactionProductCode.CARD_REORDER.pCode -> R.drawable.ic_image_light_red_background
-            TransactionProductCode.ATM_WITHDRAWL.pCode, TransactionProductCode.POS_PURCHASE.pCode, TransactionProductCode.CASH_DEPOSIT_AT_RAK.pCode, TransactionProductCode.MASTER_CARD_ATM_WITHDRAWAL.pCode, TransactionProductCode.CHEQUE_DEPOSIT_AT_RAK.pCode -> R.drawable.ic_map
-            else -> 0
+            TransactionProductCode.POS_PURCHASE.pCode, TransactionProductCode.CASH_DEPOSIT_AT_RAK.pCode, TransactionProductCode.MASTER_CARD_ATM_WITHDRAWAL.pCode, TransactionProductCode.CHEQUE_DEPOSIT_AT_RAK.pCode -> R.drawable.ic_map
+            else -> -1
         })
-    } ?: return 0
+    } ?: return -1
 }
 
 fun Content?.getLabelValues(): TransactionLabelsCode? {
@@ -208,3 +213,33 @@ fun Content?.getLabelValues(): TransactionLabelsCode? {
         })
     } ?: return null
 }
+
+fun Content?.getFormattedDate(): String? {
+    this?.creationDate?.let {
+        val parser = SimpleDateFormat("yyyy-MM-dd")
+        parser.timeZone = TimeZone.getTimeZone("UTC")
+        val convertedDate = parser.parse(creationDate)
+
+        val smsTime: Calendar = Calendar.getInstance()
+        smsTime.timeInMillis = convertedDate.time
+        smsTime.timeZone = TimeZone.getDefault()
+
+        val now: Calendar = Calendar.getInstance()
+        val timeFormatString = "MMMM dd"
+        val dateTimeFormatString = "EEEE, MMMM d"
+        val HOURS = 60 * 60 * 60.toLong()
+        return if (now.get(Calendar.DATE) === smsTime.get(Calendar.DATE)) {
+            "Today, " + DateFormat.format(timeFormatString, smsTime)
+        } else if (now.get(Calendar.DATE) - smsTime.get(Calendar.DATE) === 1) {
+            "Yesterday, " + DateFormat.format(timeFormatString, smsTime)
+        } else if (now.get(Calendar.YEAR) === smsTime.get(Calendar.YEAR)) {
+            DateFormat.format(dateTimeFormatString, smsTime).toString()
+        } else {
+            DateFormat.format(timeFormatString, smsTime).toString()
+        }
+    } ?: return null
+}
+fun Content?.isTransactionCancelled(): Boolean {
+    return this?.status == TransactionStatus.CANCELLED.name
+}
+

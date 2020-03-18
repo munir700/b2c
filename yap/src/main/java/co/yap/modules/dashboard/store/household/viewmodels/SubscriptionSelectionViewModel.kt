@@ -10,11 +10,13 @@ import co.yap.networking.household.responsedtos.HouseHoldPlan
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.transactions.TransactionsRepository
-import co.yap.networking.transactions.responsedtos.CardFeeResponse
+import co.yap.networking.transactions.responsedtos.transaction.RemittanceFeeResponse
 import co.yap.translation.Strings
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
+import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.PackageType
+import co.yap.yapcore.helpers.extentions.toFormattedAmountWithCurrency
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 
@@ -80,8 +82,8 @@ class SubscriptionSelectionViewModel(application: Application) :
         val benefitsModelList: ArrayList<BenefitsModel> = ArrayList<BenefitsModel>()
 
         for (i in 0 until 4) {
-            var benfitTitle: String = benefitsTitle.get(i)
-            var benfitDetail: String = benefitsDescription.get(i)
+            val benfitTitle: String = benefitsTitle.get(i)
+            val benfitDetail: String = benefitsDescription.get(i)
 
             val benefitsModel: BenefitsModel = BenefitsModel(
                 benfitTitle,
@@ -109,17 +111,33 @@ class SubscriptionSelectionViewModel(application: Application) :
     }
 
     private fun handlePackageFeeResponse(
-        monthlyFeeResponse: RetroApiResponse<CardFeeResponse>,
-        yearlyFeeResponse: RetroApiResponse<CardFeeResponse>
+        monthlyFeeResponse: RetroApiResponse<RemittanceFeeResponse>,
+        yearlyFeeResponse: RetroApiResponse<RemittanceFeeResponse>
     ) {
         // handle Monthly and yearly Fee Response
         if (monthlyFeeResponse is RetroApiResponse.Success && yearlyFeeResponse is RetroApiResponse.Success) {
-            monthlyFee = monthlyFeeResponse.data.data?.amount?.toDoubleOrNull()
-            yearlyFee = yearlyFeeResponse.data.data?.amount?.toDoubleOrNull()
-            state.monthlyFee =
-                monthlyFeeResponse.data.data?.currency + " " + monthlyFeeResponse.data.data?.amount
-            state.annuallyFee =
-                yearlyFeeResponse.data.data?.currency + " " + yearlyFeeResponse.data.data?.amount
+            if (monthlyFeeResponse.data.data != null) {
+                if (monthlyFeeResponse.data.data?.feeType == Constants.FEE_TYPE_FLAT) {
+                    val feeAmount = monthlyFeeResponse.data.data?.tierRateDTOList?.get(0)?.feeAmount
+                    val VATAmount = monthlyFeeResponse.data.data?.tierRateDTOList?.get(0)?.vatAmount
+                    monthlyFee = feeAmount?.plus(VATAmount ?: 0.0)
+                }
+            } else {
+                monthlyFee = 0.0
+            }
+
+            if (yearlyFeeResponse.data.data != null) {
+                if (yearlyFeeResponse.data.data?.feeType == Constants.FEE_TYPE_FLAT) {
+                    val feeAmount = yearlyFeeResponse.data.data?.tierRateDTOList?.get(0)?.feeAmount
+                    val VATAmount = yearlyFeeResponse.data.data?.tierRateDTOList?.get(0)?.vatAmount
+                    yearlyFee = feeAmount?.plus(VATAmount ?: 0.0)
+                }
+            } else {
+                yearlyFee = 0.0
+            }
+
+            state.monthlyFee = monthlyFee.toString().toFormattedAmountWithCurrency()
+            state.annuallyFee = yearlyFee.toString().toFormattedAmountWithCurrency()
 
             plansList.add(
                 HouseHoldPlan(

@@ -11,6 +11,8 @@
 
         <import type="co.yap.translation.Strings" />
 
+        <import type="android.view.View" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -20,45 +22,73 @@
         android:layout_height="match_parent"
         android:background="@color/white"
         android:paddingStart="@dimen/margin_medium"
-        android:paddingTop="@dimen/margin_normal"
+        android:paddingTop="@dimen/margin_small"
         android:paddingEnd="@dimen/margin_medium"
         android:paddingBottom="@dimen/_24sdp"
         tools:context="co.yap.modules.otp.GenericOtpFragment">
+
+        <include
+            android:id="@+id/logoLayout"
+            layout="@layout/layout_otp_logo_icon"
+            android:visibility="@{viewModel.state.otpDataModel.logoData!=null? View.VISIBLE:View.GONE}"
+            app:viewModel="@{viewModel}" />
 
         <TextView
             android:id="@+id/tvTitle"
             style="@style/ALarge"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_extra_large"
+            android:layout_marginTop="@dimen/margin_medium"
             android:gravity="center_horizontal"
-            android:paddingTop="@dimen/margin_extra_large"
             android:text="@{viewModel.state.verificationTitle}"
             android:textColor="@color/colorPrimaryDark"
-            app:layout_constraintBottom_toTopOf="@+id/layout2"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/logoLayout"
             tools:layout_editor_absoluteX="54dp"
             tools:layout_editor_absoluteY="219dp"
             tools:text="@string/screen_forgot_passcode_otp_display_text_heading" />
 
-        <TextView
-            android:id="@+id/textView4"
-            style="@style/ASmallGrey"
-            android:layout_width="wrap_content"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/clDescriptionContainer"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_8sdp"
             android:gravity="center"
-            android:lineSpacingExtra="1dp"
-            android:textAlignment="center"
-            app:concat="@{viewModel.state.mobileNumber}"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvTitle"
-            app:layout_constraintVertical_bias="0.0"
-            app:text="@{viewModel.state.verificationDescription}"
-            tools:text="We&apos;ve sent a verification code to \n +971 56 204 7636" />
+            app:layout_constraintTop_toBottomOf="@+id/tvTitle">
+
+            <TextView
+                android:id="@+id/textView4"
+                style="@style/ASmallGrey"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:lineSpacingExtra="1dp"
+                android:textAlignment="center"
+                android:visibility="@{viewModel.state.otpDataModel.logoData==null?View.VISIBLE:View.GONE}"
+                app:concat="@{viewModel.state.mobileNumber}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.0"
+                app:text="@{viewModel.state.verificationDescription}"
+                tools:text="We&apos;ve sent a verification code to \n +971 56 204 7636" />
+
+            <TextView
+                android:id="@+id/tvSpannable"
+                style="@style/ASmallGrey"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:lineSpacingExtra="1dp"
+                android:textAlignment="center"
+                android:visibility="@{viewModel.state.otpDataModel.logoData!=null?View.VISIBLE:View.GONE}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:visibility="gone"
+                app:layout_constraintVertical_bias="0.0"
+                app:text="@{viewModel.state.verificationDescriptionForLogo}"
+                tools:text="We&apos;ve sent a verification code to \n +971 56 204 7636" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <co.yap.widgets.otptextview.OtpTextView
             android:id="@+id/otp_view"
@@ -70,7 +100,7 @@
             app:bar_height="@dimen/_2sdp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView4"
+            app:layout_constraintTop_toBottomOf="@+id/clDescriptionContainer"
             app:length="6"
             app:otp="@={viewModel.state.otp}"
             app:otp_box_background="@drawable/otp_bg"
@@ -87,10 +117,10 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_small"
             android:text="@{viewModel.state.timer}"
-            tools:text="00:10"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/otp_view" />
+            app:layout_constraintTop_toBottomOf="@+id/otp_view"
+            tools:text="00:10" />
 
 
         <TextView
@@ -105,7 +135,7 @@
             android:enabled="@{viewModel.state.validResend}"
             android:gravity="center"
             android:lineSpacingExtra="1sp"
-            android:onClick="@{(v) -> viewModel.handlePressOnButtonClick(v.id)}"
+            android:onClick="@{(v) -> viewModel.handlePressOnResendClick(context)}"
             android:textAllCaps="false"
             android:textColor="@{viewModel.state.color}"
             app:layout_constraintBottom_toTopOf="@+id/btnDone"

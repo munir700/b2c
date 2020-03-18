@@ -2,13 +2,13 @@ package co.yap.modules.dashboard.home.adaptor
 
 import android.content.Context
 import android.content.res.ColorStateList
+import android.graphics.Paint
 import android.view.View
 import androidx.core.widget.ImageViewCompat
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
 import co.yap.R
 import co.yap.databinding.ItemTransactionListBinding
-import co.yap.modules.others.helper.ImageBinding
 import co.yap.networking.transactions.responsedtos.transaction.Content
 import co.yap.translation.Translator.getString
 import co.yap.yapcore.BaseBindingRecyclerAdapter
@@ -17,13 +17,12 @@ import co.yap.yapcore.enums.TxnType
 import co.yap.yapcore.helpers.DateUtils.FORMATE_TIME_24H
 import co.yap.yapcore.helpers.DateUtils.FORMAT_LONG_INPUT
 import co.yap.yapcore.helpers.DateUtils.reformatStringDate
-import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.helpers.ImageBinding
 import co.yap.yapcore.helpers.extentions.*
 
 
 class TransactionsListingAdapter(private val list: MutableList<Content>) :
     BaseBindingRecyclerAdapter<Content, RecyclerView.ViewHolder>(list) {
-
 
     override fun getLayoutIdForViewType(viewType: Int): Int = R.layout.item_transaction_list
 
@@ -81,24 +80,36 @@ class TransactionsListingAdapter(private val list: MutableList<Content>) :
             itemTransactionListBinding.tvTransactionAmount.text =
                 String.format(
                     "%s %s", txnAmountPreFix,
-                    Utils.getFormattedCurrency(transaction.totalAmount.toString())
+                    if (TxnType.CREDIT.type == transaction.txnType) transaction.amount.toString().toFormattedCurrency() else transaction.totalAmount.toString().toFormattedCurrency()
                 )
+            setContentDataColor(transaction, itemTransactionListBinding)
         }
 
 
         private fun handleProductBaseCases(context: Context, transaction: Content) {
             val transactionTitle = transaction.getTransactionTitle()
+            val txnIconResId = transaction.getTransactionIcon()
             val categoryTitle: String =
-                transaction.getCategoryTitle()
+                transaction.getTransactionTypeTitle()
             transaction.productCode?.let {
-                if (TransactionProductCode.Y2Y_TRANSFER.pCode == it || TransactionProductCode.POS_PURCHASE.pCode == it) {
-                    setY2YUserImage(transaction, itemTransactionListBinding)
+
+                if (transaction.isTransactionCancelled()) {
+                    itemTransactionListBinding.ivTransaction.alpha = 0.4f
+                    itemTransactionListBinding.ivTransaction.setImageResource(txnIconResId)
                 } else {
-                    itemTransactionListBinding.ivTransaction.setImageResource(transaction.getTransactionIcon())
-                    ImageViewCompat.setImageTintList(
-                        itemTransactionListBinding.ivTransaction,
-                        ColorStateList.valueOf(context.getColors(R.color.colorPrimary))
-                    )
+                    if (TransactionProductCode.Y2Y_TRANSFER.pCode == it) {
+                        setY2YUserImage(transaction, itemTransactionListBinding)
+                    } else {
+                        if (txnIconResId != -1)
+                            itemTransactionListBinding.ivTransaction.setImageResource(txnIconResId)
+                        else
+                            setInitialsAsTxnImage(transaction, itemTransactionListBinding)
+                        itemTransactionListBinding.ivTransaction.alpha = 1.0f
+                        ImageViewCompat.setImageTintList(
+                            itemTransactionListBinding.ivTransaction,
+                            ColorStateList.valueOf(context.getColors(R.color.colorPrimary))
+                        )
+                    }
                 }
             }
 
@@ -127,6 +138,42 @@ class TransactionsListingAdapter(private val list: MutableList<Content>) :
                 R.dimen.text_size_h2
             )
         }
+
+
+        private fun setInitialsAsTxnImage(
+            transaction: Content,
+            itemTransactionListBinding: ItemTransactionListBinding
+        ) {
+            ImageBinding.loadAvatar(
+                itemTransactionListBinding.ivTransaction,
+                "",
+                transaction.title,
+                android.R.color.transparent,
+                R.dimen.text_size_h2
+            )
+        }
+
+        private fun setContentDataColor(
+            transaction: Content,
+            itemTransactionListBinding: ItemTransactionListBinding
+        ) {
+
+            val context = itemTransactionListBinding.ivIncoming.context
+            val isTxnCancelled = transaction.isTransactionCancelled()
+            itemTransactionListBinding.tvTransactionName.setTextColor(context.getColors(if (isTxnCancelled) R.color.greyNormalDark else R.color.colorMidnightExpress))
+            itemTransactionListBinding.tvTransactionTimeAndCategory.setTextColor(
+                context.getColors(
+                    if (isTxnCancelled) R.color.greyNormalDark else R.color.greyDark
+                )
+            )
+            itemTransactionListBinding.tvTransactionAmount.setTextColor(context.getColors(if (isTxnCancelled) R.color.greyNormalDark else R.color.colorMidnightExpress))
+            itemTransactionListBinding.tvCurrency.setTextColor(context.getColors(if (isTxnCancelled) R.color.greyNormalDark else R.color.greyDark))
+
+            //strike-thru textview
+            itemTransactionListBinding.tvTransactionAmount.paintFlags =
+                if (transaction.isTransactionCancelled()) itemTransactionListBinding.tvTransactionAmount.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG else 0
+        }
     }
+
 }
 

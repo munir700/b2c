@@ -2,6 +2,7 @@ package co.yap.modules.onboarding.viewmodels
 
 import android.app.Application
 import android.content.Context
+import co.yap.R
 import co.yap.modules.onboarding.interfaces.IPhoneVerification
 import co.yap.modules.onboarding.states.PhoneVerificationState
 import co.yap.networking.interfaces.IRepositoryHolder
@@ -12,10 +13,10 @@ import co.yap.networking.models.RetroApiResponse
 import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.adjust.AdjustEvents
+import co.yap.yapcore.helpers.extentions.getColors
 import co.yap.yapcore.helpers.extentions.trackEvent
 import co.yap.yapcore.leanplum.SignupEvents
 import co.yap.yapcore.trackAdjustEvent
-import com.leanplum.Leanplum
 
 open class PhoneVerificationViewModel(application: Application) :
     OnboardingChildViewModel<IPhoneVerification.State>(application), IPhoneVerification.ViewModel,
@@ -24,6 +25,7 @@ open class PhoneVerificationViewModel(application: Application) :
     override val nextButtonPressEvent: SingleClickEvent = SingleClickEvent()
 
     override val state: PhoneVerificationState = PhoneVerificationState(application)
+
     //override val nextButtonPressEvent: SingleLiveEvent<Boolean> = SingleLiveEvent()
     override val repository: MessagesRepository = MessagesRepository
 
@@ -58,11 +60,12 @@ open class PhoneVerificationViewModel(application: Application) :
                 is RetroApiResponse.Success -> {
                     state.toast =
                         getString(Strings.screen_verify_phone_number_display_text_resend_otp_success)
-                    state.reverseTimer(10,context)
+                    state.reverseTimer(10, context)
                     state.validResend = false
                 }
                 is RetroApiResponse.Error -> {
                     state.toast = response.error.message
+                    otpUiBlocked(response.error.actualCode)
                 }
             }
             state.loading = false
@@ -84,7 +87,11 @@ open class PhoneVerificationViewModel(application: Application) :
                     trackAdjustEvent(AdjustEvents.SIGN_UP_MOBILE_NUMBER_VERIFIED.type)
                     nextButtonPressEvent.call()
                 }
-                is RetroApiResponse.Error -> state.toast = response.error.message
+                is RetroApiResponse.Error -> {
+                    state.toast = response.error.message
+                    state.otp = ""
+                    otpUiBlocked(response.error.actualCode)
+                }
             }
             state.loading = false
         }
@@ -92,5 +99,16 @@ open class PhoneVerificationViewModel(application: Application) :
 
     override fun setPasscode(passcode: String) {
         parentViewModel?.onboardingData?.passcode = passcode
+    }
+
+    private fun otpUiBlocked(errorCode: String) {
+        when (errorCode) {
+            "1095" -> {
+                state.validResend = false
+                state.valid = false
+                state.color = context.getColors(R.color.disabled)
+                state.isOtpBlocked.set(true)
+            }
+        }
     }
 }

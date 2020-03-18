@@ -100,13 +100,13 @@ class BeneficiaryAccountDetailsFragment :
                     GenericOtpFragment::class.java.name,
                     bundleOf(
                         OtpDataModel::class.java.name to OtpDataModel(
-                            action,
-                            MyUserManager.user?.currentCustomer?.getCompletePhone(),
-                            MyUserManager.user?.currentCustomer?.getFullName(),
-                            false,
-                            OtpToolBarData()
+                            otpAction = action,
+                            mobileNumber = MyUserManager.user?.currentCustomer?.getCompletePhone(),
+                            username = MyUserManager.user?.currentCustomer?.getFullName(),
+                            emailOtp = false,
+                            toolBarData = OtpToolBarData()
                         )
-                    )
+                    ),true
                 ) { resultCode, data ->
                     if (resultCode == Activity.RESULT_OK) {
                         viewModel.createBeneficiaryRequest()

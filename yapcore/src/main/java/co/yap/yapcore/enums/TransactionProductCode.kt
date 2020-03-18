@@ -43,7 +43,7 @@ enum class TransactionProductCode(val pCode: String) {
 }
 
 enum class TransactionStatus {
-    PENDING, IN_PROGRESS, COMPLETED, FAILED, NONE
+    PENDING, IN_PROGRESS, COMPLETED, FAILED,CANCELLED, NONE
 }
 
 enum class TransactionLabelsCode {

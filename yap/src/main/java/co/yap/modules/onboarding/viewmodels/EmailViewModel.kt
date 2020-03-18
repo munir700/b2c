@@ -97,6 +97,7 @@ class EmailViewModel(application: Application) :
                     trackEvent(SignupEvents.SIGN_UP_EMAIL.type, state.twoWayTextWatcher)
                     sharedPreferenceManager.saveUserNameWithEncryption(state.twoWayTextWatcher)
                     setVerificationLabel()
+                    state.setSuccessUI()
                     state.loading = false
                 }
 
