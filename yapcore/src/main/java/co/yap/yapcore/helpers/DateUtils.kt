@@ -187,6 +187,13 @@ object DateUtils {
         return sdf.format(Date())
     }
 
+    @SuppressLint("SimpleDateFormat")
+    fun getCurrentDateWithFormat(formal: String): String {
+        val sdf = SimpleDateFormat(formal)
+        sdf.timeZone = TimeZone.getDefault()
+        return sdf.format(Date())
+    }
+
 //    @SuppressLint("SimpleDateFormat")
 //    fun getCurrentDate(): Date {
 //        val sdf = SimpleDateFormat("yyyy-MM-dd")
