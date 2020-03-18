@@ -3,9 +3,6 @@ package co.yap.networking.customers
 import co.yap.networking.BaseRepository
 import co.yap.networking.CookiesManager
 import co.yap.networking.RetroNetwork
-import co.yap.networking.customers.requestdtos.ForgotPasscodeRequest
-import co.yap.networking.customers.responsedtos.AppUpdateResponse
-import co.yap.networking.customers.responsedtos.VerifyUsernameResponse
 import co.yap.networking.customers.requestdtos.*
 import co.yap.networking.customers.responsedtos.*
 import co.yap.networking.customers.responsedtos.beneficiary.BankParamsResponse
@@ -53,6 +50,7 @@ object CustomersRepository : BaseRepository(), CustomersApi {
         "/customers/api/bank-transfer/transaction/limit"
 
     const val URL_DETECT = "digi-ocr/detect/"
+    const val URL_SAVE_REFERAL_INVITATION = "/customers/api/save-referral-invitation"
 
 
     // Bank transfer information as per old project integration................................................
@@ -285,7 +283,6 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     override suspend fun getSectionedCountries(): RetroApiResponse<SectionedCountriesResponseDTO> =
         executeSafely(call = { api.getSectionedCountries() })
 
-
     override suspend fun verifyUsername(username: String): RetroApiResponse<VerifyUsernameResponse> =
         executeSafely(call = { api.verifyUsername(username) })
 
@@ -298,5 +295,9 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     override suspend fun changePasscode(newPasscode: String): RetroApiResponse<ApiResponse> =
         executeSafely(call = { api.changePasscode(newPasscode) })
 
-    override suspend fun appUpdate(): RetroApiResponse<AppUpdateResponse> = executeSafely(call = {api.appUpdate()})
+    override suspend fun appUpdate(): RetroApiResponse<AppUpdateResponse> =
+        executeSafely(call = { api.appUpdate() })
+
+    override suspend fun saveReferalInvitation(saveReferalRequest: SaveReferalRequest): RetroApiResponse<ApiResponse> =
+        executeSafely(call = { api.saveReferalInvitation(saveReferalRequest) })
 }
