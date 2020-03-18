@@ -183,6 +183,8 @@ object Strings {
         "screen_verify_passcode_button_verify"
     const val screen_verify_passcode_text_forgot_password: String =
         "screen_verify_passcode_text_forgot_password"
+    const val screen_verify_passcode_text_account_locked: String =
+        "screen_verify_passcode_text_account_locked"
 
     //Otp screen
     const val screen_verify_phone_number_display_text_resend_otp_success: String =

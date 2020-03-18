@@ -119,6 +119,7 @@
     <string name="screen_verify_passcode_button_sign_in">Sign in</string>
     <string name="screen_verify_passcode_button_verify">Verify</string>
     <string name="screen_verify_passcode_text_forgot_password">Forgot passcode?</string>
+    <string name="screen_verify_passcode_text_account_locked">Sorry, that’s too many incorrect attempts. We’ve temporarily blocked your access. Click on Forgot passcode to set a new one.</string>
 
     <!-- Otp screen -->
     <string name="screen_verify_phone_number_display_text_resend_otp_success">New OTP has been generated successfully</string>
