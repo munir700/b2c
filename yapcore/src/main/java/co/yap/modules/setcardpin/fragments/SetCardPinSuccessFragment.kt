@@ -55,6 +55,7 @@ class SetCardPinSuccessFragment : BaseBindingFragment<ISetCardPinSuccess.ViewMod
     private fun setupActionsIntent() {
             val returnIntent = Intent()
             returnIntent.putExtra(Constants.isPinCreated, true)
+            returnIntent.putExtra("isTopUpSkip", true)
             activity?.setResult(Activity.RESULT_OK, returnIntent)
     }
 
@@ -64,6 +65,7 @@ class SetCardPinSuccessFragment : BaseBindingFragment<ISetCardPinSuccess.ViewMod
                 val returnIntent = Intent()
                 returnIntent.putExtra(Constants.CARD_SERIAL_NUMBER, serialNumber)
                 returnIntent.putExtra(Constants.isPinCreated, true)
+                returnIntent.putExtra("isTopUpSkip", false)
                 activity?.setResult(Activity.RESULT_OK, returnIntent)
             }
         } else {

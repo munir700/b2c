@@ -90,6 +90,17 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
             activity?.let { ViewModelProviders.of(it).get(YapDashBoardViewModel::class.java) }
     }
 
+    private fun startFlowForSetPin() {
+        if (MyUserManager.getPrimaryCard() != null) {
+            if (isShowSetPin(MyUserManager.getPrimaryCard())) {
+                MyUserManager.user?.partnerBankStatus = PartnerBankStatus.ACTIVATED.status
+                if (PartnerBankStatus.ACTIVATED.status == MyUserManager.user?.partnerBankStatus) {
+                    viewModel.getDebitCards()
+                }
+            }
+        } else toast("Invalid card found")
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         registerTransactionBroadcast()
@@ -174,11 +185,11 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
                 viewModel.EVENT_SET_CARD_PIN -> {
-                    startActivity(
+                    startActivityForResult(
                         SetCardPinWelcomeActivity.newIntent(
                             requireContext(),
                             MyUserManager.getPrimaryCard()
-                        )
+                        ), RequestCodes.REQUEST_FOR_SET_PIN
                     )
                 }
                 viewModel.ON_ADD_NEW_ADDRESS_EVENT -> {
@@ -220,7 +231,13 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
 
 
         parentViewModel?.accountInfo?.observe(this, Observer { accountInfo ->
+            startFlowForSetPin()
             checkUserStatus()
+        })
+
+        MyUserManager.onAccountInfoSuccess.observe(this, Observer {
+            if (it)
+                checkUserStatus()
         })
 
         MyUserManager.cardBalance.observe(this, Observer
@@ -613,6 +630,21 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
             RequestCodes.REQUEST_MEETING_CONFIRMED -> {
                 checkUserStatus()
             }
+            RequestCodes.REQUEST_FOR_SET_PIN -> {
+                data?.let {
+                    val isPinSet =
+                        it.getBooleanExtra(co.yap.yapcore.constants.Constants.isPinCreated, false)
+                    val isSkip =
+                        it.getBooleanExtra("isTopUpSkip", false)
+                    getGraphRecycleViewAdapter()?.notifyDataSetChanged()
+                    if (isPinSet && isSkip) {
+                        MyUserManager.getAccountInfo()
+                    } else {
+                        openTopUpScreen()
+                        // not any case for now for else
+                    }
+                }
+            }
         }
     }
 
@@ -637,7 +669,6 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
         else
             co.yap.yapcore.constants.Constants.MANUAL_DEBIT
     }
-
 
     private fun getFilterTransactions() {
 

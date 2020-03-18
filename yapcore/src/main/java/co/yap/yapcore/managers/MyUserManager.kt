@@ -7,9 +7,12 @@ import co.yap.networking.cards.CardsRepository
 import co.yap.networking.cards.responsedtos.Address
 import co.yap.networking.cards.responsedtos.Card
 import co.yap.networking.cards.responsedtos.CardBalance
+import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.customers.responsedtos.AccountInfo
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
+import co.yap.yapcore.enums.AccountStatus
+import co.yap.yapcore.enums.AccountType
 import co.yap.yapcore.enums.CardType
 import co.yap.yapcore.enums.EIDStatus
 import co.yap.yapcore.helpers.AuthUtils
@@ -22,14 +25,55 @@ import kotlinx.coroutines.launch
 object MyUserManager : IRepositoryHolder<CardsRepository> {
 
     override val repository: CardsRepository = CardsRepository
+    private val customerRepository: CustomersRepository = CustomersRepository
+    private var usersList: List<AccountInfo?> = arrayListOf()
     var user: AccountInfo? = null
     var userAddress: Address? = null
     var cardBalance: MutableLiveData<CardBalance> = MutableLiveData()
-    var cards: MutableLiveData<Card> = MutableLiveData()
+    var cards: MutableLiveData<Card?> = MutableLiveData()
     var eidStatus: EIDStatus = EIDStatus.NOT_SET
+    var onAccountInfoSuccess: MutableLiveData<Boolean> = MutableLiveData()
 
     fun updateCardBalance() {
         getAccountBalanceRequest()
+    }
+
+    fun getAccountInfo() {
+        GlobalScope.launch {
+            when (val response = customerRepository.getAccountInfo()) {
+                is RetroApiResponse.Success -> {
+                    usersList = response.data.data as ArrayList
+                    user = getCurrentUser()
+                    onAccountInfoSuccess.postValue(true)
+                }
+
+                is RetroApiResponse.Error -> {
+                }
+            }
+        }
+    }
+
+    private fun getYapUser(): AccountInfo? {
+        return usersList.firstOrNull { account -> account?.accountType == AccountType.B2C_ACCOUNT.name }
+    }
+
+    private fun getHouseholdUser(): AccountInfo? {
+        return usersList.firstOrNull { account -> account?.accountType == AccountType.B2C_HOUSEHOLD.name }
+    }
+
+    private fun getCurrentUser(): AccountInfo? {
+        return (if (isExistingUser()) {
+            if (AccountStatus.INVITATION_PENDING.name != getHouseholdUser()?.notificationStatuses || AccountStatus.PARNET_MOBILE_VERIFICATION_PENDING.name != getHouseholdUser()?.notificationStatuses) {
+                getYapUser()
+            } else
+                getHouseholdUser()
+        } else {
+            if (getYapUser() != null) getYapUser() else getHouseholdUser()
+        })
+    }
+
+    fun isExistingUser(): Boolean {
+        return getYapUser() != null && getHouseholdUser() != null
     }
 
     private fun getAccountBalanceRequest() {
