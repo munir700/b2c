@@ -231,7 +231,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
 
 
         parentViewModel?.accountInfo?.observe(this, Observer { accountInfo ->
-            startFlowForSetPin()
+//            startFlowForSetPin()
             checkUserStatus()
         })
 
