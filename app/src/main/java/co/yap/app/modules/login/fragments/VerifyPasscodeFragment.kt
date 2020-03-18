@@ -317,7 +317,7 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
 
     private fun gotoHouseHold() {
         // call API for switch profile
-        viewModel.switchProfile() 
+        viewModel.switchProfile()
     }
 
     private val switchProfileObserver = Observer<Boolean> {
