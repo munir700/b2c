@@ -172,11 +172,11 @@ object Constants {
 
 
     var SHARE_ADJUST_LINK = ""
-    var INVITER_ADJUST_ID: String = ""
+    var INVITER_ADJUST_ID: String = "INVITER_ADJUST_ID"
     var INVITER_ADJUST_LINK_DATE: String = ""
 
     //      var INVITER_ADJUST_ID :String="nullDefaultValue"
-    var INVITEE_RECEIEVED_DATE: String = ""
+    var INVITEE_RECEIEVED_DATE: String = "INVITEE_RECEIEVED_DATE"
 
 
 }

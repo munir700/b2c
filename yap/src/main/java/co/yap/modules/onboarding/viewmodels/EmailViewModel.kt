@@ -3,6 +3,7 @@ package co.yap.modules.onboarding.viewmodels
 import android.app.Application
 import android.os.Build
 import android.os.Handler
+import android.util.Log
 import android.view.inputmethod.EditorInfo
 import android.widget.TextView
 import co.yap.R
@@ -224,7 +225,15 @@ class EmailViewModel(application: Application) :
 
     //save referral invitation api integration
     fun requestSaveReferral() {
-        if (!INVITEE_RECEIEVED_DATE.isNullOrEmpty() && !INVITER_ADJUST_ID.isNullOrEmpty()) {
+        if (!SharedPreferenceManager(context).getValueString(
+                INVITEE_RECEIEVED_DATE
+            ).isNullOrEmpty() && !SharedPreferenceManager(context).getValueString(
+                INVITER_ADJUST_ID
+            ).isNullOrEmpty()
+        ) {
+//        if (!INVITEE_RECEIEVED_DATE.isNullOrEmpty() && !INVITER_ADJUST_ID.isNullOrEmpty()) {
+            Log.i("url", INVITEE_RECEIEVED_DATE + INVITER_ADJUST_ID)
+
             launch {
                 when (val response =
                     repository.saveReferalInvitation(
@@ -235,12 +244,16 @@ class EmailViewModel(application: Application) :
                     )) {
 
                     is RetroApiResponse.Success -> {
+                        Log.i("url", "yes ")
 
                     }
                     is RetroApiResponse.Error -> {
                     }
                 }
             }
+        } else {
+            Log.i("url", "else case ")
+
         }
     }
 }

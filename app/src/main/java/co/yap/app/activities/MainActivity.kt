@@ -36,7 +36,7 @@ open class MainActivity : DefaultActivity(), IFragmentHolder, INavigator {
             YAPApplication.AUTO_RESTART_APP = false
             setContentView(R.layout.activity_main)
 
-//            getDataFromDeepLinkIntent()
+            getDataFromDeepLinkIntent()
         }
 
     }
@@ -55,7 +55,11 @@ open class MainActivity : DefaultActivity(), IFragmentHolder, INavigator {
 //            val customerId = data?.path
             val customerId = data.getQueryParameter("inviter")
             val time = data.getQueryParameter("time")
-            val date = time.replace("$", " ")
+            Log.i(
+                "urltime",
+                time.toString()
+            )// this is the current dat & time when user is retriving this url on local app
+             val date = time.replace("_", " ")
 
 //            SharedPreferenceManager(this).save(Constants.INVITER_ADJUST_ID)
             SharedPreferenceManager(this).save(
@@ -88,7 +92,7 @@ open class MainActivity : DefaultActivity(), IFragmentHolder, INavigator {
 
     override fun onNewIntent(intent: Intent) {
         super.onNewIntent(intent)
-        val data: Uri = intent.getData()
+//        val data: Uri = intent.getData()
         getDataFromDeepLinkIntent()
         // data.toString() -> This is your deep_link parameter value.
     }

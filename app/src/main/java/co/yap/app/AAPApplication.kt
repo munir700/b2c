@@ -88,7 +88,7 @@ class AAPApplication : ChatApplication(
             override fun onInstallReferrerServiceDisconnected() {
                 // Try to restart the connection on the next request to
                 // Google Play by calling the startConnection() method.
-                longToast("InstallReferrerClient.onInstallReferrerServiceDisconnected")
+//                longToast("InstallReferrerClient.onInstallReferrerServiceDisconnected")
             }
         })
     }

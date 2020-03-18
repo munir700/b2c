@@ -62,7 +62,7 @@ class InviteFriendFragment : BaseBindingFragment<IInviteFriend.ViewModel>(), IIn
             "yyyy-MM-dd hh:mm:ss",
             Date()
         ) as String
-        val time = date.replace(" ", "&")
+        val time = date.replace(" ", "_")
         Constants.SHARE_ADJUST_LINK =
             "https://grwl.adj.st?adjust_t=q3o2z0e_sv94i35&inviter=$userId&time=${time.trim()}"
 //        Constants.SHARE_ADJUST_LINK = "https://grwl.adj.st?adjust_t=q3o2z0e_sv94i35&deep_link=yap_referral%3A%2F%2Finviter=" + userId
