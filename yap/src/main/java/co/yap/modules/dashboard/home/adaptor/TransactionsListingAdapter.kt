@@ -13,7 +13,6 @@ import co.yap.networking.transactions.responsedtos.transaction.Content
 import co.yap.translation.Translator.getString
 import co.yap.yapcore.BaseBindingRecyclerAdapter
 import co.yap.yapcore.enums.TransactionProductCode
-import co.yap.yapcore.enums.TransactionStatus
 import co.yap.yapcore.enums.TxnType
 import co.yap.yapcore.helpers.DateUtils.FORMATE_TIME_24H
 import co.yap.yapcore.helpers.DateUtils.FORMAT_LONG_INPUT
@@ -101,10 +100,10 @@ class TransactionsListingAdapter(private val list: MutableList<Content>) :
                     if (TransactionProductCode.Y2Y_TRANSFER.pCode == it) {
                         setY2YUserImage(transaction, itemTransactionListBinding)
                     } else {
-                    if (txnIconResId != -1)
-                        itemTransactionListBinding.ivTransaction.setImageResource(txnIconResId)
-                    else
-                        setInitialsAsTxnImage(transaction, itemTransactionListBinding)
+                        if (txnIconResId != -1)
+                            itemTransactionListBinding.ivTransaction.setImageResource(txnIconResId)
+                        else
+                            setInitialsAsTxnImage(transaction, itemTransactionListBinding)
                         itemTransactionListBinding.ivTransaction.alpha = 1.0f
                         ImageViewCompat.setImageTintList(
                             itemTransactionListBinding.ivTransaction,
