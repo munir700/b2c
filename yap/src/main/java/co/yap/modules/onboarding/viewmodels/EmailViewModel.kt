@@ -231,7 +231,6 @@ class EmailViewModel(application: Application) :
                 INVITER_ADJUST_ID
             ).isNullOrEmpty()
         ) {
-//        if (!INVITEE_RECEIEVED_DATE.isNullOrEmpty() && !INVITER_ADJUST_ID.isNullOrEmpty()) {
             Log.i("url", INVITEE_RECEIEVED_DATE + INVITER_ADJUST_ID)
 
             launch {
@@ -244,16 +243,12 @@ class EmailViewModel(application: Application) :
                     )) {
 
                     is RetroApiResponse.Success -> {
-                        Log.i("url", "yes ")
 
                     }
                     is RetroApiResponse.Error -> {
                     }
                 }
             }
-        } else {
-            Log.i("url", "else case ")
-
         }
     }
 }
