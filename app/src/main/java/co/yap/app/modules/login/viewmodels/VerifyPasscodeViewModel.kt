@@ -56,7 +56,6 @@ class VerifyPasscodeViewModel(application: Application) :
                 is RetroApiResponse.Error -> {
                     loginSuccess.postValue(false)
                     state.loading = false
-                    response.error.actualCode = "302"
                     handleAttemptsError(response.error)
                 }
             }
