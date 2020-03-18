@@ -141,8 +141,11 @@ fun Content?.getCategoryTitle(): String {
                 }
                 TransactionProductCode.CARD_REORDER.pCode -> "Fee"
                 TransactionProductCode.INWARD_REMITTANCE.pCode, TransactionProductCode.LOCAL_INWARD_TRANSFER.pCode -> "Incoming Funds"
-                TransactionProductCode.ATM_WITHDRAWL.pCode, TransactionProductCode.POS_PURCHASE.pCode, TransactionProductCode.MASTER_CARD_ATM_WITHDRAWAL.pCode -> {
+                TransactionProductCode.POS_PURCHASE.pCode, TransactionProductCode.MASTER_CARD_ATM_WITHDRAWAL.pCode -> {
                     "Cash"
+                }
+                TransactionProductCode.ATM_WITHDRAWL.pCode -> {
+                    if (transaction.category.equals("REVERSAL", true)) "Reversal" else "Cash"
                 }
                 else -> ""
             })
@@ -239,6 +242,7 @@ fun Content?.getFormattedDate(): String? {
         }
     } ?: return null
 }
+
 fun Content?.isTransactionCancelled(): Boolean {
     return this?.status == TransactionStatus.CANCELLED.name
 }
