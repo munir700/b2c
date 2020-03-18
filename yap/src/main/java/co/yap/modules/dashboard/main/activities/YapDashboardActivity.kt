@@ -101,17 +101,6 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
 //        }
     }
 
-    private fun tempDeepLinkURiTest() {
-        if (null != Constants.INVITER_ADJUST_URI) {
-            alert(
-                 Constants.INVITER_ADJUST_URI.toString(),
-            INVITER_ADJUST_ID+'\n',
-                 "ok",//
-                true
-            )
-        }
-    }
-
     private fun setupYapButton() {
         actionMenu = FloatingActionMenu.Builder(this)
             .setStartAngle(0)

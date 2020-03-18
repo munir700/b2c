@@ -11,8 +11,7 @@ import androidx.lifecycle.ViewModel
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.Constants.INVITEE_RECEIEVED_DATE
 import co.yap.yapcore.constants.Constants.INVITER_ADJUST_ID
-import co.yap.yapcore.constants.Constants.INVITER_ADJUST_URI
-import co.yap.yapcore.helpers.SharedPreferenceManager
+ import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.extentions.longToast
 import co.yap.yapcore.helpers.extentions.toast
 import com.adjust.sdk.Adjust
@@ -117,7 +116,7 @@ fun Application.initializeAdjustSdk(appToken: String) {
         longToast(
             "setOnDeeplinkResponseListener ${deeplink.toString()}"
         )
-        SharedPreferenceManager(this).save(Constants.INVITER_ADJUST_ID_TEST, deeplink.toString()+" setOnDeeplinkResponseListener")
+        SharedPreferenceManager(this).save(Constants.INVITER_ADJUST_ID, deeplink.toString()+" setOnDeeplinkResponseListener")
 
         true
     }
@@ -131,12 +130,12 @@ fun Application.initializeAdjustSdk(appToken: String) {
 }
 
 private fun getInviterInfoFromDeepLinkUri(data: Uri) {
-    INVITER_ADJUST_URI = data
-    val url = URL(
-        data?.scheme,
-        data?.host,
-        data?.path
-    )
+//    INVITER_ADJUST_URI = data
+//    val url = URL(
+//        data?.scheme,
+//        data?.host,
+//        data?.path
+//    )
 
     val customerId = data.getQueryParameter("inviter");
     val date = DateFormat.format(
@@ -147,7 +146,7 @@ private fun getInviterInfoFromDeepLinkUri(data: Uri) {
 //    "https://grwl.adj.st?adjust_t=q3o2z0e_sv94i35&deep_link=yap_referral&user_id=" + userId
     INVITER_ADJUST_ID = customerId.toString()
     INVITEE_RECEIEVED_DATE = date
-    Log.i("url", url.toString())
+//    Log.i("url", url.toString())
     Log.i("urluserid", customerId.toString())
     Log.i(
         "urlDate",
