@@ -23,4 +23,8 @@ interface AuthRetroService {
     // Logout
     @POST(AuthRepository.URL_LOGOUT)
     suspend fun logout(@Query("uuid") uuid: String): Response<ApiResponse>
+
+    // Switch Profile
+    @POST(AuthRepository.URL_SWITCH_PROFILE)
+    suspend fun switchProfile(@Query("uuid") uuid: String): Response<LoginResponse>
 }

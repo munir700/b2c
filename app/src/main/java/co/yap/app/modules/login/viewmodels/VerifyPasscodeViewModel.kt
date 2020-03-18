@@ -2,6 +2,7 @@ package co.yap.app.modules.login.viewmodels
 
 import android.app.Application
 import android.os.CountDownTimer
+import android.util.Log
 import co.yap.app.constants.Constants
 import co.yap.app.modules.login.interfaces.IVerifyPasscode
 import co.yap.app.modules.login.states.VerifyPasscodeState
@@ -35,6 +36,7 @@ class VerifyPasscodeViewModel(application: Application) :
     override val loginSuccess: SingleLiveEvent<Boolean> = SingleLiveEvent()
     override val validateDeviceResult: SingleLiveEvent<Boolean> = SingleLiveEvent()
     override val createOtpResult: SingleLiveEvent<Boolean> = SingleLiveEvent()
+    override val switchProfile: SingleLiveEvent<Boolean> = SingleLiveEvent()
     override var isFingerprintLogin: Boolean = false
     private val customersRepository: CustomersRepository = CustomersRepository
     override var mobileNumber: String = ""
@@ -89,6 +91,21 @@ class VerifyPasscodeViewModel(application: Application) :
         state.isScreenLocked.set(true)
         state.isAccountLocked.set(true)
         state.valid = false
+    }
+
+    override fun switchProfile() {
+        launch {
+            when (val response = MyUserManager.user?.uuid?.let { repository.switchProfile(it) }) {
+                is RetroApiResponse.Success -> {
+                    switchProfile.postValue(true)
+                }
+                is RetroApiResponse.Error -> {
+                    response.error.message
+                    switchProfile.postValue(false)
+                    handleAttemptsError(response.error)
+                }
+            }
+        }
     }
 
     private fun showBlockForSomeTimeError(message: String) {

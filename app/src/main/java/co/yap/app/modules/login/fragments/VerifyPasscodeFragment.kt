@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Intent
 import android.hardware.fingerprint.FingerprintManager
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.annotation.Keep
 import androidx.lifecycle.Observer
@@ -73,6 +74,7 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
         viewModel.validateDeviceResult.observe(this, validateDeviceResultObserver)
         MyUserManager.isUserAccountInfo?.observe(this, onFetchAccountInfo)
         viewModel.createOtpResult.observe(this, createOtpObserver)
+        viewModel.switchProfile.observe(this, switchProfileObserver)
         setObservers()
     }
 
@@ -305,7 +307,7 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
                 }
             } else {
                 if (MyUserManager.shouldGoToHousehold()) {
-                    gotoHouseHold(MyUserManager.isOnBoarded(), MyUserManager.user)
+                    gotoHouseHold()
                 } else {
                     gotoYapDashboard()
                 }
@@ -313,25 +315,18 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
         }
     }
 
-    private fun gotoHouseHold(isExisting: Boolean, user: AccountInfo?) {
-        /* if(isExisting) {    // If on boarded and existing
-             val bundle = Bundle()
-             bundle.putBoolean(OnBoardingHouseHoldActivity.EXISTING_USER, isExisting)
-             bundle.putParcelable(OnBoardingHouseHoldActivity.USER_INFO, user)
-             startFragment(ExistingHouseholdFragment::class.java.name, false, bundle)
-         }else {   // If not on boarded
-             val bundle = Bundle()
-             bundle.putBoolean(OnBoardingHouseHoldActivity.EXISTING_USER, isExisting)
-             bundle.putParcelable(OnBoardingHouseHoldActivity.USER_INFO, user)
+    private fun gotoHouseHold() {
+        // call API for switch profile
+        viewModel.switchProfile()
+    }
 
-             startActivity(OnBoardingHouseHoldActivity.getIntent(requireContext(),bundle = bundle))
-
-         }*/
-
-        val bundle = Bundle()
-        bundle.putBoolean(OnBoardingHouseHoldActivity.EXISTING_USER, isExisting)
-        bundle.putParcelable(OnBoardingHouseHoldActivity.USER_INFO, user)
-        startFragment(ExistingHouseholdFragment::class.java.name, false, bundle)
+    private val switchProfileObserver = Observer<Boolean> {
+        if(it){
+            val bundle = Bundle()
+            bundle.putBoolean(OnBoardingHouseHoldActivity.EXISTING_USER, MyUserManager.isOnBoarded())
+            bundle.putParcelable(OnBoardingHouseHoldActivity.USER_INFO, MyUserManager.user)
+            startFragment(ExistingHouseholdFragment::class.java.name, false, bundle)
+        }
     }
 
     private fun goToHouseHoldDashboard() {
@@ -352,6 +347,8 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
             )
         findNavController().navigate(action)
     }
+
+
 
     private fun setUsername() {
         viewModel.state.username =

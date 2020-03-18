@@ -52,6 +52,8 @@ class HouseHoldSuccessFragment : BaseBindingFragment<IHouseHoldSuccess.ViewModel
 
             R.id.tvSkipAndLater -> {
 //                toast("Skip And Later")
+
+                // Go to yap Dashboard
             }
         }
     }
