@@ -11,7 +11,7 @@ import co.yap.modules.dashboard.more.home.interfaces.IInviteFriend
 import co.yap.modules.dashboard.more.home.viewmodels.InviteFriendViewModel
 import co.yap.translation.Strings
 import co.yap.yapcore.BaseBindingFragment
-import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.helpers.DateUtils
 import co.yap.yapcore.managers.MyUserManager
 import java.util.*
 
@@ -55,21 +55,13 @@ class InviteFriendFragment : BaseBindingFragment<IInviteFriend.ViewModel>(), IIn
 
     private fun getBody(): String {
         val userId = MyUserManager.user?.currentCustomer?.customerId
-
-//        Constants.SHARE_ADJUST_LINK = "https://grwl.adj.st?adjust_t=q3o2z0e_sv94i35&inviter=3000000633&time=1583325419.356368"// by ios team
-//        https://grwl.adj.st?adjust_t=q3o2z0e_sv94i35&inviter=3000000633&time=1583325419.356368
-        val date = DateFormat.format(
-            "yyyy-MM-dd hh:mm:ss",
-            Date()
-        ) as String
+        val date = DateUtils.getCurrentDateWithFormat("yyyy-MM-dd hh:mm:ss")
         val time = date.replace(" ", "_")
-        Constants.SHARE_ADJUST_LINK =
+        val message =
             "https://grwl.adj.st?adjust_t=q3o2z0e_sv94i35&inviter=$userId&time=${time.trim()}"
-//        Constants.SHARE_ADJUST_LINK = "https://grwl.adj.st?adjust_t=q3o2z0e_sv94i35&deep_link=yap_referral%3A%2F%2Finviter=" + userId
-
         return getString(Strings.screen_invite_friend_display_text_share_url).format(
             "www.apple.com",
-            Constants.SHARE_ADJUST_LINK
+            message
         )
     }
 

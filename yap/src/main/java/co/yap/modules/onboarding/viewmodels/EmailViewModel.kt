@@ -3,7 +3,6 @@ package co.yap.modules.onboarding.viewmodels
 import android.app.Application
 import android.os.Build
 import android.os.Handler
-import android.util.Log
 import android.view.inputmethod.EditorInfo
 import android.widget.TextView
 import co.yap.R
@@ -18,8 +17,6 @@ import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.SingleLiveEvent
-import co.yap.yapcore.constants.Constants.INVITEE_RECEIEVED_DATE
-import co.yap.yapcore.constants.Constants.INVITER_ADJUST_ID
 import co.yap.yapcore.constants.Constants.KEY_APP_UUID
 import co.yap.yapcore.constants.Constants.KEY_IS_USER_LOGGED_IN
 import co.yap.yapcore.helpers.SharedPreferenceManager
@@ -51,7 +48,6 @@ class EmailViewModel(application: Application) :
         state.emailTitle = getString(R.string.screen_enter_email_b2c_display_text_title)
         state.emailBtnTitle = getString(R.string.screen_phone_number_button_send)
         state.deactivateField = true
-
     }
 
     override fun handlePressOnNext() {
@@ -99,6 +95,7 @@ class EmailViewModel(application: Application) :
                     setVerificationLabel()
                     state.setSuccessUI()
                     state.loading = false
+                    requestSaveReferral()
                 }
 
                 is RetroApiResponse.Error -> {
@@ -174,7 +171,6 @@ class EmailViewModel(application: Application) :
                 )
             )) {
                 is RetroApiResponse.Success -> {
-                    requestSaveReferral()
                     getAccountInfo()
                 }
                 is RetroApiResponse.Error -> {
@@ -224,27 +220,14 @@ class EmailViewModel(application: Application) :
         }
     }
 
-    //save referral invitation api integration
-    fun requestSaveReferral() {
-        if (!SharedPreferenceManager(context).getValueString(
-                INVITEE_RECEIEVED_DATE
-            ).isNullOrEmpty() && !SharedPreferenceManager(context).getValueString(
-                INVITER_ADJUST_ID
-            ).isNullOrEmpty()
-        ) {
-            Log.i("url", INVITEE_RECEIEVED_DATE + INVITER_ADJUST_ID)
-
+    private fun requestSaveReferral() {
+        SharedPreferenceManager(context).getReferralInfo()?.let {
             launch {
                 when (val response =
-                    repository.saveReferalInvitation(
-                        SaveReferalRequest(
-                            INVITER_ADJUST_ID,
-                            INVITEE_RECEIEVED_DATE
-                        )
-                    )) {
+                    repository.saveReferalInvitation(SaveReferalRequest(it.id, it.date))) {
 
                     is RetroApiResponse.Success -> {
-
+                        SharedPreferenceManager(context).setReferralInfo(null)
                     }
                     is RetroApiResponse.Error -> {
                     }

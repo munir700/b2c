@@ -44,14 +44,10 @@ import co.yap.widgets.arcmenu.animation.SlideInAnimationHandler
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.IFragmentHolder
 import co.yap.yapcore.constants.Constants
-import co.yap.yapcore.constants.Constants.INVITER_ADJUST_ID
 import co.yap.yapcore.enums.PartnerBankStatus
-import co.yap.yapcore.helpers.SharedPreferenceManager
-import co.yap.yapcore.helpers.alert
 import co.yap.yapcore.helpers.extentions.dimen
 import co.yap.yapcore.helpers.extentions.launchActivity
 import co.yap.yapcore.helpers.permissions.PermissionHelper
-import co.yap.yapcore.initializeAdjustSdk
 import co.yap.yapcore.managers.MyUserManager
 import kotlinx.android.synthetic.main.activity_yap_dashboard.*
 import kotlinx.android.synthetic.main.layout_drawer_yap_dashboard.*
@@ -77,28 +73,6 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
         addObservers()
         addListeners()
         setupYapButton()
-//        tempDeepLinkURiTest()// to test on playstore
-
-//        if ( !Constants.INVITER_ADJUST_ID_TEST.isNullOrEmpty()) {
-//            alert(
-//                Constants.INVITER_ADJUST_ID_TEST.toString(),
-//                Constants.INVITER_ADJUST_ID_TEST +'\n',
-//                "INVITER_ADJUST_ID_TEST",//
-//                true
-//            )
-//        }else{
-//
-//            if (  !SharedPreferenceManager(this).getValueString(Constants.INVITER_ADJUST_ID_TEST).toString().isNullOrEmpty()){
-//                Constants.INVITER_ADJUST_ID_TEST=  SharedPreferenceManager(this).getValueString(Constants.INVITER_ADJUST_ID_TEST).toString()
-//                alert(
-//                    Constants.INVITER_ADJUST_ID_TEST.toString(),
-//                    Constants.INVITER_ADJUST_ID_TEST +'\n',
-//                    "else case",//
-//                    true
-//                )
-//            }
-//
-//        }
     }
 
     private fun setupYapButton() {
@@ -206,7 +180,8 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
             when (it) {
                 R.id.btnCopy -> viewModel.copyAccountInfoToClipboard()
                 R.id.lUserInfo -> expandableLayout.toggle(true)
-                R.id.lAnalytics -> {}
+                R.id.lAnalytics -> {
+                }
             }
         })
 

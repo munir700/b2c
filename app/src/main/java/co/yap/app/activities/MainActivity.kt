@@ -3,12 +3,9 @@ package co.yap.app.activities
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import co.yap.app.R
 import co.yap.app.YAPApplication
 import co.yap.yapcore.IFragmentHolder
-import co.yap.yapcore.constants.Constants.INVITEE_RECEIEVED_DATE
-import co.yap.yapcore.constants.Constants.INVITER_ADJUST_ID
 import co.yap.yapcore.defaults.DefaultActivity
 import co.yap.yapcore.defaults.DefaultNavigator
 import co.yap.yapcore.defaults.INavigator
@@ -16,9 +13,8 @@ import co.yap.yapcore.helpers.DeviceUtils
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.interfaces.BackPressImpl
 import co.yap.yapcore.interfaces.IBaseNavigator
+import co.yap.yapcore.referral.ReferralInfo
 import com.adjust.sdk.Adjust
-import java.net.URL
-
 
 open class MainActivity : DefaultActivity(), IFragmentHolder, INavigator {
 
@@ -30,52 +26,26 @@ open class MainActivity : DefaultActivity(), IFragmentHolder, INavigator {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        YAPApplication.AUTO_RESTART_APP = false
         if (DeviceUtils().isDeviceRooted()) {
             showAlertDialogAndExitApp("This device is rooted. You can't use this app.")
         } else {
-            YAPApplication.AUTO_RESTART_APP = false
             setContentView(R.layout.activity_main)
-
-            getDataFromDeepLinkIntent()
+            getDataFromDeepLinkIntent(intent)
         }
-
     }
 
-    private fun getDataFromDeepLinkIntent() {
-        val intent = getIntent()
+    private fun getDataFromDeepLinkIntent(intent: Intent) {
         val data: Uri? = intent.data
         Adjust.appWillOpenUrl(data, applicationContext)
-
-        if (null != data) {
-            val url = URL(
-                data?.scheme,
-                data?.host,
-                data?.path
-            ) // to retrive customer id from url placed in path
-//            val customerId = data?.path
-            val customerId = data.getQueryParameter("inviter")
-            val time = data.getQueryParameter("time")
-            Log.i(
-                "urltime",
-                time.toString()
-            )// this is the current dat & time when user is retriving this url on local app
-             val date = time.replace("_", " ")
-
-//            SharedPreferenceManager(this).save(Constants.INVITER_ADJUST_ID)
-            SharedPreferenceManager(this).save(
-                INVITER_ADJUST_ID,
-                customerId
-            )
-            SharedPreferenceManager(this).save(
-                INVITEE_RECEIEVED_DATE,
-                date
-            )
-            Log.i("url", url.toString())
-            Log.i("urluserid", customerId.toString())
-            Log.i(
-                "urlDate",
-                date.toString()
-            )// this is the current dat & time when user is retriving this url on local app
+        data?.let { uri ->
+            val customerId = uri.getQueryParameter("inviter")
+            customerId?.let { cusId ->
+                uri.getQueryParameter("time")?.let { time ->
+                    val date = time.replace("_", " ")
+                    SharedPreferenceManager(this).setReferralInfo(ReferralInfo(cusId, date))
+                }
+            }
         }
     }
 
@@ -92,9 +62,7 @@ open class MainActivity : DefaultActivity(), IFragmentHolder, INavigator {
 
     override fun onNewIntent(intent: Intent) {
         super.onNewIntent(intent)
-//        val data: Uri = intent.getData()
-        getDataFromDeepLinkIntent()
-        // data.toString() -> This is your deep_link parameter value.
+        getDataFromDeepLinkIntent(intent)
     }
 }
 

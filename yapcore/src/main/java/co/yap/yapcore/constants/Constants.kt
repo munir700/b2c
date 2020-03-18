@@ -169,14 +169,4 @@ object Constants {
 
     const val PAGE_URL = "_page_url"
     const val TOOLBAR_TITLE = "toolbar_title"
-
-
-    var SHARE_ADJUST_LINK = ""
-    var INVITER_ADJUST_ID: String = "INVITER_ADJUST_ID"
-    var INVITER_ADJUST_LINK_DATE: String = ""
-
-    //      var INVITER_ADJUST_ID :String="nullDefaultValue"
-    var INVITEE_RECEIEVED_DATE: String = "INVITEE_RECEIEVED_DATE"
-
-
 }
