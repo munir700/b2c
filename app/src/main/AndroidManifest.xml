@@ -20,14 +20,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        tools:remove="android:debuggable"
         android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning"
-        tools:replace="android:theme,android:allowBackup,android:label">
+        tools:remove="android:debuggable"
+        tools:replace="android:theme,android:allowBackup">
         <activity
             android:name=".activities.MainActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
+            android:launchMode="singleInstance"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -37,6 +38,17 @@
             <intent-filter>
                 <action android:name="co.yap.app.OPEN_LOGIN" />
                 <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="grwl.adj.st"
+                    android:scheme="https" />
             </intent-filter>
         </activity>
 
@@ -77,6 +89,16 @@
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
+
+        <receiver
+            android:name="com.adjust.sdk.AdjustReferrerReceiver"
+            android:exported="true"
+            android:permission="android.permission.INSTALL_PACKAGES">
+            <intent-filter>
+                <action android:name="com.android.vending.INSTALL_REFERRER" />
+            </intent-filter>
+        </receiver>
+
     </application>
 
 </manifest>

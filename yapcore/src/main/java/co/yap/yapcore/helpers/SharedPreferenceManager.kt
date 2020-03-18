@@ -6,10 +6,13 @@ import co.yap.yapcore.constants.Constants.KEY_PASSCODE
 import co.yap.yapcore.constants.Constants.KEY_THEME
 import co.yap.yapcore.constants.Constants.KEY_USERNAME
 import co.yap.yapcore.helpers.encryption.EncryptionUtils
+import co.yap.yapcore.referral.ReferralInfo
+import com.google.gson.Gson
 
 class SharedPreferenceManager(val context: Context) {
 
     private val PREFS_NAME = "YAPPref"
+    private val inviterAdjustId = "inviterAdjustId"
     private val sharedPref: SharedPreferences =
         context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
 
@@ -109,4 +112,25 @@ class SharedPreferenceManager(val context: Context) {
         editor.putString(KEY_THEME, themeValue)
         editor.apply()
     }
+
+    fun getReferralInfo(): ReferralInfo? {
+        return SharedPreferenceManager(context).getValueString(inviterAdjustId)?.let {
+            return if (it.isNullOrBlank()) {
+                null
+            } else {
+                Gson().fromJson(
+                    SharedPreferenceManager(context).getValueString(inviterAdjustId),
+                    ReferralInfo::class.java
+                )
+            }
+        }
+    }
+
+    fun setReferralInfo(referralInfo: ReferralInfo?) {
+        SharedPreferenceManager(context).save(
+            inviterAdjustId,
+            if (referralInfo != null) Gson().toJson(referralInfo) else ""
+        )
+    }
+
 }

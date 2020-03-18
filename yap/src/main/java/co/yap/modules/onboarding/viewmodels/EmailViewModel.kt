@@ -10,6 +10,7 @@ import co.yap.modules.onboarding.interfaces.IEmail
 import co.yap.modules.onboarding.states.EmailState
 import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.customers.requestdtos.DemographicDataRequest
+import co.yap.networking.customers.requestdtos.SaveReferalRequest
 import co.yap.networking.customers.requestdtos.SendVerificationEmailRequest
 import co.yap.networking.customers.requestdtos.SignUpRequest
 import co.yap.networking.interfaces.IRepositoryHolder
@@ -47,7 +48,6 @@ class EmailViewModel(application: Application) :
         state.emailTitle = getString(R.string.screen_enter_email_b2c_display_text_title)
         state.emailBtnTitle = getString(R.string.screen_phone_number_button_send)
         state.deactivateField = true
-
     }
 
     override fun handlePressOnNext() {
@@ -95,6 +95,7 @@ class EmailViewModel(application: Application) :
                     setVerificationLabel()
                     state.setSuccessUI()
                     state.loading = false
+                    requestSaveReferral()
                 }
 
                 is RetroApiResponse.Error -> {
@@ -169,7 +170,9 @@ class EmailViewModel(application: Application) :
                     "Android"
                 )
             )) {
-                is RetroApiResponse.Success -> getAccountInfo()
+                is RetroApiResponse.Success -> {
+                    getAccountInfo()
+                }
                 is RetroApiResponse.Error -> {
                     state.valid = true
                     state.loading = false
@@ -214,6 +217,22 @@ class EmailViewModel(application: Application) :
                 }
             }
             false
+        }
+    }
+
+    private fun requestSaveReferral() {
+        SharedPreferenceManager(context).getReferralInfo()?.let {
+            launch {
+                when (val response =
+                    repository.saveReferalInvitation(SaveReferalRequest(it.id, it.date))) {
+
+                    is RetroApiResponse.Success -> {
+                        SharedPreferenceManager(context).setReferralInfo(null)
+                    }
+                    is RetroApiResponse.Error -> {
+                    }
+                }
+            }
         }
     }
 }

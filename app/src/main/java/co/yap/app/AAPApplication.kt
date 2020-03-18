@@ -43,19 +43,24 @@ class AAPApplication : ChatApplication(
     )
 ), NavigatorProvider {
 
+
     override fun onCreate() {
         super.onCreate()
+        initializeAdjustSdk(BuildConfig.ADJUST_APP_TOKEN)
+
         initNetworkLayer()
         SharedPreferenceManager(this).setThemeValue(Constants.THEME_YAP)
         initFireBase()
         inItLeanPlum()
-        initializeAdjustSdk(BuildConfig.ADJUST_APP_TOKEN)
+
+        testApp()
+         initializeAdjustSdk(BuildConfig.ADJUST_APP_TOKEN)
+        //testApp()
     }
 
     private fun testApp() {
         val referrerClient = InstallReferrerClient.newBuilder(this).build()
         referrerClient.startConnection(object : InstallReferrerStateListener {
-
             override fun onInstallReferrerSetupFinished(responseCode: Int) {
                 when (responseCode) {
                     InstallReferrerClient.InstallReferrerResponse.OK -> {
@@ -64,32 +69,29 @@ class AAPApplication : ChatApplication(
                         val referrerClickTime: Long = response.referrerClickTimestampSeconds
                         val appInstallTime: Long = response.installBeginTimestampSeconds
                         val instantExperienceLaunched: Boolean = response.googlePlayInstantParam
-
-                        longToast("InstallReferrerClient.InstallReferrerResponse.OK")
-                        longToast("ReferrerDetails from application class-> ${response.toString()}")
-                        longToast(
-                            "ReferrerDetails $referrerUrl $referrerClickTime " +
-                                    "$appInstallTime $instantExperienceLaunched"
-                        )
+//                        longToast("InstallReferrerClient.InstallReferrerResponse.OK")
+//                        longToast("ReferrerDetails from application class-> ${response.toString()}")
+//                        longToast(
+//                            "ReferrerDetails $referrerUrl $referrerClickTime " +
+//                                    "$appInstallTime $instantExperienceLaunched"
+//                        )
                     }
                     InstallReferrerClient.InstallReferrerResponse.FEATURE_NOT_SUPPORTED -> {
                         // API not available on the current Play Store app.
-                        longToast("InstallReferrerClient.InstallReferrerResponse.FEATURE_NOT_SUPPORTED")
+//                        longToast("InstallReferrerClient.InstallReferrerResponse.FEATURE_NOT_SUPPORTED")
                     }
                     InstallReferrerClient.InstallReferrerResponse.SERVICE_UNAVAILABLE -> {
-                        longToast("InstallReferrerClient.InstallReferrerResponse.SERVICE_UNAVAILABLE")
+//                        longToast("InstallReferrerClient.InstallReferrerResponse.SERVICE_UNAVAILABLE")
                     }
                 }
             }
-
             override fun onInstallReferrerServiceDisconnected() {
                 // Try to restart the connection on the next request to
                 // Google Play by calling the startConnection() method.
-                longToast("InstallReferrerClient.onInstallReferrerServiceDisconnected")
+//                longToast("InstallReferrerClient.onInstallReferrerServiceDisconnected")
             }
         })
     }
-
     private fun initNetworkLayer() {
         RetroNetwork.initWith(this, BuildConfig.BASE_URL)
         NetworkConnectionManager.init(this)
@@ -129,7 +131,7 @@ class AAPApplication : ChatApplication(
         if (BuildConfig.DEBUG) {
             Leanplum.setAppIdForDevelopmentMode(appId, devKey)
         } else {
-            Leanplum.setAppIdForDevelopmentMode(appId, devKey)
+            Leanplum.setAppIdForProductionMode(appId, devKey)
         }
 
         //Leanplum.setIsTestModeEnabled(true)
