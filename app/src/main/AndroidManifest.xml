@@ -27,8 +27,8 @@
         <activity
             android:name=".activities.MainActivity"
             android:label="@string/app_name"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait"
-            android:launchMode="singleInstance"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -38,17 +38,6 @@
             <intent-filter>
                 <action android:name="co.yap.app.OPEN_LOGIN" />
                 <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-
-                <data
-                    android:host="grwl.adj.st"
-                    android:scheme="https" />
             </intent-filter>
         </activity>
 
@@ -92,12 +81,25 @@
 
         <receiver
             android:name="com.adjust.sdk.AdjustReferrerReceiver"
-            android:exported="true"
+            android:exported="false"
             android:permission="android.permission.INSTALL_PACKAGES">
             <intent-filter>
                 <action android:name="com.android.vending.INSTALL_REFERRER" />
             </intent-filter>
         </receiver>
+
+        <activity android:name="co.yap.modules.dummy.AdjustReferrerReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="grwl.adj.st"
+                    android:scheme="https" />
+            </intent-filter>
+        </activity>
 
     </application>
 

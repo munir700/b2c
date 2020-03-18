@@ -43,19 +43,13 @@ class AAPApplication : ChatApplication(
     )
 ), NavigatorProvider {
 
-
     override fun onCreate() {
         super.onCreate()
-        initializeAdjustSdk(BuildConfig.ADJUST_APP_TOKEN)
-
         initNetworkLayer()
         SharedPreferenceManager(this).setThemeValue(Constants.THEME_YAP)
         initFireBase()
         inItLeanPlum()
-
-        testApp()
-         initializeAdjustSdk(BuildConfig.ADJUST_APP_TOKEN)
-        //testApp()
+        initializeAdjustSdk(BuildConfig.ADJUST_APP_TOKEN)
     }
 
     private fun testApp() {
@@ -85,6 +79,7 @@ class AAPApplication : ChatApplication(
                     }
                 }
             }
+
             override fun onInstallReferrerServiceDisconnected() {
                 // Try to restart the connection on the next request to
                 // Google Play by calling the startConnection() method.
@@ -92,6 +87,7 @@ class AAPApplication : ChatApplication(
             }
         })
     }
+
     private fun initNetworkLayer() {
         RetroNetwork.initWith(this, BuildConfig.BASE_URL)
         NetworkConnectionManager.init(this)
