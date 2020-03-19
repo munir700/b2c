@@ -103,7 +103,7 @@ class AddBeneficiaryStates(val viewModel: AddBeneficiaryViewModel) : BaseState()
     override var drawbleRight: Drawable? = null
         set(value) {
             field = value
-            notifyPropertyChanged(co.yap.BR.drawbleRight)
+            notifyPropertyChanged(BR.drawbleRight)
 
         }
 
@@ -111,7 +111,7 @@ class AddBeneficiaryStates(val viewModel: AddBeneficiaryViewModel) : BaseState()
     override var mobileNo: String = ""
         set(value) {
             field = value.replace(" ", "")
-            notifyPropertyChanged(co.yap.BR.mobile)
+            notifyPropertyChanged(BR.mobile)
             if (mobileNo.length < 9) {
                 mobileNoLength = 11
             }
@@ -122,7 +122,7 @@ class AddBeneficiaryStates(val viewModel: AddBeneficiaryViewModel) : BaseState()
     override var mobileNoLength: Int = 11
         set(value) {
             field = value
-            notifyPropertyChanged(co.yap.BR.mobileNoLength)
+            notifyPropertyChanged(BR.mobileNoLength)
         }
 
     @get:Bindable

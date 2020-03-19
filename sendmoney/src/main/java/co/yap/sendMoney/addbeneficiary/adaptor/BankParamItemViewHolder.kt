@@ -6,7 +6,6 @@ import androidx.recyclerview.widget.RecyclerView
 import co.yap.sendmoney.databinding.ItemBankParamsBinding
 import co.yap.sendmoney.addbeneficiary.viewmodels.BankParamsItemViewModel
 import co.yap.networking.customers.responsedtos.beneficiary.BankParams
-import co.yap.sendmoney.databinding.ItemBankParamsBinding
 
 class BankParamItemViewHolder(private val itemBankParamsBinding: ItemBankParamsBinding) :
     RecyclerView.ViewHolder(itemBankParamsBinding.root) {

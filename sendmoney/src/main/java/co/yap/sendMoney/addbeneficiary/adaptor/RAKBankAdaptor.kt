@@ -6,7 +6,6 @@ import androidx.recyclerview.widget.RecyclerView
 import co.yap.sendmoney.databinding.ItemRakBankBinding
 import co.yap.networking.customers.responsedtos.sendmoney.RAKBank.Bank
 import co.yap.sendmoney.R
-import co.yap.sendmoney.databinding.ItemRakBankBinding
 import co.yap.yapcore.BaseBindingRecyclerAdapter
 import co.yap.yapcore.interfaces.OnItemClickListener
 

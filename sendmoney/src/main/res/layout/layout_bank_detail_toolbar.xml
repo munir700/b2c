@@ -41,7 +41,7 @@
             android:layout_centerVertical="true"
             android:layout_gravity="center_horizontal"
             android:gravity="center"
-            android:text="@{viewModel.state.title}" />
+            android:text="@{viewModel.state.toolbarTitle}" />
 
         <ImageView
             android:id="@+id/tbBtnSettings"
