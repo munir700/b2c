@@ -34,7 +34,8 @@
             android:tint="?attr/colorPrimaryAttr"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_close" />
+            android:src="@drawable/ic_close"
+            />
 
         <TextView
             android:id="@+id/tvTitle"

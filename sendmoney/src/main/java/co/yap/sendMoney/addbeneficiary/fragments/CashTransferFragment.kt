@@ -18,13 +18,13 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
+import co.yap.networking.transactions.responsedtos.InternationalFundsTransferReasonList
 import co.yap.sendmoney.R
-import co.yap.sendmoney.databinding.FragmentCashTransferBinding
 import co.yap.sendmoney.activities.BeneficiaryCashTransferActivity
 import co.yap.sendmoney.addbeneficiary.interfaces.ICashTransfer
 import co.yap.sendmoney.addbeneficiary.viewmodels.CashTransferViewModel
+import co.yap.sendmoney.databinding.FragmentCashTransferBinding
 import co.yap.sendmoney.fragments.SendMoneyBaseFragment
-import co.yap.networking.transactions.responsedtos.InternationalFundsTransferReasonList
 import co.yap.translation.Strings
 import co.yap.translation.Translator
 import co.yap.widgets.spinneradapter.ViewHolderArrayAdapter
@@ -136,7 +136,7 @@ class CashTransferFragment : SendMoneyBaseFragment<ICashTransfer.ViewModel>(), I
                         CashTransferFragmentDirections.actionCashTransferFragmentToTransferSuccessFragment2(
                             "",
                             viewModel.state.currencyType,
-                            viewModel.state.amount.toFormattedCurrency()?:"",
+                            viewModel.state.amount.toFormattedCurrency() ?: "",
                             referenceNumber,
                             viewModel.state.position
                         )
@@ -148,7 +148,7 @@ class CashTransferFragment : SendMoneyBaseFragment<ICashTransfer.ViewModel>(), I
 
     private fun isUaeftsBeneficiary(): Boolean {
         viewModel.state.beneficiary?.beneficiaryType?.let {
-            return (it == SendMoneyBeneficiaryType.UAEFTS.type||it == SendMoneyBeneficiaryType.DOMESTIC.type)
+            return (it == SendMoneyBeneficiaryType.UAEFTS.type || it == SendMoneyBeneficiaryType.DOMESTIC.type)
         } ?: return false
     }
 
@@ -171,7 +171,7 @@ class CashTransferFragment : SendMoneyBaseFragment<ICashTransfer.ViewModel>(), I
                 viewModel.state.amount,
                 viewModel.state.reasonTransferCode.toString(),
                 viewModel.state.reasonTransferValue.toString(),
-                viewModel.state.noteValue?:"",
+                viewModel.state.noteValue ?: "",
                 viewModel.state.originalTransferFeeAmount.get().toString(),
                 viewModel.state.position
             )
@@ -210,7 +210,7 @@ class CashTransferFragment : SendMoneyBaseFragment<ICashTransfer.ViewModel>(), I
 
         viewModel.state.availableBalanceText =
             " " + getString(Strings.common_text_currency_type) + " " +
-                viewModel.state.availableBalance?.toFormattedCurrency()
+                    viewModel.state.availableBalance?.toFormattedCurrency()
 
 
         etAmount.filters =
@@ -220,7 +220,9 @@ class CashTransferFragment : SendMoneyBaseFragment<ICashTransfer.ViewModel>(), I
                 viewModel.state.clearError()
                 if (viewModel.state.feeType == Constants.FEE_TYPE_TIER) {
                     if (viewModel.state.amount.isNotEmpty() && viewModel.state.amount != ".") {
-                        viewModel.state.setSpannableFee(viewModel.state.findFee(viewModel.state.amount.toDouble()).toString())
+                        viewModel.state.setSpannableFee(
+                            viewModel.state.findFee(viewModel.state.amount.toDouble()).toString()
+                        )
                     } else {
                         viewModel.state.setSpannableFee("0.0")
                     }
@@ -338,7 +340,8 @@ class CashTransferFragment : SendMoneyBaseFragment<ICashTransfer.ViewModel>(), I
 
                         viewModel.state.availableBalanceString =
                             resources.getText(
-                                getString(Strings.screen_cash_transfer_display_text_available_balance), requireContext().color(
+                                getString(Strings.screen_cash_transfer_display_text_available_balance),
+                                requireContext().color(
                                     R.color.colorPrimaryDark,
                                     "${"AED"} ${viewModel.state.availableBalance?.toFormattedCurrency()}"
                                 )

@@ -7,10 +7,10 @@ import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
-import co.yap.sendmoney.BR
-import co.yap.sendmoney.R
 import co.yap.countryutils.country.InternationalPhoneTextWatcher
 import co.yap.countryutils.country.utils.Currency
+import co.yap.sendmoney.BR
+import co.yap.sendmoney.R
 import co.yap.sendmoney.activities.BeneficiaryCashTransferActivity
 import co.yap.sendmoney.addbeneficiary.interfaces.IAddBeneficiary
 import co.yap.sendmoney.addbeneficiary.viewmodels.AddBeneficiaryViewModel
@@ -98,9 +98,6 @@ class AddBeneficiaryInternationlTransferFragment :
             R.id.confirmButton -> {
                 if (viewModel.state.transferType != "Cash Pickup")
                     findNavController().navigate(R.id.action_addBeneficiaryFragment_to_addBankDetailsFragment)
-            }
-            R.id.emptyCardLayout -> {
-
             }
             R.id.tvChangeCurrency -> {
                 currencyPopMenu?.showAsAnchorRightBottom(tvChangeCurrency, 0, 30)

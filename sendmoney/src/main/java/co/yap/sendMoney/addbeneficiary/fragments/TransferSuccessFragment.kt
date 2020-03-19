@@ -8,14 +8,14 @@ import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.navArgs
+import co.yap.sendMoney.InviteBottomSheet
 import co.yap.sendmoney.BR
 import co.yap.sendmoney.R
-import co.yap.sendmoney.databinding.FragmentTransferSuccessBinding
 import co.yap.sendmoney.activities.BeneficiaryCashTransferActivity
 import co.yap.sendmoney.addbeneficiary.interfaces.ITransferSuccess
 import co.yap.sendmoney.addbeneficiary.viewmodels.TransferSuccessViewModel
-import co.yap.sendmoney.fragments.SendMoneyBaseFragment
 import co.yap.sendmoney.databinding.FragmentTransferSuccessBinding
+import co.yap.sendmoney.fragments.SendMoneyBaseFragment
 import co.yap.translation.Strings
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.SendMoneyBeneficiaryType
@@ -33,24 +33,24 @@ class TransferSuccessFragment : SendMoneyBaseFragment<ITransferSuccess.ViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-       // viewModel.getAccountBalanceRequest()
+        // viewModel.getAccountBalanceRequest()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         if (activity is BeneficiaryCashTransferActivity) {
-           /* viewModel.updatedCardBalanceEvent.observe(this, Observer {
-                viewModel.state.availableBalanceString =
-                    resources.getText(
-                        getString(Strings.screen_cash_transfer_display_text_available_balance),
-                        requireContext().color(
-                            R.color.colorPrimaryDark,
-                            "${"AED"} ${Utils.getFormattedCurrency(MyUserManager.cardBalance.value?.availableBalance)}"
-                        )
-                    )
-                getBindings().tvAvailableBalance.visibility = View.VISIBLE
-//            viewModel.state.loading = false
-            })*/
+            /* viewModel.updatedCardBalanceEvent.observe(this, Observer {
+                 viewModel.state.availableBalanceString =
+                     resources.getText(
+                         getString(Strings.screen_cash_transfer_display_text_available_balance),
+                         requireContext().color(
+                             R.color.colorPrimaryDark,
+                             "${"AED"} ${Utils.getFormattedCurrency(MyUserManager.cardBalance.value?.availableBalance)}"
+                         )
+                     )
+                 getBindings().tvAvailableBalance.visibility = View.VISIBLE
+ //            viewModel.state.loading = false
+             })*/
             getBindings().flTransactionComplete.visibility = View.VISIBLE
 
             setData()
