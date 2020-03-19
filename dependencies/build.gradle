@@ -26,7 +26,7 @@ project.ext {
             household  : ':household',
             yapcore    : ':yapcore',
             kyc        : ':identityscanner_v2',
-            send_money : ':send_money'
+            sendmoney  : ':sendmoney'
     ]
 
     // All libraries that any module can contain
@@ -199,6 +199,7 @@ project.ext {
             [configuration: "implementation", dependency: project(modules.translation)],
             [configuration: "implementation", dependency: project(modules.networking)],
             [configuration: "implementation", dependency: project(modules.kyc)],
+            [configuration: "implementation", dependency: project(modules.sendmoney)],
             [configuration: "implementation", dependency: libraries.playServicesPlaces],
             [configuration: "implementation", dependency: libraries.playLibPlaces],
             [configuration: "implementation", dependency: libraries.glideTransformation],

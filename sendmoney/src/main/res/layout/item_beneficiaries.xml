@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="co.yap.modules.dashboard.yapit.sendmoney.home.adapters.BeneficiaryItemViewModel" />
+            type="co.yap.sendmoney.home.adapters.BeneficiaryItemViewModel" />
 
         <import type="android.view.View" />
 
@@ -22,8 +22,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
-        app:dynamicMenuWidth="false"
         android:onClick="@{(v) ->viewModel.onViewClicked(v)}"
+        app:dynamicMenuWidth="false"
         app:menuSide="Right">
 
         <LinearLayout
@@ -42,7 +42,6 @@
 
                 <TextView
                     style="@style/Micro"
-                    tools:text="Edit"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -50,7 +49,8 @@
                     android:drawablePadding="@dimen/_2sdp"
                     android:gravity="center"
                     android:textColor="@color/white"
-                    app:text="@{Strings.screen_send_money_display_text_edit}" />
+                    app:text="@{Strings.screen_send_money_display_text_edit}"
+                    tools:text="Edit" />
 
             </FrameLayout>
 
@@ -63,7 +63,6 @@
 
                 <TextView
                     style="@style/Micro"
-                    tools:text="Delete"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -72,7 +71,8 @@
                     android:drawableTint="@color/white"
                     android:gravity="center"
                     android:textColor="@color/white"
-                    app:text="@{Strings.screen_send_money_display_text_delete}" />
+                    app:text="@{Strings.screen_send_money_display_text_delete}"
+                    tools:text="Delete" />
 
 
             </FrameLayout>
@@ -118,11 +118,11 @@
                     <TextView
                         android:id="@+id/tvNameInitials"
                         style="@style/ARegular"
-                        tools:text="NM"
                         android:layout_width="@dimen/_42sdp"
                         android:layout_height="@dimen/_42sdp"
                         android:gravity="center"
-                        android:text="@{Utils.INSTANCE.shortName(viewModel.beneficiary.firstName + ' ' + viewModel.beneficiary.lastName)}" />
+                        android:text="@{Utils.INSTANCE.shortName(viewModel.beneficiary.firstName + ' ' + viewModel.beneficiary.lastName)}"
+                        tools:text="NM" />
                 </LinearLayout>
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -142,7 +142,6 @@
                 <TextView
                     android:id="@+id/tvName"
                     style="@style/Regular"
-                    tools:text="Bril Lizzie Hugsadsadflksjdflkjsalk,nmbmfdjlsajfdllsjdflksjdflkjlsdfjklksdjfkljsdfalkfjaskljflkasfjlkasdjlfjfjlkasdfjklhes"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -150,7 +149,8 @@
                     android:gravity="bottom"
                     android:lineSpacingExtra="0dp"
                     android:lines="1"
-                    android:text="@{viewModel.beneficiary.title}" />
+                    android:text="@{viewModel.beneficiary.title}"
+                    tools:text="Bril Lizzie Hugsadsadflksjdflkjsalk,nmbmfdjlsajfdllsjdflksjdflkjlsdfjklksdjfkljsdfalkfjaskljflkasfjlkasdjlfjfjlkasdfjklhes" />
 
             </LinearLayout>
 
@@ -166,7 +166,6 @@
 
                 <ImageView
                     android:id="@+id/ivTransferType"
-                    tools:visibility="visible"
                     android:layout_width="@dimen/_24sdp"
                     android:layout_height="@dimen/_24sdp"
                     android:layout_gravity="center"
@@ -175,7 +174,8 @@
                     android:gravity="center"
                     android:src="@drawable/ic_cash"
                     android:tint="@color/greyDark"
-                    app:setBeneficiaryImageSrc="@{viewModel.beneficiary.beneficiaryType}" />
+                    app:setBeneficiaryImageSrc="@{viewModel.beneficiary.beneficiaryType}"
+                    tools:visibility="visible" />
 
 
                 <co.yap.widgets.CoreCircularImageView
