@@ -114,7 +114,6 @@ class BeneficiaryAccountDetailsViewModel(application: Application) :
                     state.loading = false
                     isBeneficiaryValid.value = false
                     state.toast = response.error.message
-                    //success.value = false
                 }
             }
         }
