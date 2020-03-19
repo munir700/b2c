@@ -27,7 +27,7 @@
             android:name="co.yap.household.onboard.onboarding.kycsuccess.KycSuccessActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".dashboard.main.activities.HouseholdDashboardActivity"
+            android:name=".dashboard2.main.HouseholdDashboardActivity"
             android:screenOrientation="portrait" />
 
         <activity

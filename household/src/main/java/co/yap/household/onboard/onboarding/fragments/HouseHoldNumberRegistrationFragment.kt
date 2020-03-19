@@ -20,6 +20,7 @@ import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.enums.NotificationStatus
 import co.yap.yapcore.helpers.extentions.ExtraType
 import co.yap.yapcore.helpers.extentions.getValue
+import co.yap.yapcore.helpers.extentions.launchActivity
 import co.yap.yapcore.helpers.extentions.startFragment
 import kotlinx.android.synthetic.main.fragment_house_hold_number_registration.*
 
@@ -54,12 +55,13 @@ class HouseHoldNumberRegistrationFragment :
                         findNavController().navigate(R.id.action_houseHoldNumberRegistrationFragment_to_emailHouseHoldFragment)
                     }
                     else -> {
-                        startActivity(
-                            Intent(
-                                requireContext(),
-                                HouseholdDashboardActivity::class.java
-                            )
-                        )
+                        launchActivity<HouseholdDashboardActivity>()
+//                        startActivity(
+//                            Intent(
+//                                requireContext(),
+//                                HouseholdDashboardActivity::class.java
+//                            )
+//                        )
                         activity?.finish()
                     }
                 }

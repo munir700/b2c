@@ -11,13 +11,20 @@ import co.yap.yapcore.constants.Constants.INDEX
 import java.util.*
 import javax.inject.Inject
 
-class SectionsPagerAdapter @Inject constructor(private val mContext: AppCompatActivity, fm: FragmentManager) :
-    FragmentPagerAdapter(fm,BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
+class SectionsPagerAdapter @Inject constructor(
+    private val mContext: AppCompatActivity,
+    fm: FragmentManager
+) :
+    FragmentPagerAdapter(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
     private val mFragmentInfoList: MutableList<FragmentInfo> = ArrayList();
 
 
     fun addFragmentInfo(fragmentName: String, title: String, bundle: Bundle) {
         addFragmentInfo(fragmentName, title, 0, bundle)
+    }
+
+    inline fun <reified T : Fragment> addFragmentInfo(title: String = "", bundle: Bundle = Bundle()) {
+        addFragmentInfo(T::class.java.name, title, 0, bundle)
     }
 
     fun addFragmentInfo(fragmentName: String, title: String, icon: Int, bundle: Bundle?) {
