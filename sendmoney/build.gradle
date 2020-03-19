@@ -17,7 +17,7 @@ dependencies {
     }
 
     // app specific dependencies
-    project.sendMoneyDependencies.each {
+    project.sendmoneyDependencies.each {
         add(it.configuration, it.dependency)
     }
 }

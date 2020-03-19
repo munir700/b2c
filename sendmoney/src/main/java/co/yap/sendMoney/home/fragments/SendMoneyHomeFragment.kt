@@ -9,7 +9,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import co.yap.sendmoney.BR
 import co.yap.sendmoney.R
-import co.yap.databinding.ActivitySendMoneyLandingBinding
+import co.yap.sendmoney.databinding.ActivitySendMoneyLandingBinding
 import co.yap.sendmoney.fragments.SendMoneyBaseFragment
 import co.yap.sendmoney.home.adapters.AllBeneficiariesAdapter
 import co.yap.sendmoney.home.adapters.RecentTransferAdaptor
@@ -22,7 +22,7 @@ import co.yap.widgets.swipe_lib.SwipeCallBack
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.toast
 import co.yap.yapcore.interfaces.OnItemClickListener
-import kotlinx.android.synthetic.main.fragment_yap_to_yap.*
+import kotlinx.android.synthetic.main.layout_beneficiaries.*
 
 
 class SendMoneyHomeFragment : SendMoneyBaseFragment<ISendMoneyHome.ViewModel>(),

@@ -19,7 +19,7 @@ import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import co.yap.sendmoney.R
-import co.yap.databinding.FragmentCashTransferBinding
+import co.yap.sendmoney.databinding.FragmentCashTransferBinding
 import co.yap.sendmoney.activities.BeneficiaryCashTransferActivity
 import co.yap.sendmoney.addbeneficiary.interfaces.ICashTransfer
 import co.yap.sendmoney.addbeneficiary.viewmodels.CashTransferViewModel
@@ -39,7 +39,6 @@ import co.yap.yapcore.helpers.spannables.color
 import co.yap.yapcore.helpers.spannables.getText
 import co.yap.yapcore.managers.MyUserManager
 import kotlinx.android.synthetic.main.fragment_cash_transfer.*
-import kotlinx.android.synthetic.main.fragment_y2y_funds_transfer.etAmount
 
 class CashTransferFragment : SendMoneyBaseFragment<ICashTransfer.ViewModel>(), ICashTransfer.View {
 

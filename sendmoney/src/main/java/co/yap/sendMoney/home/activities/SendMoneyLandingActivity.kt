@@ -11,7 +11,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.sendmoney.BR
 import co.yap.sendmoney.R
-import co.yap.databinding.ActivitySendMoneyLandingBinding
+import co.yap.sendmoney.databinding.ActivitySendMoneyLandingBinding
 import co.yap.sendmoney.activities.BeneficiaryCashTransferActivity
 import co.yap.sendmoney.activities.SendMoneyHomeActivity
 import co.yap.sendmoney.editbeneficiary.activity.EditBeneficiaryActivity
@@ -27,8 +27,7 @@ import co.yap.yapcore.constants.Constants.EXTRA
 import co.yap.yapcore.constants.Constants.OVERVIEW_BENEFICIARY
 import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.constants.RequestCodes.REQUEST_TRANSFER_MONEY
-import co.yap.yapcore.helpers.RecyclerTouchListener
-import co.yap.yapcore.helpers.Utils
+ import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.launchActivity
 import co.yap.yapcore.interfaces.OnItemClickListener
 import com.nikhilpanju.recyclerviewenhanced.RecyclerTouchListener

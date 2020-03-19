@@ -10,12 +10,13 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.navArgs
 import co.yap.sendmoney.BR
 import co.yap.sendmoney.R
-import co.yap.databinding.FragmentTransferSuccessBinding
+import co.yap.sendmoney.databinding.FragmentTransferSuccessBinding
 import co.yap.sendmoney.activities.BeneficiaryCashTransferActivity
 import co.yap.sendmoney.addbeneficiary.interfaces.ITransferSuccess
 import co.yap.sendmoney.addbeneficiary.viewmodels.TransferSuccessViewModel
 import co.yap.sendmoney.fragments.SendMoneyBaseFragment
 import co.yap.modules.dashboard.yapit.y2y.home.phonecontacts.InviteBottomSheet
+import co.yap.sendmoney.databinding.FragmentTransferSuccessBinding
 import co.yap.translation.Strings
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.SendMoneyBeneficiaryType

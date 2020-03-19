@@ -2,7 +2,7 @@ package co.yap.sendmoney.addbeneficiary.interfaces
 
 import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
-import co.yap.databinding.FragmentCashTransferConfirmationBinding
+import co.yap.sendmoney.databinding.FragmentCashTransferConfirmationBinding
 import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.networking.transactions.responsedtos.TransactionThresholdModel
 import co.yap.yapcore.IBase

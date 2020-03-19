@@ -7,7 +7,7 @@ import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
 
-class ISendMoney {
+interface ISendMoney {
     interface State : IBase.State {
         var toolbarVisibility: ObservableBoolean
         var rightIcon: ObservableBoolean

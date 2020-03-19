@@ -17,11 +17,11 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import co.yap.sendmoney.BR
 import co.yap.sendmoney.R
-import co.yap.databinding.FragmentInternationalTransactionConfirmationBinding
 import co.yap.sendmoney.activities.BeneficiaryCashTransferActivity
 import co.yap.sendmoney.addbeneficiary.interfaces.IInternationalTransactionConfirmation
 import co.yap.sendmoney.addbeneficiary.viewmodels.InternationalTransactionConfirmationViewModel
 import co.yap.modules.webview.WebViewFragment
+import co.yap.sendmoney.databinding.FragmentInternationalTransactionConfirmationBinding
 import co.yap.translation.Strings
 import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.constants.Constants

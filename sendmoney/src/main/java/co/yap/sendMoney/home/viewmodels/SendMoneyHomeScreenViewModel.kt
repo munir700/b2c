@@ -110,6 +110,4 @@ class SendMoneyHomeScreenViewModel(application: Application) :
             }
         }
     }
-
-
 }

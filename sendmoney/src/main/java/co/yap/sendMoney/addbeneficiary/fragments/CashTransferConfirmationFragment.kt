@@ -16,7 +16,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.navigation.fragment.findNavController
 import co.yap.sendmoney.R
-import co.yap.databinding.FragmentCashTransferConfirmationBinding
+import co.yap.sendmoney.databinding.FragmentCashTransferConfirmationBinding
 import co.yap.sendmoney.activities.BeneficiaryCashTransferActivity
 import co.yap.sendmoney.addbeneficiary.interfaces.ICashTransferConfirmation
 import co.yap.sendmoney.addbeneficiary.viewmodels.CashTransferConfirmationViewModel
@@ -24,6 +24,7 @@ import co.yap.modules.otp.GenericOtpFragment
 import co.yap.modules.otp.LogoData
 import co.yap.modules.otp.OtpDataModel
 import co.yap.modules.webview.WebViewFragment
+import co.yap.sendmoney.databinding.FragmentCashTransferConfirmationBinding
 import co.yap.translation.Strings
 import co.yap.yapcore.BR
 import co.yap.yapcore.BaseBindingFragment

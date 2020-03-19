@@ -12,7 +12,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import co.yap.sendmoney.BR
 import co.yap.sendmoney.R
-import co.yap.databinding.FragmentInternationalFundsTransferBinding
+import co.yap.sendmoney.databinding.FragmentInternationalFundsTransferBinding
 import co.yap.sendmoney.activities.BeneficiaryCashTransferActivity
 import co.yap.sendmoney.addbeneficiary.interfaces.IInternationalFundsTransfer
 import co.yap.sendmoney.addbeneficiary.viewmodels.InternationalFundsTransferViewModel
