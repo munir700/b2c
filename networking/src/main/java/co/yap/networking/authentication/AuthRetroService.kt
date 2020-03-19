@@ -1,11 +1,10 @@
 package co.yap.networking.authentication
 
+import co.yap.networking.authentication.requestdtos.SwitchProfileRequest
 import co.yap.networking.authentication.responsedtos.LoginResponse
 import co.yap.networking.models.ApiResponse
 import retrofit2.Response
-import retrofit2.http.GET
-import retrofit2.http.POST
-import retrofit2.http.Query
+import retrofit2.http.*
 
 interface AuthRetroService {
 
@@ -25,6 +24,7 @@ interface AuthRetroService {
     suspend fun logout(@Query("uuid") uuid: String): Response<ApiResponse>
 
     // Switch Profile
+    @FormUrlEncoded
     @POST(AuthRepository.URL_SWITCH_PROFILE)
-    suspend fun switchProfile(@Query("uuid") uuid: String): Response<LoginResponse>
+    suspend fun switchProfile(@Field("account_uuid") uuid: String): Response<LoginResponse>
 }

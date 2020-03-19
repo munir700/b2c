@@ -1,5 +1,6 @@
 package co.yap.networking.authentication
 
+import co.yap.networking.authentication.requestdtos.SwitchProfileRequest
 import co.yap.networking.authentication.responsedtos.LoginResponse
 import co.yap.networking.models.ApiResponse
 import co.yap.networking.models.RetroApiResponse

@@ -4,6 +4,7 @@ import co.yap.networking.BaseRepository
 import co.yap.networking.CookiesManager
 import co.yap.networking.MALFORMED_JSON_EXCEPTION_CODE
 import co.yap.networking.RetroNetwork
+import co.yap.networking.authentication.requestdtos.SwitchProfileRequest
 import co.yap.networking.authentication.responsedtos.LoginResponse
 import co.yap.networking.models.ApiResponse
 import co.yap.networking.models.RetroApiResponse
