@@ -92,6 +92,7 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     const val URL_ADD_HOUSEHOLD_EMAIL = "customers/api/on-board/household-email"
     const val URL_CREATE_HOUSEHOLD_PASSCODE = "customers/api/on-board/household-passcode"
     const val URL_SANCTIONED_COUNTRIES = "customers/api/countries/sanctioned"
+    const val URL_SUB_ACCOUNT_INVITATION = "customers/api/accept-reject-subaccountinvitation/"
 
 
     //.................... End region of old projects apis................................................
@@ -300,4 +301,7 @@ object CustomersRepository : BaseRepository(), CustomersApi {
         executeSafely(call = { api.changePasscode(newPasscode) })
 
     override suspend fun appUpdate(): RetroApiResponse<AppUpdateResponse> = executeSafely(call = {api.appUpdate()})
+
+    override suspend fun getSubAccountInviteStatus(notificationStatus: String): RetroApiResponse<SubAccountInvitationResponse> =
+        executeSafely(call = { api.subAccountInvitation(notificationStatus) })
 }

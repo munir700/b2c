@@ -80,7 +80,7 @@ class PhoneVerificationSignInFragment : OnboardingChildFragment<IPhoneVerificati
             startActivity(OnBoardingHouseHoldActivity.getIntent(requireContext(), bundle))
             activity?.finish()
         }else{
-            goToHouseHoldDashboard()
+            gotoYapDashboard()
         }
     }
 

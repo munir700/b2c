@@ -1,6 +1,5 @@
 package co.yap.networking.authentication
 
-import co.yap.networking.authentication.requestdtos.SwitchProfileRequest
 import co.yap.networking.authentication.responsedtos.LoginResponse
 import co.yap.networking.models.ApiResponse
 import retrofit2.Response
@@ -17,7 +16,11 @@ interface AuthRetroService {
     suspend fun refreshJWTToken(@Query("grant_type") grantType: String, @Query("id_token") token: String): Response<LoginResponse>
 
     @POST(AuthRepository.URL_GET_JWT_TOKEN)
-    suspend fun login(@Query("grant_type") grantType: String, @Query("client_id") username: String, @Query("client_secret") password: String): Response<LoginResponse>
+    suspend fun login(
+        @Query("grant_type") grantType: String, @Query("client_id") username: String, @Query(
+            "client_secret"
+        ) password: String
+    ): Response<LoginResponse>
 
     // Logout
     @POST(AuthRepository.URL_LOGOUT)

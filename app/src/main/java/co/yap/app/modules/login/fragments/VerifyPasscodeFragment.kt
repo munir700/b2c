@@ -32,10 +32,7 @@ import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.biometric.BiometricCallback
 import co.yap.yapcore.helpers.biometric.BiometricManagerX
 import co.yap.yapcore.helpers.biometric.BiometricUtil
-import co.yap.yapcore.helpers.extentions.preventTakeScreenShot
-import co.yap.yapcore.helpers.extentions.startFragment
-import co.yap.yapcore.helpers.extentions.toast
-import co.yap.yapcore.helpers.extentions.trackEventWithAttributes
+import co.yap.yapcore.helpers.extentions.*
 import co.yap.yapcore.managers.MyUserManager
 import kotlinx.android.synthetic.main.fragment_verify_passcode.*
 
@@ -321,11 +318,25 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
     }
 
     private val switchProfileObserver = Observer<Boolean> {
-        if(it){
-            val bundle = Bundle()
-            bundle.putBoolean(OnBoardingHouseHoldActivity.EXISTING_USER, MyUserManager.isOnBoarded())
-            bundle.putParcelable(OnBoardingHouseHoldActivity.USER_INFO, MyUserManager.user)
-            startFragment(ExistingHouseholdFragment::class.java.name, false, bundle)
+        if(it) {
+            if (MyUserManager.isOnBoarded()) { // go to YAP dashboard
+                // check default profile if B2C then go to yap dashboard IF its household then move to household dashboard
+
+                if(MyUserManager.isDefaultUserYap()) {
+                    gotoYapDashboard()
+                }else{
+                    goToHouseHoldDashboard()
+                }
+            }else{
+
+                // and notification is pending
+                val bundle = Bundle()
+//                bundle.putBoolean(OnBoardingHouseHoldActivity.EXISTING_USER, MyUserManager.isOnBoarded())
+                bundle.putParcelable(OnBoardingHouseHoldActivity.USER_INFO, MyUserManager.user)
+//                startFragment(ExistingHouseholdFragment::class.java.name, false, bundle)
+                launchActivity<OnBoardingHouseHoldActivity> { bundle }
+            }
+
         }
     }
 

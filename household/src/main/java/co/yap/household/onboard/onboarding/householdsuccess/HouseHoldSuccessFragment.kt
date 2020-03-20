@@ -10,7 +10,7 @@ import co.yap.networking.customers.responsedtos.AccountInfo
 import co.yap.yapcore.BaseBindingFragment
 
 class HouseHoldSuccessFragment : BaseBindingFragment<IHouseHoldSuccess.ViewModel>() {
-    private var existingUser:Boolean = false
+//    private var existingUser:Boolean = false
     private var accountInfo: AccountInfo? = null
 
     override fun getBindingVariable(): Int {
@@ -27,7 +27,7 @@ class HouseHoldSuccessFragment : BaseBindingFragment<IHouseHoldSuccess.ViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            existingUser = it.getBoolean(OnBoardingHouseHoldActivity.EXISTING_USER, false)
+//            existingUser = it.getBoolean(OnBoardingHouseHoldActivity.EXISTING_USER, false)
             accountInfo = it.getParcelable(OnBoardingHouseHoldActivity.USER_INFO)
 
             accountInfo?.let {
@@ -45,7 +45,7 @@ class HouseHoldSuccessFragment : BaseBindingFragment<IHouseHoldSuccess.ViewModel
         when (it) {
             R.id.btnCompleteVerification -> {
                 val bundle = Bundle()
-                bundle.putBoolean(OnBoardingHouseHoldActivity.EXISTING_USER, existingUser)
+//                bundle.putBoolean(OnBoardingHouseHoldActivity.EXISTING_USER, existingUser)
                 bundle.putParcelable(OnBoardingHouseHoldActivity.USER_INFO, accountInfo)
                 startActivity(OnBoardingHouseHoldActivity.getIntent(requireContext(), bundle))
             }

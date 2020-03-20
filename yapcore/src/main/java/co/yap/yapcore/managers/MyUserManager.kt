@@ -93,13 +93,29 @@ object MyUserManager : IRepositoryHolder<CardsRepository> {
         return false
     }
 
+    fun isDefaultUserYap(): Boolean {
+        val yapUser = users.find { obj1 -> obj1.accountType == AccountType.B2C_ACCOUNT.name }
+        val householdUser =
+            users.find { obj1 -> obj1.accountType == AccountType.B2C_HOUSEHOLD.name }
+
+        if ((yapUser != null && householdUser != null)) {
+            if(yapUser.defaultProfile == true){
+                return true
+            }else if(householdUser.defaultProfile == true){
+                return false
+            }
+
+        }
+        return false
+    }
+
     /*
         isOnBoarded:  This method is used for Household user to check if it's on boarded or not
      */
 
     fun isOnBoarded(): Boolean {
-        if (user?.notificationStatuses == AccountStatus.PARNET_MOBILE_VERIFICATION_PENDING.name ||
-            user?.notificationStatuses == AccountStatus.PASS_CODE_PENDING.name ) {
+        if (user?.notificationStatuses != AccountStatus.PARNET_MOBILE_VERIFICATION_PENDING.name ||
+            user?.notificationStatuses != AccountStatus.INVITE_PENDING.name) {
             return true
         }
         return false

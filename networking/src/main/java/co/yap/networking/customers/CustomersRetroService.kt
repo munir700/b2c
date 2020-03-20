@@ -193,4 +193,9 @@ interface CustomersRetroService {
     @GET(CustomersRepository.URL_APP_VERSION)
     suspend fun appUpdate(): Response<AppUpdateResponse>
 
+    //  Sub Account Invitation
+    @POST(CustomersRepository.URL_SUB_ACCOUNT_INVITATION)
+    suspend fun subAccountInvitation(@Path("notificationStatus") notificationStatus:String): Response<SubAccountInvitationResponse>
+
+
 }

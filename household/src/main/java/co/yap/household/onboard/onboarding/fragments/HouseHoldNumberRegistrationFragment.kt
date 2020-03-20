@@ -13,15 +13,18 @@ import co.yap.household.dashboard.main.activities.HouseholdDashboardActivity
 import co.yap.household.onboard.cardselection.HouseHoldCardsSelectionActivity
 import co.yap.household.onboard.onboarding.interfaces.IHouseHoldNumberRegistration
 import co.yap.household.onboard.onboarding.invalideid.InvalidEIDFragment
+import co.yap.household.onboard.onboarding.main.OnBoardingHouseHoldActivity
 import co.yap.household.onboard.onboarding.viewmodels.HouseHoldNumberRegistrationViewModel
 import co.yap.modules.onboarding.activities.LiteDashboardActivity
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.RequestCodes
+import co.yap.yapcore.enums.AccountStatus
 import co.yap.yapcore.enums.NotificationStatus
 import co.yap.yapcore.helpers.extentions.ExtraType
 import co.yap.yapcore.helpers.extentions.getValue
 import co.yap.yapcore.helpers.extentions.launchActivity
 import co.yap.yapcore.helpers.extentions.startFragment
+import co.yap.yapcore.managers.MyUserManager
 import kotlinx.android.synthetic.main.fragment_house_hold_number_registration.*
 
 
@@ -44,14 +47,17 @@ class HouseHoldNumberRegistrationFragment :
         super.onActivityCreated(savedInstanceState)
         viewModel.parentViewModel?.state?.accountInfo?.run {
             if (!notificationStatuses.isNullOrBlank())
-                when (NotificationStatus.valueOf(notificationStatuses)) {
-                    NotificationStatus.PARNET_MOBILE_VERIFICATION_PENDING -> {
+                when (AccountStatus.valueOf(notificationStatuses)) {
+                    AccountStatus.INVITE_PENDING -> {
 
                     }
-                    NotificationStatus.PASS_CODE_PENDING -> {
+                    AccountStatus.PARNET_MOBILE_VERIFICATION_PENDING -> {
+
+                    }
+                    AccountStatus.PASS_CODE_PENDING -> {
                         findNavController().navigate(R.id.to_houseHoldCreatePassCodeFragment)
                     }
-                    NotificationStatus.EMAIL_PENDING -> {
+                    AccountStatus.EMAIL_PENDING -> {
                         findNavController().navigate(R.id.action_houseHoldNumberRegistrationFragment_to_emailHouseHoldFragment)
                     }
                     else -> {

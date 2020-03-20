@@ -15,11 +15,12 @@ import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.IFragmentHolder
 import co.yap.yapcore.helpers.extentions.startFragment
 import co.yap.yapcore.helpers.extentions.toast
+import co.yap.yapcore.managers.MyUserManager
 
 class ExistingHouseholdFragment : BaseBindingFragment<IExistingHouseHold.ViewModel>(),
     IFragmentHolder {
 
-    private var existingUser:Boolean = false
+//    private var existingUser:Boolean = false
     private var accountInfo:AccountInfo? = null
 
     override fun getBindingVariable(): Int {
@@ -36,7 +37,7 @@ class ExistingHouseholdFragment : BaseBindingFragment<IExistingHouseHold.ViewMod
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            existingUser = it.getBoolean(OnBoardingHouseHoldActivity.EXISTING_USER, false)
+//            existingUser = it.getBoolean(OnBoardingHouseHoldActivity.EXISTING_USER, false)
             accountInfo = it.getParcelable(OnBoardingHouseHoldActivity.USER_INFO)
 
             accountInfo?.let {
@@ -49,26 +50,39 @@ class ExistingHouseholdFragment : BaseBindingFragment<IExistingHouseHold.ViewMod
 
     private fun addObservers() {
         viewModel.clickEvent.observe(this, clickObserver)
+        viewModel.subAccountInvitationStatus.observe(this, invitationStatusObserver)
+    }
+
+    private val invitationStatusObserver = Observer<String> {
+
+        if(it == "INVITE_ACCEPTED") {
+            val bundle = Bundle()
+//                bundle.putBoolean(OnBoardingHouseHoldActivity.EXISTING_USER, existingUser)
+            accountInfo?.let {
+                bundle.putParcelable(OnBoardingHouseHoldActivity.USER_INFO, it)
+            }
+            startFragment(
+                HouseHoldSuccessFragment::class.java.name,
+                false,
+                bundle,
+                showToolBar = false
+            )
+        }else if(it == "INVITE_DECLINE"){
+            gotoYapDashboard()
+        }
     }
 
     private val clickObserver = Observer<Int> {
         when (it) {
             R.id.btnAccept -> {
-                val bundle = Bundle()
-                bundle.putBoolean(OnBoardingHouseHoldActivity.EXISTING_USER, existingUser)
-                accountInfo?.let {
-                    bundle.putParcelable(OnBoardingHouseHoldActivity.USER_INFO, it)
-                }
-                startFragment(
-                    HouseHoldSuccessFragment::class.java.name,
-                    false,
-                    bundle,
-                    showToolBar = false
-                )
+                // API Call for Accept
+                viewModel.subAccountInvitationStatus("INVITE_ACCEPTED")
             }
 
             R.id.tvOnBoardingExistingDeclineRequest -> {
-                gotoYapDashboard()
+                // API Call for Decline
+                viewModel.subAccountInvitationStatus("INVITE_DECLINE")
+
             }
         }
     }

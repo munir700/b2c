@@ -49,7 +49,7 @@ class OnBoardingHouseHoldActivity : BaseBindingActivity<IOnboarding.ViewModel>()
 
         intent?.getBundleExtra(BUNDLE_DATA)?.let {
             viewModel.state.accountInfo = it.getParcelable(USER_INFO)
-            viewModel.state.existingYapUser = it.getBoolean(EXISTING_USER, false)
+//            viewModel.state.existingYapUser = it.getBoolean(EXISTING_USER, false)
         }
         viewModel.onboardingData.accountType = "B2C_ACCOUNT"
         viewModel.backButtonPressEvent.observe(this, backButtonObserver)
