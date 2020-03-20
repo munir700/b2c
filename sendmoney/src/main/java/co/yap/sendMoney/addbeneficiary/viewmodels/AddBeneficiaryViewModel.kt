@@ -28,7 +28,7 @@ class AddBeneficiaryViewModel(application: Application) :
     override val state: AddBeneficiaryStates = AddBeneficiaryStates(this)
     override var clickEvent: SingleClickEvent = SingleClickEvent()
     private val messagesRepository: MessagesRepository = MessagesRepository
-    override var addBeneficiarySuccess: MutableLiveData<Boolean> = MutableLiveData(false)
+    override var addBeneficiarySuccess: MutableLiveData<Boolean> = MutableLiveData()
     override val otpCreateObserver: MutableLiveData<Boolean> = MutableLiveData()
 
     override var beneficiary: Beneficiary? = Beneficiary()

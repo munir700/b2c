@@ -209,7 +209,7 @@
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
             app:popUpToInclusive="true" />
-
+<!--        username,emailOtp,mobileNumber,otpType-->
     </fragment>
     <!--    <fragment-->
     <!--        android:id="@+id/genericOtpFragment4"-->

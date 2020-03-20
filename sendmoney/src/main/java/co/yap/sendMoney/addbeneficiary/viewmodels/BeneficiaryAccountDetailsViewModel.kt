@@ -21,8 +21,8 @@ class BeneficiaryAccountDetailsViewModel(application: Application) :
     IRepositoryHolder<CustomersRepository> {
 
     override val backButtonPressEvent: SingleLiveEvent<Boolean> = SingleLiveEvent()
-    override val success: MutableLiveData<Boolean> = MutableLiveData(false)
-    override val isBeneficiaryValid: MutableLiveData<Boolean> = MutableLiveData(false)
+    override val success: MutableLiveData<Boolean> = MutableLiveData()
+    override val isBeneficiaryValid: MutableLiveData<Boolean> = MutableLiveData()
     override val state: BeneficiaryAccountDetailsState = BeneficiaryAccountDetailsState(this)
     override val repository: CustomersRepository = CustomersRepository
     override var clickEvent: SingleClickEvent = SingleClickEvent()

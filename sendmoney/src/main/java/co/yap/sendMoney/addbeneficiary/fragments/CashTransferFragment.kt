@@ -1,5 +1,6 @@
 package co.yap.sendmoney.addbeneficiary.fragments
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
@@ -12,12 +13,15 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.TextView
+import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
+import co.yap.modules.otp.GenericOtpFragment
+import co.yap.modules.otp.OtpDataModel
 import co.yap.networking.transactions.responsedtos.InternationalFundsTransferReasonList
 import co.yap.sendmoney.R
 import co.yap.sendmoney.activities.BeneficiaryCashTransferActivity
@@ -34,6 +38,7 @@ import co.yap.yapcore.enums.SendMoneyBeneficiaryProductCode
 import co.yap.yapcore.enums.SendMoneyBeneficiaryType
 import co.yap.yapcore.helpers.DecimalDigitsInputFilter
 import co.yap.yapcore.helpers.cancelAllSnackBar
+import co.yap.yapcore.helpers.extentions.startFragmentForResult
 import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 import co.yap.yapcore.helpers.spannables.color
 import co.yap.yapcore.helpers.spannables.getText
@@ -153,18 +158,53 @@ class CashTransferFragment : SendMoneyBaseFragment<ICashTransfer.ViewModel>(), I
     }
 
     private fun moveToOtp() {
-        val action =
-            CashTransferFragmentDirections.actionCashTransferFragmentToGenericOtpLogoFragment(
-                false,
-                viewModel.state.otpAction ?: "",
-                viewModel.state.amount
-                , viewModel.state.position
+//        val action =
+//            CashTransferFragmentDirections.actionCashTransferFragmentToGenericOtpLogoFragment(
+//                false, //emailOtp
+//                viewModel.state.otpAction ?: "", //otpType
+//                viewModel.state.amount,//amount
+//                viewModel.state.position//position
+//
+//            )
+//        findNavController().navigate(action)
 
-            )
-        findNavController().navigate(action)
+        startOtpFragment(viewModel.state.otpAction ?: "")
     }
 
+//    emailOtp,otpType,amount,position,beneficiaryCountry
+//        username,emailOtp,mobileNumber,otpType
 
+    //    optType,//action,
+//    MyUserManager.user?.currentCustomer?.getFormattedPhoneNumber(requireContext())
+//    "",//name
+//    false,
+//    "",//amount
+//    null,//LogoData
+//    ""OtpToolBarData"",//OtpToolBarData
+    private fun startOtpFragment(optType: String) {
+        startFragmentForResult<GenericOtpFragment>(
+            GenericOtpFragment::class.java.name,
+            bundleOf(
+                OtpDataModel::class.java.name to OtpDataModel(
+//                    false, //emailOtp
+//                    viewModel.state.otpAction ?: "", //otpType
+//                    viewModel.state.amount,//amount
+//                    viewModel.state.position//position
+
+                    viewModel.state.otpAction ?: "",//action,
+                    MyUserManager.user?.currentCustomer?.getFormattedPhoneNumber(requireContext())
+                        ?: "",
+                    "",//name
+                    false,
+                    "",//amount
+                    null//OtpToolBarData
+                )
+            )) { resultCode, _ ->
+            if (resultCode == Activity.RESULT_OK) {
+                showToast("ijk$resultCode")
+            }
+        }
+    }
     private fun moveToConfirmationScreen() {
         val action =
             CashTransferFragmentDirections.actionCashTransferFragmentToCashTransferConfirmationFragment(

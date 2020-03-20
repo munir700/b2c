@@ -30,7 +30,7 @@ class SendMoneyHomeScreenViewModel(application: Application) :
     override var recentTransferData: MutableLiveData<List<Beneficiary>> = MutableLiveData()
     override val adapter = ObservableField<RecentTransferAdaptor>()
     override val searchQuery: MutableLiveData<String> = MutableLiveData()
-    override val isSearching: MutableLiveData<Boolean> = MutableLiveData(false)
+    override val isSearching: MutableLiveData<Boolean> = MutableLiveData()
 
     override fun handlePressOnView(id: Int) {
         clickEvent.setValue(id)

@@ -1,5 +1,6 @@
 package co.yap.sendmoney.addbeneficiary.fragments
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.text.Spannable
@@ -15,6 +16,8 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import co.yap.modules.otp.GenericOtpFragment
+import co.yap.modules.otp.OtpDataModel
 import co.yap.sendmoney.BR
 import co.yap.sendmoney.R
 import co.yap.sendmoney.activities.BeneficiaryCashTransferActivity
@@ -27,9 +30,11 @@ import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.Constants.URL_DISCLAIMER_TERMS
 import co.yap.yapcore.helpers.extentions.startFragment
+import co.yap.yapcore.helpers.extentions.startFragmentForResult
 import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 import co.yap.yapcore.helpers.spannables.color
 import co.yap.yapcore.helpers.spannables.getText
+import co.yap.yapcore.managers.MyUserManager
 
 class InternationalTransactionConfirmationFragment :
     BaseBindingFragment<IInternationalTransactionConfirmation.ViewModel>(),
@@ -126,6 +131,38 @@ class InternationalTransactionConfirmationFragment :
         viewModel.clickEvent.observe(this, clickEvent)
     }
 
+    private fun startOtpFragment(optType: String) {
+        startFragmentForResult<GenericOtpFragment>(
+            GenericOtpFragment::class.java.name,
+            bundleOf(
+                OtpDataModel::class.java.name to OtpDataModel(
+
+//                    false,
+//                    viewModel.state.args?.otpAction ?: "",
+//                    args.fxRateAmount,
+//                    position,
+//                    beneficiaryCountry
+
+
+//                    false, //emailOtp
+//                    viewModel.state.otpAction ?: "", //otpType
+//                    viewModel.state.amount,//amount
+//                    viewModel.state.position//position
+
+                    optType,//action,
+                    MyUserManager.user?.currentCustomer?.getFormattedPhoneNumber(requireContext())
+                        ?: "",
+                    "",//name
+                    false,
+                    args.fxRateAmount,//amount
+                    null//OtpToolBarData
+                )
+            )) { resultCode, _ ->
+            if (resultCode == Activity.RESULT_OK) {
+                showToast("ijk$resultCode")
+            }
+        }
+    }
     val clickEvent = Observer<Int> {
         when (it) {
             R.id.confirmButton -> {
@@ -134,15 +171,16 @@ class InternationalTransactionConfirmationFragment :
             viewModel.CREATE_OTP_SUCCESS_EVENT -> {
                 viewModel.state.position?.let { position ->
                     viewModel.state.beneficiaryCountry?.let { beneficiaryCountry ->
-                        val action =
-                            InternationalTransactionConfirmationFragmentDirections.actionInternationalTransactionConfirmationFragmentToGenericOtpLogoFragment(
-                                false,
-                                viewModel.state.args?.otpAction ?: "",
-                                args.fxRateAmount,
-                                position,
-                                beneficiaryCountry
-                            )
-                        findNavController().navigate(action)
+//                        val action =
+//                            InternationalTransactionConfirmationFragmentDirections.actionInternationalTransactionConfirmationFragmentToGenericOtpLogoFragment(
+//                                false,
+//                                viewModel.state.args?.otpAction ?: "",
+//                                args.fxRateAmount,
+//                                position,
+//                                beneficiaryCountry
+//                            )
+//                        findNavController().navigate(action)
+                        startOtpFragment(viewModel.state.args?.otpAction ?: "")
                     }
                 }
             }

@@ -7,7 +7,10 @@ import android.view.View
 import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import androidx.navigation.fragment.findNavController
+import co.yap.modules.otp.GenericOtpFragment
+import co.yap.modules.otp.OtpDataModel
+import co.yap.modules.otp.OtpToolBarData
+import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.sendmoney.BR
 import co.yap.sendmoney.R
 import co.yap.sendmoney.activities.BeneficiaryCashTransferActivity
@@ -15,10 +18,7 @@ import co.yap.sendmoney.addbeneficiary.interfaces.IBeneficiaryAccountDetails
 import co.yap.sendmoney.addbeneficiary.viewmodels.BeneficiaryAccountDetailsViewModel
 import co.yap.sendmoney.editbeneficiary.activity.EditBeneficiaryActivity
 import co.yap.sendmoney.fragments.SendMoneyBaseFragment
-import co.yap.modules.otp.GenericOtpFragment
-import co.yap.modules.otp.OtpDataModel
-import co.yap.modules.otp.OtpToolBarData
-import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
+import co.yap.translation.Strings
 import co.yap.translation.Translator
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.RequestCodes
@@ -106,7 +106,7 @@ class BeneficiaryAccountDetailsFragment :
                             emailOtp = false,
                             toolBarData = OtpToolBarData()
                         )
-                    ),true
+                    ), true
                 ) { resultCode, data ->
                     if (resultCode == Activity.RESULT_OK) {
                         viewModel.createBeneficiaryRequest()
@@ -206,16 +206,33 @@ class BeneficiaryAccountDetailsFragment :
     }
 
     private fun moveToOptScreen(otpAction: String) {
-        val action =
-            BeneficiaryAccountDetailsFragmentDirections.actionBeneficiaryAccountDetailsFragmentToGenericOtpFragment4(
-                "",
-                false,
-                MyUserManager.user?.currentCustomer?.getFormattedPhoneNumber(requireContext())
-                    ?: "",
-                otpAction
-            )
-        findNavController().navigate(action)
+        startOtpFragment(otpAction)
     }
+
+    private fun startOtpFragment(optType: String) {
+        startFragmentForResult<GenericOtpFragment>(
+            GenericOtpFragment::class.java.name,
+            bundleOf(
+                OtpDataModel::class.java.name to OtpDataModel(
+
+                    optType,//action,
+                    MyUserManager.user?.currentCustomer?.getFormattedPhoneNumber(requireContext())
+                        ?: "",
+                    "",//name
+                    false,
+                    "",//amount
+                    null//OtpToolBarData
+                )
+            ),
+            showToolBar = true,
+            toolBarTitle = getString(Strings.screen_cash_pickup_funds_display_otp_header)
+        ) { resultCode, _ ->
+            if (resultCode == Activity.RESULT_OK) {
+                showToast("ijk$resultCode")
+            }
+        }
+    }
+
 
     override fun onDestroy() {
         super.onDestroy()

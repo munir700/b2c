@@ -22,7 +22,7 @@ class EditBeneficiaryViewModel(application: Application) :
         clickEvent?.setValue(id)
     }
 
-    override var onUpdateSuccess: MutableLiveData<Boolean> = MutableLiveData(false)
+    override var onUpdateSuccess: MutableLiveData<Boolean> = MutableLiveData()
 
     override fun requestUpdateBeneficiary() {
         launch {

@@ -28,7 +28,7 @@
         <!--            android:id="@+id/action_cashTransferFragment_to_genericOtpLogoFragment"-->
         <!--            app:destination="@id/genericOtpLogoFragment" />-->
     </fragment>
-
+<!--    emailOtp,otpType,amount,position,beneficiaryCountry-->
     <!--    <fragment-->
     <!--        android:id="@+id/genericOtpLogoFragment"-->
     <!--        android:name="co.yap.modules.others.otp.GenericOtpLogoFragment"-->

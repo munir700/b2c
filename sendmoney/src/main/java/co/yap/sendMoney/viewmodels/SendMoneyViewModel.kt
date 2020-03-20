@@ -15,10 +15,10 @@ class SendMoneyViewModel(application: Application) :
 
     override val clickEvent: SingleClickEvent = SingleClickEvent()
     override val state: SendMoneyState = SendMoneyState()
-    override var selectedCountry: MutableLiveData<Country> = MutableLiveData(Country())
+    override var selectedCountry: MutableLiveData<Country> = MutableLiveData()
 
     //override var transferType: MutableLiveData<String> = MutableLiveData("")
-    override var beneficiary: MutableLiveData<Beneficiary> = MutableLiveData(Beneficiary())
+    override var beneficiary: MutableLiveData<Beneficiary> = MutableLiveData()
     override var otpSuccess: MutableLiveData<Boolean> = MutableLiveData()
 
     override fun handlePressButton(id: Int) {
