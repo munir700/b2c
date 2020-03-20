@@ -151,6 +151,7 @@ class GenericOtpViewModel(application: Application) :
                 }
                 is RetroApiResponse.Error -> {
                     otpUiBlocked(response.error.actualCode)
+                    state.errorMessage = response.error.message
                     errorEvent.call()
                     state.loading = false
                 }

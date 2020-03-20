@@ -96,8 +96,4 @@ class SelectCountryFragment : SendMoneyBaseFragment<ISelectCountry.ViewModel>(),
                 context?.let { CountryAdapter(it, viewModel.countries) }
         return countryAdapter
     }
-
-    override fun onBackPressed(): Boolean {
-        return super.onBackPressed()
-    }
 }
