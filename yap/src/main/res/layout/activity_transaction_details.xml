@@ -371,17 +371,6 @@
                 app:layout_constraintTop_toTopOf="@+id/tvFeeAmount"
                 tools:text="Fee" />
             <TextView
-                android:id="@+id/tvVat"
-                style="@style/ASmallGrey"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Vat"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/tvVatAmount"
-                tools:ignore="HardcodedText"
-                tools:text="Vat" />
-
-            <TextView
                 android:id="@+id/tvFeeAmount"
                 style="@style/ASmall"
                 android:layout_width="0dp"
@@ -394,6 +383,16 @@
                 app:layout_constraintTop_toBottomOf="@+id/tvCardSpendAmount"
                 tools:text="1000" />
 
+            <TextView
+                android:id="@+id/tvVat"
+                style="@style/ASmallGrey"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Vat"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/tvVatAmount"
+                tools:ignore="HardcodedText"
+                tools:text="Vat" />
 
             <TextView
                 android:id="@+id/tvVatAmount"
@@ -430,6 +429,30 @@
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvVatAmount"
                 tools:text="2500" />
+
+            <TextView
+                android:id="@+id/tvReferenceNumber"
+                style="@style/ASmallGrey"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Reference number"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/tvReferenceNumberValue"
+                tools:ignore="HardcodedText"
+                tools:text="Reference number" />
+
+            <TextView
+                android:id="@+id/tvReferenceNumberValue"
+                style="@style/ASmall"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/small"
+                android:gravity="end"
+                android:text="@{viewModel.transaction.transactionId}"
+                app:layout_constraintLeft_toRightOf="@+id/guideline1"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvTotalAmountValueCalculated"
+                tools:text="168449563519" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
