@@ -59,8 +59,10 @@ import co.yap.yapcore.enums.AccountStatus
 import co.yap.yapcore.enums.CardDeliveryStatus
 import co.yap.yapcore.enums.NotificationStatus
 import co.yap.yapcore.enums.PartnerBankStatus
+import co.yap.yapcore.helpers.DateUtils
 import co.yap.yapcore.helpers.extentions.*
 import co.yap.yapcore.interfaces.OnItemClickListener
+import co.yap.yapcore.leanplum.KYCEvents
 import co.yap.yapcore.managers.MyUserManager
 import com.google.android.material.appbar.AppBarLayout
 import com.yarolegovich.discretescrollview.transform.ScaleTransformer
@@ -341,7 +343,14 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
             AccountStatus.CARD_ACTIVATED.name -> {
                 clearNotification()
             }
-            AccountStatus.EID_EXPIRED.name -> {
+            AccountStatus.EID_EXPIRED.name, AccountStatus.EID_RESCAN_REQUIRE.name -> {
+                trackEvent(KYCEvents.EID_EXPIRE.type)
+                trackEventInFragments(
+                    MyUserManager.user,
+                    eidExpire = true,
+                    eidExpireDate = DateUtils.getCurrentDateWithFormat("yyyy-MM-dd")
+                )
+
                 clearNotification()
                 addEidExpiredNotification()
             }

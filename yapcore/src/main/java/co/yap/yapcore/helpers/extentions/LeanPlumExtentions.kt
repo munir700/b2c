@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import co.yap.networking.customers.responsedtos.AccountInfo
 import co.yap.yapcore.BaseState
 import co.yap.yapcore.constants.Constants.KEY_TOUCH_ID_ENABLED
+import co.yap.yapcore.enums.PartnerBankStatus
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.biometric.BiometricUtil
 import co.yap.yapcore.leanplum.UserAttributes
@@ -27,25 +28,31 @@ fun Fragment.trackEventInFragments(
     user: AccountInfo?,
     signup_length: String? = null,
     account_active: String? = null,
-    context: Context? = null
+    context: Context? = null,
+    eidExpire: Boolean = false,
+    eidExpireDate: String = ""
 ) {
-    trackAttributes(user, signup_length, account_active, context)
+    trackAttributes(user, signup_length, account_active, context, eidExpire, eidExpireDate)
 }
 
 fun ViewModel.trackEventWithAttributes(
     user: AccountInfo?,
     signup_length: String? = null,
     account_active: String? = null,
-    context: Context? = null
+    context: Context? = null,
+    eidExpire: Boolean = false,
+    eidExpireDate: String = ""
 ) {
-    trackAttributes(user, signup_length, account_active, context)
+    trackAttributes(user, signup_length, account_active, context, eidExpire, eidExpireDate)
 }
 
 fun trackAttributes(
     user: AccountInfo?,
     signup_length: String? = null,
     account_active: String? = null,
-    context: Context? = null
+    context: Context? = null,
+    eidExpire: Boolean = false,
+    eidExpireDate: String = ""
 ) {
     user?.let {
         val info: HashMap<String, Any> = HashMap()
@@ -63,9 +70,10 @@ fun trackAttributes(
         info[UserAttributes().city] = "UNKNOWN"
         info[UserAttributes().signup_timestamp] = it.creationDate ?: System.currentTimeMillis()
         info[UserAttributes().biometric_login_enabled] = isBioMetricEnabled(context)
-        account_active?.let {
-            info[UserAttributes().account_active] = account_active
-        }
+        info[UserAttributes().account_active] =
+            account_active ?: (PartnerBankStatus.ACTIVATED.status == it.partnerBankStatus)
+        info[UserAttributes().eid_expired] = eidExpire
+        info[UserAttributes().eid_expiry_date] = eidExpireDate
         signup_length?.let {
             info[UserAttributes().signup_length] = signup_length
         }
