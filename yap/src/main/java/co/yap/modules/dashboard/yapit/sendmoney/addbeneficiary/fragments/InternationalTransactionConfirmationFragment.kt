@@ -95,7 +95,7 @@ class InternationalTransactionConfirmationFragment :
             ,
             requireContext().color(
                 R.color.colorPrimaryDark,
-                "${args.fromFxRate} to ${args.srRate}"
+                "${args.fromFxRate} to ${args.toFxRate}"
             )
         )
 

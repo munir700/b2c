@@ -299,7 +299,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/_2sdp"
                         android:layout_marginRight="@dimen/_2sdp"
-                        android:text="@{viewModel.state.srRate}"
+                        android:text="@{viewModel.state.toFxRate}"
                         android:textColor="?attr/colorPrimaryDarkAttr"
                         tools:text="X CAD" />
                 </LinearLayout>
