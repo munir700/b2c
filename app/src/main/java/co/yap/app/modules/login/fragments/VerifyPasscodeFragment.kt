@@ -115,8 +115,9 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
             if (sharedPreferenceManager.getValueBoolien(
                     KEY_TOUCH_ID_ENABLED,
                     false
-                )
+                ) && sharedPreferenceManager.getDecryptedPassCode() != null
             ) {
+
                 dialer.showFingerprintView()
                 showFingerprintDialog()
             } else {

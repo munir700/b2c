@@ -14,7 +14,6 @@ import co.yap.household.onboard.onboarding.main.OnBoardingHouseHoldActivity
 import co.yap.modules.onboarding.enums.AccountType
 import co.yap.modules.onboarding.fragments.OnboardingChildFragment
 import co.yap.networking.customers.responsedtos.AccountInfo
-import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.biometric.BiometricUtil
 
@@ -72,11 +71,22 @@ class PhoneVerificationSignInFragment : OnboardingChildFragment<IPhoneVerificati
                     && BiometricUtil.isPermissionGranted(requireActivity())
                     && BiometricUtil.isFingerprintAvailable(requireActivity())
                 ) {
-                    val action =
-                        PhoneVerificationSignInFragmentDirections.actionPhoneVerificationSignInFragmentToSystemPermissionFragment(
-                            Constants.TOUCH_ID_SCREEN_TYPE
+                    SharedPreferenceManager(requireContext())
+                    if (SharedPreferenceManager(requireContext()).getValueBoolien(
+                            co.yap.yapcore.constants.Constants.KEY_TOUCH_ID_ENABLED,
+                            false
                         )
-                    findNavController().navigate(action)
+                    ) {
+                        findNavController().navigate(R.id.action_goto_yapDashboardActivity)
+                        activity?.finish()
+                    } else {
+                        val action =
+                            PhoneVerificationSignInFragmentDirections.actionPhoneVerificationSignInFragmentToSystemPermissionFragment(
+                                Constants.TOUCH_ID_SCREEN_TYPE
+                            )
+                        findNavController().navigate(action)
+                    }
+
                 } else {
                     findNavController().navigate(R.id.action_goto_yapDashboardActivity)
                     activity?.finish()
