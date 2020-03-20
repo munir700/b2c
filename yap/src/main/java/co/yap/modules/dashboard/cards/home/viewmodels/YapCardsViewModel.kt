@@ -38,7 +38,7 @@ class YapCardsViewModel(application: Application) : BaseViewModel<IYapCards.Stat
 
                             primaryCard?.let {
                                 cardsList?.add(0, primaryCard)
-                                MyUserManager.cards.value = primaryCard
+                                MyUserManager.card.value = primaryCard
                             }
                             if (state.enableAddCard.get())
                                 cardsList?.add(getAddCard())

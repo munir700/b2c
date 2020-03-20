@@ -55,7 +55,7 @@ class CongratulationsFragment : OnboardingChildFragment<ICongratulations.ViewMod
 
     override fun getLayoutId(): Int = R.layout.fragment_onboarding_congratulations
 
-    override val viewModel: ICongratulations.ViewModel
+    override val viewModel: CongratulationsViewModel
         get() = ViewModelProviders.of(this).get(CongratulationsViewModel::class.java)
 
     private val windowSize: Rect = Rect() // to hold the size of the visible window
@@ -63,13 +63,15 @@ class CongratulationsFragment : OnboardingChildFragment<ICongratulations.ViewMod
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         val display = activity?.windowManager?.defaultDisplay
         display?.getRectSize(windowSize)
-
-        // hide all in the beginning
         rootContainer.children.forEach { it.alpha = 0f }
+        MyUserManager.onAccountInfoSuccess.observe(this, Observer {
+            if (it)
+                viewModel.trackEventWithAttributes(MyUserManager.user)
+        })
     }
+
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)

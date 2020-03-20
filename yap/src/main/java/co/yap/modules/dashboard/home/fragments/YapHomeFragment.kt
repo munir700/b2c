@@ -95,7 +95,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
             if (isShowSetPin(MyUserManager.getPrimaryCard())) {
                 MyUserManager.user?.partnerBankStatus = PartnerBankStatus.ACTIVATED.status
                 if (PartnerBankStatus.ACTIVATED.status == MyUserManager.user?.partnerBankStatus) {
-                    viewModel.getDebitCards()
+                    viewModel.clickEvent.setValue(viewModel.EVENT_SET_CARD_PIN)
                 }
             }
         } else toast("Invalid card found")
@@ -179,8 +179,12 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                 RequestCodes.REQUEST_TXN_FILTER
             )
     }
-
+    private fun showUnverifiedScreen() {
+        parentViewModel?.showUnverifedscreen?.value =
+            MyUserManager.user?.currentCustomer?.isEmailVerified.equals("N", true)
+    }
     override fun setObservers() {
+//        showUnverifiedScreen()
         listenForToolbarExpansion()
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
@@ -229,19 +233,14 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
             }
         })
 
-
-        parentViewModel?.accountInfo?.observe(this, Observer { accountInfo ->
-//            startFlowForSetPin()
-            checkUserStatus()
-        })
-
-        MyUserManager.onAccountInfoSuccess.observe(this, Observer {
-            if (it)
+        MyUserManager.card.observe(this, Observer { primaryCard ->
+            primaryCard?.let {
+                startFlowForSetPin()
                 checkUserStatus()
+            }
         })
 
-        MyUserManager.cardBalance.observe(this, Observer
-        { value ->
+        MyUserManager.cardBalance.observe(this, Observer { value ->
             setAvailableBalance(value.availableBalance.toString())
         })
 
@@ -544,7 +543,9 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
             }
 
             Constants.NOTIFICATION_ACTION_SET_PIN -> {
-                viewModel.getDebitCards()
+                MyUserManager.card.value?.let {
+                    viewModel.clickEvent.setValue(viewModel.EVENT_SET_CARD_PIN)
+                } ?: viewModel.getDebitCards()
             }
 
             Constants.NOTIFICATION_ACTION_SET_UPDATE_EID -> {

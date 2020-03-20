@@ -30,7 +30,7 @@ object MyUserManager : IRepositoryHolder<CardsRepository> {
     var user: AccountInfo? = null
     var userAddress: Address? = null
     var cardBalance: MutableLiveData<CardBalance> = MutableLiveData()
-    var cards: MutableLiveData<Card?> = MutableLiveData()
+    var card: MutableLiveData<Card?> = MutableLiveData()
     var eidStatus: EIDStatus = EIDStatus.NOT_SET
     var onAccountInfoSuccess: MutableLiveData<Boolean> = MutableLiveData()
 
@@ -91,7 +91,7 @@ object MyUserManager : IRepositoryHolder<CardsRepository> {
     }
 
     fun getCardSerialNumber(): String {
-        cards.value?.let {
+        card.value?.let {
             if (it.cardType == CardType.DEBIT.type) {
                 return it.cardSerialNumber
             }
@@ -100,7 +100,7 @@ object MyUserManager : IRepositoryHolder<CardsRepository> {
     }
 
     fun getPrimaryCard(): Card? {
-        cards.value?.let {
+        card.value?.let {
             if (it.cardType == CardType.DEBIT.type) {
                 return it
             }
@@ -126,7 +126,7 @@ object MyUserManager : IRepositoryHolder<CardsRepository> {
             }
         })
         cardBalance.value = CardBalance()
-        cards = MutableLiveData()
+        card = MutableLiveData()
         userAddress = null
         YAPApplication.clearFilters()
     }
