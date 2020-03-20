@@ -28,6 +28,7 @@ import co.yap.yapcore.constants.Constants.OVERVIEW_BENEFICIARY
 import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.constants.RequestCodes.REQUEST_TRANSFER_MONEY
 import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.helpers.extentions.getValue
 import co.yap.yapcore.helpers.extentions.launchActivity
 import co.yap.yapcore.interfaces.OnItemClickListener
 import com.nikhilpanju.recyclerviewenhanced.RecyclerTouchListener
@@ -311,36 +312,43 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         data?.let {
-            when (requestCode) {
-                RequestCodes.REQUEST_NOTIFY_BENEFICIARY_LIST -> {
-                    if (resultCode == Activity.RESULT_OK && data.getBooleanExtra(
-                            Constants.BENEFICIARY_CHANGE,
-                            false
-                        )
-                    ) {
-                        viewModel.requestAllBeneficiaries()
-                    } else if (resultCode == Activity.RESULT_OK && data.getBooleanExtra(
-                            Constants.MONEY_TRANSFERED,
-                            false
-                        )
-                    ) {
-                        finish()
+            if (resultCode == Activity.RESULT_OK) {
+                when (requestCode) {
+                    RequestCodes.REQUEST_NOTIFY_BENEFICIARY_LIST -> {
+                        if (data.getBooleanExtra(Constants.BENEFICIARY_CHANGE, false)) {
+                            val isMoneyTransfer =
+                                data.getValue(Constants.IS_TRANSFER_MONEY, "BOOLEAN") as? Boolean
+                            val beneficiary =
+                                data.getValue(
+                                    Beneficiary::class.java.name,
+                                    "PARCEABLE"
+                                ) as? Beneficiary
+                            if (isMoneyTransfer == true)
+                                beneficiary?.let {
+                                    startMoneyTransfer(it, 0)
+                                    viewModel.requestAllBeneficiaries()
+                                }
+                            else
+                                viewModel.requestAllBeneficiaries()
+                        } else if (data.getBooleanExtra(Constants.MONEY_TRANSFERED, false)) {
+                            finish()
+                        }
                     }
-                }
-                REQUEST_TRANSFER_MONEY -> {
-                    if (resultCode == Activity.RESULT_OK && data.getBooleanExtra(
-                            Constants.MONEY_TRANSFERED,
-                            false
-                        )
-                    ) {
-                        viewModel.isSearching.value?.let {
-                            if (it) {
-                                val intent = Intent()
-                                intent.putExtra(Constants.MONEY_TRANSFERED, true)
-                                setResult(Activity.RESULT_OK, intent)
-                                finish()
-                            } else {
-                                finish()
+                    REQUEST_TRANSFER_MONEY -> {
+                        if (resultCode == Activity.RESULT_OK && data.getBooleanExtra(
+                                Constants.MONEY_TRANSFERED,
+                                false
+                            )
+                        ) {
+                            viewModel.isSearching.value?.let {
+                                if (it) {
+                                    val intent = Intent()
+                                    intent.putExtra(Constants.MONEY_TRANSFERED, true)
+                                    setResult(Activity.RESULT_OK, intent)
+                                    finish()
+                                } else {
+                                    finish()
+                                }
                             }
                         }
                     }

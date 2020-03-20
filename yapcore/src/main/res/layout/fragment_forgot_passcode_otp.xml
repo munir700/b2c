@@ -12,12 +12,15 @@
         <import type="co.yap.translation.Strings" />
 
     </data>
-
+<ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true">
     <androidx.constraintlayout.widget.ConstraintLayout
 
         android:id="@+id/layout2"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:background="@color/white"
         android:paddingStart="@dimen/margin_medium"
         android:paddingTop="@dimen/margin_normal"
@@ -104,7 +107,7 @@
             android:gravity="center"
             android:lineSpacingExtra="1sp"
             android:onClick="@{(v) -> viewModel.handlePressOnResendOTP(context)}"
-            android:paddingBottom="@dimen/margin_extra_large"
+            android:paddingBottom="@dimen/margin_extra_small"
             android:textAllCaps="false"
             android:textColor="@{viewModel.state.color}"
             app:layout_constraintEnd_toEndOf="parent"
@@ -134,4 +137,5 @@
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>
 </layout>
