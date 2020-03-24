@@ -11,6 +11,7 @@ import co.yap.household.BR
 import co.yap.household.R
 import co.yap.household.dashboard.main.activities.HouseholdDashboardActivity
 import co.yap.household.onboard.cardselection.HouseHoldCardsSelectionActivity
+import co.yap.household.onboard.onboarding.existinghousehold.ExistingHouseholdFragment
 import co.yap.household.onboard.onboarding.interfaces.IHouseHoldNumberRegistration
 import co.yap.household.onboard.onboarding.invalideid.InvalidEIDFragment
 import co.yap.household.onboard.onboarding.main.OnBoardingHouseHoldActivity
@@ -26,7 +27,6 @@ import co.yap.yapcore.helpers.extentions.launchActivity
 import co.yap.yapcore.helpers.extentions.startFragment
 import co.yap.yapcore.managers.MyUserManager
 import kotlinx.android.synthetic.main.fragment_house_hold_number_registration.*
-
 
 class HouseHoldNumberRegistrationFragment :
     OnboardingChildFragment<IHouseHoldNumberRegistration.ViewModel>(),
@@ -49,10 +49,19 @@ class HouseHoldNumberRegistrationFragment :
             if (!notificationStatuses.isNullOrBlank())
                 when (AccountStatus.valueOf(notificationStatuses)) {
                     AccountStatus.INVITE_PENDING -> {
-
+                        val bundle = Bundle()
+                        bundle.putParcelable(OnBoardingHouseHoldActivity.USER_INFO, viewModel.parentViewModel?.state?.accountInfo)
+                        startFragment(ExistingHouseholdFragment::class.java.name, false, bundle)
                     }
-                    AccountStatus.PARNET_MOBILE_VERIFICATION_PENDING -> {
 
+                    AccountStatus.PARNET_MOBILE_VERIFICATION_PENDING -> {
+                        startActivity(
+                            Intent(
+                                requireContext(),
+                                OnBoardingHouseHoldActivity::class.java
+                            )
+                        )
+                        activity?.finish()
                     }
                     AccountStatus.PASS_CODE_PENDING -> {
                         findNavController().navigate(R.id.to_houseHoldCreatePassCodeFragment)

@@ -334,7 +334,8 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
 //                bundle.putBoolean(OnBoardingHouseHoldActivity.EXISTING_USER, MyUserManager.isOnBoarded())
                 bundle.putParcelable(OnBoardingHouseHoldActivity.USER_INFO, MyUserManager.user)
 //                startFragment(ExistingHouseholdFragment::class.java.name, false, bundle)
-                launchActivity<OnBoardingHouseHoldActivity> { bundle }
+                startActivity(OnBoardingHouseHoldActivity.getIntent(requireContext(), bundle))
+//                launchActivity<OnBoardingHouseHoldActivity> { bundle }
             }
 
         }

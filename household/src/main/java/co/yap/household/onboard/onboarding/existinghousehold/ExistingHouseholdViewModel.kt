@@ -1,6 +1,7 @@
 package co.yap.household.onboard.onboarding.existinghousehold
 
 import android.app.Application
+import android.util.Log
 import co.yap.networking.authentication.AuthRepository
 import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.customers.responsedtos.AccountInfo
@@ -32,7 +33,7 @@ class ExistingHouseholdViewModel(application: Application) :
         launch {
             state.loading = true
             when (val response =
-                MyUserManager.user?.notificationStatuses?.let {
+                notificationStatus?.let {
                     customersRepository.getSubAccountInviteStatus(
                         it
                     )

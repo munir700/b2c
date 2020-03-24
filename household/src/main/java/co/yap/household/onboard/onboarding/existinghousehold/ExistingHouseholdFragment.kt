@@ -13,6 +13,7 @@ import co.yap.modules.dashboard.yapit.y2y.home.activities.YapToYapDashboardActiv
 import co.yap.networking.customers.responsedtos.AccountInfo
 import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.IFragmentHolder
+import co.yap.yapcore.enums.AccountStatus
 import co.yap.yapcore.helpers.extentions.startFragment
 import co.yap.yapcore.helpers.extentions.toast
 import co.yap.yapcore.managers.MyUserManager
@@ -55,7 +56,7 @@ class ExistingHouseholdFragment : BaseBindingFragment<IExistingHouseHold.ViewMod
 
     private val invitationStatusObserver = Observer<String> {
 
-        if(it == "INVITE_ACCEPTED") {
+        if(it == AccountStatus.PARNET_MOBILE_VERIFICATION_PENDING.name) {
             val bundle = Bundle()
 //                bundle.putBoolean(OnBoardingHouseHoldActivity.EXISTING_USER, existingUser)
             accountInfo?.let {
@@ -67,7 +68,7 @@ class ExistingHouseholdFragment : BaseBindingFragment<IExistingHouseHold.ViewMod
                 bundle,
                 showToolBar = false
             )
-        }else if(it == "INVITE_DECLINE"){
+        }else if(it == AccountStatus.INVITE_DECLENIED.name){
             gotoYapDashboard()
         }
     }
@@ -76,12 +77,12 @@ class ExistingHouseholdFragment : BaseBindingFragment<IExistingHouseHold.ViewMod
         when (it) {
             R.id.btnAccept -> {
                 // API Call for Accept
-                viewModel.subAccountInvitationStatus("INVITE_ACCEPTED")
+                viewModel.subAccountInvitationStatus("invite_accepted")
             }
 
             R.id.tvOnBoardingExistingDeclineRequest -> {
                 // API Call for Decline
-                viewModel.subAccountInvitationStatus("INVITE_DECLINE")
+                viewModel.subAccountInvitationStatus("Invite_declenied")
 
             }
         }
