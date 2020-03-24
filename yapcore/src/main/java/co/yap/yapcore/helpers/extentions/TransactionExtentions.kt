@@ -71,8 +71,11 @@ fun Content?.getTransactionTypeTitle(): String {
             TransactionProductCode.TOP_UP_VIA_CARD.pCode == txn.productCode -> "Top up"
             TransactionProductCode.CASH_DEPOSIT_AT_RAK.pCode == txn.productCode || TransactionProductCode.CHEQUE_DEPOSIT_AT_RAK.pCode == txn.productCode || TransactionProductCode.ATM_DEPOSIT.pCode == txn.productCode -> "Deposit"
             TransactionProductCode.ATM_WITHDRAWL.pCode == txn.productCode || TransactionProductCode.MASTER_CARD_ATM_WITHDRAWAL.pCode == txn.productCode -> "Cash"
-            TransactionProductCode.TOP_UP_SUPPLEMENTARY_CARD.pCode == txn.productCode || TransactionProductCode.WITHDRAW_SUPPLEMENTARY_CARD.pCode == txn.productCode -> {
-                if (txn.txnType == TxnType.DEBIT.type) "Withdrawn from virtual card" else "Added to virtual card"
+            TransactionProductCode.TOP_UP_SUPPLEMENTARY_CARD.pCode == txn.productCode -> {
+                "Added to virtual card"
+            }
+            TransactionProductCode.WITHDRAW_SUPPLEMENTARY_CARD.pCode == txn.productCode -> {
+                "Withdrawn from virtual card"
             }
             else -> return (when (txn.productCode) {
                 TransactionProductCode.DOMESTIC.pCode, TransactionProductCode.RMT.pCode, TransactionProductCode.SWIFT.pCode, TransactionProductCode.UAEFTS.pCode, TransactionProductCode.INWARD_REMITTANCE.pCode, TransactionProductCode.LOCAL_INWARD_TRANSFER.pCode -> {
