@@ -30,6 +30,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.databinding.*
 import androidx.recyclerview.widget.RecyclerView
+import androidx.viewpager.widget.ViewPager
 import co.yap.networking.cards.responsedtos.Card
 import co.yap.networking.customers.responsedtos.beneficiary.TopUpCard
 import co.yap.translation.Translator
@@ -987,5 +988,11 @@ object UIBinder {
                 )
             )
         }
+    }
+
+    @JvmStatic
+    @BindingAdapter("offscreenPageLimit")
+    fun viewPagerOffscreenPageLimit(view: ViewPager, offscreenPageLimit: Int = 2) {
+        view.offscreenPageLimit = offscreenPageLimit
     }
 }

@@ -36,6 +36,10 @@ class SplashFragment : BaseFragment<ISplash.ViewModel>(), ISplash.View {
 
     }
 
+    override fun performDataBinding(savedInstanceState: Bundle?) {
+
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.splashComplete.observe(this, Observer {

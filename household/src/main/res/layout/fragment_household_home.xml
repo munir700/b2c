@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="co.yap.household.dashboard.home.viewmodels.HouseholdHomeViewModel" />
+            type="co.yap.household.dashboard.home.HouseHoldHomeVM" />
 
         <import type="co.yap.translation.Strings" />
     </data>
@@ -33,8 +33,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:viewModel="@{viewModel}" />
+                app:layout_constraintTop_toTopOf="parent" />
 
             <com.yarolegovich.discretescrollview.DiscreteScrollView
                 android:id="@+id/rvNotificationList"
@@ -116,10 +115,10 @@
             app:layout_constraintTop_toBottomOf="@id/clTransactionHeader" />
 
         <co.yap.widgets.MultiStateView
-            android:layout_marginTop="@dimen/small"
             android:id="@+id/multiStateView"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:layout_marginTop="@dimen/small"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -131,8 +130,8 @@
             <co.yap.yapcore.transactions.TransactionRecyclerView
                 android:id="@+id/transactionRecyclerView"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:txnList="@{viewModel.state.transactionList}" />
+                app:txnList="@{viewModel.state.transactionList}"
+                android:layout_height="match_parent" />
         </co.yap.widgets.MultiStateView>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -15,11 +15,9 @@ class KycSuccessActivity : DefaultActivity() {
         super.onCreate(savedInstanceState)
         //trackAdjustEvent(AdjustEvents.DELIVERY_CONFIRMED.type)
         setContentView(R.layout.activity_kyc_success)
-
         btnTopUp.setOnClickListener {
             trackAdjustEvent(AdjustEvents.KYC_END.type)
             startActivity(Intent(this, LiteDashboardActivity::class.java))
         }
     }
-
 }

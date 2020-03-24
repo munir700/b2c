@@ -1,5 +1,7 @@
 package co.yap.yapcore.helpers.extentions
 
+import android.view.View
+import android.view.ViewGroup
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.appbar.CollapsingToolbarLayout
 
@@ -13,4 +15,7 @@ fun CollapsingToolbarLayout.disableScroll() {
     val params = this.layoutParams as AppBarLayout.LayoutParams
     params.scrollFlags = 0
     this.layoutParams = params
+}
+fun View.detachFromParent() {
+    (this.parent as ViewGroup?)?.removeView(this)
 }
