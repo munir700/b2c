@@ -126,7 +126,8 @@ class InternationalFundsTransferViewModel(application: Application) :
                     state.toFxRateCurrency = response.data.data.toCurrencyCode
                     state.toFxRate =
                         "${state.senderCurrency} ${response.data.data.fxRates?.get(0)?.rate}"
-                    state.rate = response.data.data.fxRates?.get(0)?.convertedAmount
+                    state.rate = response.data.data.fxRates?.get(0)?.rate
+//                    state.rate = response.data.data.fxRates?.get(0)?.convertedAmount
                     state.srRate = response.data.data.fxRates?.get(0)?.rate ?: "0"
                     state.loading = false
                 }

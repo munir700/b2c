@@ -348,7 +348,7 @@ class InternationalFundsTransferState(val application: Application) : BaseState(
                             }
                             val amountFxRate = amount
                             val receiveFxRate = rate?.toDoubleOrNull()
-                            val result = amountFxRate?.times(receiveFxRate ?: 0.0)
+                            val result = amountFxRate?.div(receiveFxRate ?: 0.0)
                             receiverCurrencyAmount =
                                 String.format(
                                     Locale.getDefault(),
