@@ -211,9 +211,9 @@ class GenericOtpViewModel(application: Application) :
         when (errorCode) {
             "1095" -> {
                 state.validResend = false
-                state.valid = false
+//                state.valid = false // to disable confirm button
                 state.color = context.getColors(R.color.disabled)
-                state.isOtpBlocked.set(true)
+                state.isOtpBlocked.set(false)
             }
         }
     }

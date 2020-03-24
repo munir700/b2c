@@ -155,10 +155,10 @@ class PhoneVerificationSignInViewModel(application: Application) :
     private fun otpUiBlocked(errorCode: String) {
         when (errorCode) {
             "1095" -> {
-                state.validateBtn = false
+//                state.validateBtn = false
                 state.valid = false
                 state.color = context.getColors(R.color.disabled)
-                state.isOtpBlocked.set(true)
+                state.isOtpBlocked.set(false)
             }
         }
     }
