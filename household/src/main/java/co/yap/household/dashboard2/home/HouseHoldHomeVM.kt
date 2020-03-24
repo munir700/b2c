@@ -44,6 +44,9 @@ class HouseHoldHomeVM @Inject constructor(
         // state.toast = "saddsadsasad"
     }
 
+    override fun onCreate() {
+        super.onCreate()
+    }
 
     override fun requestTransactions(isLoadMore: Boolean) {
 

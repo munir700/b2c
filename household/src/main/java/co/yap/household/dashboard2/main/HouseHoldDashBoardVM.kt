@@ -11,10 +11,11 @@ class HouseHoldDashBoardVM @Inject constructor(override var state: IHouseholdDas
     DaggerBaseViewModel<IHouseholdDashboard.State>(),
     IHouseholdDashboard.ViewModel {
 
-    override var adapter: ObservableField<SectionsPagerAdapter>? = null
+    override val adapter = ObservableField<SectionsPagerAdapter>()
 
 
     override fun onFirsTimeUiCreate(bundle: Bundle?, navigation: NavController?) {
 
     }
+
 }

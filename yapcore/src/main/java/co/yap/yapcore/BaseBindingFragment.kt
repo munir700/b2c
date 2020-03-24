@@ -55,6 +55,7 @@ abstract class BaseBindingFragment<V : IBase.ViewModel<*>> : BaseFragment<V>() {
         viewDataBinding.setVariable(getBindingVariable(), viewModel)
         //viewDataBinding.lifecycleOwner = this
         viewDataBinding.executePendingBindings()
+        postExecutePendingBindings()
     }
 
     /**MV
@@ -86,6 +87,12 @@ abstract class BaseBindingFragment<V : IBase.ViewModel<*>> : BaseFragment<V>() {
      * Gets called right after the UI initialization.
      */
     protected open fun postInit() {
+        //
+    }
+    /**
+     * Gets called right after the UI executePendingBindings.
+     */
+    protected open fun postExecutePendingBindings() {
         //
     }
     /**

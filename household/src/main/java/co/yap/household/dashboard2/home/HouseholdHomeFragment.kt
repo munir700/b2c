@@ -21,8 +21,8 @@ class HouseholdHomeFragment:BaseViewModelFragment<FragmentHouseholdHomeV2Binding
 
     override fun getLayoutId() = R.layout.fragment_household_home_v2
 
-    override fun postInit() {
-        super.postInit()
+    override fun postExecutePendingBindings() {
+        super.postExecutePendingBindings()
         mViewDataBinding.transactionRecyclerView.setItemClickListener(adaptorClickListener)
         mViewDataBinding.transactionRecyclerView.setLoadMoreListener(loadMoreListener)
         viewModel.stateLiveData?.observe(

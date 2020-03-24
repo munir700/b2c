@@ -19,13 +19,13 @@ class SectionsPagerAdapter @Inject constructor(
     private val mFragmentInfoList: MutableList<FragmentInfo> = ArrayList();
 
 
-    fun addFragmentInfo(fragmentName: String, title: String, bundle: Bundle) {
+    fun addFragmentInfo(fragmentName: String, title: String = "", bundle: Bundle = Bundle()) {
         addFragmentInfo(fragmentName, title, 0, bundle)
     }
 
-    inline fun <reified T : Fragment> addFragmentInfo(title: String = "", bundle: Bundle = Bundle()) {
-        addFragmentInfo(T::class.java.name, title, 0, bundle)
-    }
+//    inline fun <reified T : Fragment> addFragmentInfo(title: String = "", bundle: Bundle = Bundle()) {
+//        addFragmentInfo(T::class.java.name, title, 0, bundle)
+//    }
 
     fun addFragmentInfo(fragmentName: String, title: String, icon: Int, bundle: Bundle?) {
         var bundle = bundle

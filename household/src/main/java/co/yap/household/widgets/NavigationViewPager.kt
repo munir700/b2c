@@ -14,7 +14,7 @@ class NavigationViewPager @JvmOverloads constructor(
 ) : ViewPager(context, attrs) {
 
 
-    var isSwipeable = true
+    var isSwipeable = false
 
 
     override fun onDetachedFromWindow() {

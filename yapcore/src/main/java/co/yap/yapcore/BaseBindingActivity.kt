@@ -40,9 +40,9 @@ abstract class BaseBindingActivity<V : IBase.ViewModel<*>> : BaseActivity<V>() {
         init(savedInstanceState)
         viewDataBinding = DataBindingUtil.setContentView(this, getLayoutId())
         viewDataBinding.setVariable(getBindingVariable(), viewModel)
-
         postInit()
         viewDataBinding.executePendingBindings()
+        postExecutePendingBindings()
     }
     /**
      * Gets called when it's the right time for you to inject the dependencies.
@@ -63,6 +63,12 @@ abstract class BaseBindingActivity<V : IBase.ViewModel<*>> : BaseActivity<V>() {
      * Gets called right after the UI initialization.
      */
     protected open fun postInit() {
+        //
+    }
+    /**
+     * Gets called right after the UI executePendingBindings.
+     */
+    protected open fun postExecutePendingBindings() {
         //
     }
     /**

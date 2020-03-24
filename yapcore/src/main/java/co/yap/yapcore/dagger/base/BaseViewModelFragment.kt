@@ -39,18 +39,21 @@ abstract class BaseViewModelFragment<VB : ViewDataBinding, S : IBase.State, VM :
     @Inject
     lateinit var state: S
     override lateinit var viewModel: VM
-    var mViewDataBinding = viewDataBinding as VB
+    lateinit var mViewDataBinding: VB
         private set
     override var shouldRegisterViewModelLifeCycle: Boolean = false
 
 
     override fun performDataBinding(savedInstanceState: Bundle?) {
+        mViewDataBinding = viewDataBinding as VB
         viewModel = mViewModel.get()
         registerStateListeners()
         viewModel.onCreate(arguments)
         viewDataBinding.setVariable(getBindingVariable(), viewModel)
-        mViewDataBinding.lifecycleOwner = this
-        mViewDataBinding.executePendingBindings()
+        viewDataBinding.lifecycleOwner = this
+       // registerStateListeners()
+        viewDataBinding.executePendingBindings()
+        postExecutePendingBindings()
     }
 
 

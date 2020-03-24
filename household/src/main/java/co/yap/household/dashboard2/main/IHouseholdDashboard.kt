@@ -10,7 +10,7 @@ interface IHouseholdDashboard {
     }
 
     interface ViewModel : IBase.ViewModel<State> {
-        var adapter :ObservableField<SectionsPagerAdapter>?
+        val adapter :ObservableField<SectionsPagerAdapter>
     }
 
     interface State : IBase.State {

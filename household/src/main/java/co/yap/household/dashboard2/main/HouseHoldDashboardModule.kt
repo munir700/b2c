@@ -19,10 +19,11 @@ class HouseHoldDashboardModule : BaseActivityModule<HouseholdDashboardActivity>(
     ) = viewModelProvider.get(activity, HouseHoldDashBoardVM::class)
 
     @Provides
-    fun provideHouseholdDashboardPagerAdapter(activity: HouseholdDashboardActivity): SectionsPagerAdapter {
-        return SectionsPagerAdapter(activity, activity.supportFragmentManager)
-    }
+    @ActivityScope
+    fun provideHouseholdDashboardPagerAdapter(activity: HouseholdDashboardActivity) =
+        SectionsPagerAdapter(activity, activity.supportFragmentManager)
+
     @Provides
     @ActivityScope
-    fun provideHouseholdHomeState():IHouseholdDashboard.State = HouseholdDashboardState()
+    fun provideHouseholdHomeState(): IHouseholdDashboard.State = HouseholdDashboardState()
 }
