@@ -1,11 +1,14 @@
 package co.yap.household.onboard.onboarding.householdsuccess
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.household.BR
 import co.yap.household.R
+import co.yap.household.dashboard.main.activities.HouseholdDashboardActivity
 import co.yap.household.onboard.onboarding.main.OnBoardingHouseHoldActivity
+import co.yap.modules.dashboard.main.activities.YapDashboardActivity
 import co.yap.networking.customers.responsedtos.AccountInfo
 import co.yap.yapcore.BaseBindingFragment
 
@@ -48,12 +51,17 @@ class HouseHoldSuccessFragment : BaseBindingFragment<IHouseHoldSuccess.ViewModel
 //                bundle.putBoolean(OnBoardingHouseHoldActivity.EXISTING_USER, existingUser)
                 bundle.putParcelable(OnBoardingHouseHoldActivity.USER_INFO, accountInfo)
                 startActivity(OnBoardingHouseHoldActivity.getIntent(requireContext(), bundle))
+                activity?.finish()
             }
 
             R.id.tvSkipAndLater -> {
-//                toast("Skip And Later")
-
-                // Go to yap Dashboard
+                startActivity(
+                    Intent(
+                        requireContext(),
+                        YapDashboardActivity::class.java
+                    )
+                )
+                activity?.finish()
             }
         }
     }

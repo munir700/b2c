@@ -342,13 +342,13 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
     }
 
     private fun goToHouseHoldDashboard() {
-        findNavController().navigate(R.id.action_goto_householdOnBoardingExistingYAP)
-        activity?.finish()
+        findNavController().navigate(R.id.action_goto_householdDashboardActivity)
+//        activity?.finish()
     }
 
     private fun gotoYapDashboard() {
         findNavController().navigate(R.id.action_goto_yapDashboardActivity)
-        activity?.finish()
+//        activity?.finish()
     }
 
     private val createOtpObserver = Observer<Boolean> {

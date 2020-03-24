@@ -3,6 +3,7 @@ package co.yap.household.onboard.onboarding.fragments
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -51,17 +52,10 @@ class HouseHoldNumberRegistrationFragment :
                     AccountStatus.INVITE_PENDING -> {
                         val bundle = Bundle()
                         bundle.putParcelable(OnBoardingHouseHoldActivity.USER_INFO, viewModel.parentViewModel?.state?.accountInfo)
-                        startFragment(ExistingHouseholdFragment::class.java.name, false, bundle)
+                        startFragment(ExistingHouseholdFragment::class.java.name, true, bundle)
                     }
 
                     AccountStatus.PARNET_MOBILE_VERIFICATION_PENDING -> {
-                        startActivity(
-                            Intent(
-                                requireContext(),
-                                OnBoardingHouseHoldActivity::class.java
-                            )
-                        )
-                        activity?.finish()
                     }
                     AccountStatus.PASS_CODE_PENDING -> {
                         findNavController().navigate(R.id.to_houseHoldCreatePassCodeFragment)
@@ -153,7 +147,9 @@ class HouseHoldNumberRegistrationFragment :
             }
 
         }else{
-            findNavController().navigate(R.id.to_houseHoldCreatePassCodeFragment)
+//            findNavController().navigate(R.id.to_houseHoldCreatePassCodeFragment)
+            showToast(it)
+
         }
     }
 

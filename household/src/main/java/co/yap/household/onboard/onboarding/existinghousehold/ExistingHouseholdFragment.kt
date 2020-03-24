@@ -9,14 +9,18 @@ import co.yap.household.BR
 import co.yap.household.R
 import co.yap.household.onboard.onboarding.main.OnBoardingHouseHoldActivity
 import co.yap.household.onboard.onboarding.householdsuccess.HouseHoldSuccessFragment
+import co.yap.modules.dashboard.main.activities.YapDashboardActivity
 import co.yap.modules.dashboard.yapit.y2y.home.activities.YapToYapDashboardActivity
 import co.yap.networking.customers.responsedtos.AccountInfo
 import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.IFragmentHolder
 import co.yap.yapcore.enums.AccountStatus
+import co.yap.yapcore.helpers.StringUtils
+import co.yap.yapcore.helpers.extentions.launchActivity
 import co.yap.yapcore.helpers.extentions.startFragment
 import co.yap.yapcore.helpers.extentions.toast
 import co.yap.yapcore.managers.MyUserManager
+import com.ezaka.customer.app.utils.toCamelCase
 
 class ExistingHouseholdFragment : BaseBindingFragment<IExistingHouseHold.ViewModel>(),
     IFragmentHolder {
@@ -59,16 +63,13 @@ class ExistingHouseholdFragment : BaseBindingFragment<IExistingHouseHold.ViewMod
         if(it == AccountStatus.PARNET_MOBILE_VERIFICATION_PENDING.name) {
             val bundle = Bundle()
 //                bundle.putBoolean(OnBoardingHouseHoldActivity.EXISTING_USER, existingUser)
-            accountInfo?.let {
-                bundle.putParcelable(OnBoardingHouseHoldActivity.USER_INFO, it)
+            accountInfo?.let {accInfo ->
+                accInfo.notificationStatuses = it
+                bundle.putParcelable(OnBoardingHouseHoldActivity.USER_INFO, accInfo)
             }
-            startFragment(
-                HouseHoldSuccessFragment::class.java.name,
-                false,
-                bundle,
-                showToolBar = false
-            )
-        }else if(it == AccountStatus.INVITE_DECLENIED.name){
+
+            startFragment(HouseHoldSuccessFragment::class.java.name, true, bundle)
+        }else if(it == AccountStatus.INVITE_DECLINED.name){
             gotoYapDashboard()
         }
     }
@@ -77,24 +78,18 @@ class ExistingHouseholdFragment : BaseBindingFragment<IExistingHouseHold.ViewMod
         when (it) {
             R.id.btnAccept -> {
                 // API Call for Accept
-                viewModel.subAccountInvitationStatus("invite_accepted")
+                viewModel.subAccountInvitationStatus((AccountStatus.INVITE_ACCEPTED.name.toCamelCase()))
             }
 
             R.id.tvOnBoardingExistingDeclineRequest -> {
                 // API Call for Decline
-                viewModel.subAccountInvitationStatus("Invite_declenied")
+                viewModel.subAccountInvitationStatus(AccountStatus.INVITE_DECLINED.name.toCamelCase())
 
             }
         }
     }
 
     private fun gotoYapDashboard() {
-        startActivity(
-            YapToYapDashboardActivity.getIntent(
-                requireContext(),
-                true,
-                null
-            )
-        )
+        launchActivity<YapDashboardActivity> {  }
     }
 }

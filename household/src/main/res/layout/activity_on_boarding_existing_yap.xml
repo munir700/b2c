@@ -70,8 +70,8 @@
 
                 <ImageView
                     android:id="@+id/iv_ob_boarding_existing_yap"
-                    android:layout_width="@dimen/_240sdp"
-                    android:layout_height="@dimen/_205sdp"
+                    android:layout_width="@dimen/_220sdp"
+                    android:layout_height="@dimen/_190sdp"
                     android:layout_marginTop="@dimen/margin_extra_large"
                     android:scaleType="fitXY"
                     app:layout_constraintLeft_toLeftOf="parent"
@@ -95,7 +95,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/iv_ob_boarding_existing_yap"
                     app:layout_constraintVertical_bias="0.0"
-                    app:text="@{Strings.screen_success_house_hold_card_deliver_text}"
+                    app:text="@{Strings.screen_house_hold_onBoarding_existing_title_accept_text}"
                     tools:text="@string/screen_house_hold_onBoarding_existing_title_accept_text" />
 
 
@@ -107,6 +107,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/margin_medium_large"
                     android:layout_marginTop="@dimen/margin_large"
+                    android:layout_marginBottom="@dimen/margin_small"
                     android:layout_marginRight="@dimen/margin_medium_large"
                     android:paddingTop="@dimen/margin_medium"
                     android:paddingBottom="@dimen/margin_medium"
@@ -118,7 +119,7 @@
                     app:btn_unpressed_color="@color/colorPrimaryHouseHold"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tvOnBoardingExistingYapAccept"
+                    app:layout_constraintBottom_toTopOf="@+id/tvOnBoardingExistingDeclineRequest"
                     app:text="@{Strings.screen_house_hold_onBoarding_existing_title_accept}"
                     tools:text="@string/screen_house_hold_onBoarding_existing_title_accept" />
 
@@ -130,7 +131,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_10sdp"
                     android:gravity="center"
-                    android:paddingBottom="@dimen/margin_small"
+                    android:paddingBottom="@dimen/margin_medium"
                     android:lineSpacingExtra="9sp"
                     android:text="@string/screen_house_hold_onBoarding_existing_title_decline_request"
                     android:textColor="@color/colorPrimaryHouseHold"

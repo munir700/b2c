@@ -16,5 +16,5 @@ enum class AccountStatus {
     EMAIL_PENDING,
     INVITE_PENDING,
     INVITE_ACCEPTED,
-    INVITE_DECLENIED
+    INVITE_DECLINED
 }

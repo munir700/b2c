@@ -115,7 +115,9 @@ object MyUserManager : IRepositoryHolder<CardsRepository> {
 
     fun isOnBoarded(): Boolean {
         if (user?.notificationStatuses != AccountStatus.PARNET_MOBILE_VERIFICATION_PENDING.name &&
-            user?.notificationStatuses != AccountStatus.INVITE_PENDING.name) {
+            user?.notificationStatuses != AccountStatus.INVITE_PENDING.name &&
+            user?.notificationStatuses != AccountStatus.EMAIL_PENDING.name &&
+            user?.notificationStatuses != AccountStatus.PASS_CODE_PENDING.name) {
             return true
         }
         return false
