@@ -1,11 +1,10 @@
-package co.yap.household.dashboard2.home
+package co.yap.household.dashboard.home
 
 import android.view.View
 import androidx.lifecycle.Observer
 import co.yap.household.BR
 import co.yap.household.R
-import co.yap.household.databinding.FragmentHouseholdHomeV2Binding
-import co.yap.networking.transactions.responsedtos.transaction.Content
+import co.yap.household.databinding.FragmentHouseholdHomeBinding
 import co.yap.widgets.MultiStateView
 import co.yap.widgets.State
 import co.yap.widgets.Status
@@ -13,13 +12,14 @@ import co.yap.yapcore.dagger.base.BaseViewModelFragment
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.transactions.TransactionsAdapter
 import co.yap.yapcore.transactions.interfaces.LoadMoreListener
-import kotlinx.android.synthetic.main.fragment_household_home_v2.*
+import kotlinx.android.synthetic.main.fragment_household_home.*
 
-class HouseholdHomeFragment:BaseViewModelFragment<FragmentHouseholdHomeV2Binding,IHouseholdHome.State,HouseHoldHomeVM>() {
+
+class HouseholdHomeFragment:BaseViewModelFragment<FragmentHouseholdHomeBinding,IHouseholdHome.State,HouseHoldHomeVM>() {
 
     override fun getBindingVariable() = BR.viewModel
 
-    override fun getLayoutId() = R.layout.fragment_household_home_v2
+    override fun getLayoutId() = R.layout.fragment_household_home
 
     override fun postExecutePendingBindings() {
         super.postExecutePendingBindings()

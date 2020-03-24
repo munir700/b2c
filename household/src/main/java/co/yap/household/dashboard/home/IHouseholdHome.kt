@@ -1,11 +1,9 @@
-package co.yap.household.dashboard2.home
+package co.yap.household.dashboard.home
 
 import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
-import co.yap.modules.yapnotification.models.Notification
 import co.yap.networking.transactions.requestdtos.HomeTransactionsRequest
 import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionListData
-import co.yap.widgets.State
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
 

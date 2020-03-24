@@ -1,4 +1,4 @@
-package co.yap.household.dashboard2.home
+package co.yap.household.dashboard.home
 
 import androidx.databinding.ObservableField
 import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionListData

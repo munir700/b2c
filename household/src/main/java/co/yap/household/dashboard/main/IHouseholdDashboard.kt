@@ -1,4 +1,4 @@
-package co.yap.household.dashboard2.main
+package co.yap.household.dashboard.main
 
 import androidx.databinding.ObservableField
 import co.yap.yapcore.IBase

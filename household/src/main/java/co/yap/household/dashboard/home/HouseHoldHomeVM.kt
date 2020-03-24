@@ -1,4 +1,4 @@
-package co.yap.household.dashboard2.home
+package co.yap.household.dashboard.home
 
 import android.os.Bundle
 import androidx.lifecycle.MutableLiveData
@@ -10,9 +10,7 @@ import co.yap.networking.transactions.responsedtos.transaction.Content
 import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionListData
 import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionsResponse
 import co.yap.widgets.State
-import co.yap.widgets.Status
 import co.yap.yapcore.SingleClickEvent
-import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.dagger.base.viewmodel.DaggerBaseViewModel
 import java.text.SimpleDateFormat
 import java.util.*

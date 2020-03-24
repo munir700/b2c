@@ -1,8 +1,8 @@
-package co.yap.household.dashboard2.main
+package co.yap.household.dashboard.main
 
 import co.yap.household.BR
 import co.yap.household.R
-import co.yap.household.dashboard2.home.HouseholdHomeFragment
+import co.yap.household.dashboard.home.HouseholdHomeFragment
 import co.yap.household.databinding.ActivityHouseholdDashboardBinding
 import co.yap.widgets.arcmenu.FloatingActionMenu
 import co.yap.widgets.arcmenu.animation.SlideInAnimationHandler

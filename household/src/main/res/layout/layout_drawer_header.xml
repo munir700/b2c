@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="co.yap.household.dashboard.main.viewmodels.HouseholdDashboardViewModel" />
+            type="co.yap.household.dashboard.main.HouseHoldDashBoardVM" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -26,7 +26,6 @@
         android:background="@drawable/circle_menu_item"
         android:backgroundTint="#fee3e0"
         android:gravity="center"
-        android:onClick="@{(v)->viewModel.handlePressOnView(v.id)}"
         app:layout_constraintBottom_toBottomOf="@id/tvUserName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@id/ivLogo">
@@ -143,7 +142,6 @@
                 android:layout_height="@dimen/_18sdp"
                 android:layout_marginEnd="@dimen/margin_small"
                 android:gravity="center"
-                android:onClick="@{(v)->viewModel.handlePressOnView(v.id)}"
                 android:text="Copy"
                 app:btn_pressed_color="@color/disabledLight"
                 app:btn_round_radius="@dimen/_10sdp"

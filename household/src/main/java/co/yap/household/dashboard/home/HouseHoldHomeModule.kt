@@ -1,6 +1,5 @@
-package co.yap.household.dashboard2.home
+package co.yap.household.dashboard.home
 
-import co.yap.networking.transactions.TransactionsRepository
 import co.yap.yapcore.dagger.di.InjectionViewModelProvider
 import co.yap.yapcore.dagger.di.module.fragment.BaseFragmentModule
 import co.yap.yapcore.dagger.di.qualifiers.FragmentScope

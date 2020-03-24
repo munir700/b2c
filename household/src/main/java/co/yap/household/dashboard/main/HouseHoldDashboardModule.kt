@@ -1,4 +1,4 @@
-package co.yap.household.dashboard2.main
+package co.yap.household.dashboard.main
 
 import co.yap.yapcore.adpters.SectionsPagerAdapter
 import co.yap.yapcore.dagger.di.InjectionViewModelProvider

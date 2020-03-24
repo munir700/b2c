@@ -6,7 +6,7 @@
     <data>
         <variable
             name="viewModel"
-            type="co.yap.household.dashboard2.main.HouseHoldDashBoardVM" />
+            type="co.yap.household.dashboard.main.HouseHoldDashBoardVM" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
