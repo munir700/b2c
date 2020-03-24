@@ -92,7 +92,7 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
                 }
             }
         } else {
-            llSignInWithTouch.visibility = View.INVISIBLE
+            llSignInWithTouch.visibility = View.GONE
         }
     }
 
