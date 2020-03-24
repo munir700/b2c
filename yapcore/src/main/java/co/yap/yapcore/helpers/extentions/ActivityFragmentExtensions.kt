@@ -176,7 +176,7 @@ fun FragmentActivity.addFragment(
 }
 
 inline fun <reified T : Fragment> FragmentActivity.startFragment(
-    fragmentName: String,
+    fragmentName: String ="",
     clearAllPrevious: Boolean = false,
     bundle: Bundle = Bundle(),
     requestCode: Int = -1,

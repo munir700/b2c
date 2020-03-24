@@ -38,9 +38,10 @@ abstract class BaseFragment<V : IBase.ViewModel<*>> : BaseNavFragment(), IBase.V
         super.onAttach(context)
         if (context is IFragmentHolder) {
             context.onFragmentAttached()
-        } else {
-            throw IllegalStateException("Could not find reference to IFragmentHolder. Make sure parent activity implements IFragmentHolder interface")
         }
+//        else {
+//            throw IllegalStateException("Could not find reference to IFragmentHolder. Make sure parent activity implements IFragmentHolder interface")
+//        }
 
         if (context !is IBase.View<*>) {
             throw IllegalStateException("Could not find reference to IBase.View. Make sure parent activity implements IBase.View interface")

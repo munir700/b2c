@@ -26,6 +26,7 @@ abstract class BaseActivityModule<in T : AppCompatActivity> {
         return activity
     }
 
+
     @Provides
     @ActivityFragmentManager
     fun provideFragmentManager(activity: T): FragmentManager {

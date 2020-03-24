@@ -9,7 +9,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import co.yap.household.BR
 import co.yap.household.R
-import co.yap.household.dashboard.main.activities.HouseholdDashboardActivity
+import co.yap.household.dashboard.main.HouseholdDashboardActivity
 import co.yap.household.onboard.cardselection.HouseHoldCardsSelectionActivity
 import co.yap.household.onboard.onboarding.interfaces.IHouseHoldNumberRegistration
 import co.yap.household.onboard.onboarding.invalideid.InvalidEIDFragment
@@ -20,6 +20,7 @@ import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.enums.NotificationStatus
 import co.yap.yapcore.helpers.extentions.ExtraType
 import co.yap.yapcore.helpers.extentions.getValue
+import co.yap.yapcore.helpers.extentions.launchActivity
 import co.yap.yapcore.helpers.extentions.startFragment
 import kotlinx.android.synthetic.main.fragment_house_hold_number_registration.*
 
@@ -54,12 +55,13 @@ class HouseHoldNumberRegistrationFragment :
                         findNavController().navigate(R.id.action_houseHoldNumberRegistrationFragment_to_emailHouseHoldFragment)
                     }
                     else -> {
-                        startActivity(
-                            Intent(
-                                requireContext(),
-                                HouseholdDashboardActivity::class.java
-                            )
-                        )
+                        launchActivity<HouseholdDashboardActivity>()
+//                        startActivity(
+//                            Intent(
+//                                requireContext(),
+//                                HouseholdDashboardActivity::class.java
+//                            )
+//                        )
                         activity?.finish()
                     }
                 }

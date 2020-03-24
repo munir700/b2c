@@ -1,6 +1,7 @@
 package co.yap.yapcore
 
 import android.content.Context
+import android.os.Bundle
 import co.yap.yapcore.helpers.NetworkConnectionManager
 
 interface IBase {
@@ -12,7 +13,7 @@ interface IBase {
         fun isPermissionGranted(permission: String): Boolean
         fun requestPermissions()
         fun getString(resourceKey: String): String
-        fun performDataBinding()
+        fun performDataBinding(savedInstanceState : Bundle?)
         var shouldRegisterViewModelLifeCycle:Boolean
     }
 
