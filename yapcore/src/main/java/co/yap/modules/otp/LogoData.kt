@@ -7,6 +7,7 @@ import kotlinx.android.parcel.Parcelize
 data class LogoData(
     var imageUrl: String? = "",
     var position: Int? = 0,
-    var flagVisibility:Boolean?= false
+    var flagVisibility: Boolean? = false,
+    var beneficiaryCountry: String? = ""
 ) : Parcelable {
 }

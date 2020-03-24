@@ -1,10 +1,10 @@
-package co.yap.sendmoney.addbeneficiary.states
+package co.yap.sendMoney.addbeneficiary.states
 
 import android.graphics.drawable.Drawable
 import androidx.databinding.Bindable
-import androidx.databinding.library.baseAdapters.BR
- import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
-import co.yap.sendmoney.addbeneficiary.interfaces.IBeneficiaryOverview
+import co.yap.sendmoney.BR
+import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
+import co.yap.sendMoney.addbeneficiary.interfaces.IBeneficiaryOverview
 import co.yap.yapcore.BaseState
 import co.yap.yapcore.helpers.Utils.formateIbanString
 
@@ -179,7 +179,6 @@ class BeneficiaryOverviewState : BaseState(), IBeneficiaryOverview.State {
         set(value) {
             field = value
             notifyPropertyChanged(BR.countryBankRequirementFieldCode)
-// need to check with updated response
 
         }
 

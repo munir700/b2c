@@ -1,4 +1,4 @@
-package co.yap.sendmoney.activities
+package co.yap.sendMoney.activities
 
 import android.app.Activity
 import android.content.Context
@@ -8,8 +8,8 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.sendmoney.BR
 import co.yap.sendmoney.R
-import co.yap.sendmoney.interfaces.ISendMoney
-import co.yap.sendmoney.viewmodels.SendMoneyViewModel
+import co.yap.sendMoney.interfaces.ISendMoney
+import co.yap.sendMoney.viewmodels.SendMoneyViewModel
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.IFragmentHolder
 import co.yap.yapcore.constants.Constants
@@ -24,8 +24,7 @@ class SendMoneyHomeActivity : BaseBindingActivity<ISendMoney.ViewModel>(), INavi
 
     companion object {
         fun newIntent(context: Context): Intent {
-            val intent = Intent(context, SendMoneyHomeActivity::class.java)
-            return intent
+            return Intent(context, SendMoneyHomeActivity::class.java)
         }
     }
 

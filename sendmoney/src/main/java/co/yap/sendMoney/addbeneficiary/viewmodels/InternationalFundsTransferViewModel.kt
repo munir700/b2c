@@ -1,10 +1,7 @@
-package co.yap.sendmoney.addbeneficiary.viewmodels
+package co.yap.sendMoney.addbeneficiary.viewmodels
 
 import android.app.Application
 import androidx.lifecycle.MutableLiveData
-import co.yap.sendmoney.addbeneficiary.interfaces.IInternationalFundsTransfer
-import co.yap.sendmoney.addbeneficiary.states.InternationalFundsTransferState
-import co.yap.sendmoney.viewmodels.SendMoneyBaseViewModel
 import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
@@ -14,6 +11,9 @@ import co.yap.networking.transactions.requestdtos.RxListRequest
 import co.yap.networking.transactions.responsedtos.InternationalFundsTransferReasonList
 import co.yap.networking.transactions.responsedtos.TransactionThresholdModel
 import co.yap.networking.transactions.responsedtos.transaction.RemittanceFeeResponse
+import co.yap.sendMoney.addbeneficiary.interfaces.IInternationalFundsTransfer
+import co.yap.sendMoney.addbeneficiary.states.InternationalFundsTransferState
+import co.yap.sendMoney.viewmodels.SendMoneyBaseViewModel
 import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.constants.Constants
@@ -122,10 +122,10 @@ class InternationalFundsTransferViewModel(application: Application) :
                     state.receiverCurrencyAmountFxRate = response.data.data.value?.amount
                     state.fromFxRateCurrency = response.data.data.fromCurrencyCode
                     state.fromFxRate =
-                        "${state.fromFxRateCurrency} ${response.data.data.value?.amount?.toFormattedCurrency()}"
+                        "${state.receiverCurrency} ${response.data.data.value?.amount?.toFormattedCurrency()}"
                     state.toFxRateCurrency = response.data.data.toCurrencyCode
                     state.toFxRate =
-                        "${state.toFxRateCurrency} ${response.data.data.fxRates?.get(0)?.convertedAmount?.toFormattedCurrency()}"
+                        "${state.senderCurrency} ${response.data.data.fxRates?.get(0)?.rate}"
                     state.rate = response.data.data.fxRates?.get(0)?.convertedAmount
                     state.srRate = response.data.data.fxRates?.get(0)?.rate ?: "0"
                     state.loading = false

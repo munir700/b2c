@@ -120,6 +120,7 @@ object Constants {
     // Money Transfer
     const val MONEY_TRANSFERED = "MONEY_TRANSFERED"
     const val BENEFICIARY_CHANGE = "BENEFICIARY_CHANGE"
+    const val IS_TRANSFER_MONEY = "IS_TRANSFER_MONEY"
 
     //Location Selection
     const val ADDRESS = "address"

@@ -1,9 +1,9 @@
-package co.yap.sendmoney.addbeneficiary.states
+package co.yap.sendMoney.addbeneficiary.states
 
 import androidx.databinding.Bindable
 import androidx.databinding.ObservableField
-import androidx.databinding.library.baseAdapters.BR
-import co.yap.sendmoney.addbeneficiary.interfaces.ITransferSuccess
+import co.yap.sendMoney.addbeneficiary.interfaces.ITransferSuccess
+import co.yap.sendmoney.BR
 import co.yap.yapcore.BaseState
 
 class TransferSuccessState : BaseState(), ITransferSuccess.State {

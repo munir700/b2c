@@ -1,11 +1,7 @@
-package co.yap.sendmoney.addbeneficiary.viewmodels
+package co.yap.sendMoney.addbeneficiary.viewmodels
 
 import android.app.Application
 import androidx.lifecycle.MutableLiveData
-import co.yap.sendmoney.R
-import co.yap.sendmoney.addbeneficiary.interfaces.ICashTransfer
-import co.yap.sendmoney.addbeneficiary.states.CashTransferState
-import co.yap.sendmoney.viewmodels.SendMoneyBaseViewModel
 import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.messages.MessagesRepository
 import co.yap.networking.messages.requestdtos.CreateOtpGenericRequest
@@ -17,6 +13,10 @@ import co.yap.networking.transactions.requestdtos.UAEFTSTransactionRequestDTO
 import co.yap.networking.transactions.responsedtos.InternationalFundsTransferReasonList
 import co.yap.networking.transactions.responsedtos.TransactionThresholdModel
 import co.yap.networking.transactions.responsedtos.transaction.RemittanceFeeResponse
+import co.yap.sendMoney.addbeneficiary.interfaces.ICashTransfer
+import co.yap.sendMoney.addbeneficiary.states.CashTransferState
+import co.yap.sendMoney.viewmodels.SendMoneyBaseViewModel
+import co.yap.sendmoney.R
 import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.constants.Constants

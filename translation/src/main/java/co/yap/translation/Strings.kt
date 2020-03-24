@@ -1080,6 +1080,10 @@ object Strings {
         "screen_international_funds_transfer_display_text_fee"
     const val screen_international_funds_transfer_display_text_note: String =
         "screen_international_funds_transfer_display_text_note"
+    const val screen_international_funds_transfer_display_text_cutoff_time_uaefts: String =
+        "screen_international_funds_transfer_display_text_cutoff_time_uaefts"
+    const val screen_international_funds_transfer_display_text_cutoff_time_swift: String =
+        "screen_international_funds_transfer_display_text_cutoff_time_swift"
 
     // Forgot card pin screen
     const val screen_forgot_pin_display_text_heading: String =

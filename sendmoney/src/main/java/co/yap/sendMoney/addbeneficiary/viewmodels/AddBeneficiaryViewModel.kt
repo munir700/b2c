@@ -1,18 +1,18 @@
-package co.yap.sendmoney.addbeneficiary.viewmodels
+package co.yap.sendMoney.addbeneficiary.viewmodels
 
 import android.app.Application
 import androidx.lifecycle.MutableLiveData
-import co.yap.sendmoney.R
 import co.yap.countryutils.country.Country
-import co.yap.sendmoney.addbeneficiary.interfaces.IAddBeneficiary
-import co.yap.sendmoney.addbeneficiary.states.AddBeneficiaryStates
-import co.yap.sendmoney.viewmodels.SendMoneyBaseViewModel
 import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.messages.MessagesRepository
 import co.yap.networking.messages.requestdtos.CreateOtpGenericRequest
 import co.yap.networking.models.RetroApiResponse
+import co.yap.sendMoney.addbeneficiary.interfaces.IAddBeneficiary
+import co.yap.sendMoney.viewmodels.SendMoneyBaseViewModel
+import co.yap.sendmoney.R
+import co.yap.sendmoney.addbeneficiary.states.AddBeneficiaryStates
 import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.constants.Constants
@@ -53,8 +53,8 @@ class AddBeneficiaryViewModel(application: Application) :
                     }
                 }
             }
-            it.isoCountryCode2Digit?.let {
-                state.countryCode = Utils.getCountryCodeFormString(it)
+            it.isoCountryCode2Digit?.let { str ->
+                state.countryCode = Utils.getCountryCodeFormString(str)
             }
             state.currency = it.getCurrency()?.code ?: ""
         }

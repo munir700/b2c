@@ -1,15 +1,15 @@
-package co.yap.sendmoney.addbeneficiary.viewmodels
+package co.yap.sendMoney.addbeneficiary.viewmodels
 
 import android.app.Application
 import androidx.lifecycle.MutableLiveData
-import co.yap.sendmoney.R
-import co.yap.sendmoney.addbeneficiary.interfaces.IBeneficiaryAccountDetails
-import co.yap.sendmoney.addbeneficiary.states.BeneficiaryAccountDetailsState
-import co.yap.sendmoney.viewmodels.SendMoneyBaseViewModel
 import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
+import co.yap.sendMoney.addbeneficiary.interfaces.IBeneficiaryAccountDetails
+import co.yap.sendMoney.addbeneficiary.states.BeneficiaryAccountDetailsState
+import co.yap.sendMoney.viewmodels.SendMoneyBaseViewModel
+import co.yap.sendmoney.R
 import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.SingleLiveEvent
@@ -114,7 +114,6 @@ class BeneficiaryAccountDetailsViewModel(application: Application) :
                     state.loading = false
                     isBeneficiaryValid.value = false
                     state.toast = response.error.message
-                    //success.value = false
                 }
             }
         }

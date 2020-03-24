@@ -1,4 +1,4 @@
-package co.yap.sendmoney.addbeneficiary.fragments
+package co.yap.sendMoney.addbeneficiary.fragments
 
 import android.app.Activity
 import android.content.Intent
@@ -17,13 +17,14 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import co.yap.modules.otp.GenericOtpFragment
+import co.yap.modules.otp.LogoData
 import co.yap.modules.otp.OtpDataModel
+import co.yap.modules.webview.WebViewFragment
+import co.yap.sendMoney.activities.BeneficiaryCashTransferActivity
+import co.yap.sendMoney.addbeneficiary.interfaces.IInternationalTransactionConfirmation
+import co.yap.sendMoney.addbeneficiary.viewmodels.InternationalTransactionConfirmationViewModel
 import co.yap.sendmoney.BR
 import co.yap.sendmoney.R
-import co.yap.sendmoney.activities.BeneficiaryCashTransferActivity
-import co.yap.sendmoney.addbeneficiary.interfaces.IInternationalTransactionConfirmation
-import co.yap.sendmoney.addbeneficiary.viewmodels.InternationalTransactionConfirmationViewModel
-import co.yap.modules.webview.WebViewFragment
 import co.yap.sendmoney.databinding.FragmentInternationalTransactionConfirmationBinding
 import co.yap.translation.Strings
 import co.yap.yapcore.BaseBindingFragment
@@ -31,7 +32,6 @@ import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.Constants.URL_DISCLAIMER_TERMS
 import co.yap.yapcore.helpers.extentions.startFragment
 import co.yap.yapcore.helpers.extentions.startFragmentForResult
-import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 import co.yap.yapcore.helpers.spannables.color
 import co.yap.yapcore.helpers.spannables.getText
 import co.yap.yapcore.managers.MyUserManager
@@ -60,7 +60,6 @@ class InternationalTransactionConfirmationFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setUpViews()
-        successOtpFlow()
     }
 
     private fun setUpViews() {
@@ -131,58 +130,42 @@ class InternationalTransactionConfirmationFragment :
         viewModel.clickEvent.observe(this, clickEvent)
     }
 
-    private fun startOtpFragment(optType: String) {
+    private fun startOtpFragment() {
         startFragmentForResult<GenericOtpFragment>(
             GenericOtpFragment::class.java.name,
             bundleOf(
                 OtpDataModel::class.java.name to OtpDataModel(
-
-//                    false,
-//                    viewModel.state.args?.otpAction ?: "",
-//                    args.fxRateAmount,
-//                    position,
-//                    beneficiaryCountry
-
-
-//                    false, //emailOtp
-//                    viewModel.state.otpAction ?: "", //otpType
-//                    viewModel.state.amount,//amount
-//                    viewModel.state.position//position
-
-                    optType,//action,
-                    MyUserManager.user?.currentCustomer?.getFormattedPhoneNumber(requireContext())
-                        ?: "",
-                    "",//name
-                    false,
-                    args.fxRateAmount,//amount
-                    null//OtpToolBarData
+                    otpAction = viewModel.state.args.otpAction,
+                    mobileNumber = MyUserManager.user?.currentCustomer?.getFormattedPhoneNumber(
+                        requireContext()
+                    ),
+                    amount = args.fxRateAmount,
+                    username = viewModel.beneficiary?.fullName(),
+                    emailOtp = false,
+                    logoData = LogoData(
+                        imageUrl = viewModel.beneficiary?.beneficiaryPictureUrl,
+                        position = viewModel.state.position,
+                        flagVisibility = true,
+                        beneficiaryCountry = viewModel.state.beneficiaryCountry
+                    )
                 )
-            )) { resultCode, _ ->
+            ),
+            showToolBar = true,
+            toolBarTitle = getString(Strings.screen_cash_pickup_funds_display_otp_header)
+        ) { resultCode, _ ->
             if (resultCode == Activity.RESULT_OK) {
-                showToast("ijk$resultCode")
+                viewModel.proceedToTransferAmount()
             }
         }
     }
+
     val clickEvent = Observer<Int> {
         when (it) {
             R.id.confirmButton -> {
                 viewModel.requestForTransfer()
             }
             viewModel.CREATE_OTP_SUCCESS_EVENT -> {
-                viewModel.state.position?.let { position ->
-                    viewModel.state.beneficiaryCountry?.let { beneficiaryCountry ->
-//                        val action =
-//                            InternationalTransactionConfirmationFragmentDirections.actionInternationalTransactionConfirmationFragmentToGenericOtpLogoFragment(
-//                                false,
-//                                viewModel.state.args?.otpAction ?: "",
-//                                args.fxRateAmount,
-//                                position,
-//                                beneficiaryCountry
-//                            )
-//                        findNavController().navigate(action)
-                        startOtpFragment(viewModel.state.args?.otpAction ?: "")
-                    }
-                }
+                startOtpFragment()
             }
 
             Constants.ADD_SUCCESS -> {
@@ -216,7 +199,7 @@ class InternationalTransactionConfirmationFragment :
                 startFragment(
                     fragmentName = WebViewFragment::class.java.name, bundle = bundleOf(
                         Constants.PAGE_URL to URL_DISCLAIMER_TERMS
-                    ), showToolBar = true
+                    ), showToolBar = false
                 )
             }
         }
@@ -255,17 +238,6 @@ class InternationalTransactionConfirmationFragment :
 
     fun getBinding(): FragmentInternationalTransactionConfirmationBinding {
         return viewDataBinding as FragmentInternationalTransactionConfirmationBinding
-    }
-
-    private fun successOtpFlow() {
-        if (context is BeneficiaryCashTransferActivity) {
-            (context as BeneficiaryCashTransferActivity).viewModel.state.otpSuccess?.let { success ->
-                if (success) {
-                    viewModel.proceedToTransferAmount()
-                }
-                (context as BeneficiaryCashTransferActivity).viewModel.state.otpSuccess = false
-            }
-        }
     }
 
 }

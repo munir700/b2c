@@ -1,9 +1,9 @@
-package co.yap.sendmoney.states
+package co.yap.sendMoney.states
 
 import androidx.databinding.Bindable
-import co.yap.sendmoney.BR
-import co.yap.sendmoney.interfaces.IBeneficiaryCashTransfer
 import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
+import co.yap.sendMoney.interfaces.IBeneficiaryCashTransfer
+import co.yap.sendmoney.BR
 import co.yap.yapcore.BaseState
 
 class BeneficiaryCashTransferState : BaseState(), IBeneficiaryCashTransfer.State {

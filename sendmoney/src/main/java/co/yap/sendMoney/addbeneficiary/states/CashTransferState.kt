@@ -1,4 +1,4 @@
-package co.yap.sendmoney.addbeneficiary.states
+package co.yap.sendMoney.addbeneficiary.states
 
 import android.app.Application
 import android.content.Context
@@ -6,12 +6,12 @@ import android.graphics.drawable.Drawable
 import android.text.SpannableStringBuilder
 import androidx.databinding.Bindable
 import androidx.databinding.ObservableField
-import androidx.databinding.library.baseAdapters.BR
+import co.yap.sendmoney.BR
 import androidx.lifecycle.MutableLiveData
 import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.networking.transactions.responsedtos.InternationalFundsTransferReasonList
 import co.yap.networking.transactions.responsedtos.transaction.RemittanceFeeResponse
-import co.yap.sendmoney.addbeneficiary.interfaces.ICashTransfer
+import co.yap.sendMoney.addbeneficiary.interfaces.ICashTransfer
 import co.yap.translation.Strings
 import co.yap.translation.Translator
 import co.yap.yapcore.BaseState

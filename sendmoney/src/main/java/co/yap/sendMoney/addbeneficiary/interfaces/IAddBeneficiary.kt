@@ -1,4 +1,4 @@
-package co.yap.sendmoney.addbeneficiary.interfaces
+package co.yap.sendMoney.addbeneficiary.interfaces
 
 import android.graphics.drawable.Drawable
 import androidx.lifecycle.MutableLiveData
@@ -53,10 +53,6 @@ interface IAddBeneficiary {
         var beneficiary: Beneficiary?
         fun createOtp(action: String)
         val otpCreateObserver: MutableLiveData<Boolean>
-
-//      fun generateRequestDTO(beneficiaryData: AddBeneficiaryData): AddBeneficiaryRequestDTO
-        //fun generateCashPayoutBeneficiaryRequestDTO()
-//      var onSuccess: MutableLiveData<Int>
 
     }
 

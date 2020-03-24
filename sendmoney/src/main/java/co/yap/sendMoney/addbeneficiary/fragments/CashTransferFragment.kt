@@ -1,6 +1,5 @@
-package co.yap.sendmoney.addbeneficiary.fragments
+package co.yap.sendMoney.addbeneficiary.fragments
 
-import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
@@ -13,22 +12,19 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.TextView
-import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
-import co.yap.modules.otp.GenericOtpFragment
-import co.yap.modules.otp.OtpDataModel
 import co.yap.networking.transactions.responsedtos.InternationalFundsTransferReasonList
+import co.yap.sendMoney.activities.BeneficiaryCashTransferActivity
+import co.yap.sendMoney.addbeneficiary.interfaces.ICashTransfer
+import co.yap.sendMoney.addbeneficiary.viewmodels.CashTransferViewModel
 import co.yap.sendmoney.R
-import co.yap.sendmoney.activities.BeneficiaryCashTransferActivity
-import co.yap.sendmoney.addbeneficiary.interfaces.ICashTransfer
-import co.yap.sendmoney.addbeneficiary.viewmodels.CashTransferViewModel
 import co.yap.sendmoney.databinding.FragmentCashTransferBinding
-import co.yap.sendmoney.fragments.SendMoneyBaseFragment
+import co.yap.sendMoney.fragments.SendMoneyBaseFragment
 import co.yap.translation.Strings
 import co.yap.translation.Translator
 import co.yap.widgets.spinneradapter.ViewHolderArrayAdapter
@@ -38,7 +34,6 @@ import co.yap.yapcore.enums.SendMoneyBeneficiaryProductCode
 import co.yap.yapcore.enums.SendMoneyBeneficiaryType
 import co.yap.yapcore.helpers.DecimalDigitsInputFilter
 import co.yap.yapcore.helpers.cancelAllSnackBar
-import co.yap.yapcore.helpers.extentions.startFragmentForResult
 import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 import co.yap.yapcore.helpers.spannables.color
 import co.yap.yapcore.helpers.spannables.getText
@@ -158,53 +153,18 @@ class CashTransferFragment : SendMoneyBaseFragment<ICashTransfer.ViewModel>(), I
     }
 
     private fun moveToOtp() {
-//        val action =
-//            CashTransferFragmentDirections.actionCashTransferFragmentToGenericOtpLogoFragment(
-//                false, //emailOtp
-//                viewModel.state.otpAction ?: "", //otpType
-//                viewModel.state.amount,//amount
-//                viewModel.state.position//position
-//
-//            )
-//        findNavController().navigate(action)
+        val action =
+            CashTransferFragmentDirections.actionCashTransferFragmentToGenericOtpLogoFragment(
+                false,
+                viewModel.state.otpAction ?: "",
+                viewModel.state.amount
+                , viewModel.state.position
 
-        startOtpFragment(viewModel.state.otpAction ?: "")
+            )
+        findNavController().navigate(action)
     }
 
-//    emailOtp,otpType,amount,position,beneficiaryCountry
-//        username,emailOtp,mobileNumber,otpType
 
-    //    optType,//action,
-//    MyUserManager.user?.currentCustomer?.getFormattedPhoneNumber(requireContext())
-//    "",//name
-//    false,
-//    "",//amount
-//    null,//LogoData
-//    ""OtpToolBarData"",//OtpToolBarData
-    private fun startOtpFragment(optType: String) {
-        startFragmentForResult<GenericOtpFragment>(
-            GenericOtpFragment::class.java.name,
-            bundleOf(
-                OtpDataModel::class.java.name to OtpDataModel(
-//                    false, //emailOtp
-//                    viewModel.state.otpAction ?: "", //otpType
-//                    viewModel.state.amount,//amount
-//                    viewModel.state.position//position
-
-                    viewModel.state.otpAction ?: "",//action,
-                    MyUserManager.user?.currentCustomer?.getFormattedPhoneNumber(requireContext())
-                        ?: "",
-                    "",//name
-                    false,
-                    "",//amount
-                    null//OtpToolBarData
-                )
-            )) { resultCode, _ ->
-            if (resultCode == Activity.RESULT_OK) {
-                showToast("ijk$resultCode")
-            }
-        }
-    }
     private fun moveToConfirmationScreen() {
         val action =
             CashTransferFragmentDirections.actionCashTransferFragmentToCashTransferConfirmationFragment(
@@ -260,9 +220,7 @@ class CashTransferFragment : SendMoneyBaseFragment<ICashTransfer.ViewModel>(), I
                 viewModel.state.clearError()
                 if (viewModel.state.feeType == Constants.FEE_TYPE_TIER) {
                     if (viewModel.state.amount.isNotEmpty() && viewModel.state.amount != ".") {
-                        viewModel.state.setSpannableFee(
-                            viewModel.state.findFee(viewModel.state.amount.toDouble()).toString()
-                        )
+                        viewModel.state.setSpannableFee(viewModel.state.findFee(viewModel.state.amount.toDouble()).toString())
                     } else {
                         viewModel.state.setSpannableFee("0.0")
                     }
@@ -346,7 +304,7 @@ class CashTransferFragment : SendMoneyBaseFragment<ICashTransfer.ViewModel>(), I
                                 Strings.common_display_text_daily_limit_error_single_transaction
                             )
 
-                        return (enteredAmount >= remainingDailyLimit)
+                        return (enteredAmount > remainingDailyLimit)
 
                     } ?: return false
                 } ?: return false

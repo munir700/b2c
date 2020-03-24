@@ -1,4 +1,4 @@
-package co.yap.sendmoney.addbeneficiary.interfaces
+package co.yap.sendMoney.addbeneficiary.interfaces
 
 import android.graphics.drawable.Drawable
 import android.text.SpannableStringBuilder

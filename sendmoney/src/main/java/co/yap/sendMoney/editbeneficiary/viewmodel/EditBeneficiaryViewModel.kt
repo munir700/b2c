@@ -1,13 +1,14 @@
-package co.yap.sendmoney.editbeneficiary.viewmodel
+package co.yap.sendMoney.editbeneficiary.viewmodel
 
 import android.app.Application
 import androidx.lifecycle.MutableLiveData
-import co.yap.sendmoney.editbeneficiary.interfaces.IEditBeneficiary
-import co.yap.sendmoney.editbeneficiary.states.EditBeneficiaryStates
-import co.yap.sendmoney.viewmodels.SendMoneyBaseViewModel
+import co.yap.sendMoney.editbeneficiary.interfaces.IEditBeneficiary
+import co.yap.sendMoney.editbeneficiary.states.EditBeneficiaryStates
 import co.yap.networking.customers.CustomersRepository
+import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
+import co.yap.sendMoney.viewmodels.SendMoneyBaseViewModel
 import co.yap.yapcore.SingleClickEvent
 
 class EditBeneficiaryViewModel(application: Application) :
@@ -22,7 +23,9 @@ class EditBeneficiaryViewModel(application: Application) :
         clickEvent?.setValue(id)
     }
 
-    override var onUpdateSuccess: MutableLiveData<Boolean> = MutableLiveData()
+    override var onUpdateSuccess: MutableLiveData<Boolean> = MutableLiveData(false)
+    override var isBeneficiaryValid: MutableLiveData<Boolean> = MutableLiveData(false)
+    override var onBeneficiaryCreatedSuccess: MutableLiveData<Boolean> = MutableLiveData(false)
 
     override fun requestUpdateBeneficiary() {
         launch {
@@ -59,6 +62,45 @@ class EditBeneficiaryViewModel(application: Application) :
                     state.toast = response.error.message
                 }
 
+            }
+        }
+    }
+
+    override fun createBeneficiaryRequest() {
+        state.beneficiary?.let {
+            launch {
+                state.loading = true
+                when (val response = repository.addBeneficiary(it)) {
+                    is RetroApiResponse.Success -> {
+                        state.loading = false
+                        onBeneficiaryCreatedSuccess.value = true
+                        state.beneficiary = response.data.data
+                    }
+
+                    is RetroApiResponse.Error -> {
+                        state.loading = false
+                        state.toast = response.error.message
+                        onBeneficiaryCreatedSuccess.value = false
+                    }
+                }
+            }
+        }
+    }
+
+    override fun validateBeneficiaryDetails(beneficiary: Beneficiary) {
+        launch {
+            state.loading = true
+            when (val response = repository.validateBeneficiary(beneficiary)) {
+                is RetroApiResponse.Success -> {
+                    state.loading = false
+                    isBeneficiaryValid.value = true
+                }
+
+                is RetroApiResponse.Error -> {
+                    state.loading = false
+                    isBeneficiaryValid.value = false
+                    state.toast = response.error.message
+                }
             }
         }
     }

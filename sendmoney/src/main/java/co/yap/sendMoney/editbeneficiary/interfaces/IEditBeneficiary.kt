@@ -1,4 +1,4 @@
-package co.yap.sendmoney.editbeneficiary.interfaces
+package co.yap.sendMoney.editbeneficiary.interfaces
 
 import androidx.lifecycle.MutableLiveData
 import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
@@ -14,7 +14,11 @@ interface IEditBeneficiary {
         fun handlePressOnConfirm(id: Int)
         fun requestUpdateBeneficiary()
         fun requestCountryInfo()
+        fun validateBeneficiaryDetails(beneficiary:Beneficiary)
+        fun createBeneficiaryRequest()
         var onUpdateSuccess:MutableLiveData<Boolean>
+        var isBeneficiaryValid:MutableLiveData<Boolean>
+        var onBeneficiaryCreatedSuccess:MutableLiveData<Boolean>
     }
     interface State : IBase.State {
         var country: String?

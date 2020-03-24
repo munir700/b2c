@@ -1,4 +1,4 @@
-package co.yap.sendmoney.addbeneficiary.viewmodels
+package co.yap.sendMoney.addbeneficiary.viewmodels
 
 import android.view.View
 import co.yap.networking.customers.responsedtos.beneficiary.BankParams

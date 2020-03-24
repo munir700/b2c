@@ -1,4 +1,4 @@
-package co.yap.sendmoney.addbeneficiary.interfaces
+package co.yap.sendMoney.addbeneficiary.interfaces
 
 import androidx.lifecycle.MutableLiveData
 import co.yap.countryutils.country.Country

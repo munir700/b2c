@@ -1,23 +1,36 @@
-package co.yap.sendmoney.editbeneficiary.activity
+package co.yap.sendMoney.editbeneficiary.activity
 
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
+import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import co.yap.sendMoney.editbeneficiary.interfaces.IEditBeneficiary
+import co.yap.sendMoney.editbeneficiary.viewmodel.EditBeneficiaryViewModel
+import co.yap.modules.otp.GenericOtpFragment
+import co.yap.modules.otp.OtpDataModel
+import co.yap.modules.otp.OtpToolBarData
+import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.sendmoney.BR
 import co.yap.sendmoney.R
 import co.yap.sendmoney.databinding.ActivityEditBeneficiaryBinding
-import co.yap.sendmoney.editbeneficiary.interfaces.IEditBeneficiary
-import co.yap.sendmoney.editbeneficiary.viewmodel.EditBeneficiaryViewModel
-import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
+import co.yap.translation.Translator
 import co.yap.widgets.popmenu.PopupMenu
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.Constants.EXTRA
 import co.yap.yapcore.constants.Constants.IS_IBAN_NEEDED
 import co.yap.yapcore.constants.Constants.OVERVIEW_BENEFICIARY
+import co.yap.yapcore.constants.RequestCodes
+import co.yap.yapcore.enums.OTPActions
+import co.yap.yapcore.enums.SendMoneyBeneficiaryType
+import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.getCurrencyPopMenu
+import co.yap.yapcore.helpers.extentions.startFragmentForResult
+import co.yap.yapcore.interfaces.OnItemClickListener
+import co.yap.yapcore.managers.MyUserManager
 import kotlinx.android.synthetic.main.activity_edit_beneficiary.*
 
 
@@ -75,21 +88,17 @@ class EditBeneficiaryActivity : BaseBindingActivity<IEditBeneficiary.ViewModel>(
                     finish()
                 }
                 R.id.confirmButton -> {
-                    if (viewModel.state.needOverView!!) {
-                        val intent = Intent()
-                        intent.putExtra(Constants.BENEFICIARY_CHANGE, true)
-                        intent.putExtra(
-                            Beneficiary::class.java.name,
-                            viewModel.state.beneficiary
-                        )
-                        setResult(Activity.RESULT_OK, intent)
-                        finish()
+                    if (viewModel.state.needOverView == true) {
+                        viewModel.state.beneficiary?.let { beneficiary ->
+                            viewModel.validateBeneficiaryDetails(beneficiary)
+                        }
                     } else {
                         viewModel.requestUpdateBeneficiary()
                     }
                 }
                 R.id.tvChangeCurrency ->
                     currencyPopMenu?.showAsAnchorRightBottom(tvChangeCurrency)
+
             }
         })
 
@@ -105,7 +114,101 @@ class EditBeneficiaryActivity : BaseBindingActivity<IEditBeneficiary.ViewModel>(
             }
 
         })
+        viewModel.isBeneficiaryValid.observe(this, isBeneficiaryValidObserver)
+        viewModel.onBeneficiaryCreatedSuccess.observe(this, onBeneficiaryCreatedSuccessObserver)
+
     }
+
+    private val isBeneficiaryValidObserver = Observer<Boolean> { isValid ->
+        if (isValid) {
+            var action = ""
+            viewModel.state.beneficiary?.beneficiaryType?.let { type ->
+                if (type.isNotBlank())
+                    action = when (type) {
+                        SendMoneyBeneficiaryType.SWIFT.type -> OTPActions.SWIFT_BENEFICIARY.name
+                        SendMoneyBeneficiaryType.RMT.type -> OTPActions.RMT_BENEFICIARY.name
+                        else -> " "
+                    }
+            }
+
+            startFragmentForResult<GenericOtpFragment>(
+                GenericOtpFragment::class.java.name,
+                bundleOf(
+                    OtpDataModel::class.java.name to OtpDataModel(
+                        otpAction = action,
+                        mobileNumber = MyUserManager.user?.currentCustomer?.getCompletePhone(),
+                        username = MyUserManager.user?.currentCustomer?.getFullName(),
+                        emailOtp = false,
+                        toolBarData = OtpToolBarData()
+                    )
+                ), true
+            ) { resultCode, data ->
+                if (resultCode == Activity.RESULT_OK) {
+                    viewModel.createBeneficiaryRequest()
+                }
+            }
+        }
+    }
+
+    private val onBeneficiaryCreatedSuccessObserver = Observer<Boolean> {
+        if (it) {
+            Utils.confirmationDialog(this,
+                Translator.getString(
+                    this,
+                    R.string.screen_add_beneficiary_detail_display_text_alert_title
+                ),
+                Translator.getString(
+                    this,
+                    R.string.screen_add_beneficiary_detail_display_button_block_alert_description
+                ), Translator.getString(
+                    this,
+                    R.string.screen_add_beneficiary_detail_display_button_block_alert_yes
+                ), Translator.getString(
+                    this,
+                    R.string.screen_add_beneficiary_detail_display_button_block_alert_no
+                ),
+                object : OnItemClickListener {
+                    override fun onItemClick(view: View, data: Any, pos: Int) {
+                        if (data is Boolean) {
+                            if (data) {
+                                setIntentResult(true)
+                            } else {
+                                setIntentResult()
+                            }
+                        }
+                    }
+                })
+        }
+    }
+
+    private fun setIntentResult(isMoneyTransfer: Boolean = false) {
+        val intent = Intent()
+        intent.putExtra(Constants.BENEFICIARY_CHANGE, true)
+        intent.putExtra(Constants.IS_TRANSFER_MONEY, isMoneyTransfer)
+        intent.putExtra(Beneficiary::class.java.name, viewModel.state.beneficiary)
+        this.setResult(Activity.RESULT_OK, intent)
+        this.finish()
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == Activity.RESULT_OK) {
+            when (requestCode) {
+                RequestCodes.REQUEST_TRANSFER_MONEY -> {
+                    val isTransferred = data?.getBooleanExtra(
+                        Constants.MONEY_TRANSFERED,
+                        false
+                    )
+                    if (isTransferred == true) {
+                        setIntentResult()
+                    } else {
+                        setIntentResult()
+                    }
+                }
+            }
+        }
+    }
+
 
     private fun getbinding(): ActivityEditBeneficiaryBinding {
         return viewDataBinding as ActivityEditBeneficiaryBinding

@@ -1,4 +1,4 @@
-package co.yap.sendmoney.addbeneficiary.fragments
+package co.yap.sendMoney.addbeneficiary.fragments
 
 import android.app.Activity
 import android.content.Intent
@@ -19,10 +19,10 @@ import co.yap.modules.otp.GenericOtpFragment
 import co.yap.modules.otp.LogoData
 import co.yap.modules.otp.OtpDataModel
 import co.yap.modules.webview.WebViewFragment
+import co.yap.sendMoney.activities.BeneficiaryCashTransferActivity
+import co.yap.sendMoney.addbeneficiary.interfaces.ICashTransferConfirmation
+import co.yap.sendMoney.addbeneficiary.viewmodels.CashTransferConfirmationViewModel
 import co.yap.sendmoney.R
-import co.yap.sendmoney.activities.BeneficiaryCashTransferActivity
-import co.yap.sendmoney.addbeneficiary.interfaces.ICashTransferConfirmation
-import co.yap.sendmoney.addbeneficiary.viewmodels.CashTransferConfirmationViewModel
 import co.yap.sendmoney.databinding.FragmentCashTransferConfirmationBinding
 import co.yap.translation.Strings
 import co.yap.yapcore.BR
@@ -112,7 +112,7 @@ class CashTransferConfirmationFragment :
                 startFragment(
                     fragmentName = WebViewFragment::class.java.name, bundle = bundleOf(
                         Constants.PAGE_URL to URL_DISCLAIMER_TERMS
-                    ), showToolBar = true
+                    ), showToolBar = false
                 )
             }
         }

@@ -1,4 +1,4 @@
-package co.yap.sendmoney.interfaces
+package co.yap.sendMoney.interfaces
 
 import androidx.databinding.ObservableBoolean
 import androidx.lifecycle.MutableLiveData
@@ -7,7 +7,7 @@ import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
 
-interface ISendMoney {
+class ISendMoney {
     interface State : IBase.State {
         var toolbarVisibility: ObservableBoolean
         var rightIcon: ObservableBoolean

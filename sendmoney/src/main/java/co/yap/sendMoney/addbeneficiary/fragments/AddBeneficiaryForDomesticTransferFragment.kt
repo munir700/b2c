@@ -1,28 +1,24 @@
-package co.yap.sendmoney.addbeneficiary.fragments
+package co.yap.sendMoney.addbeneficiary.fragments
 
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import co.yap.modules.otp.GenericOtpFragment
-import co.yap.modules.otp.OtpDataModel
+import androidx.navigation.fragment.findNavController
+import co.yap.sendMoney.activities.BeneficiaryCashTransferActivity
+import co.yap.sendMoney.activities.SendMoneyHomeActivity
 import co.yap.sendmoney.BR
 import co.yap.sendmoney.R
-import co.yap.sendmoney.activities.BeneficiaryCashTransferActivity
-import co.yap.sendmoney.activities.SendMoneyHomeActivity
-import co.yap.sendmoney.addbeneficiary.interfaces.IAddBeneficiary
-import co.yap.sendmoney.addbeneficiary.viewmodels.AddBeneficiaryViewModel
-import co.yap.sendmoney.fragments.SendMoneyBaseFragment
-import co.yap.translation.Strings
+import co.yap.sendMoney.addbeneficiary.interfaces.IAddBeneficiary
+import co.yap.sendMoney.addbeneficiary.viewmodels.AddBeneficiaryViewModel
+import co.yap.sendMoney.fragments.SendMoneyBaseFragment
 import co.yap.translation.Translator
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.launchActivity
-import co.yap.yapcore.helpers.extentions.startFragmentForResult
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.MyUserManager
 
@@ -137,19 +133,16 @@ class AddBeneficiaryForDomesticTransferFragment :
     }
 
     private fun onConfirmClick(optType: String?) {
-//        username,emailOtp,mobileNumber,otpType
         optType?.let {
-            startOtpFragment(optType)
-//            val action =
-//                AddBeneficiaryForDomesticTransferFragmentDirections.actionAddBeneficiaryForDomesticTransferFragmentToGenericOtpFragment4(
-//                    //        username,emailOtp,mobileNumber,otpType
-//                    "",
-//                    false,
-//                    MyUserManager.user?.currentCustomer?.getFormattedPhoneNumber(requireContext())
-//                        ?: "",
-//                    optType
-//                )
-//            findNavController().navigate(action)
+            val action =
+                AddBeneficiaryForDomesticTransferFragmentDirections.actionAddBeneficiaryForDomesticTransferFragmentToGenericOtpFragment4(
+                    "",
+                    false,
+                    MyUserManager.user?.currentCustomer?.getFormattedPhoneNumber(requireContext())
+                        ?: "",
+                    optType
+                )
+            findNavController().navigate(action)
             //findNavController().navigate(R.id.action_addBeneficiaryForDomesticTransferFragment_to_genericOtpFragment4)
         } ?: showToast("Invalid otp action")
     }
@@ -163,39 +156,5 @@ class AddBeneficiaryForDomesticTransferFragment :
 
     private fun checkOtpSuccessFlow() {
         viewModel.addDomesticBeneficiary(viewModel.parentViewModel?.beneficiary?.value)
-    }
-
-
-//        username,emailOtp,mobileNumber,otpType
-
-    //    optType,//action,
-//    MyUserManager.user?.currentCustomer?.getFormattedPhoneNumber(requireContext())
-//    "",//name
-//    false,
-//    "",//amount
-//    null,//LogoData
-//    ""OtpToolBarData"",//OtpToolBarData
-    private fun startOtpFragment(optType: String) {
-        startFragmentForResult<GenericOtpFragment>(
-            GenericOtpFragment::class.java.name,
-            bundleOf(
-                OtpDataModel::class.java.name to OtpDataModel(
-
-                    optType,//action,
-                    MyUserManager.user?.currentCustomer?.getFormattedPhoneNumber(requireContext())
-                        ?: "",
-                    "",//name
-                    false,
-                    "",//amount
-                    null//OtpToolBarData
-                )
-            ),
-            showToolBar = true,
-            toolBarTitle = getString(Strings.screen_cash_pickup_funds_display_otp_header)
-        ) { resultCode, _ ->
-            if (resultCode == Activity.RESULT_OK) {
-                showToast("abc$resultCode")
-            }
-        }
     }
 }

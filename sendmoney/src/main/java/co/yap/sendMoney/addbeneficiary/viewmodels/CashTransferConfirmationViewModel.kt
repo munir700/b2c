@@ -1,9 +1,7 @@
-package co.yap.sendmoney.addbeneficiary.viewmodels
+package co.yap.sendMoney.addbeneficiary.viewmodels
 
 import android.app.Application
 import androidx.lifecycle.MutableLiveData
-import co.yap.sendmoney.addbeneficiary.interfaces.ICashTransferConfirmation
-import co.yap.sendmoney.addbeneficiary.states.CashTransferConfirmationState
 import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
@@ -11,6 +9,8 @@ import co.yap.networking.transactions.TransactionsRepository
 import co.yap.networking.transactions.requestdtos.DomesticTransactionRequestDTO
 import co.yap.networking.transactions.requestdtos.UAEFTSTransactionRequestDTO
 import co.yap.networking.transactions.responsedtos.TransactionThresholdModel
+import co.yap.sendMoney.addbeneficiary.interfaces.ICashTransferConfirmation
+import co.yap.sendMoney.addbeneficiary.states.CashTransferConfirmationState
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.constants.Constants

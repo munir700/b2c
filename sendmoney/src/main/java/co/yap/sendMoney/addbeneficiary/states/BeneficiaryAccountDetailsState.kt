@@ -1,15 +1,14 @@
-package co.yap.sendmoney.addbeneficiary.states
+package co.yap.sendMoney.addbeneficiary.states
 
 import androidx.databinding.Bindable
 import androidx.databinding.ObservableField
-import androidx.databinding.library.baseAdapters.BR
-import co.yap.sendmoney.addbeneficiary.interfaces.IBeneficiaryAccountDetails
-import co.yap.sendmoney.addbeneficiary.viewmodels.BeneficiaryAccountDetailsViewModel
+import co.yap.sendmoney.BR
+import co.yap.sendMoney.addbeneficiary.interfaces.IBeneficiaryAccountDetails
+import co.yap.sendMoney.addbeneficiary.viewmodels.BeneficiaryAccountDetailsViewModel
 import co.yap.yapcore.BaseState
 import co.yap.yapcore.helpers.StringUtils
 
-class BeneficiaryAccountDetailsState(val viewModel: BeneficiaryAccountDetailsViewModel) :
-    BaseState(), IBeneficiaryAccountDetails.State {
+class BeneficiaryAccountDetailsState(val viewModel: BeneficiaryAccountDetailsViewModel) : BaseState(), IBeneficiaryAccountDetails.State {
 
     override var showlyIban: ObservableField<Boolean> = ObservableField(false)
 
@@ -65,12 +64,9 @@ class BeneficiaryAccountDetailsState(val viewModel: BeneficiaryAccountDetailsVie
         }
 
     private fun validateNonRmt() {
-        valid = if (isIbanMandatory.get() == true) {
-            StringUtils.isValidIBAN(
-                accountIban.replace(" ", ""),
-                viewModel.parentViewModel?.selectedCountry?.value?.isoCountryCode2Digit
-            )
-        } else {
+        valid = if (isIbanMandatory.get() == true){
+            StringUtils.isValidIBAN(accountIban.replace(" ", ""), viewModel.parentViewModel?.selectedCountry?.value?.isoCountryCode2Digit)
+        }else{
             StringUtils.isValidAccountNumber(accountIban.replace(" ", ""))
         }
 
@@ -104,7 +100,6 @@ class BeneficiaryAccountDetailsState(val viewModel: BeneficiaryAccountDetailsVie
             field = value
             notifyPropertyChanged(BR.bankAddress)
         }
-
     @get:Bindable
     override var bankPhoneNumber: String = ""
         set(value) {

@@ -1,4 +1,4 @@
-package co.yap.sendmoney.addbeneficiary.fragments
+package co.yap.sendMoney.addbeneficiary.fragments
 
 import android.os.Bundle
 import android.view.View
@@ -6,12 +6,12 @@ import android.widget.AdapterView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
+import co.yap.sendMoney.adapters.CountryAdapter
 import co.yap.sendmoney.BR
 import co.yap.sendmoney.R
-import co.yap.sendmoney.adapters.CountryAdapter
 import co.yap.sendmoney.addbeneficiary.interfaces.ISelectCountry
 import co.yap.sendmoney.addbeneficiary.viewmodels.SelectCountryViewModel
-import co.yap.sendmoney.fragments.SendMoneyBaseFragment
+import co.yap.sendMoney.fragments.SendMoneyBaseFragment
 import kotlinx.android.synthetic.main.fragment_select_country.*
 
 
@@ -95,9 +95,5 @@ class SelectCountryFragment : SendMoneyBaseFragment<ISelectCountry.ViewModel>(),
             countryAdapter =
                 context?.let { CountryAdapter(it, viewModel.countries) }
         return countryAdapter
-    }
-
-    override fun onBackPressed(): Boolean {
-        return super.onBackPressed()
     }
 }

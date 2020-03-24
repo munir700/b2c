@@ -1,4 +1,4 @@
-package co.yap.sendmoney.home.activities
+package co.yap.sendMoney.home.activities
 
 import android.app.Activity
 import android.content.Context
@@ -9,17 +9,17 @@ import android.view.View
 import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import co.yap.modules.dashboard.yapit.sendmoney.home.adapters.AllBeneficiariesAdapter
+import co.yap.modules.dashboard.yapit.sendmoney.home.adapters.RecentTransferAdaptor
+import co.yap.sendMoney.home.interfaces.ISendMoneyHome
+import co.yap.sendMoney.home.viewmodels.SendMoneyHomeScreenViewModel
+import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
+import co.yap.sendMoney.activities.BeneficiaryCashTransferActivity
+import co.yap.sendMoney.activities.SendMoneyHomeActivity
+import co.yap.sendMoney.editbeneficiary.activity.EditBeneficiaryActivity
 import co.yap.sendmoney.BR
 import co.yap.sendmoney.R
 import co.yap.sendmoney.databinding.ActivitySendMoneyLandingBinding
-import co.yap.sendmoney.activities.BeneficiaryCashTransferActivity
-import co.yap.sendmoney.activities.SendMoneyHomeActivity
-import co.yap.sendmoney.editbeneficiary.activity.EditBeneficiaryActivity
-import co.yap.sendmoney.home.adapters.AllBeneficiariesAdapter
-import co.yap.sendmoney.home.adapters.RecentTransferAdaptor
-import co.yap.sendmoney.home.interfaces.ISendMoneyHome
-import co.yap.sendmoney.home.viewmodels.SendMoneyHomeScreenViewModel
-import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.translation.Translator
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.constants.Constants
@@ -27,7 +27,8 @@ import co.yap.yapcore.constants.Constants.EXTRA
 import co.yap.yapcore.constants.Constants.OVERVIEW_BENEFICIARY
 import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.constants.RequestCodes.REQUEST_TRANSFER_MONEY
- import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.helpers.extentions.getValue
 import co.yap.yapcore.helpers.extentions.launchActivity
 import co.yap.yapcore.interfaces.OnItemClickListener
 import com.nikhilpanju.recyclerviewenhanced.RecyclerTouchListener
@@ -311,36 +312,43 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         data?.let {
-            when (requestCode) {
-                RequestCodes.REQUEST_NOTIFY_BENEFICIARY_LIST -> {
-                    if (resultCode == Activity.RESULT_OK && data.getBooleanExtra(
-                            Constants.BENEFICIARY_CHANGE,
-                            false
-                        )
-                    ) {
-                        viewModel.requestAllBeneficiaries()
-                    } else if (resultCode == Activity.RESULT_OK && data.getBooleanExtra(
-                            Constants.MONEY_TRANSFERED,
-                            false
-                        )
-                    ) {
-                        finish()
+            if (resultCode == Activity.RESULT_OK) {
+                when (requestCode) {
+                    RequestCodes.REQUEST_NOTIFY_BENEFICIARY_LIST -> {
+                        if (data.getBooleanExtra(Constants.BENEFICIARY_CHANGE, false)) {
+                            val isMoneyTransfer =
+                                data.getValue(Constants.IS_TRANSFER_MONEY, "BOOLEAN") as? Boolean
+                            val beneficiary =
+                                data.getValue(
+                                    Beneficiary::class.java.name,
+                                    "PARCEABLE"
+                                ) as? Beneficiary
+                            if (isMoneyTransfer == true)
+                                beneficiary?.let {
+                                    startMoneyTransfer(it, 0)
+                                    viewModel.requestAllBeneficiaries()
+                                }
+                            else
+                                viewModel.requestAllBeneficiaries()
+                        } else if (data.getBooleanExtra(Constants.MONEY_TRANSFERED, false)) {
+                            finish()
+                        }
                     }
-                }
-                REQUEST_TRANSFER_MONEY -> {
-                    if (resultCode == Activity.RESULT_OK && data.getBooleanExtra(
-                            Constants.MONEY_TRANSFERED,
-                            false
-                        )
-                    ) {
-                        viewModel.isSearching.value?.let {
-                            if (it) {
-                                val intent = Intent()
-                                intent.putExtra(Constants.MONEY_TRANSFERED, true)
-                                setResult(Activity.RESULT_OK, intent)
-                                finish()
-                            } else {
-                                finish()
+                    REQUEST_TRANSFER_MONEY -> {
+                        if (resultCode == Activity.RESULT_OK && data.getBooleanExtra(
+                                Constants.MONEY_TRANSFERED,
+                                false
+                            )
+                        ) {
+                            viewModel.isSearching.value?.let {
+                                if (it) {
+                                    val intent = Intent()
+                                    intent.putExtra(Constants.MONEY_TRANSFERED, true)
+                                    setResult(Activity.RESULT_OK, intent)
+                                    finish()
+                                } else {
+                                    finish()
+                                }
                             }
                         }
                     }

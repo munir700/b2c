@@ -182,7 +182,7 @@
 
 
 <!--        <activity-->
-<!--            android:name="co.yap.modules.dashboard.yapit.sendmoney.activities.SendMoneyHomeActivity"-->
+<!--            android:name="co.yap.sendMoney.activities.SendMoneyHomeActivity"-->
 <!--            android:screenOrientation="portrait"-->
 <!--            android:windowSoftInputMode="adjustResize">-->
 <!--            <nav-graph android:value="@navigation/send_money_main_navigation" />-->

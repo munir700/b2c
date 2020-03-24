@@ -1,10 +1,10 @@
-package co.yap.sendmoney.home.adapters
+package co.yap.modules.dashboard.yapit.sendmoney.home.adapters
 
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
+import co.yap.R
+import co.yap.databinding.LayoutItemBeneficiaryBinding
 import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
-import co.yap.sendmoney.R
-import co.yap.sendmoney.databinding.LayoutItemBeneficiaryBinding
 import co.yap.yapcore.BaseBindingSearchRecylerAdapter
 import co.yap.yapcore.interfaces.OnItemClickListener
 
@@ -22,7 +22,7 @@ class AllBeneficiariesAdapter(
 
     override fun onBindViewHolder(holder: AllBeneficiariesItemViewHolder, position: Int) {
         super.onBindViewHolder(holder, position)
-        holder.onBind(list[position], position, onItemClickListener)
+            holder.onBind(list[position], position, onItemClickListener)
     }
 
     class AllBeneficiariesItemViewHolder(
@@ -36,8 +36,7 @@ class AllBeneficiariesAdapter(
             onItemClickListener: OnItemClickListener?
         ) {
 
-            itemContactsBinding.viewModel =
-                BeneficiaryItemViewModel(beneficiary, position, onItemClickListener)
+            itemContactsBinding.viewModel = BeneficiaryItemViewModel(beneficiary, position, onItemClickListener)
             itemContactsBinding.executePendingBindings()
 
         }

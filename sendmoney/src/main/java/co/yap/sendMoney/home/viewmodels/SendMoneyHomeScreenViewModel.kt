@@ -1,17 +1,17 @@
-package co.yap.sendmoney.home.viewmodels
+package co.yap.sendMoney.home.viewmodels
 
 import android.app.Application
 import androidx.databinding.ObservableField
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import co.yap.sendmoney.home.adapters.RecentTransferAdaptor
-import co.yap.sendmoney.home.interfaces.ISendMoneyHome
-import co.yap.sendmoney.home.states.SendMoneyHomeState
-import co.yap.sendmoney.viewmodels.SendMoneyBaseViewModel
+import co.yap.modules.dashboard.yapit.sendmoney.home.adapters.RecentTransferAdaptor
+import co.yap.sendMoney.home.interfaces.ISendMoneyHome
+import co.yap.sendMoney.home.states.SendMoneyHomeState
 import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
+import co.yap.sendMoney.viewmodels.SendMoneyBaseViewModel
 import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.helpers.PagingState
@@ -30,7 +30,7 @@ class SendMoneyHomeScreenViewModel(application: Application) :
     override var recentTransferData: MutableLiveData<List<Beneficiary>> = MutableLiveData()
     override val adapter = ObservableField<RecentTransferAdaptor>()
     override val searchQuery: MutableLiveData<String> = MutableLiveData()
-    override val isSearching: MutableLiveData<Boolean> = MutableLiveData()
+    override val isSearching: MutableLiveData<Boolean> = MutableLiveData(false)
 
     override fun handlePressOnView(id: Int) {
         clickEvent.setValue(id)
@@ -110,4 +110,6 @@ class SendMoneyHomeScreenViewModel(application: Application) :
             }
         }
     }
+
+
 }

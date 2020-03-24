@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/cashTransferFragment"
-        android:name="co.yap.sendmoney.addbeneficiary.fragments.CashTransferFragment"
+        android:name="co.yap.sendMoney.addbeneficiary.fragments.CashTransferFragment"
         tools:layout="@layout/fragment_cash_transfer">
         <action
             android:id="@+id/action_cashTransferFragment_to_transferSuccessFragment2"
@@ -24,41 +24,11 @@
             app:destination="@id/cashTransferConfirmationFragment"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left" />
-        <!--        <action-->
-        <!--            android:id="@+id/action_cashTransferFragment_to_genericOtpLogoFragment"-->
-        <!--            app:destination="@id/genericOtpLogoFragment" />-->
     </fragment>
-<!--    emailOtp,otpType,amount,position,beneficiaryCountry-->
-    <!--    <fragment-->
-    <!--        android:id="@+id/genericOtpLogoFragment"-->
-    <!--        android:name="co.yap.modules.others.otp.GenericOtpLogoFragment"-->
-    <!--        android:label="GenericOtpLogoFragment"-->
-    <!--        tools:layout="@layout/fragment_phone_verification">-->
-    <!--        <argument-->
-    <!--            android:name="emailOtp"-->
-    <!--            android:defaultValue="false"-->
-    <!--            app:argType="boolean" />-->
-    <!--        <argument-->
-    <!--            android:name="otpType"-->
-    <!--            android:defaultValue=" "-->
-    <!--            app:argType="string" />-->
-    <!--        <argument-->
-    <!--            android:name="amount"-->
-    <!--            android:defaultValue=" "-->
-    <!--            app:argType="string" />-->
-    <!--        <argument-->
-    <!--            android:name="position"-->
-    <!--            android:defaultValue="0"-->
-    <!--            app:argType="integer" />-->
-    <!--        <argument-->
-    <!--            android:name="beneficiaryCountry"-->
-    <!--            android:defaultValue=" "-->
-    <!--            app:argType="string" />-->
-    <!--    </fragment>-->
 
     <fragment
         android:id="@+id/transferSuccessFragment2"
-        android:name="co.yap.sendmoney.addbeneficiary.fragments.TransferSuccessFragment"
+        android:name="co.yap.sendMoney.addbeneficiary.fragments.TransferSuccessFragment"
         android:label="TransferSuccessFragment"
         tools:layout="@layout/fragment_transfer_success">
         <argument
@@ -87,22 +57,14 @@
             app:argType="string" />
         <argument
             android:name="cutOffTime"
-            android:defaultValue=""
+            android:defaultValue=" "
             app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/internationalFundsTransferFragment"
-        android:name="co.yap.sendmoney.addbeneficiary.fragments.InternationalFundsTransferFragment"
+        android:name="co.yap.sendMoney.addbeneficiary.fragments.InternationalFundsTransferFragment"
         android:label="InternationalFundsTransferFragment"
         tools:layout="@layout/fragment_international_funds_transfer">
-
-        <!--        <action-->
-        <!--            android:id="@+id/action_internationalFundsTransferFragment_to_genericOtpLogoFragment"-->
-        <!--            app:destination="@id/genericOtpLogoFragment"-->
-        <!--            app:enterAnim="@anim/slide_in_from_bottom"-->
-        <!--            app:exitAnim="@anim/slide_down"-->
-        <!--            app:popUpToInclusive="true" />-->
-
         <action
             android:id="@+id/action_internationalFundsTransferFragment_to_internationalTransactionConfirmationFragment"
             app:destination="@id/internationalTransactionConfirmationFragment"
@@ -111,7 +73,7 @@
     </fragment>
     <fragment
         android:id="@+id/internationalTransactionConfirmationFragment"
-        android:name="co.yap.sendmoney.addbeneficiary.fragments.InternationalTransactionConfirmationFragment"
+        android:name="co.yap.sendMoney.addbeneficiary.fragments.InternationalTransactionConfirmationFragment"
         android:label="InternationalTransactionConfirmationFragment"
         tools:layout="@layout/fragment_international_transaction_confirmation">
         <argument
@@ -197,15 +159,10 @@
             app:destination="@id/transferSuccessFragment2"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left" />
-        <!--        <action-->
-        <!--            android:id="@+id/action_internationalTransactionConfirmationFragment_to_genericOtpLogoFragment"-->
-        <!--            app:destination="@id/genericOtpLogoFragment"-->
-        <!--            app:enterAnim="@anim/slide_in_right"-->
-        <!--            app:exitAnim="@anim/slide_out_left" />-->
     </fragment>
     <fragment
         android:id="@+id/cashTransferConfirmationFragment"
-        android:name="co.yap.sendmoney.addbeneficiary.fragments.CashTransferConfirmationFragment"
+        android:name="co.yap.sendMoney.addbeneficiary.fragments.CashTransferConfirmationFragment"
         android:label="CashTransferConfirmationFragment"
         tools:layout="@layout/fragment_cash_transfer_confirmation">
         <argument

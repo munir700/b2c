@@ -1,4 +1,4 @@
-package co.yap.sendmoney.addbeneficiary.fragments
+package co.yap.sendMoney.addbeneficiary.fragments
 
 import android.app.Activity
 import android.content.Intent
@@ -9,13 +9,13 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.navArgs
 import co.yap.sendMoney.InviteBottomSheet
+import co.yap.sendMoney.activities.BeneficiaryCashTransferActivity
+import co.yap.sendMoney.addbeneficiary.interfaces.ITransferSuccess
+import co.yap.sendMoney.addbeneficiary.viewmodels.TransferSuccessViewModel
 import co.yap.sendmoney.BR
 import co.yap.sendmoney.R
-import co.yap.sendmoney.activities.BeneficiaryCashTransferActivity
-import co.yap.sendmoney.addbeneficiary.interfaces.ITransferSuccess
-import co.yap.sendmoney.addbeneficiary.viewmodels.TransferSuccessViewModel
 import co.yap.sendmoney.databinding.FragmentTransferSuccessBinding
-import co.yap.sendmoney.fragments.SendMoneyBaseFragment
+import co.yap.sendMoney.fragments.SendMoneyBaseFragment
 import co.yap.translation.Strings
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.SendMoneyBeneficiaryType
@@ -33,31 +33,30 @@ class TransferSuccessFragment : SendMoneyBaseFragment<ITransferSuccess.ViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        // viewModel.getAccountBalanceRequest()
+       // viewModel.getAccountBalanceRequest()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         if (activity is BeneficiaryCashTransferActivity) {
-            /* viewModel.updatedCardBalanceEvent.observe(this, Observer {
-                 viewModel.state.availableBalanceString =
-                     resources.getText(
-                         getString(Strings.screen_cash_transfer_display_text_available_balance),
-                         requireContext().color(
-                             R.color.colorPrimaryDark,
-                             "${"AED"} ${Utils.getFormattedCurrency(MyUserManager.cardBalance.value?.availableBalance)}"
-                         )
-                     )
-                 getBindings().tvAvailableBalance.visibility = View.VISIBLE
- //            viewModel.state.loading = false
-             })*/
+           /* viewModel.updatedCardBalanceEvent.observe(this, Observer {
+                viewModel.state.availableBalanceString =
+                    resources.getText(
+                        getString(Strings.screen_cash_transfer_display_text_available_balance),
+                        requireContext().color(
+                            R.color.colorPrimaryDark,
+                            "${"AED"} ${Utils.getFormattedCurrency(MyUserManager.cardBalance.value?.availableBalance)}"
+                        )
+                    )
+                getBindings().tvAvailableBalance.visibility = View.VISIBLE
+//            viewModel.state.loading = false
+            })*/
             getBindings().flTransactionComplete.visibility = View.VISIBLE
 
             setData()
             viewModel.state.amount = "${args.currencyType} ${args.amount}"
             viewModel.state.referenceNumber = args.referenceNumber
             viewModel.state.position = args.position
-            viewModel.state.cutOffTimeMsg.set(args.cutOffTime)
         }
     }
 
@@ -183,6 +182,9 @@ class TransferSuccessFragment : SendMoneyBaseFragment<ITransferSuccess.ViewModel
             viewModel.state.buttonTitle =
                 getString(Strings.screen_cash_pickup_funds_transfer_back_to_dashboard)
         }
+        if (args.cutOffTime.isNotBlank())
+            viewModel.state.cutOffTimeMsg.set(getString(Strings.screen_international_funds_transfer_display_text_cutoff_time_uaefts))
+
     }
 
     private fun setDataForSwift() {
@@ -199,6 +201,8 @@ class TransferSuccessFragment : SendMoneyBaseFragment<ITransferSuccess.ViewModel
             viewModel.state.buttonTitle =
                 getString(Strings.screen_international_funds_transfer_back_to_dashboard)
         }
+        if (args.cutOffTime.isNotBlank())
+            viewModel.state.cutOffTimeMsg.set(getString(Strings.screen_international_funds_transfer_display_text_cutoff_time_swift))
     }
 
     private fun setDataForRmt() {

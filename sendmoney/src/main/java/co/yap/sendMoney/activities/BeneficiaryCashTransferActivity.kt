@@ -1,4 +1,4 @@
-package co.yap.sendmoney.activities
+package co.yap.sendMoney.activities
 
 import android.app.Activity
 import android.content.Intent
@@ -8,8 +8,8 @@ import androidx.lifecycle.ViewModelProviders
 import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.sendmoney.BR
 import co.yap.sendmoney.R
-import co.yap.sendmoney.interfaces.IBeneficiaryCashTransfer
-import co.yap.sendmoney.viewmodels.BeneficiaryCashTransferViewModel
+import co.yap.sendMoney.interfaces.IBeneficiaryCashTransfer
+import co.yap.sendMoney.viewmodels.BeneficiaryCashTransferViewModel
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.IFragmentHolder
 import co.yap.yapcore.constants.Constants
@@ -53,7 +53,6 @@ class BeneficiaryCashTransferActivity : BaseBindingActivity<IBeneficiaryCashTran
         else
             hideErrorSnackBar()
     }
-
     private fun showErrorSnackBar(errorMessage: String) {
         getSnackBarFromQueue(0)?.let {
             if (it.isShown) {

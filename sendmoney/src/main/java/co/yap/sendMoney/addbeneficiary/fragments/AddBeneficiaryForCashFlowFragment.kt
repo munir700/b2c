@@ -1,6 +1,5 @@
 
-
-package co.yap.sendmoney.addbeneficiary.fragments
+package co.yap.sendMoney.addbeneficiary.fragments
 
 import android.content.Context
 import android.content.DialogInterface
@@ -8,12 +7,12 @@ import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.sendmoney.BR
 import co.yap.sendmoney.R
-import co.yap.sendmoney.addbeneficiary.interfaces.IAddBeneficiary
+import co.yap.sendMoney.addbeneficiary.interfaces.IAddBeneficiary
 import co.yap.sendmoney.addbeneficiary.viewmodels.AddBeneficiaryViewModel
-import co.yap.sendmoney.fragments.SendMoneyBaseFragment
-import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
+import co.yap.sendMoney.fragments.SendMoneyBaseFragment
 import co.yap.translation.Translator
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.extentions.toast
