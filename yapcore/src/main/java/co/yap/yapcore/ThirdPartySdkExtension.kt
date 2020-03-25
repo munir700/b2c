@@ -17,12 +17,12 @@ import com.adjust.sdk.LogLevel
 
 fun Application.initializeAdjustSdk(appToken: String) {
 
-    val environment = AdjustConfig.ENVIRONMENT_SANDBOX //AdjustConfig.ENVIRONMENT_PRODUCTION
+    val environment =
+        if (BuildConfig.DEBUG) AdjustConfig.ENVIRONMENT_SANDBOX else AdjustConfig.ENVIRONMENT_PRODUCTION
     val config = AdjustConfig(this, appToken, environment)
     config.setAppSecret(1, 1236756048, 110233912, 2039250280, 199413548)
-    config.setLogLevel(LogLevel.VERBOSE)
+    config.setLogLevel(LogLevel.INFO)
     config.setSendInBackground(true)
-
     config.setOnAttributionChangedListener {}
 
     config.setOnEventTrackingSucceededListener {}
@@ -37,7 +37,7 @@ fun Application.initializeAdjustSdk(appToken: String) {
 
     config.setOnDeeplinkResponseListener { true }
     Adjust.onCreate(config)
-    registerActivityLifecycleCallbacks(AdjustLifecycleCallbacks())
+    //registerActivityLifecycleCallbacks(AdjustLifecycleCallbacks())
 }
 
 private class AdjustLifecycleCallbacks : Application.ActivityLifecycleCallbacks {
