@@ -1,106 +1,49 @@
-package co.yap.household.dashboard.home.viewmodels
+package co.yap.household.dashboard.home
 
-import android.app.Application
+import android.os.Bundle
 import androidx.lifecycle.MutableLiveData
-import co.yap.household.dashboard.home.interfaces.IHouseholdHome
-import co.yap.household.dashboard.home.states.HouseholdHomeState
-import co.yap.household.dashboard.main.viewmodels.HouseholdDashboardBaseViewModel
-import co.yap.modules.yapnotification.models.Notification
-import co.yap.networking.interfaces.IRepositoryHolder
+import androidx.navigation.NavController
 import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.transactions.TransactionsRepository
 import co.yap.networking.transactions.requestdtos.HomeTransactionsRequest
 import co.yap.networking.transactions.responsedtos.transaction.Content
 import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionListData
 import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionsResponse
+import co.yap.widgets.State
 import co.yap.yapcore.SingleClickEvent
-import co.yap.yapcore.constants.Constants
-import co.yap.yapcore.enums.PartnerBankStatus
-import co.yap.yapcore.managers.MyUserManager
+import co.yap.yapcore.dagger.base.viewmodel.DaggerBaseViewModel
 import java.text.SimpleDateFormat
 import java.util.*
+import javax.inject.Inject
 import kotlin.Comparator
 
-class HouseholdHomeViewModel(application: Application) :
-    HouseholdDashboardBaseViewModel<IHouseholdHome.State>(application),
-    IHouseholdHome.ViewModel, IRepositoryHolder<TransactionsRepository> {
+class HouseHoldHomeVM @Inject constructor(
+    override var state: IHouseholdHome.State,
+    private val repository: TransactionsRepository
+) : DaggerBaseViewModel<IHouseholdHome.State>(), IHouseholdHome.ViewModel {
 
-    override val repository: TransactionsRepository = TransactionsRepository
-    override val state: HouseholdHomeState =
-        HouseholdHomeState()
+    var closingBalanceArray: ArrayList<Double> = arrayListOf()
     override var clickEvent: SingleClickEvent = SingleClickEvent()
-    override var viewState: MutableLiveData<Int> = MutableLiveData(Constants.EVENT_LOADING)
-    override var notificationList: MutableLiveData<ArrayList<Notification>> = MutableLiveData()
-    override val transactionsLiveData: MutableLiveData<List<HomeTransactionListData>> =
-        MutableLiveData(arrayListOf())
+    override var stateLiveData: MutableLiveData<State>? = MutableLiveData()
     override val isLoadMore: MutableLiveData<Boolean> = MutableLiveData(false)
     override val isLast: MutableLiveData<Boolean> = MutableLiveData(false)
     override var homeTransactionRequest: HomeTransactionsRequest =
         HomeTransactionsRequest(0, 30, null, null, null)
+    override val transactionsLiveData: MutableLiveData<List<HomeTransactionListData>> =
+        MutableLiveData(arrayListOf())
     override var MAX_CLOSING_BALANCE: Double = 0.0
-    var closingBalanceArray: ArrayList<Double> = arrayListOf()
 
+    override fun handlePressOnView(id: Int) {
+
+    }
+
+    override fun onFirsTimeUiCreate(bundle: Bundle?, navigation: NavController?) {
+        //state = state as HouseholdHomeState
+        // state.toast = "saddsadsasad"
+    }
 
     override fun onCreate() {
         super.onCreate()
-        requestTransactions()
-    }
-
-    override fun onResume() {
-        super.onResume()
-        if (Constants.USER_STATUS_CARD_ACTIVATED == MyUserManager.user?.notificationStatuses)
-            checkUserStatus()
-    }
-
-    override fun handlePressOnView(id: Int) {
-        clickEvent.setValue(id)
-    }
-
-    private fun checkUserStatus() {
-        when (MyUserManager.user?.notificationStatuses) {
-            Constants.USER_STATUS_ON_BOARDED -> {
-                viewState.value = Constants.EVENT_EMPTY
-                notificationList.value?.add(
-                    Notification(
-                        "Set your card PIN",
-                        "Now create a unique 4-digit PIN code to be able to use your debit card for purchases and withdrawals",
-                        "",
-                        Constants.NOTIFICATION_ACTION_SET_PIN,
-                        "",
-                        ""
-                    )
-                )
-
-            }
-            Constants.USER_STATUS_MEETING_SUCCESS -> {
-                viewState.value = Constants.EVENT_EMPTY
-                notificationList.value?.add(
-                    Notification(
-                        "Complete Verification",
-                        "Complete verification to activate your account",
-                        "",
-                        Constants.NOTIFICATION_ACTION_COMPLETE_VERIFICATION,
-                        "",
-                        ""
-                    )
-                )
-            }
-            Constants.USER_STATUS_MEETING_SCHEDULED -> {
-                viewState.value = Constants.EVENT_EMPTY
-                notificationList.value?.clear()
-            }
-            Constants.USER_STATUS_CARD_ACTIVATED -> {
-                viewState.value = Constants.EVENT_EMPTY
-                notificationList.value?.clear()
-            }
-        }
-
-        if (PartnerBankStatus.ACTIVATED.status == MyUserManager.user?.partnerBankStatus) {
-            viewState.value = Constants.EVENT_CONTENT
-            notificationList.value?.clear()
-        } else {
-            viewState.value = Constants.EVENT_EMPTY
-        }
     }
 
     override fun requestTransactions(isLoadMore: Boolean) {
@@ -217,17 +160,17 @@ class HouseholdHomeViewModel(application: Application) :
                         state.transactionList.set(listToAppend)
                     } else {
                         if (sortedCombinedTransactionList.isEmpty()) {
-                            viewState.value = Constants.EVENT_EMPTY
+                            stateLiveData?.value  = State.empty(null)
                         } else {
                             state.transactionList.set(sortedCombinedTransactionList)
-                            viewState.value = Constants.EVENT_CONTENT
+                            stateLiveData?.value  = State.success(null)
                         }
                     }
                     transactionsLiveData.value = sortedCombinedTransactionList
                 }
                 is RetroApiResponse.Error -> {
                     state.loading = false
-                    viewState.value = Constants.EVENT_EMPTY
+                    stateLiveData?.value  = State.empty(null)
                     /*/isRefreshing.value = false*/
                 }
             }
@@ -284,6 +227,7 @@ class HouseholdHomeViewModel(application: Application) :
     override fun loadMore() {
         requestTransactions(true)
     }
+
 
     private fun convertDate(creationDate: String): String? {
         val parser = SimpleDateFormat("yyyy-MM-dd")

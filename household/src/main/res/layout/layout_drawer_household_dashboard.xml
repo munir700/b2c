@@ -6,9 +6,9 @@
     <data>
         <variable
             name="viewModel"
-            type="co.yap.household.dashboard.main.viewmodels.HouseholdDashboardViewModel" />
-
+            type="co.yap.household.dashboard.main.HouseHoldDashBoardVM" />
     </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -119,12 +119,12 @@
                 android:id="@+id/ivProfilePic"
                 android:layout_width="@dimen/_45sdp"
                 android:layout_height="@dimen/_45sdp"
-                android:contentDescription="@string/app_name"
                 android:background="@drawable/circle"
+                android:contentDescription="@string/app_name"
+                android:src="@drawable/ic_expense"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                android:src="@drawable/ic_expense"
                 tools:src="@drawable/ic_statement" />
             <!--        app:fullName="@{viewModel.state.beneficiaryName}"-->
             <!--        app:beneficiaryPicture="@{viewModel.state.beneficiaryPicture}"-->
@@ -144,5 +144,5 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <!-- Right Section End -->
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

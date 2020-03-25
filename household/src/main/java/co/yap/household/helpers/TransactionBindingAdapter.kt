@@ -7,7 +7,7 @@ import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionLi
 import co.yap.yapcore.transactions.TransactionRecyclerView
 import co.yap.yapcore.transactions.TransactionsAdapter
 
-object HouseholdUIBinder {
+object TransactionBindingAdapter {
     @BindingAdapter("txnList")
     @JvmStatic
     fun setViewContainerAsLinearLayout(

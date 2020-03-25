@@ -10,7 +10,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import co.yap.household.BR
 import co.yap.household.R
-import co.yap.household.dashboard.main.activities.HouseholdDashboardActivity
+import co.yap.household.dashboard.main.HouseholdDashboardActivity
 import co.yap.household.onboard.cardselection.HouseHoldCardsSelectionActivity
 import co.yap.household.onboard.onboarding.existinghousehold.ExistingHouseholdFragment
 import co.yap.household.onboard.onboarding.interfaces.IHouseHoldNumberRegistration
@@ -64,12 +64,13 @@ class HouseHoldNumberRegistrationFragment :
                         findNavController().navigate(R.id.action_houseHoldNumberRegistrationFragment_to_emailHouseHoldFragment)
                     }
                     else -> {
-                        startActivity(
-                            Intent(
-                                requireContext(),
-                                HouseholdDashboardActivity::class.java
-                            )
-                        )
+                        launchActivity<HouseholdDashboardActivity>()
+//                        startActivity(
+//                            Intent(
+//                                requireContext(),
+//                                HouseholdDashboardActivity::class.java
+//                            )
+//                        )
                         activity?.finish()
                     }
                 }

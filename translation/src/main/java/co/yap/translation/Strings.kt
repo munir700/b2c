@@ -1515,4 +1515,11 @@ object Strings {
     // YAP for you (Your Achievements)
     const val screen_your_achievements_display_text_toolbar_title: String =
         "screen_your_achievements_display_text_toolbar_title"
+
+    const val screen_house_hold_dashboard_bottom_bar_home_text:String = "screen_house_hold_dashboard_bottom_bar_home_text"
+    const val screen_house_hold_dashboard_bottom_bar_my_card_text:String = "screen_house_hold_dashboard_bottom_bar_my_card_text"
+    const val screen_house_hold_dashboard_bottom_bar_expenses_text:String = "screen_house_hold_dashboard_bottom_bar_expenses_text"
+    const val screen_house_hold_dashboard_bottom_bar_more_text:String = "screen_house_hold_dashboard_bottom_bar_more_text"
+    const val screen_house_hold_dashboard_bottom_bar_yap_it_text:String = "screen_house_hold_dashboard_bottom_bar_yap_it_text"
+
 }
