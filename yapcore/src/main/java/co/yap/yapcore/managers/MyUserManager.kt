@@ -61,12 +61,13 @@ object MyUserManager : IRepositoryHolder<CardsRepository> {
                     if (!response.data.data.isNullOrEmpty()) {
 
                         users = response.data.data as ArrayList<AccountInfo>
-                        var yapUser = getYapUserAccount(users)
-                        var householdUser = getHouseholdUserAccount(users)
+                        val yapUser = getYapUserAccount(users)
+                        val householdUser = getHouseholdUserAccount(users)
 
                         if (householdUser != null && yapUser != null) {
                             user = householdUser
-                        } else if (householdUser != null) {
+                        }
+                        else if (householdUser != null) {
                             user = householdUser
                         } else if (yapUser != null) {
                             user = yapUser
@@ -83,10 +84,8 @@ object MyUserManager : IRepositoryHolder<CardsRepository> {
     }
 
     fun shouldGoToHousehold(): Boolean {
-        val yapUser = users.find { obj1 -> obj1.accountType == AccountType.B2C_ACCOUNT.name }
-        val householdUser =
-            users.find { obj1 -> obj1.accountType == AccountType.B2C_HOUSEHOLD.name }
-
+        val yapUser = getYapUserAccount(users)
+        val householdUser = getHouseholdUserAccount(users)
         if ((yapUser != null && householdUser != null) || (yapUser == null && householdUser != null)) {
             return true
         }
@@ -114,6 +113,7 @@ object MyUserManager : IRepositoryHolder<CardsRepository> {
      */
 
     fun isOnBoarded(): Boolean {
+        // TODO Verify login with IOS team
         if (user?.notificationStatuses != AccountStatus.PARNET_MOBILE_VERIFICATION_PENDING.name &&
             user?.notificationStatuses != AccountStatus.INVITE_PENDING.name &&
             user?.notificationStatuses != AccountStatus.EMAIL_PENDING.name &&
@@ -124,11 +124,11 @@ object MyUserManager : IRepositoryHolder<CardsRepository> {
     }
 
     fun getYapUserAccount(data: java.util.ArrayList<AccountInfo>): AccountInfo? {
-        return data?.find { obj1 -> obj1.accountType == AccountType.B2C_ACCOUNT.name }
+        return data.find { obj1 -> obj1.accountType == AccountType.B2C_ACCOUNT.name }
     }
 
     fun getHouseholdUserAccount(data: java.util.ArrayList<AccountInfo>): AccountInfo? {
-        return data?.find { obj1 -> obj1.accountType == AccountType.B2C_HOUSEHOLD.name }
+        return data.find { obj1 -> obj1.accountType == AccountType.B2C_HOUSEHOLD.name }
     }
 
     fun getCardSerialNumber(): String {

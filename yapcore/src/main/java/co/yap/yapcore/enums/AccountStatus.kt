@@ -1,5 +1,8 @@
 package co.yap.yapcore.enums
 
+import androidx.annotation.Keep
+
+@Keep
 enum class AccountStatus {
     ON_BOARDED,
     MEETING_SCHEDULED,

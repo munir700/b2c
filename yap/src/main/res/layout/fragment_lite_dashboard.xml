@@ -6,11 +6,8 @@
     <data>
 
         <import type="co.yap.translation.Strings" />
-
-        <import type="co.yap.yapcore.enums.NotificationStatus" />
-
+        <import type="co.yap.yapcore.enums.AccountStatus" />
         <import type="co.yap.yapcore.managers.MyUserManager" />
-
         <import type="android.view.View" />
 
         <variable
@@ -97,7 +94,7 @@
             android:layout_marginEnd="@dimen/margin_xl"
             android:layout_marginBottom="@dimen/margin_medium"
             android:onClick="@{(v) -> viewModel.handlePressOnCompleteVerification()}"
-            android:visibility="@{NotificationStatus.valueOf(MyUserManager.INSTANCE.getUser().notificationStatuses)==NotificationStatus.ON_BOARDED?View.VISIBLE:View.GONE}"
+            android:visibility="@{AccountStatus.valueOf(MyUserManager.INSTANCE.getUser().notificationStatuses)==AccountStatus.ON_BOARDED?View.VISIBLE:View.GONE}"
             app:btn_enable="true"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

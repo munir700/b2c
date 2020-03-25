@@ -314,6 +314,7 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
 
     private fun gotoHouseHold() {
         // call API for switch profile
+        // TODO in feature move this call to MyuserManger
         viewModel.switchProfile()
     }
 

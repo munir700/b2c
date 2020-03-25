@@ -141,7 +141,7 @@ class HouseHoldNumberRegistrationFragment :
     private val validationResponse = Observer<String>
     {
         if (!it.isNullOrEmpty()) {
-            if (it == NotificationStatus.ON_BOARDED.toString())  {
+            if (it == AccountStatus.ON_BOARDED.toString())  {
                 launchActivity<HouseHoldCardsSelectionActivity>()
             }else{
                 findNavController().navigate(R.id.to_houseHoldCreatePassCodeFragment)

@@ -3,6 +3,7 @@ package co.yap.yapcore.enums
 import androidx.annotation.Keep
 
 @Keep
+@Deprecated("Use AccountStatus Enum")
 enum class NotificationStatus {
     ON_BOARDED,
     MEETING_SCHEDULED,
