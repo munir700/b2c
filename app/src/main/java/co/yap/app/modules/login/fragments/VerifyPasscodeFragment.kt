@@ -16,6 +16,7 @@ import co.yap.app.activities.MainActivity
 import co.yap.app.constants.Constants
 import co.yap.app.modules.login.interfaces.IVerifyPasscode
 import co.yap.app.modules.login.viewmodels.VerifyPasscodeViewModel
+import co.yap.household.dashboard.main.HouseholdDashboardActivity
 import co.yap.household.onboard.onboarding.existinghousehold.ExistingHouseholdFragment
 import co.yap.household.onboard.onboarding.main.OnBoardingHouseHoldActivity
 import co.yap.modules.others.helper.Constants.REQUEST_CODE
@@ -326,10 +327,10 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
                 if(MyUserManager.isDefaultUserYap()) {
                     gotoYapDashboard()
                 }else{
-                    goToHouseHoldDashboard()
+                    launchActivity<HouseholdDashboardActivity>()
+                    activity?.finish()
                 }
             }else{
-
                 // and notification is pending
                 val bundle = Bundle()
 //                bundle.putBoolean(OnBoardingHouseHoldActivity.EXISTING_USER, MyUserManager.isOnBoarded())
@@ -340,11 +341,6 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
             }
 
         }
-    }
-
-    private fun goToHouseHoldDashboard() {
-        findNavController().navigate(R.id.action_goto_householdDashboardActivity)
-//        activity?.finish()
     }
 
     private fun gotoYapDashboard() {

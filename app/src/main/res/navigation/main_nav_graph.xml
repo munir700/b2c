@@ -227,16 +227,6 @@
         android:id="@+id/action_goto_householdOnBoardingExistingYAP"
         app:destination="@id/householdOnBoardingExistingYAP" />
 
-    <activity
-        android:id="@+id/householdpDashboardActivity"
-        android:name="co.yap.household.dashboard.main.activities.HouseholdDashboardActivity"
-        android:label="HouseholdDashboardActivity"
-        tools:layout="@layout/activity_household_dashboard" />
-
-    <action
-        android:id="@+id/action_goto_householdDashboardActivity"
-        app:destination="@id/householdpDashboardActivity" />
-
     <!--    <activity-->
 <!--        android:id="@+id/documentsDashboardActivity"-->
 <!--        android:name="co.yap.modules.kyc.activities.DocumentsDashboardActivity"-->

@@ -110,6 +110,7 @@ class NewUserSuccessFragment :
                                             LiteDashboardActivity::class.java
                                         )
                                     )
+                                    activity?.finish()
                                 } else {
                                     /*startActivity(
                                         Intent(
