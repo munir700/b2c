@@ -10,6 +10,10 @@ import co.yap.app.AAPApplication
 import co.yap.household.di.components.DaggerHouseHoldComponent
 import co.yap.household.di.components.HouseHoldComponent
 import co.yap.household.di.components.HouseHoldComponentProvider
+import co.yap.modules.di.components.DaggerYapComponent
+import co.yap.modules.di.components.YapComponent
+import co.yap.modules.di.components.YapComponentProvider
+
 import co.yap.yapcore.dagger.di.components.CoreComponent
 import co.yap.yapcore.dagger.di.components.CoreComponentProvider
 import co.yap.yapcore.dagger.di.components.DaggerCoreComponent
@@ -21,16 +25,17 @@ import dagger.android.support.HasSupportFragmentInjector
 /**
  * Helper class to automatically inject fragments if they implement [Injectable].
  */
-object AppInjector : HouseHoldComponentProvider, CoreComponentProvider {
+object AppInjector : HouseHoldComponentProvider, CoreComponentProvider, YapComponentProvider {
     private lateinit var coreComponent: CoreComponent
     private lateinit var holdComponent: HouseHoldComponent
+    private lateinit var yapComponent: YapComponent
     fun init(application: AAPApplication): AppComponent {
         val component = DaggerAppComponent.builder()
             .application(application)
             .coreComponent(provideCoreComponent())
             .houseHoldComponent(provideHouseHoldComponent())
             .build()
-       // component.inject(application)
+        component.inject(application)
 
         // handle injection for all activities created
         application.registerActivityLifecycleCallbacks(object :
@@ -86,6 +91,15 @@ object AppInjector : HouseHoldComponentProvider, CoreComponentProvider {
                     }, true
                 )
         }
+    }
+
+    override fun provideYapComponent(): YapComponent {
+        if (!this::yapComponent.isInitialized) {
+            yapComponent = DaggerYapComponent
+                .builder().coreComponent(coreComponent)
+                .build()
+        }
+        return yapComponent
     }
 
     override fun provideHouseHoldComponent(): HouseHoldComponent {

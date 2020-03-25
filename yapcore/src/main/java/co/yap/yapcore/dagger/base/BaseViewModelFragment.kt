@@ -3,6 +3,7 @@ package co.yap.yapcore.dagger.base
 import android.content.Context
 import android.os.Bundle
 import android.view.View
+import androidx.activity.OnBackPressedCallback
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
 import co.yap.yapcore.BaseActivity
@@ -35,31 +36,49 @@ abstract class BaseViewModelFragment<VB : ViewDataBinding, S : IBase.State, VM :
     @ViewModelInjection
     lateinit var mViewModel: ViewModelInjectionField<VM>
 
+    @Inject
+    lateinit var state: S
     override lateinit var viewModel: VM
-
+    lateinit var mViewDataBinding: VB
+        private set
     override var shouldRegisterViewModelLifeCycle: Boolean = false
-    override fun performDataBinding() {
+
+
+    override fun performDataBinding(savedInstanceState: Bundle?) {
+        mViewDataBinding = viewDataBinding as VB
         viewModel = mViewModel.get()
         registerStateListeners()
         viewModel.onCreate(arguments)
         viewDataBinding.setVariable(getBindingVariable(), viewModel)
-        getMViewDataBinding().lifecycleOwner = this
-        getMViewDataBinding().executePendingBindings()
+        viewDataBinding.lifecycleOwner = this
+       // registerStateListeners()
+        viewDataBinding.executePendingBindings()
+        postExecutePendingBindings()
     }
 
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
         mActivity = context as BaseActivity<*>
+
+    }
+
+    override fun injectDependencies() {
+        super.injectDependencies()
         AndroidSupportInjection.inject(this)
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        // setBackButtonDispatcher()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        performDataBinding()
+        //performDataBinding(savedInstanceState)
     }
 
-    fun getMViewDataBinding() = viewDataBinding as VB
+
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 //        check(mActivity is BaseViewModelActivity<*, *, *>) {
@@ -72,9 +91,26 @@ abstract class BaseViewModelFragment<VB : ViewDataBinding, S : IBase.State, VM :
         super.onDestroyView()
     }
 
-    protected fun getmViewModel() = mViewModel
+    protected fun getmViewModel() = viewModel
 
     override fun supportFragmentInjector() = fragmentInjector
 
     fun getBaseActivity() = mActivity
+
+    /**
+     * Adding BackButtonDispatcher callback to activity
+     */
+    private fun setBackButtonDispatcher() {
+        val callback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                onBackPresse()
+            }
+        }
+        requireActivity().onBackPressedDispatcher.addCallback(this, callback)
+    }
+
+    /**
+     * Override this method into your fragment to handleBackButton
+     */
+    fun onBackPresse() {}
 }

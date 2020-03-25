@@ -4,15 +4,15 @@ import android.app.Application
 import android.content.Context
 import co.yap.household.app.HouseHoldApplication
 import co.yap.yapcore.dagger.di.qualifiers.ApplicationContext
+import co.yap.yapcore.dagger.di.qualifiers.FeatureScope
 import dagger.Module
 import dagger.Provides
-import javax.inject.Singleton
 
 @Module
 class HouseHoldModule {
 
     @Provides
-    @Singleton
+    @FeatureScope
     fun provideApplication(app: Application) = app
 
 //    @Provides
@@ -20,7 +20,7 @@ class HouseHoldModule {
 //    fun provideApp(application: Application) = application
 
     @Provides
-    @Singleton
+    @FeatureScope
     @ApplicationContext
     fun provideApplicationContext(app: HouseHoldApplication): Context = app.applicationContext
 

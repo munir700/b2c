@@ -29,4 +29,5 @@ class ForgotPasscodeActivity : DefaultActivity(), INavigator, IFragmentHolder {
         super.onDestroy()
         preventTakeDeviceScreenShot.removeObservers(this)
     }
+
 }

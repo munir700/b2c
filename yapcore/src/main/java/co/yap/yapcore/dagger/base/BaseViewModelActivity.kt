@@ -24,7 +24,9 @@ import javax.inject.Inject
 abstract class BaseViewModelActivity<VB : ViewDataBinding, S : IBase.State, VM : DaggerBaseViewModel<S>> :
     BaseBindingActivity<VM>(), HasFragmentInjector, HasSupportFragmentInjector,
     Injectable {
-    private lateinit var mViewDataBinding: VB
+
+    lateinit var mViewDataBinding: VB
+        private set
 
     @Inject
     @ViewModelInjection
@@ -36,24 +38,34 @@ abstract class BaseViewModelActivity<VB : ViewDataBinding, S : IBase.State, VM :
     @Inject
     lateinit var frameworkFragment: DispatchingAndroidInjector<Fragment>
     override var shouldRegisterViewModelLifeCycle: Boolean = false
+
     override lateinit var viewModel: VM
-    override fun onCreate(savedInstanceState: Bundle?) {
+
+    /**
+     * Gets called when it's the right time for you to inject the dependencies.
+     */
+    override fun injectDependencies() {
         AndroidInjection.inject(this)
-        super.onCreate(savedInstanceState)
     }
 
-    override fun performDataBinding() {
+
+    override fun performDataBinding(savedInstanceState: Bundle?) {
+
         mViewDataBinding = DataBindingUtil
             .setContentView(this, getLayoutId())
+        viewDataBinding = mViewDataBinding
         viewModel = mViewModel.get()
         registerStateListeners()
         mViewDataBinding.setVariable(getBindingVariable(), viewModel)
         mViewDataBinding.lifecycleOwner = this
+        init(savedInstanceState)
+        postInit()
         mViewDataBinding.executePendingBindings()
+        postExecutePendingBindings()
         //viewModel?.onCreate(intent.extras, navigatorHelper)
     }
 
-    fun getMViewDataBinding(): VB = mViewDataBinding
+   /// fun getMViewDataBinding() = mViewDataBinding
 
     override fun supportFragmentInjector() = supportFragment
 
