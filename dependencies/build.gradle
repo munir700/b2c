@@ -175,7 +175,7 @@ project.ext {
             [configuration: "implementation", dependency: libraries.compression],
             [configuration: "implementation", dependency: libraries.exoplayer],
             [configuration: "implementation", dependency: libraries.adjust],
-            [configuration: "implementation", dependency: libraries.googleAnalytics],
+//            [configuration: "implementation", dependency: libraries.googleAnalytics],
             [configuration: "implementation", dependency: libraries.adjustReferrer]
     ]
 

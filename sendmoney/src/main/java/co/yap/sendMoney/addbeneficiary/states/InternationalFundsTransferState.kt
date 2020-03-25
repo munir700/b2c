@@ -324,9 +324,8 @@ class InternationalFundsTransferState(val application: Application) : BaseState(
                         } else {
                             var amount =
                                 receiverCurrencyAmountFxRate?.let {
-
                                     if (!fxRateAmount.isNullOrEmpty() && fxRateAmount != ".")
-                                        fxRateAmount?.toDouble()?.times(it.toDouble())
+                                        fxRateAmount?.toDouble()?.div(it.toDouble())
                                     else {
                                         receiverCurrencyAmount = "0.00"
                                         return

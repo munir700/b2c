@@ -92,8 +92,6 @@ class InternationalFundsTransferViewModel(application: Application) :
                             response.data.data?.tierRateDTOList ?: mutableListOf()
                         state.listItemRemittanceFee = listItemRemittanceFee
                     }
-                    //state.loading = false
-                    //getTransactionInternationalReasonList(productCode)
                 }
 
                 is RetroApiResponse.Error -> {
@@ -126,7 +124,7 @@ class InternationalFundsTransferViewModel(application: Application) :
                     state.toFxRateCurrency = response.data.data.toCurrencyCode
                     state.toFxRate =
                         "${state.senderCurrency} ${response.data.data.fxRates?.get(0)?.rate}"
-                    state.rate = response.data.data.fxRates?.get(0)?.convertedAmount
+                    state.rate = response.data.data.fxRates?.get(0)?.rate
                     state.srRate = response.data.data.fxRates?.get(0)?.rate ?: "0"
                     state.loading = false
                 }

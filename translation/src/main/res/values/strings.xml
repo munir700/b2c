@@ -236,6 +236,7 @@
     <!-- Forgot passcode otp screen -->
     <string name="screen_forgot_passcode_otp_display_text_heading">Verify your mobile number</string>
     <string name="screen_forgot_passcode_otp_display_text_sub_heading">Enter the OTP sent to your registered mobile number %1$s</string>
+    <string name="screen_verify_passcode_text_account_locked">Sorry, that’s too many incorrect attempts. We’ve temporarily blocked your access. Click on Forgot passcode to set a new one</string>
 
 
     <!-- Forgot posscode success screen -->

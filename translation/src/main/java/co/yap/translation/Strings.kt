@@ -378,6 +378,8 @@ object Strings {
         "screen_forgot_passcode_otp_display_text_heading"
     const val screen_forgot_passcode_otp_display_text_sub_heading: String =
         "screen_forgot_passcode_otp_display_text_sub_heading"
+    const val screen_verify_passcode_text_account_locked: String =
+        "screen_verify_passcode_text_account_locked"
 
     // Forgot posscode success screen
     const val screen_passcode_success_display_text_heading: String =
