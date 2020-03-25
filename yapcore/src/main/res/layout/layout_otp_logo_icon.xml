@@ -79,9 +79,9 @@
                     android:layout_marginTop="@dimen/_2sdp"
                     android:layout_marginEnd="@dimen/_2sdp"
                     android:layout_marginBottom="@dimen/_2sdp"
-                    android:background="@drawable/bitmap"
+                    app:setFlagDrawable="@{viewModel.state.otpDataModel.logoData!=null ?viewModel.state.otpDataModel.logoData.beneficiaryCountry:`` }"
                     android:contentDescription="@string/empty_string"
-                    app:setFlagDrawable="@{viewModel.state.beneficiaryCountry}" />
+                    tools:background="@drawable/bitmap" />
 
             </FrameLayout>
         </RelativeLayout>
