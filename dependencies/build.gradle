@@ -137,8 +137,7 @@ project.ext {
 
             //adjust
             adjust                   : 'com.adjust.sdk:adjust-android:4.21.0',
-            adjustReferrer          : 'com.android.installreferrer:installreferrer:1.1',
-            googleAnalytics          : 'com.google.android.gms:play-services-analytics:16.0.4'
+            adjustReferrer           : 'com.android.installreferrer:installreferrer:1.1'
     ]
 
     // Test dependencies which need to be added in all modules
@@ -174,7 +173,6 @@ project.ext {
             [configuration: "implementation", dependency: libraries.compression],
             [configuration: "implementation", dependency: libraries.exoplayer],
             [configuration: "implementation", dependency: libraries.adjust],
-            [configuration: "implementation", dependency: libraries.googleAnalytics],
             [configuration: "implementation", dependency: libraries.adjustReferrer]
     ]
 
