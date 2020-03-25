@@ -11,7 +11,7 @@
 
         <variable
             name="viewModel"
-            type="co.yap.sendmoney.addbeneficiary.viewmodels.InternationalFundsTransferViewModel" />
+            type="co.yap.sendMoney.addbeneficiary.viewmodels.InternationalFundsTransferViewModel" />
     </data>
 
     <ScrollView

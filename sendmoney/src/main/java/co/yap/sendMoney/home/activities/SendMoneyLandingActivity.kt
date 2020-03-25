@@ -9,8 +9,8 @@ import android.view.View
 import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import co.yap.modules.dashboard.yapit.sendmoney.home.adapters.AllBeneficiariesAdapter
-import co.yap.modules.dashboard.yapit.sendmoney.home.adapters.RecentTransferAdaptor
+import co.yap.sendMoney.home.adapters.AllBeneficiariesAdapter
+import co.yap.sendMoney.home.adapters.RecentTransferAdaptor
 import co.yap.sendMoney.home.interfaces.ISendMoneyHome
 import co.yap.sendMoney.home.viewmodels.SendMoneyHomeScreenViewModel
 import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
@@ -257,10 +257,6 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
         super.onResume()
         rvAllBeneficiaries.addOnItemTouchListener(onTouchListener)
         viewModel.state.isSearching.notifyChange()
-        //viewModel.state.isSearching.set(viewModel.isSearching.value?:false)
-        // calling this function on resume because whenever user go for search and back to home it will set the searchView according to its state
-//        setSearchView(viewModel.isSearching.value ?: false)
-
         if (performedDeleteOperation) {
             performedDeleteOperation = false
             viewModel.requestAllBeneficiaries()

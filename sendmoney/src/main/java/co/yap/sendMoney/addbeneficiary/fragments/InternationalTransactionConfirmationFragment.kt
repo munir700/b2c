@@ -32,6 +32,7 @@ import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.Constants.URL_DISCLAIMER_TERMS
 import co.yap.yapcore.helpers.extentions.startFragment
 import co.yap.yapcore.helpers.extentions.startFragmentForResult
+import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 import co.yap.yapcore.helpers.spannables.color
 import co.yap.yapcore.helpers.spannables.getText
 import co.yap.yapcore.managers.MyUserManager
@@ -128,6 +129,10 @@ class InternationalTransactionConfirmationFragment :
 
     override fun setObservers() {
         viewModel.clickEvent.observe(this, clickEvent)
+        viewModel.isOtpRequired.observe(this, Observer {
+            if (it)
+                startOtpFragment()
+        })
     }
 
     private fun startOtpFragment() {
@@ -135,7 +140,7 @@ class InternationalTransactionConfirmationFragment :
             GenericOtpFragment::class.java.name,
             bundleOf(
                 OtpDataModel::class.java.name to OtpDataModel(
-                    otpAction = viewModel.state.args.otpAction,
+                    otpAction = viewModel.state.args?.otpAction,
                     mobileNumber = MyUserManager.user?.currentCustomer?.getFormattedPhoneNumber(
                         requireContext()
                     ),
@@ -163,9 +168,6 @@ class InternationalTransactionConfirmationFragment :
         when (it) {
             R.id.confirmButton -> {
                 viewModel.requestForTransfer()
-            }
-            viewModel.CREATE_OTP_SUCCESS_EVENT -> {
-                startOtpFragment()
             }
 
             Constants.ADD_SUCCESS -> {

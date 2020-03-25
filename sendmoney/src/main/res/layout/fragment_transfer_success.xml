@@ -13,7 +13,7 @@
 
         <variable
             name="viewModel"
-            type="co.yap.sendmoney.addbeneficiary.viewmodels.TransferSuccessViewModel" />
+            type="co.yap.sendMoney.addbeneficiary.viewmodels.TransferSuccessViewModel" />
     </data>
 
     <ScrollView

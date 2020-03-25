@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="co.yap.sendmoney.addbeneficiary.viewmodels.CashTransferViewModel" />
+            type="co.yap.sendMoney.addbeneficiary.viewmodels.CashTransferViewModel" />
 
         <import type="co.yap.yapcore.helpers.Utils" />
 

@@ -4,7 +4,7 @@ import android.app.Application
 import androidx.databinding.ObservableField
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import co.yap.modules.dashboard.yapit.sendmoney.home.adapters.RecentTransferAdaptor
+import co.yap.sendMoney.home.adapters.RecentTransferAdaptor
 import co.yap.sendMoney.home.interfaces.ISendMoneyHome
 import co.yap.sendMoney.home.states.SendMoneyHomeState
 import co.yap.networking.customers.CustomersRepository
@@ -30,7 +30,7 @@ class SendMoneyHomeScreenViewModel(application: Application) :
     override var recentTransferData: MutableLiveData<List<Beneficiary>> = MutableLiveData()
     override val adapter = ObservableField<RecentTransferAdaptor>()
     override val searchQuery: MutableLiveData<String> = MutableLiveData()
-    override val isSearching: MutableLiveData<Boolean> = MutableLiveData(false)
+    override val isSearching: MutableLiveData<Boolean> = MutableLiveData()
 
     override fun handlePressOnView(id: Int) {
         clickEvent.setValue(id)

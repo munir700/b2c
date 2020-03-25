@@ -7,12 +7,11 @@ import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.messages.MessagesRepository
-import co.yap.networking.messages.requestdtos.CreateOtpGenericRequest
 import co.yap.networking.models.RetroApiResponse
 import co.yap.sendMoney.addbeneficiary.interfaces.IAddBeneficiary
+import co.yap.sendMoney.addbeneficiary.states.AddBeneficiaryStates
 import co.yap.sendMoney.viewmodels.SendMoneyBaseViewModel
 import co.yap.sendmoney.R
-import co.yap.sendmoney.addbeneficiary.states.AddBeneficiaryStates
 import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.constants.Constants
@@ -27,7 +26,6 @@ class AddBeneficiaryViewModel(application: Application) :
     override val repository: CustomersRepository = CustomersRepository
     override val state: AddBeneficiaryStates = AddBeneficiaryStates(this)
     override var clickEvent: SingleClickEvent = SingleClickEvent()
-    private val messagesRepository: MessagesRepository = MessagesRepository
     override var addBeneficiarySuccess: MutableLiveData<Boolean> = MutableLiveData()
     override val otpCreateObserver: MutableLiveData<Boolean> = MutableLiveData()
 
@@ -58,6 +56,9 @@ class AddBeneficiaryViewModel(application: Application) :
             }
             state.currency = it.getCurrency()?.code ?: ""
         }
+    }
+    override fun handlePressOnAddDomestic(id: Int) {
+        clickEvent.setValue(id)
     }
 
     override fun handlePressOnAddNow(id: Int) {
@@ -104,25 +105,7 @@ class AddBeneficiaryViewModel(application: Application) :
     }
 
     override fun createOtp(action: String) {
-        launch {
-            state.loading = true
-            when (val response =
-                messagesRepository.createOtpGeneric(
-                    createOtpGenericRequest = CreateOtpGenericRequest(
-                        action
-                    )
-                )) {
-                is RetroApiResponse.Success -> {
-                    state.otpType = action
-                    otpCreateObserver.value = true
-                }
-                is RetroApiResponse.Error -> {
-                    state.toast = response.error.message
-                    state.loading = false
-                }
-            }
-            state.loading = false
-        }
+        otpCreateObserver.value = true
     }
 
     override fun validateBeneficiaryDetails(beneficiaryy: Beneficiary, otpType: String) {
@@ -152,10 +135,6 @@ class AddBeneficiaryViewModel(application: Application) :
             parentViewModel?.beneficiary?.value?.currency = it.getCurrency()?.code
             parentViewModel?.beneficiary?.value?.country = it.isoCountryCode2Digit
         }
-    }
-
-    override fun handlePressOnAddDomestic(id: Int) {
-        clickEvent.setValue(id)
     }
 
     override fun addCashPickupBeneficiary() {

@@ -11,7 +11,7 @@ import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.sendmoney.BR
 import co.yap.sendmoney.R
 import co.yap.sendMoney.addbeneficiary.interfaces.IAddBeneficiary
-import co.yap.sendmoney.addbeneficiary.viewmodels.AddBeneficiaryViewModel
+import co.yap.sendMoney.addbeneficiary.viewmodels.AddBeneficiaryViewModel
 import co.yap.sendMoney.fragments.SendMoneyBaseFragment
 import co.yap.translation.Translator
 import co.yap.yapcore.constants.Constants

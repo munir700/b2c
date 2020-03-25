@@ -14,13 +14,18 @@ class SendMoneyViewModel(application: Application) :
     ISendMoney.ViewModel {
 
     override val clickEvent: SingleClickEvent = SingleClickEvent()
-    override val state: SendMoneyState = SendMoneyState()
     override var selectedCountry: MutableLiveData<Country> = MutableLiveData()
     override var beneficiary: MutableLiveData<Beneficiary> = MutableLiveData()
+    override val state: SendMoneyState = SendMoneyState()
     override var otpSuccess: MutableLiveData<Boolean> = MutableLiveData()
-
     override fun handlePressButton(id: Int) {
         clickEvent.setValue(id)
     }
 
+    override fun onCreate() {
+        super.onCreate()
+        selectedCountry.value = Country()
+        beneficiary.value = Beneficiary()
+        otpSuccess.value = false
+    }
 }

@@ -10,7 +10,7 @@ import co.yap.sendMoney.addbeneficiary.interfaces.IBeneficiaryAccountDetails
 import co.yap.sendmoney.BR
 import co.yap.sendmoney.R
 import co.yap.sendMoney.addbeneficiary.viewmodels.BeneficiaryAccountDetailsViewModel
-import co.yap.sendmoney.editbeneficiary.activity.EditBeneficiaryActivity
+import co.yap.sendMoney.editbeneficiary.activity.EditBeneficiaryActivity
 import co.yap.sendMoney.fragments.SendMoneyBaseFragment
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.RequestCodes

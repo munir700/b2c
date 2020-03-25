@@ -14,9 +14,9 @@ import co.yap.networking.models.RetroApiResponse
 import co.yap.sendMoney.addbeneficiary.interfaces.IBankDetails
 import co.yap.sendMoney.viewmodels.SendMoneyBaseViewModel
 import co.yap.sendmoney.R
-import co.yap.sendmoney.addbeneficiary.adaptor.AddBeneficiariesAdaptor
-import co.yap.sendmoney.addbeneficiary.adaptor.RAKBankAdaptor
-import co.yap.sendmoney.addbeneficiary.states.BankDetailsState
+import co.yap.sendMoney.addbeneficiary.adaptor.AddBeneficiariesAdaptor
+import co.yap.sendMoney.addbeneficiary.adaptor.RAKBankAdaptor
+import co.yap.sendMoney.addbeneficiary.states.BankDetailsState
 import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.enums.SendMoneyBeneficiaryType

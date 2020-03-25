@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="co.yap.sendmoney.addbeneficiary.viewmodels.InternationalTransactionConfirmationViewModel" />
+            type="co.yap.sendMoney.addbeneficiary.viewmodels.InternationalTransactionConfirmationViewModel" />
 
         <import type="android.view.View" />
     </data>

@@ -4,7 +4,6 @@ import android.app.Application
 import androidx.lifecycle.MutableLiveData
 import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.messages.MessagesRepository
-import co.yap.networking.messages.requestdtos.CreateOtpGenericRequest
 import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.transactions.TransactionsRepository
 import co.yap.networking.transactions.requestdtos.CashPayoutRequestDTO
@@ -30,7 +29,6 @@ class CashTransferViewModel(application: Application) :
     ICashTransfer.ViewModel {
 
     private val transactionRepository: TransactionsRepository = TransactionsRepository
-    private val messagesRepository: MessagesRepository = MessagesRepository
     private var listItemRemittanceFee: List<RemittanceFeeResponse.RemittanceFee.TierRateDTO> =
         ArrayList()
     private val customersRepository: CustomersRepository = CustomersRepository
@@ -151,25 +149,7 @@ class CashTransferViewModel(application: Application) :
     }
 
     private fun createOtp(id: Int = 0) {
-        launch {
-            state.loading = true
-            when (val response =
-                messagesRepository.createOtpGeneric(
-                    createOtpGenericRequest = CreateOtpGenericRequest(
-                        state.otpAction ?: ""
-                    )
-                )) {
-                is RetroApiResponse.Success -> {
-                    clickEvent.postValue(id)
-                }
-                is RetroApiResponse.Error -> {
-                    state.loading = false
-                    state.errorDescription = response.error.message
-                    errorEvent.call()
-                }
-            }
-            state.loading = false
-        }
+        clickEvent.postValue(id)
     }
 
     override fun getCashTransferReasonList() {

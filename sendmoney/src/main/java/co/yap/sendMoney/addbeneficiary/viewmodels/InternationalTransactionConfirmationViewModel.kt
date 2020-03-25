@@ -21,10 +21,9 @@ class InternationalTransactionConfirmationViewModel(application: Application) :
     BaseViewModel<IInternationalTransactionConfirmation.State>(application),
     IInternationalTransactionConfirmation.ViewModel {
     private var mTransactionsRepository: TransactionsRepository = TransactionsRepository
-    private val messagesRepository: MessagesRepository = MessagesRepository
     override val state: InternationalTransactionConfirmationState =
         InternationalTransactionConfirmationState()
-    override var otpAction: String? = null
+    override val isOtpRequired: MutableLiveData<Boolean> = MutableLiveData()
     override var beneficiary: Beneficiary? = null
     override val transactionThreshold: MutableLiveData<TransactionThresholdModel> =
         MutableLiveData()
@@ -101,13 +100,9 @@ class InternationalTransactionConfirmationViewModel(application: Application) :
         }
     }
 
-    override fun createOtp() {
-        clickEvent.postValue(CREATE_OTP_SUCCESS_EVENT)
-    }
-
     override fun requestForTransfer() {
         if (isOtpRequired()) {
-            createOtp()
+            isOtpRequired.value = true
         } else {
             proceedToTransferAmount()
         }

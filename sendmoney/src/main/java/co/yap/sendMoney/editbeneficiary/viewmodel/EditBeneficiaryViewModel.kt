@@ -2,12 +2,12 @@ package co.yap.sendMoney.editbeneficiary.viewmodel
 
 import android.app.Application
 import androidx.lifecycle.MutableLiveData
-import co.yap.sendMoney.editbeneficiary.interfaces.IEditBeneficiary
-import co.yap.sendMoney.editbeneficiary.states.EditBeneficiaryStates
 import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
+import co.yap.sendMoney.editbeneficiary.interfaces.IEditBeneficiary
+import co.yap.sendMoney.editbeneficiary.states.EditBeneficiaryStates
 import co.yap.sendMoney.viewmodels.SendMoneyBaseViewModel
 import co.yap.yapcore.SingleClickEvent
 
@@ -23,9 +23,9 @@ class EditBeneficiaryViewModel(application: Application) :
         clickEvent?.setValue(id)
     }
 
-    override var onUpdateSuccess: MutableLiveData<Boolean> = MutableLiveData(false)
-    override var isBeneficiaryValid: MutableLiveData<Boolean> = MutableLiveData(false)
-    override var onBeneficiaryCreatedSuccess: MutableLiveData<Boolean> = MutableLiveData(false)
+    override var onUpdateSuccess: MutableLiveData<Boolean> = MutableLiveData()
+    override var isBeneficiaryValid: MutableLiveData<Boolean> = MutableLiveData()
+    override var onBeneficiaryCreatedSuccess: MutableLiveData<Boolean> = MutableLiveData()
 
     override fun requestUpdateBeneficiary() {
         launch {

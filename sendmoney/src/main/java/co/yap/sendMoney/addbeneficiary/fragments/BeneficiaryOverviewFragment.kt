@@ -52,7 +52,6 @@ class BeneficiaryOverviewFragment : SendMoneyBaseFragment<IBeneficiaryOverview.V
         } else {
             viewModel.beneficiary.accountNo = viewModel.beneficiary.accountNo!!
         }
-
         viewModel.state.beneficiary = viewModel.beneficiary
 
         if (viewModel.beneficiary.id != null) {

@@ -1,9 +1,10 @@
-package co.yap.sendmoney.addbeneficiary.adaptor
+package co.yap.sendMoney.addbeneficiary.adaptor
 
 import android.text.TextWatcher
 import androidx.databinding.ViewDataBinding
 import co.yap.sendmoney.R
 import co.yap.networking.customers.responsedtos.beneficiary.BankParams
+import co.yap.sendmoney.addbeneficiary.adaptor.BankParamItemViewHolder
 import co.yap.sendmoney.databinding.ItemBankParamsBinding
 import co.yap.yapcore.BaseBindingRecyclerAdapter
 

@@ -1,5 +1,6 @@
 package co.yap.sendMoney.addbeneficiary.fragments
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
@@ -12,19 +13,23 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.TextView
+import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
+import co.yap.modules.otp.GenericOtpFragment
+import co.yap.modules.otp.LogoData
+import co.yap.modules.otp.OtpDataModel
 import co.yap.networking.transactions.responsedtos.InternationalFundsTransferReasonList
 import co.yap.sendMoney.activities.BeneficiaryCashTransferActivity
 import co.yap.sendMoney.addbeneficiary.interfaces.ICashTransfer
 import co.yap.sendMoney.addbeneficiary.viewmodels.CashTransferViewModel
+import co.yap.sendMoney.fragments.SendMoneyBaseFragment
 import co.yap.sendmoney.R
 import co.yap.sendmoney.databinding.FragmentCashTransferBinding
-import co.yap.sendMoney.fragments.SendMoneyBaseFragment
 import co.yap.translation.Strings
 import co.yap.translation.Translator
 import co.yap.widgets.spinneradapter.ViewHolderArrayAdapter
@@ -34,6 +39,7 @@ import co.yap.yapcore.enums.SendMoneyBeneficiaryProductCode
 import co.yap.yapcore.enums.SendMoneyBeneficiaryType
 import co.yap.yapcore.helpers.DecimalDigitsInputFilter
 import co.yap.yapcore.helpers.cancelAllSnackBar
+import co.yap.yapcore.helpers.extentions.startFragmentForResult
 import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 import co.yap.yapcore.helpers.spannables.color
 import co.yap.yapcore.helpers.spannables.getText
@@ -120,8 +126,7 @@ class CashTransferFragment : SendMoneyBaseFragment<ICashTransfer.ViewModel>(), I
                 if (isUaeftsBeneficiary())
                     moveToConfirmationScreen()
                 else
-                    moveToOtp()
-
+                    startOtpFragment()
             }
             R.id.viewTriggerSpinnerClickReasonCash -> {
                 reasonsSpinnerCashTransfer.performClick()
@@ -152,18 +157,27 @@ class CashTransferFragment : SendMoneyBaseFragment<ICashTransfer.ViewModel>(), I
         } ?: return false
     }
 
-    private fun moveToOtp() {
-        val action =
-            CashTransferFragmentDirections.actionCashTransferFragmentToGenericOtpLogoFragment(
-                false,
-                viewModel.state.otpAction ?: "",
-                viewModel.state.amount
-                , viewModel.state.position
-
+    private fun startOtpFragment() {
+        startFragmentForResult<GenericOtpFragment>(
+            GenericOtpFragment::class.java.name,
+            bundleOf(
+                OtpDataModel::class.java.name to OtpDataModel(
+                    viewModel.state.otpAction ?: "",//action,
+                    MyUserManager.user?.currentCustomer?.getFormattedPhoneNumber(requireContext())
+                        ?: "",
+                    username = viewModel.state.beneficiary?.fullName(),
+                    amount = viewModel.state.amount,
+                    logoData = LogoData(
+                        position = viewModel.state.position
+                    )
+                )
             )
-        findNavController().navigate(action)
+        ) { resultCode, _ ->
+            if (resultCode == Activity.RESULT_OK) {
+                viewModel.proceedToTransferAmount()
+            }
+        }
     }
-
 
     private fun moveToConfirmationScreen() {
         val action =
@@ -180,15 +194,6 @@ class CashTransferFragment : SendMoneyBaseFragment<ICashTransfer.ViewModel>(), I
     }
 
     private fun setUpData() {
-        if (context is BeneficiaryCashTransferActivity) {
-            (context as BeneficiaryCashTransferActivity).viewModel.state.otpSuccess?.let {
-                if (it) {
-                    viewModel.proceedToTransferAmount()
-                }
-                (context as BeneficiaryCashTransferActivity).viewModel.state.otpSuccess = false
-            }
-        }
-
         if (activity is BeneficiaryCashTransferActivity) {
             (activity as BeneficiaryCashTransferActivity).let { it ->
                 it.viewModel.state.leftButtonVisibility = false
@@ -302,7 +307,7 @@ class CashTransferFragment : SendMoneyBaseFragment<ICashTransfer.ViewModel>(), I
                         viewModel.state.errorDescription =
                             if (enteredAmount > dailyLimit) getString(Strings.common_display_text_daily_limit_error_single_transaction) else getString(
                                 Strings.common_display_text_daily_limit_error_single_transaction
-                            )
+                           )
 
                         return (enteredAmount > remainingDailyLimit)
 

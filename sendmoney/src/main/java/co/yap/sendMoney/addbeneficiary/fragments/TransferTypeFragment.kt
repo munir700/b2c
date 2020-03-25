@@ -5,7 +5,7 @@ import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
-import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.viewmodels.TransferTypeViewModel
+import co.yap.sendMoney.addbeneficiary.viewmodels.TransferTypeViewModel
 import co.yap.sendMoney.addbeneficiary.interfaces.ITransferType
 import co.yap.sendmoney.BR
 import co.yap.sendmoney.R
