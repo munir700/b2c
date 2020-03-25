@@ -91,5 +91,6 @@ class ExistingHouseholdFragment : BaseBindingFragment<IExistingHouseHold.ViewMod
 
     private fun gotoYapDashboard() {
         launchActivity<YapDashboardActivity> {  }
+        activity?.finish()
     }
 }
