@@ -18,6 +18,7 @@ import co.yap.household.onboard.onboarding.interfaces.INewUserSuccess
 import co.yap.household.onboard.onboarding.invalideid.InvalidEIDFragment
 import co.yap.household.onboard.onboarding.viewmodels.NewUserSuccessViewModel
 import co.yap.modules.kyc.activities.DocumentsDashboardActivity
+import co.yap.modules.kyc.enums.KYCAction
 import co.yap.modules.onboarding.activities.LiteDashboardActivity
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.RequestCodes
@@ -91,7 +92,8 @@ class NewUserSuccessFragment :
                             Constants.skipped,
                             ExtraType.BOOLEAN.name
                         ) as? Boolean
-
+//
+                    val status = data.getStringExtra("status")
                     success?.let {
                         if (it) {
                             startActivity(
@@ -104,23 +106,13 @@ class NewUserSuccessFragment :
                         } else {
                             skipped?.let { skip ->
                                 if (skip) {
-                                    startActivity(
-                                        Intent(
-                                            requireContext(),
-                                            LiteDashboardActivity::class.java
-                                        )
-                                    )
-                                    activity?.finish()
-                                } else {
-                                    /*startActivity(
-                                        Intent(
-                                            requireContext(),
-                                            InvalidEIDFragment::class.java
-                                        )
-                                    )*/
-
-                                    startFragment(InvalidEIDFragment::class.java.name)
+                                    when (status) {
+                                        KYCAction.ACTION_EID_FAILED.name ->
+                                            startFragment(InvalidEIDFragment::class.java.name)
+                                        else-> launchActivity<LiteDashboardActivity>(clearPrevious = true)
+                                    }
                                 }
+
                             }
                         }
                     }
