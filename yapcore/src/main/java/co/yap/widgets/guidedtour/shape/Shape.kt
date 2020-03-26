@@ -8,7 +8,7 @@ import co.yap.widgets.guidedtour.target.Target
 
 
 abstract class Shape(
-    protected var target:Target ,
+    protected var target: Target,
     protected var focus: Focus?,
     protected var focusGravity: FocusGravity,
     protected var padding: Int
@@ -32,13 +32,13 @@ abstract class Shape(
     protected val focusPoint: Point
         protected get() = if (focusGravity == FocusGravity.LEFT) {
             val xLeft: Int =
-                target.getRect().left + (target.getPoint().x - target.getRect().left) / 2
-            Point(xLeft, target.getPoint().y)
+                target.rect.left + (target.point.x - target.rect.left) / 2
+            Point(xLeft, target.point.y)
         } else if (focusGravity == FocusGravity.RIGHT) {
             val xRight: Int =
-                target.getPoint().x + (target.getRect().right - target.getPoint().x) / 2
-            Point(xRight, target.getPoint().y)
-        } else target.getPoint()
+                target.point.x + (target.rect.right - target.point.x) / 2
+            Point(xRight, target.point.y)
+        } else target.point
 
     abstract fun reCalculateAll()
     abstract val point: Point?
