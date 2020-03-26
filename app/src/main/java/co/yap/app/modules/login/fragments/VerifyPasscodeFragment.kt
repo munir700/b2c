@@ -304,18 +304,12 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
                 }
             } else {
                 if (MyUserManager.shouldGoToHousehold()) {
-                    gotoHouseHold()
+                    MyUserManager.switchProfile()
                 } else {
                     gotoYapDashboard()
                 }
             }
         }
-    }
-
-    private fun gotoHouseHold() {
-        // call API for switch profile
-        // TODO in feature move this call to MyuserManger
-        MyUserManager.switchProfile()
     }
 
     private val switchProfileObserver = Observer<Boolean> {

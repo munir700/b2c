@@ -10,12 +10,14 @@ import co.yap.app.R
 import co.yap.app.constants.Constants
 import co.yap.app.modules.login.interfaces.IPhoneVerificationSignIn
 import co.yap.app.modules.login.viewmodels.PhoneVerificationSignInViewModel
+import co.yap.household.dashboard.main.HouseholdDashboardActivity
 import co.yap.household.onboard.onboarding.main.OnBoardingHouseHoldActivity
 import co.yap.modules.onboarding.fragments.OnboardingChildFragment
 import co.yap.networking.customers.responsedtos.AccountInfo
 import co.yap.yapcore.enums.AccountStatus
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.biometric.BiometricUtil
+import co.yap.yapcore.helpers.extentions.launchActivity
 import co.yap.yapcore.helpers.extentions.trackEventWithAttributes
 import co.yap.yapcore.managers.MyUserManager
 
@@ -35,6 +37,7 @@ class PhoneVerificationSignInFragment : OnboardingChildFragment<IPhoneVerificati
         viewModel.verifyOtpResult.observe(this, verifyOtpResultObserver)
         viewModel.postDemographicDataResult.observe(this, postDemographicDataObserver)
         MyUserManager.isUserAccountInfo?.observe(this, onFetchAccountInfo)
+        MyUserManager.switchProfile.observe(this, switchProfileObserver)
         setUsername()
         setPasscode()
     }
@@ -59,34 +62,30 @@ class PhoneVerificationSignInFragment : OnboardingChildFragment<IPhoneVerificati
 
     private val onFetchAccountInfo = Observer<Boolean> {
         if(it) {
-//            setUserAttributes()
             if (MyUserManager.shouldGoToHousehold()) {
-                gotoHouseHold(MyUserManager.isOnBoarded(), MyUserManager.user)
+                MyUserManager.switchProfile()
             } else {
                 gotoYapDashboard()
             }
         }
     }
 
-    private fun gotoHouseHold(isExisting: Boolean, user: AccountInfo?) {
-        if(!isExisting) {
-            SharedPreferenceManager(requireContext()).setThemeValue(co.yap.yapcore.constants.Constants.THEME_HOUSEHOLD)
-            val bundle = Bundle()
-            bundle.putBoolean(OnBoardingHouseHoldActivity.EXISTING_USER, isExisting)
-            bundle.putParcelable(
-                OnBoardingHouseHoldActivity.USER_INFO,
-                user
-            )
-            startActivity(OnBoardingHouseHoldActivity.getIntent(requireContext(), bundle))
-            activity?.finish()
-        }else{
-            gotoYapDashboard()
-        }
-    }
+    private val switchProfileObserver = Observer<Boolean> {
+        if(it) {
+            if (MyUserManager.isOnBoarded()) {
+                if(MyUserManager.isDefaultUserYap()) {
+                    gotoYapDashboard()
+                }else{
+                    launchActivity<HouseholdDashboardActivity>()
+                    activity?.finish()
+                }
+            }else{
+                val bundle = Bundle()
+                bundle.putParcelable(OnBoardingHouseHoldActivity.USER_INFO, MyUserManager.user)
+                startActivity(OnBoardingHouseHoldActivity.getIntent(requireContext(), bundle))
+            }
 
-    private fun goToHouseHoldDashboard() {
-        findNavController().navigate(R.id.action_goto_householdOnBoardingExistingYAP)
-        activity?.finish()
+        }
     }
 
     private fun gotoYapDashboard() {
