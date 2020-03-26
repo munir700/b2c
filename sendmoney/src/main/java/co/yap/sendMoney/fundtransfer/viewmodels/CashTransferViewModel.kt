@@ -302,6 +302,7 @@ class CashTransferViewModel(application: Application) :
                 }
                 is RetroApiResponse.Error -> {
                     state.toast = response.error.message
+                    isAPIFailed.value = true
                 }
             }
         }
@@ -319,6 +320,7 @@ class CashTransferViewModel(application: Application) :
                 }
                 is RetroApiResponse.Error -> {
                     state.toast = response.error.message
+                    isAPIFailed.value = true
                 }
             }
         }
