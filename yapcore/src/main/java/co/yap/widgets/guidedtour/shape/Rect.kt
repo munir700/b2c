@@ -40,7 +40,7 @@ class Rect : Shape {
 
     private fun calculateAdjustedRect() {
         val rect = RectF()
-        rect.set(target.getRect())
+        rect.set(target.rect)
         rect.left -= padding.toFloat()
         rect.top -= padding.toFloat()
         rect.right += padding.toFloat()
@@ -53,7 +53,7 @@ class Rect : Shape {
     }
 
     override val point: Point
-        get() = target.getPoint()
+        get() = target.point
 
     override val height: Int
         get() = adjustedRect!!.height().toInt()
