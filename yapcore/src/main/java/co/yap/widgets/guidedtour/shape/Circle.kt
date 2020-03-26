@@ -41,14 +41,14 @@ class Circle(
     private fun calculateRadius(padding: Int) {
         val side: Int
         if (focus === Focus.MINIMUM) side = Math.min(
-            target.getRect().width() / 2,
-            target.getRect().height() / 2
+            target.rect.width() / 2,
+            target.rect.height() / 2
         ) else if (focus === Focus.ALL) side =
-            Math.max(target.getRect().width() / 2, target.getRect().height() / 2) else {
+            Math.max(target.rect.width() / 2, target.rect.height() / 2) else {
             val minSide: Int =
-                Math.min(target.getRect().width() / 2, target.getRect().height() / 2)
+                Math.min(target.rect.width() / 2, target.rect.height() / 2)
             val maxSide: Int =
-                Math.max(target.getRect().width() / 2, target.getRect().height() / 2)
+                Math.max(target.rect.width() / 2, target.rect.height() / 2)
             side = (minSide + maxSide) / 2
         }
         radius = side + padding
@@ -66,7 +66,7 @@ class Circle(
     }
 
     init {
-        point = focusPoint
+        this.point = focusPoint
         calculateRadius(padding)
     }
 }
