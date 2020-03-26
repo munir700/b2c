@@ -26,6 +26,9 @@
         <activity
             android:name=".dashboard.main.HouseholdDashboardActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".dashboard.subaccounts.main.HouseHoldAccountsActivity"
+            android:screenOrientation="portrait" />
 
         <activity
             android:name=".onboard.onboarding.invalideid.InvalidEIDFragment"

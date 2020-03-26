@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.NavHostFragment
 import co.yap.household.BR
 import co.yap.household.R
+import co.yap.household.dashboard.subaccounts.main.HouseHoldAccountsActivity
 import co.yap.household.onboard.onboarding.main.interfaces.IOnboarding
 import co.yap.household.onboard.onboarding.main.viewmodels.OnboardingHouseHoldViewModel
 import co.yap.yapcore.BaseBindingActivity
@@ -46,13 +47,15 @@ class OnBoardingHouseHoldActivity : BaseBindingActivity<IOnboarding.ViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         intent?.getBundleExtra(BUNDLE_DATA)?.let {
-            viewModel.state.accountInfo = it.getParcelable(USER_INFO)
-//            viewModel.state.existingYapUser = it.getBoolean(EXISTING_USER, false)
+            startActivity(Intent(this, HouseHoldAccountsActivity::class.java))
+            intent?.getBundleExtra(BUNDLE_DATA)?.let {
+                viewModel.state.accountInfo = it.getParcelable(USER_INFO)
+                viewModel.state.existingYapUser = it.getBoolean(EXISTING_USER, false)
+            }
+            viewModel.onboardingData.accountType = "B2C_ACCOUNT"
+            viewModel.backButtonPressEvent.observe(this, backButtonObserver)
         }
-        viewModel.onboardingData.accountType = "B2C_ACCOUNT"
-        viewModel.backButtonPressEvent.observe(this, backButtonObserver)
     }
 
     override fun onDestroy() {
