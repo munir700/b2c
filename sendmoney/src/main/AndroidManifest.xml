@@ -45,7 +45,7 @@
 
         <!--Update Flag to hide keyboard-->
         <activity
-            android:name="co.yap.sendMoney.activities.BeneficiaryCashTransferActivity"
+            android:name="co.yap.sendMoney.fundtransfer.activities.BeneficiaryFundTransferActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
 

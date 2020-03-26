@@ -1,4 +1,4 @@
-package co.yap.sendMoney.activities
+package co.yap.sendMoney.fundtransfer.activities
 
 import android.app.Activity
 import android.content.Intent
@@ -6,10 +6,11 @@ import android.os.Bundle
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
+import co.yap.sendMoney.fundtransfer.interfaces.IBeneficiaryFundTransfer
+import co.yap.sendMoney.fundtransfer.models.TransferFundData
+import co.yap.sendMoney.fundtransfer.viewmodels.BeneficiaryFundTransferViewModel
 import co.yap.sendmoney.BR
 import co.yap.sendmoney.R
-import co.yap.sendMoney.interfaces.IBeneficiaryCashTransfer
-import co.yap.sendMoney.viewmodels.BeneficiaryCashTransferViewModel
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.IFragmentHolder
 import co.yap.yapcore.constants.Constants
@@ -25,18 +26,18 @@ import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_beneficiary_cash_transfer.*
 
 
-class BeneficiaryCashTransferActivity : BaseBindingActivity<IBeneficiaryCashTransfer.ViewModel>(),
+class BeneficiaryFundTransferActivity : BaseBindingActivity<IBeneficiaryFundTransfer.ViewModel>(),
     IFragmentHolder, INavigator {
 
     override fun getBindingVariable(): Int = BR.viewModel
 
     override fun getLayoutId(): Int = R.layout.activity_beneficiary_cash_transfer
 
-    override val viewModel: IBeneficiaryCashTransfer.ViewModel
-        get() = ViewModelProviders.of(this).get(BeneficiaryCashTransferViewModel::class.java)
+    override val viewModel: IBeneficiaryFundTransfer.ViewModel
+        get() = ViewModelProviders.of(this).get(BeneficiaryFundTransferViewModel::class.java)
     override val navigator: IBaseNavigator
         get() = DefaultNavigator(
-            this@BeneficiaryCashTransferActivity,
+            this@BeneficiaryFundTransferActivity,
             R.id.beneficiary_cash_transfer_nav_host_fragment
         )
 
@@ -88,12 +89,11 @@ class BeneficiaryCashTransferActivity : BaseBindingActivity<IBeneficiaryCashTran
 
     private fun getBeneficiary() {
         if (intent != null) {
-            viewModel.state.beneficiary =
+            viewModel.beneficiary.value =
                 intent.getParcelableExtra(Constants.BENEFICIARY) as? Beneficiary?
-
-            viewModel.state.position = intent.getIntExtra(Constants.POSITION, 0)
+            viewModel.transferData.value = TransferFundData()
+            viewModel.transferData.value?.position = intent.getIntExtra(Constants.POSITION, 0)
         }
-        // return intent.getSerializableExtra(ACCOUNT_TYPE) as AccountType
     }
 
     override fun onBackPressed() {

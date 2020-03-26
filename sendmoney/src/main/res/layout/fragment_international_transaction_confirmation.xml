@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="co.yap.sendMoney.addbeneficiary.viewmodels.InternationalTransactionConfirmationViewModel" />
+            type="co.yap.sendMoney.fundtransfer.viewmodels.InternationalTransactionConfirmationViewModel" />
 
         <import type="android.view.View" />
     </data>
@@ -44,12 +44,12 @@
                 android:layout_marginTop="@dimen/margin_large"
                 android:src="@drawable/ic_store_b2b"
                 app:colorType="@{`Beneficiary`}"
-                app:fullName="@{viewModel.state.name}"
-                app:imageUrl="@{viewModel.state.picture}"
+                app:fullName="@{viewModel.parentViewModel.beneficiary.fullName()}"
+                app:imageUrl="@{viewModel.parentViewModel.beneficiary.beneficiaryPictureUrl}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvSuccess"
-                app:position="@{viewModel.state.position}" />
+                app:position="@{viewModel.parentViewModel.transferData.position}" />
 
             <View
                 android:id="@+id/barrier"
@@ -73,7 +73,6 @@
                 android:layout_height="49dp"
                 android:layout_marginTop="@dimen/margin_medium_large"
                 android:layout_marginEnd="@dimen/_35sdp"
-                android:visibility="@{viewModel.state.flagLayoutVisibility? View.VISIBLE:View.GONE}"
                 app:layout_constraintBottom_toTopOf="@+id/barrier2"
                 app:layout_constraintEnd_toEndOf="@+id/barrier"
                 app:layout_constraintTop_toTopOf="@+id/ivUserImage"
@@ -98,7 +97,7 @@
                         android:layout_marginBottom="@dimen/_2sdp"
                         android:background="@drawable/bitmap"
                         android:contentDescription="@string/empty_string"
-                        app:setFlagDrawable="@{viewModel.state.beneficiaryCountry}" />
+                        app:setFlagDrawable="@{viewModel.parentViewModel.beneficiary.country}" />
 
                 </FrameLayout>
             </RelativeLayout>
@@ -110,7 +109,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_medium"
                 android:gravity="center"
-                android:text="@{viewModel.state.name}"
+                android:text="@{viewModel.parentViewModel.beneficiary.fullName()}"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/ivUserImage"
@@ -235,21 +234,6 @@
                         android:text="@string/screen_crash_transfer_success_display_text_reference_number"
                         android:textSize="@dimen/text_size_c3"
                         app:layout_constraintTop_toTopOf="parent" />
-
-
-                    <TextView
-                        android:id="@+id/tvReferenceNumber"
-                        style="@style/Large"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/margin_extra_small"
-                        android:gravity="center"
-                        android:text="@{viewModel.state.referenceNumber}"
-                        android:textSize="@dimen/text_size_h5"
-                        app:layout_constraintLeft_toLeftOf="parent"
-                        app:layout_constraintRight_toRightOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/tvIdCode"
-                        tools:text="00313249457" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.constraintlayout.widget.ConstraintLayout>
 

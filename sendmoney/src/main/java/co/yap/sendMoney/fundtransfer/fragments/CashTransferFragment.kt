@@ -1,4 +1,4 @@
-package co.yap.sendMoney.addbeneficiary.fragments
+package co.yap.sendMoney.fundtransfer.fragments
 
 import android.app.Activity
 import android.content.Intent
@@ -24,10 +24,9 @@ import co.yap.modules.otp.GenericOtpFragment
 import co.yap.modules.otp.LogoData
 import co.yap.modules.otp.OtpDataModel
 import co.yap.networking.transactions.responsedtos.InternationalFundsTransferReasonList
-import co.yap.sendMoney.activities.BeneficiaryCashTransferActivity
-import co.yap.sendMoney.addbeneficiary.interfaces.ICashTransfer
-import co.yap.sendMoney.addbeneficiary.viewmodels.CashTransferViewModel
-import co.yap.sendMoney.fragments.SendMoneyBaseFragment
+import co.yap.sendMoney.fundtransfer.activities.BeneficiaryFundTransferActivity
+import co.yap.sendMoney.fundtransfer.interfaces.ICashTransfer
+import co.yap.sendMoney.fundtransfer.viewmodels.CashTransferViewModel
 import co.yap.sendmoney.R
 import co.yap.sendmoney.databinding.FragmentCashTransferBinding
 import co.yap.translation.Strings
@@ -35,8 +34,9 @@ import co.yap.translation.Translator
 import co.yap.widgets.spinneradapter.ViewHolderArrayAdapter
 import co.yap.yapcore.BR
 import co.yap.yapcore.constants.Constants
-import co.yap.yapcore.enums.SendMoneyBeneficiaryProductCode
+import co.yap.yapcore.enums.FeeType
 import co.yap.yapcore.enums.SendMoneyBeneficiaryType
+import co.yap.yapcore.enums.TransactionProductCode
 import co.yap.yapcore.helpers.DecimalDigitsInputFilter
 import co.yap.yapcore.helpers.cancelAllSnackBar
 import co.yap.yapcore.helpers.extentions.startFragmentForResult
@@ -46,7 +46,8 @@ import co.yap.yapcore.helpers.spannables.getText
 import co.yap.yapcore.managers.MyUserManager
 import kotlinx.android.synthetic.main.fragment_cash_transfer.*
 
-class CashTransferFragment : SendMoneyBaseFragment<ICashTransfer.ViewModel>(), ICashTransfer.View {
+class CashTransferFragment : BeneficiaryFundTransferBaseFragment<ICashTransfer.ViewModel>(),
+    ICashTransfer.View {
 
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.fragment_cash_transfer
@@ -56,10 +57,6 @@ class CashTransferFragment : SendMoneyBaseFragment<ICashTransfer.ViewModel>(), I
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        if (context is BeneficiaryCashTransferActivity) {
-            viewModel.state.beneficiary =
-                (context as BeneficiaryCashTransferActivity).viewModel.state.beneficiary
-        }
         viewModel.state.produceCode = getProductCode()
         startFlows()
     }
@@ -77,6 +74,9 @@ class CashTransferFragment : SendMoneyBaseFragment<ICashTransfer.ViewModel>(), I
         viewModel.errorEvent.observe(this, Observer {
             showErrorSnackBar()
         })
+        viewModel.isAPIFailed.observe(this, Observer {
+            if (it) requireActivity().finish()
+        })
 
         viewModel.populateSpinnerData.observe(this, Observer {
             if (it == null) return@Observer
@@ -93,9 +93,13 @@ class CashTransferFragment : SendMoneyBaseFragment<ICashTransfer.ViewModel>(), I
         )
         reasonsSpinnerCashTransfer.adapter =
             ViewHolderArrayAdapter(requireContext(), data, { parent ->
-                ReasonDropDownViewHolder.inflateSelectedView(parent)
+                ReasonDropDownViewHolder.inflateSelectedView(
+                    parent
+                )
             }, { parent ->
-                ReasonDropDownViewHolder.inflate(parent)
+                ReasonDropDownViewHolder.inflate(
+                    parent
+                )
             }, { viewHolder, position, item ->
                 viewHolder.bind(item)
             }, { viewHolder, position, item ->
@@ -136,23 +140,19 @@ class CashTransferFragment : SendMoneyBaseFragment<ICashTransfer.ViewModel>(), I
                 // Send Broadcast for updating transactions list in `Home Fragment`
                 val intent = Intent(Constants.BROADCAST_UPDATE_TRANSACTION)
                 LocalBroadcastManager.getInstance(requireContext()).sendBroadcast(intent)
-                viewModel.state.referenceNumber?.let { referenceNumber ->
+                viewModel.parentViewModel?.transferData?.value?.sourceCurrency = "AED";
+                viewModel.parentViewModel?.transferData?.value?.transferAmount =
+                    viewModel.state.amount
                     val action =
-                        CashTransferFragmentDirections.actionCashTransferFragmentToTransferSuccessFragment2(
-                            "",
-                            viewModel.state.currencyType,
-                            viewModel.state.amount.toFormattedCurrency() ?: "",
-                            referenceNumber,
-                            viewModel.state.position
-                        )
+                        CashTransferFragmentDirections.actionCashTransferFragmentToTransferSuccessFragment2()
                     findNavController().navigate(action)
-                }
+
             }
         }
     }
 
     private fun isUaeftsBeneficiary(): Boolean {
-        viewModel.state.beneficiary?.beneficiaryType?.let {
+        viewModel.parentViewModel?.beneficiary?.value?.beneficiaryType?.let {
             return (it == SendMoneyBeneficiaryType.UAEFTS.type || it == SendMoneyBeneficiaryType.DOMESTIC.type)
         } ?: return false
     }
@@ -162,13 +162,13 @@ class CashTransferFragment : SendMoneyBaseFragment<ICashTransfer.ViewModel>(), I
             GenericOtpFragment::class.java.name,
             bundleOf(
                 OtpDataModel::class.java.name to OtpDataModel(
-                    viewModel.state.otpAction ?: "",//action,
+                    viewModel.parentViewModel?.transferData?.value?.otpAction,//action,
                     MyUserManager.user?.currentCustomer?.getFormattedPhoneNumber(requireContext())
                         ?: "",
-                    username = viewModel.state.beneficiary?.fullName(),
+                    username = viewModel.parentViewModel?.beneficiary?.value?.fullName(),
                     amount = viewModel.state.amount,
                     logoData = LogoData(
-                        position = viewModel.state.position
+                        position = viewModel.parentViewModel?.transferData?.value?.position
                     )
                 )
             )
@@ -180,36 +180,32 @@ class CashTransferFragment : SendMoneyBaseFragment<ICashTransfer.ViewModel>(), I
     }
 
     private fun moveToConfirmationScreen() {
+        viewModel.parentViewModel?.transferData?.value?.transferAmount = viewModel.state.amount
+        viewModel.parentViewModel?.transferData?.value?.purposeCode =
+            viewModel.state.reasonTransferCode
+        viewModel.parentViewModel?.transferData?.value?.transferReason =
+            viewModel.state.reasonTransferValue
+        viewModel.parentViewModel?.transferData?.value?.noteValue = viewModel.state.noteValue
+        viewModel.parentViewModel?.transferData?.value?.sourceCurrency = "AED"
+        viewModel.parentViewModel?.transferData?.value?.transferFee =
+            viewModel.state.originalTransferFeeAmount.get().toString()
+
         val action =
-            CashTransferFragmentDirections.actionCashTransferFragmentToCashTransferConfirmationFragment(
-                viewModel.state.amount,
-                viewModel.state.reasonTransferCode.toString(),
-                viewModel.state.reasonTransferValue.toString(),
-                viewModel.state.noteValue ?: "",
-                viewModel.state.originalTransferFeeAmount.get().toString(),
-                viewModel.state.position
-            )
+            CashTransferFragmentDirections.actionCashTransferFragmentToCashTransferConfirmationFragment()
         findNavController().navigate(action)
 
     }
 
     private fun setUpData() {
-        if (activity is BeneficiaryCashTransferActivity) {
-            (activity as BeneficiaryCashTransferActivity).let { it ->
-                it.viewModel.state.leftButtonVisibility = false
-                it.viewModel.state.rightButtonVisibility = true
-                if (it.viewModel.state.beneficiary?.beneficiaryType.equals(SendMoneyBeneficiaryType.CASHPAYOUT.type)) {
-                    it.viewModel.state.toolBarTitle =
-                        getString(Strings.screen_cash_pickup_funds_display_text_header)
-                } else {
-                    it.viewModel.state.toolBarTitle =
-                        getString(Strings.screen_funds_local_toolbar_header)
-                }
-
-                viewModel.state.position = it.viewModel.state.position
-                it.viewModel.state.beneficiary?.let {
-                    viewModel.state.fullName = "${it.firstName} ${it.lastName}"
-                }
+        viewModel.parentViewModel?.state?.leftIcon?.set(false)
+        viewModel.parentViewModel?.state?.rightIcon?.set(true)
+        viewModel.parentViewModel?.beneficiary?.value?.let { beneficiary ->
+            if (beneficiary.beneficiaryType == SendMoneyBeneficiaryType.CASHPAYOUT.type) {
+                viewModel.parentViewModel?.state?.toolBarTitle =
+                    getString(Strings.screen_cash_pickup_funds_display_text_header)
+            } else {
+                viewModel.parentViewModel?.state?.toolBarTitle =
+                    getString(Strings.screen_funds_local_toolbar_header)
             }
         }
 
@@ -223,7 +219,7 @@ class CashTransferFragment : SendMoneyBaseFragment<ICashTransfer.ViewModel>(), I
         etAmount.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(p0: Editable?) {
                 viewModel.state.clearError()
-                if (viewModel.state.feeType == Constants.FEE_TYPE_TIER) {
+                if (viewModel.state.feeType == FeeType.TIER.name) {
                     if (viewModel.state.amount.isNotEmpty() && viewModel.state.amount != ".") {
                         viewModel.state.setSpannableFee(viewModel.state.findFee(viewModel.state.amount.toDouble()).toString())
                     } else {
@@ -271,15 +267,15 @@ class CashTransferFragment : SendMoneyBaseFragment<ICashTransfer.ViewModel>(), I
             requireContext(),
             Strings.common_display_text_available_balance_error
         ).format(MyUserManager.cardBalance.value?.availableBalance?.toFormattedCurrency())
-        if (activity is BeneficiaryCashTransferActivity) {
-            (activity as BeneficiaryCashTransferActivity).viewModel.errorEvent.value =
+        if (activity is BeneficiaryFundTransferActivity) {
+            (activity as BeneficiaryFundTransferActivity).viewModel.errorEvent.value =
                 des
         }
     }
 
     private fun showLimitError() {
-        if (activity is BeneficiaryCashTransferActivity) {
-            (activity as BeneficiaryCashTransferActivity).viewModel.errorEvent.value =
+        if (activity is BeneficiaryFundTransferActivity) {
+            (activity as BeneficiaryFundTransferActivity).viewModel.errorEvent.value =
                 viewModel.state.errorDescription
         }
     }
@@ -287,13 +283,13 @@ class CashTransferFragment : SendMoneyBaseFragment<ICashTransfer.ViewModel>(), I
     private fun isBalanceAvailable(): Boolean {
         val availableBalance =
             MyUserManager.cardBalance.value?.availableBalance?.toDoubleOrNull()
-        if (availableBalance != null) {
+        return if (availableBalance != null) {
             val totalTransferAmount = viewModel.state.amount.toDoubleOrNull() ?: 0.0
             +viewModel.state.transferFeeAmount
 
-            return (availableBalance > totalTransferAmount)
+            (availableBalance > totalTransferAmount)
         } else
-            return false
+            false
     }
 
     private fun isDailyLimitReached(): Boolean {
@@ -319,14 +315,14 @@ class CashTransferFragment : SendMoneyBaseFragment<ICashTransfer.ViewModel>(), I
     }
 
     private fun showErrorSnackBar() {
-        if (activity is BeneficiaryCashTransferActivity) {
-            (activity as BeneficiaryCashTransferActivity).viewModel.errorEvent.value =
+        if (activity is BeneficiaryFundTransferActivity) {
+            (activity as BeneficiaryFundTransferActivity).viewModel.errorEvent.value =
                 viewModel.state.errorDescription
         }
     }
 
     private fun startFlows() {
-        viewModel.state.beneficiary?.beneficiaryType?.let { beneficiaryType ->
+        viewModel.parentViewModel?.beneficiary?.value?.beneficiaryType?.let { beneficiaryType ->
             if (beneficiaryType.isNotEmpty())
                 when (SendMoneyBeneficiaryType.valueOf(beneficiaryType)) {
                     //RMT is for international( RMT(linked with Rak))
@@ -360,66 +356,64 @@ class CashTransferFragment : SendMoneyBaseFragment<ICashTransfer.ViewModel>(), I
     }
 
     private fun getProductCode(): String {
-        if (context is BeneficiaryCashTransferActivity) {
-            (context as BeneficiaryCashTransferActivity).viewModel.state.beneficiary?.let { beneficiary ->
-                viewModel.state.beneficiaryCountry = beneficiary.country
+        viewModel.parentViewModel?.beneficiary?.value?.let { beneficiary ->
                 beneficiary.beneficiaryType?.let { beneficiaryType ->
-                    if (beneficiaryType.isNotEmpty())
-                        when (SendMoneyBeneficiaryType.valueOf(beneficiaryType)) {
-                            SendMoneyBeneficiaryType.RMT -> {
-                                viewModel.state.otpAction = SendMoneyBeneficiaryType.RMT.type
-                                viewModel.state.produceCode =
-                                    SendMoneyBeneficiaryProductCode.P012.name
+                    when (beneficiaryType) {
+                        SendMoneyBeneficiaryType.RMT.type -> {
+                            setOtpAction(
+                                SendMoneyBeneficiaryType.RMT.type,
+                                TransactionProductCode.RMT.pCode
+                            )
                                 return viewModel.state.produceCode ?: ""
                             }
-                            SendMoneyBeneficiaryType.SWIFT -> {
-                                viewModel.state.otpAction = SendMoneyBeneficiaryType.SWIFT.type
-
-                                viewModel.state.produceCode =
-                                    SendMoneyBeneficiaryProductCode.P011.name
+                        SendMoneyBeneficiaryType.SWIFT.type -> {
+                            setOtpAction(
+                                SendMoneyBeneficiaryType.SWIFT.type,
+                                TransactionProductCode.SWIFT.pCode
+                            )
                                 return viewModel.state.produceCode ?: ""
                             }
-                            SendMoneyBeneficiaryType.CASHPAYOUT -> {
-                                viewModel.state.otpAction = SendMoneyBeneficiaryType.CASHPAYOUT.type
-
-                                viewModel.state.reasonsVisibility = false
-                                viewModel.state.produceCode =
-                                    SendMoneyBeneficiaryProductCode.P013.name
+                        SendMoneyBeneficiaryType.CASHPAYOUT.type -> {
+                            setOtpAction(
+                                SendMoneyBeneficiaryType.CASHPAYOUT.type,
+                                TransactionProductCode.CASH_PAYOUT.pCode
+                            )
                                 return viewModel.state.produceCode ?: ""
                             }
-                            SendMoneyBeneficiaryType.DOMESTIC -> {
-                                viewModel.state.otpAction =
-                                    SendMoneyBeneficiaryType.DOMESTIC_TRANSFER.type
-                                viewModel.state.produceCode =
-                                    SendMoneyBeneficiaryProductCode.P023.name
-                                viewModel.state.ibanVisibility = true
-                                viewModel.state.ibanNumber = beneficiary.accountNo
+                        SendMoneyBeneficiaryType.DOMESTIC.type -> {
+                            setOtpAction(
+                                SendMoneyBeneficiaryType.DOMESTIC_TRANSFER.type,
+                                TransactionProductCode.DOMESTIC.pCode
+                            )
                                 return viewModel.state.produceCode ?: ""
                             }
-                            /*SendMoneyBeneficiaryType.INTERNAL_TRANSFER -> {
-                                //call service for INTERNAL_TRANSFER
-
-                            }*/
-                            SendMoneyBeneficiaryType.UAEFTS -> {
-                                viewModel.state.otpAction = SendMoneyBeneficiaryType.UAEFTS.type
-                                viewModel.state.produceCode =
-                                    SendMoneyBeneficiaryProductCode.P010.name
-                                viewModel.state.ibanVisibility = true
-                                viewModel.state.ibanNumber = beneficiary.accountNo
+                        SendMoneyBeneficiaryType.UAEFTS.type -> {
+                            setOtpAction(
+                                SendMoneyBeneficiaryType.UAEFTS.type,
+                                TransactionProductCode.UAEFTS.pCode
+                            )
                                 return viewModel.state.produceCode ?: ""
                             }
                             else -> {
-                                return SendMoneyBeneficiaryProductCode.P010.name
+                                return TransactionProductCode.UAEFTS.pCode
                             }
-                        }
-                }
-            }
-        }
-        return ""
+                    }
+                } ?: return ""
+        } ?: return ""
     }
 
+    private fun setOtpAction(action: String, productCode: String) {
+        viewModel.parentViewModel?.transferData?.value?.otpAction = action
+        viewModel.state.produceCode = productCode
+    }
+
+    override fun onPause() {
+        super.onPause()
+        viewModel.isAPIFailed.removeObservers(this)
+    }
     override fun onDestroy() {
         viewModel.clickEvent.removeObservers(this)
+        viewModel.isAPIFailed.removeObservers(this)
         super.onDestroy()
     }
 
@@ -437,18 +431,21 @@ class CashTransferFragment : SendMoneyBaseFragment<ICashTransfer.ViewModel>(), I
     }
 
     class ReasonDropDownViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-
         companion object {
             fun inflate(parent: ViewGroup): ReasonDropDownViewHolder {
                 val view = LayoutInflater.from(parent.context)
                     .inflate(R.layout.item_spinner, parent, false)
-                return ReasonDropDownViewHolder(view)
+                return ReasonDropDownViewHolder(
+                    view
+                )
             }
 
             fun inflateSelectedView(parent: ViewGroup): ReasonDropDownViewHolder {
                 val view = LayoutInflater.from(parent.context)
                     .inflate(R.layout.item_selected_spinner, parent, false)
-                return ReasonDropDownViewHolder(view)
+                return ReasonDropDownViewHolder(
+                    view
+                )
             }
         }
 

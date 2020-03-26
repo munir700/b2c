@@ -1,4 +1,4 @@
-package co.yap.sendMoney.addbeneficiary.states
+package co.yap.sendMoney.fundtransfer.states
 
 import android.app.Application
 import android.content.Context
@@ -6,12 +6,11 @@ import android.graphics.drawable.Drawable
 import android.text.SpannableStringBuilder
 import androidx.databinding.Bindable
 import androidx.databinding.ObservableField
-import co.yap.sendmoney.BR
 import androidx.lifecycle.MutableLiveData
-import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.networking.transactions.responsedtos.InternationalFundsTransferReasonList
 import co.yap.networking.transactions.responsedtos.transaction.RemittanceFeeResponse
-import co.yap.sendMoney.addbeneficiary.interfaces.ICashTransfer
+import co.yap.sendMoney.fundtransfer.interfaces.ICashTransfer
+import co.yap.sendmoney.BR
 import co.yap.translation.Strings
 import co.yap.translation.Translator
 import co.yap.yapcore.BaseState
@@ -23,14 +22,6 @@ class CashTransferState(application: Application) : BaseState(), ICashTransfer.S
     val context: Context = application.applicationContext
 
     override var originalTransferFeeAmount: ObservableField<String> = ObservableField()
-
-    @get:Bindable
-    override var fullName: String = ""
-        set(value) {
-            field = value
-            notifyPropertyChanged(BR.fullName)
-        }
-
 
     @get:Bindable
     override var amountBackground: Drawable? =
@@ -83,13 +74,6 @@ class CashTransferState(application: Application) : BaseState(), ICashTransfer.S
         }
 
     @get:Bindable
-    override var position: Int = 0
-        set(value) {
-            field = value
-            notifyPropertyChanged(BR.position)
-        }
-
-    @get:Bindable
     override var availableBalance: String? = ""
         set(value) {
             field = value
@@ -104,10 +88,10 @@ class CashTransferState(application: Application) : BaseState(), ICashTransfer.S
         }
 
     @get:Bindable
-    override var currencyType: String = ""
+    override var noteValue: String? = ""
         set(value) {
             field = value
-            notifyPropertyChanged(BR.currencyType)
+            notifyPropertyChanged(BR.noteValue)
         }
 
     @get:Bindable
@@ -130,61 +114,11 @@ class CashTransferState(application: Application) : BaseState(), ICashTransfer.S
             field = value
             notifyPropertyChanged(BR.availableBalanceGuide)
         }
-
     @get:Bindable
-    override var noteValue: String? = null
-        set(value) {
-            field = if (value.isNullOrBlank()) null else value
-            notifyPropertyChanged(BR.noteValue)
-        }
-
-    @get:Bindable
-    override var imageUrl: String = ""
-        set(value) {
-            field = value
-            notifyPropertyChanged(BR.imageUrl)
-        }
-
-    @get:Bindable
-    override var feeStringVisibility: Boolean = true
+    override var feeStringVisibility: Boolean = false
         set(value) {
             field = value
             notifyPropertyChanged(BR.feeStringVisibility)
-        }
-
-    @get:Bindable
-    override var ibanNumber: String? = ""
-        set(value) {
-            field = value
-            notifyPropertyChanged(BR.ibanNumber)
-        }
-
-    @get:Bindable
-    override var ibanVisibility: Boolean? = false
-        set(value) {
-            field = value
-            notifyPropertyChanged(BR.ibanVisibility)
-        }
-
-    @get:Bindable
-    override var beneficiaryCountry: String? = ""
-        set(value) {
-            field = value
-            notifyPropertyChanged(BR.beneficiaryCountry)
-        }
-
-    @get:Bindable
-    override var referenceNumber: String? = ""
-        set(value) {
-            field = value
-            notifyPropertyChanged(BR.referenceNumber)
-        }
-
-    @get:Bindable
-    override var reasonsVisibility: Boolean? = true
-        set(value) {
-            field = value
-            notifyPropertyChanged(BR.reasonsVisibility)
         }
 
     @get:Bindable
@@ -195,20 +129,11 @@ class CashTransferState(application: Application) : BaseState(), ICashTransfer.S
         }
 
     @get:Bindable
-    override var otpAction: String? = ""
+    override var totalAmount: Double? = 0.0
         set(value) {
             field = value
-            notifyPropertyChanged(BR.otpAction)
+            notifyPropertyChanged(BR.totalAmount)
         }
-
-    @get:Bindable
-    override var beneficiary: Beneficiary? = Beneficiary()
-        set(value) {
-            field = value
-            notifyPropertyChanged(BR.beneficiary)
-        }
-
-
     @get:Bindable
     override var reasonTransferValue: String? = ""
         set(value) {
@@ -223,12 +148,6 @@ class CashTransferState(application: Application) : BaseState(), ICashTransfer.S
             notifyPropertyChanged(BR.reasonTransferCode)
         }
 
-    @get:Bindable
-    override var totalAmount: Double? = 0.0
-        set(value) {
-            field = value
-            notifyPropertyChanged(BR.totalAmount)
-        }
     override var totalTransferAmount: ObservableField<Double> = ObservableField(0.0)
 
     @get:Bindable
@@ -275,12 +194,6 @@ class CashTransferState(application: Application) : BaseState(), ICashTransfer.S
             notifyPropertyChanged(BR.feeType)
         }
 
-    @get:Bindable
-    override var cutOffTimeMsg: String? = null
-        set(value) {
-            field = value
-            notifyPropertyChanged(BR.cutOffTimeMsg)
-        }
 
     @get:Bindable
     override val populateSpinnerData: MutableLiveData<List<InternationalFundsTransferReasonList.ReasonList>> =

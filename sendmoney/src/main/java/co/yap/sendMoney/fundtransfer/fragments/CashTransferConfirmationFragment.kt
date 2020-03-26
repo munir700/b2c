@@ -1,4 +1,4 @@
-package co.yap.sendMoney.addbeneficiary.fragments
+package co.yap.sendMoney.fundtransfer.fragments
 
 import android.app.Activity
 import android.content.Intent
@@ -19,14 +19,12 @@ import co.yap.modules.otp.GenericOtpFragment
 import co.yap.modules.otp.LogoData
 import co.yap.modules.otp.OtpDataModel
 import co.yap.modules.webview.WebViewFragment
-import co.yap.sendMoney.activities.BeneficiaryCashTransferActivity
-import co.yap.sendMoney.addbeneficiary.interfaces.ICashTransferConfirmation
-import co.yap.sendMoney.addbeneficiary.viewmodels.CashTransferConfirmationViewModel
+import co.yap.sendMoney.fundtransfer.interfaces.ICashTransferConfirmation
+import co.yap.sendMoney.fundtransfer.viewmodels.CashTransferConfirmationViewModel
 import co.yap.sendmoney.R
 import co.yap.sendmoney.databinding.FragmentCashTransferConfirmationBinding
 import co.yap.translation.Strings
 import co.yap.yapcore.BR
-import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.Constants.URL_DISCLAIMER_TERMS
 import co.yap.yapcore.enums.OTPActions
@@ -39,7 +37,8 @@ import co.yap.yapcore.helpers.spannables.getText
 import co.yap.yapcore.managers.MyUserManager
 
 class CashTransferConfirmationFragment :
-    BaseBindingFragment<ICashTransferConfirmation.ViewModel>(), ICashTransferConfirmation.View {
+    BeneficiaryFundTransferBaseFragment<ICashTransferConfirmation.ViewModel>(),
+    ICashTransferConfirmation.View {
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.fragment_cash_transfer_confirmation
 
@@ -49,47 +48,15 @@ class CashTransferConfirmationFragment :
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         addObservers()
-        if (context is BeneficiaryCashTransferActivity) {
-            (context as BeneficiaryCashTransferActivity).let { activity ->
-                viewModel.beneficiary =
-                    activity.viewModel.state.beneficiary
-                activity.viewModel.state.leftButtonVisibility = true
-                activity.viewModel.state.rightButtonVisibility = false
-                activity.viewModel.state.toolBarTitle = "Confirm transfer"
-            }
-        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        receiveDataFromArgs()
         setTransferAmountString()
         setTransferFeeAmountString()
         setDisclaimerText()
     }
 
-    private fun receiveDataFromArgs() {
-        viewModel.state.enteredAmount.set(arguments?.let {
-            CashTransferConfirmationFragmentArgs.fromBundle(
-                it
-            ).amount
-        })
-        viewModel.reasonCode =
-            arguments?.let { CashTransferConfirmationFragmentArgs.fromBundle(it).reasonCode }
-                .toString()
-        viewModel.reason =
-            arguments?.let { CashTransferConfirmationFragmentArgs.fromBundle(it).reason }.toString()
-        viewModel.transferNote =
-            arguments?.let { CashTransferConfirmationFragmentArgs.fromBundle(it).transferNote }
-
-        viewModel.state.transferFee.set(
-            arguments?.let { CashTransferConfirmationFragmentArgs.fromBundle(it).transferFee }
-                .toString())
-
-        viewModel.state.position.set(
-            arguments?.let { CashTransferConfirmationFragmentArgs.fromBundle(it).position })
-
-    }
 
     private fun setTransferAmountString() {
         viewModel.state.description.set(
@@ -97,10 +64,10 @@ class CashTransferConfirmationFragment :
                 getString(Strings.scren_send_money_funds_transfer_confirmation_display_text_amount_uaefts)
                 ,
                 //viewModel.state.name
-                viewModel.beneficiary?.firstName,
+                viewModel.parentViewModel?.beneficiary?.value?.firstName,
                 requireContext().color(
                     R.color.colorPrimaryDark,
-                    "${"AED"} ${viewModel.state.enteredAmount.get()?.toFormattedCurrency()}"
+                    "${"AED"} ${viewModel.parentViewModel?.transferData?.value?.transferAmount?.toFormattedCurrency()}"
                 )
             )
         )
@@ -145,7 +112,7 @@ class CashTransferConfirmationFragment :
                 getString(Strings.scren_send_money_funds_transfer_confirmation_display_text_fee),
                 requireContext().color(
                     R.color.colorPrimaryDark,
-                    "${"AED"} ${viewModel.state.transferFee.get()?.toFormattedCurrency()}"
+                    "${"AED"} ${viewModel.parentViewModel?.transferData?.value?.transferFee?.toFormattedCurrency()}"
                 )
             )
         )
@@ -178,24 +145,15 @@ class CashTransferConfirmationFragment :
         // Send Broadcast for updating transactions list in `Home Fragment`
         val intent = Intent(Constants.BROADCAST_UPDATE_TRANSACTION)
         LocalBroadcastManager.getInstance(requireContext()).sendBroadcast(intent)
-        viewModel.state.referenceNumber.let {
-            val action =
-                CashTransferConfirmationFragmentDirections.actionCashTransferConfirmationFragmentToTransferSuccessFragment2(
-                    "",
-                    "AED",
-                    viewModel.state.enteredAmount.get()?.toFormattedCurrency() ?: "",
-                    viewModel.state.referenceNumber.get().toString(),
-                    viewModel.state.position.get() ?: 0,
-                    viewModel.state.cutOffTimeMsg.get() ?: ""
-                )
-            findNavController().navigate(action)
-        }
+        val action =
+            CashTransferConfirmationFragmentDirections.actionCashTransferConfirmationFragmentToTransferSuccessFragment2()
+        findNavController().navigate(action)
     }
 
     private fun isOtpRequired(): Boolean {
-        viewModel.transactionThreshold.value?.let {
+        viewModel.parentViewModel?.transactionThreshold?.value?.let {
             it.totalDebitAmountRemittance?.let { totalSMConsumedAmount ->
-                viewModel.state.enteredAmount.get()?.toDoubleOrNull()?.let { enteredAmount ->
+                viewModel.parentViewModel?.transferData?.value?.transferAmount?.toDoubleOrNull()?.let { enteredAmount ->
                     val remainingOtpLimit = it.otpLimit?.minus(totalSMConsumedAmount)
                     return enteredAmount >= (remainingOtpLimit ?: 0.0)
                 } ?: return false
@@ -212,12 +170,12 @@ class CashTransferConfirmationFragment :
                     mobileNumber = MyUserManager.user?.currentCustomer?.getFormattedPhoneNumber(
                         requireContext()
                     ),
-                    amount = viewModel.state.enteredAmount.get(),
-                    username = viewModel.beneficiary?.fullName(),
+                    amount = viewModel.parentViewModel?.transferData?.value?.transferAmount,
+                    username = viewModel.parentViewModel?.beneficiary?.value?.fullName(),
                     emailOtp = false,
                     logoData = LogoData(
-                        imageUrl = viewModel.beneficiary?.beneficiaryPictureUrl,
-                        position = viewModel.state.position.get()
+                        imageUrl = viewModel.parentViewModel?.beneficiary?.value?.beneficiaryPictureUrl,
+                        position = viewModel.parentViewModel?.transferData?.value?.position
                     )
                 )
             ),
@@ -231,7 +189,7 @@ class CashTransferConfirmationFragment :
     }
 
     private fun getOtpAction(): String? {
-        viewModel.beneficiary?.beneficiaryType?.let { type ->
+        viewModel.parentViewModel?.beneficiary?.value?.beneficiaryType?.let { type ->
             return (when (type) {
                 SendMoneyBeneficiaryType.DOMESTIC.type -> OTPActions.DOMESTIC_TRANSFER.name
                 SendMoneyBeneficiaryType.UAEFTS.type -> OTPActions.UAEFTS.name

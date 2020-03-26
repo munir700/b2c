@@ -7,11 +7,9 @@ import android.view.View
 import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import androidx.navigation.fragment.findNavController
 import co.yap.modules.otp.GenericOtpFragment
 import co.yap.modules.otp.OtpDataModel
-import co.yap.sendMoney.activities.BeneficiaryCashTransferActivity
-import co.yap.sendMoney.activities.SendMoneyHomeActivity
+import co.yap.sendMoney.fundtransfer.activities.BeneficiaryFundTransferActivity
 import co.yap.sendmoney.BR
 import co.yap.sendmoney.R
 import co.yap.sendMoney.addbeneficiary.interfaces.IAddBeneficiary
@@ -115,7 +113,7 @@ class AddBeneficiaryForDomesticTransferFragment :
 
     private fun startMoneyTransfer() {
         viewModel.beneficiary?.let {
-            launchActivity<BeneficiaryCashTransferActivity>(requestCode = RequestCodes.REQUEST_TRANSFER_MONEY) {
+            launchActivity<BeneficiaryFundTransferActivity>(requestCode = RequestCodes.REQUEST_TRANSFER_MONEY) {
                 putExtra(Constants.BENEFICIARY, it)
                 putExtra(Constants.POSITION, 0)
                 putExtra(Constants.IS_NEW_BENEFICIARY, true)

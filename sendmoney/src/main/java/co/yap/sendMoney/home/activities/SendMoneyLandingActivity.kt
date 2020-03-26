@@ -14,7 +14,7 @@ import co.yap.sendMoney.home.adapters.RecentTransferAdaptor
 import co.yap.sendMoney.home.interfaces.ISendMoneyHome
 import co.yap.sendMoney.home.viewmodels.SendMoneyHomeScreenViewModel
 import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
-import co.yap.sendMoney.activities.BeneficiaryCashTransferActivity
+import co.yap.sendMoney.fundtransfer.activities.BeneficiaryFundTransferActivity
 import co.yap.sendMoney.activities.SendMoneyHomeActivity
 import co.yap.sendMoney.editbeneficiary.activity.EditBeneficiaryActivity
 import co.yap.sendmoney.BR
@@ -195,7 +195,7 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
 
     private fun startMoneyTransfer(beneficiary: Beneficiary?, position: Int) {
         Utils.hideKeyboard(getSearchView())
-        launchActivity<BeneficiaryCashTransferActivity>(requestCode = REQUEST_TRANSFER_MONEY) {
+        launchActivity<BeneficiaryFundTransferActivity>(requestCode = REQUEST_TRANSFER_MONEY) {
             putExtra(Constants.BENEFICIARY, beneficiary)
             putExtra(Constants.POSITION, position)
             putExtra(Constants.IS_NEW_BENEFICIARY, false)

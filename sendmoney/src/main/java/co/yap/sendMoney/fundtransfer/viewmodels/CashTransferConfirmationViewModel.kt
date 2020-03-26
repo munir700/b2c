@@ -1,39 +1,32 @@
-package co.yap.sendMoney.addbeneficiary.viewmodels
+package co.yap.sendMoney.fundtransfer.viewmodels
 
 import android.app.Application
-import androidx.lifecycle.MutableLiveData
-import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.transactions.TransactionsRepository
 import co.yap.networking.transactions.requestdtos.DomesticTransactionRequestDTO
 import co.yap.networking.transactions.requestdtos.UAEFTSTransactionRequestDTO
-import co.yap.networking.transactions.responsedtos.TransactionThresholdModel
-import co.yap.sendMoney.addbeneficiary.interfaces.ICashTransferConfirmation
-import co.yap.sendMoney.addbeneficiary.states.CashTransferConfirmationState
-import co.yap.yapcore.BaseViewModel
+import co.yap.sendMoney.fundtransfer.interfaces.ICashTransferConfirmation
+import co.yap.sendMoney.fundtransfer.states.CashTransferConfirmationState
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.SendMoneyBeneficiaryType
 import co.yap.yapcore.enums.TransactionProductCode
 
 class CashTransferConfirmationViewModel(application: Application) :
-    BaseViewModel<ICashTransferConfirmation.State>(application),
+    BeneficiaryFundTransferBaseViewModel<ICashTransferConfirmation.State>(application),
     ICashTransferConfirmation.ViewModel, IRepositoryHolder<TransactionsRepository> {
     override val repository: TransactionsRepository = TransactionsRepository
-    override val state: CashTransferConfirmationState = CashTransferConfirmationState()
+    override val state: CashTransferConfirmationState =
+        CashTransferConfirmationState()
     override var clickEvent: SingleClickEvent = SingleClickEvent()
-    override var transactionThreshold: MutableLiveData<TransactionThresholdModel> =
-        MutableLiveData()
-    override var beneficiary: Beneficiary? = null
-    override var reasonCode: String = ""
-    override var reason: String = ""
-    override var transferNote: String? = null
 
     override fun onCreate() {
         super.onCreate()
+        parentViewModel?.state?.leftIcon?.set(true)
+        parentViewModel?.state?.rightIcon?.set(false)
+        parentViewModel?.state?.toolBarTitle = "Confirm transfer"
         getCutOffTimeConfiguration()
-        getTransactionThresholds()
     }
 
     override fun handlePressOnView(id: Int) {
@@ -41,7 +34,7 @@ class CashTransferConfirmationViewModel(application: Application) :
     }
 
     override fun proceedToTransferAmount() {
-        beneficiary?.let { beneficiary ->
+        parentViewModel?.beneficiary?.value?.let { beneficiary ->
             beneficiary.id?.let { beneficiaryId ->
                 if (beneficiary.beneficiaryType?.isNotEmpty() == true)
                     when (SendMoneyBeneficiaryType.valueOf(beneficiary.beneficiaryType ?: "")) {
@@ -54,38 +47,24 @@ class CashTransferConfirmationViewModel(application: Application) :
     }
 
 
-    override fun getTransactionThresholds() {
-        launch {
-            state.loading = true
-            when (val response = repository.getTransactionThresholds()) {
-                is RetroApiResponse.Success -> {
-                    transactionThreshold.value = response.data.data
-                    state.loading = false
-                }
-                is RetroApiResponse.Error -> {
-                    state.toast = response.error.message
-                    state.loading = false
-                }
-            }
-        }
-    }
-
     override fun getCutOffTimeConfiguration() {
         launch {
+            state.loading = true
             when (val response =
                 repository.getCutOffTimeConfiguration(
                     getProductCode(),
                     "AED",
-                    state.enteredAmount.get()
+                    parentViewModel?.transferData?.value?.transferAmount
                 )) {
                 is RetroApiResponse.Success -> {
                     response.data.data?.let {
-                        state.cutOffTimeMsg.set(it.errorMsg)
+                        parentViewModel?.transferData?.value?.cutOffTimeMsg = it.errorMsg
                     }
-
+                    state.loading = false
                 }
                 is RetroApiResponse.Error -> {
                     state.toast = response.error.message
+                    state.loading = false
                 }
             }
         }
@@ -99,16 +78,17 @@ class CashTransferConfirmationViewModel(application: Application) :
                 repository.uaeftsTransferRequest(
                     UAEFTSTransactionRequestDTO(
                         beneficiaryId,
-                        state.enteredAmount.get()?.toDouble(),
+                        parentViewModel?.transferData?.value?.transferAmount?.toDoubleOrNull(),
                         0.0,
-                        reasonCode,
-                        reason,
-                        if(transferNote.isNullOrBlank()) null else transferNote
+                        parentViewModel?.transferData?.value?.purposeCode,
+                        parentViewModel?.transferData?.value?.transferReason,
+                        if (parentViewModel?.transferData?.value?.noteValue.isNullOrBlank()) null else parentViewModel?.transferData?.value?.noteValue
                     )
                 )
                 ) {
                 is RetroApiResponse.Success -> {
-                    state.referenceNumber.set(response.data.data)
+                    parentViewModel?.transferData?.value?.referenceNumber = response.data.data
+                    state.cutOffTimeMsg.set(response.data.data)
                     clickEvent.postValue(Constants.ADD_CASH_PICK_UP_SUCCESS)
                 }
                 is RetroApiResponse.Error -> {
@@ -127,22 +107,21 @@ class CashTransferConfirmationViewModel(application: Application) :
                 repository.domesticTransferRequest(
                     DomesticTransactionRequestDTO(
                         beneficiaryId,
-                        state.enteredAmount.get()?.toDouble(),
+                        parentViewModel?.transferData?.value?.transferAmount?.toDoubleOrNull(),
                         0.0,
-                        reasonCode,
-                        reason,
-                        if(transferNote.isNullOrBlank()) null else transferNote
+                        parentViewModel?.transferData?.value?.purposeCode,
+                        parentViewModel?.transferData?.value?.transferReason,
+                        if (parentViewModel?.transferData?.value?.noteValue.isNullOrBlank()) null else parentViewModel?.transferData?.value?.noteValue
                     )
 
                 )
                 ) {
                 is RetroApiResponse.Success -> {
-                    state.referenceNumber.set(response.data.data)
+                    parentViewModel?.transferData?.value?.referenceNumber = response.data.data
+                    state.cutOffTimeMsg.set(response.data.data)
                     clickEvent.postValue(Constants.ADD_CASH_PICK_UP_SUCCESS)
                 }
                 is RetroApiResponse.Error -> {
-//                    state.errorDescription = response.error.message
-//                    errorEvent.call()
                     state.loading = false
                 }
             }
@@ -151,7 +130,7 @@ class CashTransferConfirmationViewModel(application: Application) :
     }
 
     private fun getProductCode(): String {
-        return (when (beneficiary?.beneficiaryType) {
+        return (when (parentViewModel?.beneficiary?.value?.beneficiaryType) {
             SendMoneyBeneficiaryType.UAEFTS.type -> TransactionProductCode.UAEFTS.pCode
 
             SendMoneyBeneficiaryType.DOMESTIC.type -> TransactionProductCode.DOMESTIC.pCode

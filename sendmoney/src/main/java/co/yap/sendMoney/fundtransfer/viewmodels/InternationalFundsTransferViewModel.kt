@@ -1,4 +1,4 @@
-package co.yap.sendMoney.addbeneficiary.viewmodels
+package co.yap.sendMoney.fundtransfer.viewmodels
 
 import android.app.Application
 import androidx.lifecycle.MutableLiveData
@@ -9,38 +9,38 @@ import co.yap.networking.transactions.TransactionsRepository
 import co.yap.networking.transactions.requestdtos.RemittanceFeeRequest
 import co.yap.networking.transactions.requestdtos.RxListRequest
 import co.yap.networking.transactions.responsedtos.InternationalFundsTransferReasonList
-import co.yap.networking.transactions.responsedtos.TransactionThresholdModel
+import co.yap.networking.transactions.responsedtos.transaction.FxRateResponse
 import co.yap.networking.transactions.responsedtos.transaction.RemittanceFeeResponse
-import co.yap.sendMoney.addbeneficiary.interfaces.IInternationalFundsTransfer
-import co.yap.sendMoney.addbeneficiary.states.InternationalFundsTransferState
-import co.yap.sendMoney.viewmodels.SendMoneyBaseViewModel
+import co.yap.sendMoney.fundtransfer.interfaces.IInternationalFundsTransfer
+import co.yap.sendMoney.fundtransfer.states.InternationalFundsTransferState
 import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
-import co.yap.yapcore.constants.Constants
-import co.yap.yapcore.helpers.Utils
-import co.yap.yapcore.helpers.extentions.toFormattedCurrency
+import co.yap.yapcore.enums.FeeType
+import co.yap.yapcore.helpers.extentions.parseToDouble
+import java.util.*
+import kotlin.collections.ArrayList
 
 class InternationalFundsTransferViewModel(application: Application) :
-    SendMoneyBaseViewModel<IInternationalFundsTransfer.State>(application),
+    BeneficiaryFundTransferBaseViewModel<IInternationalFundsTransfer.State>(application),
     IInternationalFundsTransfer.ViewModel,
     IRepositoryHolder<CustomersRepository> {
-
-
     private var mTransactionsRepository: TransactionsRepository = TransactionsRepository
-    override var otpAction: String? = null
     override val repository: CustomersRepository = CustomersRepository
     override val state: InternationalFundsTransferState =
-        InternationalFundsTransferState(application)
+        InternationalFundsTransferState(
+            application
+        )
     override var clickEvent: SingleClickEvent = SingleClickEvent()
+    override var isAPIFailed: MutableLiveData<Boolean> = MutableLiveData()
     override var transactionData: ArrayList<InternationalFundsTransferReasonList.ReasonList> =
         ArrayList()
     override val populateSpinnerData: MutableLiveData<ArrayList<InternationalFundsTransferReasonList.ReasonList>> =
         MutableLiveData()
-    override val transactionThreshold: MutableLiveData<TransactionThresholdModel> =
-        MutableLiveData()
-    private var listItemRemittanceFee: List<RemittanceFeeResponse.RemittanceFee.TierRateDTO> =
-        ArrayList()
     override var reasonPosition: Int = 0
+    override var transactionFeeResponse: MutableLiveData<RemittanceFeeResponse.RemittanceFee> =
+        MutableLiveData()
+    override var fxRateResponse: MutableLiveData<FxRateResponse.Data> = MutableLiveData()
+    override var feeTiers: List<RemittanceFeeResponse.RemittanceFee.TierRateDTO> = arrayListOf()
 
     override fun handlePressOnButton(id: Int) {
         clickEvent.setValue(id)
@@ -48,7 +48,7 @@ class InternationalFundsTransferViewModel(application: Application) :
 
     override fun onCreate() {
         super.onCreate()
-        state.setSpanable(0.0)
+        parentViewModel?.state?.toolBarTitle = getString(Strings.screen_funds_toolbar_header)
     }
 
     override fun onResume() {
@@ -58,56 +58,29 @@ class InternationalFundsTransferViewModel(application: Application) :
 
     override fun getTransactionFeeInternational(productCode: String?) {
         launch {
-            //state.loading = true
-            val remittanceFeeRequestBody = RemittanceFeeRequest(state.beneficiaryCountry, "")
+            val remittanceFeeRequestBody =
+                RemittanceFeeRequest(parentViewModel?.beneficiary?.value?.country, "")
             when (val response =
                 mTransactionsRepository.getTransactionFeeWithProductCode(
                     productCode,
                     remittanceFeeRequestBody
                 )) {
                 is RetroApiResponse.Success -> {
-                    state.feeType = response.data.data?.feeType
-                    // state.totalAmount: Double
-                    if (state.feeType == Constants.FEE_TYPE_FLAT) {
-                        val feeAmount = response.data.data?.tierRateDTOList?.get(0)?.feeAmount
-                        val feeAmountVAT = response.data.data?.tierRateDTOList?.get(0)?.vatAmount
-                        if (feeAmount != null) {
-                            state.totalAmount = feeAmount + feeAmountVAT!!
-                            state.transferFee =
-                                getString(Strings.screen_international_funds_transfer_display_text_fee).format(
-                                    "AED",
-                                    state.totalAmount.toString().toFormattedCurrency()
-                                )
-                            state.transferFeeSpannable =
-                                Utils.getSppnableStringForAmount(
-                                    context,
-                                    state.transferFee,
-                                    "AED",
-                                    Utils.getFormattedCurrencyWithoutComma(state.totalAmount.toString())
-                                )
-                        }
-
-                    } else if (state.feeType == Constants.FEE_TYPE_TIER) {
-                        listItemRemittanceFee =
-                            response.data.data?.tierRateDTOList ?: mutableListOf()
-                        state.listItemRemittanceFee = listItemRemittanceFee
-                    }
+                    transactionFeeResponse.value = response.data.data
                 }
-
                 is RetroApiResponse.Error -> {
                     state.loading = false
+                    isAPIFailed.value = true
                     state.toast = response.error.message
                 }
             }
-            // state.loading = false
         }
     }
-
 
     override fun getTransactionInternationalfxList(productCode: String?) {
         launch {
             state.loading = true
-            val rxListBody = RxListRequest(state.beneficiaryId)
+            val rxListBody = RxListRequest(parentViewModel?.beneficiary?.value?.id.toString())
 
             when (val response =
                 mTransactionsRepository.getTransactionInternationalRXList(
@@ -115,21 +88,12 @@ class InternationalFundsTransferViewModel(application: Application) :
                     rxListBody
                 )) {
                 is RetroApiResponse.Success -> {
-                    state.senderCurrency = response.data.data.fromCurrencyCode
-                    state.receiverCurrency = response.data.data.toCurrencyCode
-                    state.receiverCurrencyAmountFxRate = response.data.data.value?.amount
-                    state.fromFxRateCurrency = response.data.data.fromCurrencyCode
-                    state.fromFxRate =
-                        "${state.receiverCurrency} ${response.data.data.value?.amount?.toFormattedCurrency()}"
-                    state.toFxRateCurrency = response.data.data.toCurrencyCode
-                    state.toFxRate =
-                        "${state.senderCurrency} ${response.data.data.fxRates?.get(0)?.rate}"
-                    state.rate = response.data.data.fxRates?.get(0)?.rate
-                    state.srRate = response.data.data.fxRates?.get(0)?.rate ?: "0"
+                    fxRateResponse.value = response.data.data
                     state.loading = false
                 }
                 is RetroApiResponse.Error -> {
                     state.loading = false
+                    isAPIFailed.value = true
                     state.toast = response.error.message
                 }
             }
@@ -152,12 +116,11 @@ class InternationalFundsTransferViewModel(application: Application) :
                             )
                         })
                     }
-                    //getTransactionInternationalfxList(productCode)
                     populateSpinnerData.value = transactionData
                 }
                 is RetroApiResponse.Error -> {
-//                    state.loading = false
                     state.toast = response.error.message
+                    isAPIFailed.value = true
                 }
             }
         }
@@ -173,6 +136,7 @@ class InternationalFundsTransferViewModel(application: Application) :
                 }
                 is RetroApiResponse.Error -> {
                     state.toast = response.error.message
+                    isAPIFailed.value = true
                 }
             }
         }
@@ -182,8 +146,8 @@ class InternationalFundsTransferViewModel(application: Application) :
     override fun getCountryLimits() {
         launch {
             when (val response = repository.getCountryTransactionLimits(
-                state.beneficiary?.country ?: "",
-                state.beneficiary?.currency ?: ""
+                parentViewModel?.beneficiary?.value?.country ?: "",
+                parentViewModel?.beneficiary?.value?.currency ?: ""
             )) {
                 is RetroApiResponse.Success -> {
                     if (response.data.data?.toDouble() ?: 0.0 > 0.0) {
@@ -195,23 +159,71 @@ class InternationalFundsTransferViewModel(application: Application) :
                 }
                 is RetroApiResponse.Error -> {
                     state.toast = response.error.message
+                    isAPIFailed.value = true
                 }
             }
         }
 
     }
 
-    override fun getTransactionThresholds1() {
+    override fun getTransactionThresholds() {
         launch {
             when (val response = mTransactionsRepository.getTransactionThresholds()) {
                 is RetroApiResponse.Success -> {
-                    transactionThreshold.value = response.data.data
+                    parentViewModel?.transactionThreshold?.value = response.data.data
                 }
                 is RetroApiResponse.Error -> {
                     state.toast = response.error.message
+                    isAPIFailed.value = true
                 }
             }
         }
     }
 
+    fun getFeeFromTier(enterAmount: String?): String? {
+        return if (!enterAmount.isNullOrBlank()) {
+            val fee = feeTiers.filter { item ->
+                item.amountFrom ?: 0.0 <= enterAmount.parseToDouble() && item.amountTo ?: 0.0 >= enterAmount.parseToDouble()
+            }
+            fee[0].feeAmount?.plus(fee[0].vatAmount ?: 0.0).toString()
+        } else {
+            null
+        }
+    }
+
+    fun getTotalAmountWithFee(): Double {
+        return (when (transactionFeeResponse.value?.feeType) {
+            FeeType.TIER.name -> {
+                val transferFee = getFeeFromTier(state.etInputAmount)
+                state.etInputAmount?.toDoubleOrNull() ?: 0.0.plus(
+                    transferFee?.toDoubleOrNull() ?: 0.0
+                )
+            }
+            FeeType.FLAT.name -> {
+                val transferFee = transactionFeeResponse.value?.tierRateDTOList?.get(0)
+                    ?.feeAmount?.plus(
+                    transactionFeeResponse.value?.tierRateDTOList?.get(0)?.vatAmount ?: 0.0
+                )
+                state.etInputAmount?.toDoubleOrNull() ?: 0.0.plus(transferFee ?: 0.0)
+            }
+            else -> {
+                0.00
+            }
+        })
+    }
+
+    fun setDestinationAmount() {
+        if (!state.etInputAmount.isNullOrBlank()) {
+            val totalDestinationAmount = state.etInputAmount?.toDoubleOrNull()
+                ?.div(parentViewModel?.transferData?.value?.rate?.toDoubleOrNull() ?: 0.0)
+
+            state.etOutputAmount = String.format(
+                Locale.getDefault(),
+                "%.02f",
+                totalDestinationAmount
+            )
+        } else {
+            state.etOutputAmount = ""
+        }
+    }
 }

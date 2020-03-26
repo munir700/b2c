@@ -1,23 +1,23 @@
-package co.yap.sendMoney.addbeneficiary.viewmodels
+package co.yap.sendMoney.fundtransfer.viewmodels
 
 import android.app.Application
 import co.yap.networking.cards.responsedtos.CardBalance
 import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
-import co.yap.sendMoney.addbeneficiary.interfaces.ITransferSuccess
-import co.yap.sendMoney.addbeneficiary.states.TransferSuccessState
-import co.yap.sendMoney.viewmodels.SendMoneyBaseViewModel
+import co.yap.sendMoney.fundtransfer.interfaces.ITransferSuccess
+import co.yap.sendMoney.fundtransfer.states.TransferSuccessState
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.managers.MyUserManager
 
 class TransferSuccessViewModel(application: Application) :
-    SendMoneyBaseViewModel<ITransferSuccess.State>(application), ITransferSuccess.ViewModel,
+    BeneficiaryFundTransferBaseViewModel<ITransferSuccess.State>(application), ITransferSuccess.ViewModel,
     IRepositoryHolder<CustomersRepository> {
 
     override val repository: CustomersRepository = CustomersRepository
 
-    override val state: TransferSuccessState = TransferSuccessState()
+    override val state: TransferSuccessState =
+        TransferSuccessState()
 
     override var clickEvent: SingleClickEvent = SingleClickEvent()
     override var updatedCardBalanceEvent: SingleClickEvent = SingleClickEvent()

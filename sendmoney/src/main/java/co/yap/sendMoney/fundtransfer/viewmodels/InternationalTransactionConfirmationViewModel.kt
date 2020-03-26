@@ -1,37 +1,29 @@
-package co.yap.sendMoney.addbeneficiary.viewmodels
+package co.yap.sendMoney.fundtransfer.viewmodels
 
 import android.app.Application
 import androidx.lifecycle.MutableLiveData
-import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
-import co.yap.networking.messages.MessagesRepository
 import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.transactions.TransactionsRepository
 import co.yap.networking.transactions.requestdtos.RMTTransactionRequestDTO
 import co.yap.networking.transactions.requestdtos.SwiftTransactionRequestDTO
-import co.yap.networking.transactions.responsedtos.TransactionThresholdModel
-import co.yap.sendMoney.addbeneficiary.interfaces.IInternationalTransactionConfirmation
-import co.yap.sendMoney.addbeneficiary.states.InternationalTransactionConfirmationState
-import co.yap.yapcore.BaseViewModel
+import co.yap.sendMoney.fundtransfer.interfaces.IInternationalTransactionConfirmation
+import co.yap.sendMoney.fundtransfer.states.InternationalTransactionConfirmationState
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.constants.Constants
-import co.yap.yapcore.enums.SendMoneyBeneficiaryProductCode
 import co.yap.yapcore.enums.SendMoneyBeneficiaryType
+import co.yap.yapcore.enums.TransactionProductCode
 
 class InternationalTransactionConfirmationViewModel(application: Application) :
-    BaseViewModel<IInternationalTransactionConfirmation.State>(application),
+    BeneficiaryFundTransferBaseViewModel<IInternationalTransactionConfirmation.State>(application),
     IInternationalTransactionConfirmation.ViewModel {
     private var mTransactionsRepository: TransactionsRepository = TransactionsRepository
     override val state: InternationalTransactionConfirmationState =
         InternationalTransactionConfirmationState()
     override val isOtpRequired: MutableLiveData<Boolean> = MutableLiveData()
-    override var beneficiary: Beneficiary? = null
-    override val transactionThreshold: MutableLiveData<TransactionThresholdModel> =
-        MutableLiveData()
     override val clickEvent: SingleClickEvent = SingleClickEvent()
 
     override fun onCreate() {
         super.onCreate()
-        getTransactionThresholds()
         getCutOffTimeConfiguration()
     }
 
@@ -41,22 +33,22 @@ class InternationalTransactionConfirmationViewModel(application: Application) :
 
     override fun rmtTransferRequest(beneficiaryId: String?) {
         launch {
-            state.args.let {
+            parentViewModel?.transferData?.value?.let {
                 state.loading = true
                 when (val response =
                     mTransactionsRepository.rmtTransferRequest(
                         RMTTransactionRequestDTO(
-                            it?.fxRateAmount?.toDouble(),
-                            it?.fromFxRateCurrency,
-                            it?.reasonTransferCode,
-                            beneficiaryId,
-                            if (it?.transactionNote.isNullOrBlank()) null else it?.transactionNote,
-                            it?.reasonTransferValue
+                            it.sourceAmount?.toDouble(),
+                            it.sourceCurrency,
+                            it.produceCode,
+                            parentViewModel?.beneficiary?.value?.id.toString(),
+                            if (it.noteValue.isNullOrBlank()) null else it.noteValue,
+                            it.transferReason
                         )
                     )
                     ) {
                     is RetroApiResponse.Success -> {
-                        state.referenceNumber = response.data.data
+                        parentViewModel?.transferData?.value?.referenceNumber = response.data.data
                         clickEvent.postValue(Constants.ADD_SUCCESS)
                     }
                     is RetroApiResponse.Error -> {
@@ -71,23 +63,23 @@ class InternationalTransactionConfirmationViewModel(application: Application) :
 
     override fun swiftTransferRequest(beneficiaryId: String?) {
         launch {
-            state.args?.let {
+            parentViewModel?.transferData?.value?.let {
                 state.loading = true
                 when (val response =
                     mTransactionsRepository.swiftTransferRequest(
                         SwiftTransactionRequestDTO(
                             beneficiaryId,
-                            it.fxRateAmount.toDouble(),
+                            it.sourceAmount?.toDouble(),
                             0.0,
-                            it.reasonTransferCode,
-                            it.reasonTransferValue,
-                            it.transactionNote,
-                            it.srRate
+                            it.purposeCode,
+                            it.transferReason,
+                            if (it.noteValue.isNullOrBlank()) null else it.noteValue,
+                            it.rate
                         )
                     )
                     ) {
                     is RetroApiResponse.Success -> {
-                        state.referenceNumber = response.data.data
+                        parentViewModel?.transferData?.value?.referenceNumber = response.data.data
                         clickEvent.postValue(Constants.ADD_SUCCESS)
                     }
                     is RetroApiResponse.Error -> {
@@ -109,9 +101,9 @@ class InternationalTransactionConfirmationViewModel(application: Application) :
     }
 
     private fun isOtpRequired(): Boolean {
-        transactionThreshold.value?.let {
+        parentViewModel?.transactionThreshold?.value?.let {
             it.totalDebitAmountRemittance?.let { totalSMConsumedAmount ->
-                state.args?.fxRateAmount?.toDoubleOrNull()?.let { enteredAmount ->
+                parentViewModel?.transferData?.value?.sourceAmount?.toDoubleOrNull()?.let { enteredAmount ->
                     val remainingOtpLimit = it.otpLimit?.minus(totalSMConsumedAmount)
                     return enteredAmount >= (remainingOtpLimit ?: 0.0)
                 } ?: return false
@@ -120,7 +112,7 @@ class InternationalTransactionConfirmationViewModel(application: Application) :
     }
 
     override fun proceedToTransferAmount() {
-        beneficiary?.let { beneficiary ->
+        parentViewModel?.beneficiary?.value?.let { beneficiary ->
             beneficiary.beneficiaryType?.let { beneficiaryType ->
                 if (beneficiaryType.isNotEmpty())
                     when (SendMoneyBeneficiaryType.valueOf(beneficiaryType)) {
@@ -143,25 +135,10 @@ class InternationalTransactionConfirmationViewModel(application: Application) :
         }
     }
 
-    override fun getTransactionThresholds() {
-        launch {
-            state.loading = true
-            when (val response = mTransactionsRepository.getTransactionThresholds()) {
-                is RetroApiResponse.Success -> {
-                    transactionThreshold.value = response.data.data
-                    state.loading = false
-                }
-                is RetroApiResponse.Error -> {
-                    state.loading = false
-                    state.toast = response.error.message
-                }
-            }
-        }
-    }
 
     override fun getCutOffTimeConfiguration() {
 
-        beneficiary?.run {
+        parentViewModel?.beneficiary?.value?.run {
             beneficiaryType?.let { beneficiaryType ->
                 if (beneficiaryType.isNotEmpty())
                     when (SendMoneyBeneficiaryType.valueOf(beneficiaryType)) {
@@ -171,7 +148,7 @@ class InternationalTransactionConfirmationViewModel(application: Application) :
                                     mTransactionsRepository.getCutOffTimeConfiguration(
                                         getProductCode(),
                                         currency,
-                                        state.args?.fxRateAmount
+                                        parentViewModel?.transferData?.value?.sourceAmount
                                     )) {
                                     is RetroApiResponse.Success -> {
                                         response.data.data?.let {
@@ -191,13 +168,13 @@ class InternationalTransactionConfirmationViewModel(application: Application) :
     }
 
     private fun getProductCode(): String? {
-        beneficiary?.beneficiaryType?.let {
+        parentViewModel?.beneficiary?.value?.beneficiaryType?.let {
             when (SendMoneyBeneficiaryType.valueOf(it)) {
                 SendMoneyBeneficiaryType.SWIFT -> {
-                    return SendMoneyBeneficiaryProductCode.P011.name
+                    return TransactionProductCode.SWIFT.pCode
                 }
                 SendMoneyBeneficiaryType.UAEFTS -> {
-                    SendMoneyBeneficiaryProductCode.P010.name
+                    TransactionProductCode.UAEFTS.pCode
                 }
                 else -> null
             }

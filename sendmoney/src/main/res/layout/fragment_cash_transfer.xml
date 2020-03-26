@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="co.yap.sendMoney.addbeneficiary.viewmodels.CashTransferViewModel" />
+            type="co.yap.sendMoney.fundtransfer.viewmodels.CashTransferViewModel" />
 
         <import type="co.yap.yapcore.helpers.Utils" />
 
@@ -34,12 +34,12 @@
                 android:contentDescription="@string/empty_string"
                 android:src="@drawable/ic_store_b2b"
                 app:colorType="@{`Beneficiary`}"
-                app:fullName="@{viewModel.state.fullName}"
-                app:imageUrl="@{viewModel.state.imageUrl}"
+                app:fullName="@{viewModel.parentViewModel.beneficiary.fullName}"
+                app:imageUrl="@{viewModel.parentViewModel.beneficiary.beneficiaryPictureUrl}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:position="@{viewModel.state.position}" />
+                app:position="@{viewModel.parentViewModel.transferData.position}" />
 
 
             <TextView
@@ -51,7 +51,7 @@
                 android:layout_marginTop="@dimen/margin_normal"
                 android:layout_marginEnd="@dimen/margin_medium"
                 android:gravity="center"
-                android:text="@{viewModel.state.fullName}"
+                android:text="@{viewModel.parentViewModel.beneficiary.fullName}"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/ivUserImage"
@@ -64,8 +64,8 @@
                 android:background="@color/transparent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_extra_small"
-                android:text="@{viewModel.state.ibanNumber}"
-                android:visibility="@{viewModel.state.ibanVisibility? View.VISIBLE:View.GONE}"
+                android:text="@{viewModel.parentViewModel.beneficiary.accountNo}"
+                android:visibility="@{viewModel.parentViewModel.beneficiary.beneficiaryType.equals(`DOMESTIC`) || viewModel.parentViewModel.beneficiary.beneficiaryType.equals(`UAEFTS`) ? View.VISIBLE:View.GONE}"
                 app:editable="@{false}"
                 app:ibanMask="@{`#### #### #### #### #### #### ####`}"
                 app:layout_constraintLeft_toLeftOf="parent"
@@ -73,37 +73,13 @@
                 app:layout_constraintTop_toBottomOf="@+id/tvFullName"
                 tools:text="AE 1234543112341234" />
 
-            <!--  <co.yap.widgets.CoreCircularImageView
-                  android:id="@+id/ivFlag"
-                  android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"
-                  android:layout_marginStart="@dimen/margin_medium_large"
-                  android:src="@drawable/ic_uae_flag"
-                  app:layout_constraintBottom_toBottomOf="@+id/etAmountLayout"
-                  app:layout_constraintLeft_toLeftOf="parent"
-                  app:layout_constraintTop_toTopOf="@+id/etAmountLayout" />
-
-              <TextView
-                  android:id="@+id/tvCurrencyType"
-                  style="@style/ATitle2"
-                  android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"
-                  android:layout_marginStart="@dimen/small"
-                  app:layout_constraintBottom_toBottomOf="@+id/ivFlag"
-                  app:layout_constraintLeft_toRightOf="@+id/ivFlag"
-                  app:layout_constraintTop_toTopOf="@+id/ivFlag"
-                  app:text="@{Strings.common_text_currency_type}"
-                  tools:text="@string/common_text_currency_type"
-
-                  />-->
-
             <TextView
                 android:id="@+id/tvCurrency"
                 style="@style/AMicroGrey"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_medium"
-                android:text="@{viewModel.state.currencyType}"
+                android:text="AED"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvIban"
@@ -154,7 +130,6 @@
                 android:gravity="center"
                 android:text="@{viewModel.state.feeAmountSpannableString}"
                 android:textAlignment="center"
-                android:visibility="@{viewModel.state.feeStringVisibility?View.VISIBLE:View.GONE}"
                 app:layout_constraintTop_toBottomOf="@+id/etAmountLayout"
                 tools:text="An AED 50.00 fee will be charged to your YAP account for this transfer" />
 
@@ -196,10 +171,10 @@
                 android:layout_marginStart="@dimen/margin_medium_large"
                 android:layout_marginTop="@dimen/margin_normal"
                 android:layout_marginEnd="@dimen/margin_medium_large"
-                android:visibility="@{viewModel.state.reasonsVisibility? View.VISIBLE:View.GONE}"
+                tools:visibility="visible"
+                android:visibility="@{viewModel.parentViewModel.beneficiary.beneficiaryType.equals(`CASHPAYOUT`) ?View.GONE : View.VISIBLE}"
                 app:layout_constraintTop_toBottomOf="@+id/etNote"
                 tools:ignore="NotSibling">
-
 
                 <Spinner
                     android:id="@+id/reasonsSpinnerCashTransfer"

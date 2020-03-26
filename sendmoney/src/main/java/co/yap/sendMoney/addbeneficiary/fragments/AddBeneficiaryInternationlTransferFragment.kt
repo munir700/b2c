@@ -12,7 +12,7 @@ import co.yap.countryutils.country.InternationalPhoneTextWatcher
 import co.yap.countryutils.country.utils.Currency
 import co.yap.modules.otp.GenericOtpFragment
 import co.yap.modules.otp.OtpDataModel
-import co.yap.sendMoney.activities.BeneficiaryCashTransferActivity
+import co.yap.sendMoney.fundtransfer.activities.BeneficiaryFundTransferActivity
 import co.yap.sendMoney.addbeneficiary.interfaces.IAddBeneficiary
 import co.yap.sendMoney.addbeneficiary.viewmodels.AddBeneficiaryViewModel
 import co.yap.sendMoney.fragments.SendMoneyBaseFragment
@@ -199,7 +199,7 @@ class AddBeneficiaryInternationlTransferFragment :
 
     private fun startMoneyTransfer() {
         viewModel.beneficiary?.let {
-            launchActivity<BeneficiaryCashTransferActivity>(requestCode = RequestCodes.REQUEST_TRANSFER_MONEY) {
+            launchActivity<BeneficiaryFundTransferActivity>(requestCode = RequestCodes.REQUEST_TRANSFER_MONEY) {
                 putExtra(Constants.BENEFICIARY, it)
                 putExtra(Constants.POSITION, 0)
                 putExtra(Constants.IS_NEW_BENEFICIARY, true)

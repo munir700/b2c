@@ -1,4 +1,4 @@
-package co.yap.sendMoney.addbeneficiary.interfaces
+package co.yap.sendMoney.fundtransfer.interfaces
 
 import androidx.databinding.ObservableField
 import co.yap.yapcore.IBase
@@ -19,23 +19,11 @@ interface ITransferSuccess {
     }
 
     interface State : IBase.State {
-        var transferType: String?
         var successHeader: String?
-        var amount: String?
-        var currency: String?
-        var flag: String?
-        var name: String?
-        var picture: String
-        var pickUpAgentLocationAddress: String?
-        var referenceNumber: String?
         var flagLayoutVisibility: Boolean?
-        var position: Int?
-        var locationLayoutVisibility: Boolean
-        var beneficiaryCountry: String?
         var transferAmountHeading: String?
         var buttonTitle: String?
         var availableBalanceString: CharSequence?
-        var cutOffTimeMsg: ObservableField<String>
-
+        var cutOffMessage: ObservableField<String>
     }
 }

@@ -1,4 +1,4 @@
-package co.yap.sendMoney.addbeneficiary.fragments
+package co.yap.sendMoney.fundtransfer.fragments
 
 import android.app.Activity
 import android.content.Intent
@@ -7,56 +7,33 @@ import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import androidx.navigation.fragment.navArgs
 import co.yap.sendMoney.InviteBottomSheet
-import co.yap.sendMoney.activities.BeneficiaryCashTransferActivity
-import co.yap.sendMoney.addbeneficiary.interfaces.ITransferSuccess
-import co.yap.sendMoney.addbeneficiary.viewmodels.TransferSuccessViewModel
+import co.yap.sendMoney.fundtransfer.activities.BeneficiaryFundTransferActivity
+import co.yap.sendMoney.fundtransfer.interfaces.ITransferSuccess
+import co.yap.sendMoney.fundtransfer.viewmodels.TransferSuccessViewModel
 import co.yap.sendmoney.BR
 import co.yap.sendmoney.R
 import co.yap.sendmoney.databinding.FragmentTransferSuccessBinding
-import co.yap.sendMoney.fragments.SendMoneyBaseFragment
 import co.yap.translation.Strings
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.SendMoneyBeneficiaryType
 
 
-class TransferSuccessFragment : SendMoneyBaseFragment<ITransferSuccess.ViewModel>(),
+class TransferSuccessFragment : BeneficiaryFundTransferBaseFragment<ITransferSuccess.ViewModel>(),
     ITransferSuccess.View, InviteBottomSheet.OnItemClickListener {
-    val args: TransferSuccessFragmentArgs by navArgs()
 
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.fragment_transfer_success
 
-    override val viewModel: ITransferSuccess.ViewModel
+    override val viewModel: TransferSuccessViewModel
         get() = ViewModelProviders.of(this).get(TransferSuccessViewModel::class.java)
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-       // viewModel.getAccountBalanceRequest()
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        if (activity is BeneficiaryCashTransferActivity) {
-           /* viewModel.updatedCardBalanceEvent.observe(this, Observer {
-                viewModel.state.availableBalanceString =
-                    resources.getText(
-                        getString(Strings.screen_cash_transfer_display_text_available_balance),
-                        requireContext().color(
-                            R.color.colorPrimaryDark,
-                            "${"AED"} ${Utils.getFormattedCurrency(MyUserManager.cardBalance.value?.availableBalance)}"
-                        )
-                    )
-                getBindings().tvAvailableBalance.visibility = View.VISIBLE
-//            viewModel.state.loading = false
-            })*/
+        if (activity is BeneficiaryFundTransferActivity) {
             getBindings().flTransactionComplete.visibility = View.VISIBLE
-
             setData()
-            viewModel.state.amount = "${args.currencyType} ${args.amount}"
-            viewModel.state.referenceNumber = args.referenceNumber
-            viewModel.state.position = args.position
         }
     }
 
@@ -65,12 +42,6 @@ class TransferSuccessFragment : SendMoneyBaseFragment<ITransferSuccess.ViewModel
             when (it) {
                 R.id.confirmButton -> {
                     setResultData()
-                }
-                R.id.tvShareCode -> {
-                    showToast(
-                        "share code please!"
-                    )
-                    shareCode("20394848")
                 }
             }
         })
@@ -81,13 +52,6 @@ class TransferSuccessFragment : SendMoneyBaseFragment<ITransferSuccess.ViewModel
         intent.putExtra(Constants.MONEY_TRANSFERED, true)
         activity?.setResult(Activity.RESULT_OK, intent)
         activity?.finish()
-    }
-
-    private fun shareCode(referenceCode: String) {
-        this.fragmentManager?.let {
-            val inviteFriendBottomSheet = InviteBottomSheet(this, referenceCode)
-            inviteFriendBottomSheet.show(it, "")
-        }
     }
 
 
@@ -106,9 +70,7 @@ class TransferSuccessFragment : SendMoneyBaseFragment<ITransferSuccess.ViewModel
     }
 
     private fun setData() {
-        if (context is BeneficiaryCashTransferActivity) {
-
-            (context as BeneficiaryCashTransferActivity).viewModel.state.beneficiary?.let { beneficiary ->
+        viewModel.parentViewModel?.beneficiary?.value?.let { beneficiary ->
                 beneficiary.beneficiaryType?.let { beneficiaryType ->
                     if (beneficiaryType.isNotEmpty())
                         when (SendMoneyBeneficiaryType.valueOf(beneficiaryType)) {
@@ -134,30 +96,23 @@ class TransferSuccessFragment : SendMoneyBaseFragment<ITransferSuccess.ViewModel
                         }
                 }
             }
-        }
     }
 
     private fun setDataForCashPayout() {
         viewModel.state.flagLayoutVisibility = false
-        viewModel.state.locationLayoutVisibility = true
-        (activity as BeneficiaryCashTransferActivity).let {
-            it.viewModel.state.toolBarVisibility = false
-            viewModel.state.name = it.viewModel.state.beneficiary?.fullName()
+        viewModel.parentViewModel?.state?.toolbarVisibility?.set(false)
             viewModel.state.successHeader =
                 getString(Strings.screen_cash_pickup_funds_transfer_display_text_title)
             viewModel.state.transferAmountHeading =
                 getString(Strings.screen_cash_pickup_funds_transfer_display_text_amount_heading)
             viewModel.state.buttonTitle =
                 getString(Strings.screen_cash_pickup_funds_transfer_back_to_dashboard)
-        }
+
     }
 
     private fun setDataForDomestic() {
         viewModel.state.flagLayoutVisibility = false
-        viewModel.state.locationLayoutVisibility = false
-        (activity as BeneficiaryCashTransferActivity).let {
-            it.viewModel.state.toolBarVisibility = false
-            viewModel.state.name = it.viewModel.state.beneficiary?.fullName()
+        viewModel.parentViewModel?.state?.leftIcon?.set(false)
             viewModel.state.successHeader =
                 getString(Strings.screen_cash_pickup_funds_success_toolbar_header)
             viewModel.state.successHeader =
@@ -166,63 +121,55 @@ class TransferSuccessFragment : SendMoneyBaseFragment<ITransferSuccess.ViewModel
                 getString(Strings.screen_domestic_funds_transfer_display_text_amount_heading)
             viewModel.state.buttonTitle =
                 getString(Strings.screen_cash_pickup_funds_transfer_back_to_dashboard)
-        }
+
     }
 
     private fun setDataForUAEFTS() {
         viewModel.state.flagLayoutVisibility = false
-        viewModel.state.locationLayoutVisibility = false
-        (activity as BeneficiaryCashTransferActivity).let {
-            it.viewModel.state.toolBarVisibility = false
-            viewModel.state.name = it.viewModel.state.beneficiary?.fullName()
+        viewModel.parentViewModel?.state?.toolbarVisibility?.set(false)
             viewModel.state.successHeader =
                 getString(Strings.screen_cash_pickup_funds_transfer_display_text_title)
             viewModel.state.transferAmountHeading =
                 getString(Strings.screen_cash_pickup_funds_transfer_display_text_amount_heading)
             viewModel.state.buttonTitle =
                 getString(Strings.screen_cash_pickup_funds_transfer_back_to_dashboard)
-        }
-        if (args.cutOffTime.isNotBlank())
-            viewModel.state.cutOffTimeMsg.set(getString(Strings.screen_international_funds_transfer_display_text_cutoff_time_uaefts))
+
+        if (!viewModel.parentViewModel?.transferData?.value?.cutOffTimeMsg.isNullOrBlank())
+            viewModel.state.cutOffMessage.set(
+                getString(Strings.screen_international_funds_transfer_display_text_cutoff_time_uaefts)
+            )
 
     }
 
     private fun setDataForSwift() {
-        viewModel.state.beneficiaryCountry = args.country
         viewModel.state.flagLayoutVisibility = true
-        viewModel.state.locationLayoutVisibility = false
-        (activity as BeneficiaryCashTransferActivity).let {
-            it.viewModel.state.toolBarVisibility = false
-            viewModel.state.name = it.viewModel.state.beneficiary?.fullName()
+        viewModel.parentViewModel?.state?.toolbarVisibility?.set(false)
             viewModel.state.successHeader =
                 getString(Strings.screen_international_funds_transfer_display_text_success_title)
             viewModel.state.transferAmountHeading =
                 getString(Strings.screen_international_funds_transfer_display_text_amount_heading)
             viewModel.state.buttonTitle =
                 getString(Strings.screen_international_funds_transfer_back_to_dashboard)
-        }
-        if (args.cutOffTime.isNotBlank())
-            viewModel.state.cutOffTimeMsg.set(getString(Strings.screen_international_funds_transfer_display_text_cutoff_time_swift))
+
+        if (!viewModel.parentViewModel?.transferData?.value?.cutOffTimeMsg.isNullOrBlank())
+            viewModel.state.cutOffMessage.set(
+                getString(Strings.screen_international_funds_transfer_display_text_cutoff_time_swift)
+            )
     }
 
     private fun setDataForRmt() {
-        viewModel.state.beneficiaryCountry = args.country
-        viewModel.state.locationLayoutVisibility = false
         viewModel.state.flagLayoutVisibility = true
-        (activity as BeneficiaryCashTransferActivity).let {
-            it.viewModel.state.toolBarVisibility = false
-            viewModel.state.name = it.viewModel.state.beneficiary?.fullName()
+        viewModel.parentViewModel?.state?.toolbarVisibility?.set(false)
             viewModel.state.successHeader =
                 getString(Strings.screen_international_funds_transfer_display_text_success_title)
             viewModel.state.transferAmountHeading =
                 getString(Strings.screen_international_funds_transfer_display_text_amount_heading)
             viewModel.state.buttonTitle =
                 getString(Strings.screen_international_funds_transfer_back_to_dashboard)
-        }
+
     }
 
     override fun onClick(viewId: Int, data: Any) {
-
         if (data is String)
             when (viewId) {
                 R.id.tvChooseEmail -> inviteViaEmail(data)

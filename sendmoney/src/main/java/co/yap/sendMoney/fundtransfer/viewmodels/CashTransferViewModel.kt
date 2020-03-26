@@ -1,9 +1,8 @@
-package co.yap.sendMoney.addbeneficiary.viewmodels
+package co.yap.sendMoney.fundtransfer.viewmodels
 
 import android.app.Application
 import androidx.lifecycle.MutableLiveData
 import co.yap.networking.customers.CustomersRepository
-import co.yap.networking.messages.MessagesRepository
 import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.transactions.TransactionsRepository
 import co.yap.networking.transactions.requestdtos.CashPayoutRequestDTO
@@ -12,20 +11,20 @@ import co.yap.networking.transactions.requestdtos.UAEFTSTransactionRequestDTO
 import co.yap.networking.transactions.responsedtos.InternationalFundsTransferReasonList
 import co.yap.networking.transactions.responsedtos.TransactionThresholdModel
 import co.yap.networking.transactions.responsedtos.transaction.RemittanceFeeResponse
-import co.yap.sendMoney.addbeneficiary.interfaces.ICashTransfer
-import co.yap.sendMoney.addbeneficiary.states.CashTransferState
-import co.yap.sendMoney.viewmodels.SendMoneyBaseViewModel
+import co.yap.sendMoney.fundtransfer.interfaces.ICashTransfer
+import co.yap.sendMoney.fundtransfer.states.CashTransferState
 import co.yap.sendmoney.R
 import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.enums.FeeType
 import co.yap.yapcore.enums.SendMoneyBeneficiaryType
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 import co.yap.yapcore.helpers.extentions.toast
 
 class CashTransferViewModel(application: Application) :
-    SendMoneyBaseViewModel<ICashTransfer.State>(application),
+    BeneficiaryFundTransferBaseViewModel<ICashTransfer.State>(application),
     ICashTransfer.ViewModel {
 
     private val transactionRepository: TransactionsRepository = TransactionsRepository
@@ -33,7 +32,8 @@ class CashTransferViewModel(application: Application) :
         ArrayList()
     private val customersRepository: CustomersRepository = CustomersRepository
 
-    override val state: CashTransferState = CashTransferState(application)
+    override val state: CashTransferState =
+        CashTransferState(application)
     override val clickEvent: SingleClickEvent = SingleClickEvent()
     override val errorEvent: SingleClickEvent = SingleClickEvent()
     override var transactionData: ArrayList<InternationalFundsTransferReasonList.ReasonList> =
@@ -43,13 +43,13 @@ class CashTransferViewModel(application: Application) :
     override var receiverUUID: String = ""
     override var transactionThreshold: MutableLiveData<TransactionThresholdModel> =
         MutableLiveData()
+    override var isAPIFailed: MutableLiveData<Boolean> = MutableLiveData()
     override var reasonPosition: Int = 0
 
     override fun onCreate() {
         super.onCreate()
         state.availableBalanceGuide =
             getString(Strings.screen_add_funds_display_text_available_balance)
-        state.currencyType = "AED"
         getTransactionThresholds()
     }
 
@@ -96,7 +96,7 @@ class CashTransferViewModel(application: Application) :
     }
 
     private fun isUaeftsBeneficiary(): Boolean {
-        state.beneficiary?.beneficiaryType?.let {
+        parentViewModel?.beneficiary?.value?.beneficiaryType?.let {
             return (it == SendMoneyBeneficiaryType.UAEFTS.type || it == SendMoneyBeneficiaryType.DOMESTIC.type)
         } ?: return false
     }
@@ -131,7 +131,7 @@ class CashTransferViewModel(application: Application) :
     }
 
     override fun proceedToTransferAmount() {
-        state.beneficiary?.let { beneficiary ->
+        parentViewModel?.beneficiary?.value?.let { beneficiary ->
             beneficiary.beneficiaryType?.let {
                 if (beneficiary.beneficiaryType?.isNotEmpty() == true)
                     when (SendMoneyBeneficiaryType.valueOf(beneficiary.beneficiaryType ?: "")) {
@@ -149,7 +149,7 @@ class CashTransferViewModel(application: Application) :
     }
 
     private fun createOtp(id: Int = 0) {
-        clickEvent.postValue(id)
+        clickEvent.postValue(id) // TODO:update this clickEvent with live data it creates debounce
     }
 
     override fun getCashTransferReasonList() {
@@ -171,8 +171,8 @@ class CashTransferViewModel(application: Application) :
                 }
                 is RetroApiResponse.Error -> {
                     state.loading = false
-                    state.errorDescription = response.error.message
-                    errorEvent.call()
+                    state.toast = response.error.message
+                    isAPIFailed.value = true
                 }
             }
         }
@@ -185,7 +185,7 @@ class CashTransferViewModel(application: Application) :
                 transactionRepository.cashPayoutTransferRequest(
                     CashPayoutRequestDTO(
                         state.amount.toDouble(),
-                        state.currencyType,
+                        "AED",
                         "8",
                         beneficiaryId,
                         state.noteValue
@@ -193,7 +193,7 @@ class CashTransferViewModel(application: Application) :
                 )
                 ) {
                 is RetroApiResponse.Success -> {
-                    state.referenceNumber = response.data.data
+                    parentViewModel?.transferData?.value?.referenceNumber = response.data.data
                     clickEvent.postValue(Constants.ADD_CASH_PICK_UP_SUCCESS)
                 }
                 is RetroApiResponse.Error -> {
@@ -223,7 +223,7 @@ class CashTransferViewModel(application: Application) :
                 )
                 ) {
                 is RetroApiResponse.Success -> {
-                    state.referenceNumber = response.data.data
+                    parentViewModel?.transferData?.value?.referenceNumber = response.data.data
                     clickEvent.postValue(Constants.ADD_CASH_PICK_UP_SUCCESS)
                 }
                 is RetroApiResponse.Error -> {
@@ -244,12 +244,15 @@ class CashTransferViewModel(application: Application) :
             when (val response =
                 transactionRepository.getTransactionFeeWithProductCode(
                     productCode,
-                    RemittanceFeeRequest(state.beneficiaryCountry, "")
+                    RemittanceFeeRequest(
+                        parentViewModel?.beneficiary?.value?.country,
+                        ""
+                    )
                 )
                 ) {
                 is RetroApiResponse.Success -> {
                     state.feeType = response.data.data?.feeType
-                    if (state.feeType == Constants.FEE_TYPE_FLAT) {
+                    if (state.feeType == FeeType.FLAT.name) {
                         val feeAmount = response.data.data?.tierRateDTOList?.get(0)?.feeAmount
                         val feeAmountVAT =
                             response.data.data?.tierRateDTOList?.get(0)?.vatAmount
@@ -257,7 +260,7 @@ class CashTransferViewModel(application: Application) :
                             state.totalAmount = feeAmount + feeAmountVAT!!
                         }
 
-                    } else if (state.feeType == Constants.FEE_TYPE_TIER) {
+                    } else if (state.feeType == FeeType.TIER.name) {
                         listItemRemittanceFee = response.data.data!!.tierRateDTOList!!
                         state.listItemRemittanceFee = listItemRemittanceFee
                     } else {
@@ -266,23 +269,23 @@ class CashTransferViewModel(application: Application) :
                     state.originalTransferFeeAmount.set(state.totalAmount.toString())
                     state.feeAmountString =
                         getString(Strings.screen_cash_pickup_funds_display_text_fee).format(
-                            state.currencyType,
+                            "AED",
                             state.totalAmount.toString().toFormattedCurrency()
                         )
                     state.feeAmountSpannableString = Utils.getSppnableStringForAmount(
                         context,
                         state.feeAmountString,
-                        state.currencyType,
+                        "AED",
                         Utils.getFormattedCurrencyWithoutComma(state.totalAmount.toString())
                     )
-                    if (state.reasonsVisibility == true) {
+                    if (parentViewModel?.beneficiary?.value?.beneficiaryType != SendMoneyBeneficiaryType.CASHPAYOUT.type) {
                         getCashTransferReasonList()
                     }
                 }
                 is RetroApiResponse.Error -> {
-                    state.errorDescription = response.error.message
-                    errorEvent.call()
+                    state.toast = response.error.message
                     state.loading = false
+                    isAPIFailed.value = true
                 }
             }
             state.loading = false
@@ -308,8 +311,8 @@ class CashTransferViewModel(application: Application) :
     override fun getCountryLimit() {
         launch {
             when (val response = customersRepository.getCountryTransactionLimits(
-                state.beneficiary?.country ?: "",
-                state.beneficiary?.currency ?: ""
+                parentViewModel?.beneficiary?.value?.country ?: "",
+                parentViewModel?.beneficiary?.value?.currency ?: ""
             )) {
                 is RetroApiResponse.Success -> {
                     setMaxMinLimits(response.data.data?.toDoubleOrNull())
@@ -325,7 +328,7 @@ class CashTransferViewModel(application: Application) :
         launch {
             when (val response = transactionRepository.getTransactionThresholds()) {
                 is RetroApiResponse.Success -> {
-                    transactionThreshold.value = response.data.data
+                    parentViewModel?.transactionThreshold?.value = response.data.data
                 }
                 is RetroApiResponse.Error -> {
                     state.toast = response.error.message

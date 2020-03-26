@@ -1,4 +1,4 @@
-package co.yap.sendMoney.addbeneficiary.fragments
+package co.yap.sendMoney.fundtransfer.fragments
 
 import android.app.Activity
 import android.content.Intent
@@ -15,19 +15,16 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
 import co.yap.modules.otp.GenericOtpFragment
 import co.yap.modules.otp.LogoData
 import co.yap.modules.otp.OtpDataModel
 import co.yap.modules.webview.WebViewFragment
-import co.yap.sendMoney.activities.BeneficiaryCashTransferActivity
-import co.yap.sendMoney.addbeneficiary.interfaces.IInternationalTransactionConfirmation
-import co.yap.sendMoney.addbeneficiary.viewmodels.InternationalTransactionConfirmationViewModel
+import co.yap.sendMoney.fundtransfer.interfaces.IInternationalTransactionConfirmation
+import co.yap.sendMoney.fundtransfer.viewmodels.InternationalTransactionConfirmationViewModel
 import co.yap.sendmoney.BR
 import co.yap.sendmoney.R
 import co.yap.sendmoney.databinding.FragmentInternationalTransactionConfirmationBinding
 import co.yap.translation.Strings
-import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.Constants.URL_DISCLAIMER_TERMS
 import co.yap.yapcore.helpers.extentions.startFragment
@@ -38,25 +35,15 @@ import co.yap.yapcore.helpers.spannables.getText
 import co.yap.yapcore.managers.MyUserManager
 
 class InternationalTransactionConfirmationFragment :
-    BaseBindingFragment<IInternationalTransactionConfirmation.ViewModel>(),
+    BeneficiaryFundTransferBaseFragment<IInternationalTransactionConfirmation.ViewModel>(),
     IInternationalTransactionConfirmation.View {
-    val args: InternationalTransactionConfirmationFragmentArgs by navArgs()
     override fun getBindingVariable(): Int = BR.viewModel
 
     override fun getLayoutId(): Int = R.layout.fragment_international_transaction_confirmation
 
-    override val viewModel: IInternationalTransactionConfirmation.ViewModel
+    override val viewModel: InternationalTransactionConfirmationViewModel
         get() = ViewModelProviders.of(this)
             .get(InternationalTransactionConfirmationViewModel::class.java)
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        if (context is BeneficiaryCashTransferActivity) {
-            viewModel.beneficiary =
-                (context as BeneficiaryCashTransferActivity).viewModel.state.beneficiary
-        }
-
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -64,57 +51,46 @@ class InternationalTransactionConfirmationFragment :
     }
 
     private fun setUpViews() {
-        if (activity is BeneficiaryCashTransferActivity) {
-            setData()
-            setDisclaimerText()
-            (activity as BeneficiaryCashTransferActivity).viewModel.state.toolBarVisibility = true
-            (activity as BeneficiaryCashTransferActivity).viewModel.state.rightButtonVisibility =
-                false
-            (activity as BeneficiaryCashTransferActivity).viewModel.state.leftButtonVisibility =
-                true
-            (activity as BeneficiaryCashTransferActivity).viewModel.state.toolBarTitle =
-                viewModel.state.confirmHeading
-
-        }
+        setData()
+        setDisclaimerText()
+        viewModel.parentViewModel?.state?.toolbarVisibility?.set(true)
+        viewModel.parentViewModel?.state?.rightIcon?.set(false)
+        viewModel.parentViewModel?.state?.leftIcon?.set(true)
+        viewModel.parentViewModel?.state?.toolBarTitle = viewModel.state.confirmHeading
     }
 
     override fun setData() {
-        viewModel.state.args = args
-        viewModel.state.name = args.beneficiaryName
         viewModel.state.confirmHeading =
             getString(Strings.screen_cash_pickup_funds_display_otp_header)
-        viewModel.state.referenceNumber = args.referenceNumber
-        viewModel.state.beneficiaryCountry = args.country
-
 
         viewModel.state.transferDescription = resources.getText(
             getString(Strings.screen_funds_confirmation_success_description)
             ,
-            requireContext().color(R.color.colorPrimaryDark, args.senderCurrency)
+            requireContext().color(
+                R.color.colorPrimaryDark,
+                viewModel.parentViewModel?.transferData?.value?.sourceCurrency ?: "AED"
+            )
             , requireContext().color(
                 R.color.colorPrimaryDark,
-                args.fxRateAmount.toFormattedCurrency() ?: ""
+                viewModel.parentViewModel?.transferData?.value?.sourceAmount ?: ""
             ),
-            // viewModel.state.name
-            args.firstName
+            viewModel.parentViewModel?.beneficiary?.value?.firstName
             ,
             requireContext().color(
                 R.color.colorPrimaryDark,
-                "${args.fromFxRate} to ${args.toFxRate}"
+                "${viewModel.parentViewModel?.transferData?.value?.toFxRate} to ${viewModel.parentViewModel?.transferData?.value?.fromFxRate}"
             )
         )
 
-        viewModel.state.position = args.position
 
         viewModel.state.receivingAmountDescription =
             resources.getText(
                 getString(Strings.screen_funds_receive_description)
                 ,
-                //viewModel.state.name
-                args.firstName,
+                viewModel.parentViewModel?.beneficiary?.value?.firstName,
                 requireContext().color(
                     R.color.colorPrimaryDark,
-                    "${args.receiverCurrencyAmount.toFormattedCurrency()} ${args.toFxRateCurrency}"
+                    "${viewModel.parentViewModel?.transferData?.value?.destinationAmount} ${viewModel.parentViewModel?.transferData?.value?.destinationCurrency}"
                 )
             )
 
@@ -122,7 +98,7 @@ class InternationalTransactionConfirmationFragment :
             resources.getText(
                 getString(Strings.screen_funds_transfer_fee_description), requireContext().color(
                     R.color.colorPrimaryDark,
-                    "${"AED"} ${args.totalAmount.toFormattedCurrency()}"
+                    "${"AED"} ${viewModel.parentViewModel?.transferData?.value?.transferFee?.toFormattedCurrency()}"
                 )
             )
     }
@@ -140,18 +116,18 @@ class InternationalTransactionConfirmationFragment :
             GenericOtpFragment::class.java.name,
             bundleOf(
                 OtpDataModel::class.java.name to OtpDataModel(
-                    otpAction = viewModel.state.args?.otpAction,
+                    otpAction = viewModel.parentViewModel?.transferData?.value?.otpAction,
                     mobileNumber = MyUserManager.user?.currentCustomer?.getFormattedPhoneNumber(
                         requireContext()
                     ),
-                    amount = args.fxRateAmount,
-                    username = viewModel.beneficiary?.fullName(),
+                    amount = viewModel.parentViewModel?.transferData?.value?.sourceAmount,
+                    username = viewModel.parentViewModel?.transferData?.value?.otpAction,
                     emailOtp = false,
                     logoData = LogoData(
-                        imageUrl = viewModel.beneficiary?.beneficiaryPictureUrl,
-                        position = viewModel.state.position,
+                        imageUrl = viewModel.parentViewModel?.beneficiary?.value?.beneficiaryPictureUrl,
+                        position = viewModel.parentViewModel?.transferData?.value?.position,
                         flagVisibility = true,
-                        beneficiaryCountry = viewModel.state.beneficiaryCountry
+                        beneficiaryCountry = viewModel.parentViewModel?.beneficiary?.value?.country
                     )
                 )
             ),
@@ -174,23 +150,12 @@ class InternationalTransactionConfirmationFragment :
                 // Send Broadcast for updating transactions list in `Home Fragment`
                 val intent = Intent(Constants.BROADCAST_UPDATE_TRANSACTION)
                 LocalBroadcastManager.getInstance(requireContext()).sendBroadcast(intent)
-                viewModel.state.referenceNumber?.let { referenceNumber ->
-                    viewModel.state.position?.let { position ->
-                        viewModel.state.beneficiaryCountry?.let { beneficiaryCountry ->
-                            val action =
-                                InternationalTransactionConfirmationFragmentDirections.actionInternationalTransactionConfirmationFragmentToTransferSuccessFragment2(
-                                    "",
-                                    args.senderCurrency,
-                                    args.fxRateAmount.toFormattedCurrency() ?: "",
-                                    referenceNumber,
-                                    position,
-                                    beneficiaryCountry,
-                                    viewModel.state.cutOffTimeMsg ?: ""
-                                )
-                            findNavController().navigate(action)
-                        }
-                    }
-                }
+                viewModel.parentViewModel?.transferData?.value?.cutOffTimeMsg =
+                    viewModel.state.cutOffTimeMsg
+                val action =
+                    InternationalTransactionConfirmationFragmentDirections.actionInternationalTransactionConfirmationFragmentToTransferSuccessFragment2()
+                findNavController().navigate(action)
+
             }
         }
     }

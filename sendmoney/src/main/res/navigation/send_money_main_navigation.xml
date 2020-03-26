@@ -134,14 +134,14 @@
 
     <fragment
         android:id="@+id/transferSuccessFragment"
-        android:name="co.yap.sendMoney.addbeneficiary.fragments.TransferSuccessFragment"
+        android:name="co.yap.sendMoney.fundtransfer.fragments.TransferSuccessFragment"
         tools:layout="@layout/fragment_transfer_success">
 
     </fragment>
 
     <fragment
         android:id="@+id/internationalFundsTransfer"
-        android:name="co.yap.sendMoney.addbeneficiary.fragments.InternationalFundsTransferFragment"
+        android:name="co.yap.sendMoney.fundtransfer.fragments.InternationalFundsTransferFragment"
         tools:layout="@layout/fragment_international_funds_transfer">
 
     </fragment>

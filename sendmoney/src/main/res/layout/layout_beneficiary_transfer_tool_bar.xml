@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="co.yap.sendMoney.viewmodels.BeneficiaryCashTransferViewModel" />
+            type="co.yap.sendMoney.fundtransfer.viewmodels.BeneficiaryFundTransferViewModel" />
 
         <import type="android.view.View" />
     </data>
@@ -19,7 +19,7 @@
         android:background="@color/white"
         android:gravity="center_vertical"
         android:padding="@dimen/_8sdp"
-        android:visibility="@{viewModel.state.toolBarVisibility ? View.VISIBLE:View.GONE}">
+        android:visibility="@{viewModel.state.toolbarVisibility ? View.VISIBLE:View.GONE}">
 
         <ImageView
             android:id="@+id/tbIvClose"
@@ -31,7 +31,7 @@
             android:focusable="true"
             android:foreground="?attr/selectableItemBackground"
             android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
-            android:visibility="@{viewModel.state.leftButtonVisibility? View.VISIBLE:View.INVISIBLE}"
+            android:visibility="@{viewModel.state.leftIcon? View.VISIBLE:View.INVISIBLE}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -59,7 +59,7 @@
             tools:text="Cancel"
             android:text="@{viewModel.state.rightButtonText}"
             android:textColor="?attr/colorPrimaryAttr"
-            android:visibility="@{viewModel.state.rightButtonVisibility? View.VISIBLE:View.INVISIBLE}"
+            android:visibility="@{viewModel.state.rightIcon? View.VISIBLE:View.INVISIBLE}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
