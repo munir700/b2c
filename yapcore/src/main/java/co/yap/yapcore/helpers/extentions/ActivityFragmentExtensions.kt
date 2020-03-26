@@ -59,6 +59,24 @@ inline fun <reified T : Any> Fragment.launchActivity(
     }
 }
 
+inline fun <reified T : Any> Fragment.launchActivity(
+    requestCode: Int = -1,
+    options: Bundle? = null, clearPrevious: Boolean = false,
+    noinline init: Intent.() -> Unit = {}
+) {
+    val intent = newIntent<T>(requireContext())
+    intent.init()
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+        startActivityForResult(intent, requestCode, options)
+        if (clearPrevious)
+            activity?.finish()
+    } else {
+        startActivityForResult(intent, requestCode)
+        if (clearPrevious)
+            activity?.finish()
+    }
+}
+
 inline fun <reified T : Any> Context.launchActivity(
     options: Bundle? = null,
     noinline init: Intent.() -> Unit = {}
@@ -176,7 +194,7 @@ fun FragmentActivity.addFragment(
 }
 
 inline fun <reified T : Fragment> FragmentActivity.startFragment(
-    fragmentName: String ="",
+    fragmentName: String = "",
     clearAllPrevious: Boolean = false,
     bundle: Bundle = Bundle(),
     requestCode: Int = -1,
@@ -295,7 +313,10 @@ fun Fragment.openAppSetting(requestCode: Int = RequestCodes.REQUEST_FOR_GPS) {
     startActivityForResult(intent, requestCode)
 }
 
-inline fun <reified T : BaseViewModel<*>> Fragment.viewModel(factory: ViewModelProvider.Factory, body: T.() -> Unit): T {
+inline fun <reified T : BaseViewModel<*>> Fragment.viewModel(
+    factory: ViewModelProvider.Factory,
+    body: T.() -> Unit
+): T {
     val vm = ViewModelProviders.of(this, factory)[T::class.java]
     vm.body()
     return vm

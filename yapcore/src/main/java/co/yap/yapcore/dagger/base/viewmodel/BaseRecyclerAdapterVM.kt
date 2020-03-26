@@ -16,29 +16,14 @@ import co.yap.yapcore.IBase
  * Created by Muhammad Irfan Arshad
  *
  */
-abstract class BaseRecyclerAdapterVM<T : Any, S : IBase.State> : DaggerBaseViewModel<S>()
-{
+abstract class BaseRecyclerAdapterVM<T : Any, S : IBase.State> : DaggerBaseViewModel<S>() {
     val adapter = ObservableField<BaseRVAdapter<T, *, *>>()
     var stateLiveData: MutableLiveData<State> = MutableLiveData()
     var data: MutableList<T> = ArrayList()
 
-    companion object {
-        @JvmStatic
-        @BindingAdapter("app:mAdapter")
-        fun setAdapter(
-                view: RecyclerView,
-                adapter: RecyclerView.Adapter<out RecyclerView.ViewHolder>?
-        ) {
-            if (null == adapter)
-                return
-            view.adapter = adapter
-        }
-    }
-
 
     override fun onFirsTimeUiCreate(bundle: Bundle?, navigation: NavController?) {
     }
-
 
 
     /**
@@ -46,7 +31,7 @@ abstract class BaseRecyclerAdapterVM<T : Any, S : IBase.State> : DaggerBaseViewM
      * @param newData new data
      * @param refresh true if data come from refresh action (call remote api)
      */
-    protected fun setData(@NonNull newData: MutableList<T>, refresh: Boolean = true) {
+    protected fun addData(@NonNull newData: MutableList<T>, refresh: Boolean = true) {
         if (data == null) {
             data = newData
         } else {
@@ -55,6 +40,16 @@ abstract class BaseRecyclerAdapterVM<T : Any, S : IBase.State> : DaggerBaseViewM
             }
             data.addAll(newData)
         }
+        adapter.get()?.setData(data)
+    }
+
+    /**
+     * Call this to fill data to [.adapter]
+     * @param newData new data
+     * @param refresh true if data come from refresh action (call remote api)
+     */
+    protected fun setData(@NonNull newData: MutableList<T>, refresh: Boolean = true) {
+        data = newData
         adapter.get()?.setData(data)
     }
 

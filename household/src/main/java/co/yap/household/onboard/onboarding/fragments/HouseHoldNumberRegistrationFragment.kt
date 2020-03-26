@@ -3,6 +3,7 @@ package co.yap.household.onboard.onboarding.fragments
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -11,19 +12,22 @@ import co.yap.household.BR
 import co.yap.household.R
 import co.yap.household.dashboard.main.HouseholdDashboardActivity
 import co.yap.household.onboard.cardselection.HouseHoldCardsSelectionActivity
+import co.yap.household.onboard.onboarding.existinghousehold.ExistingHouseholdFragment
 import co.yap.household.onboard.onboarding.interfaces.IHouseHoldNumberRegistration
 import co.yap.household.onboard.onboarding.invalideid.InvalidEIDFragment
+import co.yap.household.onboard.onboarding.main.OnBoardingHouseHoldActivity
 import co.yap.household.onboard.onboarding.viewmodels.HouseHoldNumberRegistrationViewModel
 import co.yap.modules.onboarding.activities.LiteDashboardActivity
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.RequestCodes
+import co.yap.yapcore.enums.AccountStatus
 import co.yap.yapcore.enums.NotificationStatus
 import co.yap.yapcore.helpers.extentions.ExtraType
 import co.yap.yapcore.helpers.extentions.getValue
 import co.yap.yapcore.helpers.extentions.launchActivity
 import co.yap.yapcore.helpers.extentions.startFragment
+import co.yap.yapcore.managers.MyUserManager
 import kotlinx.android.synthetic.main.fragment_house_hold_number_registration.*
-
 
 class HouseHoldNumberRegistrationFragment :
     OnboardingChildFragment<IHouseHoldNumberRegistration.ViewModel>(),
@@ -44,14 +48,19 @@ class HouseHoldNumberRegistrationFragment :
         super.onActivityCreated(savedInstanceState)
         viewModel.parentViewModel?.state?.accountInfo?.run {
             if (!notificationStatuses.isNullOrBlank())
-                when (NotificationStatus.valueOf(notificationStatuses)) {
-                    NotificationStatus.PARNET_MOBILE_VERIFICATION_PENDING -> {
-
+                when (AccountStatus.valueOf(notificationStatuses)) {
+                    AccountStatus.INVITE_PENDING -> {
+                        val bundle = Bundle()
+                        bundle.putParcelable(OnBoardingHouseHoldActivity.USER_INFO, viewModel.parentViewModel?.state?.accountInfo)
+                        startFragment(ExistingHouseholdFragment::class.java.name, true, bundle)
                     }
-                    NotificationStatus.PASS_CODE_PENDING -> {
+
+                    AccountStatus.PARNET_MOBILE_VERIFICATION_PENDING -> {
+                    }
+                    AccountStatus.PASS_CODE_PENDING -> {
                         findNavController().navigate(R.id.to_houseHoldCreatePassCodeFragment)
                     }
-                    NotificationStatus.EMAIL_PENDING -> {
+                    AccountStatus.EMAIL_PENDING -> {
                         findNavController().navigate(R.id.action_houseHoldNumberRegistrationFragment_to_emailHouseHoldFragment)
                     }
                     else -> {
@@ -129,10 +138,19 @@ class HouseHoldNumberRegistrationFragment :
         dialer.hideFingerprintView()
     }
 
-    private val isParentMobileValid = Observer<Boolean>
+    private val validationResponse = Observer<String>
     {
-        if (it) {
-            findNavController().navigate(R.id.to_houseHoldCreatePassCodeFragment)
+        if (!it.isNullOrEmpty()) {
+            if (it == AccountStatus.ON_BOARDED.toString())  {
+                launchActivity<HouseHoldCardsSelectionActivity>()
+            }else{
+                findNavController().navigate(R.id.to_houseHoldCreatePassCodeFragment)
+            }
+
+        }else{
+//            findNavController().navigate(R.id.to_houseHoldCreatePassCodeFragment)
+            showToast(it)
+
         }
     }
 
@@ -142,12 +160,7 @@ class HouseHoldNumberRegistrationFragment :
                 R.id.btnConfirm -> {
                     viewModel.state.existingYapUser?.let {
                         if (it) {
-                            startActivity(
-                                Intent(
-                                    requireContext(),
-                                    HouseHoldCardsSelectionActivity::class.java
-                                )
-                            )
+                            launchActivity<HouseholdDashboardActivity>()
                         } else {
                             viewModel.verifyHouseholdParentMobile()
                             //
@@ -158,13 +171,13 @@ class HouseHoldNumberRegistrationFragment :
                 }
             }
         })
-        viewModel.isParentMobileValid?.observe(this, isParentMobileValid)
+        viewModel.parentMobileValidationResponse?.observe(this, validationResponse)
     }
 
     override fun onDestroy() {
         super.onDestroy()
         viewModel.clickEvent?.removeObservers(this)
-        viewModel.isParentMobileValid?.removeObservers(this)
+        viewModel.parentMobileValidationResponse?.removeObservers(this)
     }
 
     override fun onBackPressed(): Boolean = false

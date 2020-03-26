@@ -27,8 +27,6 @@ class HouseholdDashboardActivity :
         adapter.addFragmentInfo(HouseholdHomeFragment::class.java.name)
         adapter.addFragmentInfo(HouseholdHomeFragment::class.java.name)
         viewModel.adapter.set(adapter)
-
-        // viewPager.adapter = adapter
         bottomNav.setUpWithViewPager(viewPager)
         setupYapItButton()
     }

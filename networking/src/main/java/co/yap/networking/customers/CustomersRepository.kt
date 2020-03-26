@@ -14,6 +14,7 @@ import co.yap.networking.customers.responsedtos.sendmoney.AddBeneficiaryResponse
 import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.networking.customers.responsedtos.sendmoney.Country
 import co.yap.networking.customers.responsedtos.sendmoney.RAKBankModel
+import co.yap.networking.household.responsedtos.ValidateParentMobileResponse
 import co.yap.networking.models.ApiResponse
 import co.yap.networking.models.RetroApiResponse
 import okhttp3.MediaType
@@ -91,6 +92,7 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     const val URL_ADD_HOUSEHOLD_EMAIL = "customers/api/on-board/household-email"
     const val URL_CREATE_HOUSEHOLD_PASSCODE = "customers/api/on-board/household-passcode"
     const val URL_SANCTIONED_COUNTRIES = "customers/api/countries/sanctioned"
+    const val URL_SUB_ACCOUNT_INVITATION = "customers/api/accept-reject-subaccountinvitation/"
 
 
     //.................... End region of old projects apis................................................
@@ -256,7 +258,7 @@ object CustomersRepository : BaseRepository(), CustomersApi {
 
     override suspend fun verifyHouseholdParentMobile(
         mobileNumber: String?, verifyHouseholdMobileRequest: VerifyHouseholdMobileRequest
-    ): RetroApiResponse<ApiResponse> =
+    ): RetroApiResponse<ValidateParentMobileResponse> =
         executeSafely(call = {
             api.verifyHouseholdParentMobile(
                 mobileNumber,
@@ -299,4 +301,7 @@ object CustomersRepository : BaseRepository(), CustomersApi {
         executeSafely(call = { api.changePasscode(newPasscode) })
 
     override suspend fun appUpdate(): RetroApiResponse<AppUpdateResponse> = executeSafely(call = {api.appUpdate()})
+
+    override suspend fun getSubAccountInviteStatus(notificationStatus: String): RetroApiResponse<SubAccountInvitationResponse> =
+        executeSafely(call = { api.subAccountInvitation(notificationStatus) })
 }

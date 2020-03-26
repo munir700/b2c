@@ -55,7 +55,6 @@ class AAPApplication : ChatApplication(
         sAppComponent = AppInjector.init(this)
         initNetworkLayer()
         SharedPreferenceManager(this).setThemeValue(Constants.THEME_YAP)
-        setAppUniqueId(this)
         initFireBase()
         inItLeanPlum()
         initializeAdjustSdk(BuildConfig.ADJUST_APP_TOKEN)

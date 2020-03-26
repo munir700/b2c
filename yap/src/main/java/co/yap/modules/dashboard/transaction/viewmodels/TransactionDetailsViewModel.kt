@@ -138,18 +138,4 @@ class TransactionDetailsViewModel(application: Application) :
             else -> R.drawable.ic_other_no_bg
         })
     }
-
-    private fun spentVisibility() {
-        transaction.get()?.let { transaction ->
-            when (transaction.productCode ?: "") {
-                TransactionProductCode.CARD_REORDER.pCode, TransactionProductCode.MANUAL_ADJUSTMENT.pCode, TransactionProductCode.FEE_DEDUCT.pCode, TransactionProductCode.ATM_WITHDRAWL.pCode, TransactionProductCode.POS_PURCHASE.pCode -> {
-                    state.spentVisibility.set(true)
-                }
-                else->{
-                    state.spentVisibility.set(true)
-                }
-            }
-        }
-    }
-
 }

@@ -24,9 +24,6 @@
             android:theme="@style/AppThemeHouseHold.NoActionBar"
             android:windowSoftInputMode="adjustResize" />
         <activity
-            android:name="co.yap.household.onboard.onboarding.kycsuccess.KycSuccessActivity"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".dashboard.main.HouseholdDashboardActivity"
             android:screenOrientation="portrait" />
 

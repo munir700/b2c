@@ -1,6 +1,6 @@
 package co.yap.modules.onboarding.models
 
-import co.yap.modules.onboarding.enums.AccountType
+import co.yap.yapcore.enums.AccountType
 import java.util.*
 
 data class OnboardingData(

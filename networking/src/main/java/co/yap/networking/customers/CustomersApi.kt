@@ -75,6 +75,8 @@ interface CustomersApi {
         currencyCode: String
     ): RetroApiResponse<CountryLimitsResponseDTO>
 
+    suspend fun getSubAccountInviteStatus(notificationStatus: String): RetroApiResponse<SubAccountInvitationResponse>
+
     /*
     * fun that comes from admin repo to be replaced
     * */

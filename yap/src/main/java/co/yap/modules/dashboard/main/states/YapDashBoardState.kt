@@ -4,8 +4,8 @@ import androidx.databinding.Bindable
 import androidx.databinding.ObservableField
 import co.yap.BR
 import co.yap.modules.dashboard.main.interfaces.IYapDashboard
-import co.yap.modules.onboarding.enums.AccountType
 import co.yap.yapcore.BaseState
+import co.yap.yapcore.enums.AccountType
 
 class YapDashBoardState : BaseState(), IYapDashboard.State {
 

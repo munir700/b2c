@@ -8,7 +8,7 @@ abstract class YAPApplication(myAppInfo: AppInfo) : DaggerApplication() {
     companion object {
         var AUTO_RESTART_APP = true
         var appInfo: AppInfo? = null
-        const val pageSize = 1000
+        const val pageSize = 200
         var hasFilterStateChanged = false
         var homeTransactionsRequest: HomeTransactionsRequest = HomeTransactionsRequest(
             0,

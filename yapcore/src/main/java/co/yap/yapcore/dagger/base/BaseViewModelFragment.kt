@@ -4,6 +4,7 @@ import android.content.Context
 import android.os.Bundle
 import android.view.View
 import androidx.activity.OnBackPressedCallback
+import androidx.appcompat.widget.Toolbar
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
 import co.yap.yapcore.BaseActivity
@@ -17,6 +18,7 @@ import dagger.android.DispatchingAndroidInjector
 import dagger.android.support.AndroidSupportInjection
 import dagger.android.support.HasSupportFragmentInjector
 import javax.inject.Inject
+import kotlin.properties.Delegates
 
 /**
  * Created by Muhammad Irfan Arshad
@@ -43,6 +45,18 @@ abstract class BaseViewModelFragment<VB : ViewDataBinding, S : IBase.State, VM :
         private set
     override var shouldRegisterViewModelLifeCycle: Boolean = false
 
+    /**
+     * Hint provided by the app that this fragment is currently visible to the user, as well as "active".
+     * (This is usually set manually (e.g. when using the [androidx.viewpager.widget.ViewPager]) to indicate that the "Page" is active
+     * and ready to load data or do something useful)
+     */
+    var isActive by Delegates.observable(true) { _, oldValue, newValue ->
+        onActiveStateChange(
+            oldValue,
+            newValue
+        )
+    }
+
 
     override fun performDataBinding(savedInstanceState: Bundle?) {
         mViewDataBinding = viewDataBinding as VB
@@ -51,7 +65,7 @@ abstract class BaseViewModelFragment<VB : ViewDataBinding, S : IBase.State, VM :
         viewModel.onCreate(arguments)
         viewDataBinding.setVariable(getBindingVariable(), viewModel)
         viewDataBinding.lifecycleOwner = this
-       // registerStateListeners()
+        // registerStateListeners()
         viewDataBinding.executePendingBindings()
         postExecutePendingBindings()
     }
@@ -113,4 +127,62 @@ abstract class BaseViewModelFragment<VB : ViewDataBinding, S : IBase.State, VM :
      * Override this method into your fragment to handleBackButton
      */
     fun onBackPresse() {}
+
+    private fun setupToolbar(toolbar: Toolbar?) {
+        toolbar?.let {
+            it.title = ""
+            getBaseActivity().setSupportActionBar(it)
+            getBaseActivity().supportActionBar?.apply {
+                setDisplayHomeAsUpEnabled(true)
+                setHomeButtonEnabled(true)
+            }
+        }
+    }
+
+
+    private fun onActiveStateChange(oldState: Boolean, newState: Boolean) {
+        if (oldState == newState) {
+            return
+        }
+
+        if (newState) {
+            onBecameActive()
+        } else {
+            onBecameInactive()
+        }
+    }
+
+
+    /**
+     * Gets called whenever the [BaseViewModelFragment] becomes "active".
+     * (see: [BaseViewModelFragment.isActive])
+     */
+    protected open fun onBecameActive() {
+        //
+    }
+
+
+    /**
+     * Gets called whenever the [BaseViewModelFragment] becomes "inactive".
+     * (see: [BaseViewModelFragment.isActive])
+     */
+    protected open fun onBecameInactive() {
+        //
+    }
+
+    /**
+     * Finishes the host [android.app.Activity] (see: [android.app.Activity.finish]).
+     */
+    protected fun finishActivity() {
+        activity?.finish()
+    }
+
+
+    /**
+     * Finishes the host [android.app.Activity] affinity (see: [android.app.Activity.finishAffinity]).
+     */
+    protected fun finishActivityAffinity() {
+        activity?.finishAffinity()
+    }
+
 }

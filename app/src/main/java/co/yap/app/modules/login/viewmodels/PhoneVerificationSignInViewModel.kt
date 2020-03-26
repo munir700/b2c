@@ -3,14 +3,12 @@ package co.yap.app.modules.login.viewmodels
 import android.app.Application
 import android.content.Context
 import android.os.Build
-import androidx.lifecycle.MutableLiveData
 import co.yap.app.modules.login.interfaces.IPhoneVerificationSignIn
 import co.yap.modules.onboarding.constants.Constants
 import co.yap.modules.onboarding.viewmodels.OnboardingChildViewModel
 import co.yap.networking.authentication.AuthRepository
 import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.customers.requestdtos.DemographicDataRequest
-import co.yap.networking.customers.responsedtos.AccountInfo
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.messages.MessagesRepository
 import co.yap.networking.messages.requestdtos.CreateOtpGenericRequest
@@ -22,8 +20,6 @@ import co.yap.yapcore.constants.Constants.KEY_APP_UUID
 import co.yap.yapcore.constants.Constants.KEY_IS_USER_LOGGED_IN
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.Utils
-import co.yap.yapcore.helpers.extentions.trackEventWithAttributes
-import co.yap.yapcore.managers.MyUserManager
 
 class PhoneVerificationSignInViewModel(application: Application) :
     OnboardingChildViewModel<IPhoneVerificationSignIn.State>(application),
@@ -38,7 +34,6 @@ class PhoneVerificationSignInViewModel(application: Application) :
     override val verifyOtpResult: SingleLiveEvent<Boolean> = SingleLiveEvent()
     private val customersRepository: CustomersRepository = CustomersRepository;
     private val messagesRepository: MessagesRepository = MessagesRepository
-    override val accountInfo: MutableLiveData<AccountInfo> = MutableLiveData()
 
     override fun handlePressOnSendButton() {
         nextButtonPressEvent.postValue(true)
@@ -126,30 +121,6 @@ class PhoneVerificationSignInViewModel(application: Application) :
             }
 
         }
-    }
-
-    override fun getAccountInfo() {
-        launch {
-            //state.loading = true
-            when (val response = customersRepository.getAccountInfo()) {
-                is RetroApiResponse.Success -> {
-                    if (response.data.data.isNotEmpty()) {
-                        MyUserManager.user = response.data.data[0]
-                        accountInfo.postValue(response.data.data[0])
-                        setUserAttributes()
-                    }
-                }
-                is RetroApiResponse.Error -> state.toast = response.error.message
-            }
-            state.loading = false
-        }
-    }
-
-    private fun setUserAttributes() {
-        trackEventWithAttributes(
-            MyUserManager.user,
-            parentViewModel?.onboardingData?.elapsedOnboardingTime.toString()
-        )
     }
 
 }

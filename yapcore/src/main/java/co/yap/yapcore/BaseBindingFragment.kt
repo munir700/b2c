@@ -9,8 +9,9 @@ import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
 import co.yap.yapcore.dagger.base.BaseViewModelFragment
+import co.yap.yapcore.dagger.base.interfaces.CanFetchExtras
 
-abstract class BaseBindingFragment<V : IBase.ViewModel<*>> : BaseFragment<V>() {
+abstract class BaseBindingFragment<V : IBase.ViewModel<*>> : BaseFragment<V>(), CanFetchExtras {
 
     lateinit var viewDataBinding: ViewDataBinding
     /**
@@ -25,7 +26,12 @@ abstract class BaseBindingFragment<V : IBase.ViewModel<*>> : BaseFragment<V>() {
             injectDependencies()
         }
         super.onCreate(savedInstanceState)
-        preInit()
+        // the overall initialization, extras fetching and post initialization will be performed only once, too
+        if(!isViewCreated) {
+            arguments?.let(::fetchExtras)
+            preInit()
+        }
+
         setHasOptionsMenu(false)
     }
 
@@ -108,4 +114,7 @@ abstract class BaseBindingFragment<V : IBase.ViewModel<*>> : BaseFragment<V>() {
         //
     }
 
+    override fun fetchExtras(extras: Bundle) {
+
+    }
 }

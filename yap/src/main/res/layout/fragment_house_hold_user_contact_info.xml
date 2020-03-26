@@ -24,13 +24,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <androidx.coordinatorlayout.widget.CoordinatorLayout
-                android:id="@+id/clSnackbarHouseHold"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@android:color/transparent"
-                app:layout_constraintTop_toTopOf="parent" />
-
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -39,8 +32,7 @@
                 android:paddingLeft="@dimen/margin_medium"
                 android:paddingRight="@dimen/margin_medium"
                 app:layout_constraintTop_toTopOf="parent">
-
-
+                
                 <TextView
                     android:id="@+id/tvHeadingMobile"
                     style="@style/ALarge"

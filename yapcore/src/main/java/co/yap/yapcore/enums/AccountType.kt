@@ -1,4 +1,4 @@
-package co.yap.modules.onboarding.enums
+package co.yap.yapcore.enums
 
 import androidx.annotation.Keep
 
