@@ -41,7 +41,8 @@ abstract class Shape(
         } else target.point
 
     abstract fun reCalculateAll()
-    abstract val point: Point?
+    abstract val point: Point
+//    abstract val point: Point?
     abstract val height: Int
 
     /**

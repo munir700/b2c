@@ -10,12 +10,12 @@ class Circle(
     target: Target?,
     focus: Focus?,
     focusGravity: FocusGravity?,
-    padding: Int,
-    point: Point
+    padding: Int
 ) :
     Shape(target!!, focus, focusGravity!!, padding) {
+//  var point : Point = focusPoint
     private var radius = 0
-    override var point: Point = point
+    override var point: Point = focusPoint
         private set
 
     override fun draw(

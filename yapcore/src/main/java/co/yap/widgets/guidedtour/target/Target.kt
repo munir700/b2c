@@ -12,17 +12,20 @@ interface Target {
      * point object
      * @return
      */
-    val point: Point?
+    val point: Point
+//    val point: Point?
 
     /**
      * Returns Rectangle points of target view
      * @return
      */
-    val rect: Rect?
+    val rect: Rect
+//    val rect: Rect?
 
     /**
      * return target view
      * @return
      */
-    val view: View?
+    val view: View
+//    val view: View?
 }
