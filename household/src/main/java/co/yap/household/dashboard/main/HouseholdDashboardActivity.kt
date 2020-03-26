@@ -1,15 +1,24 @@
 package co.yap.household.dashboard.main
 
+import android.os.Bundle
+import android.view.View
 import co.yap.household.BR
 import co.yap.household.R
 import co.yap.household.dashboard.home.HouseholdHomeFragment
+import co.yap.household.dashboard.main.menu.ProfilePictureAdapter
 import co.yap.household.databinding.ActivityHouseholdDashboardBinding
+import co.yap.modules.dashboard.yapit.sendmoney.home.adapters.RecentTransferAdaptor
+import co.yap.networking.customers.responsedtos.AccountInfo
+import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.widgets.arcmenu.FloatingActionMenu
 import co.yap.widgets.arcmenu.animation.SlideInAnimationHandler
 import co.yap.yapcore.adpters.SectionsPagerAdapter
 import co.yap.yapcore.dagger.base.BaseViewModelActivity
 import co.yap.yapcore.helpers.extentions.dimen
+import co.yap.yapcore.interfaces.OnItemClickListener
+import co.yap.yapcore.managers.MyUserManager
 import kotlinx.android.synthetic.main.activity_household_dashboard.*
+import kotlinx.android.synthetic.main.layout_drawer_household_dashboard.*
 import javax.inject.Inject
 
 class HouseholdDashboardActivity :
@@ -19,6 +28,28 @@ class HouseholdDashboardActivity :
     override fun getBindingVariable() = BR.viewModel
     override fun getLayoutId() = R.layout.activity_household_dashboard
     private var actionMenu: FloatingActionMenu? = null
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setUpAdapter()
+    }
+
+    private fun setUpAdapter() {
+        val mAdapter = ProfilePictureAdapter(
+            MyUserManager.users,
+            null
+        )
+        mAdapter.onItemClickListener = recentItemClickListener
+        recyclerView.adapter = mAdapter
+        viewModel.profilePictureAdapter.set(mAdapter)
+    }
+
+    private val recentItemClickListener = object : OnItemClickListener {
+        override fun onItemClick(view: View, data: Any, pos: Int) {
+            if (data is AccountInfo)
+                showToast(data.currentCustomer.getFullName())
+        }
+    }
 
     override fun postExecutePendingBindings() {
         super.postExecutePendingBindings()

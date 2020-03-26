@@ -7,6 +7,12 @@
         <variable
             name="viewModel"
             type="co.yap.household.dashboard.main.HouseHoldDashBoardVM" />
+
+        <variable
+            name="adapter"
+            type="co.yap.household.dashboard.main.menu.ProfilePictureAdapter" />
+
+        <import type="co.yap.translation.Strings" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -115,7 +121,9 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintWidth_percent="0.2">
 
-            <co.yap.widgets.CoreCircularImageView
+            <!-- this image will be replaced with Recyclerview to accommodate multiple accounts -->
+
+            <!--<co.yap.widgets.CoreCircularImageView
                 android:id="@+id/ivProfilePic"
                 android:layout_width="@dimen/_45sdp"
                 android:layout_height="@dimen/_45sdp"
@@ -125,9 +133,23 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:src="@drawable/ic_statement" />
+                tools:src="@drawable/ic_statement" />-->
             <!--        app:fullName="@{viewModel.state.beneficiaryName}"-->
             <!--        app:beneficiaryPicture="@{viewModel.state.beneficiaryPicture}"-->
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerView"
+                android:layout_width="@dimen/_45sdp"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:orientation="vertical"
+                app:adapter="@{adapter}"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:listitem="@layout/item_dashboard_menu_profile_pic" />
+
+
 
             <ImageView
                 android:id="@+id/ivSettings"

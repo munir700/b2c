@@ -1,6 +1,7 @@
 package co.yap.household.dashboard.main
 
 import androidx.databinding.ObservableField
+import co.yap.household.dashboard.main.menu.ProfilePictureAdapter
 import co.yap.yapcore.IBase
 import co.yap.yapcore.adpters.SectionsPagerAdapter
 
@@ -11,6 +12,7 @@ interface IHouseholdDashboard {
 
     interface ViewModel : IBase.ViewModel<State> {
         val adapter :ObservableField<SectionsPagerAdapter>
+        val profilePictureAdapter:ObservableField<ProfilePictureAdapter>
     }
 
     interface State : IBase.State {

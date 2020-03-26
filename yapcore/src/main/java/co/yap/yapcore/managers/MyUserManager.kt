@@ -35,7 +35,7 @@ object MyUserManager : IRepositoryHolder<CardsRepository> {
     var user: AccountInfo? = null
     var isUserAccountInfo: SingleLiveEvent<Boolean> = SingleLiveEvent()
     var switchProfile: SingleLiveEvent<Boolean> = SingleLiveEvent()
-    private var users: ArrayList<AccountInfo> = ArrayList<AccountInfo>()
+    var users: ArrayList<AccountInfo> = ArrayList<AccountInfo>()
     var userAddress: Address? = null
     var cardBalance: MutableLiveData<CardBalance> = MutableLiveData()
     var cards: MutableLiveData<Card> = MutableLiveData()
