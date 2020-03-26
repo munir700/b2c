@@ -72,7 +72,7 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
         viewModel.validateDeviceResult.observe(this, validateDeviceResultObserver)
         MyUserManager.isUserAccountInfo?.observe(this, onFetchAccountInfo)
         viewModel.createOtpResult.observe(this, createOtpObserver)
-        viewModel.switchProfile.observe(this, switchProfileObserver)
+        MyUserManager.switchProfile.observe(this, switchProfileObserver)
         setObservers()
     }
 
@@ -181,7 +181,6 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
             }
         })
     }
-
 
     private fun goToNext(name: String) {
         val action =
@@ -316,7 +315,7 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
     private fun gotoHouseHold() {
         // call API for switch profile
         // TODO in feature move this call to MyuserManger
-        viewModel.switchProfile()
+        MyUserManager.switchProfile()
     }
 
     private val switchProfileObserver = Observer<Boolean> {
@@ -333,11 +332,8 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
             }else{
                 // and notification is pending
                 val bundle = Bundle()
-//                bundle.putBoolean(OnBoardingHouseHoldActivity.EXISTING_USER, MyUserManager.isOnBoarded())
                 bundle.putParcelable(OnBoardingHouseHoldActivity.USER_INFO, MyUserManager.user)
-//                startFragment(ExistingHouseholdFragment::class.java.name, false, bundle)
                 startActivity(OnBoardingHouseHoldActivity.getIntent(requireContext(), bundle))
-//                launchActivity<OnBoardingHouseHoldActivity> { bundle }
             }
 
         }
