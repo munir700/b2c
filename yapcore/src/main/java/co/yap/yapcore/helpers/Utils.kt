@@ -2,10 +2,11 @@ package co.yap.yapcore.helpers
 
 import android.annotation.SuppressLint
 import android.app.Activity
-import android.app.AlertDialog
+import android.app.Dialog
 import android.content.*
 import android.content.Intent.ACTION_VIEW
 import android.content.res.Resources
+import android.graphics.Rect
 import android.icu.util.TimeZone
 import android.net.Uri
 import android.os.Build
@@ -18,15 +19,16 @@ import android.text.style.AbsoluteSizeSpan
 import android.text.style.ForegroundColorSpan
 import android.util.DisplayMetrics
 import android.util.Patterns
-import android.view.LayoutInflater
 import android.view.View
 import android.view.Window
+import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import androidx.annotation.ColorRes
 import androidx.core.content.ContextCompat
 import co.yap.networking.customers.requestdtos.Contact
 import co.yap.translation.Strings
 import co.yap.translation.Translator
+import co.yap.widgets.loading.CircularProgressBar
 import co.yap.yapcore.R
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.extentions.shortToast
@@ -34,7 +36,6 @@ import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.MyUserManager
 import com.google.i18n.phonenumbers.PhoneNumberUtil
-import kotlinx.android.synthetic.main.progress_dialogue_fragment.view.*
 import java.math.RoundingMode
 import java.text.DecimalFormat
 import java.util.*
@@ -72,22 +73,25 @@ object Utils {
         }
     }
 
-    fun createProgressDialog(context: Context): AlertDialog {
-        val layoutInflater: LayoutInflater =
-            context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-        val view = layoutInflater.inflate(R.layout.progress_dialogue_fragment, null)
-        view.progressBar2.indeterminateDrawable.setColorFilter(
-            ThemeColorUtils.colorPressedBtnStateAttribute(context),
-            android.graphics.PorterDuff.Mode.SRC_IN
+    fun createProgressDialog(context: Context): Dialog {
+        val dialog = Dialog(context, android.R.style.Theme_Light)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setCancelable(false)
+        dialog.setContentView(R.layout.progress_dialogue_fragment)
+        dialog.window?.setLayout(
+            WindowManager.LayoutParams.MATCH_PARENT,
+            WindowManager.LayoutParams.MATCH_PARENT
         )
-        return AlertDialog.Builder(context).run {
-            setView(view)
-            setCancelable(false)
-            create()
-        }.apply {
-            window?.setBackgroundDrawableResource(android.R.color.transparent)
-            requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+
+        val progress = dialog.findViewById(R.id.circularProgressBar) as CircularProgressBar
+        dialog.setOnShowListener {
+            //progress.setProgressWithAnimation(50f, 1000)
+            progress.indeterminateMode = true
         }
+        val displayRectangle = Rect()
+        dialog.window?.decorView?.getWindowVisibleDisplayFrame(displayRectangle);
+        return dialog
     }
 
     fun copyToClipboard(context: Context, text: CharSequence) {
