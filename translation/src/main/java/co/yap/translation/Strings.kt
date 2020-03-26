@@ -183,8 +183,6 @@ object Strings {
         "screen_verify_passcode_button_verify"
     const val screen_verify_passcode_text_forgot_password: String =
         "screen_verify_passcode_text_forgot_password"
-    const val screen_verify_passcode_text_account_locked: String =
-        "screen_verify_passcode_text_account_locked"
 
     //Otp screen
     const val screen_verify_phone_number_display_text_resend_otp_success: String =
@@ -380,6 +378,8 @@ object Strings {
         "screen_forgot_passcode_otp_display_text_heading"
     const val screen_forgot_passcode_otp_display_text_sub_heading: String =
         "screen_forgot_passcode_otp_display_text_sub_heading"
+    const val screen_verify_passcode_text_account_locked: String =
+        "screen_verify_passcode_text_account_locked"
 
     // Forgot posscode success screen
     const val screen_passcode_success_display_text_heading: String =
@@ -1082,10 +1082,10 @@ object Strings {
         "screen_international_funds_transfer_display_text_fee"
     const val screen_international_funds_transfer_display_text_note: String =
         "screen_international_funds_transfer_display_text_note"
-    const val screen_international_funds_transfer_display_text_cutoff_time_swift: String =
-        "screen_international_funds_transfer_display_text_cutoff_time_swift"
     const val screen_international_funds_transfer_display_text_cutoff_time_uaefts: String =
         "screen_international_funds_transfer_display_text_cutoff_time_uaefts"
+    const val screen_international_funds_transfer_display_text_cutoff_time_swift: String =
+        "screen_international_funds_transfer_display_text_cutoff_time_swift"
 
     // Forgot card pin screen
     const val screen_forgot_pin_display_text_heading: String =
