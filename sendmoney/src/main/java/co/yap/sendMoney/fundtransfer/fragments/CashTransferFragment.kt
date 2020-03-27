@@ -253,15 +253,15 @@ class CashTransferFragment : BeneficiaryFundTransferBaseFragment<ICashTransfer.V
 
     }
 
-    private fun startFlows(produceCode: String) {
+    private fun startFlows(productCode: String) {
         viewModel.parentViewModel?.beneficiary?.value?.beneficiaryType?.let { beneficiaryType ->
             when (beneficiaryType) {
                 SendMoneyBeneficiaryType.RMT.type, SendMoneyBeneficiaryType.SWIFT.type -> skipCashTransferFragment()
                 else -> {
-                    viewModel.getMoneyTransferLimits(viewModel.state.produceCode)
-                    viewModel.getTransferFees(viewModel.state.produceCode)
-                    viewModel.getPurposeOfPayment()
-                    viewModel.getCashTransferReasonList()
+                    viewModel.getMoneyTransferLimits(productCode)
+                    viewModel.getTransferFees(productCode)
+                    viewModel.getPurposeOfPayment(productCode)
+                    viewModel.getCashTransferReasonList(productCode)
                     setObservers()
                 }
             }
@@ -270,54 +270,27 @@ class CashTransferFragment : BeneficiaryFundTransferBaseFragment<ICashTransfer.V
 
     private fun getProductCode(): String {
         viewModel.parentViewModel?.beneficiary?.value?.let { beneficiary ->
-            beneficiary.beneficiaryType?.let { beneficiaryType ->
-                when (beneficiaryType) {
-                    SendMoneyBeneficiaryType.RMT.type -> {
-                        setOtpAction(
-                            SendMoneyBeneficiaryType.RMT.type,
-                            TransactionProductCode.RMT.pCode
-                        )
-                        return viewModel.state.produceCode ?: ""
-                    }
-                    SendMoneyBeneficiaryType.SWIFT.type -> {
-                        setOtpAction(
-                            SendMoneyBeneficiaryType.SWIFT.type,
-                            TransactionProductCode.SWIFT.pCode
-                        )
-                        return viewModel.state.produceCode ?: ""
-                    }
+            when (beneficiary.beneficiaryType) {
                     SendMoneyBeneficiaryType.CASHPAYOUT.type -> {
-                        setOtpAction(
-                            SendMoneyBeneficiaryType.CASHPAYOUT.type,
-                            TransactionProductCode.CASH_PAYOUT.pCode
-                        )
-                        return viewModel.state.produceCode ?: ""
+                        viewModel.parentViewModel?.transferData?.value?.otpAction =
+                            SendMoneyBeneficiaryType.CASHPAYOUT.type
+                        return TransactionProductCode.CASH_PAYOUT.pCode
                     }
                     SendMoneyBeneficiaryType.DOMESTIC.type -> {
-                        setOtpAction(
-                            SendMoneyBeneficiaryType.DOMESTIC_TRANSFER.type,
-                            TransactionProductCode.DOMESTIC.pCode
-                        )
-                        return viewModel.state.produceCode ?: ""
+                        viewModel.parentViewModel?.transferData?.value?.otpAction =
+                            SendMoneyBeneficiaryType.DOMESTIC_TRANSFER.type
+                        return TransactionProductCode.DOMESTIC.pCode
                     }
                     SendMoneyBeneficiaryType.UAEFTS.type -> {
-                        setOtpAction(
-                            SendMoneyBeneficiaryType.UAEFTS.type,
-                            TransactionProductCode.UAEFTS.pCode
-                        )
-                        return viewModel.state.produceCode ?: ""
-                    }
-                    else -> {
+                        viewModel.parentViewModel?.transferData?.value?.otpAction =
+                            SendMoneyBeneficiaryType.UAEFTS.type
                         return TransactionProductCode.UAEFTS.pCode
                     }
+                    else -> {
+                        return ""
+                    }
                 }
-            } ?: return ""
         } ?: return ""
-    }
-
-    private fun setOtpAction(action: String, productCode: String) {
-        viewModel.parentViewModel?.transferData?.value?.otpAction = action
-        viewModel.state.produceCode = productCode
     }
 
     override fun onPause() {

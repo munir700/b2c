@@ -32,11 +32,11 @@ interface ICashTransfer {
         fun getTransferFees(productCode: String?)
         fun cashPayoutTransferRequest(beneficiaryId: Int?)
         fun getMoneyTransferLimits(productCode: String?)
+        fun getCashTransferReasonList(productCode: String)
+        fun getPurposeOfPayment(productCode: String)
         fun getCountryLimit()
         fun getTransactionThresholds()
         fun proceedToTransferAmount()
-        fun getCashTransferReasonList()
-        fun getPurposeOfPayment()
         fun processPurposeList(list: ArrayList<PurposeOfPayment>)
 
     }

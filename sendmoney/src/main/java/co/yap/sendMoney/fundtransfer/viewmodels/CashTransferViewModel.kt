@@ -172,10 +172,10 @@ class CashTransferViewModel(application: Application) :
         clickEvent.postValue(id) // TODO:update this clickEvent with live data it creates debounce
     }
 
-    override fun getPurposeOfPayment() {
+    override fun getPurposeOfPayment(productCode:String) {
         launch {
             when (val response =
-                transactionRepository.getPurposeOfPayment(state.produceCode ?: "")) {
+                transactionRepository.getPurposeOfPayment(productCode)) {
                 is RetroApiResponse.Success -> {
                     purposeOfPaymentList.value = response.data.data as? ArrayList<PurposeOfPayment>?
                 }
@@ -302,11 +302,11 @@ class CashTransferViewModel(application: Application) :
         }
     }
 
-    override fun getCashTransferReasonList() {
+    override fun getCashTransferReasonList(productCode: String) {
         launch {
             transactionData.clear()
             when (val response =
-                transactionRepository.getTransactionInternationalReasonList(state.produceCode)) {
+                transactionRepository.getTransactionInternationalReasonList(productCode)) {
                 is RetroApiResponse.Success -> {
                     if (response.data.data.isNullOrEmpty()) return@launch
                     response.data.data?.let {
