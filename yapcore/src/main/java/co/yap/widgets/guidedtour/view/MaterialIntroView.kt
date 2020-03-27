@@ -14,7 +14,7 @@ import android.widget.RelativeLayout
 import android.widget.TextView
 import co.yap.widgets.guidedtour.Constants
 import co.yap.widgets.guidedtour.MaterialIntroConfiguration
-import co.yap.widgets.guidedtour.Utils
+import co.yap.widgets.guidedtour.MaterialIntroListener
 import co.yap.widgets.guidedtour.shape.*
 import co.yap.widgets.guidedtour.shape.Rect
 import co.yap.widgets.guidedtour.target.Target
@@ -56,9 +56,9 @@ class MaterialIntroView : RelativeLayout {
      * targetShape focus on target
      * and clear circle to focus
      */
-    private var targetShape: Shape ?=null
+    private var targetShape: Shape? = null
 //    private lateinit var targetShape: Shape
-     /**
+    /**
      * Focus Type
      */
     private var focusType: Focus? = null
@@ -205,7 +205,7 @@ class MaterialIntroView : RelativeLayout {
         init(context)
     }
 
-     constructor(
+    constructor(
         context: Context,
         attrs: AttributeSet?,
         defStyleAttr: Int,
@@ -233,7 +233,7 @@ class MaterialIntroView : RelativeLayout {
         dismissOnTouch = false
         isLayoutCompleted = false
         isInfoEnabled = false
-         isPerformClick = false
+        isPerformClick = false
         isImageViewEnabled = true
         isIdempotent = false
         /**
@@ -260,7 +260,7 @@ class MaterialIntroView : RelativeLayout {
                 targetShape?.reCalculateAll()
                 if (targetShape != null && targetShape?.point?.y !== 0 && !isLayoutCompleted) {
                     if (isInfoEnabled) setInfoLayout()
-                     removeOnGlobalLayoutListener(
+                    removeOnGlobalLayoutListener(
                         this@MaterialIntroView,
                         this
                     )
@@ -312,17 +312,17 @@ class MaterialIntroView : RelativeLayout {
     override fun onTouchEvent(event: MotionEvent): Boolean {
         val xT = event.x
         val yT = event.y
-        val isTouchOnFocus: Boolean = targetShape.isTouchOnFocus(xT, yT)
+        val isTouchOnFocus: Boolean? = targetShape?.isTouchOnFocus(xT.toDouble(), yT.toDouble())
         when (event.action) {
             MotionEvent.ACTION_DOWN -> {
-                if (isTouchOnFocus && isPerformClick) {
+                if (isTouchOnFocus!! && isPerformClick) {
                     targetView?.view?.setPressed(true)
                     targetView?.view?.invalidate()
                 }
                 return true
             }
             MotionEvent.ACTION_UP -> {
-                if (isTouchOnFocus || dismissOnTouch) dismiss()
+                if (isTouchOnFocus!! || dismissOnTouch) dismiss()
                 if (isTouchOnFocus && isPerformClick) {
                     targetView?.view?.performClick()
                     targetView?.view?.setPressed(true)
@@ -377,7 +377,7 @@ class MaterialIntroView : RelativeLayout {
                 fun onAnimationEnd() {
                     visibility = View.GONE
                     removeMaterialView()
-                    if (materialIntroListener != null) materialIntroListener.onUserClicked(
+                    if (materialIntroListener != null) materialIntroListener?.onUserClicked(
                         materialIntroViewId
                     )
                 }
@@ -405,7 +405,7 @@ class MaterialIntroView : RelativeLayout {
                     ViewGroup.LayoutParams.MATCH_PARENT,
                     ViewGroup.LayoutParams.FILL_PARENT
                 )
-            if (targetShape!!.point.y  < height/2) {
+            if (targetShape!!.point.y < height / 2) {
                 (infoView as RelativeLayout?)!!.gravity = Gravity.TOP
                 infoDialogParams.setMargins(
                     0,
@@ -508,15 +508,14 @@ class MaterialIntroView : RelativeLayout {
     }
 
 
-
     fun setConfiguration(configuration: MaterialIntroConfiguration?) {
         if (configuration != null) {
-            maskColor = configuration.getMaskColor()
-            delayMillis = configuration.getDelayMillis()
-            isFadeAnimationEnabled = configuration.isFadeAnimationEnabled()
-            colorTextViewInfo = configuration.getColorTextViewInfo()
-             dismissOnTouch = configuration.isDismissOnTouch()
-            colorTextViewInfo = configuration.getColorTextViewInfo()
+            maskColor = configuration.maskColor
+            delayMillis = configuration.delayMillis
+            isFadeAnimationEnabled = configuration.isFadeAnimationEnabled
+            colorTextViewInfo = configuration.colorTextViewInfo
+            dismissOnTouch = configuration.isDismissOnTouch
+            colorTextViewInfo = configuration.colorTextViewInfo
             focusType = configuration.getFocusType()
             focusGravity = configuration.getFocusGravity()
         }
@@ -603,11 +602,6 @@ class MaterialIntroView : RelativeLayout {
 
         fun setUsageId(materialIntroViewId: String): Builder {
             materialIntroView.setUsageId(materialIntroViewId)
-            return this
-        }
-
-        fun enableDotAnimation(isDotAnimationEnabled: Boolean): Builder {
-            materialIntroView.enableDotView(isDotAnimationEnabled)
             return this
         }
 
