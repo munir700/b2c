@@ -7,7 +7,6 @@ import android.content.res.Resources
 import android.graphics.*
 import android.os.Handler
 import android.util.AttributeSet
-import android.util.Log
 import android.view.View
 import co.yap.yapcore.R
 import kotlin.math.min
@@ -17,7 +16,7 @@ class CircularProgressBar(context: Context, attrs: AttributeSet? = null) : View(
     companion object {
         private const val DEFAULT_MAX_VALUE = 100f
         private const val DEFAULT_START_ANGLE = 270f
-        private const val DEFAULT_ANIMATION_DURATION = 1500L
+        private const val DEFAULT_ANIMATION_DURATION = 1400L
     }
 
     // Properties
@@ -137,14 +136,19 @@ class CircularProgressBar(context: Context, attrs: AttributeSet? = null) : View(
             progressDirectionIndeterminateMode = ProgressDirection.TO_RIGHT
             startAngleIndeterminateMode = DEFAULT_START_ANGLE
 
-            indeterminateModeHandler?.removeCallbacks(indeterminateModeRunnable)
+            indeterminateModeHandler?.removeCallbacksAndMessages(null)
             progressAnimator?.cancel()
             indeterminateModeHandler = Handler()
 
             if (field) {
                 indeterminateModeHandler?.post(indeterminateModeRunnable)
+                //indeterminateModeHandler?.postDelayed(repeatRunnable, 2000)
             }
         }
+
+    private val repeatRunnable = Runnable {
+        indeterminateMode = true
+    }
     var onProgressChangeListener: ((Float) -> Unit)? = null
     var onIndeterminateModeChangeListener: ((Boolean) -> Unit)? = null
     //endregion
@@ -166,7 +170,7 @@ class CircularProgressBar(context: Context, attrs: AttributeSet? = null) : View(
 //            while (angle > 360) {
 //                angle -= 360
 //            }
-            Log.d("angle>> Start", "$value")
+            //Log.d("angle>> Start", "$value")
             //field = if (angle < 0) 0f else if (angle > 360) 0f else angle
             field = value
             invalidate()
@@ -253,6 +257,13 @@ class CircularProgressBar(context: Context, attrs: AttributeSet? = null) : View(
     override fun onDetachedFromWindow() {
         super.onDetachedFromWindow()
         progressAnimator?.cancel()
+        indeterminateModeHandler?.removeCallbacksAndMessages(null)
+        indeterminateModeHandler?.removeCallbacks(indeterminateModeRunnable)
+    }
+
+    fun clearProgressAnimation() {
+        progressAnimator?.cancel()
+        indeterminateModeHandler?.removeCallbacksAndMessages(null)
         indeterminateModeHandler?.removeCallbacks(indeterminateModeRunnable)
     }
 
@@ -291,9 +302,9 @@ class CircularProgressBar(context: Context, attrs: AttributeSet? = null) : View(
             (animation.animatedValue as? Float)?.also { value ->
                 if (indeterminateMode) progressIndeterminateMode = value else this.progress = value
                 if (indeterminateMode) {
-                    Log.d("updateAngle value>>", "$value")
+                    //Log.d("updateAngle value>>", "$value")
                     val updateAngle = value * 360 / 100
-                    Log.d("updateAngle >>", "$updateAngle")
+                    //Log.d("updateAngle >>", "$updateAngle")
                     startAngleIndeterminateMode = DEFAULT_START_ANGLE +
                             if (progressDirectionIndeterminateMode.isToRight()) updateAngle else -updateAngle
                 }
@@ -308,8 +319,7 @@ class CircularProgressBar(context: Context, attrs: AttributeSet? = null) : View(
 
     private val indeterminateModeRunnable = Runnable {
         if (indeterminateMode) {
-            // TODO unComment
-//            postIndeterminateModeHandler()
+            postIndeterminateModeHandler()
             // whatever you want to do below
             this@CircularProgressBar.progressDirectionIndeterminateMode =
                 this@CircularProgressBar.progressDirectionIndeterminateMode.reverse()
@@ -344,8 +354,8 @@ class CircularProgressBar(context: Context, attrs: AttributeSet? = null) : View(
         val isToRightFromNormalMode = !indeterminateMode && progressDirection.isToRight()
         val angle =
             (if (isToRightFromIndeterminateMode || isToRightFromNormalMode) 360 else -360) * realProgress / 100
-        Log.d("updateAngle realProg>>", "$realProgress")
-        Log.d("updateAngle anglee>>", "$angle")
+        //Log.d("updateAngle realProg>>", "$realProgress")
+        //Log.d("updateAngle anglee>>", "$angle")
 
         //Log.d("angle>> End", "$angle")
         canvas.drawArc(

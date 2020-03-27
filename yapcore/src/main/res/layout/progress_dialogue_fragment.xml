@@ -3,12 +3,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/transparent">
+    android:id="@+id/lvMain"
+    android:background="@color/transparent"
+    android:visibility="visible">
 
     <View
+        android:id="@+id/layer"
         android:layout_width="match_parent"
+        android:alpha="0"
+        android:visibility="visible"
         android:layout_height="match_parent"
-        android:alpha="0.55"
         android:background="@color/white" />
 
     <co.yap.widgets.loading.CircularProgressBar
@@ -16,6 +20,7 @@
         android:layout_width="@dimen/_90sdp"
         android:layout_height="@dimen/_90sdp"
         android:layout_centerInParent="true"
+        android:visibility="invisible"
         app:cpb_background_progressbar_color="@color/grey"
         app:cpb_background_progressbar_width="4dp"
         app:cpb_indeterminate_mode="true"

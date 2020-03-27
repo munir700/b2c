@@ -1,12 +1,13 @@
 package co.yap.yapcore.helpers
 
+import android.animation.Animator
+import android.animation.AnimatorListenerAdapter
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.Dialog
 import android.content.*
 import android.content.Intent.ACTION_VIEW
 import android.content.res.Resources
-import android.graphics.Rect
 import android.icu.util.TimeZone
 import android.net.Uri
 import android.os.Build
@@ -83,14 +84,25 @@ object Utils {
             WindowManager.LayoutParams.MATCH_PARENT
         )
         dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
-
         val progress = dialog.findViewById(R.id.circularProgressBar) as CircularProgressBar
+        val layer = dialog.findViewById(R.id.layer) as View
+
         dialog.setOnShowListener {
-            //progress.setProgressWithAnimation(50f, 1000)
-            progress.indeterminateMode = true
+            progress.visibility = View.VISIBLE
+            layer.visibility = View.VISIBLE
+            layer.alpha = 0f
+            layer.animate().alpha(0.6f).setDuration(300)
+                .setListener(object : AnimatorListenerAdapter() {
+                    override fun onAnimationEnd(animation: Animator?) {
+                        super.onAnimationEnd(animation)
+                        progress.indeterminateMode = true
+                        layer.visibility = View.VISIBLE
+                    }
+                })
         }
-        val displayRectangle = Rect()
-        dialog.window?.decorView?.getWindowVisibleDisplayFrame(displayRectangle);
+        dialog.setOnDismissListener {
+            progress.clearProgressAnimation()
+        }
         return dialog
     }
 
