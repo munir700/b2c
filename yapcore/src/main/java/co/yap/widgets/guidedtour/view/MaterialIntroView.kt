@@ -13,6 +13,7 @@ import android.widget.ImageView
 import android.widget.RelativeLayout
 import android.widget.TextView
 import co.yap.widgets.guidedtour.Constants
+import co.yap.widgets.guidedtour.MaterialIntroConfiguration
 import co.yap.widgets.guidedtour.Utils
 import co.yap.widgets.guidedtour.shape.*
 import co.yap.widgets.guidedtour.shape.Rect
