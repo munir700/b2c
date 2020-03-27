@@ -11,6 +11,7 @@ import co.yap.networking.transactions.responsedtos.TransactionFilters
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.helpers.extentions.isNetworkAvailable
 import com.jaygoo.widget.RangeSeekBar
 
 class TransactionFiltersViewModel(application: Application) :
@@ -20,7 +21,9 @@ class TransactionFiltersViewModel(application: Application) :
     override val state: ITransactionFilters.State = TransactionFiltersState()
     override val clickEvent: SingleClickEvent = SingleClickEvent()
     override val transactionFilters: MutableLiveData<TransactionFilters> = MutableLiveData()
-    override var txnFilters: MutableLiveData<co.yap.modules.dashboard.home.filters.models.TransactionFilters> = MutableLiveData()
+    override var txnFilters: MutableLiveData<co.yap.modules.dashboard.home.filters.models.TransactionFilters> =
+        MutableLiveData()
+
     override fun handlePressOnView(id: Int) {
         clickEvent.setValue(id)
     }
@@ -33,7 +36,7 @@ class TransactionFiltersViewModel(application: Application) :
                 is RetroApiResponse.Success -> transactionFilters.value = response.data.data
                 is RetroApiResponse.Error -> {
                     state.toast = response.error.message
-                    state.error = response.error.message
+                    state.hasInternet.set(response.error.statusCode == 504)
                 }
             }
             state.loading = false

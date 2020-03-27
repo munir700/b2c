@@ -6,6 +6,7 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentActivity
+import co.yap.app.di.component.AppComponent
 import co.yap.app.di.component.AppInjector
 import co.yap.app.modules.login.activities.VerifyPassCodePresenterActivity
 import co.yap.household.onboard.onboarding.invalideid.InvalidEIDFragment
@@ -17,13 +18,17 @@ import co.yap.networking.interfaces.NetworkConstraintsListener
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.Constants.EXTRA
 import co.yap.yapcore.constants.Constants.KEY_APP_UUID
-import co.yap.yapcore.helpers.*
+import co.yap.yapcore.helpers.AppInfo
+import co.yap.yapcore.helpers.AuthUtils
+import co.yap.yapcore.helpers.NetworkConnectionManager
+import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.extentions.longToast
 import co.yap.yapcore.helpers.extentions.startFragment
 import co.yap.yapcore.initializeAdjustSdk
+import com.android.installreferrer.api.InstallReferrerClient
+import com.android.installreferrer.api.InstallReferrerStateListener
+import com.android.installreferrer.api.ReferrerDetails
 import com.crashlytics.android.Crashlytics
-import co.yap.app.di.component.AppComponent
-import co.yap.app.di.component.DaggerAppComponent
 import com.github.florent37.inlineactivityresult.kotlin.startForResult
 import com.leanplum.Leanplum
 import com.leanplum.LeanplumActivityHelper
@@ -58,6 +63,42 @@ class AAPApplication : ChatApplication(
         initFireBase()
         inItLeanPlum()
         initializeAdjustSdk(BuildConfig.ADJUST_APP_TOKEN)
+    }
+
+    private fun testApp() {
+        val referrerClient = InstallReferrerClient.newBuilder(this).build()
+        referrerClient.startConnection(object : InstallReferrerStateListener {
+            override fun onInstallReferrerSetupFinished(responseCode: Int) {
+                when (responseCode) {
+                    InstallReferrerClient.InstallReferrerResponse.OK -> {
+                        val response: ReferrerDetails = referrerClient.installReferrer
+                        val referrerUrl: String = response.installReferrer
+                        val referrerClickTime: Long = response.referrerClickTimestampSeconds
+                        val appInstallTime: Long = response.installBeginTimestampSeconds
+                        val instantExperienceLaunched: Boolean = response.googlePlayInstantParam
+//                        longToast("InstallReferrerClient.InstallReferrerResponse.OK")
+//                        longToast("ReferrerDetails from application class-> ${response.toString()}")
+//                        longToast(
+//                            "ReferrerDetails $referrerUrl $referrerClickTime " +
+//                                    "$appInstallTime $instantExperienceLaunched"
+//                        )
+                    }
+                    InstallReferrerClient.InstallReferrerResponse.FEATURE_NOT_SUPPORTED -> {
+                        // API not available on the current Play Store app.
+//                        longToast("InstallReferrerClient.InstallReferrerResponse.FEATURE_NOT_SUPPORTED")
+                    }
+                    InstallReferrerClient.InstallReferrerResponse.SERVICE_UNAVAILABLE -> {
+//                        longToast("InstallReferrerClient.InstallReferrerResponse.SERVICE_UNAVAILABLE")
+                    }
+                }
+            }
+
+            override fun onInstallReferrerServiceDisconnected() {
+                // Try to restart the connection on the next request to
+                // Google Play by calling the startConnection() method.
+//                longToast("InstallReferrerClient.onInstallReferrerServiceDisconnected")
+            }
+        })
     }
 
     private fun initNetworkLayer() {

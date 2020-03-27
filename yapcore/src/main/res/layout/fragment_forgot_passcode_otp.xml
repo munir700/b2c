@@ -12,12 +12,15 @@
         <import type="co.yap.translation.Strings" />
 
     </data>
-
+<ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true">
     <androidx.constraintlayout.widget.ConstraintLayout
 
         android:id="@+id/layout2"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:background="@color/white"
         android:paddingStart="@dimen/margin_medium"
         android:paddingTop="@dimen/margin_normal"
@@ -27,14 +30,14 @@
 
         <TextView
             android:id="@+id/tvTitle"
+            style="@style/ALarge"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_extra_large"
-            style="@style/ALarge"
-            android:textColor="?attr/colorPrimaryDarkAttr"
             android:gravity="center_horizontal"
             android:paddingTop="@dimen/margin_extra_large"
             android:text="@{viewModel.state.verificationTitle}"
+            android:textColor="?attr/colorPrimaryDarkAttr"
             app:layout_constraintBottom_toTopOf="@+id/layout2"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -78,8 +81,7 @@
             app:otp_box_background_error="@drawable/otp_bg_error"
             app:otp_box_background_success="@drawable/otp_bg_success"
             app:otp_text_size="@dimen/_24sdp"
-            app:requestKeyboard="@{true}"
-            />
+            app:requestKeyboard="@{true}" />
 
 
         <TextView
@@ -100,20 +102,18 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"
-            android:layout_marginBottom="@dimen/margin_medium"
             android:background="@null"
             android:enabled="@{viewModel.state.validResend}"
             android:gravity="center"
             android:lineSpacingExtra="1sp"
             android:onClick="@{(v) -> viewModel.handlePressOnResendOTP(context)}"
+            android:paddingBottom="@dimen/margin_extra_small"
             android:textAllCaps="false"
             android:textColor="@{viewModel.state.color}"
-            app:layout_constraintBottom_toTopOf="@+id/done"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvTimer"
-            app:layout_constraintVertical_bias="0.123"
+            app:layout_constraintVertical_bias="1.0"
             app:text="@{Strings.screen_verify_phone_number_button_resend_otp}"
             tools:text="Resend code" />
 
@@ -121,20 +121,21 @@
             android:id="@+id/done"
             style="@style/FragmentsBtnStyle"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/_48sdp"
             android:layout_marginStart="@dimen/margin_xxl"
-            android:layout_marginTop="@dimen/margin_medium"
             android:layout_marginEnd="@dimen/margin_xxl"
             android:onClick="@{(v) -> viewModel.handlePressOnSendButton(v.id)}"
+            android:paddingTop="@dimen/margin_xl"
             android:text="@string/screen_phone_number_button_send"
             app:enableCoreButton="@{viewModel.state.valid}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/button10"
             app:layout_constraintVertical_bias="1.0"
-            tools:ignore="MissingConstraints"
-            tools:layout_editor_absoluteX="44dp" />
+            tools:ignore="MissingConstraints" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>
 </layout>

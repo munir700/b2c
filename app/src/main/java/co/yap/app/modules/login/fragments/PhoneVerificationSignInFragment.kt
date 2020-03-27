@@ -13,10 +13,9 @@ import co.yap.app.modules.login.viewmodels.PhoneVerificationSignInViewModel
 import co.yap.household.onboard.onboarding.main.OnBoardingHouseHoldActivity
 import co.yap.modules.onboarding.fragments.OnboardingChildFragment
 import co.yap.networking.customers.responsedtos.AccountInfo
-import co.yap.yapcore.enums.AccountStatus
+
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.biometric.BiometricUtil
-import co.yap.yapcore.helpers.extentions.trackEventWithAttributes
 import co.yap.yapcore.managers.MyUserManager
 
 class PhoneVerificationSignInFragment : OnboardingChildFragment<IPhoneVerificationSignIn.ViewModel>() {
@@ -64,6 +63,31 @@ class PhoneVerificationSignInFragment : OnboardingChildFragment<IPhoneVerificati
                 gotoHouseHold(MyUserManager.isOnBoarded(), MyUserManager.user)
             } else {
                 gotoYapDashboard()
+                if (BiometricUtil.isFingerprintSupported
+                    && BiometricUtil.isHardwareSupported(requireActivity())
+                    && BiometricUtil.isPermissionGranted(requireActivity())
+                    && BiometricUtil.isFingerprintAvailable(requireActivity())
+                ) {
+                    SharedPreferenceManager(requireContext())
+                    if (SharedPreferenceManager(requireContext()).getValueBoolien(
+                            co.yap.yapcore.constants.Constants.KEY_TOUCH_ID_ENABLED,
+                            false
+                        )
+                    ) {
+                        findNavController().navigate(R.id.action_goto_yapDashboardActivity)
+                        activity?.finish()
+                    } else {
+                        val action =
+                            PhoneVerificationSignInFragmentDirections.actionPhoneVerificationSignInFragmentToSystemPermissionFragment(
+                                Constants.TOUCH_ID_SCREEN_TYPE
+                            )
+                        findNavController().navigate(action)
+                    }
+
+                } else {
+                    findNavController().navigate(R.id.action_goto_yapDashboardActivity)
+                    activity?.finish()
+                }
             }
         }
     }
@@ -106,13 +130,6 @@ class PhoneVerificationSignInFragment : OnboardingChildFragment<IPhoneVerificati
         }
     }
 
-    private fun setUserAttributes() {
-        trackEventWithAttributes(
-            MyUserManager.user,
-            viewModel.parentViewModel?.onboardingData?.elapsedOnboardingTime.toString()
-        )
-    }
-
     private fun setUsername() {
         viewModel.state.username =
             arguments?.let { PhoneVerificationSignInFragmentArgs.fromBundle(it).username } as String
@@ -122,4 +139,6 @@ class PhoneVerificationSignInFragment : OnboardingChildFragment<IPhoneVerificati
         viewModel.state.passcode =
             arguments?.let { PhoneVerificationSignInFragmentArgs.fromBundle(it).passcode } as String
     }
+
+
 }

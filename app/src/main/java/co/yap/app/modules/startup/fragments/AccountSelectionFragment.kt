@@ -20,6 +20,7 @@ import co.yap.widgets.video.ExoPlayerCallBack
 import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.enums.AccountType
 import co.yap.yapcore.helpers.extentions.trackEvent
+import co.yap.yapcore.leanplum.KYCEvents
 import com.daimajia.androidanimations.library.Techniques
 import com.daimajia.androidanimations.library.YoYo
 import com.google.android.exoplayer2.Player
@@ -163,7 +164,6 @@ class AccountSelectionFragment : BaseBindingFragment<IAccountSelection.ViewModel
                     findNavController().navigate(R.id.action_accountSelectionFragment_to_loginFragment)
                 }
                 R.id.btnPersonal -> {
-                    trackEvent("Get started")
                     findNavController().navigate(
                         R.id.action_accountSelectionFragment_to_welcomeFragment,
                         Bundle().apply {

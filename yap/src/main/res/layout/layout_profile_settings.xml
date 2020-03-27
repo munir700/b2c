@@ -81,6 +81,7 @@
                         android:layout_gravity="center_vertical|center"
                         android:src="@drawable/ic_exclamation"
                         app:layout_constraintEnd_toEndOf="parent"
+                        android:tint="@color/colorPrimaryDark"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/tvSpareCardTile" />
                 </FrameLayout>
@@ -123,6 +124,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
+                android:visibility="gone"
                 android:orientation="horizontal">
 
                 <ImageView
@@ -159,7 +161,6 @@
                 android:id="@+id/llPasscode"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_normal"
                 android:layout_marginBottom="@dimen/margin_normal"
                 android:gravity="center_vertical"
                 android:orientation="horizontal">

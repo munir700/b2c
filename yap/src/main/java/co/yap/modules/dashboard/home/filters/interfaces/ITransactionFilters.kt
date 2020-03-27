@@ -24,5 +24,6 @@ interface ITransactionFilters {
         var selectedStartRange: ObservableField<Double>
         var selectedEndRange: ObservableField<Double>
         var selectedTxnType: ObservableField<String?>
+        var hasInternet: ObservableField<Boolean>
     }
 }

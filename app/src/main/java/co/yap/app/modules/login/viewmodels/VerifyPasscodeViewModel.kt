@@ -2,12 +2,10 @@ package co.yap.app.modules.login.viewmodels
 
 import android.app.Application
 import android.os.CountDownTimer
-import android.util.Log
 import co.yap.app.constants.Constants
 import co.yap.app.modules.login.interfaces.IVerifyPasscode
 import co.yap.app.modules.login.states.VerifyPasscodeState
 import co.yap.networking.authentication.AuthRepository
-import co.yap.networking.authentication.requestdtos.SwitchProfileRequest
 import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.messages.MessagesRepository
@@ -15,6 +13,7 @@ import co.yap.networking.messages.requestdtos.CreateForgotPasscodeOtpRequest
 import co.yap.networking.messages.requestdtos.CreateOtpGenericRequest
 import co.yap.networking.models.ApiError
 import co.yap.networking.models.RetroApiResponse
+import co.yap.translation.Strings
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.SingleLiveEvent
@@ -22,7 +21,6 @@ import co.yap.yapcore.constants.Constants.KEY_IS_USER_LOGGED_IN
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.toast
-import co.yap.yapcore.helpers.extentions.trackEventWithAttributes
 import co.yap.yapcore.managers.MyUserManager
 import java.util.concurrent.TimeUnit
 
@@ -42,11 +40,9 @@ class VerifyPasscodeViewModel(application: Application) :
     private val customersRepository: CustomersRepository = CustomersRepository
     override var mobileNumber: String = ""
     override var EVENT_LOGOUT_SUCCESS: Int = 101
-
     private val messagesRepository: MessagesRepository = MessagesRepository
 
     override fun login() {
-
         launch {
             state.loading = true
             when (val response = repository.login(state.username, state.passcode)) {
@@ -87,8 +83,7 @@ class VerifyPasscodeViewModel(application: Application) :
     }
 
     override fun showAccountBlockedError() {
-        state.dialerError =
-            "Too many attempts. For your security your account is blocked. Please click on forgot passcode to reset your passcode"
+        state.dialerError = getString(Strings.screen_verify_passcode_text_account_locked)
         state.isScreenLocked.set(true)
         state.isAccountLocked.set(true)
         state.valid = false
@@ -207,7 +202,6 @@ class VerifyPasscodeViewModel(application: Application) :
             }
         }
     }
-
     override fun createOtp() {
         launch {
             state.loading = true
@@ -227,9 +221,5 @@ class VerifyPasscodeViewModel(application: Application) :
 
     override fun handlePressOnSignInButton() {
         signInButtonPressEvent.postValue(true)
-    }
-
-    private fun setUserAttributes() {
-        trackEventWithAttributes(MyUserManager.user)
     }
 }

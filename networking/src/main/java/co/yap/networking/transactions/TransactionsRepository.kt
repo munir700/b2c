@@ -87,10 +87,10 @@ object TransactionsRepository : BaseRepository(), TransactionsApi {
     override suspend fun getFundTransferDenominations(productCode: String): RetroApiResponse<FundTransferDenominationsResponse> =
         executeSafely(call = { api.getFundTransferDenominations(productCode) })
 
-    override suspend fun getCardFee(cardType: String): RetroApiResponse<CardFeeResponse> =
+    override suspend fun getCardFee(cardType: String): RetroApiResponse<RemittanceFeeResponse> =
         executeSafely(call = { api.getCardFee(cardType) })
 
-    override suspend fun getDebitCardFee(): RetroApiResponse<CardFeeResponse> =
+    override suspend fun getDebitCardFee(): RetroApiResponse<RemittanceFeeResponse> =
         executeSafely(call = { api.getDebitCardFee() })
 
     override suspend fun getTransactionFeeWithProductCode(
@@ -205,7 +205,7 @@ object TransactionsRepository : BaseRepository(), TransactionsApi {
     override suspend fun swiftTransferRequest(swiftTransactionRequestDTO: SwiftTransactionRequestDTO): RetroApiResponse<SendMoneyTransactionResponseDTO> =
         executeSafely(call = { api.swiftTransferRequest(swiftTransactionRequestDTO) })
 
-    override suspend fun getHousholdFeePackage(packageType: String): RetroApiResponse<CardFeeResponse> =
+    override suspend fun getHousholdFeePackage(packageType: String): RetroApiResponse<RemittanceFeeResponse> =
         executeSafely(call = { api.getHousholdFeePackage(packageType) })
 
     override suspend fun getTransactionThresholds(): RetroApiResponse<TransactionThresholdResponseDTO> =

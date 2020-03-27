@@ -37,13 +37,13 @@ class ForgotPasscodeSuccessFragment : BaseBindingFragment<IForgotPasscodeSuccess
                 activity?.finish()
             }else{
                 sharedPreferenceManager.save(KEY_IS_USER_LOGGED_IN, false)
-                val intent=Intent(context,Class.forName("co.yap.app.activities.MainActivity"))
-
+                //val intent=Intent(context,Class.forName("co.yap.app.activities.MainActivity"))
+                val intent = Intent("co.yap.app.OPEN_LOGIN")
                 intent.flags=Intent.FLAG_ACTIVITY_CLEAR_TASK
                 intent.flags=Intent.FLAG_ACTIVITY_CLEAR_TOP
                 intent.flags=Intent.FLAG_ACTIVITY_NO_HISTORY
                 intent.flags=Intent.FLAG_ACTIVITY_NEW_TASK
-                startActivity(intent)
+                requireContext().startActivity(intent)
                 activity?.finish()
             }
            // findNavController().popBackStack(R.id.loginFragment,false)

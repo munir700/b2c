@@ -21,7 +21,7 @@ import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionsR
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.enums.CardStatus
-import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -238,7 +238,7 @@ class PaymentCardDetailViewModel(application: Application) :
                         }
                         card.value?.availableBalance = cardBalance?.availableBalance.toString()
                         state.cardBalance =
-                            cardBalance?.currencyCode + " " + Utils.getFormattedCurrency(cardBalance?.availableBalance)
+                            cardBalance?.currencyCode + " " + cardBalance?.availableBalance?.toFormattedCurrency()
                     } catch (e: Exception) {
                         e.printStackTrace()
                     }
@@ -292,7 +292,11 @@ class PaymentCardDetailViewModel(application: Application) :
         launch {
             state.loading = true
             when (val response =
-                cardsRepository.removeCard(CardLimitConfigRequest(card.value?.cardSerialNumber!!))) {
+                cardsRepository.removeCard(
+                    CardLimitConfigRequest(
+                        card.value?.cardSerialNumber ?: ""
+                    )
+                )) {
                 is RetroApiResponse.Success -> {
                     clickEvent.setValue(EVENT_REMOVE_CARD)
                 }

@@ -13,7 +13,7 @@ enum class SignupEvents(val type: String) {
     SIGN_UP_EMAIL("Signup_email"),
     SIGN_UP_END("Signup_end"),
     SIGN_UP_DATE("Signup_date"),
-    SIGN_UP_TIME("Signup_time"),
+    SIGN_UP_TIMESTAMP("Signup_timestamp"),
     SIGN_UP_LENGTH("Signup_length"),
 }
 
@@ -27,5 +27,7 @@ enum class KYCEvents(val type: String) {
     EID_UNDER_AGE_18("EIDA callback - under 18"),
     //KYC_US_CITIZEN("EIDA callback - US Citizen"),
     KYC_PROHIBITED_CITIIZEN("EIDA callback - CB prohibited citizens"),
-    CARD_ACTIVE("PIN success")
+    CARD_ACTIVE("account_active"),
+    EID_EXPIRE("eid_expired"),
+    EID_EXPIRE_DATE("eid_expiry_date")
 }

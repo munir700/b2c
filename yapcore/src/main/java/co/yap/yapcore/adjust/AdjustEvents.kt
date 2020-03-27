@@ -13,5 +13,7 @@ enum class AdjustEvents(val type: String) {
     SIGN_UP_END("4c9qmq"),
     SIGN_UP_START("73mcc8"),
     TOP_UP_END("jw0tz5"),
-    TOP_UP_START("cadxmk");
+    TOP_UP_START("cadxmk"),
+    INVITER("sgy2ni");
+
 }

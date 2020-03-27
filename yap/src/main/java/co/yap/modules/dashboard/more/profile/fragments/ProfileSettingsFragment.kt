@@ -92,7 +92,7 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
                 }
             }
         } else {
-            llSignInWithTouch.visibility = View.INVISIBLE
+            llSignInWithTouch.visibility = View.GONE
         }
     }
 
@@ -211,7 +211,11 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
         activity?.finish()
     }
 
-    override fun onRequestPermissionsResult(requestCode: Int, @NonNull permissions: Array<String>, @NonNull grantResults: IntArray) {
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        @NonNull permissions: Array<String>,
+        @NonNull grantResults: IntArray
+    ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (permissionHelper != null) {
             permissionHelper!!.onRequestPermissionsResult(requestCode, permissions, grantResults)
@@ -250,8 +254,11 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
                 }
 
                 R.id.tvTermsAndConditionView -> {
-                    startFragment(fragmentName = WebViewFragment::class.java.name , bundle = bundleOf(
-                        co.yap.yapcore.constants.Constants.PAGE_URL to co.yap.yapcore.constants.Constants.URL_TERMS_CONDITION),showToolBar = true )
+                    startFragment(
+                        fragmentName = WebViewFragment::class.java.name, bundle = bundleOf(
+                            co.yap.yapcore.constants.Constants.PAGE_URL to co.yap.yapcore.constants.Constants.URL_TERMS_CONDITION
+                        ), showToolBar = true
+                    )
                 }
 
                 R.id.tvFollowOnInstagram -> {

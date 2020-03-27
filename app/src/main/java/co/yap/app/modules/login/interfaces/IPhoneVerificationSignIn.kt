@@ -1,6 +1,7 @@
 package co.yap.app.modules.login.interfaces
 
 import android.content.Context
+import androidx.databinding.ObservableField
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleLiveEvent
 
@@ -27,5 +28,6 @@ interface IPhoneVerificationSignIn {
         var validateBtn: Boolean
         fun reverseTimer(Seconds: Int,context: Context)
         var color: Int
+        var isOtpBlocked: ObservableField<Boolean>
     }
 }

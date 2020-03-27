@@ -128,12 +128,11 @@ class EmailState(application: Application) : BaseState(), IEmail.State {
         }
 
 
-
-    private fun setSuccessUI() {
+    fun setSuccessUI() {
         refreshField = true
         valid = true
         emailError = ""
-        drawbleRight = context!!.resources.getDrawable(co.yap.yapcore.R.drawable.path)
+        drawbleRight = context.resources.getDrawable(co.yap.yapcore.R.drawable.path)
     }
 
     private fun setErrorUI(): Boolean {

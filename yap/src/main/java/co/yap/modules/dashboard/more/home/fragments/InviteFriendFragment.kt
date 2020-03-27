@@ -2,6 +2,7 @@ package co.yap.modules.dashboard.more.home.fragments
 
 import android.content.Intent
 import android.os.Bundle
+import android.text.format.DateFormat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
@@ -10,6 +11,10 @@ import co.yap.modules.dashboard.more.home.interfaces.IInviteFriend
 import co.yap.modules.dashboard.more.home.viewmodels.InviteFriendViewModel
 import co.yap.translation.Strings
 import co.yap.yapcore.BaseBindingFragment
+import co.yap.yapcore.helpers.DateUtils
+import co.yap.yapcore.managers.MyUserManager
+import java.util.*
+
 
 class InviteFriendFragment : BaseBindingFragment<IInviteFriend.ViewModel>(), IInviteFriend.View {
     override fun getBindingVariable(): Int = BR.viewModel
@@ -49,9 +54,14 @@ class InviteFriendFragment : BaseBindingFragment<IInviteFriend.ViewModel>(), IIn
     }
 
     private fun getBody(): String {
+        val userId = MyUserManager.user?.currentCustomer?.customerId
+        val date = DateUtils.getCurrentDateWithFormat("yyyy-MM-dd hh:mm:ss")
+        val time = date.replace(" ", "_")
+        val message =
+            "https://grwl.adj.st?adjust_t=q3o2z0e_sv94i35&inviter=$userId&time=${time.trim()}"
         return getString(Strings.screen_invite_friend_display_text_share_url).format(
             "www.apple.com",
-            "www.playstore.com"
+            message
         )
     }
 

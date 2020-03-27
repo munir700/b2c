@@ -14,6 +14,7 @@ import co.yap.translation.Strings
 import co.yap.translation.Translator
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.SingleLiveEvent
+import co.yap.yapcore.helpers.extentions.toFormattedAmountWithCurrency
 
 class ReportLostOrStolenCardViewModels(application: Application) :
     ReportLostOrStolenCardChildViewModels<IRepostOrStolenCard.State>(application),
@@ -123,10 +124,19 @@ class ReportLostOrStolenCardViewModels(application: Application) :
         launch {
             when (val response = transactionRepository.getCardFee("physical")) {
                 is RetroApiResponse.Success -> {
-                    cardFee = response.data.data?.currency + " " + response.data.data?.amount
+                    if (response.data.data != null) {
+                        if (response.data.data?.feeType == co.yap.yapcore.constants.Constants.FEE_TYPE_FLAT) {
+                            val feeAmount = response.data.data?.tierRateDTOList?.get(0)?.feeAmount
+                            val VATAmount = response.data.data?.tierRateDTOList?.get(0)?.vatAmount
+                            cardFee =
+                                feeAmount?.plus(VATAmount ?: 0.0).toString()
+                                    .toFormattedAmountWithCurrency()
+                        }
+                    } else {
+                        cardFee = "0.0".toFormattedAmountWithCurrency()
+                    }
                     toggleReportCardToolBarVisibility(false)
                     clickEvent.setValue(CARD_REORDER_SUCCESS)
-
                 }
                 is RetroApiResponse.Error -> {
                     state.toast = response.error.message
@@ -139,7 +149,17 @@ class ReportLostOrStolenCardViewModels(application: Application) :
         launch {
             when (val response = transactionRepository.getDebitCardFee()) {
                 is RetroApiResponse.Success -> {
-                    cardFee = ("${response.data.data?.currency} ${response.data.data?.amount}")
+                    if (response.data.data != null) {
+                        if (response.data.data?.feeType == co.yap.yapcore.constants.Constants.FEE_TYPE_FLAT) {
+                            val feeAmount = response.data.data?.tierRateDTOList?.get(0)?.feeAmount
+                            val VATAmount = response.data.data?.tierRateDTOList?.get(0)?.vatAmount
+                            cardFee =
+                                feeAmount?.plus(VATAmount ?: 0.0).toString()
+                                    .toFormattedAmountWithCurrency()
+                        }
+                    } else {
+                        cardFee = "0.0".toFormattedAmountWithCurrency()
+                    }
                     toggleReportCardToolBarVisibility(false)
                     clickEvent.setValue(CARD_REORDER_SUCCESS)
                 }

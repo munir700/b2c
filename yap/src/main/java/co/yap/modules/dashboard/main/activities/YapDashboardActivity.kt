@@ -33,10 +33,10 @@ import co.yap.modules.dashboard.main.interfaces.IYapDashboard
 import co.yap.modules.dashboard.main.viewmodels.YapDashBoardViewModel
 import co.yap.modules.dashboard.more.main.activities.MoreActivity
 import co.yap.modules.dashboard.unverifiedemail.UnVerifiedEmailActivity
-import co.yap.modules.dashboard.yapit.sendmoney.home.activities.SendMoneyLandingActivity
-import co.yap.modules.dashboard.yapit.topup.landing.TopUpLandingActivity
+ import co.yap.modules.dashboard.yapit.topup.landing.TopUpLandingActivity
 import co.yap.modules.dashboard.yapit.y2y.home.activities.YapToYapDashboardActivity
 import co.yap.modules.others.fragmentpresenter.activities.FragmentPresenterActivity
+import co.yap.sendMoney.home.activities.SendMoneyLandingActivity
 import co.yap.translation.Strings
 import co.yap.widgets.CoreButton
 import co.yap.widgets.arcmenu.FloatingActionMenu
@@ -50,7 +50,6 @@ import co.yap.yapcore.helpers.extentions.launchActivity
 import co.yap.yapcore.helpers.permissions.PermissionHelper
 import co.yap.yapcore.managers.MyUserManager
 import kotlinx.android.synthetic.main.activity_yap_dashboard.*
-
 import kotlinx.android.synthetic.main.layout_drawer_yap_dashboard.*
 import net.cachapa.expandablelayout.ExpandableLayout
 
@@ -181,7 +180,8 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
             when (it) {
                 R.id.btnCopy -> viewModel.copyAccountInfoToClipboard()
                 R.id.lUserInfo -> expandableLayout.toggle(true)
-                R.id.lAnalytics -> showToast("m in analytics")
+                R.id.lAnalytics -> {
+                }
             }
         })
 
@@ -319,10 +319,9 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
         getViewBinding().includedDrawerLayout.lStatements.lnAnalytics.setOnClickListener {
             MyUserManager.getPrimaryCard()?.let {
                 launchActivity<CardStatementsActivity> {
-                    putExtra(CardStatementsActivity.CARD, it)
-                    putExtra("isFromDrawer",true)
+                    putExtra("card", it)
+                    putExtra("isFromDrawer", true)
                 }
-                //startActivity(CardStatementsActivity.newIntent(this, it))
                 closeDrawer()
             }
         }

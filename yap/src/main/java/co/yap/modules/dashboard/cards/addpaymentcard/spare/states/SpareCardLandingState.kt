@@ -16,7 +16,7 @@ class SpareCardLandingState : BaseState(), ISpareCards.State{
         }
 
     @get:Bindable
-    override var physicalCardFee: String = ""
+    override var physicalCardFee: String = "AED 0.0"
         set(value) {
             field = value
             notifyPropertyChanged(BR.physicalCardFee)

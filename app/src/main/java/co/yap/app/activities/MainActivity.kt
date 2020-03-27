@@ -11,7 +11,6 @@ import co.yap.yapcore.helpers.DeviceUtils
 import co.yap.yapcore.interfaces.BackPressImpl
 import co.yap.yapcore.interfaces.IBaseNavigator
 
-
 open class MainActivity : DefaultActivity(), IFragmentHolder, INavigator {
 
     override val navigator: IBaseNavigator
@@ -22,13 +21,12 @@ open class MainActivity : DefaultActivity(), IFragmentHolder, INavigator {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        YAPApplication.AUTO_RESTART_APP = false
         if (DeviceUtils().isDeviceRooted()) {
             showAlertDialogAndExitApp("This device is rooted. You can't use this app.")
         } else {
-            YAPApplication.AUTO_RESTART_APP = false
             setContentView(R.layout.activity_main)
         }
-
     }
 
     override fun onBackPressed() {
@@ -41,5 +39,5 @@ open class MainActivity : DefaultActivity(), IFragmentHolder, INavigator {
     fun onBackPressedDummy() {
         super.onBackPressed()
     }
-
 }
+

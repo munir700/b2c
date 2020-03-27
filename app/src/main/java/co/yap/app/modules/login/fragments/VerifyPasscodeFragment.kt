@@ -117,8 +117,9 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
             if (sharedPreferenceManager.getValueBoolien(
                     KEY_TOUCH_ID_ENABLED,
                     false
-                )
+                ) && sharedPreferenceManager.getDecryptedPassCode() != null
             ) {
+
                 dialer.showFingerprintView()
                 showFingerprintDialog()
             } else {
@@ -320,17 +321,17 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
     }
 
     private val switchProfileObserver = Observer<Boolean> {
-        if(it) {
+        if (it) {
             if (MyUserManager.isOnBoarded()) { // go to YAP dashboard
                 // check default profile if B2C then go to yap dashboard IF its household then move to household dashboard
 
-                if(MyUserManager.isDefaultUserYap()) {
+                if (MyUserManager.isDefaultUserYap()) {
                     gotoYapDashboard()
-                }else{
+                } else {
                     launchActivity<HouseholdDashboardActivity>()
                     activity?.finish()
                 }
-            }else{
+            } else {
                 // and notification is pending
                 val bundle = Bundle()
 //                bundle.putBoolean(OnBoardingHouseHoldActivity.EXISTING_USER, MyUserManager.isOnBoarded())
@@ -356,7 +357,6 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
             )
         findNavController().navigate(action)
     }
-
 
 
     private fun setUsername() {
@@ -426,10 +426,6 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
     }
 
     override fun onAuthenticationError(errorCode: Int, errString: CharSequence) {
-    }
-
-    private fun setUserAttributes() {
-        trackEventWithAttributes(MyUserManager.user)
     }
 }
 

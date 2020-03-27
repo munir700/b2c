@@ -12,6 +12,8 @@
 /authentication/build/*
 /authentication/build
 /household/build
+/send_money/*
+/profile/*
 /identityscanner_v2/build
 /identityscanner/build
 .DS_Store

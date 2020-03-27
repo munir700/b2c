@@ -378,6 +378,8 @@ object Strings {
         "screen_forgot_passcode_otp_display_text_heading"
     const val screen_forgot_passcode_otp_display_text_sub_heading: String =
         "screen_forgot_passcode_otp_display_text_sub_heading"
+    const val screen_verify_passcode_text_account_locked: String =
+        "screen_verify_passcode_text_account_locked"
 
     // Forgot posscode success screen
     const val screen_passcode_success_display_text_heading: String =
@@ -948,6 +950,8 @@ object Strings {
     const val screen_add_beneficiary_display_text_select_country: String =
         "screen_add_beneficiary_display_text_select_country"
     const val screen_add_beneficiary_button_next: String = "screen_add_beneficiary_button_next"
+    const val screen_add_beneficiary_detail_display_text_error_iban_current_user: String =
+        "screen_add_beneficiary_detail_display_text_error_iban_current_user"
 
 
     // Add Beneficiary transfer type
@@ -1078,6 +1082,10 @@ object Strings {
         "screen_international_funds_transfer_display_text_fee"
     const val screen_international_funds_transfer_display_text_note: String =
         "screen_international_funds_transfer_display_text_note"
+    const val screen_international_funds_transfer_display_text_cutoff_time_uaefts: String =
+        "screen_international_funds_transfer_display_text_cutoff_time_uaefts"
+    const val screen_international_funds_transfer_display_text_cutoff_time_swift: String =
+        "screen_international_funds_transfer_display_text_cutoff_time_swift"
 
     // Forgot card pin screen
     const val screen_forgot_pin_display_text_heading: String =

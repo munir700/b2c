@@ -11,9 +11,9 @@ import co.yap.modules.dashboard.home.helpers.transaction.ItemHeaderTransactionsV
 import co.yap.networking.transactions.responsedtos.transaction.Content
 import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionListData
 import co.yap.yapcore.BaseBindingRecyclerAdapter
-import co.yap.yapcore.enums.TxnType
 import co.yap.yapcore.databinding.ItemEmptyBinding
-import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.enums.TxnType
+import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 import co.yap.yapcore.interfaces.OnItemClickListener
 
 class TransactionsHeaderAdapter(
@@ -89,17 +89,18 @@ class TransactionsHeaderAdapter(
 
             var total = 0.0
             homeTransaction.content.map {
-                if (it.txnType == TxnType.DEBIT.type) total -= (it.totalAmount ?: 0.0) else total += (it.totalAmount?:0.0)
+                if (it.txnType == TxnType.DEBIT.type) total -= (it.totalAmount
+                    ?: 0.0) else total += (it.totalAmount ?: 0.0)
             }
 
             var value: String
             when {
                 total.toString().startsWith("-") -> {
-                    value = Utils.getFormattedCurrency((total * -1).toString())
+                    value = ((total * -1).toString().toFormattedCurrency()) ?: ""
                     value = "- $value"
                 }
                 else -> {
-                    value = Utils.getFormattedCurrency(total.toString())
+                    value = (total.toString().toFormattedCurrency()) ?: ""
                     value = "+ $value"
                 }
             }

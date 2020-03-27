@@ -22,7 +22,11 @@
         tools:layout="@layout/fragment_information_error">
 
         <argument
-            android:name="countryName"
+            android:name="errorTitle"
+            android:defaultValue=" "
+            app:argType="string" />
+        <argument
+            android:name="errorBody"
             android:defaultValue=" "
             app:argType="string" />
     </fragment>
@@ -40,7 +44,9 @@
         tools:layout="@layout/activity_eid_info_review">
         <action
             android:id="@+id/action_eidInfoReviewFragment_to_informationErrorFragment"
-            app:destination="@id/informationErrorFragment" />
+            app:destination="@id/informationErrorFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left" />
     </fragment>
 
     <fragment

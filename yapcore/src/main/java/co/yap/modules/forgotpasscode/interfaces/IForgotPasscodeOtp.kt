@@ -2,6 +2,7 @@ package co.yap.modules.forgotpasscode.interfaces
 
 import android.content.Context
 import android.text.SpannableStringBuilder
+import androidx.databinding.ObservableField
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
 
@@ -43,5 +44,6 @@ interface IForgotPasscodeOtp {
         var position: Int?
         var flagLayoutVisibility: Boolean?
         var beneficiaryCountry: String?
+        val isOtpBlocked:ObservableField<Boolean>
     }
 }

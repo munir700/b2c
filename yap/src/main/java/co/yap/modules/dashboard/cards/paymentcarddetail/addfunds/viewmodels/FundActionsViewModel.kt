@@ -16,6 +16,7 @@ import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 import co.yap.yapcore.managers.MyUserManager
 import kotlinx.coroutines.delay
 
@@ -32,6 +33,7 @@ open class FundActionsViewModel(application: Application) :
     override val thirdDenominationClickEvent: SingleClickEvent = SingleClickEvent()
     override var error: String = ""
     override var cardSerialNumber: String = ""
+    override var enteredAmount: MutableLiveData<String> = MutableLiveData()
 
     override val topUpTransactionModelLiveData: MutableLiveData<TopUpTransactionModel>? =
         MutableLiveData()
@@ -106,13 +108,17 @@ open class FundActionsViewModel(application: Application) :
                 productCode, RemittanceFeeRequest()
             )) {
                 is RetroApiResponse.Success -> {
-                    if (response.data.data?.feeType == Constants.FEE_TYPE_FLAT) {
-                        val feeAmount = response.data.data?.tierRateDTOList?.get(0)?.feeAmount
-                        val VATAmount = response.data.data?.tierRateDTOList?.get(0)?.vatAmount
-                        state.fee =
-                            Utils.getFormattedCurrency(feeAmount?.plus(VATAmount ?: 0.0).toString())
-                        clickEvent.postValue(Constants.CARD_FEE)
+                    if (response.data.data != null) {
+                        if (response.data.data?.feeType == Constants.FEE_TYPE_FLAT) {
+                            val feeAmount = response.data.data?.tierRateDTOList?.get(0)?.feeAmount
+                            val VATAmount = response.data.data?.tierRateDTOList?.get(0)?.vatAmount
+                            state.fee =
+                                feeAmount?.plus(VATAmount ?: 0.0).toString().toFormattedCurrency()
+                        }
+                    } else {
+                        state.fee = "0.0".toFormattedCurrency()
                     }
+                    clickEvent.postValue(Constants.CARD_FEE)
                 }
                 is RetroApiResponse.Error -> {
                     state.errorDescription = response.error.message

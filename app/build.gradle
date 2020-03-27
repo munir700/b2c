@@ -33,8 +33,8 @@ android {
         }
 
         qa {
-            versionCode 54
-            versionName "0.4.4"
+            versionCode 56
+            versionName "0.4.6"
             applicationIdSuffix ".qa"
             buildConfigField("String", "BASE_URL", "\"${api_endpoint_qa}\"")
             buildConfigField("String", "LEANPLUM_CLIENT_SECRET", "\"${leanplum_client_secret_key}\"")
@@ -44,8 +44,8 @@ android {
         }
 
         stg {
-            versionCode 52
-            versionName "0.5.2"
+            versionCode 65
+            versionName "0.6.5"
             applicationIdSuffix ".stg"
             buildConfigField("String", "BASE_URL", "\"${api_endpoint_stg}\"")
             buildConfigField("String", "LEANPLUM_CLIENT_SECRET", "\"${leanplum_client_secret_key}\"")
