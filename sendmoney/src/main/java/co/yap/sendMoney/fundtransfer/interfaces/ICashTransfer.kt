@@ -4,9 +4,9 @@ import android.graphics.drawable.Drawable
 import android.text.SpannableStringBuilder
 import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
-import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.networking.transactions.responsedtos.InternationalFundsTransferReasonList
 import co.yap.networking.transactions.responsedtos.TransactionThresholdModel
+import co.yap.networking.transactions.responsedtos.purposepayment.PurposeOfPayment
 import co.yap.networking.transactions.responsedtos.transaction.RemittanceFeeResponse
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
@@ -21,19 +21,23 @@ interface ICashTransfer {
         var reasonPosition: Int
         val clickEvent: SingleClickEvent
         val errorEvent: SingleClickEvent
-        fun handlePressOnView(id: Int)
         var transactionData: ArrayList<InternationalFundsTransferReasonList.ReasonList>
         val populateSpinnerData: MutableLiveData<ArrayList<InternationalFundsTransferReasonList.ReasonList>>
         var receiverUUID: String
         var transactionThreshold: MutableLiveData<TransactionThresholdModel>
-        fun getTransactionFeeForCashPayout(productCode: String?)
+        var purposeOfPaymentList: MutableLiveData<ArrayList<PurposeOfPayment>>
+        var transactionFeeResponse: MutableLiveData<RemittanceFeeResponse.RemittanceFee>
+        var feeTiers: List<RemittanceFeeResponse.RemittanceFee.TierRateDTO>
+        fun handlePressOnView(id: Int)
+        fun getTransferFees(productCode: String?)
         fun cashPayoutTransferRequest(beneficiaryId: Int?)
-        fun uaeftsTransferRequest(beneficiaryId: String?)
         fun getMoneyTransferLimits(productCode: String?)
         fun getCountryLimit()
         fun getTransactionThresholds()
         fun proceedToTransferAmount()
         fun getCashTransferReasonList()
+        fun getPurposeOfPayment()
+        fun processPurposeList(list: ArrayList<PurposeOfPayment>)
 
     }
 
@@ -41,33 +45,17 @@ interface ICashTransfer {
         var amountBackground: Drawable?
         var feeAmountSpannableString: SpannableStringBuilder?
         var availableBalanceString: CharSequence?
-        var feeAmountString: String
         var amount: String
         var valid: Boolean
         var minLimit: Double
-        var availableBalance: String?
         var errorDescription: String
         var maxLimit: Double
-        var availableBalanceText: String
-        var availableBalanceGuide: String
         var noteValue: String?
-        var feeStringVisibility: Boolean
-        var feeType: String?
         fun clearError()
-        fun findFee(value: Double): Double
-        fun setSpannableFee(totalAmount: String)
-        var transferFee: String
-        var transferFeeSpannable: SpannableStringBuilder?
-        var listItemRemittanceFee: List<RemittanceFeeResponse.RemittanceFee.TierRateDTO>
-        var transferFeeAmount: Double
-        var totalTransferAmount: ObservableField<Double>
+        var transferFeeSpannable: CharSequence?
+        var totalAmountWithFee: ObservableField<Double>
         var transactionData: ArrayList<InternationalFundsTransferReasonList.ReasonList>
         val populateSpinnerData: MutableLiveData<List<InternationalFundsTransferReasonList.ReasonList>>
-        var totalAmount: Double?
-        var reasonTransferValue: String?
-        var reasonTransferCode: String?
         var produceCode: String?
-
-        var originalTransferFeeAmount: ObservableField<String>
     }
 }

@@ -24,6 +24,7 @@ import co.yap.modules.otp.GenericOtpFragment
 import co.yap.modules.otp.LogoData
 import co.yap.modules.otp.OtpDataModel
 import co.yap.networking.transactions.responsedtos.InternationalFundsTransferReasonList
+import co.yap.networking.transactions.responsedtos.transaction.RemittanceFeeResponse
 import co.yap.sendMoney.fundtransfer.activities.BeneficiaryFundTransferActivity
 import co.yap.sendMoney.fundtransfer.interfaces.ICashTransfer
 import co.yap.sendMoney.fundtransfer.viewmodels.CashTransferViewModel
@@ -57,22 +58,30 @@ class CashTransferFragment : BeneficiaryFundTransferBaseFragment<ICashTransfer.V
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel.state.produceCode = getProductCode()
+        setSpannableFee("0.00")
+        viewModel.state.availableBalanceString =
+            resources.getText(
+                getString(Strings.screen_cash_transfer_display_text_available_balance),
+                requireContext().color(
+                    R.color.colorPrimaryDark,
+                    "${"AED"} ${MyUserManager.cardBalance.value?.availableBalance?.toFormattedCurrency()}"
+                )
+            )
+        setEditTextWatcher()
+        getProductCode()
         startFlows()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setUpData()
         if (viewModel.transactionData.size > 0)
             setSpinnerAdapter(viewModel.transactionData)
-
     }
 
     override fun setObservers() {
         viewModel.clickEvent.observe(this, clickEvent)
         viewModel.errorEvent.observe(this, Observer {
-            showErrorSnackBar()
+            viewModel.parentViewModel?.errorEvent?.value = viewModel.state.errorDescription
         })
         viewModel.isAPIFailed.observe(this, Observer {
             if (it) requireActivity().finish()
@@ -82,6 +91,47 @@ class CashTransferFragment : BeneficiaryFundTransferBaseFragment<ICashTransfer.V
             if (it == null) return@Observer
             setSpinnerAdapter(it)
         })
+        viewModel.purposeOfPaymentList.observe(this, Observer {
+            it?.let {
+                viewModel.processPurposeList(it)
+            }
+        })
+        viewModel.transactionFeeResponse.observe(this, Observer {
+            handleTxnFeeResponse(it)
+        })
+    }
+
+    private fun handleTxnFeeResponse(feeResponse: RemittanceFeeResponse.RemittanceFee?) {
+        when (feeResponse?.feeType) {
+            FeeType.FLAT.name -> {
+                handleFlatFee(feeResponse)
+            }
+
+            FeeType.TIER.name -> viewModel.feeTiers =
+                feeResponse.tierRateDTOList as ArrayList<RemittanceFeeResponse.RemittanceFee.TierRateDTO>
+
+            FeeType.PERCENTAGE.name -> {
+
+            }
+        }
+    }
+
+    private fun handleFlatFee(feeResponse: RemittanceFeeResponse.RemittanceFee) {
+        val totalFeeAmount = feeResponse.tierRateDTOList?.get(0)
+            ?.feeAmount?.plus(feeResponse.tierRateDTOList?.get(0)?.vatAmount ?: 0.0)
+        setSpannableFee(totalFeeAmount.toString())
+    }
+
+    private fun setSpannableFee(feeAmount: String?) {
+        viewModel.parentViewModel?.transferData?.value?.transferFee = feeAmount
+        viewModel.state.transferFeeSpannable = resources.getText(
+            getString(Strings.screen_international_funds_transfer_display_text_fee),
+            requireContext().color(R.color.colorPrimaryDark, "AED"),
+            requireContext().color(
+                R.color.colorPrimaryDark,
+                if (feeAmount.isNullOrBlank()) "0.00" else feeAmount.toFormattedCurrency() ?: "0.00"
+            )
+        )
     }
 
     private fun setSpinnerAdapter(list: ArrayList<InternationalFundsTransferReasonList.ReasonList>) {
@@ -117,8 +167,10 @@ class CashTransferFragment : BeneficiaryFundTransferBaseFragment<ICashTransfer.V
                     id: Long
                 ) {
                     viewModel.reasonPosition = position
-                    viewModel.state.reasonTransferValue = data[position].reason
-                    viewModel.state.reasonTransferCode = data[position].code
+                    viewModel.parentViewModel?.transferData?.value?.purposeCode =
+                        data[position].code
+                    viewModel.parentViewModel?.transferData?.value?.transferReason =
+                        data[position].reason
                 }
             }
         reasonsSpinnerCashTransfer.setSelection(viewModel.reasonPosition)
@@ -126,16 +178,8 @@ class CashTransferFragment : BeneficiaryFundTransferBaseFragment<ICashTransfer.V
 
     val clickEvent = Observer<Int> {
         when (it) {
-            R.id.btnConfirm -> {
-                if (isUaeftsBeneficiary())
-                    moveToConfirmationScreen()
-                else
-                    startOtpFragment()
-            }
-            R.id.viewTriggerSpinnerClickReasonCash -> {
-                reasonsSpinnerCashTransfer.performClick()
-            }
-
+            R.id.btnConfirm -> if (viewModel.isUaeftsBeneficiary()) moveToConfirmationScreen() else startOtpFragment()
+            R.id.viewTriggerSpinnerClickReasonCash -> reasonsSpinnerCashTransfer.performClick()
             Constants.ADD_CASH_PICK_UP_SUCCESS -> {
                 // Send Broadcast for updating transactions list in `Home Fragment`
                 val intent = Intent(Constants.BROADCAST_UPDATE_TRANSACTION)
@@ -149,12 +193,6 @@ class CashTransferFragment : BeneficiaryFundTransferBaseFragment<ICashTransfer.V
 
             }
         }
-    }
-
-    private fun isUaeftsBeneficiary(): Boolean {
-        viewModel.parentViewModel?.beneficiary?.value?.beneficiaryType?.let {
-            return (it == SendMoneyBeneficiaryType.UAEFTS.type || it == SendMoneyBeneficiaryType.DOMESTIC.type)
-        } ?: return false
     }
 
     private fun startOtpFragment() {
@@ -181,85 +219,11 @@ class CashTransferFragment : BeneficiaryFundTransferBaseFragment<ICashTransfer.V
 
     private fun moveToConfirmationScreen() {
         viewModel.parentViewModel?.transferData?.value?.transferAmount = viewModel.state.amount
-        viewModel.parentViewModel?.transferData?.value?.purposeCode =
-            viewModel.state.reasonTransferCode
-        viewModel.parentViewModel?.transferData?.value?.transferReason =
-            viewModel.state.reasonTransferValue
         viewModel.parentViewModel?.transferData?.value?.noteValue = viewModel.state.noteValue
         viewModel.parentViewModel?.transferData?.value?.sourceCurrency = "AED"
-        viewModel.parentViewModel?.transferData?.value?.transferFee =
-            viewModel.state.originalTransferFeeAmount.get().toString()
-
         val action =
             CashTransferFragmentDirections.actionCashTransferFragmentToCashTransferConfirmationFragment()
         findNavController().navigate(action)
-
-    }
-
-    private fun setUpData() {
-        viewModel.parentViewModel?.state?.leftIcon?.set(false)
-        viewModel.parentViewModel?.state?.rightIcon?.set(true)
-        viewModel.parentViewModel?.beneficiary?.value?.let { beneficiary ->
-            if (beneficiary.beneficiaryType == SendMoneyBeneficiaryType.CASHPAYOUT.type) {
-                viewModel.parentViewModel?.state?.toolBarTitle =
-                    getString(Strings.screen_cash_pickup_funds_display_text_header)
-            } else {
-                viewModel.parentViewModel?.state?.toolBarTitle =
-                    getString(Strings.screen_funds_local_toolbar_header)
-            }
-        }
-
-        viewModel.state.availableBalanceText =
-            " " + getString(Strings.common_text_currency_type) + " " +
-                    viewModel.state.availableBalance?.toFormattedCurrency()
-
-
-        etAmount.filters =
-            arrayOf(InputFilter.LengthFilter(7), DecimalDigitsInputFilter(2))
-        etAmount.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(p0: Editable?) {
-                viewModel.state.clearError()
-                if (viewModel.state.feeType == FeeType.TIER.name) {
-                    if (viewModel.state.amount.isNotEmpty() && viewModel.state.amount != ".") {
-                        viewModel.state.setSpannableFee(viewModel.state.findFee(viewModel.state.amount.toDouble()).toString())
-                    } else {
-                        viewModel.state.setSpannableFee("0.0")
-                    }
-                }
-                if (viewModel.state.amount.isNotEmpty()) {
-                    val totalAmount = viewModel.state.amount.toDoubleOrNull() ?: 0.0.plus(
-                        viewModel.state.transferFeeAmount
-                    )
-                    viewModel.state.totalTransferAmount.set(totalAmount)
-                    if (isBalanceAvailable()) {
-                        if (isDailyLimitReached()) {
-                            showLimitError()
-                            viewModel.state.valid = false
-                        } else {
-                            cancelAllSnackBar()
-                            viewModel.state.valid = true
-                        }
-                    } else {
-                        viewModel.state.valid = false
-                        showBalanceNotAvailableError()
-                    }
-                }
-
-            }
-
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-            }
-
-            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                if (p0?.length!! > 0) {
-                    etAmount.gravity = Gravity.CENTER_HORIZONTAL or CENTER_VERTICAL
-                } else {
-                    etAmount.gravity = Gravity.CENTER_HORIZONTAL or CENTER_VERTICAL
-                }
-
-
-            }
-        })
     }
 
     private fun showBalanceNotAvailableError() {
@@ -267,10 +231,7 @@ class CashTransferFragment : BeneficiaryFundTransferBaseFragment<ICashTransfer.V
             requireContext(),
             Strings.common_display_text_available_balance_error
         ).format(MyUserManager.cardBalance.value?.availableBalance?.toFormattedCurrency())
-        if (activity is BeneficiaryFundTransferActivity) {
-            (activity as BeneficiaryFundTransferActivity).viewModel.errorEvent.value =
-                des
-        }
+        viewModel.parentViewModel?.errorEvent?.value = des
     }
 
     private fun showLimitError() {
@@ -284,10 +245,7 @@ class CashTransferFragment : BeneficiaryFundTransferBaseFragment<ICashTransfer.V
         val availableBalance =
             MyUserManager.cardBalance.value?.availableBalance?.toDoubleOrNull()
         return if (availableBalance != null) {
-            val totalTransferAmount = viewModel.state.amount.toDoubleOrNull() ?: 0.0
-            +viewModel.state.transferFeeAmount
-
-            (availableBalance > totalTransferAmount)
+            (availableBalance > viewModel.state.totalAmountWithFee.get() ?: 0.0)
         } else
             false
     }
@@ -296,17 +254,15 @@ class CashTransferFragment : BeneficiaryFundTransferBaseFragment<ICashTransfer.V
         viewModel.transactionThreshold.value?.let {
             it.dailyLimit?.let { dailyLimit ->
                 it.totalDebitAmount?.let { totalConsumedAmount ->
-                    viewModel.state.totalTransferAmount.get()?.let { enteredAmount ->
+                    viewModel.state.amount.toDoubleOrNull()?.let { enteredAmount ->
                         val remainingDailyLimit =
                             if ((dailyLimit - totalConsumedAmount) < 0.0) 0.0 else (dailyLimit - totalConsumedAmount)
-
                         viewModel.state.errorDescription =
                             if (enteredAmount > dailyLimit) getString(Strings.common_display_text_daily_limit_error_single_transaction) else getString(
                                 Strings.common_display_text_daily_limit_error_single_transaction
                            )
 
                         return (enteredAmount > remainingDailyLimit)
-
                     } ?: return false
                 } ?: return false
             } ?: return false
@@ -314,44 +270,17 @@ class CashTransferFragment : BeneficiaryFundTransferBaseFragment<ICashTransfer.V
 
     }
 
-    private fun showErrorSnackBar() {
-        if (activity is BeneficiaryFundTransferActivity) {
-            (activity as BeneficiaryFundTransferActivity).viewModel.errorEvent.value =
-                viewModel.state.errorDescription
-        }
-    }
-
     private fun startFlows() {
         viewModel.parentViewModel?.beneficiary?.value?.beneficiaryType?.let { beneficiaryType ->
-            if (beneficiaryType.isNotEmpty())
-                when (SendMoneyBeneficiaryType.valueOf(beneficiaryType)) {
-                    //RMT is for international( RMT(linked with Rak))
-                    SendMoneyBeneficiaryType.RMT -> {
-                        skipCashTransferFragment()
-                    }
-                    //Swift is for international(non RMT(Not linked with Rak))
-                    SendMoneyBeneficiaryType.SWIFT -> {
-                        skipCashTransferFragment()
-                    }
-                    else -> {
-                        viewModel.state.availableBalance =
-                            MyUserManager.cardBalance.value?.availableBalance
-
-                        viewModel.state.availableBalanceString =
-                            resources.getText(
-                                getString(Strings.screen_cash_transfer_display_text_available_balance),
-                                requireContext().color(
-                                    R.color.colorPrimaryDark,
-                                    "${"AED"} ${viewModel.state.availableBalance?.toFormattedCurrency()}"
-                                )
-                            )
-                        viewModel.state.setSpannableFee("0.0")
-                        viewModel.getMoneyTransferLimits(viewModel.state.produceCode)
-                        viewModel.getTransactionFeeForCashPayout(viewModel.state.produceCode)
-                        viewModel.getCashTransferReasonList()
-                        setObservers()
-                    }
+            when (beneficiaryType) {
+                SendMoneyBeneficiaryType.RMT.type, SendMoneyBeneficiaryType.SWIFT.type -> skipCashTransferFragment()
+                else -> {
+                    viewModel.getMoneyTransferLimits(viewModel.state.produceCode)
+                    viewModel.getTransferFees(viewModel.state.produceCode)
+                    viewModel.getPurposeOfPayment()
+                    setObservers()
                 }
+            }
         }
     }
 
@@ -410,10 +339,15 @@ class CashTransferFragment : BeneficiaryFundTransferBaseFragment<ICashTransfer.V
     override fun onPause() {
         super.onPause()
         viewModel.isAPIFailed.removeObservers(this)
+        viewModel.purposeOfPaymentList.removeObservers(this)
+        viewModel.transactionFeeResponse.removeObservers(this)
     }
+
     override fun onDestroy() {
         viewModel.clickEvent.removeObservers(this)
         viewModel.isAPIFailed.removeObservers(this)
+        viewModel.purposeOfPaymentList.removeObservers(this)
+        viewModel.transactionFeeResponse.removeObservers(this)
         super.onDestroy()
     }
 
@@ -454,6 +388,52 @@ class CashTransferFragment : BeneficiaryFundTransferBaseFragment<ICashTransfer.V
 
         fun bind(reason: InternationalFundsTransferReasonList.ReasonList) {
             title.text = reason.reason
+        }
+    }
+
+    private fun setEditTextWatcher() {
+        etAmount.filters =
+            arrayOf(InputFilter.LengthFilter(7), DecimalDigitsInputFilter(2))
+        etAmount.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(p0: Editable?) {
+                viewModel.state.clearError()
+                viewModel.state.clearError()
+                if (viewModel.state.amount.isNotEmpty()) {
+                    viewModel.state.totalAmountWithFee.set(viewModel.getTotalAmountWithFee())
+                    if (viewModel.transactionFeeResponse.value?.feeType == FeeType.TIER.name)
+                        setSpannableFee(viewModel.getFeeFromTier(viewModel.state.amount))
+
+                    checkOnTextChangeValidation()
+                }
+            }
+
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                if (p0?.length!! > 0) {
+                    etAmount.gravity = Gravity.CENTER_HORIZONTAL or CENTER_VERTICAL
+                } else {
+                    etAmount.gravity = Gravity.CENTER_HORIZONTAL or CENTER_VERTICAL
+                }
+
+
+            }
+        })
+    }
+
+    private fun checkOnTextChangeValidation() {
+        if (isBalanceAvailable()) {
+            if (isDailyLimitReached()) {
+                showLimitError()
+                viewModel.state.valid = false
+            } else {
+                cancelAllSnackBar()
+                viewModel.state.valid = true
+            }
+        } else {
+            viewModel.state.valid = false
+            showBalanceNotAvailableError()
         }
     }
 
