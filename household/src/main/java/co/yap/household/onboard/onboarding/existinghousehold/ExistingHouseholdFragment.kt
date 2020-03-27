@@ -1,26 +1,20 @@
 package co.yap.household.onboard.onboarding.existinghousehold
 
 import android.os.Bundle
-import android.util.Log
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import androidx.navigation.fragment.findNavController
 import co.yap.household.BR
 import co.yap.household.R
-import co.yap.household.onboard.onboarding.main.OnBoardingHouseHoldActivity
 import co.yap.household.onboard.onboarding.householdsuccess.HouseHoldSuccessFragment
+import co.yap.household.onboard.onboarding.main.OnBoardingHouseHoldActivity
 import co.yap.modules.dashboard.main.activities.YapDashboardActivity
-import co.yap.modules.dashboard.yapit.y2y.home.activities.YapToYapDashboardActivity
 import co.yap.networking.customers.responsedtos.AccountInfo
 import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.IFragmentHolder
 import co.yap.yapcore.enums.AccountStatus
-import co.yap.yapcore.helpers.StringUtils
 import co.yap.yapcore.helpers.extentions.launchActivity
 import co.yap.yapcore.helpers.extentions.startFragment
-import co.yap.yapcore.helpers.extentions.toast
-import co.yap.yapcore.managers.MyUserManager
-import com.ezaka.customer.app.utils.toCamelCase
+import co.yap.yapcore.helpers.extentions.toCamelCase
 
 class ExistingHouseholdFragment : BaseBindingFragment<IExistingHouseHold.ViewModel>(),
     IFragmentHolder {
