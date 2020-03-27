@@ -4,10 +4,11 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.omega_r.libs.omegarecyclerview.expandable_recycler_view.OmegaExpandableRecyclerView;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import co.yap.widgets.expandableview.OmegaExpandableRecyclerView;
 
 public class AnimationHelper {
     public int totalChanges;

@@ -8,13 +8,13 @@ import android.view.ViewPropertyAnimator;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.omega_r.libs.omegarecyclerview.expandable_recycler_view.ChildClippingFrameLayout;
-import com.omega_r.libs.omegarecyclerview.expandable_recycler_view.OmegaExpandableRecyclerView;
-import com.omega_r.libs.omegarecyclerview.expandable_recycler_view.animation.ExpandableItemAnimator;
-import com.omega_r.libs.omegarecyclerview.expandable_recycler_view.layout_manager.ExpandableLayoutManager;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import co.yap.widgets.expandableview.ChildClippingFrameLayout;
+import co.yap.widgets.expandableview.OmegaExpandableRecyclerView;
+import co.yap.widgets.expandableview.animation.ExpandableItemAnimator;
+import co.yap.widgets.expandableview.layout_manager.ExpandableLayoutManager;
 
 @TargetApi(Build.VERSION_CODES.LOLLIPOP)
 public final class DropDownItemAnimator extends ExpandableItemAnimator {

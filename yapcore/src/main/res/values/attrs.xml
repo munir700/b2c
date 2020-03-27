@@ -503,4 +503,40 @@
         <enum name="aspect_mp3" value="5" />
     </attr>
 
+    <declare-styleable name="OmegaRecyclerView">
+        <attr name="childAnimation" format="enum">
+            <enum name="Default" value="0" />
+            <enum name="Fade" value="1" />
+            <enum name="Dropdown" value="2" />
+        </attr>
+        <attr name="expandMode" format="enum">
+            <enum name="single" value="0" />
+            <enum name="multiple" value="1" />
+        </attr>
+        <attr name="stickyGroups" format="boolean" />
+        <attr name="backgrounds" format="reference" />
+        <attr name="emptyView" format="reference" />
+        <attr name="itemSpace" format="dimension" />
+
+    </declare-styleable>
+    <declare-styleable name="OmegaRecyclerView_Layout">
+        <attr name="layout_section" format="enum">
+            <enum name="header" value="0" />
+            <enum name="footer" value="1" />
+        </attr>
+        <attr name="layout_showDivider" format="boolean" />
+    </declare-styleable>
+    <declare-styleable name="OmegaExpandableRecyclerView">
+        <attr name="childAnimation" format="enum">
+            <enum name="Default" value="0" />
+            <enum name="Fade" value="1" />
+            <enum name="Dropdown" value="2" />
+        </attr>
+        <attr name="expandMode" format="enum">
+            <enum name="single" value="0" />
+            <enum name="multiple" value="1" />
+        </attr>
+        <attr name="stickyGroups" format="boolean" />
+        <attr name="backgrounds" format="reference" />
+    </declare-styleable>
 </resources>

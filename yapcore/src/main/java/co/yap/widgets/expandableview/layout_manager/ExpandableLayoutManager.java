@@ -11,8 +11,9 @@ import androidx.recyclerview.widget.ExpandedRecyclerView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.omega_r.libs.omegarecyclerview.expandable_recycler_view.OmegaExpandableRecyclerView;
-import com.omega_r.libs.omegarecyclerview.expandable_recycler_view.data.Range;
+
+import co.yap.widgets.expandableview.OmegaExpandableRecyclerView;
+import co.yap.widgets.expandableview.data.Range;
 
 public class ExpandableLayoutManager extends LinearLayoutManager {
 

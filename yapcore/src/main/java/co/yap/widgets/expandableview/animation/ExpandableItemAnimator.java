@@ -12,10 +12,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.RecyclerView.ViewHolder;
 import androidx.recyclerview.widget.SimpleItemAnimator;
 
-import com.omega_r.libs.omegarecyclerview.expandable_recycler_view.OmegaExpandableRecyclerView;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import co.yap.widgets.expandableview.OmegaExpandableRecyclerView;
 
 public abstract class ExpandableItemAnimator extends SimpleItemAnimator {
 

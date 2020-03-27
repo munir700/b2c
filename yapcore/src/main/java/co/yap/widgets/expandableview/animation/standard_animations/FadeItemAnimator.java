@@ -2,8 +2,9 @@ package co.yap.widgets.expandableview.animation.standard_animations;
 
 import android.view.ViewPropertyAnimator;
 
-import com.omega_r.libs.omegarecyclerview.expandable_recycler_view.OmegaExpandableRecyclerView;
-import com.omega_r.libs.omegarecyclerview.expandable_recycler_view.animation.ExpandableItemAnimator;
+
+import co.yap.widgets.expandableview.OmegaExpandableRecyclerView;
+import co.yap.widgets.expandableview.animation.ExpandableItemAnimator;
 
 public final class FadeItemAnimator extends ExpandableItemAnimator {
     private static final int FADE_DURATION = 100;

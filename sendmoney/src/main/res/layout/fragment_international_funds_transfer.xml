@@ -383,7 +383,12 @@
                     tools:layout_editor_absoluteX="44dp" />
             </LinearLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
-
+        <co.yap.widgets.expandableview.OmegaExpandableRecyclerView
+            android:id="@+id/expandable_recyclerview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:childAnimation="Dropdown"
+            app:expandMode="single"/>
 
     </ScrollView>
 </layout>

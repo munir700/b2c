@@ -25,22 +25,6 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.omega_r.libs.omegarecyclerview.OmegaRecyclerView;
-import com.omega_r.libs.omegarecyclerview.R;
-import com.omega_r.libs.omegarecyclerview.expandable_recycler_view.animation.AnimationHelper;
-import com.omega_r.libs.omegarecyclerview.expandable_recycler_view.animation.ExpandableItemAnimator;
-import com.omega_r.libs.omegarecyclerview.expandable_recycler_view.animation.OnAnimationEndListener;
-import com.omega_r.libs.omegarecyclerview.expandable_recycler_view.animation.standard_animations.DropDownItemAnimator;
-import com.omega_r.libs.omegarecyclerview.expandable_recycler_view.animation.standard_animations.FadeItemAnimator;
-import com.omega_r.libs.omegarecyclerview.expandable_recycler_view.data.ExpandableViewData;
-import com.omega_r.libs.omegarecyclerview.expandable_recycler_view.data.FlatGroupingList;
-import com.omega_r.libs.omegarecyclerview.expandable_recycler_view.data.GroupProvider;
-import com.omega_r.libs.omegarecyclerview.expandable_recycler_view.data.Range;
-import com.omega_r.libs.omegarecyclerview.expandable_recycler_view.data.UniqueIdProvider;
-import com.omega_r.libs.omegarecyclerview.expandable_recycler_view.layout_manager.ExpandableLayoutManager;
-import com.omega_r.libs.omegarecyclerview.sticky_decoration.BaseStickyDecoration;
-import com.omega_r.libs.omegarecyclerview.sticky_decoration.StickyAdapter;
-
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.util.ArrayList;
@@ -49,6 +33,19 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import co.yap.widgets.expandableview.animation.AnimationHelper;
+import co.yap.widgets.expandableview.animation.ExpandableItemAnimator;
+import co.yap.widgets.expandableview.animation.OnAnimationEndListener;
+import co.yap.widgets.expandableview.animation.standard_animations.DropDownItemAnimator;
+import co.yap.widgets.expandableview.animation.standard_animations.FadeItemAnimator;
+import co.yap.widgets.expandableview.data.ExpandableViewData;
+import co.yap.widgets.expandableview.data.FlatGroupingList;
+import co.yap.widgets.expandableview.data.GroupProvider;
+import co.yap.widgets.expandableview.data.Range;
+import co.yap.widgets.expandableview.data.UniqueIdProvider;
+import co.yap.widgets.expandableview.layout_manager.ExpandableLayoutManager;
+import co.yap.yapcore.R;
 
 public class OmegaExpandableRecyclerView extends OmegaRecyclerView {
     private static final String TAG = OmegaExpandableRecyclerView.class.getName();
@@ -70,7 +67,6 @@ public class OmegaExpandableRecyclerView extends OmegaRecyclerView {
     @ExpandAnimation
     private int mChildExpandAnimation = CHILD_ANIM_DEFAULT;
 
-    private boolean mShouldUseStickyGroups;
 
     @Nullable
     private Rect mHeaderRect;
@@ -137,7 +133,6 @@ public class OmegaExpandableRecyclerView extends OmegaRecyclerView {
         try {
             mChildExpandAnimation = attrs.getInteger(R.styleable.OmegaExpandableRecyclerView_childAnimation, CHILD_ANIM_DEFAULT);
             mExpandMode = attrs.getInteger(R.styleable.OmegaExpandableRecyclerView_expandMode, EXPAND_MODE_SINGLE);
-            mShouldUseStickyGroups = attrs.getBoolean(R.styleable.OmegaExpandableRecyclerView_stickyGroups, false);
             mItemsBackgroundRes = attrs.getResourceId(R.styleable.OmegaExpandableRecyclerView_backgrounds, NO_RESOURCE);
         } finally {
             attrs.recycle();
@@ -214,27 +209,6 @@ public class OmegaExpandableRecyclerView extends OmegaRecyclerView {
         }
     }
 
-    @Override
-    protected void updateStickyDecoration(@Nullable RecyclerView.Adapter adapter) {
-        BaseStickyDecoration stickyDecoration = getStickyDecoration();
-        if (adapter != null && stickyDecoration != null) {
-            if (adapter instanceof OmegaExpandableRecyclerView.Adapter
-                && stickyDecoration instanceof ExpandableStickyDecoration) {
-                ((ExpandableStickyDecoration) stickyDecoration).setExpandableAdapter((Adapter) adapter);
-            }
-        }
-        super.updateStickyDecoration(adapter);
-    }
-
-    @Nullable
-    @Override
-    protected BaseStickyDecoration provideStickyDecoration(@NonNull RecyclerView.Adapter adapter, @Nullable StickyAdapter stickyAdapter) {
-        if (adapter instanceof OmegaExpandableRecyclerView.Adapter && mShouldUseStickyGroups) {
-            return new ExpandableStickyDecoration(stickyAdapter, (Adapter) adapter);
-        } else {
-            return super.provideStickyDecoration(adapter, stickyAdapter);
-        }
-    }
 
     public void notifyHeaderPosition(Adapter.GroupViewHolder headerHolder, Rect viewRect) {
         mHeaderViewHolder = headerHolder;
