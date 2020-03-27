@@ -128,17 +128,6 @@ class MaterialIntroView : RelativeLayout {
      */
     private var isInfoEnabled = false
 
-    /**
-     * Dot view will appear center of
-     * cleared target area
-     */
-    private var dotView: View? = null
-
-    /**
-     * Dot View will be shown if
-     * this is true
-     */
-    private var isDotViewEnabled = false
 
     /**
      * Info Dialog Icon
@@ -243,8 +232,7 @@ class MaterialIntroView : RelativeLayout {
         dismissOnTouch = false
         isLayoutCompleted = false
         isInfoEnabled = false
-        isDotViewEnabled = false
-        isPerformClick = false
+         isPerformClick = false
         isImageViewEnabled = true
         isIdempotent = false
         /**
@@ -264,19 +252,14 @@ class MaterialIntroView : RelativeLayout {
         textViewInfo!!.setTextColor(colorTextViewInfo)
         imageViewIcon =
             layoutInfo.findViewById<View>(R.id.imageview_icon) as ImageView
-        dotView = LayoutInflater.from(getContext()).inflate(R.layout.dotview, null)
-        dotView!!.measure(
-            MeasureSpec.UNSPECIFIED,
-            MeasureSpec.UNSPECIFIED
-        )
+
         viewTreeObserver.addOnGlobalLayoutListener(object :
             ViewTreeObserver.OnGlobalLayoutListener {
             override fun onGlobalLayout() {
                 targetShape?.reCalculateAll()
                 if (targetShape != null && targetShape?.point?.y !== 0 && !isLayoutCompleted) {
                     if (isInfoEnabled) setInfoLayout()
-                    if (isDotViewEnabled) setDotViewLayout()
-                    removeOnGlobalLayoutListener(
+                     removeOnGlobalLayoutListener(
                         this@MaterialIntroView,
                         this
                     )
@@ -448,36 +431,6 @@ class MaterialIntroView : RelativeLayout {
         }
     }
 
-    private fun setDotViewLayout() {
-        handler!!.post {
-            if (dotView!!.parent != null) (dotView!!.parent as ViewGroup).removeView(
-                dotView
-            )
-            val dotViewLayoutParams =
-                LayoutParams(
-                    ViewGroup.LayoutParams.MATCH_PARENT,
-                    ViewGroup.LayoutParams.MATCH_PARENT
-                )
-            dotViewLayoutParams.height = Utils.dpToPx(Constants.DEFAULT_DOT_SIZE)
-            dotViewLayoutParams.width = Utils.dpToPx(Constants.DEFAULT_DOT_SIZE)
-            targetShape?.point?.x?.minus(dotViewLayoutParams.width / 2)?.let {
-                targetShape?.point?.y?.minus(dotViewLayoutParams.height / 2)?.let { it1 ->
-                    dotViewLayoutParams.setMargins(
-                        it,
-                        it1,
-                        0,
-                        0
-                    )
-                }
-            }
-            dotView!!.layoutParams = dotViewLayoutParams
-            dotView!!.postInvalidate()
-            addView(dotView)
-            dotView!!.visibility = View.VISIBLE
-            AnimationFactory.performAnimation(dotView)
-        }
-    }
-
     /**
      * SETTERS
      */
@@ -553,9 +506,7 @@ class MaterialIntroView : RelativeLayout {
         isIdempotent = idempotent
     }
 
-    private fun enableDotView(isDotViewEnabled: Boolean) {
-        this.isDotViewEnabled = isDotViewEnabled
-    }
+
 
     fun setConfiguration(configuration: MaterialIntroConfiguration?) {
         if (configuration != null) {
@@ -563,8 +514,7 @@ class MaterialIntroView : RelativeLayout {
             delayMillis = configuration.getDelayMillis()
             isFadeAnimationEnabled = configuration.isFadeAnimationEnabled()
             colorTextViewInfo = configuration.getColorTextViewInfo()
-            isDotViewEnabled = configuration.isDotViewEnabled()
-            dismissOnTouch = configuration.isDismissOnTouch()
+             dismissOnTouch = configuration.isDismissOnTouch()
             colorTextViewInfo = configuration.getColorTextViewInfo()
             focusType = configuration.getFocusType()
             focusGravity = configuration.getFocusGravity()
