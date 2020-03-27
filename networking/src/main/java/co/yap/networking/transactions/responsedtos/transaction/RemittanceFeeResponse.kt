@@ -27,9 +27,9 @@ data class RemittanceFeeResponse(
         @Parcelize
         data class TierRateDTO(
             @SerializedName("feeAmount")
-            val feeAmount: Double? = 0.0, // 10.0
+            var feeAmount: Double? = 0.0, // 10.0
             @SerializedName("vatAmount")
-            val vatAmount: Double? = 0.0, // 0.5
+            var vatAmount: Double? = 0.0, // 0.5
             @SerializedName("uuid")
             val uuid: String? = null, 
             @SerializedName("amountFrom")
@@ -47,9 +47,9 @@ data class RemittanceFeeResponse(
             @SerializedName("feeUuid")
             val feeUuid: String? = null, 
             @SerializedName("percentageFee")
-            val percentageFee: String? = null,
+            var percentageFee: String? = null,
             @SerializedName("percentageVat")
-            val percentageVat: String? = null
+            var percentageVat: String? = null
         ) : Parcelable
     }
 }

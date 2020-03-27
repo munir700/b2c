@@ -140,6 +140,7 @@ class CashTransferFragment : BeneficiaryFundTransferBaseFragment<ICashTransfer.V
                     if (position > 0) {
                         viewModel.parentViewModel?.selectedPop =
                             viewModel.purposeOfPaymentList.value?.get(position - 1)
+
                         viewModel.parentViewModel?.selectedPop?.nonChargeable = false
                         viewModel.parentViewModel?.selectedPop?.cbwsi = true
                         viewModel.parentViewModel?.selectedPop?.cbwsiFee = true

@@ -228,6 +228,10 @@ class CashTransferViewModel(application: Application) :
                     feeType = response.data.data?.feeType ?: ""
                     feeTiers =
                         response.data.data?.tierRateDTOList as ArrayList<RemittanceFeeResponse.RemittanceFee.TierRateDTO>
+                    feeTiers[0].feeAmount=null
+                    feeTiers[0].vatAmount=null
+                    feeTiers[0].percentageFee="10.00"
+                    feeTiers[0].percentageVat="10.00"
                     updateFees()
                 }
                 is RetroApiResponse.Error -> {
@@ -324,13 +328,22 @@ class CashTransferViewModel(application: Application) :
         }
     }
 
-    fun getFeeFromTier(): String? {
+    private fun getFeeFromTier(): String? {
         return if (shouldFeeApply()) {
             return if (!state.amount.isBlank()) {
                 val fee = feeTiers.filter { item ->
                     item.amountFrom ?: 0.0 <= state.amount.parseToDouble() && item.amountTo ?: 0.0 >= state.amount.parseToDouble()
                 }
-                fee[0].feeAmount?.plus(fee[0].vatAmount ?: 0.0).toString()
+                if (fee[0].feeAmount != null && fee[0].vatAmount != null) {
+                    fee[0].feeAmount?.plus(fee[0].vatAmount ?: 0.0).toString()
+                } else {
+                    val calculatedFee =
+                        (state.amount.parseToDouble() * (fee[0].percentageFee?.parseToDouble()
+                            ?: 0.0)).div(100).also {
+                            it.plus((it * (fee[0].percentageFee?.parseToDouble() ?: 0.0)).div(100))
+                        }
+                    calculatedFee.toString()
+                }
             } else {
                 null
             }
@@ -361,9 +374,16 @@ class CashTransferViewModel(application: Application) :
     }
 
 
-    fun getFlatFee(): Double {
+    private fun getFlatFee(): Double {
         return if (shouldFeeApply())
-            feeTiers[0].feeAmount?.plus(feeTiers[0].vatAmount ?: 0.0) ?: 0.0
+            if (feeTiers[0].feeAmount != null && feeTiers[0].vatAmount != null) {
+                feeTiers[0].feeAmount?.plus(feeTiers[0].vatAmount ?: 0.0) ?: 0.0
+            } else {
+                return (state.amount.parseToDouble() * (feeTiers[0].percentageFee?.parseToDouble()
+                    ?: 0.0)).div(100).also {
+                    it.plus((it * (feeTiers[0].percentageFee?.parseToDouble() ?: 0.0)).div(100))
+                }
+            }
         else 0.0
     }
 
