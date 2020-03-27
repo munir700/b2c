@@ -146,7 +146,7 @@ class MaterialIntroView : RelativeLayout {
      * If Intro is already learnt then don't show
      * it again.
      */
-    private var preferencesManager: PreferencesManager? = null
+//    private var preferencesManager: PreferencesManager? = null
 
     /**
      * Check using this Id whether user learned
@@ -240,7 +240,7 @@ class MaterialIntroView : RelativeLayout {
          * initialize objects
          */
         handler = Handler()
-        preferencesManager = PreferencesManager(context)
+//        preferencesManager = PreferencesManager(context)
         eraser = Paint()
         eraser!!.color = -0x1
         eraser!!.xfermode = PorterDuffXfermode(PorterDuff.Mode.CLEAR)
@@ -345,7 +345,7 @@ class MaterialIntroView : RelativeLayout {
      * @param activity
      */
     private fun show(activity: Activity) {
-        if (preferencesManager.isDisplayed(materialIntroViewId)) return
+//        if (preferencesManager.isDisplayed(materialIntroViewId)) return
         (activity.window.decorView as ViewGroup).addView(this)
         setReady(true)
         handler!!.postDelayed({
@@ -359,7 +359,7 @@ class MaterialIntroView : RelativeLayout {
                 }) else visibility = View.VISIBLE
         }, delayMillis)
         if (isIdempotent) {
-            preferencesManager.setDisplayed(materialIntroViewId)
+//            preferencesManager.setDisplayed(materialIntroViewId)
         }
     }
 
@@ -368,7 +368,7 @@ class MaterialIntroView : RelativeLayout {
      */
     fun dismiss() {
         if (!isIdempotent) {
-            preferencesManager.setDisplayed(materialIntroViewId)
+//            preferencesManager.setDisplayed(materialIntroViewId)
         }
         AnimationFactory.animateFadeOut(
             this,
