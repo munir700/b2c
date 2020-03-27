@@ -4,7 +4,6 @@ import android.app.Application
 import android.content.Context
 import android.graphics.drawable.Drawable
 import androidx.databinding.Bindable
-import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
 import co.yap.networking.transactions.responsedtos.InternationalFundsTransferReasonList
 import co.yap.sendMoney.fundtransfer.interfaces.ICashTransfer
@@ -14,8 +13,7 @@ import co.yap.yapcore.BaseState
 class CashTransferState(application: Application) : BaseState(), ICashTransfer.State {
 
     val context: Context = application.applicationContext
-    override var totalAmountWithFee: ObservableField<Double> = ObservableField(0.0)
-    override var isDefaultFeeApplicable: ObservableField<Boolean> = ObservableField(false)
+
     @get:Bindable
     override var amountBackground: Drawable? =
         context.resources.getDrawable(co.yap.yapcore.R.drawable.bg_funds, null)
@@ -86,7 +84,7 @@ class CashTransferState(application: Application) : BaseState(), ICashTransfer.S
     override var feeAmountSpannableString: CharSequence? = ""
         set(value) {
             field = value
-            notifyPropertyChanged(BR.transferFeeSpannable)
+            notifyPropertyChanged(BR.feeAmountSpannableString)
         }
 
     @get:Bindable

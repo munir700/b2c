@@ -20,7 +20,11 @@ import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.FeeType
 import co.yap.yapcore.enums.SendMoneyBeneficiaryType
 import co.yap.yapcore.helpers.extentions.parseToDouble
+import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 import co.yap.yapcore.helpers.extentions.toast
+import co.yap.yapcore.helpers.spannables.color
+import co.yap.yapcore.helpers.spannables.getText
+import co.yap.yapcore.managers.MyUserManager
 
 class CashTransferViewModel(application: Application) :
     BeneficiaryFundTransferBaseViewModel<ICashTransfer.State>(application),
@@ -41,15 +45,22 @@ class CashTransferViewModel(application: Application) :
         MutableLiveData()
     override var purposeOfPaymentList: MutableLiveData<ArrayList<PurposeOfPayment>> =
         MutableLiveData()
-    override var transactionFeeResponse: MutableLiveData<RemittanceFeeResponse.RemittanceFee> =
-        MutableLiveData()
+    override var feeType: String = ""
     override var feeTiers: List<RemittanceFeeResponse.RemittanceFee.TierRateDTO> = arrayListOf()
-    override var isAPIFailed: MutableLiveData<Boolean> = MutableLiveData()
+    override var isAPIFailed: MutableLiveData<Boolean> = MutableLiveData(false)
+    override val updatedFee: MutableLiveData<String> = MutableLiveData("0.0")
     override var reasonPosition: Int = 0
 
     override fun onCreate() {
         super.onCreate()
         getTransactionThresholds()
+        state.availableBalanceString = context.resources.getText(
+            getString(Strings.screen_cash_transfer_display_text_available_balance),
+            context.color(
+                R.color.colorPrimaryDark,
+                "${"AED"} ${MyUserManager.cardBalance.value?.availableBalance?.toFormattedCurrency()}"
+            )
+        )
     }
 
     override fun onResume() {
@@ -73,30 +84,41 @@ class CashTransferViewModel(application: Application) :
         }
     }
 
+    fun updateFees() {
+        val result = when (feeType) {
+            FeeType.FLAT.name -> getFlatFee().toString()
+            FeeType.TIER.name -> getFeeFromTier().toString()
+            else -> {
+                "0.0"
+            }
+        }
+        updatedFee.value = result
+    }
+
     override fun handlePressOnView(id: Int) {
         if (R.id.btnConfirm == id) {
             if (!parentViewModel?.transferData?.value?.transferReason.equals("Select a Reason")) {
-                    if (!isUaeftsBeneficiary()) {
-                        when {
-                            isDailyLimitReached() -> errorEvent.call()
-                            isOtpRequired() -> createOtp(id = id)
-                            else -> proceedToTransferAmount()
-                        }
-                    } else {
-                        if (isDailyLimitReached())
-                            errorEvent.call()
-                        else
-                            clickEvent.setValue(id)
+                if (!isUaeftsBeneficiary()) {
+                    when {
+                        isDailyLimitReached() -> errorEvent.call()
+                        isOtpRequired() -> createOtp(id = id)
+                        else -> proceedToTransferAmount()
                     }
                 } else {
-                    toast(
-                        context,
-                        "Select a Reason"
-                    )
+                    if (isDailyLimitReached())
+                        errorEvent.call()
+                    else
+                        clickEvent.setValue(id)
                 }
             } else {
-            clickEvent.setValue(id)
+                toast(
+                    context,
+                    "Select a Reason"
+                )
             }
+        } else {
+            clickEvent.setValue(id)
+        }
     }
 
     private fun isDailyLimitReached(): Boolean {
@@ -203,7 +225,10 @@ class CashTransferViewModel(application: Application) :
                     RemittanceFeeRequest(parentViewModel?.beneficiary?.value?.country, "")
                 )) {
                 is RetroApiResponse.Success -> {
-                    transactionFeeResponse.value = response.data.data
+                    feeType = response.data.data?.feeType ?: ""
+                    feeTiers =
+                        response.data.data?.tierRateDTOList as ArrayList<RemittanceFeeResponse.RemittanceFee.TierRateDTO>
+                    updateFees()
                 }
                 is RetroApiResponse.Error -> {
                     state.toast = response.error.message
@@ -299,38 +324,47 @@ class CashTransferViewModel(application: Application) :
         }
     }
 
-    fun getFeeFromTier(enterAmount: String?): String? {
-        return if (!enterAmount.isNullOrBlank()) {
-            val fee = feeTiers.filter { item ->
-                item.amountFrom ?: 0.0 <= enterAmount.parseToDouble() && item.amountTo ?: 0.0 >= enterAmount.parseToDouble()
+    fun getFeeFromTier(): String? {
+        return if (shouldFeeApply()) {
+            return if (!state.amount.isBlank()) {
+                val fee = feeTiers.filter { item ->
+                    item.amountFrom ?: 0.0 <= state.amount.parseToDouble() && item.amountTo ?: 0.0 >= state.amount.parseToDouble()
+                }
+                fee[0].feeAmount?.plus(fee[0].vatAmount ?: 0.0).toString()
+            } else {
+                null
             }
-            fee[0].feeAmount?.plus(fee[0].vatAmount ?: 0.0).toString()
         } else {
             null
         }
     }
+
     fun getTotalAmountWithFee(): Double {
-        return (when (transactionFeeResponse.value?.feeType) {
-            FeeType.TIER.name -> {
-                val transferFee = getFeeFromTier(state.amount)
-                state.amount.toDoubleOrNull() ?: 0.0.plus(
-                    transferFee?.toDoubleOrNull() ?: 0.0
-                )
-            }
-            FeeType.FLAT.name -> {
-                state.amount.toDoubleOrNull() ?: 0.0.plus(getFlatFee())
-            }
-            else -> {
-                0.00
-            }
-        })
+        return if (shouldFeeApply()) {
+            return (when (feeType) {
+                FeeType.TIER.name -> {
+                    val transferFee = getFeeFromTier()
+                    state.amount.toDoubleOrNull() ?: 0.0.plus(
+                        transferFee?.toDoubleOrNull() ?: 0.0
+                    )
+                }
+                FeeType.FLAT.name -> {
+                    state.amount.parseToDouble().plus(getFlatFee())
+                }
+                else -> {
+                    state.amount.parseToDouble()
+                }
+            })
+        } else {
+            state.amount.parseToDouble()
+        }
     }
 
+
     fun getFlatFee(): Double {
-        return transactionFeeResponse.value?.tierRateDTOList?.get(0)
-            ?.feeAmount?.plus(
-            transactionFeeResponse.value?.tierRateDTOList?.get(0)?.vatAmount ?: 0.0
-        ) ?: 0.0
+        return if (shouldFeeApply())
+            feeTiers[0].feeAmount?.plus(feeTiers[0].vatAmount ?: 0.0) ?: 0.0
+        else 0.0
     }
 
     override fun processPurposeList(list: ArrayList<PurposeOfPayment>) {
@@ -343,18 +377,16 @@ class CashTransferViewModel(application: Application) :
         } ?: return false
     }
 
-    fun setPurposeOfPaymentFeeFlag(purposeOfPayment: PurposeOfPayment?) {
-        if (!isUaeftsBeneficiary()) return
-        purposeOfPayment?.let { pop ->
-            val isFeeApplicable = if (pop.nonChargeable == false) {
-                if (pop.cbwsi == true && pop.cbwsiFee == true) {
-                    state.amount.toDoubleOrNull() ?: 0.0 > 10000
+    fun shouldFeeApply(): Boolean {
+        return if (!isUaeftsBeneficiary()) return true else
+            parentViewModel?.selectedPop?.let { pop ->
+                return@let if (pop.nonChargeable == false) {
+                    if (pop.cbwsi == true && pop.cbwsiFee == true) {
+                        state.amount.toDoubleOrNull() ?: 0.0 > 10000
+                    } else
+                        false
                 } else
                     false
-            } else
-                false
-
-            state.isDefaultFeeApplicable.set(isFeeApplicable)
-        }
+            } ?: false
     }
 }

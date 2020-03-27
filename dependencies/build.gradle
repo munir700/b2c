@@ -16,7 +16,7 @@ project.ext {
     okhttpVersion = "3.12.1"
     okhttpLoggerVersion = "3.10.0"
     okhttpGsonVersion = "2.5.0"
-    arch = "2.0.0"
+    arch = "2.1.0"
     paging_version = "2.1.0"
     modules = [
             app        : ':app',

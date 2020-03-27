@@ -3,11 +3,7 @@ package co.yap.sendMoney.fundtransfer.fragments
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.text.Editable
 import android.text.InputFilter
-import android.text.TextWatcher
-import android.view.Gravity
-import android.view.Gravity.CENTER_VERTICAL
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -24,7 +20,6 @@ import co.yap.modules.otp.GenericOtpFragment
 import co.yap.modules.otp.LogoData
 import co.yap.modules.otp.OtpDataModel
 import co.yap.networking.transactions.responsedtos.InternationalFundsTransferReasonList
-import co.yap.networking.transactions.responsedtos.transaction.RemittanceFeeResponse
 import co.yap.sendMoney.fundtransfer.activities.BeneficiaryFundTransferActivity
 import co.yap.sendMoney.fundtransfer.interfaces.ICashTransfer
 import co.yap.sendMoney.fundtransfer.viewmodels.CashTransferViewModel
@@ -35,11 +30,11 @@ import co.yap.translation.Translator
 import co.yap.widgets.spinneradapter.ViewHolderArrayAdapter
 import co.yap.yapcore.BR
 import co.yap.yapcore.constants.Constants
-import co.yap.yapcore.enums.FeeType
 import co.yap.yapcore.enums.SendMoneyBeneficiaryType
 import co.yap.yapcore.enums.TransactionProductCode
 import co.yap.yapcore.helpers.DecimalDigitsInputFilter
 import co.yap.yapcore.helpers.cancelAllSnackBar
+import co.yap.yapcore.helpers.extentions.afterTextChanged
 import co.yap.yapcore.helpers.extentions.startFragmentForResult
 import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 import co.yap.yapcore.helpers.spannables.color
@@ -58,22 +53,12 @@ class CashTransferFragment : BeneficiaryFundTransferBaseFragment<ICashTransfer.V
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel.state.isDefaultFeeApplicable.set(!viewModel.isUaeftsBeneficiary())
-        setSpannableFee("0.00")
-        viewModel.state.availableBalanceString =
-            resources.getText(
-                getString(Strings.screen_cash_transfer_display_text_available_balance),
-                requireContext().color(
-                    R.color.colorPrimaryDark,
-                    "${"AED"} ${MyUserManager.cardBalance.value?.availableBalance?.toFormattedCurrency()}"
-                )
-            )
-        getProductCode()
-        startFlows()
+        startFlows(getProductCode())
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        viewModel.updatedFee.value = "0.0"
         setEditTextWatcher()
         if (viewModel.transactionData.size > 0)
             setSpinnerAdapter(viewModel.transactionData)
@@ -85,8 +70,14 @@ class CashTransferFragment : BeneficiaryFundTransferBaseFragment<ICashTransfer.V
         viewModel.errorEvent.observe(this, Observer {
             viewModel.parentViewModel?.errorEvent?.value = viewModel.state.errorDescription
         })
+
         viewModel.isAPIFailed.observe(this, Observer {
             if (it) requireActivity().finish()
+        })
+
+        viewModel.updatedFee.observe(this, Observer {
+            if (!it.isNullOrBlank())
+                setSpannableFee(it)
         })
 
         viewModel.populateSpinnerData.observe(this, Observer {
@@ -98,25 +89,10 @@ class CashTransferFragment : BeneficiaryFundTransferBaseFragment<ICashTransfer.V
                 viewModel.processPurposeList(it)
             }
         })
-        viewModel.transactionFeeResponse.observe(this, Observer {
-            handleTxnFeeResponse(it)
-        })
     }
 
-    private fun handleTxnFeeResponse(feeResponse: RemittanceFeeResponse.RemittanceFee?) {
-        when (feeResponse?.feeType) {
-            FeeType.FLAT.name -> setSpannableFee(viewModel.getFlatFee().toString())
-            FeeType.TIER.name -> viewModel.feeTiers =
-                feeResponse.tierRateDTOList as ArrayList<RemittanceFeeResponse.RemittanceFee.TierRateDTO>
-            FeeType.PERCENTAGE.name -> {
-            }
-        }
-    }
-
-    private fun setSpannableFee(feeAmount: String?) {
-        val totalFeeAmount =
-            if (viewModel.state.isDefaultFeeApplicable.get() == true) feeAmount else "0.00"
-        viewModel.parentViewModel?.transferData?.value?.transferFee = feeAmount
+    private fun setSpannableFee(totalFeeAmount: String?) {
+        viewModel.parentViewModel?.transferData?.value?.transferFee = totalFeeAmount
         viewModel.state.feeAmountSpannableString = resources.getText(
             getString(Strings.screen_cash_pickup_funds_display_text_fee),
             requireContext().color(R.color.colorPrimaryDark, "AED"),
@@ -164,8 +140,12 @@ class CashTransferFragment : BeneficiaryFundTransferBaseFragment<ICashTransfer.V
                     if (position > 0) {
                         viewModel.parentViewModel?.selectedPop =
                             viewModel.purposeOfPaymentList.value?.get(position - 1)
-                        viewModel.setPurposeOfPaymentFeeFlag(viewModel.parentViewModel?.selectedPop)
-                        setSpannableFee(viewModel.getFlatFee().toString())
+                        viewModel.parentViewModel?.selectedPop?.nonChargeable = false
+                        viewModel.parentViewModel?.selectedPop?.cbwsi = true
+                        viewModel.parentViewModel?.selectedPop?.cbwsiFee = true
+
+                        if (viewModel.shouldFeeApply())
+                            viewModel.updateFees()
                     }
 
                     viewModel.reasonPosition = position
@@ -189,9 +169,9 @@ class CashTransferFragment : BeneficiaryFundTransferBaseFragment<ICashTransfer.V
                 viewModel.parentViewModel?.transferData?.value?.sourceCurrency = "AED";
                 viewModel.parentViewModel?.transferData?.value?.transferAmount =
                     viewModel.state.amount
-                    val action =
-                        CashTransferFragmentDirections.actionCashTransferFragmentToTransferSuccessFragment2()
-                    findNavController().navigate(action)
+                val action =
+                    CashTransferFragmentDirections.actionCashTransferFragmentToTransferSuccessFragment2()
+                findNavController().navigate(action)
 
             }
         }
@@ -247,7 +227,7 @@ class CashTransferFragment : BeneficiaryFundTransferBaseFragment<ICashTransfer.V
         val availableBalance =
             MyUserManager.cardBalance.value?.availableBalance?.toDoubleOrNull()
         return if (availableBalance != null) {
-            (availableBalance > viewModel.state.totalAmountWithFee.get() ?: 0.0)
+            (availableBalance > viewModel.getTotalAmountWithFee())
         } else
             false
     }
@@ -262,7 +242,7 @@ class CashTransferFragment : BeneficiaryFundTransferBaseFragment<ICashTransfer.V
                         viewModel.state.errorDescription =
                             if (enteredAmount > dailyLimit) getString(Strings.common_display_text_daily_limit_error_single_transaction) else getString(
                                 Strings.common_display_text_daily_limit_error_single_transaction
-                           )
+                            )
 
                         return (enteredAmount > remainingDailyLimit)
                     } ?: return false
@@ -272,7 +252,7 @@ class CashTransferFragment : BeneficiaryFundTransferBaseFragment<ICashTransfer.V
 
     }
 
-    private fun startFlows() {
+    private fun startFlows(produceCode: String) {
         viewModel.parentViewModel?.beneficiary?.value?.beneficiaryType?.let { beneficiaryType ->
             when (beneficiaryType) {
                 SendMoneyBeneficiaryType.RMT.type, SendMoneyBeneficiaryType.SWIFT.type -> skipCashTransferFragment()
@@ -289,48 +269,48 @@ class CashTransferFragment : BeneficiaryFundTransferBaseFragment<ICashTransfer.V
 
     private fun getProductCode(): String {
         viewModel.parentViewModel?.beneficiary?.value?.let { beneficiary ->
-                beneficiary.beneficiaryType?.let { beneficiaryType ->
-                    when (beneficiaryType) {
-                        SendMoneyBeneficiaryType.RMT.type -> {
-                            setOtpAction(
-                                SendMoneyBeneficiaryType.RMT.type,
-                                TransactionProductCode.RMT.pCode
-                            )
-                                return viewModel.state.produceCode ?: ""
-                            }
-                        SendMoneyBeneficiaryType.SWIFT.type -> {
-                            setOtpAction(
-                                SendMoneyBeneficiaryType.SWIFT.type,
-                                TransactionProductCode.SWIFT.pCode
-                            )
-                                return viewModel.state.produceCode ?: ""
-                            }
-                        SendMoneyBeneficiaryType.CASHPAYOUT.type -> {
-                            setOtpAction(
-                                SendMoneyBeneficiaryType.CASHPAYOUT.type,
-                                TransactionProductCode.CASH_PAYOUT.pCode
-                            )
-                                return viewModel.state.produceCode ?: ""
-                            }
-                        SendMoneyBeneficiaryType.DOMESTIC.type -> {
-                            setOtpAction(
-                                SendMoneyBeneficiaryType.DOMESTIC_TRANSFER.type,
-                                TransactionProductCode.DOMESTIC.pCode
-                            )
-                                return viewModel.state.produceCode ?: ""
-                            }
-                        SendMoneyBeneficiaryType.UAEFTS.type -> {
-                            setOtpAction(
-                                SendMoneyBeneficiaryType.UAEFTS.type,
-                                TransactionProductCode.UAEFTS.pCode
-                            )
-                                return viewModel.state.produceCode ?: ""
-                            }
-                            else -> {
-                                return TransactionProductCode.UAEFTS.pCode
-                            }
+            beneficiary.beneficiaryType?.let { beneficiaryType ->
+                when (beneficiaryType) {
+                    SendMoneyBeneficiaryType.RMT.type -> {
+                        setOtpAction(
+                            SendMoneyBeneficiaryType.RMT.type,
+                            TransactionProductCode.RMT.pCode
+                        )
+                        return viewModel.state.produceCode ?: ""
                     }
-                } ?: return ""
+                    SendMoneyBeneficiaryType.SWIFT.type -> {
+                        setOtpAction(
+                            SendMoneyBeneficiaryType.SWIFT.type,
+                            TransactionProductCode.SWIFT.pCode
+                        )
+                        return viewModel.state.produceCode ?: ""
+                    }
+                    SendMoneyBeneficiaryType.CASHPAYOUT.type -> {
+                        setOtpAction(
+                            SendMoneyBeneficiaryType.CASHPAYOUT.type,
+                            TransactionProductCode.CASH_PAYOUT.pCode
+                        )
+                        return viewModel.state.produceCode ?: ""
+                    }
+                    SendMoneyBeneficiaryType.DOMESTIC.type -> {
+                        setOtpAction(
+                            SendMoneyBeneficiaryType.DOMESTIC_TRANSFER.type,
+                            TransactionProductCode.DOMESTIC.pCode
+                        )
+                        return viewModel.state.produceCode ?: ""
+                    }
+                    SendMoneyBeneficiaryType.UAEFTS.type -> {
+                        setOtpAction(
+                            SendMoneyBeneficiaryType.UAEFTS.type,
+                            TransactionProductCode.UAEFTS.pCode
+                        )
+                        return viewModel.state.produceCode ?: ""
+                    }
+                    else -> {
+                        return TransactionProductCode.UAEFTS.pCode
+                    }
+                }
+            } ?: return ""
         } ?: return ""
     }
 
@@ -343,14 +323,14 @@ class CashTransferFragment : BeneficiaryFundTransferBaseFragment<ICashTransfer.V
         super.onPause()
         viewModel.isAPIFailed.removeObservers(this)
         viewModel.purposeOfPaymentList.removeObservers(this)
-        viewModel.transactionFeeResponse.removeObservers(this)
+        viewModel.updatedFee.removeObservers(this)
     }
 
     override fun onDestroy() {
         viewModel.clickEvent.removeObservers(this)
         viewModel.isAPIFailed.removeObservers(this)
+        viewModel.updatedFee.removeObservers(this)
         viewModel.purposeOfPaymentList.removeObservers(this)
-        viewModel.transactionFeeResponse.removeObservers(this)
         super.onDestroy()
     }
 
@@ -397,33 +377,14 @@ class CashTransferFragment : BeneficiaryFundTransferBaseFragment<ICashTransfer.V
     private fun setEditTextWatcher() {
         etAmount.filters =
             arrayOf(InputFilter.LengthFilter(7), DecimalDigitsInputFilter(2))
-        etAmount.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(p0: Editable?) {
-                viewModel.state.clearError()
-                viewModel.state.clearError()
-                if (viewModel.state.amount.isNotEmpty()) {
-                    viewModel.setPurposeOfPaymentFeeFlag(viewModel.parentViewModel?.selectedPop)
-                    viewModel.state.totalAmountWithFee.set(viewModel.getTotalAmountWithFee())
-                    if (viewModel.transactionFeeResponse.value?.feeType == FeeType.TIER.name)
-                        setSpannableFee(viewModel.getFeeFromTier(viewModel.state.amount))
 
-                    checkOnTextChangeValidation()
-                }
+        etAmount.afterTextChanged {
+            viewModel.state.clearError()
+            if (viewModel.state.amount.isNotEmpty()) {
+                viewModel.updateFees()
+                checkOnTextChangeValidation()
             }
-
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-            }
-
-            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                if (p0?.length!! > 0) {
-                    etAmount.gravity = Gravity.CENTER_HORIZONTAL or CENTER_VERTICAL
-                } else {
-                    etAmount.gravity = Gravity.CENTER_HORIZONTAL or CENTER_VERTICAL
-                }
-
-
-            }
-        })
+        }
     }
 
     private fun checkOnTextChangeValidation() {

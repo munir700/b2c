@@ -18,9 +18,9 @@ data class RemittanceFeeResponse(
     @Parcelize
     data class RemittanceFee(
         @SerializedName("feeType")
-        val feeType: String? = null, // FLAT
+        val feeType: String? = null,
         @SerializedName("displayOnly")
-        val displayOnly: Boolean? = false, // false
+        val displayOnly: Boolean? = false,
         @SerializedName("tierRateDTOList")
         val tierRateDTOList: List<TierRateDTO>? = arrayListOf()
     ) : Parcelable {
@@ -31,21 +31,25 @@ data class RemittanceFeeResponse(
             @SerializedName("vatAmount")
             val vatAmount: Double? = 0.0, // 0.5
             @SerializedName("uuid")
-            val uuid: String? = null, // null
+            val uuid: String? = null, 
             @SerializedName("amountFrom")
-            val amountFrom: Double? = 0.0, // null
+            val amountFrom: Double? = 0.0, 
             @SerializedName("amountTo")
-            val amountTo: Double? = 0.0, // null
+            val amountTo: Double? = 0.0, 
             @SerializedName("createdBy")
-            val createdBy: String? = null, // null
+            val createdBy: String? = null, 
             @SerializedName("createdOn")
-            val createdOn: String? = null, // null
+            val createdOn: String? = null, 
             @SerializedName("updatedBy")
-            val updatedBy: String? = null, // null
+            val updatedBy: String? = null, 
             @SerializedName("updatedOn")
-            val updatedOn: String? = null, // null
+            val updatedOn: String? = null, 
             @SerializedName("feeUuid")
-            val feeUuid: String? = null // null
+            val feeUuid: String? = null, 
+            @SerializedName("percentageFee")
+            val percentageFee: String? = null,
+            @SerializedName("percentageVat")
+            val percentageVat: String? = null
         ) : Parcelable
     }
 }

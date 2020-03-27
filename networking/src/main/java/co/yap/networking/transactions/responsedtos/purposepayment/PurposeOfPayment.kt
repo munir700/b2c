@@ -10,15 +10,15 @@ data class PurposeOfPayment(
     @SerializedName("bankTransfer")
     val bankTransfer: Boolean? = null,
     @SerializedName("cbwsi")
-    val cbwsi: Boolean? = null,
+    var cbwsi: Boolean? = null,
     @SerializedName("cbwsiFee")
-    val cbwsiFee: Boolean? = null,
+    var cbwsiFee: Boolean? = null,
     @SerializedName("domesticTransferAed")
     val domesticTransferAed: Boolean? = null,
     @SerializedName("domesticTransferNonAed")
     val domesticTransferNonAed: Boolean? = null,
     @SerializedName("nonChargeable")
-    val nonChargeable: Boolean? = null,
+    var nonChargeable: Boolean? = null,
     @SerializedName("purposeCategory")
     val purposeCategory: String? = null,
     @SerializedName("purposeCode")

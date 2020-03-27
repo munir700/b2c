@@ -1,7 +1,6 @@
 package co.yap.sendMoney.fundtransfer.interfaces
 
 import android.graphics.drawable.Drawable
-import android.text.SpannableStringBuilder
 import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
 import co.yap.networking.transactions.responsedtos.InternationalFundsTransferReasonList
@@ -17,7 +16,8 @@ interface ICashTransfer {
     }
 
     interface ViewModel : IBase.ViewModel<State> {
-        var isAPIFailed:MutableLiveData<Boolean>
+        val updatedFee: MutableLiveData<String>
+        var isAPIFailed: MutableLiveData<Boolean>
         var reasonPosition: Int
         val clickEvent: SingleClickEvent
         val errorEvent: SingleClickEvent
@@ -26,7 +26,7 @@ interface ICashTransfer {
         var receiverUUID: String
         var transactionThreshold: MutableLiveData<TransactionThresholdModel>
         var purposeOfPaymentList: MutableLiveData<ArrayList<PurposeOfPayment>>
-        var transactionFeeResponse: MutableLiveData<RemittanceFeeResponse.RemittanceFee>
+        var feeType: String
         var feeTiers: List<RemittanceFeeResponse.RemittanceFee.TierRateDTO>
         fun handlePressOnView(id: Int)
         fun getTransferFees(productCode: String?)
@@ -52,10 +52,8 @@ interface ICashTransfer {
         var maxLimit: Double
         var noteValue: String?
         fun clearError()
-        var totalAmountWithFee: ObservableField<Double>
         var transactionData: ArrayList<InternationalFundsTransferReasonList.ReasonList>
         val populateSpinnerData: MutableLiveData<List<InternationalFundsTransferReasonList.ReasonList>>
         var produceCode: String?
-        var isDefaultFeeApplicable: ObservableField<Boolean>
     }
 }
