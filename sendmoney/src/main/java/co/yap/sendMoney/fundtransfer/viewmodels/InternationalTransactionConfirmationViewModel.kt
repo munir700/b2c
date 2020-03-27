@@ -40,7 +40,7 @@ class InternationalTransactionConfirmationViewModel(application: Application) :
                         RMTTransactionRequestDTO(
                             it.sourceAmount?.toDouble(),
                             it.sourceCurrency,
-                            it.produceCode,
+                            it.purposeCode,
                             parentViewModel?.beneficiary?.value?.id.toString(),
                             if (it.noteValue.isNullOrBlank()) null else it.noteValue,
                             it.transferReason
