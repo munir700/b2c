@@ -1,6 +1,7 @@
 package co.yap.modules.onboarding.interfaces
 
 import android.graphics.drawable.Drawable
+import androidx.databinding.ObservableField
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.SingleLiveEvent
@@ -17,7 +18,7 @@ interface IInformationError {
 
     interface State : IBase.State {
         var errorTitle: String
-        var errorImage: Drawable
+        var isUSACitizen: ObservableField<Boolean>
         var errorGuide: String
         var buttonTitle: String
     }

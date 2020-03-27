@@ -1,5 +1,6 @@
 package co.yap.modules.webview
 
+import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.graphics.Bitmap
@@ -17,6 +18,7 @@ import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.R
 import co.yap.yapcore.constants.Constants.PAGE_URL
 import co.yap.yapcore.constants.Constants.TOOLBAR_TITLE
+import co.yap.yapcore.helpers.permissions.PermissionHelper
 import kotlinx.android.synthetic.main.fragment_webview.*
 
 
@@ -27,6 +29,8 @@ class WebViewFragment : BaseBindingFragment<IWebViewFragment.ViewModel>(), IWebV
     override fun getLayoutId() = R.layout.fragment_webview
     private var pageUrl: String? = null
     private var title: String? = null
+    var permissionHelper: PermissionHelper? = null
+
     override val viewModel: IWebViewFragment.ViewModel
         get() = ViewModelProviders.of(this).get(WebViewFragmentViewModel::class.java)
 
@@ -69,13 +73,11 @@ class WebViewFragment : BaseBindingFragment<IWebViewFragment.ViewModel>(), IWebV
         }
         webView?.addHttpHeader("X-Requested-With", "")
         webView?.loadUrl(pageUrl ?: "")
-
-
     }
+
 
     override fun onPageStarted(url: String?, favicon: Bitmap?) {
         progressBar.visibility = ProgressBar.VISIBLE
-
     }
 
     override fun onPageFinished(url: String?) {
@@ -83,6 +85,7 @@ class WebViewFragment : BaseBindingFragment<IWebViewFragment.ViewModel>(), IWebV
     }
 
     override fun onPageError(errorCode: Int, description: String?, failingUrl: String?) {
+        progressBar.visibility = ProgressBar.GONE
     }
 
     override fun onDownloadRequested(
@@ -93,6 +96,15 @@ class WebViewFragment : BaseBindingFragment<IWebViewFragment.ViewModel>(), IWebV
         contentDisposition: String?,
         userAgent: String?
     ) {
+        checkPermission(url, suggestedFilename)
+//        // some file is available for download
+//        // either handle the download yourself or use the code below
+//        if (AdvancedWebView.handleDownload(requireContext(), url, suggestedFilename)) {
+//            // download successfully handled
+//        } else {
+//            // download couldn't be handled because user has disabled download manager app on the device
+//            // TODO show some notice to the user
+//        }
     }
 
     override fun onExternalPageRequest(url: String?) {
@@ -165,5 +177,50 @@ class WebViewFragment : BaseBindingFragment<IWebViewFragment.ViewModel>(), IWebV
         super.onActivityResult(requestCode, resultCode, intent)
         webView?.onActivityResult(requestCode, resultCode, intent)
         // ...
+    }
+
+    private fun checkPermission(url: String?, suggestedFilename: String?) {
+        permissionHelper = PermissionHelper(
+            this, arrayOf(
+                Manifest.permission.WRITE_EXTERNAL_STORAGE
+            ), 100
+        )
+        permissionHelper?.request(object : PermissionHelper.PermissionCallback {
+            override fun onPermissionGranted() {
+                if (url != null && suggestedFilename != null)
+                    if (AdvancedWebView.handleDownload(requireContext(), url, suggestedFilename)) {
+                        // download successfully handled
+                    } else {
+                        showToast("Unable to download file")
+                        // download couldn't be handled because user has disabled download manager app on the device
+                        // TODO show some notice to the user
+                    }
+            }
+
+            override fun onIndividualPermissionGranted(grantedPermission: Array<String>) {
+                showToast("Can't proceed without permissions")
+            }
+
+            override fun onPermissionDenied() {
+                showToast("Can't proceed without permissions")
+            }
+
+            override fun onPermissionDeniedBySystem() {
+                showToast("Can't proceed without permissions")
+            }
+        })
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        permissionHelper?.onRequestPermissionsResult(
+            requestCode,
+            permissions as Array<String>,
+            grantResults
+        )
     }
 }

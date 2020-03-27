@@ -12,11 +12,14 @@ import co.yap.translation.Strings
 import co.yap.translation.Translator
 import co.yap.yapcore.R
 import co.yap.yapcore.enums.AccountStatus
+import co.yap.yapcore.helpers.DateUtils.LeanPlumEventFormat
 import co.yap.yapcore.helpers.extentions.trackEvent
-import co.yap.yapcore.helpers.extentions.trackEventWithAttributes
+import co.yap.yapcore.helpers.extentions.trackEventInFragments
 import co.yap.yapcore.leanplum.KYCEvents
 import co.yap.yapcore.managers.MyUserManager
 import kotlinx.android.synthetic.main.fragment_set_card_pin.*
+import java.text.SimpleDateFormat
+import java.util.*
 
 open class ConfirmCardPinFragment : SetCardPinFragment() {
 
@@ -46,10 +49,17 @@ open class ConfirmCardPinFragment : SetCardPinFragment() {
                     }
                 }
                 viewModel.EVENT_SET_CARD_PIN_SUCCESS -> {
-                    trackEvent(KYCEvents.CARD_ACTIVE.type)
-                    trackEventWithAttributes(MyUserManager.user, account_active = true)
-                    findNavController().navigate(R.id.action_confirmCardPinFragment_to_setCardPinSuccessFragment)
+                    if (MyUserManager.user?.notificationStatuses == AccountStatus.MEETING_SUCCESS.name) {
+                        trackEvent(KYCEvents.CARD_ACTIVE.type)
+                        trackEventInFragments(
+                            MyUserManager.user,
+                            account_active = SimpleDateFormat(LeanPlumEventFormat).format(Calendar.getInstance().time)
+                        )
+                        // get state from server instead
+                        //MyUserManager.user?.notificationStatuses = AccountStatus.CARD_ACTIVATED.name
+                    }
                     MyUserManager.user?.notificationStatuses = AccountStatus.CARD_ACTIVATED.name
+                    findNavController().navigate(R.id.action_confirmCardPinFragment_to_setCardPinSuccessFragment)
                 }
             }
         })

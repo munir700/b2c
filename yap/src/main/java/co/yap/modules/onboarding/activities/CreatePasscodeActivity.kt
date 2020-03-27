@@ -48,7 +48,6 @@ class CreatePasscodeActivity : BaseBindingActivity<ICreatePasscode.ViewModel>(),
                         co.yap.yapcore.constants.Constants.PAGE_URL to URL_TERMS_CONDITION
                     ), showToolBar = true
                 )
-                //Utils.openWebPage(co.yap.yapcore.constants.Constants.URL_TERMS_CONDITION, "", this)
             } else
                 setObservers()
         })

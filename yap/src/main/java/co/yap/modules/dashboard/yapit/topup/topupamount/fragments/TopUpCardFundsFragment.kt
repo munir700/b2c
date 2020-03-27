@@ -20,9 +20,12 @@ import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.DecimalDigitsInputFilter
 import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.helpers.cancelAllSnackBar
 import co.yap.yapcore.helpers.extentions.launchActivity
-import co.yap.yapcore.helpers.showSnackBar
+import co.yap.yapcore.helpers.extentions.toFormattedCurrency
+import co.yap.yapcore.helpers.showTextUpdatedAbleSnackBar
 import co.yap.yapcore.managers.MyUserManager
+import com.google.android.material.snackbar.Snackbar
 
 class TopUpCardFundsFragment : BaseBindingFragment<IFundActions.ViewModel>(),
     IFundActions.View {
@@ -72,13 +75,15 @@ class TopUpCardFundsFragment : BaseBindingFragment<IFundActions.ViewModel>(),
         setupData()
     }
 
-
     override fun setObservers() {
-
         viewModel.clickEvent.observe(this, clickEvent)
         viewModel.errorEvent.observe(this, Observer {
-            showErrorSnackBar()
+            showTextUpdatedAbleSnackBar(
+                viewModel.state.errorDescription,
+                Snackbar.LENGTH_INDEFINITE
+            )
         })
+        viewModel.enteredAmount.observe(this, enterAmountObserver)
 
         viewModel.htmlLiveData.observe(this, Observer {
             if (!it.isNullOrEmpty()) {
@@ -98,7 +103,7 @@ class TopUpCardFundsFragment : BaseBindingFragment<IFundActions.ViewModel>(),
                     viewModel.topUpTransactionModelLiveData
                 val action =
                     TopUpCardFundsFragmentDirections.actionTopUpCardFundsFragmentToVerifyCardCvvFragment(
-                        viewModel.state.amount.toString(),
+                        viewModel.enteredAmount.value.toString(),
                         viewModel.state.currencyType
                     )
                 findNavController().navigate(
@@ -106,7 +111,6 @@ class TopUpCardFundsFragment : BaseBindingFragment<IFundActions.ViewModel>(),
                 )
             }
         })
-
     }
 
     var clickEvent = Observer<Int> {
@@ -114,24 +118,51 @@ class TopUpCardFundsFragment : BaseBindingFragment<IFundActions.ViewModel>(),
             R.id.btnAction -> {
                 viewModel.createTransactionSession()
             }
-            R.id.ivCross -> activity?.finish()
+            R.id.tbIvClose -> activity?.finish()
             Constants.CARD_FEE -> setUpFeeData()
         }
     }
 
-    private fun showErrorSnackBar() {
-        getBindings().clSnackbar.showSnackBar(
-            msg = viewModel.state.errorDescription,
-            viewBgColor = R.color.errorLightBackground,
-            colorOfMessage = R.color.error, marginTop = 0
-        )
+    private val enterAmountObserver = Observer<String> {
+        when {
+            isMaxMinLimitReached(it) -> {
+                viewModel.state.valid = false
+                viewModel.state.amountBackground =
+                    resources.getDrawable(co.yap.yapcore.R.drawable.bg_funds_error, null)
+                viewModel.state.errorDescription = getString(
+                    Strings.common_display_text_min_max_limit_error_transaction
+                ).format(
+                    Utils.getFormattedCurrency(viewModel.state.minLimit.toString()),
+                    Utils.getFormattedCurrency(viewModel.state.maxLimit.toString())
+                )
+                showTextUpdatedAbleSnackBar(
+                    viewModel.state.errorDescription,
+                    Snackbar.LENGTH_INDEFINITE
+                )
+            }
+            else -> {
+                viewModel.state.valid = true
+                viewModel.state.amountBackground =
+                    resources.getDrawable(co.yap.yapcore.R.drawable.bg_funds, null)
+                cancelAllSnackBar()
+            }
+        }
     }
+
+    private fun isMaxMinLimitReached(amount: String): Boolean {
+        return if (amount.isNotBlank() || amount.toDoubleOrNull() ?: 0.0 > 0.0)
+            (amount.toDoubleOrNull() ?: 0.0 < viewModel.state.minLimit || amount.toDoubleOrNull() ?: 0.0 > viewModel.state.maxLimit)
+        else
+            false
+    }
+
 
     private fun setupData() {
         getBindings().etAmount.filters =
             arrayOf(InputFilter.LengthFilter(7), DecimalDigitsInputFilter(2))
         if (context is TopUpCardActivity) {
-            viewModel.state.cardNumber = (context as TopUpCardActivity).cardInfo?.number.toString()
+            viewModel.state.cardNumber =
+                (context as TopUpCardActivity).cardInfo?.number.toString()
             viewModel.state.cardName = (context as TopUpCardActivity).cardInfo?.alias.toString()
         }
 
@@ -160,7 +191,7 @@ class TopUpCardFundsFragment : BaseBindingFragment<IFundActions.ViewModel>(),
             viewModel.state.transactionFeeSpannableString =
                 getString(Strings.screen_topup_transfer_display_text_transaction_fee)
                     .format(
-                        viewModel.state.currencyType + " " + Utils.getFormattedCurrency(viewModel.state.transactionFee)
+                        viewModel.state.currencyType + " " + viewModel.state.transactionFee.toFormattedCurrency()
                     )
             getBindings().tvFeeDescription.text = Utils.getSppnableStringForAmount(
                 requireContext(),
@@ -170,7 +201,6 @@ class TopUpCardFundsFragment : BaseBindingFragment<IFundActions.ViewModel>(),
             )
         }
     }
-
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -185,6 +215,10 @@ class TopUpCardFundsFragment : BaseBindingFragment<IFundActions.ViewModel>(),
         }
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        viewModel.enteredAmount.removeObservers(this)
+    }
 
     private fun getBindings(): FragmentTopUpCardFundsBinding {
         return viewDataBinding as FragmentTopUpCardFundsBinding

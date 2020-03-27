@@ -44,7 +44,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="@dimen/_8sdp"
+                android:layout_marginTop="@dimen/_5sdp"
                 android:gravity="center_horizontal"
                 android:lineSpacingExtra="6sp"
                 android:textColor="@color/greyDark"
@@ -57,7 +57,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="@dimen/_12sdp"
+                android:layout_marginTop="@dimen/_7sdp"
                 android:orientation="horizontal">
 
                 <LinearLayout
@@ -144,16 +144,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_medium_large"
-                android:layout_marginTop="@dimen/_12sdp"
+                android:layout_marginTop="@dimen/_8sdp"
                 android:layout_marginEnd="@dimen/margin_medium_large"
                 android:layout_marginBottom="@dimen/margin_small">
 
                 <TextView
                     android:id="@+id/tvTransactionTitle"
                     style="@style/ASmall"
-                    android:layout_centerVertical="true"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
                     android:text="Transactions" />
 
                 <RelativeLayout
@@ -185,7 +185,7 @@
                         android:layout_marginEnd="2dp"
                         android:layout_toEndOf="@+id/tvFilterCount"
                         android:src="@drawable/ic_filter"
-                        android:tint="@{viewModel.state.isTransEmpty() &amp;&amp; viewModel.state.filterCount==0? @color/grey: @color/colorPrimaryDark}" />
+                        android:tint="@{viewModel.state.isTransEmpty() &amp;&amp; viewModel.state.filterCount==0? @color/grey: @color/colorPrimary}" />
 
                     <TextView
                         android:id="@+id/tvFilters"
@@ -195,7 +195,7 @@
                         android:layout_marginTop="@dimen/_2sdp"
                         android:layout_toEndOf="@+id/ivFilters"
                         android:text="Filter"
-                        android:textColor="@{viewModel.state.isTransEmpty() &amp;&amp; viewModel.state.filterCount==0? @color/grey: @color/colorPrimaryDark}" />
+                        android:textColor="@{viewModel.state.isTransEmpty() &amp;&amp; viewModel.state.filterCount==0? @color/grey: @color/colorPrimary}" />
                     <!--                        android:textColor="?attr/colorPrimaryAttr" />-->
 
                 </RelativeLayout>
@@ -206,15 +206,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="@color/divider"
-                android:paddingTop="@dimen/_12sdp" />
+                android:paddingTop="@dimen/_8sdp" />
 
             <co.yap.widgets.MultiStateView
                 android:id="@+id/multiStateView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                app:msv_errorView="@layout/error_view_no_transaction_found"
                 app:msv_emptyView="@layout/layout_welcome_to_yap_view"
-                >
+                app:msv_errorView="@layout/error_view_no_transaction_found">
                 <!--     Content List-->
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rvTransaction"
@@ -223,29 +222,31 @@
                     tools:listitem="@layout/item_transaction_list" />
             </co.yap.widgets.MultiStateView>
 
-<!--            <ImageView-->
-<!--                android:id="@+id/ivNoTransaction"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="match_parent"-->
-<!--                android:layout_gravity="center_horizontal"-->
-<!--                android:layout_marginBottom="@dimen/margin_extra_large"-->
-<!--                android:visibility="@{viewModel.state.isTransEmpty?View.VISIBLE:View.GONE}"-->
-<!--                app:srcCompat="@drawable/ic_no_transaction" />-->
+            <!--            <ImageView-->
+            <!--                android:id="@+id/ivNoTransaction"-->
+            <!--                android:layout_width="wrap_content"-->
+            <!--                android:layout_height="match_parent"-->
+            <!--                android:layout_gravity="center_horizontal"-->
+            <!--                android:layout_marginBottom="@dimen/margin_extra_large"-->
+            <!--                android:visibility="@{viewModel.state.isTransEmpty?View.VISIBLE:View.GONE}"-->
+            <!--                app:srcCompat="@drawable/ic_no_transaction" />-->
 
         </LinearLayout>
 
         <co.yap.widgets.tooltipview.TooltipView
             android:id="@+id/tooltip"
+            style="@style/Small"
             android:layout_width="@dimen/_120sdp"
             android:layout_height="wrap_content"
             android:background="@color/divider"
             android:elevation="5dp"
             android:gravity="center"
-            android:paddingStart="@dimen/_4sdp"
+            android:paddingStart="@dimen/_6sdp"
             android:paddingTop="@dimen/_2sdp"
-            android:paddingEnd="@dimen/_4sdp"
+            android:paddingEnd="@dimen/_6sdp"
             android:paddingBottom="@dimen/_8sdp"
-            android:text="Tooltip"
+            android:textColor="?attr/colorPrimaryDark"
+            android:textSize="@dimen/text_size_h1"
             android:visibility="gone"
             app:arrowAlignment="custom"
             app:arrowHeight="@dimen/_6sdp"
@@ -255,7 +256,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:tooltipColor="@color/white" />
+            app:tooltipColor="@color/white"
+            tools:text="Tooltip" />
 
     </RelativeLayout>
 

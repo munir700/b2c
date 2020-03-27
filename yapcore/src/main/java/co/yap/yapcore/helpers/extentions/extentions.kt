@@ -3,6 +3,7 @@ package co.yap.yapcore.helpers.extentions
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.net.ConnectivityManager
 import android.os.Parcelable
 import android.text.Editable
 import android.text.TextWatcher
@@ -24,7 +25,7 @@ import com.google.android.material.navigation.NavigationView
 
 @Keep
 enum class ExtraType {
-    STRING, INT, BOOLEAN, DOUBLE, LONG,PARCEABLE;
+    STRING, INT, BOOLEAN, DOUBLE, LONG, PARCEABLE;
 }
 
 fun Intent.getValue(key: String, type: String): Any? {
@@ -95,6 +96,7 @@ fun EditText.afterTextChanged(afterTextChanged: (String) -> Unit) {
         }
     })
 }
+
 fun AppCompatActivity.addFragment(tag: String?, id: Int, fragment: Fragment) {
     val fragmentTransaction = supportFragmentManager.beginTransaction()
     fragmentTransaction.add(id, fragment, tag)
@@ -154,4 +156,16 @@ fun NavigationView?.navViewWidth(percent: Int) {
         val params = it.layoutParams
         params.width = Utils.getDimensionInPercent(it.context, true, percent)
     }
+}
+
+fun Context?.isNetworkAvailable(): Boolean {
+    return this?.let {
+        val connectivityManager =
+            it.getSystemService(Context.CONNECTIVITY_SERVICE) as? ConnectivityManager
+        connectivityManager?.let {
+            connectivityManager.activeNetworkInfo?.let {
+                return connectivityManager.activeNetworkInfo.isConnected
+            } ?: false
+        } ?: false
+    } ?: false
 }

@@ -15,7 +15,7 @@ import co.yap.networking.transactions.requestdtos.RemittanceFeeRequest
 import co.yap.translation.Strings
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.TransactionProductCode
-import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 import co.yap.yapcore.managers.MyUserManager
 import kotlinx.coroutines.delay
 
@@ -30,7 +30,6 @@ class TopUpCardFundsViewModel(application: Application) : FundActionsViewModel(a
     override fun initateVM(item: TopUpCard) {
         topupCrad = item
         state.cardInfo.set(item)
-
         state.toolBarHeader = getString(Strings.screen_topup_transfer_display_text_screen_title)
         state.enterAmountHeading =
             getString(Strings.screen_topup_transfer_display_text_amount_title)
@@ -42,7 +41,8 @@ class TopUpCardFundsViewModel(application: Application) : FundActionsViewModel(a
             getString(Strings.screen_topup_transfer_display_text_available_balance)
                 .format(
                     state.currencyType,
-                    Utils.getFormattedCurrency(MyUserManager.cardBalance.value?.availableBalance.toString())
+                    MyUserManager.cardBalance.value?.availableBalance.toString()
+                        .toFormattedCurrency()
                 )
         state.buttonTitle = getString(Strings.screen_topup_funds_display_button_text)
     }
@@ -66,7 +66,7 @@ class TopUpCardFundsViewModel(application: Application) : FundActionsViewModel(a
                         val feeAmount = response.data.data?.tierRateDTOList?.get(0)?.feeAmount
                         val VATAmount = response.data.data?.tierRateDTOList?.get(0)?.vatAmount
                         state.transactionFee =
-                            Utils.getFormattedCurrency(feeAmount?.plus(VATAmount ?: 0.0).toString())
+                            feeAmount?.plus(VATAmount ?: 0.0).toString().toFormattedCurrency() ?: ""
                         clickEvent.postValue(Constants.CARD_FEE)
                     }
                     //Commented because QA said to remove "No fee" text.
@@ -88,7 +88,7 @@ class TopUpCardFundsViewModel(application: Application) : FundActionsViewModel(a
         launch {
             state.loading = true
             when (val response = transactionsRepository.createTransactionSession(
-                CreateSessionRequest(Order(state.currencyType, state.amount.toString()))
+                CreateSessionRequest(Order(state.currencyType, enteredAmount.value.toString()))
             )) {
                 is RetroApiResponse.Success -> {
                     orderId = response.data.data.order.id
@@ -114,17 +114,17 @@ class TopUpCardFundsViewModel(application: Application) : FundActionsViewModel(a
         orderId: String
     ) {
         launch {
-            // state.loading = true
             when (val response = transactionsRepository.check3DEnrollmentSession(
                 Check3DEnrollmentSessionRequest(
                     topupCrad.id?.toIntOrNull(),
-                    Order(state.currencyType, state.amount.toString()),
+                    Order(state.currencyType, enteredAmount.value.toString()),
                     Session(sessionId)
                 )
             )) {
                 is RetroApiResponse.Success -> {
                     secureId = response.data.data._3DSecureId
-                    htmlLiveData.value = response.data.data._3DSecure.authenticationRedirect.simple?.htmlBodyContent?.let { it }
+                    htmlLiveData.value =
+                        response.data.data._3DSecure.authenticationRedirect.simple?.htmlBodyContent?.let { it }
 //                    htmlLiveData.value =
 //                        response.data.data._3DSecure.authenticationRedirect.simple?.htmlBodyContent
 //                            ?: ""
@@ -163,18 +163,15 @@ class TopUpCardFundsViewModel(application: Application) : FundActionsViewModel(a
                             topUpTransactionModelLiveData?.value = TopUpTransactionModel(
                                 orderId,
                                 state.currencyType,
-                                state.amount,
+                                enteredAmount.value.toString(),
                                 topupCrad.id?.toInt(),
                                 secureId
                             )
                             state.loading = false
                         }
                     }
-                    // state.toast = response.data.data.secure3dId
-                    //clickEvent.postValue(100)
                 }
                 is RetroApiResponse.Error -> {
-                    //  state.toast = response.error.message
                     state.errorDescription = response.error.message
                     errorEvent.call()
                 }

@@ -11,7 +11,9 @@ import co.yap.networking.messages.requestdtos.VerifyForgotPasscodeOtpRequest
 import co.yap.networking.models.RetroApiResponse
 import co.yap.translation.Strings
 import co.yap.yapcore.BaseViewModel
+import co.yap.yapcore.R
 import co.yap.yapcore.SingleClickEvent
+import co.yap.yapcore.helpers.extentions.getColors
 
 open class ForgotPasscodeOtpViewModel(application: Application) :
     BaseViewModel<IForgotPasscodeOtp.State>(application),
@@ -57,6 +59,7 @@ open class ForgotPasscodeOtpViewModel(application: Application) :
                 is RetroApiResponse.Error -> {
                     state.toast = response.error.message
                     state.loading = false
+                    otpUiBlocked(response.error.actualCode)
                 }
             }
         }
@@ -79,9 +82,24 @@ open class ForgotPasscodeOtpViewModel(application: Application) :
                 is RetroApiResponse.Success -> {
                     nextButtonPressEvent.setValue(id)
                 }
-                is RetroApiResponse.Error -> state.toast = response.error.message
+                is RetroApiResponse.Error ->{
+                    state.toast = response.error.message
+                    state.otp=""
+                    otpUiBlocked(response.error.actualCode)
+                }
             }
             state.loading = false
+        }
+    }
+
+    private fun otpUiBlocked(errorCode: String) {
+        when (errorCode) {
+            "1095" -> {
+                state.validResend = false
+//                state.valid = false
+                state.color = context.getColors(R.color.disabled)
+                state.isOtpBlocked.set(false)
+            }
         }
     }
 }

@@ -6,6 +6,7 @@ import android.os.CountDownTimer
 import android.text.SpannableStringBuilder
 import androidx.core.content.ContextCompat
 import androidx.databinding.Bindable
+import androidx.databinding.ObservableField
 import co.yap.yapcore.BR
 import co.yap.yapcore.BaseState
 import co.yap.yapcore.R
@@ -85,12 +86,7 @@ class GenericOtpState(application: Application) : BaseState(), IGenericOtp.State
             field = value
             notifyPropertyChanged(BR.imageUrl)
         }
-    @get:Bindable
-    override var fullName: String? = ""
-        set(value) {
-            field = value
-            notifyPropertyChanged(BR.fullName)
-        }
+
     @get:Bindable
     override var currencyType: String? = "AED"
         set(value) {
@@ -102,18 +98,6 @@ class GenericOtpState(application: Application) : BaseState(), IGenericOtp.State
         set(value) {
             field = value
             notifyPropertyChanged(BR.amount)
-        }
-    @get:Bindable
-    override var position: Int? = 0
-        set(value) {
-            field = value
-            notifyPropertyChanged(BR.position)
-        }
-    @get:Bindable
-    override var flagLayoutVisibility: Boolean? = false
-        set(value) {
-            field = value
-            notifyPropertyChanged(BR.flagLayoutVisibility)
         }
     @get:Bindable
     override var beneficiaryCountry: String? = ""
@@ -161,4 +145,6 @@ class GenericOtpState(application: Application) : BaseState(), IGenericOtp.State
             }
         }.start()
     }
+
+    override var isOtpBlocked: ObservableField<Boolean> = ObservableField(false)
 }

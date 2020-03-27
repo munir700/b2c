@@ -62,4 +62,12 @@ object BiometricUtil {
             Manifest.permission.USE_FINGERPRINT
         ) == PackageManager.PERMISSION_GRANTED
     }
+
+    fun hasBioMetricFeature(context: Context): Boolean {
+        return (isFingerprintSupported
+                && isHardwareSupported(context)
+                && isPermissionGranted(context)
+                && isFingerprintAvailable(context))
+    }
+
 }

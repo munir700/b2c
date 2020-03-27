@@ -30,6 +30,7 @@ import co.yap.translation.Translator
 import co.yap.yapcore.R
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.extentions.shortToast
+import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.MyUserManager
 import com.google.i18n.phonenumbers.PhoneNumberUtil
@@ -95,6 +96,7 @@ object Utils {
         clipboard.primaryClip = clip
     }
 
+    @Deprecated("Please use toFormattedCurrency() extension method instead")
     fun getFormattedCurrency(num: String?): String {
         return try {
             if ("" != num && null != num) {
@@ -508,7 +510,8 @@ object Utils {
             str.setSpan(
                 fcs,
                 separated[0].length,
-                separated[0].length + currencyType.length + getFormattedCurrency(amount).length + 1,
+                separated[0].length + currencyType.length + (amount.toFormattedCurrency()?.length
+                    ?: 0) + 1,
                 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
             )
             str
@@ -559,13 +562,15 @@ object Utils {
             str.setSpan(
                 fcs,
                 separated[0].length,
-                separated[0].length + currencyType.length + getFormattedCurrency(amount).length + 1,
+                separated[0].length + currencyType.length + (amount.toFormattedCurrency()?.length
+                    ?: 0) + 1,
                 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
             )
             str.setSpan(
                 fcsLarge,
                 separated[0].length,
-                separated[0].length + currencyType.length + getFormattedCurrency(amount).length + 1,
+                separated[0].length + currencyType.length + (amount.toFormattedCurrency()?.length
+                    ?: 0) + 1,
                 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
             )
             str

@@ -39,6 +39,7 @@ object Constants {
     const val Y_TO_Y_TRANSFER = "P003"
     const val SUPP_CARD_TOP_UP = "P004"
     const val SUPP_WITHDRAW = "P006"
+
     //This is intentional, so don't remove below line
     const val SUPP_CARD = SUPP_WITHDRAW
     const val ADD_FUNDS = SUPP_WITHDRAW
@@ -54,6 +55,7 @@ object Constants {
     const val MORE_INVITE_FRIEND: Int = 3
     const val MORE_HELP_SUPPORT: Int = 4
     const val EVENT_CREATE_CARD_PIN: Int = 13
+
     //Add Note flow constants
     const val INTENT_ADD_NOTE_REQUEST = 2222
     const val KEY_NOTE_VALUE = "noteValue"
@@ -120,6 +122,7 @@ object Constants {
     // Money Transfer
     const val MONEY_TRANSFERED = "MONEY_TRANSFERED"
     const val BENEFICIARY_CHANGE = "BENEFICIARY_CHANGE"
+    const val IS_TRANSFER_MONEY = "IS_TRANSFER_MONEY"
 
     //Location Selection
     const val ADDRESS = "address"
@@ -168,8 +171,4 @@ object Constants {
 
     const val PAGE_URL = "_page_url"
     const val TOOLBAR_TITLE = "toolbar_title"
-
-
-
-
 }

@@ -1,6 +1,5 @@
 package co.yap.networking.transactions.responsedtos.transaction
 
-import androidx.annotation.Keep
 import com.google.gson.annotations.SerializedName
 
 
@@ -36,6 +35,8 @@ data class HomeTransactionListData(
     @SerializedName("totalElements")
     var totalElements: Int,
     @SerializedName("totalPages")
-    var totalPages: Int
+    var totalPages: Int,
+    @Transient
+    var originalDate: String? = ""
 
 )

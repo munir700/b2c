@@ -140,7 +140,7 @@
     <!--    <string name="screen_kyc_information_error_display_text_title_from_usa">Looks like you\'re from the United States</string>-->
     <string name="screen_kyc_information_error_display_text_explanation_from_usa">Sorry, we\'re unable to activate your YAP account at this time. We\'re working on it and we will let you know once resolved.</string>
     <string name="screen_kyc_information_error_display_text_title_under_age">18 birthdays for a YAP account</string>
-    <string name="screen_kyc_information_error_display_text_explanation_under_age">Currently, you can only have an account with YAP if you\'re over 18 years of age. You can always continue signing up via our dashboard once you\'ve turned 18</string>
+    <string name="screen_kyc_information_error_display_text_explanation_under_age">Currently, you can only have an account with YAP if you\'re over 18 years of age. You can always come back and use YAP once you\'re 18. Or speak to your parents about opening an account for you!</string>
     <string name="screen_kyc_information_error_display_text_title_expired_card">YAP works best with a valid Emirates ID</string>
     <string name="screen_kyc_information_error_display_text_explanation_expired_card">Once you\'ve renewed or received your Emirates ID, re-scan it via our dashboard to continue opening your account with YAP.</string>
     <string name="screen_kyc_information_error_button_go_to_dashboard">Go to dashboard</string>
@@ -182,8 +182,8 @@
     <string name="screen_b2c_eid_info_review_button_not_under_age">No, I\'m over 18</string>
     <string name="screen_b2c_eid_info_review_display_text_error_expired_eid">Looks like your Emirates ID is expired</string>
     <string name="screen_b2c_eid_info_review_button_valid_emirates_id">No, I have a valid Emirates ID</string>
-    <string name="screen_b2c_eid_info_review_display_text_error_from_usa">Looks like you\'re from %1$s</string>
-    <string name="screen_b2c_eid_info_review_button_not_from_usa">No, I\'m not from %1$s</string>
+    <string name="screen_b2c_eid_info_review_display_text_error_from_usa">Looks like you\'re from %1s</string>
+    <string name="screen_b2c_eid_info_review_button_not_from_usa">No, I\'m not from %1s</string>
 
     <!--    <string name="screen_b2c_eid_info_review_display_text_error_from_usa">Looks like you\'re from United States</string>-->
     <!--    <string name="screen_b2c_eid_info_review_button_not_from_usa">No, I\'m not from USA</string>-->
@@ -236,6 +236,7 @@
     <!-- Forgot passcode otp screen -->
     <string name="screen_forgot_passcode_otp_display_text_heading">Verify your mobile number</string>
     <string name="screen_forgot_passcode_otp_display_text_sub_heading">Enter the OTP sent to your registered mobile number %1$s</string>
+    <string name="screen_verify_passcode_text_account_locked">Sorry, that’s too many incorrect attempts. We’ve temporarily blocked your access. Click on Forgot passcode to set a new one</string>
 
 
     <!-- Forgot posscode success screen -->
@@ -262,8 +263,8 @@
     <string name="screen_cards_button_update_card">Update card</string>
     <string name="screen_cards_button_unfreeze_card">Unfreeze card</string>
     <string name="screen_cards_display_text_cards_count">You have %d cards</string>
-    <string name="screen_cards_display_text_set_pin">Set PIN</string>
-    <string name="screen_cards_display_text_set_message">Set pin to activate card</string>
+    <string name="screen_cards_display_text_set_pin">Let’s do it</string>
+    <string name="screen_cards_display_text_set_message">Create a PIN to start using your card</string>
     <string name="screen_cards_display_text_add_card">Add card</string>
     <string name="screen_cards_display_text_lost_stolen_card">Card reported damaged or lost/stolen.</string>
     <string name="screen_cards_display_text_lost_stolen_card_action">Reorder Now</string>
@@ -598,6 +599,7 @@
     <string name="screen_add_beneficiary_display_text_country_title">Which country do you want to\n send money to?</string>
     <string name="screen_add_beneficiary_display_text_select_country">Select country</string>
     <string name="screen_add_beneficiary_button_next">Next</string>
+    <string name="screen_add_beneficiary_detail_display_text_error_iban_current_user">You cannot enter your own IBAN</string>
 
     <!--  Add Beneficiary transfer type -->
     <string name="screen_add_beneficiary_display_text_transfer_type">What type of transfer will this be?</string>
@@ -686,6 +688,8 @@
     <string name="screen_international_funds_transfer_input_text_note_hint">Type a note here</string>
     <string name="screen_international_funds_transfer_display_text_fee">International transfer fee: %1s %2s</string>
     <string name="screen_international_funds_transfer_display_text_note">Note that the recipient\'s bank may have its own charges.</string>
+    <string name="screen_international_funds_transfer_display_text_cutoff_time_uaefts">Your transfer will be processed on the next business day.</string>
+    <string name="screen_international_funds_transfer_display_text_cutoff_time_swift">Your transfer will be processed on the next business day. Please note there maybe an impact on the FX rate at the time of transfer.</string>
 
     <!--    Forgot card pin screen-->
     <string name="screen_forgot_pin_display_text_heading">Verify your PIN change</string>

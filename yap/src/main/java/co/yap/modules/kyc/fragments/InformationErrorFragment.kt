@@ -22,12 +22,16 @@ class InformationErrorFragment : KYCChildFragment<IInformationError.ViewModel>()
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        val countryName =
-            arguments?.let { InformationErrorFragmentArgs.fromBundle(it).countryName }.toString()
-        viewModel.countryName = Translator.getString(
-            requireContext(),
-            Strings.screen_kyc_information_error_display_text_title_from_usa, countryName
-        )
+        viewModel.state.errorTitle =
+            arguments?.let { InformationErrorFragmentArgs.fromBundle(it).errorTitle }.toString()
+
+        viewModel.state.errorGuide =
+            arguments?.let { InformationErrorFragmentArgs.fromBundle(it).errorBody }.toString()
+
+//        viewModel.countryName = Translator.getString(
+//            requireContext(),
+//            Strings.screen_kyc_information_error_display_text_title_from_usa, countryName
+//        )
 
         viewModel.clickEvent.observe(this, Observer {
             viewModel.parentViewModel?.finishKyc?.value = DocumentsResponse(false)

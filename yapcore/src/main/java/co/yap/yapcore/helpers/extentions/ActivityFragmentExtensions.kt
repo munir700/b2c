@@ -229,7 +229,6 @@ fun Fragment.startFragment(
     intent.putExtra(FRAGMENT_CLASS, fragmentName)
     intent.putExtra(EXTRA, bundle)
     intent.putExtra(SHOW_TOOLBAR, showToolBar)
-    intent.putExtra(SHOW_TOOLBAR, showToolBar)
     intent.putExtra(TOOLBAR_TITLE, toolBarTitle)
     if (requestCode > 0) {
         startActivityForResult(intent, requestCode)
@@ -246,12 +245,17 @@ fun Fragment.startFragment(
 fun <T : Fragment> FragmentActivity.startFragmentForResult(
     fragmentName: String,
     bundle: Bundle = Bundle(),
+    showToolBar: Boolean = false,
+    toolBarTitle: String = "",
     completionHandler: ((resultCode: Int, data: Intent?) -> Unit)? = null
 ) {
     val intent = Intent(this, FrameActivity::class.java)
     try {
         intent.putExtra(FRAGMENT_CLASS, fragmentName)
         intent.putExtra(EXTRA, bundle)
+        intent.putExtra(SHOW_TOOLBAR, showToolBar)
+
+        intent.putExtra(TOOLBAR_TITLE, toolBarTitle)
 
         (this as AppCompatActivity).startForResult(intent) { result ->
             completionHandler?.invoke(result.resultCode, result.data)
@@ -273,13 +277,16 @@ fun <T : Fragment> FragmentActivity.startFragmentForResult(
 fun <T : Fragment> Fragment.startFragmentForResult(
     fragmentName: String,
     bundle: Bundle = Bundle(),
+    showToolBar: Boolean = false,
+    toolBarTitle: String = "",
     completionHandler: ((resultCode: Int, data: Intent?) -> Unit)? = null
 ) {
     val intent = Intent(requireActivity(), FrameActivity::class.java)
     try {
         intent.putExtra(FRAGMENT_CLASS, fragmentName)
         intent.putExtra(EXTRA, bundle)
-        intent.putExtra(SHOW_TOOLBAR, false)
+        intent.putExtra(SHOW_TOOLBAR, showToolBar)
+        intent.putExtra(TOOLBAR_TITLE, toolBarTitle)
         this.startForResult(intent) { result ->
             completionHandler?.invoke(result.resultCode, result.data)
         }.onFailed { result ->

@@ -74,6 +74,33 @@ fun Activity.showSnackBar(
     snakbar.setAction(actionText, clickListener)
     snakbar.show(gravity)
 }
+fun Activity?.showSnackBar(
+    msg: String, @ColorRes viewBgColor: Int, @ColorRes colorOfMessage: Int,
+    gravity: Int = Gravity.BOTTOM,
+    duration: Int = Snackbar.LENGTH_LONG,
+    marginTop: Int = this?.dimen(R.dimen.toolbar_height) ?: 0,
+    marginBottom: Int = this?.dimen(R.dimen.margin_zero_dp) ?: 0
+): Snackbar? {
+    this?.let {
+        val snakbar = Snackbar
+            .make(
+                it.window?.decorView?.findViewById(android.R.id.content)!!,
+                validateString(msg),
+                duration
+            )
+        snakbar.view.setBackgroundColor(ContextCompat.getColor(it, viewBgColor))
+        val snackRootView = snakbar.view
+        val snackTextView = snackRootView
+            .findViewById<TextView>(R.id.snackbar_text)
+        snackTextView.setTextAppearance(R.style.Micro)
+        snakbar.setTextColor(ContextCompat.getColor(snakbar.view.context, colorOfMessage))
+        snakbar.config(marginTop, marginBottom)
+        cancelAllSnackBar()
+        snakbar.show(gravity)
+        return snakbar
+    }
+    return null
+}
 
 // for activity and action
 fun Activity.showSnackBar(
@@ -375,6 +402,33 @@ fun Snackbar?.updateSnackBarText(msg: String) {
         val snackTextView = snackRootView
             .findViewById<TextView>(R.id.snackbar_text)
         snackTextView.text = validateString(msg)
+    }
+}
+
+fun Fragment?.showTextUpdatedAbleSnackBar(errorMessage: String, length: Int) {
+    this?.let {
+        getSnackBarFromQueue(0)?.let {
+            if (it.isShown) {
+                it.updateSnackBarText(errorMessage)
+            }
+        } ?: showSnackBar(
+            msg = errorMessage,
+            viewBgColor = R.color.errorLightBackground, gravity = Gravity.TOP,
+            colorOfMessage = R.color.error, duration = length
+        )
+    }
+}
+fun Activity?.showTextUpdatedAbleSnackBar(errorMessage: String, length: Int) {
+    this?.let {
+        getSnackBarFromQueue(0)?.let {
+            if (it.isShown) {
+                it.updateSnackBarText(errorMessage)
+            }
+        } ?: showSnackBar(
+            msg = errorMessage,
+            viewBgColor = R.color.errorLightBackground, gravity = Gravity.TOP,
+            colorOfMessage = R.color.error, duration = length
+        )
     }
 }
 

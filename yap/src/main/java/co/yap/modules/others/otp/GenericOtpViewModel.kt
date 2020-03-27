@@ -8,8 +8,10 @@ import co.yap.networking.messages.requestdtos.CreateOtpGenericRequest
 import co.yap.networking.messages.requestdtos.VerifyOtpGenericRequest
 import co.yap.networking.models.RetroApiResponse
 import co.yap.translation.Strings
+import co.yap.yapcore.R
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.helpers.extentions.getColors
 
 open class GenericOtpViewModel(application: Application) : ForgotPasscodeOtpViewModel(application) {
 
@@ -45,7 +47,6 @@ open class GenericOtpViewModel(application: Application) : ForgotPasscodeOtpView
         state.validResend = false
     }
 
-
     override fun handlePressOnSendButton(id: Int) {
         verifyOtp(id)
     }
@@ -58,7 +59,7 @@ open class GenericOtpViewModel(application: Application) : ForgotPasscodeOtpView
                 when (val response =
                     repository.verifyOtpGenericWithPhone(
                         state.mobileNumber[0]!!.replace(" ", "").replace("+", "00"),
-                        VerifyOtpGenericRequest(action!!, state.otp)
+                        VerifyOtpGenericRequest(action?:"", state.otp)
                     )
                     ) {
                     is RetroApiResponse.Success -> {
@@ -66,7 +67,9 @@ open class GenericOtpViewModel(application: Application) : ForgotPasscodeOtpView
                     }
                     is RetroApiResponse.Error -> {
                         state.toast = response.error.message
+                        state.otp=""
                         state.loading = false
+                        otpUiBlocked(response.error.actualCode)
                     }
                 }
                 state.loading = false
@@ -86,7 +89,9 @@ open class GenericOtpViewModel(application: Application) : ForgotPasscodeOtpView
                     }
                     is RetroApiResponse.Error -> {
                         state.toast = response.error.message
+                        state.otp=""
                         state.loading = false
+                        otpUiBlocked(response.error.actualCode)
                     }
                 }
                 state.loading = false
@@ -110,7 +115,7 @@ open class GenericOtpViewModel(application: Application) : ForgotPasscodeOtpView
             when (val response =
                 messagesRepository.createOtpGeneric(
                     createOtpGenericRequest = CreateOtpGenericRequest(
-                        action!!
+                        action?:""
                     )
                 )) {
                 is RetroApiResponse.Success -> {
@@ -122,6 +127,7 @@ open class GenericOtpViewModel(application: Application) : ForgotPasscodeOtpView
                 is RetroApiResponse.Error -> {
                     state.toast = response.error.message
                     state.loading = false
+                    otpUiBlocked(response.error.actualCode)
                 }
             }
             state.loading = false
@@ -129,7 +135,6 @@ open class GenericOtpViewModel(application: Application) : ForgotPasscodeOtpView
     }
 
     private fun createOtpForPhoneNumber(context: Context) {
-
         launch {
             state.loading = true
             when (val response =
@@ -149,9 +154,21 @@ open class GenericOtpViewModel(application: Application) : ForgotPasscodeOtpView
                 is RetroApiResponse.Error -> {
                     state.toast = response.error.message
                     state.loading = false
+                    otpUiBlocked(response.error.actualCode)
                 }
             }
             state.loading = false
+        }
+    }
+
+    private fun otpUiBlocked(errorCode: String) {
+        when (errorCode) {
+            "1095" -> {
+                state.validResend = false
+//                state.valid = false
+                state.color = context.getColors(R.color.disabled)
+                state.isOtpBlocked.set(false)
+            }
         }
     }
 }
