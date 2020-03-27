@@ -4,6 +4,7 @@ import androidx.databinding.ObservableBoolean
 import androidx.lifecycle.MutableLiveData
 import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.networking.transactions.responsedtos.TransactionThresholdModel
+import co.yap.networking.transactions.responsedtos.purposepayment.PurposeOfPayment
 import co.yap.sendMoney.fundtransfer.models.TransferFundData
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
@@ -17,6 +18,7 @@ interface IBeneficiaryFundTransfer {
         var beneficiary: MutableLiveData<Beneficiary>
         var transferData: MutableLiveData<TransferFundData>
         var transactionThreshold: MutableLiveData<TransactionThresholdModel>
+        var selectedPop: PurposeOfPayment?
     }
 
     interface State : IBase.State {

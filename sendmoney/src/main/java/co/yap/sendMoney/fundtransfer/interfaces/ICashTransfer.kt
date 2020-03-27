@@ -43,7 +43,7 @@ interface ICashTransfer {
 
     interface State : IBase.State {
         var amountBackground: Drawable?
-        var feeAmountSpannableString: SpannableStringBuilder?
+        var feeAmountSpannableString: CharSequence?
         var availableBalanceString: CharSequence?
         var amount: String
         var valid: Boolean
@@ -52,10 +52,10 @@ interface ICashTransfer {
         var maxLimit: Double
         var noteValue: String?
         fun clearError()
-        var transferFeeSpannable: CharSequence?
         var totalAmountWithFee: ObservableField<Double>
         var transactionData: ArrayList<InternationalFundsTransferReasonList.ReasonList>
         val populateSpinnerData: MutableLiveData<List<InternationalFundsTransferReasonList.ReasonList>>
         var produceCode: String?
+        var isDefaultFeeApplicable: ObservableField<Boolean>
     }
 }

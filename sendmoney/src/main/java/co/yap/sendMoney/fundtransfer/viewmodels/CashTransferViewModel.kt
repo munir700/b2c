@@ -95,7 +95,7 @@ class CashTransferViewModel(application: Application) :
                     )
                 }
             } else {
-                errorEvent.setValue(id)
+            clickEvent.setValue(id)
             }
     }
 
@@ -313,16 +313,12 @@ class CashTransferViewModel(application: Application) :
         return (when (transactionFeeResponse.value?.feeType) {
             FeeType.TIER.name -> {
                 val transferFee = getFeeFromTier(state.amount)
-                state.amount?.toDoubleOrNull() ?: 0.0.plus(
+                state.amount.toDoubleOrNull() ?: 0.0.plus(
                     transferFee?.toDoubleOrNull() ?: 0.0
                 )
             }
             FeeType.FLAT.name -> {
-                val transferFee = transactionFeeResponse.value?.tierRateDTOList?.get(0)
-                    ?.feeAmount?.plus(
-                    transactionFeeResponse.value?.tierRateDTOList?.get(0)?.vatAmount ?: 0.0
-                )
-                state.amount?.toDoubleOrNull() ?: 0.0.plus(transferFee ?: 0.0)
+                state.amount.toDoubleOrNull() ?: 0.0.plus(getFlatFee())
             }
             else -> {
                 0.00
@@ -330,13 +326,35 @@ class CashTransferViewModel(application: Application) :
         })
     }
 
+    fun getFlatFee(): Double {
+        return transactionFeeResponse.value?.tierRateDTOList?.get(0)
+            ?.feeAmount?.plus(
+            transactionFeeResponse.value?.tierRateDTOList?.get(0)?.vatAmount ?: 0.0
+        ) ?: 0.0
+    }
+
     override fun processPurposeList(list: ArrayList<PurposeOfPayment>) {
 
     }
+
     fun isUaeftsBeneficiary(): Boolean {
         parentViewModel?.beneficiary?.value?.beneficiaryType?.let {
             return (it == SendMoneyBeneficiaryType.UAEFTS.type || it == SendMoneyBeneficiaryType.DOMESTIC.type)
         } ?: return false
     }
 
+    fun setPurposeOfPaymentFeeFlag(purposeOfPayment: PurposeOfPayment?) {
+        if (!isUaeftsBeneficiary()) return
+        purposeOfPayment?.let { pop ->
+            val isFeeApplicable = if (pop.nonChargeable == false) {
+                if (pop.cbwsi == true && pop.cbwsiFee == true) {
+                    state.amount.toDoubleOrNull() ?: 0.0 > 10000
+                } else
+                    false
+            } else
+                false
+
+            state.isDefaultFeeApplicable.set(isFeeApplicable)
+        }
+    }
 }

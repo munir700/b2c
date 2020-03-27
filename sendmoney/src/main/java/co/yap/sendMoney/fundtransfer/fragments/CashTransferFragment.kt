@@ -58,6 +58,7 @@ class CashTransferFragment : BeneficiaryFundTransferBaseFragment<ICashTransfer.V
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        viewModel.state.isDefaultFeeApplicable.set(!viewModel.isUaeftsBeneficiary())
         setSpannableFee("0.00")
         viewModel.state.availableBalanceString =
             resources.getText(
@@ -67,15 +68,16 @@ class CashTransferFragment : BeneficiaryFundTransferBaseFragment<ICashTransfer.V
                     "${"AED"} ${MyUserManager.cardBalance.value?.availableBalance?.toFormattedCurrency()}"
                 )
             )
-        setEditTextWatcher()
         getProductCode()
         startFlows()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setEditTextWatcher()
         if (viewModel.transactionData.size > 0)
             setSpinnerAdapter(viewModel.transactionData)
+
     }
 
     override fun setObservers() {
@@ -103,35 +105,28 @@ class CashTransferFragment : BeneficiaryFundTransferBaseFragment<ICashTransfer.V
 
     private fun handleTxnFeeResponse(feeResponse: RemittanceFeeResponse.RemittanceFee?) {
         when (feeResponse?.feeType) {
-            FeeType.FLAT.name -> {
-                handleFlatFee(feeResponse)
-            }
-
+            FeeType.FLAT.name -> setSpannableFee(viewModel.getFlatFee().toString())
             FeeType.TIER.name -> viewModel.feeTiers =
                 feeResponse.tierRateDTOList as ArrayList<RemittanceFeeResponse.RemittanceFee.TierRateDTO>
-
             FeeType.PERCENTAGE.name -> {
-
             }
         }
     }
 
-    private fun handleFlatFee(feeResponse: RemittanceFeeResponse.RemittanceFee) {
-        val totalFeeAmount = feeResponse.tierRateDTOList?.get(0)
-            ?.feeAmount?.plus(feeResponse.tierRateDTOList?.get(0)?.vatAmount ?: 0.0)
-        setSpannableFee(totalFeeAmount.toString())
-    }
-
     private fun setSpannableFee(feeAmount: String?) {
+        val totalFeeAmount =
+            if (viewModel.state.isDefaultFeeApplicable.get() == true) feeAmount else "0.00"
         viewModel.parentViewModel?.transferData?.value?.transferFee = feeAmount
-        viewModel.state.transferFeeSpannable = resources.getText(
-            getString(Strings.screen_international_funds_transfer_display_text_fee),
+        viewModel.state.feeAmountSpannableString = resources.getText(
+            getString(Strings.screen_cash_pickup_funds_display_text_fee),
             requireContext().color(R.color.colorPrimaryDark, "AED"),
             requireContext().color(
                 R.color.colorPrimaryDark,
-                if (feeAmount.isNullOrBlank()) "0.00" else feeAmount.toFormattedCurrency() ?: "0.00"
+                if (totalFeeAmount.isNullOrBlank()) "0.00" else totalFeeAmount.toFormattedCurrency()
+                    ?: "0.00"
             )
         )
+
     }
 
     private fun setSpinnerAdapter(list: ArrayList<InternationalFundsTransferReasonList.ReasonList>) {
@@ -166,6 +161,13 @@ class CashTransferFragment : BeneficiaryFundTransferBaseFragment<ICashTransfer.V
                     position: Int,
                     id: Long
                 ) {
+                    if (position > 0) {
+                        viewModel.parentViewModel?.selectedPop =
+                            viewModel.purposeOfPaymentList.value?.get(position - 1)
+                        viewModel.setPurposeOfPaymentFeeFlag(viewModel.parentViewModel?.selectedPop)
+                        setSpannableFee(viewModel.getFlatFee().toString())
+                    }
+
                     viewModel.reasonPosition = position
                     viewModel.parentViewModel?.transferData?.value?.purposeCode =
                         data[position].code
@@ -278,6 +280,7 @@ class CashTransferFragment : BeneficiaryFundTransferBaseFragment<ICashTransfer.V
                     viewModel.getMoneyTransferLimits(viewModel.state.produceCode)
                     viewModel.getTransferFees(viewModel.state.produceCode)
                     viewModel.getPurposeOfPayment()
+                    viewModel.getCashTransferReasonList()
                     setObservers()
                 }
             }
@@ -399,6 +402,7 @@ class CashTransferFragment : BeneficiaryFundTransferBaseFragment<ICashTransfer.V
                 viewModel.state.clearError()
                 viewModel.state.clearError()
                 if (viewModel.state.amount.isNotEmpty()) {
+                    viewModel.setPurposeOfPaymentFeeFlag(viewModel.parentViewModel?.selectedPop)
                     viewModel.state.totalAmountWithFee.set(viewModel.getTotalAmountWithFee())
                     if (viewModel.transactionFeeResponse.value?.feeType == FeeType.TIER.name)
                         setSpannableFee(viewModel.getFeeFromTier(viewModel.state.amount))

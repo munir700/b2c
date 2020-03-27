@@ -4,7 +4,7 @@ data class TransferFundData(
     var position: Int? = 0,
     var noteValue: String? = null,
     var transferAmount: String? = "",
-    var transferFee: String? = "",
+    var transferFee: String? = "0.00",
     var cutOffTimeMsg: String? = null,
     var referenceNumber: String? = null,
     var purposeCode: String? = null,

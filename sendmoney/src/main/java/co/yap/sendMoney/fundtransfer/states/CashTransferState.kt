@@ -3,7 +3,6 @@ package co.yap.sendMoney.fundtransfer.states
 import android.app.Application
 import android.content.Context
 import android.graphics.drawable.Drawable
-import android.text.SpannableStringBuilder
 import androidx.databinding.Bindable
 import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
@@ -16,7 +15,7 @@ class CashTransferState(application: Application) : BaseState(), ICashTransfer.S
 
     val context: Context = application.applicationContext
     override var totalAmountWithFee: ObservableField<Double> = ObservableField(0.0)
-
+    override var isDefaultFeeApplicable: ObservableField<Boolean> = ObservableField(false)
     @get:Bindable
     override var amountBackground: Drawable? =
         context.resources.getDrawable(co.yap.yapcore.R.drawable.bg_funds, null)
@@ -25,12 +24,6 @@ class CashTransferState(application: Application) : BaseState(), ICashTransfer.S
             notifyPropertyChanged(BR.amountBackground)
         }
 
-    @get:Bindable
-    override var feeAmountSpannableString: SpannableStringBuilder? = SpannableStringBuilder("")
-        set(value) {
-            field = value
-            notifyPropertyChanged(BR.feeAmountSpannableString)
-        }
 
     @get:Bindable
     override var availableBalanceString: CharSequence? = ""
@@ -90,7 +83,7 @@ class CashTransferState(application: Application) : BaseState(), ICashTransfer.S
         }
 
     @get:Bindable
-    override var transferFeeSpannable: CharSequence? = ""
+    override var feeAmountSpannableString: CharSequence? = ""
         set(value) {
             field = value
             notifyPropertyChanged(BR.transferFeeSpannable)
