@@ -10,7 +10,7 @@ data class TransferFundData(
     var purposeCode: String? = null,
     var transferReason: String? = null,
     var otpAction: String? = null,
-    var produceCode: String? = null,
+    var productCode: String? = null,
 //specific international transfer data
     var sourceCurrency: String? = null,
     var sourceAmount: String? = null,
