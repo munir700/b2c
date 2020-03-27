@@ -17,10 +17,7 @@ import co.yap.modules.dashboard.more.main.fragments.MoreBaseFragment
 import co.yap.modules.webview.WebViewFragment
 import co.yap.networking.CookiesManager
 import co.yap.yapcore.constants.Constants
-import co.yap.yapcore.helpers.extentions.OpenWhatsApp
-import co.yap.yapcore.helpers.extentions.makeCall
-import co.yap.yapcore.helpers.extentions.startFragment
-import co.yap.yapcore.helpers.extentions.toast
+import co.yap.yapcore.helpers.extentions.*
 import co.yap.yapcore.managers.MyUserManager
 import com.liveperson.infra.*
 import com.liveperson.infra.callbacks.InitLivePersonCallBack
@@ -71,8 +68,7 @@ class HelpSupportFragment : MoreBaseFragment<IHelpSupport.ViewModel>(), IHelpSup
             R.id.lyChat -> {
                 chatSetup()
             }
-            R.id.lyLiveWhatsApp -> {
-                OpenWhatsApp()
+            R.id.lyLiveWhatsApp -> { requireContext().openWhatsApp()
             }
             R.id.lyCall -> {
                 requireContext().makeCall(viewModel.state.contactPhone.get())

@@ -5,9 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.Intent.EXTRA_EMAIL
 import android.content.Intent.createChooser
-import android.content.pm.PackageManager
 import android.net.Uri
-import androidx.fragment.app.Fragment
 import co.yap.yapcore.BuildConfig
 
 
@@ -82,18 +80,14 @@ fun Context.makeCall(number: String?): Boolean {
         false
     }
 }
-fun Fragment.OpenWhatsApp() {
+
+fun Context.openWhatsApp() {
     val contact = "+971 4 365 3789" // use country code with your phone number
-    val url = "https://api.whatsapp.com/send?phone=$contact"
-    try {
-        val pm = requireContext().packageManager
-        pm?.getPackageInfo("com.whatsapp", PackageManager.GET_ACTIVITIES)
-        val i = Intent(Intent.ACTION_VIEW)
-        i.data = Uri.parse(url)
-        startActivity(i)
-    } catch (e: PackageManager.NameNotFoundException) {
-        toast("Whatsapp app not installed in your phone")
-    }
+    val url =
+        "https://api.whatsapp.com/send?phone=$contact"
+    val i = Intent(Intent.ACTION_VIEW)
+    i.data = Uri.parse(url)
+    startActivity(i)
 }
 
 /**
