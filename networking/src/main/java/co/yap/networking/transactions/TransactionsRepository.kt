@@ -7,6 +7,7 @@ import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.transactions.requestdtos.*
 import co.yap.networking.transactions.responsedtos.*
 import co.yap.networking.transactions.responsedtos.achievement.AchievementsResponseDTO
+import co.yap.networking.transactions.responsedtos.purposepayment.PaymentPurposeResponseDTO
 import co.yap.networking.transactions.responsedtos.topuptransactionsession.Check3DEnrollmentSessionResponse
 import co.yap.networking.transactions.responsedtos.topuptransactionsession.CreateTransactionSessionResponseDTO
 import co.yap.networking.transactions.responsedtos.transaction.FxRateResponse
@@ -68,7 +69,7 @@ object TransactionsRepository : BaseRepository(), TransactionsApi {
     const val URL_GET_CUTT_OFF_TIME_CONFIGURATION =
         "/transactions/api/cut-off-time-configuration"
     const val URL_GET_ACHIEVEMENTS = "/transactions/api/yap-achievements"
-
+    const val URL_GET_PURPOSE_OF_PAYMENT = "/transactions/api/purpose-of-payments/{product-code}"
     // Household
     const val URL_HOUSEHOLD_CARD_FEE_PACKAGE = "/transactions/api/fees/subscriptions/{pkg-type}"
 
@@ -220,5 +221,8 @@ object TransactionsRepository : BaseRepository(), TransactionsApi {
         amount: String?
     ) =
         executeSafely(call = { api.getCutOffTimeConfiguration(productCode, currency, amount) })
+
+    override suspend fun getPurposeOfPayment(productCode: String): RetroApiResponse<PaymentPurposeResponseDTO> =
+        executeSafely(call = { api.getPurposeOfPayment(productCode) })
 
 }
