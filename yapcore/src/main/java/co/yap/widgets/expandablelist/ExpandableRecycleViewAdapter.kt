@@ -56,7 +56,6 @@ class ExpandableRecycleViewAdapter(parents: ArrayList<Parent>) :
         childViewHolder.v.tvC.text = expandedType.name
     }
 
-
     override fun onExpandedClick(
         expandableViewHolder: PViewHolder,
         expandedViewHolder: CViewHolder,
