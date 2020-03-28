@@ -49,6 +49,7 @@ class CashTransferViewModel(application: Application) :
     override var feeTiers: List<RemittanceFeeResponse.RemittanceFee.TierRateDTO> = arrayListOf()
     override var isAPIFailed: MutableLiveData<Boolean> = MutableLiveData(false)
     override val updatedFee: MutableLiveData<String> = MutableLiveData("0.0")
+    var purposeCategories: Map<String?, List<PurposeOfPayment>>? = HashMap()
     override var reasonPosition: Int = 0
 
     override fun onCreate() {
@@ -388,7 +389,9 @@ class CashTransferViewModel(application: Application) :
     }
 
     override fun processPurposeList(list: ArrayList<PurposeOfPayment>) {
-
+        purposeCategories = list.groupBy { item ->
+            item.purposeCategory
+        }
     }
 
     fun isUaeftsBeneficiary(): Boolean {

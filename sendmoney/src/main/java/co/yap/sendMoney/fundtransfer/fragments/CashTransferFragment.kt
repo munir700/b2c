@@ -20,6 +20,8 @@ import co.yap.modules.otp.GenericOtpFragment
 import co.yap.modules.otp.LogoData
 import co.yap.modules.otp.OtpDataModel
 import co.yap.networking.transactions.responsedtos.InternationalFundsTransferReasonList
+import co.yap.networking.transactions.responsedtos.purposepayment.PurposeOfPayment
+import co.yap.sendMoney.PopListBottomSheet
 import co.yap.sendMoney.fundtransfer.activities.BeneficiaryFundTransferActivity
 import co.yap.sendMoney.fundtransfer.interfaces.ICashTransfer
 import co.yap.sendMoney.fundtransfer.viewmodels.CashTransferViewModel
@@ -105,6 +107,17 @@ class CashTransferFragment : BeneficiaryFundTransferBaseFragment<ICashTransfer.V
 
     }
 
+    private fun setupPOP(purposeCategories: Map<String?, List<PurposeOfPayment>>?) {
+        this.fragmentManager?.let {
+            val inviteFriendBottomSheet = PopListBottomSheet(object :
+                PopListBottomSheet.OnItemClickListener {
+                override fun onClick(viewId: Int, T: Any) {
+                }
+            }, purposeCategories)
+            inviteFriendBottomSheet.show(it, "")
+        }
+    }
+
     private fun setSpinnerAdapter(list: ArrayList<InternationalFundsTransferReasonList.ReasonList>) {
         val data = ArrayList<InternationalFundsTransferReasonList.ReasonList>()
         data.addAll(list)
@@ -162,7 +175,10 @@ class CashTransferFragment : BeneficiaryFundTransferBaseFragment<ICashTransfer.V
     val clickEvent = Observer<Int> {
         when (it) {
             R.id.btnConfirm -> if (viewModel.isUaeftsBeneficiary()) moveToConfirmationScreen() else startOtpFragment()
-            R.id.viewTriggerSpinnerClickReasonCash -> reasonsSpinnerCashTransfer.performClick()
+            R.id.viewTriggerSpinnerClickReasonCash -> {
+                //reasonsSpinnerCashTransfer.performClick()
+                setupPOP(viewModel.purposeCategories)
+            }
             Constants.ADD_CASH_PICK_UP_SUCCESS -> {
                 // Send Broadcast for updating transactions list in `Home Fragment`
                 val intent = Intent(Constants.BROADCAST_UPDATE_TRANSACTION)
