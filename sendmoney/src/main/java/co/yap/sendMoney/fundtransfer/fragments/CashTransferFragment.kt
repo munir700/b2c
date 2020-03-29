@@ -39,6 +39,7 @@ import co.yap.yapcore.helpers.cancelAllSnackBar
 import co.yap.yapcore.helpers.extentions.afterTextChanged
 import co.yap.yapcore.helpers.extentions.startFragmentForResult
 import co.yap.yapcore.helpers.extentions.toFormattedCurrency
+import co.yap.yapcore.helpers.extentions.toast
 import co.yap.yapcore.helpers.spannables.color
 import co.yap.yapcore.helpers.spannables.getText
 import co.yap.yapcore.managers.MyUserManager
@@ -111,7 +112,8 @@ class CashTransferFragment : BeneficiaryFundTransferBaseFragment<ICashTransfer.V
         this.fragmentManager?.let {
             val inviteFriendBottomSheet = PopListBottomSheet(object :
                 PopListBottomSheet.OnItemClickListener {
-                override fun onClick(viewId: Int, T: Any) {
+                override fun onClick(viewId: Int, purposeOfPayment: PurposeOfPayment?) {
+                    toast(purposeOfPayment.toString())
                 }
             }, purposeCategories)
             inviteFriendBottomSheet.show(it, "")

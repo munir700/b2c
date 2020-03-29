@@ -4,13 +4,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
+import android.widget.ExpandableListView
 import co.yap.networking.transactions.responsedtos.purposepayment.PurposeOfPayment
 import co.yap.sendmoney.R
-import co.yap.widgets.expandablelist.ExpandableRecycleViewAdapter
-import co.yap.widgets.expandablelist.Parent
+import co.yap.widgets.expandablelist.CustomExpandableListAdapter
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+
 
 class PopListBottomSheet(
     private val mListener: OnItemClickListener,
@@ -24,28 +23,38 @@ class PopListBottomSheet(
     ): View? {
         val view = inflater.inflate(R.layout.bottom_sheet_pop, container, false)
 
-        val recycleView = view.findViewById<RecyclerView>(R.id.rvPop)
-        val list = ArrayList<Parent>(purposeCategories?.size ?: 0)
-        purposeCategories?.forEach {
-            list.add(Parent(it.key ?: "", it.value))
+        val expandableListView = view.findViewById<ExpandableListView>(R.id.expandableListView)
+
+        val titleList = ArrayList(purposeCategories?.keys)
+        val adapter = CustomExpandableListAdapter(
+            view.context,
+            titleList as ArrayList<String>,
+            purposeCategories
+        )
+        val width = view.resources.displayMetrics.widthPixels
+        expandableListView.setIndicatorBounds(
+            width - getPixelFromDips(50f),
+            width - getPixelFromDips(10f)
+        );
+        expandableListView?.setAdapter(adapter)
+
+        expandableListView?.setOnChildClickListener { parent, v, groupPosition, childPosition, id ->
+            mListener.onClick(
+                v.id,
+                purposeCategories?.get((titleList)[groupPosition])?.get(childPosition)
+            )
+            false
         }
 
-        val adapter = ExpandableRecycleViewAdapter(list)
-        recycleView.layoutManager = LinearLayoutManager(view.context)
-        recycleView.adapter = adapter
-        adapter.setExpanded(false)
-//        view.tvChooseEmail.setOnClickListener { mListener.onClick(view.tvChooseEmail.id, T) }
-//        view.tvChooseSMS.setOnClickListener { mListener.onClick(view.tvChooseSMS.id, T) }
-//        view.tvChooseWhatsapp.setOnClickListener {
-//            mListener.onClick(
-//                view.tvChooseWhatsapp.id,
-//                T
-//            )
-//        }
         return view
     }
 
+    private fun getPixelFromDips(pixels: Float): Int {
+        val scale = resources.displayMetrics.density;
+        return (pixels * scale + 0.5f).toInt()
+    }
+
     interface OnItemClickListener {
-        fun onClick(viewId: Int, T: Any)
+        fun onClick(viewId: Int, T: PurposeOfPayment?)
     }
 }
