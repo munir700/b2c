@@ -1,6 +1,7 @@
 package co.yap.household.dashboard.main.menu
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.navigation.NavController
 import co.yap.household.R

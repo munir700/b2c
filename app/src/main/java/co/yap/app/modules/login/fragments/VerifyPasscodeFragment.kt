@@ -317,12 +317,14 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
             if (MyUserManager.isOnBoarded()) { // go to YAP dashboard
                 // check default profile if B2C then go to yap dashboard IF its household then move to household dashboard
 
-                if(MyUserManager.isDefaultUserYap()) {
+                /*if(MyUserManager.isDefaultUserYap()) {
                     gotoYapDashboard()
                 }else{
                     launchActivity<HouseholdDashboardActivity>()
                     activity?.finish()
-                }
+                }*/
+                launchActivity<HouseholdDashboardActivity>()
+                activity?.finish()
             }else{
                 // and notification is pending
                 val bundle = Bundle()

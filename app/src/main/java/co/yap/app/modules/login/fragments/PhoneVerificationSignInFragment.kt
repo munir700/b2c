@@ -73,12 +73,15 @@ class PhoneVerificationSignInFragment : OnboardingChildFragment<IPhoneVerificati
     private val switchProfileObserver = Observer<Boolean> {
         if(it) {
             if (MyUserManager.isOnBoarded()) {
-                if(MyUserManager.isDefaultUserYap()) {
+                /*if(MyUserManager.isDefaultUserYap()) {
                     gotoYapDashboard()
                 }else{
                     launchActivity<HouseholdDashboardActivity>()
                     activity?.finish()
-                }
+                }*/
+                launchActivity<HouseholdDashboardActivity>()
+                activity?.finish()
+
             }else{
                 val bundle = Bundle()
                 bundle.putParcelable(OnBoardingHouseHoldActivity.USER_INFO, MyUserManager.user)
