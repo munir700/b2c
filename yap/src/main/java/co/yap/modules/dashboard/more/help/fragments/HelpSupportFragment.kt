@@ -68,7 +68,12 @@ class HelpSupportFragment : MoreBaseFragment<IHelpSupport.ViewModel>(), IHelpSup
             R.id.lyChat -> {
                 chatSetup()
             }
-            R.id.lyLiveWhatsApp -> { requireContext().openWhatsApp()
+            R.id.lyLiveWhatsApp -> {
+                if (isWhatsAppInstalled()) {
+                    requireContext().openWhatsApp()
+                } else {
+                    requireContext().openUrl("https://web.whatsapp.com/")
+                }
             }
             R.id.lyCall -> {
                 requireContext().makeCall(viewModel.state.contactPhone.get())

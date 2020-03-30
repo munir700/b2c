@@ -1,11 +1,14 @@
 package co.yap.yapcore.helpers.extentions
 
+import android.app.Activity
 import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
 import android.content.Intent.EXTRA_EMAIL
 import android.content.Intent.createChooser
+import android.content.pm.PackageManager
 import android.net.Uri
+import androidx.fragment.app.Fragment
 
 
 /**
@@ -78,6 +81,29 @@ fun Context.makeCall(number: String?): Boolean {
     } catch (e: Exception) {
         false
     }
+}
+
+fun Activity.isWhatsAppInstalled(): Boolean {
+    val pm: PackageManager = this.packageManager
+    val app_installed: Boolean
+    app_installed = try {
+        pm.getPackageInfo("com.whatsapp", PackageManager.GET_ACTIVITIES)
+        true
+    } catch (e: PackageManager.NameNotFoundException) {
+        false
+    }
+    return app_installed
+}
+fun Fragment.isWhatsAppInstalled(): Boolean {
+    val pm: PackageManager = this.requireActivity().packageManager
+    val app_installed: Boolean
+    app_installed = try {
+        pm.getPackageInfo("com.whatsapp", PackageManager.GET_ACTIVITIES)
+        true
+    } catch (e: PackageManager.NameNotFoundException) {
+        false
+    }
+    return app_installed
 }
 
 fun Context.openWhatsApp() {
