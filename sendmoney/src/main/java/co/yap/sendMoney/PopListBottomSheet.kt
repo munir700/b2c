@@ -10,7 +10,6 @@ import co.yap.sendmoney.R
 import co.yap.widgets.expandablelist.CustomExpandableListAdapter
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
-
 class PopListBottomSheet(
     private val mListener: OnItemClickListener,
     private val purposeCategories: Map<String?, List<PurposeOfPayment>>?
@@ -45,7 +44,12 @@ class PopListBottomSheet(
             )
             false
         }
+        var previousGroup = -1
+        expandableListView?.setOnGroupExpandListener {
+            if (it != previousGroup) expandableListView.collapseGroup(previousGroup)
+            previousGroup = it
 
+        }
         return view
     }
 
