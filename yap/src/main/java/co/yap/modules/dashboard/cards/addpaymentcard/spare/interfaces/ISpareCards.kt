@@ -6,10 +6,14 @@ import co.yap.yapcore.SingleClickEvent
 
 interface ISpareCards {
 
-    interface View : IBase.View<ViewModel>
+    interface View : IBase.View<ViewModel>{
+        fun setObservers()
+        fun removeObservers()
+    }
 
     interface ViewModel : IBase.ViewModel<State> {
         val clickEvent: SingleClickEvent
+        val errorEvent: SingleClickEvent
         fun loadJSONDummyList(): ArrayList<BenefitsModel>
         fun handlePressOnAddVirtualCard(id: Int)
         fun handlePressOnAddPhysicalCard(id: Int)
@@ -17,7 +21,7 @@ interface ISpareCards {
         fun getPhysicalCardFee()
     }
 
-    interface State : IBase.State{
+    interface State : IBase.State {
         var virtualCardFee: String
         var physicalCardFee: String
     }

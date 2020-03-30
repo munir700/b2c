@@ -20,8 +20,9 @@ import java.nio.charset.StandardCharsets
 class SpareCardLandingViewModel(application: Application) :
     AddPaymentChildViewModel<ISpareCards.State>(application), ISpareCards.ViewModel {
 
-    private val transactionRepository : TransactionsRepository = TransactionsRepository
+    private val transactionRepository: TransactionsRepository = TransactionsRepository
     override val clickEvent: SingleClickEvent = SingleClickEvent()
+    override val errorEvent: SingleClickEvent = SingleClickEvent()
     override val state: SpareCardLandingState =
         SpareCardLandingState()
 
@@ -60,6 +61,7 @@ class SpareCardLandingViewModel(application: Application) :
                 }
                 is RetroApiResponse.Error -> {
                     state.toast = response.error.message
+                    errorEvent.call()
                 }
             }
             state.loading = false
