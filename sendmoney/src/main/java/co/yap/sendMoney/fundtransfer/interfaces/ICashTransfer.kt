@@ -22,7 +22,6 @@ interface ICashTransfer {
         val clickEvent: SingleClickEvent
         val errorEvent: SingleClickEvent
         var transactionData: ArrayList<InternationalFundsTransferReasonList.ReasonList>
-        val populateSpinnerData: MutableLiveData<ArrayList<InternationalFundsTransferReasonList.ReasonList>>
         var receiverUUID: String
         var purposeOfPaymentList: MutableLiveData<ArrayList<PurposeOfPayment>>
         var feeType: String
@@ -31,7 +30,6 @@ interface ICashTransfer {
         fun getTransferFees(productCode: String?)
         fun cashPayoutTransferRequest(beneficiaryId: Int?)
         fun getMoneyTransferLimits(productCode: String?)
-        fun getCashTransferReasonList(productCode: String)
         fun getPurposeOfPayment(productCode: String)
         fun getCountryLimit()
         fun getTransactionThresholds()

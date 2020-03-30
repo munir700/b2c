@@ -7,7 +7,6 @@ import android.text.InputFilter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
 import android.widget.TextView
 import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
@@ -29,7 +28,6 @@ import co.yap.sendmoney.R
 import co.yap.sendmoney.databinding.FragmentCashTransferBinding
 import co.yap.translation.Strings
 import co.yap.translation.Translator
-import co.yap.widgets.spinneradapter.ViewHolderArrayAdapter
 import co.yap.yapcore.BR
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.SendMoneyBeneficiaryType
@@ -39,10 +37,10 @@ import co.yap.yapcore.helpers.cancelAllSnackBar
 import co.yap.yapcore.helpers.extentions.afterTextChanged
 import co.yap.yapcore.helpers.extentions.startFragmentForResult
 import co.yap.yapcore.helpers.extentions.toFormattedCurrency
-import co.yap.yapcore.helpers.extentions.toast
 import co.yap.yapcore.helpers.spannables.color
 import co.yap.yapcore.helpers.spannables.getText
 import co.yap.yapcore.managers.MyUserManager
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import kotlinx.android.synthetic.main.fragment_cash_transfer.*
 
 class CashTransferFragment : BeneficiaryFundTransferBaseFragment<ICashTransfer.ViewModel>(),
@@ -63,9 +61,6 @@ class CashTransferFragment : BeneficiaryFundTransferBaseFragment<ICashTransfer.V
         super.onViewCreated(view, savedInstanceState)
         viewModel.updatedFee.value = "0.0"
         setEditTextWatcher()
-        if (viewModel.transactionData.size > 0)
-            setSpinnerAdapter(viewModel.transactionData)
-
     }
 
     override fun setObservers() {
@@ -83,10 +78,7 @@ class CashTransferFragment : BeneficiaryFundTransferBaseFragment<ICashTransfer.V
                 setSpannableFee(it)
         })
 
-        viewModel.populateSpinnerData.observe(this, Observer {
-            if (it == null) return@Observer
-            setSpinnerAdapter(it)
-        })
+
         viewModel.purposeOfPaymentList.observe(this, Observer {
             it?.let {
                 viewModel.processPurposeList(it)
@@ -109,79 +101,32 @@ class CashTransferFragment : BeneficiaryFundTransferBaseFragment<ICashTransfer.V
     }
 
     private fun setupPOP(purposeCategories: Map<String?, List<PurposeOfPayment>>?) {
+        var inviteFriendBottomSheet: BottomSheetDialogFragment? = null
         this.fragmentManager?.let {
-            val inviteFriendBottomSheet = PopListBottomSheet(object :
+            inviteFriendBottomSheet = PopListBottomSheet(object :
                 PopListBottomSheet.OnItemClickListener {
                 override fun onClick(viewId: Int, purposeOfPayment: PurposeOfPayment?) {
+                    inviteFriendBottomSheet?.dismiss()
                     viewModel.parentViewModel?.selectedPop = purposeOfPayment
-                    if (viewModel.shouldFeeApply())
-                        viewModel.updateFees()
-                    toast(purposeOfPayment?.purposeDescription.toString())
+                    viewModel.updateFees()
+                    getBindings().tvSelectReason.text = purposeOfPayment?.purposeDescription
                 }
             }, purposeCategories)
-            inviteFriendBottomSheet.show(it, "")
+            inviteFriendBottomSheet?.show(it, "")
         }
-    }
-
-    private fun setSpinnerAdapter(list: ArrayList<InternationalFundsTransferReasonList.ReasonList>) {
-        val data = ArrayList<InternationalFundsTransferReasonList.ReasonList>()
-        data.addAll(list)
-        data.add(
-            0,
-            InternationalFundsTransferReasonList.ReasonList("Select a Reason", "0")
-        )
-        reasonsSpinnerCashTransfer.adapter =
-            ViewHolderArrayAdapter(requireContext(), data, { parent ->
-                ReasonDropDownViewHolder.inflateSelectedView(
-                    parent
-                )
-            }, { parent ->
-                ReasonDropDownViewHolder.inflate(
-                    parent
-                )
-            }, { viewHolder, position, item ->
-                viewHolder.bind(item)
-            }, { viewHolder, position, item ->
-                viewHolder.bind(item)
-            })
-        reasonsSpinnerCashTransfer.onItemSelectedListener =
-            object : AdapterView.OnItemSelectedListener {
-                override fun onNothingSelected(parent: AdapterView<*>?) {
-                }
-
-                override fun onItemSelected(
-                    parent: AdapterView<*>?,
-                    view: View?,
-                    position: Int,
-                    id: Long
-                ) {
-                    if (position > 0) {
-                        viewModel.parentViewModel?.selectedPop =
-                            viewModel.purposeOfPaymentList.value?.get(position - 1)
-
-                        viewModel.parentViewModel?.selectedPop?.nonChargeable = false
-                        viewModel.parentViewModel?.selectedPop?.cbwsi = true
-                        viewModel.parentViewModel?.selectedPop?.cbwsiFee = true
-
-                        if (viewModel.shouldFeeApply())
-                            viewModel.updateFees()
-                    }
-
-                    viewModel.reasonPosition = position
-                    viewModel.parentViewModel?.transferData?.value?.purposeCode =
-                        data[position].code
-                    viewModel.parentViewModel?.transferData?.value?.transferReason =
-                        data[position].reason
-                }
-            }
-        reasonsSpinnerCashTransfer.setSelection(viewModel.reasonPosition)
     }
 
     val clickEvent = Observer<Int> {
         when (it) {
-            R.id.btnConfirm -> if (viewModel.isUaeftsBeneficiary()) moveToConfirmationScreen() else startOtpFragment()
-            R.id.viewTriggerSpinnerClickReasonCash -> {
-                //reasonsSpinnerCashTransfer.performClick()
+            R.id.btnConfirm -> {
+                if (viewModel.isUaeftsBeneficiary()) {
+                    if (viewModel.parentViewModel?.selectedPop != null) moveToConfirmationScreen() else showToast(
+                        "Select a reason"
+                    )
+                } else
+                    startOtpFragment()
+            }
+            R.id.tvSelectReason, R.id.ivSelector -> {
                 setupPOP(viewModel.purposeCategories)
             }
             Constants.ADD_CASH_PICK_UP_SUCCESS -> {
@@ -282,7 +227,6 @@ class CashTransferFragment : BeneficiaryFundTransferBaseFragment<ICashTransfer.V
                     viewModel.getMoneyTransferLimits(productCode)
                     viewModel.getTransferFees(productCode)
                     viewModel.getPurposeOfPayment(productCode)
-                    viewModel.getCashTransferReasonList(productCode)
                     setObservers()
                 }
             }
@@ -318,7 +262,6 @@ class CashTransferFragment : BeneficiaryFundTransferBaseFragment<ICashTransfer.V
         super.onPause()
         viewModel.isAPIFailed.removeObservers(this)
         viewModel.purposeOfPaymentList.removeObservers(this)
-        viewModel.updatedFee.removeObservers(this)
     }
 
     override fun onDestroy() {

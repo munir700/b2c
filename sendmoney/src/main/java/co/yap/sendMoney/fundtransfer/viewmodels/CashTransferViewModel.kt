@@ -37,8 +37,6 @@ class CashTransferViewModel(application: Application) :
     override val errorEvent: SingleClickEvent = SingleClickEvent()
     override var transactionData: ArrayList<InternationalFundsTransferReasonList.ReasonList> =
         ArrayList()
-    override val populateSpinnerData: MutableLiveData<ArrayList<InternationalFundsTransferReasonList.ReasonList>> =
-        MutableLiveData()
     override var receiverUUID: String = ""
     override var purposeOfPaymentList: MutableLiveData<ArrayList<PurposeOfPayment>> =
         MutableLiveData()
@@ -95,7 +93,6 @@ class CashTransferViewModel(application: Application) :
 
     override fun handlePressOnView(id: Int) {
         if (R.id.btnConfirm == id) {
-            if (!parentViewModel?.transferData?.value?.transferReason.equals("Select a Reason")) {
                 if (!isUaeftsBeneficiary()) {
                     when {
                         isDailyLimitReached() -> errorEvent.call()
@@ -108,12 +105,7 @@ class CashTransferViewModel(application: Application) :
                     else
                         clickEvent.setValue(id)
                 }
-            } else {
-                toast(
-                    context,
-                    "Select a Reason"
-                )
-            }
+
         } else {
             clickEvent.setValue(id)
         }
@@ -299,31 +291,6 @@ class CashTransferViewModel(application: Application) :
         }
     }
 
-    override fun getCashTransferReasonList(productCode: String) {
-        launch {
-            transactionData.clear()
-            when (val response =
-                transactionRepository.getTransactionInternationalReasonList(productCode)) {
-                is RetroApiResponse.Success -> {
-                    if (response.data.data.isNullOrEmpty()) return@launch
-                    response.data.data?.let {
-                        transactionData.addAll(it.map { item ->
-                            InternationalFundsTransferReasonList.ReasonList(
-                                code = item.code ?: "",
-                                reason = item.reason ?: ""
-                            )
-                        })
-                    }
-                    populateSpinnerData.value = transactionData
-                }
-                is RetroApiResponse.Error -> {
-                    state.loading = false
-                    state.toast = response.error.message
-                    isAPIFailed.value = true
-                }
-            }
-        }
-    }
 
     private fun getFeeFromTier(): String? {
         return if (shouldFeeApply()) {

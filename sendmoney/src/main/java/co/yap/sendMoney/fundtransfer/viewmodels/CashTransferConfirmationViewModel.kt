@@ -80,8 +80,8 @@ class CashTransferConfirmationViewModel(application: Application) :
                         beneficiaryId,
                         parentViewModel?.transferData?.value?.transferAmount?.toDoubleOrNull(),
                         0.0,
-                        parentViewModel?.transferData?.value?.purposeCode,
-                        parentViewModel?.transferData?.value?.transferReason,
+                        parentViewModel?.selectedPop?.purposeCode,
+                        parentViewModel?.selectedPop?.purposeDescription,
                         if (parentViewModel?.transferData?.value?.noteValue.isNullOrBlank()) null else parentViewModel?.transferData?.value?.noteValue
                     )
                 )
@@ -109,8 +109,8 @@ class CashTransferConfirmationViewModel(application: Application) :
                         beneficiaryId,
                         parentViewModel?.transferData?.value?.transferAmount?.toDoubleOrNull(),
                         0.0,
-                        parentViewModel?.transferData?.value?.purposeCode,
-                        parentViewModel?.transferData?.value?.transferReason,
+                        parentViewModel?.selectedPop?.purposeCode,
+                        parentViewModel?.selectedPop?.purposeDescription,
                         if (parentViewModel?.transferData?.value?.noteValue.isNullOrBlank()) null else parentViewModel?.transferData?.value?.noteValue
                     )
 
