@@ -6,7 +6,6 @@ import android.content.Intent
 import android.content.Intent.EXTRA_EMAIL
 import android.content.Intent.createChooser
 import android.net.Uri
-import co.yap.yapcore.BuildConfig
 
 
 /**
@@ -113,5 +112,4 @@ fun Context.sendSms(number: String, text: String = ""): Boolean {
  * @return A boolean representing if the action was successful or not
  */
 fun Context.openPlayStore(): Boolean =
-    openUrl("market://details?id=${BuildConfig.APPLICATION_ID}") or
-            openUrl("http://play.google.com/store/apps/details?id=${this.packageName}")
+    openUrl("http://play.google.com/store/apps/details?id=${this.packageName}")
