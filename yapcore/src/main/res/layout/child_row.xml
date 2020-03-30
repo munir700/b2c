@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <!--        <variable-->
+        <!--            name="viewModel"-->
+        <!--            type="co.yap.modules.location.viewmodels.LocationSelectionViewModel" />-->
+
+        <import type="android.view.View" />
+
+        <import type="co.yap.translation.Strings" />
+
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#d8d8d8"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:paddingStart="@dimen/margin_normal"
+        android:paddingTop="@dimen/small"
+        android:paddingBottom="@dimen/margin_extra_small">
+
+        <TextView
+            android:id="@+id/tvC"
+            style="@style/ARegular"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_normal"
+            android:textSize="@dimen/text_size_h2"
+            android:textStyle="bold"
+            tools:text="Raja jehljka alkshjf" />
+    </LinearLayout>
+</layout>

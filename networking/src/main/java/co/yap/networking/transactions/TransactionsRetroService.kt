@@ -4,6 +4,7 @@ import co.yap.networking.models.ApiResponse
 import co.yap.networking.transactions.requestdtos.*
 import co.yap.networking.transactions.responsedtos.*
 import co.yap.networking.transactions.responsedtos.achievement.AchievementsResponseDTO
+import co.yap.networking.transactions.responsedtos.purposepayment.PaymentPurposeResponseDTO
 import co.yap.networking.transactions.responsedtos.topuptransactionsession.Check3DEnrollmentSessionResponse
 import co.yap.networking.transactions.responsedtos.topuptransactionsession.CreateTransactionSessionResponseDTO
 import co.yap.networking.transactions.responsedtos.transaction.FxRateResponse
@@ -161,4 +162,7 @@ interface TransactionsRetroService {
     @GET(TransactionsRepository.URL_GET_ACHIEVEMENTS)
     suspend fun getAchievements(): Response<AchievementsResponseDTO>
 
+
+    @GET(TransactionsRepository.URL_GET_PURPOSE_OF_PAYMENT)
+    suspend fun getPurposeOfPayment(@Path("product-code") productCode: String): Response<PaymentPurposeResponseDTO>
 }

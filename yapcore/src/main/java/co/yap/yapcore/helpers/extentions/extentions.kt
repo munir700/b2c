@@ -89,6 +89,11 @@ fun EditText.afterTextChanged(afterTextChanged: (String) -> Unit) {
         }
 
         override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+//            if (p0?.length ?: 0 > 0) {
+//                this@afterTextChanged.gravity = Gravity.CENTER_HORIZONTAL or Gravity.CENTER_VERTICAL
+//            } else {
+//                this@afterTextChanged.gravity = Gravity.CENTER_HORIZONTAL or Gravity.CENTER_VERTICAL
+//            }
         }
 
         override fun afterTextChanged(editable: Editable?) {

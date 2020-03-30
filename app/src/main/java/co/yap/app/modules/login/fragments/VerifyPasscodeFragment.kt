@@ -66,7 +66,7 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
     }
 
     private fun addObservers() {
-        viewModel.signInButtonPressEvent.observe(this, signInButtonObserver)
+        viewModel.onClickEvent.observe(this, onClickView)
         viewModel.loginSuccess.observe(this, loginSuccessObserver)
         viewModel.validateDeviceResult.observe(this, validateDeviceResultObserver)
         viewModel.accountInfo.observe(this, onFetchAccountInfo)
@@ -106,18 +106,12 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
         )
 
         val fingerprintsEnabled = mBiometricManagerX.hasFingerprintEnrolled()
-        if (BiometricUtil.isFingerprintSupported && fingerprintsEnabled
-            && BiometricUtil.isHardwareSupported(requireActivity())
-            && BiometricUtil.isPermissionGranted(requireActivity())
-            && BiometricUtil.isFingerprintAvailable(requireActivity())
-        ) {
-
+        if (BiometricUtil.hasBioMetricFeature(requireContext()) && fingerprintsEnabled) {
             if (sharedPreferenceManager.getValueBoolien(
                     KEY_TOUCH_ID_ENABLED,
                     false
                 ) && sharedPreferenceManager.getDecryptedPassCode() != null
             ) {
-
                 dialer.showFingerprintView()
                 showFingerprintDialog()
             } else {
@@ -202,14 +196,13 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
     }
 
     override fun onDestroyView() {
-        viewModel.signInButtonPressEvent.removeObservers(this)
+        viewModel.onClickEvent.removeObservers(this)
         viewModel.loginSuccess.removeObservers(this)
         viewModel.validateDeviceResult.removeObservers(this)
         viewModel.createOtpResult.removeObservers(this)
         viewModel.forgotPasscodeButtonPressEvent.removeObservers(this)
         super.onDestroyView()
     }
-
 
     private fun isUserLoginIn(): Boolean {
         return sharedPreferenceManager.getValueBoolien(
@@ -218,21 +211,30 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
         )
     }
 
-    private val signInButtonObserver = Observer<Boolean> {
-        viewModel.isFingerprintLogin = false
-        viewModel.state.passcode = dialer.getText()
-        if (!isUserLoginIn()) {
-            setUsername()
-        } else {
-            sharedPreferenceManager.getDecryptedUserName()?.let {
-                viewModel.state.username = it
-            } ?: updateName()
+    private val onClickView = Observer<Int> {
+        when (it) {
+            R.id.btnVerifyPasscode -> {
+                viewModel.isFingerprintLogin = false
+                viewModel.state.passcode = dialer.getText()
+                if (!isUserLoginIn()) {
+                    setUsername()
+                } else {
+                    sharedPreferenceManager.getDecryptedUserName()?.let {
+                        viewModel.state.username = it
+                    } ?: updateName()
+                }
+                if ((VerifyPassCodeEnum.valueOf(viewModel.state.verifyPassCodeEnum) == VerifyPassCodeEnum.VERIFY))
+                    viewModel.verifyPasscode()
+                else
+                    viewModel.login()
+            }
+            R.id.tvForgotPassword -> {
+                // handle in VM to reduce ripple effect
+
+            }
         }
-        if ((VerifyPassCodeEnum.valueOf(viewModel.state.verifyPassCodeEnum) == VerifyPassCodeEnum.VERIFY))
-            viewModel.verifyPasscode()
-        else
-            viewModel.login()
     }
+
 
     private fun updateName() {
         if (isUserLoginIn()) {
@@ -276,11 +278,7 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
                     false
                 )
             ) {
-                if (BiometricUtil.isFingerprintSupported
-                    && BiometricUtil.isHardwareSupported(requireActivity())
-                    && BiometricUtil.isPermissionGranted(requireActivity())
-                    && BiometricUtil.isFingerprintAvailable(requireActivity())
-                ) {
+                if (BiometricUtil.hasBioMetricFeature(requireContext())) {
                     val action =
                         VerifyPasscodeFragmentDirections.actionVerifyPasscodeFragmentToSystemPermissionFragment(
                             Constants.TOUCH_ID_SCREEN_TYPE
