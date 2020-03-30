@@ -5,8 +5,6 @@ import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.animation.ValueAnimator
 import android.view.View
-import android.view.animation.Animation
-
 
 object AnimationFactory {
     /**
@@ -21,7 +19,7 @@ object AnimationFactory {
     fun animateFadeIn(
         view: View?,
         duration: Long,
-        onAnimationStartListener: Animation.AnimationListener?
+        onAnimationStartListener: AnimationListener.OnAnimationStartListener?
     ) {
         val objectAnimator =
             ObjectAnimator.ofFloat(view, "alpha", 0f, 1f)
@@ -50,7 +48,7 @@ object AnimationFactory {
     fun animateFadeOut(
         view: View?,
         duration: Long,
-        onAnimationEndListener: Animation.AnimationListener?
+        onAnimationEndListener: AnimationListener.OnAnimationEndListener?
     ) {
         val objectAnimator =
             ObjectAnimator.ofFloat(view, "alpha", 1f, 0f)
