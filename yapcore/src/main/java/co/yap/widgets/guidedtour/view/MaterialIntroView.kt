@@ -15,6 +15,8 @@ import android.widget.TextView
 import co.yap.widgets.guidedtour.Constants
 import co.yap.widgets.guidedtour.MaterialIntroConfiguration
 import co.yap.widgets.guidedtour.MaterialIntroListener
+import co.yap.widgets.guidedtour.animation.AnimationFactory
+import co.yap.widgets.guidedtour.animation.AnimationListener
 import co.yap.widgets.guidedtour.shape.*
 import co.yap.widgets.guidedtour.shape.Rect
 import co.yap.widgets.guidedtour.target.Target
@@ -82,7 +84,7 @@ class MaterialIntroView : RelativeLayout {
      * Handler will be used to
      * delay MaterialIntroView
      */
-    private var handler: Handler? = null
+    private var taskHandler: Handler? = null
 
     /**
      * All views will be drawn to
@@ -98,10 +100,10 @@ class MaterialIntroView : RelativeLayout {
     private var padding = 0
 
     /**
-     * Layout width/height
+     * Layout layoutWidth/layoutHeight
      */
-    private var width = 0
-    private var height = 0
+    private var layoutWidth = 0
+    private var layoutHeight = 0
 
     /**
      * Dismiss on touch any position
@@ -239,7 +241,7 @@ class MaterialIntroView : RelativeLayout {
         /**
          * initialize objects
          */
-        handler = Handler()
+        taskHandler = Handler()
 //        preferencesManager = PreferencesManager(context)
         eraser = Paint()
         eraser!!.color = -0x1
@@ -271,8 +273,8 @@ class MaterialIntroView : RelativeLayout {
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)
-        width = measuredWidth
-        height = measuredHeight
+        layoutWidth = measuredWidth
+        layoutHeight = measuredHeight
     }
 
     override fun onDraw(canvas: Canvas) {
@@ -281,8 +283,8 @@ class MaterialIntroView : RelativeLayout {
         if (bitmap == null || canvas == null) {
             if (bitmap != null) bitmap!!.recycle()
             bitmap = Bitmap.createBitmap(
-                width,
-                height,
+                layoutWidth,
+                layoutHeight,
                 Bitmap.Config.ARGB_8888
             )
             this.canvas = Canvas(bitmap)
@@ -348,12 +350,12 @@ class MaterialIntroView : RelativeLayout {
 //        if (preferencesManager.isDisplayed(materialIntroViewId)) return
         (activity.window.decorView as ViewGroup).addView(this)
         setReady(true)
-        handler!!.postDelayed({
+        taskHandler!!.postDelayed({
             if (isFadeAnimationEnabled) AnimationFactory.animateFadeIn(
                 this@MaterialIntroView,
                 fadeAnimationDuration,
-                object : OnAnimationStartListener() {
-                    fun onAnimationStart() {
+                object : AnimationListener.OnAnimationStartListener {
+                    override fun onAnimationStart() {
                         visibility = View.VISIBLE
                     }
                 }) else visibility = View.VISIBLE
@@ -373,8 +375,8 @@ class MaterialIntroView : RelativeLayout {
         AnimationFactory.animateFadeOut(
             this,
             fadeAnimationDuration,
-            object : OnAnimationEndListener() {
-                fun onAnimationEnd() {
+            object : AnimationListener.OnAnimationEndListener {
+                override fun onAnimationEnd() {
                     visibility = View.GONE
                     removeMaterialView()
                     if (materialIntroListener != null) materialIntroListener?.onUserClicked(
@@ -395,7 +397,7 @@ class MaterialIntroView : RelativeLayout {
      * above the circle. Otherwise locate below.
      */
     private fun setInfoLayout() {
-        handler!!.post {
+        taskHandler!!.post {
             isLayoutCompleted = true
             if (infoView!!.parent != null) (infoView!!.parent as ViewGroup).removeView(
                 infoView
@@ -405,7 +407,7 @@ class MaterialIntroView : RelativeLayout {
                     ViewGroup.LayoutParams.MATCH_PARENT,
                     ViewGroup.LayoutParams.FILL_PARENT
                 )
-            if (targetShape!!.point.y < height / 2) {
+            if (targetShape!!.point.y < layoutHeight / 2) {
                 (infoView as RelativeLayout?)!!.gravity = Gravity.TOP
                 infoDialogParams.setMargins(
                     0,
@@ -419,7 +421,7 @@ class MaterialIntroView : RelativeLayout {
                     0,
                     0,
                     0,
-                    height - (targetShape!!.point.y + targetShape!!.height / 2) + 2 * targetShape!!.height / 2
+                    layoutHeight - (targetShape!!.point.y + targetShape!!.height / 2) + 2 * targetShape!!.height / 2
                 )
             }
             infoView!!.layoutParams = infoDialogParams
@@ -584,7 +586,7 @@ class MaterialIntroView : RelativeLayout {
             return this
         }
 
-        fun setInfoText(infoText: CharSequence): Builder {
+        fun setInfoText(infoText: String): Builder {
             materialIntroView.enableInfoDialog(true)
             materialIntroView.setTextViewInfo(infoText)
             return this
