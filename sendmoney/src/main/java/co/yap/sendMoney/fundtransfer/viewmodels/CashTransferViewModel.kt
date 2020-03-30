@@ -8,7 +8,6 @@ import co.yap.networking.transactions.TransactionsRepository
 import co.yap.networking.transactions.requestdtos.CashPayoutRequestDTO
 import co.yap.networking.transactions.requestdtos.RemittanceFeeRequest
 import co.yap.networking.transactions.responsedtos.InternationalFundsTransferReasonList
-import co.yap.networking.transactions.responsedtos.TransactionThresholdModel
 import co.yap.networking.transactions.responsedtos.purposepayment.PurposeOfPayment
 import co.yap.networking.transactions.responsedtos.transaction.RemittanceFeeResponse
 import co.yap.sendMoney.fundtransfer.interfaces.ICashTransfer
@@ -41,8 +40,6 @@ class CashTransferViewModel(application: Application) :
     override val populateSpinnerData: MutableLiveData<ArrayList<InternationalFundsTransferReasonList.ReasonList>> =
         MutableLiveData()
     override var receiverUUID: String = ""
-    override var transactionThreshold: MutableLiveData<TransactionThresholdModel> =
-        MutableLiveData()
     override var purposeOfPaymentList: MutableLiveData<ArrayList<PurposeOfPayment>> =
         MutableLiveData()
     override var feeType: String = ""
@@ -123,7 +120,7 @@ class CashTransferViewModel(application: Application) :
     }
 
     private fun isDailyLimitReached(): Boolean {
-        transactionThreshold.value?.let {
+        parentViewModel?.transactionThreshold?.value?.let {
             it.dailyLimit?.let { dailyLimit ->
                 it.totalDebitAmount?.let { totalConsumedAmount ->
                     state.amount.toDoubleOrNull()?.let { enteredAmount ->
@@ -141,7 +138,7 @@ class CashTransferViewModel(application: Application) :
     }
 
     private fun isOtpRequired(): Boolean {
-        transactionThreshold.value?.let {
+        parentViewModel?.transactionThreshold?.value?.let {
             it.totalDebitAmountRemittance?.let { totalSMConsumedAmount ->
                 state.amount.toDoubleOrNull()?.let { enteredAmount ->
                     val remainingOtpLimit = it.otpLimit?.minus(totalSMConsumedAmount)
@@ -227,13 +224,12 @@ class CashTransferViewModel(application: Application) :
                 )) {
                 is RetroApiResponse.Success -> {
                     feeType = response.data.data?.feeType ?: ""
-                    feeTiers =
-                        response.data.data?.tierRateDTOList as ArrayList<RemittanceFeeResponse.RemittanceFee.TierRateDTO>
-                    feeTiers[0].feeAmount=null
-                    feeTiers[0].vatAmount=null
-                    feeTiers[0].percentageFee="10.00"
-                    feeTiers[0].percentageVat="10.00"
-                    updateFees()
+                    response.data.data?.tierRateDTOList?.let {
+                        feeTiers =
+                            response.data.data?.tierRateDTOList as ArrayList<RemittanceFeeResponse.RemittanceFee.TierRateDTO>
+                        updateFees()
+                    }
+
                 }
                 is RetroApiResponse.Error -> {
                     state.toast = response.error.message

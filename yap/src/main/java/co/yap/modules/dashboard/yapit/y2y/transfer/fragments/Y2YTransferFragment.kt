@@ -22,6 +22,7 @@ import co.yap.modules.dashboard.yapit.y2y.main.fragments.Y2YBaseFragment
 import co.yap.modules.dashboard.yapit.y2y.transfer.interfaces.IY2YFundsTransfer
 import co.yap.modules.dashboard.yapit.y2y.transfer.viewmodels.Y2YFundsTransferViewModel
 import co.yap.modules.otp.GenericOtpFragment
+import co.yap.modules.otp.LogoData
 import co.yap.modules.otp.OtpDataModel
 import co.yap.modules.otp.OtpToolBarData
 import co.yap.translation.Strings
@@ -108,7 +109,7 @@ class Y2YTransferFragment : Y2YBaseFragment<IY2YFundsTransfer.ViewModel>(), IY2Y
 //                        viewModel.errorEvent.call()
 //                    }
                     isOtpRequired() -> {
-                        createOtp()
+                        startOtpFragment()
                     }
                     else -> {
                         viewModel.proceedToTransferAmount()
@@ -138,19 +139,23 @@ class Y2YTransferFragment : Y2YBaseFragment<IY2YFundsTransfer.ViewModel>(), IY2Y
         )
     }
 
-    private fun createOtp() {
+    private fun startOtpFragment() {
         startFragmentForResult<GenericOtpFragment>(
             GenericOtpFragment::class.java.name,
             bundleOf(
                 OtpDataModel::class.java.name to OtpDataModel(
-                   otpAction =  OTPActions.Y2Y.name,
-                   mobileNumber =  MyUserManager.user?.currentCustomer?.getCompletePhone(),
-                    username = MyUserManager.user?.currentCustomer?.getFullName(),
-                   emailOtp =  false,
-                    toolBarData = OtpToolBarData()
+                    OTPActions.Y2Y.name,
+                    MyUserManager.user?.currentCustomer?.getFormattedPhoneNumber(requireContext())
+                        ?: "",
+                    username = viewModel.state.fullName,
+                    amount = viewModel.enteredAmount.value,
+                    logoData = LogoData(
+                        imageUrl = viewModel.state.imageUrl,
+                        position =  args.position
+                    )
                 )
-            ),true
-        ) { resultCode, data ->
+            )
+        ) { resultCode, _ ->
             if (resultCode == Activity.RESULT_OK) {
                 viewModel.proceedToTransferAmount()
             }
@@ -235,7 +240,7 @@ class Y2YTransferFragment : Y2YBaseFragment<IY2YFundsTransfer.ViewModel>(), IY2Y
 
         val action =
             Y2YTransferFragmentDirections.actionY2YTransferFragmentToY2YFundsTransferSuccessFragment(
-                viewModel.state.fullName,
+                viewModel.state.fullName,viewModel.state.imageUrl,
                 "AED",
                 viewModel.enteredAmount.value ?: "", args.position
             )

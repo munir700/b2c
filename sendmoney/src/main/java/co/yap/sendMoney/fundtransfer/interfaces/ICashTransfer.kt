@@ -24,7 +24,6 @@ interface ICashTransfer {
         var transactionData: ArrayList<InternationalFundsTransferReasonList.ReasonList>
         val populateSpinnerData: MutableLiveData<ArrayList<InternationalFundsTransferReasonList.ReasonList>>
         var receiverUUID: String
-        var transactionThreshold: MutableLiveData<TransactionThresholdModel>
         var purposeOfPaymentList: MutableLiveData<ArrayList<PurposeOfPayment>>
         var feeType: String
         var feeTiers: List<RemittanceFeeResponse.RemittanceFee.TierRateDTO>
