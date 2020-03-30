@@ -42,6 +42,7 @@ import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 import co.yap.yapcore.helpers.extentions.toast
 import co.yap.yapcore.helpers.spannables.color
 import co.yap.yapcore.helpers.spannables.getText
+import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.MyUserManager
 import kotlinx.android.synthetic.main.fragment_cash_transfer.*
 
@@ -111,13 +112,14 @@ class CashTransferFragment : BeneficiaryFundTransferBaseFragment<ICashTransfer.V
     private fun setupPOP(purposeCategories: Map<String?, List<PurposeOfPayment>>?) {
         this.fragmentManager?.let {
             val inviteFriendBottomSheet = PopListBottomSheet(object :
-                PopListBottomSheet.OnItemClickListener {
-                override fun onClick(viewId: Int, purposeOfPayment: PurposeOfPayment?) {
-                    viewModel.parentViewModel?.selectedPop = purposeOfPayment
+                OnItemClickListener {
+                override fun onItemClick(view: View, data: Any, pos: Int) {
+                    viewModel.parentViewModel?.selectedPop = data as PurposeOfPayment
                     if (viewModel.shouldFeeApply())
                         viewModel.updateFees()
-                    toast(purposeOfPayment?.purposeDescription.toString())
+                    toast(viewModel.parentViewModel?.selectedPop?.purposeDescription.toString())
                 }
+
             }, purposeCategories)
             inviteFriendBottomSheet.show(it, "")
         }
