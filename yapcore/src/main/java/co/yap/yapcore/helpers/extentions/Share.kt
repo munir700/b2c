@@ -83,19 +83,8 @@ fun Context.makeCall(number: String?): Boolean {
     }
 }
 
-fun Activity.isWhatsAppInstalled(): Boolean {
+fun Context.isWhatsAppInstalled(): Boolean {
     val pm: PackageManager = this.packageManager
-    val app_installed: Boolean
-    app_installed = try {
-        pm.getPackageInfo("com.whatsapp", PackageManager.GET_ACTIVITIES)
-        true
-    } catch (e: PackageManager.NameNotFoundException) {
-        false
-    }
-    return app_installed
-}
-fun Fragment.isWhatsAppInstalled(): Boolean {
-    val pm: PackageManager = this.requireActivity().packageManager
     val app_installed: Boolean
     app_installed = try {
         pm.getPackageInfo("com.whatsapp", PackageManager.GET_ACTIVITIES)
