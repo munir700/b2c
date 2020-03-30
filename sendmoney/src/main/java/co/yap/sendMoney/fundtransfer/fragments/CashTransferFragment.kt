@@ -113,7 +113,10 @@ class CashTransferFragment : BeneficiaryFundTransferBaseFragment<ICashTransfer.V
             val inviteFriendBottomSheet = PopListBottomSheet(object :
                 PopListBottomSheet.OnItemClickListener {
                 override fun onClick(viewId: Int, purposeOfPayment: PurposeOfPayment?) {
-                    toast(purposeOfPayment.toString())
+                    viewModel.parentViewModel?.selectedPop = purposeOfPayment
+                    if (viewModel.shouldFeeApply())
+                        viewModel.updateFees()
+                    toast(purposeOfPayment?.purposeDescription.toString())
                 }
             }, purposeCategories)
             inviteFriendBottomSheet.show(it, "")
@@ -252,7 +255,7 @@ class CashTransferFragment : BeneficiaryFundTransferBaseFragment<ICashTransfer.V
     }
 
     private fun isDailyLimitReached(): Boolean {
-        viewModel.transactionThreshold.value?.let {
+        viewModel.parentViewModel?.transactionThreshold?.value?.let {
             it.dailyLimit?.let { dailyLimit ->
                 it.totalDebitAmount?.let { totalConsumedAmount ->
                     viewModel.state.amount.toDoubleOrNull()?.let { enteredAmount ->

@@ -40,7 +40,7 @@ class GenericOtpViewModel(application: Application) :
                 state.verificationDescription =
                     Strings.screen_verify_phone_number_display_text_sub_title
             }
-            OTPActions.DOMESTIC_TRANSFER.name, OTPActions.UAEFTS.name, OTPActions.SWIFT.name, OTPActions.RMT.name, OTPActions.CASHPAYOUT.name -> {
+            OTPActions.DOMESTIC_TRANSFER.name, OTPActions.UAEFTS.name, OTPActions.SWIFT.name, OTPActions.RMT.name, OTPActions.CASHPAYOUT.name,OTPActions.Y2Y.name -> {
                 state.verificationTitle =
                     state.otpDataModel?.username ?: ""
                 state.verificationDescription =
@@ -151,8 +151,7 @@ class GenericOtpViewModel(application: Application) :
                 }
                 is RetroApiResponse.Error -> {
                     otpUiBlocked(response.error.actualCode)
-                    state.errorMessage = response.error.message
-                    errorEvent.call()
+                    state.toast = response.error.message
                     state.loading = false
                 }
             }
