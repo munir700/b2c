@@ -5,9 +5,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseExpandableListAdapter
+import android.widget.ExpandableListView
+import android.widget.ImageView
 import android.widget.TextView
 import co.yap.networking.transactions.responsedtos.purposepayment.PurposeOfPayment
 import co.yap.yapcore.R
+
 
 class CustomExpandableListAdapter constructor(
     private val context: Context,
@@ -72,7 +75,9 @@ class CustomExpandableListAdapter constructor(
             convertView = layoutInflater.inflate(R.layout.parent_row, null)
         }
         val listTitleTextView = convertView?.findViewById<TextView>(R.id.tvP)
+        val arrow = convertView?.findViewById<ImageView>(R.id.arrow)
         listTitleTextView?.text = listTitle
+        arrow?.setImageResource(R.drawable.ic_down)
         return convertView!!
     }
 
@@ -82,5 +87,15 @@ class CustomExpandableListAdapter constructor(
 
     override fun isChildSelectable(listPosition: Int, expandedListPosition: Int): Boolean {
         return true
+    }
+
+    fun getGroupView(listView: ExpandableListView, groupPosition: Int) {
+        val packedPosition: Long =
+            ExpandableListView.getPackedPositionForGroup(groupPosition)
+        val flatPosition: Int = listView.getFlatListPosition(packedPosition)
+        val first: Int = listView.firstVisiblePosition
+        val v = listView.getChildAt(flatPosition - first)
+        val arrow = v?.findViewById<ImageView>(R.id.arrow)
+        arrow?.setImageResource(R.drawable.ic_down)
     }
 }

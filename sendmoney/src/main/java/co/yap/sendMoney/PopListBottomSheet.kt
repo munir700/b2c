@@ -46,10 +46,13 @@ class PopListBottomSheet(
         }
         var previousGroup = -1
         expandableListView?.setOnGroupExpandListener {
-            if (it != previousGroup) expandableListView.collapseGroup(previousGroup)
+            if (it != previousGroup) {
+                expandableListView.collapseGroup(previousGroup)
+            }
+            adapter.getGroupView(expandableListView,it)
             previousGroup = it
-
         }
+
         return view
     }
 
