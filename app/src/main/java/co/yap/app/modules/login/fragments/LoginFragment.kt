@@ -10,12 +10,18 @@ import co.yap.app.BR
 import co.yap.app.R
 import co.yap.app.modules.login.interfaces.ILogin
 import co.yap.app.modules.login.viewmodels.LoginViewModel
+import co.yap.widgets.guidedtour.MaterialIntroListener
+import co.yap.widgets.guidedtour.TourSetup
+import co.yap.widgets.guidedtour.shape.Focus
+import co.yap.widgets.guidedtour.shape.FocusGravity
+import co.yap.widgets.guidedtour.view.MaterialIntroView
 import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.constants.Constants.KEY_IS_USER_LOGGED_IN
 import co.yap.yapcore.helpers.SharedPreferenceManager
+import co.yap.yapcore.helpers.extentions.toast
 import kotlinx.android.synthetic.main.fragment_log_in.*
 
-class LoginFragment : BaseBindingFragment<ILogin.ViewModel>(), ILogin.View {
+class LoginFragment : BaseBindingFragment<ILogin.ViewModel>(), ILogin.View , MaterialIntroListener {
 
     override fun getBindingVariable(): Int = BR.viewModel
 
@@ -37,6 +43,10 @@ class LoginFragment : BaseBindingFragment<ILogin.ViewModel>(), ILogin.View {
                 LoginFragmentDirections.actionLoginFragmentToVerifyPasscodeFragment("")
             NavHostFragment.findNavController(this).navigate(action)
         }
+
+        //
+
+
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -58,6 +68,13 @@ class LoginFragment : BaseBindingFragment<ILogin.ViewModel>(), ILogin.View {
                 etEmailField.settingErrorColor(R.color.error)
             }
         })
+        TourSetup(ivYap)
+        showIntro(
+            ivYap,
+            ivYap.id.toString(),
+            "This intro view.",
+            Focus.ALL
+        )
 
     }
 
@@ -98,5 +115,36 @@ class LoginFragment : BaseBindingFragment<ILogin.ViewModel>(), ILogin.View {
 
     private val signUpButtonObserver = Observer<Boolean> {
         findNavController().navigate(R.id.action_loginFragment_to_accountSelectionFragment)
+    }
+    fun showIntro(
+        view: View?,
+        id: String,
+        text: String,
+        focusType: Focus?
+    ) {
+        MaterialIntroView.Builder(this!!.activity!!)
+             .setFocusGravity(FocusGravity.CENTER)
+            .setFocusType(focusType!!)
+            .setDelayMillis(200)
+            .enableFadeAnimation(true)
+            .setListener(this)
+            .performClick(true)
+            .setInfoText(text)
+            .setTarget(view)
+            .setUsageId(id) //THIS SHOULD BE UNIQUE ID
+            .show()
+    }
+
+    override fun onUserClicked(materialIntroViewId: String?) {
+        if (materialIntroViewId != null) {
+            toast(materialIntroViewId)
+            if (!materialIntroViewId.equals(clSignUp.id.toString()))
+            showIntro(
+                clSignUp,
+                clSignUp.id.toString(),
+                "This intro view new.",
+                Focus.ALL
+            )
+        }
     }
 }
