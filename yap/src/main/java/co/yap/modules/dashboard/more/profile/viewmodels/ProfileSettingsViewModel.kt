@@ -14,6 +14,7 @@ import co.yap.networking.authentication.AuthRepository
 import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
+import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.constants.Constants.KEY_APP_UUID
 import co.yap.yapcore.enums.EIDStatus
@@ -97,7 +98,7 @@ class ProfileSettingsViewModel(application: Application) :
     override fun onResume() {
         super.onResume()
         toggleAchievementsBadgeVisibility(parentViewModel!!.BadgeVisibility)
-         setToolBarTitle("")
+        setToolBarTitle(getString(Strings.common_button_settings))
     }
 
     override fun onCreate() {
@@ -219,7 +220,8 @@ class ProfileSettingsViewModel(application: Application) :
                 is RetroApiResponse.Error -> {
                     if (response.error.statusCode == 400 || response.error.actualCode == "1073")
                         state.isShowErrorIcon.set(true)
-                        MyUserManager.eidStatus = EIDStatus.NOT_SET  //set the document is required if not found
+                    MyUserManager.eidStatus =
+                        EIDStatus.NOT_SET  //set the document is required if not found
                 }
             }
         }
