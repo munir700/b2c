@@ -1,6 +1,5 @@
 package co.yap.modules.subaccounts.account.dashboard
 
-import androidx.fragment.app.Fragment
 import co.yap.yapcore.adpters.SectionsPagerAdapter
 import co.yap.yapcore.dagger.di.InjectionViewModelProvider
 import co.yap.yapcore.dagger.di.module.fragment.BaseFragmentModule

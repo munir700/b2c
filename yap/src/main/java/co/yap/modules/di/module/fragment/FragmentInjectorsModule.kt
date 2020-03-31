@@ -7,6 +7,8 @@ import co.yap.modules.subaccounts.account.dashboard.SubAccountDashBoardFragment
 import co.yap.modules.subaccounts.account.dashboard.SubAccountDashBoardModule
 import co.yap.modules.subaccounts.confirmation.PaymentConfirmationFragment
 import co.yap.modules.subaccounts.confirmation.PaymentConfirmationModule
+import co.yap.modules.subaccounts.paysalary.entersalaryamount.EnterSalaryAmountFragment
+import co.yap.modules.subaccounts.paysalary.entersalaryamount.EnterSalaryAmountModule
 import co.yap.modules.subaccounts.paysalary.profile.HHSalaryProfileFragment
 import co.yap.modules.subaccounts.paysalary.profile.HHSalaryProfileModule
 import co.yap.modules.subaccounts.paysalary.subscription.SubscriptionFragment
@@ -37,4 +39,8 @@ abstract class FragmentInjectorsModule {
     @ContributesAndroidInjector(modules = [PaymentConfirmationModule::class])
     @FragmentScope
     abstract fun paymentConfirmationFragmentInjector(): PaymentConfirmationFragment
+
+    @ContributesAndroidInjector(modules = [EnterSalaryAmountModule::class])
+    @FragmentScope
+    abstract fun enterSalaryAmountFragmentInjector(): EnterSalaryAmountFragment
 }
