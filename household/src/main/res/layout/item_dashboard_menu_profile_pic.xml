@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools">
+
+<data>
+
+    <variable
+        name="profilePictureItemVM"
+        type="co.yap.household.dashboard.main.menu.ProfilePictureItemVM" />
+
+    <import type="android.view.View" />
+    <import type="co.yap.yapcore.helpers.StringUtils" />
+    <import type="co.yap.yapcore.enums.AccountType" />
+    <import type="co.yap.translation.Strings" />
+
+</data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="@dimen/margin_small">
+
+    <co.yap.widgets.CoreCircularImageView
+        android:id="@+id/ivProfilePic"
+        android:layout_width="@dimen/_45sdp"
+        android:layout_height="@dimen/_45sdp"
+        android:clickable="true"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:background="@drawable/circle_profile_selector"
+        android:contentDescription="@string/app_name"
+        app:imageUrl="@{profilePictureItemVM.item.parentAccount.currentCustomer.picture}"
+        app:enabled="@{AccountType.valueOf(profilePictureItemVM.item.accountType)==AccountType.B2C_HOUSEHOLD?true:false}"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:src="@drawable/ic_statement"
+        app:colorType="@{`Beneficiary`}"/>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        style="@style/AppFontRegular"
+        android:layout_width="@dimen/_50sdp"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ivProfilePic"
+        android:layout_marginTop="@dimen/_5sdp"
+        android:ellipsize="end"
+        android:lineSpacingExtra="2sp"
+        android:gravity="center"
+        android:lines="2"
+        app:text="@{AccountType.valueOf(profilePictureItemVM.item.accountType)==AccountType.B2C_HOUSEHOLD?Strings.screen_yap_house_hold_onboarding_landing_display_text_title:Strings.screen_home_button_personal_text}"
+        android:textColor="@color/greyDark"
+        android:textSize="@dimen/_10sdp"
+        android:textStyle="normal"
+        tools:text="Household" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

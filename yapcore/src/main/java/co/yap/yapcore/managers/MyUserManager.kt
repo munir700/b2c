@@ -1,8 +1,11 @@
 package co.yap.yapcore.managers
 
 import android.content.Context
+import android.util.Log
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import co.yap.app.YAPApplication
+import co.yap.networking.authentication.AuthRepository
 import co.yap.networking.cards.CardsRepository
 import co.yap.networking.cards.responsedtos.Address
 import co.yap.networking.cards.responsedtos.Card
@@ -27,10 +30,14 @@ object MyUserManager : IRepositoryHolder<CardsRepository> {
 
     override val repository: CardsRepository = CardsRepository
     private val customersRepository: CustomersRepository = CustomersRepository
+    private val authRepository: AuthRepository = AuthRepository
 
     var user: AccountInfo? = null
+    var userLiveData: MutableLiveData<AccountInfo> = MutableLiveData<AccountInfo>()
+
     var isUserAccountInfo: SingleLiveEvent<Boolean> = SingleLiveEvent()
-    private var users: ArrayList<AccountInfo> = ArrayList<AccountInfo>()
+    var switchProfile: SingleLiveEvent<Boolean> = SingleLiveEvent()
+    var users: ArrayList<AccountInfo> = ArrayList<AccountInfo>()
     var userAddress: Address? = null
     var cardBalance: MutableLiveData<CardBalance> = MutableLiveData()
     var cards: MutableLiveData<Card> = MutableLiveData()
@@ -61,17 +68,7 @@ object MyUserManager : IRepositoryHolder<CardsRepository> {
                     if (!response.data.data.isNullOrEmpty()) {
 
                         users = response.data.data as ArrayList<AccountInfo>
-                        val yapUser = getYapUserAccount(users)
-                        val householdUser = getHouseholdUserAccount(users)
-
-                        if (householdUser != null && yapUser != null) {
-                            user = householdUser
-                        }
-                        else if (householdUser != null) {
-                            user = householdUser
-                        } else if (yapUser != null) {
-                            user = yapUser
-                        }
+                        setUser(users)
 
                         isUserAccountInfo.postValue(true)
                     }
@@ -81,6 +78,43 @@ object MyUserManager : IRepositoryHolder<CardsRepository> {
                 }
             }
         }
+    }
+
+    private fun switchUser(){
+        GlobalScope.launch {
+            when (val response = customersRepository.getAccountInfo()) {
+                is RetroApiResponse.Success -> {
+                    if (!response.data.data.isNullOrEmpty()) {
+                        users = response.data.data as ArrayList<AccountInfo>
+                        setUser(users)
+
+                        // Reverse Users so that household remain on top for household dashboard menu
+                         users.reverse()
+
+                        switchProfile.postValue(true)
+                    }
+                }
+                is RetroApiResponse.Error -> {
+                    switchProfile.postValue(false)
+                }
+            }
+        }
+    }
+
+    private fun setUser(users: ArrayList<AccountInfo>) {
+        val yapUser = getYapUserAccount(this.users)
+        val householdUser = getHouseholdUserAccount(this.users)
+
+        if (householdUser != null && yapUser != null) {
+            user = householdUser
+        }
+        else if (householdUser != null) {
+            user = householdUser
+        } else if (yapUser != null) {
+            user = yapUser
+        }
+        userLiveData.postValue(user)
+
     }
 
     fun shouldGoToHousehold(): Boolean {
@@ -123,12 +157,31 @@ object MyUserManager : IRepositoryHolder<CardsRepository> {
         return false
     }
 
-    fun getYapUserAccount(data: java.util.ArrayList<AccountInfo>): AccountInfo? {
+    private fun getYapUserAccount(data: java.util.ArrayList<AccountInfo>): AccountInfo? {
         return data.find { obj1 -> obj1.accountType == AccountType.B2C_ACCOUNT.name }
     }
 
-    fun getHouseholdUserAccount(data: java.util.ArrayList<AccountInfo>): AccountInfo? {
+    private fun getHouseholdUserAccount(data: java.util.ArrayList<AccountInfo>): AccountInfo? {
         return data.find { obj1 -> obj1.accountType == AccountType.B2C_HOUSEHOLD.name }
+    }
+
+    fun switchProfile(){
+        switchProfile(user?.uuid)
+    }
+
+    fun switchProfile(uuid: String?) {
+        GlobalScope.launch {
+            when (val response = uuid?.let { authRepository.switchProfile(it) }) {
+                is RetroApiResponse.Success -> {
+                    // call Account Info API
+                    switchUser()
+                }
+                is RetroApiResponse.Error -> {
+                    response.error.message
+                    switchProfile.postValue(false)
+                }
+            }
+        }
     }
 
     fun getCardSerialNumber(): String {
