@@ -13,6 +13,7 @@ import co.yap.app.YAPApplication
 import co.yap.modules.dashboard.home.filters.interfaces.ITransactionFilters
 import co.yap.modules.dashboard.home.filters.models.TransactionFilters
 import co.yap.modules.dashboard.home.filters.viewmodels.TransactionFiltersViewModel
+import co.yap.translation.Strings
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.BaseState
 import co.yap.yapcore.helpers.Utils
@@ -123,7 +124,9 @@ class TransactionFiltersActivity : BaseBindingActivity<ITransactionFilters.ViewM
                 resetAllFilters()
             }
             R.id.btnApplyFilters -> if (isNetworkAvailable()) setIntentAction() else showToast(
-                "Internet appears to be offline."
+                getString(
+                    Strings.common_display_text_error_no_internet
+                )
             )
             R.id.IvClose -> {
                 finish()
