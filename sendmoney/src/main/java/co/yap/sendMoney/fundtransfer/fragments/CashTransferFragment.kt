@@ -39,6 +39,7 @@ import co.yap.yapcore.helpers.extentions.startFragmentForResult
 import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 import co.yap.yapcore.helpers.spannables.color
 import co.yap.yapcore.helpers.spannables.getText
+import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.MyUserManager
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import kotlinx.android.synthetic.main.fragment_cash_transfer.*
@@ -104,13 +105,15 @@ class CashTransferFragment : BeneficiaryFundTransferBaseFragment<ICashTransfer.V
         var inviteFriendBottomSheet: BottomSheetDialogFragment? = null
         this.fragmentManager?.let {
             inviteFriendBottomSheet = PopListBottomSheet(object :
-                PopListBottomSheet.OnItemClickListener {
-                override fun onClick(viewId: Int, purposeOfPayment: PurposeOfPayment?) {
+                OnItemClickListener {
+                override fun onItemClick(view: View, data: Any, pos: Int) {
                     inviteFriendBottomSheet?.dismiss()
-                    viewModel.parentViewModel?.selectedPop = purposeOfPayment
+                    viewModel.parentViewModel?.selectedPop = data as PurposeOfPayment
                     viewModel.updateFees()
-                    getBindings().tvSelectReason.text = purposeOfPayment?.purposeDescription
+                    getBindings().tvSelectReason.text =
+                        viewModel.parentViewModel?.selectedPop?.purposeDescription
                 }
+
             }, purposeCategories)
             inviteFriendBottomSheet?.show(it, "")
         }

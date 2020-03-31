@@ -20,7 +20,6 @@ import co.yap.yapcore.enums.FeeType
 import co.yap.yapcore.enums.SendMoneyBeneficiaryType
 import co.yap.yapcore.helpers.extentions.parseToDouble
 import co.yap.yapcore.helpers.extentions.toFormattedCurrency
-import co.yap.yapcore.helpers.extentions.toast
 import co.yap.yapcore.helpers.spannables.color
 import co.yap.yapcore.helpers.spannables.getText
 import co.yap.yapcore.managers.MyUserManager
@@ -167,7 +166,13 @@ class CashTransferViewModel(application: Application) :
             when (val response =
                 transactionRepository.getPurposeOfPayment(productCode)) {
                 is RetroApiResponse.Success -> {
-                    purposeOfPaymentList.value = response.data.data as? ArrayList<PurposeOfPayment>?
+                    if (!response.data.data.isNullOrEmpty()) {
+                        purposeOfPaymentList.value =
+                            response.data.data as? ArrayList<PurposeOfPayment>?
+                    } else {
+                        state.toast = "POP not found"
+                        isAPIFailed.value = true
+                    }
                 }
                 is RetroApiResponse.Error -> {
                     state.loading = false
