@@ -1,6 +1,9 @@
 package co.yap.yapcore.enums
 
 enum class OTPActions {
+    CHANGE_EMAIL,
+    CHANGE_MOBILE_NO,
+    FORGOT_CARD_PIN,
     // add beneficiary otp actions
     SWIFT_BENEFICIARY,
     RMT_BENEFICIARY,
