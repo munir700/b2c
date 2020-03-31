@@ -120,23 +120,16 @@ class PhoneVerificationSignInFragment : OnboardingChildFragment<IPhoneVerificati
     private val switchProfileObserver = Observer<Boolean> {
         if(it) {
             if (MyUserManager.isOnBoarded()) {
-
-                // This section is commented to test dashboard menu
-
-                /*if(MyUserManager.isDefaultUserYap()) {
+                if(MyUserManager.isDefaultUserYap()) {
                     gotoYapDashboard()
                 }else{
                     launchActivity<HouseholdDashboardActivity>()
                     activity?.finish()
-                }*/
-                launchActivity<HouseholdDashboardActivity>()
-                activity?.finish()
-
-                // // This section is commented to test dashboard menu
+                }
             }else{
                 val bundle = Bundle()
                 bundle.putParcelable(OnBoardingHouseHoldActivity.USER_INFO, MyUserManager.user)
-                startActivity(OnBoardingHouseHoldActivity.getIntent(requireContext(), bundle))
+                launchActivity<OnBoardingHouseHoldActivity>() { bundle }
             }
 
         }

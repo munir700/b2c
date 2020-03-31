@@ -314,32 +314,17 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
 
     private val switchProfileObserver = Observer<Boolean> {
         if (it) {
-            if (MyUserManager.isOnBoarded()) { // go to YAP dashboard
-                // check default profile if B2C then go to yap dashboard IF its household then move to household dashboard
-
+            if (MyUserManager.isOnBoarded()) {
                 if (MyUserManager.isDefaultUserYap()) {
-
-                    // This section is commented to test dashboard menu
-
-                    /*if(MyUserManager.isDefaultUserYap()) {
                     gotoYapDashboard()
                 } else {
                     launchActivity<HouseholdDashboardActivity>()
                     activity?.finish()
                 }
             } else {
-                }*/
-                    launchActivity<HouseholdDashboardActivity>()
-                    activity?.finish()
-
-                    // This section is commented to test dashboard menu
-                } else {
-                    // and notification is pending
-                    val bundle = Bundle()
-                    bundle.putParcelable(OnBoardingHouseHoldActivity.USER_INFO, MyUserManager.user)
-                    startActivity(OnBoardingHouseHoldActivity.getIntent(requireContext(), bundle))
-                }
-
+                val bundle = Bundle()
+                bundle.putParcelable(OnBoardingHouseHoldActivity.USER_INFO, MyUserManager.user)
+                launchActivity<OnBoardingHouseHoldActivity>() { bundle }
             }
         }
     }
