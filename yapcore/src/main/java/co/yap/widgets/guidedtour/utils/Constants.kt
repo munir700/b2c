@@ -1,4 +1,4 @@
-package co.yap.widgets.guidedtour
+package co.yap.widgets.guidedtour.utils
 
 object Constants {
 //    const val DEFAULT_MASK_COLOR = 0x70000000

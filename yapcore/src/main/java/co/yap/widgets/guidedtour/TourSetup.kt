@@ -2,6 +2,7 @@ package co.yap.widgets.guidedtour
 
 import android.app.Activity
 import android.view.View
+import co.yap.widgets.guidedtour.models.GuidedTourViewDetail
 import co.yap.widgets.guidedtour.shape.Focus
 import co.yap.widgets.guidedtour.shape.FocusGravity
 import co.yap.widgets.guidedtour.view.MaterialIntroView

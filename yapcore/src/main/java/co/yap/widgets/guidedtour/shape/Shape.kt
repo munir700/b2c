@@ -3,7 +3,7 @@ package co.yap.widgets.guidedtour.shape
 import android.graphics.Canvas
 import android.graphics.Paint
 import android.graphics.Point
-import co.yap.widgets.guidedtour.Constants
+import co.yap.widgets.guidedtour.utils.Constants
 import co.yap.widgets.guidedtour.target.Target
 
 

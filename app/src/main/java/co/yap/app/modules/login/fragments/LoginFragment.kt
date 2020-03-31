@@ -10,7 +10,7 @@ import co.yap.app.BR
 import co.yap.app.R
 import co.yap.app.modules.login.interfaces.ILogin
 import co.yap.app.modules.login.viewmodels.LoginViewModel
-import co.yap.widgets.guidedtour.GuidedTourViewDetail
+import co.yap.widgets.guidedtour.models.GuidedTourViewDetail
 import co.yap.widgets.guidedtour.TourSetup
 import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.constants.Constants.KEY_IS_USER_LOGGED_IN
@@ -84,10 +84,10 @@ class LoginFragment : BaseBindingFragment<ILogin.ViewModel>(), ILogin.View {
             )
         )
            list.add(
-              GuidedTourViewDetail(
-                  btnLogIn,
-                  "btnLogIn description"
-              )
+               GuidedTourViewDetail(
+                   btnLogIn,
+                   "btnLogIn description"
+               )
           )
           list.add(
               GuidedTourViewDetail(

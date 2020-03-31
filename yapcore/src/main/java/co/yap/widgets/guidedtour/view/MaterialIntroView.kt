@@ -12,7 +12,7 @@ import android.view.*
 import android.widget.ImageView
 import android.widget.RelativeLayout
 import android.widget.TextView
-import co.yap.widgets.guidedtour.Constants
+import co.yap.widgets.guidedtour.utils.Constants
 import co.yap.widgets.guidedtour.MaterialIntroConfiguration
 import co.yap.widgets.guidedtour.MaterialIntroListener
 import co.yap.widgets.guidedtour.animation.AnimationFactory

@@ -2,6 +2,7 @@ package co.yap.widgets.guidedtour
 
 import co.yap.widgets.guidedtour.shape.Focus
 import co.yap.widgets.guidedtour.shape.FocusGravity
+import co.yap.widgets.guidedtour.utils.Constants
 
 
 class MaterialIntroConfiguration {

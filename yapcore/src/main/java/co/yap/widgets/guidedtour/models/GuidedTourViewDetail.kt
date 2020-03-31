@@ -1,4 +1,4 @@
-package co.yap.widgets.guidedtour
+package co.yap.widgets.guidedtour.models
 
 import android.view.View
 
