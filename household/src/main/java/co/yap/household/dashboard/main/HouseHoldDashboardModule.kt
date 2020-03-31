@@ -13,6 +13,7 @@ class HouseHoldDashboardModule : BaseActivityModule<HouseholdDashboardActivity>(
 
     @Provides
     @ViewModelInjection
+    @ActivityScope
     fun provideDashBoardVM(
         activity: HouseholdDashboardActivity,
         viewModelProvider: InjectionViewModelProvider<HouseHoldDashBoardVM>

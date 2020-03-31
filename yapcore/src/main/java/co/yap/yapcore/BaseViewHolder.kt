@@ -3,6 +3,7 @@ package co.yap.yapcore
 import android.view.View
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
+import co.yap.networking.models.ApiResponse
 
 abstract class BaseViewHolder<ITEM : Any, VM : BaseListItemViewModel<ITEM>>
     (view: View, viewModel: VM, private val mDataBinding: ViewDataBinding) :

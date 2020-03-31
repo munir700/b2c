@@ -4,23 +4,26 @@ import android.os.Bundle
 import androidx.annotation.NonNull
 import androidx.databinding.BindingAdapter
 import androidx.databinding.ObservableField
+
 import androidx.lifecycle.MutableLiveData
 import androidx.navigation.NavController
 import androidx.recyclerview.widget.RecyclerView
+import co.yap.networking.models.ApiResponse
 import co.yap.widgets.State
 import co.yap.yapcore.BaseRVAdapter
 import co.yap.yapcore.IBase
+import co.yap.yapcore.dagger.base.interfaces.Refreshable
 
 
 /**
  * Created by Muhammad Irfan Arshad
  *
  */
-abstract class BaseRecyclerAdapterVM<T : Any, S : IBase.State> : DaggerBaseViewModel<S>() {
+abstract class BaseRecyclerAdapterVM<T : Any, S : IBase.State> : DaggerBaseViewModel<S>(),
+    Refreshable {
     val adapter = ObservableField<BaseRVAdapter<T, *, *>>()
     var stateLiveData: MutableLiveData<State> = MutableLiveData()
     var data: MutableList<T> = ArrayList()
-
 
     override fun onFirsTimeUiCreate(bundle: Bundle?, navigation: NavController?) {
     }
@@ -58,5 +61,7 @@ abstract class BaseRecyclerAdapterVM<T : Any, S : IBase.State> : DaggerBaseViewM
         adapter.get()?.setData(data)
         adapter.notifyChange()
     }
+    override fun refresh() {
 
+    }
 }
