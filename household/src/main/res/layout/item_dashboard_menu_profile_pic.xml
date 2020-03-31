@@ -31,7 +31,6 @@ xmlns:tools="http://schemas.android.com/tools">
         android:background="@drawable/circle_profile_selector"
         android:contentDescription="@string/app_name"
         app:imageUrl="@{profilePictureItemVM.item.parentAccount.currentCustomer.picture}"
-        app:enabled="@{AccountType.valueOf(profilePictureItemVM.item.accountType)==AccountType.B2C_HOUSEHOLD?true:false}"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
