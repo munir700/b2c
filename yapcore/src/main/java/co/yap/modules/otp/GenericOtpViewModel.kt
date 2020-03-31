@@ -28,13 +28,13 @@ class GenericOtpViewModel(application: Application) :
     override fun onCreate() {
         super.onCreate()
         when (state.otpDataModel?.otpAction) {
-            Constants.CHANGE_EMAIL -> {
+            OTPActions.CHANGE_EMAIL.name -> {
                 state.verificationTitle =
                     getString(Strings.screen_email_verification_display_text_heading)
                 state.verificationDescription =
                     Strings.screen_verify_phone_number_display_text_sub_title
             }
-            Constants.FORGOT_CARD_PIN_ACTION -> {
+            OTPActions.FORGOT_CARD_PIN.name -> {
                 state.verificationTitle =
                     getString(Strings.screen_forgot_pin_display_text_heading)
                 state.verificationDescription =
@@ -59,7 +59,6 @@ class GenericOtpViewModel(application: Application) :
                         Utils.getFormattedCurrencyWithoutComma(state.otpDataModel?.amount)
                     )
             }
-
             else -> {
                 state.verificationTitle =
                     getString(Strings.screen_forgot_passcode_otp_display_text_heading)
@@ -83,7 +82,6 @@ class GenericOtpViewModel(application: Application) :
     }
 
     private fun verifyOtp(id: Int) {
-
         if (state.otpDataModel?.otpAction == Constants.CHANGE_MOBILE_NO) {
             launch {
                 state.loading = true
@@ -160,7 +158,12 @@ class GenericOtpViewModel(application: Application) :
     }
 
     override fun initializeData(context: Context) {
-        createOtp(context = context)
+        if (state.otpDataModel?.otpAction == OTPActions.CHANGE_MOBILE_NO.name) {
+            createOtpForPhoneNumber(context)
+        } else {
+            createOtp(context = context)
+        }
+
         state.otpDataModel?.mobileNumber?.let {
             when {
                 it.startsWith("00") -> state.mobileNumber[0] =
