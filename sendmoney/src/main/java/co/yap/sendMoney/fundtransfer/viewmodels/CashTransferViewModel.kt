@@ -34,8 +34,8 @@ class CashTransferViewModel(application: Application) :
         CashTransferState(application)
     override val clickEvent: SingleClickEvent = SingleClickEvent()
     override val errorEvent: SingleClickEvent = SingleClickEvent()
-    override var transactionData: ArrayList<InternationalFundsTransferReasonList.ReasonList> =
-        ArrayList()
+    override var transactionData: MutableLiveData<ArrayList<InternationalFundsTransferReasonList.ReasonList>> =
+        MutableLiveData()
     override var receiverUUID: String = ""
     override var purposeOfPaymentList: MutableLiveData<ArrayList<PurposeOfPayment>> =
         MutableLiveData()
@@ -164,13 +164,14 @@ class CashTransferViewModel(application: Application) :
     override fun getPurposeOfPayment(productCode:String) {
         launch {
             when (val response =
-                transactionRepository.getPurposeOfPayment(productCode)) {
+                transactionRepository.getTransactionInternationalReasonList(productCode)) {
                 is RetroApiResponse.Success -> {
                     if (!response.data.data.isNullOrEmpty()) {
-                        purposeOfPaymentList.value =
-                            response.data.data as? ArrayList<PurposeOfPayment>?
+//                        purposeOfPaymentList.value =
+                        // response.data.data as? ArrayList<PurposeOfPayment>?
+                        transactionData.value = response.data.data
                     } else {
-                        state.toast = "POP not found"
+                        state.toast = "Reasons list not found"
                         isAPIFailed.value = true
                     }
                 }
@@ -298,7 +299,9 @@ class CashTransferViewModel(application: Application) :
 
 
     private fun getFeeFromTier(): String? {
-        return if (shouldFeeApply()) {
+//        if (shouldFeeApply()) {
+
+//    }else null
             return if (!state.amount.isBlank()) {
                 val fee = feeTiers.filter { item ->
                     item.amountFrom ?: 0.0 <= state.amount.parseToDouble() && item.amountTo ?: 0.0 >= state.amount.parseToDouble()
@@ -316,9 +319,6 @@ class CashTransferViewModel(application: Application) :
             } else {
                 null
             }
-        } else {
-            null
-        }
     }
 
     fun getTotalAmountWithFee(): Double {
@@ -344,8 +344,10 @@ class CashTransferViewModel(application: Application) :
 
 
     private fun getFlatFee(): Double {
-        return if (shouldFeeApply())
-            if (feeTiers[0].feeAmount != null && feeTiers[0].vatAmount != null) {
+//        if (shouldFeeApply())
+        //else 0.0
+
+        return if (feeTiers[0].feeAmount != null && feeTiers[0].vatAmount != null) {
                 feeTiers[0].feeAmount?.plus(feeTiers[0].vatAmount ?: 0.0) ?: 0.0
             } else {
                 return (state.amount.parseToDouble() * (feeTiers[0].percentageFee?.parseToDouble()
@@ -353,7 +355,7 @@ class CashTransferViewModel(application: Application) :
                     it.plus((it * (feeTiers[0].percentageFee?.parseToDouble() ?: 0.0)).div(100))
                 }
             }
-        else 0.0
+
     }
 
     override fun processPurposeList(list: ArrayList<PurposeOfPayment>) {
