@@ -6,16 +6,48 @@ import co.yap.widgets.guidedtour.shape.Focus
 import co.yap.widgets.guidedtour.shape.FocusGravity
 import co.yap.widgets.guidedtour.view.MaterialIntroView
 
-class TourSetup(var view: View, var activity: Activity) : MaterialIntroListener {
-    var previousViewId: Int? = null
+class TourSetup() : MaterialIntroListener {
 
-    init {
-        showIntro(
-            view,
-            view.id.toString(),
-            "This intro view.",
-            Focus.ALL, activity
-        )
+    var previousViewId: Int = 0
+    var currentViewId: Int = 0
+    var activity: Activity? = null
+    var isMultipleViewsTour: Boolean = false
+    var guidedTourViewViewsList: ArrayList<GuidedTourViewDetail> = ArrayList()
+
+    constructor (activity: Activity, guidedTourViewDetail: GuidedTourViewDetail) : this() {
+        this.activity = activity
+        focusSingleView(guidedTourViewDetail)
+    }
+
+    constructor(
+        activity: Activity,
+        guidedTourViewViewsList: ArrayList<GuidedTourViewDetail>
+    ) : this() {
+        this.activity = activity
+        this.guidedTourViewViewsList = guidedTourViewViewsList
+        focusMultipleViews()
+    }
+
+    fun focusMultipleViews() {
+
+        isMultipleViewsTour = true
+        previousViewId = currentViewId
+
+        focusSingleView(guidedTourViewViewsList[currentViewId])
+        currentViewId = currentViewId + 1
+        println(currentViewId)
+
+    }
+
+    fun focusSingleView(guidedTourViewDetail: GuidedTourViewDetail) {
+        activity?.let {
+            showIntro(
+                guidedTourViewDetail.view,
+                guidedTourViewDetail.view?.id.toString(),
+                guidedTourViewDetail.description,
+                Focus.ALL, it
+            )
+        }
     }
 
 
@@ -34,26 +66,20 @@ class TourSetup(var view: View, var activity: Activity) : MaterialIntroListener 
             .performClick(true)
             .setInfoText(text)
             .setTarget(view)
-            .setUsageId(id) //THIS SHOULD BE UNIQUE ID
+            .setUsageId(id)
             .show()
     }
 
     override fun onUserClicked(materialIntroViewId: String?) {
+        // make a check to handle next or skip tour options here
+
         if (materialIntroViewId != null) {
-//            toast(materialIntroViewId)
-//            if (previousViewId != null) {
-//                previousViewId = view.id
-//            } else {
-//                previousViewId
-//            }
-            if (!materialIntroViewId.equals(view.id.toString()) &&  view.id != previousViewId)
-                showIntro(
-                    view,
-                    view?.id.toString(),
-                    "This intro view new.",
-                    Focus.ALL, activity
-                )
-            previousViewId=view.id
+            if (isMultipleViewsTour) {
+                if (currentViewId < guidedTourViewViewsList.size) {
+                    focusMultipleViews()
+                }
+            }
+
         }
     }
 }
