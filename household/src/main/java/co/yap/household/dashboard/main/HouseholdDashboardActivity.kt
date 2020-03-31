@@ -59,8 +59,6 @@ class HouseholdDashboardActivity :
             MyUserManager.users,
             null
         )
-
-        Log.d("TAG", "Image: "+MyUserManager.user?.parentAccount?.currentCustomer?.getPicture())
         mAdapter.onItemClickListener = userClickListener
         recyclerView.adapter = mAdapter
         viewModel.profilePictureAdapter.set(mAdapter)
