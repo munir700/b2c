@@ -127,9 +127,9 @@ class PhoneVerificationSignInFragment : OnboardingChildFragment<IPhoneVerificati
                     activity?.finish()
                 }
             }else{
-                val bundle = Bundle()
-                bundle.putParcelable(OnBoardingHouseHoldActivity.USER_INFO, MyUserManager.user)
-                launchActivity<OnBoardingHouseHoldActivity>() { bundle }
+                launchActivity<OnBoardingHouseHoldActivity>() {
+                    putExtra(OnBoardingHouseHoldActivity.USER_INFO, MyUserManager.user)
+                }
             }
 
         }
