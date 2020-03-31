@@ -1,10 +1,11 @@
-package co.yap.household.dashboard.subaccounts.main
+package co.yap.modules.subaccounts.paysalary.profile
 
 import co.yap.yapcore.IBase
 
-interface IHouseHoldAccounts {
+interface IHHSalaryProfile {
     interface View : IBase.View<ViewModel>
-    interface ViewModel : IBase.ViewModel<State>
-    interface State : IBase.State
 
+    interface ViewModel : IBase.ViewModel<State>
+
+    interface State : IBase.State
 }

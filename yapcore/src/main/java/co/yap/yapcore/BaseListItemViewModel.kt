@@ -8,6 +8,7 @@ import androidx.databinding.Observable
 import androidx.databinding.PropertyChangeRegistry
 import androidx.lifecycle.ViewModel
 import androidx.navigation.NavController
+import co.yap.networking.models.ApiResponse
 import co.yap.yapcore.interfaces.OnItemClickListener
 import com.ezaka.customer.app.base.DaggerViewModel
 
