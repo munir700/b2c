@@ -75,7 +75,7 @@ class GenericOtpViewModel(application: Application) :
 
     override fun handlePressOnResendClick(context: Context) {
         if (state.otpDataModel?.otpAction == Constants.CHANGE_MOBILE_NO) {
-            createOtpForPhoneNumber(context)
+            createOtpForPhoneNumber(true, context)
         } else {
             createOtp(true, context)
         }
@@ -159,7 +159,7 @@ class GenericOtpViewModel(application: Application) :
 
     override fun initializeData(context: Context) {
         if (state.otpDataModel?.otpAction == OTPActions.CHANGE_MOBILE_NO.name) {
-            createOtpForPhoneNumber(context)
+            createOtpForPhoneNumber(false, context)
         } else {
             createOtp(context = context)
         }
@@ -180,8 +180,7 @@ class GenericOtpViewModel(application: Application) :
         }
     }
 
-    private fun createOtpForPhoneNumber(context: Context) {
-
+    private fun createOtpForPhoneNumber(resend: Boolean, context: Context) {
         launch {
             state.loading = true
             when (val response =
@@ -193,11 +192,15 @@ class GenericOtpViewModel(application: Application) :
                     createOtpGenericRequest = CreateOtpGenericRequest(Constants.CHANGE_MOBILE_NO)
                 )) {
                 is RetroApiResponse.Success -> {
-                    state.toast =
-                        getString(Strings.screen_verify_phone_number_display_text_resend_otp_success)
+                    if (resend)
+                        state.toast =
+                            getString(Strings.screen_verify_phone_number_display_text_resend_otp_success)
+
                     state.reverseTimer(10, context)
                     state.validResend = false
+
                 }
+
                 is RetroApiResponse.Error -> {
                     state.errorMessage = response.error.message
                     errorEvent.call()

@@ -21,7 +21,7 @@ interface ICashTransfer {
         var reasonPosition: Int
         val clickEvent: SingleClickEvent
         val errorEvent: SingleClickEvent
-        var transactionData: ArrayList<InternationalFundsTransferReasonList.ReasonList>
+        var transactionData: MutableLiveData<ArrayList<InternationalFundsTransferReasonList.ReasonList>>
         var receiverUUID: String
         var purposeOfPaymentList: MutableLiveData<ArrayList<PurposeOfPayment>>
         var feeType: String
