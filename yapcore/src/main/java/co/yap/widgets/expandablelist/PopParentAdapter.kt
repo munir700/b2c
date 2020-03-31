@@ -4,8 +4,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AccelerateInterpolator
-import android.view.animation.OvershootInterpolator
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -47,6 +47,7 @@ class PopParentAdapter(
         View.OnClickListener, ExpandableLayout.OnExpansionUpdateListener {
         private val expandableLayout: ExpandableLayout =
             itemView.findViewById(R.id.expandable_layout)
+        private val itemLayout: LinearLayout
         private val nestedRV: RecyclerView =
             itemView.findViewById(R.id.recycler_view_child)
         private val arrow: ImageView =
@@ -56,28 +57,27 @@ class PopParentAdapter(
             val position = adapterPosition
             val isSelected = position == selectedItem
             expandButton.text = titles[position]
-            expandButton.isSelected = isSelected
+            itemLayout.isSelected = isSelected
             expandableLayout.setExpanded(isSelected, false)
-            val childlist = (purposeCategories?.get(titles[position]))
+            val childList = (purposeCategories?.get(titles[position]))
             nestedRV.adapter = ExpandableChildAdapter(
                 itemView.context,
-                childlist as ArrayList<PurposeOfPayment>, mListener
+                childList as ArrayList<PurposeOfPayment>, mListener
             )
-
         }
 
         override fun onClick(view: View) {
             val holder =
                 recyclerView.findViewHolderForAdapterPosition(selectedItem) as ViewHolder?
             if (holder != null) {
-                holder.expandButton.isSelected = false
+                holder.itemLayout.isSelected = false
                 holder.expandableLayout.collapse()
             }
             val position = adapterPosition
             selectedItem = if (position == selectedItem) {
                 UNSELECTED
             } else {
-                expandButton.isSelected = true
+                itemLayout.isSelected = true
                 expandableLayout.expand()
                 position
             }
@@ -97,7 +97,8 @@ class PopParentAdapter(
             expandableLayout.setInterpolator(AccelerateInterpolator())
             expandableLayout.setOnExpansionUpdateListener(this)
             expandButton = itemView.findViewById(R.id.expand_button)
-            expandButton.setOnClickListener(this)
+            itemLayout = itemView.findViewById(R.id.main)
+            itemLayout.setOnClickListener(this)
             expandableLayout.setOnExpansionUpdateListener { _, _ ->
                 if (expandableLayout.isExpanded) {
                     arrow.rotation = 180f

@@ -23,7 +23,7 @@ class BeneficiaryFundTransferViewModel(application: Application) :
     override var beneficiary: MutableLiveData<Beneficiary> = MutableLiveData()
     override var transferData: MutableLiveData<TransferFundData> = MutableLiveData()
     override var transactionThreshold: MutableLiveData<TransactionThresholdModel> = MutableLiveData()
-    override var selectedPop: PurposeOfPayment? = PurposeOfPayment()
+    override var selectedPop: PurposeOfPayment? = null
 
     override fun onCreate() {
         super.onCreate()

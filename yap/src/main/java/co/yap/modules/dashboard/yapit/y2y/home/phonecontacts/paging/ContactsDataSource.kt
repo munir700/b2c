@@ -4,7 +4,6 @@ import android.content.ContentUris
 import android.content.Context
 import android.net.Uri
 import android.provider.ContactsContract
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.paging.PageKeyedDataSource
 import co.yap.networking.customers.CustomersRepository
@@ -23,9 +22,6 @@ class ContactsDataSource(
     PageKeyedDataSource<Long, Contact>() {
     var state: MutableLiveData<PagingState> = MutableLiveData()
 
-    fun retry() {
-
-    }
 
     override fun loadInitial(
         params: LoadInitialParams<Long>,
