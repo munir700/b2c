@@ -41,18 +41,19 @@ class TourSetup(var view: View, var activity: Activity) : MaterialIntroListener 
     override fun onUserClicked(materialIntroViewId: String?) {
         if (materialIntroViewId != null) {
 //            toast(materialIntroViewId)
-            if (previousViewId != null) {
-                previousViewId = view.id
-            } else {
-                previousViewId
-            }
-            if (!materialIntroViewId.equals(view.toString()))
+//            if (previousViewId != null) {
+//                previousViewId = view.id
+//            } else {
+//                previousViewId
+//            }
+            if (!materialIntroViewId.equals(view.id.toString()) &&  view.id != previousViewId)
                 showIntro(
                     view,
                     view?.id.toString(),
                     "This intro view new.",
                     Focus.ALL, activity
                 )
+            previousViewId=view.id
         }
     }
 }
