@@ -1,5 +1,8 @@
 package co.yap.modules.subaccounts.paysalary.profile
 
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.findNavController
+import co.yap.modules.subaccounts.account.card.SubAccountCardFragment
 import co.yap.yapcore.dagger.di.InjectionViewModelProvider
 import co.yap.yapcore.dagger.di.module.fragment.BaseFragmentModule
 import co.yap.yapcore.dagger.di.qualifiers.FragmentScope
@@ -21,4 +24,11 @@ class HHSalaryProfileModule : BaseFragmentModule<HHSalaryProfileFragment>() {
     @Provides
     @FragmentScope
     fun provideHHSalaryProfileState(): IHHSalaryProfile.State = HHSalaryProfileState()
+
+    @Provides
+    fun provideHHPaySalaryAdapter(fragment: HHSalaryProfileFragment) =
+        HHSalaryProfileFragment.Adapter(
+            ArrayList(),
+            null
+        )
 }
