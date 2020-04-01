@@ -37,7 +37,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/include2"
-            tools:text="Salary has been transferred successfully and a monthly recurring payment has been set for:" />
+            android:text="Salary has been transferred successfully and a monthly recurring payment has been set for:" />
 
         <co.yap.widgets.libcurrencyview.CurrencyTextView
             android:id="@+id/currencyTextView"
@@ -90,18 +90,19 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 app:layout_constraintTop_toBottomOf="@+id/include2"
-                tools:text="You will be notified before each payment in the case you require a fund top up. You can manage your recurring payments in the Cards section." />
+                android:text="You will be notified before each payment in the case you require a fund top up. You can manage your recurring payments in the Cards section." />
 
             <co.yap.widgets.CoreButton
                 android:id="@+id/btnSetUpNow"
-                style="@style/FragmentsBtnStyle"
+                style="@style/RectangleBtnSmallStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/_22sdp"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="@dimen/margin_normal"
                 android:minHeight="@dimen/_22sdp"
-                android:paddingStart="@dimen/margin_large"
-                android:paddingEnd="@dimen/margin_large"
+                app:enableCoreButton="@{true}"
+                android:paddingStart="@dimen/margin_normal_large"
+                android:paddingEnd="@dimen/margin_normal_large"
                 android:text="Setup Now" />
         </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -114,7 +115,7 @@
             android:layout_marginRight="@dimen/margin_xl"
             android:paddingStart="@dimen/margin_large"
             android:paddingEnd="@dimen/margin_large"
-
+            app:enableCoreButton="@{true}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

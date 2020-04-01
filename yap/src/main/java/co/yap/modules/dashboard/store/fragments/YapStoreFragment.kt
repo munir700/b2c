@@ -12,12 +12,14 @@ import co.yap.modules.dashboard.store.adaptor.YapStoreAdaptor
 import co.yap.modules.dashboard.store.household.activities.HouseHoldLandingActivity
 import co.yap.modules.dashboard.store.interfaces.IYapStore
 import co.yap.modules.dashboard.store.viewmodels.YapStoreViewModel
+import co.yap.modules.subaccounts.confirmation.PaymentConfirmationFragment
 import co.yap.networking.store.responsedtos.Store
 import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.helpers.extentions.ExtraType
 import co.yap.yapcore.helpers.extentions.getValue
 import co.yap.yapcore.helpers.extentions.launchActivity
+import co.yap.yapcore.helpers.extentions.startFragment
 import co.yap.yapcore.interfaces.OnItemClickListener
 import kotlinx.android.synthetic.main.fragment_yap_store.*
 
@@ -53,7 +55,8 @@ class YapStoreFragment : BaseBindingFragment<IYapStore.ViewModel>(), IYapStore.V
         override fun onItemClick(view: View, data: Any, pos: Int) {
             if (data is Store) {
                 if (data.name == "YAP Household") {
-                    launchActivity<HouseHoldLandingActivity> (requestCode = RequestCodes.REQUEST_ADD_HOUSE_HOLD)
+                    startFragment(PaymentConfirmationFragment::class.java.name)
+                   // launchActivity<HouseHoldLandingActivity> (requestCode = RequestCodes.REQUEST_ADD_HOUSE_HOLD)
                 }
             }
         }
