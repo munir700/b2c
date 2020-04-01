@@ -318,8 +318,7 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
                 if (MyUserManager.isDefaultUserYap()) {
                     gotoYapDashboard()
                 } else {
-                    launchActivity<HouseholdDashboardActivity>()
-                    activity?.finish()
+                    launchActivity<HouseholdDashboardActivity>(clearPrevious = true)
                 }
             } else {
                 launchActivity<OnBoardingHouseHoldActivity>() {

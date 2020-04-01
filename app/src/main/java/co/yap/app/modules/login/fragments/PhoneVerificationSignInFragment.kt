@@ -95,36 +95,13 @@ class PhoneVerificationSignInFragment : OnboardingChildFragment<IPhoneVerificati
         }
     }
 
-    private fun gotoHouseHold(isExisting: Boolean, user: AccountInfo?) {
-        if(!isExisting) {
-            SharedPreferenceManager(requireContext()).setThemeValue(co.yap.yapcore.constants.Constants.THEME_HOUSEHOLD)
-            val bundle = Bundle()
-            bundle.putBoolean(OnBoardingHouseHoldActivity.EXISTING_USER, isExisting)
-            bundle.putParcelable(
-                OnBoardingHouseHoldActivity.USER_INFO,
-                user
-            )
-            startActivity(OnBoardingHouseHoldActivity.getIntent(requireContext(), bundle))
-            activity?.finish()
-        }else{
-            gotoYapDashboard()
-        }
-    }
-
-    private fun goToHouseHoldDashboard() {
-        findNavController().navigate(R.id.action_goto_householdOnBoardingExistingYAP)
-        activity?.finish()
-    }
-
-
     private val switchProfileObserver = Observer<Boolean> {
         if(it) {
             if (MyUserManager.isOnBoarded()) {
                 if(MyUserManager.isDefaultUserYap()) {
                     gotoYapDashboard()
                 }else{
-                    launchActivity<HouseholdDashboardActivity>()
-                    activity?.finish()
+                    launchActivity<HouseholdDashboardActivity>(clearPrevious = true)
                 }
             }else{
                 launchActivity<OnBoardingHouseHoldActivity>() {
