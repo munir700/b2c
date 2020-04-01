@@ -1,7 +1,6 @@
 package co.yap.household.dashboard.main
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.lifecycle.Observer
 import co.yap.household.BR
@@ -22,6 +21,7 @@ import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.MyUserManager
 import kotlinx.android.synthetic.main.activity_household_dashboard.*
 import kotlinx.android.synthetic.main.layout_drawer_header.*
+import kotlinx.android.synthetic.main.layout_drawer_header_expandable.*
 import kotlinx.android.synthetic.main.layout_drawer_household_dashboard.*
 import net.cachapa.expandablelayout.ExpandableLayout
 import javax.inject.Inject
@@ -30,20 +30,20 @@ class HouseholdDashboardActivity :
     BaseViewModelActivity<ActivityHouseholdDashboardBinding, IHouseholdDashboard.State, HouseHoldDashBoardVM>() {
     @Inject
     lateinit var adapter: SectionsPagerAdapter
+
     override fun getBindingVariable() = BR.viewModel
     override fun getLayoutId() = R.layout.activity_household_dashboard
     private var actionMenu: FloatingActionMenu? = null
-    var selectedUser:AccountInfo? = null
+    var selectedUser: AccountInfo? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         addObservers()
         setUpAdapter()
         addListeners()
-
     }
 
-    private fun addObservers(){
+    private fun addObservers() {
         MyUserManager.switchProfile.observe(this, switchProfileObserver)
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
@@ -51,7 +51,6 @@ class HouseholdDashboardActivity :
                 R.id.lyHeader_section -> expandableLayout.toggle(true)
             }
         })
-
     }
 
     private fun setUpAdapter() {
@@ -75,11 +74,11 @@ class HouseholdDashboardActivity :
 
     private val switchProfileObserver = Observer<Boolean> {
         if (it) {
-            if(selectedUser?.accountType == AccountType.B2C_ACCOUNT.name) {
+            if (selectedUser?.accountType == AccountType.B2C_ACCOUNT.name) {
                 // Go to yap Dashboard
                 launchActivity<YapDashboardActivity>()
                 finish()
-            } else if(selectedUser?.accountType == AccountType.B2C_HOUSEHOLD.name) {
+            } else if (selectedUser?.accountType == AccountType.B2C_HOUSEHOLD.name) {
                 // Go to household Dashboard
             }
         }
@@ -129,6 +128,7 @@ class HouseholdDashboardActivity :
                 override fun onMenuOpened(menu: FloatingActionMenu) {
 
                 }
+
                 override fun onMenuClosed(menu: FloatingActionMenu, subActionButtonId: Int) {
                     when (subActionButtonId) {
                         1 -> {

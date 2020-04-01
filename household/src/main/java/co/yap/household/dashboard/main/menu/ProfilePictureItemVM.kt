@@ -27,11 +27,5 @@ class ProfilePictureItemVM : BaseListItemViewModel<AccountInfo>() {
 
     override fun layoutRes() = R.layout.item_dashboard_menu_profile_pic
     override fun onItemClick(view: View, data: Any, pos: Int) {
-//        navigation?.navigate(
-//            YapToYapFragmentDirections.actionYapToYapHomeToY2YTransferFragment(
-//                (data as Beneficiary).beneficiaryPictureUrl!!
-//                , data.accountUuid!!, data.title!!, pos
-//            )
-//        )
     }
 }
