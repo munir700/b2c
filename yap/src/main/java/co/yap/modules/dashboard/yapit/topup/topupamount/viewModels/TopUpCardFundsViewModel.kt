@@ -36,7 +36,6 @@ class TopUpCardFundsViewModel(application: Application) : FundActionsViewModel(a
         state.currencyType = getString(Strings.common_text_currency_type)
         getFundTransferLimits(Constants.TOP_UP_VIA_CARD)
         getFundTransferDenominations(Constants.TOP_UP_VIA_CARD)
-        getTransactionFee()
         state.availableBalanceGuide =
             getString(Strings.screen_topup_transfer_display_text_available_balance)
                 .format(
@@ -65,9 +64,6 @@ class TopUpCardFundsViewModel(application: Application) : FundActionsViewModel(a
                     if (response.data.data?.feeType == Constants.FEE_TYPE_FLAT) {
                         val feeAmount = response.data.data?.tierRateDTOList?.get(0)?.feeAmount
                         val VATAmount = response.data.data?.tierRateDTOList?.get(0)?.vatAmount
-                        state.transactionFee =
-                            feeAmount?.plus(VATAmount ?: 0.0).toString().toFormattedCurrency() ?: ""
-                        clickEvent.postValue(Constants.CARD_FEE)
                     }
                     //Commented because QA said to remove "No fee" text.
                     /* if (state.transactionFee.toDouble() == 0.0) {

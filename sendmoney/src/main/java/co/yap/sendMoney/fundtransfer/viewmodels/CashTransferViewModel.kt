@@ -6,10 +6,8 @@ import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.transactions.TransactionsRepository
 import co.yap.networking.transactions.requestdtos.CashPayoutRequestDTO
-import co.yap.networking.transactions.requestdtos.RemittanceFeeRequest
 import co.yap.networking.transactions.responsedtos.InternationalFundsTransferReasonList
 import co.yap.networking.transactions.responsedtos.purposepayment.PurposeOfPayment
-import co.yap.networking.transactions.responsedtos.transaction.RemittanceFeeResponse
 import co.yap.sendMoney.fundtransfer.interfaces.ICashTransfer
 import co.yap.sendMoney.fundtransfer.states.CashTransferState
 import co.yap.sendmoney.R
@@ -39,10 +37,7 @@ class CashTransferViewModel(application: Application) :
     override var receiverUUID: String = ""
     override var purposeOfPaymentList: MutableLiveData<ArrayList<PurposeOfPayment>> =
         MutableLiveData()
-    override var feeType: String = ""
-    override var feeTiers: List<RemittanceFeeResponse.RemittanceFee.TierRateDTO> = arrayListOf()
-    override var isAPIFailed: MutableLiveData<Boolean> = MutableLiveData(false)
-    override val updatedFee: MutableLiveData<String> = MutableLiveData("0.0")
+
     var purposeCategories: Map<String?, List<PurposeOfPayment>>? = HashMap()
     override var reasonPosition: Int = 0
 
@@ -212,33 +207,6 @@ class CashTransferViewModel(application: Application) :
         }
     }
 
-    override fun getTransferFees(productCode: String?) {
-        launch {
-            state.loading = true
-            when (val response =
-                transactionRepository.getTransactionFeeWithProductCode(
-                    productCode,
-                    RemittanceFeeRequest(parentViewModel?.beneficiary?.value?.country, "")
-                )) {
-                is RetroApiResponse.Success -> {
-                    feeType = response.data.data?.feeType ?: ""
-                    response.data.data?.tierRateDTOList?.let {
-                        feeTiers =
-                            response.data.data?.tierRateDTOList as ArrayList<RemittanceFeeResponse.RemittanceFee.TierRateDTO>
-                        updateFees()
-                    }
-
-                }
-                is RetroApiResponse.Error -> {
-                    state.toast = response.error.message
-                    state.loading = false
-                    isAPIFailed.value = true
-                }
-            }
-            state.loading = false
-        }
-    }
-
     override fun getMoneyTransferLimits(productCode: String?) {
         launch {
             when (val response = transactionRepository.getFundTransferLimits(productCode)) {
@@ -297,30 +265,6 @@ class CashTransferViewModel(application: Application) :
         }
     }
 
-
-    private fun getFeeFromTier(): String? {
-//        if (shouldFeeApply()) {
-
-//    }else null
-            return if (!state.amount.isBlank()) {
-                val fee = feeTiers.filter { item ->
-                    item.amountFrom ?: 0.0 <= state.amount.parseToDouble() && item.amountTo ?: 0.0 >= state.amount.parseToDouble()
-                }
-                if (fee[0].feeAmount != null && fee[0].vatAmount != null) {
-                    fee[0].feeAmount?.plus(fee[0].vatAmount ?: 0.0).toString()
-                } else {
-                    val calculatedFee =
-                        (state.amount.parseToDouble() * (fee[0].percentageFee?.parseToDouble()
-                            ?: 0.0)).div(100).also {
-                            it.plus((it * (fee[0].percentageFee?.parseToDouble() ?: 0.0)).div(100))
-                        }
-                    calculatedFee.toString()
-                }
-            } else {
-                null
-            }
-    }
-
     fun getTotalAmountWithFee(): Double {
         return if (shouldFeeApply()) {
             return (when (feeType) {
@@ -342,20 +286,38 @@ class CashTransferViewModel(application: Application) :
         }
     }
 
+    private fun getFeeFromTier(): String? {
+//        if (shouldFeeApply()) { //    }else null
+        return if (!state.amount.isBlank()) {
+            val fee = feeTiers.filter { item ->
+                item.amountFrom ?: 0.0 <= state.amount.parseToDouble() && item.amountTo ?: 0.0 >= state.amount.parseToDouble()
+            }
+            if (fee[0].feeAmount != null && fee[0].vatAmount != null) {
+                fee[0].feeAmount?.plus(fee[0].vatAmount ?: 0.0).toString()
+            } else {
+                val calculatedFee =
+                    (state.amount.parseToDouble() * (fee[0].percentageFee?.parseToDouble()
+                        ?: 0.0)).div(100).also {
+                        it.plus((it * (fee[0].percentageFee?.parseToDouble() ?: 0.0)).div(100))
+                    }
+                calculatedFee.toString()
+            }
+        } else {
+            null
+        }
+    }
 
     private fun getFlatFee(): Double {
 //        if (shouldFeeApply())
         //else 0.0
-
         return if (feeTiers[0].feeAmount != null && feeTiers[0].vatAmount != null) {
                 feeTiers[0].feeAmount?.plus(feeTiers[0].vatAmount ?: 0.0) ?: 0.0
             } else {
-                return (state.amount.parseToDouble() * (feeTiers[0].percentageFee?.parseToDouble()
-                    ?: 0.0)).div(100).also {
-                    it.plus((it * (feeTiers[0].percentageFee?.parseToDouble() ?: 0.0)).div(100))
-                }
+            return (state.amount.parseToDouble() * (feeTiers[0].percentageFee?.parseToDouble()
+                ?: 0.0)).div(100).also {
+                it.plus((it * (feeTiers[0].percentageFee?.parseToDouble() ?: 0.0)).div(100))
             }
-
+        }
     }
 
     override fun processPurposeList(list: ArrayList<PurposeOfPayment>) {

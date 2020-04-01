@@ -1,7 +1,7 @@
 package co.yap.yapcore.helpers.extentions
 
-fun String.parseToDouble() = try {
-    toDouble()
+fun String?.parseToDouble() = try {
+    this?.toDouble()?:0.0
 } catch (e: NumberFormatException) {
     0.0
 }

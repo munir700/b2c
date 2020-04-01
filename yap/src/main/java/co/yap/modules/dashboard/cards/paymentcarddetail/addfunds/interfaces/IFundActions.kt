@@ -66,11 +66,8 @@ interface IFundActions {
         var amountBackground: Drawable?
         var errorDescription: String
         var denominationAmount: String
-
-        var transactionFee: String
         var transactionFeeSpannableString: String?
         var transferFee: CharSequence?
-        var fee: String?
 
         //success screen variables
         var topUpSuccess: String

@@ -116,7 +116,7 @@ class Y2YTransferFragment : Y2YBaseFragment<IY2YFundsTransfer.ViewModel>(), IY2Y
                     }
                 }
             }
-            Constants.CARD_FEE -> {
+            1122 -> {
                 viewModel.state.transferFee =
                     resources.getText(
                         getString(Strings.common_text_fee), requireContext().color(

@@ -77,7 +77,7 @@ class Y2YFundsTransferViewModel(application: Application) :
                         val VATAmount = response.data.data?.tierRateDTOList?.get(0)?.vatAmount
                         state.fee =
                             feeAmount?.plus(VATAmount ?: 0.0).toString().toFormattedCurrency()
-                        clickEvent.postValue(Constants.CARD_FEE)
+                        clickEvent.postValue(1122)
                     }
 
                 }

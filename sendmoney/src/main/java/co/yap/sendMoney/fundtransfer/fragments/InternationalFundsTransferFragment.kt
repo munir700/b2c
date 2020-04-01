@@ -1,10 +1,7 @@
 package co.yap.sendMoney.fundtransfer.fragments
 
 import android.os.Bundle
-import android.text.Editable
 import android.text.InputFilter
-import android.text.TextWatcher
-import android.view.Gravity
 import android.view.View
 import android.widget.AdapterView
 import androidx.lifecycle.Observer
@@ -12,7 +9,6 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import co.yap.networking.transactions.responsedtos.InternationalFundsTransferReasonList
 import co.yap.networking.transactions.responsedtos.transaction.FxRateResponse
-import co.yap.networking.transactions.responsedtos.transaction.RemittanceFeeResponse
 import co.yap.sendMoney.fundtransfer.activities.BeneficiaryFundTransferActivity
 import co.yap.sendMoney.fundtransfer.interfaces.IInternationalFundsTransfer
 import co.yap.sendMoney.fundtransfer.viewmodels.InternationalFundsTransferViewModel
@@ -22,10 +18,11 @@ import co.yap.sendmoney.databinding.FragmentInternationalFundsTransferBinding
 import co.yap.translation.Strings
 import co.yap.translation.Translator
 import co.yap.widgets.spinneradapter.ViewHolderArrayAdapter
-import co.yap.yapcore.enums.FeeType
 import co.yap.yapcore.enums.SendMoneyBeneficiaryType
 import co.yap.yapcore.enums.TransactionProductCode
+import co.yap.yapcore.helpers.DecimalDigitsInputFilter
 import co.yap.yapcore.helpers.cancelAllSnackBar
+import co.yap.yapcore.helpers.extentions.afterTextChanged
 import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 import co.yap.yapcore.helpers.extentions.toast
 import co.yap.yapcore.helpers.spannables.color
@@ -45,10 +42,9 @@ class InternationalFundsTransferFragment :
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setSpannableFee("0.00")
         val productCode = getProductCode()
         viewModel.getMoneyTransferLimits(productCode)
-        viewModel.getTransactionFeeInternational(productCode)
+        viewModel.getTransferFees(productCode, viewModel.parentViewModel?.beneficiary?.value)
         viewModel.getReasonList(productCode)
         viewModel.getTransactionInternationalfxList(productCode)
         viewModel.getTransactionThresholds()
@@ -56,14 +52,6 @@ class InternationalFundsTransferFragment :
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel.state.availableBalanceString =
-            resources.getText(
-                getString(Strings.screen_cash_transfer_display_text_available_balance),
-                requireContext().color(
-                    R.color.colorPrimaryDark,
-                    "${"AED"} ${MyUserManager.cardBalance.value?.availableBalance?.toFormattedCurrency()}"
-                )
-            )
         setEditTextWatcher()
     }
 
@@ -73,8 +61,12 @@ class InternationalFundsTransferFragment :
             if (it == null) return@Observer
             setSpinnerAdapter(it)
         })
-        viewModel.transactionFeeResponse.observe(this, Observer {
-            handleTxnFeeResponse(it)
+        viewModel.updatedFee.observe(this, Observer {
+            if (!it.isNullOrBlank())
+                setSpannableFee(it)
+        })
+        viewModel.isFeeReceived.observe(this, Observer {
+            if (it) viewModel.updateFees()
         })
         viewModel.fxRateResponse.observe(this, Observer {
             handleFxRateResponse(it)
@@ -96,27 +88,6 @@ class InternationalFundsTransferFragment :
             viewModel.state.destinationCurrency.set(fxRate.toCurrencyCode)
             viewModel.parentViewModel?.transferData?.value?.rate = fxRate.fxRates?.get(0)?.rate
         }
-    }
-
-    private fun handleTxnFeeResponse(feeResponse: RemittanceFeeResponse.RemittanceFee?) {
-        when (feeResponse?.feeType) {
-            FeeType.FLAT.name -> {
-                handleFlatFee(feeResponse)
-            }
-
-            FeeType.TIER.name -> viewModel.feeTiers =
-                feeResponse.tierRateDTOList as ArrayList<RemittanceFeeResponse.RemittanceFee.TierRateDTO>
-
-            FeeType.PERCENTAGE.name -> {
-
-            }
-        }
-    }
-
-    private fun handleFlatFee(feeResponse: RemittanceFeeResponse.RemittanceFee) {
-        val totalFeeAmount = feeResponse.tierRateDTOList?.get(0)
-            ?.feeAmount?.plus(feeResponse.tierRateDTOList?.get(0)?.vatAmount ?: 0.0)
-        setSpannableFee(totalFeeAmount.toString())
     }
 
     private fun setSpannableFee(feeAmount: String?) {
@@ -186,14 +157,14 @@ class InternationalFundsTransferFragment :
         val availableBalance =
             MyUserManager.cardBalance.value?.availableBalance?.toDoubleOrNull()
         return if (availableBalance != null) {
-            (availableBalance > viewModel.state.totalTransferAmount.get() ?: 0.0)
+            (availableBalance > viewModel.getTotalAmountWithFee())
         } else
             false
     }
 
     private fun startFlow() {
         if (isBalanceAvailable()) {
-            if (viewModel.state.totalTransferAmount.get() ?: 0.0 < viewModel.state.minLimit ?: 0.0 || viewModel.state.totalTransferAmount.get() ?: 0.0 > viewModel.state.maxLimit ?: 0.0) {
+            if (viewModel.getTotalAmountWithFee() < viewModel.state.minLimit ?: 0.0 || viewModel.getTotalAmountWithFee() > viewModel.state.maxLimit ?: 0.0) {
                 setLowerAndUpperLimitError()
             } else {
                 if (isDailyLimitReached())
@@ -238,7 +209,7 @@ class InternationalFundsTransferFragment :
         viewModel.parentViewModel?.transactionThreshold?.value?.let {
             it.dailyLimit?.let { dailyLimit ->
                 it.totalDebitAmount?.let { totalConsumedAmount ->
-                    viewModel.state.totalTransferAmount.get()?.let { enteredAmount ->
+                    viewModel.getTotalAmountWithFee().let { enteredAmount ->
                         val remainingDailyLimit =
                             if ((dailyLimit - totalConsumedAmount) < 0.0) 0.0 else (dailyLimit - totalConsumedAmount)
                         viewModel.state.errorDescription =
@@ -246,7 +217,7 @@ class InternationalFundsTransferFragment :
                                 Strings.common_display_text_daily_limit_error_single_transaction
                             )
                         return (enteredAmount > remainingDailyLimit)
-                    } ?: return false
+                    }
                 } ?: return false
             } ?: return false
         } ?: return false
@@ -274,59 +245,35 @@ class InternationalFundsTransferFragment :
     }
 
     private fun getProductCode(): String {
-        if (context is BeneficiaryFundTransferActivity) {
-            viewModel.parentViewModel?.beneficiary?.value?.let { beneficiary ->
-                beneficiary.beneficiaryType?.let { beneficiaryType ->
-                    if (beneficiaryType.isNotEmpty())
-                        return when (beneficiaryType) {
-                            SendMoneyBeneficiaryType.RMT.type -> {
-                                viewModel.parentViewModel?.transferData?.value?.otpAction =
-                                    SendMoneyBeneficiaryType.RMT.name
-                                TransactionProductCode.RMT.pCode
-                            }
-                            SendMoneyBeneficiaryType.SWIFT.type -> {
-                                viewModel.parentViewModel?.transferData?.value?.otpAction =
-                                    SendMoneyBeneficiaryType.SWIFT.name
-                                TransactionProductCode.SWIFT.pCode
-                            }
-                            else -> {
-                                ""
-                            }
-                        }
+        viewModel.parentViewModel?.beneficiary?.value?.let { beneficiary ->
+            when (beneficiary.beneficiaryType) {
+                SendMoneyBeneficiaryType.RMT.type -> {
+                    viewModel.parentViewModel?.transferData?.value?.otpAction =
+                        SendMoneyBeneficiaryType.RMT.name
+                    return TransactionProductCode.RMT.pCode
                 }
+                SendMoneyBeneficiaryType.SWIFT.type -> {
+                    viewModel.parentViewModel?.transferData?.value?.otpAction =
+                        SendMoneyBeneficiaryType.SWIFT.name
+                    return TransactionProductCode.SWIFT.pCode
+                }
+                else -> return ""
             }
-        }
-        return ""
+        } ?: return ""
     }
 
     private fun setEditTextWatcher() {
-        getBindings().etSenderAmount.filters =
-            arrayOf(InputFilter.LengthFilter(7), co.yap.widgets.DecimalDigitsInputFilter(2))
-        getBindings().etSenderAmount.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(p0: Editable?) {
-                viewModel.state.clearError()
-                if (!viewModel.state.etInputAmount.isNullOrEmpty()) {
-                    viewModel.state.totalTransferAmount.set(viewModel.getTotalAmountWithFee())
-                    if (viewModel.transactionFeeResponse.value?.feeType == FeeType.TIER.name)
-                        setSpannableFee(viewModel.getFeeFromTier(viewModel.state.etInputAmount))
+        etSenderAmount.filters =
+            arrayOf(InputFilter.LengthFilter(7), DecimalDigitsInputFilter(2))
 
-                    checkOnTextChangeValidation()
-                }
-                viewModel.setDestinationAmount()
+        etSenderAmount.afterTextChanged {
+            viewModel.state.clearError()
+            if (!viewModel.state.etInputAmount.isNullOrBlank()) {
+                viewModel.updateFees()
+                checkOnTextChangeValidation()
             }
-
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
-
-            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                if (p0?.length ?: 0 > 0) {
-                    getBindings().etSenderAmount.gravity =
-                        Gravity.CENTER_HORIZONTAL or Gravity.CENTER_VERTICAL
-                } else {
-                    getBindings().etSenderAmount.gravity =
-                        Gravity.CENTER_HORIZONTAL or Gravity.CENTER_VERTICAL
-                }
-            }
-        })
+            viewModel.setDestinationAmount()
+        }
     }
 
     private fun checkOnTextChangeValidation() {
@@ -353,15 +300,14 @@ class InternationalFundsTransferFragment :
         super.onPause()
         viewModel.clickEvent.removeObservers(this)
         viewModel.populateSpinnerData.removeObservers(this)
-        viewModel.transactionFeeResponse.removeObservers(this)
+        viewModel.isFeeReceived.removeObservers(this)
+        viewModel.updatedFee.removeObservers(this)
         viewModel.fxRateResponse.removeObservers(this)
         viewModel.isAPIFailed.removeObservers(this)
 
     }
 
-    fun getBindings(): FragmentInternationalFundsTransferBinding {
-        return viewDataBinding as FragmentInternationalFundsTransferBinding
-    }
+    fun getBindings(): FragmentInternationalFundsTransferBinding { return viewDataBinding as FragmentInternationalFundsTransferBinding }
 
     override fun onDestroyView() {
         super.onDestroyView()

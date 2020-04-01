@@ -6,17 +6,20 @@ import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.transactions.TransactionsRepository
-import co.yap.networking.transactions.requestdtos.RemittanceFeeRequest
 import co.yap.networking.transactions.requestdtos.RxListRequest
 import co.yap.networking.transactions.responsedtos.InternationalFundsTransferReasonList
 import co.yap.networking.transactions.responsedtos.transaction.FxRateResponse
-import co.yap.networking.transactions.responsedtos.transaction.RemittanceFeeResponse
 import co.yap.sendMoney.fundtransfer.interfaces.IInternationalFundsTransfer
 import co.yap.sendMoney.fundtransfer.states.InternationalFundsTransferState
+import co.yap.sendmoney.R
 import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.enums.FeeType
 import co.yap.yapcore.helpers.extentions.parseToDouble
+import co.yap.yapcore.helpers.extentions.toFormattedCurrency
+import co.yap.yapcore.helpers.spannables.color
+import co.yap.yapcore.helpers.spannables.getText
+import co.yap.yapcore.managers.MyUserManager
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -31,16 +34,12 @@ class InternationalFundsTransferViewModel(application: Application) :
             application
         )
     override var clickEvent: SingleClickEvent = SingleClickEvent()
-    override var isAPIFailed: MutableLiveData<Boolean> = MutableLiveData()
     override var transactionData: ArrayList<InternationalFundsTransferReasonList.ReasonList> =
         ArrayList()
     override val populateSpinnerData: MutableLiveData<ArrayList<InternationalFundsTransferReasonList.ReasonList>> =
         MutableLiveData()
     override var reasonPosition: Int = 0
     override var fxRateResponse: MutableLiveData<FxRateResponse.Data> = MutableLiveData()
-    override var transactionFeeResponse: MutableLiveData<RemittanceFeeResponse.RemittanceFee> =
-        MutableLiveData()
-    override var feeTiers: List<RemittanceFeeResponse.RemittanceFee.TierRateDTO> = arrayListOf()
 
     override fun handlePressOnButton(id: Int) {
         clickEvent.setValue(id)
@@ -49,32 +48,19 @@ class InternationalFundsTransferViewModel(application: Application) :
     override fun onCreate() {
         super.onCreate()
         parentViewModel?.state?.toolBarTitle = getString(Strings.screen_funds_toolbar_header)
+        state.availableBalanceString =
+            context.resources.getText(
+                getString(Strings.screen_cash_transfer_display_text_available_balance),
+                context.color(
+                    R.color.colorPrimaryDark,
+                    "${"AED"} ${MyUserManager.cardBalance.value?.availableBalance?.toFormattedCurrency()}"
+                )
+            )
     }
 
     override fun onResume() {
         super.onResume()
         setToolBarTitle(getString(Strings.screen_international_funds_transfer_display_text_title))
-    }
-
-    override fun getTransactionFeeInternational(productCode: String?) {
-        launch {
-            val remittanceFeeRequestBody =
-                RemittanceFeeRequest(parentViewModel?.beneficiary?.value?.country, "")
-            when (val response =
-                mTransactionsRepository.getTransactionFeeWithProductCode(
-                    productCode,
-                    remittanceFeeRequestBody
-                )) {
-                is RetroApiResponse.Success -> {
-                    transactionFeeResponse.value = response.data.data
-                }
-                is RetroApiResponse.Error -> {
-                    state.loading = false
-                    isAPIFailed.value = true
-                    state.toast = response.error.message
-                }
-            }
-        }
     }
 
     override fun getTransactionInternationalfxList(productCode: String?) {
@@ -180,31 +166,19 @@ class InternationalFundsTransferViewModel(application: Application) :
         }
     }
 
-    fun getFeeFromTier(enterAmount: String?): String? {
-        return if (!enterAmount.isNullOrBlank()) {
-            val fee = feeTiers.filter { item ->
-                item.amountFrom ?: 0.0 <= enterAmount.parseToDouble() && item.amountTo ?: 0.0 >= enterAmount.parseToDouble()
-            }
-            fee[0].feeAmount?.plus(fee[0].vatAmount ?: 0.0).toString()
-        } else {
-            null
-        }
+    fun updateFees() {
+        updateFees(state.etInputAmount.toString())
     }
 
     fun getTotalAmountWithFee(): Double {
-        return (when (transactionFeeResponse.value?.feeType) {
+        return (when (feeType) {
             FeeType.TIER.name -> {
-                val transferFee = getFeeFromTier(state.etInputAmount)
-                state.etInputAmount?.toDoubleOrNull() ?: 0.0.plus(
-                    transferFee?.toDoubleOrNull() ?: 0.0
-                )
+                val transferFee = getFeeFromTier(state.etInputAmount.toString())
+                state.etInputAmount.parseToDouble().plus(transferFee.parseToDouble())
             }
             FeeType.FLAT.name -> {
-                val transferFee = transactionFeeResponse.value?.tierRateDTOList?.get(0)
-                    ?.feeAmount?.plus(
-                    transactionFeeResponse.value?.tierRateDTOList?.get(0)?.vatAmount ?: 0.0
-                )
-                state.etInputAmount?.toDoubleOrNull() ?: 0.0.plus(transferFee ?: 0.0)
+                val transferFee = getFlatFee(state.etInputAmount.toString())
+                state.etInputAmount.parseToDouble().plus(transferFee.parseToDouble())
             }
             else -> {
                 0.00

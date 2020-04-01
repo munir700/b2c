@@ -182,12 +182,6 @@ class FundActionsState(application: Application) : BaseState(), IFundActions.Sta
             notifyPropertyChanged(BR.spareCardUpdatedBalance)
         }
 
-    @get:Bindable
-    override var transactionFee: String = ""
-        set(value) {
-            field = value
-            notifyPropertyChanged(BR.transactionFee)
-        }
 
     @get:Bindable
     override var transactionFeeSpannableString: String? = ""
@@ -203,12 +197,6 @@ class FundActionsState(application: Application) : BaseState(), IFundActions.Sta
             notifyPropertyChanged(BR.transferFee)
         }
 
-    @get:Bindable
-    override var fee: String? = "50"
-        set(value) {
-            field = value
-            notifyPropertyChanged(BR.fee)
-        }
 
     fun checkValidity(type: String): String {
         try {

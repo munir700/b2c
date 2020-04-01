@@ -74,6 +74,9 @@ class CashTransferFragment : BeneficiaryFundTransferBaseFragment<ICashTransfer.V
             if (it) requireActivity().finish()
         })
 
+        viewModel.isFeeReceived.observe(this, Observer {
+            if (it) viewModel.updateFees()
+        })
         viewModel.updatedFee.observe(this, Observer {
             if (!it.isNullOrBlank())
                 setSpannableFee(it)
@@ -275,7 +278,10 @@ class CashTransferFragment : BeneficiaryFundTransferBaseFragment<ICashTransfer.V
                 SendMoneyBeneficiaryType.RMT.type, SendMoneyBeneficiaryType.SWIFT.type -> skipCashTransferFragment()
                 else -> {
                     viewModel.getMoneyTransferLimits(productCode)
-                    viewModel.getTransferFees(productCode)
+                    viewModel.getTransferFees(
+                        productCode,
+                        viewModel.parentViewModel?.beneficiary?.value
+                    )
                     viewModel.getPurposeOfPayment(productCode)
                     setObservers()
                 }

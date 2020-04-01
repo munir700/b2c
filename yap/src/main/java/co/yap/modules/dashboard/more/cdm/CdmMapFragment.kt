@@ -52,8 +52,8 @@ class CdmMapFragment : LocationCheckFragment<ICdmMap.ViewModel>(), ICdmMap.View,
         when (id) {
             R.id.btnDirection -> openGoogleMapDirection(
                 LatLng(
-                    viewModel.state.atmCdmData?.latitude?.parseToDouble()!!,
-                    viewModel.state.atmCdmData?.longitude?.parseToDouble()!!
+                    viewModel.state.atmCdmData?.latitude.parseToDouble(),
+                    viewModel.state.atmCdmData?.longitude.parseToDouble()
                 )
             )
             R.id.ivBackBtn -> activity?.finish()

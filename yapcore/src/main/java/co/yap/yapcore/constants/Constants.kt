@@ -73,7 +73,6 @@ object Constants {
     const val FORGOT_CARD_PIN_NAVIGATION: Int = 1
 
     const val DUMMY_CARD: Int = 22
-    const val CARD_FEE: Int = 23
     const val TOP_UP_TRANSACTION_SUCCESS: Int = 6
 
     //CardAnalytics constants
