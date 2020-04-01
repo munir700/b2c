@@ -14,71 +14,94 @@
         <import type="co.yap.translation.Strings" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".modules.subaccounts.paysalary.entersalaryamount.EnterSalaryAmountFragment">
-
-        <co.yap.widgets.CoreCircularImageView
-            android:id="@+id/ivUserImage"
-            android:layout_width="@dimen/_62sdp"
-            android:layout_height="@dimen/_62sdp"
-            android:layout_marginTop="@dimen/margin_medium_large"
-            android:contentDescription="@string/empty_string"
-            android:src="@drawable/ic_store_b2b"
-            app:colorType="@{`Beneficiary`}"
-            app:fullName="@{MyUserManager.INSTANCE.user.currentCustomer.fullName}"
-            app:imageUrl="@{MyUserManager.INSTANCE.user.currentCustomer.picture}"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:position="@{0}" />
-
-
-        <TextView
-            android:id="@+id/tvFullName"
-            style="@style/Regular"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_medium"
-            android:layout_marginTop="@dimen/margin_normal"
-            android:layout_marginEnd="@dimen/margin_medium"
-            android:gravity="center"
-            android:text="Enter transfer amount"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/ivUserImage"
-            tools:text="Enter transfer amount" />
-
-        <TextView
-            android:id="@+id/tvCurrency"
-            style="@style/AMicroGrey"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_medium"
-            android:text="AED"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvFullName"
-            tools:text="AED" />
+        android:fillViewport="true">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/etAmountLayout"
-            android:layout_width="@dimen/_140sdp"
-            android:layout_height="@dimen/_50sdp"
-            android:layout_marginTop="@dimen/margin_small"
-            android:background="@drawable/bg_funds"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvCurrency"
-            tools:background="@drawable/bg_funds">
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:context=".modules.subaccounts.paysalary.entersalaryamount.EnterSalaryAmountFragment">
 
-            <co.yap.widgets.EasyMoneyEditText
+            <co.yap.widgets.CoreCircularImageView
+                android:id="@+id/ivUserImage"
+                android:layout_width="@dimen/_62sdp"
+                android:layout_height="@dimen/_62sdp"
+                android:layout_marginTop="@dimen/margin_medium_large"
+                android:contentDescription="@string/empty_string"
+                android:src="@drawable/ic_store_b2b"
+                app:colorType="@{`Beneficiary`}"
+                app:fullName="@{MyUserManager.INSTANCE.user.currentCustomer.fullName}"
+                app:imageUrl="@{MyUserManager.INSTANCE.user.currentCustomer.picture}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:position="@{0}" />
+
+
+            <TextView
+                android:id="@+id/tvFullName"
+                style="@style/Regular"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_medium"
+                android:layout_marginTop="@dimen/margin_normal"
+                android:layout_marginEnd="@dimen/margin_medium"
+                android:gravity="center"
+                android:text="Enter transfer amount"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/ivUserImage"
+                tools:text="Enter transfer amount" />
+
+            <TextView
+                android:id="@+id/tvCurrency"
+                style="@style/AMicroGrey"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_medium"
+                android:text="AED"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvFullName"
+                tools:text="AED" />
+
+            <co.yap.widgets.CoreAmountWidget
                 android:id="@+id/etLastUsedAmount"
                 style="@style/ATitle2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_small"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvCurrency"
+                app:show_currency="false"
+                app:show_decimal="true"/>
+
+            <TextView
+                android:id="@+id/tvAvailableBalance"
+                style="@style/MicroGrey"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@null"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_medium_large"
+                android:layout_marginTop="@dimen/margin_medium_large"
+                android:layout_marginEnd="@dimen/margin_medium_large"
+                android:gravity="center"
+                android:text="@{String.format(@string/screen_cash_transfer_display_text_available_balance,MyUserManager.INSTANCE.cardBalance.availableBalance)}"
+                android:textAlignment="center"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/etLastUsedAmount"
+                tools:text="Your available balance is " />
+
+            <co.yap.widgets.EasyMoneyEditText
+                android:id="@+id/tvLastUsedAmount"
+                style="@style/MicroGrey"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/_18sdp"
+                android:layout_marginTop="@dimen/margin_medium"
+                android:background="@drawable/bg_round_denominations"
+                android:enabled="false"
                 android:gravity="center_horizontal|center_vertical"
                 android:imeOptions="actionDone"
                 android:importantForAutofill="no"
@@ -86,100 +109,74 @@
                 android:labelFor="@+id/etAmount"
                 android:maxLength="7"
                 android:maxLines="1"
-                app:hint="@{Strings.common_amount_hint}"
-                app:layout_constraintBottom_toBottomOf="parent"
+                android:paddingStart="@dimen/margin_medium"
+                android:paddingEnd="@dimen/margin_medium"
+                android:text="25102220"
+                android:textColor="?attr/colorPrimaryAttr"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:text="0.00" />
+                app:layout_constraintTop_toBottomOf="@+id/tvAvailableBalance"
+                app:show_currency="false"
+                tools:text="254545100" />
+
+            <TextView
+                android:id="@+id/tvLastUsedAmountGuide"
+                style="@style/MicroGrey"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_medium_large"
+                android:layout_marginTop="@dimen/margin_small"
+                android:layout_marginEnd="@dimen/margin_medium_large"
+                android:gravity="center"
+                android:text="Use last transfer payment amount"
+                android:textAlignment="center"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvLastUsedAmount"
+                tools:text="Use last transfer payment amount" />
+
+
+            <TextView
+                android:id="@+id/tvSalaryRecurring"
+                style="@style/MicroGrey"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_medium_large"
+                android:layout_marginTop="@dimen/margin_normal"
+                android:layout_marginEnd="@dimen/margin_medium_large"
+                android:text="Set this salary transfer up as a recurring payment"
+                android:textAlignment="center"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvLastUsedAmountGuide"
+                tools:text="Use last transfer payment amount" />
+            <androidx.appcompat.widget.AppCompatCheckBox
+                android:id="@+id/cbOutTransFilter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toEndOf="@+id/tvSalaryRecurring"
+                app:layout_constraintBottom_toBottomOf="@+id/tvSalaryRecurring"
+                app:layout_constraintTop_toTopOf="@+id/tvSalaryRecurring"
+                android:backgroundTint="?attr/colorPrimaryDark"
+                app:layout_constraintHorizontal_bias="0.4"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <co.yap.widgets.CoreButton
+                android:id="@+id/btnConfirm"
+                style="@style/FragmentsBtnStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/margin_xxl"
+                android:layout_marginTop="8dp"
+                android:layout_marginRight="@dimen/margin_xxl"
+                android:layout_marginBottom="@dimen/margin_small"
+                android:text="Confirm"
+                app:btn_enable="true"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvSalaryRecurring"
+                app:layout_constraintVertical_bias="0.958"
+                tools:text="Add" />
         </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <TextView
-            android:id="@+id/tvAvailableBalance"
-            style="@style/MicroGrey"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_medium_large"
-            android:layout_marginTop="@dimen/margin_medium_large"
-            android:layout_marginEnd="@dimen/margin_medium_large"
-            android:gravity="center"
-            android:text="@{String.format(@string/screen_cash_transfer_display_text_available_balance,MyUserManager.INSTANCE.cardBalance.availableBalance)}"
-            android:textAlignment="center"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/etAmountLayout"
-            tools:text="Your available balance is " />
-
-        <co.yap.widgets.EasyMoneyEditText
-            android:id="@+id/tvLastUsedAmount"
-            style="@style/SmallGrey"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_medium"
-            android:background="@drawable/bg_round_denominations"
-            android:enabled="false"
-            android:gravity="center_horizontal|center_vertical"
-            android:imeOptions="actionDone"
-            android:importantForAutofill="no"
-            android:inputType="numberDecimal"
-            android:labelFor="@+id/etAmount"
-            android:maxLength="7"
-            android:maxLines="1"
-            android:paddingStart="@dimen/margin_medium"
-            android:paddingEnd="@dimen/margin_medium"
-            android:text="25102220"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvAvailableBalance"
-            app:show_currency="false"
-            tools:text="254545100" />
-
-        <TextView
-            android:id="@+id/tvLastUsedAmountGuide"
-            style="@style/SmallGrey"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_medium_large"
-            android:layout_marginTop="@dimen/margin_medium_large"
-            android:layout_marginEnd="@dimen/margin_medium_large"
-            android:gravity="center"
-            android:text="Use last transfer payment amount}"
-            android:textAlignment="center"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvLastUsedAmount"
-            tools:text="Use last transfer payment amount" />
-
-
-        <TextView
-            android:id="@+id/tvSalaryRecurring"
-            style="@style/SmallGrey"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_medium_large"
-            android:layout_marginTop="@dimen/margin_medium_large"
-            android:layout_marginEnd="@dimen/margin_medium_large"
-            android:text="Set this salary transfer up as a recurring payment}"
-            android:textAlignment="center"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvLastUsedAmountGuide"
-            tools:text="Use last transfer payment amount" />
-
-        <co.yap.widgets.CoreButton
-            android:id="@+id/btnConfirm"
-            style="@style/FragmentsBtnStyle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/margin_xxl"
-            android:layout_marginTop="8dp"
-            android:layout_marginRight="@dimen/margin_xxl"
-            android:layout_marginBottom="@dimen/margin_small"
-            android:text="Confirm"
-            app:btn_enable="true"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvSalaryRecurring"
-            app:layout_constraintVertical_bias="0.958"
-            tools:text="Add" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
 </layout>
