@@ -61,13 +61,6 @@ class LoginFragment : BaseBindingFragment<ILogin.ViewModel>(), ILogin.View {
             }
         })
 
-
-        var tourViewsList/*: ArrayList<GuidedTourDetail>*/ = mutableListOf<GuidedTourViewDetail>()
-        tourViewsList= setViewsArray()
-
-//        var GuidedTourDataModel= GuidedTourDataModel(tourViewsList)
-
-
         activity?.let {
             TourSetup(it, setViewsArray())
 //            TourSetup(it, GuidedTourViewDetail(ivYap,"decripion"))
@@ -85,7 +78,7 @@ class LoginFragment : BaseBindingFragment<ILogin.ViewModel>(), ILogin.View {
         )
            list.add(
                GuidedTourViewDetail(
-                   btnLogIn,
+                   clSignUp,
                    "btnLogIn description"
                )
           )

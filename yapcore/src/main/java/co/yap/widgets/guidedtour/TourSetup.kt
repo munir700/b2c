@@ -1,7 +1,10 @@
 package co.yap.widgets.guidedtour
 
 import android.app.Activity
+import android.graphics.Color
 import android.view.View
+import android.view.ViewGroup
+import co.yap.widgets.guidedtour.description.CoachMarkConfig
 import co.yap.widgets.guidedtour.models.GuidedTourViewDetail
 import co.yap.widgets.guidedtour.shape.Focus
 import co.yap.widgets.guidedtour.shape.FocusGravity
@@ -58,6 +61,7 @@ class TourSetup() : MaterialIntroListener {
         text: String,
         focusType: Focus?, activity: Activity
     ) {
+
         MaterialIntroView.Builder(activity)
             .setFocusGravity(FocusGravity.CENTER)
             .setFocusType(focusType!!)
