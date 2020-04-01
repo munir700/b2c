@@ -19,11 +19,6 @@ class HHSalaryProfileFragment :
 
     override fun getLayoutId() = R.layout.fragment_hhsalary_profile
 
-    override fun postExecutePendingBindings() {
-        super.postExecutePendingBindings()
-        recyclerView?.adapter = Adapter(viewModel.getPaySalaryData(), null)
-    }
-
     override fun onReload(view: View) {
     }
 

@@ -36,7 +36,6 @@ abstract class BaseRecyclerViewFragment<VB : ViewDataBinding, S : IBase.State, V
         super.postExecutePendingBindings()
         if (setupRecyclerView()) {
             getmViewModel().adapter.set(adapter)
-            //recyclerView?.adapter = getmViewModel().adapter.get()
             if (recyclerView?.layoutManager is GridLayoutManager) {
                 recyclerView?.addItemDecoration(
                     SpaceGridItemDecoration(dimen(R.dimen.margin_normal)!!, 2, true)
