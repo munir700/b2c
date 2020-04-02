@@ -425,7 +425,8 @@
         <attr name="currency_symbol" format="string" />
         <attr name="show_currency" format="boolean" />
         <attr name="show_commas" format="boolean" />
-        <attr name="show_decimal" format="boolean" />
+        <attr name="show_decimal" format="boolean"/>
+        <attr name="amount_drawable" format="reference" />
     </declare-styleable>
 
     <declare-styleable name="MultiStateView">

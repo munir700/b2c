@@ -9,9 +9,12 @@ import android.util.AttributeSet;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 
+import androidx.constraintlayout.widget.ConstraintLayout;
+
 import java.text.DecimalFormat;
 import java.util.Currency;
 import java.util.Locale;
+
 import co.yap.yapcore.R;
 
 public class CoreAmountWidget extends LinearLayout {
@@ -20,6 +23,8 @@ public class CoreAmountWidget extends LinearLayout {
     private boolean _showCurrency;
     private boolean _showDecimal;
     private boolean _showCommas;
+    private ConstraintLayout amountLayoutBackground;
+    private int _amountDrawable;
     private EditText editText;
 
     public CoreAmountWidget(Context context) {
@@ -49,6 +54,7 @@ public class CoreAmountWidget extends LinearLayout {
         if (attrs != null) {
             inflate(context, R.layout.widget_core_amount, this);
             editText = findViewById(R.id.etAmount);
+            amountLayoutBackground = findViewById(R.id.etAmountLayout);
             // Attribute initialization
             final TypedArray attrArray = context.obtainStyledAttributes(attrs, R.styleable.EasyMoneyWidgets, 0, 0);
             try {
@@ -60,6 +66,7 @@ public class CoreAmountWidget extends LinearLayout {
                 _showCurrency = attrArray.getBoolean(R.styleable.EasyMoneyWidgets_show_currency, true);
                 _showCommas = attrArray.getBoolean(R.styleable.EasyMoneyWidgets_show_commas, true);
                 _showDecimal = attrArray.getBoolean(R.styleable.EasyMoneyWidgets_show_decimal, true);
+                _amountDrawable = attrArray.getResourceId(R.styleable.EasyMoneyWidgets_amount_drawable, -1);
             } finally {
                 attrArray.recycle();
             }
@@ -67,6 +74,7 @@ public class CoreAmountWidget extends LinearLayout {
 
         // Add Text Watcher for Decimal formatting
         initTextWatchers();
+        setBackground(_amountDrawable);
     }
 
     private void initTextWatchers() {
@@ -264,6 +272,15 @@ public class CoreAmountWidget extends LinearLayout {
         _showCommas = false;
         updateValue(editText.getText().toString());
     }
+
+    public void setBackground(int background) {
+        try {
+            amountLayoutBackground.setBackground(getContext().getDrawable(background));
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
 
     public double getIntValue(String value) {
         if (!TextUtils.isEmpty(value)) {
