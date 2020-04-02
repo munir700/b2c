@@ -23,10 +23,6 @@ class RecurringPaymentVM @Inject constructor(
     }
 
     override fun datePicker(context: Context) {
-        pickStartDate(context)
-    }
-
-    private fun pickStartDate(context: Context) {
         val dpd =
             DatePickerDialog.newInstance { view, year, monthOfYear, dayOfMonth ->
                 calendar.set(Calendar.YEAR, year)
@@ -39,5 +35,4 @@ class RecurringPaymentVM @Inject constructor(
             dpd.show(it, "")
         }
     }
-
 }
