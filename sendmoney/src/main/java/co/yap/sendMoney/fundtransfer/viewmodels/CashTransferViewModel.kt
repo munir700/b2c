@@ -150,6 +150,7 @@ class CashTransferViewModel(application: Application) :
     }
 
     override fun getPurposeOfPayment(productCode:String) {
+        state.loading = true
         launch {
             when (val response =
                 transactionRepository.getTransactionInternationalReasonList(productCode)) {
@@ -162,6 +163,7 @@ class CashTransferViewModel(application: Application) :
                         state.toast = "Reasons list not found"
                         isAPIFailed.value = true
                     }
+                    state.loading = false
                 }
                 is RetroApiResponse.Error -> {
                     state.loading = false
