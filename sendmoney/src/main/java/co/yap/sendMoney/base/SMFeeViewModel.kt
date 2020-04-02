@@ -18,6 +18,8 @@ abstract class SMFeeViewModel<S : IBase.State>(application: Application) :
     var isFeeReceived: MutableLiveData<Boolean> = MutableLiveData(false)
     var isAPIFailed: MutableLiveData<Boolean> = MutableLiveData(false)
     var feeType: String = ""
+    var feeAmount: String = ""
+    var vat: String = ""
     val updatedFee: MutableLiveData<String> = MutableLiveData("0.0")
 
     fun getTransferFees(
@@ -77,6 +79,8 @@ abstract class SMFeeViewModel<S : IBase.State>(application: Application) :
 
     fun getFlatFee(enterAmount: String, isTopUpFee: Boolean = false): String? {
         return if (feeTiers[0].feeInPercentage == false) {
+            feeAmount = feeTiers[0].feeAmount.toString()
+            vat = feeTiers[0].vatAmount.toString()
             feeTiers[0].feeAmount?.plus(feeTiers[0].vatAmount ?: 0.0).toString()
         } else {
             return if (isTopUpFee) getFeeInPercentageForTopup(enterAmount) else calFeeInPercentage(
@@ -90,6 +94,8 @@ abstract class SMFeeViewModel<S : IBase.State>(application: Application) :
             enterAmount.parseToDouble() * (feeTiers[0].feePercentage?.parseToDouble()?.div(100)
                 ?: 0.0)
         val vatAmount = feeAmount * (feeTiers[0].vatPercentage?.parseToDouble()?.div(100) ?: 0.0)
+        this.feeAmount = feeAmount.toString()
+        this.vat = vatAmount.toString()
         return (feeAmount + vatAmount).toString()
     }
 
@@ -106,6 +112,8 @@ abstract class SMFeeViewModel<S : IBase.State>(application: Application) :
         val vatAmount =
             totalFeeAmount * (feeTiers[0].vatPercentage?.parseToDouble()?.div(100) ?: 0.0)
 
+        this.feeAmount = totalFeeAmount.toString()
+        this.vat = vatAmount.toString()
         return (totalFeeAmount + vatAmount).toString()
     }
 }

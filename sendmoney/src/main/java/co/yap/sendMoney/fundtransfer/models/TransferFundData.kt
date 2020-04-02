@@ -11,6 +11,8 @@ data class TransferFundData(
     var transferReason: String? = null,
     var otpAction: String? = null,
     var productCode: String? = null,
+    var feeAmount: String? = "0.0",
+    var vat: String? = "0.0",
 //specific international transfer data
     var sourceCurrency: String? = null,
     var sourceAmount: String? = null,

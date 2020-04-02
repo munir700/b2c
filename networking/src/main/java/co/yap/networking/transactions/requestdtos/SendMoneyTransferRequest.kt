@@ -16,5 +16,6 @@ class SendMoneyTransferRequest(
     @SerializedName("vat") var vat: String?=null,
     @SerializedName("totalAmount") var totalAmount: String?=null,
     @SerializedName("totalCharges") var totalCharges: String?=null,
-    @SerializedName("remarks") var remarks: String?=null
+    @SerializedName("remarks") var remarks: String?=null,
+    @SerializedName("feeAmount") var feeAmount: String?=null
 )

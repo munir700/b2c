@@ -82,18 +82,18 @@ class CashTransferViewModel(application: Application) :
 
     override fun handlePressOnView(id: Int) {
         if (R.id.btnConfirm == id) {
-                if (!isUaeftsBeneficiary()) {
-                    when {
-                        isDailyLimitReached() -> errorEvent.call()
-                        isOtpRequired() -> createOtp(id = id)
-                        else -> proceedToTransferAmount()
-                    }
-                } else {
-                    if (isDailyLimitReached())
-                        errorEvent.call()
-                    else
-                        clickEvent.setValue(id)
+            if (!isUaeftsBeneficiary()) {
+                when {
+                    isDailyLimitReached() -> errorEvent.call()
+                    isOtpRequired() -> createOtp(id = id)
+                    else -> proceedToTransferAmount()
                 }
+            } else {
+                if (isDailyLimitReached())
+                    errorEvent.call()
+                else
+                    clickEvent.setValue(id)
+            }
 
         } else {
             clickEvent.setValue(id)
@@ -151,7 +151,7 @@ class CashTransferViewModel(application: Application) :
         clickEvent.postValue(id) // TODO:update this clickEvent with live data it creates debounce
     }
 
-    override fun getPurposeOfPayment(productCode:String) {
+    override fun getPurposeOfPayment(productCode: String) {
         state.loading = true
         launch {
             when (val response =
@@ -178,7 +178,7 @@ class CashTransferViewModel(application: Application) :
             when (val response =
                 transactionRepository.cashPayoutTransferRequest(
                     SendMoneyTransferRequest(
-                       beneficiaryId= beneficiaryId,
+                        beneficiaryId = beneficiaryId,
                         amount = state.amount.toDouble(),
                         currency = "AED",
                         purposeCode = "8",
@@ -291,8 +291,14 @@ class CashTransferViewModel(application: Application) :
         } ?: return false
     }
 
+    private fun isOnlyUAEFTS(): Boolean {
+        parentViewModel?.beneficiary?.value?.beneficiaryType?.let {
+            return (it == SendMoneyBeneficiaryType.UAEFTS.type)
+        } ?: return false
+    }
+
     private fun shouldFeeApply(): Boolean {
-        return if (!isUaeftsBeneficiary()) return true else
+        return if (!isOnlyUAEFTS()) return true else
             parentViewModel?.selectedPop?.let { pop ->
                 return@let if (pop.nonChargeable == false) {
                     if (pop.cbwsi == true && pop.cbwsiFee == true) {

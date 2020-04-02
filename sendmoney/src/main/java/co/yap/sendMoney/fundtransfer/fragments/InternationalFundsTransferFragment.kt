@@ -209,6 +209,8 @@ class InternationalFundsTransferFragment :
     }
 
     private fun moveToConfirmTransferScreen() {
+        viewModel.parentViewModel?.transferData?.value?.feeAmount = viewModel.feeAmount
+        viewModel.parentViewModel?.transferData?.value?.vat = viewModel.vat
         viewModel.parentViewModel?.transferData?.value?.sourceCurrency =
             viewModel.state.sourceCurrency.get().toString()
         viewModel.parentViewModel?.transferData?.value?.sourceAmount =
@@ -291,7 +293,9 @@ class InternationalFundsTransferFragment :
 
     }
 
-    fun getBindings(): FragmentInternationalFundsTransferBinding { return viewDataBinding as FragmentInternationalFundsTransferBinding }
+    fun getBindings(): FragmentInternationalFundsTransferBinding {
+        return viewDataBinding as FragmentInternationalFundsTransferBinding
+    }
 
     override fun onDestroyView() {
         super.onDestroyView()

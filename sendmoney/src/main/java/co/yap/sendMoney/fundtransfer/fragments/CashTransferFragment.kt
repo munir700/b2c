@@ -175,6 +175,8 @@ class CashTransferFragment : BeneficiaryFundTransferBaseFragment<ICashTransfer.V
         viewModel.parentViewModel?.transferData?.value?.transferAmount = viewModel.state.amount
         viewModel.parentViewModel?.transferData?.value?.noteValue = viewModel.state.noteValue
         viewModel.parentViewModel?.transferData?.value?.sourceCurrency = "AED"
+        viewModel.parentViewModel?.transferData?.value?.feeAmount = viewModel.feeAmount
+        viewModel.parentViewModel?.transferData?.value?.vat = viewModel.vat
         val action =
             CashTransferFragmentDirections.actionCashTransferFragmentToCashTransferConfirmationFragment()
         findNavController().navigate(action)
