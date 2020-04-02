@@ -8,11 +8,12 @@ import co.yap.yapcore.dagger.base.viewmodel.BaseRecyclerAdapterVM
 import javax.inject.Inject
 class HHSalaryProfileVM @Inject constructor(override val state: IHHSalaryProfile.State) :
     BaseRecyclerAdapterVM<PaySalaryModel, IHHSalaryProfile.State>(), IHHSalaryProfile.ViewModel {
+
     override fun onFirsTimeUiCreate(bundle: Bundle?, navigation: NavController?) {
 
     }
 
-    override fun setUpData(arr: ArrayList<PaySalaryModel>){
+    public fun setUpData(arr: ArrayList<PaySalaryModel>){
         addData(arr)
     }
 

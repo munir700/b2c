@@ -27,22 +27,13 @@
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/ivSalary"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_extra_large"
+            style="@style/Yap.App.Widget.FloatingActionButton.Circle"
             android:layout_marginStart="@dimen/margin_extra_large"
-            android:padding="@dimen/_5sdp"
             app:layout_constraintEnd_toStartOf="@+id/ivExpenses"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintHorizontal_chainStyle="spread"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/ivProfilePic"
-            android:tint="@color/white"
-            app:backgroundTint="?attr/colorPrimaryAttr"
-            app:elevation="0dp"
-            app:fabCustomSize="@dimen/_32sdp"
-            app:fabSize="mini"
-            app:maxImageSize="@dimen/_18sdp"
             app:srcCompat="@drawable/ic_transaction_rate_arrow"/>
 
         <TextView
@@ -59,21 +50,12 @@
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/ivExpenses"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_extra_large"
-            android:padding="@dimen/_5sdp"
+            style="@style/Yap.App.Widget.FloatingActionButton.Circle"
             app:layout_constraintEnd_toStartOf="@+id/ivTransfer"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintHorizontal_chainStyle="spread"
             app:layout_constraintStart_toEndOf="@+id/ivSalary"
             app:layout_constraintTop_toBottomOf="@+id/ivProfilePic"
-            android:tint="@color/white"
-            app:backgroundTint="?attr/colorPrimaryAttr"
-            app:elevation="0dp"
-            app:fabCustomSize="@dimen/_32sdp"
-            app:fabSize="mini"
-            app:maxImageSize="@dimen/_18sdp"
             app:srcCompat="@drawable/ic_expense"/>
 
         <TextView
@@ -91,22 +73,13 @@
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/ivTransfer"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_extra_large"
-            android:padding="@dimen/_5sdp"
+            style="@style/Yap.App.Widget.FloatingActionButton.Circle"
             android:layout_marginEnd="@dimen/margin_extra_large"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintHorizontal_chainStyle="spread"
             app:layout_constraintStart_toEndOf="@+id/ivExpenses"
             app:layout_constraintTop_toBottomOf="@+id/ivProfilePic"
-            android:tint="@color/white"
-            app:backgroundTint="?attr/colorPrimaryAttr"
-            app:elevation="0dp"
-            app:fabCustomSize="@dimen/_32sdp"
-            app:fabSize="mini"
-            app:maxImageSize="@dimen/_18sdp"
             app:srcCompat="@drawable/ic_yap_to_yap"/>
 
         <TextView

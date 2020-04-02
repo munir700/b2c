@@ -25,19 +25,11 @@
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/ivExpenses"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/margin_small"
+            style="@style/Yap.App.Widget.FloatingActionButton.Circle.Small"
             app:layout_constraintStart_toStartOf="@id/ivExpenseBg"
             app:layout_constraintTop_toTopOf="@id/ivExpenseBg"
             app:layout_constraintBottom_toBottomOf="@id/ivExpenseBg"
             app:layout_constraintEnd_toEndOf="@+id/ivExpenseBg"
-            android:tint="@color/white"
-            app:backgroundTint="?attr/colorPrimarySoftAttr"
-            app:elevation="0dp"
-            app:fabCustomSize="@dimen/_20sdp"
-            app:fabSize="mini"
-            app:maxImageSize="@dimen/_10sdp"
             app:src="@{hhSalaryProfileItemVM.item.image}" />
 
         <TextView
