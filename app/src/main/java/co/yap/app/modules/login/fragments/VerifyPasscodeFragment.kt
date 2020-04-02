@@ -4,7 +4,6 @@ import android.app.Activity
 import android.content.Intent
 import android.hardware.fingerprint.FingerprintManager
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.annotation.Keep
 import androidx.lifecycle.Observer
@@ -17,10 +16,8 @@ import co.yap.app.constants.Constants
 import co.yap.app.modules.login.interfaces.IVerifyPasscode
 import co.yap.app.modules.login.viewmodels.VerifyPasscodeViewModel
 import co.yap.household.dashboard.main.HouseholdDashboardActivity
-import co.yap.household.onboard.onboarding.existinghousehold.ExistingHouseholdFragment
 import co.yap.household.onboard.onboarding.main.OnBoardingHouseHoldActivity
 import co.yap.modules.others.helper.Constants.REQUEST_CODE
-import co.yap.networking.customers.responsedtos.AccountInfo
 import co.yap.widgets.NumberKeyboardListener
 import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.constants.Constants.KEY_APP_UUID
@@ -33,7 +30,9 @@ import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.biometric.BiometricCallback
 import co.yap.yapcore.helpers.biometric.BiometricManagerX
 import co.yap.yapcore.helpers.biometric.BiometricUtil
-import co.yap.yapcore.helpers.extentions.*
+import co.yap.yapcore.helpers.extentions.launchActivity
+import co.yap.yapcore.helpers.extentions.preventTakeScreenShot
+import co.yap.yapcore.helpers.extentions.toast
 import co.yap.yapcore.managers.MyUserManager
 import kotlinx.android.synthetic.main.fragment_verify_passcode.*
 
@@ -72,7 +71,7 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
         viewModel.validateDeviceResult.observe(this, validateDeviceResultObserver)
         MyUserManager.isUserAccountInfo?.observe(this, onFetchAccountInfo)
         viewModel.createOtpResult.observe(this, createOtpObserver)
-        viewModel.switchProfile.observe(this, switchProfileObserver)
+        MyUserManager.switchProfile.observe(this, switchProfileObserver)
         setObservers()
     }
 
@@ -182,7 +181,6 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
             }
         })
     }
-
 
     private fun goToNext(name: String) {
         val action =
@@ -306,7 +304,7 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
                 }
             } else {
                 if (MyUserManager.shouldGoToHousehold()) {
-                    gotoHouseHold()
+                    MyUserManager.switchProfile()
                 } else {
                     gotoYapDashboard()
                 }
@@ -314,33 +312,19 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
         }
     }
 
-    private fun gotoHouseHold() {
-        // call API for switch profile
-        // TODO in feature move this call to MyuserManger
-        viewModel.switchProfile()
-    }
-
     private val switchProfileObserver = Observer<Boolean> {
         if (it) {
-            if (MyUserManager.isOnBoarded()) { // go to YAP dashboard
-                // check default profile if B2C then go to yap dashboard IF its household then move to household dashboard
-
+            if (MyUserManager.isOnBoarded()) {
                 if (MyUserManager.isDefaultUserYap()) {
                     gotoYapDashboard()
                 } else {
-                    launchActivity<HouseholdDashboardActivity>()
-                    activity?.finish()
+                    launchActivity<HouseholdDashboardActivity>(clearPrevious = true)
                 }
             } else {
-                // and notification is pending
-                val bundle = Bundle()
-//                bundle.putBoolean(OnBoardingHouseHoldActivity.EXISTING_USER, MyUserManager.isOnBoarded())
-                bundle.putParcelable(OnBoardingHouseHoldActivity.USER_INFO, MyUserManager.user)
-//                startFragment(ExistingHouseholdFragment::class.java.name, false, bundle)
-                startActivity(OnBoardingHouseHoldActivity.getIntent(requireContext(), bundle))
-//                launchActivity<OnBoardingHouseHoldActivity> { bundle }
+                launchActivity<OnBoardingHouseHoldActivity>() {
+                    putExtra(OnBoardingHouseHoldActivity.USER_INFO, MyUserManager.user)
+                }
             }
-
         }
     }
 
@@ -434,4 +418,3 @@ enum class VerifyPassCodeEnum {
     VERIFY,
     ACCESS_ACCOUNT
 }
-

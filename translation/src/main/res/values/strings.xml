@@ -963,11 +963,21 @@
     <string name="screen_invite_friend_button_share">Share</string>
     <string name="screen_invite_friend_display_text_share_url">Hi,\nI’ve just started using YAP and loving it so far, I thought you’d like to try it out for yourself. It’s not available for the public yet but I’ve saved you a special invite.\n\nDownload on App Store:\n%1s\n\nDownload on Play Store:\n%2s</string>
 
+    <!--  Household dashboard bottom bar  -->
+
     <string name="screen_house_hold_dashboard_bottom_bar_home_text">Home</string>
     <string name="screen_house_hold_dashboard_bottom_bar_my_card_text">My card</string>
     <string name="screen_house_hold_dashboard_bottom_bar_expenses_text">Expenses</string>
     <string name="screen_house_hold_dashboard_bottom_bar_more_text">More</string>
     <string name="screen_house_hold_dashboard_bottom_bar_yap_it_text">YAP it</string>
+
+    <!--  Household Pay Salary Profile  -->
+
+    <string name="screen_house_hold_salary_profile_salary_text">Salary</string>
+    <string name="screen_house_hold_salary_profile_transfer_text">Transfer</string>
+    <string name="screen_house_hold_salary_profile_set_up_salary_text">Set up a salary</string>
+    <string name="screen_house_hold_salary_profile_set_up_expense_text">Set up an expense pot</string>
+    <string name="screen_house_hold_salary_profile_transfer_bonus_text">Transfer a bonus or extra cash</string>
 
 </resources>
 

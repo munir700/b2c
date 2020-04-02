@@ -1,17 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
-
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
     <data>
-
         <variable
             name="hhSalaryProfileVM"
             type="co.yap.modules.subaccounts.paysalary.profile.HHSalaryProfileVM" />
-
+        <import type="co.yap.translation.Strings"/>
     </data>
 
-    <RelativeLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-    </RelativeLayout>
+        <co.yap.widgets.CoreCircularImageView
+            android:id="@+id/ivProfilePic"
+            android:layout_width="@dimen/_65sdp"
+            android:layout_height="@dimen/_65sdp"
+            android:layout_marginTop="@dimen/margin_medium"
+            android:contentDescription="@string/app_name"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:src="@drawable/ic_travel" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/ivSalary"
+            style="@style/Yap.App.Widget.FloatingActionButton.Circle"
+            android:layout_marginStart="@dimen/margin_extra_large"
+            app:layout_constraintEnd_toStartOf="@+id/ivExpenses"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintHorizontal_chainStyle="spread"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ivProfilePic"
+            app:srcCompat="@drawable/ic_transaction_rate_arrow"/>
+
+        <TextView
+            android:id="@+id/tv_pay_salary_salary_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="?attr/colorPrimaryAttr"
+            android:layout_marginTop="@dimen/margin_small"
+            app:layout_constraintTop_toBottomOf="@+id/ivSalary"
+            app:layout_constraintStart_toStartOf="@+id/ivSalary"
+            app:layout_constraintEnd_toEndOf="@+id/ivSalary"
+            app:text="@{Strings.screen_house_hold_salary_profile_salary_text}"
+            tools:text="@string/screen_house_hold_salary_profile_salary_text"/>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/ivExpenses"
+            style="@style/Yap.App.Widget.FloatingActionButton.Circle"
+            app:layout_constraintEnd_toStartOf="@+id/ivTransfer"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintHorizontal_chainStyle="spread"
+            app:layout_constraintStart_toEndOf="@+id/ivSalary"
+            app:layout_constraintTop_toBottomOf="@+id/ivProfilePic"
+            app:srcCompat="@drawable/ic_expense"/>
+
+        <TextView
+            android:id="@+id/tv_pay_salary_expenses_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="?attr/colorPrimaryAttr"
+            android:layout_marginTop="@dimen/margin_small"
+            app:layout_constraintTop_toBottomOf="@+id/ivExpenses"
+            app:layout_constraintStart_toStartOf="@+id/ivExpenses"
+            app:layout_constraintEnd_toEndOf="@+id/ivExpenses"
+            app:text="@{Strings.screen_house_hold_dashboard_bottom_bar_expenses_text}"
+            tools:text="@string/screen_house_hold_dashboard_bottom_bar_expenses_text"/>
+
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/ivTransfer"
+            style="@style/Yap.App.Widget.FloatingActionButton.Circle"
+            android:layout_marginEnd="@dimen/margin_extra_large"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintHorizontal_chainStyle="spread"
+            app:layout_constraintStart_toEndOf="@+id/ivExpenses"
+            app:layout_constraintTop_toBottomOf="@+id/ivProfilePic"
+            app:srcCompat="@drawable/ic_yap_to_yap"/>
+
+        <TextView
+            android:id="@+id/tv_pay_salary_transfer_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="?attr/colorPrimaryAttr"
+            android:layout_marginTop="@dimen/margin_small"
+            app:layout_constraintTop_toBottomOf="@+id/ivTransfer"
+            app:layout_constraintStart_toStartOf="@+id/ivTransfer"
+            app:layout_constraintEnd_toEndOf="@+id/ivTransfer"
+            app:text="@{Strings.screen_house_hold_salary_profile_transfer_text}"
+            tools:text="@string/screen_house_hold_salary_profile_transfer_text"/>
+
+        <include
+            layout="@layout/refresh_recycler_view"
+            app:adapter="@{hhSalaryProfileVM.adapter}"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="@dimen/margin_extra_large"
+            app:layout_constraintTop_toBottomOf="@+id/ivSalary"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginStart="@dimen/margin_medium"
+            android:layout_marginEnd="@dimen/margin_medium"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 </layout>

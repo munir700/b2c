@@ -12,7 +12,7 @@ import co.yap.modules.dashboard.store.adaptor.YapStoreAdaptor
 import co.yap.modules.dashboard.store.household.activities.HouseHoldLandingActivity
 import co.yap.modules.dashboard.store.interfaces.IYapStore
 import co.yap.modules.dashboard.store.viewmodels.YapStoreViewModel
-import co.yap.modules.subaccounts.confirmation.PaymentConfirmationFragment
+import co.yap.modules.subaccounts.paysalary.profile.HHSalaryProfileFragment
 import co.yap.networking.store.responsedtos.Store
 import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.constants.RequestCodes
@@ -94,7 +94,7 @@ class YapStoreFragment : BaseBindingFragment<IYapStore.ViewModel>(), IYapStore.V
         return if (recycler_stores.adapter is YapStoreAdaptor) {
             (recycler_stores.adapter as YapStoreAdaptor)
         } else {
-            null
+            null 
         }
     }
 
