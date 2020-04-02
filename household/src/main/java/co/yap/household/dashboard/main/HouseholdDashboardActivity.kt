@@ -87,8 +87,8 @@ class HouseholdDashboardActivity :
     private fun addListeners() {
         expandableLayout.setOnExpansionUpdateListener { expansionFraction, state ->
             when (state) {
-                ExpandableLayout.State.EXPANDED -> ivChevron.setImageResource(co.yap.R.drawable.ic_chevron_up)
-                ExpandableLayout.State.COLLAPSED -> ivChevron.setImageResource(co.yap.R.drawable.ic_chevron_down)
+                ExpandableLayout.State.EXPANDED -> ivChevron.rotation = 180F
+                ExpandableLayout.State.COLLAPSED -> ivChevron.rotation = 0F
             }
         }
     }
