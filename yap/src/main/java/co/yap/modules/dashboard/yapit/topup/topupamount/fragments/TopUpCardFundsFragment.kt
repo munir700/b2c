@@ -134,7 +134,7 @@ class TopUpCardFundsFragment : BaseBindingFragment<IFundActions.ViewModel>(),
     }
 
     private val enterAmountObserver = Observer<String> {
-        parentViewModel?.updateFees(it)
+        parentViewModel?.updateFees(it,isTopUpFee = true)
         when {
             isMaxMinLimitReached(it) -> {
                 viewModel.state.valid = false

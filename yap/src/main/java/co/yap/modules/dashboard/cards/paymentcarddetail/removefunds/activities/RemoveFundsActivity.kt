@@ -226,9 +226,7 @@ class RemoveFundsActivity : AddFundsActivity() {
             arrayOf(InputFilter.LengthFilter(7), DecimalDigitsInputFilter(2))
 
         etAmount.afterTextChanged {
-            if (!viewModel.state.amount.isNullOrBlank()) {
-                parentViewModel?.updateFees(viewModel.state.amount ?: "")
-            }
+            parentViewModel?.updateFees(viewModel.state.amount ?: "")
         }
     }
     private fun setupActionsIntent() {

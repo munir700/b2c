@@ -42,7 +42,6 @@ open class FundActionsViewModel(application: Application) :
     override fun initateVM(topupCard: TopUpCard) {}
     override fun startPooling(showLoader: Boolean) {}
     override fun denominationFirstAmountClick() {
-//        state.amount = ""
         if (state.denominationFirstAmount.contains("+")) {
             state.denominationAmount = Utils.getFormattedCurrencyWithoutComma(
                 state.denominationFirstAmount.replace(
@@ -98,29 +97,6 @@ open class FundActionsViewModel(application: Application) :
             )
         }
         thirdDenominationClickEvent.call()
-    }
-
-    override fun getFee(productCode: String) {
-        launch {
-            state.loading = true
-            when (val response = transactionsRepository.getTransactionFeeWithProductCode(
-                productCode, RemittanceFeeRequest()
-            )) {
-                is RetroApiResponse.Success -> {
-                    if (response.data.data != null) {
-                        if (response.data.data?.feeType == Constants.FEE_TYPE_FLAT) {
-                            val feeAmount = response.data.data?.tierRateDTOList?.get(0)?.feeAmount
-                            val VATAmount = response.data.data?.tierRateDTOList?.get(0)?.vatAmount
-                        }
-                    }
-                }
-                is RetroApiResponse.Error -> {
-                    state.errorDescription = response.error.message
-                    errorEvent.call()
-                }
-            }
-            state.loading = false
-        }
     }
 
     override fun addFunds() {

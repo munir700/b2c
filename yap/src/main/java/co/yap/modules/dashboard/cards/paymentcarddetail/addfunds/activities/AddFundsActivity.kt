@@ -184,9 +184,8 @@ open class AddFundsActivity : BaseBindingActivity<IFundActions.ViewModel>(),
             arrayOf(InputFilter.LengthFilter(7), DecimalDigitsInputFilter(2))
 
         etAmount.afterTextChanged {
-            if (!viewModel.state.amount.isNullOrBlank()) {
                 parentViewModel?.updateFees(viewModel.state.amount ?: "")
-            }
+
         }
     }
 

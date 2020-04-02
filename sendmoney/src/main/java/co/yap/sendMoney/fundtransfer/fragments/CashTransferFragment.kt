@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView
 import co.yap.modules.otp.GenericOtpFragment
 import co.yap.modules.otp.LogoData
 import co.yap.modules.otp.OtpDataModel
+import co.yap.networking.transactions.requestdtos.RemittanceFeeRequest
 import co.yap.networking.transactions.responsedtos.InternationalFundsTransferReasonList
 import co.yap.networking.transactions.responsedtos.purposepayment.PurposeOfPayment
 import co.yap.sendMoney.fundtransfer.activities.BeneficiaryFundTransferActivity
@@ -280,7 +281,7 @@ class CashTransferFragment : BeneficiaryFundTransferBaseFragment<ICashTransfer.V
                     viewModel.getMoneyTransferLimits(productCode)
                     viewModel.getTransferFees(
                         productCode,
-                        viewModel.parentViewModel?.beneficiary?.value
+                        RemittanceFeeRequest(viewModel.parentViewModel?.beneficiary?.value?.country, "")
                     )
                     viewModel.getPurposeOfPayment(productCode)
                     setObservers()
@@ -375,9 +376,9 @@ class CashTransferFragment : BeneficiaryFundTransferBaseFragment<ICashTransfer.V
         etAmount.afterTextChanged {
             viewModel.state.clearError()
             if (viewModel.state.amount.isNotEmpty()) {
-                viewModel.updateFees()
                 checkOnTextChangeValidation()
             }
+            viewModel.updateFees()
         }
     }
 

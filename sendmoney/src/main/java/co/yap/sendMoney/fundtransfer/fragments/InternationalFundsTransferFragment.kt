@@ -7,6 +7,7 @@ import android.widget.AdapterView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
+import co.yap.networking.transactions.requestdtos.RemittanceFeeRequest
 import co.yap.networking.transactions.responsedtos.InternationalFundsTransferReasonList
 import co.yap.networking.transactions.responsedtos.transaction.FxRateResponse
 import co.yap.sendMoney.fundtransfer.activities.BeneficiaryFundTransferActivity
@@ -44,7 +45,10 @@ class InternationalFundsTransferFragment :
         super.onCreate(savedInstanceState)
         val productCode = getProductCode()
         viewModel.getMoneyTransferLimits(productCode)
-        viewModel.getTransferFees(productCode, viewModel.parentViewModel?.beneficiary?.value)
+        viewModel.getTransferFees(
+            productCode,
+            RemittanceFeeRequest(viewModel.parentViewModel?.beneficiary?.value?.country, "")
+        )
         viewModel.getReasonList(productCode)
         viewModel.getTransactionInternationalfxList(productCode)
         viewModel.getTransactionThresholds()
@@ -269,9 +273,9 @@ class InternationalFundsTransferFragment :
         etSenderAmount.afterTextChanged {
             viewModel.state.clearError()
             if (!viewModel.state.etInputAmount.isNullOrBlank()) {
-                viewModel.updateFees()
                 checkOnTextChangeValidation()
             }
+            viewModel.updateFees()
             viewModel.setDestinationAmount()
         }
     }

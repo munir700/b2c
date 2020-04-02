@@ -2,11 +2,12 @@ package co.yap.modules.dashboard.yapit.y2y.main.viewmodels
 
 import android.app.Application
 import co.yap.modules.dashboard.yapit.y2y.main.interfaces.IY2Y
+import co.yap.sendMoney.base.SMFeeViewModel
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.IBase
 
 abstract class Y2YBaseViewModel<S : IBase.State>(application: Application) :
-    BaseViewModel<S>(application) {
+    SMFeeViewModel<S>(application) {
     var parentViewModel: IY2Y.ViewModel? = null
 
     fun setToolBarTitle(title: String) {

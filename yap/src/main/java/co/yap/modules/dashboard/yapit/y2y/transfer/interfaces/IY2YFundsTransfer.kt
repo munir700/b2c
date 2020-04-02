@@ -42,6 +42,5 @@ class IY2YFundsTransfer {
         var noteValue: String
         var imageUrl: String
         var transferFee: CharSequence?
-        var fee: String?
     }
 }

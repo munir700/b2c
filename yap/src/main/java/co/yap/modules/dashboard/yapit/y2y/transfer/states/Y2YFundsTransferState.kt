@@ -104,12 +104,6 @@ class Y2YFundsTransferState(application: Application) : BaseState(), IY2YFundsTr
             field = value
             notifyPropertyChanged(BR.transferFee)
         }
-    @get:Bindable
-    override var fee: String? = "50"
-        set(value) {
-            field = value
-            notifyPropertyChanged(BR.fee)
-        }
 
     fun checkValidity(amount: String): String {
         if (amount.isNotEmpty() && !availableBalance.isNullOrEmpty() && amount.toDoubleOrNull() ?: 0.0 >= minLimit) {

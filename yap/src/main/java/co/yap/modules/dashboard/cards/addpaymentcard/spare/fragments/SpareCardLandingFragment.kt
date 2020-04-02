@@ -31,7 +31,7 @@ class SpareCardLandingFragment : AddPaymentChildFragment<ISpareCards.ViewModel>(
 
     override fun getLayoutId(): Int = R.layout.fragment_spare_card_landing
 
-    override val viewModel: ISpareCards.ViewModel
+    override val viewModel: SpareCardLandingViewModel
         get() = ViewModelProviders.of(this).get(SpareCardLandingViewModel::class.java)
 
 
@@ -105,6 +105,13 @@ class SpareCardLandingFragment : AddPaymentChildFragment<ISpareCards.ViewModel>(
         })
         viewModel.errorEvent.observe(this, Observer {
             requireActivity().finish()
+        })
+        viewModel.isFeeReceived.observe(this, Observer {
+            if (it) viewModel.updateFees("")
+        })
+        viewModel.updatedFee.observe(this, Observer {
+            viewModel.state.virtualCardFee = it
+            viewModel.parentViewModel?.virtualCardFee = it
         })
     }
 

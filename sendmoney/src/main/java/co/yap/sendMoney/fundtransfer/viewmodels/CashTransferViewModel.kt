@@ -75,14 +75,7 @@ class CashTransferViewModel(application: Application) :
     }
 
     fun updateFees() {
-        val result = when (feeType) {
-            FeeType.FLAT.name -> getFlatFee().toString()
-            FeeType.TIER.name -> getFeeFromTier().toString()
-            else -> {
-                "0.0"
-            }
-        }
-        updatedFee.value = result
+        updateFees(state.amount)
     }
 
     override fun handlePressOnView(id: Int) {
@@ -269,13 +262,13 @@ class CashTransferViewModel(application: Application) :
         return if (shouldFeeApply()) {
             return (when (feeType) {
                 FeeType.TIER.name -> {
-                    val transferFee = getFeeFromTier()
+                    val transferFee = getFeeFromTier(state.amount)
                     state.amount.toDoubleOrNull() ?: 0.0.plus(
                         transferFee?.toDoubleOrNull() ?: 0.0
                     )
                 }
                 FeeType.FLAT.name -> {
-                    state.amount.parseToDouble().plus(getFlatFee())
+                    state.amount.parseToDouble().plus(getFlatFee(state.amount).parseToDouble())
                 }
                 else -> {
                     state.amount.parseToDouble()
@@ -283,40 +276,6 @@ class CashTransferViewModel(application: Application) :
             })
         } else {
             state.amount.parseToDouble()
-        }
-    }
-
-    private fun getFeeFromTier(): String? {
-//        if (shouldFeeApply()) { //    }else null
-        return if (!state.amount.isBlank()) {
-            val fee = feeTiers.filter { item ->
-                item.amountFrom ?: 0.0 <= state.amount.parseToDouble() && item.amountTo ?: 0.0 >= state.amount.parseToDouble()
-            }
-            if (fee[0].feeAmount != null && fee[0].vatAmount != null) {
-                fee[0].feeAmount?.plus(fee[0].vatAmount ?: 0.0).toString()
-            } else {
-                val calculatedFee =
-                    (state.amount.parseToDouble() * (fee[0].percentageFee?.parseToDouble()
-                        ?: 0.0)).div(100).also {
-                        it.plus((it * (fee[0].percentageFee?.parseToDouble() ?: 0.0)).div(100))
-                    }
-                calculatedFee.toString()
-            }
-        } else {
-            null
-        }
-    }
-
-    private fun getFlatFee(): Double {
-//        if (shouldFeeApply())
-        //else 0.0
-        return if (feeTiers[0].feeAmount != null && feeTiers[0].vatAmount != null) {
-                feeTiers[0].feeAmount?.plus(feeTiers[0].vatAmount ?: 0.0) ?: 0.0
-            } else {
-            return (state.amount.parseToDouble() * (feeTiers[0].percentageFee?.parseToDouble()
-                ?: 0.0)).div(100).also {
-                it.plus((it * (feeTiers[0].percentageFee?.parseToDouble() ?: 0.0)).div(100))
-            }
         }
     }
 

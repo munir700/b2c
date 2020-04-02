@@ -2,7 +2,6 @@ package co.yap.sendMoney.base
 
 import android.app.Application
 import androidx.lifecycle.MutableLiveData
-import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.transactions.TransactionsRepository
 import co.yap.networking.transactions.requestdtos.RemittanceFeeRequest
@@ -23,13 +22,11 @@ abstract class SMFeeViewModel<S : IBase.State>(application: Application) :
 
     fun getTransferFees(
         productCode: String?,
-        beneficiary: Beneficiary?=null
+        feeRequest: RemittanceFeeRequest = RemittanceFeeRequest()
     ) {
         launch {
             when (val response =
-                transactionRepository.getTransactionFeeWithProductCode(
-                    productCode, RemittanceFeeRequest(beneficiary?.country, "")
-                )) {
+                transactionRepository.getTransactionFeeWithProductCode(productCode, feeRequest)) {
                 is RetroApiResponse.Success -> {
                     feeType = response.data.data?.feeType ?: ""
                     response.data.data?.tierRateDTOList?.let {
@@ -47,10 +44,10 @@ abstract class SMFeeViewModel<S : IBase.State>(application: Application) :
         }
     }
 
-    fun updateFees(enterAmount: String) {
+    fun updateFees(enterAmount: String, isTopUpFee: Boolean = false) {
         val result = when (feeType) {
-            FeeType.FLAT.name -> getFlatFee(enterAmount).toString()
-            FeeType.TIER.name -> getFeeFromTier(enterAmount).toString()
+            FeeType.FLAT.name -> getFlatFee(enterAmount, isTopUpFee).toString()
+            FeeType.TIER.name -> getFeeFromTier(enterAmount, isTopUpFee).toString()
             else -> {
                 "0.0"
             }
@@ -58,47 +55,51 @@ abstract class SMFeeViewModel<S : IBase.State>(application: Application) :
         updatedFee.value = result
     }
 
-     fun getFeeFromTier(enterAmount: String): String? {
+    fun getFeeFromTier(enterAmount: String, isTopUpFee: Boolean = false): String? {
         return if (!enterAmount.isBlank()) {
             val fee = feeTiers.filter { item ->
                 item.amountFrom ?: 0.0 <= enterAmount.parseToDouble() && item.amountTo ?: 0.0 >= enterAmount.parseToDouble()
             }
-            if (fee[0].feeAmount != null && fee[0].vatAmount != null) {
+            if (feeTiers[0].feeInPercentage == false) {
                 fee[0].feeAmount?.plus(fee[0].vatAmount ?: 0.0).toString()
             } else {
-                calFeeInPercentage(enterAmount)
+                if (isTopUpFee) getFeeInPercentageForTopup(enterAmount) else calFeeInPercentage(
+                    enterAmount
+                )
             }
         } else {
             null
         }
     }
 
-     fun getFlatFee(enterAmount: String): String? {
-        return if (feeTiers[0].feeAmount != null && feeTiers[0].vatAmount != null) {
+    fun getFlatFee(enterAmount: String, isTopUpFee: Boolean = false): String? {
+        return if (feeTiers[0].feeInPercentage == false) {
             feeTiers[0].feeAmount?.plus(feeTiers[0].vatAmount ?: 0.0).toString()
         } else {
-            return calFeeInPercentage(enterAmount)
+            return if (isTopUpFee) getFeeInPercentageForTopup(enterAmount) else calFeeInPercentage(
+                enterAmount
+            )
         }
     }
 
-     private fun calFeeInPercentage(enterAmount: String): String? {
+    private fun calFeeInPercentage(enterAmount: String): String? {
         val feeAmount =
-            enterAmount.parseToDouble() * (feeTiers[0].percentageFee?.parseToDouble()?.div(100)
+            enterAmount.parseToDouble() * (feeTiers[0].feePercentage?.parseToDouble()?.div(100)
                 ?: 0.0)
-        val vatAmount = feeAmount * (feeTiers[0].percentageVat?.parseToDouble()?.div(100) ?: 0.0)
+        val vatAmount = feeAmount * (feeTiers[0].vatPercentage?.parseToDouble()?.div(100) ?: 0.0)
         return (feeAmount + vatAmount).toString()
     }
 
-     fun getFeeInPercentageForTopup(enterAmount: String): String? {
+    private fun getFeeInPercentageForTopup(enterAmount: String): String? {
         val feeAmount =
-            enterAmount.parseToDouble() * (feeTiers[0].percentageFee?.parseToDouble()?.div(100)
+            enterAmount.parseToDouble() * (feeTiers[0].feePercentage?.parseToDouble()?.div(100)
                 ?: 0.0)
 
         val totalFeeAmount =
-            feeAmount * (feeTiers[0].percentageFee?.parseToDouble()?.div(100) ?: 0.0)
+            feeAmount * (feeTiers[0].feePercentage?.parseToDouble()?.div(100) ?: 0.0)
 
         val vatAmount =
-            totalFeeAmount * (feeTiers[0].percentageVat?.parseToDouble()?.div(100) ?: 0.0)
+            totalFeeAmount * (feeTiers[0].vatPercentage?.parseToDouble()?.div(100) ?: 0.0)
 
         return (totalFeeAmount + vatAmount).toString()
     }
