@@ -9,7 +9,6 @@ import co.yap.household.R
 import co.yap.household.databinding.FragmentKycSuccessBinding
 import co.yap.modules.onboarding.activities.LiteDashboardActivity
 import co.yap.yapcore.adjust.AdjustEvents
-import co.yap.yapcore.dagger.base.BaseViewModelActivity
 import co.yap.yapcore.dagger.base.BaseViewModelFragment
 import co.yap.yapcore.helpers.extentions.launchActivity
 import co.yap.yapcore.trackAdjustEvent
