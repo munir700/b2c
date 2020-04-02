@@ -20,9 +20,11 @@ import co.yap.yapcore.R;
 public class CoreAmountWidget extends LinearLayout {
 
     private String _currencySymbol;
+    private String _text;
     private boolean _showCurrency;
     private boolean _showDecimal;
     private boolean _showCommas;
+    private boolean _enable;
     private ConstraintLayout amountLayoutBackground;
     private int _amountDrawable;
     private EditText editText;
@@ -46,9 +48,11 @@ public class CoreAmountWidget extends LinearLayout {
     private void initView(Context context, AttributeSet attrs) {
         // Setting Default Parameters
         _currencySymbol = Currency.getInstance(Locale.getDefault()).getSymbol();
+        _text = "";
         _showCurrency = true;
         _showCommas = true;
         _showDecimal = true;
+        _enable = true;
 
         // Check for the attributes
         if (attrs != null) {
@@ -67,6 +71,8 @@ public class CoreAmountWidget extends LinearLayout {
                 _showCommas = attrArray.getBoolean(R.styleable.EasyMoneyWidgets_show_commas, true);
                 _showDecimal = attrArray.getBoolean(R.styleable.EasyMoneyWidgets_show_decimal, true);
                 _amountDrawable = attrArray.getResourceId(R.styleable.EasyMoneyWidgets_amount_drawable, -1);
+                _enable = attrArray.getBoolean(R.styleable.EasyMoneyWidgets_enable, true);
+                _text = attrArray.getString(R.styleable.EasyMoneyWidgets_text);
             } finally {
                 attrArray.recycle();
             }
@@ -75,6 +81,8 @@ public class CoreAmountWidget extends LinearLayout {
         // Add Text Watcher for Decimal formatting
         initTextWatchers();
         setBackground(_amountDrawable);
+        checkEnable(_enable);
+        editText.setText(_text);
     }
 
     private void initTextWatchers() {
@@ -276,9 +284,13 @@ public class CoreAmountWidget extends LinearLayout {
     public void setBackground(int background) {
         try {
             amountLayoutBackground.setBackground(getContext().getDrawable(background));
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public void checkEnable(boolean _enable) {
+        editText.setEnabled(_enable);
     }
 
 
