@@ -55,11 +55,11 @@ interface TransactionsApi {
         date: String? = ""
     ): RetroApiResponse<AnalyticsResponseDTO>
 
-    suspend fun cashPayoutTransferRequest(cashPayoutRequestDTO: CashPayoutRequestDTO): RetroApiResponse<SendMoneyTransactionResponseDTO>
-    suspend fun domesticTransferRequest(domesticTransactionRequestDTO: DomesticTransactionRequestDTO): RetroApiResponse<SendMoneyTransactionResponseDTO>
-    suspend fun uaeftsTransferRequest(uaeftsTransactionRequestDTO: UAEFTSTransactionRequestDTO): RetroApiResponse<SendMoneyTransactionResponseDTO>
-    suspend fun rmtTransferRequest(rmtTransactionRequestDTO: RMTTransactionRequestDTO): RetroApiResponse<SendMoneyTransactionResponseDTO>
-    suspend fun swiftTransferRequest(swiftTransactionRequestDTO: SwiftTransactionRequestDTO): RetroApiResponse<SendMoneyTransactionResponseDTO>
+    suspend fun cashPayoutTransferRequest(sendMoneyTransferRequest:SendMoneyTransferRequest): RetroApiResponse<SendMoneyTransactionResponseDTO>
+    suspend fun domesticTransferRequest(sendMoneyTransferRequest:SendMoneyTransferRequest): RetroApiResponse<SendMoneyTransactionResponseDTO>
+    suspend fun uaeftsTransferRequest(sendMoneyTransferRequest:SendMoneyTransferRequest): RetroApiResponse<SendMoneyTransactionResponseDTO>
+    suspend fun rmtTransferRequest(sendMoneyTransferRequest:SendMoneyTransferRequest): RetroApiResponse<SendMoneyTransactionResponseDTO>
+    suspend fun swiftTransferRequest(sendMoneyTransferRequest:SendMoneyTransferRequest): RetroApiResponse<SendMoneyTransactionResponseDTO>
     suspend fun getHousholdFeePackage(packageType:String):RetroApiResponse<RemittanceFeeResponse>
     suspend fun getTransactionThresholds():RetroApiResponse<TransactionThresholdResponseDTO>
     suspend fun getCutOffTimeConfiguration(

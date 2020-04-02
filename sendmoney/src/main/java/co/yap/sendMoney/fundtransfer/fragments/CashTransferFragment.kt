@@ -7,7 +7,6 @@ import android.text.InputFilter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
 import android.widget.TextView
 import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
@@ -30,7 +29,6 @@ import co.yap.sendmoney.R
 import co.yap.sendmoney.databinding.FragmentCashTransferBinding
 import co.yap.translation.Strings
 import co.yap.translation.Translator
-import co.yap.widgets.spinneradapter.ViewHolderArrayAdapter
 import co.yap.yapcore.BR
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.SendMoneyBeneficiaryType
@@ -85,7 +83,6 @@ class CashTransferFragment : BeneficiaryFundTransferBaseFragment<ICashTransfer.V
                 setSpannableFee(it)
         })
 
-
         viewModel.purposeOfPaymentList.observe(this, Observer {
             it?.let {
                 viewModel.processPurposeList(it)
@@ -130,7 +127,7 @@ class CashTransferFragment : BeneficiaryFundTransferBaseFragment<ICashTransfer.V
         when (it) {
             R.id.btnConfirm -> {
                 if (viewModel.isUaeftsBeneficiary()) {
-                    if (viewModel.parentViewModel?.transferData?.value?.transferReason != "Select a reason for transfer") moveToConfirmationScreen() else showToast(
+                    if (viewModel.parentViewModel?.selectedPop != null) moveToConfirmationScreen() else showToast(
                         "Select a reason"
                     )
                 } else
@@ -278,7 +275,7 @@ class CashTransferFragment : BeneficiaryFundTransferBaseFragment<ICashTransfer.V
         viewModel.clickEvent.removeObservers(this)
         viewModel.isAPIFailed.removeObservers(this)
         viewModel.updatedFee.removeObservers(this)
-//        viewModel.purposeOfPaymentList.removeObservers(this)
+        viewModel.purposeOfPaymentList.removeObservers(this)
         viewModel.transactionData.removeObservers(this)
         super.onDestroy()
     }

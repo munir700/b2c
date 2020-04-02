@@ -3,6 +3,7 @@ package co.yap.sendMoney.fundtransfer.interfaces
 import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
 import co.yap.networking.transactions.responsedtos.InternationalFundsTransferReasonList
+import co.yap.networking.transactions.responsedtos.purposepayment.PurposeOfPayment
 import co.yap.networking.transactions.responsedtos.transaction.FxRateResponse
 import co.yap.networking.transactions.responsedtos.transaction.RemittanceFeeResponse
 import co.yap.yapcore.IBase
@@ -30,16 +31,17 @@ interface IInternationalFundsTransfer {
     interface ViewModel : IBase.ViewModel<State> {
         var clickEvent: SingleClickEvent
         var isAPIFailed: MutableLiveData<Boolean>
-        var transactionData: ArrayList<InternationalFundsTransferReasonList.ReasonList>
-        val populateSpinnerData: MutableLiveData<ArrayList<InternationalFundsTransferReasonList.ReasonList>>
         var reasonPosition: Int
         var fxRateResponse: MutableLiveData<FxRateResponse.Data>
+        var purposeOfPaymentList: MutableLiveData<ArrayList<PurposeOfPayment>>
         fun handlePressOnButton(id: Int)
-        fun getReasonList(productCode: String?)
+        fun getReasonList(productCode: String)
         fun getTransactionInternationalfxList(productCode: String?)
         fun getMoneyTransferLimits(productCode: String?)
         fun getCountryLimits()
         fun getTransactionThresholds()
+        fun processPurposeList(list: ArrayList<PurposeOfPayment>)
+
 
 
     }

@@ -142,6 +142,7 @@ open class AddFundsActivity : BaseBindingActivity<IFundActions.ViewModel>(),
                 if (fundsAdded) {
                     setupActionsIntent()
                 }
+
                 this.finish()
             })
 

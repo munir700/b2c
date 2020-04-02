@@ -5,7 +5,7 @@ import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.transactions.TransactionsRepository
 import co.yap.networking.transactions.requestdtos.DomesticTransactionRequestDTO
-import co.yap.networking.transactions.requestdtos.UAEFTSTransactionRequestDTO
+import co.yap.networking.transactions.requestdtos.SendMoneyTransferRequest
 import co.yap.sendMoney.fundtransfer.interfaces.ICashTransferConfirmation
 import co.yap.sendMoney.fundtransfer.states.CashTransferConfirmationState
 import co.yap.yapcore.SingleClickEvent
@@ -76,13 +76,13 @@ class CashTransferConfirmationViewModel(application: Application) :
             state.loading = true
             when (val response =
                 repository.uaeftsTransferRequest(
-                    UAEFTSTransactionRequestDTO(
-                        beneficiaryId,
-                        parentViewModel?.transferData?.value?.transferAmount?.toDoubleOrNull(),
-                        0.0,
-                        parentViewModel?.transferData?.value?.purposeCode,
-                        parentViewModel?.transferData?.value?.transferReason,
-                        if (parentViewModel?.transferData?.value?.noteValue.isNullOrBlank()) null else parentViewModel?.transferData?.value?.noteValue
+                    SendMoneyTransferRequest(
+                        beneficiaryId = beneficiaryId?.toInt(),
+                        amount = parentViewModel?.transferData?.value?.transferAmount?.toDoubleOrNull(),
+                        settlementAmount = 0.0,
+                        purposeCode = parentViewModel?.selectedPop?.purposeCode,
+                       purposeReason =  parentViewModel?.selectedPop?.purposeDescription,
+                       remarks =  if (parentViewModel?.transferData?.value?.noteValue.isNullOrBlank()) null else parentViewModel?.transferData?.value?.noteValue
                     )
                 )
                 ) {
@@ -105,13 +105,13 @@ class CashTransferConfirmationViewModel(application: Application) :
             state.loading = true
             when (val response =
                 repository.domesticTransferRequest(
-                    DomesticTransactionRequestDTO(
-                        beneficiaryId,
-                        parentViewModel?.transferData?.value?.transferAmount?.toDoubleOrNull(),
-                        0.0,
-                        parentViewModel?.transferData?.value?.purposeCode,
-                        parentViewModel?.transferData?.value?.transferReason,
-                        if (parentViewModel?.transferData?.value?.noteValue.isNullOrBlank()) null else parentViewModel?.transferData?.value?.noteValue
+                    SendMoneyTransferRequest(
+                        beneficiaryId = beneficiaryId?.toInt(),
+                       amount =  parentViewModel?.transferData?.value?.transferAmount?.toDoubleOrNull(),
+                        settlementAmount = 0.0,
+                        purposeCode = parentViewModel?.selectedPop?.purposeCode,
+                        purposeReason = parentViewModel?.selectedPop?.purposeDescription,
+                        remarks = if (parentViewModel?.transferData?.value?.noteValue.isNullOrBlank()) null else parentViewModel?.transferData?.value?.noteValue
                     )
 
                 )
