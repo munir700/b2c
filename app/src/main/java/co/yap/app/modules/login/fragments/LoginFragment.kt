@@ -62,7 +62,7 @@ class LoginFragment : BaseBindingFragment<ILogin.ViewModel>(), ILogin.View {
         })
 
         activity?.let {
-            TourSetup(it, setViewsArray())
+            TourSetup(it,it, setViewsArray())
 //            TourSetup(it, GuidedTourViewDetail(ivYap,"decripion"))
          }
 
