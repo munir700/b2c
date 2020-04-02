@@ -62,12 +62,11 @@ abstract class BaseViewModelFragment<VB : ViewDataBinding, S : IBase.State, VM :
         mViewDataBinding = viewDataBinding as VB
         viewModel = mViewModel.get()
         registerStateListeners()
-        viewModel.onCreate(arguments)
         viewDataBinding.setVariable(getBindingVariable(), viewModel)
         viewDataBinding.lifecycleOwner = this
-        // registerStateListeners()
         viewDataBinding.executePendingBindings()
         postExecutePendingBindings()
+        viewModel.onCreate(arguments)
     }
 
 
