@@ -10,37 +10,46 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/_45sdp"
-        android:layout_marginBottom="@dimen/margin_small"
-        android:background="@drawable/cornor_edges_gery">
+        android:layout_height="wrap_content"
+        android:background="@drawable/cornor_edges_gery"
+        android:padding="@dimen/margin_small">
+
+        <View
+            android:id="@+id/ivExpenseBg"
+            android:layout_width="@dimen/_32sdp"
+            android:layout_height="@dimen/_32sdp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:background="@drawable/bg_round_corners"/>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/ivExpenses"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_medium"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:background="@drawable/bg_round_corners"
+            android:layout_margin="@dimen/margin_small"
+            app:layout_constraintStart_toStartOf="@id/ivExpenseBg"
+            app:layout_constraintTop_toTopOf="@id/ivExpenseBg"
+            app:layout_constraintBottom_toBottomOf="@id/ivExpenseBg"
+            app:layout_constraintEnd_toEndOf="@+id/ivExpenseBg"
             android:tint="@color/white"
-            app:backgroundTint="?attr/colorPrimaryAttr"
+            app:backgroundTint="?attr/colorPrimarySoftAttr"
             app:elevation="0dp"
-            app:fabCustomSize="@dimen/_32sdp"
+            app:fabCustomSize="@dimen/_20sdp"
             app:fabSize="mini"
-            app:maxImageSize="@dimen/_18sdp"
-            android:src="@{hhSalaryProfileItemVM.item.image}" />
+            app:maxImageSize="@dimen/_10sdp"
+            app:src="@{hhSalaryProfileItemVM.item.image}" />
 
         <TextView
             android:id="@+id/tv_pay_salary_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_extra_large"
+            android:layout_marginStart="@dimen/margin_medium"
             android:textColor="?attr/colorPrimaryAttr"
             app:layout_constraintStart_toEndOf="@+id/ivExpenses"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            android:text="@{hhSalaryProfileItemVM.item.name}"/>
+            app:text="@{hhSalaryProfileItemVM.item.name}"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
