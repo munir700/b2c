@@ -19,6 +19,7 @@ import co.yap.household.onboard.onboarding.main.OnBoardingHouseHoldActivity
 import co.yap.modules.onboarding.enums.AccountType
 import co.yap.modules.others.helper.Constants.REQUEST_CODE
 import co.yap.networking.customers.responsedtos.AccountInfo
+import co.yap.translation.Strings
 import co.yap.widgets.NumberKeyboardListener
 import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.constants.Constants.KEY_APP_UUID
@@ -78,7 +79,7 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
         arguments?.let { it ->
             viewModel.state.username = VerifyPasscodeFragmentArgs.fromBundle(it).username
             if (VerifyPasscodeFragmentArgs.fromBundle(it).isAccountBlocked) {
-                viewModel.showAccountBlockedError()
+                viewModel.showAccountBlockedError(getString(Strings.screen_verify_passcode_text_account_locked))
             }
 
             it.getString(VERIFY_PASS_CODE_BTN_TEXT)?.let {
@@ -228,10 +229,6 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
                 else
                     viewModel.login()
             }
-            R.id.tvForgotPassword -> {
-                // handle in VM to reduce ripple effect
-
-            }
         }
     }
 
@@ -340,31 +337,12 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
         }
     }
 
-    override fun onSdkVersionNotSupported() {
-    }
-
-    override fun onBiometricAuthenticationNotSupported() {
-    }
-
     override fun onBackPressed(): Boolean {
         return true
     }
 
-    override fun onBiometricAuthenticationNotAvailable() {
-    }
-
-    override fun onBiometricAuthenticationPermissionNotGranted() {
-    }
-
     override fun onBiometricAuthenticationInternalError(error: String) {
         showToast(error)
-    }
-
-    override fun onAuthenticationFailed() {
-    }
-
-    override fun onAuthenticationCancelled() {
-
     }
 
     override fun onAuthenticationSuccessful() {
@@ -385,12 +363,6 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
             else
                 viewModel.login()
         }
-    }
-
-    override fun onAuthenticationHelp(helpCode: Int, helpString: CharSequence) {
-    }
-
-    override fun onAuthenticationError(errorCode: Int, errString: CharSequence) {
     }
 }
 

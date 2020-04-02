@@ -23,7 +23,7 @@ open class MainActivity : DefaultActivity(), IFragmentHolder, INavigator {
         super.onCreate(savedInstanceState)
         YAPApplication.AUTO_RESTART_APP = false
         if (DeviceUtils().isDeviceRooted()) {
-            showAlertDialogAndExitApp("This device is rooted. You can't use this app.")
+            showAlertDialogAndExitApp(message = "This device is rooted. You can't use this app.")
         } else {
             setContentView(R.layout.activity_main)
         }

@@ -216,16 +216,21 @@ abstract class BaseActivity<V : IBase.ViewModel<*>> : AppCompatActivity(), IBase
         }
     }
 
-    open fun showAlertDialogAndExitApp(message: String?) {
-        val alertDialog: AlertDialog = AlertDialog.Builder(this@BaseActivity).create()
-        alertDialog.setTitle("Alert")
+    open fun showAlertDialogAndExitApp(
+        title: String = "Alert",
+        message: String?,
+        closeActivity: Boolean = true
+    ) {
+        val alertDialog: AlertDialog = AlertDialog.Builder(this).create()
+        alertDialog.setTitle(title)
         alertDialog.setMessage(message)
         alertDialog.setCancelable(false)
         alertDialog.setButton(
             AlertDialog.BUTTON_NEUTRAL, "OK"
         ) { dialog, which ->
             dialog.dismiss()
-            finish()
+            if (closeActivity)
+                finish()
         }
         alertDialog.setCancelable(false)
         alertDialog.show()

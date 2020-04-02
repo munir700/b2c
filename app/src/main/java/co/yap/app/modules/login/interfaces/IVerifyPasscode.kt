@@ -21,7 +21,7 @@ interface IVerifyPasscode {
         fun validateDevice()
         fun getAccountInfo()
         fun verifyPasscode()
-        fun showAccountBlockedError()
+        fun showAccountBlockedError(errorMessage: String)
         val onClickEvent: MutableLiveData<Int>
         val forgotPasscodeButtonPressEvent: SingleClickEvent
         val loginSuccess: SingleLiveEvent<Boolean>
@@ -47,5 +47,6 @@ interface IVerifyPasscode {
         var verifyPassCodeEnum: String
         var isScreenLocked: ObservableField<Boolean>
         var isAccountLocked: ObservableField<Boolean>
+        var isAccountFreeze: ObservableField<Boolean>
     }
 }
