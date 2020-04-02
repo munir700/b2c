@@ -13,6 +13,7 @@ import co.yap.modules.dashboard.store.household.activities.HouseHoldLandingActiv
 import co.yap.modules.dashboard.store.interfaces.IYapStore
 import co.yap.modules.dashboard.store.viewmodels.YapStoreViewModel
 import co.yap.modules.subaccounts.confirmation.PaymentConfirmationFragment
+import co.yap.modules.subaccounts.paysalary.employee.PayHHEmployeeSalaryFragment
 import co.yap.networking.store.responsedtos.Store
 import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.constants.RequestCodes
@@ -55,7 +56,8 @@ class YapStoreFragment : BaseBindingFragment<IYapStore.ViewModel>(), IYapStore.V
         override fun onItemClick(view: View, data: Any, pos: Int) {
             if (data is Store) {
                 if (data.name == "YAP Household") {
-                    launchActivity<HouseHoldLandingActivity> (requestCode = RequestCodes.REQUEST_ADD_HOUSE_HOLD)
+                    startFragment(PayHHEmployeeSalaryFragment::class.java.name)
+                  //  launchActivity<HouseHoldLandingActivity> (requestCode = RequestCodes.REQUEST_ADD_HOUSE_HOLD)
                 }
             }
         }

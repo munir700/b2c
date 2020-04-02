@@ -46,7 +46,6 @@
             android:layout_marginTop="@dimen/margin_medium"
             android:text="147656653.22"
             android:textSize="20sp"
-
             app:ctv_decimalTextSize="12dp"
             app:ctv_nullToZero="false"
             app:layout_constraintEnd_toEndOf="parent"
