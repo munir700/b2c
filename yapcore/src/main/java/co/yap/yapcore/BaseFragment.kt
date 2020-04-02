@@ -12,7 +12,6 @@ import co.yap.yapcore.interfaces.OnBackPressedListener
 
 abstract class BaseFragment<V : IBase.ViewModel<*>> : BaseNavFragment(), IBase.View<V>,
     OnBackPressedListener {
-
     private var progress: Dialog? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -133,6 +132,20 @@ abstract class BaseFragment<V : IBase.ViewModel<*>> : BaseNavFragment(), IBase.V
         }
         if (viewModel.state is BaseState) {
             (viewModel.state as BaseState).removeOnPropertyChangedCallback(stateObserver)
+        }
+    }
+
+    open fun showAlertDialog(
+        title: String = "Alert",
+        message: String?,
+        closeActivity: Boolean = true
+    ) {
+        if (requireActivity() is BaseActivity<*>) {
+            (requireActivity() as BaseActivity<*>).showAlertDialogAndExitApp(
+                title,
+                message,
+                closeActivity
+            )
         }
     }
 }
