@@ -48,6 +48,7 @@ project.ext {
             baloon                   : "com.github.skydoves:balloon:1.0.5",
             quickAction              : "me.piruin:quickaction:2.4.3",
             rangeSeekbar             : "com.github.Jay-Goo:RangeSeekBar:v3.0.0",
+            datePicker           :"com.wdullaer:materialdatetimepicker:4.2.3",
 
 
             // Dagger
@@ -174,7 +175,8 @@ project.ext {
             [configuration: "implementation", dependency: libraries.compression],
             [configuration: "implementation", dependency: libraries.exoplayer],
             [configuration: "implementation", dependency: libraries.adjust],
-            [configuration: "implementation", dependency: libraries.adjustReferrer]
+            [configuration: "implementation", dependency: libraries.adjustReferrer],
+            [configuration: "implementation", dependency: libraries.datePicker]
     ]
 
     // dependencies which need to be added in app module only in conjunction with commonDependencies
