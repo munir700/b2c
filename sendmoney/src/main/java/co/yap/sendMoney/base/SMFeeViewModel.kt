@@ -28,7 +28,7 @@ abstract class SMFeeViewModel<S : IBase.State>(application: Application) :
             when (val response =
                 transactionRepository.getTransactionFeeWithProductCode(productCode, feeRequest)) {
                 is RetroApiResponse.Success -> {
-                    feeType = response.data.data?.feeType ?: ""
+                    feeType = response.data.data?.feeType ?: "FLAT"
                     response.data.data?.tierRateDTOList?.let {
                         feeTiers =
                             response.data.data?.tierRateDTOList as ArrayList<RemittanceFeeResponse.RemittanceFee.TierRateDTO>
@@ -45,11 +45,14 @@ abstract class SMFeeViewModel<S : IBase.State>(application: Application) :
     }
 
     fun updateFees(enterAmount: String, isTopUpFee: Boolean = false) {
-        val result = when (feeType) {
-            FeeType.FLAT.name -> getFlatFee(enterAmount, isTopUpFee).toString()
-            FeeType.TIER.name -> getFeeFromTier(enterAmount, isTopUpFee).toString()
-            else -> {
-                "0.0"
+        var result = "0.0"
+        if (!feeTiers.isNullOrEmpty()) {
+            result = when (feeType) {
+                FeeType.FLAT.name -> getFlatFee(enterAmount, isTopUpFee).toString()
+                FeeType.TIER.name -> getFeeFromTier(enterAmount, isTopUpFee).toString()
+                else -> {
+                    "0.0"
+                }
             }
         }
         updatedFee.value = result
