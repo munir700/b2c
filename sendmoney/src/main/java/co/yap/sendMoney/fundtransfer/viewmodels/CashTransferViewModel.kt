@@ -6,6 +6,7 @@ import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.transactions.TransactionsRepository
 import co.yap.networking.transactions.requestdtos.CashPayoutRequestDTO
+import co.yap.networking.transactions.requestdtos.SendMoneyTransferRequest
 import co.yap.networking.transactions.responsedtos.InternationalFundsTransferReasonList
 import co.yap.networking.transactions.responsedtos.purposepayment.PurposeOfPayment
 import co.yap.sendMoney.fundtransfer.interfaces.ICashTransfer
@@ -75,7 +76,8 @@ class CashTransferViewModel(application: Application) :
     }
 
     fun updateFees() {
-        updateFees(state.amount)
+        if (shouldFeeApply())
+            updateFees(state.amount)
     }
 
     override fun handlePressOnView(id: Int) {
@@ -175,12 +177,12 @@ class CashTransferViewModel(application: Application) :
             state.loading = true
             when (val response =
                 transactionRepository.cashPayoutTransferRequest(
-                    CashPayoutRequestDTO(
-                        state.amount.toDouble(),
-                        "AED",
-                        "8",
-                        beneficiaryId,
-                        state.noteValue
+                    SendMoneyTransferRequest(
+                       beneficiaryId= beneficiaryId,
+                        amount = state.amount.toDouble(),
+                        currency = "AED",
+                        purposeCode = "8",
+                        remarks = state.noteValue
                     )
                 )
                 ) {
@@ -289,7 +291,7 @@ class CashTransferViewModel(application: Application) :
         } ?: return false
     }
 
-    fun shouldFeeApply(): Boolean {
+    private fun shouldFeeApply(): Boolean {
         return if (!isUaeftsBeneficiary()) return true else
             parentViewModel?.selectedPop?.let { pop ->
                 return@let if (pop.nonChargeable == false) {

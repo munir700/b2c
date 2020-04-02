@@ -7,7 +7,7 @@ import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.transactions.TransactionsRepository
 import co.yap.networking.transactions.requestdtos.RxListRequest
-import co.yap.networking.transactions.responsedtos.InternationalFundsTransferReasonList
+import co.yap.networking.transactions.responsedtos.purposepayment.PurposeOfPayment
 import co.yap.networking.transactions.responsedtos.transaction.FxRateResponse
 import co.yap.sendMoney.fundtransfer.interfaces.IInternationalFundsTransfer
 import co.yap.sendMoney.fundtransfer.states.InternationalFundsTransferState
@@ -21,7 +21,6 @@ import co.yap.yapcore.helpers.spannables.color
 import co.yap.yapcore.helpers.spannables.getText
 import co.yap.yapcore.managers.MyUserManager
 import java.util.*
-import kotlin.collections.ArrayList
 
 class InternationalFundsTransferViewModel(application: Application) :
     BeneficiaryFundTransferBaseViewModel<IInternationalFundsTransfer.State>(application),
@@ -34,12 +33,11 @@ class InternationalFundsTransferViewModel(application: Application) :
             application
         )
     override var clickEvent: SingleClickEvent = SingleClickEvent()
-    override var transactionData: ArrayList<InternationalFundsTransferReasonList.ReasonList> =
-        ArrayList()
-    override val populateSpinnerData: MutableLiveData<ArrayList<InternationalFundsTransferReasonList.ReasonList>> =
+    override var purposeOfPaymentList: MutableLiveData<ArrayList<PurposeOfPayment>> =
         MutableLiveData()
     override var reasonPosition: Int = 0
     override var fxRateResponse: MutableLiveData<FxRateResponse.Data> = MutableLiveData()
+    var purposeCategories: Map<String?, List<PurposeOfPayment>>? = HashMap()
 
     override fun handlePressOnButton(id: Int) {
         clickEvent.setValue(id)
@@ -86,25 +84,20 @@ class InternationalFundsTransferViewModel(application: Application) :
         }
     }
 
-    override fun getReasonList(productCode: String?) {
+    override fun getReasonList(productCode: String) {
+        state.loading = true
         launch {
-            transactionData.clear()
-            //            state.loading = true
             when (val response =
-                mTransactionsRepository.getTransactionInternationalReasonList(productCode)) {
+                mTransactionsRepository.getPurposeOfPayment(productCode)) {
                 is RetroApiResponse.Success -> {
-                    if (response.data.data.isNullOrEmpty()) return@launch
-                    response.data.data?.let {
-                        transactionData.addAll(it.map { item ->
-                            InternationalFundsTransferReasonList.ReasonList(
-                                code = item.code ?: "",
-                                reason = item.reason ?: ""
-                            )
-                        })
+                    if (!response.data.data.isNullOrEmpty()) {
+                        purposeOfPaymentList.value =
+                            response.data.data as? ArrayList<PurposeOfPayment>?
                     }
-                    populateSpinnerData.value = transactionData
+                    state.loading = false
                 }
                 is RetroApiResponse.Error -> {
+                    state.loading = false
                     state.toast = response.error.message
                     isAPIFailed.value = true
                 }
@@ -165,7 +158,11 @@ class InternationalFundsTransferViewModel(application: Application) :
             }
         }
     }
-
+    override fun processPurposeList(list: ArrayList<PurposeOfPayment>) {
+        purposeCategories = list.groupBy { item ->
+            item.purposeCategory
+        }
+    }
     fun updateFees() {
         updateFees(state.etInputAmount.toString())
     }
