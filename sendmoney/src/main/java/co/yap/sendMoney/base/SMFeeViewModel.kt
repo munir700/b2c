@@ -96,7 +96,9 @@ abstract class SMFeeViewModel<S : IBase.State>(application: Application) :
                 ?: 0.0)
 
         val totalFeeAmount =
-            feeAmount * (feeTiers[0].feePercentage?.parseToDouble()?.div(100) ?: 0.0)
+            (feeAmount * (feeTiers[0].feePercentage?.parseToDouble()?.div(100) ?: 0.0)).plus(
+                feeAmount
+            )
 
         val vatAmount =
             totalFeeAmount * (feeTiers[0].vatPercentage?.parseToDouble()?.div(100) ?: 0.0)
