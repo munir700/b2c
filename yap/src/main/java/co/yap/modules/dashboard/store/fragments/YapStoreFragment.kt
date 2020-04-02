@@ -92,7 +92,7 @@ class YapStoreFragment : BaseBindingFragment<IYapStore.ViewModel>(), IYapStore.V
         return if (recycler_stores.adapter is YapStoreAdaptor) {
             (recycler_stores.adapter as YapStoreAdaptor)
         } else {
-            null
+            null 
         }
     }
 
