@@ -153,15 +153,11 @@ class CashTransferViewModel(application: Application) :
         state.loading = true
         launch {
             when (val response =
-                transactionRepository.getTransactionInternationalReasonList(productCode)) {
+                transactionRepository.getPurposeOfPayment(productCode)) {
                 is RetroApiResponse.Success -> {
                     if (!response.data.data.isNullOrEmpty()) {
-//                        purposeOfPaymentList.value =
-                        // response.data.data as? ArrayList<PurposeOfPayment>?
-                        transactionData.value = response.data.data
-                    } else {
-                        state.toast = "Reasons list not found"
-                        isAPIFailed.value = true
+                        purposeOfPaymentList.value =
+                            response.data.data as? ArrayList<PurposeOfPayment>?
                     }
                     state.loading = false
                 }
