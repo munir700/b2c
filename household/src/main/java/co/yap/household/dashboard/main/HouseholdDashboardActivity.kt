@@ -95,10 +95,11 @@ class HouseholdDashboardActivity :
 
     override fun postExecutePendingBindings() {
         super.postExecutePendingBindings()
-        adapter.addFragmentInfo(HouseholdHomeFragment::class.java.name)
-        adapter.addFragmentInfo(HouseholdHomeFragment::class.java.name)
-        adapter.addFragmentInfo(HouseholdHomeFragment::class.java.name)
-        adapter.addFragmentInfo(HouseholdHomeFragment::class.java.name)
+        adapter.addFragmentInfo<HouseholdHomeFragment>()
+        adapter.addFragmentInfo<HouseholdHomeFragment>()
+        adapter.addFragmentInfo<HouseholdHomeFragment>()
+        adapter.addFragmentInfo<HouseholdHomeFragment>()
+
         viewModel.adapter.set(adapter)
         bottomNav.setUpWithViewPager(viewPager)
         setupYapItButton()

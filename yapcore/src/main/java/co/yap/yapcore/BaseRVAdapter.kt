@@ -11,6 +11,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.navigation.NavController
 import androidx.recyclerview.widget.RecyclerView
+import co.yap.networking.models.ApiResponse
 import co.yap.yapcore.interfaces.OnItemClickListener
 
 

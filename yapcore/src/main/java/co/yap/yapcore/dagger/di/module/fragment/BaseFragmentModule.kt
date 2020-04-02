@@ -44,12 +44,12 @@ abstract class BaseFragmentModule<in T : Fragment> {
 
     @Provides
     fun provideBaseActivity(fragment: T): BaseActivity<*> {
-        return (fragment as BaseViewModelFragment<*, *,*>).getBaseActivity()
+        return (fragment as BaseViewModelFragment<*, *, *>).getBaseActivity()
     }
 
     @Provides
-    fun provideActivity(fragment: T): FragmentActivity? {
-        return fragment.activity
+    fun provideActivity(fragment: T): FragmentActivity {
+        return fragment.requireActivity()
     }
 
     @Provides

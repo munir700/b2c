@@ -949,16 +949,16 @@ object UIBinder {
         editText.isCursorVisible = editable
     }
 
-    @JvmStatic
-    @BindingAdapter("app:mAdapter")
-    fun setAdapter(
-        view: RecyclerView,
-        adapter: RecyclerView.Adapter<out RecyclerView.ViewHolder>?
-    ) {
-        if (null == adapter)
-            return
-        view.adapter = adapter
-    }
+//    @JvmStatic
+//    @BindingAdapter("app:mAdapter")
+//    fun setAdapter(
+//        view: RecyclerView,
+//        adapter: RecyclerView.Adapter<out RecyclerView.ViewHolder>?
+//    ) {
+//        if (null == adapter)
+//            return
+//        view.adapter = adapter
+//    }
 
     @JvmStatic
     @BindingAdapter("ibanMask")
