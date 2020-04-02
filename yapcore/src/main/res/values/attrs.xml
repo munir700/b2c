@@ -425,8 +425,10 @@
         <attr name="currency_symbol" format="string" />
         <attr name="show_currency" format="boolean" />
         <attr name="show_commas" format="boolean" />
-        <attr name="show_decimal" format="boolean"/>
+        <attr name="show_decimal" format="boolean" />
         <attr name="amount_drawable" format="reference" />
+        <attr name="enable" format="boolean" />
+        <attr name="text" format="string" />
     </declare-styleable>
 
     <declare-styleable name="MultiStateView">
@@ -506,13 +508,13 @@
     </attr>
 
     <declare-styleable name="CurrencyTextView">
-        <attr name="ctv_currencySymbol" format="string"/>
-        <attr name="ctv_formatter" format="string"/>
+        <attr name="ctv_currencySymbol" format="string" />
+        <attr name="ctv_formatter" format="string" />
         <attr name="ctv_currencySymbolSize" format="dimension|reference" />
         <attr name="ctv_decimalTextSize" format="dimension|reference" />
         <attr name="ctv_prefixSuffixTextSize" format="dimension|reference" />
-        <attr name="ctv_strikeThrough" format="boolean"/>
-        <attr name="ctv_nullToZero" format="boolean"/>
+        <attr name="ctv_strikeThrough" format="boolean" />
+        <attr name="ctv_nullToZero" format="boolean" />
     </declare-styleable>
 
 </resources>
