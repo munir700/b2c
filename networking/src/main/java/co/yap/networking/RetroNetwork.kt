@@ -90,8 +90,11 @@ object RetroNetwork : Network {
             .readTimeout(READ_TIMEOUT_SECONDS, TimeUnit.SECONDS)
             .retryOnConnectionFailure(true)
             .cache(getCache())
-            .sslSocketFactory(TLSSocketFactory(), TLSSocketFactory().systemDefaultTrustManager())
             .certificatePinner(certPinner)      //add ssl pinning certificate code start
+            .sslSocketFactory(
+                SSLPiningHelper(context).getSSLFactory(),
+                SSLPiningHelper(context).getDefaultTrustManager()
+            )
             .addInterceptor(logger)
             .addInterceptor(CookiesInterceptor())
             .addInterceptor(object : NetworkConstraintsInterceptor(context) {
