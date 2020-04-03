@@ -3,12 +3,15 @@ package co.yap.app.di.module
 import android.app.Application
 import android.content.Context
 import co.yap.app.AAPApplication
+import co.yap.modules.di.module.YapModule
+import co.yap.yapcore.dagger.di.module.CoreModule
 import co.yap.yapcore.dagger.di.qualifiers.AppScope
 import co.yap.yapcore.dagger.di.qualifiers.ApplicationContext
 import dagger.Module
 import dagger.Provides
 
 @Module
+//(includes = [CoreModule::class, YapModule::class])
 class AppModule {
 
     @Provides

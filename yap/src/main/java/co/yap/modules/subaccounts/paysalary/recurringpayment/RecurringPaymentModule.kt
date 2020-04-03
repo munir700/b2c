@@ -1,7 +1,9 @@
 package co.yap.modules.subaccounts.paysalary.recurringpayment
 
+import androidx.fragment.app.FragmentManager
 import co.yap.yapcore.dagger.di.InjectionViewModelProvider
 import co.yap.yapcore.dagger.di.module.fragment.BaseFragmentModule
+import co.yap.yapcore.dagger.di.qualifiers.ChildFragmentManager
 import co.yap.yapcore.dagger.di.qualifiers.FragmentScope
 import co.yap.yapcore.dagger.di.qualifiers.ViewModelInjection
 import dagger.Module
@@ -15,10 +17,20 @@ class RecurringPaymentModule : BaseFragmentModule<RecurringPaymentFragment>() {
     fun provideSubAccountDashBoardVM(
         fragment: RecurringPaymentFragment,
         viewModelProvider: InjectionViewModelProvider<RecurringPaymentVM>
-    ): RecurringPaymentVM = viewModelProvider.get(fragment, RecurringPaymentVM::class)
+    ): RecurringPaymentVM {
+        val vm = viewModelProvider.get(fragment, RecurringPaymentVM::class)
+        vm.fragmentManager = fragment.childFragmentManager
+        return vm
+    }
 
     @Provides
     @FragmentScope
     fun provideSubAccountDashBoardState(): IRecurringPayment.State = RecurringPaymentState()
+
+//    @Provides
+//    @ChildFragmentManager
+//    fun provideChildFragmentManager(fragment: RecurringPaymentFragment): FragmentManager {
+//        return fragment.childFragmentManager
+//    }
 
 }

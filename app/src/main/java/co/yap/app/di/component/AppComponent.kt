@@ -7,6 +7,7 @@ import co.yap.app.di.module.activity.ActivityInjectorsModule
 import co.yap.app.di.module.fragment.FragmentInjectorsModule
 import co.yap.yapcore.dagger.di.qualifiers.AppScope
 import co.yap.household.di.components.HouseHoldComponent
+import co.yap.modules.di.components.YapComponent
 import co.yap.yapcore.dagger.di.components.CoreComponent
 import dagger.BindsInstance
 import dagger.Component
@@ -23,7 +24,7 @@ import javax.inject.Singleton
         FragmentInjectorsModule::class,
         ActivityInjectorsModule::class,
         AppModule::class, NetworkModule::class],
-    dependencies = [ CoreComponent::class,HouseHoldComponent::class]
+    dependencies = [CoreComponent::class, HouseHoldComponent::class, YapComponent::class]
 )
 interface AppComponent : AndroidInjector<AAPApplication> {
 
@@ -33,6 +34,7 @@ interface AppComponent : AndroidInjector<AAPApplication> {
         fun application(application: AAPApplication): Builder
         fun coreComponent(coreComponent: CoreComponent): Builder
         fun houseHoldComponent(houseHoldComponent: HouseHoldComponent): Builder
+        fun yapComponent(yapComponent: YapComponent): Builder
 
         fun build(): AppComponent
     }

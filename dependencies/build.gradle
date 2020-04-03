@@ -48,8 +48,7 @@ project.ext {
             baloon                   : "com.github.skydoves:balloon:1.0.5",
             quickAction              : "me.piruin:quickaction:2.4.3",
             rangeSeekbar             : "com.github.Jay-Goo:RangeSeekBar:v3.0.0",
-            datePicker           :"com.wdullaer:materialdatetimepicker:4.2.3",
-
+            datePicker               : "com.wdullaer:materialdatetimepicker:4.2.3",
 
             // Dagger
             dagger                   : "com.google.dagger:dagger:$daggerVersion",

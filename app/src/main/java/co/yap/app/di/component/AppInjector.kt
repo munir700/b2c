@@ -34,6 +34,7 @@ object AppInjector : HouseHoldComponentProvider, CoreComponentProvider, YapCompo
             .application(application)
             .coreComponent(provideCoreComponent())
             .houseHoldComponent(provideHouseHoldComponent())
+            .yapComponent(provideYapComponent())
             .build()
         component.inject(application)
 
@@ -41,7 +42,7 @@ object AppInjector : HouseHoldComponentProvider, CoreComponentProvider, YapCompo
         application.registerActivityLifecycleCallbacks(object :
             Application.ActivityLifecycleCallbacks {
             override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {
-                //handleActivity(activity)
+                handleActivity(activity)
             }
 
             override fun onActivityStarted(activity: Activity) {
@@ -119,4 +120,5 @@ object AppInjector : HouseHoldComponentProvider, CoreComponentProvider, YapCompo
         }
         return coreComponent
     }
+
 }
