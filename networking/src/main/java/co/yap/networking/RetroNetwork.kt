@@ -51,35 +51,17 @@ object RetroNetwork : Network {
     }
 
     private fun buildOkHttpClient(context: Context): OkHttpClient {
-        //add ssl pinning certificate code start
-//   added multiple key using this as directed in this link https://stackoverflow.com/questions/24006545/how-can-i-pin-a-certificate-with-square-okhttp to fix
-//   <-- HTTP FAILED: javax.net.ssl.SSLPeerUnverifiedException: Certificate pinning failure!
+        //details https://stackoverflow.com/questions/24006545/how-can-i-pin-a-certificate-with-square-okhttp to fix
         val certPinner = CertificatePinner.Builder()
-            /*.add(
-                "*.yap.co", "sha256/Ko8tivDrEjiY90yGasP6ZpBU4jwXvHqVvQI0GS3GNdA=",
-                "sha256/ZrRL6wSXl/4lm1KItkcZyh56BGOoxMWUDJr7YVqE4no=",
-                "sha256/8Rw90Ej3Ttt8RRkrg+WYDS9n7IS03bk5bjP/UXPtaY8=",
-                "sha256/jr1RBEN+F3KtPTYBMhudiTGBRAg8k2qZPEg3WbSerXU="*/
-
-//            for qa debug
             .add("*.yap.co", "sha256/e5L5CAoQjV0HFzAnunk1mPHVx1HvPxcfJYI0UtLyBwY=")
             .add("*.yap.co", "sha256/JSMzqOOrtyOT1kmau6zKhgT676hGgczD5VMdRMyJZFA")
             .add("*.yap.co", "sha256/JSMzqOOrtyOT1kmau6zKhgT676hGgczD5VMdRMyJZFA=")
-            .add(
-                "*.yap.co",
-                "sha256/jr1RBEN+F3KtPTYBMhudiTGBRAg8k2qZPEg3WbSerXU="
-            )//from yap cert file
-            .add(
-                "*.yap.co",
-                "sha256/yJcy2FrimDcAjQrvDDImmFJna4OjlPQ4LAee9Vj2C74="
-            )//from yap cert file
-//           for stg debug
+            .add("*.yap.co", "sha256/jr1RBEN+F3KtPTYBMhudiTGBRAg8k2qZPEg3WbSerXU=")
+            .add("*.yap.co", "sha256/yJcy2FrimDcAjQrvDDImmFJna4OjlPQ4LAee9Vj2C74=")
             .add("*.yap.co", "sha256/Ko8tivDrEjiY90yGasP6ZpBU4jwXvHqVvQI0GS3GNdA=")
             .add("*.yap.co", "sha256/ZrRL6wSXl/4lm1KItkcZyh56BGOoxMWUDJr7YVqE4no=")
             .add("*.yap.co", "sha256/8Rw90Ej3Ttt8RRkrg+WYDS9n7IS03bk5bjP/UXPtaY8=")
             .build()
-
-        //add ssl pinning certificate code end
 
         val logger = HttpLoggingInterceptor()
         logger.level =
