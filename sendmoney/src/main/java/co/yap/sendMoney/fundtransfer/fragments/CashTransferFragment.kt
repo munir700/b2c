@@ -80,7 +80,7 @@ class CashTransferFragment : BeneficiaryFundTransferBaseFragment<ICashTransfer.V
         })
         viewModel.updatedFee.observe(this, Observer {
             if (!it.isNullOrBlank())
-                setSpannableFee(it)
+                setSpannableFee(if (viewModel.shouldFeeApply()) it else "0.0")
         })
 
         viewModel.purposeOfPaymentList.observe(this, Observer {
@@ -133,7 +133,7 @@ class CashTransferFragment : BeneficiaryFundTransferBaseFragment<ICashTransfer.V
                 } else
                     startOtpFragment()
             }
-            R.id.tvSelectReason, R.id.ivSelector ->  setupPOP(viewModel.purposeCategories)
+            R.id.tvSelectReason, R.id.ivSelector -> setupPOP(viewModel.purposeCategories)
             Constants.ADD_CASH_PICK_UP_SUCCESS -> {
                 // Send Broadcast for updating transactions list in `Home Fragment`
                 val intent = Intent(Constants.BROADCAST_UPDATE_TRANSACTION)
@@ -234,7 +234,10 @@ class CashTransferFragment : BeneficiaryFundTransferBaseFragment<ICashTransfer.V
                     viewModel.getMoneyTransferLimits(productCode)
                     viewModel.getTransferFees(
                         productCode,
-                        RemittanceFeeRequest(viewModel.parentViewModel?.beneficiary?.value?.country, "")
+                        RemittanceFeeRequest(
+                            viewModel.parentViewModel?.beneficiary?.value?.country,
+                            ""
+                        )
                     )
                     viewModel.getPurposeOfPayment(productCode)
                     setObservers()
@@ -246,25 +249,25 @@ class CashTransferFragment : BeneficiaryFundTransferBaseFragment<ICashTransfer.V
     private fun getProductCode(): String {
         viewModel.parentViewModel?.beneficiary?.value?.let { beneficiary ->
             when (beneficiary.beneficiaryType) {
-                    SendMoneyBeneficiaryType.CASHPAYOUT.type -> {
-                        viewModel.parentViewModel?.transferData?.value?.otpAction =
-                            SendMoneyBeneficiaryType.CASHPAYOUT.type
-                        return TransactionProductCode.CASH_PAYOUT.pCode
-                    }
-                    SendMoneyBeneficiaryType.DOMESTIC.type -> {
-                        viewModel.parentViewModel?.transferData?.value?.otpAction =
-                            SendMoneyBeneficiaryType.DOMESTIC_TRANSFER.type
-                        return TransactionProductCode.DOMESTIC.pCode
-                    }
-                    SendMoneyBeneficiaryType.UAEFTS.type -> {
-                        viewModel.parentViewModel?.transferData?.value?.otpAction =
-                            SendMoneyBeneficiaryType.UAEFTS.type
-                        return TransactionProductCode.UAEFTS.pCode
-                    }
-                    else -> {
-                        return ""
-                    }
+                SendMoneyBeneficiaryType.CASHPAYOUT.type -> {
+                    viewModel.parentViewModel?.transferData?.value?.otpAction =
+                        SendMoneyBeneficiaryType.CASHPAYOUT.type
+                    return TransactionProductCode.CASH_PAYOUT.pCode
                 }
+                SendMoneyBeneficiaryType.DOMESTIC.type -> {
+                    viewModel.parentViewModel?.transferData?.value?.otpAction =
+                        SendMoneyBeneficiaryType.DOMESTIC_TRANSFER.type
+                    return TransactionProductCode.DOMESTIC.pCode
+                }
+                SendMoneyBeneficiaryType.UAEFTS.type -> {
+                    viewModel.parentViewModel?.transferData?.value?.otpAction =
+                        SendMoneyBeneficiaryType.UAEFTS.type
+                    return TransactionProductCode.UAEFTS.pCode
+                }
+                else -> {
+                    return ""
+                }
+            }
         } ?: return ""
     }
 

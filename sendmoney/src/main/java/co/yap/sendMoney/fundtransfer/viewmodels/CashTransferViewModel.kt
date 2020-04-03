@@ -5,7 +5,6 @@ import androidx.lifecycle.MutableLiveData
 import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.transactions.TransactionsRepository
-import co.yap.networking.transactions.requestdtos.CashPayoutRequestDTO
 import co.yap.networking.transactions.requestdtos.SendMoneyTransferRequest
 import co.yap.networking.transactions.responsedtos.InternationalFundsTransferReasonList
 import co.yap.networking.transactions.responsedtos.purposepayment.PurposeOfPayment
@@ -76,8 +75,8 @@ class CashTransferViewModel(application: Application) :
     }
 
     fun updateFees() {
-        if (shouldFeeApply())
-            updateFees(state.amount)
+        //if (shouldFeeApply())
+        updateFees(state.amount)
     }
 
     override fun handlePressOnView(id: Int) {
@@ -297,7 +296,7 @@ class CashTransferViewModel(application: Application) :
         } ?: return false
     }
 
-    private fun shouldFeeApply(): Boolean {
+    fun shouldFeeApply(): Boolean {
         return if (!isOnlyUAEFTS()) return true else
             parentViewModel?.selectedPop?.let { pop ->
                 return@let if (pop.nonChargeable == false) {
