@@ -46,7 +46,7 @@ abstract class SMFeeViewModel<S : IBase.State>(application: Application) :
         }
     }
 
-    fun updateFees(enterAmount: String, isTopUpFee: Boolean = false) {
+    fun updateFees(enterAmount: String, isTopUpFee: Boolean = false): String {
         var result = "0.0"
         if (!feeTiers.isNullOrEmpty()) {
             result = when (feeType) {
@@ -58,6 +58,7 @@ abstract class SMFeeViewModel<S : IBase.State>(application: Application) :
             }
         }
         updatedFee.value = result
+        return result
     }
 
     fun getFeeFromTier(enterAmount: String, isTopUpFee: Boolean = false): String? {
@@ -105,9 +106,7 @@ abstract class SMFeeViewModel<S : IBase.State>(application: Application) :
                 ?: 0.0)
 
         val totalFeeAmount =
-            (feeAmount * (feeTiers[0].feePercentage?.parseToDouble()?.div(100) ?: 0.0)).plus(
-                feeAmount
-            )
+            (feeAmount * (feeTiers[0].feePercentage?.parseToDouble()?.div(100) ?: 0.0)).plus(feeAmount)
 
         val vatAmount =
             totalFeeAmount * (feeTiers[0].vatPercentage?.parseToDouble()?.div(100) ?: 0.0)
