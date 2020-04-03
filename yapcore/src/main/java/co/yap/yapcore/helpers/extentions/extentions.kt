@@ -1,6 +1,7 @@
 package co.yap.yapcore.helpers.extentions
 
 import android.app.Activity
+import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.net.ConnectivityManager
@@ -18,6 +19,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import co.yap.yapcore.R
 import co.yap.yapcore.helpers.Utils
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
@@ -168,4 +170,26 @@ fun Context?.isNetworkAvailable(): Boolean {
             } ?: false
         } ?: false
     } ?: false
+}
+
+fun Context.showAlert(title: String?="Title", message: String?="Alert message") {
+    val alertDialog: AlertDialog = AlertDialog.Builder(this).create()
+    alertDialog.setTitle(title)
+    alertDialog.setMessage(message)
+    alertDialog.setCancelable(false)
+    alertDialog.setButton(
+        AlertDialog.BUTTON_POSITIVE, "YES"
+    ) { dialog, which ->
+
+        dialog.dismiss()
+    }
+    alertDialog.setButton(
+        AlertDialog.BUTTON_NEGATIVE, "NO"
+    ) { dialog, which ->
+        dialog.dismiss()
+    }
+    alertDialog.setCancelable(false)
+    alertDialog.show()
+    alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(this.getColor(R.color.colorPrimary));
+
 }
