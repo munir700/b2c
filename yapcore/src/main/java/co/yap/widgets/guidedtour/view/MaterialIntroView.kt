@@ -12,7 +12,6 @@ import android.view.*
 import android.widget.ImageView
 import android.widget.RelativeLayout
 import android.widget.TextView
-import co.yap.widgets.guidedtour.utils.Constants
 import co.yap.widgets.guidedtour.MaterialIntroConfiguration
 import co.yap.widgets.guidedtour.MaterialIntroListener
 import co.yap.widgets.guidedtour.animation.AnimationFactory
@@ -21,7 +20,10 @@ import co.yap.widgets.guidedtour.shape.*
 import co.yap.widgets.guidedtour.shape.Rect
 import co.yap.widgets.guidedtour.target.Target
 import co.yap.widgets.guidedtour.target.ViewTarget
+import co.yap.widgets.guidedtour.utils.Constants
 import co.yap.yapcore.R
+import io.github.douglasjunior.androidSimpleTooltip.SimpleTooltip
+
 
 class MaterialIntroView : RelativeLayout {
     /**
@@ -427,6 +429,16 @@ class MaterialIntroView : RelativeLayout {
             infoView!!.layoutParams = infoDialogParams
             infoView!!.postInvalidate()
             addView(infoView)
+//            val yourView: View = findViewById(android.R.id.your_view)
+
+            SimpleTooltip.Builder(context)
+                .anchorView(infoView)
+                .text("Texto do Tooltip")
+                .gravity(Gravity.END)
+                .animated(false)
+                .transparentOverlay(true)
+                .build()
+                .show()
             if (!isImageViewEnabled) {
                 imageViewIcon!!.visibility = View.GONE
             }

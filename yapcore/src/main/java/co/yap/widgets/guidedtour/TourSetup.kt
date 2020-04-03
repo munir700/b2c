@@ -13,9 +13,6 @@ import co.yap.widgets.guidedtour.shape.FocusGravity
 import co.yap.widgets.guidedtour.view.MaterialIntroView
 import co.yap.yapcore.R
 import com.leanplum.internal.FileManager.resources
-import it.sephiroth.android.library.xtooltip.ClosePolicy
-import it.sephiroth.android.library.xtooltip.Tooltip
-import it.sephiroth.android.library.xtooltip.Typefaces
 import timber.log.Timber
 
 class TourSetup() : MaterialIntroListener {
@@ -25,7 +22,7 @@ class TourSetup() : MaterialIntroListener {
     var activity: Activity? = null
     var isMultipleViewsTour: Boolean = false
     var guidedTourViewViewsList: ArrayList<GuidedTourViewDetail> = ArrayList()
-    var tooltip: Tooltip? = null
+//    var tooltip: Tooltip? = null
     lateinit var metrics : DisplayMetrics
     lateinit var context: Context
 
@@ -58,6 +55,7 @@ class TourSetup() : MaterialIntroListener {
         focusSingleView(guidedTourViewViewsList[currentViewId])
         currentViewId = currentViewId + 1
         println(currentViewId)
+
 
     }
 
@@ -136,13 +134,13 @@ class TourSetup() : MaterialIntroListener {
             .show()
     }
 
-    private fun getClosePolicy(): ClosePolicy {
-        val builder = ClosePolicy.Builder()
-        builder.inside(true)
-        builder.outside(true)
-        builder.consume(true)
-        return builder.build()
-    }
+//    private fun getClosePolicy(): ClosePolicy {
+//        val builder = ClosePolicy.Builder()
+//        builder.inside(true)
+//        builder.outside(true)
+//        builder.consume(true)
+//        return builder.build()
+//    }
 
     override fun onUserClicked(materialIntroViewId: String?) {
         // make a check to handle next or skip tour options here

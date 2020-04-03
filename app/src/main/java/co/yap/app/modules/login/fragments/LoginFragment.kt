@@ -1,5 +1,6 @@
 package co.yap.app.modules.login.fragments
 
+import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
@@ -10,12 +11,13 @@ import co.yap.app.BR
 import co.yap.app.R
 import co.yap.app.modules.login.interfaces.ILogin
 import co.yap.app.modules.login.viewmodels.LoginViewModel
-import co.yap.widgets.guidedtour.models.GuidedTourViewDetail
 import co.yap.widgets.guidedtour.TourSetup
+import co.yap.widgets.guidedtour.models.GuidedTourViewDetail
 import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.constants.Constants.KEY_IS_USER_LOGGED_IN
 import co.yap.yapcore.helpers.SharedPreferenceManager
-import kotlinx.android.synthetic.main.fragment_log_in.*
+  import kotlinx.android.synthetic.main.fragment_log_in.*
+
 
 class LoginFragment : BaseBindingFragment<ILogin.ViewModel>(), ILogin.View {
 
@@ -60,6 +62,24 @@ class LoginFragment : BaseBindingFragment<ILogin.ViewModel>(), ILogin.View {
                 etEmailField.settingErrorColor(R.color.error)
             }
         })
+//        val toolTip = ToolTip.Builder()
+//            .withText("Simple Tool Tip!")
+//            .build()
+//        val toolTipView = ToolTipView.Builder(activity)
+//            .withAnchor(etEmailField)
+//            .withToolTip(toolTip)
+//            .withGravity(Gravity.BOTTOM)
+//            .build()
+//        toolTipView.show()
+        ////
+//        var tooltips: ToolTipManager= ToolTipManager(activity)
+//
+//        val toolTip: ToolTip = ToolTip()
+//            .withText("A demo for tooltips on list view items")
+//            .withColor(Color.RED) //or whatever you want
+//            .withAnimationType(ToolTip.AnimationType.FROM_MASTER_VIEW)
+//            .withShadow()
+//        tooltips.showToolTip(toolTip, etEmailField)
 
         activity?.let {
             TourSetup(it,it, setViewsArray())

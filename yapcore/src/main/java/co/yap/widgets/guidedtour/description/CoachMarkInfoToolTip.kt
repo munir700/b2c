@@ -7,8 +7,9 @@ import android.graphics.Paint
 import android.util.AttributeSet
 import android.view.View
 import android.graphics.Path
-import co.yap.widgets.guidedtour.shape.Shape
+import co.yap.widgets.guidedtour.shape.ShapeType
 import co.yap.widgets.guidedtour.utils.Utils
+import kotlin.math.roundToInt
 
 
 class CoachMarkInfoToolTip  : View {
@@ -91,13 +92,13 @@ class CoachMarkInfoToolTip  : View {
     }
 
     class Builder(private val mContext: Context) {
-        private var mToolTipShape: Shape = Shape.TRIANGLE
+        private var mToolTipShape: ShapeType = ShapeType.TRIANGLE
         private var mToolTipColor: Int = Color.WHITE
         private var mToolTipWidth: Int = Utils.dpToPx(mContext, 6).roundToInt()
         private var mToolTipHeight: Int = Utils.dpToPx(mContext, 6).roundToInt()
         private var mToolTipOrientation: Orientation = Orientation.UP
 
-        fun getToolTipShape(): Shape = mToolTipShape
+        fun getToolTipShape(): ShapeType = mToolTipShape
         fun getToolTipColor(): Int = mToolTipColor
         fun getToolTipWidth(): Int = mToolTipWidth
         fun getToolTipHeight(): Int = mToolTipHeight
@@ -114,7 +115,7 @@ class CoachMarkInfoToolTip  : View {
             }
         }
 
-        fun setToolTipShape(shape: Shape): Builder {
+        fun setToolTipShape(shape: ShapeType): Builder {
             mToolTipShape = shape
             return this
         }
