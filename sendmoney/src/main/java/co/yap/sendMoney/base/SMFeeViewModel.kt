@@ -62,55 +62,69 @@ abstract class SMFeeViewModel<S : IBase.State>(application: Application) :
 
     fun getFeeFromTier(enterAmount: String, isTopUpFee: Boolean = false): String? {
         return if (!enterAmount.isBlank()) {
-            val fee = feeTiers.filter { item ->
+            val fee = feeTiers.firstOrNull { item ->
                 item.amountFrom ?: 0.0 <= enterAmount.parseToDouble() && item.amountTo ?: 0.0 >= enterAmount.parseToDouble()
-            }
-            if (feeTiers[0].feeInPercentage == false) {
-                fee[0].feeAmount?.plus(fee[0].vatAmount ?: 0.0).toString()
+            } ?: return "0.0"
+
+            if (fee.feeInPercentage == false) {
+                (fee.feeAmount ?: 0.0).plus(fee.vatAmount ?: 0.0).toString()
             } else {
-                if (isTopUpFee) getFeeInPercentageForTopup(enterAmount) else calFeeInPercentage(
-                    enterAmount
+                if (isTopUpFee) getFeeInPercentageForTopup(
+                    enterAmount,
+                    fee
+                ) else calFeeInPercentage(
+                    enterAmount,
+                    fee
                 )
             }
         } else {
-            null
+            "0.0"
         }
     }
 
     fun getFlatFee(enterAmount: String, isTopUpFee: Boolean = false): String? {
-        return if (feeTiers[0].feeInPercentage == false) {
-            feeAmount = feeTiers[0].feeAmount.toString()
-            vat = feeTiers[0].vatAmount.toString()
-            feeTiers[0].feeAmount?.plus(feeTiers[0].vatAmount ?: 0.0).toString()
+        val fee = feeTiers.firstOrNull() ?: return "0.0"
+        return if (fee.feeInPercentage == false) {
+            feeAmount = if (fee.feeAmount == null) "0.0" else fee.feeAmount.toString()
+            vat = if (fee.vatAmount == null) "0.0" else fee.feeAmount.toString()
+            (fee.feeAmount ?: 0.0).plus(fee.vatAmount ?: 0.0).toString()
         } else {
-            return if (isTopUpFee) getFeeInPercentageForTopup(enterAmount) else calFeeInPercentage(
-                enterAmount
+            return if (isTopUpFee) getFeeInPercentageForTopup(
+                enterAmount,
+                fee
+            ) else calFeeInPercentage(
+                enterAmount,
+                fee
             )
         }
     }
 
-    private fun calFeeInPercentage(enterAmount: String): String? {
+    private fun calFeeInPercentage(
+        enterAmount: String,
+        fee: RemittanceFeeResponse.RemittanceFee.TierRateDTO
+    ): String? {
         val feeAmount =
-            enterAmount.parseToDouble() * (feeTiers[0].feePercentage?.parseToDouble()?.div(100)
+            enterAmount.parseToDouble() * (fee.feePercentage?.parseToDouble()?.div(100)
                 ?: 0.0)
-        val vatAmount = feeAmount * (feeTiers[0].vatPercentage?.parseToDouble()?.div(100) ?: 0.0)
+        val vatAmount = feeAmount * (fee.vatPercentage?.parseToDouble()?.div(100) ?: 0.0)
         this.feeAmount = feeAmount.toString()
         this.vat = vatAmount.toString()
         return (feeAmount + vatAmount).toString()
     }
 
-    private fun getFeeInPercentageForTopup(enterAmount: String): String? {
+    private fun getFeeInPercentageForTopup(
+        enterAmount: String,
+        fee: RemittanceFeeResponse.RemittanceFee.TierRateDTO
+    ): String? {
         val feeAmount =
-            enterAmount.parseToDouble() * (feeTiers[0].feePercentage?.parseToDouble()?.div(100)
+            enterAmount.parseToDouble() * (fee.feePercentage?.parseToDouble()?.div(100)
                 ?: 0.0)
 
         val totalFeeAmount =
-            (feeAmount * (feeTiers[0].feePercentage?.parseToDouble()?.div(100) ?: 0.0)).plus(
-                feeAmount
-            )
+            (feeAmount * (fee.feePercentage?.parseToDouble()?.div(100) ?: 0.0)).plus(feeAmount)
 
         val vatAmount =
-            totalFeeAmount * (feeTiers[0].vatPercentage?.parseToDouble()?.div(100) ?: 0.0)
+            totalFeeAmount * (fee.vatPercentage?.parseToDouble()?.div(100) ?: 0.0)
 
         this.feeAmount = totalFeeAmount.toString()
         this.vat = vatAmount.toString()
