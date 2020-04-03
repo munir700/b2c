@@ -13,11 +13,11 @@ import javax.inject.Inject
 
 class RecurringPaymentVM @Inject constructor(
     override var state: IRecurringPayment.State
+
 ) :
     DaggerBaseViewModel<IRecurringPayment.State>(), IRecurringPayment.ViewModel {
-    override var calendar: Calendar = Calendar.getInstance()
+    private val calendar = Calendar.getInstance()
     override var fragmentManager: FragmentManager? = null
-
     override fun onFirsTimeUiCreate(bundle: Bundle?, navigation: NavController?) {
         state.date.set(dateToString(calendar.time, "MMM dd, yyyy"))
     }

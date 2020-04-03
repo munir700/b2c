@@ -8,13 +8,14 @@ import android.text.style.StrikethroughSpan
 import android.util.AttributeSet
 import androidx.appcompat.widget.AppCompatTextView
 import co.yap.yapcore.R
+import co.yap.yapcore.helpers.extentions.parseToInt
 import java.math.BigDecimal
 import java.text.DecimalFormat
 import java.util.*
 
 class CurrencyTextView : AppCompatTextView {
     private var currencySymbol: String? = null
-    private var formatter: String? = "#,###,###,###"
+    private var formatter: String? = "#,###,###,###,###,###,###"
     private var textContent: CharSequence? = null
     private var prefixText: CharSequence? = null
     private var suffixText: CharSequence? = null
@@ -126,7 +127,7 @@ class CurrencyTextView : AppCompatTextView {
             .append(prefixText, AbsoluteSizeSpan(prefixSuffixSize.toInt(), false))
         if ("" == oriPrice || null == oriPrice) {
             oriPrice = if (nullToZero) {
-                "0"
+                "00"
             } else {
                 spanny.append(
                     suffixText,
@@ -146,12 +147,25 @@ class CurrencyTextView : AppCompatTextView {
     }
 
     private fun setUpNumberStyle(oriPrice: CharSequence): Spanny {
-        val oriPriceChars: Spanny
-        oriPriceChars = if (decimalSize != textSize) setUpDifDecimal(oriPrice) else Spanny(
-            oriPrice,
-            AbsoluteSizeSpan(textSize.toInt(), false)
-        )
-        return oriPriceChars
+        return if (decimalSize != textSize) {
+            setUpDifDecimal(oriPrice)
+        } else {
+            decimalSize = textSize
+            setUpDifDecimal(oriPrice)
+//            Spanny(
+//                getDecimalFormatted(oriPrice),
+//                AbsoluteSizeSpan(textSize.toInt(), false)
+
+//            )
+        }
+    }
+
+    private fun getDecimalFormatted(oriPrice: CharSequence): CharSequence {
+        val numberPattern = formatter
+        val formatter =
+            DecimalFormat.getInstance(Locale.getDefault()) as DecimalFormat
+        formatter.applyPattern(numberPattern)
+        return formatter.format(oriPrice)
     }
 
     private fun setUpDifDecimal(amount: CharSequence): Spanny {
@@ -168,16 +182,33 @@ class CurrencyTextView : AppCompatTextView {
                 DecimalFormat.getInstance(Locale.getDefault()) as DecimalFormat
             formatter.applyPattern(numberPattern)
             //CharSequence aa =  formatter.format(integerD.intValueExact());
-            //result.append(String.valueOf(integerD.intValueExact()))
             result.append(formatter.format(integerD.intValueExact().toLong()))
+                // result.append(getDecimalFormatted(integerD.intValueExact().toLong()))
                 .append(".")
                 .setSpan(
                     AbsoluteSizeSpan(textSize.toInt(), false),
                     0,
                     result.length
                 )
-            result.append(
-                decimalD.intValueExact().toString(),
+
+            var str = decimalD.toString()
+
+            if (str.contains(".")) {
+                val nums = str.split(".")
+                str = nums[0]
+            }
+
+
+            if (str.length > 2) {
+                str = str.substring(0, 2)
+            }
+
+            //else str = String.format("%02d", decimalD.intValueExact())
+            // String.format("%2d", decimalD.intValueExact())
+            if (str.parseToInt() in 0..9)
+                str = "0$str"
+            result.append(str,
+               // BigDecimal(str).intValueExact().toString(),
                 AbsoluteSizeSpan(decimalSize.toInt(), false)
             )
         } catch (e: Exception) {

@@ -331,4 +331,22 @@ inline fun <reified T : BaseViewModel<*>> Fragment.viewModel(
 
 fun BaseBindingFragment<*>.close() = fragmentManager?.popBackStack()
 
+internal fun String.loadFragmentOrNull(): Fragment? =
+    try {
+        this.loadClassOrNull<Fragment>()?.newInstance()
+    } catch (e: ClassNotFoundException) {
+        null
+    }
+
+private inline fun <reified T : Any> Any.castOrNull() = this as? T
+private val classMap = mutableMapOf<String, Class<*>>()
+internal fun <T> String.loadClassOrNull(): Class<out T>? =
+    classMap.getOrPut(this) {
+        try {
+            Class.forName(this)
+        } catch (e: ClassNotFoundException) {
+            return null
+        }
+    }.castOrNull()
+
 

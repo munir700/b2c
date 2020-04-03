@@ -18,13 +18,12 @@ import dagger.android.support.DaggerApplication
         AndroidSupportInjectionModule::class,
         ActivityInjectorsModule::class,
         FragmentInjectorsModule::class, YapModule::class, NetworkModule::class],
-            dependencies = [ CoreComponent::class]
+    dependencies = [CoreComponent::class]
 )
-interface YapComponent: AndroidInjector<DaggerApplication>
-{
+interface YapComponent : AndroidInjector<DaggerApplication> {
     @Component.Builder
     interface Builder {
-       // @BindsInstance
+        // @BindsInstance
         fun coreComponent(coreComponent: CoreComponent): Builder
         fun build(): YapComponent
     }

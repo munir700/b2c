@@ -10,7 +10,6 @@ interface IRecurringPayment {
     interface View : IBase.View<ViewModel>
     interface ViewModel : IBase.ViewModel<State> {
         fun datePicker(context: Context)
-        var calendar: Calendar
         var fragmentManager: FragmentManager?
     }
 
