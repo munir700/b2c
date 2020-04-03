@@ -64,15 +64,17 @@ abstract class SMFeeViewModel<S : IBase.State>(application: Application) :
         return if (!enterAmount.isBlank()) {
             val fee = feeTiers.firstOrNull { item ->
                 item.amountFrom ?: 0.0 <= enterAmount.parseToDouble() && item.amountTo ?: 0.0 >= enterAmount.parseToDouble()
-            }
-            if (fee?.feeInPercentage == false) {
+            } ?: return "0.0"
+
+            if (fee.feeInPercentage == false) {
                 (fee.feeAmount ?: 0.0).plus(fee.vatAmount ?: 0.0).toString()
             } else {
                 if (isTopUpFee) getFeeInPercentageForTopup(
                     enterAmount,
                     fee
                 ) else calFeeInPercentage(
-                    enterAmount, fee
+                    enterAmount,
+                    fee
                 )
             }
         } else {
@@ -81,29 +83,30 @@ abstract class SMFeeViewModel<S : IBase.State>(application: Application) :
     }
 
     fun getFlatFee(enterAmount: String, isTopUpFee: Boolean = false): String? {
-        val feeTiers = feeTiers.firstOrNull()
-        return if (feeTiers?.feeInPercentage == false) {
-            feeAmount = feeTiers.feeAmount.toString()
-            vat = feeTiers.vatAmount.toString()
-            feeTiers.feeAmount?.plus(feeTiers.vatAmount ?: 0.0).toString()
+        val fee = feeTiers.firstOrNull() ?: return "0.0"
+        return if (fee.feeInPercentage == false) {
+            feeAmount = if (fee.feeAmount == null) "0.0" else fee.feeAmount.toString()
+            vat = if (fee.vatAmount == null) "0.0" else fee.feeAmount.toString()
+            (fee.feeAmount ?: 0.0).plus(fee.vatAmount ?: 0.0).toString()
         } else {
             return if (isTopUpFee) getFeeInPercentageForTopup(
                 enterAmount,
-                feeTiers
+                fee
             ) else calFeeInPercentage(
-                enterAmount, feeTiers
+                enterAmount,
+                fee
             )
         }
     }
 
     private fun calFeeInPercentage(
         enterAmount: String,
-        feeTiers: RemittanceFeeResponse.RemittanceFee.TierRateDTO?
+        fee: RemittanceFeeResponse.RemittanceFee.TierRateDTO
     ): String? {
         val feeAmount =
-            enterAmount.parseToDouble() * (feeTiers?.feePercentage?.parseToDouble()?.div(100)
+            enterAmount.parseToDouble() * (fee.feePercentage?.parseToDouble()?.div(100)
                 ?: 0.0)
-        val vatAmount = feeAmount * (feeTiers?.vatPercentage?.parseToDouble()?.div(100) ?: 0.0)
+        val vatAmount = feeAmount * (fee.vatPercentage?.parseToDouble()?.div(100) ?: 0.0)
         this.feeAmount = feeAmount.toString()
         this.vat = vatAmount.toString()
         return (feeAmount + vatAmount).toString()
@@ -111,19 +114,17 @@ abstract class SMFeeViewModel<S : IBase.State>(application: Application) :
 
     private fun getFeeInPercentageForTopup(
         enterAmount: String,
-        feeTiers: RemittanceFeeResponse.RemittanceFee.TierRateDTO?
+        fee: RemittanceFeeResponse.RemittanceFee.TierRateDTO
     ): String? {
         val feeAmount =
-            enterAmount.parseToDouble() * (feeTiers?.feePercentage?.parseToDouble()?.div(100)
+            enterAmount.parseToDouble() * (fee.feePercentage?.parseToDouble()?.div(100)
                 ?: 0.0)
 
         val totalFeeAmount =
-            (feeAmount * (feeTiers?.feePercentage?.parseToDouble()?.div(100) ?: 0.0)).plus(
-                feeAmount
-            )
+            (feeAmount * (fee.feePercentage?.parseToDouble()?.div(100) ?: 0.0)).plus(feeAmount)
 
         val vatAmount =
-            totalFeeAmount * (feeTiers?.vatPercentage?.parseToDouble()?.div(100) ?: 0.0)
+            totalFeeAmount * (fee.vatPercentage?.parseToDouble()?.div(100) ?: 0.0)
 
         this.feeAmount = totalFeeAmount.toString()
         this.vat = vatAmount.toString()
