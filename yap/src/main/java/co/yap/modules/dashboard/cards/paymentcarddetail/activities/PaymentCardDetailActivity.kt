@@ -13,7 +13,6 @@ import android.view.Gravity
 import android.view.View
 import android.view.Window
 import android.widget.ImageView
-import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
@@ -50,7 +49,6 @@ import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionLi
 import co.yap.translation.Strings
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.adjust.AdjustEvents
-import co.yap.yapcore.constants.Constants.VERIFY_PASS_CODE_BTN_TEXT
 import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.enums.CardStatus
 import co.yap.yapcore.helpers.cancelAllSnackBar
@@ -325,15 +323,7 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
         checkFreezeUnfreezStatus()
 
         btnCardDetails.setOnClickListener {
-            mNavigator.startVerifyPassCodePresenterActivity(
-                this,
-                bundleOf(VERIFY_PASS_CODE_BTN_TEXT to getString(Strings.screen_verify_passcode_button_verify))
-            ) { resultCode, data ->
-                if (resultCode == Activity.RESULT_OK) {
-                    preventTakeScreenShot(false)
-                    viewModel.getCardDetails()
-                }
-            }
+            viewModel.getCardDetails()
         }
     }
 

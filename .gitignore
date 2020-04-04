@@ -11,8 +11,10 @@
 /.idea/assetWizardSettings.xml
 /authentication/build/*
 /authentication/build
+/coachmark/build
 /household/build
 /send_money/*
+/profile/*
 /identityscanner_v2/build
 /identityscanner/build
 .DS_Store

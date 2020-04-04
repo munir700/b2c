@@ -18,5 +18,7 @@ data class UserAttributes(
     val signup_timestamp: String = "signup_timestamp",
     val signup_length: String = "signup_length",
     val biometric_login_enabled: String = "biometric_login_enabled",
-    val account_active: String = "account_active"
+    val eid_expired: String = "eid_expired",
+    val account_active: String = "account_active",
+    val eid_expiry_date: String = "eid_expiry_date"
 )

@@ -111,9 +111,16 @@ class CongratulationsFragment : OnboardingChildFragment<ICongratulations.ViewMod
                     SignupEvents.SIGN_UP_LENGTH.type,
                     viewModel.elapsedOnboardingTime.toString()
                 )
+
+                val totalSecs = viewModel.elapsedOnboardingTime
+                val minutes = (totalSecs % 3600) / 60;
+                val seconds = totalSecs % 60;
+
+                val timeString = String.format("%02d:%02d", minutes, seconds);
+
                 trackEventInFragments(
                     MyUserManager.user,
-                    signup_length = viewModel.elapsedOnboardingTime.toString()
+                    signup_length = timeString
                 )
             }
         }
