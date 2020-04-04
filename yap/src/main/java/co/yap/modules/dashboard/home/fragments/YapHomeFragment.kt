@@ -85,7 +85,6 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
 
     override fun getLayoutId(): Int = R.layout.fragment_yap_home
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         parentViewModel =
@@ -95,7 +94,6 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
     private fun startFlowForSetPin() {
         if (MyUserManager.getPrimaryCard() != null) {
             if (isShowSetPin(MyUserManager.getPrimaryCard())) {
-                MyUserManager.user?.partnerBankStatus = PartnerBankStatus.ACTIVATED.status
                 if (PartnerBankStatus.ACTIVATED.status == MyUserManager.user?.partnerBankStatus) {
                     viewModel.clickEvent.setValue(viewModel.EVENT_SET_CARD_PIN)
                 }
@@ -181,12 +179,8 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                 RequestCodes.REQUEST_TXN_FILTER
             )
     }
-    private fun showUnverifiedScreen() {
-        parentViewModel?.showUnverifedscreen?.value =
-            MyUserManager.user?.currentCustomer?.isEmailVerified.equals("N", true)
-    }
+
     override fun setObservers() {
-//        showUnverifiedScreen()
         listenForToolbarExpansion()
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
@@ -318,8 +312,8 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
         viewModel.isLoadMore.observe(this, Observer
         {
             if (it) {
-                YAPApplication.homeTransactionsRequest.number =
-                    YAPApplication.homeTransactionsRequest.number + 1
+                homeTransactionsRequest.number =
+                    homeTransactionsRequest.number + 1
                 val item =
                     getRecycleViewAdaptor()?.getDataForPosition(getRecycleViewAdaptor()?.itemCount!! - 1)
                         ?.copy()

@@ -61,7 +61,7 @@ class SetCardPinSuccessFragment : BaseBindingFragment<ISetCardPinSuccess.ViewMod
 
     private fun setupActionsIntentForTopUp() {
         if (activity is SetCardPinWelcomeActivity) {
-            (activity as SetCardPinWelcomeActivity).cardSerialNumber?.let { serialNumber ->
+            (activity as SetCardPinWelcomeActivity).card?.cardSerialNumber?.let { serialNumber ->
                 val returnIntent = Intent()
                 returnIntent.putExtra(Constants.CARD_SERIAL_NUMBER, serialNumber)
                 returnIntent.putExtra(Constants.isPinCreated, true)

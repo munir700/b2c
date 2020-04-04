@@ -10,6 +10,7 @@ import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.Utils.formateIbanString
 import co.yap.yapcore.managers.MyUserManager
+import kotlinx.coroutines.delay
 
 class YapDashBoardViewModel(application: Application) :
     BaseViewModel<IYapDashboard.State>(application), IYapDashboard.ViewModel {
@@ -31,6 +32,11 @@ class YapDashBoardViewModel(application: Application) :
     override fun onCreate() {
         super.onCreate()
         updateVersion()
+        launch {
+            delay(1500)
+            showUnverifedscreen.value =
+                MyUserManager.user?.currentCustomer?.isEmailVerified.equals("N", true)
+        }
     }
 
     private fun updateVersion() {

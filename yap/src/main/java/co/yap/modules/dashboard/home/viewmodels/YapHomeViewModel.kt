@@ -53,7 +53,6 @@ class YapHomeViewModel(application: Application) :
         getDebitCards()
     }
 
-
     override fun filterTransactions() {
         MAX_CLOSING_BALANCE = 0.0
         closingBalanceArray.clear()
