@@ -433,8 +433,8 @@ class MaterialIntroView : RelativeLayout {
             infoView!!.postInvalidate()
             addView(infoView)
 
-//            (infoView as RelativeLayout)?.addView(TriangleShapeView(context))
-            card_view?.addView(TriangleShapeView(context))
+            (infoView as RelativeLayout)?.addView(TriangleShapeView(context))
+//            card_view?.addView(TriangleShapeView(context))
 //            addView(TriangleShapeView(context))
 //            val yourView: View = findViewById(android.R.id.your_view)
 
