@@ -224,35 +224,6 @@ class CoachMarkOverlay : FrameLayout {
                 else {
                     //TODO - add the logic to position the text view
                 }
-            } else {
-                when (getInfoViewGravity()) {
-                    Gravity.BOTTOM -> {
-                        infoTextLayoutParams.topMargin =
-                            targetSize.bottom + Utils.dpToPx(context, 8).roundToInt() +
-                                    mBuilder.getOverlayTransparentPadding().bottom
-                    }
-                    Gravity.TOP -> {
-                        infoTextLayoutParams.bottomMargin = targetSize.top - Utils.dpToPx(
-                            context,
-                            8
-                        ).roundToInt() - mBuilder.getOverlayTransparentPadding().top
-                    }
-                }
-                /**
-                 * if toolTip is null then add only the info text view at the specified position.
-                 * */
-                if (isNotAttachedToTarget()) {
-                    infoTextLayoutParams.leftMargin = getMargin().left
-                    infoTextLayoutParams.marginStart = getMargin().left
-                    infoTextLayoutParams.rightMargin = getMargin().right
-                    infoTextLayoutParams.marginEnd = getMargin().right
-                }
-                /*
-                 * If text view is attached to the target view
-                 */
-                else {
-
-                }
             }
             mInfoView?.let {
                 it.layoutParams = infoTextLayoutParams
@@ -290,7 +261,6 @@ class CoachMarkOverlay : FrameLayout {
 
         private var mSkipButtonBuilder: CoachMarkSkipButton.Builder? = null
         private var mInfoViewBuilder: CoachMarkInfo.Builder? = null
-        private var mToolTipBuilder: CoachMarkInfoToolTip.Builder? = null
 
         fun getOverlayTargetView(): View? = mOverlayTargetView
         fun getOverlayColor(): Int = mOverlayColor
@@ -310,6 +280,7 @@ class CoachMarkOverlay : FrameLayout {
         fun getSkipButtonBuilder(): CoachMarkSkipButton.Builder? = mSkipButtonBuilder
         fun getInfoView(): CoachMarkInfo? = if (mInfoViewBuilder == null) null else mInfoViewBuilder?.build()
         fun getInfoViewBuilder(): CoachMarkInfo.Builder? = mInfoViewBuilder
+        private var mToolTipBuilder: CoachMarkInfoToolTip.Builder? = null
         fun getToolTip(): CoachMarkInfoToolTip? = if (mToolTipBuilder == null) null else mToolTipBuilder?.build()
         fun getToolTipBuilder(): CoachMarkInfoToolTip.Builder? = mToolTipBuilder
 

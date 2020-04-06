@@ -62,29 +62,10 @@ class LoginFragment : BaseBindingFragment<ILogin.ViewModel>(), ILogin.View {
                 etEmailField.settingErrorColor(R.color.error)
             }
         })
-//        val toolTip = ToolTip.Builder()
-//            .withText("Simple Tool Tip!")
-//            .build()
-//        val toolTipView = ToolTipView.Builder(activity)
-//            .withAnchor(etEmailField)
-//            .withToolTip(toolTip)
-//            .withGravity(Gravity.BOTTOM)
-//            .build()
-//        toolTipView.show()
-        ////
-//        var tooltips: ToolTipManager= ToolTipManager(activity)
-//
-//        val toolTip: ToolTip = ToolTip()
-//            .withText("A demo for tooltips on list view items")
-//            .withColor(Color.RED) //or whatever you want
-//            .withAnimationType(ToolTip.AnimationType.FROM_MASTER_VIEW)
-//            .withShadow()
-//        tooltips.showToolTip(toolTip, etEmailField)
 
         activity?.let {
             TourSetup(it,it, setViewsArray())
-//            TourSetup(it, GuidedTourViewDetail(ivYap,"decripion"))
-         }
+          }
 
     }
 

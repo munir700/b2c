@@ -2,19 +2,12 @@ package co.yap.widgets.guidedtour
 
 import android.app.Activity
 import android.content.Context
-import android.graphics.Color
 import android.util.DisplayMetrics
 import android.view.View
-import android.view.ViewGroup
-import co.yap.widgets.guidedtour.description.CoachMarkConfig
-import co.yap.widgets.guidedtour.description.CoachMarkOverlay
 import co.yap.widgets.guidedtour.models.GuidedTourViewDetail
 import co.yap.widgets.guidedtour.shape.Focus
 import co.yap.widgets.guidedtour.shape.FocusGravity
 import co.yap.widgets.guidedtour.view.MaterialIntroView
-import co.yap.yapcore.R
-import com.leanplum.internal.FileManager.resources
-import timber.log.Timber
 
 class TourSetup() : MaterialIntroListener {
 
@@ -23,21 +16,26 @@ class TourSetup() : MaterialIntroListener {
     var activity: Activity? = null
     var isMultipleViewsTour: Boolean = false
     var guidedTourViewViewsList: ArrayList<GuidedTourViewDetail> = ArrayList()
-//    var tooltip: Tooltip? = null
-    lateinit var metrics : DisplayMetrics
+
+    //    var tooltip: Tooltip? = null
+    lateinit var metrics: DisplayMetrics
     lateinit var context: Context
 
-    constructor (  context: Context,activity: Activity, guidedTourViewDetail: GuidedTourViewDetail) : this() {
+    constructor (
+        context: Context,
+        activity: Activity,
+        guidedTourViewDetail: GuidedTourViewDetail
+    ) : this() {
         this.activity = activity
         this.context = context
-          metrics = activity.resources.displayMetrics
+        metrics = activity.resources.displayMetrics
 
         focusSingleView(guidedTourViewDetail)
 
     }
 
     constructor(
-         context: Context, activity: Activity,
+        context: Context, activity: Activity,
         guidedTourViewViewsList: ArrayList<GuidedTourViewDetail>
     ) : this() {
         this.activity = activity
@@ -78,50 +76,6 @@ class TourSetup() : MaterialIntroListener {
         text: String,
         focusType: Focus?, activity: Activity
     ) {
-//        val gravity = Tooltip.Gravity.valueOf(Tooltip.Gravity.TOP.toString())
-//         val closePolicy = getClosePolicy()
-////        val typeface = if (checkbox_font.isChecked) Typefaces[this, "fonts/GillSans.ttc"] else null
-////        val animation = if (checkbox_animation.isChecked) Tooltip.Animation.DEFAULT else null
-//        val showDuration = 5000L
-//        val arrow = true
-//        val overlay = true
-//        val style =    R.style.ToolTipAltStyle
-//        val text = text
-
-//        Timber.v("gravity: $gravity")
-//        Timber.v("closePolicy: $closePolicy")
-
-//        tooltip?.dismiss()
-//        view?.let {
-//        tooltip =
-//            Tooltip.Builder(activity)
-//                .anchor(it, 0, 0, false)
-//                .text(text)
-//                .styleId(style)
-//                 .maxWidth(metrics.widthPixels / 2)
-//                .arrow(arrow)
-//                 .closePolicy(closePolicy)
-//                .showDuration(showDuration)
-//                .overlay(overlay)
-//                .create()
-//
-//            tooltip
-//                ?.doOnHidden {
-//                    tooltip = null
-//                }
-//                ?.doOnFailure { }
-//                ?.doOnShown {}
-//                ?.show(it, gravity, true)
-//        }
-//        Tooltip.Builder(context!!)
-//            .anchor(view!!, 0, 0, false)
-//            .closePolicy(ClosePolicy.TOUCH_NONE)
-//            .showDuration(0)
-//            .text("This is a dialogdialogdialogdialogdialogdialogdialogdialogdialogdialogdialogdialogdialog")
-//            .create()
-//        .show(view!!, Tooltip.Gravity.TOP, false)
-
-//        val coachMarkBuilder = MaterialIntroView.Builder(activity,)
 
         MaterialIntroView.Builder(activity)
             .setFocusGravity(FocusGravity.CENTER)
@@ -135,14 +89,6 @@ class TourSetup() : MaterialIntroListener {
             .setUsageId(id)
             .show()
     }
-
-//    private fun getClosePolicy(): ClosePolicy {
-//        val builder = ClosePolicy.Builder()
-//        builder.inside(true)
-//        builder.outside(true)
-//        builder.consume(true)
-//        return builder.build()
-//    }
 
     override fun onUserClicked(materialIntroViewId: String?) {
         // make a check to handle next or skip tour options here

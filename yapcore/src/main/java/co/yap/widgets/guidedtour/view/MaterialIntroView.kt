@@ -12,17 +12,18 @@ import android.view.*
 import android.widget.ImageView
 import android.widget.RelativeLayout
 import android.widget.TextView
+import androidx.cardview.widget.CardView
 import co.yap.widgets.guidedtour.MaterialIntroConfiguration
 import co.yap.widgets.guidedtour.MaterialIntroListener
 import co.yap.widgets.guidedtour.animation.AnimationFactory
 import co.yap.widgets.guidedtour.animation.AnimationListener
+import co.yap.widgets.guidedtour.description.TriangleShapeView
 import co.yap.widgets.guidedtour.shape.*
 import co.yap.widgets.guidedtour.shape.Rect
 import co.yap.widgets.guidedtour.target.Target
 import co.yap.widgets.guidedtour.target.ViewTarget
 import co.yap.widgets.guidedtour.utils.Constants
 import co.yap.yapcore.R
-import io.github.douglasjunior.androidSimpleTooltip.SimpleTooltip
 
 
 class MaterialIntroView : RelativeLayout {
@@ -116,6 +117,7 @@ class MaterialIntroView : RelativeLayout {
      * Info dialog view
      */
     private var infoView: View? = null
+    private var card_view: CardView? = null
 
     /**
      * Info Dialog Text
@@ -252,6 +254,7 @@ class MaterialIntroView : RelativeLayout {
         val layoutInfo: View = LayoutInflater.from(getContext())
             .inflate(R.layout.material_intro_card, null)
         infoView = layoutInfo.findViewById(R.id.info_layout)
+        card_view = layoutInfo.findViewById(R.id.card_view)
         textViewInfo =
             layoutInfo.findViewById<View>(R.id.textview_info) as TextView
         textViewInfo!!.setTextColor(colorTextViewInfo)
@@ -429,16 +432,12 @@ class MaterialIntroView : RelativeLayout {
             infoView!!.layoutParams = infoDialogParams
             infoView!!.postInvalidate()
             addView(infoView)
+
+//            (infoView as RelativeLayout)?.addView(TriangleShapeView(context))
+            card_view?.addView(TriangleShapeView(context))
+//            addView(TriangleShapeView(context))
 //            val yourView: View = findViewById(android.R.id.your_view)
 
-            SimpleTooltip.Builder(context)
-                .anchorView(infoView)
-                .text("Texto do Tooltip")
-                .gravity(Gravity.END)
-                .animated(false)
-                .transparentOverlay(false)
-                .build()
-                .show()
             if (!isImageViewEnabled) {
                 imageViewIcon!!.visibility = View.GONE
             }
