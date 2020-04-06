@@ -2,8 +2,8 @@
 <resources>
 
     <style name="Yap.App.Widget.RoundedTabLayout" parent="Widget.Design.TabLayout">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">@dimen/_20sdp</item>
         <item name="tabIndicatorColor">@color/transparent</item>
         <item name="tabTextAppearance">@style/Yap.App.Widget.TabTextAppearance</item>
         <item name="tabTextColor">@color/colorPrimary</item>
@@ -11,19 +11,19 @@
         <item name="tabSelectedTextColor">@color/colorPrimary</item>
         <item name="tabIndicatorHeight">0dp</item>
         <item name="tabMode">fixed</item>
+        <item name="tabGravity">center</item>
         <item name="tabRippleColor">@color/transparent</item>
         <item name="tabBackground">@drawable/contacts_tab_layout_selector</item>
         <item name="android:minHeight">?attr/actionBarSize</item>
 
     </style>
 
-    <style name="Yap.App.Widget.TabTextAppearance" parent="@style/TextAppearance.Design.Tab">
-        <item name="android:textSize">15sp</item>
+
+    <style name="Yap.App.Widget.TabTextAppearance" parent="@style/TabTextAppearance">
         <item name="android:textColor">@color/colorPrimary</item>
         <item name="android:fontFamily">@font/roboto_regular</item>
         <item name="fontFamily">@font/roboto_regular</item>
         <item name="font">@font/roboto_regular</item>
-        <item name="textAllCaps">false</item>
 
     </style>
 
@@ -74,6 +74,7 @@
         <item name="android:contentDescription">@string/empty_string</item>
 
     </style>
+
     <style name="Yap.App.Widget.ImageView" parent="AppTheme">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
@@ -120,5 +121,32 @@
         <item name="fabSize">mini</item>
         <item name="maxImageSize">@dimen/_10sdp</item>
     </style>
+
+    <style name="Yap.App.Widget.TextInputEditText.EasyMoney" parent="Yap.App.Widget.TextInputEditText">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_gravity">center_horizontal</item>
+        <item name="android:background">@drawable/bg_funds</item>
+        <item name="android:inputType">numberDecimal</item>
+        <item name="android:paddingTop">@dimen/margin_normal_large</item>
+        <item name="android:paddingBottom">@dimen/margin_normal_large</item>
+        <item name="currency_symbol">$</item>
+        <item name="show_commas">true</item>
+        <item name="show_currency">false</item>
+
+    </style>
+
+    <style name="Yap.App.Layout.CardView" parent="CardView">
+        <item name="cardElevation">@dimen/_4sdp</item>
+        <item name="cardCornerRadius">@dimen/_10sdp</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="cardBackgroundColor">@color/white</item>
+        <item name="android:stateListAnimator">@animator/lift_on_touch</item>
+        <item name="android:clickable">true</item>
+        <item name="android:foreground">?android:attr/selectableItemBackground</item>
+
+    </style>
+
+
 
 </resources>

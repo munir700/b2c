@@ -8,14 +8,16 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.dagger.base.viewmodel.DaggerBaseViewModel
+import co.yap.yapcore.dagger.base.viewmodel.DaggerCoroutineViewModel
+import co.yap.yapcore.dagger.base.viewmodel.DaggerViewModelFactory
 import javax.inject.Inject
 import kotlin.reflect.KClass
 
 typealias ViewModelInjectionField<T> = dagger.Lazy<T>
+
 @Keep
 class InjectionViewModelProvider<VM : DaggerBaseViewModel<*>> @Inject constructor(
-    private val lazyViewModel: dagger.Lazy<VM>
-) {
+    private val lazyViewModel: dagger.Lazy<VM> ) {
 
     @Suppress("UNCHECKED_CAST")
     private val viewModelFactory = object : ViewModelProvider.Factory {

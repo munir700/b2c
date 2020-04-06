@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import co.yap.yapcore.BaseActivity
 import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.IBase
+import co.yap.yapcore.dagger.base.interfaces.ManageToolBarListener
 import co.yap.yapcore.dagger.base.viewmodel.DaggerBaseViewModel
 import co.yap.yapcore.dagger.di.ViewModelInjectionField
 import co.yap.yapcore.dagger.di.components.Injectable
@@ -26,7 +27,7 @@ import kotlin.properties.Delegates
  */
 abstract class BaseViewModelFragment<VB : ViewDataBinding, S : IBase.State, VM : DaggerBaseViewModel<S>> :
     BaseBindingFragment<VM>(),
-    HasSupportFragmentInjector,
+    HasSupportFragmentInjector, ManageToolBarListener,
     Injectable {
     @Inject
     lateinit var fragmentInjector: DispatchingAndroidInjector<Fragment>
@@ -174,6 +175,7 @@ abstract class BaseViewModelFragment<VB : ViewDataBinding, S : IBase.State, VM :
      */
     protected fun finishActivity() {
         activity?.finish()
+
     }
 
 
@@ -184,4 +186,6 @@ abstract class BaseViewModelFragment<VB : ViewDataBinding, S : IBase.State, VM :
         activity?.finishAffinity()
     }
 
+    override var toolBarTitle: String? = null
+    override var toolBarVisibility: Boolean? = true
 }

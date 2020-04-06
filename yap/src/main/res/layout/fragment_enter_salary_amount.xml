@@ -67,18 +67,19 @@
                 app:layout_constraintTop_toBottomOf="@+id/tvFullName"
                 tools:text="AED" />
 
-            <co.yap.widgets.CoreAmountWidget
+
+            <co.yap.widgets.EasyMoneyEditText
                 android:id="@+id/etLastUsedAmount"
-                style="@style/ATitle2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                style="@style/Yap.App.Widget.TextInputEditText.EasyMoney"
                 android:layout_marginTop="@dimen/margin_small"
+                android:gravity="center"
+                android:minWidth="@dimen/_140sdp"
+                android:text="3321.213"
+                app:amount_drawable="@drawable/bg_funds"
+                app:editable="@{false}"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:amount_drawable="@drawable/bg_funds"
-                app:layout_constraintTop_toBottomOf="@+id/tvCurrency"
-                app:show_currency="false"
-                app:show_decimal="true"/>
+                app:layout_constraintTop_toBottomOf="@+id/tvCurrency" />
 
             <TextView
                 android:id="@+id/tvAvailableBalance"
@@ -149,16 +150,17 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvLastUsedAmountGuide"
                 tools:text="Use last transfer payment amount" />
+
             <androidx.appcompat.widget.AppCompatCheckBox
                 android:id="@+id/cbOutTransFilter"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintStart_toEndOf="@+id/tvSalaryRecurring"
-                app:layout_constraintBottom_toBottomOf="@+id/tvSalaryRecurring"
-                app:layout_constraintTop_toTopOf="@+id/tvSalaryRecurring"
                 android:backgroundTint="?attr/colorPrimaryDark"
+                app:layout_constraintBottom_toBottomOf="@+id/tvSalaryRecurring"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.4"
-                app:layout_constraintEnd_toEndOf="parent" />
+                app:layout_constraintStart_toEndOf="@+id/tvSalaryRecurring"
+                app:layout_constraintTop_toTopOf="@+id/tvSalaryRecurring" />
 
             <co.yap.widgets.CoreButton
                 android:id="@+id/btnConfirm"

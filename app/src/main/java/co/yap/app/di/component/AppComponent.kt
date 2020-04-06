@@ -35,7 +35,6 @@ interface AppComponent : AndroidInjector<AAPApplication> {
         fun coreComponent(coreComponent: CoreComponent): Builder
         fun houseHoldComponent(houseHoldComponent: HouseHoldComponent): Builder
         fun yapComponent(yapComponent: YapComponent): Builder
-
         fun build(): AppComponent
     }
 }

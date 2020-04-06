@@ -12,15 +12,14 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:padding="@dimen/margin_medium">
 
         <TextView
             android:id="@+id/tvAmountHeading"
             style="@style/Small"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_medium"
-            android:layout_marginTop="@dimen/margin_medium_large"
             android:text="Amount to transfer"
             app:layout_constraintEnd_toStartOf="@+id/guideLine"
             app:layout_constraintStart_toStartOf="parent"
@@ -31,7 +30,6 @@
             style="@style/SmallGrey"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_medium"
             android:layout_marginTop="@dimen/margin_extra_small"
             android:text="AED"
             app:layout_constraintEnd_toStartOf="@+id/guideLine"
@@ -45,27 +43,24 @@
             android:orientation="vertical"
             app:layout_constraintGuide_percent="0.5" />
 
-        <co.yap.widgets.CoreAmountWidget
+        <co.yap.widgets.EasyMoneyEditText
             android:id="@+id/transferAmount"
+            style="@style/Yap.App.Widget.TextInputEditText.EasyMoney"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/margin_medium"
-            app:amount_drawable="@drawable/bg_funds"
-            app:enable="false"
+            app:editable="@{false}"
+            android:gravity="center"
+            android:text="3213321.213"
             app:layout_constraintBottom_toBottomOf="@+id/tvCurrencyType"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintStart_toEndOf="@+id/guideLine"
-            app:layout_constraintTop_toTopOf="@+id/tvAmountHeading"
-            app:show_currency="false"
-            app:show_decimal="true"
-            app:text="123445" />
+            app:layout_constraintTop_toTopOf="@+id/tvAmountHeading" />
 
         <TextView
             android:id="@+id/tvStartDateHeading"
             style="@style/Small"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_medium"
             android:text="Starting date"
             app:layout_constraintBottom_toBottomOf="@+id/tvDate"
             app:layout_constraintEnd_toStartOf="@+id/guideLine"
@@ -75,18 +70,17 @@
         <TextView
             android:id="@+id/tvDate"
             style="@style/Large"
-            android:layout_width="@dimen/_140sdp"
+            android:layout_width="0dp"
             android:layout_height="@dimen/_50sdp"
             android:layout_marginTop="@dimen/margin_medium_large"
-            android:layout_marginEnd="@dimen/margin_medium"
             android:background="@drawable/bg_funds"
             android:gravity="center"
             android:onClick="@{(v)->viewModel.datePicker(context)}"
             android:text="@{viewModel.state.date}"
             app:layout_constraintEnd_toEndOf="parent"
-            tools:text="Sep 17, 2019"
             app:layout_constraintStart_toEndOf="@+id/guideLine"
-            app:layout_constraintTop_toBottomOf="@+id/transferAmount" />
+            app:layout_constraintTop_toBottomOf="@+id/transferAmount"
+            tools:text="Sep 17, 2019" />
 
         <RadioGroup
             android:id="@+id/radioGroup"
@@ -99,8 +93,6 @@
                 android:id="@+id/rbDaily"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_medium"
-                android:layout_marginEnd="@dimen/margin_medium_large"
                 android:background="@null"
                 android:button="@null"
                 android:drawableEnd="?android:attr/listChoiceIndicatorSingle"
@@ -112,9 +104,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="start"
-                android:layout_marginStart="@dimen/margin_medium"
                 android:layout_marginTop="@dimen/margin_large"
-                android:layout_marginEnd="@dimen/margin_medium_large"
                 android:background="@null"
                 android:button="@null"
                 android:drawableEnd="?android:attr/listChoiceIndicatorSingle"
@@ -125,9 +115,7 @@
                 android:id="@+id/rbMonthly"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_medium"
                 android:layout_marginTop="@dimen/margin_large"
-                android:layout_marginEnd="@dimen/margin_medium_large"
                 android:background="@null"
                 android:button="@null"
                 android:drawableEnd="?android:attr/listChoiceIndicatorSingle"

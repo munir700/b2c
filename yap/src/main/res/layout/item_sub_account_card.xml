@@ -10,49 +10,43 @@
 
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/llBankTransferType"
-        android:layout_width="@dimen/_120sdp"
-        android:layout_height="@dimen/_130sdp"
-        android:layout_marginEnd="@dimen/margin_medium"
-        android:background="@drawable/card_border_selector"
-        android:orientation="vertical"
-        android:paddingTop="@dimen/margin_medium"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+    <androidx.cardview.widget.CardView
+        style="@style/Yap.App.Layout.CardView"
+        app:cardElevation="@dimen/margin_zero_dp"
+        app:contentPadding="@dimen/margin_zero_dp">
 
-        <co.yap.widgets.CoreCircularImageView
-            android:id="@+id/ivUserImage"
-            android:layout_width="@dimen/_42sdp"
-            android:layout_height="@dimen/_42sdp"
-            android:layout_gravity="center"
-            android:src="@drawable/ic_bank"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/tvTitle"
-            style="@style/MicroGrey"
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/llBankTransferType"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_small"
-            android:gravity="center"
-            android:text="@string/screen_add_beneficiary_display_text_transfer_type_bank"
-            android:textSize="@dimen/text_size_c3"
-            app:layout_constraintTop_toBottomOf="@+id/ivUserImage" />
+            android:background="@drawable/card_border_container"
+            android:orientation="vertical"
 
-        <TextView
-            style="@style/MicroGrey"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_extra_small"
-            android:gravity="center"
-            android:lineSpacingExtra="@dimen/_1sdp"
-            android:paddingLeft="@dimen/margin_extra_small"
-            android:paddingRight="@dimen/margin_extra_small"
-            android:text="@string/screen_add_beneficiary_display_text_transfer_type_bank_description"
-            android:textSize="@dimen/text_size_c3"
-            app:layout_constraintTop_toBottomOf="@+id/tvTitle" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            android:paddingStart="@dimen/margin_normal"
+            android:paddingTop="@dimen/margin_medium_large"
+            android:paddingEnd="@dimen/margin_normal"
+            android:paddingBottom="@dimen/margin_medium">
+
+            <co.yap.widgets.CoreCircularImageView
+                android:id="@+id/imgProfile"
+                style="@style/Yap.App.Widget.ImageView.Circle"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_store_b2c"
+                app:srcCompat="@drawable/ic_store_b2c" />
+
+            <TextView
+                android:id="@+id/tvTitle"
+                style="@style/Yap.App.Widget.TextView.Label"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/margin_small"
+                android:text="@string/screen_add_beneficiary_display_text_transfer_type_bank" />
+
+            <TextView
+                style="@style/Yap.App.Widget.TextView.FullName"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/margin_extra_small"
+                android:text="@string/screen_add_beneficiary_display_text_transfer_type_bank_description"
+                android:textSize="@dimen/text_size_h2" />
+        </androidx.appcompat.widget.LinearLayoutCompat>
+    </androidx.cardview.widget.CardView>
 </layout>

@@ -6,6 +6,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.IBase
+import co.yap.yapcore.dagger.base.interfaces.ManageToolBarListener
 import co.yap.yapcore.dagger.base.viewmodel.DaggerBaseViewModel
 import co.yap.yapcore.dagger.di.ViewModelInjectionField
 import co.yap.yapcore.dagger.di.components.Injectable
@@ -41,6 +42,9 @@ abstract class BaseViewModelActivity<VB : ViewDataBinding, S : IBase.State, VM :
 
     override lateinit var viewModel: VM
 
+    @Inject
+    lateinit var state: S
+
     /**
      * Gets called when it's the right time for you to inject the dependencies.
      */
@@ -62,14 +66,10 @@ abstract class BaseViewModelActivity<VB : ViewDataBinding, S : IBase.State, VM :
         postInit()
         mViewDataBinding.executePendingBindings()
         postExecutePendingBindings()
-        //viewModel?.onCreate(intent.extras, navigatorHelper)
+        viewModel.onCreate(intent.extras)
     }
 
-   /// fun getMViewDataBinding() = mViewDataBinding
-
     override fun supportFragmentInjector() = supportFragment
-
-
     override fun fragmentInjector() = frameworkFragment
     override fun onDestroy() {
         unregisterStateListeners()

@@ -9,8 +9,6 @@ import javax.inject.Inject
 
 class RecurringPaymentFragment :
     BaseViewModelFragment<FragmentRecurringPaymentBinding, IRecurringPayment.State, RecurringPaymentVM>() {
-//    @Inject
-//    lateinit var manager: FragmentManager
     override fun getBindingVariable(): Int = BR.viewModel
 
     override fun getLayoutId(): Int = R.layout.fragment_recurring_payment
