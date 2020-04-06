@@ -5,6 +5,7 @@ import co.yap.modules.di.module.NetworkModule
 import co.yap.modules.di.module.activity.ActivityInjectorsModule
 import co.yap.modules.di.module.fragment.FragmentInjectorsModule
 import co.yap.yapcore.dagger.di.components.CoreComponent
+import dagger.BindsInstance
 import dagger.Component
 import dagger.android.AndroidInjectionModule
 import dagger.android.AndroidInjector
@@ -24,6 +25,7 @@ interface HouseHoldComponent : AndroidInjector<DaggerApplication> {
     @Component.Builder
     interface Builder {
         // @BindsInstance
+       // fun application(application: AAPApplication): Builder
         fun coreComponent(coreComponent: CoreComponent): Builder
         fun build(): HouseHoldComponent
     }

@@ -28,6 +28,7 @@ interface IBase {
         var toast: String
         var loading: Boolean
         var toolbarTitle: String
+        var toolsBarVisibility: Boolean
         var error: String
         fun reset()
         // fun getString(key: String): String

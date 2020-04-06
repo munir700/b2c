@@ -7,7 +7,6 @@ import androidx.annotation.CallSuper
 import androidx.lifecycle.*
 import co.yap.yapcore.IBase
 import co.yap.yapcore.interfaces.CoroutineViewModel
-import com.ezaka.customer.app.base.DaggerViewModel
 
 
 import kotlinx.coroutines.*
@@ -18,27 +17,7 @@ import kotlin.coroutines.CoroutineContext
  * Created by Muhammad Irfan Arshad
  *
  */
-abstract class DaggerBaseViewModel<S : IBase.State>() : DaggerViewModel(), IBase.ViewModel<S>,
-    CoroutineViewModel {
-
-    private val TAG: String = this.javaClass.simpleName
-
-    private var isFirstTimeUiCreate = true
-
-    override val viewModelJob: Job
-        get() = Job()
-    override val viewModelScope: CoroutineScope
-        get() = CoroutineScope(viewModelJob + Dispatchers.Main)
-
-    val viewModelBGScope = CloseableCoroutineScope(viewModelJob + Dispatchers.IO)
-
-    class CloseableCoroutineScope(context: CoroutineContext) : Closeable, CoroutineScope {
-        override val coroutineContext: CoroutineContext = context
-
-        override fun close() {
-            coroutineContext.cancel()
-        }
-    }
+abstract class DaggerBaseViewModel<S : IBase.State>() : DaggerCoroutineViewModel(), IBase.ViewModel<S>{
 
     override fun onCleared() {
         cancelAllJobs()
@@ -96,25 +75,6 @@ abstract class DaggerBaseViewModel<S : IBase.State>() : DaggerViewModel(), IBase
     override fun launchBG(block: suspend () -> Unit) = viewModelScope.async {
         block()
 
-    }
-
-    open fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-
-    }
-
-    /**
-     * called after fragment / activity is created with input bundle arguments
-     *
-     * @param bundle argument data
-     */
-    @CallSuper
-    open fun onCreate(bundle: Bundle?) {
-
-        if (isFirstTimeUiCreate) {
-            // this.bundle = bundle
-            onFirsTimeUiCreate(bundle , null)
-            isFirstTimeUiCreate = false
-        }
     }
 
     override val context: Context

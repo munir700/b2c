@@ -7,11 +7,14 @@ import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.LifecycleOwner
 import co.yap.yapcore.BaseActivity
 import co.yap.yapcore.dagger.base.BaseViewModelFragment
+import co.yap.yapcore.dagger.di.FragmentKey
 import co.yap.yapcore.dagger.di.qualifiers.ActivityContext
 import co.yap.yapcore.dagger.di.qualifiers.ActivityFragmentManager
 import co.yap.yapcore.dagger.di.qualifiers.ChildFragmentManager
+import dagger.Binds
 import dagger.Module
 import dagger.Provides
+import dagger.multibindings.IntoMap
 
 
 /**
@@ -56,4 +59,5 @@ abstract class BaseFragmentModule<in T : Fragment> {
     fun provideLifeCycleOwner(fragment: T): LifecycleOwner {
         return fragment
     }
+
 }
