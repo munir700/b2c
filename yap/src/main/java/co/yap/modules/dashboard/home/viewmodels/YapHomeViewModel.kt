@@ -59,7 +59,6 @@ class YapHomeViewModel(application: Application) :
 
         if (!sortedCombinedTransactionList.isNullOrEmpty()) {
             sortedCombinedTransactionList.clear()
-
         }
         requestAccountTransactions()
     }
