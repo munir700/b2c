@@ -436,7 +436,7 @@ class MaterialIntroView : RelativeLayout {
                 .text("Texto do Tooltip")
                 .gravity(Gravity.END)
                 .animated(false)
-                .transparentOverlay(true)
+                .transparentOverlay(false)
                 .build()
                 .show()
             if (!isImageViewEnabled) {

@@ -7,6 +7,7 @@ import android.util.DisplayMetrics
 import android.view.View
 import android.view.ViewGroup
 import co.yap.widgets.guidedtour.description.CoachMarkConfig
+import co.yap.widgets.guidedtour.description.CoachMarkOverlay
 import co.yap.widgets.guidedtour.models.GuidedTourViewDetail
 import co.yap.widgets.guidedtour.shape.Focus
 import co.yap.widgets.guidedtour.shape.FocusGravity
@@ -120,6 +121,7 @@ class TourSetup() : MaterialIntroListener {
 //            .create()
 //        .show(view!!, Tooltip.Gravity.TOP, false)
 
+//        val coachMarkBuilder = MaterialIntroView.Builder(activity,)
 
         MaterialIntroView.Builder(activity)
             .setFocusGravity(FocusGravity.CENTER)

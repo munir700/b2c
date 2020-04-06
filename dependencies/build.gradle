@@ -137,6 +137,8 @@ project.ext {
 
             //adjust
 
+           simpleToolTip                : 'com.github.douglasjunior:android-simple-tooltip:0.2.3',
+
             adjust                   : 'com.adjust.sdk:adjust-android:4.20.0',
             adjust_referrer          : 'com.android.installreferrer:installreferrer:1.1'
      ]
@@ -174,6 +176,7 @@ project.ext {
             [configuration: "implementation", dependency: libraries.compression],
             [configuration: "implementation", dependency: libraries.exoplayer],
             [configuration: "implementation", dependency: libraries.adjust],
+            [configuration: "implementation", dependency: libraries.simpleToolTip],
             [configuration: "implementation", dependency: libraries.adjust_referrer]
     ]
 
@@ -265,6 +268,7 @@ project.ext {
             [configuration: "api", dependency: libraries.leanplumLocation],
             [configuration: "api", dependency: libraries.messagingFcm],
             [configuration: "api", dependency: libraries.playServicesLocation],
+            [configuration: "implementation", dependency: libraries.simpleToolTip],
             [configuration: "implementation", dependency: libraries.playLibPlaces]
     ]
 
