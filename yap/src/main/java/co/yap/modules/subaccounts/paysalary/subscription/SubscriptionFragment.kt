@@ -6,9 +6,11 @@ import co.yap.databinding.FragmentSubscriptionBinding
 import co.yap.yapcore.dagger.base.BaseViewModelFragment
 
 
-class SubscriptionFragment : BaseViewModelFragment<FragmentSubscriptionBinding , ISubscription.State , SubscriptionVM>() {
+class SubscriptionFragment :
+    BaseViewModelFragment<FragmentSubscriptionBinding, ISubscription.State, SubscriptionVM>() {
 
     override fun getBindingVariable() = BR.viewModel
 
     override fun getLayoutId() = R.layout.fragment_subscription
+
 }

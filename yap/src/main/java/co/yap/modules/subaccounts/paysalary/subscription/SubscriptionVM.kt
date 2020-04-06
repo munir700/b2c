@@ -11,7 +11,6 @@ import javax.inject.Inject
 class SubscriptionVM @Inject constructor(override val state: ISubscription.State) :
     DaggerBaseViewModel<ISubscription.State>()
     , ISubscription.ViewModel {
-
     override fun onFirsTimeUiCreate(bundle: Bundle?, navigation: NavController?) {
 
     }
