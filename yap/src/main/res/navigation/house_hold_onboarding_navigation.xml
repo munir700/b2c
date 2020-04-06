@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/house_hold_onboarding_navigation"
-    app:startDestination="@id/houseHoldUserInfoFragment">
+    app:startDestination="@id/subscriptionFragment">
     <!--    app:startDestination="@id/houseHoldUserInfoFragment">-->
 
     <fragment
@@ -59,4 +59,9 @@
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left" />
     </fragment>
+
+    <fragment
+        android:id="@+id/subscriptionFragment"
+        android:name="co.yap.modules.subaccounts.paysalary.subscription.SubscriptionFragment"
+        tools:layout="@layout/fragment_subscription"/>
 </navigation>
