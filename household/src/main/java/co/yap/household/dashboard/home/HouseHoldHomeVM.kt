@@ -12,6 +12,8 @@ import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionsR
 import co.yap.widgets.State
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.dagger.base.viewmodel.DaggerBaseViewModel
+import co.yap.yapcore.helpers.SharedPreferenceManager
+import com.google.gson.Gson
 import java.text.SimpleDateFormat
 import java.util.*
 import javax.inject.Inject

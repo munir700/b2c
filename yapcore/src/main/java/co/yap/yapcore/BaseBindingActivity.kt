@@ -9,6 +9,7 @@ import co.yap.app.YAPApplication
 abstract class BaseBindingActivity<V : IBase.ViewModel<*>> : BaseActivity<V>() {
 
     open lateinit var viewDataBinding: ViewDataBinding
+
     /**
      * Indicates whether the current [BaseBindingActivity]'s content view is initialized or not.
      */
@@ -16,8 +17,9 @@ abstract class BaseBindingActivity<V : IBase.ViewModel<*>> : BaseActivity<V>() {
         private set
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        preInit(savedInstanceState)
         // dependencies will be injected only once (based on the state of the content view)
-        if(!isViewCreated) {
+        if (!isViewCreated) {
             injectDependencies()
         }
         // For runtime permission handling if user
@@ -36,7 +38,7 @@ abstract class BaseBindingActivity<V : IBase.ViewModel<*>> : BaseActivity<V>() {
         startActivity(intent)
     }
 
-    override fun performDataBinding(savedInstanceState : Bundle?) {
+    override fun performDataBinding(savedInstanceState: Bundle?) {
         init(savedInstanceState)
         viewDataBinding = DataBindingUtil.setContentView(this, getLayoutId())
         viewDataBinding.setVariable(getBindingVariable(), viewModel)
@@ -44,17 +46,26 @@ abstract class BaseBindingActivity<V : IBase.ViewModel<*>> : BaseActivity<V>() {
         viewDataBinding.executePendingBindings()
         postExecutePendingBindings()
     }
+
+    /**
+     * Gets called right before the UI initialization.
+     */
+    protected open fun preInit(savedInstanceState: Bundle?) {
+        //
+    }
+
     /**
      * Gets called when it's the right time for you to inject the dependencies.
      */
     open fun injectDependencies() {
     }
+
     /**
      * Get's called when it's the right time for you to initialize the UI elements.
      *
      * @param savedInstanceState state bundle brought from the [android.app.Activity.onCreate]
      */
-    protected open fun init(savedInstanceState : Bundle?) {
+    protected open fun init(savedInstanceState: Bundle?) {
         //
     }
 
@@ -65,12 +76,14 @@ abstract class BaseBindingActivity<V : IBase.ViewModel<*>> : BaseActivity<V>() {
     protected open fun postInit() {
         //
     }
+
     /**
      * Gets called right after the UI executePendingBindings.
      */
     protected open fun postExecutePendingBindings() {
         //
     }
+
     /**
      * Override for set binding variable
      *

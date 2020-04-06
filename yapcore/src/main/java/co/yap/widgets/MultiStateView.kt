@@ -60,7 +60,7 @@ class MultiStateView
 
         val loadingViewResId = a.getResourceId(R.styleable.MultiStateView_msv_loadingView, -1)
         animateViewChangesDuration =
-            a.getInteger(R.styleable.MultiStateView_msv_animateViewChangesDuration, 400)
+            a.getInteger(R.styleable.MultiStateView_msv_animateViewChangesDuration, 100)
         if (loadingViewResId > -1) {
             val inflatedLoadingView = inflater.inflate(loadingViewResId, this, false)
             loadingView = inflatedLoadingView

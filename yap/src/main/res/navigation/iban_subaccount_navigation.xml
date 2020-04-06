@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/iban_subaccount_navigation"
+    tools:ignore="InvalidNavigation">
+
+    <fragment
+        android:id="@+id/subAccountDashBoardFragment"
+        android:name="co.yap.modules.subaccounts.account.dashboard.SubAccountDashBoardFragment"
+        android:label="SubAccountDashBoardFragment"
+        tools:layout="@layout/fragment_sub_account_dash_board">
+        <action
+            android:id="@+id/action_subAccountDashBoardFragment_to_HHSalaryProfileFragment"
+            app:destination="@id/HHSalaryProfileFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/HHSalaryProfileFragment"
+        android:name="co.yap.modules.subaccounts.paysalary.profile.HHSalaryProfileFragment"
+        android:label="HHSalaryProfileFragment"
+        tools:layout="@layout/fragment_hhsalary_profile" />
+
+    <fragment
+        android:id="@+id/enterSalaryAmountFragment"
+        android:name="co.yap.modules.subaccounts.paysalary.entersalaryamount.EnterSalaryAmountFragment"
+        android:label="EnterSalaryAmountFragment"
+        tools:layout="@layout/fragment_enter_salary_amount" />
+
+    <fragment
+        android:id="@+id/paymentConfirmationFragment"
+        android:name="co.yap.modules.subaccounts.confirmation.PaymentConfirmationFragment"
+        android:label="PaymentConfirmationFragment"
+        tools:layout="@layout/fragment_payment_confirmation" />
+
+    <fragment
+        android:id="@+id/payHHEmployeeSalaryFragment"
+        android:name="co.yap.modules.subaccounts.paysalary.employee.PayHHEmployeeSalaryFragment"
+        android:label="PayHHEmployeeSalaryFragment"
+        tools:layout="@layout/fragment_pay_hhemployee_salary" />
+
+    <fragment
+        android:id="@+id/recurringPaymentFragment"
+        android:name="co.yap.modules.subaccounts.paysalary.recurringpayment.RecurringPaymentFragment"
+        android:label="RecurringPaymentFragment"
+        tools:layout="@layout/fragment_recurring_payment" />
+
+</navigation>

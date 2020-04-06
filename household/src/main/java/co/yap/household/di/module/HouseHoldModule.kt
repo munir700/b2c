@@ -5,8 +5,10 @@ import android.content.Context
 import co.yap.household.app.HouseHoldApplication
 import co.yap.yapcore.dagger.di.qualifiers.ApplicationContext
 import co.yap.yapcore.dagger.di.qualifiers.FeatureScope
+import co.yap.yapcore.helpers.SharedPreferenceManager
 import dagger.Module
 import dagger.Provides
+import javax.inject.Singleton
 
 @Module
 class HouseHoldModule {
@@ -23,5 +25,10 @@ class HouseHoldModule {
     @FeatureScope
     @ApplicationContext
     fun provideApplicationContext(app: HouseHoldApplication): Context = app.applicationContext
+
+    @Provides
+    @Singleton
+    fun provideSharedPreferenceManager(@ApplicationContext context: Context) =
+        SharedPreferenceManager.getInstance(context)
 
 }

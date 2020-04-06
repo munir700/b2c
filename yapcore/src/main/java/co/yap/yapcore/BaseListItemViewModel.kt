@@ -3,14 +3,10 @@ package co.yap.yapcore
 import android.os.Bundle
 import androidx.annotation.CallSuper
 import androidx.annotation.LayoutRes
-import androidx.databinding.Bindable
-import androidx.databinding.Observable
 import androidx.databinding.PropertyChangeRegistry
-import androidx.lifecycle.ViewModel
 import androidx.navigation.NavController
-import co.yap.networking.models.ApiResponse
 import co.yap.yapcore.interfaces.OnItemClickListener
-import com.ezaka.customer.app.base.DaggerViewModel
+import co.yap.yapcore.dagger.base.viewmodel.DaggerViewModel
 
 /**
  * Created by Muhammad Irfan Arshad

@@ -21,22 +21,36 @@ class HHSalaryProfileFragment :
 
     override fun getLayoutId() = R.layout.fragment_hhsalary_profile
 
-    override fun onReload(view: View) {
-    }
-
     override fun postExecutePendingBindings() {
         super.postExecutePendingBindings()
         viewModel.setUpData(getPaySalaryData())
     }
 
-    fun getPaySalaryData(): ArrayList<PaySalaryModel>{
-        var array:ArrayList<PaySalaryModel> = ArrayList()
-        array.add(PaySalaryModel(Strings.screen_house_hold_salary_profile_set_up_salary_text, context?.getDrawable(R.drawable.ic_transaction_rate_arrow)))
-        array.add(PaySalaryModel(Strings.screen_house_hold_salary_profile_set_up_expense_text, context?.getDrawable(R.drawable.ic_expense)))
-        array.add(PaySalaryModel(Strings.screen_house_hold_salary_profile_transfer_bonus_text, context?.getDrawable(R.drawable.ic_yap_to_yap)))
-
+    fun getPaySalaryData(): ArrayList<PaySalaryModel> {
+        var array: ArrayList<PaySalaryModel> = ArrayList()
+        array.add(
+            PaySalaryModel(
+                Strings.screen_house_hold_salary_profile_set_up_salary_text,
+                context?.getDrawable(R.drawable.ic_transaction_rate_arrow)
+            )
+        )
+        array.add(
+            PaySalaryModel(
+                Strings.screen_house_hold_salary_profile_set_up_expense_text,
+                context?.getDrawable(R.drawable.ic_expense)
+            )
+        )
+        array.add(
+            PaySalaryModel(
+                Strings.screen_house_hold_salary_profile_transfer_bonus_text,
+                context?.getDrawable(R.drawable.ic_yap_to_yap)
+            )
+        )
         return array
     }
+
+    override var toolBarTitle: String? = "Your Name"
+    //override var toolBarVisibility: Boolean? = false
 
     class Adapter(mValue: MutableList<PaySalaryModel>, navigation: NavController?) :
         BaseRVAdapter<PaySalaryModel, HHSalaryProfileItemVM, Adapter.ViewHolder>(

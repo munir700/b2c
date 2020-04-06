@@ -13,7 +13,6 @@ import javax.inject.Inject
 
 class RecurringPaymentVM @Inject constructor(
     override var state: IRecurringPayment.State
-
 ) :
     DaggerBaseViewModel<IRecurringPayment.State>(), IRecurringPayment.ViewModel {
     private val calendar = Calendar.getInstance()
