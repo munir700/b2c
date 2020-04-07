@@ -151,8 +151,8 @@ class CashTransferViewModel(application: Application) :
     }
 
     override fun getPurposeOfPayment(productCode: String) {
-        state.loading = true
         launch {
+            state.loading = true
             when (val response =
                 transactionRepository.getPurposeOfPayment(productCode)) {
                 is RetroApiResponse.Success -> {
@@ -306,6 +306,6 @@ class CashTransferViewModel(application: Application) :
                     })
                 } else
                     false
-            } ?: false
+            } ?: true
     }
 }
