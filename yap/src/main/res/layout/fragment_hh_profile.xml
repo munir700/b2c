@@ -1,16 +1,118 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
         <variable
             name="viewModel"
             type="co.yap.modules.subaccounts.paysalary.profile.cardholderprofile.HHProfileVM" />
+
+        <import type="co.yap.yapcore.managers.MyUserManager" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:padding="@dimen/margin_medium"
+        tools:context=".modules.subaccounts.paysalary.profile.cardholderprofile.HHProfileFragment">
+
+        <co.yap.widgets.CoreCircularImageView
+            android:id="@+id/ivUserImage"
+            android:layout_width="@dimen/_62sdp"
+            android:layout_height="@dimen/_62sdp"
+            android:contentDescription="@string/empty_string"
+            android:src="@drawable/ic_store_b2b"
+            app:colorType="@{`Beneficiary`}"
+            app:fullName="@{MyUserManager.INSTANCE.user.currentCustomer.fullName}"
+            app:imageUrl="@{MyUserManager.INSTANCE.user.currentCustomer.picture}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:position="@{0}" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideLine"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.5" />
+
+        <TextView
+            android:id="@+id/tvNameHeading"
+            style="@style/SmallGrey"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_xl"
+            android:text="Name"
+            app:layout_constraintEnd_toStartOf="@+id/guideLine"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ivUserImage" />
+
+        <TextView
+            android:id="@+id/tvName"
+            style="@style/Small"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:gravity="end"
+            android:maxLines="2"
+            android:text="@{MyUserManager.INSTANCE.user.currentCustomer.fullName}"
+            app:layout_constraintBottom_toTopOf="@+id/tvContact"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/guideLine"
+            app:layout_constraintTop_toTopOf="@+id/tvNameHeading"
+            tools:text="Joe Smith" />
+
+        <TextView
+            android:id="@+id/tvContactHeading"
+            style="@style/SmallGrey"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_medium_large"
+            android:text="Contact number"
+            app:layout_constraintEnd_toStartOf="@+id/guideLine"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvNameHeading" />
+
+        <TextView
+            android:id="@+id/tvContact"
+            style="@style/Small"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:gravity="end"
+            android:maxLines="2"
+            android:text="@{MyUserManager.INSTANCE.user.currentCustomer.getFormattedPhoneNumber(context)}"
+            app:layout_constraintBottom_toTopOf="@+id/tvEmail"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/guideLine"
+            app:layout_constraintTop_toTopOf="@+id/tvContactHeading"
+            tools:text="+971 9090909090" />
+
+
+        <TextView
+            android:id="@+id/tvEmailHeading"
+            style="@style/SmallGrey"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_medium_large"
+            android:text="Email address"
+            app:layout_constraintEnd_toStartOf="@+id/guideLine"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvContactHeading" />
+
+        <TextView
+            android:id="@+id/tvEmail"
+            style="@style/Small"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="end"
+            android:maxLines="2"
+            android:text="@{MyUserManager.INSTANCE.user.currentCustomer.email}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/guideLine"
+            app:layout_constraintTop_toBottomOf="@+id/tvContact"
+            app:layout_constraintTop_toTopOf="@+id/tvEmailHeading"
+            tools:text="01/01/2020" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
