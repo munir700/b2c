@@ -53,7 +53,7 @@ class HHSalaryProfileFragment :
         return array
     }
 
-    override var toolBarTitle: String? = "Your Name"
+    override var toolBarTitle: String? = "Joe Smith"
     //override var toolBarVisibility: Boolean? = false
 
     class Adapter(mValue: MutableList<PaySalaryModel>, navigation: NavController?) :
