@@ -1,11 +1,11 @@
 package co.yap.modules.subaccounts.paysalary.profile
 
-
 import android.os.Bundle
 import androidx.navigation.NavController
 import co.yap.yapcore.R
 import co.yap.yapcore.dagger.base.viewmodel.BaseRecyclerAdapterVM
 import javax.inject.Inject
+
 class HHSalaryProfileVM @Inject constructor(override val state: IHHSalaryProfile.State) :
     BaseRecyclerAdapterVM<PaySalaryModel, IHHSalaryProfile.State>(), IHHSalaryProfile.ViewModel {
 
@@ -13,8 +13,12 @@ class HHSalaryProfileVM @Inject constructor(override val state: IHHSalaryProfile
 
     }
 
-    public fun setUpData(arr: ArrayList<PaySalaryModel>){
-        addData(arr)
+    public fun setUpData(arr: ArrayList<PaySalaryModel>, type: Int){
+        if(type == 1){
+            addData(arr)
+        }else{
+
+        }
     }
 
 }

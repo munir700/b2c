@@ -109,10 +109,20 @@
         <item name="maxImageSize">@dimen/_18sdp</item>
     </style>
 
+    <style name="Yap.App.Widget.FloatingActionButton.Circle.Large" parent="AppTheme">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:tint">?attr/colorPrimaryAttr</item>
+        <item name="backgroundTint">@color/bg_round_light_primary_soft</item>
+        <item name="elevation">0dp</item>
+        <item name="fabCustomSize">@dimen/_32sdp</item>
+        <item name="fabSize">mini</item>
+        <item name="maxImageSize">@dimen/_18sdp</item>
+    </style>
+
     <style name="Yap.App.Widget.FloatingActionButton.Circle.Small" parent="AppTheme">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_margin">@dimen/margin_small</item>
         <item name="android:tint">@color/white</item>
         <item name="backgroundTint">?attr/colorPrimarySoftAttr</item>
         <item name="elevation">0dp</item>

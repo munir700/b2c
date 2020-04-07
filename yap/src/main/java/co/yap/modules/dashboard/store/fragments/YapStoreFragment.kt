@@ -55,8 +55,8 @@ class YapStoreFragment : BaseBindingFragment<IYapStore.ViewModel>(), IYapStore.V
         override fun onItemClick(view: View, data: Any, pos: Int) {
             if (data is Store) {
                 if (data.name == "YAP Household") {
-                    startFragment(HHSalaryProfileFragment::class.java.name)
-//                    launchActivity<HouseHoldLandingActivity>(requestCode = RequestCodes.REQUEST_ADD_HOUSE_HOLD)
+//                    startFragment(HHSalaryProfileFragment::class.java.name)
+                    launchActivity<HouseHoldLandingActivity>(requestCode = RequestCodes.REQUEST_ADD_HOUSE_HOLD)
                 }
             }
         }

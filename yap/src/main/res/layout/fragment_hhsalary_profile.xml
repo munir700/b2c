@@ -103,8 +103,7 @@
                         android:layout_marginTop="200dp"
                         android:background="@color/greySoft"
                         android:orientation="vertical"
-                        android:padding="@dimen/margin_small"
-                        >
+                        android:padding="@dimen/margin_medium">
 
                         <include
                             android:id="@+id/tv_last_salary"

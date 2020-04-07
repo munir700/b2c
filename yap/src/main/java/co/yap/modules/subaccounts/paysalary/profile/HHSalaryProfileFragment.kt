@@ -14,7 +14,7 @@ import kotlin.reflect.KClass
 import kotlin.reflect.full.primaryConstructor
 
 class HHSalaryProfileFragment :
-    BaseRecyclerViewFragment<FragmentHhsalaryProfileBinding, IHHSalaryProfile.State, HHSalaryProfileVM, HHSalaryProfileFragment.Adapter, PaySalaryModel>() {
+    BaseRecyclerViewFragment<FragmentHhsalaryProfileBinding, IHHSalaryProfile.State, HHSalaryProfileVM, HHSalaryProfileTransfersAdapter, PaySalaryModel>() {
 
     override fun getBindingVariable() = BR.hhSalaryProfileVM
 
@@ -25,7 +25,8 @@ class HHSalaryProfileFragment :
 
     override fun postExecutePendingBindings() {
         super.postExecutePendingBindings()
-        viewModel.setUpData(getPaySalaryData())
+
+        viewModel.setUpData(getPaySalaryData(), 2)
     }
 
     fun getPaySalaryData(): ArrayList<PaySalaryModel> {

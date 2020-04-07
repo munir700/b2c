@@ -4,20 +4,46 @@ import android.view.View
 import androidx.databinding.ViewDataBinding
 import androidx.navigation.NavController
 import co.yap.BR
+import co.yap.R
 import co.yap.yapcore.BaseRVAdapter
 import co.yap.yapcore.BaseViewHolder
 import kotlin.reflect.KClass
 import kotlin.reflect.full.primaryConstructor
 
 class HHSalaryProfileTransfersAdapter(mValue: MutableList<PaySalaryModel>, navigation: NavController?) :
-    BaseRVAdapter<PaySalaryModel, HHSalaryProfileItemVM, HHSalaryProfileTransfersAdapter.ViewHolder>(
+    BaseRVAdapter<PaySalaryModel, HHSalaryProfileTransfersItemVM, HHSalaryProfileTransfersAdapter.ViewHolder>(
         mValue,
         navigation
     ) {
-    override fun getLayoutId(viewType: Int) = getViewModel(viewType).layoutRes()
+
+    val headerSection = 1
+    val transaction = 2
+
+    override fun getLayoutId(viewType: Int):Int {
+        if(viewType == headerSection){
+            return R.layout.item_hhsalary_profile_transaction_list_header
+        }else{
+            return getViewModel(viewType).layoutRes()
+        }
+    }
+
+    override fun getItemViewType(position: Int): Int {
+        if (position % 3 == 0){
+            return headerSection
+        }else {
+            return transaction
+        }
+
+        return super.getItemViewType(position)
+    }
+
+    override fun getItemCount(): Int {
+        return 21
+    }
+
     override fun getViewHolder(
         view: View,
-        viewModel: HHSalaryProfileItemVM,
+        viewModel: HHSalaryProfileTransfersItemVM,
         mDataBinding: ViewDataBinding, viewType: Int
     ): ViewHolder {
         val kotlinClass: KClass<ViewHolder> = ViewHolder::class
@@ -26,13 +52,14 @@ class HHSalaryProfileTransfersAdapter(mValue: MutableList<PaySalaryModel>, navig
         return myObject
     }
 
-    override fun getViewModel(viewType:Int) = HHSalaryProfileItemVM()
+    override fun getViewModel(viewType:Int) = HHSalaryProfileTransfersItemVM()
     override fun getVariableId() = BR.hhSalaryProfileItemVM
 
     class ViewHolder(
         view: View,
-        viewModel: HHSalaryProfileItemVM,
+        viewModel: HHSalaryProfileTransfersItemVM,
         mDataBinding: ViewDataBinding
     ) :
-        BaseViewHolder<PaySalaryModel, HHSalaryProfileItemVM>(view, viewModel, mDataBinding)
+        BaseViewHolder<PaySalaryModel, HHSalaryProfileTransfersItemVM>(view, viewModel, mDataBinding)
+
 }
