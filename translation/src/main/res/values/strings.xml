@@ -978,6 +978,8 @@
     <string name="screen_house_hold_salary_profile_set_up_salary_text">Set up a salary</string>
     <string name="screen_house_hold_salary_profile_set_up_expense_text">Set up an expense pot</string>
     <string name="screen_house_hold_salary_profile_transfer_bonus_text">Transfer a bonus or extra cash</string>
+    <string name="screen_house_hold_salary_profile_display_text_transfers">Transfers</string>
+
 
 </resources>
 

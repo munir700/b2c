@@ -82,7 +82,7 @@
     </style>
 
     <style name="Yap.App.Widget.TextView.Currency" parent="Yap.App.Widget.TextView">
-        <item name="android:textSize">@dimen/text_size_h3</item>
+        <item name="android:textSize">@dimen/text_size_h2</item>
         <item name="android:lineSpacingExtra">6sp</item>
         <item name="android:maxLines">1</item>
         <item name="android:textColor">@color/colorPrimaryDark</item>
@@ -99,7 +99,7 @@
     <style name="Yap.App.Widget.FloatingActionButton.Circle" parent="AppTheme">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_marginTop">@dimen/margin_extra_large</item>
+        <item name="android:layout_marginTop">@dimen/margin_medium</item>
         <item name="android:padding">@dimen/_5sdp</item>
         <item name="android:tint">@color/white</item>
         <item name="backgroundTint">?attr/colorPrimaryAttr</item>
@@ -119,6 +119,37 @@
         <item name="fabCustomSize">@dimen/_20sdp</item>
         <item name="fabSize">mini</item>
         <item name="maxImageSize">@dimen/_10sdp</item>
+    </style>
+
+    <style name="Yap.App.Widget.AppBarLayout" parent="AppTheme">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@color/white</item>
+        <item name="android:fitsSystemWindows">true</item>
+        <item name="android:theme">@style/ThemeOverlay.AppCompat.Dark.ActionBar</item>
+        <item name="elevation">0dp</item>
+    </style>
+
+    <style name="Yap.App.Widget.CollapsingToolbarLayout" parent="AppTheme">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="layout_scrollFlags">scroll|exitUntilCollapsed|snap</item>
+        <item name="titleEnabled">false</item>
+        <item name="elevation">0dp</item>
+    </style>
+
+    <style name="Yap.App.Widget.FilterCount" parent="ASmall">
+        <item name="android:layout_width">@dimen/_22sdp</item>
+        <item name="android:layout_height">@dimen/_22sdp</item>
+        <item name="android:background">@drawable/bg_round_purple</item>
+        <item name="android:textColor">?attr/colorPrimaryAttr</item>
+    </style>
+
+    <style name="Yap.App.Widget.FloatingActionButton.Text" parent="AppTheme">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">?attr/colorPrimaryAttr</item>
+        <item name="android:layout_marginTop">@dimen/margin_small</item>
     </style>
 
 </resources>
