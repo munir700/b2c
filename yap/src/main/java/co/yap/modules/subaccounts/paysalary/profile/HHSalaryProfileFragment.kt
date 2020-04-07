@@ -9,15 +9,12 @@ import androidx.navigation.NavController
 import co.yap.BR
 import co.yap.R
 import co.yap.databinding.FragmentHhsalaryProfileBinding
-import co.yap.modules.subaccounts.HouseHoldMainAccountBottomSheet
-import co.yap.modules.subaccounts.HouseHoldMainAccountBottomSheetClick
 import co.yap.modules.subaccounts.paysalary.subscription.SubscriptionFragment
 import co.yap.translation.Strings
 import co.yap.yapcore.BaseRVAdapter
 import co.yap.yapcore.BaseViewHolder
 import co.yap.yapcore.dagger.base.BaseRecyclerViewFragment
 import co.yap.yapcore.helpers.extentions.startFragment
-import co.yap.yapcore.helpers.extentions.toast
 import kotlin.reflect.KClass
 import kotlin.reflect.full.primaryConstructor
 
@@ -33,7 +30,9 @@ class HHSalaryProfileFragment :
     override fun postExecutePendingBindings() {
         super.postExecutePendingBindings()
         houseHoldMainAccountBottomSheet =
-            HouseHoldMainAccountBottomSheet(this)
+            HouseHoldMainAccountBottomSheet(
+                this
+            )
         viewModel.setUpData(getPaySalaryData())
         setHasOptionsMenu(true)
     }

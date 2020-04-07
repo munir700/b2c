@@ -171,25 +171,3 @@ fun Context?.isNetworkAvailable(): Boolean {
         } ?: false
     } ?: false
 }
-
-fun Context.showAlert(title: String?="Title", message: String?="Alert message") {
-    val alertDialog: AlertDialog = AlertDialog.Builder(this).create()
-    alertDialog.setTitle(title)
-    alertDialog.setMessage(message)
-    alertDialog.setCancelable(false)
-    alertDialog.setButton(
-        AlertDialog.BUTTON_POSITIVE, "YES"
-    ) { dialog, which ->
-
-        dialog.dismiss()
-    }
-    alertDialog.setButton(
-        AlertDialog.BUTTON_NEGATIVE, "NO"
-    ) { dialog, which ->
-        dialog.dismiss()
-    }
-    alertDialog.setCancelable(false)
-    alertDialog.show()
-    alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(this.getColor(R.color.colorPrimary));
-
-}

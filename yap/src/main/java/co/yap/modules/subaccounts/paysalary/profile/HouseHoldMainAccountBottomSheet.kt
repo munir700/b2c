@@ -1,4 +1,4 @@
-package co.yap.modules.subaccounts
+package co.yap.modules.subaccounts.paysalary.profile
 
 import android.os.Bundle
 import android.view.LayoutInflater

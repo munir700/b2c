@@ -1,4 +1,4 @@
-package co.yap.modules.subaccounts
+package co.yap.modules.subaccounts.paysalary.profile
 
 interface HouseHoldMainAccountBottomSheetClick {
     fun onSubscriptionClick()

@@ -20,8 +20,7 @@
 
         <co.yap.widgets.CoreCircularImageView
             android:id="@+id/ivUserImage"
-            android:layout_width="@dimen/_62sdp"
-            android:layout_height="@dimen/_62sdp"
+            style="@style/Yap.App.Widget.ImageView.Circle"
             android:contentDescription="@string/empty_string"
             android:src="@drawable/ic_store_b2b"
             app:colorType="@{`Beneficiary`}"
@@ -42,139 +41,13 @@
             android:theme="@style/CustomSwitch"
             app:layout_constraintTop_toBottomOf="@+id/ivUserImage" />
 
-
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideLine"
+        <include
+            android:id="@+id/layoutSubscription"
+            layout="@layout/layout_subscription_data"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.5" />
-
-        <TextView
-            android:id="@+id/tvNameHeading"
-            style="@style/SmallGrey"
-            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_medium_large"
-            android:text="Name"
-            app:layout_constraintEnd_toStartOf="@+id/guideLine"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/swAutoRenewal" />
-
-        <TextView
-            android:id="@+id/tvName"
-            style="@style/Small"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:gravity="end"
-            android:maxLines="2"
-            android:text="@{MyUserManager.INSTANCE.user.currentCustomer.fullName}"
-            app:layout_constraintBottom_toTopOf="@+id/tvStartDate"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/guideLine"
             app:layout_constraintTop_toBottomOf="@+id/swAutoRenewal"
-            app:layout_constraintTop_toTopOf="@+id/tvNameHeading"
-            tools:text="Joe Smith" />
-
-        <TextView
-            android:id="@+id/tvStartDateHeading"
-            style="@style/SmallGrey"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_medium_large"
-            android:text="Start date"
-            app:layout_constraintEnd_toStartOf="@+id/guideLine"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvNameHeading" />
-
-        <TextView
-            android:id="@+id/tvStartDate"
-            style="@style/Small"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:gravity="end"
-            android:maxLines="2"
-            android:text="01/01/2019"
-            app:layout_constraintBottom_toTopOf="@+id/tvEndDate"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/guideLine"
-            app:layout_constraintTop_toBottomOf="@+id/swAutoRenewal"
-            app:layout_constraintTop_toTopOf="@+id/tvStartDateHeading" />
-
-
-        <TextView
-            android:id="@+id/tvEndDateHeading"
-            style="@style/SmallGrey"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_medium_large"
-            android:text="End date"
-            app:layout_constraintEnd_toStartOf="@+id/guideLine"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvStartDateHeading" />
-
-        <TextView
-            android:id="@+id/tvEndDate"
-            style="@style/Small"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:gravity="end"
-            android:maxLines="2"
-            android:text="01/01/2020"
-            app:layout_constraintBottom_toTopOf="@+id/tvPlanType"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/guideLine"
-            app:layout_constraintTop_toBottomOf="@+id/swAutoRenewal"
-            app:layout_constraintTop_toTopOf="@+id/tvEndDateHeading" />
-
-        <TextView
-            android:id="@+id/tvPlanTypeHeading"
-            style="@style/SmallGrey"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_medium_large"
-            android:text="Plan type"
-            app:layout_constraintEnd_toStartOf="@+id/guideLine"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvEndDateHeading" />
-
-        <TextView
-            android:id="@+id/tvPlanType"
-            style="@style/Small"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:gravity="end"
-            android:maxLines="2"
-            android:text="Monthly"
-            app:layout_constraintBottom_toTopOf="@+id/tvCost"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/guideLine"
-            app:layout_constraintTop_toBottomOf="@+id/swAutoRenewal"
-            app:layout_constraintTop_toTopOf="@+id/tvPlanTypeHeading" />
-
-        <TextView
-            android:id="@+id/tvCostHeading"
-            style="@style/SmallGrey"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_medium_large"
-            android:text="Cost"
-            app:layout_constraintEnd_toStartOf="@+id/guideLine"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvPlanTypeHeading" />
-
-        <TextView
-            android:id="@+id/tvCost"
-            style="@style/Small"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:gravity="end"
-            android:maxLines="2"
-            android:text="AED 59.99/month"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/guideLine"
-            app:layout_constraintTop_toBottomOf="@+id/swAutoRenewal"
-            app:layout_constraintTop_toTopOf="@+id/tvCostHeading" />
+            app:viewModel="@{viewModel}" />
 
         <co.yap.widgets.CoreButton
             android:id="@+id/btnConfirm"
@@ -191,7 +64,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvCost"
+            app:layout_constraintTop_toBottomOf="@+id/layoutSubscription"
             app:layout_constraintVertical_bias="0.999"
             tools:text="Add" />
     </androidx.constraintlayout.widget.ConstraintLayout>
