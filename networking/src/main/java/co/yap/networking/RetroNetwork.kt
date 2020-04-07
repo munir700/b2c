@@ -51,11 +51,11 @@ object RetroNetwork : Network {
     }
 
     private fun buildOkHttpClient(context: Context): OkHttpClient {
-        //details https://stackoverflow.com/questions/24006545/how-can-i-pin-a-certificate-with-square-okhttp to fix
         val certPinner = CertificatePinner.Builder()
             .add("*.yap.co", "sha256/e5L5CAoQjV0HFzAnunk1mPHVx1HvPxcfJYI0UtLyBwY=")
-            .add("*.yap.co", "sha256/JSMzqOOrtyOT1kmau6zKhgT676hGgczD5VMdRMyJZFA")
             .add("*.yap.co", "sha256/JSMzqOOrtyOT1kmau6zKhgT676hGgczD5VMdRMyJZFA=")
+            .add("*.yap.co", "sha256/xYUxUshCD5PVwQ1AgAakwEG6dLIId5QMvqbNVBn1vFw=") // charles
+            .add("*.yap.co", "sha256/Yf/ZlETuML9yDZbbwEFNdRnXKM/Nci/pXaCLCcH8yrU=") // charles
             .add("*.yap.co", "sha256/jr1RBEN+F3KtPTYBMhudiTGBRAg8k2qZPEg3WbSerXU=")
             .add("*.yap.co", "sha256/yJcy2FrimDcAjQrvDDImmFJna4OjlPQ4LAee9Vj2C74=")
             .add("*.yap.co", "sha256/Ko8tivDrEjiY90yGasP6ZpBU4jwXvHqVvQI0GS3GNdA=")
@@ -72,11 +72,11 @@ object RetroNetwork : Network {
             .readTimeout(READ_TIMEOUT_SECONDS, TimeUnit.SECONDS)
             .retryOnConnectionFailure(true)
             .cache(getCache())
-            .certificatePinner(certPinner)      //add ssl pinning certificate code start
-            .sslSocketFactory(
-                SSLPiningHelper(context).getSSLFactory(),
-                SSLPiningHelper(context).getDefaultTrustManager()
-            )
+            .certificatePinner(certPinner)
+//            .sslSocketFactory(
+//                SSLPiningHelper(context).getSSLFactory(),
+//                SSLPiningHelper(context).getDefaultTrustManager()
+//            )
             .addInterceptor(logger)
             .addInterceptor(CookiesInterceptor())
             .addInterceptor(object : NetworkConstraintsInterceptor(context) {
