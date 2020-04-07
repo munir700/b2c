@@ -15,11 +15,14 @@
 
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tabs"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/margin_small"
             style="@style/Yap.App.Widget.RoundedTabLayout"
             app:setupWithViewPager="@{pager}" />
 
         <androidx.viewpager.widget.ViewPager
             android:id="@+id/pager"
+            android:layout_marginTop="@dimen/margin_extra_large"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:adapter="@{subAccountDashBoardVM.adapter}" />

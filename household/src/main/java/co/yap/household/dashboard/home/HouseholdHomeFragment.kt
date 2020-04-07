@@ -9,17 +9,23 @@ import co.yap.widgets.MultiStateView
 import co.yap.widgets.State
 import co.yap.widgets.Status
 import co.yap.yapcore.dagger.base.BaseViewModelFragment
+import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.transactions.TransactionsAdapter
 import co.yap.yapcore.transactions.interfaces.LoadMoreListener
 import kotlinx.android.synthetic.main.fragment_household_home.*
+import javax.inject.Inject
 
 
-class HouseholdHomeFragment:BaseViewModelFragment<FragmentHouseholdHomeBinding,IHouseholdHome.State,HouseHoldHomeVM>() {
+class HouseholdHomeFragment :
+    BaseViewModelFragment<FragmentHouseholdHomeBinding, IHouseholdHome.State, HouseHoldHomeVM>() {
 
     override fun getBindingVariable() = BR.viewModel
 
     override fun getLayoutId() = R.layout.fragment_household_home
+
+//    @Inject
+//    lateinit var pre: SharedPreferenceManager
 
     override fun postExecutePendingBindings() {
         super.postExecutePendingBindings()
@@ -29,6 +35,7 @@ class HouseholdHomeFragment:BaseViewModelFragment<FragmentHouseholdHomeBinding,I
             this,
             Observer { if (it.status != Status.IDEAL) handleState(it) })
     }
+
     private val adaptorClickListener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
         }
@@ -49,6 +56,7 @@ class HouseholdHomeFragment:BaseViewModelFragment<FragmentHouseholdHomeBinding,I
             }
         }
     }
+
     fun handleState(state: State?) {
         when (state?.status) {
             Status.LOADING -> multiStateView?.viewState = MultiStateView.ViewState.LOADING

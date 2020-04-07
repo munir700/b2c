@@ -10,9 +10,15 @@ import co.yap.app.BR
 import co.yap.app.R
 import co.yap.app.modules.login.interfaces.ILogin
 import co.yap.app.modules.login.viewmodels.LoginViewModel
+import co.yap.modules.subaccounts.account.dashboard.SubAccountDashBoardFragment
 import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.constants.Constants.KEY_IS_USER_LOGGED_IN
+import co.yap.yapcore.dagger.base.navigation.host.NAVIGATION_Graph_ID
+import co.yap.yapcore.dagger.base.navigation.host.NAVIGATION_Graph_START_DESTINATION_ID
+import co.yap.yapcore.dagger.base.navigation.host.NavHostPresenterActivity
 import co.yap.yapcore.helpers.SharedPreferenceManager
+import co.yap.yapcore.helpers.extentions.launchActivity
+import co.yap.yapcore.helpers.extentions.startFragment
 import kotlinx.android.synthetic.main.fragment_log_in.*
 
 class LoginFragment : BaseBindingFragment<ILogin.ViewModel>(), ILogin.View {
@@ -58,7 +64,12 @@ class LoginFragment : BaseBindingFragment<ILogin.ViewModel>(), ILogin.View {
                 etEmailField.settingErrorColor(R.color.error)
             }
         })
-
+        tvSignUpPrefix.setOnClickListener {
+            launchActivity<NavHostPresenterActivity> {
+                putExtra(NAVIGATION_Graph_ID, R.navigation.iban_subaccount_navigation)
+                putExtra(NAVIGATION_Graph_START_DESTINATION_ID, R.id.subAccountDashBoardFragment)
+            }
+        }
     }
 
     override fun onDestroy() {

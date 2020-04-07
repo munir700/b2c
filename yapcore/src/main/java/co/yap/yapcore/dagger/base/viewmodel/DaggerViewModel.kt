@@ -1,4 +1,4 @@
-package com.ezaka.customer.app.base
+package co.yap.yapcore.dagger.base.viewmodel
 
 
 import android.os.Bundle
