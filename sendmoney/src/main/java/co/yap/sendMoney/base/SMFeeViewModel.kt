@@ -86,7 +86,7 @@ abstract class SMFeeViewModel<S : IBase.State>(application: Application) :
         val fee = feeTiers.firstOrNull() ?: return "0.0"
         return if (fee.feeInPercentage == false) {
             feeAmount = if (fee.feeAmount == null) "0.0" else fee.feeAmount.toString()
-            vat = if (fee.vatAmount == null) "0.0" else fee.feeAmount.toString()
+            vat = if (fee.vatAmount == null) "0.0" else fee.vatAmount.toString()
             (fee.feeAmount ?: 0.0).plus(fee.vatAmount ?: 0.0).toString()
         } else {
             return if (isTopUpFee) getFeeInPercentageForTopup(
