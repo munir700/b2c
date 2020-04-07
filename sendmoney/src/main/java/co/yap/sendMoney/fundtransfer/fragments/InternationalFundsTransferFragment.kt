@@ -54,6 +54,14 @@ class InternationalFundsTransferFragment :
         viewModel.getTransactionThresholds()
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        if (viewModel.parentViewModel?.selectedPop != null) {
+            getBindings().tvSelectReason.text =
+                viewModel.parentViewModel?.selectedPop?.purposeDescription
+        }
+    }
+
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         setEditTextWatcher()
