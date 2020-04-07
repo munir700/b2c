@@ -1,5 +1,7 @@
 package co.yap.modules.subaccounts.paysalary.profile
 
+import android.view.Menu
+import android.view.MenuInflater
 import android.view.View
 import androidx.databinding.ViewDataBinding
 import androidx.navigation.NavController
@@ -24,6 +26,7 @@ class HHSalaryProfileFragment :
     override fun postExecutePendingBindings() {
         super.postExecutePendingBindings()
         viewModel.setUpData(getPaySalaryData())
+        setHasOptionsMenu(true)
     }
 
     fun getPaySalaryData(): ArrayList<PaySalaryModel> {
@@ -50,6 +53,12 @@ class HHSalaryProfileFragment :
     }
 
     override var toolBarTitle: String? = "Your Name"
+
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.add_menu,menu)
+    }
     //override var toolBarVisibility: Boolean? = false
 
     class Adapter(mValue: MutableList<PaySalaryModel>, navigation: NavController?) :
