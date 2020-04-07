@@ -19,6 +19,7 @@ import co.yap.widgets.guidedtour.MaterialIntroListener
 import co.yap.widgets.guidedtour.animation.AnimationFactory
 import co.yap.widgets.guidedtour.animation.AnimationListener
 import co.yap.widgets.guidedtour.description.CoachMarkInfoToolTip
+import co.yap.widgets.guidedtour.description.Orientation
 import co.yap.widgets.guidedtour.description.TriangleShapeView
 import co.yap.widgets.guidedtour.shape.*
 import co.yap.widgets.guidedtour.shape.Rect
@@ -405,7 +406,6 @@ class MaterialIntroView : RelativeLayout {
             if (mToolTipBuilder == null) null else mToolTipBuilder?.build()
 
         fun getToolTipBuilder(): CoachMarkInfoToolTip.Builder? = mToolTipBuilder
-        var mTooltip: CoachMarkInfoToolTip? = getToolTip()
 
 
 
@@ -425,6 +425,54 @@ class MaterialIntroView : RelativeLayout {
                     infoDialogParams.height
                 )
 
+//            if (targetShape!!.point.y < layoutHeight / 2) {
+//                Log.i("gravityRN","rounded view is on top")
+//                (infoView as RelativeLayout?)!!.gravity = Gravity.BOTTOM
+//                infoDialogParams.setMargins(
+//                    0,
+//                    targetShape!!.point.y + targetShape!!.height / 2,
+//                    0,
+//                    0
+//                )
+//                tipParams.setMargins(
+//                    /*layoutWidth / 2*/ (targetShape!!.point.x - 16),
+//                    0,
+//                    0,
+//                    0
+//                )
+//            } else {
+//                val calculateMarginTop= targetShape!!.point.y
+//
+//                (infoView as RelativeLayout?)!!.gravity = Gravity.BOTTOM
+//                infoDialogParams.setMargins(
+//                    0,
+//                    targetShape!!.point.y  - targetShape!!.height,
+//                    0,
+//                    0
+//                 )
+//                Log.i("RnVl",infoView!!.height.toString())
+//                tipParams.setMargins(
+//                    (targetShape!!.point.x - 16),
+//                    infoView!!.height,
+//                    0,
+//                    90
+//                )
+//               getToolTipBuilder()?.setToolTipOrientation(Orientation.DOWN)
+//            }
+
+//            tipParams.setMargins(
+//                /*layoutWidth / 2*/ (targetShape!!.point.x - 16),
+//                0,
+//                0,
+//                0
+//            )
+            var mTooltip: CoachMarkInfoToolTip? = getToolTip()
+
+            (infoView as RelativeLayout?)!!.gravity = Gravity.BOTTOM
+            infoView!!.layoutParams = infoDialogParams
+            infoView!!.postInvalidate()
+            addView(infoView)
+
             if (targetShape!!.point.y < layoutHeight / 2) {
                 Log.i("gravityRN","rounded view is on top")
                 (infoView as RelativeLayout?)!!.gravity = Gravity.BOTTOM
@@ -434,35 +482,34 @@ class MaterialIntroView : RelativeLayout {
                     0,
                     0
                 )
+                tipParams.setMargins(
+                    /*layoutWidth / 2*/ (targetShape!!.point.x - 16),
+                    0,
+                    0,
+                    0
+                )
             } else {
-                Log.i("gravityRN","rounded view is on bottom")
-                val top= layoutHeight - (targetShape!!.point.y + targetShape!!.height / 2) + 2 * targetShape!!.height / 2
-                val a=  (targetShape!!.point.y + targetShape!!.height / 2) + 2 * targetShape!!.height / 2
-                val b=  2 * targetShape!!.height / 2
-                val c= layoutHeight - (targetShape!!.point.y + targetShape!!.height / 2)
-                val e= targetShape!!.point.y
-                
+                val calculateMarginTop= targetShape!!.point.y
+
                 (infoView as RelativeLayout?)!!.gravity = Gravity.BOTTOM
                 infoDialogParams.setMargins(
                     0,
-                    e  - targetShape!!.height,
+                    (targetShape!!.point.y  - targetShape!!.height) - 60,
                     0,
                     0
-//                    layoutHeight - (targetShape!!.point.y + targetShape!!.height / 2) + 2 * targetShape!!.height / 2
                 )
+                Log.i("RnVl", infoDialogParams.height.toString())
+                tipParams.setMargins(
+                    (targetShape!!.point.x - 16),
+                    315 ,
+                    0,
+                    0
+                )
+                getToolTipBuilder()?.setToolTipOrientation(Orientation.DOWN)
             }
 
-            tipParams.setMargins(
-                /*layoutWidth / 2*/ (targetShape!!.point.x - 16),
-                0,
-                0,
-                0
-            )
-            (infoView as RelativeLayout?)!!.gravity = Gravity.BOTTOM
-            infoView!!.layoutParams = infoDialogParams
             mTooltip?.layoutParams =  tipParams
-            infoView!!.postInvalidate()
-            addView(infoView)
+
             mTooltip!!.postInvalidate()
 
 
