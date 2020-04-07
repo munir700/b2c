@@ -12,8 +12,7 @@
         android:layout_margin="@dimen/margin_medium"
         app:cardBackgroundColor="@android:color/white"
         app:cardCornerRadius="4dp"
-        app:cardElevation="4dp"
-        app:cardPreventCornerOverlap="false"
+         app:cardPreventCornerOverlap="false"
         app:contentPadding="0dp">
 
         <RelativeLayout

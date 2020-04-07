@@ -7,6 +7,7 @@ import android.graphics.*
 import android.os.Build
 import android.os.Handler
 import android.util.AttributeSet
+import android.util.Log
 import android.util.TypedValue
 import android.view.*
 import android.widget.ImageView
@@ -18,7 +19,6 @@ import co.yap.widgets.guidedtour.MaterialIntroListener
 import co.yap.widgets.guidedtour.animation.AnimationFactory
 import co.yap.widgets.guidedtour.animation.AnimationListener
 import co.yap.widgets.guidedtour.description.CoachMarkInfoToolTip
-import co.yap.widgets.guidedtour.description.TriangleShapeView
 import co.yap.widgets.guidedtour.shape.*
 import co.yap.widgets.guidedtour.shape.Rect
 import co.yap.widgets.guidedtour.target.Target
@@ -404,9 +404,14 @@ class MaterialIntroView : RelativeLayout {
      */
     private fun setInfoLayout() {
         var mToolTipBuilder: CoachMarkInfoToolTip.Builder? = CoachMarkInfoToolTip.Builder(context)
-        fun getToolTip(): CoachMarkInfoToolTip? = if (mToolTipBuilder == null) null else mToolTipBuilder?.build()
+        fun getToolTip(): CoachMarkInfoToolTip? =
+            if (mToolTipBuilder == null) null else mToolTipBuilder?.build()
+
         fun getToolTipBuilder(): CoachMarkInfoToolTip.Builder? = mToolTipBuilder
-          var mTooltip: CoachMarkInfoToolTip? =  getToolTip()
+        var mTooltip: CoachMarkInfoToolTip? = getToolTip()
+        var mOverlayTransparentGravity: co.yap.widgets.guidedtour.description.Gravity =
+            co.yap.widgets.guidedtour.description.Gravity.CENTER
+
 
         taskHandler!!.post {
             isLayoutCompleted = true
@@ -418,9 +423,15 @@ class MaterialIntroView : RelativeLayout {
                     ViewGroup.LayoutParams.MATCH_PARENT,
                     ViewGroup.LayoutParams.FILL_PARENT
                 )
+            val tipParams =
+                LayoutParams(
+                     infoDialogParams.width,
+                    infoDialogParams.height
+                )
+
             if (targetShape!!.point.y < layoutHeight / 2) {
                 (infoView as RelativeLayout?)!!.gravity = Gravity.TOP
-                infoDialogParams.setMargins(
+                 infoDialogParams.setMargins(
                     0,
                     targetShape!!.point.y + targetShape!!.height / 2,
                     0,
@@ -428,23 +439,33 @@ class MaterialIntroView : RelativeLayout {
                 )
             } else {
                 (infoView as RelativeLayout?)!!.gravity = Gravity.BOTTOM
+                Log.i("abcbotom", (targetShape!!.point.y + targetShape!!.height / 2).toString())
+
                 infoDialogParams.setMargins(
                     0,
                     0,
                     0,
                     layoutHeight - (targetShape!!.point.y + targetShape!!.height / 2) + 2 * targetShape!!.height / 2
                 )
-            }
+             }
+
+            ///
+                 tipParams.setMargins(
+                     /*layoutWidth / 2*/ (targetShape!!.point.x - 16),
+                    0,
+                    0,
+                    0
+                )
+            ///
             infoView!!.layoutParams = infoDialogParams
             infoView!!.postInvalidate()
             addView(infoView)
 
-//            (infoView as RelativeLayout)?.addView(TriangleShapeView(context))
 
+            mTooltip?.layoutParams =  tipParams
 
-//            mTooltip?.layoutParams = infoDialogParams
-//            addView(mTooltip)
             (infoView as RelativeLayout)?.addView(mTooltip)
+
 
             if (!isImageViewEnabled) {
                 imageViewIcon!!.visibility = View.GONE
@@ -452,12 +473,8 @@ class MaterialIntroView : RelativeLayout {
             infoView!!.visibility = View.VISIBLE
         }
     }
-fun tooltipcustom(){
-      var mToolTipBuilder: CoachMarkInfoToolTip.Builder? = null
-    fun getToolTip(): CoachMarkInfoToolTip? = if (mToolTipBuilder == null) null else mToolTipBuilder?.build()
-    fun getToolTipBuilder(): CoachMarkInfoToolTip.Builder? = mToolTipBuilder
 
-}
+
     /**
      * SETTERS
      */

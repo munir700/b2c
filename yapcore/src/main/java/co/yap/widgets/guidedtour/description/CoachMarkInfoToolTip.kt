@@ -92,6 +92,9 @@ class CoachMarkInfoToolTip  : View {
         mPaint.style = Paint.Style.FILL_AND_STROKE
 
         mPath.fillType = Path.FillType.EVEN_ODD
+
+
+
     }
 
     class Builder(private val mContext: Context) {
