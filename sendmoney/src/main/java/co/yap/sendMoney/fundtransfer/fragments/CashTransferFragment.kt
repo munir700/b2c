@@ -4,22 +4,17 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.text.InputFilter
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import android.widget.TextView
 import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.RecyclerView
 import co.yap.modules.otp.GenericOtpFragment
 import co.yap.modules.otp.LogoData
 import co.yap.modules.otp.OtpDataModel
 import co.yap.networking.transactions.requestdtos.RemittanceFeeRequest
-import co.yap.networking.transactions.responsedtos.InternationalFundsTransferReasonList
 import co.yap.networking.transactions.responsedtos.purposepayment.PurposeOfPayment
 import co.yap.sendMoney.PopListBottomSheet
 import co.yap.sendMoney.fundtransfer.activities.BeneficiaryFundTransferActivity
@@ -62,6 +57,10 @@ class CashTransferFragment : BeneficiaryFundTransferBaseFragment<ICashTransfer.V
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.updatedFee.value = "0.0"
+        if (viewModel.parentViewModel?.selectedPop != null) {
+            getBindings().tvSelectReason.text =
+                viewModel.parentViewModel?.selectedPop?.purposeDescription
+        }
         setEditTextWatcher()
     }
 
@@ -175,8 +174,11 @@ class CashTransferFragment : BeneficiaryFundTransferBaseFragment<ICashTransfer.V
         viewModel.parentViewModel?.transferData?.value?.transferAmount = viewModel.state.amount
         viewModel.parentViewModel?.transferData?.value?.noteValue = viewModel.state.noteValue
         viewModel.parentViewModel?.transferData?.value?.sourceCurrency = "AED"
-        viewModel.parentViewModel?.transferData?.value?.feeAmount = viewModel.feeAmount
-        viewModel.parentViewModel?.transferData?.value?.vat = viewModel.vat
+        viewModel.parentViewModel?.transferData?.value?.feeAmount =
+            if (viewModel.shouldFeeApply()) viewModel.feeAmount else "0.0"
+        viewModel.parentViewModel?.transferData?.value?.vat =
+            if (viewModel.shouldFeeApply()) viewModel.vat else "0.0"
+
         val action =
             CashTransferFragmentDirections.actionCashTransferFragmentToCashTransferConfirmationFragment()
         findNavController().navigate(action)
@@ -296,33 +298,6 @@ class CashTransferFragment : BeneficiaryFundTransferBaseFragment<ICashTransfer.V
             navOptions
         )
 
-    }
-
-    class ReasonDropDownViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        companion object {
-            fun inflate(parent: ViewGroup): ReasonDropDownViewHolder {
-                val view = LayoutInflater.from(parent.context)
-                    .inflate(R.layout.item_spinner, parent, false)
-                return ReasonDropDownViewHolder(
-                    view
-                )
-            }
-
-            fun inflateSelectedView(parent: ViewGroup): ReasonDropDownViewHolder {
-                val view = LayoutInflater.from(parent.context)
-                    .inflate(R.layout.item_selected_spinner, parent, false)
-                return ReasonDropDownViewHolder(
-                    view
-                )
-            }
-        }
-
-        var title: TextView = view.findViewById(R.id.textView)
-
-
-        fun bind(reason: InternationalFundsTransferReasonList.ReasonList) {
-            title.text = reason.reason
-        }
     }
 
     private fun setEditTextWatcher() {
