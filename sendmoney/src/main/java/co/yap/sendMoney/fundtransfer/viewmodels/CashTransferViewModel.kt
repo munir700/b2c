@@ -300,10 +300,10 @@ class CashTransferViewModel(application: Application) :
         return if (!isOnlyUAEFTS()) return true else
             parentViewModel?.selectedPop?.let { pop ->
                 return@let if (pop.nonChargeable == false) {
-                    if (pop.cbwsi == true && pop.cbwsiFee == true) {
-                        state.amount.toDoubleOrNull() ?: 0.0 > 10000
-                    } else
-                        false
+                    return (when {
+                        pop.cbwsi == true && pop.cbwsiFee == false -> state.amount.parseToDouble() > parentViewModel?.transactionThreshold?.value?.cbwsiPaymentLimit ?: 0.0
+                        else -> true
+                    })
                 } else
                     false
             } ?: false
