@@ -23,6 +23,7 @@ import co.yap.yapcore.enums.TransactionProductCode
 import co.yap.yapcore.helpers.DecimalDigitsInputFilter
 import co.yap.yapcore.helpers.cancelAllSnackBar
 import co.yap.yapcore.helpers.extentions.afterTextChanged
+import co.yap.yapcore.helpers.extentions.parseToDouble
 import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 import co.yap.yapcore.helpers.spannables.color
 import co.yap.yapcore.helpers.spannables.getText
@@ -156,7 +157,7 @@ class InternationalFundsTransferFragment :
 
     private fun startFlow() {
         if (isBalanceAvailable()) {
-            if (viewModel.getTotalAmountWithFee() < viewModel.state.minLimit ?: 0.0 || viewModel.getTotalAmountWithFee() > viewModel.state.maxLimit ?: 0.0) {
+            if (viewModel.state.etInputAmount.parseToDouble() < viewModel.state.minLimit ?: 0.0 || viewModel.state.etInputAmount.parseToDouble() > viewModel.state.maxLimit ?: 0.0) {
                 setLowerAndUpperLimitError()
             } else {
                 if (isDailyLimitReached())
@@ -201,7 +202,7 @@ class InternationalFundsTransferFragment :
         viewModel.parentViewModel?.transactionThreshold?.value?.let {
             it.dailyLimit?.let { dailyLimit ->
                 it.totalDebitAmount?.let { totalConsumedAmount ->
-                    viewModel.getTotalAmountWithFee().let { enteredAmount ->
+                    viewModel.state.etInputAmount.parseToDouble().let { enteredAmount ->
                         val remainingDailyLimit =
                             if ((dailyLimit - totalConsumedAmount) < 0.0) 0.0 else (dailyLimit - totalConsumedAmount)
                         viewModel.state.errorDescription =

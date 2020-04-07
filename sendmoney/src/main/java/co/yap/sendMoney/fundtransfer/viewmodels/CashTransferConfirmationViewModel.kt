@@ -58,6 +58,7 @@ class CashTransferConfirmationViewModel(application: Application) :
                 )) {
                 is RetroApiResponse.Success -> {
                     response.data.data?.let {
+                        state.cutOffTimeMsg.set(it.errorMsg)
                         parentViewModel?.transferData?.value?.cutOffTimeMsg = it.errorMsg
                     }
                     state.loading = false
@@ -98,7 +99,6 @@ class CashTransferConfirmationViewModel(application: Application) :
                 ) {
                 is RetroApiResponse.Success -> {
                     parentViewModel?.transferData?.value?.referenceNumber = response.data.data
-                    state.cutOffTimeMsg.set(response.data.data)
                     clickEvent.postValue(Constants.ADD_CASH_PICK_UP_SUCCESS)
                 }
                 is RetroApiResponse.Error -> {
@@ -128,7 +128,6 @@ class CashTransferConfirmationViewModel(application: Application) :
                 ) {
                 is RetroApiResponse.Success -> {
                     parentViewModel?.transferData?.value?.referenceNumber = response.data.data
-                    state.cutOffTimeMsg.set(response.data.data)
                     clickEvent.postValue(Constants.ADD_CASH_PICK_UP_SUCCESS)
                 }
                 is RetroApiResponse.Error -> {
