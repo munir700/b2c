@@ -13,19 +13,18 @@ import android.view.*
 import android.widget.ImageView
 import android.widget.RelativeLayout
 import android.widget.TextView
-import androidx.cardview.widget.CardView
+import co.yap.widgets.guidedtour.utils.Constants
 import co.yap.widgets.guidedtour.MaterialIntroConfiguration
 import co.yap.widgets.guidedtour.MaterialIntroListener
 import co.yap.widgets.guidedtour.animation.AnimationFactory
 import co.yap.widgets.guidedtour.animation.AnimationListener
 import co.yap.widgets.guidedtour.description.CoachMarkInfoToolTip
+import co.yap.widgets.guidedtour.description.TriangleShapeView
 import co.yap.widgets.guidedtour.shape.*
 import co.yap.widgets.guidedtour.shape.Rect
 import co.yap.widgets.guidedtour.target.Target
 import co.yap.widgets.guidedtour.target.ViewTarget
-import co.yap.widgets.guidedtour.utils.Constants
 import co.yap.yapcore.R
-
 
 class MaterialIntroView : RelativeLayout {
     /**
@@ -118,7 +117,6 @@ class MaterialIntroView : RelativeLayout {
      * Info dialog view
      */
     private var infoView: View? = null
-    private var card_view: CardView? = null
 
     /**
      * Info Dialog Text
@@ -255,7 +253,6 @@ class MaterialIntroView : RelativeLayout {
         val layoutInfo: View = LayoutInflater.from(getContext())
             .inflate(R.layout.material_intro_card, null)
         infoView = layoutInfo.findViewById(R.id.info_layout)
-        card_view = layoutInfo.findViewById(R.id.card_view)
         textViewInfo =
             layoutInfo.findViewById<View>(R.id.textview_info) as TextView
         textViewInfo!!.setTextColor(colorTextViewInfo)
@@ -409,8 +406,7 @@ class MaterialIntroView : RelativeLayout {
 
         fun getToolTipBuilder(): CoachMarkInfoToolTip.Builder? = mToolTipBuilder
         var mTooltip: CoachMarkInfoToolTip? = getToolTip()
-        var mOverlayTransparentGravity: co.yap.widgets.guidedtour.description.Gravity =
-            co.yap.widgets.guidedtour.description.Gravity.CENTER
+
 
 
         taskHandler!!.post {
@@ -421,59 +417,67 @@ class MaterialIntroView : RelativeLayout {
             val infoDialogParams =
                 LayoutParams(
                     ViewGroup.LayoutParams.MATCH_PARENT,
-                    ViewGroup.LayoutParams.FILL_PARENT
+                    ViewGroup.LayoutParams.WRAP_CONTENT
                 )
             val tipParams =
                 LayoutParams(
-                     infoDialogParams.width,
+                    infoDialogParams.width,
                     infoDialogParams.height
                 )
 
             if (targetShape!!.point.y < layoutHeight / 2) {
-                (infoView as RelativeLayout?)!!.gravity = Gravity.TOP
-                 infoDialogParams.setMargins(
+                Log.i("gravityRN","rounded view is on top")
+                (infoView as RelativeLayout?)!!.gravity = Gravity.BOTTOM
+                infoDialogParams.setMargins(
                     0,
                     targetShape!!.point.y + targetShape!!.height / 2,
                     0,
                     0
                 )
             } else {
+                Log.i("gravityRN","rounded view is on bottom")
+                val top= layoutHeight - (targetShape!!.point.y + targetShape!!.height / 2) + 2 * targetShape!!.height / 2
+                val a=  (targetShape!!.point.y + targetShape!!.height / 2) + 2 * targetShape!!.height / 2
+                val b=  2 * targetShape!!.height / 2
+                val c= layoutHeight - (targetShape!!.point.y + targetShape!!.height / 2)
+                val e= targetShape!!.point.y
+                
                 (infoView as RelativeLayout?)!!.gravity = Gravity.BOTTOM
-                Log.i("abcbotom", (targetShape!!.point.y + targetShape!!.height / 2).toString())
-
                 infoDialogParams.setMargins(
                     0,
-                    0,
-                    0,
-                    layoutHeight - (targetShape!!.point.y + targetShape!!.height / 2) + 2 * targetShape!!.height / 2
-                )
-             }
-
-            ///
-                 tipParams.setMargins(
-                     /*layoutWidth / 2*/ (targetShape!!.point.x - 16),
-                    0,
+                    e  - targetShape!!.height,
                     0,
                     0
+//                    layoutHeight - (targetShape!!.point.y + targetShape!!.height / 2) + 2 * targetShape!!.height / 2
                 )
-            ///
+            }
+
+            tipParams.setMargins(
+                /*layoutWidth / 2*/ (targetShape!!.point.x - 16),
+                0,
+                0,
+                0
+            )
+            (infoView as RelativeLayout?)!!.gravity = Gravity.BOTTOM
             infoView!!.layoutParams = infoDialogParams
+            mTooltip?.layoutParams =  tipParams
             infoView!!.postInvalidate()
             addView(infoView)
+            mTooltip!!.postInvalidate()
 
 
-            mTooltip?.layoutParams =  tipParams
-
+//            (infoView as RelativeLayout)?.addView(TriangleShapeView(context))
             (infoView as RelativeLayout)?.addView(mTooltip)
 
-
+//            infoView!!.layoutParams = infoDialogParams
+//            infoView!!.postInvalidate()
+//            addView(infoView)
             if (!isImageViewEnabled) {
                 imageViewIcon!!.visibility = View.GONE
             }
             infoView!!.visibility = View.VISIBLE
         }
     }
-
 
     /**
      * SETTERS
