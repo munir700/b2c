@@ -43,37 +43,40 @@ class CoachMarkInfoToolTip  : View {
     private val mPaint = Paint()
     private val mPath = Path()
 
+    val w = 60
+    val h = 60
+
     override fun onDraw(canvas: Canvas?) {
                   when (mBuilder.getToolTipOrientation()) {
                     Orientation.UP -> {
-                        mPath.moveTo((width / 2).toFloat(), 0f)
-                        mPath.lineTo((width / 2).toFloat(), 0f)
-                        mPath.lineTo(width.toFloat(), height.toFloat())
-                        mPath.lineTo(0f, height.toFloat())
+                        mPath.moveTo((w / 2).toFloat(), 0f)
+                        mPath.lineTo((w / 2).toFloat(), 0f)
+                        mPath.lineTo(w.toFloat(), h.toFloat())
+                        mPath.lineTo(0f, h.toFloat())
                         mPath.close()
                         canvas?.drawPath(mPath, mPaint)
                     }
                     Orientation.DOWN -> {
-                        mPath.moveTo(width.toFloat(), 0f)
-                        mPath.lineTo(width.toFloat(), 0f)
-                        mPath.lineTo((width / 2).toFloat(), height.toFloat())
+                        mPath.moveTo(w.toFloat(), 0f)
+                        mPath.lineTo(w.toFloat(), 0f)
+                        mPath.lineTo((w / 2).toFloat(), h.toFloat())
                         mPath.lineTo(0f, 0f)
                         mPath.close()
                         canvas?.drawPath(mPath, mPaint)
                     }
                     Orientation.LEFT -> {
-                        mPath.moveTo(width.toFloat(), (height / 2).toFloat())
-                        mPath.lineTo(width.toFloat(), (height / 2).toFloat())
-                        mPath.lineTo(0f, height.toFloat())
+                        mPath.moveTo(w.toFloat(), (h / 2).toFloat())
+                        mPath.lineTo(w.toFloat(), (h / 2).toFloat())
+                        mPath.lineTo(0f, h.toFloat())
                         mPath.lineTo(0f, 0f)
                         mPath.close()
                         canvas?.drawPath(mPath, mPaint)
                     }
                     Orientation.RIGHT -> {
-                        mPath.moveTo(0f, (height / 2).toFloat())
-                        mPath.lineTo(0f, (height / 2).toFloat())
-                        mPath.lineTo(width.toFloat(), height.toFloat())
-                        mPath.lineTo(width.toFloat(), 0f)
+                        mPath.moveTo(0f, (h / 2).toFloat())
+                        mPath.lineTo(0f, (h / 2).toFloat())
+                        mPath.lineTo(w.toFloat(), h.toFloat())
+                        mPath.lineTo(w.toFloat(), 0f)
                         mPath.close()
                         canvas?.drawPath(mPath, mPaint)
                     }
@@ -125,19 +128,19 @@ class CoachMarkInfoToolTip  : View {
             return this
         }
 
-        fun setToolTipSize(width: Int, height: Int): Builder {
-            mToolTipWidth = Utils.dpToPx(mContext, width).roundToInt()
-            mToolTipHeight = Utils.dpToPx(mContext, height).roundToInt()
+        fun setToolTipSize(w: Int, h: Int): Builder {
+            mToolTipWidth = Utils.dpToPx(mContext, w).roundToInt()
+            mToolTipHeight = Utils.dpToPx(mContext, h).roundToInt()
             return this
         }
 
-        fun setToolTipWidth(width: Int): Builder {
-            mToolTipWidth = Utils.dpToPx(mContext, width).roundToInt()
+        fun setToolTipWidth(w: Int): Builder {
+            mToolTipWidth = Utils.dpToPx(mContext, w).roundToInt()
             return this
         }
 
-        fun setToolTipHeight(height: Int): Builder {
-            mToolTipHeight = Utils.dpToPx(mContext, height).roundToInt()
+        fun setToolTipHeight(h: Int): Builder {
+            mToolTipHeight = Utils.dpToPx(mContext, h).roundToInt()
             return this
         }
 

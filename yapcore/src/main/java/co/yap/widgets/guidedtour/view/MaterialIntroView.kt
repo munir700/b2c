@@ -17,6 +17,7 @@ import co.yap.widgets.guidedtour.MaterialIntroConfiguration
 import co.yap.widgets.guidedtour.MaterialIntroListener
 import co.yap.widgets.guidedtour.animation.AnimationFactory
 import co.yap.widgets.guidedtour.animation.AnimationListener
+import co.yap.widgets.guidedtour.description.CoachMarkInfoToolTip
 import co.yap.widgets.guidedtour.description.TriangleShapeView
 import co.yap.widgets.guidedtour.shape.*
 import co.yap.widgets.guidedtour.shape.Rect
@@ -402,6 +403,11 @@ class MaterialIntroView : RelativeLayout {
      * above the circle. Otherwise locate below.
      */
     private fun setInfoLayout() {
+        var mToolTipBuilder: CoachMarkInfoToolTip.Builder? = CoachMarkInfoToolTip.Builder(context)
+        fun getToolTip(): CoachMarkInfoToolTip? = if (mToolTipBuilder == null) null else mToolTipBuilder?.build()
+        fun getToolTipBuilder(): CoachMarkInfoToolTip.Builder? = mToolTipBuilder
+          var mTooltip: CoachMarkInfoToolTip? =  getToolTip()
+
         taskHandler!!.post {
             isLayoutCompleted = true
             if (infoView!!.parent != null) (infoView!!.parent as ViewGroup).removeView(
@@ -433,10 +439,12 @@ class MaterialIntroView : RelativeLayout {
             infoView!!.postInvalidate()
             addView(infoView)
 
-            (infoView as RelativeLayout)?.addView(TriangleShapeView(context))
-//            card_view?.addView(TriangleShapeView(context))
-//            addView(TriangleShapeView(context))
-//            val yourView: View = findViewById(android.R.id.your_view)
+//            (infoView as RelativeLayout)?.addView(TriangleShapeView(context))
+
+
+//            mTooltip?.layoutParams = infoDialogParams
+//            addView(mTooltip)
+            (infoView as RelativeLayout)?.addView(mTooltip)
 
             if (!isImageViewEnabled) {
                 imageViewIcon!!.visibility = View.GONE
@@ -444,7 +452,12 @@ class MaterialIntroView : RelativeLayout {
             infoView!!.visibility = View.VISIBLE
         }
     }
+fun tooltipcustom(){
+      var mToolTipBuilder: CoachMarkInfoToolTip.Builder? = null
+    fun getToolTip(): CoachMarkInfoToolTip? = if (mToolTipBuilder == null) null else mToolTipBuilder?.build()
+    fun getToolTipBuilder(): CoachMarkInfoToolTip.Builder? = mToolTipBuilder
 
+}
     /**
      * SETTERS
      */
