@@ -341,17 +341,13 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                 clearNotification()
             }
 
-            AccountStatus.MEETING_SUCCESS.name -> {
+            AccountStatus.MEETING_SUCCESS.name , AccountStatus.CARD_ACTIVATED.name-> {
                 if (isShowSetPin(MyUserManager.getPrimaryCard())) {
                     if (PartnerBankStatus.ACTIVATED.status == MyUserManager.user?.partnerBankStatus) {
                         clearNotification()
                         addSetPinNotification()
                     }
                 } else toast("Invalid card found")
-            }
-
-            AccountStatus.CARD_ACTIVATED.name -> {
-                clearNotification()
             }
             AccountStatus.EID_EXPIRED.name, AccountStatus.EID_RESCAN_REQUIRE.name -> {
                 trackEvent(KYCEvents.EID_EXPIRE.type)
