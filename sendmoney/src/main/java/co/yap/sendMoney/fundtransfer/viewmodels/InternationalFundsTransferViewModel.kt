@@ -85,7 +85,7 @@ class InternationalFundsTransferViewModel(application: Application) :
     }
 
     override fun getReasonList(productCode: String) {
-        state.loading = true
+//        state.loading = true
         launch {
             when (val response =
                 mTransactionsRepository.getPurposeOfPayment(productCode)) {
@@ -94,7 +94,7 @@ class InternationalFundsTransferViewModel(application: Application) :
                         purposeOfPaymentList.value =
                             response.data.data as? ArrayList<PurposeOfPayment>?
                     }
-                    state.loading = false
+//                    state.loading = false
                 }
                 is RetroApiResponse.Error -> {
                     state.loading = false

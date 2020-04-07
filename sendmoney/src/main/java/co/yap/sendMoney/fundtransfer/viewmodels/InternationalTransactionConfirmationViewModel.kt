@@ -72,8 +72,8 @@ class InternationalTransactionConfirmationViewModel(application: Application) :
                             beneficiaryId = beneficiaryId?.toInt(),
                             amount = it.sourceAmount?.toDouble(),
                             settlementAmount = it.destinationAmount.parseToDouble(),
-                            purposeCode = it.purposeCode,
-                            purposeReason = it.transferReason,
+                            purposeCode = parentViewModel?.selectedPop?.purposeCode,
+                            purposeReason = parentViewModel?.selectedPop?.purposeDescription,
                             remarks = if (it.noteValue.isNullOrBlank()) null else it.noteValue,
                             fxRate = it.rate
                         )

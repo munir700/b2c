@@ -14,6 +14,7 @@
 /household/build
 /send_money/*
 /profile/*
+/coachmark/*
 /identityscanner_v2/build
 /identityscanner/build
 .DS_Store
