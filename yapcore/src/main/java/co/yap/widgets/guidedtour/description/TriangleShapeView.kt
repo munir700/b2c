@@ -48,16 +48,46 @@ class TriangleShapeView : View {
         val w = 60
         val h = 60
         val mPath = Path()
-        val p = Paint()
-        p.color = colorCode
-        p.isAntiAlias = true
+        val paint = Paint()
+        paint.color = colorCode
+        paint.isAntiAlias = true
+
+//bottom tip
+
+//        mPath.moveTo(w.toFloat(), 0f)
+//        mPath.lineTo(w.toFloat(), 0f)
+//        mPath.lineTo((w / 2).toFloat(), h.toFloat())
+//        mPath.lineTo(0f, 0f)
+//        mPath.close()
+//        canvas.drawPath(mPath, paint)
 
 
-        mPath.moveTo(w.toFloat(), 0f)
-        mPath.lineTo(w.toFloat(), 0f)
-        mPath.lineTo((w / 2).toFloat(), h.toFloat())
-        mPath.lineTo(0f, 0f)
+        //top tip
+        mPath.moveTo((w / 2).toFloat(), 0f)
+        mPath.lineTo((w / 2).toFloat(), 0f)
+        mPath.lineTo(w.toFloat(), h.toFloat())
+        mPath.lineTo(0f, h.toFloat())
         mPath.close()
-        canvas.drawPath(mPath, p)
+        canvas?.drawPath(mPath, paint)
+
+
+//        Orientation.LEFT -> {
+        //tip on left wall
+//            mPath.moveTo(w.toFloat(), (h / 2).toFloat())
+//            mPath.lineTo(w.toFloat(), (h / 2).toFloat())
+//            mPath.lineTo(0f, h.toFloat())
+//            mPath.lineTo(0f, 0f)
+//            mPath.close()
+//            canvas?.drawPath(mPath, paint)
+//        }
+//        Orientation.RIGHT -> {
+        //tip on left wall
+//            mPath.moveTo(0f, (h / 2).toFloat())
+//            mPath.lineTo(0f, (h / 2).toFloat())
+//            mPath.lineTo(w.toFloat(), h.toFloat())
+//            mPath.lineTo(w.toFloat(), 0f)
+//            mPath.close()
+//            canvas?.drawPath(mPath, paint)
+//        }
     }
 }
