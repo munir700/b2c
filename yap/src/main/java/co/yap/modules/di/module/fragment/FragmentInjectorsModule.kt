@@ -13,6 +13,8 @@ import co.yap.modules.subaccounts.paysalary.entersalaryamount.EnterSalaryAmountF
 import co.yap.modules.subaccounts.paysalary.entersalaryamount.EnterSalaryAmountModule
 import co.yap.modules.subaccounts.paysalary.profile.HHSalaryProfileFragment
 import co.yap.modules.subaccounts.paysalary.profile.HHSalaryProfileModule
+import co.yap.modules.subaccounts.paysalary.profile.cardholderprofile.HHProfileFragment
+import co.yap.modules.subaccounts.paysalary.profile.cardholderprofile.HHProfileModule
 import co.yap.modules.subaccounts.paysalary.recurringpayment.RecurringPaymentFragment
 import co.yap.modules.subaccounts.paysalary.recurringpayment.RecurringPaymentModule
 import co.yap.modules.subaccounts.paysalary.subscription.SubscriptionFragment
@@ -52,7 +54,12 @@ abstract class FragmentInjectorsModule {
     @ContributesAndroidInjector(modules = [EnterSalaryAmountModule::class])
     @FragmentScope
     abstract fun enterSalaryAmountFragmentInjector(): EnterSalaryAmountFragment
+
     @ContributesAndroidInjector(modules = [RecurringPaymentModule::class])
     @FragmentScope
     abstract fun recurringAmountFragmentInjector(): RecurringPaymentFragment
+
+    @ContributesAndroidInjector(modules = [HHProfileModule::class])
+    @FragmentScope
+    abstract fun hhProfileFragmentInjector(): HHProfileFragment
 }
