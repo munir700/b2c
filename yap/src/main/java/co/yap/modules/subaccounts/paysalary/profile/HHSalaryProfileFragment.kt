@@ -10,20 +10,23 @@ import co.yap.translation.Strings
 import co.yap.yapcore.BaseRVAdapter
 import co.yap.yapcore.BaseViewHolder
 import co.yap.yapcore.dagger.base.BaseRecyclerViewFragment
-import co.yap.yapcore.interfaces.OnItemClickListener
 import kotlin.reflect.KClass
 import kotlin.reflect.full.primaryConstructor
 
 class HHSalaryProfileFragment :
-    BaseRecyclerViewFragment<FragmentHhsalaryProfileBinding, IHHSalaryProfile.State, HHSalaryProfileVM, HHSalaryProfileFragment.Adapter, PaySalaryModel>() {
+    BaseRecyclerViewFragment<FragmentHhsalaryProfileBinding, IHHSalaryProfile.State, HHSalaryProfileVM, HHSalaryProfileTransfersAdapter, PaySalaryModel>() {
 
     override fun getBindingVariable() = BR.hhSalaryProfileVM
 
     override fun getLayoutId() = R.layout.fragment_hhsalary_profile
 
+    override fun onReload(view: View) {
+    }
+
     override fun postExecutePendingBindings() {
         super.postExecutePendingBindings()
-        viewModel.setUpData(getPaySalaryData())
+
+        viewModel.setUpData(getPaySalaryData(), 2)
     }
 
     fun getPaySalaryData(): ArrayList<PaySalaryModel> {
@@ -46,18 +49,19 @@ class HHSalaryProfileFragment :
                 context?.getDrawable(R.drawable.ic_yap_to_yap)
             )
         )
+
         return array
     }
 
-    override var toolBarTitle: String? = "Your Name"
+    override var toolBarTitle: String? = "Joe Smith"
     //override var toolBarVisibility: Boolean? = false
 
     class Adapter(mValue: MutableList<PaySalaryModel>, navigation: NavController?) :
-        BaseRVAdapter<PaySalaryModel, HHSalaryProfileItemVM, Adapter.ViewHolder>(
+        BaseRVAdapter<PaySalaryModel, HHSalaryProfileItemVM, HHSalaryProfileFragment.Adapter.ViewHolder>(
             mValue,
             navigation
         ) {
-        override fun getLayoutId(viewType: Int) = getViewModel().layoutRes()
+        override fun getLayoutId(viewType: Int) = getViewModel(viewType).layoutRes()
         override fun getViewHolder(
             view: View,
             viewModel: HHSalaryProfileItemVM,
@@ -69,8 +73,9 @@ class HHSalaryProfileFragment :
             return myObject
         }
 
-        override fun getViewModel() = HHSalaryProfileItemVM()
+        override fun getViewModel(viewType:Int) = HHSalaryProfileItemVM()
         override fun getVariableId() = BR.hhSalaryProfileItemVM
+
 
         class ViewHolder(
             view: View,

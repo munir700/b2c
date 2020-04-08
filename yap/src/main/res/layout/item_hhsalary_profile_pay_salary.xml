@@ -26,6 +26,7 @@
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/ivExpenses"
             style="@style/Yap.App.Widget.FloatingActionButton.Circle.Small"
+            android:layout_margin="@dimen/margin_small"
             app:layout_constraintStart_toStartOf="@id/ivExpenseBg"
             app:layout_constraintTop_toTopOf="@id/ivExpenseBg"
             app:layout_constraintBottom_toBottomOf="@id/ivExpenseBg"

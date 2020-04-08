@@ -39,7 +39,7 @@ class SubAccountCardFragment :
             mValue,
             navigation
         ) {
-        override fun getLayoutId(viewType: Int) = getViewModel().layoutRes()
+        override fun getLayoutId(viewType: Int) = getViewModel(viewType).layoutRes()
         override fun getViewHolder(
             view: View,
             viewModel: SubAccountCardItemVM,
@@ -51,7 +51,7 @@ class SubAccountCardFragment :
             return myObject
         }
 
-        override fun getViewModel() = SubAccountCardItemVM()
+        override fun getViewModel(viewType: Int) = SubAccountCardItemVM()
         override fun getVariableId() = BR.subAccountCardItemVm
 
         class ViewHolder(
