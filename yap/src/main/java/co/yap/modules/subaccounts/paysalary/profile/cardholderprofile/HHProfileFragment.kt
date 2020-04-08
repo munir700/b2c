@@ -1,11 +1,12 @@
 package co.yap.modules.subaccounts.paysalary.profile.cardholderprofile
 
-import co.yap.R
 import co.yap.BR
+import co.yap.R
 import co.yap.databinding.FragmentHhProfileBinding
-import co.yap.yapcore.dagger.base.BaseViewModelFragment
+import co.yap.yapcore.dagger.base.navigation.BaseNavViewModelFragment
 
-class HHProfileFragment : BaseViewModelFragment<FragmentHhProfileBinding, IHHProfile.State, HHProfileVM>() {
+class HHProfileFragment :
+    BaseNavViewModelFragment<FragmentHhProfileBinding, IHHProfile.State, HHProfileVM>() {
 
     override fun getBindingVariable() = BR.viewModel
 
