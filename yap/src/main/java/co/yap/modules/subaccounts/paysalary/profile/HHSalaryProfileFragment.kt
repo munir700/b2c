@@ -1,5 +1,7 @@
 package co.yap.modules.subaccounts.paysalary.profile
 
+import android.view.Menu
+import android.view.MenuInflater
 import android.view.View
 import androidx.databinding.ViewDataBinding
 import androidx.navigation.NavController
@@ -20,17 +22,14 @@ class HHSalaryProfileFragment :
 
     override fun getLayoutId() = R.layout.fragment_hhsalary_profile
 
-    override fun onReload(view: View) {
-    }
-
     override fun postExecutePendingBindings() {
         super.postExecutePendingBindings()
-
+        setHasOptionsMenu(true)
         viewModel.setUpData(getPaySalaryData(), 2)
     }
 
     fun getPaySalaryData(): ArrayList<PaySalaryModel> {
-        var array: ArrayList<PaySalaryModel> = ArrayList()
+        val array: ArrayList<PaySalaryModel> = ArrayList()
         array.add(
             PaySalaryModel(
                 Strings.screen_house_hold_salary_profile_set_up_salary_text,
@@ -53,8 +52,14 @@ class HHSalaryProfileFragment :
         return array
     }
 
-    override var toolBarTitle: String? = "Joe Smith"
-    //override var toolBarVisibility: Boolean? = false
+    override var toolBarTitle: String? = "Your Name"
+
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.add_menu, menu)
+    }
+
 
     class Adapter(mValue: MutableList<PaySalaryModel>, navigation: NavController?) :
         BaseRVAdapter<PaySalaryModel, HHSalaryProfileItemVM, HHSalaryProfileFragment.Adapter.ViewHolder>(
@@ -73,7 +78,7 @@ class HHSalaryProfileFragment :
             return myObject
         }
 
-        override fun getViewModel(viewType:Int) = HHSalaryProfileItemVM()
+        override fun getViewModel(viewType: Int) = HHSalaryProfileItemVM()
         override fun getVariableId() = BR.hhSalaryProfileItemVM
 
 

@@ -46,6 +46,16 @@
         <item name="android:textSize">@dimen/text_size_h4</item>
 
     </style>
+    <style name="Yap.App.Widget.TextView.Date.Rounded" parent="Yap.App.Widget.TextView">
+        <item name="android:textColor">@color/greyDark</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:minWidth">@dimen/_140sdp</item>
+        <item name="android:paddingTop">@dimen/margin_normal_large</item>
+        <item name="android:paddingBottom">@dimen/margin_normal_large</item>
+        <item name="android:background">@drawable/bg_funds</item>
+        <item name="android:textSize">@dimen/text_size_h4</item>
+
+    </style>
 
     <style name="Yap.App.Widget.TextView.Small.GrayDark" parent="Yap.App.Widget.TextView">
         <item name="android:textColor">@color/greyDark</item>
@@ -69,8 +79,8 @@
     </style>
 
     <style name="Yap.App.Widget.ImageView.Circle" parent="Yap.App.Widget.ImageView">
-        <item name="android:layout_width">@dimen/_64sdp</item>
-        <item name="android:layout_height">@dimen/_64sdp</item>
+        <item name="android:layout_width">@dimen/_62sdp</item>
+        <item name="android:layout_height">@dimen/_62sdp</item>
         <item name="android:contentDescription">@string/empty_string</item>
 
     </style>
@@ -170,6 +180,7 @@
         <item name="android:inputType">numberDecimal</item>
         <item name="android:paddingTop">@dimen/margin_normal_large</item>
         <item name="android:paddingBottom">@dimen/margin_normal_large</item>
+        <item name="android:maxLength">12</item>
         <item name="currency_symbol">$</item>
         <item name="show_commas">true</item>
         <item name="show_currency">false</item>

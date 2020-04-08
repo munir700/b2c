@@ -4,6 +4,8 @@ import android.net.Uri
 import android.widget.ImageView
 import androidx.annotation.ColorRes
 import androidx.annotation.DimenRes
+import androidx.annotation.DrawableRes
+import androidx.annotation.IdRes
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
@@ -47,9 +49,9 @@ object ImageBinding {
             .textColor(ContextCompat.getColor(imageView.context, R.color.purple))
         setCircleCropImage(
             imageView,
-            beneficiaryPicture?:"",
+            beneficiaryPicture ?: "",
             builder.buildRect(
-                Utils.shortName(fullName?:""),
+                Utils.shortName(fullName ?: ""),
                 ContextCompat.getColor(imageView.context, R.color.disabledLight)
             )
         )
@@ -58,7 +60,10 @@ object ImageBinding {
     fun loadAvatar(
         imageView: ImageView,
         beneficiaryPicture: String?,
-        fullName: String?, @ColorRes color: Int, @DimenRes fontSize: Int = R.dimen.text_size_h5
+        fullName: String?,
+        @ColorRes color: Int,
+        @DimenRes fontSize: Int = R.dimen.text_size_h5,
+        @ColorRes textColor: Int = R.color.colorPrimary
     ) {
 
         val builder = TextDrawable.builder()
@@ -67,15 +72,39 @@ object ImageBinding {
             .fontSize(imageView.context.dimen(fontSize))
             .useFont(ResourcesCompat.getFont(imageView.context, R.font.roboto_regular)!!).bold()
             .toUpperCase()
-            .textColor(ContextCompat.getColor(imageView.context, R.color.colorPrimary))
+            .textColor(ContextCompat.getColor(imageView.context, textColor))
         setCircleCropImage(
             imageView,
-            beneficiaryPicture?:"",
+            beneficiaryPicture ?: "",
             builder.buildRect(
-                Utils.shortName(fullName?:""),
+                Utils.shortName(fullName ?: ""),
                 ContextCompat.getColor(imageView.context, color)
             )
         )
+    }
+
+    @JvmStatic
+    @BindingAdapter(
+        value = ["imageUrl", "fullName", "drawableName"],
+        requireAll = true
+    )
+    fun loadAvatarOrResDrawable(
+        imageView: ImageView,
+        imageUrl: String?,
+        fullName: String?,
+        drawableName: String?
+    ) {
+        drawableName?.let {
+            imageView.setImageResource(getResId(drawableName))
+        } ?: loadAvatar(
+            imageView,
+            imageUrl,
+            fullName,
+            R.color.disabled,
+            R.dimen.text_size_h5,
+            R.color.colorPrimary
+        )
+
     }
 
     @JvmStatic
@@ -101,9 +130,9 @@ object ImageBinding {
             )
         setCircleCropImage(
             imageView,
-            imageUrl?:"",
+            imageUrl ?: "",
             builder.buildRect(
-                Utils.shortName(fullName?:""),
+                Utils.shortName(fullName ?: ""),
                 getBgColorFromType(
                     colorType,
                     imageView,
@@ -126,7 +155,7 @@ object ImageBinding {
         isBackground: Boolean = true
     ) {
         if (fullName.isNullOrEmpty()) return
-        val fName = fullName?:""
+        val fName = fullName ?: ""
 
         val colors = imageView.context.resources.getIntArray(co.yap.yapcore.R.array.analyticsColors)
         val resId = getResId(
@@ -149,7 +178,7 @@ object ImageBinding {
                     )
                 )
             }
-            setCircleCropImage(imageView, imageUrl?:"", resImg!!)
+            setCircleCropImage(imageView, imageUrl ?: "", resImg!!)
 
         } else {
             setDrawable(
@@ -208,9 +237,9 @@ object ImageBinding {
             )
         setCircleCropImage(
             imageView,
-            imageUrl?:"",
+            imageUrl ?: "",
             builder.buildRect(
-                Utils.shortName(fullName?:""),
+                Utils.shortName(fullName ?: ""),
                 Utils.getBackgroundColor(imageView.context, position = position)
             )
         )
@@ -220,11 +249,11 @@ object ImageBinding {
         return colors[position % colors.size]
     }
 
-     fun getDrawableName(title: String): String {
+    fun getDrawableName(title: String): String {
         return title.replace(" ", "_").toLowerCase()
     }
 
-     fun getResId(drawableName: String): Int {
+    fun getResId(drawableName: String): Int {
         return try {
             val res = R.drawable::class.java
             val field = res.getField(drawableName)
