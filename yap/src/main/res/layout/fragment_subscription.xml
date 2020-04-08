@@ -1,19 +1,119 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
         <variable
-            name="subscriptionVM"
+            name="viewModel"
             type="co.yap.modules.subaccounts.paysalary.subscription.SubscriptionVM" />
+
+        <import type="co.yap.yapcore.managers.MyUserManager" />
 
     </data>
 
-    <RelativeLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:padding="@dimen/margin_medium"
+        tools:context=".modules.subaccounts.paysalary.subscription.SubscriptionFragment">
+
+        <co.yap.widgets.CoreCircularImageView
+            android:id="@+id/ivUserImage"
+            style="@style/Yap.App.Widget.ImageView.Circle"
+            android:contentDescription="@string/empty_string"
+            android:src="@drawable/ic_store_b2b"
+            app:colorType="@{`Beneficiary`}"
+            app:fullName="@{MyUserManager.INSTANCE.user.currentCustomer.fullName}"
+            app:imageUrl="@{MyUserManager.INSTANCE.user.currentCustomer.picture}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:position="@{0}" />
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/swAutoRenewal"
+            style="@style/Regular"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_xl"
+            android:text="Automatic renewal"
+            android:theme="@style/CustomSwitch"
+            app:layout_constraintTop_toBottomOf="@+id/ivUserImage" />
+
+        <include
+            android:id="@+id/layoutName"
+            layout="@layout/layout_horizontal_text_views"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/swAutoRenewal"
+            app:title="@{`Name`}"
+            app:value="@{MyUserManager.INSTANCE.user.currentCustomer.fullName}" />
+
+        <include
+            android:id="@+id/layoutStartDate"
+            layout="@layout/layout_horizontal_text_views"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/layoutName"
+            app:title="@{`Start date`}"
+            app:value="@{`01/01/2019`}" />
+
+        <include
+            android:id="@+id/layoutEndDate"
+            layout="@layout/layout_horizontal_text_views"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/layoutStartDate"
+            app:title="@{`End date`}"
+            app:value="@{`01/01/2020`}" />
+
+        <include
+            android:id="@+id/layoutPlanType"
+            layout="@layout/layout_horizontal_text_views"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/layoutEndDate"
+            app:title="@{`Plan type`}"
+            app:value="@{`Monthly`}" />
 
 
+        <include
+            android:id="@+id/layoutCost"
+            layout="@layout/layout_horizontal_text_views"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/layoutPlanType"
+            app:title="@{`Cost`}"
+            app:value="@{`AED 59.99/month`}" />
 
-    </RelativeLayout>
+        <co.yap.widgets.CoreButton
+            android:id="@+id/btnConfirm"
+            style="@style/FragmentsBtnStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/margin_small"
+            android:gravity="center"
+            android:onClick="@{(v)->viewModel.handlePressOnClick(context)}"
+            android:paddingStart="@dimen/margin_extra_large"
+            android:paddingEnd="@dimen/margin_extra_large"
+            android:text="Cancel subscription"
+            app:btn_enable="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/layoutCost"
+            app:layout_constraintVertical_bias="0.999"
+            tools:text="Add" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
