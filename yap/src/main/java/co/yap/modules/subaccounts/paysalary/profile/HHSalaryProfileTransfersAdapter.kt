@@ -16,11 +16,8 @@ class HHSalaryProfileTransfersAdapter(mValue: MutableList<PaySalaryModel>, navig
         navigation
     ) {
 
-    val headerSection = 1
-    val transaction = 2
-
     override fun getLayoutId(viewType: Int):Int {
-        if(viewType == headerSection){
+        if(viewType == HEADER_SECTION){
             return R.layout.item_hhsalary_profile_transaction_list_header
         }else{
             return getViewModel(viewType).layoutRes()
@@ -29,12 +26,10 @@ class HHSalaryProfileTransfersAdapter(mValue: MutableList<PaySalaryModel>, navig
 
     override fun getItemViewType(position: Int): Int {
         if (position % 3 == 0){
-            return headerSection
+            return HEADER_SECTION
         }else {
-            return transaction
+            return TRANSACTION
         }
-
-        return super.getItemViewType(position)
     }
 
     override fun getItemCount(): Int {
@@ -61,5 +56,10 @@ class HHSalaryProfileTransfersAdapter(mValue: MutableList<PaySalaryModel>, navig
         mDataBinding: ViewDataBinding
     ) :
         BaseViewHolder<PaySalaryModel, HHSalaryProfileTransfersItemVM>(view, viewModel, mDataBinding)
+
+    companion object {
+        const val HEADER_SECTION = 1
+        const val TRANSACTION = 2
+    }
 
 }
