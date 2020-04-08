@@ -48,13 +48,17 @@ class VerifyPasscodeViewModel(application: Application) :
 
     private fun handleAttemptsError(error: ApiError) {
         when (error.actualCode) {
-            "302" -> showAccountBlockedError()
+            "302" -> showAccountBlockedError(getString(Strings.screen_verify_passcode_text_account_locked))
             "303" -> showBlockForSomeTimeError(error.message)
+            "1260" -> {
+                state.isAccountFreeze.set(true)
+                showAccountBlockedError(error.message)
+            }
         }
     }
 
-    override fun showAccountBlockedError() {
-        state.dialerError = getString(Strings.screen_verify_passcode_text_account_locked)
+    override fun showAccountBlockedError(errorMessage: String) {
+        state.dialerError = errorMessage
         state.isScreenLocked.set(true)
         state.isAccountLocked.set(true)
         state.valid = false
