@@ -1,7 +1,6 @@
 package co.yap.modules.subaccounts.account.card
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.navigation.NavController
 import co.yap.R
@@ -18,20 +17,16 @@ class SubAccountCardItemVM : BaseListItemViewModel<SubAccount>() {
         mItem = item
         this.position = position
         subTitle = mItem.cardStatus ?: "Add new card"
-
         fullName = mItem.accountType?.let {
             when (it) {
                 AccountType.B2C_HOUSEHOLD.name -> mItem.getFullName()
                 else -> "Your balance"
             }
         }
-
     }
 
     override fun getItem() = mItem
-
     override fun layoutRes() = R.layout.item_sub_account_card
-
     override fun onFirsTimeUiCreate(bundle: Bundle?, navigation: NavController?) {
     }
 

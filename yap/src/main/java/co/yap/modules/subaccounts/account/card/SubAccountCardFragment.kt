@@ -52,8 +52,6 @@ class SubAccountCardFragment :
             navigateForwardWithAnimation(SubAccountDashBoardFragmentDirections.actionSubAccountDashBoardFragmentToHHSalaryProfileFragment())
         }
             ?: launchActivity<HouseHoldLandingActivity>(requestCode = RequestCodes.REQUEST_ADD_HOUSE_HOLD)
-
-
     }
 
     class Adapter(mValue: MutableList<SubAccount>, navigation: NavController?) :

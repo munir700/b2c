@@ -19,7 +19,6 @@ class HHSalaryProfileFragment :
     BaseRecyclerViewFragment<FragmentHhsalaryProfileBinding, IHHSalaryProfile.State, HHSalaryProfileVM, HHSalaryProfileTransfersAdapter, PaySalaryModel>() {
 
     override fun getBindingVariable() = BR.hhSalaryProfileVM
-
     override fun getLayoutId() = R.layout.fragment_hhsalary_profile
 
     override fun postExecutePendingBindings() {
@@ -53,13 +52,10 @@ class HHSalaryProfileFragment :
     }
 
     override var toolBarTitle: String? = "Your Name"
-
-
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
         inflater.inflate(R.menu.add_menu, menu)
     }
-
 
     class Adapter(mValue: MutableList<PaySalaryModel>, navigation: NavController?) :
         BaseRVAdapter<PaySalaryModel, HHSalaryProfileItemVM, HHSalaryProfileFragment.Adapter.ViewHolder>(
