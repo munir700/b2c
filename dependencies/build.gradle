@@ -139,7 +139,7 @@ project.ext {
             //adjust
             adjust                   : 'com.adjust.sdk:adjust-android:4.21.0',
             adjustReferrer           : 'com.android.installreferrer:installreferrer:1.1',
-            expand           : 'net.cachapa.expandablelayout:expandablelayout:2.9.2'
+            expand                   : 'net.cachapa.expandablelayout:expandablelayout:2.9.2'
     ]
 
     // Test dependencies which need to be added in all modules

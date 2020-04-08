@@ -12,9 +12,9 @@ import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.adjust.AdjustEvents
-import co.yap.yapcore.helpers.extentions.trackerId
+import co.yap.yapcore.AdjustEvents.Companion.trackAdjustPlatformEvent
+import co.yap.yapcore.leanplum.trackerId
 import co.yap.yapcore.managers.MyUserManager
-import co.yap.yapcore.trackAdjustEvent
 
 class CongratulationsViewModel(application: Application) :
     OnboardingChildViewModel<ICongratulations.State>(application),
@@ -30,7 +30,7 @@ class CongratulationsViewModel(application: Application) :
     override fun onCreate() {
         super.onCreate()
         getAccountInfo()
-        trackAdjustEvent(AdjustEvents.SIGN_UP_END.type)
+        trackAdjustPlatformEvent(AdjustEvents.SIGN_UP_END.type)
         // calculate elapsed updatedDate for onboarding
         elapsedOnboardingTime = parentViewModel?.onboardingData?.elapsedOnboardingTime ?: 0
         state.nameList[0] = parentViewModel?.onboardingData?.firstName

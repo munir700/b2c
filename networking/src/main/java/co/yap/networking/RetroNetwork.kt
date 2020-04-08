@@ -73,10 +73,10 @@ object RetroNetwork : Network {
             .retryOnConnectionFailure(true)
             .cache(getCache())
             .certificatePinner(certPinner)
-//            .sslSocketFactory(
-//                SSLPiningHelper(context).getSSLFactory(),
-//                SSLPiningHelper(context).getDefaultTrustManager()
-//            )
+            .sslSocketFactory(
+                SSLPiningHelper(context).getSSLFactory(),
+                SSLPiningHelper(context).getDefaultTrustManager()
+            )
             .addInterceptor(logger)
             .addInterceptor(CookiesInterceptor())
             .addInterceptor(object : NetworkConstraintsInterceptor(context) {

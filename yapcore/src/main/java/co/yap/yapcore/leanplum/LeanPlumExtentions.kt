@@ -1,4 +1,4 @@
-package co.yap.yapcore.helpers.extentions
+package co.yap.yapcore.leanplum
 
 import android.content.Context
 import androidx.fragment.app.Fragment
@@ -9,7 +9,6 @@ import co.yap.yapcore.constants.Constants.KEY_TOUCH_ID_ENABLED
 import co.yap.yapcore.enums.PartnerBankStatus
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.biometric.BiometricUtil
-import co.yap.yapcore.leanplum.UserAttributes
 import com.leanplum.Leanplum
 
 fun Fragment.trackEvent(eventName: String, value: String = "") {
@@ -32,7 +31,14 @@ fun Fragment.trackEventInFragments(
     eidExpire: Boolean = false,
     eidExpireDate: String = ""
 ) {
-    trackAttributes(user, signup_length, account_active, context, eidExpire, eidExpireDate)
+    trackAttributes(
+        user,
+        signup_length,
+        account_active,
+        context,
+        eidExpire,
+        eidExpireDate
+    )
 }
 
 fun ViewModel.trackEventWithAttributes(
@@ -43,7 +49,14 @@ fun ViewModel.trackEventWithAttributes(
     eidExpire: Boolean = false,
     eidExpireDate: String = ""
 ) {
-    trackAttributes(user, signup_length, account_active, context, eidExpire, eidExpireDate)
+    trackAttributes(
+        user,
+        signup_length,
+        account_active,
+        context,
+        eidExpire,
+        eidExpireDate
+    )
 }
 
 fun trackAttributes(
@@ -69,7 +82,8 @@ fun trackAttributes(
         info[UserAttributes().country] = "United Arab Emirates"
         info[UserAttributes().city] = "UNKNOWN"
         info[UserAttributes().signup_timestamp] = it.creationDate ?: System.currentTimeMillis()
-        info[UserAttributes().biometric_login_enabled] = isBioMetricEnabled(context)
+        info[UserAttributes().biometric_login_enabled] =
+            isBioMetricEnabled(context)
         info[UserAttributes().account_active] =
             account_active ?: (PartnerBankStatus.ACTIVATED.status == it.partnerBankStatus)
         info[UserAttributes().eid_expired] = eidExpire

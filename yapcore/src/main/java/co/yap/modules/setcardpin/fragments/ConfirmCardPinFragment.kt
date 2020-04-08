@@ -13,8 +13,8 @@ import co.yap.translation.Translator
 import co.yap.yapcore.R
 import co.yap.yapcore.enums.AccountStatus
 import co.yap.yapcore.helpers.DateUtils.LeanPlumEventFormat
-import co.yap.yapcore.helpers.extentions.trackEvent
-import co.yap.yapcore.helpers.extentions.trackEventInFragments
+import co.yap.yapcore.leanplum.trackEvent
+import co.yap.yapcore.leanplum.trackEventInFragments
 import co.yap.yapcore.leanplum.KYCEvents
 import co.yap.yapcore.managers.MyUserManager
 import kotlinx.android.synthetic.main.fragment_set_card_pin.*

@@ -39,12 +39,11 @@ import co.yap.yapcore.helpers.AnimationUtils
 import co.yap.yapcore.helpers.DateUtils
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.*
-import co.yap.yapcore.leanplum.KYCEvents
-import co.yap.yapcore.leanplum.SignupEvents
+import co.yap.yapcore.leanplum.*
 import co.yap.yapcore.managers.MyUserManager
-import co.yap.yapcore.trackAdjustEvent
 import kotlinx.android.synthetic.main.fragment_onboarding_congratulations.*
 import java.text.SimpleDateFormat
+import co.yap.yapcore.AdjustEvents.Companion.trackAdjustPlatformEvent
 import java.util.*
 
 
@@ -91,7 +90,7 @@ class CongratulationsFragment : OnboardingChildFragment<ICongratulations.ViewMod
     private val clickObserver = Observer<Int> {
         when (it) {
             R.id.btnCompleteVerification -> {
-                trackAdjustEvent(AdjustEvents.KYC_START.type)
+                trackAdjustPlatformEvent(AdjustEvents.KYC_START.type)
                 launchActivity<DocumentsDashboardActivity>(requestCode = RequestCodes.REQUEST_KYC_DOCUMENTS) {
                     putExtra(Constants.name, viewModel.state.nameList[0] ?: "")
                     putExtra(Constants.data, false)

@@ -14,10 +14,8 @@ import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.Utils.formateIbanString
-import co.yap.yapcore.helpers.extentions.trackEvent
-import co.yap.yapcore.helpers.extentions.trackerId
+import co.yap.yapcore.leanplum.trackerId
 import co.yap.yapcore.managers.MyUserManager
-import com.leanplum.Leanplum
 
 class YapDashBoardViewModel(application: Application) :
     BaseViewModel<IYapDashboard.State>(application), IYapDashboard.ViewModel {
