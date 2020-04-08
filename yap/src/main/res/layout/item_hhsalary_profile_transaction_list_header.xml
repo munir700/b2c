@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="co.yap.modules.subaccounts.paysalary.profile.HHSalaryProfileTransfersItemVM" />
+
+        <import type="co.yap.translation.Strings" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tvTransactionDate"
+            style="@style/SmallGrey"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_small"
+            tools:text="Today, Sep 03"
+            android:text="Today, Sep 03"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+<!--        android:text="@{viewModel.itemViewModel.date}"-->
+        <TextView
+            android:id="@+id/tvTotalAmount"
+            style="@style/SmallGrey"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/margin_small"
+            android:text="-321.55"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="-321.55" />
+<!--        android:text="@{viewModel.itemViewModel.totalAmount}"-->
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

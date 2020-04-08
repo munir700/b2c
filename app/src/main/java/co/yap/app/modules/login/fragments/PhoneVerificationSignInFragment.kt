@@ -20,6 +20,7 @@ import co.yap.yapcore.helpers.biometric.BiometricUtil
 import co.yap.yapcore.helpers.extentions.launchActivity
 import co.yap.yapcore.helpers.extentions.trackEventWithAttributes
 import co.yap.yapcore.managers.MyUserManager
+import javax.inject.Inject
 
 class PhoneVerificationSignInFragment : OnboardingChildFragment<IPhoneVerificationSignIn.ViewModel>() {
 
@@ -62,10 +63,7 @@ class PhoneVerificationSignInFragment : OnboardingChildFragment<IPhoneVerificati
 
     private val onFetchAccountInfo = Observer<Boolean> {
         if(it) {
-            if (MyUserManager.shouldGoToHousehold()) {
-                MyUserManager.switchProfile()
-            } else {
-                gotoYapDashboard()
+
                 if (BiometricUtil.isFingerprintSupported
                     && BiometricUtil.isHardwareSupported(requireActivity())
                     && BiometricUtil.isPermissionGranted(requireActivity())
@@ -88,8 +86,12 @@ class PhoneVerificationSignInFragment : OnboardingChildFragment<IPhoneVerificati
                     }
 
                 } else {
-                    findNavController().navigate(R.id.action_goto_yapDashboardActivity)
-                    activity?.finish()
+                   /* findNavController().navigate(R.id.action_goto_yapDashboardActivity)
+                    activity?.finish()*/
+                    if (MyUserManager.shouldGoToHousehold()) {
+                        MyUserManager.switchProfile()
+                    } else {
+                        gotoYapDashboard()
                 }
             }
         }

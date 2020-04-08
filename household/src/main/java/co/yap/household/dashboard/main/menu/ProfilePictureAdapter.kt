@@ -13,7 +13,7 @@ class ProfilePictureAdapter(mValue: MutableList<AccountInfo>, navigation: NavCon
         mValue,
         navigation
     ) {
-    override fun getLayoutId(viewType: Int) = getViewModel().layoutRes()
+    override fun getLayoutId(viewType: Int) = getViewModel(viewType).layoutRes()
     override fun getViewHolder(
         view: View,
         viewModel: ProfilePictureItemVM,
@@ -26,7 +26,7 @@ class ProfilePictureAdapter(mValue: MutableList<AccountInfo>, navigation: NavCon
         )
     }
 
-    override fun getViewModel() = ProfilePictureItemVM()
+    override fun getViewModel(viewType:Int) = ProfilePictureItemVM()
     override fun getVariableId() = BR.profilePictureItemVM
     class ViewHolder(view: View, viewModel: ProfilePictureItemVM, mDataBinding: ViewDataBinding) :
         BaseViewHolder<AccountInfo, ProfilePictureItemVM>(view, viewModel, mDataBinding)

@@ -24,7 +24,7 @@ class HHSalaryProfileModule : BaseFragmentModule<HHSalaryProfileFragment>() {
 
     @Provides
     fun provideHHPaySalaryAdapter(fragment: HHSalaryProfileFragment) =
-        HHSalaryProfileFragment.Adapter(
+        HHSalaryProfileTransfersAdapter(
             ArrayList(),
             null
         )
