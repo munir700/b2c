@@ -1,5 +1,6 @@
 package co.yap.modules.subaccounts.paysalary.profile
 
+import androidx.databinding.ObservableField
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
 
@@ -11,5 +12,8 @@ interface IHHSalaryProfile {
         fun handlePressOnClick(id: Int)
     }
 
-    interface State : IBase.State
+    interface State : IBase.State {
+        var filterCount: ObservableField<Int>
+        var isTransEmpty: ObservableField<Boolean>
+    }
 }

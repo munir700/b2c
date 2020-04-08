@@ -121,6 +121,11 @@ abstract class BaseRecyclerViewFragment<VB : ViewDataBinding, S : IBase.State, V
 
     }
 
+    override fun onDestroyView() {
+        doneRefresh()
+        super.onDestroyView()
+    }
+
     override fun onItemClick(view: View, data: Any, pos: Int) {
 
     }

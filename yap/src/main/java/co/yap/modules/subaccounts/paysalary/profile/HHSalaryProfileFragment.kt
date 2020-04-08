@@ -2,6 +2,9 @@ package co.yap.modules.subaccounts.paysalary.profile
 
 import android.os.Bundle
 import android.view.*
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.View
 import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.Observer
 import androidx.navigation.NavController
@@ -19,9 +22,8 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import kotlin.reflect.KClass
 import kotlin.reflect.full.primaryConstructor
 
-
 class HHSalaryProfileFragment :
-    BaseRecyclerViewFragment<FragmentHhsalaryProfileBinding, IHHSalaryProfile.State, HHSalaryProfileVM, HHSalaryProfileFragment.Adapter, PaySalaryModel>() {
+    BaseRecyclerViewFragment<FragmentHhsalaryProfileBinding, IHHSalaryProfile.State, HHSalaryProfileVM, HHSalaryProfileTransfersAdapter, PaySalaryModel>() {
 
     override fun getBindingVariable() = BR.hhSalaryProfileVM
     private lateinit var houseHoldMainAccountBottomSheet: HouseHoldMainAccountBottomSheet
@@ -35,13 +37,12 @@ class HHSalaryProfileFragment :
             HouseHoldMainAccountBottomSheet(
                 viewModel
             )
-
-        viewModel.setUpData(getPaySalaryData())
         setHasOptionsMenu(true)
+        viewModel.setUpData(getPaySalaryData(), 2)
     }
 
     fun getPaySalaryData(): ArrayList<PaySalaryModel> {
-        var array: ArrayList<PaySalaryModel> = ArrayList()
+        val array: ArrayList<PaySalaryModel> = ArrayList()
         array.add(
             PaySalaryModel(
                 Strings.screen_house_hold_salary_profile_set_up_salary_text,
@@ -83,11 +84,11 @@ class HHSalaryProfileFragment :
     }
 
     class Adapter(mValue: MutableList<PaySalaryModel>, navigation: NavController?) :
-        BaseRVAdapter<PaySalaryModel, HHSalaryProfileItemVM, Adapter.ViewHolder>(
+        BaseRVAdapter<PaySalaryModel, HHSalaryProfileItemVM, HHSalaryProfileFragment.Adapter.ViewHolder>(
             mValue,
             navigation
         ) {
-        override fun getLayoutId(viewType: Int) = getViewModel().layoutRes()
+        override fun getLayoutId(viewType: Int) = getViewModel(viewType).layoutRes()
         override fun getViewHolder(
             view: View,
             viewModel: HHSalaryProfileItemVM,
@@ -99,7 +100,7 @@ class HHSalaryProfileFragment :
             return myObject
         }
 
-        override fun getViewModel() = HHSalaryProfileItemVM()
+        override fun getViewModel(viewType: Int) = HHSalaryProfileItemVM()
         override fun getVariableId() = BR.hhSalaryProfileItemVM
 
         class ViewHolder(

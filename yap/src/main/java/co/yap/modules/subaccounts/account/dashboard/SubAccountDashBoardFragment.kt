@@ -20,21 +20,11 @@ class SubAccountDashBoardFragment :
 
     override fun getLayoutId() = R.layout.fragment_sub_account_dash_board
     override var toolBarTitle: String? = "Household"
-    override fun postInit() {
-        super.postInit()
 
-    }
     override fun postExecutePendingBindings() {
         super.postExecutePendingBindings()
-        //setHasOptionsMenu(true)
-//        adapter.addFragmentInfo<SubAccountCardFragment>("Cards")
-//        adapter.addFragmentInfo<SubAccountCardFragment>("Analytics")
-       // viewModel.adapter.set(adapter)
         viewModel.adapter.set(adapter)
     }
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        super.onCreateOptionsMenu(menu, inflater)
-        inflater.inflate(R.menu.add_menu,menu)
-    }
+
 }
