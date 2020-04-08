@@ -87,7 +87,7 @@ open class ConfirmCardPinFragment : SetCardPinFragment() {
                         )
                     )
                     findNavController().navigate(R.id.action_confirmCardPinFragment_to_setCardPinSuccessFragment)
-                }
+                }else findNavController().navigate(R.id.action_confirmCardPinFragment_to_setCardPinSuccessFragment)
             } else {
                 viewModel.state.error = "Card activations failed"
             }

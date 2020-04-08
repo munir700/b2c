@@ -635,7 +635,6 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                         MyUserManager.getAccountInfo()
                     } else {
                         openTopUpScreen()
-                        // not any case for now for else
                     }
                 }
             }
