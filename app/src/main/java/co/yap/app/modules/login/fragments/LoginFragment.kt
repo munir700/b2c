@@ -1,6 +1,5 @@
 package co.yap.app.modules.login.fragments
 
-import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
@@ -16,7 +15,7 @@ import co.yap.widgets.guidedtour.models.GuidedTourViewDetail
 import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.constants.Constants.KEY_IS_USER_LOGGED_IN
 import co.yap.yapcore.helpers.SharedPreferenceManager
-  import kotlinx.android.synthetic.main.fragment_log_in.*
+import kotlinx.android.synthetic.main.fragment_log_in.*
 
 
 class LoginFragment : BaseBindingFragment<ILogin.ViewModel>(), ILogin.View {
@@ -64,12 +63,12 @@ class LoginFragment : BaseBindingFragment<ILogin.ViewModel>(), ILogin.View {
         })
 
         activity?.let {
-            TourSetup(it,it, setViewsArray())
-          }
+            TourSetup(it, it, setViewsArray())
+        }
 
     }
 
-      fun setViewsArray(): ArrayList<GuidedTourViewDetail> {
+    fun setViewsArray(): ArrayList<GuidedTourViewDetail> {
         val list = ArrayList<GuidedTourViewDetail>()
         list.add(
             GuidedTourViewDetail(
@@ -77,27 +76,28 @@ class LoginFragment : BaseBindingFragment<ILogin.ViewModel>(), ILogin.View {
                 "ivYap description"
             )
         )
-           list.add(
-               GuidedTourViewDetail(
-                   clSignUp,
-                   "btnLogIn description"
-               )
-          )
-          list.add(
-              GuidedTourViewDetail(
-                  tvSignIn,
-                  "tvSignIn description"
-              )
-          )
+        list.add(
+            GuidedTourViewDetail(
+                clSignUp,
+                " \n description"
+            )
+        )
+        list.add(
+            GuidedTourViewDetail(
+                tvSignIn,
+                "tvSignIn description"
+            )
+        )
 
-          list.add(
-              GuidedTourViewDetail(
-                  clSignUp,
-                  "clSignUp description"
-              )
-          )
+        list.add(
+            GuidedTourViewDetail(
+                clSignUp,
+                "clSignUp description"
+            )
+        )
         return list
     }
+
     override fun onDestroy() {
         super.onDestroy()
         viewModel.isAccountBlocked.removeObservers(this)

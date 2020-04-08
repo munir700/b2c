@@ -7,189 +7,58 @@ import android.graphics.*
 import android.os.Build
 import android.os.Handler
 import android.util.AttributeSet
-import android.util.Log
 import android.util.TypedValue
 import android.view.*
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import android.widget.TextView
-import co.yap.widgets.guidedtour.utils.Constants
+import androidx.cardview.widget.CardView
 import co.yap.widgets.guidedtour.MaterialIntroConfiguration
 import co.yap.widgets.guidedtour.MaterialIntroListener
 import co.yap.widgets.guidedtour.animation.AnimationFactory
 import co.yap.widgets.guidedtour.animation.AnimationListener
 import co.yap.widgets.guidedtour.description.CoachMarkInfoToolTip
 import co.yap.widgets.guidedtour.description.Orientation
-import co.yap.widgets.guidedtour.description.TriangleShapeView
 import co.yap.widgets.guidedtour.shape.*
 import co.yap.widgets.guidedtour.shape.Rect
 import co.yap.widgets.guidedtour.target.Target
 import co.yap.widgets.guidedtour.target.ViewTarget
+import co.yap.widgets.guidedtour.utils.Constants
 import co.yap.yapcore.R
 
 class MaterialIntroView : RelativeLayout {
-    /**
-     * Mask color
-     */
+
     private var maskColor = 0
-
-    /**
-     * MaterialIntroView will start
-     * showing after delayMillis seconds
-     * passed
-     */
     private var delayMillis: Long = 0
-
-    /**
-     * We don't draw MaterialIntroView
-     * until isReady field set to true
-     */
     private var isReady = false
-
-    /**
-     * Show/Dismiss MaterialIntroView
-     * with fade in/out animation if
-     * this is enabled.
-     */
     private var isFadeAnimationEnabled = false
-
-    /**
-     * Animation duration
-     */
     private var fadeAnimationDuration: Long = 0
-
-    /**
-     * targetShape focus on target
-     * and clear circle to focus
-     */
     private var targetShape: Shape? = null
-//    private lateinit var targetShape: Shape
-    /**
-     * Focus Type
-     */
     private var focusType: Focus? = null
-
-    /**
-     * FocusGravity type
-     */
     private var focusGravity: FocusGravity? = null
-
-    /**
-     * Target View
-     */
     private var targetView: Target? = null
-
-    /**
-     * Eraser
-     */
     private var eraser: Paint? = null
-
-    /**
-     * Handler will be used to
-     * delay MaterialIntroView
-     */
     private var taskHandler: Handler? = null
-
-    /**
-     * All views will be drawn to
-     * this bitmap and canvas then
-     * bitmap will be drawn to canvas
-     */
     private var bitmap: Bitmap? = null
     private var canvas: Canvas? = null
-
-    /**
-     * Circle padding
-     */
     private var padding = 0
-
-    /**
-     * Layout layoutWidth/layoutHeight
-     */
     private var layoutWidth = 0
     private var layoutHeight = 0
-
-    /**
-     * Dismiss on touch any position
-     */
     private var dismissOnTouch = false
-
-    /**
-     * Info dialog view
-     */
     private var infoView: View? = null
-
-    /**
-     * Info Dialog Text
-     */
+    private var card_view: CardView? = null
     private var textViewInfo: TextView? = null
-
-    /**
-     * Info dialog text color
-     */
     private var colorTextViewInfo = 0
-
-    /**
-     * Info dialog will be shown
-     * If this value true
-     */
     private var isInfoEnabled = false
-
-
-    /**
-     * Info Dialog Icon
-     */
     private var imageViewIcon: ImageView? = null
-
-    /**
-     * Image View will be shown if
-     * this is true
-     */
     private var isImageViewEnabled = false
-
-    /**
-     * Save/Retrieve status of MaterialIntroView
-     * If Intro is already learnt then don't show
-     * it again.
-     */
-//    private var preferencesManager: PreferencesManager? = null
-
-    /**
-     * Check using this Id whether user learned
-     * or not.
-     */
     private var materialIntroViewId: String? = null
-
-    /**
-     * When layout completed, we set this true
-     * Otherwise onGlobalLayoutListener stuck on loop.
-     */
     private var isLayoutCompleted = false
-
-    /**
-     * Notify user when MaterialIntroView is dismissed
-     */
     private var materialIntroListener: MaterialIntroListener? = null
-
-    /**
-     * Perform click operation to target
-     * if this is true
-     */
     private var isPerformClick = false
-
-    /**
-     * Disallow this MaterialIntroView from showing up more than once at a time
-     */
     private var isIdempotent = false
-
-    /**
-     * Shape of target
-     */
     private var shapeType: ShapeType? = null
-
-    /**
-     * Use custom shape
-     */
     private var usesCustomShape = false
 
     constructor(context: Context) : super(context) {
@@ -223,9 +92,7 @@ class MaterialIntroView : RelativeLayout {
     private fun init(context: Context) {
         setWillNotDraw(false)
         visibility = View.INVISIBLE
-        /**
-         * set default values
-         */
+
         maskColor = Constants.DEFAULT_MASK_COLOR
         delayMillis = Constants.DEFAULT_DELAY_MILLIS
         fadeAnimationDuration = Constants.DEFAULT_FADE_DURATION
@@ -242,11 +109,8 @@ class MaterialIntroView : RelativeLayout {
         isPerformClick = false
         isImageViewEnabled = true
         isIdempotent = false
-        /**
-         * initialize objects
-         */
+
         taskHandler = Handler()
-//        preferencesManager = PreferencesManager(context)
         eraser = Paint()
         eraser!!.color = -0x1
         eraser!!.xfermode = PorterDuffXfermode(PorterDuff.Mode.CLEAR)
@@ -254,6 +118,7 @@ class MaterialIntroView : RelativeLayout {
         val layoutInfo: View = LayoutInflater.from(getContext())
             .inflate(R.layout.material_intro_card, null)
         infoView = layoutInfo.findViewById(R.id.info_layout)
+        card_view = layoutInfo.findViewById(R.id.card_view)
         textViewInfo =
             layoutInfo.findViewById<View>(R.id.textview_info) as TextView
         textViewInfo!!.setTextColor(colorTextViewInfo)
@@ -308,13 +173,6 @@ class MaterialIntroView : RelativeLayout {
         canvas.drawBitmap(bitmap, 0f, 0f, null)
     }
 
-    /**
-     * Perform click operation when user
-     * touches on target circle.
-     *
-     * @param event
-     * @return
-     */
     override fun onTouchEvent(event: MotionEvent): Boolean {
         val xT = event.x
         val yT = event.y
@@ -351,7 +209,6 @@ class MaterialIntroView : RelativeLayout {
      * @param activity
      */
     private fun show(activity: Activity) {
-//        if (preferencesManager.isDisplayed(materialIntroViewId)) return
         (activity.window.decorView as ViewGroup).addView(this)
         setReady(true)
         taskHandler!!.postDelayed({
@@ -364,18 +221,14 @@ class MaterialIntroView : RelativeLayout {
                     }
                 }) else visibility = View.VISIBLE
         }, delayMillis)
-        if (isIdempotent) {
-//            preferencesManager.setDisplayed(materialIntroViewId)
-        }
+
     }
 
     /**
      * Dismiss Material Intro View
      */
     fun dismiss() {
-        if (!isIdempotent) {
-//            preferencesManager.setDisplayed(materialIntroViewId)
-        }
+
         AnimationFactory.animateFadeOut(
             this,
             fadeAnimationDuration,
@@ -425,100 +278,50 @@ class MaterialIntroView : RelativeLayout {
                     infoDialogParams.height
                 )
 
-//            if (targetShape!!.point.y < layoutHeight / 2) {
-//                Log.i("gravityRN","rounded view is on top")
-//                (infoView as RelativeLayout?)!!.gravity = Gravity.BOTTOM
-//                infoDialogParams.setMargins(
-//                    0,
-//                    targetShape!!.point.y + targetShape!!.height / 2,
-//                    0,
-//                    0
-//                )
-//                tipParams.setMargins(
-//                    /*layoutWidth / 2*/ (targetShape!!.point.x - 16),
-//                    0,
-//                    0,
-//                    0
-//                )
-//            } else {
-//                val calculateMarginTop= targetShape!!.point.y
-//
-//                (infoView as RelativeLayout?)!!.gravity = Gravity.BOTTOM
-//                infoDialogParams.setMargins(
-//                    0,
-//                    targetShape!!.point.y  - targetShape!!.height,
-//                    0,
-//                    0
-//                 )
-//                Log.i("RnVl",infoView!!.height.toString())
-//                tipParams.setMargins(
-//                    (targetShape!!.point.x - 16),
-//                    infoView!!.height,
-//                    0,
-//                    90
-//                )
-//               getToolTipBuilder()?.setToolTipOrientation(Orientation.DOWN)
-//            }
-
-//            tipParams.setMargins(
-//                /*layoutWidth / 2*/ (targetShape!!.point.x - 16),
-//                0,
-//                0,
-//                0
-//            )
-            var mTooltip: CoachMarkInfoToolTip? = getToolTip()
-
-            (infoView as RelativeLayout?)!!.gravity = Gravity.BOTTOM
-            infoView!!.layoutParams = infoDialogParams
-            infoView!!.postInvalidate()
-            addView(infoView)
-
             if (targetShape!!.point.y < layoutHeight / 2) {
-                Log.i("gravityRN","rounded view is on top")
-                (infoView as RelativeLayout?)!!.gravity = Gravity.BOTTOM
+                (infoView as LinearLayout?)!!.gravity = Gravity.BOTTOM
                 infoDialogParams.setMargins(
                     0,
                     targetShape!!.point.y + targetShape!!.height / 2,
                     0,
                     0
                 )
+
                 tipParams.setMargins(
                     /*layoutWidth / 2*/ (targetShape!!.point.x - 16),
                     0,
                     0,
                     0
                 )
-            } else {
-                val calculateMarginTop= targetShape!!.point.y
 
-                (infoView as RelativeLayout?)!!.gravity = Gravity.BOTTOM
+            } else {
+                (infoView as LinearLayout?)!!.gravity = Gravity.BOTTOM
                 infoDialogParams.setMargins(
                     0,
-                    (targetShape!!.point.y  - targetShape!!.height) - 60,
+                    targetShape!!.point.y - (targetShape!!.height),
                     0,
                     0
                 )
-                Log.i("RnVl", infoDialogParams.height.toString())
+
                 tipParams.setMargins(
                     (targetShape!!.point.x - 16),
-                    315 ,
                     0,
-                    0
+                    0,
+                    16
                 )
                 getToolTipBuilder()?.setToolTipOrientation(Orientation.DOWN)
             }
 
-            mTooltip?.layoutParams =  tipParams
+            infoView!!.layoutParams = infoDialogParams
+            infoView!!.postInvalidate()
+            addView(infoView)
+            var mTooltip: CoachMarkInfoToolTip? = getToolTip()
+            mTooltip?.layoutParams = tipParams
 
             mTooltip!!.postInvalidate()
 
+            (infoView as LinearLayout)?.addView(mTooltip)
 
-//            (infoView as RelativeLayout)?.addView(TriangleShapeView(context))
-            (infoView as RelativeLayout)?.addView(mTooltip)
-
-//            infoView!!.layoutParams = infoDialogParams
-//            infoView!!.postInvalidate()
-//            addView(infoView)
             if (!isImageViewEnabled) {
                 imageViewIcon!!.visibility = View.GONE
             }
