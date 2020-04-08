@@ -268,8 +268,10 @@ object UIBinder {
         if (CardStatus.valueOf(card.status).name.isNotEmpty())
             when (CardStatus.valueOf(card.status)) {
                 CardStatus.ACTIVE -> {
-                    if (PartnerBankStatus.ACTIVATED.status == MyUserManager.user?.partnerBankStatus && !card.pinCreated)
+                    if (PartnerBankStatus.ACTIVATED.status == MyUserManager.user?.partnerBankStatus && !card.pinCreated) {
                         imageView.visibility = VISIBLE
+                        imageView.setImageResource(R.drawable.ic_status_ontheway)
+                    }
                     else
                         imageView.visibility = GONE
                 }
