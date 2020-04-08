@@ -86,7 +86,7 @@
                 android:maxLines="2"
                 android:ellipsize="end"
                 app:cardStatus="@{viewModel.paymentCard}"
-                tools:text="This caasddas sa sdsad asdsaasdrd has expired" />
+                tools:text="This card has expired" />
             <TextView
                 android:id="@+id/tvCardStatusAction"
                 android:layout_width="wrap_content"
@@ -109,7 +109,7 @@
             android:gravity="center"
             android:onClick="@{(v) -> viewModel.handlePressOnView(v)}"
             android:orientation="vertical"
-            android:visibility="@{CardStatus.valueOf(viewModel.paymentCard.status).equals(CardStatus.ACTIVE) ? View.VISIBLE: View.GONE}"
+            android:visibility="@{CardStatus.valueOf(viewModel.paymentCard.status).equals(CardStatus.ACTIVE) &amp;&amp; viewModel.paymentCard.pinCreated==true ? View.VISIBLE: View.GONE}"
             app:layout_constraintEnd_toEndOf="@+id/tvCardName"
             app:layout_constraintStart_toStartOf="@+id/tvCardName"
             app:layout_constraintTop_toBottomOf="@+id/tvCardName"

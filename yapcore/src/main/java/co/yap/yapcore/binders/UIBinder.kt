@@ -35,10 +35,7 @@ import co.yap.widgets.*
 import co.yap.widgets.otptextview.OTPListener
 import co.yap.widgets.otptextview.OtpTextView
 import co.yap.yapcore.R
-import co.yap.yapcore.enums.AccountStatus
-import co.yap.yapcore.enums.CardDeliveryStatus
-import co.yap.yapcore.enums.CardStatus
-import co.yap.yapcore.enums.SendMoneyBeneficiaryType
+import co.yap.yapcore.enums.*
 import co.yap.yapcore.helpers.DateUtils
 import co.yap.yapcore.helpers.StringUtils
 import co.yap.yapcore.helpers.Utils
@@ -252,15 +249,12 @@ object UIBinder {
         if (CardStatus.valueOf(card.status).name.isNotEmpty()) {
             when (CardStatus.valueOf(card.status)) {
                 CardStatus.ACTIVE -> {
-                    linearLayout.visibility = GONE
+                    if (PartnerBankStatus.ACTIVATED.status == MyUserManager.user?.partnerBankStatus && !card.pinCreated)
+                        linearLayout.visibility = VISIBLE
+                    else
+                        linearLayout.visibility = GONE
                 }
-                CardStatus.BLOCKED -> {
-                    linearLayout.visibility = VISIBLE
-                }
-                CardStatus.INACTIVE -> {
-                    linearLayout.visibility = VISIBLE
-                }
-                CardStatus.HOTLISTED -> {
+                CardStatus.BLOCKED,CardStatus.INACTIVE,CardStatus.HOTLISTED -> {
                     linearLayout.visibility = VISIBLE
                 }
             }
@@ -274,7 +268,10 @@ object UIBinder {
         if (CardStatus.valueOf(card.status).name.isNotEmpty())
             when (CardStatus.valueOf(card.status)) {
                 CardStatus.ACTIVE -> {
-                    imageView.visibility = GONE
+                    if (PartnerBankStatus.ACTIVATED.status == MyUserManager.user?.partnerBankStatus && !card.pinCreated)
+                        imageView.visibility = VISIBLE
+                    else
+                        imageView.visibility = GONE
                 }
                 CardStatus.BLOCKED -> {
                     imageView.visibility = VISIBLE
@@ -303,7 +300,10 @@ object UIBinder {
         if (CardStatus.valueOf(card.status).name.isNotEmpty())
             when (CardStatus.valueOf(card.status)) {
                 CardStatus.ACTIVE -> {
-                    text.visibility = GONE
+                    if (PartnerBankStatus.ACTIVATED.status == MyUserManager.user?.partnerBankStatus && !card.pinCreated)
+                        setTextForInactiveCard(text = text, card = card)
+                    else
+                        text.visibility = GONE
                 }
                 CardStatus.BLOCKED -> {
                     text.visibility = VISIBLE
@@ -320,7 +320,10 @@ object UIBinder {
                     )
                 }
                 CardStatus.INACTIVE -> {
-                    setTextForInactiveCard(text = text, card = card)
+                    if (PartnerBankStatus.ACTIVATED.status == MyUserManager.user?.partnerBankStatus)
+                        setTextForInactiveCard(text = text, card = card)
+                    else
+                        text.visibility = GONE
                 }
                 CardStatus.EXPIRED -> {
                     text.visibility = VISIBLE
@@ -333,8 +336,8 @@ object UIBinder {
     }
 
     private fun setTextForInactiveCard(text: TextView, card: Card) {
-        if (card.cardType == "DEBIT") {
-            if (MyUserManager.user?.notificationStatuses == "MEETING_SUCCESS") {
+        when (card.cardType) {
+            CardType.DEBIT.type -> {
                 if (card.deliveryStatus == CardDeliveryStatus.SHIPPED.name) {
                     text.visibility = VISIBLE
                     text.text = Translator.getString(
@@ -348,33 +351,9 @@ object UIBinder {
                         R.string.screen_cards_display_text_pending_delivery
                     )
                 }
-            } else {
-                text.visibility = VISIBLE
-                text.text = Translator.getString(
-                    text.context,
-                    R.string.screen_cards_display_text_pending_delivery
-                )
             }
-        } else {
-            if (card.deliveryStatus == null) {
-                text.visibility = GONE
-            } else {
-                when (card.deliveryStatus?.let { CardDeliveryStatus.valueOf(it) }) {
-                    CardDeliveryStatus.SHIPPED -> {
-                        text.visibility = VISIBLE
-                        text.text = Translator.getString(
-                            text.context,
-                            R.string.screen_cards_display_text_set_message
-                        )
-                    }
-                    else -> {
-                        text.visibility = VISIBLE
-                        text.text = Translator.getString(
-                            text.context,
-                            R.string.screen_cards_display_text_pending_delivery
-                        )
-                    }
-                }
+            else -> {
+                // use for other card type like Gold , platinium etc
             }
         }
     }
@@ -386,7 +365,10 @@ object UIBinder {
         if (CardStatus.valueOf(card.status).name.isNotEmpty())
             when (CardStatus.valueOf(card.status)) {
                 CardStatus.ACTIVE -> {
-                    coreButton.visibility = GONE
+                    if (PartnerBankStatus.ACTIVATED.status == MyUserManager.user?.partnerBankStatus && !card.pinCreated)
+                        setCardButtonTextForInactive(coreButton, card)
+                    else
+                        coreButton.visibility = GONE
                 }
                 CardStatus.BLOCKED -> {
                     coreButton.visibility = VISIBLE
@@ -403,7 +385,10 @@ object UIBinder {
                     )
                 }
                 CardStatus.INACTIVE -> {
-                    setCardButtonTextForInactive(coreButton, card)
+                    if (PartnerBankStatus.ACTIVATED.status == MyUserManager.user?.partnerBankStatus && card.deliveryStatus == CardDeliveryStatus.SHIPPED.name)
+                        setCardButtonTextForInactive(coreButton, card)
+                    else
+                        coreButton.visibility = GONE
                 }
 
                 CardStatus.EXPIRED -> {
@@ -418,36 +403,16 @@ object UIBinder {
     }
 
     private fun setCardButtonTextForInactive(coreButton: TextView, card: Card) {
-        if (card.cardType == "DEBIT") {
-            if (MyUserManager.user?.notificationStatuses == AccountStatus.MEETING_SUCCESS.name) {
-                if (card.deliveryStatus == CardDeliveryStatus.SHIPPED.name) {
-                    coreButton.visibility = VISIBLE
-                    coreButton.text = Translator.getString(
-                        coreButton.context,
-                        R.string.screen_cards_display_text_set_pin
-                    )
-                } else {
-                    coreButton.visibility = GONE
-                }
-            } else {
-                coreButton.visibility = GONE
+        when (card.cardType) {
+            CardType.DEBIT.type -> {
+                coreButton.visibility = VISIBLE
+                coreButton.text = Translator.getString(
+                    coreButton.context,
+                    R.string.screen_cards_display_text_set_pin
+                )
             }
-        } else {
-            if (card.deliveryStatus == null) {
-                coreButton.visibility = GONE
-            } else {
-                when (card.deliveryStatus?.let { CardDeliveryStatus.valueOf(it) }) {
-                    CardDeliveryStatus.SHIPPED -> {
-                        coreButton.visibility = VISIBLE
-                        coreButton.text = Translator.getString(
-                            coreButton.context,
-                            R.string.screen_cards_display_text_set_pin
-                        )
-                    }
-                    else -> {
-                        coreButton.visibility = GONE
-                    }
-                }
+            else -> {
+                // use for other card type like Gold , platinium etc
             }
         }
     }

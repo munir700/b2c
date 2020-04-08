@@ -35,6 +35,7 @@ class YapCardsViewModel(application: Application) : BaseViewModel<IYapCards.Stat
                             val cardsList = response.data.data
                             val primaryCard = getPrimaryCard(cardsList)
                             cardsList?.remove(primaryCard)
+
                             primaryCard?.let {
                                 cardsList?.add(0, primaryCard)
                             }
