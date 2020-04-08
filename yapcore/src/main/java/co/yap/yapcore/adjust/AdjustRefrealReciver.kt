@@ -1,11 +1,10 @@
-package co.yap.modules.dummy
+package co.yap.yapcore.adjust
 
 import android.app.ActivityManager
 import android.content.Context
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import co.yap.yapcore.helpers.SharedPreferenceManager
-import co.yap.yapcore.adjust.ReferralInfo
 import com.adjust.sdk.Adjust
 
 class AdjustReferrerReceiver : AppCompatActivity() {

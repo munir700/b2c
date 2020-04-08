@@ -30,8 +30,8 @@ object RetroNetwork : Network {
             return field
         }
 
-    override fun initWith(application: Application, baseUrl: String) {
-        build(application, baseUrl)
+    override fun initWith(application: Application, appData: AppData) {
+        build(application, appData)
     }
 
     @Throws(IllegalStateException::class)
@@ -40,44 +40,24 @@ object RetroNetwork : Network {
         return retro?.create(serviceInterface)!!
     }
 
-    private fun build(context: Context, baseUrl: String): Retrofit {
+    private fun build(context: Context, appData: AppData): Retrofit {
         if (retro == null) {
             retro = Retrofit.Builder()
-                .baseUrl(baseUrl)
+                .baseUrl(appData.baseUrl)
                 .addConverterFactory(GsonConverterFactory.create())
-                .client(buildOkHttpClient(context)).build()
+                .client(buildOkHttpClient(context, appData)).build()
         }
         return retro!!
     }
 
-    private fun buildOkHttpClient(context: Context): OkHttpClient {
-        val certPinner = CertificatePinner.Builder()
-            .add("*.yap.co", "sha256/e5L5CAoQjV0HFzAnunk1mPHVx1HvPxcfJYI0UtLyBwY=")
-            .add("*.yap.co", "sha256/JSMzqOOrtyOT1kmau6zKhgT676hGgczD5VMdRMyJZFA=")
-            .add("*.yap.co", "sha256/xYUxUshCD5PVwQ1AgAakwEG6dLIId5QMvqbNVBn1vFw=") // charles
-            .add("*.yap.co", "sha256/Yf/ZlETuML9yDZbbwEFNdRnXKM/Nci/pXaCLCcH8yrU=") // charles
-            .add("*.yap.co", "sha256/jr1RBEN+F3KtPTYBMhudiTGBRAg8k2qZPEg3WbSerXU=")
-            .add("*.yap.co", "sha256/yJcy2FrimDcAjQrvDDImmFJna4OjlPQ4LAee9Vj2C74=")
-            .add("*.yap.co", "sha256/Ko8tivDrEjiY90yGasP6ZpBU4jwXvHqVvQI0GS3GNdA=")
-            .add("*.yap.co", "sha256/ZrRL6wSXl/4lm1KItkcZyh56BGOoxMWUDJr7YVqE4no=")
-            .add("*.yap.co", "sha256/8Rw90Ej3Ttt8RRkrg+WYDS9n7IS03bk5bjP/UXPtaY8=")
-            .build()
-
-        val logger = HttpLoggingInterceptor()
-        logger.level =
-            if (BuildConfig.DEBUG) HttpLoggingInterceptor.Level.BODY else HttpLoggingInterceptor.Level.NONE
-        return OkHttpClient.Builder()
+    private fun buildOkHttpClient(context: Context, appData: AppData): OkHttpClient {
+        val okHttpClientBuilder = OkHttpClient.Builder()
             .connectTimeout(CONNECTION_TIMEOUT_SECONDS, TimeUnit.SECONDS)
             .writeTimeout(READ_TIMEOUT_SECONDS, TimeUnit.SECONDS)
             .readTimeout(READ_TIMEOUT_SECONDS, TimeUnit.SECONDS)
             .retryOnConnectionFailure(true)
             .cache(getCache())
-            .certificatePinner(certPinner)
-            .sslSocketFactory(
-                SSLPiningHelper(context).getSSLFactory(),
-                SSLPiningHelper(context).getDefaultTrustManager()
-            )
-            .addInterceptor(logger)
+            .addInterceptor(getHttpLoggingInterceptor(appData))
             .addInterceptor(CookiesInterceptor())
             .addInterceptor(object : NetworkConstraintsInterceptor(context) {
                 override fun onInternetUnavailable() {
@@ -93,7 +73,56 @@ object RetroNetwork : Network {
                     networkConstraintsListener?.onSessionInvalid()
                 }
             })
+        return salImplementation(context, okHttpClientBuilder, appData)
+    }
+
+    private fun salImplementation(
+        context: Context,
+        builder: OkHttpClient.Builder,
+        appData: AppData
+    ): OkHttpClient {
+        return if (appData.flavor.equals("stg", true) && appData.build_type.equals(
+                "release",
+                true
+            )
+        ) {
+            builder.certificatePinner(getCertificatePinner())
+            builder.sslSocketFactory(
+                SSLPiningHelper(context).getSSLFactory(),
+                SSLPiningHelper(context).getDefaultTrustManager()
+            ).build()
+        } else {
+            builder.build()
+        }
+    }
+
+    private fun getCertificatePinner(): CertificatePinner {
+        return CertificatePinner.Builder()
+            .add("*.yap.co", "sha256/e5L5CAoQjV0HFzAnunk1mPHVx1HvPxcfJYI0UtLyBwY=")
+            .add("*.yap.co", "sha256/JSMzqOOrtyOT1kmau6zKhgT676hGgczD5VMdRMyJZFA=")
+            .add("*.yap.co", "sha256/xYUxUshCD5PVwQ1AgAakwEG6dLIId5QMvqbNVBn1vFw=") // charles
+            .add("*.yap.co", "sha256/Yf/ZlETuML9yDZbbwEFNdRnXKM/Nci/pXaCLCcH8yrU=") // charles
+            .add("*.yap.co", "sha256/jr1RBEN+F3KtPTYBMhudiTGBRAg8k2qZPEg3WbSerXU=")
+            .add("*.yap.co", "sha256/yJcy2FrimDcAjQrvDDImmFJna4OjlPQ4LAee9Vj2C74=")
+            .add("*.yap.co", "sha256/Ko8tivDrEjiY90yGasP6ZpBU4jwXvHqVvQI0GS3GNdA=")
+            .add("*.yap.co", "sha256/ZrRL6wSXl/4lm1KItkcZyh56BGOoxMWUDJr7YVqE4no=")
+            .add("*.yap.co", "sha256/8Rw90Ej3Ttt8RRkrg+WYDS9n7IS03bk5bjP/UXPtaY8=")
             .build()
+    }
+
+    fun getHttpLoggingInterceptor(
+        appData: AppData
+    ): HttpLoggingInterceptor {
+        val logger = HttpLoggingInterceptor()
+        logger.level =
+            if (appData.flavor.equals("stg", true)
+                && appData.build_type.equals("release", true)
+            ) {
+                HttpLoggingInterceptor.Level.NONE
+            } else {
+                HttpLoggingInterceptor.Level.BODY
+            }
+        return logger
     }
 
     fun listenNetworkConstraints(listener: NetworkConstraintsListener) {

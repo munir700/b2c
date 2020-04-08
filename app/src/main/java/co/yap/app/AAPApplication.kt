@@ -10,6 +10,7 @@ import co.yap.household.onboard.otherscreens.InvalidEIDActivity
 import co.yap.modules.dummy.ActivityNavigator
 import co.yap.modules.dummy.NavigatorProvider
 import co.yap.modules.others.helper.Constants.START_REQUEST_CODE
+import co.yap.networking.AppData
 import co.yap.networking.RetroNetwork
 import co.yap.networking.interfaces.NetworkConstraintsListener
 import co.yap.yapcore.constants.Constants
@@ -30,15 +31,7 @@ import timber.log.Timber
 import timber.log.Timber.DebugTree
 import java.util.*
 
-class AAPApplication : ChatApplication(
-    AppInfo(
-        BuildConfig.VERSION_NAME,
-        BuildConfig.VERSION_CODE,
-        BuildConfig.FLAVOR,
-        BuildConfig.BUILD_TYPE,
-        BuildConfig.BASE_URL
-    )
-), NavigatorProvider {
+class AAPApplication() : ChatApplication(getAppInfo()), NavigatorProvider {
 
     override fun onCreate() {
         super.onCreate()
@@ -50,7 +43,7 @@ class AAPApplication : ChatApplication(
     }
 
     private fun initNetworkLayer() {
-        RetroNetwork.initWith(this, BuildConfig.BASE_URL)
+        RetroNetwork.initWith(this, getAppDataForNetwork())
         NetworkConnectionManager.init(this)
         setAppUniqueId(this)
         RetroNetwork.listenNetworkConstraints(object : NetworkConstraintsListener {
@@ -148,4 +141,25 @@ class AAPApplication : ChatApplication(
             }
         }
     }
+}
+
+fun getAppInfo(): AppInfo {
+    return AppInfo(
+        BuildConfig.VERSION_NAME,
+        BuildConfig.VERSION_CODE,
+        BuildConfig.FLAVOR,
+        BuildConfig.BUILD_TYPE,
+        BuildConfig.BASE_URL
+    )
+}
+
+//will consult this with team
+fun getAppDataForNetwork(): AppData {
+    return AppData(
+        BuildConfig.VERSION_NAME,
+        BuildConfig.VERSION_CODE,
+        BuildConfig.FLAVOR,
+        BuildConfig.BUILD_TYPE,
+        BuildConfig.BASE_URL
+    )
 }

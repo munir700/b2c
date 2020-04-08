@@ -8,7 +8,7 @@
         tools:overrideLibrary="com.leanplum, com.google.android.gms" />
 
     <permission
-        android:name="co.yap.app.permission"
+        android:name="${applicationId}.permission."
         android:protectionLevel="signature" />
 
     <application
@@ -71,7 +71,7 @@
         <service
             android:name="com.leanplum.LeanplumPushFirebaseMessagingService"
             android:exported="false"
-            android:permission="co.yap.app.permission">
+            android:permission="${applicationId}.permission">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
@@ -91,7 +91,7 @@
             </intent-filter>
         </receiver>
 
-        <activity android:name="co.yap.modules.dummy.AdjustReferrerReceiver">
+        <activity android:name="co.yap.yapcore.adjust.AdjustReferrerReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
