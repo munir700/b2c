@@ -2,8 +2,8 @@
 <resources>
 
     <style name="Yap.App.Widget.RoundedTabLayout" parent="Widget.Design.TabLayout">
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">@dimen/_20sdp</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
         <item name="tabIndicatorColor">@color/transparent</item>
         <item name="tabTextAppearance">@style/Yap.App.Widget.TabTextAppearance</item>
         <item name="tabTextColor">@color/colorPrimary</item>
@@ -46,6 +46,16 @@
         <item name="android:textSize">@dimen/text_size_h4</item>
 
     </style>
+    <style name="Yap.App.Widget.TextView.Date.Rounded" parent="Yap.App.Widget.TextView">
+        <item name="android:textColor">@color/greyDark</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:minWidth">@dimen/_140sdp</item>
+        <item name="android:paddingTop">@dimen/margin_normal_large</item>
+        <item name="android:paddingBottom">@dimen/margin_normal_large</item>
+        <item name="android:background">@drawable/bg_funds</item>
+        <item name="android:textSize">@dimen/text_size_h4</item>
+
+    </style>
 
     <style name="Yap.App.Widget.TextView.Small.GrayDark" parent="Yap.App.Widget.TextView">
         <item name="android:textColor">@color/greyDark</item>
@@ -69,8 +79,8 @@
     </style>
 
     <style name="Yap.App.Widget.ImageView.Circle" parent="Yap.App.Widget.ImageView">
-        <item name="android:layout_width">@dimen/_64sdp</item>
-        <item name="android:layout_height">@dimen/_64sdp</item>
+        <item name="android:layout_width">@dimen/_62sdp</item>
+        <item name="android:layout_height">@dimen/_62sdp</item>
         <item name="android:contentDescription">@string/empty_string</item>
 
     </style>
@@ -100,7 +110,7 @@
     <style name="Yap.App.Widget.FloatingActionButton.Circle" parent="AppTheme">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_marginTop">@dimen/margin_extra_large</item>
+        <item name="android:layout_marginTop">@dimen/margin_medium</item>
         <item name="android:padding">@dimen/_5sdp</item>
         <item name="android:tint">@color/white</item>
         <item name="backgroundTint">?attr/colorPrimaryAttr</item>
@@ -110,16 +120,57 @@
         <item name="maxImageSize">@dimen/_18sdp</item>
     </style>
 
+    <style name="Yap.App.Widget.FloatingActionButton.Circle.Large" parent="AppTheme">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:tint">?attr/colorPrimaryAttr</item>
+        <item name="backgroundTint">@color/bg_round_light_primary_soft</item>
+        <item name="elevation">0dp</item>
+        <item name="fabCustomSize">@dimen/_32sdp</item>
+        <item name="fabSize">mini</item>
+        <item name="maxImageSize">@dimen/_18sdp</item>
+    </style>
+
     <style name="Yap.App.Widget.FloatingActionButton.Circle.Small" parent="AppTheme">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_margin">@dimen/margin_small</item>
         <item name="android:tint">@color/white</item>
         <item name="backgroundTint">?attr/colorPrimarySoftAttr</item>
         <item name="elevation">0dp</item>
         <item name="fabCustomSize">@dimen/_20sdp</item>
         <item name="fabSize">mini</item>
         <item name="maxImageSize">@dimen/_10sdp</item>
+    </style>
+
+    <style name="Yap.App.Widget.AppBarLayout" parent="AppTheme">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@color/white</item>
+        <item name="android:fitsSystemWindows">true</item>
+        <item name="android:theme">@style/ThemeOverlay.AppCompat.Dark.ActionBar</item>
+        <item name="elevation">0dp</item>
+    </style>
+
+    <style name="Yap.App.Widget.CollapsingToolbarLayout" parent="AppTheme">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="layout_scrollFlags">scroll|exitUntilCollapsed|snap</item>
+        <item name="titleEnabled">false</item>
+        <item name="elevation">0dp</item>
+    </style>
+
+    <style name="Yap.App.Widget.FilterCount" parent="ASmall">
+        <item name="android:layout_width">@dimen/_22sdp</item>
+        <item name="android:layout_height">@dimen/_22sdp</item>
+        <item name="android:background">@drawable/bg_round_purple</item>
+        <item name="android:textColor">?attr/colorPrimaryAttr</item>
+    </style>
+
+    <style name="Yap.App.Widget.FloatingActionButton.Text" parent="AppTheme">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">?attr/colorPrimaryAttr</item>
+        <item name="android:layout_marginTop">@dimen/margin_small</item>
     </style>
 
     <style name="Yap.App.Widget.TextInputEditText.EasyMoney" parent="Yap.App.Widget.TextInputEditText">
@@ -129,6 +180,7 @@
         <item name="android:inputType">numberDecimal</item>
         <item name="android:paddingTop">@dimen/margin_normal_large</item>
         <item name="android:paddingBottom">@dimen/margin_normal_large</item>
+        <item name="android:maxLength">12</item>
         <item name="currency_symbol">$</item>
         <item name="show_commas">true</item>
         <item name="show_currency">false</item>

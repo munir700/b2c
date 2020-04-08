@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
         <variable
             name="lable"
             type="String" />
@@ -34,7 +33,7 @@
             android:id="@+id/tvLable"
             style="@style/Yap.App.Widget.TextView.Label"
             android:text="Last salary transfer"
-            android:textSize="@dimen/text_size_h3"
+            android:textSize="@dimen/text_size_h2"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
