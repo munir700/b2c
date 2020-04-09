@@ -60,6 +60,11 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
             if (!it.isNullOrEmpty())
                 setupList(it)
         })
+        MyUserManager.card.observe(this, Observer {
+            it?.let {
+                viewModel.getCards()
+            }
+        })
     }
 
     private fun setupList(cards: ArrayList<Card>) {
@@ -246,7 +251,7 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
                         isPinCreated?.let {
                             if (it) {
                                 adapter.removeAllItems()
-                                viewModel.getCards()
+                                viewModel.getDebitCard()
                             }
                         }
                     }
