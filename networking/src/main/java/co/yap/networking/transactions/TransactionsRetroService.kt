@@ -156,7 +156,8 @@ interface TransactionsRetroService {
     suspend fun getCutOffTimeConfiguration(
         @Query("productCode") productCode: String?,
         @Query("currency") currency: String?,
-        @Query("amount") amount: String?
+        @Query("amount") amount: String?,
+        @Query("isCbwsi") isCbwsi: Boolean?
     ): Response<CutOffTime>
 
     @GET(TransactionsRepository.URL_GET_ACHIEVEMENTS)

@@ -52,9 +52,10 @@ class CashTransferConfirmationViewModel(application: Application) :
             state.loading = true
             when (val response =
                 repository.getCutOffTimeConfiguration(
-                    getProductCode(),
-                    "AED",
-                    parentViewModel?.transferData?.value?.transferAmount
+                    productCode = getProductCode(),
+                    currency = "AED",
+                    amount = parentViewModel?.transferData?.value?.transferAmount,
+                    isCbwsi = parentViewModel?.selectedPop?.cbwsi?:false
                 )) {
                 is RetroApiResponse.Success -> {
                     response.data.data?.let {
@@ -145,6 +146,13 @@ class CashTransferConfirmationViewModel(application: Application) :
             SendMoneyBeneficiaryType.DOMESTIC.type -> TransactionProductCode.DOMESTIC.pCode
 
             else -> ""
+        })
+    }
+
+    private fun getCbwsiFlag(): Boolean? {
+        return (when (parentViewModel?.beneficiary?.value?.beneficiaryType) {
+            SendMoneyBeneficiaryType.UAEFTS.type -> parentViewModel?.selectedPop?.cbwsi
+            else -> null
         })
     }
 

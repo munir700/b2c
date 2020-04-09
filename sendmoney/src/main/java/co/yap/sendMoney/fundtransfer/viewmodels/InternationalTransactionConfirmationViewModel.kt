@@ -148,7 +148,8 @@ class InternationalTransactionConfirmationViewModel(application: Application) :
                                     mTransactionsRepository.getCutOffTimeConfiguration(
                                         getProductCode(),
                                         currency,
-                                        parentViewModel?.transferData?.value?.sourceAmount
+                                        parentViewModel?.transferData?.value?.sourceAmount,
+                                        parentViewModel?.selectedPop?.cbwsi?:false
                                     )) {
                                     is RetroApiResponse.Success -> {
                                         response.data.data?.let {
