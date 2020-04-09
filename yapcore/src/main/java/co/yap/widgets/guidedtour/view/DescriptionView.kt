@@ -45,8 +45,8 @@ class DescriptionView : RelativeLayout {
     private var layoutWidth = 0
     private var layoutHeight = 0
     private var dismissOnTouch = false
-    private var infoView: View? = null
-    private var card_view: CardView? = null
+    private var descriptionView: View? = null
+    private var cardView: CardView? = null
     private var textViewInfo: TextView? = null
     private var colorTextViewInfo = 0
     private var isInfoEnabled = false
@@ -113,8 +113,8 @@ class DescriptionView : RelativeLayout {
         eraser!!.flags = Paint.ANTI_ALIAS_FLAG
         val layoutInfo: View = LayoutInflater.from(getContext())
             .inflate(R.layout.view_description_box, null)
-        infoView = layoutInfo.findViewById(R.id.info_layout)
-        card_view = layoutInfo.findViewById(R.id.card_view)
+        descriptionView = layoutInfo.findViewById(R.id.descriptionLayout)
+        cardView = layoutInfo.findViewById(R.id.cardView)
         textViewInfo =
             layoutInfo.findViewById<View>(R.id.tvDescription) as TextView
         textViewInfo!!.setTextColor(colorTextViewInfo)
@@ -260,8 +260,8 @@ class DescriptionView : RelativeLayout {
 
         taskHandler!!.post {
             isLayoutCompleted = true
-            if (infoView!!.parent != null) (infoView!!.parent as ViewGroup).removeView(
-                infoView
+            if (descriptionView!!.parent != null) (descriptionView!!.parent as ViewGroup).removeView(
+                descriptionView
             )
             val infoDialogParams =
                 LayoutParams(
@@ -275,7 +275,7 @@ class DescriptionView : RelativeLayout {
                 )
 
             if (targetShape!!.point.y < layoutHeight / 2) {
-                ( infoView as LinearLayout?)!!.gravity = Gravity.BOTTOM
+                ( descriptionView as LinearLayout?)!!.gravity = Gravity.BOTTOM
                 infoDialogParams.setMargins(
                     0,
                     targetShape!!.point.y + targetShape!!.height / 2,
@@ -294,7 +294,7 @@ class DescriptionView : RelativeLayout {
                 )
 
             } else {
-                (infoView as LinearLayout?)!!.gravity = Gravity.BOTTOM
+                (descriptionView as LinearLayout?)!!.gravity = Gravity.BOTTOM
                 infoDialogParams.setMargins(
                     0,
                     targetShape!!.point.y - (targetShape!!.height),
@@ -313,18 +313,18 @@ class DescriptionView : RelativeLayout {
                 getToolTipBuilder()?.setToolTipOrientation(Orientation.DOWN)
             }
 
-            infoView!!.layoutParams = infoDialogParams
-            infoView!!.postInvalidate()
-            addView(infoView)
+            descriptionView!!.layoutParams = infoDialogParams
+            descriptionView!!.postInvalidate()
+            addView(descriptionView)
             /*
              attaching tip here
             */
             var mTooltip: CoachMarkInfoToolTip? = getToolTip()
             mTooltip?.layoutParams = tipParams
             mTooltip!!.postInvalidate()
-            ( infoView as LinearLayout)?.addView(mTooltip)
+            ( descriptionView as LinearLayout)?.addView(mTooltip)
 
-            infoView!!.visibility = View.VISIBLE
+            descriptionView!!.visibility = View.VISIBLE
         }
     }
 
