@@ -148,12 +148,4 @@ class CashTransferConfirmationViewModel(application: Application) :
             else -> ""
         })
     }
-
-    private fun getCbwsiFlag(): Boolean? {
-        return (when (parentViewModel?.beneficiary?.value?.beneficiaryType) {
-            SendMoneyBeneficiaryType.UAEFTS.type -> parentViewModel?.selectedPop?.cbwsi
-            else -> null
-        })
-    }
-
 }
