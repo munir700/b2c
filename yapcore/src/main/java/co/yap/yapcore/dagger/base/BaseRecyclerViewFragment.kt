@@ -131,7 +131,7 @@ abstract class BaseRecyclerViewFragment<VB : ViewDataBinding, S : IBase.State, V
 
     }
 
-    override fun onItemDrag(view: View, event: DragEvent, data: Any): Boolean? = true
+    override fun onItemDrag(view: View, pos: Int, event: DragEvent, data: Any): Boolean? = true
 
     override fun onItemLongClick(view: View, pos: Int, id: Long, data: Any): Boolean?  = true
 }

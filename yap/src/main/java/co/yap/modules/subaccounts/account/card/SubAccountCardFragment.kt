@@ -57,8 +57,8 @@ class SubAccountCardFragment :
 
     }
 
-    override fun onItemDrag(view: View, event: DragEvent, data: Any): Boolean? {
-        return dragAndDropManager?.onItemDrag(view, event, data)
+    override fun onItemDrag(view: View, pos: Int, event: DragEvent, data: Any): Boolean? {
+        return dragAndDropManager?.onItemDrag(view, pos, event, data)
     }
 
     override fun onItemLongClick(view: View, pos: Int, id: Long, data: Any): Boolean? {
@@ -97,7 +97,7 @@ class SubAccountCardFragment :
 
     }
 
-    override fun onItemDrop(data: Any) {
+    override fun onItemDrop(view: View, pos: Int, data: Any) {
         val subAccount = data as SubAccount
         subAccount.accountType?.let {
             startFragment(HHSalaryProfileFragment::class.java.name)

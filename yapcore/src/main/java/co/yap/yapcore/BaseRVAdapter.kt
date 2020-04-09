@@ -61,6 +61,7 @@ abstract class BaseRVAdapter<T : Any, VM : BaseListItemViewModel<T>, VH : BaseVi
         holder.itemView.setOnDragListener { view, dragEvent ->
             onItemDragListener?.onItemDrag(
                 view,
+                holder.adapterPosition,
                 dragEvent, datas[holder.adapterPosition]
             )
             return@setOnDragListener true
@@ -130,11 +131,11 @@ abstract class BaseRVAdapter<T : Any, VM : BaseListItemViewModel<T>, VH : BaseVi
 }
 
 interface OnItemDragListener {
-    fun onItemDrag(view: View, event: DragEvent, data: Any): Boolean?
+    fun onItemDrag(view: View, pos: Int, event: DragEvent, data: Any): Boolean?
     companion object {
         operator fun invoke(): OnItemDragListener {
             return object : OnItemDragListener {
-                override fun onItemDrag(view: View, event: DragEvent, data: Any): Boolean? = false
+                override fun onItemDrag(view: View, pos: Int, event: DragEvent, data: Any): Boolean? = false
             }
         }
     }

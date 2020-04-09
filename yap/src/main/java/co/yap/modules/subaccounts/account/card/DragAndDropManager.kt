@@ -22,7 +22,7 @@ class DragAndDropManager {
         return true
     }
 
-    fun onItemDrag(view: View, event: DragEvent, data: Any): Boolean? {
+    fun onItemDrag(view: View, pos: Int, event: DragEvent, data: Any): Boolean? {
         when (event.action) {
             DragEvent.ACTION_DRAG_STARTED -> return true
             DragEvent.ACTION_DRAG_ENTERED -> {
@@ -36,7 +36,7 @@ class DragAndDropManager {
             }
             DragEvent.ACTION_DROP -> {
                 view.setBackgroundColor(Color.TRANSPARENT)
-                listener?.onItemDrop(data)
+                listener?.onItemDrop(view, pos, data)
                 return true
             }
             DragEvent.ACTION_DRAG_ENDED -> return true
@@ -48,5 +48,5 @@ class DragAndDropManager {
 }
 
 interface OnItemDragDropListener {
-    fun onItemDrop(data: Any)
+    fun onItemDrop(view: View, pos: Int, data: Any)
 }
