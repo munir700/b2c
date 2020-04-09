@@ -24,7 +24,10 @@ import co.yap.networking.cards.responsedtos.Card
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.RequestCodes
-import co.yap.yapcore.enums.*
+import co.yap.yapcore.enums.CardDeliveryStatus
+import co.yap.yapcore.enums.CardStatus
+import co.yap.yapcore.enums.CardType
+import co.yap.yapcore.enums.PartnerBankStatus
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.MyUserManager
@@ -56,6 +59,11 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
         viewModel.cards.observe(this, Observer {
             if (!it.isNullOrEmpty())
                 setupList(it)
+        })
+        MyUserManager.card.observe(this, Observer {
+            it?.let {
+                viewModel.getCards()
+            }
         })
     }
 
@@ -119,7 +127,13 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
                         openAddCard()
                     } else
                         when (getCard(pos).status) {
-                            CardStatus.ACTIVE.name, CardStatus.BLOCKED.name, CardStatus.EXPIRED.name -> {
+                            CardStatus.ACTIVE.name -> {
+                                if (getCard(pos).pinCreated)
+                                    openDetailScreen(pos)
+                                else
+                                    openStatusScreen(view, pos)
+                            }
+                            CardStatus.BLOCKED.name, CardStatus.EXPIRED.name -> {
                                 openDetailScreen(pos)
                             }
                             CardStatus.INACTIVE.name -> {
@@ -147,23 +161,24 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
                         CardStatus.HOTLISTED.name -> {
                             startReorderCardFlow(getCard(pos))
                         }
-                        CardStatus.INACTIVE.name -> {
+                        CardStatus.ACTIVE.name -> {
                             if (getCard(pos).cardType == CardType.DEBIT.type) {
-                                if (MyUserManager.user?.notificationStatuses == AccountStatus.MEETING_SUCCESS.name && PartnerBankStatus.ACTIVATED.status == MyUserManager.user?.partnerBankStatus) {
+                                if (PartnerBankStatus.ACTIVATED.status == MyUserManager.user?.partnerBankStatus && !getCard(
+                                        pos
+                                    ).pinCreated
+                                ) {
                                     openSetPinScreen(getCard(pos))
                                 }
-                            } else {
-                                when (getCard(pos).deliveryStatus?.let {deliveryStatus->
-                                    CardDeliveryStatus.valueOf(deliveryStatus)
-                                }) {
-                                    CardDeliveryStatus.SHIPPED -> {
+                            }
+                        }
+                        CardStatus.INACTIVE.name -> {
+                            if (getCard(pos).cardType == CardType.DEBIT.type) {
+                                if (PartnerBankStatus.ACTIVATED.status == MyUserManager.user?.partnerBankStatus) {
+                                    if (getCard(pos).deliveryStatus == CardDeliveryStatus.SHIPPED.name)
                                         openSetPinScreen(getCard(pos))
-                                    }
-                                    else -> {
+                                    else
                                         openStatusScreen(view, pos)
-                                    }
                                 }
-
                             }
                         }
                     }
@@ -236,7 +251,7 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
                         isPinCreated?.let {
                             if (it) {
                                 adapter.removeAllItems()
-                                viewModel.getCards()
+                                viewModel.getDebitCard()
                             }
                         }
                     }

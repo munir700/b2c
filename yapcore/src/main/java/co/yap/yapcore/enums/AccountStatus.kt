@@ -6,6 +6,7 @@ enum class AccountStatus {
     MEETING_SUCCESS,
     CAPTURED_EID,
     EID_EXPIRED,
+    EID_UPDATED,
     EID_RESCAN_REQUIRE,
     REJECTED,
     MEETING_FAILED,

@@ -97,8 +97,14 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
         if (MyUserManager.getPrimaryCard() != null) {
             if (isShowSetPin(MyUserManager.getPrimaryCard())) {
                 if (PartnerBankStatus.ACTIVATED.status == MyUserManager.user?.partnerBankStatus) {
+                    clearNotification()
+                    addSetPinNotification()
                     viewModel.clickEvent.setValue(viewModel.EVENT_SET_CARD_PIN)
+                } else {
+                    clearNotification()
                 }
+            } else {
+                clearNotification()
             }
         } else toast("Invalid card found")
     }
@@ -343,14 +349,6 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                 clearNotification()
             }
 
-            AccountStatus.MEETING_SUCCESS.name , AccountStatus.CARD_ACTIVATED.name-> {
-                if (isShowSetPin(MyUserManager.getPrimaryCard())) {
-                    if (PartnerBankStatus.ACTIVATED.status == MyUserManager.user?.partnerBankStatus) {
-                        clearNotification()
-                        addSetPinNotification()
-                    }
-                } else toast("Invalid card found")
-            }
             AccountStatus.EID_EXPIRED.name, AccountStatus.EID_RESCAN_REQUIRE.name -> {
                 trackEvent(KYCEvents.EID_EXPIRE.type)
                 trackEventInFragments(
@@ -366,6 +364,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
 
         if (PartnerBankStatus.ACTIVATED.status == MyUserManager.user?.partnerBankStatus) {
             showTransactionsAndGraph()
+
             //clearNotification() // why to clear
         } else {
             viewModel.state.isTransEmpty.set(true)
@@ -546,7 +545,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
             Constants.NOTIFICATION_ACTION_SET_PIN -> {
                 MyUserManager.card.value?.let {
                     viewModel.clickEvent.setValue(viewModel.EVENT_SET_CARD_PIN)
-                } ?: viewModel.getDebitCards()
+                }
             }
 
             Constants.NOTIFICATION_ACTION_SET_UPDATE_EID -> {
@@ -640,10 +639,10 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                         it.getBooleanExtra("isTopUpSkip", false)
                     getGraphRecycleViewAdapter()?.notifyDataSetChanged()
                     if (isPinSet && isSkip) {
-                        MyUserManager.getAccountInfo()
+                        viewModel.getDebitCards()
+//                        MyUserManager.getAccountInfo()
                     } else {
                         openTopUpScreen()
-                        // not any case for now for else
                     }
                 }
             }
