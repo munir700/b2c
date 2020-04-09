@@ -65,7 +65,8 @@ interface TransactionsApi {
     suspend fun getCutOffTimeConfiguration(
         productCode: String?,
         currency: String?,
-        amount: String?
+        amount: String?,
+        isCbwsi: Boolean? = null
     ): RetroApiResponse<CutOffTime>
     suspend fun getAchievements():RetroApiResponse<ApiResponse>
     suspend fun getPurposeOfPayment(productCode: String):RetroApiResponse<PaymentPurposeResponseDTO>

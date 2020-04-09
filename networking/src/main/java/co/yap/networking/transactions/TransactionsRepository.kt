@@ -217,9 +217,17 @@ object TransactionsRepository : BaseRepository(), TransactionsApi {
     override suspend fun getCutOffTimeConfiguration(
         productCode: String?,
         currency: String?,
-        amount: String?
+        amount: String?,
+        isCbwsi: Boolean?
     ) =
-        executeSafely(call = { api.getCutOffTimeConfiguration(productCode, currency, amount) })
+        executeSafely(call = {
+            api.getCutOffTimeConfiguration(
+                productCode,
+                currency,
+                amount,
+                isCbwsi
+            )
+        })
 
     override suspend fun getPurposeOfPayment(productCode: String): RetroApiResponse<PaymentPurposeResponseDTO> =
         executeSafely(call = { api.getPurposeOfPayment(productCode) })
