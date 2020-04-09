@@ -57,7 +57,6 @@ class DescriptionView : RelativeLayout {
     private var shapeType: ShapeType? = null
     private var usesCustomShape = false
 
-
     private var viewDataBinding: ViewDataBinding = DataBindingUtil.inflate(
         LayoutInflater.from(context),
         R.layout.view_description_box,
@@ -169,35 +168,6 @@ class DescriptionView : RelativeLayout {
         targetShape?.draw(this.canvas, eraser, padding)
         canvas.drawBitmap(bitmap, 0f, 0f, null)
     }
-
-//    override fun onTouchEvent(event: MotionEvent): Boolean {
-//        val xT = event.x
-//        val yT = event.y
-//        val isTouchOnFocus: Boolean? = targetShape?.isTouchOnFocus(xT.toDouble(), yT.toDouble())
-//        when (event.action) {
-//            MotionEvent.ACTION_DOWN -> {
-//                if (isTouchOnFocus!! && isPerformClick) {
-//                    targetView?.view?.setPressed(true)
-//                    targetView?.view?.invalidate()
-//                }
-//                return true
-//            }
-//            MotionEvent.ACTION_UP -> {
-//                if (isTouchOnFocus!! || dismissOnTouch) dismiss()
-//                if (isTouchOnFocus && isPerformClick) {
-//                    targetView?.view?.performClick()
-//                    targetView?.view?.setPressed(true)
-//                    targetView?.view?.invalidate()
-//                    targetView?.view?.setPressed(false)
-//                    targetView?.view?.invalidate()
-//                }
-//                return true
-//            }
-//            else -> {
-//            }
-//        }
-//        return super.onTouchEvent(event)
-//    }
 
     /**
      * Shows material view with fade in
@@ -391,6 +361,11 @@ class DescriptionView : RelativeLayout {
         tvDescription.setTextColor(this.colorTextViewInfo)
     }
 
+    fun setTotalViewsCount(currentViewCount: Int, totalViewsCount: Int) {
+        tvCount.text = "$currentViewCount/$totalViewsCount"
+    }
+
+
     private fun setTextViewInfo(guidedTourViewDetail: GuidedTourViewDetail) {
         tvTitle.text = guidedTourViewDetail.title
         tvDescription.text = guidedTourViewDetail.description
@@ -448,6 +423,7 @@ class DescriptionView : RelativeLayout {
             return this
         }
 
+
         fun setDelayMillis(delayMillis: Int): Builder {
             materialIntroView.setDelay(delayMillis)
             return this
@@ -491,6 +467,11 @@ class DescriptionView : RelativeLayout {
         fun setInfoText(guidedTourViewDetail: GuidedTourViewDetail): Builder {
             materialIntroView.enableInfoDialog(true)
             materialIntroView.setTextViewInfo(guidedTourViewDetail)
+            return this
+        }
+
+        fun setViewCount(currentViewCount: Int, totalViewsCount: Int): Builder {
+            materialIntroView.setTotalViewsCount(currentViewCount, totalViewsCount)
             return this
         }
 

@@ -75,6 +75,7 @@ class TourSetup() : DescriptionBoxListener {
             .setFocusGravity(FocusGravity.CENTER)
             .setFocusType(focusType!!)
             .setDelayMillis(200)
+            .setViewCount((currentViewId+1),guidedTourViewViewsList.size)
             .enableFadeAnimation(true)
             .setListener(this)
             .performClick(true)
