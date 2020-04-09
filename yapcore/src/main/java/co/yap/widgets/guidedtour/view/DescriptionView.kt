@@ -9,7 +9,6 @@ import android.os.Handler
 import android.util.AttributeSet
 import android.util.TypedValue
 import android.view.*
-import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import android.widget.TextView
@@ -51,8 +50,6 @@ class DescriptionView : RelativeLayout {
     private var textViewInfo: TextView? = null
     private var colorTextViewInfo = 0
     private var isInfoEnabled = false
-    private var imageViewIcon: ImageView? = null
-    private var isImageViewEnabled = false
     private var materialIntroViewId: String? = null
     private var isLayoutCompleted = false
     private var materialIntroListener: DescriptionBoxListener? = null
@@ -107,7 +104,6 @@ class DescriptionView : RelativeLayout {
         isLayoutCompleted = false
         isInfoEnabled = false
         isPerformClick = false
-        isImageViewEnabled = true
         isIdempotent = false
 
         taskHandler = Handler()
@@ -116,14 +112,14 @@ class DescriptionView : RelativeLayout {
         eraser!!.xfermode = PorterDuffXfermode(PorterDuff.Mode.CLEAR)
         eraser!!.flags = Paint.ANTI_ALIAS_FLAG
         val layoutInfo: View = LayoutInflater.from(getContext())
-            .inflate(R.layout.material_intro_card, null)
+            .inflate(R.layout.view_description_box, null)
         infoView = layoutInfo.findViewById(R.id.info_layout)
         card_view = layoutInfo.findViewById(R.id.card_view)
         textViewInfo =
-            layoutInfo.findViewById<View>(R.id.textview_info) as TextView
+            layoutInfo.findViewById<View>(R.id.tvDescription) as TextView
         textViewInfo!!.setTextColor(colorTextViewInfo)
-        imageViewIcon =
-            layoutInfo.findViewById<View>(R.id.imageview_icon) as ImageView
+
+
 
         viewTreeObserver.addOnGlobalLayoutListener(object :
             ViewTreeObserver.OnGlobalLayoutListener {
@@ -279,7 +275,7 @@ class DescriptionView : RelativeLayout {
                 )
 
             if (targetShape!!.point.y < layoutHeight / 2) {
-                (infoView as LinearLayout?)!!.gravity = Gravity.BOTTOM
+                ( infoView as LinearLayout?)!!.gravity = Gravity.BOTTOM
                 infoDialogParams.setMargins(
                     0,
                     targetShape!!.point.y + targetShape!!.height / 2,
@@ -326,12 +322,8 @@ class DescriptionView : RelativeLayout {
             var mTooltip: CoachMarkInfoToolTip? = getToolTip()
             mTooltip?.layoutParams = tipParams
             mTooltip!!.postInvalidate()
-            (infoView as LinearLayout)?.addView(mTooltip)
+            ( infoView as LinearLayout)?.addView(mTooltip)
 
-
-            if (!isImageViewEnabled) {
-                imageViewIcon!!.visibility = View.GONE
-            }
             infoView!!.visibility = View.VISIBLE
         }
     }
@@ -401,10 +393,6 @@ class DescriptionView : RelativeLayout {
 
     private fun enableInfoDialog(isInfoEnabled: Boolean) {
         this.isInfoEnabled = isInfoEnabled
-    }
-
-    private fun enableImageViewIcon(isImageViewEnabled: Boolean) {
-        this.isImageViewEnabled = isImageViewEnabled
     }
 
     private fun setIdempotent(idempotent: Boolean) {
@@ -506,11 +494,6 @@ class DescriptionView : RelativeLayout {
 
         fun setUsageId(materialIntroViewId: String): Builder {
             materialIntroView.setUsageId(materialIntroViewId)
-            return this
-        }
-
-        fun enableIcon(isImageViewIconEnabled: Boolean): Builder {
-            materialIntroView.enableImageViewIcon(isImageViewIconEnabled)
             return this
         }
 
