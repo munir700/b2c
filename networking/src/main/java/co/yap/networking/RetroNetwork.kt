@@ -73,10 +73,10 @@ object RetroNetwork : Network {
                     networkConstraintsListener?.onSessionInvalid()
                 }
             })
-        return salImplementation(context, okHttpClientBuilder, appData)
+        return sslImplementation(context, okHttpClientBuilder, appData)
     }
 
-    private fun salImplementation(
+    private fun sslImplementation(
         context: Context,
         builder: OkHttpClient.Builder,
         appData: AppData
