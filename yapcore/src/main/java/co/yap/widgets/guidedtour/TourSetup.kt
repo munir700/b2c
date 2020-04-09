@@ -9,7 +9,7 @@ import co.yap.widgets.guidedtour.shape.Focus
 import co.yap.widgets.guidedtour.shape.FocusGravity
 import co.yap.widgets.guidedtour.view.DescriptionView
 
-class TourSetup() : MaterialIntroListener {
+class TourSetup() : DescriptionBoxListener {
 
     var previousViewId: Int = 0
     var currentViewId: Int = 0

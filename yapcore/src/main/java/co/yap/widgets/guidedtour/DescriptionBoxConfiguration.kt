@@ -5,7 +5,7 @@ import co.yap.widgets.guidedtour.shape.FocusGravity
 import co.yap.widgets.guidedtour.utils.Constants
 
 
-class MaterialIntroConfiguration {
+class DescriptionBoxConfiguration {
     var maskColor: Int
     var delayMillis: Long
     var isFadeAnimationEnabled: Boolean

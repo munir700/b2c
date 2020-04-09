@@ -14,8 +14,8 @@ import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.cardview.widget.CardView
-import co.yap.widgets.guidedtour.MaterialIntroConfiguration
-import co.yap.widgets.guidedtour.MaterialIntroListener
+import co.yap.widgets.guidedtour.DescriptionBoxConfiguration
+import co.yap.widgets.guidedtour.DescriptionBoxListener
 import co.yap.widgets.guidedtour.animation.AnimationFactory
 import co.yap.widgets.guidedtour.animation.AnimationListener
 import co.yap.widgets.guidedtour.description.CoachMarkInfoToolTip
@@ -55,7 +55,7 @@ class DescriptionView : RelativeLayout {
     private var isImageViewEnabled = false
     private var materialIntroViewId: String? = null
     private var isLayoutCompleted = false
-    private var materialIntroListener: MaterialIntroListener? = null
+    private var materialIntroListener: DescriptionBoxListener? = null
     private var isPerformClick = false
     private var isIdempotent = false
     private var shapeType: ShapeType? = null
@@ -412,7 +412,7 @@ class DescriptionView : RelativeLayout {
     }
 
 
-    fun setConfiguration(configuration: MaterialIntroConfiguration?) {
+    fun setConfiguration(configuration: DescriptionBoxConfiguration?) {
         if (configuration != null) {
             maskColor = configuration.maskColor
             delayMillis = configuration.delayMillis
@@ -429,7 +429,7 @@ class DescriptionView : RelativeLayout {
         this.materialIntroViewId = materialIntroViewId
     }
 
-    private fun setListener(materialIntroListener: MaterialIntroListener) {
+    private fun setListener(materialIntroListener: DescriptionBoxListener) {
         this.materialIntroListener = materialIntroListener
     }
 
@@ -519,12 +519,12 @@ class DescriptionView : RelativeLayout {
             return this
         }
 
-        fun setConfiguration(configuration: MaterialIntroConfiguration?): Builder {
+        fun setConfiguration(configuration: DescriptionBoxConfiguration?): Builder {
             materialIntroView.setConfiguration(configuration)
             return this
         }
 
-        fun setListener(materialIntroListener: MaterialIntroListener): Builder {
+        fun setListener(materialIntroListener: DescriptionBoxListener): Builder {
             materialIntroView.setListener(materialIntroListener)
             return this
         }

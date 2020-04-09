@@ -41,7 +41,7 @@ import co.yap.translation.Strings
 import co.yap.widgets.CoreButton
 import co.yap.widgets.arcmenu.FloatingActionMenu
 import co.yap.widgets.arcmenu.animation.SlideInAnimationHandler
-import co.yap.widgets.guidedtour.MaterialIntroListener
+import co.yap.widgets.guidedtour.DescriptionBoxListener
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.IFragmentHolder
 import co.yap.yapcore.constants.Constants
@@ -55,7 +55,7 @@ import kotlinx.android.synthetic.main.layout_drawer_yap_dashboard.*
 import net.cachapa.expandablelayout.ExpandableLayout
 
 class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYapDashboard.View,
-    IFragmentHolder, AppBarConfiguration.OnNavigateUpListener, MaterialIntroListener {
+    IFragmentHolder, AppBarConfiguration.OnNavigateUpListener, DescriptionBoxListener {
 
     override fun getBindingVariable(): Int = BR.viewModel
 

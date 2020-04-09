@@ -22,11 +22,11 @@ open class MainActivity : DefaultActivity(), IFragmentHolder, INavigator {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         YAPApplication.AUTO_RESTART_APP = false
-        if (DeviceUtils().isDeviceRooted()) {
-            showAlertDialogAndExitApp("This device is rooted. You can't use this app.")
-        } else {
+//        if (DeviceUtils().isDeviceRooted()) {
+//            showAlertDialogAndExitApp("This device is rooted. You can't use this app.")
+//        } else {
             setContentView(R.layout.activity_main)
-        }
+//        }
     }
 
     override fun onBackPressed() {

@@ -76,26 +76,31 @@ class LoginFragment : BaseBindingFragment<ILogin.ViewModel>(), ILogin.View {
         list.add(
             GuidedTourViewDetail(
                 ivYap,
-                "ivYap description"
+                "Your current balance",
+                "Here you can see your account’s current balance. It will be updated in-real time after every transaction."
             )
         )
         list.add(
             GuidedTourViewDetail(
                 clSignUp,
-                " \n description"
+                "search",
+                "Click here to search for specific transaction in your account history"
             )
         )
         list.add(
             GuidedTourViewDetail(
                 tvSignIn,
-                "tvSignIn description"
+                "yap it",
+                "Click here to see more actions like:\n" +
+                        "YAP to YAP transactions,  yop up your account, send money and pay your bills"
             )
         )
 
         list.add(
             GuidedTourViewDetail(
                 clSignUp,
-                "clSignUp description"
+                "menu bar",
+                "Click here to view the menu bar where you can see your account details and navigate to useful pages"
             )
         )
         return list

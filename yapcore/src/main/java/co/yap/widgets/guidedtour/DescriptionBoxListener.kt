@@ -1,5 +1,5 @@
 package co.yap.widgets.guidedtour
 
-interface MaterialIntroListener {
+interface DescriptionBoxListener {
     fun onUserClicked(materialIntroViewId: String?)
 }
