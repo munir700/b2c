@@ -1,4 +1,4 @@
-package co.yap.yapcore.referral
+package co.yap.yapcore.adjust
 
 import android.os.Parcelable
 import androidx.annotation.Keep

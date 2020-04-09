@@ -14,9 +14,9 @@ import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.adjust.AdjustEvents
 import co.yap.yapcore.helpers.extentions.getColors
-import co.yap.yapcore.helpers.extentions.trackEvent
 import co.yap.yapcore.leanplum.SignupEvents
-import co.yap.yapcore.trackAdjustEvent
+import co.yap.yapcore.AdjustEvents.Companion.trackAdjustPlatformEvent
+import co.yap.yapcore.leanplum.trackEvent
 
 open class PhoneVerificationViewModel(application: Application) :
     OnboardingChildViewModel<IPhoneVerification.State>(application), IPhoneVerification.ViewModel,
@@ -84,7 +84,7 @@ open class PhoneVerificationViewModel(application: Application) :
             )) {
                 is RetroApiResponse.Success -> {
                     trackEvent(SignupEvents.SIGN_UP_OTP_CORRECT.type)
-                    trackAdjustEvent(AdjustEvents.SIGN_UP_MOBILE_NUMBER_VERIFIED.type)
+                    trackAdjustPlatformEvent(AdjustEvents.SIGN_UP_MOBILE_NUMBER_VERIFIED.type)
                     nextButtonPressEvent.call()
                 }
                 is RetroApiResponse.Error -> {

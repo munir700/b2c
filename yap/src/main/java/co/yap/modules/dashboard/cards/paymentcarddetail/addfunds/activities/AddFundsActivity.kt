@@ -37,7 +37,6 @@ import co.yap.yapcore.helpers.showTextUpdatedAbleSnackBar
 import co.yap.yapcore.helpers.spannables.color
 import co.yap.yapcore.helpers.spannables.getText
 import co.yap.yapcore.managers.MyUserManager
-import co.yap.yapcore.trackAdjustEvent
 import com.daimajia.androidanimations.library.Techniques
 import com.daimajia.androidanimations.library.YoYo
 import com.google.android.material.snackbar.Snackbar
@@ -138,7 +137,7 @@ open class AddFundsActivity : BaseBindingActivity<IFundActions.ViewModel>(),
             R.id.btnAction -> (if (viewModel.state.buttonTitle != getString(Strings.screen_success_funds_transaction_display_text_button)) {
                 viewModel.addFunds()
             } else {
-                trackAdjustEvent(AdjustEvents.TOP_UP_END.type)
+                co.yap.yapcore.AdjustEvents.trackAdjustPlatformEvent(AdjustEvents.TOP_UP_END.type)
                 if (fundsAdded) {
                     setupActionsIntent()
                 }

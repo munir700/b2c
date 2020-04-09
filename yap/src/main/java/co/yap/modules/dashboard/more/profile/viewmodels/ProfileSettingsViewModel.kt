@@ -187,7 +187,8 @@ class ProfileSettingsViewModel(application: Application) :
                             MyUserManager.user!!.currentCustomer.setPicture(it.imageURL)
                             Glide.with(context)
                                 .load(it.imageURL).preload()
-                            state.fullName = MyUserManager.user!!.currentCustomer.getFullName()
+                            state.fullName =
+                                MyUserManager.user?.currentCustomer?.getFullName() ?: ""
                             state.nameInitialsVisibility = VISIBLE
                             state.loading = false
                         }
@@ -196,7 +197,7 @@ class ProfileSettingsViewModel(application: Application) :
 
                 is RetroApiResponse.Error -> {
                     state.toast = response.error.message
-                    state.fullName = MyUserManager.user!!.currentCustomer.getFullName()
+                    state.fullName = MyUserManager.user?.currentCustomer?.getFullName() ?: ""
                     state.nameInitialsVisibility = GONE
                     state.loading = false
                 }

@@ -11,7 +11,6 @@ import android.widget.EditText
 import androidx.core.graphics.drawable.DrawableCompat
 import androidx.databinding.Bindable
 import co.yap.BR
-import co.yap.modules.onboarding.interfaces.IMeetingConfirmation
 import co.yap.modules.onboarding.interfaces.IMobile
 import co.yap.modules.onboarding.viewmodels.MobileViewModel
 import co.yap.widgets.mobile.CountryCodePicker
@@ -19,9 +18,8 @@ import co.yap.yapcore.BaseState
 import co.yap.yapcore.R
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.SharedPreferenceManager
-import co.yap.yapcore.helpers.extentions.trackEvent
+import co.yap.yapcore.leanplum.trackEvent
 import co.yap.yapcore.leanplum.SignupEvents
-import com.leanplum.Leanplum
 
 class MobileState(application: Application, var viewModel: MobileViewModel) : BaseState(),
     IMobile.State {

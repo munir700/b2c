@@ -6,7 +6,7 @@ import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.Constants.KEY_APP_UUID
 import co.yap.yapcore.constants.Constants.KEY_IS_FINGERPRINT_PERMISSION_SHOWN
 import co.yap.yapcore.constants.Constants.KEY_IS_FIRST_TIME_USER
-import co.yap.yapcore.referral.ReferralInfo
+import co.yap.yapcore.adjust.ReferralInfo
 import java.util.*
 
 object AuthUtils {
@@ -34,7 +34,7 @@ object AuthUtils {
         //Removing it will take user to otp screen will login after logout
         //val uuid: String? =
         //sharedPreferenceManager.getValueString(SharedPreferenceManager.KEY_APP_UUID)
-        val referralInfo:ReferralInfo?= sharedPreferenceManager.getReferralInfo()
+        val referralInfo: ReferralInfo?= sharedPreferenceManager.getReferralInfo()
         sharedPreferenceManager.clearSharedPreference()
         sharedPreferenceManager.setReferralInfo(referralInfo)
 

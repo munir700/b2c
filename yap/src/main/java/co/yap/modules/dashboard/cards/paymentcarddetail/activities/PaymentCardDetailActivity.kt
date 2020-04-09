@@ -57,8 +57,8 @@ import co.yap.yapcore.helpers.extentions.*
 import co.yap.yapcore.helpers.showSnackBar
 import co.yap.yapcore.helpers.spannables.underline
 import co.yap.yapcore.interfaces.OnItemClickListener
+import co.yap.yapcore.AdjustEvents.Companion.trackAdjustPlatformEvent
 import co.yap.yapcore.managers.MyUserManager
-import co.yap.yapcore.trackAdjustEvent
 import com.google.android.material.snackbar.Snackbar
 import com.tbuonomo.viewpagerdotsindicator.WormDotsIndicator
 import kotlinx.android.synthetic.main.activity_payment_card_detail.*
@@ -199,7 +199,7 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
                 }
             }
             R.id.llAddFunds -> {
-                trackAdjustEvent(AdjustEvents.TOP_UP_START.type)
+                trackAdjustPlatformEvent(AdjustEvents.TOP_UP_START.type)
                 viewModel.card.value?.let { card ->
                     startActivityForResult(
                         AddFundsActivity.newIntent(this, card),
