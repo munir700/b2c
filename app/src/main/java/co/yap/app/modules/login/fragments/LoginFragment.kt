@@ -62,6 +62,9 @@ class LoginFragment : BaseBindingFragment<ILogin.ViewModel>(), ILogin.View {
             }
         })
 
+        /*
+         adding view arrays to start tour on
+        */
         activity?.let {
             TourSetup(it, it, setViewsArray())
         }

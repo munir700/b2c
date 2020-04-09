@@ -27,7 +27,7 @@ import co.yap.widgets.guidedtour.target.ViewTarget
 import co.yap.widgets.guidedtour.utils.Constants
 import co.yap.yapcore.R
 
-class MaterialIntroView : RelativeLayout {
+class DescriptionView : RelativeLayout {
 
     private var maskColor = 0
     private var delayMillis: Long = 0
@@ -132,7 +132,7 @@ class MaterialIntroView : RelativeLayout {
                 if (targetShape != null && targetShape?.point?.y !== 0 && !isLayoutCompleted) {
                     if (isInfoEnabled) setInfoLayout()
                     removeOnGlobalLayoutListener(
-                        this@MaterialIntroView,
+                        this@DescriptionView,
                         this
                     )
                 }
@@ -213,7 +213,7 @@ class MaterialIntroView : RelativeLayout {
         setReady(true)
         taskHandler!!.postDelayed({
             if (isFadeAnimationEnabled) AnimationFactory.animateFadeIn(
-                this@MaterialIntroView,
+                this@DescriptionView,
                 fadeAnimationDuration,
                 object : AnimationListener.OnAnimationStartListener {
                     override fun onAnimationStart() {
@@ -287,6 +287,9 @@ class MaterialIntroView : RelativeLayout {
                     0
                 )
 
+                /*
+          setting tip params here
+         */
                 tipParams.setMargins(
                     /*layoutWidth / 2*/ (targetShape!!.point.x - 16),
                     0,
@@ -302,7 +305,9 @@ class MaterialIntroView : RelativeLayout {
                     0,
                     0
                 )
-
+                /*
+               setting tip params here
+              */
                 tipParams.setMargins(
                     (targetShape!!.point.x - 16),
                     0,
@@ -315,12 +320,14 @@ class MaterialIntroView : RelativeLayout {
             infoView!!.layoutParams = infoDialogParams
             infoView!!.postInvalidate()
             addView(infoView)
+            /*
+             attaching tip here
+            */
             var mTooltip: CoachMarkInfoToolTip? = getToolTip()
             mTooltip?.layoutParams = tipParams
-
             mTooltip!!.postInvalidate()
-
             (infoView as LinearLayout)?.addView(mTooltip)
+
 
             if (!isImageViewEnabled) {
                 imageViewIcon!!.visibility = View.GONE
@@ -434,7 +441,7 @@ class MaterialIntroView : RelativeLayout {
      * Builder Class
      */
     class Builder(private val activity: Activity) {
-        private val materialIntroView: MaterialIntroView
+        private val materialIntroView: DescriptionView
         private val focusType: Focus = Focus.MINIMUM
         fun setMaskColor(maskColor: Int): Builder {
             materialIntroView.setMaskColor(maskColor)
@@ -533,7 +540,7 @@ class MaterialIntroView : RelativeLayout {
             return this
         }
 
-        fun build(): MaterialIntroView {
+        fun build(): DescriptionView {
             if (materialIntroView.usesCustomShape) {
                 return materialIntroView
             }
@@ -559,13 +566,13 @@ class MaterialIntroView : RelativeLayout {
             return materialIntroView
         }
 
-        fun show(): MaterialIntroView {
+        fun show(): DescriptionView {
             build().show(activity)
             return materialIntroView
         }
 
         init {
-            materialIntroView = MaterialIntroView(activity)
+            materialIntroView = DescriptionView(activity)
         }
     }
 

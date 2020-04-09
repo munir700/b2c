@@ -7,7 +7,7 @@ import android.view.View
 import co.yap.widgets.guidedtour.models.GuidedTourViewDetail
 import co.yap.widgets.guidedtour.shape.Focus
 import co.yap.widgets.guidedtour.shape.FocusGravity
-import co.yap.widgets.guidedtour.view.MaterialIntroView
+import co.yap.widgets.guidedtour.view.DescriptionView
 
 class TourSetup() : MaterialIntroListener {
 
@@ -17,8 +17,7 @@ class TourSetup() : MaterialIntroListener {
     var isMultipleViewsTour: Boolean = false
     var guidedTourViewViewsList: ArrayList<GuidedTourViewDetail> = ArrayList()
 
-    //    var tooltip: Tooltip? = null
-    lateinit var metrics: DisplayMetrics
+     lateinit var metrics: DisplayMetrics
     lateinit var context: Context
 
     constructor (
@@ -77,7 +76,7 @@ class TourSetup() : MaterialIntroListener {
         focusType: Focus?, activity: Activity
     ) {
 
-        MaterialIntroView.Builder(activity)
+        DescriptionView.Builder(activity)
             .setFocusGravity(FocusGravity.CENTER)
             .setFocusType(focusType!!)
             .setDelayMillis(200)
