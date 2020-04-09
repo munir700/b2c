@@ -1,6 +1,7 @@
 package co.yap.yapcore.dagger.base
 
 
+import android.view.DragEvent
 import android.view.View
 import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.Observer
@@ -9,9 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import co.yap.networking.models.ApiResponse
 import co.yap.widgets.*
-import co.yap.yapcore.BaseRVAdapter
-import co.yap.yapcore.IBase
-import co.yap.yapcore.R
+import co.yap.yapcore.*
 import co.yap.yapcore.dagger.base.interfaces.UiRefreshable
 import co.yap.yapcore.dagger.base.navigation.BaseNavViewModelFragment
 import co.yap.yapcore.dagger.base.viewmodel.BaseRecyclerAdapterVM
@@ -28,7 +27,7 @@ import javax.inject.Inject
 abstract class BaseRecyclerViewFragment<VB : ViewDataBinding, S : IBase.State, VM : BaseRecyclerAdapterVM<T, S>,
         A : BaseRVAdapter<T, *, *>, T : ApiResponse>
     : BaseNavViewModelFragment<VB, S, VM>(), MultiStateView.OnReloadListener, UiRefreshable,
-    OnItemClickListener {
+    OnItemClickListener, OnItemLongClickListener, OnItemDragListener {
 
     @Inject
     protected lateinit var adapter: A
@@ -56,6 +55,8 @@ abstract class BaseRecyclerViewFragment<VB : ViewDataBinding, S : IBase.State, V
             )
             refreshLayout?.setOnRefreshListener { refresh() }
             adapter.onItemClickListener = this
+            adapter.onItemDragListener = this
+            adapter.onItemLongClickListener = this
             viewModel.stateLiveData.observe(
                 this,
                 Observer { if (it.status != Status.IDEAL) handleState(it) })
@@ -129,4 +130,8 @@ abstract class BaseRecyclerViewFragment<VB : ViewDataBinding, S : IBase.State, V
     override fun onItemClick(view: View, data: Any, pos: Int) {
 
     }
+
+    override fun onItemDrag(view: View, event: DragEvent, data: Any): Boolean? = true
+
+    override fun onItemLongClick(view: View, pos: Int, id: Long, data: Any): Boolean?  = true
 }

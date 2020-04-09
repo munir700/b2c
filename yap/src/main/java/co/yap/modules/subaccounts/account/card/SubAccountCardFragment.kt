@@ -1,36 +1,36 @@
 package co.yap.modules.subaccounts.account.card
 
-import android.view.Menu
-import android.view.MenuInflater
-import android.view.MenuItem
-import android.view.View
+import android.view.*
 import androidx.databinding.ViewDataBinding
 import androidx.navigation.NavController
 import co.yap.BR
 import co.yap.R
 import co.yap.databinding.FragmentSubAccountCardBinding
 import co.yap.modules.dashboard.store.household.activities.HouseHoldLandingActivity
-import co.yap.modules.subaccounts.account.dashboard.SubAccountDashBoardFragmentDirections
+import co.yap.modules.subaccounts.paysalary.profile.HHSalaryProfileFragment
 import co.yap.networking.customers.responsedtos.SubAccount
 import co.yap.yapcore.BaseRVAdapter
 import co.yap.yapcore.BaseViewHolder
 import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.dagger.base.BaseRecyclerViewFragment
 import co.yap.yapcore.helpers.extentions.launchActivity
+import co.yap.yapcore.helpers.extentions.startFragment
 import kotlin.reflect.KClass
 import kotlin.reflect.full.primaryConstructor
 
 
 class SubAccountCardFragment :
     BaseRecyclerViewFragment<FragmentSubAccountCardBinding, ISubAccountCard.State, SubAccountCardVM,
-            SubAccountCardFragment.Adapter, SubAccount>() {
+            SubAccountCardFragment.Adapter, SubAccount>(), OnItemDragDropListener {
 
+    var dragAndDropManager: DragAndDropManager? = null
     override fun getBindingVariable() = BR.subAccountCardVM
 
     override fun getLayoutId() = R.layout.fragment_sub_account_card
     override fun postExecutePendingBindings() {
         super.postExecutePendingBindings()
         setHasOptionsMenu(true)
+        dragAndDropManager = DragAndDropManager(this)
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -49,11 +49,23 @@ class SubAccountCardFragment :
 //        then Card is active! Will be displayed in purple text
         val subAccount = data as SubAccount
         subAccount.accountType?.let {
-            navigateForwardWithAnimation(SubAccountDashBoardFragmentDirections.actionSubAccountDashBoardFragmentToHHSalaryProfileFragment())
+            startFragment(HHSalaryProfileFragment::class.java.name)
+//            navigateForwardWithAnimation(SubAccountDashBoardFragmentDirections.actionSubAccountDashBoardFragmentToHHSalaryProfileFragment())
         }
             ?: launchActivity<HouseHoldLandingActivity>(requestCode = RequestCodes.REQUEST_ADD_HOUSE_HOLD)
 
 
+    }
+
+    override fun onItemDrag(view: View, event: DragEvent, data: Any): Boolean? {
+        return dragAndDropManager?.onItemDrag(view, event, data)
+    }
+
+    override fun onItemLongClick(view: View, pos: Int, id: Long, data: Any): Boolean? {
+        if (pos == 0) {
+            return dragAndDropManager?.onItemLongClick(view)
+        }
+        return true
     }
 
     class Adapter(mValue: MutableList<SubAccount>, navigation: NavController?) :
@@ -82,6 +94,14 @@ class SubAccountCardFragment :
             mDataBinding: ViewDataBinding
         ) :
             BaseViewHolder<SubAccount, SubAccountCardItemVM>(view, viewModel, mDataBinding)
+
+    }
+
+    override fun onItemDrop(data: Any) {
+        val subAccount = data as SubAccount
+        subAccount.accountType?.let {
+            startFragment(HHSalaryProfileFragment::class.java.name)
+        }
     }
 
 }

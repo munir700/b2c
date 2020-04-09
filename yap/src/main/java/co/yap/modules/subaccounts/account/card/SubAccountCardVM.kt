@@ -16,6 +16,7 @@ class SubAccountCardVM @Inject constructor(override val state: ISubAccountCard.S
     override fun onFirsTimeUiCreate(bundle: Bundle?, navigation: NavController?) {
         val accounts = SubAccounts()
         accounts.account?.add(0, SubAccount(accountType = AccountType.B2C_ACCOUNT.name))
+        accounts.account?.add(1, SubAccount(accountType = AccountType.B2C_HOUSEHOLD.name))
         accounts.account?.add(1, SubAccount(accountType = null))
         accounts.account?.let { addData(it) }
     }

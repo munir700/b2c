@@ -2,6 +2,7 @@ package co.yap.yapcore
 
 
 import android.os.Bundle
+import android.view.DragEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,15 +14,20 @@ import androidx.navigation.NavController
 import androidx.recyclerview.widget.RecyclerView
 import co.yap.networking.models.ApiResponse
 import co.yap.yapcore.interfaces.OnItemClickListener
+import com.google.android.libraries.places.internal.it
 
 
 abstract class BaseRVAdapter<T : Any, VM : BaseListItemViewModel<T>, VH : BaseViewHolder<T, VM>>
-    ( internal var datas: MutableList<T>, private var navigation: NavController?) :
+    (internal var datas: MutableList<T>, private var navigation: NavController?) :
     RecyclerView.Adapter<VH>() {
 
 
     @Nullable
     var onItemClickListener: OnItemClickListener? = null
+    @Nullable
+    var onItemLongClickListener: OnItemLongClickListener? = null
+    @Nullable
+    var onItemDragListener: OnItemDragListener? = null
 
     override fun getItemCount() = datas.count()
 
@@ -44,10 +50,26 @@ abstract class BaseRVAdapter<T : Any, VM : BaseListItemViewModel<T>, VH : BaseVi
             )
 
         }
+        holder.itemView.setOnLongClickListener {
+            onItemLongClickListener?.onItemLongClick(
+                it,
+                holder.adapterPosition,
+                getItemId(holder.adapterPosition), datas[holder.adapterPosition]
+            )
+            return@setOnLongClickListener true
+        }
+        holder.itemView.setOnDragListener { view, dragEvent ->
+            onItemDragListener?.onItemDrag(
+                view,
+                dragEvent, datas[holder.adapterPosition]
+            )
+            return@setOnDragListener true
+        }
+
         return holder
     }
 
-    protected fun createViewModel(viewType:Int): VM {
+    protected fun createViewModel(viewType: Int): VM {
         val viewModel: VM = getViewModel(viewType)
         viewModel.onCreate(Bundle(), navigation)
         navigation?.let { onItemClickListener = viewModel }
@@ -65,7 +87,7 @@ abstract class BaseRVAdapter<T : Any, VM : BaseListItemViewModel<T>, VH : BaseVi
         viewType: Int
     ): VH
 
-    abstract fun getViewModel(viewType:Int): VM
+    abstract fun getViewModel(viewType: Int): VM
     abstract fun getVariableId(): Int
 
     fun addAll(datas: List<T>) {
@@ -103,5 +125,28 @@ abstract class BaseRVAdapter<T : Any, VM : BaseListItemViewModel<T>, VH : BaseVi
         this.datas.set(position, newItem)
         notifyItemChanged(position)
         notifyDataSetChanged()
+    }
+
+}
+
+interface OnItemDragListener {
+    fun onItemDrag(view: View, event: DragEvent, data: Any): Boolean?
+    companion object {
+        operator fun invoke(): OnItemDragListener {
+            return object : OnItemDragListener {
+                override fun onItemDrag(view: View, event: DragEvent, data: Any): Boolean? = false
+            }
+        }
+    }
+}
+
+interface OnItemLongClickListener {
+    fun onItemLongClick(view: View, pos: Int, id: Long, data: Any): Boolean?
+    companion object {
+        operator fun invoke(): OnItemLongClickListener {
+            return object : OnItemLongClickListener {
+                override fun onItemLongClick(view: View, pos: Int, id: Long, data: Any): Boolean? = true
+            }
+        }
     }
 }
