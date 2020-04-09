@@ -9,6 +9,7 @@ import android.os.Handler
 import android.util.AttributeSet
 import android.util.TypedValue
 import android.view.*
+import android.widget.FrameLayout
 import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import androidx.databinding.DataBindingUtil
@@ -18,6 +19,7 @@ import co.yap.widgets.guidedtour.DescriptionBoxListener
 import co.yap.widgets.guidedtour.animation.AnimationFactory
 import co.yap.widgets.guidedtour.animation.AnimationListener
 import co.yap.widgets.guidedtour.description.CoachMarkInfoToolTip
+import co.yap.widgets.guidedtour.description.CoachMarkSkipButton
 import co.yap.widgets.guidedtour.description.Orientation
 import co.yap.widgets.guidedtour.models.GuidedTourViewDetail
 import co.yap.widgets.guidedtour.shape.*
@@ -25,6 +27,7 @@ import co.yap.widgets.guidedtour.shape.Rect
 import co.yap.widgets.guidedtour.target.Target
 import co.yap.widgets.guidedtour.target.ViewTarget
 import co.yap.widgets.guidedtour.utils.Constants
+import co.yap.widgets.guidedtour.utils.Utils
 import co.yap.yapcore.R
 import kotlinx.android.synthetic.main.view_description_box.view.*
 
@@ -56,6 +59,12 @@ class DescriptionView : RelativeLayout {
     private var isIdempotent = false
     private var shapeType: ShapeType? = null
     private var usesCustomShape = false
+
+    private var mSkipButton: CoachMarkSkipButton? = null
+    var mSkipButtonBuilder: CoachMarkSkipButton.Builder? = null
+    fun getSkipButton(): CoachMarkSkipButton? = if (mSkipButtonBuilder == null) null else mSkipButtonBuilder?.build()
+    fun getSkipButtonBuilder(): CoachMarkSkipButton.Builder? = mSkipButtonBuilder
+
 
     private var viewDataBinding: ViewDataBinding = DataBindingUtil.inflate(
         LayoutInflater.from(context),
@@ -134,6 +143,9 @@ class DescriptionView : RelativeLayout {
                 }
             }
         })
+
+        addSkipButton()
+
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
@@ -563,6 +575,38 @@ class DescriptionView : RelativeLayout {
             } else {
                 v.viewTreeObserver.removeOnGlobalLayoutListener(listener)
             }
+        }
+    }
+    fun addSkipButton() {
+
+        mSkipButton =  getSkipButton()
+        mSkipButton?.let {
+            if (indexOfChild(it) == -1) {
+                addView(it)
+                it.setOnClickListener {
+             getSkipButtonBuilder()?.getButtonClickListener()?.onSkipButtonClick(this)
+                }
+                setSkipButton()
+            }
+        }
+    }
+    fun setSkipButton() {
+        mSkipButton?.apply {
+            val skipButtonParams = FrameLayout.LayoutParams(
+                FrameLayout.LayoutParams.WRAP_CONTENT,
+                FrameLayout.LayoutParams.WRAP_CONTENT
+            )
+            skipButtonParams.gravity =
+                android.view.Gravity.TOP or android.view.Gravity.START or android.view.Gravity.LEFT
+            val margin = getSkipButtonBuilder()!!.getButtonMargin()
+            skipButtonParams.leftMargin = margin!!.left
+            skipButtonParams.marginStart = margin!!.left
+            try {
+                skipButtonParams.topMargin = margin.top + Utils.getStatusBarHeight(context)
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+            layoutParams = skipButtonParams
         }
     }
 }
