@@ -134,18 +134,4 @@ abstract class BaseFragment<V : IBase.ViewModel<*>> : BaseNavFragment(), IBase.V
             (viewModel.state as BaseState).removeOnPropertyChangedCallback(stateObserver)
         }
     }
-
-    open fun showAlertDialog(
-        title: String = "Alert",
-        message: String?,
-        closeActivity: Boolean = true
-    ) {
-        if (requireActivity() is BaseActivity<*>) {
-            (requireActivity() as BaseActivity<*>).showAlertDialogAndExitApp(
-                title,
-                message,
-                closeActivity
-            )
-        }
-    }
 }

@@ -110,7 +110,7 @@ object RetroNetwork : Network {
             .build()
     }
 
-    fun getHttpLoggingInterceptor(
+    private fun getHttpLoggingInterceptor(
         appData: AppData
     ): HttpLoggingInterceptor {
         val logger = HttpLoggingInterceptor()
