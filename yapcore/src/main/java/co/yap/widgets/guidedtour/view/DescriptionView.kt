@@ -11,20 +11,22 @@ import android.util.TypedValue
 import android.view.*
 import android.widget.LinearLayout
 import android.widget.RelativeLayout
-import android.widget.TextView
-import androidx.cardview.widget.CardView
+import androidx.databinding.DataBindingUtil
+import androidx.databinding.ViewDataBinding
 import co.yap.widgets.guidedtour.DescriptionBoxConfiguration
 import co.yap.widgets.guidedtour.DescriptionBoxListener
 import co.yap.widgets.guidedtour.animation.AnimationFactory
 import co.yap.widgets.guidedtour.animation.AnimationListener
 import co.yap.widgets.guidedtour.description.CoachMarkInfoToolTip
 import co.yap.widgets.guidedtour.description.Orientation
+import co.yap.widgets.guidedtour.models.GuidedTourViewDetail
 import co.yap.widgets.guidedtour.shape.*
 import co.yap.widgets.guidedtour.shape.Rect
 import co.yap.widgets.guidedtour.target.Target
 import co.yap.widgets.guidedtour.target.ViewTarget
 import co.yap.widgets.guidedtour.utils.Constants
 import co.yap.yapcore.R
+import kotlinx.android.synthetic.main.view_description_box.view.*
 
 class DescriptionView : RelativeLayout {
 
@@ -45,9 +47,6 @@ class DescriptionView : RelativeLayout {
     private var layoutWidth = 0
     private var layoutHeight = 0
     private var dismissOnTouch = false
-    private var descriptionView: View? = null
-    private var cardView: CardView? = null
-    private var textViewInfo: TextView? = null
     private var colorTextViewInfo = 0
     private var isInfoEnabled = false
     private var materialIntroViewId: String? = null
@@ -57,6 +56,15 @@ class DescriptionView : RelativeLayout {
     private var isIdempotent = false
     private var shapeType: ShapeType? = null
     private var usesCustomShape = false
+
+
+    private var viewDataBinding: ViewDataBinding = DataBindingUtil.inflate(
+        LayoutInflater.from(context),
+        R.layout.view_description_box,
+        this,
+        true
+    )
+
 
     constructor(context: Context) : super(context) {
         init(context)
@@ -87,6 +95,8 @@ class DescriptionView : RelativeLayout {
     }
 
     private fun init(context: Context) {
+        viewDataBinding.executePendingBindings()
+
         setWillNotDraw(false)
         visibility = View.INVISIBLE
 
@@ -111,15 +121,6 @@ class DescriptionView : RelativeLayout {
         eraser!!.color = -0x1
         eraser!!.xfermode = PorterDuffXfermode(PorterDuff.Mode.CLEAR)
         eraser!!.flags = Paint.ANTI_ALIAS_FLAG
-        val layoutInfo: View = LayoutInflater.from(getContext())
-            .inflate(R.layout.view_description_box, null)
-        descriptionView = layoutInfo.findViewById(R.id.descriptionLayout)
-        cardView = layoutInfo.findViewById(R.id.cardView)
-        textViewInfo =
-            layoutInfo.findViewById<View>(R.id.tvDescription) as TextView
-        textViewInfo!!.setTextColor(colorTextViewInfo)
-
-
 
         viewTreeObserver.addOnGlobalLayoutListener(object :
             ViewTreeObserver.OnGlobalLayoutListener {
@@ -169,34 +170,34 @@ class DescriptionView : RelativeLayout {
         canvas.drawBitmap(bitmap, 0f, 0f, null)
     }
 
-    override fun onTouchEvent(event: MotionEvent): Boolean {
-        val xT = event.x
-        val yT = event.y
-        val isTouchOnFocus: Boolean? = targetShape?.isTouchOnFocus(xT.toDouble(), yT.toDouble())
-        when (event.action) {
-            MotionEvent.ACTION_DOWN -> {
-                if (isTouchOnFocus!! && isPerformClick) {
-                    targetView?.view?.setPressed(true)
-                    targetView?.view?.invalidate()
-                }
-                return true
-            }
-            MotionEvent.ACTION_UP -> {
-                if (isTouchOnFocus!! || dismissOnTouch) dismiss()
-                if (isTouchOnFocus && isPerformClick) {
-                    targetView?.view?.performClick()
-                    targetView?.view?.setPressed(true)
-                    targetView?.view?.invalidate()
-                    targetView?.view?.setPressed(false)
-                    targetView?.view?.invalidate()
-                }
-                return true
-            }
-            else -> {
-            }
-        }
-        return super.onTouchEvent(event)
-    }
+//    override fun onTouchEvent(event: MotionEvent): Boolean {
+//        val xT = event.x
+//        val yT = event.y
+//        val isTouchOnFocus: Boolean? = targetShape?.isTouchOnFocus(xT.toDouble(), yT.toDouble())
+//        when (event.action) {
+//            MotionEvent.ACTION_DOWN -> {
+//                if (isTouchOnFocus!! && isPerformClick) {
+//                    targetView?.view?.setPressed(true)
+//                    targetView?.view?.invalidate()
+//                }
+//                return true
+//            }
+//            MotionEvent.ACTION_UP -> {
+//                if (isTouchOnFocus!! || dismissOnTouch) dismiss()
+//                if (isTouchOnFocus && isPerformClick) {
+//                    targetView?.view?.performClick()
+//                    targetView?.view?.setPressed(true)
+//                    targetView?.view?.invalidate()
+//                    targetView?.view?.setPressed(false)
+//                    targetView?.view?.invalidate()
+//                }
+//                return true
+//            }
+//            else -> {
+//            }
+//        }
+//        return super.onTouchEvent(event)
+//    }
 
     /**
      * Shows material view with fade in
@@ -224,6 +225,13 @@ class DescriptionView : RelativeLayout {
      * Dismiss Material Intro View
      */
     fun dismiss() {
+
+
+        targetView?.view?.performClick()
+        targetView?.view?.setPressed(true)
+        targetView?.view?.invalidate()
+        targetView?.view?.setPressed(false)
+        targetView?.view?.invalidate()
 
         AnimationFactory.animateFadeOut(
             this,
@@ -275,7 +283,7 @@ class DescriptionView : RelativeLayout {
                 )
 
             if (targetShape!!.point.y < layoutHeight / 2) {
-                ( descriptionView as LinearLayout?)!!.gravity = Gravity.BOTTOM
+                (descriptionView as LinearLayout?)!!.gravity = Gravity.BOTTOM
                 infoDialogParams.setMargins(
                     0,
                     targetShape!!.point.y + targetShape!!.height / 2,
@@ -313,8 +321,8 @@ class DescriptionView : RelativeLayout {
                 getToolTipBuilder()?.setToolTipOrientation(Orientation.DOWN)
             }
 
-            descriptionView!!.layoutParams = infoDialogParams
-            descriptionView!!.postInvalidate()
+            descriptionView.layoutParams = infoDialogParams
+            descriptionView.postInvalidate()
             addView(descriptionView)
             /*
              attaching tip here
@@ -322,9 +330,12 @@ class DescriptionView : RelativeLayout {
             var mTooltip: CoachMarkInfoToolTip? = getToolTip()
             mTooltip?.layoutParams = tipParams
             mTooltip!!.postInvalidate()
-            ( descriptionView as LinearLayout)?.addView(mTooltip)
+            (descriptionView as LinearLayout)?.addView(mTooltip)
 
-            descriptionView!!.visibility = View.VISIBLE
+            btnNext.setOnClickListener {
+
+                dismiss()
+            }
         }
     }
 
@@ -377,15 +388,16 @@ class DescriptionView : RelativeLayout {
 
     private fun setColorTextViewInfo(colorTextViewInfo: Int) {
         this.colorTextViewInfo = colorTextViewInfo
-        textViewInfo!!.setTextColor(this.colorTextViewInfo)
+        tvDescription.setTextColor(this.colorTextViewInfo)
     }
 
-    private fun setTextViewInfo(textViewInfo: CharSequence) {
-        this.textViewInfo!!.text = textViewInfo
+    private fun setTextViewInfo(guidedTourViewDetail: GuidedTourViewDetail) {
+        tvTitle.text = guidedTourViewDetail.title
+        tvDescription.text = guidedTourViewDetail.description
     }
 
     private fun setTextViewInfoSize(textViewInfoSize: Int) {
-        textViewInfo!!.setTextSize(
+        tvDescription.setTextSize(
             TypedValue.COMPLEX_UNIT_SP,
             textViewInfoSize.toFloat()
         )
@@ -476,9 +488,9 @@ class DescriptionView : RelativeLayout {
             return this
         }
 
-        fun setInfoText(infoText: String): Builder {
+        fun setInfoText(guidedTourViewDetail: GuidedTourViewDetail): Builder {
             materialIntroView.enableInfoDialog(true)
-            materialIntroView.setTextViewInfo(infoText)
+            materialIntroView.setTextViewInfo(guidedTourViewDetail)
             return this
         }
 

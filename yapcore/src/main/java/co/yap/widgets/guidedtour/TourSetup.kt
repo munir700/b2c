@@ -3,7 +3,6 @@ package co.yap.widgets.guidedtour
 import android.app.Activity
 import android.content.Context
 import android.util.DisplayMetrics
-import android.view.View
 import co.yap.widgets.guidedtour.models.GuidedTourViewDetail
 import co.yap.widgets.guidedtour.shape.Focus
 import co.yap.widgets.guidedtour.shape.FocusGravity
@@ -17,7 +16,7 @@ class TourSetup() : DescriptionBoxListener {
     var isMultipleViewsTour: Boolean = false
     var guidedTourViewViewsList: ArrayList<GuidedTourViewDetail> = ArrayList()
 
-     lateinit var metrics: DisplayMetrics
+    lateinit var metrics: DisplayMetrics
     lateinit var context: Context
 
     constructor (
@@ -60,9 +59,7 @@ class TourSetup() : DescriptionBoxListener {
     fun focusSingleView(guidedTourViewDetail: GuidedTourViewDetail) {
         activity?.let {
             showIntro(
-                guidedTourViewDetail.view,
-                guidedTourViewDetail.view?.id.toString(),
-                guidedTourViewDetail.description,
+                guidedTourViewDetail,
                 Focus.ALL, it
             )
         }
@@ -70,9 +67,7 @@ class TourSetup() : DescriptionBoxListener {
 
 
     fun showIntro(
-        view: View?,
-        id: String,
-        text: String,
+        guidedTourViewDetail: GuidedTourViewDetail,
         focusType: Focus?, activity: Activity
     ) {
 
@@ -83,9 +78,9 @@ class TourSetup() : DescriptionBoxListener {
             .enableFadeAnimation(true)
             .setListener(this)
             .performClick(true)
-            .setInfoText(text)
-            .setTarget(view)
-            .setUsageId(id)
+            .setInfoText(guidedTourViewDetail)
+            .setTarget(guidedTourViewDetail.view)
+            .setUsageId(guidedTourViewDetail.view?.id.toString())
             .show()
     }
 
