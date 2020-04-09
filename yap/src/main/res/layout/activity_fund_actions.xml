@@ -358,7 +358,7 @@
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/clBottom"
-                    app:layout_constraintVertical_bias="0.958"
+                    app:layout_constraintVertical_bias="0.967"
                     tools:text="Add" />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.core.widget.NestedScrollView>

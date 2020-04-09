@@ -135,6 +135,7 @@ open class FundActionsViewModel(application: Application) :
                 is RetroApiResponse.Success -> {
                     clickEvent.setValue(EVENT_REMOVE_FUNDS_SUCCESS)
                 }
+
                 is RetroApiResponse.Error -> {
                     state.toast = response.error.message
                 }
@@ -194,7 +195,7 @@ open class FundActionsViewModel(application: Application) :
 
     override fun buttonClickEvent(id: Int) {
         if (state.checkValidity("") == "") {
-            clickEvent.postValue(id)
+            clickEvent.setValue(id)
         } else {
             errorEvent.postValue(id)
         }

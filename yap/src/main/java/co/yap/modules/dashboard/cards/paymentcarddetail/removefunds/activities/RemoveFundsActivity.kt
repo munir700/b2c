@@ -54,7 +54,6 @@ class RemoveFundsActivity : AddFundsActivity() {
         parentViewModel =
             this.let { ViewModelProviders.of(it).get(FundActionsViewModel::class.java) }
         parentViewModel?.getTransferFees(TransactionProductCode.WITHDRAW_SUPPLEMENTARY_CARD.pCode)
-        setObservers()
         setupData()
         viewModel.firstDenominationClickEvent.observe(this, Observer {
             hideKeyboard()
