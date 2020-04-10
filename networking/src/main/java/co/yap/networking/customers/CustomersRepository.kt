@@ -7,6 +7,7 @@ import co.yap.networking.customers.requestdtos.*
 import co.yap.networking.customers.responsedtos.*
 import co.yap.networking.customers.responsedtos.beneficiary.BankParamsResponse
 import co.yap.networking.customers.responsedtos.documents.GetMoreDocumentsResponse
+import co.yap.networking.customers.responsedtos.household.HouseHoldGetSubscriptionResponseDTO
 import co.yap.networking.customers.responsedtos.sendmoney.AddBeneficiaryResponseDTO
 import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.networking.customers.responsedtos.sendmoney.Country
@@ -104,6 +105,13 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     const val URL_CHANGE_PASSCODE = "/customers/api/user/change-password"
     const val URL_APP_VERSION = "/customers/api/mobile-app-versions"
     //.................... End region of admin repo urls................................................
+
+    /*
+    * House hold Api's
+    * */
+    const val URL_GET_HOUSE_HOLD_SUBSCRIPTION = "customers/api/household/get-subscription/{UUID}"
+
+    //.................... End region of house hold repo urls................................................
 
 
     private val api: CustomersRetroService =
@@ -300,10 +308,17 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     override suspend fun appUpdate(): RetroApiResponse<AppUpdateResponse> =
         executeSafely(call = { api.appUpdate() })
 
+
     override suspend fun getSubAccountInviteStatus(notificationStatus: String): RetroApiResponse<SubAccountInvitationResponse> =
         executeSafely(call = { api.subAccountInvitation(notificationStatus) })
 
     override suspend fun saveReferalInvitation(saveReferalRequest: SaveReferalRequest): RetroApiResponse<ApiResponse> =
         executeSafely(call = { api.saveReferalInvitation(saveReferalRequest) })
+
+    /*
+    * House hold
+    * */
+    override suspend fun getHouseHoldSubscription(uuid: String): RetroApiResponse<HouseHoldGetSubscriptionResponseDTO> =
+        executeSafely(call = { api.getHouseHoldSubscription(uuid) })
 
 }

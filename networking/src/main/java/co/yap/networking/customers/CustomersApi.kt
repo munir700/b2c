@@ -4,6 +4,7 @@ import co.yap.networking.customers.requestdtos.*
 import co.yap.networking.customers.responsedtos.*
 import co.yap.networking.customers.responsedtos.beneficiary.RecentBeneficiariesResponse
 import co.yap.networking.customers.responsedtos.beneficiary.TopUpBeneficiariesResponse
+import co.yap.networking.customers.responsedtos.household.HouseHoldGetSubscriptionResponseDTO
 import co.yap.networking.customers.responsedtos.sendmoney.*
 import co.yap.networking.models.ApiResponse
 import co.yap.networking.models.RetroApiResponse
@@ -41,7 +42,7 @@ interface CustomersApi {
     suspend fun createBeneficiary(createBeneficiaryRequest: CreateBeneficiaryRequest): RetroApiResponse<CreateBeneficiaryResponse>
     suspend fun getCardsLimit(): RetroApiResponse<CardsLimitResponse>
 
-/*  send money */
+    /*  send money */
     suspend fun getRecentBeneficiaries(): RetroApiResponse<GetAllBeneficiaryResponse>
     suspend fun getAllBeneficiaries(): RetroApiResponse<GetAllBeneficiaryResponse>
     suspend fun getAllCountries(): RetroApiResponse<CountryModel>
@@ -84,5 +85,12 @@ interface CustomersApi {
     suspend fun validateCurrentPasscode(passcode: String): RetroApiResponse<ApiResponse>
     suspend fun changePasscode(newPasscode: String): RetroApiResponse<ApiResponse>
     suspend fun appUpdate(): RetroApiResponse<AppUpdateResponse>
+
+    /*
+    * House hold module
+    * */
+
+    suspend fun getHouseHoldSubscription(uuid: String): RetroApiResponse<HouseHoldGetSubscriptionResponseDTO>
+
 
 }
