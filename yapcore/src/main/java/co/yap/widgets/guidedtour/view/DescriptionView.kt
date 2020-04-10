@@ -29,6 +29,7 @@ import co.yap.widgets.guidedtour.target.ViewTarget
 import co.yap.widgets.guidedtour.utils.Constants
 import co.yap.widgets.guidedtour.utils.Utils
 import co.yap.yapcore.R
+import co.yap.yapcore.databinding.ViewDescriptionBoxBinding
 import kotlinx.android.synthetic.main.view_description_box.view.*
 
 class DescriptionView : RelativeLayout {
@@ -39,14 +40,14 @@ class DescriptionView : RelativeLayout {
     private var isFadeAnimationEnabled = false
     private var fadeAnimationDuration: Long = 0
     private var targetShape: Shape? = null
-    private var focusType: Focus? = null
-    private var focusGravity: FocusGravity? = null
-    private var targetView: Target? = null
+    internal var focusType: Focus? = null
+    internal var focusGravity: FocusGravity? = null
+    public var targetView: Target? = null
     private var eraser: Paint? = null
     private var taskHandler: Handler? = null
     private var bitmap: Bitmap? = null
     private var canvas: Canvas? = null
-    private var padding = 0
+    internal var padding = 0
     private var layoutWidth = 0
     private var layoutHeight = 0
     private var dismissOnTouch = false
@@ -66,7 +67,7 @@ class DescriptionView : RelativeLayout {
     fun getSkipButtonBuilder(): CoachMarkSkipButton.Builder? = mSkipButtonBuilder
 
 
-    private var viewDataBinding: ViewDataBinding = DataBindingUtil.inflate(
+    var viewDataBinding: ViewDescriptionBoxBinding = DataBindingUtil.inflate(
         LayoutInflater.from(context),
         R.layout.view_description_box,
         this,
@@ -239,7 +240,7 @@ class DescriptionView : RelativeLayout {
      * Y coordinate of root view, then locate cardview
      * above the circle. Otherwise locate below.
      */
-    private fun setInfoLayout() {
+     fun setInfoLayout() {
         var mToolTipBuilder: CoachMarkInfoToolTip.Builder? = CoachMarkInfoToolTip.Builder(context)
         fun getToolTip(): CoachMarkInfoToolTip? =
             if (mToolTipBuilder == null) null else mToolTipBuilder?.build()
@@ -315,8 +316,10 @@ class DescriptionView : RelativeLayout {
             (descriptionView as LinearLayout)?.addView(mTooltip)
 
             btnNext.setOnClickListener {
-
-                dismiss()
+                if (materialIntroListener != null) materialIntroListener?.onUserClicked(
+                    materialIntroViewId
+                )
+                //dismiss()
             }
         }
     }
@@ -344,7 +347,7 @@ class DescriptionView : RelativeLayout {
         this.isReady = isReady
     }
 
-    private fun setTarget(target: Target) {
+    internal fun setTarget(target: Target) {
         targetView = target
     }
 
@@ -352,7 +355,7 @@ class DescriptionView : RelativeLayout {
         this.focusType = focusType
     }
 
-    private fun setShape(shape: Shape) {
+    internal fun setShape(shape: Shape) {
         targetShape = shape
     }
 
@@ -553,6 +556,7 @@ class DescriptionView : RelativeLayout {
             materialIntroView.setShape(shape)
             return materialIntroView
         }
+
 
         fun show(): DescriptionView {
             build().show(activity)

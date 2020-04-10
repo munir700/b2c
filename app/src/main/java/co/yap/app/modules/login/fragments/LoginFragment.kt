@@ -65,46 +65,11 @@ class LoginFragment : BaseBindingFragment<ILogin.ViewModel>(), ILogin.View {
         /*
          adding view arrays to start tour on
         */
-        activity?.let {
-            TourSetup(it, it, setViewsArray())
-        }
+
 
     }
 
-    fun setViewsArray(): ArrayList<GuidedTourViewDetail> {
-        val list = ArrayList<GuidedTourViewDetail>()
-        list.add(
-            GuidedTourViewDetail(
-                ivYap,
-                "Your current balance",
-                "Here you can see your account’s current balance. It will be updated in-real time after every transaction."
-            )
-        )
-        list.add(
-            GuidedTourViewDetail(
-                clSignUp,
-                "search",
-                "Click here to search for specific transaction in your account history"
-            )
-        )
-        list.add(
-            GuidedTourViewDetail(
-                tvSignIn,
-                "yap it",
-                "Click here to see more actions like:\n" +
-                        "YAP to YAP transactions,  yop up your account, send money and pay your bills"
-            )
-        )
 
-        list.add(
-            GuidedTourViewDetail(
-                clSignUp,
-                "menu bar",
-                "Click here to view the menu bar where you can see your account details and navigate to useful pages"
-            )
-        )
-        return list
-    }
 
     override fun onDestroy() {
         super.onDestroy()

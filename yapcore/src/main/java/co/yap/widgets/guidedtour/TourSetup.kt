@@ -4,8 +4,10 @@ import android.app.Activity
 import android.content.Context
 import android.util.DisplayMetrics
 import co.yap.widgets.guidedtour.models.GuidedTourViewDetail
+import co.yap.widgets.guidedtour.shape.Circle
 import co.yap.widgets.guidedtour.shape.Focus
 import co.yap.widgets.guidedtour.shape.FocusGravity
+import co.yap.widgets.guidedtour.target.ViewTarget
 import co.yap.widgets.guidedtour.view.DescriptionView
 
 class TourSetup() : DescriptionBoxListener {
@@ -18,6 +20,8 @@ class TourSetup() : DescriptionBoxListener {
 
     lateinit var metrics: DisplayMetrics
     lateinit var context: Context
+
+    var descView: DescriptionView? = null
 
     constructor (
         context: Context,
@@ -71,7 +75,7 @@ class TourSetup() : DescriptionBoxListener {
         focusType: Focus?, activity: Activity
     ) {
 
-        DescriptionView.Builder(activity)
+        descView = DescriptionView.Builder(activity)
             .setFocusGravity(FocusGravity.CENTER)
             .setFocusType(focusType!!)
             .setDelayMillis(200)
@@ -91,10 +95,36 @@ class TourSetup() : DescriptionBoxListener {
         if (materialIntroViewId != null) {
             if (isMultipleViewsTour) {
                 if (currentViewId < guidedTourViewViewsList.size) {
-                    focusMultipleViews()
+                    //focusMultipleViews()
+//                    currentViewId += 1
+                    updateCurrentDescriptionBox(descView!!, guidedTourViewViewsList[currentViewId])
                 }
             }
 
         }
+    }
+
+    private fun updateCurrentDescriptionBox(
+        descView: DescriptionView,
+        currentHint: GuidedTourViewDetail
+    ) {
+
+        val dBox = descView.viewDataBinding.descriptionView
+        //dBox.animate().y(currentHint.view.y).setDuration(500).start()
+        updateShape(descView,currentHint)
+    }
+
+    fun updateShape(materialIntroView: DescriptionView,currentHint: GuidedTourViewDetail) {
+        // no custom shape supplied, build our own
+        currentHint.view.let { ViewTarget(it) }.let { materialIntroView.setTarget(it) }
+        val shape = Circle(
+            materialIntroView.targetView,
+            materialIntroView.focusType,
+            materialIntroView.focusGravity,
+            materialIntroView.padding
+        )
+        materialIntroView.setShape(shape)
+        materialIntroView.setInfoLayout()
+        materialIntroView.invalidate()
     }
 }

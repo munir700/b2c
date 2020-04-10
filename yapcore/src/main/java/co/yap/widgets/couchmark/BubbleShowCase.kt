@@ -46,7 +46,7 @@ class BubbleShowCase(builder: BubbleShowCaseBuilder) {
      * - VIEW_SURFACE: Only the view surface is highlighted, but not the background. Example: For a TextView, only the characters will be highlighted
      */
     enum class HighlightMode {
-        VIEW_LAYOUT, VIEW_SURFACE
+        VIEW_LAYOUT, VIEW_SURFACE,VIEW_CIRCLE
     }
 
 
@@ -176,7 +176,8 @@ class BubbleShowCase(builder: BubbleShowCaseBuilder) {
         backgroundLayout.setBackgroundColor(
             ContextCompat.getColor(
                 mActivity.get()!!,
-                R.color.transparent_grey
+                R.color.transparent_grey //TODO: change bg color
+
             )
         )
         backgroundLayout.isClickable = true

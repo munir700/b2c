@@ -60,7 +60,7 @@ class BubbleMessageView : ConstraintLayout {
     }
 
     private fun inflateXML() {
-        itemView = inflate(context, R.layout.view_bubble_message, this)
+        itemView = inflate(context, R.layout.couch_mark_message_box, this)
     }
 
     private fun bindViews() {

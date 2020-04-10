@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.os.Bundle
+import android.os.Handler
 import android.text.SpannableString
 import android.text.style.RelativeSizeSpan
 import android.view.View
@@ -31,6 +32,7 @@ import co.yap.modules.dashboard.home.helpers.transaction.TransactionsViewHelper
 import co.yap.modules.dashboard.home.interfaces.IYapHome
 import co.yap.modules.dashboard.home.interfaces.NotificationItemClickListener
 import co.yap.modules.dashboard.home.viewmodels.YapHomeViewModel
+import co.yap.modules.dashboard.main.activities.YapDashboardActivity
 import co.yap.modules.dashboard.main.fragments.YapDashboardChildFragment
 import co.yap.modules.dashboard.main.viewmodels.YapDashBoardViewModel
 import co.yap.modules.dashboard.more.yapforyou.activities.YAPForYouActivity
@@ -50,6 +52,11 @@ import co.yap.networking.transactions.responsedtos.transaction.Content
 import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionListData
 import co.yap.translation.Strings
 import co.yap.widgets.MultiStateView
+import co.yap.widgets.couchmark.BubbleShowCase
+import co.yap.widgets.couchmark.BubbleShowCaseBuilder
+import co.yap.widgets.couchmark.BubbleShowCaseSequence
+import co.yap.widgets.guidedtour.TourSetup
+import co.yap.widgets.guidedtour.models.GuidedTourViewDetail
 import co.yap.yapcore.constants.Constants.ADDRESS
 import co.yap.yapcore.constants.Constants.ADDRESS_SUCCESS
 import co.yap.yapcore.constants.Constants.BROADCAST_UPDATE_TRANSACTION
@@ -64,13 +71,12 @@ import co.yap.yapcore.helpers.extentions.*
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.leanplum.KYCEvents
 import co.yap.yapcore.managers.MyUserManager
-import com.elconfidencial.bubbleshowcase.BubbleShowCase
-import com.elconfidencial.bubbleshowcase.BubbleShowCaseBuilder
-import com.elconfidencial.bubbleshowcase.BubbleShowCaseSequence
 import com.google.android.material.appbar.AppBarLayout
 import com.yarolegovich.discretescrollview.transform.ScaleTransformer
+import kotlinx.android.synthetic.main.activity_yap_dashboard.*
 import kotlinx.android.synthetic.main.content_fragment_yap_home.view.*
 import kotlinx.android.synthetic.main.view_graph.*
+import kotlinx.coroutines.delay
 import kotlin.math.abs
 
 
@@ -140,7 +146,39 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                 getBindings().lyInclude.lyHomeAction.layoutParams = pram
             }
         })
-        getSequence().show()
+        Handler().postDelayed({
+            activity?.let {
+                TourSetup(it, it, setViewsArray())
+            }
+        }, 3000)
+
+    }
+
+    fun setViewsArray(): ArrayList<GuidedTourViewDetail> {
+        val list = ArrayList<GuidedTourViewDetail>()
+        list.add(
+            GuidedTourViewDetail(
+                getBindings().tvAvailableBalance,
+                "Your current balance",
+                "Here you can see your account’s current balance. It will be updated in-real time after every transaction."
+            )
+        )
+//        list.add(
+//            GuidedTourViewDetail(
+//                (activity as YapDashboardActivity).cvYapIt,
+//                "search",
+//                "Click here to search for specific transaction in your account history"
+//            )
+//        )
+        list.add(
+            GuidedTourViewDetail(
+                getBindings().mainContent.lyAdd,
+                "yap it",
+                "Click here to see more actions like:\n" +
+                        "YAP to YAP transactions,  yop up your account, send money and pay your bills"
+            )
+        )
+        return list
     }
 
     private fun getSimpleShowCaseBuilder(): BubbleShowCaseBuilder {
@@ -155,7 +193,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
             .title("Your current balance")
             .description("Here you can see your account’s current balance. It will be updated in-real time after every transaction.")
             .backgroundColor(requireContext().getColor(R.color.white)) //Bubble background color
-            .textColor(requireContext().getColor(R.color.colorPrimary)) //Bubble Text color
+            .textColor(requireContext().getColor(R.color.black)) //Bubble Text color
             .titleTextSize(17) //Title text size in SP (default value 16sp)
             .descriptionTextSize(15) //Subtitle text size in SP (default value 14sp)
             .highlightMode(BubbleShowCase.HighlightMode.VIEW_SURFACE)
@@ -164,13 +202,17 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
     }
     private fun getSimpleShowCaseBuilder3(): BubbleShowCaseBuilder {
         return BubbleShowCaseBuilder(requireActivity())
-            .title("Welcome!!!")
-            .description("This is a simple BubbleShowCase with default values.")
+            .title("Your current balance")
+            .description("Here you can see your account’s current balance. It will be updated in-real time after every transaction.")
+            .backgroundColor(requireContext().getColor(R.color.white)) //Bubble background color
+            .textColor(requireContext().getColor(R.color.black)) //Bubble Text color
+            .titleTextSize(17) //Title text size in SP (default value 16sp)
+            .descriptionTextSize(15) //Subtitle text size in SP (default value 14sp)
+            .highlightMode(BubbleShowCase.HighlightMode.VIEW_SURFACE)
             .targetView(getBindings().mainContent.tvFilters)
-
     }
 
-    private fun getSequence(): BubbleShowCaseSequence{
+    private fun getSequence(): BubbleShowCaseSequence {
         return BubbleShowCaseSequence().addShowCases(listOf(
             getSimpleShowCaseBuilder(),
             getSimpleShowCaseBuilder2(),
