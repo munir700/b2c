@@ -1,6 +1,9 @@
 package co.yap.modules.subaccounts.account.card
 
+import android.animation.Animator
+import android.graphics.Color
 import android.view.*
+import android.view.animation.TranslateAnimation
 import androidx.databinding.ViewDataBinding
 import androidx.navigation.NavController
 import co.yap.BR
@@ -15,6 +18,9 @@ import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.dagger.base.BaseRecyclerViewFragment
 import co.yap.yapcore.helpers.extentions.launchActivity
 import co.yap.yapcore.helpers.extentions.startFragment
+import com.daimajia.androidanimations.library.Techniques
+import com.daimajia.androidanimations.library.YoYo
+import kotlinx.android.synthetic.main.item_sub_account_card.*
 import kotlin.reflect.KClass
 import kotlin.reflect.full.primaryConstructor
 
@@ -30,6 +36,7 @@ class SubAccountCardFragment :
     override fun postExecutePendingBindings() {
         super.postExecutePendingBindings()
         setHasOptionsMenu(true)
+        setRefreshEnabled(false)
         dragAndDropManager = DragAndDropManager(this)
     }
 
@@ -47,23 +54,46 @@ class SubAccountCardFragment :
 //        Card is on the way (in purple text) and it will be non-clickable.
 //        In case household user has declined the request of the employer. Declined by <first_name> will be displayed in red text.
 //        then Card is active! Will be displayed in purple text
-        val subAccount = data as SubAccount
+       /* val subAccount = data as SubAccount
         subAccount.accountType?.let {
             startFragment(HHSalaryProfileFragment::class.java.name)
 //            navigateForwardWithAnimation(SubAccountDashBoardFragmentDirections.actionSubAccountDashBoardFragmentToHHSalaryProfileFragment())
         }
             ?: launchActivity<HouseHoldLandingActivity>(requestCode = RequestCodes.REQUEST_ADD_HOUSE_HOLD)
+*/
+        if(pos == 0) {
+            swipeViews(true)
+        }
+    }
 
+    private fun swipeViews(swipe: Boolean) {
+        if(swipe){
+            layout_image.visibility = View.GONE
+            llBankTransferType.background = resources.getDrawable(R.drawable.card_border_selected)
+            layout_swipe_image.visibility = View.VISIBLE
+            animate(layout_swipe_image)
+        }else{
+            layout_image.visibility = View.VISIBLE
+            layout_swipe_image.visibility = View.GONE
+            llBankTransferType.background = resources.getDrawable(R.drawable.card_border_selector)
+        }
+    }
 
+    private fun animate(view: View){
+        YoYo.with(Techniques.SlideInDown)
+            .duration(1000)
+            .repeat(0)
+            .playOn(view)
     }
 
     override fun onItemDrag(view: View, pos: Int, event: DragEvent, data: Any): Boolean? {
+        swipeViews(false)
         return dragAndDropManager?.onItemDrag(view, pos, event, data)
     }
 
     override fun onItemLongClick(view: View, pos: Int, id: Long, data: Any): Boolean? {
         if (pos == 0) {
-            return dragAndDropManager?.onItemLongClick(view)
+            return dragAndDropManager?.startDrag(view)
         }
         return true
     }

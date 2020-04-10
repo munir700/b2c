@@ -1538,4 +1538,5 @@ object Strings {
     const val screen_house_hold_salary_profile_transfer_bonus_text:String = "screen_house_hold_salary_profile_transfer_bonus_text"
     const val screen_house_hold_salary_profile_display_text_transfers:String = "screen_house_hold_salary_profile_display_text_transfers"
 
+    const val screen_sub_accounts_profile_display_text_drag_and_drop:String = "screen_sub_accounts_profile_display_text_drag_and_drop"
 }

@@ -980,6 +980,7 @@
     <string name="screen_house_hold_salary_profile_transfer_bonus_text">Transfer a bonus or extra cash</string>
     <string name="screen_house_hold_salary_profile_display_text_transfers">Transfers</string>
 
+    <string name="screen_sub_accounts_profile_display_text_drag_and_drop">Drag and drop to\ntransfer money</string>
 
 </resources>
 

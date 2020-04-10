@@ -12,7 +12,7 @@ class DragAndDropManager {
         this.listener = listener
     }
 
-    fun onItemLongClick(view: View): Boolean? {
+    fun startDrag(view: View): Boolean? {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             view.startDragAndDrop(null, View.DragShadowBuilder(view), null, 0);
         } else {
@@ -26,16 +26,16 @@ class DragAndDropManager {
         when (event.action) {
             DragEvent.ACTION_DRAG_STARTED -> return true
             DragEvent.ACTION_DRAG_ENTERED -> {
-                view.setBackgroundColor(Color.LTGRAY)
+//                view.setBackgroundColor(Color.LTGRAY)
                 return true
             }
             DragEvent.ACTION_DRAG_LOCATION -> return true
             DragEvent.ACTION_DRAG_EXITED -> {
-                view.setBackgroundColor(Color.TRANSPARENT)
+//                view.setBackgroundColor(Color.TRANSPARENT)
                 return true
             }
             DragEvent.ACTION_DROP -> {
-                view.setBackgroundColor(Color.TRANSPARENT)
+//                view.setBackgroundColor(Color.TRANSPARENT)
                 listener?.onItemDrop(view, pos, data)
                 return true
             }
