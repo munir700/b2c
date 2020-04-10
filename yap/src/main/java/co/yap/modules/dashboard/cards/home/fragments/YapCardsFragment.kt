@@ -128,14 +128,12 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
                     } else
                         when (getCard(pos).status) {
                             CardStatus.ACTIVE.name -> {
-                                if (getCard(pos).pinCreated)
+                                if (getCard(pos).cardType == CardType.DEBIT.type) {
+                                    if (getCard(pos).pinCreated) openDetailScreen(pos) else openStatusScreen(view, pos)
+                                } else
                                     openDetailScreen(pos)
-                                else
-                                    openStatusScreen(view, pos)
                             }
-                            CardStatus.BLOCKED.name, CardStatus.EXPIRED.name -> {
-                                openDetailScreen(pos)
-                            }
+                            CardStatus.BLOCKED.name, CardStatus.EXPIRED.name -> openDetailScreen(pos)
                             CardStatus.INACTIVE.name -> {
                                 getCard(pos).deliveryStatus?.let { deliveryStatus ->
                                     when (deliveryStatus) {
