@@ -36,7 +36,6 @@
                 android:layout_gravity="bottom|end"
                 android:visibility="visible"
                 android:layout_marginBottom="@dimen/_6sdp"
-                app:srcCompat="@drawable/ic_transaction_pending"
                 tools:src="@drawable/ic_outgoing_transaction"
                 />
         </FrameLayout>
