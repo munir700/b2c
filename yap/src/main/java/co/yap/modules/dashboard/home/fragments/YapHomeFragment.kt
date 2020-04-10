@@ -64,8 +64,12 @@ import co.yap.yapcore.helpers.extentions.*
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.leanplum.KYCEvents
 import co.yap.yapcore.managers.MyUserManager
+import com.elconfidencial.bubbleshowcase.BubbleShowCase
+import com.elconfidencial.bubbleshowcase.BubbleShowCaseBuilder
+import com.elconfidencial.bubbleshowcase.BubbleShowCaseSequence
 import com.google.android.material.appbar.AppBarLayout
 import com.yarolegovich.discretescrollview.transform.ScaleTransformer
+import kotlinx.android.synthetic.main.content_fragment_yap_home.view.*
 import kotlinx.android.synthetic.main.view_graph.*
 import kotlin.math.abs
 
@@ -136,7 +140,44 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                 getBindings().lyInclude.lyHomeAction.layoutParams = pram
             }
         })
+        getSequence().show()
     }
+
+    private fun getSimpleShowCaseBuilder(): BubbleShowCaseBuilder {
+        return BubbleShowCaseBuilder(requireActivity())
+            .title("Welcome!!!")
+            .description("This is a simple BubbleShowCase with default values.")
+            .targetView(getBindings().tvAvailableBalance)
+
+    }
+    private fun getSimpleShowCaseBuilder2(): BubbleShowCaseBuilder {
+        return BubbleShowCaseBuilder(requireActivity())
+            .title("Your current balance")
+            .description("Here you can see your account’s current balance. It will be updated in-real time after every transaction.")
+            .backgroundColor(requireContext().getColor(R.color.white)) //Bubble background color
+            .textColor(requireContext().getColor(R.color.colorPrimary)) //Bubble Text color
+            .titleTextSize(17) //Title text size in SP (default value 16sp)
+            .descriptionTextSize(15) //Subtitle text size in SP (default value 14sp)
+            .highlightMode(BubbleShowCase.HighlightMode.VIEW_SURFACE)
+            .targetView(getBindings().mainContent.lyAdd)
+
+    }
+    private fun getSimpleShowCaseBuilder3(): BubbleShowCaseBuilder {
+        return BubbleShowCaseBuilder(requireActivity())
+            .title("Welcome!!!")
+            .description("This is a simple BubbleShowCase with default values.")
+            .targetView(getBindings().mainContent.tvFilters)
+
+    }
+
+    private fun getSequence(): BubbleShowCaseSequence{
+        return BubbleShowCaseSequence().addShowCases(listOf(
+            getSimpleShowCaseBuilder(),
+            getSimpleShowCaseBuilder2(),
+            getSimpleShowCaseBuilder3()
+        ))
+    }
+
 
     override fun onRefresh() {
         if (PartnerBankStatus.ACTIVATED.status == MyUserManager.user?.partnerBankStatus) {

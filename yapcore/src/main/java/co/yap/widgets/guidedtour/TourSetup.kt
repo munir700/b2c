@@ -50,7 +50,7 @@ class TourSetup() : DescriptionBoxListener {
         previousViewId = currentViewId
 
         focusSingleView(guidedTourViewViewsList[currentViewId])
-        currentViewId = currentViewId + 1
+        currentViewId += 1
         println(currentViewId)
 
 
