@@ -43,6 +43,7 @@ class Y2YFundsTransferSuccessFragment : Y2YBaseFragment<IY2YFundsTransferSuccess
         viewModel.state.title = args.title
         viewModel.state.transferredAmount =
             args.currencyType + " " + args.amount.toFormattedCurrency()
+        viewModel.state.imageUrl = args.imagePath
 
         getBinding().lyUserImage.tvNameInitials.background = Utils.getContactBackground(
             getBinding().lyUserImage.tvNameInitials.context,

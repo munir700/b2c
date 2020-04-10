@@ -3,8 +3,6 @@ package co.yap.yapcore
 import android.app.Activity
 import android.app.Application
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModel
 import com.adjust.sdk.Adjust
 import com.adjust.sdk.AdjustConfig
 import com.adjust.sdk.AdjustEvent
@@ -17,12 +15,12 @@ import com.adjust.sdk.LogLevel
 
 fun Application.initializeAdjustSdk(appToken: String) {
 
-    val environment = AdjustConfig.ENVIRONMENT_SANDBOX //AdjustConfig.ENVIRONMENT_PRODUCTION
+    val environment =
+        if (BuildConfig.DEBUG) AdjustConfig.ENVIRONMENT_SANDBOX else AdjustConfig.ENVIRONMENT_PRODUCTION
     val config = AdjustConfig(this, appToken, environment)
     config.setAppSecret(1, 1236756048, 110233912, 2039250280, 199413548)
-    config.setLogLevel(LogLevel.VERBOSE)
+    config.setLogLevel(LogLevel.INFO)
     config.setSendInBackground(true)
-
     config.setOnAttributionChangedListener {}
 
     config.setOnEventTrackingSucceededListener {}
@@ -37,7 +35,7 @@ fun Application.initializeAdjustSdk(appToken: String) {
 
     config.setOnDeeplinkResponseListener { true }
     Adjust.onCreate(config)
-    registerActivityLifecycleCallbacks(AdjustLifecycleCallbacks())
+    //registerActivityLifecycleCallbacks(AdjustLifecycleCallbacks())
 }
 
 private class AdjustLifecycleCallbacks : Application.ActivityLifecycleCallbacks {
@@ -68,20 +66,27 @@ private class AdjustLifecycleCallbacks : Application.ActivityLifecycleCallbacks 
     }
 }
 
-fun Activity.trackAdjustEvent(event: String) {
-    fireAdjustEvent(event)
-}
-
-fun Fragment.trackAdjustEvent(event: String) {
-    fireAdjustEvent(event)
-}
-
-fun ViewModel.trackAdjustEvent(event: String) {
-    fireAdjustEvent(event)
-}
+//fun Activity.trackAdjustEvent(event: String) {
+//    fireAdjustEvent(event)
+//}
+//
+//fun Fragment.trackAdjustEvent(event: String) {
+//    fireAdjustEvent(event)
+//}
+//
+//fun ViewModel.trackAdjustEvent(event: String) {
+//    fireAdjustEvent(event)
+//}
 
 fun fireAdjustEvent(event: String) {
     val adjustEvent = AdjustEvent(event)
     Adjust.trackEvent(adjustEvent)
 }
 
+class AdjustEvents {
+    companion object {
+        fun trackAdjustPlatformEvent(eventName: String, value: String = "") {
+            fireAdjustEvent(eventName)
+        }
+    }
+}

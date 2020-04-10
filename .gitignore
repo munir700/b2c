@@ -11,6 +11,7 @@
 /.idea/assetWizardSettings.xml
 /authentication/build/*
 /authentication/build
+/coachmark/build
 /household/build
 /send_money/*
 /profile/*

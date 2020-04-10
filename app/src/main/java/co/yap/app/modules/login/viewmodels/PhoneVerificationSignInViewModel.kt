@@ -24,7 +24,7 @@ import co.yap.yapcore.constants.Constants.KEY_IS_USER_LOGGED_IN
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.getColors
-import co.yap.yapcore.helpers.extentions.trackEventWithAttributes
+import co.yap.yapcore.leanplum.trackEventWithAttributes
 import co.yap.yapcore.managers.MyUserManager
 
 class PhoneVerificationSignInViewModel(application: Application) :
@@ -155,10 +155,10 @@ class PhoneVerificationSignInViewModel(application: Application) :
     private fun otpUiBlocked(errorCode: String) {
         when (errorCode) {
             "1095" -> {
-                state.validateBtn = false
+//                state.validateBtn = false
                 state.valid = false
                 state.color = context.getColors(R.color.disabled)
-                state.isOtpBlocked.set(true)
+                state.isOtpBlocked.set(false)
             }
         }
     }
