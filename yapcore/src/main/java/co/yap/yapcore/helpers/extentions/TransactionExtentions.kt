@@ -24,7 +24,11 @@ fun Content?.getTransactionTitle(): String {
             }
             TransactionProductCode.TOP_UP_VIA_CARD.pCode -> {
                 transaction.maskedCardNo?.let {
-                    String.format("%s %s", "Top-Up by*", it.substring(it.length - 4, it.length))
+                    String.format(
+                        "%s %s",
+                        "Top Up by",
+                        "*" + it.substring(it.length - 4, it.length)
+                    )
                 }
                     ?: transaction.title ?: "Unknown"
 
@@ -92,8 +96,7 @@ fun Content?.getTransactionTypeIcon(): Int {
     this?.let { transaction ->
         if (TransactionStatus.FAILED.name == transaction.status || transaction.status == TransactionStatus.CANCELLED.name) return android.R.color.transparent
 
-        return if (TransactionStatus.PENDING.name == transaction.status || TransactionStatus.IN_PROGRESS.name == transaction.status && transaction.getLabelValues() != TransactionLabelsCode.IS_TRANSACTION_FEE
-        )
+        return if (TransactionStatus.PENDING.name == transaction.status || TransactionStatus.IN_PROGRESS.name == transaction.status && transaction.getLabelValues() != TransactionLabelsCode.IS_TRANSACTION_FEE)
             R.drawable.ic_time
         else (when (txnType) {
             TxnType.DEBIT.type -> {
