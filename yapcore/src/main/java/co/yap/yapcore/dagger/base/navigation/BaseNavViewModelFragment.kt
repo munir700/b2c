@@ -3,6 +3,7 @@ package co.yap.yapcore.dagger.base.navigation
 import android.os.Bundle
 import android.transition.ChangeBounds
 import android.transition.Fade
+import android.transition.Slide
 import androidx.annotation.IdRes
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.FragmentManager
@@ -134,7 +135,7 @@ abstract class BaseNavViewModelFragment<VB : ViewDataBinding, S : IBase.State, V
 
     protected fun navigateForwardWithAnimation(navDirections: NavDirections) {
         // val extras = FragmentNavigatorExtras(appBarLayout to appBarTransition)
-        this.exitTransition = Fade()
+        this.exitTransition = Slide()
         findNavController().navigate(navDirections)
     }
 

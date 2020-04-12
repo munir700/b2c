@@ -3,7 +3,7 @@
 
     <style name="Yap.App.Widget.RoundedTabLayout" parent="Widget.Design.TabLayout">
         <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_height">@dimen/_20sdp</item>
         <item name="tabIndicatorColor">@color/transparent</item>
         <item name="tabTextAppearance">@style/Yap.App.Widget.TabTextAppearance</item>
         <item name="tabTextColor">@color/colorPrimary</item>

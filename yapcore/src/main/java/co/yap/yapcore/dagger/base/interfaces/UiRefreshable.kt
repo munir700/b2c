@@ -5,8 +5,8 @@ package co.yap.yapcore.dagger.base.interfaces
  * Indicate refreshable ui objects (be able to swipe to refresh), eg. activity, fragment...
  */
 
-interface UiRefreshable : Refreshable {
-    fun doneRefresh()
+interface UiRefreshable : OnPullToRefreshable {
+    fun doneRefresh(isCompleted:Boolean)
     fun refreshWithUi()
     fun refreshWithUi(delay: Int)
     fun setRefreshEnabled(enabled: Boolean)

@@ -2,9 +2,11 @@ package co.yap.yapcore
 
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.SimpleAdapter
 import androidx.annotation.LayoutRes
 import androidx.annotation.Nullable
 import androidx.databinding.DataBindingUtil
@@ -15,8 +17,8 @@ import co.yap.networking.models.ApiResponse
 import co.yap.yapcore.interfaces.OnItemClickListener
 
 
-abstract class BaseRVAdapter<T : Any, VM : BaseListItemViewModel<T>, VH : BaseViewHolder<T, VM>>
-    ( internal var datas: MutableList<T>, private var navigation: NavController?) :
+abstract class BaseRVAdapter<T : ApiResponse, VM : BaseListItemViewModel<T>, VH : BaseViewHolder<T, VM>>
+    (internal var datas: MutableList<T>, private var navigation: NavController?) :
     RecyclerView.Adapter<VH>() {
 
 
@@ -28,6 +30,7 @@ abstract class BaseRVAdapter<T : Any, VM : BaseListItemViewModel<T>, VH : BaseVi
     override fun onBindViewHolder(holder: VH, position: Int) {
         if (datas.size > position)
             holder.setItem(datas[position], position)
+
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VH {
@@ -47,7 +50,9 @@ abstract class BaseRVAdapter<T : Any, VM : BaseListItemViewModel<T>, VH : BaseVi
         return holder
     }
 
-    protected fun createViewModel(viewType:Int): VM {
+    override fun getItemId(position: Int) = position.toLong()
+    override fun getItemViewType(position: Int) = position
+    protected fun createViewModel(viewType: Int): VM {
         val viewModel: VM = getViewModel(viewType)
         viewModel.onCreate(Bundle(), navigation)
         navigation?.let { onItemClickListener = viewModel }
@@ -65,7 +70,7 @@ abstract class BaseRVAdapter<T : Any, VM : BaseListItemViewModel<T>, VH : BaseVi
         viewType: Int
     ): VH
 
-    abstract fun getViewModel(viewType:Int): VM
+    abstract fun getViewModel(viewType: Int): VM
     abstract fun getVariableId(): Int
 
     fun addAll(datas: List<T>) {
@@ -93,11 +98,22 @@ abstract class BaseRVAdapter<T : Any, VM : BaseListItemViewModel<T>, VH : BaseVi
 
     fun remove(type: T) {
         val position = this.datas.indexOf(type)
-        this.datas.remove(type)
+        removeItemAt(position)
+//        this.datas.remove(type)
+//        notifyItemRemoved(position)
+//        notifyDataSetChanged()
+    }
+
+    fun removeItemAt(position: Int) {
+        this.datas.removeAt(position)
         notifyItemRemoved(position)
         notifyDataSetChanged()
     }
 
+    fun removeAllItems() {
+        this.datas.clear()
+        notifyDataSetChanged()
+    }
     fun change(newItem: T, oldItem: T) {
         val position = this.datas.indexOf(oldItem)
         this.datas.set(position, newItem)
