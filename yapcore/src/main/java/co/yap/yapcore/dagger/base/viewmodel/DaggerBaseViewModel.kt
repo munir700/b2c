@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.annotation.CallSuper
 import androidx.lifecycle.*
+import co.yap.widgets.State
 import co.yap.yapcore.IBase
 import co.yap.yapcore.interfaces.CoroutineViewModel
 
@@ -17,8 +18,9 @@ import kotlin.coroutines.CoroutineContext
  * Created by Muhammad Irfan Arshad
  *
  */
-abstract class DaggerBaseViewModel<S : IBase.State>() : DaggerCoroutineViewModel(), IBase.ViewModel<S>{
-
+abstract class DaggerBaseViewModel<S : IBase.State>() : DaggerCoroutineViewModel(),
+    IBase.ViewModel<S> {
+    var stateLiveData: MutableLiveData<State> = MutableLiveData()
     override fun onCleared() {
         cancelAllJobs()
         super.onCleared()
@@ -77,10 +79,14 @@ abstract class DaggerBaseViewModel<S : IBase.State>() : DaggerCoroutineViewModel
 
     }
 
+     fun publishState(state: State) {
+         stateLiveData.value = state
+    }
+
     override val context: Context
         get() = TODO("Not yet implemented")
 
-    override fun getString(resourceId: Int) =""
+    override fun getString(resourceId: Int) = ""
 
     override fun getString(resourceId: String) = ""
 }

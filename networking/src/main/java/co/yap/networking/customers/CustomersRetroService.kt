@@ -1,17 +1,16 @@
 package co.yap.networking.customers
 
-import co.yap.networking.customers.requestdtos.ForgotPasscodeRequest
-import co.yap.networking.customers.responsedtos.AppUpdateResponse
-import co.yap.networking.customers.responsedtos.VerifyUsernameResponse
 import co.yap.networking.customers.requestdtos.*
 import co.yap.networking.customers.responsedtos.*
 import co.yap.networking.customers.responsedtos.beneficiary.BankParamsResponse
 import co.yap.networking.customers.responsedtos.beneficiary.RecentBeneficiariesResponse
 import co.yap.networking.customers.responsedtos.beneficiary.TopUpBeneficiariesResponse
 import co.yap.networking.customers.responsedtos.documents.GetMoreDocumentsResponse
+import co.yap.networking.customers.responsedtos.household.HouseHoldGetSubscriptionResponseDTO
 import co.yap.networking.customers.responsedtos.sendmoney.*
 import co.yap.networking.household.responsedtos.ValidateParentMobileResponse
 import co.yap.networking.models.ApiResponse
+import co.yap.networking.models.RetroApiResponse
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Response
@@ -76,10 +75,16 @@ interface CustomersRetroService {
 
     // Get More Documents on profile settings fragment
     @GET(CustomersRepository.URL_VALIDATE_PHONE_NUMBER)
-    suspend fun validatePhoneNumber(@Query("country-code") countryCode: String, @Query("mobile-number") mobileNumber: String): Response<ApiResponse>
+    suspend fun validatePhoneNumber(
+        @Query("country-code") countryCode: String,
+        @Query("mobile-number") mobileNumber: String
+    ): Response<ApiResponse>
 
     @PUT(CustomersRepository.URL_CHANGE_MOBILE_NUMBER)
-    suspend fun changeMobileNumber(@Path("country-code") countryCode: String, @Path("mobile-number") mobileNumber: String): Response<ApiResponse>
+    suspend fun changeMobileNumber(
+        @Path("country-code") countryCode: String,
+        @Path("mobile-number") mobileNumber: String
+    ): Response<ApiResponse>
 
     @PUT(CustomersRepository.URL_CHANGE_VERIFIED_EMAIL)
     suspend fun changeVerifiedEmail(@Path("email") email: String): Response<ApiResponse>
@@ -114,7 +119,10 @@ interface CustomersRetroService {
     suspend fun getCountryDataWithISODigit(@Path("country-code") countryCodeWith2Digit: String): Response<Country>
 
     @GET(CustomersRepository.URL_GET_COUNTRY_TRANSACTION_LIMITS)
-    suspend fun getCountryTransactionLimits(@Query("countryCode") countryCode: String, @Query("currencyCode") currencyCode: String): Response<CountryLimitsResponseDTO>
+    suspend fun getCountryTransactionLimits(
+        @Query("countryCode") countryCode: String,
+        @Query("currencyCode") currencyCode: String
+    ): Response<CountryLimitsResponseDTO>
 
     /*  send money */
     @GET(CustomersRepository.URL_GET_RECENT_BENEFICIARIES)
@@ -156,7 +164,10 @@ interface CustomersRetroService {
     suspend fun verifyHouseholdMobile(@Body verifyHouseholdMobileRequest: VerifyHouseholdMobileRequest): Response<ApiResponse>
 
     @POST(CustomersRepository.URL_VERIFY_PARENT_HOUSEHOLD_MOBILE)
-    suspend fun verifyHouseholdParentMobile(@Query("mobileNo") mobileNumber: String?, @Body verifyHouseholdMobileRequest: VerifyHouseholdMobileRequest): Response<ValidateParentMobileResponse>
+    suspend fun verifyHouseholdParentMobile(
+        @Query("mobileNo") mobileNumber: String?,
+        @Body verifyHouseholdMobileRequest: VerifyHouseholdMobileRequest
+    ): Response<ValidateParentMobileResponse>
 
     @POST(CustomersRepository.URL_HOUSEHOLD_USER_ONBOARD)
     suspend fun onboardHouseholdUser(@Body householdOnboardRequest: HouseholdOnboardRequest): Response<HouseholdOnBoardingResponse>
@@ -197,8 +208,27 @@ interface CustomersRetroService {
     suspend fun appUpdate(): Response<AppUpdateResponse>
 
     //  Sub Account Invitation
-    @POST(CustomersRepository.URL_SUB_ACCOUNT_INVITATION+"{notificationStatus}")
-    suspend fun subAccountInvitation(@Path("notificationStatus") notificationStatus:String): Response<SubAccountInvitationResponse>
+    @POST(CustomersRepository.URL_SUB_ACCOUNT_INVITATION + "{notificationStatus}")
+    suspend fun subAccountInvitation(@Path("notificationStatus") notificationStatus: String): Response<SubAccountInvitationResponse>
 
+    //   SubAccount Card Get All subaccounts for a IBAN user:
+    @GET(CustomersRepository.URL_GET_SUB_ACCOUNTS)
+    suspend fun getSubAccountAccount(): Response<SubAccounts>
+
+    // SubAccount Card Get HouseHold User Info
+    @GET(CustomersRepository.URL_GET_PROFILE_HOUSEHOLD_USER)
+    suspend fun getHouseholdUser(@Query("UUID") uuid: String): Response<ApiResponse>
+
+    //   SubAccount Card Resend Household onboarding
+    @POST(CustomersRepository.URL_RESEND_HOUSEHOLD)
+    suspend fun resendRequestToHouseHoldUser(@Path("UUID") uuid: String?): Response<ApiResponse>
+
+    //    SubAccount Card Remove house hold card and Refund to IBAN user
+    @POST(CustomersRepository.URL_REFUND_REMOVE_HOUSEHOLD)
+    suspend fun RemoveRefundHouseHoldUser(@Path("UUID") uuid: String?): Response<ApiResponse>
+
+    //     Get House Hold user subscription From Iban user
+    @GET(CustomersRepository.URL_GET_HOUSE_HOLD_SUBSCRIPTION)
+    suspend fun getHouseHoldSubscription(@Path("UUID") uuid: String): Response<HouseHoldGetSubscriptionResponseDTO>
 
 }

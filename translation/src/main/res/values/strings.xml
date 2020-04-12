@@ -980,6 +980,14 @@
     <string name="screen_house_hold_salary_profile_transfer_bonus_text">Transfer a bonus or extra cash</string>
     <string name="screen_house_hold_salary_profile_display_text_transfers">Transfers</string>
 
+    <!--    House Hold Sub Accounts Strings -->
+    <string name="screen_house_hold_sub_account_declined_by_popup_title">%1s did not accept your request for a household card.</string>
+    <string name="screen_house_hold_sub_account_declined_by_popup_message">Would you like to re-send a request or remove this card and get a refund?</string>
+    <string name="screen_house_hold_sub_account_popup_remove_refund_button_text">Remove &amp; Refund</string>
+    <string name="screen_house_hold_sub_account_popup_resend_button_text">Re-send</string>
+    <string name="screen_house_hold_sub_account_ineligible_popup_title">Sorry, %1s is ineligible for a household card.</string>
+    <string name="screen_house_hold_sub_account_ineligible_popup_message">Please remove %1s, we will refund you the subscription fee.</string>
+    <string name="screen_house_hold_sub_account_status_declined_by_text"> Declined by %1s</string>
     <string name="screen_sub_accounts_profile_display_text_drag_and_drop">Drag and drop to\ntransfer money</string>
 
 </resources>

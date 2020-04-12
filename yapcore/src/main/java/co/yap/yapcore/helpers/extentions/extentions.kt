@@ -85,43 +85,9 @@ fun ImageView.loadImage(path: String) {
         .into(this)
 }
 
-fun EditText.afterTextChanged(afterTextChanged: (String) -> Unit) {
-    this.addTextChangedListener(object : TextWatcher {
-        override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-        }
-
-        override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-        }
-
-        override fun afterTextChanged(editable: Editable?) {
-            afterTextChanged.invoke(editable.toString())
-        }
-    })
-}
-
-fun AppCompatActivity.addFragment(tag: String?, id: Int, fragment: Fragment) {
-    val fragmentTransaction = supportFragmentManager.beginTransaction()
-    fragmentTransaction.add(id, fragment, tag)
-    fragmentTransaction.addToBackStack(tag)
-    fragmentTransaction.commit()
-}
-
 fun AppCompatActivity.replaceFragment(tag: String?, id: Int, fragment: Fragment) {
     val fragmentTransaction = supportFragmentManager.beginTransaction()
     fragmentTransaction.replace(id, fragment, tag)
-    fragmentTransaction.commit()
-}
-
-fun Fragment.addFragment(tag: String?, id: Int, fragmentManager: FragmentManager) {
-    val fragmentTransaction = fragmentManager.beginTransaction()
-    fragmentTransaction.add(id, this, tag)
-    fragmentTransaction.addToBackStack(tag)
-    fragmentTransaction.commit()
-}
-
-fun Fragment.replaceFragment(tag: String?, id: Int, fragmentManager: FragmentManager) {
-    val fragmentTransaction = fragmentManager.beginTransaction()
-    fragmentTransaction.replace(id, this, tag)
     fragmentTransaction.commit()
 }
 

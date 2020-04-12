@@ -1,6 +1,7 @@
 package co.yap.yapcore.dagger.base
 
 
+import android.os.Bundle
 import android.view.DragEvent
 import android.view.View
 import androidx.databinding.ViewDataBinding
@@ -41,19 +42,17 @@ abstract class BaseRecyclerViewFragment<VB : ViewDataBinding, S : IBase.State, V
      * if return false in child fragment then child fragment should need implement owen [RecyclerView]
      */
     var setupRecyclerView = true
-    override fun postExecutePendingBindings() {
-        super.postExecutePendingBindings()
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         if (setupRecyclerView) {
             getmViewModel().adapter.set(adapter)
-            // if (recyclerView?.layoutManager is GridLayoutManager) {
             recyclerView?.addItemDecoration(getItemDecoration())
-
             stateLayout?.setOnReloadListener(this)
             refreshLayout?.setColorSchemeResources(
                 R.color.colorPrimaryDark, R.color.colorPrimary,
                 R.color.colorPrimaryAlt, R.color.colorDisabledBtn
             )
-            refreshLayout?.setOnRefreshListener { refresh() }
+            refreshLayout?.setOnRefreshListener { onRefresh() }
             adapter.onItemClickListener = this
             adapter.onItemDragListener = this
             adapter.onItemLongClickListener = this
@@ -74,19 +73,24 @@ abstract class BaseRecyclerViewFragment<VB : ViewDataBinding, S : IBase.State, V
     }
 
     fun handleState(state: State?) {
-        when (state?.status) {
-            Status.LOADING -> stateLayout?.viewState = MultiStateView.ViewState.LOADING
-            Status.ERROR -> stateLayout?.viewState = MultiStateView.ViewState.ERROR
-            Status.SUCCESS -> stateLayout?.viewState =
-                if (adapter.datas.count() > 0) MultiStateView.ViewState.CONTENT else MultiStateView.ViewState.EMPTY
-            else -> stateLayout?.viewState = MultiStateView.ViewState.EMPTY
+        state?.let { doneRefresh((state.status != Status.LOADING)) }
+        if (!isRefreshing) {
+            when (state?.status) {
+                Status.LOADING -> stateLayout?.viewState = MultiStateView.ViewState.LOADING
+                Status.ERROR -> stateLayout?.viewState = MultiStateView.ViewState.ERROR
+                Status.SUCCESS -> stateLayout?.viewState =
+                    if (adapter.datas.count() > 0) MultiStateView.ViewState.CONTENT else MultiStateView.ViewState.EMPTY
+                else -> stateLayout?.viewState = MultiStateView.ViewState.EMPTY
 
+            }
         }
     }
 
-    override fun doneRefresh() {
-        refreshLayout?.isRefreshing = false
-        isRefreshing = false
+    override fun doneRefresh(isCompleted: Boolean) {
+        if (isCompleted) {
+            refreshLayout?.isRefreshing = false
+            isRefreshing = false
+        }
     }
 
     override fun refreshWithUi() {
@@ -97,7 +101,7 @@ abstract class BaseRecyclerViewFragment<VB : ViewDataBinding, S : IBase.State, V
         refreshLayout?.run {
             postDelayed({
                 refreshUi()
-                refresh()
+                onRefresh()
             }, delay.toLong())
         }
     }
@@ -106,15 +110,11 @@ abstract class BaseRecyclerViewFragment<VB : ViewDataBinding, S : IBase.State, V
         refreshLayout?.isEnabled = enabled
     }
 
-    override fun refresh() {
+    override fun onRefresh() {
         if (!isRefreshing) {
-            getmViewModel().refresh()
+            getmViewModel().onRefresh()
             isRefreshing = true
         }
-
-        refreshLayout?.postDelayed({
-            doneRefresh()
-        }, 500)
     }
 
     private fun refreshUi() {
@@ -123,7 +123,7 @@ abstract class BaseRecyclerViewFragment<VB : ViewDataBinding, S : IBase.State, V
     }
 
     override fun onDestroyView() {
-        doneRefresh()
+        doneRefresh(true)
         super.onDestroyView()
     }
 
@@ -133,5 +133,5 @@ abstract class BaseRecyclerViewFragment<VB : ViewDataBinding, S : IBase.State, V
 
     override fun onItemDrag(view: View, pos: Int, event: DragEvent, data: Any): Boolean? = true
 
-    override fun onItemLongClick(view: View, pos: Int, id: Long, data: Any): Boolean?  = true
+    override fun onItemLongClick(view: View, pos: Int, id: Long, data: Any): Boolean? = true
 }

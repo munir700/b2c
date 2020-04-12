@@ -1,5 +1,6 @@
 package co.yap.modules.subaccounts.account.card
 
+
 import android.view.*
 import androidx.databinding.ViewDataBinding
 import androidx.navigation.NavController
@@ -13,13 +14,14 @@ import co.yap.yapcore.BaseRVAdapter
 import co.yap.yapcore.BaseViewHolder
 import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.dagger.base.BaseRecyclerViewFragment
+import co.yap.yapcore.enums.AccountType
+import co.yap.yapcore.helpers.alert
+import co.yap.yapcore.helpers.confirm
 import co.yap.yapcore.helpers.extentions.launchActivity
 import co.yap.yapcore.helpers.extentions.startFragment
 import com.daimajia.androidanimations.library.Techniques
 import com.daimajia.androidanimations.library.YoYo
 import kotlinx.android.synthetic.main.item_sub_account_card.*
-import kotlin.reflect.KClass
-import kotlin.reflect.full.primaryConstructor
 
 
 class SubAccountCardFragment :
@@ -51,16 +53,15 @@ class SubAccountCardFragment :
 //        Card is on the way (in purple text) and it will be non-clickable.
 //        In case household user has declined the request of the employer. Declined by <first_name> will be displayed in red text.
 //        then Card is active! Will be displayed in purple text
-        /* val subAccount = data as SubAccount
-         subAccount.accountType?.let {
-             startFragment(HHSalaryProfileFragment::class.java.name)
- //            navigateForwardWithAnimation(SubAccountDashBoardFragmentDirections.actionSubAccountDashBoardFragmentToHHSalaryProfileFragment())
-         }
-             ?: launchActivity<HouseHoldLandingActivity>(requestCode = RequestCodes.REQUEST_ADD_HOUSE_HOLD)
- */
-        if (pos == 0) {
-            swipeViews(true)
+        val subAccount = data as SubAccount
+        subAccount.accountType?.let {
+            when (it) {
+                AccountType.B2C_HOUSEHOLD.name -> showRequestDeclinedPopup(subAccount)
+                AccountType.B2C_ACCOUNT.name -> swipeViews(true)
+                //navigateForwardWithAnimation(SubAccountDashBoardFragmentDirections.actionSubAccountDashBoardFragmentToHHSalaryProfileFragment())
+            }
         }
+            ?: launchActivity<HouseHoldLandingActivity>(requestCode = RequestCodes.REQUEST_ADD_HOUSE_HOLD)
     }
 
     private fun swipeViews(swipe: Boolean) {
@@ -88,6 +89,13 @@ class SubAccountCardFragment :
         return dragAndDropManager?.onItemDrag(view, pos, event, data)
     }
 
+    override fun onItemDrop(view: View, pos: Int, data: Any) {
+        val subAccount = data as SubAccount
+        subAccount.accountType?.let {
+            startFragment(HHSalaryProfileFragment::class.java.name)
+        }
+    }
+
     override fun onItemLongClick(view: View, pos: Int, id: Long, data: Any): Boolean? {
         if (pos == 0) {
             return dragAndDropManager?.startDrag(view)
@@ -95,40 +103,44 @@ class SubAccountCardFragment :
         return true
     }
 
+    private fun showRequestDeclinedPopup(data: SubAccount) {
+        confirm(getString(R.string.screen_house_hold_sub_account_declined_by_popup_message),
+            getString(
+                R.string.screen_house_hold_sub_account_declined_by_popup_title,
+                data.firstName
+            ), getString(R.string.screen_house_hold_sub_account_popup_resend_button_text),
+            getString(R.string.screen_house_hold_sub_account_popup_remove_refund_button_text),
+            callback = { viewModel.resendRequestToHouseHoldUser(data) },// "uuid" : "26287f84-5f9c-4bfe-b8ab-e8016cc7b23d",  "uuid" : "b4ba4040-d904-4742-96aa-374ce6ed6112",
+            negativeCallback = { viewModel.RemoveRefundHouseHoldUser(data) })
+    }
+
+    private fun showIneligiblePopup(data: SubAccount) {
+        alert(
+            getString(
+                R.string.screen_house_hold_sub_account_ineligible_popup_message,
+                data.firstName
+            ),
+            getString(
+                R.string.screen_house_hold_sub_account_ineligible_popup_title,
+                data.firstName
+            ),
+            getString(R.string.screen_house_hold_sub_account_popup_remove_refund_button_text)
+        ) { viewModel.RemoveRefundHouseHoldUser(data) }
+    }
+
     class Adapter(mValue: MutableList<SubAccount>, navigation: NavController?) :
-        BaseRVAdapter<SubAccount, SubAccountCardItemVM, Adapter.ViewHolder>(
-            mValue,
-            navigation
+        BaseRVAdapter<SubAccount, SubAccountCardItemVM, BaseViewHolder<SubAccount, SubAccountCardItemVM>>(
+            mValue, navigation
         ) {
         override fun getLayoutId(viewType: Int) = getViewModel(viewType).layoutRes()
         override fun getViewHolder(
             view: View,
             viewModel: SubAccountCardItemVM,
             mDataBinding: ViewDataBinding, viewType: Int
-        ): ViewHolder {
-            val kotlinClass: KClass<ViewHolder> = ViewHolder::class
-            val ctor = kotlinClass.primaryConstructor
-            val myObject = ctor?.call(view, viewModel, mDataBinding) as ViewHolder
-            return myObject
-        }
+        ) = BaseViewHolder(view, viewModel, mDataBinding)
 
         override fun getViewModel(viewType: Int) = SubAccountCardItemVM()
         override fun getVariableId() = BR.subAccountCardItemVm
-
-        class ViewHolder(
-            view: View,
-            viewModel: SubAccountCardItemVM,
-            mDataBinding: ViewDataBinding
-        ) :
-            BaseViewHolder<SubAccount, SubAccountCardItemVM>(view, viewModel, mDataBinding)
-
-    }
-
-    override fun onItemDrop(view: View, pos: Int, data: Any) {
-        val subAccount = data as SubAccount
-        subAccount.accountType?.let {
-            startFragment(HHSalaryProfileFragment::class.java.name)
-        }
     }
 
 }

@@ -15,6 +15,9 @@ import co.yap.modules.dashboard.store.viewmodels.YapStoreViewModel
 import co.yap.networking.store.responsedtos.Store
 import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.constants.RequestCodes
+import co.yap.yapcore.dagger.base.navigation.host.NAVIGATION_Graph_ID
+import co.yap.yapcore.dagger.base.navigation.host.NAVIGATION_Graph_START_DESTINATION_ID
+import co.yap.yapcore.dagger.base.navigation.host.NavHostPresenterActivity
 import co.yap.yapcore.helpers.extentions.ExtraType
 import co.yap.yapcore.helpers.extentions.getValue
 import co.yap.yapcore.helpers.extentions.launchActivity
@@ -53,7 +56,11 @@ class YapStoreFragment : BaseBindingFragment<IYapStore.ViewModel>(), IYapStore.V
         override fun onItemClick(view: View, data: Any, pos: Int) {
             if (data is Store) {
                 if (data.name == "YAP Household") {
-                    launchActivity<HouseHoldLandingActivity>(requestCode = RequestCodes.REQUEST_ADD_HOUSE_HOLD)
+                    launchActivity<NavHostPresenterActivity> {
+                        putExtra(NAVIGATION_Graph_ID, R.navigation.iban_subaccount_navigation)
+                        putExtra(NAVIGATION_Graph_START_DESTINATION_ID, R.id.subAccountDashBoardFragment)
+                    }
+                   // launchActivity<HouseHoldLandingActivity>(requestCode = RequestCodes.REQUEST_ADD_HOUSE_HOLD)
                 }
             }
         }

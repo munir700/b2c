@@ -10,6 +10,8 @@ import co.yap.yapcore.BaseViewHolder
 import kotlin.reflect.KClass
 import kotlin.reflect.full.primaryConstructor
 
+const val HEADER_SECTION = 1
+const val TRANSACTION = 2
 class HHSalaryProfileTransfersAdapter(mValue: MutableList<PaySalaryModel>, navigation: NavController?) :
     BaseRVAdapter<PaySalaryModel, HHSalaryProfileTransfersItemVM, HHSalaryProfileTransfersAdapter.ViewHolder>(
         mValue,
@@ -56,10 +58,5 @@ class HHSalaryProfileTransfersAdapter(mValue: MutableList<PaySalaryModel>, navig
         mDataBinding: ViewDataBinding
     ) :
         BaseViewHolder<PaySalaryModel, HHSalaryProfileTransfersItemVM>(view, viewModel, mDataBinding)
-
-    companion object {
-        const val HEADER_SECTION = 1
-        const val TRANSACTION = 2
-    }
 
 }

@@ -61,7 +61,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/layoutName"
             app:title="@{`Start date`}"
-            app:value="@{`01/01/2019`}" />
+            app:value="@{viewModel.state.subscriptionResponseModel.startDate}" />
 
         <include
             android:id="@+id/layoutEndDate"
@@ -72,7 +72,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/layoutStartDate"
             app:title="@{`End date`}"
-            app:value="@{`01/01/2020`}" />
+            app:value="@{viewModel.state.subscriptionResponseModel.endDate}" />
 
         <include
             android:id="@+id/layoutPlanType"
@@ -83,7 +83,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/layoutEndDate"
             app:title="@{`Plan type`}"
-            app:value="@{`Monthly`}" />
+            app:value="@{viewModel.state.subscriptionResponseModel.planType}" />
 
 
         <include
@@ -95,7 +95,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/layoutPlanType"
             app:title="@{`Cost`}"
-            app:value="@{`AED 59.99/month`}" />
+            app:value="@{viewModel.state.subscriptionResponseModel.price}" />
 
         <co.yap.widgets.CoreButton
             android:id="@+id/btnConfirm"

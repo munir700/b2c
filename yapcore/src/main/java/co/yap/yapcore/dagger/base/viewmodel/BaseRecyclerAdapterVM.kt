@@ -2,27 +2,23 @@ package co.yap.yapcore.dagger.base.viewmodel
 
 import android.os.Bundle
 import androidx.annotation.NonNull
-import androidx.databinding.BindingAdapter
 import androidx.databinding.ObservableField
 
-import androidx.lifecycle.MutableLiveData
 import androidx.navigation.NavController
-import androidx.recyclerview.widget.RecyclerView
 import co.yap.networking.models.ApiResponse
-import co.yap.widgets.State
 import co.yap.yapcore.BaseRVAdapter
 import co.yap.yapcore.IBase
-import co.yap.yapcore.dagger.base.interfaces.Refreshable
+import co.yap.yapcore.dagger.base.interfaces.OnPullToRefreshable
 
 
 /**
  * Created by Muhammad Irfan Arshad
  *
  */
-abstract class BaseRecyclerAdapterVM<T : Any, S : IBase.State> : DaggerBaseViewModel<S>(),
-    Refreshable {
+abstract class BaseRecyclerAdapterVM<T : ApiResponse, S : IBase.State> : DaggerBaseViewModel<S>(),
+    OnPullToRefreshable {
     val adapter = ObservableField<BaseRVAdapter<T, *, *>>()
-    var stateLiveData: MutableLiveData<State> = MutableLiveData()
+
     var data: MutableList<T> = ArrayList()
 
     override fun onFirsTimeUiCreate(bundle: Bundle?, navigation: NavController?) {
@@ -51,17 +47,35 @@ abstract class BaseRecyclerAdapterVM<T : Any, S : IBase.State> : DaggerBaseViewM
      * @param newData new data
      * @param refresh true if data come from refresh action (call remote api)
      */
-    protected fun setData(@NonNull newData: MutableList<T>, refresh: Boolean = true) {
-        data = newData
-        adapter.get()?.setData(data)
+    protected fun setData(@NonNull newData: MutableList<T>?, refresh: Boolean = true) {
+        newData?.let {
+            clear()
+            data = it
+            adapter.get()?.setData(data)
+        }
+
     }
+    fun removeItem(type: T) {
+        val position = this.data.indexOf(type)
+        removeItemAt(position)
+//        this.data.remove(type)
+//        adapter.get()?.remove(type)
+    }
+
+    fun removeItemAt(position: Int) {
+        this.data.removeAt(position)
+        adapter.get()?.removeItemAt(position)
+        //adapter.notifyChange()
+    }
+
 
     fun clear() {
         data = ArrayList()
         adapter.get()?.setData(data)
         adapter.notifyChange()
     }
-    override fun refresh() {
+
+    override fun onRefresh() {
 
     }
 }

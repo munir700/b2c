@@ -2,9 +2,6 @@ package co.yap.modules.subaccounts.paysalary.profile
 
 import android.os.Bundle
 import android.view.*
-import android.view.Menu
-import android.view.MenuInflater
-import android.view.View
 import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.Observer
 import androidx.navigation.NavController
@@ -27,7 +24,6 @@ class HHSalaryProfileFragment :
 
     override fun getBindingVariable() = BR.hhSalaryProfileVM
     private lateinit var houseHoldMainAccountBottomSheet: HouseHoldMainAccountBottomSheet
-
     override fun getLayoutId() = R.layout.fragment_hhsalary_profile
 
     override fun postExecutePendingBindings() {
@@ -65,7 +61,7 @@ class HHSalaryProfileFragment :
     }
 
     override var toolBarTitle: String? = "Your Name"
-    //override var toolBarVisibility: Boolean? = false
+
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
@@ -111,7 +107,7 @@ class HHSalaryProfileFragment :
             BaseViewHolder<PaySalaryModel, HHSalaryProfileItemVM>(view, viewModel, mDataBinding)
     }
 
-    class HouseHoldMainAccountBottomSheet(
+    inner class HouseHoldMainAccountBottomSheet(
         var viewModel: HHSalaryProfileVM
     ) : BottomSheetDialogFragment() {
 

@@ -1538,5 +1538,13 @@ object Strings {
     const val screen_house_hold_salary_profile_transfer_bonus_text:String = "screen_house_hold_salary_profile_transfer_bonus_text"
     const val screen_house_hold_salary_profile_display_text_transfers:String = "screen_house_hold_salary_profile_display_text_transfers"
 
+//        House Hold Sub Accounts Strings
+    const val screen_house_hold_sub_account_declined_by_popup_title:String  = "screen_house_hold_sub_account_declined_by_popup_title"
+    const val screen_house_hold_sub_account_declined_by_popup_message:String  = "screen_house_hold_sub_account_declined_by_popup_message"
+    const val screen_house_hold_sub_account_popup_remove_refund_button_text:String  = "screen_house_hold_sub_account_popup_remove_refund_button_text"
+    const val screen_house_hold_sub_account_popup_resend_button_text:String  = "screen_house_hold_sub_account_popup_resend_button_text"
+    const val screen_house_hold_sub_account_ineligible_popup_title:String  = "screen_house_hold_sub_account_ineligible_popup_title"
+    const val screen_house_hold_sub_account_ineligible_popup_message:String  = "screen_house_hold_sub_account_ineligible_popup_message"
     const val screen_sub_accounts_profile_display_text_drag_and_drop:String = "screen_sub_accounts_profile_display_text_drag_and_drop"
+
 }

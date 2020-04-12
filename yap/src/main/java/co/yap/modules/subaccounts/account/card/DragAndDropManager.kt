@@ -1,6 +1,5 @@
 package co.yap.modules.subaccounts.account.card
 
-import android.graphics.Color
 import android.os.Build
 import android.view.DragEvent
 import android.view.View
