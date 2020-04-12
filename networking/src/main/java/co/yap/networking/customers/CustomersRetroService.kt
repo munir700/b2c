@@ -223,10 +223,10 @@ interface CustomersRetroService {
 
     //   SubAccount Card Resend Household onboarding
     @POST(CustomersRepository.URL_RESEND_HOUSEHOLD)
-    suspend fun resendRequestToHouseHoldUser(@Path("UUID") uuid: String): Response<ApiResponse>
+    suspend fun resendRequestToHouseHoldUser(@Path("UUID") uuid: String?): Response<ApiResponse>
 
     //    SubAccount Card Remove house hold card and Refund to IBAN user
     @POST(CustomersRepository.URL_REFUND_REMOVE_HOUSEHOLD)
-    suspend fun RemoveRefundHouseHoldUser(@Path("UUID") uuid: String): Response<ApiResponse>
+    suspend fun RemoveRefundHouseHoldUser(@Path("UUID") uuid: String?): Response<ApiResponse>
 
 }

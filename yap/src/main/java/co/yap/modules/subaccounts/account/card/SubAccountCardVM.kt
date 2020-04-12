@@ -16,7 +16,7 @@ import javax.inject.Inject
 
 class SubAccountCardVM @Inject constructor(override val state: ISubAccountCard.State) :
     BaseRecyclerAdapterVM<SubAccount, ISubAccountCard.State>(), ISubAccountCard.ViewModel {
-    val repository: CustomersRepository = CustomersRepository
+    private val repository: CustomersRepository = CustomersRepository
 
     override fun onFirsTimeUiCreate(bundle: Bundle?, navigation: NavController?) {
         getSubAccount()
@@ -38,7 +38,7 @@ class SubAccountCardVM @Inject constructor(override val state: ISubAccountCard.S
                         it.add(0, SubAccount(accountType = AccountType.B2C_ACCOUNT.name))
                         it.add(
                             SubAccount(
-                                accountType =null,
+                                accountType = null,
                                 cardStatus = "Add new card"
                             )
                         )
@@ -49,6 +49,32 @@ class SubAccountCardVM @Inject constructor(override val state: ISubAccountCard.S
                 is RetroApiResponse.Error -> {
                     publishState(State.error(null))
 
+                }
+            }
+        }
+    }
+
+    override fun resendRequestToHouseHoldUser(account: SubAccount) {
+        launch {
+            when (val response = repository.resendRequestToHouseHoldUser(account.accountUuid)) {
+                is RetroApiResponse.Success -> {
+
+                }
+                is RetroApiResponse.Error -> {
+
+                }
+            }
+        }
+    }
+
+    override fun RemoveRefundHouseHoldUser(account: SubAccount) {
+        launch {
+            when (val response = repository.RemoveRefundHouseHoldUser(account.accountUuid)) {
+                is RetroApiResponse.Success -> {
+                    removeItem(account)
+                }
+                is RetroApiResponse.Error -> {
+                    removeItem(account)
                 }
             }
         }

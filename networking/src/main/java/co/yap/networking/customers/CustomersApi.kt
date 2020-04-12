@@ -92,10 +92,10 @@ interface CustomersApi {
     suspend fun getHouseholdUser(uuid: String): RetroApiResponse<ApiResponse>
 
     //   SubAccount Card Resend Household onboarding
-    suspend fun resendRequestToHouseHoldUser(uuid: String): RetroApiResponse<ApiResponse>
+    suspend fun resendRequestToHouseHoldUser(uuid: String?): RetroApiResponse<ApiResponse>
 
     //    SubAccount Card Remove house hold card and Refund to IBAN user
-    suspend fun RemoveRefundHouseHoldUser(uuid: String): RetroApiResponse<ApiResponse>
+    suspend fun RemoveRefundHouseHoldUser(uuid: String?): RetroApiResponse<ApiResponse>
 
 
 }

@@ -322,9 +322,9 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     override suspend fun getHouseholdUser(uuid: String) =
         executeSafely(call = { api.getHouseholdUser(uuid) })
 
-    override suspend fun resendRequestToHouseHoldUser(uuid: String) =
+    override suspend fun resendRequestToHouseHoldUser(uuid: String?) =
         executeSafely(call = { api.resendRequestToHouseHoldUser(uuid) })
 
-    override suspend fun RemoveRefundHouseHoldUser(uuid: String) =
+    override suspend fun RemoveRefundHouseHoldUser(uuid: String?) =
         executeSafely(call = { api.RemoveRefundHouseHoldUser(uuid) })
 }

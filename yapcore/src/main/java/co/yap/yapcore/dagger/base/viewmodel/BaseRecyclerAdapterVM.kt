@@ -55,6 +55,19 @@ abstract class BaseRecyclerAdapterVM<T : ApiResponse, S : IBase.State> : DaggerB
         }
 
     }
+    fun removeItem(type: T) {
+        val position = this.data.indexOf(type)
+        removeItemAt(position)
+//        this.data.remove(type)
+//        adapter.get()?.remove(type)
+    }
+
+    fun removeItemAt(position: Int) {
+        this.data.removeAt(position)
+        adapter.get()?.removeItemAt(position)
+        //adapter.notifyChange()
+    }
+
 
     fun clear() {
         data = ArrayList()

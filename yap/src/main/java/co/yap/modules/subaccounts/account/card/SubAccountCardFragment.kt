@@ -69,10 +69,8 @@ class SubAccountCardFragment :
                 data.firstName
             ), getString(R.string.screen_house_hold_sub_account_popup_resend_button_text),
             getString(R.string.screen_house_hold_sub_account_popup_remove_refund_button_text),
-            callback = {
-            },
-            negativeCallback = {
-            })
+            callback = { viewModel.resendRequestToHouseHoldUser(data) },// "uuid" : "26287f84-5f9c-4bfe-b8ab-e8016cc7b23d",  "uuid" : "b4ba4040-d904-4742-96aa-374ce6ed6112",
+            negativeCallback = { viewModel.RemoveRefundHouseHoldUser(data) })
     }
 
     private fun showIneligiblePopup(data: SubAccount) {
@@ -86,13 +84,11 @@ class SubAccountCardFragment :
                 data.firstName
             ),
             getString(R.string.screen_house_hold_sub_account_popup_remove_refund_button_text)
-        ) {
-
-        }
+        ) { viewModel.RemoveRefundHouseHoldUser(data) }
     }
 
     class Adapter(mValue: MutableList<SubAccount>, navigation: NavController?) :
-        BaseRVAdapter<SubAccount, SubAccountCardItemVM, Adapter.ViewHolder>(
+        BaseRVAdapter<SubAccount, SubAccountCardItemVM, BaseViewHolder<SubAccount,SubAccountCardItemVM>>(
             mValue, navigation
         ) {
         override fun getLayoutId(viewType: Int) = getViewModel(viewType).layoutRes()
@@ -100,15 +96,10 @@ class SubAccountCardFragment :
             view: View,
             viewModel: SubAccountCardItemVM,
             mDataBinding: ViewDataBinding, viewType: Int
-        ) = ViewHolder(view, viewModel, mDataBinding)
+        ) = BaseViewHolder(view, viewModel, mDataBinding)
 
         override fun getViewModel(viewType: Int) = SubAccountCardItemVM()
         override fun getVariableId() = BR.subAccountCardItemVm
-        class ViewHolder(
-            view: View,
-            viewModel: SubAccountCardItemVM,
-            mDataBinding: ViewDataBinding
-        ) : BaseViewHolder<SubAccount, SubAccountCardItemVM>(view, viewModel, mDataBinding)
     }
 
 }

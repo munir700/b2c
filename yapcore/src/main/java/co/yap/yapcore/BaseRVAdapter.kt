@@ -98,11 +98,22 @@ abstract class BaseRVAdapter<T : ApiResponse, VM : BaseListItemViewModel<T>, VH 
 
     fun remove(type: T) {
         val position = this.datas.indexOf(type)
-        this.datas.remove(type)
+        removeItemAt(position)
+//        this.datas.remove(type)
+//        notifyItemRemoved(position)
+//        notifyDataSetChanged()
+    }
+
+    fun removeItemAt(position: Int) {
+        this.datas.removeAt(position)
         notifyItemRemoved(position)
         notifyDataSetChanged()
     }
 
+    fun removeAllItems() {
+        this.datas.clear()
+        notifyDataSetChanged()
+    }
     fun change(newItem: T, oldItem: T) {
         val position = this.datas.indexOf(oldItem)
         this.datas.set(position, newItem)
