@@ -25,7 +25,7 @@ class SubscriptionVM @Inject constructor(override val state: ISubscription.State
             when (val response =
                 customersRepository.getHouseHoldSubscription("f0c52305-a055-498d-8d79-71cf815dcaff")) {
                 is RetroApiResponse.Success -> {
-                    state.subscriptionResponseModel = response.data
+                    state.subscriptionResponseModel.set(response.data.data)
                 }
                 is RetroApiResponse.Error -> {
                     state.loading = false
