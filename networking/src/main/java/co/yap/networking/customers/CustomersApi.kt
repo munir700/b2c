@@ -4,6 +4,7 @@ import co.yap.networking.customers.requestdtos.*
 import co.yap.networking.customers.responsedtos.*
 import co.yap.networking.customers.responsedtos.beneficiary.RecentBeneficiariesResponse
 import co.yap.networking.customers.responsedtos.beneficiary.TopUpBeneficiariesResponse
+import co.yap.networking.customers.responsedtos.household.HouseHoldGetSubscriptionResponseDTO
 import co.yap.networking.customers.responsedtos.sendmoney.*
 import co.yap.networking.models.ApiResponse
 import co.yap.networking.models.RetroApiResponse
@@ -96,6 +97,8 @@ interface CustomersApi {
 
     //    SubAccount Card Remove house hold card and Refund to IBAN user
     suspend fun RemoveRefundHouseHoldUser(uuid: String?): RetroApiResponse<ApiResponse>
+
+    suspend fun getHouseHoldSubscription(uuid: String): RetroApiResponse<HouseHoldGetSubscriptionResponseDTO>
 
 
 }

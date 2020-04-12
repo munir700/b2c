@@ -1,14 +1,12 @@
 package co.yap.networking.customers
 
-import co.yap.networking.customers.requestdtos.ForgotPasscodeRequest
-import co.yap.networking.customers.responsedtos.AppUpdateResponse
-import co.yap.networking.customers.responsedtos.VerifyUsernameResponse
 import co.yap.networking.customers.requestdtos.*
 import co.yap.networking.customers.responsedtos.*
 import co.yap.networking.customers.responsedtos.beneficiary.BankParamsResponse
 import co.yap.networking.customers.responsedtos.beneficiary.RecentBeneficiariesResponse
 import co.yap.networking.customers.responsedtos.beneficiary.TopUpBeneficiariesResponse
 import co.yap.networking.customers.responsedtos.documents.GetMoreDocumentsResponse
+import co.yap.networking.customers.responsedtos.household.HouseHoldGetSubscriptionResponseDTO
 import co.yap.networking.customers.responsedtos.sendmoney.*
 import co.yap.networking.household.responsedtos.ValidateParentMobileResponse
 import co.yap.networking.models.ApiResponse
@@ -228,5 +226,9 @@ interface CustomersRetroService {
     //    SubAccount Card Remove house hold card and Refund to IBAN user
     @POST(CustomersRepository.URL_REFUND_REMOVE_HOUSEHOLD)
     suspend fun RemoveRefundHouseHoldUser(@Path("UUID") uuid: String?): Response<ApiResponse>
+
+    //     Get House Hold user subscription From Iban user
+    @GET(CustomersRepository.URL_GET_HOUSE_HOLD_SUBSCRIPTION)
+    suspend fun getHouseHoldSubscription(@Path("UUID") uuid: String): Response<HouseHoldGetSubscriptionResponseDTO>
 
 }

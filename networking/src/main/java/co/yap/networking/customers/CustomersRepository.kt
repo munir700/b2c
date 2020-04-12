@@ -7,6 +7,7 @@ import co.yap.networking.customers.requestdtos.*
 import co.yap.networking.customers.responsedtos.*
 import co.yap.networking.customers.responsedtos.beneficiary.BankParamsResponse
 import co.yap.networking.customers.responsedtos.documents.GetMoreDocumentsResponse
+import co.yap.networking.customers.responsedtos.household.HouseHoldGetSubscriptionResponseDTO
 import co.yap.networking.customers.responsedtos.sendmoney.AddBeneficiaryResponseDTO
 import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.networking.customers.responsedtos.sendmoney.Country
@@ -113,6 +114,7 @@ object CustomersRepository : BaseRepository(), CustomersApi {
         "/customers/api/household/refund-remove-household/{UUID}"
     const val URL_RESEND_HOUSEHOLD = "/customers/api/household/resend-household/{UUID}"
     const val URL_GET_PROFILE_HOUSEHOLD_USER = "/customers/api/household/household-user"
+    const val URL_GET_HOUSE_HOLD_SUBSCRIPTION = "customers/api/household/get-subscription/{UUID}"
 
 
     private val api: CustomersRetroService =
@@ -309,6 +311,7 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     override suspend fun appUpdate(): RetroApiResponse<AppUpdateResponse> =
         executeSafely(call = { api.appUpdate() })
 
+
     override suspend fun getSubAccountInviteStatus(notificationStatus: String): RetroApiResponse<SubAccountInvitationResponse> =
         executeSafely(call = { api.subAccountInvitation(notificationStatus) })
 
@@ -322,9 +325,15 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     override suspend fun getHouseholdUser(uuid: String) =
         executeSafely(call = { api.getHouseholdUser(uuid) })
 
+    // Resend request to  house hold user from IBAN user
     override suspend fun resendRequestToHouseHoldUser(uuid: String?) =
         executeSafely(call = { api.resendRequestToHouseHoldUser(uuid) })
 
+    // Remove house hold user from IBAN Sub Account
     override suspend fun RemoveRefundHouseHoldUser(uuid: String?) =
         executeSafely(call = { api.RemoveRefundHouseHoldUser(uuid) })
+
+    //     Get House Hold user subscription From Iban user
+    override suspend fun getHouseHoldSubscription(uuid: String): RetroApiResponse<HouseHoldGetSubscriptionResponseDTO> =
+        executeSafely(call = { api.getHouseHoldSubscription(uuid) })
 }
