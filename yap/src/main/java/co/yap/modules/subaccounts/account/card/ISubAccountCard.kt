@@ -6,6 +6,9 @@ interface ISubAccountCard {
     interface View : IBase.View<ViewModel>
 
     interface ViewModel : IBase.ViewModel<State>
+    {
+        fun getSubAccount()
+    }
 
     interface State : IBase.State
 }

@@ -105,6 +105,15 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     const val URL_APP_VERSION = "/customers/api/mobile-app-versions"
     //.................... End region of admin repo urls................................................
 
+    /**
+     * House Hold Employee interface APIS (Sub Accounts)
+     **/
+    const val URL_GET_SUB_ACCOUNTS = "/customers/api/account/get-sub-accounts"
+    const val URL_REFUND_REMOVE_HOUSEHOLD =
+        "/customers/api/household/refund-remove-household/{UUID}"
+    const val URL_RESEND_HOUSEHOLD = "/customers/api/household/resend-household/{UUID}"
+    const val URL_GET_PROFILE_HOUSEHOLD_USER = "/customers/api/household/household-user"
+
 
     private val api: CustomersRetroService =
         RetroNetwork.createService(CustomersRetroService::class.java)
@@ -208,7 +217,7 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     override suspend fun getRecentY2YBeneficiaries() =
         executeSafely(call = { api.getRecentY2YBeneficiaries() })
 
-    /*  send money */
+/*  send money */
 
     override suspend fun getRecentBeneficiaries() =
         executeSafely(call = { api.getRecentBeneficiaries() })
@@ -306,4 +315,16 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     override suspend fun saveReferalInvitation(saveReferalRequest: SaveReferalRequest): RetroApiResponse<ApiResponse> =
         executeSafely(call = { api.saveReferalInvitation(saveReferalRequest) })
 
+    //    Get All subaccounts for a IBAN user:
+    override suspend fun getSubAccounts(): RetroApiResponse<SubAccounts> =
+        executeSafely(call = { api.getSubAccountAccount() })
+
+    override suspend fun getHouseholdUser(uuid: String) =
+        executeSafely(call = { api.getHouseholdUser(uuid) })
+
+    override suspend fun resendRequestToHouseHoldUser(uuid: String) =
+        executeSafely(call = { api.resendRequestToHouseHoldUser(uuid) })
+
+    override suspend fun RemoveRefundHouseHoldUser(uuid: String) =
+        executeSafely(call = { api.RemoveRefundHouseHoldUser(uuid) })
 }

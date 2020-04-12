@@ -1,5 +1,6 @@
 package co.yap.modules.subaccounts.account.card
 
+import android.content.DialogInterface
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
@@ -9,6 +10,7 @@ import androidx.navigation.NavController
 import co.yap.BR
 import co.yap.R
 import co.yap.databinding.FragmentSubAccountCardBinding
+import co.yap.databinding.ItemSubAccountCardBinding
 import co.yap.modules.dashboard.store.household.activities.HouseHoldLandingActivity
 import co.yap.modules.subaccounts.account.dashboard.SubAccountDashBoardFragmentDirections
 import co.yap.networking.customers.responsedtos.SubAccount
@@ -16,6 +18,9 @@ import co.yap.yapcore.BaseRVAdapter
 import co.yap.yapcore.BaseViewHolder
 import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.dagger.base.BaseRecyclerViewFragment
+import co.yap.yapcore.enums.AccountType
+import co.yap.yapcore.helpers.alert
+import co.yap.yapcore.helpers.confirm
 import co.yap.yapcore.helpers.extentions.launchActivity
 import kotlin.reflect.KClass
 import kotlin.reflect.full.primaryConstructor
@@ -49,37 +54,61 @@ class SubAccountCardFragment :
 //        then Card is active! Will be displayed in purple text
         val subAccount = data as SubAccount
         subAccount.accountType?.let {
-            navigateForwardWithAnimation(SubAccountDashBoardFragmentDirections.actionSubAccountDashBoardFragmentToHHSalaryProfileFragment())
+            when (it) {
+                AccountType.B2C_HOUSEHOLD.name -> showRequestDeclinedPopup(subAccount)
+                //navigateForwardWithAnimation(SubAccountDashBoardFragmentDirections.actionSubAccountDashBoardFragmentToHHSalaryProfileFragment())
+            }
         }
             ?: launchActivity<HouseHoldLandingActivity>(requestCode = RequestCodes.REQUEST_ADD_HOUSE_HOLD)
     }
 
+    private fun showRequestDeclinedPopup(data: SubAccount) {
+        confirm(getString(R.string.screen_house_hold_sub_account_declined_by_popup_message),
+            getString(
+                R.string.screen_house_hold_sub_account_declined_by_popup_title,
+                data.firstName
+            ), getString(R.string.screen_house_hold_sub_account_popup_resend_button_text),
+            getString(R.string.screen_house_hold_sub_account_popup_remove_refund_button_text),
+            callback = {
+            },
+            negativeCallback = {
+            })
+    }
+
+    private fun showIneligiblePopup(data: SubAccount) {
+        alert(
+            getString(
+                R.string.screen_house_hold_sub_account_ineligible_popup_message,
+                data.firstName
+            ),
+            getString(
+                R.string.screen_house_hold_sub_account_ineligible_popup_title,
+                data.firstName
+            ),
+            getString(R.string.screen_house_hold_sub_account_popup_remove_refund_button_text)
+        ) {
+
+        }
+    }
+
     class Adapter(mValue: MutableList<SubAccount>, navigation: NavController?) :
         BaseRVAdapter<SubAccount, SubAccountCardItemVM, Adapter.ViewHolder>(
-            mValue,
-            navigation
+            mValue, navigation
         ) {
         override fun getLayoutId(viewType: Int) = getViewModel(viewType).layoutRes()
         override fun getViewHolder(
             view: View,
             viewModel: SubAccountCardItemVM,
             mDataBinding: ViewDataBinding, viewType: Int
-        ): ViewHolder {
-            val kotlinClass: KClass<ViewHolder> = ViewHolder::class
-            val ctor = kotlinClass.primaryConstructor
-            val myObject = ctor?.call(view, viewModel, mDataBinding) as ViewHolder
-            return myObject
-        }
+        ) = ViewHolder(view, viewModel, mDataBinding)
 
         override fun getViewModel(viewType: Int) = SubAccountCardItemVM()
         override fun getVariableId() = BR.subAccountCardItemVm
-
         class ViewHolder(
             view: View,
             viewModel: SubAccountCardItemVM,
             mDataBinding: ViewDataBinding
-        ) :
-            BaseViewHolder<SubAccount, SubAccountCardItemVM>(view, viewModel, mDataBinding)
+        ) : BaseViewHolder<SubAccount, SubAccountCardItemVM>(view, viewModel, mDataBinding)
     }
 
 }

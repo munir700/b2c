@@ -19,19 +19,20 @@
     <androidx.cardview.widget.CardView
         style="@style/Yap.App.Layout.CardView"
         app:cardBackgroundColor="@color/white"
-        app:cardElevation="@{subAccountCardItemVm.position==0?@dimen/_1sdp:@dimen/margin_zero_dp}">
+        android:background="@{(subAccountCardItemVm.item.accountType !=null &amp;&amp; AccountType.valueOf(subAccountCardItemVm.item.accountType) == AccountType.B2C_ACCOUNT)?@drawable/bg_gray_rounded_border:@drawable/card_border_container}"
+        app:cardElevation="@{(subAccountCardItemVm.item.accountType !=null &amp;&amp; AccountType.valueOf(subAccountCardItemVm.item.accountType) == AccountType.B2C_ACCOUNT)?@dimen/_1sdp:@dimen/margin_zero_dp}">
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:id="@+id/llBankTransferType"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/card_border_container"
             android:orientation="vertical"
             android:paddingStart="@dimen/margin_normal"
+
             android:paddingTop="@dimen/margin_medium_large"
             android:paddingEnd="@dimen/margin_normal"
             android:paddingBottom="@dimen/margin_medium">
-            <!--            android:background="@{subAccountCardItemVm.item.accountType!=null &amp;&amp; AccountType.valueOf(subAccountCardItemVm.item.accountType) == AccountType.B2C_ACCOUNT?@drawable/bg_gray_rounded_border:@drawable/card_border_container}"-->
+
 
             <co.yap.widgets.CoreCircularImageView
                 android:id="@+id/imgProfile"
@@ -39,23 +40,27 @@
                 android:layout_gravity="center"
                 android:src="@drawable/ic_add_card"
                 app:drawableName="@{subAccountCardItemVm.item.accountType==null? `ic_add_card`:null}"
-                app:fullName="@{subAccountCardItemVm.item.accountType!=null &amp;&amp; AccountType.valueOf(subAccountCardItemVm.item.accountType) == AccountType.B2C_ACCOUNT?MyUserManager.INSTANCE.user.currentCustomer.fullName:subAccountCardItemVm.item.fullName}"
-                app:imageUrl="@{subAccountCardItemVm.item.accountType!=null &amp;&amp; AccountType.valueOf(subAccountCardItemVm.item.accountType) == AccountType.B2C_ACCOUNT?MyUserManager.INSTANCE.user.currentCustomer.picture:subAccountCardItemVm.item.profilePictureUrl}" />
+                app:fullName="@{AccountType.valueOf(subAccountCardItemVm.item.accountType) == AccountType.B2C_ACCOUNT?MyUserManager.INSTANCE.user.currentCustomer.fullName:subAccountCardItemVm.item.fullName}"
+                app:imageUrl="@{AccountType.valueOf(subAccountCardItemVm.item.accountType) == AccountType.B2C_ACCOUNT?MyUserManager.INSTANCE.user.currentCustomer.picture:subAccountCardItemVm.item.profilePictureUrl}" />
 
             <TextView
                 android:id="@+id/tvTitle"
                 style="@style/Yap.App.Widget.TextView.Label"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="@dimen/margin_small"
-                android:text="@{subAccountCardItemVm.fullName}"
-                android:visibility="@{subAccountCardItemVm.item.accountType == null?View.INVISIBLE:View.VISIBLE}" />
+                android:maxLines="1"
+                android:gravity="center_horizontal"
+                android:textAlignment="center"
+                android:text="@{AccountType.valueOf(subAccountCardItemVm.item.accountType) == AccountType.B2C_ACCOUNT?`Your balance`:subAccountCardItemVm.item.fullName}"
+                android:visibility="@{subAccountCardItemVm.item.accountType==null? View.INVISIBLE :View.VISIBLE}" />
 
             <TextView
                 style="@style/Yap.App.Widget.TextView.FullName"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="@dimen/margin_extra_small"
-                android:text="@{subAccountCardItemVm.item.accountType==null?`Add a new card`:(AccountType.valueOf(subAccountCardItemVm.item.accountType) == AccountType.B2C_ACCOUNT?MyUserManager.INSTANCE.cardBalance.availableBalance:subAccountCardItemVm.subTitle)}"
+                android:text="@{(subAccountCardItemVm.item.accountType !=null &amp;&amp; AccountType.valueOf(subAccountCardItemVm.item.accountType) == AccountType.B2C_ACCOUNT)?MyUserManager.INSTANCE.cardBalance.availableBalance:subAccountCardItemVm.item.cardStatus}"
                 android:textSize="@dimen/text_size_h2"
+                android:maxLines="1"
                 tools:text="Add a new card" />
         </androidx.appcompat.widget.LinearLayoutCompat>
     </androidx.cardview.widget.CardView>

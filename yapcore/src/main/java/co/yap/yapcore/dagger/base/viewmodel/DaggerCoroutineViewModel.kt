@@ -13,8 +13,6 @@ abstract class DaggerCoroutineViewModel: DaggerViewModel(), CoroutineViewModel {
 
     private val TAG: String = this.javaClass.simpleName
 
-    private var isFirstTimeUiCreate = true
-
     override val viewModelJob: Job
         get() = Job()
     override val viewModelScope: CoroutineScope
@@ -53,18 +51,4 @@ abstract class DaggerCoroutineViewModel: DaggerViewModel(), CoroutineViewModel {
 
     }
 
-    /**
-     * called after fragment / activity is created with input bundle arguments
-     *
-     * @param bundle argument data
-     */
-    @CallSuper
-    open fun onCreate(bundle: Bundle?) {
-
-        if (isFirstTimeUiCreate) {
-            // this.bundle = bundle
-            onFirsTimeUiCreate(bundle , null)
-            isFirstTimeUiCreate = false
-        }
-    }
 }
