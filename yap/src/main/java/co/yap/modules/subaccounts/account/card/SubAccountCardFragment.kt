@@ -1,9 +1,6 @@
 package co.yap.modules.subaccounts.account.card
 
-import android.animation.Animator
-import android.graphics.Color
 import android.view.*
-import android.view.animation.TranslateAnimation
 import androidx.databinding.ViewDataBinding
 import androidx.navigation.NavController
 import co.yap.BR
@@ -54,34 +51,34 @@ class SubAccountCardFragment :
 //        Card is on the way (in purple text) and it will be non-clickable.
 //        In case household user has declined the request of the employer. Declined by <first_name> will be displayed in red text.
 //        then Card is active! Will be displayed in purple text
-       /* val subAccount = data as SubAccount
-        subAccount.accountType?.let {
-            startFragment(HHSalaryProfileFragment::class.java.name)
-//            navigateForwardWithAnimation(SubAccountDashBoardFragmentDirections.actionSubAccountDashBoardFragmentToHHSalaryProfileFragment())
-        }
-            ?: launchActivity<HouseHoldLandingActivity>(requestCode = RequestCodes.REQUEST_ADD_HOUSE_HOLD)
-*/
-        if(pos == 0) {
+        /* val subAccount = data as SubAccount
+         subAccount.accountType?.let {
+             startFragment(HHSalaryProfileFragment::class.java.name)
+ //            navigateForwardWithAnimation(SubAccountDashBoardFragmentDirections.actionSubAccountDashBoardFragmentToHHSalaryProfileFragment())
+         }
+             ?: launchActivity<HouseHoldLandingActivity>(requestCode = RequestCodes.REQUEST_ADD_HOUSE_HOLD)
+ */
+        if (pos == 0) {
             swipeViews(true)
         }
     }
 
     private fun swipeViews(swipe: Boolean) {
-        if(swipe){
-            layout_image.visibility = View.GONE
+        if (swipe) {
+            layout_image.visibility = View.INVISIBLE
             llBankTransferType.background = resources.getDrawable(R.drawable.card_border_selected)
             layout_swipe_image.visibility = View.VISIBLE
             animate(layout_swipe_image)
-        }else{
+        } else {
             layout_image.visibility = View.VISIBLE
-            layout_swipe_image.visibility = View.GONE
+            layout_swipe_image.visibility = View.INVISIBLE
             llBankTransferType.background = resources.getDrawable(R.drawable.card_border_selector)
         }
     }
 
-    private fun animate(view: View){
+    private fun animate(view: View) {
         YoYo.with(Techniques.SlideInDown)
-            .duration(1000)
+            .duration(400)
             .repeat(0)
             .playOn(view)
     }
