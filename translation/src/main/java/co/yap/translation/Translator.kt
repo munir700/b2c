@@ -1,6 +1,7 @@
 package co.yap.translation
 
 import android.content.Context
+import androidx.fragment.app.Fragment
 
 object Translator {
 

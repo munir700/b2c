@@ -2,11 +2,15 @@ package co.yap.yapcore.dagger.base.viewmodel
 
 
 import android.os.Bundle
+import androidx.annotation.CallSuper
 import androidx.databinding.Bindable
 import androidx.databinding.Observable
 import androidx.databinding.PropertyChangeRegistry
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.navigation.NavController
+import co.yap.networking.customers.responsedtos.AccountInfo
+import co.yap.yapcore.managers.MyUserManager
 
 /**
  * Created by Muhammad Irfan Arshad
@@ -93,8 +97,8 @@ import androidx.navigation.NavController
 abstract class DaggerViewModel : ViewModel(), Observable {
     @Transient
     private var mCallbacks: PropertyChangeRegistry? = null
-
-
+    private var isFirstTimeUiCreate = true
+    var mUserLiveData: MutableLiveData<AccountInfo> = MutableLiveData<AccountInfo>()
     override fun addOnPropertyChangedCallback(callback: Observable.OnPropertyChangedCallback) {
         synchronized(this) {
             if (mCallbacks == null) {
@@ -143,6 +147,35 @@ abstract class DaggerViewModel : ViewModel(), Observable {
 
     override fun onCleared() {
         super.onCleared()
+    }
+
+    /**
+     * called after fragment / activity is created with input bundle arguments
+     *
+     * @param bundle argument data
+     */
+    @CallSuper
+    open fun onCreate(bundle: Bundle?) {
+        if (isFirstTimeUiCreate) {
+            mUserLiveData.value = MyUserManager.user
+            // this.bundle = bundle
+            onFirsTimeUiCreate(bundle, null)
+            isFirstTimeUiCreate = false
+        }
+    }
+
+    /**
+     * called after fragment / activity is created with input bundle arguments
+     *
+     * @param bundle argument data
+     */
+    @CallSuper
+    open fun onCreate(bundle: Bundle?, navigation: NavController?) {
+        if (isFirstTimeUiCreate) {
+            mUserLiveData.value = MyUserManager.user
+            onFirsTimeUiCreate(bundle, navigation)
+            isFirstTimeUiCreate = false
+        }
     }
 
     /**

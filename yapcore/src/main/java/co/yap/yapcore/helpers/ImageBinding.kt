@@ -100,8 +100,8 @@ object ImageBinding {
             imageView,
             imageUrl,
             fullName,
-            R.color.disabled,
-            R.dimen.text_size_h5,
+            R.color.disabledLight,
+            R.dimen.text_size_h2,
             R.color.colorPrimary
         )
 

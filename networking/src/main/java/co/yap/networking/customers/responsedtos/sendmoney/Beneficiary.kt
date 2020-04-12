@@ -1,6 +1,7 @@
 package co.yap.networking.customers.responsedtos.sendmoney
 
 import android.os.Parcelable
+import co.yap.networking.models.ApiResponse
 import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
 
@@ -51,7 +52,7 @@ data class Beneficiary(
     var beneficiaryPictureUrl: String? = "", // assuming this field for profile picture but not sure whether to add pic or just go with initials only
     @SerializedName("beneficiaryCountry")
     var beneficiaryCountry: String? = null
-) : Parcelable {
+) : ApiResponse(), Parcelable {
     fun fullName()= "$firstName $lastName"
 
 }

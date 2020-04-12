@@ -5,6 +5,7 @@ import androidx.annotation.CallSuper
 import androidx.annotation.LayoutRes
 import androidx.databinding.PropertyChangeRegistry
 import androidx.navigation.NavController
+import co.yap.networking.models.ApiResponse
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.dagger.base.viewmodel.DaggerViewModel
 
@@ -12,27 +13,12 @@ import co.yap.yapcore.dagger.base.viewmodel.DaggerViewModel
  * Created by Muhammad Irfan Arshad
  *
  */
-abstract class BaseListItemViewModel<ITEM : Any> : DaggerViewModel(), OnItemClickListener {
-    @Transient
-    private var mCallbacks: PropertyChangeRegistry? = null
+abstract class BaseListItemViewModel<ITEM : ApiResponse> : DaggerViewModel(), OnItemClickListener {
 
-    private var isFirstTimeUiCreate = true
 
     abstract fun setItem(item: ITEM, position: Int)
     abstract fun getItem(): ITEM
 
-    /**
-     * called after fragment / activity is created with input bundle arguments
-     *
-     * @param bundle argument dataList
-     */
-    @CallSuper
-    open fun onCreate(bundle: Bundle?, navigation: NavController?) {
-        if (isFirstTimeUiCreate) {
-            onFirsTimeUiCreate(bundle, navigation)
-            isFirstTimeUiCreate = false
-        }
-    }
 
     @CallSuper
     override fun onCleared() {

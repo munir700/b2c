@@ -2,6 +2,7 @@ package co.yap.networking.customers.responsedtos
 
 import android.os.Parcelable
 import co.yap.networking.customers.responsedtos.sendmoney.Currency
+import co.yap.networking.models.ApiResponse
 import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
 
@@ -61,4 +62,4 @@ class AccountInfo(
     var documentsVerified: Boolean? = false
 
 
-) : Parcelable
+): ApiResponse(), Parcelable
