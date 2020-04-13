@@ -18,7 +18,10 @@ import co.yap.yapcore.enums.AccountType
 import co.yap.yapcore.helpers.alert
 import co.yap.yapcore.helpers.confirm
 import co.yap.yapcore.helpers.extentions.launchActivity
+import co.yap.yapcore.helpers.extentions.onDrag
+import co.yap.yapcore.helpers.extentions.startDrag
 import co.yap.yapcore.helpers.extentions.startFragment
+import co.yap.yapcore.interfaces.OnItemDropListener
 import com.daimajia.androidanimations.library.Techniques
 import com.daimajia.androidanimations.library.YoYo
 import kotlinx.android.synthetic.main.item_sub_account_card.*
@@ -26,9 +29,8 @@ import kotlinx.android.synthetic.main.item_sub_account_card.*
 
 class SubAccountCardFragment :
     BaseRecyclerViewFragment<FragmentSubAccountCardBinding, ISubAccountCard.State, SubAccountCardVM,
-            SubAccountCardFragment.Adapter, SubAccount>(), OnItemDragDropListener {
+            SubAccountCardFragment.Adapter, SubAccount>(), OnItemDropListener {
 
-    var dragAndDropManager: DragAndDropManager? = null
     override fun getBindingVariable() = BR.subAccountCardVM
 
     override fun getLayoutId() = R.layout.fragment_sub_account_card
@@ -36,7 +38,6 @@ class SubAccountCardFragment :
         super.postExecutePendingBindings()
         setHasOptionsMenu(true)
         setRefreshEnabled(false)
-        dragAndDropManager = DragAndDropManager(this)
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -87,7 +88,7 @@ class SubAccountCardFragment :
 
     override fun onItemDrag(view: View, pos: Int, event: DragEvent, data: Any): Boolean? {
         swipeViews(false)
-        return dragAndDropManager?.onItemDrag(view, pos, event, data)
+        return onDrag(view, pos, event, data, this)
     }
 
     override fun onItemDrop(view: View, pos: Int, data: Any) {
@@ -99,7 +100,7 @@ class SubAccountCardFragment :
 
     override fun onItemLongClick(view: View, pos: Int, id: Long, data: Any): Boolean? {
         if (pos == 0) {
-            return dragAndDropManager?.startDrag(view)
+            return startDrag(view)
         }
         return true
     }
