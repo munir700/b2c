@@ -37,7 +37,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_xl"
+            android:onClick="@{(v)->viewModel.setUpSubscription()}"
             android:text="Automatic renewal"
+            android:checked="@{viewModel.state.subscriptionResponseModel.isAutoRenew}"
             android:theme="@style/CustomSwitch"
             app:layout_constraintTop_toBottomOf="@+id/ivUserImage" />
 

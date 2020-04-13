@@ -91,6 +91,10 @@ interface CustomersApi {
     * */
 
     suspend fun getHouseHoldSubscription(uuid: String): RetroApiResponse<HouseHoldGetSubscriptionResponseDTO>
+    suspend fun setUpHouseHoldSubscription(
+        uuid: String,
+        planType: String, isAutoRenew: Boolean
+    ): RetroApiResponse<ApiResponse>
 
 
 }

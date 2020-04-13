@@ -36,6 +36,31 @@ class SubscriptionVM @Inject constructor(override val state: ISubscription.State
         }
     }
 
+    override fun setUpSubscription() {
+        launch {
+            state.loading = true
+            when (val response =
+                customersRepository.setUpHouseHoldSubscription(
+                    "f0c52305-a055-498d-8d79-71cf815dcaff",
+                    planType = state.subscriptionResponseModel.get()?.planType ?: "",
+                    isAutoRenew = state.subscriptionResponseModel.get()?.isAutoRenew ?: false
+                )) {
+                is RetroApiResponse.Success -> {
+                    if (state.subscriptionResponseModel.get()?.isAutoRenew == true) {
+                        state.subscriptionResponseModel.get()?.isAutoRenew = false
+                    } else {
+                        state.subscriptionResponseModel.get()?.isAutoRenew = false
+                    }
+                }
+                is RetroApiResponse.Error -> {
+                    state.loading = false
+                    state.toast = response.error.message
+                }
+            }
+            state.loading = false
+        }
+    }
+
 
     override fun handlePressOnClick(context: Context) {
         context.confirm(

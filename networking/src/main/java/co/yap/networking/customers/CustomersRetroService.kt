@@ -217,5 +217,11 @@ interface CustomersRetroService {
     @GET(CustomersRepository.URL_GET_HOUSE_HOLD_SUBSCRIPTION)
     suspend fun getHouseHoldSubscription(@Path("UUID") uuid: String): Response<HouseHoldGetSubscriptionResponseDTO>
 
+    @POST(CustomersRepository.URL_SETUP_HOUSE_HOLD_SUBSCRIPTION)
+    suspend fun setUpHouseHoldSubscription(
+        @Path("UUID") uuid: String,
+        @Query("planType") planType: String, @Query("isAutoRenew") isAutoRenew: Boolean
+    ): Response<ApiResponse>
+
 
 }

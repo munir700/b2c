@@ -110,6 +110,8 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     * House hold Api's
     * */
     const val URL_GET_HOUSE_HOLD_SUBSCRIPTION = "customers/api/household/get-subscription/{UUID}"
+    const val URL_SETUP_HOUSE_HOLD_SUBSCRIPTION =
+        "customers/api/household/setup-subscription/{UUID}"
 
     //.................... End region of house hold repo urls................................................
 
@@ -321,4 +323,9 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     override suspend fun getHouseHoldSubscription(uuid: String): RetroApiResponse<HouseHoldGetSubscriptionResponseDTO> =
         executeSafely(call = { api.getHouseHoldSubscription(uuid) })
 
+    override suspend fun setUpHouseHoldSubscription(
+        uuid: String,
+        planType: String, isAutoRenew: Boolean
+    ): RetroApiResponse<ApiResponse> =
+        executeSafely(call = { api.setUpHouseHoldSubscription(uuid, planType, isAutoRenew) })
 }
