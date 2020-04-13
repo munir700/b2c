@@ -108,7 +108,7 @@
                                 android:id="@+id/ivSearch"
                                 android:layout_width="26dp"
                                 android:layout_height="26dp"
-                                android:visibility="gone"
+                                android:visibility="visible"
                                 android:layout_marginStart="@dimen/margin_small"
                                 android:layout_marginEnd="@dimen/margin_small"
                                 android:onClick="@{v -> viewModel.handlePressOnView(v.getId())}"

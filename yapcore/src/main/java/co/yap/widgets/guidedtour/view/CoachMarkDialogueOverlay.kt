@@ -2,10 +2,13 @@ package co.yap.widgets.guidedtour.view
 
 import android.app.Dialog
 import android.content.Context
+import android.graphics.Bitmap
 import android.os.Bundle
+import android.view.View
 import android.view.Window
 import android.view.WindowManager
 import android.widget.Button
+import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import co.yap.widgets.CoreCircularImageView
 import co.yap.widgets.guidedtour.models.GuidedTourViewDetail
@@ -17,10 +20,11 @@ class CoachMarkDialogueOverlay(
     private val guidedTourViewViewsList: ArrayList<GuidedTourViewDetail>
 ) : Dialog(context, android.R.style.Theme_Light) {
     private var layer: CircleOverlayView? = null
-    private var circleView: CoreCircularImageView? = null
+    private var parentView: LinearLayout? = null
+    private var circleImg: CoreCircularImageView? = null
     private var rootMain: RelativeLayout? = null
     private var skip: Button? = null
-    private val padding: Int = 100
+    private val padding: Int = 80
 
     var currentViewId: Int = 0
     var previousViewId = currentViewId
@@ -38,8 +42,9 @@ class CoachMarkDialogueOverlay(
             WindowManager.LayoutParams.MATCH_PARENT
         )
         window?.setBackgroundDrawableResource(android.R.color.transparent)
+        parentView = findViewById(R.id.circleParent)
         layer = findViewById(R.id.circleView)
-        circleView = findViewById(R.id.focusView)
+        circleImg = findViewById(R.id.focusView)
         rootMain = findViewById(R.id.rlMain)
         skip = findViewById(R.id.skip)
         skip?.setOnClickListener {
@@ -60,18 +65,35 @@ class CoachMarkDialogueOverlay(
 
     private fun updateCircle() {
         getCurrentItem()?.let {
+            takeScreenshotOfSurfaceView(it.view)?.let { bitmap ->
+                circleImg?.setImageBitmap(bitmap)
+            }
+
+            updateParentView(it)
             log("overlaay", "x -> ${it.view.x} + y -> ${it.view.y}")
             log("overlaay", "point x -> ${it.pointX} + y -> ${it.pointY}")
-            val params = circleView?.layoutParams as RelativeLayout.LayoutParams
+            val params = parentView?.layoutParams as RelativeLayout.LayoutParams
             params.width = getDimensionOfCurrentView(it)
             params.height = getDimensionOfCurrentView(it)
-            circleView?.layoutParams = params
+            parentView?.layoutParams = params
             log("overlaay", "dimension w -> ${params.width} + h -> ${params.height}")
-            circleView?.x = it.view.x - padding.div(2)
-            circleView?.y = it.view.y - padding.div(2)
-            log("overlaay", "new xy x -> ${circleView?.x} + y -> ${circleView?.y}")
+            parentView?.x = it.view.x - padding.div(2)
+            parentView?.y = it.view.y - padding.div(2)
+            log("overlaay", "new xy x -> ${parentView?.x} + y -> ${parentView?.y}")
 
         }
+    }
+
+    private fun updateParentView(it: GuidedTourViewDetail) {
+        val params = parentView?.layoutParams as RelativeLayout.LayoutParams
+        params.width = getDimensionOfCurrentView(it)
+        params.height = getDimensionOfCurrentView(it)
+        parentView?.layoutParams = params
+
+        val childParams = circleImg?.layoutParams as LinearLayout.LayoutParams
+        childParams.width = getDimensionOfCurrentView(it) - padding
+        childParams.height = getDimensionOfCurrentView(it) - padding
+        circleImg?.layoutParams = childParams
     }
 
     private fun getDimensionOfCurrentView(it: GuidedTourViewDetail): Int {
@@ -82,6 +104,17 @@ class CoachMarkDialogueOverlay(
 
     private fun getCurrentItem(): GuidedTourViewDetail? {
         return if (!guidedTourViewViewsList.isNullOrEmpty() && currentViewId < guidedTourViewViewsList.size) guidedTourViewViewsList[currentViewId] else null
+    }
+
+    private fun takeScreenshotOfSurfaceView(targetView: View): Bitmap? {
+        if (targetView.width == 0 || targetView.height == 0) {
+            return null
+        }
+
+        targetView.isDrawingCacheEnabled = true
+        val bitmap: Bitmap = Bitmap.createBitmap(targetView.drawingCache)
+        targetView.isDrawingCacheEnabled = false
+        return bitmap
     }
 }
 

@@ -36,12 +36,12 @@ class TourSetup() : DescriptionBoxListener {
     }
 
     private fun focusSingleView() {
-//        layer = CoachMarkDialogueOverlay(context, guidedTourViewViewsList)
-//        layer?.show()
-        getCurrentItem()?.let {
-            descBox = getDescBox(context, it)
-            descBox?.show()
-        }
+        layer = CoachMarkDialogueOverlay(context, guidedTourViewViewsList)
+        layer?.show()
+//        getCurrentItem()?.let {
+//            descBox = getDescBox(context, it)
+//            descBox?.show()
+//        }
     }
 
     override fun onUserClicked(materialIntroViewId: String?) {

@@ -21,9 +21,6 @@ import co.yap.modules.others.helper.Constants.REQUEST_CODE
 import co.yap.networking.customers.responsedtos.AccountInfo
 import co.yap.translation.Strings
 import co.yap.widgets.NumberKeyboardListener
-import co.yap.widgets.guidedtour.TourSetup
-import co.yap.widgets.guidedtour.models.GuidedTourViewDetail
-import co.yap.widgets.guidedtour.view.locationOnScreen
 import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.constants.Constants.KEY_APP_UUID
 import co.yap.yapcore.constants.Constants.KEY_IS_FINGERPRINT_PERMISSION_SHOWN
@@ -39,7 +36,6 @@ import co.yap.yapcore.helpers.extentions.preventTakeScreenShot
 import co.yap.yapcore.helpers.extentions.toast
 import co.yap.yapcore.managers.MyUserManager
 import kotlinx.android.synthetic.main.fragment_verify_passcode.*
-import kotlinx.coroutines.delay
 
 class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(), BiometricCallback,
     IVerifyPasscode.View {
@@ -132,16 +128,11 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
 
     private fun onbackPressLogic() {
         ivBackBtn.setOnClickListener {
-            viewModel.launch {
-                activity?.let {
-                    TourSetup(it, it, setViewsArray())
-                }
+            if ((VerifyPassCodeEnum.valueOf(viewModel.state.verifyPassCodeEnum) == VerifyPassCodeEnum.VERIFY)) {
+                activity?.onBackPressed()
+            } else {
+                doLogout()
             }
-//            if ((VerifyPassCodeEnum.valueOf(viewModel.state.verifyPassCodeEnum) == VerifyPassCodeEnum.VERIFY)) {
-//                activity?.onBackPressed()
-//            } else {
-//                doLogout()
-//            }
         }
     }
 
@@ -372,30 +363,6 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
             else
                 viewModel.login()
         }
-    }
-
-    private fun setViewsArray(): ArrayList<GuidedTourViewDetail> {
-        val list = ArrayList<GuidedTourViewDetail>()
-        list.add(
-            GuidedTourViewDetail(
-                ivLogo,
-                "search",
-                "Click here to search for specific transaction in your account history",
-                ivLogo.locationOnScreen.x,
-                ivLogo.locationOnScreen.y
-            )
-        )
-
-        list.add(
-            GuidedTourViewDetail(
-                ivBackBtn,
-                "Your current balance",
-                "Here you can see your account’s current balance. It will be updated in-real time after every transaction.",
-                ivBackBtn.locationOnScreen.x,
-                ivBackBtn.locationOnScreen.y
-            )
-        )
-        return list
     }
 }
 

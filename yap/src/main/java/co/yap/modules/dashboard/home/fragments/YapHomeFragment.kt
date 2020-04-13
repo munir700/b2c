@@ -6,7 +6,6 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.os.Bundle
-import android.os.Handler
 import android.text.SpannableString
 import android.text.style.RelativeSizeSpan
 import android.view.View
@@ -20,6 +19,7 @@ import co.yap.BR
 import co.yap.R
 import co.yap.app.YAPApplication
 import co.yap.app.YAPApplication.Companion.homeTransactionsRequest
+import co.yap.databinding.ActivityYapDashboardBinding
 import co.yap.databinding.FragmentYapHomeBinding
 import co.yap.modules.dashboard.cards.analytics.main.activities.CardAnalyticsActivity
 import co.yap.modules.dashboard.home.adaptor.GraphBarsAdapter
@@ -57,6 +57,7 @@ import co.yap.widgets.couchmark.BubbleShowCaseBuilder
 import co.yap.widgets.couchmark.BubbleShowCaseSequence
 import co.yap.widgets.guidedtour.TourSetup
 import co.yap.widgets.guidedtour.models.GuidedTourViewDetail
+import co.yap.widgets.guidedtour.view.locationOnScreen
 import co.yap.yapcore.constants.Constants.ADDRESS
 import co.yap.yapcore.constants.Constants.ADDRESS_SUCCESS
 import co.yap.yapcore.constants.Constants.BROADCAST_UPDATE_TRANSACTION
@@ -75,7 +76,6 @@ import co.yap.yapcore.leanplum.trackEventInFragments
 import co.yap.yapcore.managers.MyUserManager
 import com.google.android.material.appbar.AppBarLayout
 import com.yarolegovich.discretescrollview.transform.ScaleTransformer
-import kotlinx.android.synthetic.main.activity_yap_dashboard.*
 import kotlinx.android.synthetic.main.content_fragment_yap_home.view.*
 import kotlinx.android.synthetic.main.view_graph.*
 import kotlinx.coroutines.delay
@@ -90,7 +90,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
     private var notificationsList: ArrayList<Notification> = ArrayList()
     override var transactionViewHelper: TransactionsViewHelper? = null
 
-    override val viewModel: IYapHome.ViewModel
+    override val viewModel: YapHomeViewModel
         get() = ViewModelProviders.of(this).get(YapHomeViewModel::class.java)
 
     override fun getBindingVariable(): Int = BR.viewModel
@@ -126,6 +126,12 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
         setObservers()
         setClickOnWelcomeYapItem()
         setAvailableBalance(viewModel.state.availableBalance)
+        viewModel.launch {
+            delay(10000)
+            activity?.let {
+                TourSetup(it, it, setViewsArray())
+            }
+        }
     }
 
     private fun setClickOnWelcomeYapItem() {
@@ -163,7 +169,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                 getBindings().lyInclude.lyHomeAction.layoutParams = pram
             }
         })
-        getSequence().show()
+//        getSequence().show()
 //        Handler().postDelayed({
 //            activity?.let {
 //                TourSetup(it, it, setViewsArray())
@@ -180,6 +186,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
             .targetView(getBindings().tvAvailableBalance)
 
     }
+
     private fun getSimpleShowCaseBuilder2(): BubbleShowCaseBuilder {
         return BubbleShowCaseBuilder(requireActivity())
             .title("Your current balance")
@@ -192,6 +199,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
             .targetView(getBindings().mainContent.lyAdd)
 
     }
+
     private fun getSimpleShowCaseBuilder3(): BubbleShowCaseBuilder {
         return BubbleShowCaseBuilder(requireActivity())
             .title("Your current balance")
@@ -205,11 +213,13 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
     }
 
     private fun getSequence(): BubbleShowCaseSequence {
-        return BubbleShowCaseSequence().addShowCases(listOf(
-            getSimpleShowCaseBuilder(),
-            getSimpleShowCaseBuilder2(),
-            getSimpleShowCaseBuilder3()
-        ))
+        return BubbleShowCaseSequence().addShowCases(
+            listOf(
+                getSimpleShowCaseBuilder(),
+                getSimpleShowCaseBuilder2(),
+                getSimpleShowCaseBuilder3()
+            )
+        )
     }
 
 
@@ -783,5 +793,51 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
 
     private fun openTopUpScreen() {
         startActivity(TopUpLandingActivity.getIntent(requireContext()))
+    }
+
+    private fun setViewsArray(): ArrayList<GuidedTourViewDetail> {
+        val list = ArrayList<GuidedTourViewDetail>()
+//        list.add(
+//            GuidedTourViewDetail(
+//                getParentActivity().drawerNav.to.to,
+//                "search",
+//                "Click here to search for specific transaction in your account history",
+//                ivLogo.locationOnScreen.x,
+//                ivLogo.locationOnScreen.y
+//            )
+//        )
+
+        list.add(
+            GuidedTourViewDetail(
+                getParentActivity().txtYapIt,
+                "Your current balance",
+                "Here you can see your account’s current balance. It will be updated in-real time after every transaction.",
+                getParentActivity().txtYapIt.locationOnScreen.x,
+                getParentActivity().txtYapIt.locationOnScreen.y
+            )
+        )
+        list.add(
+            GuidedTourViewDetail(
+                getBindings().ivSearch,
+                "Your current balance",
+                "Here you can see your account’s current balance. It will be updated in-real time after every transaction.",
+                getBindings().ivSearch.locationOnScreen.x,
+                getBindings().ivSearch.locationOnScreen.y
+            )
+        )
+        list.add(
+            GuidedTourViewDetail(
+                getBindings().tvAvailableBalance,
+                "Your current balance",
+                "Here you can see your account’s current balance. It will be updated in-real time after every transaction.",
+                getBindings().tvAvailableBalance.locationOnScreen.x,
+                getBindings().tvAvailableBalance.locationOnScreen.y
+            )
+        )
+        return list
+    }
+
+    fun getParentActivity():ActivityYapDashboardBinding {
+        return (activity as? YapDashboardActivity)?.viewDataBinding as ActivityYapDashboardBinding
     }
 }

@@ -11,11 +11,19 @@
         android:layout_height="match_parent"
         android:visibility="visible" />
 
-    <co.yap.widgets.CoreCircularImageView
-        android:id="@+id/focusView"
+    <LinearLayout
+        android:id="@+id/circleParent"
         android:layout_width="@dimen/_50sdp"
         android:layout_height="@dimen/_50sdp"
-        android:src="@color/white" />
+        android:background="@drawable/round_background"
+        android:gravity="center">
+
+        <co.yap.widgets.CoreCircularImageView
+            android:id="@+id/focusView"
+            android:layout_width="@dimen/_50sdp"
+            android:layout_height="@dimen/_50sdp"
+            android:src="@color/white" />
+    </LinearLayout>
 
     <Button
         android:id="@+id/skip"
