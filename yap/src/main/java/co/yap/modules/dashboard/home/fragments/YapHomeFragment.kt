@@ -172,32 +172,6 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
 
     }
 
-    fun setViewsArray(): ArrayList<GuidedTourViewDetail> {
-        val list = ArrayList<GuidedTourViewDetail>()
-        list.add(
-            GuidedTourViewDetail(
-                getBindings().tvAvailableBalance,
-                "Your current balance",
-                "Here you can see your account’s current balance. It will be updated in-real time after every transaction."
-            )
-        )
-//        list.add(
-//            GuidedTourViewDetail(
-//                (activity as YapDashboardActivity).cvYapIt,
-//                "search",
-//                "Click here to search for specific transaction in your account history"
-//            )
-//        )
-        list.add(
-            GuidedTourViewDetail(
-                getBindings().mainContent.lyAdd,
-                "yap it",
-                "Click here to see more actions like:\n" +
-                        "YAP to YAP transactions,  yop up your account, send money and pay your bills"
-            )
-        )
-        return list
-    }
 
     private fun getSimpleShowCaseBuilder(): BubbleShowCaseBuilder {
         return BubbleShowCaseBuilder(requireActivity())

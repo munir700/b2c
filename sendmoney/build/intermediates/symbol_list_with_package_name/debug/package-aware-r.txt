@@ -27,6 +27,8 @@ anim design_bottom_sheet_slide_in
 anim design_bottom_sheet_slide_out
 anim design_snackbar_in
 anim design_snackbar_out
+anim dispose_center
+anim elastic_center
 anim fade_in
 anim fade_out
 anim fade_out_long
@@ -55,7 +57,10 @@ anim nav_default_enter_anim
 anim nav_default_exit_anim
 anim nav_default_pop_enter_anim
 anim nav_default_pop_exit_anim
+anim overshoot_center
 anim shake
+anim show_down_center
+anim show_up_center
 anim shrink_fade_out_from_bottom
 anim slide_down
 anim slide_in_from_bottom
@@ -1183,6 +1188,8 @@ color abc_background_cache_hint_selector_material_light
 color abc_btn_colored_borderless_text_material
 color abc_btn_colored_text_material
 color abc_color_highlight_material
+color abc_decor_view_status_guard
+color abc_decor_view_status_guard_light
 color abc_hint_foreground_material_dark
 color abc_hint_foreground_material_light
 color abc_input_method_navigation_guard
@@ -1261,6 +1268,7 @@ color checkbox_themeable_attribute_color
 color colorAccent
 color colorAccentHouseHold
 color colorBlue
+color colorCoachMarkOverlay
 color colorDarkAqua
 color colorDarkBlue
 color colorDarkGreen
@@ -3233,6 +3241,7 @@ drawable abc_textfield_search_activated_mtrl_alpha
 drawable abc_textfield_search_default_mtrl_alpha
 drawable abc_textfield_search_material
 drawable abc_vector_test
+drawable arrow
 drawable arrow_up
 drawable avd_hide_password
 drawable avd_show_password
@@ -3298,6 +3307,7 @@ drawable circle
 drawable circle_menu_item
 drawable circle_profile
 drawable circle_tab_indicator
+drawable coachmark_circle
 drawable common_full_open_on_phone
 drawable common_google_signin_btn_icon_dark
 drawable common_google_signin_btn_icon_dark_focused
@@ -3320,6 +3330,7 @@ drawable common_google_signin_btn_text_light_normal_background
 drawable component_down_arrow
 drawable conversation_background
 drawable cornor_edges_gery
+drawable cornor_edges_hint
 drawable design_bottom_navigation_item_background
 drawable design_fab_background
 drawable design_ic_visibility
@@ -4131,6 +4142,13 @@ id async
 id attachment_menu
 id auto
 id backgroundContainer
+id balloon
+id balloon_arrow
+id balloon_card
+id balloon_content
+id balloon_detail
+id balloon_icon
+id balloon_text
 id barrier
 id barrier2
 id basic
@@ -4192,6 +4210,7 @@ id chip3
 id chip_group
 id chronometer
 id circle
+id circleView
 id circularProgressBar
 id clContainer
 id clDescriptionContainer
@@ -4692,6 +4711,7 @@ id rlAddNewProfilePic
 id rlCollapsedMapSection
 id rlContainer
 id rlHolder
+id rlMain
 id rlPicture
 id rlProfilePic
 id rlTitle
@@ -4744,6 +4764,7 @@ id showCustom
 id showHome
 id showTitle
 id simpleExoPlayerView
+id skip
 id slide
 id small
 id smallLabel
@@ -5065,6 +5086,7 @@ layout design_text_input_end_icon
 layout design_text_input_password_icon
 layout design_text_input_start_icon
 layout device_credential_handler_activity
+layout dialogue_coach_mark_overlay
 layout dp_example
 layout exo_list_divider
 layout exo_playback_control_view
@@ -5095,6 +5117,7 @@ layout fragment_set_card_pin_welcome
 layout fragment_transfer_success
 layout fragment_transfer_type
 layout fragment_webview
+layout hint_desc_box
 layout item_bank_params
 layout item_beneficiaries
 layout item_country
@@ -5107,6 +5130,7 @@ layout item_recent_beneficiaries_transfer
 layout item_recent_beneficiary
 layout item_selected_spinner
 layout item_spinner
+layout layout_balloon
 layout layout_bank_detail_toolbar
 layout layout_beneficiairy_search
 layout layout_beneficiaries
@@ -8117,6 +8141,7 @@ style CustomSwitch
 style DeviceCredentialHandlerTheme
 style DialogTheme
 style DialogTitle
+style Elastic
 style EmptyTheme
 style ExoMediaButton
 style ExoMediaButton_FastForward
@@ -8127,6 +8152,7 @@ style ExoMediaButton_Previous
 style ExoMediaButton_Rewind
 style ExoMediaButton_Shuffle
 style ExoMediaButton_VR
+style Fade
 style FadeMenuAnimation
 style FragmentsBtnStyle
 style InfraAppTheme
@@ -8148,7 +8174,10 @@ style MaterialAlertDialog_MaterialComponents_Title_Text
 style MaterialAlertDialog_MaterialComponents_Title_Text_CenterStacked
 style Micro
 style MicroGrey
+style Normal
+style NormalDispose
 style NormalText
+style Overshoot
 style PlacesAutocompleteErrorButtonText
 style PlacesAutocompleteErrorMessageText
 style PlacesAutocompleteThemeFullscreen
@@ -8464,8 +8493,6 @@ style Title2
 style Title2Grey
 style Title3
 style Title3Grey
-style ToolTipAltStyle
-style ToolTipOverlayAltStyle
 style TransparentStyle
 style Widget_AppCompat_ActionBar
 style Widget_AppCompat_ActionBar_Solid

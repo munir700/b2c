@@ -26,6 +26,8 @@ int anim design_bottom_sheet_slide_in 0x0
 int anim design_bottom_sheet_slide_out 0x0
 int anim design_snackbar_in 0x0
 int anim design_snackbar_out 0x0
+int anim dispose_center 0x0
+int anim elastic_center 0x0
 int anim fade_in 0x0
 int anim fade_out 0x0
 int anim fade_out_long 0x0
@@ -54,7 +56,10 @@ int anim nav_default_enter_anim 0x0
 int anim nav_default_exit_anim 0x0
 int anim nav_default_pop_enter_anim 0x0
 int anim nav_default_pop_exit_anim 0x0
+int anim overshoot_center 0x0
 int anim shake 0x0
+int anim show_down_center 0x0
+int anim show_up_center 0x0
 int anim shrink_fade_out_from_bottom 0x0
 int anim slide_down 0x0
 int anim slide_in_from_bottom 0x0
@@ -1182,6 +1187,8 @@ int color abc_background_cache_hint_selector_material_light 0x0
 int color abc_btn_colored_borderless_text_material 0x0
 int color abc_btn_colored_text_material 0x0
 int color abc_color_highlight_material 0x0
+int color abc_decor_view_status_guard 0x0
+int color abc_decor_view_status_guard_light 0x0
 int color abc_hint_foreground_material_dark 0x0
 int color abc_hint_foreground_material_light 0x0
 int color abc_input_method_navigation_guard 0x0
@@ -1260,6 +1267,7 @@ int color checkbox_themeable_attribute_color 0x0
 int color colorAccent 0x0
 int color colorAccentHouseHold 0x0
 int color colorBlue 0x0
+int color colorCoachMarkOverlay 0x0
 int color colorDarkAqua 0x0
 int color colorDarkBlue 0x0
 int color colorDarkGreen 0x0
@@ -3232,6 +3240,7 @@ int drawable abc_textfield_search_activated_mtrl_alpha 0x0
 int drawable abc_textfield_search_default_mtrl_alpha 0x0
 int drawable abc_textfield_search_material 0x0
 int drawable abc_vector_test 0x0
+int drawable arrow 0x0
 int drawable arrow_up 0x0
 int drawable avd_hide_password 0x0
 int drawable avd_show_password 0x0
@@ -3297,6 +3306,7 @@ int drawable circle 0x0
 int drawable circle_menu_item 0x0
 int drawable circle_profile 0x0
 int drawable circle_tab_indicator 0x0
+int drawable coachmark_circle 0x0
 int drawable common_full_open_on_phone 0x0
 int drawable common_google_signin_btn_icon_dark 0x0
 int drawable common_google_signin_btn_icon_dark_focused 0x0
@@ -3319,6 +3329,7 @@ int drawable common_google_signin_btn_text_light_normal_background 0x0
 int drawable component_down_arrow 0x0
 int drawable conversation_background 0x0
 int drawable cornor_edges_gery 0x0
+int drawable cornor_edges_hint 0x0
 int drawable design_bottom_navigation_item_background 0x0
 int drawable design_fab_background 0x0
 int drawable design_ic_visibility 0x0
@@ -4130,6 +4141,13 @@ int id async 0x0
 int id attachment_menu 0x0
 int id auto 0x0
 int id backgroundContainer 0x0
+int id balloon 0x0
+int id balloon_arrow 0x0
+int id balloon_card 0x0
+int id balloon_content 0x0
+int id balloon_detail 0x0
+int id balloon_icon 0x0
+int id balloon_text 0x0
 int id barrier 0x0
 int id barrier2 0x0
 int id basic 0x0
@@ -4191,6 +4209,7 @@ int id chip3 0x0
 int id chip_group 0x0
 int id chronometer 0x0
 int id circle 0x0
+int id circleView 0x0
 int id circularProgressBar 0x0
 int id clContainer 0x0
 int id clDescriptionContainer 0x0
@@ -4691,6 +4710,7 @@ int id rlAddNewProfilePic 0x0
 int id rlCollapsedMapSection 0x0
 int id rlContainer 0x0
 int id rlHolder 0x0
+int id rlMain 0x0
 int id rlPicture 0x0
 int id rlProfilePic 0x0
 int id rlTitle 0x0
@@ -4743,6 +4763,7 @@ int id showCustom 0x0
 int id showHome 0x0
 int id showTitle 0x0
 int id simpleExoPlayerView 0x0
+int id skip 0x0
 int id slide 0x0
 int id small 0x0
 int id smallLabel 0x0
@@ -5064,6 +5085,7 @@ int layout design_text_input_end_icon 0x0
 int layout design_text_input_password_icon 0x0
 int layout design_text_input_start_icon 0x0
 int layout device_credential_handler_activity 0x0
+int layout dialogue_coach_mark_overlay 0x0
 int layout dp_example 0x0
 int layout exo_list_divider 0x0
 int layout exo_playback_control_view 0x0
@@ -5094,6 +5116,7 @@ int layout fragment_set_card_pin_welcome 0x0
 int layout fragment_transfer_success 0x0
 int layout fragment_transfer_type 0x0
 int layout fragment_webview 0x0
+int layout hint_desc_box 0x0
 int layout item_bank_params 0x0
 int layout item_beneficiaries 0x0
 int layout item_country 0x0
@@ -5106,6 +5129,7 @@ int layout item_recent_beneficiaries_transfer 0x0
 int layout item_recent_beneficiary 0x0
 int layout item_selected_spinner 0x0
 int layout item_spinner 0x0
+int layout layout_balloon 0x0
 int layout layout_bank_detail_toolbar 0x0
 int layout layout_beneficiairy_search 0x0
 int layout layout_beneficiaries 0x0
@@ -8116,6 +8140,7 @@ int style CustomSwitch 0x0
 int style DeviceCredentialHandlerTheme 0x0
 int style DialogTheme 0x0
 int style DialogTitle 0x0
+int style Elastic 0x0
 int style EmptyTheme 0x0
 int style ExoMediaButton 0x0
 int style ExoMediaButton_FastForward 0x0
@@ -8126,6 +8151,7 @@ int style ExoMediaButton_Previous 0x0
 int style ExoMediaButton_Rewind 0x0
 int style ExoMediaButton_Shuffle 0x0
 int style ExoMediaButton_VR 0x0
+int style Fade 0x0
 int style FadeMenuAnimation 0x0
 int style FragmentsBtnStyle 0x0
 int style InfraAppTheme 0x0
@@ -8147,7 +8173,10 @@ int style MaterialAlertDialog_MaterialComponents_Title_Text 0x0
 int style MaterialAlertDialog_MaterialComponents_Title_Text_CenterStacked 0x0
 int style Micro 0x0
 int style MicroGrey 0x0
+int style Normal 0x0
+int style NormalDispose 0x0
 int style NormalText 0x0
+int style Overshoot 0x0
 int style PlacesAutocompleteErrorButtonText 0x0
 int style PlacesAutocompleteErrorMessageText 0x0
 int style PlacesAutocompleteThemeFullscreen 0x0
@@ -8463,8 +8492,6 @@ int style Title2 0x0
 int style Title2Grey 0x0
 int style Title3 0x0
 int style Title3Grey 0x0
-int style ToolTipAltStyle 0x0
-int style ToolTipOverlayAltStyle 0x0
 int style TransparentStyle 0x0
 int style Widget_AppCompat_ActionBar 0x0
 int style Widget_AppCompat_ActionBar_Solid 0x0
