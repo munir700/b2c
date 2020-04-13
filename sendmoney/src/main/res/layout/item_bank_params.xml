@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="co.yap.sendMoney.addbeneficiary.viewmodels.BankParamsItemViewModel" />
+            type="co.yap.sendmoney.addbeneficiary.viewmodels.BankParamsItemViewModel" />
 
         <import type="android.view.View" />
 

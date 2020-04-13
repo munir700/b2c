@@ -84,7 +84,7 @@ public class LayoutBeneficiariesBindingImpl extends LayoutBeneficiariesBinding i
     public boolean setVariable(int variableId, @Nullable Object variable)  {
         boolean variableSet = true;
         if (BR.viewModel == variableId) {
-            setViewModel((co.yap.sendMoney.home.viewmodels.SendMoneyHomeScreenViewModel) variable);
+            setViewModel((co.yap.sendmoney.home.viewmodels.SendMoneyHomeScreenViewModel) variable);
         }
         else {
             variableSet = false;
@@ -92,7 +92,7 @@ public class LayoutBeneficiariesBindingImpl extends LayoutBeneficiariesBinding i
             return variableSet;
     }
 
-    public void setViewModel(@Nullable co.yap.sendMoney.home.viewmodels.SendMoneyHomeScreenViewModel ViewModel) {
+    public void setViewModel(@Nullable co.yap.sendmoney.home.viewmodels.SendMoneyHomeScreenViewModel ViewModel) {
         this.mViewModel = ViewModel;
         synchronized(this) {
             mDirtyFlags |= 0x80L;
@@ -112,7 +112,7 @@ public class LayoutBeneficiariesBindingImpl extends LayoutBeneficiariesBinding i
     protected boolean onFieldChange(int localFieldId, Object object, int fieldId) {
         switch (localFieldId) {
             case 0 :
-                return onChangeViewModelState((co.yap.sendMoney.home.states.SendMoneyHomeState) object, fieldId);
+                return onChangeViewModelState((co.yap.sendmoney.home.states.SendMoneyHomeState) object, fieldId);
             case 1 :
                 return onChangeViewModelStateIsSearching((androidx.databinding.ObservableField<java.lang.Boolean>) object, fieldId);
             case 2 :
@@ -120,7 +120,7 @@ public class LayoutBeneficiariesBindingImpl extends LayoutBeneficiariesBinding i
             case 3 :
                 return onChangeLayoutRecent((co.yap.sendmoney.databinding.LayoutRecentBeneficiariesBinding) object, fieldId);
             case 4 :
-                return onChangeViewModelAdapter((androidx.databinding.ObservableField<co.yap.sendMoney.home.adapters.RecentTransferAdaptor>) object, fieldId);
+                return onChangeViewModelAdapter((androidx.databinding.ObservableField<co.yap.sendmoney.home.adapters.RecentTransferAdaptor>) object, fieldId);
             case 5 :
                 return onChangeLayoutSearchView((co.yap.sendmoney.databinding.LayoutBeneficiairySearchBinding) object, fieldId);
             case 6 :
@@ -128,7 +128,7 @@ public class LayoutBeneficiariesBindingImpl extends LayoutBeneficiariesBinding i
         }
         return false;
     }
-    private boolean onChangeViewModelState(co.yap.sendMoney.home.states.SendMoneyHomeState ViewModelState, int fieldId) {
+    private boolean onChangeViewModelState(co.yap.sendmoney.home.states.SendMoneyHomeState ViewModelState, int fieldId) {
         if (fieldId == BR._all) {
             synchronized(this) {
                     mDirtyFlags |= 0x1L;
@@ -164,7 +164,7 @@ public class LayoutBeneficiariesBindingImpl extends LayoutBeneficiariesBinding i
         }
         return false;
     }
-    private boolean onChangeViewModelAdapter(androidx.databinding.ObservableField<co.yap.sendMoney.home.adapters.RecentTransferAdaptor> ViewModelAdapter, int fieldId) {
+    private boolean onChangeViewModelAdapter(androidx.databinding.ObservableField<co.yap.sendmoney.home.adapters.RecentTransferAdaptor> ViewModelAdapter, int fieldId) {
         if (fieldId == BR._all) {
             synchronized(this) {
                     mDirtyFlags |= 0x10L;
@@ -200,12 +200,12 @@ public class LayoutBeneficiariesBindingImpl extends LayoutBeneficiariesBinding i
             mDirtyFlags = 0;
         }
         boolean androidxDatabindingViewDataBindingSafeUnboxViewModelStateIsNoRecentBeneficiaryGet = false;
-        co.yap.sendMoney.home.states.SendMoneyHomeState viewModelState = null;
+        co.yap.sendmoney.home.states.SendMoneyHomeState viewModelState = null;
         androidx.databinding.ObservableField<java.lang.Boolean> viewModelStateIsSearching = null;
         java.lang.Boolean viewModelStateIsNoRecentBeneficiaryGet = null;
         java.lang.Boolean viewModelStateIsSearchingGet = null;
         androidx.databinding.ObservableField<java.lang.Boolean> ViewModelStateIsSearching1 = null;
-        androidx.databinding.ObservableField<co.yap.sendMoney.home.adapters.RecentTransferAdaptor> viewModelAdapter = null;
+        androidx.databinding.ObservableField<co.yap.sendmoney.home.adapters.RecentTransferAdaptor> viewModelAdapter = null;
         java.lang.Boolean ViewModelStateIsSearchingGet1 = null;
         int viewModelStateIsSearchingViewGONEViewVISIBLE = 0;
         androidx.databinding.ObservableField<java.lang.Boolean> viewModelStateIsNoRecentBeneficiary = null;
@@ -215,8 +215,8 @@ public class LayoutBeneficiariesBindingImpl extends LayoutBeneficiariesBinding i
         boolean AndroidxDatabindingViewDataBindingSafeUnboxViewModelStateIsSearchingGet1 = false;
         int ViewModelStateIsSearchingViewGONEViewVISIBLE1 = 0;
         int viewModelStateIsSearchingBooleanTrueViewModelStateIsNoRecentBeneficiaryViewGONEViewVISIBLE = 0;
-        co.yap.sendMoney.home.adapters.RecentTransferAdaptor viewModelAdapterGet = null;
-        co.yap.sendMoney.home.viewmodels.SendMoneyHomeScreenViewModel viewModel = mViewModel;
+        co.yap.sendmoney.home.adapters.RecentTransferAdaptor viewModelAdapterGet = null;
+        co.yap.sendmoney.home.viewmodels.SendMoneyHomeScreenViewModel viewModel = mViewModel;
 
         if ((dirtyFlags & 0x1d7L) != 0) {
 
@@ -400,7 +400,7 @@ public class LayoutBeneficiariesBindingImpl extends LayoutBeneficiariesBinding i
     public final void _internalCallbackOnClick(int sourceId , android.view.View callbackArg_0) {
         // localize variables for thread safety
         // viewModel
-        co.yap.sendMoney.home.viewmodels.SendMoneyHomeScreenViewModel viewModel = mViewModel;
+        co.yap.sendmoney.home.viewmodels.SendMoneyHomeScreenViewModel viewModel = mViewModel;
         // viewModel != null
         boolean viewModelJavaLangObjectNull = false;
         // v.id

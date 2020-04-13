@@ -9,7 +9,7 @@
 
         <variable
             name="viewModel"
-            type="co.yap.sendMoney.addbeneficiary.viewmodels.AddBeneficiaryViewModel" />
+            type="co.yap.sendmoney.addbeneficiary.viewmodels.AddBeneficiaryViewModel" />
 
     </data>
 

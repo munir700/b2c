@@ -1,11 +1,11 @@
-package co.yap.sendMoney.fundtransfer.interfaces
+package co.yap.sendmoney.fundtransfer.interfaces
 
 import androidx.databinding.ObservableBoolean
 import androidx.lifecycle.MutableLiveData
 import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.networking.transactions.responsedtos.TransactionThresholdModel
 import co.yap.networking.transactions.responsedtos.purposepayment.PurposeOfPayment
-import co.yap.sendMoney.fundtransfer.models.TransferFundData
+import co.yap.sendmoney.fundtransfer.models.TransferFundData
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
 

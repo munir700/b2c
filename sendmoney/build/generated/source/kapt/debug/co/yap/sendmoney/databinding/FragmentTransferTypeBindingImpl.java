@@ -82,7 +82,7 @@ public class FragmentTransferTypeBindingImpl extends FragmentTransferTypeBinding
     public boolean setVariable(int variableId, @Nullable Object variable)  {
         boolean variableSet = true;
         if (BR.viewModel == variableId) {
-            setViewModel((co.yap.sendMoney.addbeneficiary.viewmodels.TransferTypeViewModel) variable);
+            setViewModel((co.yap.sendmoney.addbeneficiary.viewmodels.TransferTypeViewModel) variable);
         }
         else {
             variableSet = false;
@@ -90,7 +90,7 @@ public class FragmentTransferTypeBindingImpl extends FragmentTransferTypeBinding
             return variableSet;
     }
 
-    public void setViewModel(@Nullable co.yap.sendMoney.addbeneficiary.viewmodels.TransferTypeViewModel ViewModel) {
+    public void setViewModel(@Nullable co.yap.sendmoney.addbeneficiary.viewmodels.TransferTypeViewModel ViewModel) {
         this.mViewModel = ViewModel;
         synchronized(this) {
             mDirtyFlags |= 0x1L;
@@ -113,7 +113,7 @@ public class FragmentTransferTypeBindingImpl extends FragmentTransferTypeBinding
             dirtyFlags = mDirtyFlags;
             mDirtyFlags = 0;
         }
-        co.yap.sendMoney.addbeneficiary.viewmodels.TransferTypeViewModel viewModel = mViewModel;
+        co.yap.sendmoney.addbeneficiary.viewmodels.TransferTypeViewModel viewModel = mViewModel;
         // batch finished
         if ((dirtyFlags & 0x2L) != 0) {
             // api target 1
@@ -133,7 +133,7 @@ public class FragmentTransferTypeBindingImpl extends FragmentTransferTypeBinding
             case 1: {
                 // localize variables for thread safety
                 // viewModel
-                co.yap.sendMoney.addbeneficiary.viewmodels.TransferTypeViewModel viewModel = mViewModel;
+                co.yap.sendmoney.addbeneficiary.viewmodels.TransferTypeViewModel viewModel = mViewModel;
                 // viewModel != null
                 boolean viewModelJavaLangObjectNull = false;
                 // v.id
@@ -158,7 +158,7 @@ public class FragmentTransferTypeBindingImpl extends FragmentTransferTypeBinding
             case 2: {
                 // localize variables for thread safety
                 // viewModel
-                co.yap.sendMoney.addbeneficiary.viewmodels.TransferTypeViewModel viewModel = mViewModel;
+                co.yap.sendmoney.addbeneficiary.viewmodels.TransferTypeViewModel viewModel = mViewModel;
                 // viewModel != null
                 boolean viewModelJavaLangObjectNull = false;
                 // v.id

@@ -65,7 +65,7 @@ public class LayoutBeneficiairySearchBindingImpl extends LayoutBeneficiairySearc
     public boolean setVariable(int variableId, @Nullable Object variable)  {
         boolean variableSet = true;
         if (BR.viewModel == variableId) {
-            setViewModel((co.yap.sendMoney.home.viewmodels.SendMoneyHomeScreenViewModel) variable);
+            setViewModel((co.yap.sendmoney.home.viewmodels.SendMoneyHomeScreenViewModel) variable);
         }
         else {
             variableSet = false;
@@ -73,7 +73,7 @@ public class LayoutBeneficiairySearchBindingImpl extends LayoutBeneficiairySearc
             return variableSet;
     }
 
-    public void setViewModel(@Nullable co.yap.sendMoney.home.viewmodels.SendMoneyHomeScreenViewModel ViewModel) {
+    public void setViewModel(@Nullable co.yap.sendmoney.home.viewmodels.SendMoneyHomeScreenViewModel ViewModel) {
         this.mViewModel = ViewModel;
         synchronized(this) {
             mDirtyFlags |= 0x4L;
@@ -86,13 +86,13 @@ public class LayoutBeneficiairySearchBindingImpl extends LayoutBeneficiairySearc
     protected boolean onFieldChange(int localFieldId, Object object, int fieldId) {
         switch (localFieldId) {
             case 0 :
-                return onChangeViewModelState((co.yap.sendMoney.home.states.SendMoneyHomeState) object, fieldId);
+                return onChangeViewModelState((co.yap.sendmoney.home.states.SendMoneyHomeState) object, fieldId);
             case 1 :
                 return onChangeViewModelStateIsSearching((androidx.databinding.ObservableField<java.lang.Boolean>) object, fieldId);
         }
         return false;
     }
-    private boolean onChangeViewModelState(co.yap.sendMoney.home.states.SendMoneyHomeState ViewModelState, int fieldId) {
+    private boolean onChangeViewModelState(co.yap.sendmoney.home.states.SendMoneyHomeState ViewModelState, int fieldId) {
         if (fieldId == BR._all) {
             synchronized(this) {
                     mDirtyFlags |= 0x1L;
@@ -122,8 +122,8 @@ public class LayoutBeneficiairySearchBindingImpl extends LayoutBeneficiairySearc
         int viewModelStateIsSearchingViewGONEViewVISIBLE = 0;
         int viewModelStateIsSearchingViewVISIBLEViewGONE = 0;
         boolean androidxDatabindingViewDataBindingSafeUnboxViewModelStateIsSearchingGet = false;
-        co.yap.sendMoney.home.states.SendMoneyHomeState viewModelState = null;
-        co.yap.sendMoney.home.viewmodels.SendMoneyHomeScreenViewModel viewModel = mViewModel;
+        co.yap.sendmoney.home.states.SendMoneyHomeState viewModelState = null;
+        co.yap.sendmoney.home.viewmodels.SendMoneyHomeScreenViewModel viewModel = mViewModel;
         androidx.databinding.ObservableField<java.lang.Boolean> viewModelStateIsSearching = null;
 
         if ((dirtyFlags & 0xfL) != 0) {
@@ -188,7 +188,7 @@ public class LayoutBeneficiairySearchBindingImpl extends LayoutBeneficiairySearc
     public final void _internalCallbackOnClick(int sourceId , android.view.View callbackArg_0) {
         // localize variables for thread safety
         // viewModel
-        co.yap.sendMoney.home.viewmodels.SendMoneyHomeScreenViewModel viewModel = mViewModel;
+        co.yap.sendmoney.home.viewmodels.SendMoneyHomeScreenViewModel viewModel = mViewModel;
         // viewModel != null
         boolean viewModelJavaLangObjectNull = false;
         // v.id

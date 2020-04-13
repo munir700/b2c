@@ -93,7 +93,7 @@ public class ItemBeneficiariesBindingImpl extends ItemBeneficiariesBinding imple
     public boolean setVariable(int variableId, @Nullable Object variable)  {
         boolean variableSet = true;
         if (BR.viewModel == variableId) {
-            setViewModel((co.yap.sendMoney.home.adapters.BeneficiaryItemViewModel) variable);
+            setViewModel((co.yap.sendmoney.home.adapters.BeneficiaryItemViewModel) variable);
         }
         else {
             variableSet = false;
@@ -101,7 +101,7 @@ public class ItemBeneficiariesBindingImpl extends ItemBeneficiariesBinding imple
             return variableSet;
     }
 
-    public void setViewModel(@Nullable co.yap.sendMoney.home.adapters.BeneficiaryItemViewModel ViewModel) {
+    public void setViewModel(@Nullable co.yap.sendmoney.home.adapters.BeneficiaryItemViewModel ViewModel) {
         this.mViewModel = ViewModel;
         synchronized(this) {
             mDirtyFlags |= 0x1L;
@@ -134,7 +134,7 @@ public class ItemBeneficiariesBindingImpl extends ItemBeneficiariesBinding imple
         co.yap.networking.customers.responsedtos.sendmoney.Beneficiary viewModelBeneficiary = null;
         java.lang.String viewModelBeneficiaryFirstName = null;
         java.lang.String utilsINSTANCEShortNameViewModelBeneficiaryFirstNameCharViewModelBeneficiaryLastName = null;
-        co.yap.sendMoney.home.adapters.BeneficiaryItemViewModel viewModel = mViewModel;
+        co.yap.sendmoney.home.adapters.BeneficiaryItemViewModel viewModel = mViewModel;
         java.lang.String viewModelBeneficiaryBeneficiaryType = null;
 
         if ((dirtyFlags & 0x3L) != 0) {
@@ -209,7 +209,7 @@ public class ItemBeneficiariesBindingImpl extends ItemBeneficiariesBinding imple
     public final void _internalCallbackOnClick(int sourceId , android.view.View callbackArg_0) {
         // localize variables for thread safety
         // viewModel
-        co.yap.sendMoney.home.adapters.BeneficiaryItemViewModel viewModel = mViewModel;
+        co.yap.sendmoney.home.adapters.BeneficiaryItemViewModel viewModel = mViewModel;
         // viewModel != null
         boolean viewModelJavaLangObjectNull = false;
 

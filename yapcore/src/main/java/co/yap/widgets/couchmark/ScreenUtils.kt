@@ -77,7 +77,7 @@ object ScreenUtils {
         return Math.round(dp * (metrics.densityDpi.toFloat() / DisplayMetrics.DENSITY_DEFAULT))
     }
 
-    fun isViewLocatedAtHalfTopOfTheScreen(activity: Activity, targetView: View): Boolean{
+    fun isViewLocatedAtHalfTopOfTheScreen(activity: Context, targetView: View): Boolean{
         val screenHeight = getScreenHeight(activity)
         val positionTargetAxisY = getAxisYpositionOfViewOnScreen(targetView)
         return screenHeight/2 > positionTargetAxisY

@@ -157,11 +157,12 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                 getBindings().lyInclude.lyHomeAction.layoutParams = pram
             }
         })
-        Handler().postDelayed({
-            activity?.let {
-                TourSetup(it, it, setViewsArray())
-            }
-        }, 3000)
+        getSequence().show()
+//        Handler().postDelayed({
+//            activity?.let {
+//                TourSetup(it, it, setViewsArray())
+//            }
+//        }, 3000)
 
     }
 

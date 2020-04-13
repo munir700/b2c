@@ -1,4 +1,4 @@
-package co.yap.sendMoney.fundtransfer.interfaces
+package co.yap.sendmoney.fundtransfer.interfaces
 
 import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData

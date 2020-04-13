@@ -70,7 +70,7 @@ public class LayoutSendMoneyHomeToolbarBindingImpl extends LayoutSendMoneyHomeTo
     public boolean setVariable(int variableId, @Nullable Object variable)  {
         boolean variableSet = true;
         if (BR.viewModel == variableId) {
-            setViewModel((co.yap.sendMoney.viewmodels.SendMoneyViewModel) variable);
+            setViewModel((co.yap.sendmoney.viewmodels.SendMoneyViewModel) variable);
         }
         else {
             variableSet = false;
@@ -78,7 +78,7 @@ public class LayoutSendMoneyHomeToolbarBindingImpl extends LayoutSendMoneyHomeTo
             return variableSet;
     }
 
-    public void setViewModel(@Nullable co.yap.sendMoney.viewmodels.SendMoneyViewModel ViewModel) {
+    public void setViewModel(@Nullable co.yap.sendmoney.viewmodels.SendMoneyViewModel ViewModel) {
         this.mViewModel = ViewModel;
         synchronized(this) {
             mDirtyFlags |= 0x10L;
@@ -97,7 +97,7 @@ public class LayoutSendMoneyHomeToolbarBindingImpl extends LayoutSendMoneyHomeTo
             case 2 :
                 return onChangeViewModelStateToolbarVisibility((androidx.databinding.ObservableBoolean) object, fieldId);
             case 3 :
-                return onChangeViewModelState((co.yap.sendMoney.states.SendMoneyState) object, fieldId);
+                return onChangeViewModelState((co.yap.sendmoney.states.SendMoneyState) object, fieldId);
         }
         return false;
     }
@@ -128,7 +128,7 @@ public class LayoutSendMoneyHomeToolbarBindingImpl extends LayoutSendMoneyHomeTo
         }
         return false;
     }
-    private boolean onChangeViewModelState(co.yap.sendMoney.states.SendMoneyState ViewModelState, int fieldId) {
+    private boolean onChangeViewModelState(co.yap.sendmoney.states.SendMoneyState ViewModelState, int fieldId) {
         if (fieldId == BR._all) {
             synchronized(this) {
                     mDirtyFlags |= 0x8L;
@@ -158,10 +158,10 @@ public class LayoutSendMoneyHomeToolbarBindingImpl extends LayoutSendMoneyHomeTo
         androidx.databinding.ObservableBoolean viewModelStateToolbarVisibility = null;
         boolean viewModelStateRightIconGet = false;
         int viewModelStateToolbarTitleIsEmptyViewGONEViewVISIBLE = 0;
-        co.yap.sendMoney.states.SendMoneyState viewModelState = null;
+        co.yap.sendmoney.states.SendMoneyState viewModelState = null;
         java.lang.String viewModelStateToolbarTitle = null;
         boolean viewModelStateLeftIconGet = false;
-        co.yap.sendMoney.viewmodels.SendMoneyViewModel viewModel = mViewModel;
+        co.yap.sendmoney.viewmodels.SendMoneyViewModel viewModel = mViewModel;
         boolean viewModelStateToolbarVisibilityGet = false;
         int viewModelStateToolbarVisibilityViewVISIBLEViewGONE = 0;
         boolean viewModelStateToolbarTitleIsEmpty = false;
@@ -316,7 +316,7 @@ public class LayoutSendMoneyHomeToolbarBindingImpl extends LayoutSendMoneyHomeTo
             case 1: {
                 // localize variables for thread safety
                 // viewModel
-                co.yap.sendMoney.viewmodels.SendMoneyViewModel viewModel = mViewModel;
+                co.yap.sendmoney.viewmodels.SendMoneyViewModel viewModel = mViewModel;
                 // viewModel != null
                 boolean viewModelJavaLangObjectNull = false;
                 // v.id
@@ -341,7 +341,7 @@ public class LayoutSendMoneyHomeToolbarBindingImpl extends LayoutSendMoneyHomeTo
             case 2: {
                 // localize variables for thread safety
                 // viewModel
-                co.yap.sendMoney.viewmodels.SendMoneyViewModel viewModel = mViewModel;
+                co.yap.sendmoney.viewmodels.SendMoneyViewModel viewModel = mViewModel;
                 // viewModel != null
                 boolean viewModelJavaLangObjectNull = false;
                 // v.id

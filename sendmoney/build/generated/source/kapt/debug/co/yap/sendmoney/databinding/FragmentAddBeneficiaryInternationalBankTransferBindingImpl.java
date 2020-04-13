@@ -56,11 +56,11 @@ public class FragmentAddBeneficiaryInternationalBankTransferBindingImpl extends 
             java.lang.String callbackArg_0 = androidx.databinding.adapters.TextViewBindingAdapter.getTextString(etFirstName);
             // localize variables for thread safety
             // viewModel.state
-            co.yap.sendMoney.addbeneficiary.states.AddBeneficiaryStates viewModelState = null;
+            co.yap.sendmoney.addbeneficiary.states.AddBeneficiaryStates viewModelState = null;
             // viewModel.state.firstName
             java.lang.String viewModelStateFirstName = null;
             // viewModel
-            co.yap.sendMoney.addbeneficiary.viewmodels.AddBeneficiaryViewModel viewModel = mViewModel;
+            co.yap.sendmoney.addbeneficiary.viewmodels.AddBeneficiaryViewModel viewModel = mViewModel;
             // viewModel != null
             boolean viewModelJavaLangObjectNull = false;
             // viewModel.state != null
@@ -93,9 +93,9 @@ public class FragmentAddBeneficiaryInternationalBankTransferBindingImpl extends 
             java.lang.String callbackArg_0 = androidx.databinding.adapters.TextViewBindingAdapter.getTextString(etLastName);
             // localize variables for thread safety
             // viewModel.state
-            co.yap.sendMoney.addbeneficiary.states.AddBeneficiaryStates viewModelState = null;
+            co.yap.sendmoney.addbeneficiary.states.AddBeneficiaryStates viewModelState = null;
             // viewModel
-            co.yap.sendMoney.addbeneficiary.viewmodels.AddBeneficiaryViewModel viewModel = mViewModel;
+            co.yap.sendmoney.addbeneficiary.viewmodels.AddBeneficiaryViewModel viewModel = mViewModel;
             // viewModel != null
             boolean viewModelJavaLangObjectNull = false;
             // viewModel.state.lastName
@@ -130,11 +130,11 @@ public class FragmentAddBeneficiaryInternationalBankTransferBindingImpl extends 
             java.lang.String callbackArg_0 = androidx.databinding.adapters.TextViewBindingAdapter.getTextString(etMobileNumber);
             // localize variables for thread safety
             // viewModel.state
-            co.yap.sendMoney.addbeneficiary.states.AddBeneficiaryStates viewModelState = null;
+            co.yap.sendmoney.addbeneficiary.states.AddBeneficiaryStates viewModelState = null;
             // viewModel.state.mobileNo
             java.lang.String viewModelStateMobileNo = null;
             // viewModel
-            co.yap.sendMoney.addbeneficiary.viewmodels.AddBeneficiaryViewModel viewModel = mViewModel;
+            co.yap.sendmoney.addbeneficiary.viewmodels.AddBeneficiaryViewModel viewModel = mViewModel;
             // viewModel != null
             boolean viewModelJavaLangObjectNull = false;
             // viewModel.state != null
@@ -167,11 +167,11 @@ public class FragmentAddBeneficiaryInternationalBankTransferBindingImpl extends 
             java.lang.String callbackArg_0 = androidx.databinding.adapters.TextViewBindingAdapter.getTextString(etnickName);
             // localize variables for thread safety
             // viewModel.state
-            co.yap.sendMoney.addbeneficiary.states.AddBeneficiaryStates viewModelState = null;
+            co.yap.sendmoney.addbeneficiary.states.AddBeneficiaryStates viewModelState = null;
             // viewModel.state.nickName
             java.lang.String viewModelStateNickName = null;
             // viewModel
-            co.yap.sendMoney.addbeneficiary.viewmodels.AddBeneficiaryViewModel viewModel = mViewModel;
+            co.yap.sendmoney.addbeneficiary.viewmodels.AddBeneficiaryViewModel viewModel = mViewModel;
             // viewModel != null
             boolean viewModelJavaLangObjectNull = false;
             // viewModel.state != null
@@ -272,7 +272,7 @@ public class FragmentAddBeneficiaryInternationalBankTransferBindingImpl extends 
     public boolean setVariable(int variableId, @Nullable Object variable)  {
         boolean variableSet = true;
         if (BR.viewModel == variableId) {
-            setViewModel((co.yap.sendMoney.addbeneficiary.viewmodels.AddBeneficiaryViewModel) variable);
+            setViewModel((co.yap.sendmoney.addbeneficiary.viewmodels.AddBeneficiaryViewModel) variable);
         }
         else {
             variableSet = false;
@@ -280,7 +280,7 @@ public class FragmentAddBeneficiaryInternationalBankTransferBindingImpl extends 
             return variableSet;
     }
 
-    public void setViewModel(@Nullable co.yap.sendMoney.addbeneficiary.viewmodels.AddBeneficiaryViewModel ViewModel) {
+    public void setViewModel(@Nullable co.yap.sendmoney.addbeneficiary.viewmodels.AddBeneficiaryViewModel ViewModel) {
         this.mViewModel = ViewModel;
         synchronized(this) {
             mDirtyFlags |= 0x2L;
@@ -293,11 +293,11 @@ public class FragmentAddBeneficiaryInternationalBankTransferBindingImpl extends 
     protected boolean onFieldChange(int localFieldId, Object object, int fieldId) {
         switch (localFieldId) {
             case 0 :
-                return onChangeViewModelState((co.yap.sendMoney.addbeneficiary.states.AddBeneficiaryStates) object, fieldId);
+                return onChangeViewModelState((co.yap.sendmoney.addbeneficiary.states.AddBeneficiaryStates) object, fieldId);
         }
         return false;
     }
-    private boolean onChangeViewModelState(co.yap.sendMoney.addbeneficiary.states.AddBeneficiaryStates ViewModelState, int fieldId) {
+    private boolean onChangeViewModelState(co.yap.sendmoney.addbeneficiary.states.AddBeneficiaryStates ViewModelState, int fieldId) {
         if (fieldId == BR._all) {
             synchronized(this) {
                     mDirtyFlags |= 0x1L;
@@ -391,7 +391,7 @@ public class FragmentAddBeneficiaryInternationalBankTransferBindingImpl extends 
         boolean viewModelStateLastNameEmpty = false;
         boolean viewModelStateValid = false;
         boolean viewModelStateMobileNoEmptyBooleanTrueBooleanFalse = false;
-        co.yap.sendMoney.addbeneficiary.states.AddBeneficiaryStates viewModelState = null;
+        co.yap.sendmoney.addbeneficiary.states.AddBeneficiaryStates viewModelState = null;
         java.lang.String viewModelStateMobileNo = null;
         boolean viewModelStateFirstNameEmpty = false;
         java.lang.String viewModelStateTransferType = null;
@@ -417,7 +417,7 @@ public class FragmentAddBeneficiaryInternationalBankTransferBindingImpl extends 
         boolean viewModelStateSelectedBeneficiaryTypeJavaLangStringCASHPAYOUT = false;
         boolean viewModelStateNickNameEmptyBooleanTrueBooleanFalse = false;
         boolean viewModelStateMobileNoEmpty = false;
-        co.yap.sendMoney.addbeneficiary.viewmodels.AddBeneficiaryViewModel viewModel = mViewModel;
+        co.yap.sendmoney.addbeneficiary.viewmodels.AddBeneficiaryViewModel viewModel = mViewModel;
 
         if ((dirtyFlags & 0x7fffL) != 0) {
 
@@ -746,7 +746,7 @@ public class FragmentAddBeneficiaryInternationalBankTransferBindingImpl extends 
             case 1: {
                 // localize variables for thread safety
                 // viewModel
-                co.yap.sendMoney.addbeneficiary.viewmodels.AddBeneficiaryViewModel viewModel = mViewModel;
+                co.yap.sendmoney.addbeneficiary.viewmodels.AddBeneficiaryViewModel viewModel = mViewModel;
                 // viewModel != null
                 boolean viewModelJavaLangObjectNull = false;
                 // v.id
@@ -771,7 +771,7 @@ public class FragmentAddBeneficiaryInternationalBankTransferBindingImpl extends 
             case 2: {
                 // localize variables for thread safety
                 // viewModel
-                co.yap.sendMoney.addbeneficiary.viewmodels.AddBeneficiaryViewModel viewModel = mViewModel;
+                co.yap.sendmoney.addbeneficiary.viewmodels.AddBeneficiaryViewModel viewModel = mViewModel;
                 // viewModel != null
                 boolean viewModelJavaLangObjectNull = false;
                 // v.id

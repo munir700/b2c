@@ -13,8 +13,8 @@ import androidx.databinding.Bindable;
 import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
 import androidx.recyclerview.widget.RecyclerView;
-import co.yap.sendMoney.home.viewmodels.SendMoneyHomeScreenViewModel;
 import co.yap.sendmoney.R;
+import co.yap.sendmoney.home.viewmodels.SendMoneyHomeScreenViewModel;
 import java.lang.Deprecated;
 import java.lang.Object;
 

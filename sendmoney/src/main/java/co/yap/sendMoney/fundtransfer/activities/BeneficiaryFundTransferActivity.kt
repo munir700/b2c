@@ -1,4 +1,4 @@
-package co.yap.sendMoney.fundtransfer.activities
+package co.yap.sendmoney.fundtransfer.activities
 
 import android.app.Activity
 import android.content.Intent
@@ -6,9 +6,9 @@ import android.os.Bundle
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
-import co.yap.sendMoney.fundtransfer.interfaces.IBeneficiaryFundTransfer
-import co.yap.sendMoney.fundtransfer.models.TransferFundData
-import co.yap.sendMoney.fundtransfer.viewmodels.BeneficiaryFundTransferViewModel
+import co.yap.sendmoney.fundtransfer.interfaces.IBeneficiaryFundTransfer
+import co.yap.sendmoney.fundtransfer.models.TransferFundData
+import co.yap.sendmoney.fundtransfer.viewmodels.BeneficiaryFundTransferViewModel
 import co.yap.sendmoney.BR
 import co.yap.sendmoney.R
 import co.yap.yapcore.BaseBindingActivity

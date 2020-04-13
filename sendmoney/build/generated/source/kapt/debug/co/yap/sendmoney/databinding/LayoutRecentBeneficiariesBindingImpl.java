@@ -58,7 +58,7 @@ public class LayoutRecentBeneficiariesBindingImpl extends LayoutRecentBeneficiar
     public boolean setVariable(int variableId, @Nullable Object variable)  {
         boolean variableSet = true;
         if (BR.adapter == variableId) {
-            setAdapter((co.yap.sendMoney.home.adapters.RecentTransferAdaptor) variable);
+            setAdapter((co.yap.sendmoney.home.adapters.RecentTransferAdaptor) variable);
         }
         else {
             variableSet = false;
@@ -66,7 +66,7 @@ public class LayoutRecentBeneficiariesBindingImpl extends LayoutRecentBeneficiar
             return variableSet;
     }
 
-    public void setAdapter(@Nullable co.yap.sendMoney.home.adapters.RecentTransferAdaptor Adapter) {
+    public void setAdapter(@Nullable co.yap.sendmoney.home.adapters.RecentTransferAdaptor Adapter) {
         this.mAdapter = Adapter;
         synchronized(this) {
             mDirtyFlags |= 0x1L;
@@ -89,7 +89,7 @@ public class LayoutRecentBeneficiariesBindingImpl extends LayoutRecentBeneficiar
             dirtyFlags = mDirtyFlags;
             mDirtyFlags = 0;
         }
-        co.yap.sendMoney.home.adapters.RecentTransferAdaptor adapter = mAdapter;
+        co.yap.sendmoney.home.adapters.RecentTransferAdaptor adapter = mAdapter;
 
         if ((dirtyFlags & 0x3L) != 0) {
         }

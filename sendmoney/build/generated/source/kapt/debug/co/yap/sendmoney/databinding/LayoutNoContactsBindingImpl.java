@@ -67,7 +67,7 @@ public class LayoutNoContactsBindingImpl extends LayoutNoContactsBinding impleme
     public boolean setVariable(int variableId, @Nullable Object variable)  {
         boolean variableSet = true;
         if (BR.viewModel == variableId) {
-            setViewModel((co.yap.sendMoney.home.viewmodels.SendMoneyHomeScreenViewModel) variable);
+            setViewModel((co.yap.sendmoney.home.viewmodels.SendMoneyHomeScreenViewModel) variable);
         }
         else {
             variableSet = false;
@@ -75,7 +75,7 @@ public class LayoutNoContactsBindingImpl extends LayoutNoContactsBinding impleme
             return variableSet;
     }
 
-    public void setViewModel(@Nullable co.yap.sendMoney.home.viewmodels.SendMoneyHomeScreenViewModel ViewModel) {
+    public void setViewModel(@Nullable co.yap.sendmoney.home.viewmodels.SendMoneyHomeScreenViewModel ViewModel) {
         this.mViewModel = ViewModel;
         synchronized(this) {
             mDirtyFlags |= 0x1L;
@@ -98,7 +98,7 @@ public class LayoutNoContactsBindingImpl extends LayoutNoContactsBinding impleme
             dirtyFlags = mDirtyFlags;
             mDirtyFlags = 0;
         }
-        co.yap.sendMoney.home.viewmodels.SendMoneyHomeScreenViewModel viewModel = mViewModel;
+        co.yap.sendmoney.home.viewmodels.SendMoneyHomeScreenViewModel viewModel = mViewModel;
         // batch finished
         if ((dirtyFlags & 0x2L) != 0) {
             // api target 1
@@ -111,7 +111,7 @@ public class LayoutNoContactsBindingImpl extends LayoutNoContactsBinding impleme
     public final void _internalCallbackOnClick(int sourceId , android.view.View callbackArg_0) {
         // localize variables for thread safety
         // viewModel
-        co.yap.sendMoney.home.viewmodels.SendMoneyHomeScreenViewModel viewModel = mViewModel;
+        co.yap.sendmoney.home.viewmodels.SendMoneyHomeScreenViewModel viewModel = mViewModel;
         // viewModel != null
         boolean viewModelJavaLangObjectNull = false;
         // v.id

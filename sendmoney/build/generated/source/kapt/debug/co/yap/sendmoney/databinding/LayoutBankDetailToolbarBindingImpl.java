@@ -70,7 +70,7 @@ public class LayoutBankDetailToolbarBindingImpl extends LayoutBankDetailToolbarB
     public boolean setVariable(int variableId, @Nullable Object variable)  {
         boolean variableSet = true;
         if (BR.viewModel == variableId) {
-            setViewModel((co.yap.sendMoney.addbeneficiary.viewmodels.BankDetailsViewModel) variable);
+            setViewModel((co.yap.sendmoney.addbeneficiary.viewmodels.BankDetailsViewModel) variable);
         }
         else {
             variableSet = false;
@@ -78,7 +78,7 @@ public class LayoutBankDetailToolbarBindingImpl extends LayoutBankDetailToolbarB
             return variableSet;
     }
 
-    public void setViewModel(@Nullable co.yap.sendMoney.addbeneficiary.viewmodels.BankDetailsViewModel ViewModel) {
+    public void setViewModel(@Nullable co.yap.sendmoney.addbeneficiary.viewmodels.BankDetailsViewModel ViewModel) {
         this.mViewModel = ViewModel;
         synchronized(this) {
             mDirtyFlags |= 0x2L;
@@ -91,11 +91,11 @@ public class LayoutBankDetailToolbarBindingImpl extends LayoutBankDetailToolbarB
     protected boolean onFieldChange(int localFieldId, Object object, int fieldId) {
         switch (localFieldId) {
             case 0 :
-                return onChangeViewModelState((co.yap.sendMoney.addbeneficiary.states.BankDetailsState) object, fieldId);
+                return onChangeViewModelState((co.yap.sendmoney.addbeneficiary.states.BankDetailsState) object, fieldId);
         }
         return false;
     }
-    private boolean onChangeViewModelState(co.yap.sendMoney.addbeneficiary.states.BankDetailsState ViewModelState, int fieldId) {
+    private boolean onChangeViewModelState(co.yap.sendmoney.addbeneficiary.states.BankDetailsState ViewModelState, int fieldId) {
         if (fieldId == BR._all) {
             synchronized(this) {
                     mDirtyFlags |= 0x1L;
@@ -118,9 +118,9 @@ public class LayoutBankDetailToolbarBindingImpl extends LayoutBankDetailToolbarB
             dirtyFlags = mDirtyFlags;
             mDirtyFlags = 0;
         }
-        co.yap.sendMoney.addbeneficiary.states.BankDetailsState viewModelState = null;
+        co.yap.sendmoney.addbeneficiary.states.BankDetailsState viewModelState = null;
         java.lang.String viewModelStateToolbarTitle = null;
-        co.yap.sendMoney.addbeneficiary.viewmodels.BankDetailsViewModel viewModel = mViewModel;
+        co.yap.sendmoney.addbeneficiary.viewmodels.BankDetailsViewModel viewModel = mViewModel;
 
         if ((dirtyFlags & 0xfL) != 0) {
 
@@ -158,7 +158,7 @@ public class LayoutBankDetailToolbarBindingImpl extends LayoutBankDetailToolbarB
             case 1: {
                 // localize variables for thread safety
                 // viewModel
-                co.yap.sendMoney.addbeneficiary.viewmodels.BankDetailsViewModel viewModel = mViewModel;
+                co.yap.sendmoney.addbeneficiary.viewmodels.BankDetailsViewModel viewModel = mViewModel;
                 // viewModel != null
                 boolean viewModelJavaLangObjectNull = false;
                 // v.id
@@ -183,7 +183,7 @@ public class LayoutBankDetailToolbarBindingImpl extends LayoutBankDetailToolbarB
             case 2: {
                 // localize variables for thread safety
                 // viewModel
-                co.yap.sendMoney.addbeneficiary.viewmodels.BankDetailsViewModel viewModel = mViewModel;
+                co.yap.sendmoney.addbeneficiary.viewmodels.BankDetailsViewModel viewModel = mViewModel;
                 // viewModel != null
                 boolean viewModelJavaLangObjectNull = false;
                 // v.id

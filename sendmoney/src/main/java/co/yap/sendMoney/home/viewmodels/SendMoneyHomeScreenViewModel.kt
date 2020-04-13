@@ -1,17 +1,17 @@
-package co.yap.sendMoney.home.viewmodels
+package co.yap.sendmoney.home.viewmodels
 
 import android.app.Application
 import androidx.databinding.ObservableField
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import co.yap.sendMoney.home.adapters.RecentTransferAdaptor
-import co.yap.sendMoney.home.interfaces.ISendMoneyHome
-import co.yap.sendMoney.home.states.SendMoneyHomeState
+import co.yap.sendmoney.home.adapters.RecentTransferAdaptor
+import co.yap.sendmoney.home.interfaces.ISendMoneyHome
+import co.yap.sendmoney.home.states.SendMoneyHomeState
 import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
-import co.yap.sendMoney.viewmodels.SendMoneyBaseViewModel
+import co.yap.sendmoney.viewmodels.SendMoneyBaseViewModel
 import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.helpers.PagingState

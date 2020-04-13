@@ -1,4 +1,4 @@
-package co.yap.sendMoney
+package co.yap.sendmoney
 
 import android.os.Bundle
 import android.view.LayoutInflater

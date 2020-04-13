@@ -1,4 +1,4 @@
-package co.yap.sendMoney.addbeneficiary.fragments
+package co.yap.sendmoney.addbeneficiary.fragments
 
 import android.app.Activity
 import android.content.Intent
@@ -12,10 +12,10 @@ import co.yap.countryutils.country.InternationalPhoneTextWatcher
 import co.yap.countryutils.country.utils.Currency
 import co.yap.modules.otp.GenericOtpFragment
 import co.yap.modules.otp.OtpDataModel
-import co.yap.sendMoney.fundtransfer.activities.BeneficiaryFundTransferActivity
-import co.yap.sendMoney.addbeneficiary.interfaces.IAddBeneficiary
-import co.yap.sendMoney.addbeneficiary.viewmodels.AddBeneficiaryViewModel
-import co.yap.sendMoney.fragments.SendMoneyBaseFragment
+import co.yap.sendmoney.fundtransfer.activities.BeneficiaryFundTransferActivity
+import co.yap.sendmoney.addbeneficiary.interfaces.IAddBeneficiary
+import co.yap.sendmoney.addbeneficiary.viewmodels.AddBeneficiaryViewModel
+import co.yap.sendmoney.fragments.SendMoneyBaseFragment
 import co.yap.sendmoney.BR
 import co.yap.sendmoney.R
 import co.yap.translation.Strings

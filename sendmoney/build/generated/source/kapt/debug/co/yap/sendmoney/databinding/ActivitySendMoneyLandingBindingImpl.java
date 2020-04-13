@@ -79,7 +79,7 @@ public class ActivitySendMoneyLandingBindingImpl extends ActivitySendMoneyLandin
     public boolean setVariable(int variableId, @Nullable Object variable)  {
         boolean variableSet = true;
         if (BR.viewModel == variableId) {
-            setViewModel((co.yap.sendMoney.home.viewmodels.SendMoneyHomeScreenViewModel) variable);
+            setViewModel((co.yap.sendmoney.home.viewmodels.SendMoneyHomeScreenViewModel) variable);
         }
         else {
             variableSet = false;
@@ -87,7 +87,7 @@ public class ActivitySendMoneyLandingBindingImpl extends ActivitySendMoneyLandin
             return variableSet;
     }
 
-    public void setViewModel(@Nullable co.yap.sendMoney.home.viewmodels.SendMoneyHomeScreenViewModel ViewModel) {
+    public void setViewModel(@Nullable co.yap.sendmoney.home.viewmodels.SendMoneyHomeScreenViewModel ViewModel) {
         this.mViewModel = ViewModel;
         synchronized(this) {
             mDirtyFlags |= 0x40L;
@@ -112,7 +112,7 @@ public class ActivitySendMoneyLandingBindingImpl extends ActivitySendMoneyLandin
             case 1 :
                 return onChangeToolbar((co.yap.sendmoney.databinding.LayoutSendBeneficiariesToolbarBinding) object, fieldId);
             case 2 :
-                return onChangeViewModelState((co.yap.sendMoney.home.states.SendMoneyHomeState) object, fieldId);
+                return onChangeViewModelState((co.yap.sendmoney.home.states.SendMoneyHomeState) object, fieldId);
             case 3 :
                 return onChangeViewModelStateIsNoBeneficiary((androidx.databinding.ObservableField<java.lang.Boolean>) object, fieldId);
             case 4 :
@@ -140,7 +140,7 @@ public class ActivitySendMoneyLandingBindingImpl extends ActivitySendMoneyLandin
         }
         return false;
     }
-    private boolean onChangeViewModelState(co.yap.sendMoney.home.states.SendMoneyHomeState ViewModelState, int fieldId) {
+    private boolean onChangeViewModelState(co.yap.sendmoney.home.states.SendMoneyHomeState ViewModelState, int fieldId) {
         if (fieldId == BR._all) {
             synchronized(this) {
                     mDirtyFlags |= 0x4L;
@@ -189,9 +189,9 @@ public class ActivitySendMoneyLandingBindingImpl extends ActivitySendMoneyLandin
         int viewModelStateIsNoBeneficiaryViewVISIBLEViewGONE = 0;
         int viewModelStateIsSearchingViewGONEViewVISIBLE = 0;
         boolean androidxDatabindingViewDataBindingSafeUnboxViewModelStateIsSearchingGet = false;
-        co.yap.sendMoney.home.states.SendMoneyHomeState viewModelState = null;
+        co.yap.sendmoney.home.states.SendMoneyHomeState viewModelState = null;
         androidx.databinding.ObservableField<java.lang.Boolean> viewModelStateIsNoBeneficiary = null;
-        co.yap.sendMoney.home.viewmodels.SendMoneyHomeScreenViewModel viewModel = mViewModel;
+        co.yap.sendmoney.home.viewmodels.SendMoneyHomeScreenViewModel viewModel = mViewModel;
         androidx.databinding.ObservableField<java.lang.Boolean> viewModelStateIsSearching = null;
         boolean androidxDatabindingViewDataBindingSafeUnboxViewModelStateIsNoBeneficiaryGet = false;
 

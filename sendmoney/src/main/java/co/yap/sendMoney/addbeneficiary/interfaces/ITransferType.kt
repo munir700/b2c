@@ -1,4 +1,4 @@
-package co.yap.sendMoney.addbeneficiary.interfaces
+package co.yap.sendmoney.addbeneficiary.interfaces
 
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent

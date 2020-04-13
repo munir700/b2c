@@ -1,15 +1,15 @@
-package co.yap.sendMoney.addbeneficiary.fragments
+package co.yap.sendmoney.addbeneficiary.fragments
 
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
-import co.yap.sendMoney.addbeneficiary.viewmodels.TransferTypeViewModel
-import co.yap.sendMoney.addbeneficiary.interfaces.ITransferType
+import co.yap.sendmoney.addbeneficiary.viewmodels.TransferTypeViewModel
+import co.yap.sendmoney.addbeneficiary.interfaces.ITransferType
 import co.yap.sendmoney.BR
 import co.yap.sendmoney.R
-import co.yap.sendMoney.fragments.SendMoneyBaseFragment
+import co.yap.sendmoney.fragments.SendMoneyBaseFragment
 
 class TransferTypeFragment : SendMoneyBaseFragment<ITransferType.ViewModel>(),
     ITransferType.View {

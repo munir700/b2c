@@ -1,11 +1,11 @@
-package co.yap.sendMoney.viewmodels
+package co.yap.sendmoney.viewmodels
 
 import android.app.Application
 import androidx.lifecycle.MutableLiveData
 import co.yap.countryutils.country.Country
 import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
-import co.yap.sendMoney.interfaces.ISendMoney
-import co.yap.sendMoney.states.SendMoneyState
+import co.yap.sendmoney.interfaces.ISendMoney
+import co.yap.sendmoney.states.SendMoneyState
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
 

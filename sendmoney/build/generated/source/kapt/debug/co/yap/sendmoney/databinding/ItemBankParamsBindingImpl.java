@@ -30,7 +30,7 @@ public class ItemBankParamsBindingImpl extends ItemBankParamsBinding  {
             // viewModel.bankParams != null
             boolean viewModelBankParamsJavaLangObjectNull = false;
             // viewModel
-            co.yap.sendMoney.addbeneficiary.viewmodels.BankParamsItemViewModel viewModel = mViewModel;
+            co.yap.sendmoney.addbeneficiary.viewmodels.BankParamsItemViewModel viewModel = mViewModel;
             // viewModel.bankParams.data
             java.lang.String viewModelBankParamsData = null;
             // viewModel != null
@@ -97,7 +97,7 @@ public class ItemBankParamsBindingImpl extends ItemBankParamsBinding  {
     public boolean setVariable(int variableId, @Nullable Object variable)  {
         boolean variableSet = true;
         if (BR.viewModel == variableId) {
-            setViewModel((co.yap.sendMoney.addbeneficiary.viewmodels.BankParamsItemViewModel) variable);
+            setViewModel((co.yap.sendmoney.addbeneficiary.viewmodels.BankParamsItemViewModel) variable);
         }
         else {
             variableSet = false;
@@ -105,7 +105,7 @@ public class ItemBankParamsBindingImpl extends ItemBankParamsBinding  {
             return variableSet;
     }
 
-    public void setViewModel(@Nullable co.yap.sendMoney.addbeneficiary.viewmodels.BankParamsItemViewModel ViewModel) {
+    public void setViewModel(@Nullable co.yap.sendmoney.addbeneficiary.viewmodels.BankParamsItemViewModel ViewModel) {
         this.mViewModel = ViewModel;
         synchronized(this) {
             mDirtyFlags |= 0x1L;
@@ -138,7 +138,7 @@ public class ItemBankParamsBindingImpl extends ItemBankParamsBinding  {
         int androidxDatabindingViewDataBindingSafeUnboxIntegerValueOfViewModelBankParamsMaxCharacters = 0;
         java.lang.String viewModelBankParamsName = null;
         java.lang.String viewModelBankParamsNameJavaLangString = null;
-        co.yap.sendMoney.addbeneficiary.viewmodels.BankParamsItemViewModel viewModel = mViewModel;
+        co.yap.sendmoney.addbeneficiary.viewmodels.BankParamsItemViewModel viewModel = mViewModel;
 
         if ((dirtyFlags & 0x3L) != 0) {
 

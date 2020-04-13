@@ -1,4 +1,4 @@
-package co.yap.sendMoney.fundtransfer.fragments
+package co.yap.sendmoney.fundtransfer.fragments
 
 import androidx.navigation.ActionOnlyNavDirections
 import androidx.navigation.NavDirections

@@ -1,9 +1,9 @@
-package co.yap.sendMoney.addbeneficiary.states
+package co.yap.sendmoney.addbeneficiary.states
 
 import android.app.Application
 import androidx.databinding.Bindable
 import co.yap.countryutils.country.Country
-import co.yap.sendMoney.addbeneficiary.interfaces.ISelectCountry
+import co.yap.sendmoney.addbeneficiary.interfaces.ISelectCountry
 import co.yap.sendmoney.BR
 import co.yap.translation.Strings.screen_add_beneficiary_display_text_select_country
 import co.yap.translation.Translator

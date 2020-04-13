@@ -1,7 +1,7 @@
-package co.yap.sendMoney.fundtransfer.states
+package co.yap.sendmoney.fundtransfer.states
 
 import androidx.databinding.ObservableField
-import co.yap.sendMoney.fundtransfer.interfaces.ICashTransferConfirmation
+import co.yap.sendmoney.fundtransfer.interfaces.ICashTransferConfirmation
 import co.yap.yapcore.BaseState
 
 class CashTransferConfirmationState : BaseState(), ICashTransferConfirmation.State {

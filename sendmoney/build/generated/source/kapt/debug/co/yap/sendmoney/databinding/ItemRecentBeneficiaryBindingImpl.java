@@ -72,7 +72,7 @@ public class ItemRecentBeneficiaryBindingImpl extends ItemRecentBeneficiaryBindi
     public boolean setVariable(int variableId, @Nullable Object variable)  {
         boolean variableSet = true;
         if (BR.recentTransferItemVM == variableId) {
-            setRecentTransferItemVM((co.yap.sendMoney.home.adapters.RecentTransferItemVM) variable);
+            setRecentTransferItemVM((co.yap.sendmoney.home.adapters.RecentTransferItemVM) variable);
         }
         else {
             variableSet = false;
@@ -80,7 +80,7 @@ public class ItemRecentBeneficiaryBindingImpl extends ItemRecentBeneficiaryBindi
             return variableSet;
     }
 
-    public void setRecentTransferItemVM(@Nullable co.yap.sendMoney.home.adapters.RecentTransferItemVM RecentTransferItemVM) {
+    public void setRecentTransferItemVM(@Nullable co.yap.sendmoney.home.adapters.RecentTransferItemVM RecentTransferItemVM) {
         updateRegistration(0, RecentTransferItemVM);
         this.mRecentTransferItemVM = RecentTransferItemVM;
         synchronized(this) {
@@ -94,11 +94,11 @@ public class ItemRecentBeneficiaryBindingImpl extends ItemRecentBeneficiaryBindi
     protected boolean onFieldChange(int localFieldId, Object object, int fieldId) {
         switch (localFieldId) {
             case 0 :
-                return onChangeRecentTransferItemVM((co.yap.sendMoney.home.adapters.RecentTransferItemVM) object, fieldId);
+                return onChangeRecentTransferItemVM((co.yap.sendmoney.home.adapters.RecentTransferItemVM) object, fieldId);
         }
         return false;
     }
-    private boolean onChangeRecentTransferItemVM(co.yap.sendMoney.home.adapters.RecentTransferItemVM RecentTransferItemVM, int fieldId) {
+    private boolean onChangeRecentTransferItemVM(co.yap.sendmoney.home.adapters.RecentTransferItemVM RecentTransferItemVM, int fieldId) {
         if (fieldId == BR._all) {
             synchronized(this) {
                     mDirtyFlags |= 0x1L;
@@ -117,7 +117,7 @@ public class ItemRecentBeneficiaryBindingImpl extends ItemRecentBeneficiaryBindi
         }
         java.lang.String recentTransferItemVMItemTitle = null;
         co.yap.networking.customers.responsedtos.sendmoney.Beneficiary recentTransferItemVMItem = null;
-        co.yap.sendMoney.home.adapters.RecentTransferItemVM recentTransferItemVM = mRecentTransferItemVM;
+        co.yap.sendmoney.home.adapters.RecentTransferItemVM recentTransferItemVM = mRecentTransferItemVM;
         java.lang.String stringUtilsINSTANCEGetInitialsRecentTransferItemVMItemTitle = null;
 
         if ((dirtyFlags & 0x3L) != 0) {

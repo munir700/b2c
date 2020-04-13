@@ -71,7 +71,7 @@ public class FragmentSelectCountryBindingImpl extends FragmentSelectCountryBindi
     public boolean setVariable(int variableId, @Nullable Object variable)  {
         boolean variableSet = true;
         if (BR.viewModel == variableId) {
-            setViewModel((co.yap.sendMoney.addbeneficiary.viewmodels.SelectCountryViewModel) variable);
+            setViewModel((co.yap.sendmoney.addbeneficiary.viewmodels.SelectCountryViewModel) variable);
         }
         else {
             variableSet = false;
@@ -79,7 +79,7 @@ public class FragmentSelectCountryBindingImpl extends FragmentSelectCountryBindi
             return variableSet;
     }
 
-    public void setViewModel(@Nullable co.yap.sendMoney.addbeneficiary.viewmodels.SelectCountryViewModel ViewModel) {
+    public void setViewModel(@Nullable co.yap.sendmoney.addbeneficiary.viewmodels.SelectCountryViewModel ViewModel) {
         this.mViewModel = ViewModel;
         synchronized(this) {
             mDirtyFlags |= 0x2L;
@@ -92,11 +92,11 @@ public class FragmentSelectCountryBindingImpl extends FragmentSelectCountryBindi
     protected boolean onFieldChange(int localFieldId, Object object, int fieldId) {
         switch (localFieldId) {
             case 0 :
-                return onChangeViewModelState((co.yap.sendMoney.addbeneficiary.states.SelectCountryState) object, fieldId);
+                return onChangeViewModelState((co.yap.sendmoney.addbeneficiary.states.SelectCountryState) object, fieldId);
         }
         return false;
     }
-    private boolean onChangeViewModelState(co.yap.sendMoney.addbeneficiary.states.SelectCountryState ViewModelState, int fieldId) {
+    private boolean onChangeViewModelState(co.yap.sendmoney.addbeneficiary.states.SelectCountryState ViewModelState, int fieldId) {
         if (fieldId == BR._all) {
             synchronized(this) {
                     mDirtyFlags |= 0x1L;
@@ -120,8 +120,8 @@ public class FragmentSelectCountryBindingImpl extends FragmentSelectCountryBindi
             mDirtyFlags = 0;
         }
         boolean viewModelStateValid = false;
-        co.yap.sendMoney.addbeneficiary.states.SelectCountryState viewModelState = null;
-        co.yap.sendMoney.addbeneficiary.viewmodels.SelectCountryViewModel viewModel = mViewModel;
+        co.yap.sendmoney.addbeneficiary.states.SelectCountryState viewModelState = null;
+        co.yap.sendmoney.addbeneficiary.viewmodels.SelectCountryViewModel viewModel = mViewModel;
 
         if ((dirtyFlags & 0xfL) != 0) {
 
@@ -159,7 +159,7 @@ public class FragmentSelectCountryBindingImpl extends FragmentSelectCountryBindi
     public final void _internalCallbackOnClick(int sourceId , android.view.View callbackArg_0) {
         // localize variables for thread safety
         // viewModel
-        co.yap.sendMoney.addbeneficiary.viewmodels.SelectCountryViewModel viewModel = mViewModel;
+        co.yap.sendmoney.addbeneficiary.viewmodels.SelectCountryViewModel viewModel = mViewModel;
         // viewModel != null
         boolean viewModelJavaLangObjectNull = false;
         // v.id

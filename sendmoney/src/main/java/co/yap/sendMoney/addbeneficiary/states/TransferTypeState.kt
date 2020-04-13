@@ -1,6 +1,6 @@
-package co.yap.sendMoney.addbeneficiary.states
+package co.yap.sendmoney.addbeneficiary.states
 
-import co.yap.sendMoney.addbeneficiary.interfaces.ITransferType
+import co.yap.sendmoney.addbeneficiary.interfaces.ITransferType
 import co.yap.yapcore.BaseState
 
 class TransferTypeState : BaseState(), ITransferType.State  {

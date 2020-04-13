@@ -1,4 +1,4 @@
-package co.yap.sendMoney.fundtransfer.fragments
+package co.yap.sendmoney.fundtransfer.fragments
 
 import android.app.Activity
 import android.content.Intent
@@ -7,10 +7,10 @@ import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import co.yap.sendMoney.InviteBottomSheet
-import co.yap.sendMoney.fundtransfer.activities.BeneficiaryFundTransferActivity
-import co.yap.sendMoney.fundtransfer.interfaces.ITransferSuccess
-import co.yap.sendMoney.fundtransfer.viewmodels.TransferSuccessViewModel
+import co.yap.sendmoney.InviteBottomSheet
+import co.yap.sendmoney.fundtransfer.activities.BeneficiaryFundTransferActivity
+import co.yap.sendmoney.fundtransfer.interfaces.ITransferSuccess
+import co.yap.sendmoney.fundtransfer.viewmodels.TransferSuccessViewModel
 import co.yap.sendmoney.BR
 import co.yap.sendmoney.R
 import co.yap.sendmoney.databinding.FragmentTransferSuccessBinding

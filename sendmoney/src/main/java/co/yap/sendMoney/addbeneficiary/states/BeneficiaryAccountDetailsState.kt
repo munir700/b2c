@@ -1,10 +1,10 @@
-package co.yap.sendMoney.addbeneficiary.states
+package co.yap.sendmoney.addbeneficiary.states
 
 import androidx.databinding.Bindable
 import androidx.databinding.ObservableField
 import co.yap.sendmoney.BR
-import co.yap.sendMoney.addbeneficiary.interfaces.IBeneficiaryAccountDetails
-import co.yap.sendMoney.addbeneficiary.viewmodels.BeneficiaryAccountDetailsViewModel
+import co.yap.sendmoney.addbeneficiary.interfaces.IBeneficiaryAccountDetails
+import co.yap.sendmoney.addbeneficiary.viewmodels.BeneficiaryAccountDetailsViewModel
 import co.yap.yapcore.BaseState
 import co.yap.yapcore.helpers.StringUtils
 

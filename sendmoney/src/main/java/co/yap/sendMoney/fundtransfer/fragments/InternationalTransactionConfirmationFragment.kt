@@ -1,4 +1,4 @@
-package co.yap.sendMoney.fundtransfer.fragments
+package co.yap.sendmoney.fundtransfer.fragments
 
 import android.app.Activity
 import android.content.Intent
@@ -19,8 +19,8 @@ import co.yap.modules.otp.GenericOtpFragment
 import co.yap.modules.otp.LogoData
 import co.yap.modules.otp.OtpDataModel
 import co.yap.modules.webview.WebViewFragment
-import co.yap.sendMoney.fundtransfer.interfaces.IInternationalTransactionConfirmation
-import co.yap.sendMoney.fundtransfer.viewmodels.InternationalTransactionConfirmationViewModel
+import co.yap.sendmoney.fundtransfer.interfaces.IInternationalTransactionConfirmation
+import co.yap.sendmoney.fundtransfer.viewmodels.InternationalTransactionConfirmationViewModel
 import co.yap.sendmoney.BR
 import co.yap.sendmoney.R
 import co.yap.sendmoney.databinding.FragmentInternationalTransactionConfirmationBinding

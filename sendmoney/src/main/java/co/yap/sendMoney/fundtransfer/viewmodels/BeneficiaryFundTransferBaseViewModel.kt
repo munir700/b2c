@@ -1,7 +1,7 @@
-package co.yap.sendMoney.fundtransfer.viewmodels
+package co.yap.sendmoney.fundtransfer.viewmodels
 
 import android.app.Application
-import co.yap.sendMoney.fundtransfer.interfaces.IBeneficiaryFundTransfer
+import co.yap.sendmoney.fundtransfer.interfaces.IBeneficiaryFundTransfer
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.IBase
 

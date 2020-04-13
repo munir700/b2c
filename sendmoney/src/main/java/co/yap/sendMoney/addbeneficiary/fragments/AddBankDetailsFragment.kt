@@ -1,4 +1,4 @@
-package co.yap.sendMoney.addbeneficiary.fragments
+package co.yap.sendmoney.addbeneficiary.fragments
 
 import android.app.Activity
 import android.content.Intent
@@ -9,11 +9,11 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import co.yap.networking.customers.requestdtos.OtherBankQuery
 import co.yap.networking.customers.responsedtos.sendmoney.RAKBank.Bank
-import co.yap.sendMoney.addbeneficiary.interfaces.IBankDetails
-import co.yap.sendMoney.addbeneficiary.viewmodels.BankDetailsViewModel
+import co.yap.sendmoney.addbeneficiary.interfaces.IBankDetails
+import co.yap.sendmoney.addbeneficiary.viewmodels.BankDetailsViewModel
 import co.yap.sendmoney.BR
 import co.yap.sendmoney.R
-import co.yap.sendMoney.fragments.SendMoneyBaseFragment
+import co.yap.sendmoney.fragments.SendMoneyBaseFragment
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.SendMoneyBeneficiaryType
 import co.yap.yapcore.interfaces.OnItemClickListener

@@ -1,8 +1,8 @@
-package co.yap.sendMoney.fundtransfer.states
+package co.yap.sendmoney.fundtransfer.states
 
 import androidx.databinding.Bindable
 import androidx.databinding.ObservableBoolean
-import co.yap.sendMoney.fundtransfer.interfaces.IBeneficiaryFundTransfer
+import co.yap.sendmoney.fundtransfer.interfaces.IBeneficiaryFundTransfer
 import co.yap.sendmoney.BR
 import co.yap.yapcore.BaseState
 

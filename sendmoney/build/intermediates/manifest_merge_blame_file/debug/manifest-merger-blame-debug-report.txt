@@ -65,7 +65,7 @@
 38
 39        <activity
 39-->/Users/digitify/AndroidStudioProjects/yap-android/sendmoney/src/main/AndroidManifest.xml:34:9-39:20
-40            android:name="co.yap.sendMoney.activities.SendMoneyHomeActivity"
+40            android:name="co.yap.sendmoney.activities.SendMoneyHomeActivity"
 40-->/Users/digitify/AndroidStudioProjects/yap-android/sendmoney/src/main/AndroidManifest.xml:35:13-77
 41            android:screenOrientation="portrait"
 41-->/Users/digitify/AndroidStudioProjects/yap-android/sendmoney/src/main/AndroidManifest.xml:36:13-49
@@ -79,7 +79,7 @@
 46        <!-- Send Money Edit Beneficiary -->
 47        <activity
 47-->/Users/digitify/AndroidStudioProjects/yap-android/sendmoney/src/main/AndroidManifest.xml:42:9-44:52
-48            android:name="co.yap.sendMoney.editbeneficiary.activity.EditBeneficiaryActivity"
+48            android:name="co.yap.sendmoney.editbeneficiary.activity.EditBeneficiaryActivity"
 48-->/Users/digitify/AndroidStudioProjects/yap-android/sendmoney/src/main/AndroidManifest.xml:43:13-93
 49            android:screenOrientation="portrait" />
 49-->/Users/digitify/AndroidStudioProjects/yap-android/sendmoney/src/main/AndroidManifest.xml:44:13-49
@@ -87,7 +87,7 @@
 51        <!-- Update Flag to hide keyboard -->
 52        <activity
 52-->/Users/digitify/AndroidStudioProjects/yap-android/sendmoney/src/main/AndroidManifest.xml:47:9-50:57
-53            android:name="co.yap.sendMoney.fundtransfer.activities.BeneficiaryFundTransferActivity"
+53            android:name="co.yap.sendmoney.fundtransfer.activities.BeneficiaryFundTransferActivity"
 53-->/Users/digitify/AndroidStudioProjects/yap-android/sendmoney/src/main/AndroidManifest.xml:48:13-100
 54            android:screenOrientation="portrait"
 54-->/Users/digitify/AndroidStudioProjects/yap-android/sendmoney/src/main/AndroidManifest.xml:49:13-49
@@ -95,7 +95,7 @@
 55-->/Users/digitify/AndroidStudioProjects/yap-android/sendmoney/src/main/AndroidManifest.xml:50:13-54
 56        <activity
 56-->/Users/digitify/AndroidStudioProjects/yap-android/sendmoney/src/main/AndroidManifest.xml:52:9-55:63
-57            android:name="co.yap.sendMoney.home.activities.SendMoneyLandingActivity"
+57            android:name="co.yap.sendmoney.home.activities.SendMoneyLandingActivity"
 57-->/Users/digitify/AndroidStudioProjects/yap-android/sendmoney/src/main/AndroidManifest.xml:53:13-85
 58            android:screenOrientation="portrait"
 58-->/Users/digitify/AndroidStudioProjects/yap-android/sendmoney/src/main/AndroidManifest.xml:54:13-49

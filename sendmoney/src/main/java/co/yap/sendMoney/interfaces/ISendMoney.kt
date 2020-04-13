@@ -1,4 +1,4 @@
-package co.yap.sendMoney.interfaces
+package co.yap.sendmoney.interfaces
 
 import androidx.databinding.ObservableBoolean
 import androidx.lifecycle.MutableLiveData

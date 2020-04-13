@@ -12,8 +12,8 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.databinding.Bindable;
 import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
-import co.yap.sendMoney.addbeneficiary.viewmodels.BankParamsItemViewModel;
 import co.yap.sendmoney.R;
+import co.yap.sendmoney.addbeneficiary.viewmodels.BankParamsItemViewModel;
 import java.lang.Deprecated;
 import java.lang.Object;
 

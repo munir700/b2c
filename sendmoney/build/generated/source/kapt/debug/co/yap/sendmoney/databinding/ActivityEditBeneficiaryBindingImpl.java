@@ -77,13 +77,13 @@ public class ActivityEditBeneficiaryBindingImpl extends ActivityEditBeneficiaryB
             // editBeneficiaryViewModel.state.countryBankRequirementFieldCode
             java.lang.String editBeneficiaryViewModelStateCountryBankRequirementFieldCode = null;
             // editBeneficiaryViewModel.state
-            co.yap.sendMoney.editbeneficiary.states.EditBeneficiaryStates editBeneficiaryViewModelState = null;
+            co.yap.sendmoney.editbeneficiary.states.EditBeneficiaryStates editBeneficiaryViewModelState = null;
             // editBeneficiaryViewModel.state != null
             boolean editBeneficiaryViewModelStateJavaLangObjectNull = false;
             // editBeneficiaryViewModel != null
             boolean editBeneficiaryViewModelJavaLangObjectNull = false;
             // editBeneficiaryViewModel
-            co.yap.sendMoney.editbeneficiary.viewmodel.EditBeneficiaryViewModel editBeneficiaryViewModel = mEditBeneficiaryViewModel;
+            co.yap.sendmoney.editbeneficiary.viewmodel.EditBeneficiaryViewModel editBeneficiaryViewModel = mEditBeneficiaryViewModel;
 
 
 
@@ -112,7 +112,7 @@ public class ActivityEditBeneficiaryBindingImpl extends ActivityEditBeneficiaryB
             java.lang.String callbackArg_0 = androidx.databinding.adapters.TextViewBindingAdapter.getTextString(etFirstName);
             // localize variables for thread safety
             // editBeneficiaryViewModel.state
-            co.yap.sendMoney.editbeneficiary.states.EditBeneficiaryStates editBeneficiaryViewModelState = null;
+            co.yap.sendmoney.editbeneficiary.states.EditBeneficiaryStates editBeneficiaryViewModelState = null;
             // editBeneficiaryViewModel.state != null
             boolean editBeneficiaryViewModelStateJavaLangObjectNull = false;
             // editBeneficiaryViewModel.state.firstName
@@ -120,7 +120,7 @@ public class ActivityEditBeneficiaryBindingImpl extends ActivityEditBeneficiaryB
             // editBeneficiaryViewModel != null
             boolean editBeneficiaryViewModelJavaLangObjectNull = false;
             // editBeneficiaryViewModel
-            co.yap.sendMoney.editbeneficiary.viewmodel.EditBeneficiaryViewModel editBeneficiaryViewModel = mEditBeneficiaryViewModel;
+            co.yap.sendmoney.editbeneficiary.viewmodel.EditBeneficiaryViewModel editBeneficiaryViewModel = mEditBeneficiaryViewModel;
 
 
 
@@ -149,7 +149,7 @@ public class ActivityEditBeneficiaryBindingImpl extends ActivityEditBeneficiaryB
             java.lang.String callbackArg_0 = androidx.databinding.adapters.TextViewBindingAdapter.getTextString(etLastName);
             // localize variables for thread safety
             // editBeneficiaryViewModel.state
-            co.yap.sendMoney.editbeneficiary.states.EditBeneficiaryStates editBeneficiaryViewModelState = null;
+            co.yap.sendmoney.editbeneficiary.states.EditBeneficiaryStates editBeneficiaryViewModelState = null;
             // editBeneficiaryViewModel.state != null
             boolean editBeneficiaryViewModelStateJavaLangObjectNull = false;
             // editBeneficiaryViewModel.state.lastName
@@ -157,7 +157,7 @@ public class ActivityEditBeneficiaryBindingImpl extends ActivityEditBeneficiaryB
             // editBeneficiaryViewModel != null
             boolean editBeneficiaryViewModelJavaLangObjectNull = false;
             // editBeneficiaryViewModel
-            co.yap.sendMoney.editbeneficiary.viewmodel.EditBeneficiaryViewModel editBeneficiaryViewModel = mEditBeneficiaryViewModel;
+            co.yap.sendmoney.editbeneficiary.viewmodel.EditBeneficiaryViewModel editBeneficiaryViewModel = mEditBeneficiaryViewModel;
 
 
 
@@ -186,7 +186,7 @@ public class ActivityEditBeneficiaryBindingImpl extends ActivityEditBeneficiaryB
             java.lang.String callbackArg_0 = androidx.databinding.adapters.TextViewBindingAdapter.getTextString(etPhoneNumber);
             // localize variables for thread safety
             // editBeneficiaryViewModel.state
-            co.yap.sendMoney.editbeneficiary.states.EditBeneficiaryStates editBeneficiaryViewModelState = null;
+            co.yap.sendmoney.editbeneficiary.states.EditBeneficiaryStates editBeneficiaryViewModelState = null;
             // editBeneficiaryViewModel.state != null
             boolean editBeneficiaryViewModelStateJavaLangObjectNull = false;
             // editBeneficiaryViewModel.state.phoneNumber
@@ -194,7 +194,7 @@ public class ActivityEditBeneficiaryBindingImpl extends ActivityEditBeneficiaryB
             // editBeneficiaryViewModel != null
             boolean editBeneficiaryViewModelJavaLangObjectNull = false;
             // editBeneficiaryViewModel
-            co.yap.sendMoney.editbeneficiary.viewmodel.EditBeneficiaryViewModel editBeneficiaryViewModel = mEditBeneficiaryViewModel;
+            co.yap.sendmoney.editbeneficiary.viewmodel.EditBeneficiaryViewModel editBeneficiaryViewModel = mEditBeneficiaryViewModel;
 
 
 
@@ -223,7 +223,7 @@ public class ActivityEditBeneficiaryBindingImpl extends ActivityEditBeneficiaryB
             java.lang.String callbackArg_0 = androidx.databinding.adapters.TextViewBindingAdapter.getTextString(etSwiftCode);
             // localize variables for thread safety
             // editBeneficiaryViewModel.state
-            co.yap.sendMoney.editbeneficiary.states.EditBeneficiaryStates editBeneficiaryViewModelState = null;
+            co.yap.sendmoney.editbeneficiary.states.EditBeneficiaryStates editBeneficiaryViewModelState = null;
             // editBeneficiaryViewModel.state != null
             boolean editBeneficiaryViewModelStateJavaLangObjectNull = false;
             // editBeneficiaryViewModel.state.swiftCode
@@ -231,7 +231,7 @@ public class ActivityEditBeneficiaryBindingImpl extends ActivityEditBeneficiaryB
             // editBeneficiaryViewModel != null
             boolean editBeneficiaryViewModelJavaLangObjectNull = false;
             // editBeneficiaryViewModel
-            co.yap.sendMoney.editbeneficiary.viewmodel.EditBeneficiaryViewModel editBeneficiaryViewModel = mEditBeneficiaryViewModel;
+            co.yap.sendmoney.editbeneficiary.viewmodel.EditBeneficiaryViewModel editBeneficiaryViewModel = mEditBeneficiaryViewModel;
 
 
 
@@ -260,13 +260,13 @@ public class ActivityEditBeneficiaryBindingImpl extends ActivityEditBeneficiaryB
             java.lang.String callbackArg_0 = androidx.databinding.adapters.TextViewBindingAdapter.getTextString(etnickName);
             // localize variables for thread safety
             // editBeneficiaryViewModel.state
-            co.yap.sendMoney.editbeneficiary.states.EditBeneficiaryStates editBeneficiaryViewModelState = null;
+            co.yap.sendmoney.editbeneficiary.states.EditBeneficiaryStates editBeneficiaryViewModelState = null;
             // editBeneficiaryViewModel.state != null
             boolean editBeneficiaryViewModelStateJavaLangObjectNull = false;
             // editBeneficiaryViewModel != null
             boolean editBeneficiaryViewModelJavaLangObjectNull = false;
             // editBeneficiaryViewModel
-            co.yap.sendMoney.editbeneficiary.viewmodel.EditBeneficiaryViewModel editBeneficiaryViewModel = mEditBeneficiaryViewModel;
+            co.yap.sendmoney.editbeneficiary.viewmodel.EditBeneficiaryViewModel editBeneficiaryViewModel = mEditBeneficiaryViewModel;
             // editBeneficiaryViewModel.state.nickName
             java.lang.String editBeneficiaryViewModelStateNickName = null;
 
@@ -410,7 +410,7 @@ public class ActivityEditBeneficiaryBindingImpl extends ActivityEditBeneficiaryB
     public boolean setVariable(int variableId, @Nullable Object variable)  {
         boolean variableSet = true;
         if (BR.editBeneficiaryViewModel == variableId) {
-            setEditBeneficiaryViewModel((co.yap.sendMoney.editbeneficiary.viewmodel.EditBeneficiaryViewModel) variable);
+            setEditBeneficiaryViewModel((co.yap.sendmoney.editbeneficiary.viewmodel.EditBeneficiaryViewModel) variable);
         }
         else {
             variableSet = false;
@@ -418,7 +418,7 @@ public class ActivityEditBeneficiaryBindingImpl extends ActivityEditBeneficiaryB
             return variableSet;
     }
 
-    public void setEditBeneficiaryViewModel(@Nullable co.yap.sendMoney.editbeneficiary.viewmodel.EditBeneficiaryViewModel EditBeneficiaryViewModel) {
+    public void setEditBeneficiaryViewModel(@Nullable co.yap.sendmoney.editbeneficiary.viewmodel.EditBeneficiaryViewModel EditBeneficiaryViewModel) {
         this.mEditBeneficiaryViewModel = EditBeneficiaryViewModel;
         synchronized(this) {
             mDirtyFlags |= 0x2L;
@@ -431,11 +431,11 @@ public class ActivityEditBeneficiaryBindingImpl extends ActivityEditBeneficiaryB
     protected boolean onFieldChange(int localFieldId, Object object, int fieldId) {
         switch (localFieldId) {
             case 0 :
-                return onChangeEditBeneficiaryViewModelState((co.yap.sendMoney.editbeneficiary.states.EditBeneficiaryStates) object, fieldId);
+                return onChangeEditBeneficiaryViewModelState((co.yap.sendmoney.editbeneficiary.states.EditBeneficiaryStates) object, fieldId);
         }
         return false;
     }
-    private boolean onChangeEditBeneficiaryViewModelState(co.yap.sendMoney.editbeneficiary.states.EditBeneficiaryStates EditBeneficiaryViewModelState, int fieldId) {
+    private boolean onChangeEditBeneficiaryViewModelState(co.yap.sendmoney.editbeneficiary.states.EditBeneficiaryStates EditBeneficiaryViewModelState, int fieldId) {
         if (fieldId == BR._all) {
             synchronized(this) {
                     mDirtyFlags |= 0x1L;
@@ -568,7 +568,7 @@ public class ActivityEditBeneficiaryBindingImpl extends ActivityEditBeneficiaryB
         java.lang.String editBeneficiaryViewModelStateBeneficiaryCurrency = null;
         boolean editBeneficiaryViewModelStateFirstNameEmpty = false;
         boolean editBeneficiaryViewModelStateSwiftCodeEmpty = false;
-        co.yap.sendMoney.editbeneficiary.states.EditBeneficiaryStates editBeneficiaryViewModelState = null;
+        co.yap.sendmoney.editbeneficiary.states.EditBeneficiaryStates editBeneficiaryViewModelState = null;
         java.lang.String editBeneficiaryViewModelStateAccountNumber = null;
         boolean editBeneficiaryViewModelStateSwiftCodeEmptyBooleanTrueBooleanFalse = false;
         boolean editBeneficiaryViewModelStateBeneficiaryBeneficiaryTypeEqualsJavaLangStringSWIFT = false;
@@ -592,7 +592,7 @@ public class ActivityEditBeneficiaryBindingImpl extends ActivityEditBeneficiaryB
         boolean editBeneficiaryViewModelStateBeneficiaryBeneficiaryTypeEqualsJavaLangStringUAEFTSBooleanTrueEditBeneficiaryViewModelStateBeneficiaryBeneficiaryTypeEqualsJavaLangStringDOMESTIC = false;
         boolean editBeneficiaryViewModelStateBeneficiaryBeneficiaryTypeEqualsJavaLangStringUAEFTS = false;
         java.lang.String editBeneficiaryViewModelStateSwiftCode = null;
-        co.yap.sendMoney.editbeneficiary.viewmodel.EditBeneficiaryViewModel editBeneficiaryViewModel = mEditBeneficiaryViewModel;
+        co.yap.sendmoney.editbeneficiary.viewmodel.EditBeneficiaryViewModel editBeneficiaryViewModel = mEditBeneficiaryViewModel;
         java.lang.String phoneNumberUtilsKtGetCountryCodeForRegionEditBeneficiaryViewModelStateCountryCode = null;
         boolean androidxDatabindingViewDataBindingSafeUnboxEditBeneficiaryViewModelStateNeedIban = false;
         boolean editBeneficiaryViewModelStateNickNameEmptyBooleanTrueBooleanFalse = false;
@@ -1240,7 +1240,7 @@ public class ActivityEditBeneficiaryBindingImpl extends ActivityEditBeneficiaryB
                 // editBeneficiaryViewModel != null
                 boolean editBeneficiaryViewModelJavaLangObjectNull = false;
                 // editBeneficiaryViewModel
-                co.yap.sendMoney.editbeneficiary.viewmodel.EditBeneficiaryViewModel editBeneficiaryViewModel = mEditBeneficiaryViewModel;
+                co.yap.sendmoney.editbeneficiary.viewmodel.EditBeneficiaryViewModel editBeneficiaryViewModel = mEditBeneficiaryViewModel;
                 // v.id
                 int callbackArg0Id = 0;
 
@@ -1265,7 +1265,7 @@ public class ActivityEditBeneficiaryBindingImpl extends ActivityEditBeneficiaryB
                 // editBeneficiaryViewModel != null
                 boolean editBeneficiaryViewModelJavaLangObjectNull = false;
                 // editBeneficiaryViewModel
-                co.yap.sendMoney.editbeneficiary.viewmodel.EditBeneficiaryViewModel editBeneficiaryViewModel = mEditBeneficiaryViewModel;
+                co.yap.sendmoney.editbeneficiary.viewmodel.EditBeneficiaryViewModel editBeneficiaryViewModel = mEditBeneficiaryViewModel;
                 // v.id
                 int callbackArg0Id = 0;
 
@@ -1290,7 +1290,7 @@ public class ActivityEditBeneficiaryBindingImpl extends ActivityEditBeneficiaryB
                 // editBeneficiaryViewModel != null
                 boolean editBeneficiaryViewModelJavaLangObjectNull = false;
                 // editBeneficiaryViewModel
-                co.yap.sendMoney.editbeneficiary.viewmodel.EditBeneficiaryViewModel editBeneficiaryViewModel = mEditBeneficiaryViewModel;
+                co.yap.sendmoney.editbeneficiary.viewmodel.EditBeneficiaryViewModel editBeneficiaryViewModel = mEditBeneficiaryViewModel;
                 // v.id
                 int callbackArg0Id = 0;
 

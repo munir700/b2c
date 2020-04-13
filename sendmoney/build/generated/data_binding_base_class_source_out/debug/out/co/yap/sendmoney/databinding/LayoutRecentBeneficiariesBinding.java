@@ -11,8 +11,8 @@ import androidx.databinding.Bindable;
 import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
 import androidx.recyclerview.widget.RecyclerView;
-import co.yap.sendMoney.home.adapters.RecentTransferAdaptor;
 import co.yap.sendmoney.R;
+import co.yap.sendmoney.home.adapters.RecentTransferAdaptor;
 import java.lang.Deprecated;
 import java.lang.Object;
 

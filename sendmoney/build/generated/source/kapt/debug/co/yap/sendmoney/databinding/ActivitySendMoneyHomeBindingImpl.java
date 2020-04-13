@@ -67,7 +67,7 @@ public class ActivitySendMoneyHomeBindingImpl extends ActivitySendMoneyHomeBindi
     public boolean setVariable(int variableId, @Nullable Object variable)  {
         boolean variableSet = true;
         if (BR.viewModel == variableId) {
-            setViewModel((co.yap.sendMoney.viewmodels.SendMoneyViewModel) variable);
+            setViewModel((co.yap.sendmoney.viewmodels.SendMoneyViewModel) variable);
         }
         else {
             variableSet = false;
@@ -75,7 +75,7 @@ public class ActivitySendMoneyHomeBindingImpl extends ActivitySendMoneyHomeBindi
             return variableSet;
     }
 
-    public void setViewModel(@Nullable co.yap.sendMoney.viewmodels.SendMoneyViewModel ViewModel) {
+    public void setViewModel(@Nullable co.yap.sendmoney.viewmodels.SendMoneyViewModel ViewModel) {
         this.mViewModel = ViewModel;
         synchronized(this) {
             mDirtyFlags |= 0x2L;
@@ -115,7 +115,7 @@ public class ActivitySendMoneyHomeBindingImpl extends ActivitySendMoneyHomeBindi
             dirtyFlags = mDirtyFlags;
             mDirtyFlags = 0;
         }
-        co.yap.sendMoney.viewmodels.SendMoneyViewModel viewModel = mViewModel;
+        co.yap.sendmoney.viewmodels.SendMoneyViewModel viewModel = mViewModel;
 
         if ((dirtyFlags & 0x6L) != 0) {
         }

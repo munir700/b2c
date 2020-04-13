@@ -1,4 +1,4 @@
-package co.yap.sendMoney.fundtransfer.states
+package co.yap.sendmoney.fundtransfer.states
 
 import android.app.Application
 import android.content.Context
@@ -6,7 +6,7 @@ import android.graphics.drawable.Drawable
 import androidx.databinding.Bindable
 import androidx.lifecycle.MutableLiveData
 import co.yap.networking.transactions.responsedtos.InternationalFundsTransferReasonList
-import co.yap.sendMoney.fundtransfer.interfaces.ICashTransfer
+import co.yap.sendmoney.fundtransfer.interfaces.ICashTransfer
 import co.yap.sendmoney.BR
 import co.yap.yapcore.BaseState
 

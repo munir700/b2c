@@ -67,7 +67,7 @@ public class ItemRakBankBindingImpl extends ItemRakBankBinding implements co.yap
     public boolean setVariable(int variableId, @Nullable Object variable)  {
         boolean variableSet = true;
         if (BR.viewModel == variableId) {
-            setViewModel((co.yap.sendMoney.addbeneficiary.adaptor.RAKBankItemViewModel) variable);
+            setViewModel((co.yap.sendmoney.addbeneficiary.adaptor.RAKBankItemViewModel) variable);
         }
         else {
             variableSet = false;
@@ -75,7 +75,7 @@ public class ItemRakBankBindingImpl extends ItemRakBankBinding implements co.yap
             return variableSet;
     }
 
-    public void setViewModel(@Nullable co.yap.sendMoney.addbeneficiary.adaptor.RAKBankItemViewModel ViewModel) {
+    public void setViewModel(@Nullable co.yap.sendmoney.addbeneficiary.adaptor.RAKBankItemViewModel ViewModel) {
         this.mViewModel = ViewModel;
         synchronized(this) {
             mDirtyFlags |= 0x1L;
@@ -101,7 +101,7 @@ public class ItemRakBankBindingImpl extends ItemRakBankBinding implements co.yap
         java.lang.String viewModelBankOtherBranchName = null;
         co.yap.networking.customers.responsedtos.sendmoney.RAKBank.Bank viewModelBank = null;
         java.lang.String viewModelBankOtherBankName = null;
-        co.yap.sendMoney.addbeneficiary.adaptor.RAKBankItemViewModel viewModel = mViewModel;
+        co.yap.sendmoney.addbeneficiary.adaptor.RAKBankItemViewModel viewModel = mViewModel;
 
         if ((dirtyFlags & 0x3L) != 0) {
 
@@ -139,7 +139,7 @@ public class ItemRakBankBindingImpl extends ItemRakBankBinding implements co.yap
     public final void _internalCallbackOnClick(int sourceId , android.view.View callbackArg_0) {
         // localize variables for thread safety
         // viewModel
-        co.yap.sendMoney.addbeneficiary.adaptor.RAKBankItemViewModel viewModel = mViewModel;
+        co.yap.sendmoney.addbeneficiary.adaptor.RAKBankItemViewModel viewModel = mViewModel;
         // viewModel != null
         boolean viewModelJavaLangObjectNull = false;
 

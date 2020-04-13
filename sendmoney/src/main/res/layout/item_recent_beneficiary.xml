@@ -7,7 +7,7 @@
 
         <variable
             name="recentTransferItemVM"
-            type="co.yap.sendMoney.home.adapters.RecentTransferItemVM" />
+            type="co.yap.sendmoney.home.adapters.RecentTransferItemVM" />
 
         <import type="co.yap.yapcore.helpers.StringUtils" />
 

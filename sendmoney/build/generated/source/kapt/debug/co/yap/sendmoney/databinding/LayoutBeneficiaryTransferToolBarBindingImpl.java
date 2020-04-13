@@ -70,7 +70,7 @@ public class LayoutBeneficiaryTransferToolBarBindingImpl extends LayoutBeneficia
     public boolean setVariable(int variableId, @Nullable Object variable)  {
         boolean variableSet = true;
         if (BR.viewModel == variableId) {
-            setViewModel((co.yap.sendMoney.fundtransfer.viewmodels.BeneficiaryFundTransferViewModel) variable);
+            setViewModel((co.yap.sendmoney.fundtransfer.viewmodels.BeneficiaryFundTransferViewModel) variable);
         }
         else {
             variableSet = false;
@@ -78,7 +78,7 @@ public class LayoutBeneficiaryTransferToolBarBindingImpl extends LayoutBeneficia
             return variableSet;
     }
 
-    public void setViewModel(@Nullable co.yap.sendMoney.fundtransfer.viewmodels.BeneficiaryFundTransferViewModel ViewModel) {
+    public void setViewModel(@Nullable co.yap.sendmoney.fundtransfer.viewmodels.BeneficiaryFundTransferViewModel ViewModel) {
         this.mViewModel = ViewModel;
         synchronized(this) {
             mDirtyFlags |= 0x10L;
@@ -97,7 +97,7 @@ public class LayoutBeneficiaryTransferToolBarBindingImpl extends LayoutBeneficia
             case 2 :
                 return onChangeViewModelStateToolbarVisibility((androidx.databinding.ObservableBoolean) object, fieldId);
             case 3 :
-                return onChangeViewModelState((co.yap.sendMoney.fundtransfer.states.BeneficiaryFundTransferState) object, fieldId);
+                return onChangeViewModelState((co.yap.sendmoney.fundtransfer.states.BeneficiaryFundTransferState) object, fieldId);
         }
         return false;
     }
@@ -128,7 +128,7 @@ public class LayoutBeneficiaryTransferToolBarBindingImpl extends LayoutBeneficia
         }
         return false;
     }
-    private boolean onChangeViewModelState(co.yap.sendMoney.fundtransfer.states.BeneficiaryFundTransferState ViewModelState, int fieldId) {
+    private boolean onChangeViewModelState(co.yap.sendmoney.fundtransfer.states.BeneficiaryFundTransferState ViewModelState, int fieldId) {
         if (fieldId == BR._all) {
             synchronized(this) {
                     mDirtyFlags |= 0x8L;
@@ -164,9 +164,9 @@ public class LayoutBeneficiaryTransferToolBarBindingImpl extends LayoutBeneficia
         androidx.databinding.ObservableBoolean viewModelStateToolbarVisibility = null;
         int viewModelStateLeftIconViewVISIBLEViewINVISIBLE = 0;
         boolean viewModelStateRightIconGet = false;
-        co.yap.sendMoney.fundtransfer.states.BeneficiaryFundTransferState viewModelState = null;
+        co.yap.sendmoney.fundtransfer.states.BeneficiaryFundTransferState viewModelState = null;
         boolean viewModelStateLeftIconGet = false;
-        co.yap.sendMoney.fundtransfer.viewmodels.BeneficiaryFundTransferViewModel viewModel = mViewModel;
+        co.yap.sendmoney.fundtransfer.viewmodels.BeneficiaryFundTransferViewModel viewModel = mViewModel;
         boolean viewModelStateToolbarVisibilityGet = false;
         int viewModelStateToolbarVisibilityViewVISIBLEViewGONE = 0;
         int viewModelStateRightIconViewVISIBLEViewINVISIBLE = 0;
@@ -314,7 +314,7 @@ public class LayoutBeneficiaryTransferToolBarBindingImpl extends LayoutBeneficia
             case 2: {
                 // localize variables for thread safety
                 // viewModel
-                co.yap.sendMoney.fundtransfer.viewmodels.BeneficiaryFundTransferViewModel viewModel = mViewModel;
+                co.yap.sendmoney.fundtransfer.viewmodels.BeneficiaryFundTransferViewModel viewModel = mViewModel;
                 // viewModel != null
                 boolean viewModelJavaLangObjectNull = false;
                 // v.id
@@ -339,7 +339,7 @@ public class LayoutBeneficiaryTransferToolBarBindingImpl extends LayoutBeneficia
             case 1: {
                 // localize variables for thread safety
                 // viewModel
-                co.yap.sendMoney.fundtransfer.viewmodels.BeneficiaryFundTransferViewModel viewModel = mViewModel;
+                co.yap.sendmoney.fundtransfer.viewmodels.BeneficiaryFundTransferViewModel viewModel = mViewModel;
                 // viewModel != null
                 boolean viewModelJavaLangObjectNull = false;
                 // v.id

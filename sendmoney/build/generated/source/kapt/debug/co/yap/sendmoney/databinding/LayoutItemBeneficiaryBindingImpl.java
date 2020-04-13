@@ -93,7 +93,7 @@ public class LayoutItemBeneficiaryBindingImpl extends LayoutItemBeneficiaryBindi
             setDataCountry((co.yap.countryutils.country.Country) variable);
         }
         else if (BR.viewModel == variableId) {
-            setViewModel((co.yap.sendMoney.home.adapters.BeneficiaryItemViewModel) variable);
+            setViewModel((co.yap.sendmoney.home.adapters.BeneficiaryItemViewModel) variable);
         }
         else {
             variableSet = false;
@@ -104,7 +104,7 @@ public class LayoutItemBeneficiaryBindingImpl extends LayoutItemBeneficiaryBindi
     public void setDataCountry(@Nullable co.yap.countryutils.country.Country DataCountry) {
         this.mDataCountry = DataCountry;
     }
-    public void setViewModel(@Nullable co.yap.sendMoney.home.adapters.BeneficiaryItemViewModel ViewModel) {
+    public void setViewModel(@Nullable co.yap.sendmoney.home.adapters.BeneficiaryItemViewModel ViewModel) {
         this.mViewModel = ViewModel;
         synchronized(this) {
             mDirtyFlags |= 0x2L;
@@ -135,7 +135,7 @@ public class LayoutItemBeneficiaryBindingImpl extends LayoutItemBeneficiaryBindi
         co.yap.networking.customers.responsedtos.sendmoney.Beneficiary viewModelBeneficiary = null;
         boolean viewModelBeneficiaryBeneficiaryTypeEqualsJavaLangStringCASHPAYOUT = false;
         int viewModelBeneficiaryBeneficiaryTypeEqualsJavaLangStringCASHPAYOUTIvTransferTypeAndroidColorGreyDarkIvTransferTypeAndroidColorGreyDark = 0;
-        co.yap.sendMoney.home.adapters.BeneficiaryItemViewModel viewModel = mViewModel;
+        co.yap.sendmoney.home.adapters.BeneficiaryItemViewModel viewModel = mViewModel;
         java.lang.String viewModelBeneficiaryBeneficiaryType = null;
 
         if ((dirtyFlags & 0x6L) != 0) {

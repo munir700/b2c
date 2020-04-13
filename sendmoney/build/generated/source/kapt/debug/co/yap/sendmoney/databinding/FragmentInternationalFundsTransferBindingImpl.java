@@ -51,7 +51,7 @@ public class FragmentInternationalFundsTransferBindingImpl extends FragmentInter
             java.lang.String callbackArg_0 = androidx.databinding.adapters.TextViewBindingAdapter.getTextString(etNote);
             // localize variables for thread safety
             // viewModel.state
-            co.yap.sendMoney.fundtransfer.states.InternationalFundsTransferState viewModelState = null;
+            co.yap.sendmoney.fundtransfer.states.InternationalFundsTransferState viewModelState = null;
             // viewModel.state.transactionNote.get()
             java.lang.String viewModelStateTransactionNoteGet = null;
             // viewModel.state.transactionNote
@@ -59,7 +59,7 @@ public class FragmentInternationalFundsTransferBindingImpl extends FragmentInter
             // viewModel.state.transactionNote != null
             boolean viewModelStateTransactionNoteJavaLangObjectNull = false;
             // viewModel
-            co.yap.sendMoney.fundtransfer.viewmodels.InternationalFundsTransferViewModel viewModel = mViewModel;
+            co.yap.sendmoney.fundtransfer.viewmodels.InternationalFundsTransferViewModel viewModel = mViewModel;
             // viewModel != null
             boolean viewModelJavaLangObjectNull = false;
             // viewModel.state != null
@@ -99,11 +99,11 @@ public class FragmentInternationalFundsTransferBindingImpl extends FragmentInter
             java.lang.String callbackArg_0 = androidx.databinding.adapters.TextViewBindingAdapter.getTextString(etSenderAmount);
             // localize variables for thread safety
             // viewModel.state
-            co.yap.sendMoney.fundtransfer.states.InternationalFundsTransferState viewModelState = null;
+            co.yap.sendmoney.fundtransfer.states.InternationalFundsTransferState viewModelState = null;
             // viewModel.state.etInputAmount
             java.lang.String viewModelStateEtInputAmount = null;
             // viewModel
-            co.yap.sendMoney.fundtransfer.viewmodels.InternationalFundsTransferViewModel viewModel = mViewModel;
+            co.yap.sendmoney.fundtransfer.viewmodels.InternationalFundsTransferViewModel viewModel = mViewModel;
             // viewModel != null
             boolean viewModelJavaLangObjectNull = false;
             // viewModel.state != null
@@ -207,7 +207,7 @@ public class FragmentInternationalFundsTransferBindingImpl extends FragmentInter
     public boolean setVariable(int variableId, @Nullable Object variable)  {
         boolean variableSet = true;
         if (BR.viewModel == variableId) {
-            setViewModel((co.yap.sendMoney.fundtransfer.viewmodels.InternationalFundsTransferViewModel) variable);
+            setViewModel((co.yap.sendmoney.fundtransfer.viewmodels.InternationalFundsTransferViewModel) variable);
         }
         else {
             variableSet = false;
@@ -215,7 +215,7 @@ public class FragmentInternationalFundsTransferBindingImpl extends FragmentInter
             return variableSet;
     }
 
-    public void setViewModel(@Nullable co.yap.sendMoney.fundtransfer.viewmodels.InternationalFundsTransferViewModel ViewModel) {
+    public void setViewModel(@Nullable co.yap.sendmoney.fundtransfer.viewmodels.InternationalFundsTransferViewModel ViewModel) {
         this.mViewModel = ViewModel;
         synchronized(this) {
             mDirtyFlags |= 0x40L;
@@ -228,11 +228,11 @@ public class FragmentInternationalFundsTransferBindingImpl extends FragmentInter
     protected boolean onFieldChange(int localFieldId, Object object, int fieldId) {
         switch (localFieldId) {
             case 0 :
-                return onChangeViewModelState((co.yap.sendMoney.fundtransfer.states.InternationalFundsTransferState) object, fieldId);
+                return onChangeViewModelState((co.yap.sendmoney.fundtransfer.states.InternationalFundsTransferState) object, fieldId);
             case 1 :
                 return onChangeViewModelStateTransactionNote((androidx.databinding.ObservableField<java.lang.String>) object, fieldId);
             case 2 :
-                return onChangeViewModelParentViewModelTransferData((androidx.lifecycle.MutableLiveData<co.yap.sendMoney.fundtransfer.models.TransferFundData>) object, fieldId);
+                return onChangeViewModelParentViewModelTransferData((androidx.lifecycle.MutableLiveData<co.yap.sendmoney.fundtransfer.models.TransferFundData>) object, fieldId);
             case 3 :
                 return onChangeViewModelParentViewModelBeneficiary((androidx.lifecycle.MutableLiveData<co.yap.networking.customers.responsedtos.sendmoney.Beneficiary>) object, fieldId);
             case 4 :
@@ -242,7 +242,7 @@ public class FragmentInternationalFundsTransferBindingImpl extends FragmentInter
         }
         return false;
     }
-    private boolean onChangeViewModelState(co.yap.sendMoney.fundtransfer.states.InternationalFundsTransferState ViewModelState, int fieldId) {
+    private boolean onChangeViewModelState(co.yap.sendmoney.fundtransfer.states.InternationalFundsTransferState ViewModelState, int fieldId) {
         if (fieldId == BR._all) {
             synchronized(this) {
                     mDirtyFlags |= 0x1L;
@@ -302,7 +302,7 @@ public class FragmentInternationalFundsTransferBindingImpl extends FragmentInter
         }
         return false;
     }
-    private boolean onChangeViewModelParentViewModelTransferData(androidx.lifecycle.MutableLiveData<co.yap.sendMoney.fundtransfer.models.TransferFundData> ViewModelParentViewModelTransferData, int fieldId) {
+    private boolean onChangeViewModelParentViewModelTransferData(androidx.lifecycle.MutableLiveData<co.yap.sendmoney.fundtransfer.models.TransferFundData> ViewModelParentViewModelTransferData, int fieldId) {
         if (fieldId == BR._all) {
             synchronized(this) {
                     mDirtyFlags |= 0x4L;
@@ -349,12 +349,12 @@ public class FragmentInternationalFundsTransferBindingImpl extends FragmentInter
         java.lang.String viewModelStateEtOutputAmount = null;
         boolean viewModelStateValid = false;
         java.lang.String viewModelParentViewModelBeneficiaryBeneficiaryPictureUrl = null;
-        co.yap.sendMoney.fundtransfer.states.InternationalFundsTransferState viewModelState = null;
+        co.yap.sendmoney.fundtransfer.states.InternationalFundsTransferState viewModelState = null;
         java.lang.String viewModelStateSourceCurrencyGet = null;
         androidx.databinding.ObservableField<java.lang.String> viewModelStateTransactionNote = null;
-        androidx.lifecycle.MutableLiveData<co.yap.sendMoney.fundtransfer.models.TransferFundData> viewModelParentViewModelTransferData = null;
+        androidx.lifecycle.MutableLiveData<co.yap.sendmoney.fundtransfer.models.TransferFundData> viewModelParentViewModelTransferData = null;
         java.lang.String viewModelStateFromFxRate = null;
-        co.yap.sendMoney.fundtransfer.interfaces.IBeneficiaryFundTransfer.ViewModel viewModelParentViewModel = null;
+        co.yap.sendmoney.fundtransfer.interfaces.IBeneficiaryFundTransfer.ViewModel viewModelParentViewModel = null;
         java.lang.String viewModelStateTransactionNoteGet = null;
         java.lang.String viewModelParentViewModelBeneficiaryFullName = null;
         androidx.lifecycle.MutableLiveData<co.yap.networking.customers.responsedtos.sendmoney.Beneficiary> viewModelParentViewModelBeneficiary = null;
@@ -365,12 +365,12 @@ public class FragmentInternationalFundsTransferBindingImpl extends FragmentInter
         java.lang.String viewModelStateEtInputAmount = null;
         java.lang.CharSequence viewModelStateAvailableBalanceString = null;
         java.lang.String viewModelStateDestinationCurrencyGet = null;
-        co.yap.sendMoney.fundtransfer.models.TransferFundData viewModelParentViewModelTransferDataGetValue = null;
+        co.yap.sendmoney.fundtransfer.models.TransferFundData viewModelParentViewModelTransferDataGetValue = null;
         co.yap.networking.customers.responsedtos.sendmoney.Beneficiary viewModelParentViewModelBeneficiaryGetValue = null;
         androidx.databinding.ObservableField<java.lang.String> viewModelStateDestinationCurrency = null;
         java.lang.String viewModelStateToFxRate = null;
         java.lang.CharSequence viewModelStateTransferFeeSpannable = null;
-        co.yap.sendMoney.fundtransfer.viewmodels.InternationalFundsTransferViewModel viewModel = mViewModel;
+        co.yap.sendmoney.fundtransfer.viewmodels.InternationalFundsTransferViewModel viewModel = mViewModel;
 
         if ((dirtyFlags & 0x7fffL) != 0) {
 
@@ -608,7 +608,7 @@ public class FragmentInternationalFundsTransferBindingImpl extends FragmentInter
             case 2: {
                 // localize variables for thread safety
                 // viewModel
-                co.yap.sendMoney.fundtransfer.viewmodels.InternationalFundsTransferViewModel viewModel = mViewModel;
+                co.yap.sendmoney.fundtransfer.viewmodels.InternationalFundsTransferViewModel viewModel = mViewModel;
                 // viewModel != null
                 boolean viewModelJavaLangObjectNull = false;
                 // v.id
@@ -633,7 +633,7 @@ public class FragmentInternationalFundsTransferBindingImpl extends FragmentInter
             case 1: {
                 // localize variables for thread safety
                 // viewModel
-                co.yap.sendMoney.fundtransfer.viewmodels.InternationalFundsTransferViewModel viewModel = mViewModel;
+                co.yap.sendmoney.fundtransfer.viewmodels.InternationalFundsTransferViewModel viewModel = mViewModel;
                 // viewModel != null
                 boolean viewModelJavaLangObjectNull = false;
                 // v.id

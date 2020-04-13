@@ -1952,6 +1952,7 @@ color textDarkColor
 color tooltip_background_dark
 color tooltip_background_light
 color transparent
+color transparent_grey
 color unread_indicator_bubble_background_color
 color unread_indicator_bubble_text_color
 color warning
@@ -3232,6 +3233,7 @@ drawable abc_textfield_search_activated_mtrl_alpha
 drawable abc_textfield_search_default_mtrl_alpha
 drawable abc_textfield_search_material
 drawable abc_vector_test
+drawable arrow_up
 drawable avd_hide_password
 drawable avd_show_password
 drawable badge_backgound
@@ -4173,6 +4175,7 @@ id camera_button
 id camera_text
 id cancel_action
 id cancel_button
+id cardView
 id cashTransferConfirmationFragment
 id cashTransferFragment
 id cbTermsAndConditions
@@ -4230,6 +4233,7 @@ id decor_content_parent
 id defaultType
 id default_activity_button
 id description
+id descriptionView
 id design_bottom_sheet
 id design_menu_item_action_area
 id design_menu_item_action_area_stub
@@ -4350,6 +4354,8 @@ id icon_group
 id icon_only
 id ifRoom
 id image
+id imageViewShowCase
+id imageViewShowCaseClose
 id image_element
 id image_post_set
 id imgBankTransfer
@@ -4409,6 +4415,7 @@ id layoutNoContacts
 id layoutReasonsSpinner
 id layoutRecent
 id layoutSearchView
+id layoutTexts
 id layout_message
 id left
 id light
@@ -4732,6 +4739,7 @@ id setCardPinWelcomeFragment
 id shadow_alpha
 id shadow_gradual
 id shortcut
+id showCaseMessageViewLayout
 id showCustom
 id showHome
 id showTitle
@@ -4783,6 +4791,8 @@ id textSpacerNoButtons
 id textSpacerNoTitle
 id textView
 id textView4
+id textViewShowCaseText
+id textViewShowCaseTitle
 id textWatcher
 id text_input_end_icon
 id text_input_password_toggle
@@ -4836,6 +4846,7 @@ id tvChooseSMS
 id tvChooseWhatsapp
 id tvCode
 id tvContent
+id tvCount
 id tvCountryName
 id tvCreatePinLater
 id tvCurrency
@@ -5034,6 +5045,7 @@ layout core_dialer_pad
 layout core_dialer_pad_v2
 layout core_keypad
 layout core_payment_card
+layout couch_mark_message_box
 layout custom_dialog
 layout custom_widget_edit_text
 layout design_bottom_navigation_item
@@ -5257,6 +5269,7 @@ layout text_view_with_line_height_from_style
 layout text_view_with_theme_line_height
 layout text_view_without_line_height
 layout view_bottom_sheet
+layout view_description_box
 layout view_notifications
 layout view_searchview
 layout view_tool_bar
@@ -8452,7 +8465,6 @@ style Title2Grey
 style Title3
 style Title3Grey
 style ToolTipAltStyle
-style ToolTipAltTextStyle
 style ToolTipOverlayAltStyle
 style TransparentStyle
 style Widget_AppCompat_ActionBar

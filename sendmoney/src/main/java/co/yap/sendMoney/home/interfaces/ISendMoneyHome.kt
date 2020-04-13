@@ -1,9 +1,9 @@
-package co.yap.sendMoney.home.interfaces
+package co.yap.sendmoney.home.interfaces
 
 import androidx.databinding.ObservableField
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import co.yap.sendMoney.home.adapters.RecentTransferAdaptor
+import co.yap.sendmoney.home.adapters.RecentTransferAdaptor
 import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent

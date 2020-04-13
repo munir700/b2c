@@ -3,10 +3,13 @@ package co.yap.widgets.guidedtour
 import android.app.Activity
 import android.content.Context
 import android.util.DisplayMetrics
+import co.yap.widgets.couchmark.BubbleShowCase
+import co.yap.widgets.couchmark.ScreenUtils
 import co.yap.widgets.guidedtour.models.GuidedTourViewDetail
 import co.yap.widgets.guidedtour.shape.Circle
 import co.yap.widgets.guidedtour.shape.Focus
 import co.yap.widgets.guidedtour.shape.FocusGravity
+import co.yap.widgets.guidedtour.target.Target
 import co.yap.widgets.guidedtour.target.ViewTarget
 import co.yap.widgets.guidedtour.view.DescriptionView
 
@@ -123,8 +126,21 @@ class TourSetup() : DescriptionBoxListener {
             materialIntroView.focusGravity,
             materialIntroView.padding
         )
+        getTooltipPosition(materialIntroView.targetView!!)
         materialIntroView.setShape(shape)
         materialIntroView.setInfoLayout()
         materialIntroView.invalidate()
+    }
+
+    private fun getTooltipPosition(targetView: Target) {
+        if (mArrowPositionList.isEmpty()) {
+            if (ScreenUtils.isViewLocatedAtHalfTopOfTheScreen(
+                    context,
+                    targetView.view
+                )
+            ) mArrowPositionList.add(BubbleShowCase.ArrowPosition.TOP) else mArrowPositionList.add(
+                BubbleShowCase.ArrowPosition.BOTTOM
+            )
+        }
     }
 }

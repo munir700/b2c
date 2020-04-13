@@ -70,7 +70,7 @@ public class LayoutSendBeneficiariesToolbarBindingImpl extends LayoutSendBenefic
     public boolean setVariable(int variableId, @Nullable Object variable)  {
         boolean variableSet = true;
         if (BR.viewModel == variableId) {
-            setViewModel((co.yap.sendMoney.home.viewmodels.SendMoneyHomeScreenViewModel) variable);
+            setViewModel((co.yap.sendmoney.home.viewmodels.SendMoneyHomeScreenViewModel) variable);
         }
         else {
             variableSet = false;
@@ -78,7 +78,7 @@ public class LayoutSendBeneficiariesToolbarBindingImpl extends LayoutSendBenefic
             return variableSet;
     }
 
-    public void setViewModel(@Nullable co.yap.sendMoney.home.viewmodels.SendMoneyHomeScreenViewModel ViewModel) {
+    public void setViewModel(@Nullable co.yap.sendmoney.home.viewmodels.SendMoneyHomeScreenViewModel ViewModel) {
         this.mViewModel = ViewModel;
         synchronized(this) {
             mDirtyFlags |= 0x1L;
@@ -101,7 +101,7 @@ public class LayoutSendBeneficiariesToolbarBindingImpl extends LayoutSendBenefic
             dirtyFlags = mDirtyFlags;
             mDirtyFlags = 0;
         }
-        co.yap.sendMoney.home.viewmodels.SendMoneyHomeScreenViewModel viewModel = mViewModel;
+        co.yap.sendmoney.home.viewmodels.SendMoneyHomeScreenViewModel viewModel = mViewModel;
         // batch finished
         if ((dirtyFlags & 0x2L) != 0) {
             // api target 1
@@ -118,7 +118,7 @@ public class LayoutSendBeneficiariesToolbarBindingImpl extends LayoutSendBenefic
             case 2: {
                 // localize variables for thread safety
                 // viewModel
-                co.yap.sendMoney.home.viewmodels.SendMoneyHomeScreenViewModel viewModel = mViewModel;
+                co.yap.sendmoney.home.viewmodels.SendMoneyHomeScreenViewModel viewModel = mViewModel;
                 // viewModel != null
                 boolean viewModelJavaLangObjectNull = false;
                 // v.id
@@ -143,7 +143,7 @@ public class LayoutSendBeneficiariesToolbarBindingImpl extends LayoutSendBenefic
             case 1: {
                 // localize variables for thread safety
                 // viewModel
-                co.yap.sendMoney.home.viewmodels.SendMoneyHomeScreenViewModel viewModel = mViewModel;
+                co.yap.sendmoney.home.viewmodels.SendMoneyHomeScreenViewModel viewModel = mViewModel;
                 // viewModel != null
                 boolean viewModelJavaLangObjectNull = false;
                 // v.id

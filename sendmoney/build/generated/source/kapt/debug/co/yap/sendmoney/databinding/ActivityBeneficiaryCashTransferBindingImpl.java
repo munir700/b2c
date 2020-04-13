@@ -69,7 +69,7 @@ public class ActivityBeneficiaryCashTransferBindingImpl extends ActivityBenefici
     public boolean setVariable(int variableId, @Nullable Object variable)  {
         boolean variableSet = true;
         if (BR.viewModel == variableId) {
-            setViewModel((co.yap.sendMoney.fundtransfer.viewmodels.BeneficiaryFundTransferViewModel) variable);
+            setViewModel((co.yap.sendmoney.fundtransfer.viewmodels.BeneficiaryFundTransferViewModel) variable);
         }
         else {
             variableSet = false;
@@ -77,7 +77,7 @@ public class ActivityBeneficiaryCashTransferBindingImpl extends ActivityBenefici
             return variableSet;
     }
 
-    public void setViewModel(@Nullable co.yap.sendMoney.fundtransfer.viewmodels.BeneficiaryFundTransferViewModel ViewModel) {
+    public void setViewModel(@Nullable co.yap.sendmoney.fundtransfer.viewmodels.BeneficiaryFundTransferViewModel ViewModel) {
         this.mViewModel = ViewModel;
         synchronized(this) {
             mDirtyFlags |= 0x2L;
@@ -117,7 +117,7 @@ public class ActivityBeneficiaryCashTransferBindingImpl extends ActivityBenefici
             dirtyFlags = mDirtyFlags;
             mDirtyFlags = 0;
         }
-        co.yap.sendMoney.fundtransfer.viewmodels.BeneficiaryFundTransferViewModel viewModel = mViewModel;
+        co.yap.sendmoney.fundtransfer.viewmodels.BeneficiaryFundTransferViewModel viewModel = mViewModel;
 
         if ((dirtyFlags & 0x6L) != 0) {
         }

@@ -37,9 +37,9 @@ public class FragmentCashTransferBindingImpl extends FragmentCashTransferBinding
             java.lang.String callbackArg_0 = androidx.databinding.adapters.TextViewBindingAdapter.getTextString(etAmount);
             // localize variables for thread safety
             // viewModel.state
-            co.yap.sendMoney.fundtransfer.states.CashTransferState viewModelState = null;
+            co.yap.sendmoney.fundtransfer.states.CashTransferState viewModelState = null;
             // viewModel
-            co.yap.sendMoney.fundtransfer.viewmodels.CashTransferViewModel viewModel = mViewModel;
+            co.yap.sendmoney.fundtransfer.viewmodels.CashTransferViewModel viewModel = mViewModel;
             // viewModel != null
             boolean viewModelJavaLangObjectNull = false;
             // viewModel.state.amount
@@ -74,11 +74,11 @@ public class FragmentCashTransferBindingImpl extends FragmentCashTransferBinding
             java.lang.String callbackArg_0 = androidx.databinding.adapters.TextViewBindingAdapter.getTextString(etNote);
             // localize variables for thread safety
             // viewModel.state
-            co.yap.sendMoney.fundtransfer.states.CashTransferState viewModelState = null;
+            co.yap.sendmoney.fundtransfer.states.CashTransferState viewModelState = null;
             // viewModel.state.noteValue
             java.lang.String viewModelStateNoteValue = null;
             // viewModel
-            co.yap.sendMoney.fundtransfer.viewmodels.CashTransferViewModel viewModel = mViewModel;
+            co.yap.sendmoney.fundtransfer.viewmodels.CashTransferViewModel viewModel = mViewModel;
             // viewModel != null
             boolean viewModelJavaLangObjectNull = false;
             // viewModel.state != null
@@ -166,7 +166,7 @@ public class FragmentCashTransferBindingImpl extends FragmentCashTransferBinding
     public boolean setVariable(int variableId, @Nullable Object variable)  {
         boolean variableSet = true;
         if (BR.viewModel == variableId) {
-            setViewModel((co.yap.sendMoney.fundtransfer.viewmodels.CashTransferViewModel) variable);
+            setViewModel((co.yap.sendmoney.fundtransfer.viewmodels.CashTransferViewModel) variable);
         }
         else {
             variableSet = false;
@@ -174,7 +174,7 @@ public class FragmentCashTransferBindingImpl extends FragmentCashTransferBinding
             return variableSet;
     }
 
-    public void setViewModel(@Nullable co.yap.sendMoney.fundtransfer.viewmodels.CashTransferViewModel ViewModel) {
+    public void setViewModel(@Nullable co.yap.sendmoney.fundtransfer.viewmodels.CashTransferViewModel ViewModel) {
         this.mViewModel = ViewModel;
         synchronized(this) {
             mDirtyFlags |= 0x8L;
@@ -187,15 +187,15 @@ public class FragmentCashTransferBindingImpl extends FragmentCashTransferBinding
     protected boolean onFieldChange(int localFieldId, Object object, int fieldId) {
         switch (localFieldId) {
             case 0 :
-                return onChangeViewModelState((co.yap.sendMoney.fundtransfer.states.CashTransferState) object, fieldId);
+                return onChangeViewModelState((co.yap.sendmoney.fundtransfer.states.CashTransferState) object, fieldId);
             case 1 :
-                return onChangeViewModelParentViewModelTransferData((androidx.lifecycle.MutableLiveData<co.yap.sendMoney.fundtransfer.models.TransferFundData>) object, fieldId);
+                return onChangeViewModelParentViewModelTransferData((androidx.lifecycle.MutableLiveData<co.yap.sendmoney.fundtransfer.models.TransferFundData>) object, fieldId);
             case 2 :
                 return onChangeViewModelParentViewModelBeneficiary((androidx.lifecycle.MutableLiveData<co.yap.networking.customers.responsedtos.sendmoney.Beneficiary>) object, fieldId);
         }
         return false;
     }
-    private boolean onChangeViewModelState(co.yap.sendMoney.fundtransfer.states.CashTransferState ViewModelState, int fieldId) {
+    private boolean onChangeViewModelState(co.yap.sendmoney.fundtransfer.states.CashTransferState ViewModelState, int fieldId) {
         if (fieldId == BR._all) {
             synchronized(this) {
                     mDirtyFlags |= 0x1L;
@@ -240,7 +240,7 @@ public class FragmentCashTransferBindingImpl extends FragmentCashTransferBinding
         }
         return false;
     }
-    private boolean onChangeViewModelParentViewModelTransferData(androidx.lifecycle.MutableLiveData<co.yap.sendMoney.fundtransfer.models.TransferFundData> ViewModelParentViewModelTransferData, int fieldId) {
+    private boolean onChangeViewModelParentViewModelTransferData(androidx.lifecycle.MutableLiveData<co.yap.sendmoney.fundtransfer.models.TransferFundData> ViewModelParentViewModelTransferData, int fieldId) {
         if (fieldId == BR._all) {
             synchronized(this) {
                     mDirtyFlags |= 0x2L;
@@ -269,10 +269,10 @@ public class FragmentCashTransferBindingImpl extends FragmentCashTransferBinding
         boolean viewModelParentViewModelBeneficiaryBeneficiaryTypeEqualsJavaLangStringDOMESTIC = false;
         boolean viewModelStateValid = false;
         java.lang.String viewModelParentViewModelBeneficiaryBeneficiaryPictureUrl = null;
-        co.yap.sendMoney.fundtransfer.states.CashTransferState viewModelState = null;
-        androidx.lifecycle.MutableLiveData<co.yap.sendMoney.fundtransfer.models.TransferFundData> viewModelParentViewModelTransferData = null;
+        co.yap.sendmoney.fundtransfer.states.CashTransferState viewModelState = null;
+        androidx.lifecycle.MutableLiveData<co.yap.sendmoney.fundtransfer.models.TransferFundData> viewModelParentViewModelTransferData = null;
         java.lang.String viewModelStateAmount = null;
-        co.yap.sendMoney.fundtransfer.interfaces.IBeneficiaryFundTransfer.ViewModel viewModelParentViewModel = null;
+        co.yap.sendmoney.fundtransfer.interfaces.IBeneficiaryFundTransfer.ViewModel viewModelParentViewModel = null;
         boolean viewModelParentViewModelBeneficiaryBeneficiaryTypeEqualsJavaLangStringCASHPAYOUT = false;
         androidx.lifecycle.MutableLiveData<co.yap.networking.customers.responsedtos.sendmoney.Beneficiary> viewModelParentViewModelBeneficiary = null;
         java.lang.String viewModelParentViewModelBeneficiaryFullName = null;
@@ -285,12 +285,12 @@ public class FragmentCashTransferBindingImpl extends FragmentCashTransferBinding
         int viewModelParentViewModelBeneficiaryBeneficiaryTypeEqualsJavaLangStringDOMESTICBooleanTrueViewModelParentViewModelBeneficiaryBeneficiaryTypeEqualsJavaLangStringUAEFTSViewVISIBLEViewGONE = 0;
         java.lang.CharSequence viewModelStateAvailableBalanceString = null;
         android.graphics.drawable.Drawable viewModelStateAmountBackground = null;
-        co.yap.sendMoney.fundtransfer.models.TransferFundData viewModelParentViewModelTransferDataGetValue = null;
+        co.yap.sendmoney.fundtransfer.models.TransferFundData viewModelParentViewModelTransferDataGetValue = null;
         boolean viewModelParentViewModelBeneficiaryBeneficiaryTypeEqualsJavaLangStringUAEFTS = false;
         co.yap.networking.customers.responsedtos.sendmoney.Beneficiary viewModelParentViewModelBeneficiaryGetValue = null;
         java.lang.String viewModelParentViewModelBeneficiaryBeneficiaryType = null;
         java.lang.CharSequence viewModelStateFeeAmountSpannableString = null;
-        co.yap.sendMoney.fundtransfer.viewmodels.CashTransferViewModel viewModel = mViewModel;
+        co.yap.sendmoney.fundtransfer.viewmodels.CashTransferViewModel viewModel = mViewModel;
 
         if ((dirtyFlags & 0x7ffL) != 0) {
 
@@ -519,7 +519,7 @@ public class FragmentCashTransferBindingImpl extends FragmentCashTransferBinding
             case 1: {
                 // localize variables for thread safety
                 // viewModel
-                co.yap.sendMoney.fundtransfer.viewmodels.CashTransferViewModel viewModel = mViewModel;
+                co.yap.sendmoney.fundtransfer.viewmodels.CashTransferViewModel viewModel = mViewModel;
                 // viewModel != null
                 boolean viewModelJavaLangObjectNull = false;
                 // v.id
@@ -544,7 +544,7 @@ public class FragmentCashTransferBindingImpl extends FragmentCashTransferBinding
             case 2: {
                 // localize variables for thread safety
                 // viewModel
-                co.yap.sendMoney.fundtransfer.viewmodels.CashTransferViewModel viewModel = mViewModel;
+                co.yap.sendmoney.fundtransfer.viewmodels.CashTransferViewModel viewModel = mViewModel;
                 // viewModel != null
                 boolean viewModelJavaLangObjectNull = false;
                 // v.id

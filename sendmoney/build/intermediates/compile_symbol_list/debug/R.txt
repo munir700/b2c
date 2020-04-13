@@ -1951,6 +1951,7 @@ int color textDarkColor 0x0
 int color tooltip_background_dark 0x0
 int color tooltip_background_light 0x0
 int color transparent 0x0
+int color transparent_grey 0x0
 int color unread_indicator_bubble_background_color 0x0
 int color unread_indicator_bubble_text_color 0x0
 int color warning 0x0
@@ -3231,6 +3232,7 @@ int drawable abc_textfield_search_activated_mtrl_alpha 0x0
 int drawable abc_textfield_search_default_mtrl_alpha 0x0
 int drawable abc_textfield_search_material 0x0
 int drawable abc_vector_test 0x0
+int drawable arrow_up 0x0
 int drawable avd_hide_password 0x0
 int drawable avd_show_password 0x0
 int drawable badge_backgound 0x0
@@ -4172,6 +4174,7 @@ int id camera_button 0x0
 int id camera_text 0x0
 int id cancel_action 0x0
 int id cancel_button 0x0
+int id cardView 0x0
 int id cashTransferConfirmationFragment 0x0
 int id cashTransferFragment 0x0
 int id cbTermsAndConditions 0x0
@@ -4229,6 +4232,7 @@ int id decor_content_parent 0x0
 int id defaultType 0x0
 int id default_activity_button 0x0
 int id description 0x0
+int id descriptionView 0x0
 int id design_bottom_sheet 0x0
 int id design_menu_item_action_area 0x0
 int id design_menu_item_action_area_stub 0x0
@@ -4349,6 +4353,8 @@ int id icon_group 0x0
 int id icon_only 0x0
 int id ifRoom 0x0
 int id image 0x0
+int id imageViewShowCase 0x0
+int id imageViewShowCaseClose 0x0
 int id image_element 0x0
 int id image_post_set 0x0
 int id imgBankTransfer 0x0
@@ -4408,6 +4414,7 @@ int id layoutNoContacts 0x0
 int id layoutReasonsSpinner 0x0
 int id layoutRecent 0x0
 int id layoutSearchView 0x0
+int id layoutTexts 0x0
 int id layout_message 0x0
 int id left 0x0
 int id light 0x0
@@ -4731,6 +4738,7 @@ int id setCardPinWelcomeFragment 0x0
 int id shadow_alpha 0x0
 int id shadow_gradual 0x0
 int id shortcut 0x0
+int id showCaseMessageViewLayout 0x0
 int id showCustom 0x0
 int id showHome 0x0
 int id showTitle 0x0
@@ -4782,6 +4790,8 @@ int id textSpacerNoButtons 0x0
 int id textSpacerNoTitle 0x0
 int id textView 0x0
 int id textView4 0x0
+int id textViewShowCaseText 0x0
+int id textViewShowCaseTitle 0x0
 int id textWatcher 0x0
 int id text_input_end_icon 0x0
 int id text_input_password_toggle 0x0
@@ -4835,6 +4845,7 @@ int id tvChooseSMS 0x0
 int id tvChooseWhatsapp 0x0
 int id tvCode 0x0
 int id tvContent 0x0
+int id tvCount 0x0
 int id tvCountryName 0x0
 int id tvCreatePinLater 0x0
 int id tvCurrency 0x0
@@ -5033,6 +5044,7 @@ int layout core_dialer_pad 0x0
 int layout core_dialer_pad_v2 0x0
 int layout core_keypad 0x0
 int layout core_payment_card 0x0
+int layout couch_mark_message_box 0x0
 int layout custom_dialog 0x0
 int layout custom_widget_edit_text 0x0
 int layout design_bottom_navigation_item 0x0
@@ -5256,6 +5268,7 @@ int layout text_view_with_line_height_from_style 0x0
 int layout text_view_with_theme_line_height 0x0
 int layout text_view_without_line_height 0x0
 int layout view_bottom_sheet 0x0
+int layout view_description_box 0x0
 int layout view_notifications 0x0
 int layout view_searchview 0x0
 int layout view_tool_bar 0x0
@@ -8451,7 +8464,6 @@ int style Title2Grey 0x0
 int style Title3 0x0
 int style Title3Grey 0x0
 int style ToolTipAltStyle 0x0
-int style ToolTipAltTextStyle 0x0
 int style ToolTipOverlayAltStyle 0x0
 int style TransparentStyle 0x0
 int style Widget_AppCompat_ActionBar 0x0

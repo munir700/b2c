@@ -11,8 +11,8 @@ import androidx.annotation.Nullable;
 import androidx.databinding.Bindable;
 import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
-import co.yap.sendMoney.fundtransfer.viewmodels.BeneficiaryFundTransferViewModel;
 import co.yap.sendmoney.R;
+import co.yap.sendmoney.fundtransfer.viewmodels.BeneficiaryFundTransferViewModel;
 import java.lang.Deprecated;
 import java.lang.Object;
 

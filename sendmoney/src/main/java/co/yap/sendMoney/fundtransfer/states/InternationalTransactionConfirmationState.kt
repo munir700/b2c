@@ -1,7 +1,7 @@
-package co.yap.sendMoney.fundtransfer.states
+package co.yap.sendmoney.fundtransfer.states
 
 import androidx.databinding.Bindable
-import co.yap.sendMoney.fundtransfer.interfaces.IInternationalTransactionConfirmation
+import co.yap.sendmoney.fundtransfer.interfaces.IInternationalTransactionConfirmation
 import co.yap.sendmoney.BR
 import co.yap.yapcore.BaseState
 

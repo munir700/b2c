@@ -1,4 +1,4 @@
-package co.yap.sendMoney.editbeneficiary.viewmodel
+package co.yap.sendmoney.editbeneficiary.viewmodel
 
 import android.app.Application
 import androidx.lifecycle.MutableLiveData
@@ -6,9 +6,9 @@ import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
-import co.yap.sendMoney.editbeneficiary.interfaces.IEditBeneficiary
-import co.yap.sendMoney.editbeneficiary.states.EditBeneficiaryStates
-import co.yap.sendMoney.viewmodels.SendMoneyBaseViewModel
+import co.yap.sendmoney.editbeneficiary.interfaces.IEditBeneficiary
+import co.yap.sendmoney.editbeneficiary.states.EditBeneficiaryStates
+import co.yap.sendmoney.viewmodels.SendMoneyBaseViewModel
 import co.yap.yapcore.SingleClickEvent
 
 class EditBeneficiaryViewModel(application: Application) :

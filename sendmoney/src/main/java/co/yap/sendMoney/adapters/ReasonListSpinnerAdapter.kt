@@ -1,4 +1,4 @@
-package co.yap.sendMoney.adapters
+package co.yap.sendmoney.adapters
 
 
 import android.annotation.SuppressLint
