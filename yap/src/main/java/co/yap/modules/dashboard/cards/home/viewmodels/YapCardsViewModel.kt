@@ -35,6 +35,7 @@ class YapCardsViewModel(application: Application) : BaseViewModel<IYapCards.Stat
                             val cardsList = response.data.data
                             val primaryCard = getPrimaryCard(cardsList)
                             cardsList?.remove(primaryCard)
+
                             primaryCard?.let {
                                 cardsList?.add(0, primaryCard)
                             }
@@ -51,7 +52,25 @@ class YapCardsViewModel(application: Application) : BaseViewModel<IYapCards.Stat
         }
     }
 
-    private fun getPrimaryCard(cards: ArrayList<Card>?): Card? {
+    override fun getDebitCard() {
+        launch {
+            when (val response = repository.getDebitCards("DEBIT")) {
+                is RetroApiResponse.Success -> {
+                    response.data.data?.let {
+                        if (it.isNotEmpty()) {
+                            val primaryCard = getPrimaryCard(response.data.data)
+                            MyUserManager.card.value = primaryCard
+                        } else {
+                            state.toast = "Debit card not found."
+                        }
+                    }
+                }
+                is RetroApiResponse.Error -> state.toast = response.error.message
+            }
+        }
+    }
+
+    override fun getPrimaryCard(cards: ArrayList<Card>?): Card? {
         return cards?.firstOrNull { it.cardType == CardType.DEBIT.type }
     }
 
