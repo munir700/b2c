@@ -217,7 +217,7 @@ interface CustomersRetroService {
 
     // SubAccount Card Get HouseHold User Info
     @GET(CustomersRepository.URL_GET_PROFILE_HOUSEHOLD_USER)
-    suspend fun getHouseholdUser(@Query("UUID") uuid: String): Response<ApiResponse>
+    suspend fun getHouseholdUser(@Path("UUID") uuid: String?): Response<ApiResponse>
 
     //   SubAccount Card Resend Household onboarding
     @POST(CustomersRepository.URL_RESEND_HOUSEHOLD)
