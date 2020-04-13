@@ -55,8 +55,8 @@ class SubAccountCardFragment :
         val subAccount = data as SubAccount
         subAccount.accountType?.let {
             when (it) {
-                AccountType.B2C_HOUSEHOLD.name -> showRequestDeclinedPopup(subAccount)
-                //navigateForwardWithAnimation(SubAccountDashBoardFragmentDirections.actionSubAccountDashBoardFragmentToHHSalaryProfileFragment())
+                AccountType.B2C_HOUSEHOLD.name -> //showRequestDeclinedPopup(subAccount)
+                navigateForwardWithAnimation(SubAccountDashBoardFragmentDirections.actionSubAccountDashBoardFragmentToHHSalaryProfileFragment())
             }
         }
             ?: launchActivity<HouseHoldLandingActivity>(requestCode = RequestCodes.REQUEST_ADD_HOUSE_HOLD)
@@ -69,7 +69,7 @@ class SubAccountCardFragment :
                 data.firstName
             ), getString(R.string.screen_house_hold_sub_account_popup_resend_button_text),
             getString(R.string.screen_house_hold_sub_account_popup_remove_refund_button_text),
-            callback = { viewModel.resendRequestToHouseHoldUser(data) },// "uuid" : "26287f84-5f9c-4bfe-b8ab-e8016cc7b23d",  "uuid" : "b4ba4040-d904-4742-96aa-374ce6ed6112",
+            callback = { viewModel.getHouseholdUser(data) },// "uuid" : "26287f84-5f9c-4bfe-b8ab-e8016cc7b23d",  "uuid" : "b4ba4040-d904-4742-96aa-374ce6ed6112",
             negativeCallback = { viewModel.RemoveRefundHouseHoldUser(data) })
     }
 

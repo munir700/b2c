@@ -90,7 +90,7 @@ interface CustomersApi {
     suspend fun getSubAccounts(): RetroApiResponse<SubAccounts>
 
     // SubAccount Card Get HouseHold User Info
-    suspend fun getHouseholdUser(uuid: String): RetroApiResponse<ApiResponse>
+    suspend fun getHouseholdUser(uuid: String?): RetroApiResponse<ApiResponse>
 
     //   SubAccount Card Resend Household onboarding
     suspend fun resendRequestToHouseHoldUser(uuid: String?): RetroApiResponse<ApiResponse>

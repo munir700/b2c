@@ -16,6 +16,7 @@ import co.yap.yapcore.R
 import co.yap.yapcore.helpers.extentions.dimen
 import co.yap.yapcore.helpers.glide.setCircleCropImage
 import co.yap.yapcore.helpers.glide.setImage
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 
 object ImageBinding {
@@ -191,15 +192,14 @@ object ImageBinding {
     }
 
     @JvmStatic
-    @BindingAdapter("imageUrl", "app:srcCompat")
-    fun setNavigationViewImageUrl(imageView: AppCompatImageView, url: String, resource: Int) {
-
-        if (resource > 0) imageView.setImageResource(resource) else setImage(imageView, url)
+    @BindingAdapter("app:srcCompat")
+    fun setImageViewResource(imageView: AppCompatImageView, resource: Int) {
+        imageView.setImageResource(resource)
     }
 
     @JvmStatic
     @BindingAdapter("app:srcCompat")
-    fun setImageViewResource(imageView: AppCompatImageView, resource: Int) {
+    fun setFloatingActionButtonResource(imageView: FloatingActionButton, resource: Int) {
         imageView.setImageResource(resource)
     }
 
