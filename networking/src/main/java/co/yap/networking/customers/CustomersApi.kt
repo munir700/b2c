@@ -86,9 +86,17 @@ interface CustomersApi {
     suspend fun changePasscode(newPasscode: String): RetroApiResponse<ApiResponse>
     suspend fun appUpdate(): RetroApiResponse<AppUpdateResponse>
 
-    /*
-    * House hold module
-    * */
+    //    SubAccount Card Get All subaccounts for a YAP user:
+    suspend fun getSubAccounts(): RetroApiResponse<SubAccounts>
+
+    // SubAccount Card Get HouseHold User Info
+    suspend fun getHouseholdUser(uuid: String): RetroApiResponse<ApiResponse>
+
+    //   SubAccount Card Resend Household onboarding
+    suspend fun resendRequestToHouseHoldUser(uuid: String?): RetroApiResponse<ApiResponse>
+
+    //    SubAccount Card Remove house hold card and Refund to IBAN user
+    suspend fun RemoveRefundHouseHoldUser(uuid: String?): RetroApiResponse<ApiResponse>
 
     suspend fun getHouseHoldSubscription(uuid: String): RetroApiResponse<HouseHoldGetSubscriptionResponseDTO>
     suspend fun setUpHouseHoldSubscription(

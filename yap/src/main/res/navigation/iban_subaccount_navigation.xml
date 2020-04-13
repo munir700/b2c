@@ -20,35 +20,86 @@
         android:id="@+id/HHSalaryProfileFragment"
         android:name="co.yap.modules.subaccounts.paysalary.profile.HHSalaryProfileFragment"
         android:label="HHSalaryProfileFragment"
-        tools:layout="@layout/fragment_hhsalary_profile" />
+        tools:layout="@layout/fragment_hhsalary_profile" >
+        <action
+            android:id="@+id/action_HHSalaryProfileFragment_to_subscriptionFragment"
+            app:destination="@id/subscriptionFragment" />
+        <action
+            android:id="@+id/action_HHSalaryProfileFragment_to_payHHEmployeeSalaryFragment"
+            app:destination="@id/payHHEmployeeSalaryFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/enterSalaryAmountFragment"
         android:name="co.yap.modules.subaccounts.paysalary.entersalaryamount.EnterSalaryAmountFragment"
         android:label="EnterSalaryAmountFragment"
-        tools:layout="@layout/fragment_enter_salary_amount" />
+        tools:layout="@layout/fragment_enter_salary_amount" >
+        <action
+            android:id="@+id/action_enterSalaryAmountFragment_to_paymentConfirmationFragment"
+            app:destination="@id/paymentConfirmationFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/paymentConfirmationFragment"
         android:name="co.yap.modules.subaccounts.confirmation.PaymentConfirmationFragment"
         android:label="PaymentConfirmationFragment"
-        tools:layout="@layout/fragment_payment_confirmation" />
+        tools:layout="@layout/fragment_payment_confirmation" >
+        <action
+            android:id="@+id/action_paymentConfirmationFragment_to_HHProfileFragment"
+            app:destination="@id/HHProfileFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/payHHEmployeeSalaryFragment"
         android:name="co.yap.modules.subaccounts.paysalary.employee.PayHHEmployeeSalaryFragment"
         android:label="PayHHEmployeeSalaryFragment"
-        tools:layout="@layout/fragment_pay_hhemployee_salary" />
+        tools:layout="@layout/fragment_pay_hhemployee_salary" >
+        <action
+            android:id="@+id/action_payHHEmployeeSalaryFragment_to_enterSalaryAmountFragment"
+            app:destination="@id/enterSalaryAmountFragment" />
+        <action
+            android:id="@+id/action_payHHEmployeeSalaryFragment_to_futurePaymentFragment"
+            app:destination="@id/futurePaymentFragment" />
+        <action
+            android:id="@+id/action_payHHEmployeeSalaryFragment_to_recurringPaymentFragment"
+            app:destination="@id/recurringPaymentFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/recurringPaymentFragment"
         android:name="co.yap.modules.subaccounts.paysalary.recurringpayment.RecurringPaymentFragment"
         android:label="RecurringPaymentFragment"
-        tools:layout="@layout/fragment_recurring_payment" />
+        tools:layout="@layout/fragment_recurring_payment" >
+        <action
+            android:id="@+id/action_recurringPaymentFragment_to_paymentConfirmationFragment"
+            app:destination="@id/paymentConfirmationFragment" />
+    </fragment>
     <fragment
         android:id="@+id/futurePaymentFragment"
         android:name="co.yap.modules.subaccounts.paysalary.future.FuturePaymentFragment"
         android:label="FuturePaymentFragment"
-        tools:layout="@layout/fragment_future_payment"/>
+        tools:layout="@layout/fragment_future_payment">
+        <action
+            android:id="@+id/action_futurePaymentFragment_to_paymentConfirmationFragment"
+            app:destination="@id/paymentConfirmationFragment" />
+        <action
+            android:id="@+id/action_futurePaymentFragment_to_HHProfileFragment"
+            app:destination="@id/HHProfileFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/subscriptionFragment"
+        android:name="co.yap.modules.subaccounts.paysalary.subscription.SubscriptionFragment"
+        android:label="SubscriptionFragment"
+        tools:layout="@layout/fragment_subscription"
+        >
+        <action
+            android:id="@+id/action_subscriptionFragment_to_HHProfileFragment"
+            app:destination="@id/HHProfileFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/HHProfileFragment"
+        android:name="co.yap.modules.subaccounts.paysalary.profile.cardholderprofile.HHProfileFragment"
+        android:label="HHProfileFragment"
+        tools:layout="@layout/fragment_hh_profile"/>
 
 </navigation>

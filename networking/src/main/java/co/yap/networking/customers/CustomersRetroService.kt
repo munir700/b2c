@@ -10,6 +10,7 @@ import co.yap.networking.customers.responsedtos.household.HouseHoldGetSubscripti
 import co.yap.networking.customers.responsedtos.sendmoney.*
 import co.yap.networking.household.responsedtos.ValidateParentMobileResponse
 import co.yap.networking.models.ApiResponse
+import co.yap.networking.models.RetroApiResponse
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Response
@@ -210,10 +211,23 @@ interface CustomersRetroService {
     @POST(CustomersRepository.URL_SUB_ACCOUNT_INVITATION + "{notificationStatus}")
     suspend fun subAccountInvitation(@Path("notificationStatus") notificationStatus: String): Response<SubAccountInvitationResponse>
 
+    //   SubAccount Card Get All subaccounts for a IBAN user:
+    @GET(CustomersRepository.URL_GET_SUB_ACCOUNTS)
+    suspend fun getSubAccountAccount(): Response<SubAccounts>
 
-    /*
-    * House hold fun
-    * */
+    // SubAccount Card Get HouseHold User Info
+    @GET(CustomersRepository.URL_GET_PROFILE_HOUSEHOLD_USER)
+    suspend fun getHouseholdUser(@Query("UUID") uuid: String): Response<ApiResponse>
+
+    //   SubAccount Card Resend Household onboarding
+    @POST(CustomersRepository.URL_RESEND_HOUSEHOLD)
+    suspend fun resendRequestToHouseHoldUser(@Path("UUID") uuid: String?): Response<ApiResponse>
+
+    //    SubAccount Card Remove house hold card and Refund to IBAN user
+    @POST(CustomersRepository.URL_REFUND_REMOVE_HOUSEHOLD)
+    suspend fun RemoveRefundHouseHoldUser(@Path("UUID") uuid: String?): Response<ApiResponse>
+
+    //     Get House Hold user subscription From Iban user
     @GET(CustomersRepository.URL_GET_HOUSE_HOLD_SUBSCRIPTION)
     suspend fun getHouseHoldSubscription(@Path("UUID") uuid: String): Response<HouseHoldGetSubscriptionResponseDTO>
 
