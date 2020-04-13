@@ -66,14 +66,15 @@ class SubAccountCardFragment :
 
     private fun swipeViews(swipe: Boolean) {
         if (swipe) {
-            layout_image.visibility = View.INVISIBLE
-            llBankTransferType.background = resources.getDrawable(R.drawable.card_border_selected)
+            imgProfile.visibility = View.INVISIBLE
             layout_swipe_image.visibility = View.VISIBLE
+            tv_drag_and_drop_label.visibility = View.VISIBLE
             animate(layout_swipe_image)
+            animate(tv_drag_and_drop_label)
         } else {
-            layout_image.visibility = View.VISIBLE
+            imgProfile.visibility = View.VISIBLE
             layout_swipe_image.visibility = View.INVISIBLE
-            llBankTransferType.background = resources.getDrawable(R.drawable.card_border_selector)
+            tv_drag_and_drop_label.visibility = View.INVISIBLE
         }
     }
 
