@@ -2,6 +2,7 @@ package co.yap.yapcore
 
 
 import android.os.Bundle
+import android.view.DragEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -22,6 +23,10 @@ abstract class BaseRVAdapter<T : ApiResponse, VM : BaseListItemViewModel<T>, VH 
 
     @Nullable
     var onItemClickListener: OnItemClickListener? = null
+    @Nullable
+    var onItemLongClickListener: OnItemLongClickListener? = null
+    @Nullable
+    var onItemDragListener: OnItemDragListener? = null
 
     override fun getItemCount() = datas.count()
 
@@ -45,6 +50,23 @@ abstract class BaseRVAdapter<T : ApiResponse, VM : BaseListItemViewModel<T>, VH 
             )
 
         }
+        holder.itemView.setOnLongClickListener {
+            onItemLongClickListener?.onItemLongClick(
+                it,
+                holder.adapterPosition,
+                getItemId(holder.adapterPosition), datas[holder.adapterPosition]
+            )
+            return@setOnLongClickListener true
+        }
+        holder.itemView.setOnDragListener { view, dragEvent ->
+            onItemDragListener?.onItemDrag(
+                view,
+                holder.adapterPosition,
+                dragEvent, datas[holder.adapterPosition]
+            )
+            return@setOnDragListener true
+        }
+
         return holder
     }
 
@@ -117,5 +139,28 @@ abstract class BaseRVAdapter<T : ApiResponse, VM : BaseListItemViewModel<T>, VH 
         this.datas.set(position, newItem)
         notifyItemChanged(position)
         notifyDataSetChanged()
+    }
+
+}
+
+interface OnItemDragListener {
+    fun onItemDrag(view: View, pos: Int, event: DragEvent, data: Any): Boolean?
+    companion object {
+        operator fun invoke(): OnItemDragListener {
+            return object : OnItemDragListener {
+                override fun onItemDrag(view: View, pos: Int, event: DragEvent, data: Any): Boolean? = false
+            }
+        }
+    }
+}
+
+interface OnItemLongClickListener {
+    fun onItemLongClick(view: View, pos: Int, id: Long, data: Any): Boolean?
+    companion object {
+        operator fun invoke(): OnItemLongClickListener {
+            return object : OnItemLongClickListener {
+                override fun onItemLongClick(view: View, pos: Int, id: Long, data: Any): Boolean? = true
+            }
+        }
     }
 }

@@ -106,7 +106,7 @@ class PhoneVerificationSignInFragment : OnboardingChildFragment<IPhoneVerificati
                     launchActivity<HouseholdDashboardActivity>(clearPrevious = true)
                 }
             }else{
-                launchActivity<OnBoardingHouseHoldActivity>() {
+                launchActivity<OnBoardingHouseHoldActivity>(clearPrevious = true) {
                     putExtra(OnBoardingHouseHoldActivity.USER_INFO, MyUserManager.user)
                 }
             }
