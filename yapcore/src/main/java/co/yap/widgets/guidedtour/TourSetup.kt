@@ -7,6 +7,7 @@ import co.yap.widgets.guidedtour.models.GuidedTourViewDetail
 import co.yap.widgets.guidedtour.shape.Focus
 import co.yap.widgets.guidedtour.shape.FocusGravity
 import co.yap.widgets.guidedtour.view.DescriptionView
+import co.yap.widgets.guidedtour.view.CoachMarkDialogueOverlay
 
 class TourSetup() : DescriptionBoxListener {
 
@@ -57,12 +58,16 @@ class TourSetup() : DescriptionBoxListener {
     }
 
     fun focusSingleView(guidedTourViewDetail: GuidedTourViewDetail) {
-        activity?.let {
-            showIntro(
-                guidedTourViewDetail,
-                Focus.ALL, it
-            )
-        }
+
+        CoachMarkDialogueOverlay(context)
+
+
+//        activity?.let {
+//            showIntro(
+//                guidedTourViewDetail,
+//                Focus.ALL, it
+//            )
+//        }
     }
 
 
