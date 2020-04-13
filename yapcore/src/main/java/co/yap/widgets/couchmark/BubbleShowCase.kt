@@ -11,7 +11,6 @@ import android.os.Build
 import android.os.Handler
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.RelativeLayout
 import androidx.core.content.ContextCompat
 import co.yap.yapcore.R
@@ -176,7 +175,7 @@ class BubbleShowCase(builder: BubbleShowCaseBuilder) {
         backgroundLayout.setBackgroundColor(
             ContextCompat.getColor(
                 mActivity.get()!!,
-                R.color.transparent //TODO: change bg color
+                R.color.transparent_grey //TODO: change bg color
 
             )
         )
@@ -252,6 +251,7 @@ class BubbleShowCase(builder: BubbleShowCaseBuilder) {
             getScreenWidth(mActivity.get()!!) - (getXposition(targetView) + targetView.width),
             0
         )
+
 //        backgroundDimLayout?.addView(targetView, targetViewParams)
     }
 
@@ -427,9 +427,19 @@ class BubbleShowCase(builder: BubbleShowCaseBuilder) {
     private fun takeScreenshot(targetView: View, highlightMode: HighlightMode?): Bitmap? {
         if (highlightMode == null || highlightMode == HighlightMode.VIEW_LAYOUT)
             return takeScreenshotOfLayoutView(targetView)
+        else if (highlightMode == HighlightMode.VIEW_CIRCLE) {
+            return takeScreenshotOfSurfaceView(targetView)
+        }
         return takeScreenshotOfSurfaceView(targetView)
+
     }
 
+    private fun drawCircleAroundLayoutView(targetView: View): Bitmap? {
+        if (targetView.width == 0 || targetView.height == 0) {
+            return null
+        }
+        return null
+    }
     private fun takeScreenshotOfLayoutView(targetView: View): Bitmap? {
         if (targetView.width == 0 || targetView.height == 0) {
             return null

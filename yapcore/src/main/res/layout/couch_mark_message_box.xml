@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/showCaseMessageViewLayout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -8,63 +9,72 @@
     android:paddingStart="36dp"
     android:paddingTop="20dp"
     android:paddingEnd="20dp"
-    android:paddingBottom="36dp">
+    android:paddingBottom="12dp">
 
-    <ImageView
-        android:id="@+id/imageViewShowCase"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:layout_marginStart="0dp"
-        android:layout_marginTop="16dp"
-        android:src="@drawable/white_round_card_background"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
     <LinearLayout
         android:id="@+id/layoutTexts"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="16dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:orientation="vertical"
-        app:layout_constraintEnd_toStartOf="@+id/imageViewShowCaseClose"
-        app:layout_constraintStart_toEndOf="@+id/imageViewShowCase"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
-            android:id="@+id/textViewShowCaseTitle"
-            android:layout_width="match_parent"
+            android:id="@+id/tvTitle"
+            style="@style/Small"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="start"
+            android:gravity="start"
+            android:textColor="@color/colorDarkGrey"
             android:breakStrategy="simple"
-            android:text="Title"
-            android:textColor="@color/white"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            android:visibility="gone" />
+            android:textSize="@dimen/_10sdp"
+            tools:text="Menu" />
 
         <TextView
-            android:id="@+id/textViewShowCaseText"
+            android:id="@+id/tvDescription"
+            style="@style/ASmallGrey"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="2dp"
+            android:gravity="start"
+            android:lineSpacingExtra="2dp"
             android:breakStrategy="simple"
-            android:textColor="@color/white"
-            android:textSize="14sp"
-            android:visibility="gone" />
-
+            android:textColor="@color/greyDark"
+            android:textSize="@dimen/_10sdp"
+            tools:text="Click here to view the menu bar where you can see your account details and navigate to useful pages" />
     </LinearLayout>
 
-
-    <ImageView
-        android:id="@+id/imageViewShowCaseClose"
-        android:layout_width="36dp"
-        android:layout_height="36dp"
-        android:padding="11dp"
-        android:scaleType="centerCrop"
-        android:src="@drawable/ic_close_primery"
+    <TextView
+        android:id="@+id/tvCount"
+        style="@style/Small"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="4dp"
+        android:gravity="start"
+        android:paddingLeft="@dimen/small"
+        android:text="1/5"
+        android:textColor="@color/colorPrimary"
+        android:textSize="@dimen/_10sdp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <co.yap.widgets.CoreButton
+        android:id="@+id/btnNext"
+        style="@style/AddressBtnStyle"
+        android:layout_width="@dimen/_100sdp"
+        android:layout_height="@dimen/_28sdp"
+        android:layout_marginStart="@dimen/margin_medium"
+        android:layout_marginTop="@dimen/margin_medium"
+        android:layout_marginBottom="@dimen/margin_normal"
+        android:text="@string/common_button_next"
+        android:textAllCaps="false"
+        android:textSize="@dimen/_11sdp"
+        app:btn_text_size="@dimen/_11sdp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/layoutTexts"
+        tools:text="@string/common_button_next" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

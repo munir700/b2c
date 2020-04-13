@@ -9,6 +9,7 @@ import android.graphics.drawable.Drawable
 import android.util.AttributeSet
 import android.util.TypedValue
 import android.view.View
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -26,10 +27,9 @@ class BubbleMessageView : ConstraintLayout {
 
     private var itemView: View? = null
 
-    private var imageViewIcon: ImageView? = null
     private var textViewTitle: TextView? = null
     private var textViewSubtitle: TextView? = null
-    private var imageViewClose: ImageView? = null
+    private var btnNext: Button? = null
     private var showCaseMessageViewLayout: ConstraintLayout? = null
 
     private var targetViewScreenLocation: RectF? = null
@@ -64,25 +64,19 @@ class BubbleMessageView : ConstraintLayout {
     }
 
     private fun bindViews() {
-        imageViewIcon = findViewById(R.id.imageViewShowCase)
-        imageViewClose = findViewById(R.id.imageViewShowCaseClose)
-        textViewTitle = findViewById(R.id.textViewShowCaseTitle)
-        textViewSubtitle = findViewById(R.id.textViewShowCaseText)
+        btnNext = findViewById(R.id.btnNext)
+        textViewTitle = findViewById(R.id.tvTitle)
+        textViewSubtitle = findViewById(R.id.tvDescription)
         showCaseMessageViewLayout = findViewById(R.id.showCaseMessageViewLayout)
     }
 
     private fun setAttributes(builder: Builder){
-        if(builder.mImage!=null){
-            imageViewIcon?.visibility = View.VISIBLE
-            imageViewIcon?.setImageDrawable(builder.mImage!!)
-        }
         if(builder.mCloseAction!=null){
-            imageViewClose?.visibility = View.VISIBLE
-            imageViewClose?.setImageDrawable(builder.mCloseAction!!)
+            btnNext?.visibility = View.VISIBLE
         }
 
         if(builder.mDisableCloseAction!=null && builder.mDisableCloseAction!!){
-            imageViewClose?.visibility = View.INVISIBLE
+            btnNext?.visibility = View.INVISIBLE
         }
 
         builder.mTitle?.let {
@@ -109,7 +103,7 @@ class BubbleMessageView : ConstraintLayout {
     }
 
     private fun setBubbleListener(builder: Builder){
-        imageViewClose?.setOnClickListener {builder.mListener?.onCloseActionImageClick()}
+        btnNext?.setOnClickListener {builder.mListener?.onCloseActionImageClick()}
         itemView?.setOnClickListener {builder.mListener?.onBubbleClick()}
     }
 

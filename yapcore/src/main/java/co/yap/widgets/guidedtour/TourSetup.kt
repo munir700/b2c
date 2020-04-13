@@ -36,8 +36,8 @@ class TourSetup() : DescriptionBoxListener {
     }
 
     private fun focusSingleView() {
-        layer = CoachMarkDialogueOverlay(context, guidedTourViewViewsList)
-        layer?.show()
+//        layer = CoachMarkDialogueOverlay(context, guidedTourViewViewsList)
+//        layer?.show()
         getCurrentItem()?.let {
             descBox = getDescBox(context, it)
             descBox?.show()
@@ -65,9 +65,6 @@ class TourSetup() : DescriptionBoxListener {
             .title(guidedTourViewDetail.title)
             .description(guidedTourViewDetail.description)
             .backgroundColor(context.getColor(R.color.white)) //Bubble background color
-            .textColor(context.getColor(R.color.quantum_black_100)) //Bubble Text color
-            .titleTextSize(17) //Title text size in SP (default value 16sp)
-            .descriptionTextSize(15) //Subtitle text size in SP (default value 14sp)
             .targetView(guidedTourViewDetail.view)
     }
 
