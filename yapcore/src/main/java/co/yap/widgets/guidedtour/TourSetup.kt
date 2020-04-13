@@ -14,7 +14,8 @@ class TourSetup() : DescriptionBoxListener {
     var currentViewId: Int = 0
     var activity: Activity? = null
     var isMultipleViewsTour: Boolean = false
-    var guidedTourViewViewsList: ArrayList<GuidedTourViewDetail> = ArrayList()
+    private var guidedTourViewViewsList: ArrayList<GuidedTourViewDetail> = ArrayList()
+    var layer: CoachMarkDialogueOverlay? = null
 
     lateinit var context: Context
 

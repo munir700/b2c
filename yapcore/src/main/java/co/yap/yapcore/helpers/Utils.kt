@@ -103,7 +103,7 @@ object Utils {
                         progress.indeterminateMode = true
                         layer.visibility = View.VISIBLE
                         //ballon(context,progress)
-                        ballon2(context, progress)
+                        //ballon2(context, progress)
                     }
                 })
         }

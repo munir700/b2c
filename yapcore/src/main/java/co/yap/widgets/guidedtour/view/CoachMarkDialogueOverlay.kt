@@ -2,60 +2,69 @@ package co.yap.widgets.guidedtour.view
 
 import android.app.Dialog
 import android.content.Context
-import android.util.Log
-import android.view.View
+import android.os.Bundle
 import android.view.Window
 import android.view.WindowManager
+import android.widget.Button
 import android.widget.RelativeLayout
 import co.yap.widgets.guidedtour.models.GuidedTourViewDetail
 import co.yap.yapcore.R
 
 class CoachMarkDialogueOverlay(
-    context: Context,
-    guidedTourViewViewsList: ArrayList<GuidedTourViewDetail>
-) : Dialog(context) {
+    internal val context: Context,
+    private val guidedTourViewViewsList: ArrayList<GuidedTourViewDetail>
+) : Dialog(context, android.R.style.Theme_Light) {
+    private var circleView: CircleOverlayView? = null
+    private var rootMain: RelativeLayout? = null
+    private var skip: Button? = null
+    //private var layer = dialog.findViewById(R.id.layerView) as View
+
+    var currentViewId: Int = 0
+    var previousViewId = currentViewId
+
     init {
-        var guidedTourViewViewsList = guidedTourViewViewsList
-        var guidedTourViewDetail: GuidedTourViewDetail? = null
-        var currentViewId: Int = 0
-        var previousViewId: Int = 0
+        setCancelable(true)
+    }
 
-
-        previousViewId = currentViewId
-        if (currentViewId < guidedTourViewViewsList.size) {
-
-            guidedTourViewDetail = guidedTourViewViewsList[currentViewId]
-
-            currentViewId += 1
-
-        }
-
-
-        val dialog = Dialog(context, android.R.style.Theme_Light)
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        dialog.setCancelable(false)
-        dialog.setContentView(R.layout.dialogue_coach_mark_overlay)
-        dialog.window?.setLayout(
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        requestWindowFeature(Window.FEATURE_NO_TITLE)
+        setContentView(R.layout.dialogue_coach_mark_overlay)
+        window?.setLayout(
             WindowManager.LayoutParams.MATCH_PARENT,
             WindowManager.LayoutParams.MATCH_PARENT
         )
-        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
-        val circleView = dialog.findViewById(R.id.circleView) as CircleOverlayView
-        val rootMain = dialog.findViewById(R.id.rlMain) as RelativeLayout
-        //val layer = dialog.findViewById(R.id.layerView) as View
-
-        if (guidedTourViewDetail != null) {
-            circleView.centerX = guidedTourViewDetail.pointX.toFloat()
-            circleView.centerY = guidedTourViewDetail.pointY.toFloat()
+        window?.setBackgroundDrawableResource(android.R.color.transparent)
+        circleView = findViewById(R.id.circleView)
+        rootMain = findViewById(R.id.rlMain)
+        skip = findViewById(R.id.skip)
+        skip?.setOnClickListener {
+            moveNext()
         }
-
-
-        dialog.setOnShowListener {
-        }
-        dialog.setOnDismissListener {
-        }
-        dialog.show()
+        updateCircle()
     }
 
+    private fun moveNext() {
+        if (currentViewId < guidedTourViewViewsList.size) {
+            previousViewId = currentViewId
+            currentViewId += 1
+            updateCircle()
+        } else {
+            dismiss()
+        }
+    }
 
+    private fun updateCircle() {
+        getCurrentItem()?.let {
+            circleView?.centerX = it.pointX.toFloat() + (it.view.width.toFloat() / 2)
+            circleView?.centerY = it.pointY.toFloat() - (it.view.height.toFloat() / 2)
+            circleView?.invalidate()
+        }
+    }
+
+    private fun getCurrentItem(): GuidedTourViewDetail? {
+        return if (!guidedTourViewViewsList.isNullOrEmpty() && currentViewId < guidedTourViewViewsList.size) guidedTourViewViewsList[currentViewId] else null
+    }
 }
+
+
