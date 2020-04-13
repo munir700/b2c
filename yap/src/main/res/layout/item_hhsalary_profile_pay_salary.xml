@@ -11,7 +11,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/cornor_edges_gery"
+        android:background="@drawable/card_border_container"
         android:padding="@dimen/margin_small">
 
         <View
@@ -31,7 +31,7 @@
             app:layout_constraintTop_toTopOf="@id/ivExpenseBg"
             app:layout_constraintBottom_toBottomOf="@id/ivExpenseBg"
             app:layout_constraintEnd_toEndOf="@+id/ivExpenseBg"
-            app:src="@{hhSalaryProfileItemVM.item.image}" />
+            app:srcCompat="@{hhSalaryProfileItemVM.item.image}" />
 
         <TextView
             android:id="@+id/tv_pay_salary_title"

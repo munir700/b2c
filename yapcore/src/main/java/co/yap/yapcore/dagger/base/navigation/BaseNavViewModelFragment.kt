@@ -139,6 +139,12 @@ abstract class BaseNavViewModelFragment<VB : ViewDataBinding, S : IBase.State, V
         findNavController().navigate(navDirections)
     }
 
+    protected fun navigateForwardWithAnimation(navDirections: NavDirections, args: Bundle?) {
+        // val extras = FragmentNavigatorExtras(appBarLayout to appBarTransition)
+        this.exitTransition = Slide()
+        navigateForResult( navDirections.actionId,REQUEST_CODE_NOT_SET,args)
+    }
+
     protected fun navigateBackWithResult(resultCode: Int, data: Bundle? = null): Boolean =
         navigateBackWithResult(
             DESTINATION_NOT_SET,
