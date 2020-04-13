@@ -1,7 +1,6 @@
 package co.yap.yapcore.dagger.base
 
 
-import android.os.Bundle
 import android.view.View
 import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.Observer
@@ -18,7 +17,6 @@ import co.yap.yapcore.dagger.base.navigation.BaseNavViewModelFragment
 import co.yap.yapcore.dagger.base.viewmodel.BaseRecyclerAdapterVM
 import co.yap.yapcore.helpers.extentions.bindView
 import co.yap.yapcore.helpers.extentions.dimen
-import co.yap.yapcore.helpers.extentions.fixSwipeToRefresh
 import co.yap.yapcore.interfaces.OnItemClickListener
 import javax.inject.Inject
 
@@ -44,8 +42,8 @@ abstract class BaseRecyclerViewFragment<VB : ViewDataBinding, S : IBase.State, V
      * if return false in child fragment then child fragment should need implement owen [RecyclerView]
      */
     var setupRecyclerView = true
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    override fun postExecutePendingBindings() {
+        super.postExecutePendingBindings()
         if (setupRecyclerView) {
             getmViewModel().adapter.set(adapter)
             recyclerView?.addItemDecoration(getItemDecoration())

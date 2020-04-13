@@ -10,13 +10,14 @@ import co.yap.household.databinding.FragmentKycSuccessBinding
 import co.yap.modules.onboarding.activities.LiteDashboardActivity
 import co.yap.yapcore.adjust.AdjustEvents
 import co.yap.yapcore.dagger.base.BaseViewModelFragment
+import co.yap.yapcore.dagger.base.navigation.BaseNavViewModelFragment
 import co.yap.yapcore.helpers.extentions.launchActivity
 import co.yap.yapcore.trackAdjustEvent
 import kotlinx.android.synthetic.main.activity_kyc_success.*
 import javax.inject.Inject
 
 class KycSuccessFragment :
-    BaseViewModelFragment<FragmentKycSuccessBinding, IKycSuccess.State, KycSuccessVM>() {
+    BaseNavViewModelFragment<FragmentKycSuccessBinding, IKycSuccess.State, KycSuccessVM>() {
     override fun getBindingVariable() = BR.kycSuccessVM
 
     override fun getLayoutId() = R.layout.fragment_kyc_success

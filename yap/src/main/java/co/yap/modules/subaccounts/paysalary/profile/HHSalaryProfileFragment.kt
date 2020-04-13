@@ -31,7 +31,7 @@ class HHSalaryProfileFragment :
         setRefreshEnabled(false)
     }
 
-    override var toolBarTitle: String? = "dsads"//state.subAccount.value?.getFullName()
+    override fun getToolBarTitle()=state.subAccount.value?.getFullName()
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
         inflater.inflate(R.menu.menu_options, menu)

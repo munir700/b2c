@@ -19,6 +19,8 @@ package co.yap.yapcore.dagger.base
 import android.content.Context
 import android.os.Bundle
 import androidx.navigation.fragment.NavHostFragment
+import co.yap.yapcore.dagger.base.interfaces.CanFetchExtras
+import co.yap.yapcore.helpers.extentions.handleExtras
 import dagger.android.support.AndroidSupportInjection
 import javax.inject.Inject
 
@@ -29,7 +31,7 @@ import javax.inject.Inject
  * <br>
  * When you include this fragment in your layout file you should give it the appropriate id ([R.id.nav_host_fragment])
  */
-open class MvvmNavHostFragment : NavHostFragment() {
+open class MvvmNavHostFragment : NavHostFragment(), CanFetchExtras {
 
 //    @Inject
 //    protected lateinit var daggerFragmentInjectionFactory: InjectingFragmentFactory
@@ -39,4 +41,7 @@ open class MvvmNavHostFragment : NavHostFragment() {
         super.onAttach(context)
     }
 
+    override fun fetchExtras(extras: Bundle?) {
+        childFragmentManager.fragments.handleExtras(extras)
+    }
 }

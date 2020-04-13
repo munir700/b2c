@@ -16,5 +16,7 @@ interface ManageToolBarListener {
      * if [androidx.appcompat.widget.Toolbar] in Activity then [Fragment] need to manage [androidx.appcompat.widget.Toolbar] in layout file
      */
     var toolBarVisibility: Boolean?
+
+  //  fun setToolbarTitle(listener: ManageToolBarListener)
 //    fun getToolBarTitle(): String?
 }
