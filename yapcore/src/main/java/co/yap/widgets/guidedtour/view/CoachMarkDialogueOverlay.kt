@@ -53,7 +53,7 @@ class CoachMarkDialogueOverlay(
 
     fun updateCircle() {
         getCurrentItem()?.let {
-            circleView?.centerX = it.pointX.toFloat()
+            circleView?.centerX = it.pointX.toFloat() + (it.pointX.toFloat() / 2)
             circleView?.centerY = it.pointY.toFloat()
         }
     }
