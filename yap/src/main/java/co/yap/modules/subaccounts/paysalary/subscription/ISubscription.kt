@@ -14,6 +14,7 @@ interface ISubscription {
         var customersRepository: CustomersRepository
         fun getSubscriptionData()
         fun setUpSubscription()
+        fun cancelSubscription()
     }
 
     interface State : IBase.State {

@@ -7,7 +7,6 @@ import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.models.RetroApiResponse
 import co.yap.yapcore.dagger.base.viewmodel.DaggerBaseViewModel
 import co.yap.yapcore.helpers.confirm
-import co.yap.yapcore.helpers.extentions.toast
 import javax.inject.Inject
 
 class SubscriptionVM @Inject constructor(override val state: ISubscription.State) :
@@ -61,6 +60,24 @@ class SubscriptionVM @Inject constructor(override val state: ISubscription.State
         }
     }
 
+    override fun cancelSubscription() {
+        launch {
+            state.loading = true
+            when (val response =
+                customersRepository.cancelHouseHoldSubscription(
+                    "f0c52305-a055-498d-8d79-71cf815dcaff"
+                )) {
+                is RetroApiResponse.Success -> {
+
+                }
+                is RetroApiResponse.Error -> {
+                    state.loading = false
+                    state.toast = response.error.message
+                }
+            }
+            state.loading = false
+        }
+    }
 
     override fun handlePressOnClick(context: Context) {
         context.confirm(
@@ -70,7 +87,7 @@ class SubscriptionVM @Inject constructor(override val state: ISubscription.State
             negativeButton = "NO",
             cancelable = false
         ) {
-            toast(context, "Cancel subscription.")
+            cancelSubscription()
         }
     }
 

@@ -10,7 +10,6 @@ import co.yap.networking.customers.responsedtos.household.HouseHoldGetSubscripti
 import co.yap.networking.customers.responsedtos.sendmoney.*
 import co.yap.networking.household.responsedtos.ValidateParentMobileResponse
 import co.yap.networking.models.ApiResponse
-import co.yap.networking.models.RetroApiResponse
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Response
@@ -236,6 +235,9 @@ interface CustomersRetroService {
         @Path("UUID") uuid: String,
         @Query("planType") planType: String, @Query("isAutoRenew") isAutoRenew: Boolean
     ): Response<ApiResponse>
+
+    @POST(CustomersRepository.URL_CANCEL_HOUSE_HOLD_SUBSCRIPTION)
+    suspend fun cancelHouseHoldSubscription(@Path("UUID") uuid: String): Response<ApiResponse>
 
 
 }
