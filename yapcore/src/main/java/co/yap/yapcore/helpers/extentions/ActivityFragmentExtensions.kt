@@ -23,6 +23,7 @@ import co.yap.yapcore.constants.Constants.FRAGMENT_CLASS
 import co.yap.yapcore.constants.Constants.SHOW_TOOLBAR
 import co.yap.yapcore.constants.Constants.TOOLBAR_TITLE
 import co.yap.yapcore.constants.RequestCodes
+import co.yap.yapcore.dagger.base.interfaces.CanFetchExtras
 import com.github.florent37.inlineactivityresult.kotlin.startForResult
 
 
@@ -105,7 +106,6 @@ inline fun <reified T : Any> Context.launchActivity(
         startActivity(intent)
     }
 }
-
 
 
 inline fun <reified T : Any> newIntent(context: Context): Intent =
@@ -366,4 +366,25 @@ internal fun <T> String.loadClassOrNull(): Class<out T>? =
         }
     }.castOrNull()
 
+/**
+ * Applies the [handleExtras] method to each of the [Fragment]s
+ * present in the specified [Collection].
+ *
+ * @param extras the [Bundle] of arguments
+ */
+fun Collection<Fragment>.handleExtras(extras: Bundle?) {
+    this.forEach { it.handleExtras(extras) }
+}
 
+/**
+ * Propagates the extras for further handling to the specified [Fragment]
+ * only if it (the specified [Fragment]) can handle the specified [Bundle] of arguments
+ * (if it (the specified [Fragment]) implements the [CanFetchExtras] interface)
+ *
+ * @param extras the [Bundle] of arguments
+ */
+fun Fragment.handleExtras(extras: Bundle?) {
+    if (this is CanFetchExtras) {
+        this.fetchExtras(extras)
+    }
+}

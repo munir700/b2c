@@ -16,9 +16,12 @@ class HHSalaryProfileVM @Inject constructor(override val state: IHHSalaryProfile
 
     override fun onFirsTimeUiCreate(bundle: Bundle?, navigation: NavController?) {
         bundle?.let { state.subAccount.value = it.getParcelable(SubAccount::class.simpleName) }
-
     }
 
+    override fun fetchExtras(extras: Bundle?) {
+        super.fetchExtras(extras)
+
+    }
 
     override fun handlePressOnClick(id: Int) {
         clickEvent.setValue(id)

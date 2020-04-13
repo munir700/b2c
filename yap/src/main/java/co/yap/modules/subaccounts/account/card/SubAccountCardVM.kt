@@ -29,6 +29,7 @@ class SubAccountCardVM @Inject constructor(override val state: ISubAccountCard.S
         accounts.account?.let { addData(it) }
     }
 
+
     override fun getSubAccount() {
         launch {
             publishState(State.loading(null))
