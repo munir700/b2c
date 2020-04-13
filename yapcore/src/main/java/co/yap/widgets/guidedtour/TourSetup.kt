@@ -6,8 +6,8 @@ import android.util.DisplayMetrics
 import co.yap.widgets.guidedtour.models.GuidedTourViewDetail
 import co.yap.widgets.guidedtour.shape.Focus
 import co.yap.widgets.guidedtour.shape.FocusGravity
-import co.yap.widgets.guidedtour.view.DescriptionView
 import co.yap.widgets.guidedtour.view.CoachMarkDialogueOverlay
+import co.yap.widgets.guidedtour.view.DescriptionView
 
 class TourSetup() : DescriptionBoxListener {
 
@@ -16,9 +16,11 @@ class TourSetup() : DescriptionBoxListener {
     var activity: Activity? = null
     var isMultipleViewsTour: Boolean = false
     var guidedTourViewViewsList: ArrayList<GuidedTourViewDetail> = ArrayList()
+    var guidedTourViewDetail: GuidedTourViewDetail? = null
 
     lateinit var metrics: DisplayMetrics
     lateinit var context: Context
+
 
     constructor (
         context: Context,
@@ -49,8 +51,9 @@ class TourSetup() : DescriptionBoxListener {
 
         isMultipleViewsTour = true
         previousViewId = currentViewId
+        guidedTourViewDetail = guidedTourViewViewsList[currentViewId]
 
-        focusSingleView(guidedTourViewViewsList[currentViewId])
+        focusSingleView(guidedTourViewDetail!!)
         currentViewId = currentViewId + 1
         println(currentViewId)
 
@@ -59,15 +62,7 @@ class TourSetup() : DescriptionBoxListener {
 
     fun focusSingleView(guidedTourViewDetail: GuidedTourViewDetail) {
 
-        CoachMarkDialogueOverlay(context)
-
-
-//        activity?.let {
-//            showIntro(
-//                guidedTourViewDetail,
-//                Focus.ALL, it
-//            )
-//        }
+        CoachMarkDialogueOverlay(context, guidedTourViewViewsList)
     }
 
 
@@ -80,7 +75,7 @@ class TourSetup() : DescriptionBoxListener {
             .setFocusGravity(FocusGravity.CENTER)
             .setFocusType(focusType!!)
             .setDelayMillis(200)
-            .setViewCount((currentViewId+1),guidedTourViewViewsList.size)
+            .setViewCount((currentViewId + 1), guidedTourViewViewsList.size)
             .enableFadeAnimation(true)
             .setListener(this)
             .performClick(true)
