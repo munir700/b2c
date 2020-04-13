@@ -140,21 +140,9 @@ class BubbleMessageView : ConstraintLayout {
         prepareToDraw()
         drawRectangle(canvas)
 
-        if (arrowPositionList.isEmpty()) {
-//            if (ScreenUtils.isViewLocatedAtHalfTopOfTheScreen(
-//                    context,
-//                    target
-//                )
-//            )
-            if (true) arrowPositionList.add(BubbleShowCase.ArrowPosition.TOP) else arrowPositionList.add(
-                BubbleShowCase.ArrowPosition.BOTTOM
-            )
-            // bubbleMessageViewBuilder = getBubbleMessageViewBuilder()
+        for (arrowPosition in arrowPositionList) {
+            drawArrow(canvas, arrowPosition, targetViewScreenLocation)
         }
-
-        //for (arrowPosition in arrowPositionList) {
-        //    drawArrow(canvas, arrowPosition, targetViewScreenLocation)
-        //}
     }
 
     private fun prepareToDraw() {

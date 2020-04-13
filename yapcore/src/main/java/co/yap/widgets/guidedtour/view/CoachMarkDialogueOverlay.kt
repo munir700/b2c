@@ -26,7 +26,7 @@ class CoachMarkDialogueOverlay(
 
             guidedTourViewDetail = guidedTourViewViewsList[currentViewId]
 
-            currentViewId = currentViewId + 1
+            currentViewId += 1
 
         }
 
@@ -47,14 +47,10 @@ class CoachMarkDialogueOverlay(
         if (guidedTourViewDetail != null) {
             circleView.centerX = guidedTourViewDetail.pointX.toFloat()
             circleView.centerY = guidedTourViewDetail.pointY.toFloat()
-            Log.i("CoachMarkDialogue", circleView.centerX.toString())
-            Log.i("CoachMarkDialogue", circleView.centerY.toString())
-            Log.i("CoachMarkDialogue", guidedTourViewDetail?.title.toString())
         }
 
 
         dialog.setOnShowListener {
-            //layer.visibility = View.VISIBLE
         }
         dialog.setOnDismissListener {
         }

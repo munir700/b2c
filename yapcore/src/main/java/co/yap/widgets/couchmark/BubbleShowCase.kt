@@ -80,7 +80,7 @@ class BubbleShowCase(builder: BubbleShowCaseBuilder) {
             }
         }
         val rootView = getViewRoot(mActivity.get()!!)
-        backgroundDimLayout = getBackgroundDimLayout()
+        backgroundDimLayout =  getBackgroundDimLayout()
         setBackgroundDimListener(backgroundDimLayout)
         bubbleMessageViewBuilder = getBubbleMessageViewBuilder()
         if (mTargetView != null && mArrowPositionList.size <= 1) {
@@ -100,7 +100,7 @@ class BubbleShowCase(builder: BubbleShowCaseBuilder) {
                     bubbleMessageViewBuilder = getBubbleMessageViewBuilder()
                 }
                 if (isVisibleOnScreen(target)) {
-                    addTargetViewAtBackgroundDimLayout(target, backgroundDimLayout)
+                    addTargetView(target)
                     addBubbleMessageViewDependingOnTargetView(
                         target,
                         bubbleMessageViewBuilder!!,
@@ -165,7 +165,7 @@ class BubbleShowCase(builder: BubbleShowCaseBuilder) {
         backgroundLayout.setBackgroundColor(
             ContextCompat.getColor(
                 mActivity.get()!!,
-                R.color.light_grey //TODO: change bg color
+                R.color.transparent_grey //TODO: change bg color
             )
         )
         backgroundLayout.isClickable = true
@@ -224,19 +224,9 @@ class BubbleShowCase(builder: BubbleShowCaseBuilder) {
     /**
      * This function takes a screenshot of the targetView, creating an ImageView from it. This new ImageView is also set on the layout passed by param
      */
-    private fun addTargetViewAtBackgroundDimLayout(
-        targetView: View?,
-        backgroundDimLayout: RelativeLayout?
-    ) {
+    private fun addTargetView(
+        targetView: View?,backgroundDimLayout: RelativeLayout?) {
         if (targetView == null) return
-        val targetScreenshot = takeScreenshot(targetView, mHighlightMode)
-        val targetScreenshotView = ImageView(mActivity.get()!!)
-        targetScreenshotView.setImageBitmap(targetScreenshot)
-        targetScreenshotView.setOnClickListener {
-            if (!mDisableTargetClick)
-                dismiss()
-            mBubbleShowCaseListener?.onTargetClick(this)
-        }
         val targetViewParams = RelativeLayout.LayoutParams(
             RelativeLayout.LayoutParams.WRAP_CONTENT,
             RelativeLayout.LayoutParams.WRAP_CONTENT
@@ -246,13 +236,6 @@ class BubbleShowCase(builder: BubbleShowCaseBuilder) {
             getYposition(targetView),
             getScreenWidth(mActivity.get()!!) - (getXposition(targetView) + targetView.width),
             0
-        )
-        backgroundDimLayout?.addView(
-            AnimationUtils.setBouncingAnimation(
-                targetScreenshotView,
-                0,
-                DURATION_BEATING_ANIMATION
-            ), targetViewParams
         )
     }
 
@@ -507,6 +490,3 @@ class BubbleShowCase(builder: BubbleShowCaseBuilder) {
 
 }
 
-enum class HighlightMode {
-    VIEW_LAYOUT, VIEW_SURFACE, VIEW_CIRCLE
-}

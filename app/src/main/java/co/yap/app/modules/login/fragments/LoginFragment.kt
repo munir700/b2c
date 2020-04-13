@@ -79,15 +79,15 @@ class LoginFragment : BaseBindingFragment<ILogin.ViewModel>(), ILogin.View {
     private fun setViewsArray(): ArrayList<GuidedTourViewDetail> {
         val list = ArrayList<GuidedTourViewDetail>()
 
-        list.add(
-            GuidedTourViewDetail(
-                ivYap,
-                "Your current balance",
-                "Here you can see your account’s current balance. It will be updated in-real time after every transaction.",
-                ivYap.locationOnScreen.x,
-                ivYap.locationOnScreen.y
-            )
-        )
+//        list.add(
+//            GuidedTourViewDetail(
+//                ivYap,
+//                "Your current balance",
+//                "Here you can see your account’s current balance. It will be updated in-real time after every transaction.",
+//                ivYap.locationOnScreen.x,
+//                ivYap.locationOnScreen.y
+//            )
+//        )
         list.add(
             GuidedTourViewDetail(
                 clSignUp,
@@ -97,27 +97,27 @@ class LoginFragment : BaseBindingFragment<ILogin.ViewModel>(), ILogin.View {
                 clSignUp.locationOnScreen.y
             )
         )
-        list.add(
-            GuidedTourViewDetail(
-                tvSignIn,
-                "yap it",
-                "Click here to see more actions like:\n" +
-                        "YAP to YAP transactions,  yop up your account, send money and pay your bills",
-
-                tvSignIn.locationOnScreen.x,
-                tvSignIn.locationOnScreen.y
-            )
-        )
-
-        list.add(
-            GuidedTourViewDetail(
-                clSignUp,
-                "menu bar",
-                "Click here to view the menu bar where you can see your account details and navigate to useful pages",
-                clSignUp.locationOnScreen.x,
-                clSignUp.locationOnScreen.y
-            )
-        )
+//        list.add(
+//            GuidedTourViewDetail(
+//                tvSignIn,
+//                "yap it",
+//                "Click here to see more actions like:\n" +
+//                        "YAP to YAP transactions,  yop up your account, send money and pay your bills",
+//
+//                tvSignIn.locationOnScreen.x,
+//                tvSignIn.locationOnScreen.y
+//            )
+//        )
+//
+//        list.add(
+//            GuidedTourViewDetail(
+//                clSignUp,
+//                "menu bar",
+//                "Click here to view the menu bar where you can see your account details and navigate to useful pages",
+//                clSignUp.locationOnScreen.x,
+//                clSignUp.locationOnScreen.y
+//            )
+//        )
         return list
     }
 
