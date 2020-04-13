@@ -140,7 +140,7 @@
         <item name="elevation">0dp</item>
         <item name="fabCustomSize">@dimen/_20sdp</item>
         <item name="fabSize">mini</item>
-        <item name="maxImageSize">@dimen/_10sdp</item>
+        <item name="maxImageSize">@dimen/_14sdp</item>
     </style>
 
     <style name="Yap.App.Widget.AppBarLayout" parent="Widget.Design.AppBarLayout">

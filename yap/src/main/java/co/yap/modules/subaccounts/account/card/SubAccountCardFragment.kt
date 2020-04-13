@@ -1,6 +1,7 @@
 package co.yap.modules.subaccounts.account.card
 
 
+import android.os.Bundle
 import android.view.*
 import androidx.databinding.ViewDataBinding
 import androidx.navigation.NavController
@@ -8,6 +9,7 @@ import co.yap.BR
 import co.yap.R
 import co.yap.databinding.FragmentSubAccountCardBinding
 import co.yap.modules.dashboard.store.household.activities.HouseHoldLandingActivity
+import co.yap.modules.subaccounts.account.dashboard.SubAccountDashBoardFragmentDirections
 import co.yap.modules.subaccounts.paysalary.profile.HHSalaryProfileFragment
 import co.yap.networking.customers.responsedtos.SubAccount
 import co.yap.yapcore.BaseRVAdapter
@@ -59,6 +61,7 @@ class SubAccountCardFragment :
         args.putParcelable(SubAccount::class.simpleName, subAccount)
         subAccount.accountType?.let {
             when (it) {
+                AccountType.B2C_ACCOUNT.name -> swipeViews(true)
                 AccountType.B2C_HOUSEHOLD.name -> //showRequestDeclinedPopup(subAccount)
                 navigateForwardWithAnimation(SubAccountDashBoardFragmentDirections.actionSubAccountDashBoardFragmentToHHSalaryProfileFragment(),args)
             }

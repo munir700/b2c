@@ -12,7 +12,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/card_border_container"
-        android:padding="@dimen/margin_small">
+        android:padding="@dimen/margin_small"
+        style="@style/Yap.App.Layout.CardView">
 
         <View
             android:id="@+id/ivExpenseBg"
@@ -31,7 +32,9 @@
             app:layout_constraintTop_toTopOf="@id/ivExpenseBg"
             app:layout_constraintBottom_toBottomOf="@id/ivExpenseBg"
             app:layout_constraintEnd_toEndOf="@+id/ivExpenseBg"
-            app:srcCompat="@{hhSalaryProfileItemVM.item.image}" />
+            app:srcCompat="@{hhSalaryProfileItemVM.item.image}"
+            app:borderWidth="0dp"
+            app:elevation = "5dp"/>
 
         <TextView
             android:id="@+id/tv_pay_salary_title"
