@@ -459,11 +459,6 @@
         <item name="ttlm_cornerRadius">6dp</item>
         <item name="ttlm_arrowRatio">1.2</item>
         <item name="ttlm_overlayStyle">@style/ToolTipOverlayAltStyle</item>
-        <item name="ttlm_textStyle">@style/ToolTipAltTextStyle</item>
-    </style>
-
-    <style name="ToolTipAltTextStyle" parent="ToolTipTextStyle">
-        <item name="android:textColor">@android:color/black</item>
     </style>
 
     <style name="ToolTipOverlayAltStyle" parent="ToolTipOverlayDefaultStyle">
