@@ -8,8 +8,14 @@
     <co.yap.widgets.guidedtour.view.CircleOverlayView
         android:id="@+id/circleView"
         android:layout_width="match_parent"
-        android:visibility="gone"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:visibility="visible" />
+
+    <co.yap.widgets.CoreCircularImageView
+        android:id="@+id/focusView"
+        android:layout_width="@dimen/_50sdp"
+        android:layout_height="@dimen/_50sdp"
+        android:src="@color/white" />
 
     <Button
         android:id="@+id/skip"

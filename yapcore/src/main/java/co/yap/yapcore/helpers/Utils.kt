@@ -833,7 +833,6 @@ object Utils {
         context.shortToast("Coming Soon")
     }
 
-
     fun formateIbanString(iban: String?): String? {
         iban?.let {
             val sb = StringBuilder()
