@@ -8,6 +8,7 @@
     <co.yap.widgets.guidedtour.view.CircleOverlayView
         android:id="@+id/circleView"
         android:layout_width="match_parent"
+        android:visibility="gone"
         android:layout_height="match_parent" />
 
     <Button

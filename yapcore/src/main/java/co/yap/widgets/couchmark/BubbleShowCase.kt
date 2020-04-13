@@ -176,7 +176,7 @@ class BubbleShowCase(builder: BubbleShowCaseBuilder) {
         backgroundLayout.setBackgroundColor(
             ContextCompat.getColor(
                 mActivity.get()!!,
-                R.color.transparent_grey //TODO: change bg color
+                R.color.transparent //TODO: change bg color
 
             )
         )
@@ -242,16 +242,6 @@ class BubbleShowCase(builder: BubbleShowCaseBuilder) {
         backgroundDimLayout: RelativeLayout?
     ) {
         if (targetView == null) return
-
-        val targetScreenshot = takeScreenshot(targetView, mHighlightMode)
-        val targetScreenshotView = ImageView(mActivity.get()!!)
-        targetScreenshotView.setImageBitmap(targetScreenshot)
-        targetScreenshotView.setOnClickListener {
-            if (!mDisableTargetClick)
-                dismiss()
-            mBubbleShowCaseListener?.onTargetClick(this)
-        }
-
         val targetViewParams = RelativeLayout.LayoutParams(
             RelativeLayout.LayoutParams.WRAP_CONTENT,
             RelativeLayout.LayoutParams.WRAP_CONTENT
@@ -262,7 +252,7 @@ class BubbleShowCase(builder: BubbleShowCaseBuilder) {
             getScreenWidth(mActivity.get()!!) - (getXposition(targetView) + targetView.width),
             0
         )
-        backgroundDimLayout?.addView(targetScreenshotView, targetViewParams)
+//        backgroundDimLayout?.addView(targetView, targetViewParams)
     }
 
     /**
