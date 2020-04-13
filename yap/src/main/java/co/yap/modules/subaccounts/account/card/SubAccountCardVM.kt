@@ -78,18 +78,6 @@ class SubAccountCardVM @Inject constructor(override val state: ISubAccountCard.S
         }
     }
 
-    fun getHouseholdUser(account: SubAccount) {
-        launch {
-            when (val response = repository.getHouseholdUser(account.accountUuid)) {
-                is RetroApiResponse.Success -> {
-                }
-                is RetroApiResponse.Error -> {
-                }
-            }
-        }
-
-    }
-
     override fun onRefresh() {
         super.onRefresh()
         getSubAccount()

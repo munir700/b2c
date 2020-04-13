@@ -139,9 +139,9 @@
                         <androidx.constraintlayout.widget.ConstraintLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content">
-
+                            ivUserImage
                         <co.yap.widgets.CoreCircularImageView
-                            android:id="@+id/ivProfilePic"
+                            android:id="@+id/ivUserImage"
                             android:layout_width="@dimen/_65sdp"
                             android:layout_height="@dimen/_65sdp"
                             android:layout_marginTop="@dimen/margin_medium"
@@ -159,7 +159,7 @@
                             app:layout_constraintHorizontal_bias="0.5"
                             app:layout_constraintHorizontal_chainStyle="spread"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/ivProfilePic"
+                            app:layout_constraintTop_toBottomOf="@+id/ivUserImage"
                             app:srcCompat="@drawable/ic_transaction_rate_arrow" />
 
                         <TextView
@@ -178,7 +178,7 @@
                             app:layout_constraintHorizontal_bias="0.5"
                             app:layout_constraintHorizontal_chainStyle="spread"
                             app:layout_constraintStart_toEndOf="@+id/ivSalary"
-                            app:layout_constraintTop_toBottomOf="@+id/ivProfilePic"
+                            app:layout_constraintTop_toBottomOf="@+id/ivUserImage"
                             app:srcCompat="@drawable/ic_expense" />
 
                         <TextView
@@ -198,7 +198,7 @@
                             app:layout_constraintHorizontal_bias="0.5"
                             app:layout_constraintHorizontal_chainStyle="spread"
                             app:layout_constraintStart_toEndOf="@+id/ivExpenses"
-                            app:layout_constraintTop_toBottomOf="@+id/ivProfilePic"
+                            app:layout_constraintTop_toBottomOf="@+id/ivUserImage"
                             app:srcCompat="@drawable/ic_yap_to_yap" />
 
                         <TextView

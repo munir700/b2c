@@ -5,6 +5,7 @@ import androidx.navigation.NavController
 import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.customers.responsedtos.SubAccount
 import co.yap.networking.models.RetroApiResponse
+import co.yap.widgets.State
 import co.yap.yapcore.dagger.base.viewmodel.DaggerBaseViewModel
 import javax.inject.Inject
 
@@ -12,15 +13,23 @@ class HHProfileVM @Inject constructor(override val state: IHHProfile.State) :
     DaggerBaseViewModel<IHHProfile.State>() {
     private val repository: CustomersRepository = CustomersRepository
     override fun onFirsTimeUiCreate(bundle: Bundle?, navigation: NavController?) {
-
+        bundle?.let {
+            val subAccount = it.getParcelable<SubAccount>(SubAccount::class.simpleName)
+            getHouseholdUser(subAccount)
+        }
     }
 
-    fun getHouseholdUser(account: SubAccount) {
+
+    fun getHouseholdUser(account: SubAccount?) {
         launch {
-            when (val response = repository.getHouseholdUser(account.accountUuid)) {
+            publishState(State.loading(null))
+            when (val response = repository.getHouseholdUser(account?.accountUuid)) {
                 is RetroApiResponse.Success -> {
+                    publishState(State.success(null))
+                    state.customer.value = response.data.hhUser
                 }
                 is RetroApiResponse.Error -> {
+                    publishState(State.empty(response.error.message))
                 }
             }
         }

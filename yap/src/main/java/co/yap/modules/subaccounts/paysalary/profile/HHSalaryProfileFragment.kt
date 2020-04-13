@@ -9,6 +9,7 @@ import androidx.navigation.NavController
 import co.yap.BR
 import co.yap.R
 import co.yap.databinding.FragmentHhsalaryProfileBinding
+import co.yap.modules.subaccounts.paysalary.subscription.SubscriptionFragmentDirections
 import co.yap.yapcore.BaseRVAdapter
 import co.yap.yapcore.BaseViewHolder
 import co.yap.yapcore.dagger.base.BaseRecyclerViewFragment
@@ -18,6 +19,7 @@ import com.arthurivanets.bottomsheets.ktx.actionPickerConfig
 import com.arthurivanets.bottomsheets.ktx.showActionPickerBottomSheet
 import com.arthurivanets.bottomsheets.sheets.listeners.OnItemSelectedListener
 import com.arthurivanets.bottomsheets.sheets.model.Option
+import kotlinx.android.synthetic.main.fragment_subscription.*
 
 class HHSalaryProfileFragment :
     BaseRecyclerViewFragment<FragmentHhsalaryProfileBinding, IHHSalaryProfile.State, HHSalaryProfileVM, HHSalaryProfileFragment.Adapter, PaySalaryModel>() {
@@ -28,10 +30,15 @@ class HHSalaryProfileFragment :
     override fun postExecutePendingBindings() {
         super.postExecutePendingBindings()
         setHasOptionsMenu(true)
-        setRefreshEnabled(false)
+        ivUserImage?.setOnClickListener {
+            navigateForwardWithAnimation(
+                HHSalaryProfileFragmentDirections.actionHHSalaryProfileFragmentToHHProfileFragment(),
+                arguments
+            )
+        }
     }
 
-    override fun getToolBarTitle()=state.subAccount.value?.getFullName()
+    override fun getToolBarTitle() = state.subAccount.value?.getFullName()
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
         inflater.inflate(R.menu.menu_options, menu)
@@ -54,7 +61,7 @@ class HHSalaryProfileFragment :
                         HHSalaryProfileFragmentDirections.actionHHSalaryProfileFragmentToSubscriptionFragment(),
                         arguments
                     )
-                    "Salary statements" -> toast("")
+                    "Salary statements" -> toast("Coming Soon")
 
                 }
             }
