@@ -39,7 +39,6 @@ class SubAccountCardFragment :
     override fun postExecutePendingBindings() {
         super.postExecutePendingBindings()
         setHasOptionsMenu(true)
-        setRefreshEnabled(false)
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -63,7 +62,10 @@ class SubAccountCardFragment :
             when (it) {
                 AccountType.B2C_ACCOUNT.name -> swipeViews(true)
                 AccountType.B2C_HOUSEHOLD.name -> //showRequestDeclinedPopup(subAccount)
-                navigateForwardWithAnimation(SubAccountDashBoardFragmentDirections.actionSubAccountDashBoardFragmentToHHSalaryProfileFragment(),args)
+                    navigateForwardWithAnimation(
+                        SubAccountDashBoardFragmentDirections.actionSubAccountDashBoardFragmentToHHSalaryProfileFragment(),
+                        args
+                    )
             }
         }
             ?: launchActivity<HouseHoldLandingActivity>(requestCode = RequestCodes.REQUEST_ADD_HOUSE_HOLD)
@@ -97,9 +99,19 @@ class SubAccountCardFragment :
 
     override fun onItemDrop(view: View, pos: Int, data: Any) {
         val subAccount = data as SubAccount
+        val args = Bundle()
+        args.putParcelable(SubAccount::class.simpleName, subAccount)
         subAccount.accountType?.let {
-            startFragment(HHSalaryProfileFragment::class.java.name)
+            when (it) {
+                AccountType.B2C_HOUSEHOLD.name -> //showRequestDeclinedPopup(subAccount)
+                    navigateForwardWithAnimation(
+                        SubAccountDashBoardFragmentDirections.actionSubAccountDashBoardFragmentToHHSalaryProfileFragment(),
+                        args
+                    )
+            }
         }
+            ?: launchActivity<HouseHoldLandingActivity>(requestCode = RequestCodes.REQUEST_ADD_HOUSE_HOLD)
+
     }
 
     override fun onItemLongClick(view: View, pos: Int, id: Long, data: Any): Boolean? {
@@ -116,7 +128,7 @@ class SubAccountCardFragment :
                 data.firstName
             ), getString(R.string.screen_house_hold_sub_account_popup_resend_button_text),
             getString(R.string.screen_house_hold_sub_account_popup_remove_refund_button_text),
-            callback = { viewModel.getHouseholdUser(data) },// "uuid" : "26287f84-5f9c-4bfe-b8ab-e8016cc7b23d",  "uuid" : "b4ba4040-d904-4742-96aa-374ce6ed6112",
+            callback = { viewModel.resendRequestToHouseHoldUser(data) },// "uuid" : "26287f84-5f9c-4bfe-b8ab-e8016cc7b23d",  "uuid" : "b4ba4040-d904-4742-96aa-374ce6ed6112",
             negativeCallback = { viewModel.RemoveRefundHouseHoldUser(data) })
     }
 
@@ -135,7 +147,7 @@ class SubAccountCardFragment :
     }
 
     class Adapter(mValue: MutableList<SubAccount>, navigation: NavController?) :
-        BaseRVAdapter<SubAccount, SubAccountCardItemVM, BaseViewHolder<SubAccount,SubAccountCardItemVM>>(
+        BaseRVAdapter<SubAccount, SubAccountCardItemVM, BaseViewHolder<SubAccount, SubAccountCardItemVM>>(
             mValue, navigation
         ) {
         override fun getLayoutId(viewType: Int) = getViewModel(viewType).layoutRes()

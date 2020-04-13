@@ -5,7 +5,7 @@ import android.view.DragEvent
 import android.view.View
 import co.yap.yapcore.interfaces.OnItemDropListener
 
-fun onDrag(view: View, pos: Int, event: DragEvent, data: Any, listener: OnItemDropListener): Boolean {
+fun onDrag(view: View, pos: Int, event: DragEvent, data: Any, listener: OnItemDropListener?): Boolean {
     when (event.action) {
         DragEvent.ACTION_DRAG_STARTED -> return true
         DragEvent.ACTION_DRAG_ENTERED -> {

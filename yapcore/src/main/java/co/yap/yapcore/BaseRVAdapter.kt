@@ -13,6 +13,7 @@ import androidx.databinding.ViewDataBinding
 import androidx.navigation.NavController
 import androidx.recyclerview.widget.RecyclerView
 import co.yap.networking.models.ApiResponse
+import co.yap.yapcore.helpers.extentions.onLongClick
 import co.yap.yapcore.interfaces.OnItemClickListener
 
 
@@ -23,8 +24,10 @@ abstract class BaseRVAdapter<T : ApiResponse, VM : BaseListItemViewModel<T>, VH 
 
     @Nullable
     var onItemClickListener: OnItemClickListener? = null
+
     @Nullable
     var onItemLongClickListener: OnItemLongClickListener? = null
+
     @Nullable
     var onItemDragListener: OnItemDragListener? = null
 
@@ -66,7 +69,6 @@ abstract class BaseRVAdapter<T : ApiResponse, VM : BaseListItemViewModel<T>, VH 
             )
             return@setOnDragListener true
         }
-
         return holder
     }
 
@@ -134,6 +136,7 @@ abstract class BaseRVAdapter<T : ApiResponse, VM : BaseListItemViewModel<T>, VH 
         this.datas.clear()
         notifyDataSetChanged()
     }
+
     fun change(newItem: T, oldItem: T) {
         val position = this.datas.indexOf(oldItem)
         this.datas.set(position, newItem)
@@ -145,10 +148,16 @@ abstract class BaseRVAdapter<T : ApiResponse, VM : BaseListItemViewModel<T>, VH 
 
 interface OnItemDragListener {
     fun onItemDrag(view: View, pos: Int, event: DragEvent, data: Any): Boolean?
+
     companion object {
         operator fun invoke(): OnItemDragListener {
             return object : OnItemDragListener {
-                override fun onItemDrag(view: View, pos: Int, event: DragEvent, data: Any): Boolean? = false
+                override fun onItemDrag(
+                    view: View,
+                    pos: Int,
+                    event: DragEvent,
+                    data: Any
+                ): Boolean? = false
             }
         }
     }
@@ -156,10 +165,12 @@ interface OnItemDragListener {
 
 interface OnItemLongClickListener {
     fun onItemLongClick(view: View, pos: Int, id: Long, data: Any): Boolean?
+
     companion object {
         operator fun invoke(): OnItemLongClickListener {
             return object : OnItemLongClickListener {
-                override fun onItemLongClick(view: View, pos: Int, id: Long, data: Any): Boolean? = true
+                override fun onItemLongClick(view: View, pos: Int, id: Long, data: Any): Boolean? =
+                    true
             }
         }
     }

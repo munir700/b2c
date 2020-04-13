@@ -338,16 +338,16 @@ object CustomersRepository : BaseRepository(), CustomersApi {
         executeSafely(call = { api.RemoveRefundHouseHoldUser(uuid) })
 
     //     Get House Hold user subscription From Iban user
-    override suspend fun getHouseHoldSubscription(uuid: String): RetroApiResponse<HouseHoldGetSubscriptionResponseDTO> =
+    override suspend fun getHouseHoldSubscription(uuid: String?): RetroApiResponse<HouseHoldGetSubscriptionResponseDTO> =
         executeSafely(call = { api.getHouseHoldSubscription(uuid) })
 
     override suspend fun setUpHouseHoldSubscription(
-        uuid: String,
-        planType: String, isAutoRenew: Boolean
+        uuid: String?,
+        planType: String?, isAutoRenew: Boolean?
     ): RetroApiResponse<ApiResponse> =
         executeSafely(call = { api.setUpHouseHoldSubscription(uuid, planType, isAutoRenew) })
 
-    override suspend fun cancelHouseHoldSubscription(uuid: String): RetroApiResponse<ApiResponse> =
+    override suspend fun cancelHouseHoldSubscription(uuid: String?): RetroApiResponse<ApiResponse> =
         executeSafely(call = { api.cancelHouseHoldSubscription(uuid) })
 
 }

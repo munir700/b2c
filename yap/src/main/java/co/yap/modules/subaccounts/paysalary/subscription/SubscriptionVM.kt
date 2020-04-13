@@ -4,6 +4,7 @@ import android.content.Context
 import android.os.Bundle
 import androidx.navigation.NavController
 import co.yap.networking.customers.CustomersRepository
+import co.yap.networking.customers.responsedtos.SubAccount
 import co.yap.networking.models.RetroApiResponse
 import co.yap.yapcore.dagger.base.viewmodel.DaggerBaseViewModel
 import co.yap.yapcore.helpers.confirm
@@ -15,6 +16,7 @@ class SubscriptionVM @Inject constructor(override val state: ISubscription.State
     override var customersRepository: CustomersRepository = CustomersRepository
 
     override fun onFirsTimeUiCreate(bundle: Bundle?, navigation: NavController?) {
+        bundle?.let { state.subAccount.value = it.getParcelable(SubAccount::class.simpleName) }
         getSubscriptionData()
     }
 
@@ -22,16 +24,16 @@ class SubscriptionVM @Inject constructor(override val state: ISubscription.State
         launch {
             state.loading = true
             when (val response =
-                customersRepository.getHouseHoldSubscription("f0c52305-a055-498d-8d79-71cf815dcaff")) {
+                customersRepository.getHouseHoldSubscription(state.subAccount.value?.accountUuid)) {
                 is RetroApiResponse.Success -> {
-                    state.subscriptionResponseModel.set(response.data.data)
+                    state.loading = false
+                    state.subscriptionResponseModel.value = response.data.data
                 }
                 is RetroApiResponse.Error -> {
                     state.loading = false
                     state.toast = response.error.message
                 }
             }
-            state.loading = false
         }
     }
 
@@ -40,16 +42,19 @@ class SubscriptionVM @Inject constructor(override val state: ISubscription.State
             state.loading = true
             when (val response =
                 customersRepository.setUpHouseHoldSubscription(
-                    "f0c52305-a055-498d-8d79-71cf815dcaff",
-                    planType = state.subscriptionResponseModel.get()?.planType ?: "",
-                    isAutoRenew = state.subscriptionResponseModel.get()?.isAutoRenew ?: false
+                    state.subAccount.value?.accountUuid,
+                    planType = state.subscriptionResponseModel.value?.planType,
+                    isAutoRenew = state.subscriptionResponseModel.value?.isAutoRenew
                 )) {
                 is RetroApiResponse.Success -> {
-                    if (state.subscriptionResponseModel.get()?.isAutoRenew == true) {
-                        state.subscriptionResponseModel.get()?.isAutoRenew = false
-                    } else {
-                        state.subscriptionResponseModel.get()?.isAutoRenew = false
+                    state.subscriptionResponseModel.value?.isAutoRenew?.let {
+                        state.subscriptionResponseModel.value?.isAutoRenew = !it
                     }
+//                    if (state.subscriptionResponseModel.value?.isAutoRenew == true) {
+//                        state.subscriptionResponseModel.value?.isAutoRenew = state.subscriptionResponseModel.value?.isAutoRenew
+//                    } else {
+//                        state.subscriptionResponseModel.value?.isAutoRenew = false
+//                    }
                 }
                 is RetroApiResponse.Error -> {
                     state.loading = false
@@ -65,7 +70,7 @@ class SubscriptionVM @Inject constructor(override val state: ISubscription.State
             state.loading = true
             when (val response =
                 customersRepository.cancelHouseHoldSubscription(
-                    "f0c52305-a055-498d-8d79-71cf815dcaff"
+                    state.subAccount.value?.accountUuid
                 )) {
                 is RetroApiResponse.Success -> {
 

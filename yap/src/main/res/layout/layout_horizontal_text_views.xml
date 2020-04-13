@@ -26,8 +26,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@{title}"
-            tools:text="Name" />
+            android:text="@{title}" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvName"
@@ -37,8 +36,7 @@
             android:layout_weight="1"
             android:gravity="end"
             android:maxLines="2"
-            android:text="@{value}"
-            tools:text="Joe Smith" />
+            android:text="@{value}" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 </layout>
