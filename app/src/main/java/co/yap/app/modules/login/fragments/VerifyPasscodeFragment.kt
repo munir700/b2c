@@ -68,12 +68,6 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
         updateUUID()
         bioMetricLogic()
         onbackPressLogic()
-        viewModel.launch {
-            delay(5000)
-            activity?.let {
-                TourSetup(it, it, setViewsArray())
-            }
-        }
     }
 
     private fun addObservers() {
@@ -138,11 +132,16 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
 
     private fun onbackPressLogic() {
         ivBackBtn.setOnClickListener {
-            if ((VerifyPassCodeEnum.valueOf(viewModel.state.verifyPassCodeEnum) == VerifyPassCodeEnum.VERIFY)) {
-                activity?.onBackPressed()
-            } else {
-                doLogout()
+            viewModel.launch {
+                activity?.let {
+                    TourSetup(it, it, setViewsArray())
+                }
             }
+//            if ((VerifyPassCodeEnum.valueOf(viewModel.state.verifyPassCodeEnum) == VerifyPassCodeEnum.VERIFY)) {
+//                activity?.onBackPressed()
+//            } else {
+//                doLogout()
+//            }
         }
     }
 
