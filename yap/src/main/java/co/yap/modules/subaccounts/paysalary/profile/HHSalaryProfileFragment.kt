@@ -31,7 +31,7 @@ class HHSalaryProfileFragment :
         setRefreshEnabled(false)
     }
 
-    override var toolBarTitle: String? = "Your Name"
+    override var toolBarTitle: String? = "dsads"//state.subAccount.value?.getFullName()
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
         inflater.inflate(R.menu.menu_options, menu)
@@ -45,12 +45,15 @@ class HHSalaryProfileFragment :
                 add(Option().setId(2L).setTitle("Salary statements"))
             },
             config = actionPickerConfig {
-                sheetAnimationDuration(500L)
+                sheetAnimationDuration(300L)
                     .topGapSize(dimen(R.dimen.margin_extra_small)?.toFloat()!!)
             },
             onItemSelectedListener = OnItemSelectedListener {
                 when (it.title) {
-                    "Subscription" -> navigateForwardWithAnimation(HHSalaryProfileFragmentDirections.actionHHSalaryProfileFragmentToSubscriptionFragment())
+                    "Subscription" -> navigateForwardWithAnimation(
+                        HHSalaryProfileFragmentDirections.actionHHSalaryProfileFragmentToSubscriptionFragment(),
+                        arguments
+                    )
                     "Salary statements" -> toast("")
 
                 }

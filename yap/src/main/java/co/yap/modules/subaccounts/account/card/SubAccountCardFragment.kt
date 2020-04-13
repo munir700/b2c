@@ -1,6 +1,7 @@
 package co.yap.modules.subaccounts.account.card
 
 import android.content.DialogInterface
+import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
@@ -53,10 +54,12 @@ class SubAccountCardFragment :
 //        In case household user has declined the request of the employer. Declined by <first_name> will be displayed in red text.
 //        then Card is active! Will be displayed in purple text
         val subAccount = data as SubAccount
+        val args = Bundle()
+        args.putParcelable(SubAccount::class.simpleName, subAccount)
         subAccount.accountType?.let {
             when (it) {
                 AccountType.B2C_HOUSEHOLD.name -> //showRequestDeclinedPopup(subAccount)
-                navigateForwardWithAnimation(SubAccountDashBoardFragmentDirections.actionSubAccountDashBoardFragmentToHHSalaryProfileFragment())
+                navigateForwardWithAnimation(SubAccountDashBoardFragmentDirections.actionSubAccountDashBoardFragmentToHHSalaryProfileFragment(),args)
             }
         }
             ?: launchActivity<HouseHoldLandingActivity>(requestCode = RequestCodes.REQUEST_ADD_HOUSE_HOLD)
