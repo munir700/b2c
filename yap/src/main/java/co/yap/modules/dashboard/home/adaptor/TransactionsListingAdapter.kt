@@ -55,6 +55,12 @@ class TransactionsListingAdapter(private val list: MutableList<Content>) :
             itemTransactionListBinding.tvCurrency.text = transaction.currency
             itemTransactionListBinding.ivIncoming.setImageResource(transaction.getTransactionTypeIcon())
 
+            itemTransactionListBinding.ivIncoming.background =
+                if (transaction.getTransactionTypeIcon() == co.yap.yapcore.R.drawable.ic_time) context.getDrawable(
+                    R.drawable.bg_round_white
+                ) else
+                    context.getDrawable(android.R.color.transparent)
+
             var txnAmountPreFix = ""
             transaction.txnType?.let {
                 when (it) {

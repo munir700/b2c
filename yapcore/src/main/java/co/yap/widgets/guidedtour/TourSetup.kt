@@ -2,16 +2,11 @@ package co.yap.widgets.guidedtour
 
 import android.app.Activity
 import android.content.Context
-import android.util.DisplayMetrics
-import co.yap.widgets.couchmark.BubbleShowCase
-import co.yap.widgets.couchmark.ScreenUtils
+import co.yap.widgets.couchmark.BubbleShowCaseBuilder
 import co.yap.widgets.guidedtour.models.GuidedTourViewDetail
-import co.yap.widgets.guidedtour.shape.Circle
 import co.yap.widgets.guidedtour.shape.Focus
-import co.yap.widgets.guidedtour.shape.FocusGravity
-import co.yap.widgets.guidedtour.target.Target
-import co.yap.widgets.guidedtour.target.ViewTarget
-import co.yap.widgets.guidedtour.view.DescriptionView
+import co.yap.widgets.guidedtour.view.CoachMarkDialogueOverlay
+import co.yap.yapcore.R
 
 class TourSetup() : DescriptionBoxListener {
 
@@ -19,25 +14,10 @@ class TourSetup() : DescriptionBoxListener {
     var currentViewId: Int = 0
     var activity: Activity? = null
     var isMultipleViewsTour: Boolean = false
-    var guidedTourViewViewsList: ArrayList<GuidedTourViewDetail> = ArrayList()
+    private var guidedTourViewViewsList: ArrayList<GuidedTourViewDetail> = ArrayList()
+    var layer: CoachMarkDialogueOverlay? = null
 
-    lateinit var metrics: DisplayMetrics
     lateinit var context: Context
-
-    var descView: DescriptionView? = null
-
-    constructor (
-        context: Context,
-        activity: Activity,
-        guidedTourViewDetail: GuidedTourViewDetail
-    ) : this() {
-        this.activity = activity
-        this.context = context
-        metrics = activity.resources.displayMetrics
-
-        focusSingleView(guidedTourViewDetail)
-
-    }
 
     constructor(
         context: Context, activity: Activity,
@@ -45,51 +25,50 @@ class TourSetup() : DescriptionBoxListener {
     ) : this() {
         this.activity = activity
         this.context = context
-        metrics = activity.resources.displayMetrics
-
         this.guidedTourViewViewsList = guidedTourViewViewsList
         focusMultipleViews()
     }
 
-    fun focusMultipleViews() {
+    private fun focusMultipleViews() {
 
         isMultipleViewsTour = true
         previousViewId = currentViewId
-
-        focusSingleView(guidedTourViewViewsList[currentViewId])
+        focusSingleView()
         currentViewId += 1
-        println(currentViewId)
-
-
     }
 
-    fun focusSingleView(guidedTourViewDetail: GuidedTourViewDetail) {
-        activity?.let {
-            showIntro(
-                guidedTourViewDetail,
-                Focus.ALL, it
-            )
-        }
+    private fun focusSingleView() {
+        CoachMarkDialogueOverlay(context, guidedTourViewViewsList)
+        showIntro(guidedTourViewViewsList[currentViewId],activity!!)
     }
 
 
     fun showIntro(
-        guidedTourViewDetail: GuidedTourViewDetail,
-        focusType: Focus?, activity: Activity
+        guidedTourViewDetail: GuidedTourViewDetail, activity: Activity
     ) {
 
-        descView = DescriptionView.Builder(activity)
-            .setFocusGravity(FocusGravity.CENTER)
-            .setFocusType(focusType!!)
-            .setDelayMillis(200)
-            .setViewCount((currentViewId+1),guidedTourViewViewsList.size)
-            .enableFadeAnimation(true)
-            .setListener(this)
-            .performClick(true)
-            .setInfoText(guidedTourViewDetail)
-            .setTarget(guidedTourViewDetail.view)
-            .setUsageId(guidedTourViewDetail.view?.id.toString())
+        BubbleShowCaseBuilder(activity)
+            .title(guidedTourViewDetail.title)
+            .description(guidedTourViewDetail.description)
+            .backgroundColor(context.getColor(R.color.white)) //Bubble background color
+            .textColor(context.getColor(R.color.quantum_black_100)) //Bubble Text color
+            .titleTextSize(17) //Title text size in SP (default value 16sp)
+            .descriptionTextSize(15) //Subtitle text size in SP (default value 14sp)
+            .targetView(guidedTourViewDetail.view)
             .show()
+
+//        DescriptionView.Builder(activity)
+//            .setFocusGravity(FocusGravity.CENTER)
+//            .setFocusType(focusType!!)
+//            .setDelayMillis(200)
+//            .setViewCount((currentViewId + 1), guidedTourViewViewsList.size)
+//            .enableFadeAnimation(true)
+//            .setListener(this)
+//            .performClick(true)
+//            .setInfoText(guidedTourViewDetail)
+//            .setTarget(guidedTourViewDetail.view)
+//            .setUsageId(guidedTourViewDetail.view?.id.toString())
+//            .show()
     }
 
     override fun onUserClicked(materialIntroViewId: String?) {
@@ -98,49 +77,10 @@ class TourSetup() : DescriptionBoxListener {
         if (materialIntroViewId != null) {
             if (isMultipleViewsTour) {
                 if (currentViewId < guidedTourViewViewsList.size) {
-                    //focusMultipleViews()
-//                    currentViewId += 1
-                    updateCurrentDescriptionBox(descView!!, guidedTourViewViewsList[currentViewId])
+                    focusMultipleViews()
                 }
             }
 
         }
     }
-
-    private fun updateCurrentDescriptionBox(
-        descView: DescriptionView,
-        currentHint: GuidedTourViewDetail
-    ) {
-
-        val dBox = descView.viewDataBinding.descriptionView
-        //dBox.animate().y(currentHint.view.y).setDuration(500).start()
-        updateShape(descView,currentHint)
-    }
-
-    fun updateShape(materialIntroView: DescriptionView,currentHint: GuidedTourViewDetail) {
-        // no custom shape supplied, build our own
-        currentHint.view.let { ViewTarget(it) }.let { materialIntroView.setTarget(it) }
-        val shape = Circle(
-            materialIntroView.targetView,
-            materialIntroView.focusType,
-            materialIntroView.focusGravity,
-            materialIntroView.padding
-        )
-//        getTooltipPosition(materialIntroView.targetView!!)
-        materialIntroView.setShape(shape)
-        materialIntroView.setInfoLayout()
-        materialIntroView.invalidate()
-    }
-
-//    private fun getTooltipPosition(targetView: Target) {
-//        if (mArrowPositionList.isEmpty()) {
-//            if (ScreenUtils.isViewLocatedAtHalfTopOfTheScreen(
-//                    context,
-//                    targetView.view
-//                )
-//            ) mArrowPositionList.add(BubbleShowCase.ArrowPosition.TOP) else mArrowPositionList.add(
-//                BubbleShowCase.ArrowPosition.BOTTOM
-//            )
-//        }
-//    }
 }

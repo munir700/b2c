@@ -29,6 +29,8 @@ import androidx.core.content.ContextCompat
 import co.yap.networking.customers.requestdtos.Contact
 import co.yap.translation.Strings
 import co.yap.translation.Translator
+import co.yap.widgets.couchmark.BubbleShowCase
+import co.yap.widgets.couchmark.BubbleShowCaseBuilder
 import co.yap.widgets.loading.CircularProgressBar
 import co.yap.yapcore.R
 import co.yap.yapcore.constants.Constants
@@ -37,6 +39,9 @@ import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.MyUserManager
 import com.google.i18n.phonenumbers.PhoneNumberUtil
+import com.skydoves.balloon.ArrowOrientation
+import com.skydoves.balloon.Balloon
+import com.skydoves.balloon.BalloonAnimation
 import java.math.RoundingMode
 import java.text.DecimalFormat
 import java.util.*
@@ -97,6 +102,8 @@ object Utils {
                         super.onAnimationEnd(animation)
                         progress.indeterminateMode = true
                         layer.visibility = View.VISIBLE
+                        //ballon(context,progress)
+                        //ballon2(context, progress)
                     }
                 })
         }
@@ -104,6 +111,50 @@ object Utils {
             progress.clearProgressAnimation()
         }
         return dialog
+    }
+
+    private fun ballon2(context: Context, progress: CircularProgressBar) {
+        val balloon = getSimpleShowCaseBuilder3(context, progress)
+        balloon.show()
+    }
+
+    private fun getSimpleShowCaseBuilder3(
+        context: Context,
+        progress: CircularProgressBar
+    ): BubbleShowCaseBuilder {
+        return BubbleShowCaseBuilder(context as Activity)
+            .title("Your current balance")
+            .description("Here you can see your account’s current balance. It will be updated in-real time after every transaction.")
+            .backgroundColor(context.getColor(R.color.white)) //Bubble background color
+            .textColor(context.getColor(R.color.quantum_black_100)) //Bubble Text color
+            .titleTextSize(17) //Title text size in SP (default value 16sp)
+            .descriptionTextSize(15) //Subtitle text size in SP (default value 14sp)
+            .highlightMode(BubbleShowCase.HighlightMode.VIEW_CIRCLE)
+            .targetView(progress)
+    }
+
+    private fun ballon(context: Context, v: View) {
+        val balloon = Balloon.Builder(context)
+            .setLayout(R.layout.hint_desc_box)
+            .setArrowSize(10)
+            .setArrowOrientation(ArrowOrientation.TOP)
+            .setWidthRatio(0.8f)
+            .setCornerRadius(4f)
+            .setBackgroundColor(ContextCompat.getColor(context, R.color.transparent))
+            .setBalloonAnimation(BalloonAnimation.CIRCULAR)
+            .setLifecycleOwner(null)
+            .setArrowVisible(true) // sets the visibility of the arrow.
+            .setArrowSize(10) // sets the arrow size.
+            .setArrowPosition(0.5f) // sets the arrow position using the popup size's ratio (0 ~ 1.0)
+            .setArrowOrientation(ArrowOrientation.TOP) // sets the arrow orientation. top, bottom, left, right
+            .setArrowDrawable(
+                ContextCompat.getDrawable(
+                    context,
+                    R.drawable.arrow
+                )
+            ) // sets the arrow drawable.
+            .build()
+        balloon.showAlignBottom(v)
     }
 
     fun copyToClipboard(context: Context, text: CharSequence) {
