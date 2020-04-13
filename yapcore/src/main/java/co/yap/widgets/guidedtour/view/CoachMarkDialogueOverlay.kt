@@ -2,10 +2,10 @@ package co.yap.widgets.guidedtour.view
 
 import android.app.Dialog
 import android.content.Context
-import android.content.DialogInterface
 import android.os.Bundle
 import android.view.Window
 import android.view.WindowManager
+import android.widget.Button
 import android.widget.RelativeLayout
 import co.yap.widgets.guidedtour.models.GuidedTourViewDetail
 import co.yap.yapcore.R
@@ -16,10 +16,15 @@ class CoachMarkDialogueOverlay(
 ) : Dialog(context, android.R.style.Theme_Light) {
     private var circleView: CircleOverlayView? = null
     private var rootMain: RelativeLayout? = null
-    //private val layer = dialog.findViewById(R.id.layerView) as View
+    private var skip: Button? = null
+    //private var layer = dialog.findViewById(R.id.layerView) as View
 
     var currentViewId: Int = 0
     var previousViewId = currentViewId
+
+    init {
+        setCancelable(true)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,34 +37,33 @@ class CoachMarkDialogueOverlay(
         window?.setBackgroundDrawableResource(android.R.color.transparent)
         circleView = findViewById(R.id.circleView)
         rootMain = findViewById(R.id.rlMain)
+        skip = findViewById(R.id.skip)
+        skip?.setOnClickListener {
+            moveNext()
+        }
         updateCircle()
     }
 
-    override fun setOnShowListener(listener: DialogInterface.OnShowListener?) {
-        super.setOnShowListener(listener)
-        //updateCircle()
-    }
-
-    override fun setOnDismissListener(listener: DialogInterface.OnDismissListener?) {
-        super.setOnDismissListener(listener)
+    private fun moveNext() {
         if (currentViewId < guidedTourViewViewsList.size) {
+            previousViewId = currentViewId
             currentViewId += 1
+            updateCircle()
+        } else {
+            dismiss()
         }
     }
 
-    init {
-        setCancelable(false)
-    }
-
-    fun updateCircle() {
+    private fun updateCircle() {
         getCurrentItem()?.let {
             circleView?.centerX = it.pointX.toFloat() + (it.view.width.toFloat() / 2)
             circleView?.centerY = it.pointY.toFloat() - (it.view.height.toFloat() / 2)
+            circleView?.invalidate()
         }
     }
 
     private fun getCurrentItem(): GuidedTourViewDetail? {
-        return guidedTourViewViewsList[currentViewId]
+        return if (!guidedTourViewViewsList.isNullOrEmpty() && currentViewId < guidedTourViewViewsList.size) guidedTourViewViewsList[currentViewId] else null
     }
 }
 
