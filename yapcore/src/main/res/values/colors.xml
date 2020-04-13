@@ -123,5 +123,7 @@
     <color name="colorDarkGrey">#272262</color>
     <color name="colorDarkPeach">#F57F17</color>
 
+    <color name="colorCoachMarkOverlay">#4D272262</color>
+
 
 </resources>
