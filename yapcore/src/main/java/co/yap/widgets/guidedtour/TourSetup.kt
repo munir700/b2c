@@ -126,21 +126,21 @@ class TourSetup() : DescriptionBoxListener {
             materialIntroView.focusGravity,
             materialIntroView.padding
         )
-        getTooltipPosition(materialIntroView.targetView!!)
+//        getTooltipPosition(materialIntroView.targetView!!)
         materialIntroView.setShape(shape)
         materialIntroView.setInfoLayout()
         materialIntroView.invalidate()
     }
 
-    private fun getTooltipPosition(targetView: Target) {
-        if (mArrowPositionList.isEmpty()) {
-            if (ScreenUtils.isViewLocatedAtHalfTopOfTheScreen(
-                    context,
-                    targetView.view
-                )
-            ) mArrowPositionList.add(BubbleShowCase.ArrowPosition.TOP) else mArrowPositionList.add(
-                BubbleShowCase.ArrowPosition.BOTTOM
-            )
-        }
-    }
+//    private fun getTooltipPosition(targetView: Target) {
+//        if (mArrowPositionList.isEmpty()) {
+//            if (ScreenUtils.isViewLocatedAtHalfTopOfTheScreen(
+//                    context,
+//                    targetView.view
+//                )
+//            ) mArrowPositionList.add(BubbleShowCase.ArrowPosition.TOP) else mArrowPositionList.add(
+//                BubbleShowCase.ArrowPosition.BOTTOM
+//            )
+//        }
+//    }
 }

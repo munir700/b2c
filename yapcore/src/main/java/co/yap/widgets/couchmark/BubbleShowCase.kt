@@ -262,13 +262,7 @@ class BubbleShowCase(builder: BubbleShowCaseBuilder) {
             getScreenWidth(mActivity.get()!!) - (getXposition(targetView) + targetView.width),
             0
         )
-        backgroundDimLayout?.addView(
-            AnimationUtils.setBouncingAnimation(
-                targetScreenshotView,
-                0,
-                DURATION_BEATING_ANIMATION
-            ), targetViewParams
-        )
+        backgroundDimLayout?.addView(targetScreenshotView, targetViewParams)
     }
 
     /**
