@@ -115,6 +115,10 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     const val URL_RESEND_HOUSEHOLD = "/customers/api/household/resend-household/{UUID}"
     const val URL_GET_PROFILE_HOUSEHOLD_USER = "/customers/api/household/household-user/{UUID}"
     const val URL_GET_HOUSE_HOLD_SUBSCRIPTION = "customers/api/household/get-subscription/{UUID}"
+    const val URL_SETUP_HOUSE_HOLD_SUBSCRIPTION =
+        "customers/api/household/setup-subscription/{UUID}"
+    const val URL_CANCEL_HOUSE_HOLD_SUBSCRIPTION =
+        "customers/api/household/cancel-subscription/{UUID}"
 
 
     private val api: CustomersRetroService =
@@ -336,4 +340,14 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     //     Get House Hold user subscription From Iban user
     override suspend fun getHouseHoldSubscription(uuid: String): RetroApiResponse<HouseHoldGetSubscriptionResponseDTO> =
         executeSafely(call = { api.getHouseHoldSubscription(uuid) })
+
+    override suspend fun setUpHouseHoldSubscription(
+        uuid: String,
+        planType: String, isAutoRenew: Boolean
+    ): RetroApiResponse<ApiResponse> =
+        executeSafely(call = { api.setUpHouseHoldSubscription(uuid, planType, isAutoRenew) })
+
+    override suspend fun cancelHouseHoldSubscription(uuid: String): RetroApiResponse<ApiResponse> =
+        executeSafely(call = { api.cancelHouseHoldSubscription(uuid) })
+
 }

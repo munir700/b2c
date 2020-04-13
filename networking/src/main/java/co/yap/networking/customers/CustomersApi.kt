@@ -99,6 +99,11 @@ interface CustomersApi {
     suspend fun RemoveRefundHouseHoldUser(uuid: String?): RetroApiResponse<ApiResponse>
 
     suspend fun getHouseHoldSubscription(uuid: String): RetroApiResponse<HouseHoldGetSubscriptionResponseDTO>
+    suspend fun setUpHouseHoldSubscription(
+        uuid: String,
+        planType: String, isAutoRenew: Boolean
+    ): RetroApiResponse<ApiResponse>
 
+    suspend fun cancelHouseHoldSubscription(uuid: String): RetroApiResponse<ApiResponse>
 
 }
