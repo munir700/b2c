@@ -112,27 +112,6 @@ object Utils {
         }
         return dialog
     }
-
-    private fun ballon2(context: Context, progress: CircularProgressBar) {
-        val balloon = getSimpleShowCaseBuilder3(context, progress)
-        balloon.show()
-    }
-
-    private fun getSimpleShowCaseBuilder3(
-        context: Context,
-        progress: CircularProgressBar
-    ): BubbleShowCaseBuilder {
-        return BubbleShowCaseBuilder(context as Activity)
-            .title("Your current balance")
-            .description("Here you can see your account’s current balance. It will be updated in-real time after every transaction.")
-            .backgroundColor(context.getColor(R.color.white)) //Bubble background color
-            .textColor(context.getColor(R.color.quantum_black_100)) //Bubble Text color
-            .titleTextSize(17) //Title text size in SP (default value 16sp)
-            .descriptionTextSize(15) //Subtitle text size in SP (default value 14sp)
-            .highlightMode(BubbleShowCase.HighlightMode.VIEW_CIRCLE)
-            .targetView(progress)
-    }
-
     private fun ballon(context: Context, v: View) {
         val balloon = Balloon.Builder(context)
             .setLayout(R.layout.hint_desc_box)
