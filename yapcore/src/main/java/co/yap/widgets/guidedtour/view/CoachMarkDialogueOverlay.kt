@@ -14,12 +14,12 @@ class CoachMarkDialogueOverlay(
     internal val context: Context,
     private val guidedTourViewViewsList: ArrayList<GuidedTourViewDetail>
 ) : Dialog(context, android.R.style.Theme_Light) {
-    private val circleView = findViewById<CircleOverlayView>(R.id.circleView)
-    private val rootMain = findViewById<RelativeLayout>(R.id.rlMain)
+    private var circleView: CircleOverlayView? = null
+    private var rootMain: RelativeLayout? = null
     //private val layer = dialog.findViewById(R.id.layerView) as View
 
     var currentViewId: Int = 0
-    var previousViewId: Int = currentViewId
+    var previousViewId = currentViewId
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,11 +30,14 @@ class CoachMarkDialogueOverlay(
             WindowManager.LayoutParams.MATCH_PARENT
         )
         window?.setBackgroundDrawableResource(android.R.color.transparent)
+        circleView = findViewById(R.id.circleView)
+        rootMain = findViewById(R.id.rlMain)
+        updateCircle()
     }
 
     override fun setOnShowListener(listener: DialogInterface.OnShowListener?) {
         super.setOnShowListener(listener)
-        updateCircle()
+        //updateCircle()
     }
 
     override fun setOnDismissListener(listener: DialogInterface.OnDismissListener?) {
@@ -48,18 +51,15 @@ class CoachMarkDialogueOverlay(
         setCancelable(false)
     }
 
-    private fun updateCircle() {
+    fun updateCircle() {
         getCurrentItem()?.let {
-            circleView.centerX = it.pointX.toFloat()
-            circleView.centerY = it.pointY.toFloat()
+            circleView?.centerX = it.pointX.toFloat()
+            circleView?.centerY = it.pointY.toFloat()
         }
     }
 
     private fun getCurrentItem(): GuidedTourViewDetail? {
-        if (guidedTourViewViewsList.size < currentViewId) {
-            return guidedTourViewViewsList[currentViewId]
-        }
-        return null
+        return guidedTourViewViewsList[currentViewId]
     }
 }
 
