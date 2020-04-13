@@ -15,10 +15,14 @@ class HHSalaryProfileVM @Inject constructor(override val state: IHHSalaryProfile
     override var clickEvent: SingleClickEvent = SingleClickEvent()
 
     override fun onFirsTimeUiCreate(bundle: Bundle?, navigation: NavController?) {
-        bundle?.let { state.subAccount.value = it.getParcelable(SubAccount::class.simpleName) }
 
     }
 
+    override fun fetchExtras(bundle: Bundle?) {
+        super.fetchExtras(bundle)
+        bundle?.let { state.subAccount.value = it.getParcelable(SubAccount::class.simpleName) }
+
+    }
 
     override fun handlePressOnClick(id: Int) {
         clickEvent.setValue(id)

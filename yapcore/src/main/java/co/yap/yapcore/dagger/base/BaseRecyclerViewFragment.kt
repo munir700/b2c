@@ -1,7 +1,5 @@
 package co.yap.yapcore.dagger.base
 
-
-import android.os.Bundle
 import android.view.DragEvent
 import android.view.View
 import androidx.databinding.ViewDataBinding
@@ -42,8 +40,8 @@ abstract class BaseRecyclerViewFragment<VB : ViewDataBinding, S : IBase.State, V
      * if return false in child fragment then child fragment should need implement owen [RecyclerView]
      */
     var setupRecyclerView = true
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    override fun postExecutePendingBindings() {
+        super.postExecutePendingBindings()
         if (setupRecyclerView) {
             getmViewModel().adapter.set(adapter)
             recyclerView?.addItemDecoration(getItemDecoration())
