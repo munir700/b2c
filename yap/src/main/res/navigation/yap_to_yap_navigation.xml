@@ -54,6 +54,10 @@
             android:defaultValue=" "
             app:argType="string" />
         <argument
+            android:name="imagePath"
+            android:defaultValue=" "
+            app:argType="string" />
+        <argument
             android:name="currencyType"
             android:defaultValue=" "
             app:argType="string" />

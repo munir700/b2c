@@ -2,10 +2,10 @@ package co.yap.widgets.guidedtour
 
 import android.app.Activity
 import android.content.Context
-import android.util.DisplayMetrics
 import co.yap.widgets.guidedtour.models.GuidedTourViewDetail
 import co.yap.widgets.guidedtour.shape.Focus
 import co.yap.widgets.guidedtour.shape.FocusGravity
+import co.yap.widgets.guidedtour.view.CoachMarkDialogueOverlay
 import co.yap.widgets.guidedtour.view.DescriptionView
 
 class TourSetup() : DescriptionBoxListener {
@@ -16,21 +16,7 @@ class TourSetup() : DescriptionBoxListener {
     var isMultipleViewsTour: Boolean = false
     var guidedTourViewViewsList: ArrayList<GuidedTourViewDetail> = ArrayList()
 
-    lateinit var metrics: DisplayMetrics
     lateinit var context: Context
-
-    constructor (
-        context: Context,
-        activity: Activity,
-        guidedTourViewDetail: GuidedTourViewDetail
-    ) : this() {
-        this.activity = activity
-        this.context = context
-        metrics = activity.resources.displayMetrics
-
-        focusSingleView(guidedTourViewDetail)
-
-    }
 
     constructor(
         context: Context, activity: Activity,
@@ -38,31 +24,21 @@ class TourSetup() : DescriptionBoxListener {
     ) : this() {
         this.activity = activity
         this.context = context
-        metrics = activity.resources.displayMetrics
-
         this.guidedTourViewViewsList = guidedTourViewViewsList
         focusMultipleViews()
     }
 
-    fun focusMultipleViews() {
+    private fun focusMultipleViews() {
 
         isMultipleViewsTour = true
         previousViewId = currentViewId
-
         focusSingleView(guidedTourViewViewsList[currentViewId])
-        currentViewId = currentViewId + 1
-        println(currentViewId)
-
-
+        currentViewId += 1
     }
 
-    fun focusSingleView(guidedTourViewDetail: GuidedTourViewDetail) {
-        activity?.let {
-            showIntro(
-                guidedTourViewDetail,
-                Focus.ALL, it
-            )
-        }
+    private fun focusSingleView(guidedTourViewDetail: GuidedTourViewDetail) {
+
+        CoachMarkDialogueOverlay(context, guidedTourViewViewsList)
     }
 
 
@@ -75,7 +51,7 @@ class TourSetup() : DescriptionBoxListener {
             .setFocusGravity(FocusGravity.CENTER)
             .setFocusType(focusType!!)
             .setDelayMillis(200)
-            .setViewCount((currentViewId+1),guidedTourViewViewsList.size)
+            .setViewCount((currentViewId + 1), guidedTourViewViewsList.size)
             .enableFadeAnimation(true)
             .setListener(this)
             .performClick(true)

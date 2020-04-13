@@ -15,15 +15,14 @@ interface IVerifyPasscode {
     }
 
     interface ViewModel : IBase.ViewModel<State> {
-        fun handlePressOnSignInButton()
-        fun handlePressOnForgotPasscodeButton(id: Int)
+        fun handlePressOnPressView(id: Int)
         fun login()
         fun createOtp()
         fun validateDevice()
         fun getAccountInfo()
         fun verifyPasscode()
-        fun showAccountBlockedError()
-        val signInButtonPressEvent: SingleLiveEvent<Boolean>
+        fun showAccountBlockedError(errorMessage: String)
+        val onClickEvent: MutableLiveData<Int>
         val forgotPasscodeButtonPressEvent: SingleClickEvent
         val loginSuccess: SingleLiveEvent<Boolean>
         val accountInfo: MutableLiveData<AccountInfo>
@@ -48,5 +47,6 @@ interface IVerifyPasscode {
         var verifyPassCodeEnum: String
         var isScreenLocked: ObservableField<Boolean>
         var isAccountLocked: ObservableField<Boolean>
+        var isAccountFreeze: ObservableField<Boolean>
     }
 }

@@ -1,6 +1,5 @@
 package co.yap.yapcore.helpers
 
-import android.content.Context
 import android.os.Build
 import java.io.BufferedReader
 import java.io.File
@@ -14,9 +13,7 @@ class DeviceUtils {
 
     private fun isrooted1(): Boolean {
         val file = File("/system/app/Superuser.apk")
-        return if (file.exists()) {
-            true
-        } else false
+        return file.exists()
     }
 
     // try executing commands
@@ -27,14 +24,12 @@ class DeviceUtils {
     }
 
     private fun canExecuteCommand(command: String): Boolean {
-        val executedSuccesfully: Boolean
-        executedSuccesfully = try {
+        return try {
             Runtime.getRuntime().exec(command)
             true
         } catch (e: Exception) {
             false
         }
-        return executedSuccesfully
     }
 
     fun isDeviceRooted(): Boolean {
@@ -71,7 +66,7 @@ class DeviceUtils {
             process = Runtime.getRuntime()
                 .exec(arrayOf("/system/xbin/which", "su"))
             val `in` = BufferedReader(InputStreamReader(process.inputStream))
-            if (`in`.readLine() != null) true else false
+            `in`.readLine() != null
         } catch (t: Throwable) {
             false
         } finally {

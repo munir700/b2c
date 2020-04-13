@@ -8,7 +8,7 @@
         tools:overrideLibrary="com.leanplum, com.google.android.gms" />
 
     <permission
-        android:name="co.yap.app.permission"
+        android:name="${applicationId}.permission."
         android:protectionLevel="signature" />
 
     <application
@@ -28,7 +28,8 @@
             android:name=".activities.MainActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme.NoActionBar"
+            tools:ignore="LockedOrientationActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -42,18 +43,21 @@
 
         <activity
             android:name="co.yap.modules.forgotpasscode.activities.ForgotPasscodeActivity"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity">
             <nav-graph android:value="@navigation/forgot_passcode_navigation" />
         </activity>
 
         <activity
             android:name="co.yap.modules.dashboard.yapit.y2y.home.activities.YapToYapDashboardActivity"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity">
             <nav-graph android:value="@navigation/yap_to_yap_navigation" />
         </activity>
         <activity
             android:name=".modules.login.activities.VerifyPassCodePresenterActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
@@ -68,15 +72,19 @@
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
 
-        <!--android:name="com.leanplum.LeanplumPushFirebaseMessagingService"-->
         <service
-            android:name="co.yap.app.service.CustomFirebaseMessagingService"
+            android:name="com.leanplum.LeanplumPushFirebaseMessagingService"
             android:exported="false"
-            android:permission="co.yap.app.permission">
+            android:permission="${applicationId}.permission">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
+
+        <receiver
+            android:name="com.leanplum.LeanplumPushReceiver"
+            android:exported="false"
+            android:permission="co.yap.app.permission" />
 
         <receiver
             android:name="com.adjust.sdk.AdjustReferrerReceiver"
@@ -87,7 +95,7 @@
             </intent-filter>
         </receiver>
 
-        <activity android:name="co.yap.modules.dummy.AdjustReferrerReceiver">
+        <activity android:name="co.yap.yapcore.adjust.AdjustReferrerReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 

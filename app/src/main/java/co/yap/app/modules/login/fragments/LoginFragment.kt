@@ -12,10 +12,12 @@ import co.yap.app.modules.login.interfaces.ILogin
 import co.yap.app.modules.login.viewmodels.LoginViewModel
 import co.yap.widgets.guidedtour.TourSetup
 import co.yap.widgets.guidedtour.models.GuidedTourViewDetail
+import co.yap.widgets.guidedtour.view.locationOnScreen
 import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.constants.Constants.KEY_IS_USER_LOGGED_IN
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import kotlinx.android.synthetic.main.fragment_log_in.*
+import kotlinx.coroutines.delay
 
 
 class LoginFragment : BaseBindingFragment<ILogin.ViewModel>(), ILogin.View {
@@ -24,22 +26,23 @@ class LoginFragment : BaseBindingFragment<ILogin.ViewModel>(), ILogin.View {
 
     override fun getLayoutId(): Int = R.layout.fragment_log_in
 
-    override val viewModel: ILogin.ViewModel
+    override val viewModel: LoginViewModel
         get() = ViewModelProviders.of(this).get(LoginViewModel::class.java)
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel.isAccountBlocked.observe(this, accountBlockedObserver)
-        val sharedPreferenceManager = SharedPreferenceManager.getInstance(requireContext())
-        if (sharedPreferenceManager.getValueBoolien(
-                KEY_IS_USER_LOGGED_IN,
-                false
-            )
-        ) {
-            val action =
-                LoginFragmentDirections.actionLoginFragmentToVerifyPasscodeFragment("")
-            NavHostFragment.findNavController(this).navigate(action)
-        }
+//        val sharedPreferenceManager = SharedPreferenceManager.getInstance(requireContext())
+//        if (sharedPreferenceManager.getValueBoolien(
+//                KEY_IS_USER_LOGGED_IN,
+//                false
+//            )
+//        ) {
+//            val action =
+//                LoginFragmentDirections.actionLoginFragmentToVerifyPasscodeFragment("")
+//            NavHostFragment.findNavController(this).navigate(action)
+//        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -65,26 +68,33 @@ class LoginFragment : BaseBindingFragment<ILogin.ViewModel>(), ILogin.View {
         /*
          adding view arrays to start tour on
         */
-        activity?.let {
-            TourSetup(it, it, setViewsArray())
+        viewModel.launch {
+            delay(2000)
+            activity?.let {
+                TourSetup(it, it, setViewsArray())
+            }
         }
-
     }
 
-    fun setViewsArray(): ArrayList<GuidedTourViewDetail> {
+    private fun setViewsArray(): ArrayList<GuidedTourViewDetail> {
         val list = ArrayList<GuidedTourViewDetail>()
+
         list.add(
             GuidedTourViewDetail(
                 ivYap,
                 "Your current balance",
-                "Here you can see your account’s current balance. It will be updated in-real time after every transaction."
+                "Here you can see your account’s current balance. It will be updated in-real time after every transaction.",
+                ivYap.locationOnScreen.x,
+                ivYap.locationOnScreen.y
             )
         )
         list.add(
             GuidedTourViewDetail(
                 clSignUp,
                 "search",
-                "Click here to search for specific transaction in your account history"
+                "Click here to search for specific transaction in your account history",
+                clSignUp.locationOnScreen.x,
+                clSignUp.locationOnScreen.y
             )
         )
         list.add(
@@ -92,7 +102,10 @@ class LoginFragment : BaseBindingFragment<ILogin.ViewModel>(), ILogin.View {
                 tvSignIn,
                 "yap it",
                 "Click here to see more actions like:\n" +
-                        "YAP to YAP transactions,  yop up your account, send money and pay your bills"
+                        "YAP to YAP transactions,  yop up your account, send money and pay your bills",
+
+                tvSignIn.locationOnScreen.x,
+                tvSignIn.locationOnScreen.y
             )
         )
 
@@ -100,11 +113,14 @@ class LoginFragment : BaseBindingFragment<ILogin.ViewModel>(), ILogin.View {
             GuidedTourViewDetail(
                 clSignUp,
                 "menu bar",
-                "Click here to view the menu bar where you can see your account details and navigate to useful pages"
+                "Click here to view the menu bar where you can see your account details and navigate to useful pages",
+                clSignUp.locationOnScreen.x,
+                clSignUp.locationOnScreen.y
             )
         )
         return list
     }
+
 
     override fun onDestroy() {
         super.onDestroy()

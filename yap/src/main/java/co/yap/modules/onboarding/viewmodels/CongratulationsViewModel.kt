@@ -10,11 +10,10 @@ import co.yap.networking.cards.responsedtos.Address
 import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
+import co.yap.yapcore.AdjustEvents.Companion.trackAdjustPlatformEvent
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.adjust.AdjustEvents
-import co.yap.yapcore.helpers.extentions.trackerId
 import co.yap.yapcore.managers.MyUserManager
-import co.yap.yapcore.trackAdjustEvent
 
 class CongratulationsViewModel(application: Application) :
     OnboardingChildViewModel<ICongratulations.State>(application),
@@ -23,14 +22,13 @@ class CongratulationsViewModel(application: Application) :
     override val clickEvent: SingleClickEvent = SingleClickEvent()
     override val state: CongratulationsState = CongratulationsState()
     override val repository: CardsRepository = CardsRepository
-    private val customerRepository: CustomersRepository = CustomersRepository
     override val orderCardSuccess: MutableLiveData<Boolean> = MutableLiveData()
     override var elapsedOnboardingTime: Long = 0
 
     override fun onCreate() {
         super.onCreate()
-        getAccountInfo()
-        trackAdjustEvent(AdjustEvents.SIGN_UP_END.type)
+        MyUserManager.getAccountInfo()
+        trackAdjustPlatformEvent(AdjustEvents.SIGN_UP_END.type)
         // calculate elapsed updatedDate for onboarding
         elapsedOnboardingTime = parentViewModel?.onboardingData?.elapsedOnboardingTime ?: 0
         state.nameList[0] = parentViewModel?.onboardingData?.firstName
@@ -92,22 +90,5 @@ class CongratulationsViewModel(application: Application) :
                 }
             }
         }
-
     }
-
-    private fun getAccountInfo() {
-        launch {
-            when (val response = customerRepository.getAccountInfo()) {
-                is RetroApiResponse.Success -> {
-                    MyUserManager.user = response.data.data[0]
-                    trackerId(MyUserManager.user?.uuid)
-                }
-
-                is RetroApiResponse.Error -> {
-                }
-            }
-        }
-    }
-
-
 }

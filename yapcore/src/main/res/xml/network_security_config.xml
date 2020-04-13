@@ -3,14 +3,21 @@
     <domain-config>
         <domain includeSubdomains="true">*.yap.co</domain>
         <pin-set>
+            <pin digest="SHA-256">e5L5CAoQjV0HFzAnunk1mPHVx1HvPxcfJYI0UtLyBwY=</pin>
+            <pin digest="SHA-256">xYUxUshCD5PVwQ1AgAakwEG6dLIId5QMvqbNVBn1vFw=</pin>
+            <pin digest="SHA-256">Yf/ZlETuML9yDZbbwEFNdRnXKM/Nci/pXaCLCcH8yrU=</pin>
             <pin digest="SHA-256">jr1RBEN+F3KtPTYBMhudiTGBRAg8k2qZPEg3WbSerXU=</pin>
-
             <pin digest="SHA-256">yJcy2FrimDcAjQrvDDImmFJna4OjlPQ4LAee9Vj2C74=</pin>
-
             <pin digest="SHA-256">8Rw90Ej3Ttt8RRkrg+WYDS9n7IS03bk5bjP/UXPtaY8=</pin>
         </pin-set>
         <domain-config cleartextTrafficPermitted="false">
             <domain includeSubdomains="true">secure.*.yap.co</domain>
         </domain-config>
     </domain-config>
+    <debug-overrides>
+        <trust-anchors>
+            <certificates src="system" />
+            <certificates src="user" />
+        </trust-anchors>
+    </debug-overrides>
 </network-security-config>

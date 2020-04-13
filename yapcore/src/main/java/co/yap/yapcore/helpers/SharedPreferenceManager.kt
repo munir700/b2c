@@ -6,7 +6,7 @@ import co.yap.yapcore.constants.Constants.KEY_PASSCODE
 import co.yap.yapcore.constants.Constants.KEY_THEME
 import co.yap.yapcore.constants.Constants.KEY_USERNAME
 import co.yap.yapcore.helpers.encryption.EncryptionUtils
-import co.yap.yapcore.referral.ReferralInfo
+import co.yap.yapcore.adjust.ReferralInfo
 import com.google.gson.Gson
 
 class SharedPreferenceManager(val context: Context) {
