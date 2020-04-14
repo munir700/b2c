@@ -52,9 +52,6 @@ import co.yap.networking.transactions.responsedtos.transaction.Content
 import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionListData
 import co.yap.translation.Strings
 import co.yap.widgets.MultiStateView
-import co.yap.widgets.couchmark.BubbleShowCase
-import co.yap.widgets.couchmark.BubbleShowCaseBuilder
-import co.yap.widgets.couchmark.BubbleShowCaseSequence
 import co.yap.widgets.guidedtour.TourSetup
 import co.yap.widgets.guidedtour.models.GuidedTourViewDetail
 import co.yap.widgets.guidedtour.view.locationOnScreen
@@ -76,7 +73,6 @@ import co.yap.yapcore.leanplum.trackEventInFragments
 import co.yap.yapcore.managers.MyUserManager
 import com.google.android.material.appbar.AppBarLayout
 import com.yarolegovich.discretescrollview.transform.ScaleTransformer
-import kotlinx.android.synthetic.main.content_fragment_yap_home.view.*
 import kotlinx.android.synthetic.main.view_graph.*
 import kotlin.math.abs
 
@@ -751,16 +747,6 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
 
     private fun setViewsArray(): ArrayList<GuidedTourViewDetail> {
         val list = ArrayList<GuidedTourViewDetail>()
-//        list.add(
-//            GuidedTourViewDetail(
-//                getParentActivity().drawerNav.to.to,
-//                "search",
-//                "Click here to search for specific transaction in your account history",
-//                ivLogo.locationOnScreen.x,
-//                ivLogo.locationOnScreen.y
-//            )
-//        )
-
         list.add(
             GuidedTourViewDetail(
                 getParentActivity().txtYapIt,
@@ -773,16 +759,17 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
         list.add(
             GuidedTourViewDetail(
                 getBindings().ivSearch,
-                "Your current balance",
+                "Menu Type",
                 "Here you can see your account’s current balance. It will be updated in-real time after every transaction.",
                 getBindings().ivSearch.locationOnScreen.x,
                 getBindings().ivSearch.locationOnScreen.y
             )
         )
+
         list.add(
             GuidedTourViewDetail(
                 getBindings().tvAvailableBalance,
-                "Your current balance",
+                "Yap it",
                 "Here you can see your account’s current balance. It will be updated in-real time after every transaction.",
                 getBindings().tvAvailableBalance.locationOnScreen.x,
                 getBindings().tvAvailableBalance.locationOnScreen.y

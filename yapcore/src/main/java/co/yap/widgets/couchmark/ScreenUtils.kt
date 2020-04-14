@@ -43,20 +43,7 @@ object ScreenUtils {
         return locationTarget[1]
     }
 
-    fun getVerticalScreenOffset(activity: Activity): Int{
-        val viewRoot = getViewRoot(activity)
-        return getScreenHeight(activity) - viewRoot.height
-    }
 
-    fun getHorizontalScreenOffset(activity: Activity): Int{
-        val viewRoot = getViewRoot(activity)
-        return getScreenWidth(activity) - viewRoot.width
-    }
-
-    private fun getViewRoot(activity: Activity): ViewGroup {
-        val androidContent = activity.findViewById<ViewGroup>(android.R.id.content)
-        return androidContent.parent.parent as ViewGroup
-    }
 
     fun getStatusBarHeight(context: Context): Int {
         var result = 0
@@ -65,11 +52,6 @@ object ScreenUtils {
             result = context.resources.getDimensionPixelSize(resourceId)
         }
         return result
-    }
-
-    fun pxToDp(px: Int): Int {
-        val metrics = Resources.getSystem().displayMetrics
-        return Math.round(px / (metrics.densityDpi.toFloat() / DisplayMetrics.DENSITY_DEFAULT))
     }
 
     fun dpToPx(dp: Int): Int {

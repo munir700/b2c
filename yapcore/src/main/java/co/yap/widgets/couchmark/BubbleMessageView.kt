@@ -1,5 +1,6 @@
 package co.yap.widgets.couchmark
 
+import android.app.Activity
 import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Paint
@@ -10,14 +11,12 @@ import android.util.AttributeSet
 import android.util.TypedValue
 import android.view.View
 import android.widget.Button
-import android.widget.ImageView
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import co.yap.yapcore.R
 import java.lang.ref.WeakReference
-
-import java.util.ArrayList
+import java.util.*
 import kotlin.math.roundToInt
 
 
@@ -29,6 +28,7 @@ class BubbleMessageView : ConstraintLayout {
 
     private var textViewTitle: TextView? = null
     private var textViewSubtitle: TextView? = null
+    private var textViewCounter: TextView? = null
     private var btnNext: Button? = null
     private var showCaseMessageViewLayout: ConstraintLayout? = null
 
@@ -54,7 +54,6 @@ class BubbleMessageView : ConstraintLayout {
 
     private fun initView() {
         setWillNotDraw(false)
-
         inflateXML()
         bindViews()
     }
@@ -67,10 +66,11 @@ class BubbleMessageView : ConstraintLayout {
         btnNext = findViewById(R.id.btnNext)
         textViewTitle = findViewById(R.id.tvTitle)
         textViewSubtitle = findViewById(R.id.tvDescription)
+        textViewCounter = findViewById(R.id.tvCount)
         showCaseMessageViewLayout = findViewById(R.id.showCaseMessageViewLayout)
     }
 
-    private fun setAttributes(builder: Builder){
+    fun setAttributes(builder: Builder){
         if(builder.mCloseAction!=null){
             btnNext?.visibility = View.VISIBLE
         }
@@ -238,7 +238,8 @@ class BubbleMessageView : ConstraintLayout {
     /**
      * Builder for BubbleMessageView class
      */
-    class Builder{
+    class Builder(private val activity: Activity) {
+        var bubbleMessageView: BubbleMessageView? = null
         lateinit var mContext: WeakReference<Context>
         var mTargetViewScreenLocation: RectF? = null
         var mImage: Drawable? = null
@@ -321,6 +322,10 @@ class BubbleMessageView : ConstraintLayout {
 
         fun build(): BubbleMessageView {
             return BubbleMessageView(mContext.get()!!, this)
+        }
+
+        init {
+            bubbleMessageView = BubbleMessageView(activity)
         }
     }
 }
