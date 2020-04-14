@@ -20,10 +20,10 @@ class CoachMarkDialogueOverlay(
     internal val context: Context,
     private val guidedTourViewViewsList: ArrayList<GuidedTourViewDetail>
 ) : Dialog(context, android.R.style.Theme_Light) {
-    private var layer: CircleOverlayView? = null
+    var layer: CircleOverlayView? = null
     private var parentView: LinearLayout? = null
     private var circleImg: CoreCircularImageView? = null
-    private var rootMain: RelativeLayout? = null
+    var rootMain: RelativeLayout? = null
     private var skip: Button? = null
     private val padding: Int = 80
     var mPointer: Pointer? = null

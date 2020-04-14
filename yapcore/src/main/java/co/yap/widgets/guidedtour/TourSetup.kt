@@ -17,7 +17,9 @@ class TourSetup() {
     var isMultipleViewsTour: Boolean = false
     private var guidedTourViewViewsList: ArrayList<GuidedTourViewDetail> = ArrayList()
     var layer: CoachMarkDialogueOverlay? = null
-    private var descBox: BubbleShowCaseBuilder? = null
+    private var descBox2: BubbleShowCaseBuilder? = null
+    private var descBox: BubbleMessageView.Builder? = null
+    private var descBoxView: BubbleMessageView? = null
     var showCase: BubbleShowCase? = null
 
     lateinit var context: Context
@@ -42,9 +44,18 @@ class TourSetup() {
         layer = CoachMarkDialogueOverlay(context, guidedTourViewViewsList)
         layer?.show()
         getCurrentItem()?.let {
-            descBox = getDescBox(context, it)
-            descBox?.listener(listener)
-            showCase = descBox?.show()
+            showCase = BubbleShowCase(getDescBox(context, it))
+            descBox = getBubbleMessageViewBuilder(it)
+            val showCaseParams = showCase?.addBubbleMessageViewDependingOnTargetView(
+                it.view,
+                descBox!!
+            )
+            descBoxView = descBox?.build()
+            descBoxView?.layoutParams = showCaseParams
+            layer?.rootMain?.addView(
+                descBoxView, 0
+            )
+            descBoxView?.bringToFront()
         }
     }
 
@@ -68,12 +79,15 @@ class TourSetup() {
     private fun updateDescriptionBox() {
         getCurrentItem()?.let {
             val builder = getBubbleMessageViewBuilder(it)
-            val msgView = showCase?.getView()
-//            val xPos = ScreenUtils.getAxisXpositionOfViewOnScreen(it.view).toFloat()
-//            val yPos = ScreenUtils.getAxisYpositionOfViewOnScreen(it.view).toFloat()
-//            msgView?.animate()?.x(xPos)?.y(yPos)?.setDuration(1000)?.start()
+            val msgView = descBoxView
+            val params = showCase?.addBubbleMessageViewDependingOnTargetView(it.view, builder)
+            val childView = layer?.rootMain?.getChildAt(0)
+//            val xPos = targetPoint.x.toFloat()
+//            val yPos = targetPoint.y.toFloat()
+            val xPos = ScreenUtils.getAxisYpositionOfViewOnScreen(it.view).toFloat()
+            val yPos = ScreenUtils.getAxisYpositionOfViewOnScreen(it.view).toFloat()
+            msgView?.animate()?.x(xPos)?.y(yPos)?.setDuration(1000)?.start()
             msgView?.setAttributes(builder)
-            msgView?.invalidate()
         }
     }
 

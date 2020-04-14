@@ -4,11 +4,12 @@ import android.app.Activity
 import android.content.Context
 import android.content.Context.MODE_PRIVATE
 import android.content.SharedPreferences
-import android.graphics.RectF
 import android.graphics.drawable.Drawable
 import android.os.Handler
+import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import androidx.core.content.ContextCompat
 import co.yap.yapcore.R
@@ -66,8 +67,8 @@ class BubbleShowCase(builder: BubbleShowCaseBuilder) {
 
     //Sequence params
     private val mSequenceListener: SequenceShowCaseListener? = builder.mSequenceShowCaseListener
-    private val isFirstOfSequence: Boolean = builder.mIsFirstOfSequence!!
-    private val isLastOfSequence: Boolean = builder.mIsLastOfSequence!!
+    private val isFirstOfSequence: Boolean = builder.mIsFirstOfSequence ?: false
+    private val isLastOfSequence: Boolean = builder.mIsLastOfSequence ?: false
 
     //References
     private var backgroundDimLayout: RelativeLayout? = null
@@ -87,7 +88,6 @@ class BubbleShowCase(builder: BubbleShowCaseBuilder) {
 
         val rootView = getViewRoot(mActivity.get()!!)
         backgroundDimLayout = getBackgroundDimLayout()
-        setBackgroundDimListener(backgroundDimLayout)
         bubbleMessageViewBuilder = getBubbleMessageViewBuilder()
 
         if (mTargetView != null && mArrowPositionList.size <= 1) {
@@ -108,11 +108,11 @@ class BubbleShowCase(builder: BubbleShowCaseBuilder) {
                 }
 
                 if (isVisibleOnScreen(target)) {
-                    addBubbleMessageViewDependingOnTargetView(
-                        target,
-                        bubbleMessageViewBuilder!!,
-                        backgroundDimLayout
-                    )
+//                    addBubbleMessageViewDependingOnTargetView(
+//                        target,
+//                        bubbleMessageViewBuilder!!,
+//                        backgroundDimLayout
+//                    )
                 } else {
                     dismiss()
                 }
@@ -150,7 +150,7 @@ class BubbleShowCase(builder: BubbleShowCaseBuilder) {
         mSequenceListener?.let { mSequenceListener.onDismiss() }
     }
 
-    private fun getViewRoot(activity: Activity): ViewGroup {
+    fun getViewRoot(activity: Activity): ViewGroup {
         val androidContent = activity.findViewById<ViewGroup>(android.R.id.content)
         return androidContent.parent.parent as ViewGroup
     }
@@ -173,10 +173,6 @@ class BubbleShowCase(builder: BubbleShowCaseBuilder) {
         )
         backgroundLayout.isClickable = true
         return backgroundLayout
-    }
-
-    private fun setBackgroundDimListener(backgroundDimLayout: RelativeLayout?) {
-        backgroundDimLayout?.setOnClickListener { mBubbleShowCaseListener?.onBackgroundDimClick(this) }
     }
 
     private fun getBubbleMessageViewBuilder(): BubbleMessageView.Builder {
@@ -226,54 +222,17 @@ class BubbleShowCase(builder: BubbleShowCaseBuilder) {
     /**
      * This function creates the BubbleMessageView depending the position of the target and the desired arrow position. This new view is also set on the layout passed by param
      */
-    private fun addBubbleMessageViewDependingOnTargetView(
+    fun addBubbleMessageViewDependingOnTargetView(
         targetView: View?,
-        bubbleMessageViewBuilder: BubbleMessageView.Builder,
-        backgroundDimLayout: RelativeLayout?
-    ) {
-        if (targetView == null) return
+        bubbleMessageViewBuilder: BubbleMessageView.Builder
+    ): RelativeLayout.LayoutParams? {
+        if (targetView == null) return null
         val showCaseParams = RelativeLayout.LayoutParams(
             RelativeLayout.LayoutParams.MATCH_PARENT,
             RelativeLayout.LayoutParams.WRAP_CONTENT
         )
 
         when (bubbleMessageViewBuilder.mArrowPosition[0]) {
-            ArrowPosition.LEFT -> {
-                showCaseParams.addRule(RelativeLayout.ALIGN_PARENT_LEFT)
-                if (ScreenUtils.isViewLocatedAtHalfTopOfTheScreen(mActivity.get()!!, targetView)) {
-                    showCaseParams.setMargins(
-                        getXposition(targetView) + targetView.width,
-                        getYposition(targetView), 0, 0
-                    )
-                    showCaseParams.addRule(RelativeLayout.ALIGN_PARENT_TOP)
-                } else {
-                    showCaseParams.setMargins(
-                        getXposition(targetView) + targetView.width, 0, 0,
-                        getScreenHeight(mActivity.get()!!) - getYposition(targetView) - targetView.height
-                    )
-                    showCaseParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM)
-                }
-            }
-            ArrowPosition.RIGHT -> {
-                showCaseParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT)
-                if (ScreenUtils.isViewLocatedAtHalfTopOfTheScreen(mActivity.get()!!, targetView)) {
-                    showCaseParams.setMargins(
-                        0,
-                        getYposition(targetView),
-                        getScreenWidth(mActivity.get()!!) - getXposition(targetView),
-                        0
-                    )
-                    showCaseParams.addRule(RelativeLayout.ALIGN_PARENT_TOP)
-                } else {
-                    showCaseParams.setMargins(
-                        0,
-                        0,
-                        getScreenWidth(mActivity.get()!!) - getXposition(targetView),
-                        getScreenHeight(mActivity.get()!!) - getYposition(targetView) - targetView.height
-                    )
-                    showCaseParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM)
-                }
-            }
             ArrowPosition.TOP -> {
                 showCaseParams.addRule(RelativeLayout.ALIGN_PARENT_TOP)
                 showCaseParams.setMargins(
@@ -287,19 +246,7 @@ class BubbleShowCase(builder: BubbleShowCaseBuilder) {
                 )
             }
         }
-
-        val bubbleMessageView = bubbleMessageViewBuilder.targetViewScreenLocation(
-            RectF(
-                getXposition(targetView).toFloat(),
-                getYposition(targetView).toFloat(),
-                getXposition(targetView).toFloat() + targetView.width,
-                getYposition(targetView).toFloat() + targetView.height
-            )
-        ).build()
-        this.bubbleMessageView = bubbleMessageView
-        backgroundDimLayout?.addView(
-            bubbleMessageView, showCaseParams
-        )
+        return showCaseParams
     }
 
     private fun isVisibleOnScreen(targetView: View?): Boolean {
