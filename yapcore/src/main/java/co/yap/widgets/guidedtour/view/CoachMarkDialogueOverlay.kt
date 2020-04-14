@@ -57,11 +57,14 @@ class CoachMarkDialogueOverlay(
         if (currentViewId < guidedTourViewViewsList.size) {
             previousViewId = currentViewId
             currentViewId += 1
+            layer?.updateCircle=true
+            //
             updateCircle()
         } else {
             dismiss()
         }
     }
+
 
     private fun updateCircle() {
         getCurrentItem()?.let {
@@ -69,12 +72,12 @@ class CoachMarkDialogueOverlay(
 //                circleImg?.setImageBitmap(bitmap)
 //            }
 
-            //updateParentView(it)
             log("overlaay", "x -> ${it.view.x} + y -> ${it.view.y}")
             log("overlaay", "point x -> ${it.pointX} + y -> ${it.pointY}")
             layer?.centerX = it.view.x - padding.div(2)
             layer?.centerY = it.view.y - padding.div(2)
             layer?.invalidate()
+
             log("overlaay", "new xy x -> ${parentView?.x} + y -> ${parentView?.y}")
 
         }
