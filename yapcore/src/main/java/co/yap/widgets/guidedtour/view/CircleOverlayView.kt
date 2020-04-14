@@ -13,7 +13,8 @@ class CircleOverlayView : LinearLayout {
     private var bitmap: Bitmap? = null
     var centerX: Float = 10f
     var centerY: Float = 10f
-
+    var canvas: Canvas? = null
+    var updateCircle: Boolean = false
 
     constructor(context: Context?) : super(context) {
     }
@@ -43,6 +44,7 @@ class CircleOverlayView : LinearLayout {
 
     override fun dispatchDraw(canvas: Canvas) {
         super.dispatchDraw(canvas)
+        this.canvas = canvas
         if (bitmap == null) {
             createWindowFrame()
         }
@@ -80,6 +82,15 @@ class CircleOverlayView : LinearLayout {
         paint.color = resources.getColor(R.color.white)
         val radius = resources.getDimensionPixelSize(R.dimen._50sdp).toFloat()
         canvas?.drawCircle(centerX, centerY, radius, paint)
+    }
+
+    override fun invalidate() {
+
+        if (updateCircle) {
+            super.invalidate()
+            createWindowFrame()
+
+        }
     }
 
     override fun isInEditMode(): Boolean {
