@@ -1,7 +1,6 @@
 package co.yap.modules.subaccounts.account.card
 
 import android.os.Bundle
-import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.customers.responsedtos.SubAccount
@@ -10,8 +9,6 @@ import co.yap.networking.models.RetroApiResponse
 import co.yap.widgets.State
 import co.yap.yapcore.dagger.base.viewmodel.BaseRecyclerAdapterVM
 import co.yap.yapcore.enums.AccountType
-import co.yap.yapcore.managers.MyUserManager
-import co.yap.yapcore.managers.MyUserManager.user
 import javax.inject.Inject
 
 class SubAccountCardVM @Inject constructor(override val state: ISubAccountCard.State) :
@@ -28,6 +25,7 @@ class SubAccountCardVM @Inject constructor(override val state: ISubAccountCard.S
         )
         accounts.account?.let { addData(it) }
     }
+
 
     override fun getSubAccount() {
         launch {

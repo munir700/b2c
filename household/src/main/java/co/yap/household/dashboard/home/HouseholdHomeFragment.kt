@@ -9,6 +9,7 @@ import co.yap.widgets.MultiStateView
 import co.yap.widgets.State
 import co.yap.widgets.Status
 import co.yap.yapcore.dagger.base.BaseViewModelFragment
+import co.yap.yapcore.dagger.base.navigation.BaseNavViewModelFragment
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.transactions.TransactionsAdapter
@@ -18,7 +19,7 @@ import javax.inject.Inject
 
 
 class HouseholdHomeFragment :
-    BaseViewModelFragment<FragmentHouseholdHomeBinding, IHouseholdHome.State, HouseHoldHomeVM>() {
+    BaseNavViewModelFragment<FragmentHouseholdHomeBinding, IHouseholdHome.State, HouseHoldHomeVM>() {
 
     override fun getBindingVariable() = BR.viewModel
 

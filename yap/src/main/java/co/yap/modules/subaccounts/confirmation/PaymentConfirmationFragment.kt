@@ -4,9 +4,10 @@ import co.yap.BR
 import co.yap.R
 import co.yap.databinding.FragmentPaymentConfirmationBinding
 import co.yap.yapcore.dagger.base.BaseViewModelFragment
+import co.yap.yapcore.dagger.base.navigation.BaseNavViewModelFragment
 
 
-class PaymentConfirmationFragment : BaseViewModelFragment<FragmentPaymentConfirmationBinding,IPaymentConfirmation.State,PaymentConfirmationVM>() {
+class PaymentConfirmationFragment : BaseNavViewModelFragment<FragmentPaymentConfirmationBinding,IPaymentConfirmation.State,PaymentConfirmationVM>() {
 
     override fun getBindingVariable() = BR.paymentConfirmationVM
 

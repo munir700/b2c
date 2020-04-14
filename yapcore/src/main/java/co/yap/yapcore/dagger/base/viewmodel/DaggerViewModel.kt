@@ -10,6 +10,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.navigation.NavController
 import co.yap.networking.customers.responsedtos.AccountInfo
+import co.yap.yapcore.dagger.base.interfaces.CanFetchExtras
 import co.yap.yapcore.managers.MyUserManager
 
 /**
@@ -94,7 +95,7 @@ import co.yap.yapcore.managers.MyUserManager
  * </pre>
  * </>
  */
-abstract class DaggerViewModel : ViewModel(), Observable {
+abstract class DaggerViewModel : ViewModel(), Observable, CanFetchExtras {
     @Transient
     private var mCallbacks: PropertyChangeRegistry? = null
     private var isFirstTimeUiCreate = true
@@ -185,4 +186,7 @@ abstract class DaggerViewModel : ViewModel(), Observable {
      * @param bundle
      */
     abstract fun onFirsTimeUiCreate(bundle: Bundle?, navigation: NavController?)
+    override fun fetchExtras(extras: Bundle?) {
+
+    }
 }

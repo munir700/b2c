@@ -4,10 +4,10 @@ import android.content.Context
 import android.os.Bundle
 import androidx.navigation.NavController
 import co.yap.networking.customers.CustomersRepository
+import co.yap.networking.customers.responsedtos.SubAccount
 import co.yap.networking.models.RetroApiResponse
 import co.yap.yapcore.dagger.base.viewmodel.DaggerBaseViewModel
 import co.yap.yapcore.helpers.confirm
-import co.yap.yapcore.helpers.extentions.toast
 import javax.inject.Inject
 
 class SubscriptionVM @Inject constructor(override val state: ISubscription.State) :
@@ -16,6 +16,7 @@ class SubscriptionVM @Inject constructor(override val state: ISubscription.State
     override var customersRepository: CustomersRepository = CustomersRepository
 
     override fun onFirsTimeUiCreate(bundle: Bundle?, navigation: NavController?) {
+        bundle?.let { state.subAccount.value = it.getParcelable(SubAccount::class.simpleName) }
         getSubscriptionData()
     }
 
@@ -23,9 +24,37 @@ class SubscriptionVM @Inject constructor(override val state: ISubscription.State
         launch {
             state.loading = true
             when (val response =
-                customersRepository.getHouseHoldSubscription("f0c52305-a055-498d-8d79-71cf815dcaff")) {
+                customersRepository.getHouseHoldSubscription(state.subAccount.value?.accountUuid)) {
                 is RetroApiResponse.Success -> {
-                    state.subscriptionResponseModel.set(response.data.data)
+                    state.loading = false
+                    state.subscriptionResponseModel.value = response.data.data
+                }
+                is RetroApiResponse.Error -> {
+                    state.loading = false
+                    state.toast = response.error.message
+                }
+            }
+        }
+    }
+
+    override fun setUpSubscription() {
+        launch {
+            state.loading = true
+            when (val response =
+                customersRepository.setUpHouseHoldSubscription(
+                    state.subAccount.value?.accountUuid,
+                    planType = state.subscriptionResponseModel.value?.planType,
+                    isAutoRenew = state.subscriptionResponseModel.value?.isAutoRenew
+                )) {
+                is RetroApiResponse.Success -> {
+                    state.subscriptionResponseModel.value?.isAutoRenew?.let {
+                        state.subscriptionResponseModel.value?.isAutoRenew = !it
+                    }
+//                    if (state.subscriptionResponseModel.value?.isAutoRenew == true) {
+//                        state.subscriptionResponseModel.value?.isAutoRenew = state.subscriptionResponseModel.value?.isAutoRenew
+//                    } else {
+//                        state.subscriptionResponseModel.value?.isAutoRenew = false
+//                    }
                 }
                 is RetroApiResponse.Error -> {
                     state.loading = false
@@ -52,6 +81,24 @@ class SubscriptionVM @Inject constructor(override val state: ISubscription.State
         }
     }
 
+    override fun cancelSubscription() {
+        launch {
+            state.loading = true
+            when (val response =
+                customersRepository.cancelHouseHoldSubscription(
+                    state.subAccount.value?.accountUuid
+                )) {
+                is RetroApiResponse.Success -> {
+
+                }
+                is RetroApiResponse.Error -> {
+                    state.loading = false
+                    state.toast = response.error.message
+                }
+            }
+            state.loading = false
+        }
+    }
 
     override fun handlePressOnClick(context: Context) {
         context.confirm(
@@ -61,7 +108,7 @@ class SubscriptionVM @Inject constructor(override val state: ISubscription.State
             negativeButton = "NO",
             cancelable = false
         ) {
-            toast(context, "Cancel subscription.")
+            cancelSubscription()
         }
     }
 

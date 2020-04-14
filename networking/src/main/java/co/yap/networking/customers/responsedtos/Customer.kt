@@ -6,6 +6,7 @@ import android.icu.util.TimeZone
 import android.os.Build
 import android.os.Parcelable
 import android.telephony.TelephonyManager
+import co.yap.networking.models.ApiResponse
 import com.google.gson.annotations.SerializedName
 import com.google.i18n.phonenumbers.PhoneNumberUtil
 import kotlinx.android.parcel.Parcelize
@@ -46,7 +47,7 @@ class Customer(
     var emailVerified: Boolean? = false,
     @SerializedName("mobileNoVerified")
     var mobileNoVerified: Boolean? = false
-) : Parcelable {
+) :ApiResponse(), Parcelable {
 
     fun getFullName(): String {
         return "$firstName $lastName"

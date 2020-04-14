@@ -212,7 +212,7 @@ class CurrencyTextView : AppCompatTextView {
                 AbsoluteSizeSpan(decimalSize.toInt(), false)
             )
         } catch (e: Exception) {
-            e.printStackTrace()
+        //    e.printStackTrace()
             result.clear()
             result.append(amount, AbsoluteSizeSpan(textSize.toInt(), false))
         }

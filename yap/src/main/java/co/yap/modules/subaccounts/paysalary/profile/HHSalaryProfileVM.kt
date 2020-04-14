@@ -2,8 +2,12 @@ package co.yap.modules.subaccounts.paysalary.profile
 
 import android.os.Bundle
 import androidx.navigation.NavController
+import co.yap.R
+import co.yap.networking.customers.responsedtos.SubAccount
+import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.dagger.base.viewmodel.BaseRecyclerAdapterVM
+import com.arthurivanets.bottomsheets.sheets.model.Option
 import javax.inject.Inject
 
 class HHSalaryProfileVM @Inject constructor(override val state: IHHSalaryProfile.State) :
@@ -14,11 +18,10 @@ class HHSalaryProfileVM @Inject constructor(override val state: IHHSalaryProfile
 
     }
 
-    public fun setUpData(arr: ArrayList<PaySalaryModel>, type: Int) {
-        if (type == 1) {
-            addData(arr)
-        } else {
-        }
+    override fun fetchExtras(bundle: Bundle?) {
+        super.fetchExtras(bundle)
+        bundle?.let { state.subAccount.value = it.getParcelable(SubAccount::class.simpleName) }
+
     }
 
     override fun handlePressOnClick(id: Int) {

@@ -114,7 +114,7 @@ abstract class BaseBindingFragment<V : IBase.ViewModel<*>> : BaseFragment<V>(), 
         //
     }
 
-    override fun fetchExtras(extras: Bundle) {
+    override fun fetchExtras(extras: Bundle?) {
 
     }
 }

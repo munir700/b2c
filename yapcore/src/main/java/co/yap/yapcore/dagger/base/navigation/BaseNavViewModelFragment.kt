@@ -39,11 +39,14 @@ abstract class BaseNavViewModelFragment<VB : ViewDataBinding, S : IBase.State, V
     override fun postExecutePendingBindings() {
         super.postExecutePendingBindings()
         if (activity is ManageToolBarListener) {
-            (activity as ManageToolBarListener).toolBarTitle = toolBarTitle
-            (activity as ManageToolBarListener).toolBarVisibility = toolBarVisibility
+            (activity as ManageToolBarListener).toolBarTitle = getToolBarTitle()
+            (activity as ManageToolBarListener).toolBarVisibility = toolBarVisibility()
         }
     }
 
+    override fun getToolBarTitle(): String? = null
+
+    override fun toolBarVisibility(): Boolean? = true
 
     /**
      * Navigates to the specified destination screen.
@@ -52,7 +55,7 @@ abstract class BaseNavViewModelFragment<VB : ViewDataBinding, S : IBase.State, V
      * @param extras the extra arguments to be passed to the destination screen
      * @param navigationExtras
      */
-     fun navigate(
+    fun navigate(
         @IdRes destinationId: Int,
         extras: Bundle? = null,
         navigationExtras: Navigator.Extras? = null
@@ -137,6 +140,12 @@ abstract class BaseNavViewModelFragment<VB : ViewDataBinding, S : IBase.State, V
         // val extras = FragmentNavigatorExtras(appBarLayout to appBarTransition)
         this.exitTransition = Slide()
         findNavController().navigate(navDirections)
+    }
+
+    protected fun navigateForwardWithAnimation(navDirections: NavDirections, args: Bundle?) {
+        // val extras = FragmentNavigatorExtras(appBarLayout to appBarTransition)
+        this.exitTransition = Slide()
+        navigateForResult(navDirections.actionId, REQUEST_CODE_NOT_SET, args)
     }
 
     protected fun navigateBackWithResult(resultCode: Int, data: Bundle? = null): Boolean =

@@ -19,7 +19,9 @@ class SubAccountDashBoardFragment :
     override fun getBindingVariable() = BR.subAccountDashBoardVM
 
     override fun getLayoutId() = R.layout.fragment_sub_account_dash_board
-    override var toolBarTitle: String? = "Household"
+    override fun getToolBarTitle(): String? {
+        return "Household"
+    }
 
     override fun postExecutePendingBindings() {
         super.postExecutePendingBindings()

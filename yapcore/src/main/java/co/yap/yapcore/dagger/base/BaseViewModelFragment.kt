@@ -27,7 +27,7 @@ import kotlin.properties.Delegates
  */
 abstract class BaseViewModelFragment<VB : ViewDataBinding, S : IBase.State, VM : DaggerBaseViewModel<S>> :
     BaseBindingFragment<VM>(),
-    HasSupportFragmentInjector, ManageToolBarListener,
+    HasSupportFragmentInjector,
     Injectable {
     @Inject
     lateinit var fragmentInjector: DispatchingAndroidInjector<Fragment>
@@ -63,6 +63,7 @@ abstract class BaseViewModelFragment<VB : ViewDataBinding, S : IBase.State, VM :
         mViewDataBinding = viewDataBinding as VB
         viewModel = mViewModel.get()
         registerStateListeners()
+        viewModel.fetchExtras(arguments)
         viewDataBinding.setVariable(getBindingVariable(), viewModel)
         viewDataBinding.lifecycleOwner = this
         viewDataBinding.executePendingBindings()
@@ -186,6 +187,6 @@ abstract class BaseViewModelFragment<VB : ViewDataBinding, S : IBase.State, VM :
         activity?.finishAffinity()
     }
 
-    override var toolBarTitle: String? = null
-    override var toolBarVisibility: Boolean? = true
+    abstract fun getToolBarTitle(): String?
+    abstract fun toolBarVisibility(): Boolean?
 }

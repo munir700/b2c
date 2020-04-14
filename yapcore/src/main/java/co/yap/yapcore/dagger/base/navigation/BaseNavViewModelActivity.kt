@@ -70,8 +70,8 @@ abstract class BaseNavViewModelActivity<VB : ViewDataBinding, S : IBase.State, V
         initNavigationGraph()
     }
 
-    override fun postInit() {
-        super.postInit()
+    override fun postExecutePendingBindings() {
+        super.postExecutePendingBindings()
         setupToolbar()
     }
 
@@ -139,8 +139,9 @@ abstract class BaseNavViewModelActivity<VB : ViewDataBinding, S : IBase.State, V
      * @param extras the bundle of arguments
      */
     @CallSuper
-    override fun fetchExtras(extras: Bundle) {
-        extrasBundle = extras
+    override fun fetchExtras(extras: Bundle?) {
+        extras?.let { extrasBundle = it }
+
     }
 
     private fun getCurrentFragment() = navHostFragment?.childFragmentManager?.fragments?.get(0)

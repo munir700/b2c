@@ -321,7 +321,7 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
                     launchActivity<HouseholdDashboardActivity>(clearPrevious = true)
                 }
             } else {
-                launchActivity<OnBoardingHouseHoldActivity>() {
+                launchActivity<OnBoardingHouseHoldActivity>(clearPrevious = true) {
                     putExtra(OnBoardingHouseHoldActivity.USER_INFO, MyUserManager.user)
                 }
             }
@@ -330,7 +330,7 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
 
     private fun gotoYapDashboard() {
         findNavController().navigate(R.id.action_goto_yapDashboardActivity)
-//        activity?.finish()
+        activity?.finish()
     }
 
     private val createOtpObserver = Observer<Boolean> {

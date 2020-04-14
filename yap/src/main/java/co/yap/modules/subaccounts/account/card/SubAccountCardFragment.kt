@@ -1,18 +1,16 @@
 package co.yap.modules.subaccounts.account.card
 
-import android.content.DialogInterface
-import android.view.Menu
-import android.view.MenuInflater
-import android.view.MenuItem
-import android.view.View
+
+import android.os.Bundle
+import android.view.*
 import androidx.databinding.ViewDataBinding
 import androidx.navigation.NavController
 import co.yap.BR
 import co.yap.R
 import co.yap.databinding.FragmentSubAccountCardBinding
-import co.yap.databinding.ItemSubAccountCardBinding
 import co.yap.modules.dashboard.store.household.activities.HouseHoldLandingActivity
 import co.yap.modules.subaccounts.account.dashboard.SubAccountDashBoardFragmentDirections
+import co.yap.modules.subaccounts.paysalary.profile.HHSalaryProfileFragment
 import co.yap.networking.customers.responsedtos.SubAccount
 import co.yap.yapcore.BaseRVAdapter
 import co.yap.yapcore.BaseViewHolder
@@ -22,13 +20,18 @@ import co.yap.yapcore.enums.AccountType
 import co.yap.yapcore.helpers.alert
 import co.yap.yapcore.helpers.confirm
 import co.yap.yapcore.helpers.extentions.launchActivity
-import kotlin.reflect.KClass
-import kotlin.reflect.full.primaryConstructor
+import co.yap.yapcore.helpers.extentions.onDrag
+import co.yap.yapcore.helpers.extentions.startDrag
+import co.yap.yapcore.helpers.extentions.startFragment
+import co.yap.yapcore.interfaces.OnItemDropListener
+import com.daimajia.androidanimations.library.Techniques
+import com.daimajia.androidanimations.library.YoYo
+import kotlinx.android.synthetic.main.item_sub_account_card.*
 
 
 class SubAccountCardFragment :
     BaseRecyclerViewFragment<FragmentSubAccountCardBinding, ISubAccountCard.State, SubAccountCardVM,
-            SubAccountCardFragment.Adapter, SubAccount>() {
+            SubAccountCardFragment.Adapter, SubAccount>(), OnItemDropListener {
 
     override fun getBindingVariable() = BR.subAccountCardVM
 
@@ -53,13 +56,69 @@ class SubAccountCardFragment :
 //        In case household user has declined the request of the employer. Declined by <first_name> will be displayed in red text.
 //        then Card is active! Will be displayed in purple text
         val subAccount = data as SubAccount
+        val args = Bundle()
+        args.putParcelable(SubAccount::class.simpleName, subAccount)
         subAccount.accountType?.let {
             when (it) {
-                AccountType.B2C_HOUSEHOLD.name -> showRequestDeclinedPopup(subAccount)
-                //navigateForwardWithAnimation(SubAccountDashBoardFragmentDirections.actionSubAccountDashBoardFragmentToHHSalaryProfileFragment())
+                AccountType.B2C_ACCOUNT.name -> swipeViews(true)
+                AccountType.B2C_HOUSEHOLD.name -> //showRequestDeclinedPopup(subAccount)
+                    navigateForwardWithAnimation(
+                        SubAccountDashBoardFragmentDirections.actionSubAccountDashBoardFragmentToHHSalaryProfileFragment(),
+                        args
+                    )
             }
         }
             ?: launchActivity<HouseHoldLandingActivity>(requestCode = RequestCodes.REQUEST_ADD_HOUSE_HOLD)
+    }
+
+    private fun swipeViews(swipe: Boolean) {
+        if (swipe) {
+            imgProfile.visibility = View.INVISIBLE
+            layout_swipe_image.visibility = View.VISIBLE
+            tv_drag_and_drop_label.visibility = View.VISIBLE
+            animate(layout_swipe_image)
+            animate(tv_drag_and_drop_label)
+        } else {
+            imgProfile.visibility = View.VISIBLE
+            layout_swipe_image.visibility = View.INVISIBLE
+            tv_drag_and_drop_label.visibility = View.INVISIBLE
+        }
+    }
+
+    private fun animate(view: View) {
+        YoYo.with(Techniques.SlideInDown)
+            .duration(400)
+            .repeat(0)
+            .playOn(view)
+    }
+
+    override fun onItemDrag(view: View, pos: Int, event: DragEvent, data: Any): Boolean? {
+        swipeViews(false)
+        return onDrag(view, pos, event, data, this)
+    }
+
+    override fun onItemDrop(view: View, pos: Int, data: Any) {
+        val subAccount = data as SubAccount
+        val args = Bundle()
+        args.putParcelable(SubAccount::class.simpleName, subAccount)
+        subAccount.accountType?.let {
+            when (it) {
+                AccountType.B2C_HOUSEHOLD.name -> //showRequestDeclinedPopup(subAccount)
+                    navigateForwardWithAnimation(
+                        SubAccountDashBoardFragmentDirections.actionSubAccountDashBoardFragmentToHHSalaryProfileFragment(),
+                        args
+                    )
+            }
+        }
+            ?: launchActivity<HouseHoldLandingActivity>(requestCode = RequestCodes.REQUEST_ADD_HOUSE_HOLD)
+
+    }
+
+    override fun onItemLongClick(view: View, pos: Int, id: Long, data: Any): Boolean? {
+        if (pos == 0) {
+            return startDrag(view)
+        }
+        return true
     }
 
     private fun showRequestDeclinedPopup(data: SubAccount) {
@@ -88,7 +147,7 @@ class SubAccountCardFragment :
     }
 
     class Adapter(mValue: MutableList<SubAccount>, navigation: NavController?) :
-        BaseRVAdapter<SubAccount, SubAccountCardItemVM, BaseViewHolder<SubAccount,SubAccountCardItemVM>>(
+        BaseRVAdapter<SubAccount, SubAccountCardItemVM, BaseViewHolder<SubAccount, SubAccountCardItemVM>>(
             mValue, navigation
         ) {
         override fun getLayoutId(viewType: Int) = getViewModel(viewType).layoutRes()

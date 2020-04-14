@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
@@ -8,41 +9,50 @@
             type="co.yap.modules.subaccounts.paysalary.profile.HHSalaryProfileItemVM" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/cornor_edges_gery"
-        android:padding="@dimen/margin_small">
+    <androidx.cardview.widget.CardView
+        style="@style/Yap.App.Layout.CardView"
+        android:background="@drawable/card_border_container"
+        android:elevation="@dimen/_2sdp"
+        app:cardBackgroundColor="@color/white">
 
-        <View
-            android:id="@+id/ivExpenseBg"
-            android:layout_width="@dimen/_32sdp"
-            android:layout_height="@dimen/_32sdp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:background="@drawable/bg_round_corners"/>
-
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/ivExpenses"
-            style="@style/Yap.App.Widget.FloatingActionButton.Circle.Small"
-            android:layout_margin="@dimen/margin_small"
-            app:layout_constraintStart_toStartOf="@id/ivExpenseBg"
-            app:layout_constraintTop_toTopOf="@id/ivExpenseBg"
-            app:layout_constraintBottom_toBottomOf="@id/ivExpenseBg"
-            app:layout_constraintEnd_toEndOf="@+id/ivExpenseBg"
-            app:src="@{hhSalaryProfileItemVM.item.image}" />
-
-        <TextView
-            android:id="@+id/tv_pay_salary_title"
-            android:layout_width="wrap_content"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            style="@style/Yap.App.Layout.CardView"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_medium"
-            android:textColor="?attr/colorPrimaryAttr"
-            app:layout_constraintStart_toEndOf="@+id/ivExpenses"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:text="@{hhSalaryProfileItemVM.item.name}"/>
+            android:padding="@dimen/margin_small">
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <View
+                android:id="@+id/ivExpenseBg"
+                android:layout_width="@dimen/_32sdp"
+                android:layout_height="@dimen/_32sdp"
+                android:background="@drawable/bg_round_corners"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/ivExpenses"
+                style="@style/Yap.App.Widget.FloatingActionButton.Circle.Small"
+                android:layout_margin="@dimen/margin_small"
+                app:borderWidth="0dp"
+                app:elevation="5dp"
+                app:layout_constraintBottom_toBottomOf="@id/ivExpenseBg"
+                app:layout_constraintEnd_toEndOf="@+id/ivExpenseBg"
+                app:layout_constraintStart_toStartOf="@id/ivExpenseBg"
+                app:layout_constraintTop_toTopOf="@id/ivExpenseBg"
+                app:srcCompat="@{hhSalaryProfileItemVM.item.image}" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_pay_salary_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_medium"
+                android:textColor="?attr/colorPrimaryAttr"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/ivExpenses"
+                app:layout_constraintTop_toTopOf="parent"
+                app:text="@{hhSalaryProfileItemVM.item.name}" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
 </layout>

@@ -16,7 +16,7 @@ data class HouseHoldGetSubscription(
     @SerializedName("price")
     val price: String? = null,
     @SerializedName("isAutoRenew")
-    val isAutoRenew: String? = null
+    var isAutoRenew: Boolean? = null
 
 ) {
 }

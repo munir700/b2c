@@ -27,6 +27,9 @@
         <action
             android:id="@+id/action_HHSalaryProfileFragment_to_payHHEmployeeSalaryFragment"
             app:destination="@id/payHHEmployeeSalaryFragment" />
+        <action
+            android:id="@+id/action_HHSalaryProfileFragment_to_HHProfileFragment"
+            app:destination="@id/HHProfileFragment" />
     </fragment>
 
     <fragment

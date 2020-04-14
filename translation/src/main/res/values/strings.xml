@@ -988,7 +988,13 @@
     <string name="screen_house_hold_sub_account_ineligible_popup_title">Sorry, %1s is ineligible for a household card.</string>
     <string name="screen_house_hold_sub_account_ineligible_popup_message">Please remove %1s, we will refund you the subscription fee.</string>
     <string name="screen_house_hold_sub_account_status_declined_by_text"> Declined by %1s</string>
+    <string name="screen_sub_accounts_profile_display_text_drag_and_drop">Drag and drop to\ntransfer money</string>
 
 
+    <string-array name="screen_house_hold_pay_salary_profile_array">
+        <item>Set up a salary</item>
+        <item>Set up an expense pot</item>
+        <item>Set up an expense pot</item>
+    </string-array>
 </resources>
 
