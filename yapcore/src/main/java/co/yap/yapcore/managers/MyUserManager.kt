@@ -33,7 +33,7 @@ object MyUserManager : IRepositoryHolder<CardsRepository> {
     private val customersRepository: CustomersRepository = CustomersRepository
     private val authRepository: AuthRepository = AuthRepository
 
-    private var usersList: ArrayList<AccountInfo> = arrayListOf()
+     var usersList: ArrayList<AccountInfo> = arrayListOf()
     var user: AccountInfo? = null
     set(value) {
         field = value
@@ -48,7 +48,7 @@ object MyUserManager : IRepositoryHolder<CardsRepository> {
     var cardBalance: MutableLiveData<CardBalance> = MutableLiveData()
     var card: MutableLiveData<Card?> = MutableLiveData()
     var eidStatus: EIDStatus = EIDStatus.NOT_SET
-    var onAccountInfoSuccess: MutableLiveData<Boolean> = MutableLiveData()
+    var onAccountInfoSuccess: SingleLiveEvent<Boolean> = SingleLiveEvent()
 
     fun updateCardBalance() {
         getAccountBalanceRequest()
