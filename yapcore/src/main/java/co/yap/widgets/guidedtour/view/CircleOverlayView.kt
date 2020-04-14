@@ -64,9 +64,8 @@ class CircleOverlayView : LinearLayout {
             Paint(Paint.ANTI_ALIAS_FLAG)
         paint.color = resources.getColor(R.color.colorCoachMarkOverlay)
         osCanvas.drawRect(outerRectangle, paint)
-//        paint.color = Color.TRANSPARENT
-        paint.xfermode = PorterDuffXfermode(PorterDuff.Mode.SRC_OUT)
-        paint.color = resources.getColor(R.color.white)
+        paint.xfermode = PorterDuffXfermode(PorterDuff.Mode.CLEAR)
+
         val radius = resources.getDimensionPixelSize(R.dimen._50sdp).toFloat()
         //val radius = 0f
         osCanvas.drawCircle(centerX, centerY, radius, paint)
