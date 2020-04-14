@@ -5,8 +5,6 @@ import com.google.gson.annotations.SerializedName
 data class HouseHoldGetSubscription(
     @SerializedName("id")
     val id: String? = null,
-    @SerializedName("status")
-    val status: String? = null,
     @SerializedName("planType")
     val planType: String? = null,
     @SerializedName("startDate")

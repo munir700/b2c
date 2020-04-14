@@ -13,7 +13,6 @@ interface ISubscription {
         fun handlePressOnClick(context: Context)
         var customersRepository: CustomersRepository
         fun getSubscriptionData()
-        fun reActivateSubscription()
     }
 
     interface State : IBase.State {
