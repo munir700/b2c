@@ -172,49 +172,6 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
     }
 
 
-    private fun getSimpleShowCaseBuilder(): BubbleShowCaseBuilder {
-        return BubbleShowCaseBuilder(requireActivity())
-            .title("Welcome!!!")
-            .description("This is a simple BubbleShowCase with default values.")
-            .targetView(getBindings().tvAvailableBalance)
-
-    }
-
-    private fun getSimpleShowCaseBuilder2(): BubbleShowCaseBuilder {
-        return BubbleShowCaseBuilder(requireActivity())
-            .title("Your current balance")
-            .description("Here you can see your account’s current balance. It will be updated in-real time after every transaction.")
-            .backgroundColor(requireContext().getColor(R.color.white)) //Bubble background color
-            .textColor(requireContext().getColor(R.color.black)) //Bubble Text color
-            .titleTextSize(17) //Title text size in SP (default value 16sp)
-            .descriptionTextSize(15) //Subtitle text size in SP (default value 14sp)
-            .highlightMode(BubbleShowCase.HighlightMode.VIEW_SURFACE)
-            .targetView(getBindings().mainContent.homeParent.lyAdd)
-    }
-
-    private fun getSimpleShowCaseBuilder3(): BubbleShowCaseBuilder {
-        return BubbleShowCaseBuilder(requireActivity())
-            .title("Your current balance")
-            .description("Here you can see your account’s current balance. It will be updated in-real time after every transaction.")
-            .backgroundColor(requireContext().getColor(R.color.white)) //Bubble background color
-            .textColor(requireContext().getColor(R.color.black)) //Bubble Text color
-            .titleTextSize(17) //Title text size in SP (default value 16sp)
-            .descriptionTextSize(15) //Subtitle text size in SP (default value 14sp)
-            .highlightMode(BubbleShowCase.HighlightMode.VIEW_SURFACE)
-            .targetView(getBindings().mainContent.tvFilters)
-    }
-
-    private fun getSequence(): BubbleShowCaseSequence {
-        return BubbleShowCaseSequence().addShowCases(
-            listOf(
-                getSimpleShowCaseBuilder(),
-                getSimpleShowCaseBuilder2(),
-                getSimpleShowCaseBuilder3()
-            )
-        )
-    }
-
-
     override fun onRefresh() {
         if (PartnerBankStatus.ACTIVATED.status == MyUserManager.user?.partnerBankStatus) {
             viewModel.isRefreshing.value = true

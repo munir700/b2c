@@ -4,30 +4,23 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/showCaseMessageViewLayout"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:maxWidth="420dp"
-    android:paddingStart="36dp"
-    android:paddingTop="20dp"
-    android:paddingEnd="20dp"
-    android:paddingBottom="12dp">
+    android:layout_height="wrap_content">
 
-
-    <LinearLayout
-        android:id="@+id/layoutTexts"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        app:layout_constraintEnd_toEndOf="parent"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/margin_large"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent">
-
         <TextView
             android:id="@+id/tvTitle"
             style="@style/Small"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="start"
-            android:gravity="start"
             android:textColor="@color/colorDarkGrey"
             android:breakStrategy="simple"
             android:textSize="@dimen/_10sdp"
@@ -36,15 +29,17 @@
         <TextView
             android:id="@+id/tvDescription"
             style="@style/ASmallGrey"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="start"
             android:lineSpacingExtra="2dp"
             android:breakStrategy="simple"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@id/tvTitle"
+            app:layout_constraintTop_toBottomOf="@id/tvTitle"
             android:textColor="@color/greyDark"
             android:textSize="@dimen/_10sdp"
             tools:text="Click here to view the menu bar where you can see your account details and navigate to useful pages" />
-    </LinearLayout>
 
     <TextView
         android:id="@+id/tvCount"
@@ -58,8 +53,7 @@
         android:textColor="@color/colorPrimary"
         android:textSize="@dimen/_10sdp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toTopOf="@id/tvTitle" />
 
     <co.yap.widgets.CoreButton
         android:id="@+id/btnNext"
@@ -74,7 +68,7 @@
         android:textSize="@dimen/_11sdp"
         app:btn_text_size="@dimen/_11sdp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/layoutTexts"
+        app:layout_constraintTop_toBottomOf="@id/tvDescription"
         tools:text="@string/common_button_next" />
-
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
