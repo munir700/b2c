@@ -231,4 +231,6 @@ interface CustomersRetroService {
     @GET(CustomersRepository.URL_GET_HOUSE_HOLD_SUBSCRIPTION)
     suspend fun getHouseHoldSubscription(@Path("UUID") uuid: String): Response<HouseHoldGetSubscriptionResponseDTO>
 
+    @POST(CustomersRepository.URL_REACTIVATE_HOUSE_HOLD_SUBSCRIPTION)
+    suspend fun reActivateHouseHoldSubscription(@Path("UUID") uuid: String): Response<ApiResponse>
 }

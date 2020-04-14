@@ -35,6 +35,22 @@ class SubscriptionVM @Inject constructor(override val state: ISubscription.State
             state.loading = false
         }
     }
+    override fun reActivateSubscription() {
+        launch {
+            state.loading = true
+            when (val response =
+                customersRepository.reActivateHouseHoldSubscription("f0c52305-a055-498d-8d79-71cf815dcaff")) {
+                is RetroApiResponse.Success -> {
+
+                }
+                is RetroApiResponse.Error -> {
+                    state.loading = false
+                    state.toast = response.error.message
+                }
+            }
+            state.loading = false
+        }
+    }
 
 
     override fun handlePressOnClick(context: Context) {
