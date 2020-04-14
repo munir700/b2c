@@ -9,8 +9,6 @@
             type="co.yap.modules.subaccounts.paysalary.subscription.SubscriptionVM" />
 
         <import type="co.yap.yapcore.managers.MyUserManager" />
-
-        <import type="co.yap.countryutils.country.utils.Currency" />
     </data>
 
     <co.yap.widgets.MultiStateView
