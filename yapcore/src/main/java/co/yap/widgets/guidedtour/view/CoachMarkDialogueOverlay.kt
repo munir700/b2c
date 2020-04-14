@@ -4,6 +4,7 @@ import android.app.Dialog
 import android.content.Context
 import android.graphics.Bitmap
 import android.os.Bundle
+import android.view.Gravity
 import android.view.View
 import android.view.Window
 import android.view.WindowManager
@@ -25,6 +26,7 @@ class CoachMarkDialogueOverlay(
     private var rootMain: RelativeLayout? = null
     private var skip: Button? = null
     private val padding: Int = 80
+    var mPointer: Pointer? = null
 
     var currentViewId: Int = 0
     var previousViewId = currentViewId
@@ -57,7 +59,7 @@ class CoachMarkDialogueOverlay(
         if (currentViewId < guidedTourViewViewsList.size) {
             previousViewId = currentViewId
             currentViewId += 1
-            layer?.updateCircle=true
+            layer?.updateCircle = true
             //
             updateCircle()
         } else {
@@ -74,14 +76,24 @@ class CoachMarkDialogueOverlay(
 
             log("overlaay", "x -> ${it.view.x} + y -> ${it.view.y}")
             log("overlaay", "point x -> ${it.pointX} + y -> ${it.pointY}")
-            layer?.centerX = it.view.x - padding.div(2)
-            layer?.centerY = it.view.y - padding.div(2)
+
+//            layer?.centerX = it.view.x - padding.div(2)
+//            layer?.centerY = it.view.y - padding.div(2)
+
+
+            layer?.centerX = (layer!!.width - (layer!!.width - it.view.x)) + (it.view.x / 2)
+
+
+            layer?.centerY = it.view.y + it.view.height - it.view.height
+
+
             layer?.invalidate()
 
             log("overlaay", "new xy x -> ${parentView?.x} + y -> ${parentView?.y}")
 
         }
     }
+
 
     private fun updateParentView(it: GuidedTourViewDetail) {
         val params = parentView?.layoutParams as RelativeLayout.LayoutParams
@@ -118,6 +130,15 @@ class CoachMarkDialogueOverlay(
         val bitmap: Bitmap = Bitmap.createBitmap(targetView.drawingCache)
         targetView.isDrawingCacheEnabled = false
         return bitmap
+    }
+
+    class Pointer @JvmOverloads constructor(var gravity: Int = Gravity.CENTER) {
+
+        fun gravity(block: () -> Int) {
+            gravity = block()
+        }
+
+
     }
 }
 

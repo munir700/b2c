@@ -44,6 +44,7 @@ class CircleOverlayView : LinearLayout {
 
     override fun dispatchDraw(canvas: Canvas) {
         super.dispatchDraw(canvas)
+
         this.canvas = canvas
         if (bitmap == null) {
             createWindowFrame()
@@ -75,11 +76,10 @@ class CircleOverlayView : LinearLayout {
         super.onDraw(canvas)
         val paint =
             Paint(Paint.ANTI_ALIAS_FLAG)
-        //paint.color = resources.getColor(R.color.colorCoachMarkOverlay)
-        paint.color = Color.TRANSPARENT
+        paint.color = resources.getColor(R.color.colorCoachMarkOverlay)
         paint.xfermode = PorterDuffXfermode(PorterDuff.Mode.SRC_OUT)
-        paint.color = resources.getColor(R.color.white)
         val radius = resources.getDimensionPixelSize(R.dimen._50sdp).toFloat()
+
         canvas?.drawCircle(centerX, centerY, radius, paint)
     }
 
