@@ -78,7 +78,6 @@ import com.google.android.material.appbar.AppBarLayout
 import com.yarolegovich.discretescrollview.transform.ScaleTransformer
 import kotlinx.android.synthetic.main.content_fragment_yap_home.view.*
 import kotlinx.android.synthetic.main.view_graph.*
-import kotlinx.coroutines.delay
 import kotlin.math.abs
 
 
@@ -90,7 +89,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
     private var notificationsList: ArrayList<Notification> = ArrayList()
     override var transactionViewHelper: TransactionsViewHelper? = null
 
-    override val viewModel: YapHomeViewModel
+    override val viewModel: IYapHome.ViewModel
         get() = ViewModelProviders.of(this).get(YapHomeViewModel::class.java)
 
     override fun getBindingVariable(): Int = BR.viewModel
@@ -126,12 +125,6 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
         setObservers()
         setClickOnWelcomeYapItem()
         setAvailableBalance(viewModel.state.availableBalance)
-        viewModel.launch {
-            delay(10000)
-            activity?.let {
-                TourSetup(it, it, setViewsArray())
-            }
-        }
     }
 
     private fun setClickOnWelcomeYapItem() {
@@ -196,8 +189,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
             .titleTextSize(17) //Title text size in SP (default value 16sp)
             .descriptionTextSize(15) //Subtitle text size in SP (default value 14sp)
             .highlightMode(BubbleShowCase.HighlightMode.VIEW_SURFACE)
-            .targetView(getBindings().mainContent.lyAdd)
-
+            .targetView(getBindings().mainContent.homeParent.lyAdd)
     }
 
     private fun getSimpleShowCaseBuilder3(): BubbleShowCaseBuilder {
@@ -257,6 +249,11 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
     }
 
     override fun setObservers() {
+        getBindings().ivSearch.setOnClickListener {
+            activity?.let {
+                TourSetup(it, it, setViewsArray())
+            }
+        }
         listenForToolbarExpansion()
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
@@ -837,7 +834,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
         return list
     }
 
-    fun getParentActivity():ActivityYapDashboardBinding {
+    fun getParentActivity(): ActivityYapDashboardBinding {
         return (activity as? YapDashboardActivity)?.viewDataBinding as ActivityYapDashboardBinding
     }
 }

@@ -11,8 +11,8 @@ import co.yap.yapcore.R
 
 class CircleOverlayView : LinearLayout {
     private var bitmap: Bitmap? = null
-    var centerX: Float = 0f
-    var centerY: Float = 0f
+    var centerX: Float = 10f
+    var centerY: Float = 10f
 
 
     constructor(context: Context?) : super(context) {
@@ -65,9 +65,21 @@ class CircleOverlayView : LinearLayout {
 //        paint.color = Color.TRANSPARENT
         paint.xfermode = PorterDuffXfermode(PorterDuff.Mode.SRC_OUT)
         paint.color = resources.getColor(R.color.white)
-        //val radius = resources.getDimensionPixelSize(R.dimen._50sdp).toFloat()
-        val radius = 0f
+        val radius = resources.getDimensionPixelSize(R.dimen._50sdp).toFloat()
+        //val radius = 0f
         osCanvas.drawCircle(centerX, centerY, radius, paint)
+    }
+
+    override fun onDraw(canvas: Canvas?) {
+        super.onDraw(canvas)
+        val paint =
+            Paint(Paint.ANTI_ALIAS_FLAG)
+        //paint.color = resources.getColor(R.color.colorCoachMarkOverlay)
+        paint.color = Color.TRANSPARENT
+        paint.xfermode = PorterDuffXfermode(PorterDuff.Mode.SRC_OUT)
+        paint.color = resources.getColor(R.color.white)
+        val radius = resources.getDimensionPixelSize(R.dimen._50sdp).toFloat()
+        canvas?.drawCircle(centerX, centerY, radius, paint)
     }
 
     override fun isInEditMode(): Boolean {

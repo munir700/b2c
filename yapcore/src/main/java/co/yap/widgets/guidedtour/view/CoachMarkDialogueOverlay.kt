@@ -65,20 +65,16 @@ class CoachMarkDialogueOverlay(
 
     private fun updateCircle() {
         getCurrentItem()?.let {
-            takeScreenshotOfSurfaceView(it.view)?.let { bitmap ->
-                circleImg?.setImageBitmap(bitmap)
-            }
+//            takeScreenshotOfSurfaceView(it.view)?.let { bitmap ->
+//                circleImg?.setImageBitmap(bitmap)
+//            }
 
-            updateParentView(it)
+            //updateParentView(it)
             log("overlaay", "x -> ${it.view.x} + y -> ${it.view.y}")
             log("overlaay", "point x -> ${it.pointX} + y -> ${it.pointY}")
-            val params = parentView?.layoutParams as RelativeLayout.LayoutParams
-            params.width = getDimensionOfCurrentView(it)
-            params.height = getDimensionOfCurrentView(it)
-            parentView?.layoutParams = params
-            log("overlaay", "dimension w -> ${params.width} + h -> ${params.height}")
-            parentView?.x = it.view.x - padding.div(2)
-            parentView?.y = it.view.y - padding.div(2)
+            layer?.centerX = it.view.x - padding.div(2)
+            layer?.centerY = it.view.y - padding.div(2)
+            layer?.invalidate()
             log("overlaay", "new xy x -> ${parentView?.x} + y -> ${parentView?.y}")
 
         }
@@ -90,10 +86,14 @@ class CoachMarkDialogueOverlay(
         params.height = getDimensionOfCurrentView(it)
         parentView?.layoutParams = params
 
+        log("overlaay", "dimension w -> ${params.width} + h -> ${params.height}")
+
         val childParams = circleImg?.layoutParams as LinearLayout.LayoutParams
         childParams.width = getDimensionOfCurrentView(it) - padding
         childParams.height = getDimensionOfCurrentView(it) - padding
         circleImg?.layoutParams = childParams
+
+        log("overlaay", "dimension w -> ${childParams.width} + h -> ${childParams.height}")
     }
 
     private fun getDimensionOfCurrentView(it: GuidedTourViewDetail): Int {

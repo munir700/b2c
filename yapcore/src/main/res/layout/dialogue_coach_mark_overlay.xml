@@ -15,6 +15,7 @@
         android:id="@+id/circleParent"
         android:layout_width="@dimen/_50sdp"
         android:layout_height="@dimen/_50sdp"
+        android:visibility="gone"
         android:background="@drawable/round_background"
         android:gravity="center">
 
