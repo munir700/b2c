@@ -1,11 +1,10 @@
-package co.yap.modules.dummy
+package co.yap.yapcore.adjust
 
 import android.app.ActivityManager
 import android.content.Context
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import co.yap.yapcore.helpers.SharedPreferenceManager
-import co.yap.yapcore.referral.ReferralInfo
 import com.adjust.sdk.Adjust
 
 class AdjustReferrerReceiver : AppCompatActivity() {
@@ -17,7 +16,12 @@ class AdjustReferrerReceiver : AppCompatActivity() {
             customerId?.let { cusId ->
                 uri.getQueryParameter("time")?.let { time ->
                     val date = time.replace("_", " ")
-                    SharedPreferenceManager(this).setReferralInfo(ReferralInfo(cusId, date))
+                    SharedPreferenceManager(this).setReferralInfo(
+                        ReferralInfo(
+                            cusId,
+                            date
+                        )
+                    )
                     takeDecision()
                 } ?: takeDecision()
             } ?: takeDecision()

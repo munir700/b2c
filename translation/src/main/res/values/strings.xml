@@ -3,7 +3,7 @@
     <!-- Common -->
     <string name="common_display_text_retry">Retry</string>
     <string name="common_button_next">Next</string>
-    <string name="common_display_text_error_no_internet">Internet connection appears to be offline</string>
+    <string name="common_display_text_error_no_internet">Looks like you\'re offline. Please reconnect and refresh to continue using YAP.</string>
     <string name="common_button_yes">Yes</string>
     <string name="common_button_add">Add</string>
     <string name="common_button_cancel">Cancel</string>
@@ -236,7 +236,7 @@
     <!-- Forgot passcode otp screen -->
     <string name="screen_forgot_passcode_otp_display_text_heading">Verify your mobile number</string>
     <string name="screen_forgot_passcode_otp_display_text_sub_heading">Enter the OTP sent to your registered mobile number %1$s</string>
-    <string name="screen_verify_passcode_text_account_locked">Sorry, that’s too many incorrect attempts. We’ve temporarily blocked your access. Click on Forgot passcode to set a new one</string>
+    <string name="screen_verify_passcode_text_account_locked">Sorry, that’s too many incorrect attempts. Click on Forgot passcode to set a new one.</string>
 
 
     <!-- Forgot posscode success screen -->
@@ -554,7 +554,7 @@
     <string name="screen_y2y_display_text_send_money_to">Who do you want to send money to?</string>
 
     <!--    Transaction details screen-->
-    <string name="screen_transaction_details_display_text_spent">Spent</string>
+    <string name="screen_transaction_details_display_text_spent">Sent</string>
     <string name="screen_transaction_details_display_text_received">Received</string>
     <string name="screen_transaction_details_display_text_fee">Fee</string>
     <string name="screen_transaction_details_display_text_total_amount">Total amount</string>

@@ -26,7 +26,7 @@
             android:layout_marginTop="@dimen/margin_small"
             android:contentDescription="@string/empty_string"
             android:src="@drawable/ic_education"
-            app:colorType="@{`Beneficiary`}"
+            app:colorType="@{viewModel.state.otpDataModel.otpAction.equals(`Y2Y`)? `Y2Y`: `Beneficiary`}"
             app:fullName="@{viewModel.state.otpDataModel.username}"
             app:imageUrl="@{viewModel.state.otpDataModel.logoData.imageUrl}"
             app:layout_constraintEnd_toEndOf="parent"

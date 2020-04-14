@@ -2,7 +2,6 @@ package co.yap.modules.dashboard.main.interfaces
 
 import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
-import co.yap.networking.customers.responsedtos.AccountInfo
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.enums.AccountType
@@ -26,11 +25,7 @@ interface IYapDashboard {
         val clickEvent: SingleClickEvent
         fun handlePressOnNavigationItem(id: Int)
         fun copyAccountInfoToClipboard()
-        fun getAccountInfo()
-        fun getAccountBalanceRequest()
-        val getAccountBalanceSuccess: MutableLiveData<Boolean>
         val showUnverifedscreen: MutableLiveData<Boolean>
-        val accountInfo: MutableLiveData<AccountInfo>?
     }
 
     interface View : IBase.View<ViewModel> {

@@ -62,6 +62,8 @@ import co.yap.yapcore.helpers.DateUtils
 import co.yap.yapcore.helpers.extentions.*
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.leanplum.KYCEvents
+import co.yap.yapcore.leanplum.trackEvent
+import co.yap.yapcore.leanplum.trackEventInFragments
 import co.yap.yapcore.managers.MyUserManager
 import com.google.android.material.appbar.AppBarLayout
 import com.yarolegovich.discretescrollview.transform.ScaleTransformer
@@ -84,11 +86,26 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
 
     override fun getLayoutId(): Int = R.layout.fragment_yap_home
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         parentViewModel =
             activity?.let { ViewModelProviders.of(it).get(YapDashBoardViewModel::class.java) }
+    }
+
+    private fun startFlowForSetPin() {
+        if (MyUserManager.getPrimaryCard() != null) {
+            if (isShowSetPin(MyUserManager.getPrimaryCard())) {
+                if (PartnerBankStatus.ACTIVATED.status == MyUserManager.user?.partnerBankStatus) {
+                    clearNotification()
+                    addSetPinNotification()
+                    viewModel.clickEvent.setValue(viewModel.EVENT_SET_CARD_PIN)
+                } else {
+                    clearNotification()
+                }
+            } else {
+                clearNotification()
+            }
+        } else toast("Invalid card found")
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -175,11 +192,11 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
                 viewModel.EVENT_SET_CARD_PIN -> {
-                    startActivity(
+                    startActivityForResult(
                         SetCardPinWelcomeActivity.newIntent(
                             requireContext(),
                             MyUserManager.getPrimaryCard()
-                        )
+                        ), RequestCodes.REQUEST_FOR_SET_PIN
                     )
                 }
                 viewModel.ON_ADD_NEW_ADDRESS_EVENT -> {
@@ -219,13 +236,14 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
             }
         })
 
-
-        parentViewModel?.accountInfo?.observe(this, Observer { accountInfo ->
-            checkUserStatus()
+        MyUserManager.card.observe(this, Observer { primaryCard ->
+            primaryCard?.let {
+                startFlowForSetPin()
+                checkUserStatus()
+            }
         })
 
-        MyUserManager.cardBalance.observe(this, Observer
-        { value ->
+        MyUserManager.cardBalance.observe(this, Observer { value ->
             setAvailableBalance(value.availableBalance.toString())
         })
 
@@ -301,8 +319,8 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
         viewModel.isLoadMore.observe(this, Observer
         {
             if (it) {
-                YAPApplication.homeTransactionsRequest.number =
-                    YAPApplication.homeTransactionsRequest.number + 1
+                homeTransactionsRequest.number =
+                    homeTransactionsRequest.number + 1
                 val item =
                     getRecycleViewAdaptor()?.getDataForPosition(getRecycleViewAdaptor()?.itemCount!! - 1)
                         ?.copy()
@@ -330,18 +348,6 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                 clearNotification()
             }
 
-            AccountStatus.MEETING_SUCCESS.name -> {
-                if (isShowSetPin(MyUserManager.getPrimaryCard())) {
-                    if (PartnerBankStatus.ACTIVATED.status == MyUserManager.user?.partnerBankStatus) {
-                        clearNotification()
-                        addSetPinNotification()
-                    }
-                } else toast("Invalid card found")
-            }
-
-            AccountStatus.CARD_ACTIVATED.name -> {
-                clearNotification()
-            }
             AccountStatus.EID_EXPIRED.name, AccountStatus.EID_RESCAN_REQUIRE.name -> {
                 trackEvent(KYCEvents.EID_EXPIRE.type)
                 trackEventInFragments(
@@ -357,6 +363,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
 
         if (PartnerBankStatus.ACTIVATED.status == MyUserManager.user?.partnerBankStatus) {
             showTransactionsAndGraph()
+
             //clearNotification() // why to clear
         } else {
             viewModel.state.isTransEmpty.set(true)
@@ -535,7 +542,9 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
             }
 
             Constants.NOTIFICATION_ACTION_SET_PIN -> {
-                viewModel.getDebitCards()
+                MyUserManager.card.value?.let {
+                    viewModel.clickEvent.setValue(viewModel.EVENT_SET_CARD_PIN)
+                }
             }
 
             Constants.NOTIFICATION_ACTION_SET_UPDATE_EID -> {
@@ -621,6 +630,21 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
             RequestCodes.REQUEST_MEETING_CONFIRMED -> {
                 checkUserStatus()
             }
+            RequestCodes.REQUEST_FOR_SET_PIN -> {
+                data?.let {
+                    val isPinSet =
+                        it.getBooleanExtra(co.yap.yapcore.constants.Constants.isPinCreated, false)
+                    val isSkip =
+                        it.getBooleanExtra("isTopUpSkip", false)
+                    getGraphRecycleViewAdapter()?.notifyDataSetChanged()
+                    if (isPinSet && isSkip) {
+                        viewModel.getDebitCards()
+//                        MyUserManager.getAccountInfo()
+                    } else {
+                        openTopUpScreen()
+                    }
+                }
+            }
         }
     }
 
@@ -645,7 +669,6 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
         else
             co.yap.yapcore.constants.Constants.MANUAL_DEBIT
     }
-
 
     private fun getFilterTransactions() {
 

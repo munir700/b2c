@@ -12,7 +12,7 @@ import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.helpers.DateUtils
 import co.yap.yapcore.helpers.extentions.toast
-import co.yap.yapcore.helpers.extentions.trackEvent
+import co.yap.yapcore.leanplum.trackEvent
 import co.yap.yapcore.leanplum.KYCEvents
 import com.digitify.identityscanner.core.arch.Gender
 import com.digitify.identityscanner.docscanner.models.Identity

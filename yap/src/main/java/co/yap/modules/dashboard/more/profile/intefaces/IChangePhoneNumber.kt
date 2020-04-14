@@ -3,6 +3,7 @@ package co.yap.modules.dashboard.more.profile.intefaces
 import android.graphics.drawable.Drawable
 import android.widget.EditText
 import android.widget.TextView
+import androidx.lifecycle.MutableLiveData
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
 
@@ -15,6 +16,7 @@ interface IChangePhoneNumber {
         fun onEditorActionListener(): TextView.OnEditorActionListener
         fun onHandlePressOnNextButton(view: android.view.View)
         fun changePhoneNumber()
+        val isPhoneNumberValid:MutableLiveData<Boolean>
         val changePhoneNumberSuccessEvent:SingleClickEvent
     }
 

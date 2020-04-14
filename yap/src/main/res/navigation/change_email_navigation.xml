@@ -7,12 +7,8 @@
     <fragment
         android:id="@+id/changeEmailFragment"
         android:name="co.yap.modules.dashboard.more.profile.fragments.ChangeEmailFragment"
+        tools:layout="@layout/fragment_change_email"
         android:label="ChangeEmailFragment">
-        <action
-            android:id="@+id/action_changeEmailFragment_to_genericOtpFragment"
-            app:destination="@id/genericOtpFragment"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left" />
         <action
             android:id="@+id/action_changeEmailFragment_to_changeEmailSuccessFragment"
             app:destination="@id/changeEmailSuccessFragment"
@@ -20,35 +16,6 @@
             app:exitAnim="@anim/slide_out_left" />
     </fragment>
 
-    <fragment
-        android:id="@+id/genericOtpFragment"
-        android:name="co.yap.modules.others.otp.GenericOtpFragment"
-        android:label="GenericOtpFragment">
-        <argument
-            android:name="username"
-            android:defaultValue=" "
-            app:argType="string" />
-        <argument
-            android:name="emailOtp"
-            android:defaultValue="false"
-            app:argType="boolean" />
-        <argument
-            android:name="mobileNumber"
-            android:defaultValue=" "
-            app:argType="string" />
-        <argument
-            android:name="otpType"
-            android:defaultValue=" "
-            app:argType="string" />
-
-        <action
-            android:id="@+id/action_genericOtpFragment_to_changeEmailSuccessFragment"
-            app:destination="@id/changeEmailSuccessFragment"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popUpToInclusive="true" />
-
-    </fragment>
 
     <fragment
         android:id="@+id/changeEmailSuccessFragment"

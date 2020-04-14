@@ -9,7 +9,6 @@ import androidx.navigation.NavController
 import co.yap.BR
 import co.yap.R
 import co.yap.databinding.FragmentHhsalaryProfileBinding
-import co.yap.modules.subaccounts.paysalary.subscription.SubscriptionFragmentDirections
 import co.yap.yapcore.BaseRVAdapter
 import co.yap.yapcore.BaseViewHolder
 import co.yap.yapcore.dagger.base.BaseRecyclerViewFragment
