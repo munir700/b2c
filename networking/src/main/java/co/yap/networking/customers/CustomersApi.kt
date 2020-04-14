@@ -100,5 +100,7 @@ interface CustomersApi {
 
     suspend fun getHouseHoldSubscription(uuid: String): RetroApiResponse<HouseHoldGetSubscriptionResponseDTO>
 
+    suspend fun reActivateHouseHoldSubscription(uuid: String): RetroApiResponse<ApiResponse>
+
 
 }
