@@ -119,6 +119,7 @@ object CustomersRepository : BaseRepository(), CustomersApi {
         "customers/api/household/setup-subscription/{UUID}"
     const val URL_CANCEL_HOUSE_HOLD_SUBSCRIPTION =
         "customers/api/household/cancel-subscription/{UUID}"
+    const val URL_REACTIVATE_HOUSE_HOLD_SUBSCRIPTION = "customers/api/household/reactivate-subscription/{UUID}"
 
 
     private val api: CustomersRetroService =
@@ -350,4 +351,7 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     override suspend fun cancelHouseHoldSubscription(uuid: String?): RetroApiResponse<ApiResponse> =
         executeSafely(call = { api.cancelHouseHoldSubscription(uuid) })
 
+
+    override suspend fun reActivateHouseHoldSubscription(uuid: String): RetroApiResponse<ApiResponse> =
+        executeSafely(call = { api.reActivateHouseHoldSubscription(uuid) })
 }
