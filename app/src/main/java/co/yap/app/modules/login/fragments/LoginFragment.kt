@@ -10,8 +10,6 @@ import co.yap.app.BR
 import co.yap.app.R
 import co.yap.app.modules.login.interfaces.ILogin
 import co.yap.app.modules.login.viewmodels.LoginViewModel
-import co.yap.widgets.guidedtour.models.GuidedTourViewDetail
-import co.yap.widgets.guidedtour.view.locationOnScreen
 import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.constants.Constants.KEY_IS_USER_LOGGED_IN
 import co.yap.yapcore.helpers.SharedPreferenceManager
@@ -63,52 +61,6 @@ class LoginFragment : BaseBindingFragment<ILogin.ViewModel>(), ILogin.View {
             }
         })
     }
-
-    private fun setViewsArray(): ArrayList<GuidedTourViewDetail> {
-        val list = ArrayList<GuidedTourViewDetail>()
-
-//        list.add(
-//            GuidedTourViewDetail(
-//                ivYap,
-//                "Your current balance",
-//                "Here you can see your account’s current balance. It will be updated in-real time after every transaction.",
-//                ivYap.locationOnScreen.x,
-//                ivYap.locationOnScreen.y
-//            )
-//        )
-        list.add(
-            GuidedTourViewDetail(
-                clSignUp,
-                "search",
-                "Click here to search for specific transaction in your account history",
-                clSignUp.locationOnScreen.x,
-                clSignUp.locationOnScreen.y
-            )
-        )
-//        list.add(
-//            GuidedTourViewDetail(
-//                tvSignIn,
-//                "yap it",
-//                "Click here to see more actions like:\n" +
-//                        "YAP to YAP transactions,  yop up your account, send money and pay your bills",
-//
-//                tvSignIn.locationOnScreen.x,
-//                tvSignIn.locationOnScreen.y
-//            )
-//        )
-//
-//        list.add(
-//            GuidedTourViewDetail(
-//                clSignUp,
-//                "menu bar",
-//                "Click here to view the menu bar where you can see your account details and navigate to useful pages",
-//                clSignUp.locationOnScreen.x,
-//                clSignUp.locationOnScreen.y
-//            )
-//        )
-        return list
-    }
-
 
     override fun onDestroy() {
         super.onDestroy()

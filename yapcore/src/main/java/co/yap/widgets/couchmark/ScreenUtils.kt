@@ -1,16 +1,12 @@
 package co.yap.widgets.couchmark
+
 import android.app.Activity
 import android.content.Context
 import android.content.res.Resources
 import android.graphics.Point
-import android.graphics.Rect
 import android.util.DisplayMetrics
 import android.view.View
-import android.view.ViewGroup
 import android.view.WindowManager
-import android.view.Window.ID_ANDROID_CONTENT
-
-
 
 
 object ScreenUtils {
@@ -44,7 +40,6 @@ object ScreenUtils {
     }
 
 
-
     fun getStatusBarHeight(context: Context): Int {
         var result = 0
         val resourceId = context.resources.getIdentifier("status_bar_height", "dimen", "android")
@@ -59,15 +54,35 @@ object ScreenUtils {
         return Math.round(dp * (metrics.densityDpi.toFloat() / DisplayMetrics.DENSITY_DEFAULT))
     }
 
-    fun isViewLocatedAtHalfTopOfTheScreen(activity: Context, targetView: View): Boolean{
-        val screenHeight = getScreenHeight(activity)
+    fun isViewLocatedAtHalfTopOfTheScreen(context: Context, targetView: View): Boolean {
+        val screenHeight = getScreenHeight(context)
         val positionTargetAxisY = getAxisYpositionOfViewOnScreen(targetView)
-        return screenHeight/2 > positionTargetAxisY
+        return screenHeight / 2 > positionTargetAxisY
     }
 
-    fun isViewLocatedAtHalfLeftOfTheScreen(activity: Activity, targetView: View): Boolean{
+    fun isViewLocatedAtBottomOfTheScreen(
+        activity: Context,
+        targetView: View,
+        threshold: Int
+    ): Boolean {
+        val screenHeight = getScreenHeight(activity)
+        val positionTargetAxisY = getAxisYpositionOfViewOnScreen(targetView)
+        return (screenHeight - threshold) < positionTargetAxisY
+    }
+
+    fun isViewLocatedAtTopOfTheScreen(
+        activity: Context,
+        targetView: View,
+        threshold: Int
+    ): Boolean {
+        val screenHeight = getScreenHeight(activity)
+        val positionTargetAxisY = getAxisYpositionOfViewOnScreen(targetView)
+        return (positionTargetAxisY - threshold) < 0
+    }
+
+    fun isViewLocatedAtHalfLeftOfTheScreen(activity: Activity, targetView: View): Boolean {
         val screenWidth = getScreenWidth(activity)
         val positionTargetAxisX = getAxisXpositionOfViewOnScreen(targetView)
-        return screenWidth/2 > positionTargetAxisX
+        return screenWidth / 2 > positionTargetAxisX
     }
 }

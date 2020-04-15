@@ -63,12 +63,6 @@ class TourSetup(
     private fun updateDescriptionBox() {
         getCurrentItem()?.let {
             val builder = getBubbleMessageViewBuilder(it)
-            val params = showCase?.addBubbleMessageViewDependingOnTargetView(it.view, builder)
-            val childView = layer?.rootMain?.getChildAt(0)
-//            val xPos = targetPoint.x.toFloat()
-//            val yPos = targetPoint.y.toFloat()
-            //val xPos = ScreenUtils.getAxisYpositionOfViewOnScreen(it.view).toFloat()
-
             val arrowPosition = getTooltipPosition(it.view).first()
             val yPos = ScreenUtils.getAxisYpositionOfViewOnScreen(it.view).toFloat()
             val yPadding =

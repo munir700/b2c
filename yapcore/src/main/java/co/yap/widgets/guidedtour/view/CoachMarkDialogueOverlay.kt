@@ -12,9 +12,9 @@ import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import co.yap.widgets.CoreCircularImageView
+import co.yap.widgets.couchmark.ScreenUtils
 import co.yap.widgets.guidedtour.models.GuidedTourViewDetail
 import co.yap.yapcore.R
-import co.yap.yapcore.helpers.extentions.log
 
 class CoachMarkDialogueOverlay(
     internal val context: Context,
@@ -77,43 +77,23 @@ class CoachMarkDialogueOverlay(
 
     private fun updateCircle() {
         getCurrentItem()?.let {
-            log("overlaay", "x -> ${it.view.x} + y -> ${it.view.y}")
-            log("overlaay", "point x -> ${it.pointX} + y -> ${it.pointY}")
-
-//            layer?.centerX = it.view.x - padding.div(2)
-//            layer?.centerY = it.view.y - padding.div(2)
-
             layer?.radius = it.circleRadius
-            layer?.centerX = it.view.x + (it.view.width / 2)
-            layer?.centerY = it.view.y
-            //+ (it.view.height / 2)
-            //(layer!!.width - (layer!!.width - it.view.x)) + (it.view.x / 2)
-
-            //layer?.centerX = (layer!!.width - (layer!!.width - it.view.x)) + (it.view.x / 2)
-            //layer?.centerY = it.view.y + it.view.height - it.view.height
+            layer?.centerX = it.view.locationOnScreen.x.toFloat() + (it.view.width / 2)
+            when {
+                ScreenUtils.isViewLocatedAtBottomOfTheScreen(context, it.view, 200) -> {
+                    layer?.centerY = it.view.locationOnScreen.y.toFloat() - 125
+                }
+                ScreenUtils.isViewLocatedAtTopOfTheScreen(context, it.view, 200) -> {
+                    layer?.centerY = it.view.locationOnScreen.y.toFloat() - 50
+                }
+                else -> {
+                    layer?.centerY = it.view.locationOnScreen.y.toFloat()
+                }
+            }
             layer?.invalidate()
-
-            log("overlaay", "new xy x -> ${parentView?.x} + y -> ${parentView?.y}")
-
         }
     }
 
-
-    private fun updateParentView(it: GuidedTourViewDetail) {
-        val params = parentView?.layoutParams as RelativeLayout.LayoutParams
-        params.width = getDimensionOfCurrentView(it)
-        params.height = getDimensionOfCurrentView(it)
-        parentView?.layoutParams = params
-
-        log("overlaay", "dimension w -> ${params.width} + h -> ${params.height}")
-
-        val childParams = circleImg?.layoutParams as LinearLayout.LayoutParams
-        childParams.width = getDimensionOfCurrentView(it) - padding
-        childParams.height = getDimensionOfCurrentView(it) - padding
-        circleImg?.layoutParams = childParams
-
-        log("overlaay", "dimension w -> ${childParams.width} + h -> ${childParams.height}")
-    }
 
     private fun getDimensionOfCurrentView(it: GuidedTourViewDetail): Int {
         return if (it.view.width > it.view.height) return it.view.width.plus(padding) else it.view.height.plus(

@@ -6,8 +6,6 @@ data class GuidedTourViewDetail(
     val view: View,
     val title: String,
     val description: String,
-    var pointX: Int,
-    var pointY: Int,
     var padding: Float = 250f,
     var circleRadius: Float = 250f
 )
