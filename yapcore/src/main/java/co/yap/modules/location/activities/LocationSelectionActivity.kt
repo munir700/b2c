@@ -27,7 +27,6 @@ import co.yap.yapcore.helpers.permissions.PermissionHelper
 import co.yap.yapcore.interfaces.OnItemClickListener
 import com.daimajia.androidanimations.library.Techniques
 import com.daimajia.androidanimations.library.YoYo
-import com.ezaka.customer.app.utils.hideSoftKeyboard
 import com.google.android.gms.maps.SupportMapFragment
 import kotlinx.android.synthetic.main.activity_address_selection.*
 import kotlinx.android.synthetic.main.layout_google_maps.*
