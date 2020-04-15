@@ -164,18 +164,18 @@ class InternationalFundsTransferViewModel(application: Application) :
         }
     }
     fun updateFees() {
-        updateFees(state.etInputAmount.toString())
+        updateFees(state.etOutputAmount.toString())
     }
 
     fun getTotalAmountWithFee(): Double {
         return (when (feeType) {
             FeeType.TIER.name -> {
-                val transferFee = getFeeFromTier(state.etInputAmount.toString())
-                state.etInputAmount.parseToDouble().plus(transferFee.parseToDouble())
+                val transferFee = getFeeFromTier(state.etOutputAmount.toString())
+                state.etOutputAmount.parseToDouble().plus(transferFee.parseToDouble())
             }
             FeeType.FLAT.name -> {
-                val transferFee = getFlatFee(state.etInputAmount.toString())
-                state.etInputAmount.parseToDouble().plus(transferFee.parseToDouble())
+                val transferFee = getFlatFee(state.etOutputAmount.toString())
+                state.etOutputAmount.parseToDouble().plus(transferFee.parseToDouble())
             }
             else -> {
                 0.00
@@ -186,7 +186,7 @@ class InternationalFundsTransferViewModel(application: Application) :
     fun setDestinationAmount() {
         if (!state.etInputAmount.isNullOrBlank()) {
             val totalDestinationAmount = state.etInputAmount?.toDoubleOrNull()
-                ?.div(parentViewModel?.transferData?.value?.rate?.toDoubleOrNull() ?: 0.0)
+                ?.times(parentViewModel?.transferData?.value?.rate?.toDoubleOrNull() ?: 0.0)
 
             state.etOutputAmount = String.format(
                 Locale.getDefault(),

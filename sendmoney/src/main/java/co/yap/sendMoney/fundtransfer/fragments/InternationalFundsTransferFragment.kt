@@ -157,7 +157,7 @@ class InternationalFundsTransferFragment :
 
     private fun startFlow() {
         if (isBalanceAvailable()) {
-            if (viewModel.state.etInputAmount.parseToDouble() < viewModel.state.minLimit ?: 0.0 || viewModel.state.etInputAmount.parseToDouble() > viewModel.state.maxLimit ?: 0.0) {
+            if (viewModel.state.etOutputAmount.parseToDouble() < viewModel.state.minLimit ?: 0.0 || viewModel.state.etOutputAmount.parseToDouble() > viewModel.state.maxLimit ?: 0.0) {
                 setLowerAndUpperLimitError()
             } else {
                 if (isDailyLimitReached())
@@ -202,7 +202,7 @@ class InternationalFundsTransferFragment :
         viewModel.parentViewModel?.transactionThreshold?.value?.let {
             it.dailyLimit?.let { dailyLimit ->
                 it.totalDebitAmount?.let { totalConsumedAmount ->
-                    viewModel.state.etInputAmount.parseToDouble().let { enteredAmount ->
+                    viewModel.state.etOutputAmount.parseToDouble().let { enteredAmount ->
                         val remainingDailyLimit =
                             if ((dailyLimit - totalConsumedAmount) < 0.0) 0.0 else (dailyLimit - totalConsumedAmount)
                         viewModel.state.errorDescription =
@@ -223,11 +223,11 @@ class InternationalFundsTransferFragment :
         viewModel.parentViewModel?.transferData?.value?.sourceCurrency =
             viewModel.state.sourceCurrency.get().toString()
         viewModel.parentViewModel?.transferData?.value?.sourceAmount =
-            viewModel.state.etInputAmount.toString()
+            viewModel.state.etOutputAmount.toString()
         viewModel.parentViewModel?.transferData?.value?.destinationCurrency =
             viewModel.state.destinationCurrency.get().toString()
         viewModel.parentViewModel?.transferData?.value?.destinationAmount =
-            viewModel.state.etOutputAmount.toString()
+            viewModel.state.etInputAmount.toString()
         viewModel.parentViewModel?.transferData?.value?.toFxRate = viewModel.state.toFxRate
         viewModel.parentViewModel?.transferData?.value?.fromFxRate = viewModel.state.fromFxRate
         viewModel.parentViewModel?.transferData?.value?.noteValue =
@@ -263,11 +263,9 @@ class InternationalFundsTransferFragment :
 
         etSenderAmount.afterTextChanged {
             viewModel.state.clearError()
-            if (!viewModel.state.etInputAmount.isNullOrBlank()) {
-                checkOnTextChangeValidation()
-            }
-            viewModel.updateFees()
             viewModel.setDestinationAmount()
+            checkOnTextChangeValidation()
+            viewModel.updateFees()
         }
     }
 
