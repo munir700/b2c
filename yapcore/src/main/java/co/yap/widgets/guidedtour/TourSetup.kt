@@ -16,23 +16,12 @@ class TourSetup(
 
     private var currentViewId: Int = 0
     private var previousViewId = currentViewId
-    private var isMultipleViewsTour: Boolean = false
     private var layer: CoachMarkDialogueOverlay? = null
     private var descBox: BubbleMessageView.Builder? = null
     private var descBoxView: BubbleMessageView? = null
     private var showCase: BubbleShowCase? = null
 
-    fun show() {
-        focusMultipleViews()
-    }
-
-    private fun focusMultipleViews() {
-        isMultipleViewsTour = true
-        previousViewId = currentViewId
-        focusSingleView()
-    }
-
-    private fun focusSingleView() {
+    fun startTour() {
         layer = CoachMarkDialogueOverlay(activity, guidedTourViewViewsList)
         layer?.show()
         getCurrentItem()?.let {
@@ -43,6 +32,7 @@ class TourSetup(
                 descBox!!
             )
             descBoxView = descBox?.build()
+            descBoxView?.y = descBoxView?.y?.minus(it.padding) ?: 0f
             descBoxView?.layoutParams = showCaseParams
             layer?.rootMain?.addView(
                 descBoxView, 0
@@ -62,7 +52,9 @@ class TourSetup(
             previousViewId = currentViewId
             currentViewId += 1
             updateDescriptionBox()
+            layer?.onItemClickListener?.onItemClick(currentViewId)
         } else {
+            layer?.dismiss()
             showCase?.dismiss()
         }
     }
@@ -71,15 +63,22 @@ class TourSetup(
     private fun updateDescriptionBox() {
         getCurrentItem()?.let {
             val builder = getBubbleMessageViewBuilder(it)
-            val msgView = descBoxView
             val params = showCase?.addBubbleMessageViewDependingOnTargetView(it.view, builder)
             val childView = layer?.rootMain?.getChildAt(0)
 //            val xPos = targetPoint.x.toFloat()
 //            val yPos = targetPoint.y.toFloat()
-            val xPos = ScreenUtils.getAxisYpositionOfViewOnScreen(it.view).toFloat()
+            //val xPos = ScreenUtils.getAxisYpositionOfViewOnScreen(it.view).toFloat()
+
+            val arrowPosition = getTooltipPosition(it.view).first()
             val yPos = ScreenUtils.getAxisYpositionOfViewOnScreen(it.view).toFloat()
-            msgView?.animate()?.x(xPos)?.y(yPos)?.setDuration(1000)?.start()
-            msgView?.setAttributes(builder)
+            val yPadding =
+                if (arrowPosition == BubbleShowCase.ArrowPosition.TOP) yPos + it.padding else yPos - it.padding
+            descBoxView?.animate()
+                ?.y(yPadding)
+                ?.setDuration(1000)?.start()
+            //descBoxView?.animate()?.y(yPos + it.padding)?.setDuration(1000)?.start()
+            descBoxView?.setAttributes(builder)
+            // descBoxView?.y = descBoxView?.y?.minus(it.padding) ?: 0f
         }
     }
 
@@ -107,7 +106,7 @@ class TourSetup(
         context: Context,
         guidedTourViewDetail: GuidedTourViewDetail
     ): BubbleShowCaseBuilder {
-        return BubbleShowCaseBuilder(activity!!)
+        return BubbleShowCaseBuilder(activity)
             .title(guidedTourViewDetail.title)
             .description(guidedTourViewDetail.description)
             .backgroundColor(context.getColor(R.color.white)) //Bubble background color
@@ -118,7 +117,7 @@ class TourSetup(
     private fun getTooltipPosition(targetView: View): ArrayList<BubbleShowCase.ArrowPosition> {
         val list: ArrayList<BubbleShowCase.ArrowPosition> = arrayListOf()
         if (ScreenUtils.isViewLocatedAtHalfTopOfTheScreen(
-                activity!!,
+                activity,
                 targetView
             )
         ) list.add(BubbleShowCase.ArrowPosition.TOP) else list.add(

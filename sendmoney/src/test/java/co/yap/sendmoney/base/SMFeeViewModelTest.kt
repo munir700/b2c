@@ -1,4 +1,4 @@
-package co.yap.sendMoney.base
+package co.yap.sendmoney.base
 
 
 import co.yap.yapcore.enums.FeeType

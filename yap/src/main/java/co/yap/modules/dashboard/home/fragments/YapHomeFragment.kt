@@ -205,7 +205,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
         getBindings().ivSearch.setOnClickListener {
             activity?.let {
                 val tour = TourSetup(it, setViewsArray())
-                tour.show()
+                tour.startTour()
             }
         }
         listenForToolbarExpansion()
@@ -754,7 +754,9 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                 "Your current balance",
                 "Here you can see your account’s current balance. It will be updated in-real time after every transaction.",
                 getParentActivity().txtYapIt.locationOnScreen.x,
-                getParentActivity().txtYapIt.locationOnScreen.y
+                getParentActivity().txtYapIt.locationOnScreen.y,
+                padding = 250f,
+                circleRadius = 250f
             )
         )
         list.add(
@@ -763,7 +765,9 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                 "Menu Type",
                 "Here you can see your account’s current balance. It will be updated in-real time after every transaction.",
                 getBindings().ivSearch.locationOnScreen.x,
-                getBindings().ivSearch.locationOnScreen.y
+                getBindings().ivSearch.locationOnScreen.y,
+                padding = 100f,
+                circleRadius = 200f
             )
         )
 
@@ -773,7 +777,20 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                 "Yap it",
                 "Here you can see your account’s current balance. It will be updated in-real time after every transaction.",
                 getBindings().tvAvailableBalance.locationOnScreen.x,
-                getBindings().tvAvailableBalance.locationOnScreen.y
+                getBindings().tvAvailableBalance.locationOnScreen.y,
+                padding = 200f,
+                circleRadius = 250f
+            )
+        )
+        list.add(
+            GuidedTourViewDetail(
+                getBindings().lyInclude.tvFilters,
+                "Yap it",
+                "Here you can see your account’s current balance. It will be updated in-real time after every transaction.",
+                getBindings().lyInclude.tvFilters.locationOnScreen.x,
+                getBindings().lyInclude.tvFilters.locationOnScreen.y,
+                padding = 100f,
+                circleRadius = 160f
             )
         )
         return list

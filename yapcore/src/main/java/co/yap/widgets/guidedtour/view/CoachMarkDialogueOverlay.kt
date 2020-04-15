@@ -20,6 +20,7 @@ class CoachMarkDialogueOverlay(
     internal val context: Context,
     private val guidedTourViewViewsList: ArrayList<GuidedTourViewDetail>
 ) : Dialog(context, android.R.style.Theme_Light) {
+
     var layer: CircleOverlayView? = null
     private var parentView: LinearLayout? = null
     private var circleImg: CoreCircularImageView? = null
@@ -50,9 +51,15 @@ class CoachMarkDialogueOverlay(
         rootMain = findViewById(R.id.rlMain)
         skip = findViewById(R.id.skip)
         skip?.setOnClickListener {
-            moveNext()
+            dismiss()
         }
         updateCircle()
+    }
+
+    var onItemClickListener = object : OnTourItemClickListener {
+        override fun onItemClick(pos: Int) {
+            moveNext()
+        }
     }
 
     private fun moveNext() {
@@ -70,23 +77,20 @@ class CoachMarkDialogueOverlay(
 
     private fun updateCircle() {
         getCurrentItem()?.let {
-//            takeScreenshotOfSurfaceView(it.view)?.let { bitmap ->
-//                circleImg?.setImageBitmap(bitmap)
-//            }
-
             log("overlaay", "x -> ${it.view.x} + y -> ${it.view.y}")
             log("overlaay", "point x -> ${it.pointX} + y -> ${it.pointY}")
 
 //            layer?.centerX = it.view.x - padding.div(2)
 //            layer?.centerY = it.view.y - padding.div(2)
 
+            layer?.radius = it.circleRadius
+            layer?.centerX = it.view.x + (it.view.width / 2)
+            layer?.centerY = it.view.y
+            //+ (it.view.height / 2)
+            //(layer!!.width - (layer!!.width - it.view.x)) + (it.view.x / 2)
 
-            layer?.centerX = (layer!!.width - (layer!!.width - it.view.x)) + (it.view.x / 2)
-
-
-            layer?.centerY = it.view.y + it.view.height - it.view.height
-
-
+            //layer?.centerX = (layer!!.width - (layer!!.width - it.view.x)) + (it.view.x / 2)
+            //layer?.centerY = it.view.y + it.view.height - it.view.height
             layer?.invalidate()
 
             log("overlaay", "new xy x -> ${parentView?.x} + y -> ${parentView?.y}")
@@ -142,4 +146,6 @@ class CoachMarkDialogueOverlay(
     }
 }
 
-
+interface OnTourItemClickListener {
+    fun onItemClick(pos: Int)
+}

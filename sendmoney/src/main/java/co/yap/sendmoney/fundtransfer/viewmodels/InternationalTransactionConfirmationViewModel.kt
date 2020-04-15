@@ -1,12 +1,12 @@
-package co.yap.sendMoney.fundtransfer.viewmodels
+package co.yap.sendmoney.fundtransfer.viewmodels
 
 import android.app.Application
 import androidx.lifecycle.MutableLiveData
 import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.transactions.TransactionsRepository
 import co.yap.networking.transactions.requestdtos.SendMoneyTransferRequest
-import co.yap.sendMoney.fundtransfer.interfaces.IInternationalTransactionConfirmation
-import co.yap.sendMoney.fundtransfer.states.InternationalTransactionConfirmationState
+import co.yap.sendmoney.fundtransfer.interfaces.IInternationalTransactionConfirmation
+import co.yap.sendmoney.fundtransfer.states.InternationalTransactionConfirmationState
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.SendMoneyBeneficiaryType
