@@ -17,6 +17,7 @@ interface ISubscription {
         fun getSubscriptionData()
         fun setUpSubscription()
         fun cancelSubscription()
+        fun reActivateSubscription()
     }
 
     interface State : IBase.State {
