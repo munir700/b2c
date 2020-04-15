@@ -66,6 +66,7 @@ open class MapSupportActivity : BaseBindingActivity<ILocationSelection.ViewModel
                 mDefaultLocation = LatLng(location.latitude, location.longitude)
                 viewModel.address?.latitude = location.latitude
                 viewModel.address?.longitude = location.longitude
+
                 setupMapOptions()
             } else {
                 startLocationUpdates()
@@ -141,7 +142,7 @@ open class MapSupportActivity : BaseBindingActivity<ILocationSelection.ViewModel
     }
 
     private fun populateCardState(address: co.yap.networking.cards.responsedtos.Address?) {
-        if (viewModel.state.isLocationInAllowedCountry.get() == true){
+        if (viewModel.state.isLocationInAllowedCountry.get() == true) {
             viewModel.state.isShowLocationCard.set(true)
             address?.let {
                 viewModel.address?.latitude = it.latitude
@@ -149,8 +150,8 @@ open class MapSupportActivity : BaseBindingActivity<ILocationSelection.ViewModel
                 viewModel.state.placeTitle.set(it.address1)
                 viewModel.state.placeSubTitle.set(it.address2)
                 viewModel.state.placePhoto.set(defaultPlacePhoto)
-            }}
-        else
+            }
+        } else
             showNotAllowedError()
     }
 
@@ -160,6 +161,7 @@ open class MapSupportActivity : BaseBindingActivity<ILocationSelection.ViewModel
     }
 
     private fun createMarker(markerLatLng: LatLng?) {
+        viewModel.isUnNamedLocation = false
         locationMarker?.remove()
         //icon = bitmapDescriptorFromVector(context, R.drawable.ic_location_pin)
         markerLatLng?.let {

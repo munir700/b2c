@@ -57,6 +57,7 @@ class LocationSelectionActivity : MapSupportActivity(), ILocationSelection.View 
         settAddressFromIntent()
         updateHeadings()
         addListeners()
+
     }
 
     private fun addListeners() {
@@ -101,8 +102,8 @@ class LocationSelectionActivity : MapSupportActivity(), ILocationSelection.View 
     private fun updateHeadings() {
         if (intent != null) {
             if (intent.hasExtra(HEADING)) {
-                val heading = intent.getStringExtra(HEADING)
-                viewModel.state.headingTitle.set(heading)
+                viewModel.defaultHeading = intent.getStringExtra(HEADING)
+                viewModel.state.headingTitle.set(viewModel.defaultHeading)
             }
             if (intent.hasExtra(SUB_HEADING)) {
                 val subHeading = intent.getStringExtra(SUB_HEADING)
@@ -117,6 +118,7 @@ class LocationSelectionActivity : MapSupportActivity(), ILocationSelection.View 
         viewModel.isMapExpanded.observe(this, Observer {
             viewModel.state.toolbarVisibility = !it
             if (it) {
+                hideKeyboard()
                 rlCollapsedMapSection.visibility = View.GONE
                 lyAddressFields.visibility = View.GONE
                 ivClose.visibility = View.VISIBLE
@@ -129,6 +131,7 @@ class LocationSelectionActivity : MapSupportActivity(), ILocationSelection.View 
     }
 
     private fun initMapFragment() {
+
         val mapFragment =
             supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
         mapFragment?.let {
@@ -172,18 +175,21 @@ class LocationSelectionActivity : MapSupportActivity(), ILocationSelection.View 
                 startFragment<WebViewFragment>(
                     fragmentName = WebViewFragment::class.java.name, bundle = bundleOf(
                         Constants.PAGE_URL to Constants.URL_TERMS_CONDITION
-                    ) , showToolBar = true
+                    ), showToolBar = true
                 )
                 //Utils.openWebPage(Constants.URL_TERMS_CONDITION, "", this)
             }
             R.id.etAddressField -> {
-                if (etAddressField.length() > 0) {
+
+                if (etAddressField.length() == 0 && !viewModel.hasSeletedLocation) {
+                    onMapClickAction()
+                } else {
                     etAddressField.isFocusable = true
                     etAddressField.isFocusableInTouchMode = true
-                } else {
-                    onMapClickAction()
+                    etAddressField.setSelection(etAddressField.length())
                 }
             }
+
             R.id.rlCollapsedMapSection -> {
                 onMapClickAction()
             }
