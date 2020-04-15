@@ -311,11 +311,7 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
     private val switchProfileObserver = Observer<Boolean> {
         if (it) {
             if (MyUserManager.isOnBoarded()) {
-                if (MyUserManager.isDefaultUserYap()) {
-                    gotoYapDashboard()
-                } else {
-                    launchActivity<HouseholdDashboardActivity>(clearPrevious = true)
-                }
+                gotoYapDashboard()
             } else {
                 launchActivity<OnBoardingHouseHoldActivity>(clearPrevious = true) {
                     putExtra(OnBoardingHouseHoldActivity.USER_INFO, MyUserManager.user)
