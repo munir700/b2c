@@ -59,7 +59,9 @@ class PhoneVerificationSignInFragment : OnboardingChildFragment<IPhoneVerificati
 
     private val onFetchAccountInfo = Observer<Boolean> {
         if(it) {
-
+            if (MyUserManager.shouldGoToHousehold()) {
+                MyUserManager.switchProfile()
+            } else {
                 if (BiometricUtil.isFingerprintSupported
                     && BiometricUtil.isHardwareSupported(requireActivity())
                     && BiometricUtil.isPermissionGranted(requireActivity())
@@ -82,12 +84,8 @@ class PhoneVerificationSignInFragment : OnboardingChildFragment<IPhoneVerificati
                     }
 
                 } else {
-                   /* findNavController().navigate(R.id.action_goto_yapDashboardActivity)
-                    activity?.finish()*/
-                    if (MyUserManager.shouldGoToHousehold()) {
-                        MyUserManager.switchProfile()
-                    } else {
-                        gotoYapDashboard()
+                    findNavController().navigate(R.id.action_goto_yapDashboardActivity)
+                    activity?.finish()
                 }
             }
         }

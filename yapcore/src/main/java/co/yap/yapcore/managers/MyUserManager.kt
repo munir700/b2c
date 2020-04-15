@@ -80,7 +80,8 @@ object MyUserManager : IRepositoryHolder<CardsRepository> {
 
     private fun getCurrentUser(): AccountInfo? {
         return (if (isExistingUser()) {
-            if (AccountStatus.INVITATION_PENDING.name != getHouseholdUser()?.notificationStatuses || AccountStatus.PARNET_MOBILE_VERIFICATION_PENDING.name != getHouseholdUser()?.notificationStatuses) {
+            user = getHouseholdUser()
+            if (isOnBoarded()) {
                 getYapUser()
             } else
                 getHouseholdUser()
@@ -173,9 +174,8 @@ object MyUserManager : IRepositoryHolder<CardsRepository> {
     }
 
     fun isDefaultUserYap(): Boolean {
-        val yapUser = usersList.find { obj1 -> obj1?.accountType == AccountType.B2C_ACCOUNT.name }
-        val householdUser =
-            usersList.find { obj1 -> obj1?.accountType == AccountType.B2C_HOUSEHOLD.name }
+        val yapUser = getYapUser()
+        val householdUser = getHouseholdUser()
 
         if ((yapUser != null && householdUser != null)) {
             if (yapUser.defaultProfile == true) {
