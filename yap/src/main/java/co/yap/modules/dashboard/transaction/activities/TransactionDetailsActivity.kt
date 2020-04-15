@@ -13,6 +13,7 @@ import co.yap.modules.dashboard.transaction.interfaces.ITransactionDetails
 import co.yap.modules.dashboard.transaction.viewmodels.TransactionDetailsViewModel
 import co.yap.modules.others.note.activities.TransactionNoteActivity
 import co.yap.networking.transactions.responsedtos.transaction.Content
+import co.yap.translation.Strings
 import co.yap.yapcore.BR
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.constants.Constants
@@ -20,6 +21,7 @@ import co.yap.yapcore.enums.TransactionProductCode
 import co.yap.yapcore.enums.TxnType
 import co.yap.yapcore.helpers.ImageBinding
 import co.yap.yapcore.helpers.extentions.*
+import co.yap.yapcore.helpers.spannables.getText
 
 class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewModel>(),
     ITransactionDetails.View {
@@ -40,6 +42,12 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
         setTransactionImage()
         setTransactionTitle()
         setContentDataColor(viewModel.transaction.get())
+        getBindings().tvDestinationAmount.text = "${viewModel.transaction.get().getCurrency()} ${viewModel.transaction.get().getAmount()}"
+        getBindings().tvFxRateValue.text = resources.getText(
+            getString(Strings.screen_funds_confirmation_success_description),
+            "${viewModel.transaction.get()
+                .getCurrency()} , ${viewModel.transaction.get()?.fxRate} ${viewModel.transaction.get()?.currency}"
+        )
     }
 
     private fun setSpentLabel() {
@@ -71,8 +79,8 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
 
     private fun setTransactionImage() {
         viewModel.transaction.get()?.let { transaction ->
-            when {
-                TransactionProductCode.Y2Y_TRANSFER.pCode == transaction.productCode ?: "" -> {
+            when (TransactionProductCode.Y2Y_TRANSFER.pCode) {
+                transaction.productCode ?: "" -> {
                     ImageBinding.loadAvatar(
                         getBindings().ivPicture,
                         if (TxnType.valueOf(

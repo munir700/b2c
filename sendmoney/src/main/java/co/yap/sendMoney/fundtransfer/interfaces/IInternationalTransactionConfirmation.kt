@@ -1,4 +1,4 @@
-package co.yap.sendMoney.fundtransfer.interfaces
+package co.yap.sendmoney.fundtransfer.interfaces
 
 import androidx.lifecycle.MutableLiveData
 import co.yap.yapcore.IBase

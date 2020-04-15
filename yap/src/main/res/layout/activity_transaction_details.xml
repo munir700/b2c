@@ -15,6 +15,8 @@
 
         <import type="co.yap.yapcore.enums.TransactionStatus" />
 
+        <import type="co.yap.yapcore.enums.TransactionProductCode" />
+
         <import type="co.yap.yapcore.helpers.Utils" />
 
 
@@ -453,6 +455,54 @@
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvTotalAmountValueCalculated"
                 tools:text="168449563519" />
+            <TextView
+                android:id="@+id/tvDestinationLabel"
+                style="@style/ASmallGrey"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Transfer amount"
+                android:visibility="@{viewModel.transaction.productCode.equals(TransactionProductCode.SWIFT.pCode) || viewModel.transaction.productCode.equals(TransactionProductCode.RMT.pCode)  ? View.VISIBLE : View.GONE}"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/tvDestinationAmount"
+                tools:ignore="HardcodedText"
+                tools:text="Transfer amount" />
+
+            <TextView
+                android:id="@+id/tvDestinationAmount"
+                style="@style/ASmall"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/small"
+                android:gravity="end"
+                android:visibility="@{viewModel.transaction.productCode.equals(TransactionProductCode.SWIFT.pCode) || viewModel.transaction.productCode.equals(TransactionProductCode.RMT.pCode)  ? View.VISIBLE : View.GONE}"
+                app:layout_constraintLeft_toRightOf="@+id/guideline1"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvReferenceNumberValue"
+                tools:text="CAD 50.00 " />
+            <TextView
+                android:id="@+id/tvFxRateLabel"
+                style="@style/ASmallGrey"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Exchange rate"
+                android:visibility="@{viewModel.transaction.productCode.equals(TransactionProductCode.SWIFT.pCode) || viewModel.transaction.productCode.equals(TransactionProductCode.RMT.pCode)  ? View.VISIBLE : View.GONE}"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/tvFxRateValue"
+                tools:ignore="HardcodedText"
+                tools:text="Exchange rate" />
+
+            <TextView
+                android:id="@+id/tvFxRateValue"
+                style="@style/ASmall"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/small"
+                android:visibility="@{viewModel.transaction.productCode.equals(TransactionProductCode.SWIFT.pCode) || viewModel.transaction.productCode.equals(TransactionProductCode.RMT.pCode)  ? View.VISIBLE : View.GONE}"
+                android:gravity="end"
+                app:layout_constraintLeft_toRightOf="@+id/guideline1"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvDestinationAmount"
+                tools:text="1 CAD =  2.3 AED " />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

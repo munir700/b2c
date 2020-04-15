@@ -1,9 +1,9 @@
-package co.yap.sendMoney.fundtransfer.states
+package co.yap.sendmoney.fundtransfer.states
 
 import android.app.Application
 import androidx.databinding.Bindable
 import androidx.databinding.ObservableField
-import co.yap.sendMoney.fundtransfer.interfaces.IInternationalFundsTransfer
+import co.yap.sendmoney.fundtransfer.interfaces.IInternationalFundsTransfer
 import co.yap.sendmoney.BR
 import co.yap.yapcore.BaseState
 import co.yap.yapcore.helpers.cancelAllSnackBar

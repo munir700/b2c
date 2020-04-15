@@ -110,6 +110,29 @@ fun Content?.getTransactionTypeIcon(): Int {
     } ?: return android.R.color.transparent
 }
 
+fun Content?.getCurrency(): String {
+    this?.let { transaction ->
+        return (when (transaction.productCode) {
+            TransactionProductCode.SWIFT.pCode, TransactionProductCode.RMT.pCode -> {
+                transaction.otherBankCurrency.toString()
+            }
+            else -> transaction.currency.toString()
+        })
+    } ?: return "AED"
+}
+
+fun Content?.getAmount(): String? {
+    this?.let { transaction ->
+        return (when (transaction.productCode) {
+            TransactionProductCode.SWIFT.pCode, TransactionProductCode.RMT.pCode -> {
+                (transaction.amount?.div(transaction.fxRate.parseToDouble())).toString()
+                    .toFormattedCurrency()
+            }
+            else -> transaction.totalAmount.toString().toFormattedCurrency()
+        })
+    } ?: return "0.0"
+}
+
 fun Content?.getCategoryIcon(): Int {
     this?.let { transaction ->
         if (transaction.getLabelValues() == TransactionLabelsCode.IS_TRANSACTION_FEE) {

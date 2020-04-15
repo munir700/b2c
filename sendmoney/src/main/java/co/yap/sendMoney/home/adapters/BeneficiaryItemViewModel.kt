@@ -1,4 +1,4 @@
-package co.yap.sendMoney.home.adapters
+package co.yap.sendmoney.home.adapters
 
 import android.view.View
 import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary

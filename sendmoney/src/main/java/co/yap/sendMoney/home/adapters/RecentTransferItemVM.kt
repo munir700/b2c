@@ -1,4 +1,4 @@
-package co.yap.sendMoney.home.adapters
+package co.yap.sendmoney.home.adapters
 
 import android.os.Bundle
 import android.view.View

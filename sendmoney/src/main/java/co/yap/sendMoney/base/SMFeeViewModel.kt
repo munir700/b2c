@@ -1,4 +1,4 @@
-package co.yap.sendMoney.base
+package co.yap.sendmoney.base
 
 import android.app.Application
 import androidx.lifecycle.MutableLiveData

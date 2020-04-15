@@ -1,4 +1,4 @@
-package co.yap.sendMoney.addbeneficiary.adaptor
+package co.yap.sendmoney.addbeneficiary.adaptor
 
 import android.text.TextWatcher
 import androidx.databinding.ViewDataBinding

@@ -1,9 +1,9 @@
-package co.yap.sendMoney.addbeneficiary.states
+package co.yap.sendmoney.addbeneficiary.states
 
 import android.graphics.drawable.Drawable
 import androidx.databinding.Bindable
-import co.yap.sendMoney.addbeneficiary.interfaces.IAddBeneficiary
-import co.yap.sendMoney.addbeneficiary.viewmodels.AddBeneficiaryViewModel
+import co.yap.sendmoney.addbeneficiary.interfaces.IAddBeneficiary
+import co.yap.sendmoney.addbeneficiary.viewmodels.AddBeneficiaryViewModel
 import co.yap.sendmoney.BR
 import co.yap.yapcore.BaseState
 import co.yap.yapcore.enums.SendMoneyBeneficiaryType.*

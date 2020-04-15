@@ -1,13 +1,13 @@
-package co.yap.sendMoney.fundtransfer.viewmodels
+package co.yap.sendmoney.fundtransfer.viewmodels
 
 import android.app.Application
 import androidx.lifecycle.MutableLiveData
 import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.networking.transactions.responsedtos.TransactionThresholdModel
 import co.yap.networking.transactions.responsedtos.purposepayment.PurposeOfPayment
-import co.yap.sendMoney.fundtransfer.interfaces.IBeneficiaryFundTransfer
-import co.yap.sendMoney.fundtransfer.models.TransferFundData
-import co.yap.sendMoney.fundtransfer.states.BeneficiaryFundTransferState
+import co.yap.sendmoney.fundtransfer.states.BeneficiaryFundTransferState
+import co.yap.sendmoney.fundtransfer.interfaces.IBeneficiaryFundTransfer
+import co.yap.sendmoney.fundtransfer.models.TransferFundData
 import co.yap.translation.Strings
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent

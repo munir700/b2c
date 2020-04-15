@@ -1,4 +1,4 @@
-package co.yap.sendMoney.fundtransfer.fragments
+package co.yap.sendmoney.fundtransfer.fragments
 
 import android.os.Bundle
 import android.text.InputFilter
@@ -9,10 +9,12 @@ import androidx.navigation.fragment.findNavController
 import co.yap.networking.transactions.requestdtos.RemittanceFeeRequest
 import co.yap.networking.transactions.responsedtos.purposepayment.PurposeOfPayment
 import co.yap.networking.transactions.responsedtos.transaction.FxRateResponse
-import co.yap.sendMoney.PopListBottomSheet
-import co.yap.sendMoney.fundtransfer.activities.BeneficiaryFundTransferActivity
-import co.yap.sendMoney.fundtransfer.interfaces.IInternationalFundsTransfer
-import co.yap.sendMoney.fundtransfer.viewmodels.InternationalFundsTransferViewModel
+import co.yap.sendmoney.PopListBottomSheet
+import co.yap.sendmoney.fundtransfer.activities.BeneficiaryFundTransferActivity
+import co.yap.sendmoney.fundtransfer.fragments.BeneficiaryFundTransferBaseFragment
+import co.yap.sendmoney.fundtransfer.fragments.InternationalFundsTransferFragmentDirections
+import co.yap.sendmoney.fundtransfer.interfaces.IInternationalFundsTransfer
+import co.yap.sendmoney.fundtransfer.viewmodels.InternationalFundsTransferViewModel
 import co.yap.sendmoney.BR
 import co.yap.sendmoney.R
 import co.yap.sendmoney.databinding.FragmentInternationalFundsTransferBinding

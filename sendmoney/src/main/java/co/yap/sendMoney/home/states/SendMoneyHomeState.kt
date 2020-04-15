@@ -1,7 +1,7 @@
-package co.yap.sendMoney.home.states
+package co.yap.sendmoney.home.states
 
 import androidx.databinding.ObservableField
-import co.yap.sendMoney.home.interfaces.ISendMoneyHome
+import co.yap.sendmoney.home.interfaces.ISendMoneyHome
 import co.yap.yapcore.BaseState
 
 class SendMoneyHomeState : BaseState(), ISendMoneyHome.State {

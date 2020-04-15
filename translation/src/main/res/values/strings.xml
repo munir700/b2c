@@ -562,6 +562,9 @@
     <string name="screen_transaction_details_display_text_edit_note">Edit a note</string>
     <string name="screen_transaction_details_display_text_note_description">Stay organized by adding transaction notes</string>
     <string name="screen_add_note_display_text_type_something">Type something…</string>
+    <string name="screen_transaction_details_display_text_transfer_amount">Transfer amount</string>
+    <string name="screen_transaction_details_display_text_exchange_rate">Exchange rate</string>
+    <string name="screen_transaction_details_display_text_exchange_rate_value">1 %1$s = %2$s</string>
     <string name="screen_add_note_display_text_save">Save</string>
 
     <!--  Send Money no contacts Screen-->

@@ -52,7 +52,7 @@ class TransactionsListingAdapter(private val list: MutableList<Content>) :
                     )
                 ) View.GONE else View.VISIBLE
 
-            itemTransactionListBinding.tvCurrency.text = transaction.currency
+            itemTransactionListBinding.tvCurrency.text = transaction.getCurrency()
             itemTransactionListBinding.ivIncoming.setImageResource(transaction.getTransactionTypeIcon())
 
             itemTransactionListBinding.ivIncoming.background =
@@ -86,7 +86,7 @@ class TransactionsListingAdapter(private val list: MutableList<Content>) :
             itemTransactionListBinding.tvTransactionAmount.text =
                 String.format(
                     "%s %s", txnAmountPreFix,
-                    if (TxnType.CREDIT.type == transaction.txnType) transaction.amount.toString().toFormattedCurrency() else transaction.totalAmount.toString().toFormattedCurrency()
+                    if (TxnType.CREDIT.type == transaction.txnType) transaction.amount.toString().toFormattedCurrency() else transaction.getAmount()
                 )
             setContentDataColor(transaction, itemTransactionListBinding)
         }

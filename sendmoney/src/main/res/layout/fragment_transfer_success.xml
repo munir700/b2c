@@ -15,7 +15,7 @@
 
         <variable
             name="viewModel"
-            type="co.yap.sendMoney.fundtransfer.viewmodels.TransferSuccessViewModel" />
+            type="co.yap.sendmoney.fundtransfer.viewmodels.TransferSuccessViewModel" />
     </data>
 
     <ScrollView

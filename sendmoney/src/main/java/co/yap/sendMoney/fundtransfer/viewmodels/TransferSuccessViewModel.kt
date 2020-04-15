@@ -1,12 +1,12 @@
-package co.yap.sendMoney.fundtransfer.viewmodels
+package co.yap.sendmoney.fundtransfer.viewmodels
 
 import android.app.Application
 import co.yap.networking.cards.responsedtos.CardBalance
 import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
-import co.yap.sendMoney.fundtransfer.interfaces.ITransferSuccess
-import co.yap.sendMoney.fundtransfer.states.TransferSuccessState
+import co.yap.sendmoney.fundtransfer.interfaces.ITransferSuccess
+import co.yap.sendmoney.fundtransfer.states.TransferSuccessState
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.managers.MyUserManager
 

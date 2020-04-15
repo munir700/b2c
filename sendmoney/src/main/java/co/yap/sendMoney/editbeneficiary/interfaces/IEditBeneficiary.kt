@@ -1,4 +1,4 @@
-package co.yap.sendMoney.editbeneficiary.interfaces
+package co.yap.sendmoney.editbeneficiary.interfaces
 
 import androidx.lifecycle.MutableLiveData
 import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary

@@ -1,4 +1,4 @@
-package co.yap.sendMoney.fundtransfer.models
+package co.yap.sendmoney.fundtransfer.models
 
 data class TransferFundData(
     var position: Int? = 0,

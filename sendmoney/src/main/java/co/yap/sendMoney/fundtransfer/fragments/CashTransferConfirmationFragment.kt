@@ -1,4 +1,4 @@
-package co.yap.sendMoney.fundtransfer.fragments
+package co.yap.sendmoney.fundtransfer.fragments
 
 import android.app.Activity
 import android.content.Intent
@@ -19,8 +19,10 @@ import co.yap.modules.otp.GenericOtpFragment
 import co.yap.modules.otp.LogoData
 import co.yap.modules.otp.OtpDataModel
 import co.yap.modules.webview.WebViewFragment
-import co.yap.sendMoney.fundtransfer.interfaces.ICashTransferConfirmation
-import co.yap.sendMoney.fundtransfer.viewmodels.CashTransferConfirmationViewModel
+import co.yap.sendmoney.fundtransfer.fragments.BeneficiaryFundTransferBaseFragment
+import co.yap.sendmoney.fundtransfer.fragments.CashTransferConfirmationFragmentDirections
+import co.yap.sendmoney.fundtransfer.interfaces.ICashTransferConfirmation
+import co.yap.sendmoney.fundtransfer.viewmodels.CashTransferConfirmationViewModel
 import co.yap.sendmoney.R
 import co.yap.sendmoney.databinding.FragmentCashTransferConfirmationBinding
 import co.yap.translation.Strings

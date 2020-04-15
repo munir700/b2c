@@ -1,4 +1,4 @@
-package co.yap.sendMoney.fundtransfer.viewmodels
+package co.yap.sendmoney.fundtransfer.viewmodels
 
 import android.app.Application
 import androidx.lifecycle.MutableLiveData
@@ -8,8 +8,8 @@ import co.yap.networking.transactions.TransactionsRepository
 import co.yap.networking.transactions.requestdtos.SendMoneyTransferRequest
 import co.yap.networking.transactions.responsedtos.InternationalFundsTransferReasonList
 import co.yap.networking.transactions.responsedtos.purposepayment.PurposeOfPayment
-import co.yap.sendMoney.fundtransfer.interfaces.ICashTransfer
-import co.yap.sendMoney.fundtransfer.states.CashTransferState
+import co.yap.sendmoney.fundtransfer.interfaces.ICashTransfer
+import co.yap.sendmoney.fundtransfer.states.CashTransferState
 import co.yap.sendmoney.R
 import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent

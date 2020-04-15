@@ -1,4 +1,4 @@
-package co.yap.sendMoney.editbeneficiary.activity
+package co.yap.sendmoney.editbeneficiary.activity
 
 import android.app.Activity
 import android.content.Intent
@@ -7,8 +7,8 @@ import android.view.View
 import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import co.yap.sendMoney.editbeneficiary.interfaces.IEditBeneficiary
-import co.yap.sendMoney.editbeneficiary.viewmodel.EditBeneficiaryViewModel
+import co.yap.sendmoney.editbeneficiary.interfaces.IEditBeneficiary
+import co.yap.sendmoney.editbeneficiary.viewmodel.EditBeneficiaryViewModel
 import co.yap.modules.otp.GenericOtpFragment
 import co.yap.modules.otp.OtpDataModel
 import co.yap.modules.otp.OtpToolBarData

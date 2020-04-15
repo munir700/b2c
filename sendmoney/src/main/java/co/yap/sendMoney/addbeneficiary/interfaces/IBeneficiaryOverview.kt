@@ -1,4 +1,4 @@
-package co.yap.sendMoney.addbeneficiary.interfaces
+package co.yap.sendmoney.addbeneficiary.interfaces
 
 import android.graphics.drawable.Drawable
 import androidx.lifecycle.MutableLiveData

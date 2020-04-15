@@ -2,7 +2,7 @@ package co.yap.modules.dashboard.yapit.y2y.main.viewmodels
 
 import android.app.Application
 import co.yap.modules.dashboard.yapit.y2y.main.interfaces.IY2Y
-import co.yap.sendMoney.base.SMFeeViewModel
+import co.yap.sendmoney.base.SMFeeViewModel
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.IBase
 

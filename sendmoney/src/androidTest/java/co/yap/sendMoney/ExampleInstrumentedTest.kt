@@ -1,4 +1,4 @@
-package co.yap.sendMoney
+package co.yap.sendmoney
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.runner.AndroidJUnit4

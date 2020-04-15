@@ -1,4 +1,4 @@
-package co.yap.sendMoney.fundtransfer.fragments
+package co.yap.sendmoney.fundtransfer.fragments
 
 import android.app.Activity
 import android.content.Intent
@@ -19,11 +19,11 @@ import co.yap.modules.otp.GenericOtpFragment
 import co.yap.modules.otp.LogoData
 import co.yap.modules.otp.OtpDataModel
 import co.yap.modules.webview.WebViewFragment
-import co.yap.sendMoney.fundtransfer.interfaces.IInternationalTransactionConfirmation
-import co.yap.sendMoney.fundtransfer.viewmodels.InternationalTransactionConfirmationViewModel
 import co.yap.sendmoney.BR
 import co.yap.sendmoney.R
 import co.yap.sendmoney.databinding.FragmentInternationalTransactionConfirmationBinding
+import co.yap.sendmoney.fundtransfer.interfaces.IInternationalTransactionConfirmation
+import co.yap.sendmoney.fundtransfer.viewmodels.InternationalTransactionConfirmationViewModel
 import co.yap.translation.Strings
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.Constants.URL_DISCLAIMER_TERMS
@@ -68,11 +68,12 @@ class InternationalTransactionConfirmationFragment :
             ,
             requireContext().color(
                 R.color.colorPrimaryDark,
-                viewModel.parentViewModel?.transferData?.value?.sourceCurrency ?: "AED"
+                viewModel.parentViewModel?.transferData?.value?.destinationCurrency ?: ""
             )
             , requireContext().color(
                 R.color.colorPrimaryDark,
-                viewModel.parentViewModel?.transferData?.value?.sourceAmount ?: ""
+                viewModel.parentViewModel?.transferData?.value?.destinationAmount?.toFormattedCurrency()
+                    ?: ""
             ),
             viewModel.parentViewModel?.beneficiary?.value?.firstName
             ,
@@ -87,10 +88,9 @@ class InternationalTransactionConfirmationFragment :
             resources.getText(
                 getString(Strings.screen_funds_receive_description)
                 ,
-                viewModel.parentViewModel?.beneficiary?.value?.firstName,
                 requireContext().color(
                     R.color.colorPrimaryDark,
-                    "${viewModel.parentViewModel?.transferData?.value?.destinationAmount} ${viewModel.parentViewModel?.transferData?.value?.destinationCurrency}"
+                    "${viewModel.parentViewModel?.transferData?.value?.sourceCurrency} ${viewModel.parentViewModel?.transferData?.value?.sourceAmount}"
                 )
             )
 
