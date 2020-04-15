@@ -172,30 +172,36 @@
                 android:layout_marginStart="@dimen/margin_medium_large"
                 android:layout_marginTop="@dimen/margin_normal"
                 android:layout_marginEnd="@dimen/margin_medium_large"
-                tools:visibility="visible"
                 android:visibility="@{viewModel.parentViewModel.beneficiary.beneficiaryType.equals(`CASHPAYOUT`) ?View.GONE : View.VISIBLE}"
                 app:layout_constraintTop_toBottomOf="@+id/etNote"
                 tools:ignore="NotSibling">
 
-                <Spinner
-                    android:id="@+id/reasonsSpinnerCashTransfer"
+                <TextView
+                    android:id="@+id/tvSelectReason"
+                    style="@style/Small"
+                    android:layout_height="wrap_content"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/_30sdp"
-                    android:prompt="@string/screen_international_funds_transfer_dropdown_text_reason_hint"
-                    android:spinnerMode="dropdown" />
+                    android:layout_centerInParent="true"
+                    android:layout_marginTop="@dimen/margin_medium_large"
+                    android:layout_toStartOf="@+id/ivSelector"
+                    android:onClick="@{(v)->viewModel.handlePressOnView(v.id)}"
+                    android:text="Select a reason for transfer"
+                    tools:text="Select a reason " />
 
-                <View
-                    android:id="@+id/viewTriggerSpinnerClickReasonCash"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/_30sdp"
-                    android:layout_alignParentTop="true"
-                    android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}" />
-
+                <ImageView
+                    android:id="@+id/ivSelector"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerInParent="true"
+                    android:onClick="@{(v)->viewModel.handlePressOnView(v.id)}"
+                    android:src="@drawable/ic_chevron_down"
+                    android:tint="@color/colorPrimaryDark" />
                 <View
                     android:id="@+id/breakLine"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_1sdp"
-                    android:layout_below="@+id/reasonsSpinnerCashTransfer"
+                    android:layout_below="@+id/ivSelector"
                     android:background="@color/greySoft"
                     tools:ignore="MissingConstraints" />
 

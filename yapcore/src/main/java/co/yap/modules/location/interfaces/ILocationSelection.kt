@@ -10,10 +10,15 @@ import co.yap.yapcore.SingleClickEvent
 
 interface ILocationSelection {
 
-    interface View : IBase.View<ViewModel>{
+    interface View : IBase.View<ViewModel> {
         fun setObservers()
     }
+
     interface ViewModel : IBase.ViewModel<State> {
+        var isUnNamedLocation: Boolean
+        var hasSeletedLocation: Boolean
+        var unNamed: String
+        var defaultHeading: String
         var clickEvent: SingleClickEvent
         var isMapExpanded: MutableLiveData<Boolean>
         var address: Address?

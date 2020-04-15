@@ -155,6 +155,8 @@ object Strings {
         "screen_meeting_location_display_text_add_new_address_title"
     const val screen_meeting_location_display_text_add_new_address_subtitle: String =
         "screen_meeting_location_display_text_add_new_address_subtitle"
+    const val screen_meeting_location_display_text_add_manual_address_subtitle: String =
+        "screen_meeting_location_display_text_add_manual_address_subtitle"
 
     //System permission screen
     const val screen_system_permission_text_title: String = "screen_system_permission_text_title"
@@ -493,6 +495,7 @@ object Strings {
 
     const val screen_add_funds_button_add: String =
         "screen_add_funds_button_add"
+
     //card status screen transaction
     const val screen_card_status_display_text_ordered: String =
         "screen_card_status_display_text_ordered"
@@ -716,6 +719,7 @@ object Strings {
         "screen_profile_settings_logout_display_text_alert_cancel"
     const val screen_profile_settings_logout_display_text_alert_logout: String =
         "screen_profile_settings_logout_display_text_alert_logout"
+
     //Yap More
     const val screen_more_display_text_bank_details: String =
         "screen_more_display_text_bank_details"
@@ -1213,7 +1217,6 @@ object Strings {
         "scren_send_money_funds_transfer_confirmation_display_text_disclaimer_terms"
 
 
-
     // Screen cash pickup funds transfer success
     const val screen_cash_pickup_funds_transfer_display_text_amount_heading: String =
         "screen_cash_pickup_funds_transfer_display_text_amount_heading"
@@ -1400,6 +1403,7 @@ object Strings {
         "screen_house_hold_number_registration_error_text"
     const val screen_house_hold_create_passcode_heading_text: String =
         "screen_house_hold_create_passcode_heading_text"
+
     // New User Success household screen
     const val screen_congratulations_display_text_title: String =
         "screen_congratulations_display_text_title"
@@ -1509,6 +1513,7 @@ object Strings {
         "screen_invite_friend_button_share"
     const val screen_invite_friend_display_text_share_url: String =
         "screen_invite_friend_display_text_share_url"
+
     //Yap for you
     const val screen_yap_for_you_display_text_title: String =
         "screen_yap_for_you_display_text_title"

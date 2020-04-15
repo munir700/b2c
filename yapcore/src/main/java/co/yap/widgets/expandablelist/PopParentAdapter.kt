@@ -59,6 +59,7 @@ class PopParentAdapter(
             expandButton.text = titles[position]
             itemLayout.isSelected = isSelected
             expandableLayout.setExpanded(isSelected, false)
+            arrow.visibility = if (isParentChildSame(position)) View.GONE else View.VISIBLE
             val childList = (purposeCategories?.get(titles[position]))
             nestedRV.adapter = ExpandableChildAdapter(
                 itemView.context,
@@ -77,9 +78,33 @@ class PopParentAdapter(
             selectedItem = if (position == selectedItem) {
                 UNSELECTED
             } else {
-                itemLayout.isSelected = true
-                expandableLayout.expand()
-                position
+                if (isParentChildSame(position)) {
+                    val pop = (purposeCategories?.get(titles[position]))?.first()
+                    if (pop != null)
+                        mListener.onItemClick(view, pop, position)
+                    position
+                } else {
+                    expand(position)
+                }
+            }
+        }
+
+        private fun expand(position: Int): Int {
+            itemLayout.isSelected = true
+            expandableLayout.expand()
+            return position
+        }
+
+        private fun isParentChildSame(position: Int): Boolean {
+            val childList = (purposeCategories?.get(titles[position]))
+            return if (!childList.isNullOrEmpty()) {
+                if (childList.size < 2) {
+                    childList[0].purposeDescription.equals(titles[position])
+                } else {
+                    false
+                }
+            } else {
+                false
             }
         }
 

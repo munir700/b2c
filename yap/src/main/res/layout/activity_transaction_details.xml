@@ -254,6 +254,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
+                android:visibility="@{viewModel.transaction.cancelReason               == null || viewModel.transaction.cancelReason.equals(``)? View.GONE : View.VISIBLE}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
@@ -343,10 +344,9 @@
                 style="@style/ASmallGrey"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{viewModel.transaction.txnType.equals(TxnType.DEBIT.type)? @string/screen_transaction_details_display_text_spent : @string/screen_transaction_details_display_text_received}"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/tvCardSpendAmount"
-                tools:text="Spent" />
+                tools:text="Sent" />
 
             <TextView
                 android:id="@+id/tvCardSpendAmount"

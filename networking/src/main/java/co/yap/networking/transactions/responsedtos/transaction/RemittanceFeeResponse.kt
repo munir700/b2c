@@ -31,25 +31,27 @@ data class RemittanceFeeResponse(
             @SerializedName("vatAmount")
             var vatAmount: Double? = 0.0, // 0.5
             @SerializedName("uuid")
-            val uuid: String? = null, 
+            val uuid: String? = null,
             @SerializedName("amountFrom")
-            val amountFrom: Double? = 0.0, 
+            val amountFrom: Double? = 0.0,
             @SerializedName("amountTo")
-            val amountTo: Double? = 0.0, 
+            val amountTo: Double? = 0.0,
             @SerializedName("createdBy")
-            val createdBy: String? = null, 
+            val createdBy: String? = null,
             @SerializedName("createdOn")
-            val createdOn: String? = null, 
+            val createdOn: String? = null,
             @SerializedName("updatedBy")
-            val updatedBy: String? = null, 
+            val updatedBy: String? = null,
             @SerializedName("updatedOn")
-            val updatedOn: String? = null, 
+            val updatedOn: String? = null,
             @SerializedName("feeUuid")
-            val feeUuid: String? = null, 
-            @SerializedName("percentageFee")
-            var percentageFee: String? = null,
-            @SerializedName("percentageVat")
-            var percentageVat: String? = null
+            val feeUuid: String? = null,
+            @SerializedName("feePercentage")
+            var feePercentage: String? = null,
+            @SerializedName("vatPercentage")
+            var vatPercentage: String? = null,
+            @SerializedName("feeInPercentage")
+            var feeInPercentage: Boolean? = null
         ) : Parcelable
     }
 }

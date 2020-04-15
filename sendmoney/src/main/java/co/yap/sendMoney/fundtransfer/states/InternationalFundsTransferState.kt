@@ -12,7 +12,6 @@ class InternationalFundsTransferState(val application: Application) : BaseState(
     IInternationalFundsTransfer.State {
 
     val context = application.applicationContext
-    override var totalTransferAmount: ObservableField<Double> = ObservableField(0.0)
     override var sourceCurrency: ObservableField<String> = ObservableField("")
     override var destinationCurrency: ObservableField<String> = ObservableField("")
     override var transactionNote: ObservableField<String> = ObservableField("")

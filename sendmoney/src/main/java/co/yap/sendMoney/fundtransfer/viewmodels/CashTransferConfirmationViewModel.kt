@@ -1,17 +1,17 @@
-package co.yap.sendmoney.fundtransfer.viewmodels
+package co.yap.sendMoney.fundtransfer.viewmodels
 
 import android.app.Application
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.transactions.TransactionsRepository
-import co.yap.networking.transactions.requestdtos.DomesticTransactionRequestDTO
-import co.yap.networking.transactions.requestdtos.UAEFTSTransactionRequestDTO
-import co.yap.sendmoney.fundtransfer.interfaces.ICashTransferConfirmation
-import co.yap.sendmoney.fundtransfer.states.CashTransferConfirmationState
+import co.yap.networking.transactions.requestdtos.SendMoneyTransferRequest
+import co.yap.sendMoney.fundtransfer.interfaces.ICashTransferConfirmation
+import co.yap.sendMoney.fundtransfer.states.CashTransferConfirmationState
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.SendMoneyBeneficiaryType
 import co.yap.yapcore.enums.TransactionProductCode
+import co.yap.yapcore.helpers.extentions.parseToDouble
 
 class CashTransferConfirmationViewModel(application: Application) :
     BeneficiaryFundTransferBaseViewModel<ICashTransferConfirmation.State>(application),
@@ -52,12 +52,14 @@ class CashTransferConfirmationViewModel(application: Application) :
             state.loading = true
             when (val response =
                 repository.getCutOffTimeConfiguration(
-                    getProductCode(),
-                    "AED",
-                    parentViewModel?.transferData?.value?.transferAmount
+                    productCode = getProductCode(),
+                    currency = "AED",
+                    amount = parentViewModel?.transferData?.value?.transferAmount,
+                    isCbwsi = parentViewModel?.selectedPop?.cbwsi?:false
                 )) {
                 is RetroApiResponse.Success -> {
                     response.data.data?.let {
+                        state.cutOffTimeMsg.set(it.errorMsg)
                         parentViewModel?.transferData?.value?.cutOffTimeMsg = it.errorMsg
                     }
                     state.loading = false
@@ -76,19 +78,28 @@ class CashTransferConfirmationViewModel(application: Application) :
             state.loading = true
             when (val response =
                 repository.uaeftsTransferRequest(
-                    UAEFTSTransactionRequestDTO(
-                        beneficiaryId,
-                        parentViewModel?.transferData?.value?.transferAmount?.toDoubleOrNull(),
-                        0.0,
-                        parentViewModel?.transferData?.value?.purposeCode,
-                        parentViewModel?.transferData?.value?.transferReason,
-                        if (parentViewModel?.transferData?.value?.noteValue.isNullOrBlank()) null else parentViewModel?.transferData?.value?.noteValue
+                    SendMoneyTransferRequest(
+                        beneficiaryId = beneficiaryId?.toInt(),
+                        amount = parentViewModel?.transferData?.value?.transferAmount?.toDoubleOrNull(),
+                        settlementAmount = 0.0,
+                        purposeCode = parentViewModel?.selectedPop?.purposeCode,
+                        purposeReason = parentViewModel?.selectedPop?.purposeDescription,
+                        feeAmount = if (parentViewModel?.transferData?.value?.feeAmount.isNullOrBlank()) "0.0" else parentViewModel?.transferData?.value?.feeAmount,
+                        vat = if (parentViewModel?.transferData?.value?.vat.isNullOrBlank()) "0.0" else parentViewModel?.transferData?.value?.vat,
+                        totalCharges = parentViewModel?.transferData?.value?.transferFee,
+                        totalAmount = parentViewModel?.transferData?.value?.transferAmount.parseToDouble().plus(
+                            parentViewModel?.transferData?.value?.transferFee.parseToDouble()
+                        ).toString(),
+                        cbwsi = parentViewModel?.selectedPop?.cbwsi,
+                        cbwsiFee = parentViewModel?.selectedPop?.cbwsiFee,
+                        nonChargeable = parentViewModel?.selectedPop?.nonChargeable,
+                        remarks = if (parentViewModel?.transferData?.value?.noteValue.isNullOrBlank()) null else parentViewModel?.transferData?.value?.noteValue
+
                     )
                 )
                 ) {
                 is RetroApiResponse.Success -> {
                     parentViewModel?.transferData?.value?.referenceNumber = response.data.data
-                    state.cutOffTimeMsg.set(response.data.data)
                     clickEvent.postValue(Constants.ADD_CASH_PICK_UP_SUCCESS)
                 }
                 is RetroApiResponse.Error -> {
@@ -105,20 +116,19 @@ class CashTransferConfirmationViewModel(application: Application) :
             state.loading = true
             when (val response =
                 repository.domesticTransferRequest(
-                    DomesticTransactionRequestDTO(
-                        beneficiaryId,
-                        parentViewModel?.transferData?.value?.transferAmount?.toDoubleOrNull(),
-                        0.0,
-                        parentViewModel?.transferData?.value?.purposeCode,
-                        parentViewModel?.transferData?.value?.transferReason,
-                        if (parentViewModel?.transferData?.value?.noteValue.isNullOrBlank()) null else parentViewModel?.transferData?.value?.noteValue
+                    SendMoneyTransferRequest(
+                        beneficiaryId = beneficiaryId?.toInt(),
+                        amount = parentViewModel?.transferData?.value?.transferAmount?.toDoubleOrNull(),
+                        settlementAmount = 0.0,
+                        purposeCode = parentViewModel?.selectedPop?.purposeCode,
+                        purposeReason = parentViewModel?.selectedPop?.purposeDescription,
+                        remarks = if (parentViewModel?.transferData?.value?.noteValue.isNullOrBlank()) null else parentViewModel?.transferData?.value?.noteValue
                     )
 
                 )
                 ) {
                 is RetroApiResponse.Success -> {
                     parentViewModel?.transferData?.value?.referenceNumber = response.data.data
-                    state.cutOffTimeMsg.set(response.data.data)
                     clickEvent.postValue(Constants.ADD_CASH_PICK_UP_SUCCESS)
                 }
                 is RetroApiResponse.Error -> {
@@ -138,5 +148,4 @@ class CashTransferConfirmationViewModel(application: Application) :
             else -> ""
         })
     }
-
 }

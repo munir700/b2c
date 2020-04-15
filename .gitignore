@@ -15,6 +15,7 @@
 /coachmark/build
 /household/build
 /send_money/*
+/coachmark/*
 /profile/*
 /identityscanner_v2/build
 /identityscanner/build
@@ -23,7 +24,6 @@
 /captures
 /app/stg/release
 /.idea/project.xml
-/.idea/codeStyles/*
 /.idea/codeStyles/Project.xml
 .externalNativeBuild
 app/~/tmp/full-r8-config.txt

@@ -76,10 +76,10 @@ fun Content?.getTransactionTypeTitle(): String {
             TransactionProductCode.CASH_DEPOSIT_AT_RAK.pCode == txn.productCode || TransactionProductCode.CHEQUE_DEPOSIT_AT_RAK.pCode == txn.productCode || TransactionProductCode.ATM_DEPOSIT.pCode == txn.productCode || TransactionProductCode.FUND_LOAD.pCode == txn.productCode -> "Deposit"
             TransactionProductCode.ATM_WITHDRAWL.pCode == txn.productCode || TransactionProductCode.MASTER_CARD_ATM_WITHDRAWAL.pCode == txn.productCode -> "Cash"
             TransactionProductCode.TOP_UP_SUPPLEMENTARY_CARD.pCode == txn.productCode -> {
-                "Added to virtual card"
+                "Added to Virtual Card"
             }
             TransactionProductCode.WITHDRAW_SUPPLEMENTARY_CARD.pCode == txn.productCode -> {
-                "Withdrawn from virtual card"
+                "Withdrawn from Virtual Card"
             }
             else -> return (when (txn.productCode) {
                 TransactionProductCode.DOMESTIC.pCode, TransactionProductCode.RMT.pCode, TransactionProductCode.SWIFT.pCode, TransactionProductCode.UAEFTS.pCode, TransactionProductCode.INWARD_REMITTANCE.pCode, TransactionProductCode.LOCAL_INWARD_TRANSFER.pCode -> {
@@ -194,13 +194,35 @@ fun Content?.getMapImage(): Int {
         }
         return (when (transaction.productCode) {
             TransactionProductCode.Y2Y_TRANSFER.pCode -> R.drawable.ic_image_blue_background
-            TransactionProductCode.TOP_UP_SUPPLEMENTARY_CARD.pCode, TransactionProductCode.WITHDRAW_SUPPLEMENTARY_CARD.pCode -> R.drawable.ic_image_blue_background
+            TransactionProductCode.TOP_UP_SUPPLEMENTARY_CARD.pCode, TransactionProductCode.WITHDRAW_SUPPLEMENTARY_CARD.pCode -> R.drawable.ic_image_brown_background
             TransactionProductCode.UAEFTS.pCode, TransactionProductCode.DOMESTIC.pCode, TransactionProductCode.RMT.pCode, TransactionProductCode.SWIFT.pCode, TransactionProductCode.CASH_PAYOUT.pCode, TransactionProductCode.TOP_UP_VIA_CARD.pCode, TransactionProductCode.INWARD_REMITTANCE.pCode, TransactionProductCode.LOCAL_INWARD_TRANSFER.pCode -> R.drawable.ic_image_light_blue_background
             TransactionProductCode.CARD_REORDER.pCode -> R.drawable.ic_image_light_red_background
             TransactionProductCode.POS_PURCHASE.pCode, TransactionProductCode.CASH_DEPOSIT_AT_RAK.pCode, TransactionProductCode.MASTER_CARD_ATM_WITHDRAWAL.pCode, TransactionProductCode.CHEQUE_DEPOSIT_AT_RAK.pCode, TransactionProductCode.FUND_LOAD.pCode -> R.drawable.ic_map
             else -> -1
         })
     } ?: return -1
+}
+
+fun Content?.getSpentLabelText(): String {
+    this?.let { transaction ->
+        transaction.productCode?.let { productCode ->
+            if (productCode == TransactionProductCode.TOP_UP_SUPPLEMENTARY_CARD.pCode || productCode == TransactionProductCode.WITHDRAW_SUPPLEMENTARY_CARD.pCode) {
+                return "Moved"
+            }
+            return (when (transaction.txnType) {
+                TxnType.CREDIT.type -> "Received"
+                TxnType.DEBIT.type -> {
+                    when (transaction.productCode) {
+                        TransactionProductCode.Y2Y_TRANSFER.pCode, TransactionProductCode.UAEFTS.pCode, TransactionProductCode.DOMESTIC.pCode, TransactionProductCode.SWIFT.pCode, TransactionProductCode.RMT.pCode, TransactionProductCode.CASH_PAYOUT.pCode -> {
+                            "Sent"
+                        }
+                        else -> "Spent"
+                    }
+                }
+                else -> ""
+            })
+        } ?: return ""
+    } ?: return ""
 }
 
 fun Content?.getLabelValues(): TransactionLabelsCode? {
