@@ -9,28 +9,20 @@ import co.yap.widgets.guidedtour.models.GuidedTourViewDetail
 import co.yap.widgets.guidedtour.view.CoachMarkDialogueOverlay
 import co.yap.yapcore.R
 
-class TourSetup() {
+class TourSetup(
+    private val activity: Activity,
+    private val guidedTourViewViewsList: ArrayList<GuidedTourViewDetail>
+) {
 
-    var currentViewId: Int = 0
-    var previousViewId = currentViewId
-    var activity: Activity? = null
-    var isMultipleViewsTour: Boolean = false
-    private var guidedTourViewViewsList: ArrayList<GuidedTourViewDetail> = ArrayList()
-    var layer: CoachMarkDialogueOverlay? = null
-    private var descBox2: BubbleShowCaseBuilder? = null
+    private var currentViewId: Int = 0
+    private var previousViewId = currentViewId
+    private var isMultipleViewsTour: Boolean = false
+    private var layer: CoachMarkDialogueOverlay? = null
     private var descBox: BubbleMessageView.Builder? = null
     private var descBoxView: BubbleMessageView? = null
-    var showCase: BubbleShowCase? = null
+    private var showCase: BubbleShowCase? = null
 
-    lateinit var context: Context
-
-    constructor(
-        context: Context, activity: Activity,
-        guidedTourViewViewsList: ArrayList<GuidedTourViewDetail>
-    ) : this() {
-        this.activity = activity
-        this.context = context
-        this.guidedTourViewViewsList = guidedTourViewViewsList
+    fun show() {
         focusMultipleViews()
     }
 
@@ -41,10 +33,10 @@ class TourSetup() {
     }
 
     private fun focusSingleView() {
-        layer = CoachMarkDialogueOverlay(context, guidedTourViewViewsList)
+        layer = CoachMarkDialogueOverlay(activity, guidedTourViewViewsList)
         layer?.show()
         getCurrentItem()?.let {
-            showCase = BubbleShowCase(getDescBox(context, it))
+            showCase = BubbleShowCase(getDescBox(activity, it))
             descBox = getBubbleMessageViewBuilder(it)
             val showCaseParams = showCase?.addBubbleMessageViewDependingOnTargetView(
                 it.view,
@@ -93,10 +85,10 @@ class TourSetup() {
 
 
     private fun getBubbleMessageViewBuilder(tourDetail: GuidedTourViewDetail): BubbleMessageView.Builder {
-        return BubbleMessageView.Builder(activity!!)
-            .from(activity!!)
+        return BubbleMessageView.Builder(activity)
+            .from(activity)
             .arrowPosition(getTooltipPosition(tourDetail.view))
-            .backgroundColor(context.getColor(R.color.white))
+            .backgroundColor(activity.getColor(R.color.white))
             .title(tourDetail.title)
             .subtitle(tourDetail.description)
             .targetViewScreenLocation(getTargetViewScreenLocation(tourDetail.view))

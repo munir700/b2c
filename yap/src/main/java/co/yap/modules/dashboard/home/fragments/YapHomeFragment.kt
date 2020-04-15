@@ -204,7 +204,8 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
     override fun setObservers() {
         getBindings().ivSearch.setOnClickListener {
             activity?.let {
-                TourSetup(it, it, setViewsArray())
+                val tour = TourSetup(it, setViewsArray())
+                tour.show()
             }
         }
         listenForToolbarExpansion()
