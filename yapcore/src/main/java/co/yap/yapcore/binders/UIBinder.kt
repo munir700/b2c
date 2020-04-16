@@ -346,10 +346,7 @@ object UIBinder {
                     )
                 }
                 CardStatus.INACTIVE -> {
-                    if (PartnerBankStatus.ACTIVATED.status == MyUserManager.user?.partnerBankStatus)
-                        setTextForInactiveCard(text = text, card = card)
-                    else
-                        text.visibility = GONE
+                    setTextForInactiveCard(text = text, card = card)
                 }
                 CardStatus.EXPIRED -> {
                     text.visibility = VISIBLE
@@ -414,7 +411,7 @@ object UIBinder {
                     )
                 }
                 CardStatus.INACTIVE -> {
-                    if (PartnerBankStatus.ACTIVATED.status == MyUserManager.user?.partnerBankStatus && card.deliveryStatus == CardDeliveryStatus.SHIPPED.name)
+                    if (card.deliveryStatus == CardDeliveryStatus.SHIPPED.name)
                         setCardButtonTextForInactive(coreButton, card)
                     else
                         coreButton.visibility = GONE

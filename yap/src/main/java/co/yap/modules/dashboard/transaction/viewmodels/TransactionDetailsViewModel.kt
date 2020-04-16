@@ -10,7 +10,7 @@ import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.enums.TransactionProductCode
 import co.yap.yapcore.helpers.DateUtils.FORMAT_LONG_INPUT
 import co.yap.yapcore.helpers.DateUtils.FORMAT_LONG_OUTPUT
-import co.yap.yapcore.helpers.DateUtils.datetoString
+import co.yap.yapcore.helpers.DateUtils.reformatStringDate
 import co.yap.yapcore.helpers.DateUtils.stringToDate
 import co.yap.yapcore.helpers.extentions.getCategoryIcon
 import co.yap.yapcore.helpers.extentions.getCategoryTitle
@@ -41,7 +41,7 @@ class TransactionDetailsViewModel(application: Application) :
 
     private fun setStatesData() {
         transaction.get()?.let { transaction ->
-            setToolbarTitle(transaction.creationDate ?: "")
+            setToolbarTitle(transaction.updatedDate ?: "")
             state.txnNoteValue.set(transaction.transactionNote)
             setSenderOrReceiver(transaction)
             state.categoryTitle.set(transaction.getCategoryTitle())
@@ -53,7 +53,10 @@ class TransactionDetailsViewModel(application: Application) :
         try {
             val date =
                 stringToDate(creationDate, FORMAT_LONG_INPUT)
-            state.toolBarTitle = datetoString(date, FORMAT_LONG_OUTPUT)
+            state.toolBarTitle = reformatStringDate(
+                creationDate, FORMAT_LONG_INPUT,
+                FORMAT_LONG_OUTPUT
+            )
         } catch (e: Exception) {
             e.printStackTrace()
         }
