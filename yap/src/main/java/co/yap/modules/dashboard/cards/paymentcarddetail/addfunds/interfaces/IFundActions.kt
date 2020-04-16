@@ -5,6 +5,7 @@ import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
 import co.yap.networking.customers.responsedtos.beneficiary.TopUpCard
 import co.yap.networking.customers.responsedtos.beneficiary.TopUpTransactionModel
+import co.yap.networking.transactions.responsedtos.TransactionThresholdModel
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
 
@@ -41,6 +42,9 @@ interface IFundActions {
         var cardSerialNumber: String
         // For top up transaction pooling api
         fun startPooling(showLoader: Boolean)
+
+        fun getTransactionThresholds()
+        val transactionThreshold: MutableLiveData<TransactionThresholdModel>
 
     }
 

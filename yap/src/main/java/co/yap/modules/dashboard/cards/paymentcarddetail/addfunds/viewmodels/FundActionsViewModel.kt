@@ -12,6 +12,7 @@ import co.yap.networking.transactions.requestdtos.AddFundsRequest
 import co.yap.networking.transactions.requestdtos.RemittanceFeeRequest
 import co.yap.networking.transactions.requestdtos.RemoveFundsRequest
 import co.yap.networking.transactions.responsedtos.FundTransferDenominations
+import co.yap.networking.transactions.responsedtos.TransactionThresholdModel
 import co.yap.sendMoney.base.SMFeeViewModel
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
@@ -25,7 +26,7 @@ open class FundActionsViewModel(application: Application) :
     SMFeeViewModel<IFundActions.State>(application), IFundActions.ViewModel {
 
     override val htmlLiveData: MutableLiveData<String> = MutableLiveData()
-    private val transactionsRepository: TransactionsRepository = TransactionsRepository
+    internal val transactionsRepository: TransactionsRepository = TransactionsRepository
     override val state: FundActionsState = FundActionsState(application)
     override val clickEvent: SingleClickEvent = SingleClickEvent()
     override val errorEvent: SingleClickEvent = SingleClickEvent()
@@ -35,12 +36,18 @@ open class FundActionsViewModel(application: Application) :
     override var error: String = ""
     override var cardSerialNumber: String = ""
     override var enteredAmount: MutableLiveData<String> = MutableLiveData()
+    override val transactionThreshold: MutableLiveData<TransactionThresholdModel> =
+        MutableLiveData()
 
     override val topUpTransactionModelLiveData: MutableLiveData<TopUpTransactionModel>? =
         MutableLiveData()
 
     override fun initateVM(topupCard: TopUpCard) {}
     override fun startPooling(showLoader: Boolean) {}
+
+    override fun getTransactionThresholds() {}
+
+
     override fun denominationFirstAmountClick() {
         if (state.denominationFirstAmount.contains("+")) {
             state.denominationAmount = Utils.getFormattedCurrencyWithoutComma(
