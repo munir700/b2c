@@ -544,6 +544,7 @@
     <string name="screen_y2y_funds_transfer_display_text_error_exceeding_amount">Entered amount exceeds the available balance</string>
     <string name="screen_y2y_funds_transfer_display_text_balance">Your available balance is</string>
     <string name="screen_yap_to_yap_transfer_display_text_button">Confirm</string>
+    <string name="screen_y2y_funds_transfer_display_text_limit_error">That\'s over your daily limit. Please enter an amount lower than AED</string>
 
     <!--    Y2Y funds Transfer success screen-->
     <string name="screen_y2y_funds_transfer_success_display_text_title">Transfer successful</string>

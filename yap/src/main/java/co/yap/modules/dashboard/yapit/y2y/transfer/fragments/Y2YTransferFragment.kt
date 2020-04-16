@@ -97,7 +97,7 @@ class Y2YTransferFragment : Y2YBaseFragment<IY2YFundsTransfer.ViewModel>(), IY2Y
                 viewModel.state.errorDescription,
                 Snackbar.LENGTH_INDEFINITE
             )
-            //isDailyLimitReached() -> showErrorSnackBar(viewModel.state.errorDescription, Snackbar.LENGTH_INDEFINITE)
+            isDailyLimitReached() -> showErrorSnackBar(viewModel.state.errorDescription, Snackbar.LENGTH_INDEFINITE)
             else -> cancelAllSnackBar()
         }
     }
@@ -201,10 +201,10 @@ class Y2YTransferFragment : Y2YBaseFragment<IY2YFundsTransfer.ViewModel>(), IY2Y
                         val remainingDailyLimit =
                             if ((dailyLimit - totalConsumedAmount) < 0.0) 0.0 else (dailyLimit - totalConsumedAmount)
                         viewModel.state.errorDescription =
-                            if (enteredAmount > dailyLimit) getString(Strings.common_display_text_daily_limit_error_single_transaction) else getString(
-                                Strings.common_display_text_daily_limit_error_single_transaction
+                            if (enteredAmount > dailyLimit) getString(Strings.screen_y2y_funds_transfer_display_text_limit_error) else getString(
+                                Strings.screen_y2y_funds_transfer_display_text_limit_error
                             )
-                        return enteredAmount >= remainingDailyLimit
+                        return enteredAmount  > remainingDailyLimit
 
                     } ?: return false
                 } ?: return false
