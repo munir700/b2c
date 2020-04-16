@@ -26,7 +26,7 @@ fun Content?.getTransactionTitle(): String {
                 transaction.maskedCardNo?.let {
                     String.format(
                         "%s %s",
-                        "Top Up by",
+                        "Top-Up by",
                         "*" + it.substring(it.length - 4, it.length)
                     )
                 }
@@ -72,7 +72,7 @@ fun Content?.getTransactionTypeTitle(): String {
             txn.getLabelValues() == TransactionLabelsCode.IS_TRANSACTION_FEE -> "Fee"
             txn.getLabelValues() == TransactionLabelsCode.IS_TRANSACTION_FEE -> "Refund"
             TransactionProductCode.Y2Y_TRANSFER.pCode == txn.productCode -> "YTY transfer"
-            TransactionProductCode.TOP_UP_VIA_CARD.pCode == txn.productCode -> "Top up"
+            TransactionProductCode.TOP_UP_VIA_CARD.pCode == txn.productCode -> "Top-Up"
             TransactionProductCode.CASH_DEPOSIT_AT_RAK.pCode == txn.productCode || TransactionProductCode.CHEQUE_DEPOSIT_AT_RAK.pCode == txn.productCode || TransactionProductCode.ATM_DEPOSIT.pCode == txn.productCode || TransactionProductCode.FUND_LOAD.pCode == txn.productCode -> "Deposit"
             TransactionProductCode.ATM_WITHDRAWL.pCode == txn.productCode || TransactionProductCode.MASTER_CARD_ATM_WITHDRAWAL.pCode == txn.productCode -> "Cash"
             TransactionProductCode.TOP_UP_SUPPLEMENTARY_CARD.pCode == txn.productCode -> {
