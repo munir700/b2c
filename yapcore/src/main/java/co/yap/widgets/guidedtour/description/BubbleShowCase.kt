@@ -1,4 +1,4 @@
-package co.yap.widgets.couchmark
+package co.yap.widgets.guidedtour.description
 
 import android.app.Activity
 import android.content.Context
@@ -6,10 +6,8 @@ import android.content.Context.MODE_PRIVATE
 import android.content.SharedPreferences
 import android.graphics.drawable.Drawable
 import android.os.Handler
-import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import androidx.core.content.ContextCompat
 import co.yap.yapcore.R
@@ -97,7 +95,7 @@ class BubbleShowCase(builder: BubbleShowCaseBuilder) {
                 val target = mTargetView!!.get()!!
                 //If the arrow list is empty, the arrow position is set by default depending on the targetView position on the screen
                 if (mArrowPositionList.isEmpty()) {
-                    if (ScreenUtils.isViewLocatedAtHalfTopOfTheScreen(
+                    if (TourUtils.isViewLocatedAtHalfTopOfTheScreen(
                             mActivity.get()!!,
                             target
                         )
@@ -120,7 +118,7 @@ class BubbleShowCase(builder: BubbleShowCaseBuilder) {
         }
         if (isFirstOfSequence) {
             //Add the background dim layout above the root view
-            val animation = AnimationUtils.getFadeInAnimation(0, DURATION_BACKGROUND_ANIMATION)
+            val animation = TourUtils.getFadeInAnimation(0, DURATION_BACKGROUND_ANIMATION)
             if (backgroundDimLayout?.parent == null) {
                 backgroundDimLayout?.let {
                     rootView.addView(it)
@@ -259,29 +257,29 @@ class BubbleShowCase(builder: BubbleShowCaseBuilder) {
     }
 
     fun getXposition(targetView: View): Int {
-        return ScreenUtils.getAxisXpositionOfViewOnScreen(targetView) - getScreenHorizontalOffset()
+        return TourUtils.getAxisXpositionOfViewOnScreen(targetView) - getScreenHorizontalOffset()
     }
 
     fun getYposition(targetView: View): Int {
-        return ScreenUtils.getAxisYpositionOfViewOnScreen(targetView) - getScreenVerticalOffset()
+        return TourUtils.getAxisYpositionOfViewOnScreen(targetView) - getScreenVerticalOffset()
     }
 
      fun getScreenHeight(context: Context): Int {
-        return ScreenUtils.getScreenHeight(context) - getScreenVerticalOffset()
+        return TourUtils.getScreenHeight(context) - getScreenVerticalOffset()
     }
 
     private fun getScreenWidth(context: Context): Int {
-        return ScreenUtils.getScreenWidth(context) - getScreenHorizontalOffset()
+        return TourUtils.getScreenWidth(context) - getScreenHorizontalOffset()
     }
 
     private fun getScreenVerticalOffset(): Int {
-        return if (backgroundDimLayout != null) ScreenUtils.getAxisYpositionOfViewOnScreen(
+        return if (backgroundDimLayout != null) TourUtils.getAxisYpositionOfViewOnScreen(
             backgroundDimLayout!!
         ) else 0
     }
 
     private fun getScreenHorizontalOffset(): Int {
-        return if (backgroundDimLayout != null) ScreenUtils.getAxisXpositionOfViewOnScreen(
+        return if (backgroundDimLayout != null) TourUtils.getAxisXpositionOfViewOnScreen(
             backgroundDimLayout!!
         ) else 0
     }

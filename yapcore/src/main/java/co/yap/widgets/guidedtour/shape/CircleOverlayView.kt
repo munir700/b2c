@@ -1,4 +1,4 @@
-package co.yap.widgets.guidedtour.view
+package co.yap.widgets.guidedtour.shape
 
 import android.annotation.TargetApi
 import android.content.Context

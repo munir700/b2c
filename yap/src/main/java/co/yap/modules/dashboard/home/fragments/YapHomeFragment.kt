@@ -54,7 +54,6 @@ import co.yap.translation.Strings
 import co.yap.widgets.MultiStateView
 import co.yap.widgets.guidedtour.TourSetup
 import co.yap.widgets.guidedtour.models.GuidedTourViewDetail
-import co.yap.widgets.guidedtour.view.locationOnScreen
 import co.yap.yapcore.constants.Constants.ADDRESS
 import co.yap.yapcore.constants.Constants.ADDRESS_SUCCESS
 import co.yap.yapcore.constants.Constants.BROADCAST_UPDATE_TRANSACTION

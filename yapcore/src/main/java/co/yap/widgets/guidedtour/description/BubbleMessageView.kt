@@ -1,4 +1,4 @@
-package co.yap.widgets.couchmark
+package co.yap.widgets.guidedtour.description
 
 import android.app.Activity
 import android.content.Context
@@ -87,6 +87,10 @@ class BubbleMessageView : ConstraintLayout {
             textViewSubtitle?.visibility = View.VISIBLE
             textViewSubtitle?.text = builder.mSubtitle
         }
+        builder.mPageNo?.let {
+            textViewCounter?.visibility = View.VISIBLE
+            textViewCounter?.text = builder.mPageNo
+        }
         builder.mTextColor?.let {
             textViewTitle?.setTextColor(builder.mTextColor!!)
             textViewSubtitle?.setTextColor(builder.mTextColor!!)
@@ -114,9 +118,9 @@ class BubbleMessageView : ConstraintLayout {
 
     private fun getViewWidth(): Int = width
 
-    private fun getMargin(): Int = ScreenUtils.dpToPx(20)
+    private fun getMargin(): Int = TourUtils.dpToPx(20)
 
-    private fun getSecurityArrowMargin(): Int = getMargin() + ScreenUtils.dpToPx(2 * WIDTH_ARROW / 3)
+    private fun getSecurityArrowMargin(): Int = getMargin() + TourUtils.dpToPx(2 * WIDTH_ARROW / 3)
 
     //END REGION
 
@@ -171,14 +175,14 @@ class BubbleMessageView : ConstraintLayout {
             }
         }
 
-        drawRhombus(canvas, paint, xPosition, yPosition, ScreenUtils.dpToPx(WIDTH_ARROW))
+        drawRhombus(canvas, paint, xPosition, yPosition, TourUtils.dpToPx(WIDTH_ARROW))
     }
 
     private fun getArrowHorizontalPositionDependingOnTarget(targetViewLocationOnScreen: RectF?): Int {
         return when {
             isOutOfRightBound(targetViewLocationOnScreen) -> width - getSecurityArrowMargin()
             isOutOfLeftBound(targetViewLocationOnScreen) -> getSecurityArrowMargin()
-            else -> (targetViewLocationOnScreen!!.centerX() - ScreenUtils.getAxisXpositionOfViewOnScreen(
+            else -> (targetViewLocationOnScreen!!.centerX() - TourUtils.getAxisXpositionOfViewOnScreen(
                 this
             )).roundToInt()
         }
@@ -188,33 +192,34 @@ class BubbleMessageView : ConstraintLayout {
         return when {
             isOutOfBottomBound(targetViewLocationOnScreen) -> height - getSecurityArrowMargin()
             isOutOfTopBound(targetViewLocationOnScreen) -> getSecurityArrowMargin()
-            else -> (targetViewLocationOnScreen!!.centerY() + ScreenUtils.getStatusBarHeight(context)
+            else -> (targetViewLocationOnScreen!!.centerY() + TourUtils.getStatusBarHeight(context)
                     -
-                    ScreenUtils.getAxisYpositionOfViewOnScreen(this)).roundToInt()
+                    TourUtils.getAxisYpositionOfViewOnScreen(this)).roundToInt()
         }
     }
 
     private fun isOutOfRightBound(targetViewLocationOnScreen: RectF?): Boolean {
-        return targetViewLocationOnScreen!!.centerX() > ScreenUtils.getAxisXpositionOfViewOnScreen(
-            this) + width - getSecurityArrowMargin()
+        return targetViewLocationOnScreen!!.centerX() > TourUtils.getAxisXpositionOfViewOnScreen(
+            this
+        ) + width - getSecurityArrowMargin()
     }
 
     private fun isOutOfLeftBound(targetViewLocationOnScreen: RectF?): Boolean {
-        return targetViewLocationOnScreen!!.centerX() < ScreenUtils.getAxisXpositionOfViewOnScreen(
+        return targetViewLocationOnScreen!!.centerX() < TourUtils.getAxisXpositionOfViewOnScreen(
             this
         ) + getSecurityArrowMargin()
     }
 
     private fun isOutOfBottomBound(targetViewLocationOnScreen: RectF?): Boolean {
-        return targetViewLocationOnScreen!!.centerY() > ScreenUtils.getAxisYpositionOfViewOnScreen(
+        return targetViewLocationOnScreen!!.centerY() > TourUtils.getAxisYpositionOfViewOnScreen(
             this
-        ) + height - getSecurityArrowMargin() - ScreenUtils.getStatusBarHeight(context)
+        ) + height - getSecurityArrowMargin() - TourUtils.getStatusBarHeight(context)
     }
 
     private fun isOutOfTopBound(targetViewLocationOnScreen: RectF?): Boolean {
-        return targetViewLocationOnScreen!!.centerY() < ScreenUtils.getAxisYpositionOfViewOnScreen(
+        return targetViewLocationOnScreen!!.centerY() < TourUtils.getAxisYpositionOfViewOnScreen(
             this
-        ) + getSecurityArrowMargin() - ScreenUtils.getStatusBarHeight(context)
+        ) + getSecurityArrowMargin() - TourUtils.getStatusBarHeight(context)
     }
 
 
@@ -246,6 +251,7 @@ class BubbleMessageView : ConstraintLayout {
         var mDisableCloseAction: Boolean? = null
         var mTitle: String? = null
         var mSubtitle: String? = null
+        var mPageNo: String? = null
         var mCloseAction: Drawable? = null
         var mBackgroundColor: Int? = null
         var mTextColor: Int? = null
@@ -266,6 +272,11 @@ class BubbleMessageView : ConstraintLayout {
 
         fun subtitle(subtitle: String?): Builder {
             mSubtitle = subtitle
+            return this
+        }
+
+        fun pageNo(page: String?): Builder {
+            mPageNo = page
             return this
         }
 

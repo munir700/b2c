@@ -42,7 +42,6 @@ import co.yap.translation.Strings
 import co.yap.widgets.CoreButton
 import co.yap.widgets.arcmenu.FloatingActionMenu
 import co.yap.widgets.arcmenu.animation.SlideInAnimationHandler
-import co.yap.widgets.guidedtour.DescriptionBoxListener
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.IFragmentHolder
 import co.yap.yapcore.constants.Constants
@@ -56,7 +55,7 @@ import kotlinx.android.synthetic.main.layout_drawer_yap_dashboard.*
 import net.cachapa.expandablelayout.ExpandableLayout
 
 class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYapDashboard.View,
-    IFragmentHolder, AppBarConfiguration.OnNavigateUpListener, DescriptionBoxListener {
+    IFragmentHolder, AppBarConfiguration.OnNavigateUpListener {
 
     override fun getBindingVariable(): Int = BR.viewModel
 
@@ -190,7 +189,7 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
 
         viewModel.showUnverifedscreen.observe(this, Observer {
             if (it) {
-                showUnverifiedPopup()
+                //showUnverifiedPopup()
             }
         })
     }
@@ -444,9 +443,5 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
 
     private fun getViewBinding(): ActivityYapDashboardBinding {
         return (viewDataBinding as ActivityYapDashboardBinding)
-    }
-
-    override fun onUserClicked(materialIntroViewId: String?) {
-
     }
 }

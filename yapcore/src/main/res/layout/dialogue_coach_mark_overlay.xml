@@ -1,40 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/rlMain"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:visibility="visible">
 
-    <co.yap.widgets.guidedtour.view.CircleOverlayView
+    <co.yap.widgets.guidedtour.shape.CircleOverlayView
         android:id="@+id/circleView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:visibility="visible" />
 
-    <LinearLayout
-        android:id="@+id/circleParent"
-        android:layout_width="@dimen/_50sdp"
-        android:layout_height="@dimen/_50sdp"
-        android:visibility="gone"
-        android:background="@drawable/round_background"
-        android:gravity="center">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-        <co.yap.widgets.CoreCircularImageView
-            android:id="@+id/focusView"
-            android:layout_width="@dimen/_50sdp"
-            android:layout_height="@dimen/_50sdp"
-            android:src="@color/white" />
-    </LinearLayout>
+        <co.yap.widgets.CoreButton
+            android:id="@+id/skip"
+            android:visibility="invisible"
+            style="@style/AddressBtnStyle"
+            android:layout_width="@dimen/_100sdp"
+            android:layout_height="@dimen/_28sdp"
+            android:text="Skip"
+            android:textAllCaps="false"
+            android:textColor="?attr/colorPrimaryAttr"
+            app:btn_enable="true"
+            app:btn_pressed_color="@color/white"
+            app:btn_unpressed_color="@color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.9"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/skip"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:layout_marginEnd="20dp"
-        android:text="Skip"
-        android:textColor="@drawable/bg_text_color"
-        android:textSize="@dimen/_18sdp" />
-
-
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </RelativeLayout>

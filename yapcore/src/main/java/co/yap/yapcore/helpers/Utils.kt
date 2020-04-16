@@ -29,8 +29,6 @@ import androidx.core.content.ContextCompat
 import co.yap.networking.customers.requestdtos.Contact
 import co.yap.translation.Strings
 import co.yap.translation.Translator
-import co.yap.widgets.couchmark.BubbleShowCase
-import co.yap.widgets.couchmark.BubbleShowCaseBuilder
 import co.yap.widgets.loading.CircularProgressBar
 import co.yap.yapcore.R
 import co.yap.yapcore.constants.Constants
@@ -102,8 +100,6 @@ object Utils {
                         super.onAnimationEnd(animation)
                         progress.indeterminateMode = true
                         layer.visibility = View.VISIBLE
-                        //ballon(context,progress)
-                        //ballon2(context, progress)
                     }
                 })
         }
@@ -111,29 +107,6 @@ object Utils {
             progress.clearProgressAnimation()
         }
         return dialog
-    }
-    private fun ballon(context: Context, v: View) {
-        val balloon = Balloon.Builder(context)
-            .setLayout(R.layout.hint_desc_box)
-            .setArrowSize(10)
-            .setArrowOrientation(ArrowOrientation.TOP)
-            .setWidthRatio(0.8f)
-            .setCornerRadius(4f)
-            .setBackgroundColor(ContextCompat.getColor(context, R.color.transparent))
-            .setBalloonAnimation(BalloonAnimation.CIRCULAR)
-            .setLifecycleOwner(null)
-            .setArrowVisible(true) // sets the visibility of the arrow.
-            .setArrowSize(10) // sets the arrow size.
-            .setArrowPosition(0.5f) // sets the arrow position using the popup size's ratio (0 ~ 1.0)
-            .setArrowOrientation(ArrowOrientation.TOP) // sets the arrow orientation. top, bottom, left, right
-            .setArrowDrawable(
-                ContextCompat.getDrawable(
-                    context,
-                    R.drawable.arrow
-                )
-            ) // sets the arrow drawable.
-            .build()
-        balloon.showAlignBottom(v)
     }
 
     fun copyToClipboard(context: Context, text: CharSequence) {

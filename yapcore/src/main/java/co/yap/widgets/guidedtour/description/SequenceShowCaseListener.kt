@@ -1,4 +1,4 @@
-package co.yap.widgets.couchmark
+package co.yap.widgets.guidedtour.description
 
 interface SequenceShowCaseListener {
     fun onDismiss()

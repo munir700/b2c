@@ -1,4 +1,4 @@
-package co.yap.widgets.couchmark
+package co.yap.widgets.guidedtour.description
 import android.app.Activity
 import android.graphics.drawable.Drawable
 import android.view.View

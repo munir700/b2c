@@ -1,4 +1,4 @@
-package co.yap.widgets.couchmark
+package co.yap.widgets.guidedtour.description
 
 class BubbleShowCaseSequence {
     private val mBubbleShowCaseBuilderList = ArrayList<BubbleShowCaseBuilder>()
