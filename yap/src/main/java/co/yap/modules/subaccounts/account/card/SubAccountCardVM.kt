@@ -1,5 +1,6 @@
 package co.yap.modules.subaccounts.account.card
 
+import android.content.Context
 import android.os.Bundle
 import androidx.navigation.NavController
 import co.yap.networking.customers.CustomersRepository
@@ -9,6 +10,7 @@ import co.yap.networking.models.RetroApiResponse
 import co.yap.widgets.State
 import co.yap.yapcore.dagger.base.viewmodel.BaseRecyclerAdapterVM
 import co.yap.yapcore.enums.AccountType
+import co.yap.yapcore.helpers.showSnackBar
 import javax.inject.Inject
 
 class SubAccountCardVM @Inject constructor(override val state: ISubAccountCard.State) :
@@ -25,7 +27,6 @@ class SubAccountCardVM @Inject constructor(override val state: ISubAccountCard.S
         )
         accounts.account?.let { addData(it) }
     }
-
 
     override fun getSubAccount() {
         launch {
@@ -56,7 +57,7 @@ class SubAccountCardVM @Inject constructor(override val state: ISubAccountCard.S
         launch {
             when (val response = repository.resendRequestToHouseHoldUser(account.accountUuid)) {
                 is RetroApiResponse.Success -> {
-
+                    state.toast = "Request Resend!"
                 }
                 is RetroApiResponse.Error -> {
 
@@ -72,7 +73,7 @@ class SubAccountCardVM @Inject constructor(override val state: ISubAccountCard.S
                     removeItem(account)
                 }
                 is RetroApiResponse.Error -> {
-                    removeItem(account)
+
                 }
             }
         }

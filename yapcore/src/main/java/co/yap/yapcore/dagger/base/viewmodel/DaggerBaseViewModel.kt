@@ -79,13 +79,13 @@ abstract class DaggerBaseViewModel<S : IBase.State>() : DaggerCoroutineViewModel
 
     }
 
-     fun publishState(state: State) {
-         stateLiveData.value = state
+    fun publishState(state: State) {
+        stateLiveData.value = state
     }
 
     override val context: Context
-        get() = TODO("Not yet implemented")
-
+        get() = c
+    lateinit var c: Context
     override fun getString(resourceId: Int) = ""
 
     override fun getString(resourceId: String) = ""

@@ -28,10 +28,9 @@ fun onDrag(view: View, pos: Int, event: DragEvent, data: Any, listener: OnItemDr
 
 fun startDrag(view: View): Boolean {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-        view.startDragAndDrop(null, View.DragShadowBuilder(view), null, 0);
+        return view.startDragAndDrop(null, View.DragShadowBuilder(view), null, 0);
     } else {
         @Suppress("DEPRECATION")
-        view.startDrag(null, View.DragShadowBuilder(view), null, 0);
+        return  view.startDrag(null, View.DragShadowBuilder(view), null, 0);
     }
-    return true
 }

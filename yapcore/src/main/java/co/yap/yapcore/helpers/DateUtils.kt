@@ -214,4 +214,10 @@ object DateUtils {
         }
 
     }
+
+    fun dayDiff(date1: Date, date2: Date) = (date2.time - date1.time) / 86400000
+    fun dayDiffFromCurrent(date: Date): Long {
+        return (date.time - Calendar.getInstance().time.time) / 86400000
+    }
+
 }
