@@ -20,7 +20,7 @@ import co.yap.yapcore.managers.MyUserManager
 import kotlinx.coroutines.delay
 
 class TopUpCardFundsViewModel(application: Application) : FundActionsViewModel(application) {
-    private val transactionsRepository: TransactionsRepository = TransactionsRepository
+    override val transactionsRepository: TransactionsRepository = TransactionsRepository
     override val htmlLiveData: MutableLiveData<String> = MutableLiveData()
     override val topUpTransactionModelLiveData: MutableLiveData<TopUpTransactionModel>? =
         MutableLiveData()
