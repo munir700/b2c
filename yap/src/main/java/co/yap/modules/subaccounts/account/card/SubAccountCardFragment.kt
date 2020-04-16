@@ -114,6 +114,14 @@ class SubAccountCardFragment :
 
     }
 
+    override fun onItemExited(view: View) {
+        view.background = context?.getDrawable(R.drawable.card_border_container)
+    }
+
+    override fun onItemEntered(view: View) {
+        view.background = context?.getDrawable(R.drawable.bg_gray_rounded_border)
+    }
+
     override fun onItemLongClick(view: View, pos: Int, id: Long, data: Any): Boolean? {
         if (pos == 0) {
             return startDrag(view)

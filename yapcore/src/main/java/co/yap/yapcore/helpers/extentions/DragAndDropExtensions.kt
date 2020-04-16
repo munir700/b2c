@@ -1,6 +1,7 @@
 package co.yap.yapcore.helpers.extentions
 
 import android.os.Build
+import android.util.Log
 import android.view.DragEvent
 import android.view.View
 import co.yap.yapcore.interfaces.OnItemDropListener
@@ -9,10 +10,12 @@ fun onDrag(view: View, pos: Int, event: DragEvent, data: Any, listener: OnItemDr
     when (event.action) {
         DragEvent.ACTION_DRAG_STARTED -> return true
         DragEvent.ACTION_DRAG_ENTERED -> {
+            listener?.onItemEntered(view)
             return true
         }
         DragEvent.ACTION_DRAG_LOCATION -> return true
         DragEvent.ACTION_DRAG_EXITED -> {
+            listener?.onItemExited(view)
             return true
         }
         DragEvent.ACTION_DROP -> {
