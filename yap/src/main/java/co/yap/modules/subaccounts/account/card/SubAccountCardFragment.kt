@@ -94,7 +94,7 @@ class SubAccountCardFragment :
 
     override fun onItemDrag(view: View, pos: Int, event: DragEvent, data: Any): Boolean? {
         swipeViews(false)
-        return recyclerView?.let { onDrag(view, pos, event, data, this, it) }
+        return recyclerView?.let { onDrag(view, pos, event, data, this) }
     }
 
     override fun onItemDrop(view: View, pos: Int, data: Any) {

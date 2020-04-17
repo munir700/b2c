@@ -1,13 +1,18 @@
 package co.yap.yapcore.helpers.extentions
 
 import android.os.Build
-import android.util.Log
 import android.view.DragEvent
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import co.yap.yapcore.interfaces.OnItemDropListener
 
-fun onDrag(view: View, pos: Int, event: DragEvent, data: Any, listener: OnItemDropListener?, mScrollView: RecyclerView): Boolean {
+fun onDrag(
+    view: View,
+    pos: Int,
+    event: DragEvent,
+    data: Any,
+    listener: OnItemDropListener?
+): Boolean {
     when (event.action) {
         DragEvent.ACTION_DRAG_STARTED -> return true
         DragEvent.ACTION_DRAG_ENTERED -> {
@@ -15,20 +20,19 @@ fun onDrag(view: View, pos: Int, event: DragEvent, data: Any, listener: OnItemDr
             return true
         }
         DragEvent.ACTION_DRAG_LOCATION -> {
-            val y = Math.round(event.getY()).toInt()
+            if (view.parent is RecyclerView) {
+                var mScrollView = view.parent as RecyclerView
+                val topOfDropZone: Int = view.top
+                val bottomOfDropZone: Int = view.bottom
 
-            val translatedY: Int = y - mScrollView.computeVerticalScrollOffset()
-
-            val threshold = 50
-            // make a scrolling up due the y has passed the threshold
-            // make a scrolling up due the y has passed the threshold
-            if (y < threshold) { // make a scroll up by 30 px
-                mScrollView.smoothScrollBy(0, - y)
-            } else  // make a autoscrolling down due y has passed the 500 px border
-//                if (y + threshold > 500) { // make a scroll down by 30 px
-                    mScrollView.smoothScrollBy(0, y)
-//                }
-
+                val scrollY: Int = mScrollView.scrollY
+                val scrollViewHeight: Int = mScrollView.measuredHeight
+                if (bottomOfDropZone > scrollY + scrollViewHeight - 100) mScrollView.smoothScrollBy(
+                    0,
+                    60
+                )
+                if (topOfDropZone < scrollY + 100) mScrollView.smoothScrollBy(0, -60)
+            }
             return true
         }
         DragEvent.ACTION_DRAG_EXITED -> {
