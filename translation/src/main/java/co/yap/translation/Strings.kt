@@ -1547,4 +1547,31 @@ object Strings {
     const val screen_house_hold_sub_account_ineligible_popup_message:String  = "screen_house_hold_sub_account_ineligible_popup_message"
     const val screen_sub_accounts_profile_display_text_drag_and_drop:String = "screen_sub_accounts_profile_display_text_drag_and_drop"
 
+    //HouseHold Subscription Screen
+    const val screen_household_subscription_title:String = "screen_household_subscription_title"
+    const val screen_household_renewable_title:String = "screen_household_renewable_title"
+    const val screen_household_cancel_subscription_title:String = "screen_household_cancel_subscription_title"
+    const val screen_household_cancel_subscription_cancel_title:String = "screen_household_cancel_subscription_cancel_title"
+    const val screen_household_cancel_subscription_cancel_message:String = "screen_household_cancel_subscription_cancel_message"
+    const val screen_household_reactivate_subscription_title:String = "screen_household_reactivate_subscription_title"
+    const val screen_household_cancel_subscription_no_button:String = "screen_household_cancel_subscription_no_button"
+    const val screen_household_cancel_subscription_yes_button:String = "screen_household_cancel_subscription_yes_button"
+    const val screen_household_cancel_subscription_name_title:String = "screen_household_cancel_subscription_name_title"
+    const val screen_household_cancel_subscription_start_date_title:String = "screen_household_cancel_subscription_start_date_title"
+    const val screen_household_cancel_subscription_end_date_title:String = "screen_household_cancel_subscription_end_date_title"
+    const val screen_household_cancel_subscription_plan_type_title:String = "screen_household_cancel_subscription_plan_type_title"
+    const val screen_household_cancel_subscription_cost_title:String = "screen_household_cancel_subscription_cost_title"
+
+
+//    HouseHold Recurring Payment Screen
+    const val screen_household_recurring_payment_title:String = "screen_household_recurring_payment_title"
+    const val screen_household_amount_to_transfer_title:String = "screen_household_amount_to_transfer_title"
+    const val screen_household_currency_title:String = "screen_household_currency_title"
+    const val screen_household_start_date_title:String = "screen_household_start_date_title"
+    const val screen_household_daily_title:String = "screen_household_daily_title"
+    const val screen_household_weekly_title:String = "screen_household_weekly_title"
+    const val screen_household_monthly_title:String = "screen_household_monthly_title"
+    const val screen_household_button_text:String = "screen_household_button_text"
+
+
 }

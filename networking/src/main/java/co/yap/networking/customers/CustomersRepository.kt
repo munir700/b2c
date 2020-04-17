@@ -352,6 +352,6 @@ object CustomersRepository : BaseRepository(), CustomersApi {
         executeSafely(call = { api.cancelHouseHoldSubscription(uuid) })
 
 
-    override suspend fun reActivateHouseHoldSubscription(uuid: String): RetroApiResponse<ApiResponse> =
+    override suspend fun reActivateHouseHoldSubscription(uuid: String?): RetroApiResponse<ApiResponse> =
         executeSafely(call = { api.reActivateHouseHoldSubscription(uuid) })
 }
