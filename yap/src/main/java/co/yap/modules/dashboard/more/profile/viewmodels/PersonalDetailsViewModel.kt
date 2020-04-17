@@ -95,18 +95,9 @@ class PersonalDetailsViewModel(application: Application) :
     }
 
     private fun setUpAddressFields() {
-        var addresstitle = ""
-        var addressDetail = ""
-
-        if (!address?.address2.isNullOrEmpty()) {
-            addresstitle = address?.address2 ?: ""
-        }
-
-        if (!address?.address1.isNullOrEmpty()) {
-            addressDetail = address?.address1 ?: ""
-        }
-
-        state.address = addressDetail
+        val fullAddress =
+            if (address?.address1 == address?.address2) address?.address1 else "${address?.address1}, ${address?.address2}"
+        state.address = fullAddress ?: ""
     }
 
     override fun toggleToolBar(hide: Boolean) {
