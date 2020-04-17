@@ -15,6 +15,9 @@ import co.yap.yapcore.BaseViewHolder
 import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.dagger.base.BaseRecyclerViewFragment
 import co.yap.yapcore.enums.AccountType
+import co.yap.yapcore.enums.CardDeliveryStatus
+import co.yap.yapcore.enums.PartnerBankStatus
+import co.yap.yapcore.helpers.DateUtils
 import co.yap.yapcore.helpers.alert
 import co.yap.yapcore.helpers.confirm
 import co.yap.yapcore.helpers.extentions.launchActivity
@@ -24,6 +27,7 @@ import co.yap.yapcore.interfaces.OnItemDropListener
 import com.daimajia.androidanimations.library.Techniques
 import com.daimajia.androidanimations.library.YoYo
 import kotlinx.android.synthetic.main.item_sub_account_card.*
+import java.util.*
 
 
 class SubAccountCardFragment :
@@ -48,25 +52,8 @@ class SubAccountCardFragment :
         return super.onOptionsItemSelected(item)
     }
 
-    override fun onItemClick(view: View, data: Any, pos: Int) {
-//        Card is on the way (in purple text) and it will be non-clickable.
-//        In case household user has declined the request of the employer. Declined by <first_name> will be displayed in red text.
-//        then Card is active! Will be displayed in purple text
-        val subAccount = data as SubAccount
-        val args = Bundle()
-        args.putParcelable(SubAccount::class.simpleName, subAccount)
-        subAccount.accountType?.let {
-            when (it) {
-                AccountType.B2C_ACCOUNT.name -> swipeViews(true)
-                AccountType.B2C_HOUSEHOLD.name -> //showRequestDeclinedPopup(subAccount)
-                    navigateForwardWithAnimation(
-                        SubAccountDashBoardFragmentDirections.actionSubAccountDashBoardFragmentToHHSalaryProfileFragment(),
-                        args
-                    )
-            }
-        }
-            ?: launchActivity<HouseHoldLandingActivity>(requestCode = RequestCodes.REQUEST_ADD_HOUSE_HOLD)
-    }
+    override fun onItemClick(view: View, data: Any, pos: Int) = onItemDrop(view, pos, data)
+
 
 
     private fun swipeViews(swipe: Boolean) {
@@ -74,20 +61,13 @@ class SubAccountCardFragment :
             imgProfile.visibility = View.INVISIBLE
             layout_swipe_image.visibility = View.VISIBLE
             tv_drag_and_drop_label.visibility = View.VISIBLE
-            animate(layout_swipe_image)
-            animate(tv_drag_and_drop_label)
+            YoYo.with(Techniques.SlideInDown).duration(400).repeat(0).playOn(layout_swipe_image)
+            YoYo.with(Techniques.SlideInDown).duration(400).repeat(0).playOn(tv_drag_and_drop_label)
         } else {
             imgProfile.visibility = View.VISIBLE
             layout_swipe_image.visibility = View.INVISIBLE
             tv_drag_and_drop_label.visibility = View.INVISIBLE
         }
-    }
-
-    private fun animate(view: View) {
-        YoYo.with(Techniques.SlideInDown)
-            .duration(400)
-            .repeat(0)
-            .playOn(view)
     }
 
     override fun onItemDrag(view: View, pos: Int, event: DragEvent, data: Any): Boolean? {
@@ -99,18 +79,27 @@ class SubAccountCardFragment :
     override fun onItemDrop(view: View, pos: Int, data: Any) {
         val subAccount = data as SubAccount
         val args = Bundle()
+        //  view.elevation = 10f
         args.putParcelable(SubAccount::class.simpleName, subAccount)
         subAccount.accountType?.let {
             when (it) {
-                AccountType.B2C_HOUSEHOLD.name -> //showRequestDeclinedPopup(subAccount)
-                    navigateForwardWithAnimation(
-                        SubAccountDashBoardFragmentDirections.actionSubAccountDashBoardFragmentToHHSalaryProfileFragment(),
-                        args
-                    )
+                AccountType.B2C_ACCOUNT.name -> swipeViews(true)
+                AccountType.B2C_HOUSEHOLD.name -> {
+                    if (subAccount.cardStatus == PartnerBankStatus.REJECTED.status)
+                        showIneligiblePopup(subAccount)
+                    else if (subAccount.pinCreated == true || subAccount.salaryTransferred == true)
+                        navigateForwardWithAnimation(
+                            SubAccountDashBoardFragmentDirections.actionSubAccountDashBoardFragmentToHHSalaryProfileFragment(),
+                            args
+                        )
+                    else showRequestDeclinedPopup(subAccount)
+
+
+                }
+
             }
         }
             ?: launchActivity<HouseHoldLandingActivity>(requestCode = RequestCodes.REQUEST_ADD_HOUSE_HOLD)
-
     }
 
     override fun onItemExited(view: View) {
