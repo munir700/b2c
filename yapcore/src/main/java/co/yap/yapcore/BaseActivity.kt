@@ -10,7 +10,6 @@ import android.provider.Settings
 import android.view.View
 import android.view.WindowManager
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.Observable
 import co.yap.translation.Strings
@@ -84,7 +83,7 @@ abstract class BaseActivity<V : IBase.ViewModel<*>> : AppCompatActivity(), IBase
 
     override fun showToast(msg: String) {
         if ("" != msg.trim { it <= ' ' }) {
-            Toast.makeText(this, msg, Toast.LENGTH_LONG).show()
+            showAlertDialogAndExitApp("",msg,false)
         }
     }
 
