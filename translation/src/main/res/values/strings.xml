@@ -991,10 +991,11 @@
     <string name="screen_sub_accounts_profile_display_text_drag_and_drop">Drag and drop to\ntransfer money</string>
 
 
-    <string-array name="screen_house_hold_pay_salary_profile_array">
-        <item>Set up a salary</item>
-        <item>Set up an expense pot</item>
-        <item>Set up an expense pot</item>
+    <string-array name="screen_house_hold_iban_send_money_type_array">
+        <item>Salary</item>
+        <item>Expenses</item>
+        <item>Bonus</item>
+        <item>Other</item>
     </string-array>
 </resources>
 

@@ -517,4 +517,19 @@
         <attr name="ctv_nullToZero" format="boolean" />
     </declare-styleable>
 
+    <declare-styleable name="SelectMultiCheckGroup">
+        <attr name="isSingleSelected" format="boolean" />
+        <attr name="column" format="integer" />
+        <attr name="firstSingleSelectedPosition" format="integer" />
+        <attr name="row" format="integer" />
+        <attr name="item_horizontal_space" format="dimension" />
+        <attr name="item_vertical_space" format="dimension" />
+        <attr name="item_horizontal_padding" format="dimension" />
+        <attr name="item_vertical_padding" format="dimension" />
+        <attr name="item_text_size" format="integer" />
+        <attr name="android:entries" />
+        <attr name="checked_text_color" format="color" />
+        <attr name="unChecked_text_color" format="color" />
+    </declare-styleable>
+
 </resources>
