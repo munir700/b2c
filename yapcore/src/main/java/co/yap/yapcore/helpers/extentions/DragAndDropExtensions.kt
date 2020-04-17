@@ -1,9 +1,11 @@
 package co.yap.yapcore.helpers.extentions
 
+import android.content.Context
 import android.os.Build
 import android.view.DragEvent
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
+import co.yap.yapcore.helpers.MyDragShadow
 import co.yap.yapcore.interfaces.OnItemDropListener
 
 fun onDrag(
@@ -50,12 +52,12 @@ fun onDrag(
     return false
 }
 
-fun startDrag(view: View): Boolean {
+fun startDrag(view: View, context:Context): Boolean {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-        view.startDragAndDrop(null, View.DragShadowBuilder(view), null, 0);
+        view.startDragAndDrop(null, MyDragShadow(view, context), view, 0);
     } else {
         @Suppress("DEPRECATION")
-        view.startDrag(null, View.DragShadowBuilder(view), null, 0);
+        view.startDrag(null, MyDragShadow(view, context), view, 0);
     }
     return true
 }

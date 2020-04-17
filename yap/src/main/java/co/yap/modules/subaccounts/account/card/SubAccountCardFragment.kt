@@ -1,6 +1,5 @@
 package co.yap.modules.subaccounts.account.card
 
-
 import android.os.Bundle
 import android.view.*
 import androidx.databinding.ViewDataBinding
@@ -10,7 +9,6 @@ import co.yap.R
 import co.yap.databinding.FragmentSubAccountCardBinding
 import co.yap.modules.dashboard.store.household.activities.HouseHoldLandingActivity
 import co.yap.modules.subaccounts.account.dashboard.SubAccountDashBoardFragmentDirections
-import co.yap.modules.subaccounts.paysalary.profile.HHSalaryProfileFragment
 import co.yap.networking.customers.responsedtos.SubAccount
 import co.yap.yapcore.BaseRVAdapter
 import co.yap.yapcore.BaseViewHolder
@@ -22,7 +20,6 @@ import co.yap.yapcore.helpers.confirm
 import co.yap.yapcore.helpers.extentions.launchActivity
 import co.yap.yapcore.helpers.extentions.onDrag
 import co.yap.yapcore.helpers.extentions.startDrag
-import co.yap.yapcore.helpers.extentions.startFragment
 import co.yap.yapcore.interfaces.OnItemDropListener
 import com.daimajia.androidanimations.library.Techniques
 import com.daimajia.androidanimations.library.YoYo
@@ -71,6 +68,7 @@ class SubAccountCardFragment :
             ?: launchActivity<HouseHoldLandingActivity>(requestCode = RequestCodes.REQUEST_ADD_HOUSE_HOLD)
     }
 
+
     private fun swipeViews(swipe: Boolean) {
         if (swipe) {
             imgProfile.visibility = View.INVISIBLE
@@ -94,6 +92,7 @@ class SubAccountCardFragment :
 
     override fun onItemDrag(view: View, pos: Int, event: DragEvent, data: Any): Boolean? {
         swipeViews(false)
+
         return recyclerView?.let { onDrag(view, pos, event, data, this) }
     }
 
@@ -124,7 +123,7 @@ class SubAccountCardFragment :
 
     override fun onItemLongClick(view: View, pos: Int, id: Long, data: Any): Boolean? {
         if (pos == 0) {
-            return startDrag(view)
+            return context?.let { startDrag(view, it) }
         }
         return true
     }
