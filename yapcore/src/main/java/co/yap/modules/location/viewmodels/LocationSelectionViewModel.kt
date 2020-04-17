@@ -57,7 +57,7 @@ class LocationSelectionViewModel(application: Application) :
             state.addressSubtitle.set(state.placeTitle.get() ?: "")
             address?.address1 = state.addressTitle
             address?.address2 = state.addressSubtitle.get()
-            state.headingTitle.set(state.addressSubtitle.get())
+            state.headingTitle.set(address?.address1)
             state.subHeadingTitle.set(
                 Translator.getString(
                     getApplication(),
