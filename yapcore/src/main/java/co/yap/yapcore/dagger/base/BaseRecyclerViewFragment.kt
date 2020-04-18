@@ -66,8 +66,8 @@ abstract class BaseRecyclerViewFragment<VB : ViewDataBinding, S : IBase.State, V
 
     open fun getItemDecoration(): RecyclerView.ItemDecoration {
         return if (recyclerView?.layoutManager is GridLayoutManager)
-            SpaceGridItemDecoration(dimen(R.dimen.margin_normal)!!, 2, true)
-        else SpacesItemDecoration(dimen(R.dimen.margin_normal)!!, true)
+            SpaceGridItemDecoration(dimen(R.dimen.margin_normal), 2, true)
+        else SpacesItemDecoration(dimen(R.dimen.margin_normal), true)
     }
 
     fun handleState(state: State?) {

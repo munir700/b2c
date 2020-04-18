@@ -10,7 +10,7 @@ internal class MyDragShadow(view: View?, context: Context) :
     View.DragShadowBuilder(view) {
     var shadowWidth = 0
     var shadowHeight = 0
-    var paint: Paint
+    var paint: Paint = Paint(Paint.ANTI_ALIAS_FLAG)
     var mContext: Context = context
     override fun onProvideShadowMetrics(
         shadowSize: Point,
@@ -34,7 +34,7 @@ internal class MyDragShadow(view: View?, context: Context) :
         )
     }
 
-    fun getRoundedCornerBitmap(
+    private fun getRoundedCornerBitmap(
         bitmap: Bitmap,
         color: Int,
         cornerDips: Float,
@@ -92,7 +92,4 @@ internal class MyDragShadow(view: View?, context: Context) :
         return returnedBitmap
     }
 
-    init {
-        paint = Paint(Paint.ANTI_ALIAS_FLAG)
-    }
 }

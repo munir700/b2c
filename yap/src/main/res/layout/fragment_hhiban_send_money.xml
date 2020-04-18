@@ -10,102 +10,116 @@
 
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="@dimen/margin_medium">
+        android:background="@color/colorWhite"
+        android:fillViewport="true">
 
-        <include
-            android:id="@+id/include2"
-            layout="@layout/layout_textview_image_vertical"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
-
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tvCurrency"
-            style="@style/Yap.App.Widget.TextView.FullName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:drawableStart="@drawable/flag_ae"
-            android:drawablePadding="@dimen/margin_normal"
-            android:gravity="center_vertical"
-            app:layout_constraintBottom_toBottomOf="@+id/etAmount"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/etAmount"
-            tools:text="AED" />
-
-        <co.yap.widgets.EasyMoneyEditText
-            android:id="@+id/etAmount"
-            style="@style/Yap.App.Widget.TextInputEditText.EasyMoney"
-            android:layout_marginTop="@dimen/margin_medium_large"
-            android:gravity="center"
-            android:minWidth="@dimen/_140sdp"
-            android:text="3213321.213"
-            app:editable="@{true}"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/include2" />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/appCompatTextView4"
-            style="@style/Yap.App.Widget.TextView.Small.GrayDark"
-            android:layout_marginTop="@dimen/margin_medium_large"
-            android:gravity="center"
-            android:text="Your available balance is AED 103,463.59 "
-            app:layout_constraintEnd_toEndOf="parent"
-
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/etAmount" />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/appCompatTextView5"
-            style="@style/Yap.App.Widget.TextView.Label"
-            android:layout_marginTop="@dimen/margin_large"
-            android:gravity="center"
-            android:text="What is this for?"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/appCompatTextView4" />
-
-        <co.yap.widgets.SelectMultiCheckGroup
-            android:id="@+id/selectMultiCheckGroup"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_normal"
-            android:entries="@array/screen_house_hold_iban_send_money_type_array"
-            app:column="2"
+            android:padding="@dimen/margin_medium">
 
-            app:firstSingleSelectedPosition="-1"
-            app:isSingleSelected="true"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/appCompatTextView5"
-            app:row="2" />
+            <include
+                android:id="@+id/include2"
+                layout="@layout/layout_textview_image_vertical"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
 
-        <androidx.appcompat.widget.AppCompatCheckBox
-            android:id="@+id/cbOutTransFilter"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_18sdp"
-            android:backgroundTint="?attr/colorPrimaryDark"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/selectMultiCheckGroup" />
 
-        <co.yap.widgets.CoreButton
-            android:id="@+id/btnConfirm"
-            style="@style/FragmentsBtnStyle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/margin_xxl"
-            android:layout_marginRight="@dimen/margin_xxl"
-            android:layout_marginBottom="@dimen/margin_small"
-            android:text="Confirm"
-            app:btn_enable="true"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            tools:text="Add" />
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvCurrency"
+                style="@style/Yap.App.Widget.TextView.FullName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableStart="@drawable/flag_ae"
+                android:drawablePadding="@dimen/margin_normal"
+                android:gravity="center_vertical"
+                android:text="AED"
+                app:layout_constraintBottom_toBottomOf="@+id/etAmount"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/etAmount"
+                tools:text="AED" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <co.yap.widgets.EasyMoneyEditText
+                android:id="@+id/etAmount"
+                style="@style/Yap.App.Widget.TextInputEditText.EasyMoney"
+                android:layout_marginTop="@dimen/margin_medium_large"
+                android:gravity="center"
+                android:minWidth="@dimen/_140sdp"
+                android:text="3213321.213"
+                app:editable="@{true}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/include2" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/appCompatTextView4"
+                style="@style/Yap.App.Widget.TextView.Small.GrayDark"
+                android:layout_marginTop="@dimen/margin_medium_large"
+                android:gravity="center"
+                android:text="Your available balance is AED 103,463.59 "
+                app:layout_constraintEnd_toEndOf="parent"
+
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/etAmount" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/appCompatTextView5"
+                style="@style/Yap.App.Widget.TextView.Label"
+                android:layout_marginTop="@dimen/margin_large"
+                android:gravity="center"
+                android:text="What is this for?"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/appCompatTextView4" />
+
+            <co.yap.widgets.SelectMultiCheckGroup
+                android:id="@+id/selectMultiCheckGroup"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_normal"
+                android:entries="@array/screen_house_hold_iban_send_money_type_array"
+                app:column="2"
+
+                app:firstSingleSelectedPosition="-1"
+                app:isSingleSelected="true"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/appCompatTextView5"
+                app:row="2" />
+
+            <androidx.appcompat.widget.AppCompatCheckBox
+                android:id="@+id/cbOutTransFilter"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_18sdp"
+                android:background="?android:selectableItemBackground"
+                android:backgroundTint="?attr/colorPrimaryDark"
+                android:button="@null"
+                android:drawableEnd="?android:attr/listChoiceIndicatorMultiple"
+                android:gravity="center_vertical"
+                android:text="Set this salary transfer up as a recurring payment"
+                android:textSize="@dimen/text_size_h1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/selectMultiCheckGroup" />
+
+            <co.yap.widgets.CoreButton
+                android:id="@+id/btnConfirm"
+                style="@style/FragmentsBtnStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/margin_xxl"
+                android:layout_marginRight="@dimen/margin_xxl"
+                android:layout_marginBottom="@dimen/margin_small"
+                android:text="Confirm"
+                app:btn_enable="true"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                tools:text="Add" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
 </layout>

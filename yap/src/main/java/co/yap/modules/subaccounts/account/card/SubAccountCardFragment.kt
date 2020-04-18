@@ -52,8 +52,30 @@ class SubAccountCardFragment :
         return super.onOptionsItemSelected(item)
     }
 
-    override fun onItemClick(view: View, data: Any, pos: Int) = onItemDrop(view, pos, data)
+    override fun onItemClick(view: View, data: Any, pos: Int) {
+        val subAccount = data as SubAccount
+        val args = Bundle()
+        args.putParcelable(SubAccount::class.simpleName, subAccount)
+        subAccount.accountType?.let {
+            when (it) {
+                AccountType.B2C_ACCOUNT.name -> swipeViews(true)
+                AccountType.B2C_HOUSEHOLD.name -> {
+                    if (subAccount.cardStatus == PartnerBankStatus.REJECTED.status)
+                        showIneligiblePopup(subAccount)
+                    else if (subAccount.pinCreated == true || subAccount.salaryTransferred == true)
+                        navigateForwardWithAnimation(
+                            SubAccountDashBoardFragmentDirections.actionSubAccountDashBoardFragmentToHHSalaryProfileFragment(),
+                            args
+                        )
+                    else showRequestDeclinedPopup(subAccount)
 
+
+                }
+
+            }
+        }
+            ?: launchActivity<HouseHoldLandingActivity>(requestCode = RequestCodes.REQUEST_ADD_HOUSE_HOLD)
+    }
 
 
     private fun swipeViews(swipe: Boolean) {
@@ -79,27 +101,19 @@ class SubAccountCardFragment :
     override fun onItemDrop(view: View, pos: Int, data: Any) {
         val subAccount = data as SubAccount
         val args = Bundle()
-        //  view.elevation = 10f
         args.putParcelable(SubAccount::class.simpleName, subAccount)
         subAccount.accountType?.let {
             when (it) {
-                AccountType.B2C_ACCOUNT.name -> swipeViews(true)
                 AccountType.B2C_HOUSEHOLD.name -> {
-                    if (subAccount.cardStatus == PartnerBankStatus.REJECTED.status)
-                        showIneligiblePopup(subAccount)
-                    else if (subAccount.pinCreated == true || subAccount.salaryTransferred == true)
-                        navigateForwardWithAnimation(
-                            SubAccountDashBoardFragmentDirections.actionSubAccountDashBoardFragmentToHHSalaryProfileFragment(),
-                            args
-                        )
-                    else showRequestDeclinedPopup(subAccount)
-
+                    navigateForwardWithAnimation(
+                        SubAccountDashBoardFragmentDirections.actionSubAccountDashBoardFragmentToHHIbanSendMoneyFragment(),
+                        args
+                    )
 
                 }
 
             }
         }
-            ?: launchActivity<HouseHoldLandingActivity>(requestCode = RequestCodes.REQUEST_ADD_HOUSE_HOLD)
     }
 
     override fun onItemExited(view: View) {
