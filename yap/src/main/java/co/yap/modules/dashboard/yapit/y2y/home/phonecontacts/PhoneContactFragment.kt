@@ -171,7 +171,7 @@ class PhoneContactFragment : Y2YBaseFragment<IPhoneContact.ViewModel>(),
         val uri = Uri.parse(
             "smsto:${Utils.getFormattedPhoneNumber(
                 requireContext(),
-                "${contact.countryCode}${contact.mobileNo!!}"
+                "${contact.countryCode}${contact.mobileNo}"
             )}"
         )
         val it = Intent(Intent.ACTION_SENDTO, uri)

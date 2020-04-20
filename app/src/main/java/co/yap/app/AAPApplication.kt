@@ -13,6 +13,7 @@ import co.yap.household.onboard.onboarding.invalideid.InvalidEIDFragment
 import co.yap.modules.dummy.ActivityNavigator
 import co.yap.modules.dummy.NavigatorProvider
 import co.yap.modules.others.helper.Constants.START_REQUEST_CODE
+import co.yap.networking.AppData
 import co.yap.networking.RetroNetwork
 import co.yap.networking.interfaces.NetworkConstraintsListener
 import co.yap.yapcore.constants.Constants
@@ -25,9 +26,6 @@ import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.extentions.longToast
 import co.yap.yapcore.helpers.extentions.startFragment
 import co.yap.yapcore.initializeAdjustSdk
-import com.android.installreferrer.api.InstallReferrerClient
-import com.android.installreferrer.api.InstallReferrerStateListener
-import com.android.installreferrer.api.ReferrerDetails
 import com.crashlytics.android.Crashlytics
 import com.github.florent37.inlineactivityresult.kotlin.startForResult
 import com.leanplum.Leanplum
@@ -43,13 +41,7 @@ import java.util.*
 import javax.inject.Inject
 
 class AAPApplication : ChatApplication(
-    AppInfo(
-        BuildConfig.VERSION_NAME,
-        BuildConfig.VERSION_CODE,
-        BuildConfig.FLAVOR,
-        BuildConfig.BUILD_TYPE,
-        BuildConfig.BASE_URL
-    )
+    getAppInfo()
 ), NavigatorProvider, HasActivityInjector {
     @Inject
     lateinit var activityInjector: DispatchingAndroidInjector<Activity>
@@ -65,44 +57,8 @@ class AAPApplication : ChatApplication(
         initializeAdjustSdk(BuildConfig.ADJUST_APP_TOKEN)
     }
 
-    private fun testApp() {
-        val referrerClient = InstallReferrerClient.newBuilder(this).build()
-        referrerClient.startConnection(object : InstallReferrerStateListener {
-            override fun onInstallReferrerSetupFinished(responseCode: Int) {
-                when (responseCode) {
-                    InstallReferrerClient.InstallReferrerResponse.OK -> {
-                        val response: ReferrerDetails = referrerClient.installReferrer
-                        val referrerUrl: String = response.installReferrer
-                        val referrerClickTime: Long = response.referrerClickTimestampSeconds
-                        val appInstallTime: Long = response.installBeginTimestampSeconds
-                        val instantExperienceLaunched: Boolean = response.googlePlayInstantParam
-//                        longToast("InstallReferrerClient.InstallReferrerResponse.OK")
-//                        longToast("ReferrerDetails from application class-> ${response.toString()}")
-//                        longToast(
-//                            "ReferrerDetails $referrerUrl $referrerClickTime " +
-//                                    "$appInstallTime $instantExperienceLaunched"
-//                        )
-                    }
-                    InstallReferrerClient.InstallReferrerResponse.FEATURE_NOT_SUPPORTED -> {
-                        // API not available on the current Play Store app.
-//                        longToast("InstallReferrerClient.InstallReferrerResponse.FEATURE_NOT_SUPPORTED")
-                    }
-                    InstallReferrerClient.InstallReferrerResponse.SERVICE_UNAVAILABLE -> {
-//                        longToast("InstallReferrerClient.InstallReferrerResponse.SERVICE_UNAVAILABLE")
-                    }
-                }
-            }
-
-            override fun onInstallReferrerServiceDisconnected() {
-                // Try to restart the connection on the next request to
-                // Google Play by calling the startConnection() method.
-//                longToast("InstallReferrerClient.onInstallReferrerServiceDisconnected")
-            }
-        })
-    }
-
     private fun initNetworkLayer() {
-        RetroNetwork.initWith(this, BuildConfig.BASE_URL)
+        RetroNetwork.initWith(this, getAppDataForNetwork())
         NetworkConnectionManager.init(this)
         setAppUniqueId(this)
         RetroNetwork.listenNetworkConstraints(object : NetworkConstraintsListener {
@@ -195,6 +151,7 @@ class AAPApplication : ChatApplication(
         }
     }
 
+
     override fun applicationInjector(): AndroidInjector<out DaggerApplication> {
         return if (!this::sAppComponent.isInitialized) {
             sAppComponent = AppInjector.init(this)
@@ -205,6 +162,26 @@ class AAPApplication : ChatApplication(
 
     }
 
-
     override fun activityInjector() = activityInjector
+}
+
+fun getAppInfo(): AppInfo {
+    return AppInfo(
+        BuildConfig.VERSION_NAME,
+        BuildConfig.VERSION_CODE,
+        BuildConfig.FLAVOR,
+        BuildConfig.BUILD_TYPE,
+        BuildConfig.BASE_URL
+    )
+}
+
+//will consult this with team
+fun getAppDataForNetwork(): AppData {
+    return AppData(
+        BuildConfig.VERSION_NAME,
+        BuildConfig.VERSION_CODE,
+        BuildConfig.FLAVOR,
+        BuildConfig.BUILD_TYPE,
+        BuildConfig.BASE_URL
+    )
 }

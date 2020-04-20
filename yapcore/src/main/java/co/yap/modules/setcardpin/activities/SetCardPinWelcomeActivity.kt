@@ -11,6 +11,8 @@ import co.yap.yapcore.R
 import co.yap.yapcore.defaults.DefaultActivity
 import co.yap.yapcore.defaults.DefaultNavigator
 import co.yap.yapcore.defaults.INavigator
+import co.yap.yapcore.helpers.extentions.ExtraType
+import co.yap.yapcore.helpers.extentions.getValue
 import co.yap.yapcore.helpers.extentions.preventTakeScreenShot
 import co.yap.yapcore.interfaces.BackPressImpl
 import co.yap.yapcore.interfaces.IBaseNavigator
@@ -18,14 +20,14 @@ import co.yap.yapcore.interfaces.IBaseNavigator
 
 class SetCardPinWelcomeActivity : DefaultActivity(), INavigator, IFragmentHolder {
 
-    var cardSerialNumber: String? = null
+    var card: Card? = null
     var preventTakeDeviceScreenShot: MutableLiveData<Boolean> = MutableLiveData()
 
     companion object {
-        private const val CARD_SERIAL_NUMBER = "cardSerialNumber"
+        private const val CARD = "card"
         fun newIntent(context: Context, card: Card?): Intent {
             val intent = Intent(context, SetCardPinWelcomeActivity::class.java)
-            intent.putExtra(CARD_SERIAL_NUMBER, card?.cardSerialNumber)
+            intent.putExtra(CARD, card)
             return intent
         }
     }
@@ -50,9 +52,8 @@ class SetCardPinWelcomeActivity : DefaultActivity(), INavigator, IFragmentHolder
     }
 
     private fun setupData() {
-        if (intent != null && intent.hasExtra(CARD_SERIAL_NUMBER)) {
-            cardSerialNumber = intent.getStringExtra(CARD_SERIAL_NUMBER)
-        } else {
+        card = intent?.getValue(CARD, ExtraType.PARCEABLE.name) as? Card
+        if (card == null) {
             showToast("Invalid card Serial number")
             finish()
         }

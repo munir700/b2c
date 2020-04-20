@@ -108,7 +108,7 @@ abstract class BaseNavViewModelFragment<VB : ViewDataBinding, S : IBase.State, V
     }
 
     protected fun navigateForResult(
-        requestCode: Int, navDirections: NavDirections, navOptions: NavOptions? = null,
+        requestCode: Int , navDirections: NavDirections, navOptions: NavOptions? = null,
         navigatorExtras: Navigator.Extras? = null
     ) =
         navigateForResult(

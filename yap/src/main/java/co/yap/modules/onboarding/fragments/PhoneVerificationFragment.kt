@@ -12,9 +12,8 @@ import co.yap.modules.onboarding.activities.CreatePasscodeActivity
 import co.yap.modules.onboarding.constants.Constants
 import co.yap.modules.onboarding.interfaces.IPhoneVerification
 import co.yap.modules.onboarding.viewmodels.PhoneVerificationViewModel
-import co.yap.yapcore.helpers.extentions.trackEvent
 import co.yap.yapcore.leanplum.SignupEvents
-
+import co.yap.yapcore.leanplum.trackEvent
 
 class PhoneVerificationFragment : OnboardingChildFragment<IPhoneVerification.ViewModel>(),
     IPhoneVerification.View {

@@ -83,6 +83,7 @@ class VerifyPasscodeState(application: Application) : BaseState(), IVerifyPassco
 
     override var isScreenLocked: ObservableField<Boolean> = ObservableField()
     override var isAccountLocked: ObservableField<Boolean> = ObservableField(false)
+    override var isAccountFreeze: ObservableField<Boolean> = ObservableField(false)
 
     fun validate(text: String) {
         valid = text.length in 7 downTo 4

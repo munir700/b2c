@@ -4,6 +4,7 @@ import android.app.Application
 import androidx.lifecycle.MutableLiveData
 import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.networking.transactions.responsedtos.TransactionThresholdModel
+import co.yap.networking.transactions.responsedtos.purposepayment.PurposeOfPayment
 import co.yap.sendMoney.fundtransfer.interfaces.IBeneficiaryFundTransfer
 import co.yap.sendMoney.fundtransfer.models.TransferFundData
 import co.yap.sendMoney.fundtransfer.states.BeneficiaryFundTransferState
@@ -22,6 +23,7 @@ class BeneficiaryFundTransferViewModel(application: Application) :
     override var beneficiary: MutableLiveData<Beneficiary> = MutableLiveData()
     override var transferData: MutableLiveData<TransferFundData> = MutableLiveData()
     override var transactionThreshold: MutableLiveData<TransactionThresholdModel> = MutableLiveData()
+    override var selectedPop: PurposeOfPayment? = null
 
     override fun onCreate() {
         super.onCreate()

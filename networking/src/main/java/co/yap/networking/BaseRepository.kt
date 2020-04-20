@@ -110,10 +110,14 @@ abstract class BaseRepository : IRepository {
 
     private fun mapError(error: NetworkErrors, code: Int = 0): ServerError {
         return when (error) {
-            is NetworkErrors.NoInternet -> ServerError(code, "Internet appears to be offline.")
+
+            is NetworkErrors.NoInternet -> ServerError(
+                code,
+                "Looks like you're offline. Please reconnect and refresh to continue using YAP."
+            )
             is NetworkErrors.RequestTimedOut -> ServerError(
                 code,
-                "Internet appears to be offline. Please check your internet connection and try again."
+                "Looks like you're offline. Please reconnect and refresh to continue using YAP."
             )
             is NetworkErrors.BadGateway -> ServerError(code, "Bad Gateway")
             is NetworkErrors.NotFound -> ServerError(code, "Resource Not Found")

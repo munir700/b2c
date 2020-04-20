@@ -1,15 +1,17 @@
 package co.yap.modules.subaccounts.paysalary.profile
 
+import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import androidx.databinding.ViewDataBinding
+import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import co.yap.BR
 import co.yap.R
 import co.yap.databinding.FragmentHhsalaryProfileBinding
-import co.yap.modules.subaccounts.paysalary.subscription.SubscriptionFragmentDirections
+import co.yap.networking.customers.responsedtos.SubAccount
 import co.yap.yapcore.BaseRVAdapter
 import co.yap.yapcore.BaseViewHolder
 import co.yap.yapcore.dagger.base.BaseRecyclerViewFragment
@@ -30,12 +32,43 @@ class HHSalaryProfileFragment :
     override fun postExecutePendingBindings() {
         super.postExecutePendingBindings()
         setHasOptionsMenu(true)
-        ivUserImage?.setOnClickListener {
-            navigateForwardWithAnimation(
+        viewModel.clickEvent.observe(this, Observer { onClick(it) })
+    }
+
+    private fun onClick(id: Int) {
+        when (id) {
+            R.id.ivSalary -> {
+            }
+            R.id.ivExpenses -> {
+            }
+            R.id.ivUserImage -> navigateForwardWithAnimation(
                 HHSalaryProfileFragmentDirections.actionHHSalaryProfileFragmentToHHProfileFragment(),
                 arguments
             )
+            R.id.ivTransfer -> navigateForwardWithAnimation(
+                HHSalaryProfileFragmentDirections.actionHHSalaryProfileFragmentToHHIbanSendMoneyFragment(),
+                arguments
+            )
         }
+    }
+
+    override fun onItemClick(view: View, data: Any, pos: Int) {
+        when (pos) {
+            0 -> {
+            }
+            2 -> {
+            }
+            3 -> navigateForwardWithAnimation(
+                HHSalaryProfileFragmentDirections.actionHHSalaryProfileFragmentToHHIbanSendMoneyFragment(),
+                arguments
+            )
+        }
+
+    }
+
+    override fun onPause() {
+        super.onPause()
+        viewModel.clickEvent.removeObservers(this)
     }
 
     override fun getToolBarTitle() = state.subAccount.value?.getFullName()
@@ -45,7 +78,6 @@ class HHSalaryProfileFragment :
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        // houseHoldMainAccountBottomSheet.show(childFragmentManager, "")
         showActionPickerBottomSheet(
             options = ArrayList<Option>().apply {
                 add(Option().setId(1L).setTitle("Subscription"))
@@ -53,7 +85,7 @@ class HHSalaryProfileFragment :
             },
             config = actionPickerConfig {
                 sheetAnimationDuration(300L)
-                    .topGapSize(dimen(R.dimen.margin_extra_small)?.toFloat()!!)
+                    .topGapSize(dimen(R.dimen.margin_extra_small).toFloat())
             },
             onItemSelectedListener = OnItemSelectedListener {
                 when (it.title) {

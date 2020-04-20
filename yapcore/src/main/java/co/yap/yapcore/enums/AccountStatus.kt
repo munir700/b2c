@@ -9,7 +9,9 @@ enum class AccountStatus {
     MEETING_SUCCESS,
     CAPTURED_EID,
     EID_EXPIRED,
+    EID_UPDATED,
     EID_RESCAN_REQUIRE,
+    REJECTED,
     MEETING_FAILED,
     SOFT_KYC_DONE,
     SOFT_KYC_FAILED,
@@ -20,5 +22,6 @@ enum class AccountStatus {
     EMAIL_PENDING,
     INVITE_PENDING,
     INVITE_ACCEPTED,
-    INVITE_DECLINED
+    INVITE_DECLINED;
+
 }

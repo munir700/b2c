@@ -19,8 +19,6 @@ import co.yap.app.modules.startup.viewmodels.AccountSelectionViewModel
 import co.yap.widgets.video.ExoPlayerCallBack
 import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.enums.AccountType
-import co.yap.yapcore.helpers.extentions.trackEvent
-import co.yap.yapcore.leanplum.KYCEvents
 import com.daimajia.androidanimations.library.Techniques
 import com.daimajia.androidanimations.library.YoYo
 import com.google.android.exoplayer2.Player

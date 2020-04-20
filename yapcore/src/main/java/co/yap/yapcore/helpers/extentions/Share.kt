@@ -1,5 +1,6 @@
 package co.yap.yapcore.helpers.extentions
 
+import android.app.Activity
 import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
@@ -8,7 +9,6 @@ import android.content.Intent.createChooser
 import android.content.pm.PackageManager
 import android.net.Uri
 import androidx.fragment.app.Fragment
-import co.yap.yapcore.BuildConfig
 
 
 /**
@@ -82,18 +82,26 @@ fun Context.makeCall(number: String?): Boolean {
         false
     }
 }
-fun Fragment.OpenWhatsApp() {
-    val contact = "+971 4 365 3789" // use country code with your phone number
-    val url = "https://api.whatsapp.com/send?phone=$contact"
-    try {
-        val pm = requireContext().packageManager
-        pm?.getPackageInfo("com.whatsapp", PackageManager.GET_ACTIVITIES)
-        val i = Intent(Intent.ACTION_VIEW)
-        i.data = Uri.parse(url)
-        startActivity(i)
+
+fun Context.isWhatsAppInstalled(): Boolean {
+    val pm: PackageManager = this.packageManager
+    val app_installed: Boolean
+    app_installed = try {
+        pm.getPackageInfo("com.whatsapp", PackageManager.GET_ACTIVITIES)
+        true
     } catch (e: PackageManager.NameNotFoundException) {
-        toast("Whatsapp app not installed in your phone")
+        false
     }
+    return app_installed
+}
+
+fun Context.openWhatsApp() {
+    val contact = "+971 4 365 3789" // use country code with your phone number
+    val url =
+        "https://api.whatsapp.com/send?phone=$contact"
+    val i = Intent(Intent.ACTION_VIEW)
+    i.data = Uri.parse(url)
+    startActivity(i)
 }
 
 /**
@@ -119,5 +127,4 @@ fun Context.sendSms(number: String, text: String = ""): Boolean {
  * @return A boolean representing if the action was successful or not
  */
 fun Context.openPlayStore(): Boolean =
-    openUrl("market://details?id=${BuildConfig.APPLICATION_ID}") or
-            openUrl("http://play.google.com/store/apps/details?id=${this.packageName}")
+    openUrl("http://play.google.com/store/apps/details?id=${this.packageName}")

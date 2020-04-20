@@ -37,7 +37,7 @@ open class ConfirmNewCardPinViewModel(application: Application) :
                         id
                     )
                 } else {
-                    createOtp(id)
+                    clickEvent.postValue(id)
                 }
 
 
@@ -87,23 +87,6 @@ open class ConfirmNewCardPinViewModel(application: Application) :
                 }
                 is RetroApiResponse.Error ->
                     state.dialerError = response.error.message
-            }
-            state.loading = false
-        }
-    }
-
-    private fun createOtp(id: Int) {
-        launch {
-            state.loading = true
-            when (val response =
-                messagesRepository.createOtpGeneric(CreateOtpGenericRequest(Constants.FORGOT_CARD_PIN_ACTION))) {
-                is RetroApiResponse.Success -> {
-                    clickEvent.postValue(id)
-                }
-                is RetroApiResponse.Error -> {
-                    state.toast = response.error.message
-                    state.loading = false
-                }
             }
             state.loading = false
         }

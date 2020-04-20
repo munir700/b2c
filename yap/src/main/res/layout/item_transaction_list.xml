@@ -29,16 +29,16 @@
                 android:background="@drawable/bg_round_purple_enabled"
                 tools:src="@drawable/ic_exclamation" />
 
-            <androidx.appcompat.widget.AppCompatImageView
+            <co.yap.widgets.CoreCircularImageView
                 android:id="@+id/ivIncoming"
-                android:layout_width="38dp"
-                android:layout_height="38dp"
+                android:layout_width="@dimen/_15sdp"
+                android:layout_height="@dimen/_15sdp"
                 android:layout_gravity="bottom|end"
-                android:layout_marginEnd="-10dp"
                 android:visibility="visible"
-                android:padding="@dimen/small"
-
-                app:srcCompat="@drawable/ic_transaction_pending" />
+                android:layout_marginBottom="@dimen/_6sdp"
+                app:srcCompat="@drawable/ic_transaction_pending"
+                tools:src="@drawable/ic_outgoing_transaction"
+                />
         </FrameLayout>
 
         <androidx.appcompat.widget.LinearLayoutCompat
@@ -103,6 +103,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_normal"
             android:layout_weight="1"
+            android:maxLines="2"
             android:textColor="@color/greyNormalDark"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/flImageLayout"
