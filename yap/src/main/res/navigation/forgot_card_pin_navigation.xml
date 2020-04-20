@@ -54,37 +54,10 @@
             app:argType="string"
             android:defaultValue=" "/>
         <action
-            android:id="@+id/action_confirmNewCardPinFragment2_to_genericOtpFragment3"
-            app:destination="@id/genericOtpFragment3"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"/>
-        <action
             android:id="@+id/action_confirmNewCardPinFragment2_to_changePinSuccessFragment2"
             app:destination="@id/changePinSuccessFragment2"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"/>
-    </fragment>
-    <fragment
-        android:id="@+id/genericOtpFragment3"
-        android:name="co.yap.modules.others.otp.GenericOtpFragment"
-        android:label="GenericOtpFragment"
-        tools:layout="@layout/fragment_phone_verification">
-        <argument
-            android:name="username"
-            android:defaultValue=" "
-            app:argType="string" />
-        <argument
-            android:name="emailOtp"
-            android:defaultValue="false"
-            app:argType="boolean" />
-        <argument
-            android:name="mobileNumber"
-            android:defaultValue=" "
-            app:argType="string" />
-        <argument
-            android:name="otpType"
-            android:defaultValue=" "
-            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/changePinSuccessFragment2"

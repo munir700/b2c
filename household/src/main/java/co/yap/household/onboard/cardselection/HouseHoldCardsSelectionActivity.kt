@@ -66,7 +66,6 @@ class HouseHoldCardsSelectionActivity : BaseBindingActivity<IHouseHoldCardsSelec
         })
         viewModel.orderCardRequestSuccess.observe(this, Observer {
             startFragment<KycSuccessFragment>(clearAllPrevious = true)
-            //startActivity(Intent(this, KycSuccessActivity::class.java))
         })
     }
 
@@ -106,7 +105,6 @@ class HouseHoldCardsSelectionActivity : BaseBindingActivity<IHouseHoldCardsSelec
                         designCode = viewModel.state.designCode
                     )
                 )
-                //startActivity(Intent(this, KycSuccessActivity::class.java))
             }
         }
     }

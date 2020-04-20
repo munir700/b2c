@@ -1,4 +1,4 @@
-package co.yap.sendmoney
+package co.yap.sendMoney
 
 import org.junit.Test
 

@@ -10,6 +10,7 @@ import co.yap.household.onboard.onboarding.main.OnBoardingHouseHoldActivity
 import co.yap.modules.dashboard.main.activities.YapDashboardActivity
 import co.yap.networking.customers.responsedtos.AccountInfo
 import co.yap.yapcore.BaseBindingFragment
+import co.yap.yapcore.helpers.extentions.launchActivity
 
 class HouseHoldSuccessFragment : BaseBindingFragment<IHouseHoldSuccess.ViewModel>() {
 //    private var existingUser:Boolean = false
@@ -46,11 +47,9 @@ class HouseHoldSuccessFragment : BaseBindingFragment<IHouseHoldSuccess.ViewModel
     private val clickObserver = Observer<Int> {
         when (it) {
             R.id.btnCompleteVerification -> {
-                val bundle = Bundle()
-//                bundle.putBoolean(OnBoardingHouseHoldActivity.EXISTING_USER, existingUser)
-                bundle.putParcelable(OnBoardingHouseHoldActivity.USER_INFO, accountInfo)
-                startActivity(OnBoardingHouseHoldActivity.getIntent(requireContext(), bundle))
-                activity?.finish()
+                launchActivity<OnBoardingHouseHoldActivity> (clearPrevious = true) {
+                    putExtra(OnBoardingHouseHoldActivity.USER_INFO, accountInfo)
+                }
             }
 
             R.id.tvSkipAndLater -> {

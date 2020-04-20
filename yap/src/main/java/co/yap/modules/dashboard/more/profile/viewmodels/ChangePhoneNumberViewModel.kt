@@ -5,18 +5,14 @@ import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import android.widget.TextView
-import androidx.navigation.findNavController
-import co.yap.modules.dashboard.more.profile.fragments.ChangePhoneNumberFragmentDirections
+import androidx.lifecycle.MutableLiveData
+import co.yap.modules.dashboard.more.main.viewmodels.MoreBaseViewModel
 import co.yap.modules.dashboard.more.profile.intefaces.IChangePhoneNumber
 import co.yap.modules.dashboard.more.profile.states.ChangePhoneNumberState
-import co.yap.modules.dashboard.more.main.viewmodels.MoreBaseViewModel
 import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.interfaces.IRepositoryHolder
-import co.yap.networking.messages.MessagesRepository
-import co.yap.networking.messages.requestdtos.CreateOtpGenericRequest
 import co.yap.networking.models.RetroApiResponse
 import co.yap.yapcore.SingleClickEvent
-import co.yap.yapcore.constants.Constants
 
 class ChangePhoneNumberViewModel(application: Application) :
     MoreBaseViewModel<IChangePhoneNumber.State>(application), IChangePhoneNumber.ViewModel,
@@ -24,10 +20,9 @@ class ChangePhoneNumberViewModel(application: Application) :
 
     override val changePhoneNumberSuccessEvent: SingleClickEvent= SingleClickEvent()
     override val clickEvent: SingleClickEvent = SingleClickEvent()
-
+    override val isPhoneNumberValid: MutableLiveData<Boolean> = MutableLiveData(false)
     override val state: ChangePhoneNumberState = ChangePhoneNumberState(application)
     override val repository: CustomersRepository = CustomersRepository
-    private val messagesRepository: MessagesRepository = MessagesRepository
 
     override fun getCcp(etMobileNumber: EditText) {
         //  etMobileNumber.requestFocus()
@@ -47,7 +42,8 @@ class ChangePhoneNumberViewModel(application: Application) :
                 }
 
                 is RetroApiResponse.Success -> {
-                    createOtp(view)
+                    state.loading = false
+                    isPhoneNumberValid.value = true
                 }
             }
         }
@@ -62,27 +58,6 @@ class ChangePhoneNumberViewModel(application: Application) :
                         }*/
             }
             false
-        }
-    }
-
-    private fun createOtp(view: View) {
-        launch {
-            when (val response =
-                messagesRepository.createOtpGenericWithPhone(phone = "00${state.countryCode}" + state.mobile.replace(" ", ""),createOtpGenericRequest = CreateOtpGenericRequest(Constants.CHANGE_MOBILE_NO))) {
-                is RetroApiResponse.Success -> {
-                    val action =
-                        ChangePhoneNumberFragmentDirections.actionChangePhoneNumberFragmentToGenericOtpFragment(
-                            otpType = Constants.CHANGE_MOBILE_NO,
-                            mobileNumber = state.countryCode + " "+state.mobile
-                        )
-                    view.findNavController().navigate(action)
-                }
-                is RetroApiResponse.Error -> {
-                    state.toast = response.error.message
-                    state.loading = false
-                }
-            }
-            state.loading = false
         }
     }
 

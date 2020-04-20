@@ -4,6 +4,7 @@ import android.graphics.Rect
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 
+@Deprecated("Not used Any more")
 class MarginItemDecoration(private val horizontal: Int, private val vertical: Int) :
     RecyclerView.ItemDecoration() {
     override fun getItemOffsets(

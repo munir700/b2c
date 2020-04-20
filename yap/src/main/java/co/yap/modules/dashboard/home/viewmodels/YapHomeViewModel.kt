@@ -48,7 +48,9 @@ class YapHomeViewModel(application: Application) :
 
     override fun onCreate() {
         super.onCreate()
+        MyUserManager.updateCardBalance()
         requestAccountTransactions()
+        getDebitCards()
     }
 
     override fun filterTransactions() {
@@ -57,7 +59,6 @@ class YapHomeViewModel(application: Application) :
 
         if (!sortedCombinedTransactionList.isNullOrEmpty()) {
             sortedCombinedTransactionList.clear()
-
         }
         requestAccountTransactions()
     }
@@ -241,10 +242,7 @@ class YapHomeViewModel(application: Application) :
                     response.data.data?.let {
                         if (it.isNotEmpty()) {
                             val primaryCard = getPrimaryCard(response.data.data)
-                            primaryCard?.let {
-                                MyUserManager.cards.value = primaryCard
-                                clickEvent.setValue(EVENT_SET_CARD_PIN)
-                            }
+                            MyUserManager.card.value = primaryCard
                         } else {
                             state.toast = "Debit card not found."
                         }

@@ -1,19 +1,21 @@
 package co.yap.modules.dashboard.more.profile.fragments
 
+import android.app.Activity
 import android.os.Bundle
-import android.view.View
+import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import co.yap.BR
 import co.yap.R
-import co.yap.modules.dashboard.more.main.activities.MoreActivity
 import co.yap.modules.dashboard.more.main.fragments.MoreBaseFragment
 import co.yap.modules.dashboard.more.profile.intefaces.IChangeEmail
 import co.yap.modules.dashboard.more.profile.viewmodels.ChangeEmailViewModel
+import co.yap.modules.otp.GenericOtpFragment
+import co.yap.modules.otp.OtpDataModel
 import co.yap.translation.Strings
-import co.yap.yapcore.constants.Constants
-import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.enums.OTPActions
+import co.yap.yapcore.helpers.extentions.startFragmentForResult
 import co.yap.yapcore.managers.MyUserManager
 
 
@@ -32,26 +34,9 @@ open class ChangeEmailFragment : MoreBaseFragment<IChangeEmail.ViewModel>(), ICh
     override fun setObservers() {
         viewModel.success.observe(this, Observer {
             if (it) {
-                val action =
-                    ChangeEmailFragmentDirections.actionChangeEmailFragmentToGenericOtpFragment(
-                        otpType = Constants.CHANGE_EMAIL,
-                        mobileNumber = Utils.getFormattedMobileNumber(
-                            MyUserManager.user?.currentCustomer?.countryCode ?: "",
-                            MyUserManager.user?.currentCustomer?.mobileNo ?: ""
-                        )
-                    )
-                findNavController().navigate(action)
+                startOtpFragment()
             }
         })
-
-        viewModel.clickEvent.observe(this, Observer {
-            when (it) {
-                R.id.tbBtnBack -> {
-
-                }
-            }
-        })
-
 
         viewModel.changeEmailSuccessEvent.observe(this, Observer {
             MyUserManager.user?.currentCustomer?.email = viewModel.state.newEmail
@@ -67,11 +52,20 @@ open class ChangeEmailFragment : MoreBaseFragment<IChangeEmail.ViewModel>(), ICh
         })
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        if (MoreActivity.navigationVariable) {
-            MoreActivity.navigationVariable = false
-            viewModel.changeEmail()
+    private fun startOtpFragment() {
+        startFragmentForResult<GenericOtpFragment>(
+            GenericOtpFragment::class.java.name,
+            bundleOf(
+                OtpDataModel::class.java.name to OtpDataModel(
+                    OTPActions.CHANGE_EMAIL.name,
+                    MyUserManager.user?.currentCustomer?.getFormattedPhoneNumber(requireContext())
+                        ?: ""
+                )
+            )
+        ) { resultCode, _ ->
+            if (resultCode == Activity.RESULT_OK) {
+                viewModel.changeEmail()
+            }
         }
     }
 

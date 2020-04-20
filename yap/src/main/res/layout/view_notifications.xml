@@ -21,7 +21,7 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="@dimen/_270sdp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:padding="@dimen/_6sdp">
 
             <ImageView
@@ -49,10 +49,10 @@
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_toEndOf="@+id/ivNotification"
-                app:layout_constraintBottom_toBottomOf="@+id/ivNotification"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/ivCross"
                 app:layout_constraintStart_toEndOf="@+id/ivNotification"
-                app:layout_constraintTop_toTopOf="@+id/ivNotification">
+                app:layout_constraintTop_toTopOf="parent">
 
                 <TextView
                     android:id="@+id/tvTitle"
@@ -68,15 +68,15 @@
                     android:id="@+id/tvDescription"
                     style="@style/AMicroGrey"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="0dp"
                     android:layout_marginTop="3dp"
                     android:layout_marginEnd="@dimen/margin_extra_small"
                     android:lineSpacingExtra="0sp"
-                    android:maxLines="3"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="@+id/tvTitle"
                     app:layout_constraintTop_toBottomOf="@+id/tvTitle"
-                    tools:text="On May 24th, International money transfer won�t be available from 7 p.m. to 11 p.m." />
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    tools:text="On May 24th, Inter asdnational monedasd dasda sadssd asdasada asd asasdas y trandasd adassfer won�t be available from 7 p.m. to 11 p.mdas ads." />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
 

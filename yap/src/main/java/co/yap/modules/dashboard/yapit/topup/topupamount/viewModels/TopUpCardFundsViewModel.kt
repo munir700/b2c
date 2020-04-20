@@ -100,7 +100,7 @@ class TopUpCardFundsViewModel(application: Application) : FundActionsViewModel(a
                     }
                 }
                 is RetroApiResponse.Error -> {
-                    //state.toast = response.error.message
+                    state.loading = false
                     state.errorDescription = response.error.message
                     errorEvent.call()
                 }

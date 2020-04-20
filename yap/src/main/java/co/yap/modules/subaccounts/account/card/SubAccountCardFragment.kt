@@ -1,6 +1,5 @@
 package co.yap.modules.subaccounts.account.card
 
-
 import android.os.Bundle
 import android.view.*
 import androidx.databinding.ViewDataBinding
@@ -10,7 +9,6 @@ import co.yap.R
 import co.yap.databinding.FragmentSubAccountCardBinding
 import co.yap.modules.dashboard.store.household.activities.HouseHoldLandingActivity
 import co.yap.modules.subaccounts.account.dashboard.SubAccountDashBoardFragmentDirections
-import co.yap.modules.subaccounts.paysalary.profile.HHSalaryProfileFragment
 import co.yap.networking.customers.responsedtos.SubAccount
 import co.yap.yapcore.BaseRVAdapter
 import co.yap.yapcore.BaseViewHolder
@@ -25,7 +23,6 @@ import co.yap.yapcore.helpers.confirm
 import co.yap.yapcore.helpers.extentions.launchActivity
 import co.yap.yapcore.helpers.extentions.onDrag
 import co.yap.yapcore.helpers.extentions.startDrag
-import co.yap.yapcore.helpers.extentions.startFragment
 import co.yap.yapcore.interfaces.OnItemDropListener
 import com.daimajia.androidanimations.library.Techniques
 import com.daimajia.androidanimations.library.YoYo
@@ -55,32 +52,9 @@ class SubAccountCardFragment :
         return super.onOptionsItemSelected(item)
     }
 
-    override fun onItemClick(view: View, data: Any, pos: Int) = onItemDrop(view, pos, data)
-
-
-    private fun swipeViews(swipe: Boolean) {
-        if (swipe) {
-            imgProfile.visibility = View.INVISIBLE
-            layout_swipe_image.visibility = View.VISIBLE
-            tv_drag_and_drop_label.visibility = View.VISIBLE
-            YoYo.with(Techniques.SlideInDown).duration(400).repeat(0).playOn(layout_swipe_image)
-            YoYo.with(Techniques.SlideInDown).duration(400).repeat(0).playOn(tv_drag_and_drop_label)
-        } else {
-            imgProfile.visibility = View.VISIBLE
-            layout_swipe_image.visibility = View.INVISIBLE
-            tv_drag_and_drop_label.visibility = View.INVISIBLE
-        }
-    }
-
-    override fun onItemDrag(view: View, pos: Int, event: DragEvent, data: Any): Boolean? {
-        swipeViews(false)
-        return onDrag(view, pos, event, data, this)
-    }
-
-    override fun onItemDrop(view: View, pos: Int, data: Any) {
+    override fun onItemClick(view: View, data: Any, pos: Int) {
         val subAccount = data as SubAccount
         val args = Bundle()
-        //  view.elevation = 10f
         args.putParcelable(SubAccount::class.simpleName, subAccount)
         subAccount.accountType?.let {
             when (it) {
@@ -103,9 +77,56 @@ class SubAccountCardFragment :
             ?: launchActivity<HouseHoldLandingActivity>(requestCode = RequestCodes.REQUEST_ADD_HOUSE_HOLD)
     }
 
+
+    private fun swipeViews(swipe: Boolean) {
+        if (swipe) {
+            imgProfile.visibility = View.INVISIBLE
+            layout_swipe_image.visibility = View.VISIBLE
+            tv_drag_and_drop_label.visibility = View.VISIBLE
+            YoYo.with(Techniques.SlideInDown).duration(400).repeat(0).playOn(layout_swipe_image)
+            YoYo.with(Techniques.SlideInDown).duration(400).repeat(0).playOn(tv_drag_and_drop_label)
+        } else {
+            imgProfile.visibility = View.VISIBLE
+            layout_swipe_image.visibility = View.INVISIBLE
+            tv_drag_and_drop_label.visibility = View.INVISIBLE
+        }
+    }
+
+    override fun onItemDrag(view: View, pos: Int, event: DragEvent, data: Any): Boolean? {
+        swipeViews(false)
+
+        return recyclerView?.let { onDrag(view, pos, event, data, this) }
+    }
+
+    override fun onItemDrop(view: View, pos: Int, data: Any) {
+        val subAccount = data as SubAccount
+        val args = Bundle()
+        args.putParcelable(SubAccount::class.simpleName, subAccount)
+        subAccount.accountType?.let {
+            when (it) {
+                AccountType.B2C_HOUSEHOLD.name -> {
+                    navigateForwardWithAnimation(
+                        SubAccountDashBoardFragmentDirections.actionSubAccountDashBoardFragmentToHHIbanSendMoneyFragment(),
+                        args
+                    )
+
+                }
+
+            }
+        }
+    }
+
+    override fun onItemExited(view: View) {
+        view.background = context?.getDrawable(R.drawable.card_border_container)
+    }
+
+    override fun onItemEntered(view: View) {
+        view.background = context?.getDrawable(R.drawable.bg_gray_rounded_border)
+    }
+
     override fun onItemLongClick(view: View, pos: Int, id: Long, data: Any): Boolean? {
         if (pos == 0) {
-            return startDrag(view)
+            return context?.let { startDrag(view, it) }
         }
         return true
     }

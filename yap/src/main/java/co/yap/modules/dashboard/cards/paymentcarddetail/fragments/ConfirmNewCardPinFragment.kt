@@ -1,20 +1,23 @@
 package co.yap.modules.dashboard.cards.paymentcarddetail.fragments
 
+import android.app.Activity
 import android.os.Bundle
+import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import co.yap.R
 import co.yap.modules.dashboard.cards.paymentcarddetail.activities.ChangeCardPinActivity
-import co.yap.modules.dashboard.cards.paymentcarddetail.activities.PaymentCardDetailActivity
 import co.yap.modules.dashboard.cards.paymentcarddetail.forgotcardpin.activities.ForgotCardPinActivity
 import co.yap.modules.dashboard.cards.paymentcarddetail.viewmodels.ConfirmNewCardPinViewModel
-import co.yap.modules.dashboard.more.main.activities.MoreActivity
+import co.yap.modules.otp.GenericOtpFragment
+import co.yap.modules.otp.OtpDataModel
 import co.yap.modules.setcardpin.fragments.ConfirmCardPinFragment
 import co.yap.modules.setcardpin.interfaces.ISetCardPin
-import co.yap.networking.customers.responsedtos.Customer
 import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.enums.OTPActions
+import co.yap.yapcore.helpers.extentions.startFragmentForResult
 import co.yap.yapcore.managers.MyUserManager
 import kotlinx.android.synthetic.main.activity_create_passcode.*
 
@@ -31,18 +34,6 @@ open class ConfirmNewCardPinFragment : ConfirmCardPinFragment() {
         }
         if (activity is ForgotCardPinActivity) {
             (activity as ForgotCardPinActivity).preventTakeDeviceScreenShot.value = true
-            if ((activity as ForgotCardPinActivity).viewModel.state.currentScreen ==
-                Constants.FORGOT_CARD_PIN_ACTION
-            ) {
-                // call service here
-                viewModel.forgotCardPinRequest(
-                    viewModel.state.cardSerialNumber,
-                    viewModel.state.pincode
-
-                )
-            } else {
-                loadData()
-            }
         } else
             loadData()
     }
@@ -52,15 +43,7 @@ open class ConfirmNewCardPinFragment : ConfirmCardPinFragment() {
             when (it) {
                 R.id.btnAction -> {
                     if (viewModel.state.flowType == Constants.FORGOT_CARD_PIN_FLOW) {
-                        val action =
-                            ConfirmNewCardPinFragmentDirections.actionConfirmNewCardPinFragment2ToGenericOtpFragment3(
-                                MyUserManager.user?.currentCustomer?.getFullName()!!,
-                                false,
-                                MyUserManager.user?.currentCustomer?.getFormattedPhoneNumber(
-                                    requireContext()
-                                )!!, Constants.FORGOT_CARD_PIN_ACTION
-                            )
-                        findNavController().navigate(action)
+                        startOtpFragment()
                     } else {
                         findNavController().navigate(R.id.action_confirmNewCardPinFragment_to_changePinSuccessFragment)
                     }
@@ -87,7 +70,27 @@ open class ConfirmNewCardPinFragment : ConfirmCardPinFragment() {
                 (activity as ForgotCardPinActivity).getCardSerialNumber()
             viewModel.state.flowType = Constants.FORGOT_CARD_PIN_FLOW
         }
+    }
 
+    private fun startOtpFragment() {
+        startFragmentForResult<GenericOtpFragment>(
+            GenericOtpFragment::class.java.name,
+            bundleOf(
+                OtpDataModel::class.java.name to OtpDataModel(
+                    OTPActions.FORGOT_CARD_PIN.name,
+                    MyUserManager.user?.currentCustomer?.getFormattedPhoneNumber(requireContext())
+                        ?: ""
+                )
+            )
+        ) { resultCode, _ ->
+            if (resultCode == Activity.RESULT_OK) {
+                viewModel.forgotCardPinRequest(
+                    viewModel.state.cardSerialNumber,
+                    viewModel.state.pincode
+
+                )
+            }
+        }
     }
 
     override fun onDestroy() {

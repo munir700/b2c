@@ -12,7 +12,6 @@ import co.yap.yapcore.interfaces.OnBackPressedListener
 
 abstract class BaseFragment<V : IBase.ViewModel<*>> : BaseNavFragment(), IBase.View<V>,
     OnBackPressedListener {
-
     private var progress: Dialog? = null
     override var shouldRegisterViewModelLifeCycle: Boolean = true
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -57,7 +56,9 @@ abstract class BaseFragment<V : IBase.ViewModel<*>> : BaseNavFragment(), IBase.V
 
 
     override fun showLoader(isVisible: Boolean) {
-        if (isVisible) progress?.show() else progress?.dismiss()
+        if (isVisible) {
+            if (isResumed && userVisibleHint) progress?.show()
+        } else progress?.dismiss()
         Utils.hideKeyboard(this.view)
         //getBaseView()?.showLoader(isVisible)
     }

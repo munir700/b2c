@@ -16,7 +16,7 @@ project.ext {
     okhttpVersion = "3.12.1"
     okhttpLoggerVersion = "3.10.0"
     okhttpGsonVersion = "2.5.0"
-    arch = "2.0.0"
+    arch = "2.1.0"
     paging_version = "2.1.0"
     modules = [
             app        : ':app',
@@ -139,7 +139,8 @@ project.ext {
 
             //adjust
             adjust                   : 'com.adjust.sdk:adjust-android:4.21.0',
-            adjustReferrer           : 'com.android.installreferrer:installreferrer:1.1'
+            adjustReferrer           : 'com.android.installreferrer:installreferrer:1.1',
+            expand                   : 'net.cachapa.expandablelayout:expandablelayout:2.9.2'
     ]
 
     // Test dependencies which need to be added in all modules
@@ -179,7 +180,8 @@ project.ext {
             [configuration: "implementation", dependency: libraries.datePicker],
             [configuration: "implementation", dependency: libraries.bottomsheets_core],
             [configuration: "implementation", dependency: libraries.bottomsheets_ktx],
-            [configuration: "implementation", dependency: libraries.bottomsheets]
+            [configuration: "implementation", dependency: libraries.bottomsheets],
+            [configuration: "implementation", dependency: libraries.expand]
     ]
 
     // dependencies which need to be added in app module only in conjunction with commonDependencies
