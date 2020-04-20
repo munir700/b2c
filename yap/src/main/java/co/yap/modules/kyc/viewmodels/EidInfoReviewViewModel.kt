@@ -14,7 +14,7 @@ import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.enums.EIDStatus
 import co.yap.yapcore.helpers.DateUtils
-import co.yap.yapcore.helpers.extentions.trackEvent
+import co.yap.yapcore.leanplum.trackEvent
 import co.yap.yapcore.leanplum.KYCEvents
 import co.yap.yapcore.managers.MyUserManager
 import com.digitify.identityscanner.core.arch.Gender

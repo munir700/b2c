@@ -37,9 +37,9 @@ class InternationalFundsTransferViewModel(application: Application) :
     override val populateSpinnerData: MutableLiveData<ArrayList<InternationalFundsTransferReasonList.ReasonList>> =
         MutableLiveData()
     override var reasonPosition: Int = 0
+    override var fxRateResponse: MutableLiveData<FxRateResponse.Data> = MutableLiveData()
     override var transactionFeeResponse: MutableLiveData<RemittanceFeeResponse.RemittanceFee> =
         MutableLiveData()
-    override var fxRateResponse: MutableLiveData<FxRateResponse.Data> = MutableLiveData()
     override var feeTiers: List<RemittanceFeeResponse.RemittanceFee.TierRateDTO> = arrayListOf()
 
     override fun handlePressOnButton(id: Int) {

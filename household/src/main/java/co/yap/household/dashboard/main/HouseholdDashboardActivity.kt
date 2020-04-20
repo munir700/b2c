@@ -55,7 +55,7 @@ class HouseholdDashboardActivity :
 
     private fun setUpAdapter() {
         val mAdapter = ProfilePictureAdapter(
-            MyUserManager.users,
+            MyUserManager.usersList,
             null
         )
         mAdapter.onItemClickListener = userClickListener

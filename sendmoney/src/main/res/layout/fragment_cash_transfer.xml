@@ -163,6 +163,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/tvAvailableBalance"
                 tools:hint="Type a note here" />
 
+            <!--            android:visibility="@{viewModel.parentViewModel.beneficiary.beneficiaryType.equals(`CASHPAYOUT`) ?View.GONE : View.VISIBLE}"-->
 
             <RelativeLayout
                 android:id="@+id/layoutReasonsSpinner"

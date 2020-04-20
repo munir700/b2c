@@ -124,7 +124,7 @@ class MultiStateView
      * @param state         The [com.homemedics.app.widget.MultiStateView.ViewState]to set
      * @param switchToState If the [com.homemedics.app.widget.MultiStateView.ViewState] should be switched to
      */
-    fun setViewForState(view: View, state: ViewState, switchToState: Boolean = false) {
+    private fun setViewForState(view: View, state: ViewState, switchToState: Boolean = false) {
         when (state) {
             ViewState.LOADING -> {
                 if (loadingView != null) removeView(loadingView)

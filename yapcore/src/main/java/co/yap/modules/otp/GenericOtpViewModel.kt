@@ -28,19 +28,19 @@ class GenericOtpViewModel(application: Application) :
     override fun onCreate() {
         super.onCreate()
         when (state.otpDataModel?.otpAction) {
-            Constants.CHANGE_EMAIL -> {
+            OTPActions.CHANGE_EMAIL.name -> {
                 state.verificationTitle =
                     getString(Strings.screen_email_verification_display_text_heading)
                 state.verificationDescription =
                     Strings.screen_verify_phone_number_display_text_sub_title
             }
-            Constants.FORGOT_CARD_PIN_ACTION -> {
+            OTPActions.FORGOT_CARD_PIN.name -> {
                 state.verificationTitle =
                     getString(Strings.screen_forgot_pin_display_text_heading)
                 state.verificationDescription =
                     Strings.screen_verify_phone_number_display_text_sub_title
             }
-            OTPActions.DOMESTIC_TRANSFER.name, OTPActions.UAEFTS.name, OTPActions.SWIFT.name, OTPActions.RMT.name, OTPActions.CASHPAYOUT.name -> {
+            OTPActions.DOMESTIC_TRANSFER.name, OTPActions.UAEFTS.name, OTPActions.SWIFT.name, OTPActions.RMT.name, OTPActions.CASHPAYOUT.name,OTPActions.Y2Y.name -> {
                 state.verificationTitle =
                     state.otpDataModel?.username ?: ""
                 state.verificationDescription =
@@ -59,7 +59,6 @@ class GenericOtpViewModel(application: Application) :
                         Utils.getFormattedCurrencyWithoutComma(state.otpDataModel?.amount)
                     )
             }
-
             else -> {
                 state.verificationTitle =
                     getString(Strings.screen_forgot_passcode_otp_display_text_heading)
@@ -76,14 +75,13 @@ class GenericOtpViewModel(application: Application) :
 
     override fun handlePressOnResendClick(context: Context) {
         if (state.otpDataModel?.otpAction == Constants.CHANGE_MOBILE_NO) {
-            createOtpForPhoneNumber(context)
+            createOtpForPhoneNumber(true, context)
         } else {
             createOtp(true, context)
         }
     }
 
     private fun verifyOtp(id: Int) {
-
         if (state.otpDataModel?.otpAction == Constants.CHANGE_MOBILE_NO) {
             launch {
                 state.loading = true
@@ -151,8 +149,7 @@ class GenericOtpViewModel(application: Application) :
                 }
                 is RetroApiResponse.Error -> {
                     otpUiBlocked(response.error.actualCode)
-                    state.errorMessage = response.error.message
-                    errorEvent.call()
+                    state.toast = response.error.message
                     state.loading = false
                 }
             }
@@ -161,7 +158,12 @@ class GenericOtpViewModel(application: Application) :
     }
 
     override fun initializeData(context: Context) {
-        createOtp(context = context)
+        if (state.otpDataModel?.otpAction == OTPActions.CHANGE_MOBILE_NO.name) {
+            createOtpForPhoneNumber(false, context)
+        } else {
+            createOtp(context = context)
+        }
+
         state.otpDataModel?.mobileNumber?.let {
             when {
                 it.startsWith("00") -> state.mobileNumber[0] =
@@ -178,8 +180,7 @@ class GenericOtpViewModel(application: Application) :
         }
     }
 
-    private fun createOtpForPhoneNumber(context: Context) {
-
+    private fun createOtpForPhoneNumber(resend: Boolean, context: Context) {
         launch {
             state.loading = true
             when (val response =
@@ -191,11 +192,15 @@ class GenericOtpViewModel(application: Application) :
                     createOtpGenericRequest = CreateOtpGenericRequest(Constants.CHANGE_MOBILE_NO)
                 )) {
                 is RetroApiResponse.Success -> {
-                    state.toast =
-                        getString(Strings.screen_verify_phone_number_display_text_resend_otp_success)
+                    if (resend)
+                        state.toast =
+                            getString(Strings.screen_verify_phone_number_display_text_resend_otp_success)
+
                     state.reverseTimer(10, context)
                     state.validResend = false
+
                 }
+
                 is RetroApiResponse.Error -> {
                     state.errorMessage = response.error.message
                     errorEvent.call()

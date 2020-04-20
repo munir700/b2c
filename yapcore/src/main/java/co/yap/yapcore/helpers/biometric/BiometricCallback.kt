@@ -2,23 +2,23 @@ package co.yap.yapcore.helpers.biometric
 
 interface BiometricCallback {
 
-    fun onSdkVersionNotSupported()
+    fun onSdkVersionNotSupported(){}
 
-    fun onBiometricAuthenticationNotSupported()
+    fun onBiometricAuthenticationNotSupported(){}
 
-    fun onBiometricAuthenticationNotAvailable()
+    fun onBiometricAuthenticationNotAvailable(){}
 
-    fun onBiometricAuthenticationPermissionNotGranted()
+    fun onBiometricAuthenticationPermissionNotGranted(){}
 
     fun onBiometricAuthenticationInternalError(error: String)
 
-    fun onAuthenticationFailed()
+    fun onAuthenticationFailed(){}
 
-    fun onAuthenticationCancelled()
+    fun onAuthenticationCancelled(){}
 
     fun onAuthenticationSuccessful()
 
-    fun onAuthenticationHelp(helpCode: Int, helpString: CharSequence)
+    fun onAuthenticationHelp(helpCode: Int, helpString: CharSequence){}
 
-    fun onAuthenticationError(errorCode: Int, errString: CharSequence)
+    fun onAuthenticationError(errorCode: Int, errString: CharSequence){}
 }

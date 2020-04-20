@@ -10,37 +10,10 @@
         android:label="ChangePhoneNumberFragment"
         tools:layout="@layout/fragment_change_phone_number">
         <action
-            android:id="@+id/action_changePhoneNumberFragment_to_genericOtpFragment"
-            app:destination="@id/genericOtpFragment2"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left" />
-        <action
             android:id="@+id/action_changePhoneNumberFragment_to_successFragment"
             app:destination="@id/successFragment"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left" />
-    </fragment>
-    <fragment
-        android:id="@+id/genericOtpFragment2"
-        android:name="co.yap.modules.others.otp.GenericOtpFragment"
-        android:label="GenericOtpFragment"
-        tools:layout="@layout/fragment_phone_verification">
-        <argument
-            android:name="username"
-            android:defaultValue=" "
-            app:argType="string" />
-        <argument
-            android:name="emailOtp"
-            android:defaultValue="false"
-            app:argType="boolean" />
-        <argument
-            android:name="mobileNumber"
-            android:defaultValue=" "
-            app:argType="string" />
-        <argument
-            android:name="otpType"
-            android:defaultValue=" "
-            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/successFragment"

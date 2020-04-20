@@ -2,6 +2,8 @@ package co.yap.app.modules.login.viewmodels
 
 import android.app.Application
 import android.os.CountDownTimer
+import androidx.lifecycle.MutableLiveData
+import co.yap.app.R
 import co.yap.app.constants.Constants
 import co.yap.app.modules.login.interfaces.IVerifyPasscode
 import co.yap.app.modules.login.states.VerifyPasscodeState
@@ -21,6 +23,7 @@ import co.yap.yapcore.constants.Constants.KEY_IS_USER_LOGGED_IN
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.toast
+import co.yap.yapcore.leanplum.trackEventWithAttributes
 import co.yap.yapcore.managers.MyUserManager
 import java.util.concurrent.TimeUnit
 
@@ -31,7 +34,7 @@ class VerifyPasscodeViewModel(application: Application) :
     override val forgotPasscodeButtonPressEvent: SingleClickEvent = SingleClickEvent()
     override val repository: AuthRepository = AuthRepository
     override val state: VerifyPasscodeState = VerifyPasscodeState(application)
-    override val signInButtonPressEvent: SingleLiveEvent<Boolean> = SingleLiveEvent()
+    override val onClickEvent: MutableLiveData<Int> = MutableLiveData()
     override val loginSuccess: SingleLiveEvent<Boolean> = SingleLiveEvent()
     override val validateDeviceResult: SingleLiveEvent<Boolean> = SingleLiveEvent()
     override val createOtpResult: SingleLiveEvent<Boolean> = SingleLiveEvent()
@@ -41,48 +44,19 @@ class VerifyPasscodeViewModel(application: Application) :
     override var EVENT_LOGOUT_SUCCESS: Int = 101
     private val messagesRepository: MessagesRepository = MessagesRepository
 
-    override fun login() {
-        launch {
-            state.loading = true
-            when (val response = repository.login(state.username, state.passcode)) {
-                is RetroApiResponse.Success -> {
-                    loginSuccess.postValue(true)
-                    state.loading = false
-                }
-                is RetroApiResponse.Error -> {
-                    loginSuccess.postValue(false)
-                    state.loading = false
-                    handleAttemptsError(response.error)
-                }
-            }
-        }
-    }
-
-    override fun verifyPasscode() {
-        launch {
-            state.loading = true
-            when (val response = customersRepository.validateCurrentPasscode(state.passcode)) {
-                is RetroApiResponse.Success -> {
-                    loginSuccess.postValue(true)
-                    state.loading = false
-                }
-                is RetroApiResponse.Error -> {
-                    loginSuccess.postValue(false)
-                    state.loading = false
-                }
-            }
-        }
-    }
-
     private fun handleAttemptsError(error: ApiError) {
         when (error.actualCode) {
-            "302" -> showAccountBlockedError()
+            "302" -> showAccountBlockedError(getString(Strings.screen_verify_passcode_text_account_locked))
             "303" -> showBlockForSomeTimeError(error.message)
+            "1260" -> {
+                state.isAccountFreeze.set(true)
+                showAccountBlockedError(error.message)
+            }
         }
     }
 
-    override fun showAccountBlockedError() {
-        state.dialerError = getString(Strings.screen_verify_passcode_text_account_locked)
+    override fun showAccountBlockedError(errorMessage: String) {
+        state.dialerError = errorMessage
         state.isScreenLocked.set(true)
         state.isAccountLocked.set(true)
         state.valid = false
@@ -129,34 +103,6 @@ class VerifyPasscodeViewModel(application: Application) :
         )
     }
 
-    override fun handlePressOnForgotPasscodeButton(id: Int) {
-        val username = getUserName()
-        username?.let {
-            launch {
-                state.loading = true
-                when (val response = messagesRepository.createForgotPasscodeOTP(
-                    CreateForgotPasscodeOtpRequest(
-                        Utils.verifyUsername(username),
-                        !Utils.isUsernameNumeric(username)
-                    )
-                )) {
-                    is RetroApiResponse.Success -> {
-                        response.data.data?.let {
-                            mobileNumber = it
-                        }
-
-                        state.loading = false
-                        forgotPasscodeButtonPressEvent.setValue(id)
-                    }
-                    is RetroApiResponse.Error -> {
-                        state.toast = response.error.message
-                        state.loading = false
-                    }
-                }
-            }
-        } ?: toast(context, "Invalid user name")
-    }
-
     private fun getUserName(): String? {
         val sharedPreferenceManager = SharedPreferenceManager(context)
         return if (!SharedPreferenceManager(context).getValueBoolien(
@@ -170,12 +116,45 @@ class VerifyPasscodeViewModel(application: Application) :
         }
     }
 
+    override fun login() {
+        launch {
+            state.loading = true
+            when (val response = repository.login(state.username, state.passcode)) {
+                is RetroApiResponse.Success -> {
+                    loginSuccess.postValue(true)
+                    //state.loading = false
+                }
+                is RetroApiResponse.Error -> {
+                    loginSuccess.postValue(false)
+                    state.loading = false
+                    handleAttemptsError(response.error)
+                }
+            }
+        }
+    }
+
+    override fun verifyPasscode() {
+        launch {
+            state.loading = true
+            when (val response = customersRepository.validateCurrentPasscode(state.passcode)) {
+                is RetroApiResponse.Success -> {
+                    loginSuccess.postValue(true)
+                    state.loading = false
+                }
+                is RetroApiResponse.Error -> {
+                    loginSuccess.postValue(false)
+                    state.loading = false
+                }
+            }
+        }
+    }
+
     override fun validateDevice() {
         launch {
             when (val response = customersRepository.validateDemographicData(state.deviceId)) {
                 is RetroApiResponse.Success -> {
                     response.data.data?.let {
-                        if (it) state.loading = false
+                        //if (it) state.loading = false
                         validateDeviceResult.postValue(it)
                     }
                 }
@@ -203,7 +182,35 @@ class VerifyPasscodeViewModel(application: Application) :
         }
     }
 
-    override fun handlePressOnSignInButton() {
-        signInButtonPressEvent.postValue(true)
+    override fun handlePressOnPressView(id: Int) {
+        if (id != R.id.tvForgotPassword) {
+            onClickEvent.value = id
+        } else {
+            val username = getUserName()
+            username?.let {
+                launch {
+                    state.loading = true
+                    when (val response = messagesRepository.createForgotPasscodeOTP(
+                        CreateForgotPasscodeOtpRequest(
+                            Utils.verifyUsername(username),
+                            !Utils.isUsernameNumeric(username)
+                        )
+                    )) {
+                        is RetroApiResponse.Success -> {
+                            response.data.data?.let {
+                                mobileNumber = it
+                            }
+
+                            state.loading = false
+                            forgotPasscodeButtonPressEvent.setValue(id)
+                        }
+                        is RetroApiResponse.Error -> {
+                            state.toast = response.error.message
+                            state.loading = false
+                        }
+                    }
+                }
+            } ?: toast(context, "Invalid user name")
+        }
     }
 }

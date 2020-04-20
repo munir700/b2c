@@ -29,10 +29,8 @@ import co.yap.yapcore.helpers.biometric.BiometricUtil
 import co.yap.yapcore.helpers.extentions.startFragment
 import co.yap.yapcore.helpers.permissions.PermissionHelper
 import co.yap.yapcore.managers.MyUserManager
-import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.layout_profile_picture.*
 import kotlinx.android.synthetic.main.layout_profile_settings.*
-
 import pl.aprilapps.easyphotopicker.DefaultCallback
 import pl.aprilapps.easyphotopicker.EasyImage
 import java.io.File
@@ -43,9 +41,8 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
     private lateinit var updatePhotoBottomSheet: UpdatePhotoBottomSheet
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.fragment_profile
-
-    private val FINAL_TAKE_PHOTO = 1
-    private val FINAL_CHOOSE_PHOTO = 2
+    private val takePhoto = 1
+    private val pickPhoto = 2
     internal var permissionHelper: PermissionHelper? = null
 
     override val viewModel: IProfile.ViewModel
@@ -59,16 +56,10 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
         }
 
 
-        Glide.with(requireActivity())
-
-        val sharedPreferenceManager: SharedPreferenceManager =
+        val sharedPreferenceManager =
             SharedPreferenceManager(requireContext())
 
-        if (BiometricUtil.isFingerprintSupported
-            && BiometricUtil.isHardwareSupported(requireContext())
-            && BiometricUtil.isPermissionGranted(requireContext())
-            && BiometricUtil.isFingerprintAvailable(requireContext())
-        ) {
+        if (BiometricUtil.hasBioMetricFeature(requireContext())) {
             val isTouchIdEnabled: Boolean =
                 sharedPreferenceManager.getValueBoolien(
                     KEY_TOUCH_ID_ENABLED,
@@ -97,16 +88,14 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
     }
 
     override fun onClick(eventType: Int) {
-
         updatePhotoBottomSheet.dismiss()
-
         when (eventType) {
             Constants.EVENT_ADD_PHOTO -> {
-                checkPermission(FINAL_TAKE_PHOTO)
+                checkPermission(takePhoto)
             }
 
             Constants.EVENT_CHOOSE_PHOTO -> {
-                checkPermission(FINAL_CHOOSE_PHOTO)
+                checkPermission(pickPhoto)
             }
         }
     }
@@ -119,23 +108,23 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
             ), 100
         )
 
-        permissionHelper!!.request(object : PermissionHelper.PermissionCallback {
+        permissionHelper?.request(object : PermissionHelper.PermissionCallback {
             override fun onPermissionGranted() {
-                if (type == FINAL_TAKE_PHOTO) {
-                    EasyImage.openCamera(this@ProfileSettingsFragment, FINAL_TAKE_PHOTO)
+                if (type == takePhoto) {
+                    EasyImage.openCamera(this@ProfileSettingsFragment, takePhoto)
                 } else {
-                    EasyImage.openGallery(this@ProfileSettingsFragment, FINAL_CHOOSE_PHOTO)
+                    EasyImage.openGallery(this@ProfileSettingsFragment, pickPhoto)
                 }
 
             }
 
             override fun onIndividualPermissionGranted(grantedPermission: Array<String>) {
-                if (type == FINAL_TAKE_PHOTO) {
+                if (type == takePhoto) {
                     if (grantedPermission.contains(Manifest.permission.CAMERA))
-                        EasyImage.openCamera(this@ProfileSettingsFragment, FINAL_TAKE_PHOTO)
+                        EasyImage.openCamera(this@ProfileSettingsFragment, takePhoto)
                 } else {
                     if (grantedPermission.contains(Manifest.permission.WRITE_EXTERNAL_STORAGE))
-                        EasyImage.openGallery(this@ProfileSettingsFragment, FINAL_CHOOSE_PHOTO)
+                        EasyImage.openGallery(this@ProfileSettingsFragment, pickPhoto)
                 }
             }
 
@@ -144,9 +133,7 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
             }
 
             override fun onPermissionDeniedBySystem() {
-                permissionHelper!!.openAppDetailsActivity()
-
-
+                permissionHelper?.openAppDetailsActivity()
             }
         })
     }
@@ -180,7 +167,7 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
                     type: Int
                 ) {
                     //Some error handling
-                    showToast(e!!.message.toString())
+                    showToast(e?.message.toString())
                 }
             })
     }
@@ -217,20 +204,16 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
         @NonNull grantResults: IntArray
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if (permissionHelper != null) {
-            permissionHelper!!.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        }
+        permissionHelper?.onRequestPermissionsResult(requestCode, permissions, grantResults)
     }
 
     override fun onPause() {
         viewModel.clickEvent.removeObservers(this)
         super.onPause()
-
     }
 
     override fun onResume() {
         super.onResume()
-
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
 
@@ -275,12 +258,9 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
                 }
 
                 R.id.ivProfilePic -> {
-                    // change profile picture
                 }
 
                 R.id.tvLogOut -> {
-
-
                     logoutAlert()
                 }
 
@@ -292,8 +272,8 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
                 }
 
                 viewModel.PROFILE_PICTURE_UPLOADED -> {
-
                 }
+
                 viewModel.EVENT_LOGOUT_SUCCESS -> {
                     doLogout()
                 }

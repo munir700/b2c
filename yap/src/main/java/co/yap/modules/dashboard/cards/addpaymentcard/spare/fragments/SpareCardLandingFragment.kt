@@ -50,33 +50,7 @@ class SpareCardLandingFragment : AddPaymentChildFragment<ISpareCards.ViewModel>(
             ViewModelProviders.of(it).get(AddPaymentCardViewModel::class.java)
                 .state.tootlBarTitle = "Add a virtual spare card"
         }
-
-        viewModel.clickEvent.observe(this, Observer {
-            when (it) {
-                R.id.addSpareCard -> {
-                    gotoAddSpareVirtualCardConfirmScreen()
-                }
-                R.id.llAddVirtualCard -> {
-                    gotoAddSpareVirtualCardConfirmScreen()
-                }
-
-                R.id.llAddPhysicalCard -> {
-
-                    val action =
-                        SpareCardLandingFragmentDirections.actionSpareCardLandingFragmentToAddSpareCardFragment(
-                            getString(R.string.screen_spare_card_landing_display_text_physical_card),
-                            "",
-                            "",
-                            "",
-                            "",
-                            false
-                        )
-                    findNavController().navigate(action)
-                }
-
-            }
-        })
-
+        setObservers()
     }
 
     private fun gotoAddSpareVirtualCardConfirmScreen() {
@@ -103,14 +77,49 @@ class SpareCardLandingFragment : AddPaymentChildFragment<ISpareCards.ViewModel>(
             )
     }
 
-    override fun onPause() {
-        viewModel.clickEvent.removeObservers(this)
-        super.onPause()
+    override fun setObservers() {
+        viewModel.clickEvent.observe(this, Observer {
+            when (it) {
+                R.id.addSpareCard -> {
+                    gotoAddSpareVirtualCardConfirmScreen()
+                }
+                R.id.llAddVirtualCard -> {
+                    gotoAddSpareVirtualCardConfirmScreen()
+                }
 
+                R.id.llAddPhysicalCard -> {
+
+                    val action =
+                        SpareCardLandingFragmentDirections.actionSpareCardLandingFragmentToAddSpareCardFragment(
+                            getString(R.string.screen_spare_card_landing_display_text_physical_card),
+                            "",
+                            "",
+                            "",
+                            "",
+                            false
+                        )
+                    findNavController().navigate(action)
+                }
+
+            }
+        })
+        viewModel.errorEvent.observe(this, Observer {
+            requireActivity().finish()
+        })
+    }
+
+    override fun removeObservers() {
+        viewModel.clickEvent.removeObservers(this)
+        viewModel.errorEvent.removeObservers(this)
+    }
+
+    override fun onPause() {
+        removeObservers()
+        super.onPause()
     }
 
     override fun onDestroy() {
-        viewModel.clickEvent.removeObservers(this)
+        removeObservers()
         super.onDestroy()
     }
 }

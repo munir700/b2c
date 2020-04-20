@@ -24,7 +24,10 @@ import co.yap.networking.cards.responsedtos.Card
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.RequestCodes
-import co.yap.yapcore.enums.*
+import co.yap.yapcore.enums.CardDeliveryStatus
+import co.yap.yapcore.enums.CardStatus
+import co.yap.yapcore.enums.CardType
+import co.yap.yapcore.enums.PartnerBankStatus
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.MyUserManager
@@ -56,6 +59,11 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
         viewModel.cards.observe(this, Observer {
             if (!it.isNullOrEmpty())
                 setupList(it)
+        })
+        MyUserManager.card.observe(this, Observer {
+            it?.let {
+                viewModel.getCards()
+            }
         })
     }
 
@@ -118,79 +126,58 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
                     if (getCard(pos).cardName == Constants.addCard) {
                         openAddCard()
                     } else
-                        when (CardStatus.valueOf(getCard(pos).status)) {
-                            CardStatus.ACTIVE -> {
-                                openDetailScreen(pos)
-                            }
-                            CardStatus.BLOCKED -> {
-                                openDetailScreen(pos)
-                            }
-                            CardStatus.HOTLISTED -> {
-                            }
-                            CardStatus.EXPIRED ->{
-                                openDetailScreen(pos)
-                            }
-                            CardStatus.INACTIVE -> {
-                                if (getCard(pos).deliveryStatus == null) {
+                        when (getCard(pos).status) {
+                            CardStatus.ACTIVE.name -> {
+                                if (getCard(pos).pinCreated)
                                     openDetailScreen(pos)
-                                } else {
-                                    when (getCard(pos).deliveryStatus?.let {
-                                        CardDeliveryStatus.valueOf(it)
-                                    }) {
-                                        CardDeliveryStatus.SHIPPED -> {
-                                            openStatusScreen(view, pos)
-                                        }
-                                        else -> {
+                                else
+                                    openStatusScreen(view, pos)
+                            }
+                            CardStatus.BLOCKED.name, CardStatus.EXPIRED.name -> {
+                                openDetailScreen(pos)
+                            }
+                            CardStatus.INACTIVE.name -> {
+                                getCard(pos).deliveryStatus?.let { deliveryStatus ->
+                                    when (deliveryStatus) {
+                                        CardDeliveryStatus.SHIPPED.name -> {
                                             openStatusScreen(view, pos)
                                         }
                                     }
-                                }
+                                } ?: openDetailScreen(pos)
                             }
                         }
                 }
                 R.id.lySeeDetail -> {
                     openDetailScreen(pos)
                 }
-                R.id.lycard -> {
-                    openAddCard()
-                }
-                R.id.imgAddCard -> {
-                    openAddCard()
-                }
-                R.id.tvAddCard -> {
-                    openAddCard()
-                }
-                R.id.tbBtnAddCard -> {
+                R.id.lycard, R.id.imgAddCard, R.id.tvAddCard, R.id.tbBtnAddCard -> {
                     openAddCard()
                 }
                 R.id.tvCardStatusAction -> {
-                    when (CardStatus.valueOf(getCard(pos).status)) {
-                        CardStatus.ACTIVE -> {
-                        }
-                        CardStatus.BLOCKED -> {
+                    when (getCard(pos).status) {
+                        CardStatus.BLOCKED.name -> {
                             openDetailScreen(pos)
                         }
-                        CardStatus.HOTLISTED -> {
+                        CardStatus.HOTLISTED.name -> {
                             startReorderCardFlow(getCard(pos))
                         }
-                        CardStatus.INACTIVE -> {
+                        CardStatus.ACTIVE.name -> {
                             if (getCard(pos).cardType == CardType.DEBIT.type) {
-                                if (MyUserManager.user?.notificationStatuses == AccountStatus.MEETING_SUCCESS.name && PartnerBankStatus.ACTIVATED.status == MyUserManager.user?.partnerBankStatus) {
+                                if (PartnerBankStatus.ACTIVATED.status == MyUserManager.user?.partnerBankStatus && !getCard(
+                                        pos
+                                    ).pinCreated
+                                ) {
                                     openSetPinScreen(getCard(pos))
                                 }
-                            } else {
-                                if (getCard(pos).deliveryStatus == null) {
-                                } else {
-                                    when (getCard(pos).deliveryStatus?.let {deliveryStatus->
-                                        CardDeliveryStatus.valueOf(deliveryStatus)
-                                    }) {
-                                        CardDeliveryStatus.SHIPPED -> {
-                                            openSetPinScreen(getCard(pos))
-                                        }
-                                        else -> {
-                                            openStatusScreen(view, pos)
-                                        }
-                                    }
+                            }
+                        }
+                        CardStatus.INACTIVE.name -> {
+                            if (getCard(pos).cardType == CardType.DEBIT.type) {
+                                if (PartnerBankStatus.ACTIVATED.status == MyUserManager.user?.partnerBankStatus) {
+                                    if (getCard(pos).deliveryStatus == CardDeliveryStatus.SHIPPED.name)
+                                        openSetPinScreen(getCard(pos))
+                                    else
+                                        openStatusScreen(view, pos)
                                 }
                             }
                         }
@@ -264,7 +251,7 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
                         isPinCreated?.let {
                             if (it) {
                                 adapter.removeAllItems()
-                                viewModel.getCards()
+                                viewModel.getDebitCard()
                             }
                         }
                     }

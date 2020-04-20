@@ -3,8 +3,6 @@ package co.yap.yapcore
 import android.app.Activity
 import android.app.Application
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModel
 import com.adjust.sdk.Adjust
 import com.adjust.sdk.AdjustConfig
 import com.adjust.sdk.AdjustEvent
@@ -68,20 +66,27 @@ private class AdjustLifecycleCallbacks : Application.ActivityLifecycleCallbacks 
     }
 }
 
-fun Activity.trackAdjustEvent(event: String) {
-    fireAdjustEvent(event)
-}
-
-fun Fragment.trackAdjustEvent(event: String) {
-    fireAdjustEvent(event)
-}
-
-fun ViewModel.trackAdjustEvent(event: String) {
-    fireAdjustEvent(event)
-}
+//fun Activity.trackAdjustEvent(event: String) {
+//    fireAdjustEvent(event)
+//}
+//
+//fun Fragment.trackAdjustEvent(event: String) {
+//    fireAdjustEvent(event)
+//}
+//
+//fun ViewModel.trackAdjustEvent(event: String) {
+//    fireAdjustEvent(event)
+//}
 
 fun fireAdjustEvent(event: String) {
     val adjustEvent = AdjustEvent(event)
     Adjust.trackEvent(adjustEvent)
 }
 
+class AdjustEvents {
+    companion object {
+        fun trackAdjustPlatformEvent(eventName: String, value: String = "") {
+            fireAdjustEvent(eventName)
+        }
+    }
+}

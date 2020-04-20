@@ -38,7 +38,7 @@
                 android:background="@drawable/layout_swipe_half_border"
                 android:visibility="invisible"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"></View>
+                app:layout_constraintTop_toTopOf="parent"/>
 
             <TextView
                 android:id="@+id/tv_drag_and_drop_label"

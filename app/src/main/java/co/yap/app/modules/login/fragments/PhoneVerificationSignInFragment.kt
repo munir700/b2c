@@ -13,14 +13,10 @@ import co.yap.app.modules.login.viewmodels.PhoneVerificationSignInViewModel
 import co.yap.household.dashboard.main.HouseholdDashboardActivity
 import co.yap.household.onboard.onboarding.main.OnBoardingHouseHoldActivity
 import co.yap.modules.onboarding.fragments.OnboardingChildFragment
-import co.yap.networking.customers.responsedtos.AccountInfo
-
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.biometric.BiometricUtil
 import co.yap.yapcore.helpers.extentions.launchActivity
-import co.yap.yapcore.helpers.extentions.trackEventWithAttributes
 import co.yap.yapcore.managers.MyUserManager
-import javax.inject.Inject
 
 class PhoneVerificationSignInFragment : OnboardingChildFragment<IPhoneVerificationSignIn.ViewModel>() {
 
@@ -37,7 +33,7 @@ class PhoneVerificationSignInFragment : OnboardingChildFragment<IPhoneVerificati
         viewModel.nextButtonPressEvent.observe(this, nextButtonObserver)
         viewModel.verifyOtpResult.observe(this, verifyOtpResultObserver)
         viewModel.postDemographicDataResult.observe(this, postDemographicDataObserver)
-        MyUserManager.isUserAccountInfo?.observe(this, onFetchAccountInfo)
+        MyUserManager.onAccountInfoSuccess?.observe(this, onFetchAccountInfo)
         MyUserManager.switchProfile.observe(this, switchProfileObserver)
         setUsername()
         setPasscode()
@@ -45,7 +41,7 @@ class PhoneVerificationSignInFragment : OnboardingChildFragment<IPhoneVerificati
 
     override fun onDestroy() {
         viewModel.nextButtonPressEvent.removeObservers(this)
-        MyUserManager.isUserAccountInfo?.removeObservers(this)
+        MyUserManager.onAccountInfoSuccess?.removeObservers(this)
         super.onDestroy()
     }
 
@@ -63,7 +59,9 @@ class PhoneVerificationSignInFragment : OnboardingChildFragment<IPhoneVerificati
 
     private val onFetchAccountInfo = Observer<Boolean> {
         if(it) {
-
+            if (MyUserManager.shouldGoToHousehold()) {
+                MyUserManager.switchProfile()
+            } else {
                 if (BiometricUtil.isFingerprintSupported
                     && BiometricUtil.isHardwareSupported(requireActivity())
                     && BiometricUtil.isPermissionGranted(requireActivity())
@@ -86,12 +84,8 @@ class PhoneVerificationSignInFragment : OnboardingChildFragment<IPhoneVerificati
                     }
 
                 } else {
-                   /* findNavController().navigate(R.id.action_goto_yapDashboardActivity)
-                    activity?.finish()*/
-                    if (MyUserManager.shouldGoToHousehold()) {
-                        MyUserManager.switchProfile()
-                    } else {
-                        gotoYapDashboard()
+                    findNavController().navigate(R.id.action_goto_yapDashboardActivity)
+                    activity?.finish()
                 }
             }
         }
@@ -100,11 +94,7 @@ class PhoneVerificationSignInFragment : OnboardingChildFragment<IPhoneVerificati
     private val switchProfileObserver = Observer<Boolean> {
         if(it) {
             if (MyUserManager.isOnBoarded()) {
-                if(MyUserManager.isDefaultUserYap()) {
-                    gotoYapDashboard()
-                }else{
-                    launchActivity<HouseholdDashboardActivity>(clearPrevious = true)
-                }
+                gotoYapDashboard()
             }else{
                 launchActivity<OnBoardingHouseHoldActivity>(clearPrevious = true) {
                     putExtra(OnBoardingHouseHoldActivity.USER_INFO, MyUserManager.user)
