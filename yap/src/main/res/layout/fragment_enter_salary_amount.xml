@@ -68,7 +68,7 @@
                 tools:text="AED" />
 
 
-            <co.yap.widgets.currencyview.CurrencyEditText
+            <co.yap.widgets.CurrencyEditText
                 android:id="@+id/etLastUsedAmount"
                 style="@style/Yap.App.Widget.TextInputEditText.EasyMoney"
                 android:layout_marginTop="@dimen/margin_small"
