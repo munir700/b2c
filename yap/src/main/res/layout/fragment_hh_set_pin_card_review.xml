@@ -7,6 +7,7 @@
         <variable
             name="viewModel"
             type="co.yap.modules.subaccounts.householdsetpin.hhsetpinstart.HHSetPinCardReviewVM" />
+   <import type="co.yap.translation.Strings"/>
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -21,10 +22,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="Hope you like your new card!"
+            app:text="@{Strings.screen_household_set_card_pin_review_heading}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="@string/screen_household_set_card_pin_review_heading"/>
 
         <TextView
             android:id="@+id/tvSubHeading"
@@ -32,9 +34,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_small"
-            android:text="set a PIN code to start using it"
+            app:text="@{Strings.screen_household_set_card_pin_review_sub_heading}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
+            tools:text="@string/screen_household_set_card_pin_review_sub_heading"
             app:layout_constraintTop_toBottomOf="@+id/tvSetPinHeading" />
 
         <ImageView
@@ -67,10 +70,11 @@
             style="@style/MicroGrey"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
-            android:text="Expiry date: 07/10/2025"
+            android:text="@{String.format(@string/screen_household_set_card_pin_review_date,`07/10/2025`)}"
             app:layout_constraintBottom_toTopOf="@+id/btnConfirm"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
+            tools:text="Expiry date: 07/10/2025"
             app:layout_constraintTop_toBottomOf="@+id/tvCardNumber" />
 
         <co.yap.widgets.CoreButton
@@ -80,7 +84,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/margin_medium"
             android:layout_marginRight="@dimen/margin_medium"
-            android:text="Confirm"
+            app:text="@{Strings.screen_household_set_card_pin_review_button_text}"
             app:btn_enable="true"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"

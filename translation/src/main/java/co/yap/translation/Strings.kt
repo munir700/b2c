@@ -1573,5 +1573,11 @@ object Strings {
     const val screen_household_monthly_title:String = "screen_household_monthly_title"
     const val screen_household_button_text:String = "screen_household_button_text"
 
+//House hold set pin card preview screen
+const val screen_household_set_card_pin_review_heading:String = "screen_household_set_card_pin_review_heading"
+const val screen_household_set_card_pin_review_sub_heading:String = "screen_household_set_card_pin_review_sub_heading"
+const val screen_household_set_card_pin_review_date:String = "screen_household_set_card_pin_review_date"
+const val screen_household_set_card_pin_review_button_text:String = "screen_household_set_card_pin_review_button_text"
+
 
 }
