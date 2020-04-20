@@ -29,6 +29,10 @@ class PersonalDetailsViewModel(application: Application) :
     override val repository: CardsRepository = CardsRepository
     var address: Address? = null
 
+    override fun onCreate() {
+        super.onCreate()
+        requestGetAddressForPhysicalCard()
+    }
     override fun handlePressOnScanCard(id: Int) {
         clickEvent.setValue(id)
     }
@@ -68,12 +72,6 @@ class PersonalDetailsViewModel(application: Application) :
         state.phoneNumber =
             MyUserManager.user?.currentCustomer?.getFormattedPhoneNumber(context) ?: ""
         state.email = MyUserManager.user?.currentCustomer?.email ?: ""
-        if (MyUserManager.userAddress == null) {
-            requestGetAddressForPhysicalCard()
-        } else {
-            address = MyUserManager.userAddress ?: Address()
-            setUpAddressFields()
-        }
         setUpVerificationLayout()
     }
 
@@ -95,9 +93,14 @@ class PersonalDetailsViewModel(application: Application) :
     }
 
     private fun setUpAddressFields() {
-        val fullAddress =
-            if (address?.address1 == address?.address2) address?.address1 else "${address?.address1}, ${address?.address2}"
-        state.address = fullAddress ?: ""
+        state.address = when {
+            address?.address1 == address?.address2 -> address?.address1 ?: ""
+            address?.address2.isNullOrBlank() && address?.address1.isNullOrBlank() -> ""
+            address?.address1.isNullOrBlank() -> address?.address2 ?: ""
+            address?.address2.isNullOrBlank() -> address?.address1 ?: ""
+            else -> "${address?.address1}, ${address?.address2}"
+
+        }
     }
 
     override fun toggleToolBar(hide: Boolean) {
