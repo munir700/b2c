@@ -368,7 +368,7 @@ open class AddFundsActivity : BaseBindingActivity<IFundActions.ViewModel>(),
                         if (enteredAmount > remainingDailyLimit) viewModel.state.errorDescription =
                             Translator.getString(
                                 this,
-                                Strings.common_display_text_daily_limit_error_topup_supplementary
+                                Strings.common_display_text_daily_limit_error
                             ).format(dailyLimit)
 
                         return enteredAmount > remainingDailyLimit
