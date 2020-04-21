@@ -135,12 +135,8 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
                             }
                             CardStatus.BLOCKED.name, CardStatus.EXPIRED.name -> openDetailScreen(pos)
                             CardStatus.INACTIVE.name -> {
-                                getCard(pos).deliveryStatus?.let { deliveryStatus ->
-                                    when (deliveryStatus) {
-                                        CardDeliveryStatus.SHIPPED.name -> {
-                                            openStatusScreen(view, pos)
-                                        }
-                                    }
+                                getCard(pos).deliveryStatus?.let {
+                                    openStatusScreen(view, pos)
                                 } ?: openDetailScreen(pos)
                             }
                         }

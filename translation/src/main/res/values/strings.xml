@@ -160,7 +160,7 @@
     <string name="screen_meeting_location_text_terms_and_conditions"> CRS and FATCA Terms and Conditions</string>
 
     <string name="screen_meeting_location_display_text_add_new_address_title">Add new delivery address</string>
-    <string name="screen_meeting_location_display_text_add_new_address_subtitle">Where can we deliever your spare card?</string>
+    <string name="screen_meeting_location_display_text_add_new_address_subtitle">Where can we deliver your debit card?</string>
     <string name="screen_meeting_location_display_text_add_manual_address_subtitle">We’ll need you to enter your address below</string>
 
 

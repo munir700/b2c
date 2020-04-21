@@ -49,15 +49,13 @@ class LocationSelectionViewModel(application: Application) :
                     ?.contains(unNamed.toLowerCase()) == true
             ) {
                 state.addressSubtitle.set("")
-
             }
         } else {
-
             state.addressTitle = state.placeSubTitle.get() ?: ""
             state.addressSubtitle.set(state.placeTitle.get() ?: "")
             address?.address1 = state.addressTitle
             address?.address2 = state.addressSubtitle.get()
-            state.headingTitle.set(state.addressSubtitle.get())
+            state.headingTitle.set(address?.address1)
             state.subHeadingTitle.set(
                 Translator.getString(
                     getApplication(),
@@ -65,6 +63,5 @@ class LocationSelectionViewModel(application: Application) :
                 )
             )
         }
-
     }
 }
