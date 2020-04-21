@@ -20,6 +20,7 @@ import co.yap.yapcore.enums.AccountStatus
 import co.yap.yapcore.helpers.AnimationUtils
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.managers.MyUserManager
+import co.yap.yapcore.helpers.extentions.hideKeyboard
 
 class NewUserEmailFragment : OnboardingChildFragment<IEmail.ViewModel>() {
 
@@ -59,7 +60,7 @@ class NewUserEmailFragment : OnboardingChildFragment<IEmail.ViewModel>() {
     private val clickObserver = Observer<Int> {
         when (it) {
             R.id.next_button -> {
-                hideKeyboard()
+                requireView().hideKeyboard()
                 if (viewModel.hasDoneAnimation) {
                     MyUserManager.user?.notificationStatuses = AccountStatus.ON_BOARDED.name
                     findNavController().navigate(R.id.action_emailHouseHoldFragment_to_newUserCongratulationsFragment)
@@ -67,14 +68,6 @@ class NewUserEmailFragment : OnboardingChildFragment<IEmail.ViewModel>() {
                     viewModel.sendVerificationEmail()
                 }
             }
-        }
-    }
-
-    private fun hideKeyboard() {
-        try {
-            Utils.hideKeyboard(requireView())
-        } catch (e: Exception) {
-            e.printStackTrace()
         }
     }
 

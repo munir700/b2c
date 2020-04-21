@@ -32,15 +32,17 @@ class HHSalaryProfileFragment :
     override fun postExecutePendingBindings() {
         super.postExecutePendingBindings()
         setHasOptionsMenu(true)
+        setRefreshEnabled(false)
         viewModel.clickEvent.observe(this, Observer { onClick(it) })
     }
 
     private fun onClick(id: Int) {
         when (id) {
-            R.id.ivSalary -> {
-            }
-            R.id.ivExpenses -> {
-            }
+            R.id.ivSalary -> navigateForwardWithAnimation(
+                HHSalaryProfileFragmentDirections.actionHHSalaryProfileFragmentToPayHHEmployeeSalaryFragment(),
+                arguments
+            )
+            R.id.ivExpenses -> toast("Coming Soon")
             R.id.ivUserImage -> navigateForwardWithAnimation(
                 HHSalaryProfileFragmentDirections.actionHHSalaryProfileFragmentToHHProfileFragment(),
                 arguments
@@ -54,16 +56,16 @@ class HHSalaryProfileFragment :
 
     override fun onItemClick(view: View, data: Any, pos: Int) {
         when (pos) {
-            0 -> {
-            }
-            2 -> {
-            }
-            3 -> navigateForwardWithAnimation(
+            0 -> navigateForwardWithAnimation(
+                HHSalaryProfileFragmentDirections.actionHHSalaryProfileFragmentToPayHHEmployeeSalaryFragment(),
+                arguments
+            )
+            1 -> toast("Coming Soon")
+            2 -> navigateForwardWithAnimation(
                 HHSalaryProfileFragmentDirections.actionHHSalaryProfileFragmentToHHIbanSendMoneyFragment(),
                 arguments
             )
         }
-
     }
 
     override fun onPause() {
@@ -94,7 +96,6 @@ class HHSalaryProfileFragment :
                         arguments
                     )
                     "Salary statements" -> toast("Coming Soon")
-
                 }
             }
         )

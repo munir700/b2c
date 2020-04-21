@@ -10,20 +10,17 @@
 
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/white"
         android:orientation="vertical"
-        android:paddingStart="@dimen/margin_medium"
-        android:paddingEnd="@dimen/margin_medium"
+
         android:paddingBottom="@dimen/margin_large">
 
         <include
             android:id="@+id/include2"
             layout="@layout/layout_textview_image_vertical"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
             app:name="@{`John Snow`}" />
 
         <androidx.appcompat.widget.AppCompatTextView
@@ -33,9 +30,6 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_small"
             android:text="XXXX XXXX XXXX 6583"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/include2"
             tools:ignore="HardcodedText" />
 
         <include
@@ -43,10 +37,9 @@
             layout="@layout/layout_recent_transfer_pay_salary"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_medium"
             android:layout_marginTop="@dimen/margin_medium"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/appCompatTextView2" />
+            android:layout_marginEnd="@dimen/margin_medium" />
 
         <co.yap.widgets.CoreButton
             android:id="@+id/btnPayNow"
@@ -60,33 +53,26 @@
             android:paddingEnd="@dimen/margin_normal_large"
             android:text="Pay salary now"
             app:enableCoreButton="@{true}"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/include4"
             tools:ignore="HardcodedText" />
 
         <include
-            android:id="@+id/include5"
             layout="@layout/layout_schedule_pay_salary"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_medium"
             android:layout_marginTop="@dimen/_23sdp"
+            android:layout_marginEnd="@dimen/margin_medium"
             app:lable="@{`Schedule once`}"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/btnPayNow"
             app:subLable="@{`Set up a single payment for a future date`}" />
 
         <include
             layout="@layout/layout_schedule_pay_salary"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_medium"
             android:layout_marginTop="@dimen/_23sdp"
+            android:layout_marginEnd="@dimen/margin_medium"
             app:lable="@{`Make recurring`}"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/include5"
             app:subLable="@{`Set up a standing order for future payments`}" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.appcompat.widget.LinearLayoutCompat>
 </layout>

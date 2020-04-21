@@ -98,10 +98,10 @@ class MultiStateView
 
 
     /**
-     * Returns the [View] associated with the [com.homemedics.app.widget.MultiStateView.ViewState]
+     * Returns the [View] associated with the [co.yap.widgets.MultiStateView.ViewState]
      *
-     * @param state The [com.homemedics.app.widget.MultiStateView.ViewState] with to return the view for
-     * @return The [View] associated with the [com.homemedics.app.widget.MultiStateView.ViewState], null if no view is present
+     * @param state The [co.yap.widgets.MultiStateView.ViewState] with to return the view for
+     * @return The [View] associated with the [co.yap.widgets.MultiStateView.ViewState], null if no view is present
      */
     @Nullable
     fun getView(state: ViewState): View? {
@@ -121,8 +121,8 @@ class MultiStateView
      * Sets the view for the given view state
      *
      * @param view          The [View] to use
-     * @param state         The [com.homemedics.app.widget.MultiStateView.ViewState]to set
-     * @param switchToState If the [com.homemedics.app.widget.MultiStateView.ViewState] should be switched to
+     * @param state         The [co.yap.widgets.MultiStateView.ViewState]to set
+     * @param switchToState If the [co.yap.widgets.MultiStateView.ViewState] should be switched to
      */
     private fun setViewForState(view: View, state: ViewState, switchToState: Boolean = false) {
         when (state) {
@@ -155,11 +155,11 @@ class MultiStateView
     }
 
     /**
-     * Sets the [View] for the given [com.homemedics.app.widget.MultiStateView.ViewState]
+     * Sets the [View] for the given [co.yap.widgets.MultiStateView.ViewState]
      *
      * @param layoutRes     Layout resource id
-     * @param state         The [com.homemedics.app.widget.MultiStateView.ViewState] to set
-     * @param switchToState If the [com.homemedics.app.widget.MultiStateView.ViewState] should be switched to
+     * @param state         The [co.yap.widgets.MultiStateView.ViewState] to set
+     * @param switchToState If the [co.yap.widgets.MultiStateView.ViewState] should be switched to
      */
     fun setViewForState(
         @LayoutRes layoutRes: Int, state: ViewState,
@@ -247,7 +247,7 @@ class MultiStateView
     }
 
     /**
-     * Shows the [View] based on the [com.homemedics.app.widget.MultiStateView.ViewState]
+     * Shows the [View] based on the [co.yap.widgets.MultiStateView.ViewState]
      */
     private fun setView(previousState: ViewState) {
         when (viewState) {
@@ -331,7 +331,8 @@ class MultiStateView
                     previousView.visibility = View.GONE
                     val currentView = requireNotNull(getView(viewState))
                     currentView.visibility = View.VISIBLE
-                    ObjectAnimator.ofFloat(currentView, "alpha", 0.0f, 1.0f).setDuration(animateViewChangesDuration.toLong())
+                    ObjectAnimator.ofFloat(currentView, "alpha", 0.0f, 1.0f)
+                        .setDuration(animateViewChangesDuration.toLong())
                         .start()
                 }
             })
