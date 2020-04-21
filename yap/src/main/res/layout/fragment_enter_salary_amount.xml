@@ -68,15 +68,15 @@
                 tools:text="AED" />
 
 
-            <co.yap.widgets.EasyMoneyEditText
+            <co.yap.widgets.CurrencyEditText
                 android:id="@+id/etLastUsedAmount"
                 style="@style/Yap.App.Widget.TextInputEditText.EasyMoney"
                 android:layout_marginTop="@dimen/margin_small"
                 android:gravity="center"
                 android:minWidth="@dimen/_140sdp"
-                android:text="3321.213"
+                android:hint="0.00"
                 app:amount_drawable="@drawable/bg_funds"
-                app:editable="@{false}"
+                app:editable="@{true}"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvCurrency" />
