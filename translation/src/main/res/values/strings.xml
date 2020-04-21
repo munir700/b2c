@@ -990,6 +990,12 @@
     <string name="screen_house_hold_sub_account_status_declined_by_text"> Declined by %1s</string>
     <string name="screen_sub_accounts_profile_display_text_drag_and_drop">Drag and drop to\ntransfer money</string>
 
+    <!--    House Hold IBAN send money confirmation -->
+    <string name="screen_iban_send_money_confirmation_display_text_transfer_completed">Transfer completed</string>
+    <string name="screen_iban_send_money_confirmation_display_text_successfully_sent">You have successfully sent</string>
+    <string name="screen_iban_send_money_confirmation_display_text_expense_advance">as an expense advance</string>
+    <string name="screen_iban_send_money_confirmation_display_text_pick_expense_pot">Pick an expense pot</string>
+    <string name="screen_iban_send_money_confirmation_display_text_do_it_later">I\'ll do it later</string>
 
     <string-array name="screen_house_hold_iban_send_money_type_array">
         <item>Salary</item>

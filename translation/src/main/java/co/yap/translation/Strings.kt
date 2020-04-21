@@ -1547,4 +1547,12 @@ object Strings {
     const val screen_house_hold_sub_account_ineligible_popup_message:String  = "screen_house_hold_sub_account_ineligible_popup_message"
     const val screen_sub_accounts_profile_display_text_drag_and_drop:String = "screen_sub_accounts_profile_display_text_drag_and_drop"
 
+//    House Hold IBAN send money confirmation
+
+    const val screen_iban_send_money_confirmation_display_text_transfer_completed:String  = "screen_iban_send_money_confirmation_display_text_transfer_completed"
+    const val screen_iban_send_money_confirmation_display_text_successfully_sent:String  = "screen_iban_send_money_confirmation_display_text_successfully_sent"
+    const val screen_iban_send_money_confirmation_display_text_expense_advance:String  = "screen_iban_send_money_confirmation_display_text_expense_advance"
+    const val screen_iban_send_money_confirmation_display_text_pick_expense_pot:String  = "screen_iban_send_money_confirmation_display_text_pick_expense_pot"
+    const val screen_iban_send_money_confirmation_display_text_do_it_later:String  = "screen_iban_send_money_confirmation_display_text_do_it_later"
+
 }
