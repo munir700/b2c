@@ -4,11 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
         <variable
             name="viewModel"
             type="co.yap.modules.subaccounts.paysalary.recurringpayment.RecurringPaymentVM" />
-
         <import type="co.yap.translation.Strings" />
     </data>
 
@@ -17,7 +15,7 @@
         android:layout_height="match_parent"
         android:padding="@dimen/margin_medium">
 
-        <TextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvAmountHeading"
             style="@style/Small"
             android:layout_width="0dp"
@@ -28,7 +26,7 @@
             app:text="@{Strings.screen_household_amount_to_transfer_title}"
             tools:text="@string/screen_household_amount_to_transfer_title" />
 
-        <TextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvCurrencyType"
             style="@style/SmallGrey"
             android:layout_width="0dp"
@@ -60,7 +58,7 @@
             app:layout_constraintStart_toEndOf="@+id/guideLine"
             app:layout_constraintTop_toTopOf="@+id/tvAmountHeading" />
 
-        <TextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvStartDateHeading"
             style="@style/Small"
             android:layout_width="0dp"
@@ -72,7 +70,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/tvDate" />
 
-        <TextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvDate"
             style="@style/Large"
             android:layout_width="0dp"
@@ -94,7 +92,7 @@
             android:layout_marginTop="@dimen/margin_large"
             app:layout_constraintTop_toBottomOf="@+id/tvDate">
 
-            <RadioButton
+            <androidx.appcompat.widget.AppCompatRadioButton
                 android:id="@+id/rbDaily"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -105,7 +103,7 @@
                 app:text="@{Strings.screen_household_daily_title}"
                 android:theme="@style/MyRadioButton" />
 
-            <RadioButton
+            <androidx.appcompat.widget.AppCompatRadioButton
                 android:id="@+id/rbWeekly"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -118,7 +116,7 @@
                 app:text="@{Strings.screen_household_weekly_title}"
                 android:theme="@style/MyRadioButton" />
 
-            <RadioButton
+            <androidx.appcompat.widget.AppCompatRadioButton
                 android:id="@+id/rbMonthly"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

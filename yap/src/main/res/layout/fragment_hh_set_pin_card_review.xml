@@ -7,7 +7,7 @@
         <variable
             name="viewModel"
             type="co.yap.modules.subaccounts.householdsetpin.hhsetpinstart.HHSetPinCardReviewVM" />
-   <import type="co.yap.translation.Strings"/>
+        <import type="co.yap.translation.Strings" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -16,56 +16,56 @@
         android:paddingTop="@dimen/margin_large"
         android:paddingBottom="@dimen/margin_medium">
 
-        <TextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvSetPinHeading"
             style="@style/Title3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
-            app:text="@{Strings.screen_household_set_card_pin_review_heading}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:text="@string/screen_household_set_card_pin_review_heading"/>
+            app:text="@{Strings.screen_household_set_card_pin_review_heading}"
+            tools:text="@string/screen_household_set_card_pin_review_heading" />
 
-        <TextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvSubHeading"
             style="@style/SmallGrey"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_small"
-            app:text="@{Strings.screen_household_set_card_pin_review_sub_heading}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            tools:text="@string/screen_household_set_card_pin_review_sub_heading"
-            app:layout_constraintTop_toBottomOf="@+id/tvSetPinHeading" />
+            app:layout_constraintTop_toBottomOf="@+id/tvSetPinHeading"
+            app:text="@{Strings.screen_household_set_card_pin_review_sub_heading}"
+            tools:text="@string/screen_household_set_card_pin_review_sub_heading" />
 
-        <ImageView
+        <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/ivCard"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_medium"
             android:background="@drawable/white_round_card_background"
             android:contentDescription="@string/empty_string"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toTopOf="@+id/tvCardNumber"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginTop="@dimen/margin_medium"
             app:layout_constraintTop_toBottomOf="@+id/tvSubHeading"
             app:srcCompat="@drawable/card_spare" />
 
-        <TextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvCardNumber"
             style="@style/Small"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_large"
             android:text="xxxx xxxx xxxx 1234"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toTopOf="@+id/tvExpiryDate"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/ivCard" />
 
-        <TextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvExpiryDate"
             style="@style/MicroGrey"
             android:layout_width="wrap_content"
@@ -74,8 +74,8 @@
             app:layout_constraintBottom_toTopOf="@+id/btnConfirm"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            tools:text="Expiry date: 07/10/2025"
-            app:layout_constraintTop_toBottomOf="@+id/tvCardNumber" />
+            app:layout_constraintTop_toBottomOf="@+id/tvCardNumber"
+            tools:text="Expiry date: 07/10/2025" />
 
         <co.yap.widgets.CoreButton
             android:id="@+id/btnConfirm"
@@ -84,11 +84,11 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/margin_medium"
             android:layout_marginRight="@dimen/margin_medium"
-            app:text="@{Strings.screen_household_set_card_pin_review_button_text}"
             app:btn_enable="true"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
+            app:text="@{Strings.screen_household_set_card_pin_review_button_text}"
             tools:text="Confirm" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
