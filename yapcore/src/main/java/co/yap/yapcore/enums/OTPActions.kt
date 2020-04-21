@@ -1,9 +1,14 @@
 package co.yap.yapcore.enums
 
 enum class OTPActions {
+    //top up
+    TOP_UP_SUPPLEMENTARY,
+
+    // change personal detail
     CHANGE_EMAIL,
     CHANGE_MOBILE_NO,
     FORGOT_CARD_PIN,
+
     // add beneficiary otp actions
     SWIFT_BENEFICIARY,
     RMT_BENEFICIARY,

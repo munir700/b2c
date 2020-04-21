@@ -15,6 +15,7 @@ import android.text.style.ForegroundColorSpan
 import android.view.View
 import androidx.core.animation.addListener
 import androidx.core.content.ContextCompat
+import androidx.core.os.bundleOf
 import androidx.core.view.children
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -24,15 +25,19 @@ import co.yap.modules.dashboard.cards.paymentcarddetail.addfunds.interfaces.IFun
 import co.yap.modules.dashboard.cards.paymentcarddetail.addfunds.viewmodels.AddFundsViewModel
 import co.yap.modules.dashboard.cards.paymentcarddetail.addfunds.viewmodels.FundActionsViewModel
 import co.yap.modules.others.helper.Constants
+import co.yap.modules.otp.GenericOtpFragment
+import co.yap.modules.otp.OtpDataModel
 import co.yap.networking.cards.responsedtos.Card
 import co.yap.translation.Strings
 import co.yap.translation.Translator
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.adjust.AdjustEvents
+import co.yap.yapcore.enums.OTPActions
 import co.yap.yapcore.enums.TransactionProductCode
 import co.yap.yapcore.helpers.AnimationUtils
 import co.yap.yapcore.helpers.DecimalDigitsInputFilter
 import co.yap.yapcore.helpers.extentions.afterTextChanged
+import co.yap.yapcore.helpers.extentions.startFragmentForResult
 import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 import co.yap.yapcore.helpers.showTextUpdatedAbleSnackBar
 import co.yap.yapcore.helpers.spannables.color
@@ -137,7 +142,7 @@ open class AddFundsActivity : BaseBindingActivity<IFundActions.ViewModel>(),
         when (it) {
             R.id.btnAction -> (if (viewModel.state.buttonTitle != getString(Strings.screen_success_funds_transaction_display_text_button)) {
                 if (!isDailyLimitReached())
-                    viewModel.addFunds()
+                    if (isOtpRequired()) startOtpFragment() else viewModel.addFunds()
                 else
                     viewModel.errorEvent.call()
 
@@ -335,6 +340,24 @@ open class AddFundsActivity : BaseBindingActivity<IFundActions.ViewModel>(),
         setResult(Activity.RESULT_OK, returnIntent)
     }
 
+    private fun startOtpFragment() {
+        startFragmentForResult<GenericOtpFragment>(
+            GenericOtpFragment::class.java.name,
+            bundleOf(
+                OtpDataModel::class.java.name to OtpDataModel(
+                    OTPActions.TOP_UP_SUPPLEMENTARY.name,
+                    MyUserManager.user?.currentCustomer?.getFormattedPhoneNumber(this)
+                        ?: "",
+                    amount = viewModel.state.amount
+                )
+            )
+        ) { resultCode, _ ->
+            if (resultCode == Activity.RESULT_OK) {
+                viewModel.addFunds()
+            }
+        }
+    }
+
     private fun isDailyLimitReached(): Boolean {
         viewModel.transactionThreshold.value?.let {
             it.dailyLimitTopUpSupplementary?.let { dailyLimit ->
@@ -351,6 +374,18 @@ open class AddFundsActivity : BaseBindingActivity<IFundActions.ViewModel>(),
                         return enteredAmount > remainingDailyLimit
 
                     } ?: return false
+                } ?: return false
+            } ?: return false
+        } ?: return false
+    }
+
+    private fun isOtpRequired(): Boolean {
+        viewModel.transactionThreshold.value?.let {
+            it.totalDebitAmountTopUpSupplementary?.let { totalTopupConsumedAmount ->
+                viewModel.state.amount?.toDoubleOrNull()?.let { enteredAmount ->
+                    val remainingOtpLimit =
+                        it.otpLimitTopUpSupplementary?.minus(totalTopupConsumedAmount)
+                    return enteredAmount >= (remainingOtpLimit ?: 0.0)
                 } ?: return false
             } ?: return false
         } ?: return false
