@@ -1,6 +1,5 @@
 package co.yap.yapcore.helpers.livedata
 
-import android.os.Handler
 import androidx.annotation.MainThread
 import co.yap.networking.cards.CardsRepository
 import co.yap.networking.cards.responsedtos.CardBalance
@@ -13,12 +12,7 @@ class GetAccountBalanceLiveData : LiveDataCallAdapter<CardBalance?>() {
         super.onActive()
         launch {
             when (val response = repository.getAccountBalanceRequest()) {
-
-                is RetroApiResponse.Success -> {
-                    Handler().postDelayed({
-                        value = response.data.data
-                    }, 2000)
-                }
+                is RetroApiResponse.Success -> value = response.data.data
             }
         }
     }
@@ -30,13 +24,4 @@ class GetAccountBalanceLiveData : LiveDataCallAdapter<CardBalance?>() {
 
     @MainThread
     companion object : SingleSingletonHolder<GetAccountBalanceLiveData>(::GetAccountBalanceLiveData)
-//
-//    companion object {
-//        private lateinit var sInstance: GetAccountBalanceLiveData
-//        @MainThread
-//        fun get(): GetAccountBalanceLiveData {
-//            sInstance = if (::sInstance.isInitialized) sInstance else GetAccountBalanceLiveData()
-//            return sInstance
-//        }
-//    }
 }
