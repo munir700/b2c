@@ -3,7 +3,7 @@ package co.yap.yapcore.interfaces
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 
-internal interface CoroutineViewModel {
+ interface CoroutineViewModel {
     val viewModelJob: Job
     val viewModelScope: CoroutineScope
     fun cancelAllJobs()

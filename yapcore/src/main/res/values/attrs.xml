@@ -5,7 +5,6 @@
     <attr name="colorPrimaryAttr" format="color|reference" />
     <attr name="colorPrimaryDarkAttr" format="color|reference" />
     <attr name="colorPrimaryAccentAttr" format="color|reference" />
-
     <attr name="colorPrimaryAccentWarmAttr" format="color|reference" />
     <attr name="colorPrimaryWarmAttr" format="color|reference" />
     <attr name="colorPrimaryLightAttr" format="color|reference" />
@@ -16,12 +15,9 @@
     <attr name="colorPressedBtnStateAttr" format="color|reference" />
     <attr name="colordisabledTick" format="color|reference" />
     <attr name="colorSeekBar" format="color|reference" />
-
     <!--components theme-->
     <attr name="primaryButtonTheme" format="reference" />
     <attr name="cardTheme" format="reference" />
-
-
     <declare-styleable name="CoreButton">
         <attr name="btn_text_color" format="color" />
         <attr name="btn_drawable" format="reference" />
@@ -35,12 +31,10 @@
         <attr name="btn_text_alignment_from_left" format="float" />
         <attr name="btn_has_bold_text" format="boolean" />
         <attr name="btn_enable" format="boolean" />
-
         <attr name="btn_shape_type" format="enum">
             <enum name="circle" value="0" />
             <enum name="rectangle" value="1" />
         </attr>
-
         <attr name="btn_drawable_position" format="enum">
             <enum name="left" value="0" />
             <enum name="right" value="1" />
@@ -564,5 +558,4 @@
         <attr name="checked_text_color" format="color" />
         <attr name="unChecked_text_color" format="color" />
     </declare-styleable>
-
 </resources>

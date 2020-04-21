@@ -18,6 +18,7 @@ import co.yap.translation.Translator
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.YAPThemes
 import co.yap.yapcore.helpers.*
+import co.yap.yapcore.helpers.extentions.hideKeyboard
 import com.google.android.material.snackbar.Snackbar
 
 
@@ -81,7 +82,7 @@ abstract class BaseActivity<V : IBase.ViewModel<*>> : AppCompatActivity(), IBase
         }
     }
 
-    fun hideKeyboard() = Utils.hideKeyboard(this.currentFocus)
+    fun hideKeyboard() = this.currentFocus?.hideKeyboard()
 
     override fun showToast(msg: String) {
         if ("" != msg.trim { it <= ' ' }) {
@@ -130,7 +131,7 @@ abstract class BaseActivity<V : IBase.ViewModel<*>> : AppCompatActivity(), IBase
 
     override fun showLoader(isVisible: Boolean) {
         if (isVisible) progress?.show() else progress?.dismiss()
-        Utils.hideKeyboard(this.window.decorView)
+        this.window.decorView.hideKeyboard()
     }
 
     private fun setSnackBar(activity: Activity, message: String, duration: Int): Snackbar {

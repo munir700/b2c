@@ -129,13 +129,6 @@ class RecyclerViewSwipeToRefresh(private val refreshLayout: SwipeRefreshLayout) 
 
 }
 
-fun View?.hideKeyboard() {
-    this?.let { v ->
-        val imm =
-            this.context.getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
-        imm?.hideSoftInputFromWindow(v.windowToken, 0)
-    }
-}
 
 fun NavigationView?.navViewWidth(percent: Int) {
     this?.let {

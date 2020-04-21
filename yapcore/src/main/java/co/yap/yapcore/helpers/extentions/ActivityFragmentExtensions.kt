@@ -1,3 +1,5 @@
+@file:JvmName("ActivityFragmentUtils")
+
 package co.yap.yapcore.helpers.extentions
 
 import android.app.Activity

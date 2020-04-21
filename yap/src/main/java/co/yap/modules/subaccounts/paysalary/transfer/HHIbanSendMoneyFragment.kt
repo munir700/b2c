@@ -8,7 +8,6 @@ import co.yap.yapcore.dagger.base.navigation.BaseNavViewModelFragment
 class HHIbanSendMoneyFragment :
     BaseNavViewModelFragment<FragmentHhibanSendMoneyBinding, IHHIbanSendMoney.State, HHIbanSendMoneyVM>() {
     override fun getBindingVariable() = BR.viewModel
-
     override fun getLayoutId() = R.layout.fragment_hhiban_send_money
     override fun getToolBarTitle() = state.subAccount.value?.getFullName()
 }

@@ -12,14 +12,13 @@
     <androidx.cardview.widget.CardView
         style="@style/Yap.App.Layout.CardView"
         android:background="@drawable/card_border_container"
-        android:elevation="@dimen/_2sdp"
+        android:elevation="1dp"
         app:cardBackgroundColor="@color/white">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            style="@style/Yap.App.Layout.CardView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="@dimen/margin_small">
+           android:padding="@dimen/margin_normal"
+            android:layout_height="wrap_content">
 
             <View
                 android:id="@+id/ivExpenseBg"

@@ -21,6 +21,7 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".dagger.base.navigation.host.NavHostPresenterActivity"
+            android:windowSoftInputMode="stateVisible|adjustResize"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name="co.yap.modules.setcardpin.activities.SetCardPinWelcomeActivity"

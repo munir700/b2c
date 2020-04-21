@@ -7,6 +7,7 @@ import android.view.View
 import androidx.databinding.Observable
 import co.yap.translation.Translator
 import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.helpers.extentions.hideKeyboard
 import co.yap.yapcore.interfaces.OnBackPressedListener
 
 
@@ -30,6 +31,7 @@ abstract class BaseFragment<V : IBase.ViewModel<*>> : BaseNavFragment(), IBase.V
         if (shouldRegisterViewModelLifeCycle)
             unregisterStateListeners()
         progress?.dismiss()
+        hideKeyboard()
         super.onDestroyView()
     }
 
@@ -59,8 +61,7 @@ abstract class BaseFragment<V : IBase.ViewModel<*>> : BaseNavFragment(), IBase.V
         if (isVisible) {
             if (isResumed && userVisibleHint) progress?.show()
         } else progress?.dismiss()
-        Utils.hideKeyboard(this.view)
-        //getBaseView()?.showLoader(isVisible)
+        view.hideKeyboard()
     }
 
     override fun showToast(msg: String) {

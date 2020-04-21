@@ -29,6 +29,7 @@ import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.constants.RequestCodes.REQUEST_TRANSFER_MONEY
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.getValue
+import co.yap.yapcore.helpers.extentions.hideKeyboard
 import co.yap.yapcore.helpers.extentions.launchActivity
 import co.yap.yapcore.interfaces.OnItemClickListener
 import com.nikhilpanju.recyclerviewenhanced.RecyclerTouchListener
@@ -194,7 +195,7 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
     }
 
     private fun startMoneyTransfer(beneficiary: Beneficiary?, position: Int) {
-        Utils.hideKeyboard(getSearchView())
+        getSearchView().hideKeyboard()
         launchActivity<BeneficiaryFundTransferActivity>(requestCode = REQUEST_TRANSFER_MONEY) {
             putExtra(Constants.BENEFICIARY, beneficiary)
             putExtra(Constants.POSITION, position)
@@ -203,7 +204,7 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
     }
 
     private fun openEditBeneficiary(beneficiary: Beneficiary?) {
-        Utils.hideKeyboard(getSearchView())
+        getSearchView().hideKeyboard()
         beneficiary?.let {
             val bundle = Bundle()
             bundle.putBoolean(OVERVIEW_BENEFICIARY, false)
