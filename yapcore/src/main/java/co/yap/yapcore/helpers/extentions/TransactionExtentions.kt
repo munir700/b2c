@@ -103,7 +103,7 @@ fun Content?.getTransactionTypeIcon(): Int {
                 R.drawable.ic_outgoing_transaction
             }
             TxnType.CREDIT.type -> {
-                R.drawable.ic_incoming_transaction
+                android.R.color.transparent
             }
             else -> android.R.color.transparent
         })
