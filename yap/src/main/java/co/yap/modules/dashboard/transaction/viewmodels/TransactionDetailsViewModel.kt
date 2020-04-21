@@ -64,8 +64,8 @@ class TransactionDetailsViewModel(application: Application) :
 
     private fun setSenderOrReceiver(transaction: Content) {
         when (transaction.productCode ?: "") {
-                TransactionProductCode.Y2Y_TRANSFER.pCode -> {
-                    state.isYtoYTransfer.set(true)
+            TransactionProductCode.Y2Y_TRANSFER.pCode, TransactionProductCode.UAEFTS.pCode, TransactionProductCode.DOMESTIC.pCode, TransactionProductCode.RMT.pCode, TransactionProductCode.SWIFT.pCode, TransactionProductCode.CASH_PAYOUT.pCode -> {
+                state.isTransferTxn.set(true)
             }
         }
     }

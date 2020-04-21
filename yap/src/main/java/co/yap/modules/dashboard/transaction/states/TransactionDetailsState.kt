@@ -20,7 +20,7 @@ class TransactionDetailsState : BaseState(), ITransactionDetails.State {
         }
 
     override var txnNoteValue: ObservableField<String> = ObservableField()
-    override var isYtoYTransfer: ObservableField<Boolean> = ObservableField(false)
+    override var isTransferTxn: ObservableField<Boolean> = ObservableField(false)
     override var categoryTitle: ObservableField<String> = ObservableField("")
     override var categoryIcon: ObservableField<Int> = ObservableField()
     override var transactionTitle: ObservableField<String> = ObservableField()
