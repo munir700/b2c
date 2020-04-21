@@ -26,6 +26,7 @@ import co.yap.modules.dashboard.cards.paymentcarddetail.addfunds.viewmodels.Fund
 import co.yap.modules.others.helper.Constants
 import co.yap.networking.cards.responsedtos.Card
 import co.yap.translation.Strings
+import co.yap.translation.Translator
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.adjust.AdjustEvents
 import co.yap.yapcore.enums.TransactionProductCode
@@ -135,7 +136,11 @@ open class AddFundsActivity : BaseBindingActivity<IFundActions.ViewModel>(),
     private val clickEvent = Observer<Int> {
         when (it) {
             R.id.btnAction -> (if (viewModel.state.buttonTitle != getString(Strings.screen_success_funds_transaction_display_text_button)) {
-                viewModel.addFunds()
+                if (!isDailyLimitReached())
+                    viewModel.addFunds()
+                else
+                    viewModel.errorEvent.call()
+
             } else {
                 co.yap.yapcore.AdjustEvents.trackAdjustPlatformEvent(AdjustEvents.TOP_UP_END.type)
                 if (fundsAdded) {
@@ -185,7 +190,6 @@ open class AddFundsActivity : BaseBindingActivity<IFundActions.ViewModel>(),
 
         etAmount.afterTextChanged {
                 parentViewModel?.updateFees(viewModel.state.amount ?: "")
-
         }
     }
 
@@ -207,7 +211,6 @@ open class AddFundsActivity : BaseBindingActivity<IFundActions.ViewModel>(),
 
 
     private fun runAnimations() {
-
         AnimationUtils.runSequentially(
             AnimationUtils.runTogether(
                 AnimationUtils.jumpInAnimation(tvCardNameSuccess),
@@ -226,7 +229,6 @@ open class AddFundsActivity : BaseBindingActivity<IFundActions.ViewModel>(),
     }
 
     private fun startCheckMarkAnimation() {
-
         YoYo.with(Techniques.BounceIn)
             .duration(1000)
             .repeat(0)
@@ -331,6 +333,27 @@ open class AddFundsActivity : BaseBindingActivity<IFundActions.ViewModel>(),
         val returnIntent = Intent()
         returnIntent.putExtra("newBalance", updatedSpareCardBalance)
         setResult(Activity.RESULT_OK, returnIntent)
+    }
+
+    private fun isDailyLimitReached(): Boolean {
+        viewModel.transactionThreshold.value?.let {
+            it.dailyLimitTopUpSupplementary?.let { dailyLimit ->
+                it.totalDebitAmountTopUpSupplementary?.let { totalConsumedAmount ->
+                    viewModel.state.amount?.toDoubleOrNull()?.let { enteredAmount ->
+                        val remainingDailyLimit =
+                            if ((dailyLimit - totalConsumedAmount) < 0.0) 0.0 else (dailyLimit - totalConsumedAmount)
+                        if (enteredAmount > remainingDailyLimit) viewModel.state.errorDescription =
+                            Translator.getString(
+                                this,
+                                Strings.common_display_text_daily_limit_error_topup_supplementary
+                            ).format(dailyLimit)
+
+                        return enteredAmount > remainingDailyLimit
+
+                    } ?: return false
+                } ?: return false
+            } ?: return false
+        } ?: return false
     }
 
 }

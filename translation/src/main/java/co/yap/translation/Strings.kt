@@ -27,9 +27,10 @@ object Strings {
         "common_display_text_daily_limit_error_multiple_transactions"
     const val common_display_text_available_balance_error: String =
         "common_display_text_available_balance_error"
-
     const val common_display_text_min_max_limit_error_transaction: String =
         "common_display_text_min_max_limit_error_transaction"
+    const val common_display_text_daily_limit_error_topup_supplementary: String =
+        "common_display_text_daily_limit_error_topup_supplementary"
 
     //Home screen
     const val screen_home_display_text_tag_line: String = "screen_home_display_text_tag_line"
