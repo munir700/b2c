@@ -268,10 +268,10 @@
                         android:layout_marginRight="@dimen/margin_btn_side_paddings_xl"
                         android:layout_marginBottom="@dimen/margin_medium_large"
                         android:gravity="bottom"
+                        app:enableCoreButton="@{viewModel.state.valid}"
                         android:onClick="@{(v) -> viewModel.handleOnPressView(v.id)}"
                         app:text="@{Strings.common_button_next}"
                         tools:text="@string/common_button_next"
-                        app:enableCoreButton="@{viewModel.state.valid}"
                         app:layout_constraintBottom_toBottomOf="parent"
                         tools:layout_editor_absoluteX="44dp" />
                 </LinearLayout>
