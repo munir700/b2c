@@ -20,5 +20,11 @@ data class TransactionThresholdModel(
     @SerializedName("holdUAEFTSAmount")
     var holdUAEFTSAmount: Double?,
     @SerializedName("holdSwiftAmount")
-    var holdSwiftAmount: Double?
+    var holdSwiftAmount: Double?,
+    @SerializedName("totalDebitAmountTopUpSupplementary")
+    var totalDebitAmountTopUpSupplementary: Double?,
+    @SerializedName("dailyLimitTopUpSupplementary")
+    var dailyLimitTopUpSupplementary: Double?,
+    @SerializedName("otpLimitTopUpSupplementary")
+    var otpLimitTopUpSupplementary: Double?
 )
