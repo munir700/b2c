@@ -97,8 +97,31 @@ class Y2YTransferFragment : Y2YBaseFragment<IY2YFundsTransfer.ViewModel>(), IY2Y
                 viewModel.state.errorDescription,
                 Snackbar.LENGTH_INDEFINITE
             )
-            isDailyLimitReached() -> showErrorSnackBar(viewModel.state.errorDescription, Snackbar.LENGTH_INDEFINITE)
-            else -> cancelAllSnackBar()
+            isDailyLimitReached() -> {
+                viewModel.state.amountBackground =
+                    requireContext().resources.getDrawable(
+                        co.yap.yapcore.R.drawable.bg_funds_error,
+                        null
+                    )
+                viewModel.state.valid = false
+                showErrorSnackBar(viewModel.state.errorDescription, Snackbar.LENGTH_INDEFINITE)
+            }
+            viewModel.enteredAmount.value?.toDoubleOrNull() ?: 0.0 < viewModel.state.minLimit || viewModel.enteredAmount.value?.toDoubleOrNull() ?: 0.0 > viewModel.state.maxLimit -> {
+                setUpperLowerLimitError()
+                viewModel.state.amountBackground =
+                    requireContext().resources.getDrawable(
+                        co.yap.yapcore.R.drawable.bg_funds_error,
+                        null
+                    )
+                viewModel.state.valid = false
+                showErrorSnackBar(viewModel.state.errorDescription, Snackbar.LENGTH_INDEFINITE)
+            }
+            else -> {
+                viewModel.state.amountBackground =
+                    requireContext().resources.getDrawable(co.yap.yapcore.R.drawable.bg_funds, null)
+                viewModel.state.valid = true
+                cancelAllSnackBar()
+            }
         }
     }
 
@@ -110,13 +133,6 @@ class Y2YTransferFragment : Y2YBaseFragment<IY2YFundsTransfer.ViewModel>(), IY2Y
         when (it) {
             R.id.btnConfirm -> {
                 when {
-                    viewModel.enteredAmount.value?.toDoubleOrNull() ?: 0.0 < viewModel.state.minLimit || viewModel.enteredAmount.value?.toDoubleOrNull() ?: 0.0 > viewModel.state.maxLimit -> {
-                        setUpperLowerLimitError()
-                        viewModel.errorEvent.call()
-                    }
-//                    isDailyLimitReached() -> {
-//                        viewModel.errorEvent.call()
-//                    }
                     isOtpRequired() -> {
                         startOtpFragment()
                     }
@@ -125,10 +141,6 @@ class Y2YTransferFragment : Y2YBaseFragment<IY2YFundsTransfer.ViewModel>(), IY2Y
                     }
                 }
             }
-            1122 -> {
-
-            }
-
         }
     }
 
@@ -138,7 +150,6 @@ class Y2YTransferFragment : Y2YBaseFragment<IY2YFundsTransfer.ViewModel>(), IY2Y
             Strings.common_display_text_min_max_limit_error_transaction,
             viewModel.state.minLimit.toString().toFormattedCurrency() ?: "",
             viewModel.state.maxLimit.toString()
-
         )
     }
 
@@ -200,12 +211,11 @@ class Y2YTransferFragment : Y2YBaseFragment<IY2YFundsTransfer.ViewModel>(), IY2Y
                     viewModel.enteredAmount.value?.toDoubleOrNull()?.let { enteredAmount ->
                         val remainingDailyLimit =
                             if ((dailyLimit - totalConsumedAmount) < 0.0) 0.0 else (dailyLimit - totalConsumedAmount)
-                        viewModel.state.errorDescription =
-                            if (enteredAmount > dailyLimit) getString(Strings.screen_y2y_funds_transfer_display_text_limit_error) else getString(
-                                Strings.screen_y2y_funds_transfer_display_text_limit_error
-                            )
-                        return enteredAmount  > remainingDailyLimit
-
+                        viewModel.state.errorDescription = Translator.getString(
+                            requireContext(),
+                            Strings.common_display_text_daily_limit_error
+                        ).format(dailyLimit)
+                        return enteredAmount > remainingDailyLimit
                     } ?: return false
                 } ?: return false
             } ?: return false
