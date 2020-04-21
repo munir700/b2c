@@ -119,6 +119,7 @@ class LocationSelectionActivity : MapSupportActivity(), ILocationSelection.View 
         viewModel.isMapExpanded.observe(this, Observer {
             viewModel.state.toolbarVisibility = !it
             if (it) {
+                hideKeyboard()
                 rlCollapsedMapSection.visibility = View.GONE
                 lyAddressFields.visibility = View.GONE
                 ivClose.visibility = View.VISIBLE

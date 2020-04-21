@@ -18,7 +18,7 @@ interface ITransactionDetails {
     interface State : IBase.State {
         var toolBarTitle: String?
         var txnNoteValue: ObservableField<String>
-        var isYtoYTransfer: ObservableField<Boolean>
+        var isTransferTxn: ObservableField<Boolean>
         var spentVisibility: ObservableField<Boolean>
         var categoryTitle: ObservableField<String>
         var categoryIcon: ObservableField<Int>

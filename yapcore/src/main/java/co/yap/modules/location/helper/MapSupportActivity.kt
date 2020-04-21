@@ -107,7 +107,7 @@ open class MapSupportActivity : BaseBindingActivity<ILocationSelection.ViewModel
                 loadAysnMapInfo(latLng)
             }
         }
-        getCurrentPlaceLikelihoods()
+//        getCurrentPlaceLikelihoods()
     }
 
     protected fun loadAysnMapInfo(latLng: LatLng) {
@@ -124,9 +124,10 @@ open class MapSupportActivity : BaseBindingActivity<ILocationSelection.ViewModel
         try {
             val list = geoCoder.getFromLocation(location.latitude, location.longitude, 1)
             val selectedAddress: Address = list[0]
-            val placeName =
+            var placeName =
                 selectedAddress.getAddressLine(0).split(",").toTypedArray()[0]
             val placeSubTitle = selectedAddress.getAddressLine(0)
+            if (placeName == placeSubTitle) placeName = selectedAddress.featureName
             viewModel.state.isLocationInAllowedCountry.set(selectedAddress.countryCode == "AE")
             return co.yap.networking.cards.responsedtos.Address(
                 placeName,

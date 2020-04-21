@@ -6,7 +6,6 @@ import android.graphics.drawable.Drawable
 import androidx.databinding.Bindable
 import androidx.databinding.ObservableField
 import co.yap.BR
-import co.yap.modules.dashboard.cards.paymentcarddetail.addfunds.interfaces.IFundActions
 import co.yap.modules.dashboard.cards.paymentcarddetail.addfunds.interfaces.IRemoveFundActions
 import co.yap.networking.customers.responsedtos.beneficiary.TopUpCard
 import co.yap.translation.Strings
@@ -16,7 +15,7 @@ import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.cancelAllSnackBar
 import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 
-class FundActionsState(application: Application) : BaseState(), IFundActions.State {
+class RemoveFundActionsState(application: Application) : BaseState(), IRemoveFundActions.State {
     var context: Context = application.applicationContext
 
     @get:Bindable

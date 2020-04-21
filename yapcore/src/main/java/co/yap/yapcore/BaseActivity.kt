@@ -7,10 +7,10 @@ import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.provider.Settings
+import android.view.LayoutInflater
 import android.view.View
 import android.view.WindowManager
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.Observable
 import co.yap.translation.Strings
@@ -19,7 +19,6 @@ import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.YAPThemes
 import co.yap.yapcore.helpers.*
 import com.google.android.material.snackbar.Snackbar
-
 
 abstract class BaseActivity<V : IBase.ViewModel<*>> : AppCompatActivity(), IBase.View<V>,
     NetworkConnectionManager.OnNetworkStateChangeListener,
@@ -84,7 +83,7 @@ abstract class BaseActivity<V : IBase.ViewModel<*>> : AppCompatActivity(), IBase
 
     override fun showToast(msg: String) {
         if ("" != msg.trim { it <= ' ' }) {
-            Toast.makeText(this, msg, Toast.LENGTH_LONG).show()
+            showAlertDialogAndExitApp("", msg, false)
         }
     }
 
@@ -223,24 +222,34 @@ abstract class BaseActivity<V : IBase.ViewModel<*>> : AppCompatActivity(), IBase
         }
     }
 
-    fun showAlertDialogAndExitApp(
-        title: String = "Alert",
+    private fun showAlertDialogAndExitApp(
+        title: String? = null,
         message: String?,
         closeActivity: Boolean = true
     ) {
-        val alertDialog: AlertDialog = AlertDialog.Builder(this).create()
-        alertDialog.setTitle(title)
-        alertDialog.setMessage(message)
-        alertDialog.setCancelable(false)
-        alertDialog.setButton(
-            AlertDialog.BUTTON_NEUTRAL, "OK"
-        ) { dialog, which ->
-            dialog.dismiss()
+        val builder = AlertDialog.Builder(this)
+        var alertDialog: AlertDialog? = null
+        val inflater: LayoutInflater = layoutInflater
+        title?.let { builder.setTitle(title) }
+        val dialogLayout: View =
+            inflater.inflate(R.layout.alert_dialogue, null)
+        val label = dialogLayout.findViewById<TextView>(R.id.tvTitle)
+        label.text = message
+        val ok = dialogLayout.findViewById<TextView>(R.id.tvButtonTitle)
+        ok.text = "OK"
+        ok.setOnClickListener {
+            alertDialog?.dismiss()
             if (closeActivity)
                 finish()
         }
-        alertDialog.setCancelable(false)
+
+        builder.setView(dialogLayout)
+        builder.setCancelable(false)
+        alertDialog = builder.create()
+
+        alertDialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
         alertDialog.show()
+
     }
 
 }

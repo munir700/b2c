@@ -12,6 +12,7 @@ import co.yap.networking.transactions.requestdtos.AddFundsRequest
 import co.yap.networking.transactions.requestdtos.RemittanceFeeRequest
 import co.yap.networking.transactions.requestdtos.RemoveFundsRequest
 import co.yap.networking.transactions.responsedtos.FundTransferDenominations
+import co.yap.sendMoney.base.SMFeeViewModel
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.constants.Constants
@@ -21,7 +22,7 @@ import co.yap.yapcore.managers.MyUserManager
 import kotlinx.coroutines.delay
 
 open class FundActionsViewModel(application: Application) :
-    BaseViewModel<IFundActions.State>(application), IFundActions.ViewModel {
+    SMFeeViewModel<IFundActions.State>(application), IFundActions.ViewModel {
 
     override val htmlLiveData: MutableLiveData<String> = MutableLiveData()
     private val transactionsRepository: TransactionsRepository = TransactionsRepository
@@ -41,7 +42,6 @@ open class FundActionsViewModel(application: Application) :
     override fun initateVM(topupCard: TopUpCard) {}
     override fun startPooling(showLoader: Boolean) {}
     override fun denominationFirstAmountClick() {
-//        state.amount = ""
         if (state.denominationFirstAmount.contains("+")) {
             state.denominationAmount = Utils.getFormattedCurrencyWithoutComma(
                 state.denominationFirstAmount.replace(
@@ -61,7 +61,6 @@ open class FundActionsViewModel(application: Application) :
     }
 
     override fun denominationSecondAmount() {
-//        state.amount = ""
         state.denominationAmount = ""
         if (state.denominationSecondAmount.contains("+")) {
             state.denominationAmount = Utils.getFormattedCurrencyWithoutComma(
@@ -82,7 +81,6 @@ open class FundActionsViewModel(application: Application) :
     }
 
     override fun denominationThirdAmount() {
-//        state.amount = ""
         if (state.denominationThirdAmount.contains("+")) {
             state.denominationAmount = Utils.getFormattedCurrencyWithoutComma(
                 state.denominationThirdAmount.replace(
@@ -99,34 +97,6 @@ open class FundActionsViewModel(application: Application) :
             )
         }
         thirdDenominationClickEvent.call()
-    }
-
-    override fun getFee(productCode: String) {
-        launch {
-            state.loading = true
-            when (val response = transactionsRepository.getTransactionFeeWithProductCode(
-                productCode, RemittanceFeeRequest()
-            )) {
-                is RetroApiResponse.Success -> {
-                    if (response.data.data != null) {
-                        if (response.data.data?.feeType == Constants.FEE_TYPE_FLAT) {
-                            val feeAmount = response.data.data?.tierRateDTOList?.get(0)?.feeAmount
-                            val VATAmount = response.data.data?.tierRateDTOList?.get(0)?.vatAmount
-                            state.fee =
-                                feeAmount?.plus(VATAmount ?: 0.0).toString().toFormattedCurrency()
-                        }
-                    } else {
-                        state.fee = "0.0".toFormattedCurrency()
-                    }
-                    clickEvent.postValue(Constants.CARD_FEE)
-                }
-                is RetroApiResponse.Error -> {
-                    state.errorDescription = response.error.message
-                    errorEvent.call()
-                }
-            }
-            state.loading = false
-        }
     }
 
     override fun addFunds() {
@@ -165,6 +135,7 @@ open class FundActionsViewModel(application: Application) :
                 is RetroApiResponse.Success -> {
                     clickEvent.setValue(EVENT_REMOVE_FUNDS_SUCCESS)
                 }
+
                 is RetroApiResponse.Error -> {
                     state.toast = response.error.message
                 }
@@ -224,7 +195,7 @@ open class FundActionsViewModel(application: Application) :
 
     override fun buttonClickEvent(id: Int) {
         if (state.checkValidity("") == "") {
-            clickEvent.postValue(id)
+            clickEvent.setValue(id)
         } else {
             errorEvent.postValue(id)
         }

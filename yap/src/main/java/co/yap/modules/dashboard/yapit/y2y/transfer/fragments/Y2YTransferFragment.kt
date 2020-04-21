@@ -3,11 +3,8 @@ package co.yap.modules.dashboard.yapit.y2y.transfer.fragments
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.text.Editable
 import android.text.InputFilter
-import android.text.TextWatcher
 import android.view.Gravity
-import android.view.Gravity.CENTER_VERTICAL
 import android.view.View
 import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
@@ -24,11 +21,11 @@ import co.yap.modules.dashboard.yapit.y2y.transfer.viewmodels.Y2YFundsTransferVi
 import co.yap.modules.otp.GenericOtpFragment
 import co.yap.modules.otp.LogoData
 import co.yap.modules.otp.OtpDataModel
-import co.yap.modules.otp.OtpToolBarData
 import co.yap.translation.Strings
 import co.yap.translation.Translator
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.OTPActions
+import co.yap.yapcore.enums.TransactionProductCode
 import co.yap.yapcore.helpers.*
 import co.yap.yapcore.helpers.extentions.startFragmentForResult
 import co.yap.yapcore.helpers.extentions.toFormattedCurrency
@@ -52,7 +49,7 @@ class Y2YTransferFragment : Y2YBaseFragment<IY2YFundsTransfer.ViewModel>(), IY2Y
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel.state.availableBalance = MyUserManager.cardBalance.value?.availableBalance
-        viewModel.getTransactionFee()
+        viewModel.getTransferFees(TransactionProductCode.Y2Y_TRANSFER.pCode)
         setObservers()
     }
 
@@ -66,15 +63,26 @@ class Y2YTransferFragment : Y2YBaseFragment<IY2YFundsTransfer.ViewModel>(), IY2Y
         viewModel.enteredAmount.observe(this, enterAmountObserver)
         viewModel.errorEvent.observe(this, Observer {
             showErrorSnackBar(viewModel.state.errorDescription, Snackbar.LENGTH_LONG)
-            /*       showSnackBar(
-                       msg = viewModel.state.errorDescription,
-                       viewBgColor = R.color.errorLightBackground, gravity = Gravity.TOP,
-                       colorOfMessage = R.color.error, duration = Snackbar.LENGTH_LONG
-                   )*/
+
         })
         viewModel.transferFundSuccess.observe(this, transferFundSuccessObserver)
+        viewModel.isFeeReceived.observe(this, Observer {
+            if (it) viewModel.updateFees(viewModel.enteredAmount.value ?: "")
+        })
+        viewModel.updatedFee.observe(this, Observer {
+            if (it.isNotBlank()) setSpannableFee(it)
+        })
 
+    }
 
+    private fun setSpannableFee(feeAmount: String?) {
+        viewModel.state.transferFee =
+            resources.getText(
+                getString(Strings.common_text_fee), requireContext().color(
+                    R.color.colorPrimaryDark,
+                    "${viewModel.state.currencyType} ${feeAmount?.toFormattedCurrency()}"
+                )
+            )
     }
 
     private val transferFundSuccessObserver = Observer<Boolean> {
@@ -83,6 +91,7 @@ class Y2YTransferFragment : Y2YBaseFragment<IY2YFundsTransfer.ViewModel>(), IY2Y
         }
     }
     private val enterAmountObserver = Observer<String> {
+        viewModel.updateFees(it)
         when {
             isBalanceAvailable(it) -> showErrorSnackBar(
                 viewModel.state.errorDescription,
@@ -116,14 +125,8 @@ class Y2YTransferFragment : Y2YBaseFragment<IY2YFundsTransfer.ViewModel>(), IY2Y
                     }
                 }
             }
-            Constants.CARD_FEE -> {
-                viewModel.state.transferFee =
-                    resources.getText(
-                        getString(Strings.common_text_fee), requireContext().color(
-                            R.color.colorPrimaryDark,
-                            "${viewModel.state.currencyType} ${viewModel.state.fee?.toFormattedCurrency()}"
-                        )
-                    )
+            1122 -> {
+
             }
 
         }
@@ -187,20 +190,7 @@ class Y2YTransferFragment : Y2YBaseFragment<IY2YFundsTransfer.ViewModel>(), IY2Y
 
         etAmount.filters =
             arrayOf(InputFilter.LengthFilter(7), DecimalDigitsInputFilter(2))
-        etAmount.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(p0: Editable?) {
-            }
 
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-            }
-
-            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) =
-                if (p0?.length!! > 0) {
-                    etAmount.gravity = Gravity.CENTER_HORIZONTAL or CENTER_VERTICAL
-                } else {
-                    etAmount.gravity = Gravity.CENTER_HORIZONTAL or CENTER_VERTICAL
-                }
-        })
     }
 
     private fun isDailyLimitReached(): Boolean {

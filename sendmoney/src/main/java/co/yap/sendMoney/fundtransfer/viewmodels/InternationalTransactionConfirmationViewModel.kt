@@ -4,14 +4,14 @@ import android.app.Application
 import androidx.lifecycle.MutableLiveData
 import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.transactions.TransactionsRepository
-import co.yap.networking.transactions.requestdtos.RMTTransactionRequestDTO
-import co.yap.networking.transactions.requestdtos.SwiftTransactionRequestDTO
+import co.yap.networking.transactions.requestdtos.SendMoneyTransferRequest
 import co.yap.sendMoney.fundtransfer.interfaces.IInternationalTransactionConfirmation
 import co.yap.sendMoney.fundtransfer.states.InternationalTransactionConfirmationState
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.SendMoneyBeneficiaryType
 import co.yap.yapcore.enums.TransactionProductCode
+import co.yap.yapcore.helpers.extentions.parseToDouble
 
 class InternationalTransactionConfirmationViewModel(application: Application) :
     BeneficiaryFundTransferBaseViewModel<IInternationalTransactionConfirmation.State>(application),
@@ -37,13 +37,14 @@ class InternationalTransactionConfirmationViewModel(application: Application) :
                 state.loading = true
                 when (val response =
                     mTransactionsRepository.rmtTransferRequest(
-                        RMTTransactionRequestDTO(
-                            it.sourceAmount?.toDouble(),
-                            it.sourceCurrency,
-                            it.purposeCode,
-                            parentViewModel?.beneficiary?.value?.id.toString(),
-                            if (it.noteValue.isNullOrBlank()) null else it.noteValue,
-                            it.transferReason
+                        SendMoneyTransferRequest(
+                            amount = it.sourceAmount?.toDouble(),
+                            currency = it.sourceCurrency,
+                            purposeCode = parentViewModel?.selectedPop?.purposeCode,
+                            beneficiaryId = parentViewModel?.beneficiary?.value?.id,
+                            remarks = if (it.noteValue.isNullOrBlank()) null else it.noteValue,
+                            purposeReason = parentViewModel?.selectedPop?.purposeDescription,
+                            settlementAmount = it.destinationAmount.parseToDouble()
                         )
                     )
                     ) {
@@ -67,14 +68,14 @@ class InternationalTransactionConfirmationViewModel(application: Application) :
                 state.loading = true
                 when (val response =
                     mTransactionsRepository.swiftTransferRequest(
-                        SwiftTransactionRequestDTO(
-                            beneficiaryId,
-                            it.sourceAmount?.toDouble(),
-                            0.0,
-                            it.purposeCode,
-                            it.transferReason,
-                            if (it.noteValue.isNullOrBlank()) null else it.noteValue,
-                            it.rate
+                        SendMoneyTransferRequest(
+                            beneficiaryId = beneficiaryId?.toInt(),
+                            amount = it.sourceAmount?.toDouble(),
+                            settlementAmount = it.destinationAmount.parseToDouble(),
+                            purposeCode = parentViewModel?.selectedPop?.purposeCode,
+                            purposeReason = parentViewModel?.selectedPop?.purposeDescription,
+                            remarks = if (it.noteValue.isNullOrBlank()) null else it.noteValue,
+                            fxRate = it.rate
                         )
                     )
                     ) {
@@ -137,7 +138,6 @@ class InternationalTransactionConfirmationViewModel(application: Application) :
 
 
     override fun getCutOffTimeConfiguration() {
-
         parentViewModel?.beneficiary?.value?.run {
             beneficiaryType?.let { beneficiaryType ->
                 if (beneficiaryType.isNotEmpty())
@@ -148,7 +148,8 @@ class InternationalTransactionConfirmationViewModel(application: Application) :
                                     mTransactionsRepository.getCutOffTimeConfiguration(
                                         getProductCode(),
                                         currency,
-                                        parentViewModel?.transferData?.value?.sourceAmount
+                                        parentViewModel?.transferData?.value?.sourceAmount,
+                                        parentViewModel?.selectedPop?.cbwsi?:false
                                     )) {
                                     is RetroApiResponse.Success -> {
                                         response.data.data?.let {

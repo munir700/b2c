@@ -14,5 +14,7 @@ data class TransactionThresholdModel(
     @SerializedName("totalDebitAmountRemittance")
     var totalDebitAmountRemittance: Double?,
     @SerializedName("totalDebitAmountY2Y")
-    var totalDebitAmountY2Y: Double?
+    var totalDebitAmountY2Y: Double?,
+    @SerializedName("cbwsiPaymentLimit")
+    var cbwsiPaymentLimit: Double?
 )

@@ -8,6 +8,7 @@ import co.yap.modules.dashboard.cards.addpaymentcard.spare.states.SpareCardLandi
 import co.yap.modules.dashboard.cards.addpaymentcard.viewmodels.AddPaymentChildViewModel
 import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.transactions.TransactionsRepository
+import co.yap.networking.transactions.responsedtos.transaction.RemittanceFeeResponse
 import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.constants.Constants
@@ -48,16 +49,13 @@ class SpareCardLandingViewModel(application: Application) :
             when (val response = transactionRepository.getCardFee("virtual")) {
                 is RetroApiResponse.Success -> {
                     if (response.data.data != null) {
-                        if (response.data.data?.feeType == Constants.FEE_TYPE_FLAT) {
-                            val feeAmount = response.data.data?.tierRateDTOList?.get(0)?.feeAmount
-                            val VATAmount = response.data.data?.tierRateDTOList?.get(0)?.vatAmount
-                            state.virtualCardFee = feeAmount?.plus(VATAmount ?: 0.0).toString()
-                                .toFormattedAmountWithCurrency()
+                        feeType = response.data.data?.feeType ?: ""
+                        response.data.data?.tierRateDTOList?.let {
+                            feeTiers =
+                                response.data.data?.tierRateDTOList as ArrayList<RemittanceFeeResponse.RemittanceFee.TierRateDTO>
+                            isFeeReceived.value = true
                         }
-                    } else {
-                        state.virtualCardFee = "0.0".toFormattedAmountWithCurrency()
                     }
-                    parentViewModel?.virtualCardFee = state.virtualCardFee
                 }
                 is RetroApiResponse.Error -> {
                     state.toast = response.error.message

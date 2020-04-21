@@ -64,22 +64,9 @@ class TransactionsListingAdapter(private val list: MutableList<Content>) :
             var txnAmountPreFix = ""
             transaction.txnType?.let {
                 when (it) {
-                    TxnType.CREDIT.type -> {
-                        txnAmountPreFix = "+"
-                        itemTransactionListBinding.tvTransactionAmount.setTextColor(
-                            context.getColors(
-                                R.color.colorSecondaryGreen
-                            )
-                        )
-                    }
-                    TxnType.DEBIT.type -> {
-                        txnAmountPreFix = "-"
-                        itemTransactionListBinding.tvTransactionAmount.setTextColor(
-                            context.getColors(
-                                R.color.colorPrimaryDark
-                            )
-                        )
-                    }
+                    TxnType.DEBIT.type -> txnAmountPreFix = "-"
+                    TxnType.CREDIT.type -> txnAmountPreFix = "+"
+
                 }
             }
 
@@ -172,7 +159,19 @@ class TransactionsListingAdapter(private val list: MutableList<Content>) :
                     if (isTxnCancelled) R.color.greyNormalDark else R.color.greyDark
                 )
             )
-            itemTransactionListBinding.tvTransactionAmount.setTextColor(context.getColors(if (isTxnCancelled) R.color.greyNormalDark else R.color.colorMidnightExpress))
+            itemTransactionListBinding.tvTransactionAmount.setTextColor(
+                context.getColors(
+                    if (isTxnCancelled) {
+                        R.color.greyNormalDark
+                    } else {
+                        if (transaction.txnType == TxnType.CREDIT.type)
+                            R.color.colorSecondaryGreen
+                        else
+                            R.color.colorPrimaryDark
+
+                    }
+                )
+            )
             itemTransactionListBinding.tvCurrency.setTextColor(context.getColors(if (isTxnCancelled) R.color.greyNormalDark else R.color.greyDark))
 
             //strike-thru textview
