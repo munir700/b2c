@@ -242,5 +242,5 @@ interface CustomersRetroService {
 
 
     @POST(CustomersRepository.URL_REACTIVATE_HOUSE_HOLD_SUBSCRIPTION)
-    suspend fun reActivateHouseHoldSubscription(@Path("UUID") uuid: String): Response<ApiResponse>
+    suspend fun reActivateHouseHoldSubscription(@Path("UUID") uuid: String?): Response<ApiResponse>
 }

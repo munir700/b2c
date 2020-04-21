@@ -105,7 +105,7 @@ interface CustomersApi {
         planType: String?, isAutoRenew: Boolean?
     ): RetroApiResponse<ApiResponse>
 
-    suspend fun reActivateHouseHoldSubscription(uuid: String): RetroApiResponse<ApiResponse>
+    suspend fun reActivateHouseHoldSubscription(uuid: String?): RetroApiResponse<ApiResponse>
     suspend fun cancelHouseHoldSubscription(uuid: String?): RetroApiResponse<ApiResponse>
 
 }

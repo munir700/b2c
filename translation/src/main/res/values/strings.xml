@@ -997,5 +997,40 @@
         <item>Bonus</item>
         <item>Other</item>
     </string-array>
+
+    <!--    HouseHold Subscription Screen-->
+    <string name="screen_household_subscription_title">Subscription</string>
+    <string name="screen_household_renewable_title">Automatic renewal</string>
+    <string name="screen_household_cancel_subscription_title">Cancel subscription</string>
+    <string name="screen_household_cancel_subscription_cancel_title">Are you sure you want to cancel this subscription?</string>
+    <string name="screen_household_cancel_subscription_cancel_message">Cancellation will come into effect following the 12-month contract period</string>
+    <string name="screen_household_cancel_subscription_no_button">NO</string>
+    <string name="screen_household_cancel_subscription_yes_button">YES</string>
+    <string name="screen_household_cancel_subscription_name_title">Name</string>
+    <string name="screen_household_cancel_subscription_start_date_title">Start date</string>
+    <string name="screen_household_cancel_subscription_end_date_title">End date</string>
+    <string name="screen_household_cancel_subscription_plan_type_title">Plan type</string>
+    <string name="screen_household_cancel_subscription_cost_title">Cost</string>
+    <string name="screen_household_reactivate_subscription_title">Reactivate subscription</string>
+
+
+    <!--   HouseHold Recurring Payment Screen-->
+
+    <string name="screen_household_recurring_payment_title">Set up a recurring payment</string>
+    <string name="screen_household_amount_to_transfer_title">Amount to transfer</string>
+    <string name="screen_household_currency_title">AED</string>
+    <string name="screen_household_start_date_title">Starting date</string>
+    <string name="screen_household_daily_title">Daily</string>
+    <string name="screen_household_weekly_title">Weekly</string>
+    <string name="screen_household_monthly_title">Monthly</string>
+    <string name="screen_household_button_text">Confirm</string>
+
+    <!--    House hold set pin card preview screen-->
+    <string name="screen_household_set_card_pin_review_heading">Hope you like your new card!</string>
+    <string name="screen_household_set_card_pin_review_sub_heading">Set a PIN code to start using it</string>
+    <string name="screen_household_set_card_pin_review_date">Expiry date: %1$s</string>
+    <string name="screen_household_set_card_pin_review_button_text">Confirm</string>
+
+
 </resources>
 
