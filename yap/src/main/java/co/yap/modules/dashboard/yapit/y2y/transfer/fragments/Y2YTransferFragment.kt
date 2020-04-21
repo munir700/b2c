@@ -214,7 +214,7 @@ class Y2YTransferFragment : Y2YBaseFragment<IY2YFundsTransfer.ViewModel>(), IY2Y
                         viewModel.state.errorDescription = Translator.getString(
                             requireContext(),
                             Strings.common_display_text_daily_limit_error
-                        ).format(dailyLimit)
+                        ).format(remainingDailyLimit)
                         return enteredAmount > remainingDailyLimit
                     } ?: return false
                 } ?: return false
