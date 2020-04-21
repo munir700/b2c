@@ -30,6 +30,8 @@ object Strings {
 
     const val common_display_text_min_max_limit_error_transaction: String =
         "common_display_text_min_max_limit_error_transaction"
+    const val common_display_text_daily_limit_error: String =
+        "common_display_text_daily_limit_error"
 
     //Home screen
     const val screen_home_display_text_tag_line: String = "screen_home_display_text_tag_line"
@@ -847,6 +849,8 @@ object Strings {
         "screen_y2y_funds_transfer_display_text_balance"
     const val screen_yap_to_yap_transfer_display_text_button: String =
         "screen_yap_to_yap_transfer_display_text_button"
+    const val screen_y2y_funds_transfer_display_text_limit_error: String =
+        "screen_y2y_funds_transfer_display_text_limit_error"
 
     //Y2Y contacts
     const val screen_y2y_display_text_no_yap_contacts: String =
