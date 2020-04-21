@@ -28,6 +28,7 @@ interface ICashTransfer {
         fun getTransactionThresholds()
         fun proceedToTransferAmount()
         fun processPurposeList(list: ArrayList<PurposeOfPayment>)
+        fun getCutOffTimeConfiguration()
 
     }
 

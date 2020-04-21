@@ -15,6 +15,8 @@ import co.yap.sendmoney.R
 import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.enums.FeeType
+import co.yap.yapcore.enums.SendMoneyBeneficiaryType
+import co.yap.yapcore.enums.TransactionProductCode
 import co.yap.yapcore.helpers.extentions.parseToDouble
 import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 import co.yap.yapcore.helpers.spannables.color
@@ -37,6 +39,7 @@ class InternationalFundsTransferViewModel(application: Application) :
         MutableLiveData()
     override var reasonPosition: Int = 0
     override var fxRateResponse: MutableLiveData<FxRateResponse.Data> = MutableLiveData()
+    val transactionMightGetHeld: MutableLiveData<Boolean> = MutableLiveData(false)
     var purposeCategories: Map<String?, List<PurposeOfPayment>>? = HashMap()
 
     override fun handlePressOnButton(id: Int) {
@@ -158,11 +161,13 @@ class InternationalFundsTransferViewModel(application: Application) :
             }
         }
     }
+
     override fun processPurposeList(list: ArrayList<PurposeOfPayment>) {
         purposeCategories = list.groupBy { item ->
             item.purposeCategory
         }
     }
+
     fun updateFees() {
         updateFees(state.etInputAmount.toString())
     }
@@ -197,4 +202,51 @@ class InternationalFundsTransferViewModel(application: Application) :
             state.etOutputAmount = ""
         }
     }
+
+    override fun getCutOffTimeConfiguration() {
+        parentViewModel?.beneficiary?.value?.run {
+            beneficiaryType?.let { beneficiaryType ->
+                if (beneficiaryType.isNotEmpty())
+                    when (SendMoneyBeneficiaryType.valueOf(beneficiaryType)) {
+                        SendMoneyBeneficiaryType.SWIFT, SendMoneyBeneficiaryType.UAEFTS -> {
+                            launch {
+                                when (val response =
+                                    mTransactionsRepository.getCutOffTimeConfiguration(
+                                        getProductCode(),
+                                        currency,
+                                        if (state.etInputAmount.toString().isEmpty()) "0.0" else state.etInputAmount.toString(),
+                                        parentViewModel?.selectedPop?.cbwsi ?: false
+                                    )) {
+                                    is RetroApiResponse.Success -> {
+                                        response.data.data?.let {
+                                            transactionMightGetHeld.value = true
+                                        }
+
+                                    }
+                                    is RetroApiResponse.Error -> {
+                                        transactionMightGetHeld.value = false
+                                    }
+                                }
+                            }
+                        }
+                    }
+            }
+        }
+    }
+
+    private fun getProductCode(): String? {
+        parentViewModel?.beneficiary?.value?.beneficiaryType?.let {
+            when (SendMoneyBeneficiaryType.valueOf(it)) {
+                SendMoneyBeneficiaryType.SWIFT -> {
+                    return TransactionProductCode.SWIFT.pCode
+                }
+                SendMoneyBeneficiaryType.UAEFTS -> {
+                    TransactionProductCode.UAEFTS.pCode
+                }
+                else -> null
+            }
+        }
+        return null
+    }
+
 }

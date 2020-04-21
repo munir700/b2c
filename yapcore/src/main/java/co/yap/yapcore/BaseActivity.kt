@@ -16,8 +16,10 @@ import androidx.databinding.Observable
 import co.yap.translation.Strings
 import co.yap.translation.Translator
 import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.enums.YAPThemes
 import co.yap.yapcore.helpers.*
+import co.yap.yapcore.helpers.extentions.toast
 import com.google.android.material.snackbar.Snackbar
 
 abstract class BaseActivity<V : IBase.ViewModel<*>> : AppCompatActivity(), IBase.View<V>,
@@ -83,7 +85,16 @@ abstract class BaseActivity<V : IBase.ViewModel<*>> : AppCompatActivity(), IBase
 
     override fun showToast(msg: String) {
         if ("" != msg.trim { it <= ' ' }) {
-            showAlertDialogAndExitApp("", msg, false)
+            val messages = msg.split("^")
+            if (msg.contains("^")) {
+                when (messages.last()) {
+                    AlertType.TOAST.name -> toast(messages.first())
+                    AlertType.DIALOG.name -> showAlertDialogAndExitApp("", messages.first(), false)
+                    AlertType.DIALOG_WITH_FINISH.name -> showAlertDialogAndExitApp("", messages.first(), true)
+                }
+            } else {
+                toast(messages.first())
+            }
         }
     }
 
