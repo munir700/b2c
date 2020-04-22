@@ -101,15 +101,16 @@
             android:layout_width="wrap_content"
             android:layout_height="0dp"
             android:layout_marginBottom="@dimen/margin_normal_large"
-            android:enabled="@{!viewModel.state.isAccountFreeze}"
             android:onClick="@{(v)-> viewModel.handlePressOnPressView(v.id)}"
-            android:textColor="@{viewModel.state.isAccountFreeze == false ? @color/colorPrimary : @color/disabledLight}"
+            android:textColor="@color/colorPrimary"
             android:visibility="@{VerifyPassCodeEnum.valueOf(viewModel.state.verifyPassCodeEnum) == VerifyPassCodeEnum.VERIFY ? View.GONE : View.VISIBLE }"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:text="@{Strings.screen_verify_passcode_text_forgot_password}"
             tools:text="@string/screen_verify_passcode_text_forgot_password" />
+        <!--        android:enabled="@{!viewModel.state.isAccountFreeze}"-->
+        <!--        android:textColor="@{viewModel.state.isAccountFreeze == false ? @color/colorPrimary : @color/disabledLight}"-->
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
