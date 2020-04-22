@@ -19,6 +19,8 @@ class LocationSelectionViewModel(application: Application) :
     override var defaultHeading: String = ""
     override var clickEvent: SingleClickEvent = SingleClickEvent()
     override var isMapExpanded: MutableLiveData<Boolean> = MutableLiveData()
+    override var isOnBoarding: MutableLiveData<Boolean?> = MutableLiveData(false)
+    override var termsCheckedTime: MutableLiveData<String> = MutableLiveData("")
     override val state: LocationSelectionState = LocationSelectionState(application)
 
     override var address: Address? = null
@@ -46,7 +48,7 @@ class LocationSelectionViewModel(application: Application) :
                 )
             )
             state.placeSubTitle.set("")
-            state.addressTitle = ""
+            state.addressTitle.set("")
             if (state.placeSubTitle.get()?.toLowerCase()
                     ?.contains(unNamed.toLowerCase()) == true
             ) {
@@ -55,9 +57,9 @@ class LocationSelectionViewModel(application: Application) :
             }
         } else {
             state.isUnNamed.set(false)
-            state.addressTitle = state.placeSubTitle.get() ?: ""
+            state.addressTitle.set(state.placeSubTitle.get() ?: "")
             state.addressSubtitle.set(state.placeTitle.get() ?: "")
-            address?.address1 = state.addressTitle
+            address?.address1 = state.addressTitle.get()
             address?.address2 = state.addressSubtitle.get()
             state.headingTitle.set(state.addressSubtitle.get())
             state.subHeadingTitle.set(

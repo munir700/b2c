@@ -221,10 +221,10 @@
 
                     <LinearLayout
                         android:id="@+id/llTermsCondition"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
-                        android:visibility="@{viewModel.state.showTermsCondition? View.VISIBLE:View.INVISIBLE}"
+                        android:visibility="@{viewModel.isOnBoarding ? (viewModel.state.showTermsCondition ? View.VISIBLE:View.INVISIBLE) : View.INVISIBLE}"
                         tools:visibility="invisible">
 
                         <CheckBox
