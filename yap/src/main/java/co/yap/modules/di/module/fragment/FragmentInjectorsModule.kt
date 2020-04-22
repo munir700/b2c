@@ -7,6 +7,10 @@ import co.yap.modules.subaccounts.account.dashboard.SubAccountDashBoardFragment
 import co.yap.modules.subaccounts.account.dashboard.SubAccountDashBoardModule
 import co.yap.modules.subaccounts.confirmation.PaymentConfirmationFragment
 import co.yap.modules.subaccounts.confirmation.PaymentConfirmationModule
+import co.yap.modules.subaccounts.householdsetpin.hhsetpinstart.HHSetPinCardReviewFragment
+import co.yap.modules.subaccounts.householdsetpin.hhsetpinstart.HHSetPinCardReviewModule
+import co.yap.modules.subaccounts.householdsetpin.hhsetpinsuccess.HHSetPinSuccessFragment
+import co.yap.modules.subaccounts.householdsetpin.hhsetpinsuccess.HHSetPinSuccessModule
 import co.yap.modules.subaccounts.paysalary.employee.PayHHEmployeeSalaryFragment
 import co.yap.modules.subaccounts.paysalary.employee.PayHHEmployeeSalaryModule
 import co.yap.modules.subaccounts.paysalary.entersalaryamount.EnterSalaryAmountFragment
@@ -21,6 +25,8 @@ import co.yap.modules.subaccounts.paysalary.subscription.SubscriptionFragment
 import co.yap.modules.subaccounts.paysalary.subscription.SubscriptionModule
 import co.yap.modules.subaccounts.paysalary.transfer.HHIbanSendMoneyFragment
 import co.yap.modules.subaccounts.paysalary.transfer.HHIbanSendMoneyModule
+import co.yap.modules.subaccounts.paysalary.transfer.confirmation.HHIbanSendMoneyConfirmationFragment
+import co.yap.modules.subaccounts.paysalary.transfer.confirmation.HHIbanSendMoneyConfirmationModule
 import co.yap.yapcore.dagger.di.qualifiers.FragmentScope
 import dagger.Module
 import dagger.android.ContributesAndroidInjector

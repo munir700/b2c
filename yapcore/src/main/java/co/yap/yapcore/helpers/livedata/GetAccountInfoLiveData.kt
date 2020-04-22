@@ -18,7 +18,6 @@ class GetAccountInfoLiveData : LiveDataCallAdapter<AccountInfo?>() {
     override fun onActive() {
         super.onActive()
         launch {
-            Log.d("TAG", "API CALLING...")
             when (val response = repository.getAccountInfo()) {
                 is RetroApiResponse.Success -> {
                     usersList = response.data.data as ArrayList
