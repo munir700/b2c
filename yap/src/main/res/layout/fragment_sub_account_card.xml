@@ -15,7 +15,7 @@
 
         <include
             layout="@layout/refresh_recycler_view_grid"
-            app:adapter="@{subAccountCardVM.adapter}" />
+         />
 
     </FrameLayout>
 </layout>

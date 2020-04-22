@@ -24,7 +24,7 @@ class SubAccountCardModule : BaseFragmentModule<SubAccountCardFragment>() {
 
     @Provides
     fun provideSubAccountCardAdapter(fragment: SubAccountCardFragment) =
-        SubAccountCardFragment.Adapter(
+        SubAccountAdapter(
             ArrayList(),
             null
         )

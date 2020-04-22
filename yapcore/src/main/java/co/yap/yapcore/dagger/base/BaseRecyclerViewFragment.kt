@@ -26,7 +26,7 @@ import javax.inject.Inject
 abstract class BaseRecyclerViewFragment<VB : ViewDataBinding, S : IBase.State, VM : BaseRecyclerAdapterVM<T, S>,
         A : BaseRVAdapter<T, *, *>, T : ApiResponse>
     : BaseNavViewModelFragment<VB, S, VM>(), MultiStateView.OnReloadListener, UiRefreshable,
-    OnItemClickListener, OnItemLongClickListener, OnItemDragListener {
+    OnItemClickListener {
 
     @Inject
     protected lateinit var adapter: A
@@ -52,8 +52,6 @@ abstract class BaseRecyclerViewFragment<VB : ViewDataBinding, S : IBase.State, V
             )
             refreshLayout?.setOnRefreshListener { onRefresh() }
             adapter.onItemClickListener = this
-            adapter.onItemDragListener = this
-            adapter.onItemLongClickListener = this
             viewModel.stateLiveData.observe(
                 this,
                 Observer { if (it.status != Status.IDEAL) handleState(it) })
@@ -70,7 +68,7 @@ abstract class BaseRecyclerViewFragment<VB : ViewDataBinding, S : IBase.State, V
         else SpacesItemDecoration(dimen(R.dimen.margin_normal), true)
     }
 
-    fun handleState(state: State?) {
+    open fun handleState(state: State?) {
         state?.let { doneRefresh((state.status != Status.LOADING)) }
         if (!isRefreshing) {
             when (state?.status) {
@@ -128,8 +126,4 @@ abstract class BaseRecyclerViewFragment<VB : ViewDataBinding, S : IBase.State, V
     override fun onItemClick(view: View, data: Any, pos: Int) {
 
     }
-
-    override fun onItemDrag(view: View, pos: Int, event: DragEvent, data: Any): Boolean? = true
-
-    override fun onItemLongClick(view: View, pos: Int, id: Long, data: Any): Boolean? = true
 }

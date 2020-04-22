@@ -1,22 +1,22 @@
 package co.yap.modules.subaccounts.account.card
 
-import android.content.Context
 import android.os.Bundle
+import androidx.databinding.ObservableField
 import androidx.navigation.NavController
 import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.customers.responsedtos.SubAccount
 import co.yap.networking.customers.responsedtos.SubAccounts
 import co.yap.networking.models.RetroApiResponse
 import co.yap.widgets.State
+import co.yap.widgets.advrecyclerview.adapter.SimpleWrapperAdapter
 import co.yap.yapcore.dagger.base.viewmodel.BaseRecyclerAdapterVM
 import co.yap.yapcore.enums.AccountType
-import co.yap.yapcore.helpers.showSnackBar
 import javax.inject.Inject
 
 class SubAccountCardVM @Inject constructor(override val state: ISubAccountCard.State) :
     BaseRecyclerAdapterVM<SubAccount, ISubAccountCard.State>(), ISubAccountCard.ViewModel {
     private val repository: CustomersRepository = CustomersRepository
-
+//     val adapter = ObservableField<SimpleWrapperAdapter<*>>()
     override fun onFirsTimeUiCreate(bundle: Bundle?, navigation: NavController?) {
         getSubAccount()
         val accounts = SubAccounts()
@@ -41,6 +41,7 @@ class SubAccountCardVM @Inject constructor(override val state: ISubAccountCard.S
                                 cardStatus = "Add new card"
                             )
                         )
+
                         setData(it)
                     }
                     publishState(State.success(null))
