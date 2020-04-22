@@ -6,6 +6,7 @@ import androidx.navigation.NavController
 import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.customers.responsedtos.SubAccount
 import co.yap.networking.models.RetroApiResponse
+import co.yap.translation.Strings
 import co.yap.widgets.State
 import co.yap.yapcore.dagger.base.viewmodel.DaggerBaseViewModel
 import co.yap.yapcore.helpers.confirm
@@ -67,7 +68,7 @@ class SubscriptionVM @Inject constructor(override val state: ISubscription.State
         launch {
             state.loading = true
             when (val response =
-                customersRepository.reActivateHouseHoldSubscription("f0c52305-a055-498d-8d79-71cf815dcaff")) {
+                customersRepository.reActivateHouseHoldSubscription(state.subAccount.value?.accountUuid)) {
                 is RetroApiResponse.Success -> {
                     getSubscriptionData()
                 }
@@ -101,10 +102,10 @@ class SubscriptionVM @Inject constructor(override val state: ISubscription.State
 
     override fun handlePressOnClick(context: Context) {
         context.confirm(
-            title = "Are you sure you want to cancel this subscription?",
-            message = "Cancellation will come into effect following the 12-month contract period",
-            positiveButton = "YES",
-            negativeButton = "NO",
+            title = getString(Strings.screen_household_cancel_subscription_cancel_title),
+            message = getString(Strings.screen_household_cancel_subscription_cancel_message),
+            positiveButton = getString(Strings.screen_household_cancel_subscription_yes_button),
+            negativeButton = getString(Strings.screen_household_cancel_subscription_no_button),
             cancelable = false
         ) {
             cancelSubscription()
