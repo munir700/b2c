@@ -1031,6 +1031,11 @@
     <string name="screen_household_set_card_pin_review_date">Expiry date: %1$s</string>
     <string name="screen_household_set_card_pin_review_button_text">Confirm</string>
 
+    <!--    House hold set pin success screen-->
+    <string name="screen_household_set_pin_success_heading_text">PIN code saved!</string>
+    <string name="screen_household_set_pin_success_sub_heading_text">Always remember this code and don\'t share it with anyone</string>
+    <string name="screen_household_set_pin_success_button_text">Go to dashboard</string>
+
 
 </resources>
 
