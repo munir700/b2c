@@ -49,7 +49,6 @@ abstract class BaseRecyclerAdapterVM<T : ApiResponse, S : IBase.State> : DaggerB
      */
     protected fun setData(@NonNull newData: MutableList<T>?, refresh: Boolean = true) {
         newData?.let {
-            clear()
             data = it
             adapter.get()?.setData(data)
         }

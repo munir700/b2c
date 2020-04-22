@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/hh_set_card_pin_navigation"
+    app:startDestination="@id/HHSetPinCardReviewFragment">
+
+
+    <keep_state_fragment
+        android:id="@+id/HHSetPinCardReviewFragment"
+        android:name="co.yap.modules.subaccounts.householdsetpin.hhsetpinstart.HHSetPinCardReviewFragment"
+        android:label="HHSetPinCardReviewFragment"
+        tools:layout="@layout/fragment_hh_set_pin_card_review">
+        <action
+            android:id="@+id/action_HHSetPinCardReviewFragment_to_setCardPinFragment2"
+            app:destination="@id/setCardPinFragment2"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </keep_state_fragment>
+    <keep_state_fragment
+        android:id="@+id/setCardPinFragment2"
+        android:name="co.yap.modules.setcardpin.fragments.SetCardPinFragment"
+        android:label="SetCardPinFragment"
+        tools:layout="@layout/fragment_set_card_pin">
+        <action
+            android:id="@+id/action_setCardPinFragment2_to_confirmCardPinFragment2"
+            app:destination="@id/confirmCardPinFragment2"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </keep_state_fragment>
+    <keep_state_fragment
+        android:id="@+id/confirmCardPinFragment2"
+        android:name="co.yap.modules.setcardpin.fragments.ConfirmCardPinFragment"
+        android:label="ConfirmCardPinFragment"
+        tools:layout="@layout/fragment_set_card_pin" >
+        <action
+            android:id="@+id/action_confirmCardPinFragment2_to_HHSetPinSuccessFragment"
+            app:destination="@id/HHSetPinSuccessFragment" />
+    </keep_state_fragment>
+    <keep_state_fragment
+        android:id="@+id/HHSetPinSuccessFragment"
+        android:name="co.yap.modules.subaccounts.householdsetpin.hhsetpinsuccess.HHSetPinSuccessFragment"
+        android:label="HHSetPinSuccessFragment"
+        tools:layout="@layout/fragment_hh_set_pin_success"
+        />
+</navigation>

@@ -21,8 +21,6 @@ import co.yap.modules.subaccounts.paysalary.subscription.SubscriptionFragment
 import co.yap.modules.subaccounts.paysalary.subscription.SubscriptionModule
 import co.yap.modules.subaccounts.paysalary.transfer.HHIbanSendMoneyFragment
 import co.yap.modules.subaccounts.paysalary.transfer.HHIbanSendMoneyModule
-import co.yap.modules.subaccounts.paysalary.transfer.confirmation.HHIbanSendMoneyConfirmationFragment
-import co.yap.modules.subaccounts.paysalary.transfer.confirmation.HHIbanSendMoneyConfirmationModule
 import co.yap.yapcore.dagger.di.qualifiers.FragmentScope
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
@@ -72,4 +70,12 @@ abstract class FragmentInjectorsModule {
 
     @ContributesAndroidInjector(modules = [HHIbanSendMoneyConfirmationModule::class])
     abstract fun hHIbanSendMoneyConfirmationFragmentInjector(): HHIbanSendMoneyConfirmationFragment
+
+    @ContributesAndroidInjector(modules = [HHSetPinCardReviewModule::class])
+    @FragmentScope
+    abstract fun hhSetPinCardReviewFragmentInjector(): HHSetPinCardReviewFragment
+
+    @ContributesAndroidInjector(modules = [HHSetPinSuccessModule::class])
+    @FragmentScope
+    abstract fun hhSetPinSuccessFragmentInjector(): HHSetPinSuccessFragment
 }

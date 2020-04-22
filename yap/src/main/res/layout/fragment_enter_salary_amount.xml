@@ -137,30 +137,22 @@
                 tools:text="Use last transfer payment amount" />
 
 
-            <TextView
-                android:id="@+id/tvSalaryRecurring"
-                style="@style/MicroGrey"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_medium_large"
-                android:layout_marginTop="@dimen/margin_normal"
-                android:layout_marginEnd="@dimen/margin_medium_large"
-                android:text="Set this salary transfer up as a recurring payment"
-                android:textAlignment="center"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvLastUsedAmountGuide"
-                tools:text="Use last transfer payment amount" />
-
             <androidx.appcompat.widget.AppCompatCheckBox
                 android:id="@+id/cbOutTransFilter"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                style="@style/MicroGrey"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvLastUsedAmountGuide"
+                android:layout_marginTop="@dimen/_18sdp"
                 android:backgroundTint="?attr/colorPrimaryDark"
-                app:layout_constraintBottom_toBottomOf="@+id/tvSalaryRecurring"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.4"
-                app:layout_constraintStart_toEndOf="@+id/tvSalaryRecurring"
-                app:layout_constraintTop_toTopOf="@+id/tvSalaryRecurring" />
+                android:layout_marginStart="@dimen/margin_medium_large"
+                android:layout_marginEnd="@dimen/margin_medium_large"
+                android:button="@null"
+                android:drawableEnd="?android:attr/listChoiceIndicatorMultiple"
+                android:gravity="center_vertical"
+                android:text="Set this salary transfer up as a recurring payment"
+                app:layout_constraintEnd_toEndOf="parent"/>
 
             <co.yap.widgets.CoreButton
                 android:id="@+id/btnConfirm"
@@ -177,7 +169,7 @@
                 app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvSalaryRecurring"
+                app:layout_constraintTop_toBottomOf="@+id/cbOutTransFilter"
                 app:layout_constraintVertical_bias="0.958"
                 tools:text="Add" />
         </androidx.constraintlayout.widget.ConstraintLayout>

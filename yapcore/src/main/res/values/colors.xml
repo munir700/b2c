@@ -91,6 +91,7 @@
     <color name="colorLightPinkBackground">#FFE3E0</color>
 
     <color name="colorAccentHouseHold">#fc6253</color>
+    <color name="colorAccentLightHouseHold">#fee3e0</color>
 
     <!--    d32f2f-->
     <color name="colorPrimaryHouseHold">#fc6253</color>

@@ -4,10 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
         <variable
             name="viewModel"
             type="co.yap.modules.subaccounts.paysalary.recurringpayment.RecurringPaymentVM" />
+        <import type="co.yap.translation.Strings" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -15,23 +15,25 @@
         android:layout_height="match_parent"
         android:padding="@dimen/margin_medium">
 
-        <TextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvAmountHeading"
             style="@style/Small"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="Amount to transfer"
             app:layout_constraintEnd_toStartOf="@+id/guideLine"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:text="@{Strings.screen_household_amount_to_transfer_title}"
+            tools:text="@string/screen_household_amount_to_transfer_title" />
 
-        <TextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvCurrencyType"
             style="@style/SmallGrey"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_extra_small"
-            android:text="AED"
+            app:text="@{Strings.screen_household_currency_title}"
+            tools:text="@string/screen_household_currency_title"
             app:layout_constraintEnd_toStartOf="@+id/guideLine"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvAmountHeading" />
@@ -47,27 +49,28 @@
             android:id="@+id/transferAmount"
             style="@style/Yap.App.Widget.TextInputEditText.EasyMoney"
             android:layout_width="0dp"
-            app:editable="@{false}"
             android:gravity="center"
             android:text="3213321.213"
+            app:editable="@{false}"
             app:layout_constraintBottom_toBottomOf="@+id/tvCurrencyType"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintStart_toEndOf="@+id/guideLine"
             app:layout_constraintTop_toTopOf="@+id/tvAmountHeading" />
 
-        <TextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvStartDateHeading"
             style="@style/Small"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="Starting date"
+            tools:text="Starting date"
+            app:text="@{Strings.screen_household_start_date_title}"
             app:layout_constraintBottom_toBottomOf="@+id/tvDate"
             app:layout_constraintEnd_toStartOf="@+id/guideLine"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/tvDate" />
 
-        <TextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvDate"
             style="@style/Large"
             android:layout_width="0dp"
@@ -89,17 +92,18 @@
             android:layout_marginTop="@dimen/margin_large"
             app:layout_constraintTop_toBottomOf="@+id/tvDate">
 
-            <RadioButton
+            <androidx.appcompat.widget.AppCompatRadioButton
                 android:id="@+id/rbDaily"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@null"
                 android:button="@null"
                 android:drawableEnd="?android:attr/listChoiceIndicatorSingle"
-                android:text="Daily"
+                tools:text="Daily"
+                app:text="@{Strings.screen_household_daily_title}"
                 android:theme="@style/MyRadioButton" />
 
-            <RadioButton
+            <androidx.appcompat.widget.AppCompatRadioButton
                 android:id="@+id/rbWeekly"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -108,10 +112,11 @@
                 android:background="@null"
                 android:button="@null"
                 android:drawableEnd="?android:attr/listChoiceIndicatorSingle"
-                android:text="Weekly"
+                tools:text="Weekly"
+                app:text="@{Strings.screen_household_weekly_title}"
                 android:theme="@style/MyRadioButton" />
 
-            <RadioButton
+            <androidx.appcompat.widget.AppCompatRadioButton
                 android:id="@+id/rbMonthly"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -119,7 +124,8 @@
                 android:background="@null"
                 android:button="@null"
                 android:drawableEnd="?android:attr/listChoiceIndicatorSingle"
-                android:text="Monthly"
+                tools:text="Monthly"
+                app:text="@{Strings.screen_household_monthly_title}"
                 android:theme="@style/MyRadioButton" />
         </RadioGroup>
 
@@ -132,7 +138,7 @@
             android:layout_marginTop="8dp"
             android:layout_marginRight="@dimen/margin_xxl"
             android:layout_marginBottom="@dimen/margin_small"
-            android:text="Confirm"
+            app:text="@{Strings.screen_household_button_text}"
             app:btn_enable="true"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
