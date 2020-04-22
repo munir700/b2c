@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="co.yap.modules.subaccounts.householdsetpin.hhsetpinsuccess.HHSetPinSuccessVM" />
+
+        <import type="co.yap.translation.Strings" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorAccentLightHouseHold"
+        android:paddingStart="@dimen/margin_large"
+        android:paddingEnd="@dimen/margin_large">
+
+        <TextView
+            android:id="@+id/tvSuccessHeading"
+            style="@style/Title3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_xl"
+            android:gravity="center"
+            app:layout_constraintTop_toTopOf="parent"
+            app:text="@{Strings.screen_household_set_pin_success_heading_text}"
+            tools:text="@string/screen_household_set_pin_success_heading_text" />
+
+        <TextView
+            android:id="@+id/tvSuccessSubHeading"
+            style="@style/SmallGrey"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_medium"
+            android:gravity="center"
+            app:layout_constraintTop_toBottomOf="@+id/tvSuccessHeading"
+            app:text="@{Strings.screen_household_set_pin_success_sub_heading_text}"
+            tools:text="@string/screen_household_set_pin_success_sub_heading_text" />
+
+        <ImageView
+            android:id="@+id/ivPinSuccess"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toTopOf="@+id/btnGoToDashboard"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvSuccessSubHeading"
+            app:layout_constraintVertical_bias="0.37"
+            app:srcCompat="@drawable/ic_pin_success" />
+
+        <co.yap.widgets.CoreButton
+            android:id="@+id/btnGoToDashboard"
+            style="@style/RectangleBtnStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin_medium_large"
+            android:layout_marginRight="@dimen/margin_medium_large"
+            android:layout_marginBottom="@dimen/margin_large"
+            app:btn_enable="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:text="@{Strings.screen_household_set_pin_success_button_text}"
+            tools:text="@string/screen_household_set_pin_success_button_text" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
