@@ -115,6 +115,7 @@ class LocationSelectionActivity : MapSupportActivity(), ILocationSelection.View 
     override fun setObservers() {
         viewModel.clickEvent.observe(this, clickObserver)
         viewModel.state.isTermsChecked.addOnPropertyChangedCallback(stateObserver)
+        viewModel.state.addressSubtitle.addOnPropertyChangedCallback(stateObserver)
         viewModel.isMapExpanded.observe(this, Observer {
             viewModel.state.toolbarVisibility = !it
             if (it) {
@@ -145,7 +146,7 @@ class LocationSelectionActivity : MapSupportActivity(), ILocationSelection.View 
 
     private val stateObserver = object : Observable.OnPropertyChangedCallback() {
         override fun onPropertyChanged(sender: Observable?, propertyId: Int) {
-            viewModel.state.valid.set(viewModel.state.addressTitle.isNotBlank() && viewModel.state.isTermsChecked.get() == true)
+            viewModel.state.valid.set(viewModel.state.addressTitle.isNotBlank() && !viewModel.state.addressSubtitle.get().isNullOrBlank() && viewModel.state.isTermsChecked.get() == true)
         }
     }
 
