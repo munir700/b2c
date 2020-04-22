@@ -38,24 +38,28 @@ class LocationSelectionViewModel(application: Application) :
             state.headingTitle.set(defaultHeading)
 
             isUnNamedLocation = true
+            state.isUnNamed.set(true)
             state.subHeadingTitle.set(
                 Translator.getString(
                     getApplication(),
                     R.string.screen_meeting_location_display_text_add_manual_address_subtitle
                 )
             )
+            state.placeSubTitle.set("")
             state.addressTitle = ""
             if (state.placeSubTitle.get()?.toLowerCase()
                     ?.contains(unNamed.toLowerCase()) == true
             ) {
                 state.addressSubtitle.set("")
+
             }
         } else {
+            state.isUnNamed.set(false)
             state.addressTitle = state.placeSubTitle.get() ?: ""
             state.addressSubtitle.set(state.placeTitle.get() ?: "")
             address?.address1 = state.addressTitle
             address?.address2 = state.addressSubtitle.get()
-            state.headingTitle.set(address?.address1)
+            state.headingTitle.set(state.addressSubtitle.get())
             state.subHeadingTitle.set(
                 Translator.getString(
                     getApplication(),
@@ -63,5 +67,6 @@ class LocationSelectionViewModel(application: Application) :
                 )
             )
         }
+
     }
 }

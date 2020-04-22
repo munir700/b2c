@@ -27,6 +27,7 @@ interface ILocationSelection {
     }
 
     interface State : IBase.State {
+        var isUnNamed: ObservableField<Boolean>
         var toolbarVisibility: Boolean
         var isShowLocationCard: ObservableField<Boolean>
         var headingTitle: ObservableField<String>
