@@ -82,7 +82,7 @@ fun Content?.getTransactionTypeTitle(): String {
                 "Withdrawn from Virtual Card"
             }
             else -> return (when (txn.productCode) {
-                TransactionProductCode.DOMESTIC.pCode, TransactionProductCode.RMT.pCode, TransactionProductCode.SWIFT.pCode, TransactionProductCode.UAEFTS.pCode, TransactionProductCode.INWARD_REMITTANCE.pCode, TransactionProductCode.LOCAL_INWARD_TRANSFER.pCode -> {
+                TransactionProductCode.DOMESTIC.pCode,TransactionProductCode.CASH_PAYOUT.pCode, TransactionProductCode.RMT.pCode, TransactionProductCode.SWIFT.pCode, TransactionProductCode.UAEFTS.pCode, TransactionProductCode.INWARD_REMITTANCE.pCode, TransactionProductCode.LOCAL_INWARD_TRANSFER.pCode -> {
                     "Transfer"
                 }
                 else ->
