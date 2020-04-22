@@ -1,4 +1,4 @@
-package co.yap.modules.subaccounts.paysalary.transfer
+package co.yap.yapcore.helpers.livedata
 
 import androidx.lifecycle.LiveData
 import co.yap.yapcore.dagger.base.viewmodel.DaggerCoroutineViewModel
