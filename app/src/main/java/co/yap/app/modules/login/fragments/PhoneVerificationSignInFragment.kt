@@ -13,9 +13,11 @@ import co.yap.app.modules.login.viewmodels.PhoneVerificationSignInViewModel
 import co.yap.household.dashboard.main.HouseholdDashboardActivity
 import co.yap.household.onboard.onboarding.main.OnBoardingHouseHoldActivity
 import co.yap.modules.onboarding.fragments.OnboardingChildFragment
+import co.yap.networking.customers.responsedtos.AccountInfo
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.biometric.BiometricUtil
 import co.yap.yapcore.helpers.extentions.launchActivity
+import co.yap.yapcore.helpers.livedata.GetAccountInfoLiveData
 import co.yap.yapcore.managers.MyUserManager
 
 class PhoneVerificationSignInFragment : OnboardingChildFragment<IPhoneVerificationSignIn.ViewModel>() {
@@ -33,7 +35,7 @@ class PhoneVerificationSignInFragment : OnboardingChildFragment<IPhoneVerificati
         viewModel.nextButtonPressEvent.observe(this, nextButtonObserver)
         viewModel.verifyOtpResult.observe(this, verifyOtpResultObserver)
         viewModel.postDemographicDataResult.observe(this, postDemographicDataObserver)
-        MyUserManager.onAccountInfoSuccess?.observe(this, onFetchAccountInfo)
+//        MyUserManager.onAccountInfoSuccess?.observe(this, onFetchAccountInfo)
         MyUserManager.switchProfile.observe(this, switchProfileObserver)
         setUsername()
         setPasscode()
@@ -54,11 +56,11 @@ class PhoneVerificationSignInFragment : OnboardingChildFragment<IPhoneVerificati
     }
 
     private val postDemographicDataObserver = Observer<Boolean> {
-        MyUserManager.getAccountInfo()
+        GetAccountInfoLiveData.get().observe(this, onFetchAccountInfo)
     }
 
-    private val onFetchAccountInfo = Observer<Boolean> {
-        if(it) {
+    private val onFetchAccountInfo = Observer<AccountInfo?> {
+        if(it != null) {
             if (MyUserManager.shouldGoToHousehold()) {
                 MyUserManager.switchProfile()
             } else {

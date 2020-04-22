@@ -27,7 +27,6 @@ class CongratulationsViewModel(application: Application) :
 
     override fun onCreate() {
         super.onCreate()
-        MyUserManager.getAccountInfo()
         trackAdjustPlatformEvent(AdjustEvents.SIGN_UP_END.type)
         // calculate elapsed updatedDate for onboarding
         elapsedOnboardingTime = parentViewModel?.onboardingData?.elapsedOnboardingTime ?: 0

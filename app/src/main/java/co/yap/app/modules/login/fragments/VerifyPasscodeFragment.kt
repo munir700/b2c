@@ -18,6 +18,7 @@ import co.yap.app.modules.login.viewmodels.VerifyPasscodeViewModel
 import co.yap.household.dashboard.main.HouseholdDashboardActivity
 import co.yap.household.onboard.onboarding.main.OnBoardingHouseHoldActivity
 import co.yap.modules.others.helper.Constants.REQUEST_CODE
+import co.yap.networking.customers.responsedtos.AccountInfo
 import co.yap.translation.Strings
 import co.yap.widgets.NumberKeyboardListener
 import co.yap.yapcore.BaseBindingFragment
@@ -34,6 +35,7 @@ import co.yap.yapcore.helpers.biometric.BiometricUtil
 import co.yap.yapcore.helpers.extentions.launchActivity
 import co.yap.yapcore.helpers.extentions.preventTakeScreenShot
 import co.yap.yapcore.helpers.extentions.toast
+import co.yap.yapcore.helpers.livedata.GetAccountInfoLiveData
 import co.yap.yapcore.managers.MyUserManager
 import kotlinx.android.synthetic.main.fragment_verify_passcode.*
 
@@ -49,6 +51,11 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
 
     override val viewModel: IVerifyPasscode.ViewModel
         get() = ViewModelProviders.of(this).get(VerifyPasscodeViewModel::class.java)
+
+    override fun postExecutePendingBindings() {
+        super.postExecutePendingBindings()
+
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -70,7 +77,7 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
         viewModel.onClickEvent.observe(this, onClickView)
         viewModel.loginSuccess.observe(this, loginSuccessObserver)
         viewModel.validateDeviceResult.observe(this, validateDeviceResultObserver)
-        MyUserManager.onAccountInfoSuccess.observe(this, onFetchAccountInfo)
+//        MyUserManager.onAccountInfoSuccess.observe(this, onFetchAccountInfo)
         viewModel.createOtpResult.observe(this, createOtpObserver)
         MyUserManager.switchProfile.observe(this, switchProfileObserver)
         setObservers()
@@ -202,7 +209,7 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
         viewModel.validateDeviceResult.removeObservers(this)
         viewModel.createOtpResult.removeObservers(this)
         viewModel.forgotPasscodeButtonPressEvent.removeObservers(this)
-        MyUserManager.onAccountInfoSuccess.removeObserver(onFetchAccountInfo)
+//        MyUserManager.onAccountInfoSuccess.removeObserver(onFetchAccountInfo)
         super.onDestroyView()
     }
 
@@ -268,8 +275,8 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
         }
     }
 
-    private val onFetchAccountInfo = Observer<Boolean> {
-        if (it) {
+    private val onFetchAccountInfo = Observer<AccountInfo?> {
+    if (it!=null) {
             //            setUserAttributes()
             sharedPreferenceManager.save(KEY_IS_USER_LOGGED_IN, true)
             if (!sharedPreferenceManager.getValueBoolien(
@@ -347,7 +354,7 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
             activity?.setResult(Activity.RESULT_OK, intent)
             activity?.finish()
         } else {
-            MyUserManager.getAccountInfo()
+            GetAccountInfoLiveData.get().observe(this, onFetchAccountInfo)
         }
     }
 
