@@ -42,6 +42,7 @@ import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.ExtraType
 import co.yap.yapcore.helpers.extentions.getValue
 import co.yap.yapcore.helpers.extentions.launchActivity
+import co.yap.yapcore.helpers.livedata.GetAccountInfoLiveData
 import co.yap.yapcore.leanplum.*
 import co.yap.yapcore.managers.MyUserManager
 import kotlinx.android.synthetic.main.fragment_onboarding_congratulations.*
@@ -67,8 +68,9 @@ class CongratulationsFragment : OnboardingChildFragment<ICongratulations.ViewMod
         val display = activity?.windowManager?.defaultDisplay
         display?.getRectSize(windowSize)
         rootContainer.children.forEach { it.alpha = 0f }
-        MyUserManager.onAccountInfoSuccess.observe(this, Observer {
-            if (it)
+
+        GetAccountInfoLiveData.get().observe(this, Observer {
+            if (it != null)
                 viewModel.trackEventWithAttributes(MyUserManager.user)
         })
     }

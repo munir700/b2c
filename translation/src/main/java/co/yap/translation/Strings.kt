@@ -1627,4 +1627,12 @@ object Strings {
         "screen_household_set_pin_success_button_text"
 
 
+//    House Hold IBAN send money confirmation
+
+    const val screen_iban_send_money_confirmation_display_text_transfer_completed:String  = "screen_iban_send_money_confirmation_display_text_transfer_completed"
+    const val screen_iban_send_money_confirmation_display_text_successfully_sent:String  = "screen_iban_send_money_confirmation_display_text_successfully_sent"
+    const val screen_iban_send_money_confirmation_display_text_expense_advance:String  = "screen_iban_send_money_confirmation_display_text_expense_advance"
+    const val screen_iban_send_money_confirmation_display_text_pick_expense_pot:String  = "screen_iban_send_money_confirmation_display_text_pick_expense_pot"
+    const val screen_iban_send_money_confirmation_display_text_do_it_later:String  = "screen_iban_send_money_confirmation_display_text_do_it_later"
+
 }

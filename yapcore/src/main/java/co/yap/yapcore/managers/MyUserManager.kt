@@ -54,6 +54,7 @@ object MyUserManager : IRepositoryHolder<CardsRepository> {
         getAccountBalanceRequest()
     }
 
+    @Deprecated("Not used anymore")
     fun getAccountInfo() {
         GlobalScope.launch {
             when (val response = customersRepository.getAccountInfo()) {
