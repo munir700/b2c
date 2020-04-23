@@ -5,13 +5,15 @@ import android.content.Context
 import android.content.Intent
 import android.net.ConnectivityManager
 import android.os.Parcelable
-import android.text.Editable
-import android.text.TextWatcher
+import android.text.*
+import android.text.method.LinkMovementMethod
+import android.text.style.ClickableSpan
 import android.view.View
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.annotation.Keep
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -173,4 +175,25 @@ fun Context?.isNetworkAvailable(): Boolean {
             } ?: false
         } ?: false
     } ?: false
+}
+
+fun TextView.makeLinks(vararg links: Pair<String, View.OnClickListener>) {
+    val spannableString = SpannableString(this.text)
+    for (link in links) {
+        val clickableSpan = object : ClickableSpan() {
+            override fun onClick(view: View) {
+                Selection.setSelection((view as TextView).text as Spannable, 0)
+                view.invalidate()
+                link.second.onClick(view)
+            }
+        }
+        val startIndexOfLink = this.text.toString().indexOf(link.first)
+        spannableString.setSpan(
+            clickableSpan, startIndexOfLink, startIndexOfLink + link.first.length,
+            Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+        )
+    }
+    this.movementMethod =
+        LinkMovementMethod.getInstance() // without LinkMovementMethod, link can not click
+    this.setText(spannableString, TextView.BufferType.SPANNABLE)
 }

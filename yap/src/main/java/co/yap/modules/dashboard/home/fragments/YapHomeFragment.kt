@@ -111,6 +111,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        if(MyUserManager.user?.otpBlocked == false) addOtpBlockedNotification()
         registerTransactionBroadcast()
         initComponents()
         setObservers()
@@ -467,6 +468,34 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
             Notification(
                 "Renewed ID",
                 "Your Emirates ID has expired. Please update your account with the renewed ID as soon as you can.",
+                "",
+                Constants.NOTIFICATION_ACTION_SET_UPDATE_EID,
+                "",
+                ""
+            )
+        )
+        mAdapter = NotificationAdapter(
+            notificationsList,
+            this
+        )
+        getBindings().lyInclude.rvNotificationList.setSlideOnFling(false)
+        getBindings().lyInclude.rvNotificationList.setOverScrollEnabled(true)
+        getBindings().lyInclude.rvNotificationList.adapter = mAdapter
+        //rvNotificationList.addOnItemChangedListener(this)
+        //rvNotificationList.addScrollStateChangeListener(this)
+        getBindings().lyInclude.rvNotificationList.smoothScrollToPosition(0)
+        getBindings().lyInclude.rvNotificationList.setItemTransitionTimeMillis(100)
+        getBindings().lyInclude.rvNotificationList.setItemTransformer(
+            ScaleTransformer.Builder()
+                .setMinScale(0.8f)
+                .build()
+        )
+    }
+    private fun addOtpBlockedNotification() {
+        notificationsList.add(
+            Notification(
+                "",
+                "Some features may appear blocked for you as you made too many incorrect OTP attempts. Call or chat with us now to get full access.",
                 "",
                 Constants.NOTIFICATION_ACTION_SET_UPDATE_EID,
                 "",
