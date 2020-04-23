@@ -90,7 +90,7 @@ class TransactionsHeaderAdapter(
             var total = 0.0
             homeTransaction.content.map {
                 if (it.txnType == TxnType.DEBIT.type) total -= (it.totalAmount
-                    ?: 0.0) else total += (it.totalAmount ?: 0.0)
+                    ?: 0.0) else total += (it.amount ?: 0.0)
             }
 
             var value: String
