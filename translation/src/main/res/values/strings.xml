@@ -71,8 +71,7 @@
 
     <!-- Create passcode screen -->
     <string name="screen_create_passcode_display_text_title">Create a 4 to 6 digit passcode to access your account</string>
-<!--    <string name="screen_create_passcode_display_title_terms_and_conditions">By creating a passcode you agree to our</string>-->
-    <string name="screen_create_passcode_display_title_terms_and_conditions">Agree to our</string>
+    <string name="screen_create_passcode_display_title_terms_and_conditions">By creating a passcode you agree to our</string>
     <string name="screen_create_passcode_display_text_terms_and_conditions">Terms &amp; Conditions</string>
     <string name="screen_create_passcode_button_create_passcode">Create passcode</string>
     <string name="screen_create_passcode_display_text_error_sequence">Passcode cannot be a straight sequence</string>

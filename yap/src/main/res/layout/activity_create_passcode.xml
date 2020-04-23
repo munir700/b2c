@@ -15,7 +15,8 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/white">
+        android:background="@color/white"
+        tools:context=".modules.onboarding.activities.CreatePasscodeActivity">
 
         <TextView
             android:id="@+id/tvPasscodeTitle"
@@ -50,59 +51,38 @@
             android:id="@+id/clTermsAndConditions"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_medium"
             android:layout_marginTop="@dimen/margin_medium"
-            android:layout_marginEnd="@dimen/margin_medium"
             app:layout_constraintBottom_toTopOf="@+id/btnCreatePasscode"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/dialer"
-            app:layout_constraintVertical_bias="0.78">
+            app:layout_constraintTop_toBottomOf="@+id/dialer">
 
-            <LinearLayout
-                android:id="@+id/llTermsCondition"
-                android:layout_width="0dp"
+            <TextView
+                android:id="@+id/tvTermsAndConditionsTitle"
+                style="@style/AMicroGrey"
+                android:layout_width="match_parent"
+
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:orientation="horizontal"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:visibility="visible">
+                android:textAlignment="center"
+                app:layout_constraintBottom_toTopOf="@+id/tvTermsAndConditions"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:text="@{Strings.screen_create_passcode_display_title_terms_and_conditions}"
+                tools:text="@string/screen_create_passcode_display_title_terms_and_conditions" />
 
-                <CheckBox
-                    android:id="@+id/cbTermsAndConditions"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:gravity="center" />
-
-                <TextView
-                    android:id="@+id/tvTermsAndConditionsTitle"
-                    style="@style/AMicroGrey"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center"
-                    android:gravity="center"
-                    android:textAlignment="center"
-                    app:text="@{Strings.screen_create_passcode_display_title_terms_and_conditions}"
-                    tools:text="@string/screen_create_passcode_display_title_terms_and_conditions" />
-
-                <TextView
-                    android:id="@+id/tvTermsAndConditions"
-                    style="@style/AMicroGrey"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginStart="@dimen/_3sdp"
-                    android:gravity="center"
-                    android:onClick="@{(v) -> createPasscodeViewModel.handlePressOnCreatePasscodeButton(v.id)}"
-                    android:textColor="?attr/colorPrimaryAttr"
-                    app:text="@{Strings.screen_create_passcode_display_text_terms_and_conditions}"
-                    tools:text="@string/screen_create_passcode_display_text_terms_and_conditions"
-                    tools:textColor="@color/colorPrimary" />
-
-            </LinearLayout>
-
+            <TextView
+                android:id="@+id/tvTermsAndConditions"
+                style="@style/AMicroGrey"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:onClick="@{(v) -> createPasscodeViewModel.handlePressOnCreatePasscodeButton(v.id)}"
+                android:textAlignment="center"
+                android:textColor="?attr/colorPrimaryAttr"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvTermsAndConditionsTitle"
+                app:text="@{Strings.screen_create_passcode_display_text_terms_and_conditions}"
+                tools:text="@string/screen_create_passcode_display_text_terms_and_conditions" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <co.yap.widgets.CoreButton
@@ -110,7 +90,7 @@
             style="@style/RectangleBtnStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/margin_large"
+            android:layout_marginBottom="@dimen/margin_normal"
             android:gravity="center"
             android:onClick="@{(v)-> createPasscodeViewModel.handlePressOnCreatePasscodeButton(v.id)}"
             android:paddingStart="@dimen/_30sdp"
@@ -120,8 +100,10 @@
             android:textColor="@color/colorWhite"
             app:enableCoreButton="@{createPasscodeViewModel.state.valid}"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/clTermsAndConditions"
+            app:layout_constraintVertical_bias="0.75"
             app:text="@{Strings.screen_create_passcode_button_create_passcode}"
             tools:ignore="MissingConstraints"
             tools:text="@string/screen_create_passcode_button_create_passcode" />
