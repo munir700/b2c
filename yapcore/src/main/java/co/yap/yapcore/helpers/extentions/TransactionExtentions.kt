@@ -67,7 +67,7 @@ fun Content?.getTransactionIcon(): Int {
 
 fun Content?.getTransactionTypeTitle(): String {
     this?.let { txn ->
-        if (txn.status == TransactionStatus.CANCELLED.name) return "Transfer rejected"
+        if (txn.status == TransactionStatus.CANCELLED.name) return "Transfer Rejected"
         return when {
             txn.getLabelValues() == TransactionLabelsCode.IS_TRANSACTION_FEE -> "Fee"
             txn.getLabelValues() == TransactionLabelsCode.IS_TRANSACTION_FEE -> "Refund"
