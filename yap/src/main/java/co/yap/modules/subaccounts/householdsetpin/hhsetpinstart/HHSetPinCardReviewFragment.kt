@@ -32,7 +32,6 @@ class HHSetPinCardReviewFragment :
                     )
                 )
             findNavController().navigate(action)
-            //   findNavController().navigate(R.id.action_HHSetPinCardReviewFragment_to_setCardPinFragment2)
         })
     }
 
