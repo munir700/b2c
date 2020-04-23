@@ -146,7 +146,7 @@ abstract class BaseNavViewModelFragment<VB : ViewDataBinding, S : IBase.State, V
     protected fun navigateForwardWithAnimation(navDirections: NavDirections, args: Bundle? , exitTransition:Any = Slide() ) {
         // val extras = FragmentNavigatorExtras(appBarLayout to appBarTransition)
         this.exitTransition = exitTransition
-        this.enterTransition = Slide(Gravity.RIGHT)
+//        this.enterTransition = Slide(Gravity.RIGHT)
         navigateForResult(navDirections.actionId, REQUEST_CODE_NOT_SET, args)
     }
 

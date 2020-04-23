@@ -52,10 +52,12 @@
             android:paddingStart="@dimen/margin_normal_large"
             android:paddingEnd="@dimen/margin_normal_large"
             android:text="Pay salary now"
+            android:onClick="@{(v) -> payHHEmployeeSalaryVM.handlePressOnClick(v.id)}"
             app:enableCoreButton="@{true}"
             tools:ignore="HardcodedText" />
 
         <include
+            android:id="@+id/llScheduleOnce"
             layout="@layout/layout_schedule_pay_salary"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -63,9 +65,11 @@
             android:layout_marginTop="@dimen/_23sdp"
             android:layout_marginEnd="@dimen/margin_medium"
             app:lable="@{`Schedule once`}"
+            android:onClick="@{(v) -> payHHEmployeeSalaryVM.handlePressOnClick(v.id)}"
             app:subLable="@{`Set up a single payment for a future date`}" />
 
         <include
+            android:id="@+id/llMakeRecurring"
             layout="@layout/layout_schedule_pay_salary"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -73,6 +77,7 @@
             android:layout_marginTop="@dimen/_23sdp"
             android:layout_marginEnd="@dimen/margin_medium"
             app:lable="@{`Make recurring`}"
+            android:onClick="@{(v) -> payHHEmployeeSalaryVM.handlePressOnClick(v.id)}"
             app:subLable="@{`Set up a standing order for future payments`}" />
     </androidx.appcompat.widget.LinearLayoutCompat>
 </layout>

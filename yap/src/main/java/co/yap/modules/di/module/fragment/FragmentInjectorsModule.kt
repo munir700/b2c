@@ -15,6 +15,8 @@ import co.yap.modules.subaccounts.paysalary.employee.PayHHEmployeeSalaryFragment
 import co.yap.modules.subaccounts.paysalary.employee.PayHHEmployeeSalaryModule
 import co.yap.modules.subaccounts.paysalary.entersalaryamount.EnterSalaryAmountFragment
 import co.yap.modules.subaccounts.paysalary.entersalaryamount.EnterSalaryAmountModule
+import co.yap.modules.subaccounts.paysalary.future.FuturePaymentFragment
+import co.yap.modules.subaccounts.paysalary.future.FuturePaymentModule
 import co.yap.modules.subaccounts.paysalary.profile.HHSalaryProfileFragment
 import co.yap.modules.subaccounts.paysalary.profile.HHSalaryProfileModule
 import co.yap.modules.subaccounts.paysalary.profile.cardholderprofile.HHProfileFragment
@@ -54,7 +56,6 @@ abstract class FragmentInjectorsModule {
     @FragmentScope
     abstract fun paymentConfirmationFragmentInjector(): PaymentConfirmationFragment
 
-
     @ContributesAndroidInjector(modules = [PayHHEmployeeSalaryModule::class])
     @FragmentScope
     abstract fun payHHEmployeeSalaryFragmentInjector(): PayHHEmployeeSalaryFragment
@@ -76,6 +77,10 @@ abstract class FragmentInjectorsModule {
 
     @ContributesAndroidInjector(modules = [HHIbanSendMoneyConfirmationModule::class])
     abstract fun hHIbanSendMoneyConfirmationFragmentInjector(): HHIbanSendMoneyConfirmationFragment
+
+    @ContributesAndroidInjector(modules = [FuturePaymentModule::class])
+    @FragmentScope
+    abstract fun futurePaymentFragmentInjector(): FuturePaymentFragment
 
     @ContributesAndroidInjector(modules = [HHSetPinCardReviewModule::class])
     @FragmentScope
