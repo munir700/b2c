@@ -111,14 +111,10 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
                 override fun onMenuClosed(menu: FloatingActionMenu, subActionButtonId: Int) {
                     when (subActionButtonId) {
                         1 -> {
-                            if (MyUserManager.user?.otpBlocked == true) {
-                                showToast("${getString(Strings.screen_blocked_otp_display_text_message)}^${AlertType.DIALOG.name}")
+                            if (PartnerBankStatus.ACTIVATED.status == MyUserManager.user?.partnerBankStatus) {
+                                checkPermission()
                             } else {
-                                if (PartnerBankStatus.ACTIVATED.status == MyUserManager.user?.partnerBankStatus) {
-                                    checkPermission()
-                                } else {
-                                    showToast("${getString(Strings.screen_popup_activation_pending_display_text_message)}^${AlertType.DIALOG.name}")
-                                }
+                                showToast("${getString(Strings.screen_popup_activation_pending_display_text_message)}^${AlertType.DIALOG.name}")
                             }
                         }
                         2 -> {
