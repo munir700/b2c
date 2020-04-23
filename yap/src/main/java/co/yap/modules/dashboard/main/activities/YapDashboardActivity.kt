@@ -45,6 +45,7 @@ import co.yap.widgets.arcmenu.animation.SlideInAnimationHandler
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.IFragmentHolder
 import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.enums.PartnerBankStatus
 import co.yap.yapcore.helpers.extentions.dimen
 import co.yap.yapcore.helpers.extentions.launchActivity
@@ -110,25 +111,28 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
                 override fun onMenuClosed(menu: FloatingActionMenu, subActionButtonId: Int) {
                     when (subActionButtonId) {
                         1 -> {
-                            if (PartnerBankStatus.ACTIVATED.status == MyUserManager.user?.partnerBankStatus) {
-                                checkPermission()
+                            if (MyUserManager.user?.otpBlocked == true) {
+                                showToast("${getString(Strings.screen_blocked_otp_display_text_message)}^${AlertType.DIALOG.name}")
                             } else {
-                                showToast("Account activation pending")
+                                if (PartnerBankStatus.ACTIVATED.status == MyUserManager.user?.partnerBankStatus) {
+                                    checkPermission()
+                                } else {
+                                    showToast("${getString(Strings.screen_popup_activation_pending_display_text_message)}^${AlertType.DIALOG.name}")
+                                }
                             }
                         }
                         2 -> {
                             if (PartnerBankStatus.ACTIVATED.status == MyUserManager.user?.partnerBankStatus) {
                                 openTopUpScreen()
                             } else {
-                                showToast("Account activation pending")
-
+                                showToast("${getString(Strings.screen_popup_activation_pending_display_text_message)}^${AlertType.DIALOG.name}")
                             }
                         }
                         3 -> {
                             if (PartnerBankStatus.ACTIVATED.status == MyUserManager.user?.partnerBankStatus) {
                                 openSendMoneyScreen()
                             } else {
-                                showToast("Account activation pending")
+                                showToast("${getString(Strings.screen_popup_activation_pending_display_text_message)}^${AlertType.DIALOG.name}")
                             }
                         }
                     }

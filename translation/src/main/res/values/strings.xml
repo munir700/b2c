@@ -336,6 +336,7 @@
     <!--    Remove funds Screen-->
 
     <string name="screen_remove_funds_display_text_remove_funds">Remove funds</string>
+    <string name="screen_remove_funds_display_text_unfreeze_feature">Please unfreeze card to use this feature</string>
     <string name="screen_remove_funds_button_remove">Remove</string>
     <string name="screen_remove_funds_display_text_enter_amount">Enter the amount to remove</string>
     <string name="screen_remove_funds_display_text_available_balance">Your available balance is </string>
@@ -741,7 +742,7 @@
     <string name="screen_add_topup_card_succes_button_top_up_now">Yes, top up now"</string>
     <string name="screen_add_topup_card_succes_button_later">No, do it later</string>
     <string name="screen_card_detail_alert_text_disappears">Disappears in %1s seconds</string>
-
+    <string name="screen_add_topup_card_limit_text_title">You can only add %1s cards.</string>
 
     <!-- Screen Card Analytics -->
     <string name="screen_card_analytics_display_tab_title_category">Category</string>
@@ -966,6 +967,10 @@
     <string name="screen_invite_friend_display_text_referal_code">Share your referral link</string>
     <string name="screen_invite_friend_button_share">Share</string>
     <string name="screen_invite_friend_display_text_share_url">Hi,\nI’ve just started using YAP and loving it so far, I thought you’d like to try it out for yourself. It’s not available for the public yet but I’ve saved you a special invite.\n\nDownload on App Store:\n%1s\n\nDownload on Play Store:\n%2s</string>
+
+    <!--  OTP Blocked  -->
+    <string name="screen_blocked_otp_display_text_message">This feature has been blocked! Call or chat with us to get access.</string>
+    <string name="screen_popup_activation_pending_display_text_message">Account activation pending</string>
 
 </resources>
 

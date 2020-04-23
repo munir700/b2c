@@ -21,13 +21,11 @@ import co.yap.modules.dashboard.main.fragments.YapDashboardChildFragment
 import co.yap.modules.others.fragmentpresenter.activities.FragmentPresenterActivity
 import co.yap.modules.setcardpin.activities.SetCardPinWelcomeActivity
 import co.yap.networking.cards.responsedtos.Card
+import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.RequestCodes
-import co.yap.yapcore.enums.CardDeliveryStatus
-import co.yap.yapcore.enums.CardStatus
-import co.yap.yapcore.enums.CardType
-import co.yap.yapcore.enums.PartnerBankStatus
+import co.yap.yapcore.enums.*
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.MyUserManager
@@ -129,7 +127,10 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
                         when (getCard(pos).status) {
                             CardStatus.ACTIVE.name -> {
                                 if (getCard(pos).cardType == CardType.DEBIT.type) {
-                                    if (getCard(pos).pinCreated) openDetailScreen(pos) else openStatusScreen(view, pos)
+                                    if (getCard(pos).pinCreated) openDetailScreen(pos) else openStatusScreen(
+                                        view,
+                                        pos
+                                    )
                                 } else
                                     openDetailScreen(pos)
                             }
@@ -236,10 +237,14 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
 
                     if (!cardSerialNumber.isNullOrBlank()) {
                         getCardFromSerialNumber(serialNumber = cardSerialNumber)?.let {
-                            startActivityForResult(
-                                AddFundsActivity.newIntent(requireContext(), it),
-                                RequestCodes.REQUEST_ADD_FUNDS_WHEN_ADD
-                            )
+                            if (MyUserManager.user?.otpBlocked == true) {
+                                showToast("${getString(Strings.screen_blocked_otp_display_text_message)}^${AlertType.DIALOG.name}")
+                            } else {
+                                startActivityForResult(
+                                    AddFundsActivity.newIntent(requireContext(), it),
+                                    RequestCodes.REQUEST_ADD_FUNDS_WHEN_ADD
+                                )
+                            }
                         }
                     } else {
                         isPinCreated?.let {
@@ -312,13 +317,17 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
     }
 
     private fun startReorderCardFlow(card: Card?) {
-        card?.let {
-            startActivityForResult(
-                ReorderCardActivity.newIntent(
-                    requireContext(),
-                    it
-                ), RequestCodes.REQUEST_REORDER_CARD
-            )
+        if (MyUserManager.user?.otpBlocked == true) {
+            showToast("${getString(Strings.screen_blocked_otp_display_text_message)}^${AlertType.DIALOG.name}")
+        } else {
+            card?.let {
+                startActivityForResult(
+                    ReorderCardActivity.newIntent(
+                        requireContext(),
+                        it
+                    ), RequestCodes.REQUEST_REORDER_CARD
+                )
+            }
         }
     }
 

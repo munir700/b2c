@@ -27,6 +27,7 @@ import co.yap.yapcore.constants.Constants.KEY_IS_FINGERPRINT_PERMISSION_SHOWN
 import co.yap.yapcore.constants.Constants.KEY_IS_USER_LOGGED_IN
 import co.yap.yapcore.constants.Constants.KEY_TOUCH_ID_ENABLED
 import co.yap.yapcore.constants.Constants.VERIFY_PASS_CODE_BTN_TEXT
+import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.biometric.BiometricCallback
@@ -163,13 +164,17 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
         viewModel.forgotPasscodeButtonPressEvent.observe(this, Observer {
             when (it) {
                 R.id.tvForgotPassword -> {
-                    if (!isUserLoginIn()) {
-                        goToNext(viewModel.state.username)
+                    if (MyUserManager.user?.otpBlocked == true) {
+                        showToast("${getString(Strings.screen_blocked_otp_display_text_message)}^${AlertType.DIALOG.name}")
                     } else {
-                        sharedPreferenceManager.getDecryptedUserName()?.let { username ->
-                            viewModel.state.username = username
+                        if (!isUserLoginIn()) {
                             goToNext(viewModel.state.username)
-                        } ?: toast("Invalid user name")
+                        } else {
+                            sharedPreferenceManager.getDecryptedUserName()?.let { username ->
+                                viewModel.state.username = username
+                                goToNext(viewModel.state.username)
+                            } ?: toast("Invalid user name")
+                        }
                     }
                 }
             }

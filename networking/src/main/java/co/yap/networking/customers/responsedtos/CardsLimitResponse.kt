@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName
 
 data class CardsLimitResponse(
     @SerializedName("data")
-    var data: Data? = null,
+    var cardLimits: CardLimits? = null,
     @SerializedName("errors")
     var errors: Any? = null
 ): ApiResponse()
