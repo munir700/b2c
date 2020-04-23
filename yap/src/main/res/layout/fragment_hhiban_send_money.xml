@@ -49,8 +49,7 @@
                 android:minWidth="@dimen/_140sdp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/include2"
-                app:requestKeyboard="@{true}">
+                app:layout_constraintTop_toBottomOf="@+id/include2">
 
                 <requestFocus />
             </co.yap.widgets.EasyMoneyEditText>
@@ -62,7 +61,6 @@
                 android:gravity="center"
                 android:text="Your available balance is AED 103,463.59 "
                 app:layout_constraintEnd_toEndOf="parent"
-
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/etAmount" />
 
@@ -82,7 +80,6 @@
                 android:layout_marginTop="@dimen/margin_normal"
                 android:entries="@array/screen_house_hold_iban_send_money_type_array"
                 app:column="2"
-
                 app:firstSingleSelectedPosition="-1"
                 app:isSingleSelected="true"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -99,26 +96,23 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/selectMultiCheckGroup" />
 
-
             <co.yap.widgets.CoreButton
                 android:id="@+id/btnConfirm"
                 style="@style/FragmentsBtnStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
                 android:layout_marginLeft="@dimen/margin_xxl"
                 android:layout_marginTop="8dp"
                 android:layout_marginRight="@dimen/margin_xxl"
-                android:layout_marginBottom="@dimen/margin_small"
                 android:text="Confirm"
                 app:btn_enable="true"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/cbOutTransFilter"
-                app:layout_constraintVertical_bias="0.958"
+                app:layout_constraintVertical_bias="0.998"
                 tools:text="Confirm" />
-
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 </layout>

@@ -16,7 +16,11 @@
             app:destination="@id/HHSalaryProfileFragment" />
         <action
             android:id="@+id/action_subAccountDashBoardFragment_to_HHIbanSendMoneyFragment"
-            app:destination="@id/HHIbanSendMoneyFragment" />
+            app:destination="@id/HHIbanSendMoneyFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_to_bottom"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_left"/>
     </fragment>
 
     <fragment
