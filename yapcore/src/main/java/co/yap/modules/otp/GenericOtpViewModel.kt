@@ -16,6 +16,7 @@ import co.yap.yapcore.enums.OTPActions
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.getColors
 import co.yap.yapcore.helpers.extentions.toFormattedCurrency
+import co.yap.yapcore.managers.MyUserManager
 
 class GenericOtpViewModel(application: Application) :
     BaseViewModel<IGenericOtp.State>(application = application), IGenericOtp.ViewModel {
@@ -220,6 +221,7 @@ class GenericOtpViewModel(application: Application) :
 //                state.valid = false // to disable confirm button
                 state.color = context.getColors(R.color.disabled)
                 state.isOtpBlocked.set(false)
+                MyUserManager.getAccountInfo()
             }
         }
     }
