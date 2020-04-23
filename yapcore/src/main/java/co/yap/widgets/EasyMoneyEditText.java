@@ -60,9 +60,23 @@ public class EasyMoneyEditText extends AppCompatEditText {
                 attrArray.recycle();
             }
         }
-
+        // if (isEnabled()) {
+        setFocusable(isEnabled());
+        setFocusableInTouchMode(isEnabled());
+        setCursorVisible(isEnabled());
+        //}
         // Add Text Watcher for Decimal formatting
         initTextWatchers();
+    }
+
+
+    @Override
+    public void setEnabled(boolean enabled) {
+        super.setEnabled(enabled);
+        setFocusable(isEnabled());
+        setFocusableInTouchMode(isEnabled());
+        setCursorVisible(isEnabled());
+
     }
 
     private void initTextWatchers() {
@@ -88,12 +102,11 @@ public class EasyMoneyEditText extends AppCompatEditText {
                     String formattedString = getDecoratedStringFromNumber(longval);
 
                     //setting text after format to EditText
-                    if ( getValueInt()<=0.0) {
+                    if (getValueInt() <= 0.0) {
                         long val = 0;
                         setText("");
                         setHint("0.00");
-                    }
-                    else {
+                    } else {
                         setText(formattedString);
                     }
                     setSelection(getText().length());
@@ -104,7 +117,7 @@ public class EasyMoneyEditText extends AppCompatEditText {
 
                     String valStr = getValueString();
 
-                    if (valStr.equals("") || getValueInt()<=0.0) {
+                    if (valStr.equals("") || getValueInt() <= 0.0) {
                         long val = 0;
                         setText("");
                         setHint("0.00");
@@ -272,6 +285,7 @@ public class EasyMoneyEditText extends AppCompatEditText {
         }
         return 0.0;
     }
+
     /**
      * Get the value of the text without any commas and currency.
      * For example, if the edit text value is $ 1,34,000.60 then this method will return 134000.60

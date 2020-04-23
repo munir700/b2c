@@ -167,11 +167,24 @@
         <item name="android:background">@drawable/bg_funds</item>
         <item name="android:inputType">numberDecimal</item>
         <item name="android:paddingTop">@dimen/margin_normal_large</item>
+        <item name="android:textAlignment">center</item>
         <item name="android:paddingBottom">@dimen/margin_normal_large</item>
         <item name="android:maxLength">12</item>
         <item name="currency_symbol">$</item>
         <item name="show_commas">true</item>
         <item name="show_currency">false</item>
+    </style>
+
+    <style name="Yap.App.Widget.TextInputEditText.EasyMoney.Suggestion" parent="Yap.App.Widget.TextInputEditText.EasyMoney">
+        <item name="android:layout_height">@dimen/_18sdp</item>
+        <item name="android:layout_gravity">center_horizontal</item>
+        <item name="android:background">@drawable/tab_background_selected</item>
+        <item name="android:paddingTop">@dimen/margin_zero_dp</item>
+        <item name="android:paddingBottom">@dimen/margin_zero_dp</item>
+        <item name="android:paddingStart">@dimen/margin_normal_large</item>
+        <item name="android:paddingEnd">@dimen/margin_normal_large</item>
+        <item name="android:textColor">?colorPrimaryAttr</item>
+        <item name="android:textSize">@dimen/text_size_h1</item>
     </style>
 
     <style name="Yap.App.Layout.CardView" parent="CardView">

@@ -57,7 +57,8 @@ abstract class BaseNavViewModelActivity<VB : ViewDataBinding, S : IBase.State, V
      */
     protected open val startDestinationInput: Bundle = Bundle()
 
-    private var navHostFragment: MvvmNavHostFragment? = null
+     var navHostFragment: MvvmNavHostFragment? = null
+    private set
 
     override fun preInit(savedInstanceState: Bundle?) {
         super.preInit(savedInstanceState)
@@ -159,6 +160,7 @@ abstract class BaseNavViewModelActivity<VB : ViewDataBinding, S : IBase.State, V
                 }
             }
         } catch (e: Exception) {
+            e.printStackTrace()
             throw RuntimeException("No Navigation graph Found! Please set the navigationGraphId or pass it via intent ")
         }
     }

@@ -53,8 +53,8 @@ class SubAccountCardFragment :
 
         mRecyclerViewDragDropManager = RecyclerViewDragDropManager().apply {
             mWrappedAdapter = createWrappedAdapter(adapter)
-            setInitiateOnLongPress(true)
-            setInitiateOnMove(false)
+            setInitiateOnLongPress(false)
+            setInitiateOnMove(true)
             setLongPressTimeout(750)
             dragEdgeScrollSpeed = 2.0f
             dragStartItemAnimationDuration = 250
