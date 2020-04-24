@@ -9,6 +9,7 @@ import androidx.fragment.app.FragmentActivity
 import co.yap.app.di.component.AppComponent
 import co.yap.app.di.component.AppInjector
 import co.yap.app.modules.login.activities.VerifyPassCodePresenterActivity
+import co.yap.household.app.HouseHoldApplication
 import co.yap.household.onboard.onboarding.invalideid.InvalidEIDFragment
 import co.yap.modules.dummy.ActivityNavigator
 import co.yap.modules.dummy.NavigatorProvider
@@ -40,7 +41,7 @@ import timber.log.Timber.DebugTree
 import java.util.*
 import javax.inject.Inject
 
-class AAPApplication : ChatApplication(
+class AAPApplication : HouseHoldApplication(
     getAppInfo()
 ), NavigatorProvider, HasActivityInjector {
     @Inject
@@ -54,6 +55,7 @@ class AAPApplication : ChatApplication(
         SharedPreferenceManager(this).setThemeValue(Constants.THEME_YAP)
         initFireBase()
         inItLeanPlum()
+        LivePersonChat.getInstance(applicationContext).registerToLivePersonEvents()
         initializeAdjustSdk(BuildConfig.ADJUST_APP_TOKEN)
     }
 
