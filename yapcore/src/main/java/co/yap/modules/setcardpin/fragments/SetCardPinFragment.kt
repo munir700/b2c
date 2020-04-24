@@ -32,10 +32,10 @@ open class SetCardPinFragment : BaseBindingFragment<ISetCardPin.ViewModel>(), IS
         super.onViewCreated(view, savedInstanceState)
         getBindings().dialer.hideFingerprintView()
         getBindings().dialer.upDatedDialerPad(viewModel.state.pincode)
+        getBindings().dialer.updateDialerLength(4)
         if (activity is SetCardPinWelcomeActivity) {
             (activity as SetCardPinWelcomeActivity).preventTakeDeviceScreenShot.value = true
         }
-        // getBindings().dialer.updateDialerLength(4)
     }
 
     override fun setObservers() {
