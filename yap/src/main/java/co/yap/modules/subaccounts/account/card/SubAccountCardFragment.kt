@@ -38,20 +38,16 @@ class SubAccountCardFragment :
         setRefreshEnabled(false)
         super.postExecutePendingBindings()
         setHasOptionsMenu(true)
-
         initDragDropAdapter()
     }
 
     override fun handleState(state: State?) {
         super.handleState(state)
         recyclerView?.adapter = mWrappedAdapter
-
     }
 
     private fun initDragDropAdapter() {
-        // adapter.onItemClickListener = null
-
-        mRecyclerViewDragDropManager = RecyclerViewDragDropManager().apply {
+            mRecyclerViewDragDropManager = RecyclerViewDragDropManager().apply {
             mWrappedAdapter = createWrappedAdapter(adapter)
             setInitiateOnLongPress(false)
             setInitiateOnMove(true)
@@ -93,9 +89,7 @@ class SubAccountCardFragment :
                         SubAccountDashBoardFragmentDirections.actionSubAccountDashBoardFragmentToHHIbanSendMoneyFragment(),
                         args
                     )
-
                 }
-
             }
         }
     }
