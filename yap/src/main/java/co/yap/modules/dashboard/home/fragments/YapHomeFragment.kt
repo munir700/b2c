@@ -30,6 +30,7 @@ import co.yap.modules.dashboard.home.helpers.AppBarStateChangeListener
 import co.yap.modules.dashboard.home.helpers.transaction.TransactionsViewHelper
 import co.yap.modules.dashboard.home.interfaces.IYapHome
 import co.yap.modules.dashboard.home.interfaces.NotificationItemClickListener
+import co.yap.modules.dashboard.home.models.HomeNotification
 import co.yap.modules.dashboard.home.viewmodels.YapHomeViewModel
 import co.yap.modules.dashboard.main.fragments.YapDashboardChildFragment
 import co.yap.modules.dashboard.main.viewmodels.YapDashBoardViewModel
@@ -39,32 +40,26 @@ import co.yap.modules.dashboard.yapit.topup.landing.TopUpLandingActivity
 import co.yap.modules.kyc.activities.DocumentsDashboardActivity
 import co.yap.modules.kyc.enums.KYCAction
 import co.yap.modules.location.activities.LocationSelectionActivity
-import co.yap.modules.onboarding.constants.Constants
 import co.yap.modules.others.fragmentpresenter.activities.FragmentPresenterActivity
 import co.yap.modules.setcardpin.activities.SetCardPinWelcomeActivity
 import co.yap.modules.yapnotification.models.Notification
 import co.yap.networking.cards.responsedtos.Address
 import co.yap.networking.cards.responsedtos.Card
+import co.yap.networking.customers.responsedtos.AccountInfo
 import co.yap.networking.customers.responsedtos.documents.GetMoreDocumentsResponse
 import co.yap.networking.transactions.responsedtos.transaction.Content
 import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionListData
 import co.yap.translation.Strings
 import co.yap.widgets.MultiStateView
+import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.Constants.ADDRESS
 import co.yap.yapcore.constants.Constants.ADDRESS_SUCCESS
 import co.yap.yapcore.constants.Constants.BROADCAST_UPDATE_TRANSACTION
 import co.yap.yapcore.constants.Constants.MODE_MEETING_CONFORMATION
 import co.yap.yapcore.constants.RequestCodes
-import co.yap.yapcore.enums.AccountStatus
-import co.yap.yapcore.enums.CardDeliveryStatus
-import co.yap.yapcore.enums.NotificationStatus
-import co.yap.yapcore.enums.PartnerBankStatus
-import co.yap.yapcore.helpers.DateUtils
+import co.yap.yapcore.enums.*
 import co.yap.yapcore.helpers.extentions.*
 import co.yap.yapcore.interfaces.OnItemClickListener
-import co.yap.yapcore.leanplum.KYCEvents
-import co.yap.yapcore.leanplum.trackEvent
-import co.yap.yapcore.leanplum.trackEventInFragments
 import co.yap.yapcore.managers.MyUserManager
 import com.google.android.material.appbar.AppBarLayout
 import com.yarolegovich.discretescrollview.transform.ScaleTransformer
@@ -97,21 +92,14 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
         if (MyUserManager.getPrimaryCard() != null) {
             if (isShowSetPin(MyUserManager.getPrimaryCard())) {
                 if (PartnerBankStatus.ACTIVATED.status == MyUserManager.user?.partnerBankStatus) {
-                    clearNotification()
-                    addSetPinNotification()
                     viewModel.clickEvent.setValue(viewModel.EVENT_SET_CARD_PIN)
-                } else {
-                    clearNotification()
                 }
-            } else {
-                clearNotification()
             }
         } else toast("Invalid card found")
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        if(MyUserManager.user?.otpBlocked == false) addOtpBlockedNotification()
         registerTransactionBroadcast()
         initComponents()
         setObservers()
@@ -290,7 +278,11 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                     transactionViewHelper?.setTooltipVisibility(View.GONE)
                     viewModel.state.isTransEmpty.set(true)
                 } else {
-                    checkUserStatus()
+                    if (PartnerBankStatus.ACTIVATED.status == MyUserManager.user?.partnerBankStatus) {
+                        showTransactionsAndGraph()
+                    } else {
+                        viewModel.state.isTransEmpty.set(true)
+                    }
                     getRecycleViewAdaptor()?.setList(it)
                     getGraphRecycleViewAdapter()?.setList(it)
                     transactionViewHelper?.setTooltipOnZero()
@@ -338,37 +330,53 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
     }
 
     private fun checkUserStatus() {
-        when (MyUserManager.user?.notificationStatuses) {
-            AccountStatus.ON_BOARDED.name, AccountStatus.CAPTURED_EID.name -> {
-                if (PartnerBankStatus.ACTIVATED.status != MyUserManager.user?.partnerBankStatus) {
-                    clearNotification()
-                    addCompleteVerificationNotification()
-                }
-            }
+        setNotificationAdapter(MyUserManager.user, MyUserManager.card.value)
+//        when (MyUserManager.user?.notificationStatuses) {
+//            AccountStatus.ON_BOARDED.name, AccountStatus.CAPTURED_EID.name -> {
+//                if (PartnerBankStatus.ACTIVATED.status != MyUserManager.user?.partnerBankStatus) {
+//                    clearNotification()
+//                    addCompleteVerificationNotification()
+//                }
+//            }
+//
+//            AccountStatus.MEETING_SCHEDULED.name -> {
+//                clearNotification()
+//            }
+//
+//            AccountStatus.EID_EXPIRED.name, AccountStatus.EID_RESCAN_REQUIRE.name -> {
+//                trackEvent(KYCEvents.EID_EXPIRE.type)
+//                trackEventInFragments(
+//                    MyUserManager.user,
+//                    eidExpire = true,
+//                    eidExpireDate = DateUtils.getCurrentDateWithFormat("yyyy-MM-dd")
+//                )
+//
+//                clearNotification()
+//                addEidExpiredNotification()
+//            }
+//        }
+    }
 
-            AccountStatus.MEETING_SCHEDULED.name -> {
-                clearNotification()
-            }
-
-            AccountStatus.EID_EXPIRED.name, AccountStatus.EID_RESCAN_REQUIRE.name -> {
-                trackEvent(KYCEvents.EID_EXPIRE.type)
-                trackEventInFragments(
-                    MyUserManager.user,
-                    eidExpire = true,
-                    eidExpireDate = DateUtils.getCurrentDateWithFormat("yyyy-MM-dd")
+    private fun setNotificationAdapter(accountInfo: AccountInfo?, paymentCard: Card?) {
+        accountInfo?.let { account ->
+            paymentCard?.let { card ->
+                account.notificationStatuses = AccountStatus.CAPTURED_EID.name
+                account.partnerBankStatus = PartnerBankStatus.HARD_KYC_DONE.status
+                mAdapter = NotificationAdapter(
+                    viewModel.getNotifications(account, card),
+                    this
                 )
-
-                clearNotification()
-                addEidExpiredNotification()
+                getBindings().lyInclude.rvNotificationList.setSlideOnFling(false)
+                getBindings().lyInclude.rvNotificationList.setOverScrollEnabled(true)
+                getBindings().lyInclude.rvNotificationList.adapter = mAdapter
+                getBindings().lyInclude.rvNotificationList.smoothScrollToPosition(0)
+                getBindings().lyInclude.rvNotificationList.setItemTransitionTimeMillis(100)
+                getBindings().lyInclude.rvNotificationList.setItemTransformer(
+                    ScaleTransformer.Builder()
+                        .setMinScale(0.8f)
+                        .build()
+                )
             }
-        }
-
-        if (PartnerBankStatus.ACTIVATED.status == MyUserManager.user?.partnerBankStatus) {
-            showTransactionsAndGraph()
-
-            //clearNotification() // why to clear
-        } else {
-            viewModel.state.isTransEmpty.set(true)
         }
     }
 
@@ -376,7 +384,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
         mAdapter.removeAllItems()
     }
 
-    override fun onCloseClick(notification: Notification) {
+    override fun onCloseClick(notification: HomeNotification) {
         super.onCloseClick(notification)
         clearNotification()
     }
@@ -404,127 +412,123 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
         }
     }
 
-    private fun addSetPinNotification() {
-        notificationsList.add(
-            Notification(
-                "Set PIN",
-                "Now create a unique 4-digit PIN to be able to use your primary card for purchases and withdrawals",
-                "",
-                Constants.NOTIFICATION_ACTION_SET_PIN,
-                "",
-                ""
-            )
-        )
-        mAdapter = NotificationAdapter(
-            notificationsList,
-            this
-        )
-        getBindings().lyInclude.rvNotificationList.setSlideOnFling(false)
-        getBindings().lyInclude.rvNotificationList.setOverScrollEnabled(true)
-        getBindings().lyInclude.rvNotificationList.adapter = mAdapter
-        //rvNotificationList.addOnItemChangedListener(this)
-        //rvNotificationList.addScrollStateChangeListener(this)
-        getBindings().lyInclude.rvNotificationList.smoothScrollToPosition(0)
-        getBindings().lyInclude.rvNotificationList.setItemTransitionTimeMillis(100)
-        getBindings().lyInclude.rvNotificationList.setItemTransformer(
-            ScaleTransformer.Builder()
-                .setMinScale(0.8f)
-                .build()
-        )
-    }
-
-    private fun addCompleteVerificationNotification() {
-        notificationsList.add(
-            Notification(
-                "Complete Verification",
-                "Complete verification to activate your account",
-                "",
-                Constants.NOTIFICATION_ACTION_COMPLETE_VERIFICATION,
-                "",
-                ""
-            )
-        )
-        mAdapter = NotificationAdapter(
-            notificationsList,
-            this
-        )
-        getBindings().lyInclude.rvNotificationList.setSlideOnFling(false)
-        getBindings().lyInclude.rvNotificationList.setOverScrollEnabled(true)
-        getBindings().lyInclude.rvNotificationList.adapter = mAdapter
-        //rvNotificationList.addOnItemChangedListener(this)
-        //rvNotificationList.addScrollStateChangeListener(this)
-        getBindings().lyInclude.rvNotificationList.smoothScrollToPosition(0)
-        getBindings().lyInclude.rvNotificationList.setItemTransitionTimeMillis(100)
-        getBindings().lyInclude.rvNotificationList.setItemTransformer(
-            ScaleTransformer.Builder()
-                .setMinScale(0.8f)
-                .build()
-        )
-
-    }
-
-    private fun addEidExpiredNotification() {
-        notificationsList.add(
-            Notification(
-                "Renewed ID",
-                "Your Emirates ID has expired. Please update your account with the renewed ID as soon as you can.",
-                "",
-                Constants.NOTIFICATION_ACTION_SET_UPDATE_EID,
-                "",
-                ""
-            )
-        )
-        mAdapter = NotificationAdapter(
-            notificationsList,
-            this
-        )
-        getBindings().lyInclude.rvNotificationList.setSlideOnFling(false)
-        getBindings().lyInclude.rvNotificationList.setOverScrollEnabled(true)
-        getBindings().lyInclude.rvNotificationList.adapter = mAdapter
-        //rvNotificationList.addOnItemChangedListener(this)
-        //rvNotificationList.addScrollStateChangeListener(this)
-        getBindings().lyInclude.rvNotificationList.smoothScrollToPosition(0)
-        getBindings().lyInclude.rvNotificationList.setItemTransitionTimeMillis(100)
-        getBindings().lyInclude.rvNotificationList.setItemTransformer(
-            ScaleTransformer.Builder()
-                .setMinScale(0.8f)
-                .build()
-        )
-    }
-    private fun addOtpBlockedNotification() {
-        notificationsList.add(
-            Notification(
-                "",
-                "Some features may appear blocked for you as you made too many incorrect OTP attempts. Call or chat with us now to get full access.",
-                "",
-                Constants.NOTIFICATION_ACTION_SET_UPDATE_EID,
-                "",
-                ""
-            )
-        )
-        mAdapter = NotificationAdapter(
-            notificationsList,
-            this
-        )
-        getBindings().lyInclude.rvNotificationList.setSlideOnFling(false)
-        getBindings().lyInclude.rvNotificationList.setOverScrollEnabled(true)
-        getBindings().lyInclude.rvNotificationList.adapter = mAdapter
-        //rvNotificationList.addOnItemChangedListener(this)
-        //rvNotificationList.addScrollStateChangeListener(this)
-        getBindings().lyInclude.rvNotificationList.smoothScrollToPosition(0)
-        getBindings().lyInclude.rvNotificationList.setItemTransitionTimeMillis(100)
-        getBindings().lyInclude.rvNotificationList.setItemTransformer(
-            ScaleTransformer.Builder()
-                .setMinScale(0.8f)
-                .build()
-        )
-    }
+//    private fun addSetPinNotification() {
+//        notificationsList.add(
+//            Notification(
+//                "Set PIN",
+//                "Now create a unique 4-digit PIN to be able to use your primary card for purchases and withdrawals",
+//                "",
+//                Constants.NOTIFICATION_ACTION_SET_PIN,
+//                "",
+//                ""
+//            )
+//        )
+//        mAdapter = NotificationAdapter(
+//            notificationsList,
+//            this
+//        )
+//        getBindings().lyInclude.rvNotificationList.setSlideOnFling(false)
+//        getBindings().lyInclude.rvNotificationList.setOverScrollEnabled(true)
+//        getBindings().lyInclude.rvNotificationList.adapter = mAdapter
+//        //rvNotificationList.addOnItemChangedListener(this)
+//        //rvNotificationList.addScrollStateChangeListener(this)
+//        getBindings().lyInclude.rvNotificationList.smoothScrollToPosition(0)
+//        getBindings().lyInclude.rvNotificationList.setItemTransitionTimeMillis(100)
+//        getBindings().lyInclude.rvNotificationList.setItemTransformer(
+//            ScaleTransformer.Builder()
+//                .setMinScale(0.8f)
+//                .build()
+//        )
+//    }
+//    private fun addCompleteVerificationNotification() {
+//        notificationsList.add(
+//            Notification(
+//                "Complete Verification",
+//                "Complete verification to activate your account",
+//                "",
+//                Constants.NOTIFICATION_ACTION_COMPLETE_VERIFICATION,
+//                "",
+//                ""
+//            )
+//        )
+//        mAdapter = NotificationAdapter(
+//            notificationsList,
+//            this
+//        )
+//        getBindings().lyInclude.rvNotificationList.setSlideOnFling(false)
+//        getBindings().lyInclude.rvNotificationList.setOverScrollEnabled(true)
+//        getBindings().lyInclude.rvNotificationList.adapter = mAdapter
+//        //rvNotificationList.addOnItemChangedListener(this)
+//        //rvNotificationList.addScrollStateChangeListener(this)
+//        getBindings().lyInclude.rvNotificationList.smoothScrollToPosition(0)
+//        getBindings().lyInclude.rvNotificationList.setItemTransitionTimeMillis(100)
+//        getBindings().lyInclude.rvNotificationList.setItemTransformer(
+//            ScaleTransformer.Builder()
+//                .setMinScale(0.8f)
+//                .build()
+//        )
+//
+//    }
+//    private fun addEidExpiredNotification() {
+//        notificationsList.add(
+//            Notification(
+//                "Renewed ID",
+//                "Your Emirates ID has expired. Please update your account with the renewed ID as soon as you can.",
+//                "",
+//                Constants.NOTIFICATION_ACTION_SET_UPDATE_EID,
+//                "",
+//                ""
+//            )
+//        )
+//        mAdapter = NotificationAdapter(
+//            notificationsList,
+//            this
+//        )
+//        getBindings().lyInclude.rvNotificationList.setSlideOnFling(false)
+//        getBindings().lyInclude.rvNotificationList.setOverScrollEnabled(true)
+//        getBindings().lyInclude.rvNotificationList.adapter = mAdapter
+//        //rvNotificationList.addOnItemChangedListener(this)
+//        //rvNotificationList.addScrollStateChangeListener(this)
+//        getBindings().lyInclude.rvNotificationList.smoothScrollToPosition(0)
+//        getBindings().lyInclude.rvNotificationList.setItemTransitionTimeMillis(100)
+//        getBindings().lyInclude.rvNotificationList.setItemTransformer(
+//            ScaleTransformer.Builder()
+//                .setMinScale(0.8f)
+//                .build()
+//        )
+//    }
+//    private fun addOtpBlockedNotification() {
+//        notificationsList.add(
+//            Notification(
+//                "",
+//                "Some features may appear blocked for you as you made too many incorrect OTP attempts. Call or chat with us now to get full access.",
+//                "",
+//                Constants.NOTIFICATION_ACTION_SET_UPDATE_EID,
+//                "",
+//                ""
+//            )
+//        )
+//        mAdapter = NotificationAdapter(
+//            notificationsList,
+//            this
+//        )
+//        getBindings().lyInclude.rvNotificationList.setSlideOnFling(false)
+//        getBindings().lyInclude.rvNotificationList.setOverScrollEnabled(true)
+//        getBindings().lyInclude.rvNotificationList.adapter = mAdapter
+//        //rvNotificationList.addOnItemChangedListener(this)
+//        //rvNotificationList.addScrollStateChangeListener(this)
+//        getBindings().lyInclude.rvNotificationList.smoothScrollToPosition(0)
+//        getBindings().lyInclude.rvNotificationList.setItemTransitionTimeMillis(100)
+//        getBindings().lyInclude.rvNotificationList.setItemTransformer(
+//            ScaleTransformer.Builder()
+//                .setMinScale(0.8f)
+//                .build()
+//        )
+//    }
 
     override fun onResume() {
         super.onResume()
-        if (AccountStatus.CARD_ACTIVATED.name == MyUserManager.user?.notificationStatuses) {
-            checkUserStatus()
-        }
+        checkUserStatus()
         viewModel.state.filterCount.set(homeTransactionsRequest.totalAppliedFilter)
         MyUserManager.updateCardBalance()
     }
@@ -559,31 +563,31 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
         }
     }
 
-    override fun onClick(notification: Notification) {
+    override fun onClick(notification: HomeNotification) {
         when (notification.action) {
-            Constants.NOTIFICATION_ACTION_COMPLETE_VERIFICATION -> {
+            NotificationAction.COMPLETE_VERIFICATION -> {
                 launchActivity<DocumentsDashboardActivity>(requestCode = RequestCodes.REQUEST_KYC_DOCUMENTS) {
                     putExtra(
-                        co.yap.yapcore.constants.Constants.name,
+                        Constants.name,
                         MyUserManager.user?.currentCustomer?.firstName.toString()
                     )
-                    putExtra(co.yap.yapcore.constants.Constants.data, false)
+                    putExtra(Constants.data, false)
                 }
             }
 
-            Constants.NOTIFICATION_ACTION_SET_PIN -> {
+            NotificationAction.SET_PIN -> {
                 MyUserManager.card.value?.let {
                     viewModel.clickEvent.setValue(viewModel.EVENT_SET_CARD_PIN)
                 }
             }
 
-            Constants.NOTIFICATION_ACTION_SET_UPDATE_EID -> {
+            NotificationAction.UPDATE_EMIRATES_ID -> {
                 launchActivity<DocumentsDashboardActivity>(requestCode = RequestCodes.REQUEST_KYC_DOCUMENTS) {
                     putExtra(
-                        co.yap.yapcore.constants.Constants.name,
+                        Constants.name,
                         MyUserManager.user?.currentCustomer?.firstName.toString()
                     )
-                    putExtra(co.yap.yapcore.constants.Constants.data, true)
+                    putExtra(Constants.data, true)
                     putExtra(
                         "document",
                         GetMoreDocumentsResponse.Data.CustomerDocument.DocumentInformation(
@@ -591,6 +595,9 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                         )
                     )
                 }
+            }
+            NotificationAction.HELP_AND_SUPPORT -> {
+
             }
         }
     }

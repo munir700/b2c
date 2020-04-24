@@ -5,22 +5,25 @@ import androidx.lifecycle.MutableLiveData
 import co.yap.app.YAPApplication
 import co.yap.modules.dashboard.home.filters.models.TransactionFilters
 import co.yap.modules.dashboard.home.interfaces.IYapHome
+import co.yap.modules.dashboard.home.models.HomeNotification
 import co.yap.modules.dashboard.home.states.YapHomeState
 import co.yap.modules.dashboard.main.viewmodels.YapDashboardChildViewModel
 import co.yap.networking.cards.CardsRepository
 import co.yap.networking.cards.requestdtos.OrderCardRequest
 import co.yap.networking.cards.responsedtos.Address
 import co.yap.networking.cards.responsedtos.Card
+import co.yap.networking.customers.responsedtos.AccountInfo
 import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.transactions.TransactionsRepository
 import co.yap.networking.transactions.responsedtos.transaction.Content
 import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionListData
 import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionsResponse
 import co.yap.yapcore.SingleClickEvent
-import co.yap.yapcore.enums.CardType
+import co.yap.yapcore.enums.*
 import co.yap.yapcore.helpers.extentions.getFormattedDate
 import co.yap.yapcore.managers.MyUserManager
 import java.util.*
+import kotlin.collections.ArrayList
 
 class YapHomeViewModel(application: Application) :
     YapDashboardChildViewModel<IYapHome.State>(application),
@@ -288,5 +291,59 @@ class YapHomeViewModel(application: Application) :
         }
     }
 
+    override fun getNotifications(
+        accountInfo: AccountInfo,
+        paymentCard: Card
+    ): ArrayList<HomeNotification> {
+        val list = ArrayList<HomeNotification>()
+        if (accountInfo.otpBlocked == false) {
+            list.add(
+                HomeNotification(
+                    id = "1",
+                    description = "Some features may appear blocked for you as you made too many incorrect OTP attempts. Call or chat with us now to get full access.",
+                    action = NotificationAction.HELP_AND_SUPPORT
+                )
+            )
+        }
+        if((accountInfo.notificationStatuses == AccountStatus.ON_BOARDED.name || accountInfo.notificationStatuses == AccountStatus.CAPTURED_EID.name) && accountInfo.partnerBankStatus != PartnerBankStatus.ACTIVATED.status) {
+            list.add(
+                HomeNotification(
+                    id = "2",
+                    title = "Complete Verification",
+                    description = "Complete verification to activate your account.",
+                    action = NotificationAction.COMPLETE_VERIFICATION
+                )
+            )
+        }
+
+        if(shouldShowSetPin(paymentCard) && accountInfo.partnerBankStatus == PartnerBankStatus.ACTIVATED.status) {
+            list.add(
+                HomeNotification(
+                    id = "3",
+                    title = "Set PIN",
+                    description = "Now create a unique 4-digit PIN to be able to use your primary card for purchases and withdrawals.",
+                    action = NotificationAction.SET_PIN
+                )
+            )
+        }
+        if((accountInfo.notificationStatuses == AccountStatus.EID_EXPIRED.name || accountInfo.notificationStatuses == AccountStatus.EID_RESCAN_REQUIRE.name) && accountInfo.partnerBankStatus == PartnerBankStatus.ACTIVATED.status) {
+            list.add(
+                HomeNotification(
+                    id = "4",
+                    title = "Renewed ID",
+                    description = "Your Emirates ID has expired. Please update your account with the renewed ID as soon as you can.",
+                    action = NotificationAction.UPDATE_EMIRATES_ID
+                )
+            )
+
+        }
+
+        return list
+    }
+
+    private fun shouldShowSetPin(paymentCard: Card): Boolean {
+        return (paymentCard.deliveryStatus == CardDeliveryStatus.SHIPPED.name && !paymentCard.pinCreated)
+
+    }
 }
 

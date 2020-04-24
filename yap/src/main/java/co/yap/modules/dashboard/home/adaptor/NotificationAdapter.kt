@@ -5,14 +5,14 @@ import androidx.recyclerview.widget.RecyclerView
 import co.yap.R
 import co.yap.databinding.ViewNotificationsBinding
 import co.yap.modules.dashboard.home.interfaces.NotificationItemClickListener
-import co.yap.modules.yapnotification.models.Notification
+import co.yap.modules.dashboard.home.models.HomeNotification
 import co.yap.yapcore.BaseBindingRecyclerAdapter
 
 class NotificationAdapter(
-    val listItems: MutableList<Notification>,
+    val listItems: MutableList<HomeNotification>,
     val clickListener: NotificationItemClickListener
 ) :
-    BaseBindingRecyclerAdapter<Notification, NotificationAdapter.ViewHolder>(listItems) {
+    BaseBindingRecyclerAdapter<HomeNotification, NotificationAdapter.ViewHolder>(listItems) {
 
 
     override fun onCreateViewHolder(binding: ViewDataBinding): ViewHolder {
@@ -22,7 +22,7 @@ class NotificationAdapter(
     override fun getLayoutIdForViewType(viewType: Int): Int = R.layout.view_notifications
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val notification: Notification = listItems[position]
+        val notification: HomeNotification = listItems[position]
 
         holder.binding?.tvTitle?.text = notification.title
         holder.binding?.tvDescription?.text = notification.description
