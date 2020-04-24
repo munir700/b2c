@@ -251,7 +251,8 @@ class PersonalDetailsFragment : MoreBaseFragment<IPersonalDetail.ViewModel>(),
                             context = requireContext(),
                             address = MyUserManager.userAddress ?: Address(),
                             headingTitle = getString(Strings.screen_meeting_location_display_text_add_new_address_title),
-                            subHeadingTitle = getString(Strings.screen_meeting_location_display_text_subtitle)
+                            subHeadingTitle = getString(Strings.screen_meeting_location_display_text_subtitle),
+                            onBoarding = true
                         ), RequestCodes.REQUEST_LOCATION_FOR_KYC
                     )
                 } else {

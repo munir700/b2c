@@ -89,7 +89,7 @@
                 android:lineSpacingExtra="2dp"
                 android:maxLines="1"
                 android:textColor="@{viewModel.transaction.status.equals(TransactionStatus.CANCELLED.name)? @color/greyNormalDark : @color/greyDark}"
-                android:text="@{viewModel.transaction.status.equals(TransactionStatus.CANCELLED.name)? `Transfer rejected` : viewModel.transaction.cardAcceptorLocation.toString()}"
+                android:text="@{viewModel.transaction.status.equals(TransactionStatus.CANCELLED.name)? `Transfer Rejected` : viewModel.transaction.cardAcceptorLocation.toString()}"
                 android:visibility="@{(viewModel.transaction.cardAcceptorLocation ==null || viewModel.transaction.cardAcceptorLocation.isEmpty()) &amp;&amp; !viewModel.transaction.status.equals(TransactionStatus.CANCELLED.name)?View.GONE:View.VISIBLE}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/tvTotalAmountValue"

@@ -77,7 +77,7 @@ class UpdateConfirmPasscodeFragment : ConfirmNewCardPinFragment() {
             }
         })
         viewModel.errorEvent.observe(this, Observer {
-            dialer.startAnimationDigits()
+            dialer.startAnimation()
         })
     }
 
