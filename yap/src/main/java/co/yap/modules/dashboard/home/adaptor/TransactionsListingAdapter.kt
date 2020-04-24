@@ -14,12 +14,8 @@ import co.yap.translation.Translator.getString
 import co.yap.yapcore.BaseBindingRecyclerAdapter
 import co.yap.yapcore.enums.TransactionProductCode
 import co.yap.yapcore.enums.TxnType
-import co.yap.yapcore.helpers.DateUtils.FORMATE_TIME_24H
-import co.yap.yapcore.helpers.DateUtils.FORMAT_LONG_INPUT
-import co.yap.yapcore.helpers.DateUtils.reformatStringDate
 import co.yap.yapcore.helpers.ImageBinding
 import co.yap.yapcore.helpers.extentions.*
-
 
 class TransactionsListingAdapter(private val list: MutableList<Content>) :
     BaseBindingRecyclerAdapter<Content, RecyclerView.ViewHolder>(list) {
@@ -110,9 +106,7 @@ class TransactionsListingAdapter(private val list: MutableList<Content>) :
             itemTransactionListBinding.tvTransactionTimeAndCategory.text = getString(
                 context,
                 R.string.screen_fragment_home_transaction_time_category,
-                reformatStringDate(
-                    transaction.updatedDate ?: "", FORMAT_LONG_INPUT, FORMATE_TIME_24H
-                ), categoryTitle
+                transaction.getFormattedTime(), categoryTitle
             )
         }
 
@@ -179,6 +173,5 @@ class TransactionsListingAdapter(private val list: MutableList<Content>) :
                 if (transaction.isTransactionCancelled()) itemTransactionListBinding.tvTransactionAmount.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG else 0
         }
     }
-
 }
 
