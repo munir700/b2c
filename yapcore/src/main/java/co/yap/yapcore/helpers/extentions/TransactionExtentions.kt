@@ -7,6 +7,7 @@ import co.yap.yapcore.enums.TransactionLabelsCode
 import co.yap.yapcore.enums.TransactionProductCode
 import co.yap.yapcore.enums.TransactionStatus
 import co.yap.yapcore.enums.TxnType
+import co.yap.yapcore.helpers.DateUtils
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -268,6 +269,25 @@ fun Content?.getFormattedDate(): String? {
             DateFormat.format(timeFormatString, smsTime).toString()
         }
     } ?: return null
+}
+
+fun Content?.getFormattedTime(): String {
+    return (when {
+        DateUtils.reformatStringDate(
+            this?.updatedDate ?: "",
+            DateUtils.FORMAT_LONG_INPUT,
+            DateUtils.FORMATE_TIME_24H
+        ).isBlank() -> DateUtils.reformatStringDate(
+            this?.creationDate ?: "",
+            DateUtils.FORMAT_LONG_INPUT,
+            DateUtils.FORMATE_TIME_24H
+        )
+        else -> DateUtils.reformatStringDate(
+            this?.updatedDate ?: "",
+            DateUtils.FORMAT_LONG_INPUT,
+            DateUtils.FORMATE_TIME_24H
+        )
+    })
 }
 
 fun Content?.isTransactionCancelled(): Boolean {
