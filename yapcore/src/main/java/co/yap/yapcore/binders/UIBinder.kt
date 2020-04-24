@@ -361,7 +361,7 @@ object UIBinder {
     private fun setTextForInactiveCard(text: TextView, card: Card) {
         when (card.cardType) {
             CardType.DEBIT.type -> {
-                if (card.deliveryStatus == CardDeliveryStatus.SHIPPED.name) {
+                if (card.deliveryStatus == CardDeliveryStatus.SHIPPED.name && PartnerBankStatus.ACTIVATED.status == MyUserManager.user?.partnerBankStatus) {
                     text.visibility = VISIBLE
                     text.text = Translator.getString(
                         text.context,
@@ -411,7 +411,7 @@ object UIBinder {
                     )
                 }
                 CardStatus.INACTIVE -> {
-                    if (card.deliveryStatus == CardDeliveryStatus.SHIPPED.name)
+                    if (card.deliveryStatus == CardDeliveryStatus.SHIPPED.name && PartnerBankStatus.ACTIVATED.status == MyUserManager.user?.partnerBankStatus)
                         setCardButtonTextForInactive(coreButton, card)
                     else
                         coreButton.visibility = GONE
