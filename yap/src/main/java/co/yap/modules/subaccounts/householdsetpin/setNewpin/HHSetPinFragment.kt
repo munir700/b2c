@@ -1,6 +1,7 @@
 package co.yap.modules.subaccounts.householdsetpin.setNewpin
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
@@ -28,6 +29,7 @@ class HHSetPinFragment :
         super.onViewCreated(view, savedInstanceState)
         viewModel.clickEvent.observe(this, clickEvent)
         dialer.setListener(this)
+        dialer.setInputView(tvInputField)
     }
 
     var clickEvent = Observer<Int> {
@@ -57,7 +59,6 @@ class HHSetPinFragment :
     }
 
     override fun onNumberClicked(number: Int, numbers: String) {
-        tvInputField.setText(numbers)
     }
 
     override fun onLeftAuxButtonClicked() {
@@ -65,6 +66,5 @@ class HHSetPinFragment :
     }
 
     override fun onRightAuxButtonClicked(numbers: String) {
-        tvInputField.setText(numbers)
     }
 }

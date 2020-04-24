@@ -12,6 +12,7 @@ import androidx.annotation.ColorRes
 import androidx.annotation.Dimension
 import androidx.annotation.DrawableRes
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.appcompat.widget.AppCompatEditText
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import co.yap.yapcore.R
@@ -46,15 +47,13 @@ class NumberKeyboard : ConstraintLayout {
             field = value
             enableKeys(value)
         }
-    private var maxLimit: Int = 3
 
     private lateinit var numericKeys: MutableList<TextView>
     private lateinit var leftAuxBtn: ImageView
     private lateinit var rightAuxBtn: ImageView
 
     private var listener: NumberKeyboardListener? = null
-
-    private var inputArray = arrayListOf<Int>()
+    private var inputEditText: AppCompatEditText? = null
 
     constructor(context: Context) : super(context) {
         inflateView()
@@ -79,6 +78,13 @@ class NumberKeyboard : ConstraintLayout {
      */
     fun setListener(listener: NumberKeyboardListener?) {
         this.listener = listener
+    }
+
+    /**
+     * Sets input view.
+     */
+    fun setInputView(view: AppCompatEditText) {
+        this.inputEditText = view
     }
 
     /**
@@ -215,14 +221,6 @@ class NumberKeyboard : ConstraintLayout {
     fun setRightAuxButtonBackground(@DrawableRes bg: Int) {
         rightAuxBtn.background = ContextCompat.getDrawable(context, bg)
     }
-
-    /**
-     * Sets max limit of dial pad
-     */
-    fun setMaxLimit(limit: Int) {
-        maxLimit = limit
-    }
-
 
     /**
      * Initializes XML attributes.
@@ -362,10 +360,8 @@ class NumberKeyboard : ConstraintLayout {
         for (i in numericKeys.indices) {
             val key = numericKeys[i]
             key.setOnClickListener {
-                if (inputArray.size <= maxLimit) {
-                    inputArray.add(i)
-                    listener?.onNumberClicked(i, getNumbers(inputArray))
-                }
+                inputEditText?.append(i.toString())
+                listener?.onNumberClicked(i, inputEditText?.text.toString())
             }
         }
         // Set auxiliary key callbacks
@@ -373,21 +369,11 @@ class NumberKeyboard : ConstraintLayout {
             listener?.onLeftAuxButtonClicked()
         }
         rightAuxBtn.setOnClickListener {
-            if (!inputArray.isEmpty()) {
-                var numToDel = inputArray.get(inputArray.size - 1)
-                inputArray.remove(numToDel)
+            inputEditText?.let {
+                if (it.length() > 0) it.text?.delete(it.length() - 1, it.length())
             }
-            listener?.onRightAuxButtonClicked(getNumbers(inputArray))
+            listener?.onRightAuxButtonClicked(inputEditText?.text.toString())
         }
-    }
-
-    private fun getNumbers(arr: ArrayList<Int>): String {
-        var numbers = ""
-        for (i in arr) {
-            numbers += i
-        }
-
-        return numbers
     }
 
     /**
