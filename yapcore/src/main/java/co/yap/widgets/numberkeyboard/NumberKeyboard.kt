@@ -15,7 +15,6 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import co.yap.yapcore.R
-import kotlin.collections.ArrayList
 
 /**
  * Number keyboard (to enter pin or custom amount).
@@ -42,8 +41,11 @@ class NumberKeyboard : ConstraintLayout {
     @DrawableRes
     private var rightAuxBtnBackground: Int = 0
 
-    private var enableKeys: Boolean = true
-
+    var enableKeys: Boolean = true
+        set(value) {
+            field = value
+            enableKeys(value)
+        }
     private var maxLimit: Int = 3
 
     private lateinit var numericKeys: MutableList<TextView>
@@ -63,7 +65,11 @@ class NumberKeyboard : ConstraintLayout {
         inflateView()
     }
 
-    constructor(context: Context, attrs: AttributeSet?, @AttrRes defStyleAttr: Int) : super(context, attrs, defStyleAttr) {
+    constructor(context: Context, attrs: AttributeSet?, @AttrRes defStyleAttr: Int) : super(
+        context,
+        attrs,
+        defStyleAttr
+    ) {
         initializeAttributes(attrs)
         inflateView()
     }
@@ -119,13 +125,15 @@ class NumberKeyboard : ConstraintLayout {
     /**
      * Sets enable/disable keys flag.
      */
-    fun setEnableKeys(enableKeys: Boolean) {
-        for (key in numericKeys) {
-            key.isEnabled = enableKeys
+    private fun enableKeys(enableKeys: Boolean) {
+        if (this::numericKeys.isInitialized) {
+            for (key in numericKeys) {
+                key.isEnabled = enableKeys
+            }
+            leftAuxBtn.isEnabled = enableKeys
+            rightAuxBtn.isEnabled = enableKeys
+            requestLayout()
         }
-        leftAuxBtn.isEnabled = enableKeys
-        rightAuxBtn.isEnabled = enableKeys
-        requestLayout()
     }
 
     /**
@@ -211,7 +219,7 @@ class NumberKeyboard : ConstraintLayout {
     /**
      * Sets max limit of dial pad
      */
-    fun setMaxLimit(limit:Int) {
+    fun setMaxLimit(limit: Int) {
         maxLimit = limit
     }
 
@@ -226,24 +234,34 @@ class NumberKeyboard : ConstraintLayout {
             val type = array.getInt(R.styleable.NumberKeyboard_numberkeyboard_keyboardType, -1)
             if (type == -1) throw IllegalArgumentException("keyboardType attribute is required.")
             // Get key sizes
-            keyWidth = array.getLayoutDimension(R.styleable.NumberKeyboard_numberkeyboard_keyWidth,
+            keyWidth = array.getLayoutDimension(
+                R.styleable.NumberKeyboard_numberkeyboard_keyWidth,
                 DEFAULT_KEY_WIDTH_DP
             )
-            keyHeight = array.getLayoutDimension(R.styleable.NumberKeyboard_numberkeyboard_keyHeight,
+            keyHeight = array.getLayoutDimension(
+                R.styleable.NumberKeyboard_numberkeyboard_keyHeight,
                 DEFAULT_KEY_HEIGHT_DP
             )
             // Get key padding
-            keyPadding = array.getDimensionPixelSize(R.styleable.NumberKeyboard_numberkeyboard_keyPadding,
-                    dpToPx(DEFAULT_KEY_PADDING_DP.toFloat()))
+            keyPadding = array.getDimensionPixelSize(
+                R.styleable.NumberKeyboard_numberkeyboard_keyPadding,
+                dpToPx(DEFAULT_KEY_PADDING_DP.toFloat())
+            )
             // Get number key background
-            numberKeyBackground = array.getResourceId(R.styleable.NumberKeyboard_numberkeyboard_numberKeyBackground,
-                    R.drawable.numberkeyboard_key_bg)
+            numberKeyBackground = array.getResourceId(
+                R.styleable.NumberKeyboard_numberkeyboard_numberKeyBackground,
+                R.drawable.numberkeyboard_key_bg
+            )
             // Get number key text color
-            numberKeyTextColor = array.getResourceId(R.styleable.NumberKeyboard_numberkeyboard_numberKeyTextColor,
-                    R.drawable.numberkeyboard_key_text_color)
+            numberKeyTextColor = array.getResourceId(
+                R.styleable.NumberKeyboard_numberkeyboard_numberKeyTextColor,
+                R.drawable.numberkeyboard_key_text_color
+            )
             // Get keys enable/disable
-            enableKeys = array.getBoolean(R.styleable.NumberKeyboard_numberkeyboard_enableKeys,
-                true)
+            enableKeys = array.getBoolean(
+                R.styleable.NumberKeyboard_numberkeyboard_enableKeys,
+                true
+            )
             // Get auxiliary icons
             when (type) {
                 0 -> { // integer
@@ -265,14 +283,22 @@ class NumberKeyboard : ConstraintLayout {
                     rightAuxBtnBackground = R.drawable.numberkeyboard_key_bg_transparent
                 }
                 3 -> { // custom
-                    leftAuxBtnIcon = array.getResourceId(R.styleable.NumberKeyboard_numberkeyboard_leftAuxBtnIcon,
-                            R.drawable.numberkeyboard_key_bg_transparent)
-                    rightAuxBtnIcon = array.getResourceId(R.styleable.NumberKeyboard_numberkeyboard_rightAuxBtnIcon,
-                            R.drawable.numberkeyboard_key_bg_transparent)
-                    leftAuxBtnBackground = array.getResourceId(R.styleable.NumberKeyboard_numberkeyboard_leftAuxBtnBackground,
-                            R.drawable.numberkeyboard_key_bg_transparent)
-                    rightAuxBtnBackground = array.getResourceId(R.styleable.NumberKeyboard_numberkeyboard_rightAuxBtnBackground,
-                            R.drawable.numberkeyboard_key_bg_transparent)
+                    leftAuxBtnIcon = array.getResourceId(
+                        R.styleable.NumberKeyboard_numberkeyboard_leftAuxBtnIcon,
+                        R.drawable.numberkeyboard_key_bg_transparent
+                    )
+                    rightAuxBtnIcon = array.getResourceId(
+                        R.styleable.NumberKeyboard_numberkeyboard_rightAuxBtnIcon,
+                        R.drawable.numberkeyboard_key_bg_transparent
+                    )
+                    leftAuxBtnBackground = array.getResourceId(
+                        R.styleable.NumberKeyboard_numberkeyboard_leftAuxBtnBackground,
+                        R.drawable.numberkeyboard_key_bg_transparent
+                    )
+                    rightAuxBtnBackground = array.getResourceId(
+                        R.styleable.NumberKeyboard_numberkeyboard_rightAuxBtnBackground,
+                        R.drawable.numberkeyboard_key_bg_transparent
+                    )
                 }
                 else -> {
                     leftAuxBtnIcon = R.drawable.numberkeyboard_key_bg_transparent
@@ -320,7 +346,6 @@ class NumberKeyboard : ConstraintLayout {
         setKeyWidth(keyWidth)
         setKeyHeight(keyHeight)
         setKeyPadding(keyPadding)
-        setEnableKeys(enableKeys)
         setNumberKeyBackground(numberKeyBackground)
         setNumberKeyTextColor(numberKeyTextColor)
         setLeftAuxButtonIcon(leftAuxBtnIcon)
@@ -337,7 +362,7 @@ class NumberKeyboard : ConstraintLayout {
         for (i in numericKeys.indices) {
             val key = numericKeys[i]
             key.setOnClickListener {
-                if(inputArray.size<=maxLimit){
+                if (inputArray.size <= maxLimit) {
                     inputArray.add(i)
                     listener?.onNumberClicked(i, getNumbers(inputArray))
                 }
@@ -348,8 +373,8 @@ class NumberKeyboard : ConstraintLayout {
             listener?.onLeftAuxButtonClicked()
         }
         rightAuxBtn.setOnClickListener {
-            if(!inputArray.isEmpty()) {
-                var numToDel = inputArray.get(inputArray.size-1)
+            if (!inputArray.isEmpty()) {
+                var numToDel = inputArray.get(inputArray.size - 1)
                 inputArray.remove(numToDel)
             }
             listener?.onRightAuxButtonClicked(getNumbers(inputArray))
@@ -358,7 +383,7 @@ class NumberKeyboard : ConstraintLayout {
 
     private fun getNumbers(arr: ArrayList<Int>): String {
         var numbers = ""
-        for (i in arr){
+        for (i in arr) {
             numbers += i
         }
 
@@ -369,7 +394,11 @@ class NumberKeyboard : ConstraintLayout {
      * Utility method to convert dp to pixels.
      */
     fun dpToPx(valueInDp: Float): Int {
-        return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, valueInDp, resources.displayMetrics).toInt()
+        return TypedValue.applyDimension(
+            TypedValue.COMPLEX_UNIT_DIP,
+            valueInDp,
+            resources.displayMetrics
+        ).toInt()
     }
 
     companion object {
@@ -398,7 +427,7 @@ class NumberKeyboard : ConstraintLayout {
         /**
          * Invoked when the right auxiliary button is clicked.
          */
-        fun onRightAuxButtonClicked(numbers:String)
+        fun onRightAuxButtonClicked(numbers: String)
     }
 }
 
