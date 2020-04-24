@@ -1629,10 +1629,26 @@ object Strings {
 
 //    House Hold IBAN send money confirmation
 
-    const val screen_iban_send_money_confirmation_display_text_transfer_completed:String  = "screen_iban_send_money_confirmation_display_text_transfer_completed"
-    const val screen_iban_send_money_confirmation_display_text_successfully_sent:String  = "screen_iban_send_money_confirmation_display_text_successfully_sent"
-    const val screen_iban_send_money_confirmation_display_text_expense_advance:String  = "screen_iban_send_money_confirmation_display_text_expense_advance"
-    const val screen_iban_send_money_confirmation_display_text_pick_expense_pot:String  = "screen_iban_send_money_confirmation_display_text_pick_expense_pot"
-    const val screen_iban_send_money_confirmation_display_text_do_it_later:String  = "screen_iban_send_money_confirmation_display_text_do_it_later"
+    const val screen_iban_send_money_confirmation_display_text_transfer_completed: String =
+        "screen_iban_send_money_confirmation_display_text_transfer_completed"
+    const val screen_iban_send_money_confirmation_display_text_successfully_sent: String =
+        "screen_iban_send_money_confirmation_display_text_successfully_sent"
+    const val screen_iban_send_money_confirmation_display_text_expense_advance: String =
+        "screen_iban_send_money_confirmation_display_text_expense_advance"
+    const val screen_iban_send_money_confirmation_display_text_pick_expense_pot: String =
+        "screen_iban_send_money_confirmation_display_text_pick_expense_pot"
+    const val screen_iban_send_money_confirmation_display_text_do_it_later: String =
+        "screen_iban_send_money_confirmation_display_text_do_it_later"
+
+    //     House hold set pin screen
+    const val screen_household_set_pin_text_title: String = "screen_household_set_pin_text_title"
+    const val screen_household_set_pin_terms_and_conditions_text_heading: String =
+        "screen_household_set_pin_terms_and_conditions_text_heading"
+    const val screen_household_set_pin_terms_and_conditions_text: String =
+        "screen_household_set_pin_terms_and_conditions_text"
+    const val screen_household_set_pin_text_button_title: String =
+        "screen_household_set_pin_text_button_title"
+    const val screen_household_set_pin_text_confirm_pin_title: String =
+        "screen_household_set_pin_text_confirm_pin_title"
 
 }

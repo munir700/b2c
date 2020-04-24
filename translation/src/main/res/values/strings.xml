@@ -1042,6 +1042,12 @@
     <string name="screen_household_set_pin_success_sub_heading_text">Always remember this code and don\'t share it with anyone</string>
     <string name="screen_household_set_pin_success_button_text">Go to dashboard</string>
 
+<!--    House hold set pin screen-->
+    <string name="screen_household_set_pin_text_title">Create a 4-digit PIN code to access your new card</string>
+    <string name="screen_household_set_pin_terms_and_conditions_text_heading">By entering a passcode you agree to our</string>
+    <string name="screen_household_set_pin_terms_and_conditions_text">Terms &amp; Conditions</string>
+    <string name="screen_household_set_pin_text_button_title">Create PIN code</string>
+    <string name="screen_household_set_pin_text_confirm_pin_title">Enter PIN code again</string>
 
 </resources>
 

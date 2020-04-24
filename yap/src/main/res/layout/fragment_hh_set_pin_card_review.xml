@@ -7,6 +7,7 @@
         <variable
             name="viewModel"
             type="co.yap.modules.subaccounts.householdsetpin.hhsetpinstart.HHSetPinCardReviewVM" />
+
         <import type="co.yap.translation.Strings" />
     </data>
 
@@ -84,6 +85,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/margin_medium"
             android:layout_marginRight="@dimen/margin_medium"
+            android:onClick="@{(v)->viewModel.handleClick(v.id)}"
             app:btn_enable="true"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"

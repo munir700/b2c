@@ -11,6 +11,8 @@ import co.yap.modules.subaccounts.householdsetpin.hhsetpinstart.HHSetPinCardRevi
 import co.yap.modules.subaccounts.householdsetpin.hhsetpinstart.HHSetPinCardReviewModule
 import co.yap.modules.subaccounts.householdsetpin.hhsetpinsuccess.HHSetPinSuccessFragment
 import co.yap.modules.subaccounts.householdsetpin.hhsetpinsuccess.HHSetPinSuccessModule
+import co.yap.modules.subaccounts.householdsetpin.setNewpin.HHSetPinFragment
+import co.yap.modules.subaccounts.householdsetpin.setNewpin.HHSetPinModule
 import co.yap.modules.subaccounts.paysalary.employee.PayHHEmployeeSalaryFragment
 import co.yap.modules.subaccounts.paysalary.employee.PayHHEmployeeSalaryModule
 import co.yap.modules.subaccounts.paysalary.entersalaryamount.EnterSalaryAmountFragment
@@ -89,4 +91,8 @@ abstract class FragmentInjectorsModule {
     @ContributesAndroidInjector(modules = [HHSetPinSuccessModule::class])
     @FragmentScope
     abstract fun hhSetPinSuccessFragmentInjector(): HHSetPinSuccessFragment
+
+    @ContributesAndroidInjector(modules = [HHSetPinModule::class])
+    @FragmentScope
+    abstract fun hhSetPinFragmentInjector(): HHSetPinFragment
 }

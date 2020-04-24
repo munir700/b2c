@@ -6,7 +6,7 @@
     app:startDestination="@id/HHSetPinCardReviewFragment">
 
 
-    <keep_state_fragment
+    <fragment
         android:id="@+id/HHSetPinCardReviewFragment"
         android:name="co.yap.modules.subaccounts.householdsetpin.hhsetpinstart.HHSetPinCardReviewFragment"
         android:label="HHSetPinCardReviewFragment"
@@ -18,33 +18,34 @@
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right" />
-    </keep_state_fragment>
-    <keep_state_fragment
+    </fragment>
+    <fragment
         android:id="@+id/setCardPinFragment2"
-        android:name="co.yap.modules.setcardpin.fragments.SetCardPinFragment"
+        android:name="co.yap.modules.subaccounts.householdsetpin.setNewpin.HHSetPinFragment"
         android:label="SetCardPinFragment"
-        tools:layout="@layout/fragment_set_card_pin">
+        tools:layout="@layout/fragment_hh_set_pin">
+        <argument
+            android:name="SetPinDataModel"
+            app:argType="co.yap.modules.subaccounts.householdsetpin.setNewpin.SetPinDataModel" />
         <action
             android:id="@+id/action_setCardPinFragment2_to_confirmCardPinFragment2"
-            app:destination="@id/confirmCardPinFragment2"
+            app:destination="@id/setCardPinFragment2"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right" />
-    </keep_state_fragment>
-    <keep_state_fragment
-        android:id="@+id/confirmCardPinFragment2"
-        android:name="co.yap.modules.setcardpin.fragments.ConfirmCardPinFragment"
-        android:label="ConfirmCardPinFragment"
-        tools:layout="@layout/fragment_set_card_pin" >
         <action
-            android:id="@+id/action_confirmCardPinFragment2_to_HHSetPinSuccessFragment"
-            app:destination="@id/HHSetPinSuccessFragment" />
-    </keep_state_fragment>
-    <keep_state_fragment
+            android:id="@+id/action_setCardPinFragment2_to_HHSetPinSuccessFragment"
+            app:destination="@id/HHSetPinSuccessFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
+    </fragment>
+
+    <fragment
         android:id="@+id/HHSetPinSuccessFragment"
         android:name="co.yap.modules.subaccounts.householdsetpin.hhsetpinsuccess.HHSetPinSuccessFragment"
         android:label="HHSetPinSuccessFragment"
-        tools:layout="@layout/fragment_hh_set_pin_success"
-        />
+        tools:layout="@layout/fragment_hh_set_pin_success" />
 </navigation>
