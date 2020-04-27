@@ -38,7 +38,7 @@
             style="@style/Yap.App.Widget.NumberKeyboard"
             android:layout_height="0dp"
             app:numberkeyboard_keyPadding="@dimen/_10sdp"
-            app:numberkeyboard_keyboardType="fingerprint"
+            app:numberkeyboard_keyboardType="integer"
             app:layout_constraintTop_toBottomOf="@id/tvInputField"
             app:layout_constraintBottom_toTopOf="@+id/clTermsAndConditions"
             app:layout_constraintStart_toStartOf="parent"/>
