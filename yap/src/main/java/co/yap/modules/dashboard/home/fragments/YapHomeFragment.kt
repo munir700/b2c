@@ -487,7 +487,8 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                                 context = requireContext(),
                                 address = MyUserManager.userAddress ?: Address(),
                                 headingTitle = getString(Strings.screen_meeting_location_display_text_add_new_address_title),
-                                subHeadingTitle = getString(Strings.screen_meeting_location_display_text_subtitle)
+                                subHeadingTitle = getString(Strings.screen_meeting_location_display_text_subtitle),
+                                onBoarding = true
                             ), RequestCodes.REQUEST_FOR_LOCATION
                         )
                     } else {
