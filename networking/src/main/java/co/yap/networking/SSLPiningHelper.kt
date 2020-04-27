@@ -1,7 +1,6 @@
 package co.yap.networking
 
 import android.content.Context
-import sun.net.sdp.SdpSupport.createSocket
 import java.io.BufferedInputStream
 import java.io.IOException
 import java.io.InputStream
