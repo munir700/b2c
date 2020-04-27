@@ -20,7 +20,8 @@ import kotlinx.android.synthetic.main.fragment_hh_set_pin.*
 *
 * */
 class HHSetPinFragment :
-    BaseNavViewModelFragment<FragmentHhSetPinBinding, IHHSetPin.State, HHSetPinVM>(), NumberKeyboard.NumberKeyboardListener {
+    BaseNavViewModelFragment<FragmentHhSetPinBinding, IHHSetPin.State, HHSetPinVM>(),
+    NumberKeyboard.NumberKeyboardListener {
     override fun getBindingVariable(): Int = BR.viewModel
 
     override fun getLayoutId(): Int = R.layout.fragment_hh_set_pin
@@ -30,6 +31,7 @@ class HHSetPinFragment :
         viewModel.clickEvent.observe(this, clickEvent)
         dialer.setListener(this)
         dialer.setInputView(tvInputField)
+        dialer.setPassCodeView(passCodeView)
     }
 
     var clickEvent = Observer<Int> {

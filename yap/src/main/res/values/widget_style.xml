@@ -228,7 +228,7 @@
         <item name="android:background">@color/white</item>
         <item name="android:focusable">false</item>
         <item name="android:textSize">@dimen/text_size_h6</item>
-        <item name="android:maxLength">4</item>
+        <item name="android:maxLength">6</item>
         <item name="android:layout_marginTop">@dimen/margin_medium</item>
     </style>
 
