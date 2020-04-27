@@ -12,10 +12,11 @@ import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
 import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
+import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.enums.EIDStatus
 import co.yap.yapcore.helpers.DateUtils
-import co.yap.yapcore.leanplum.trackEvent
 import co.yap.yapcore.leanplum.KYCEvents
+import co.yap.yapcore.leanplum.trackEvent
 import co.yap.yapcore.managers.MyUserManager
 import com.digitify.identityscanner.core.arch.Gender
 import com.digitify.identityscanner.docscanner.models.Identity
@@ -169,11 +170,12 @@ class EidInfoReviewViewModel(application: Application) :
                             parentViewModel?.identity = Identity()
                             populateState(Identity())
                             clickEvent.setValue(EVENT_FINISH)
-                            state.toast = response.data.errors?.message?:"Error Occurred"
-                            //clearData()
+                            state.toast = "${response.data.errors?.message
+                                ?: " Error occurred"}^${AlertType.DIALOG.name}"
                         }
                     }
                     is RetroApiResponse.Error -> {
+                        state.toast = "${response.error.message}^${AlertType.DIALOG.name}"
                         state.toast = response.error.message
                         clickEvent.setValue(EVENT_FINISH)
                     }
@@ -238,10 +240,8 @@ class EidInfoReviewViewModel(application: Application) :
                             )
                         ) {
                             clickEvent.setValue(EVENT_ALREADY_USED_EID)
-                            state.toast = response.error.message
-                        } else {
-                            state.toast = response.error.message
                         }
+                        state.toast = "${response.error.message}^${AlertType.DIALOG.name}"
                     }
                 }
             }
