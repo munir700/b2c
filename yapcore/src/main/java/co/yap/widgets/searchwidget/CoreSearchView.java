@@ -121,9 +121,9 @@ public class CoreSearchView extends RelativeLayout implements TextWatcher, TextV
 
     private void AddListeners() {
 
-
         registerTextChangeListener();
         mEtSearch.setOnEditorActionListener(this);
+
     }
 
 

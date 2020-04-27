@@ -11,13 +11,19 @@
 
         <import type="co.yap.yapcore.managers.MyUserManager" />
 
+        <import type="co.yap.yapcore.helpers.spannables.SpannableStringCreatorKt" />
+
+        <import type="co.yap.yapcore.helpers.spannables.SpannableKt" />
+
         <import type="co.yap.translation.Strings" />
+
+        <import type="co.yap.yapcore.helpers.extentions.StringExtensionsKt" />
     </data>
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_marginBottom="@dimen/margin_small"
         android:layout_height="match_parent"
+        android:layout_marginBottom="@dimen/margin_small"
         android:fillViewport="true">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -78,15 +84,13 @@
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvCurrency" />
 
-            <TextView
+            <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvAvailableBalance"
-                style="@style/MicroGrey"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                style="@style/Yap.App.Widget.TextView.Small.GrayDark"
                 android:layout_marginTop="@dimen/margin_medium_large"
                 android:gravity="center"
-                android:text="@{String.format(@string/screen_cash_transfer_display_text_available_balance,MyUserManager.INSTANCE.cardBalance.availableBalance)}"
-                android:textAlignment="center"
+                android:text="@{ SpannableStringCreatorKt.getText(context.resources, viewModel.getString(Strings.screen_cash_transfer_display_text_available_balance),SpannableKt.color(@color/colorPrimaryDark, StringExtensionsKt.toFormattedAmountWithCurrency(MyUserManager.INSTANCE.cardBalance.availableBalance,``)))}"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/etLastUsedAmount"
                 tools:text="Your available balance is " />

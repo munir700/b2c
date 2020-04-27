@@ -84,17 +84,13 @@ fun String.toFormattedCurrency(): String? {
     }
 }
 
-fun String.toFormattedAmountWithCurrency(currency: String? = null): String {
-    return try {
-        if (!this.isBlank()) {
-            val m = java.lang.Double.parseDouble(this)
+fun String?.toFormattedAmountWithCurrency(currency: String? = null): String {
+    return this?.let {
+        if (!it.isBlank()) {
+            val m = parseToDouble()
             val formatter = DecimalFormat("###,###,##0.00")
             if (!currency.isNullOrBlank()) "$currency ${formatter.format(m)}" else "AED ${formatter.format(m)}"
-        } else {
-            ""
-        }
-    } catch (e: Exception) {
-        ""
-    }
+        } else ""
+    } ?: ""
 }
 
