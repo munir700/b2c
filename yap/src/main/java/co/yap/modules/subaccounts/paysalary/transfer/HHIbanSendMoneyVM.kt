@@ -8,10 +8,9 @@ import javax.inject.Inject
 
 class HHIbanSendMoneyVM @Inject constructor(override val state: IHHIbanSendMoney.State) :
     DaggerBaseViewModel<IHHIbanSendMoney.State>(), IHHIbanSendMoney.ViewModel {
-
     override fun onFirsTimeUiCreate(bundle: Bundle?, navigation: NavController?) {
-
     }
+
     override fun fetchExtras(extras: Bundle?) {
         super.fetchExtras(extras)
         extras?.let { state.subAccount.value = it.getParcelable(SubAccount::class.simpleName) }
