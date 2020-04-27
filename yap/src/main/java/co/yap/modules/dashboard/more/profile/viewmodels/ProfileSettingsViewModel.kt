@@ -200,7 +200,7 @@ class ProfileSettingsViewModel(application: Application) :
                     state.fullName = MyUserManager.user?.currentCustomer?.getFullName() ?: ""
                     state.nameInitialsVisibility = GONE
                     state.loading = false
-                }
+                }//https://dev.yap.co/customers/api/document-information?documentType=EMIRATES_ID
             }
         }
     }

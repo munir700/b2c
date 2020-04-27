@@ -229,9 +229,11 @@ class EidInfoReviewViewModel(application: Application) :
                                 MyUserManager.eidStatus = EIDStatus.VALID
                                 clickEvent.setValue(EVENT_NEXT)
                             }
+                            else -> {
+                                MyUserManager.eidStatus = EIDStatus.VALID
+                                clickEvent.setValue(EVENT_NEXT)
+                            }
                         }
-                        MyUserManager.eidStatus = EIDStatus.VALID
-                        clickEvent.setValue(EVENT_NEXT)
                     }
                     is RetroApiResponse.Error -> {
                         if (response.error.actualCode.equals(
