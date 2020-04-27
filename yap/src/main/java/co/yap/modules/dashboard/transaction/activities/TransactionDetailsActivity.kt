@@ -39,7 +39,16 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
         setMapImageView()
         setTransactionImage()
         setTransactionTitle()
+        setCardMaskNo()
         setContentDataColor(viewModel.transaction.get())
+    }
+
+    private fun setCardMaskNo() {
+        val maskCardNo = viewModel.transaction.get()?.maskedCardNo?.split(" ")?.lastOrNull()
+        maskCardNo?.let {
+            getBindings().tvCardMask.text = "*${maskCardNo}"
+        }
+
     }
 
     private fun setSpentLabel() {
