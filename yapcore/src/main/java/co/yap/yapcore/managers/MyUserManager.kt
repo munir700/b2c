@@ -50,6 +50,7 @@ object MyUserManager : IRepositoryHolder<CardsRepository> {
     var eidStatus: EIDStatus = EIDStatus.NOT_SET
     var onAccountInfoSuccess: SingleLiveEvent<Boolean> = SingleLiveEvent()
 
+    @Deprecated("Use GetAccountBalanceLiveData instead")
     fun updateCardBalance() {
         getAccountBalanceRequest()
     }

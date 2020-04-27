@@ -4,10 +4,8 @@ import androidx.lifecycle.Observer
 import co.yap.BR
 import co.yap.R
 import co.yap.databinding.FragmentHhibanSendMoneyConfirmationBinding
-import co.yap.modules.subaccounts.paysalary.profile.cardholderprofile.HHProfileFragment
 import co.yap.translation.Strings
 import co.yap.yapcore.dagger.base.navigation.BaseNavViewModelFragment
-import co.yap.yapcore.helpers.extentions.startFragment
 
 class HHIbanSendMoneyConfirmationFragment :
     BaseNavViewModelFragment<FragmentHhibanSendMoneyConfirmationBinding, IHHIbanSendMoneyConfirmation.State, HHIbanSendMoneyConfirmationVM>() {

@@ -10,5 +10,6 @@ interface IHHIbanSendMoney {
 
     interface State : IBase.State {
         var subAccount: MutableLiveData<SubAccount>
+        var availableBalance: MutableLiveData<String>?
     }
 }

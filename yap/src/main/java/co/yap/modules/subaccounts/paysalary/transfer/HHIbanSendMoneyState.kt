@@ -6,4 +6,10 @@ import co.yap.yapcore.BaseState
 
 class HHIbanSendMoneyState : BaseState(), IHHIbanSendMoney.State {
     override var subAccount: MutableLiveData<SubAccount> = MutableLiveData()
+    override var availableBalance: MutableLiveData<String>? = MutableLiveData("0.00")
+        set(value) {
+            field = value
+            notifyChange()
+        }
+
 }

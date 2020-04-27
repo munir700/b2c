@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.annotation.CallSuper
 import androidx.lifecycle.*
+import co.yap.translation.Translator
 import co.yap.widgets.State
 import co.yap.yapcore.IBase
 import co.yap.yapcore.interfaces.CoroutineViewModel
@@ -88,7 +89,7 @@ abstract class DaggerBaseViewModel<S : IBase.State>() : DaggerCoroutineViewModel
     lateinit var c: Context
     override fun getString(resourceId: Int) = ""
 
-    override fun getString(resourceId: String) = ""
+    override fun getString(resourceId: String) = Translator.getString(context, resourceId)
 }
 
 

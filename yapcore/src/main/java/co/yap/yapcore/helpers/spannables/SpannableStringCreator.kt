@@ -1,6 +1,5 @@
 package co.yap.yapcore.helpers.spannables
 
-import android.content.Context
 import android.content.res.Resources
 import android.text.SpannableString
 import android.text.Spanned.SPAN_EXCLUSIVE_EXCLUSIVE

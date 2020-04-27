@@ -11,11 +11,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
-import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
+import androidx.appcompat.widget.AppCompatRadioButton;
 import androidx.core.content.ContextCompat;
-import androidx.core.content.res.ResourcesCompat;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,7 +37,7 @@ public class SelectMultiCheckGroup extends LinearLayout {
     private int checkedTextColor;
     private int unCheckedTextColor;
 
-    private List<RadioButton> radioButtonList;
+    private List<AppCompatRadioButton> radioButtonList;
     private List<CheckBox> checkBoxList;
 
     private int mSelected;
@@ -131,7 +130,7 @@ public class SelectMultiCheckGroup extends LinearLayout {
                     RadioGroup.LayoutParams rglp = new RadioGroup.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f);
                     rglp.leftMargin = itemHorizontalSpace;
                     rglp.bottomMargin = 5;
-                    RadioButton rb = new RadioButton(getContext());
+                    AppCompatRadioButton rb = new AppCompatRadioButton(getContext());
                     rb.setLayoutParams(rglp);
                     rb.setBackgroundResource(R.drawable.select_single_cb_selector);
                     rb.setTextColor(getTextColorStateList());
