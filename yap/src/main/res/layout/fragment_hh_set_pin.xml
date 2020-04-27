@@ -17,38 +17,38 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <TextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvTitle"
-            style="@style/Large"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_medium"
-            android:layout_marginTop="@dimen/margin_large"
-            android:layout_marginEnd="@dimen/margin_medium"
-            android:gravity="center"
-            android:lineSpacingExtra="0dp"
+            style="@style/Yap.App.Widget.TextInputEditText.SetPin"
             android:text="@{viewModel.state.setPinDataModel.setPinTitle}"
-            android:textAlignment="center"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="@string/screen_set_card_pin_display_text_title" />
 
-        <co.yap.widgets.CoreDialerPad
-            android:id="@+id/dialer"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_normal"
-            app:dialer_max_length="4"
-            app:dialer_pass_code="passcode"
-            app:layout_constraintTop_toBottomOf="@id/tvTitle" />
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/tvInputField"
+            style="@style/Yap.App.Widget.TextInputEditText.PinCode"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvTitle"/>
 
+        <co.yap.widgets.numberkeyboard.NumberKeyboard
+            android:id="@+id/dialer"
+            style="@style/Yap.App.Widget.NumberKeyboard"
+            android:layout_height="0dp"
+            app:numberkeyboard_keyPadding="@dimen/_10sdp"
+            app:numberkeyboard_keyboardType="integer"
+            app:layout_constraintTop_toBottomOf="@id/tvInputField"
+            app:layout_constraintBottom_toTopOf="@+id/clTermsAndConditions"
+            app:layout_constraintStart_toStartOf="parent"/>
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/clTermsAndConditions"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_medium"
+            android:layout_marginBottom="@dimen/margin_small"
             android:visibility="@{viewModel.state.setPinDataModel.termsAndConditionVisibility?View.VISIBLE:View.GONE}"
             app:layout_constraintBottom_toTopOf="@+id/btnAction"
             app:layout_constraintTop_toBottomOf="@+id/dialer">
@@ -68,47 +68,31 @@
 
             <TextView
                 android:id="@+id/tvTermsAndConditions"
-                style="@style/AMicroGrey"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:textAlignment="center"
-                android:textColor="?attr/colorPrimaryAttr"
+                style="@style/Yap.App.Widget.TermsAndConditions"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvTermsAndConditionsTitle"
                 app:text="@{Strings.screen_confirm_card_pin_display_text_terms_and_conditions}"
                 tools:text="@string/screen_confirm_card_pin_display_text_terms_and_conditions" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <co.yap.widgets.CoreButton
             android:id="@+id/btnAction"
-            style="@style/RectangleBtnStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
+            style="@style/Yap.App.Widget.Button.Action"
             android:onClick="@{(v)-> viewModel.state.setPinDataModel.screenType.equalsIgnoreCase(`setPin`)?viewModel.handleButtonPress(v.id):viewModel.setPinRequest()}"
-            android:paddingStart="@dimen/_65sdp"
-            android:paddingTop="8dp"
-            android:paddingEnd="@dimen/_65sdp"
-            android:paddingBottom="8dp"
             android:text="@{viewModel.state.setPinDataModel.buttonTitle}"
-            android:textColor="@color/colorWhite"
+            tools:ignore="MissingConstraints"
+            tools:text="@string/screen_set_card_pin_button_create_pin"
             app:btn_enable="true"
             app:layout_constraintBottom_toTopOf="@+id/tvForgotPasscode"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/clTermsAndConditions"
-            tools:ignore="MissingConstraints"
-            tools:text="@string/screen_set_card_pin_button_create_pin" />
+            app:layout_constraintTop_toBottomOf="@+id/clTermsAndConditions" />
 
         <TextView
             android:id="@+id/tvForgotPasscode"
-            style="@style/Regular"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/margin_normal"
-            android:textColor="?attr/colorPrimaryAttr"
+            style="@style/Yap.App.Widget.ForgotPasscode"
             android:visibility="@{viewModel.state.setPinDataModel.forgotPassCodeVisibility?View.VISIBLE:View.GONE}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
