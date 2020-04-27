@@ -14,6 +14,7 @@ import co.yap.modules.onboarding.interfaces.IMeetingConfirmation
 import co.yap.modules.onboarding.viewmodels.MeetingConfirmationViewModel
 import co.yap.modules.others.fragmentpresenter.activities.FragmentPresenterActivity
 import co.yap.yapcore.BaseBindingFragment
+import co.yap.yapcore.managers.MyUserManager
 
 class MeetingConfirmationFragment : BaseBindingFragment<IMeetingConfirmation.viewModel>() {
 
@@ -26,6 +27,7 @@ class MeetingConfirmationFragment : BaseBindingFragment<IMeetingConfirmation.vie
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        MyUserManager.getAccountInfo()
         viewModel.goToDashboardButtonPressEvent.observe(this, Observer {
             if (activity is FragmentPresenterActivity) {
                 setIntentData()

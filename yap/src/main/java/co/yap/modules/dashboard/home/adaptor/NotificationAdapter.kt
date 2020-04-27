@@ -1,5 +1,6 @@
 package co.yap.modules.dashboard.home.adaptor
 
+import android.view.View
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
 import co.yap.R
@@ -26,6 +27,11 @@ class NotificationAdapter(
 
         holder.binding?.tvTitle?.text = notification.title
         holder.binding?.tvDescription?.text = notification.description
+        if (notification.title.isBlank()) {
+            holder.binding?.tvTitle?.visibility = View.GONE
+        } else {
+            holder.binding?.tvTitle?.visibility = View.VISIBLE
+        }
     }
 
     inner class ViewHolder(binding: ViewNotificationsBinding) :

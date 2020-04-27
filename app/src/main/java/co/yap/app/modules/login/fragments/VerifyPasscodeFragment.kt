@@ -310,7 +310,7 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
                     startActivity(OnBoardingHouseHoldActivity.getIntent(requireContext(), bundle))
                     activity?.finish()
                 } else {
-                    if (it.otpBlocked == false)
+                    if (it.otpBlocked==true)
                         startFragment(fragmentName = OtpBlockedInfoFragment::class.java.name)
                     else
                         findNavController().navigate(R.id.action_goto_yapDashboardActivity)

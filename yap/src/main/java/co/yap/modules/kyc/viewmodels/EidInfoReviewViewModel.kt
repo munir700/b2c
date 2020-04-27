@@ -14,8 +14,8 @@ import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.enums.EIDStatus
 import co.yap.yapcore.helpers.DateUtils
-import co.yap.yapcore.leanplum.trackEvent
 import co.yap.yapcore.leanplum.KYCEvents
+import co.yap.yapcore.leanplum.trackEvent
 import co.yap.yapcore.managers.MyUserManager
 import com.digitify.identityscanner.core.arch.Gender
 import com.digitify.identityscanner.docscanner.models.Identity
@@ -227,9 +227,11 @@ class EidInfoReviewViewModel(application: Application) :
                                 MyUserManager.eidStatus = EIDStatus.VALID
                                 clickEvent.setValue(EVENT_NEXT)
                             }
+                            else -> {
+                                MyUserManager.eidStatus = EIDStatus.VALID
+                                clickEvent.setValue(EVENT_NEXT)
+                            }
                         }
-                        MyUserManager.eidStatus = EIDStatus.VALID
-                        clickEvent.setValue(EVENT_NEXT)
                     }
                     is RetroApiResponse.Error -> {
                         if (response.error.actualCode.equals(

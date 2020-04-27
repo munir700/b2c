@@ -296,7 +296,7 @@ class YapHomeViewModel(application: Application) :
         paymentCard: Card
     ): ArrayList<HomeNotification> {
         val list = ArrayList<HomeNotification>()
-        if (accountInfo.otpBlocked == false) {
+        if (accountInfo.otpBlocked == true) {
             list.add(
                 HomeNotification(
                     id = "1",
