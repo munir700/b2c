@@ -6,16 +6,17 @@ import android.util.AttributeSet
 import android.util.TypedValue
 import android.view.View
 import android.widget.ImageView
-import android.widget.TextView
 import androidx.annotation.AttrRes
 import androidx.annotation.ColorRes
 import androidx.annotation.Dimension
 import androidx.annotation.DrawableRes
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.widget.AppCompatEditText
+import androidx.appcompat.widget.AppCompatTextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import co.yap.yapcore.R
+import co.yap.yapcore.helpers.extentions.dip2px
 
 /**
  * Number keyboard (to enter pin or custom amount).
@@ -24,23 +25,23 @@ import co.yap.yapcore.R
 class NumberKeyboard : ConstraintLayout {
 
     @Dimension
-    private var keyWidth: Int = 0
+    private var keyWidth: Int? = null
     @Dimension
-    private var keyHeight: Int = 0
+    private var keyHeight: Int? = null
     @Dimension
-    private var keyPadding: Int = 0
+    private var keyPadding: Int? = null
     @DrawableRes
-    private var numberKeyBackground: Int = 0
+    private var numberKeyBackground: Int? = null
     @ColorRes
-    private var numberKeyTextColor: Int = 0
+    private var numberKeyTextColor: Int? = null
     @DrawableRes
-    private var leftAuxBtnIcon: Int = 0
+    private var leftAuxBtnIcon: Int? = null
     @DrawableRes
-    private var leftAuxBtnBackground: Int = 0
+    private var leftAuxBtnBackground: Int? = null
     @DrawableRes
-    private var rightAuxBtnIcon: Int = 0
+    private var rightAuxBtnIcon: Int? = null
     @DrawableRes
-    private var rightAuxBtnBackground: Int = 0
+    private var rightAuxBtnBackground: Int? = null
 
     var enableKeys: Boolean = true
         set(value) {
@@ -48,9 +49,9 @@ class NumberKeyboard : ConstraintLayout {
             enableKeys(value)
         }
 
-    private lateinit var numericKeys: MutableList<TextView>
-    private lateinit var leftAuxBtn: ImageView
-    private lateinit var rightAuxBtn: ImageView
+    private var numericKeys: MutableList<AppCompatTextView>? = null
+    private var leftAuxBtn: ImageView? = null
+    private var rightAuxBtn: ImageView? = null
 
     private var listener: NumberKeyboardListener? = null
     private var inputEditText: AppCompatEditText? = null
@@ -91,28 +92,28 @@ class NumberKeyboard : ConstraintLayout {
      * Hides left auxiliary button.
      */
     fun hideLeftAuxButton() {
-        leftAuxBtn.visibility = View.GONE
+        leftAuxBtn?.visibility = View.GONE
     }
 
     /**
      * Shows left auxiliary button.
      */
     fun showLeftAuxButton() {
-        leftAuxBtn.visibility = View.VISIBLE
+        leftAuxBtn?.visibility = View.VISIBLE
     }
 
     /**
      * Hides right auxiliary button.
      */
     fun hideRightAuxButton() {
-        rightAuxBtn.visibility = View.GONE
+        rightAuxBtn?.visibility = View.GONE
     }
 
     /**
      * Shows right auxiliary button.
      */
     fun showRightAuxButton() {
-        rightAuxBtn.visibility = View.VISIBLE
+        rightAuxBtn?.visibility = View.VISIBLE
     }
 
     /**
@@ -120,24 +121,26 @@ class NumberKeyboard : ConstraintLayout {
      */
     fun setKeyWidth(px: Int) {
         if (px == DEFAULT_KEY_WIDTH_DP) return
-        for (key in numericKeys) {
-            key.layoutParams.width = px
+        if(numericKeys != null) {
+            for (key in numericKeys!!) {
+                key.layoutParams.width = px
+            }
         }
-        leftAuxBtn.layoutParams.width = px
-        rightAuxBtn.layoutParams.width = px
+        leftAuxBtn?.layoutParams?.width = px
+        rightAuxBtn?.layoutParams?.width = px
         requestLayout()
     }
 
     /**
      * Sets enable/disable keys flag.
      */
-    private fun enableKeys(enableKeys: Boolean) {
-        if (this::numericKeys.isInitialized) {
-            for (key in numericKeys) {
+    fun enableKeys(enableKeys: Boolean) {
+        if (numericKeys != null) {
+            for (key in numericKeys!!) {
                 key.isEnabled = enableKeys
             }
-            leftAuxBtn.isEnabled = enableKeys
-            rightAuxBtn.isEnabled = enableKeys
+            leftAuxBtn?.isEnabled = enableKeys
+            rightAuxBtn?.isEnabled = enableKeys
             requestLayout()
         }
     }
@@ -147,11 +150,13 @@ class NumberKeyboard : ConstraintLayout {
      */
     fun setKeyHeight(px: Int) {
         if (px == DEFAULT_KEY_HEIGHT_DP) return
-        for (key in numericKeys) {
-            key.layoutParams.height = px
+        if(numericKeys != null) {
+            for (key in numericKeys!!) {
+                key.layoutParams.height = px
+            }
         }
-        leftAuxBtn.layoutParams.height = px
-        rightAuxBtn.layoutParams.height = px
+        leftAuxBtn?.layoutParams?.height = px
+        rightAuxBtn?.layoutParams?.height = px
         requestLayout()
     }
 
@@ -159,20 +164,24 @@ class NumberKeyboard : ConstraintLayout {
      * Sets key padding in px.
      */
     fun setKeyPadding(px: Int) {
-        for (key in numericKeys) {
-            key.setPadding(px, px, px, px)
-            key.compoundDrawablePadding = -1 * px
+        if(numericKeys != null) {
+            for (key in numericKeys!!) {
+                key.setPadding(px, px, px, px)
+                key.compoundDrawablePadding = -1 * px
+            }
         }
-        leftAuxBtn.setPadding(px, px, px, px)
-        rightAuxBtn.setPadding(px, px, px, px)
+        leftAuxBtn?.setPadding(px, px, px, px)
+        rightAuxBtn?.setPadding(px, px, px, px)
     }
 
     /**
      * Sets number keys background.
      */
     fun setNumberKeyBackground(@DrawableRes background: Int) {
-        for (key in numericKeys) {
-            key.background = ContextCompat.getDrawable(context, background)
+        if(numericKeys != null) {
+            for (key in numericKeys!!) {
+                key.background = ContextCompat.getDrawable(context, background)
+            }
         }
     }
 
@@ -180,8 +189,10 @@ class NumberKeyboard : ConstraintLayout {
      * Sets number keys text color.
      */
     fun setNumberKeyTextColor(@ColorRes color: Int) {
-        for (key in numericKeys) {
-            key.setTextColor(ContextCompat.getColorStateList(context, color))
+        if(numericKeys != null) {
+            for (key in numericKeys!!) {
+                key.setTextColor(ContextCompat.getColorStateList(context, color))
+            }
         }
     }
 
@@ -189,8 +200,10 @@ class NumberKeyboard : ConstraintLayout {
      * Sets number keys text typeface.
      */
     fun setNumberKeyTypeface(typeface: Typeface) {
-        for (key in numericKeys) {
-            key.typeface = typeface
+        if(numericKeys != null) {
+            for (key in numericKeys!!) {
+                key.typeface = typeface
+            }
         }
     }
 
@@ -198,28 +211,28 @@ class NumberKeyboard : ConstraintLayout {
      * Sets left auxiliary button icon.
      */
     fun setLeftAuxButtonIcon(@DrawableRes icon: Int) {
-        leftAuxBtn.setImageResource(icon)
+        leftAuxBtn?.setImageResource(icon)
     }
 
     /**
      * Sets right auxiliary button icon.
      */
     fun setRightAuxButtonIcon(@DrawableRes icon: Int) {
-        rightAuxBtn.setImageResource(icon)
+        rightAuxBtn?.setImageResource(icon)
     }
 
     /**
      * Sets left auxiliary button background.
      */
     fun setLeftAuxButtonBackground(@DrawableRes bg: Int) {
-        leftAuxBtn.background = ContextCompat.getDrawable(context, bg)
+        leftAuxBtn?.background = ContextCompat.getDrawable(context, bg)
     }
 
     /**
      * Sets right auxiliary button background.
      */
     fun setRightAuxButtonBackground(@DrawableRes bg: Int) {
-        rightAuxBtn.background = ContextCompat.getDrawable(context, bg)
+        rightAuxBtn?.background = ContextCompat.getDrawable(context, bg)
     }
 
     /**
@@ -243,7 +256,7 @@ class NumberKeyboard : ConstraintLayout {
             // Get key padding
             keyPadding = array.getDimensionPixelSize(
                 R.styleable.NumberKeyboard_numberkeyboard_keyPadding,
-                dpToPx(DEFAULT_KEY_PADDING_DP.toFloat())
+                context.dip2px(DEFAULT_KEY_PADDING_DP)
             )
             // Get number key background
             numberKeyBackground = array.getResourceId(
@@ -317,16 +330,16 @@ class NumberKeyboard : ConstraintLayout {
         val view = View.inflate(context, R.layout.numberkeyboard_layout, this)
         // Get numeric keys
         numericKeys = ArrayList(10)
-        numericKeys.add(view.findViewById(R.id.key0))
-        numericKeys.add(view.findViewById(R.id.key1))
-        numericKeys.add(view.findViewById(R.id.key2))
-        numericKeys.add(view.findViewById(R.id.key3))
-        numericKeys.add(view.findViewById(R.id.key4))
-        numericKeys.add(view.findViewById(R.id.key5))
-        numericKeys.add(view.findViewById(R.id.key6))
-        numericKeys.add(view.findViewById(R.id.key7))
-        numericKeys.add(view.findViewById(R.id.key8))
-        numericKeys.add(view.findViewById(R.id.key9))
+        numericKeys?.add(view.findViewById(R.id.key0))
+        numericKeys?.add(view.findViewById(R.id.key1))
+        numericKeys?.add(view.findViewById(R.id.key2))
+        numericKeys?.add(view.findViewById(R.id.key3))
+        numericKeys?.add(view.findViewById(R.id.key4))
+        numericKeys?.add(view.findViewById(R.id.key5))
+        numericKeys?.add(view.findViewById(R.id.key6))
+        numericKeys?.add(view.findViewById(R.id.key7))
+        numericKeys?.add(view.findViewById(R.id.key8))
+        numericKeys?.add(view.findViewById(R.id.key9))
         // Get auxiliary keys
         leftAuxBtn = view.findViewById(R.id.leftAuxBtn)
         rightAuxBtn = view.findViewById(R.id.rightAuxBtn)
@@ -341,15 +354,15 @@ class NumberKeyboard : ConstraintLayout {
      * Set styles.
      */
     private fun setStyles() {
-        setKeyWidth(keyWidth)
-        setKeyHeight(keyHeight)
-        setKeyPadding(keyPadding)
-        setNumberKeyBackground(numberKeyBackground)
-        setNumberKeyTextColor(numberKeyTextColor)
-        setLeftAuxButtonIcon(leftAuxBtnIcon)
-        setLeftAuxButtonBackground(leftAuxBtnBackground)
-        setRightAuxButtonIcon(rightAuxBtnIcon)
-        setRightAuxButtonBackground(rightAuxBtnBackground)
+        keyWidth?.let { setKeyWidth(it) }
+        keyHeight?.let { setKeyHeight(it) }
+        keyPadding?.let { setKeyPadding(it) }
+        numberKeyBackground?.let { setNumberKeyBackground(it) }
+        numberKeyTextColor?.let { setNumberKeyTextColor(it) }
+        leftAuxBtnIcon?.let { setLeftAuxButtonIcon(it) }
+        leftAuxBtnBackground?.let { setLeftAuxButtonBackground(it) }
+        rightAuxBtnIcon?.let { setRightAuxButtonIcon(it) }
+        rightAuxBtnBackground?.let { setRightAuxButtonBackground(it) }
     }
 
     /**
@@ -357,34 +370,25 @@ class NumberKeyboard : ConstraintLayout {
      */
     private fun setupListeners() {
         // Set number callbacks
-        for (i in numericKeys.indices) {
-            val key = numericKeys[i]
-            key.setOnClickListener {
-                inputEditText?.append(i.toString())
-                listener?.onNumberClicked(i, inputEditText?.text.toString())
+        if(numericKeys != null) {
+            for (i in numericKeys?.indices!!) {
+                val key = numericKeys!![i]
+                key.setOnClickListener {
+                    inputEditText?.append(i.toString())
+                    listener?.onNumberClicked(i, inputEditText?.text.toString())
+                }
             }
         }
         // Set auxiliary key callbacks
-        leftAuxBtn.setOnClickListener {
+        leftAuxBtn?.setOnClickListener {
             listener?.onLeftAuxButtonClicked()
         }
-        rightAuxBtn.setOnClickListener {
+        rightAuxBtn?.setOnClickListener {
             inputEditText?.let {
                 if (it.length() > 0) it.text?.delete(it.length() - 1, it.length())
             }
             listener?.onRightAuxButtonClicked(inputEditText?.text.toString())
         }
-    }
-
-    /**
-     * Utility method to convert dp to pixels.
-     */
-    fun dpToPx(valueInDp: Float): Int {
-        return TypedValue.applyDimension(
-            TypedValue.COMPLEX_UNIT_DIP,
-            valueInDp,
-            resources.displayMetrics
-        ).toInt()
     }
 
     companion object {
