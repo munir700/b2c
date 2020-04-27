@@ -19,7 +19,6 @@ class LocationSelectionViewModel(application: Application) :
     override var defaultHeading: String = ""
     override var clickEvent: SingleClickEvent = SingleClickEvent()
     override var isMapExpanded: MutableLiveData<Boolean> = MutableLiveData()
-    override var isOnBoarding: MutableLiveData<Boolean?> = MutableLiveData(false)
     override var termsCheckedTime: MutableLiveData<String> = MutableLiveData("")
     override val state: LocationSelectionState = LocationSelectionState(application)
 

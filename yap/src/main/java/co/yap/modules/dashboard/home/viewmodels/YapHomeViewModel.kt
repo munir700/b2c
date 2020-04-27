@@ -270,7 +270,8 @@ class YapHomeViewModel(application: Application) :
                 it.address2,
                 it.latitude,
                 it.longitude,
-                "UAE", "Dubai"
+                "Dubai",
+                "UAE"
             )
             launch {
                 state.loading = true
@@ -305,7 +306,7 @@ class YapHomeViewModel(application: Application) :
                 )
             )
         }
-        if((accountInfo.notificationStatuses == AccountStatus.ON_BOARDED.name || accountInfo.notificationStatuses == AccountStatus.CAPTURED_EID.name) && accountInfo.partnerBankStatus != PartnerBankStatus.ACTIVATED.status) {
+        if ((accountInfo.notificationStatuses == AccountStatus.ON_BOARDED.name || accountInfo.notificationStatuses == AccountStatus.CAPTURED_EID.name) && accountInfo.partnerBankStatus != PartnerBankStatus.ACTIVATED.status) {
             list.add(
                 HomeNotification(
                     id = "2",
@@ -316,7 +317,7 @@ class YapHomeViewModel(application: Application) :
             )
         }
 
-        if(shouldShowSetPin(paymentCard) && accountInfo.partnerBankStatus == PartnerBankStatus.ACTIVATED.status) {
+        if (shouldShowSetPin(paymentCard) && accountInfo.partnerBankStatus == PartnerBankStatus.ACTIVATED.status) {
             list.add(
                 HomeNotification(
                     id = "3",
@@ -326,7 +327,7 @@ class YapHomeViewModel(application: Application) :
                 )
             )
         }
-        if((accountInfo.notificationStatuses == AccountStatus.EID_EXPIRED.name || accountInfo.notificationStatuses == AccountStatus.EID_RESCAN_REQUIRE.name) && accountInfo.partnerBankStatus == PartnerBankStatus.ACTIVATED.status) {
+        if ((accountInfo.notificationStatuses == AccountStatus.EID_EXPIRED.name || accountInfo.notificationStatuses == AccountStatus.EID_RESCAN_REQUIRE.name) && accountInfo.partnerBankStatus == PartnerBankStatus.ACTIVATED.status) {
             list.add(
                 HomeNotification(
                     id = "4",
