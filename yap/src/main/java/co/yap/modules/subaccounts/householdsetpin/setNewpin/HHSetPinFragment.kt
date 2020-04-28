@@ -11,7 +11,6 @@ import co.yap.databinding.FragmentHhSetPinBinding
 import co.yap.translation.Strings
 import co.yap.widgets.numberkeyboard.NumberKeyboard
 import co.yap.yapcore.dagger.base.navigation.BaseNavViewModelFragment
-import co.yap.yapcore.helpers.extentions.toast
 import kotlinx.android.synthetic.main.fragment_hh_set_pin.*
 
 /*
@@ -29,7 +28,7 @@ class HHSetPinFragment :
         super.onViewCreated(view, savedInstanceState)
         viewModel.clickEvent.observe(this, clickEvent)
         dialer.setListener(this)
-        dialer.setInputView(tvInputField)
+//        dialer.setInputView(tvInputField)
     }
 
     var clickEvent = Observer<Int> {
@@ -59,6 +58,7 @@ class HHSetPinFragment :
     }
 
     override fun onNumberClicked(number: Int, numbers: String) {
+        Log.d("TAG","Numbers: "+numbers)
     }
 
     override fun onLeftAuxButtonClicked() {
@@ -66,5 +66,6 @@ class HHSetPinFragment :
     }
 
     override fun onRightAuxButtonClicked(numbers: String) {
+        Log.d("TAG","Numbers: "+numbers)
     }
 }

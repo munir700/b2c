@@ -594,6 +594,8 @@
         <attr name="numberkeyboard_rightAuxBtnIcon" format="reference"/>
         <attr name="numberkeyboard_rightAuxBtnBackground" format="reference"/>
         <attr name="numberkeyboard_enableKeys" format="boolean"/>
+        <attr name="numberkeyboard_maxLimit" format="integer"/>
+
     </declare-styleable>
 
 </resources>
