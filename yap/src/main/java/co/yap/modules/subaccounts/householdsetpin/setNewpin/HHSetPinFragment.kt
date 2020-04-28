@@ -58,7 +58,6 @@ class HHSetPinFragment :
     }
 
     override fun onNumberClicked(number: Int, numbers: String) {
-        Log.d("TAG","Numbers: "+numbers)
     }
 
     override fun onLeftAuxButtonClicked() {
@@ -66,6 +65,5 @@ class HHSetPinFragment :
     }
 
     override fun onRightAuxButtonClicked(numbers: String) {
-        Log.d("TAG","Numbers: "+numbers)
     }
 }
