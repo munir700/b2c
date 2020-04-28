@@ -63,39 +63,37 @@ class PhoneVerificationSignInFragment :
     }
 
     private val onFetchAccountInfo = Observer<AccountInfo?> {
-        it.run {
-            if (it != null) {
-                if (MyUserManager.shouldGoToHousehold()) {
-                    MyUserManager.switchProfile()
-                } else {
-                    if (BiometricUtil.isFingerprintSupported
-                        && BiometricUtil.isHardwareSupported(requireActivity())
-                        && BiometricUtil.isPermissionGranted(requireActivity())
-                        && BiometricUtil.isFingerprintAvailable(requireActivity())
+        it?.run {
+            if (MyUserManager.shouldGoToHousehold()) {
+                MyUserManager.switchProfile()
+            } else {
+                if (BiometricUtil.isFingerprintSupported
+                    && BiometricUtil.isHardwareSupported(requireActivity())
+                    && BiometricUtil.isPermissionGranted(requireActivity())
+                    && BiometricUtil.isFingerprintAvailable(requireActivity())
+                ) {
+                    SharedPreferenceManager(requireContext())
+                    if (SharedPreferenceManager(requireContext()).getValueBoolien(
+                            co.yap.yapcore.constants.Constants.KEY_TOUCH_ID_ENABLED,
+                            false
+                        )
                     ) {
-                        SharedPreferenceManager(requireContext())
-                        if (SharedPreferenceManager(requireContext()).getValueBoolien(
-                                co.yap.yapcore.constants.Constants.KEY_TOUCH_ID_ENABLED,
-                                false
-                            )
-                        ) {
-                            launchActivity<YapDashboardActivity>(clearPrevious = true)
-                        } else {
-                            val action =
-                                PhoneVerificationSignInFragmentDirections.actionPhoneVerificationSignInFragmentToSystemPermissionFragment(
-                                    Constants.TOUCH_ID_SCREEN_TYPE
-                                )
-                            findNavController().navigate(action)
-                        }
+                        launchActivity<YapDashboardActivity>(clearPrevious = true)
                     } else {
-                        if (otpBlocked == true)
-                            startFragment(
-                                fragmentName = OtpBlockedInfoFragment::class.java.name,
-                                clearAllPrevious = true
+                        val action =
+                            PhoneVerificationSignInFragmentDirections.actionPhoneVerificationSignInFragmentToSystemPermissionFragment(
+                                Constants.TOUCH_ID_SCREEN_TYPE
                             )
-                        else
-                            launchActivity<YapDashboardActivity>(clearPrevious = true)
+                        findNavController().navigate(action)
                     }
+                } else {
+                    if (otpBlocked == true)
+                        startFragment(
+                            fragmentName = OtpBlockedInfoFragment::class.java.name,
+                            clearAllPrevious = true
+                        )
+                    else
+                        launchActivity<YapDashboardActivity>(clearPrevious = true)
                 }
             }
         }
