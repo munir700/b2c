@@ -109,12 +109,12 @@
             android:gravity="center"
             android:onClick="@{(v) -> viewModel.handlePressOnView(v)}"
             android:orientation="vertical"
-            android:visibility="@{CardStatus.valueOf(viewModel.paymentCard.status).equals(CardStatus.ACTIVE) &amp;&amp; viewModel.paymentCard.pinCreated==true ? View.VISIBLE: View.GONE}"
+            app:cardSeeDetailVisibility="@{viewModel.paymentCard}"
             app:layout_constraintEnd_toEndOf="@+id/tvCardName"
             app:layout_constraintStart_toStartOf="@+id/tvCardName"
             app:layout_constraintTop_toBottomOf="@+id/tvCardName"
             tools:text="Update Card"
-            tools:visibility="invisible">
+            tools:visibility="visible">
 
 
             <ImageView

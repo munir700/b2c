@@ -11,13 +11,16 @@ import co.yap.app.R
 import co.yap.app.constants.Constants
 import co.yap.app.modules.login.interfaces.ISystemPermission
 import co.yap.app.modules.login.viewmodels.SystemPermissionViewModel
+import co.yap.modules.dashboard.main.activities.YapDashboardActivity
 import co.yap.modules.webview.WebViewFragment
 import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.constants.Constants.KEY_TOUCH_ID_ENABLED
 import co.yap.yapcore.helpers.SharedPreferenceManager
+import co.yap.yapcore.helpers.extentions.launchActivity
 import co.yap.yapcore.helpers.extentions.startFragment
-import co.yap.yapcore.leanplum.trackEvent
 import co.yap.yapcore.leanplum.KYCEvents
+import co.yap.yapcore.leanplum.trackEvent
+import co.yap.yapcore.managers.MyUserManager
 
 @Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
 class SystemPermissionFragment : BaseBindingFragment<ISystemPermission.ViewModel>(),
@@ -95,8 +98,10 @@ class SystemPermissionFragment : BaseBindingFragment<ISystemPermission.ViewModel
     }
 
     private fun navigateToDashboard() {
-        findNavController().navigate(R.id.action_goto_yapDashboardActivity)
-        activity?.finish()
+        if (MyUserManager.user?.otpBlocked == true)
+            startFragment(fragmentName = OtpBlockedInfoFragment::class.java.name , clearAllPrevious = true)
+        else
+            launchActivity<YapDashboardActivity>(clearPrevious = true)
     }
 
     private fun getScreenType(): String {

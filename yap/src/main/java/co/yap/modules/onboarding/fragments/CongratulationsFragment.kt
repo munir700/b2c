@@ -97,10 +97,6 @@ class CongratulationsFragment : OnboardingChildFragment<ICongratulations.ViewMod
         when (it) {
             R.id.btnCompleteVerification -> {
                 trackAdjustPlatformEvent(AdjustEvents.KYC_START.type)
-                launchActivity<DocumentsDashboardActivity>(requestCode = RequestCodes.REQUEST_KYC_DOCUMENTS) {
-                    putExtra(Constants.name, viewModel.state.nameList[0] ?: "")
-                    putExtra(Constants.data, false)
-                }
                 trackEvent(SignupEvents.SIGN_UP_END.type)
                 trackEvent(
                     SignupEvents.SIGN_UP_DATE.type,
@@ -125,6 +121,10 @@ class CongratulationsFragment : OnboardingChildFragment<ICongratulations.ViewMod
                     MyUserManager.user,
                     signup_length = timeString
                 )
+                launchActivity<DocumentsDashboardActivity>(requestCode = RequestCodes.REQUEST_KYC_DOCUMENTS) {
+                    putExtra(Constants.name, viewModel.state.nameList[0] ?: "")
+                    putExtra(Constants.data, false)
+                }
             }
         }
     }
@@ -175,7 +175,8 @@ class CongratulationsFragment : OnboardingChildFragment<ICongratulations.ViewMod
                             context = requireContext(),
                             address = MyUserManager.userAddress ?: Address(),
                             headingTitle = getString(Strings.screen_meeting_location_display_text_add_new_address_title),
-                            subHeadingTitle = getString(Strings.screen_meeting_location_display_text_subtitle)
+                            subHeadingTitle = getString(Strings.screen_meeting_location_display_text_subtitle),
+                            onBoarding = true
                         ), RequestCodes.REQUEST_FOR_LOCATION
                     )
                 } else {

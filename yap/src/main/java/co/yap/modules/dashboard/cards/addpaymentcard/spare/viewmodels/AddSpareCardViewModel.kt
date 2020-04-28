@@ -59,7 +59,7 @@ class AddSpareCardViewModel(application: Application) :
 
     override fun onCreate() {
         super.onCreate()
-        state.virtualCardFee = parentViewModel?.virtualCardFee.toString()
+        state.virtualCardFee = parentViewModel?.virtualCardFee?.toFormattedAmountWithCurrency()?:""
         state.physicalCardFee = parentViewModel?.physicalCardFee.toString()
         if (state.physicalCardFee == "" && state.virtualCardFee == "") {
             requestReorderCardFee("physical")

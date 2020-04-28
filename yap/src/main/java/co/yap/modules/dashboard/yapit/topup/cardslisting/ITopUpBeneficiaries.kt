@@ -3,6 +3,7 @@ package co.yap.modules.dashboard.yapit.topup.cardslisting
 import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
+import co.yap.networking.customers.responsedtos.CardLimits
 import co.yap.networking.customers.responsedtos.beneficiary.TopUpCard
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
@@ -28,7 +29,7 @@ interface ITopUpBeneficiaries {
         fun updateCardCount()
         val clickEvent: SingleClickEvent
         val topUpCards: MutableLiveData<List<TopUpCard>>
-        var remainingCardsLimit : Int
+        var cardLimits : CardLimits?
     }
 
     interface View : IBase.View<ViewModel>

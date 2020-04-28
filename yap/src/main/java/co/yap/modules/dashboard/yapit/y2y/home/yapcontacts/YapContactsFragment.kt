@@ -15,9 +15,11 @@ import co.yap.networking.customers.requestdtos.Contact
 import co.yap.translation.Strings
 import co.yap.translation.Translator
 import co.yap.yapcore.BR
+import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.helpers.PagingState
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.interfaces.OnItemClickListener
+import co.yap.yapcore.managers.MyUserManager
 
 class YapContactsFragment : Y2YBaseFragment<IYapContact.ViewModel>() {
     override fun getBindingVariable(): Int = BR.viewModel
@@ -111,17 +113,19 @@ class YapContactsFragment : Y2YBaseFragment<IYapContact.ViewModel>() {
                     Utils.shareText(requireContext(), getBody())
                 }
                 R.id.lyContact -> {
-                    if (data is Contact && data.yapUser!! && data.accountDetailList != null && data.accountDetailList?.isNotEmpty()!!) {
-                        if (parentFragment is YapToYapFragment) {
-                            (parentFragment as YapToYapFragment).findNavController().navigate(
-                                YapToYapFragmentDirections.actionYapToYapHomeToY2YTransferFragment(
-                                    data.beneficiaryPictureUrl!!
-                                    ,
-                                    data.accountDetailList?.get(0)?.accountUuid!!,
-                                    data.title!!,
-                                    pos
+                    if (MyUserManager.user?.otpBlocked == true) {
+                        showToast("${getString(Strings.screen_blocked_otp_display_text_message)}^${AlertType.DIALOG.name}")
+                    } else {
+                        if (data is Contact && data.yapUser == true && data.accountDetailList != null && !data.accountDetailList.isNullOrEmpty()) {
+                            if (parentFragment is YapToYapFragment) {
+                                (parentFragment as YapToYapFragment).findNavController().navigate(
+                                    YapToYapFragmentDirections.actionYapToYapHomeToY2YTransferFragment(
+                                        data.beneficiaryPictureUrl ?: "",
+                                        data.accountDetailList?.get(0)?.accountUuid ?: "",
+                                        data.title ?: "", pos
+                                    )
                                 )
-                            )
+                            }
                         }
                     }
                 }

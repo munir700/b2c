@@ -1,12 +1,14 @@
 package co.yap.household.onboard.onboarding.viewmodels
 
 import android.app.Application
+import androidx.core.content.ContextCompat
 import co.yap.household.R
 import co.yap.household.onboard.onboarding.interfaces.INewUserSuccess
 import co.yap.household.onboard.onboarding.states.NewUserCongratulationsState
 import co.yap.household.onboard.onboarding.main.viewmodels.OnboardingChildViewModel
 import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
+import co.yap.yapcore.helpers.extentions.getColors
 
 class NewUserSuccessViewModel(application: Application) :
     OnboardingChildViewModel<INewUserSuccess.State>(application),
@@ -30,12 +32,7 @@ class NewUserSuccessViewModel(application: Application) :
 
     override fun onResume() {
         super.onResume()
-//        updateBackground(R.color.colorLightPinkBackground)
-        updateBackground(context.resources.getColor(R.color.colorLightPinkBackground))
-
-//        updateBackground(Color.WHITE)
-
-
+        updateBackground(context.getColors(R.color.colorLightPinkBackground))
     }
 
     override fun handlePressOnCompleteVerification(id: Int) {

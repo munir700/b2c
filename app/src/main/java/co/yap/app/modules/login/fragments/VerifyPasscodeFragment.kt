@@ -15,8 +15,8 @@ import co.yap.app.activities.MainActivity
 import co.yap.app.constants.Constants
 import co.yap.app.modules.login.interfaces.IVerifyPasscode
 import co.yap.app.modules.login.viewmodels.VerifyPasscodeViewModel
-import co.yap.household.dashboard.main.HouseholdDashboardActivity
 import co.yap.household.onboard.onboarding.main.OnBoardingHouseHoldActivity
+import co.yap.modules.dashboard.main.activities.YapDashboardActivity
 import co.yap.modules.others.helper.Constants.REQUEST_CODE
 import co.yap.networking.customers.responsedtos.AccountInfo
 import co.yap.translation.Strings
@@ -27,6 +27,7 @@ import co.yap.yapcore.constants.Constants.KEY_IS_FINGERPRINT_PERMISSION_SHOWN
 import co.yap.yapcore.constants.Constants.KEY_IS_USER_LOGGED_IN
 import co.yap.yapcore.constants.Constants.KEY_TOUCH_ID_ENABLED
 import co.yap.yapcore.constants.Constants.VERIFY_PASS_CODE_BTN_TEXT
+import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.biometric.BiometricCallback
@@ -34,6 +35,7 @@ import co.yap.yapcore.helpers.biometric.BiometricManagerX
 import co.yap.yapcore.helpers.biometric.BiometricUtil
 import co.yap.yapcore.helpers.extentions.launchActivity
 import co.yap.yapcore.helpers.extentions.preventTakeScreenShot
+import co.yap.yapcore.helpers.extentions.startFragment
 import co.yap.yapcore.helpers.extentions.toast
 import co.yap.yapcore.helpers.livedata.GetAccountInfoLiveData
 import co.yap.yapcore.managers.MyUserManager
@@ -171,13 +173,17 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
         viewModel.forgotPasscodeButtonPressEvent.observe(this, Observer {
             when (it) {
                 R.id.tvForgotPassword -> {
-                    if (!isUserLoginIn()) {
-                        goToNext(viewModel.state.username)
+                    if (MyUserManager.user?.otpBlocked == true) {
+                        showToast("${getString(Strings.screen_blocked_otp_display_text_message)}^${AlertType.DIALOG.name}")
                     } else {
-                        sharedPreferenceManager.getDecryptedUserName()?.let { username ->
-                            viewModel.state.username = username
+                        if (!isUserLoginIn()) {
                             goToNext(viewModel.state.username)
-                        } ?: toast("Invalid user name")
+                        } else {
+                            sharedPreferenceManager.getDecryptedUserName()?.let { username ->
+                                viewModel.state.username = username
+                                goToNext(viewModel.state.username)
+                            } ?: toast("Invalid user name")
+                        }
                     }
                 }
             }
@@ -276,8 +282,7 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
     }
 
     private val onFetchAccountInfo = Observer<AccountInfo?> {
-    if (it!=null) {
-            //            setUserAttributes()
+        it?.run{
             sharedPreferenceManager.save(KEY_IS_USER_LOGGED_IN, true)
             if (!sharedPreferenceManager.getValueBoolien(
                     KEY_IS_FINGERPRINT_PERMISSION_SHOWN,
@@ -309,7 +314,13 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
                 if (MyUserManager.shouldGoToHousehold()) {
                     MyUserManager.switchProfile()
                 } else {
-                    gotoYapDashboard()
+                    if (otpBlocked == true)
+                        startFragment(
+                            fragmentName = OtpBlockedInfoFragment::class.java.name,
+                            clearAllPrevious = true
+                        )
+                    else
+                        launchActivity<YapDashboardActivity>(clearPrevious = true)
                 }
             }
         }
@@ -318,18 +329,13 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
     private val switchProfileObserver = Observer<Boolean> {
         if (it) {
             if (MyUserManager.isOnBoarded()) {
-                gotoYapDashboard()
+                launchActivity<YapDashboardActivity>(clearPrevious = true)
             } else {
                 launchActivity<OnBoardingHouseHoldActivity>(clearPrevious = true) {
                     putExtra(OnBoardingHouseHoldActivity.USER_INFO, MyUserManager.user)
                 }
             }
         }
-    }
-
-    private fun gotoYapDashboard() {
-        findNavController().navigate(R.id.action_goto_yapDashboardActivity)
-        activity?.finish()
     }
 
     private val createOtpObserver = Observer<Boolean> {

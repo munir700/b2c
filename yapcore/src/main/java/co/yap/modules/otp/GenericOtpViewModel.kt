@@ -11,10 +11,12 @@ import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.R
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.enums.OTPActions
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.getColors
 import co.yap.yapcore.helpers.extentions.toFormattedCurrency
+import co.yap.yapcore.managers.MyUserManager
 
 class GenericOtpViewModel(application: Application) :
     BaseViewModel<IGenericOtp.State>(application = application), IGenericOtp.ViewModel {
@@ -95,7 +97,7 @@ class GenericOtpViewModel(application: Application) :
                         clickEvent.setValue(id)
                     }
                     is RetroApiResponse.Error -> {
-                        state.toast = response.error.message
+                        state.toast = "${response.error.message}^${AlertType.DIALOG.name}"
                         state.otp=""
                         otpUiBlocked(response.error.actualCode)
                         //errorEvent.call()
@@ -118,7 +120,7 @@ class GenericOtpViewModel(application: Application) :
                         clickEvent.setValue(id)
                     }
                     is RetroApiResponse.Error -> {
-                        state.toast = response.error.message
+                        state.toast = "${response.error.message}^${AlertType.DIALOG.name}"
                         state.otp=""
                         otpUiBlocked(response.error.actualCode)
                        // errorEvent.call()
@@ -149,7 +151,7 @@ class GenericOtpViewModel(application: Application) :
                 }
                 is RetroApiResponse.Error -> {
                     otpUiBlocked(response.error.actualCode)
-                    state.toast = response.error.message
+                    state.toast = "${response.error.message}^${AlertType.DIALOG.name}"
                     state.loading = false
                 }
             }
@@ -219,6 +221,7 @@ class GenericOtpViewModel(application: Application) :
 //                state.valid = false // to disable confirm button
                 state.color = context.getColors(R.color.disabled)
                 state.isOtpBlocked.set(false)
+                MyUserManager.getAccountInfo()
             }
         }
     }
