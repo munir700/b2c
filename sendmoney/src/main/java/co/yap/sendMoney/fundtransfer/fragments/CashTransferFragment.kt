@@ -4,23 +4,19 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.text.InputFilter
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import android.widget.AdapterView
-import android.widget.TextView
 import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.RecyclerView
 import co.yap.modules.otp.GenericOtpFragment
 import co.yap.modules.otp.LogoData
 import co.yap.modules.otp.OtpDataModel
-import co.yap.networking.transactions.responsedtos.InternationalFundsTransferReasonList
+import co.yap.networking.transactions.requestdtos.RemittanceFeeRequest
 import co.yap.networking.transactions.responsedtos.purposepayment.PurposeOfPayment
+import co.yap.sendMoney.PopListBottomSheet
 import co.yap.sendMoney.fundtransfer.activities.BeneficiaryFundTransferActivity
 import co.yap.sendMoney.fundtransfer.interfaces.ICashTransfer
 import co.yap.sendMoney.fundtransfer.viewmodels.CashTransferViewModel
@@ -28,7 +24,6 @@ import co.yap.sendmoney.R
 import co.yap.sendmoney.databinding.FragmentCashTransferBinding
 import co.yap.translation.Strings
 import co.yap.translation.Translator
-import co.yap.widgets.spinneradapter.ViewHolderArrayAdapter
 import co.yap.yapcore.BR
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.SendMoneyBeneficiaryType
@@ -37,10 +32,13 @@ import co.yap.yapcore.helpers.DecimalDigitsInputFilter
 import co.yap.yapcore.helpers.cancelAllSnackBar
 import co.yap.yapcore.helpers.extentions.afterTextChanged
 import co.yap.yapcore.helpers.extentions.startFragmentForResult
+import co.yap.yapcore.helpers.extentions.toFormattedAmountWithCurrency
 import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 import co.yap.yapcore.helpers.spannables.color
 import co.yap.yapcore.helpers.spannables.getText
+import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.MyUserManager
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import kotlinx.android.synthetic.main.fragment_cash_transfer.*
 
 class CashTransferFragment : BeneficiaryFundTransferBaseFragment<ICashTransfer.ViewModel>(),
@@ -60,7 +58,10 @@ class CashTransferFragment : BeneficiaryFundTransferBaseFragment<ICashTransfer.V
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.updatedFee.value = "0.0"
-        setSpinnerAdapter(viewModel.transactionData.value)
+        if (viewModel.parentViewModel?.selectedPop != null) {
+            getBindings().tvSelectReason.text =
+                viewModel.parentViewModel?.selectedPop?.purposeDescription
+        }
         setEditTextWatcher()
     }
 
@@ -71,70 +72,24 @@ class CashTransferFragment : BeneficiaryFundTransferBaseFragment<ICashTransfer.V
         })
 
         viewModel.isAPIFailed.observe(this, Observer {
-            if (it) requireActivity().finish()
+            //if (it) requireActivity().finish()
         })
 
+        viewModel.isFeeReceived.observe(this, Observer {
+            if (it) viewModel.updateFees()
+        })
         viewModel.updatedFee.observe(this, Observer {
             if (!it.isNullOrBlank())
-                setSpannableFee(it)
+                setSpannableFee(if (viewModel.shouldFeeApply()) it else "0.0")
         })
 
-
-//        viewModel.purposeOfPaymentList.observe(this, Observer {
-//            it?.let {
-//                viewModel.processPurposeList(it)
-//            }
-//        })
-        viewModel.transactionData.observe(this, Observer {
+        viewModel.purposeOfPaymentList.observe(this, Observer {
             it?.let {
-                setSpinnerAdapter(it)
+                viewModel.processPurposeList(it)
             }
         })
     }
 
-    private fun setSpinnerAdapter(list: ArrayList<InternationalFundsTransferReasonList.ReasonList>?) {
-        val data = ArrayList<InternationalFundsTransferReasonList.ReasonList>()
-        list?.let {
-            data.addAll(it)
-            data.add(
-                0,
-                InternationalFundsTransferReasonList.ReasonList("Select a reason for transfer", "0")
-            )
-            reasonsSpinnerCashTransfer.adapter =
-                ViewHolderArrayAdapter(requireContext(), data, { parent ->
-                    ReasonDropDownViewHolder.inflateSelectedView(
-                        parent
-                    )
-                }, { parent ->
-                    ReasonDropDownViewHolder.inflate(
-                        parent
-                    )
-                }, { viewHolder, position, item ->
-                    viewHolder.bind(item)
-                }, { viewHolder, position, item ->
-                    viewHolder.bind(item)
-                })
-            reasonsSpinnerCashTransfer.onItemSelectedListener =
-                object : AdapterView.OnItemSelectedListener {
-                    override fun onNothingSelected(parent: AdapterView<*>?) {
-                    }
-
-                    override fun onItemSelected(
-                        parent: AdapterView<*>?,
-                        view: View?,
-                        position: Int,
-                        id: Long
-                    ) {
-                        viewModel.reasonPosition = position
-                        viewModel.parentViewModel?.transferData?.value?.purposeCode =
-                            data[position].code
-                        viewModel.parentViewModel?.transferData?.value?.transferReason =
-                            data[position].reason
-                    }
-                }
-        }
-        reasonsSpinnerCashTransfer.setSelection(viewModel.reasonPosition)
-    }
 
     private fun setSpannableFee(totalFeeAmount: String?) {
         viewModel.parentViewModel?.transferData?.value?.transferFee = totalFeeAmount
@@ -151,34 +106,35 @@ class CashTransferFragment : BeneficiaryFundTransferBaseFragment<ICashTransfer.V
     }
 
     private fun setupPOP(purposeCategories: Map<String?, List<PurposeOfPayment>>?) {
-//        var inviteFriendBottomSheet: BottomSheetDialogFragment? = null
-//        this.fragmentManager?.let {
-//            inviteFriendBottomSheet = PopListBottomSheet(object :
-//                OnItemClickListener {
-//                override fun onItemClick(view: View, data: Any, pos: Int) {
-//                    inviteFriendBottomSheet?.dismiss()
-//                    viewModel.parentViewModel?.selectedPop = data as PurposeOfPayment
-//                    viewModel.updateFees()
-//                    getBindings().tvSelectReason.text =
-//                        viewModel.parentViewModel?.selectedPop?.purposeDescription
-//                }
-//
-//            }, purposeCategories)
-//            inviteFriendBottomSheet?.show(it, "")
-//        }
+        var inviteFriendBottomSheet: BottomSheetDialogFragment? = null
+        this.fragmentManager?.let {
+            inviteFriendBottomSheet = PopListBottomSheet(object :
+                OnItemClickListener {
+                override fun onItemClick(view: View, data: Any, pos: Int) {
+                    inviteFriendBottomSheet?.dismiss()
+                    viewModel.parentViewModel?.selectedPop = data as PurposeOfPayment
+                    viewModel.updateFees()
+                    getBindings().tvSelectReason.text =
+                        viewModel.parentViewModel?.selectedPop?.purposeDescription
+                    isDailyLimitReached()
+                }
+
+            }, purposeCategories)
+            inviteFriendBottomSheet?.show(it, "")
+        }
     }
 
     val clickEvent = Observer<Int> {
         when (it) {
             R.id.btnConfirm -> {
                 if (viewModel.isUaeftsBeneficiary()) {
-                    if (viewModel.parentViewModel?.transferData?.value?.transferReason != "Select a reason for transfer") moveToConfirmationScreen() else showToast(
+                    if (viewModel.parentViewModel?.selectedPop != null) moveToConfirmationScreen() else showToast(
                         "Select a reason"
                     )
                 } else
                     startOtpFragment()
             }
-            R.id.viewTriggerSpinnerClickReasonCash -> reasonsSpinnerCashTransfer.performClick()
+            R.id.tvSelectReason, R.id.ivSelector -> setupPOP(viewModel.purposeCategories)
             Constants.ADD_CASH_PICK_UP_SUCCESS -> {
                 // Send Broadcast for updating transactions list in `Home Fragment`
                 val intent = Intent(Constants.BROADCAST_UPDATE_TRANSACTION)
@@ -220,6 +176,11 @@ class CashTransferFragment : BeneficiaryFundTransferBaseFragment<ICashTransfer.V
         viewModel.parentViewModel?.transferData?.value?.transferAmount = viewModel.state.amount
         viewModel.parentViewModel?.transferData?.value?.noteValue = viewModel.state.noteValue
         viewModel.parentViewModel?.transferData?.value?.sourceCurrency = "AED"
+        viewModel.parentViewModel?.transferData?.value?.feeAmount =
+            if (viewModel.shouldFeeApply()) viewModel.feeAmount else "0.0"
+        viewModel.parentViewModel?.transferData?.value?.vat =
+            if (viewModel.shouldFeeApply()) viewModel.vat else "0.0"
+
         val action =
             CashTransferFragmentDirections.actionCashTransferFragmentToCashTransferConfirmationFragment()
         findNavController().navigate(action)
@@ -254,14 +215,27 @@ class CashTransferFragment : BeneficiaryFundTransferBaseFragment<ICashTransfer.V
             it.dailyLimit?.let { dailyLimit ->
                 it.totalDebitAmount?.let { totalConsumedAmount ->
                     viewModel.state.amount.toDoubleOrNull()?.let { enteredAmount ->
-                        val remainingDailyLimit =
-                            if ((dailyLimit - totalConsumedAmount) < 0.0) 0.0 else (dailyLimit - totalConsumedAmount)
-                        viewModel.state.errorDescription =
-                            if (enteredAmount > dailyLimit) getString(Strings.common_display_text_daily_limit_error_single_transaction) else getString(
-                                Strings.common_display_text_daily_limit_error_single_transaction
-                            )
+                        if (viewModel.trxWillHold() && viewModel.transactionMightGetHeld.value == true) {
+                            val totalHoldAmount =
+                                (it.holdSwiftAmount ?: 0.0).plus(it.holdUAEFTSAmount ?: 0.0)
+                            val remainingDailyLimit =
+                                if ((dailyLimit - totalHoldAmount) < 0.0) 0.0 else (dailyLimit - totalHoldAmount)
+                            viewModel.state.errorDescription =
+                                "You have exceeded your limit for held on transactions, please enter an amount less than %1s".format(
+                                    (dailyLimit - totalHoldAmount).toString().toFormattedAmountWithCurrency()
+                                )
+                            return (enteredAmount > remainingDailyLimit)
 
-                        return (enteredAmount > remainingDailyLimit)
+
+                        } else {
+                            val remainingDailyLimit =
+                                if ((dailyLimit - totalConsumedAmount) < 0.0) 0.0 else (dailyLimit - totalConsumedAmount)
+                            viewModel.state.errorDescription =
+                                if (enteredAmount > dailyLimit) getString(Strings.common_display_text_daily_limit_error_single_transaction) else getString(
+                                    Strings.common_display_text_daily_limit_error_single_transaction
+                                )
+                            return (enteredAmount > remainingDailyLimit)
+                        }
                     } ?: return false
                 } ?: return false
             } ?: return false
@@ -275,7 +249,13 @@ class CashTransferFragment : BeneficiaryFundTransferBaseFragment<ICashTransfer.V
                 SendMoneyBeneficiaryType.RMT.type, SendMoneyBeneficiaryType.SWIFT.type -> skipCashTransferFragment()
                 else -> {
                     viewModel.getMoneyTransferLimits(productCode)
-                    viewModel.getTransferFees(productCode)
+                    viewModel.getTransferFees(
+                        productCode,
+                        RemittanceFeeRequest(
+                            viewModel.parentViewModel?.beneficiary?.value?.country,
+                            ""
+                        )
+                    )
                     viewModel.getPurposeOfPayment(productCode)
                     setObservers()
                 }
@@ -286,25 +266,25 @@ class CashTransferFragment : BeneficiaryFundTransferBaseFragment<ICashTransfer.V
     private fun getProductCode(): String {
         viewModel.parentViewModel?.beneficiary?.value?.let { beneficiary ->
             when (beneficiary.beneficiaryType) {
-                    SendMoneyBeneficiaryType.CASHPAYOUT.type -> {
-                        viewModel.parentViewModel?.transferData?.value?.otpAction =
-                            SendMoneyBeneficiaryType.CASHPAYOUT.type
-                        return TransactionProductCode.CASH_PAYOUT.pCode
-                    }
-                    SendMoneyBeneficiaryType.DOMESTIC.type -> {
-                        viewModel.parentViewModel?.transferData?.value?.otpAction =
-                            SendMoneyBeneficiaryType.DOMESTIC_TRANSFER.type
-                        return TransactionProductCode.DOMESTIC.pCode
-                    }
-                    SendMoneyBeneficiaryType.UAEFTS.type -> {
-                        viewModel.parentViewModel?.transferData?.value?.otpAction =
-                            SendMoneyBeneficiaryType.UAEFTS.type
-                        return TransactionProductCode.UAEFTS.pCode
-                    }
-                    else -> {
-                        return ""
-                    }
+                SendMoneyBeneficiaryType.CASHPAYOUT.type -> {
+                    viewModel.parentViewModel?.transferData?.value?.otpAction =
+                        SendMoneyBeneficiaryType.CASHPAYOUT.type
+                    return TransactionProductCode.CASH_PAYOUT.pCode
                 }
+                SendMoneyBeneficiaryType.DOMESTIC.type -> {
+                    viewModel.parentViewModel?.transferData?.value?.otpAction =
+                        SendMoneyBeneficiaryType.DOMESTIC_TRANSFER.type
+                    return TransactionProductCode.DOMESTIC.pCode
+                }
+                SendMoneyBeneficiaryType.UAEFTS.type -> {
+                    viewModel.parentViewModel?.transferData?.value?.otpAction =
+                        SendMoneyBeneficiaryType.UAEFTS.type
+                    return TransactionProductCode.UAEFTS.pCode
+                }
+                else -> {
+                    return ""
+                }
+            }
         } ?: return ""
     }
 
@@ -317,7 +297,7 @@ class CashTransferFragment : BeneficiaryFundTransferBaseFragment<ICashTransfer.V
         viewModel.clickEvent.removeObservers(this)
         viewModel.isAPIFailed.removeObservers(this)
         viewModel.updatedFee.removeObservers(this)
-//        viewModel.purposeOfPaymentList.removeObservers(this)
+        viewModel.purposeOfPaymentList.removeObservers(this)
         viewModel.transactionData.removeObservers(this)
         super.onDestroy()
     }
@@ -335,33 +315,6 @@ class CashTransferFragment : BeneficiaryFundTransferBaseFragment<ICashTransfer.V
 
     }
 
-    class ReasonDropDownViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        companion object {
-            fun inflate(parent: ViewGroup): ReasonDropDownViewHolder {
-                val view = LayoutInflater.from(parent.context)
-                    .inflate(R.layout.item_spinner, parent, false)
-                return ReasonDropDownViewHolder(
-                    view
-                )
-            }
-
-            fun inflateSelectedView(parent: ViewGroup): ReasonDropDownViewHolder {
-                val view = LayoutInflater.from(parent.context)
-                    .inflate(R.layout.item_selected_spinner, parent, false)
-                return ReasonDropDownViewHolder(
-                    view
-                )
-            }
-        }
-
-        var title: TextView = view.findViewById(R.id.textView)
-
-
-        fun bind(reason: InternationalFundsTransferReasonList.ReasonList) {
-            title.text = reason.reason
-        }
-    }
-
     private fun setEditTextWatcher() {
         etAmount.filters =
             arrayOf(InputFilter.LengthFilter(7), DecimalDigitsInputFilter(2))
@@ -369,9 +322,9 @@ class CashTransferFragment : BeneficiaryFundTransferBaseFragment<ICashTransfer.V
         etAmount.afterTextChanged {
             viewModel.state.clearError()
             if (viewModel.state.amount.isNotEmpty()) {
-                viewModel.updateFees()
                 checkOnTextChangeValidation()
             }
+            viewModel.updateFees()
         }
     }
 

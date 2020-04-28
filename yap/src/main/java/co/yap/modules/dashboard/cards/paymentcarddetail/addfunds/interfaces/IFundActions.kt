@@ -5,6 +5,8 @@ import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
 import co.yap.networking.customers.responsedtos.beneficiary.TopUpCard
 import co.yap.networking.customers.responsedtos.beneficiary.TopUpTransactionModel
+import co.yap.networking.transactions.TransactionsRepository
+import co.yap.networking.transactions.responsedtos.TransactionThresholdModel
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
 
@@ -33,16 +35,19 @@ interface IFundActions {
         val secondDenominationClickEvent: SingleClickEvent
         val thirdDenominationClickEvent: SingleClickEvent
         val htmlLiveData: MutableLiveData<String>
-        val topUpTransactionModelLiveData:MutableLiveData<TopUpTransactionModel>?
+        val topUpTransactionModelLiveData: MutableLiveData<TopUpTransactionModel>?
         var enteredAmount: MutableLiveData<String>
 
         fun createTransactionSession()
         var error: String
         var cardSerialNumber: String
-        fun getFee(productCode: String)
+
         // For top up transaction pooling api
         fun startPooling(showLoader: Boolean)
 
+        fun getTransactionThresholds()
+        val transactionThreshold: MutableLiveData<TransactionThresholdModel>
+        val transactionsRepository: TransactionsRepository
     }
 
     interface State : IBase.State {
@@ -66,11 +71,8 @@ interface IFundActions {
         var amountBackground: Drawable?
         var errorDescription: String
         var denominationAmount: String
-
-        var transactionFee: String
         var transactionFeeSpannableString: String?
         var transferFee: CharSequence?
-        var fee: String?
 
         //success screen variables
         var topUpSuccess: String

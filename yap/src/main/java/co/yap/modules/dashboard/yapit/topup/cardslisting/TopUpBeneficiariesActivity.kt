@@ -18,12 +18,15 @@ import co.yap.modules.dashboard.yapit.topup.topupamount.activities.TopUpCardActi
 import co.yap.modules.others.helper.Constants
 import co.yap.modules.others.helper.Constants.EVENT_ADD_TOPUP_CARD
 import co.yap.networking.customers.responsedtos.beneficiary.TopUpCard
+import co.yap.translation.Strings
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.constants.Constants.TYPE_ADD_CARD
 import co.yap.yapcore.constants.RequestCodes
+import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.helpers.extentions.launchActivity
 import co.yap.yapcore.interfaces.OnItemClickListener
+import co.yap.yapcore.managers.MyUserManager
 import com.yarolegovich.discretescrollview.DiscreteScrollView
 import com.yarolegovich.discretescrollview.transform.Pivot
 import com.yarolegovich.discretescrollview.transform.ScaleTransformer
@@ -216,12 +219,11 @@ class TopUpBeneficiariesActivity : BaseBindingActivity<ITopUpBeneficiaries.ViewM
         }
         when (it) {
             R.id.tbBtnAddCard -> {
-                if (viewModel.remainingCardsLimit >= 0) {
+                if (viewModel.cardLimits?.remaining ?: 0 >= 0) {
                     addCardProcess()
                 } else {
-                    showToast("You can only add 10 cards.")
+                    showToast("${getString(Strings.screen_add_topup_card_limit_text_title).format(viewModel.cardLimits?.maxLimit)}^${AlertType.DIALOG.name}")
                 }
-
             }
             R.id.btnSelect -> {
                 if (mAdapter.getDataList().isNotEmpty()) {
@@ -250,21 +252,24 @@ class TopUpBeneficiariesActivity : BaseBindingActivity<ITopUpBeneficiaries.ViewM
                 onBackPressed()
             }
             R.id.lycard -> {
-                if (viewModel.remainingCardsLimit > 0) {
+                if (viewModel.cardLimits?.remaining ?: 0 > 0) {
                     addCardProcess()
                 } else {
-                    showToast("You can only add 10 cards.")
+                    showToast("${getString(Strings.screen_add_topup_card_limit_text_title).format(viewModel.cardLimits?.maxLimit)}^${AlertType.DIALOG.name}")
                 }
-
             }
         }
     }
 
     private fun startTopUpActivity(item: TopUpCard) {
-        startActivityForResult(
-            TopUpCardActivity.newIntent(this, item),
-            RequestCodes.REQUEST_TOP_UP_BENEFICIARY
-        )
+        if (MyUserManager.user?.otpBlocked == true) {
+            showToast("${getString(Strings.screen_blocked_otp_display_text_message)}^${AlertType.DIALOG.name}")
+        } else {
+            startActivityForResult(
+                TopUpCardActivity.newIntent(this, item),
+                RequestCodes.REQUEST_TOP_UP_BENEFICIARY
+            )
+        }
     }
 
     private fun openCardDetail(card: TopUpCard) {

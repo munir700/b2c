@@ -14,8 +14,6 @@ import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.TransactionProductCode
-import co.yap.yapcore.helpers.Utils
-import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 
 class Y2YFundsTransferViewModel(application: Application) :
     Y2YBaseViewModel<IY2YFundsTransfer.State>(application),
@@ -75,11 +73,9 @@ class Y2YFundsTransferViewModel(application: Application) :
                     if (response.data.data?.feeType == Constants.FEE_TYPE_FLAT) {
                         val feeAmount = response.data.data?.tierRateDTOList?.get(0)?.feeAmount
                         val VATAmount = response.data.data?.tierRateDTOList?.get(0)?.vatAmount
-                        state.fee =
-                            feeAmount?.plus(VATAmount ?: 0.0).toString().toFormattedCurrency()
-                        clickEvent.postValue(Constants.CARD_FEE)
-                    }
 
+                        clickEvent.postValue(1122)
+                    }
                 }
                 is RetroApiResponse.Error -> {
                     state.errorDescription = response.error.message
@@ -116,7 +112,6 @@ class Y2YFundsTransferViewModel(application: Application) :
                 }
             }
         }
-
     }
 
     override fun onResume() {

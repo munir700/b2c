@@ -19,8 +19,10 @@ import co.yap.modules.dashboard.yapit.y2y.main.fragments.Y2YBaseFragment
 import co.yap.translation.Strings
 import co.yap.translation.Translator
 import co.yap.yapcore.BR
+import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.helpers.extentions.hideKeyboard
 import co.yap.yapcore.interfaces.OnItemClickListener
+import co.yap.yapcore.managers.MyUserManager
 import com.google.android.material.tabs.TabLayoutMediator
 import kotlinx.android.synthetic.main.fragment_yap_to_yap.*
 
@@ -41,12 +43,12 @@ class YapToYapFragment : Y2YBaseFragment<IYapToYap.ViewModel>(), OnItemClickList
         super.onViewCreated(view, savedInstanceState)
         setupAdaptor()
         setupTabs()
-        setSearchView(viewModel.parentViewModel?.isSearching?.value!!)
+        setSearchView(viewModel.parentViewModel?.isSearching?.value == true)
         setupRecent()
     }
 
     private fun setupRecent() {
-        if (viewModel.parentViewModel?.isSearching?.value!!) {
+        if (viewModel.parentViewModel?.isSearching?.value == true) {
             layoutRecent.visibility = View.GONE
         } else {
             //val adapter = RecentTransferAdaptor(ArrayList(),findNavController())
@@ -69,10 +71,10 @@ class YapToYapFragment : Y2YBaseFragment<IYapToYap.ViewModel>(), OnItemClickList
                     }
                 })
             } else {
-                if (viewModel.recentTransferData.value != null && viewModel.recentTransferData.value!!.isNotEmpty()) {
+                if (viewModel.recentTransferData.value != null && !viewModel.recentTransferData.value.isNullOrEmpty()) {
                     viewModel.adapter.set(
                         RecentTransferAdaptor(
-                            viewModel.recentTransferData.value?.toMutableList()!!,
+                            viewModel.recentTransferData.value?.toMutableList() ?: mutableListOf(),
                             findNavController()
                         )
                     )
@@ -83,12 +85,16 @@ class YapToYapFragment : Y2YBaseFragment<IYapToYap.ViewModel>(), OnItemClickList
     }
 
     override fun onItemClick(view: View, data: Any, pos: Int) {
-        findNavController().navigate(
-            YapToYapFragmentDirections.actionYapToYapHomeToY2YTransferFragment(
+        if (MyUserManager.user?.otpBlocked == true) {
+            showToast("${getString(Strings.screen_blocked_otp_display_text_message)}^${AlertType.DIALOG.name}")
+        } else {
+            findNavController().navigate(
+                YapToYapFragmentDirections.actionYapToYapHomeToY2YTransferFragment(
 //                data.beneficiaryPictureUrl!!
 //                , data.accountDetailList?.get(0)?.accountUuid!!, data.title!!,pos
+                )
             )
-        )
+        }
     }
 
     private fun setupAdaptor() {

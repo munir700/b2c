@@ -256,9 +256,6 @@ class CoreDialerPad @JvmOverloads constructor(
         view.findViewById<LinearLayout>(R.id.llPasscode).startAnimation(animShake)
     }
 
-    fun startAnimationDigits() {
-        etPassCodeText?.startAnimation(animShake)
-    }
 
     fun showError(error: String) {
         tvError.visibility = View.VISIBLE

@@ -28,6 +28,7 @@ import co.yap.translation.Strings
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.Constants.ADDRESS
 import co.yap.yapcore.constants.RequestCodes
+import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.enums.EIDStatus
 import co.yap.yapcore.enums.PartnerBankStatus
 import co.yap.yapcore.helpers.extentions.ExtraType
@@ -73,21 +74,29 @@ class PersonalDetailsFragment : MoreBaseFragment<IPersonalDetail.ViewModel>(),
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
                 R.id.tvEditPhoneNumber -> {
-                    mNavigator.startVerifyPassCodePresenterActivity(
-                        requireActivity(),
-                        bundleOf(Constants.VERIFY_PASS_CODE_BTN_TEXT to getString(Strings.screen_verify_passcode_button_verify))
-                    ) { resultCode, data ->
-                        if (resultCode == Activity.RESULT_OK) {
-                            preventTakeScreenShot(false)
-                            findNavController().navigate(R.id.action_personalDetailsFragment_to_change_phone_number_navigation)
+                    if (MyUserManager.user?.otpBlocked == true) {
+                        showToast("${getString(Strings.screen_blocked_otp_display_text_message)}^${AlertType.DIALOG.name}")
+                    } else {
+                        mNavigator.startVerifyPassCodePresenterActivity(
+                            requireActivity(),
+                            bundleOf(Constants.VERIFY_PASS_CODE_BTN_TEXT to getString(Strings.screen_verify_passcode_button_verify))
+                        ) { resultCode, data ->
+                            if (resultCode == Activity.RESULT_OK) {
+                                preventTakeScreenShot(false)
+                                findNavController().navigate(R.id.action_personalDetailsFragment_to_change_phone_number_navigation)
+                            }
                         }
                     }
                 }
 
                 R.id.tvEditEmail -> {
-                    viewModel.toggleToolBar(true)
-                    viewModel.updateToolBarText("")
-                    findNavController().navigate(R.id.action_personalDetailsFragment_to_change_email_navigation)
+                    if (MyUserManager.user?.otpBlocked == true) {
+                        showToast("${getString(Strings.screen_blocked_otp_display_text_message)}^${AlertType.DIALOG.name}")
+                    } else {
+                        viewModel.toggleToolBar(true)
+                        viewModel.updateToolBarText("")
+                        findNavController().navigate(R.id.action_personalDetailsFragment_to_change_email_navigation)
+                    }
                 }
 
                 R.id.tvEditAddress -> {
@@ -242,7 +251,8 @@ class PersonalDetailsFragment : MoreBaseFragment<IPersonalDetail.ViewModel>(),
                             context = requireContext(),
                             address = MyUserManager.userAddress ?: Address(),
                             headingTitle = getString(Strings.screen_meeting_location_display_text_add_new_address_title),
-                            subHeadingTitle = getString(Strings.screen_meeting_location_display_text_subtitle)
+                            subHeadingTitle = getString(Strings.screen_meeting_location_display_text_subtitle),
+                            onBoarding = true
                         ), RequestCodes.REQUEST_LOCATION_FOR_KYC
                     )
                 } else {

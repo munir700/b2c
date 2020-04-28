@@ -14,5 +14,17 @@ data class TransactionThresholdModel(
     @SerializedName("totalDebitAmountRemittance")
     var totalDebitAmountRemittance: Double?,
     @SerializedName("totalDebitAmountY2Y")
-    var totalDebitAmountY2Y: Double?
+    var totalDebitAmountY2Y: Double?,
+    @SerializedName("cbwsiPaymentLimit")
+    var cbwsiPaymentLimit: Double?,
+    @SerializedName("holdUAEFTSAmount")
+    var holdUAEFTSAmount: Double?,
+    @SerializedName("holdSwiftAmount")
+    var holdSwiftAmount: Double?,
+    @SerializedName("totalDebitAmountTopUpSupplementary")
+    var totalDebitAmountTopUpSupplementary: Double?,
+    @SerializedName("dailyLimitTopUpSupplementary")
+    var dailyLimitTopUpSupplementary: Double?,
+    @SerializedName("otpLimitTopUpSupplementary")
+    var otpLimitTopUpSupplementary: Double?
 )

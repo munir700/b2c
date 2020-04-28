@@ -8,12 +8,14 @@ import android.graphics.Rect
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.text.*
+import android.text.InputFilter
+import android.text.Spannable
+import android.text.SpannableStringBuilder
 import android.text.style.ForegroundColorSpan
-import android.view.Gravity
 import android.view.View
 import androidx.core.animation.addListener
 import androidx.core.content.ContextCompat
+import androidx.core.os.bundleOf
 import androidx.core.view.children
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -21,19 +23,25 @@ import co.yap.BR
 import co.yap.R
 import co.yap.modules.dashboard.cards.paymentcarddetail.addfunds.interfaces.IFundActions
 import co.yap.modules.dashboard.cards.paymentcarddetail.addfunds.viewmodels.AddFundsViewModel
+import co.yap.modules.dashboard.cards.paymentcarddetail.addfunds.viewmodels.FundActionsViewModel
 import co.yap.modules.others.helper.Constants
+import co.yap.modules.otp.GenericOtpFragment
+import co.yap.modules.otp.OtpDataModel
 import co.yap.networking.cards.responsedtos.Card
 import co.yap.translation.Strings
+import co.yap.translation.Translator
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.adjust.AdjustEvents
+import co.yap.yapcore.enums.OTPActions
 import co.yap.yapcore.enums.TransactionProductCode
 import co.yap.yapcore.helpers.AnimationUtils
 import co.yap.yapcore.helpers.DecimalDigitsInputFilter
+import co.yap.yapcore.helpers.extentions.afterTextChanged
+import co.yap.yapcore.helpers.extentions.startFragmentForResult
 import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 import co.yap.yapcore.helpers.showTextUpdatedAbleSnackBar
 import co.yap.yapcore.helpers.spannables.color
 import co.yap.yapcore.helpers.spannables.getText
-import co.yap.yapcore.AdjustEvents.Companion.trackAdjustPlatformEvent
 import co.yap.yapcore.managers.MyUserManager
 import com.daimajia.androidanimations.library.Techniques
 import com.daimajia.androidanimations.library.YoYo
@@ -51,6 +59,7 @@ open class AddFundsActivity : BaseBindingActivity<IFundActions.ViewModel>(),
     var card: Card? = null
     private lateinit var updatedSpareCardBalance: String
     private var fundsAdded: Boolean = false
+    private var parentViewModel: FundActionsViewModel? = null
 
     companion object {
         private const val CARD = "card"
@@ -70,11 +79,12 @@ open class AddFundsActivity : BaseBindingActivity<IFundActions.ViewModel>(),
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        parentViewModel =
+            this.let { ViewModelProviders.of(it).get(FundActionsViewModel::class.java) }
+        parentViewModel?.getTransferFees(TransactionProductCode.TOP_UP_SUPPLEMENTARY_CARD.pCode)
         val display = this.windowManager.defaultDisplay
         display.getRectSize(windowSize)
         clBottomNew.children.forEach { it.alpha = 0f }
-        etAmount.filters =
-            arrayOf<InputFilter>(InputFilter.LengthFilter(7), DecimalDigitsInputFilter(2))
         setObservers()
         setupData()
         viewModel.errorEvent.observe(this, Observer {
@@ -82,7 +92,6 @@ open class AddFundsActivity : BaseBindingActivity<IFundActions.ViewModel>(),
         })
 
         viewModel.firstDenominationClickEvent.observe(this, Observer {
-
             hideKeyboard()
             etAmount.setText("")
             etAmount.setText(viewModel.state.denominationAmount)
@@ -109,45 +118,56 @@ open class AddFundsActivity : BaseBindingActivity<IFundActions.ViewModel>(),
     }
 
     override fun setObservers() {
-        viewModel.getFee(TransactionProductCode.TOP_UP_SUPPLEMENTARY_CARD.pCode)
-        viewModel.clickEvent.observe(this, Observer {
-            when (it) {
-                R.id.btnAction -> (if (viewModel.state.buttonTitle != getString(Strings.screen_success_funds_transaction_display_text_button)) {
-                    viewModel.addFunds()
-                } else {
-                    trackAdjustPlatformEvent(AdjustEvents.TOP_UP_END.type)
-                    if (fundsAdded) {
-                        setupActionsIntent()
-                    }
-                    this.finish()
-                })
-
-                R.id.ivCross -> this.finish()
-                R.id.tbIvClose -> this.finish()
-
-                viewModel.EVENT_ADD_FUNDS_SUCCESS -> {
-                    fundsAdded = true
-                    setUpSuccessData()
-                    performSuccessOperations()
-                    etAmount.visibility = View.GONE
-                    viewModel.state.buttonTitle =
-                        getString(Strings.screen_success_funds_transaction_display_text_button)
-                }
-                co.yap.yapcore.constants.Constants.CARD_FEE -> {
-                    viewModel.state.transferFee =
-                        resources.getText(
-                            getString(Strings.common_text_fee), this.color(
-                                R.color.colorPrimaryDark,
-                                "${viewModel.state.currencyType} ${viewModel.state.fee?.toFormattedCurrency()}"
-                            )
-                        )
-                }
-            }
-
+        viewModel.clickEvent.observe(this, clickEvent)
+        parentViewModel?.isFeeReceived?.observe(this, Observer {
+            if (it) parentViewModel?.updateFees(viewModel.state.amount ?: "")
         })
+        parentViewModel?.updatedFee?.observe(this, Observer {
+            if (it.isNotBlank()) setSpannableFee(it)
+        })
+
     }
 
+    private fun setSpannableFee(feeAmount: String?) {
+        viewModel.state.transferFee =
+            resources.getText(
+                getString(Strings.common_text_fee), this.color(
+                    R.color.colorPrimaryDark,
+                    "${viewModel.state.currencyType} ${feeAmount?.toFormattedCurrency()}"
+                )
+            )
+    }
 
+    private val clickEvent = Observer<Int> {
+        when (it) {
+            R.id.btnAction -> (if (viewModel.state.buttonTitle != getString(Strings.screen_success_funds_transaction_display_text_button)) {
+                if (!isDailyLimitReached())
+                    if (isOtpRequired()) startOtpFragment() else viewModel.addFunds()
+                else
+                    viewModel.errorEvent.call()
+
+            } else {
+                co.yap.yapcore.AdjustEvents.trackAdjustPlatformEvent(AdjustEvents.TOP_UP_END.type)
+                if (fundsAdded) {
+                    setupActionsIntent()
+                }
+
+                this.finish()
+            })
+
+            R.id.ivCross -> this.finish()
+            R.id.tbIvClose -> this.finish()
+
+            viewModel.EVENT_ADD_FUNDS_SUCCESS -> {
+                fundsAdded = true
+                setUpSuccessData()
+                performSuccessOperations()
+                etAmount.visibility = View.GONE
+                viewModel.state.buttonTitle =
+                    getString(Strings.screen_success_funds_transaction_display_text_button)
+            }
+        }
+    }
     private fun setupData() {
         card = intent.getParcelableExtra(CARD)
         viewModel.state.cardNumber = card?.maskedCardNo ?: ""
@@ -160,38 +180,26 @@ open class AddFundsActivity : BaseBindingActivity<IFundActions.ViewModel>(),
                 viewModel.state.cardName = Constants.TEXT_SPARE_CARD_VIRTUAL
             }
         }
-
-//        viewModel.state.availableBalance = card.availableBalance
         viewModel.state.availableBalance =
             MyUserManager.cardBalance.value?.availableBalance.toString()
         viewModel.state.availableBalanceText =
             " " + getString(Strings.common_text_currency_type) + " " +
                     viewModel.state.availableBalance.toFormattedCurrency()
 
-        etAmount.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(p0: Editable?) {
-            }
+        setEditTextWatcher()
+    }
 
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-            }
+    private fun setEditTextWatcher() {
+        etAmount.filters =
+            arrayOf(InputFilter.LengthFilter(7), DecimalDigitsInputFilter(2))
 
-            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                if (p0?.length!! > 0) {
-                    etAmount.gravity = Gravity.CENTER_HORIZONTAL or Gravity.CENTER_VERTICAL
-                } else {
-                    etAmount.gravity = Gravity.CENTER_HORIZONTAL or Gravity.CENTER_VERTICAL
-                }
-            }
-        })
+        etAmount.afterTextChanged {
+                parentViewModel?.updateFees(viewModel.state.amount ?: "")
+        }
     }
 
     private fun showErrorSnackBar() {
         showTextUpdatedAbleSnackBar(viewModel.state.errorDescription, Snackbar.LENGTH_INDEFINITE)
-        /*    clSnackbar.showSnackBar(
-                msg = viewModel.state.errorDescription,
-                viewBgColor = R.color.errorLightBackground,
-                colorOfMessage = R.color.error, marginTop = 0
-            )*/
     }
 
     fun performSuccessOperations() {
@@ -208,7 +216,6 @@ open class AddFundsActivity : BaseBindingActivity<IFundActions.ViewModel>(),
 
 
     private fun runAnimations() {
-
         AnimationUtils.runSequentially(
             AnimationUtils.runTogether(
                 AnimationUtils.jumpInAnimation(tvCardNameSuccess),
@@ -227,7 +234,6 @@ open class AddFundsActivity : BaseBindingActivity<IFundActions.ViewModel>(),
     }
 
     private fun startCheckMarkAnimation() {
-
         YoYo.with(Techniques.BounceIn)
             .duration(1000)
             .repeat(0)
@@ -285,11 +291,6 @@ open class AddFundsActivity : BaseBindingActivity<IFundActions.ViewModel>(),
         )
         tvTopUp.text = str
 
-        //todo don't mange balance on client side instead call from server MyUserManager.getAccountBalanceRequest()
-//        val updatedCardBalance: String =
-//            (viewModel.state.availableBalance.toDouble() - viewModel.state.amount!!.toDouble()).toString()
-//
-//        MyUserManager.cardBalance.value = CardBalance(availableBalance = updatedCardBalance)
         viewModel.state.primaryCardUpdatedBalance =
             getString(Strings.screen_success_funds_transaction_display_text_primary_balance).format(
                 viewModel.state.currencyType,
@@ -337,6 +338,57 @@ open class AddFundsActivity : BaseBindingActivity<IFundActions.ViewModel>(),
         val returnIntent = Intent()
         returnIntent.putExtra("newBalance", updatedSpareCardBalance)
         setResult(Activity.RESULT_OK, returnIntent)
+    }
+
+    private fun startOtpFragment() {
+        startFragmentForResult<GenericOtpFragment>(
+            GenericOtpFragment::class.java.name,
+            bundleOf(
+                OtpDataModel::class.java.name to OtpDataModel(
+                    OTPActions.TOP_UP_SUPPLEMENTARY.name,
+                    MyUserManager.user?.currentCustomer?.getFormattedPhoneNumber(this)
+                        ?: "",
+                    amount = viewModel.state.amount
+                )
+            )
+        ) { resultCode, _ ->
+            if (resultCode == Activity.RESULT_OK) {
+                viewModel.addFunds()
+            }
+        }
+    }
+
+    private fun isDailyLimitReached(): Boolean {
+        viewModel.transactionThreshold.value?.let {
+            it.dailyLimitTopUpSupplementary?.let { dailyLimit ->
+                it.totalDebitAmountTopUpSupplementary?.let { totalConsumedAmount ->
+                    viewModel.state.amount?.toDoubleOrNull()?.let { enteredAmount ->
+                        val remainingDailyLimit =
+                            if ((dailyLimit - totalConsumedAmount) < 0.0) 0.0 else (dailyLimit - totalConsumedAmount)
+                        if (enteredAmount > remainingDailyLimit) viewModel.state.errorDescription =
+                            Translator.getString(
+                                this,
+                                Strings.common_display_text_daily_limit_error
+                            ).format(dailyLimit)
+
+                        return enteredAmount > remainingDailyLimit
+
+                    } ?: return false
+                } ?: return false
+            } ?: return false
+        } ?: return false
+    }
+
+    private fun isOtpRequired(): Boolean {
+        viewModel.transactionThreshold.value?.let {
+            it.totalDebitAmountTopUpSupplementary?.let { totalTopupConsumedAmount ->
+                viewModel.state.amount?.toDoubleOrNull()?.let { enteredAmount ->
+                    val remainingOtpLimit =
+                        it.otpLimitTopUpSupplementary?.minus(totalTopupConsumedAmount)
+                    return enteredAmount >= (remainingOtpLimit ?: 0.0)
+                } ?: return false
+            } ?: return false
+        } ?: return false
     }
 
 }

@@ -17,13 +17,9 @@ import co.yap.yapcore.BR
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.TransactionProductCode
-import co.yap.yapcore.enums.TransactionStatus
 import co.yap.yapcore.enums.TxnType
 import co.yap.yapcore.helpers.ImageBinding
-import co.yap.yapcore.helpers.extentions.getMapImage
-import co.yap.yapcore.helpers.extentions.getTransactionIcon
-import co.yap.yapcore.helpers.extentions.getTransactionTitle
-import co.yap.yapcore.helpers.extentions.isTransactionCancelled
+import co.yap.yapcore.helpers.extentions.*
 
 class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewModel>(),
     ITransactionDetails.View {
@@ -39,10 +35,24 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
         super.onCreate(savedInstanceState)
         viewModel.clickEvent.observe(this, clickEvent)
         viewModel.transaction.set(intent?.getParcelableExtra("transaction") as Content)
+        setSpentLabel()
         setMapImageView()
         setTransactionImage()
         setTransactionTitle()
+        setCardMaskNo()
         setContentDataColor(viewModel.transaction.get())
+    }
+
+    private fun setCardMaskNo() {
+        val maskCardNo = viewModel.transaction.get()?.maskedCardNo?.split(" ")?.lastOrNull()
+        maskCardNo?.let {
+            getBindings().tvCardMask.text = "*${maskCardNo}"
+        }
+
+    }
+
+    private fun setSpentLabel() {
+        getBindings().tvCardSpent.text = viewModel.transaction.get().getSpentLabelText()
     }
 
     var clickEvent = Observer<Int> {

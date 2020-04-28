@@ -14,6 +14,7 @@ import co.yap.modules.kyc.enums.KYCAction
 import co.yap.modules.kyc.viewmodels.EidInfoReviewViewModel
 import co.yap.modules.onboarding.interfaces.IEidInfoReview
 import co.yap.translation.Strings
+import co.yap.yapcore.managers.MyUserManager
 import com.digitify.identityscanner.docscanner.activities.IdentityScannerActivity
 import com.digitify.identityscanner.docscanner.enums.DocumentType
 import kotlinx.android.synthetic.main.activity_eid_info_review.*
@@ -48,7 +49,18 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
                 viewModel.EVENT_ERROR_FROM_USA -> showUSACitizenAlert()
                 viewModel.EVENT_RESCAN -> openCardScanner()
                 viewModel.EVENT_NEXT -> {
-                    viewModel.parentViewModel?.finishKyc?.value = DocumentsResponse(true)
+                    MyUserManager.getAccountInfo()
+                    MyUserManager.onAccountInfoSuccess.observe(this, Observer { isSuccess ->
+                        if (isSuccess) {
+                            viewModel.parentViewModel?.finishKyc?.value =
+                                DocumentsResponse(true)
+                        } else {
+                            showToast("Accounts info failed")
+                            viewModel.parentViewModel?.finishKyc?.value =
+                                DocumentsResponse(true)
+                        }
+
+                    })
                 }
 
                 viewModel.EVENT_ALREADY_USED_EID -> {
@@ -68,8 +80,18 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
                         DocumentsResponse(false, KYCAction.ACTION_EID_FAILED.name)
                 }
                 viewModel.EVENT_EID_UPDATE ->{
-                    viewModel.parentViewModel?.finishKyc?.value =
-                        DocumentsResponse(false, KYCAction.ACTION_EID_UPDATE.name)
+                    MyUserManager.getAccountInfo()
+                    MyUserManager.onAccountInfoSuccess.observe(this, Observer { isSuccess ->
+                        if (isSuccess) {
+                            viewModel.parentViewModel?.finishKyc?.value =
+                                DocumentsResponse(false, KYCAction.ACTION_EID_UPDATE.name)
+                        } else {
+                            showToast("Accounts info failed")
+                            viewModel.parentViewModel?.finishKyc?.value =
+                                DocumentsResponse(false, KYCAction.ACTION_EID_UPDATE.name)
+                        }
+
+                    })
                 }
             }
         })

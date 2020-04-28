@@ -12,6 +12,7 @@ import co.yap.yapcore.R
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.extentions.getColors
+import co.yap.yapcore.managers.MyUserManager
 
 open class GenericOtpViewModel(application: Application) : ForgotPasscodeOtpViewModel(application) {
 
@@ -59,7 +60,7 @@ open class GenericOtpViewModel(application: Application) : ForgotPasscodeOtpView
                 when (val response =
                     repository.verifyOtpGenericWithPhone(
                         state.mobileNumber[0]!!.replace(" ", "").replace("+", "00"),
-                        VerifyOtpGenericRequest(action?:"", state.otp)
+                        VerifyOtpGenericRequest(action ?: "", state.otp)
                     )
                     ) {
                     is RetroApiResponse.Success -> {
@@ -67,7 +68,7 @@ open class GenericOtpViewModel(application: Application) : ForgotPasscodeOtpView
                     }
                     is RetroApiResponse.Error -> {
                         state.toast = response.error.message
-                        state.otp=""
+                        state.otp = ""
                         state.loading = false
                         otpUiBlocked(response.error.actualCode)
                     }
@@ -89,7 +90,7 @@ open class GenericOtpViewModel(application: Application) : ForgotPasscodeOtpView
                     }
                     is RetroApiResponse.Error -> {
                         state.toast = response.error.message
-                        state.otp=""
+                        state.otp = ""
                         state.loading = false
                         otpUiBlocked(response.error.actualCode)
                     }
@@ -115,7 +116,7 @@ open class GenericOtpViewModel(application: Application) : ForgotPasscodeOtpView
             when (val response =
                 messagesRepository.createOtpGeneric(
                     createOtpGenericRequest = CreateOtpGenericRequest(
-                        action?:""
+                        action ?: ""
                     )
                 )) {
                 is RetroApiResponse.Success -> {
@@ -168,6 +169,7 @@ open class GenericOtpViewModel(application: Application) : ForgotPasscodeOtpView
 //                state.valid = false
                 state.color = context.getColors(R.color.disabled)
                 state.isOtpBlocked.set(false)
+                MyUserManager.getAccountInfo()
             }
         }
     }

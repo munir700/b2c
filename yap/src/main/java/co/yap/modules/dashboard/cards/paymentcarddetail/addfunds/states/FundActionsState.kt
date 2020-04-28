@@ -7,12 +7,12 @@ import androidx.databinding.Bindable
 import androidx.databinding.ObservableField
 import co.yap.BR
 import co.yap.modules.dashboard.cards.paymentcarddetail.addfunds.interfaces.IFundActions
+import co.yap.modules.dashboard.cards.paymentcarddetail.addfunds.interfaces.IRemoveFundActions
 import co.yap.networking.customers.responsedtos.beneficiary.TopUpCard
 import co.yap.translation.Strings
 import co.yap.translation.Translator
 import co.yap.yapcore.BaseState
 import co.yap.yapcore.constants.Constants
-import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.cancelAllSnackBar
 import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 
@@ -182,12 +182,6 @@ class FundActionsState(application: Application) : BaseState(), IFundActions.Sta
             notifyPropertyChanged(BR.spareCardUpdatedBalance)
         }
 
-    @get:Bindable
-    override var transactionFee: String = ""
-        set(value) {
-            field = value
-            notifyPropertyChanged(BR.transactionFee)
-        }
 
     @get:Bindable
     override var transactionFeeSpannableString: String? = ""
@@ -203,12 +197,6 @@ class FundActionsState(application: Application) : BaseState(), IFundActions.Sta
             notifyPropertyChanged(BR.transferFee)
         }
 
-    @get:Bindable
-    override var fee: String? = "50"
-        set(value) {
-            field = value
-            notifyPropertyChanged(BR.fee)
-        }
 
     fun checkValidity(type: String): String {
         try {

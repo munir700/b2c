@@ -12,12 +12,15 @@ import co.yap.BR
 import co.yap.R
 import co.yap.databinding.FragmentTopUpCardFundsBinding
 import co.yap.modules.dashboard.cards.paymentcarddetail.addfunds.interfaces.IFundActions
+import co.yap.modules.dashboard.cards.paymentcarddetail.addfunds.interfaces.IRemoveFundActions
+import co.yap.modules.dashboard.cards.paymentcarddetail.addfunds.viewmodels.FundActionsViewModel
 import co.yap.modules.dashboard.yapit.topup.addtopupcard.activities.AddTopUpCardActivityV2
 import co.yap.modules.dashboard.yapit.topup.topupamount.activities.TopUpCardActivity
 import co.yap.modules.dashboard.yapit.topup.topupamount.viewModels.TopUpCardFundsViewModel
 import co.yap.translation.Strings
 import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.enums.TransactionProductCode
 import co.yap.yapcore.helpers.DecimalDigitsInputFilter
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.cancelAllSnackBar
@@ -30,7 +33,7 @@ import com.google.android.material.snackbar.Snackbar
 
 class TopUpCardFundsFragment : BaseBindingFragment<IFundActions.ViewModel>(),
     IFundActions.View {
-
+    private var parentViewModel: FundActionsViewModel? = null
     override fun getBindingVariable(): Int = BR.viewModel
 
     override fun getLayoutId(): Int = R.layout.fragment_top_up_card_funds
@@ -40,6 +43,10 @@ class TopUpCardFundsFragment : BaseBindingFragment<IFundActions.ViewModel>(),
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        parentViewModel =
+            this.let { ViewModelProviders.of(it).get(FundActionsViewModel::class.java) }
+        parentViewModel?.getTransferFees(TransactionProductCode.TOP_UP_VIA_CARD.pCode)
+
         setObservers()
         viewModel.firstDenominationClickEvent.observe(this, Observer {
             view.hideKeyboard()
@@ -85,7 +92,6 @@ class TopUpCardFundsFragment : BaseBindingFragment<IFundActions.ViewModel>(),
             )
         })
         viewModel.enteredAmount.observe(this, enterAmountObserver)
-
         viewModel.htmlLiveData.observe(this, Observer {
             if (!it.isNullOrEmpty()) {
                 launchActivity<AddTopUpCardActivityV2>(requestCode = Constants.EVENT_TOP_UP_CARD_TRANSACTION) {
@@ -112,6 +118,12 @@ class TopUpCardFundsFragment : BaseBindingFragment<IFundActions.ViewModel>(),
                 )
             }
         })
+        parentViewModel?.isFeeReceived?.observe(this, Observer {
+            if (it) parentViewModel?.updateFees(viewModel.state.amount ?: "")
+        })
+        parentViewModel?.updatedFee?.observe(this, Observer {
+            if (it.isNotBlank()) setUpFeeData(it)
+        })
     }
 
     var clickEvent = Observer<Int> {
@@ -120,11 +132,11 @@ class TopUpCardFundsFragment : BaseBindingFragment<IFundActions.ViewModel>(),
                 viewModel.createTransactionSession()
             }
             R.id.tbIvClose -> activity?.finish()
-            Constants.CARD_FEE -> setUpFeeData()
         }
     }
 
     private val enterAmountObserver = Observer<String> {
+        parentViewModel?.updateFees(it,isTopUpFee = true)
         when {
             isMaxMinLimitReached(it) -> {
                 viewModel.state.valid = false
@@ -157,7 +169,6 @@ class TopUpCardFundsFragment : BaseBindingFragment<IFundActions.ViewModel>(),
             false
     }
 
-
     private fun setupData() {
         getBindings().etAmount.filters =
             arrayOf(InputFilter.LengthFilter(7), DecimalDigitsInputFilter(2))
@@ -178,27 +189,26 @@ class TopUpCardFundsFragment : BaseBindingFragment<IFundActions.ViewModel>(),
         )
     }
 
-    private fun setUpFeeData() {
-        if (viewModel.state.transactionFee == getString(Strings.screen_topup_transfer_display_text_transaction_no_fee)) {
+    private fun setUpFeeData(transactionFee: String) {
+        if (transactionFee == getString(Strings.screen_topup_transfer_display_text_transaction_no_fee)) {
             viewModel.state.transactionFeeSpannableString =
                 getString(Strings.screen_topup_transfer_display_text_transaction_fee)
-                    .format(viewModel.state.transactionFee)
+                    .format(transactionFee)
             getBindings().tvFeeDescription.text = Utils.getSpannableString(
                 requireContext(),
-                viewModel.state.transactionFeeSpannableString,
-                viewModel.state.transactionFee
+                viewModel.state.transactionFeeSpannableString, transactionFee
             )
-        } else if (viewModel.state.transactionFee.toDouble() >= 0) {
+        } else if (transactionFee.toDouble() >= 0) {
             viewModel.state.transactionFeeSpannableString =
                 getString(Strings.screen_topup_transfer_display_text_transaction_fee)
                     .format(
-                        viewModel.state.currencyType + " " + viewModel.state.transactionFee.toFormattedCurrency()
+                        viewModel.state.currencyType + " " + transactionFee.toFormattedCurrency()
                     )
             getBindings().tvFeeDescription.text = Utils.getSppnableStringForAmount(
                 requireContext(),
                 viewModel.state.transactionFeeSpannableString ?: "",
                 viewModel.state.currencyType,
-                viewModel.state.transactionFee
+                transactionFee
             )
         }
     }
@@ -209,7 +219,6 @@ class TopUpCardFundsFragment : BaseBindingFragment<IFundActions.ViewModel>(),
             if (true == data?.let {
                     it.getBooleanExtra(Constants.START_POOLING, false)
                 }) {
-                //call api for pooling
                 viewModel.startPooling(true)
             }
 

@@ -10,10 +10,10 @@ import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
 import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
+import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.helpers.DateUtils
-import co.yap.yapcore.helpers.extentions.toast
-import co.yap.yapcore.leanplum.trackEvent
 import co.yap.yapcore.leanplum.KYCEvents
+import co.yap.yapcore.leanplum.trackEvent
 import com.digitify.identityscanner.core.arch.Gender
 import com.digitify.identityscanner.docscanner.models.Identity
 import com.digitify.identityscanner.docscanner.models.IdentityScannerResult
@@ -102,21 +102,22 @@ class KYCHomeViewModel(application: Application) : KYCChildViewModel<IKYCHome.St
                             parentViewModel?.identity = identity
                             state.eidScanStatus = DocScanStatus.SCAN_COMPLETED
                         } else {
-                            state.toast = response.data.errors?.message ?: "Invalid image"
+                            state.toast = "${response.data.errors?.message
+                                ?: "Invalid image"}^${AlertType.DIALOG.name}"
                             trackEvent(KYCEvents.EID_FAILURE.type)
                         }
                     }
 
                     is RetroApiResponse.Error -> {
                         trackEvent(KYCEvents.EID_FAILURE.type)
-                        state.toast = response.error.message
+                        state.toast = "${response.error.message}^${AlertType.DIALOG.name}"
                     }
                 }
 
                 state.loading = false
             }
         } else {
-            toast(context, "No image found")
+            state.toast = "${"There is some issue with captured images"}^${AlertType.DIALOG.name}"
         }
     }
 
@@ -194,7 +195,7 @@ class KYCHomeViewModel(application: Application) : KYCChildViewModel<IKYCHome.St
                         parentViewModel?.identity = identity
                         state.eidScanStatus = DocScanStatus.SCAN_COMPLETED
                     } else {
-                        state.toast =  "Invalid image"
+                        state.toast = "Invalid image"
                         trackEvent(KYCEvents.EID_FAILURE.type)
                     }
                 }

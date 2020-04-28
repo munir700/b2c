@@ -28,8 +28,12 @@ class LocationSelectionState(application: Application) : BaseState(), ILocationS
     override var showTermsCondition: ObservableField<Boolean> = ObservableField(false)
     override var isLocationInAllowedCountry: ObservableField<Boolean> = ObservableField(false)
     override var addressSubtitle: ObservableField<String> = ObservableField("")
+    override var addressTitle: ObservableField<String> = ObservableField("")
     override var isTermsChecked: ObservableField<Boolean> = ObservableField(false)
     override var valid: ObservableField<Boolean> = ObservableField(false)
+    override var isUnNamed: ObservableField<Boolean> = ObservableField(false)
+    override var isOnBoarding: ObservableField<Boolean> = ObservableField(false)
+
     @get:Bindable
     override var toolbarVisibility: Boolean = false
         set(value) {
@@ -37,16 +41,4 @@ class LocationSelectionState(application: Application) : BaseState(), ILocationS
             notifyPropertyChanged(BR.toolbarVisibility)
         }
 
-    @get:Bindable
-    override var addressTitle: String = ""
-        set(value) {
-            field = value
-            notifyPropertyChanged(BR.addressTitle)
-            validate()
-        }
-
-    fun validate() {
-        showTermsCondition.set(addressTitle.isNotEmpty())
-        valid.set(addressTitle.isNotEmpty() && isTermsChecked.get() == true)
-    }
 }

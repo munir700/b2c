@@ -47,7 +47,7 @@ open class ConfirmCardPinFragment : SetCardPinFragment() {
                             }
                         }
                     } else {
-                        dialer.startAnimationDigits()
+                        dialer.startAnimation()
                     }
                 }
                 viewModel.EVENT_SET_CARD_PIN_SUCCESS -> {
