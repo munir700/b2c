@@ -52,7 +52,7 @@ class SubAccountCardFragment :
             setInitiateOnLongPress(false)
             setInitiateOnMove(true)
             setLongPressTimeout(750)
-            dragEdgeScrollSpeed = 2.0f
+            dragEdgeScrollSpeed = 1.0f
             dragStartItemAnimationDuration = 250
             draggingItemAlpha = 1f
             isCheckCanDropEnabled = true
