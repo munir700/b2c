@@ -97,11 +97,11 @@ class TransactionsHeaderAdapter(
             when {
                 total.toString().startsWith("-") -> {
                     value = ((total * -1).toString().toFormattedCurrency()) ?: ""
-                    value = "- $value"
+                    value = "- AED $value"
                 }
                 else -> {
                     value = (total.toString().toFormattedCurrency()) ?: ""
-                    value = "+ $value"
+                    value = "+ AED $value"
                 }
             }
 
