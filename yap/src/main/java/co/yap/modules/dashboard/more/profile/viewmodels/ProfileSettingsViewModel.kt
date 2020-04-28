@@ -17,8 +17,10 @@ import co.yap.networking.models.RetroApiResponse
 import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.constants.Constants.KEY_APP_UUID
+import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.enums.EIDStatus
 import co.yap.yapcore.helpers.SharedPreferenceManager
+import co.yap.yapcore.helpers.extentions.sizeInMb
 import co.yap.yapcore.managers.MyUserManager
 import com.bumptech.glide.Glide
 import id.zelory.compressor.Compressor
@@ -29,7 +31,6 @@ import okhttp3.RequestBody
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
-
 
 class ProfileSettingsViewModel(application: Application) :
     MoreBaseViewModel<IProfile.State>(application), IProfile.ViewModel,
@@ -174,33 +175,37 @@ class ProfileSettingsViewModel(application: Application) :
 
     private fun uploadCall(file: File) {
         launch {
+            if (file.sizeInMb() < 25) {
+                val reqFile = RequestBody.create(MediaType.parse("image/"), file)
+                val multiPartImageFile: MultipartBody.Part =
+                    MultipartBody.Part.createFormData("profile-picture", file.name, reqFile)
+                when (val response = repository.uploadProfilePicture(multiPartImageFile)) {
+                    is RetroApiResponse.Success -> {
 
-            val reqFile = RequestBody.create(MediaType.parse("image/"), file)
-            val multiPartImageFile: MultipartBody.Part =
-                MultipartBody.Part.createFormData("profile-picture", file.name, reqFile)
-            when (val response = repository.uploadProfilePicture(multiPartImageFile)) {
-                is RetroApiResponse.Success -> {
-
-                    if (null != response.data.data) {
-                        response.data.data?.let {
-                            it.imageURL?.let { state.profilePictureUrl = it }
-                            MyUserManager.user!!.currentCustomer.setPicture(it.imageURL)
-                            Glide.with(context)
-                                .load(it.imageURL).preload()
-                            state.fullName =
-                                MyUserManager.user?.currentCustomer?.getFullName() ?: ""
-                            state.nameInitialsVisibility = VISIBLE
-                            state.loading = false
+                        if (null != response.data.data) {
+                            response.data.data?.let {
+                                it.imageURL?.let { state.profilePictureUrl = it }
+                                MyUserManager.user?.currentCustomer?.setPicture(it.imageURL)
+                                Glide.with(context)
+                                    .load(it.imageURL).preload()
+                                state.fullName =
+                                    MyUserManager.user?.currentCustomer?.getFullName() ?: ""
+                                state.nameInitialsVisibility = VISIBLE
+                                state.loading = false
+                            }
                         }
                     }
-                }
 
-                is RetroApiResponse.Error -> {
-                    state.toast = response.error.message
-                    state.fullName = MyUserManager.user?.currentCustomer?.getFullName() ?: ""
-                    state.nameInitialsVisibility = GONE
-                    state.loading = false
-                }//https://dev.yap.co/customers/api/document-information?documentType=EMIRATES_ID
+                    is RetroApiResponse.Error -> {
+                        state.toast = "${response.error.message}^${AlertType.DIALOG.name}"
+                        state.fullName = MyUserManager.user?.currentCustomer?.getFullName() ?: ""
+                        state.nameInitialsVisibility = GONE
+                        state.loading = false
+                    }
+                }
+            } else {
+                state.toast = "File size not supported^${AlertType.DIALOG.name}"
+                state.loading = true
             }
         }
     }
