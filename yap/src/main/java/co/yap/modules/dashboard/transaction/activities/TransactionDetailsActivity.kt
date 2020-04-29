@@ -17,6 +17,7 @@ import co.yap.yapcore.BR
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.TransactionProductCode
+import co.yap.yapcore.enums.TransactionStatus
 import co.yap.yapcore.enums.TxnType
 import co.yap.yapcore.helpers.ImageBinding
 import co.yap.yapcore.helpers.extentions.*
@@ -40,7 +41,24 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
         setTransactionImage()
         setTransactionTitle()
         setCardMaskNo()
+        setAddress()
         setContentDataColor(viewModel.transaction.get())
+    }
+
+    private fun setAddress() {
+        val location = viewModel.transaction.get()?.let {
+            when {
+                it.status == TransactionStatus.CANCELLED.name -> "Transfer Rejected"
+                it.productCode == TransactionProductCode.FUND_LOAD.pCode -> it.otherBankName ?: ""
+                else -> it.cardAcceptorLocation ?: ""
+            }
+        }
+        if (location.isNullOrBlank()) {
+            getBindings().tvAddress.visibility = View.GONE
+        } else {
+            getBindings().tvAddress.visibility = View.VISIBLE
+            getBindings().tvAddress.text = location
+        }
     }
 
     private fun setCardMaskNo() {
@@ -95,9 +113,11 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
                 }
                 else -> {
                     val txnIconResId = transaction.getTransactionIcon()
-                    if (txnIconResId != -1)
+                    if (txnIconResId != -1) {
                         getBindings().ivPicture.setImageResource(txnIconResId)
-                    else
+                        if (txnIconResId == R.drawable.ic_rounded_plus)
+                            getBindings().ivPicture.setBackgroundResource(R.drawable.bg_round_grey)
+                    } else
                         setInitialsAsTxnImage(transaction)
                 }
             }
