@@ -13,6 +13,8 @@ import co.yap.translation.Strings
 import co.yap.translation.Translator
 import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.defaults.IDefault
+import co.yap.yapcore.enums.AlertType
+import co.yap.yapcore.managers.MyUserManager
 import kotlinx.android.synthetic.main.fragment_block_card_success.*
 
 class BlockCardSuccessFragment : ReportOrLOstCardChildFragment<IDefault.ViewModel>() {
@@ -36,11 +38,15 @@ class BlockCardSuccessFragment : ReportOrLOstCardChildFragment<IDefault.ViewMode
                 )
 
         btnReOrder.setOnClickListener {
-            viewModel.parentViewModel?.card?.let {
-                startActivityForResult(
-                    ReorderCardActivity.newIntent(requireContext(), it),
-                    RequestCodes.REQUEST_REORDER_CARD
-                )
+            if (MyUserManager.user?.otpBlocked == true) {
+                showToast("${getString(Strings.screen_blocked_otp_display_text_message)}^${AlertType.DIALOG.name}")
+            } else {
+                viewModel.parentViewModel?.card?.let {
+                    startActivityForResult(
+                        ReorderCardActivity.newIntent(requireContext(), it),
+                        RequestCodes.REQUEST_REORDER_CARD
+                    )
+                }
             }
         }
         tvAddLater.setOnClickListener {

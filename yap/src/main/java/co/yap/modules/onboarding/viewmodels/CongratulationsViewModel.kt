@@ -7,7 +7,6 @@ import co.yap.modules.onboarding.states.CongratulationsState
 import co.yap.networking.cards.CardsRepository
 import co.yap.networking.cards.requestdtos.OrderCardRequest
 import co.yap.networking.cards.responsedtos.Address
-import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
 import co.yap.yapcore.AdjustEvents.Companion.trackAdjustPlatformEvent
@@ -70,7 +69,7 @@ class CongratulationsViewModel(application: Application) :
                 it.address2,
                 it.latitude,
                 it.longitude,
-                "UAE", "Dubai"
+                "Dubai", "UAE"
             )
             launch {
                 state.loading = true

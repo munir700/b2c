@@ -1,0 +1,48 @@
+package co.yap.app.modules.login.viewmodels
+
+import android.app.Application
+import androidx.lifecycle.MutableLiveData
+import co.yap.app.modules.login.interfaces.IOtpBlockedInfo
+import co.yap.app.modules.login.states.OtpBlockedInfoState
+import co.yap.networking.interfaces.IRepositoryHolder
+import co.yap.networking.messages.MessagesRepository
+import co.yap.networking.models.RetroApiResponse
+import co.yap.yapcore.BaseViewModel
+import co.yap.yapcore.SingleClickEvent
+import co.yap.yapcore.managers.MyUserManager
+
+class OtpBlockedInfoViewModel(application: Application) :
+    BaseViewModel<IOtpBlockedInfo.State>(application),
+    IOtpBlockedInfo.ViewModel, IRepositoryHolder<MessagesRepository> {
+    override val state: IOtpBlockedInfo.State = OtpBlockedInfoState()
+    override var clickEvent: SingleClickEvent = SingleClickEvent()
+    override val onHelpNoSuccess: MutableLiveData<Boolean> = MutableLiveData(false)
+    override val repository: MessagesRepository = MessagesRepository
+
+    override fun handlePressOnView(id: Int) {
+        clickEvent.setValue(id)
+    }
+
+    override fun onCreate() {
+        super.onCreate()
+        state.userFirstName.set(MyUserManager.user?.currentCustomer?.firstName)
+    }
+
+    override fun getHelpPhoneNo() {
+        launch {
+            state.loading = true
+            when (val response =
+                repository.getHelpDeskContact()) {
+                is RetroApiResponse.Success -> {
+                    state.loading = false
+                    response.data.data?.let { state.helpPhoneNo.set(it) }
+                    onHelpNoSuccess.value = true
+                }
+                is RetroApiResponse.Error -> {
+                    state.loading = false
+                }
+            }
+        }
+    }
+
+}

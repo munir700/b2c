@@ -21,7 +21,10 @@ import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.Constants.ADDRESS
 import co.yap.yapcore.constants.Constants.ADDRESS_SUCCESS
 import co.yap.yapcore.constants.RequestCodes
+import co.yap.yapcore.helpers.DateUtils
 import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.helpers.extentions.ExtraType
+import co.yap.yapcore.helpers.extentions.getValue
 import co.yap.yapcore.helpers.extentions.startFragment
 import co.yap.yapcore.helpers.permissions.PermissionHelper
 import co.yap.yapcore.interfaces.OnItemClickListener
@@ -30,22 +33,27 @@ import com.daimajia.androidanimations.library.YoYo
 import com.google.android.gms.maps.SupportMapFragment
 import kotlinx.android.synthetic.main.activity_address_selection.*
 import kotlinx.android.synthetic.main.layout_google_maps.*
+import java.text.SimpleDateFormat
+import java.util.*
 
 class LocationSelectionActivity : MapSupportActivity(), ILocationSelection.View {
 
     companion object {
         private const val HEADING = "heading"
         private const val SUB_HEADING = "subHeading"
+        private const val IS_ON_BOARDING = "subHeading"
         fun newIntent(
             context: Context,
             address: Address,
             headingTitle: String = "",
-            subHeadingTitle: String = ""
+            subHeadingTitle: String = "",
+            onBoarding: Boolean = false
         ): Intent {
             val intent = Intent(context, LocationSelectionActivity::class.java)
             intent.putExtra(HEADING, headingTitle)
             intent.putExtra(SUB_HEADING, subHeadingTitle)
             intent.putExtra(ADDRESS, address)
+            intent.putExtra(IS_ON_BOARDING, onBoarding)
             return intent
         }
     }
@@ -96,13 +104,19 @@ class LocationSelectionActivity : MapSupportActivity(), ILocationSelection.View 
                 viewModel.state.placeSubTitle.set(it.address2)
             }
         }
+        viewModel.state.isOnBoarding.set(
+            (intent?.getValue(
+                IS_ON_BOARDING,
+                ExtraType.BOOLEAN.name
+            ) as? Boolean) ?: false
+        )
     }
 
     private fun updateHeadings() {
         if (intent != null) {
             if (intent.hasExtra(HEADING)) {
-                val heading = intent.getStringExtra(HEADING)
-                viewModel.state.headingTitle.set(heading)
+                viewModel.defaultHeading = intent.getStringExtra(HEADING)
+                viewModel.state.headingTitle.set(viewModel.defaultHeading)
             }
             if (intent.hasExtra(SUB_HEADING)) {
                 val subHeading = intent.getStringExtra(SUB_HEADING)
@@ -114,9 +128,12 @@ class LocationSelectionActivity : MapSupportActivity(), ILocationSelection.View 
     override fun setObservers() {
         viewModel.clickEvent.observe(this, clickObserver)
         viewModel.state.isTermsChecked.addOnPropertyChangedCallback(stateObserver)
+        viewModel.state.addressSubtitle.addOnPropertyChangedCallback(stateObserver)
+        viewModel.state.addressTitle.addOnPropertyChangedCallback(stateObserver)
         viewModel.isMapExpanded.observe(this, Observer {
             viewModel.state.toolbarVisibility = !it
             if (it) {
+                hideKeyboard()
                 rlCollapsedMapSection.visibility = View.GONE
                 lyAddressFields.visibility = View.GONE
                 ivClose.visibility = View.VISIBLE
@@ -129,6 +146,7 @@ class LocationSelectionActivity : MapSupportActivity(), ILocationSelection.View 
     }
 
     private fun initMapFragment() {
+
         val mapFragment =
             supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
         mapFragment?.let {
@@ -142,7 +160,11 @@ class LocationSelectionActivity : MapSupportActivity(), ILocationSelection.View 
 
     private val stateObserver = object : Observable.OnPropertyChangedCallback() {
         override fun onPropertyChanged(sender: Observable?, propertyId: Int) {
-            viewModel.state.valid.set(viewModel.state.addressTitle.isNotBlank() && viewModel.state.isTermsChecked.get() == true)
+            if (viewModel.state.isTermsChecked.get() == true) {
+                viewModel.termsCheckedTime.value =
+                    SimpleDateFormat(DateUtils.LeanPlumEventFormat).format(Calendar.getInstance().time)
+            }
+            viewModel.state.valid.set(!viewModel.state.addressTitle.get().isNullOrBlank() && !viewModel.state.addressSubtitle.get().isNullOrBlank() && if (viewModel.state.isOnBoarding.get() == false) true else viewModel.state.isTermsChecked.get() == true)
         }
     }
 
@@ -172,18 +194,21 @@ class LocationSelectionActivity : MapSupportActivity(), ILocationSelection.View 
                 startFragment<WebViewFragment>(
                     fragmentName = WebViewFragment::class.java.name, bundle = bundleOf(
                         Constants.PAGE_URL to Constants.URL_TERMS_CONDITION
-                    ) , showToolBar = true
+                    ), showToolBar = true
                 )
                 //Utils.openWebPage(Constants.URL_TERMS_CONDITION, "", this)
             }
             R.id.etAddressField -> {
-                if (etAddressField.length() > 0) {
+
+                if (etAddressField.length() == 0 && !viewModel.hasSeletedLocation) {
+                    onMapClickAction()
+                } else {
                     etAddressField.isFocusable = true
                     etAddressField.isFocusableInTouchMode = true
-                } else {
-                    onMapClickAction()
+                    etAddressField.setSelection(etAddressField.length())
                 }
             }
+
             R.id.rlCollapsedMapSection -> {
                 onMapClickAction()
             }
@@ -303,7 +328,7 @@ class LocationSelectionActivity : MapSupportActivity(), ILocationSelection.View 
 
     private fun setIntentAction(isUpdated: Boolean) {
         val intent = Intent()
-        viewModel.address?.address1 = viewModel.state.addressTitle
+        viewModel.address?.address1 = viewModel.state.addressTitle.get()
         viewModel.address?.address2 = viewModel.state.addressSubtitle.get()
         intent.putExtra(ADDRESS, viewModel.address)
         intent.putExtra(ADDRESS_SUCCESS, isUpdated)
@@ -385,6 +410,9 @@ class LocationSelectionActivity : MapSupportActivity(), ILocationSelection.View 
         super.onDestroy()
         viewModel.clickEvent.removeObservers(this)
         viewModel.isMapExpanded.removeObservers(this)
+        viewModel.state.isTermsChecked.removeOnPropertyChangedCallback(stateObserver)
+        viewModel.state.addressSubtitle.removeOnPropertyChangedCallback(stateObserver)
+        viewModel.state.addressTitle.removeOnPropertyChangedCallback(stateObserver)
     }
 
 }

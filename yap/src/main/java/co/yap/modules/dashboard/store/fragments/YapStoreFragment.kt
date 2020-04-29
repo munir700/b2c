@@ -56,10 +56,9 @@ class YapStoreFragment : BaseBindingFragment<IYapStore.ViewModel>(), IYapStore.V
             if (data is Store) {
                 if (data.name == "YAP Household") {
                     launchActivity<NavHostPresenterActivity> {
-                        putExtra(NAVIGATION_Graph_ID, R.navigation.hh_set_card_pin_navigation)
-                        putExtra(NAVIGATION_Graph_START_DESTINATION_ID, R.id.HHSetPinCardReviewFragment)
+                        putExtra(NAVIGATION_Graph_ID, R.navigation.iban_subaccount_navigation)
+                        putExtra(NAVIGATION_Graph_START_DESTINATION_ID, R.id.subAccountDashBoardFragment)
                     }
-//                    launchActivity<HouseHoldLandingActivity>(requestCode = RequestCodes.REQUEST_ADD_HOUSE_HOLD)
                 }
             }
         }

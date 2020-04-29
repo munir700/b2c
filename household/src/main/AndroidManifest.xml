@@ -27,16 +27,6 @@
             android:name=".dashboard.main.HouseholdDashboardActivity"
             android:screenOrientation="portrait" />
 
-        <activity
-            android:name=".onboard.onboarding.invalideid.InvalidEIDFragment"
-            android:screenOrientation="portrait" />
-
-        <activity
-            android:name=".onboard.onboarding.householdsuccess.HouseHoldSuccessFragment"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".onboard.onboarding.existinghousehold.ExistingHouseholdFragment"
-            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

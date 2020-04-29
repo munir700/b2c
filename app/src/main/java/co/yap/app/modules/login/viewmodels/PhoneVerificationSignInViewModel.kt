@@ -19,6 +19,7 @@ import co.yap.translation.Strings
 import co.yap.yapcore.SingleLiveEvent
 import co.yap.yapcore.constants.Constants.KEY_APP_UUID
 import co.yap.yapcore.constants.Constants.KEY_IS_USER_LOGGED_IN
+import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.getColors
@@ -69,7 +70,7 @@ class PhoneVerificationSignInViewModel(application: Application) :
                     verifyOtpResult.postValue(true)
                 }
                 is RetroApiResponse.Error -> {
-                    state.toast = response.error.message
+                    state.toast = "${response.error.message}^${AlertType.DIALOG.name}"
                     state.otp = ""
                     otpUiBlocked(response.error.actualCode)
                     state.loading = false
@@ -91,7 +92,7 @@ class PhoneVerificationSignInViewModel(application: Application) :
                     state.valid = false
                 }
                 is RetroApiResponse.Error -> {
-                    state.toast = response.error.message
+                    state.toast = "${response.error.message}^${AlertType.DIALOG.name}"
                     otpUiBlocked(response.error.actualCode)
                 }
             }
@@ -121,7 +122,7 @@ class PhoneVerificationSignInViewModel(application: Application) :
                 }
                 is RetroApiResponse.Error -> {
                     state.loading = false
-                    state.toast = response.error.message
+                    state.toast = "${response.error.message}^${AlertType.DIALOG.name}"
                 }
             }
 

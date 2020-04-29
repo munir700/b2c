@@ -4,6 +4,7 @@ import android.app.Application
 import androidx.lifecycle.MutableLiveData
 import co.yap.R
 import co.yap.networking.customers.CustomersRepository
+import co.yap.networking.customers.responsedtos.CardLimits
 import co.yap.networking.customers.responsedtos.beneficiary.TopUpCard
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
@@ -15,8 +16,7 @@ class TopUpBeneficiariesViewModel(application: Application) :
     BaseViewModel<ITopUpBeneficiaries.State>(application),
     ITopUpBeneficiaries.ViewModel, IRepositoryHolder<CustomersRepository> {
 
-    override var remainingCardsLimit: Int = 0
-
+    override var cardLimits: CardLimits? = null
     override var clickEvent: SingleClickEvent = SingleClickEvent()
     override val state: ITopUpBeneficiaries.State = TopUpBeneficiariesState()
     override val repository: CustomersRepository = CustomersRepository
@@ -48,7 +48,7 @@ class TopUpBeneficiariesViewModel(application: Application) :
         launch {
             when (val response = repository.getCardsLimit()) {
                 is RetroApiResponse.Success -> {
-                    remainingCardsLimit = response.data.data?.remaining ?: 0
+                    cardLimits = response.data.cardLimits
                 }
                 is RetroApiResponse.Error -> state.toast = response.error.message
             }

@@ -23,6 +23,7 @@
         android:layout_gravity="center_vertical"
         android:background="@color/white"
         android:orientation="vertical">
+
         <include
             android:id="@+id/mapView"
             layout="@layout/layout_google_maps"
@@ -38,6 +39,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
+
             <FrameLayout
                 android:id="@+id/flTitle"
                 android:layout_width="match_parent"
@@ -45,11 +47,13 @@
                 android:background="@color/white"
                 android:orientation="vertical"
                 tools:ignore="MissingConstraints">
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="top"
                     android:orientation="vertical">
+
                     <include
                         android:id="@+id/toolbar"
                         layout="@layout/layout_location_selection_toolbar"
@@ -62,6 +66,7 @@
                         app:layout_constraintTop_toBottomOf="@id/viewMapFragment"
                         app:layout_constraintTop_toTopOf="parent"
                         app:viewModel="@{viewModel}" />
+
                     <TextView
                         android:id="@+id/tvAddressSelectionHeading"
                         style="@style/ATitle3"
@@ -69,10 +74,10 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/margin_small"
                         android:layout_marginEnd="@dimen/margin_small"
-                        android:gravity="center"
-                        android:maxLines="2"
                         android:ellipsize="end"
+                        android:gravity="center"
                         android:lineSpacingExtra="0sp"
+                        android:maxLines="2"
                         android:text="@{viewModel.state.headingTitle}"
                         android:textSize="@dimen/_18sdp"
                         app:layout_constraintTop_toTopOf="parent"
@@ -163,15 +168,15 @@
                         android:layout_marginStart="@dimen/_13sdp"
                         android:layout_marginTop="4dp"
                         android:layout_marginEnd="@dimen/margin_medium"
-                        android:inputType="textPersonName"
-                        android:maxLength="100"
                         android:focusable="false"
                         android:focusableInTouchMode="false"
+                        android:inputType="textPersonName"
+                        android:maxLength="100"
+                        android:onClick="@{(v) -> viewModel.handleOnPressView(v.id)}"
                         android:text="@={viewModel.state.addressTitle}"
                         android:textColor="@color/colorPrimaryDark"
                         android:textColorHint="@color/grey"
                         android:textSize="@dimen/text_size_h3"
-                        android:onClick="@{(v) -> viewModel.handleOnPressView(v.id)}"
                         app:hint="@{Strings.screen_meeting_location_input_text_address_hint}"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -206,26 +211,27 @@
                         android:inputType="textPersonName"
                         android:maxLength="100"
                         android:minHeight="@dimen/_42sdp"
+                        android:text="@={viewModel.state.addressSubtitle}"
                         android:textColor="@color/colorPrimaryDark"
                         android:textColorHint="@color/grey"
                         android:textSize="@dimen/text_size_h3"
-                        android:text="@={viewModel.state.addressSubtitle}"
+                        app:drawableClick="@{viewModel.state.addressSubtitle.isEmpty()?false : true}"
                         app:hint="@{Strings.screen_meeting_location_input_text_landmark_hint}"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/tvLandMark"
                         app:textSelection="@{viewModel.state.addressSubtitle}"
-                        app:drawableClick="@{viewModel.state.addressSubtitle.isEmpty()?false : true}"
                         tools:hint="@string/screen_meeting_location_input_text_landmark_hint"
                         tools:ignore="MissingConstraints" />
 
                     <LinearLayout
                         android:id="@+id/llTermsCondition"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
-                        android:visibility="@{viewModel.state.showTermsCondition? View.VISIBLE:View.INVISIBLE}"
+                        android:visibility="@{viewModel.state.isOnBoarding ? View.VISIBLE:View.INVISIBLE}"
                         tools:visibility="invisible">
+                        <!--android:visibility="@{viewModel.state.isOnBoarding ? (viewModel.state.showTermsCondition ? View.VISIBLE:View.INVISIBLE) : View.INVISIBLE}"-->
 
                         <CheckBox
                             android:id="@+id/cbTermsAndConditions"
@@ -269,11 +275,11 @@
                         android:layout_marginBottom="@dimen/margin_medium_large"
                         android:gravity="bottom"
                         android:onClick="@{(v) -> viewModel.handleOnPressView(v.id)}"
-                        app:text="@{Strings.common_button_next}"
-                        tools:text="@string/common_button_next"
                         app:enableCoreButton="@{viewModel.state.valid}"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        tools:layout_editor_absoluteX="44dp" />
+                        app:text="@{Strings.common_button_next}"
+                        tools:layout_editor_absoluteX="44dp"
+                        tools:text="@string/common_button_next" />
                 </LinearLayout>
             </LinearLayout>
 

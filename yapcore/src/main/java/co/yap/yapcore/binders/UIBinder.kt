@@ -246,6 +246,22 @@ object UIBinder {
         return BitmapFactory.decodeByteArray(byteArray, 0, byteArray.size)
     }
 
+    @BindingAdapter("cardSeeDetailVisibility")
+    @JvmStatic
+    fun setCardDetailLayoutVisibility(linearLayout: LinearLayout, card: Card) {
+        when (card.status) {
+            CardStatus.ACTIVE.name -> {
+                if (card.cardType == CardType.DEBIT.type) {
+                    if (PartnerBankStatus.ACTIVATED.status == MyUserManager.user?.partnerBankStatus && !card.pinCreated)
+                        linearLayout.visibility = GONE
+                } else {
+                    linearLayout.visibility = VISIBLE
+                }
+            }
+            else -> linearLayout.visibility = GONE
+        }
+    }
+
     // Delivery status and core action Button
     @BindingAdapter("cardStatus")
     @JvmStatic
@@ -253,8 +269,12 @@ object UIBinder {
         if (CardStatus.valueOf(card.status).name.isNotEmpty()) {
             when (CardStatus.valueOf(card.status)) {
                 CardStatus.ACTIVE -> {
-                    if (PartnerBankStatus.ACTIVATED.status == MyUserManager.user?.partnerBankStatus && !card.pinCreated)
-                        linearLayout.visibility = VISIBLE
+                    if (card.cardType == CardType.DEBIT.type) {
+                        if (PartnerBankStatus.ACTIVATED.status == MyUserManager.user?.partnerBankStatus && !card.pinCreated)
+                            linearLayout.visibility = VISIBLE
+                        else
+                            linearLayout.visibility = GONE
+                    }
                     else
                         linearLayout.visibility = GONE
                 }
@@ -272,9 +292,12 @@ object UIBinder {
         if (CardStatus.valueOf(card.status).name.isNotEmpty())
             when (CardStatus.valueOf(card.status)) {
                 CardStatus.ACTIVE -> {
-                    if (PartnerBankStatus.ACTIVATED.status == MyUserManager.user?.partnerBankStatus && !card.pinCreated) {
-                        imageView.visibility = VISIBLE
-                        imageView.setImageResource(R.drawable.ic_status_ontheway)
+                    if (card.cardType == CardType.DEBIT.type) {
+                        if (PartnerBankStatus.ACTIVATED.status == MyUserManager.user?.partnerBankStatus && !card.pinCreated) {
+                            imageView.visibility = VISIBLE
+                            imageView.setImageResource(R.drawable.ic_status_ontheway)
+                        } else
+                            imageView.visibility = GONE
                     }
                     else
                         imageView.visibility = GONE
@@ -306,9 +329,10 @@ object UIBinder {
         if (CardStatus.valueOf(card.status).name.isNotEmpty())
             when (CardStatus.valueOf(card.status)) {
                 CardStatus.ACTIVE -> {
-                    if (PartnerBankStatus.ACTIVATED.status == MyUserManager.user?.partnerBankStatus && !card.pinCreated)
-                        setTextForInactiveCard(text = text, card = card)
-                    else
+                    if (card.cardType == CardType.DEBIT.type) {
+                        if (PartnerBankStatus.ACTIVATED.status == MyUserManager.user?.partnerBankStatus && !card.pinCreated)
+                            setTextForInactiveCard(text = text, card = card)
+                    } else
                         text.visibility = GONE
                 }
                 CardStatus.BLOCKED -> {
@@ -326,10 +350,7 @@ object UIBinder {
                     )
                 }
                 CardStatus.INACTIVE -> {
-                    if (PartnerBankStatus.ACTIVATED.status == MyUserManager.user?.partnerBankStatus)
-                        setTextForInactiveCard(text = text, card = card)
-                    else
-                        text.visibility = GONE
+                    setTextForInactiveCard(text = text, card = card)
                 }
                 CardStatus.EXPIRED -> {
                     text.visibility = VISIBLE
@@ -344,7 +365,7 @@ object UIBinder {
     private fun setTextForInactiveCard(text: TextView, card: Card) {
         when (card.cardType) {
             CardType.DEBIT.type -> {
-                if (card.deliveryStatus == CardDeliveryStatus.SHIPPED.name) {
+                if (card.deliveryStatus == CardDeliveryStatus.SHIPPED.name && PartnerBankStatus.ACTIVATED.status == MyUserManager.user?.partnerBankStatus) {
                     text.visibility = VISIBLE
                     text.text = Translator.getString(
                         text.context,
@@ -371,9 +392,12 @@ object UIBinder {
         if (CardStatus.valueOf(card.status).name.isNotEmpty())
             when (CardStatus.valueOf(card.status)) {
                 CardStatus.ACTIVE -> {
-                    if (PartnerBankStatus.ACTIVATED.status == MyUserManager.user?.partnerBankStatus && !card.pinCreated)
-                        setCardButtonTextForInactive(coreButton, card)
-                    else
+                    if (card.cardType == CardType.DEBIT.type) {
+                        if (PartnerBankStatus.ACTIVATED.status == MyUserManager.user?.partnerBankStatus && !card.pinCreated)
+                            setCardButtonTextForInactive(coreButton, card)
+                        else
+                            coreButton.visibility = GONE
+                    } else
                         coreButton.visibility = GONE
                 }
                 CardStatus.BLOCKED -> {
@@ -391,7 +415,7 @@ object UIBinder {
                     )
                 }
                 CardStatus.INACTIVE -> {
-                    if (PartnerBankStatus.ACTIVATED.status == MyUserManager.user?.partnerBankStatus && card.deliveryStatus == CardDeliveryStatus.SHIPPED.name)
+                    if (card.deliveryStatus == CardDeliveryStatus.SHIPPED.name && PartnerBankStatus.ACTIVATED.status == MyUserManager.user?.partnerBankStatus)
                         setCardButtonTextForInactive(coreButton, card)
                     else
                         coreButton.visibility = GONE

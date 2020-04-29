@@ -16,8 +16,7 @@ import co.yap.yapcore.helpers.extentions.launchActivity
 import co.yap.yapcore.helpers.extentions.startFragment
 import co.yap.yapcore.helpers.extentions.toCamelCase
 
-class ExistingHouseholdFragment : BaseBindingFragment<IExistingHouseHold.ViewModel>(),
-    IFragmentHolder {
+class ExistingHouseholdFragment : BaseBindingFragment<IExistingHouseHold.ViewModel>(){
 
 //    private var existingUser:Boolean = false
     private var accountInfo:AccountInfo? = null

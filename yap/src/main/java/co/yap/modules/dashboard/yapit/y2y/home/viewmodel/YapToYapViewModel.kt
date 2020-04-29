@@ -32,7 +32,7 @@ class YapToYapViewModel(application: Application) : Y2YBaseViewModel<IYapToYap.S
     override fun onResume() {
         super.onResume()
         if (parentViewModel?.isSearching?.value != null)
-            toggleToolBarVisibility(!parentViewModel?.isSearching?.value!!)
+            toggleToolBarVisibility(parentViewModel?.isSearching?.value == false)
         else {
             toggleToolBarVisibility(false)
         }

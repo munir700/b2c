@@ -6,19 +6,23 @@ import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.transactions.TransactionsRepository
-import co.yap.networking.transactions.requestdtos.RemittanceFeeRequest
 import co.yap.networking.transactions.requestdtos.RxListRequest
-import co.yap.networking.transactions.responsedtos.InternationalFundsTransferReasonList
+import co.yap.networking.transactions.responsedtos.purposepayment.PurposeOfPayment
 import co.yap.networking.transactions.responsedtos.transaction.FxRateResponse
-import co.yap.networking.transactions.responsedtos.transaction.RemittanceFeeResponse
 import co.yap.sendMoney.fundtransfer.interfaces.IInternationalFundsTransfer
 import co.yap.sendMoney.fundtransfer.states.InternationalFundsTransferState
+import co.yap.sendmoney.R
 import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.enums.FeeType
+import co.yap.yapcore.enums.SendMoneyBeneficiaryType
+import co.yap.yapcore.enums.TransactionProductCode
 import co.yap.yapcore.helpers.extentions.parseToDouble
+import co.yap.yapcore.helpers.extentions.toFormattedCurrency
+import co.yap.yapcore.helpers.spannables.color
+import co.yap.yapcore.helpers.spannables.getText
+import co.yap.yapcore.managers.MyUserManager
 import java.util.*
-import kotlin.collections.ArrayList
 
 class InternationalFundsTransferViewModel(application: Application) :
     BeneficiaryFundTransferBaseViewModel<IInternationalFundsTransfer.State>(application),
@@ -31,16 +35,12 @@ class InternationalFundsTransferViewModel(application: Application) :
             application
         )
     override var clickEvent: SingleClickEvent = SingleClickEvent()
-    override var isAPIFailed: MutableLiveData<Boolean> = MutableLiveData()
-    override var transactionData: ArrayList<InternationalFundsTransferReasonList.ReasonList> =
-        ArrayList()
-    override val populateSpinnerData: MutableLiveData<ArrayList<InternationalFundsTransferReasonList.ReasonList>> =
+    override var purposeOfPaymentList: MutableLiveData<ArrayList<PurposeOfPayment>> =
         MutableLiveData()
     override var reasonPosition: Int = 0
     override var fxRateResponse: MutableLiveData<FxRateResponse.Data> = MutableLiveData()
-    override var transactionFeeResponse: MutableLiveData<RemittanceFeeResponse.RemittanceFee> =
-        MutableLiveData()
-    override var feeTiers: List<RemittanceFeeResponse.RemittanceFee.TierRateDTO> = arrayListOf()
+    val transactionMightGetHeld: MutableLiveData<Boolean> = MutableLiveData(false)
+    var purposeCategories: Map<String?, List<PurposeOfPayment>>? = HashMap()
 
     override fun handlePressOnButton(id: Int) {
         clickEvent.setValue(id)
@@ -49,32 +49,19 @@ class InternationalFundsTransferViewModel(application: Application) :
     override fun onCreate() {
         super.onCreate()
         parentViewModel?.state?.toolBarTitle = getString(Strings.screen_funds_toolbar_header)
+        state.availableBalanceString =
+            context.resources.getText(
+                getString(Strings.screen_cash_transfer_display_text_available_balance),
+                context.color(
+                    R.color.colorPrimaryDark,
+                    "${"AED"} ${MyUserManager.cardBalance.value?.availableBalance?.toFormattedCurrency()}"
+                )
+            )
     }
 
     override fun onResume() {
         super.onResume()
         setToolBarTitle(getString(Strings.screen_international_funds_transfer_display_text_title))
-    }
-
-    override fun getTransactionFeeInternational(productCode: String?) {
-        launch {
-            val remittanceFeeRequestBody =
-                RemittanceFeeRequest(parentViewModel?.beneficiary?.value?.country, "")
-            when (val response =
-                mTransactionsRepository.getTransactionFeeWithProductCode(
-                    productCode,
-                    remittanceFeeRequestBody
-                )) {
-                is RetroApiResponse.Success -> {
-                    transactionFeeResponse.value = response.data.data
-                }
-                is RetroApiResponse.Error -> {
-                    state.loading = false
-                    isAPIFailed.value = true
-                    state.toast = response.error.message
-                }
-            }
-        }
     }
 
     override fun getTransactionInternationalfxList(productCode: String?) {
@@ -100,25 +87,20 @@ class InternationalFundsTransferViewModel(application: Application) :
         }
     }
 
-    override fun getReasonList(productCode: String?) {
+    override fun getReasonList(productCode: String) {
+//        state.loading = true
         launch {
-            transactionData.clear()
-            //            state.loading = true
             when (val response =
-                mTransactionsRepository.getTransactionInternationalReasonList(productCode)) {
+                mTransactionsRepository.getPurposeOfPayment(productCode)) {
                 is RetroApiResponse.Success -> {
-                    if (response.data.data.isNullOrEmpty()) return@launch
-                    response.data.data?.let {
-                        transactionData.addAll(it.map { item ->
-                            InternationalFundsTransferReasonList.ReasonList(
-                                code = item.code ?: "",
-                                reason = item.reason ?: ""
-                            )
-                        })
+                    if (!response.data.data.isNullOrEmpty()) {
+                        purposeOfPaymentList.value =
+                            response.data.data as? ArrayList<PurposeOfPayment>?
                     }
-                    populateSpinnerData.value = transactionData
+//                    state.loading = false
                 }
                 is RetroApiResponse.Error -> {
+                    state.loading = false
                     state.toast = response.error.message
                     isAPIFailed.value = true
                 }
@@ -180,31 +162,25 @@ class InternationalFundsTransferViewModel(application: Application) :
         }
     }
 
-    fun getFeeFromTier(enterAmount: String?): String? {
-        return if (!enterAmount.isNullOrBlank()) {
-            val fee = feeTiers.filter { item ->
-                item.amountFrom ?: 0.0 <= enterAmount.parseToDouble() && item.amountTo ?: 0.0 >= enterAmount.parseToDouble()
-            }
-            fee[0].feeAmount?.plus(fee[0].vatAmount ?: 0.0).toString()
-        } else {
-            null
+    override fun processPurposeList(list: ArrayList<PurposeOfPayment>) {
+        purposeCategories = list.groupBy { item ->
+            item.purposeCategory
         }
     }
 
+    fun updateFees() {
+        updateFees(state.etInputAmount.toString())
+    }
+
     fun getTotalAmountWithFee(): Double {
-        return (when (transactionFeeResponse.value?.feeType) {
+        return (when (feeType) {
             FeeType.TIER.name -> {
-                val transferFee = getFeeFromTier(state.etInputAmount)
-                state.etInputAmount?.toDoubleOrNull() ?: 0.0.plus(
-                    transferFee?.toDoubleOrNull() ?: 0.0
-                )
+                val transferFee = getFeeFromTier(state.etInputAmount.toString())
+                state.etInputAmount.parseToDouble().plus(transferFee.parseToDouble())
             }
             FeeType.FLAT.name -> {
-                val transferFee = transactionFeeResponse.value?.tierRateDTOList?.get(0)
-                    ?.feeAmount?.plus(
-                    transactionFeeResponse.value?.tierRateDTOList?.get(0)?.vatAmount ?: 0.0
-                )
-                state.etInputAmount?.toDoubleOrNull() ?: 0.0.plus(transferFee ?: 0.0)
+                val transferFee = getFlatFee(state.etInputAmount.toString())
+                state.etInputAmount.parseToDouble().plus(transferFee.parseToDouble())
             }
             else -> {
                 0.00
@@ -226,4 +202,51 @@ class InternationalFundsTransferViewModel(application: Application) :
             state.etOutputAmount = ""
         }
     }
+
+    override fun getCutOffTimeConfiguration() {
+        parentViewModel?.beneficiary?.value?.run {
+            beneficiaryType?.let { beneficiaryType ->
+                if (beneficiaryType.isNotEmpty())
+                    when (SendMoneyBeneficiaryType.valueOf(beneficiaryType)) {
+                        SendMoneyBeneficiaryType.SWIFT, SendMoneyBeneficiaryType.UAEFTS -> {
+                            launch {
+                                when (val response =
+                                    mTransactionsRepository.getCutOffTimeConfiguration(
+                                        getProductCode(),
+                                        currency,
+                                        if (state.etInputAmount.toString().isEmpty()) "0.0" else state.etInputAmount.toString(),
+                                        parentViewModel?.selectedPop?.cbwsi ?: false
+                                    )) {
+                                    is RetroApiResponse.Success -> {
+                                        response.data.data?.let {
+                                            transactionMightGetHeld.value = true
+                                        }
+
+                                    }
+                                    is RetroApiResponse.Error -> {
+                                        transactionMightGetHeld.value = false
+                                    }
+                                }
+                            }
+                        }
+                    }
+            }
+        }
+    }
+
+    private fun getProductCode(): String? {
+        parentViewModel?.beneficiary?.value?.beneficiaryType?.let {
+            when (SendMoneyBeneficiaryType.valueOf(it)) {
+                SendMoneyBeneficiaryType.SWIFT -> {
+                    return TransactionProductCode.SWIFT.pCode
+                }
+                SendMoneyBeneficiaryType.UAEFTS -> {
+                    TransactionProductCode.UAEFTS.pCode
+                }
+                else -> null
+            }
+        }
+        return null
+    }
+
 }

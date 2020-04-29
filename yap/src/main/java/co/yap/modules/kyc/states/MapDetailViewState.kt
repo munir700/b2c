@@ -61,7 +61,7 @@ class MapDetailViewState(application: Application) : BaseState(), IMapDetailView
         get() = validateAddress()
 
     private fun validateAddress(): Boolean {
-        if (!addressField.isNullOrEmpty() && addressField.length >= 2 /*&& addressField.length <= 100*/) {
+        if (!addressField.isNullOrEmpty() && addressField.length >= 2 && !landmarkField.isNullOrEmpty() && landmarkField.length >= 2 /*&& addressField.length <= 100*/) {
 
             return true
         } else {

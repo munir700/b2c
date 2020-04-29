@@ -20,11 +20,10 @@ import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.SingleLiveEvent
 import co.yap.yapcore.constants.Constants.KEY_IS_USER_LOGGED_IN
+import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.toast
-import co.yap.yapcore.leanplum.trackEventWithAttributes
-import co.yap.yapcore.managers.MyUserManager
 import java.util.concurrent.TimeUnit
 
 class VerifyPasscodeViewModel(application: Application) :
@@ -159,12 +158,13 @@ class VerifyPasscodeViewModel(application: Application) :
                     }
                 }
                 is RetroApiResponse.Error -> {
-                    state.toast = response.error.message
+                    state.toast = "${response.error.message}^${AlertType.DIALOG.name}"
                     state.loading = false
                 }
             }
         }
     }
+
     override fun createOtp() {
         launch {
             state.loading = true
@@ -174,7 +174,7 @@ class VerifyPasscodeViewModel(application: Application) :
                     createOtpResult.postValue(true)
                 }
                 is RetroApiResponse.Error -> {
-                    state.toast = response.error.message
+                    state.toast = "${response.error.message}^${AlertType.DIALOG.name}"
                     state.loading = false
                 }
             }
@@ -205,7 +205,7 @@ class VerifyPasscodeViewModel(application: Application) :
                             forgotPasscodeButtonPressEvent.setValue(id)
                         }
                         is RetroApiResponse.Error -> {
-                            state.toast = response.error.message
+                            state.toast = "${response.error.message}^${AlertType.DIALOG.name}"
                             state.loading = false
                         }
                     }

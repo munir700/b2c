@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.text.InputFilter
 import android.text.Spannable
 import android.text.SpannableStringBuilder
 import android.text.style.ForegroundColorSpan
@@ -14,13 +15,15 @@ import androidx.lifecycle.ViewModelProviders
 import co.yap.R
 import co.yap.modules.dashboard.cards.paymentcarddetail.addfunds.activities.AddFundsActivity
 import co.yap.modules.dashboard.cards.paymentcarddetail.addfunds.interfaces.IFundActions
+import co.yap.modules.dashboard.cards.paymentcarddetail.addfunds.viewmodels.FundActionsViewModel
 import co.yap.modules.dashboard.cards.paymentcarddetail.removefunds.viewmodels.RemoveFundsViewModel
 import co.yap.modules.others.helper.Constants
 import co.yap.networking.cards.responsedtos.Card
 import co.yap.networking.cards.responsedtos.CardBalance
 import co.yap.translation.Strings
 import co.yap.yapcore.enums.TransactionProductCode
-import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.helpers.DecimalDigitsInputFilter
+import co.yap.yapcore.helpers.extentions.afterTextChanged
 import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 import co.yap.yapcore.helpers.spannables.color
 import co.yap.yapcore.helpers.spannables.getText
@@ -31,6 +34,7 @@ class RemoveFundsActivity : AddFundsActivity() {
 
     private var fundsRemoved: Boolean = false
     private lateinit var updatedSpareCardBalance: String
+    private var parentViewModel: FundActionsViewModel? = null
 
     companion object {
         private const val CARD = "card"
@@ -47,6 +51,9 @@ class RemoveFundsActivity : AddFundsActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        parentViewModel =
+            this.let { ViewModelProviders.of(it).get(FundActionsViewModel::class.java) }
+        parentViewModel?.getTransferFees(TransactionProductCode.WITHDRAW_SUPPLEMENTARY_CARD.pCode)
         setupData()
         viewModel.firstDenominationClickEvent.observe(this, Observer {
             hideKeyboard()
@@ -75,43 +82,47 @@ class RemoveFundsActivity : AddFundsActivity() {
     }
 
     override fun setObservers() {
-        viewModel.getFee(TransactionProductCode.WITHDRAW_SUPPLEMENTARY_CARD.pCode)
-        viewModel.clickEvent.observe(this, Observer {
-            when (it) {
-                R.id.btnAction -> (if (viewModel.state.buttonTitle != getString(Strings.screen_success_funds_transaction_display_text_button)) {
-                    viewModel.removeFunds()
-                } else {
-                    if (fundsRemoved) {
-                        setupActionsIntent()
-                    }
-                    this.finish()
-                })
-                R.id.ivCross -> this.finish()
-                R.id.tbIvClose -> this.finish()
-
-                viewModel.EVENT_REMOVE_FUNDS_SUCCESS -> {
-                    fundsRemoved = true
-                    setUpSuccessData()
-                    performSuccessOperations()
-                    etAmount.visibility = View.GONE
-                    viewModel.state.buttonTitle =
-                        getString(Strings.screen_success_funds_transaction_display_text_button)
-                }
-                co.yap.yapcore.constants.Constants.CARD_FEE -> {
-                    viewModel.state.transferFee =
-                        resources.getText(
-                            getString(Strings.common_text_fee), this.color(
-                                R.color.colorPrimaryDark,
-                                "${viewModel.state.currencyType} ${
-                                viewModel.state.fee?.toFormattedCurrency()}"
-                            )
-                        )
-                }
-            }
-
-
+        parentViewModel?.isFeeReceived?.observe(this, Observer {
+            if (it) parentViewModel?.updateFees(viewModel.state.amount ?: "")
         })
+        parentViewModel?.updatedFee?.observe(this, Observer {
+            if (it.isNotBlank()) setSpannableFee(it)
+        })
+        viewModel.clickEvent.observe(this, clickEvent)
+    }
 
+    private fun setSpannableFee(feeAmount: String?) {
+        viewModel.state.transferFee =
+            resources.getText(
+                getString(Strings.common_text_fee), this.color(
+                    R.color.colorPrimaryDark,
+                    "${viewModel.state.currencyType} ${feeAmount?.toFormattedCurrency()}"
+                )
+            )
+    }
+
+    private val clickEvent = Observer<Int> {
+        when (it) {
+            R.id.btnAction -> (if (viewModel.state.buttonTitle != getString(Strings.screen_success_funds_transaction_display_text_button)) {
+                viewModel.removeFunds()
+            } else {
+                if (fundsRemoved) {
+                    setupActionsIntent()
+                }
+                this.finish()
+            })
+            R.id.ivCross -> this.finish()
+            R.id.tbIvClose -> this.finish()
+
+            viewModel.EVENT_REMOVE_FUNDS_SUCCESS -> {
+                fundsRemoved = true
+                setUpSuccessData()
+                performSuccessOperations()
+                etAmount.visibility = View.GONE
+                viewModel.state.buttonTitle =
+                    getString(Strings.screen_success_funds_transaction_display_text_button)
+            }
+        }
     }
 
     private fun setupData() {
@@ -130,6 +141,8 @@ class RemoveFundsActivity : AddFundsActivity() {
         viewModel.state.availableBalanceText =
             " " + getString(Strings.common_text_currency_type) + " " +
                     card.availableBalance.toFormattedCurrency()
+
+        setEditTextWatcher()
     }
 
     override fun onDestroy() {
@@ -207,6 +220,14 @@ class RemoveFundsActivity : AddFundsActivity() {
     override fun onBackPressed() {
     }
 
+    private fun setEditTextWatcher() {
+        etAmount.filters =
+            arrayOf(InputFilter.LengthFilter(7), DecimalDigitsInputFilter(2))
+
+        etAmount.afterTextChanged {
+            parentViewModel?.updateFees(viewModel.state.amount ?: "")
+        }
+    }
     private fun setupActionsIntent() {
         val returnIntent = Intent()
         returnIntent.putExtra("newBalance", updatedSpareCardBalance)

@@ -1,7 +1,8 @@
 package co.yap.modules.dashboard.home.interfaces
-import co.yap.modules.yapnotification.models.Notification
+
+import co.yap.modules.dashboard.home.models.HomeNotification
 
 interface NotificationItemClickListener {
-    fun onClick(notification: Notification)
-    fun onCloseClick(notification: Notification) {}
+    fun onClick(notification: HomeNotification)
+    fun onCloseClick(notification: HomeNotification) {}
 }

@@ -14,12 +14,8 @@ import co.yap.translation.Translator.getString
 import co.yap.yapcore.BaseBindingRecyclerAdapter
 import co.yap.yapcore.enums.TransactionProductCode
 import co.yap.yapcore.enums.TxnType
-import co.yap.yapcore.helpers.DateUtils.FORMATE_TIME_24H
-import co.yap.yapcore.helpers.DateUtils.FORMAT_LONG_INPUT
-import co.yap.yapcore.helpers.DateUtils.reformatStringDate
 import co.yap.yapcore.helpers.ImageBinding
 import co.yap.yapcore.helpers.extentions.*
-
 
 class TransactionsListingAdapter(private val list: MutableList<Content>) :
     BaseBindingRecyclerAdapter<Content, RecyclerView.ViewHolder>(list) {
@@ -64,22 +60,9 @@ class TransactionsListingAdapter(private val list: MutableList<Content>) :
             var txnAmountPreFix = ""
             transaction.txnType?.let {
                 when (it) {
-                    TxnType.CREDIT.type -> {
-                        txnAmountPreFix = "+"
-                        itemTransactionListBinding.tvTransactionAmount.setTextColor(
-                            context.getColors(
-                                R.color.colorSecondaryGreen
-                            )
-                        )
-                    }
-                    TxnType.DEBIT.type -> {
-                        txnAmountPreFix = "-"
-                        itemTransactionListBinding.tvTransactionAmount.setTextColor(
-                            context.getColors(
-                                R.color.colorPrimaryDark
-                            )
-                        )
-                    }
+                    TxnType.DEBIT.type -> txnAmountPreFix = "-"
+                    TxnType.CREDIT.type -> txnAmountPreFix = "+"
+
                 }
             }
 
@@ -123,9 +106,7 @@ class TransactionsListingAdapter(private val list: MutableList<Content>) :
             itemTransactionListBinding.tvTransactionTimeAndCategory.text = getString(
                 context,
                 R.string.screen_fragment_home_transaction_time_category,
-                reformatStringDate(
-                    transaction.updatedDate ?: "", FORMAT_LONG_INPUT, FORMATE_TIME_24H
-                ), categoryTitle
+                transaction.getFormattedTime(), categoryTitle
             )
         }
 
@@ -172,7 +153,19 @@ class TransactionsListingAdapter(private val list: MutableList<Content>) :
                     if (isTxnCancelled) R.color.greyNormalDark else R.color.greyDark
                 )
             )
-            itemTransactionListBinding.tvTransactionAmount.setTextColor(context.getColors(if (isTxnCancelled) R.color.greyNormalDark else R.color.colorMidnightExpress))
+            itemTransactionListBinding.tvTransactionAmount.setTextColor(
+                context.getColors(
+                    if (isTxnCancelled) {
+                        R.color.greyNormalDark
+                    } else {
+                        if (transaction.txnType == TxnType.CREDIT.type)
+                            R.color.colorSecondaryGreen
+                        else
+                            R.color.colorPrimaryDark
+
+                    }
+                )
+            )
             itemTransactionListBinding.tvCurrency.setTextColor(context.getColors(if (isTxnCancelled) R.color.greyNormalDark else R.color.greyDark))
 
             //strike-thru textview
@@ -180,6 +173,5 @@ class TransactionsListingAdapter(private val list: MutableList<Content>) :
                 if (transaction.isTransactionCancelled()) itemTransactionListBinding.tvTransactionAmount.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG else 0
         }
     }
-
 }
 

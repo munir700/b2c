@@ -116,7 +116,7 @@ interface TransactionsRetroService {
 
     //Cash payout transfer request
     @POST(TransactionsRepository.URL_CASH_PAYOUT_TRANSFER)
-    suspend fun cashPayoutTransferRequest(@Body cashPayoutRequestDTO: CashPayoutRequestDTO): Response<SendMoneyTransactionResponseDTO>
+    suspend fun cashPayoutTransferRequest(@Body sendMoneyTransferRequest: SendMoneyTransferRequest): Response<SendMoneyTransactionResponseDTO>
 
     //Get transaction fee
     @POST(TransactionsRepository.URL_GET_TRANSACTION_FEE_WITH_PRODUCT_CODE)
@@ -132,19 +132,19 @@ interface TransactionsRetroService {
 
     //Domestic transfer request
     @POST(TransactionsRepository.URL_DOMESTIC_TRANSFER)
-    suspend fun domesticTransferRequest(@Body domesticTransactionRequestDTO: DomesticTransactionRequestDTO): Response<SendMoneyTransactionResponseDTO>
+    suspend fun domesticTransferRequest(@Body sendMoneyTransferRequest: SendMoneyTransferRequest): Response<SendMoneyTransactionResponseDTO>
 
     //Uaefts transfer request
     @POST(TransactionsRepository.URL_UAEFTS_TRANSFER)
-    suspend fun uaeftsTransferRequest(@Body uaeftsTransactionRequestDTO: UAEFTSTransactionRequestDTO): Response<SendMoneyTransactionResponseDTO>
+    suspend fun uaeftsTransferRequest(@Body sendMoneyTransferRequest: SendMoneyTransferRequest): Response<SendMoneyTransactionResponseDTO>
 
     //RMT transfer request
     @POST(TransactionsRepository.URL_RMT_TRANSFER)
-    suspend fun rmtTransferRequest(@Body rmtTransactionRequestDTO: RMTTransactionRequestDTO): Response<SendMoneyTransactionResponseDTO>
+    suspend fun rmtTransferRequest(@Body sendMoneyTransferRequest: SendMoneyTransferRequest): Response<SendMoneyTransactionResponseDTO>
 
     //Swift transfer request
     @POST(TransactionsRepository.URL_SWIFT_TRANSFER)
-    suspend fun swiftTransferRequest(@Body swiftTransactionRequestDTO: SwiftTransactionRequestDTO): Response<SendMoneyTransactionResponseDTO>
+    suspend fun swiftTransferRequest(@Body sendMoneyTransferRequest: SendMoneyTransferRequest): Response<SendMoneyTransactionResponseDTO>
 
     @GET(TransactionsRepository.URL_HOUSEHOLD_CARD_FEE_PACKAGE)
     suspend fun getHousholdFeePackage(@Path("pkg-type") packageType: String): Response<RemittanceFeeResponse>
@@ -156,7 +156,8 @@ interface TransactionsRetroService {
     suspend fun getCutOffTimeConfiguration(
         @Query("productCode") productCode: String?,
         @Query("currency") currency: String?,
-        @Query("amount") amount: String?
+        @Query("amount") amount: String?,
+        @Query("isCbwsi") isCbwsi: Boolean?
     ): Response<CutOffTime>
 
     @GET(TransactionsRepository.URL_GET_ACHIEVEMENTS)

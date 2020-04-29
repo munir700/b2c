@@ -200,13 +200,14 @@ class ProfileSettingsViewModel(application: Application) :
                     state.fullName = MyUserManager.user?.currentCustomer?.getFullName() ?: ""
                     state.nameInitialsVisibility = GONE
                     state.loading = false
-                }
+                }//https://dev.yap.co/customers/api/document-information?documentType=EMIRATES_ID
             }
         }
     }
 
     override fun requestProfileDocumentsInformation() {
         launch {
+            state.loading = true
             when (val response = repository.getMoreDocumentsByType("EMIRATES_ID")) {
                 is RetroApiResponse.Success -> {
                     parentViewModel?.document =
@@ -216,6 +217,7 @@ class ProfileSettingsViewModel(application: Application) :
                     data.data?.dateExpiry?.let {
                         getExpiryDate(it)
                     }
+                    state.loading = false
                 }
 
                 is RetroApiResponse.Error -> {
@@ -223,6 +225,7 @@ class ProfileSettingsViewModel(application: Application) :
                         state.isShowErrorIcon.set(true)
                     MyUserManager.eidStatus =
                         EIDStatus.NOT_SET  //set the document is required if not found
+                    state.loading = false
                 }
             }
         }
@@ -232,12 +235,10 @@ class ProfileSettingsViewModel(application: Application) :
         val simpleDateFormat = SimpleDateFormat("yyyy-MM-dd")
         val expireyDate = simpleDateFormat.parse(expiryDateString)
         val cal = Calendar.getInstance()
-        cal.add(Calendar.DAY_OF_YEAR, -1)
-
-        val prevDay = simpleDateFormat.format(cal.time)
-        val previousDayDate = simpleDateFormat.parse(prevDay)
-        state.isShowErrorIcon.set(expireyDate < previousDayDate)
+        val currentDay = simpleDateFormat.format(cal.time)
+        val currentDayDate = simpleDateFormat.parse(currentDay)
+        state.isShowErrorIcon.set(expireyDate < currentDayDate)
         MyUserManager.eidStatus =
-            if (expireyDate < previousDayDate) EIDStatus.EXPIRED else EIDStatus.VALID
+            if (expireyDate < currentDayDate) EIDStatus.EXPIRED else EIDStatus.VALID
     }
 }
