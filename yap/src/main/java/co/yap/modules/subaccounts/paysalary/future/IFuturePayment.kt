@@ -4,7 +4,7 @@ import android.content.Context
 import androidx.databinding.ObservableField
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.MutableLiveData
-import co.yap.networking.customers.responsedtos.SubAccount
+import co.yap.networking.customers.household.responsedtos.SubAccount
 import co.yap.yapcore.IBase
 
 interface IFuturePayment {

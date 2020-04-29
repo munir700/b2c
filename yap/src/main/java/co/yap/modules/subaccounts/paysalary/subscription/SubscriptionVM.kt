@@ -3,10 +3,9 @@ package co.yap.modules.subaccounts.paysalary.subscription
 import android.content.Context
 import android.os.Bundle
 import androidx.navigation.NavController
-import co.yap.networking.customers.CustomerHHApi
-import co.yap.networking.customers.CustomersHHRepository
-import co.yap.networking.customers.CustomersRepository
-import co.yap.networking.customers.responsedtos.SubAccount
+import co.yap.networking.customers.household.CustomerHHApi
+import co.yap.networking.customers.household.CustomersHHRepository
+import co.yap.networking.customers.household.responsedtos.SubAccount
 import co.yap.networking.models.RetroApiResponse
 import co.yap.translation.Strings
 import co.yap.widgets.State

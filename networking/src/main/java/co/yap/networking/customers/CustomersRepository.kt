@@ -7,7 +7,6 @@ import co.yap.networking.customers.requestdtos.*
 import co.yap.networking.customers.responsedtos.*
 import co.yap.networking.customers.responsedtos.beneficiary.BankParamsResponse
 import co.yap.networking.customers.responsedtos.documents.GetMoreDocumentsResponse
-import co.yap.networking.customers.responsedtos.household.HouseHoldGetSubscriptionResponseDTO
 import co.yap.networking.customers.responsedtos.sendmoney.AddBeneficiaryResponseDTO
 import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.networking.customers.responsedtos.sendmoney.Country
@@ -106,23 +105,10 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     const val URL_APP_VERSION = "/customers/api/mobile-app-versions"
     //.................... End region of admin repo urls................................................
 
-    /**
-     * House Hold Employee interface APIS (Sub Accounts)
-     **/
-    const val URL_GET_SUB_ACCOUNTS = "/customers/api/account/get-sub-accounts/"
-    const val URL_REFUND_REMOVE_HOUSEHOLD =
-        "/customers/api/household/refund-remove-household/{UUID}"
-    const val URL_RESEND_HOUSEHOLD = "/customers/api/household/resend-household/{UUID}"
-    const val URL_GET_PROFILE_HOUSEHOLD_USER = "/customers/api/household/household-user/{UUID}"
-    const val URL_GET_HOUSE_HOLD_SUBSCRIPTION = "customers/api/household/get-subscription/{UUID}"
-    const val URL_SETUP_HOUSE_HOLD_SUBSCRIPTION =
-        "customers/api/household/setup-subscription/{UUID}"
-    const val URL_CANCEL_HOUSE_HOLD_SUBSCRIPTION =
-        "customers/api/household/cancel-subscription/{UUID}"
-    const val URL_REACTIVATE_HOUSE_HOLD_SUBSCRIPTION = "customers/api/household/reactivate-subscription/{UUID}"
 
 
-     val api: CustomersRetroService =
+
+     private val api: CustomersRetroService =
         RetroNetwork.createService(CustomersRetroService::class.java)
 
     override suspend fun signUp(signUpRequest: SignUpRequest): RetroApiResponse<SignUpResponse> {

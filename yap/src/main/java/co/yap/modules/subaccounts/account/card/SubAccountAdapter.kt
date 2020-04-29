@@ -4,11 +4,10 @@ import android.view.View
 import androidx.databinding.ViewDataBinding
 import androidx.navigation.NavController
 import co.yap.BR
-import co.yap.networking.customers.responsedtos.SubAccount
+import co.yap.networking.customers.household.responsedtos.SubAccount
 import co.yap.widgets.advrecyclerview.draggable.DraggableItemAdapter
 import co.yap.widgets.advrecyclerview.draggable.DraggableItemState
 import co.yap.widgets.advrecyclerview.draggable.DraggableItemViewHolder
-import co.yap.widgets.advrecyclerview.draggable.ItemDraggableRange
 import co.yap.yapcore.BaseRVAdapter
 import co.yap.yapcore.BaseViewHolder
 

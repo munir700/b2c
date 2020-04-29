@@ -1,12 +1,13 @@
-package co.yap.networking.customers
+package co.yap.networking.customers.household
 
-import co.yap.networking.customers.responsedtos.SubAccounts
-import co.yap.networking.customers.responsedtos.household.HouseHoldGetSubscriptionResponseDTO
-import co.yap.networking.customers.responsedtos.household.HouseHoldUserProfile
+import co.yap.networking.customers.CustomersApi
+import co.yap.networking.customers.household.responsedtos.SubAccounts
+import co.yap.networking.customers.household.responsedtos.HouseHoldGetSubscriptionResponseDTO
+import co.yap.networking.customers.household.responsedtos.HouseHoldUserProfile
 import co.yap.networking.models.ApiResponse
 import co.yap.networking.models.RetroApiResponse
 
-interface CustomerHHApi:CustomersApi {
+interface CustomerHHApi: CustomersApi {
     //    SubAccount Card Get All subaccounts for a YAP user:
     suspend fun getSubAccounts(): RetroApiResponse<SubAccounts>
 

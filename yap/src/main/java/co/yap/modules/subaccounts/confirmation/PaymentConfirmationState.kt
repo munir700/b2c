@@ -1,7 +1,7 @@
 package co.yap.modules.subaccounts.confirmation
 
 import androidx.lifecycle.MutableLiveData
-import co.yap.networking.customers.responsedtos.SubAccount
+import co.yap.networking.customers.household.responsedtos.SubAccount
 import co.yap.yapcore.BaseState
 
 class PaymentConfirmationState : BaseState(), IPaymentConfirmation.State {

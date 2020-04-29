@@ -2,7 +2,7 @@ package co.yap.modules.subaccounts.paysalary.transfer
 
 import android.os.Bundle
 import androidx.navigation.NavController
-import co.yap.networking.customers.responsedtos.SubAccount
+import co.yap.networking.customers.household.responsedtos.SubAccount
 import co.yap.yapcore.dagger.base.viewmodel.DaggerBaseViewModel
 import javax.inject.Inject
 
