@@ -34,7 +34,7 @@
                 android:layout_gravity="center_horizontal"
                 app:colorType="@{`Beneficiary`}"
                 app:fullName="@{viewModel.state.customer.fullName}"
-                app:imageUrl="@{viewModel.state.customer.picture}"
+                app:imageUrl="@{viewModel.state.subAccount.profilePictureUrl}"
                 app:position="@{0}" />
 
             <include

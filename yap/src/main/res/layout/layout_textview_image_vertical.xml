@@ -27,7 +27,11 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             android:src="@drawable/ic_store_b2c"
-            app:srcCompat="@drawable/ic_store_b2c" />
+            app:colorType="@{`Beneficiary`}"
+            app:fullName="@{name}"
+            app:imageUrl="@{imageUrl}"
+            app:srcCompat="@drawable/ic_store_b2c"
+            app:position="@{0}"/>
 
         <androidx.appcompat.widget.AppCompatTextView
             style="@style/Yap.App.Widget.TextView.FullName"
