@@ -67,7 +67,8 @@ class SuccessFragment : BaseBindingFragment<ISuccess.ViewModel>(),
 
     private fun loadData() {
         successType = args.successType
-        val fcs = ForegroundColorSpan(ContextCompat.getColor(requireContext(), R.color.colorPrimaryDark))
+        val fcs =
+            ForegroundColorSpan(ContextCompat.getColor(requireContext(), R.color.colorPrimaryDark))
 
         val separatedPrimary =
             args.staticString.split(args.destinationValue)
@@ -85,7 +86,12 @@ class SuccessFragment : BaseBindingFragment<ISuccess.ViewModel>(),
             cvLocationCard.visibility = VISIBLE
             addressField =
                 MyUserManager.userAddress?.address1 + " " + MyUserManager.userAddress?.address2
-            tvSuccessSubHeading.setTextColor(ContextCompat.getColor(requireContext(), R.color.greyDark))
+            tvSuccessSubHeading.setTextColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    R.color.greyDark
+                )
+            )
 
             tvSuccessSubHeading.text = addressStr
             if (!MyUserManager.userAddress?.address2.isNullOrEmpty()) {
@@ -94,6 +100,11 @@ class SuccessFragment : BaseBindingFragment<ISuccess.ViewModel>(),
             if (!MyUserManager.userAddress?.address1.isNullOrEmpty()) {
                 tvAddressSubTitle.setText(MyUserManager.userAddress?.address1)
             }
+            Glide.with(ivLocationPhoto.context)
+                .load("")
+                .placeholder(R.drawable.location_place_holder)
+                .transforms(CenterCrop(), RoundedCorners(15))
+                .into(ivLocationPhoto)
         } else {
             tvSuccessSubHeading.text = primaryStr
         }

@@ -10,18 +10,25 @@ import co.yap.yapcore.SingleClickEvent
 
 interface ILocationSelection {
 
-    interface View : IBase.View<ViewModel>{
+    interface View : IBase.View<ViewModel> {
         fun setObservers()
     }
+
     interface ViewModel : IBase.ViewModel<State> {
+        var isUnNamedLocation: Boolean
+        var hasSeletedLocation: Boolean
+        var unNamed: String
+        var defaultHeading: String
         var clickEvent: SingleClickEvent
         var isMapExpanded: MutableLiveData<Boolean>
+        var termsCheckedTime: MutableLiveData<String>
         var address: Address?
         fun onLocationSelected()
         fun handleOnPressView(id: Int)
     }
 
     interface State : IBase.State {
+        var isUnNamed: ObservableField<Boolean>
         var toolbarVisibility: Boolean
         var isShowLocationCard: ObservableField<Boolean>
         var headingTitle: ObservableField<String>
@@ -29,12 +36,13 @@ interface ILocationSelection {
         var placeTitle: ObservableField<String>
         var placeSubTitle: ObservableField<String>
         var placePhoto: ObservableField<Bitmap>
-        var addressTitle: String
+        var addressTitle: ObservableField<String>
         var addressSubtitle: ObservableField<String>
         var isTermsChecked: ObservableField<Boolean>
         var valid: ObservableField<Boolean>
         var showTermsCondition: ObservableField<Boolean>
         var isLocationInAllowedCountry: ObservableField<Boolean>
+        var isOnBoarding: ObservableField<Boolean>
 
     }
 }

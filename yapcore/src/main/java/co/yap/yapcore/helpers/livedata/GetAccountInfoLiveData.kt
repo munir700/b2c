@@ -1,6 +1,5 @@
 package co.yap.yapcore.helpers.livedata
 
-import android.util.Log
 import androidx.annotation.MainThread
 import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.customers.responsedtos.AccountInfo
@@ -74,6 +73,7 @@ class GetAccountInfoLiveData : LiveDataCallAdapter<AccountInfo?>() {
 
     override fun onInactive() {
         super.onInactive()
+        value = null
         cancelAllJobs()
     }
 

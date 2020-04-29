@@ -59,7 +59,6 @@ class YapStoreFragment : BaseBindingFragment<IYapStore.ViewModel>(), IYapStore.V
                         putExtra(NAVIGATION_Graph_ID, R.navigation.iban_subaccount_navigation)
                         putExtra(NAVIGATION_Graph_START_DESTINATION_ID, R.id.subAccountDashBoardFragment)
                     }
-//                    launchActivity<HouseHoldLandingActivity>(requestCode = RequestCodes.REQUEST_ADD_HOUSE_HOLD)
                 }
             }
         }

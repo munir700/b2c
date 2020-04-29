@@ -4,7 +4,6 @@ import android.content.Context
 import androidx.databinding.ObservableField
 import androidx.fragment.app.FragmentManager
 import co.yap.yapcore.IBase
-import java.util.*
 
 interface IRecurringPayment {
     interface View : IBase.View<ViewModel>

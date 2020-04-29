@@ -56,7 +56,7 @@ open class ConfirmNewCardPinFragment : ConfirmCardPinFragment() {
             }
         })
         viewModel.errorEvent.observe(this, Observer {
-            dialer.startAnimationDigits()
+            dialer.startAnimation()
         })
     }
 

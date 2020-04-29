@@ -211,4 +211,71 @@
         <item name="fontFamily">@font/roboto_regular</item>
         <item name="font">@font/roboto_regular</item>
     </style>
+
+    <style name="Yap.App.Widget.TextInputEditText.SetPin" parent="Yap.App.Widget.TextView">
+        <item name="android:gravity">center</item>
+        <item name="android:lineSpacingExtra">0dp</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:paddingStart">@dimen/_60sdp</item>
+        <item name="android:layout_marginTop">@dimen/margin_large</item>
+        <item name="android:paddingEnd">@dimen/_60sdp</item>
+    </style>
+
+    <style name="Yap.App.Widget.TextInputEditText.PinCode" parent="Yap.App.Widget.TextInputEditText">
+        <item name="android:gravity">center_horizontal</item>
+        <item name="android:letterSpacing">0.2</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:background">@color/white</item>
+        <item name="android:focusable">false</item>
+        <item name="android:textSize">@dimen/text_size_h6</item>
+        <item name="android:maxLength">6</item>
+        <item name="android:layout_marginTop">@dimen/margin_medium</item>
+    </style>
+
+    <style name="Yap.App.Widget.NumberKeyboard" parent="AppFontRegular">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_marginRight">@dimen/_60sdp</item>
+        <item name="android:layout_marginLeft">@dimen/_60sdp</item>
+        <item name="android:layout_marginTop">@dimen/margin_normal</item>
+        <item name="android:gravity">center_horizontal</item>
+    </style>
+
+    <style name="Yap.App.Widget.TermsAndConditions" parent="Yap.App.Widget.TextView">
+        <item name="android:textSize">@dimen/text_size_h1</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:lineSpacingExtra">6sp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:textColor">?attr/colorPrimaryAttr</item>
+    </style>
+
+    <style name="Yap.App.Widget.Button.Action" parent="Widget.AppCompat.Button">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">center</item>
+        <item name="android:paddingStart">@dimen/_65sdp</item>
+        <item name="android:paddingTop">@dimen/_6sdp</item>
+        <item name="android:paddingEnd">@dimen/_65sdp</item>
+        <item name="android:paddingBottom">@dimen/_6sdp</item>
+        <item name="android:layout_marginBottom">@dimen/margin_normal</item>
+        <item name="android:textColor">@color/colorWhite</item>
+        <item name="btn_text_size">@dimen/text_size_h3</item>
+        <item name="btn_shape_type">rectangle</item>
+        <item name="android:enabled">true</item>
+        <item name="android:paddingLeft">@dimen/margin_extra_large</item>
+        <item name="android:paddingRight">@dimen/margin_extra_large</item>
+        <item name="android:theme">?attr/primaryButtonTheme</item>
+        <item name="btn_round_radius">50dp</item>
+        <item name="fontFamily">@font/roboto_medium</item>
+    </style>
+
+    <style name="Yap.App.Widget.ForgotPasscode" parent="Yap.App.Widget.TextView">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginBottom">@dimen/margin_normal</item>
+        <item name="android:textColor">?attr/colorPrimaryAttr</item>
+        <item name="android:textSize">@dimen/text_size_h3</item>
+        <item name="android:lineSpacingExtra">8sp</item>
+    </style>
+
 </resources>

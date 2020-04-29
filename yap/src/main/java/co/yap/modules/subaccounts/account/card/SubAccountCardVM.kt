@@ -16,17 +16,21 @@ import javax.inject.Inject
 class SubAccountCardVM @Inject constructor(override val state: ISubAccountCard.State) :
     BaseRecyclerAdapterVM<SubAccount, ISubAccountCard.State>(), ISubAccountCard.ViewModel {
     private val repository: CustomersRepository = CustomersRepository
-//     val adapter = ObservableField<SimpleWrapperAdapter<*>>()
     override fun onFirsTimeUiCreate(bundle: Bundle?, navigation: NavController?) {
         getSubAccount()
+        getEmptyAccount()?.let { addData(it) }
+    }
+
+    private fun getEmptyAccount(): MutableList<SubAccount>? {
         val accounts = SubAccounts()
         accounts.account?.add(0, SubAccount(accountType = AccountType.B2C_ACCOUNT.name))
         accounts.account?.add(
             1,
             SubAccount(accountType = null, cardStatus = "Add new card")
         )
-        accounts.account?.let { addData(it) }
+        return accounts.account
     }
+
 
     override fun getSubAccount() {
         launch {
@@ -41,14 +45,13 @@ class SubAccountCardVM @Inject constructor(override val state: ISubAccountCard.S
                                 cardStatus = "Add new card"
                             )
                         )
-
                         setData(it)
                     }
                     publishState(State.success(null))
                 }
                 is RetroApiResponse.Error -> {
-                    publishState(State.error(null))
-
+                    getEmptyAccount()?.let { addData(it) }
+                    publishState(State.success(null))
                 }
             }
         }
