@@ -25,6 +25,7 @@ interface ILocationSelection {
         var address: Address?
         fun onLocationSelected()
         fun handleOnPressView(id: Int)
+        fun getCities(): List<String>
     }
 
     interface State : IBase.State {

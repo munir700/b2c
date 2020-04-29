@@ -12,6 +12,7 @@ import android.view.View
 import androidx.core.os.bundleOf
 import androidx.databinding.Observable
 import androidx.lifecycle.Observer
+import co.yap.modules.location.CitiesListBottomSheet
 import co.yap.modules.location.helper.MapSupportActivity
 import co.yap.modules.location.interfaces.ILocationSelection
 import co.yap.modules.webview.WebViewFragment
@@ -31,6 +32,7 @@ import co.yap.yapcore.interfaces.OnItemClickListener
 import com.daimajia.androidanimations.library.Techniques
 import com.daimajia.androidanimations.library.YoYo
 import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import kotlinx.android.synthetic.main.activity_address_selection.*
 import kotlinx.android.synthetic.main.layout_google_maps.*
 import java.text.SimpleDateFormat
@@ -215,9 +217,26 @@ class LocationSelectionActivity : MapSupportActivity(), ILocationSelection.View 
             R.id.tbIvClose -> {
                 setIntentAction(false)
             }
+            R.id.layoutCitiesBottomSheet -> {
+                setupPOP()
+            }
         }
     }
 
+    private fun setupPOP() {
+        var citiesListBottomSheet: BottomSheetDialogFragment? = null
+        this.supportFragmentManager.let {
+            citiesListBottomSheet = CitiesListBottomSheet(object :
+                OnItemClickListener {
+                override fun onItemClick(view: View, data: Any, pos: Int) {
+                    citiesListBottomSheet?.dismiss()
+                    tvSelectedCity.text = (data as String)
+                }
+
+            }, viewModel.getCities())
+            citiesListBottomSheet?.show(it, "")
+        }
+    }
     private fun onMapClickAction() {
         if (!isPermissionGranted(Manifest.permission.ACCESS_FINE_LOCATION)) {
             if (!shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_FINE_LOCATION)) {

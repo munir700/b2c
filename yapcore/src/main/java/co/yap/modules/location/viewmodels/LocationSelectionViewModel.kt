@@ -27,6 +27,18 @@ class LocationSelectionViewModel(application: Application) :
         clickEvent.setValue(id)
     }
 
+    override fun getCities(): List<String> {
+        return arrayListOf(
+            "Abu Dhabi",
+            "Dubai",
+            "Sharjah",
+            "Fujairah",
+            "Ras al Khaima",
+            "Ajman",
+            "Umm al-Quwain"
+        )
+    }
+
     override fun onResume() {
         super.onResume()
         state.toolbarVisibility = true

@@ -159,16 +159,18 @@
                         tools:ignore="MissingConstraints"
                         tools:text="@string/screen_meeting_location_input_text_address_title" />
 
-                    <androidx.appcompat.widget.AppCompatEditText
+                    <EditText
                         android:id="@+id/etAddressField"
                         style="@style/ALarge"
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/_42sdp"
-                        android:layout_marginTop="4dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_4sdp"
+                        android:layout_marginBottom="@dimen/_4sdp"
                         android:focusable="false"
                         android:focusableInTouchMode="false"
                         android:inputType="textPersonName"
                         android:maxLength="100"
+                        android:background="@android:color/transparent"
                         android:onClick="@{(v) -> viewModel.handleOnPressView(v.id)}"
                         android:text="@={viewModel.state.addressTitle}"
                         android:textColor="@color/colorPrimaryDark"
@@ -180,9 +182,16 @@
                         app:layout_constraintTop_toBottomOf="@+id/tvAddressHeading"
                         tools:hint="@string/screen_meeting_location_input_text_address_hint" />
 
-                    <androidx.constraintlayout.widget.ConstraintLayout
-                        android:id="@+id/layoutReasonsSpinner"
+                    <View
+                        android:id="@+id/breakLineAddress"
                         android:layout_width="match_parent"
+                        android:layout_height="@dimen/_1sdp"
+                        android:background="@color/greySoft" />
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/layoutCitiesBottomSheet"
+                        android:layout_width="match_parent"
+                        android:onClick="@{(v)->viewModel.handleOnPressView(v.id)}"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/margin_normal"
                         tools:ignore="NotSibling">
@@ -200,7 +209,7 @@
 
                         <TextView
                             android:id="@+id/tvSelectedCity"
-                            style="@style/ALarge"
+                            style="@style/ASmall"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:paddingTop="@dimen/margin_extra_small"
@@ -247,28 +256,32 @@
                         tools:text="@string/screen_meeting_location_input_text_landmark_title" />
                     <!--                    android:textColor="@{viewModel.state.landMarkTitleColor}"-->
 
-                    <androidx.appcompat.widget.AppCompatEditText
+                    <EditText
                         android:id="@+id/etLandMarkField"
                         style="@style/ALarge"
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/_42sdp"
-                        android:layout_marginTop="4dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_4sdp"
+                        android:layout_marginBottom="@dimen/_4sdp"
                         android:drawablePadding="@dimen/margin_extra_small"
                         android:inputType="textPersonName"
                         android:maxLength="100"
-                        android:minHeight="@dimen/_42sdp"
+                        android:background="@android:color/transparent"
                         android:text="@={viewModel.state.addressSubtitle}"
                         android:textColor="@color/colorPrimaryDark"
                         android:textColorHint="@color/grey"
                         android:textSize="@dimen/text_size_h3"
                         app:drawableClick="@{viewModel.state.addressSubtitle.isEmpty()?false : true}"
                         app:hint="@{Strings.screen_meeting_location_input_text_landmark_hint}"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/tvLandMark"
                         app:textSelection="@{viewModel.state.addressSubtitle}"
                         tools:hint="@string/screen_meeting_location_input_text_landmark_hint"
                         tools:ignore="MissingConstraints" />
+
+                    <View
+                        android:id="@+id/breakLineFlatNo"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_1sdp"
+                        android:background="@color/greySoft" />
 
                     <LinearLayout
                         android:id="@+id/llTermsCondition"
