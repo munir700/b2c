@@ -45,6 +45,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/white"
+                android:paddingBottom="@dimen/margin_normal"
                 android:orientation="vertical"
                 tools:ignore="MissingConstraints">
 
@@ -85,14 +86,16 @@
                     <TextView
                         android:id="@+id/tvAddressSelectionSubHeading"
                         style="@style/ASmallGrey"
+                        android:lineSpacingExtra="2sp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/margin_medium_large"
                         android:layout_marginTop="@dimen/margin_small"
                         android:layout_marginEnd="@dimen/margin_medium_large"
-                        android:layout_marginBottom="@dimen/margin_normal_large"
                         android:gravity="center"
+                        tools:visibility="gone"
                         android:text="@{viewModel.state.subHeadingTitle}"
+                        android:visibility="@{viewModel.state.subHeadingTitle.trim().equals(``) ? View.GONE : View.VISIBLE}"
                         app:layout_constraintTop_toBottomOf="@+id/tvAddressSelectionHeading"
                         tools:text="@string/screen_meeting_location_display_text_subtitle" />
                 </LinearLayout>
@@ -132,214 +135,204 @@
                 android:id="@+id/flAddressDetail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="bottom"
+                android:background="@color/white"
                 android:orientation="vertical"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/rlCollapsedMapSection">
+                android:paddingStart="@dimen/margin_medium_large"
+                android:paddingTop="@dimen/margin_medium"
+                android:paddingEnd="@dimen/margin_medium_large"
+                app:layout_constraintBottom_toBottomOf="parent">
 
-                <LinearLayout
-                    android:id="@+id/lyAddressFields"
+                <TextView
+                    android:id="@+id/tvAddressHeading"
+                    style="@style/ASmall"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center_vertical"
-                    android:background="@color/white"
-                    android:orientation="vertical"
-                    android:paddingStart="@dimen/margin_medium_large"
-                    android:paddingTop="@dimen/margin_medium"
-                    android:paddingEnd="@dimen/margin_medium_large">
+                    android:layout_height="wrap_content"
+                    android:gravity="left|start"
+                    android:textSize="@dimen/text_size_h2"
+                    app:text="@{Strings.screen_meeting_location_input_text_address_title}"
+                    tools:ignore="MissingConstraints"
+                    tools:text="@string/screen_meeting_location_input_text_address_title" />
+
+                <EditText
+                    android:id="@+id/etAddressField"
+                    style="@style/ALarge"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_4sdp"
+                    android:layout_marginBottom="@dimen/_4sdp"
+                    android:background="@android:color/transparent"
+                    android:focusable="false"
+                    android:focusableInTouchMode="false"
+                    android:inputType="textPersonName"
+                    android:maxLength="100"
+                    android:onClick="@{(v) -> viewModel.handleOnPressView(v.id)}"
+                    android:text="@={viewModel.state.addressTitle}"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textColorHint="@color/grey"
+                    android:textSize="@dimen/text_size_h3"
+                    app:hint="@{Strings.screen_meeting_location_input_text_address_hint}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvAddressHeading"
+                    tools:hint="@string/screen_meeting_location_input_text_address_hint" />
+
+                <View
+                    android:id="@+id/breakLineAddress"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_1sdp"
+                    android:background="@color/greySoft" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/layoutCitiesBottomSheet"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_normal"
+                    android:onClick="@{(v)->viewModel.handleOnPressView(v.id)}"
+                    tools:ignore="NotSibling">
 
                     <TextView
-                        android:id="@+id/tvAddressHeading"
+                        android:id="@+id/tvSelectCity"
                         style="@style/ASmall"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:gravity="left|start"
-                        android:textSize="@dimen/text_size_h2"
-                        app:text="@{Strings.screen_meeting_location_input_text_address_title}"
-                        tools:ignore="MissingConstraints"
-                        tools:text="@string/screen_meeting_location_input_text_address_title" />
-
-                    <EditText
-                        android:id="@+id/etAddressField"
-                        style="@style/ALarge"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/_4sdp"
-                        android:layout_marginBottom="@dimen/_4sdp"
-                        android:focusable="false"
-                        android:focusableInTouchMode="false"
-                        android:inputType="textPersonName"
-                        android:maxLength="100"
-                        android:background="@android:color/transparent"
-                        android:onClick="@{(v) -> viewModel.handleOnPressView(v.id)}"
-                        android:text="@={viewModel.state.addressTitle}"
-                        android:textColor="@color/colorPrimaryDark"
-                        android:textColorHint="@color/grey"
-                        android:textSize="@dimen/text_size_h3"
-                        app:hint="@{Strings.screen_meeting_location_input_text_address_hint}"
-                        app:layout_constraintEnd_toEndOf="parent"
+                        android:layout_centerInParent="true"
+                        android:text="Emirate"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/tvAddressHeading"
-                        tools:hint="@string/screen_meeting_location_input_text_address_hint" />
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:text="Emirate" />
+
+                    <TextView
+                        android:id="@+id/tvSelectedCity"
+                        style="@style/ASmall"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingTop="@dimen/margin_extra_small"
+                        android:paddingBottom="@dimen/margin_extra_small"
+                        android:text="Select"
+                        app:layout_constraintStart_toStartOf="@+id/tvSelectCity"
+                        app:layout_constraintTop_toBottomOf="@id/tvSelectCity"
+                        tools:text="Select" />
+
+                    <ImageView
+                        android:id="@+id/ivSelector"
+                        android:layout_width="wrap_content"
+                        android:layout_height="0dp"
+                        android:src="@drawable/ic_up"
+                        android:tint="@color/greyDark"
+                        app:layout_constraintBottom_toBottomOf="@id/tvSelectedCity"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@+id/tvSelectedCity" />
 
                     <View
-                        android:id="@+id/breakLineAddress"
+                        android:id="@+id/breakLine"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/_1sdp"
-                        android:background="@color/greySoft" />
-
-                    <androidx.constraintlayout.widget.ConstraintLayout
-                        android:id="@+id/layoutCitiesBottomSheet"
-                        android:layout_width="match_parent"
-                        android:onClick="@{(v)->viewModel.handleOnPressView(v.id)}"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/margin_normal"
-                        tools:ignore="NotSibling">
-
-                        <TextView
-                            android:id="@+id/tvSelectCity"
-                            style="@style/ASmall"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_centerInParent="true"
-                            android:text="Emirate"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent"
-                            tools:text="Emirate" />
-
-                        <TextView
-                            android:id="@+id/tvSelectedCity"
-                            style="@style/ASmall"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:paddingTop="@dimen/margin_extra_small"
-                            android:paddingBottom="@dimen/margin_extra_small"
-                            android:text="Select"
-                            app:layout_constraintStart_toStartOf="@+id/tvSelectCity"
-                            app:layout_constraintTop_toBottomOf="@id/tvSelectCity"
-                            tools:text="Select" />
-
-                        <ImageView
-                            android:id="@+id/ivSelector"
-                            android:layout_width="wrap_content"
-                            android:layout_height="0dp"
-                            android:src="@drawable/ic_up"
-                            android:tint="@color/greyDark"
-                            app:layout_constraintBottom_toBottomOf="@id/tvSelectedCity"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintTop_toTopOf="@+id/tvSelectedCity" />
-
-                        <View
-                            android:id="@+id/breakLine"
-                            android:layout_width="match_parent"
-                            android:layout_height="@dimen/_1sdp"
-                            android:layout_below="@+id/ivSelector"
-                            android:background="@color/greySoft"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/ivSelector"
-                            tools:ignore="MissingConstraints" />
-
-                    </androidx.constraintlayout.widget.ConstraintLayout>
-
-                    <TextView
-                        android:id="@+id/tvLandMark"
-                        style="@style/ASmall"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/margin_normal"
-                        android:textSize="@dimen/text_size_h2"
+                        android:layout_below="@+id/ivSelector"
+                        android:background="@color/greySoft"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/etAddressField"
-                        app:text="@{Strings.screen_meeting_location_input_text_landmark_title}"
-                        tools:text="@string/screen_meeting_location_input_text_landmark_title" />
-                    <!--                    android:textColor="@{viewModel.state.landMarkTitleColor}"-->
-
-                    <EditText
-                        android:id="@+id/etLandMarkField"
-                        style="@style/ALarge"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/_4sdp"
-                        android:layout_marginBottom="@dimen/_4sdp"
-                        android:drawablePadding="@dimen/margin_extra_small"
-                        android:inputType="textPersonName"
-                        android:maxLength="100"
-                        android:background="@android:color/transparent"
-                        android:text="@={viewModel.state.addressSubtitle}"
-                        android:textColor="@color/colorPrimaryDark"
-                        android:textColorHint="@color/grey"
-                        android:textSize="@dimen/text_size_h3"
-                        app:drawableClick="@{viewModel.state.addressSubtitle.isEmpty()?false : true}"
-                        app:hint="@{Strings.screen_meeting_location_input_text_landmark_hint}"
-                        app:textSelection="@{viewModel.state.addressSubtitle}"
-                        tools:hint="@string/screen_meeting_location_input_text_landmark_hint"
+                        app:layout_constraintTop_toBottomOf="@+id/ivSelector"
                         tools:ignore="MissingConstraints" />
 
-                    <View
-                        android:id="@+id/breakLineFlatNo"
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/_1sdp"
-                        android:background="@color/greySoft" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
-                    <LinearLayout
-                        android:id="@+id/llTermsCondition"
-                        android:layout_width="match_parent"
+                <TextView
+                    android:id="@+id/tvLandMark"
+                    style="@style/ASmall"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_normal"
+                    android:textSize="@dimen/text_size_h2"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/etAddressField"
+                    app:text="@{Strings.screen_meeting_location_input_text_landmark_title}"
+                    tools:text="@string/screen_meeting_location_input_text_landmark_title" />
+                <!--                    android:textColor="@{viewModel.state.landMarkTitleColor}"-->
+
+                <EditText
+                    android:id="@+id/etLandMarkField"
+                    style="@style/ALarge"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_4sdp"
+                    android:layout_marginBottom="@dimen/_4sdp"
+                    android:background="@android:color/transparent"
+                    android:drawablePadding="@dimen/margin_extra_small"
+                    android:inputType="textPersonName"
+                    android:maxLength="100"
+                    android:text="@={viewModel.state.addressSubtitle}"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textColorHint="@color/grey"
+                    android:textSize="@dimen/text_size_h3"
+                    app:drawableClick="@{viewModel.state.addressSubtitle.isEmpty()?false : true}"
+                    app:hint="@{Strings.screen_meeting_location_input_text_landmark_hint}"
+                    app:textSelection="@{viewModel.state.addressSubtitle}"
+                    tools:hint="@string/screen_meeting_location_input_text_landmark_hint"
+                    tools:ignore="MissingConstraints" />
+
+                <View
+                    android:id="@+id/breakLineFlatNo"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_1sdp"
+                    android:background="@color/greySoft" />
+
+                <LinearLayout
+                    android:id="@+id/llTermsCondition"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_normal"
+                    android:orientation="horizontal"
+                    android:visibility="@{viewModel.state.isOnBoarding ? View.VISIBLE:View.GONE}"
+                    tools:visibility="invisible">
+                    <!--android:visibility="@{viewModel.state.isOnBoarding ? (viewModel.state.showTermsCondition ? View.VISIBLE:View.INVISIBLE) : View.INVISIBLE}"-->
+
+                    <CheckBox
+                        android:id="@+id/cbTermsAndConditions"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/margin_normal"
-                        android:orientation="horizontal"
-                        android:visibility="@{viewModel.state.isOnBoarding ? View.VISIBLE:View.INVISIBLE}"
-                        tools:visibility="invisible">
-                        <!--android:visibility="@{viewModel.state.isOnBoarding ? (viewModel.state.showTermsCondition ? View.VISIBLE:View.INVISIBLE) : View.INVISIBLE}"-->
+                        android:checked="@={viewModel.state.isTermsChecked}"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintVertical_bias="0.892" />
 
-                        <CheckBox
-                            android:id="@+id/cbTermsAndConditions"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:checked="@={viewModel.state.isTermsChecked}"
-                            app:layout_constraintLeft_toLeftOf="parent"
-                            app:layout_constraintVertical_bias="0.892" />
-
-                        <TextView
-                            android:id="@+id/tvTerms"
-                            style="@style/AMicroGrey"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            app:text="@{Strings.screen_meeting_location_text_accept_terms}"
-                            tools:text="@string/screen_meeting_location_text_accept_terms" />
-
-                        <TextView
-                            android:id="@+id/tvTermsAndConditions"
-                            style="@style/AMicroGrey"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="@dimen/margin_extra_small"
-                            android:onClick="@{(v)->viewModel.handleOnPressView(v.id)}"
-                            android:textColor="@color/colorPrimary"
-                            app:text="@{Strings.screen_meeting_location_text_terms_and_conditions}"
-                            tools:text="@string/screen_meeting_location_text_terms_and_conditions" />
-
-                    </LinearLayout>
-
-                    <co.yap.widgets.CoreButton
-                        android:id="@+id/nextButton"
-                        style="@style/FragmentsBtnStyle"
-                        android:layout_width="match_parent"
+                    <TextView
+                        android:id="@+id/tvTerms"
+                        style="@style/AMicroGrey"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="bottom"
-                        android:layout_marginLeft="@dimen/margin_btn_side_paddings_xl"
-                        android:layout_marginTop="@dimen/margin_medium"
-                        android:layout_marginRight="@dimen/margin_btn_side_paddings_xl"
-                        android:layout_marginBottom="@dimen/margin_medium_large"
-                        android:gravity="bottom"
-                        android:onClick="@{(v) -> viewModel.handleOnPressView(v.id)}"
-                        app:enableCoreButton="@{viewModel.state.valid}"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:text="@{Strings.common_button_next}"
-                        tools:layout_editor_absoluteX="44dp"
-                        tools:text="@string/common_button_next" />
+                        app:text="@{Strings.screen_meeting_location_text_accept_terms}"
+                        tools:text="@string/screen_meeting_location_text_accept_terms" />
+
+                    <TextView
+                        android:id="@+id/tvTermsAndConditions"
+                        style="@style/AMicroGrey"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/margin_extra_small"
+                        android:onClick="@{(v)->viewModel.handleOnPressView(v.id)}"
+                        android:textColor="@color/colorPrimary"
+                        app:text="@{Strings.screen_meeting_location_text_terms_and_conditions}"
+                        tools:text="@string/screen_meeting_location_text_terms_and_conditions" />
+
                 </LinearLayout>
+
+                <co.yap.widgets.CoreButton
+                    android:id="@+id/nextButton"
+                    style="@style/FragmentsBtnStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:layout_marginLeft="@dimen/margin_btn_side_paddings_xl"
+                    android:layout_marginTop="@dimen/margin_medium"
+                    android:layout_marginRight="@dimen/margin_btn_side_paddings_xl"
+                    android:layout_marginBottom="@dimen/margin_medium_large"
+                    android:background="@color/white"
+                    android:gravity="bottom"
+                    android:onClick="@{(v) -> viewModel.handleOnPressView(v.id)}"
+                    app:enableCoreButton="@{viewModel.state.valid}"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:text="@{Strings.common_button_next}"
+                    tools:text="@string/common_button_next" />
             </LinearLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>

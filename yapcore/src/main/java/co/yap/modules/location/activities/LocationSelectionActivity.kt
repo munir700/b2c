@@ -43,7 +43,7 @@ class LocationSelectionActivity : MapSupportActivity(), ILocationSelection.View 
     companion object {
         private const val HEADING = "heading"
         private const val SUB_HEADING = "subHeading"
-        private const val IS_ON_BOARDING = "subHeading"
+        private const val IS_ON_BOARDING = "isOnBoarding"
         fun newIntent(
             context: Context,
             address: Address,
@@ -71,7 +71,7 @@ class LocationSelectionActivity : MapSupportActivity(), ILocationSelection.View 
 
     private fun addListeners() {
         flTitle.setOnTouchListener { _, _ -> true }
-        lyAddressFields.setOnTouchListener { _, _ -> true }
+        //lyAddressFields.setOnTouchListener { _, _ -> true }
         transparentImage.setOnTouchListener { _, _ -> !((viewModel.isMapExpanded.value) ?: false) }
     }
 
@@ -115,16 +115,13 @@ class LocationSelectionActivity : MapSupportActivity(), ILocationSelection.View 
     }
 
     private fun updateHeadings() {
-        if (intent != null) {
-            if (intent.hasExtra(HEADING)) {
-                viewModel.defaultHeading = intent.getStringExtra(HEADING)
-                viewModel.state.headingTitle.set(viewModel.defaultHeading)
-            }
-            if (intent.hasExtra(SUB_HEADING)) {
-                val subHeading = intent.getStringExtra(SUB_HEADING)
-                viewModel.state.subHeadingTitle.set(subHeading)
-            }
+        val heading = intent?.getValue(HEADING, ExtraType.STRING.name) as? String
+        heading?.let {
+            viewModel.defaultHeading = it
+            viewModel.state.headingTitle.set(it)
         }
+        val subHeading = intent?.getValue(SUB_HEADING, ExtraType.STRING.name) as? String
+        subHeading?.let { viewModel.state.subHeadingTitle.set(subHeading) }
     }
 
     override fun setObservers() {
@@ -137,11 +134,11 @@ class LocationSelectionActivity : MapSupportActivity(), ILocationSelection.View 
             if (it) {
                 hideKeyboard()
                 rlCollapsedMapSection.visibility = View.GONE
-                lyAddressFields.visibility = View.GONE
+                //lyAddressFields.visibility = View.GONE
                 ivClose.visibility = View.VISIBLE
             } else {
                 rlCollapsedMapSection.visibility = View.VISIBLE
-                lyAddressFields.visibility = View.VISIBLE
+                ///lyAddressFields.visibility = View.VISIBLE
                 ivClose.visibility = View.GONE
             }
         })
@@ -237,6 +234,7 @@ class LocationSelectionActivity : MapSupportActivity(), ILocationSelection.View 
             citiesListBottomSheet?.show(it, "")
         }
     }
+
     private fun onMapClickAction() {
         if (!isPermissionGranted(Manifest.permission.ACCESS_FINE_LOCATION)) {
             if (!shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_FINE_LOCATION)) {
