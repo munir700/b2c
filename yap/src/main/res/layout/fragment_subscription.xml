@@ -7,10 +7,7 @@
         <variable
             name="viewModel"
             type="co.yap.modules.subaccounts.paysalary.subscription.SubscriptionVM" />
-
         <import type="co.yap.translation.Strings" />
-
-        <import type="co.yap.yapcore.managers.MyUserManager" />
     </data>
 
     <co.yap.widgets.MultiStateView
@@ -34,11 +31,10 @@
                 android:id="@+id/ivUserImage"
                 style="@style/Yap.App.Widget.ImageView.Circle"
                 android:layout_gravity="center_horizontal"
-                android:contentDescription="@string/empty_string"
                 android:src="@drawable/ic_store_b2b"
                 app:colorType="@{`Beneficiary`}"
-                app:fullName="@{MyUserManager.INSTANCE.user.currentCustomer.fullName}"
-                app:imageUrl="@{MyUserManager.INSTANCE.user.currentCustomer.picture}"
+                app:fullName="@{viewModel.state.subAccount.fullName}"
+                app:imageUrl="@{viewModel.state.subAccount.profilePictureUrl}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -62,7 +58,7 @@
                 layout="@layout/layout_horizontal_text_views"
 
                 app:title="@{@string/screen_household_cancel_subscription_name_title}"
-                app:value="@{MyUserManager.INSTANCE.user.currentCustomer.fullName}" />
+                app:value="@{viewModel.state.subAccount.fullName}" />
 
             <include
                 layout="@layout/layout_horizontal_text_views"

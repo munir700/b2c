@@ -23,8 +23,10 @@
             <include
                 android:id="@+id/include2"
                 layout="@layout/layout_textview_image_vertical"
+                app:imageUrl="@{viewModel.state.subAccount.profilePictureUrl?? ` `}"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:name="@{viewModel.state.subAccount.fullName}" />
 
 
             <androidx.appcompat.widget.AppCompatTextView

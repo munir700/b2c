@@ -4,6 +4,7 @@ import androidx.lifecycle.Observer
 import co.yap.BR
 import co.yap.R
 import co.yap.databinding.FragmentSubscriptionBinding
+import co.yap.translation.Strings
 import co.yap.widgets.MultiStateView
 import co.yap.widgets.State
 import co.yap.widgets.Status
@@ -17,7 +18,7 @@ class SubscriptionFragment :
     override fun getBindingVariable() = BR.viewModel
 
     override fun getLayoutId() = R.layout.fragment_subscription
-    override fun getToolBarTitle() = "Subscription"
+    override fun getToolBarTitle() = getString(Strings.screen_household_subscription_title)
     override fun postExecutePendingBindings() {
         super.postExecutePendingBindings()
         ivUserImage?.setOnClickListener {

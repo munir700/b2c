@@ -1042,12 +1042,48 @@
     <string name="screen_household_set_pin_success_sub_heading_text">Always remember this code and don\'t share it with anyone</string>
     <string name="screen_household_set_pin_success_button_text">Go to dashboard</string>
 
-<!--    House hold set pin screen-->
+    <!--    House hold set pin screen-->
     <string name="screen_household_set_pin_text_title">Create a 4-digit PIN code to access your new card</string>
     <string name="screen_household_set_pin_terms_and_conditions_text_heading">By entering a passcode you agree to our</string>
     <string name="screen_household_set_pin_terms_and_conditions_text">Terms &amp; Conditions</string>
     <string name="screen_household_set_pin_text_button_title">Create PIN code</string>
     <string name="screen_household_set_pin_text_confirm_pin_title">Enter PIN code again</string>
+
+    <!--    House hold payment confirmation screen-->
+    <string name="screen_household_payment_confirmation_tool_bar_text">Payment confirmation</string>
+    <string name="screen_household_normal_payment_success_text">Salary has been transferred successfully</string>
+    <string name="screen_household_normal_payment_recurring_text">How about a recurring payment for %1s\'s salary so you don\'t have to manually transfer money every month? You can stop anytime.</string>
+    <string name="screen_household_normal_payment_set_up_recurring_text">Set up now</string>
+    <string name="screen_household_normal_payment_go_to_dashboard_text">Go to dashboard</string>
+    <string name="screen_household_recurring_payment_success_text">Salary has been transferred successfully and a monthly recurring payment has been set for:</string>
+    <string name="screen_household_recurring_payment_guide_text">We will notify you before each payment in case you require a fund top up on your account</string>
+    <string name="screen_household_recurring_payment_text">You have a set a monthly recurring payment of</string>
+    <string name="screen_household_future_payment_text">You have a set a future payment of</string>
+    <string name="screen_household_recurring_payment_date_text">starting on %1s</string>
+
+    <!--    Pay house hold employee salary-->
+    <string name="screen_household_employee_salary_schedule_once_heading_text">Schedule once</string>
+    <string name="screen_household_employee_salary_future_payment_text">Set up a single payment for a future date</string>
+    <string name="screen_household_employee_salary_recurring_heading_text">Make recurring</string>
+    <string name="screen_household_employee_salary_recurring_text">Set up a standing order for future payments</string>
+    <string name="screen_household_employee_salary_pay_now_button_text">Pay salary now</string>
+
+    <!--Household  Pay Salary Screen-->
+    <string name="screen_household_pay_salary_screen_display_text_title">Pay salary to %1s</string>
+    <string name="screen_household_pay_salary_screen_enter_transfer_amount_title">Enter transfer amount</string>
+    <string name="screen_household_pay_salary_screen_available_balance_text">Your available balance is AED %1s</string>
+    <string name="screen_household_pay_salary_screen_last_salary_text">Use last transfer payment amount</string>
+    <string name="screen_household_pay_salary_screen_recurring_salary_text">Set this salary transfer up as a recurring payment</string>
+    <string name="screen_household_pay_salary_screen_button_text">Confirm</string>
+
+<!--    Future payment screen-->
+    <string name="screen_household_future_payment_screen_tool_bar_text">Set up a future payment</string>
+    <string name="screen_household_future_payment_screen_amount_title_text">Enter transfer amount and date</string>
+    <string name="screen_household_future_payment_screen_available_balance_text">Your available balance is AED %1s</string>
+    <string name="screen_household_future_payment_screen_end_date_heading_text">Enter date of transfer</string>
+    <string name="screen_household_future_payment_screen_button_text">Confirm</string>
+
+
 
 </resources>
 

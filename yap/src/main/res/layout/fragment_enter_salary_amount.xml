@@ -28,13 +28,11 @@
 
             <co.yap.widgets.CoreCircularImageView
                 android:id="@+id/ivUserImage"
-                android:layout_width="@dimen/_62sdp"
-                android:layout_height="@dimen/_62sdp"
-                android:contentDescription="@string/empty_string"
+                style="@style/Yap.App.Widget.ImageView.Circle"
                 android:src="@drawable/ic_store_b2b"
                 app:colorType="@{`Beneficiary`}"
-                app:fullName="@{viewModel.mUserLiveData.currentCustomer.fullName}"
-                app:imageUrl="@{viewModel.mUserLiveData.currentCustomer.picture}"
+                app:fullName="@{viewModel.state.subAccount.fullName}"
+                app:imageUrl="@{viewModel.state.subAccount.profilePictureUrl}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
