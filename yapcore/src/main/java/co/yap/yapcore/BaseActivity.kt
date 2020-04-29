@@ -32,7 +32,7 @@ abstract class BaseActivity<V : IBase.ViewModel<*>> : AppCompatActivity(), IBase
     private var checkConnectivity: Boolean = true
     private lateinit var permissionsManager: PermissionsManager
     private var progress: Dialog? = null
-    lateinit var context: Context
+    open lateinit var context: Context
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
