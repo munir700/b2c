@@ -59,7 +59,6 @@
                         layout="@layout/layout_location_selection_toolbar"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/small"
                         android:visibility="@{viewModel.state.toolbarVisibility? View.VISIBLE:View.GONE}"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -72,8 +71,8 @@
                         style="@style/ATitle3"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/margin_small"
-                        android:layout_marginEnd="@dimen/margin_small"
+                        android:layout_marginStart="@dimen/margin_medium_large"
+                        android:layout_marginEnd="@dimen/margin_medium_large"
                         android:ellipsize="end"
                         android:gravity="center"
                         android:lineSpacingExtra="0sp"
@@ -88,7 +87,9 @@
                         style="@style/ASmallGrey"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/margin_medium_large"
                         android:layout_marginTop="@dimen/margin_small"
+                        android:layout_marginEnd="@dimen/margin_medium_large"
                         android:layout_marginBottom="@dimen/margin_normal_large"
                         android:gravity="center"
                         android:text="@{viewModel.state.subHeadingTitle}"
@@ -143,19 +144,17 @@
                     android:layout_gravity="center_vertical"
                     android:background="@color/white"
                     android:orientation="vertical"
-                    android:paddingTop="@dimen/margin_medium">
+                    android:paddingStart="@dimen/margin_medium_large"
+                    android:paddingTop="@dimen/margin_medium"
+                    android:paddingEnd="@dimen/margin_medium_large">
 
                     <TextView
                         android:id="@+id/tvAddressHeading"
                         style="@style/ASmall"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/margin_medium"
-                        android:gravity="left"
+                        android:gravity="left|start"
                         android:textSize="@dimen/text_size_h2"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/viewMapFragment"
                         app:text="@{Strings.screen_meeting_location_input_text_address_title}"
                         tools:ignore="MissingConstraints"
                         tools:text="@string/screen_meeting_location_input_text_address_title" />
@@ -165,9 +164,7 @@
                         style="@style/ALarge"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/_42sdp"
-                        android:layout_marginStart="@dimen/_13sdp"
                         android:layout_marginTop="4dp"
-                        android:layout_marginEnd="@dimen/margin_medium"
                         android:focusable="false"
                         android:focusableInTouchMode="false"
                         android:inputType="textPersonName"
@@ -183,13 +180,65 @@
                         app:layout_constraintTop_toBottomOf="@+id/tvAddressHeading"
                         tools:hint="@string/screen_meeting_location_input_text_address_hint" />
 
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/layoutReasonsSpinner"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/margin_normal"
+                        tools:ignore="NotSibling">
+
+                        <TextView
+                            android:id="@+id/tvSelectCity"
+                            style="@style/ASmall"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true"
+                            android:text="Emirate"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            tools:text="Emirate" />
+
+                        <TextView
+                            android:id="@+id/tvSelectedCity"
+                            style="@style/ALarge"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingTop="@dimen/margin_extra_small"
+                            android:paddingBottom="@dimen/margin_extra_small"
+                            android:text="Select"
+                            app:layout_constraintStart_toStartOf="@+id/tvSelectCity"
+                            app:layout_constraintTop_toBottomOf="@id/tvSelectCity"
+                            tools:text="Select" />
+
+                        <ImageView
+                            android:id="@+id/ivSelector"
+                            android:layout_width="wrap_content"
+                            android:layout_height="0dp"
+                            android:src="@drawable/ic_up"
+                            android:tint="@color/greyDark"
+                            app:layout_constraintBottom_toBottomOf="@id/tvSelectedCity"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="@+id/tvSelectedCity" />
+
+                        <View
+                            android:id="@+id/breakLine"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/_1sdp"
+                            android:layout_below="@+id/ivSelector"
+                            android:background="@color/greySoft"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/ivSelector"
+                            tools:ignore="MissingConstraints" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
                     <TextView
                         android:id="@+id/tvLandMark"
                         style="@style/ASmall"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/margin_medium"
-                        android:layout_marginTop="@dimen/margin_medium_large"
+                        android:layout_marginTop="@dimen/margin_normal"
                         android:textSize="@dimen/text_size_h2"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -203,10 +252,7 @@
                         style="@style/ALarge"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/_42sdp"
-                        android:layout_marginStart="@dimen/_13sdp"
                         android:layout_marginTop="4dp"
-                        android:layout_marginEnd="@dimen/margin_medium"
-                        android:layout_marginBottom="@dimen/margin_medium_large"
                         android:drawablePadding="@dimen/margin_extra_small"
                         android:inputType="textPersonName"
                         android:maxLength="100"
@@ -228,6 +274,7 @@
                         android:id="@+id/llTermsCondition"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/margin_normal"
                         android:orientation="horizontal"
                         android:visibility="@{viewModel.state.isOnBoarding ? View.VISIBLE:View.INVISIBLE}"
                         tools:visibility="invisible">
@@ -237,7 +284,6 @@
                             android:id="@+id/cbTermsAndConditions"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="@dimen/_13sdp"
                             android:checked="@={viewModel.state.isTermsChecked}"
                             app:layout_constraintLeft_toLeftOf="parent"
                             app:layout_constraintVertical_bias="0.892" />

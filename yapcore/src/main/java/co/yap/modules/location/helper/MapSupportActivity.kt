@@ -39,8 +39,7 @@ open class MapSupportActivity : BaseBindingActivity<ILocationSelection.ViewModel
     private var markerOptions: MarkerOptions? = null
     private var mFusedLocationProviderClient: FusedLocationProviderClient? = null
     private var locationMarker: Marker? = null
-    lateinit var context: Context
-    var permissionHelper: PermissionHelper? = null
+    protected var permissionHelper: PermissionHelper? = null
     private var defaultPlacePhoto: Bitmap? = null
 
     override val viewModel: LocationSelectionViewModel
@@ -51,7 +50,6 @@ open class MapSupportActivity : BaseBindingActivity<ILocationSelection.ViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        context = this // do remove this line
         initMap()
         icon = bitmapDescriptorFromVector(context, R.drawable.ic_location_pin)
         defaultPlacePhoto = BitmapFactory.decodeResource(
