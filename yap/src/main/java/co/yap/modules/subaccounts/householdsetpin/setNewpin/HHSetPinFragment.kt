@@ -1,7 +1,6 @@
 package co.yap.modules.subaccounts.householdsetpin.setNewpin
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
@@ -19,7 +18,8 @@ import kotlinx.android.synthetic.main.fragment_hh_set_pin.*
 *
 * */
 class HHSetPinFragment :
-    BaseNavViewModelFragment<FragmentHhSetPinBinding, IHHSetPin.State, HHSetPinVM>(), NumberKeyboard.NumberKeyboardListener {
+    BaseNavViewModelFragment<FragmentHhSetPinBinding, IHHSetPin.State, HHSetPinVM>(),
+    NumberKeyboard.NumberKeyboardListener {
     override fun getBindingVariable(): Int = BR.viewModel
 
     override fun getLayoutId(): Int = R.layout.fragment_hh_set_pin
