@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-data class Content(
+data class Transaction(
     @SerializedName("accountUuid1")
     val accountUuid1: String? = null,
     @SerializedName("accountUuid2")

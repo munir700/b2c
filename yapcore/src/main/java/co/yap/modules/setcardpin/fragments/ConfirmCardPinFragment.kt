@@ -13,7 +13,7 @@ import co.yap.translation.Translator
 import co.yap.yapcore.R
 import co.yap.yapcore.enums.AccountStatus
 import co.yap.yapcore.enums.CardType
-import co.yap.yapcore.helpers.DateUtils.LeanPlumEventFormat
+import co.yap.yapcore.helpers.DateUtils.LEAN_PLUM_EVENT_FORMAT
 import co.yap.yapcore.leanplum.trackEvent
 import co.yap.yapcore.leanplum.trackEventInFragments
 import co.yap.yapcore.leanplum.KYCEvents
@@ -82,7 +82,7 @@ open class ConfirmCardPinFragment : SetCardPinFragment() {
                     trackEvent(KYCEvents.CARD_ACTIVE.type)
                     trackEventInFragments(
                         MyUserManager.user,
-                        account_active = SimpleDateFormat(LeanPlumEventFormat).format(
+                        account_active = SimpleDateFormat(LEAN_PLUM_EVENT_FORMAT).format(
                             Calendar.getInstance().time
                         )
                     )

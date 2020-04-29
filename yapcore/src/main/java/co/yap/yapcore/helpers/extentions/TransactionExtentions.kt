@@ -1,7 +1,7 @@
 package co.yap.yapcore.helpers.extentions
 
 import android.text.format.DateFormat
-import co.yap.networking.transactions.responsedtos.transaction.Content
+import co.yap.networking.transactions.responsedtos.transaction.Transaction
 import co.yap.yapcore.R
 import co.yap.yapcore.enums.TransactionLabelsCode
 import co.yap.yapcore.enums.TransactionProductCode
@@ -11,7 +11,7 @@ import co.yap.yapcore.helpers.DateUtils
 import java.text.SimpleDateFormat
 import java.util.*
 
-fun Content?.getTransactionTitle(): String {
+fun Transaction?.getTransactionTitle(): String {
     this?.let { transaction ->
         return (when (transaction.productCode) {
             TransactionProductCode.Y2Y_TRANSFER.pCode -> {
@@ -41,7 +41,7 @@ fun Content?.getTransactionTitle(): String {
     } ?: return "Unknown"
 }
 
-fun Content?.getTransactionIcon(): Int {
+fun Transaction?.getTransactionIcon(): Int {
     return this?.let { transaction ->
         return when (transaction.status) {
             TransactionStatus.CANCELLED.name -> R.drawable.ic_exclamation
@@ -69,7 +69,7 @@ fun Content?.getTransactionIcon(): Int {
     } ?: 0
 }
 
-fun Content?.getTransactionTypeTitle(): String {
+fun Transaction?.getTransactionTypeTitle(): String {
     this?.let { txn ->
         if (txn.status == TransactionStatus.CANCELLED.name) return "Transfer Rejected"
         return when {
@@ -86,7 +86,7 @@ fun Content?.getTransactionTypeTitle(): String {
                 "Withdrawn from Virtual Card"
             }
             else -> return (when (txn.productCode) {
-                TransactionProductCode.DOMESTIC.pCode,TransactionProductCode.CASH_PAYOUT.pCode, TransactionProductCode.RMT.pCode, TransactionProductCode.SWIFT.pCode, TransactionProductCode.UAEFTS.pCode, TransactionProductCode.INWARD_REMITTANCE.pCode, TransactionProductCode.LOCAL_INWARD_TRANSFER.pCode -> {
+                TransactionProductCode.DOMESTIC.pCode, TransactionProductCode.CASH_PAYOUT.pCode, TransactionProductCode.RMT.pCode, TransactionProductCode.SWIFT.pCode, TransactionProductCode.UAEFTS.pCode, TransactionProductCode.INWARD_REMITTANCE.pCode, TransactionProductCode.LOCAL_INWARD_TRANSFER.pCode -> {
                     "Transfer"
                 }
                 else ->
@@ -96,7 +96,7 @@ fun Content?.getTransactionTypeTitle(): String {
     } ?: return "Transaction"
 }
 
-fun Content?.getTransactionTypeIcon(): Int {
+fun Transaction?.getTransactionTypeIcon(): Int {
     this?.let { transaction ->
         if (TransactionStatus.FAILED.name == transaction.status || transaction.status == TransactionStatus.CANCELLED.name || transaction.getLabelValues() == TransactionLabelsCode.IS_TRANSACTION_FEE) return android.R.color.transparent
         return if (TransactionStatus.PENDING.name == transaction.status || TransactionStatus.IN_PROGRESS.name == transaction.status && transaction.getLabelValues() != TransactionLabelsCode.IS_TRANSACTION_FEE)
@@ -113,7 +113,7 @@ fun Content?.getTransactionTypeIcon(): Int {
     } ?: return android.R.color.transparent
 }
 
-fun Content?.getCategoryIcon(): Int {
+fun Transaction?.getCategoryIcon(): Int {
     this?.let { transaction ->
         if (transaction.getLabelValues() == TransactionLabelsCode.IS_TRANSACTION_FEE) {
             return R.drawable.ic_expense
@@ -135,7 +135,7 @@ fun Content?.getCategoryIcon(): Int {
     } ?: return 0
 }
 
-fun Content?.getCategoryTitle(): String {
+fun Transaction?.getCategoryTitle(): String {
     this?.let { transaction ->
         transaction.productCode?.let { productCode ->
             if (TransactionLabelsCode.IS_TRANSACTION_FEE == getLabelValues()) {
@@ -162,7 +162,7 @@ fun Content?.getCategoryTitle(): String {
     } ?: return ""
 }
 
-fun Content?.getMerchantCategoryIcon(): Int {
+fun Transaction?.getMerchantCategoryIcon(): Int {
     this?.let { transaction ->
         return (when {
             transaction.merchantCategoryName.equals(
@@ -190,7 +190,7 @@ fun Content?.getMerchantCategoryIcon(): Int {
     } ?: return R.drawable.ic_other_no_bg
 }
 
-fun Content?.getMapImage(): Int {
+fun Transaction?.getMapImage(): Int {
     this?.let { transaction ->
         if (TransactionLabelsCode.IS_TRANSACTION_FEE == getLabelValues()) {
             return R.drawable.ic_image_light_red_background
@@ -206,7 +206,7 @@ fun Content?.getMapImage(): Int {
     } ?: return -1
 }
 
-fun Content?.getSpentLabelText(): String {
+fun Transaction?.getSpentLabelText(): String {
     this?.let { transaction ->
         transaction.productCode?.let { productCode ->
             if (productCode == TransactionProductCode.TOP_UP_SUPPLEMENTARY_CARD.pCode || productCode == TransactionProductCode.WITHDRAW_SUPPLEMENTARY_CARD.pCode) {
@@ -228,7 +228,7 @@ fun Content?.getSpentLabelText(): String {
     } ?: return ""
 }
 
-fun Content?.getLabelValues(): TransactionLabelsCode? {
+fun Transaction?.getLabelValues(): TransactionLabelsCode? {
     this?.productCode?.let { productCode ->
         return (when (productCode) {
             TransactionProductCode.MANUAL_ADJUSTMENT.pCode, TransactionProductCode.VIRTUAL_ISSUANCE_FEE.pCode, TransactionProductCode.FSS_FUNDS_WITHDRAWAL.pCode, TransactionProductCode.CARD_REORDER.pCode, TransactionProductCode.FEE_DEDUCT.pCode, TransactionProductCode.PHYSICAL_ISSUANCE_FEE.pCode, TransactionProductCode.BALANCE_INQUIRY.pCode, TransactionProductCode.PIN_CHANGE.pCode, TransactionProductCode.MINISTATEMENT.pCode, TransactionProductCode.ACCOUNT_STATUS_INQUIRY.pCode, TransactionProductCode.FSS_FEE_NOTIFICATION.pCode -> {
@@ -248,15 +248,15 @@ fun Content?.getLabelValues(): TransactionLabelsCode? {
     } ?: return null
 }
 
-fun Content?.getFormattedDate(): String? {
+fun Transaction?.getFormattedDate2(): String? {
     this?.creationDate?.let {
-        val parser = SimpleDateFormat("yyyy-MM-dd")
-        parser.timeZone = TimeZone.getTimeZone("UTC")
-        val convertedDate = parser.parse(creationDate)
+        val sdf = SimpleDateFormat("yyyy-MM-dd")
+        sdf.timeZone = TimeZone.getTimeZone("UTC")
+        val convertedDate = sdf.parse(creationDate)
 
         val smsTime: Calendar = Calendar.getInstance()
-        smsTime.timeInMillis = convertedDate.time
         smsTime.timeZone = TimeZone.getDefault()
+        smsTime.timeInMillis = convertedDate.time
 
         val now: Calendar = Calendar.getInstance()
         val timeFormatString = "MMMM dd"
@@ -274,26 +274,55 @@ fun Content?.getFormattedDate(): String? {
     } ?: return null
 }
 
-fun Content?.getFormattedTime(): String {
+fun Transaction?.getFormattedDate(): String? {
+    this?.creationDate?.let {
+        val date = DateUtils.convertServerDateToLocalDate(it)
+        date?.let { convertedDate ->
+            val smsTime: Calendar = Calendar.getInstance()
+            smsTime.timeInMillis = convertedDate.time
+            //smsTime.timeZone = TimeZone.getDefault()
+
+            val now: Calendar = Calendar.getInstance()
+            val timeFormatString = "MMMM dd"
+            val dateTimeFormatString = "EEEE, MMMM d"
+            return when {
+                now.get(Calendar.DATE) === smsTime.get(Calendar.DATE) -> {
+                    "Today, " + DateFormat.format(timeFormatString, smsTime)
+                }
+                now.get(Calendar.DATE) - smsTime.get(Calendar.DATE) === 1 -> {
+                    "Yesterday, " + DateFormat.format(timeFormatString, smsTime)
+                }
+                now.get(Calendar.YEAR) === smsTime.get(Calendar.YEAR) -> {
+                    DateFormat.format(dateTimeFormatString, smsTime).toString()
+                }
+                else -> {
+                    DateFormat.format(timeFormatString, smsTime).toString()
+                }
+            }
+        } ?: return null
+    } ?: return null
+}
+
+fun Transaction?.getFormattedTime(): String {
     return (when {
         DateUtils.reformatStringDate(
             this?.updatedDate ?: "",
-            DateUtils.FORMAT_LONG_INPUT,
-            DateUtils.FORMATE_TIME_24H
+            DateUtils.SERVER_DATE_FORMAT,
+            DateUtils.FORMAT_TIME_24H
         ).isBlank() -> DateUtils.reformatStringDate(
             this?.creationDate ?: "",
-            DateUtils.FORMAT_LONG_INPUT,
-            DateUtils.FORMATE_TIME_24H
+            DateUtils.SERVER_DATE_FORMAT,
+            DateUtils.FORMAT_TIME_24H
         )
         else -> DateUtils.reformatStringDate(
-            this?.updatedDate ?: "",
-            DateUtils.FORMAT_LONG_INPUT,
-            DateUtils.FORMATE_TIME_24H
+            this?.creationDate ?: "",
+            DateUtils.SERVER_DATE_FORMAT,
+            DateUtils.FORMAT_TIME_24H
         )
     })
 }
 
-fun Content?.isTransactionCancelled(): Boolean {
+fun Transaction?.isTransactionCancelled(): Boolean {
     return this?.status == TransactionStatus.CANCELLED.name
 }
 

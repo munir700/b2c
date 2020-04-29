@@ -9,7 +9,7 @@ import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
 import co.yap.R
 import co.yap.databinding.ItemTransactionListBinding
-import co.yap.networking.transactions.responsedtos.transaction.Content
+import co.yap.networking.transactions.responsedtos.transaction.Transaction
 import co.yap.translation.Translator.getString
 import co.yap.yapcore.BaseBindingRecyclerAdapter
 import co.yap.yapcore.enums.TransactionProductCode
@@ -17,8 +17,8 @@ import co.yap.yapcore.enums.TxnType
 import co.yap.yapcore.helpers.ImageBinding
 import co.yap.yapcore.helpers.extentions.*
 
-class TransactionsListingAdapter(private val list: MutableList<Content>) :
-    BaseBindingRecyclerAdapter<Content, RecyclerView.ViewHolder>(list) {
+class TransactionsListingAdapter(private val list: MutableList<Transaction>) :
+    BaseBindingRecyclerAdapter<Transaction, RecyclerView.ViewHolder>(list) {
 
     override fun getLayoutIdForViewType(viewType: Int): Int = R.layout.item_transaction_list
 
@@ -34,7 +34,7 @@ class TransactionsListingAdapter(private val list: MutableList<Content>) :
     class TransactionListingViewHolder(private val itemTransactionListBinding: ItemTransactionListBinding) :
         RecyclerView.ViewHolder(itemTransactionListBinding.root) {
 
-        fun onBind(transaction: Content) {
+        fun onBind(transaction: Transaction) {
             val context: Context = itemTransactionListBinding.tvCurrency.context
             handleProductBaseCases(context, transaction)
 
@@ -75,7 +75,7 @@ class TransactionsListingAdapter(private val list: MutableList<Content>) :
         }
 
 
-        private fun handleProductBaseCases(context: Context, transaction: Content) {
+        private fun handleProductBaseCases(context: Context, transaction: Transaction) {
             val transactionTitle = transaction.getTransactionTitle()
             val txnIconResId = transaction.getTransactionIcon()
             val categoryTitle: String =
@@ -114,7 +114,7 @@ class TransactionsListingAdapter(private val list: MutableList<Content>) :
         }
 
         private fun setY2YUserImage(
-            transaction: Content,
+            transaction: Transaction,
             itemTransactionListBinding: ItemTransactionListBinding
         ) {
             ImageBinding.loadAvatar(
@@ -131,7 +131,7 @@ class TransactionsListingAdapter(private val list: MutableList<Content>) :
 
 
         private fun setInitialsAsTxnImage(
-            transaction: Content,
+            transaction: Transaction,
             itemTransactionListBinding: ItemTransactionListBinding
         ) {
             ImageBinding.loadAvatar(
@@ -144,7 +144,7 @@ class TransactionsListingAdapter(private val list: MutableList<Content>) :
         }
 
         private fun setContentDataColor(
-            transaction: Content,
+            transaction: Transaction,
             itemTransactionListBinding: ItemTransactionListBinding
         ) {
 

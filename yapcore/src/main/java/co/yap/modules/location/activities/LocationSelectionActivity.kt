@@ -162,7 +162,7 @@ class LocationSelectionActivity : MapSupportActivity(), ILocationSelection.View 
         override fun onPropertyChanged(sender: Observable?, propertyId: Int) {
             if (viewModel.state.isTermsChecked.get() == true) {
                 viewModel.termsCheckedTime.value =
-                    SimpleDateFormat(DateUtils.LeanPlumEventFormat).format(Calendar.getInstance().time)
+                    SimpleDateFormat(DateUtils.LEAN_PLUM_EVENT_FORMAT).format(Calendar.getInstance().time)
             }
             viewModel.state.valid.set(!viewModel.state.addressTitle.get().isNullOrBlank() && !viewModel.state.addressSubtitle.get().isNullOrBlank() && if (viewModel.state.isOnBoarding.get() == false) true else viewModel.state.isTermsChecked.get() == true)
         }

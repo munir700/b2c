@@ -46,7 +46,7 @@ import co.yap.networking.cards.responsedtos.Address
 import co.yap.networking.cards.responsedtos.Card
 import co.yap.networking.customers.responsedtos.AccountInfo
 import co.yap.networking.customers.responsedtos.documents.GetMoreDocumentsResponse
-import co.yap.networking.transactions.responsedtos.transaction.Content
+import co.yap.networking.transactions.responsedtos.transaction.Transaction
 import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionListData
 import co.yap.translation.Strings
 import co.yap.widgets.MultiStateView
@@ -159,7 +159,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
 
     private val adaptorlistener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
-            if (data is Content) {
+            if (data is Transaction) {
                 launchActivity<TransactionDetailsActivity> {
                     putExtra("transaction", data)
                 }
@@ -249,7 +249,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                     var shouldAppend = false
                     for (i in 0 until oldData?.size!!) {
                         if (parentItem.date == oldData[i].date) {
-                            if (parentItem.content.size != oldData[i].content.size) {
+                            if (parentItem.transaction.size != oldData[i].transaction.size) {
                                 shouldAppend = true
                                 break
                             }

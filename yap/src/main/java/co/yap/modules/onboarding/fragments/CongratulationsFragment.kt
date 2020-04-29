@@ -102,7 +102,7 @@ class CongratulationsFragment : OnboardingChildFragment<ICongratulations.ViewMod
                 )
                 trackEvent(
                     SignupEvents.SIGN_UP_TIMESTAMP.type,
-                    SimpleDateFormat(DateUtils.LeanPlumEventFormat).format(Calendar.getInstance().time)
+                    SimpleDateFormat(DateUtils.LEAN_PLUM_EVENT_FORMAT).format(Calendar.getInstance().time)
                 )
                 trackEvent(
                     SignupEvents.SIGN_UP_LENGTH.type,

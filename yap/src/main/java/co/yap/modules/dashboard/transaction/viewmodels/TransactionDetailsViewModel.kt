@@ -4,11 +4,11 @@ import android.app.Application
 import androidx.databinding.ObservableField
 import co.yap.modules.dashboard.transaction.interfaces.ITransactionDetails
 import co.yap.modules.dashboard.transaction.states.TransactionDetailsState
-import co.yap.networking.transactions.responsedtos.transaction.Content
+import co.yap.networking.transactions.responsedtos.transaction.Transaction
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.enums.TransactionProductCode
-import co.yap.yapcore.helpers.DateUtils.FORMAT_LONG_INPUT
+import co.yap.yapcore.helpers.DateUtils.SERVER_DATE_FORMAT
 import co.yap.yapcore.helpers.DateUtils.FORMAT_LONG_OUTPUT
 import co.yap.yapcore.helpers.DateUtils.reformatStringDate
 import co.yap.yapcore.helpers.DateUtils.stringToDate
@@ -21,7 +21,7 @@ class TransactionDetailsViewModel(application: Application) :
 
     override val state: TransactionDetailsState = TransactionDetailsState()
     override var clickEvent: SingleClickEvent = SingleClickEvent()
-    override var transaction: ObservableField<Content> = ObservableField()
+    override var transaction: ObservableField<Transaction> = ObservableField()
     override fun onCreate() {
         super.onCreate()
         setStatesData()
@@ -52,9 +52,9 @@ class TransactionDetailsViewModel(application: Application) :
     private fun setToolbarTitle(creationDate: String) {
         try {
             val date =
-                stringToDate(creationDate, FORMAT_LONG_INPUT)
+                stringToDate(creationDate, SERVER_DATE_FORMAT)
             state.toolBarTitle = reformatStringDate(
-                creationDate, FORMAT_LONG_INPUT,
+                creationDate, SERVER_DATE_FORMAT,
                 FORMAT_LONG_OUTPUT
             )
         } catch (e: Exception) {
@@ -62,7 +62,7 @@ class TransactionDetailsViewModel(application: Application) :
         }
     }
 
-    private fun setSenderOrReceiver(transaction: Content) {
+    private fun setSenderOrReceiver(transaction: Transaction) {
         when (transaction.productCode ?: "") {
             TransactionProductCode.Y2Y_TRANSFER.pCode, TransactionProductCode.UAEFTS.pCode, TransactionProductCode.DOMESTIC.pCode, TransactionProductCode.RMT.pCode, TransactionProductCode.SWIFT.pCode, TransactionProductCode.CASH_PAYOUT.pCode -> {
                 state.isTransferTxn.set(true)
