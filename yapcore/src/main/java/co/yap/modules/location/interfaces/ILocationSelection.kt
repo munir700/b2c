@@ -21,7 +21,6 @@ interface ILocationSelection {
         var defaultHeading: String
         var clickEvent: SingleClickEvent
         var isMapExpanded: MutableLiveData<Boolean>
-        var isOnBoarding: MutableLiveData<Boolean?>
         var termsCheckedTime: MutableLiveData<String>
         var address: Address?
         fun onLocationSelected()
@@ -43,6 +42,7 @@ interface ILocationSelection {
         var valid: ObservableField<Boolean>
         var showTermsCondition: ObservableField<Boolean>
         var isLocationInAllowedCountry: ObservableField<Boolean>
+        var isOnBoarding: ObservableField<Boolean>
 
     }
 }

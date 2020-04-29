@@ -104,8 +104,12 @@ class LocationSelectionActivity : MapSupportActivity(), ILocationSelection.View 
                 viewModel.state.placeSubTitle.set(it.address2)
             }
         }
-        viewModel.isOnBoarding.value =
-            intent?.getValue(IS_ON_BOARDING, ExtraType.BOOLEAN.name) as? Boolean
+        viewModel.state.isOnBoarding.set(
+            (intent?.getValue(
+                IS_ON_BOARDING,
+                ExtraType.BOOLEAN.name
+            ) as? Boolean) ?: false
+        )
     }
 
     private fun updateHeadings() {
@@ -160,7 +164,7 @@ class LocationSelectionActivity : MapSupportActivity(), ILocationSelection.View 
                 viewModel.termsCheckedTime.value =
                     SimpleDateFormat(DateUtils.LeanPlumEventFormat).format(Calendar.getInstance().time)
             }
-            viewModel.state.valid.set(!viewModel.state.addressTitle.get().isNullOrBlank() && !viewModel.state.addressSubtitle.get().isNullOrBlank() && if (viewModel.isOnBoarding.value == false) true else viewModel.state.isTermsChecked.get() == true)
+            viewModel.state.valid.set(!viewModel.state.addressTitle.get().isNullOrBlank() && !viewModel.state.addressSubtitle.get().isNullOrBlank() && if (viewModel.state.isOnBoarding.get() == false) true else viewModel.state.isTermsChecked.get() == true)
         }
     }
 

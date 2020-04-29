@@ -1538,4 +1538,8 @@ object Strings {
         "screen_blocked_otp_display_text_message"
     const val screen_popup_activation_pending_display_text_message: String =
         "screen_popup_activation_pending_display_text_message"
+    const val screen_otp_blocked_display_text_heading: String =
+        "screen_otp_blocked_display_text_heading"
+const val screen_otp_blocked_display_text_details: String =
+        "screen_otp_blocked_display_text_details"
 }

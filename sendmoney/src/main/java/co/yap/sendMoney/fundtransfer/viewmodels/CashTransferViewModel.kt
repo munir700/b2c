@@ -113,7 +113,7 @@ class CashTransferViewModel(application: Application) :
                             if (enteredAmount > dailyLimit) getString(Strings.common_display_text_daily_limit_error_single_transaction) else getString(
                                 Strings.common_display_text_daily_limit_error_single_transaction
                             )
-                        return enteredAmount >= remainingDailyLimit
+                        return enteredAmount > remainingDailyLimit
                     } ?: return false
                 } ?: return false
             } ?: return false

@@ -19,6 +19,7 @@ import co.yap.yapcore.helpers.extentions.ExtraType
 import co.yap.yapcore.helpers.extentions.getValue
 import co.yap.yapcore.interfaces.BackPressImpl
 import co.yap.yapcore.interfaces.IBaseNavigator
+import java.io.File
 
 class DocumentsDashboardActivity : BaseBindingActivity<IDocumentsDashboard.ViewModel>(), INavigator,
     IFragmentHolder {
@@ -46,18 +47,14 @@ class DocumentsDashboardActivity : BaseBindingActivity<IDocumentsDashboard.ViewM
 
     private fun addObserver() {
         viewModel.finishKyc.observe(this, Observer {
-            if (it.success)
-                goToDashBoard(
-                    success = true,
-                    skippedPress = false,
-                    status = it.status
-                )
-            else
-                goToDashBoard(
-                    success = false,
-                    skippedPress = true,
-                    status = it.status
-                )
+            viewModel.paths.forEach { filePath ->
+                File(filePath).deleteRecursively()
+            }
+            goToDashBoard(
+                success = it.success,
+                skippedPress = !it.success,
+                status = it.status
+            )
         })
     }
 
@@ -66,13 +63,26 @@ class DocumentsDashboardActivity : BaseBindingActivity<IDocumentsDashboard.ViewM
         val fragment = supportFragmentManager.findFragmentById(R.id.kyc_host_fragment)
         viewModel.skipFirstScreen.value?.let {
             if (it) {
+                viewModel.paths.forEach { filePath ->
+                    File(filePath).deleteRecursively()
+                }
                 super.onBackPressed()
             } else {
                 if (!BackPressImpl(fragment).onBackPressed()) {
+                    viewModel.paths.forEach { filePath ->
+                        File(filePath).deleteRecursively()
+                    }
                     super.onBackPressed()
                 }
             }
         }
+    }
+
+    override fun onDestroy() {
+        viewModel.paths.forEach { filePath ->
+            File(filePath).deleteRecursively()
+        }
+        super.onDestroy()
     }
 
     private fun goToDashBoard(success: Boolean, skippedPress: Boolean, status: String = "") {

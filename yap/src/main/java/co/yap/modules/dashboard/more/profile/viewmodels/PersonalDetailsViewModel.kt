@@ -138,7 +138,7 @@ class PersonalDetailsViewModel(application: Application) :
                 it.address2,
                 it.latitude,
                 it.longitude,
-                "UAE", "Dubai"
+                "Dubai","UAE"
             )
             launch {
                 state.loading = true
