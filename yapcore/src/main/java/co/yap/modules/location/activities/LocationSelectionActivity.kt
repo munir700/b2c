@@ -221,7 +221,7 @@ class LocationSelectionActivity : MapSupportActivity(), ILocationSelection.View 
     }
 
     private fun setupCitiesList() {
-        var citiesListBottomSheet: BottomSheetDialogFragment? = null
+        var citiesListBottomSheet: CitiesListBottomSheet? = null
         this.supportFragmentManager.let {
             citiesListBottomSheet = CitiesListBottomSheet(object :
                 OnItemClickListener {
@@ -229,7 +229,6 @@ class LocationSelectionActivity : MapSupportActivity(), ILocationSelection.View 
                     citiesListBottomSheet?.dismiss()
                     tvSelectedCity.text = (data as String)
                 }
-
             }, viewModel.getCities())
             citiesListBottomSheet?.show(it, "")
         }
