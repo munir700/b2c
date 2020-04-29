@@ -8,6 +8,7 @@
             name="payHHEmployeeSalaryVM"
             type="co.yap.modules.subaccounts.paysalary.employee.PayHHEmployeeSalaryVM" />
 
+        <import type="co.yap.translation.Strings"/>
     </data>
 
     <androidx.appcompat.widget.LinearLayoutCompat
@@ -21,7 +22,8 @@
         <include
             android:id="@+id/include2"
             layout="@layout/layout_textview_image_vertical"
-            app:name="@{`John Snow`}" />
+            app:imageUrl="@{payHHEmployeeSalaryVM.state.subAccount.profilePictureUrl ?? ` `}"
+            app:name="@{payHHEmployeeSalaryVM.state.subAccount.fullName}" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/appCompatTextView2"
@@ -49,10 +51,10 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="@dimen/margin_medium_large"
             android:minHeight="@dimen/_22sdp"
+            android:onClick="@{(v) -> payHHEmployeeSalaryVM.handlePressOnClick(v.id)}"
             android:paddingStart="@dimen/margin_normal_large"
             android:paddingEnd="@dimen/margin_normal_large"
-            android:text="Pay salary now"
-            android:onClick="@{(v) -> payHHEmployeeSalaryVM.handlePressOnClick(v.id)}"
+            app:text="@{Strings.screen_household_employee_salary_pay_now_button_text}"
             app:enableCoreButton="@{true}"
             tools:ignore="HardcodedText" />
 
@@ -64,9 +66,9 @@
             android:layout_marginStart="@dimen/margin_medium"
             android:layout_marginTop="@dimen/_23sdp"
             android:layout_marginEnd="@dimen/margin_medium"
-            app:lable="@{`Schedule once`}"
             android:onClick="@{(v) -> payHHEmployeeSalaryVM.handlePressOnClick(v.id)}"
-            app:subLable="@{`Set up a single payment for a future date`}" />
+            app:lable="@{@string/screen_household_employee_salary_schedule_once_heading_text}"
+            app:subLable="@{@string/screen_household_employee_salary_future_payment_text}" />
 
         <include
             android:id="@+id/llMakeRecurring"
@@ -76,8 +78,8 @@
             android:layout_marginStart="@dimen/margin_medium"
             android:layout_marginTop="@dimen/_23sdp"
             android:layout_marginEnd="@dimen/margin_medium"
-            app:lable="@{`Make recurring`}"
             android:onClick="@{(v) -> payHHEmployeeSalaryVM.handlePressOnClick(v.id)}"
-            app:subLable="@{`Set up a standing order for future payments`}" />
+            app:lable="@{@string/screen_household_employee_salary_recurring_heading_text}"
+            app:subLable="@{@string/screen_household_employee_salary_recurring_text}" />
     </androidx.appcompat.widget.LinearLayoutCompat>
 </layout>

@@ -7,4 +7,6 @@ import co.yap.yapcore.BaseState
 
 class HHProfileState : BaseState(), IHHProfile.State {
     override var customer: MutableLiveData<Customer> = MutableLiveData()
+    override var subAccount: MutableLiveData<SubAccount> = MutableLiveData()
+
 }

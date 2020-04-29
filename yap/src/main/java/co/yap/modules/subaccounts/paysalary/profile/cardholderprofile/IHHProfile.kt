@@ -12,5 +12,6 @@ interface IHHProfile {
 
     interface State : IBase.State{
         var customer: MutableLiveData<Customer>
+        var subAccount: MutableLiveData<SubAccount>
     }
 }

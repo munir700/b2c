@@ -8,6 +8,7 @@
             name="futurePaymentVM"
             type="co.yap.modules.subaccounts.paysalary.future.FuturePaymentVM" />
 
+        <import type="co.yap.translation.Strings"/>
     </data>
 
     <androidx.appcompat.widget.LinearLayoutCompat
@@ -24,7 +25,11 @@
             android:id="@+id/ivUserImage"
             style="@style/Yap.App.Widget.ImageView.Circle"
             android:layout_gravity="center_horizontal"
-            android:src="@drawable/ic_store_b2b" />
+            app:colorType="@{`Beneficiary`}"
+            app:fullName="@{futurePaymentVM.state.subAccount.fullName}"
+            app:imageUrl="@{futurePaymentVM.state.subAccount.profilePictureUrl ?? ` `}"
+            android:src="@drawable/ic_store_b2b"
+            app:position="@{0}"/>
 
 
         <androidx.appcompat.widget.AppCompatTextView
@@ -34,7 +39,8 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="@dimen/margin_medium_large"
             android:gravity="center_horizontal"
-            android:text="Enter transfer amount and date" />
+            app:text="@{Strings.screen_household_future_payment_screen_amount_title_text}"
+            tools:text="@string/screen_household_future_payment_screen_amount_title_text" />
 
         <TextView
             android:id="@+id/tvCurrency"
@@ -61,14 +67,15 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="@dimen/margin_normal"
             android:gravity="center"
-            android:text="Your available balance is"
+            app:text="@{Strings.screen_household_future_payment_screen_available_balance_text}"
             tools:text="Your available balance is " />
 
         <androidx.appcompat.widget.AppCompatTextView
             style="@style/Yap.App.Widget.TextView.FullName"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="@dimen/margin_large"
-            android:text="Enter date of transfer" />
+            app:text="@{Strings.screen_household_future_payment_screen_end_date_heading_text}"
+            tools:text="Enter date of transfer" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvDate"
@@ -92,7 +99,7 @@
             android:layout_marginTop="8dp"
             android:layout_marginRight="@dimen/margin_xxl"
             android:layout_marginBottom="@dimen/margin_small"
-            android:text="Confirm"
+            app:text="@{Strings.screen_household_future_payment_screen_button_text}"
             app:btn_enable="true"
             tools:text="Add" />
     </androidx.appcompat.widget.LinearLayoutCompat>
