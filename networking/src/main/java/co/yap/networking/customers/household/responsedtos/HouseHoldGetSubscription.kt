@@ -1,4 +1,4 @@
-package co.yap.networking.customers.responsedtos.household
+package co.yap.networking.customers.household.responsedtos
 
 import com.google.gson.annotations.SerializedName
 

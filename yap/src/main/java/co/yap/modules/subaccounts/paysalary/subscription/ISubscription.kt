@@ -2,9 +2,9 @@ package co.yap.modules.subaccounts.paysalary.subscription
 
 import android.content.Context
 import androidx.lifecycle.MutableLiveData
-import co.yap.networking.customers.CustomersRepository
-import co.yap.networking.customers.responsedtos.SubAccount
-import co.yap.networking.customers.responsedtos.household.HouseHoldGetSubscription
+import co.yap.networking.customers.household.CustomerHHApi
+import co.yap.networking.customers.household.responsedtos.SubAccount
+import co.yap.networking.customers.household.responsedtos.HouseHoldGetSubscription
 import co.yap.yapcore.IBase
 
 interface ISubscription {
@@ -12,7 +12,7 @@ interface ISubscription {
 
     interface ViewModel : IBase.ViewModel<State> {
         fun handlePressOnClick(context: Context)
-        var customersRepository: CustomersRepository
+        var customersRepository: CustomerHHApi
         fun getSubscriptionData()
         fun setUpSubscription()
         fun cancelSubscription()

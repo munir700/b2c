@@ -6,8 +6,6 @@ import co.yap.networking.customers.responsedtos.beneficiary.BankParamsResponse
 import co.yap.networking.customers.responsedtos.beneficiary.RecentBeneficiariesResponse
 import co.yap.networking.customers.responsedtos.beneficiary.TopUpBeneficiariesResponse
 import co.yap.networking.customers.responsedtos.documents.GetMoreDocumentsResponse
-import co.yap.networking.customers.responsedtos.household.HouseHoldGetSubscriptionResponseDTO
-import co.yap.networking.customers.responsedtos.household.HouseHoldUserProfile
 import co.yap.networking.customers.responsedtos.sendmoney.*
 import co.yap.networking.household.responsedtos.ValidateParentMobileResponse
 import co.yap.networking.models.ApiResponse
@@ -210,37 +208,4 @@ interface CustomersRetroService {
     //  Sub Account Invitation
     @POST(CustomersRepository.URL_SUB_ACCOUNT_INVITATION + "{notificationStatus}")
     suspend fun subAccountInvitation(@Path("notificationStatus") notificationStatus: String): Response<SubAccountInvitationResponse>
-
-    //   SubAccount Card Get All subaccounts for a IBAN user:
-    @GET(CustomersRepository.URL_GET_SUB_ACCOUNTS)
-    suspend fun getSubAccountAccount(): Response<SubAccounts>
-
-    // SubAccount Card Get HouseHold User Info
-    @GET(CustomersRepository.URL_GET_PROFILE_HOUSEHOLD_USER)
-    suspend fun getHouseholdUser(@Path("UUID") uuid: String?): Response<HouseHoldUserProfile>
-
-    //   SubAccount Card Resend Household onboarding
-    @POST(CustomersRepository.URL_RESEND_HOUSEHOLD)
-    suspend fun resendRequestToHouseHoldUser(@Path("UUID") uuid: String?): Response<ApiResponse>
-
-    //    SubAccount Card Remove house hold card and Refund to IBAN user
-    @POST(CustomersRepository.URL_REFUND_REMOVE_HOUSEHOLD)
-    suspend fun RemoveRefundHouseHoldUser(@Path("UUID") uuid: String?): Response<ApiResponse>
-
-    //     Get House Hold user subscription From Iban user
-    @GET(CustomersRepository.URL_GET_HOUSE_HOLD_SUBSCRIPTION)
-    suspend fun getHouseHoldSubscription(@Path("UUID") uuid: String?): Response<HouseHoldGetSubscriptionResponseDTO>
-
-    @POST(CustomersRepository.URL_SETUP_HOUSE_HOLD_SUBSCRIPTION)
-    suspend fun setUpHouseHoldSubscription(
-        @Path("UUID") uuid: String?,
-        @Query("planType") planType: String?, @Query("isAutoRenew") isAutoRenew: Boolean?
-    ): Response<ApiResponse>
-
-    @POST(CustomersRepository.URL_CANCEL_HOUSE_HOLD_SUBSCRIPTION)
-    suspend fun cancelHouseHoldSubscription(@Path("UUID") uuid: String?): Response<ApiResponse>
-
-
-    @POST(CustomersRepository.URL_REACTIVATE_HOUSE_HOLD_SUBSCRIPTION)
-    suspend fun reActivateHouseHoldSubscription(@Path("UUID") uuid: String?): Response<ApiResponse>
 }

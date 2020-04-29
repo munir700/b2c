@@ -1,7 +1,7 @@
 package co.yap.modules.subaccounts.paysalary.employee
 
 import androidx.lifecycle.MutableLiveData
-import co.yap.networking.customers.responsedtos.SubAccount
+import co.yap.networking.customers.household.responsedtos.SubAccount
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
 

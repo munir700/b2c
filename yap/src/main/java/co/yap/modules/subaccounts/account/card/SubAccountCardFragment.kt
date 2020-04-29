@@ -8,7 +8,7 @@ import co.yap.R
 import co.yap.databinding.FragmentSubAccountCardBinding
 import co.yap.modules.dashboard.store.household.activities.HouseHoldLandingActivity
 import co.yap.modules.subaccounts.account.dashboard.SubAccountDashBoardFragmentDirections
-import co.yap.networking.customers.responsedtos.SubAccount
+import co.yap.networking.customers.household.responsedtos.SubAccount
 import co.yap.widgets.State
 import co.yap.widgets.advrecyclerview.animator.DraggableItemAnimator
 import co.yap.widgets.advrecyclerview.draggable.RecyclerViewDragDropManager
