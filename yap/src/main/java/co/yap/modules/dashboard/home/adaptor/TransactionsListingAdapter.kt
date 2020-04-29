@@ -89,10 +89,13 @@ class TransactionsListingAdapter(private val list: MutableList<Content>) :
                     if (TransactionProductCode.Y2Y_TRANSFER.pCode == it) {
                         setY2YUserImage(transaction, itemTransactionListBinding)
                     } else {
-                        if (txnIconResId != -1)
+                        if (txnIconResId != -1) {
                             itemTransactionListBinding.ivTransaction.setImageResource(txnIconResId)
-                        else
+                            if (txnIconResId == R.drawable.ic_rounded_plus)
+                                itemTransactionListBinding.ivTransaction.setBackgroundResource(R.drawable.bg_round_grey)
+                        } else
                             setInitialsAsTxnImage(transaction, itemTransactionListBinding)
+
                         itemTransactionListBinding.ivTransaction.alpha = 1.0f
                         ImageViewCompat.setImageTintList(
                             itemTransactionListBinding.ivTransaction,

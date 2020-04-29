@@ -13,6 +13,7 @@
 /authentication/build
 /coachmark/build
 /household/build
+/splitbill/build
 /send_money/*
 /coachmark/*
 /profile/*
