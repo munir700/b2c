@@ -3,6 +3,8 @@ package co.yap.modules.subaccounts.paysalary.subscription
 import android.content.Context
 import android.os.Bundle
 import androidx.navigation.NavController
+import co.yap.networking.customers.CustomerHHApi
+import co.yap.networking.customers.CustomersHHRepository
 import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.customers.responsedtos.SubAccount
 import co.yap.networking.models.RetroApiResponse
@@ -15,7 +17,7 @@ import javax.inject.Inject
 class SubscriptionVM @Inject constructor(override val state: ISubscription.State) :
     DaggerBaseViewModel<ISubscription.State>()
     , ISubscription.ViewModel {
-    override var customersRepository: CustomersRepository = CustomersRepository
+    override var customersRepository: CustomerHHApi = CustomersHHRepository
 
     override fun onFirsTimeUiCreate(bundle: Bundle?, navigation: NavController?) {
         bundle?.let { state.subAccount.value = it.getParcelable(SubAccount::class.simpleName) }

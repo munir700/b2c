@@ -4,8 +4,6 @@ import co.yap.networking.customers.requestdtos.*
 import co.yap.networking.customers.responsedtos.*
 import co.yap.networking.customers.responsedtos.beneficiary.RecentBeneficiariesResponse
 import co.yap.networking.customers.responsedtos.beneficiary.TopUpBeneficiariesResponse
-import co.yap.networking.customers.responsedtos.household.HouseHoldGetSubscriptionResponseDTO
-import co.yap.networking.customers.responsedtos.household.HouseHoldUserProfile
 import co.yap.networking.customers.responsedtos.sendmoney.*
 import co.yap.networking.models.ApiResponse
 import co.yap.networking.models.RetroApiResponse
@@ -86,26 +84,4 @@ interface CustomersApi {
     suspend fun validateCurrentPasscode(passcode: String): RetroApiResponse<ApiResponse>
     suspend fun changePasscode(newPasscode: String): RetroApiResponse<ApiResponse>
     suspend fun appUpdate(): RetroApiResponse<AppUpdateResponse>
-
-    //    SubAccount Card Get All subaccounts for a YAP user:
-    suspend fun getSubAccounts(): RetroApiResponse<SubAccounts>
-
-    // SubAccount Card Get HouseHold User Info
-    suspend fun getHouseholdUser(uuid: String?): RetroApiResponse<HouseHoldUserProfile>
-
-    //   SubAccount Card Resend Household onboarding
-    suspend fun resendRequestToHouseHoldUser(uuid: String?): RetroApiResponse<ApiResponse>
-
-    //    SubAccount Card Remove house hold card and Refund to IBAN user
-    suspend fun RemoveRefundHouseHoldUser(uuid: String?): RetroApiResponse<ApiResponse>
-
-    suspend fun getHouseHoldSubscription(uuid: String?): RetroApiResponse<HouseHoldGetSubscriptionResponseDTO>
-    suspend fun setUpHouseHoldSubscription(
-        uuid: String?,
-        planType: String?, isAutoRenew: Boolean?
-    ): RetroApiResponse<ApiResponse>
-
-    suspend fun reActivateHouseHoldSubscription(uuid: String?): RetroApiResponse<ApiResponse>
-    suspend fun cancelHouseHoldSubscription(uuid: String?): RetroApiResponse<ApiResponse>
-
 }

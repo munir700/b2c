@@ -122,7 +122,7 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     const val URL_REACTIVATE_HOUSE_HOLD_SUBSCRIPTION = "customers/api/household/reactivate-subscription/{UUID}"
 
 
-    private val api: CustomersRetroService =
+     val api: CustomersRetroService =
         RetroNetwork.createService(CustomersRetroService::class.java)
 
     override suspend fun signUp(signUpRequest: SignUpRequest): RetroApiResponse<SignUpResponse> {
@@ -322,36 +322,4 @@ object CustomersRepository : BaseRepository(), CustomersApi {
 
     override suspend fun saveReferalInvitation(saveReferalRequest: SaveReferalRequest): RetroApiResponse<ApiResponse> =
         executeSafely(call = { api.saveReferalInvitation(saveReferalRequest) })
-
-    //    Get All subaccounts for a IBAN user:
-    override suspend fun getSubAccounts(): RetroApiResponse<SubAccounts> =
-        executeSafely(call = { api.getSubAccountAccount() })
-
-    override suspend fun getHouseholdUser(uuid: String?) =
-        executeSafely(call = { api.getHouseholdUser(uuid) })
-
-    // Resend request to  house hold user from IBAN user
-    override suspend fun resendRequestToHouseHoldUser(uuid: String?) =
-        executeSafely(call = { api.resendRequestToHouseHoldUser(uuid) })
-
-    // Remove house hold user from IBAN Sub Account
-    override suspend fun RemoveRefundHouseHoldUser(uuid: String?) =
-        executeSafely(call = { api.RemoveRefundHouseHoldUser(uuid) })
-
-    //     Get House Hold user subscription From Iban user
-    override suspend fun getHouseHoldSubscription(uuid: String?): RetroApiResponse<HouseHoldGetSubscriptionResponseDTO> =
-        executeSafely(call = { api.getHouseHoldSubscription(uuid) })
-
-    override suspend fun setUpHouseHoldSubscription(
-        uuid: String?,
-        planType: String?, isAutoRenew: Boolean?
-    ): RetroApiResponse<ApiResponse> =
-        executeSafely(call = { api.setUpHouseHoldSubscription(uuid, planType, isAutoRenew) })
-
-    override suspend fun cancelHouseHoldSubscription(uuid: String?): RetroApiResponse<ApiResponse> =
-        executeSafely(call = { api.cancelHouseHoldSubscription(uuid) })
-
-
-    override suspend fun reActivateHouseHoldSubscription(uuid: String?): RetroApiResponse<ApiResponse> =
-        executeSafely(call = { api.reActivateHouseHoldSubscription(uuid) })
 }

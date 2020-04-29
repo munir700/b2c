@@ -3,6 +3,8 @@ package co.yap.modules.subaccounts.account.card
 import android.os.Bundle
 import androidx.databinding.ObservableField
 import androidx.navigation.NavController
+import co.yap.networking.customers.CustomerHHApi
+import co.yap.networking.customers.CustomersHHRepository
 import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.customers.responsedtos.SubAccount
 import co.yap.networking.customers.responsedtos.SubAccounts
@@ -15,7 +17,7 @@ import javax.inject.Inject
 
 class SubAccountCardVM @Inject constructor(override val state: ISubAccountCard.State) :
     BaseRecyclerAdapterVM<SubAccount, ISubAccountCard.State>(), ISubAccountCard.ViewModel {
-    private val repository: CustomersRepository = CustomersRepository
+    private val repository: CustomerHHApi = CustomersHHRepository
     override fun onFirsTimeUiCreate(bundle: Bundle?, navigation: NavController?) {
         getSubAccount()
         getEmptyAccount()?.let { addData(it) }
