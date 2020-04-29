@@ -218,12 +218,12 @@ class LocationSelectionActivity : MapSupportActivity(), ILocationSelection.View 
                 setIntentAction(false)
             }
             R.id.layoutCitiesBottomSheet -> {
-                setupPOP()
+                setupCitiesList()
             }
         }
     }
 
-    private fun setupPOP() {
+    private fun setupCitiesList() {
         var citiesListBottomSheet: BottomSheetDialogFragment? = null
         this.supportFragmentManager.let {
             citiesListBottomSheet = CitiesListBottomSheet(object :
