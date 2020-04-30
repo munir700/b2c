@@ -23,7 +23,7 @@ class TransactionDiffCallback(
     }
 
     override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-        return oldTransactions[oldItemPosition].content.size == newTransactions[newItemPosition].content.size
+        return oldTransactions[oldItemPosition].transaction.size == newTransactions[newItemPosition].transaction.size
     }
 
     @Nullable

@@ -12,7 +12,7 @@ import co.yap.databinding.ActivityTransactionDetailsBinding
 import co.yap.modules.dashboard.transaction.interfaces.ITransactionDetails
 import co.yap.modules.dashboard.transaction.viewmodels.TransactionDetailsViewModel
 import co.yap.modules.others.note.activities.TransactionNoteActivity
-import co.yap.networking.transactions.responsedtos.transaction.Content
+import co.yap.networking.transactions.responsedtos.transaction.Transaction
 import co.yap.yapcore.BR
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.constants.Constants
@@ -35,7 +35,7 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel.clickEvent.observe(this, clickEvent)
-        viewModel.transaction.set(intent?.getParcelableExtra("transaction") as Content)
+        viewModel.transaction.set(intent?.getParcelableExtra("transaction") as Transaction)
         setSpentLabel()
         setMapImageView()
         setTransactionImage()
@@ -124,7 +124,7 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
         }
     }
 
-    private fun setInitialsAsTxnImage(transaction: Content) {
+    private fun setInitialsAsTxnImage(transaction: Transaction) {
         ImageBinding.loadAvatar(
             getBindings().ivPicture,
             "",
@@ -145,7 +145,7 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
         )
     }
 
-    private fun setContentDataColor(transaction: Content?) {
+    private fun setContentDataColor(transaction: Transaction?) {
         //strike-thru textview
         transaction?.let {
             getBindings().tvTotalAmountValue.paintFlags =

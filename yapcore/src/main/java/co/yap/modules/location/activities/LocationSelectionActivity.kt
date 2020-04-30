@@ -71,7 +71,6 @@ class LocationSelectionActivity : MapSupportActivity(), ILocationSelection.View 
 
     private fun addListeners() {
         flTitle.setOnTouchListener { _, _ -> true }
-        //lyAddressFields.setOnTouchListener { _, _ -> true }
         transparentImage.setOnTouchListener { _, _ -> !((viewModel.isMapExpanded.value) ?: false) }
     }
 
@@ -135,11 +134,9 @@ class LocationSelectionActivity : MapSupportActivity(), ILocationSelection.View 
             if (it) {
                 hideKeyboard()
                 rlCollapsedMapSection.visibility = View.GONE
-                //lyAddressFields.visibility = View.GONE
                 ivClose.visibility = View.VISIBLE
             } else {
                 rlCollapsedMapSection.visibility = View.VISIBLE
-                ///lyAddressFields.visibility = View.VISIBLE
                 ivClose.visibility = View.GONE
             }
         })
@@ -163,7 +160,7 @@ class LocationSelectionActivity : MapSupportActivity(), ILocationSelection.View 
             if (viewModel.state.isTermsChecked.get() == true) {
                 viewModel.termsCheckedTime.value =
                     SimpleDateFormat(
-                        DateUtils.LeanPlumEventFormat,
+                        DateUtils.LEAN_PLUM_EVENT_FORMAT,
                         Locale.US
                     ).format(Calendar.getInstance().time)
             }

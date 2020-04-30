@@ -44,7 +44,7 @@ import co.yap.modules.dummy.ActivityNavigator
 import co.yap.modules.dummy.NavigatorProvider
 import co.yap.modules.others.helper.Constants
 import co.yap.networking.cards.responsedtos.Card
-import co.yap.networking.transactions.responsedtos.transaction.Content
+import co.yap.networking.transactions.responsedtos.transaction.Transaction
 import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionListData
 import co.yap.translation.Strings
 import co.yap.yapcore.AdjustEvents.Companion.trackAdjustPlatformEvent
@@ -127,7 +127,7 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
                     var shouldAppend = false
                     for (i in 0 until oldData.size) {
                         if (parentItem.date == oldData[i].date) {
-                            if (parentItem.content.size != oldData[i].content.size) {
+                            if (parentItem.transaction.size != oldData[i].transaction.size) {
                                 shouldAppend = true
                                 break
                             }
@@ -620,7 +620,7 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
 
     private val adaptorlistener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
-            if (data is Content) {
+            if (data is Transaction) {
                 launchActivity<TransactionDetailsActivity> {
                     putExtra("transaction", data)
                 }

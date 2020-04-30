@@ -238,6 +238,7 @@ class ProfileSettingsViewModel(application: Application) :
 
     private fun getExpiryDate(expiryDateString: String) {
         val simpleDateFormat = SimpleDateFormat("yyyy-MM-dd")
+        simpleDateFormat.timeZone = TimeZone.getDefault()
         val expireyDate = simpleDateFormat.parse(expiryDateString)
         val cal = Calendar.getInstance()
         val currentDay = simpleDateFormat.format(cal.time)

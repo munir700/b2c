@@ -9,7 +9,7 @@ import co.yap.R
 import co.yap.databinding.ItemEmptyBinding
 import co.yap.databinding.ItemTransactionListHeaderBinding
 import co.yap.modules.dashboard.home.helpers.transaction.ItemHeaderTransactionsViewModel
-import co.yap.networking.transactions.responsedtos.transaction.Content
+import co.yap.networking.transactions.responsedtos.transaction.Transaction
 import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionListData
 import co.yap.yapcore.BaseBindingRecyclerAdapter
 import co.yap.yapcore.enums.TxnType
@@ -74,8 +74,8 @@ class TransactionsHeaderAdapter(
             itemTransactionListHeaderBinding.rvExpandedTransactionsListing.onFlingListener = null
             snapHelper.attachToRecyclerView(itemTransactionListHeaderBinding.rvExpandedTransactionsListing)
 
-            val mutableList = mutableListOf<Content>()
-            mutableList.addAll(homeTransaction.content)
+            val mutableList = mutableListOf<Transaction>()
+            mutableList.addAll(homeTransaction.transaction)
 
             val adaptor =
                 TransactionsListingAdapter(mutableList)
@@ -88,7 +88,7 @@ class TransactionsHeaderAdapter(
             })
 
             var total = 0.0
-            homeTransaction.content.map {
+            homeTransaction.transaction.map {
                 if (it.txnType == TxnType.DEBIT.type) total -= (it.totalAmount
                     ?: 0.0) else total += (it.amount ?: 0.0)
             }
