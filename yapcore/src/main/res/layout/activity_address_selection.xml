@@ -45,8 +45,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/white"
-                android:paddingBottom="@dimen/margin_normal"
                 android:orientation="vertical"
+                android:paddingBottom="@dimen/margin_normal"
                 tools:ignore="MissingConstraints">
 
                 <LinearLayout
@@ -86,18 +86,18 @@
                     <TextView
                         android:id="@+id/tvAddressSelectionSubHeading"
                         style="@style/ASmallGrey"
-                        android:lineSpacingExtra="2sp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/margin_medium_large"
                         android:layout_marginTop="@dimen/margin_small"
                         android:layout_marginEnd="@dimen/margin_medium_large"
                         android:gravity="center"
-                        tools:visibility="gone"
+                        android:lineSpacingExtra="2sp"
                         android:text="@{viewModel.state.subHeadingTitle}"
                         android:visibility="@{viewModel.state.subHeadingTitle.trim().equals(``) ? View.GONE : View.VISIBLE}"
                         app:layout_constraintTop_toBottomOf="@+id/tvAddressSelectionHeading"
-                        tools:text="@string/screen_meeting_location_display_text_subtitle" />
+                        tools:text="@string/screen_meeting_location_display_text_subtitle"
+                        tools:visibility="gone" />
                 </LinearLayout>
             </FrameLayout>
 
