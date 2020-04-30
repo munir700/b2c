@@ -9,15 +9,14 @@ import androidx.navigation.fragment.findNavController
 import co.yap.networking.transactions.requestdtos.RemittanceFeeRequest
 import co.yap.networking.transactions.responsedtos.purposepayment.PurposeOfPayment
 import co.yap.networking.transactions.responsedtos.transaction.FxRateResponse
+import co.yap.sendmoney.BR
 import co.yap.sendmoney.PopListBottomSheet
+import co.yap.sendmoney.R
+import co.yap.sendmoney.databinding.FragmentInternationalFundsTransferBinding
 import co.yap.sendmoney.fundtransfer.activities.BeneficiaryFundTransferActivity
-import co.yap.sendmoney.fundtransfer.fragments.BeneficiaryFundTransferBaseFragment
 import co.yap.sendmoney.fundtransfer.fragments.InternationalFundsTransferFragmentDirections
 import co.yap.sendmoney.fundtransfer.interfaces.IInternationalFundsTransfer
 import co.yap.sendmoney.fundtransfer.viewmodels.InternationalFundsTransferViewModel
-import co.yap.sendmoney.BR
-import co.yap.sendmoney.R
-import co.yap.sendmoney.databinding.FragmentInternationalFundsTransferBinding
 import co.yap.translation.Strings
 import co.yap.translation.Translator
 import co.yap.yapcore.enums.SendMoneyBeneficiaryType
@@ -26,6 +25,7 @@ import co.yap.yapcore.helpers.DecimalDigitsInputFilter
 import co.yap.yapcore.helpers.cancelAllSnackBar
 import co.yap.yapcore.helpers.extentions.afterTextChanged
 import co.yap.yapcore.helpers.extentions.parseToDouble
+import co.yap.yapcore.helpers.extentions.toFormattedAmountWithCurrency
 import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 import co.yap.yapcore.helpers.spannables.color
 import co.yap.yapcore.helpers.spannables.getText
@@ -55,6 +55,7 @@ class InternationalFundsTransferFragment :
         viewModel.getReasonList(productCode)
         viewModel.getTransactionInternationalfxList(productCode)
         viewModel.getTransactionThresholds()
+        viewModel.getCutOffTimeConfiguration()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -90,6 +91,11 @@ class InternationalFundsTransferFragment :
         viewModel.isAPIFailed.observe(this, Observer {
             if (it) {
                 requireActivity().finish()
+            }
+        })
+        viewModel.transactionMightGetHeld.observe(this, Observer {
+            if (it) {
+                //moveToConfirmTransferScreen()
             }
         })
     }
@@ -164,8 +170,10 @@ class InternationalFundsTransferFragment :
             } else {
                 if (isDailyLimitReached())
                     showLimitError()
-                else
+                else {
+                    //viewModel.getCutOffTimeConfiguration()
                     moveToConfirmTransferScreen()
+                }
             }
         } else {
             showBalanceNotAvailableError()
@@ -204,14 +212,29 @@ class InternationalFundsTransferFragment :
         viewModel.parentViewModel?.transactionThreshold?.value?.let {
             it.dailyLimit?.let { dailyLimit ->
                 it.totalDebitAmount?.let { totalConsumedAmount ->
-                    viewModel.state.etOutputAmount.parseToDouble().let { enteredAmount ->
-                        val remainingDailyLimit =
-                            if ((dailyLimit - totalConsumedAmount) < 0.0) 0.0 else (dailyLimit - totalConsumedAmount)
-                        viewModel.state.errorDescription =
-                            if (enteredAmount > dailyLimit) getString(Strings.common_display_text_daily_limit_error_single_transaction) else getString(
-                                Strings.common_display_text_daily_limit_error_single_transaction
-                            )
-                        return (enteredAmount > remainingDailyLimit)
+                    viewModel.state.etInputAmount.parseToDouble().let { enteredAmount ->
+                        if (viewModel.transactionMightGetHeld.value == true) {
+                            val totalHoldAmount =
+                                (it.holdSwiftAmount ?: 0.0).plus(it.holdUAEFTSAmount ?: 0.0)
+                            val holdPlusEnteredAmount = totalHoldAmount.plus(enteredAmount)
+
+                            val remainingDailyLimit =
+                                if ((dailyLimit - totalHoldAmount) < 0.0) 0.0 else (dailyLimit - totalHoldAmount)
+                            viewModel.state.errorDescription =
+                                "You have exceeded your limit for held on transactions, please enter an amount less than %1s".format(
+                                    (dailyLimit - totalHoldAmount).toString()
+                                        .toFormattedAmountWithCurrency()
+                                )
+                            return (enteredAmount > remainingDailyLimit)
+                        } else {
+                            val remainingDailyLimit =
+                                if ((dailyLimit - totalConsumedAmount) < 0.0) 0.0 else (dailyLimit - totalConsumedAmount)
+                            viewModel.state.errorDescription =
+                                if (enteredAmount > dailyLimit) getString(Strings.common_display_text_daily_limit_error_single_transaction) else getString(
+                                    Strings.common_display_text_daily_limit_error_single_transaction
+                                )
+                            return (enteredAmount > remainingDailyLimit)
+                        }
                     }
                 } ?: return false
             } ?: return false
@@ -270,6 +293,7 @@ class InternationalFundsTransferFragment :
             viewModel.updateFees()
         }
     }
+
 
     private fun checkOnTextChangeValidation() {
         if (isBalanceAvailable()) {

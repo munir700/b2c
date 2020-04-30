@@ -27,9 +27,10 @@ object Strings {
         "common_display_text_daily_limit_error_multiple_transactions"
     const val common_display_text_available_balance_error: String =
         "common_display_text_available_balance_error"
-
     const val common_display_text_min_max_limit_error_transaction: String =
         "common_display_text_min_max_limit_error_transaction"
+    const val common_display_text_daily_limit_error: String =
+        "common_display_text_daily_limit_error"
 
     //Home screen
     const val screen_home_display_text_tag_line: String = "screen_home_display_text_tag_line"
@@ -155,6 +156,8 @@ object Strings {
         "screen_meeting_location_display_text_add_new_address_title"
     const val screen_meeting_location_display_text_add_new_address_subtitle: String =
         "screen_meeting_location_display_text_add_new_address_subtitle"
+    const val screen_meeting_location_display_text_add_manual_address_subtitle: String =
+        "screen_meeting_location_display_text_add_manual_address_subtitle"
 
     //System permission screen
     const val screen_system_permission_text_title: String = "screen_system_permission_text_title"
@@ -493,6 +496,7 @@ object Strings {
 
     const val screen_add_funds_button_add: String =
         "screen_add_funds_button_add"
+
     //card status screen transaction
     const val screen_card_status_display_text_ordered: String =
         "screen_card_status_display_text_ordered"
@@ -559,6 +563,8 @@ object Strings {
         "screen_remove_funds_display_text_available_balance"
     const val screen_success_remove_funds_transaction_display_text_moved_success: String =
         "screen_success_remove_funds_transaction_display_text_moved_success"
+    const val screen_remove_funds_display_text_unfreeze_feature: String =
+        "screen_remove_funds_display_text_unfreeze_feature"
 
     //     Report lost or stolen cards screen
 
@@ -716,6 +722,7 @@ object Strings {
         "screen_profile_settings_logout_display_text_alert_cancel"
     const val screen_profile_settings_logout_display_text_alert_logout: String =
         "screen_profile_settings_logout_display_text_alert_logout"
+
     //Yap More
     const val screen_more_display_text_bank_details: String =
         "screen_more_display_text_bank_details"
@@ -1167,9 +1174,10 @@ object Strings {
         "screen_topup_card_cvv_display_text_title"
     const val screen_topup_card_cvv_display_text_cvv: String =
         "screen_topup_card_cvv_display_text_cvv"
-
     const val screen_y2y_display_text_recent_transfer: String =
         "screen_y2y_display_text_recent_transfer"
+    const val screen_add_topup_card_limit_text_title: String =
+        "screen_add_topup_card_limit_text_title"
 
     // Screen Card Analytics
     const val screen_card_analytics_display_tab_title_category: String =
@@ -1217,7 +1225,6 @@ object Strings {
         "scren_send_money_funds_transfer_confirmation_display_text_disclaimer"
     const val scren_send_money_funds_transfer_confirmation_display_text_disclaimer_terms: String =
         "scren_send_money_funds_transfer_confirmation_display_text_disclaimer_terms"
-
 
 
     // Screen cash pickup funds transfer success
@@ -1406,6 +1413,7 @@ object Strings {
         "screen_house_hold_number_registration_error_text"
     const val screen_house_hold_create_passcode_heading_text: String =
         "screen_house_hold_create_passcode_heading_text"
+
     // New User Success household screen
     const val screen_congratulations_display_text_title: String =
         "screen_congratulations_display_text_title"
@@ -1515,6 +1523,7 @@ object Strings {
         "screen_invite_friend_button_share"
     const val screen_invite_friend_display_text_share_url: String =
         "screen_invite_friend_display_text_share_url"
+
     //Yap for you
     const val screen_yap_for_you_display_text_title: String =
         "screen_yap_for_you_display_text_title"
@@ -1529,4 +1538,14 @@ object Strings {
     // YAP for you (Your Achievements)
     const val screen_your_achievements_display_text_toolbar_title: String =
         "screen_your_achievements_display_text_toolbar_title"
+
+    // Blocked OTP
+    const val screen_blocked_otp_display_text_message: String =
+        "screen_blocked_otp_display_text_message"
+    const val screen_popup_activation_pending_display_text_message: String =
+        "screen_popup_activation_pending_display_text_message"
+    const val screen_otp_blocked_display_text_heading: String =
+        "screen_otp_blocked_display_text_heading"
+const val screen_otp_blocked_display_text_details: String =
+        "screen_otp_blocked_display_text_details"
 }

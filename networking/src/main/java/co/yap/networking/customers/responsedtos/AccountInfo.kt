@@ -58,7 +58,13 @@ class AccountInfo(
     @SerializedName("iban")
     var iban: String? = null,
     @SerializedName("documentsVerified")
-    var documentsVerified: Boolean? = false
-
-
+    var documentsVerified: Boolean? = false,
+    @SerializedName("otpBlocked")
+    var otpBlocked: Boolean? = false,
+    @SerializedName("termsAndConditionTimeStamp")
+    var termsAndConditionTimeStamp: String? = null,
+    @SerializedName("csrDocumentTimeStamp")
+    var csrDocumentTimeStamp: String? = null,
+    @SerializedName("workItemCreated")
+    var workItemCreated: Boolean? = false
 ) : Parcelable

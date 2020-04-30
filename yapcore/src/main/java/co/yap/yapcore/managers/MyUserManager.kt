@@ -48,6 +48,7 @@ object MyUserManager : IRepositoryHolder<CardsRepository> {
                 }
 
                 is RetroApiResponse.Error -> {
+                    onAccountInfoSuccess.postValue(false)
                 }
             }
         }

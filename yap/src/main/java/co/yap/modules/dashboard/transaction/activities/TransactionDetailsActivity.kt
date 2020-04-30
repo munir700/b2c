@@ -12,16 +12,15 @@ import co.yap.databinding.ActivityTransactionDetailsBinding
 import co.yap.modules.dashboard.transaction.interfaces.ITransactionDetails
 import co.yap.modules.dashboard.transaction.viewmodels.TransactionDetailsViewModel
 import co.yap.modules.others.note.activities.TransactionNoteActivity
-import co.yap.networking.transactions.responsedtos.transaction.Content
-import co.yap.translation.Strings
+import co.yap.networking.transactions.responsedtos.transaction.Transaction
 import co.yap.yapcore.BR
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.TransactionProductCode
+import co.yap.yapcore.enums.TransactionStatus
 import co.yap.yapcore.enums.TxnType
 import co.yap.yapcore.helpers.ImageBinding
 import co.yap.yapcore.helpers.extentions.*
-import co.yap.yapcore.helpers.spannables.getText
 
 class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewModel>(),
     ITransactionDetails.View {
@@ -36,18 +35,38 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel.clickEvent.observe(this, clickEvent)
-        viewModel.transaction.set(intent?.getParcelableExtra("transaction") as Content)
+        viewModel.transaction.set(intent?.getParcelableExtra("transaction") as Transaction)
         setSpentLabel()
         setMapImageView()
         setTransactionImage()
         setTransactionTitle()
+        setCardMaskNo()
+        setAddress()
         setContentDataColor(viewModel.transaction.get())
-        getBindings().tvDestinationAmount.text = "${viewModel.transaction.get().getCurrency()} ${viewModel.transaction.get().getAmount()}"
-        getBindings().tvFxRateValue.text = resources.getText(
-            getString(Strings.screen_funds_confirmation_success_description),
-            "${viewModel.transaction.get()
-                .getCurrency()} , ${viewModel.transaction.get()?.fxRate} ${viewModel.transaction.get()?.currency}"
-        )
+    }
+
+    private fun setAddress() {
+        val location = viewModel.transaction.get()?.let {
+            when {
+                it.status == TransactionStatus.CANCELLED.name -> "Transfer Rejected"
+                it.productCode == TransactionProductCode.FUND_LOAD.pCode -> it.otherBankName ?: ""
+                else -> it.cardAcceptorLocation ?: ""
+            }
+        }
+        if (location.isNullOrBlank()) {
+            getBindings().tvAddress.visibility = View.GONE
+        } else {
+            getBindings().tvAddress.visibility = View.VISIBLE
+            getBindings().tvAddress.text = location
+        }
+    }
+
+    private fun setCardMaskNo() {
+        val maskCardNo = viewModel.transaction.get()?.maskedCardNo?.split(" ")?.lastOrNull()
+        maskCardNo?.let {
+            getBindings().tvCardMask.text = "*${maskCardNo}"
+        }
+
     }
 
     private fun setSpentLabel() {
@@ -79,8 +98,8 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
 
     private fun setTransactionImage() {
         viewModel.transaction.get()?.let { transaction ->
-            when (TransactionProductCode.Y2Y_TRANSFER.pCode) {
-                transaction.productCode ?: "" -> {
+            when {
+                TransactionProductCode.Y2Y_TRANSFER.pCode == transaction.productCode ?: "" -> {
                     ImageBinding.loadAvatar(
                         getBindings().ivPicture,
                         if (TxnType.valueOf(
@@ -94,16 +113,18 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
                 }
                 else -> {
                     val txnIconResId = transaction.getTransactionIcon()
-                    if (txnIconResId != -1)
+                    if (txnIconResId != -1) {
                         getBindings().ivPicture.setImageResource(txnIconResId)
-                    else
+                        if (txnIconResId == R.drawable.ic_rounded_plus)
+                            getBindings().ivPicture.setBackgroundResource(R.drawable.bg_round_grey)
+                    } else
                         setInitialsAsTxnImage(transaction)
                 }
             }
         }
     }
 
-    private fun setInitialsAsTxnImage(transaction: Content) {
+    private fun setInitialsAsTxnImage(transaction: Transaction) {
         ImageBinding.loadAvatar(
             getBindings().ivPicture,
             "",
@@ -124,7 +145,7 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
         )
     }
 
-    private fun setContentDataColor(transaction: Content?) {
+    private fun setContentDataColor(transaction: Transaction?) {
         //strike-thru textview
         transaction?.let {
             getBindings().tvTotalAmountValue.paintFlags =

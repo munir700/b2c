@@ -35,7 +35,7 @@ class CardStatementsViewModel(application: Application) :
             val date =
                 DateUtils.stringToDate(
                     it,
-                    DateUtils.FORMAT_LONG_INPUT
+                    DateUtils.SERVER_DATE_FORMAT
                 )
             date?.let {
                 creationCalender.time = it

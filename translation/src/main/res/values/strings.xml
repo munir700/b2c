@@ -20,8 +20,10 @@
     <string name="common_text_fee">Fee: %1s</string>
     <string name="common_display_text_daily_limit_error_single_transaction">This amount exceeds your daily transaction limit</string>
     <string name="common_display_text_daily_limit_error_multiple_transactions">You have exceeded your daily transaction limit</string>
+    <string name="common_display_text_daily_limit_error_topup_supplementary">That\'s over your daily limit. Please enter an amount lower than AED %1s</string>
     <string name="common_display_text_available_balance_error">Your entered amount should be less than or equal to your current balance of AED %1s</string>
     <string name="common_display_text_min_max_limit_error_transaction">Your entered amount should be between AED %1s and AED %2s</string>
+    <string name="common_display_text_daily_limit_error">That\'s over your daily limit. Please enter an amount lower than AED %1s</string>
 
 
     <!-- Home Screen -->
@@ -152,7 +154,7 @@
     <string name="screen_meeting_location_button_change_location">Tap here to change location</string>
     <string name="screen_meeting_location_input_text_address_title">Address</string>
     <string name="screen_meeting_location_input_text_address_hint">Enter your address</string>
-    <string name="screen_meeting_location_input_text_landmark_title">Flat number/ Building name/ Landmark (optional)</string>
+    <string name="screen_meeting_location_input_text_landmark_title">Flat number/ Building name/ Landmark</string>
     <string name="screen_meeting_location_input_text_landmark_hint">Enter landmark</string>
     <string name="screen_meeting_location_button_confirm_selected_location">Confirm location</string>
     <string name="screen_meeting_location_display_text_selected_subtitle">Location has been added successfully</string>
@@ -160,7 +162,8 @@
     <string name="screen_meeting_location_text_terms_and_conditions"> CRS and FATCA Terms and Conditions</string>
 
     <string name="screen_meeting_location_display_text_add_new_address_title">Add new delivery address</string>
-    <string name="screen_meeting_location_display_text_add_new_address_subtitle">Where can we deliever your spare card?</string>
+    <string name="screen_meeting_location_display_text_add_new_address_subtitle">Where can we deliver your debit card?</string>
+    <string name="screen_meeting_location_display_text_add_manual_address_subtitle">We’ll need you to enter your address below</string>
 
 
     <!-- Eid details review screen -->
@@ -333,6 +336,7 @@
     <!--    Remove funds Screen-->
 
     <string name="screen_remove_funds_display_text_remove_funds">Remove funds</string>
+    <string name="screen_remove_funds_display_text_unfreeze_feature">Please unfreeze card to use this feature</string>
     <string name="screen_remove_funds_button_remove">Remove</string>
     <string name="screen_remove_funds_display_text_enter_amount">Enter the amount to remove</string>
     <string name="screen_remove_funds_display_text_available_balance">Your available balance is </string>
@@ -543,6 +547,7 @@
     <string name="screen_y2y_funds_transfer_display_text_error_exceeding_amount">Entered amount exceeds the available balance</string>
     <string name="screen_y2y_funds_transfer_display_text_balance">Your available balance is</string>
     <string name="screen_yap_to_yap_transfer_display_text_button">Confirm</string>
+    <string name="screen_y2y_funds_transfer_display_text_limit_error">That\'s over your daily limit. Please enter an amount lower than AED</string>
 
     <!--    Y2Y funds Transfer success screen-->
     <string name="screen_y2y_funds_transfer_success_display_text_title">Transfer successful</string>
@@ -740,7 +745,7 @@
     <string name="screen_add_topup_card_succes_button_top_up_now">Yes, top up now"</string>
     <string name="screen_add_topup_card_succes_button_later">No, do it later</string>
     <string name="screen_card_detail_alert_text_disappears">Disappears in %1s seconds</string>
-
+    <string name="screen_add_topup_card_limit_text_title">You can only add %1s cards.</string>
 
     <!-- Screen Card Analytics -->
     <string name="screen_card_analytics_display_tab_title_category">Category</string>
@@ -965,6 +970,14 @@
     <string name="screen_invite_friend_display_text_referal_code">Share your referral link</string>
     <string name="screen_invite_friend_button_share">Share</string>
     <string name="screen_invite_friend_display_text_share_url">Hi,\nI’ve just started using YAP and loving it so far, I thought you’d like to try it out for yourself. It’s not available for the public yet but I’ve saved you a special invite.\n\nDownload on App Store:\n%1s\n\nDownload on Play Store:\n%2s</string>
+
+    <!--  OTP Blocked New screen -->
+    <string name="screen_otp_blocked_display_text_heading">We thought you should know, %1s!</string>
+    <string name="screen_otp_blocked_display_text_details">Some app features have been temporarily blocked for your security. This is because you made too many incorrect OTP attempts.\n\nGet in touch by calling our agents at %1s or message us via the Live Chat so we can unblock your account right away!</string>
+    <string name="screen_blocked_otp_display_text_message">This feature has been blocked! Call or chat with us to get access.</string>
+    <string name="screen_popup_activation_pending_display_text_message">Account activation pending</string>
+
+
 
 </resources>
 

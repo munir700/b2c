@@ -111,9 +111,9 @@ class NotificationHomeFragment : NotificationsBaseFragment<INotificationHome.Vie
         viewModel.parentViewModel?.notification = viewModel.adapter.getDataForPosition(position)
 
         viewModel.parentViewModel?.notification?.also {
-            it.date = DateUtils.datetoString(
+            it.date = DateUtils.dateToString(
                 DateUtils.stringToDateLeanPlum(it.date ?: "") ?: Date(),
-                DateUtils.LEANPLUM_FORMATOR
+                DateUtils.LEAN_PLUM_FORMAT
             )
         }
 

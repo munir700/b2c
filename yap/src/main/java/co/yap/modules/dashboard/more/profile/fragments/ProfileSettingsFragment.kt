@@ -5,6 +5,7 @@ import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.webkit.MimeTypeMap
 import androidx.annotation.NonNull
 import androidx.appcompat.app.AlertDialog
 import androidx.core.net.toUri
@@ -23,6 +24,7 @@ import co.yap.modules.others.helper.Constants
 import co.yap.modules.webview.WebViewFragment
 import co.yap.yapcore.constants.Constants.KEY_IS_FINGERPRINT_PERMISSION_SHOWN
 import co.yap.yapcore.constants.Constants.KEY_TOUCH_ID_ENABLED
+import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.biometric.BiometricUtil
@@ -138,19 +140,8 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
         })
     }
 
-
-    private fun onPhotosReturned(path: File?, position: Int, source: EasyImage.ImageSource?) {
-        path?.let {
-            viewModel.uploadProfconvertUriToFile(it.toUri())
-            viewModel.state.imageUri = it.toUri()
-            ivProfilePic.setImageURI(it.toUri())
-        }
-
-    }
-
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-
         EasyImage.handleActivityResult(requestCode, resultCode, data, activity,
             object : DefaultCallback() {
                 override fun onImagePicked(
@@ -166,10 +157,27 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
                     source: EasyImage.ImageSource?,
                     type: Int
                 ) {
-                    //Some error handling
-                    showToast(e?.message.toString())
+                    viewModel.state.toast = "Invalid file found^${AlertType.DIALOG.name}"
                 }
             })
+    }
+
+    private fun onPhotosReturned(path: File?, position: Int, source: EasyImage.ImageSource?) {
+        path?.let {
+            val ext = MimeTypeMap.getFileExtensionFromUrl(it.toURI().toURL().toString())
+            if (!ext.isNullOrBlank()) {
+                when (ext) {
+                    "png", "jpg", "jpeg" -> {
+                        viewModel.uploadProfconvertUriToFile(it.toUri())
+                        viewModel.state.imageUri = it.toUri()
+                        ivProfilePic.setImageURI(it.toUri())
+                    }
+                    else -> {
+                        viewModel.state.toast = "Invalid file found^${AlertType.DIALOG.name}"
+                    }
+                }
+            }
+        }
     }
 
     override fun onDestroy() {

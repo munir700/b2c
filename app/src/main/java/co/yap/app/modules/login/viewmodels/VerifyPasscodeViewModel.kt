@@ -21,6 +21,7 @@ import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.SingleLiveEvent
 import co.yap.yapcore.constants.Constants.KEY_IS_USER_LOGGED_IN
+import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.toast
@@ -161,7 +162,7 @@ class VerifyPasscodeViewModel(application: Application) :
                     }
                 }
                 is RetroApiResponse.Error -> {
-                    state.toast = response.error.message
+                    state.toast = "${response.error.message}^${AlertType.DIALOG.name}"
                     state.loading = false
                 }
             }
@@ -181,7 +182,7 @@ class VerifyPasscodeViewModel(application: Application) :
                 }
                 is RetroApiResponse.Error -> {
                     state.loading = true
-                    state.toast = response.error.message
+                    state.toast = "${response.error.message}^${AlertType.DIALOG.name}"
                 }
             }
             state.loading = false
@@ -197,7 +198,7 @@ class VerifyPasscodeViewModel(application: Application) :
                     createOtpResult.postValue(true)
                 }
                 is RetroApiResponse.Error -> {
-                    state.toast = response.error.message
+                    state.toast = "${response.error.message}^${AlertType.DIALOG.name}"
                     state.loading = false
                 }
             }
@@ -228,7 +229,7 @@ class VerifyPasscodeViewModel(application: Application) :
                             forgotPasscodeButtonPressEvent.setValue(id)
                         }
                         is RetroApiResponse.Error -> {
-                            state.toast = response.error.message
+                            state.toast = "${response.error.message}^${AlertType.DIALOG.name}"
                             state.loading = false
                         }
                     }

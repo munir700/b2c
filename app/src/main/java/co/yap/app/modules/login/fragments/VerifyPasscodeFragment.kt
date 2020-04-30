@@ -27,12 +27,14 @@ import co.yap.yapcore.constants.Constants.KEY_IS_FINGERPRINT_PERMISSION_SHOWN
 import co.yap.yapcore.constants.Constants.KEY_IS_USER_LOGGED_IN
 import co.yap.yapcore.constants.Constants.KEY_TOUCH_ID_ENABLED
 import co.yap.yapcore.constants.Constants.VERIFY_PASS_CODE_BTN_TEXT
+import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.biometric.BiometricCallback
 import co.yap.yapcore.helpers.biometric.BiometricManagerX
 import co.yap.yapcore.helpers.biometric.BiometricUtil
 import co.yap.yapcore.helpers.extentions.preventTakeScreenShot
+import co.yap.yapcore.helpers.extentions.startFragment
 import co.yap.yapcore.helpers.extentions.toast
 import co.yap.yapcore.managers.MyUserManager
 import kotlinx.android.synthetic.main.fragment_verify_passcode.*
@@ -54,7 +56,6 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
         super.onCreate(savedInstanceState)
         sharedPreferenceManager = SharedPreferenceManager(requireContext())
     }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         preventTakeScreenShot(true)
@@ -163,13 +164,17 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
         viewModel.forgotPasscodeButtonPressEvent.observe(this, Observer {
             when (it) {
                 R.id.tvForgotPassword -> {
-                    if (!isUserLoginIn()) {
-                        goToNext(viewModel.state.username)
+                    if (MyUserManager.user?.otpBlocked == true) {
+                        showToast("${getString(Strings.screen_blocked_otp_display_text_message)}^${AlertType.DIALOG.name}")
                     } else {
-                        sharedPreferenceManager.getDecryptedUserName()?.let { username ->
-                            viewModel.state.username = username
+                        if (!isUserLoginIn()) {
                             goToNext(viewModel.state.username)
-                        } ?: toast("Invalid user name")
+                        } else {
+                            sharedPreferenceManager.getDecryptedUserName()?.let { username ->
+                                viewModel.state.username = username
+                                goToNext(viewModel.state.username)
+                            } ?: toast("Invalid user name")
+                        }
                     }
                 }
             }
@@ -305,7 +310,11 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
                     startActivity(OnBoardingHouseHoldActivity.getIntent(requireContext(), bundle))
                     activity?.finish()
                 } else {
-                    findNavController().navigate(R.id.action_goto_yapDashboardActivity)
+                    if (it.otpBlocked==true)
+                        startFragment(fragmentName = OtpBlockedInfoFragment::class.java.name)
+                    else
+                        findNavController().navigate(R.id.action_goto_yapDashboardActivity)
+
                     activity?.finish()
                 }
             }

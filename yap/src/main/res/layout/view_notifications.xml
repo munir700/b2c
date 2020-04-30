@@ -47,7 +47,7 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="0dp"
-                android:layout_height="0dp"
+                android:layout_height="wrap_content"
                 android:layout_toEndOf="@+id/ivNotification"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/ivCross"
@@ -68,15 +68,15 @@
                     android:id="@+id/tvDescription"
                     style="@style/AMicroGrey"
                     android:layout_width="0dp"
-                    android:layout_height="0dp"
+                    android:layout_height="wrap_content"
                     android:layout_marginTop="3dp"
                     android:layout_marginEnd="@dimen/margin_extra_small"
                     android:lineSpacingExtra="0sp"
+                    android:layout_marginStart="@dimen/margin_small"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="@+id/tvTitle"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tvTitle"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    tools:text="On May 24th, Inter asdnational monedasd dasda sadssd asdasada asd asasdas y trandasd adassfer won�t be available from 7 p.m. to 11 p.mdas ads." />
+                    tools:text="On May 24th, Inter asdnational monsdds sd ds sd sd sd sd sd sd dssdsc scdscsd sdcsdcds sd sd sd sd sd sd dsedasd dasda sadssd asdasada asd asasdas y trandasd adassfer won�t be available from 7 p.m. to 11 p.mdas ads." />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
 
