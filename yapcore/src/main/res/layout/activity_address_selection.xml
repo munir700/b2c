@@ -208,7 +208,7 @@
                         android:layout_height="wrap_content"
                         android:paddingTop="@dimen/margin_extra_small"
                         android:paddingBottom="@dimen/margin_extra_small"
-                        android:text="Select"
+                        android:text="@{viewModel.state.city}"
                         app:layout_constraintStart_toStartOf="@+id/tvSelectCity"
                         app:layout_constraintTop_toBottomOf="@id/tvSelectCity"
                         tools:text="Select" />

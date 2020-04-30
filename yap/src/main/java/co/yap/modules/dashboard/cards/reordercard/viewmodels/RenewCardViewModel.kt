@@ -12,6 +12,7 @@ import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.transactions.TransactionsRepository
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.enums.CardType
 import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 import co.yap.yapcore.managers.MyUserManager
@@ -106,7 +107,7 @@ class RenewCardViewModel(application: Application) :
                 }
 
                 is RetroApiResponse.Error -> {
-                    state.toast = response.error.message
+                    state.toast = "${response.error.message}^${AlertType.TOAST.name}"
                 }
             }
         }
@@ -132,7 +133,7 @@ class RenewCardViewModel(application: Application) :
                 }
 
                 is RetroApiResponse.Error -> {
-                    state.toast = response.error.message
+                    state.toast = "${response.error.message}^${AlertType.TOAST.name}"
                 }
             }
         }
@@ -144,12 +145,14 @@ class RenewCardViewModel(application: Application) :
             when (val response = cardRepository.reorderDebitCard(reorderCardRequest)) {
                 is RetroApiResponse.Success -> {
                     reorderCardSuccess.value = true
+                    state.loading = false
                 }
                 is RetroApiResponse.Error -> {
-                    state.toast = response.error.message
+                    state.toast = "${response.error.message}^${AlertType.DIALOG.name}"
+                    state.loading = false
                 }
             }
-            state.loading = false
+
         }
     }
 
@@ -159,12 +162,13 @@ class RenewCardViewModel(application: Application) :
             when (val response = cardRepository.reorderSupplementryCard(reorderCardRequest)) {
                 is RetroApiResponse.Success -> {
                     reorderCardSuccess.value = true
+                    state.loading = false
                 }
                 is RetroApiResponse.Error -> {
-                    state.toast = response.error.message
+                    state.toast = "${response.error.message}^${AlertType.DIALOG.name}"
+                    state.loading = false
                 }
             }
-            state.loading = false
         }
     }
 
@@ -182,7 +186,7 @@ class RenewCardViewModel(application: Application) :
                 }
                 is RetroApiResponse.Error -> {
                     state.valid.set(false)
-                    state.toast = response.error.message
+                    state.toast = "${response.error.message}^${AlertType.DIALOG.name}"
                 }
             }
             state.loading = false

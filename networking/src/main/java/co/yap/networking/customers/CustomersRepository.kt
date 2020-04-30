@@ -103,6 +103,7 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     const val URL_APP_VERSION = "/customers/api/mobile-app-versions"
     //.................... End region of admin repo urls................................................
 
+    const val URL_CITIES = "customers/api/cities"
 
     private val api: CustomersRetroService =
         RetroNetwork.createService(CustomersRetroService::class.java)
@@ -300,4 +301,8 @@ object CustomersRepository : BaseRepository(), CustomersApi {
 
     override suspend fun saveReferalInvitation(saveReferalRequest: SaveReferalRequest): RetroApiResponse<ApiResponse> =
         executeSafely(call = { api.saveReferalInvitation(saveReferalRequest) })
+
+    override suspend fun getCities(): RetroApiResponse<CitiesModel> =
+        executeSafely(call = { api.getCities() })
+
 }

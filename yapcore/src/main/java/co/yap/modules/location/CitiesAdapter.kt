@@ -3,13 +3,14 @@ package co.yap.modules.location
 import android.view.View
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
+import co.yap.networking.customers.responsedtos.City
 import co.yap.yapcore.BaseBindingRecyclerAdapter
 import co.yap.yapcore.R
 import co.yap.yapcore.databinding.ItemCityBinding
 import co.yap.yapcore.interfaces.OnItemClickListener
 
-class CitiesAdapter(private val list: MutableList<String>) :
-    BaseBindingRecyclerAdapter<String, CityItemViewHolder>(list) {
+class CitiesAdapter(private val list: MutableList<City>) :
+    BaseBindingRecyclerAdapter<City, CityItemViewHolder>(list) {
 
     override fun getLayoutIdForViewType(viewType: Int): Int = R.layout.item_city
 
@@ -25,18 +26,18 @@ class CitiesAdapter(private val list: MutableList<String>) :
 class CityItemViewHolder(private val itemCityBinding: ItemCityBinding) :
     RecyclerView.ViewHolder(itemCityBinding.root) {
 
-    fun onBind(cityName: String, position: Int, onItemClickListener: OnItemClickListener?) {
-        itemCityBinding.viewModel = CityItemViewModel(cityName, position, onItemClickListener)
+    fun onBind(city: City, position: Int, onItemClickListener: OnItemClickListener?) {
+        itemCityBinding.viewModel = CityItemViewModel(city, position, onItemClickListener)
         itemCityBinding.executePendingBindings()
     }
 }
 
 class CityItemViewModel(
-    val cityName: String,
+    val city: City,
     private val position: Int,
     private val onItemClickListener: OnItemClickListener?
 ) {
     fun onViewClicked(view: View) {
-        onItemClickListener?.onItemClick(view, cityName, position)
+        onItemClickListener?.onItemClick(view, city, position)
     }
 }

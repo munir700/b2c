@@ -507,8 +507,6 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                     if (result) {
                         val address = it.getParcelableExtra<Address>(ADDRESS)
                         viewModel.requestOrderCard(address)
-                    } else {
-
                     }
                 }
             }

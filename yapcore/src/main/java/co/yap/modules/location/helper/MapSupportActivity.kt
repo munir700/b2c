@@ -134,7 +134,7 @@ open class MapSupportActivity : BaseBindingActivity<ILocationSelection.ViewModel
                 location.longitude
             )
 
-        } catch (e: IndexOutOfBoundsException) {
+        } catch (e: Exception) {
             e.printStackTrace()
         }
         return null

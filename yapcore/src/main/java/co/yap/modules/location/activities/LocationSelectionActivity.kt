@@ -17,6 +17,7 @@ import co.yap.modules.location.helper.MapSupportActivity
 import co.yap.modules.location.interfaces.ILocationSelection
 import co.yap.modules.webview.WebViewFragment
 import co.yap.networking.cards.responsedtos.Address
+import co.yap.networking.customers.responsedtos.City
 import co.yap.yapcore.R
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.Constants.ADDRESS
@@ -32,7 +33,6 @@ import co.yap.yapcore.interfaces.OnItemClickListener
 import com.daimajia.androidanimations.library.Techniques
 import com.daimajia.androidanimations.library.YoYo
 import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import kotlinx.android.synthetic.main.activity_address_selection.*
 import kotlinx.android.synthetic.main.layout_google_maps.*
 import java.text.SimpleDateFormat
@@ -129,6 +129,7 @@ class LocationSelectionActivity : MapSupportActivity(), ILocationSelection.View 
         viewModel.state.isTermsChecked.addOnPropertyChangedCallback(stateObserver)
         viewModel.state.addressSubtitle.addOnPropertyChangedCallback(stateObserver)
         viewModel.state.addressTitle.addOnPropertyChangedCallback(stateObserver)
+        viewModel.state.city.addOnPropertyChangedCallback(stateObserver)
         viewModel.isMapExpanded.observe(this, Observer {
             viewModel.state.toolbarVisibility = !it
             if (it) {
@@ -161,9 +162,12 @@ class LocationSelectionActivity : MapSupportActivity(), ILocationSelection.View 
         override fun onPropertyChanged(sender: Observable?, propertyId: Int) {
             if (viewModel.state.isTermsChecked.get() == true) {
                 viewModel.termsCheckedTime.value =
-                    SimpleDateFormat(DateUtils.LeanPlumEventFormat).format(Calendar.getInstance().time)
+                    SimpleDateFormat(
+                        DateUtils.LeanPlumEventFormat,
+                        Locale.US
+                    ).format(Calendar.getInstance().time)
             }
-            viewModel.state.valid.set(!viewModel.state.addressTitle.get().isNullOrBlank() && !viewModel.state.addressSubtitle.get().isNullOrBlank() && if (viewModel.state.isOnBoarding.get() == false) true else viewModel.state.isTermsChecked.get() == true)
+            viewModel.state.valid.set(!viewModel.state.addressTitle.get().isNullOrBlank() && !viewModel.state.addressSubtitle.get().isNullOrBlank() && viewModel.state.city.get() != "Select" && if (viewModel.state.isOnBoarding.get() == false) true else viewModel.state.isTermsChecked.get() == true)
         }
     }
 
@@ -215,23 +219,25 @@ class LocationSelectionActivity : MapSupportActivity(), ILocationSelection.View 
                 setIntentAction(false)
             }
             R.id.layoutCitiesBottomSheet -> {
-                setupCitiesList()
+                setupCitiesList(viewModel.cities.value)
             }
         }
     }
 
-    private fun setupCitiesList() {
-        var citiesListBottomSheet: CitiesListBottomSheet? = null
-        this.supportFragmentManager.let {
-            citiesListBottomSheet = CitiesListBottomSheet(object :
-                OnItemClickListener {
-                override fun onItemClick(view: View, data: Any, pos: Int) {
-                    citiesListBottomSheet?.dismiss()
-                    tvSelectedCity.text = (data as String)
-                }
-            }, viewModel.getCities())
-            citiesListBottomSheet?.show(it, "")
-        }
+    private fun setupCitiesList(citiesList: ArrayList<City>?) {
+        citiesList?.let { cities ->
+            this.supportFragmentManager.let {
+                val citiesListBottomSheet = CitiesListBottomSheet(object :
+                    OnItemClickListener {
+                    override fun onItemClick(view: View, data: Any, pos: Int) {
+                        (data as? CitiesListBottomSheet)?.dismiss()
+                        viewModel.state.city.set(cities[pos].name)
+                    }
+                }, cities)
+                citiesListBottomSheet.show(it, "")
+            }
+        } ?: viewModel.showMessage("No city found")
+
     }
 
     private fun onMapClickAction() {
@@ -346,6 +352,8 @@ class LocationSelectionActivity : MapSupportActivity(), ILocationSelection.View 
         val intent = Intent()
         viewModel.address?.address1 = viewModel.state.addressTitle.get()
         viewModel.address?.address2 = viewModel.state.addressSubtitle.get()
+        viewModel.address?.city = viewModel.state.city.get()
+        viewModel.address?.country = "UAE"
         intent.putExtra(ADDRESS, viewModel.address)
         intent.putExtra(ADDRESS_SUCCESS, isUpdated)
         setResult(Activity.RESULT_OK, intent)
@@ -429,6 +437,7 @@ class LocationSelectionActivity : MapSupportActivity(), ILocationSelection.View 
         viewModel.state.isTermsChecked.removeOnPropertyChangedCallback(stateObserver)
         viewModel.state.addressSubtitle.removeOnPropertyChangedCallback(stateObserver)
         viewModel.state.addressTitle.removeOnPropertyChangedCallback(stateObserver)
+        viewModel.state.city.removeOnPropertyChangedCallback(stateObserver)
     }
 
 }

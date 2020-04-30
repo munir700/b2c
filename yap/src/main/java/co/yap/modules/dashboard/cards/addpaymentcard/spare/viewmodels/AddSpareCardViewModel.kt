@@ -18,6 +18,7 @@ import co.yap.networking.transactions.TransactionsRepository
 import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.extentions.toFormattedAmountWithCurrency
 import co.yap.yapcore.helpers.extentions.toFormattedCurrency
@@ -59,7 +60,8 @@ class AddSpareCardViewModel(application: Application) :
 
     override fun onCreate() {
         super.onCreate()
-        state.virtualCardFee = parentViewModel?.virtualCardFee?.toFormattedAmountWithCurrency()?:""
+        state.virtualCardFee =
+            parentViewModel?.virtualCardFee?.toFormattedAmountWithCurrency() ?: ""
         state.physicalCardFee = parentViewModel?.physicalCardFee.toString()
         if (state.physicalCardFee == "" && state.virtualCardFee == "") {
             requestReorderCardFee("physical")
@@ -109,12 +111,14 @@ class AddSpareCardViewModel(application: Application) :
                 is RetroApiResponse.Success -> {
                     paymentCard = response.data.data
                     clickEvent.setValue(ADD_VIRTUAL_SPARE_SUCCESS_EVENT)
+                    state.loading = false
                 }
 
-                is RetroApiResponse.Error -> state.toast = response.error.message
+                is RetroApiResponse.Error -> {
+                    state.toast = "${response.error.message}^${AlertType.DIALOG.name}"
+                    state.loading = false
+                }
             }
-            state.loading = false
-
         }
     }
 
@@ -135,14 +139,14 @@ class AddSpareCardViewModel(application: Application) :
                 is RetroApiResponse.Success -> {
                     toggleToolBarVisibility(false)
                     clickEvent.setValue(ADD_PHYSICAL_SPARE_SUCCESS_EVENT)
+                    state.loading = false
                 }
                 is RetroApiResponse.Error -> {
                     state.toggleVisibility = false
-                    state.toast = response.error.message
+                    state.toast = "${response.error.message}^${AlertType.DIALOG.name}"
+                    state.loading = false
                 }
             }
-            state.loading = false
-
         }
     }
 
@@ -156,15 +160,17 @@ class AddSpareCardViewModel(application: Application) :
                     state.enableConfirmLocation = !address?.address1.isNullOrEmpty()
 
                     if (!address?.address2.isNullOrEmpty()) {
-                        state.physicalCardAddressSubTitle = address?.address2?:""
+                        state.physicalCardAddressSubTitle = address?.address2 ?: ""
                     } else {
                         state.physicalCardAddressSubTitle = " "
                     }
+                    state.loading = false
                 }
-                is RetroApiResponse.Error -> state.toast = response.error.message
+                is RetroApiResponse.Error -> {
+                    state.toast = "${response.error.message}^${AlertType.DIALOG.name}"
+                    state.loading = false
+                }
             }
-
-            state.loading = false
         }
     }
 
@@ -198,7 +204,7 @@ class AddSpareCardViewModel(application: Application) :
                     }
                 }
                 is RetroApiResponse.Error -> {
-                    state.toast = response.error.message
+                    state.toast = "${response.error.message}^${AlertType.TOAST.name}"
                 }
             }
         }

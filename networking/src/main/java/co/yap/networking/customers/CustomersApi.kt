@@ -83,6 +83,6 @@ interface CustomersApi {
     suspend fun validateCurrentPasscode(passcode: String): RetroApiResponse<ApiResponse>
     suspend fun changePasscode(newPasscode: String): RetroApiResponse<ApiResponse>
     suspend fun appUpdate(): RetroApiResponse<AppUpdateResponse>
-
+    suspend fun getCities(): RetroApiResponse<CitiesModel>
 
 }

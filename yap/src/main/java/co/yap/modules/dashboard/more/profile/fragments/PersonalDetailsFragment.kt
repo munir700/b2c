@@ -211,10 +211,10 @@ class PersonalDetailsFragment : MoreBaseFragment<IPersonalDetail.ViewModel>(),
         if (resultCode == Activity.RESULT_OK) {
             when (requestCode) {
                 RequestCodes.REQUEST_FOR_LOCATION -> {
-                    val address: Address? =
-                        data?.getParcelableExtra(ADDRESS)
+
                     val isUpdatedAddress = data?.getBooleanExtra(Constants.ADDRESS_SUCCESS, false)
                     if (isUpdatedAddress == true) {
+                        val address: Address? = data.getParcelableExtra(ADDRESS)
                         address?.let {
                             MyUserManager.userAddress = it
                             updateUserAddress(it)
