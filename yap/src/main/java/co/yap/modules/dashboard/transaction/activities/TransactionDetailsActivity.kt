@@ -42,7 +42,25 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
         setTransactionTitle()
         setCardMaskNo()
         setAddress()
+        setTotalAmount()
         setContentDataColor(viewModel.transaction.get())
+    }
+
+    private fun setTotalAmount() {
+        val totalAmount = viewModel.transaction.get()?.let {
+            when (it.productCode) {
+                TransactionProductCode.RMT.pCode, TransactionProductCode.SWIFT.pCode -> {
+                    val totalFee = it.postedFees?.plus(it.vatAmount ?: 0.0) ?: 0.0
+                    it.settlementAmount?.plus(totalFee).toString()
+                }
+                else -> it.totalAmount.toString()
+            }
+        } ?: "0.0"
+        getBindings().tvTotalAmountValueCalculated.text =
+            totalAmount.toFormattedAmountWithCurrency()
+        getBindings().tvTotalAmountValue.text =
+            if (viewModel.transaction.get()?.txnType == TxnType.DEBIT.type) "+ ${totalAmount.toFormattedCurrency()}" else "- ${totalAmount.toFormattedCurrency()}"
+
     }
 
     private fun setAddress() {
@@ -99,7 +117,7 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
     private fun setTransactionImage() {
         viewModel.transaction.get()?.let { transaction ->
             when {
-                TransactionProductCode.Y2Y_TRANSFER.pCode == transaction.productCode ?: "" -> {
+                TransactionProductCode.Y2Y_TRANSFER.pCode == transaction.productCode -> {
                     ImageBinding.loadAvatar(
                         getBindings().ivPicture,
                         if (TxnType.valueOf(

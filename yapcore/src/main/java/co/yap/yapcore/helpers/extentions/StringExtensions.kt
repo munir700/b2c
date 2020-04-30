@@ -11,7 +11,6 @@ import androidx.annotation.Nullable
 import androidx.annotation.StringRes
 import com.google.android.material.textfield.TextInputLayout
 import java.text.DecimalFormat
-import java.util.*
 
 /**
  * Checks if a string is a valid email
@@ -84,9 +83,9 @@ fun String.toFormattedCurrency(): String? {
     }
 }
 
-fun String.toFormattedAmountWithCurrency(currency: String? = null): String {
+fun String?.toFormattedAmountWithCurrency(currency: String? = null): String {
     return try {
-        if (!this.isBlank()) {
+        if (this?.isBlank() == false) {
             val m = java.lang.Double.parseDouble(this)
             val formatter = DecimalFormat("###,###,##0.00")
             if (!currency.isNullOrBlank()) "$currency ${formatter.format(m)}" else "AED ${formatter.format(m)}"

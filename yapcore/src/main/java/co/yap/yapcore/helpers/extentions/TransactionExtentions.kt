@@ -209,20 +209,23 @@ fun Transaction?.getMapImage(): Int {
 fun Transaction?.getSpentLabelText(): String {
     this?.let { transaction ->
         transaction.productCode?.let { productCode ->
-            if (productCode == TransactionProductCode.TOP_UP_SUPPLEMENTARY_CARD.pCode || productCode == TransactionProductCode.WITHDRAW_SUPPLEMENTARY_CARD.pCode) {
-                return "Moved"
-            }
-            return (when (transaction.txnType) {
-                TxnType.CREDIT.type -> "Received"
-                TxnType.DEBIT.type -> {
-                    when (transaction.productCode) {
-                        TransactionProductCode.Y2Y_TRANSFER.pCode, TransactionProductCode.UAEFTS.pCode, TransactionProductCode.DOMESTIC.pCode, TransactionProductCode.SWIFT.pCode, TransactionProductCode.RMT.pCode, TransactionProductCode.CASH_PAYOUT.pCode -> {
-                            "Sent"
+            return (when (productCode) {
+                TransactionProductCode.TOP_UP_SUPPLEMENTARY_CARD.pCode, TransactionProductCode.WITHDRAW_SUPPLEMENTARY_CARD.pCode -> "Moved"
+                else -> {
+                    when (transaction.txnType) {
+                        TxnType.CREDIT.type -> "Received"
+                        TxnType.DEBIT.type -> {
+                            when (transaction.productCode) {
+                                TransactionProductCode.Y2Y_TRANSFER.pCode, TransactionProductCode.UAEFTS.pCode, TransactionProductCode.DOMESTIC.pCode, TransactionProductCode.CASH_PAYOUT.pCode -> {
+                                    "Sent"
+                                }
+                                TransactionProductCode.SWIFT.pCode, TransactionProductCode.RMT.pCode -> "Sent in AED"
+                                else -> "Spent"
+                            }
                         }
-                        else -> "Spent"
+                        else -> ""
                     }
                 }
-                else -> ""
             })
         } ?: return ""
     } ?: return ""
@@ -232,7 +235,7 @@ fun Transaction?.getCurrency(): String {
     this?.let { transaction ->
         return (when (transaction.productCode) {
             TransactionProductCode.SWIFT.pCode, TransactionProductCode.RMT.pCode -> {
-                transaction.otherBankCurrency.toString()
+                transaction.currency.toString()
             }
             else -> transaction.currency.toString()
         })
