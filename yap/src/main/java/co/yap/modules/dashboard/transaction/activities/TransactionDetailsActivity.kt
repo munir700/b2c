@@ -16,6 +16,7 @@ import co.yap.networking.transactions.responsedtos.transaction.Transaction
 import co.yap.yapcore.BR
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.enums.TransactionLabelsCode
 import co.yap.yapcore.enums.TransactionProductCode
 import co.yap.yapcore.enums.TransactionStatus
 import co.yap.yapcore.enums.TxnType
@@ -43,7 +44,49 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
         setCardMaskNo()
         setAddress()
         setTotalAmount()
+        setTxnFailedReason()
         setContentDataColor(viewModel.transaction.get())
+    }
+
+    private fun setTxnFailedReason() {
+        val msg = viewModel.transaction.get()?.let {
+            when {
+                it.status == TransactionStatus.CANCELLED.name -> {
+                    getBindings().tvTransactionHeading.setTextColor(this.getColors(R.color.greyNormalDark))
+                    getBindings().tvTotalAmountValue.setTextColor(this.getColors(R.color.greyNormalDark))
+                    it.cancelReason
+                }
+                it.productCode == TransactionProductCode.SWIFT.pCode -> {
+                    if (TransactionStatus.PENDING.name == it.status || TransactionStatus.IN_PROGRESS.name == it.status && it.getLabelValues() != TransactionLabelsCode.IS_TRANSACTION_FEE) {
+                        getBindings().tvTransactionHeading.setTextColor(this.getColors(R.color.colorFaded))
+                        getBindings().tvTotalAmountValue.setTextColor(this.getColors(R.color.colorFaded))
+                        getBindings().tvTransactionSubheading.alpha = 0.5f
+                        getBindings().ivCategoryIcon.alpha = 0.5f
+                        return@let getCutOffMsg()
+                    } else ""
+                }
+                it.productCode == TransactionProductCode.RMT.pCode-> {
+                    if (TransactionStatus.PENDING.name == it.status || TransactionStatus.IN_PROGRESS.name == it.status && it.getLabelValues() != TransactionLabelsCode.IS_TRANSACTION_FEE) {
+                        getBindings().tvTransactionHeading.setTextColor(this.getColors(R.color.colorFaded))
+                        getBindings().tvTotalAmountValue.setTextColor(this.getColors(R.color.colorFaded))
+                        getBindings().tvTransactionSubheading.alpha = 0.5f
+                        getBindings().ivCategoryIcon.alpha = 0.5f
+                        ""
+                    }else ""
+                }
+
+                else -> ""
+            }
+        } ?: ""
+        if (msg.isBlank()) {
+            getBindings().cancelReasonLy.visibility = View.GONE
+        } else {
+            getBindings().tvCanceReason.text = msg
+        }
+    }
+
+    private fun getCutOffMsg(): String {
+        return "Transfers made after 2:00 PM UAE time will be processed on the next business day.  There maybe an impact on the FX rate at the time of transfer."
     }
 
     private fun setTotalAmount() {
