@@ -36,15 +36,15 @@ class PhoneVerificationSignInViewModel(application: Application) :
     override val repository: AuthRepository = AuthRepository
     override val state: co.yap.app.modules.login.states.PhoneVerificationSignInState =
         co.yap.app.modules.login.states.PhoneVerificationSignInState(application)
-    override val nextButtonPressEvent: SingleLiveEvent<Boolean> = SingleLiveEvent()
     override val postDemographicDataResult: SingleLiveEvent<Boolean> = SingleLiveEvent()
     override val verifyOtpResult: SingleLiveEvent<Boolean> = SingleLiveEvent()
     private val customersRepository: CustomersRepository = CustomersRepository;
     private val messagesRepository: MessagesRepository = MessagesRepository
     override val accountInfo: MutableLiveData<AccountInfo> = MutableLiveData()
+    private var token: String? = ""
 
     override fun handlePressOnSendButton() {
-        nextButtonPressEvent.postValue(true)
+        verifyOtp()
     }
 
     override fun onCreate() {
@@ -64,6 +64,7 @@ class PhoneVerificationSignInViewModel(application: Application) :
                     )
                 )) {
                 is RetroApiResponse.Success -> {
+                    token = response.data.token
                     val sharedPreferenceManager = SharedPreferenceManager(context)
 
                     sharedPreferenceManager.save(
@@ -119,7 +120,8 @@ class PhoneVerificationSignInViewModel(application: Application) :
                         deviceId.toString(),
                         Build.BRAND,
                         if (Utils.isEmulator()) "generic" else Build.MODEL,
-                        "Android"
+                        "Android",
+                        token ?: ""
                     )
                 )) {
                 is RetroApiResponse.Success -> {
