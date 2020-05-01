@@ -4,10 +4,7 @@ import co.yap.networking.BaseRepository
 import co.yap.networking.RetroNetwork
 import co.yap.networking.authentication.AuthRepository
 import co.yap.networking.messages.requestdtos.*
-import co.yap.networking.messages.responsedtos.CreateForgotPasscodeOtpResponse
-import co.yap.networking.messages.responsedtos.FaqsResponse
-import co.yap.networking.messages.responsedtos.HelpDeskResponse
-import co.yap.networking.messages.responsedtos.ValidateDeviceResponse
+import co.yap.networking.messages.responsedtos.*
 import co.yap.networking.models.ApiResponse
 import co.yap.networking.models.RetroApiResponse
 
@@ -30,7 +27,7 @@ object MessagesRepository : BaseRepository(), MessagesApi {
     override suspend fun createOtpOnboarding(createOtpOnboardingRequest: CreateOtpOnboardingRequest): RetroApiResponse<ApiResponse> =
         executeSafely(call = { API.createOtpOnboarding(createOtpOnboardingRequest) })
 
-    override suspend fun verifyOtpOnboarding(verifyOtpOnboardingRequest: VerifyOtpOnboardingRequest): RetroApiResponse<ApiResponse> =
+    override suspend fun verifyOtpOnboarding(verifyOtpOnboardingRequest: VerifyOtpOnboardingRequest): RetroApiResponse<OtpValidationResponse> =
         executeSafely(call = { API.verifyOtpOnboarding(verifyOtpOnboardingRequest) })
 
 

@@ -9,5 +9,5 @@ data class DemographicDataRequest(
     @SerializedName("deviceName") val deviceName: String,
     @SerializedName("deviceModel") val deviceModel: String,
     @SerializedName("osType") val osType: String,
-    @SerializedName("token") val token: String
+    @SerializedName("token") val token: String? = null
 )

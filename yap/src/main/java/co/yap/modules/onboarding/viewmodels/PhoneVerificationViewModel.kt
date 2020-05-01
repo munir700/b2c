@@ -11,11 +11,11 @@ import co.yap.networking.messages.requestdtos.CreateOtpOnboardingRequest
 import co.yap.networking.messages.requestdtos.VerifyOtpOnboardingRequest
 import co.yap.networking.models.RetroApiResponse
 import co.yap.translation.Strings
+import co.yap.yapcore.AdjustEvents.Companion.trackAdjustPlatformEvent
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.adjust.AdjustEvents
 import co.yap.yapcore.helpers.extentions.getColors
 import co.yap.yapcore.leanplum.SignupEvents
-import co.yap.yapcore.AdjustEvents.Companion.trackAdjustPlatformEvent
 import co.yap.yapcore.leanplum.trackEvent
 
 open class PhoneVerificationViewModel(application: Application) :
@@ -23,10 +23,7 @@ open class PhoneVerificationViewModel(application: Application) :
     IRepositoryHolder<MessagesRepository> {
 
     override val nextButtonPressEvent: SingleClickEvent = SingleClickEvent()
-
     override val state: PhoneVerificationState = PhoneVerificationState(application)
-
-    //override val nextButtonPressEvent: SingleLiveEvent<Boolean> = SingleLiveEvent()
     override val repository: MessagesRepository = MessagesRepository
 
     override fun onResume() {
@@ -83,6 +80,7 @@ open class PhoneVerificationViewModel(application: Application) :
                 )
             )) {
                 is RetroApiResponse.Success -> {
+                    parentViewModel?.onboardingData?.token = response.data.token
                     trackEvent(SignupEvents.SIGN_UP_OTP_CORRECT.type)
                     trackAdjustPlatformEvent(AdjustEvents.SIGN_UP_MOBILE_NUMBER_VERIFIED.type)
                     nextButtonPressEvent.call()
@@ -105,7 +103,6 @@ open class PhoneVerificationViewModel(application: Application) :
         when (errorCode) {
             "1095" -> {
                 state.validResend = false
-//                state.valid = false
                 state.color = context.getColors(R.color.disabled)
                 state.isOtpBlocked.set(false)
             }
