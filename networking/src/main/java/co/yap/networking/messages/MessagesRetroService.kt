@@ -39,7 +39,7 @@ interface MessagesRetroService {
     suspend fun createForgotPasscodeOTP(@Body createForgotPasscodeOtpRequest: CreateForgotPasscodeOtpRequest): Response<CreateForgotPasscodeOtpResponse>
 
     @PUT(MessagesRepository.URL_VERIFY_FORGOT_PASSCODE_OTP)
-    suspend fun verifyForgotPasscodeOtp(@Body verifyForgotPasscodeOtpRequest: VerifyForgotPasscodeOtpRequest): Response<ApiResponse>
+    suspend fun verifyForgotPasscodeOtp(@Body verifyForgotPasscodeOtpRequest: VerifyForgotPasscodeOtpRequest): Response<OtpValidationResponse>
 
     @GET(MessagesRepository.URL_HELP_DESK_PHONE)
     suspend fun getHelpDeskContact(): Response<HelpDeskResponse>

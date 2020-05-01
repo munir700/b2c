@@ -11,9 +11,9 @@ import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.databinding.FragmentSetCardPinBinding
 
 class VerifyCurrentPasscodeFragment : CurrentPasscodeFragment() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

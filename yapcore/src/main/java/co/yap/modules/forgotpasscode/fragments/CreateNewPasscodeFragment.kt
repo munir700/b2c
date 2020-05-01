@@ -25,16 +25,21 @@ class CreateNewPasscodeFragment : BaseBindingFragment<ICreatePasscode.ViewModel>
 
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.fragment_create_new_passcode
-    override val viewModel: ICreatePasscode.ViewModel
+    override val viewModel: CreateNewPasscodeViewModel
         get() = ViewModelProviders.of(this).get(CreateNewPasscodeViewModel::class.java)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel.mobileNumber = args.mobileNumber
+        viewModel.token = args.token
         viewModel.nextButtonPressEvent.observe(this, Observer {
             if (it == R.id.tvTermsAndConditions) {
-                startFragment(fragmentName = WebViewFragment::class.java.name , bundle =bundleOf(PAGE_URL to Constants.URL_TERMS_CONDITION) , showToolBar = true )
-               // Utils.openWebPage(Constants.URL_TERMS_CONDITION, "", activity)
+                startFragment(
+                    fragmentName = WebViewFragment::class.java.name,
+                    bundle = bundleOf(PAGE_URL to Constants.URL_TERMS_CONDITION),
+                    showToolBar = true
+                )
+                // Utils.openWebPage(Constants.URL_TERMS_CONDITION, "", activity)
             } else {
                 val action =
                     CreateNewPasscodeFragmentDirections.actionCreateNewPasscodeFragmentToForgotPasscodeSuccessFragment(
@@ -52,7 +57,7 @@ class CreateNewPasscodeFragment : BaseBindingFragment<ICreatePasscode.ViewModel>
         getBindings().dialer.upDatedDialerPad(viewModel.state.passcode)
         if (activity is ForgotPasscodeActivity) {
             (activity as ForgotPasscodeActivity).preventTakeDeviceScreenShot.value = true
-        }else{
+        } else {
             preventTakeScreenShot(true)
         }
     }

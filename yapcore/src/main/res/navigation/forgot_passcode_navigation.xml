@@ -49,6 +49,9 @@
             android:name="mobileNumber"
             app:argType="string"/>
         <argument
+            android:name="token"
+            app:argType="string"/>
+        <argument
             android:name="navigationType"
             app:argType="string"
             android:defaultValue=" "/>

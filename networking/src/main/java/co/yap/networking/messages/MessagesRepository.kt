@@ -57,7 +57,7 @@ object MessagesRepository : BaseRepository(), MessagesApi {
             )
         })
 
-    override suspend fun verifyForgotPasscodeOtp(verifyForgotPasscodeOtpRequest: VerifyForgotPasscodeOtpRequest): RetroApiResponse<ApiResponse> =
+    override suspend fun verifyForgotPasscodeOtp(verifyForgotPasscodeOtpRequest: VerifyForgotPasscodeOtpRequest): RetroApiResponse<OtpValidationResponse> =
         AuthRepository.executeSafely(call = {
             API.verifyForgotPasscodeOtp(
                 verifyForgotPasscodeOtpRequest

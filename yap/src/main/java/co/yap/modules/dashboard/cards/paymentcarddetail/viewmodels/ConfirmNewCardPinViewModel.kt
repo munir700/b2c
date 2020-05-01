@@ -75,12 +75,12 @@ open class ConfirmNewCardPinViewModel(application: Application) :
         }
     }
 
-    override fun forgotCardPinRequest(cardSerialNumber: String, newPin: String) {
+    override fun forgotCardPinRequest(cardSerialNumber: String, newPin: String,token: String) {
         launch {
             state.loading = true
             when (val response = cardsRepository.forgotCardPin(
                 cardSerialNumber,
-                ForgotCardPin(newPin)
+                ForgotCardPin(newPin,token)
             )) {
                 is RetroApiResponse.Success -> {
                     clickEvent.postValue(Constants.FORGOT_CARD_PIN_NAVIGATION)

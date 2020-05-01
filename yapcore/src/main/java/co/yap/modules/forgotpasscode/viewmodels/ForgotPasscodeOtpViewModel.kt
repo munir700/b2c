@@ -27,6 +27,7 @@ open class ForgotPasscodeOtpViewModel(application: Application) :
     override var destination: String? = ""
     override var emailOtp: Boolean? = false
     override var action: String? = ""
+    override var token: String? = ""
 
     override fun onCreate() {
         super.onCreate()
@@ -46,7 +47,7 @@ open class ForgotPasscodeOtpViewModel(application: Application) :
             when (val response = repository.createForgotPasscodeOTP(
                 CreateForgotPasscodeOtpRequest(
                     destination.toString(),
-                    emailOtp!!
+                    emailOtp ?: false
                 )
             )) {
                 is RetroApiResponse.Success -> {
@@ -81,10 +82,11 @@ open class ForgotPasscodeOtpViewModel(application: Application) :
                 )) {
                 is RetroApiResponse.Success -> {
                     nextButtonPressEvent.setValue(id)
+                    token = response.data.token
                 }
-                is RetroApiResponse.Error ->{
+                is RetroApiResponse.Error -> {
                     state.toast = response.error.message
-                    state.otp=""
+                    state.otp = ""
                     otpUiBlocked(response.error.actualCode)
                 }
             }
