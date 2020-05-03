@@ -81,8 +81,8 @@ open class ForgotPasscodeOtpViewModel(application: Application) :
                     )
                 )) {
                 is RetroApiResponse.Success -> {
-                    nextButtonPressEvent.setValue(id)
                     token = response.data.token
+                    nextButtonPressEvent.setValue(id)
                 }
                 is RetroApiResponse.Error -> {
                     state.toast = response.error.message
@@ -98,7 +98,6 @@ open class ForgotPasscodeOtpViewModel(application: Application) :
         when (errorCode) {
             "1095" -> {
                 state.validResend = false
-//                state.valid = false
                 state.color = context.getColors(R.color.disabled)
                 state.isOtpBlocked.set(false)
             }

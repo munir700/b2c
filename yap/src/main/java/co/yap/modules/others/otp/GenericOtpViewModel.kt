@@ -166,7 +166,6 @@ open class GenericOtpViewModel(application: Application) : ForgotPasscodeOtpView
         when (errorCode) {
             "1095" -> {
                 state.validResend = false
-//                state.valid = false
                 state.color = context.getColors(R.color.disabled)
                 state.isOtpBlocked.set(false)
                 MyUserManager.getAccountInfo()
