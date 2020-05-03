@@ -118,8 +118,8 @@ class GenericOtpViewModel(application: Application) :
                         )
                     )) {
                     is RetroApiResponse.Success -> {
-                        clickEvent.setValue(id)
                         token = response.data.token.toString()
+                        clickEvent.setValue(id)
                     }
                     is RetroApiResponse.Error -> {
                         state.toast = "${response.error.message}^${AlertType.DIALOG.name}"
