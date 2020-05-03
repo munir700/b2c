@@ -29,7 +29,8 @@ fun Fragment.trackEventInFragments(
     account_active: String? = null,
     context: Context? = null,
     eidExpire: Boolean = false,
-    eidExpireDate: String = ""
+    eidExpireDate: String = "",
+    city: String? = null
 ) {
     trackAttributes(
         user,
@@ -37,7 +38,7 @@ fun Fragment.trackEventInFragments(
         account_active,
         context,
         eidExpire,
-        eidExpireDate
+        eidExpireDate, city
     )
 }
 
@@ -47,7 +48,8 @@ fun ViewModel.trackEventWithAttributes(
     account_active: String? = null,
     context: Context? = null,
     eidExpire: Boolean = false,
-    eidExpireDate: String = ""
+    eidExpireDate: String = "",
+    city: String? = null
 ) {
     trackAttributes(
         user,
@@ -55,17 +57,18 @@ fun ViewModel.trackEventWithAttributes(
         account_active,
         context,
         eidExpire,
-        eidExpireDate
+        eidExpireDate, city
     )
 }
 
-fun trackAttributes(
+private fun trackAttributes(
     user: AccountInfo?,
     signup_length: String? = null,
     account_active: String? = null,
     context: Context? = null,
     eidExpire: Boolean = false,
-    eidExpireDate: String = ""
+    eidExpireDate: String = "",
+    city: String?
 ) {
     user?.let {
         val info: HashMap<String, Any> = HashMap()
@@ -80,7 +83,7 @@ fun trackAttributes(
         info[UserAttributes().youngUser] = false
         info[UserAttributes().b2bUser] = false
         info[UserAttributes().country] = "United Arab Emirates"
-        info[UserAttributes().city] = "UNKNOWN"
+        info[UserAttributes().city] = city ?: "UNKNOWN"
         info[UserAttributes().signup_timestamp] = it.creationDate ?: System.currentTimeMillis()
         info[UserAttributes().biometric_login_enabled] =
             isBioMetricEnabled(context)

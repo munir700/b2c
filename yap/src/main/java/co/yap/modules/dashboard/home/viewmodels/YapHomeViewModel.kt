@@ -221,11 +221,12 @@ class YapHomeViewModel(application: Application) :
                             val primaryCard = getPrimaryCard(response.data.data)
                             MyUserManager.card.value = primaryCard
                         } else {
-                            state.toast = "Debit card not found."
+                            state.toast = "Debit card not found.^${AlertType.TOAST.name}"
                         }
                     }
                 }
-                is RetroApiResponse.Error -> state.toast = response.error.message
+                is RetroApiResponse.Error ->
+                    state.toast = "${response.error.message}^${AlertType.TOAST.name}"
             }
         }
     }
@@ -236,16 +237,15 @@ class YapHomeViewModel(application: Application) :
 
     override fun requestOrderCard(address: Address?) {
         address?.let {
-
-            val orderCardRequest: OrderCardRequest = OrderCardRequest(
-                it.address1,
-                "",
-                it.address1,
-                it.address2,
-                it.latitude,
-                it.longitude,
-                "Dubai",
-                "UAE"
+            val orderCardRequest = OrderCardRequest(
+                nearestLandMark = it.address1,
+                cardName = "",
+                address1 = it.address1,
+                address2 = it.address2,
+                latitude = it.latitude,
+                longitude = it.longitude,
+                city = address.city,
+                country = address.country
             )
             launch {
                 state.loading = true
@@ -258,8 +258,7 @@ class YapHomeViewModel(application: Application) :
 
                     is RetroApiResponse.Error -> {
                         state.loading = false
-                        state.toast = response.error.message
-//
+                        state.toast = "${response.error.message}^${AlertType.DIALOG.name}"
                     }
                 }
             }

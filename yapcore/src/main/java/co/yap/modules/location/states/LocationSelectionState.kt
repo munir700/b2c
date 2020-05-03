@@ -29,6 +29,7 @@ class LocationSelectionState(application: Application) : BaseState(), ILocationS
     override var isLocationInAllowedCountry: ObservableField<Boolean> = ObservableField(false)
     override var addressSubtitle: ObservableField<String> = ObservableField("")
     override var addressTitle: ObservableField<String> = ObservableField("")
+    override var city: ObservableField<String> = ObservableField("Select")
     override var isTermsChecked: ObservableField<Boolean> = ObservableField(false)
     override var valid: ObservableField<Boolean> = ObservableField(false)
     override var isUnNamed: ObservableField<Boolean> = ObservableField(false)

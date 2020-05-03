@@ -195,4 +195,7 @@ interface CustomersRetroService {
     @GET(CustomersRepository.URL_APP_VERSION)
     suspend fun appUpdate(): Response<AppUpdateResponse>
 
+    @GET(CustomersRepository.URL_CITIES)
+    suspend fun getCities(): Response<CitiesModel>
+
 }

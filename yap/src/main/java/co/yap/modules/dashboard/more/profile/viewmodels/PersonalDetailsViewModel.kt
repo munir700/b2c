@@ -15,6 +15,7 @@ import co.yap.networking.models.RetroApiResponse
 import co.yap.translation.Strings
 import co.yap.translation.Translator
 import co.yap.yapcore.SingleClickEvent
+import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.enums.EIDStatus
 import co.yap.yapcore.managers.MyUserManager
 
@@ -33,6 +34,7 @@ class PersonalDetailsViewModel(application: Application) :
         super.onCreate()
         requestGetAddressForPhysicalCard()
     }
+
     override fun handlePressOnScanCard(id: Int) {
         clickEvent.setValue(id)
     }
@@ -85,10 +87,14 @@ class PersonalDetailsViewModel(application: Application) :
                     setUpAddressFields()
                     MyUserManager.userAddress = address
                     clickEvent.setValue(UPDATE_ADDRESS_UI)
+                    state.loading = false
                 }
-                is RetroApiResponse.Error -> state.toast = response.error.message
+                is RetroApiResponse.Error -> {
+                    state.toast =
+                        "${response.error.message}^${AlertType.DIALOG.name}"
+                    state.loading = false
+                }
             }
-            state.loading = false
         }
     }
 
@@ -132,13 +138,13 @@ class PersonalDetailsViewModel(application: Application) :
     override fun requestOrderCard(address: Address?) {
         address?.let {
             val orderCardRequest = OrderCardRequest(
-                it.address1,
-                "",
-                it.address1,
-                it.address2,
-                it.latitude,
-                it.longitude,
-                "Dubai","UAE"
+                nearestLandMark = it.address1,
+                cardName = "",
+                address1 = it.address1,
+                address2 = it.address2,
+                latitude = it.latitude,
+                longitude = it.longitude,
+                city = address.city, country = address.country
             )
             launch {
                 state.loading = true
@@ -151,8 +157,7 @@ class PersonalDetailsViewModel(application: Application) :
                     is RetroApiResponse.Error -> {
                         state.loading = false
                         orderCardSuccess.value = false
-                        state.toast = response.error.message
-//
+                        state.toast = "${response.error.message}^${AlertType.DIALOG.name}"
                     }
                 }
             }
