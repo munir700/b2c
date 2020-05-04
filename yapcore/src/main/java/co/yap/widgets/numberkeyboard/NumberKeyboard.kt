@@ -14,6 +14,7 @@ import androidx.appcompat.widget.AppCompatEditText
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
+import co.yap.widgets.YapPassCodeView
 import co.yap.yapcore.R
 import co.yap.yapcore.helpers.extentions.dip2px
 
@@ -55,6 +56,7 @@ class NumberKeyboard : ConstraintLayout {
 
     private var listener: NumberKeyboardListener? = null
     private var inputEditText: AppCompatEditText? = null
+    private var passCodeView: YapPassCodeView? = null
     private var inputText: StringBuilder? = null
 
     constructor(context: Context) : super(context) {
@@ -87,6 +89,14 @@ class NumberKeyboard : ConstraintLayout {
      */
     fun setInputView(view: AppCompatEditText) {
         this.inputEditText = view
+    }
+
+    /**
+     * Attach [co.yap.widgets.YapPassCodeView]  to number keypad
+     * The number pad will auto handle
+     */
+    fun setPassCodeView(passCodeView: YapPassCodeView) {
+        this.passCodeView = passCodeView
     }
 
     /**
@@ -382,9 +392,11 @@ class NumberKeyboard : ConstraintLayout {
             for (i in numericKeys?.indices!!) {
                 val key = numericKeys!![i]
                 key.setOnClickListener {
-                    inputEditText?.append(i.toString())
-                    if (inputText?.length!! < maxLimit)
+                    if (inputText?.length!! < maxLimit) {
+                        inputEditText?.append(i.toString())
+                        passCodeView?.input(i.toString())
                         inputText?.append(i.toString())
+                    }
                     listener?.onNumberClicked(i, inputText.toString())
                 }
             }
@@ -394,6 +406,9 @@ class NumberKeyboard : ConstraintLayout {
             listener?.onLeftAuxButtonClicked()
         }
         rightAuxBtn?.setOnClickListener {
+            passCodeView?.apply {
+                delete()
+            }
             inputEditText?.let {
                 if (it.length() > 0) it.text?.delete(it.length() - 1, it.length())
             }
@@ -402,6 +417,11 @@ class NumberKeyboard : ConstraintLayout {
             }
             listener?.onRightAuxButtonClicked(inputText.toString())
         }
+    }
+
+    fun reset(){
+        inputEditText?.setText("")
+        inputText?.clear()
     }
 
     companion object {
