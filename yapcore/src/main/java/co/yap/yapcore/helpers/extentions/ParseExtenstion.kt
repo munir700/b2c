@@ -28,3 +28,9 @@ fun String.parseToFloat() = try {
 } catch (e: NumberFormatException) {
     0.0F
 }
+
+fun CharSequence?.parseToDouble() = try {
+    this?.toString()?.replace(",","")?.toDouble()?:0.0
+} catch (e: NumberFormatException) {
+    0.0
+}
