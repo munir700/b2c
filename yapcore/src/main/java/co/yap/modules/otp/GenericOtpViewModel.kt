@@ -25,6 +25,7 @@ class GenericOtpViewModel(application: Application) :
     private val repository: MessagesRepository = MessagesRepository
     override var destination: String? = ""
     override var emailOtp: Boolean? = false
+    override var token: String? = ""
     override val state: GenericOtpState = GenericOtpState(application = application)
 
     override fun onCreate() {
@@ -42,7 +43,7 @@ class GenericOtpViewModel(application: Application) :
                 state.verificationDescription =
                     Strings.screen_verify_phone_number_display_text_sub_title
             }
-            OTPActions.DOMESTIC_TRANSFER.name, OTPActions.UAEFTS.name, OTPActions.SWIFT.name, OTPActions.RMT.name, OTPActions.CASHPAYOUT.name,OTPActions.Y2Y.name -> {
+            OTPActions.DOMESTIC_TRANSFER.name, OTPActions.UAEFTS.name, OTPActions.SWIFT.name, OTPActions.RMT.name, OTPActions.CASHPAYOUT.name, OTPActions.Y2Y.name -> {
                 state.verificationTitle =
                     state.otpDataModel?.username ?: ""
                 state.verificationDescription =
@@ -98,7 +99,7 @@ class GenericOtpViewModel(application: Application) :
                     }
                     is RetroApiResponse.Error -> {
                         state.toast = "${response.error.message}^${AlertType.DIALOG.name}"
-                        state.otp=""
+                        state.otp = ""
                         otpUiBlocked(response.error.actualCode)
                         //errorEvent.call()
                         state.loading = false
@@ -117,13 +118,14 @@ class GenericOtpViewModel(application: Application) :
                         )
                     )) {
                     is RetroApiResponse.Success -> {
+                        token = response.data.token.toString()
                         clickEvent.setValue(id)
                     }
                     is RetroApiResponse.Error -> {
                         state.toast = "${response.error.message}^${AlertType.DIALOG.name}"
-                        state.otp=""
+                        state.otp = ""
                         otpUiBlocked(response.error.actualCode)
-                       // errorEvent.call()
+                        // errorEvent.call()
                         state.loading = false
                     }
                 }

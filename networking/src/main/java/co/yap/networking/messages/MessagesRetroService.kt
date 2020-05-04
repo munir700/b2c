@@ -1,10 +1,7 @@
 package co.yap.networking.messages
 
 import co.yap.networking.messages.requestdtos.*
-import co.yap.networking.messages.responsedtos.CreateForgotPasscodeOtpResponse
-import co.yap.networking.messages.responsedtos.FaqsResponse
-import co.yap.networking.messages.responsedtos.HelpDeskResponse
-import co.yap.networking.messages.responsedtos.ValidateDeviceResponse
+import co.yap.networking.messages.responsedtos.*
 import co.yap.networking.models.ApiResponse
 import retrofit2.Response
 import retrofit2.http.*
@@ -17,7 +14,7 @@ interface MessagesRetroService {
 
     // Verify otp for mobile number
     @PUT(MessagesRepository.URL_VERIFY_OTP_ONBOARDING)
-    suspend fun verifyOtpOnboarding(@Body verifyOtpOnboardingRequest: VerifyOtpOnboardingRequest): Response<ApiResponse>
+    suspend fun verifyOtpOnboarding(@Body verifyOtpOnboardingRequest: VerifyOtpOnboardingRequest): Response<OtpValidationResponse>
 
     // Create otp request
     @POST(MessagesRepository.URL_CREATE_OTP_GENERIC)
@@ -42,7 +39,7 @@ interface MessagesRetroService {
     suspend fun createForgotPasscodeOTP(@Body createForgotPasscodeOtpRequest: CreateForgotPasscodeOtpRequest): Response<CreateForgotPasscodeOtpResponse>
 
     @PUT(MessagesRepository.URL_VERIFY_FORGOT_PASSCODE_OTP)
-    suspend fun verifyForgotPasscodeOtp(@Body verifyForgotPasscodeOtpRequest: VerifyForgotPasscodeOtpRequest): Response<ApiResponse>
+    suspend fun verifyForgotPasscodeOtp(@Body verifyForgotPasscodeOtpRequest: VerifyForgotPasscodeOtpRequest): Response<OtpValidationResponse>
 
     @GET(MessagesRepository.URL_HELP_DESK_PHONE)
     suspend fun getHelpDeskContact(): Response<HelpDeskResponse>

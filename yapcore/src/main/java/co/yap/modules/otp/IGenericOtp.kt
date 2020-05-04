@@ -19,6 +19,7 @@ interface IGenericOtp {
         fun handlePressOnResendClick(context: Context)
         var destination: String?
         var emailOtp: Boolean?
+        var token: String?
         fun createOtp(resend: Boolean = false,context: Context)
         fun initializeData(context: Context)
     }

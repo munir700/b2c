@@ -17,6 +17,8 @@ import co.yap.modules.setcardpin.fragments.ConfirmCardPinFragment
 import co.yap.modules.setcardpin.interfaces.ISetCardPin
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.OTPActions
+import co.yap.yapcore.helpers.extentions.ExtraType
+import co.yap.yapcore.helpers.extentions.getValue
 import co.yap.yapcore.helpers.extentions.startFragmentForResult
 import co.yap.yapcore.managers.MyUserManager
 import kotlinx.android.synthetic.main.activity_create_passcode.*
@@ -29,7 +31,7 @@ open class ConfirmNewCardPinFragment : ConfirmCardPinFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        if(activity is ChangeCardPinActivity){
+        if (activity is ChangeCardPinActivity) {
             (activity as ChangeCardPinActivity).preventTakeDeviceScreenShot.value = true
         }
         if (activity is ForgotCardPinActivity) {
@@ -82,13 +84,20 @@ open class ConfirmNewCardPinFragment : ConfirmCardPinFragment() {
                         ?: ""
                 )
             )
-        ) { resultCode, _ ->
+        ) { resultCode, data ->
             if (resultCode == Activity.RESULT_OK) {
-                viewModel.forgotCardPinRequest(
-                    viewModel.state.cardSerialNumber,
-                    viewModel.state.pincode
+                val token =
+                    data?.getValue(
+                        "token",
+                        ExtraType.STRING.name
+                    ) as? String
 
-                )
+                token?.let {
+                    viewModel.forgotCardPinRequest(
+                        viewModel.state.cardSerialNumber,
+                        viewModel.state.pincode, it
+                    )
+                }
             }
         }
     }
