@@ -44,7 +44,7 @@ class SubAccountCardVM @Inject constructor(override val state: ISubAccountCard.S
             publishState(State.loading(null))
             when (val response = repository.getSubAccounts()) {
                 is RetroApiResponse.Success -> {
-                    response.data.account?.let {
+                    response.data.data?.let {
                         it.add(0,
                             SubAccount(
                                 accountType = AccountType.B2C_ACCOUNT.name

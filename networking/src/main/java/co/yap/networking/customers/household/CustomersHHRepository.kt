@@ -1,10 +1,12 @@
 package co.yap.networking.customers.household
 
 import co.yap.networking.RetroNetwork
+import co.yap.networking.customers.BaseListResponse
 import co.yap.networking.customers.CustomersApi
 import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.customers.household.responsedtos.SubAccounts
 import co.yap.networking.customers.household.responsedtos.HouseHoldGetSubscriptionResponseDTO
+import co.yap.networking.customers.household.responsedtos.SubAccount
 import co.yap.networking.models.ApiResponse
 import co.yap.networking.models.RetroApiResponse
 
@@ -31,7 +33,7 @@ object CustomersHHRepository : CustomersApi by CustomersRepository, CustomerHHAp
 
     //    iban-household-schedule-payment
     //    Get All subaccounts for a IBAN user:
-    override suspend fun getSubAccounts(): RetroApiResponse<SubAccounts> =
+    override suspend fun getSubAccounts(): RetroApiResponse<BaseListResponse<SubAccount>> =
         CustomersRepository.executeSafely(call = { api.getSubAccountAccount() })
 
     override suspend fun getHouseholdUser(uuid: String?) =

@@ -1,11 +1,12 @@
 package co.yap.networking.customers.household
 
 import co.yap.networking.customers.CustomersRetroService
-import co.yap.networking.customers.household.responsedtos.SubAccounts
 import co.yap.networking.customers.household.responsedtos.HouseHoldGetSubscriptionResponseDTO
 import co.yap.networking.customers.household.responsedtos.HouseHoldUserProfile
+import co.yap.networking.customers.household.responsedtos.SubAccount
 import co.yap.networking.models.ApiResponse
 import retrofit2.Response
+import co.yap.networking.customers.BaseListResponse
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Path
@@ -14,7 +15,7 @@ import retrofit2.http.Query
 interface CustomersHHRetroService : CustomersRetroService {
     //   SubAccount Card Get All subaccounts for a IBAN user:
     @GET(CustomersHHRepository.URL_GET_SUB_ACCOUNTS)
-    suspend fun getSubAccountAccount(): Response<SubAccounts>
+    suspend fun getSubAccountAccount(): Response<BaseListResponse<SubAccount>>
 
     // SubAccount Card Get HouseHold User Info
     @GET(CustomersHHRepository.URL_GET_PROFILE_HOUSEHOLD_USER)
