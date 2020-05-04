@@ -4,7 +4,6 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.text.InputFilter
 import android.text.Spannable
 import android.text.SpannableStringBuilder
 import android.text.style.ForegroundColorSpan
@@ -22,8 +21,6 @@ import co.yap.networking.cards.responsedtos.Card
 import co.yap.networking.cards.responsedtos.CardBalance
 import co.yap.translation.Strings
 import co.yap.yapcore.enums.TransactionProductCode
-import co.yap.yapcore.helpers.DecimalDigitsInputFilter
-import co.yap.yapcore.helpers.extentions.afterTextChanged
 import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 import co.yap.yapcore.helpers.spannables.color
 import co.yap.yapcore.helpers.spannables.getText
@@ -142,7 +139,6 @@ class RemoveFundsActivity : AddFundsActivity() {
             " " + getString(Strings.common_text_currency_type) + " " +
                     card.availableBalance.toFormattedCurrency()
 
-        setEditTextWatcher()
     }
 
     override fun onDestroy() {
@@ -220,14 +216,6 @@ class RemoveFundsActivity : AddFundsActivity() {
     override fun onBackPressed() {
     }
 
-    private fun setEditTextWatcher() {
-        etAmount.filters =
-            arrayOf(InputFilter.LengthFilter(7), DecimalDigitsInputFilter(2))
-
-        etAmount.afterTextChanged {
-            parentViewModel?.updateFees(viewModel.state.amount ?: "")
-        }
-    }
     private fun setupActionsIntent() {
         val returnIntent = Intent()
         returnIntent.putExtra("newBalance", updatedSpareCardBalance)

@@ -18,7 +18,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-
         <!--<ImageView
             android:id="@+id/ivCross"
             android:layout_width="@dimen/_25sdp"
@@ -47,6 +46,13 @@
             layout="@layout/layout_fund_actions_tool_bar"
             app:viewModel="@{viewModel}" />
 
+        <androidx.coordinatorlayout.widget.CoordinatorLayout
+            android:id="@+id/clFTSnackbar"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:background="@android:color/transparent"
+            android:elevation="@dimen/_3sdp"
+            app:layout_constraintTop_toBottomOf="@+id/toolbar" />
         <androidx.core.widget.NestedScrollView
             android:id="@+id/scrollView"
             android:layout_width="match_parent"
@@ -93,7 +99,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/margin_large"
-                        android:text="@{viewModel.state.enterAmountHeading}"
+                        android:text="@{viewModel.state.isAddFundScreen ? @string/screen_add_funds_display_text_enter_amount : @string/screen_remove_funds_display_text_enter_amount}"
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintRight_toRightOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
@@ -351,7 +357,7 @@
                     android:layout_marginRight="@dimen/margin_xxl"
                     android:layout_marginBottom="@dimen/margin_small"
                     android:onClick="@{(v)-> viewModel.buttonClickEvent(v.id)}"
-                    android:text="@{viewModel.state.buttonTitle}"
+                    android:text="@{viewModel.state.isAddFundScreen ? @string/screen_add_funds_button_add : @string/screen_remove_funds_button_remove}"
                     app:enableCoreButton="@{viewModel.state.valid}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintHorizontal_bias="1.0"

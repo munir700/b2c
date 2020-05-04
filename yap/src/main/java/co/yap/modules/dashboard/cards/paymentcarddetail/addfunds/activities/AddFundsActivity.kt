@@ -12,6 +12,7 @@ import android.text.InputFilter
 import android.text.Spannable
 import android.text.SpannableStringBuilder
 import android.text.style.ForegroundColorSpan
+import android.view.Gravity
 import android.view.View
 import androidx.core.animation.addListener
 import androidx.core.content.ContextCompat
@@ -34,13 +35,8 @@ import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.adjust.AdjustEvents
 import co.yap.yapcore.enums.OTPActions
 import co.yap.yapcore.enums.TransactionProductCode
-import co.yap.yapcore.helpers.AnimationUtils
-import co.yap.yapcore.helpers.DecimalDigitsInputFilter
-import co.yap.yapcore.helpers.extentions.afterTextChanged
-import co.yap.yapcore.helpers.extentions.startFragmentForResult
-import co.yap.yapcore.helpers.extentions.toFormattedAmountWithCurrency
-import co.yap.yapcore.helpers.extentions.toFormattedCurrency
-import co.yap.yapcore.helpers.showTextUpdatedAbleSnackBar
+import co.yap.yapcore.helpers.*
+import co.yap.yapcore.helpers.extentions.*
 import co.yap.yapcore.helpers.spannables.color
 import co.yap.yapcore.helpers.spannables.getText
 import co.yap.yapcore.managers.MyUserManager
@@ -54,19 +50,21 @@ import kotlinx.android.synthetic.main.layout_fund_actions_tool_bar.*
 
 open class AddFundsActivity : BaseBindingActivity<IFundActions.ViewModel>(),
     IFundActions.View {
-
+    private var isAddFundScreen: Boolean? = null
     var amount: String? = null
     private val windowSize: Rect = Rect()
     var card: Card? = null
     private lateinit var updatedSpareCardBalance: String
-    private var fundsAdded: Boolean = false
+    private var fundsAddedRemoveSuccess: Boolean = false
     private var parentViewModel: FundActionsViewModel? = null
 
     companion object {
         private const val CARD = "card"
-        fun newIntent(context: Context, card: Card): Intent {
+        private const val IS_ADD_FUND = "isAddFund"
+        fun newIntent(context: Context, card: Card, isAddFund: Boolean): Intent {
             val intent = Intent(context, AddFundsActivity::class.java)
             intent.putExtra(CARD, card)
+            intent.putExtra(IS_ADD_FUND, isAddFund)
             return intent
         }
     }
@@ -80,18 +78,25 @@ open class AddFundsActivity : BaseBindingActivity<IFundActions.ViewModel>(),
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        isAddFundScreen = intent?.getValue(IS_ADD_FUND, ExtraType.BOOLEAN.name) as? Boolean
+        viewModel.state.isAddFundScreen.set(isAddFundScreen)
         parentViewModel =
             this.let { ViewModelProviders.of(it).get(FundActionsViewModel::class.java) }
-        parentViewModel?.getTransferFees(TransactionProductCode.TOP_UP_SUPPLEMENTARY_CARD.pCode)
+        val pCode =
+            if (isAddFundScreen == true) TransactionProductCode.TOP_UP_SUPPLEMENTARY_CARD.pCode else TransactionProductCode.WITHDRAW_SUPPLEMENTARY_CARD.pCode
+        parentViewModel?.getTransferFees(pCode)
+        viewModel.getFundTransferDenominations(pCode)
+        viewModel.getFundTransferLimits(pCode)
+
         val display = this.windowManager.defaultDisplay
         display.getRectSize(windowSize)
         clBottomNew.children.forEach { it.alpha = 0f }
         setObservers()
+        setDenominationClickObservers()
         setupData()
-        viewModel.errorEvent.observe(this, Observer {
-            showErrorSnackBar()
-        })
+    }
 
+    private fun setDenominationClickObservers() {
         viewModel.firstDenominationClickEvent.observe(this, Observer {
             hideKeyboard()
             etAmount.setText("")
@@ -119,6 +124,9 @@ open class AddFundsActivity : BaseBindingActivity<IFundActions.ViewModel>(),
     }
 
     override fun setObservers() {
+        viewModel.errorEvent.observe(this, Observer {
+            showErrorSnackBar(viewModel.state.errorDescription, Snackbar.LENGTH_LONG)
+        })
         viewModel.clickEvent.observe(this, clickEvent)
         parentViewModel?.isFeeReceived?.observe(this, Observer {
             if (it) parentViewModel?.updateFees(viewModel.state.amount ?: "")
@@ -126,7 +134,6 @@ open class AddFundsActivity : BaseBindingActivity<IFundActions.ViewModel>(),
         parentViewModel?.updatedFee?.observe(this, Observer {
             if (it.isNotBlank()) setSpannableFee(it)
         })
-
     }
 
     private fun setSpannableFee(feeAmount: String?) {
@@ -141,15 +148,16 @@ open class AddFundsActivity : BaseBindingActivity<IFundActions.ViewModel>(),
 
     private val clickEvent = Observer<Int> {
         when (it) {
-            R.id.btnAction -> (if (viewModel.state.buttonTitle != getString(Strings.screen_success_funds_transaction_display_text_button)) {
-                if (!isDailyLimitReached())
+            R.id.btnAction -> (if (btnAction.text != getString(Strings.screen_success_funds_transaction_display_text_button)) {
+                if (isAddFundScreen == true)
                     if (isOtpRequired()) startOtpFragment() else viewModel.addFunds()
                 else
-                    viewModel.errorEvent.call()
-
+                    viewModel.removeFunds()
             } else {
-                co.yap.yapcore.AdjustEvents.trackAdjustPlatformEvent(AdjustEvents.TOP_UP_END.type)
-                if (fundsAdded) {
+                if (isAddFundScreen == true) co.yap.yapcore.AdjustEvents.trackAdjustPlatformEvent(
+                    AdjustEvents.TOP_UP_END.type
+                )
+                if (fundsAddedRemoveSuccess) {
                     setupActionsIntent()
                 }
 
@@ -159,12 +167,11 @@ open class AddFundsActivity : BaseBindingActivity<IFundActions.ViewModel>(),
             R.id.ivCross -> this.finish()
             R.id.tbIvClose -> this.finish()
 
-            viewModel.EVENT_ADD_FUNDS_SUCCESS -> {
-                fundsAdded = true
-                setUpSuccessData()
+            viewModel.EVENT_ADD_FUNDS_SUCCESS, viewModel.EVENT_REMOVE_FUNDS_SUCCESS -> {
+                fundsAddedRemoveSuccess = true
                 performSuccessOperations()
                 etAmount.visibility = View.GONE
-                viewModel.state.buttonTitle =
+                btnAction.text =
                     getString(Strings.screen_success_funds_transaction_display_text_button)
             }
         }
@@ -183,9 +190,10 @@ open class AddFundsActivity : BaseBindingActivity<IFundActions.ViewModel>(),
         }
         viewModel.state.availableBalance =
             MyUserManager.cardBalance.value?.availableBalance.toString()
-        viewModel.state.availableBalanceText =
-            " " + getString(Strings.common_text_currency_type) + " " +
-                    viewModel.state.availableBalance.toFormattedCurrency()
+        viewModel.state.availableBalanceText = if (viewModel.state.isAddFundScreen.get() == true)
+            viewModel.state.availableBalance.toFormattedAmountWithCurrency()
+        else
+            card?.availableBalance?.toFormattedAmountWithCurrency() ?: "0.0"
 
         setEditTextWatcher()
     }
@@ -196,11 +204,74 @@ open class AddFundsActivity : BaseBindingActivity<IFundActions.ViewModel>(),
 
         etAmount.afterTextChanged {
                 parentViewModel?.updateFees(viewModel.state.amount ?: "")
+            when {
+                isBalanceAvailable() -> {
+                    setErrorBg()
+                    viewModel.state.errorDescription = Translator.getString(
+                        context,
+                        Strings.common_display_text_available_balance_error,
+                        viewModel.state.availableBalance.toFormattedCurrency() ?: ""
+                    )
+                    showErrorSnackBar(viewModel.state.errorDescription, Snackbar.LENGTH_INDEFINITE)
+
+                }
+                isDailyLimitReached() && isAddFundScreen == true -> {
+                    setErrorBg()
+                    showErrorSnackBar(viewModel.state.errorDescription, Snackbar.LENGTH_INDEFINITE)
+                }
+                isUpperOrLowerLimitReached() && it.isNotBlank() -> {
+                    setErrorBg()
+                    viewModel.state.errorDescription = Translator.getString(
+                        this,
+                        Strings.common_display_text_min_max_limit_error_transaction,
+                        viewModel.state.minLimit.toString().toFormattedCurrency() ?: "",
+                        viewModel.state.maxLimit.toString()
+                    )
+                    showErrorSnackBar(viewModel.state.errorDescription, Snackbar.LENGTH_INDEFINITE)
+
+                }
+                else -> removeErrorBg()
+            }
         }
     }
 
-    private fun showErrorSnackBar() {
-        showTextUpdatedAbleSnackBar(viewModel.state.errorDescription, Snackbar.LENGTH_INDEFINITE)
+    private fun isBalanceAvailable(): Boolean {
+        return viewModel.state.amount.parseToDouble() > viewModel.state.availableBalance.parseToDouble()
+    }
+
+    private fun isUpperOrLowerLimitReached(): Boolean {
+        return viewModel.state.amount.parseToDouble() < viewModel.state.minLimit || viewModel.state.amount.parseToDouble() > viewModel.state.maxLimit
+    }
+
+    private fun setErrorBg() {
+        viewModel.state.amountBackground =
+            this.resources.getDrawable(
+                co.yap.yapcore.R.drawable.bg_funds_error,
+                null
+            )
+        viewModel.state.valid = false
+    }
+
+    private fun removeErrorBg() {
+        viewModel.state.amountBackground =
+            this.resources.getDrawable(
+                co.yap.yapcore.R.drawable.bg_funds,
+                null
+            )
+        cancelAllSnackBar()
+        viewModel.state.valid = true
+    }
+
+    private fun showErrorSnackBar(errorMessage: String, length: Int) {
+        getSnackBarFromQueue(0)?.let {
+            if (it.isShown) {
+                it.updateSnackBarText(errorMessage)
+            }
+        } ?: clFTSnackbar.showSnackBar(
+            msg = viewModel.state.errorDescription,
+            viewBgColor = R.color.errorLightBackground, gravity = Gravity.TOP,
+            colorOfMessage = R.color.error, duration = length, marginTop = 0
+        )
     }
 
     fun performSuccessOperations() {
@@ -271,9 +342,13 @@ open class AddFundsActivity : BaseBindingActivity<IFundActions.ViewModel>(),
     }
 
     private fun setUpSuccessData() {
-
+        val successString: String = if (viewModel.state.isAddFundScreen.get() == true) {
+            getString(Strings.screen_success_funds_transaction_display_text_top_up)
+        } else {
+            getString(Strings.screen_success_remove_funds_transaction_display_text_moved_success)
+        }
         viewModel.state.topUpSuccess =
-            getString(Strings.screen_success_funds_transaction_display_text_top_up).format(
+            successString.format(
                 viewModel.state.currencyType,
                 viewModel.state.amount?.toFormattedCurrency()
             )
@@ -310,8 +385,11 @@ open class AddFundsActivity : BaseBindingActivity<IFundActions.ViewModel>(),
         )
         tvPrimaryCardBalance.text = primaryStr
 
-        updatedSpareCardBalance =
+        updatedSpareCardBalance = if (viewModel.state.isAddFundScreen.get() == true) {
             (card!!.availableBalance.toDouble() + viewModel.state.amount!!.toDouble()).toString()
+        } else {
+            (card!!.availableBalance.toDouble() - viewModel.state.amount!!.toDouble()).toString()
+        }
 
         viewModel.state.spareCardUpdatedBalance =
             getString(Strings.screen_success_funds_transaction_display_text_success_updated_prepaid_card_balance).format(

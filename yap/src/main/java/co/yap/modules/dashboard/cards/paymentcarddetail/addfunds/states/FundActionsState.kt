@@ -7,13 +7,11 @@ import androidx.databinding.Bindable
 import androidx.databinding.ObservableField
 import co.yap.BR
 import co.yap.modules.dashboard.cards.paymentcarddetail.addfunds.interfaces.IFundActions
-import co.yap.modules.dashboard.cards.paymentcarddetail.addfunds.interfaces.IRemoveFundActions
 import co.yap.networking.customers.responsedtos.beneficiary.TopUpCard
 import co.yap.translation.Strings
 import co.yap.translation.Translator
 import co.yap.yapcore.BaseState
 import co.yap.yapcore.constants.Constants
-import co.yap.yapcore.helpers.cancelAllSnackBar
 import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 
 class FundActionsState(application: Application) : BaseState(), IFundActions.State {
@@ -25,6 +23,7 @@ class FundActionsState(application: Application) : BaseState(), IFundActions.Sta
             field = value
             notifyPropertyChanged(BR.cardNumber)
         }
+    override var isAddFundScreen: ObservableField<Boolean> = ObservableField()
 
     override var cardInfo: ObservableField<TopUpCard> = ObservableField(TopUpCard())
 
@@ -182,7 +181,6 @@ class FundActionsState(application: Application) : BaseState(), IFundActions.Sta
             notifyPropertyChanged(BR.spareCardUpdatedBalance)
         }
 
-
     @get:Bindable
     override var transactionFeeSpannableString: String? = ""
         set(value) {
@@ -211,8 +209,7 @@ class FundActionsState(application: Application) : BaseState(), IFundActions.Sta
                         if (Constants.TYPE_REMOVE_FUNDS == type) {
                             errorDescription = Translator.getString(
                                 context,
-                                Strings.screen_remove_funds_display_text_available_balance_error,
-                                currencyType,
+                                Strings.common_display_text_available_balance_error,
                                 availableBalance.toFormattedCurrency() ?: ""
                             )
 
@@ -287,7 +284,6 @@ class FundActionsState(application: Application) : BaseState(), IFundActions.Sta
     }
 
     private fun clearError() {
-        cancelAllSnackBar()
         if (amount != "") {
             if (amount != ".") {
                 valid = amount?.toDouble()!! >= minLimit

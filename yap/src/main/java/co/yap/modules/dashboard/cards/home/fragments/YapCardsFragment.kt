@@ -241,7 +241,11 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
                                 showToast("${getString(Strings.screen_blocked_otp_display_text_message)}^${AlertType.DIALOG.name}")
                             } else {
                                 startActivityForResult(
-                                    AddFundsActivity.newIntent(requireContext(), it),
+                                    AddFundsActivity.newIntent(
+                                        requireContext(),
+                                        it,
+                                        isAddFund = true
+                                    ),
                                     RequestCodes.REQUEST_ADD_FUNDS_WHEN_ADD
                                 )
                             }

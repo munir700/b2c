@@ -31,7 +31,6 @@ import co.yap.modules.dashboard.cards.paymentcarddetail.fragments.PrimaryCardBot
 import co.yap.modules.dashboard.cards.paymentcarddetail.fragments.SpareCardBottomSheet
 import co.yap.modules.dashboard.cards.paymentcarddetail.interfaces.IPaymentCardDetail
 import co.yap.modules.dashboard.cards.paymentcarddetail.limits.activities.CardLimitsActivity
-import co.yap.modules.dashboard.cards.paymentcarddetail.removefunds.activities.RemoveFundsActivity
 import co.yap.modules.dashboard.cards.paymentcarddetail.statments.activities.CardStatementsActivity
 import co.yap.modules.dashboard.cards.paymentcarddetail.viewmodels.PaymentCardDetailViewModel
 import co.yap.modules.dashboard.cards.reordercard.activities.ReorderCardActivity
@@ -44,8 +43,8 @@ import co.yap.modules.dummy.ActivityNavigator
 import co.yap.modules.dummy.NavigatorProvider
 import co.yap.modules.others.helper.Constants
 import co.yap.networking.cards.responsedtos.Card
-import co.yap.networking.transactions.responsedtos.transaction.Transaction
 import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionListData
+import co.yap.networking.transactions.responsedtos.transaction.Transaction
 import co.yap.translation.Strings
 import co.yap.yapcore.AdjustEvents.Companion.trackAdjustPlatformEvent
 import co.yap.yapcore.BaseBindingActivity
@@ -206,7 +205,7 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
                     trackAdjustPlatformEvent(AdjustEvents.TOP_UP_START.type)
                     viewModel.card.value?.let { card ->
                         startActivityForResult(
-                            AddFundsActivity.newIntent(this, card),
+                            AddFundsActivity.newIntent(this, card, isAddFund = true),
                             Constants.REQUEST_ADD_REMOVE_FUNDS
                         )
                     }
@@ -225,7 +224,11 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
                 } else {
                     if (viewModel.card.value?.blocked == false) {
                         startActivityForResult(
-                            RemoveFundsActivity.newIntent(this, viewModel.card.value!!),
+                            AddFundsActivity.newIntent(
+                                this,
+                                viewModel.card.value!!,
+                                isAddFund = false
+                            ),
                             Constants.REQUEST_ADD_REMOVE_FUNDS
                         )
                     } else {

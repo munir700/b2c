@@ -169,13 +169,16 @@ open class FundActionsViewModel(application: Application) :
             state.loading = true
             when (val response = transactionsRepository.getFundTransferDenominations(productCode)) {
                 is RetroApiResponse.Success -> {
-                    var fundsType: String? = null
-                    if (productCode == Constants.SUPP_CARD) {
-                        fundsType = "+"
-                    } else if (productCode == co.yap.modules.others.helper.Constants.REMOVE_FUNDS_PRODUCT_CODE) {
-                        fundsType = "-"
-                    } else {
-                        fundsType = "+"
+                    val fundsType: String = when (productCode) {
+                        Constants.SUPP_CARD -> {
+                            "+"
+                        }
+                        co.yap.modules.others.helper.Constants.REMOVE_FUNDS_PRODUCT_CODE -> {
+                            "-"
+                        }
+                        else -> {
+                            "+"
+                        }
                     }
 
                     val sortedData =
