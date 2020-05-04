@@ -222,7 +222,11 @@ class TopUpBeneficiariesActivity : BaseBindingActivity<ITopUpBeneficiaries.ViewM
                 if (viewModel.cardLimits?.remaining ?: 0 >= 0) {
                     addCardProcess()
                 } else {
-                    showToast("${getString(Strings.screen_add_topup_card_limit_text_title).format(viewModel.cardLimits?.maxLimit)}^${AlertType.DIALOG.name}")
+                    showToast(
+                        "${getString(Strings.screen_add_topup_card_limit_text_title).format(
+                            viewModel.cardLimits?.maxLimit
+                        )}^${AlertType.DIALOG.name}"
+                    )
                 }
             }
             R.id.btnSelect -> {
@@ -255,7 +259,11 @@ class TopUpBeneficiariesActivity : BaseBindingActivity<ITopUpBeneficiaries.ViewM
                 if (viewModel.cardLimits?.remaining ?: 0 > 0) {
                     addCardProcess()
                 } else {
-                    showToast("${getString(Strings.screen_add_topup_card_limit_text_title).format(viewModel.cardLimits?.maxLimit)}^${AlertType.DIALOG.name}")
+                    showToast(
+                        "${getString(Strings.screen_add_topup_card_limit_text_title).format(
+                            viewModel.cardLimits?.maxLimit
+                        )}^${AlertType.DIALOG.name}"
+                    )
                 }
             }
         }
@@ -302,17 +310,17 @@ class TopUpBeneficiariesActivity : BaseBindingActivity<ITopUpBeneficiaries.ViewM
     private fun getUrl(): String? {
         return when (YAPApplication.appInfo?.flavor) {
             "live" -> {
-                "${YAPApplication.appInfo?.baseUrl}admin-web/HostedSessionIntegration.html"
+                ""
+                //"https://prepod-hci.yap.co/admin-web/HostedSessionIntegration.html"
             }
             "dev" -> {
-                "${YAPApplication.appInfo?.baseUrl}admin-web/HostedSessionIntegration.html"
+                "https://dev-hci.yap.co/admin-web/HostedSessionIntegration.html"
             }
             "qa" -> {
-                "${YAPApplication.appInfo?.baseUrl}admin-web/HostedSessionIntegration.html"
+                "https://qa-hci.yap.co/admin-web/HostedSessionIntegration.html"
             }
             "stg" -> {
-
-                "${YAPApplication.appInfo?.baseUrl}admin-web/HostedSessionIntegration.html"
+                "https://stg-hci.yap.co/admin-web/HostedSessionIntegration.html"
             }
             else -> null
         }
