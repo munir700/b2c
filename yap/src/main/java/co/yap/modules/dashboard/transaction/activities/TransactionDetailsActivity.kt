@@ -102,7 +102,7 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
         getBindings().tvTotalAmountValueCalculated.text =
             totalAmount.toFormattedAmountWithCurrency()
         getBindings().tvTotalAmountValue.text =
-            if (viewModel.transaction.get()?.txnType == TxnType.DEBIT.type) "+ ${totalAmount.toFormattedCurrency()}" else "- ${totalAmount.toFormattedCurrency()}"
+            if (viewModel.transaction.get()?.txnType == TxnType.DEBIT.type) "- ${totalAmount.toFormattedCurrency()}" else "+ ${totalAmount.toFormattedCurrency()}"
 
     }
 
