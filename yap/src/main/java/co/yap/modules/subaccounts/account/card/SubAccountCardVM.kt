@@ -14,7 +14,7 @@ import javax.inject.Inject
 
 class SubAccountCardVM @Inject constructor(override val state: ISubAccountCard.State) :
     BaseRecyclerAdapterVM<SubAccount, ISubAccountCard.State>(), ISubAccountCard.ViewModel {
-    private val repository: CustomerHHApi = CustomersHHRepository
+    private val repository: CustomersHHRepository = CustomersHHRepository
     override fun onFirsTimeUiCreate(bundle: Bundle?, navigation: NavController?) {
         getSubAccount()
         getEmptyAccount()?.let { addData(it) }

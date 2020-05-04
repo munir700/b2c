@@ -50,6 +50,9 @@
         <action
             android:id="@+id/action_enterSalaryAmountFragment_to_paymentConfirmationFragment"
             app:destination="@id/paymentConfirmationFragment" />
+        <action
+            android:id="@+id/action_enterSalaryAmountFragment_to_HHProfileFragment"
+            app:destination="@id/HHProfileFragment" />
     </fragment>
 
     <fragment
@@ -76,6 +79,9 @@
         <action
             android:id="@+id/action_payHHEmployeeSalaryFragment_to_recurringPaymentFragment"
             app:destination="@id/recurringPaymentFragment" />
+        <action
+            android:id="@+id/action_payHHEmployeeSalaryFragment_to_HHProfileFragment"
+            app:destination="@id/HHProfileFragment" />
     </fragment>
 
     <fragment
@@ -125,6 +131,9 @@
             app:exitAnim="@anim/slide_out_to_bottom"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_left" />
+        <action
+            android:id="@+id/action_HHIbanSendMoneyFragment_to_HHProfileFragment"
+            app:destination="@id/HHProfileFragment" />
     </fragment>
     <fragment
         android:id="@+id/HHIbanSendMoneyConfirmationFragment"
