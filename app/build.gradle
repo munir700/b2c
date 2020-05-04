@@ -33,8 +33,8 @@ android {
         }
 
         qa {
-            versionCode 61
-            versionName "0.6.1"
+            versionCode 62
+            versionName "0.6.2"
             applicationIdSuffix ".qa"
             buildConfigField("String", "BASE_URL", "\"${api_endpoint_qa}\"")
             buildConfigField("String", "LEANPLUM_CLIENT_SECRET", "\"${leanplum_client_secret_key}\"")
