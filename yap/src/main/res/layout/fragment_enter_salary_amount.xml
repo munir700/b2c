@@ -17,6 +17,10 @@
 
         <import type="co.yap.translation.Strings" />
 
+        <variable
+            name="cardBalance"
+            type="co.yap.yapcore.helpers.livedata.GetAccountBalanceLiveData.Companion" />
+
         <import type="co.yap.yapcore.helpers.extentions.StringExtensionsKt" />
     </data>
 
@@ -34,41 +38,36 @@
 
             <co.yap.widgets.CoreCircularImageView
                 android:id="@+id/ivUserImage"
-                android:layout_width="@dimen/_62sdp"
-                android:layout_height="@dimen/_62sdp"
-                android:contentDescription="@string/empty_string"
+                style="@style/Yap.App.Widget.ImageView.Circle"
                 android:src="@drawable/ic_store_b2b"
                 app:colorType="@{`Beneficiary`}"
-                app:fullName="@{viewModel.mUserLiveData.currentCustomer.fullName}"
-                app:imageUrl="@{viewModel.mUserLiveData.currentCustomer.picture}"
+                app:fullName="@{viewModel.state.subAccount.fullName}"
+                app:imageUrl="@{viewModel.state.subAccount.profilePictureUrl}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:position="@{0}" />
 
-            <TextView
+            <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvFullName"
-                style="@style/Regular"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                style="@style/Yap.App.Widget.TextView.FullName"
                 android:layout_marginTop="@dimen/margin_normal"
-                android:gravity="center"
                 android:text="Enter transfer amount"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/ivUserImage"
+                tools:ignore="HardcodedText"
                 tools:text="Enter transfer amount" />
 
-            <TextView
+            <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvCurrency"
-                style="@style/AMicroGrey"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                style="@style/Yap.App.Widget.TextView.Label"
                 android:layout_marginTop="@dimen/margin_medium"
                 android:text="AED"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvFullName"
+                tools:ignore="HardcodedText"
                 tools:text="AED" />
 
             <co.yap.widgets.EasyMoneyEditText
@@ -78,11 +77,16 @@
                 android:enabled="true"
                 android:gravity="center"
                 android:minWidth="@dimen/_140sdp"
+                android:onTextChanged="@{viewModel.onAmountChange}"
+                android:text="@={viewModel.state.amount}"
                 android:textAlignment="center"
                 app:amount_drawable="@drawable/bg_funds"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvCurrency" />
+                app:layout_constraintTop_toBottomOf="@+id/tvCurrency">
+
+                <requestFocus />
+            </co.yap.widgets.EasyMoneyEditText>
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvAvailableBalance"
@@ -102,35 +106,32 @@
                 android:layout_marginTop="@dimen/margin_medium"
                 android:enabled="false"
                 android:gravity="center"
-                android:text="3112312"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvAvailableBalance" />
 
-            <TextView
+            <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvLastUsedAmountGuide"
-                style="@style/MicroGrey"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_medium_large"
+                style="@style/Yap.App.Widget.TextView.Small.GrayDark"
                 android:layout_marginTop="@dimen/margin_small"
-                android:layout_marginEnd="@dimen/margin_medium_large"
-                android:gravity="center"
                 android:text="Use last transfer payment amount"
-                android:textAlignment="center"
+                android:textSize="@dimen/text_size_h1"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvLastUsedAmount"
-                tools:text="Use last transfer payment amount" />
+                tools:ignore="HardcodedText" />
 
             <androidx.appcompat.widget.AppCompatCheckBox
                 android:id="@+id/cbOutTransFilter"
                 style="@style/Yap.App.Widget.CheckBox"
                 android:layout_marginTop="@dimen/_18sdp"
-
+                android:checked="@{viewModel.state.isRecurring}"
+                android:enabled="@{viewModel.state.amount.length()>0 &amp;&amp; viewModel.state.isValid , default = false}"
                 android:text="Set this salary transfer up as a recurring payment"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvLastUsedAmountGuide" />
+                app:layout_constraintTop_toBottomOf="@+id/tvLastUsedAmountGuide"
+                tools:ignore="HardcodedText" />
 
             <co.yap.widgets.CoreButton
                 android:id="@+id/btnConfirm"
@@ -140,15 +141,17 @@
                 android:layout_marginLeft="@dimen/margin_xxl"
                 android:layout_marginTop="8dp"
                 android:layout_marginRight="@dimen/margin_xxl"
-
+                android:onClick="@{(v)-> viewModel.handlePressOnClick(v.id)}"
                 android:text="Confirm"
                 app:btn_enable="true"
+                app:enableCoreButton="@{viewModel.state.amount.length()>0 &amp;&amp; viewModel.state.isValid}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/cbOutTransFilter"
                 app:layout_constraintVertical_bias="0.958"
+                tools:ignore="HardcodedText"
                 tools:text="Add" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>

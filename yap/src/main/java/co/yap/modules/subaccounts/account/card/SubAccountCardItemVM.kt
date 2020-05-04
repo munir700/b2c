@@ -1,12 +1,10 @@
 package co.yap.modules.subaccounts.account.card
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
-import androidx.lifecycle.MutableLiveData
 import androidx.navigation.NavController
 import co.yap.R
-import co.yap.networking.customers.responsedtos.SubAccount
+import co.yap.networking.customers.household.responsedtos.SubAccount
 import co.yap.yapcore.BaseListItemViewModel
 import co.yap.yapcore.enums.CardDeliveryStatus
 import co.yap.yapcore.enums.PartnerBankStatus
@@ -14,7 +12,8 @@ import co.yap.yapcore.helpers.DateUtils.dayDiffFromCurrent
 import java.util.*
 
 class SubAccountCardItemVM : BaseListItemViewModel<SubAccount>() {
-    private var mItem: SubAccount = SubAccount()
+    private var mItem: SubAccount =
+        SubAccount()
     var position: Int = 0
     var status: String? = "Add new card"
     var statusColorResId: Int = R.color.colorPrimary

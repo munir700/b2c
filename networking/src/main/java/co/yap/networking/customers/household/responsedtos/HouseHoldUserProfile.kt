@@ -1,4 +1,4 @@
-package co.yap.networking.customers.responsedtos.household
+package co.yap.networking.customers.household.responsedtos
 
 import android.os.Parcelable
 import co.yap.networking.customers.responsedtos.Customer

@@ -1666,4 +1666,63 @@ object Strings {
         "screen_otp_blocked_display_text_heading"
     const val screen_otp_blocked_display_text_details: String =
         "screen_otp_blocked_display_text_details"
+    //    House hold payment confirmation screen
+    const val screen_household_payment_confirmation_tool_bar_text: String =
+        "screen_household_payment_confirmation_tool_bar_text"
+    const val screen_household_normal_payment_success_text: String =
+        "screen_household_normal_payment_success_text"
+    const val screen_household_normal_payment_recurring_text: String =
+        "screen_household_normal_payment_recurring_text"
+    const val screen_household_normal_payment_set_up_recurring_text: String =
+        "screen_household_normal_payment_set_up_recurring_text"
+    const val screen_household_normal_payment_go_to_dashboard_text: String =
+        "screen_household_normal_payment_go_to_dashboard_text"
+    const val screen_household_recurring_payment_success_text: String =
+        "screen_household_recurring_payment_success_text"
+    const val screen_household_recurring_payment_guide_text: String =
+        "screen_household_recurring_payment_guide_text"
+    const val screen_household_recurring_payment_text: String =
+        "screen_household_recurring_payment_text"
+    const val screen_household_future_payment_text: String =
+        "screen_household_future_payment_text"
+    const val screen_household_recurring_payment_date_text: String =
+        "screen_household_recurring_payment_date_text"
+
+    //Pay house hold employee salary
+    const val screen_household_employee_salary_schedule_once_heading_text: String =
+        "screen_household_employee_salary_schedule_once_heading_text"
+    const val screen_household_employee_salary_future_payment_text: String =
+        "screen_household_employee_salary_future_payment_text"
+    const val screen_household_employee_salary_recurring_heading_text: String =
+        "screen_household_employee_salary_recurring_heading_text"
+    const val screen_household_employee_salary_recurring_text: String =
+        "screen_household_employee_salary_recurring_text"
+    const val screen_household_employee_salary_pay_now_button_text: String =
+        "screen_household_employee_salary_pay_now_button_text"
+
+//    Household  Pay Salary Screen
+const val screen_household_pay_salary_screen_display_text_title: String =
+    "screen_household_pay_salary_screen_display_text_title"
+    const val screen_household_pay_salary_screen_enter_transfer_amount_title: String =
+    "screen_household_pay_salary_screen_enter_transfer_amount_title"
+    const val screen_household_pay_salary_screen_available_balance_text: String =
+        "screen_household_pay_salary_screen_available_balance_text"
+    const val screen_household_pay_salary_screen_last_salary_text: String =
+        "screen_household_pay_salary_screen_last_salary_text"
+    const val screen_household_pay_salary_screen_recurring_salary_text: String =
+        "screen_household_pay_salary_screen_recurring_salary_text"
+    const val screen_household_pay_salary_screen_button_text: String =
+        "screen_household_pay_salary_screen_button_text"
+
+//    Future payment screen
+const val screen_household_future_payment_screen_tool_bar_text: String =
+    "screen_household_future_payment_screen_tool_bar_text"
+    const val screen_household_future_payment_screen_amount_title_text: String =
+        "screen_household_future_payment_screen_amount_title_text"
+    const val screen_household_future_payment_screen_available_balance_text: String =
+        "screen_household_future_payment_screen_available_balance_text"
+    const val screen_household_future_payment_screen_end_date_heading_text: String =
+        "screen_household_future_payment_screen_end_date_heading_text"
+    const val screen_household_future_payment_screen_button_text: String =
+        "screen_household_future_payment_screen_button_text"
 }

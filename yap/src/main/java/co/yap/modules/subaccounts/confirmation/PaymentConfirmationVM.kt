@@ -2,6 +2,7 @@ package co.yap.modules.subaccounts.confirmation
 
 import android.os.Bundle
 import androidx.navigation.NavController
+import co.yap.networking.customers.household.responsedtos.SubAccount
 import co.yap.yapcore.dagger.base.viewmodel.DaggerBaseViewModel
 import javax.inject.Inject
 
@@ -9,6 +10,10 @@ class PaymentConfirmationVM @Inject constructor(override val state: IPaymentConf
     DaggerBaseViewModel<IPaymentConfirmation.State>() {
 
     override fun onFirsTimeUiCreate(bundle: Bundle?, navigation: NavController?) {
+        bundle?.let { state.subAccount.value = it.getParcelable(SubAccount::class.simpleName) }
+
+        //This is temporary
+        state.recurringPaymentScreen.value = true
     }
 
 }

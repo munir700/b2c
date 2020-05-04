@@ -5,6 +5,7 @@ import android.os.Bundle
 import androidx.fragment.app.FragmentManager
 import androidx.navigation.NavController
 import co.yap.R
+import co.yap.networking.customers.household.responsedtos.SubAccount
 import co.yap.yapcore.dagger.base.viewmodel.DaggerBaseViewModel
 import co.yap.yapcore.helpers.DateUtils
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog
@@ -17,6 +18,7 @@ class FuturePaymentVM @Inject constructor(override val state: IFuturePayment.Sta
     override var fragmentManager: FragmentManager? = null
 
     override fun onFirsTimeUiCreate(bundle: Bundle?, navigation: NavController?) {
+        bundle?.let { state.subAccount.value = it.getParcelable(SubAccount::class.simpleName) }
         state.date.set(DateUtils.dateToString(calendar.time, "MMM dd, yyyy"))
     }
 

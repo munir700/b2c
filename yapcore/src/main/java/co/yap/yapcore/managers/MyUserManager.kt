@@ -1,8 +1,6 @@
 package co.yap.yapcore.managers
 
 import android.content.Context
-import android.util.Log
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import co.yap.app.YAPApplication
 import co.yap.networking.authentication.AuthRepository
@@ -10,11 +8,11 @@ import co.yap.networking.cards.CardsRepository
 import co.yap.networking.cards.responsedtos.Address
 import co.yap.networking.cards.responsedtos.Card
 import co.yap.networking.cards.responsedtos.CardBalance
+import co.yap.networking.customers.CustomersApi
 import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.customers.responsedtos.AccountInfo
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
-
 import co.yap.yapcore.SingleLiveEvent
 import co.yap.yapcore.enums.AccountStatus
 import co.yap.yapcore.enums.AccountType
@@ -30,21 +28,23 @@ import kotlinx.coroutines.launch
 object MyUserManager : IRepositoryHolder<CardsRepository> {
 
     override val repository: CardsRepository = CardsRepository
-    private val customersRepository: CustomersRepository = CustomersRepository
+    private val customersRepository: CustomersApi = CustomersRepository
     private val authRepository: AuthRepository = AuthRepository
 
-     var usersList: ArrayList<AccountInfo> = arrayListOf()
+    var usersList: ArrayList<AccountInfo> = arrayListOf()
     var user: AccountInfo? = null
-    set(value) {
-        field = value
-        userLiveData.postValue(value)
-    }
+        set(value) {
+            field = value
+            userLiveData.postValue(value)
+        }
     var userLiveData: MutableLiveData<AccountInfo> = MutableLiveData<AccountInfo>()
 
     var switchProfile: SingleLiveEvent<Boolean> = SingleLiveEvent()
 
     //    var users: ArrayList<AccountInfo> = ArrayList<AccountInfo>()
     var userAddress: Address? = null
+
+//    @Deprecated("must use co.yap.yapcore.helpers.livedata.GetAccountBalanceLiveData")
     var cardBalance: MutableLiveData<CardBalance> = MutableLiveData()
     var card: MutableLiveData<Card?> = MutableLiveData()
     var eidStatus: EIDStatus = EIDStatus.NOT_SET
@@ -135,7 +135,7 @@ object MyUserManager : IRepositoryHolder<CardsRepository> {
                 is RetroApiResponse.Success -> {
                     if (!response.data.data.isNullOrEmpty()) {
                         usersList = response.data.data as ArrayList<AccountInfo>
-                        user =  getCurrentUser()
+                        user = getCurrentUser()
                         //setUser(usersList)
 
                         // Reverse Users so that household remain on top for household dashboard menu

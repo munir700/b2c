@@ -1,6 +1,5 @@
 package co.yap.modules.subaccounts.paysalary.profile
 
-import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
@@ -11,7 +10,6 @@ import androidx.navigation.NavController
 import co.yap.BR
 import co.yap.R
 import co.yap.databinding.FragmentHhsalaryProfileBinding
-import co.yap.networking.customers.responsedtos.SubAccount
 import co.yap.yapcore.BaseRVAdapter
 import co.yap.yapcore.BaseViewHolder
 import co.yap.yapcore.dagger.base.BaseRecyclerViewFragment
@@ -21,7 +19,6 @@ import com.arthurivanets.bottomsheets.ktx.actionPickerConfig
 import com.arthurivanets.bottomsheets.ktx.showActionPickerBottomSheet
 import com.arthurivanets.bottomsheets.sheets.listeners.OnItemSelectedListener
 import com.arthurivanets.bottomsheets.sheets.model.Option
-import kotlinx.android.synthetic.main.fragment_subscription.*
 
 class HHSalaryProfileFragment :
     BaseRecyclerViewFragment<FragmentHhsalaryProfileBinding, IHHSalaryProfile.State, HHSalaryProfileVM, HHSalaryProfileFragment.Adapter, PaySalaryModel>() {
