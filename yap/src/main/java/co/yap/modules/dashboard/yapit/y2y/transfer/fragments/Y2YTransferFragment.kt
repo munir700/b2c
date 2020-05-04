@@ -28,6 +28,7 @@ import co.yap.yapcore.enums.OTPActions
 import co.yap.yapcore.enums.TransactionProductCode
 import co.yap.yapcore.helpers.*
 import co.yap.yapcore.helpers.extentions.startFragmentForResult
+import co.yap.yapcore.helpers.extentions.toFormattedAmountWithCurrency
 import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 import co.yap.yapcore.helpers.spannables.color
 import co.yap.yapcore.helpers.spannables.getText
@@ -214,7 +215,7 @@ class Y2YTransferFragment : Y2YBaseFragment<IY2YFundsTransfer.ViewModel>(), IY2Y
                         viewModel.state.errorDescription = Translator.getString(
                             requireContext(),
                             Strings.common_display_text_daily_limit_error
-                        ).format(remainingDailyLimit)
+                        ).format(remainingDailyLimit.toString().toFormattedAmountWithCurrency())
                         return enteredAmount > remainingDailyLimit
                     } ?: return false
                 } ?: return false

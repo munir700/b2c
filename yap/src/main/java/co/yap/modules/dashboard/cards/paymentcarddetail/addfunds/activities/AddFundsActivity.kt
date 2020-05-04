@@ -38,6 +38,7 @@ import co.yap.yapcore.helpers.AnimationUtils
 import co.yap.yapcore.helpers.DecimalDigitsInputFilter
 import co.yap.yapcore.helpers.extentions.afterTextChanged
 import co.yap.yapcore.helpers.extentions.startFragmentForResult
+import co.yap.yapcore.helpers.extentions.toFormattedAmountWithCurrency
 import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 import co.yap.yapcore.helpers.showTextUpdatedAbleSnackBar
 import co.yap.yapcore.helpers.spannables.color
@@ -369,7 +370,7 @@ open class AddFundsActivity : BaseBindingActivity<IFundActions.ViewModel>(),
                             Translator.getString(
                                 this,
                                 Strings.common_display_text_daily_limit_error
-                            ).format(dailyLimit)
+                            ).format(remainingDailyLimit.toString().toFormattedAmountWithCurrency())
 
                         return enteredAmount > remainingDailyLimit
 
