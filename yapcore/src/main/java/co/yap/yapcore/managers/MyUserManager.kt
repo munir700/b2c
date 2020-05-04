@@ -43,6 +43,8 @@ object MyUserManager : IRepositoryHolder<CardsRepository> {
 
     //    var users: ArrayList<AccountInfo> = ArrayList<AccountInfo>()
     var userAddress: Address? = null
+
+//    @Deprecated("must use co.yap.yapcore.helpers.livedata.GetAccountBalanceLiveData")
     var cardBalance: MutableLiveData<CardBalance> = MutableLiveData()
     var card: MutableLiveData<Card?> = MutableLiveData()
     var eidStatus: EIDStatus = EIDStatus.NOT_SET

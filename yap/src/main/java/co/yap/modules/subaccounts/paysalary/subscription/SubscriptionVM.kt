@@ -16,7 +16,7 @@ import javax.inject.Inject
 class SubscriptionVM @Inject constructor(override val state: ISubscription.State) :
     DaggerBaseViewModel<ISubscription.State>()
     , ISubscription.ViewModel {
-    override var customersRepository: CustomerHHApi = CustomersHHRepository
+    override var customersRepository: CustomersHHRepository = CustomersHHRepository
 
     override fun onFirsTimeUiCreate(bundle: Bundle?, navigation: NavController?) {
         bundle?.let { state.subAccount.value = it.getParcelable(SubAccount::class.simpleName) }

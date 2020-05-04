@@ -6,5 +6,7 @@ import co.yap.yapcore.BaseState
 
 class EnterSalaryAmountState : BaseState(), IEnterSalaryAmount.State {
     override var subAccount: MutableLiveData<SubAccount> = MutableLiveData()
-
+    override var amount: MutableLiveData<String> = MutableLiveData()
+    override var isRecurring: MutableLiveData<Boolean> = MutableLiveData(false)
+    override var isValid: MutableLiveData<Boolean> = MutableLiveData(false)
 }

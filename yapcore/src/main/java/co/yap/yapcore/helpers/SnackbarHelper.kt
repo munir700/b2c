@@ -70,10 +70,11 @@ fun Activity.showSnackBar(
     val snackRootView = snakbar.view
     val snackTextView = snackRootView
         .findViewById<TextView>(R.id.snackbar_text)
-    snackTextView.setTextAppearance( R.style.AppFontLight)
+    snackTextView.setTextAppearance(R.style.AppFontLight)
     snakbar.setAction(actionText, clickListener)
     snakbar.show(gravity)
 }
+
 fun Activity?.showSnackBar(
     msg: String, @ColorRes viewBgColor: Int, @ColorRes colorOfMessage: Int,
     gravity: Int = Gravity.BOTTOM,
@@ -86,6 +87,34 @@ fun Activity?.showSnackBar(
             .make(
                 it.window?.decorView?.findViewById(android.R.id.content)!!,
                 validateString(msg),
+                duration
+            )
+        snakbar.view.setBackgroundColor(ContextCompat.getColor(it, viewBgColor))
+        val snackRootView = snakbar.view
+        val snackTextView = snackRootView
+            .findViewById<TextView>(R.id.snackbar_text)
+        snackTextView.setTextAppearance(R.style.Micro)
+        snakbar.setTextColor(ContextCompat.getColor(snakbar.view.context, colorOfMessage))
+        snakbar.config(marginTop, marginBottom)
+        cancelAllSnackBar()
+        snakbar.show(gravity)
+        return snakbar
+    }
+    return null
+}
+
+fun Activity?.showSnackBar(
+    msg: CharSequence, @ColorRes viewBgColor: Int, @ColorRes colorOfMessage: Int,
+    gravity: Int = Gravity.BOTTOM,
+    duration: Int = Snackbar.LENGTH_LONG,
+    marginTop: Int = this?.dimen(R.dimen.toolbar_height) ?: 0,
+    marginBottom: Int = this?.dimen(R.dimen.margin_zero_dp) ?: 0
+): Snackbar? {
+    this?.let {
+        val snakbar = Snackbar
+            .make(
+                it.window?.decorView?.findViewById(android.R.id.content)!!,
+                msg,
                 duration
             )
         snakbar.view.setBackgroundColor(ContextCompat.getColor(it, viewBgColor))
@@ -127,6 +156,36 @@ fun Context?.showSnackBar(msg: String) {
     }
 }
 
+fun Context?.showSnackBar(
+    msg: CharSequence,
+    @ColorRes viewBgColor: Int = R.color.errorLightBackground,
+    @ColorRes colorOfMessage: Int = R.color.error,
+    gravity: Int,
+    duration: Int = Snackbar.LENGTH_INDEFINITE,
+    marginTop: Int = this?.dimen(R.dimen.toolbar_height) ?: 0,
+    marginBottom: Int = this?.dimen(R.dimen.margin_zero_dp) ?: 0,
+    clickListener: View.OnClickListener? = null
+): Snackbar? {
+    this?.let {
+        if (this is Activity) {
+            val snackbar = showSnackBar(
+                msg,
+                viewBgColor,
+                colorOfMessage,
+                gravity,
+                duration,
+                marginTop,
+                marginBottom
+            )
+            snackbar?.view?.setOnClickListener { clickListener }
+            return snackbar
+        } else {
+            toastNow(msg.toString())
+        }
+    }
+    return null
+}
+
 fun Fragment?.showSnackBar(
     msg: String,
     gravity: Int = Gravity.BOTTOM,
@@ -156,7 +215,7 @@ fun Fragment.showSnackBar(
     val snackRootView = snakbar.view
     val snackTextView = snackRootView
         .findViewById<TextView>(R.id.snackbar_text)
-    snackTextView.setTextAppearance( R.style.AppFontLight)
+    snackTextView.setTextAppearance(R.style.AppFontLight)
     snakbar.setAction(actionText, clickListener)
     snakbar.show(gravity)
 }
@@ -177,7 +236,7 @@ fun Fragment.showSnackBar(
     val snackRootView = snakbar.view
     val snackTextView = snackRootView
         .findViewById<TextView>(R.id.snackbar_text)
-    snackTextView.setTextAppearance( R.style.AppFontLight)
+    snackTextView.setTextAppearance(R.style.AppFontLight)
     snakbar.setAction(actionText, clickListener)
     snakbar.show(gravity)
 }
@@ -346,6 +405,9 @@ private fun Snackbar.show(gravity: Int = Gravity.BOTTOM, addToQueue: Boolean = t
 fun cancelAllSnackBar() =
     SnackBarQueue.cancelSnackBars()
 
+fun Snackbar?.removeSnackBar() = this?.let { SnackBarQueue.removeSnackBar(it) }
+
+
 // for view and action
 fun View?.showSnackBar(
     msg: String,
@@ -405,6 +467,15 @@ fun Snackbar?.updateSnackBarText(msg: String) {
     }
 }
 
+fun Snackbar?.updateSnackBarText(msg: CharSequence) {
+    this?.let {
+        val snackRootView = this.view
+        val snackTextView = snackRootView
+            .findViewById<TextView>(R.id.snackbar_text)
+        snackTextView.text = msg
+    }
+}
+
 fun Fragment?.showTextUpdatedAbleSnackBar(errorMessage: String, length: Int) {
     this?.let {
         getSnackBarFromQueue(0)?.let {
@@ -418,6 +489,7 @@ fun Fragment?.showTextUpdatedAbleSnackBar(errorMessage: String, length: Int) {
         )
     }
 }
+
 fun Activity?.showTextUpdatedAbleSnackBar(errorMessage: String, length: Int) {
     this?.let {
         getSnackBarFromQueue(0)?.let {
@@ -432,9 +504,30 @@ fun Activity?.showTextUpdatedAbleSnackBar(errorMessage: String, length: Int) {
     }
 }
 
+fun Context?.showTextUpdatedAbleSnackBar(
+    msg: CharSequence,
+    length: Int = Snackbar.LENGTH_INDEFINITE, clickListener: View.OnClickListener? = null
+) {
+    this?.let {
+
+        getSnackBarFromQueue(0)?.let {
+            if (it.isShown) {
+                it.updateSnackBarText(msg)
+            }
+        } ?: showSnackBar(
+            msg = msg,
+            viewBgColor = R.color.errorLightBackground, gravity = Gravity.TOP,
+            colorOfMessage = R.color.error, duration = length, clickListener = clickListener
+        )
+
+    }
+}
+
+
 fun validateString(msg: String?): String {
     return msg ?: "null"
 }
+
 
 fun getSnackBarQueue() = SnackBarQueue.snackBarQueue
 
