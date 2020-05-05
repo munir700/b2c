@@ -32,7 +32,7 @@ class HHSetPinFragment :
                     HHSetPinFragmentDirections.actionSetCardPinFragment2ToConfirmCardPinFragment2(
                         SetPinDataModel(
                             screenType = "confirmPin",
-                            pinCode = state.pinCode.toString(),
+                            pinCode = state.pinCode.value.toString(),
                             setPinTitle = getString(Strings.screen_household_set_pin_text_confirm_pin_title),
                             termsAndConditionVisibility = true,
                             buttonTitle = getString(Strings.screen_household_set_pin_text_button_title),

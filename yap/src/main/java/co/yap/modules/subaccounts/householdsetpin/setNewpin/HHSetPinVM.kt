@@ -28,7 +28,7 @@ class HHSetPinVM @Inject constructor(override var state: IHHSetPin.State) :
     }
 
     override fun handleButtonPress(id: Int) {
-        val validateAgg = Utils.validateAggressively(context, state.pinCode.toString())
+        val validateAgg = Utils.validateAggressively(context, state.pinCode.value.toString())
         if (validateAgg.isEmpty()) {
             clickEvent.setValue(id)
         } else {
@@ -51,15 +51,13 @@ class HHSetPinVM @Inject constructor(override var state: IHHSetPin.State) :
                 serialNumb = MyUserManager.getPrimaryCard()?.cardSerialNumber.toString()
             }
             when (val response = repository.createCardPin(
-                CreateCardPinRequest(state.pinCode.toString()),
+                CreateCardPinRequest(state.pinCode.value.toString()),
                 serialNumb
             )) {
                 is RetroApiResponse.Success -> {
-//                    kotlinx.coroutines.delay(600)
                     clickEvent.setValue(eventSuccess)
                 }
                 is RetroApiResponse.Error -> {
-//                    kotlinx.coroutines.delay(600)
                     state.dialerError.value = response.error.message
                     clickEvent.setValue(eventFailure)
                 }
