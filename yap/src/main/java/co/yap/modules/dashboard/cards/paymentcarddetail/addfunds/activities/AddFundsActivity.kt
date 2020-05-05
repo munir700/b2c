@@ -169,6 +169,7 @@ open class AddFundsActivity : BaseBindingActivity<IFundActions.ViewModel>(),
 
             viewModel.EVENT_ADD_FUNDS_SUCCESS, viewModel.EVENT_REMOVE_FUNDS_SUCCESS -> {
                 fundsAddedRemoveSuccess = true
+                setUpSuccessData()
                 performSuccessOperations()
                 etAmount.visibility = View.GONE
                 btnAction.text =
@@ -205,15 +206,17 @@ open class AddFundsActivity : BaseBindingActivity<IFundActions.ViewModel>(),
         etAmount.afterTextChanged {
                 parentViewModel?.updateFees(viewModel.state.amount ?: "")
             when {
+                it.isBlank() -> {
+                    viewModel.state.valid = false
+                }
                 isBalanceAvailable() -> {
                     setErrorBg()
                     viewModel.state.errorDescription = Translator.getString(
                         context,
                         Strings.common_display_text_available_balance_error,
-                        viewModel.state.availableBalance.toFormattedCurrency() ?: ""
+                        viewModel.state.availableBalanceText
                     )
                     showErrorSnackBar(viewModel.state.errorDescription, Snackbar.LENGTH_INDEFINITE)
-
                 }
                 isDailyLimitReached() && isAddFundScreen == true -> {
                     setErrorBg()
@@ -236,7 +239,8 @@ open class AddFundsActivity : BaseBindingActivity<IFundActions.ViewModel>(),
     }
 
     private fun isBalanceAvailable(): Boolean {
-        return viewModel.state.amount.parseToDouble() > viewModel.state.availableBalance.parseToDouble()
+        return if (viewModel.state.isAddFundScreen.get() == true) viewModel.state.amount.parseToDouble() > viewModel.state.availableBalance.parseToDouble()
+        else viewModel.state.amount.parseToDouble() > card?.availableBalance.parseToDouble()
     }
 
     private fun isUpperOrLowerLimitReached(): Boolean {
@@ -274,7 +278,7 @@ open class AddFundsActivity : BaseBindingActivity<IFundActions.ViewModel>(),
         )
     }
 
-    fun performSuccessOperations() {
+    private fun performSuccessOperations() {
         YoYo.with(Techniques.FadeOut)
             .duration(300)
             .repeat(0)

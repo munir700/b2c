@@ -10,9 +10,9 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import co.yap.sendMoney.addbeneficiary.interfaces.IBeneficiaryOverview
 import co.yap.sendMoney.addbeneficiary.viewmodels.BeneficiaryOverviewViewModel
+import co.yap.sendMoney.fragments.SendMoneyBaseFragment
 import co.yap.sendmoney.BR
 import co.yap.sendmoney.R
-import co.yap.sendMoney.fragments.SendMoneyBaseFragment
 import co.yap.translation.Translator
 import co.yap.yapcore.helpers.Utils
 import kotlinx.android.synthetic.main.fragment_beneficiary_overview.*

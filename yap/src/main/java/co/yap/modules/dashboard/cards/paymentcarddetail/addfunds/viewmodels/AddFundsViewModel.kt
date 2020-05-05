@@ -3,7 +3,6 @@ package co.yap.modules.dashboard.cards.paymentcarddetail.addfunds.viewmodels
 import android.app.Application
 import co.yap.networking.models.RetroApiResponse
 import co.yap.translation.Strings
-import co.yap.yapcore.constants.Constants
 
 class AddFundsViewModel(application: Application) : FundActionsViewModel(application) {
 

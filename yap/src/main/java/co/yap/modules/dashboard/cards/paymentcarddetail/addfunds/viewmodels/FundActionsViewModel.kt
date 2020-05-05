@@ -42,7 +42,6 @@ open class FundActionsViewModel(application: Application) :
 
     override fun initateVM(topupCard: TopUpCard) {}
     override fun startPooling(showLoader: Boolean) {}
-
     override fun getTransactionThresholds() {}
 
 
@@ -202,11 +201,7 @@ open class FundActionsViewModel(application: Application) :
 
 
     override fun buttonClickEvent(id: Int) {
-        if (state.checkValidity("") == "") {
-            clickEvent.setValue(id)
-        } else {
-            errorEvent.postValue(id)
-        }
+        clickEvent.setValue(id)
     }
 
     override fun crossButtonClickEvent(id: Int) {

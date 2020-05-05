@@ -108,6 +108,10 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
     override fun setObservers() {
         viewModel.clickEvent.observe(this, clickObserver)
         viewModel.card.observe(this, Observer {
+            if (it.availableBalance.parseToDouble() > 0) {
+                llRemoveFunds.isEnabled = true
+                llRemoveFunds.alpha = 1f
+            }
             viewModel.cardTransactionRequest.serialNumber = it.cardSerialNumber
             viewModel.requestAccountTransactions()
         })
@@ -291,6 +295,8 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
     private fun setupView() {
         viewModel.card.value = intent.getParcelableExtra(CARD)
         viewModel.state.cardStatus.set(viewModel.card.value?.status)
+        llRemoveFunds.isEnabled = false
+        llRemoveFunds.alpha = 0.5f
 
         viewModel.state.cardType = viewModel.card.value?.cardType ?: ""
         viewModel.state.cardPanNumber = viewModel.card.value?.maskedCardNo ?: ""
@@ -332,6 +338,7 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
             rlSpareCardActions.visibility = View.VISIBLE
         }
         checkFreezeUnfreezStatus()
+
 
         btnCardDetails.setOnClickListener {
             viewModel.getCardDetails()

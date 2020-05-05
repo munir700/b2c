@@ -196,60 +196,6 @@ class FundActionsState(application: Application) : BaseState(), IFundActions.Sta
         }
 
 
-    fun checkValidity(type: String): String {
-        try {
-            if (amount != "") {
-                when {
-                    amount?.toDouble()!! > availableBalance.toDouble() -> {
-                        amountBackground =
-                            context.resources.getDrawable(
-                                co.yap.yapcore.R.drawable.bg_funds_error,
-                                null
-                            )
-                        if (Constants.TYPE_REMOVE_FUNDS == type) {
-                            errorDescription = Translator.getString(
-                                context,
-                                Strings.common_display_text_available_balance_error,
-                                availableBalance.toFormattedCurrency() ?: ""
-                            )
-
-                        } else {
-                            errorDescription = Translator.getString(
-                                context,
-                                Strings.screen_add_funds_display_text_available_balance_error,
-                                currencyType,
-                                availableBalance.toFormattedCurrency() ?: ""
-                            )
-                        }
-                        return errorDescription
-                    }
-                    amount?.toDouble()!! > maxLimit -> {
-                        amountBackground =
-                            context.resources.getDrawable(
-                                co.yap.yapcore.R.drawable.bg_funds_error,
-                                null
-                            )
-
-                        errorDescription = Translator.getString(
-                            context,
-                            Strings.screen_add_funds_display_text_max_limit_error,
-                            currencyType,
-                            maxLimit.toString().toFormattedCurrency()?:""
-                        )
-                        return errorDescription
-
-                    }
-                    else -> {
-                        amountBackground =
-                            context.resources.getDrawable(co.yap.yapcore.R.drawable.bg_funds, null)
-                    }
-                }
-            }
-        } catch (e: Exception) {
-            return ""
-        }
-        return ""
-    }
 
     fun checkValidityForAddTopUpFromExternalCard(): String {
         try {

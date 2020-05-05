@@ -15,7 +15,6 @@ import co.yap.yapcore.databinding.FragmentSetCardPinBinding
 
 open class SetCardPinFragment : BaseBindingFragment<ISetCardPin.ViewModel>(), ISetCardPin.View {
 
-
     override fun getBindingVariable(): Int = BR.viewModel
 
     override fun getLayoutId(): Int = R.layout.fragment_set_card_pin
@@ -62,7 +61,6 @@ open class SetCardPinFragment : BaseBindingFragment<ISetCardPin.ViewModel>(), IS
     fun getBindings(): FragmentSetCardPinBinding {
         return viewDataBinding as FragmentSetCardPinBinding
     }
-
 
     override fun onDestroyView() {
         viewModel.clickEvent.removeObservers(this)
