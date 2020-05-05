@@ -2,6 +2,7 @@ package co.yap.modules.dashboard.more.profile.viewmodels
 
 import android.app.Application
 import co.yap.modules.dashboard.cards.paymentcarddetail.viewmodels.SetNewPinViewModel
+import co.yap.modules.setcardpin.viewmodels.SetCardPinViewModel
 import co.yap.networking.messages.MessagesRepository
 import co.yap.networking.messages.requestdtos.CreateForgotPasscodeOtpRequest
 import co.yap.networking.models.RetroApiResponse
@@ -11,7 +12,7 @@ import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.toast
 
-class UpdateNewPasscodeViewModel(application: Application) : SetNewPinViewModel(application) {
+class UpdateNewPasscodeViewModel(application: Application) : SetCardPinViewModel(application) {
     override val clickEvent: SingleClickEvent = SingleClickEvent()
     override val forgotPasscodeclickEvent: SingleClickEvent = SingleClickEvent()
     private val messagesRepository: MessagesRepository = MessagesRepository

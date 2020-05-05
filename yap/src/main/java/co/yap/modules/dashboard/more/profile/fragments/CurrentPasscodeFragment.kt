@@ -10,6 +10,7 @@ import co.yap.modules.dashboard.cards.paymentcarddetail.fragments.ChangeCardPinF
 import co.yap.modules.dashboard.more.main.activities.MoreActivity
 import co.yap.modules.dashboard.more.profile.viewmodels.CurrentPasscodeViewModel
 import co.yap.modules.setcardpin.interfaces.ISetCardPin
+import co.yap.modules.setcardpin.pinflow.IPin
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.Constants.KEY_IS_USER_LOGGED_IN
 import co.yap.yapcore.databinding.FragmentSetCardPinBinding
@@ -21,7 +22,7 @@ import kotlinx.android.synthetic.main.activity_create_passcode.*
 open class CurrentPasscodeFragment : ChangeCardPinFragment() {
     private lateinit var sharedPreferenceManager: SharedPreferenceManager
 
-    override val viewModel: ISetCardPin.ViewModel
+    override val viewModel: IPin.ViewModel
         get() = ViewModelProviders.of(this).get(CurrentPasscodeViewModel::class.java)
 
     override fun onCreate(savedInstanceState: Bundle?) {

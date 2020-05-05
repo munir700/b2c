@@ -7,29 +7,39 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import co.yap.BR
 import co.yap.R
 import co.yap.modules.dashboard.cards.paymentcarddetail.activities.ChangeCardPinActivity
 import co.yap.modules.dashboard.cards.paymentcarddetail.forgotcardpin.activities.ForgotCardPinActivity
-import co.yap.modules.dashboard.cards.paymentcarddetail.viewmodels.ConfirmNewCardPinViewModel
 import co.yap.modules.otp.GenericOtpFragment
 import co.yap.modules.otp.OtpDataModel
-import co.yap.modules.setcardpin.fragments.ConfirmCardPinFragment
-import co.yap.modules.setcardpin.interfaces.ISetCardPin
+import co.yap.modules.setcardpin.pinflow.IPin
+import co.yap.modules.setcardpin.pinflow.PinViewModel
+import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.databinding.FragmentPinBinding
 import co.yap.yapcore.enums.OTPActions
 import co.yap.yapcore.helpers.extentions.startFragmentForResult
 import co.yap.yapcore.managers.MyUserManager
-import kotlinx.android.synthetic.main.activity_create_passcode.*
 
-open class ConfirmNewCardPinFragment : ConfirmCardPinFragment() {
+open class ConfirmNewCardPinFragment : BaseBindingFragment<IPin.ViewModel>(), IPin.View {
     private val args: ConfirmNewCardPinFragmentArgs by navArgs()
 
-    override val viewModel: ISetCardPin.ViewModel
-        get() = ViewModelProviders.of(this).get(ConfirmNewCardPinViewModel::class.java)
+    override val viewModel: IPin.ViewModel
+        get() = ViewModelProviders.of(this).get(PinViewModel::class.java)
+
+    override fun getBindingVariable(): Int = BR.viewModel
+
+    override fun getLayoutId(): Int = R.layout.fragment_pin
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        if(activity is ChangeCardPinActivity){
+        setObservers()
+        viewModel.setConfirmNewCardPinFragmentData()
+        getBindings().dialer.hideFingerprintView()
+        getBindings().dialer.upDatedDialerPad(viewModel.state.pincode)
+        getBindings().dialer.updateDialerLength(4)
+        if (activity is ChangeCardPinActivity) {
             (activity as ChangeCardPinActivity).preventTakeDeviceScreenShot.value = true
         }
         if (activity is ForgotCardPinActivity) {
@@ -42,10 +52,20 @@ open class ConfirmNewCardPinFragment : ConfirmCardPinFragment() {
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
                 R.id.btnAction -> {
-                    if (viewModel.state.flowType == Constants.FORGOT_CARD_PIN_FLOW) {
-                        startOtpFragment()
-                    } else {
-                        findNavController().navigate(R.id.action_confirmNewCardPinFragment_to_changePinSuccessFragment)
+
+                    if (viewModel.state.newPin == viewModel.state.pincode) {
+                        if (viewModel.state.flowType != Constants.FORGOT_CARD_PIN_FLOW) {
+                            viewModel.changeCardPinRequest(
+                                viewModel.state.oldPin,
+                                viewModel.state.newPin,
+                                viewModel.state.pincode,
+                                viewModel.state.cardSerialNumber
+                            )
+                        } else {
+                            if (viewModel.state.flowType == Constants.FORGOT_CARD_PIN_FLOW) {
+                                startOtpFragment()
+                            }
+                        }
                     }
 
                 }
@@ -53,10 +73,13 @@ open class ConfirmNewCardPinFragment : ConfirmCardPinFragment() {
                 Constants.FORGOT_CARD_PIN_NAVIGATION -> {
                     findNavController().navigate(R.id.action_confirmNewCardPinFragment2_to_changePinSuccessFragment2)
                 }
+                else -> {
+                    findNavController().navigate(R.id.action_confirmNewCardPinFragment_to_changePinSuccessFragment)
+                }
             }
         })
         viewModel.errorEvent.observe(this, Observer {
-            dialer.startAnimation()
+            getBindings().dialer.startAnimation()
         })
     }
 
@@ -93,9 +116,13 @@ open class ConfirmNewCardPinFragment : ConfirmCardPinFragment() {
         }
     }
 
-    override fun onDestroy() {
+    override fun onDestroyView() {
         viewModel.clickEvent.removeObservers(this)
-        super.onDestroy()
-
+        super.onDestroyView()
     }
+
+    private fun getBindings(): FragmentPinBinding {
+        return viewDataBinding as FragmentPinBinding
+    }
+
 }

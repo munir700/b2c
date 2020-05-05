@@ -9,6 +9,7 @@ import co.yap.R
 import co.yap.modules.dashboard.cards.paymentcarddetail.fragments.SetNewCardPinFragment
 import co.yap.modules.dashboard.more.main.activities.MoreActivity
 import co.yap.modules.dashboard.more.profile.viewmodels.UpdateNewPasscodeViewModel
+import co.yap.modules.setcardpin.fragments.SetCardPinFragment
 import co.yap.modules.setcardpin.interfaces.ISetCardPin
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.Constants.KEY_IS_USER_LOGGED_IN
@@ -17,7 +18,7 @@ import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.toast
 
-class UpdateNewPasscodeFragment : SetNewCardPinFragment() {
+class UpdateNewPasscodeFragment : SetCardPinFragment() {
     private lateinit var sharedPreferenceManager: SharedPreferenceManager
     override val viewModel: ISetCardPin.ViewModel
         get() = ViewModelProviders.of(this).get(UpdateNewPasscodeViewModel::class.java)

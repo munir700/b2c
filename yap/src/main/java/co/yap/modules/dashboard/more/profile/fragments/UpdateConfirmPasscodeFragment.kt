@@ -9,6 +9,7 @@ import co.yap.R
 import co.yap.modules.dashboard.cards.paymentcarddetail.fragments.ConfirmNewCardPinFragment
 import co.yap.modules.dashboard.more.main.activities.MoreActivity
 import co.yap.modules.dashboard.more.profile.viewmodels.UpdateConfirmPasscodeViewModel
+import co.yap.modules.setcardpin.fragments.ConfirmCardPinFragment
 import co.yap.modules.setcardpin.interfaces.ISetCardPin
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.Constants.KEY_IS_USER_LOGGED_IN
@@ -17,7 +18,7 @@ import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.toast
 import kotlinx.android.synthetic.main.activity_create_passcode.*
 
-class UpdateConfirmPasscodeFragment : ConfirmNewCardPinFragment() {
+class UpdateConfirmPasscodeFragment : ConfirmCardPinFragment() {
     val args: UpdateConfirmPasscodeFragmentArgs by navArgs()
     private lateinit var sharedPreferenceManager: SharedPreferenceManager
 

@@ -19,11 +19,6 @@ open class ConfirmNewCardPinViewModel(application: Application) :
     override var errorEvent: SingleClickEvent = SingleClickEvent()
     private val cardsRepository: CardsRepository = CardsRepository
     private val messagesRepository: MessagesRepository = MessagesRepository
-    override fun onCreate() {
-        super.onCreate()
-        state.titleSetPin = getString(Strings.screen_confirm_card_pin_display_text_heading)
-        state.buttonTitle = getString(Strings.screen_confirm_card_pin_display_button_confirm_pin)
-    }
 
     override fun handlePressOnNextButton(id: Int) {
         if (validateAggressively()) {

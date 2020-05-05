@@ -2,6 +2,7 @@ package co.yap.modules.dashboard.more.profile.viewmodels
 
 import android.app.Application
 import co.yap.modules.dashboard.cards.paymentcarddetail.viewmodels.ConfirmNewCardPinViewModel
+import co.yap.modules.setcardpin.viewmodels.ConfirmCardPinViewModel
 import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.messages.MessagesRepository
 import co.yap.networking.messages.requestdtos.CreateForgotPasscodeOtpRequest
@@ -13,7 +14,7 @@ import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.toast
 
 class UpdateConfirmPasscodeViewModel(application: Application) :
-    ConfirmNewCardPinViewModel(application) {
+    ConfirmCardPinViewModel(application) {
     override val clickEvent: SingleClickEvent = SingleClickEvent()
     override val forgotPasscodeclickEvent: SingleClickEvent = SingleClickEvent()
     private val customersRepository: CustomersRepository = CustomersRepository
