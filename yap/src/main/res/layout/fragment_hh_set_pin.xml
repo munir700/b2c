@@ -73,7 +73,7 @@
         <co.yap.widgets.CoreButton
             android:id="@+id/btnAction"
             style="@style/Yap.App.Widget.Button.Action"
-            android:onClick="@{(v)-> viewModel.state.setPinDataModel.screenType.equalsIgnoreCase(`setPin`)?viewModel.handleButtonPress(v.id, context):viewModel.setCardPin()}"
+            android:onClick="@{(v)-> viewModel.state.setPinDataModel.screenType.equalsIgnoreCase(`setPin`)?viewModel.handleButtonPress(v.id):viewModel.setCardPin()}"
             android:text="@{viewModel.state.setPinDataModel.buttonTitle}"
             app:btn_enable="true"
             app:layout_constraintBottom_toTopOf="@+id/tvForgotPasscode"

@@ -12,9 +12,9 @@ interface IHHSetPin {
         fun loadData()
     }
     interface ViewModel : IBase.ViewModel<State> {
-        val EVENT_SET_CARD_PIN_SUCCESS: Int
+        val eventSuccess: Int
             get() = 1
-        val EVENT_SET_CARD_PIN_FAILURE: Int
+        val eventFailure: Int
             get() = 0
 
         var mobileNumber: String
@@ -22,12 +22,12 @@ interface IHHSetPin {
         var errorEvent: SingleClickEvent
         fun setPinRequest()
         fun setCardPin()
-        fun handleButtonPress(id: Int, context: Context)
+        fun handleButtonPress(id: Int)
     }
 
     interface State : IBase.State {
-        var pinCode: String
-        var dialerError: ObservableField<String>
+        var pinCode: MutableLiveData<String>
+        var dialerError: MutableLiveData<String>
         var setPinDataModel: MutableLiveData<SetPinDataModel>
     }
 }

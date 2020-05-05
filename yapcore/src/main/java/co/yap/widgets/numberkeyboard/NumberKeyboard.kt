@@ -132,8 +132,8 @@ class NumberKeyboard : ConstraintLayout {
      */
     fun setKeyWidth(px: Int) {
         if (px == DEFAULT_KEY_WIDTH_DP) return
-        if (numericKeys != null) {
-            for (key in numericKeys!!) {
+        numericKeys?.let {
+            for (key in it) {
                 key.layoutParams.width = px
             }
         }
@@ -146,8 +146,8 @@ class NumberKeyboard : ConstraintLayout {
      * Sets enable/disable keys flag.
      */
     fun enableKeys(enableKeys: Boolean) {
-        if (numericKeys != null) {
-            for (key in numericKeys!!) {
+        numericKeys?.let {
+            for (key in it) {
                 key.isEnabled = enableKeys
             }
             leftAuxBtn?.isEnabled = enableKeys
@@ -161,8 +161,8 @@ class NumberKeyboard : ConstraintLayout {
      */
     fun setKeyHeight(px: Int) {
         if (px == DEFAULT_KEY_HEIGHT_DP) return
-        if (numericKeys != null) {
-            for (key in numericKeys!!) {
+        numericKeys?.let {
+            for (key in it) {
                 key.layoutParams.height = px
             }
         }
@@ -175,8 +175,8 @@ class NumberKeyboard : ConstraintLayout {
      * Sets key padding in px.
      */
     fun setKeyPadding(px: Int) {
-        if (numericKeys != null) {
-            for (key in numericKeys!!) {
+        numericKeys?.let {
+            for (key in it) {
                 key.setPadding(px, px, px, px)
                 key.compoundDrawablePadding = -1 * px
             }
@@ -189,8 +189,8 @@ class NumberKeyboard : ConstraintLayout {
      * Sets number keys background.
      */
     fun setNumberKeyBackground(@DrawableRes background: Int) {
-        if (numericKeys != null) {
-            for (key in numericKeys!!) {
+        numericKeys?.let {
+            for (key in it) {
                 key.background = ContextCompat.getDrawable(context, background)
             }
         }
@@ -200,8 +200,8 @@ class NumberKeyboard : ConstraintLayout {
      * Sets number keys text color.
      */
     fun setNumberKeyTextColor(@ColorRes color: Int) {
-        if (numericKeys != null) {
-            for (key in numericKeys!!) {
+        numericKeys?.let {
+            for (key in it) {
                 key.setTextColor(ContextCompat.getColorStateList(context, color))
             }
         }
@@ -211,8 +211,8 @@ class NumberKeyboard : ConstraintLayout {
      * Sets number keys text typeface.
      */
     fun setNumberKeyTypeface(typeface: Typeface) {
-        if (numericKeys != null) {
-            for (key in numericKeys!!) {
+        numericKeys?.let {
+            for (key in it) {
                 key.typeface = typeface
             }
         }
@@ -359,9 +359,7 @@ class NumberKeyboard : ConstraintLayout {
         // Get auxiliary keys
         leftAuxBtn = view.findViewById(R.id.leftAuxBtn)
         rightAuxBtn = view.findViewById(R.id.rightAuxBtn)
-
         inputText = StringBuilder()
-
         // Set styles
         setStyles()
         // Set listeners
@@ -387,17 +385,19 @@ class NumberKeyboard : ConstraintLayout {
      * Setup on click listeners.
      */
     private fun setupListeners() {
-        // Set number callbacks
-        if (numericKeys != null) {
-            for (i in numericKeys?.indices!!) {
-                val key = numericKeys!![i]
+        // Set number callbacks'
+        numericKeys?.let {
+            for (i in it.indices) {
+                val key = it[i]
                 key.setOnClickListener {
-                    if (inputText?.length!! < maxLimit) {
-                        inputEditText?.append(i.toString())
-                        passCodeView?.input(i.toString())
-                        inputText?.append(i.toString())
+                    inputText?.let { input ->
+                        if (input.length < maxLimit) {
+                            inputEditText?.append(i.toString())
+                            passCodeView?.input(i.toString())
+                            input.append(i.toString())
+                        }
+                        listener?.onNumberClicked(i, input.toString())
                     }
-                    listener?.onNumberClicked(i, inputText.toString())
                 }
             }
         }
@@ -413,13 +413,13 @@ class NumberKeyboard : ConstraintLayout {
                 if (it.length() > 0) it.text?.delete(it.length() - 1, it.length())
             }
             inputText?.let {
-                if (it.isNotEmpty()) it?.delete(it.length - 1, it.length)
+                if (it.isNotEmpty()) it.delete(it.length - 1, it.length)
             }
             listener?.onRightAuxButtonClicked(inputText.toString())
         }
     }
 
-    fun reset(){
+    fun reset() {
         inputEditText?.setText("")
         inputText?.clear()
     }
