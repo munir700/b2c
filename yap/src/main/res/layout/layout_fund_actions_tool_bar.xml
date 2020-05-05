@@ -43,7 +43,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="@{viewModel.state.toolBarHeader}"
+            android:text="@{viewModel.state.isAddFundScreen ? @string/screen_add_funds_display_text_add_funds : @string/screen_remove_funds_display_text_remove_funds}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/tbIvGift"
             app:layout_constraintStart_toEndOf="@+id/tbIvClose"

@@ -193,7 +193,7 @@ class InternationalFundsTransferFragment :
         val des = Translator.getString(
             requireContext(),
             Strings.common_display_text_available_balance_error
-        ).format(MyUserManager.cardBalance.value?.availableBalance?.toFormattedCurrency())
+        ).format(MyUserManager.cardBalance.value?.availableBalance?.toFormattedAmountWithCurrency())
         if (activity is BeneficiaryFundTransferActivity) {
             (activity as BeneficiaryFundTransferActivity).viewModel.errorEvent.value =
                 des
