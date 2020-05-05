@@ -13,6 +13,7 @@ import co.yap.modules.setcardpin.interfaces.ISetCardPin
 import co.yap.modules.setcardpin.pinflow.IPin
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.Constants.KEY_IS_USER_LOGGED_IN
+import co.yap.yapcore.databinding.FragmentPinBinding
 import co.yap.yapcore.databinding.FragmentSetCardPinBinding
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.Utils
@@ -82,7 +83,7 @@ open class CurrentPasscodeFragment : ChangeCardPinFragment() {
         super.onDestroy()
     }
 
-    private fun getBinding(): FragmentSetCardPinBinding {
-        return viewDataBinding as FragmentSetCardPinBinding
+    private fun getBinding(): FragmentPinBinding {
+        return viewDataBinding as FragmentPinBinding
     }
 }

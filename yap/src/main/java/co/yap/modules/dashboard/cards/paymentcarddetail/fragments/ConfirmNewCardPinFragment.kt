@@ -22,7 +22,7 @@ import co.yap.yapcore.enums.OTPActions
 import co.yap.yapcore.helpers.extentions.startFragmentForResult
 import co.yap.yapcore.managers.MyUserManager
 
-open class ConfirmNewCardPinFragment : BaseBindingFragment<IPin.ViewModel>(), IPin.View {
+class ConfirmNewCardPinFragment : BaseBindingFragment<IPin.ViewModel>(), IPin.View {
     private val args: ConfirmNewCardPinFragmentArgs by navArgs()
 
     override val viewModel: IPin.ViewModel
@@ -60,7 +60,9 @@ open class ConfirmNewCardPinFragment : BaseBindingFragment<IPin.ViewModel>(), IP
                                 viewModel.state.newPin,
                                 viewModel.state.pincode,
                                 viewModel.state.cardSerialNumber
-                            )
+                            ) {
+                                findNavController().navigate(R.id.action_confirmNewCardPinFragment_to_changePinSuccessFragment)
+                            }
                         } else {
                             if (viewModel.state.flowType == Constants.FORGOT_CARD_PIN_FLOW) {
                                 startOtpFragment()
@@ -72,9 +74,6 @@ open class ConfirmNewCardPinFragment : BaseBindingFragment<IPin.ViewModel>(), IP
 
                 Constants.FORGOT_CARD_PIN_NAVIGATION -> {
                     findNavController().navigate(R.id.action_confirmNewCardPinFragment2_to_changePinSuccessFragment2)
-                }
-                else -> {
-                    findNavController().navigate(R.id.action_confirmNewCardPinFragment_to_changePinSuccessFragment)
                 }
             }
         })

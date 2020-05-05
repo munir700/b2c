@@ -26,10 +26,12 @@ interface IPin {
             oldPin: String,
             newPin: String,
             confirmPin: String,
-            cardSerialNumber: String
+            cardSerialNumber: String,
+            success: () -> Unit
         )
 
         fun forgotCardPinRequest(cardSerialNumber: String, newPin: String)
+
         //forgot passcode variables
         var mobileNumber: String
         fun setChangeCardPinFragmentData()

@@ -60,9 +60,9 @@ open class PinViewModel(application: Application) :
         oldPin: String,
         newPin: String,
         confirmPin: String,
-        cardSerialNumber: String
+        cardSerialNumber: String,
+        success: () -> Unit
     ) {
-
         launch {
             state.loading = true
             when (val response = cardsRepository.changeCardPinRequest(
@@ -73,8 +73,7 @@ open class PinViewModel(application: Application) :
                 )
             )) {
                 is RetroApiResponse.Success -> {
-                    clickEvent.call()
-                   // clickEvent.postValue(id)
+                    success()
                 }
                 is RetroApiResponse.Error ->
                     state.dialerError = response.error.message

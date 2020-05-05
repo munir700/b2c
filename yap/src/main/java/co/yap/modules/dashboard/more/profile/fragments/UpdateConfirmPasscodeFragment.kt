@@ -6,7 +6,6 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import co.yap.R
-import co.yap.modules.dashboard.cards.paymentcarddetail.fragments.ConfirmNewCardPinFragment
 import co.yap.modules.dashboard.more.main.activities.MoreActivity
 import co.yap.modules.dashboard.more.profile.viewmodels.UpdateConfirmPasscodeViewModel
 import co.yap.modules.setcardpin.fragments.ConfirmCardPinFragment
