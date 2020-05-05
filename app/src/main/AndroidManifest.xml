@@ -48,7 +48,6 @@
             <nav-graph android:value="@navigation/forgot_passcode_navigation" />
         </activity>
 
-
         <activity
             android:name="co.yap.modules.dashboard.yapit.y2y.home.activities.YapToYapDashboardActivity"
             android:screenOrientation="portrait"
