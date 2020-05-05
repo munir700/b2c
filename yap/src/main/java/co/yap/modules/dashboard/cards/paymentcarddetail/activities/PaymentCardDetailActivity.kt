@@ -24,7 +24,7 @@ import co.yap.R
 import co.yap.databinding.ActivityPaymentCardDetailBinding
 import co.yap.modules.dashboard.cards.paymentcarddetail.activities.carddetaildialog.CardDetailsDialogPagerAdapter
 import co.yap.modules.dashboard.cards.paymentcarddetail.activities.carddetaildialog.CardDetailsModel
-import co.yap.modules.dashboard.cards.paymentcarddetail.addfunds.activities.AddFundsActivity
+import co.yap.modules.dashboard.cards.paymentcarddetail.addfunds.activities.AddRemoveFundsActivity
 import co.yap.modules.dashboard.cards.paymentcarddetail.forgotcardpin.activities.ForgotCardPinActivity
 import co.yap.modules.dashboard.cards.paymentcarddetail.fragments.CardClickListener
 import co.yap.modules.dashboard.cards.paymentcarddetail.fragments.PrimaryCardBottomSheet
@@ -209,7 +209,7 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
                     trackAdjustPlatformEvent(AdjustEvents.TOP_UP_START.type)
                     viewModel.card.value?.let { card ->
                         startActivityForResult(
-                            AddFundsActivity.newIntent(this, card, isAddFund = true),
+                            AddRemoveFundsActivity.newIntent(this, card, isAddFund = true),
                             Constants.REQUEST_ADD_REMOVE_FUNDS
                         )
                     }
@@ -228,7 +228,7 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
                 } else {
                     if (viewModel.card.value?.blocked == false) {
                         startActivityForResult(
-                            AddFundsActivity.newIntent(
+                            AddRemoveFundsActivity.newIntent(
                                 this,
                                 viewModel.card.value!!,
                                 isAddFund = false

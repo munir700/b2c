@@ -48,7 +48,7 @@ import kotlinx.android.synthetic.main.layout_card_info.*
 import kotlinx.android.synthetic.main.layout_fund_actions_tool_bar.*
 
 
-open class AddFundsActivity : BaseBindingActivity<IFundActions.ViewModel>(),
+open class AddRemoveFundsActivity : BaseBindingActivity<IFundActions.ViewModel>(),
     IFundActions.View {
     private var isAddFundScreen: Boolean? = null
     var amount: String? = null
@@ -62,7 +62,7 @@ open class AddFundsActivity : BaseBindingActivity<IFundActions.ViewModel>(),
         private const val CARD = "card"
         private const val IS_ADD_FUND = "isAddFund"
         fun newIntent(context: Context, card: Card, isAddFund: Boolean): Intent {
-            val intent = Intent(context, AddFundsActivity::class.java)
+            val intent = Intent(context, AddRemoveFundsActivity::class.java)
             intent.putExtra(CARD, card)
             intent.putExtra(IS_ADD_FUND, isAddFund)
             return intent
