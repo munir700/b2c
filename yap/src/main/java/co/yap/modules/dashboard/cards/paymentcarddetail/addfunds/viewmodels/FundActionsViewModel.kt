@@ -115,7 +115,7 @@ open class FundActionsViewModel(application: Application) :
                 is RetroApiResponse.Success -> {
                     MyUserManager.updateCardBalance()
                     delay(1000)
-                    clickEvent.setValue(EVENT_ADD_FUNDS_SUCCESS)
+//                    clickEvent.setValue(EVENT_ADD_FUNDS_SUCCESS)
                     state.loading = false
                 }
                 is RetroApiResponse.Error -> {

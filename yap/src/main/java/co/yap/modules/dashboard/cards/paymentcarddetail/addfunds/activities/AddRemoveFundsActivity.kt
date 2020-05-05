@@ -124,6 +124,15 @@ open class AddRemoveFundsActivity : BaseBindingActivity<IFundActions.ViewModel>(
     }
 
     override fun setObservers() {
+        MyUserManager.cardBalance.observe(this, Observer {
+            if (it.availableBalance != viewModel.state.availableBalance) {
+                if (viewModel.state.isAddFundScreen.get() == true)
+                    viewModel.clickEvent.setValue(viewModel.EVENT_ADD_FUNDS_SUCCESS)
+                else
+                    viewModel.clickEvent.setValue(viewModel.EVENT_REMOVE_FUNDS_SUCCESS)
+
+            }
+        })
         viewModel.errorEvent.observe(this, Observer {
             showErrorSnackBar(viewModel.state.errorDescription, Snackbar.LENGTH_LONG)
         })

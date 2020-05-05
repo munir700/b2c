@@ -6,7 +6,6 @@ import co.yap.translation.Strings
 
 class AddFundsViewModel(application: Application) : FundActionsViewModel(application) {
 
-
     override fun onCreate() {
         super.onCreate()
         getTransactionThresholds()
