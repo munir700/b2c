@@ -93,6 +93,9 @@ class Y2YTransferFragment : Y2YBaseFragment<IY2YFundsTransfer.ViewModel>(), IY2Y
     private val enterAmountObserver = Observer<String> {
         viewModel.updateFees(it)
         when {
+            it.isBlank() -> {
+                viewModel.state.valid = false
+            }
             isBalanceAvailable(it) -> showErrorSnackBar(
                 viewModel.state.errorDescription,
                 Snackbar.LENGTH_INDEFINITE
@@ -106,7 +109,7 @@ class Y2YTransferFragment : Y2YBaseFragment<IY2YFundsTransfer.ViewModel>(), IY2Y
                 viewModel.state.valid = false
                 showErrorSnackBar(viewModel.state.errorDescription, Snackbar.LENGTH_INDEFINITE)
             }
-            viewModel.enteredAmount.value?.toDoubleOrNull() ?: 0.0 < viewModel.state.minLimit || viewModel.enteredAmount.value?.toDoubleOrNull() ?: 0.0 > viewModel.state.maxLimit -> {
+            it.isNotBlank() && viewModel.enteredAmount.value?.toDoubleOrNull() ?: 0.0 < viewModel.state.minLimit || viewModel.enteredAmount.value?.toDoubleOrNull() ?: 0.0 > viewModel.state.maxLimit -> {
                 setUpperLowerLimitError()
                 viewModel.state.amountBackground =
                     requireContext().resources.getDrawable(
@@ -214,7 +217,7 @@ class Y2YTransferFragment : Y2YBaseFragment<IY2YFundsTransfer.ViewModel>(), IY2Y
                         viewModel.state.errorDescription = Translator.getString(
                             requireContext(),
                             Strings.common_display_text_daily_limit_error
-                        ).format(remainingDailyLimit)
+                        ).format(remainingDailyLimit.toString().toFormattedCurrency())
                         return enteredAmount > remainingDailyLimit
                     } ?: return false
                 } ?: return false
