@@ -3,6 +3,7 @@ package co.yap.modules.setcardpin.pinflow
 import android.app.Application
 import co.yap.networking.cards.CardsRepository
 import co.yap.networking.cards.requestdtos.ChangeCardPinRequest
+import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
 import co.yap.translation.Strings
 import co.yap.yapcore.BaseViewModel
@@ -15,8 +16,8 @@ import co.yap.yapcore.helpers.StringUtils
 
 open class PinViewModel(application: Application) :
     BaseViewModel<IPin.State>(application),
-    IPin.ViewModel {
-    private val cardsRepository: CardsRepository = CardsRepository
+    IPin.ViewModel, IRepositoryHolder<CardsRepository> {
+    override val repository: CardsRepository = CardsRepository
     override val forgotPasscodeclickEvent: SingleClickEvent = SingleClickEvent()
     override var mobileNumber: String = ""
     override fun setChangeCardPinFragmentData() {
@@ -65,7 +66,7 @@ open class PinViewModel(application: Application) :
     ) {
         launch {
             state.loading = true
-            when (val response = cardsRepository.changeCardPinRequest(
+            when (val response = repository.changeCardPinRequest(
                 ChangeCardPinRequest(
                     oldPin,
                     newPin,
@@ -96,5 +97,4 @@ open class PinViewModel(application: Application) :
             getString(Strings.screen_confirm_card_pin_display_text_error_same_digits)
         return !isSame && !isSequenced
     }
-
 }
