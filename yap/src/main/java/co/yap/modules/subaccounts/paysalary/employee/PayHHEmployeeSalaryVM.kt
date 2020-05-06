@@ -16,7 +16,11 @@ class PayHHEmployeeSalaryVM @Inject constructor(override val state: IPayHHEmploy
     override var customersHHRepository: CustomerHHApi = CustomersHHRepository
     override val clickEvent = SingleClickEvent()
     override fun onFirsTimeUiCreate(bundle: Bundle?, navigation: NavController?) {
-        bundle?.let { state.subAccount.value = it.getParcelable(SubAccount::class.simpleName) }
+    }
+
+    override fun fetchExtras(extras: Bundle?) {
+        super.fetchExtras(extras)
+        extras?.let { state.subAccount.value = it.getParcelable(SubAccount::class.simpleName) }
         getLastTransaction(state.subAccount.value?.customerUuid)
     }
 
@@ -31,11 +35,10 @@ class PayHHEmployeeSalaryVM @Inject constructor(override val state: IPayHHEmploy
                 customersHHRepository.getLastTransaction(state.subAccount.value?.accountUuid)) {
                 is RetroApiResponse.Success -> {
                     publishState(State.success(null))
-                   // state.subscriptionResponseModel.value = response.data.data
-                    state.toast=response.data.toString()
+                    state.toast = response.data.toString()
                 }
                 is RetroApiResponse.Error -> {
-                    state.toast=response.error.message
+                    state.toast = response.error.message
                 }
             }
         }

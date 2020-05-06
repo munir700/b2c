@@ -9,6 +9,7 @@ import co.yap.yapcore.SingleClickEvent
 interface IPayHHEmployeeSalary {
     interface View : IBase.View<ViewModel>
 
+
     interface ViewModel : IBase.ViewModel<State> {
         var customersHHRepository: CustomerHHApi
         val clickEvent: SingleClickEvent

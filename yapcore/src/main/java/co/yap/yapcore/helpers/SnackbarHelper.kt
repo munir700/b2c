@@ -506,7 +506,8 @@ fun Activity?.showTextUpdatedAbleSnackBar(errorMessage: String, length: Int) {
 
 fun Context?.showTextUpdatedAbleSnackBar(
     msg: CharSequence,
-    length: Int = Snackbar.LENGTH_INDEFINITE, clickListener: View.OnClickListener? = null
+    length: Int = Snackbar.LENGTH_INDEFINITE,marginTop: Int = this?.dimen(R.dimen.toolbar_height) ?: 0,
+    marginBottom: Int = this?.dimen(R.dimen.margin_zero_dp) ?: 0, clickListener: View.OnClickListener? = null
 ) {
     this?.let {
 
@@ -517,7 +518,7 @@ fun Context?.showTextUpdatedAbleSnackBar(
         } ?: showSnackBar(
             msg = msg,
             viewBgColor = R.color.errorLightBackground, gravity = Gravity.TOP,
-            colorOfMessage = R.color.error, duration = length, clickListener = clickListener
+            colorOfMessage = R.color.error, duration = length, marginBottom = marginBottom,marginTop = marginTop, clickListener = clickListener
         )
 
     }

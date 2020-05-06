@@ -69,7 +69,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/currencyTextView"
-
             app:srcCompat="@drawable/ic_checkmark" />
 
         <androidx.appcompat.widget.LinearLayoutCompat
@@ -95,7 +94,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 app:layout_constraintTop_toBottomOf="@+id/include2"
-                app:text="@{Translator.INSTANCE.getString(context,Strings.screen_household_normal_payment_recurring_text,paymentConfirmationVM.state.subAccount.firstName)}"
+                android:text="@{Translator.INSTANCE.getString(context,Strings.screen_household_normal_payment_recurring_text,paymentConfirmationVM.state.subAccount.firstName)}"
                 tools:text="You will be notified before each payment in the case you require a fund top up. You can manage your recurring payments in the Cards section." />
 
             <co.yap.widgets.CoreButton
@@ -118,7 +117,7 @@
             style="@style/Yap.App.Widget.TextView.Small.GrayDark"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:visibility="@{paymentConfirmationVM.state.recurringPaymentScreen?View.VISIBLE:View.GONE}"
+            android:visibility="@{paymentConfirmationVM.state.schedulePayment.isRecurring?View.VISIBLE:View.GONE}"
             app:layout_constraintBottom_toTopOf="@+id/btnNext"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

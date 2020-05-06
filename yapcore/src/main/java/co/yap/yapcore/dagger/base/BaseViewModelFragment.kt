@@ -10,11 +10,11 @@ import androidx.fragment.app.Fragment
 import co.yap.yapcore.BaseActivity
 import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.IBase
-import co.yap.yapcore.dagger.base.interfaces.ManageToolBarListener
 import co.yap.yapcore.dagger.base.viewmodel.DaggerBaseViewModel
 import co.yap.yapcore.dagger.di.ViewModelInjectionField
 import co.yap.yapcore.dagger.di.components.Injectable
 import co.yap.yapcore.dagger.di.qualifiers.ViewModelInjection
+import co.yap.yapcore.helpers.extentions.hideKeyboard
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.support.AndroidSupportInjection
 import dagger.android.support.HasSupportFragmentInjector
@@ -94,16 +94,10 @@ abstract class BaseViewModelFragment<VB : ViewDataBinding, S : IBase.State, VM :
         //performDataBinding(savedInstanceState)
     }
 
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-//        check(mActivity is BaseViewModelActivity<*, *, *>) {
-//            throw  IllegalStateException("All fragment's container must extend BaseViewModelActivity<*,*,*>")
-//        }
-    }
-
     override fun onDestroyView() {
         unregisterStateListeners()
+//        view?.hideKeyboard()
+//        hideKeyboard()
         super.onDestroyView()
     }
 
@@ -141,19 +135,16 @@ abstract class BaseViewModelFragment<VB : ViewDataBinding, S : IBase.State, VM :
         }
     }
 
-
     private fun onActiveStateChange(oldState: Boolean, newState: Boolean) {
         if (oldState == newState) {
             return
         }
-
         if (newState) {
             onBecameActive()
         } else {
             onBecameInactive()
         }
     }
-
 
     /**
      * Gets called whenever the [BaseViewModelFragment] becomes "active".
@@ -177,9 +168,7 @@ abstract class BaseViewModelFragment<VB : ViewDataBinding, S : IBase.State, VM :
      */
     protected fun finishActivity() {
         activity?.finish()
-
     }
-
 
     /**
      * Finishes the host [android.app.Activity] affinity (see: [android.app.Activity.finishAffinity]).
@@ -190,4 +179,6 @@ abstract class BaseViewModelFragment<VB : ViewDataBinding, S : IBase.State, VM :
 
     abstract fun getToolBarTitle(): String?
     abstract fun toolBarVisibility(): Boolean?
+    abstract fun setDisplayHomeAsUpEnabled(): Boolean?
+    abstract fun setHomeAsUpIndicator(): Int?
 }

@@ -18,10 +18,11 @@
         tools:replace="android:allowBackup">
         <activity
             android:name="co.yap.modules.frame.FrameActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".dagger.base.navigation.host.NavHostPresenterActivity"
-            android:windowSoftInputMode="adjustResize"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name="co.yap.modules.setcardpin.activities.SetCardPinWelcomeActivity"

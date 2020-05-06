@@ -15,7 +15,11 @@ class FuturePaymentModule : BaseFragmentModule<FuturePaymentFragment>() {
     fun provideFuturePaymentVM(
         fragment: FuturePaymentFragment,
         viewModelProvider: InjectionViewModelProvider<FuturePaymentVM>
-    ): FuturePaymentVM = viewModelProvider.get(fragment, FuturePaymentVM::class)
+    ): FuturePaymentVM {
+        val vm = viewModelProvider.get(fragment, FuturePaymentVM::class)
+        vm.fragmentManager = fragment.childFragmentManager
+        return vm
+    }
 
     @Provides
     @FragmentScope

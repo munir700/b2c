@@ -6,5 +6,4 @@ import co.yap.yapcore.BaseState
 
 class PayHHEmployeeSalaryState : BaseState(), IPayHHEmployeeSalary.State {
     override var subAccount: MutableLiveData<SubAccount> = MutableLiveData()
-
 }

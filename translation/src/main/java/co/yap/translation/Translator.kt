@@ -23,8 +23,8 @@ object Translator {
         return getString(context, stringResourceId)
     }
 
-    fun getString(context: Context, keyID: String, value: String): String {
-        val stringResourceId = context.resources.getIdentifier(keyID, "string", context.packageName)
-        return context.resources.getString(stringResourceId, value)
-    }
+//    fun getString(context: Context, keyID: String, value: String): String {
+//        val stringResourceId = context.resources.getIdentifier(keyID, "string", context.packageName)
+//        return context.resources.getString(stringResourceId, value)
+//    }
 }
