@@ -2,6 +2,7 @@ package co.yap.modules.subaccounts.paysalary.employee
 
 import android.os.Bundle
 import androidx.navigation.NavController
+import co.yap.networking.customers.household.CustomerHHApi
 import co.yap.networking.customers.household.CustomersHHRepository
 import co.yap.networking.customers.household.responsedtos.SubAccount
 import co.yap.networking.models.RetroApiResponse
@@ -12,7 +13,7 @@ import javax.inject.Inject
 
 class PayHHEmployeeSalaryVM @Inject constructor(override val state: IPayHHEmployeeSalary.State) :
     DaggerBaseViewModel<IPayHHEmployeeSalary.State>(), IPayHHEmployeeSalary.ViewModel {
-    override var customersHHRepository: CustomersHHRepository = CustomersHHRepository
+    override var customersHHRepository: CustomerHHApi = CustomersHHRepository
     override val clickEvent = SingleClickEvent()
     override fun onFirsTimeUiCreate(bundle: Bundle?, navigation: NavController?) {
         bundle?.let { state.subAccount.value = it.getParcelable(SubAccount::class.simpleName) }
