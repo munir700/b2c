@@ -3,11 +3,14 @@ package co.yap.modules.forgotpasscode.states
 import android.text.Editable
 import android.text.TextWatcher
 import androidx.databinding.Bindable
+import androidx.databinding.ObservableField
 import co.yap.modules.forgotpasscode.interfaces.ICreatePasscode
-import co.yap.yapcore.BaseState
 import co.yap.yapcore.BR
+import co.yap.yapcore.BaseState
 
 open class CreatePasscodeState : BaseState(), ICreatePasscode.State {
+
+    override var isSettingPin: ObservableField<Boolean> = ObservableField(false)
 
     @get:Bindable
     override var sequence: Boolean = false

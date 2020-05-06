@@ -14,7 +14,8 @@ import co.yap.modules.onboarding.constants.Constants
 import co.yap.modules.webview.WebViewFragment
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.constants.Constants.URL_TERMS_CONDITION
-import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.helpers.extentions.ExtraType
+import co.yap.yapcore.helpers.extentions.getValue
 import co.yap.yapcore.helpers.extentions.preventTakeScreenShot
 import co.yap.yapcore.helpers.extentions.startFragment
 import kotlinx.android.synthetic.main.activity_create_passcode.*
@@ -24,8 +25,9 @@ class CreatePasscodeActivity : BaseBindingActivity<ICreatePasscode.ViewModel>(),
     ICreatePasscode.View {
 
     companion object {
-        fun newIntent(context: Context): Intent {
+        fun newIntent(context: Context, isSettingPin: Boolean): Intent {
             val intent = Intent(context, CreatePasscodeActivity::class.java)
+            intent.putExtra("isSettingPin", isSettingPin)
             return intent
         }
     }
@@ -40,6 +42,11 @@ class CreatePasscodeActivity : BaseBindingActivity<ICreatePasscode.ViewModel>(),
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        val isSettingPin = intent.getValue(
+            "isSettingPin",
+            ExtraType.BOOLEAN.name
+        ) as? Boolean
+        viewModel.state.isSettingPin.set(isSettingPin ?: false)
         dialer.hideFingerprintView()
         viewModel.nextButtonPressEvent.observe(this, Observer {
             if (it == R.id.tvTermsAndConditions) {

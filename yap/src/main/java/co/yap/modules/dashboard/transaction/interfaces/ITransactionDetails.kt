@@ -1,7 +1,7 @@
 package co.yap.modules.dashboard.transaction.interfaces
 
 import androidx.databinding.ObservableField
-import co.yap.networking.transactions.responsedtos.transaction.Content
+import co.yap.networking.transactions.responsedtos.transaction.Transaction
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
 
@@ -12,13 +12,13 @@ interface ITransactionDetails {
         fun handlePressOnShareButton(id: Int)
         fun handlePressOnEditNoteClickEvent(id: Int)
         var clickEvent: SingleClickEvent
-        var transaction: ObservableField<Content>
+        var transaction: ObservableField<Transaction>
     }
 
     interface State : IBase.State {
         var toolBarTitle: String?
         var txnNoteValue: ObservableField<String>
-        var isYtoYTransfer: ObservableField<Boolean>
+        var isTransferTxn: ObservableField<Boolean>
         var spentVisibility: ObservableField<Boolean>
         var categoryTitle: ObservableField<String>
         var categoryIcon: ObservableField<Int>

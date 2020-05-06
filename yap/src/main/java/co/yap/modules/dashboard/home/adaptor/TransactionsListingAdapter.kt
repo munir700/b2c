@@ -9,20 +9,16 @@ import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
 import co.yap.R
 import co.yap.databinding.ItemTransactionListBinding
-import co.yap.networking.transactions.responsedtos.transaction.Content
+import co.yap.networking.transactions.responsedtos.transaction.Transaction
 import co.yap.translation.Translator.getString
 import co.yap.yapcore.BaseBindingRecyclerAdapter
 import co.yap.yapcore.enums.TransactionProductCode
 import co.yap.yapcore.enums.TxnType
-import co.yap.yapcore.helpers.DateUtils.FORMATE_TIME_24H
-import co.yap.yapcore.helpers.DateUtils.FORMAT_LONG_INPUT
-import co.yap.yapcore.helpers.DateUtils.reformatStringDate
 import co.yap.yapcore.helpers.ImageBinding
 import co.yap.yapcore.helpers.extentions.*
 
-
-class TransactionsListingAdapter(private val list: MutableList<Content>) :
-    BaseBindingRecyclerAdapter<Content, RecyclerView.ViewHolder>(list) {
+class TransactionsListingAdapter(private val list: MutableList<Transaction>) :
+    BaseBindingRecyclerAdapter<Transaction, RecyclerView.ViewHolder>(list) {
 
     override fun getLayoutIdForViewType(viewType: Int): Int = R.layout.item_transaction_list
 
@@ -38,7 +34,7 @@ class TransactionsListingAdapter(private val list: MutableList<Content>) :
     class TransactionListingViewHolder(private val itemTransactionListBinding: ItemTransactionListBinding) :
         RecyclerView.ViewHolder(itemTransactionListBinding.root) {
 
-        fun onBind(transaction: Content) {
+        fun onBind(transaction: Transaction) {
             val context: Context = itemTransactionListBinding.tvCurrency.context
             handleProductBaseCases(context, transaction)
 
@@ -64,22 +60,9 @@ class TransactionsListingAdapter(private val list: MutableList<Content>) :
             var txnAmountPreFix = ""
             transaction.txnType?.let {
                 when (it) {
-                    TxnType.CREDIT.type -> {
-                        txnAmountPreFix = "+"
-                        itemTransactionListBinding.tvTransactionAmount.setTextColor(
-                            context.getColors(
-                                R.color.colorSecondaryGreen
-                            )
-                        )
-                    }
-                    TxnType.DEBIT.type -> {
-                        txnAmountPreFix = "-"
-                        itemTransactionListBinding.tvTransactionAmount.setTextColor(
-                            context.getColors(
-                                R.color.colorPrimaryDark
-                            )
-                        )
-                    }
+                    TxnType.DEBIT.type -> txnAmountPreFix = "-"
+                    TxnType.CREDIT.type -> txnAmountPreFix = "+"
+
                 }
             }
 
@@ -92,7 +75,7 @@ class TransactionsListingAdapter(private val list: MutableList<Content>) :
         }
 
 
-        private fun handleProductBaseCases(context: Context, transaction: Content) {
+        private fun handleProductBaseCases(context: Context, transaction: Transaction) {
             val transactionTitle = transaction.getTransactionTitle()
             val txnIconResId = transaction.getTransactionIcon()
             val categoryTitle: String =
@@ -106,10 +89,13 @@ class TransactionsListingAdapter(private val list: MutableList<Content>) :
                     if (TransactionProductCode.Y2Y_TRANSFER.pCode == it) {
                         setY2YUserImage(transaction, itemTransactionListBinding)
                     } else {
-                        if (txnIconResId != -1)
+                        if (txnIconResId != -1) {
                             itemTransactionListBinding.ivTransaction.setImageResource(txnIconResId)
-                        else
+                            if (txnIconResId == R.drawable.ic_rounded_plus)
+                                itemTransactionListBinding.ivTransaction.setBackgroundResource(R.drawable.bg_round_grey)
+                        } else
                             setInitialsAsTxnImage(transaction, itemTransactionListBinding)
+
                         itemTransactionListBinding.ivTransaction.alpha = 1.0f
                         ImageViewCompat.setImageTintList(
                             itemTransactionListBinding.ivTransaction,
@@ -123,14 +109,12 @@ class TransactionsListingAdapter(private val list: MutableList<Content>) :
             itemTransactionListBinding.tvTransactionTimeAndCategory.text = getString(
                 context,
                 R.string.screen_fragment_home_transaction_time_category,
-                reformatStringDate(
-                    transaction.updatedDate ?: "", FORMAT_LONG_INPUT, FORMATE_TIME_24H
-                ), categoryTitle
+                transaction.getFormattedTime(), categoryTitle
             )
         }
 
         private fun setY2YUserImage(
-            transaction: Content,
+            transaction: Transaction,
             itemTransactionListBinding: ItemTransactionListBinding
         ) {
             ImageBinding.loadAvatar(
@@ -147,7 +131,7 @@ class TransactionsListingAdapter(private val list: MutableList<Content>) :
 
 
         private fun setInitialsAsTxnImage(
-            transaction: Content,
+            transaction: Transaction,
             itemTransactionListBinding: ItemTransactionListBinding
         ) {
             ImageBinding.loadAvatar(
@@ -160,7 +144,7 @@ class TransactionsListingAdapter(private val list: MutableList<Content>) :
         }
 
         private fun setContentDataColor(
-            transaction: Content,
+            transaction: Transaction,
             itemTransactionListBinding: ItemTransactionListBinding
         ) {
 
@@ -172,7 +156,19 @@ class TransactionsListingAdapter(private val list: MutableList<Content>) :
                     if (isTxnCancelled) R.color.greyNormalDark else R.color.greyDark
                 )
             )
-            itemTransactionListBinding.tvTransactionAmount.setTextColor(context.getColors(if (isTxnCancelled) R.color.greyNormalDark else R.color.colorMidnightExpress))
+            itemTransactionListBinding.tvTransactionAmount.setTextColor(
+                context.getColors(
+                    if (isTxnCancelled) {
+                        R.color.greyNormalDark
+                    } else {
+                        if (transaction.txnType == TxnType.CREDIT.type)
+                            R.color.colorSecondaryGreen
+                        else
+                            R.color.colorPrimaryDark
+
+                    }
+                )
+            )
             itemTransactionListBinding.tvCurrency.setTextColor(context.getColors(if (isTxnCancelled) R.color.greyNormalDark else R.color.greyDark))
 
             //strike-thru textview
@@ -180,6 +176,5 @@ class TransactionsListingAdapter(private val list: MutableList<Content>) :
                 if (transaction.isTransactionCancelled()) itemTransactionListBinding.tvTransactionAmount.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG else 0
         }
     }
-
 }
 

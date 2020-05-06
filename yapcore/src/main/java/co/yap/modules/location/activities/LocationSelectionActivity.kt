@@ -12,16 +12,21 @@ import android.view.View
 import androidx.core.os.bundleOf
 import androidx.databinding.Observable
 import androidx.lifecycle.Observer
+import co.yap.modules.location.CitiesListBottomSheet
 import co.yap.modules.location.helper.MapSupportActivity
 import co.yap.modules.location.interfaces.ILocationSelection
 import co.yap.modules.webview.WebViewFragment
 import co.yap.networking.cards.responsedtos.Address
+import co.yap.networking.customers.responsedtos.City
 import co.yap.yapcore.R
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.Constants.ADDRESS
 import co.yap.yapcore.constants.Constants.ADDRESS_SUCCESS
 import co.yap.yapcore.constants.RequestCodes
+import co.yap.yapcore.helpers.DateUtils
 import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.helpers.extentions.ExtraType
+import co.yap.yapcore.helpers.extentions.getValue
 import co.yap.yapcore.helpers.extentions.startFragment
 import co.yap.yapcore.helpers.permissions.PermissionHelper
 import co.yap.yapcore.interfaces.OnItemClickListener
@@ -30,22 +35,27 @@ import com.daimajia.androidanimations.library.YoYo
 import com.google.android.gms.maps.SupportMapFragment
 import kotlinx.android.synthetic.main.activity_address_selection.*
 import kotlinx.android.synthetic.main.layout_google_maps.*
+import java.text.SimpleDateFormat
+import java.util.*
 
 class LocationSelectionActivity : MapSupportActivity(), ILocationSelection.View {
 
     companion object {
         private const val HEADING = "heading"
         private const val SUB_HEADING = "subHeading"
+        private const val IS_ON_BOARDING = "isOnBoarding"
         fun newIntent(
             context: Context,
             address: Address,
             headingTitle: String = "",
-            subHeadingTitle: String = ""
+            subHeadingTitle: String = "",
+            onBoarding: Boolean = false
         ): Intent {
             val intent = Intent(context, LocationSelectionActivity::class.java)
             intent.putExtra(HEADING, headingTitle)
             intent.putExtra(SUB_HEADING, subHeadingTitle)
             intent.putExtra(ADDRESS, address)
+            intent.putExtra(IS_ON_BOARDING, onBoarding)
             return intent
         }
     }
@@ -57,12 +67,10 @@ class LocationSelectionActivity : MapSupportActivity(), ILocationSelection.View 
         settAddressFromIntent()
         updateHeadings()
         addListeners()
-
     }
 
     private fun addListeners() {
         flTitle.setOnTouchListener { _, _ -> true }
-        lyAddressFields.setOnTouchListener { _, _ -> true }
         transparentImage.setOnTouchListener { _, _ -> !((viewModel.isMapExpanded.value) ?: false) }
     }
 
@@ -97,34 +105,38 @@ class LocationSelectionActivity : MapSupportActivity(), ILocationSelection.View 
                 viewModel.state.placeSubTitle.set(it.address2)
             }
         }
+        viewModel.state.isOnBoarding.set(
+            (intent?.getValue(
+                IS_ON_BOARDING,
+                ExtraType.BOOLEAN.name
+            ) as? Boolean) ?: false
+        )
     }
 
     private fun updateHeadings() {
-        if (intent != null) {
-            if (intent.hasExtra(HEADING)) {
-                viewModel.defaultHeading = intent.getStringExtra(HEADING)
-                viewModel.state.headingTitle.set(viewModel.defaultHeading)
-            }
-            if (intent.hasExtra(SUB_HEADING)) {
-                val subHeading = intent.getStringExtra(SUB_HEADING)
-                viewModel.state.subHeadingTitle.set(subHeading)
-            }
+        val heading = intent?.getValue(HEADING, ExtraType.STRING.name) as? String
+        heading?.let {
+            viewModel.defaultHeading = it
+            viewModel.state.headingTitle.set(it)
         }
+        val subHeading = intent?.getValue(SUB_HEADING, ExtraType.STRING.name) as? String
+        subHeading?.let { viewModel.state.subHeadingTitle.set(subHeading) }
     }
 
     override fun setObservers() {
         viewModel.clickEvent.observe(this, clickObserver)
         viewModel.state.isTermsChecked.addOnPropertyChangedCallback(stateObserver)
+        viewModel.state.addressSubtitle.addOnPropertyChangedCallback(stateObserver)
+        viewModel.state.addressTitle.addOnPropertyChangedCallback(stateObserver)
+        viewModel.state.city.addOnPropertyChangedCallback(stateObserver)
         viewModel.isMapExpanded.observe(this, Observer {
             viewModel.state.toolbarVisibility = !it
             if (it) {
                 hideKeyboard()
                 rlCollapsedMapSection.visibility = View.GONE
-                lyAddressFields.visibility = View.GONE
                 ivClose.visibility = View.VISIBLE
             } else {
                 rlCollapsedMapSection.visibility = View.VISIBLE
-                lyAddressFields.visibility = View.VISIBLE
                 ivClose.visibility = View.GONE
             }
         })
@@ -145,7 +157,19 @@ class LocationSelectionActivity : MapSupportActivity(), ILocationSelection.View 
 
     private val stateObserver = object : Observable.OnPropertyChangedCallback() {
         override fun onPropertyChanged(sender: Observable?, propertyId: Int) {
-            viewModel.state.valid.set(viewModel.state.addressTitle.isNotBlank() && viewModel.state.isTermsChecked.get() == true)
+            if (viewModel.state.isTermsChecked.get() == true) {
+                viewModel.termsCheckedTime.value =
+                    SimpleDateFormat(
+                        DateUtils.LEAN_PLUM_EVENT_FORMAT,
+                        Locale.US
+                    ).format(Calendar.getInstance().time)
+            }
+            viewModel.state.valid.set(
+                !viewModel.state.addressTitle.get().isNullOrBlank()
+                        && !viewModel.state.addressSubtitle.get().isNullOrBlank()
+                        && (if (viewModel.state.hasCityFeature.get() == true) viewModel.state.city.get() != "Select" else true)
+                        && if (viewModel.state.isOnBoarding.get() == false) true else viewModel.state.isTermsChecked.get() == true
+            )
         }
     }
 
@@ -196,7 +220,26 @@ class LocationSelectionActivity : MapSupportActivity(), ILocationSelection.View 
             R.id.tbIvClose -> {
                 setIntentAction(false)
             }
+            R.id.layoutCitiesBottomSheet -> {
+                setupCitiesList(viewModel.cities.value)
+            }
         }
+    }
+
+    private fun setupCitiesList(citiesList: ArrayList<City>?) {
+        citiesList?.let { cities ->
+            this.supportFragmentManager.let {
+                val citiesListBottomSheet = CitiesListBottomSheet(object :
+                    OnItemClickListener {
+                    override fun onItemClick(view: View, data: Any, pos: Int) {
+                        (data as? CitiesListBottomSheet)?.dismiss()
+                        viewModel.state.city.set(cities[pos].name)
+                    }
+                }, cities)
+                citiesListBottomSheet.show(it, "")
+            }
+        } ?: viewModel.showMessage("No city found")
+
     }
 
     private fun onMapClickAction() {
@@ -309,8 +352,11 @@ class LocationSelectionActivity : MapSupportActivity(), ILocationSelection.View 
 
     private fun setIntentAction(isUpdated: Boolean) {
         val intent = Intent()
-        viewModel.address?.address1 = viewModel.state.addressTitle
+        viewModel.address?.address1 = viewModel.state.addressTitle.get()
         viewModel.address?.address2 = viewModel.state.addressSubtitle.get()
+        viewModel.address?.city =
+            if (viewModel.state.hasCityFeature.get() == true) viewModel.state.city.get() else "Dubai"
+        viewModel.address?.country = "UAE"
         intent.putExtra(ADDRESS, viewModel.address)
         intent.putExtra(ADDRESS_SUCCESS, isUpdated)
         setResult(Activity.RESULT_OK, intent)
@@ -391,6 +437,10 @@ class LocationSelectionActivity : MapSupportActivity(), ILocationSelection.View 
         super.onDestroy()
         viewModel.clickEvent.removeObservers(this)
         viewModel.isMapExpanded.removeObservers(this)
+        viewModel.state.isTermsChecked.removeOnPropertyChangedCallback(stateObserver)
+        viewModel.state.addressSubtitle.removeOnPropertyChangedCallback(stateObserver)
+        viewModel.state.addressTitle.removeOnPropertyChangedCallback(stateObserver)
+        viewModel.state.city.removeOnPropertyChangedCallback(stateObserver)
     }
 
 }

@@ -5,22 +5,23 @@ import androidx.lifecycle.MutableLiveData
 import co.yap.app.YAPApplication
 import co.yap.modules.dashboard.home.filters.models.TransactionFilters
 import co.yap.modules.dashboard.home.interfaces.IYapHome
+import co.yap.modules.dashboard.home.models.HomeNotification
 import co.yap.modules.dashboard.home.states.YapHomeState
 import co.yap.modules.dashboard.main.viewmodels.YapDashboardChildViewModel
 import co.yap.networking.cards.CardsRepository
 import co.yap.networking.cards.requestdtos.OrderCardRequest
 import co.yap.networking.cards.responsedtos.Address
 import co.yap.networking.cards.responsedtos.Card
+import co.yap.networking.customers.responsedtos.AccountInfo
 import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.transactions.TransactionsRepository
-import co.yap.networking.transactions.responsedtos.transaction.Content
 import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionListData
 import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionsResponse
+import co.yap.networking.transactions.responsedtos.transaction.Transaction
 import co.yap.yapcore.SingleClickEvent
-import co.yap.yapcore.enums.CardType
+import co.yap.yapcore.enums.*
 import co.yap.yapcore.helpers.extentions.getFormattedDate
 import co.yap.yapcore.managers.MyUserManager
-import java.util.*
 
 class YapHomeViewModel(application: Application) :
     YapDashboardChildViewModel<IYapHome.State>(application),
@@ -71,8 +72,7 @@ class YapHomeViewModel(application: Application) :
                 transactionsRepository.getAccountTransactions(YAPApplication.homeTransactionsRequest)) {
                 is RetroApiResponse.Success -> {
                     isLast.value = response.data.data.last
-                    val transactionModelData: ArrayList<HomeTransactionListData> =
-                        setUpSectionHeader(response)
+                    val transactionModelData = setUpSectionHeader(response)
 
                     if (isRefreshing.value == true) {
                         sortedCombinedTransactionList.clear()
@@ -90,31 +90,27 @@ class YapHomeViewModel(application: Application) :
 
                     for (lists in unionList.entries) {
                         if (lists.value.size > 1) {// sortedCombinedTransactionList.equals(transactionModelData fails in this case
-                            var contentsList: ArrayList<Content> = arrayListOf()
-
+                            val transactionList: ArrayList<Transaction> = arrayListOf()
                             for (transactionsDay in lists.value) {
-                                contentsList.addAll(transactionsDay.content)
+                                transactionList.addAll(transactionsDay.transaction)
 
                             }
-
-                            contentsList.sortByDescending { it ->
+                            transactionList.sortByDescending { it ->
                                 it.creationDate
                             }
 
-
-                            var closingBalanceOfTheDay = contentsList[0].balanceAfter ?: 0.0
+                            val closingBalanceOfTheDay = transactionList[0].balanceAfter ?: 0.0
                             closingBalanceArray.add(closingBalanceOfTheDay)
 
                             var transactionModel = HomeTransactionListData(
                                 "Type",
                                 "AED",
                                 /* transactionsDay.key!!*/
-                                contentsList[0].getFormattedDate(),
-                                contentsList[0].totalAmount.toString(),
-                                contentsList[0].balanceAfter,
+                                transactionList[0].getFormattedDate(),
+                                transactionList[0].totalAmount.toString(),
+                                transactionList[0].balanceAfter,
                                 0.00 /*  "calculate the percentage as per formula from the keys".toDouble()*/,
-                                contentsList,
-
+                                transactionList,
                                 response.data.data.first,
                                 response.data.data.last,
                                 response.data.data.number,
@@ -124,22 +120,19 @@ class YapHomeViewModel(application: Application) :
                                 response.data.data.sort,
                                 response.data.data.totalElements,
                                 response.data.data.totalPages,
-                                contentsList[0].creationDate
+                                transactionList[0].creationDate
                             )
                             var numberstoReplace: Int = 0
                             var replaceNow: Boolean = false
 
-
                             val iterator = sortedCombinedTransactionList.iterator()
                             while (iterator.hasNext()) {
                                 val item = iterator.next()
-                                if (item.date.equals(contentsList[0].getFormattedDate())) {
+                                if (item.date.equals(transactionList[0].getFormattedDate())) {
                                     numberstoReplace = sortedCombinedTransactionList.indexOf(item)
                                     iterator.remove()
                                     replaceNow = true
-
                                 }
-
                             }
                             if (replaceNow) {
                                 sortedCombinedTransactionList.add(
@@ -150,12 +143,8 @@ class YapHomeViewModel(application: Application) :
                             }
                         }
                     }
-//                    sortedCombinedTransactionList.sortBy { it ->  it.date  }
-
                     transactionsLiveData.value = sortedCombinedTransactionList
-                    //if (isLoadMore.value!!)
                     isLoadMore.value = false
-                    //transactionLogicHelper.transactionList = sortedCombinedTransactionList
                     state.loading = false
                 }
                 is RetroApiResponse.Error -> {
@@ -177,41 +166,34 @@ class YapHomeViewModel(application: Application) :
     }
 
     private fun setUpSectionHeader(response: RetroApiResponse.Success<HomeTransactionsResponse>): ArrayList<HomeTransactionListData> {
-        val contentList = response.data.data.content as ArrayList<Content>
-        contentList.sortWith(Comparator { o1, o2 ->
-            o2.creationDate?.compareTo(
-                o1?.creationDate ?: ""
-            ) ?: 0
-        })
+//        val transactionList = response.data.data.transaction as ArrayList<Transaction>
+//        transactionList.sortWith(Comparator { firstObject, secondObject ->
+//            secondObject.creationDate?.compareTo(firstObject?.creationDate ?: "") ?: 0
+//        })
 
-        val groupByDate = contentList.groupBy { item ->
-            item.getFormattedDate()
-        }
+        val transactionGroupByDate =
+            (response.data.data.transaction as ArrayList<Transaction>).groupBy { item ->
+                item.getFormattedDate()
+            }
+        val transactionModelData: ArrayList<HomeTransactionListData> = arrayListOf()
+        transactionGroupByDate.entries.forEach { mapEntry ->
 
-        var transactionModelData: ArrayList<HomeTransactionListData> =
-            arrayListOf()
-
-        for (transactionsDay in groupByDate.entries) {
-
-
-            var contentsList: ArrayList<Content> = arrayListOf()
-            contentsList = transactionsDay.value as ArrayList<Content>
+            val contentsList = mapEntry.value as ArrayList<Transaction>
             contentsList.sortByDescending { it ->
-                it.creationDate
+                it.getFormattedDate()
             }
 
-            var closingBalanceOfTheDay: Double = contentsList[0].balanceAfter ?: 0.0
+            val closingBalanceOfTheDay: Double = contentsList[0].balanceAfter ?: 0.0
             closingBalanceArray.add(closingBalanceOfTheDay)
 
-            var transactionModel = HomeTransactionListData(
+            val transactionModel = HomeTransactionListData(
                 "Type",
                 "AED",
-                transactionsDay.key,
+                mapEntry.key,
                 contentsList[0].totalAmount.toString(),
                 contentsList[0].balanceAfter,
                 0.00 /*  "calculate the percentage as per formula from the keys".toDouble()*/,
                 contentsList,
-
                 response.data.data.first,
                 response.data.data.last,
                 response.data.data.number,
@@ -224,11 +206,6 @@ class YapHomeViewModel(application: Application) :
                 contentsList[0].creationDate.toString()
             )
             transactionModelData.add(transactionModel)
-
-//            transactionLogicHelper.transactionList = transactionModelData
-
-//            transactionLogicHelper.transactionList =
-//                transactionModelData
             MAX_CLOSING_BALANCE =
                 closingBalanceArray.max() ?: 0.0
         }
@@ -244,11 +221,12 @@ class YapHomeViewModel(application: Application) :
                             val primaryCard = getPrimaryCard(response.data.data)
                             MyUserManager.card.value = primaryCard
                         } else {
-                            state.toast = "Debit card not found."
+                            state.toast = "Debit card not found.^${AlertType.TOAST.name}"
                         }
                     }
                 }
-                is RetroApiResponse.Error -> state.toast = response.error.message
+                is RetroApiResponse.Error ->
+                    state.toast = "${response.error.message}^${AlertType.TOAST.name}"
             }
         }
     }
@@ -259,15 +237,15 @@ class YapHomeViewModel(application: Application) :
 
     override fun requestOrderCard(address: Address?) {
         address?.let {
-
-            val orderCardRequest: OrderCardRequest = OrderCardRequest(
-                it.address1,
-                "",
-                it.address1,
-                it.address2,
-                it.latitude,
-                it.longitude,
-                "UAE", "Dubai"
+            val orderCardRequest = OrderCardRequest(
+                nearestLandMark = it.address1,
+                cardName = "",
+                address1 = it.address1,
+                address2 = it.address2,
+                latitude = it.latitude,
+                longitude = it.longitude,
+                city = address.city,
+                country = address.country
             )
             launch {
                 state.loading = true
@@ -280,13 +258,66 @@ class YapHomeViewModel(application: Application) :
 
                     is RetroApiResponse.Error -> {
                         state.loading = false
-                        state.toast = response.error.message
-//
+                        state.toast = "${response.error.message}^${AlertType.DIALOG.name}"
                     }
                 }
             }
         }
     }
 
+    override fun getNotifications(
+        accountInfo: AccountInfo,
+        paymentCard: Card
+    ): ArrayList<HomeNotification> {
+        val list = ArrayList<HomeNotification>()
+        if (accountInfo.otpBlocked == true) {
+            list.add(
+                HomeNotification(
+                    id = "1",
+                    description = "Some features may appear blocked for you as you made too many incorrect OTP attempts. Call or chat with us now to get full access.",
+                    action = NotificationAction.HELP_AND_SUPPORT
+                )
+            )
+        }
+        if ((accountInfo.notificationStatuses == AccountStatus.ON_BOARDED.name || accountInfo.notificationStatuses == AccountStatus.CAPTURED_EID.name) && accountInfo.partnerBankStatus != PartnerBankStatus.ACTIVATED.status) {
+            list.add(
+                HomeNotification(
+                    id = "2",
+                    title = "Complete Verification",
+                    description = "Complete verification to activate your account.",
+                    action = NotificationAction.COMPLETE_VERIFICATION
+                )
+            )
+        }
+
+        if (shouldShowSetPin(paymentCard) && accountInfo.partnerBankStatus == PartnerBankStatus.ACTIVATED.status) {
+            list.add(
+                HomeNotification(
+                    id = "3",
+                    title = "Set PIN",
+                    description = "Now create a unique 4-digit PIN to be able to use your primary card for purchases and withdrawals.",
+                    action = NotificationAction.SET_PIN
+                )
+            )
+        }
+        if ((accountInfo.notificationStatuses == AccountStatus.EID_EXPIRED.name || accountInfo.notificationStatuses == AccountStatus.EID_RESCAN_REQUIRE.name) && accountInfo.partnerBankStatus == PartnerBankStatus.ACTIVATED.status) {
+            list.add(
+                HomeNotification(
+                    id = "4",
+                    title = "Renewed ID",
+                    description = "Your Emirates ID has expired. Please update your account with the renewed ID as soon as you can.",
+                    action = NotificationAction.UPDATE_EMIRATES_ID
+                )
+            )
+
+        }
+
+        return list
+    }
+
+    private fun shouldShowSetPin(paymentCard: Card): Boolean {
+        return (paymentCard.deliveryStatus == CardDeliveryStatus.SHIPPED.name && !paymentCard.pinCreated)
+
+    }
 }
 

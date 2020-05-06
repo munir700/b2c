@@ -15,6 +15,7 @@ import co.yap.networking.models.RetroApiResponse
 import co.yap.translation.Strings
 import co.yap.translation.Translator
 import co.yap.yapcore.SingleClickEvent
+import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.enums.EIDStatus
 import co.yap.yapcore.managers.MyUserManager
 
@@ -28,6 +29,11 @@ class PersonalDetailsViewModel(application: Application) :
 
     override val repository: CardsRepository = CardsRepository
     var address: Address? = null
+
+    override fun onCreate() {
+        super.onCreate()
+        requestGetAddressForPhysicalCard()
+    }
 
     override fun handlePressOnScanCard(id: Int) {
         clickEvent.setValue(id)
@@ -68,12 +74,6 @@ class PersonalDetailsViewModel(application: Application) :
         state.phoneNumber =
             MyUserManager.user?.currentCustomer?.getFormattedPhoneNumber(context) ?: ""
         state.email = MyUserManager.user?.currentCustomer?.email ?: ""
-        if (MyUserManager.userAddress == null) {
-            requestGetAddressForPhysicalCard()
-        } else {
-            address = MyUserManager.userAddress ?: Address()
-            setUpAddressFields()
-        }
         setUpVerificationLayout()
     }
 
@@ -87,26 +87,26 @@ class PersonalDetailsViewModel(application: Application) :
                     setUpAddressFields()
                     MyUserManager.userAddress = address
                     clickEvent.setValue(UPDATE_ADDRESS_UI)
+                    state.loading = false
                 }
-                is RetroApiResponse.Error -> state.toast = response.error.message
+                is RetroApiResponse.Error -> {
+                    state.toast =
+                        "${response.error.message}^${AlertType.DIALOG.name}"
+                    state.loading = false
+                }
             }
-            state.loading = false
         }
     }
 
     private fun setUpAddressFields() {
-        var addresstitle = ""
-        var addressDetail = ""
+        state.address = when {
+            address?.address1 == address?.address2 -> address?.address1 ?: ""
+            address?.address2.isNullOrBlank() && address?.address1.isNullOrBlank() -> ""
+            address?.address1.isNullOrBlank() -> address?.address2 ?: ""
+            address?.address2.isNullOrBlank() -> address?.address1 ?: ""
+            else -> "${address?.address1}, ${address?.address2}"
 
-        if (!address?.address2.isNullOrEmpty()) {
-            addresstitle = address?.address2 ?: ""
         }
-
-        if (!address?.address1.isNullOrEmpty()) {
-            addressDetail = address?.address1 ?: ""
-        }
-
-        state.address = addressDetail
     }
 
     override fun toggleToolBar(hide: Boolean) {
@@ -138,13 +138,13 @@ class PersonalDetailsViewModel(application: Application) :
     override fun requestOrderCard(address: Address?) {
         address?.let {
             val orderCardRequest = OrderCardRequest(
-                it.address1,
-                "",
-                it.address1,
-                it.address2,
-                it.latitude,
-                it.longitude,
-                "UAE", "Dubai"
+                nearestLandMark = it.address1,
+                cardName = "",
+                address1 = it.address1,
+                address2 = it.address2,
+                latitude = it.latitude,
+                longitude = it.longitude,
+                city = address.city, country = address.country
             )
             launch {
                 state.loading = true
@@ -157,8 +157,7 @@ class PersonalDetailsViewModel(application: Application) :
                     is RetroApiResponse.Error -> {
                         state.loading = false
                         orderCardSuccess.value = false
-                        state.toast = response.error.message
-//
+                        state.toast = "${response.error.message}^${AlertType.DIALOG.name}"
                     }
                 }
             }

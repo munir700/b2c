@@ -32,6 +32,7 @@ import co.yap.yapcore.helpers.DecimalDigitsInputFilter
 import co.yap.yapcore.helpers.cancelAllSnackBar
 import co.yap.yapcore.helpers.extentions.afterTextChanged
 import co.yap.yapcore.helpers.extentions.startFragmentForResult
+import co.yap.yapcore.helpers.extentions.toFormattedAmountWithCurrency
 import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 import co.yap.yapcore.helpers.spannables.color
 import co.yap.yapcore.helpers.spannables.getText
@@ -71,7 +72,7 @@ class CashTransferFragment : BeneficiaryFundTransferBaseFragment<ICashTransfer.V
         })
 
         viewModel.isAPIFailed.observe(this, Observer {
-            if (it) requireActivity().finish()
+            //if (it) requireActivity().finish()
         })
 
         viewModel.isFeeReceived.observe(this, Observer {
@@ -115,6 +116,7 @@ class CashTransferFragment : BeneficiaryFundTransferBaseFragment<ICashTransfer.V
                     viewModel.updateFees()
                     getBindings().tvSelectReason.text =
                         viewModel.parentViewModel?.selectedPop?.purposeDescription
+                    isDailyLimitReached()
                 }
 
             }, purposeCategories)
@@ -188,7 +190,7 @@ class CashTransferFragment : BeneficiaryFundTransferBaseFragment<ICashTransfer.V
         val des = Translator.getString(
             requireContext(),
             Strings.common_display_text_available_balance_error
-        ).format(MyUserManager.cardBalance.value?.availableBalance?.toFormattedCurrency())
+        ).format(MyUserManager.cardBalance.value?.availableBalance?.toFormattedAmountWithCurrency())
         viewModel.parentViewModel?.errorEvent?.value = des
     }
 
@@ -213,14 +215,27 @@ class CashTransferFragment : BeneficiaryFundTransferBaseFragment<ICashTransfer.V
             it.dailyLimit?.let { dailyLimit ->
                 it.totalDebitAmount?.let { totalConsumedAmount ->
                     viewModel.state.amount.toDoubleOrNull()?.let { enteredAmount ->
-                        val remainingDailyLimit =
-                            if ((dailyLimit - totalConsumedAmount) < 0.0) 0.0 else (dailyLimit - totalConsumedAmount)
-                        viewModel.state.errorDescription =
-                            if (enteredAmount > dailyLimit) getString(Strings.common_display_text_daily_limit_error_single_transaction) else getString(
-                                Strings.common_display_text_daily_limit_error_single_transaction
-                            )
+                        if (viewModel.trxWillHold() && viewModel.transactionMightGetHeld.value == true) {
+                            val totalHoldAmount =
+                                (it.holdSwiftAmount ?: 0.0).plus(it.holdUAEFTSAmount ?: 0.0)
+                            val remainingDailyLimit =
+                                if ((dailyLimit - totalHoldAmount) < 0.0) 0.0 else (dailyLimit - totalHoldAmount)
+                            viewModel.state.errorDescription =
+                                "You have exceeded your limit for held on transactions, please enter an amount less than %1s".format(
+                                    (dailyLimit - totalHoldAmount).toString().toFormattedAmountWithCurrency()
+                                )
+                            return (enteredAmount > remainingDailyLimit)
 
-                        return (enteredAmount > remainingDailyLimit)
+
+                        } else {
+                            val remainingDailyLimit =
+                                if ((dailyLimit - totalConsumedAmount) < 0.0) 0.0 else (dailyLimit - totalConsumedAmount)
+                            viewModel.state.errorDescription =
+                                if (enteredAmount > dailyLimit && totalConsumedAmount==0.0) getString(Strings.common_display_text_daily_limit_error_single_transaction) else getString(
+                                    Strings.common_display_text_daily_limit_error_multiple_transactions
+                                )
+                            return (enteredAmount > remainingDailyLimit)
+                        }
                     } ?: return false
                 } ?: return false
             } ?: return false

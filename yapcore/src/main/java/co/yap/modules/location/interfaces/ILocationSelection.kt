@@ -4,6 +4,7 @@ import android.graphics.Bitmap
 import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
 import co.yap.networking.cards.responsedtos.Address
+import co.yap.networking.customers.responsedtos.City
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
 
@@ -21,25 +22,32 @@ interface ILocationSelection {
         var defaultHeading: String
         var clickEvent: SingleClickEvent
         var isMapExpanded: MutableLiveData<Boolean>
+        var termsCheckedTime: MutableLiveData<String>
+        var cities: MutableLiveData<ArrayList<City>>
         var address: Address?
         fun onLocationSelected()
         fun handleOnPressView(id: Int)
+        fun getCities()
     }
 
     interface State : IBase.State {
+        var isUnNamed: ObservableField<Boolean>
         var toolbarVisibility: Boolean
         var isShowLocationCard: ObservableField<Boolean>
         var headingTitle: ObservableField<String>
         var subHeadingTitle: ObservableField<String>
+        var city: ObservableField<String>
         var placeTitle: ObservableField<String>
         var placeSubTitle: ObservableField<String>
         var placePhoto: ObservableField<Bitmap>
-        var addressTitle: String
+        var addressTitle: ObservableField<String>
         var addressSubtitle: ObservableField<String>
         var isTermsChecked: ObservableField<Boolean>
         var valid: ObservableField<Boolean>
         var showTermsCondition: ObservableField<Boolean>
         var isLocationInAllowedCountry: ObservableField<Boolean>
+        var isOnBoarding: ObservableField<Boolean>
+        var hasCityFeature: ObservableField<Boolean>
 
     }
 }

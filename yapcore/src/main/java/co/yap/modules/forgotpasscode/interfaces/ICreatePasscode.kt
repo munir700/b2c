@@ -1,19 +1,20 @@
 package co.yap.modules.forgotpasscode.interfaces
 
 import android.text.TextWatcher
+import androidx.databinding.ObservableField
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
 
 interface ICreatePasscode {
 
-    interface View : IBase.View<ViewModel>{
+    interface View : IBase.View<ViewModel> {
         fun setObservers()
     }
 
     interface ViewModel : IBase.ViewModel<State> {
         val nextButtonPressEvent: SingleClickEvent
-        fun handlePressOnCreatePasscodeButton(id:Int)
-        var mobileNumber:String
+        fun handlePressOnCreatePasscodeButton(id: Int)
+        var mobileNumber: String
     }
 
     interface State : IBase.State {
@@ -23,5 +24,6 @@ interface ICreatePasscode {
         fun getTextWatcher(): TextWatcher
         var sequence: Boolean
         var similar: Boolean
+        var isSettingPin: ObservableField<Boolean>
     }
 }

@@ -1,6 +1,5 @@
 package co.yap.sendmoney.addbeneficiary.fragments
 
-
 import android.content.Context
 import android.content.DialogInterface
 import android.os.Bundle
@@ -8,10 +7,10 @@ import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
-import co.yap.sendmoney.addbeneficiary.interfaces.IBeneficiaryOverview
-import co.yap.sendmoney.addbeneficiary.viewmodels.BeneficiaryOverviewViewModel
 import co.yap.sendmoney.BR
 import co.yap.sendmoney.R
+import co.yap.sendmoney.addbeneficiary.interfaces.IBeneficiaryOverview
+import co.yap.sendmoney.addbeneficiary.viewmodels.BeneficiaryOverviewViewModel
 import co.yap.sendmoney.fragments.SendMoneyBaseFragment
 import co.yap.translation.Translator
 import co.yap.yapcore.helpers.Utils

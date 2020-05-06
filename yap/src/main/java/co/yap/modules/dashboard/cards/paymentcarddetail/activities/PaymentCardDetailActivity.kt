@@ -24,14 +24,13 @@ import co.yap.R
 import co.yap.databinding.ActivityPaymentCardDetailBinding
 import co.yap.modules.dashboard.cards.paymentcarddetail.activities.carddetaildialog.CardDetailsDialogPagerAdapter
 import co.yap.modules.dashboard.cards.paymentcarddetail.activities.carddetaildialog.CardDetailsModel
-import co.yap.modules.dashboard.cards.paymentcarddetail.addfunds.activities.AddFundsActivity
+import co.yap.modules.dashboard.cards.paymentcarddetail.addfunds.activities.AddRemoveFundsActivity
 import co.yap.modules.dashboard.cards.paymentcarddetail.forgotcardpin.activities.ForgotCardPinActivity
 import co.yap.modules.dashboard.cards.paymentcarddetail.fragments.CardClickListener
 import co.yap.modules.dashboard.cards.paymentcarddetail.fragments.PrimaryCardBottomSheet
 import co.yap.modules.dashboard.cards.paymentcarddetail.fragments.SpareCardBottomSheet
 import co.yap.modules.dashboard.cards.paymentcarddetail.interfaces.IPaymentCardDetail
 import co.yap.modules.dashboard.cards.paymentcarddetail.limits.activities.CardLimitsActivity
-import co.yap.modules.dashboard.cards.paymentcarddetail.removefunds.activities.RemoveFundsActivity
 import co.yap.modules.dashboard.cards.paymentcarddetail.statments.activities.CardStatementsActivity
 import co.yap.modules.dashboard.cards.paymentcarddetail.viewmodels.PaymentCardDetailViewModel
 import co.yap.modules.dashboard.cards.reordercard.activities.ReorderCardActivity
@@ -44,12 +43,14 @@ import co.yap.modules.dummy.ActivityNavigator
 import co.yap.modules.dummy.NavigatorProvider
 import co.yap.modules.others.helper.Constants
 import co.yap.networking.cards.responsedtos.Card
-import co.yap.networking.transactions.responsedtos.transaction.Content
 import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionListData
+import co.yap.networking.transactions.responsedtos.transaction.Transaction
 import co.yap.translation.Strings
+import co.yap.yapcore.AdjustEvents.Companion.trackAdjustPlatformEvent
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.adjust.AdjustEvents
 import co.yap.yapcore.constants.RequestCodes
+import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.enums.CardStatus
 import co.yap.yapcore.helpers.cancelAllSnackBar
 import co.yap.yapcore.helpers.confirm
@@ -57,7 +58,6 @@ import co.yap.yapcore.helpers.extentions.*
 import co.yap.yapcore.helpers.showSnackBar
 import co.yap.yapcore.helpers.spannables.underline
 import co.yap.yapcore.interfaces.OnItemClickListener
-import co.yap.yapcore.AdjustEvents.Companion.trackAdjustPlatformEvent
 import co.yap.yapcore.managers.MyUserManager
 import com.google.android.material.snackbar.Snackbar
 import com.tbuonomo.viewpagerdotsindicator.WormDotsIndicator
@@ -108,6 +108,10 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
     override fun setObservers() {
         viewModel.clickEvent.observe(this, clickObserver)
         viewModel.card.observe(this, Observer {
+            if (it.availableBalance.parseToDouble() > 0) {
+                llRemoveFunds.isEnabled = true
+                llRemoveFunds.alpha = 1f
+            }
             viewModel.cardTransactionRequest.serialNumber = it.cardSerialNumber
             viewModel.requestAccountTransactions()
         })
@@ -126,7 +130,7 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
                     var shouldAppend = false
                     for (i in 0 until oldData.size) {
                         if (parentItem.date == oldData[i].date) {
-                            if (parentItem.content.size != oldData[i].content.size) {
+                            if (parentItem.transaction.size != oldData[i].transaction.size) {
                                 shouldAppend = true
                                 break
                             }
@@ -199,14 +203,17 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
                 }
             }
             R.id.llAddFunds -> {
-                trackAdjustPlatformEvent(AdjustEvents.TOP_UP_START.type)
-                viewModel.card.value?.let { card ->
-                    startActivityForResult(
-                        AddFundsActivity.newIntent(this, card),
-                        Constants.REQUEST_ADD_REMOVE_FUNDS
-                    )
+                if (MyUserManager.user?.otpBlocked == true) {
+                    showToast("${getString(Strings.screen_blocked_otp_display_text_message)}^${AlertType.DIALOG.name}")
+                } else {
+                    trackAdjustPlatformEvent(AdjustEvents.TOP_UP_START.type)
+                    viewModel.card.value?.let { card ->
+                        startActivityForResult(
+                            AddRemoveFundsActivity.newIntent(this, card, isAddFund = true),
+                            Constants.REQUEST_ADD_REMOVE_FUNDS
+                        )
+                    }
                 }
-
             }
             R.id.llFreezeSpareCard -> {
                 viewModel.freezeUnfreezeCard()
@@ -216,13 +223,21 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
                 viewModel.freezeUnfreezeCard()
             }
             R.id.llRemoveFunds -> {
-                if (!viewModel.card.value?.blocked!!) {
-                    startActivityForResult(
-                        RemoveFundsActivity.newIntent(this, viewModel.card.value!!),
-                        Constants.REQUEST_ADD_REMOVE_FUNDS
-                    )
+                if (MyUserManager.user?.otpBlocked == true) {
+                    showToast("${getString(Strings.screen_blocked_otp_display_text_message)}^${AlertType.DIALOG.name}")
                 } else {
-                    showToast("Please unfreeze card to use this feature")
+                    if (viewModel.card.value?.blocked == false) {
+                        startActivityForResult(
+                            AddRemoveFundsActivity.newIntent(
+                                this,
+                                viewModel.card.value!!,
+                                isAddFund = false
+                            ),
+                            Constants.REQUEST_ADD_REMOVE_FUNDS
+                        )
+                    } else {
+                        showToast("${getString(Strings.screen_remove_funds_display_text_unfreeze_feature)}^${AlertType.DIALOG.name}")
+                    }
                 }
             }
             R.id.llCardLimits -> {
@@ -280,6 +295,8 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
     private fun setupView() {
         viewModel.card.value = intent.getParcelableExtra(CARD)
         viewModel.state.cardStatus.set(viewModel.card.value?.status)
+        llRemoveFunds.isEnabled = false
+        llRemoveFunds.alpha = 0.5f
 
         viewModel.state.cardType = viewModel.card.value?.cardType ?: ""
         viewModel.state.cardPanNumber = viewModel.card.value?.maskedCardNo ?: ""
@@ -321,6 +338,7 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
             rlSpareCardActions.visibility = View.VISIBLE
         }
         checkFreezeUnfreezStatus()
+
 
         btnCardDetails.setOnClickListener {
             viewModel.getCardDetails()
@@ -393,15 +411,19 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
                         )
                     )
                 } else {
-                    showToast("Please unfreeze card to use this feature")
+                    showToast("${getString(Strings.screen_remove_funds_display_text_unfreeze_feature)}^${AlertType.DIALOG.name}")
                 }
             }
 
             Constants.EVENT_FORGOT_CARD_PIN -> {
-                viewModel.card.value?.cardSerialNumber?.let {
-                    startActivity(
-                        ForgotCardPinActivity.newIntent(this, it)
-                    )
+                if (MyUserManager.user?.otpBlocked == true) {
+                    showToast("${getString(Strings.screen_blocked_otp_display_text_message)}^${AlertType.DIALOG.name}")
+                } else {
+                    viewModel.card.value?.cardSerialNumber?.let {
+                        startActivity(
+                            ForgotCardPinActivity.newIntent(this, it)
+                        )
+                    }
                 }
             }
 
@@ -520,13 +542,17 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
     }
 
     private fun startReorderCardFlow() {
-        viewModel.card.value?.let {
-            startActivityForResult(
-                ReorderCardActivity.newIntent(
-                    this@PaymentCardDetailActivity,
-                    it
-                ), RequestCodes.REQUEST_REORDER_CARD
-            )
+        if (MyUserManager.user?.otpBlocked == true) {
+            showToast("${getString(Strings.screen_blocked_otp_display_text_message)}^${AlertType.DIALOG.name}")
+        } else {
+            viewModel.card.value?.let {
+                startActivityForResult(
+                    ReorderCardActivity.newIntent(
+                        this@PaymentCardDetailActivity,
+                        it
+                    ), RequestCodes.REQUEST_REORDER_CARD
+                )
+            }
         }
     }
 
@@ -604,7 +630,7 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
 
     private val adaptorlistener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
-            if (data is Content) {
+            if (data is Transaction) {
                 launchActivity<TransactionDetailsActivity> {
                     putExtra("transaction", data)
                 }

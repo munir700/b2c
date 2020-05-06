@@ -14,8 +14,10 @@ import co.yap.sendmoney.R
 import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.enums.FeeType
 import co.yap.yapcore.enums.SendMoneyBeneficiaryType
+import co.yap.yapcore.enums.TransactionProductCode
 import co.yap.yapcore.helpers.extentions.parseToDouble
 import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 import co.yap.yapcore.helpers.spannables.color
@@ -37,6 +39,7 @@ class CashTransferViewModel(application: Application) :
     override var receiverUUID: String = ""
     override var purposeOfPaymentList: MutableLiveData<ArrayList<PurposeOfPayment>> =
         MutableLiveData()
+    val transactionMightGetHeld: MutableLiveData<Boolean> = MutableLiveData(false)
 
     var purposeCategories: Map<String?, List<PurposeOfPayment>>? = HashMap()
     override var reasonPosition: Int = 0
@@ -107,10 +110,10 @@ class CashTransferViewModel(application: Application) :
                         val remainingDailyLimit =
                             if ((dailyLimit - totalConsumedAmount) < 0.0) 0.0 else (dailyLimit - totalConsumedAmount)
                         state.errorDescription =
-                            if (enteredAmount > dailyLimit) getString(Strings.common_display_text_daily_limit_error_single_transaction) else getString(
-                                Strings.common_display_text_daily_limit_error_single_transaction
+                            if (enteredAmount > dailyLimit && totalConsumedAmount==0.0) getString(Strings.common_display_text_daily_limit_error_single_transaction) else getString(
+                                Strings.common_display_text_daily_limit_error_multiple_transactions
                             )
-                        return enteredAmount >= remainingDailyLimit
+                        return enteredAmount > remainingDailyLimit
                     } ?: return false
                 } ?: return false
             } ?: return false
@@ -164,8 +167,7 @@ class CashTransferViewModel(application: Application) :
                 }
                 is RetroApiResponse.Error -> {
                     state.loading = false
-                    state.toast = response.error.message
-                    isAPIFailed.value = true
+                    state.toast = "${response.error.message}^${AlertType.DIALOG_WITH_FINISH.name}"
                 }
             }
         }
@@ -190,7 +192,7 @@ class CashTransferViewModel(application: Application) :
                     clickEvent.postValue(Constants.ADD_CASH_PICK_UP_SUCCESS)
                 }
                 is RetroApiResponse.Error -> {
-                    state.errorDescription = response.error.message
+                    state.errorDescription = "${response.error.message}-${AlertType.DIALOG_WITH_FINISH.name}"
                     errorEvent.call()
                     state.loading = false
                 }
@@ -208,8 +210,7 @@ class CashTransferViewModel(application: Application) :
                     getCountryLimit()
                 }
                 is RetroApiResponse.Error -> {
-                    state.toast = response.error.message
-                    isAPIFailed.value = true
+                    state.toast = "${response.error.message}^${AlertType.DIALOG_WITH_FINISH.name}"
                 }
             }
         }
@@ -226,8 +227,7 @@ class CashTransferViewModel(application: Application) :
                     setMaxMinLimits(response.data.data?.toDoubleOrNull())
                 }
                 is RetroApiResponse.Error -> {
-                    state.toast = response.error.message
-                    isAPIFailed.value = true
+                    state.toast = "${response.error.message}^${AlertType.DIALOG_WITH_FINISH.name}"
                 }
             }
         }
@@ -238,9 +238,12 @@ class CashTransferViewModel(application: Application) :
             when (val response = transactionRepository.getTransactionThresholds()) {
                 is RetroApiResponse.Success -> {
                     parentViewModel?.transactionThreshold?.value = response.data.data
+                    if (parentViewModel?.beneficiary?.value?.beneficiaryType == SendMoneyBeneficiaryType.UAEFTS.type) {
+                        getCutOffTimeConfiguration()
+                    }
                 }
                 is RetroApiResponse.Error -> {
-                    state.toast = response.error.message
+                    state.toast = "${response.error.message}^${AlertType.DIALOG_WITH_FINISH.name}"
                 }
             }
         }
@@ -308,4 +311,47 @@ class CashTransferViewModel(application: Application) :
                     false
             } ?: true
     }
+
+    fun trxWillHold(): Boolean {
+        return if (!isOnlyUAEFTS()) return false else
+            parentViewModel?.selectedPop?.let { pop ->
+                return (when {
+                    pop.cbwsi == true || state.amount.parseToDouble() > parentViewModel?.transactionThreshold?.value?.cbwsiPaymentLimit ?: 0.0 -> true
+                    else -> false
+                })
+
+            } ?: state.amount.parseToDouble() > parentViewModel?.transactionThreshold?.value?.cbwsiPaymentLimit ?: 0.0
+    }
+
+    override fun getCutOffTimeConfiguration() {
+        launch {
+            when (val response =
+                transactionRepository.getCutOffTimeConfiguration(
+                    productCode = getProductCode(),
+                    currency = "AED",
+                    amount = parentViewModel?.transactionThreshold?.value?.cbwsiPaymentLimit?.plus(1).toString(),
+                    isCbwsi = parentViewModel?.selectedPop?.cbwsi ?: false
+                )) {
+                is RetroApiResponse.Success -> {
+                    response.data.data?.errorMsg?.let {
+                        transactionMightGetHeld.value = true
+                        parentViewModel?.transferData?.value?.cutOffTimeMsg = it
+                    }
+                }
+                is RetroApiResponse.Error -> {
+                    transactionMightGetHeld.value = false
+                }
+            }
+        }
+
+    }
+
+    private fun getProductCode(): String {
+        return (when (parentViewModel?.beneficiary?.value?.beneficiaryType) {
+            SendMoneyBeneficiaryType.UAEFTS.type -> TransactionProductCode.UAEFTS.pCode
+            SendMoneyBeneficiaryType.DOMESTIC.type -> TransactionProductCode.DOMESTIC.pCode
+            else -> ""
+        })
+    }
+
 }

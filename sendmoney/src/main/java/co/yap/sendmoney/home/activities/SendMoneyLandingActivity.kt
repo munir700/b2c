@@ -9,17 +9,18 @@ import android.view.View
 import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
+import co.yap.sendmoney.BR
+import co.yap.sendmoney.R
+import co.yap.sendmoney.activities.SendMoneyHomeActivity
+import co.yap.sendmoney.databinding.ActivitySendMoneyLandingBinding
+import co.yap.sendmoney.editbeneficiary.activity.EditBeneficiaryActivity
+import co.yap.sendmoney.fundtransfer.activities.BeneficiaryFundTransferActivity
 import co.yap.sendmoney.home.adapters.AllBeneficiariesAdapter
 import co.yap.sendmoney.home.adapters.RecentTransferAdaptor
 import co.yap.sendmoney.home.interfaces.ISendMoneyHome
 import co.yap.sendmoney.home.viewmodels.SendMoneyHomeScreenViewModel
-import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
-import co.yap.sendmoney.fundtransfer.activities.BeneficiaryFundTransferActivity
-import co.yap.sendmoney.activities.SendMoneyHomeActivity
-import co.yap.sendmoney.editbeneficiary.activity.EditBeneficiaryActivity
-import co.yap.sendmoney.BR
-import co.yap.sendmoney.R
-import co.yap.sendmoney.databinding.ActivitySendMoneyLandingBinding
+import co.yap.translation.Strings
 import co.yap.translation.Translator
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.constants.Constants
@@ -27,10 +28,12 @@ import co.yap.yapcore.constants.Constants.EXTRA
 import co.yap.yapcore.constants.Constants.OVERVIEW_BENEFICIARY
 import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.constants.RequestCodes.REQUEST_TRANSFER_MONEY
+import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.getValue
 import co.yap.yapcore.helpers.extentions.launchActivity
 import co.yap.yapcore.interfaces.OnItemClickListener
+import co.yap.yapcore.managers.MyUserManager
 import com.nikhilpanju.recyclerviewenhanced.RecyclerTouchListener
 import kotlinx.android.synthetic.main.layout_beneficiaries.*
 
@@ -155,7 +158,11 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
     private val recentItemClickListener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
             if (data is Beneficiary)
-                startMoneyTransfer(data, pos)
+                if (MyUserManager.user?.otpBlocked == true) {
+                    showToast("${getString(Strings.screen_blocked_otp_display_text_message)}^${AlertType.DIALOG.name}")
+                } else {
+                    startMoneyTransfer(data, pos)
+                }
         }
     }
 
@@ -165,7 +172,11 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
             .setClickable(
                 object : RecyclerTouchListener.OnRowClickListener {
                     override fun onRowClicked(position: Int) {
-                        startMoneyTransfer(getAdaptor().getDataForPosition(position), position)
+                        if (MyUserManager.user?.otpBlocked == true) {
+                            showToast("${getString(Strings.screen_blocked_otp_display_text_message)}^${AlertType.DIALOG.name}")
+                        } else {
+                            startMoneyTransfer(getAdaptor().getDataForPosition(position), position)
+                        }
 
                     }
 
@@ -275,10 +286,16 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
                 SendMoneyHomeActivity.newIntent(this@SendMoneyLandingActivity),
                 RequestCodes.REQUEST_NOTIFY_BENEFICIARY_LIST
             ) //btn invoke add Beneficiary flow
-            R.id.tbBtnAddBeneficiary -> startActivityForResult(
-                SendMoneyHomeActivity.newIntent(this@SendMoneyLandingActivity),
-                RequestCodes.REQUEST_NOTIFY_BENEFICIARY_LIST
-            ) //toolbar invoke add Beneficiary flow
+            R.id.tbBtnAddBeneficiary -> {
+                if (MyUserManager.user?.otpBlocked == true) {
+                    showToast("${getString(Strings.screen_blocked_otp_display_text_message)}^${AlertType.DIALOG.name}")
+                } else {
+                    startActivityForResult(
+                        SendMoneyHomeActivity.newIntent(this@SendMoneyLandingActivity),
+                        RequestCodes.REQUEST_NOTIFY_BENEFICIARY_LIST
+                    )
+                }
+            }
             R.id.tbBtnBack -> finish()
             R.id.layoutSearchView -> {
                 viewModel.isSearching.value?.let { isSearching ->
@@ -321,7 +338,11 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
                                 ) as? Beneficiary
                             if (isMoneyTransfer == true)
                                 beneficiary?.let {
-                                    startMoneyTransfer(it, 0)
+                                    if (MyUserManager.user?.otpBlocked == true) {
+                                        showToast("${getString(Strings.screen_blocked_otp_display_text_message)}^${AlertType.DIALOG.name}")
+                                    } else {
+                                        startMoneyTransfer(it, 0)
+                                    }
                                     viewModel.requestAllBeneficiaries()
                                 }
                             else

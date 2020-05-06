@@ -11,6 +11,7 @@ import co.yap.networking.transactions.TransactionsRepository
 import co.yap.networking.transactions.requestdtos.AddFundsRequest
 import co.yap.networking.transactions.requestdtos.RemoveFundsRequest
 import co.yap.networking.transactions.responsedtos.FundTransferDenominations
+import co.yap.networking.transactions.responsedtos.TransactionThresholdModel
 import co.yap.sendmoney.base.SMFeeViewModel
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.constants.Constants
@@ -22,7 +23,7 @@ open class FundActionsViewModel(application: Application) :
     SMFeeViewModel<IFundActions.State>(application), IFundActions.ViewModel {
 
     override val htmlLiveData: MutableLiveData<String> = MutableLiveData()
-    private val transactionsRepository: TransactionsRepository = TransactionsRepository
+    override val transactionsRepository: TransactionsRepository = TransactionsRepository
     override val state: FundActionsState = FundActionsState(application)
     override val clickEvent: SingleClickEvent = SingleClickEvent()
     override val errorEvent: SingleClickEvent = SingleClickEvent()
@@ -32,12 +33,18 @@ open class FundActionsViewModel(application: Application) :
     override var error: String = ""
     override var cardSerialNumber: String = ""
     override var enteredAmount: MutableLiveData<String> = MutableLiveData()
+    override val transactionThreshold: MutableLiveData<TransactionThresholdModel> =
+        MutableLiveData()
+
 
     override val topUpTransactionModelLiveData: MutableLiveData<TopUpTransactionModel>? =
         MutableLiveData()
 
     override fun initateVM(topupCard: TopUpCard) {}
     override fun startPooling(showLoader: Boolean) {}
+    override fun getTransactionThresholds() {}
+
+
     override fun denominationFirstAmountClick() {
         if (state.denominationFirstAmount.contains("+")) {
             state.denominationAmount = Utils.getFormattedCurrencyWithoutComma(
@@ -108,7 +115,7 @@ open class FundActionsViewModel(application: Application) :
                 is RetroApiResponse.Success -> {
                     MyUserManager.updateCardBalance()
                     delay(1000)
-                    clickEvent.setValue(EVENT_ADD_FUNDS_SUCCESS)
+//                    clickEvent.setValue(EVENT_ADD_FUNDS_SUCCESS)
                     state.loading = false
                 }
                 is RetroApiResponse.Error -> {
@@ -161,13 +168,16 @@ open class FundActionsViewModel(application: Application) :
             state.loading = true
             when (val response = transactionsRepository.getFundTransferDenominations(productCode)) {
                 is RetroApiResponse.Success -> {
-                    var fundsType: String? = null
-                    if (productCode == Constants.SUPP_CARD) {
-                        fundsType = "+"
-                    } else if (productCode == co.yap.modules.others.helper.Constants.REMOVE_FUNDS_PRODUCT_CODE) {
-                        fundsType = "-"
-                    } else {
-                        fundsType = "+"
+                    val fundsType: String = when (productCode) {
+                        Constants.SUPP_CARD -> {
+                            "+"
+                        }
+                        co.yap.modules.others.helper.Constants.REMOVE_FUNDS_PRODUCT_CODE -> {
+                            "-"
+                        }
+                        else -> {
+                            "+"
+                        }
                     }
 
                     val sortedData =
@@ -191,11 +201,7 @@ open class FundActionsViewModel(application: Application) :
 
 
     override fun buttonClickEvent(id: Int) {
-        if (state.checkValidity("") == "") {
-            clickEvent.setValue(id)
-        } else {
-            errorEvent.postValue(id)
-        }
+        clickEvent.setValue(id)
     }
 
     override fun crossButtonClickEvent(id: Int) {

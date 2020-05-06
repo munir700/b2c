@@ -15,7 +15,6 @@ import co.yap.yapcore.databinding.FragmentSetCardPinBinding
 
 open class SetCardPinFragment : BaseBindingFragment<ISetCardPin.ViewModel>(), ISetCardPin.View {
 
-
     override fun getBindingVariable(): Int = BR.viewModel
 
     override fun getLayoutId(): Int = R.layout.fragment_set_card_pin
@@ -32,10 +31,10 @@ open class SetCardPinFragment : BaseBindingFragment<ISetCardPin.ViewModel>(), IS
         super.onViewCreated(view, savedInstanceState)
         getBindings().dialer.hideFingerprintView()
         getBindings().dialer.upDatedDialerPad(viewModel.state.pincode)
+        getBindings().dialer.updateDialerLength(4)
         if (activity is SetCardPinWelcomeActivity) {
             (activity as SetCardPinWelcomeActivity).preventTakeDeviceScreenShot.value = true
         }
-        // getBindings().dialer.updateDialerLength(4)
     }
 
     override fun setObservers() {
@@ -62,7 +61,6 @@ open class SetCardPinFragment : BaseBindingFragment<ISetCardPin.ViewModel>(), IS
     fun getBindings(): FragmentSetCardPinBinding {
         return viewDataBinding as FragmentSetCardPinBinding
     }
-
 
     override fun onDestroyView() {
         viewModel.clickEvent.removeObservers(this)

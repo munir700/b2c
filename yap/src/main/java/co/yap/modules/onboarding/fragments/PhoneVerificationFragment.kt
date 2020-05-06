@@ -38,7 +38,7 @@ class PhoneVerificationFragment : OnboardingChildFragment<IPhoneVerification.Vie
     override fun setObservers() {
         viewModel.nextButtonPressEvent.observe(this, Observer {
             startActivityForResult(
-                context?.let { CreatePasscodeActivity.newIntent(it) },
+                context?.let { CreatePasscodeActivity.newIntent(it,true) },
                 Constants.REQUEST_CODE_CREATE_PASSCODE
             )
         })
