@@ -19,6 +19,7 @@ class VerifyCurrentPasscodeFragment : CurrentPasscodeFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.state.forgotTextVisibility = false
+        getBinding().dialer.hideFingerprintView()
         if (activity is ForgotCardPinActivity)
             (activity as ForgotCardPinActivity).preventTakeDeviceScreenShot.value = true
     }

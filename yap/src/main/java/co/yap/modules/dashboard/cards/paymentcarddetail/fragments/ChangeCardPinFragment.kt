@@ -13,7 +13,7 @@ import co.yap.modules.setcardpin.pinflow.PinViewModel
 import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.databinding.FragmentPinBinding
 
-open class ChangeCardPinFragment : BaseBindingFragment<IPin.ViewModel>(), IPin.View {
+class ChangeCardPinFragment : BaseBindingFragment<IPin.ViewModel>(), IPin.View {
     override val viewModel: IPin.ViewModel
         get() = ViewModelProviders.of(this).get(PinViewModel::class.java)
 

@@ -67,6 +67,7 @@ open class CurrentPasscodeFragment : BaseBindingFragment<IPin.ViewModel>(), IPin
         super.onViewCreated(view, savedInstanceState)
         getBinding().dialer.updateDialerLength(6)
         getBinding().dialer.upDatedDialerPad(viewModel.state.pincode)
+        getBinding().dialer.hideFingerprintView()
         if (activity is MoreActivity) {
             (activity as MoreActivity).viewModel.preventTakeDeviceScreenShot.value = true
         }
@@ -93,7 +94,7 @@ open class CurrentPasscodeFragment : BaseBindingFragment<IPin.ViewModel>(), IPin
 
     }
 
-    private fun getBinding(): FragmentPinBinding {
+    fun getBinding(): FragmentPinBinding {
         return viewDataBinding as FragmentPinBinding
     }
 }
