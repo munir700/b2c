@@ -838,4 +838,15 @@ object Utils {
         }
         return newVersion.toInt() > existingVersion.toInt()
     }
+
+    fun validateAggressively(context: Context, pinCode:String): String {
+        val isSame = StringUtils.hasAllSameChars(pinCode)
+        val isSequenced = StringUtils.isSequenced(pinCode)
+        if (isSequenced)
+            return Translator.getString(context, Strings.screen_confirm_card_pin_display_text_error_sequence)
+        if (isSame)
+            return Translator.getString(context, Strings.screen_confirm_card_pin_display_text_error_same_digits)
+
+        return ""
+    }
 }
