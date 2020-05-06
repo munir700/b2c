@@ -1,7 +1,6 @@
 package co.yap.modules.dashboard.more.profile.viewmodels
 
 import android.app.Application
-import co.yap.modules.dashboard.cards.paymentcarddetail.viewmodels.ConfirmNewCardPinViewModel
 import co.yap.modules.setcardpin.viewmodels.ConfirmCardPinViewModel
 import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.messages.MessagesRepository
