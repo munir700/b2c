@@ -51,7 +51,7 @@
             app:text="@{Strings.screen_house_hold_create_passcode_heading_sub_heading_text}"
             tools:text="@string/screen_house_hold_create_passcode_heading_sub_heading_text" />
 
-        <co.yap.widgets.CoreDialerPadV2
+        <co.yap.widgets.CoreDialerPad
             android:id="@+id/dialer"
             android:layout_width="match_parent"
             android:layout_height="0dp"
