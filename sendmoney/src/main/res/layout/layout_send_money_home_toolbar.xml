@@ -9,7 +9,7 @@
 
         <variable
             name="viewModel"
-            type="co.yap.sendMoney.viewmodels.SendMoneyViewModel" />
+            type="co.yap.sendmoney.viewmodels.SendMoneyViewModel" />
     </data>
 
     <RelativeLayout

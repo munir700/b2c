@@ -12,7 +12,7 @@ import co.yap.networking.transactions.requestdtos.AddFundsRequest
 import co.yap.networking.transactions.requestdtos.RemoveFundsRequest
 import co.yap.networking.transactions.responsedtos.FundTransferDenominations
 import co.yap.networking.transactions.responsedtos.TransactionThresholdModel
-import co.yap.sendMoney.base.SMFeeViewModel
+import co.yap.sendmoney.base.SMFeeViewModel
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.Utils

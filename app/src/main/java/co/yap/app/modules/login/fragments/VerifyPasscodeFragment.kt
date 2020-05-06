@@ -49,7 +49,7 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
 
     override fun getLayoutId(): Int = R.layout.fragment_verify_passcode
 
-    override val viewModel: IVerifyPasscode.ViewModel
+    override val viewModel: VerifyPasscodeViewModel
         get() = ViewModelProviders.of(this).get(VerifyPasscodeViewModel::class.java)
 
     override fun onCreate(savedInstanceState: Bundle?) {

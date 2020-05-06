@@ -15,14 +15,16 @@ import co.yap.yapcore.constants.Constants.KEY_IS_USER_LOGGED_IN
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import kotlinx.android.synthetic.main.fragment_log_in.*
 
+
 class LoginFragment : BaseBindingFragment<ILogin.ViewModel>(), ILogin.View {
 
     override fun getBindingVariable(): Int = BR.viewModel
 
     override fun getLayoutId(): Int = R.layout.fragment_log_in
 
-    override val viewModel: ILogin.ViewModel
+    override val viewModel: LoginViewModel
         get() = ViewModelProviders.of(this).get(LoginViewModel::class.java)
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,7 +60,6 @@ class LoginFragment : BaseBindingFragment<ILogin.ViewModel>(), ILogin.View {
                 etEmailField.settingErrorColor(R.color.error)
             }
         })
-
     }
 
     override fun onDestroy() {

@@ -19,6 +19,7 @@ import co.yap.BR
 import co.yap.R
 import co.yap.app.YAPApplication
 import co.yap.app.YAPApplication.Companion.homeTransactionsRequest
+import co.yap.databinding.ActivityYapDashboardBinding
 import co.yap.databinding.FragmentYapHomeBinding
 import co.yap.modules.dashboard.cards.analytics.main.activities.CardAnalyticsActivity
 import co.yap.modules.dashboard.home.adaptor.GraphBarsAdapter
@@ -32,6 +33,7 @@ import co.yap.modules.dashboard.home.interfaces.IYapHome
 import co.yap.modules.dashboard.home.interfaces.NotificationItemClickListener
 import co.yap.modules.dashboard.home.models.HomeNotification
 import co.yap.modules.dashboard.home.viewmodels.YapHomeViewModel
+import co.yap.modules.dashboard.main.activities.YapDashboardActivity
 import co.yap.modules.dashboard.main.fragments.YapDashboardChildFragment
 import co.yap.modules.dashboard.main.viewmodels.YapDashBoardViewModel
 import co.yap.modules.dashboard.more.yapforyou.activities.YAPForYouActivity
@@ -51,6 +53,8 @@ import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionLi
 import co.yap.translation.Strings
 import co.yap.widgets.MultiStateView
 import co.yap.yapcore.constants.Constants
+import co.yap.widgets.guidedtour.TourSetup
+import co.yap.widgets.guidedtour.models.GuidedTourViewDetail
 import co.yap.yapcore.constants.Constants.ADDRESS
 import co.yap.yapcore.constants.Constants.ADDRESS_SUCCESS
 import co.yap.yapcore.constants.Constants.BROADCAST_UPDATE_TRANSACTION
@@ -179,6 +183,12 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
     }
 
     override fun setObservers() {
+        getBindings().ivSearch.setOnClickListener {
+            activity?.let {
+                val tour = TourSetup(it, setViewsArray())
+                tour.startTour()
+            }
+        }
         listenForToolbarExpansion()
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
@@ -609,5 +619,51 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
 
     private fun openTopUpScreen() {
         startActivity(TopUpLandingActivity.getIntent(requireContext()))
+    }
+
+    private fun setViewsArray(): ArrayList<GuidedTourViewDetail> {
+        val list = ArrayList<GuidedTourViewDetail>()
+        list.add(
+            GuidedTourViewDetail(
+                getParentActivity().cvYapIt,
+                "Your current balance",
+                "Here you can see your account’s current balance. It will be updated in-real time after every transaction.",
+                padding = 220f,
+                circleRadius = 300f
+            )
+        )
+        list.add(
+            GuidedTourViewDetail(
+                getBindings().ivSearch,
+                "Menu Type",
+                "Here you can see your account’s current balance. It will be updated in-real time after every transaction.",
+                padding = 170f,
+                circleRadius = 220f
+            )
+        )
+
+        list.add(
+            GuidedTourViewDetail(
+                getBindings().tvAvailableBalance,
+                "Yap it",
+                "Here you can see your account’s current balance. It will be updated in-real time after every transaction.",
+                padding = 260f,
+                circleRadius = 260f
+            )
+        )
+        list.add(
+            GuidedTourViewDetail(
+                getBindings().lyInclude.rlFilter,
+                "Yap it",
+                "Here you can see your account’s current balance. It will be updated in-real time after every transaction.",
+                padding = 150f,
+                circleRadius = 160f
+            )
+        )
+        return list
+    }
+
+    fun getParentActivity(): ActivityYapDashboardBinding {
+        return (activity as? YapDashboardActivity)?.viewDataBinding as ActivityYapDashboardBinding
     }
 }

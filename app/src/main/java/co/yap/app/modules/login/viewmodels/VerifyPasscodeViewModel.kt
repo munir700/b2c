@@ -125,7 +125,6 @@ class VerifyPasscodeViewModel(application: Application) :
             when (val response = repository.login(state.username, state.passcode)) {
                 is RetroApiResponse.Success -> {
                     loginSuccess.postValue(true)
-                    //state.loading = false
                 }
                 is RetroApiResponse.Error -> {
                     loginSuccess.postValue(false)
