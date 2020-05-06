@@ -6,6 +6,7 @@ import kotlinx.android.parcel.Parcelize
 @Parcelize
 data class SetPinDataModel(
     var screenType: String?="",
+    var pinCode: String?="",
     var toolBarTitle: String? = "",
     var setPinTitle: String? = "",
     var termsAndConditionVisibility: Boolean? = false,

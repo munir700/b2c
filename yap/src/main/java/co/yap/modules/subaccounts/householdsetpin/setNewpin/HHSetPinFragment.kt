@@ -1,7 +1,6 @@
 package co.yap.modules.subaccounts.householdsetpin.setNewpin
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
@@ -11,19 +10,11 @@ import co.yap.databinding.FragmentHhSetPinBinding
 import co.yap.translation.Strings
 import co.yap.widgets.numberkeyboard.NumberKeyboard
 import co.yap.yapcore.dagger.base.navigation.BaseNavViewModelFragment
-import co.yap.yapcore.helpers.extentions.toast
-import kotlinx.android.synthetic.main.fragment_hh_set_pin.*
+import kotlinx.android.synthetic.main.include_layout_number_keyboard.*
 
-/*
-* Developer guide to use this fragment
-*
-*
-* */
 class HHSetPinFragment :
-    BaseNavViewModelFragment<FragmentHhSetPinBinding, IHHSetPin.State, HHSetPinVM>(),
-    NumberKeyboard.NumberKeyboardListener {
+    BaseNavViewModelFragment<FragmentHhSetPinBinding, IHHSetPin.State, HHSetPinVM>(), NumberKeyboard.NumberKeyboardListener {
     override fun getBindingVariable(): Int = BR.viewModel
-
     override fun getLayoutId(): Int = R.layout.fragment_hh_set_pin
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -41,6 +32,7 @@ class HHSetPinFragment :
                     HHSetPinFragmentDirections.actionSetCardPinFragment2ToConfirmCardPinFragment2(
                         SetPinDataModel(
                             screenType = "confirmPin",
+                            pinCode = state.pinCode.value.toString(),
                             setPinTitle = getString(Strings.screen_household_set_pin_text_confirm_pin_title),
                             termsAndConditionVisibility = true,
                             buttonTitle = getString(Strings.screen_household_set_pin_text_button_title),
@@ -49,9 +41,13 @@ class HHSetPinFragment :
                     )
                 findNavController().navigate(action)
             }
-            else -> {
-                findNavController().navigate(R.id.action_setCardPinFragment2_to_HHSetPinSuccessFragment)
+            viewModel.eventSuccess -> {
+                navigateForwardWithAnimation(HHSetPinFragmentDirections.actionSetCardPinFragment2ToHHSetPinSuccessFragment())
             }
+            viewModel.eventFailure -> {
+                dialer.reset()
+            }
+
         }
     }
 
@@ -61,6 +57,8 @@ class HHSetPinFragment :
     }
 
     override fun onNumberClicked(number: Int, numbers: String) {
+        state.pinCode.value = numbers
+        state.dialerError.value = ""
     }
 
     override fun onLeftAuxButtonClicked() {

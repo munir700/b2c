@@ -26,36 +26,15 @@
             app:layout_constraintTop_toTopOf="parent"
             tools:text="@string/screen_set_card_pin_display_text_title" />
 
-        <androidx.appcompat.widget.AppCompatEditText
-            android:id="@+id/tvInputField"
-            style="@style/Yap.App.Widget.TextInputEditText.PinCode"
-
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvTitle" />
-
-        <co.yap.widgets.YapPassCodeView
-            android:id="@+id/passCodeView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:visibility="gone"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvTitle" />
-
-        <co.yap.widgets.numberkeyboard.NumberKeyboard
-            android:id="@+id/dialer"
-            style="@style/Yap.App.Widget.NumberKeyboard"
+        <include
+            layout="@layout/include_layout_number_keyboard"
+            android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_marginLeft="@dimen/_10sdp"
-            android:layout_marginRight="@dimen/_10sdp"
-            app:layout_constraintBottom_toTopOf="@+id/clTermsAndConditions"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvInputField"
-            app:numberkeyboard_keyHeight="@dimen/_60sdp"
-            app:numberkeyboard_keyPadding="@dimen/_15sdp"
-            app:numberkeyboard_keyWidth="@dimen/_60sdp"
-            app:numberkeyboard_keyboardType="integer" />
+            app:viewModel="@{viewModel}"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvTitle"
+            app:layout_constraintBottom_toTopOf="@+id/clTermsAndConditions"/>
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/clTermsAndConditions"
@@ -94,7 +73,7 @@
         <co.yap.widgets.CoreButton
             android:id="@+id/btnAction"
             style="@style/Yap.App.Widget.Button.Action"
-            android:onClick="@{(v)-> viewModel.state.setPinDataModel.screenType.equalsIgnoreCase(`setPin`)?viewModel.handleButtonPress(v.id):viewModel.setPinRequest()}"
+            android:onClick="@{(v)-> viewModel.state.setPinDataModel.screenType.equalsIgnoreCase(`setPin`)?viewModel.handleButtonPress(v.id):viewModel.setCardPin()}"
             android:text="@{viewModel.state.setPinDataModel.buttonTitle}"
             app:btn_enable="true"
             app:layout_constraintBottom_toTopOf="@+id/tvForgotPasscode"
