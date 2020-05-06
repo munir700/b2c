@@ -274,11 +274,10 @@ object UIBinder {
                             linearLayout.visibility = VISIBLE
                         else
                             linearLayout.visibility = GONE
-                    }
-                    else
+                    } else
                         linearLayout.visibility = GONE
                 }
-                CardStatus.BLOCKED,CardStatus.INACTIVE,CardStatus.HOTLISTED -> {
+                CardStatus.BLOCKED, CardStatus.INACTIVE, CardStatus.HOTLISTED -> {
                     linearLayout.visibility = VISIBLE
                 }
             }
@@ -298,8 +297,7 @@ object UIBinder {
                             imageView.setImageResource(R.drawable.ic_status_ontheway)
                         } else
                             imageView.visibility = GONE
-                    }
-                    else
+                    } else
                         imageView.visibility = GONE
                 }
                 CardStatus.BLOCKED -> {
@@ -933,6 +931,8 @@ object UIBinder {
     @JvmStatic
     @BindingAdapter("editable")
     fun setEditTextEditable(editText: EditText, editable: Boolean = true) {
+        if (editable)
+            editText.requestFocus()
         editText.isFocusable = editable
         editText.isFocusableInTouchMode = editable
         editText.isClickable = editable

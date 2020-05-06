@@ -8,20 +8,25 @@ import co.yap.networking.customers.household.CustomersHHRepository
 import co.yap.networking.customers.household.requestdtos.SchedulePayment
 import co.yap.networking.customers.household.responsedtos.SubAccount
 import co.yap.networking.models.RetroApiResponse
+import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.dagger.base.viewmodel.DaggerBaseViewModel
 import co.yap.yapcore.helpers.cancelAllSnackBar
 import co.yap.yapcore.helpers.extentions.parseToDouble
 import co.yap.yapcore.helpers.livedata.GetAccountBalanceLiveData
 import co.yap.yapcore.helpers.showTextUpdatedAbleSnackBar
-import co.yap.yapcore.helpers.spannables.clickableSpan
 import co.yap.yapcore.helpers.spannables.underline
 import javax.inject.Inject
 
 class EnterSalaryAmountVM @Inject constructor(override var state: IEnterSalaryAmount.State) :
     DaggerBaseViewModel<IEnterSalaryAmount.State>(), IEnterSalaryAmount.ViewModel {
     private val repository: CustomerHHApi = CustomersHHRepository
+    override val clickEvent = SingleClickEvent()
     override fun onFirsTimeUiCreate(bundle: Bundle?, navigation: NavController?) {
-        bundle?.let { state.subAccount.value = it.getParcelable(SubAccount::class.simpleName) }
+    }
+
+    override fun fetchExtras(extras: Bundle?) {
+        super.fetchExtras(extras)
+        extras?.let { state.subAccount.value = it.getParcelable(SubAccount::class.simpleName) }
     }
 
     override fun createSchedulePayment(uuid: String?, schedulePayment: SchedulePayment?) {
@@ -31,10 +36,10 @@ class EnterSalaryAmountVM @Inject constructor(override var state: IEnterSalaryAm
                 schedulePayment
             )) {
                 is RetroApiResponse.Success -> {
+                    clickEvent.postValue(GO_TO_CONFIRMATION)
 
                 }
                 is RetroApiResponse.Error -> {
-
                 }
             }
         }
@@ -65,9 +70,8 @@ class EnterSalaryAmountVM @Inject constructor(override var state: IEnterSalaryAm
                     isRecurring = state.isRecurring.value
                 )
             )
-        }
-        else{
-
+        } else {
+            clickEvent.postValue(GO_TO_RECURING)
         }
     }
 }

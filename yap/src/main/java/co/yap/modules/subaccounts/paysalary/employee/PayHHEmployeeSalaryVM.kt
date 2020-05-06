@@ -11,8 +11,11 @@ class PayHHEmployeeSalaryVM @Inject constructor(override val state: IPayHHEmploy
     DaggerBaseViewModel<IPayHHEmployeeSalary.State>(), IPayHHEmployeeSalary.ViewModel {
     override val clickEvent = SingleClickEvent()
     override fun onFirsTimeUiCreate(bundle: Bundle?, navigation: NavController?) {
-        bundle?.let { state.subAccount.value = it.getParcelable(SubAccount::class.simpleName) }
+    }
 
+    override fun fetchExtras(extras: Bundle?) {
+        super.fetchExtras(extras)
+        extras?.let { state.subAccount.value = it.getParcelable(SubAccount::class.simpleName) }
     }
 
     override fun handlePressOnClick(id: Int) {

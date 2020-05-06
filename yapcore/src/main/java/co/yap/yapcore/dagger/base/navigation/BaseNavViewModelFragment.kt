@@ -42,12 +42,16 @@ abstract class BaseNavViewModelFragment<VB : ViewDataBinding, S : IBase.State, V
         if (activity is ManageToolBarListener) {
             (activity as ManageToolBarListener).toolBarTitle = getToolBarTitle()
             (activity as ManageToolBarListener).toolBarVisibility = toolBarVisibility()
+            (activity as ManageToolBarListener).displayHomeAsUpEnabled = setDisplayHomeAsUpEnabled()
+            (activity as ManageToolBarListener).homeAsUpIndicator = setHomeAsUpIndicator()
         }
     }
 
     override fun getToolBarTitle(): String? = null
 
     override fun toolBarVisibility(): Boolean? = true
+    override fun setDisplayHomeAsUpEnabled(): Boolean? = true
+    override fun setHomeAsUpIndicator() = R.drawable.ic_back_arrow_left
 
     /**
      * Navigates to the specified destination screen.
@@ -143,7 +147,11 @@ abstract class BaseNavViewModelFragment<VB : ViewDataBinding, S : IBase.State, V
         findNavController().navigate(navDirections)
     }
 
-    protected fun navigateForwardWithAnimation(navDirections: NavDirections, args: Bundle? , exitTransition:Any = Slide() ) {
+    protected fun navigateForwardWithAnimation(
+        navDirections: NavDirections,
+        args: Bundle?,
+        exitTransition: Any = Slide()
+    ) {
         // val extras = FragmentNavigatorExtras(appBarLayout to appBarTransition)
         this.exitTransition = exitTransition
 //        this.enterTransition = Slide(Gravity.RIGHT)

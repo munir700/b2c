@@ -1,17 +1,20 @@
 package co.yap.modules.subaccounts.paysalary.entersalaryamount
 
-import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import co.yap.networking.customers.household.requestdtos.SchedulePayment
 import co.yap.networking.customers.household.responsedtos.SubAccount
 import co.yap.yapcore.IBase
+import co.yap.yapcore.SingleClickEvent
 
 interface IEnterSalaryAmount {
     interface View : IBase.View<ViewModel>
     interface ViewModel : IBase.ViewModel<State> {
         fun onAmountChange(amount: CharSequence, start: Int, before: Int, count: Int)
-        fun createSchedulePayment(uuid: String?,schedulePayment: SchedulePayment?)
+        fun createSchedulePayment(uuid: String?, schedulePayment: SchedulePayment?)
         fun handlePressOnClick(id: Int)
+        val clickEvent: SingleClickEvent
+        val GO_TO_CONFIRMATION: Int get() = 3
+        val GO_TO_RECURING: Int get() = 4
     }
 
     interface State : IBase.State {

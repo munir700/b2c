@@ -42,7 +42,8 @@
     </style>
 
     <style name="Yap.App.Widget.TextView.Date.Rounded" parent="Yap.App.Widget.TextView">
-        <item name="android:textColor">@color/greyDark</item>
+        <item name="android:textColor">@color/colorPrimaryDark</item>
+        <item name="hintTextColor">@color/greyDark</item>
         <item name="android:maxLines">1</item>
         <item name="android:minWidth">@dimen/_140sdp</item>
         <item name="android:paddingTop">@dimen/margin_normal_large</item>
@@ -169,7 +170,7 @@
         <item name="android:paddingTop">@dimen/margin_normal_large</item>
         <item name="android:textAlignment">center</item>
         <item name="android:paddingBottom">@dimen/margin_normal_large</item>
-        <item name="android:maxLength">12</item>
+        <item name="android:maxLength">7</item>
         <item name="currency_symbol">$</item>
         <item name="show_commas">true</item>
         <item name="show_currency">false</item>

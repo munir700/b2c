@@ -57,8 +57,8 @@ abstract class BaseNavViewModelActivity<VB : ViewDataBinding, S : IBase.State, V
      */
     protected open val startDestinationInput: Bundle = Bundle()
 
-     var navHostFragment: MvvmNavHostFragment? = null
-    private set
+    var navHostFragment: MvvmNavHostFragment? = null
+        private set
 
     override fun preInit(savedInstanceState: Bundle?) {
         super.preInit(savedInstanceState)
@@ -94,12 +94,14 @@ abstract class BaseNavViewModelActivity<VB : ViewDataBinding, S : IBase.State, V
             title = ""
             setNavigationIcon(R.drawable.ic_back_arrow_left)
             setSupportActionBar(this)
-            supportActionBar?.apply {
-                setDisplayHomeAsUpEnabled(true)
-                setHomeButtonEnabled(true)
-                setDisplayShowCustomEnabled(true)
-                setHomeAsUpIndicator(R.drawable.ic_back_arrow_left)
-            }
+            displayHomeAsUpEnabled = true
+            homeAsUpIndicator = R.drawable.ic_back_arrow_left
+//            supportActionBar?.apply {
+//                setDisplayHomeAsUpEnabled(true)
+//                setHomeButtonEnabled(true)
+//                setDisplayShowCustomEnabled(true)
+//                setHomeAsUpIndicator(R.drawable.ic_back_arrow_left)
+//            }
         }
     }
 
@@ -124,6 +126,38 @@ abstract class BaseNavViewModelActivity<VB : ViewDataBinding, S : IBase.State, V
             field = value
             field?.let { viewModel.state.toolsBarVisibility = it }
         }
+    override var displayHomeAsUpEnabled: Boolean? = true
+        set(value) {
+            supportActionBar?.apply {
+                field = value
+                field?.let {
+                    setDisplayHomeAsUpEnabled(it)
+                    setHomeButtonEnabled(it)
+                    setDisplayShowCustomEnabled(it)
+                }
+
+            }
+        }
+    override var homeAsUpIndicator: Int? = R.drawable.ic_back_arrow_left
+        set(value) {
+            supportActionBar?.apply {
+                field = value
+                field?.let { setHomeAsUpIndicator(it) }
+
+            }
+        }
+
+//    override fun setSupportActionBar(
+//        displayHomeAsUpEnabled: Boolean = true,
+//        homeAsUpIndicator: Int = R.drawable.ic_back_arrow_left
+//    ) {
+//        supportActionBar?.apply {
+//            setDisplayHomeAsUpEnabled(displayHomeAsUpEnabled)
+//            setHomeButtonEnabled(displayHomeAsUpEnabled)
+//            setDisplayShowCustomEnabled(true)
+//            setHomeAsUpIndicator(homeAsUpIndicator)
+//        }
+//    }
 
     fun setToolbarTitle(listener: ManageToolBarListener) {
         listener.toolBarTitle?.let {
