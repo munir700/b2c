@@ -105,7 +105,6 @@ open class MapSupportActivity : BaseBindingActivity<ILocationSelection.ViewModel
                 loadAysnMapInfo(latLng)
             }
         }
-//        getCurrentPlaceLikelihoods()
     }
 
     protected fun loadAysnMapInfo(latLng: LatLng) {

@@ -238,6 +238,7 @@ class PaymentCardDetailViewModel(application: Application) :
                             it
                         }
                         card.value?.availableBalance = cardBalance?.availableBalance.toString()
+                        card.value = card.value
                         state.cardBalance =
                             cardBalance?.currencyCode + " " + cardBalance?.availableBalance?.toFormattedCurrency()
                     } catch (e: Exception) {
