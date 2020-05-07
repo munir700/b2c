@@ -9,25 +9,40 @@ import androidx.navigation.fragment.navArgs
 import co.yap.R
 import co.yap.modules.dashboard.cards.paymentcarddetail.activities.ChangeCardPinActivity
 import co.yap.modules.dashboard.cards.paymentcarddetail.forgotcardpin.activities.ForgotCardPinActivity
-import co.yap.modules.dashboard.cards.paymentcarddetail.viewmodels.SetNewPinViewModel
-import co.yap.modules.setcardpin.fragments.SetCardPinFragment
-import co.yap.modules.setcardpin.interfaces.ISetCardPin
+import co.yap.modules.setcardpin.pinflow.IPin
+import co.yap.modules.setcardpin.pinflow.PinViewModel
+import co.yap.yapcore.BR
+import co.yap.yapcore.BaseBindingFragment
+import co.yap.yapcore.databinding.FragmentPinBinding
 
-open class SetNewCardPinFragment : SetCardPinFragment() {
+open class SetNewCardPinFragment : BaseBindingFragment<IPin.ViewModel>(), IPin.View {
     private val args: SetNewCardPinFragmentArgs by navArgs()
+    override fun getBindingVariable(): Int = BR.viewModel
+
+    override fun getLayoutId(): Int = R.layout.fragment_pin
 
     var oldPinCode: String? = null
-    override val viewModel: ISetCardPin.ViewModel
-        get() = ViewModelProviders.of(this).get(SetNewPinViewModel::class.java)
+    override val viewModel: IPin.ViewModel
+        get() = ViewModelProviders.of(this).get(PinViewModel::class.java)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        viewModel.setNewCardPinFragmentdata()
+        getBindings().dialer.hideFingerprintView()
+        getBindings().dialer.upDatedDialerPad(viewModel.state.pincode)
+        getBindings().dialer.updateDialerLength(4)
         if (activity is ChangeCardPinActivity) {
             (activity as ChangeCardPinActivity).preventTakeDeviceScreenShot.value = true
         }
         if (activity is ForgotCardPinActivity)
             (activity as ForgotCardPinActivity).preventTakeDeviceScreenShot.value = true
     }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        setObservers()
+    }
+
     override fun setObservers() {
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
@@ -38,16 +53,23 @@ open class SetNewCardPinFragment : SetCardPinFragment() {
                             args.flowType,
                             oldPinCode.toString(),
                             viewModel.state.pincode
-
                         )
-
                     findNavController().navigate(action)
                 }
             }
         })
     }
 
-    override fun onPause() {
-        super.onPause()
+    override fun loadData() {
+
+    }
+
+    fun getBindings(): FragmentPinBinding {
+        return viewDataBinding as FragmentPinBinding
+    }
+
+    override fun onDestroyView() {
+        viewModel.clickEvent.removeObservers(this)
+        super.onDestroyView()
     }
 }
