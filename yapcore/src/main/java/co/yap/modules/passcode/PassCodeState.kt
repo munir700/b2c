@@ -74,7 +74,7 @@ class PassCodeState : BaseState(), IPassCode.State {
 
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
                 passCode = p0.toString()
-//                validate(p0.toString())
+                validate()
             }
         }
     }
