@@ -8,9 +8,9 @@ import co.yap.networking.transactions.TransactionsRepository
 import co.yap.networking.transactions.requestdtos.SendMoneyTransferRequest
 import co.yap.networking.transactions.responsedtos.InternationalFundsTransferReasonList
 import co.yap.networking.transactions.responsedtos.purposepayment.PurposeOfPayment
+import co.yap.sendmoney.R
 import co.yap.sendmoney.fundtransfer.interfaces.ICashTransfer
 import co.yap.sendmoney.fundtransfer.states.CashTransferState
-import co.yap.sendmoney.R
 import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.constants.Constants
@@ -110,7 +110,9 @@ class CashTransferViewModel(application: Application) :
                         val remainingDailyLimit =
                             if ((dailyLimit - totalConsumedAmount) < 0.0) 0.0 else (dailyLimit - totalConsumedAmount)
                         state.errorDescription =
-                            if (enteredAmount > dailyLimit && totalConsumedAmount==0.0) getString(Strings.common_display_text_daily_limit_error_single_transaction) else getString(
+                            if (enteredAmount > dailyLimit && totalConsumedAmount == 0.0) getString(
+                                Strings.common_display_text_daily_limit_error_single_transaction
+                            ) else getString(
                                 Strings.common_display_text_daily_limit_error_multiple_transactions
                             )
                         return enteredAmount > remainingDailyLimit
@@ -192,7 +194,8 @@ class CashTransferViewModel(application: Application) :
                     clickEvent.postValue(Constants.ADD_CASH_PICK_UP_SUCCESS)
                 }
                 is RetroApiResponse.Error -> {
-                    state.errorDescription = "${response.error.message}-${AlertType.DIALOG_WITH_FINISH.name}"
+                    state.errorDescription =
+                        "${response.error.message}-${AlertType.DIALOG_WITH_FINISH.name}"
                     errorEvent.call()
                     state.loading = false
                 }
@@ -304,7 +307,9 @@ class CashTransferViewModel(application: Application) :
             parentViewModel?.selectedPop?.let { pop ->
                 return@let if (pop.nonChargeable == false) {
                     return (when {
-                        pop.cbwsi == true && pop.cbwsiFee == false -> state.amount.parseToDouble() > parentViewModel?.transactionThreshold?.value?.cbwsiPaymentLimit ?: 0.0
+                        parentViewModel?.beneficiary?.value?.cbwsicompliant == true &&
+                        pop.cbwsi == true &&
+                        pop.cbwsiFee == false -> state.amount.parseToDouble() > parentViewModel?.transactionThreshold?.value?.cbwsiPaymentLimit ?: 0.0
                         else -> true
                     })
                 } else
@@ -316,6 +321,7 @@ class CashTransferViewModel(application: Application) :
         return if (!isOnlyUAEFTS()) return false else
             parentViewModel?.selectedPop?.let { pop ->
                 return (when {
+                    parentViewModel?.beneficiary?.value?.cbwsicompliant == true &&
                     pop.cbwsi == true || state.amount.parseToDouble() > parentViewModel?.transactionThreshold?.value?.cbwsiPaymentLimit ?: 0.0 -> true
                     else -> false
                 })
