@@ -36,6 +36,7 @@ interface IPin {
         var mobileNumber: String
         fun setChangeCardPinFragmentData()
         fun setNewCardPinFragmentdata()
+        fun setCardPinFragmentData()
         fun setConfirmNewCardPinFragmentData()
     }
 
