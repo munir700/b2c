@@ -3,6 +3,7 @@ package co.yap.modules.setcardpin.pinflow
 import android.app.Application
 import co.yap.networking.cards.CardsRepository
 import co.yap.networking.cards.requestdtos.ChangeCardPinRequest
+import co.yap.networking.cards.requestdtos.CreateCardPinRequest
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
 import co.yap.translation.Strings
@@ -30,6 +31,11 @@ open class PinViewModel(application: Application) :
         state.buttonTitle = getString(Strings.screen_create_card_pin_display_button_create_pin)
     }
 
+    override fun setCardPinFragmentData() {
+        state.titleSetPin = getString(Strings.screen_set_card_pin_display_text_title)
+        state.buttonTitle = getString(Strings.screen_set_card_pin_button_create_pin)
+    }
+
     override fun setConfirmNewCardPinFragmentData() {
         state.titleSetPin = getString(Strings.screen_confirm_card_pin_display_text_heading)
         state.buttonTitle = getString(Strings.screen_confirm_card_pin_display_button_confirm_pin)
@@ -41,11 +47,6 @@ open class PinViewModel(application: Application) :
     override var errorEvent: SingleClickEvent = SingleClickEvent()
 
 
-    override fun onCreate() {
-        super.onCreate()
-
-    }
-
     override fun handlePressOnNextButton(id: Int) {
         if (validateAggressively()) {
             clickEvent.setValue(id)
@@ -56,7 +57,24 @@ open class PinViewModel(application: Application) :
         //forgotPasscodeclickEvent.postValue(id)
     }
 
-    override fun setCardPin(cardSerialName: String) {}
+    override fun setCardPin(cardSerialNumber: String) {
+        launch {
+            state.loading = true
+            when (val response = repository.createCardPin(
+                CreateCardPinRequest(state.pincode),
+                cardSerialNumber
+            )) {
+                is RetroApiResponse.Success -> {
+                    kotlinx.coroutines.delay(600)
+                    clickEvent.setValue(EVENT_SET_CARD_PIN_SUCCESS)
+                }
+                is RetroApiResponse.Error -> {
+                    state.toast = response.error.message
+                }
+            }
+            state.loading = false
+        }
+    }
     override fun changeCardPinRequest(
         oldPin: String,
         newPin: String,

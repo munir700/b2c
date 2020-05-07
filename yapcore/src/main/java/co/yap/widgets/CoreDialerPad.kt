@@ -10,6 +10,7 @@ import android.text.InputFilter
 import android.util.AttributeSet
 import android.view.View
 import android.view.View.OnClickListener
+import android.view.ViewTreeObserver
 import android.view.animation.AnimationUtils
 import android.widget.EditText
 import android.widget.ImageButton
@@ -17,9 +18,11 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.graphics.drawable.DrawableCompat
+import androidx.core.view.setPadding
 import co.yap.yapcore.R
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.SharedPreferenceManager
+import co.yap.yapcore.helpers.Utils
 import kotlinx.android.synthetic.main.core_dialer_pad.view.*
 
 
@@ -172,6 +175,7 @@ class CoreDialerPad @JvmOverloads constructor(
 
             if (dialerType == 1) performPassCode()
             addClickListeners()
+            setButtonDimensions()
 
             view.findViewById<ImageView>(R.id.buttonRemove).setOnClickListener {
                 removePasscodeFromList()
@@ -184,6 +188,63 @@ class CoreDialerPad @JvmOverloads constructor(
             }
         }
     }
+
+    private fun setButtonDimensions() {
+        val ww = Utils.getDimensionInPercent(context, true, 100)
+        val hh = Utils.getDimensionInPercent(context, false, 100)
+        val vto = this.viewTreeObserver
+        vto.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
+            override fun onGlobalLayout() {
+                val topPanelHeight =
+                    view.findViewById<ConstraintLayout>(R.id.clPassCodeViews).height
+
+                val row1 =
+                    view.findViewById<LinearLayout>(R.id.llPasscodeFirstRow)
+                val row2 =
+                    view.findViewById<LinearLayout>(R.id.llPasscodeSecondRow)
+                val row3 =
+                    view.findViewById<LinearLayout>(R.id.llPasscodeThirdRow)
+                val row4 =
+                    view.findViewById<LinearLayout>(R.id.llPasscodeFourthRow)
+
+
+                val h = height - topPanelHeight
+                val hp = h - (h / 7)
+                val dimension = hp / 5
+                for (view in keypads) {
+                    val prams = view.layoutParams
+                    prams.width = dimension
+                    prams.height = dimension
+                }
+                val pramsrow1 = row1.layoutParams as ConstraintLayout.LayoutParams
+                pramsrow1.setMargins(0, (dimension / 2.5).toInt(), 0, 0);
+                row1.layoutParams = pramsrow1
+
+                val pramsrow2 = row2.layoutParams as ConstraintLayout.LayoutParams
+                pramsrow2.setMargins(0, (dimension / 2.5).toInt(), 0, 0);
+                row2.layoutParams = pramsrow2
+
+                val pramsrow3 = row3.layoutParams as ConstraintLayout.LayoutParams
+                pramsrow3.setMargins(0, (dimension / 2.5).toInt(), 0, 0);
+                row3.layoutParams = pramsrow3
+
+                val pramsrow4 = row4.layoutParams as ConstraintLayout.LayoutParams
+                pramsrow4.setMargins(0, (dimension / 2.5).toInt(), 0, 0);
+                row4.layoutParams = pramsrow4
+
+                val rm = view.findViewById<ImageView>(R.id.buttonRemove)
+                val prams = rm.layoutParams as LinearLayout.LayoutParams
+                prams.width = dimension
+                prams.height = dimension
+                rm.layoutParams = prams
+                rm.setPadding(dimension / 4)
+
+                viewTreeObserver
+                    .removeOnGlobalLayoutListener(this)
+            }
+        })
+    }
+
 
     private fun addClickListeners() {
         for (view in keypads)
@@ -238,6 +299,7 @@ class CoreDialerPad @JvmOverloads constructor(
         view.findViewById<ImageView>(R.id.ivFive).visibility = View.GONE
         view.findViewById<ImageView>(R.id.ivSix).visibility = View.GONE
     }
+
     fun reset() {
         etPassCodeText?.text = null
         //editText.text = null
@@ -270,8 +332,8 @@ class CoreDialerPad @JvmOverloads constructor(
         if (isScreenLocked) lockKeypad() else unlockKeypad()
     }
 
-    fun setPasscodeVisiblity(isAccountBlocked:Boolean){
-        if(isAccountBlocked)
+    fun setPasscodeVisiblity(isAccountBlocked: Boolean) {
+        if (isAccountBlocked)
             llPasscode?.visibility = View.GONE
         else
             llPasscode?.visibility = View.VISIBLE
@@ -310,7 +372,7 @@ class CoreDialerPad @JvmOverloads constructor(
 
         var drawbleRight: Drawable =
             DrawableCompat.wrap(context.getDrawable(R.drawable.ic_fingerprint_purple))
-        if (SharedPreferenceManager(context!!).getThemeValue().equals(Constants.THEME_HOUSEHOLD)) {
+        if (SharedPreferenceManager(context).getThemeValue().equals(Constants.THEME_HOUSEHOLD)) {
             DrawableCompat.setTint(drawbleRight, Color.RED);
         }
 
@@ -473,23 +535,23 @@ class CoreDialerPad @JvmOverloads constructor(
 ///**
 // * Enables to listen keyboard events.
 // */
-//interface NumberKeyboardListener {
-//
-//    /**
-//     * Invoked when a number key is clicked.
-//     */
-//    fun onNumberClicked(number: Int, text: String)
-//
-//    /**
-//     * Invoked when the left auxiliary button is clicked.
-//     */
-//    fun onLeftButtonClicked()
-//
-//    /**
-//     * Invoked when the right auxiliary button is clicked.
-//     */
-//    fun onRightButtonClicked()
-//}
+interface NumberKeyboardListener {
+
+    /**
+     * Invoked when a number key is clicked.
+     */
+    fun onNumberClicked(number: Int, text: String) {}
+
+    /**
+     * Invoked when the left auxiliary button is clicked.
+     */
+    fun onLeftButtonClicked() {}
+
+    /**
+     * Invoked when the right auxiliary button is clicked.
+     */
+    fun onRightButtonClicked() {}
+}
 
 
 
