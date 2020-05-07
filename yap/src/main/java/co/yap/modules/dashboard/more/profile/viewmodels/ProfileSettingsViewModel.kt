@@ -19,6 +19,7 @@ import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.constants.Constants.KEY_APP_UUID
 import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.enums.EIDStatus
+import co.yap.yapcore.helpers.DateUtils
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.extentions.sizeInMb
 import co.yap.yapcore.managers.MyUserManager
@@ -41,6 +42,7 @@ class ProfileSettingsViewModel(application: Application) :
     override val authRepository: AuthRepository = AuthRepository
     override val repository: CustomersRepository = CustomersRepository
     private val sharedPreferenceManager = SharedPreferenceManager(application)
+    var pandemicValidation: Boolean = false
 
     override val state: ProfileStates =
         ProfileStates()
@@ -220,7 +222,8 @@ class ProfileSettingsViewModel(application: Application) :
 
                     val data = response.data
                     data.data?.dateExpiry?.let {
-                        getExpiryDate(it)
+//                        getExpiryDate(it)
+                        getExpiryDate("Mar 1, 2020")
                     }
                     state.loading = false
                 }
@@ -237,14 +240,71 @@ class ProfileSettingsViewModel(application: Application) :
     }
 
     private fun getExpiryDate(expiryDateString: String) {
+        checkPandemic(expiryDateString)
         val simpleDateFormat = SimpleDateFormat("yyyy-MM-dd")
         simpleDateFormat.timeZone = TimeZone.getDefault()
         val expireyDate = simpleDateFormat.parse(expiryDateString)
         val cal = Calendar.getInstance()
         val currentDay = simpleDateFormat.format(cal.time)
         val currentDayDate = simpleDateFormat.parse(currentDay)
-        state.isShowErrorIcon.set(expireyDate < currentDayDate)
+        state.isShowErrorIcon.set(if (pandemicValidation) true else expireyDate < currentDayDate)
+
         MyUserManager.eidStatus =
-            if (expireyDate < currentDayDate) EIDStatus.EXPIRED else EIDStatus.VALID
+            if (pandemicValidation) {
+                EIDStatus.VALID
+            } else if (expireyDate < currentDayDate) {
+                EIDStatus.EXPIRED
+            } else {
+                EIDStatus.VALID
+            }
+    }
+
+
+    fun checkPandemic(expirationDate: Any): Any {
+//        var verifiedDate: Any = expirationDate as Date
+        var verifiedDate: Any
+        var pandemicExpiryDateToString = "Dec 31, 2020"
+        var pandemicExpiryDateFromString = "Mar 1, 2020"
+        val pandemicExpiryToDate =
+            DateUtils.stringToDate(pandemicExpiryDateToString, DateUtils.FORMAT_DATE_MON_YEAR)
+        val pandemicExpiryFromDate =
+            DateUtils.stringToDate(pandemicExpiryDateFromString, DateUtils.FORMAT_DATE_MON_YEAR)
+
+//        If EID is expiring between  Mar 1, 2020, to Dec 31, 2020 Mark expiry date for EID as Dec 31, 2020,
+//        which means any user whose EID is expiring between  Mar 1, 2020, to Dec 31, 2020 will be able to onboard in our system.
+
+        if (expirationDate is Date) {
+           verifiedDate  = expirationDate as Date
+
+            if ((expirationDate?.after(pandemicExpiryFromDate) && expirationDate?.equals(
+                    pandemicExpiryToDate
+                )) || expirationDate?.equals(
+                    pandemicExpiryFromDate
+                )
+            ) {
+                pandemicValidation = true
+                verifiedDate = pandemicExpiryToDate!!
+            }
+
+        } else {
+              verifiedDate = expirationDate as String
+
+              var convertedDate :Date  = DateUtils.stringToDate(verifiedDate,"yyMMdd")!!
+
+            if ((convertedDate?.after(pandemicExpiryFromDate) && convertedDate?.equals(
+                    pandemicExpiryToDate
+                )) || convertedDate?.equals(
+                    pandemicExpiryFromDate
+                )
+            ) {
+                pandemicValidation = true
+                verifiedDate = DateUtils.dateToString(pandemicExpiryToDate) as String
+
+
+            }
+        }
+
+
+        return verifiedDate
     }
 }

@@ -15,6 +15,7 @@ import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.enums.EIDStatus
 import co.yap.yapcore.helpers.DateUtils
+import co.yap.yapcore.helpers.DateUtils.FORMAT_DATE_MON_YEAR
 import co.yap.yapcore.leanplum.KYCEvents
 import co.yap.yapcore.leanplum.trackEvent
 import co.yap.yapcore.managers.MyUserManager
@@ -25,6 +26,7 @@ import okhttp3.MediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import java.io.File
+import java.util.*
 
 class EidInfoReviewViewModel(application: Application) :
     KYCChildViewModel<IEidInfoReview.State>(application),
@@ -41,7 +43,7 @@ class EidInfoReviewViewModel(application: Application) :
     override var sanctionedNationality: String = "" // for runtime hanlding
     override var errorTitle: String = ""
     override var errorBody: String = ""
-
+    var pandemicValidation: Boolean = false
 
     override fun onCreate() {
         super.onCreate()
@@ -198,6 +200,56 @@ class EidInfoReviewViewModel(application: Application) :
         }
     }
 
+
+
+    fun checkPandemic(expirationDate: Any): Any {
+//        var verifiedDate: Any = expirationDate as Date
+        var verifiedDate: Any
+        var pandemicExpiryDateToString = "Dec 31, 2020"
+        var pandemicExpiryDateFromString = "Mar 1, 2020"
+        val pandemicExpiryToDate =
+            DateUtils.stringToDate(pandemicExpiryDateToString, DateUtils.FORMAT_DATE_MON_YEAR)
+        val pandemicExpiryFromDate =
+            DateUtils.stringToDate(pandemicExpiryDateFromString, DateUtils.FORMAT_DATE_MON_YEAR)
+
+//        If EID is expiring between  Mar 1, 2020, to Dec 31, 2020 Mark expiry date for EID as Dec 31, 2020,
+//        which means any user whose EID is expiring between  Mar 1, 2020, to Dec 31, 2020 will be able to onboard in our system.
+
+        if (expirationDate is Date) {
+            verifiedDate  = expirationDate as Date
+
+            if ((expirationDate?.after(pandemicExpiryFromDate) && expirationDate?.equals(
+                    pandemicExpiryToDate
+                )) || expirationDate?.equals(
+                    pandemicExpiryFromDate
+                )
+            ) {
+                pandemicValidation = true
+                verifiedDate = pandemicExpiryToDate!!
+            }
+
+        } else {
+            verifiedDate = expirationDate as String
+
+            var convertedDate :Date  = DateUtils.stringToDate(verifiedDate,"yyMMdd")!!
+
+            if ((convertedDate?.after(pandemicExpiryFromDate) && convertedDate?.equals(
+                    pandemicExpiryToDate
+                )) || convertedDate?.equals(
+                    pandemicExpiryFromDate
+                )
+            ) {
+                pandemicValidation = true
+                verifiedDate = DateUtils.dateToString(pandemicExpiryToDate) as String
+
+
+            }
+        }
+
+
+        return verifiedDate
+    }
+
     private fun performUploadDocumentsRequest() {
         parentViewModel?.identity?.let {
             launch {
@@ -205,12 +257,13 @@ class EidInfoReviewViewModel(application: Application) :
                     documentType = "EMIRATES_ID",
                     firstName = it.givenName,
                     lastName = it.sirName,
-                    dateExpiry = it.expirationDate,
+                    dateExpiry = checkPandemic(it.expirationDate) as Date,
                     dob = it.dateOfBirth,
                     fullName = it.givenName + " " + it.sirName,
                     gender = it.gender.mrz.toString(),
                     nationality = it.isoCountryCode3Digit.toUpperCase(),
-                    identityNo = if (YAPApplication.appInfo?.build_type == "debug") (700000000000000..800000000000000).random().toString() else it.citizenNumber,
+                    identityNo = if (YAPApplication.appInfo?.build_type == "debug") (700000000000000..800000000000000).random()
+                        .toString() else it.citizenNumber,
                     filePaths = parentViewModel?.paths ?: arrayListOf()
                 )
 
@@ -255,12 +308,12 @@ class EidInfoReviewViewModel(application: Application) :
             state.fullName = it.givenName + " " + it.sirName
             state.fullNameValid = state.fullName.isNotBlank()
             state.nationality = it.nationality
-            state.nationalityValid =
-                state.nationality.isNotBlank() && !state.nationality.equals("USA", true)
+            state.nationalityValid = state.nationality.isNotBlank() && !state.nationality.equals("USA", true)
             state.dateOfBirth = DateUtils.dateToString(it.dateOfBirth)
             state.dateOfBirthValid = it.isDateOfBirthValid
+//            state.expiryDate = checkPandemic(it.expirationDate) as String
             state.expiryDate = DateUtils.dateToString(it.expirationDate)
-            state.expiryDateValid = it.isExpiryDateValid
+            state.expiryDateValid = if (pandemicValidation) true else it.isExpiryDateValid
             state.genderValid = true
             state.gender = it.gender.run {
                 when {
