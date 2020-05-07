@@ -477,7 +477,7 @@ open class AddRemoveFundsActivity : BaseBindingActivity<IFundActions.ViewModel>(
                 viewModel.state.amount?.toDoubleOrNull()?.let { enteredAmount ->
                     val remainingOtpLimit =
                         it.otpLimitTopUpSupplementary?.minus(totalTopupConsumedAmount)
-                    return enteredAmount >= (remainingOtpLimit ?: 0.0)
+                    return enteredAmount > (remainingOtpLimit ?: 0.0)
                 } ?: return false
             } ?: return false
         } ?: return false
