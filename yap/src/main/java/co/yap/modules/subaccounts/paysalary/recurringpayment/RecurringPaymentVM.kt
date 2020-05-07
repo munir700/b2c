@@ -39,23 +39,31 @@ class RecurringPaymentVM @Inject constructor(
         super.fetchExtras(extras)
         extras?.let {
             state.subAccount.value = it.getParcelable(SubAccount::class.simpleName)
-            state.schedulePayment.value = it.getParcelable(SchedulePayment::class.simpleName)
-            state.amount.value = state.schedulePayment.value?.amount
+            val payment: SchedulePayment? = it.getParcelable(SchedulePayment::class.simpleName)
+            state.amount.value = payment?.amount?.apply {
+                state.isValid.value = true
+            }
         }
     }
 
     override fun datePicker() {
         val dpd =
-            DatePickerDialog.newInstance { view, year, monthOfYear, dayOfMonth ->
+            DatePickerDialog.newInstance({ view, year, monthOfYear, dayOfMonth ->
                 calendar.set(Calendar.YEAR, year)
                 calendar.set(Calendar.MONTH, monthOfYear)
                 calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth)
                 state.date.set(dateToString(calendar.time, FORMAT_DATE_MON_YEAR))
-            }
+            }, calendar)
+        dpd.minDate = Calendar.getInstance()
+        dpd.version = DatePickerDialog.Version.VERSION_2
         fragmentManager?.let {
             dpd.accentColor = context.getColor(R.color.colorPrimary)
             dpd.show(it, "")
         }
+    }
+
+    override fun onCheckedChanged(text: String, isChecked: Boolean) {
+        state.recurringInterval.value = text
     }
 
     override fun onAmountChange(
@@ -91,8 +99,12 @@ class RecurringPaymentVM @Inject constructor(
 
     override fun handlePressOnClick(id: Int) {
         val time = DateUtils.datetoString(calendar.time, DateUtils.FORMAT_LONG_INPUT, DateUtils.GMT)
-        state.schedulePayment.value?.nextProcessingDate = time
-        state.schedulePayment.value?.isRecurring = true
+        state.schedulePayment.value = SchedulePayment(
+            amount = state.amount.value,
+            isRecurring = true,
+            recurringInterval = state.recurringInterval.value,
+            nextProcessingDate = time
+        )
         createSchedulePayment(state.subAccount.value?.accountUuid, state.schedulePayment.value)
     }
 }

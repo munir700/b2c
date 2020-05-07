@@ -93,7 +93,7 @@ abstract class BaseViewModel<S : IBase.State>(application: Application) :
         block()
 
     }
-
+    override fun async(block: suspend () -> Unit) = viewModelScope.async { block }
     override fun getString(resourceId: Int): String = Translator.getString(context, resourceId)
 
     override fun getString(resourceId: String): String = Translator.getString(context, resourceId)

@@ -1,11 +1,14 @@
 package co.yap.modules.subaccounts.paysalary.recurringpayment
 
+import android.widget.CompoundButton
 import androidx.lifecycle.Observer
 import co.yap.BR
 import co.yap.R
 import co.yap.databinding.FragmentRecurringPaymentBinding
+import co.yap.networking.customers.household.requestdtos.SchedulePayment
 import co.yap.translation.Strings
 import co.yap.yapcore.dagger.base.navigation.BaseNavViewModelFragment
+import kotlinx.android.synthetic.main.fragment_recurring_payment.*
 
 class RecurringPaymentFragment :
     BaseNavViewModelFragment<FragmentRecurringPaymentBinding, IRecurringPayment.State, RecurringPaymentVM>() {
@@ -19,9 +22,13 @@ class RecurringPaymentFragment :
     }
 
     private fun onClick(id: Int) {
+        state.schedulePayment.value?.nextProcessingDate = state.date.get()
+        arguments?.putParcelable(
+            SchedulePayment::class.java.simpleName,
+            state.schedulePayment.value
+        )
         when (id) {
             viewModel.GO_TO_CONFIRMATION -> {
-                state.schedulePayment.value?.nextProcessingDate = state.date.get()
                 navigateForwardWithAnimation(
                     RecurringPaymentFragmentDirections.actionRecurringPaymentFragmentToPaymentConfirmationFragment(),
                     arguments

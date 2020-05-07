@@ -11,10 +11,14 @@ class PaymentConfirmationVM @Inject constructor(override val state: IPaymentConf
     DaggerBaseViewModel<IPaymentConfirmation.State>() {
 
     override fun onFirsTimeUiCreate(bundle: Bundle?, navigation: NavController?) {
-        bundle?.let {
+    }
+
+    override fun fetchExtras(extras: Bundle?) {
+        super.fetchExtras(extras)
+        extras?.let {
             state.subAccount.value = it.getParcelable(SubAccount::class.simpleName)
             state.schedulePayment.value = it.getParcelable(SchedulePayment::class.simpleName)
         }
-    }
 
+    }
 }

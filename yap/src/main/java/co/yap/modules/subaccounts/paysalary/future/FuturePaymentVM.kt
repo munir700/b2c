@@ -35,20 +35,23 @@ class FuturePaymentVM @Inject constructor(override val state: IFuturePayment.Sta
     override val clickEvent = SingleClickEvent()
     override fun onFirsTimeUiCreate(bundle: Bundle?, navigation: NavController?) {
     }
+
     override fun fetchExtras(extras: Bundle?) {
         super.fetchExtras(extras)
         extras?.let { state.subAccount.value = it.getParcelable(SubAccount::class.simpleName) }
-
     }
+
     override fun datePicker(view: View) {
         view.hideKeyboard()
         val dpd =
-            DatePickerDialog.newInstance { _, year, monthOfYear, dayOfMonth ->
+            DatePickerDialog.newInstance({ _, year, monthOfYear, dayOfMonth ->
                 calendar.set(Calendar.YEAR, year)
                 calendar.set(Calendar.MONTH, monthOfYear)
                 calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth)
                 state.date.set(dateToString(calendar.time, DateUtils.FORMAT_DATE_MON_YEAR))
-            }
+            }, calendar)
+        dpd.minDate = Calendar.getInstance()
+        dpd.version = DatePickerDialog.Version.VERSION_2
         fragmentManager?.let {
             dpd.accentColor = context.getColor(R.color.colorPrimary)
             dpd.show(it, "")

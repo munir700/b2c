@@ -13,6 +13,10 @@
 
         <import type="java.util.Calendar" />
 
+        <import type="co.yap.yapcore.enums.PackageType" />
+
+        <import type="androidx.lifecycle.MutableLiveData" />
+
         <import type="co.yap.yapcore.helpers.DateUtils" />
     </data>
 
@@ -54,8 +58,8 @@
             android:id="@+id/transferAmount"
             style="@style/Yap.App.Widget.TextInputEditText.EasyMoney"
             android:layout_width="0dp"
-            android:onTextChanged="@{viewModel.onAmountChange}"
             android:gravity="center"
+            android:onTextChanged="@{viewModel.onAmountChange}"
             android:text="@={viewModel.state.amount}"
             app:editable="@{true}"
             app:layout_constraintEnd_toEndOf="parent"
@@ -105,6 +109,7 @@
                 android:background="@null"
                 android:button="@null"
                 android:drawableEnd="?android:attr/listChoiceIndicatorSingle"
+                android:onCheckedChanged="@{(v,c)->viewModel.onCheckedChanged(PackageType.DAILY.type,c)}"
                 android:theme="@style/MyRadioButton"
                 app:text="@{Strings.screen_household_daily_title}"
                 tools:text="Daily" />
@@ -118,6 +123,7 @@
                 android:background="@null"
                 android:button="@null"
                 android:drawableEnd="?android:attr/listChoiceIndicatorSingle"
+                android:onCheckedChanged="@{(v,c)->viewModel.onCheckedChanged(PackageType.WEEKLY.type,c)}"
                 android:theme="@style/MyRadioButton"
                 app:text="@{Strings.screen_household_weekly_title}"
                 tools:text="Weekly" />
@@ -130,6 +136,7 @@
                 android:background="@null"
                 android:button="@null"
                 android:drawableEnd="?android:attr/listChoiceIndicatorSingle"
+                android:onCheckedChanged="@{(v,c)->viewModel.onCheckedChanged(PackageType.MONTHLY.type,c)}"
                 android:theme="@style/MyRadioButton"
                 app:text="@{Strings.screen_household_monthly_title}"
                 tools:text="Monthly" />
@@ -144,14 +151,15 @@
             android:layout_marginTop="8dp"
             android:layout_marginRight="@dimen/margin_xxl"
             android:layout_marginBottom="@dimen/margin_small"
+            android:onClick="@{(v)->viewModel.handlePressOnClick(v.id)}"
             app:btn_enable="true"
+            app:enableCoreButton="@{viewModel.state.amount.length()>0 &amp;&amp; viewModel.state.isValid &amp;&amp; viewModel.state.date.length()>2 &amp;&amp; viewModel.state.recurringInterval.length()>1}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/radioGroup"
             app:layout_constraintVertical_bias="0.958"
-            app:enableCoreButton="@{viewModel.state.amount.length()>0 &amp;&amp; viewModel.state.isValid &amp;&amp; viewModel.state.date.length()>2}"
             app:text="@{Strings.screen_household_button_text}"
             tools:text="Confirm" />
     </androidx.constraintlayout.widget.ConstraintLayout>
