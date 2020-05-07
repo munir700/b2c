@@ -666,9 +666,9 @@ object UIBinder {
 
     @JvmStatic
     @BindingAdapter("componentDialerError")
-    fun setDialerError(view: CoreDialerPadV2, error: String) {
+    fun setDialerError(view: CoreDialerPad, error: String) {
         if (null != error && !error.isEmpty()) {
-            view.settingUIForError(error)
+            view.showError(error)
         } else {
             view.settingUIForNormal()
         }
