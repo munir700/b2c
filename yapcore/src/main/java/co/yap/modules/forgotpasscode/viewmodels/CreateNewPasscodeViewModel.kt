@@ -1,8 +1,8 @@
 package co.yap.modules.forgotpasscode.viewmodels
 
 import android.app.Application
-import co.yap.networking.customers.requestdtos.ForgotPasscodeRequest
 import co.yap.networking.customers.CustomersRepository
+import co.yap.networking.customers.requestdtos.ForgotPasscodeRequest
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
 import co.yap.yapcore.R
@@ -12,6 +12,7 @@ class CreateNewPasscodeViewModel(application: Application) : CreatePasscodeViewM
     IRepositoryHolder<CustomersRepository> {
     override val repository: CustomersRepository = CustomersRepository
     private val sharedPreferenceManager = SharedPreferenceManager(context)
+    var token: String = ""
 
     override fun handlePressOnCreatePasscodeButton(id: Int) {
         if (id == R.id.tvTermsAndConditions) {
@@ -30,7 +31,8 @@ class CreateNewPasscodeViewModel(application: Application) : CreatePasscodeViewM
                 repository.forgotPasscode(
                     ForgotPasscodeRequest(
                         mobileNumber,
-                        state.passcode
+                        state.passcode,
+                        token
                     )
                 )) {
                 is RetroApiResponse.Success -> {

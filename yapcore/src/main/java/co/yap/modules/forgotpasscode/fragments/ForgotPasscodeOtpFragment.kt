@@ -17,7 +17,6 @@ import co.yap.yapcore.helpers.extentions.preventTakeScreenShot
 open class ForgotPasscodeOtpFragment : BaseBindingFragment<IForgotPasscodeOtp.ViewModel>(),
     IForgotPasscodeOtp.View {
 
-
     private val args: ForgotPasscodeOtpFragmentArgs? by navArgs()
     override val viewModel: IForgotPasscodeOtp.ViewModel
         get() = ViewModelProviders.of(this).get(ForgotPasscodeOtpViewModel::class.java)
@@ -63,7 +62,7 @@ open class ForgotPasscodeOtpFragment : BaseBindingFragment<IForgotPasscodeOtp.Vi
         viewModel.nextButtonPressEvent.observe(this, Observer {
             val action =
                 ForgotPasscodeOtpFragmentDirections.actionForgotPasscodeFragmentToCreateNewPasscodeFragment(
-                    args!!.mobileNumber, args!!.navigationType
+                    args?.mobileNumber ?: "", viewModel.token ?: "", args?.navigationType ?: ""
                 )
             findNavController().navigate(action)
         })

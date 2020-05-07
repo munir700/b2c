@@ -155,7 +155,7 @@ class CashTransferConfirmationFragment :
             it.totalDebitAmountRemittance?.let { totalSMConsumedAmount ->
                 viewModel.parentViewModel?.transferData?.value?.transferAmount?.toDoubleOrNull()?.let { enteredAmount ->
                     val remainingOtpLimit = it.otpLimit?.minus(totalSMConsumedAmount)
-                    return enteredAmount >= (remainingOtpLimit ?: 0.0)
+                    return enteredAmount > (remainingOtpLimit ?: 0.0)
                 } ?: return false
             } ?: return false
         } ?: return false

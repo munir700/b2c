@@ -19,6 +19,8 @@ import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.databinding.FragmentPinBinding
 import co.yap.yapcore.enums.OTPActions
+import co.yap.yapcore.helpers.extentions.ExtraType
+import co.yap.yapcore.helpers.extentions.getValue
 import co.yap.yapcore.helpers.extentions.startFragmentForResult
 import co.yap.yapcore.managers.MyUserManager
 
@@ -107,13 +109,20 @@ class ConfirmNewCardPinFragment : BaseBindingFragment<IPin.ViewModel>(), IPin.Vi
                         ?: ""
                 )
             )
-        ) { resultCode, _ ->
+        ) { resultCode, data ->
             if (resultCode == Activity.RESULT_OK) {
-                viewModel.forgotCardPinRequest(
-                    viewModel.state.cardSerialNumber,
-                    viewModel.state.pincode
+                val token =
+                    data?.getValue(
+                        "token",
+                        ExtraType.STRING.name
+                    ) as? String
 
-                )
+                token?.let {
+                    viewModel.forgotCardPinRequest(
+                        viewModel.state.cardSerialNumber,
+                        viewModel.state.pincode, it
+                    )
+                }
             }
         }
     }
@@ -126,5 +135,4 @@ class ConfirmNewCardPinFragment : BaseBindingFragment<IPin.ViewModel>(), IPin.Vi
     private fun getBindings(): FragmentPinBinding {
         return viewDataBinding as FragmentPinBinding
     }
-
 }

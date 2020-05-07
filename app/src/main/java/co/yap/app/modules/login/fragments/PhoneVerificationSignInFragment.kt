@@ -18,7 +18,8 @@ import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.biometric.BiometricUtil
 import co.yap.yapcore.helpers.extentions.startFragment
 
-class PhoneVerificationSignInFragment : OnboardingChildFragment<IPhoneVerificationSignIn.ViewModel>() {
+class PhoneVerificationSignInFragment :
+    OnboardingChildFragment<IPhoneVerificationSignIn.ViewModel>() {
 
     override fun getBindingVariable(): Int = BR.viewModel
 
@@ -30,22 +31,12 @@ class PhoneVerificationSignInFragment : OnboardingChildFragment<IPhoneVerificati
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.state.reverseTimer(10, requireContext())
-        viewModel.nextButtonPressEvent.observe(this, nextButtonObserver)
         viewModel.verifyOtpResult.observe(this, verifyOtpResultObserver)
         viewModel.postDemographicDataResult.observe(this, postDemographicDataObserver)
         viewModel.accountInfo.observe(this, onFetchAccountInfo)
 
         setUsername()
         setPasscode()
-    }
-
-    override fun onDestroy() {
-        viewModel.nextButtonPressEvent.removeObservers(this)
-        super.onDestroy()
-    }
-
-    private val nextButtonObserver = Observer<Boolean> {
-        viewModel.verifyOtp()
     }
 
     private val verifyOtpResultObserver = Observer<Boolean> {

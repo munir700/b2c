@@ -11,9 +11,9 @@ data class OnboardingData(
     var lastName: String,
     var email: String,
     var accountType: AccountType,
-    var ibanNumber: String?=null,
-    var formattedMobileNumber: String
-
+    var ibanNumber: String? = null,
+    var formattedMobileNumber: String,
+    var token: String? = ""
 ) {
     var startTime: Date? = null
     var elapsedOnboardingTime: Long = 0

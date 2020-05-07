@@ -48,13 +48,12 @@ import co.yap.networking.cards.responsedtos.Address
 import co.yap.networking.cards.responsedtos.Card
 import co.yap.networking.customers.responsedtos.AccountInfo
 import co.yap.networking.customers.responsedtos.documents.GetMoreDocumentsResponse
-import co.yap.networking.transactions.responsedtos.transaction.Transaction
 import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionListData
+import co.yap.networking.transactions.responsedtos.transaction.Transaction
 import co.yap.translation.Strings
 import co.yap.widgets.MultiStateView
-import co.yap.yapcore.constants.Constants
-import co.yap.widgets.guidedtour.TourSetup
 import co.yap.widgets.guidedtour.models.GuidedTourViewDetail
+import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.Constants.ADDRESS
 import co.yap.yapcore.constants.Constants.ADDRESS_SUCCESS
 import co.yap.yapcore.constants.Constants.BROADCAST_UPDATE_TRANSACTION
@@ -183,12 +182,13 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
     }
 
     override fun setObservers() {
-        getBindings().ivSearch.setOnClickListener {
-            activity?.let {
-                val tour = TourSetup(it, setViewsArray())
-                tour.startTour()
-            }
-        }
+//        getBindings().ivSearch.setOnLongClickListener {
+//            return@setOnLongClickListener activity?.let {
+//                val tour = TourSetup(it, setViewsArray())
+//                tour.startTour()
+//                true
+//            } ?: false
+//        }
         listenForToolbarExpansion()
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
@@ -567,9 +567,9 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
         return if (viewModel.txnFilters.incomingTxn == false && viewModel.txnFilters.outgoingTxn == false || viewModel.txnFilters.incomingTxn == true && viewModel.txnFilters.outgoingTxn == true) {
             null
         } else if (viewModel.txnFilters.incomingTxn == true)
-            co.yap.yapcore.constants.Constants.MANUAL_CREDIT
+            Constants.MANUAL_CREDIT
         else
-            co.yap.yapcore.constants.Constants.MANUAL_DEBIT
+            Constants.MANUAL_DEBIT
     }
 
     private fun getFilterTransactions() {
