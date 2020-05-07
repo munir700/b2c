@@ -36,12 +36,12 @@ class ConfirmNewCardPinFragment : BaseBindingFragment<IPin.ViewModel>(), IPin.Vi
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        if (activity is ChangeCardPinActivity) {
         setObservers()
         viewModel.setConfirmNewCardPinFragmentData()
         getBindings().dialer.hideFingerprintView()
         getBindings().dialer.upDatedDialerPad(viewModel.state.pincode)
         getBindings().dialer.updateDialerLength(4)
+        loadData()
        // loadData()
         if (activity is ChangeCardPinActivity) {
             (activity as ChangeCardPinActivity).preventTakeDeviceScreenShot.value = true
@@ -136,5 +136,4 @@ class ConfirmNewCardPinFragment : BaseBindingFragment<IPin.ViewModel>(), IPin.Vi
     private fun getBindings(): FragmentPinBinding {
         return viewDataBinding as FragmentPinBinding
     }
-
 }

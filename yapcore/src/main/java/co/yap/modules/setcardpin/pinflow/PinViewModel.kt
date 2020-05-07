@@ -4,11 +4,13 @@ import android.app.Application
 import co.yap.networking.cards.CardsRepository
 import co.yap.networking.cards.requestdtos.ChangeCardPinRequest
 import co.yap.networking.cards.requestdtos.CreateCardPinRequest
+import co.yap.networking.cards.requestdtos.ForgotCardPin
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
 import co.yap.translation.Strings
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
+import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.StringUtils
 
 /*
@@ -102,8 +104,21 @@ open class PinViewModel(application: Application) :
 
     }
 
-    override fun forgotCardPinRequest(cardSerialNumber: String, newPin: String) {
-
+    override fun forgotCardPinRequest(cardSerialNumber: String, newPin: String,token: String) {
+        launch {
+            state.loading = true
+            when (val response = repository.forgotCardPin(
+                cardSerialNumber,
+                ForgotCardPin(newPin,token)
+            )) {
+                is RetroApiResponse.Success -> {
+                    clickEvent.postValue(Constants.FORGOT_CARD_PIN_NAVIGATION)
+                }
+                is RetroApiResponse.Error ->
+                    state.dialerError = response.error.message
+            }
+            state.loading = false
+        }
     }
 
     private fun validateAggressively(): Boolean {
