@@ -190,8 +190,6 @@ class CoreDialerPad @JvmOverloads constructor(
     }
 
     private fun setButtonDimensions() {
-        val ww = Utils.getDimensionInPercent(context, true, 100)
-        val hh = Utils.getDimensionInPercent(context, false, 100)
         val vto = this.viewTreeObserver
         vto.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
             override fun onGlobalLayout() {
