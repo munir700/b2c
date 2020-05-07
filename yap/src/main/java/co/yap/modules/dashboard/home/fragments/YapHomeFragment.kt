@@ -19,6 +19,7 @@ import co.yap.BR
 import co.yap.R
 import co.yap.app.YAPApplication
 import co.yap.app.YAPApplication.Companion.homeTransactionsRequest
+import co.yap.databinding.ActivityYapDashboardBinding
 import co.yap.databinding.FragmentYapHomeBinding
 import co.yap.modules.dashboard.cards.analytics.main.activities.CardAnalyticsActivity
 import co.yap.modules.dashboard.home.adaptor.GraphBarsAdapter
@@ -32,6 +33,7 @@ import co.yap.modules.dashboard.home.interfaces.IYapHome
 import co.yap.modules.dashboard.home.interfaces.NotificationItemClickListener
 import co.yap.modules.dashboard.home.models.HomeNotification
 import co.yap.modules.dashboard.home.viewmodels.YapHomeViewModel
+import co.yap.modules.dashboard.main.activities.YapDashboardActivity
 import co.yap.modules.dashboard.main.fragments.YapDashboardChildFragment
 import co.yap.modules.dashboard.main.viewmodels.YapDashBoardViewModel
 import co.yap.modules.dashboard.more.yapforyou.activities.YAPForYouActivity
@@ -46,10 +48,11 @@ import co.yap.networking.cards.responsedtos.Address
 import co.yap.networking.cards.responsedtos.Card
 import co.yap.networking.customers.responsedtos.AccountInfo
 import co.yap.networking.customers.responsedtos.documents.GetMoreDocumentsResponse
-import co.yap.networking.transactions.responsedtos.transaction.Transaction
 import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionListData
+import co.yap.networking.transactions.responsedtos.transaction.Transaction
 import co.yap.translation.Strings
 import co.yap.widgets.MultiStateView
+import co.yap.widgets.guidedtour.models.GuidedTourViewDetail
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.Constants.ADDRESS
 import co.yap.yapcore.constants.Constants.ADDRESS_SUCCESS
@@ -179,6 +182,13 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
     }
 
     override fun setObservers() {
+//        getBindings().ivSearch.setOnLongClickListener {
+//            return@setOnLongClickListener activity?.let {
+//                val tour = TourSetup(it, setViewsArray())
+//                tour.startTour()
+//                true
+//            } ?: false
+//        }
         listenForToolbarExpansion()
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
@@ -557,9 +567,9 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
         return if (viewModel.txnFilters.incomingTxn == false && viewModel.txnFilters.outgoingTxn == false || viewModel.txnFilters.incomingTxn == true && viewModel.txnFilters.outgoingTxn == true) {
             null
         } else if (viewModel.txnFilters.incomingTxn == true)
-            co.yap.yapcore.constants.Constants.MANUAL_CREDIT
+            Constants.MANUAL_CREDIT
         else
-            co.yap.yapcore.constants.Constants.MANUAL_DEBIT
+            Constants.MANUAL_DEBIT
     }
 
     private fun getFilterTransactions() {
@@ -609,5 +619,51 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
 
     private fun openTopUpScreen() {
         startActivity(TopUpLandingActivity.getIntent(requireContext()))
+    }
+
+    private fun setViewsArray(): ArrayList<GuidedTourViewDetail> {
+        val list = ArrayList<GuidedTourViewDetail>()
+        list.add(
+            GuidedTourViewDetail(
+                getParentActivity().cvYapIt,
+                "Your current balance",
+                "Here you can see your account’s current balance. It will be updated in-real time after every transaction.",
+                padding = 220f,
+                circleRadius = 300f
+            )
+        )
+        list.add(
+            GuidedTourViewDetail(
+                getBindings().ivSearch,
+                "Menu Type",
+                "Here you can see your account’s current balance. It will be updated in-real time after every transaction.",
+                padding = 170f,
+                circleRadius = 220f
+            )
+        )
+
+        list.add(
+            GuidedTourViewDetail(
+                getBindings().tvAvailableBalance,
+                "Yap it",
+                "Here you can see your account’s current balance. It will be updated in-real time after every transaction.",
+                padding = 260f,
+                circleRadius = 260f
+            )
+        )
+        list.add(
+            GuidedTourViewDetail(
+                getBindings().lyInclude.rlFilter,
+                "Yap it",
+                "Here you can see your account’s current balance. It will be updated in-real time after every transaction.",
+                padding = 150f,
+                circleRadius = 160f
+            )
+        )
+        return list
+    }
+
+    fun getParentActivity(): ActivityYapDashboardBinding {
+        return (activity as? YapDashboardActivity)?.viewDataBinding as ActivityYapDashboardBinding
     }
 }

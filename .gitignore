@@ -8,6 +8,7 @@
 /.idea/navEditor.xml
 /.idea/*
 /.idea/codeStyles/*
+/sendmoney/build/*
 /.idea/assetWizardSettings.xml
 /authentication/build/*
 /authentication/build

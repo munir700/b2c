@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="co.yap.sendMoney.addbeneficiary.viewmodels.BankDetailsViewModel" />
+            type="co.yap.sendmoney.addbeneficiary.viewmodels.BankDetailsViewModel" />
     </data>
 
     <RelativeLayout
