@@ -215,10 +215,10 @@ class Y2YTransferFragment : Y2YBaseFragment<IY2YFundsTransfer.ViewModel>(), IY2Y
                     viewModel.enteredAmount.value?.toDoubleOrNull()?.let { enteredAmount ->
                         val remainingDailyLimit =
                             if ((dailyLimit - totalConsumedAmount) < 0.0) 0.0 else (dailyLimit - totalConsumedAmount)
-                        viewModel.state.errorDescription = Translator.getString(
-                            requireContext(),
-                            Strings.common_display_text_daily_limit_error
-                        ).format(remainingDailyLimit.toString().toFormattedAmountWithCurrency())
+                        viewModel.state.errorDescription =
+                            if (enteredAmount > dailyLimit && totalConsumedAmount==0.0) getString(Strings.common_display_text_daily_limit_error_single_transaction) else getString(
+                                Strings.common_display_text_daily_limit_error_multiple_transactions
+                            )
                         return enteredAmount > remainingDailyLimit
                     } ?: return false
                 } ?: return false
