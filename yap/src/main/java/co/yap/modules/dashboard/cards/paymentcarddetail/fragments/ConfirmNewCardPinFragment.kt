@@ -39,13 +39,14 @@ class ConfirmNewCardPinFragment : BaseBindingFragment<IPin.ViewModel>(), IPin.Vi
         getBindings().dialer.hideFingerprintView()
         getBindings().dialer.upDatedDialerPad(viewModel.state.pincode)
         getBindings().dialer.updateDialerLength(4)
+        loadData()
         if (activity is ChangeCardPinActivity) {
             (activity as ChangeCardPinActivity).preventTakeDeviceScreenShot.value = true
         }
         if (activity is ForgotCardPinActivity) {
             (activity as ForgotCardPinActivity).preventTakeDeviceScreenShot.value = true
-        } else
-            loadData()
+        }
+
     }
 
     override fun setObservers() {
@@ -68,6 +69,8 @@ class ConfirmNewCardPinFragment : BaseBindingFragment<IPin.ViewModel>(), IPin.Vi
                                 startOtpFragment()
                             }
                         }
+                    } else {
+                        getBindings().dialer.startAnimation()
                     }
 
                 }
@@ -90,7 +93,7 @@ class ConfirmNewCardPinFragment : BaseBindingFragment<IPin.ViewModel>(), IPin.Vi
         } else if (activity is ForgotCardPinActivity) {
             viewModel.state.cardSerialNumber =
                 (activity as ForgotCardPinActivity).getCardSerialNumber()
-            viewModel.state.flowType = Constants.FORGOT_CARD_PIN_FLOW
+            viewModel.state.flowType = args.flowType
         }
     }
 

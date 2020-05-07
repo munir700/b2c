@@ -53,9 +53,7 @@ open class SetNewCardPinFragment : BaseBindingFragment<IPin.ViewModel>(), IPin.V
                             args.flowType,
                             oldPinCode.toString(),
                             viewModel.state.pincode
-
                         )
-
                     findNavController().navigate(action)
                 }
             }

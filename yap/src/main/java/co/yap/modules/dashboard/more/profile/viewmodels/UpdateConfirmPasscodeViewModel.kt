@@ -35,7 +35,6 @@ class UpdateConfirmPasscodeViewModel(application: Application) :
         }
     }
 
-
     private fun changePasscode(id: Int) {
         launch {
             state.loading = true

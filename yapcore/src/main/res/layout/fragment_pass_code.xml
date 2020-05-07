@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="co.yap.modules.setcardpin.pinflow.PinViewModel" />
+            type="co.yap.modules.passcode.PassCodeViewModel" />
 
         <import type="co.yap.translation.Strings" />
 
@@ -30,7 +30,7 @@
             android:layout_marginEnd="@dimen/margin_medium"
             android:gravity="center"
             android:lineSpacingExtra="0dp"
-            android:text="@{viewModel.state.titleSetPin}"
+            android:text="@{viewModel.state.title}"
             android:textAlignment="center"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
@@ -92,7 +92,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:onClick="@{(v)-> viewModel.handlePressOnNextButton(v.id)}"
+            android:onClick="@{(v)-> viewModel.handlePressView(v.id)}"
             android:paddingStart="@dimen/_65sdp"
             android:paddingTop="8dp"
             android:paddingEnd="@dimen/_65sdp"
@@ -113,7 +113,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/margin_normal"
-            android:onClick="@{(v)->viewModel.handlePressOnForgotPasscodeButton(v.id)}"
+            android:onClick="@{(v)->viewModel.handlePressView(v.id)}"
             android:textColor="?attr/colorPrimaryAttr"
             android:visibility="@{viewModel.state.forgotTextVisibility ? View.VISIBLE : View.GONE}"
             app:layout_constraintBottom_toBottomOf="parent"

@@ -8,93 +8,86 @@ import androidx.navigation.fragment.findNavController
 import co.yap.BR
 import co.yap.R
 import co.yap.modules.dashboard.more.main.activities.MoreActivity
-import co.yap.modules.dashboard.more.profile.viewmodels.CurrentPasscodeViewModel
-import co.yap.modules.setcardpin.pinflow.IPin
+import co.yap.modules.passcode.IPassCode
+import co.yap.modules.passcode.PassCodeViewModel
+import co.yap.translation.Strings
 import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.constants.Constants
-import co.yap.yapcore.constants.Constants.KEY_IS_USER_LOGGED_IN
-import co.yap.yapcore.databinding.FragmentPinBinding
+import co.yap.yapcore.databinding.FragmentPassCodeBinding
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.Utils
-import co.yap.yapcore.helpers.extentions.toast
-import kotlinx.android.synthetic.main.activity_create_passcode.*
 
-open class CurrentPasscodeFragment : BaseBindingFragment<IPin.ViewModel>(), IPin.View {
-    private lateinit var sharedPreferenceManager: SharedPreferenceManager
+open class CurrentPasscodeFragment : BaseBindingFragment<IPassCode.ViewModel>(), IPassCode.View {
 
     override fun getBindingVariable(): Int = BR.viewModel
+    override fun getLayoutId(): Int = R.layout.fragment_pass_code
 
-    override fun getLayoutId(): Int = R.layout.fragment_pin
-
-    override val viewModel: IPin.ViewModel
-        get() = ViewModelProviders.of(this).get(CurrentPasscodeViewModel::class.java)
-
+    override val viewModel: IPassCode.ViewModel
+        get() = ViewModelProviders.of(this).get(PassCodeViewModel::class.java)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setObservers()
+        viewModel.setTitles(
+            title = getString(Strings.screen_current_passcode_display_text_heading),
+            buttonTitle = getString(Strings.screen_current_card_pin_display_button_next)
+        )
         if (context is MoreActivity)
             (context as MoreActivity).goneToolbar()
-        sharedPreferenceManager = SharedPreferenceManager(requireContext())
-        viewModel.forgotPasscodeclickEvent.observe(this, Observer {
-
-            if (sharedPreferenceManager.getValueBoolien(
-                    KEY_IS_USER_LOGGED_IN,
-                    false
-                )
-            ) {
-                sharedPreferenceManager.getDecryptedUserName()?.let {
-                    val action =
-                        CurrentPasscodeFragmentDirections.actionCurrentPasscodeFragmentToForgotPasscodeNavigation(
-                            it,
-                            !Utils.isUsernameNumeric(it),
-                            viewModel.mobileNumber,
-                            Constants.FORGOT_PASSCODE_FROM_CHANGE_PASSCODE
-                        )
-                    findNavController().navigate(action)
-                } ?: toast("Invalid username found")
-            }
-
-        })
-
-        viewModel.errorEvent.observe(this, Observer {
-            dialer.startAnimation()
-        })
-
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        getBinding().dialer.updateDialerLength(6)
-        getBinding().dialer.upDatedDialerPad(viewModel.state.pincode)
+        getBinding().dialer.upDatedDialerPad(viewModel.state.passCode)
         getBinding().dialer.hideFingerprintView()
         if (activity is MoreActivity) {
             (activity as MoreActivity).viewModel.preventTakeDeviceScreenShot.value = true
         }
     }
 
-    override fun setObservers() {
+    fun setObservers() {
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
                 R.id.btnAction -> {
-                    findNavController().navigate(R.id.action_currentPasscodeFragment_to_updateNewPasscodeFragment)
+                    viewModel.validatePassCode { isValidPassCode ->
+                        if (isValidPassCode)
+                            findNavController().navigate(R.id.action_currentPasscodeFragment_to_updateNewPasscodeFragment)
+                        else
+                            getBinding().dialer.startAnimation()
+                    }
+                }
+                R.id.tvForgotPasscode -> {
+                    val sharedPreferenceManager = SharedPreferenceManager(requireContext())
+                    viewModel.forgotPassCodeOtpRequest({
+                        navigateToForgotPassCodeFlow()
+                    }, sharedPreferenceManager.getDecryptedUserName())
                 }
             }
         })
+    }
 
+    private fun navigateToForgotPassCodeFlow() {
+        val sharedPreferenceManager = SharedPreferenceManager(requireContext())
+        if (viewModel.isUserLoggedIn()) {
+            sharedPreferenceManager.getDecryptedUserName()?.let {
+                val action =
+                    CurrentPasscodeFragmentDirections.actionCurrentPasscodeFragmentToForgotPasscodeNavigation(
+                        it,
+                        !Utils.isUsernameNumeric(it),
+                        viewModel.mobileNumber,
+                        Constants.FORGOT_PASSCODE_FROM_CHANGE_PASSCODE
+                    )
+                findNavController().navigate(action)
+            } ?: showToast("Invalid username found")
+        }
     }
 
     override fun onDestroy() {
-        viewModel.forgotPasscodeclickEvent.removeObservers(this)
         viewModel.clickEvent.removeObservers(this)
         super.onDestroy()
     }
 
-    override fun loadData() {
-
-    }
-
-    fun getBinding(): FragmentPinBinding {
-        return viewDataBinding as FragmentPinBinding
+    fun getBinding(): FragmentPassCodeBinding {
+        return viewDataBinding as FragmentPassCodeBinding
     }
 }
