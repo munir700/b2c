@@ -156,7 +156,7 @@ open class MapSupportActivity : BaseBindingActivity<ILocationSelection.ViewModel
                     viewModel.cities.value?.firstOrNull { it.name.equals(_address.city, true) }
                 cityMatched?.let {
                     viewModel.state.city.set(it.name)
-                }
+                } ?: viewModel.state.city.set("Select")
             }
         } else
             showNotAllowedError()

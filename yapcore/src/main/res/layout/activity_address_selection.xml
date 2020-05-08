@@ -188,7 +188,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_normal"
                     android:onClick="@{(v)->viewModel.handleOnPressView(v.id)}"
-                    android:visibility="@{viewModel.state.hasCityFeature? View.VISIBLE : View.GONE}"
                     tools:ignore="NotSibling">
 
                     <TextView

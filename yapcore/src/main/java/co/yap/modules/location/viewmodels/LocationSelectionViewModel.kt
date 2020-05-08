@@ -32,8 +32,7 @@ class LocationSelectionViewModel(application: Application) :
 
     override fun onCreate() {
         super.onCreate()
-        if (state.hasCityFeature.get() == true)
-            getCities()
+        getCities()
     }
 
     override fun handleOnPressView(id: Int) {
