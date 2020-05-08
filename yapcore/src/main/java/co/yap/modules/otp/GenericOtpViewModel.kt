@@ -2,6 +2,7 @@ package co.yap.modules.otp
 
 import android.app.Application
 import android.content.Context
+import android.text.SpannableStringBuilder
 import co.yap.networking.messages.MessagesRepository
 import co.yap.networking.messages.requestdtos.CreateForgotPasscodeOtpRequest
 import co.yap.networking.messages.requestdtos.CreateOtpGenericRequest
@@ -9,6 +10,7 @@ import co.yap.networking.messages.requestdtos.VerifyForgotPasscodeOtpRequest
 import co.yap.networking.messages.requestdtos.VerifyOtpGenericRequest
 import co.yap.networking.models.RetroApiResponse
 import co.yap.translation.Strings
+import co.yap.translation.Translator
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.R
 import co.yap.yapcore.SingleClickEvent
@@ -50,6 +52,8 @@ class GenericOtpViewModel(application: Application) :
                     getString(Strings.screen_forgot_passcode_otp_display_text_heading)
                 state.verificationDescription =
                     Strings.screen_forgot_passcode_otp_display_text_sub_heading
+
+
             }
             OTPActions.DOMESTIC_TRANSFER.name, OTPActions.UAEFTS.name, OTPActions.SWIFT.name, OTPActions.RMT.name, OTPActions.CASHPAYOUT.name, OTPActions.Y2Y.name -> {
                 state.verificationTitle =
@@ -183,33 +187,29 @@ class GenericOtpViewModel(application: Application) :
     }
 
     override fun createOtp(resend: Boolean, context: Context) {
-        if (state.otpDataModel?.otpAction == OTPActions.FORGOT_PASS_CODE.name) {
-            createForgotPassCodeOtpRequest(resend, context)
-        } else {
-            launch {
-                state.loading = true
-                when (val response =
-                    repository.createOtpGeneric(
-                        createOtpGenericRequest = CreateOtpGenericRequest(
-                            state.otpDataModel?.otpAction ?: ""
-                        )
-                    )) {
-                    is RetroApiResponse.Success -> {
-                        if (resend) {
-                            state.toast =
-                                getString(Strings.screen_verify_phone_number_display_text_resend_otp_success)
-                        }
-                        state.reverseTimer(10, context)
-                        state.validResend = false
+        launch {
+            state.loading = true
+            when (val response =
+                repository.createOtpGeneric(
+                    createOtpGenericRequest = CreateOtpGenericRequest(
+                        state.otpDataModel?.otpAction ?: ""
+                    )
+                )) {
+                is RetroApiResponse.Success -> {
+                    if (resend) {
+                        state.toast =
+                            getString(Strings.screen_verify_phone_number_display_text_resend_otp_success)
                     }
-                    is RetroApiResponse.Error -> {
-                        otpUiBlocked(response.error.actualCode)
-                        state.toast = "${response.error.message}^${AlertType.DIALOG.name}"
-                        state.loading = false
-                    }
+                    state.reverseTimer(10, context)
+                    state.validResend = false
                 }
-                state.loading = false
+                is RetroApiResponse.Error -> {
+                    otpUiBlocked(response.error.actualCode)
+                    state.toast = "${response.error.message}^${AlertType.DIALOG.name}"
+                    state.loading = false
+                }
             }
+            state.loading = false
         }
     }
 
@@ -230,8 +230,13 @@ class GenericOtpViewModel(application: Application) :
                     is RetroApiResponse.Success -> {
                         response.data.data?.let {
                             state.mobileNumber[0] = getFormattedPhoneNo(it)
-                            state.verificationDescription =
-                                Strings.screen_forgot_passcode_otp_display_text_sub_heading
+                            state.verificationDescriptionForLogo = SpannableStringBuilder(
+                                Translator.getString(
+                                    context,
+                                    Strings.screen_forgot_passcode_otp_display_text_sub_heading
+                                ).format(state.mobileNumber[0])
+                            )
+
                         }
                         if (resend) {
                             state.toast =
