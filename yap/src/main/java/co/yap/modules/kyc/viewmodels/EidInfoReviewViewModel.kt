@@ -2,7 +2,6 @@ package co.yap.modules.kyc.viewmodels
 
 import android.app.Application
 import android.text.TextUtils
-import android.util.Log
 import co.yap.app.YAPApplication
 import co.yap.modules.onboarding.interfaces.IEidInfoReview
 import co.yap.modules.onboarding.states.EidInfoReviewState
@@ -303,39 +302,42 @@ class EidInfoReviewViewModel(application: Application) :
     }
 
     fun splitLastNames(lastNames: String) {
-//        var str = "Mohammad Meharyab Khan Niazi"
-
         val parts = lastNames.split(" ")
+        state.firstName =parts.get(0)
 
-          if (parts.size >= 1) {
-
-            state.middleName = parts.get(0)
+        if (parts.size == 2) {
             state.lastName = parts.get(1)
-
-            parts.forEach { name ->
+        } else if (parts.size > 2) {
+            state.middleName = parts.get(1)
+//            state.lastName = parts.get(2)
+            var x=2
+            while (x < parts.size) {
                 if (state.lastName.isEmpty()) {
-                    state.lastName = name
-                } else {
-                    state.lastName = state.lastName + " " + name
-
+                    state.lastName = parts.get(x)
+                 } else {
+                    state.lastName = state.lastName + " " + parts.get(x)
                 }
+                x++ // Same as x += 1
             }
+//            parts.forEach { name ->
+//                if (state.lastName.isEmpty()) {
+//                    state.lastName = name
+//                } else {
+//                    state.lastName = state.lastName + " " + name
+//                }
+//            }
         }
-
     }
 
     private fun populateState(identity: Identity?) {
         identity?.let {
-            state.firstName = it.givenName + " " + it.sirName
-            splitLastNames(it.sirName)
-
+            splitLastNames( it.givenName + " " + it.sirName)
             state.fullNameValid = state.firstName.isNotBlank()
             state.nationality = it.nationality
             state.nationalityValid =
                 state.nationality.isNotBlank() && !state.nationality.equals("USA", true)
             state.dateOfBirth = DateUtils.dateToString(it.dateOfBirth)
             state.dateOfBirthValid = it.isDateOfBirthValid
-//            state.expiryDate = checkPandemic(it.expirationDate) as String
             state.expiryDate = DateUtils.dateToString(it.expirationDate)
             state.expiryDateValid = if (pandemicValidation) true else it.isExpiryDateValid
             state.genderValid = true

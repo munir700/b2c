@@ -3,17 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <data>
-
-        <variable
-            name="viewModel"
-            type="co.yap.modules.kyc.viewmodels.EidInfoReviewViewModel" />
-
-        <import type="co.yap.translation.Strings" />
-
-        <import type="android.view.View" />
-    </data>
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -81,6 +70,201 @@
                     app:layout_constraintTop_toBottomOf="@+id/tvTitle"
                     tools:text="@string/screen_b2c_eid_info_review_display_text_sub_title" />
 
+                <TextView
+                    android:id="@+id/tvFirstNameHeading"
+                    style="@style/ASmallGrey"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_medium"
+                    app:layout_constraintStart_toStartOf="@+id/cvCard"
+                    app:layout_constraintTop_toBottomOf="@+id/cvCard"
+                    app:text="@{Strings.screen_b2c_eid_info_review_display_text_first_name_heading}"
+                    tools:text="@string/screen_b2c_eid_info_review_display_text_first_name_heading" />
+
+
+                <TextView
+                    android:id="@+id/tvFirstName"
+                    style="@style/Large"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_normal"
+                    android:layout_marginEnd="@dimen/margin_normal"
+                    android:drawableEnd="@{viewModel.state.fullNameValid ? @drawable/path : @drawable/ic_error}"
+                    app:text="@{viewModel.state.firstName}"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvFirstNameHeading"
+                    tools:text="Nada Hassan" />
+
+
+                <TextView
+                    android:id="@+id/tvMiddleNameHeading"
+                    style="@style/ASmallGrey"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_medium"
+                    android:visibility="@{viewModel.state.middleName.trim().equals(``) ? View.GONE : View.VISIBLE}"
+                    app:layout_constraintStart_toStartOf="@+id/tvFirstName"
+                    app:layout_constraintTop_toBottomOf="@+id/tvFirstName"
+                    app:text="@{Strings.screen_b2c_eid_info_review_display_text_middle_name_heading}"
+                    tools:text="@string/screen_b2c_eid_info_review_display_text_middle_name_heading" />
+
+
+                <TextView
+                    android:id="@+id/tvMiddleName"
+                    style="@style/Large"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_normal"
+                    android:layout_marginEnd="@dimen/margin_normal"
+                    android:drawableEnd="@{viewModel.state.fullNameValid ? @drawable/path : @drawable/ic_error}"
+                    android:text="@{viewModel.state.middleName}"
+                    android:visibility="@{viewModel.state.middleName.trim().equals(``) ? View.GONE : View.VISIBLE}"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvMiddleNameHeading"
+                    tools:text="Noor" />
+
+
+                <TextView
+                    android:id="@+id/tvLastNameHeading"
+                    style="@style/ASmallGrey"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_medium"
+                    android:visibility="@{viewModel.state.lastName.trim().equals(``) ? View.GONE : View.VISIBLE}"
+                    app:layout_constraintStart_toStartOf="@+id/tvMiddleName"
+                    app:layout_constraintTop_toBottomOf="@+id/tvMiddleName"
+                    app:text="@{Strings.screen_b2c_eid_info_review_display_text_last_name_heading}"
+                    tools:text="@string/screen_b2c_eid_info_review_display_text_last_name_heading" />
+
+
+                <TextView
+                    android:id="@+id/tvLastName"
+                    style="@style/Large"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_normal"
+                    android:layout_marginEnd="@dimen/margin_normal"
+                    android:drawableEnd="@{viewModel.state.fullNameValid ? @drawable/path : @drawable/ic_error}"
+                    android:text="@{viewModel.state.lastName}"
+                    android:visibility="@{viewModel.state.lastName.trim().equals(``) ? View.GONE : View.VISIBLE}"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvLastNameHeading"
+                    tools:text="Hassan" />
+
+
+                <TextView
+                    android:id="@+id/tvNationalityHeading"
+                    style="@style/ASmallGrey"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_medium"
+                    app:layout_constraintStart_toStartOf="@+id/tvLastName"
+                    app:layout_constraintTop_toBottomOf="@+id/tvLastName"
+                    app:text="@{Strings.screen_b2c_eid_info_review_display_text_nationality_heading}"
+                    tools:text="@string/screen_b2c_eid_info_review_display_text_nationality_heading" />
+
+                <TextView
+                    android:id="@+id/tvNationality"
+                    style="@style/Large"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_normal"
+                    android:layout_marginEnd="@dimen/margin_normal"
+                    android:drawableEnd="@{viewModel.state.nationalityValid ? @drawable/path : @drawable/ic_error}"
+                    android:text="@{viewModel.state.nationality}"
+                    app:layout_constraintTop_toBottomOf="@+id/tvNationalityHeading"
+                    tools:text="Canadian" />
+
+
+                <TextView
+                    android:id="@+id/tvDOBHeading"
+                    style="@style/ASmallGrey"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_medium"
+                    app:layout_constraintStart_toStartOf="@+id/tvNationality"
+                    app:layout_constraintTop_toBottomOf="@+id/tvNationality"
+                    app:text="@{Strings.screen_b2c_eid_info_review_display_text_dob_heading}"
+                    tools:text="@string/screen_b2c_eid_info_review_display_text_dob_heading" />
+
+                <TextView
+                    android:id="@+id/tvDOB"
+                    style="@style/Large"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_normal"
+                    android:layout_marginEnd="@dimen/margin_normal"
+                    android:drawableEnd="@{viewModel.state.dateOfBirthValid ? @drawable/path : @drawable/ic_error}"
+                    android:text="@{viewModel.state.dateOfBirth}"
+                    app:layout_constraintTop_toBottomOf="@+id/tvDOBHeading"
+                    tools:text="01/01/1979" />
+
+
+                <TextView
+                    android:id="@+id/tvGenderHeading"
+                    style="@style/ASmallGrey"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_medium"
+                    app:layout_constraintStart_toStartOf="@+id/tvDOB"
+                    app:layout_constraintTop_toBottomOf="@+id/tvDOB"
+                    app:text="@{Strings.screen_b2c_eid_info_review_display_text_gender_heading}"
+                    tools:text="@string/screen_b2c_eid_info_review_display_text_gender_heading"
+
+                    />
+
+                <TextView
+                    android:id="@+id/tvGender"
+                    style="@style/Large"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_normal"
+                    android:layout_marginEnd="@dimen/margin_normal"
+                    android:drawableEnd="@{viewModel.state.genderValid ? @drawable/path : @drawable/ic_error}"
+                    android:text="@{viewModel.state.gender}"
+                    app:layout_constraintTop_toBottomOf="@+id/tvGenderHeading"
+                    tools:text="Female" />
+
+                <TextView
+                    android:id="@+id/tvExpiryDateHeading"
+                    style="@style/ASmallGrey"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_medium"
+                    app:layout_constraintStart_toStartOf="@+id/tvGender"
+                    app:layout_constraintTop_toBottomOf="@+id/tvGender"
+                    app:text="@{Strings.screen_b2c_eid_info_review_display_text_expiry_date_heading}"
+                    tools:text="@string/screen_b2c_eid_info_review_display_text_expiry_date_heading"
+
+                    />
+
+                <TextView
+                    android:id="@+id/tvExpiryDate"
+                    style="@style/Large"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_normal"
+                    android:layout_marginEnd="@dimen/margin_normal"
+                    android:drawableEnd="@{viewModel.state.expiryDateValid ? @drawable/path : @drawable/ic_error}"
+                    android:text="@{viewModel.state.expiryDate}"
+                    app:layout_constraintTop_toBottomOf="@+id/tvExpiryDateHeading"
+                    tools:text="01/01/2019" />
+
+                <TextView
+                    android:id="@+id/tvNoThanks"
+                    style="@style/Large"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/margin_large"
+                    android:onClick="@{(v) -> viewModel.handlePressOnRescanBtn()}"
+                    android:textColor="@color/colorPrimary"
+                    android:visibility="@{viewModel.parentViewModel.skipFirstScreen? View.GONE :View.VISIBLE}"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:text="@{Strings.screen_b2c_eid_info_review_button_title_rescan_eid}"
+                    tools:text="@string/screen_b2c_eid_info_review_button_title_rescan_eid" />
+
                 <androidx.cardview.widget.CardView
                     android:id="@+id/cvCard"
                     android:layout_width="match_parent"
@@ -134,129 +318,6 @@
                     </androidx.constraintlayout.widget.ConstraintLayout>
                 </androidx.cardview.widget.CardView>
 
-                <TextView
-                    android:id="@+id/tvNameHeading"
-                    style="@style/ASmallGrey"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_medium"
-                    app:layout_constraintStart_toStartOf="@+id/cvCard"
-                    app:layout_constraintTop_toBottomOf="@+id/cvCard"
-                    app:text="@{Strings.screen_b2c_eid_info_review_display_text_name_heading}"
-                    tools:text="@string/screen_b2c_eid_info_review_display_text_name_heading" />
-
-
-                <TextView
-                    android:id="@+id/tvName"
-                    style="@style/Large"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/margin_normal"
-                    android:layout_marginEnd="@dimen/margin_normal"
-                    android:drawableEnd="@{viewModel.state.fullNameValid ? @drawable/path : @drawable/ic_error}"
-                    android:text="@{viewModel.state.fullName}"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tvNameHeading"
-                    tools:text="Nada Hassan" />
-
-                <TextView
-                    android:id="@+id/tvNationalityHeading"
-                    style="@style/ASmallGrey"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_medium"
-                    app:layout_constraintStart_toStartOf="@+id/tvName"
-                    app:layout_constraintTop_toBottomOf="@+id/tvName"
-                    app:text="@{Strings.screen_b2c_eid_info_review_display_text_nationality_heading}"
-                    tools:text="@string/screen_b2c_eid_info_review_display_text_nationality_heading" />
-
-
-                <TextView
-                    android:id="@+id/tvNationality"
-                    style="@style/Large"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/margin_normal"
-                    android:layout_marginEnd="@dimen/margin_normal"
-                    android:drawableEnd="@{viewModel.state.nationalityValid ? @drawable/path : @drawable/ic_error}"
-                    android:text="@{viewModel.state.nationality}"
-                    app:layout_constraintTop_toBottomOf="@+id/tvNationalityHeading"
-                    tools:text="Canadian" />
-
-                <TextView
-                    android:id="@+id/tvDOBHeading"
-                    style="@style/ASmallGrey"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_medium"
-                    app:layout_constraintStart_toStartOf="@+id/tvNationality"
-                    app:layout_constraintTop_toBottomOf="@+id/tvNationality"
-                    app:text="@{Strings.screen_b2c_eid_info_review_display_text_dob_heading}"
-                    tools:text="@string/screen_b2c_eid_info_review_display_text_dob_heading" />
-
-
-                <TextView
-                    android:id="@+id/tvDOB"
-                    style="@style/Large"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/margin_normal"
-                    android:layout_marginEnd="@dimen/margin_normal"
-                    android:drawableEnd="@{viewModel.state.dateOfBirthValid ? @drawable/path : @drawable/ic_error}"
-                    android:text="@{viewModel.state.dateOfBirth}"
-                    app:layout_constraintTop_toBottomOf="@+id/tvDOBHeading"
-                    tools:text="01/01/1979" />
-
-                <TextView
-                    android:id="@+id/tvGenderHeading"
-                    style="@style/ASmallGrey"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_medium"
-                    app:layout_constraintStart_toStartOf="@+id/tvDOB"
-                    app:layout_constraintTop_toBottomOf="@+id/tvDOB"
-                    app:text="@{Strings.screen_b2c_eid_info_review_display_text_gender_heading}"
-                    tools:text="@string/screen_b2c_eid_info_review_display_text_gender_heading"
-
-                    />
-
-                <TextView
-                    android:id="@+id/tvGender"
-                    style="@style/Large"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/margin_normal"
-                    android:layout_marginEnd="@dimen/margin_normal"
-                    android:drawableEnd="@{viewModel.state.genderValid ? @drawable/path : @drawable/ic_error}"
-                    android:text="@{viewModel.state.gender}"
-                    app:layout_constraintTop_toBottomOf="@+id/tvGenderHeading"
-                    tools:text="Female" />
-
-                <TextView
-                    android:id="@+id/tvExpiryDateHeading"
-                    style="@style/ASmallGrey"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_medium"
-                    app:layout_constraintStart_toStartOf="@+id/tvGender"
-                    app:layout_constraintTop_toBottomOf="@+id/tvGender"
-                    app:text="@{Strings.screen_b2c_eid_info_review_display_text_expiry_date_heading}"
-                    tools:text="@string/screen_b2c_eid_info_review_display_text_expiry_date_heading"
-
-                    />
-
-                <TextView
-                    android:id="@+id/tvExpiryDate"
-                    style="@style/Large"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/margin_normal"
-                    android:layout_marginEnd="@dimen/margin_normal"
-                    android:drawableEnd="@{viewModel.state.expiryDateValid ? @drawable/path : @drawable/ic_error}"
-                    android:text="@{viewModel.state.expiryDate}"
-                    app:layout_constraintTop_toBottomOf="@+id/tvExpiryDateHeading"
-                    tools:text="01/01/2019" />
-
                 <co.yap.widgets.CoreButton
                     android:id="@+id/btnTouchId"
                     style="@style/RectangleBtnStyle"
@@ -277,22 +338,18 @@
                     app:text="@{Strings.screen_b2c_eid_info_review_button_title_confirm}"
                     tools:ignore="MissingConstraints"
                     tools:text="@string/screen_b2c_eid_info_review_button_title_confirm" />
-
-                <TextView
-                    android:id="@+id/tvNoThanks"
-                    style="@style/Large"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/margin_large"
-                    android:onClick="@{(v) -> viewModel.handlePressOnRescanBtn()}"
-                    android:textColor="@color/colorPrimary"
-                    android:visibility="@{viewModel.parentViewModel.skipFirstScreen? View.GONE :View.VISIBLE}"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:text="@{Strings.screen_b2c_eid_info_review_button_title_rescan_eid}"
-                    tools:text="@string/screen_b2c_eid_info_review_button_title_rescan_eid" />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </ScrollView>
     </LinearLayout>
+
+    <data>
+
+        <import type="co.yap.translation.Strings" />
+
+        <import type="android.view.View" />
+
+        <variable
+            name="viewModel"
+            type="co.yap.modules.kyc.viewmodels.EidInfoReviewViewModel" />
+    </data>
 </layout>
