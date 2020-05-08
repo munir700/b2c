@@ -34,7 +34,7 @@ class PassCodeState : BaseState(), IPassCode.State {
     override var title: String = ""
         set(value) {
             field = value
-            notifyPropertyChanged(BR.titleSetPin)
+            notifyPropertyChanged(BR.title)
         }
 
     @get:Bindable
@@ -45,7 +45,7 @@ class PassCodeState : BaseState(), IPassCode.State {
         }
 
     @get:Bindable
-    override var forgotTextVisibility: Boolean = false
+    override var forgotTextVisibility: Boolean = true
         set(value) {
             field = value
             notifyPropertyChanged(BR.forgotTextVisibility)

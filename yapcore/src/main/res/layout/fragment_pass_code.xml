@@ -81,6 +81,7 @@
                 android:textColor="?attr/colorPrimaryAttr"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
+                android:onClick="@{(v)-> viewModel.handlePressView(v.id)}"
                 app:layout_constraintTop_toBottomOf="@+id/tvTermsAndConditionsTitle"
                 app:text="@{Strings.screen_confirm_card_pin_display_text_terms_and_conditions}"
                 tools:text="@string/screen_confirm_card_pin_display_text_terms_and_conditions" />
