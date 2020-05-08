@@ -201,9 +201,9 @@ class VerifyPasscodeViewModel(application: Application) :
     }
 
     override fun handlePressOnPressView(id: Int) {
-        if (id != R.id.tvForgotPassword) {
+        //if (id != R.id.tvForgotPassword) {
             onClickEvent.value = id
-        } else {
+        /*} else {
             val username = getUserName()
             username?.let {
                 launch {
@@ -229,6 +229,6 @@ class VerifyPasscodeViewModel(application: Application) :
                     }
                 }
             } ?: toast(context, "Invalid user name")
-        }
+        }*/
     }
 }

@@ -6,6 +6,7 @@ import android.hardware.fingerprint.FingerprintManager
 import android.os.Bundle
 import android.view.View
 import androidx.annotation.Keep
+import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
@@ -18,6 +19,8 @@ import co.yap.app.modules.login.viewmodels.VerifyPasscodeViewModel
 import co.yap.household.onboard.onboarding.main.OnBoardingHouseHoldActivity
 import co.yap.modules.onboarding.enums.AccountType
 import co.yap.modules.others.helper.Constants.REQUEST_CODE
+import co.yap.modules.otp.GenericOtpFragment
+import co.yap.modules.otp.OtpDataModel
 import co.yap.networking.customers.responsedtos.AccountInfo
 import co.yap.translation.Strings
 import co.yap.widgets.NumberKeyboardListener
@@ -28,14 +31,13 @@ import co.yap.yapcore.constants.Constants.KEY_IS_USER_LOGGED_IN
 import co.yap.yapcore.constants.Constants.KEY_TOUCH_ID_ENABLED
 import co.yap.yapcore.constants.Constants.VERIFY_PASS_CODE_BTN_TEXT
 import co.yap.yapcore.enums.AlertType
+import co.yap.yapcore.enums.OTPActions
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.biometric.BiometricCallback
 import co.yap.yapcore.helpers.biometric.BiometricManagerX
 import co.yap.yapcore.helpers.biometric.BiometricUtil
-import co.yap.yapcore.helpers.extentions.preventTakeScreenShot
-import co.yap.yapcore.helpers.extentions.startFragment
-import co.yap.yapcore.helpers.extentions.toast
+import co.yap.yapcore.helpers.extentions.*
 import co.yap.yapcore.managers.MyUserManager
 import kotlinx.android.synthetic.main.fragment_verify_passcode.*
 
@@ -56,6 +58,7 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
         super.onCreate(savedInstanceState)
         sharedPreferenceManager = SharedPreferenceManager(requireContext())
     }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         preventTakeScreenShot(true)
@@ -183,13 +186,44 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
 
 
     private fun goToNext(name: String) {
-        val action =
+        startOtpFragment(name)
+   /*     val action =
             VerifyPasscodeFragmentDirections.actionVerifyPasscodeFragmentToForgotPasscodeNavigation(
                 name,
                 !Utils.isUsernameNumeric(name),
                 viewModel.mobileNumber
             )
-        findNavController().navigate(action)
+        findNavController().navigate(action)*/
+    }
+
+    private fun startOtpFragment(name: String) {
+        startFragmentForResult<GenericOtpFragment>(
+            GenericOtpFragment::class.java.name,
+            bundleOf(
+                OtpDataModel::class.java.name to OtpDataModel(
+                    otpAction = OTPActions.FORGOT_PASS_CODE.name,
+                    mobileNumber = viewModel.mobileNumber
+                        ?: "", username = name,
+                    emailOtp = !Utils.isUsernameNumeric(name)
+                )
+            )
+        ) { resultCode, data ->
+            if (resultCode == Activity.RESULT_OK) {
+                toast("success")
+            /*    val token =
+                    data?.getValue(
+                        "token",
+                        ExtraType.STRING.name
+                    ) as? String
+
+                token?.let {
+                    viewModel.forgotCardPinRequest(
+                        viewModel.state.cardSerialNumber,
+                        viewModel.state.pincode, it
+                    )
+                }*/
+            }
+        }
     }
 
     private fun doLogout() {
@@ -233,6 +267,20 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
                     viewModel.verifyPasscode()
                 else
                     viewModel.login()
+            }
+            R.id.tvForgotPassword -> {
+                if (MyUserManager.user?.otpBlocked == true) {
+                    showToast("${getString(Strings.screen_blocked_otp_display_text_message)}^${AlertType.DIALOG.name}")
+                } else {
+                    if (!isUserLoginIn()) {
+                        goToNext(viewModel.state.username)
+                    } else {
+                        sharedPreferenceManager.getDecryptedUserName()?.let { username ->
+                            viewModel.state.username = username
+                            goToNext(viewModel.state.username)
+                        } ?: toast("Invalid user name")
+                    }
+                }
             }
         }
     }
@@ -310,7 +358,7 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
                     startActivity(OnBoardingHouseHoldActivity.getIntent(requireContext(), bundle))
                     activity?.finish()
                 } else {
-                    if (it.otpBlocked==true)
+                    if (it.otpBlocked == true)
                         startFragment(fragmentName = OtpBlockedInfoFragment::class.java.name)
                     else
                         findNavController().navigate(R.id.action_goto_yapDashboardActivity)

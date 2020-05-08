@@ -3,6 +3,7 @@ package co.yap.modules.otp
 import android.app.Application
 import android.content.Context
 import co.yap.networking.messages.MessagesRepository
+import co.yap.networking.messages.requestdtos.CreateForgotPasscodeOtpRequest
 import co.yap.networking.messages.requestdtos.CreateOtpGenericRequest
 import co.yap.networking.messages.requestdtos.VerifyOtpGenericRequest
 import co.yap.networking.models.RetroApiResponse
@@ -13,9 +14,11 @@ import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.enums.OTPActions
+import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.getColors
 import co.yap.yapcore.helpers.extentions.toFormattedCurrency
+import co.yap.yapcore.helpers.extentions.toast
 import co.yap.yapcore.managers.MyUserManager
 
 class GenericOtpViewModel(application: Application) :
@@ -134,31 +137,84 @@ class GenericOtpViewModel(application: Application) :
         }
     }
 
+    private fun getUserName(): String? {
+        val sharedPreferenceManager = SharedPreferenceManager(context)
+        return if (!SharedPreferenceManager(context).getValueBoolien(
+                Constants.KEY_IS_USER_LOGGED_IN,
+                false
+            )
+        ) {
+            state.otpDataModel?.username
+        } else {
+            sharedPreferenceManager.getDecryptedUserName()
+        }
+    }
+
     override fun createOtp(resend: Boolean, context: Context) {
-        launch {
-            state.loading = true
-            when (val response =
-                repository.createOtpGeneric(
-                    createOtpGenericRequest = CreateOtpGenericRequest(
-                        state.otpDataModel?.otpAction ?: ""
+        if (state.otpDataModel?.otpAction == OTPActions.FORGOT_PASS_CODE.name) {
+            createForgotPassCodeOtpRequest(resend, context)
+        } else {
+            launch {
+                state.loading = true
+                when (val response =
+                    repository.createOtpGeneric(
+                        createOtpGenericRequest = CreateOtpGenericRequest(
+                            state.otpDataModel?.otpAction ?: ""
+                        )
+                    )) {
+                    is RetroApiResponse.Success -> {
+                        if (resend) {
+                            state.toast =
+                                getString(Strings.screen_verify_phone_number_display_text_resend_otp_success)
+                        }
+                        state.reverseTimer(10, context)
+                        state.validResend = false
+                    }
+                    is RetroApiResponse.Error -> {
+                        otpUiBlocked(response.error.actualCode)
+                        state.toast = "${response.error.message}^${AlertType.DIALOG.name}"
+                        state.loading = false
+                    }
+                }
+                state.loading = false
+            }
+        }
+    }
+
+    private fun createForgotPassCodeOtpRequest(
+        resend: Boolean,
+        context: Context
+    ) {
+        val username = getUserName()
+        username?.let {
+            launch {
+                state.loading = true
+                when (val response = repository.createForgotPasscodeOTP(
+                    CreateForgotPasscodeOtpRequest(
+                        Utils.verifyUsername(username),
+                        !Utils.isUsernameNumeric(username)
                     )
                 )) {
-                is RetroApiResponse.Success -> {
-                    if (resend) {
-                        state.toast =
-                            getString(Strings.screen_verify_phone_number_display_text_resend_otp_success)
+                    is RetroApiResponse.Success -> {
+                        response.data.data?.let {
+                            state.otpDataModel?.mobileNumber = it
+                        }
+                        if (resend) {
+                            state.toast =
+                                getString(Strings.screen_verify_phone_number_display_text_resend_otp_success)
+                        }
+                        state.reverseTimer(10, context)
+                        state.validResend = false
+
                     }
-                    state.reverseTimer(10, context)
-                    state.validResend = false
+                    is RetroApiResponse.Error -> {
+                        state.toast = "${response.error.message}^${AlertType.DIALOG.name}"
+                        state.loading = false
+                    }
                 }
-                is RetroApiResponse.Error -> {
-                    otpUiBlocked(response.error.actualCode)
-                    state.toast = "${response.error.message}^${AlertType.DIALOG.name}"
-                    state.loading = false
-                }
+                state.loading = false
             }
-            state.loading = false
-        }
+        } ?: toast(context, "Invalid user name")
     }
 
     override fun initializeData(context: Context) {
@@ -227,4 +283,5 @@ class GenericOtpViewModel(application: Application) :
             }
         }
     }
+
 }

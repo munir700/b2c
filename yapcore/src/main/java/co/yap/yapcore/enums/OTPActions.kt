@@ -1,6 +1,7 @@
 package co.yap.yapcore.enums
 
 enum class OTPActions {
+    FORGOT_PASS_CODE,
     //top up
     TOP_UP_SUPPLEMENTARY,
 
