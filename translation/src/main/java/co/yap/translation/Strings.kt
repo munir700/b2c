@@ -1700,11 +1700,11 @@ object Strings {
     const val screen_household_employee_salary_pay_now_button_text: String =
         "screen_household_employee_salary_pay_now_button_text"
 
-//    Household  Pay Salary Screen
-const val screen_household_pay_salary_screen_display_text_title: String =
-    "screen_household_pay_salary_screen_display_text_title"
+    //    Household  Pay Salary Screen
+    const val screen_household_pay_salary_screen_display_text_title: String =
+        "screen_household_pay_salary_screen_display_text_title"
     const val screen_household_pay_salary_screen_enter_transfer_amount_title: String =
-    "screen_household_pay_salary_screen_enter_transfer_amount_title"
+        "screen_household_pay_salary_screen_enter_transfer_amount_title"
     const val screen_household_pay_salary_screen_available_balance_text: String =
         "screen_household_pay_salary_screen_available_balance_text"
     const val screen_household_pay_salary_screen_last_salary_text: String =
@@ -1714,9 +1714,9 @@ const val screen_household_pay_salary_screen_display_text_title: String =
     const val screen_household_pay_salary_screen_button_text: String =
         "screen_household_pay_salary_screen_button_text"
 
-//    Future payment screen
-const val screen_household_future_payment_screen_tool_bar_text: String =
-    "screen_household_future_payment_screen_tool_bar_text"
+    //    Future payment screen
+    const val screen_household_future_payment_screen_tool_bar_text: String =
+        "screen_household_future_payment_screen_tool_bar_text"
     const val screen_household_future_payment_screen_amount_title_text: String =
         "screen_household_future_payment_screen_amount_title_text"
     const val screen_household_future_payment_screen_available_balance_text: String =
@@ -1725,4 +1725,12 @@ const val screen_household_future_payment_screen_tool_bar_text: String =
         "screen_household_future_payment_screen_end_date_heading_text"
     const val screen_household_future_payment_screen_button_text: String =
         "screen_household_future_payment_screen_button_text"
+
+    // Household My Card Screen
+    const val screen_household_my_card_screen_card_balance_text: String =
+        "screen_household_my_card_screen_card_balance_text"
+    const val screen_household_my_card_screen_card_details_text: String =
+        "screen_household_my_card_screen_card_details_text"
+    const val screen_household_my_card_screen_card_recent_transactions_text: String =
+        "screen_household_my_card_screen_card_recent_transactions_text"
 }

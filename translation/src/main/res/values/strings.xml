@@ -1093,7 +1093,10 @@
     <string name="screen_household_future_payment_screen_end_date_heading_text">Enter date of transfer</string>
     <string name="screen_household_future_payment_screen_button_text">Confirm</string>
 
-
+    <!-- Household My Card Screen -->
+    <string name="screen_household_my_card_screen_card_balance_text">Card balance</string>
+    <string name="screen_household_my_card_screen_card_details_text">Card details</string>
+    <string name="screen_household_my_card_screen_card_recent_transactions_text">Recent transactions</string>
 
 </resources>
 

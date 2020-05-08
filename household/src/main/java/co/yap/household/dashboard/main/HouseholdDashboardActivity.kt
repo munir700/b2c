@@ -5,6 +5,7 @@ import android.view.View
 import androidx.lifecycle.Observer
 import co.yap.household.BR
 import co.yap.household.R
+import co.yap.household.dashboard.cards.MyCardFragment
 import co.yap.household.dashboard.home.HouseholdHomeFragment
 import co.yap.household.dashboard.main.menu.ProfilePictureAdapter
 import co.yap.household.databinding.ActivityHouseholdDashboardBinding
@@ -96,7 +97,7 @@ class HouseholdDashboardActivity :
     override fun postExecutePendingBindings() {
         super.postExecutePendingBindings()
         adapter.addFragmentInfo<HouseholdHomeFragment>()
-        adapter.addFragmentInfo<HouseholdHomeFragment>()
+        adapter.addFragmentInfo<MyCardFragment>()
         adapter.addFragmentInfo<HouseholdHomeFragment>()
         adapter.addFragmentInfo<HouseholdHomeFragment>()
 
