@@ -1733,4 +1733,15 @@ object Strings {
         "screen_household_my_card_screen_card_details_text"
     const val screen_household_my_card_screen_card_recent_transactions_text: String =
         "screen_household_my_card_screen_card_recent_transactions_text"
+    const val screen_household_my_card_screen_menu_change_pin_text: String =
+        "screen_household_my_card_screen_menu_change_pin_text"
+    const val screen_household_my_card_screen_menu_freeze_card_text: String =
+        "screen_household_my_card_screen_menu_freeze_card_text"
+    const val screen_household_my_card_screen_menu_view_statement_text: String =
+        "screen_household_my_card_screen_menu_view_statement_text"
+    const val screen_household_my_card_screen_menu_report_lost_card_text: String =
+        "screen_household_my_card_screen_menu_report_lost_card_text"
+    const val screen_household_my_card_screen_menu_cancel_text: String =
+        "screen_household_my_card_screen_menu_cancel_text"
+
 }
