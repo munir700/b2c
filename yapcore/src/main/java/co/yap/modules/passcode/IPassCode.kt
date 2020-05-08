@@ -11,10 +11,13 @@ interface IPassCode {
     interface ViewModel : IBase.ViewModel<State> {
         val clickEvent: SingleClickEvent
         var mobileNumber: String
+        var token: String
         fun handlePressView(id: Int)
         fun validatePassCode(success: (isSuccess: Boolean) -> Unit)
+        fun isValidPassCode(): Boolean
         fun updatePassCodeRequest(success: () -> Unit)
         fun forgotPassCodeOtpRequest(success: () -> Unit, username: String?)
+        fun forgotPassCodeRequest(success: () -> Unit)
         fun isUserLoggedIn(): Boolean
         fun setTitles(title: String, buttonTitle: String)
     }

@@ -43,7 +43,7 @@
     <fragment
         android:id="@+id/createNewPasscodeFragment"
         android:name="co.yap.modules.forgotpasscode.fragments.CreateNewPasscodeFragment"
-        tools:layout="@layout/fragment_create_new_passcode"
+        tools:layout="@layout/fragment_pass_code"
         android:label="CreateNewPasscodeFragment">
         <argument
             android:name="mobileNumber"
