@@ -2,6 +2,7 @@ package co.yap.modules.kyc.viewmodels
 
 import android.app.Application
 import android.text.TextUtils
+import android.util.Log
 import co.yap.app.YAPApplication
 import co.yap.modules.onboarding.interfaces.IEidInfoReview
 import co.yap.modules.onboarding.states.EidInfoReviewState
@@ -15,7 +16,6 @@ import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.enums.EIDStatus
 import co.yap.yapcore.helpers.DateUtils
-import co.yap.yapcore.helpers.DateUtils.FORMAT_DATE_MON_YEAR
 import co.yap.yapcore.leanplum.KYCEvents
 import co.yap.yapcore.leanplum.trackEvent
 import co.yap.yapcore.managers.MyUserManager
@@ -201,7 +201,6 @@ class EidInfoReviewViewModel(application: Application) :
     }
 
 
-
     fun checkPandemic(expirationDate: Any): Any {
 //        var verifiedDate: Any = expirationDate as Date
         var verifiedDate: Any
@@ -216,7 +215,7 @@ class EidInfoReviewViewModel(application: Application) :
 //        which means any user whose EID is expiring between  Mar 1, 2020, to Dec 31, 2020 will be able to onboard in our system.
 
         if (expirationDate is Date) {
-            verifiedDate  = expirationDate as Date
+            verifiedDate = expirationDate as Date
 
             if ((expirationDate?.after(pandemicExpiryFromDate) && expirationDate?.equals(
                     pandemicExpiryToDate
@@ -231,7 +230,7 @@ class EidInfoReviewViewModel(application: Application) :
         } else {
             verifiedDate = expirationDate as String
 
-            var convertedDate :Date  = DateUtils.stringToDate(verifiedDate,"yyMMdd")!!
+            var convertedDate: Date = DateUtils.stringToDate(verifiedDate, "yyMMdd")!!
 
             if ((convertedDate?.after(pandemicExpiryFromDate) && convertedDate?.equals(
                     pandemicExpiryToDate
@@ -303,12 +302,37 @@ class EidInfoReviewViewModel(application: Application) :
         }
     }
 
+    fun splitLastNames(lastNames: String) {
+//        var str = "Mohammad Meharyab Khan Niazi"
+
+        val parts = lastNames.split(" ")
+
+          if (parts.size >= 1) {
+
+            state.middleName = parts.get(0)
+            state.lastName = parts.get(1)
+
+            parts.forEach { name ->
+                if (state.lastName.isEmpty()) {
+                    state.lastName = name
+                } else {
+                    state.lastName = state.lastName + " " + name
+
+                }
+            }
+        }
+
+    }
+
     private fun populateState(identity: Identity?) {
         identity?.let {
-            state.fullName = it.givenName + " " + it.sirName
-            state.fullNameValid = state.fullName.isNotBlank()
+            state.firstName = it.givenName + " " + it.sirName
+            splitLastNames(it.sirName)
+
+            state.fullNameValid = state.firstName.isNotBlank()
             state.nationality = it.nationality
-            state.nationalityValid = state.nationality.isNotBlank() && !state.nationality.equals("USA", true)
+            state.nationalityValid =
+                state.nationality.isNotBlank() && !state.nationality.equals("USA", true)
             state.dateOfBirth = DateUtils.dateToString(it.dateOfBirth)
             state.dateOfBirthValid = it.isDateOfBirthValid
 //            state.expiryDate = checkPandemic(it.expirationDate) as String

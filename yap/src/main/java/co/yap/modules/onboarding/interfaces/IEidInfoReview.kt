@@ -7,7 +7,9 @@ import com.digitify.identityscanner.docscanner.models.IdentityScannerResult
 interface IEidInfoReview {
 
     interface State : IBase.State {
-        var fullName: String
+        var firstName: String
+        var middleName: String
+        var lastName: String
         var nationality: String
         var dateOfBirth: String
         var gender: String

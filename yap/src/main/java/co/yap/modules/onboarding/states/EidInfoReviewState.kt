@@ -4,19 +4,30 @@ import androidx.databinding.Bindable
 import co.yap.BR
 import co.yap.modules.onboarding.interfaces.IEidInfoReview
 import co.yap.yapcore.BaseState
-import co.yap.yapcore.helpers.Utils
-import java.text.ParseException
-import java.text.SimpleDateFormat
 import java.util.*
 
 class EidInfoReviewState : BaseState(), IEidInfoReview.State {
     private var date: Date? = null
 
     @get:Bindable
-    override var fullName: String = ""
+    override var firstName: String = ""
         set(value) {
             field = value
-            notifyPropertyChanged(BR.fullName)
+            notifyPropertyChanged(BR.firstName)
+        }
+
+    @get:Bindable
+    override var middleName: String=""
+         set(value) {
+            field = value
+            notifyPropertyChanged(BR.middleName)
+        }
+
+    @get:Bindable
+    override var lastName: String = ""
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.lastName)
         }
 
     @get:Bindable
