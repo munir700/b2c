@@ -155,10 +155,7 @@ class VerifyPasscodeViewModel(application: Application) :
         launch {
             when (val response = customersRepository.validateDemographicData(state.deviceId)) {
                 is RetroApiResponse.Success -> {
-                    response.data.data?.let {
-                        //if (it) state.loading = false
-                        validateDeviceResult.postValue(it)
-                    }
+                    validateDeviceResult.postValue(response.data.data ?: false)
                 }
                 is RetroApiResponse.Error -> {
                     state.toast = "${response.error.message}^${AlertType.DIALOG.name}"
@@ -176,32 +173,30 @@ class VerifyPasscodeViewModel(application: Application) :
                         MyUserManager.user = response.data.data[0]
                         accountInfo.postValue(response.data.data[0])
                         trackEventWithAttributes(MyUserManager.user)
-                        state.loading = true
+                        state.loading = false
                     }
-                }
-                is RetroApiResponse.Error -> {
-                    state.loading = true
-                    state.toast = "${response.error.message}^${AlertType.DIALOG.name}"
-                }
-            }
-            state.loading = false
-        }
-    }
-
-    override fun createOtp() {
-        launch {
-            state.loading = true
-            when (val response =
-                messagesRepository.createOtpGeneric(CreateOtpGenericRequest(Constants.ACTION_DEVICE_VERIFICATION))) {
-                is RetroApiResponse.Success -> {
-                    createOtpResult.postValue(true)
                 }
                 is RetroApiResponse.Error -> {
                     state.toast = "${response.error.message}^${AlertType.DIALOG.name}"
                     state.loading = false
                 }
             }
-            state.loading = false
+        }
+    }
+
+    override fun createOtp() {
+        launch {
+            when (val response =
+                messagesRepository.createOtpGeneric(CreateOtpGenericRequest(Constants.ACTION_DEVICE_VERIFICATION))) {
+                is RetroApiResponse.Success -> {
+                    createOtpResult.postValue(true)
+                    state.loading = false
+                }
+                is RetroApiResponse.Error -> {
+                    state.toast = "${response.error.message}^${AlertType.DIALOG.name}"
+                    state.loading = false
+                }
+            }
         }
     }
 

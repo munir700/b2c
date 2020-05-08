@@ -12,7 +12,6 @@ interface IPhoneVerificationSignIn {
     interface View : IBase.View<ViewModel>
 
     interface ViewModel : IBase.ViewModel<State> {
-        val nextButtonPressEvent: SingleLiveEvent<Boolean>
         val verifyOtpResult: SingleLiveEvent<Boolean>
         val postDemographicDataResult: SingleLiveEvent<Boolean>
         val accountInfo: MutableLiveData<AccountInfo>

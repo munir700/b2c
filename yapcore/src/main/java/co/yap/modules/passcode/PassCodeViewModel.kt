@@ -24,7 +24,7 @@ class PassCodeViewModel(application: Application) : BaseViewModel<IPassCode.Stat
     override val repository: CustomersRepository = CustomersRepository
     private val messagesRepository: MessagesRepository = MessagesRepository
     override var mobileNumber: String = ""
-
+    override var token: String =""
     override fun setTitles(title: String, buttonTitle: String) {
         state.title = title
         state.buttonTitle = buttonTitle
@@ -75,7 +75,8 @@ class PassCodeViewModel(application: Application) : BaseViewModel<IPassCode.Stat
                 repository.forgotPasscode(
                     ForgotPasscodeRequest(
                         mobileNumber,
-                        state.passCode
+                        state.passCode,
+                        token
                     )
                 )) {
                 is RetroApiResponse.Success -> {

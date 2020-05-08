@@ -11,6 +11,7 @@ interface IPassCode {
     interface ViewModel : IBase.ViewModel<State> {
         val clickEvent: SingleClickEvent
         var mobileNumber: String
+        var token: String
         fun handlePressView(id: Int)
         fun validatePassCode(success: (isSuccess: Boolean) -> Unit)
         fun isValidPassCode(): Boolean

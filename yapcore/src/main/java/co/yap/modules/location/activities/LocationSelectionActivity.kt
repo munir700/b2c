@@ -201,7 +201,6 @@ class LocationSelectionActivity : MapSupportActivity(), ILocationSelection.View 
                         Constants.PAGE_URL to Constants.URL_TERMS_CONDITION
                     ), showToolBar = true
                 )
-                //Utils.openWebPage(Constants.URL_TERMS_CONDITION, "", this)
             }
             R.id.etAddressField -> {
 
@@ -356,7 +355,7 @@ class LocationSelectionActivity : MapSupportActivity(), ILocationSelection.View 
         viewModel.address?.address2 = viewModel.state.addressSubtitle.get()
         viewModel.address?.city =
             if (viewModel.state.hasCityFeature.get() == true) viewModel.state.city.get() else "Dubai"
-        viewModel.address?.country = "UAE"
+        viewModel.address?.country = "United Arab Emirates"
         intent.putExtra(ADDRESS, viewModel.address)
         intent.putExtra(ADDRESS_SUCCESS, isUpdated)
         setResult(Activity.RESULT_OK, intent)

@@ -36,6 +36,7 @@ class CreateNewPasscodeFragment : BaseBindingFragment<IPassCode.ViewModel>() {
             buttonTitle = getString(Strings.screen_create_new_passcode_button_text)
         )
         viewModel.mobileNumber = args.mobileNumber
+        viewModel.token = args.token
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
                 R.id.tvTermsAndConditions -> {
@@ -66,7 +67,7 @@ class CreateNewPasscodeFragment : BaseBindingFragment<IPassCode.ViewModel>() {
         getBindings().dialer.upDatedDialerPad(viewModel.state.passCode)
         if (activity is ForgotPasscodeActivity) {
             (activity as ForgotPasscodeActivity).preventTakeDeviceScreenShot.value = true
-        }else{
+        } else {
             preventTakeScreenShot(true)
         }
     }

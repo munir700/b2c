@@ -8,7 +8,7 @@ open class YAPApplication(myAppInfo: AppInfo) : Application() {
     companion object {
         var AUTO_RESTART_APP = true
         var appInfo: AppInfo? = null
-        const val pageSize = 10
+        const val pageSize = 200
         var hasFilterStateChanged = false
         var homeTransactionsRequest: HomeTransactionsRequest = HomeTransactionsRequest(
             0,
