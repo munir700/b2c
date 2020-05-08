@@ -9,4 +9,6 @@ interface AuthApi {
     suspend fun refreshJWTToken(token: String): RetroApiResponse<LoginResponse>
     suspend fun login(username: String, password: String): RetroApiResponse<LoginResponse>
     suspend fun logout(uuid: String): RetroApiResponse<ApiResponse>
+    suspend fun getJwtToken():String?
+    suspend fun setJwtToken(token: String?)
 }

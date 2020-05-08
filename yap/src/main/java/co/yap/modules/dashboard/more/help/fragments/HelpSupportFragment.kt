@@ -15,7 +15,6 @@ import co.yap.modules.dashboard.more.help.interfaces.IHelpSupport
 import co.yap.modules.dashboard.more.help.viewmodels.HelpSupportViewModel
 import co.yap.modules.dashboard.more.main.fragments.MoreBaseFragment
 import co.yap.modules.webview.WebViewFragment
-import co.yap.networking.CookiesManager
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.extentions.*
 import co.yap.yapcore.managers.MyUserManager
@@ -104,7 +103,8 @@ class HelpSupportFragment : MoreBaseFragment<IHelpSupport.ViewModel>(), IHelpSup
 
     private fun openActivity() {
         val authParams = LPAuthenticationParams(LPAuthenticationParams.LPAuthenticationType.AUTH)
-        authParams.hostAppJWT = CookiesManager.jwtToken
+        authParams.hostAppJWT = viewModel.state.token.get()
+//        authParams.hostAppJWT = CookiesManager.jwtToken
         val params = ConversationViewParams(false)
             .setHistoryConversationsStateToDisplay(LPConversationsHistoryStateToDisplay.OPEN)
             .setReadOnlyMode(false)
