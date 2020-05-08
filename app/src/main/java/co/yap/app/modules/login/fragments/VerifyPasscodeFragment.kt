@@ -57,12 +57,12 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         sharedPreferenceManager = SharedPreferenceManager(requireContext())
+        addObservers()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         preventTakeScreenShot(true)
-        addObservers()
         dialer.hideFingerprintView()
         receiveData()
         updateUUID()
@@ -76,7 +76,6 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
         viewModel.validateDeviceResult.observe(this, validateDeviceResultObserver)
         viewModel.accountInfo.observe(this, onFetchAccountInfo)
         viewModel.createOtpResult.observe(this, createOtpObserver)
-        setObservers()
     }
 
     private fun receiveData() {
@@ -163,37 +162,8 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
         mBiometricManagerX.unSubscribe()
     }
 
-    override fun setObservers() {
-        viewModel.forgotPasscodeButtonPressEvent.observe(this, Observer {
-            when (it) {
-                R.id.tvForgotPassword -> {
-                    if (MyUserManager.user?.otpBlocked == true) {
-                        showToast("${getString(Strings.screen_blocked_otp_display_text_message)}^${AlertType.DIALOG.name}")
-                    } else {
-                        if (!isUserLoginIn()) {
-                            goToNext(viewModel.state.username)
-                        } else {
-                            sharedPreferenceManager.getDecryptedUserName()?.let { username ->
-                                viewModel.state.username = username
-                                goToNext(viewModel.state.username)
-                            } ?: toast("Invalid user name")
-                        }
-                    }
-                }
-            }
-        })
-    }
-
-
     private fun goToNext(name: String) {
         startOtpFragment(name)
-   /*     val action =
-            VerifyPasscodeFragmentDirections.actionVerifyPasscodeFragmentToForgotPasscodeNavigation(
-                name,
-                !Utils.isUsernameNumeric(name),
-                viewModel.mobileNumber
-            )
-        findNavController().navigate(action)*/
     }
 
     private fun startOtpFragment(name: String) {
@@ -209,19 +179,25 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
             )
         ) { resultCode, data ->
             if (resultCode == Activity.RESULT_OK) {
-                toast("success")
-            /*    val token =
+                val token =
                     data?.getValue(
                         "token",
                         ExtraType.STRING.name
                     ) as? String
+                viewModel.mobileNumber = (data?.getValue(
+                    "mobile",
+                    ExtraType.STRING.name
+                ) as? String) ?: ""
 
                 token?.let {
-                    viewModel.forgotCardPinRequest(
-                        viewModel.state.cardSerialNumber,
-                        viewModel.state.pincode, it
+
+                    val action =
+                        VerifyPasscodeFragmentDirections.actionVerifyPasscodeFragmentToForgotPasscodeNavigation(
+                            viewModel.mobileNumber,
+                            it
                     )
-                }*/
+                    findNavController().navigate(action)
+                }
             }
         }
     }
@@ -235,13 +211,12 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
         }
     }
 
-    override fun onDestroyView() {
-        viewModel.onClickEvent.removeObservers(this)
+    override fun onDestroy() {
+        viewModel.onClickEvent.removeObserver(onClickView)
         viewModel.loginSuccess.removeObservers(this)
         viewModel.validateDeviceResult.removeObservers(this)
         viewModel.createOtpResult.removeObservers(this)
-        viewModel.forgotPasscodeButtonPressEvent.removeObservers(this)
-        super.onDestroyView()
+        super.onDestroy()
     }
 
     private fun isUserLoginIn(): Boolean {

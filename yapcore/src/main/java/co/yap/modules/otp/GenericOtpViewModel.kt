@@ -229,6 +229,7 @@ class GenericOtpViewModel(application: Application) :
                 )) {
                     is RetroApiResponse.Success -> {
                         response.data.data?.let {
+                            state.otpDataModel?.mobileNumber = it
                             state.mobileNumber[0] = getFormattedPhoneNo(it)
                             state.verificationDescriptionForLogo = SpannableStringBuilder(
                                 Translator.getString(
@@ -258,9 +259,9 @@ class GenericOtpViewModel(application: Application) :
 
     override fun initializeData(context: Context) {
         when (state.otpDataModel?.otpAction) {
-            OTPActions.CHANGE_MOBILE_NO.name -> createOtpForPhoneNumber(true, context)
-            OTPActions.FORGOT_PASS_CODE.name -> createForgotPassCodeOtpRequest(true, context)
-            else -> createOtp(true, context)
+            OTPActions.CHANGE_MOBILE_NO.name -> createOtpForPhoneNumber(false, context)
+            OTPActions.FORGOT_PASS_CODE.name -> createForgotPassCodeOtpRequest(false, context)
+            else -> createOtp(false, context)
         }
         state.otpDataModel?.mobileNumber?.let {
             state.mobileNumber[0] = getFormattedPhoneNo(it)

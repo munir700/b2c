@@ -132,7 +132,6 @@ class PhoneVerificationSignInViewModel(application: Application) :
                     state.toast = "${response.error.message}^${AlertType.DIALOG.name}"
                 }
             }
-
         }
     }
 

@@ -5,7 +5,6 @@ import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.customers.requestdtos.ForgotPasscodeRequest
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.messages.MessagesRepository
-import co.yap.networking.messages.requestdtos.CreateForgotPasscodeOtpRequest
 import co.yap.networking.models.RetroApiResponse
 import co.yap.translation.Strings
 import co.yap.yapcore.BaseViewModel
@@ -14,8 +13,6 @@ import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.StringUtils
-import co.yap.yapcore.helpers.Utils
-import co.yap.yapcore.helpers.extentions.toast
 
 class PassCodeViewModel(application: Application) : BaseViewModel<IPassCode.State>(application),
     IPassCode.ViewModel, IRepositoryHolder<CustomersRepository> {
@@ -92,30 +89,6 @@ class PassCodeViewModel(application: Application) : BaseViewModel<IPassCode.Stat
 
             }
         }
-    }
-
-    override fun forgotPassCodeOtpRequest(success: () -> Unit, username: String?) {
-        username?.let {
-            launch {
-                state.loading = true
-                when (val response = messagesRepository.createForgotPasscodeOTP(
-                    CreateForgotPasscodeOtpRequest(
-                        Utils.verifyUsername(it), !Utils.isUsernameNumeric(it)
-                    )
-                )) {
-                    is RetroApiResponse.Success -> {
-                        response.data.data?.let {
-                            mobileNumber = it
-                        }
-                        state.loading = false
-                        success()
-                    }
-                    is RetroApiResponse.Error -> {
-                        state.loading = false
-                    }
-                }
-            }
-        } ?: toast(context, "Invalid user name")
     }
 
     override fun isValidPassCode(): Boolean {

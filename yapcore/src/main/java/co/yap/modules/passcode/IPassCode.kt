@@ -16,7 +16,6 @@ interface IPassCode {
         fun validatePassCode(success: (isSuccess: Boolean) -> Unit)
         fun isValidPassCode(): Boolean
         fun updatePassCodeRequest(success: () -> Unit)
-        fun forgotPassCodeOtpRequest(success: () -> Unit, username: String?)
         fun forgotPassCodeRequest(success: () -> Unit)
         fun isUserLoggedIn(): Boolean
         fun setTitles(title: String, buttonTitle: String)

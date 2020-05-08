@@ -22,17 +22,11 @@
             app:exitAnim="@anim/slide_out_left">
 
             <argument
-                android:name="username"
-                app:argType="string"
-                android:defaultValue=" "/>
-            <argument
-                android:name="emailOtp"
-                app:argType="boolean"
-                android:defaultValue="false"/>
-            <argument
                 android:name="mobileNumber"
-                app:argType="string"
-                android:defaultValue=" "/>
+                app:argType="string" />
+            <argument
+                android:name="token"
+                app:argType="string" />
             <argument
                 android:name="navigationType"
                 app:argType="string"
@@ -55,17 +49,11 @@
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left">
             <argument
-                android:name="username"
-                app:argType="string"
-                android:defaultValue=" "/>
-            <argument
-                android:name="emailOtp"
-                app:argType="boolean"
-                android:defaultValue="false"/>
-            <argument
                 android:name="mobileNumber"
-                app:argType="string"
-                android:defaultValue=" "/>
+                app:argType="string" />
+            <argument
+                android:name="token"
+                app:argType="string" />
             <argument
                 android:name="navigationType"
                 app:argType="string"
@@ -96,17 +84,11 @@
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left">
             <argument
-                android:name="username"
-                app:argType="string"
-                android:defaultValue=" "/>
-            <argument
-                android:name="emailOtp"
-                app:argType="boolean"
-                android:defaultValue="false"/>
-            <argument
                 android:name="mobileNumber"
-                app:argType="string"
-                android:defaultValue=" "/>
+                app:argType="string" />
+            <argument
+                android:name="token"
+                app:argType="string" />
             <argument
                 android:name="navigationType"
                 app:argType="string"
