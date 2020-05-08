@@ -10,6 +10,7 @@ import co.yap.app.R
 import co.yap.app.constants.Constants
 import co.yap.app.modules.login.interfaces.IPhoneVerificationSignIn
 import co.yap.app.modules.login.viewmodels.PhoneVerificationSignInViewModel
+import co.yap.household.dashboard.main.HouseholdDashboardActivity
 import co.yap.household.onboard.onboarding.main.OnBoardingHouseHoldActivity
 import co.yap.modules.dashboard.main.activities.YapDashboardActivity
 import co.yap.modules.onboarding.fragments.OnboardingChildFragment
@@ -124,7 +125,11 @@ class PhoneVerificationSignInFragment :
                 )
             findNavController().navigate(action)
         } else {
-            launchActivity<YapDashboardActivity>(clearPrevious = true)
+            if (MyUserManager.isExistingUser()) {
+                launchActivity<YapDashboardActivity>(clearPrevious = true)
+            } else {
+                launchActivity<HouseholdDashboardActivity>(clearPrevious = true)
+            }
         }
     }
 

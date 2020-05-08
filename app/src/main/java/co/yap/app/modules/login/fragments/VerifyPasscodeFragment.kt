@@ -15,6 +15,7 @@ import co.yap.app.activities.MainActivity
 import co.yap.app.constants.Constants
 import co.yap.app.modules.login.interfaces.IVerifyPasscode
 import co.yap.app.modules.login.viewmodels.VerifyPasscodeViewModel
+import co.yap.household.dashboard.main.HouseholdDashboardActivity
 import co.yap.household.onboard.onboarding.main.OnBoardingHouseHoldActivity
 import co.yap.modules.dashboard.main.activities.YapDashboardActivity
 import co.yap.modules.others.helper.Constants.REQUEST_CODE
@@ -282,7 +283,7 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
     }
 
     private val onFetchAccountInfo = Observer<AccountInfo?> {
-        it?.run{
+        it?.run {
             sharedPreferenceManager.save(KEY_IS_USER_LOGGED_IN, true)
             if (!sharedPreferenceManager.getValueBoolien(
                     KEY_IS_FINGERPRINT_PERMISSION_SHOWN,
@@ -329,7 +330,11 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
     private val switchProfileObserver = Observer<Boolean> {
         if (it) {
             if (MyUserManager.isOnBoarded()) {
-                launchActivity<YapDashboardActivity>(clearPrevious = true)
+                if (MyUserManager.isExistingUser()) {
+                    launchActivity<YapDashboardActivity>(clearPrevious = true)
+                } else {
+                    launchActivity<HouseholdDashboardActivity>(clearPrevious = true)
+                }
             } else {
                 launchActivity<OnBoardingHouseHoldActivity>(clearPrevious = true) {
                     putExtra(OnBoardingHouseHoldActivity.USER_INFO, MyUserManager.user)
