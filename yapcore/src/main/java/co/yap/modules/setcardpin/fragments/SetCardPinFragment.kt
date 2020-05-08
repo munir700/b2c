@@ -7,7 +7,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import co.yap.modules.setcardpin.activities.SetCardPinWelcomeActivity
 import co.yap.modules.setcardpin.pinflow.IPin
-import co.yap.modules.setcardpin.pinflow.PinViewModel
+import co.yap.modules.setcardpin.pinflow.PINViewModel
 import co.yap.yapcore.BR
 import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.R
@@ -20,7 +20,7 @@ open class SetCardPinFragment : BaseBindingFragment<IPin.ViewModel>(), IPin.View
     override fun getLayoutId(): Int = R.layout.fragment_pin
 
     override val viewModel: IPin.ViewModel
-        get() = ViewModelProviders.of(this).get(PinViewModel::class.java)
+        get() = ViewModelProviders.of(this).get(PINViewModel::class.java)
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)

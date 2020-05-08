@@ -13,11 +13,7 @@ import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.StringUtils
 
-/*
-* This is open because current passcode view model is using this fragment. (decision remaining)
-* */
-
-open class PinViewModel(application: Application) :
+class PINViewModel(application: Application) :
     BaseViewModel<IPin.State>(application),
     IPin.ViewModel, IRepositoryHolder<CardsRepository> {
     override val repository: CardsRepository = CardsRepository

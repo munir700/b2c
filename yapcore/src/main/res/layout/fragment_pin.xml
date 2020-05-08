@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="co.yap.modules.setcardpin.pinflow.PinViewModel" />
+            type="co.yap.modules.setcardpin.pinflow.PINViewModel" />
 
         <import type="co.yap.translation.Strings" />
 

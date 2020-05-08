@@ -10,7 +10,7 @@ import co.yap.R
 import co.yap.modules.dashboard.cards.paymentcarddetail.activities.ChangeCardPinActivity
 import co.yap.modules.dashboard.cards.paymentcarddetail.forgotcardpin.activities.ForgotCardPinActivity
 import co.yap.modules.setcardpin.pinflow.IPin
-import co.yap.modules.setcardpin.pinflow.PinViewModel
+import co.yap.modules.setcardpin.pinflow.PINViewModel
 import co.yap.yapcore.BR
 import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.databinding.FragmentPinBinding
@@ -23,7 +23,7 @@ open class SetNewCardPinFragment : BaseBindingFragment<IPin.ViewModel>(), IPin.V
 
     var oldPinCode: String? = null
     override val viewModel: IPin.ViewModel
-        get() = ViewModelProviders.of(this).get(PinViewModel::class.java)
+        get() = ViewModelProviders.of(this).get(PINViewModel::class.java)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

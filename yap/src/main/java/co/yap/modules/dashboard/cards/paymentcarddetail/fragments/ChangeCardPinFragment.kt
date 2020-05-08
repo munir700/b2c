@@ -9,13 +9,13 @@ import co.yap.BR
 import co.yap.R
 import co.yap.modules.dashboard.cards.paymentcarddetail.activities.ChangeCardPinActivity
 import co.yap.modules.setcardpin.pinflow.IPin
-import co.yap.modules.setcardpin.pinflow.PinViewModel
+import co.yap.modules.setcardpin.pinflow.PINViewModel
 import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.databinding.FragmentPinBinding
 
 class ChangeCardPinFragment : BaseBindingFragment<IPin.ViewModel>(), IPin.View {
     override val viewModel: IPin.ViewModel
-        get() = ViewModelProviders.of(this).get(PinViewModel::class.java)
+        get() = ViewModelProviders.of(this).get(PINViewModel::class.java)
 
     override fun getBindingVariable(): Int = BR.viewModel
 

@@ -8,7 +8,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import co.yap.modules.setcardpin.activities.SetCardPinWelcomeActivity
 import co.yap.modules.setcardpin.pinflow.IPin
-import co.yap.modules.setcardpin.pinflow.PinViewModel
+import co.yap.modules.setcardpin.pinflow.PINViewModel
 import co.yap.translation.Strings
 import co.yap.translation.Translator
 import co.yap.yapcore.BR
@@ -30,7 +30,7 @@ open class ConfirmCardPinFragment : BaseBindingFragment<IPin.ViewModel>(), IPin.
 
     private val args: ConfirmCardPinFragmentArgs by navArgs()
     override val viewModel: IPin.ViewModel
-        get() = ViewModelProviders.of(this).get(PinViewModel::class.java)
+        get() = ViewModelProviders.of(this).get(PINViewModel::class.java)
 
     override fun getBindingVariable(): Int = BR.viewModel
 

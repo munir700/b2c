@@ -14,7 +14,7 @@ import co.yap.modules.dashboard.cards.paymentcarddetail.forgotcardpin.activities
 import co.yap.modules.otp.GenericOtpFragment
 import co.yap.modules.otp.OtpDataModel
 import co.yap.modules.setcardpin.pinflow.IPin
-import co.yap.modules.setcardpin.pinflow.PinViewModel
+import co.yap.modules.setcardpin.pinflow.PINViewModel
 import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.databinding.FragmentPinBinding
@@ -28,7 +28,7 @@ class ConfirmNewCardPinFragment : BaseBindingFragment<IPin.ViewModel>(), IPin.Vi
     private val args: ConfirmNewCardPinFragmentArgs by navArgs()
 
     override val viewModel: IPin.ViewModel
-        get() = ViewModelProviders.of(this).get(PinViewModel::class.java)
+        get() = ViewModelProviders.of(this).get(PINViewModel::class.java)
 
     override fun getBindingVariable(): Int = BR.viewModel
 
@@ -56,20 +56,18 @@ class ConfirmNewCardPinFragment : BaseBindingFragment<IPin.ViewModel>(), IPin.Vi
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
                 R.id.btnAction -> {
-
                     if (viewModel.state.newPin == viewModel.state.pincode) {
-                        if (viewModel.state.flowType != Constants.FORGOT_CARD_PIN_FLOW) {
-                            viewModel.changeCardPinRequest(
-                                viewModel.state.oldPin,
-                                viewModel.state.newPin,
-                                viewModel.state.pincode,
-                                viewModel.state.cardSerialNumber
-                            ) {
-                                findNavController().navigate(R.id.action_confirmNewCardPinFragment_to_changePinSuccessFragment)
-                            }
-                        } else {
-                            if (viewModel.state.flowType == Constants.FORGOT_CARD_PIN_FLOW) {
-                                startOtpFragment()
+                        when (viewModel.state.flowType) {
+                            Constants.FORGOT_CARD_PIN_FLOW -> startOtpFragment()
+                            else -> {
+                                viewModel.changeCardPinRequest(
+                                    viewModel.state.oldPin,
+                                    viewModel.state.newPin,
+                                    viewModel.state.pincode,
+                                    viewModel.state.cardSerialNumber
+                                ) {
+                                    findNavController().navigate(R.id.action_confirmNewCardPinFragment_to_changePinSuccessFragment)
+                                }
                             }
                         }
                     } else {
