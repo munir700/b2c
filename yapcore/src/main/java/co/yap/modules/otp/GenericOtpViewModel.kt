@@ -5,6 +5,7 @@ import android.content.Context
 import co.yap.networking.messages.MessagesRepository
 import co.yap.networking.messages.requestdtos.CreateForgotPasscodeOtpRequest
 import co.yap.networking.messages.requestdtos.CreateOtpGenericRequest
+import co.yap.networking.messages.requestdtos.VerifyForgotPasscodeOtpRequest
 import co.yap.networking.messages.requestdtos.VerifyOtpGenericRequest
 import co.yap.networking.models.RetroApiResponse
 import co.yap.translation.Strings
@@ -26,8 +27,6 @@ class GenericOtpViewModel(application: Application) :
     override val clickEvent: SingleClickEvent = SingleClickEvent()
     override val errorEvent: SingleClickEvent = SingleClickEvent()
     private val repository: MessagesRepository = MessagesRepository
-    override var destination: String? = ""
-    override var emailOtp: Boolean? = false
     override var token: String? = ""
     override val state: GenericOtpState = GenericOtpState(application = application)
 
@@ -45,6 +44,12 @@ class GenericOtpViewModel(application: Application) :
                     getString(Strings.screen_forgot_pin_display_text_heading)
                 state.verificationDescription =
                     Strings.screen_verify_phone_number_display_text_sub_title
+            }
+            OTPActions.FORGOT_PASS_CODE.name -> {
+                state.verificationTitle =
+                    getString(Strings.screen_forgot_passcode_otp_display_text_heading)
+                state.verificationDescription =
+                    Strings.screen_forgot_passcode_otp_display_text_sub_heading
             }
             OTPActions.DOMESTIC_TRANSFER.name, OTPActions.UAEFTS.name, OTPActions.SWIFT.name, OTPActions.RMT.name, OTPActions.CASHPAYOUT.name, OTPActions.Y2Y.name -> {
                 state.verificationTitle =
@@ -80,15 +85,15 @@ class GenericOtpViewModel(application: Application) :
     }
 
     override fun handlePressOnResendClick(context: Context) {
-        if (state.otpDataModel?.otpAction == Constants.CHANGE_MOBILE_NO) {
-            createOtpForPhoneNumber(true, context)
-        } else {
-            createOtp(true, context)
+        when (state.otpDataModel?.otpAction) {
+            OTPActions.CHANGE_MOBILE_NO.name -> createOtpForPhoneNumber(true, context)
+            OTPActions.FORGOT_PASS_CODE.name -> createForgotPassCodeOtpRequest(true, context)
+            else -> createOtp(true, context)
         }
     }
 
     private fun verifyOtp(id: Int) {
-        if (state.otpDataModel?.otpAction == Constants.CHANGE_MOBILE_NO) {
+        if (state.otpDataModel?.otpAction == OTPActions.CHANGE_MOBILE_NO.name) {
             launch {
                 state.loading = true
                 when (val response =
@@ -110,6 +115,8 @@ class GenericOtpViewModel(application: Application) :
                 }
                 state.loading = false
             }
+        } else if (state.otpDataModel?.otpAction == OTPActions.FORGOT_PASS_CODE.name) {
+            verifyForgotPassCodeOtp(id)
         } else {
             launch {
                 state.loading = true
@@ -134,6 +141,31 @@ class GenericOtpViewModel(application: Application) :
                 }
                 state.loading = false
             }
+        }
+    }
+
+    private fun verifyForgotPassCodeOtp(id: Int) {
+        launch {
+            state.loading = true
+            when (val response =
+                repository.verifyForgotPasscodeOtp(
+                    VerifyForgotPasscodeOtpRequest(
+                        state.otpDataModel?.username.toString(),
+                        state.otp,
+                        state.otpDataModel?.emailOtp ?: false
+                    )
+                )) {
+                is RetroApiResponse.Success -> {
+                    token = response.data.token
+                    clickEvent.setValue(id)
+                }
+                is RetroApiResponse.Error -> {
+                    state.toast = "${response.error.message}^${AlertType.DIALOG.name}"
+                    state.otp = ""
+                    otpUiBlocked(response.error.actualCode)
+                }
+            }
+            state.loading = false
         }
     }
 
@@ -197,7 +229,9 @@ class GenericOtpViewModel(application: Application) :
                 )) {
                     is RetroApiResponse.Success -> {
                         response.data.data?.let {
-                            state.otpDataModel?.mobileNumber = it
+                            state.mobileNumber[0] = getFormattedPhoneNo(it)
+                            state.verificationDescription =
+                                Strings.screen_forgot_passcode_otp_display_text_sub_heading
                         }
                         if (resend) {
                             state.toast =
@@ -218,25 +252,13 @@ class GenericOtpViewModel(application: Application) :
     }
 
     override fun initializeData(context: Context) {
-        if (state.otpDataModel?.otpAction == OTPActions.CHANGE_MOBILE_NO.name) {
-            createOtpForPhoneNumber(false, context)
-        } else {
-            createOtp(context = context)
+        when (state.otpDataModel?.otpAction) {
+            OTPActions.CHANGE_MOBILE_NO.name -> createOtpForPhoneNumber(true, context)
+            OTPActions.FORGOT_PASS_CODE.name -> createForgotPassCodeOtpRequest(true, context)
+            else -> createOtp(true, context)
         }
-
         state.otpDataModel?.mobileNumber?.let {
-            when {
-                it.startsWith("00") -> state.mobileNumber[0] =
-                    it.replaceRange(
-                        0,
-                        2,
-                        "+"
-                    )
-                it.startsWith("+") -> state.mobileNumber[0] =
-                    Utils.getFormattedPhone(it)
-                else -> state.mobileNumber[0] =
-                    Utils.formatePhoneWithPlus(it)
-            }
+            state.mobileNumber[0] = getFormattedPhoneNo(it)
         }
     }
 
@@ -281,6 +303,19 @@ class GenericOtpViewModel(application: Application) :
                 state.isOtpBlocked.set(false)
                 MyUserManager.getAccountInfo()
             }
+        }
+    }
+
+    private fun getFormattedPhoneNo(mobileNumber: String): String {
+        return when {
+            mobileNumber.startsWith("00") ->
+                mobileNumber.replaceRange(
+                    0,
+                    2,
+                    "+"
+                )
+            mobileNumber.startsWith("+") -> Utils.getFormattedPhone(mobileNumber)
+            else -> Utils.formatePhoneWithPlus(mobileNumber)
         }
     }
 

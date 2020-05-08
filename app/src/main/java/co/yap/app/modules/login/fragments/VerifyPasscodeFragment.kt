@@ -202,8 +202,8 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
             bundleOf(
                 OtpDataModel::class.java.name to OtpDataModel(
                     otpAction = OTPActions.FORGOT_PASS_CODE.name,
-                    mobileNumber = viewModel.mobileNumber
-                        ?: "", username = name,
+                    mobileNumber = viewModel.mobileNumber,
+                    username = name,
                     emailOtp = !Utils.isUsernameNumeric(name)
                 )
             )
