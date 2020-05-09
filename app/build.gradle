@@ -44,8 +44,8 @@ android {
         }
 
         stg {
-            versionCode 100
-            versionName "0.10.0"
+            versionCode 102
+            versionName "0.10.1"
             applicationIdSuffix ".stg"
             buildConfigField("String", "BASE_URL", "\"${api_endpoint_stg}\"")
             buildConfigField("String", "LEANPLUM_CLIENT_SECRET", "\"${leanplum_client_secret_key}\"")
