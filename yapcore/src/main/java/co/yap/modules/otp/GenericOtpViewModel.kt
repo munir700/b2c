@@ -2,7 +2,6 @@ package co.yap.modules.otp
 
 import android.app.Application
 import android.content.Context
-import android.text.SpannableStringBuilder
 import co.yap.networking.messages.MessagesRepository
 import co.yap.networking.messages.requestdtos.CreateForgotPasscodeOtpRequest
 import co.yap.networking.messages.requestdtos.CreateOtpGenericRequest
@@ -10,7 +9,6 @@ import co.yap.networking.messages.requestdtos.VerifyForgotPasscodeOtpRequest
 import co.yap.networking.messages.requestdtos.VerifyOtpGenericRequest
 import co.yap.networking.models.RetroApiResponse
 import co.yap.translation.Strings
-import co.yap.translation.Translator
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.R
 import co.yap.yapcore.SingleClickEvent
@@ -36,30 +34,19 @@ class GenericOtpViewModel(application: Application) :
         super.onCreate()
         when (state.otpDataModel?.otpAction) {
             OTPActions.CHANGE_EMAIL.name -> {
-                state.verificationTitle =
-                    getString(Strings.screen_email_verification_display_text_heading)
-                state.verificationDescription =
-                    Strings.screen_verify_phone_number_display_text_sub_title
+                setVerificationTitle(Strings.screen_email_verification_display_text_heading)
+                setVerificationDescription()
             }
             OTPActions.FORGOT_CARD_PIN.name -> {
-                state.verificationTitle =
-                    getString(Strings.screen_forgot_pin_display_text_heading)
-                state.verificationDescription =
-                    Strings.screen_verify_phone_number_display_text_sub_title
+                setVerificationTitle(Strings.screen_forgot_pin_display_text_heading)
+                setVerificationDescription()
             }
             OTPActions.FORGOT_PASS_CODE.name -> {
-                state.verificationTitle =
-                    getString(Strings.screen_forgot_passcode_otp_display_text_heading)
-                state.verificationDescription =
-                    Strings.screen_forgot_passcode_otp_display_text_sub_heading
-
-
+                setVerificationTitle(Strings.screen_forgot_passcode_otp_display_text_heading)
             }
             OTPActions.DOMESTIC_TRANSFER.name, OTPActions.UAEFTS.name, OTPActions.SWIFT.name, OTPActions.RMT.name, OTPActions.CASHPAYOUT.name, OTPActions.Y2Y.name -> {
                 state.verificationTitle =
                     state.otpDataModel?.username ?: ""
-                state.verificationDescription =
-                    Strings.screen_verify_phone_number_display_text_sub_title
                 val descriptionString =
                     getString(Strings.screen_cash_pickup_funds_display_otp_text_description).format(
                         state.currencyType,
@@ -75,11 +62,8 @@ class GenericOtpViewModel(application: Application) :
                     )
             }
             else -> {
-                state.verificationTitle =
-                    getString(Strings.screen_forgot_passcode_otp_display_text_heading)
-                state.verificationDescription =
-                    Strings.screen_verify_phone_number_display_text_sub_title
-
+                setVerificationTitle(Strings.screen_forgot_passcode_otp_display_text_heading)
+                setVerificationDescription()
             }
         }
     }
@@ -196,12 +180,7 @@ class GenericOtpViewModel(application: Application) :
                     )
                 )) {
                 is RetroApiResponse.Success -> {
-                    if (resend) {
-                        state.toast =
-                            getString(Strings.screen_verify_phone_number_display_text_resend_otp_success)
-                    }
-                    state.reverseTimer(10, context)
-                    state.validResend = false
+                    handleResendEvent(resend, context)
                 }
                 is RetroApiResponse.Error -> {
                     otpUiBlocked(response.error.actualCode)
@@ -230,21 +209,11 @@ class GenericOtpViewModel(application: Application) :
                     is RetroApiResponse.Success -> {
                         response.data.data?.let {
                             state.otpDataModel?.mobileNumber = it
-                            state.mobileNumber[0] = getFormattedPhoneNo(it)
-                            state.verificationDescriptionForLogo = SpannableStringBuilder(
-                                Translator.getString(
-                                    context,
-                                    Strings.screen_forgot_passcode_otp_display_text_sub_heading
-                                ).format(state.mobileNumber[0])
-                            )
 
+                            state.mobileNumber[0] = getFormattedPhoneNo(it)
+                            setVerificationDescription()
                         }
-                        if (resend) {
-                            state.toast =
-                                getString(Strings.screen_verify_phone_number_display_text_resend_otp_success)
-                        }
-                        state.reverseTimer(10, context)
-                        state.validResend = false
+                        handleResendEvent(resend, context)
 
                     }
                     is RetroApiResponse.Error -> {
@@ -277,16 +246,10 @@ class GenericOtpViewModel(application: Application) :
                         " ",
                         ""
                     )?.replace("+", "00") ?: "",
-                    createOtpGenericRequest = CreateOtpGenericRequest(Constants.CHANGE_MOBILE_NO)
+                    createOtpGenericRequest = CreateOtpGenericRequest(OTPActions.CHANGE_MOBILE_NO.name)
                 )) {
                 is RetroApiResponse.Success -> {
-                    if (resend)
-                        state.toast =
-                            getString(Strings.screen_verify_phone_number_display_text_resend_otp_success)
-
-                    state.reverseTimer(10, context)
-                    state.validResend = false
-
+                    handleResendEvent(resend, context)
                 }
 
                 is RetroApiResponse.Error -> {
@@ -315,14 +278,36 @@ class GenericOtpViewModel(application: Application) :
     private fun getFormattedPhoneNo(mobileNumber: String): String {
         return when {
             mobileNumber.startsWith("00") ->
-                mobileNumber.replaceRange(
+                Utils.getFormattedPhone(
+                    mobileNumber.replaceRange(
                     0,
                     2,
                     "+"
+                    )
                 )
             mobileNumber.startsWith("+") -> Utils.getFormattedPhone(mobileNumber)
             else -> Utils.formatePhoneWithPlus(mobileNumber)
         }
+    }
+
+    private fun handleResendEvent(resend: Boolean, context: Context) {
+        if (resend)
+            state.toast =
+                getString(Strings.screen_verify_phone_number_display_text_resend_otp_success)
+
+        state.reverseTimer(10, context)
+        state.validResend = false
+    }
+
+    private fun setVerificationTitle(title: String) {
+        state.verificationTitle = getString(title)
+    }
+
+    private fun setVerificationDescription() {
+        state.verificationDescription =
+            getString(Strings.screen_verify_phone_number_display_text_sub_title).format(
+                state.mobileNumber[0]
+            )
     }
 
 }

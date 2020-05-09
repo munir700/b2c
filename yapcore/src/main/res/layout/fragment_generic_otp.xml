@@ -65,12 +65,11 @@
                 android:lineSpacingExtra="1dp"
                 android:textAlignment="center"
                 android:visibility="@{viewModel.state.otpDataModel.logoData==null?View.VISIBLE:View.GONE}"
-                app:concat="@{viewModel.state.mobileNumber}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.0"
-                app:text="@{viewModel.state.verificationDescription}"
+                android:text="@{viewModel.state.verificationDescription}"
                 tools:text="We&apos;ve sent a verification code to \n +971 56 204 7636" />
 
             <TextView
@@ -80,7 +79,7 @@
                 android:layout_height="wrap_content"
                 android:lineSpacingExtra="1dp"
                 android:textAlignment="center"
-                android:visibility="@{viewModel.state.otpDataModel.otpAction.equals(`FORGOT_PASS_CODE`)?View.VISIBLE:View.GONE}"
+                android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"

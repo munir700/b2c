@@ -12,12 +12,12 @@ import co.yap.countryutils.country.InternationalPhoneTextWatcher
 import co.yap.countryutils.country.utils.Currency
 import co.yap.modules.otp.GenericOtpFragment
 import co.yap.modules.otp.OtpDataModel
-import co.yap.sendmoney.fundtransfer.activities.BeneficiaryFundTransferActivity
+import co.yap.sendmoney.BR
+import co.yap.sendmoney.R
 import co.yap.sendmoney.addbeneficiary.interfaces.IAddBeneficiary
 import co.yap.sendmoney.addbeneficiary.viewmodels.AddBeneficiaryViewModel
 import co.yap.sendmoney.fragments.SendMoneyBaseFragment
-import co.yap.sendmoney.BR
-import co.yap.sendmoney.R
+import co.yap.sendmoney.fundtransfer.activities.BeneficiaryFundTransferActivity
 import co.yap.translation.Strings
 import co.yap.translation.Translator
 import co.yap.widgets.popmenu.OnMenuItemClickListener
@@ -25,6 +25,7 @@ import co.yap.widgets.popmenu.PopupMenu
 import co.yap.widgets.popmenu.PopupMenuItem
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.RequestCodes
+import co.yap.yapcore.enums.OTPActions
 import co.yap.yapcore.enums.SendMoneyBeneficiaryType
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.getCurrencyPopMenu
@@ -120,7 +121,7 @@ class AddBeneficiaryInternationlTransferFragment :
             GenericOtpFragment::class.java.name,
             bundleOf(
                 OtpDataModel::class.java.name to OtpDataModel(
-                    Constants.CASHPAYOUT_BENEFICIARY,//action,
+                    OTPActions.CASHPAYOUT_BENEFICIARY.name,//action,
                     MyUserManager.user?.currentCustomer?.getFormattedPhoneNumber(requireContext())
                         ?: ""
                 )

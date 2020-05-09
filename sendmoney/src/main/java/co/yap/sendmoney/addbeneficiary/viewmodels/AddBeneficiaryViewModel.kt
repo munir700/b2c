@@ -6,15 +6,14 @@ import co.yap.countryutils.country.Country
 import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.networking.interfaces.IRepositoryHolder
-import co.yap.networking.messages.MessagesRepository
 import co.yap.networking.models.RetroApiResponse
+import co.yap.sendmoney.R
 import co.yap.sendmoney.addbeneficiary.interfaces.IAddBeneficiary
 import co.yap.sendmoney.addbeneficiary.states.AddBeneficiaryStates
 import co.yap.sendmoney.viewmodels.SendMoneyBaseViewModel
-import co.yap.sendmoney.R
 import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
-import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.enums.OTPActions
 import co.yap.yapcore.enums.SendMoneyBeneficiaryType
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.managers.MyUserManager
@@ -70,8 +69,8 @@ class AddBeneficiaryViewModel(application: Application) :
                     SendMoneyBeneficiaryType.CASHPAYOUT -> {
                         parentViewModel?.beneficiary?.value?.let {
                             validateBeneficiaryDetails(
-                                it,
-                                Constants.CASHPAYOUT_BENEFICIARY
+                                objBeneficiary = it,
+                                otpType = OTPActions.CASHPAYOUT_BENEFICIARY.name
                             )
                         }
                     }
@@ -79,8 +78,8 @@ class AddBeneficiaryViewModel(application: Application) :
                         parentViewModel?.beneficiary?.value?.let {
                             if (!isLoggedinUserIBAN(it))
                                 validateBeneficiaryDetails(
-                                    it,
-                                    Constants.DOMESTIC_BENEFICIARY
+                                    objBeneficiary = it,
+                                    otpType = OTPActions.DOMESTIC_BENEFICIARY.name
                                 )
                             else
                                 state.toast =
@@ -108,10 +107,10 @@ class AddBeneficiaryViewModel(application: Application) :
         otpCreateObserver.value = true
     }
 
-    override fun validateBeneficiaryDetails(beneficiaryy: Beneficiary, otpType: String) {
+    override fun validateBeneficiaryDetails(objBeneficiary: Beneficiary, otpType: String) {
         launch {
             state.loading = true
-            when (val response = repository.validateBeneficiary(beneficiaryy)) {
+            when (val response = repository.validateBeneficiary(objBeneficiary)) {
                 is RetroApiResponse.Success -> {
                     state.loading = false
                     createOtp(otpType)

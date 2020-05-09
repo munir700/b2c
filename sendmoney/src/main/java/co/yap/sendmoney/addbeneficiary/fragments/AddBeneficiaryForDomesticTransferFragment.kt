@@ -19,6 +19,7 @@ import co.yap.translation.Strings
 import co.yap.translation.Translator
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.RequestCodes
+import co.yap.yapcore.enums.OTPActions
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.launchActivity
 import co.yap.yapcore.helpers.extentions.startFragmentForResult
@@ -62,7 +63,7 @@ class AddBeneficiaryForDomesticTransferFragment :
             GenericOtpFragment::class.java.name,
             bundleOf(
                 OtpDataModel::class.java.name to OtpDataModel(
-                    Constants.DOMESTIC_BENEFICIARY,//action,
+                    OTPActions.DOMESTIC_BENEFICIARY.name,//action,
                     MyUserManager.user?.currentCustomer?.getFormattedPhoneNumber(requireContext())
                         ?: ""
                 )
