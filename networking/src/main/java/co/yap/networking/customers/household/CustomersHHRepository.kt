@@ -2,11 +2,10 @@ package co.yap.networking.customers.household
 
 import co.yap.networking.BaseRepository
 import co.yap.networking.RetroNetwork
-import co.yap.networking.customers.BaseListResponse
+import co.yap.networking.models.BaseListResponse
 import co.yap.networking.customers.CustomersApi
 import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.customers.household.requestdtos.SchedulePayment
-import co.yap.networking.customers.household.responsedtos.SubAccounts
 import co.yap.networking.customers.household.responsedtos.HouseHoldGetSubscriptionResponseDTO
 import co.yap.networking.customers.household.responsedtos.SubAccount
 import co.yap.networking.models.ApiResponse
@@ -37,9 +36,9 @@ object CustomersHHRepository : BaseRepository(), CustomersApi by CustomersReposi
     const val URL_IBAN_HOUSE_HOLD_UPDATE_SCHEDULE_PAYMENT =
         "customers/api/household/update-household-schedule-payment/{UUID}"
     const val URL_IBAN_HOUSE_HOLD_GET_SCHEDULE_PAYMENT =
-        "customers/api/household/get-scheduled-payment/{UUID}"
+        "customers/api/household/get-scheduled-payment/{UUID}/{category}"
     const val URL_IBAN_HOUSE_HOLD_GET_LAST_TRANSACTION =
-        "customers/api/household/get-last-transaction/{UUID}"
+        "customers/api/household/get-last-transaction/{UUID}/{category}"
     const val URL_IBAN_HOUSE_HOLD_GET_LAST_NEXT_TRANSACTION =
         "customers/api/household/last-next-transaction/{UUID}"
 
@@ -113,12 +112,12 @@ object CustomersHHRepository : BaseRepository(), CustomersApi by CustomersReposi
     ): RetroApiResponse<ApiResponse> =
         executeSafely(call = { apiService.updateSchedulePayment(uuid, schedulePayment) })
 
-    override suspend fun getSchedulePayment(uuid: String?): RetroApiResponse<ApiResponse> =
-        executeSafely(call = { apiService.getSchedulePayment(uuid) })
+    override suspend fun getSchedulePayment(uuid: String?,category:String?) =
+        executeSafely(call = { apiService.getSchedulePayment(uuid,category) })
 
-    override suspend fun getLastTransaction(uuid: String?): RetroApiResponse<ApiResponse> =
-        executeSafely(call = { apiService.getLastTransaction(uuid) })
+    override suspend fun getLastTransaction(uuid: String?,category:String?) =
+        executeSafely(call = { apiService.getLastTransaction(uuid,category) })
 
-    override suspend fun getLastNextTransaction(uuid: String?): RetroApiResponse<ApiResponse> =
+    override suspend fun getLastNextTransaction(uuid: String?)=
         executeSafely(call = { apiService.getLastNextTransaction(uuid) })
 }

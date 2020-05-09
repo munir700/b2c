@@ -1,13 +1,14 @@
 package co.yap.networking.customers.household
 
-import co.yap.networking.customers.BaseListResponse
+import co.yap.networking.models.BaseListResponse
 import co.yap.networking.customers.CustomersApi
 import co.yap.networking.customers.household.requestdtos.SchedulePayment
-import co.yap.networking.customers.household.responsedtos.SubAccounts
 import co.yap.networking.customers.household.responsedtos.HouseHoldGetSubscriptionResponseDTO
 import co.yap.networking.customers.household.responsedtos.HouseHoldUserProfile
+import co.yap.networking.customers.household.responsedtos.SalaryTransaction
 import co.yap.networking.customers.household.responsedtos.SubAccount
 import co.yap.networking.models.ApiResponse
+import co.yap.networking.models.BaseResponse
 import co.yap.networking.models.RetroApiResponse
 
 interface CustomerHHApi : CustomersApi {
@@ -40,7 +41,17 @@ interface CustomerHHApi : CustomersApi {
         uuid: String?,
         schedulePayment: SchedulePayment?
     ): RetroApiResponse<ApiResponse>
-    suspend fun getSchedulePayment(uuid: String?): RetroApiResponse<ApiResponse>
-    suspend fun getLastTransaction(uuid: String?): RetroApiResponse<ApiResponse>
+    /**
+     * @param uuid the sub account user UUID.
+     * @param category would be Salary/Expense
+     * @return response of last Schedule Salary or Expense in Collection
+     */
+    suspend fun getSchedulePayment(uuid: String?, category: String?): RetroApiResponse<BaseListResponse<SalaryTransaction>>
+    /**
+     * @param uuid the sub account user UUID.
+     * @param category would be Salary/Expense
+     * @return response of last Schedule Salary or Expense in Collection
+     */
+    suspend fun getLastTransaction(uuid: String?, category: String?): RetroApiResponse<BaseResponse<SalaryTransaction>>
     suspend fun getLastNextTransaction(uuid: String?): RetroApiResponse<ApiResponse>
 }

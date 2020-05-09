@@ -65,11 +65,10 @@ class HHSalaryProfileFragment :
         }
     }
 
-    override fun onPause() {
-        super.onPause()
+    override fun onDestroyView() {
         viewModel.clickEvent.removeObservers(this)
+        super.onDestroyView()
     }
-
     override fun getToolBarTitle() = state.subAccount.value?.getFullName()
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)

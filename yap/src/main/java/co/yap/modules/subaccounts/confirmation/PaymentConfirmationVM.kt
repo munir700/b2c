@@ -4,12 +4,13 @@ import android.os.Bundle
 import androidx.navigation.NavController
 import co.yap.networking.customers.household.requestdtos.SchedulePayment
 import co.yap.networking.customers.household.responsedtos.SubAccount
+import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.dagger.base.viewmodel.DaggerBaseViewModel
 import javax.inject.Inject
 
 class PaymentConfirmationVM @Inject constructor(override val state: IPaymentConfirmation.State) :
-    DaggerBaseViewModel<IPaymentConfirmation.State>() {
-
+    DaggerBaseViewModel<IPaymentConfirmation.State>(), IPaymentConfirmation.ViewModel {
+    override val clickEvent = SingleClickEvent()
     override fun onFirsTimeUiCreate(bundle: Bundle?, navigation: NavController?) {
     }
 
@@ -20,5 +21,8 @@ class PaymentConfirmationVM @Inject constructor(override val state: IPaymentConf
             state.schedulePayment.value = it.getParcelable(SchedulePayment::class.simpleName)
         }
 
+    }
+    override fun handlePressOnClick(id: Int) {
+        clickEvent.postValue(id)
     }
 }

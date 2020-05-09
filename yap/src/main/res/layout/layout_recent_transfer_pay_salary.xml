@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="lable"
             type="String" />
@@ -32,7 +33,7 @@
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvLable"
             style="@style/Yap.App.Widget.TextView.Label"
-            android:text="Last salary transfer"
+            android:text="@{lable}"
             android:textSize="@dimen/text_size_h2"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -40,24 +41,22 @@
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvTransactionDate"
             style="@style/Yap.App.Widget.TextView.Label"
-            android:text="Aug 31, 2019"
+            android:text="@{date?? ``}"
             android:textColor="@color/colorPrimaryDark"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvLable" />
 
         <co.yap.widgets.libcurrencyview.CurrencyTextView
             android:id="@+id/currencyTextView"
-            android:layout_width="0dp"
             style="@style/Yap.App.Widget.TextView.Currency"
-            android:text="333233.4343"
+            android:layout_width="0dp"
             android:gravity="end"
-            app:ctv_nullToZero="false"
+            android:text="@{amount?? `0.00`}"
             app:ctv_currencySymbol="AED "
-            app:layout_constraintStart_toEndOf="@+id/guideline1"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/guideline1"
             app:layout_constraintTop_toTopOf="parent" />
-
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

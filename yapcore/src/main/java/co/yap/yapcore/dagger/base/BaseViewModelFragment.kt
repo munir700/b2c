@@ -2,7 +2,6 @@ package co.yap.yapcore.dagger.base
 
 import android.content.Context
 import android.os.Bundle
-import android.view.View
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.widget.Toolbar
 import androidx.databinding.ViewDataBinding
@@ -14,7 +13,6 @@ import co.yap.yapcore.dagger.base.viewmodel.DaggerBaseViewModel
 import co.yap.yapcore.dagger.di.ViewModelInjectionField
 import co.yap.yapcore.dagger.di.components.Injectable
 import co.yap.yapcore.dagger.di.qualifiers.ViewModelInjection
-import co.yap.yapcore.helpers.extentions.hideKeyboard
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.support.AndroidSupportInjection
 import dagger.android.support.HasSupportFragmentInjector
@@ -58,7 +56,6 @@ abstract class BaseViewModelFragment<VB : ViewDataBinding, S : IBase.State, VM :
         )
     }
 
-
     override fun performDataBinding(savedInstanceState: Bundle?) {
         mViewDataBinding = viewDataBinding as VB
         viewModel = mViewModel.get()
@@ -72,7 +69,6 @@ abstract class BaseViewModelFragment<VB : ViewDataBinding, S : IBase.State, VM :
         viewModel.onCreate(arguments)
     }
 
-
     override fun onAttach(context: Context) {
         super.onAttach(context)
         mActivity = context as BaseActivity<*>
@@ -82,16 +78,6 @@ abstract class BaseViewModelFragment<VB : ViewDataBinding, S : IBase.State, VM :
     override fun injectDependencies() {
         super.injectDependencies()
         AndroidSupportInjection.inject(this)
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        // setBackButtonDispatcher()
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        //performDataBinding(savedInstanceState)
     }
 
     override fun onDestroyView() {
@@ -110,19 +96,15 @@ abstract class BaseViewModelFragment<VB : ViewDataBinding, S : IBase.State, VM :
     /**
      * Adding BackButtonDispatcher callback to activity
      */
-    private fun setBackButtonDispatcher() {
+    fun setBackButtonDispatcher() {
         val callback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
-                onBackPresse()
+                onBackPressed()
+//                onBackPresse()
             }
         }
         requireActivity().onBackPressedDispatcher.addCallback(this, callback)
     }
-
-    /**
-     * Override this method into your fragment to handleBackButton
-     */
-    fun onBackPresse() {}
 
     private fun setupToolbar(toolbar: Toolbar?) {
         toolbar?.let {

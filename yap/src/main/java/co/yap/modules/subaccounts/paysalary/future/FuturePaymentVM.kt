@@ -34,6 +34,7 @@ class FuturePaymentVM @Inject constructor(override val state: IFuturePayment.Sta
     override var fragmentManager: FragmentManager? = null
     override val clickEvent = SingleClickEvent()
     override fun onFirsTimeUiCreate(bundle: Bundle?, navigation: NavController?) {
+        calendar.add(Calendar.DATE, 1)
     }
 
     override fun fetchExtras(extras: Bundle?) {
@@ -50,7 +51,9 @@ class FuturePaymentVM @Inject constructor(override val state: IFuturePayment.Sta
                 calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth)
                 state.date.set(dateToString(calendar.time, DateUtils.FORMAT_DATE_MON_YEAR))
             }, calendar)
-        dpd.minDate = Calendar.getInstance()
+        val minDateCalendar = Calendar.getInstance()
+        minDateCalendar.add(Calendar.DATE, 1)
+        dpd.minDate = minDateCalendar
         dpd.version = DatePickerDialog.Version.VERSION_2
         fragmentManager?.let {
             dpd.accentColor = context.getColor(R.color.colorPrimary)
@@ -94,7 +97,7 @@ class FuturePaymentVM @Inject constructor(override val state: IFuturePayment.Sta
         createSchedulePayment(
             state.subAccount.value?.accountUuid,
             SchedulePayment(
-                amount = state.amount.value,
+                amount = state.amount.value, scheduledDate = time,
                 nextProcessingDate = time
             )
         )

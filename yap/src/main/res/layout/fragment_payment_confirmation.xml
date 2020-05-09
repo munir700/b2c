@@ -25,8 +25,11 @@
         android:paddingBottom="@dimen/margin_large">
 
         <include
-            android:id="@+id/include2"
+            android:id="@+id/includeImageView"
             layout="@layout/layout_textview_image_vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="@{(v)-> paymentConfirmationVM.handlePressOnClick(v.id)}"
             app:imageUrl="@{paymentConfirmationVM.state.subAccount.profilePictureUrl ?? ` `}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -40,22 +43,20 @@
             android:layout_marginTop="@dimen/margin_medium"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/include2"
+            app:layout_constraintTop_toBottomOf="@+id/includeImageView"
             app:text="@{paymentConfirmationVM.state.recurringPaymentScreen?Strings.screen_household_recurring_payment_success_text:Strings.screen_household_normal_payment_success_text}"
             tools:text="@string/screen_household_recurring_payment_success_text" />
 
         <co.yap.widgets.libcurrencyview.CurrencyTextView
             android:id="@+id/currencyTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            style="@style/Yap.App.Widget.TextView.Currency"
             android:layout_marginTop="@dimen/margin_medium"
             android:text="@{paymentConfirmationVM.state.schedulePayment.amount}"
-            android:textSize="20sp"
-            app:ctv_decimalTextSize="12dp"
-            app:ctv_nullToZero="false"
+            android:textSize="@dimen/text_size_h5"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/appCompatTextView2" />
+            app:layout_constraintTop_toBottomOf="@+id/appCompatTextView2"
+            tools:text="2234544.44" />
 
 
         <androidx.appcompat.widget.AppCompatImageView
@@ -83,7 +84,7 @@
             android:paddingEnd="@dimen/margin_medium"
             android:paddingBottom="@dimen/margin_medium_large"
             android:visibility="@{paymentConfirmationVM.state.schedulePayment.isRecurring ?View.GONE:View.VISIBLE}"
-            app:layout_constraintBottom_toTopOf="@+id/btnNext"
+            app:layout_constraintBottom_toTopOf="@+id/btnGoToDashboard"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent">
 
@@ -118,7 +119,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:visibility="@{paymentConfirmationVM.state.schedulePayment.isRecurring?View.VISIBLE:View.GONE}"
-            app:layout_constraintBottom_toTopOf="@+id/btnNext"
+            app:layout_constraintBottom_toTopOf="@+id/btnGoToDashboard"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/appCompatImageView2"
@@ -128,12 +129,13 @@
 
 
         <co.yap.widgets.CoreButton
-            android:id="@+id/btnNext"
+            android:id="@+id/btnGoToDashboard"
             style="@style/FragmentsBtnStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/margin_xl"
             android:layout_marginRight="@dimen/margin_xl"
+            android:onClick="@{(v)-> paymentConfirmationVM.handlePressOnClick(v.id)}"
             android:paddingStart="@dimen/margin_large"
             android:paddingEnd="@dimen/margin_large"
             app:enableCoreButton="@{true}"

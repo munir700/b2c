@@ -4,6 +4,8 @@ import androidx.lifecycle.Observer
 import co.yap.BR
 import co.yap.R
 import co.yap.databinding.FragmentPayHhemployeeSalaryBinding
+import co.yap.networking.customers.household.requestdtos.SchedulePayment
+import co.yap.networking.customers.household.responsedtos.SalaryTransaction
 import co.yap.translation.Strings
 import co.yap.yapcore.dagger.base.navigation.BaseNavViewModelFragment
 
@@ -24,10 +26,18 @@ class PayHHEmployeeSalaryFragment :
 
     private fun onClick(id: Int) {
         when (id) {
-            R.id.btnPayNow -> navigateForwardWithAnimation(
-                PayHHEmployeeSalaryFragmentDirections.actionPayHHEmployeeSalaryFragmentToEnterSalaryAmountFragment(),
-                arguments
-            )
+
+            R.id.btnPayNow -> {
+                arguments?.putParcelable(
+                    SalaryTransaction::class.simpleName,
+                    state.lastTransaction?.value
+                )
+                navigateForwardWithAnimation(
+                    PayHHEmployeeSalaryFragmentDirections.actionPayHHEmployeeSalaryFragmentToEnterSalaryAmountFragment(),
+                    arguments
+                )
+
+            }
             R.id.llScheduleOnce -> navigateForwardWithAnimation(
                 PayHHEmployeeSalaryFragmentDirections.actionPayHHEmployeeSalaryFragmentToFuturePaymentFragment(),
                 arguments
@@ -39,8 +49,8 @@ class PayHHEmployeeSalaryFragment :
         }
     }
 
-    override fun onPause() {
+    override fun onDestroyView() {
         viewModel.clickEvent.removeObservers(this)
-        super.onPause()
+        super.onDestroyView()
     }
 }

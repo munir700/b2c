@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.navigation.NavController
 import co.yap.networking.customers.household.CustomerHHApi
 import co.yap.networking.customers.household.CustomersHHRepository
+import co.yap.networking.customers.household.responsedtos.SalaryTransaction
 import co.yap.networking.customers.household.responsedtos.SubAccount
 import co.yap.networking.models.ApiResponse
 import co.yap.networking.models.RetroApiResponse
@@ -22,7 +23,7 @@ class PayHHEmployeeSalaryVM @Inject constructor(override val state: IPayHHEmploy
     override val clickEvent = SingleClickEvent()
     override fun onFirsTimeUiCreate(bundle: Bundle?, navigation: NavController?) {
         state.subAccount.value?.let {
-            getLastTransaction(it.accountUuid)
+            getSchedulePayment(it.accountUuid)
             getLastTransaction(it.accountUuid)
         }
     }
@@ -30,7 +31,6 @@ class PayHHEmployeeSalaryVM @Inject constructor(override val state: IPayHHEmploy
     override fun fetchExtras(extras: Bundle?) {
         super.fetchExtras(extras)
         extras?.let { state.subAccount.value = it.getParcelable(SubAccount::class.simpleName) }
-        getLastTransaction(state.subAccount.value?.customerUuid)
     }
 
     override fun handlePressOnClick(id: Int) {
@@ -76,8 +76,11 @@ class PayHHEmployeeSalaryVM @Inject constructor(override val state: IPayHHEmploy
         launch {
 //            publishState(State.loading(null))
             when (val response =
-                customersHHRepository.getSchedulePayment(uuid)) {
+                customersHHRepository.getSchedulePayment(uuid, "Salary")) {
                 is RetroApiResponse.Success -> {
+                    response.data.data?.let {
+                        // state.scheduleTransaction?.value = it
+                    }
 //                    publishState(State.success(null))
                 }
                 is RetroApiResponse.Error -> {
@@ -88,15 +91,22 @@ class PayHHEmployeeSalaryVM @Inject constructor(override val state: IPayHHEmploy
 
     override fun getLastTransaction(uuid: String?) {
         launch {
-//            publishState(State.loading(null))
             when (val response =
-                customersHHRepository.getLastTransaction(uuid)) {
+                customersHHRepository.getLastTransaction(uuid, "Salary")) {
                 is RetroApiResponse.Success -> {
+                    response.data.data?.let {
+                        state.lastTransaction?.value = it
+                        state.futureTransaction?.value = it
+                        state.recurringTransaction?.value = it
+
+                    }
+
+
 //                    publishState(State.success(null))
-                    state.toast = response.data.toString()
+//                    state.toast = response.data.toString()
                 }
                 is RetroApiResponse.Error -> {
-                    state.toast = response.error.message
+//                    state.toast = response.error.message
                 }
             }
         }

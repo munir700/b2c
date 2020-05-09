@@ -8,7 +8,20 @@
             name="payHHEmployeeSalaryVM"
             type="co.yap.modules.subaccounts.paysalary.employee.PayHHEmployeeSalaryVM" />
 
-        <import type="co.yap.translation.Strings"/>
+        <import type="android.view.View" />
+
+        <import type="co.yap.yapcore.helpers.spannables.SpannableStringCreatorKt" />
+
+        <import type="co.yap.yapcore.helpers.spannables.SpannableKt" />
+
+        <import type="co.yap.yapcore.helpers.extentions.StringExtensionsKt" />
+
+        <import type="java.util.Calendar" />
+
+        <import type="co.yap.yapcore.helpers.DateUtils" />
+
+        <import type="co.yap.translation.Strings" />
+
     </data>
 
     <androidx.appcompat.widget.LinearLayoutCompat
@@ -41,7 +54,11 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_medium"
             android:layout_marginTop="@dimen/margin_medium"
-            android:layout_marginEnd="@dimen/margin_medium" />
+            android:layout_marginEnd="@dimen/margin_medium"
+            android:visibility="@{payHHEmployeeSalaryVM.state.lastTransaction!=null? View.VISIBLE:View.GONE}"
+            app:amount="@{payHHEmployeeSalaryVM.state.lastTransaction.amount}"
+            app:date="@{payHHEmployeeSalaryVM.state.lastTransaction.transferDate}"
+            app:lable="@{@string/screen_household_employee_salary_last_salary_transfer_text}" />
 
         <co.yap.widgets.CoreButton
             android:id="@+id/btnPayNow"
@@ -54,8 +71,8 @@
             android:onClick="@{(v) -> payHHEmployeeSalaryVM.handlePressOnClick(v.id)}"
             android:paddingStart="@dimen/margin_normal_large"
             android:paddingEnd="@dimen/margin_normal_large"
-            app:text="@{Strings.screen_household_employee_salary_pay_now_button_text}"
             app:enableCoreButton="@{true}"
+            app:text="@{Strings.screen_household_employee_salary_pay_now_button_text}"
             tools:ignore="HardcodedText" />
 
         <include
@@ -67,8 +84,8 @@
             android:layout_marginTop="@dimen/_23sdp"
             android:layout_marginEnd="@dimen/margin_medium"
             android:onClick="@{(v) -> payHHEmployeeSalaryVM.handlePressOnClick(v.id)}"
-            app:lable="@{@string/screen_household_employee_salary_schedule_once_heading_text}"
-            app:subLable="@{@string/screen_household_employee_salary_future_payment_text}" />
+            app:lable="@{payHHEmployeeSalaryVM.state.scheduleTransaction.size()>0?@string/screen_household_employee_salary_next_payment_text:@string/screen_household_employee_salary_schedule_once_heading_text}"
+            app:subLable="@{payHHEmployeeSalaryVM.state.scheduleTransaction.size()>0?@string/screen_household_employee_salary_future_payment_text:@string/screen_household_employee_salary_future_payment_text}" />
 
         <include
             android:id="@+id/llMakeRecurring"
