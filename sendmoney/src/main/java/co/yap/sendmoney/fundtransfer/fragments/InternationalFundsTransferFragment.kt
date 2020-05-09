@@ -215,8 +215,6 @@ class InternationalFundsTransferFragment :
                         if (viewModel.transactionMightGetHeld.value == true) {
                             val totalHoldAmount =
                                 (it.holdSwiftAmount ?: 0.0).plus(it.holdUAEFTSAmount ?: 0.0)
-                            val holdPlusEnteredAmount = totalHoldAmount.plus(enteredAmount)
-
                             val remainingDailyLimit =
                                 if ((dailyLimit - totalHoldAmount) < 0.0) 0.0 else (dailyLimit - totalHoldAmount)
                             viewModel.state.errorDescription =
@@ -264,18 +262,18 @@ class InternationalFundsTransferFragment :
 
     private fun getProductCode(): String {
         viewModel.parentViewModel?.beneficiary?.value?.let { beneficiary ->
-            when (beneficiary.beneficiaryType) {
+            return when (beneficiary.beneficiaryType) {
                 SendMoneyBeneficiaryType.RMT.type -> {
                     viewModel.parentViewModel?.transferData?.value?.otpAction =
                         SendMoneyBeneficiaryType.RMT.name
-                    return TransactionProductCode.RMT.pCode
+                    TransactionProductCode.RMT.pCode
                 }
                 SendMoneyBeneficiaryType.SWIFT.type -> {
                     viewModel.parentViewModel?.transferData?.value?.otpAction =
                         SendMoneyBeneficiaryType.SWIFT.name
-                    return TransactionProductCode.SWIFT.pCode
+                    TransactionProductCode.SWIFT.pCode
                 }
-                else -> return ""
+                else -> ""
             }
         } ?: return ""
     }
