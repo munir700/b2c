@@ -20,6 +20,7 @@ class CurrentPasscodeViewModel(application: Application) : ChangeCardPinViewMode
     private val customersRepository: CustomersRepository = CustomersRepository
 
     override var mobileNumber: String = ""
+    var token: String = ""
 
     override fun onCreate() {
         super.onCreate()
@@ -29,9 +30,7 @@ class CurrentPasscodeViewModel(application: Application) : ChangeCardPinViewMode
     }
 
     override fun handlePressOnNextButton(id: Int) {
-//        if (validateAggressively()) {
         validateCurrentPasscode(id)
-        // }
     }
 
     override fun handlePressOnForgotPasscodeButton(id: Int) {
@@ -59,23 +58,20 @@ class CurrentPasscodeViewModel(application: Application) : ChangeCardPinViewMode
         } ?: toast(context, "Invalid user name")
     }
 
-
     private fun validateCurrentPasscode(id: Int) {
         launch {
             state.loading = true
-            when (val response = customersRepository.validateCurrentPasscode(
-                state.pincode
-            )) {
+            when (val response = customersRepository.validateCurrentPasscode(state.pincode)) {
                 is RetroApiResponse.Success -> {
+                    token = response.data.token ?: ""
                     clickEvent.setValue(id)
+                    state.loading = false
                 }
                 is RetroApiResponse.Error -> {
                     errorEvent.call()
-//                    state.dialerError = response.error.message
                     state.loading = false
                 }
             }
-            state.loading = false
         }
     }
 }

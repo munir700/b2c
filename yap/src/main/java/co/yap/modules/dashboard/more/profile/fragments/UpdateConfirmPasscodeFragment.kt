@@ -1,6 +1,7 @@
 package co.yap.modules.dashboard.more.profile.fragments
 
 import android.os.Bundle
+import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
@@ -9,7 +10,6 @@ import co.yap.R
 import co.yap.modules.dashboard.cards.paymentcarddetail.fragments.ConfirmNewCardPinFragment
 import co.yap.modules.dashboard.more.main.activities.MoreActivity
 import co.yap.modules.dashboard.more.profile.viewmodels.UpdateConfirmPasscodeViewModel
-import co.yap.modules.setcardpin.interfaces.ISetCardPin
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.Constants.KEY_IS_USER_LOGGED_IN
 import co.yap.yapcore.helpers.SharedPreferenceManager
@@ -21,9 +21,8 @@ class UpdateConfirmPasscodeFragment : ConfirmNewCardPinFragment() {
     val args: UpdateConfirmPasscodeFragmentArgs by navArgs()
     private lateinit var sharedPreferenceManager: SharedPreferenceManager
 
-    override val viewModel: ISetCardPin.ViewModel
+    override val viewModel: UpdateConfirmPasscodeViewModel
         get() = ViewModelProviders.of(this).get(UpdateConfirmPasscodeViewModel::class.java)
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,6 +40,11 @@ class UpdateConfirmPasscodeFragment : ConfirmNewCardPinFragment() {
                 } ?: toast("Invalid username")
             }
         })
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        viewModel.token = args.token
     }
 
     private fun proceedNext(username: String) {

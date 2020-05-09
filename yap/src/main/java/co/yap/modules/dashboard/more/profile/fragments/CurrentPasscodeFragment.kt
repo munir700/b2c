@@ -9,7 +9,6 @@ import co.yap.R
 import co.yap.modules.dashboard.cards.paymentcarddetail.fragments.ChangeCardPinFragment
 import co.yap.modules.dashboard.more.main.activities.MoreActivity
 import co.yap.modules.dashboard.more.profile.viewmodels.CurrentPasscodeViewModel
-import co.yap.modules.setcardpin.interfaces.ISetCardPin
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.Constants.KEY_IS_USER_LOGGED_IN
 import co.yap.yapcore.databinding.FragmentSetCardPinBinding
@@ -21,7 +20,7 @@ import kotlinx.android.synthetic.main.activity_create_passcode.*
 open class CurrentPasscodeFragment : ChangeCardPinFragment() {
     private lateinit var sharedPreferenceManager: SharedPreferenceManager
 
-    override val viewModel: ISetCardPin.ViewModel
+    override val viewModel: CurrentPasscodeViewModel
         get() = ViewModelProviders.of(this).get(CurrentPasscodeViewModel::class.java)
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -32,7 +31,7 @@ open class CurrentPasscodeFragment : ChangeCardPinFragment() {
         viewModel.forgotPasscodeclickEvent.observe(this, Observer {
 
             if (sharedPreferenceManager.getValueBoolien(
-                   KEY_IS_USER_LOGGED_IN,
+                    KEY_IS_USER_LOGGED_IN,
                     false
                 )
             ) {
@@ -69,7 +68,11 @@ open class CurrentPasscodeFragment : ChangeCardPinFragment() {
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
                 R.id.btnAction -> {
-                    findNavController().navigate(R.id.action_currentPasscodeFragment_to_updateNewPasscodeFragment)
+                    findNavController().navigate(
+                        CurrentPasscodeFragmentDirections.actionCurrentPasscodeFragmentToUpdateNewPasscodeFragment(
+                            viewModel.token
+                        )
+                    )
                 }
             }
         })

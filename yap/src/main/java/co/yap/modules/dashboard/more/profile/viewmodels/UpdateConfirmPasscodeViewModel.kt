@@ -18,6 +18,8 @@ class UpdateConfirmPasscodeViewModel(application: Application) :
     override val forgotPasscodeclickEvent: SingleClickEvent = SingleClickEvent()
     private val customersRepository: CustomersRepository = CustomersRepository
     private val messagesRepository: MessagesRepository = MessagesRepository
+    var token: String = ""
+
     override fun onCreate() {
         super.onCreate()
         state.titleSetPin = getString(Strings.screen_confirm_passcode_display_text_heading)
@@ -39,7 +41,7 @@ class UpdateConfirmPasscodeViewModel(application: Application) :
     private fun changePasscode(id: Int) {
         launch {
             state.loading = true
-            when (val response = customersRepository.changePasscode(state.pincode)) {
+            when (val response = customersRepository.changePasscode(state.pincode, token)) {
                 is RetroApiResponse.Success -> {
                     state.loading = false
                     clickEvent.postValue(id)
