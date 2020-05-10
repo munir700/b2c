@@ -4,7 +4,6 @@ import android.app.Application
 import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.customers.requestdtos.ForgotPasscodeRequest
 import co.yap.networking.interfaces.IRepositoryHolder
-import co.yap.networking.messages.MessagesRepository
 import co.yap.networking.models.RetroApiResponse
 import co.yap.translation.Strings
 import co.yap.yapcore.BaseViewModel
@@ -19,7 +18,6 @@ class PassCodeViewModel(application: Application) : BaseViewModel<IPassCode.Stat
     override val clickEvent: SingleClickEvent = SingleClickEvent()
     override val state: PassCodeState = PassCodeState()
     override val repository: CustomersRepository = CustomersRepository
-    private val messagesRepository: MessagesRepository = MessagesRepository
     override var mobileNumber: String = ""
     override var token: String =""
     override fun setTitles(title: String, buttonTitle: String) {
@@ -34,10 +32,11 @@ class PassCodeViewModel(application: Application) : BaseViewModel<IPassCode.Stat
     override fun validatePassCode(success: (isSuccess: Boolean) -> Unit) {
         launch {
             state.loading = true
-            when (repository.validateCurrentPasscode(
+            when (val response = repository.validateCurrentPasscode(
                 state.passCode
             )) {
                 is RetroApiResponse.Success -> {
+                    token = response.data.token ?: ""
                     success(true)
                     state.loading = false
                 }
@@ -52,7 +51,7 @@ class PassCodeViewModel(application: Application) : BaseViewModel<IPassCode.Stat
     override fun updatePassCodeRequest(success: () -> Unit) {
         launch {
             state.loading = true
-            when (val response = repository.changePasscode(state.passCode)) {
+            when (val response = repository.changePasscode(state.passCode, token)) {
                 is RetroApiResponse.Success -> {
                     state.loading = false
                     success()

@@ -134,7 +134,7 @@ project.ext {
             inline_activity_result   : 'com.github.florent37:inline-activity-result-kotlin:1.0.3',
 
             //compression
-            compression              : 'id.zelory:compressor:2.1.0',
+            compression              : 'id.zelory:compressor:3.0.0',
             exoplayer                : 'com.google.android.exoplayer:exoplayer:2.10.3',
 
             //adjust

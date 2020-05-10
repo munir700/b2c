@@ -5,7 +5,6 @@ import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import android.webkit.MimeTypeMap
 import androidx.annotation.NonNull
 import androidx.appcompat.app.AlertDialog
 import androidx.core.net.toUri
@@ -16,6 +15,7 @@ import androidx.navigation.fragment.findNavController
 import co.yap.BR
 import co.yap.R
 import co.yap.modules.dashboard.cards.paymentcarddetail.fragments.CardClickListener
+import co.yap.modules.dashboard.more.changepasscode.activities.ChangePasscodeActivity
 import co.yap.modules.dashboard.more.main.activities.MoreActivity
 import co.yap.modules.dashboard.more.main.fragments.MoreBaseFragment
 import co.yap.modules.dashboard.more.profile.intefaces.IProfile
@@ -164,11 +164,11 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
 
     private fun onPhotosReturned(path: File?, position: Int, source: EasyImage.ImageSource?) {
         path?.let {
-            val ext = MimeTypeMap.getFileExtensionFromUrl(it.toURI().toURL().toString())
-            if (!ext.isNullOrBlank()) {
+            val ext = path.extension
+            if (!ext.isBlank()) {
                 when (ext) {
                     "png", "jpg", "jpeg" -> {
-                        viewModel.uploadProfconvertUriToFile(it.toUri())
+                        viewModel.requestUploadProfilePicture(it)
                         viewModel.state.imageUri = it.toUri()
                         ivProfilePic.setImageURI(it.toUri())
                     }
@@ -176,6 +176,8 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
                         viewModel.state.toast = "Invalid file found^${AlertType.DIALOG.name}"
                     }
                 }
+            } else {
+                viewModel.state.toast = "Invalid file found^${AlertType.DIALOG.name}"
             }
         }
     }
@@ -241,7 +243,8 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
                 }
 
                 R.id.tvChangePasscode -> {
-                    findNavController().navigate(R.id.action_profileSettingsFragment_to_change_pascode_navigation)
+                    startActivity(Intent(requireContext(), ChangePasscodeActivity::class.java))
+//                    findNavController().navigate(R.id.action_profileSettingsFragment_to_change_pascode_navigation)
                 }
 
                 R.id.tvTermsAndConditionView -> {

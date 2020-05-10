@@ -1,4 +1,4 @@
-package co.yap.modules.dashboard.more.profile.fragments
+package co.yap.modules.dashboard.more.changepasscode.fragments
 
 import android.app.Activity
 import android.os.Bundle
@@ -7,6 +7,7 @@ import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import co.yap.BR
 import co.yap.R
 import co.yap.modules.dashboard.more.main.activities.MoreActivity
@@ -15,7 +16,6 @@ import co.yap.modules.otp.OtpDataModel
 import co.yap.modules.passcode.IPassCode
 import co.yap.modules.passcode.PassCodeViewModel
 import co.yap.translation.Strings
-import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.databinding.FragmentPassCodeBinding
 import co.yap.yapcore.enums.OTPActions
@@ -25,8 +25,9 @@ import co.yap.yapcore.helpers.extentions.ExtraType
 import co.yap.yapcore.helpers.extentions.getValue
 import co.yap.yapcore.helpers.extentions.startFragmentForResult
 
-class UpdateNewPasscodeFragment : BaseBindingFragment<IPassCode.ViewModel>(), IPassCode.View {
-
+class UpdateNewPasscodeFragment : ChangePasscodeBaseFragment<IPassCode.ViewModel>(),
+    IPassCode.View {
+    val args: UpdateNewPasscodeFragmentArgs by navArgs()
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.fragment_pass_code
     override val viewModel: IPassCode.ViewModel
@@ -57,6 +58,7 @@ class UpdateNewPasscodeFragment : BaseBindingFragment<IPassCode.ViewModel>(), IP
                 R.id.btnAction -> {
                     val action =
                         UpdateNewPasscodeFragmentDirections.actionUpdateNewPasscodeFragmentToUpdateConfirmPasscodeFragment(
+                            token = args.token,
                             newPinCode = viewModel.state.passCode
                         )
                     findNavController().navigate(action)
@@ -64,9 +66,6 @@ class UpdateNewPasscodeFragment : BaseBindingFragment<IPassCode.ViewModel>(), IP
                 R.id.tvForgotPasscode -> {
                     val sharedPreferenceManager = SharedPreferenceManager(requireContext())
                     startOtpFragment(sharedPreferenceManager.getDecryptedUserName() ?: "")
-//                    viewModel.forgotPassCodeOtpRequest({
-//                        navigateToForgotPassCodeFlow()
-//                    }, sharedPreferenceManager.getDecryptedUserName())
                 }
             }
         })

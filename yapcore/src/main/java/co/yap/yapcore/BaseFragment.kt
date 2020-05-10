@@ -17,7 +17,7 @@ abstract class BaseFragment<V : IBase.ViewModel<*>> : BaseNavFragment(), IBase.V
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
-        progress = Utils.createProgressDialog(requireContext())
+        context?.let { progress = Utils.createProgressDialog(it) }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -54,8 +54,17 @@ abstract class BaseFragment<V : IBase.ViewModel<*>> : BaseNavFragment(), IBase.V
 
     override fun showLoader(isVisible: Boolean) {
         if (isVisible) {
-            if (isResumed && userVisibleHint) progress?.show()
-        } else progress?.dismiss()
+            if (isResumed && userVisibleHint) {
+                if (progress == null) {
+                    context?.let { progress = Utils.createProgressDialog(it) }
+                    progress?.show()
+                } else {
+                    progress?.show()
+                }
+            }
+        } else {
+            progress?.dismiss()
+        }
         Utils.hideKeyboard(this.view)
         //getBaseView()?.showLoader(isVisible)
     }

@@ -77,7 +77,8 @@ class EmailViewModel(application: Application) :
                     parentViewModel?.onboardingData?.mobileNo,
                     state.twoWayTextWatcher,
                     parentViewModel?.onboardingData?.passcode,
-                    parentViewModel?.onboardingData?.accountType.toString()
+                    parentViewModel?.onboardingData?.accountType.toString(),
+                    token = parentViewModel?.onboardingData?.token
                 )
             )) {
                 is RetroApiResponse.Success -> {
@@ -147,6 +148,7 @@ class EmailViewModel(application: Application) :
 
                 }
                 is RetroApiResponse.Success -> {
+                    parentViewModel?.onboardingData?.token = response.data.token
                     signUp()
                 }
             }

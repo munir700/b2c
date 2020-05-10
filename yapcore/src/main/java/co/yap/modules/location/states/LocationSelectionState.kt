@@ -34,7 +34,6 @@ class LocationSelectionState(application: Application) : BaseState(), ILocationS
     override var valid: ObservableField<Boolean> = ObservableField(false)
     override var isUnNamed: ObservableField<Boolean> = ObservableField(false)
     override var isOnBoarding: ObservableField<Boolean> = ObservableField(false)
-    override var hasCityFeature: ObservableField<Boolean> = ObservableField(false)
 
     @get:Bindable
     override var toolbarVisibility: Boolean = false
