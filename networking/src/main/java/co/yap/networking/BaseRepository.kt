@@ -80,7 +80,7 @@ abstract class BaseRepository : IRepository {
                         // most probably.. unauthorised error
                         val error = obj.getString("error") ?: "Something went wrong"
                         if (error.contains("unauthorized")) {
-                            return ServerError(0, "")
+                            return ServerError(0, "Something went wrong")
                         }
                         return ServerError(0, error)
                     }
@@ -89,7 +89,7 @@ abstract class BaseRepository : IRepository {
                 }
             }
         }
-        return ServerError(0, "")
+        return ServerError(code, "Something went wrong")
     }
 
     private fun getApiError(error: ServerError): ApiError {
