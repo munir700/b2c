@@ -27,7 +27,6 @@ import co.yap.yapcore.helpers.extentions.startFragmentForResult
 
 class UpdateNewPasscodeFragment : ChangePasscodeBaseFragment<IPassCode.ViewModel>(),
     IPassCode.View {
-    val args: UpdateNewPasscodeFragmentArgs by navArgs()
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.fragment_pass_code
     override val viewModel: IPassCode.ViewModel
@@ -37,9 +36,6 @@ class UpdateNewPasscodeFragment : ChangePasscodeBaseFragment<IPassCode.ViewModel
         super.onViewCreated(view, savedInstanceState)
         getBinding().dialer.upDatedDialerPad(viewModel.state.passCode)
         getBinding().dialer.hideFingerprintView()
-        if (activity is MoreActivity) {
-            (activity as MoreActivity).viewModel.preventTakeDeviceScreenShot.value = true
-        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -56,16 +52,13 @@ class UpdateNewPasscodeFragment : ChangePasscodeBaseFragment<IPassCode.ViewModel
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
                 R.id.btnAction -> {
-                    val action =
-                        UpdateNewPasscodeFragmentDirections.actionUpdateNewPasscodeFragmentToUpdateConfirmPasscodeFragment(
-                            token = args.token,
-                            newPinCode = viewModel.state.passCode
-                        )
-                    findNavController().navigate(action)
+                    parentActivity.passCodeData.newPassCode = viewModel.state.passCode
+                    findNavController().navigate(R.id.action_updateNewPasscodeFragment_to_updateConfirmPasscodeFragment)
                 }
                 R.id.tvForgotPasscode -> {
-                    val sharedPreferenceManager = SharedPreferenceManager(requireContext())
-                    startOtpFragment(sharedPreferenceManager.getDecryptedUserName() ?: "")
+                    startOtpFragment(
+                        SharedPreferenceManager(requireContext()).getDecryptedUserName() ?: ""
+                    )
                 }
             }
         })
@@ -96,7 +89,7 @@ class UpdateNewPasscodeFragment : ChangePasscodeBaseFragment<IPassCode.ViewModel
 
                 token?.let {
                     viewModel.token = it
-                        navigateToForgotPassCodeFlow()
+                    navigateToForgotPassCodeFlow()
                 }
             }
         }

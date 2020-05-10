@@ -13,8 +13,6 @@ interface IChangePassCodeSuccess {
 
     interface State : IBase.State {
         var topMainHeading: String
-        var staticString: String
-        var destination: String
-        var buttonTitle: String
+        var topSubHeading: String
     }
 }

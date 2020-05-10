@@ -39,17 +39,13 @@ class CurrentPasscodeFragment : ChangePasscodeBaseFragment<IPassCode.ViewModel>(
             title = getString(Strings.screen_current_passcode_display_text_heading),
             buttonTitle = getString(Strings.screen_current_card_pin_display_button_next)
         )
-        if (context is MoreActivity)
-            (context as MoreActivity).goneToolbar()
+        parentActivity.viewModel.state.toolbarVisibility.set(false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         getBinding().dialer.upDatedDialerPad(viewModel.state.passCode)
         getBinding().dialer.hideFingerprintView()
-        if (activity is MoreActivity) {
-            (activity as MoreActivity).viewModel.preventTakeDeviceScreenShot.value = true
-        }
     }
 
     fun setObservers() {
@@ -57,19 +53,17 @@ class CurrentPasscodeFragment : ChangePasscodeBaseFragment<IPassCode.ViewModel>(
             when (it) {
                 R.id.btnAction -> {
                     viewModel.validatePassCode { isValidPassCode ->
-                        if (isValidPassCode)
-                            findNavController().navigate(
-                                CurrentPasscodeFragmentDirections.actionCurrentPasscodeFragmentToUpdateNewPasscodeFragment(
-                                    viewModel.token
-                                )
-                            )
-                        else
+                        if (isValidPassCode) {
+                            parentActivity.passCodeData.token = viewModel.token
+                            findNavController().navigate(R.id.action_currentPasscodeFragment_to_updateNewPasscodeFragment)
+                        } else
                             getBinding().dialer.startAnimation()
                     }
                 }
                 R.id.tvForgotPasscode -> {
-                    val sharedPreferenceManager = SharedPreferenceManager(requireContext())
-                    startOtpFragment(sharedPreferenceManager.getDecryptedUserName() ?: "")
+                    startOtpFragment(
+                        SharedPreferenceManager(requireContext()).getDecryptedUserName() ?: ""
+                    )
                 }
             }
         })

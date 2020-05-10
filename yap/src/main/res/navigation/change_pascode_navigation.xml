@@ -14,13 +14,8 @@
             android:id="@+id/action_currentPasscodeFragment_to_updateNewPasscodeFragment"
             app:destination="@id/updateNewPasscodeFragment"
             app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left">
+            app:exitAnim="@anim/slide_out_left" />
 
-            <argument
-                android:name="token"
-                app:argType="string" />
-
-        </action>
         <action
             android:id="@+id/action_currentPasscodeFragment_to_forgot_passcode_navigation"
             app:destination="@id/forgot_passcode_navigation"
@@ -35,8 +30,8 @@
                 app:argType="string" />
             <argument
                 android:name="navigationType"
-                app:argType="string"
-                android:defaultValue=" "/>
+                android:defaultValue=" "
+                app:argType="string" />
         </action>
     </fragment>
     <fragment
@@ -44,18 +39,11 @@
         android:name="co.yap.modules.dashboard.more.changepasscode.fragments.UpdateNewPasscodeFragment"
         android:label="UpdateNewPasscodeFragment"
         tools:layout="@layout/fragment_set_card_pin">
-        <argument
-            android:name="token"
-            app:argType="string" />
         <action
             android:id="@+id/action_updateNewPasscodeFragment_to_updateConfirmPasscodeFragment"
             app:destination="@id/updateConfirmPasscodeFragment"
             app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left">
-            <argument
-                android:name="token"
-                app:argType="string" />
-        </action>
+            app:exitAnim="@anim/slide_out_left" />
         <action
             android:id="@+id/action_updateNewPasscodeFragment_to_forgot_passcode_navigation"
             app:destination="@id/forgot_passcode_navigation"
@@ -69,8 +57,8 @@
                 app:argType="string" />
             <argument
                 android:name="navigationType"
-                app:argType="string"
-                android:defaultValue=" "/>
+                android:defaultValue=" "
+                app:argType="string" />
         </action>
     </fragment>
     <fragment
@@ -107,27 +95,14 @@
                 app:argType="string" />
             <argument
                 android:name="navigationType"
-                app:argType="string"
-                android:defaultValue=" "/>
+                android:defaultValue=" "
+                app:argType="string" />
         </action>
     </fragment>
     <fragment
         android:id="@+id/successFragment"
-        android:name="co.yap.modules.dashboard.more.profile.fragments.SuccessFragment"
-        android:label="SuccessFragment"
-        tools:layout="@layout/fragment_success">
-        <argument
-            android:name="staticString"
-            android:defaultValue=" "
-            app:argType="string" />
-        <argument
-            android:name="destinationValue"
-            android:defaultValue=" "
-            app:argType="string" />
-        <argument
-            android:name="successType"
-            android:defaultValue=" "
-            app:argType="string" />
-    </fragment>
+        android:name="co.yap.modules.dashboard.more.changepasscode.fragments.ChangePasscodeSuccessFragment"
+        android:label="ChangePasscodeSuccessFragment"
+        tools:layout="@layout/fragment_change_passcodee_success" />
     <include app:graph="@navigation/forgot_passcode_navigation" />
 </navigation>

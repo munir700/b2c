@@ -2,15 +2,12 @@ package co.yap.modules.dashboard.more.changepasscode.fragments
 
 import android.app.Activity
 import android.os.Bundle
-import android.view.View
 import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
 import co.yap.BR
 import co.yap.R
-import co.yap.modules.dashboard.more.main.activities.MoreActivity
 import co.yap.modules.otp.GenericOtpFragment
 import co.yap.modules.otp.OtpDataModel
 import co.yap.modules.passcode.IPassCode
@@ -27,7 +24,6 @@ import co.yap.yapcore.helpers.extentions.startFragmentForResult
 
 class UpdateConfirmPasscodeFragment : ChangePasscodeBaseFragment<IPassCode.ViewModel>(),
     IPassCode.View {
-    val args: UpdateConfirmPasscodeFragmentArgs by navArgs()
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.fragment_pass_code
     override val viewModel: IPassCode.ViewModel
@@ -40,27 +36,20 @@ class UpdateConfirmPasscodeFragment : ChangePasscodeBaseFragment<IPassCode.ViewM
             title = getString(Strings.screen_confirm_passcode_display_text_heading),
             buttonTitle = getString(Strings.screen_current_card_pin_display_button_next)
         )
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        viewModel.token = args.token
+        viewModel.token = parentActivity.passCodeData.token
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         getBinding().dialer.upDatedDialerPad(viewModel.state.passCode)
         getBinding().dialer.hideFingerprintView()
-        if (activity is MoreActivity) {
-            (activity as MoreActivity).viewModel.preventTakeDeviceScreenShot.value = true
-        }
     }
 
     fun setObservers() {
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
                 R.id.btnAction -> {
-                    if (viewModel.state.passCode == args.newPinCode) {
+                    if (viewModel.state.passCode == parentActivity.passCodeData.newPassCode) {
                         viewModel.updatePassCodeRequest {
                             moveToSuccessScreen()
                         }
@@ -68,8 +57,9 @@ class UpdateConfirmPasscodeFragment : ChangePasscodeBaseFragment<IPassCode.ViewM
                         getBinding().dialer.startAnimation()
                 }
                 R.id.tvForgotPasscode -> {
-                    val sharedPreferenceManager = SharedPreferenceManager(requireContext())
-                    startOtpFragment(sharedPreferenceManager.getDecryptedUserName() ?: "")
+                    startOtpFragment(
+                        SharedPreferenceManager(requireContext()).getDecryptedUserName() ?: ""
+                    )
                 }
             }
         })
@@ -78,13 +68,7 @@ class UpdateConfirmPasscodeFragment : ChangePasscodeBaseFragment<IPassCode.ViewM
     private fun moveToSuccessScreen() {
         val sharedPreferenceManager = SharedPreferenceManager(requireContext())
         sharedPreferenceManager.savePassCodeWithEncryption(viewModel.state.passCode)
-        val action =
-            UpdateConfirmPasscodeFragmentDirections.actionUpdateConfirmPasscodeFragmentToSuccessFragment(
-                "Your passcode has been changed \n succesfully",
-                "",
-                Constants.CHANGE_PASSCODE
-            )
-        findNavController().navigate(action)
+        findNavController().navigate(R.id.action_updateConfirmPasscodeFragment_to_successFragment)
     }
 
     private fun startOtpFragment(name: String) {

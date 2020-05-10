@@ -15,23 +15,10 @@ class ChangePassCodeSuccessState : BaseState(), IChangePassCodeSuccess.State {
             notifyPropertyChanged(BR.topMainHeading)
         }
     @get:Bindable
-    override var staticString: String = ""
+    override var topSubHeading: String = ""
         set(value) {
             field = value
-            notifyPropertyChanged(BR.staticString)
-        }
-    @get:Bindable
-    override var destination: String = ""
-        set(value) {
-            field = value
-            notifyPropertyChanged(BR.destination)
-        }
-
-    @get:Bindable
-    override var buttonTitle: String = "Done"
-        set(value) {
-            field = value
-            notifyPropertyChanged(BR.buttonTitle)
+            notifyPropertyChanged(BR.topSubHeading)
         }
 
 }

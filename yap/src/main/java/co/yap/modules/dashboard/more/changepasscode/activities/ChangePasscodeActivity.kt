@@ -5,19 +5,22 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.R
 import co.yap.modules.dashboard.more.changepasscode.interfaces.IChangePassCode
+import co.yap.modules.dashboard.more.changepasscode.models.PassCodeData
 import co.yap.modules.dashboard.more.changepasscode.viewmodels.ChangePassCodeViewModel
 import co.yap.yapcore.BR
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.IFragmentHolder
 import co.yap.yapcore.defaults.DefaultNavigator
 import co.yap.yapcore.defaults.INavigator
+import co.yap.yapcore.helpers.extentions.preventTakeScreenShot
 import co.yap.yapcore.interfaces.BackPressImpl
 import co.yap.yapcore.interfaces.IBaseNavigator
 
 class ChangePasscodeActivity : BaseBindingActivity<IChangePassCode.ViewModel>(), IFragmentHolder,
-    INavigator {
+    INavigator,IChangePassCode.View {
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.activity_change_passcode
+    override val passCodeData: PassCodeData = PassCodeData()
     override val viewModel: IChangePassCode.ViewModel
         get() = ViewModelProviders.of(this).get(ChangePassCodeViewModel::class.java)
 
@@ -29,6 +32,7 @@ class ChangePasscodeActivity : BaseBindingActivity<IChangePassCode.ViewModel>(),
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        preventTakeScreenShot(true)
         viewModel.clickEvent.observe(this, clickEvent)
     }
 
