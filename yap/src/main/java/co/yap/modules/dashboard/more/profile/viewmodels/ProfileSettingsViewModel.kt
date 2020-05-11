@@ -37,6 +37,7 @@ class ProfileSettingsViewModel(application: Application) :
     override val authRepository: AuthRepository = AuthRepository
     override val repository: CustomersRepository = CustomersRepository
     private val sharedPreferenceManager = SharedPreferenceManager(application)
+    var pandemicValidation: Boolean = false
 
     override val state: ProfileStates =
         ProfileStates()
@@ -157,12 +158,39 @@ class ProfileSettingsViewModel(application: Application) :
     private fun getExpiryDate(expiryDateString: String) {
         val simpleDateFormat = SimpleDateFormat("yyyy-MM-dd")
         simpleDateFormat.timeZone = TimeZone.getDefault()
-        val expireyDate = simpleDateFormat.parse(expiryDateString)
+        val expiryDate = simpleDateFormat.parse(expiryDateString)
         val cal = Calendar.getInstance()
         val currentDay = simpleDateFormat.format(cal.time)
         val currentDayDate = simpleDateFormat.parse(currentDay)
-        state.isShowErrorIcon.set(expireyDate < currentDayDate)
         MyUserManager.eidStatus =
-            if (expireyDate < currentDayDate) EIDStatus.EXPIRED else EIDStatus.VALID
+            when {
+                isDateFallInPandemic(expiryDateString) && isDateFallInPandemic(currentDay) -> {
+                    state.isShowErrorIcon.set(false)
+                    EIDStatus.VALID
+                }
+                expiryDate < currentDayDate -> {
+                    state.isShowErrorIcon.set(true)
+                    EIDStatus.EXPIRED
+                }
+                else -> {
+                    state.isShowErrorIcon.set(false)
+                    EIDStatus.VALID
+                }
+            }
+    }
+
+    /*
+       If EID is expiring between  Mar 1, 2020, to Dec 31, 2020 Mark expiry date for EID as Dec 31, 2020,
+       which means any user whose EID is expiring between  Mar 1, 2020, to Dec 31, 2020 will be able to onboard in our system.
+   */
+    private fun isDateFallInPandemic(EIDExpiryDate: String): Boolean {
+        val simpleDateFormat = SimpleDateFormat("yyyy-MM-dd")
+        simpleDateFormat.timeZone = TimeZone.getDefault()
+        val fromDate = simpleDateFormat.parse("2020-03-01")
+        val toDate = simpleDateFormat.parse("2020-12-31")
+        val eidExpiry = simpleDateFormat.parse(EIDExpiryDate)
+
+        // use inverse of condition bcz strict order check to a non-strict check e.g both dates are equals
+        return !eidExpiry.after(toDate) && !eidExpiry.before(fromDate)
     }
 }
