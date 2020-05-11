@@ -308,8 +308,8 @@ class CashTransferViewModel(application: Application) :
                 return@let if (pop.nonChargeable == false) {
                     return (when {
                         parentViewModel?.beneficiary?.value?.cbwsicompliant == true &&
-                        pop.cbwsi == true &&
-                        pop.cbwsiFee == false -> state.amount.parseToDouble() > parentViewModel?.transactionThreshold?.value?.cbwsiPaymentLimit ?: 0.0
+                                pop.cbwsi == true &&
+                                pop.cbwsiFee == false -> state.amount.parseToDouble() > parentViewModel?.transactionThreshold?.value?.cbwsiPaymentLimit ?: 0.0
                         else -> true
                     })
                 } else
@@ -321,8 +321,8 @@ class CashTransferViewModel(application: Application) :
         return if (!isOnlyUAEFTS()) return false else
             parentViewModel?.selectedPop?.let { pop ->
                 return (when {
-                    //parentViewModel?.beneficiary?.value?.cbwsicompliant == true &&
-                    pop.cbwsi == true || state.amount.parseToDouble() > parentViewModel?.transactionThreshold?.value?.cbwsiPaymentLimit ?: 0.0 -> true
+                    parentViewModel?.beneficiary?.value?.cbwsicompliant == true &&
+                            pop.cbwsi == true || state.amount.parseToDouble() > parentViewModel?.transactionThreshold?.value?.cbwsiPaymentLimit ?: 0.0 -> true
                     else -> false
                 })
 
