@@ -362,7 +362,7 @@
     <string name="screen_report_card_display_text_title">Report lost or stolen card</string>
     <string name="screen_report_card_display_text_complete_transaction">Transaction completed!\nYou now have a physical spare card</string>
     <string name="screen_report_card_display_text_block_note">Click \'block and report\' to confirm that your card has been lost, damaged or stolen. We will immediately block your card and report it to our security team.</string>
-    <string name="screen_report_card_display_text_block_footnote">If you suspect any malicious activity or need to provide us with any other essential information regarding your card\'s disappearance, please give our customer care center a call at 1800 YAP</string>
+    <string name="screen_report_card_display_text_block_footnote">If you suspect any malicious activity or need to provide us with any other essential information regarding your card\'s disappearance, please give our customer care center a call at  %1s YAP</string>
     <string name="screen_report_card_button_block_report">Block and report</string>
     <string name="screen_report_card_display_text_block_card_title">Tell us what happened to your card</string>
     <string name="screen_report_card_button_damage_card">Damaged card</string>
