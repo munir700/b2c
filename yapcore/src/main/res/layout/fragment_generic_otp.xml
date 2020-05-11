@@ -79,7 +79,7 @@
                 android:layout_height="wrap_content"
                 android:lineSpacingExtra="1dp"
                 android:textAlignment="center"
-                android:visibility="gone"
+                android:visibility="@{viewModel.state.otpDataModel.logoData!=null?View.VISIBLE:View.GONE}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
