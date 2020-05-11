@@ -5,7 +5,6 @@ import androidx.lifecycle.MutableLiveData
 import co.yap.modules.dashboard.cards.reordercard.interfaces.IRenewCard
 import co.yap.modules.dashboard.cards.reordercard.states.RenewCardState
 import co.yap.networking.cards.CardsRepository
-import co.yap.networking.cards.requestdtos.ReorderCardRequest
 import co.yap.networking.cards.responsedtos.Address
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
@@ -69,19 +68,14 @@ class RenewCardViewModel(application: Application) :
     }
 
     override fun requestReorderCard() {
-        val reorderCardRequest = ReorderCardRequest(
-            parentViewModel?.card?.cardSerialNumber,
-            address.address1,
-            address.latitude.toString(),
-            address.longitude.toString()
-        )
+        address.cardSerialNumber = parentViewModel?.card?.cardSerialNumber
         parentViewModel?.card?.cardType?.let {
             when (it) {
                 CardType.DEBIT.type -> {
-                    requestReorderDebitCard(reorderCardRequest)
+                    requestReorderDebitCard(address)
                 }
                 else -> {
-                    requestReorderSupplementaryCard(reorderCardRequest)
+                    requestReorderSupplementaryCard(address)
                 }
             }
         }
@@ -139,10 +133,10 @@ class RenewCardViewModel(application: Application) :
         }
     }
 
-    override fun requestReorderDebitCard(reorderCardRequest: ReorderCardRequest) {
+    override fun requestReorderDebitCard(address: Address) {
         launch {
             state.loading = true
-            when (val response = cardRepository.reorderDebitCard(reorderCardRequest)) {
+            when (val response = cardRepository.reorderDebitCard(address)) {
                 is RetroApiResponse.Success -> {
                     reorderCardSuccess.value = true
                     state.loading = false
@@ -156,10 +150,10 @@ class RenewCardViewModel(application: Application) :
         }
     }
 
-    override fun requestReorderSupplementaryCard(reorderCardRequest: ReorderCardRequest) {
+    override fun requestReorderSupplementaryCard(address: Address) {
         launch {
             state.loading = true
-            when (val response = cardRepository.reorderSupplementryCard(reorderCardRequest)) {
+            when (val response = cardRepository.reorderSupplementryCard(address)) {
                 is RetroApiResponse.Success -> {
                     reorderCardSuccess.value = true
                     state.loading = false

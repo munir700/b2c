@@ -5,7 +5,6 @@ import androidx.lifecycle.MutableLiveData
 import co.yap.modules.onboarding.interfaces.ICongratulations
 import co.yap.modules.onboarding.states.CongratulationsState
 import co.yap.networking.cards.CardsRepository
-import co.yap.networking.cards.requestdtos.OrderCardRequest
 import co.yap.networking.cards.responsedtos.Address
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
@@ -64,18 +63,10 @@ class CongratulationsViewModel(application: Application) :
 
     override fun requestOrderCard(address: Address?) {
         address?.let {
-            val orderCardRequest = OrderCardRequest(
-                nearestLandMark = it.address1,
-                cardName = "",
-                address1 = it.address1,
-                address2 = it.address2,
-                latitude = it.latitude,
-                longitude = it.longitude,
-                city = address.city, country = address.country
-            )
+            it.cardName = ""
             launch {
                 state.loading = true
-                when (val response = repository.orderCard(orderCardRequest)) {
+                when (val response = repository.orderCard(it)) {
                     is RetroApiResponse.Success -> {
                         orderCardSuccess.value = true
                         state.loading = false

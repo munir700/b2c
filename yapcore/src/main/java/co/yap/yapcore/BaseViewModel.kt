@@ -7,6 +7,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.OnLifecycleEvent
 import co.yap.translation.Translator
+import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.interfaces.CoroutineViewModel
 import kotlinx.coroutines.*
 import java.io.Closeable
@@ -27,6 +28,10 @@ abstract class BaseViewModel<S : IBase.State>(application: Application) :
         override fun close() {
             coroutineContext.cancel()
         }
+    }
+
+    fun showToast(message: String) {
+        state.toast = "${message}^${AlertType.DIALOG.name}"
     }
 
     override fun onCleared() {

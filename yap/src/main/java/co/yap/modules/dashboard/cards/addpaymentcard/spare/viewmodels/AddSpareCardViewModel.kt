@@ -8,7 +8,6 @@ import co.yap.modules.dashboard.cards.addpaymentcard.spare.interfaces.IAddSpareC
 import co.yap.modules.dashboard.cards.addpaymentcard.spare.states.AddSpareCardState
 import co.yap.modules.dashboard.cards.addpaymentcard.viewmodels.AddPaymentChildViewModel
 import co.yap.networking.cards.CardsRepository
-import co.yap.networking.cards.requestdtos.AddPhysicalSpareCardRequest
 import co.yap.networking.cards.requestdtos.AddVirtualSpareCardRequest
 import co.yap.networking.cards.responsedtos.Address
 import co.yap.networking.cards.responsedtos.Card
@@ -123,31 +122,26 @@ class AddSpareCardViewModel(application: Application) :
     }
 
     override fun requestAddSparePhysicalCard() {
-        val addPhysicalSpareCardRequest =
-            AddPhysicalSpareCardRequest(
-                MyUserManager.user?.currentCustomer?.getFullName(),
-                address?.latitude.toString(),
-                address?.longitude.toString(),
-                address?.address1
-            )
-
-        launch {
-            state.loading = true
-            when (val response = repository.addSparePhysicalCard(
-                addPhysicalSpareCardRequest
-            )) {
-                is RetroApiResponse.Success -> {
-                    toggleToolBarVisibility(false)
-                    clickEvent.setValue(ADD_PHYSICAL_SPARE_SUCCESS_EVENT)
-                    state.loading = false
-                }
-                is RetroApiResponse.Error -> {
-                    state.toggleVisibility = false
-                    state.toast = "${response.error.message}^${AlertType.DIALOG.name}"
-                    state.loading = false
+        address?.cardName = MyUserManager.user?.currentCustomer?.getFullName()
+        address?.let {
+            launch {
+                state.loading = true
+                when (val response = repository.addSparePhysicalCard(
+                    it
+                )) {
+                    is RetroApiResponse.Success -> {
+                        toggleToolBarVisibility(false)
+                        clickEvent.setValue(ADD_PHYSICAL_SPARE_SUCCESS_EVENT)
+                        state.loading = false
+                    }
+                    is RetroApiResponse.Error -> {
+                        state.toggleVisibility = false
+                        state.toast = "${response.error.message}^${AlertType.DIALOG.name}"
+                        state.loading = false
+                    }
                 }
             }
-        }
+        } ?: showToast("Invalid address found.")
     }
 
     override fun requestGetAddressForPhysicalCard() {
