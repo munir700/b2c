@@ -354,6 +354,8 @@ class LocationSelectionActivity : MapSupportActivity(), ILocationSelection.View 
         viewModel.address?.address1 = viewModel.state.addressTitle.get()
         viewModel.address?.address2 = viewModel.state.addressSubtitle.get()
         viewModel.address?.city = viewModel.state.city.get()
+        // this needs to be update and addresse title 1,2,3 should remove only addresse object will pass and recived.
+        viewModel.address?.nearestLandMark = viewModel.state.addressTitle.get()
         viewModel.address?.country = "United Arab Emirates"
         intent.putExtra(ADDRESS, viewModel.address)
         intent.putExtra(ADDRESS_SUCCESS, isUpdated)

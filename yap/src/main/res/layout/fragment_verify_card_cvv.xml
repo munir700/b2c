@@ -106,6 +106,7 @@
                 android:textColor="?attr/colorPrimaryDarkAttr"
                 app:bar_enabled="false"
                 app:custom_height="@dimen/_55sdp"
+                app:custom_width="@dimen/_45sdp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvTopUpDescription"
@@ -116,8 +117,7 @@
                 app:otp_box_background_error="@drawable/otp_bg_error"
                 app:otp_box_background_success="@drawable/otp_bg_success"
                 app:otp_text_size="@dimen/_24sdp"
-                app:requestKeyboard="@{true}"
-                app:custom_width="@dimen/_45sdp" />
+                app:requestKeyboard="@{true}" />
 
             <co.yap.widgets.otptextview.OtpTextView
                 android:id="@+id/cvvAmericanView"
@@ -129,6 +129,7 @@
                 android:visibility="gone"
                 app:bar_enabled="false"
                 app:custom_height="@dimen/_55sdp"
+                app:custom_width="@dimen/_45sdp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvTopUpDescription"
@@ -139,8 +140,7 @@
                 app:otp_box_background_error="@drawable/otp_bg_error"
                 app:otp_box_background_success="@drawable/otp_bg_success"
                 app:otp_text_size="@dimen/_24sdp"
-                app:requestKeyboard="@{true}"
-                app:custom_width="@dimen/_45sdp" />
+                app:requestKeyboard="@{true}" />
 
             <co.yap.widgets.CoreButton
                 android:id="@+id/btnAction"
@@ -153,14 +153,13 @@
                 android:layout_marginBottom="@dimen/margin_small"
                 android:onClick="@{(v)-> viewModel.buttonClickEvent(v.id)}"
                 android:text="Confirm"
-                app:btn_enable="true"
+                app:enableCoreButton="@{viewModel.state.cardCvv.length() == 3 }"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/cvvView"
-                app:layout_constraintVertical_bias="0.958"
-                tools:text="Add" />
+                app:layout_constraintVertical_bias="0.9"
+                tools:text="Confirm" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
