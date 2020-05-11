@@ -10,6 +10,7 @@ import co.yap.networking.customers.responsedtos.beneficiary.RecentBeneficiariesR
 import co.yap.networking.customers.responsedtos.beneficiary.TopUpBeneficiariesResponse
 import co.yap.networking.customers.responsedtos.documents.GetMoreDocumentsResponse
 import co.yap.networking.customers.responsedtos.sendmoney.*
+import co.yap.networking.messages.responsedtos.OtpValidationResponse
 import co.yap.networking.models.ApiResponse
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -24,7 +25,7 @@ interface CustomersRetroService {
 
     // In onboarding send verification email to verify uer
     @POST(CustomersRepository.URL_SEND_VERIFICATION_EMAIL)
-    suspend fun sendVerificationEmail(@Body sendVerificationEmailRequest: SendVerificationEmailRequest): Response<ApiResponse>
+    suspend fun sendVerificationEmail(@Body sendVerificationEmailRequest: SendVerificationEmailRequest): Response<OtpValidationResponse>
 
 
     // Get user account(s) Info
@@ -185,11 +186,11 @@ interface CustomersRetroService {
 
     //validate current passcode
     @GET(CustomersRepository.URL_VALIDATE_CURRENT_PASSCODE)
-    suspend fun validateCurrentPasscode(@Query("passcode") passcode: String): Response<ApiResponse>
+    suspend fun validateCurrentPasscode(@Query("passcode") passcode: String): Response<OtpValidationResponse>
 
     //change passcode
     @POST(CustomersRepository.URL_CHANGE_PASSCODE)
-    suspend fun changePasscode(@Query("new-password") newPasscode: String): Response<ApiResponse>
+    suspend fun changePasscode(@Query("new-password") newPasscode: String,@Query("token") token: String): Response<ApiResponse>
 
     //  App Update
     @GET(CustomersRepository.URL_APP_VERSION)

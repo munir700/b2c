@@ -5,6 +5,7 @@ import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import co.yap.R
 import co.yap.modules.dashboard.cards.paymentcarddetail.fragments.SetNewCardPinFragment
 import co.yap.modules.dashboard.more.main.activities.MoreActivity
@@ -19,7 +20,8 @@ import co.yap.yapcore.helpers.extentions.toast
 
 class UpdateNewPasscodeFragment : SetNewCardPinFragment() {
     private lateinit var sharedPreferenceManager: SharedPreferenceManager
-    override val viewModel: ISetCardPin.ViewModel
+    val args: UpdateNewPasscodeFragmentArgs by navArgs()
+    override val viewModel: UpdateNewPasscodeViewModel
         get() = ViewModelProviders.of(this).get(UpdateNewPasscodeViewModel::class.java)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -63,6 +65,7 @@ class UpdateNewPasscodeFragment : SetNewCardPinFragment() {
                 R.id.btnAction -> {
                     val action =
                         UpdateNewPasscodeFragmentDirections.actionUpdateNewPasscodeFragmentToUpdateConfirmPasscodeFragment(
+                            token = args.token,
                             newPinCode = viewModel.state.pincode
                         )
                     findNavController().navigate(action)

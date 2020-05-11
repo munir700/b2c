@@ -167,7 +167,7 @@ class LocationSelectionActivity : MapSupportActivity(), ILocationSelection.View 
             viewModel.state.valid.set(
                 !viewModel.state.addressTitle.get().isNullOrBlank()
                         && !viewModel.state.addressSubtitle.get().isNullOrBlank()
-                        && (if (viewModel.state.hasCityFeature.get() == true) viewModel.state.city.get() != "Select" else true)
+                        && viewModel.state.city.get() != "Select"
                         && if (viewModel.state.isOnBoarding.get() == false) true else viewModel.state.isTermsChecked.get() == true
             )
         }
@@ -353,8 +353,7 @@ class LocationSelectionActivity : MapSupportActivity(), ILocationSelection.View 
         val intent = Intent()
         viewModel.address?.address1 = viewModel.state.addressTitle.get()
         viewModel.address?.address2 = viewModel.state.addressSubtitle.get()
-        viewModel.address?.city =
-            if (viewModel.state.hasCityFeature.get() == true) viewModel.state.city.get() else "Dubai"
+        viewModel.address?.city = viewModel.state.city.get()
         viewModel.address?.country = "United Arab Emirates"
         intent.putExtra(ADDRESS, viewModel.address)
         intent.putExtra(ADDRESS_SUCCESS, isUpdated)

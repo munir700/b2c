@@ -2,6 +2,7 @@ package co.yap.modules.otp
 
 import android.app.Application
 import android.content.Context
+import co.yap.networking.CookiesManager
 import co.yap.networking.messages.MessagesRepository
 import co.yap.networking.messages.requestdtos.CreateOtpGenericRequest
 import co.yap.networking.messages.requestdtos.VerifyOtpGenericRequest
@@ -118,7 +119,12 @@ class GenericOtpViewModel(application: Application) :
                         )
                     )) {
                     is RetroApiResponse.Success -> {
-                        token = response.data.token.toString()
+                        response.data.token?.let {
+                            val tokens = it.split("%")
+                            token = tokens.first()
+                            if (tokens.size > 1)
+                                CookiesManager.jwtToken = tokens.last()
+                        }
                         clickEvent.setValue(id)
                     }
                     is RetroApiResponse.Error -> {

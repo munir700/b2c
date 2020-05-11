@@ -4,6 +4,7 @@ import android.app.Application
 import android.content.Context
 import co.yap.modules.forgotpasscode.interfaces.IForgotPasscodeOtp
 import co.yap.modules.forgotpasscode.states.ForgotPasscodeOtpState
+import co.yap.networking.CookiesManager
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.messages.MessagesRepository
 import co.yap.networking.messages.requestdtos.CreateForgotPasscodeOtpRequest
@@ -81,7 +82,12 @@ open class ForgotPasscodeOtpViewModel(application: Application) :
                     )
                 )) {
                 is RetroApiResponse.Success -> {
-                    token = response.data.token
+                    response.data.token?.let {
+                        val tokens = it.split("%")
+                        token = tokens.first()
+                        if (tokens.size > 1)
+                            CookiesManager.jwtToken = tokens.last()
+                    }
                     nextButtonPressEvent.setValue(id)
                 }
                 is RetroApiResponse.Error -> {

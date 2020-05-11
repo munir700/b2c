@@ -117,37 +117,46 @@ open class MapSupportActivity : BaseBindingActivity<ILocationSelection.ViewModel
     }
 
     private fun getSelectedMapLocation(location: LatLng): co.yap.networking.cards.responsedtos.Address? {
-        val geoCoder = Geocoder(context)
         try {
+            val geoCoder = Geocoder(context)
             val list = geoCoder.getFromLocation(location.latitude, location.longitude, 1)
             val selectedAddress: Address = list[0]
+            val locality = selectedAddress.locality
+            val countryName = selectedAddress.countryName
             var placeName =
                 selectedAddress.getAddressLine(0).split(",").toTypedArray()[0]
             val placeSubTitle = selectedAddress.getAddressLine(0)
             if (placeName == placeSubTitle) placeName = selectedAddress.featureName
             viewModel.state.isLocationInAllowedCountry.set(selectedAddress.countryCode == "AE")
             return co.yap.networking.cards.responsedtos.Address(
-                placeName,
-                placeSubTitle,
-                location.latitude,
-                location.longitude
+                address1 = placeName,
+                address2 = placeSubTitle,
+                latitude = location.latitude,
+                longitude = location.longitude,
+                city = locality,
+                country = countryName
             )
 
         } catch (e: Exception) {
             e.printStackTrace()
+            return null
         }
-        return null
     }
 
     private fun populateCardState(address: co.yap.networking.cards.responsedtos.Address?) {
         if (viewModel.state.isLocationInAllowedCountry.get() == true) {
             viewModel.state.isShowLocationCard.set(true)
-            address?.let {
-                viewModel.address?.latitude = it.latitude
-                viewModel.address?.longitude = it.longitude
-                viewModel.state.placeTitle.set(it.address1)
-                viewModel.state.placeSubTitle.set(it.address2)
+            address?.let { _address ->
+                viewModel.address?.latitude = _address.latitude
+                viewModel.address?.longitude = _address.longitude
+                viewModel.state.placeTitle.set(_address.address1)
+                viewModel.state.placeSubTitle.set(_address.address2)
                 viewModel.state.placePhoto.set(defaultPlacePhoto)
+                val cityMatched =
+                    viewModel.cities.value?.firstOrNull { it.name.equals(_address.city, true) }
+                cityMatched?.let {
+                    viewModel.state.city.set(it.name)
+                } ?: viewModel.state.city.set("Select")
             }
         } else
             showNotAllowedError()

@@ -5,7 +5,6 @@ import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import android.webkit.MimeTypeMap
 import androidx.annotation.NonNull
 import androidx.appcompat.app.AlertDialog
 import androidx.core.net.toUri
@@ -164,11 +163,11 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
 
     private fun onPhotosReturned(path: File?, position: Int, source: EasyImage.ImageSource?) {
         path?.let {
-            val ext = MimeTypeMap.getFileExtensionFromUrl(it.toURI().toURL().toString())
-            if (!ext.isNullOrBlank()) {
+            val ext = path.extension
+            if (!ext.isBlank()) {
                 when (ext) {
                     "png", "jpg", "jpeg" -> {
-                        viewModel.uploadProfconvertUriToFile(it.toUri())
+                        viewModel.requestUploadProfilePicture(it)
                         viewModel.state.imageUri = it.toUri()
                         ivProfilePic.setImageURI(it.toUri())
                     }
@@ -176,6 +175,8 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
                         viewModel.state.toast = "Invalid file found^${AlertType.DIALOG.name}"
                     }
                 }
+            } else {
+                viewModel.state.toast = "Invalid file found^${AlertType.DIALOG.name}"
             }
         }
     }

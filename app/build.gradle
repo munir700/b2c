@@ -44,8 +44,8 @@ android {
         }
 
         stg {
-            versionCode 97
-            versionName "0.9.7"
+            versionCode 103
+            versionName "0.10.2"
             applicationIdSuffix ".stg"
             buildConfigField("String", "BASE_URL", "\"${api_endpoint_stg}\"")
             buildConfigField("String", "LEANPLUM_CLIENT_SECRET", "\"${leanplum_client_secret_key}\"")
@@ -55,7 +55,6 @@ android {
         }
     }
 }
-
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])

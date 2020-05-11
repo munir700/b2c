@@ -127,7 +127,7 @@ object CardsRepository : BaseRepository(), CardsApi {
 
 
     override suspend fun editAddressRequest(
-        address: UpdateAddressRequest
+        address: Address
     ): RetroApiResponse<ApiResponse> =
         AuthRepository.executeSafely(call = { API.editAddressRequest(address) })
 

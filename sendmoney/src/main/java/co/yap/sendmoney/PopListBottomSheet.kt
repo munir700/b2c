@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import co.yap.networking.transactions.responsedtos.purposepayment.PurposeOfPayment
-import co.yap.sendmoney.R
 import co.yap.widgets.expandablelist.PopParentAdapter
 import co.yap.yapcore.interfaces.OnItemClickListener
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment

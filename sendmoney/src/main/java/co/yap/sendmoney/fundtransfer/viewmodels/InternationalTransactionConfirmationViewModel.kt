@@ -106,7 +106,7 @@ class InternationalTransactionConfirmationViewModel(application: Application) :
             it.totalDebitAmountRemittance?.let { totalSMConsumedAmount ->
                 parentViewModel?.transferData?.value?.sourceAmount?.toDoubleOrNull()?.let { enteredAmount ->
                     val remainingOtpLimit = it.otpLimit?.minus(totalSMConsumedAmount)
-                    return enteredAmount >= (remainingOtpLimit ?: 0.0)
+                    return enteredAmount > (remainingOtpLimit ?: 0.0)
                 } ?: return false
             } ?: return false
         } ?: return false
