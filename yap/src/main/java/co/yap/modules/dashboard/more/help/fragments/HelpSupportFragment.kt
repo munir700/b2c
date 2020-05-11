@@ -103,7 +103,7 @@ class HelpSupportFragment : MoreBaseFragment<IHelpSupport.ViewModel>(), IHelpSup
 
     private fun openActivity() {
         val authParams = LPAuthenticationParams(LPAuthenticationParams.LPAuthenticationType.AUTH)
-        authParams.hostAppJWT = viewModel.state.token.get()
+        authParams.hostAppJWT = viewModel.authRepository.getJwtToken()
 //        authParams.hostAppJWT = CookiesManager.jwtToken
         val params = ConversationViewParams(false)
             .setHistoryConversationsStateToDisplay(LPConversationsHistoryStateToDisplay.OPEN)

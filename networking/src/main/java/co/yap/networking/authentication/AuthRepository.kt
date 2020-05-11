@@ -68,11 +68,11 @@ object AuthRepository : BaseRepository(), AuthApi {
         return response
     }
 
-    override suspend fun getJwtToken(): String? {
+    override fun getJwtToken(): String? {
         return CookiesManager.jwtToken
     }
 
-    override suspend fun setJwtToken(token: String?) {
+    override fun setJwtToken(token: String?) {
         CookiesManager.jwtToken = token
     }
 }

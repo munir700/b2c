@@ -4,7 +4,7 @@ import android.app.Application
 import android.content.Context
 import co.yap.modules.forgotpasscode.interfaces.IForgotPasscodeOtp
 import co.yap.modules.forgotpasscode.states.ForgotPasscodeOtpState
-import co.yap.networking.CookiesManager
+import co.yap.networking.authentication.AuthRepository
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.messages.MessagesRepository
 import co.yap.networking.messages.requestdtos.CreateForgotPasscodeOtpRequest
@@ -24,7 +24,7 @@ open class ForgotPasscodeOtpViewModel(application: Application) :
         ForgotPasscodeOtpState(application)
     override val nextButtonPressEvent: SingleClickEvent = SingleClickEvent()
     override val repository: MessagesRepository = MessagesRepository
-    //override var mobileNumber: String = "scsd"
+    private val authRepository: AuthRepository = AuthRepository
     override var destination: String? = ""
     override var emailOtp: Boolean? = false
     override var action: String? = ""
@@ -86,7 +86,7 @@ open class ForgotPasscodeOtpViewModel(application: Application) :
                         val tokens = it.split("%")
                         token = tokens.first()
                         if (tokens.size > 1)
-                            CookiesManager.jwtToken = tokens.last()
+                            authRepository.setJwtToken(tokens.last())
                     }
                     nextButtonPressEvent.setValue(id)
                 }

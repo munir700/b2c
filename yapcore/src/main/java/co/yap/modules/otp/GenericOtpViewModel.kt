@@ -2,7 +2,8 @@ package co.yap.modules.otp
 
 import android.app.Application
 import android.content.Context
-import co.yap.networking.CookiesManager
+import co.yap.networking.authentication.AuthApi
+import co.yap.networking.authentication.AuthRepository
 import co.yap.networking.messages.MessagesRepository
 import co.yap.networking.messages.requestdtos.CreateOtpGenericRequest
 import co.yap.networking.messages.requestdtos.VerifyOtpGenericRequest
@@ -21,6 +22,7 @@ import co.yap.yapcore.managers.MyUserManager
 
 class GenericOtpViewModel(application: Application) :
     BaseViewModel<IGenericOtp.State>(application = application), IGenericOtp.ViewModel {
+
     override val clickEvent: SingleClickEvent = SingleClickEvent()
     override val errorEvent: SingleClickEvent = SingleClickEvent()
     private val repository: MessagesRepository = MessagesRepository
@@ -28,6 +30,8 @@ class GenericOtpViewModel(application: Application) :
     override var emailOtp: Boolean? = false
     override var token: String? = ""
     override val state: GenericOtpState = GenericOtpState(application = application)
+    private val authRepository: AuthApi = AuthRepository
+
 
     override fun onCreate() {
         super.onCreate()
@@ -123,7 +127,7 @@ class GenericOtpViewModel(application: Application) :
                             val tokens = it.split("%")
                             token = tokens.first()
                             if (tokens.size > 1)
-                                CookiesManager.jwtToken = tokens.last()
+                                authRepository.setJwtToken(tokens.last())
                         }
                         clickEvent.setValue(id)
                     }

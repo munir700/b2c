@@ -24,10 +24,8 @@ class HelpSupportViewModel(application: Application) :
     override val state: HelpSupportState = HelpSupportState()
 
     init {
-        //state.contactPhone.set("+971 600 55 1214")
         state.contactPhone.set("")
         state.title.set(getString(R.string.screen_help_support_display_text_title))
-        getJwtToken()
     }
 
     override fun handlePressOnView(id: Int) {
@@ -64,12 +62,6 @@ class HelpSupportViewModel(application: Application) :
                     response.data.data?.let { urlUpdated.value = it }
                 }
             }
-        }
-    }
-
-    override fun getJwtToken() {
-        launch {
-            state.token.set(authRepository.getJwtToken())
         }
     }
 }

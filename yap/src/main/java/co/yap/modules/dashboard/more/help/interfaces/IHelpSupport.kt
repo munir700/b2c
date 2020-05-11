@@ -12,7 +12,6 @@ interface IHelpSupport {
         var title: ObservableField<String>
         var contactPhone: ObservableField<String>
         var FaqsUrl: ObservableField<String>
-        var token: ObservableField<String>
     }
 
     interface ViewModel : IBase.ViewModel<State> {
@@ -22,7 +21,6 @@ interface IHelpSupport {
         fun handlePressOnView(id: Int)
         fun getHelpDeskPhone()
         fun getFaqsUrl()
-        fun getJwtToken()
     }
 
     interface View : IBase.View<ViewModel> {
