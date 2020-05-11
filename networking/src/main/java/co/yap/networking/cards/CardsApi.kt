@@ -15,7 +15,7 @@ interface CardsApi {
     suspend fun getDebitCards(cardType: String): RetroApiResponse<GetCardsResponse>
 
     suspend fun orderCard(
-        orderCardRequest: OrderCardRequest
+        address: Address
     ): RetroApiResponse<ApiResponse>
 
     suspend fun getAccountBalanceRequest(): RetroApiResponse<CardBalanceResponseDTO>
@@ -28,7 +28,7 @@ interface CardsApi {
     ): RetroApiResponse<AddSpareVirualCardResponse>
 
     suspend fun addSparePhysicalCard(
-        addPhysicalSpareCardRequest: AddPhysicalSpareCardRequest
+        address: Address
     ): RetroApiResponse<ApiResponse>
 
     suspend fun getUserAddressRequest(): RetroApiResponse<ApiResponse>
@@ -49,8 +49,8 @@ interface CardsApi {
         forgotCardPin: ForgotCardPin
     ): RetroApiResponse<ApiResponse>
 
-    suspend fun reorderDebitCard(reorderCardRequest: ReorderCardRequest): RetroApiResponse<ApiResponse>
-    suspend fun reorderSupplementryCard(reorderCardRequest: ReorderCardRequest): RetroApiResponse<ApiResponse>
+    suspend fun reorderDebitCard(address: Address): RetroApiResponse<ApiResponse>
+    suspend fun reorderSupplementryCard(address: Address): RetroApiResponse<ApiResponse>
     suspend fun getCardsAtmCdm(): RetroApiResponse<AtmCdmResponse>
 
     suspend fun getHouseHoldCardsDesign(

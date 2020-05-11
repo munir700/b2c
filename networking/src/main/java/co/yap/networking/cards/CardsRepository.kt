@@ -55,9 +55,9 @@ object CardsRepository : BaseRepository(), CardsApi {
 
 
     override suspend fun orderCard(
-        orderCardRequest: OrderCardRequest
+        address: Address
     ): RetroApiResponse<ApiResponse> =
-        AuthRepository.executeSafely(call = { API.orderCard(orderCardRequest) })
+        AuthRepository.executeSafely(call = { API.orderCard(address) })
 
     override suspend fun getAccountBalanceRequest(): RetroApiResponse<CardBalanceResponseDTO> =
         AuthRepository.executeSafely(call = { API.getAccountBalanceRequest() })
@@ -84,10 +84,10 @@ object CardsRepository : BaseRepository(), CardsApi {
             )
         })
 
-    override suspend fun addSparePhysicalCard(addPhysicalSpareCardRequest: AddPhysicalSpareCardRequest): RetroApiResponse<ApiResponse> =
+    override suspend fun addSparePhysicalCard(address: Address): RetroApiResponse<ApiResponse> =
         AuthRepository.executeSafely(call = {
             API.addSparePhysicalCardRequest(
-                addPhysicalSpareCardRequest
+                address
             )
         })
 
@@ -137,14 +137,14 @@ object CardsRepository : BaseRepository(), CardsApi {
     ): RetroApiResponse<ApiResponse> =
         AuthRepository.executeSafely(call = { API.forgotCardPin(cardSerialNumber, forgotCardPin) })
 
-    override suspend fun reorderDebitCard(reorderCardRequest: ReorderCardRequest): RetroApiResponse<ApiResponse> =
+    override suspend fun reorderDebitCard(address: Address): RetroApiResponse<ApiResponse> =
         AuthRepository.executeSafely(call = {
-            API.reorderDebitCard(reorderCardRequest)
+            API.reorderDebitCard(address)
         })
 
-    override suspend fun reorderSupplementryCard(reorderCardRequest: ReorderCardRequest): RetroApiResponse<ApiResponse> =
+    override suspend fun reorderSupplementryCard(address: Address): RetroApiResponse<ApiResponse> =
         AuthRepository.executeSafely(call = {
-            API.reorderSupplementaryCard(reorderCardRequest)
+            API.reorderSupplementaryCard(address)
         })
 
     override suspend fun getCardsAtmCdm() =

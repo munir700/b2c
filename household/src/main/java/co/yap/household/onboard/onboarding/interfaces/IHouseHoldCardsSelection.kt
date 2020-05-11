@@ -3,7 +3,6 @@ package co.yap.household.onboard.onboarding.interfaces
 //import co.yap.household.onboarding.onboarding.fragments.CircleColorAdapter
 import androidx.lifecycle.MutableLiveData
 import co.yap.household.onboard.cardselection.adaptor.HouseHoldCardSelectionAdapter
-import co.yap.networking.cards.requestdtos.OrderCardRequest
 import co.yap.networking.cards.responsedtos.Address
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
@@ -23,7 +22,7 @@ interface IHouseHoldCardsSelection {
 
         var orderCardRequestSuccess: MutableLiveData<Boolean>
         var adapter: HouseHoldCardSelectionAdapter
-        fun orderHouseHoldPhysicalCardRequest(orderCardRequest: OrderCardRequest)
+        fun orderHouseHoldPhysicalCardRequest(address: Address)
         val changedPosition: MutableLiveData<Int>
 
     }

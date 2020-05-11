@@ -8,7 +8,6 @@ import co.yap.R
 import co.yap.app.modules.login.interfaces.IPhoneVerificationSignIn
 import co.yap.modules.onboarding.constants.Constants
 import co.yap.modules.onboarding.viewmodels.OnboardingChildViewModel
-import co.yap.networking.CookiesManager
 import co.yap.networking.authentication.AuthRepository
 import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.customers.requestdtos.DemographicDataRequest
@@ -69,7 +68,7 @@ class PhoneVerificationSignInViewModel(application: Application) :
                         val tokens = it.split("%")
                         token = tokens.first()
                         if (tokens.size > 1)
-                            CookiesManager.jwtToken = tokens.last()
+                            repository.setJwtToken(tokens.last())
                     }
                     val sharedPreferenceManager = SharedPreferenceManager(context)
 
