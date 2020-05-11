@@ -11,7 +11,6 @@ import co.yap.app.databinding.FragmentOtpBlockedInfoBinding
 import co.yap.app.modules.login.interfaces.IOtpBlockedInfo
 import co.yap.app.modules.login.viewmodels.OtpBlockedInfoViewModel
 import co.yap.modules.dashboard.main.activities.YapDashboardActivity
-import co.yap.networking.CookiesManager
 import co.yap.translation.Strings
 import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.helpers.extentions.makeCall
@@ -74,6 +73,7 @@ class OtpBlockedInfoFragment : BaseBindingFragment<IOtpBlockedInfo.ViewModel>(),
                     override fun onInitSucceed() {
                         openActivity()
                     }
+
                     override fun onInitFailed(e: Exception) {
                         toast("Unable to open chat")
                     }
@@ -83,7 +83,8 @@ class OtpBlockedInfoFragment : BaseBindingFragment<IOtpBlockedInfo.ViewModel>(),
 
     private fun openActivity() {
         val authParams = LPAuthenticationParams(LPAuthenticationParams.LPAuthenticationType.AUTH)
-        authParams.hostAppJWT = CookiesManager.jwtToken
+        authParams.hostAppJWT = viewModel.state.token.get()
+//        authParams.hostAppJWT = CookiesManager.jwtToken
         val params = ConversationViewParams(false)
             .setHistoryConversationsStateToDisplay(LPConversationsHistoryStateToDisplay.OPEN)
             .setReadOnlyMode(false)
