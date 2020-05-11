@@ -240,25 +240,40 @@ class ProfileSettingsViewModel(application: Application) :
     }
 
     private fun getExpiryDate(expiryDateString: String) {
-        checkPandemic(expiryDateString)
+//        checkPandemic(expiryDateString)
         val simpleDateFormat = SimpleDateFormat("yyyy-MM-dd")
         simpleDateFormat.timeZone = TimeZone.getDefault()
         val expireyDate = simpleDateFormat.parse(expiryDateString)
         val cal = Calendar.getInstance()
         val currentDay = simpleDateFormat.format(cal.time)
         val currentDayDate = simpleDateFormat.parse(currentDay)
-        state.isShowErrorIcon.set(if (pandemicValidation) true else expireyDate < currentDayDate)
+        state.isShowErrorIcon.set(if (isDateFallInPandemic(expiryDateString)) true else expireyDate < currentDayDate)
 
         MyUserManager.eidStatus =
-            if (pandemicValidation) {
-                EIDStatus.VALID
-            } else if (expireyDate < currentDayDate) {
-                EIDStatus.EXPIRED
-            } else {
-                EIDStatus.VALID
+            when {
+                pandemicValidation -> {
+                    EIDStatus.VALID
+                }
+                expireyDate < currentDayDate -> {
+                    EIDStatus.EXPIRED
+                }
+                else -> {
+                    EIDStatus.VALID
+                }
             }
     }
 
+    private fun isDateFallInPandemic(EIDExpiryDate: String): Boolean {
+        val pandemicExpiryDateToString = "Dec 31, 2020"
+        val pandemicExpiryDateFromString = "Mar 1, 2020"
+        val simpleDateFormat = SimpleDateFormat("yyyy-MM-dd")
+        simpleDateFormat.timeZone = TimeZone.getDefault()
+        val toDate = simpleDateFormat.parse(pandemicExpiryDateToString)
+        val fromDate = simpleDateFormat.parse(pandemicExpiryDateFromString)
+        val eidExpiry = simpleDateFormat.parse(EIDExpiryDate)
+
+        return eidExpiry.after(toDate) && eidExpiry.before(fromDate)
+    }
 
     fun checkPandemic(expirationDate: Any): Any {
 //        var verifiedDate: Any = expirationDate as Date
