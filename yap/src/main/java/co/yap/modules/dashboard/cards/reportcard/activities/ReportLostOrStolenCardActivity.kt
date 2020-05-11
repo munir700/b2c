@@ -27,9 +27,7 @@ class ReportLostOrStolenCardActivity : BaseBindingActivity<IReportStolenActivity
             return intent
         }
 
-        //lateinit var reportCard: Card
         var reportCardSuccess: Boolean = false
-
     }
 
     override fun getBindingVariable(): Int = BR.viewModel
