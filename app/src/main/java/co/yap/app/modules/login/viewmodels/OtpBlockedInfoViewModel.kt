@@ -4,6 +4,8 @@ import android.app.Application
 import androidx.lifecycle.MutableLiveData
 import co.yap.app.modules.login.interfaces.IOtpBlockedInfo
 import co.yap.app.modules.login.states.OtpBlockedInfoState
+import co.yap.networking.authentication.AuthApi
+import co.yap.networking.authentication.AuthRepository
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.messages.MessagesRepository
 import co.yap.networking.models.RetroApiResponse
@@ -16,6 +18,7 @@ class OtpBlockedInfoViewModel(application: Application) :
     IOtpBlockedInfo.ViewModel, IRepositoryHolder<MessagesRepository> {
     override val state: IOtpBlockedInfo.State = OtpBlockedInfoState()
     override var clickEvent: SingleClickEvent = SingleClickEvent()
+    override val authRepository: AuthApi = AuthRepository
     override val onHelpNoSuccess: MutableLiveData<Boolean> = MutableLiveData(false)
     override val repository: MessagesRepository = MessagesRepository
 
@@ -45,4 +48,9 @@ class OtpBlockedInfoViewModel(application: Application) :
         }
     }
 
+    override fun getJwtToken() {
+        launch {
+            state.token.set(authRepository.getJwtToken())
+        }
+    }
 }

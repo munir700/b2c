@@ -6,7 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import co.yap.household.onboard.cardselection.adaptor.HouseHoldCardSelectionAdapter
 import co.yap.household.onboard.onboarding.interfaces.IHouseHoldCardsSelection
 import co.yap.networking.cards.CardsRepository
-import co.yap.networking.cards.requestdtos.OrderCardRequest
+import co.yap.networking.cards.responsedtos.Address
 import co.yap.networking.models.RetroApiResponse
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
@@ -70,12 +70,12 @@ class HouseHoldCardsSelectionViewModel(application: Application) :
     }
 
 
-    override fun orderHouseHoldPhysicalCardRequest(orderCardRequest: OrderCardRequest) {
+    override fun orderHouseHoldPhysicalCardRequest(address: Address) {
         launch {
             state.loading = true
             when (val response =
                 cardsRepository.orderCard(
-                    orderCardRequest
+                    address
                 )) {
                 is RetroApiResponse.Success -> {
                     orderCardRequestSuccess.value = true
