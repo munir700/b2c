@@ -152,7 +152,7 @@ class EidInfoReviewViewModel(application: Application) :
                             identity.sirName = data.surname
                             identity.givenName = data.names
                             identity.expirationDate =
-                                DateUtils.stringToDate("200402", "yyMMdd")
+                                DateUtils.stringToDate(data.expiration_date, "yyMMdd")
                             identity.dateOfBirth =
                                 DateUtils.stringToDate(data.date_of_birth, "yyMMdd")
                             identity.citizenNumber = data.optional1
