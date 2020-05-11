@@ -14,10 +14,10 @@ class IVerifyCardCvv {
         fun topUpTransactionRequest(model: TopUpTransactionModel?)
     }
 
-    interface State : IBase.State{
-        var cardCvv:String
-        var cvvSpanableString:ObservableField<String>
-        var cardInfo:ObservableField<TopUpCard>
-        var formattedCardNo:ObservableField<String>
+    interface State : IBase.State {
+        var cardCvv: String
+        var cvvSpanableString: ObservableField<String>
+        var cardInfo: ObservableField<TopUpCard>
+        var formattedCardNo: ObservableField<String>
     }
 }
