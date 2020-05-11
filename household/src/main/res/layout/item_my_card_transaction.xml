@@ -26,21 +26,19 @@
             app:layout_constraintBottom_toBottomOf="parent"/>
 <!--        app:src="@{viewModel.item.url}"-->
 
-        <TextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvTransactionName"
-            style="@style/ASmall"
+            style="@style/Yap.App.Widget.Transaction_Name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_medium"
-            android:singleLine="true"
-            android:textColor="@color/colorMidnightExpress"
             app:layout_constraintStart_toEndOf="@+id/iv_transaction"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="Spotify"
             android:text="Spotify" />
 <!--        app:text="@{viewModel.item.name}"-->
 
-        <TextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv_transaction_time"
             style="@style/SmallGrey"
             android:layout_width="wrap_content"
@@ -52,7 +50,7 @@
             android:text="09:12" />
 <!--        app:text="@{viewModel.item.time}"-->
 
-        <TextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv_dot"
             style="@style/SmallGrey"
             android:layout_width="wrap_content"
@@ -63,7 +61,7 @@
             tools:text="."
             android:text="."  />
 
-        <TextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv_transaction_type"
             style="@style/SmallGrey"
             android:layout_width="wrap_content"
@@ -75,7 +73,7 @@
             android:text="Payment" />
 <!--        app:text="@{viewModel.item.type}"-->
 
-        <TextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv_transaction_amount"
             style="@style/ASmallGrey"
             android:layout_width="wrap_content"
@@ -86,7 +84,7 @@
             android:text="- 543.00"  />
 <!--        app:text="@{viewModel.item.amount}"-->
 
-        <TextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv_transaction_percentage"
             style="@style/SmallGrey"
             android:layout_width="wrap_content"

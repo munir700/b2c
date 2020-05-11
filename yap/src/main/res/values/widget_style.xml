@@ -305,4 +305,17 @@
         <item name="android:lineSpacingExtra">8sp</item>
     </style>
 
+    <style name="Yap.App.Widget.Transaction_Name" parent="Yap.App.Widget.TextView">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginBottom">@dimen/margin_normal</item>
+        <item name="android:textColor">@color/colorMidnightExpress</item>
+        <item name="android:textSize">@dimen/text_size_h3</item>
+        <item name="android:lineSpacingExtra">8sp</item>
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textStyle">normal</item>
+        <item name="singleLine">true</item>
+
+    </style>
+
 </resources>
