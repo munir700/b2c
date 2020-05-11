@@ -82,58 +82,62 @@ class GenericOtpViewModel(application: Application) :
     }
 
     private fun verifyOtp(id: Int) {
-        if (state.otpDataModel?.otpAction == OTPActions.CHANGE_MOBILE_NO.name) {
-            launch {
-                state.loading = true
-                when (val response =
-                    repository.verifyOtpGenericWithPhone(
-                        state.mobileNumber[0]?.replace(" ", "")?.replace("+", "00") ?: "",
-                        VerifyOtpGenericRequest(state.otpDataModel?.otpAction ?: "", state.otp)
-                    )
-                    ) {
-                    is RetroApiResponse.Success -> {
-                        clickEvent.setValue(id)
-                    }
-                    is RetroApiResponse.Error -> {
-                        state.toast = "${response.error.message}^${AlertType.DIALOG.name}"
-                        state.otp = ""
-                        otpUiBlocked(response.error.actualCode)
-                        //errorEvent.call()
-                        state.loading = false
-                    }
-                }
-                state.loading = false
-            }
-        } else if (state.otpDataModel?.otpAction == OTPActions.FORGOT_PASS_CODE.name) {
-            verifyForgotPassCodeOtp(id)
-        } else {
-            launch {
-                state.loading = true
-                when (val response =
-                    repository.verifyOtpGeneric(
-                        VerifyOtpGenericRequest(
-                            state.otpDataModel?.otpAction ?: "",
-                            state.otp
+        when (state.otpDataModel?.otpAction) {
+            OTPActions.CHANGE_MOBILE_NO.name -> {
+                launch {
+                    state.loading = true
+                    when (val response =
+                        repository.verifyOtpGenericWithPhone(
+                            state.mobileNumber[0]?.replace(" ", "")?.replace("+", "00") ?: "",
+                            VerifyOtpGenericRequest(state.otpDataModel?.otpAction ?: "", state.otp)
                         )
-                    )) {
-                    is RetroApiResponse.Success -> {
-                        response.data.token?.let {
-                            val tokens = it.split("%")
-                            token = tokens.first()
-                            if (tokens.size > 1)
-                                CookiesManager.jwtToken = tokens.last()
+                        ) {
+                        is RetroApiResponse.Success -> {
+                            clickEvent.setValue(id)
                         }
-                        clickEvent.setValue(id)
+                        is RetroApiResponse.Error -> {
+                            state.toast = "${response.error.message}^${AlertType.DIALOG.name}"
+                            state.otp = ""
+                            otpUiBlocked(response.error.actualCode)
+                            //errorEvent.call()
+                            state.loading = false
+                        }
                     }
-                    is RetroApiResponse.Error -> {
-                        state.toast = "${response.error.message}^${AlertType.DIALOG.name}"
-                        state.otp = ""
-                        otpUiBlocked(response.error.actualCode)
-                        // errorEvent.call()
-                        state.loading = false
-                    }
+                    state.loading = false
                 }
-                state.loading = false
+            }
+            OTPActions.FORGOT_PASS_CODE.name -> {
+                verifyForgotPassCodeOtp(id)
+            }
+            else -> {
+                launch {
+                    state.loading = true
+                    when (val response =
+                        repository.verifyOtpGeneric(
+                            VerifyOtpGenericRequest(
+                                state.otpDataModel?.otpAction ?: "",
+                                state.otp
+                            )
+                        )) {
+                        is RetroApiResponse.Success -> {
+                            response.data.token?.let {
+                                val tokens = it.split("%")
+                                token = tokens.first()
+                                if (tokens.size > 1)
+                                    CookiesManager.jwtToken = tokens.last()
+                            }
+                            clickEvent.setValue(id)
+                        }
+                        is RetroApiResponse.Error -> {
+                            state.toast = "${response.error.message}^${AlertType.DIALOG.name}"
+                            state.otp = ""
+                            otpUiBlocked(response.error.actualCode)
+                            // errorEvent.call()
+                            state.loading = false
+                        }
+                    }
+                    state.loading = false
+                }
             }
         }
     }
