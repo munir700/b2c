@@ -16,7 +16,6 @@ import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.constants.Constants.KEY_APP_UUID
 import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.enums.EIDStatus
-import co.yap.yapcore.helpers.DateUtils
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.extentions.sizeInMb
 import co.yap.yapcore.managers.MyUserManager
@@ -140,8 +139,7 @@ class ProfileSettingsViewModel(application: Application) :
 
                     val data = response.data
                     data.data?.dateExpiry?.let {
-//                        getExpiryDate(it)
-                        getExpiryDate("Mar 1, 2020")
+                        getExpiryDate(it)
                     }
                     state.loading = false
                 }
@@ -158,86 +156,41 @@ class ProfileSettingsViewModel(application: Application) :
     }
 
     private fun getExpiryDate(expiryDateString: String) {
-//        checkPandemic(expiryDateString)
         val simpleDateFormat = SimpleDateFormat("yyyy-MM-dd")
         simpleDateFormat.timeZone = TimeZone.getDefault()
-        val expireyDate = simpleDateFormat.parse(expiryDateString)
+        val expiryDate = simpleDateFormat.parse(expiryDateString)
         val cal = Calendar.getInstance()
         val currentDay = simpleDateFormat.format(cal.time)
         val currentDayDate = simpleDateFormat.parse(currentDay)
-        state.isShowErrorIcon.set(if (isDateFallInPandemic(expiryDateString)) true else expireyDate < currentDayDate)
-
         MyUserManager.eidStatus =
             when {
-                pandemicValidation -> {
+                isDateFallInPandemic(expiryDateString) && isDateFallInPandemic(currentDay) -> {
+                    state.isShowErrorIcon.set(false)
                     EIDStatus.VALID
                 }
-                expireyDate < currentDayDate -> {
+                expiryDate < currentDayDate -> {
+                    state.isShowErrorIcon.set(true)
                     EIDStatus.EXPIRED
                 }
                 else -> {
+                    state.isShowErrorIcon.set(false)
                     EIDStatus.VALID
                 }
             }
     }
 
+    /*
+       If EID is expiring between  Mar 1, 2020, to Dec 31, 2020 Mark expiry date for EID as Dec 31, 2020,
+       which means any user whose EID is expiring between  Mar 1, 2020, to Dec 31, 2020 will be able to onboard in our system.
+   */
     private fun isDateFallInPandemic(EIDExpiryDate: String): Boolean {
-        val pandemicExpiryDateToString = "Dec 31, 2020"
-        val pandemicExpiryDateFromString = "Mar 1, 2020"
         val simpleDateFormat = SimpleDateFormat("yyyy-MM-dd")
         simpleDateFormat.timeZone = TimeZone.getDefault()
-        val toDate = simpleDateFormat.parse(pandemicExpiryDateToString)
-        val fromDate = simpleDateFormat.parse(pandemicExpiryDateFromString)
+        val fromDate = simpleDateFormat.parse("2020-03-01")
+        val toDate = simpleDateFormat.parse("2020-12-31")
         val eidExpiry = simpleDateFormat.parse(EIDExpiryDate)
 
-        return eidExpiry.after(toDate) && eidExpiry.before(fromDate)
-    }
-
-    fun checkPandemic(expirationDate: Any): Any {
-//        var verifiedDate: Any = expirationDate as Date
-        var verifiedDate: Any
-        var pandemicExpiryDateToString = "Dec 31, 2020"
-        var pandemicExpiryDateFromString = "Mar 1, 2020"
-        val pandemicExpiryToDate =
-            DateUtils.stringToDate(pandemicExpiryDateToString, DateUtils.FORMAT_DATE_MON_YEAR)
-        val pandemicExpiryFromDate =
-            DateUtils.stringToDate(pandemicExpiryDateFromString, DateUtils.FORMAT_DATE_MON_YEAR)
-
-//        If EID is expiring between  Mar 1, 2020, to Dec 31, 2020 Mark expiry date for EID as Dec 31, 2020,
-//        which means any user whose EID is expiring between  Mar 1, 2020, to Dec 31, 2020 will be able to onboard in our system.
-
-        if (expirationDate is Date) {
-           verifiedDate  = expirationDate as Date
-
-            if ((expirationDate?.after(pandemicExpiryFromDate) && expirationDate?.equals(
-                    pandemicExpiryToDate
-                )) || expirationDate?.equals(
-                    pandemicExpiryFromDate
-                )
-            ) {
-                pandemicValidation = true
-                verifiedDate = pandemicExpiryToDate!!
-            }
-
-        } else {
-              verifiedDate = expirationDate as String
-
-              var convertedDate :Date  = DateUtils.stringToDate(verifiedDate,"yyMMdd")!!
-
-            if ((convertedDate?.after(pandemicExpiryFromDate) && convertedDate?.equals(
-                    pandemicExpiryToDate
-                )) || convertedDate?.equals(
-                    pandemicExpiryFromDate
-                )
-            ) {
-                pandemicValidation = true
-                verifiedDate = DateUtils.dateToString(pandemicExpiryToDate) as String
-
-
-            }
-        }
-
-
-        return verifiedDate
+        // use inverse of condition bcz strict order check to a non-strict check e.g both dates are equals
+        return !eidExpiry.after(toDate) && !eidExpiry.before(fromDate)
     }
 }
