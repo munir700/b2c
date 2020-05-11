@@ -25,7 +25,6 @@ class MyCardFragment :
     BaseRecyclerViewFragment<FragmentMyCardBinding, IMyCard.State, MyCardVM, MyCardFragment.Adapter, TransactionModel>() {
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.fragment_my_card
-    override fun toolBarVisibility(): Boolean? = true
 
     override fun postExecutePendingBindings() {
         super.postExecutePendingBindings()
@@ -86,6 +85,5 @@ class MyCardFragment :
         override fun getViewModel(viewType: Int) = MyCardRecentTransactionsItemVM()
         override fun getVariableId() = BR.viewModel
         override fun getItemCount(): Int = 10
-
     }
 }

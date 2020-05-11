@@ -23,7 +23,7 @@ class MyCardModule : BaseFragmentModule<MyCardFragment>() {
     @Provides
     fun provideMyCardTransactionsAdapter() =
         MyCardFragment.Adapter(
-            ArrayList(),
+            mutableListOf(),
             null
         )
 }
