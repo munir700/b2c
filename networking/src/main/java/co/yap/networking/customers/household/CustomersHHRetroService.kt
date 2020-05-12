@@ -55,17 +55,11 @@ interface CustomersHHRetroService {
         @Body request: SchedulePayment?
     ): Response<ApiResponse>
 
-    @POST(CustomersHHRepository.URL_IBAN_HOUSE_HOLD_UPDATE_SCHEDULE_PAYMENT)
-    suspend fun updateSchedulePayment(
-        @Path("UUID") uuid: String?,
-        @Body request: SchedulePayment?
-    ): Response<ApiResponse>
-
     @GET(CustomersHHRepository.URL_IBAN_HOUSE_HOLD_GET_SCHEDULE_PAYMENT)
     suspend fun getSchedulePayment(
         @Path("UUID") uuid: String?,
         @Path("category") category: String?
-    ): Response<BaseListResponse<SalaryTransaction>>
+    ): Response<BaseListResponse<SchedulePayment>>
 
     @GET(CustomersHHRepository.URL_IBAN_HOUSE_HOLD_GET_LAST_TRANSACTION)
     suspend fun getLastTransaction(
@@ -75,4 +69,10 @@ interface CustomersHHRetroService {
 
     @GET(CustomersHHRepository.URL_IBAN_HOUSE_HOLD_GET_LAST_NEXT_TRANSACTION)
     suspend fun getLastNextTransaction(@Path("UUID") uuid: String?): Response<ApiResponse>
+
+    @POST(CustomersHHRepository.URL_IBAN_HOUSE_HOLD_CANCEL_SCHEDULE_PAYMENT)
+    suspend fun cancelSchedulePayment(@Path("UUID") uuid: String?): Response<ApiResponse>
+
+    @POST(CustomersHHRepository.URL_IBAN_HOUSE_HOLD_UPDATE_SCHEDULE_PAYMENT)
+    suspend fun updateSchedulePayment(@Path("UUID") uuid: String?,@Body request: SchedulePayment?): Response<ApiResponse>
 }

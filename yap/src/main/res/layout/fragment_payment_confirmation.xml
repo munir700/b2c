@@ -6,9 +6,17 @@
 
         <import type="co.yap.translation.Strings" />
 
+        <import type="co.yap.yapcore.helpers.DateUtils" />
+
         <import type="android.view.View" />
 
         <import type="co.yap.translation.Translator" />
+
+        <import type="co.yap.yapcore.helpers.spannables.SpannableStringCreatorKt" />
+
+        <import type="co.yap.yapcore.helpers.spannables.SpannableKt" />
+
+        <import type="co.yap.yapcore.helpers.extentions.StringExtensionsKt" />
 
         <variable
             name="paymentConfirmationVM"
@@ -44,8 +52,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/includeImageView"
-            app:text="@{paymentConfirmationVM.state.recurringPaymentScreen?Strings.screen_household_recurring_payment_success_text:Strings.screen_household_normal_payment_success_text}"
-            tools:text="@string/screen_household_recurring_payment_success_text" />
+            app:text="@{paymentConfirmationVM.state.schedulePayment.isRecurring?Strings.screen_household_recurring_payment_text:(paymentConfirmationVM.state.schedulePayment.nextProcessingDate.empty?Strings.screen_household_normal_payment_success_text:Strings.screen_household_future_payment_text)}"
+            tools:text="@string/screen_household_recurring_payment_text" />
 
         <co.yap.widgets.libcurrencyview.CurrencyTextView
             android:id="@+id/currencyTextView"
@@ -57,6 +65,17 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/appCompatTextView2"
             tools:text="2234544.44" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            style="@style/Yap.App.Widget.TextView.Normal.GrayDark"
+            android:layout_marginTop="@dimen/margin_small"
+            android:text="@{ SpannableStringCreatorKt.getText(context.resources, paymentConfirmationVM.getString(Strings.screen_household_recurring_payment_date_text),SpannableKt.color(@color/colorPrimaryDark,paymentConfirmationVM.state.schedulePayment.nextProcessingDate))}"
+            android:textSize="@dimen/text_size_h3"
+            android:visibility="@{paymentConfirmationVM.state.schedulePayment.isRecurring &amp;&amp; !paymentConfirmationVM.state.schedulePayment.nextProcessingDate.empty?View.VISIBLE:View.GONE}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/currencyTextView"
+            tools:text="starting on Sep 12, 2019" />
 
 
         <androidx.appcompat.widget.AppCompatImageView
@@ -83,7 +102,7 @@
             android:paddingTop="@dimen/margin_medium_large"
             android:paddingEnd="@dimen/margin_medium"
             android:paddingBottom="@dimen/margin_medium_large"
-            android:visibility="@{paymentConfirmationVM.state.schedulePayment.isRecurring ?View.GONE:View.VISIBLE}"
+            android:visibility="@{paymentConfirmationVM.state.schedulePayment.isRecurring ?View.GONE:View.VISIBLE , default = gone}"
             app:layout_constraintBottom_toTopOf="@+id/btnGoToDashboard"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent">
@@ -118,14 +137,14 @@
             style="@style/Yap.App.Widget.TextView.Small.GrayDark"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:visibility="@{paymentConfirmationVM.state.schedulePayment.isRecurring?View.VISIBLE:View.GONE}"
+            android:visibility="@{paymentConfirmationVM.state.schedulePayment.isRecurring?View.VISIBLE:View.GONE , default = visible}"
             app:layout_constraintBottom_toTopOf="@+id/btnGoToDashboard"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/appCompatImageView2"
             app:text="@{Strings.screen_household_recurring_payment_guide_text}"
             tools:text="@string/screen_household_recurring_payment_guide_text"
-            tools:visibility="gone" />
+            tools:visibility="visible" />
 
 
         <co.yap.widgets.CoreButton

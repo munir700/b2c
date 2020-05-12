@@ -79,9 +79,11 @@ class PayHHEmployeeSalaryVM @Inject constructor(override val state: IPayHHEmploy
                 customersHHRepository.getSchedulePayment(uuid, "Salary")) {
                 is RetroApiResponse.Success -> {
                     response.data.data?.let {
-                        // state.scheduleTransaction?.value = it
+                        state.recurringTransaction?.value =
+                            it.find { s -> s.isRecurring == true && s.recurringInterval?.isNotEmpty()!! }
+                        state.futureTransaction?.value =
+                            it.find { s -> s.isRecurring == false && s.recurringInterval?.isEmpty()?:false }
                     }
-//                    publishState(State.success(null))
                 }
                 is RetroApiResponse.Error -> {
                 }
@@ -96,17 +98,9 @@ class PayHHEmployeeSalaryVM @Inject constructor(override val state: IPayHHEmploy
                 is RetroApiResponse.Success -> {
                     response.data.data?.let {
                         state.lastTransaction?.value = it
-                        state.futureTransaction?.value = it
-                        state.recurringTransaction?.value = it
-
                     }
-
-
-//                    publishState(State.success(null))
-//                    state.toast = response.data.toString()
                 }
                 is RetroApiResponse.Error -> {
-//                    state.toast = response.error.message
                 }
             }
         }

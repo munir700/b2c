@@ -88,14 +88,14 @@ fun Context.confirm(
 @JvmOverloads
 fun Fragment.confirm(
     message: String,
-    title: String = "",
+    title: String? = "",
     positiveButton: String? = "Yes",
     negativeButton: String? = "No",
     cancelable: Boolean = true,
     callback: DialogInterface.() -> Unit
 ) =
     AlertDialog.Builder(requireContext()).apply {
-        if (title.isEmpty().not())
+        if (title?.isEmpty()?.not()==true)
             setTitle(title)
         setMessage(message)
         setPositiveButton(

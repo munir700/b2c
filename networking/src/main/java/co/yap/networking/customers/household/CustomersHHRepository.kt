@@ -41,6 +41,8 @@ object CustomersHHRepository : BaseRepository(), CustomersApi by CustomersReposi
         "customers/api/household/get-last-transaction/{UUID}/{category}"
     const val URL_IBAN_HOUSE_HOLD_GET_LAST_NEXT_TRANSACTION =
         "customers/api/household/last-next-transaction/{UUID}"
+    const val URL_IBAN_HOUSE_HOLD_CANCEL_SCHEDULE_PAYMENT =
+        "customers/api/household/cancel-household-schedule-payment/{UUID}"
 
     //    iban-household-schedule-payment
     //    Get All subaccounts for a IBAN user:
@@ -106,18 +108,18 @@ object CustomersHHRepository : BaseRepository(), CustomersApi by CustomersReposi
     ): RetroApiResponse<ApiResponse> =
         executeSafely(call = { apiService.createSchedulePayment(uuid, schedulePayment) })
 
-    override suspend fun updateSchedulePayment(
-        uuid: String?,
-        schedulePayment: SchedulePayment?
-    ): RetroApiResponse<ApiResponse> =
-        executeSafely(call = { apiService.updateSchedulePayment(uuid, schedulePayment) })
+    override suspend fun getSchedulePayment(uuid: String?, category: String?) =
+        executeSafely(call = { apiService.getSchedulePayment(uuid, category) })
 
-    override suspend fun getSchedulePayment(uuid: String?,category:String?) =
-        executeSafely(call = { apiService.getSchedulePayment(uuid,category) })
+    override suspend fun getLastTransaction(uuid: String?, category: String?) =
+        executeSafely(call = { apiService.getLastTransaction(uuid, category) })
 
-    override suspend fun getLastTransaction(uuid: String?,category:String?) =
-        executeSafely(call = { apiService.getLastTransaction(uuid,category) })
-
-    override suspend fun getLastNextTransaction(uuid: String?)=
+    override suspend fun getLastNextTransaction(uuid: String?) =
         executeSafely(call = { apiService.getLastNextTransaction(uuid) })
+
+    override suspend fun cancelSchedulePayment(scheduledPaymentUuid: String?) =
+        executeSafely(call = { apiService.cancelSchedulePayment(scheduledPaymentUuid) })
+
+    override suspend fun updateSchedulePayment(scheduledPaymentUuid: String?,request: SchedulePayment?) =
+        executeSafely(call = { apiService.updateSchedulePayment(scheduledPaymentUuid,request) })
 }

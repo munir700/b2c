@@ -52,17 +52,16 @@
             app:layout_constraintTop_toBottomOf="@+id/tvLable"
             tools:text="dasdsadsadsadadsadsa" />
 
-        <co.yap.widgets.libcurrencyview.CurrencyTextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/currencyTextView"
             style="@style/Yap.App.Widget.TextView.Currency"
             android:layout_width="0dp"
             android:gravity="end"
-            android:text="@{amount?? `0.00`}"
+            android:text="@{amount?? @string/screen_send_money_display_text_edit}"
             android:textColor="@{subLabelTextColor??@color/colorPrimaryDark}"
-            app:ctv_currencySymbol="AED "
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/guideline1"
+            tools:text="@string/screen_send_money_display_text_edit"
             app:layout_constraintTop_toTopOf="parent" />
 
 

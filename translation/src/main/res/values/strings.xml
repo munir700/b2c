@@ -1075,12 +1075,14 @@
     <string name="screen_household_employee_salary_schedule_once_heading_text">Schedule once</string>
     <string name="screen_household_employee_salary_future_payment_text">Set up a single payment for a future date</string>
     <string name="screen_household_employee_salary_recurring_heading_text">Make recurring</string>
+    <string name="screen_household_employee_salary_edit_recurring_heading_text">Current recurring salary</string>
+    <string name="screen_household_employee_salary_delete_recurring_text">Delete and cancel this salary</string>
     <string name="screen_household_employee_salary_recurring_text">Set up a standing order for future payments</string>
     <string name="screen_household_employee_salary_pay_now_button_text">Pay salary now</string>
     <string name="screen_household_employee_salary_next_payment_text">Next payment</string>
     <string name="screen_household_employee_salary_recurrent_auto_payment_primary_text">Recurrent auto payment</string>
-    <string name="screen_household_employee_salary_next_payment_secondary_text">%1s until for %2s</string>
-    <string name="screen_household_employee_salary_recurrent_auto_payment_secondary_text">%1s scheduled for %2s</string>
+    <string name="screen_household_employee_salary_next_payment_secondary_text">AED  %1s scheduled for %2s</string>
+    <string name="screen_household_employee_salary_recurrent_auto_payment_secondary_text">AED %1s until %2s</string>
     <string name="screen_household_employee_salary_last_salary_transfer_text">Last salary transfer</string>
 
     <!--Household  Pay Salary Screen-->

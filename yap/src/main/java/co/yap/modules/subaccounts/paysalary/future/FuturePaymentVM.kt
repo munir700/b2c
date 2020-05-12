@@ -97,7 +97,7 @@ class FuturePaymentVM @Inject constructor(override val state: IFuturePayment.Sta
         createSchedulePayment(
             state.subAccount.value?.accountUuid,
             SchedulePayment(
-                amount = state.amount.value, scheduledDate = time,
+                amount = state.amount.value,
                 nextProcessingDate = time
             )
         )
