@@ -36,5 +36,12 @@ data class Address(
     @SerializedName("uuid")
     var uuid: String? = null,
     @SerializedName("active")
-    var active: Boolean? = null
+    var active: Boolean? = null,
+    // In special case  don't remove below code
+    @SerializedName("cardName")
+    var cardName: String? = null,
+    @SerializedName("nearestLandMark")
+    var nearestLandMark: String? = null,
+    @SerializedName("designCode")
+    var designCode: String? = null
 ) : Parcelable

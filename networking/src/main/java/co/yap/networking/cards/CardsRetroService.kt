@@ -19,7 +19,7 @@ interface CardsRetroService {
 
     // Order Card
     @POST(CardsRepository.URL_ORDER_CARD)
-    suspend fun orderCard(@Body orderCardRequest: OrderCardRequest): Response<ApiResponse>
+    suspend fun orderCard(@Body address: Address): Response<ApiResponse>
 
     // get card balance
     @GET(CardsRepository.URL_GET_DEBIT_CARD_BALANCE)
@@ -43,7 +43,7 @@ interface CardsRetroService {
 
     // add spare physical card
     @POST(CardsRepository.URL_ADD_SPARE_PHYSICAL_CARD)
-    suspend fun addSparePhysicalCardRequest(@Body addPhysicalSpareCardRequest: AddPhysicalSpareCardRequest): Response<ApiResponse>
+    suspend fun addSparePhysicalCardRequest(@Body address: Address): Response<ApiResponse>
 
     // add spare physical card
     @GET(CardsRepository.URL_GET_PHYSICAL_CARD_ADDRESS)
@@ -90,11 +90,11 @@ interface CardsRetroService {
 
     // reorder debit card
     @POST(CardsRepository.URL_REORDER_DEBIT_CARD)
-    suspend fun reorderDebitCard(@Body reorderCardRequest: ReorderCardRequest): Response<ApiResponse>
+    suspend fun reorderDebitCard(@Body address: Address): Response<ApiResponse>
 
     // reorder supplementary card
     @POST(CardsRepository.URL_REORDER_SUPPLEMENTARY_CARD)
-    suspend fun reorderSupplementaryCard(@Body reorderCardRequest: ReorderCardRequest): Response<ApiResponse>
+    suspend fun reorderSupplementaryCard(@Body address: Address): Response<ApiResponse>
 
     // reorder supplementary card
     @GET(CardsRepository.URL_ATM_CDM)

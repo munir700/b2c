@@ -10,9 +10,7 @@ import co.yap.yapcore.SingleLiveEvent
 
 interface IVerifyPasscode {
 
-    interface View : IBase.View<ViewModel> {
-        fun setObservers()
-    }
+    interface View : IBase.View<ViewModel>
 
     interface ViewModel : IBase.ViewModel<State> {
         fun handlePressOnPressView(id: Int)
@@ -23,7 +21,6 @@ interface IVerifyPasscode {
         fun verifyPasscode()
         fun showAccountBlockedError(errorMessage: String)
         val onClickEvent: MutableLiveData<Int>
-        val forgotPasscodeButtonPressEvent: SingleClickEvent
         val loginSuccess: SingleLiveEvent<Boolean>
         val accountInfo: MutableLiveData<AccountInfo>
         val validateDeviceResult: SingleLiveEvent<Boolean>

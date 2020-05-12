@@ -17,7 +17,6 @@ import co.yap.modules.dashboard.more.main.activities.MoreActivity
 import co.yap.modules.dashboard.more.profile.intefaces.ISuccess
 import co.yap.modules.dashboard.more.profile.viewmodels.SuccessViewModel
 import co.yap.yapcore.BaseBindingFragment
-import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.managers.MyUserManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
@@ -40,13 +39,9 @@ class SuccessFragment : BaseBindingFragment<ISuccess.ViewModel>(),
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel.buttonClickEvent.observe(this, Observer {
-            if (successType == Constants.CHANGE_PASSCODE) {
-                findNavController().popBackStack(R.id.profileSettingsFragment, true)
-                findNavController().navigate(R.id.profileSettingsFragment)
-            } else {
-                findNavController().popBackStack(R.id.personalDetailsFragment, true)
-                findNavController().navigate(R.id.personalDetailsFragment)
-            }
+            findNavController().popBackStack(R.id.personalDetailsFragment, true)
+            findNavController().navigate(R.id.personalDetailsFragment)
+
         })
     }
 
