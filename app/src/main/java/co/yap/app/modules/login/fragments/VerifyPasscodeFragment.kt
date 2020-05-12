@@ -39,6 +39,7 @@ import co.yap.yapcore.helpers.extentions.preventTakeScreenShot
 import co.yap.yapcore.helpers.extentions.startFragment
 import co.yap.yapcore.helpers.extentions.toast
 import co.yap.yapcore.helpers.livedata.GetAccountInfoLiveData
+import co.yap.yapcore.helpers.livedata.SwitchProfileLiveData
 import co.yap.yapcore.managers.MyUserManager
 import kotlinx.android.synthetic.main.fragment_verify_passcode.*
 
@@ -82,7 +83,7 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
         viewModel.validateDeviceResult.observe(this, validateDeviceResultObserver)
 //        MyUserManager.onAccountInfoSuccess.observe(this, onFetchAccountInfo)
         viewModel.createOtpResult.observe(this, createOtpObserver)
-        MyUserManager.switchProfile.observe(this, switchProfileObserver)
+//        MyUserManager.switchProfile.observe(this, switchProfileObserver)
         setObservers()
     }
 
@@ -313,7 +314,9 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
                 }
             } else {
                 if (MyUserManager.shouldGoToHousehold()) {
-                    MyUserManager.switchProfile()
+//                    MyUserManager.switchProfile()
+                    MyUserManager.user?.uuid?.let { it1 -> SwitchProfileLiveData.get(it1, this@VerifyPasscodeFragment).
+                        observe(this@VerifyPasscodeFragment, switchProfileObserver) }
                 } else {
                     if (otpBlocked == true)
                         startFragment(
@@ -327,8 +330,8 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
         }
     }
 
-    private val switchProfileObserver = Observer<Boolean> {
-        if (it) {
+    private val switchProfileObserver = Observer<AccountInfo?> {
+        it.let {
             if (MyUserManager.isOnBoarded()) {
                 if (MyUserManager.isExistingUser()) {
                     launchActivity<YapDashboardActivity>(clearPrevious = true)

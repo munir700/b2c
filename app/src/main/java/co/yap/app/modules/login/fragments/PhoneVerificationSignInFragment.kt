@@ -20,6 +20,7 @@ import co.yap.yapcore.helpers.biometric.BiometricUtil
 import co.yap.yapcore.helpers.extentions.launchActivity
 import co.yap.yapcore.helpers.extentions.startFragment
 import co.yap.yapcore.helpers.livedata.GetAccountInfoLiveData
+import co.yap.yapcore.helpers.livedata.SwitchProfileLiveData
 import co.yap.yapcore.managers.MyUserManager
 
 
@@ -40,7 +41,7 @@ class PhoneVerificationSignInFragment :
         viewModel.verifyOtpResult.observe(this, verifyOtpResultObserver)
         viewModel.postDemographicDataResult.observe(this, postDemographicDataObserver)
 //        MyUserManager.onAccountInfoSuccess?.observe(this, onFetchAccountInfo)
-        MyUserManager.switchProfile.observe(this, switchProfileObserver)
+//        MyUserManager.switchProfile.observe(this, switchProfileObserver)
         setUsername()
         setPasscode()
     }
@@ -66,7 +67,9 @@ class PhoneVerificationSignInFragment :
     private val onFetchAccountInfo = Observer<AccountInfo?> {
         it?.run {
             if (MyUserManager.shouldGoToHousehold()) {
-                MyUserManager.switchProfile()
+//                MyUserManager.switchProfile()
+                MyUserManager.user?.uuid?.let { it1 -> SwitchProfileLiveData.get(it1, this@PhoneVerificationSignInFragment).
+                    observe(this@PhoneVerificationSignInFragment, switchProfileObserver) }
             } else {
                 if (BiometricUtil.isFingerprintSupported
                     && BiometricUtil.isHardwareSupported(requireActivity())
@@ -100,8 +103,8 @@ class PhoneVerificationSignInFragment :
         }
     }
 
-    private val switchProfileObserver = Observer<Boolean> {
-        if (it) {
+    private val switchProfileObserver = Observer<AccountInfo?> {
+        it.let {
             if (MyUserManager.isOnBoarded()) {
                 gotoYapDashboard()
             } else {

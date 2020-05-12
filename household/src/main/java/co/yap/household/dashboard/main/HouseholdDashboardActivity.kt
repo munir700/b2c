@@ -18,6 +18,7 @@ import co.yap.yapcore.dagger.base.BaseViewModelActivity
 import co.yap.yapcore.enums.AccountType
 import co.yap.yapcore.helpers.extentions.dimen
 import co.yap.yapcore.helpers.extentions.launchActivity
+import co.yap.yapcore.helpers.livedata.SwitchProfileLiveData
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.MyUserManager
 import kotlinx.android.synthetic.main.activity_household_dashboard.*
@@ -45,7 +46,6 @@ class HouseholdDashboardActivity :
     }
 
     private fun addObservers() {
-        MyUserManager.switchProfile.observe(this, switchProfileObserver)
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
                 R.id.btnCopyHH -> viewModel.copyAccountInfoToClipboard()
@@ -68,13 +68,14 @@ class HouseholdDashboardActivity :
         override fun onItemClick(view: View, data: Any, pos: Int) {
             if (data is AccountInfo) {
                 selectedUser = data
-                MyUserManager.switchProfile(data.uuid)
+//                MyUserManager.switchProfile(data.uuid)
+                data.uuid?.let { SwitchProfileLiveData.get(it, this@HouseholdDashboardActivity).observe(this@HouseholdDashboardActivity, switchProfileObserver) }
             }
         }
     }
 
-    private val switchProfileObserver = Observer<Boolean> {
-        if (it) {
+    private val switchProfileObserver = Observer<AccountInfo?> {
+        it.let {
             if (selectedUser?.accountType == AccountType.B2C_ACCOUNT.name) {
                 // Go to yap Dashboard
                 launchActivity<YapDashboardActivity>()
