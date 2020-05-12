@@ -117,6 +117,10 @@ class EidInfoReviewViewModel(application: Application) :
         handlePressOnRescanBtn()
     }
 
+    override fun handlePressOnEdit(id: Int) {
+        clickEvent.setValue(id)
+    }
+
     override fun handleUserAcceptance(reason: Int) {
         clickEvent.setValue(EVENT_NEXT_WITH_ERROR)
     }
@@ -251,38 +255,31 @@ class EidInfoReviewViewModel(application: Application) :
 
     fun splitLastNames(lastNames: String) {
         val parts = lastNames.split(" ")
-        state.firstName =parts.get(0)
+        state.firstName = parts.get(0)
 
         if (parts.size == 2) {
             state.lastName = parts.get(1)
         } else if (parts.size > 2) {
             state.middleName = parts.get(1)
-//            state.lastName = parts.get(2)
-            var x=2
+            var x = 2
             while (x < parts.size) {
                 if (state.lastName.isEmpty()) {
                     state.lastName = parts.get(x)
                 } else {
                     state.lastName = state.lastName + " " + parts.get(x)
                 }
-                x++ // Same as x += 1
+                x++
             }
-//            parts.forEach { name ->
-//                if (state.lastName.isEmpty()) {
-//                    state.lastName = name
-//                } else {
-//                    state.lastName = state.lastName + " " + name
-//                }
-//            }
         }
     }
 
     private fun populateState(identity: Identity?) {
         identity?.let {
-            splitLastNames( it.givenName + " " + it.sirName)
+            splitLastNames(it.givenName + " " + it.sirName)
             state.fullNameValid = state.firstName.isNotBlank()
             state.nationality = it.nationality
-            state.nationalityValid = state.nationality.isNotBlank() && !state.nationality.equals("USA", true)
+            state.nationalityValid =
+                state.nationality.isNotBlank() && !state.nationality.equals("USA", true)
             state.dateOfBirth =
                 DateUtils.reformatToLocalString(it.dateOfBirth, DateUtils.DEFAULT_DATE_FORMAT)
             state.dateOfBirthValid = it.isDateOfBirthValid
@@ -290,6 +287,7 @@ class EidInfoReviewViewModel(application: Application) :
                 DateUtils.reformatToLocalString(it.expirationDate, DateUtils.DEFAULT_DATE_FORMAT)
             state.expiryDateValid = it.isExpiryDateValid
             state.genderValid = true
+            state.citizenNumber = getFormattedCitizenNumber(it.citizenNumber)
             state.gender = it.gender.run {
                 when {
                     this == Gender.Male -> getString(Strings.screen_b2c_eid_info_review_display_text_gender_male)
@@ -301,5 +299,22 @@ class EidInfoReviewViewModel(application: Application) :
                 }
             }
         }
+    }
+
+
+    private fun getFormattedCitizenNumber(citizenNo: String): String {
+        parentViewModel?.name?.value =
+            getString(Strings.screen_b2c_eid_info_review_display_text_edit_sub_title).format(
+                parentViewModel?.name?.value
+            )
+        val builder = StringBuilder()
+        builder.append(citizenNo.subSequence(0..2))
+        builder.append("-")
+        builder.append(citizenNo.subSequence(3..6))
+        builder.append("-")
+        builder.append(citizenNo.subSequence(7..13))
+        builder.append("-")
+        builder.append(citizenNo.subSequence(14..14))
+        return builder.toString()
     }
 }

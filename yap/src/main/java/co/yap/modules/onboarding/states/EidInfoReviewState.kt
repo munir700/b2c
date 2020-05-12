@@ -10,6 +10,13 @@ class EidInfoReviewState : BaseState(), IEidInfoReview.State {
     private var date: Date? = null
 
     @get:Bindable
+    override var citizenNumber: String = ""
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.citizenNumber)
+        }
+
+    @get:Bindable
     override var firstName: String = ""
         set(value) {
             field = value

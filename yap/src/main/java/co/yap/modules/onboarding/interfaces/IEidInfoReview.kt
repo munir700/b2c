@@ -14,6 +14,7 @@ interface IEidInfoReview {
         var dateOfBirth: String
         var gender: String
         var expiryDate: String
+        var citizenNumber: String
 
         var fullNameValid: Boolean
         var nationalityValid: Boolean
@@ -59,6 +60,7 @@ interface IEidInfoReview {
         fun handlePressOnConfirmBtn()
         fun handleUserRejection(reason: Int)
         fun handleUserAcceptance(reason: Int)
+        fun handlePressOnEdit(id: Int)
         fun onEIDScanningComplete(result: IdentityScannerResult)
         var sanctionedCountry:String
         var sanctionedNationality:String

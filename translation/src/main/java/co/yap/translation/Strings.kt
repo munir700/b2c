@@ -301,6 +301,8 @@ object Strings {
         "screen_b2c_eid_info_review_display_text_middle_name_heading"
     const val screen_b2c_eid_info_review_display_text_last_name_heading: String =
         "screen_b2c_eid_info_review_display_text_last_name_heading"
+    const val screen_b2c_eid_info_review_display_text_edit_sub_title: String =
+        "screen_b2c_eid_info_review_display_text_edit_sub_title"
 
     // KYC SDK
     const val idenetity_scanner_sdk_screen_scanner_display_text_step_1: String =
