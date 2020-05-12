@@ -90,7 +90,7 @@
                     android:layout_marginStart="@dimen/margin_normal"
                     android:layout_marginEnd="@dimen/margin_normal"
                     android:drawableEnd="@{viewModel.state.fullNameValid ? @drawable/path : @drawable/ic_error}"
-                    app:text="@{viewModel.state.firstName}"
+                    android:text="@{viewModel.state.firstName}"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tvFirstNameHeading"
                     tools:text="Nada Hassan"
