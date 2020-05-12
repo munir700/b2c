@@ -49,11 +49,11 @@ class SubAccountCardFragment :
     private fun initDragDropAdapter() {
             mRecyclerViewDragDropManager = RecyclerViewDragDropManager().apply {
             mWrappedAdapter = createWrappedAdapter(adapter)
-            setInitiateOnLongPress(false)
-            setInitiateOnMove(true)
-            setLongPressTimeout(750)
+            setInitiateOnLongPress(true)
+            setInitiateOnMove(false)
+            setLongPressTimeout(250)
             dragEdgeScrollSpeed = 1.0f
-            dragStartItemAnimationDuration = 250
+            dragStartItemAnimationDuration = 750
             draggingItemAlpha = 1f
             isCheckCanDropEnabled = true
             draggingItemRotation = 15.0f
@@ -68,6 +68,7 @@ class SubAccountCardFragment :
     }
 
     override fun onItemDragStarted(position: Int) {
+        setRefreshEnabled(false)
     }
 
     override fun onItemDragPositionChanged(
@@ -79,6 +80,7 @@ class SubAccountCardFragment :
     }
 
     override fun onItemDragFinished(fromPosition: Int, toPosition: Int, result: Boolean) {
+        setRefreshEnabled(true)
         val subAccount = adapter.getData()[toPosition]
         val args = Bundle()
         args.putParcelable(SubAccount::class.simpleName, subAccount)

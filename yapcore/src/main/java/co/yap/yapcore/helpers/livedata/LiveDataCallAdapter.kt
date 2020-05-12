@@ -27,6 +27,7 @@ abstract class LiveDataCallAdapter<T> : LiveData<T>(), CoroutineViewModel {
         block()
     }
 
+    override fun async(block: suspend () -> Unit) = viewModelScope.async { block }
     override fun onInactive() {
         super.onInactive()
         value = null

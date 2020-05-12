@@ -1,14 +1,14 @@
 package co.yap.networking.customers.household
 
-import co.yap.networking.customers.CustomersRetroService
 import co.yap.networking.customers.household.requestdtos.SchedulePayment
-import co.yap.networking.customers.household.responsedtos.SubAccounts
 import co.yap.networking.customers.household.responsedtos.HouseHoldGetSubscriptionResponseDTO
 import co.yap.networking.customers.household.responsedtos.HouseHoldUserProfile
+import co.yap.networking.customers.household.responsedtos.SalaryTransaction
 import co.yap.networking.customers.household.responsedtos.SubAccount
 import co.yap.networking.models.ApiResponse
 import retrofit2.Response
-import co.yap.networking.customers.BaseListResponse
+import co.yap.networking.models.BaseListResponse
+import co.yap.networking.models.BaseResponse
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Path
@@ -50,17 +50,29 @@ interface CustomersHHRetroService {
     suspend fun reActivateHouseHoldSubscription(@Path("UUID") uuid: String?): Response<ApiResponse>
 
     @POST(CustomersHHRepository.URL_IBAN_HOUSE_HOLD_SCHEDULE_PAYMENT)
-    suspend fun createSchedulePayment(@Path("UUID") uuid: String?,@Body request: SchedulePayment?): Response<ApiResponse>
-
-    @POST(CustomersHHRepository.URL_IBAN_HOUSE_HOLD_UPDATE_SCHEDULE_PAYMENT)
-    suspend fun updateSchedulePayment(@Path("UUID") uuid: String?,@Body request: SchedulePayment?): Response<ApiResponse>
+    suspend fun createSchedulePayment(
+        @Path("UUID") uuid: String?,
+        @Body request: SchedulePayment?
+    ): Response<ApiResponse>
 
     @GET(CustomersHHRepository.URL_IBAN_HOUSE_HOLD_GET_SCHEDULE_PAYMENT)
-    suspend fun getSchedulePayment(@Path("UUID") uuid: String?): Response<ApiResponse>
+    suspend fun getSchedulePayment(
+        @Path("UUID") uuid: String?,
+        @Path("category") category: String?
+    ): Response<BaseListResponse<SchedulePayment>>
 
     @GET(CustomersHHRepository.URL_IBAN_HOUSE_HOLD_GET_LAST_TRANSACTION)
-    suspend fun getLastTransaction(@Path("UUID") uuid: String?): Response<ApiResponse>
+    suspend fun getLastTransaction(
+        @Path("UUID") uuid: String?,
+        @Path("category") category: String?
+    ): Response<BaseResponse<SalaryTransaction>>
 
     @GET(CustomersHHRepository.URL_IBAN_HOUSE_HOLD_GET_LAST_NEXT_TRANSACTION)
     suspend fun getLastNextTransaction(@Path("UUID") uuid: String?): Response<ApiResponse>
+
+    @POST(CustomersHHRepository.URL_IBAN_HOUSE_HOLD_CANCEL_SCHEDULE_PAYMENT)
+    suspend fun cancelSchedulePayment(@Path("UUID") uuid: String?): Response<ApiResponse>
+
+    @POST(CustomersHHRepository.URL_IBAN_HOUSE_HOLD_UPDATE_SCHEDULE_PAYMENT)
+    suspend fun updateSchedulePayment(@Path("UUID") uuid: String?,@Body request: SchedulePayment?): Response<ApiResponse>
 }

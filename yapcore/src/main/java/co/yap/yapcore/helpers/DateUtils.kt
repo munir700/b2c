@@ -83,7 +83,31 @@ object DateUtils {
             result = formatter.format(stringToDate(date, inputFormatter ?: ""))
         } catch (e: Exception) {
         }
+        return result
+    }
 
+    fun reformatStringDate(
+        date: String?,
+        inputFormatter: String? = DEFAULT_DATE_FORMAT,
+        outFormatter: String? = DEFAULT_DATE_FORMAT,
+        inputTimeZone: TimeZone = GMT,
+        outTimeZone: TimeZone = TIME_ZONE_Default
+    ): String {
+        var result = ""
+        date?.let {
+            try {
+                val formatter = SimpleDateFormat(outFormatter, Locale.getDefault())
+                formatter.timeZone = outTimeZone
+                result = formatter.format(
+                    stringToDate(
+                        dateStr = it,
+                        format = inputFormatter,
+                        timeZone = inputTimeZone
+                    )
+                )
+            } catch (e: Exception) {
+            }
+        }
         return result
 
     }
@@ -127,6 +151,20 @@ object DateUtils {
         }
         return d
     }
+
+    fun stringToDate(dateStr: String, format: String?, timeZone: TimeZone = GMT): Date? {
+        var d: Date? = null
+        val formatter = SimpleDateFormat(format, Locale.getDefault())
+        formatter.timeZone = timeZone
+        try {
+            formatter.isLenient = false
+            d = formatter.parse(dateStr)
+        } catch (e: Exception) {
+            d = null
+        }
+        return d
+    }
+
 
     fun convertTopUpDate(creationDate: String, parser: SimpleDateFormat): String? {
         val parser = SimpleDateFormat("MMyy")

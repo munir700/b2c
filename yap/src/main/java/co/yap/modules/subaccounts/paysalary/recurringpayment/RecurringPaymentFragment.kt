@@ -4,8 +4,11 @@ import androidx.lifecycle.Observer
 import co.yap.BR
 import co.yap.R
 import co.yap.databinding.FragmentRecurringPaymentBinding
+import co.yap.modules.others.helper.Constants.EVENT_GO_BACK
+import co.yap.networking.customers.household.requestdtos.SchedulePayment
 import co.yap.translation.Strings
 import co.yap.yapcore.dagger.base.navigation.BaseNavViewModelFragment
+import co.yap.yapcore.helpers.confirm
 
 class RecurringPaymentFragment :
     BaseNavViewModelFragment<FragmentRecurringPaymentBinding, IRecurringPayment.State, RecurringPaymentVM>() {
@@ -19,14 +22,32 @@ class RecurringPaymentFragment :
     }
 
     private fun onClick(id: Int) {
+        state.schedulePayment.value?.nextProcessingDate = state.date.value
+        arguments?.putParcelable(
+            SchedulePayment::class.java.simpleName,
+            state.schedulePayment.value
+        )
         when (id) {
             viewModel.GO_TO_CONFIRMATION -> {
-                state.schedulePayment.value?.nextProcessingDate = state.date.get()
                 navigateForwardWithAnimation(
                     RecurringPaymentFragmentDirections.actionRecurringPaymentFragmentToPaymentConfirmationFragment(),
                     arguments
                 )
             }
+            R.id.tvCancel -> {
+                state.recurringTransaction?.value?.let {
+                    confirm(
+                        message = "Are you sure you want to cancel this recurring salary?",
+                        title = null
+                    ) {
+                        viewModel.cancelSchedulePayment(it.scheduledPaymentUuid)
+                    }
+                }
+            }
+            EVENT_GO_BACK -> navigateBackWithResult(
+                resultCode = EVENT_GO_BACK,
+                data = arguments
+            )
         }
     }
 
