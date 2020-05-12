@@ -3,26 +3,28 @@ package co.yap.modules.onboarding.activities
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
 import co.yap.R
-import co.yap.modules.forgotpasscode.interfaces.ICreatePasscode
-import co.yap.modules.forgotpasscode.viewmodels.CreatePasscodeViewModel
 import co.yap.modules.onboarding.constants.Constants
+import co.yap.modules.passcode.IPassCode
+import co.yap.modules.passcode.PassCodeViewModel
 import co.yap.modules.webview.WebViewFragment
+import co.yap.translation.Strings
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.constants.Constants.URL_TERMS_CONDITION
+import co.yap.yapcore.databinding.FragmentPassCodeBinding
 import co.yap.yapcore.helpers.extentions.ExtraType
 import co.yap.yapcore.helpers.extentions.getValue
 import co.yap.yapcore.helpers.extentions.preventTakeScreenShot
 import co.yap.yapcore.helpers.extentions.startFragment
-import kotlinx.android.synthetic.main.activity_create_passcode.*
 
 
-class CreatePasscodeActivity : BaseBindingActivity<ICreatePasscode.ViewModel>(),
-    ICreatePasscode.View {
+class CreatePasscodeActivity : BaseBindingActivity<IPassCode.ViewModel>(),
+    IPassCode.View {
 
     companion object {
         fun newIntent(context: Context, isSettingPin: Boolean): Intent {
@@ -32,55 +34,59 @@ class CreatePasscodeActivity : BaseBindingActivity<ICreatePasscode.ViewModel>(),
         }
     }
 
-    override fun getBindingVariable(): Int = BR.createPasscodeViewModel
+    override fun getBindingVariable(): Int = BR.viewModel
 
-    override fun getLayoutId(): Int = R.layout.activity_create_passcode
+    override fun getLayoutId(): Int = R.layout.fragment_pass_code
 
-    override val viewModel: ICreatePasscode.ViewModel
-        get() = ViewModelProviders.of(this).get(CreatePasscodeViewModel::class.java)
-
+    override val viewModel: IPassCode.ViewModel
+        get() = ViewModelProviders.of(this).get(PassCodeViewModel::class.java)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        viewModel.state.forgotTextVisibility = false
+        viewModel.state.title = getString(Strings.screen_create_passcode_display_text_title)
+        viewModel.state.buttonTitle =
+            getString(Strings.screen_create_passcode_button_create_passcode)
         val isSettingPin = intent.getValue(
             "isSettingPin",
             ExtraType.BOOLEAN.name
         ) as? Boolean
-        viewModel.state.isSettingPin.set(isSettingPin ?: false)
-        dialer.hideFingerprintView()
-        viewModel.nextButtonPressEvent.observe(this, Observer {
-            if (it == R.id.tvTermsAndConditions) {
-                startFragment<WebViewFragment>(
-                    fragmentName = WebViewFragment::class.java.name, bundle = bundleOf(
-                        co.yap.yapcore.constants.Constants.PAGE_URL to URL_TERMS_CONDITION
-                    ), showToolBar = true
-                )
-            } else
-                setObservers()
+        getBinding().clTermsAndConditions.visibility =
+            if (isSettingPin == true) View.VISIBLE else View.INVISIBLE
+
+        getBinding().dialer.hideFingerprintView()
+        viewModel.clickEvent.observe(this, Observer {
+            when (it) {
+                R.id.tvTermsAndConditions -> {
+                    startFragment<WebViewFragment>(
+                        fragmentName = WebViewFragment::class.java.name, bundle = bundleOf(
+                            co.yap.yapcore.constants.Constants.PAGE_URL to URL_TERMS_CONDITION
+                        ), showToolBar = true
+                    )
+                }
+                R.id.btnAction -> {
+                    if (viewModel.isValidPassCode())
+                        setIntentResults()
+                }
+            }
         })
         preventTakeScreenShot(true)
 
     }
 
-    override fun setObservers() {
+    private fun setIntentResults() {
         val intent = Intent()
-        intent.putExtra("PASSCODE", viewModel.state.passcode)
+        intent.putExtra("PASSCODE", viewModel.state.passCode)
         setResult(Constants.REQUEST_CODE_CREATE_PASSCODE, intent)
         finish()
     }
 
     override fun onDestroy() {
-        viewModel.nextButtonPressEvent.removeObservers(this)
+        viewModel.clickEvent.removeObservers(this)
         super.onDestroy()
     }
 
-    private val nextButtonObserver = Observer<Boolean> {
-        val intent = Intent()
-        intent.putExtra("PASSCODE", viewModel.state.passcode)
-        setResult(Constants.REQUEST_CODE_CREATE_PASSCODE, intent)
-        finish()
-    }
-
-    override fun onBackPressed() {
+    fun getBinding(): FragmentPassCodeBinding {
+        return viewDataBinding as FragmentPassCodeBinding
     }
 }

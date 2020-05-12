@@ -9,7 +9,6 @@ import co.yap.modules.dashboard.home.models.HomeNotification
 import co.yap.modules.dashboard.home.states.YapHomeState
 import co.yap.modules.dashboard.main.viewmodels.YapDashboardChildViewModel
 import co.yap.networking.cards.CardsRepository
-import co.yap.networking.cards.requestdtos.OrderCardRequest
 import co.yap.networking.cards.responsedtos.Address
 import co.yap.networking.cards.responsedtos.Card
 import co.yap.networking.customers.responsedtos.AccountInfo
@@ -237,19 +236,11 @@ class YapHomeViewModel(application: Application) :
 
     override fun requestOrderCard(address: Address?) {
         address?.let {
-            val orderCardRequest = OrderCardRequest(
-                nearestLandMark = it.address1,
-                cardName = "",
-                address1 = it.address1,
-                address2 = it.address2,
-                latitude = it.latitude,
-                longitude = it.longitude,
-                city = address.city,
-                country = address.country
-            )
+            // Please confirm weather card name and design code is empty on IOS too or its typo mistake
+            it.cardName = ""
             launch {
                 state.loading = true
-                when (val response = cardsRepository.orderCard(orderCardRequest)) {
+                when (val response = cardsRepository.orderCard(it)) {
                     is RetroApiResponse.Success -> {
                         state.error = ""
                         clickEvent.setValue(ON_ADD_NEW_ADDRESS_EVENT)

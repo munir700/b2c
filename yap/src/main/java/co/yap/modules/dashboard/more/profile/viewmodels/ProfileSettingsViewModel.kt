@@ -1,10 +1,7 @@
 package co.yap.modules.dashboard.more.profile.viewmodels
 
-import android.annotation.SuppressLint
 import android.app.Application
-import android.content.Context
-import android.net.Uri
-import android.provider.MediaStore
+import android.os.Build
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import co.yap.modules.dashboard.more.main.viewmodels.MoreBaseViewModel
@@ -19,13 +16,11 @@ import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.constants.Constants.KEY_APP_UUID
 import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.enums.EIDStatus
-import co.yap.yapcore.helpers.DateUtils
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.extentions.sizeInMb
 import co.yap.yapcore.managers.MyUserManager
 import com.bumptech.glide.Glide
 import id.zelory.compressor.Compressor
-import io.reactivex.schedulers.Schedulers
 import okhttp3.MediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -49,54 +44,9 @@ class ProfileSettingsViewModel(application: Application) :
 
     override var clickEvent: SingleClickEvent = SingleClickEvent()
 
-
-    override fun handlePressOnPersonalDetail(id: Int) {
+    override fun handlePressOnViewClick(id: Int) {
         clickEvent.setValue(id)
     }
-
-    override fun handlePressOnPrivacy(id: Int) {
-        clickEvent.setValue(id)
-    }
-
-    override fun handlePressOnPasscode(id: Int) {
-        clickEvent.setValue(id)
-    }
-
-    override fun handlePressOnAppNotification(id: Int) {
-        clickEvent.setValue(id)
-    }
-
-    override fun handlePressOnTermsAndConditions(id: Int) {
-        clickEvent.setValue(id)
-    }
-
-    override fun handlePressOnInstagram(id: Int) {
-        clickEvent.setValue(id)
-    }
-
-    override fun handlePressOnTwitter(id: Int) {
-        clickEvent.setValue(id)
-    }
-
-    override fun handlePressOnFaceBook(id: Int) {
-        clickEvent.setValue(id)
-    }
-
-    override fun handlePressOnLogOut(id: Int) {
-        clickEvent.setValue(id)
-    }
-
-    override fun handlePressOnAddNewPhoto(id: Int) {
-        clickEvent.setValue(id)
-    }
-
-    override fun handlePressOnPhoto(id: Int) {
-        clickEvent.setValue(id)
-    }
-
-    override fun handlePressOnBackButton() {
-    }
-
 
     override fun onResume() {
         super.onResume()
@@ -118,26 +68,6 @@ class ProfileSettingsViewModel(application: Application) :
         }
     }
 
-    @SuppressLint("CheckResult")
-    override fun uploadProfconvertUriToFile(selectedImageUri: Uri) {
-        val file = File(selectedImageUri.path)
-        requestUploadProfilePicture(file)
-    }
-
-    override fun getRealPathFromUri(context: Context, uri: Uri): String {
-        var path = ""
-        val projection = arrayOf(MediaStore.Images.Media.DATA)
-        val cursor = context.contentResolver.query(uri, projection, null, null, null)
-        val column_index: Int
-        if (cursor != null) {
-            column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
-            cursor.moveToFirst()
-            path = cursor.getString(column_index)
-            cursor.close()
-        }
-        return path
-    }
-
     override fun logout() {
         val deviceId: String? =
             sharedPreferenceManager.getValueString(KEY_APP_UUID)
@@ -156,29 +86,15 @@ class ProfileSettingsViewModel(application: Application) :
         }
     }
 
-    override fun requestUploadProfilePicture(file: File) {
+    override fun requestUploadProfilePicture(actualFile: File) {
         launch {
-            state.loading = true
-            Compressor(context)
-                .compressToFileAsFlowable(file)
-                .subscribeOn(Schedulers.io())
-                .observeOn(Schedulers.computation())
-                .subscribe(
-                    {
-                        uploadCall(it)
-                    },
-                    { throwable ->
-                        throwable.printStackTrace()
-                        launch { uploadCall(file) }
-                    })
-
-        }
-    }
-
-    private fun uploadCall(file: File) {
-        launch {
+            var file = actualFile
+            if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.P) {
+                file = Compressor.compress(context, actualFile)
+            }
             if (file.sizeInMb() < 25) {
-                val reqFile = RequestBody.create(MediaType.parse("image/"), file)
+                val reqFile =
+                    RequestBody.create(MediaType.parse("image/${file.extension}"), file)
                 val multiPartImageFile: MultipartBody.Part =
                     MultipartBody.Part.createFormData("profile-picture", file.name, reqFile)
                 when (val response = repository.uploadProfilePicture(multiPartImageFile)) {
@@ -186,7 +102,7 @@ class ProfileSettingsViewModel(application: Application) :
 
                         if (null != response.data.data) {
                             response.data.data?.let {
-                                it.imageURL?.let { state.profilePictureUrl = it }
+                                it.imageURL?.let { url -> state.profilePictureUrl = url }
                                 MyUserManager.user?.currentCustomer?.setPicture(it.imageURL)
                                 Glide.with(context)
                                     .load(it.imageURL).preload()
@@ -200,7 +116,8 @@ class ProfileSettingsViewModel(application: Application) :
 
                     is RetroApiResponse.Error -> {
                         state.toast = "${response.error.message}^${AlertType.DIALOG.name}"
-                        state.fullName = MyUserManager.user?.currentCustomer?.getFullName() ?: ""
+                        state.fullName =
+                            MyUserManager.user?.currentCustomer?.getFullName() ?: ""
                         state.nameInitialsVisibility = GONE
                         state.loading = false
                     }
@@ -222,8 +139,7 @@ class ProfileSettingsViewModel(application: Application) :
 
                     val data = response.data
                     data.data?.dateExpiry?.let {
-//                        getExpiryDate(it)
-                        getExpiryDate("Mar 1, 2020")
+                        getExpiryDate(it)
                     }
                     state.loading = false
                 }
@@ -240,71 +156,41 @@ class ProfileSettingsViewModel(application: Application) :
     }
 
     private fun getExpiryDate(expiryDateString: String) {
-        checkPandemic(expiryDateString)
         val simpleDateFormat = SimpleDateFormat("yyyy-MM-dd")
         simpleDateFormat.timeZone = TimeZone.getDefault()
-        val expireyDate = simpleDateFormat.parse(expiryDateString)
+        val expiryDate = simpleDateFormat.parse(expiryDateString)
         val cal = Calendar.getInstance()
         val currentDay = simpleDateFormat.format(cal.time)
         val currentDayDate = simpleDateFormat.parse(currentDay)
-        state.isShowErrorIcon.set(if (pandemicValidation) true else expireyDate < currentDayDate)
-
         MyUserManager.eidStatus =
-            if (pandemicValidation) {
-                EIDStatus.VALID
-            } else if (expireyDate < currentDayDate) {
-                EIDStatus.EXPIRED
-            } else {
-                EIDStatus.VALID
+            when {
+                isDateFallInPandemic(expiryDateString) && isDateFallInPandemic(currentDay) -> {
+                    state.isShowErrorIcon.set(false)
+                    EIDStatus.VALID
+                }
+                expiryDate < currentDayDate -> {
+                    state.isShowErrorIcon.set(true)
+                    EIDStatus.EXPIRED
+                }
+                else -> {
+                    state.isShowErrorIcon.set(false)
+                    EIDStatus.VALID
+                }
             }
     }
 
+    /*
+       If EID is expiring between  Mar 1, 2020, to Dec 31, 2020 Mark expiry date for EID as Dec 31, 2020,
+       which means any user whose EID is expiring between  Mar 1, 2020, to Dec 31, 2020 will be able to onboard in our system.
+   */
+    private fun isDateFallInPandemic(EIDExpiryDate: String): Boolean {
+        val simpleDateFormat = SimpleDateFormat("yyyy-MM-dd")
+        simpleDateFormat.timeZone = TimeZone.getDefault()
+        val fromDate = simpleDateFormat.parse("2020-03-01")
+        val toDate = simpleDateFormat.parse("2020-12-31")
+        val eidExpiry = simpleDateFormat.parse(EIDExpiryDate)
 
-    fun checkPandemic(expirationDate: Any): Any {
-//        var verifiedDate: Any = expirationDate as Date
-        var verifiedDate: Any
-        var pandemicExpiryDateToString = "Dec 31, 2020"
-        var pandemicExpiryDateFromString = "Mar 1, 2020"
-        val pandemicExpiryToDate =
-            DateUtils.stringToDate(pandemicExpiryDateToString, DateUtils.FORMAT_DATE_MON_YEAR)
-        val pandemicExpiryFromDate =
-            DateUtils.stringToDate(pandemicExpiryDateFromString, DateUtils.FORMAT_DATE_MON_YEAR)
-
-//        If EID is expiring between  Mar 1, 2020, to Dec 31, 2020 Mark expiry date for EID as Dec 31, 2020,
-//        which means any user whose EID is expiring between  Mar 1, 2020, to Dec 31, 2020 will be able to onboard in our system.
-
-        if (expirationDate is Date) {
-           verifiedDate  = expirationDate as Date
-
-            if ((expirationDate?.after(pandemicExpiryFromDate) && expirationDate?.equals(
-                    pandemicExpiryToDate
-                )) || expirationDate?.equals(
-                    pandemicExpiryFromDate
-                )
-            ) {
-                pandemicValidation = true
-                verifiedDate = pandemicExpiryToDate!!
-            }
-
-        } else {
-              verifiedDate = expirationDate as String
-
-              var convertedDate :Date  = DateUtils.stringToDate(verifiedDate,"yyMMdd")!!
-
-            if ((convertedDate?.after(pandemicExpiryFromDate) && convertedDate?.equals(
-                    pandemicExpiryToDate
-                )) || convertedDate?.equals(
-                    pandemicExpiryFromDate
-                )
-            ) {
-                pandemicValidation = true
-                verifiedDate = DateUtils.dateToString(pandemicExpiryToDate) as String
-
-
-            }
-        }
-
-
-        return verifiedDate
+        // use inverse of condition bcz strict order check to a non-strict check e.g both dates are equals
+        return !eidExpiry.after(toDate) && !eidExpiry.before(fromDate)
     }
 }

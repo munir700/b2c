@@ -2,7 +2,6 @@ package co.yap.modules.dashboard.more.profile.intefaces
 
 import android.graphics.drawable.Drawable
 import androidx.lifecycle.MutableLiveData
-import co.yap.networking.cards.requestdtos.UpdateAddressRequest
 import co.yap.networking.cards.responsedtos.Address
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
@@ -42,7 +41,7 @@ interface IPersonalDetail {
 
         fun updateToolBarText(heading: String)
 
-        fun requestUpdateAddress(updateAddressRequest: UpdateAddressRequest)
+        fun requestUpdateAddress(updateAddressRequest: Address)
 
         fun requestOrderCard(address: Address?)
 

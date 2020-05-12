@@ -56,6 +56,11 @@
         <activity
             android:name=".modules.onboarding.activities.CreatePasscodeActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".modules.dashboard.more.changepasscode.activities.ChangePasscodeActivity"
+            android:screenOrientation="portrait">
+            <nav-graph android:value="@navigation/forgot_passcode_navigation" />
+        </activity>
 
         <activity
             android:name=".modules.kyc.activities.DocumentsDashboardActivity"

@@ -56,7 +56,7 @@ fun Transaction?.getTransactionIcon(): Int {
                 else -> {
                     when {
                         TransactionProductCode.TOP_UP_SUPPLEMENTARY_CARD.pCode == transaction.productCode ?: "" || TransactionProductCode.WITHDRAW_SUPPLEMENTARY_CARD.pCode == transaction.productCode ?: "" -> {
-                            if (transaction.txnType == TxnType.DEBIT.type) R.drawable.ic_minus_transactions else R.drawable.ic_plus_transactions
+                            if (transaction.txnType == TxnType.DEBIT.type) R.drawable.ic_grey_minus_transactions else R.drawable.ic_grey_plus_transactions
                         }
                         TransactionProductCode.FUND_LOAD.pCode == transaction.productCode || TransactionProductCode.INWARD_REMITTANCE.pCode == transaction.productCode || TransactionProductCode.LOCAL_INWARD_TRANSFER.pCode == transaction.productCode || TransactionProductCode.CASH_DEPOSIT_AT_RAK.pCode == transaction.productCode || TransactionProductCode.CHEQUE_DEPOSIT_AT_RAK.pCode == transaction.productCode -> {
                             R.drawable.ic_rounded_plus
@@ -74,11 +74,13 @@ fun Transaction?.getTransactionTypeTitle(): String {
         if (txn.status == TransactionStatus.CANCELLED.name) return "Transfer Rejected"
         return when {
             txn.getLabelValues() == TransactionLabelsCode.IS_TRANSACTION_FEE -> "Fee"
-            txn.getLabelValues() == TransactionLabelsCode.IS_TRANSACTION_FEE -> "Refund"
+            txn.getLabelValues() == TransactionLabelsCode.IS_REFUND -> "Refund"
             TransactionProductCode.Y2Y_TRANSFER.pCode == txn.productCode -> "YTY transfer"
             TransactionProductCode.TOP_UP_VIA_CARD.pCode == txn.productCode -> "Top-Up"
             TransactionProductCode.CASH_DEPOSIT_AT_RAK.pCode == txn.productCode || TransactionProductCode.CHEQUE_DEPOSIT_AT_RAK.pCode == txn.productCode || TransactionProductCode.ATM_DEPOSIT.pCode == txn.productCode || TransactionProductCode.FUND_LOAD.pCode == txn.productCode -> "Deposit"
-            TransactionProductCode.ATM_WITHDRAWL.pCode == txn.productCode || TransactionProductCode.MASTER_CARD_ATM_WITHDRAWAL.pCode == txn.productCode -> "Cash"
+            TransactionProductCode.ATM_WITHDRAWL.pCode == txn.productCode || TransactionProductCode.MASTER_CARD_ATM_WITHDRAWAL.pCode == txn.productCode -> {
+                if (txn.category.equals("REVERSAL", true)) "Reversal" else "Cash"
+            }
             TransactionProductCode.TOP_UP_SUPPLEMENTARY_CARD.pCode == txn.productCode -> {
                 "Added to Virtual Card"
             }
@@ -101,7 +103,9 @@ fun Transaction?.getTransactionTypeIcon(): Int {
         if (TransactionStatus.FAILED.name == transaction.status || transaction.status == TransactionStatus.CANCELLED.name || transaction.getLabelValues() == TransactionLabelsCode.IS_TRANSACTION_FEE) return android.R.color.transparent
         return if (TransactionStatus.PENDING.name == transaction.status || TransactionStatus.IN_PROGRESS.name == transaction.status && transaction.getLabelValues() != TransactionLabelsCode.IS_TRANSACTION_FEE)
             R.drawable.ic_time
-        else (when (txnType) {
+        else if (productCode == TransactionProductCode.WITHDRAW_SUPPLEMENTARY_CARD.pCode || productCode == TransactionProductCode.TOP_UP_SUPPLEMENTARY_CARD.pCode) {
+            android.R.color.transparent
+        } else (when (txnType) {
             TxnType.DEBIT.type -> {
                 R.drawable.ic_outgoing_transaction
             }

@@ -22,7 +22,6 @@ import co.yap.modules.dummy.NavigatorProvider
 import co.yap.modules.kyc.activities.DocumentsDashboardActivity
 import co.yap.modules.location.activities.LocationSelectionActivity
 import co.yap.modules.others.fragmentpresenter.activities.FragmentPresenterActivity
-import co.yap.networking.cards.requestdtos.UpdateAddressRequest
 import co.yap.networking.cards.responsedtos.Address
 import co.yap.translation.Strings
 import co.yap.yapcore.constants.Constants
@@ -282,13 +281,7 @@ class PersonalDetailsFragment : MoreBaseFragment<IPersonalDetail.ViewModel>(),
     }
 
     private fun updateUserAddress(address: Address) {
-        val updateAddressRequest = UpdateAddressRequest(
-            address.address1,
-            address.address2,
-            address.latitude.toString(),
-            address.longitude.toString()
-        )
-        viewModel.requestUpdateAddress(updateAddressRequest)
+        viewModel.requestUpdateAddress(address)
     }
 
     private fun getBinding(): FragmentPersonalDetailBinding {

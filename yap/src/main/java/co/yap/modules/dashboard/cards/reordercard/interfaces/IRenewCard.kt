@@ -2,7 +2,6 @@ package co.yap.modules.dashboard.cards.reordercard.interfaces
 
 import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
-import co.yap.networking.cards.requestdtos.ReorderCardRequest
 import co.yap.networking.cards.responsedtos.Address
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
@@ -25,9 +24,9 @@ interface IRenewCard {
         var reorderCardSuccess: MutableLiveData<Boolean>
         fun handlePressOnView(id: Int)
         fun requestGetAddressForPhysicalCard()
-        fun requestReorderDebitCard(reorderCardRequest: ReorderCardRequest)
+        fun requestReorderDebitCard(address: Address)
         fun requestReorderCard()
-        fun requestReorderSupplementaryCard(reorderCardRequest: ReorderCardRequest)
+        fun requestReorderSupplementaryCard(address: Address)
         fun requestReorderCardFee(cardType: String?)
         fun requestReorderDebitCardFee()
         fun requestReorderSupplementaryCardFee()

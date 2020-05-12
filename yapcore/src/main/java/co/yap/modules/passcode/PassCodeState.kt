@@ -1,30 +1,19 @@
-package co.yap.modules.forgotpasscode.states
+package co.yap.modules.passcode
 
 import android.text.Editable
 import android.text.TextWatcher
 import androidx.databinding.Bindable
-import androidx.databinding.ObservableField
-import co.yap.modules.forgotpasscode.interfaces.ICreatePasscode
 import co.yap.yapcore.BR
 import co.yap.yapcore.BaseState
 
-open class CreatePasscodeState : BaseState(), ICreatePasscode.State {
-
-    override var isSettingPin: ObservableField<Boolean> = ObservableField(false)
+class PassCodeState : BaseState(), IPassCode.State {
 
     @get:Bindable
-    override var sequence: Boolean = false
+    override var passCode: String = ""
         set(value) {
             field = value
-            notifyPropertyChanged(BR.sequence)
+            notifyPropertyChanged(BR.passCode)
         }
-    @get:Bindable
-    override var similar: Boolean = false
-        set(value) {
-            field = value
-            notifyPropertyChanged(BR.similar)
-        }
-
 
     @get:Bindable
     override var valid: Boolean = false
@@ -35,27 +24,44 @@ open class CreatePasscodeState : BaseState(), ICreatePasscode.State {
         }
 
     @get:Bindable
-    override var passcode: String = ""
-        set(value) {
-            field = value
-            notifyPropertyChanged(BR.passcode)
-
-        }
-    @get:Bindable
     override var dialerError: String = ""
         set(value) {
             field = value
             notifyPropertyChanged(BR.dialerError)
         }
 
+    @get:Bindable
+    override var title: String = ""
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.title)
+        }
+
+    @get:Bindable
+    override var buttonTitle: String = ""
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.buttonTitle)
+        }
+
+    @get:Bindable
+    override var forgotTextVisibility: Boolean = true
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.forgotTextVisibility)
+        }
 
     fun validate() {
-        if (passcode.length in 7 downTo 4) {
+        if (passCode.length >= 4) {
             valid = true
         } else {
             dialerError = ""
             valid = false
         }
+    }
+
+    fun validate(text: String) {
+        valid = text.length in 7 downTo 4
     }
 
     override fun getTextWatcher(): TextWatcher {
@@ -67,10 +73,9 @@ open class CreatePasscodeState : BaseState(), ICreatePasscode.State {
             }
 
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                passcode = p0.toString()
+                passCode = p0.toString()
                 validate()
             }
         }
     }
 }
-

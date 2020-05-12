@@ -81,7 +81,7 @@
                     app:text="@{Strings.screen_b2c_eid_info_review_display_text_first_name_heading}"
                     tools:text="@string/screen_b2c_eid_info_review_display_text_first_name_heading" />
 
-                <TextView
+                <androidx.appcompat.widget.AppCompatEditText
                     android:id="@+id/tvFirstName"
                     style="@style/Large"
                     android:layout_width="match_parent"
@@ -108,7 +108,7 @@
                     app:text="@{Strings.screen_b2c_eid_info_review_display_text_middle_name_heading}"
                     tools:text="@string/screen_b2c_eid_info_review_display_text_middle_name_heading" />
 
-                <TextView
+                <androidx.appcompat.widget.AppCompatEditText
                     android:id="@+id/tvMiddleName"
                     style="@style/Large"
                     android:layout_width="match_parent"
@@ -138,7 +138,7 @@
                     app:text="@{Strings.screen_b2c_eid_info_review_display_text_last_name_heading}"
                     tools:text="@string/screen_b2c_eid_info_review_display_text_last_name_heading" />
 
-                <TextView
+                <androidx.appcompat.widget.AppCompatEditText
                     android:id="@+id/tvLastName"
                     style="@style/Large"
                     android:layout_width="match_parent"

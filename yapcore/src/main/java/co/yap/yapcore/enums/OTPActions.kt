@@ -8,6 +8,7 @@ enum class OTPActions {
     CHANGE_EMAIL,
     CHANGE_MOBILE_NO,
     FORGOT_CARD_PIN,
+    FORGOT_PASS_CODE,
 
     // add beneficiary otp actions
     SWIFT_BENEFICIARY,

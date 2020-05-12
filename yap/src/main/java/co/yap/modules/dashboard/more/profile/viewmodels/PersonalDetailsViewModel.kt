@@ -7,8 +7,6 @@ import co.yap.modules.dashboard.more.main.viewmodels.MoreBaseViewModel
 import co.yap.modules.dashboard.more.profile.intefaces.IPersonalDetail
 import co.yap.modules.dashboard.more.profile.states.PersonalDetailState
 import co.yap.networking.cards.CardsRepository
-import co.yap.networking.cards.requestdtos.OrderCardRequest
-import co.yap.networking.cards.requestdtos.UpdateAddressRequest
 import co.yap.networking.cards.responsedtos.Address
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
@@ -117,10 +115,10 @@ class PersonalDetailsViewModel(application: Application) :
         setToolBarTitle(heading)
     }
 
-    override fun requestUpdateAddress(updateAddressRequest: UpdateAddressRequest) {
+    override fun requestUpdateAddress(address: Address) {
         launch {
             state.loading = true
-            when (val response = repository.editAddressRequest(updateAddressRequest)) {
+            when (val response = repository.editAddressRequest(address)) {
                 is RetroApiResponse.Success -> {
                     state.loading = false
                     onUpdateAddressSuccess.value = true
@@ -137,18 +135,10 @@ class PersonalDetailsViewModel(application: Application) :
 
     override fun requestOrderCard(address: Address?) {
         address?.let {
-            val orderCardRequest = OrderCardRequest(
-                nearestLandMark = it.address1,
-                cardName = "",
-                address1 = it.address1,
-                address2 = it.address2,
-                latitude = it.latitude,
-                longitude = it.longitude,
-                city = address.city, country = address.country
-            )
+            it.cardName = ""
             launch {
                 state.loading = true
-                when (val response = repository.orderCard(orderCardRequest)) {
+                when (val response = repository.orderCard(it)) {
                     is RetroApiResponse.Success -> {
                         orderCardSuccess.value = true
                         state.loading = false

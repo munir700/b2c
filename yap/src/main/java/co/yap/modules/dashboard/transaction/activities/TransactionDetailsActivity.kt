@@ -98,8 +98,8 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
 
     private fun setTransactionImage() {
         viewModel.transaction.get()?.let { transaction ->
-            when {
-                TransactionProductCode.Y2Y_TRANSFER.pCode == transaction.productCode ?: "" -> {
+            when (TransactionProductCode.Y2Y_TRANSFER.pCode) {
+                transaction.productCode ?: "" -> {
                     ImageBinding.loadAvatar(
                         getBindings().ivPicture,
                         if (TxnType.valueOf(
@@ -115,8 +115,14 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
                     val txnIconResId = transaction.getTransactionIcon()
                     if (txnIconResId != -1) {
                         getBindings().ivPicture.setImageResource(txnIconResId)
-                        if (txnIconResId == R.drawable.ic_rounded_plus)
-                            getBindings().ivPicture.setBackgroundResource(R.drawable.bg_round_grey)
+                        when (txnIconResId) {
+                            R.drawable.ic_rounded_plus -> {
+                                getBindings().ivPicture.setBackgroundResource(R.drawable.bg_round_grey)
+                            }
+                            R.drawable.ic_grey_minus_transactions, R.drawable.ic_grey_plus_transactions -> {
+                                getBindings().ivPicture.setBackgroundResource(R.drawable.bg_round_disabled_transaction)
+                            }
+                        }
                     } else
                         setInitialsAsTxnImage(transaction)
                 }
