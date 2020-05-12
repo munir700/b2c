@@ -86,15 +86,11 @@ class CashTransferViewModel(application: Application) :
         if (R.id.btnConfirm == id) {
             if (!isUaeftsBeneficiary()) {
                 when {
-                    isDailyLimitReached() -> errorEvent.call()
                     isOtpRequired() -> createOtp(id = id)
                     else -> proceedToTransferAmount()
                 }
             } else {
-                if (isDailyLimitReached())
-                    errorEvent.call()
-                else
-                    clickEvent.setValue(id)
+                clickEvent.setValue(id)
             }
 
         } else {
@@ -328,7 +324,7 @@ class CashTransferViewModel(application: Application) :
 
             } ?: state.amount.parseToDouble() > parentViewModel?.transactionThreshold?.value?.cbwsiPaymentLimit ?: 0.0
     }
-
+//cuttoff time , uaefts , AED , cbwsi , bank cbwsi complaintent ,less than equal to 10000
     override fun getCutOffTimeConfiguration() {
         launch {
             when (val response =
