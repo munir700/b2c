@@ -17,6 +17,13 @@ class EidInfoReviewState : BaseState(), IEidInfoReview.State {
         }
 
     @get:Bindable
+    override var caption: String = ""
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.caption)
+        }
+
+    @get:Bindable
     override var firstName: String = ""
         set(value) {
             field = value
