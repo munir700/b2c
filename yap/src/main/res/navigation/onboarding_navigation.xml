@@ -70,7 +70,7 @@
         android:id="@+id/createPasscodeActivity2"
         android:name="co.yap.modules.onboarding.activities.CreatePasscodeActivity"
         android:label="CreatePasscodeActivity"
-        tools:layout="@layout/activity_create_passcode" />
+        tools:layout="@layout/fragment_pass_code" />
     <activity
         android:id="@+id/documentsDashboardActivity"
         android:name="co.yap.modules.kyc.activities.DocumentsDashboardActivity"

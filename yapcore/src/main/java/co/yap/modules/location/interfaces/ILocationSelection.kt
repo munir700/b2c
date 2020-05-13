@@ -47,6 +47,5 @@ interface ILocationSelection {
         var showTermsCondition: ObservableField<Boolean>
         var isLocationInAllowedCountry: ObservableField<Boolean>
         var isOnBoarding: ObservableField<Boolean>
-
     }
 }

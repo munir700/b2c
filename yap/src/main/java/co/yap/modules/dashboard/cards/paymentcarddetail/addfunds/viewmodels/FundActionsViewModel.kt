@@ -42,7 +42,6 @@ open class FundActionsViewModel(application: Application) :
 
     override fun initateVM(topupCard: TopUpCard) {}
     override fun startPooling(showLoader: Boolean) {}
-
     override fun getTransactionThresholds() {}
 
 
@@ -116,7 +115,7 @@ open class FundActionsViewModel(application: Application) :
                 is RetroApiResponse.Success -> {
                     MyUserManager.updateCardBalance()
                     delay(1000)
-                    clickEvent.setValue(EVENT_ADD_FUNDS_SUCCESS)
+//                    clickEvent.setValue(EVENT_ADD_FUNDS_SUCCESS)
                     state.loading = false
                 }
                 is RetroApiResponse.Error -> {
@@ -169,13 +168,16 @@ open class FundActionsViewModel(application: Application) :
             state.loading = true
             when (val response = transactionsRepository.getFundTransferDenominations(productCode)) {
                 is RetroApiResponse.Success -> {
-                    var fundsType: String? = null
-                    if (productCode == Constants.SUPP_CARD) {
-                        fundsType = "+"
-                    } else if (productCode == co.yap.modules.others.helper.Constants.REMOVE_FUNDS_PRODUCT_CODE) {
-                        fundsType = "-"
-                    } else {
-                        fundsType = "+"
+                    val fundsType: String = when (productCode) {
+                        Constants.SUPP_CARD -> {
+                            "+"
+                        }
+                        co.yap.modules.others.helper.Constants.REMOVE_FUNDS_PRODUCT_CODE -> {
+                            "-"
+                        }
+                        else -> {
+                            "+"
+                        }
                     }
 
                     val sortedData =
@@ -199,11 +201,7 @@ open class FundActionsViewModel(application: Application) :
 
 
     override fun buttonClickEvent(id: Int) {
-        if (state.checkValidity("") == "") {
-            clickEvent.setValue(id)
-        } else {
-            errorEvent.postValue(id)
-        }
+        clickEvent.setValue(id)
     }
 
     override fun crossButtonClickEvent(id: Int) {

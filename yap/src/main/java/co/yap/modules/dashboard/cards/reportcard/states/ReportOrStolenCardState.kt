@@ -29,4 +29,11 @@ class ReportOrStolenCardState : BaseState(), IRepostOrStolenCard.State {
             notifyPropertyChanged(BR.valid)
         }
 
+    @get:Bindable
+    override var cautionMessage: String = ""
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.cautionMessage)
+        }
+
 }

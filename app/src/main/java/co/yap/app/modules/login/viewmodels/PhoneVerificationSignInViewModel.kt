@@ -64,7 +64,12 @@ class PhoneVerificationSignInViewModel(application: Application) :
                     )
                 )) {
                 is RetroApiResponse.Success -> {
-                    token = response.data.token
+                    response.data.token?.let {
+                        val tokens = it.split("%")
+                        token = tokens.first()
+                        if (tokens.size > 1)
+                            repository.setJwtToken(tokens.last())
+                    }
                     val sharedPreferenceManager = SharedPreferenceManager(context)
 
                     sharedPreferenceManager.save(
@@ -132,7 +137,6 @@ class PhoneVerificationSignInViewModel(application: Application) :
                     state.toast = "${response.error.message}^${AlertType.DIALOG.name}"
                 }
             }
-
         }
     }
 

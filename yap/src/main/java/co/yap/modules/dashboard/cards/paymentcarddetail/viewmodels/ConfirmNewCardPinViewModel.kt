@@ -6,10 +6,7 @@ import co.yap.networking.cards.CardsRepository
 import co.yap.networking.cards.requestdtos.ChangeCardPinRequest
 import co.yap.networking.cards.requestdtos.ForgotCardPin
 import co.yap.networking.messages.MessagesRepository
-import co.yap.networking.messages.requestdtos.CreateOtpGenericRequest
 import co.yap.networking.models.RetroApiResponse
-import co.yap.translation.Strings
-import co.yap.widgets.CoreDialerPad
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.constants.Constants
 
@@ -19,11 +16,6 @@ open class ConfirmNewCardPinViewModel(application: Application) :
     override var errorEvent: SingleClickEvent = SingleClickEvent()
     private val cardsRepository: CardsRepository = CardsRepository
     private val messagesRepository: MessagesRepository = MessagesRepository
-    override fun onCreate() {
-        super.onCreate()
-        state.titleSetPin = getString(Strings.screen_confirm_card_pin_display_text_heading)
-        state.buttonTitle = getString(Strings.screen_confirm_card_pin_display_button_confirm_pin)
-    }
 
     override fun handlePressOnNextButton(id: Int) {
         if (validateAggressively()) {
@@ -75,12 +67,12 @@ open class ConfirmNewCardPinViewModel(application: Application) :
         }
     }
 
-    override fun forgotCardPinRequest(cardSerialNumber: String, newPin: String,token: String) {
+    override fun forgotCardPinRequest(cardSerialNumber: String, newPin: String, token: String) {
         launch {
             state.loading = true
             when (val response = cardsRepository.forgotCardPin(
                 cardSerialNumber,
-                ForgotCardPin(newPin,token)
+                ForgotCardPin(newPin, token)
             )) {
                 is RetroApiResponse.Success -> {
                     clickEvent.postValue(Constants.FORGOT_CARD_PIN_NAVIGATION)

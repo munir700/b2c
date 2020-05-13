@@ -5,7 +5,7 @@ import java.util.*
 
 object DateUtils {
 
-    private const val DEFAULT_DATE_FORMAT: String = "dd/MM/yyyy"
+    const val DEFAULT_DATE_FORMAT: String = "dd/MM/yyyy"
     private val GMT: TimeZone = TimeZone.getTimeZone("GMT")
     private val UTC: TimeZone = TimeZone.getTimeZone("UTC")
     private val TIME_ZONE_Default: TimeZone = TimeZone.getDefault()
@@ -98,6 +98,33 @@ object DateUtils {
         return d
     }
 
+    fun reformatLocalDate(
+        date: String,
+        inputFormatter: String? = DEFAULT_DATE_FORMAT,
+        outputFormatter: String? = DEFAULT_DATE_FORMAT
+    ): Date? {
+        return try {
+            val inFormatter = SimpleDateFormat(inputFormatter, Locale.US)
+            val outFormatter = SimpleDateFormat(outputFormatter, Locale.US)
+            val newDate = outFormatter.format(inFormatter.parse(date))
+            outFormatter.parse(newDate)
+        } catch (e: Exception) {
+            null
+        }
+    }
+
+    fun reformatToLocalString(
+        date: Date?,
+        outputFormatter: String
+    ): String {
+        return try {
+            SimpleDateFormat(outputFormatter, Locale.US).format(date)
+            val outFormatter = SimpleDateFormat(outputFormatter, Locale.US)
+            outFormatter.format(date)
+        } catch (e: Exception) {
+            ""
+        }
+    }
     fun stringToDateLeanPlum(dateStr: String): Date? {
         var d: Date? = null
         val formatter = SimpleDateFormat(LEAN_PLUM_FORMAT, Locale.US)

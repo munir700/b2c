@@ -164,7 +164,12 @@ class LocationSelectionActivity : MapSupportActivity(), ILocationSelection.View 
                         Locale.US
                     ).format(Calendar.getInstance().time)
             }
-            viewModel.state.valid.set(!viewModel.state.addressTitle.get().isNullOrBlank() && !viewModel.state.addressSubtitle.get().isNullOrBlank() && viewModel.state.city.get() != "Select" && if (viewModel.state.isOnBoarding.get() == false) true else viewModel.state.isTermsChecked.get() == true)
+            viewModel.state.valid.set(
+                !viewModel.state.addressTitle.get().isNullOrBlank()
+                        && !viewModel.state.addressSubtitle.get().isNullOrBlank()
+                        && viewModel.state.city.get() != "Select"
+                        && if (viewModel.state.isOnBoarding.get() == false) true else viewModel.state.isTermsChecked.get() == true
+            )
         }
     }
 
@@ -196,7 +201,6 @@ class LocationSelectionActivity : MapSupportActivity(), ILocationSelection.View 
                         Constants.PAGE_URL to Constants.URL_TERMS_CONDITION
                     ), showToolBar = true
                 )
-                //Utils.openWebPage(Constants.URL_TERMS_CONDITION, "", this)
             }
             R.id.etAddressField -> {
 
@@ -350,7 +354,9 @@ class LocationSelectionActivity : MapSupportActivity(), ILocationSelection.View 
         viewModel.address?.address1 = viewModel.state.addressTitle.get()
         viewModel.address?.address2 = viewModel.state.addressSubtitle.get()
         viewModel.address?.city = viewModel.state.city.get()
-        viewModel.address?.country = "UAE"
+        // this needs to be update and addresse title 1,2,3 should remove only addresse object will pass and recived.
+        viewModel.address?.nearestLandMark = viewModel.state.addressTitle.get()
+        viewModel.address?.country = "United Arab Emirates"
         intent.putExtra(ADDRESS, viewModel.address)
         intent.putExtra(ADDRESS_SUCCESS, isUpdated)
         setResult(Activity.RESULT_OK, intent)
