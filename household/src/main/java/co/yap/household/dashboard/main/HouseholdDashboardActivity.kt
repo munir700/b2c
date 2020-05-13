@@ -47,7 +47,7 @@ class HouseholdDashboardActivity :
         MyUserManager.switchProfile.observe(this, switchProfileObserver)
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
-                R.id.btnCopyHH -> viewModel.copyAccountInfoToClipboard()
+                R.id.btnCopyHH -> {}
                 R.id.lyHeader_section -> expandableLayout.toggle(true)
             }
         })

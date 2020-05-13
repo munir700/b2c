@@ -125,7 +125,7 @@ class RecurringPaymentVM @Inject constructor(
                 )
                 state.recurringTransaction?.value?.scheduledPaymentUuid?.let {
                     state.schedulePayment.value?.scheduledPaymentUuid = it
-                    updateSchedulePayment(it)
+                    updateSchedulePayment(state.subAccount.value?.accountUuid)
                 } ?: createSchedulePayment(
                     state.subAccount.value?.accountUuid,
                     state.schedulePayment.value
