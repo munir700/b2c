@@ -80,7 +80,7 @@ abstract class BaseActivity<V : IBase.ViewModel<*>> : AppCompatActivity(), IBase
 
     override fun onResume() {
         super.onResume()
-        if (RootBeer(context).isRooted) {
+        if (RootBeer(context).isRootedWithBusyBoxCheck) {
             showAlertDialogAndExitApp(message = "This device is rooted. You can't use this app.")
         }
     }

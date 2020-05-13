@@ -2,13 +2,14 @@ android {
     defaultConfig {
         externalNativeBuild {
             cmake {
-                cppFlags ""
+                cFlags "-fvisibility=hidden"
+                cppFlags "-fvisibility=hidden"
             }
         }
     }
     externalNativeBuild {
         cmake {
-            path "src/main/cpp/CMakeLists.txt"
+            path "CMakeLists.txt"
             version "3.10.2"
         }
     }

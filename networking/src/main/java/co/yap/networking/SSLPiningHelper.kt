@@ -14,7 +14,6 @@ import javax.net.ssl.*
 
 
 class SSLPiningHelper(val context: Context) {
-
     private val cf: CertificateFactory = CertificateFactory.getInstance("X.509")
     private val caInput: InputStream = BufferedInputStream(getInputStream("yap-cert.crt"))
 
@@ -124,7 +123,7 @@ class SSLPiningHelper(val context: Context) {
 
         private fun enableTLSOnSocket(socket: Socket?): Socket? {
             if (socket != null && socket is SSLSocket) {
-                (socket as SSLSocket).enabledProtocols = arrayOf(
+                socket.enabledProtocols = arrayOf(
                     "TLSv1.1",
                     "TLSv1.2"
                 )

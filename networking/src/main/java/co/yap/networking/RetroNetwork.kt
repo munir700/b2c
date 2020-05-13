@@ -73,7 +73,8 @@ object RetroNetwork : Network {
                     networkConstraintsListener?.onSessionInvalid()
                 }
             })
-        return sslImplementation(context, okHttpClientBuilder, appData)
+        return okHttpClientBuilder.build()
+        //return sslImplementation(context, okHttpClientBuilder, appData)
     }
 
     private fun sslImplementation(
@@ -104,10 +105,14 @@ object RetroNetwork : Network {
             .add("*.yap.co", "sha256/Yf/ZlETuML9yDZbbwEFNdRnXKM/Nci/pXaCLCcH8yrU=") // charles
             .add("*.yap.co", "sha256/jr1RBEN+F3KtPTYBMhudiTGBRAg8k2qZPEg3WbSerXU=")
             .add("*.yap.co", "sha256/yJcy2FrimDcAjQrvDDImmFJna4OjlPQ4LAee9Vj2C74=")
+             //stage server
             .add("*.yap.co", "sha256/Ko8tivDrEjiY90yGasP6ZpBU4jwXvHqVvQI0GS3GNdA=")
             .add("*.yap.co", "sha256/ZrRL6wSXl/4lm1KItkcZyh56BGOoxMWUDJr7YVqE4no=")
             .add("*.yap.co", "sha256/8Rw90Ej3Ttt8RRkrg+WYDS9n7IS03bk5bjP/UXPtaY8=")
+            .add("*.yap.co", "sha256/VjLZe/p3W/PJnd6lL8JVNBCGQBZynFLdZSTIqcO0SJ8=")
             .build()
+
+
     }
 
     private fun getHttpLoggingInterceptor(
