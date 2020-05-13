@@ -2,8 +2,16 @@ package co.yap.modules.kyc.fragments
 
 import android.app.Activity
 import android.app.AlertDialog
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.view.KeyEvent
+import android.view.View
+import android.view.inputmethod.EditorInfo
+import android.view.inputmethod.InputMethodManager
+import android.widget.EditText
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
@@ -43,6 +51,32 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
     private fun addObservers() {
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
+                R.id.ivEditFirstName -> {
+                    ivEditFirstName.isEnabled = false
+                    ivEditMiddleName.isEnabled = true
+                    ivEditLastName.isEnabled = true
+
+                    manageFocus(tvFirstName, ivEditFirstName)
+                }
+
+                R.id.ivEditMiddleName -> {
+                    ivEditMiddleName.isEnabled = false
+
+                    ivEditFirstName.isEnabled = true
+                    ivEditLastName.isEnabled = true
+
+
+                    manageFocus(tvMiddleName, ivEditMiddleName)
+                }
+
+                R.id.ivEditLastName -> {
+                    ivEditLastName.isEnabled = true
+                    ivEditMiddleName.isEnabled = true
+
+                    ivEditFirstName.isEnabled = true
+                    manageFocus(tvLastName, ivEditLastName)
+                }
+
                 viewModel.EVENT_ERROR_INVALID_EID -> showInvalidEidAlert()
                 viewModel.EVENT_ERROR_EXPIRED_EID -> showExpiredEidAlert()
                 viewModel.EVENT_ERROR_UNDER_AGE -> showUnderAgeAlert()
@@ -79,7 +113,7 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
                     viewModel.parentViewModel?.finishKyc?.value =
                         DocumentsResponse(false, KYCAction.ACTION_EID_FAILED.name)
                 }
-                viewModel.EVENT_EID_UPDATE ->{
+                viewModel.EVENT_EID_UPDATE -> {
                     MyUserManager.getAccountInfo()
                     MyUserManager.onAccountInfoSuccess.observe(this, Observer { isSuccess ->
                         if (isSuccess) {
@@ -96,6 +130,47 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
             }
         })
     }
+
+    private fun manageFocus(
+        editText: EditText,
+        ivEditName: ImageView
+    ) {
+        if (!editText.isFocused) {
+            editText.isFocusable = true
+
+            editText.isFocusableInTouchMode = true
+            editText.isActivated = true
+            editText.setSelection(editText.length())
+            editText.requestFocus()
+            editText.performClick()
+            (editText.context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager).toggleSoftInput(
+                InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY
+            )
+        }
+
+        editText.setOnFocusChangeListener(object : View.OnFocusChangeListener {
+            override fun onFocusChange(v: View?, hasFocus: Boolean) {
+                if (!hasFocus) {
+                    ivEditName.isEnabled = true
+                    editText.isFocusable = false
+                    editText.isFocusableInTouchMode = false
+                }
+            }
+        })
+
+        editText.setOnEditorActionListener(TextView.OnEditorActionListener { v, actionId, keyEvent ->
+            if (actionId == EditorInfo.IME_ACTION_DONE || keyEvent.action === KeyEvent.ACTION_DOWN || keyEvent.action === KeyEvent.KEYCODE_ENTER
+            ) {
+                ivEditName.isEnabled = true
+                editText.isFocusable = false
+                editText.isFocusableInTouchMode = false
+            }
+            false
+        })
+
+
+    }
+
 
     override fun onDestroyView() {
         viewModel.clickEvent.removeObservers(this)
@@ -161,7 +236,8 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
                     viewModel.EVENT_ERROR_FROM_USA
                 )
             }
-            setNegativeButton(getString(Strings.screen_b2c_eid_info_review_button_not_from_usa).format(viewModel.sanctionedCountry)
+            setNegativeButton(
+                getString(Strings.screen_b2c_eid_info_review_button_not_from_usa).format(viewModel.sanctionedCountry)
             ) { dialog, which ->
                 viewModel.handleUserRejection(
                     viewModel.EVENT_ERROR_FROM_USA
@@ -180,7 +256,7 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
             data?.let {
                 viewModel.onEIDScanningComplete(it.getParcelableExtra(IdentityScannerActivity.SCAN_RESULT))
             }
-        }else{
+        } else {
             viewModel.parentViewModel?.finishKyc?.value = DocumentsResponse(false)
         }
     }
