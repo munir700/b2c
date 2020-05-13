@@ -58,6 +58,7 @@ class CashTransferConfirmationViewModel(application: Application) :
                     isCbwsi = parentViewModel?.selectedPop?.cbwsi?:false
                 )) {
                 is RetroApiResponse.Success -> {
+                    parentViewModel?.transferData?.value?.cutOffTimeMsg = null
                     response.data.data?.let {
                         state.cutOffTimeMsg.set(it.errorMsg)
                         parentViewModel?.transferData?.value?.cutOffTimeMsg = it.errorMsg
