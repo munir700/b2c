@@ -291,7 +291,7 @@ class YapHomeViewModel(application: Application) :
                 )
             )
         }
-        if ((accountInfo.notificationStatuses == AccountStatus.EID_EXPIRED.name || accountInfo.notificationStatuses == AccountStatus.EID_RESCAN_REQUIRE.name) && accountInfo.partnerBankStatus == PartnerBankStatus.ACTIVATED.status) {
+        if ((accountInfo.notificationStatuses == AccountStatus.EID_EXPIRED.name || accountInfo.notificationStatuses == AccountStatus.EID_RESCAN_REQ.name) && accountInfo.partnerBankStatus == PartnerBankStatus.ACTIVATED.status) {
             list.add(
                 HomeNotification(
                     id = "4",
