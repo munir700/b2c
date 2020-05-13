@@ -98,26 +98,6 @@ class CashTransferViewModel(application: Application) :
         }
     }
 
-    private fun isDailyLimitReached(): Boolean {
-        parentViewModel?.transactionThreshold?.value?.let {
-            it.dailyLimit?.let { dailyLimit ->
-                it.totalDebitAmount?.let { totalConsumedAmount ->
-                    state.amount.toDoubleOrNull()?.let { enteredAmount ->
-                        val remainingDailyLimit =
-                            if ((dailyLimit - totalConsumedAmount) < 0.0) 0.0 else (dailyLimit - totalConsumedAmount)
-                        state.errorDescription =
-                            if (enteredAmount > dailyLimit && totalConsumedAmount == 0.0) getString(
-                                Strings.common_display_text_daily_limit_error_single_transaction
-                            ) else getString(
-                                Strings.common_display_text_daily_limit_error_multiple_transactions
-                            )
-                        return enteredAmount > remainingDailyLimit
-                    } ?: return false
-                } ?: return false
-            } ?: return false
-        } ?: return false
-    }
-
     private fun isOtpRequired(): Boolean {
         parentViewModel?.transactionThreshold?.value?.let {
             it.totalDebitAmountRemittance?.let { totalSMConsumedAmount ->
@@ -314,6 +294,7 @@ class CashTransferViewModel(application: Application) :
     }
 
     fun trxWillHold(): Boolean {
+       // todo: cuttoff time , uaefts , AED , cbwsi , bank cbwsi complaintent ,less than equal to 10000
         return if (!isOnlyUAEFTS()) return false else
             parentViewModel?.selectedPop?.let { pop ->
                 return (when {
@@ -324,7 +305,7 @@ class CashTransferViewModel(application: Application) :
 
             } ?: state.amount.parseToDouble() > parentViewModel?.transactionThreshold?.value?.cbwsiPaymentLimit ?: 0.0
     }
-//cuttoff time , uaefts , AED , cbwsi , bank cbwsi complaintent ,less than equal to 10000
+
     override fun getCutOffTimeConfiguration() {
         launch {
             when (val response =
