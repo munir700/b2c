@@ -5,6 +5,7 @@ import android.view.View
 import androidx.fragment.app.FragmentManager
 import androidx.navigation.NavController
 import co.yap.R
+import co.yap.modules.others.helper.Constants.EVENT_GO_BACK
 import co.yap.networking.customers.household.CustomerHHApi
 import co.yap.networking.customers.household.CustomersHHRepository
 import co.yap.networking.customers.household.requestdtos.SchedulePayment
@@ -14,7 +15,9 @@ import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.dagger.base.viewmodel.DaggerBaseViewModel
 import co.yap.yapcore.helpers.DateUtils
 import co.yap.yapcore.helpers.DateUtils.FORMAT_DATE_MON_YEAR
+import co.yap.yapcore.helpers.DateUtils.FORMAT_LONG_INPUT
 import co.yap.yapcore.helpers.DateUtils.dateToString
+import co.yap.yapcore.helpers.DateUtils.stringToDate
 import co.yap.yapcore.helpers.cancelAllSnackBar
 import co.yap.yapcore.helpers.extentions.parseToDouble
 import co.yap.yapcore.helpers.livedata.GetAccountBalanceLiveData
@@ -39,23 +42,35 @@ class RecurringPaymentVM @Inject constructor(
         super.fetchExtras(extras)
         extras?.let {
             state.subAccount.value = it.getParcelable(SubAccount::class.simpleName)
-            state.schedulePayment.value = it.getParcelable(SchedulePayment::class.simpleName)
-            state.amount.value = state.schedulePayment.value?.amount
+            state.recurringTransaction?.value = it.getParcelable(SchedulePayment::class.simpleName)
+            state.amount.value = state.recurringTransaction?.value?.amount?.apply {
+                state.isValid.value = true
+            }
+            state.recurringTransaction?.value?.nextProcessingDate?.apply {
+                calendar.time = stringToDate(this, FORMAT_LONG_INPUT)
+                state.date.value = dateToString(calendar.time, FORMAT_DATE_MON_YEAR)
+            }
         }
     }
 
     override fun datePicker() {
         val dpd =
-            DatePickerDialog.newInstance { view, year, monthOfYear, dayOfMonth ->
+            DatePickerDialog.newInstance({ view, year, monthOfYear, dayOfMonth ->
                 calendar.set(Calendar.YEAR, year)
                 calendar.set(Calendar.MONTH, monthOfYear)
                 calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth)
-                state.date.set(dateToString(calendar.time, FORMAT_DATE_MON_YEAR))
-            }
+                state.date.value = dateToString(calendar.time, FORMAT_DATE_MON_YEAR)
+            }, calendar)
+        dpd.minDate = Calendar.getInstance()
+        dpd.version = DatePickerDialog.Version.VERSION_2
         fragmentManager?.let {
             dpd.accentColor = context.getColor(R.color.colorPrimary)
             dpd.show(it, "")
         }
+    }
+
+    override fun onCheckedChanged(text: String, isChecked: Boolean) {
+        state.recurringInterval.value = text
     }
 
     override fun onAmountChange(
@@ -90,9 +105,62 @@ class RecurringPaymentVM @Inject constructor(
     }
 
     override fun handlePressOnClick(id: Int) {
-        val time = DateUtils.datetoString(calendar.time, DateUtils.FORMAT_LONG_INPUT, DateUtils.GMT)
-        state.schedulePayment.value?.nextProcessingDate = time
-        state.schedulePayment.value?.isRecurring = true
-        createSchedulePayment(state.subAccount.value?.accountUuid, state.schedulePayment.value)
+        when (id) {
+            R.id.tvCancel -> {
+                clickEvent.postValue(id)
+            }
+            else -> {
+                val time =
+                    DateUtils.datetoString(
+                        calendar.time,
+                        DateUtils.FORMAT_LONG_INPUT,
+                        DateUtils.GMT
+                    )
+
+                state.schedulePayment.value = SchedulePayment(
+                    amount = state.amount.value,
+                    isRecurring = true,
+                    recurringInterval = state.recurringInterval.value,
+                    nextProcessingDate = time
+                )
+                state.recurringTransaction?.value?.scheduledPaymentUuid?.let {
+                    state.schedulePayment.value?.scheduledPaymentUuid = it
+                    updateSchedulePayment(it)
+                } ?: createSchedulePayment(
+                    state.subAccount.value?.accountUuid,
+                    state.schedulePayment.value
+                )
+            }
+        }
+    }
+
+
+    override fun cancelSchedulePayment(scheduledPaymentUuid: String?) {
+        launch {
+            when (val response = repository.cancelSchedulePayment(
+                scheduledPaymentUuid
+            )) {
+                is RetroApiResponse.Success -> {
+                    clickEvent.postValue(EVENT_GO_BACK)
+
+                }
+                is RetroApiResponse.Error -> {
+                }
+            }
+        }
+    }
+
+    override fun updateSchedulePayment(scheduledPaymentUuid: String?) {
+        launch {
+            when (val response = repository.updateSchedulePayment(
+                scheduledPaymentUuid, state.schedulePayment.value
+            )) {
+                is RetroApiResponse.Success -> {
+                    clickEvent.postValue(GO_TO_CONFIRMATION)
+                }
+                is RetroApiResponse.Error -> {
+                }
+            }
+        }
     }
 }
