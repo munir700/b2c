@@ -43,6 +43,46 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
+                <ImageView
+                    android:id="@+id/ivEditFirstName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/small"
+                    android:layout_marginEnd="@dimen/margin_medium"
+                    android:background="@drawable/hh_edit_selector"
+                    android:onClick="@{(v) -> viewModel.handlePressOnEdit(v.id)}"
+                    app:layout_constraintBottom_toBottomOf="@+id/tvFirstName"
+                    app:layout_constraintLeft_toRightOf="@+id/tvFirstName"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/tvFirstName" />
+
+                <ImageView
+                    android:id="@+id/ivEditMiddleName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/margin_medium"
+                    android:background="@drawable/hh_edit_selector"
+                    android:onClick="@{(v) -> viewModel.handlePressOnEdit(v.id)}"
+                    android:visibility="@{viewModel.state.middleName.trim().equals(``) ? View.GONE : View.VISIBLE}"
+                    app:layout_constraintBottom_toBottomOf="@+id/tvMiddleName"
+                    app:layout_constraintLeft_toRightOf="@+id/tvMiddleName"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/tvMiddleName" />
+
+                <ImageView
+                    android:id="@+id/ivEditLastName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/margin_medium"
+                    android:background="@drawable/hh_edit_selector"
+                    android:onClick="@{(v) -> viewModel.handlePressOnEdit(v.id)}"
+                    android:visibility="@{viewModel.state.lastName.trim().equals(``) ? View.GONE : View.VISIBLE}"
+                    app:layout_constraintBottom_toBottomOf="@+id/tvLastName"
+                    app:layout_constraintLeft_toRightOf="@+id/tvLastName"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/tvLastName" />
+
+
                 <TextView
                     android:id="@+id/tvTitle"
                     style="@style/ATitle3"
@@ -64,7 +104,7 @@
                     android:layout_marginTop="@dimen/margin_extra_small"
                     android:layout_marginEnd="@dimen/margin_medium"
                     android:gravity="center"
-                    android:text="@{viewModel.parentViewModel.name}"
+                    android:text="@{viewModel.state.caption}"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tvTitle"
@@ -81,83 +121,30 @@
                     app:text="@{Strings.screen_b2c_eid_info_review_display_text_first_name_heading}"
                     tools:text="@string/screen_b2c_eid_info_review_display_text_first_name_heading" />
 
-                <androidx.appcompat.widget.AppCompatEditText
-                    android:id="@+id/tvFirstName"
-                    style="@style/Large"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/margin_normal"
-                    android:layout_marginEnd="@dimen/margin_normal"
-                    android:drawableEnd="@{viewModel.state.fullNameValid ? @drawable/path : @drawable/ic_error}"
-                    android:drawableTint="@color/colorPrimaryHouseHold"
-                    android:text="@{viewModel.state.firstName}"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tvFirstNameHeading"
-                    tools:text="Nada"
-                    android:focusable="false"
-                    android:focusableInTouchMode="false"/>
-
 
                 <TextView
                     android:id="@+id/tvMiddleNameHeading"
                     style="@style/ASmallGrey"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_medium"
+                    android:layout_marginTop="@dimen/_10sdp"
                     android:visibility="@{viewModel.state.middleName.trim().equals(``) ? View.GONE : View.VISIBLE}"
                     app:layout_constraintStart_toStartOf="@+id/tvFirstName"
                     app:layout_constraintTop_toBottomOf="@+id/tvFirstName"
                     app:text="@{Strings.screen_b2c_eid_info_review_display_text_middle_name_heading}"
                     tools:text="@string/screen_b2c_eid_info_review_display_text_middle_name_heading" />
 
-                <androidx.appcompat.widget.AppCompatEditText
-                    android:id="@+id/tvMiddleName"
-                    style="@style/Large"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/margin_normal"
-                    android:layout_marginEnd="@dimen/margin_normal"
-                    android:drawableEnd="@{viewModel.state.fullNameValid ? @drawable/path : @drawable/ic_error}"
-                    android:drawableTint="@color/colorPrimaryHouseHold"
-                    android:text="@{viewModel.state.middleName}"
-                    android:visibility="@{viewModel.state.middleName.trim().equals(``) ? View.GONE : View.VISIBLE}"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tvMiddleNameHeading"
-                    tools:text="Noor"
-                    android:focusable="false"
-                    android:focusableInTouchMode="false"
-                    />
-
-
                 <TextView
                     android:id="@+id/tvLastNameHeading"
                     style="@style/ASmallGrey"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_medium"
+                    android:layout_marginTop="@dimen/_10sdp"
                     android:visibility="@{viewModel.state.lastName.trim().equals(``) ? View.GONE : View.VISIBLE}"
                     app:layout_constraintStart_toStartOf="@+id/tvMiddleName"
                     app:layout_constraintTop_toBottomOf="@+id/tvMiddleName"
                     app:text="@{Strings.screen_b2c_eid_info_review_display_text_last_name_heading}"
                     tools:text="@string/screen_b2c_eid_info_review_display_text_last_name_heading" />
-
-                <androidx.appcompat.widget.AppCompatEditText
-                    android:id="@+id/tvLastName"
-                    style="@style/Large"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/margin_normal"
-                    android:layout_marginEnd="@dimen/margin_normal"
-                    android:drawableEnd="@{viewModel.state.fullNameValid ? @drawable/path : @drawable/ic_error}"
-                    android:drawableTint="@color/colorPrimaryHouseHold"
-                    android:text="@{viewModel.state.firstName}"
-                    android:visibility="@{viewModel.state.lastName.trim().equals(``) ? View.GONE : View.VISIBLE}"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tvLastNameHeading"
-                    tools:text="Hassan"
-                    android:focusable="false"
-                    android:focusableInTouchMode="false"
-                    />
 
 
                 <TextView
@@ -170,6 +157,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/tvLastName"
                     app:text="@{Strings.screen_b2c_eid_info_review_display_text_nationality_heading}"
                     tools:text="@string/screen_b2c_eid_info_review_display_text_nationality_heading" />
+
 
                 <TextView
                     android:id="@+id/tvNationality"
@@ -184,7 +172,6 @@
                     app:layout_constraintTop_toBottomOf="@+id/tvNationalityHeading"
                     tools:text="Canadian" />
 
-
                 <TextView
                     android:id="@+id/tvDOBHeading"
                     style="@style/ASmallGrey"
@@ -195,6 +182,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/tvNationality"
                     app:text="@{Strings.screen_b2c_eid_info_review_display_text_dob_heading}"
                     tools:text="@string/screen_b2c_eid_info_review_display_text_dob_heading" />
+
 
                 <TextView
                     android:id="@+id/tvDOB"
@@ -209,7 +197,6 @@
                     app:layout_constraintTop_toBottomOf="@+id/tvDOBHeading"
                     tools:text="01/01/1979" />
 
-
                 <TextView
                     android:id="@+id/tvGenderHeading"
                     style="@style/ASmallGrey"
@@ -220,6 +207,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/tvDOB"
                     app:text="@{Strings.screen_b2c_eid_info_review_display_text_gender_heading}"
                     tools:text="@string/screen_b2c_eid_info_review_display_text_gender_heading" />
+
 
                 <TextView
                     android:id="@+id/tvGender"
@@ -246,6 +234,7 @@
                     tools:text="@string/screen_b2c_eid_info_review_display_text_expiry_date_heading"
 
                     />
+
 
                 <TextView
                     android:id="@+id/tvExpiryDate"
@@ -274,6 +263,62 @@
                     app:layout_constraintRight_toRightOf="parent"
                     app:text="@{Strings.screen_b2c_eid_info_review_button_title_rescan_eid}"
                     tools:text="@string/screen_b2c_eid_info_review_button_title_rescan_eid" />
+
+                <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/tvFirstName"
+                    style="@style/Large"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_normal"
+                    android:layout_marginEnd="@dimen/margin_normal"
+                    android:drawableEnd="@{viewModel.state.fullNameValid ? @drawable/path : @drawable/ic_error}"
+                    android:drawableTint="@color/colorPrimaryHouseHold"
+                    android:focusable="false"
+                    android:focusableInTouchMode="false"
+                    android:backgroundTint="@drawable/hh_et_bg_color_selector"
+
+                    android:text="@{viewModel.state.firstName}"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvFirstNameHeading"
+                    tools:text="Nada" />
+
+                <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/tvMiddleName"
+                    style="@style/Large"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_normal"
+                    android:layout_marginEnd="@dimen/margin_normal"
+                    android:drawableEnd="@{viewModel.state.fullNameValid ? @drawable/path : @drawable/ic_error}"
+                    android:drawableTint="@color/colorPrimaryHouseHold"
+                    android:focusable="false"
+                    android:backgroundTint="@drawable/hh_et_bg_color_selector"
+
+                    android:focusableInTouchMode="false"
+                    android:text="@{viewModel.state.middleName}"
+                    android:visibility="@{viewModel.state.middleName.trim().equals(``) ? View.GONE : View.VISIBLE}"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvMiddleNameHeading"
+                    tools:text="Noor" />
+
+                <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/tvLastName"
+                    style="@style/Large"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_normal"
+                    android:layout_marginEnd="@dimen/margin_normal"
+                    android:drawableEnd="@{viewModel.state.fullNameValid ? @drawable/path : @drawable/ic_error}"
+                    android:drawableTint="@color/colorPrimaryHouseHold"
+                    android:focusable="false"
+                    android:backgroundTint="@drawable/hh_et_bg_color_selector"
+
+                    android:focusableInTouchMode="false"
+                    android:text="@{viewModel.state.firstName}"
+                    android:visibility="@{viewModel.state.lastName.trim().equals(``) ? View.GONE : View.VISIBLE}"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvLastNameHeading"
+                    tools:text="Hassan" />
 
                 <androidx.cardview.widget.CardView
                     android:id="@+id/cvCard"
