@@ -28,3 +28,11 @@
 /.idea/codeStyles/Project.xml
 .externalNativeBuild
 app/~/tmp/full-r8-config.txt
+/app/.cxx/*
+/yapcore/.cxx/*
+/yap/.cxx/*
+/translation/.cxx/*
+/sendmoney/.cxx/*
+/networking/.cxx/*
+/identityscanner_v2/.cxx/*
+/household/.cxx/*
