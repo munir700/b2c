@@ -8,12 +8,10 @@ import co.yap.networking.transactions.responsedtos.transaction.Transaction
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.enums.TransactionProductCode
-import co.yap.yapcore.helpers.DateUtils.SERVER_DATE_FORMAT
 import co.yap.yapcore.helpers.DateUtils.FORMAT_LONG_OUTPUT
-import co.yap.yapcore.helpers.DateUtils.reformatStringDate
-import co.yap.yapcore.helpers.DateUtils.stringToDate
 import co.yap.yapcore.helpers.extentions.getCategoryIcon
 import co.yap.yapcore.helpers.extentions.getCategoryTitle
+import co.yap.yapcore.helpers.extentions.getFormattedTime
 
 
 class TransactionDetailsViewModel(application: Application) :
@@ -41,7 +39,7 @@ class TransactionDetailsViewModel(application: Application) :
 
     private fun setStatesData() {
         transaction.get()?.let { transaction ->
-            setToolbarTitle(transaction.updatedDate ?: "")
+            setToolbarTitle()
             state.txnNoteValue.set(transaction.transactionNote)
             setSenderOrReceiver(transaction)
             state.categoryTitle.set(transaction.getCategoryTitle())
@@ -49,17 +47,8 @@ class TransactionDetailsViewModel(application: Application) :
         }
     }
 
-    private fun setToolbarTitle(creationDate: String) {
-        try {
-            val date =
-                stringToDate(creationDate, SERVER_DATE_FORMAT)
-            state.toolBarTitle = reformatStringDate(
-                creationDate, SERVER_DATE_FORMAT,
-                FORMAT_LONG_OUTPUT
-            )
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
+    private fun setToolbarTitle() {
+        state.toolBarTitle = transaction.get().getFormattedTime(FORMAT_LONG_OUTPUT)
     }
 
     private fun setSenderOrReceiver(transaction: Transaction) {
