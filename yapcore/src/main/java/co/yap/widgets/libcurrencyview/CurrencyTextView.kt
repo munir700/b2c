@@ -116,7 +116,7 @@ class CurrencyTextView : AppCompatTextView {
             ta.getString(R.styleable.CurrencyTextView_ctv_currencySymbol)
         if (ta.hasValueOrEmpty(R.styleable.CurrencyTextView_ctv_formatter))
             formatter = ta.getString(R.styleable.CurrencyTextView_ctv_formatter)
-        currencySymbol = if (TextUtils.isEmpty(customSymbol)) "AED" else customSymbol
+        currencySymbol = if (TextUtils.isEmpty(customSymbol)) "AED " else customSymbol
         ta.recycle()
     }
 

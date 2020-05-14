@@ -100,7 +100,9 @@
                 android:layout_width="wrap_content"
                 android:layout_marginTop="@dimen/margin_medium"
                 android:enabled="false"
-                android:gravity="center" />
+                android:gravity="center"
+                android:onClick="@{(v)-> viewModel.handlePressOnClick(v.id)}"
+                android:text="@{viewModel.state.lastTransaction.amount??`0.00`}" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvLastUsedAmountGuide"

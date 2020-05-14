@@ -38,8 +38,8 @@ class FuturePaymentFragment :
         }
     }
 
-    override fun onPause() {
+    override fun onDestroyView() {
         viewModel.clickEvent.removeObservers(this)
-        super.onPause()
+        super.onDestroyView()
     }
 }
