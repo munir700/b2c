@@ -1,6 +1,7 @@
 package co.yap.modules.dashboard.more.changepasscode.fragments
 
 import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.core.os.bundleOf
@@ -9,6 +10,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import co.yap.BR
 import co.yap.R
+import co.yap.modules.dashboard.more.changepasscode.activities.ChangePasscodeActivity
 import co.yap.modules.dashboard.more.main.activities.MoreActivity
 import co.yap.modules.otp.GenericOtpFragment
 import co.yap.modules.otp.OtpDataModel
@@ -17,12 +19,14 @@ import co.yap.modules.passcode.PassCodeViewModel
 import co.yap.translation.Strings
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.databinding.FragmentPassCodeBinding
+import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.enums.OTPActions
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.ExtraType
 import co.yap.yapcore.helpers.extentions.getValue
 import co.yap.yapcore.helpers.extentions.startFragmentForResult
+import co.yap.yapcore.managers.MyUserManager
 
 class CurrentPasscodeFragment : ChangePasscodeBaseFragment<IPassCode.ViewModel>(), IPassCode.View {
 
@@ -61,9 +65,14 @@ class CurrentPasscodeFragment : ChangePasscodeBaseFragment<IPassCode.ViewModel>(
                     }
                 }
                 R.id.tvForgotPasscode -> {
-                    startOtpFragment(
-                        SharedPreferenceManager(requireContext()).getDecryptedUserName() ?: ""
-                    )
+                    if (MyUserManager.user?.otpBlocked == true) {
+                        showToast("${getString(Strings.screen_blocked_otp_display_text_message)}^${AlertType.DIALOG.name}")
+                    }else{
+                        startOtpFragment(
+                            SharedPreferenceManager(requireContext()).getDecryptedUserName() ?: ""
+                        )
+                    }
+
                 }
             }
         })
