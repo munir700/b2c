@@ -81,9 +81,7 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
         viewModel.onClickEvent.observe(this, onClickView)
         viewModel.loginSuccess.observe(this, loginSuccessObserver)
         viewModel.validateDeviceResult.observe(this, validateDeviceResultObserver)
-//        MyUserManager.onAccountInfoSuccess.observe(this, onFetchAccountInfo)
         viewModel.createOtpResult.observe(this, createOtpObserver)
-//        MyUserManager.switchProfile.observe(this, switchProfileObserver)
         setObservers()
     }
 
@@ -217,7 +215,6 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
         viewModel.validateDeviceResult.removeObservers(this)
         viewModel.createOtpResult.removeObservers(this)
         viewModel.forgotPasscodeButtonPressEvent.removeObservers(this)
-//        MyUserManager.onAccountInfoSuccess.removeObserver(onFetchAccountInfo)
         super.onDestroyView()
     }
 
@@ -248,13 +245,11 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
         }
     }
 
-
     private fun updateName() {
         if (isUserLoginIn()) {
             viewModel.state.username = MyUserManager.user?.currentCustomer?.email ?: ""
             return
         }
-
         viewModel.state.username = ""
     }
 
@@ -314,7 +309,6 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
                 }
             } else {
                 if (MyUserManager.shouldGoToHousehold()) {
-//                    MyUserManager.switchProfile()
                     MyUserManager.user?.uuid?.let { it1 -> SwitchProfileLiveData.get(it1, this@VerifyPasscodeFragment).
                         observe(this@VerifyPasscodeFragment, switchProfileObserver) }
                 } else {
@@ -331,7 +325,7 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
     }
 
     private val switchProfileObserver = Observer<AccountInfo?> {
-        it.let {
+        it.run {
             if (MyUserManager.isOnBoarded()) {
                 if (MyUserManager.isExistingUser()) {
                     launchActivity<YapDashboardActivity>(clearPrevious = true)

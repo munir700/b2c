@@ -23,7 +23,6 @@ import co.yap.yapcore.helpers.livedata.GetAccountInfoLiveData
 import co.yap.yapcore.helpers.livedata.SwitchProfileLiveData
 import co.yap.yapcore.managers.MyUserManager
 
-
 class PhoneVerificationSignInFragment :
     OnboardingChildFragment<IPhoneVerificationSignIn.ViewModel>() {
 
@@ -40,15 +39,12 @@ class PhoneVerificationSignInFragment :
         viewModel.nextButtonPressEvent.observe(this, nextButtonObserver)
         viewModel.verifyOtpResult.observe(this, verifyOtpResultObserver)
         viewModel.postDemographicDataResult.observe(this, postDemographicDataObserver)
-//        MyUserManager.onAccountInfoSuccess?.observe(this, onFetchAccountInfo)
-//        MyUserManager.switchProfile.observe(this, switchProfileObserver)
         setUsername()
         setPasscode()
     }
 
     override fun onDestroy() {
         viewModel.nextButtonPressEvent.removeObservers(this)
-//        MyUserManager.onAccountInfoSuccess?.removeObservers(this)
         super.onDestroy()
     }
 
@@ -67,9 +63,10 @@ class PhoneVerificationSignInFragment :
     private val onFetchAccountInfo = Observer<AccountInfo?> {
         it?.run {
             if (MyUserManager.shouldGoToHousehold()) {
-//                MyUserManager.switchProfile()
-                MyUserManager.user?.uuid?.let { it1 -> SwitchProfileLiveData.get(it1, this@PhoneVerificationSignInFragment).
-                    observe(this@PhoneVerificationSignInFragment, switchProfileObserver) }
+                MyUserManager.user?.uuid?.let { it1 ->
+                    SwitchProfileLiveData.get(it1, this@PhoneVerificationSignInFragment)
+                        .observe(this@PhoneVerificationSignInFragment, switchProfileObserver)
+                }
             } else {
                 if (BiometricUtil.isFingerprintSupported
                     && BiometricUtil.isHardwareSupported(requireActivity())
@@ -104,7 +101,7 @@ class PhoneVerificationSignInFragment :
     }
 
     private val switchProfileObserver = Observer<AccountInfo?> {
-        it.let {
+        it.run {
             if (MyUserManager.isOnBoarded()) {
                 gotoYapDashboard()
             } else {
@@ -112,7 +109,6 @@ class PhoneVerificationSignInFragment :
                     putExtra(OnBoardingHouseHoldActivity.USER_INFO, MyUserManager.user)
                 }
             }
-
         }
     }
 
@@ -145,6 +141,4 @@ class PhoneVerificationSignInFragment :
         viewModel.state.passcode =
             arguments?.let { PhoneVerificationSignInFragmentArgs.fromBundle(it).passcode } as String
     }
-
-
 }

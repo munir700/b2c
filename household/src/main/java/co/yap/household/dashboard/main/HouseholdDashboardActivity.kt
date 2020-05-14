@@ -68,14 +68,13 @@ class HouseholdDashboardActivity :
         override fun onItemClick(view: View, data: Any, pos: Int) {
             if (data is AccountInfo) {
                 selectedUser = data
-//                MyUserManager.switchProfile(data.uuid)
                 data.uuid?.let { SwitchProfileLiveData.get(it, this@HouseholdDashboardActivity).observe(this@HouseholdDashboardActivity, switchProfileObserver) }
             }
         }
     }
 
     private val switchProfileObserver = Observer<AccountInfo?> {
-        it.let {
+        it.run {
             if (selectedUser?.accountType == AccountType.B2C_ACCOUNT.name) {
                 // Go to yap Dashboard
                 launchActivity<YapDashboardActivity>()
