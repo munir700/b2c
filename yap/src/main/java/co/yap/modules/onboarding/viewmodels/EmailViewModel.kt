@@ -22,8 +22,8 @@ import co.yap.yapcore.constants.Constants.KEY_IS_USER_LOGGED_IN
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.toast
-import co.yap.yapcore.leanplum.trackEvent
 import co.yap.yapcore.leanplum.SignupEvents
+import co.yap.yapcore.leanplum.trackEvent
 import co.yap.yapcore.managers.MyUserManager
 import java.util.*
 import java.util.concurrent.TimeUnit
@@ -77,7 +77,8 @@ class EmailViewModel(application: Application) :
                     parentViewModel?.onboardingData?.mobileNo,
                     state.twoWayTextWatcher,
                     parentViewModel?.onboardingData?.passcode,
-                    parentViewModel?.onboardingData?.accountType.toString()
+                    parentViewModel?.onboardingData?.accountType.toString(),
+                    token = parentViewModel?.onboardingData?.token
                 )
             )) {
                 is RetroApiResponse.Success -> {
@@ -137,7 +138,8 @@ class EmailViewModel(application: Application) :
             when (val response = repository.sendVerificationEmail(
                 SendVerificationEmailRequest(
                     state.twoWayTextWatcher,
-                    parentViewModel?.onboardingData?.accountType.toString()
+                    parentViewModel?.onboardingData?.accountType.toString(),
+                    parentViewModel?.onboardingData?.token.toString()
                 )
             )) {
                 is RetroApiResponse.Error -> {
@@ -146,6 +148,7 @@ class EmailViewModel(application: Application) :
 
                 }
                 is RetroApiResponse.Success -> {
+                    parentViewModel?.onboardingData?.token = response.data.token
                     signUp()
                 }
             }
@@ -197,15 +200,17 @@ class EmailViewModel(application: Application) :
                         MyUserManager.user = response.data.data[0]
 //                        MyUserManager.user?.setLiveData() // DOnt remove this line
                         state.valid = true
+                        state.loading = false
                     }
                 }
                 is RetroApiResponse.Error -> {
                     state.valid = true
                     state.toast = response.error.message
+                    state.loading = false
+
                 }
 
             }
-            state.loading = false
         }
     }
 

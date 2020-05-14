@@ -18,7 +18,7 @@ data class HomeTransactionListData(
     @SerializedName("amountPercentage")
     var amountPercentage: Double,
     @SerializedName("content")
-    var content: List<Content>,
+    var transaction: List<Transaction>,
     @SerializedName("first")
     var first: Boolean,
     @SerializedName("last")

@@ -651,28 +651,12 @@ object UIBinder {
     }
 
     @JvmStatic
-    @BindingAdapter(
-        value = ["componentDialerError"],
-        requireAll = false
-    )
-    fun setPasscodeError(
-        view: CoreDialerPad,
-        error: String?
-    ) {
-        if (null != error && error.isNotEmpty()) {
+    @BindingAdapter("componentDialerError")
+    fun setDialerError(view: CoreDialerPad, error: String) {
+        if (error.isNotEmpty()) {
             view.showError(error)
         } else {
             view.removeError()
-        }
-    }
-
-    @JvmStatic
-    @BindingAdapter("componentDialerError")
-    fun setDialerError(view: CoreDialerPadV2, error: String) {
-        if (null != error && !error.isEmpty()) {
-            view.settingUIForError(error)
-        } else {
-            view.settingUIForNormal()
         }
     }
 

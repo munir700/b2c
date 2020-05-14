@@ -8,6 +8,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.OnLifecycleEvent
 import co.yap.translation.Translator
+import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.interfaces.CoroutineViewModel
 import kotlinx.coroutines.*
 import java.io.Closeable
@@ -18,22 +19,20 @@ abstract class BaseViewModel<S : IBase.State>(application: Application) :
     AndroidViewModel(application),
     IBase.ViewModel<S>, CoroutineViewModel {
 
-    override val context: Context
-        get() = getApplication<Application>().applicationContext
-
-    override val viewModelJob: Job
-        get() = Job()
-    override val viewModelScope: CoroutineScope
-        get() = CoroutineScope(viewModelJob + Dispatchers.Main)
-
+    override val context: Context = getApplication<Application>().applicationContext
+    final override val viewModelJob = Job()
+    override val viewModelScope = CloseableCoroutineScope(viewModelJob + Dispatchers.Main)
     val viewModelBGScope = CloseableCoroutineScope(viewModelJob + Dispatchers.IO)
 
     class CloseableCoroutineScope(context: CoroutineContext) : Closeable, CoroutineScope {
         override val coroutineContext: CoroutineContext = context
-
         override fun close() {
             coroutineContext.cancel()
         }
+    }
+
+    fun showToast(message: String) {
+        state.toast = "${message}^${AlertType.DIALOG.name}"
     }
 
     override fun onCleared() {

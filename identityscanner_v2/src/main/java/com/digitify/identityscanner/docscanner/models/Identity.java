@@ -45,9 +45,19 @@ public class Identity implements Parcelable {
         if (expirationDate == null) {
             return expiryDateValid =false;
         }
+        if (isDateFallInPandemic(expirationDate) && isDateFallInPandemic(new Date()))
+            return expiryDateValid = true;
+
         return !(expiryDateValid = DateUtils.INSTANCE.isDatePassed(expirationDate));
     }
 
+    private boolean isDateFallInPandemic(Date date) {
+        Date fromDate = DateUtils.INSTANCE.reformatLocalDate("200301", "yyMMdd", "yyyy-MM-dd");
+        Date toDate = DateUtils.INSTANCE.reformatLocalDate("201231", "yyMMdd", "yyyy-MM-dd");
+
+        // use inverse of condition bcz strict order check to a non-strict check e.g both dates are equals
+        return !date.after(toDate) && !date.before(fromDate);
+    }
     private boolean dateOfBirthValid;
 
     /**

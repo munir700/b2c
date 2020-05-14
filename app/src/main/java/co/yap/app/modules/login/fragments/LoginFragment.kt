@@ -24,10 +24,8 @@ import kotlinx.android.synthetic.main.fragment_log_in.*
 class LoginFragment : BaseBindingFragment<ILogin.ViewModel>(), ILogin.View {
 
     override fun getBindingVariable(): Int = BR.viewModel
-
     override fun getLayoutId(): Int = R.layout.fragment_log_in
-
-    override val viewModel: ILogin.ViewModel
+    override val viewModel: LoginViewModel
         get() = ViewModelProviders.of(this).get(LoginViewModel::class.java)
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -54,7 +52,6 @@ class LoginFragment : BaseBindingFragment<ILogin.ViewModel>(), ILogin.View {
         ) {
             etEmailField.requestKeyboard()
         }
-
         viewModel.signInButtonPressEvent.observe(this, signInButtonObserver)
         viewModel.signUpButtonPressEvent.observe(this, signUpButtonObserver)
 
@@ -64,12 +61,6 @@ class LoginFragment : BaseBindingFragment<ILogin.ViewModel>(), ILogin.View {
                 etEmailField.settingErrorColor(R.color.error)
             }
         })
-        tvSignUpPrefix.setOnClickListener {
-            launchActivity<NavHostPresenterActivity> {
-                putExtra(NAVIGATION_Graph_ID, R.navigation.iban_subaccount_navigation)
-                putExtra(NAVIGATION_Graph_START_DESTINATION_ID, R.id.subAccountDashBoardFragment)
-            }
-        }
     }
 
     override fun onDestroy() {
@@ -93,7 +84,6 @@ class LoginFragment : BaseBindingFragment<ILogin.ViewModel>(), ILogin.View {
         NavHostFragment.findNavController(this).navigate(action)
         viewModel.state.twoWayTextWatcher = ""
     }
-
     private val accountBlockedObserver = Observer<Boolean> { isAccountBlocked ->
         if (isAccountBlocked) {
             val action =
@@ -105,9 +95,8 @@ class LoginFragment : BaseBindingFragment<ILogin.ViewModel>(), ILogin.View {
             viewModel.state.twoWayTextWatcher = ""
         }
     }
-
-
     private val signUpButtonObserver = Observer<Boolean> {
         findNavController().navigate(R.id.action_loginFragment_to_accountSelectionFragment)
     }
+
 }

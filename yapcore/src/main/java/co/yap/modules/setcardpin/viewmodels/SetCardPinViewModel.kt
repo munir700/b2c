@@ -13,8 +13,8 @@ open class SetCardPinViewModel(application: Application) :
     BaseViewModel<ISetCardPin.State>(application),
     ISetCardPin.ViewModel {
 
-    override val forgotPasscodeclickEvent: SingleClickEvent= SingleClickEvent()
-    override var mobileNumber: String=""
+    override val forgotPasscodeclickEvent: SingleClickEvent = SingleClickEvent()
+    override var mobileNumber: String = ""
     override var pincode: String = ""
     override val state: SetCardPinState = SetCardPinState()
     override val clickEvent: SingleClickEvent = SingleClickEvent()
@@ -48,7 +48,7 @@ open class SetCardPinViewModel(application: Application) :
     ) {
     }
 
-    override fun forgotCardPinRequest(cardSerialNumber: String, newPin: String) {
+    override fun forgotCardPinRequest(cardSerialNumber: String, newPin: String, token: String) {
 
     }
 

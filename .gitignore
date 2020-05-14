@@ -9,11 +9,13 @@
 /.idea/misc.xml
 /.idea/*
 /.idea/codeStyles/*
+/sendmoney/build/*
 /.idea/assetWizardSettings.xml
 /authentication/build/*
 /authentication/build
 /coachmark/build
 /household/build
+/splitbill/build
 /send_money/*
 /coachmark/*
 /profile/*
@@ -27,3 +29,11 @@
 /.idea/codeStyles/Project.xml
 .externalNativeBuild
 app/~/tmp/full-r8-config.txt
+app/.cxx/
+household/.cxx/
+identityscanner_v2/.cxx/
+networking/.cxx/
+sendmoney/.cxx/
+translation/.cxx/
+yap/.cxx/
+yapcore/.cxx/

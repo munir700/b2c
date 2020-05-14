@@ -24,14 +24,13 @@ import co.yap.R
 import co.yap.databinding.ActivityPaymentCardDetailBinding
 import co.yap.modules.dashboard.cards.paymentcarddetail.activities.carddetaildialog.CardDetailsDialogPagerAdapter
 import co.yap.modules.dashboard.cards.paymentcarddetail.activities.carddetaildialog.CardDetailsModel
-import co.yap.modules.dashboard.cards.paymentcarddetail.addfunds.activities.AddFundsActivity
+import co.yap.modules.dashboard.cards.paymentcarddetail.addfunds.activities.AddRemoveFundsActivity
 import co.yap.modules.dashboard.cards.paymentcarddetail.forgotcardpin.activities.ForgotCardPinActivity
 import co.yap.modules.dashboard.cards.paymentcarddetail.fragments.CardClickListener
 import co.yap.modules.dashboard.cards.paymentcarddetail.fragments.PrimaryCardBottomSheet
 import co.yap.modules.dashboard.cards.paymentcarddetail.fragments.SpareCardBottomSheet
 import co.yap.modules.dashboard.cards.paymentcarddetail.interfaces.IPaymentCardDetail
 import co.yap.modules.dashboard.cards.paymentcarddetail.limits.activities.CardLimitsActivity
-import co.yap.modules.dashboard.cards.paymentcarddetail.removefunds.activities.RemoveFundsActivity
 import co.yap.modules.dashboard.cards.paymentcarddetail.statments.activities.CardStatementsActivity
 import co.yap.modules.dashboard.cards.paymentcarddetail.viewmodels.PaymentCardDetailViewModel
 import co.yap.modules.dashboard.cards.reordercard.activities.ReorderCardActivity
@@ -44,8 +43,8 @@ import co.yap.modules.dummy.ActivityNavigator
 import co.yap.modules.dummy.NavigatorProvider
 import co.yap.modules.others.helper.Constants
 import co.yap.networking.cards.responsedtos.Card
-import co.yap.networking.transactions.responsedtos.transaction.Content
 import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionListData
+import co.yap.networking.transactions.responsedtos.transaction.Transaction
 import co.yap.translation.Strings
 import co.yap.yapcore.AdjustEvents.Companion.trackAdjustPlatformEvent
 import co.yap.yapcore.BaseBindingActivity
@@ -109,6 +108,10 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
     override fun setObservers() {
         viewModel.clickEvent.observe(this, clickObserver)
         viewModel.card.observe(this, Observer {
+            if (it.availableBalance.parseToDouble() > 0) {
+                llRemoveFunds.isEnabled = true
+                llRemoveFunds.alpha = 1f
+            }
             viewModel.cardTransactionRequest.serialNumber = it.cardSerialNumber
             viewModel.requestAccountTransactions()
         })
@@ -127,7 +130,7 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
                     var shouldAppend = false
                     for (i in 0 until oldData.size) {
                         if (parentItem.date == oldData[i].date) {
-                            if (parentItem.content.size != oldData[i].content.size) {
+                            if (parentItem.transaction.size != oldData[i].transaction.size) {
                                 shouldAppend = true
                                 break
                             }
@@ -206,7 +209,7 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
                     trackAdjustPlatformEvent(AdjustEvents.TOP_UP_START.type)
                     viewModel.card.value?.let { card ->
                         startActivityForResult(
-                            AddFundsActivity.newIntent(this, card),
+                            AddRemoveFundsActivity.newIntent(this, card, isAddFund = true),
                             Constants.REQUEST_ADD_REMOVE_FUNDS
                         )
                     }
@@ -225,7 +228,11 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
                 } else {
                     if (viewModel.card.value?.blocked == false) {
                         startActivityForResult(
-                            RemoveFundsActivity.newIntent(this, viewModel.card.value!!),
+                            AddRemoveFundsActivity.newIntent(
+                                this,
+                                viewModel.card.value!!,
+                                isAddFund = false
+                            ),
                             Constants.REQUEST_ADD_REMOVE_FUNDS
                         )
                     } else {
@@ -288,6 +295,8 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
     private fun setupView() {
         viewModel.card.value = intent.getParcelableExtra(CARD)
         viewModel.state.cardStatus.set(viewModel.card.value?.status)
+        llRemoveFunds.isEnabled = false
+        llRemoveFunds.alpha = 0.5f
 
         viewModel.state.cardType = viewModel.card.value?.cardType ?: ""
         viewModel.state.cardPanNumber = viewModel.card.value?.maskedCardNo ?: ""
@@ -329,6 +338,7 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
             rlSpareCardActions.visibility = View.VISIBLE
         }
         checkFreezeUnfreezStatus()
+
 
         btnCardDetails.setOnClickListener {
             viewModel.getCardDetails()
@@ -620,7 +630,7 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
 
     private val adaptorlistener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
-            if (data is Content) {
+            if (data is Transaction) {
                 launchActivity<TransactionDetailsActivity> {
                     putExtra("transaction", data)
                 }

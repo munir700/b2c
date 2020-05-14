@@ -1,6 +1,5 @@
 package co.yap.modules.dashboard.more.profile.intefaces
 
-import android.content.Context
 import android.net.Uri
 import androidx.databinding.ObservableField
 import co.yap.networking.authentication.AuthRepository
@@ -17,38 +16,16 @@ interface IProfile {
         var isShowErrorIcon: ObservableField<Boolean>
 
     }
+
     interface ViewModel : IBase.ViewModel<State> {
         val authRepository: AuthRepository
         var clickEvent: SingleClickEvent
         var PROFILE_PICTURE_UPLOADED: Int
         var EVENT_LOGOUT_SUCCESS: Int
-        fun handlePressOnBackButton()
-        fun handlePressOnPersonalDetail(id: Int)
-        fun handlePressOnPrivacy(id: Int)
-        fun handlePressOnPasscode(id: Int)
-        fun handlePressOnAppNotification(id: Int)
-        fun handlePressOnTermsAndConditions(id: Int)
-        fun handlePressOnInstagram(id: Int)
-
-        fun handlePressOnTwitter(id: Int)
-
-        fun handlePressOnFaceBook(id: Int)
-
-        fun handlePressOnLogOut(id: Int)
-
-        fun handlePressOnAddNewPhoto(id: Int)
-
-        fun handlePressOnPhoto(id: Int)
-
+        fun handlePressOnViewClick(id: Int)
         fun requestProfileDocumentsInformation()
-
-        fun requestUploadProfilePicture(file: File)
-
-        fun uploadProfconvertUriToFile(selectedImageUri: Uri)
-
-        fun getRealPathFromUri(context: Context, contentUri: Uri): String
+        fun requestUploadProfilePicture(actualFile: File)
         fun logout()
-
     }
 
     interface View : IBase.View<ViewModel>
