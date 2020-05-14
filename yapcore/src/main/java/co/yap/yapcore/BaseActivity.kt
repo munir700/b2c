@@ -3,6 +3,7 @@ package co.yap.yapcore
 import android.app.Activity
 import android.app.AlertDialog
 import android.app.Dialog
+import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
@@ -33,9 +34,11 @@ abstract class BaseActivity<V : IBase.ViewModel<*>> : AppCompatActivity(), IBase
     private lateinit var permissionsManager: PermissionsManager
     private var progress: Dialog? = null
     override var shouldRegisterViewModelLifeCycle: Boolean = true
+    open lateinit var context: Context
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        context = this
         applySelectedTheme(SharedPreferenceManager(this))
         this.window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
         this.window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)

@@ -15,7 +15,6 @@ import co.yap.yapcore.IFragmentHolder
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.defaults.DefaultNavigator
 import co.yap.yapcore.defaults.INavigator
-import co.yap.yapcore.helpers.FileUtils
 import co.yap.yapcore.helpers.extentions.ExtraType
 import co.yap.yapcore.helpers.extentions.getValue
 import co.yap.yapcore.interfaces.BackPressImpl
@@ -49,7 +48,7 @@ class DocumentsDashboardActivity : BaseBindingActivity<IDocumentsDashboard.ViewM
     private fun addObserver() {
         viewModel.finishKyc.observe(this, Observer {
             viewModel.paths.forEach { filePath ->
-                FileUtils.deleteRecursive(File(filePath))
+                File(filePath).deleteRecursively()
             }
             goToDashBoard(
                 success = it.success,
@@ -65,13 +64,13 @@ class DocumentsDashboardActivity : BaseBindingActivity<IDocumentsDashboard.ViewM
         viewModel.skipFirstScreen.value?.let {
             if (it) {
                 viewModel.paths.forEach { filePath ->
-                    FileUtils.deleteRecursive(File(filePath))
+                    File(filePath).deleteRecursively()
                 }
                 super.onBackPressed()
             } else {
                 if (!BackPressImpl(fragment).onBackPressed()) {
                     viewModel.paths.forEach { filePath ->
-                        FileUtils.deleteRecursive(File(filePath))
+                        File(filePath).deleteRecursively()
                     }
                     super.onBackPressed()
                 }
@@ -81,7 +80,7 @@ class DocumentsDashboardActivity : BaseBindingActivity<IDocumentsDashboard.ViewM
 
     override fun onDestroy() {
         viewModel.paths.forEach { filePath ->
-            FileUtils.deleteRecursive(File(filePath))
+            File(filePath).deleteRecursively()
         }
         super.onDestroy()
     }

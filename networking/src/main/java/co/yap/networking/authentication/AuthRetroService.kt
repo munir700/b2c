@@ -13,7 +13,10 @@ interface AuthRetroService {
 
     // Refresh JWT Token
     @POST(AuthRepository.URL_REFRESH_JWT_TOKEN)
-    suspend fun refreshJWTToken(@Query("grant_type") grantType: String, @Query("id_token") token: String): Response<LoginResponse>
+    suspend fun refreshJWTToken(
+        @Query("grant_type") grantType: String,
+        @Query("id_token") token: String
+    ): Response<LoginResponse>
 
     @POST(AuthRepository.URL_GET_JWT_TOKEN)
     suspend fun login(
@@ -30,4 +33,11 @@ interface AuthRetroService {
     @FormUrlEncoded
     @POST(AuthRepository.URL_SWITCH_PROFILE)
     suspend fun switchProfile(@Field("account_uuid") uuid: String): Response<LoginResponse>
+
+    //getJwtToken
+    suspend fun getJwtToken(): String?
+
+    //setJwtToken
+    suspend fun setJwtToken(token: String?)
+
 }

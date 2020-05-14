@@ -28,6 +28,7 @@ import co.yap.yapcore.enums.OTPActions
 import co.yap.yapcore.enums.TransactionProductCode
 import co.yap.yapcore.helpers.*
 import co.yap.yapcore.helpers.extentions.startFragmentForResult
+import co.yap.yapcore.helpers.extentions.toFormattedAmountWithCurrency
 import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 import co.yap.yapcore.helpers.spannables.color
 import co.yap.yapcore.helpers.spannables.getText
@@ -93,6 +94,9 @@ class Y2YTransferFragment : Y2YBaseFragment<IY2YFundsTransfer.ViewModel>(), IY2Y
     private val enterAmountObserver = Observer<String> {
         viewModel.updateFees(it)
         when {
+            it.isBlank() -> {
+                viewModel.state.valid = false
+            }
             isBalanceAvailable(it) -> showErrorSnackBar(
                 viewModel.state.errorDescription,
                 Snackbar.LENGTH_INDEFINITE
@@ -106,7 +110,7 @@ class Y2YTransferFragment : Y2YBaseFragment<IY2YFundsTransfer.ViewModel>(), IY2Y
                 viewModel.state.valid = false
                 showErrorSnackBar(viewModel.state.errorDescription, Snackbar.LENGTH_INDEFINITE)
             }
-            viewModel.enteredAmount.value?.toDoubleOrNull() ?: 0.0 < viewModel.state.minLimit || viewModel.enteredAmount.value?.toDoubleOrNull() ?: 0.0 > viewModel.state.maxLimit -> {
+            it.isNotBlank() && viewModel.enteredAmount.value?.toDoubleOrNull() ?: 0.0 < viewModel.state.minLimit || viewModel.enteredAmount.value?.toDoubleOrNull() ?: 0.0 > viewModel.state.maxLimit -> {
                 setUpperLowerLimitError()
                 viewModel.state.amountBackground =
                     requireContext().resources.getDrawable(
@@ -211,10 +215,10 @@ class Y2YTransferFragment : Y2YBaseFragment<IY2YFundsTransfer.ViewModel>(), IY2Y
                     viewModel.enteredAmount.value?.toDoubleOrNull()?.let { enteredAmount ->
                         val remainingDailyLimit =
                             if ((dailyLimit - totalConsumedAmount) < 0.0) 0.0 else (dailyLimit - totalConsumedAmount)
-                        viewModel.state.errorDescription = Translator.getString(
-                            requireContext(),
-                            Strings.common_display_text_daily_limit_error
-                        ).format(remainingDailyLimit)
+                        viewModel.state.errorDescription =
+                            if (enteredAmount > dailyLimit && totalConsumedAmount==0.0) getString(Strings.common_display_text_daily_limit_error_single_transaction) else getString(
+                                Strings.common_display_text_daily_limit_error_multiple_transactions
+                            )
                         return enteredAmount > remainingDailyLimit
                     } ?: return false
                 } ?: return false
@@ -227,7 +231,7 @@ class Y2YTransferFragment : Y2YBaseFragment<IY2YFundsTransfer.ViewModel>(), IY2Y
             it.totalDebitAmountY2Y?.let { totalY2YConsumedAmount ->
                 viewModel.enteredAmount.value?.toDoubleOrNull()?.let { enteredAmount ->
                     val remainingOtpLimit = it.otpLimitY2Y?.minus(totalY2YConsumedAmount)
-                    return enteredAmount >= (remainingOtpLimit ?: 0.0)
+                    return enteredAmount > (remainingOtpLimit ?: 0.0)
                 } ?: return false
             } ?: return false
         } ?: return false

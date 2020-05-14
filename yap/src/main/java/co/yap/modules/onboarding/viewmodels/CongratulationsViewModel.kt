@@ -5,13 +5,13 @@ import androidx.lifecycle.MutableLiveData
 import co.yap.modules.onboarding.interfaces.ICongratulations
 import co.yap.modules.onboarding.states.CongratulationsState
 import co.yap.networking.cards.CardsRepository
-import co.yap.networking.cards.requestdtos.OrderCardRequest
 import co.yap.networking.cards.responsedtos.Address
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
 import co.yap.yapcore.AdjustEvents.Companion.trackAdjustPlatformEvent
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.adjust.AdjustEvents
+import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.managers.MyUserManager
 
 class CongratulationsViewModel(application: Application) :
@@ -62,18 +62,10 @@ class CongratulationsViewModel(application: Application) :
 
     override fun requestOrderCard(address: Address?) {
         address?.let {
-            val orderCardRequest = OrderCardRequest(
-                it.address1,
-                "",
-                it.address1,
-                it.address2,
-                it.latitude,
-                it.longitude,
-                "Dubai", "UAE"
-            )
+            it.cardName = ""
             launch {
                 state.loading = true
-                when (val response = repository.orderCard(orderCardRequest)) {
+                when (val response = repository.orderCard(it)) {
                     is RetroApiResponse.Success -> {
                         orderCardSuccess.value = true
                         state.loading = false
@@ -82,8 +74,7 @@ class CongratulationsViewModel(application: Application) :
                     is RetroApiResponse.Error -> {
                         state.loading = false
                         orderCardSuccess.value = false
-                        state.toast = response.error.message
-//
+                        state.toast = "${response.error.message}^${AlertType.DIALOG.name}"
                     }
                 }
             }

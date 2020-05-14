@@ -6,7 +6,7 @@
 
         <variable
             name="viewModel"
-            type="co.yap.sendMoney.home.viewmodels.SendMoneyHomeScreenViewModel" />
+            type="co.yap.sendmoney.home.viewmodels.SendMoneyHomeScreenViewModel" />
 
         <import type="android.view.View" />
 

@@ -78,5 +78,7 @@ interface IFundActions {
         var topUpSuccess: String
         var primaryCardUpdatedBalance: String
         var spareCardUpdatedBalance: String
+
+        var isAddFundScreen: ObservableField<Boolean>
     }
 }

@@ -4,7 +4,7 @@
 
         <variable
             name="viewModel"
-            type="co.yap.sendMoney.fundtransfer.viewmodels.BeneficiaryFundTransferViewModel" />
+            type="co.yap.sendmoney.fundtransfer.viewmodels.BeneficiaryFundTransferViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
