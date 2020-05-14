@@ -14,16 +14,17 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:fillViewport="true">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:background="@color/colorWhite"
             android:paddingLeft="@dimen/margin_medium"
+            android:paddingTop="@dimen/margin_normal"
             android:paddingRight="@dimen/margin_medium"
             android:paddingBottom="@dimen/margin_medium">
-
 
             <ImageView
                 android:id="@+id/linearLayout2"
@@ -143,10 +144,10 @@
                     <TextView
                         android:id="@+id/tvVirtualCardTitle"
                         style="@style/ASmall"
-                        android:clickable="false"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/margin_medium"
+                        android:clickable="false"
                         android:gravity="center"
                         android:textSize="@dimen/text_size_h2"
                         app:text="@{Strings.screen_report_card_button_damage_card}"
@@ -174,8 +175,8 @@
                         style="@style/ASmall"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:clickable="false"
                         android:layout_marginTop="@dimen/margin_medium"
+                        android:clickable="false"
                         android:textSize="@dimen/text_size_h2"
                         app:text="@{Strings.screen_report_card_button_lost_stolen_card}"
                         tools:text="@string/screen_report_card_button_lost_stolen_card" />
@@ -188,10 +189,10 @@
                 style="@style/AMicro"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:lineSpacingExtra="@dimen/_2sdp"
                 android:layout_marginTop="@dimen/margin_medium"
                 android:layout_marginBottom="@dimen/margin_medium"
                 android:gravity="center"
+                android:lineSpacingExtra="@dimen/_2sdp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/llReason"
@@ -205,16 +206,16 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_medium"
                 android:layout_marginBottom="@dimen/margin_medium"
-                android:lineSpacingExtra="@dimen/_2sdp"
                 android:background="@drawable/colored_background_selector"
                 android:gravity="center"
+                android:lineSpacingExtra="@dimen/_2sdp"
                 android:padding="@dimen/margin_medium"
+                android:text="@{viewModel.state.cautionMessage}"
                 android:textColor="@color/colorSecondaryMagenta"
                 android:textSize="@dimen/text_size_h1"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvHeading"
-                app:text="@{Strings.screen_report_card_display_text_block_footnote}"
                 tools:text="@string/screen_report_card_display_text_block_footnote" />
 
 
@@ -226,7 +227,6 @@
                 android:layout_marginLeft="@dimen/margin_extra_large"
                 android:layout_marginTop="@dimen/_25sdp"
                 android:layout_marginRight="@dimen/margin_extra_large"
-                android:layout_marginBottom="@dimen/margin_medium_large"
                 android:onClick="@{(v) -> viewModel.handlePressOnReportAndBlockButton(v.id)}"
                 android:textAllCaps="false"
                 app:btn_enable="false"

@@ -7,11 +7,15 @@ import com.digitify.identityscanner.docscanner.models.IdentityScannerResult
 interface IEidInfoReview {
 
     interface State : IBase.State {
-        var fullName: String
+        var firstName: String
+        var middleName: String
+        var lastName: String
         var nationality: String
         var dateOfBirth: String
         var gender: String
         var expiryDate: String
+        var citizenNumber: String
+        var caption: String
 
         var fullNameValid: Boolean
         var nationalityValid: Boolean
@@ -57,6 +61,7 @@ interface IEidInfoReview {
         fun handlePressOnConfirmBtn()
         fun handleUserRejection(reason: Int)
         fun handleUserAcceptance(reason: Int)
+        fun handlePressOnEdit(id: Int)
         fun onEIDScanningComplete(result: IdentityScannerResult)
         var sanctionedCountry:String
         var sanctionedNationality:String

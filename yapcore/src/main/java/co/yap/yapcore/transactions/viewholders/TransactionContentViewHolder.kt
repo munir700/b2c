@@ -4,7 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
-import co.yap.networking.transactions.responsedtos.transaction.Content
+import co.yap.networking.transactions.responsedtos.transaction.Transaction
 import co.yap.translation.Translator
 import co.yap.yapcore.R
 import co.yap.yapcore.databinding.ItemTransactionListContentBinding
@@ -20,8 +20,8 @@ import co.yap.yapcore.transactions.viewmodels.ItemTransactionContentViewModel
 class TransactionContentViewHolder(private val itemTransactionListBinding: ItemTransactionListContentBinding) :
     RecyclerView.ViewHolder(itemTransactionListBinding.root) {
 
-    fun onBind(content: Content) {
-        val transaction: Content = content
+    fun onBind(content: Transaction) {
+        val transaction: Transaction = content
         val context: Context = itemTransactionListBinding.tvCurrency.context
 
         transaction.title = getTransactionTitle(transaction)
@@ -30,8 +30,8 @@ class TransactionContentViewHolder(private val itemTransactionListBinding: ItemT
             R.string.screen_fragment_home_transaction_time_category,
             DateUtils.reformatStringDate(
                 transaction.updatedDate ?: "",
-                DateUtils.FORMAT_LONG_INPUT,
-                DateUtils.FORMATE_TIME_24H
+                DateUtils.SERVER_DATE_FORMAT,
+                DateUtils.FORMAT_TIME_24H
             ), transaction.getTransactionTypeTitle()
         )
         setTxnAmount(transaction)
@@ -44,7 +44,7 @@ class TransactionContentViewHolder(private val itemTransactionListBinding: ItemT
         itemTransactionListBinding.executePendingBindings()
     }
 
-    private fun getTxnResId(transaction: Content): Int {
+    private fun getTxnResId(transaction: Transaction): Int {
         return if (TransactionProductCode.Y2Y_TRANSFER.pCode == transaction.productCode || TransactionProductCode.POS_PURCHASE.pCode == transaction.productCode) {
             -1
         } else {
@@ -53,7 +53,7 @@ class TransactionContentViewHolder(private val itemTransactionListBinding: ItemT
     }
 
     @SuppressLint("SetTextI18n")
-    private fun setTxnAmount(transaction: Content) {
+    private fun setTxnAmount(transaction: Transaction) {
         var txnAmountPreFix = ""
         when (transaction.txnType ?: "") {
             TxnType.CREDIT.type -> {
@@ -84,7 +84,7 @@ class TransactionContentViewHolder(private val itemTransactionListBinding: ItemT
     }
 
 
-    private fun getTransactionTitle(transaction: Content): String {
+    private fun getTransactionTitle(transaction: Transaction): String {
         return (when (transaction.productCode) {
             TransactionProductCode.Y2Y_TRANSFER.pCode -> {
                 String.format(

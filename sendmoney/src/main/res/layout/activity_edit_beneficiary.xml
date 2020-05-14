@@ -16,7 +16,7 @@
 
         <variable
             name="editBeneficiaryViewModel"
-            type="co.yap.sendMoney.editbeneficiary.viewmodel.EditBeneficiaryViewModel" />
+            type="co.yap.sendmoney.editbeneficiary.viewmodel.EditBeneficiaryViewModel" />
     </data>
 
     <LinearLayout

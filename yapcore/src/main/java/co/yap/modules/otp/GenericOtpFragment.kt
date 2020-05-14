@@ -54,6 +54,10 @@ class GenericOtpFragment : BaseBindingFragment<IGenericOtp.ViewModel>(), IGeneri
 
     override fun setResultData() {
         val intent = Intent()
+        viewModel.token.let {
+            intent.putExtra("token", viewModel.token)
+        }
+        intent.putExtra("mobile", viewModel.state.otpDataModel?.mobileNumber)
         activity?.setResult(Activity.RESULT_OK, intent)
         activity?.finish()
     }

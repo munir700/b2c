@@ -15,12 +15,13 @@ import co.yap.networking.cards.responsedtos.CardDetail
 import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.transactions.TransactionsRepository
 import co.yap.networking.transactions.requestdtos.CardTransactionRequest
-import co.yap.networking.transactions.responsedtos.transaction.Content
+import co.yap.networking.transactions.responsedtos.transaction.Transaction
 import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionListData
 import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionsResponse
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.enums.CardStatus
+import co.yap.yapcore.helpers.DateUtils
 import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 import java.text.SimpleDateFormat
 import java.util.*
@@ -77,10 +78,10 @@ class PaymentCardDetailViewModel(application: Application) :
 
                     for (lists in unionList.entries) {
                         if (lists.value.size > 1) {// sortedCombinedTransactionList.equals(transactionModelData fails in this case
-                            var contentsList: ArrayList<Content> = arrayListOf()
+                            var contentsList: ArrayList<Transaction> = arrayListOf()
 
                             for (transactionsDay in lists.value) {
-                                contentsList.addAll(transactionsDay.content)
+                                contentsList.addAll(transactionsDay.transaction)
 
                             }
 
@@ -155,7 +156,7 @@ class PaymentCardDetailViewModel(application: Application) :
     }
 
     private fun setUpSectionHeader(response: RetroApiResponse.Success<HomeTransactionsResponse>): ArrayList<HomeTransactionListData> {
-        val contentList = response.data.data.content as ArrayList<Content>
+        val contentList = response.data.data.transaction as ArrayList<Transaction>
         contentList.sortWith(Comparator { o1, o2 ->
             o2.creationDate?.compareTo(o1?.creationDate!!)!!
         })
@@ -168,7 +169,7 @@ class PaymentCardDetailViewModel(application: Application) :
 
         for (transactionsDay in groupByDate.entries) {
 
-            val contentsList = transactionsDay.value as ArrayList<Content>
+            val contentsList = transactionsDay.value as ArrayList<Transaction>
             contentsList.sortByDescending {
                 it.creationDate
             }
@@ -237,6 +238,7 @@ class PaymentCardDetailViewModel(application: Application) :
                             it
                         }
                         card.value?.availableBalance = cardBalance?.availableBalance.toString()
+                        card.value = card.value
                         state.cardBalance =
                             cardBalance?.currencyCode + " " + cardBalance?.availableBalance?.toFormattedCurrency()
                     } catch (e: Exception) {
@@ -332,12 +334,11 @@ class PaymentCardDetailViewModel(application: Application) :
             val parser = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
             parser.timeZone = TimeZone.getTimeZone("UTC")
             val convertedDate = parser.parse(creationDate)
-
+            parser.timeZone = TimeZone.getDefault()
             val pattern = "MMMM dd, yyyy"
             val simpleDateFormat = SimpleDateFormat(pattern, Locale.getDefault())
-            val date = simpleDateFormat.format(convertedDate)
-
-            return date
+            simpleDateFormat.timeZone = TimeZone.getDefault()
+            return simpleDateFormat.format(convertedDate)
         }
         return ""
     }

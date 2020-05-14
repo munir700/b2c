@@ -3,4 +3,4 @@ package co.yap.networking.messages.responsedtos
 import co.yap.networking.models.ApiResponse
 import com.google.gson.annotations.SerializedName
 
-class ValidateDeviceResponse(@SerializedName("data") var data: Boolean?=false) : ApiResponse()
+class ValidateDeviceResponse(@SerializedName("data") var token: String? = "") : ApiResponse()

@@ -104,7 +104,7 @@ class CongratulationsFragment : OnboardingChildFragment<ICongratulations.ViewMod
                 )
                 trackEvent(
                     SignupEvents.SIGN_UP_TIMESTAMP.type,
-                    SimpleDateFormat(DateUtils.LeanPlumEventFormat).format(Calendar.getInstance().time)
+                    SimpleDateFormat(DateUtils.LEAN_PLUM_EVENT_FORMAT).format(Calendar.getInstance().time)
                 )
                 trackEvent(
                     SignupEvents.SIGN_UP_LENGTH.type,
@@ -195,7 +195,12 @@ class CongratulationsFragment : OnboardingChildFragment<ICongratulations.ViewMod
             if (result) {
                 val address = it.getParcelableExtra<Address>(Constants.ADDRESS)
                 viewModel.requestOrderCard(address)
-                // send city to leanPlum dashboard
+                address.city?.let { city ->
+                    trackEventInFragments(
+                        MyUserManager.user,
+                        city = city
+                    )
+                }
             } else {
                 goToDashboard()
             }
@@ -212,7 +217,6 @@ class CongratulationsFragment : OnboardingChildFragment<ICongratulations.ViewMod
         findNavController().navigate(action)
         activity?.finishAffinity()
     }
-
 
     private fun runAnimations() {
         AnimationUtils.runSequentially(

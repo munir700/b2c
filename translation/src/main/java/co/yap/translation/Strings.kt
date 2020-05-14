@@ -295,6 +295,14 @@ object Strings {
         "screen_b2c_eid_info_review_display_text_error_from_usa"
     const val screen_b2c_eid_info_review_button_not_from_usa: String =
         "screen_b2c_eid_info_review_button_not_from_usa"
+    const val screen_b2c_eid_info_review_display_text_first_name_heading: String =
+        "screen_b2c_eid_info_review_display_text_first_name_heading"
+    const val screen_b2c_eid_info_review_display_text_middle_name_heading: String =
+        "screen_b2c_eid_info_review_display_text_middle_name_heading"
+    const val screen_b2c_eid_info_review_display_text_last_name_heading: String =
+        "screen_b2c_eid_info_review_display_text_last_name_heading"
+    const val screen_b2c_eid_info_review_display_text_edit_sub_title: String =
+        "screen_b2c_eid_info_review_display_text_edit_sub_title"
 
     // KYC SDK
     const val idenetity_scanner_sdk_screen_scanner_display_text_step_1: String =
@@ -1736,4 +1744,23 @@ object Strings {
         "screen_household_future_payment_screen_end_date_heading_text"
     const val screen_household_future_payment_screen_button_text: String =
         "screen_household_future_payment_screen_button_text"
+
+    // Household My Card Screen
+    const val screen_household_my_card_screen_card_balance_text: String =
+        "screen_household_my_card_screen_card_balance_text"
+    const val screen_household_my_card_screen_card_details_text: String =
+        "screen_household_my_card_screen_card_details_text"
+    const val screen_household_my_card_screen_card_recent_transactions_text: String =
+        "screen_household_my_card_screen_card_recent_transactions_text"
+    const val screen_household_my_card_screen_menu_change_pin_text: String =
+        "screen_household_my_card_screen_menu_change_pin_text"
+    const val screen_household_my_card_screen_menu_freeze_card_text: String =
+        "screen_household_my_card_screen_menu_freeze_card_text"
+    const val screen_household_my_card_screen_menu_view_statement_text: String =
+        "screen_household_my_card_screen_menu_view_statement_text"
+    const val screen_household_my_card_screen_menu_report_lost_card_text: String =
+        "screen_household_my_card_screen_menu_report_lost_card_text"
+    const val screen_household_my_card_screen_menu_cancel_text: String =
+        "screen_household_my_card_screen_menu_cancel_text"
+
 }

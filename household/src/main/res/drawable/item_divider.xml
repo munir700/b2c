@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<inset xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:insetLeft="@dimen/_3sdp"
+    android:insetRight="@dimen/_18sdp"
+    android:insetBottom="@dimen/_5sdp"
+    tools:ignore="MissingDefaultResource">
+    <shape>
+        <size android:height="1dp" />
+        <solid android:color="@color/greySoft" />
+    </shape>
+</inset>

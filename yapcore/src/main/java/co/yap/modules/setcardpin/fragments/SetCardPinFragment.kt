@@ -6,22 +6,21 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import co.yap.modules.setcardpin.activities.SetCardPinWelcomeActivity
-import co.yap.modules.setcardpin.interfaces.ISetCardPin
-import co.yap.modules.setcardpin.viewmodels.SetCardPinViewModel
+import co.yap.modules.setcardpin.pinflow.IPin
+import co.yap.modules.setcardpin.pinflow.PINViewModel
 import co.yap.yapcore.BR
 import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.R
-import co.yap.yapcore.databinding.FragmentSetCardPinBinding
+import co.yap.yapcore.databinding.FragmentPinBinding
 
-open class SetCardPinFragment : BaseBindingFragment<ISetCardPin.ViewModel>(), ISetCardPin.View {
-
+open class SetCardPinFragment : BaseBindingFragment<IPin.ViewModel>(), IPin.View {
 
     override fun getBindingVariable(): Int = BR.viewModel
 
-    override fun getLayoutId(): Int = R.layout.fragment_set_card_pin
+    override fun getLayoutId(): Int = R.layout.fragment_pin
 
-    override val viewModel: ISetCardPin.ViewModel
-        get() = ViewModelProviders.of(this).get(SetCardPinViewModel::class.java)
+    override val viewModel: IPin.ViewModel
+        get() = ViewModelProviders.of(this).get(PINViewModel::class.java)
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
@@ -33,6 +32,7 @@ open class SetCardPinFragment : BaseBindingFragment<ISetCardPin.ViewModel>(), IS
         getBindings().dialer.hideFingerprintView()
         getBindings().dialer.upDatedDialerPad(viewModel.state.pincode)
         getBindings().dialer.updateDialerLength(4)
+        viewModel.setCardPinFragmentData()
         if (activity is SetCardPinWelcomeActivity) {
             (activity as SetCardPinWelcomeActivity).preventTakeDeviceScreenShot.value = true
         }
@@ -59,10 +59,9 @@ open class SetCardPinFragment : BaseBindingFragment<ISetCardPin.ViewModel>(), IS
 
     }
 
-    fun getBindings(): FragmentSetCardPinBinding {
-        return viewDataBinding as FragmentSetCardPinBinding
+    private fun getBindings(): FragmentPinBinding {
+        return viewDataBinding as FragmentPinBinding
     }
-
 
     override fun onDestroyView() {
         viewModel.clickEvent.removeObservers(this)

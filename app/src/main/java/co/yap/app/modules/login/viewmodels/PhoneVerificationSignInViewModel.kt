@@ -3,6 +3,7 @@ package co.yap.app.modules.login.viewmodels
 import android.app.Application
 import android.content.Context
 import android.os.Build
+import androidx.lifecycle.MutableLiveData
 import co.yap.R
 import co.yap.app.modules.login.interfaces.IPhoneVerificationSignIn
 import co.yap.modules.onboarding.constants.Constants
@@ -10,6 +11,7 @@ import co.yap.modules.onboarding.viewmodels.OnboardingChildViewModel
 import co.yap.networking.authentication.AuthRepository
 import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.customers.requestdtos.DemographicDataRequest
+import co.yap.networking.customers.responsedtos.AccountInfo
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.messages.MessagesRepository
 import co.yap.networking.messages.requestdtos.CreateOtpGenericRequest
@@ -32,14 +34,14 @@ class PhoneVerificationSignInViewModel(application: Application) :
     override val repository: AuthRepository = AuthRepository
     override val state: co.yap.app.modules.login.states.PhoneVerificationSignInState =
         co.yap.app.modules.login.states.PhoneVerificationSignInState(application)
-    override val nextButtonPressEvent: SingleLiveEvent<Boolean> = SingleLiveEvent()
     override val postDemographicDataResult: SingleLiveEvent<Boolean> = SingleLiveEvent()
     override val verifyOtpResult: SingleLiveEvent<Boolean> = SingleLiveEvent()
     private val customersRepository: CustomersRepository = CustomersRepository;
     private val messagesRepository: MessagesRepository = MessagesRepository
+    private var token: String? = ""
 
     override fun handlePressOnSendButton() {
-        nextButtonPressEvent.postValue(true)
+        verifyOtp()
     }
 
     override fun onCreate() {
@@ -59,6 +61,12 @@ class PhoneVerificationSignInViewModel(application: Application) :
                     )
                 )) {
                 is RetroApiResponse.Success -> {
+                    response.data.token?.let {
+                        val tokens = it.split("%")
+                        token = tokens.first()
+                        if (tokens.size > 1)
+                            repository.setJwtToken(tokens.last())
+                    }
                     val sharedPreferenceManager = SharedPreferenceManager(context)
 
                     sharedPreferenceManager.save(
@@ -114,7 +122,8 @@ class PhoneVerificationSignInViewModel(application: Application) :
                         deviceId.toString(),
                         Build.BRAND,
                         if (Utils.isEmulator()) "generic" else Build.MODEL,
-                        "Android"
+                        "Android",
+                        token ?: ""
                     )
                 )) {
                 is RetroApiResponse.Success -> {
@@ -125,7 +134,6 @@ class PhoneVerificationSignInViewModel(application: Application) :
                     state.toast = "${response.error.message}^${AlertType.DIALOG.name}"
                 }
             }
-
         }
     }
 

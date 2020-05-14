@@ -37,7 +37,7 @@ import co.yap.modules.dashboard.unverifiedemail.UnVerifiedEmailActivity
 import co.yap.modules.dashboard.yapit.topup.landing.TopUpLandingActivity
 import co.yap.modules.dashboard.yapit.y2y.home.activities.YapToYapDashboardActivity
 import co.yap.modules.others.fragmentpresenter.activities.FragmentPresenterActivity
-import co.yap.sendMoney.home.activities.SendMoneyLandingActivity
+import co.yap.sendmoney.home.activities.SendMoneyLandingActivity
 import co.yap.translation.Strings
 import co.yap.widgets.CoreButton
 import co.yap.widgets.arcmenu.FloatingActionMenu
@@ -114,21 +114,21 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
                             if (PartnerBankStatus.ACTIVATED.status == MyUserManager.user?.partnerBankStatus) {
                                 checkPermission()
                             } else {
-                                showToast("${getString(Strings.screen_popup_activation_pending_display_text_message)}^${AlertType.DIALOG.name}")
+                                showToast("${getString(Strings.screen_popup_activation_pending_display_text_message)}^${AlertType.TOAST.name}")
                             }
                         }
                         2 -> {
                             if (PartnerBankStatus.ACTIVATED.status == MyUserManager.user?.partnerBankStatus) {
                                 openTopUpScreen()
                             } else {
-                                showToast("${getString(Strings.screen_popup_activation_pending_display_text_message)}^${AlertType.DIALOG.name}")
+                                showToast("${getString(Strings.screen_popup_activation_pending_display_text_message)}^${AlertType.TOAST.name}")
                             }
                         }
                         3 -> {
                             if (PartnerBankStatus.ACTIVATED.status == MyUserManager.user?.partnerBankStatus) {
                                 openSendMoneyScreen()
                             } else {
-                                showToast("${getString(Strings.screen_popup_activation_pending_display_text_message)}^${AlertType.DIALOG.name}")
+                                showToast("${getString(Strings.screen_popup_activation_pending_display_text_message)}^${AlertType.TOAST.name}")
                             }
                         }
                     }
@@ -189,7 +189,7 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
 
         viewModel.showUnverifedscreen.observe(this, Observer {
             if (it) {
-                showUnverifiedPopup()
+                //showUnverifiedPopup()
             }
         })
     }
