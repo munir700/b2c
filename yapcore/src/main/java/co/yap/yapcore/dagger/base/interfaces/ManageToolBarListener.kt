@@ -1,7 +1,6 @@
 package co.yap.yapcore.dagger.base.interfaces
 
 import androidx.fragment.app.Fragment
-import co.yap.yapcore.R
 
 interface ManageToolBarListener {
     /**

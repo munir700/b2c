@@ -3,9 +3,11 @@ package co.yap.modules.subaccounts.paysalary.entersalaryamount
 import android.os.Bundle
 import android.view.View
 import androidx.navigation.NavController
+import co.yap.R
 import co.yap.networking.customers.household.CustomerHHApi
 import co.yap.networking.customers.household.CustomersHHRepository
 import co.yap.networking.customers.household.requestdtos.SchedulePayment
+import co.yap.networking.customers.household.responsedtos.SalaryTransaction
 import co.yap.networking.customers.household.responsedtos.SubAccount
 import co.yap.networking.models.RetroApiResponse
 import co.yap.yapcore.SingleClickEvent
@@ -26,7 +28,10 @@ class EnterSalaryAmountVM @Inject constructor(override var state: IEnterSalaryAm
 
     override fun fetchExtras(extras: Bundle?) {
         super.fetchExtras(extras)
-        extras?.let { state.subAccount.value = it.getParcelable(SubAccount::class.simpleName) }
+        extras?.let {
+            state.subAccount.value = it.getParcelable(SubAccount::class.simpleName)
+            state.lastTransaction?.value = it.getParcelable(SalaryTransaction::class.simpleName)
+        }
     }
 
     override fun createSchedulePayment(uuid: String?, schedulePayment: SchedulePayment?) {
@@ -62,16 +67,23 @@ class EnterSalaryAmountVM @Inject constructor(override var state: IEnterSalaryAm
     }
 
     override fun handlePressOnClick(id: Int) {
-        if (state.isRecurring.value == false) {
-            createSchedulePayment(
-                state.subAccount.value?.accountUuid,
-                SchedulePayment(
-                    amount = state.amount.value,
-                    isRecurring = state.isRecurring.value
-                )
-            )
-        } else {
-            clickEvent.postValue(GO_TO_RECURING)
+        when (id) {
+            R.id.tvLastUsedAmount -> {
+                state.amount.value = state.lastTransaction?.value?.amount
+            }
+            else -> {
+                if (state.isRecurring.value == false) {
+                    createSchedulePayment(
+                        state.subAccount.value?.accountUuid,
+                        SchedulePayment(
+                            amount = state.amount.value,
+                            isRecurring = state.isRecurring.value
+                        )
+                    )
+                } else {
+                    clickEvent.postValue(GO_TO_RECURING)
+                }
+            }
         }
     }
 }

@@ -44,8 +44,8 @@ abstract class DaggerCoroutineViewModel: DaggerViewModel(), CoroutineViewModel {
 
     override fun launchBG(block: suspend () -> Unit) = viewModelScope.async {
         block()
-
     }
+    override fun async(block: suspend () -> Unit) = viewModelScope.async { block }
 
     open fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
 
