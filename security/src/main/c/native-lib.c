@@ -31,7 +31,7 @@ FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN 
 #include "pkcs7_helper.h"
 
 JNIEXPORT jbyteArray JNICALL
-Java_co_yap_app_activities_MainActivity_bytesFromJNI(JNIEnv *env, jobject this) {
+Java_co_yap_security_SecurityHelper_bytesFromJNI(JNIEnv *env, jobject this) {
 
     NSV_LOGI("pathHelperGetPath starts\n");
     char *path = pathHelperGetPath();
