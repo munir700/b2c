@@ -37,15 +37,8 @@ import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.biometric.BiometricCallback
 import co.yap.yapcore.helpers.biometric.BiometricManagerX
 import co.yap.yapcore.helpers.biometric.BiometricUtil
-<<<<<<< HEAD
-import co.yap.yapcore.helpers.extentions.launchActivity
-import co.yap.yapcore.helpers.extentions.preventTakeScreenShot
-import co.yap.yapcore.helpers.extentions.startFragment
-import co.yap.yapcore.helpers.extentions.toast
-import co.yap.yapcore.helpers.livedata.GetAccountInfoLiveData
-=======
 import co.yap.yapcore.helpers.extentions.*
->>>>>>> 081883f9b5f14dc9431120cdf387db73a85c9afa
+import co.yap.yapcore.helpers.livedata.GetAccountInfoLiveData
 import co.yap.yapcore.managers.MyUserManager
 import kotlinx.android.synthetic.main.fragment_verify_passcode.*
 
@@ -61,11 +54,6 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
 
     override val viewModel: VerifyPasscodeViewModel
         get() = ViewModelProviders.of(this).get(VerifyPasscodeViewModel::class.java)
-
-    override fun postExecutePendingBindings() {
-        super.postExecutePendingBindings()
-
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -87,13 +75,8 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
         viewModel.onClickEvent.observe(this, onClickView)
         viewModel.loginSuccess.observe(this, loginSuccessObserver)
         viewModel.validateDeviceResult.observe(this, validateDeviceResultObserver)
-//        MyUserManager.onAccountInfoSuccess.observe(this, onFetchAccountInfo)
         viewModel.createOtpResult.observe(this, createOtpObserver)
-<<<<<<< HEAD
         MyUserManager.switchProfile.observe(this, switchProfileObserver)
-        setObservers()
-=======
->>>>>>> 081883f9b5f14dc9431120cdf387db73a85c9afa
     }
 
     private fun receiveData() {
@@ -180,18 +163,6 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
         mBiometricManagerX.unSubscribe()
     }
 
-    private fun goToNext(name: String) {
-        startOtpFragment(name)
-    }
-
-<<<<<<< HEAD
-    private fun goToNext(name: String) {
-        val action =
-            VerifyPasscodeFragmentDirections.actionVerifyPasscodeFragmentToForgotPasscodeNavigation(
-                name,
-                !Utils.isUsernameNumeric(name),
-                viewModel.mobileNumber
-=======
     private fun startOtpFragment(name: String) {
         startFragmentForResult<GenericOtpFragment>(
             GenericOtpFragment::class.java.name,
@@ -202,7 +173,6 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
                     username = name,
                     emailOtp = !Utils.isUsernameNumeric(name)
                 )
->>>>>>> 081883f9b5f14dc9431120cdf387db73a85c9afa
             )
         ) { resultCode, data ->
             if (resultCode == Activity.RESULT_OK) {
@@ -222,7 +192,7 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
                         VerifyPasscodeFragmentDirections.actionVerifyPasscodeFragmentToForgotPasscodeNavigation(
                             viewModel.mobileNumber,
                             it
-                    )
+                        )
                     findNavController().navigate(action)
                 }
             }
@@ -243,13 +213,7 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
         viewModel.loginSuccess.removeObservers(this)
         viewModel.validateDeviceResult.removeObservers(this)
         viewModel.createOtpResult.removeObservers(this)
-<<<<<<< HEAD
-        viewModel.forgotPasscodeButtonPressEvent.removeObservers(this)
-//        MyUserManager.onAccountInfoSuccess.removeObserver(onFetchAccountInfo)
-        super.onDestroyView()
-=======
         super.onDestroy()
->>>>>>> 081883f9b5f14dc9431120cdf387db73a85c9afa
     }
 
     private fun isUserLoginIn(): Boolean {
@@ -281,11 +245,11 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
                     showToast("${getString(Strings.screen_blocked_otp_display_text_message)}^${AlertType.DIALOG.name}")
                 } else {
                     if (!isUserLoginIn()) {
-                        goToNext(viewModel.state.username)
+                        startOtpFragment(viewModel.state.username)
                     } else {
                         sharedPreferenceManager.getDecryptedUserName()?.let { username ->
                             viewModel.state.username = username
-                            goToNext(viewModel.state.username)
+                            startOtpFragment(viewModel.state.username)
                         } ?: toast("Invalid user name")
                     }
                 }
@@ -329,7 +293,7 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
     }
 
     private val onFetchAccountInfo = Observer<AccountInfo?> {
-        it?.run{
+        it?.run {
             sharedPreferenceManager.save(KEY_IS_USER_LOGGED_IN, true)
             if (!sharedPreferenceManager.getValueBoolien(
                     KEY_IS_FINGERPRINT_PERMISSION_SHOWN,
@@ -361,16 +325,11 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
                 if (MyUserManager.shouldGoToHousehold()) {
                     MyUserManager.switchProfile()
                 } else {
-<<<<<<< HEAD
                     if (otpBlocked == true)
                         startFragment(
                             fragmentName = OtpBlockedInfoFragment::class.java.name,
                             clearAllPrevious = true
                         )
-=======
-                    if (it.otpBlocked == true)
-                        startFragment(fragmentName = OtpBlockedInfoFragment::class.java.name)
->>>>>>> 081883f9b5f14dc9431120cdf387db73a85c9afa
                     else
                         launchActivity<YapDashboardActivity>(clearPrevious = true)
                 }

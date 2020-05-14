@@ -48,7 +48,7 @@
             android:layout_marginTop="@dimen/margin_small"
             android:text="XXXX XXXX XXXX 6583"
             tools:ignore="HardcodedText" />
-        <!--        android:text="@{SpannableStringCreatorKt.getText(context.resources,SpannableKt.color(@color/colorPrimaryDark,Translator.INSTANCE.getString(context, Strings.screen_household_employee_salary_next_payment_secondary_text,payHHEmployeeSalaryVM.state.futureTransaction.amount , DateUtils.INSTANCE.reformatStringDate(payHHEmployeeSalaryVM.state.futureTransaction.transferDate,DateUtils.INSTANCE.FORMAT_LONG_INPUT,DateUtils.INSTANCE.FORMAT_DATE_MON_YEAR,DateUtils.INSTANCE.GMT , DateUtils.INSTANCE.TIME_ZONE_Default))))}"-->
+        <!--        android:text="@{SpannableStringCreatorKt.getText(context.resources,SpannableKt.color(@color/colorPrimaryDark,Translator.INSTANCE.getString(context, Strings.screen_household_employee_salary_next_payment_secondary_text,payHHEmployeeSalaryVM.state.futureTransaction.amount , DateUtils.INSTANCE.reformatStringDate(payHHEmployeeSalaryVM.state.futureTransaction.transferDate,DateUtils.INSTANCE.SERVER_DATE_FORMAT,DateUtils.INSTANCE.FORMAT_DATE_MON_YEAR,DateUtils.INSTANCE.GMT , DateUtils.INSTANCE.TIME_ZONE_Default))))}"-->
         <include
             android:id="@+id/include4"
             layout="@layout/layout_recent_transfer_pay_salary"
@@ -59,7 +59,7 @@
             android:layout_marginEnd="@dimen/margin_medium"
             android:visibility="@{payHHEmployeeSalaryVM.state.lastTransaction!=null? View.VISIBLE:View.GONE}"
             app:amount="@{payHHEmployeeSalaryVM.state.lastTransaction.amount}"
-            app:date="@{DateUtils.INSTANCE.reformatStringDate(payHHEmployeeSalaryVM.state.lastTransaction.transferDate,DateUtils.INSTANCE.FORMAT_LONG_INPUT,DateUtils.INSTANCE.FORMAT_DATE_MON_YEAR,DateUtils.INSTANCE.GMT , DateUtils.INSTANCE.TIME_ZONE_Default)}"
+            app:date="@{DateUtils.INSTANCE.reformatStringDate(payHHEmployeeSalaryVM.state.lastTransaction.transferDate,DateUtils.INSTANCE.SERVER_DATE_FORMAT,DateUtils.INSTANCE.FORMAT_DATE_MON_YEAR,DateUtils.INSTANCE.GMT , DateUtils.INSTANCE.TIME_ZONE_Default)}"
             app:lable="@{@string/screen_household_employee_salary_last_salary_transfer_text}" />
 
         <co.yap.widgets.CoreButton
@@ -87,7 +87,7 @@
             android:layout_marginEnd="@dimen/margin_medium"
             android:onClick="@{(v) -> payHHEmployeeSalaryVM.handlePressOnClick(v.id)}"
             app:lable="@{payHHEmployeeSalaryVM.state.futureTransaction!=null?@string/screen_household_employee_salary_next_payment_text:@string/screen_household_employee_salary_schedule_once_heading_text}"
-            app:subLabel="@{payHHEmployeeSalaryVM.state.futureTransaction!=null?Translator.INSTANCE.getString(context, Strings.screen_household_employee_salary_next_payment_secondary_text,payHHEmployeeSalaryVM.state.futureTransaction.amount , DateUtils.INSTANCE.reformatStringDate(payHHEmployeeSalaryVM.state.futureTransaction.nextProcessingDate,DateUtils.INSTANCE.FORMAT_LONG_INPUT,DateUtils.INSTANCE.FORMAT_DATE_MON_YEAR,DateUtils.INSTANCE.GMT , DateUtils.INSTANCE.TIME_ZONE_Default)):@string/screen_household_employee_salary_future_payment_text}"
+            app:subLabel="@{payHHEmployeeSalaryVM.state.futureTransaction!=null?Translator.INSTANCE.getString(context, Strings.screen_household_employee_salary_next_payment_secondary_text,payHHEmployeeSalaryVM.state.futureTransaction.amount , DateUtils.INSTANCE.reformatStringDate(payHHEmployeeSalaryVM.state.futureTransaction.nextProcessingDate,DateUtils.INSTANCE.SERVER_DATE_FORMAT,DateUtils.INSTANCE.FORMAT_DATE_MON_YEAR,DateUtils.INSTANCE.GMT , DateUtils.INSTANCE.TIME_ZONE_Default)):@string/screen_household_employee_salary_future_payment_text}"
             app:subLabelTextColor="@{payHHEmployeeSalaryVM.state.futureTransaction!=null?@color/colorPrimary:@color/colorPrimaryDark}" />
 
         <include
@@ -100,7 +100,7 @@
             android:layout_marginEnd="@dimen/margin_medium"
             android:onClick="@{(v) -> payHHEmployeeSalaryVM.handlePressOnClick(v.id)}"
             app:lable="@{payHHEmployeeSalaryVM.state.recurringTransaction!=null?@string/screen_household_employee_salary_recurrent_auto_payment_primary_text:@string/screen_household_employee_salary_recurring_heading_text}"
-            app:subLabel="@{payHHEmployeeSalaryVM.state.recurringTransaction!=null?Translator.INSTANCE.getString(context, Strings.screen_household_employee_salary_recurrent_auto_payment_secondary_text,payHHEmployeeSalaryVM.state.recurringTransaction.amount , DateUtils.INSTANCE.reformatStringDate(payHHEmployeeSalaryVM.state.recurringTransaction.nextProcessingDate,DateUtils.INSTANCE.FORMAT_LONG_INPUT,DateUtils.INSTANCE.FORMAT_DATE_MON_YEAR,DateUtils.INSTANCE.GMT , DateUtils.INSTANCE.TIME_ZONE_Default)):@string/screen_household_employee_salary_recurring_text}"
+            app:subLabel="@{payHHEmployeeSalaryVM.state.recurringTransaction!=null?Translator.INSTANCE.getString(context, Strings.screen_household_employee_salary_recurrent_auto_payment_secondary_text,payHHEmployeeSalaryVM.state.recurringTransaction.amount , DateUtils.INSTANCE.reformatStringDate(payHHEmployeeSalaryVM.state.recurringTransaction.nextProcessingDate,DateUtils.INSTANCE.SERVER_DATE_FORMAT,DateUtils.INSTANCE.FORMAT_DATE_MON_YEAR,DateUtils.INSTANCE.GMT , DateUtils.INSTANCE.TIME_ZONE_Default)):@string/screen_household_employee_salary_recurring_text}"
             app:subLabelTextColor="@{payHHEmployeeSalaryVM.state.recurringTransaction!=null?@color/colorPrimary:@color/colorPrimaryDark}" />
     </androidx.appcompat.widget.LinearLayoutCompat>
 </layout>

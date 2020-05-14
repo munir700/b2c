@@ -182,6 +182,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                 RequestCodes.REQUEST_TXN_FILTER
             )
     }
+
     override fun setObservers() {
 //        getBindings().ivSearch.setOnLongClickListener {
 //            return@setOnLongClickListener activity?.let {
@@ -631,9 +632,6 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
     private fun openTopUpScreen() {
         startActivity(TopUpLandingActivity.getIntent(requireContext()))
     }
-<<<<<<< HEAD
-}
-=======
 
     private fun setViewsArray(): ArrayList<GuidedTourViewDetail> {
         val list = ArrayList<GuidedTourViewDetail>()
@@ -681,4 +679,3 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
         return (activity as? YapDashboardActivity)?.viewDataBinding as ActivityYapDashboardBinding
     }
 }
->>>>>>> 081883f9b5f14dc9431120cdf387db73a85c9afa

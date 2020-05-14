@@ -74,10 +74,7 @@ interface CustomersRetroService {
 
     // Get More Documents on profile settings fragment
     @GET(CustomersRepository.URL_VALIDATE_PHONE_NUMBER)
-    suspend fun validatePhoneNumber(
-        @Query("country-code") countryCode: String,
-        @Query("mobile-number") mobileNumber: String
-    ): Response<ApiResponse>
+    suspend fun validatePhoneNumber(@Query("country-code") countryCode: String, @Query("mobile-number") mobileNumber: String): Response<ApiResponse>
 
     @PUT(CustomersRepository.URL_CHANGE_MOBILE_NUMBER)
     suspend fun changeMobileNumber(

@@ -33,9 +33,8 @@ abstract class BaseActivity<V : IBase.ViewModel<*>> : AppCompatActivity(), IBase
     private var checkConnectivity: Boolean = true
     private lateinit var permissionsManager: PermissionsManager
     private var progress: Dialog? = null
-    override var shouldRegisterViewModelLifeCycle: Boolean = true
     open lateinit var context: Context
-
+    override var shouldRegisterViewModelLifeCycle: Boolean = true
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         context = this

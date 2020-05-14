@@ -6,9 +6,9 @@ import java.util.*
 object DateUtils {
 
     const val DEFAULT_DATE_FORMAT: String = "dd/MM/yyyy"
-    private val GMT: TimeZone = TimeZone.getTimeZone("GMT")
-    private val UTC: TimeZone = TimeZone.getTimeZone("UTC")
-    private val TIME_ZONE_Default: TimeZone = TimeZone.getDefault()
+    val GMT: TimeZone = TimeZone.getTimeZone("GMT")
+    val UTC: TimeZone = TimeZone.getTimeZone("UTC")
+    val TIME_ZONE_Default: TimeZone = TimeZone.getDefault()
     const val FORMAT_LONG_OUTPUT = "MMM dd, yyyy・hh:mm a"//2015-11-28 10:17:18//2016-12-12 12:23:00
     const val SERVER_DATE_FORMAT = "yyyy-MM-dd'T'HH:mm"//2015-11-28 10:17:18
     const val LEAN_PLUM_EVENT_FORMAT = "yyyy-MM-dd HH:mm:ss"//2015-11-28 10:17:18
@@ -43,6 +43,7 @@ object DateUtils {
             cal.set(Calendar.YEAR, year)
             cal.time
         }
+
     }
 
     private fun normaliseDate(day: Int, month: Int, year: Int): Date {
@@ -94,10 +95,21 @@ object DateUtils {
 
     }
 
-    fun dateToString(day: Int, month: Int, year: Int, format: String = DEFAULT_DATE_FORMAT) =
-        SimpleDateFormat(format, Locale.US).format(toDate(day, month, year))
+    fun dateToString(date: Date?, format: String = DEFAULT_DATE_FORMAT): String {
+        return try {
+            SimpleDateFormat(format, Locale.US).format(date)
+            val sdf = SimpleDateFormat(format, Locale.US)
+            sdf.timeZone = TimeZone.getTimeZone("UTC")
+            return sdf.format(date)
+        } catch (e: Exception) {
+            " ";
+        }
+    }
 
-    fun dateToString(date: Date?, format: String = DEFAULT_DATE_FORMAT) = datetoString(date, format)
+//    fun dateToString(day: Int, month: Int, year: Int, format: String = DEFAULT_DATE_FORMAT) =
+//        SimpleDateFormat(format, Locale.US).format(toDate(day, month, year))
+
+//    fun dateToString(date: Date?, format: String = DEFAULT_DATE_FORMAT) = datetoString(date, format)
 
     fun datetoString(date: Date?, format: String, timeZone: TimeZone = TIME_ZONE_Default): String {
         date?.let {
@@ -115,17 +127,6 @@ object DateUtils {
             return result
         } ?: return ""
 
-    }
-
-    fun dateToString(date: Date?, format: String = DEFAULT_DATE_FORMAT): String {
-        return try {
-            SimpleDateFormat(format, Locale.US).format(date)
-            val sdf = SimpleDateFormat(format, Locale.US)
-            sdf.timeZone = TimeZone.getTimeZone("UTC")
-            return sdf.format(date)
-        } catch (e: Exception) {
-            " ";
-        }
     }
 
     fun stringToDate(dateStr: String, format: String): Date? {
@@ -155,31 +156,6 @@ object DateUtils {
             d = null
         }
         return d
-    }
-
-    fun reformatStringDate(
-        date: String?,
-        inputFormatter: String? = DEFAULT_DATE_FORMAT,
-        outFormatter: String? = DEFAULT_DATE_FORMAT,
-        inputTimeZone: TimeZone = GMT,
-        outTimeZone: TimeZone = TIME_ZONE_Default
-    ): String {
-        var result = ""
-        date?.let {
-            try {
-                val formatter = SimpleDateFormat(outFormatter, Locale.getDefault())
-                formatter.timeZone = outTimeZone
-                result = formatter.format(
-                    stringToDate(
-                        dateStr = it,
-                        format = inputFormatter,
-                        timeZone = inputTimeZone
-                    )
-                )
-            } catch (e: Exception) {
-            }
-        }
-        return result
     }
 
 

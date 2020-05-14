@@ -16,11 +16,7 @@ import co.yap.household.BR
 import co.yap.household.R
 import co.yap.household.databinding.FragmentHouseHoldCardSelectionBinding
 import co.yap.household.onboard.onboarding.interfaces.IHouseHoldCardsSelection
-<<<<<<< HEAD
 import co.yap.household.onboard.onboarding.kycsuccess.KycSuccessFragment
-=======
-import co.yap.household.onboard.otherscreens.KycSuccessActivity
->>>>>>> 081883f9b5f14dc9431120cdf387db73a85c9afa
 import co.yap.modules.location.activities.LocationSelectionActivity
 import co.yap.networking.cards.responsedtos.Address
 import co.yap.translation.Strings
@@ -99,23 +95,11 @@ class HouseHoldCardsSelectionActivity : BaseBindingActivity<IHouseHoldCardsSelec
                 )
             }
             R.id.btnConfirmLocation -> {
-<<<<<<< HEAD
-                viewModel.orderHouseHoldPhysicalCardRequest(
-                    OrderCardRequest(
-                        address1 = viewModel.state.address?.address1,
-                        address2 = viewModel.state.address?.address2,
-                        latitude = viewModel.state.address?.latitude,
-                        longitude = viewModel.state.address?.longitude,
-                        designCode = viewModel.state.designCode
-                    )
-                )
-=======
                 viewModel.state.address?.let { address ->
                     address.designCode = viewModel.state.designCode
                     viewModel.orderHouseHoldPhysicalCardRequest(address)
                     //startActivity(Intent(this, KycSuccessActivity::class.java))
                 }
->>>>>>> 081883f9b5f14dc9431120cdf387db73a85c9afa
             }
         }
     }

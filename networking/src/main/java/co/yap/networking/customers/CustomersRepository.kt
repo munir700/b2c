@@ -108,9 +108,7 @@ object CustomersRepository : BaseRepository(), CustomersApi {
 
     const val URL_CITIES = "customers/api/cities"
 
-
-
-     private val api: CustomersRetroService =
+    private val api: CustomersRetroService =
         RetroNetwork.createService(CustomersRetroService::class.java)
 
     override suspend fun signUp(signUpRequest: SignUpRequest): RetroApiResponse<SignUpResponse> {
@@ -307,7 +305,6 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     override suspend fun appUpdate(): RetroApiResponse<AppUpdateResponse> =
         executeSafely(call = { api.appUpdate() })
 
-
     override suspend fun getSubAccountInviteStatus(notificationStatus: String): RetroApiResponse<SubAccountInvitationResponse> =
         executeSafely(call = { api.subAccountInvitation(notificationStatus) })
 
@@ -316,5 +313,4 @@ object CustomersRepository : BaseRepository(), CustomersApi {
 
     override suspend fun getCities(): RetroApiResponse<CitiesModel> =
         executeSafely(call = { api.getCities() })
-
 }

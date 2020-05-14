@@ -2,7 +2,7 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'androidx.navigation.safeargs.kotlin'
-//apply plugin: 'scabbard.gradle'
+
 project.ext {
     compileSdkVersion = 28
     minSdkVersion = 23
@@ -184,8 +184,6 @@ project.ext {
             [configuration: "implementation", dependency: libraries.bottomsheets_ktx],
             [configuration: "implementation", dependency: libraries.bottomsheets],
             [configuration: "implementation", dependency: libraries.expand]
-//            [configuration: "implementation", dependency: libraries.expand],
-//            [configuration: "implementation", dependency: libraries.baloon]
     ]
 
     // dependencies which need to be added in app module only in conjunction with commonDependencies
@@ -218,6 +216,7 @@ project.ext {
             [configuration: "implementation", dependency: libraries.androidanimations],
             [configuration: "implementation", dependency: libraries.androidanimationseasing],
             [configuration: "implementation", dependency: libraries.expandableLayout],
+            [configuration: "implementation", dependency: libraries.tooltip],
             [configuration: "implementation", dependency: libraries.rangeSeekbar],
             [configuration: "implementation", dependency: libraries.swipeViewActions]
     ]
@@ -235,6 +234,7 @@ project.ext {
             [configuration: "implementation", dependency: libraries.androidanimations],
             [configuration: "implementation", dependency: libraries.androidanimationseasing],
             [configuration: "implementation", dependency: libraries.expandableLayout],
+            [configuration: "implementation", dependency: libraries.tooltip],
             [configuration: "implementation", dependency: libraries.rangeSeekbar],
             [configuration: "implementation", dependency: libraries.swipeViewActions]
     ]
@@ -350,10 +350,6 @@ android {
     dataBinding {
         enabled = true
     }
-//    scabbard {
-//        enabled = true
-//
-//    }
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8

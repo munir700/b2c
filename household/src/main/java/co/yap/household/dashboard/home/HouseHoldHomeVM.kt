@@ -6,7 +6,7 @@ import androidx.navigation.NavController
 import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.transactions.TransactionsRepository
 import co.yap.networking.transactions.requestdtos.HomeTransactionsRequest
-import co.yap.networking.transactions.responsedtos.transaction.Content
+import co.yap.networking.transactions.responsedtos.transaction.Transaction
 import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionListData
 import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionsResponse
 import co.yap.widgets.State
@@ -82,10 +82,10 @@ class HouseHoldHomeVM @Inject constructor(
 
                     for (lists in unionList!!.entries) {
                         if (lists.value.size > 1) {// sortedCombinedTransactionList.equals(transactionModelData fails in this case
-                            val contentsList: ArrayList<Content> = arrayListOf()
+                            val contentsList: ArrayList<Transaction> = arrayListOf()
 
                             for (transactionsDay in lists.value) {
-                                contentsList.addAll(transactionsDay.content)
+                                contentsList.addAll(transactionsDay.transaction)
 
                             }
 
@@ -148,7 +148,7 @@ class HouseHoldHomeVM @Inject constructor(
                             var shouldAppend = false
                             for (i in 0 until oldTransactionList.size) {
                                 if (parentItem.date == oldTransactionList[i].date) {
-                                    if (parentItem.content.size != oldTransactionList[i].content.size) {
+                                    if (parentItem.transaction.size != oldTransactionList[i].transaction.size) {
                                         shouldAppend = true
                                         break
                                     }
@@ -181,7 +181,7 @@ class HouseHoldHomeVM @Inject constructor(
     }
 
     private fun setUpSectionHeader(response: RetroApiResponse.Success<HomeTransactionsResponse>): ArrayList<HomeTransactionListData> {
-        val contentList = response.data.data.content as ArrayList<Content>
+        val contentList = response.data.data.transaction as ArrayList<Transaction>
         contentList.sortWith(Comparator { o1, o2 -> o2.creationDate?.compareTo(o1.creationDate!!)!! })
         val groupByDate = contentList.groupBy { item ->
             convertDate(item.creationDate!!)
@@ -192,7 +192,7 @@ class HouseHoldHomeVM @Inject constructor(
 
         for (transactionsDay in groupByDate.entries) {
 
-            val contentsList = transactionsDay.value as ArrayList<Content>
+            val contentsList = transactionsDay.value as ArrayList<Transaction>
             contentsList.sortByDescending {
                 it.creationDate
             }

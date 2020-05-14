@@ -81,6 +81,7 @@ object AuthRepository : BaseRepository(), AuthApi {
 
         return response
     }
+
     override fun getJwtToken(): String? {
         return CookiesManager.jwtToken
     }
