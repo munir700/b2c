@@ -214,10 +214,12 @@ object MyUserManager : IRepositoryHolder<CardsRepository> {
         return data.find { obj1 -> obj1.accountType == AccountType.B2C_HOUSEHOLD.name }
     }
 
+    @Deprecated("Not used anymore")
     fun switchProfile() {
         switchProfile(user?.uuid)
     }
 
+    @Deprecated("Not used anymore")
     fun switchProfile(uuid: String?) {
         GlobalScope.launch {
             when (val response = uuid?.let { authRepository.switchProfile(it) }) {

@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <variable
+            name="viewModel"
+            type="co.yap.household.dashboard.cards.MyCardRecentTransactionsItemVM" />
+        <import type="co.yap.translation.Strings" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingStart="@dimen/margin_small"
+        android:paddingEnd="@dimen/margin_small">
+
+        <co.yap.widgets.CoreCircularImageView
+            android:id="@+id/iv_transaction"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_travel"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+<!--        app:src="@{viewModel.item.url}"-->
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvTransactionName"
+            style="@style/Yap.App.Widget.Transaction_Name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_medium"
+            app:layout_constraintStart_toEndOf="@+id/iv_transaction"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Spotify"
+            android:text="Spotify" />
+<!--        app:text="@{viewModel.item.name}"-->
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_transaction_time"
+            style="@style/SmallGrey"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_medium"
+            app:layout_constraintStart_toEndOf="@+id/iv_transaction"
+            app:layout_constraintTop_toBottomOf="@id/tvTransactionName"
+            tools:text="09:12"
+            android:text="09:12" />
+<!--        app:text="@{viewModel.item.time}"-->
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_dot"
+            style="@style/SmallGrey"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_small"
+            app:layout_constraintStart_toEndOf="@+id/tv_transaction_time"
+            app:layout_constraintTop_toBottomOf="@id/tvTransactionName"
+            tools:text="."
+            android:text="."  />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_transaction_type"
+            style="@style/SmallGrey"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_small"
+            app:layout_constraintStart_toEndOf="@+id/tv_dot"
+            app:layout_constraintTop_toBottomOf="@id/tvTransactionName"
+            tools:text="Payment"
+            android:text="Payment" />
+<!--        app:text="@{viewModel.item.type}"-->
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_transaction_amount"
+            style="@style/ASmallGrey"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="- 543.00"
+            android:text="- 543.00"  />
+<!--        app:text="@{viewModel.item.amount}"-->
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_transaction_percentage"
+            style="@style/SmallGrey"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_transaction_amount"
+            tools:text="2%"
+            android:text="2%" />
+<!--        app:text="@{viewModel.item.percent}"-->
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

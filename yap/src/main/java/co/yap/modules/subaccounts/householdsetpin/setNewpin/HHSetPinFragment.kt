@@ -47,7 +47,6 @@ class HHSetPinFragment :
             viewModel.eventFailure -> {
                 dialer.reset()
             }
-
         }
     }
 

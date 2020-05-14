@@ -1,5 +1,7 @@
 package co.yap.household.di.module.fragment
 
+import co.yap.household.dashboard.cards.MyCardFragment
+import co.yap.household.dashboard.cards.MyCardModule
 import co.yap.household.dashboard.home.HouseHoldHomeModule
 import co.yap.household.dashboard.home.HouseholdHomeFragment
 import co.yap.household.onboard.onboarding.kycsuccess.KycSuccessFragment
@@ -17,5 +19,9 @@ abstract class FragmentInjectorsModule {
     @FragmentScope
     @ContributesAndroidInjector(modules = [HouseHoldHomeModule::class])
     abstract fun HouseholdHomeFragmentInjector(): HouseholdHomeFragment
+
+    @FragmentScope
+    @ContributesAndroidInjector(modules = [MyCardModule::class])
+    abstract fun MyCardFragmentInjector(): MyCardFragment
 
 }

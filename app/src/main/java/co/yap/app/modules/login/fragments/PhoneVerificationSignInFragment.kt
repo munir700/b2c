@@ -10,6 +10,7 @@ import co.yap.app.R
 import co.yap.app.constants.Constants
 import co.yap.app.modules.login.interfaces.IPhoneVerificationSignIn
 import co.yap.app.modules.login.viewmodels.PhoneVerificationSignInViewModel
+import co.yap.household.dashboard.main.HouseholdDashboardActivity
 import co.yap.household.onboard.onboarding.main.OnBoardingHouseHoldActivity
 import co.yap.modules.dashboard.main.activities.YapDashboardActivity
 import co.yap.modules.onboarding.fragments.OnboardingChildFragment
@@ -19,6 +20,7 @@ import co.yap.yapcore.helpers.biometric.BiometricUtil
 import co.yap.yapcore.helpers.extentions.launchActivity
 import co.yap.yapcore.helpers.extentions.startFragment
 import co.yap.yapcore.helpers.livedata.GetAccountInfoLiveData
+import co.yap.yapcore.helpers.livedata.SwitchProfileLiveData
 import co.yap.yapcore.managers.MyUserManager
 
 class PhoneVerificationSignInFragment :
@@ -36,8 +38,6 @@ class PhoneVerificationSignInFragment :
         viewModel.state.reverseTimer(10, requireContext())
         viewModel.verifyOtpResult.observe(this, verifyOtpResultObserver)
         viewModel.postDemographicDataResult.observe(this, postDemographicDataObserver)
-//        MyUserManager.onAccountInfoSuccess?.observe(this, onFetchAccountInfo)
-        MyUserManager.switchProfile.observe(this, switchProfileObserver)
         setUsername()
         setPasscode()
     }
@@ -53,7 +53,10 @@ class PhoneVerificationSignInFragment :
     private val onFetchAccountInfo = Observer<AccountInfo?> {
         it?.run {
             if (MyUserManager.shouldGoToHousehold()) {
-                MyUserManager.switchProfile()
+                MyUserManager.user?.uuid?.let { it1 ->
+                    SwitchProfileLiveData.get(it1, this@PhoneVerificationSignInFragment)
+                        .observe(this@PhoneVerificationSignInFragment, switchProfileObserver)
+                }
             } else {
                 if (BiometricUtil.isFingerprintSupported
                     && BiometricUtil.isHardwareSupported(requireActivity())
@@ -87,8 +90,8 @@ class PhoneVerificationSignInFragment :
         }
     }
 
-    private val switchProfileObserver = Observer<Boolean> {
-        if (it) {
+    private val switchProfileObserver = Observer<AccountInfo?> {
+        it.run {
             if (MyUserManager.isOnBoarded()) {
                 gotoYapDashboard()
             } else {
@@ -96,7 +99,6 @@ class PhoneVerificationSignInFragment :
                     putExtra(OnBoardingHouseHoldActivity.USER_INFO, MyUserManager.user)
                 }
             }
-
         }
     }
 
@@ -112,7 +114,11 @@ class PhoneVerificationSignInFragment :
                 )
             findNavController().navigate(action)
         } else {
-            launchActivity<YapDashboardActivity>(clearPrevious = true)
+            if (MyUserManager.isExistingUser()) {
+                launchActivity<YapDashboardActivity>(clearPrevious = true)
+            } else {
+                launchActivity<HouseholdDashboardActivity>(clearPrevious = true)
+            }
         }
     }
 
@@ -125,6 +131,4 @@ class PhoneVerificationSignInFragment :
         viewModel.state.passcode =
             arguments?.let { PhoneVerificationSignInFragmentArgs.fromBundle(it).passcode } as String
     }
-
-
 }

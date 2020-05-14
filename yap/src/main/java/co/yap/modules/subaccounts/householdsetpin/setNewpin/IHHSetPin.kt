@@ -1,7 +1,5 @@
 package co.yap.modules.subaccounts.householdsetpin.setNewpin
 
-import android.content.Context
-import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
