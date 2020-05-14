@@ -9,6 +9,7 @@ import androidx.navigation.NavController
 import co.yap.household.BR
 import co.yap.household.R
 import co.yap.household.databinding.FragmentMyCardBinding
+import co.yap.networking.transactions.responsedtos.transaction.Content
 import co.yap.translation.Strings
 import co.yap.widgets.DividerItemDecoration
 import co.yap.yapcore.BaseRVAdapter
@@ -22,7 +23,7 @@ import com.arthurivanets.bottomsheets.sheets.listeners.OnItemSelectedListener
 import com.arthurivanets.bottomsheets.sheets.model.Option
 
 class MyCardFragment :
-    BaseRecyclerViewFragment<FragmentMyCardBinding, IMyCard.State, MyCardVM, MyCardFragment.Adapter, TransactionModel>() {
+    BaseRecyclerViewFragment<FragmentMyCardBinding, IMyCard.State, MyCardVM, MyCardFragment.Adapter, Content>() {
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.fragment_my_card
 
@@ -59,19 +60,19 @@ class MyCardFragment :
             },
             onItemSelectedListener = OnItemSelectedListener {
                 when (it.id) {
-                    R.id.change_pin.toLong() -> toast("Change Pin")
-                    R.id.freeze_card.toLong() -> toast("Freeze Card")
-                    R.id.view_statement.toLong() -> toast("View Statement")
-                    R.id.report_lost_card.toLong() -> toast("Report Lost Card")
-                    R.id.cancel.toLong() -> toast("Cancel")
+                    R.id.change_pin.toLong() -> toast("Change Pin")  // TODO to be changed
+                    R.id.freeze_card.toLong() -> toast("Freeze Card") // TODO to be changed
+                    R.id.view_statement.toLong() -> toast("View Statement") // TODO to be changed
+                    R.id.report_lost_card.toLong() -> toast("Report Lost Card") // TODO to be changed
+                    R.id.cancel.toLong() -> toast("Cancel") // TODO to be changed
                 }
             }
         )
         return super.onOptionsItemSelected(item)
     }
 
-    class Adapter(mValue: MutableList<TransactionModel>, navigation: NavController?) :
-        BaseRVAdapter<TransactionModel, MyCardRecentTransactionsItemVM, BaseViewHolder<TransactionModel, MyCardRecentTransactionsItemVM>>(
+    class Adapter(mValue: MutableList<Content>, navigation: NavController?) :
+        BaseRVAdapter<Content, MyCardRecentTransactionsItemVM, BaseViewHolder<Content, MyCardRecentTransactionsItemVM>>(
             mValue,
             navigation
         ) {
@@ -84,6 +85,5 @@ class MyCardFragment :
 
         override fun getViewModel(viewType: Int) = MyCardRecentTransactionsItemVM()
         override fun getVariableId() = BR.viewModel
-        override fun getItemCount(): Int = 10
     }
 }

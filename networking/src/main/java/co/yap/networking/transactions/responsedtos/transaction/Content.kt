@@ -1,7 +1,12 @@
 package co.yap.networking.transactions.responsedtos.transaction
 import android.os.Parcelable
+import co.yap.networking.models.ApiResponse
 import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
+import java.text.DateFormat
+import java.text.SimpleDateFormat
+import java.util.*
+
 @Parcelize
 data class Content(
     @SerializedName("accountUuid1")
@@ -158,4 +163,12 @@ data class Content(
     val receiverProfilePictureUrl: String? = null,
     @SerializedName("cancelReason")
     val cancelReason: String? = null
-) : Parcelable
+) : Parcelable, ApiResponse() {
+
+    fun getTime(): String?{
+        val outputFormat: DateFormat = SimpleDateFormat("hh:mm", Locale.US)
+        val inputFormat: DateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.US)
+        val date: Date = inputFormat.parse(updatedDate)
+        return outputFormat.format(date)
+    }
+}

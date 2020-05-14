@@ -37,7 +37,9 @@ import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.MyUserManager
 import com.google.i18n.phonenumbers.PhoneNumberUtil
+import java.io.IOException
 import java.math.RoundingMode
+import java.nio.charset.StandardCharsets
 import java.text.DecimalFormat
 import java.util.*
 import java.util.regex.Pattern
@@ -848,5 +850,30 @@ object Utils {
             return Translator.getString(context, Strings.screen_confirm_card_pin_display_text_error_same_digits)
 
         return ""
+    }
+
+    /**
+    * this function can load a json from a local file in assests
+    *
+    * @param context   this is used to fetch the file from assests folder
+    * @param fileName  name of the file to be loaded
+    * @return   will return the response from json in string
+    *
+    */
+
+    fun loadJsonFromAssets(context: Context, fileName: String): String? {
+        val json: String?
+        try {
+            val `is` = context.assets.open(fileName)
+            val size = `is`.available()
+            val buffer = ByteArray(size)
+            `is`.read(buffer)
+            `is`.close()
+            json = String(buffer, StandardCharsets.UTF_8)
+        } catch (ex: IOException) {
+            ex.printStackTrace()
+            return null
+        }
+        return json
     }
 }
