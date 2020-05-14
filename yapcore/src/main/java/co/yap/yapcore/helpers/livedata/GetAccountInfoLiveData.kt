@@ -22,6 +22,7 @@ class GetAccountInfoLiveData : LiveDataCallAdapter<AccountInfo?>() {
                     usersList = response.data.data as ArrayList
                     user = getCurrentUser()
                     MyUserManager.user = user
+                    MyUserManager.usersList = usersList
                     value = user
                 }
 

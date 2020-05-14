@@ -285,6 +285,19 @@
         <item name="fontFamily">@font/roboto_medium</item>
     </style>
 
+    <style name="Yap.App.Widget.Button.Action.Small" parent="Widget.AppCompat.Button">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">@dimen/_22sdp</item>
+        <item name="btn_text_size">@dimen/text_size_h2</item>
+        <item name="btn_shape_type">rectangle</item>
+        <item name="android:enabled">true</item>
+        <item name="android:paddingLeft">@dimen/margin_extra_large</item>
+        <item name="android:paddingRight">@dimen/margin_extra_large</item>
+        <item name="btn_round_radius">50dp</item>
+        <item name="android:theme">?attr/primaryButtonTheme</item>
+        <item name="fontFamily">@font/roboto_regular</item>
+    </style>
+
     <style name="Yap.App.Widget.ForgotPasscode" parent="Yap.App.Widget.TextView">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
@@ -292,6 +305,19 @@
         <item name="android:textColor">?attr/colorPrimaryAttr</item>
         <item name="android:textSize">@dimen/text_size_h3</item>
         <item name="android:lineSpacingExtra">8sp</item>
+    </style>
+
+    <style name="Yap.App.Widget.Transaction_Name" parent="Yap.App.Widget.TextView">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginBottom">@dimen/margin_normal</item>
+        <item name="android:textColor">@color/colorMidnightExpress</item>
+        <item name="android:textSize">@dimen/text_size_h3</item>
+        <item name="android:lineSpacingExtra">8sp</item>
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textStyle">normal</item>
+        <item name="singleLine">true</item>
+
     </style>
 
 </resources>
