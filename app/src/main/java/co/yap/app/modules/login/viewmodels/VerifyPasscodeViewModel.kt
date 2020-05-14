@@ -146,25 +146,6 @@ class VerifyPasscodeViewModel(application: Application) :
         }
     }
 
-    override fun getAccountInfo() {
-        launch {
-            when (val response = customersRepository.getAccountInfo()) {
-                is RetroApiResponse.Success -> {
-                    if (!response.data.data.isNullOrEmpty()) {
-                        MyUserManager.user = response.data.data[0]
-                        accountInfo.postValue(response.data.data[0])
-                        trackEventWithAttributes(MyUserManager.user)
-                        state.loading = false
-                    }
-                }
-                is RetroApiResponse.Error -> {
-                    state.toast = "${response.error.message}^${AlertType.DIALOG.name}"
-                    state.loading = false
-                }
-            }
-        }
-    }
-
     override fun createOtp() {
         launch {
             when (val response =

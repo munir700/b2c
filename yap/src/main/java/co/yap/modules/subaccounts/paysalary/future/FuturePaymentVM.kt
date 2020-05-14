@@ -13,8 +13,8 @@ import co.yap.networking.models.RetroApiResponse
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.dagger.base.viewmodel.DaggerBaseViewModel
 import co.yap.yapcore.helpers.DateUtils
-import co.yap.yapcore.helpers.DateUtils.FORMAT_LONG_INPUT
 import co.yap.yapcore.helpers.DateUtils.GMT
+import co.yap.yapcore.helpers.DateUtils.SERVER_DATE_FORMAT
 import co.yap.yapcore.helpers.DateUtils.dateToString
 import co.yap.yapcore.helpers.DateUtils.datetoString
 import co.yap.yapcore.helpers.cancelAllSnackBar
@@ -93,7 +93,7 @@ class FuturePaymentVM @Inject constructor(override val state: IFuturePayment.Sta
     }
 
     override fun handlePressOnClick(id: Int) {
-        val time = datetoString(calendar.time, FORMAT_LONG_INPUT, GMT)
+        val time = datetoString(calendar.time, SERVER_DATE_FORMAT, GMT)
         createSchedulePayment(
             state.subAccount.value?.accountUuid,
             SchedulePayment(

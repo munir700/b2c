@@ -59,10 +59,6 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
     override val viewModel: VerifyPasscodeViewModel
         get() = ViewModelProviders.of(this).get(VerifyPasscodeViewModel::class.java)
 
-    override fun postExecutePendingBindings() {
-        super.postExecutePendingBindings()
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         sharedPreferenceManager = SharedPreferenceManager(requireContext())
@@ -83,7 +79,6 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
         viewModel.onClickEvent.observe(this, onClickView)
         viewModel.loginSuccess.observe(this, loginSuccessObserver)
         viewModel.validateDeviceResult.observe(this, validateDeviceResultObserver)
-//        MyUserManager.onAccountInfoSuccess.observe(this, onFetchAccountInfo)
         viewModel.createOtpResult.observe(this, createOtpObserver)
         MyUserManager.switchProfile.observe(this, switchProfileObserver)
     }
@@ -172,10 +167,6 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
         mBiometricManagerX.unSubscribe()
     }
 
-    private fun goToNext(name: String) {
-        startOtpFragment(name)
-    }
-
     private fun startOtpFragment(name: String) {
         startFragmentForResult<GenericOtpFragment>(
             GenericOtpFragment::class.java.name,
@@ -226,7 +217,6 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
         viewModel.loginSuccess.removeObservers(this)
         viewModel.validateDeviceResult.removeObservers(this)
         viewModel.createOtpResult.removeObservers(this)
-        viewModel.forgotPasscodeButtonPressEvent.removeObservers(this)
         super.onDestroy()
     }
 
@@ -259,11 +249,11 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
                     showToast("${getString(Strings.screen_blocked_otp_display_text_message)}^${AlertType.DIALOG.name}")
                 } else {
                     if (!isUserLoginIn()) {
-                        goToNext(viewModel.state.username)
+                        startOtpFragment(viewModel.state.username)
                     } else {
                         sharedPreferenceManager.getDecryptedUserName()?.let { username ->
                             viewModel.state.username = username
-                            goToNext(viewModel.state.username)
+                            startOtpFragment(viewModel.state.username)
                         } ?: toast("Invalid user name")
                     }
                 }

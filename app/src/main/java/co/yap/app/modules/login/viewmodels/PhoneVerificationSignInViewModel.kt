@@ -36,7 +36,6 @@ class PhoneVerificationSignInViewModel(application: Application) :
     override val verifyOtpResult: SingleLiveEvent<Boolean> = SingleLiveEvent()
     private val customersRepository: CustomersRepository = CustomersRepository;
     private val messagesRepository: MessagesRepository = MessagesRepository
-    override val accountInfo: MutableLiveData<AccountInfo> = MutableLiveData()
     private var token: String? = ""
 
     override fun handlePressOnSendButton() {

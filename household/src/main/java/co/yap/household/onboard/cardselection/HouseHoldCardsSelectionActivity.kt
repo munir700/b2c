@@ -17,7 +17,6 @@ import co.yap.household.R
 import co.yap.household.databinding.FragmentHouseHoldCardSelectionBinding
 import co.yap.household.onboard.onboarding.interfaces.IHouseHoldCardsSelection
 import co.yap.household.onboard.onboarding.kycsuccess.KycSuccessFragment
-import co.yap.household.onboard.otherscreens.KycSuccessActivity
 import co.yap.modules.location.activities.LocationSelectionActivity
 import co.yap.networking.cards.responsedtos.Address
 import co.yap.translation.Strings

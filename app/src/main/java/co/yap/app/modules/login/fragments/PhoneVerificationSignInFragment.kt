@@ -42,15 +42,15 @@ class PhoneVerificationSignInFragment :
         setPasscode()
     }
 
-    override fun onDestroy() {
-        viewModel.nextButtonPressEvent.removeObservers(this)
-//        MyUserManager.onAccountInfoSuccess?.removeObservers(this)
-        super.onDestroy()
-    }
-
-    private val nextButtonObserver = Observer<Boolean> {
-        viewModel.verifyOtp()
-    }
+//    override fun onDestroy() {
+//        viewModel.nextButtonPressEvent.removeObservers(this)
+////        MyUserManager.onAccountInfoSuccess?.removeObservers(this)
+//        super.onDestroy()
+//    }
+//
+//    private val nextButtonObserver = Observer<Boolean> {
+//        viewModel.verifyOtp()
+//    }
 
     private val verifyOtpResultObserver = Observer<Boolean> {
         viewModel.postDemographicData()

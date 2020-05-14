@@ -37,9 +37,6 @@ import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.MyUserManager
 import com.google.i18n.phonenumbers.PhoneNumberUtil
-import com.skydoves.balloon.ArrowOrientation
-import com.skydoves.balloon.Balloon
-import com.skydoves.balloon.BalloonAnimation
 import java.math.RoundingMode
 import java.text.DecimalFormat
 import java.util.*

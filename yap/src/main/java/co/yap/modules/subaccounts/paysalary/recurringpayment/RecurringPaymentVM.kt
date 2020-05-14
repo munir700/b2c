@@ -15,7 +15,7 @@ import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.dagger.base.viewmodel.DaggerBaseViewModel
 import co.yap.yapcore.helpers.DateUtils
 import co.yap.yapcore.helpers.DateUtils.FORMAT_DATE_MON_YEAR
-import co.yap.yapcore.helpers.DateUtils.FORMAT_LONG_INPUT
+import co.yap.yapcore.helpers.DateUtils.SERVER_DATE_FORMAT
 import co.yap.yapcore.helpers.DateUtils.dateToString
 import co.yap.yapcore.helpers.DateUtils.stringToDate
 import co.yap.yapcore.helpers.cancelAllSnackBar
@@ -47,7 +47,7 @@ class RecurringPaymentVM @Inject constructor(
                 state.isValid.value = true
             }
             state.recurringTransaction?.value?.nextProcessingDate?.apply {
-                calendar.time = stringToDate(this, FORMAT_LONG_INPUT)
+                calendar.time = stringToDate(this, SERVER_DATE_FORMAT)
                 state.date.value = dateToString(calendar.time, FORMAT_DATE_MON_YEAR)
             }
         }
@@ -113,7 +113,7 @@ class RecurringPaymentVM @Inject constructor(
                 val time =
                     DateUtils.datetoString(
                         calendar.time,
-                        DateUtils.FORMAT_LONG_INPUT,
+                        DateUtils.SERVER_DATE_FORMAT,
                         DateUtils.GMT
                     )
 

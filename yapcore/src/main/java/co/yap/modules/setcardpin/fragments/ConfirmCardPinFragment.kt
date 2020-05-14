@@ -19,7 +19,6 @@ import co.yap.yapcore.enums.AccountStatus
 import co.yap.yapcore.enums.CardType
 import co.yap.yapcore.helpers.DateUtils.LEAN_PLUM_EVENT_FORMAT
 import co.yap.yapcore.leanplum.KYCEvents
-import co.yap.yapcore.helpers.DateUtils.LeanPlumEventFormat
 import co.yap.yapcore.helpers.livedata.GetAccountInfoLiveData
 import co.yap.yapcore.leanplum.trackEvent
 import co.yap.yapcore.leanplum.trackEventInFragments
