@@ -36,3 +36,4 @@ app/~/tmp/full-r8-config.txt
 /networking/.cxx/*
 /identityscanner_v2/.cxx/*
 /household/.cxx/*
+/security/.cxx/*
