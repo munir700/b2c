@@ -12,6 +12,7 @@ import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.networking.customers.responsedtos.sendmoney.Country
 import co.yap.networking.customers.responsedtos.sendmoney.RAKBankModel
 import co.yap.networking.household.responsedtos.ValidateParentMobileResponse
+import co.yap.networking.messages.responsedtos.OtpValidationResponse
 import co.yap.networking.models.ApiResponse
 import co.yap.networking.models.RetroApiResponse
 import okhttp3.MediaType
@@ -105,10 +106,9 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     const val URL_APP_VERSION = "/customers/api/mobile-app-versions"
     //.................... End region of admin repo urls................................................
 
+    const val URL_CITIES = "customers/api/cities"
 
-
-
-     private val api: CustomersRetroService =
+    private val api: CustomersRetroService =
         RetroNetwork.createService(CustomersRetroService::class.java)
 
     override suspend fun signUp(signUpRequest: SignUpRequest): RetroApiResponse<SignUpResponse> {
@@ -122,7 +122,7 @@ object CustomersRepository : BaseRepository(), CustomersApi {
         return response
     }
 
-    override suspend fun sendVerificationEmail(verificationEmailRequest: SendVerificationEmailRequest): RetroApiResponse<ApiResponse> =
+    override suspend fun sendVerificationEmail(verificationEmailRequest: SendVerificationEmailRequest): RetroApiResponse<OtpValidationResponse> =
         executeSafely(call = { api.sendVerificationEmail(verificationEmailRequest) })
 
 
@@ -293,11 +293,14 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     override suspend fun forgotPasscode(forgotPasscodeRequest: ForgotPasscodeRequest): RetroApiResponse<ApiResponse> =
         executeSafely(call = { api.forgotPasscode(forgotPasscodeRequest) })
 
-    override suspend fun validateCurrentPasscode(passcode: String): RetroApiResponse<ApiResponse> =
+    override suspend fun validateCurrentPasscode(passcode: String): RetroApiResponse<OtpValidationResponse> =
         executeSafely(call = { api.validateCurrentPasscode(passcode) })
 
-    override suspend fun changePasscode(newPasscode: String): RetroApiResponse<ApiResponse> =
-        executeSafely(call = { api.changePasscode(newPasscode) })
+    override suspend fun changePasscode(
+        newPasscode: String,
+        token: String
+    ): RetroApiResponse<ApiResponse> =
+        executeSafely(call = { api.changePasscode(newPasscode, token) })
 
     override suspend fun appUpdate(): RetroApiResponse<AppUpdateResponse> =
         executeSafely(call = { api.appUpdate() })
@@ -308,4 +311,8 @@ object CustomersRepository : BaseRepository(), CustomersApi {
 
     override suspend fun saveReferalInvitation(saveReferalRequest: SaveReferalRequest): RetroApiResponse<ApiResponse> =
         executeSafely(call = { api.saveReferalInvitation(saveReferalRequest) })
+
+    override suspend fun getCities(): RetroApiResponse<CitiesModel> =
+        executeSafely(call = { api.getCities() })
+
 }

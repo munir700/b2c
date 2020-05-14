@@ -21,7 +21,6 @@ import co.yap.yapcore.helpers.extentions.startFragment
 import co.yap.yapcore.helpers.livedata.GetAccountInfoLiveData
 import co.yap.yapcore.managers.MyUserManager
 
-
 class PhoneVerificationSignInFragment :
     OnboardingChildFragment<IPhoneVerificationSignIn.ViewModel>() {
 
@@ -35,7 +34,6 @@ class PhoneVerificationSignInFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.state.reverseTimer(10, requireContext())
-        viewModel.nextButtonPressEvent.observe(this, nextButtonObserver)
         viewModel.verifyOtpResult.observe(this, verifyOtpResultObserver)
         viewModel.postDemographicDataResult.observe(this, postDemographicDataObserver)
 //        MyUserManager.onAccountInfoSuccess?.observe(this, onFetchAccountInfo)

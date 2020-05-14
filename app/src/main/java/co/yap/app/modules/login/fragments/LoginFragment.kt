@@ -21,13 +21,14 @@ import co.yap.yapcore.helpers.extentions.launchActivity
 import co.yap.yapcore.helpers.extentions.startFragment
 import kotlinx.android.synthetic.main.fragment_log_in.*
 
+
 class LoginFragment : BaseBindingFragment<ILogin.ViewModel>(), ILogin.View {
 
     override fun getBindingVariable(): Int = BR.viewModel
 
     override fun getLayoutId(): Int = R.layout.fragment_log_in
 
-    override val viewModel: ILogin.ViewModel
+    override val viewModel: LoginViewModel
         get() = ViewModelProviders.of(this).get(LoginViewModel::class.java)
 
     override fun onCreate(savedInstanceState: Bundle?) {

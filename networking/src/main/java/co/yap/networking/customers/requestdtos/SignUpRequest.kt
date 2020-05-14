@@ -18,5 +18,7 @@ data class SignUpRequest(
     @SerializedName("passcode")
     val passcode: String? = null,
     @SerializedName("accountType")
-    val accountType: String? = null
+    val accountType: String? = null,
+    @SerializedName("token")
+    val token: String? = null
 ) : Serializable

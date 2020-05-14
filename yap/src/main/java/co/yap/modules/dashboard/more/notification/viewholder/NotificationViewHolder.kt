@@ -13,9 +13,9 @@ class NotificationViewHolder(private val itemNotificationBinding: ItemNotificati
     fun onBind(notification: Notification) {
         itemNotificationBinding.viewModel = NotificationItemViewModel(notification)
         notification.date?.let {
-            itemNotificationBinding.tvDate.text = DateUtils.datetoString(
+            itemNotificationBinding.tvDate.text = DateUtils.dateToString(
                 DateUtils.stringToDateLeanPlum(it) ?: Date(),
-                DateUtils.LEANPLUM_FORMATOR
+                DateUtils.LEAN_PLUM_FORMAT
             )
         }
         itemNotificationBinding.executePendingBindings()

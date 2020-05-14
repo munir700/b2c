@@ -8,11 +8,13 @@
 /.idea/navEditor.xml
 /.idea/*
 /.idea/codeStyles/*
+/sendmoney/build/*
 /.idea/assetWizardSettings.xml
 /authentication/build/*
 /authentication/build
 /coachmark/build
 /household/build
+/splitbill/build
 /send_money/*
 /coachmark/*
 /profile/*

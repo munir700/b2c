@@ -17,8 +17,8 @@ import co.yap.household.R
 import co.yap.household.databinding.FragmentHouseHoldCardSelectionBinding
 import co.yap.household.onboard.onboarding.interfaces.IHouseHoldCardsSelection
 import co.yap.household.onboard.onboarding.kycsuccess.KycSuccessFragment
+import co.yap.household.onboard.otherscreens.KycSuccessActivity
 import co.yap.modules.location.activities.LocationSelectionActivity
-import co.yap.networking.cards.requestdtos.OrderCardRequest
 import co.yap.networking.cards.responsedtos.Address
 import co.yap.translation.Strings
 import co.yap.yapcore.BaseBindingActivity
@@ -96,15 +96,11 @@ class HouseHoldCardsSelectionActivity : BaseBindingActivity<IHouseHoldCardsSelec
                 )
             }
             R.id.btnConfirmLocation -> {
-                viewModel.orderHouseHoldPhysicalCardRequest(
-                    OrderCardRequest(
-                        address1 = viewModel.state.address?.address1,
-                        address2 = viewModel.state.address?.address2,
-                        latitude = viewModel.state.address?.latitude,
-                        longitude = viewModel.state.address?.longitude,
-                        designCode = viewModel.state.designCode
-                    )
-                )
+                viewModel.state.address?.let { address ->
+                    address.designCode = viewModel.state.designCode
+                    viewModel.orderHouseHoldPhysicalCardRequest(address)
+                    //startActivity(Intent(this, KycSuccessActivity::class.java))
+                }
             }
         }
     }
@@ -195,20 +191,15 @@ class HouseHoldCardsSelectionActivity : BaseBindingActivity<IHouseHoldCardsSelec
             val address = data?.getValue(Constants.ADDRESS, ExtraType.PARCEABLE.name) as? Address
             val success =
                 data?.getValue(Constants.ADDRESS_SUCCESS, ExtraType.BOOLEAN.name) as? Boolean
-            address?.let {
+            address?.let { selectedAddress ->
                 success?.let { success ->
                     if (success) {
                         // viewModel.state.locationVisibility = true
                         // viewModel.state.buttonVisibility = false
-                        populateAddressFields(it)
+                        populateAddressFields(selectedAddress)
+                        selectedAddress.designCode = viewModel.state.designCode
                         viewModel.orderHouseHoldPhysicalCardRequest(
-                            OrderCardRequest(
-                                address1 = viewModel.state.address?.address1,
-                                address2 = viewModel.state.address?.address2,
-                                latitude = viewModel.state.address?.latitude,
-                                longitude = viewModel.state.address?.longitude,
-                                designCode = viewModel.state.designCode
-                            )
+                            selectedAddress
                         )
                     }
                 }

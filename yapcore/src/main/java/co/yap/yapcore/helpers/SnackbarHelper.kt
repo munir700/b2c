@@ -74,7 +74,6 @@ fun Activity.showSnackBar(
     snakbar.setAction(actionText, clickListener)
     snakbar.show(gravity)
 }
-
 fun Activity?.showSnackBar(
     msg: String, @ColorRes viewBgColor: Int, @ColorRes colorOfMessage: Int,
     gravity: Int = Gravity.BOTTOM,

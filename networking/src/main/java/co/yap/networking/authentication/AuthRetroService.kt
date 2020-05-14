@@ -26,6 +26,14 @@ interface AuthRetroService {
     @POST(AuthRepository.URL_LOGOUT)
     suspend fun logout(@Query("uuid") uuid: String): Response<ApiResponse>
 
+    //getJwtToken
+    suspend fun getJwtToken():String?
+
+    //setJwtToken
+    suspend fun setJwtToken(token: String?)
+
+
+
     // Switch Profile
     @FormUrlEncoded
     @POST(AuthRepository.URL_SWITCH_PROFILE)

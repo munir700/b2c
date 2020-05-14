@@ -37,6 +37,9 @@ import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.MyUserManager
 import com.google.i18n.phonenumbers.PhoneNumberUtil
+import com.skydoves.balloon.ArrowOrientation
+import com.skydoves.balloon.Balloon
+import com.skydoves.balloon.BalloonAnimation
 import java.math.RoundingMode
 import java.text.DecimalFormat
 import java.util.*
@@ -340,7 +343,7 @@ object Utils {
 
             var lastName = nameStr[nameStr.size - 1]
             if (Character.isLetter(nameStr[nameStr.size - 1][0])) {
-                firstName = nameStr[nameStr.size - 1].substring(0, 1)
+                lastName = nameStr[nameStr.size - 1].substring(0, 1)
             }
 
             val firstNameMatcher = Pattern.compile(emo_regex).matcher(firstName)
@@ -793,7 +796,6 @@ object Utils {
     fun showComingSoon(context: Context) {
         context.shortToast("Coming Soon")
     }
-
 
     fun formateIbanString(iban: String?): String? {
         iban?.let {

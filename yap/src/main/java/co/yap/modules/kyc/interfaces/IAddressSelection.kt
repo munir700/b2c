@@ -3,9 +3,9 @@ package co.yap.modules.kyc.interfaces
 import android.app.Activity
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
+import android.location.Address
 import android.location.Location
 import androidx.lifecycle.MutableLiveData
-import co.yap.networking.cards.requestdtos.UpdateAddressRequest
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
 import com.google.android.gms.maps.GoogleMap
@@ -46,8 +46,8 @@ interface IAddressSelection {
         fun onLocatioenSelected()
         fun toggleMarkerVisibility()
         fun setUpCardFields()
-        fun requestUpdateAddress(updateAddressRequest: UpdateAddressRequest)
-        var updateAddressRequest: UpdateAddressRequest
+        fun requestUpdateAddress(updateAddressRequest: Address)
+        var updateAddressRequest: Address
         var mDefaultLocation : LatLng
     }
 

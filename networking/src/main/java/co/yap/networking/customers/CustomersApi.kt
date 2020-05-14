@@ -5,6 +5,7 @@ import co.yap.networking.customers.responsedtos.*
 import co.yap.networking.customers.responsedtos.beneficiary.RecentBeneficiariesResponse
 import co.yap.networking.customers.responsedtos.beneficiary.TopUpBeneficiariesResponse
 import co.yap.networking.customers.responsedtos.sendmoney.*
+import co.yap.networking.messages.responsedtos.OtpValidationResponse
 import co.yap.networking.models.ApiResponse
 import co.yap.networking.models.RetroApiResponse
 import okhttp3.MultipartBody
@@ -12,7 +13,7 @@ import retrofit2.http.Body
 
 interface CustomersApi {
     suspend fun signUp(signUpRequest: SignUpRequest): RetroApiResponse<SignUpResponse>
-    suspend fun sendVerificationEmail(verificationEmailRequest: SendVerificationEmailRequest): RetroApiResponse<ApiResponse>
+    suspend fun sendVerificationEmail(verificationEmailRequest: SendVerificationEmailRequest): RetroApiResponse<OtpValidationResponse>
     suspend fun getAccountInfo(): RetroApiResponse<AccountInfoResponse>
     suspend fun postDemographicData(demographicDataRequest: DemographicDataRequest): RetroApiResponse<ApiResponse>
     suspend fun validateDemographicData(deviceId: String): RetroApiResponse<ValidateDeviceResponse>
@@ -81,7 +82,9 @@ interface CustomersApi {
     suspend fun verifyUsername(username: String): RetroApiResponse<VerifyUsernameResponse>
 
     suspend fun forgotPasscode(forgotPasscodeRequest: ForgotPasscodeRequest): RetroApiResponse<ApiResponse>
-    suspend fun validateCurrentPasscode(passcode: String): RetroApiResponse<ApiResponse>
-    suspend fun changePasscode(newPasscode: String): RetroApiResponse<ApiResponse>
+    suspend fun validateCurrentPasscode(passcode: String): RetroApiResponse<OtpValidationResponse>
+    suspend fun changePasscode(newPasscode: String, token: String): RetroApiResponse<ApiResponse>
     suspend fun appUpdate(): RetroApiResponse<AppUpdateResponse>
+    suspend fun getCities(): RetroApiResponse<CitiesModel>
+
 }

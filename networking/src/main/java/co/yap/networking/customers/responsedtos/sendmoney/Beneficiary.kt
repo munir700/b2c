@@ -9,7 +9,7 @@ import kotlinx.android.parcel.Parcelize
 data class Beneficiary(
 
     @SerializedName("id")
-    var id: Int? =null,
+    var id: Int? = null,
     @SerializedName("beneficiaryId")
     var beneficiaryId: String? = null,
     @SerializedName("accountUuid")
@@ -48,11 +48,13 @@ data class Beneficiary(
     var identifierCode1: String? = null,
     @SerializedName("identifierCode2")
     var identifierCode2: String? = null,
+    @SerializedName("cbwsicompliant")
+    var cbwsicompliant: Boolean? = false,
+    // assuming this field for profile picture but not sure whether to add pic or just go with initials only
     @SerializedName("beneficiaryPictureUrl")
-    var beneficiaryPictureUrl: String? = "", // assuming this field for profile picture but not sure whether to add pic or just go with initials only
+    var beneficiaryPictureUrl: String? = "",
     @SerializedName("beneficiaryCountry")
     var beneficiaryCountry: String? = null
 ) : ApiResponse(), Parcelable {
-    fun fullName()= "$firstName $lastName"
-
+    fun fullName() = "$firstName $lastName"
 }
