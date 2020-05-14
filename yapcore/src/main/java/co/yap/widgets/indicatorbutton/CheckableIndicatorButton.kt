@@ -1,3 +1,4 @@
+/*
 package co.yap.widgets.indicatorbutton
 
 import android.content.Context
@@ -87,8 +88,10 @@ open class CheckableIndicatorButton @JvmOverloads constructor(
         //Step 4: introduce checked state
         private val CHECKED_STATE_SET = intArrayOf(android.R.attr.state_checked)
     }
-    /*override fun setEnabled(enabled: Boolean) {
+    */
+/*override fun setEnabled(enabled: Boolean) {
         super.setEnabled(enabled)
         children.forEach { it.isEnabled = enabled }
-    }*/
-}
+    }*//*
+
+}*/

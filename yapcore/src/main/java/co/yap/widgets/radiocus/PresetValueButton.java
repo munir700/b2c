@@ -1,3 +1,4 @@
+/*
 package co.yap.widgets.radiocus;
 
 import android.content.Context;
@@ -28,9 +29,9 @@ public class PresetValueButton extends RelativeLayout implements RadioCheckable 
     // Attribute Variables
     private String mValue;
     private String mUnit;
-    private int mValueTextColor;
-    private int mUnitTextColor;
-    private int mPressedTextColor;
+    private int lable1Color;
+    private int lable2Color;
+//    private int mPressedTextColor;
 
     // Variables
     private Drawable mInitialBackgroundDrawable;
@@ -68,11 +69,11 @@ public class PresetValueButton extends RelativeLayout implements RadioCheckable 
                 R.styleable.PresetValueButton, 0, 0);
         Resources resources = getContext().getResources();
         try {
-            mValue = a.getString(R.styleable.PresetValueButton_presetButtonValueText);
-            mUnit = a.getString(R.styleable.PresetValueButton_presetButtonUnitText);
-            mValueTextColor = a.getColor(R.styleable.PresetValueButton_presetButtonValueTextColor, resources.getColor(R.color.colorPrimaryDark));
-            mPressedTextColor = a.getColor(R.styleable.PresetValueButton_presetButtonPressedTextColor, Color.WHITE);
-            mUnitTextColor = a.getColor(R.styleable.PresetValueButton_presetButtonUnitTextColor, resources.getColor(R.color.grey));
+            mValue = a.getString(R.styleable.PresetValueButton_lable1);
+            mUnit = a.getString(R.styleable.PresetValueButton_lable2);
+            lable1Color = a.getColor(R.styleable.PresetValueButton_lable2Color, resources.getColor(R.color.colorPrimaryDark,null));
+            lable2Color = a.getColor(R.styleable.PresetValueButton_lable1Color, resources.getColor(R.color.colorAccentHouseHold,null));
+//            mPressedTextColor = a.getColor(R.styleable.PresetValueButton_presetButtonPressedTextColor, Color.BLACK);
         } finally {
             a.recycle();
         }
@@ -88,17 +89,17 @@ public class PresetValueButton extends RelativeLayout implements RadioCheckable 
     protected void inflateView() {
         LayoutInflater inflater = LayoutInflater.from(getContext());
         inflater.inflate(R.layout.custom_preset_button, this, true);
-        mValueTextView = (TextView) findViewById(R.id.text_view_value);
-        mUnitTextView = (TextView) findViewById(R.id.text_view_unit);
+        mValueTextView = findViewById(R.id.text_view_value);
+        mUnitTextView = findViewById(R.id.text_view_unit);
         mInitialBackgroundDrawable = getBackground();
     }
 
     protected void bindView() {
-        if (mUnitTextColor != DEFAULT_TEXT_COLOR) {
-            mUnitTextView.setTextColor(mUnitTextColor);
+        if (lable1Color != DEFAULT_TEXT_COLOR) {
+            mUnitTextView.setTextColor(lable1Color);
         }
-        if (mValueTextColor != DEFAULT_TEXT_COLOR) {
-            mValueTextView.setTextColor(mValueTextColor);
+        if (lable2Color != DEFAULT_TEXT_COLOR) {
+            mValueTextView.setTextColor(lable2Color);
         }
         mUnitTextView.setText(mUnit);
         mValueTextView.setText(mValue);
@@ -138,14 +139,14 @@ public class PresetValueButton extends RelativeLayout implements RadioCheckable 
 
     public void setCheckedState() {
         setBackgroundResource(R.drawable.background_shape_preset_button__pressed);
-        mValueTextView.setTextColor(mPressedTextColor);
-        mUnitTextView.setTextColor(mPressedTextColor);
+//        mValueTextView.setTextColor(mPressedTextColor);
+//        mUnitTextView.setTextColor(mPressedTextColor);
     }
 
     public void setNormalState() {
-        setBackgroundDrawable(mInitialBackgroundDrawable);
-        mValueTextView.setTextColor(mValueTextColor);
-        mUnitTextView.setTextColor(mUnitTextColor);
+        setBackground(mInitialBackgroundDrawable);
+//        mValueTextView.setTextColor(mValueTextColor);
+//        mUnitTextView.setTextColor(mUnitTextColor);
     }
 
     public String getValue() {
@@ -223,4 +224,4 @@ public class PresetValueButton extends RelativeLayout implements RadioCheckable 
             return true;
         }
     }
-}
+}*/

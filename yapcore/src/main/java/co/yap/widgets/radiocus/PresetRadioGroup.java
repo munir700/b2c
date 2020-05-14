@@ -1,3 +1,4 @@
+/*
 package co.yap.widgets.radiocus;
 
 import android.content.Context;
@@ -165,42 +166,53 @@ public class PresetRadioGroup extends LinearLayout {
     }
 
     public static class LayoutParams extends LinearLayout.LayoutParams {
-        /**
+        */
+/**
          * {@inheritDoc}
-         */
+         *//*
+
         public LayoutParams(Context c, AttributeSet attrs) {
             super(c, attrs);
         }
 
-        /**
+        */
+/**
          * {@inheritDoc}
-         */
+         *//*
+
         public LayoutParams(int w, int h) {
             super(w, h);
         }
 
-        /**
+        */
+/**
          * {@inheritDoc}
-         */
+         *//*
+
         public LayoutParams(int w, int h, float initWeight) {
             super(w, h, initWeight);
         }
 
-        /**
+        */
+/**
          * {@inheritDoc}
-         */
+         *//*
+
         public LayoutParams(ViewGroup.LayoutParams p) {
             super(p);
         }
 
-        /**
+        */
+/**
          * {@inheritDoc}
-         */
+         *//*
+
         public LayoutParams(MarginLayoutParams source) {
             super(source);
         }
 
-        /**
+        */
+/**
          * <p>Fixes the child's width to
          * {@link ViewGroup.LayoutParams#WRAP_CONTENT} and the child's
          * height to  {@link ViewGroup.LayoutParams#WRAP_CONTENT}
@@ -209,7 +221,8 @@ public class PresetRadioGroup extends LinearLayout {
          * @param a          the styled attributes set
          * @param widthAttr  the width attribute to fetch
          * @param heightAttr the height attribute to fetch
-         */
+         *//*
+
         @Override
         protected void setBaseAttributes(TypedArray a,
                                          int widthAttr, int heightAttr) {
@@ -250,9 +263,11 @@ public class PresetRadioGroup extends LinearLayout {
             OnHierarchyChangeListener {
         private OnHierarchyChangeListener mOnHierarchyChangeListener;
 
-        /**
+        */
+/**
          * {@inheritDoc}
-         */
+         *//*
+
         public void onChildViewAdded(View parent, View child) {
             if (parent == PresetRadioGroup.this && child instanceof RadioCheckable) {
                 int id = child.getId();
@@ -271,9 +286,11 @@ public class PresetRadioGroup extends LinearLayout {
             }
         }
 
-        /**
+        */
+/**
          * {@inheritDoc}
-         */
+         *//*
+
         public void onChildViewRemoved(View parent, View child) {
             if (parent == PresetRadioGroup.this && child instanceof RadioCheckable) {
                 ((RadioCheckable) child).removeOnCheckChangeListener(mChildOnCheckedChangeListener);
@@ -285,3 +302,4 @@ public class PresetRadioGroup extends LinearLayout {
         }
     }
 }
+*/

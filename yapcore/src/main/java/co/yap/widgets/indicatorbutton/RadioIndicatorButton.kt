@@ -1,3 +1,4 @@
+/*
 package co.yap.widgets.indicatorbutton
 
 import android.content.Context
@@ -16,4 +17,4 @@ class RadioIndicatorButton @JvmOverloads constructor(
         if (isChecked) return false
         return super.performClick()
     }
-}
+}*/
