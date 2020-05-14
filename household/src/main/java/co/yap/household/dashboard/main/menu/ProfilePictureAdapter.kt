@@ -9,7 +9,7 @@ import co.yap.yapcore.BaseRVAdapter
 import co.yap.yapcore.BaseViewHolder
 
 class ProfilePictureAdapter(mValue: MutableList<AccountInfo>, navigation: NavController?) :
-    BaseRVAdapter<AccountInfo, ProfilePictureItemVM, ProfilePictureAdapter.ViewHolder>(
+    BaseRVAdapter<AccountInfo, ProfilePictureItemVM, BaseViewHolder<AccountInfo, ProfilePictureItemVM>>(
         mValue,
         navigation
     ) {
@@ -18,16 +18,8 @@ class ProfilePictureAdapter(mValue: MutableList<AccountInfo>, navigation: NavCon
         view: View,
         viewModel: ProfilePictureItemVM,
         mDataBinding: ViewDataBinding, viewType: Int
-    ): ViewHolder {
-        return ViewHolder(
-            view,
-            viewModel,
-            mDataBinding
-        )
-    }
+    ) = BaseViewHolder<AccountInfo, ProfilePictureItemVM>(view, viewModel, mDataBinding)
 
-    override fun getViewModel(viewType:Int) = ProfilePictureItemVM()
+    override fun getViewModel(viewType: Int) = ProfilePictureItemVM()
     override fun getVariableId() = BR.profilePictureItemVM
-    class ViewHolder(view: View, viewModel: ProfilePictureItemVM, mDataBinding: ViewDataBinding) :
-        BaseViewHolder<AccountInfo, ProfilePictureItemVM>(view, viewModel, mDataBinding)
 }

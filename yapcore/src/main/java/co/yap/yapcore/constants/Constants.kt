@@ -4,18 +4,11 @@ object Constants {
     const val addCard = "addCard"
     const val isPinCreated = "isPinCreated"
 
-    const val TYPE_ADD_FUNDS: String = "addFunds"
-    const val TYPE_REMOVE_FUNDS: String = "removeFunds"
-    const val CHANGE_MOBILE_NO: String = "CHANGE_MOBILE_NO"
-    const val CHANGE_EMAIL: String = "CHANGE_EMAIL"
     const val CHANGE_PASSCODE: String = "CHANGE_PASSCODE"
     const val TRANSACTION_ID: String = "TRANSACTION_ID"
     const val CARD_SERIAL_NUMBER: String = "CARD_SERIAL_NUMBER"
     const val FORGOT_PASSCODE_FROM_CHANGE_PASSCODE: String = "forgotPasscodeFromChangePasscodeFlow"
-    const val TRANSACTION_TYPE_CREDIT: String = "CREDIT"
     const val FORGOT_CARD_PIN_FLOW: String = "FORGOT_CARD_PIN_FLOW"
-    const val FORGOT_CARD_PIN_ACTION: String = "FORGOT_CARD_PIN"
-    const val BENEFICIARY_CASH_TRANSFER: String = "CASHPAYOUT"
 
     const val LONGITUDE = "longitude"
     const val LATITUDE = "latitude"
@@ -23,7 +16,6 @@ object Constants {
     const val LOCATION_ADDRESS = "LOCATION_ADDRESS"
     const val ERROR_MESSAGE = "ERROR_MESSAGE"
 
-    const val TOP_UP: String = "TOP_UP"
     const val CARD: String = "CARD"
     const val KEY: String = "Key"
     const val TYPE: String = "type"
@@ -35,9 +27,6 @@ object Constants {
     const val THEME_YAP: String = "CORE"
     const val THEME_HOUSEHOLD: String = "HOUSEHOLD"
 
-    //Transaction Category Constant
-    const val Y_TO_Y_TRANSFER = "P003"
-    const val SUPP_CARD_TOP_UP = "P004"
     const val SUPP_WITHDRAW = "P006"
 
     //This is intentional, so don't remove below line
@@ -45,7 +34,6 @@ object Constants {
     const val ADD_FUNDS = SUPP_WITHDRAW
     const val MANUAL_DEBIT = "DEBIT"
     const val MANUAL_CREDIT = "CREDIT"
-    const val FEE_TYPE_TIER = "TIER"
     const val FEE_TYPE_FLAT = "FLAT"
 
 
@@ -72,7 +60,6 @@ object Constants {
     const val MODE_MEETING_CONFORMATION: Int = 12
     const val FORGOT_CARD_PIN_NAVIGATION: Int = 1
 
-    const val DUMMY_CARD: Int = 22
     const val TOP_UP_TRANSACTION_SUCCESS: Int = 6
 
     //CardAnalytics constants
@@ -93,15 +80,8 @@ object Constants {
     const val BENEFICIARY: String = "Beneficiary"
     const val POSITION: String = "Position"
     const val IS_NEW_BENEFICIARY: String = "IS_NEW_BENEFICIARY"
-    const val DOMESTIC_BENEFICIARY: String = "DOMESTIC_BENEFICIARY"
-    const val CASHPAYOUT_BENEFICIARY: String = "CASHPAYOUT_BENEFICIARY"
-    const val RMT_BENEFICIARY: String = "RMT_BENEFICIARY"
-    const val SWIFT_BENEFICIARY: String = "SWIFT_BENEFICIARY"
-
 
     const val ADD_CASH_PICK_UP_SUCCESS = 10001
-    const val ADD_CASH_PICK_UP_FlOW = 10002
-    const val ADD_DOMESTIC_SUCCESS = 10003
     const val ADD_SUCCESS = 10004
 
 
@@ -112,7 +92,6 @@ object Constants {
     const val DINNERS = "Diners Club"
     const val AMEX = "American Express"
     const val DISCOVER = "Discover"
-    const val UATP = "UATP"
 
     const val USER_STATUS_CARD_ACTIVATED: String = "CARD_ACTIVATED"
 
@@ -126,7 +105,6 @@ object Constants {
     //Location Selection
     const val ADDRESS = "address"
     const val ADDRESS_SUCCESS = "address_success"
-
     // Events for ViewState
 
     const val EVENT_LOADING: Int = 1111

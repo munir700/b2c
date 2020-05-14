@@ -16,7 +16,6 @@ interface IHouseholdDashboard {
         val profilePictureAdapter:ObservableField<ProfilePictureAdapter>
         val clickEvent: SingleClickEvent
         fun handlePressOnNavigationItem(id: Int)
-        fun copyAccountInfoToClipboard()
     }
 
     interface State : IBase.State {

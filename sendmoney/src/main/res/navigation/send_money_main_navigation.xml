@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/selectCountryFragment"
-        android:name="co.yap.sendMoney.addbeneficiary.fragments.SelectCountryFragment"
+        android:name="co.yap.sendmoney.addbeneficiary.fragments.SelectCountryFragment"
         android:label="Add beneficiary"
         tools:layout="@layout/fragment_select_country">
 
@@ -34,7 +34,7 @@
 
     <fragment
         android:id="@+id/transferTypeFragment"
-        android:name="co.yap.sendMoney.addbeneficiary.fragments.TransferTypeFragment"
+        android:name="co.yap.sendmoney.addbeneficiary.fragments.TransferTypeFragment"
         android:label="Add beneficiary"
         tools:layout="@layout/fragment_transfer_type">
 
@@ -71,7 +71,7 @@
 
     <fragment
         android:id="@+id/addBeneficiaryFragment"
-        android:name="co.yap.sendMoney.addbeneficiary.fragments.AddBeneficiaryInternationlTransferFragment"
+        android:name="co.yap.sendmoney.addbeneficiary.fragments.AddBeneficiaryInternationlTransferFragment"
         android:label="Add beneficiary"
         tools:layout="@layout/fragment_add_beneficiary_international_bank_transfer">
 
@@ -85,7 +85,7 @@
 
     <fragment
         android:id="@+id/addBeneficiaryForCashFlowFragment"
-        android:name="co.yap.sendMoney.addbeneficiary.fragments.AddBeneficiaryForCashFlowFragment"
+        android:name="co.yap.sendmoney.addbeneficiary.fragments.AddBeneficiaryForCashFlowFragment"
         android:label="Add beneficiary"
         tools:layout="@layout/fragment_add_beneficiary_cash_flow">
 
@@ -93,7 +93,7 @@
 
     <fragment
         android:id="@+id/addBeneficiaryForDomesticTransferFragment"
-        android:name="co.yap.sendMoney.addbeneficiary.fragments.AddBeneficiaryForDomesticTransferFragment"
+        android:name="co.yap.sendmoney.addbeneficiary.fragments.AddBeneficiaryForDomesticTransferFragment"
         android:label="Add beneficiary"
         tools:layout="@layout/fragment_add_beneficiary_domestic_transfer">
         <argument
@@ -106,7 +106,7 @@
 
     <fragment
         android:id="@+id/addBankDetailsFragment"
-        android:name="co.yap.sendMoney.addbeneficiary.fragments.AddBankDetailsFragment"
+        android:name="co.yap.sendmoney.addbeneficiary.fragments.AddBankDetailsFragment"
         android:label="Add beneficiary"
         tools:layout="@layout/fragment_add_bank_detail">
 
@@ -120,7 +120,7 @@
 
     <fragment
         android:id="@+id/beneficiaryAccountDetailsFragment"
-        android:name="co.yap.sendMoney.addbeneficiary.fragments.BeneficiaryAccountDetailsFragment"
+        android:name="co.yap.sendmoney.addbeneficiary.fragments.BeneficiaryAccountDetailsFragment"
         android:label="Add beneficiary"
         tools:layout="@layout/fragment_beneficiary_account_detail">
 
@@ -134,14 +134,14 @@
 
     <fragment
         android:id="@+id/transferSuccessFragment"
-        android:name="co.yap.sendMoney.fundtransfer.fragments.TransferSuccessFragment"
+        android:name="co.yap.sendmoney.fundtransfer.fragments.TransferSuccessFragment"
         tools:layout="@layout/fragment_transfer_success">
 
     </fragment>
 
     <fragment
         android:id="@+id/internationalFundsTransfer"
-        android:name="co.yap.sendMoney.fundtransfer.fragments.InternationalFundsTransferFragment"
+        android:name="co.yap.sendmoney.fundtransfer.fragments.InternationalFundsTransferFragment"
         tools:layout="@layout/fragment_international_funds_transfer">
 
     </fragment>
@@ -149,7 +149,7 @@
 
     <fragment
         android:id="@+id/beneficiaryOverviewFragment"
-        android:name="co.yap.sendMoney.addbeneficiary.fragments.BeneficiaryOverviewFragment"
+        android:name="co.yap.sendmoney.addbeneficiary.fragments.BeneficiaryOverviewFragment"
         android:label="Add beneficiary"
         tools:layout="@layout/fragment_beneficiary_overview">
         <argument

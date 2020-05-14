@@ -7,11 +7,10 @@ import co.yap.yapcore.SingleLiveEvent
 
 interface IRepostOrStolenCard {
     interface State : IBase.State {
-
         var cardType: String
         var maskedCardNumber: String
+        var cautionMessage: String
         var valid: Boolean
-
     }
 
     interface ViewModel : IBase.ViewModel<State> {
@@ -20,12 +19,10 @@ interface IRepostOrStolenCard {
         var HOT_LIST_REASON: Int
         val CARD_REORDER_SUCCESS: Int
         val cardFee: String
-
         fun handlePressOnBackButton()
         fun handlePressOnDamagedCard(id: Int)
         fun handlePressOnLostOrStolen(id: Int)
         fun handlePressOnReportAndBlockButton(id: Int)
-
         fun requestConfirmBlockCard(card: Card)
         fun getPhysicalCardFee()
         fun getDebitCardFee()

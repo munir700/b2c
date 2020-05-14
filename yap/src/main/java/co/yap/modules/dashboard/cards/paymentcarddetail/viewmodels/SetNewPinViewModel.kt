@@ -9,8 +9,7 @@ open class SetNewPinViewModel(application: Application) : SetCardPinViewModel(ap
     override val clickEvent: SingleClickEvent = SingleClickEvent()
     override fun onCreate() {
         super.onCreate()
-        state.titleSetPin=getString(Strings.screen_create_card_pin_display_text_heading)
-        state.buttonTitle = getString(Strings.screen_create_card_pin_display_button_create_pin)
+
     }
 
     override fun handlePressOnNextButton(id: Int) {

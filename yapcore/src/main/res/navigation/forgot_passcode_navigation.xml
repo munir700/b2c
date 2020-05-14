@@ -3,50 +3,18 @@
             xmlns:app="http://schemas.android.com/apk/res-auto"
             xmlns:tools="http://schemas.android.com/tools"
             android:id="@+id/forgot_passcode_navigation"
-            app:startDestination="@id/forgotPasscodeFragment">
+            app:startDestination="@id/createNewPasscodeFragment">
 
-    <fragment
-        android:id="@+id/forgotPasscodeFragment"
-        android:name="co.yap.modules.forgotpasscode.fragments.ForgotPasscodeOtpFragment"
-        tools:layout="@layout/fragment_forgot_passcode_otp"
-        android:label="ForgotPasscodeFragment">
-        <argument
-            android:name="username"
-            app:argType="string"
-            android:defaultValue=" "/>
-        <argument
-            android:name="emailOtp"
-            app:argType="boolean"
-            android:defaultValue="false"/>
-        <argument
-            android:name="mobileNumber"
-            app:argType="string"
-            android:defaultValue=" "/>
-        <argument
-            android:name="otpType"
-            app:argType="string"
-            android:defaultValue=" "
-            />
-        <argument
-            android:name="navigationType"
-            app:argType="string"
-            android:defaultValue=" "/>
-
-        <action
-            android:id="@+id/action_forgotPasscodeFragment_to_createNewPasscodeFragment"
-            app:enterAnim="@anim/slide_in_right"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:exitAnim="@anim/slide_out_left"
-            app:popExitAnim="@anim/slide_out_right"
-            app:destination="@id/createNewPasscodeFragment"/>
-    </fragment>
     <fragment
         android:id="@+id/createNewPasscodeFragment"
         android:name="co.yap.modules.forgotpasscode.fragments.CreateNewPasscodeFragment"
-        tools:layout="@layout/fragment_create_new_passcode"
+        tools:layout="@layout/fragment_pass_code"
         android:label="CreateNewPasscodeFragment">
         <argument
             android:name="mobileNumber"
+            app:argType="string"/>
+        <argument
+            android:name="token"
             app:argType="string"/>
         <argument
             android:name="navigationType"

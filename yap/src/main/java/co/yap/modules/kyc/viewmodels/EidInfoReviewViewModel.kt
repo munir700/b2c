@@ -42,7 +42,6 @@ class EidInfoReviewViewModel(application: Application) :
     override var errorTitle: String = ""
     override var errorBody: String = ""
 
-
     override fun onCreate() {
         super.onCreate()
         getSectionedCountriesList()
@@ -118,6 +117,10 @@ class EidInfoReviewViewModel(application: Application) :
         handlePressOnRescanBtn()
     }
 
+    override fun handlePressOnEdit(id: Int) {
+        clickEvent.setValue(id)
+    }
+
     override fun handleUserAcceptance(reason: Int) {
         clickEvent.setValue(EVENT_NEXT_WITH_ERROR)
     }
@@ -144,7 +147,6 @@ class EidInfoReviewViewModel(application: Application) :
                 when (val response = repository.detectCardData(part)) {
 
                     is RetroApiResponse.Success -> {
-
                         val data = response.data.data
                         if (data != null) {
                             val identity = Identity()
@@ -169,15 +171,15 @@ class EidInfoReviewViewModel(application: Application) :
                             result.identity = Identity()
                             parentViewModel?.identity = Identity()
                             populateState(Identity())
-                            clickEvent.setValue(EVENT_FINISH)
+//                            clickEvent.setValue(EVENT_FINISH)
                             state.toast = "${response.data.errors?.message
-                                ?: " Error occurred"}^${AlertType.DIALOG.name}"
+                                ?: " Error occurred"}^${AlertType.DIALOG_WITH_FINISH.name}"
                         }
                     }
                     is RetroApiResponse.Error -> {
-                        state.toast = "${response.error.message}^${AlertType.DIALOG.name}"
-                        state.toast = response.error.message
-                        clickEvent.setValue(EVENT_FINISH)
+                        state.toast =
+                            "${response.error.message}^${AlertType.DIALOG_WITH_FINISH.name}"
+//                        clickEvent.setValue(EVENT_FINISH)
                     }
                 }
                 state.loading = false
@@ -210,7 +212,8 @@ class EidInfoReviewViewModel(application: Application) :
                     fullName = it.givenName + " " + it.sirName,
                     gender = it.gender.mrz.toString(),
                     nationality = it.isoCountryCode3Digit.toUpperCase(),
-                    identityNo = if (YAPApplication.appInfo?.build_type == "debug") (700000000000000..800000000000000).random().toString() else it.citizenNumber,
+                    identityNo = if (YAPApplication.appInfo?.build_type == "debug") (700000000000000..800000000000000).random()
+                        .toString() else it.citizenNumber,
                     filePaths = parentViewModel?.paths ?: arrayListOf()
                 )
 
@@ -250,18 +253,41 @@ class EidInfoReviewViewModel(application: Application) :
         }
     }
 
+    fun splitLastNames(lastNames: String) {
+        val parts = lastNames.split(" ")
+        state.firstName = parts.get(0)
+
+        if (parts.size == 2) {
+            state.lastName = parts.get(1)
+        } else if (parts.size > 2) {
+            state.middleName = parts.get(1)
+            var x = 2
+            while (x < parts.size) {
+                if (state.lastName.isEmpty()) {
+                    state.lastName = parts.get(x)
+                } else {
+                    state.lastName = state.lastName + " " + parts.get(x)
+                }
+                x++
+            }
+        }
+    }
+
     private fun populateState(identity: Identity?) {
         identity?.let {
-            state.fullName = it.givenName + " " + it.sirName
-            state.fullNameValid = state.fullName.isNotBlank()
+            splitLastNames(it.givenName + " " + it.sirName)
+            state.fullNameValid = state.firstName.isNotBlank()
             state.nationality = it.nationality
             state.nationalityValid =
                 state.nationality.isNotBlank() && !state.nationality.equals("USA", true)
-            state.dateOfBirth = DateUtils.dateToString(it.dateOfBirth)
+            state.dateOfBirth =
+                DateUtils.reformatToLocalString(it.dateOfBirth, DateUtils.DEFAULT_DATE_FORMAT)
             state.dateOfBirthValid = it.isDateOfBirthValid
-            state.expiryDate = DateUtils.dateToString(it.expirationDate)
+            state.expiryDate =
+                DateUtils.reformatToLocalString(it.expirationDate, DateUtils.DEFAULT_DATE_FORMAT)
             state.expiryDateValid = it.isExpiryDateValid
             state.genderValid = true
+            state.citizenNumber = getFormattedCitizenNumber(it.citizenNumber)
             state.gender = it.gender.run {
                 when {
                     this == Gender.Male -> getString(Strings.screen_b2c_eid_info_review_display_text_gender_male)
@@ -273,5 +299,22 @@ class EidInfoReviewViewModel(application: Application) :
                 }
             }
         }
+    }
+
+
+    private fun getFormattedCitizenNumber(citizenNo: String): String {
+        state?.caption =
+            getString(Strings.screen_b2c_eid_info_review_display_text_edit_sub_title).format(
+                parentViewModel?.name?.value
+            )
+        val builder = StringBuilder()
+        builder.append(citizenNo.subSequence(0..2))
+        builder.append("-")
+        builder.append(citizenNo.subSequence(3..6))
+        builder.append("-")
+        builder.append(citizenNo.subSequence(7..13))
+        builder.append("-")
+        builder.append(citizenNo.subSequence(14..14))
+        return builder.toString()
     }
 }

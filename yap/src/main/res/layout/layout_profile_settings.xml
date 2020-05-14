@@ -94,7 +94,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight=".1"
                     android:gravity="end"
-                    android:onClick="@{(v) -> viewModel.handlePressOnPersonalDetail(v.id)}"
+                    android:onClick="@{(v) -> viewModel.handlePressOnViewClick(v.id)}"
                     android:text="@string/screen_profile_settings_display_text_view"
                     android:textColor="?attr/colorPrimaryAttr"
                     app:text="@{Strings.screen_profile_settings_display_text_view}" />
@@ -150,7 +150,7 @@
                     style="@style/ASmall"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:onClick="@{(v) -> viewModel.handlePressOnPrivacy(v.id)}"
+                    android:onClick="@{(v) -> viewModel.handlePressOnViewClick(v.id)}"
                     android:text="@string/screen_profile_settings_display_text_view"
                     android:textColor="?attr/colorPrimaryAttr"
                     app:text="@{Strings.screen_profile_settings_display_text_view}" />
@@ -188,7 +188,7 @@
                     style="@style/ASmall"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:onClick="@{(v) -> viewModel.handlePressOnPasscode(v.id)}"
+                    android:onClick="@{(v) -> viewModel.handlePressOnViewClick(v.id)}"
                     android:text="@string/screen_profile_settings_display_text_change"
                     android:textColor="?attr/colorPrimaryAttr"
                     app:text="@{Strings.screen_profile_settings_display_text_change}" />
@@ -226,7 +226,7 @@
                     style="@style/ASmall"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:onClick="@{(v) -> viewModel.handlePressOnPrivacy(v.id)}"
+                    android:onClick="@{(v) -> viewModel.handlePressOnViewClick(v.id)}"
                     android:text="@string/screen_profile_settings_display_text_view"
                     android:textColor="?attr/colorPrimaryAttr"
                     android:visibility="gone"
@@ -339,7 +339,7 @@
                     style="@style/ASmall"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:onClick="@{(v) -> viewModel.handlePressOnTermsAndConditions(v.id)}"
+                    android:onClick="@{(v) -> viewModel.handlePressOnViewClick(v.id)}"
                     android:text="@string/screen_profile_settings_display_text_view"
                     android:textColor="?attr/colorPrimaryAttr"
                     app:text="@{Strings.screen_profile_settings_display_text_view}" />
@@ -377,7 +377,7 @@
                     style="@style/ASmall"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:onClick="@{(v) -> viewModel.handlePressOnInstagram(v.id)}"
+                    android:onClick="@{(v) -> viewModel.handlePressOnViewClick(v.id)}"
                     android:text="@string/screen_profile_settings_display_text_follow_us"
                     android:textColor="?attr/colorPrimaryAttr"
                     app:text="@{Strings.screen_profile_settings_display_text_follow_us}" />
@@ -415,7 +415,7 @@
                     style="@style/ASmall"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:onClick="@{(v) -> viewModel.handlePressOnTwitter(v.id)}"
+                    android:onClick="@{(v) -> viewModel.handlePressOnViewClick(v.id)}"
                     android:text="@string/screen_profile_settings_display_text_follow_us"
                     android:textColor="?attr/colorPrimaryAttr"
                     app:text="@{Strings.screen_profile_settings_display_text_follow_us}" />
@@ -452,7 +452,7 @@
                     style="@style/ASmall"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:onClick="@{(v) -> viewModel.handlePressOnFaceBook(v.id)}"
+                    android:onClick="@{(v) -> viewModel.handlePressOnViewClick(v.id)}"
                     android:text="@string/screen_profile_settings_display_text_like_us"
                     android:textColor="?attr/colorPrimaryAttr"
                     app:text="@{Strings.screen_profile_settings_display_text_like_us}" />
@@ -466,7 +466,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_medium"
                 android:gravity="center"
-                android:onClick="@{(v) -> viewModel.handlePressOnLogOut(v.id)}"
+                android:onClick="@{(v) -> viewModel.handlePressOnViewClick(v.id)}"
                 android:text="@string/screen_profile_settings_display_text_logout"
                 android:textColor="?attr/colorPrimaryAttr"
                 app:text="@{Strings.screen_profile_settings_display_text_logout}" />

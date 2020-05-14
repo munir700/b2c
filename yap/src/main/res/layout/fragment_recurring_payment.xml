@@ -37,7 +37,7 @@
             android:layout_marginTop="@dimen/margin_medium"
             android:visibility="@{viewModel.state.recurringTransaction!=null? View.VISIBLE:View.GONE}"
             app:amount="@{@string/screen_send_money_display_text_edit}"
-            app:date="@{viewModel.state.recurringTransaction!=null?Translator.INSTANCE.getString(context, Strings.screen_household_employee_salary_recurrent_auto_payment_secondary_text,viewModel.state.recurringTransaction.amount , DateUtils.INSTANCE.reformatStringDate(viewModel.state.recurringTransaction.nextProcessingDate,DateUtils.INSTANCE.FORMAT_LONG_INPUT,DateUtils.INSTANCE.FORMAT_DATE_MON_YEAR,DateUtils.INSTANCE.GMT , DateUtils.INSTANCE.TIME_ZONE_Default)):``}"
+            app:date="@{viewModel.state.recurringTransaction!=null?Translator.INSTANCE.getString(context, Strings.screen_household_employee_salary_recurrent_auto_payment_secondary_text,viewModel.state.recurringTransaction.amount , DateUtils.INSTANCE.reformatStringDate(viewModel.state.recurringTransaction.nextProcessingDate,DateUtils.INSTANCE.SERVER_DATE_FORMAT,DateUtils.INSTANCE.FORMAT_DATE_MON_YEAR,DateUtils.INSTANCE.GMT , DateUtils.INSTANCE.TIME_ZONE_Default)):``}"
             app:lable="@{@string/screen_household_employee_salary_edit_recurring_heading_text}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

@@ -7,14 +7,13 @@ import co.yap.modules.dashboard.more.main.viewmodels.MoreBaseViewModel
 import co.yap.modules.dashboard.more.profile.intefaces.IPersonalDetail
 import co.yap.modules.dashboard.more.profile.states.PersonalDetailState
 import co.yap.networking.cards.CardsRepository
-import co.yap.networking.cards.requestdtos.OrderCardRequest
-import co.yap.networking.cards.requestdtos.UpdateAddressRequest
 import co.yap.networking.cards.responsedtos.Address
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
 import co.yap.translation.Strings
 import co.yap.translation.Translator
 import co.yap.yapcore.SingleClickEvent
+import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.enums.EIDStatus
 import co.yap.yapcore.managers.MyUserManager
 
@@ -33,6 +32,7 @@ class PersonalDetailsViewModel(application: Application) :
         super.onCreate()
         requestGetAddressForPhysicalCard()
     }
+
     override fun handlePressOnScanCard(id: Int) {
         clickEvent.setValue(id)
     }
@@ -85,10 +85,14 @@ class PersonalDetailsViewModel(application: Application) :
                     setUpAddressFields()
                     MyUserManager.userAddress = address
                     clickEvent.setValue(UPDATE_ADDRESS_UI)
+                    state.loading = false
                 }
-                is RetroApiResponse.Error -> state.toast = response.error.message
+                is RetroApiResponse.Error -> {
+                    state.toast =
+                        "${response.error.message}^${AlertType.DIALOG.name}"
+                    state.loading = false
+                }
             }
-            state.loading = false
         }
     }
 
@@ -111,10 +115,10 @@ class PersonalDetailsViewModel(application: Application) :
         setToolBarTitle(heading)
     }
 
-    override fun requestUpdateAddress(updateAddressRequest: UpdateAddressRequest) {
+    override fun requestUpdateAddress(address: Address) {
         launch {
             state.loading = true
-            when (val response = repository.editAddressRequest(updateAddressRequest)) {
+            when (val response = repository.editAddressRequest(address)) {
                 is RetroApiResponse.Success -> {
                     state.loading = false
                     onUpdateAddressSuccess.value = true
@@ -131,18 +135,10 @@ class PersonalDetailsViewModel(application: Application) :
 
     override fun requestOrderCard(address: Address?) {
         address?.let {
-            val orderCardRequest = OrderCardRequest(
-                it.address1,
-                "",
-                it.address1,
-                it.address2,
-                it.latitude,
-                it.longitude,
-                "Dubai","UAE"
-            )
+            it.cardName = ""
             launch {
                 state.loading = true
-                when (val response = repository.orderCard(orderCardRequest)) {
+                when (val response = repository.orderCard(it)) {
                     is RetroApiResponse.Success -> {
                         orderCardSuccess.value = true
                         state.loading = false
@@ -151,8 +147,7 @@ class PersonalDetailsViewModel(application: Application) :
                     is RetroApiResponse.Error -> {
                         state.loading = false
                         orderCardSuccess.value = false
-                        state.toast = response.error.message
-//
+                        state.toast = "${response.error.message}^${AlertType.DIALOG.name}"
                     }
                 }
             }

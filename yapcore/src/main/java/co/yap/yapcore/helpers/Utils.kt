@@ -340,7 +340,7 @@ object Utils {
 
             var lastName = nameStr[nameStr.size - 1]
             if (Character.isLetter(nameStr[nameStr.size - 1][0])) {
-                firstName = nameStr[nameStr.size - 1].substring(0, 1)
+                lastName = nameStr[nameStr.size - 1].substring(0, 1)
             }
 
             val firstNameMatcher = Pattern.compile(emo_regex).matcher(firstName)
@@ -793,7 +793,6 @@ object Utils {
     fun showComingSoon(context: Context) {
         context.shortToast("Coming Soon")
     }
-
 
     fun formateIbanString(iban: String?): String? {
         iban?.let {

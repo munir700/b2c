@@ -36,20 +36,10 @@ class PhoneVerificationSignInFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.state.reverseTimer(10, requireContext())
-        viewModel.nextButtonPressEvent.observe(this, nextButtonObserver)
         viewModel.verifyOtpResult.observe(this, verifyOtpResultObserver)
         viewModel.postDemographicDataResult.observe(this, postDemographicDataObserver)
         setUsername()
         setPasscode()
-    }
-
-    override fun onDestroy() {
-        viewModel.nextButtonPressEvent.removeObservers(this)
-        super.onDestroy()
-    }
-
-    private val nextButtonObserver = Observer<Boolean> {
-        viewModel.verifyOtp()
     }
 
     private val verifyOtpResultObserver = Observer<Boolean> {

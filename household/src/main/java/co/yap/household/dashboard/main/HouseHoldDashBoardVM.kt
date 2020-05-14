@@ -20,17 +20,9 @@ class HouseHoldDashBoardVM @Inject constructor(override var state: IHouseholdDas
     override val clickEvent: SingleClickEvent = SingleClickEvent()
 
     override fun onFirsTimeUiCreate(bundle: Bundle?, navigation: NavController?) {
-
     }
 
     override fun handlePressOnNavigationItem(id: Int) {
         clickEvent.setValue(id)
     }
-
-    override fun copyAccountInfoToClipboard() {
-//        val info = "Account: ${MyUserManager.user?.accountNo}\nIBAN: ${MyUserManager.user?.iban}"
-//        Utils.copyToClipboard(context, info)
-//        state.toast = "Copied to clipboard"
-    }
-
 }

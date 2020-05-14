@@ -48,7 +48,7 @@ class HouseholdDashboardActivity :
     private fun addObservers() {
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
-                R.id.btnCopyHH -> viewModel.copyAccountInfoToClipboard()
+                R.id.btnCopyHH -> {}
                 R.id.lyHeader_section -> expandableLayout.toggle(true)
             }
         })

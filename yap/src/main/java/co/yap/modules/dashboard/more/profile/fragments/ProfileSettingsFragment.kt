@@ -15,6 +15,7 @@ import androidx.navigation.fragment.findNavController
 import co.yap.BR
 import co.yap.R
 import co.yap.modules.dashboard.cards.paymentcarddetail.fragments.CardClickListener
+import co.yap.modules.dashboard.more.changepasscode.activities.ChangePasscodeActivity
 import co.yap.modules.dashboard.more.main.activities.MoreActivity
 import co.yap.modules.dashboard.more.main.fragments.MoreBaseFragment
 import co.yap.modules.dashboard.more.profile.intefaces.IProfile
@@ -23,6 +24,7 @@ import co.yap.modules.others.helper.Constants
 import co.yap.modules.webview.WebViewFragment
 import co.yap.yapcore.constants.Constants.KEY_IS_FINGERPRINT_PERMISSION_SHOWN
 import co.yap.yapcore.constants.Constants.KEY_TOUCH_ID_ENABLED
+import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.biometric.BiometricUtil
@@ -138,19 +140,8 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
         })
     }
 
-
-    private fun onPhotosReturned(path: File?, position: Int, source: EasyImage.ImageSource?) {
-        path?.let {
-            viewModel.uploadProfconvertUriToFile(it.toUri())
-            viewModel.state.imageUri = it.toUri()
-            ivProfilePic.setImageURI(it.toUri())
-        }
-
-    }
-
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-
         EasyImage.handleActivityResult(requestCode, resultCode, data, activity,
             object : DefaultCallback() {
                 override fun onImagePicked(
@@ -166,10 +157,29 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
                     source: EasyImage.ImageSource?,
                     type: Int
                 ) {
-                    //Some error handling
-                    showToast(e?.message.toString())
+                    viewModel.state.toast = "Invalid file found^${AlertType.DIALOG.name}"
                 }
             })
+    }
+
+    private fun onPhotosReturned(path: File?, position: Int, source: EasyImage.ImageSource?) {
+        path?.let {
+            val ext = path.extension
+            if (!ext.isBlank()) {
+                when (ext) {
+                    "png", "jpg", "jpeg" -> {
+                        viewModel.requestUploadProfilePicture(it)
+                        viewModel.state.imageUri = it.toUri()
+                        ivProfilePic.setImageURI(it.toUri())
+                    }
+                    else -> {
+                        viewModel.state.toast = "Invalid file found^${AlertType.DIALOG.name}"
+                    }
+                }
+            } else {
+                viewModel.state.toast = "Invalid file found^${AlertType.DIALOG.name}"
+            }
+        }
     }
 
     override fun onDestroy() {
@@ -233,7 +243,8 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
                 }
 
                 R.id.tvChangePasscode -> {
-                    findNavController().navigate(R.id.action_profileSettingsFragment_to_change_pascode_navigation)
+                    startActivity(Intent(requireContext(), ChangePasscodeActivity::class.java))
+//                    findNavController().navigate(R.id.action_profileSettingsFragment_to_change_pascode_navigation)
                 }
 
                 R.id.tvTermsAndConditionView -> {
