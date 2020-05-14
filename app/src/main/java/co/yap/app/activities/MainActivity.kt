@@ -29,9 +29,10 @@ open class MainActivity : DefaultActivity(), IFragmentHolder, INavigator {
         sha256 = "A5:B4:2F:1D:4A:E5:CA:CB:8D:83:5B:CE:1D:85:7A:76:41:FE:5C:B2:59:FB:3D:04:53:11:C8:BB:80:F1:66:FD"
     )
 
-    companion object {init {
-        System.loadLibrary("native-lib")
-    }
+    companion object {
+        init {
+            System.loadLibrary("native-lib")
+        }
     }
 
     override val navigator: IBaseNavigator
@@ -46,7 +47,7 @@ open class MainActivity : DefaultActivity(), IFragmentHolder, INavigator {
         setContentView(R.layout.activity_main)
 
         getApplicationSignature().find { it == actualSign }?.let {
-        } ?: showToast("Signature not matched" + "^" + AlertType.DIALOG_WITH_FINISH)
+        } ?: showToast("App signature not matched" + "^" + AlertType.DIALOG_WITH_FINISH)
     }
 
     override fun onBackPressed() {
