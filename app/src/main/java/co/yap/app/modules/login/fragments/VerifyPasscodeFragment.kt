@@ -16,7 +16,6 @@ import co.yap.app.activities.MainActivity
 import co.yap.app.constants.Constants
 import co.yap.app.modules.login.interfaces.IVerifyPasscode
 import co.yap.app.modules.login.viewmodels.VerifyPasscodeViewModel
-import co.yap.household.dashboard.main.HouseholdDashboardActivity
 import co.yap.household.onboard.onboarding.main.OnBoardingHouseHoldActivity
 import co.yap.modules.dashboard.main.activities.YapDashboardActivity
 import co.yap.modules.others.helper.Constants.REQUEST_CODE
@@ -31,6 +30,9 @@ import co.yap.yapcore.constants.Constants.KEY_IS_FINGERPRINT_PERMISSION_SHOWN
 import co.yap.yapcore.constants.Constants.KEY_IS_USER_LOGGED_IN
 import co.yap.yapcore.constants.Constants.KEY_TOUCH_ID_ENABLED
 import co.yap.yapcore.constants.Constants.VERIFY_PASS_CODE_BTN_TEXT
+import co.yap.yapcore.dagger.base.navigation.host.NAVIGATION_Graph_ID
+import co.yap.yapcore.dagger.base.navigation.host.NAVIGATION_Graph_START_DESTINATION_ID
+import co.yap.yapcore.dagger.base.navigation.host.NavHostPresenterActivity
 import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.enums.OTPActions
 import co.yap.yapcore.helpers.SharedPreferenceManager
@@ -346,7 +348,14 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
                 if (MyUserManager.isExistingUser()) {
                     launchActivity<YapDashboardActivity>(clearPrevious = true)
                 } else {
-                    launchActivity<HouseholdDashboardActivity>(clearPrevious = true)
+                    launchActivity<NavHostPresenterActivity>(clearPrevious = true) {
+                        putExtra(NAVIGATION_Graph_ID, R.navigation.hh_main_nav_graph)
+                        putExtra(
+                            NAVIGATION_Graph_START_DESTINATION_ID,
+                            R.id.householdDashboardFragment
+                        )
+                    }
+//                    launchActivity<HouseholdDashboardActivity>(clearPrevious = true)
                 }
             } else {
                 launchActivity<OnBoardingHouseHoldActivity>(clearPrevious = true) {

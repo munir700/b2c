@@ -23,9 +23,6 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppThemeHouseHold.NoActionBar"
             android:windowSoftInputMode="adjustResize" />
-        <activity
-            android:name=".dashboard.main.HouseholdDashboardActivity"
-            android:screenOrientation="portrait" />
 
     </application>
 

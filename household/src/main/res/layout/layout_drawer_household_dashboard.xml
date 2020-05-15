@@ -8,9 +8,9 @@
             name="viewModel"
             type="co.yap.household.dashboard.main.HouseHoldDashBoardVM" />
 
-        <variable
-            name="adapter"
-            type="co.yap.household.dashboard.main.menu.ProfilePictureAdapter" />
+<!--        <variable-->
+<!--            name="adapter"-->
+<!--            type="co.yap.household.dashboard.main.menu.ProfilePictureAdapter" />-->
 
         <import type="co.yap.translation.Strings" />
     </data>
@@ -146,7 +146,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 android:orientation="vertical"
-                app:adapter="@{adapter}"
+                app:adapter="@{viewModel.profilePictureAdapter}"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 tools:listitem="@layout/item_dashboard_menu_profile_pic" />
 
