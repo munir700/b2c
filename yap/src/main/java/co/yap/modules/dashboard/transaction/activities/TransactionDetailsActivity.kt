@@ -44,6 +44,8 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
         setTransactionTitle()
         setCardMaskNo()
         setAddress()
+        setTotalAmount()
+        setTxnFailedReason()
         setContentDataColor(viewModel.transaction.get())
     }
 
@@ -56,6 +58,64 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
             }
 
         } ?: "0.00"
+    }
+
+    private fun setTxnFailedReason() {
+        val msg = viewModel.transaction.get()?.let {
+            when {
+                it.status == TransactionStatus.CANCELLED.name -> {
+                    getBindings().tvTransactionHeading.setTextColor(this.getColors(R.color.greyNormalDark))
+                    getBindings().tvTotalAmountValue.setTextColor(this.getColors(R.color.greyNormalDark))
+                    it.cancelReason
+                }
+                it.productCode == TransactionProductCode.SWIFT.pCode -> {
+                    if (TransactionStatus.PENDING.name == it.status || TransactionStatus.IN_PROGRESS.name == it.status && it.getLabelValues() != TransactionLabelsCode.IS_TRANSACTION_FEE) {
+                        getBindings().tvTransactionHeading.setTextColor(this.getColors(R.color.colorFaded))
+                        getBindings().tvTotalAmountValue.setTextColor(this.getColors(R.color.colorFaded))
+                        getBindings().tvTransactionSubheading.alpha = 0.5f
+                        getBindings().ivCategoryIcon.alpha = 0.5f
+                        return@let getCutOffMsg()
+                    } else ""
+                }
+                it.productCode == TransactionProductCode.RMT.pCode-> {
+                    if (TransactionStatus.PENDING.name == it.status || TransactionStatus.IN_PROGRESS.name == it.status && it.getLabelValues() != TransactionLabelsCode.IS_TRANSACTION_FEE) {
+                        getBindings().tvTransactionHeading.setTextColor(this.getColors(R.color.colorFaded))
+                        getBindings().tvTotalAmountValue.setTextColor(this.getColors(R.color.colorFaded))
+                        getBindings().tvTransactionSubheading.alpha = 0.5f
+                        getBindings().ivCategoryIcon.alpha = 0.5f
+                        ""
+                    }else ""
+                }
+
+                else -> ""
+            }
+        } ?: ""
+        if (msg.isBlank()) {
+            getBindings().cancelReasonLy.visibility = View.GONE
+        } else {
+            getBindings().tvCanceReason.text = msg
+        }
+    }
+
+    private fun getCutOffMsg(): String {
+        return "Transfers made after 2:00 PM UAE time will be processed on the next business day.  There maybe an impact on the FX rate at the time of transfer."
+    }
+
+    private fun setTotalAmount() {
+        val totalAmount = viewModel.transaction.get()?.let {
+            when (it.productCode) {
+                TransactionProductCode.RMT.pCode, TransactionProductCode.SWIFT.pCode -> {
+                    val totalFee = it.postedFees?.plus(it.vatAmount ?: 0.0) ?: 0.0
+                    it.settlementAmount?.plus(totalFee).toString()
+                }
+                else -> it.totalAmount.toString()
+            }
+        } ?: "0.0"
+        getBindings().tvTotalAmountValueCalculated.text =
+            totalAmount.toFormattedAmountWithCurrency()
+        getBindings().tvTotalAmountValue.text =
+            if (viewModel.transaction.get()?.txnType == TxnType.DEBIT.type) "- ${totalAmount.toFormattedCurrency()}" else "+ ${totalAmount.toFormattedCurrency()}"
+
     }
 
     private fun setAddress() {

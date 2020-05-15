@@ -9,13 +9,13 @@ import androidx.navigation.fragment.findNavController
 import co.yap.networking.transactions.requestdtos.RemittanceFeeRequest
 import co.yap.networking.transactions.responsedtos.purposepayment.PurposeOfPayment
 import co.yap.networking.transactions.responsedtos.transaction.FxRateResponse
+import co.yap.sendmoney.BR
 import co.yap.sendmoney.PopListBottomSheet
+import co.yap.sendmoney.R
+import co.yap.sendmoney.databinding.FragmentInternationalFundsTransferBinding
 import co.yap.sendmoney.fundtransfer.activities.BeneficiaryFundTransferActivity
 import co.yap.sendmoney.fundtransfer.interfaces.IInternationalFundsTransfer
 import co.yap.sendmoney.fundtransfer.viewmodels.InternationalFundsTransferViewModel
-import co.yap.sendmoney.BR
-import co.yap.sendmoney.R
-import co.yap.sendmoney.databinding.FragmentInternationalFundsTransferBinding
 import co.yap.translation.Strings
 import co.yap.translation.Translator
 import co.yap.yapcore.enums.SendMoneyBeneficiaryType
@@ -164,7 +164,7 @@ class InternationalFundsTransferFragment :
 
     private fun startFlow() {
         if (isBalanceAvailable()) {
-            if (viewModel.state.etInputAmount.parseToDouble() < viewModel.state.minLimit ?: 0.0 || viewModel.state.etInputAmount.parseToDouble() > viewModel.state.maxLimit ?: 0.0) {
+            if (viewModel.state.etOutputAmount.parseToDouble() < viewModel.state.minLimit ?: 0.0 || viewModel.state.etOutputAmount.parseToDouble() > viewModel.state.maxLimit ?: 0.0) {
                 setLowerAndUpperLimitError()
             } else {
                 if (isDailyLimitReached())
@@ -219,7 +219,8 @@ class InternationalFundsTransferFragment :
                                 if ((dailyLimit - totalHoldAmount) < 0.0) 0.0 else (dailyLimit - totalHoldAmount)
                             viewModel.state.errorDescription =
                                 "You have exceeded your limit for held on transactions, please enter an amount less than %1s".format(
-                                    (dailyLimit - totalHoldAmount).toString().toFormattedAmountWithCurrency()
+                                    (dailyLimit - totalHoldAmount).toString()
+                                        .toFormattedAmountWithCurrency()
                                 )
                             return (enteredAmount > remainingDailyLimit)
                         } else {
@@ -244,11 +245,11 @@ class InternationalFundsTransferFragment :
         viewModel.parentViewModel?.transferData?.value?.sourceCurrency =
             viewModel.state.sourceCurrency.get().toString()
         viewModel.parentViewModel?.transferData?.value?.sourceAmount =
-            viewModel.state.etInputAmount.toString()
+            viewModel.state.etOutputAmount.toString()
         viewModel.parentViewModel?.transferData?.value?.destinationCurrency =
             viewModel.state.destinationCurrency.get().toString()
         viewModel.parentViewModel?.transferData?.value?.destinationAmount =
-            viewModel.state.etOutputAmount.toString()
+            viewModel.state.etInputAmount.toString()
         viewModel.parentViewModel?.transferData?.value?.toFxRate = viewModel.state.toFxRate
         viewModel.parentViewModel?.transferData?.value?.fromFxRate = viewModel.state.fromFxRate
         viewModel.parentViewModel?.transferData?.value?.noteValue =
@@ -284,11 +285,9 @@ class InternationalFundsTransferFragment :
 
         etSenderAmount.afterTextChanged {
             viewModel.state.clearError()
-            if (!viewModel.state.etInputAmount.isNullOrBlank()) {
-                checkOnTextChangeValidation()
-            }
-            viewModel.updateFees()
             viewModel.setDestinationAmount()
+            checkOnTextChangeValidation()
+            viewModel.updateFees()
         }
     }
 
