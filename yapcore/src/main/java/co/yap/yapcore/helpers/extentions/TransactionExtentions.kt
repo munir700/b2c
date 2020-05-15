@@ -333,21 +333,21 @@ fun Transaction?.getFormattedDate(): String? {
     } ?: return null
 }
 
-fun Transaction?.getFormattedTime(): String {
+fun Transaction?.getFormattedTime(outputFormat: String = DateUtils.FORMAT_TIME_24H): String {
     return (when {
         DateUtils.reformatStringDate(
             this?.updatedDate ?: "",
             DateUtils.SERVER_DATE_FORMAT,
-            DateUtils.FORMAT_TIME_24H
+            outputFormat
         ).isBlank() -> DateUtils.reformatStringDate(
             this?.creationDate ?: "",
             DateUtils.SERVER_DATE_FORMAT,
-            DateUtils.FORMAT_TIME_24H
+            outputFormat
         )
         else -> DateUtils.reformatStringDate(
             this?.creationDate ?: "",
             DateUtils.SERVER_DATE_FORMAT,
-            DateUtils.FORMAT_TIME_24H
+            outputFormat
         )
     })
 }

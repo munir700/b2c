@@ -38,3 +38,11 @@ app/~/tmp/full-r8-config.txt
 /translation/.cxx
 /security/.cxx
 /security/build
+/app/.cxx
+/household/.cxx
+/networking/.cxx
+/identityscanner_v2/.cxx
+/yapcore/.cxx
+/sendmoney/.cxx
+/yap/.cxx
+/translation/.cxx
