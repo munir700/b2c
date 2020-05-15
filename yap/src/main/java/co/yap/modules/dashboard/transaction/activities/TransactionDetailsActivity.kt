@@ -16,6 +16,7 @@ import co.yap.networking.transactions.responsedtos.transaction.Transaction
 import co.yap.yapcore.BR
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.enums.TransactionLabelsCode
 import co.yap.yapcore.enums.TransactionProductCode
 import co.yap.yapcore.enums.TransactionStatus
 import co.yap.yapcore.enums.TxnType
@@ -37,12 +38,24 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
         viewModel.clickEvent.observe(this, clickEvent)
         viewModel.transaction.set(intent?.getParcelableExtra("transaction") as Transaction)
         setSpentLabel()
+        setFeeAmount()
         setMapImageView()
         setTransactionImage()
         setTransactionTitle()
         setCardMaskNo()
         setAddress()
         setContentDataColor(viewModel.transaction.get())
+    }
+
+    private fun setFeeAmount() {
+        getBindings().tvFeeAmount.text = viewModel.transaction.get()?.let {
+            when {
+                it.getLabelValues() == TransactionLabelsCode.IS_TRANSACTION_FEE -> "0.00".toFormattedAmountWithCurrency()
+                it.postedFees != null -> it.postedFees.toString().toFormattedAmountWithCurrency()
+                else -> "0.00".toFormattedAmountWithCurrency()
+            }
+
+        } ?: "0.00"
     }
 
     private fun setAddress() {
