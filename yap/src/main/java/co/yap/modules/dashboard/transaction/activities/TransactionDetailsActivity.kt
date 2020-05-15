@@ -38,6 +38,7 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
         viewModel.clickEvent.observe(this, clickEvent)
         viewModel.transaction.set(intent?.getParcelableExtra("transaction") as Transaction)
         setSpentLabel()
+        setFeeAmount()
         setMapImageView()
         setTransactionImage()
         setTransactionTitle()
@@ -46,6 +47,17 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
         setTotalAmount()
         setTxnFailedReason()
         setContentDataColor(viewModel.transaction.get())
+    }
+
+    private fun setFeeAmount() {
+        getBindings().tvFeeAmount.text = viewModel.transaction.get()?.let {
+            when {
+                it.getLabelValues() == TransactionLabelsCode.IS_TRANSACTION_FEE -> "0.00".toFormattedAmountWithCurrency()
+                it.postedFees != null -> it.postedFees.toString().toFormattedAmountWithCurrency()
+                else -> "0.00".toFormattedAmountWithCurrency()
+            }
+
+        } ?: "0.00"
     }
 
     private fun setTxnFailedReason() {
