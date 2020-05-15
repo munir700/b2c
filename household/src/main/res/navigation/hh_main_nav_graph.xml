@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/hh_main_nav_graph"
+    app:startDestination="@id/householdDashboardFragment">
+
+    <fragment
+        android:id="@+id/householdDashboardFragment"
+        android:name="co.yap.household.dashboard.main.HouseholdDashboardFragment"
+        android:label="HouseholdDashboardActivity"
+        tools:layout="@layout/activity_household_dashboard" />
+</navigation>

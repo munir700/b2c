@@ -25,14 +25,11 @@ class HouseholdHomeFragment :
 
     override fun getLayoutId() = R.layout.fragment_household_home
 
-//    @Inject
-//    lateinit var pre: SharedPreferenceManager
-
     override fun postExecutePendingBindings() {
         super.postExecutePendingBindings()
         mViewDataBinding.transactionRecyclerView.setItemClickListener(adaptorClickListener)
         mViewDataBinding.transactionRecyclerView.setLoadMoreListener(loadMoreListener)
-        viewModel.stateLiveData?.observe(
+        viewModel.stateLiveData.observe(
             this,
             Observer { if (it.status != Status.IDEAL) handleState(it) })
     }

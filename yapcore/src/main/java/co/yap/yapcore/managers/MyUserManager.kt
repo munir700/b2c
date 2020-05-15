@@ -31,7 +31,7 @@ object MyUserManager : IRepositoryHolder<CardsRepository> {
     private val customersRepository: CustomersApi = CustomersRepository
     private val authRepository: AuthRepository = AuthRepository
 
-    var usersList: ArrayList<AccountInfo> = arrayListOf()
+    var usersList: MutableLiveData<ArrayList<AccountInfo>>? = MutableLiveData()
     var user: AccountInfo? = null
         set(value) {
             field = value
@@ -60,7 +60,7 @@ object MyUserManager : IRepositoryHolder<CardsRepository> {
         GlobalScope.launch {
             when (val response = customersRepository.getAccountInfo()) {
                 is RetroApiResponse.Success -> {
-                    usersList = response.data.data as ArrayList
+                    usersList?.value = response.data.data as ArrayList
                     user = getCurrentUser()
                     onAccountInfoSuccess.postValue(true)
                 }
@@ -73,11 +73,11 @@ object MyUserManager : IRepositoryHolder<CardsRepository> {
     }
 
     private fun getYapUser(): AccountInfo? {
-        return usersList.firstOrNull { account -> account.accountType == AccountType.B2C_ACCOUNT.name }
+        return usersList?.value?.firstOrNull { account -> account.accountType == AccountType.B2C_ACCOUNT.name }
     }
 
     private fun getHouseholdUser(): AccountInfo? {
-        return usersList.firstOrNull { account -> account.accountType == AccountType.B2C_HOUSEHOLD.name }
+        return usersList?.value?.firstOrNull { account -> account.accountType == AccountType.B2C_HOUSEHOLD.name }
     }
 
     private fun getCurrentUser(): AccountInfo? {
@@ -134,13 +134,10 @@ object MyUserManager : IRepositoryHolder<CardsRepository> {
             when (val response = customersRepository.getAccountInfo()) {
                 is RetroApiResponse.Success -> {
                     if (!response.data.data.isNullOrEmpty()) {
-                        usersList = response.data.data as ArrayList<AccountInfo>
+                        usersList?.value = response.data.data as ArrayList<AccountInfo>
                         user = getCurrentUser()
-                        //setUser(usersList)
-
                         // Reverse Users so that household remain on top for household dashboard menu
-                        usersList.reverse()
-
+                        usersList?.value?.reverse()
                         switchProfile.postValue(true)
                     }
                 }

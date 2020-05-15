@@ -15,7 +15,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fitsSystemWindows="true"
-        tools:context=".dashboard.main.HouseholdDashboardActivity"
+        tools:context=".dashboard.main.HouseholdDashboardFragment"
         tools:openDrawer="start">
 
         <RelativeLayout
