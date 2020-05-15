@@ -181,7 +181,7 @@ class InternationalFundsTransferFragment :
 
     private fun setLowerAndUpperLimitError() {
         viewModel.state.errorDescription = getString(
-            Strings.common_display_text_min_max_limit_error_transaction
+            Strings.sm_display_text_min_max_limit_error_transaction
         ).format(
             viewModel.state.minLimit.toString().toFormattedCurrency(),
             viewModel.state.maxLimit.toString().toFormattedCurrency()
@@ -227,7 +227,9 @@ class InternationalFundsTransferFragment :
                             val remainingDailyLimit =
                                 if ((dailyLimit - totalConsumedAmount) < 0.0) 0.0 else (dailyLimit - totalConsumedAmount)
                             viewModel.state.errorDescription =
-                                if (enteredAmount > dailyLimit && totalConsumedAmount==0.0) getString(Strings.common_display_text_daily_limit_error_single_transaction) else getString(
+                                if (enteredAmount > dailyLimit && totalConsumedAmount == 0.0) getString(
+                                    Strings.common_display_text_daily_limit_error_single_transaction
+                                ) else getString(
                                     Strings.common_display_text_daily_limit_error_multiple_transactions
                                 )
                             return (enteredAmount > remainingDailyLimit)
