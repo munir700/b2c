@@ -221,7 +221,6 @@ class InternationalFundsTransferViewModel(application: Application) :
                                         response.data.data?.let {
                                             transactionMightGetHeld.value = true
                                         }
-
                                     }
                                     is RetroApiResponse.Error -> {
                                         transactionMightGetHeld.value = false

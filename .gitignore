@@ -37,3 +37,4 @@ app/~/tmp/full-r8-config.txt
 /identityscanner_v2/.cxx/*
 /household/.cxx/*
 /security/.cxx/*
+/security/build
