@@ -211,7 +211,7 @@ class InternationalFundsTransferFragment :
         viewModel.parentViewModel?.transactionThreshold?.value?.let {
             it.dailyLimit?.let { dailyLimit ->
                 it.totalDebitAmount?.let { totalConsumedAmount ->
-                    viewModel.state.etInputAmount.parseToDouble().let { enteredAmount ->
+                    viewModel.state.etOutputAmount.parseToDouble().let { enteredAmount ->
                         if (viewModel.transactionMightGetHeld.value == true) {
                             val totalHoldAmount =
                                 (it.holdSwiftAmount ?: 0.0).plus(it.holdUAEFTSAmount ?: 0.0)
