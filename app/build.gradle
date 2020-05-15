@@ -7,9 +7,23 @@ android {
     defaultConfig {
         applicationId "co.yap"
         multiDexEnabled true
+        externalNativeBuild {
+            cmake {
+                cFlags "-fvisibility=hidden"
+                cppFlags "-fvisibility=hidden"
+            }
+        }
+    }
+    externalNativeBuild {
+        cmake {
+            path "CMakeLists.txt"
+            version "3.10.2"
+        }
     }
 
-    productFlavors {
+
+
+productFlavors {
 
         live {
             versionCode 10
