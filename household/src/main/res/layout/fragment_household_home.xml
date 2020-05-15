@@ -43,8 +43,78 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/toolbar" />
-
         </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.appcompat.widget.AppCompatSeekBar
+            android:id="@+id/rsbAmount"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_30sdp"
+            android:layout_marginStart="@dimen/margin_medium_large"
+            android:layout_marginEnd="@dimen/margin_medium_large"
+            android:elevation="@dimen/_1sdp"
+            android:max="200"
+            android:progress="@={viewModel.state.progress}"
+            android:scaleX="0.9"
+            android:scaleY="0.9"
+            android:thumb="@drawable/ic_seekbar_thumb"
+            android:thumbOffset="@dimen/_15sdp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/clHeaderContainer" />
+
+        <Space
+            android:id="@+id/space"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginBottom="10dp"
+            app:layout_constraintBottom_toBottomOf="@+id/rsbAmount"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <co.yap.widgets.radiocus.PresetRadioGroup
+            android:id="@+id/selectorGroup"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_large"
+            android:layout_marginEnd="@dimen/margin_large"
+            android:weightSum="2"
+            app:layout_constraintBottom_toTopOf="@+id/clTransactionHeader"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/space"
+            app:presetRadioCheckedId="@id/firstIndicator">
+
+            <co.yap.widgets.radiocus.PresetValueButton
+                android:id="@+id/firstIndicator"
+                style="@style/ALarge"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/_70sdp"
+                android:layout_gravity="center"
+                android:layout_marginEnd="@dimen/margin_small"
+                android:layout_weight="1"
+                android:background="@drawable/background_selector_preset_button"
+                android:clickable="true"
+                android:gravity="center"
+                android:onClick="@{(v)-> viewModel.handlePressOnView(v.id)}"
+                android:paddingTop="@dimen/margin_small"
+                android:paddingBottom="@dimen/margin_small"
+                app:lable1="My money"
+                app:lable2="AED 1000.00" />
+
+            <co.yap.widgets.radiocus.PresetValueButton
+                android:id="@+id/secondIndicator"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/_70sdp"
+                android:layout_weight="1"
+                android:background="@drawable/background_selector_preset_button"
+                android:gravity="center"
+                android:onClick="@{(v)-> viewModel.handlePressOnView(v.id)}"
+                android:paddingTop="@dimen/margin_small"
+                android:paddingBottom="@dimen/margin_small"
+                android:textStyle="normal"
+                app:lable1="Expense money"
+                app:lable2="AED 257.00" />
+
+        </co.yap.widgets.radiocus.PresetRadioGroup>
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/clTransactionHeader"
@@ -56,7 +126,7 @@
             android:layout_marginBottom="@dimen/margin_small"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/clHeaderContainer">
+            app:layout_constraintTop_toBottomOf="@id/selectorGroup">
 
             <TextView
                 android:id="@+id/tvTransactionTitle"
@@ -130,8 +200,8 @@
             <co.yap.yapcore.transactions.TransactionRecyclerView
                 android:id="@+id/transactionRecyclerView"
                 android:layout_width="match_parent"
-                app:txnList="@{viewModel.state.transactionList}"
-                android:layout_height="match_parent" />
+                android:layout_height="0dp"
+                app:txnList="@{viewModel.state.transactionList}" />
         </co.yap.widgets.MultiStateView>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

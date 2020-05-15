@@ -8,14 +8,11 @@ import co.yap.household.databinding.FragmentHouseholdHomeBinding
 import co.yap.widgets.MultiStateView
 import co.yap.widgets.State
 import co.yap.widgets.Status
-import co.yap.yapcore.dagger.base.BaseViewModelFragment
 import co.yap.yapcore.dagger.base.navigation.BaseNavViewModelFragment
-import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.transactions.TransactionsAdapter
 import co.yap.yapcore.transactions.interfaces.LoadMoreListener
 import kotlinx.android.synthetic.main.fragment_household_home.*
-import javax.inject.Inject
 
 
 class HouseholdHomeFragment :
@@ -35,8 +32,17 @@ class HouseholdHomeFragment :
         viewModel.stateLiveData?.observe(
             this,
             Observer { if (it.status != Status.IDEAL) handleState(it) })
+        viewModel.clickEvent.observe(this, clickEvent)
+        viewModel.state.progress.observe(this, Observer {
+            if (viewModel.state.progress.value!! < 100.00) {
+                selectorGroup.check(R.id.firstIndicator)
+            } else {
+                selectorGroup.check(R.id.secondIndicator)
+            }
+        })
     }
 
+    val clickEvent = Observer<Int> {}
     private val adaptorClickListener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
         }

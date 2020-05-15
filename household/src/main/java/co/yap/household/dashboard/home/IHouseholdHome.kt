@@ -28,5 +28,6 @@ interface IHouseholdHome {
 
     interface State : IBase.State {
         val transactionList: ObservableField<MutableList<HomeTransactionListData>>
+        var progress:MutableLiveData<Int>
     }
 }
