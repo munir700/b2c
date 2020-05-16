@@ -47,8 +47,7 @@ class PhoneVerificationSignInFragment :
         viewModel.getAccountInfo()
 
     }
-    private val onFetchAccountInfo = Observer<AccountInfo>
-    {
+    private val onFetchAccountInfo = Observer<AccountInfo> {
         it?.run {
             if (accountType == AccountType.B2C_HOUSEHOLD.name) {
                 val bundle = Bundle()
@@ -58,12 +57,8 @@ class PhoneVerificationSignInFragment :
                 startActivity(OnBoardingHouseHoldActivity.getIntent(requireContext(), bundle))
                 activity?.finish()
             } else {
-                if (BiometricUtil.isFingerprintSupported
-                    && BiometricUtil.isHardwareSupported(requireActivity())
-                    && BiometricUtil.isPermissionGranted(requireActivity())
-                    && BiometricUtil.isFingerprintAvailable(requireActivity())
+                if (BiometricUtil.hasBioMetricFeature(requireActivity())
                 ) {
-                    SharedPreferenceManager(requireContext())
                     if (SharedPreferenceManager(requireContext()).getValueBoolien(
                             co.yap.yapcore.constants.Constants.KEY_TOUCH_ID_ENABLED,
                             false
