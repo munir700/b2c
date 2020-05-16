@@ -477,7 +477,12 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                 }
             }
             NotificationAction.HELP_AND_SUPPORT -> {
-
+                startActivity(
+                    FragmentPresenterActivity.getIntent(
+                        requireContext(),
+                        Constants.MODE_HELP_SUPPORT, null
+                    )
+                )
             }
         }
     }

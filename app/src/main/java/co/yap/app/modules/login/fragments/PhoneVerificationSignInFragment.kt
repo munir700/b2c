@@ -64,7 +64,11 @@ class PhoneVerificationSignInFragment :
                             false
                         )
                     ) {
-                        findNavController().navigate(R.id.action_goto_yapDashboardActivity)
+                        if (it.otpBlocked == true)
+                            startFragment(fragmentName = OtpBlockedInfoFragment::class.java.name)
+                        else
+                            findNavController().navigate(R.id.action_goto_yapDashboardActivity)
+
                         activity?.finish()
                     } else {
                         val action =
@@ -75,7 +79,7 @@ class PhoneVerificationSignInFragment :
                     }
 
                 } else {
-                    if (otpBlocked == true)
+                    if (it.otpBlocked == true)
                         startFragment(fragmentName = OtpBlockedInfoFragment::class.java.name)
                     else
                         findNavController().navigate(R.id.action_goto_yapDashboardActivity)
