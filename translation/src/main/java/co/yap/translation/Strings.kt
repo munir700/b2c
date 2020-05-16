@@ -27,8 +27,12 @@ object Strings {
         "common_display_text_daily_limit_error_multiple_transactions"
     const val common_display_text_available_balance_error: String =
         "common_display_text_available_balance_error"
+    const val sm_common_display_text_available_balance_error: String =
+        "sm_common_display_text_available_balance_error"
     const val common_display_text_min_max_limit_error_transaction: String =
         "common_display_text_min_max_limit_error_transaction"
+    const val sm_display_text_min_max_limit_error_transaction: String =
+        "sm_display_text_min_max_limit_error_transaction"
     const val common_display_text_daily_limit_error: String =
         "common_display_text_daily_limit_error"
 
@@ -906,6 +910,12 @@ object Strings {
         "screen_add_note_display_text_type_something"
     const val screen_add_note_display_text_save: String =
         "screen_add_note_display_text_save"
+    const val screen_transaction_details_display_text_transfer_amount: String =
+        "screen_transaction_details_display_text_transfer_amount"
+    const val screen_transaction_details_display_text_exchange_rate: String =
+        "screen_transaction_details_display_text_exchange_rate"
+    const val screen_transaction_details_display_text_exchange_rate_value: String =
+        "screen_transaction_details_display_text_exchange_rate_value"
 
 
     //     Send Money no contacts Screen

@@ -301,11 +301,12 @@ class CashTransferViewModel(application: Application) :
     }
 
     fun trxWillHold(): Boolean {
-       // todo: cuttoff time , uaefts , AED , cbwsi , bank cbwsi complaintent ,less than equal to 10000
+       // todo: cuttoff time , uaefts , AED , cbwsi , bank cbwsi complaintent ,less than equal to cbwsi limit
         return if (!isOnlyUAEFTS()) return false else
             parentViewModel?.selectedPop?.let { pop ->
                 return (when {
-                    parentViewModel?.beneficiary?.value?.cbwsicompliant == true && pop.cbwsi == true -> state.amount.parseToDouble() > parentViewModel?.transactionThreshold?.value?.cbwsiPaymentLimit ?: 0.0
+                    parentViewModel?.beneficiary?.value?.cbwsicompliant == true &&
+                            pop.cbwsi == true -> state.amount.parseToDouble() > parentViewModel?.transactionThreshold?.value?.cbwsiPaymentLimit ?: 0.0
                     else -> false
                 })
 

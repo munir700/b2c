@@ -38,13 +38,14 @@ class InternationalTransactionConfirmationViewModel(application: Application) :
                 when (val response =
                     mTransactionsRepository.rmtTransferRequest(
                         SendMoneyTransferRequest(
-                            amount = it.sourceAmount?.toDouble(),
-                            currency = it.sourceCurrency,
+                            amount = it.destinationAmount?.toDouble(),
+                            currency = it.destinationCurrency,
                             purposeCode = parentViewModel?.selectedPop?.purposeCode,
                             beneficiaryId = parentViewModel?.beneficiary?.value?.id,
                             remarks = if (it.noteValue.isNullOrBlank()) null else it.noteValue,
                             purposeReason = parentViewModel?.selectedPop?.purposeDescription,
-                            settlementAmount = it.destinationAmount.parseToDouble()
+                            settlementAmount = it.sourceAmount.parseToDouble(),
+                            fxRate = it.rate
                         )
                     )
                     ) {
@@ -70,9 +71,9 @@ class InternationalTransactionConfirmationViewModel(application: Application) :
                     mTransactionsRepository.swiftTransferRequest(
                         SendMoneyTransferRequest(
                             beneficiaryId = beneficiaryId?.toInt(),
-                            amount = it.sourceAmount?.toDouble(),
-                            currency = it.sourceCurrency,
-                            settlementAmount = it.destinationAmount.parseToDouble(),
+                            amount = it.destinationAmount?.toDouble(),
+                            currency = it.destinationCurrency,
+                            settlementAmount = it.sourceAmount.parseToDouble(),
                             purposeCode = parentViewModel?.selectedPop?.purposeCode,
                             purposeReason = parentViewModel?.selectedPop?.purposeDescription,
                             remarks = if (it.noteValue.isNullOrBlank()) null else it.noteValue,

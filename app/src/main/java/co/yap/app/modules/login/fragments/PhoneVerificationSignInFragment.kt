@@ -47,8 +47,7 @@ class PhoneVerificationSignInFragment :
         viewModel.getAccountInfo()
 
     }
-    private val onFetchAccountInfo = Observer<AccountInfo>
-    {
+    private val onFetchAccountInfo = Observer<AccountInfo> {
         it?.run {
             if (accountType == AccountType.B2C_HOUSEHOLD.name) {
                 val bundle = Bundle()
@@ -58,18 +57,18 @@ class PhoneVerificationSignInFragment :
                 startActivity(OnBoardingHouseHoldActivity.getIntent(requireContext(), bundle))
                 activity?.finish()
             } else {
-                if (BiometricUtil.isFingerprintSupported
-                    && BiometricUtil.isHardwareSupported(requireActivity())
-                    && BiometricUtil.isPermissionGranted(requireActivity())
-                    && BiometricUtil.isFingerprintAvailable(requireActivity())
+                if (BiometricUtil.hasBioMetricFeature(requireActivity())
                 ) {
-                    SharedPreferenceManager(requireContext())
                     if (SharedPreferenceManager(requireContext()).getValueBoolien(
                             co.yap.yapcore.constants.Constants.KEY_TOUCH_ID_ENABLED,
                             false
                         )
                     ) {
-                        findNavController().navigate(R.id.action_goto_yapDashboardActivity)
+                        if (it.otpBlocked == true)
+                            startFragment(fragmentName = OtpBlockedInfoFragment::class.java.name)
+                        else
+                            findNavController().navigate(R.id.action_goto_yapDashboardActivity)
+
                         activity?.finish()
                     } else {
                         val action =
@@ -80,7 +79,7 @@ class PhoneVerificationSignInFragment :
                     }
 
                 } else {
-                    if (otpBlocked == true)
+                    if (it.otpBlocked == true)
                         startFragment(fragmentName = OtpBlockedInfoFragment::class.java.name)
                     else
                         findNavController().navigate(R.id.action_goto_yapDashboardActivity)

@@ -9,9 +9,10 @@ import co.yap.R
 import co.yap.databinding.ItemEmptyBinding
 import co.yap.databinding.ItemTransactionListHeaderBinding
 import co.yap.modules.dashboard.home.helpers.transaction.ItemHeaderTransactionsViewModel
-import co.yap.networking.transactions.responsedtos.transaction.Transaction
 import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionListData
+import co.yap.networking.transactions.responsedtos.transaction.Transaction
 import co.yap.yapcore.BaseBindingRecyclerAdapter
+import co.yap.yapcore.enums.TransactionProductCode
 import co.yap.yapcore.enums.TxnType
 import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 import co.yap.yapcore.interfaces.OnItemClickListener
@@ -89,8 +90,18 @@ class TransactionsHeaderAdapter(
 
             var total = 0.0
             homeTransaction.transaction.map {
-                if (it.txnType == TxnType.DEBIT.type) total -= (it.totalAmount
-                    ?: 0.0) else total += (it.amount ?: 0.0)
+                when (it.productCode) {
+                    TransactionProductCode.RMT.pCode, TransactionProductCode.SWIFT.pCode -> {
+                        if (it.txnType == TxnType.DEBIT.type) {
+                            val totalFee = it.postedFees?.plus(it.vatAmount ?: 0.0) ?: 0.0
+                            total -= (it.settlementAmount?.plus(totalFee) ?: 0.0)
+                        } else total += (it.settlementAmount ?: 0.0)
+                    }
+                    else -> {
+                        if (it.txnType == TxnType.DEBIT.type) total -= (it.totalAmount
+                            ?: 0.0) else total += (it.amount ?: 0.0)
+                    }
+                }
             }
 
             var value: String
