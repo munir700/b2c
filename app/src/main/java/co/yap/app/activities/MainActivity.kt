@@ -16,6 +16,12 @@ import co.yap.yapcore.interfaces.IBaseNavigator
 
 open class MainActivity : DefaultActivity(), IFragmentHolder, INavigator {
 
+    private external fun signatureKeysFromJNI(): String
+
+    init {
+        System.loadLibrary("native-lib")
+    }
+
     override val navigator: IBaseNavigator
         get() = DefaultNavigator(
             this@MainActivity,
@@ -26,6 +32,7 @@ open class MainActivity : DefaultActivity(), IFragmentHolder, INavigator {
         super.onCreate(savedInstanceState)
         YAPApplication.AUTO_RESTART_APP = false
         setContentView(R.layout.activity_main)
+        showToast(signatureKeysFromJNI())
 
         val originalSign = AppSignature(
             sha1 = "BE:61:41:5C:04:34:DE:D8:45:6E:C0:09:E0:95:DF:E4:49:80:A7:F6",
