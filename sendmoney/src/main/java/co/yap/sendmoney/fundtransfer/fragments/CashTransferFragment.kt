@@ -176,6 +176,7 @@ class CashTransferFragment : BeneficiaryFundTransferBaseFragment<ICashTransfer.V
         viewModel.parentViewModel?.transferData?.value?.transferAmount = viewModel.state.amount
         viewModel.parentViewModel?.transferData?.value?.noteValue = viewModel.state.noteValue
         viewModel.parentViewModel?.transferData?.value?.sourceCurrency = "AED"
+        viewModel.parentViewModel?.transferData?.value?.destinationCurrency = "AED"
         viewModel.parentViewModel?.transferData?.value?.feeAmount =
             if (viewModel.shouldFeeApply()) viewModel.feeAmount else "0.0"
         viewModel.parentViewModel?.transferData?.value?.vat =
