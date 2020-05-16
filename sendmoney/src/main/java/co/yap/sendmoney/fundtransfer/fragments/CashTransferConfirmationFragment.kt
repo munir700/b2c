@@ -19,10 +19,10 @@ import co.yap.modules.otp.GenericOtpFragment
 import co.yap.modules.otp.LogoData
 import co.yap.modules.otp.OtpDataModel
 import co.yap.modules.webview.WebViewFragment
-import co.yap.sendmoney.fundtransfer.interfaces.ICashTransferConfirmation
-import co.yap.sendmoney.fundtransfer.viewmodels.CashTransferConfirmationViewModel
 import co.yap.sendmoney.R
 import co.yap.sendmoney.databinding.FragmentCashTransferConfirmationBinding
+import co.yap.sendmoney.fundtransfer.interfaces.ICashTransferConfirmation
+import co.yap.sendmoney.fundtransfer.viewmodels.CashTransferConfirmationViewModel
 import co.yap.translation.Strings
 import co.yap.yapcore.BR
 import co.yap.yapcore.constants.Constants
@@ -154,8 +154,15 @@ class CashTransferConfirmationFragment :
         viewModel.parentViewModel?.transactionThreshold?.value?.let {
             it.totalDebitAmountRemittance?.let { totalSMConsumedAmount ->
                 viewModel.parentViewModel?.transferData?.value?.transferAmount?.toDoubleOrNull()?.let { enteredAmount ->
-                    val remainingOtpLimit = it.otpLimit?.minus(totalSMConsumedAmount)
-                    return enteredAmount > (remainingOtpLimit ?: 0.0)
+                    return if (viewModel.parentViewModel?.transactionWillHold == true) {
+                        val totalHoldAmount =
+                            (it.holdSwiftAmount ?: 0.0).plus(it.holdUAEFTSAmount ?: 0.0)
+                        val remainingOtpLimit = it.otpLimit?.minus(totalHoldAmount)
+                        enteredAmount > (remainingOtpLimit ?: 0.0)
+                    } else {
+                        val remainingOtpLimit = it.otpLimit?.minus(totalSMConsumedAmount)
+                        enteredAmount > (remainingOtpLimit ?: 0.0)
+                    }
                 } ?: return false
             } ?: return false
         } ?: return false
