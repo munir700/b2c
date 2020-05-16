@@ -295,6 +295,7 @@ class InternationalFundsTransferFragment :
 
 
     private fun checkOnTextChangeValidation() {
+        //todo: Min and max limit check required
         if (isBalanceAvailable()) {
             if (isDailyLimitReached()) {
                 showLimitError()
