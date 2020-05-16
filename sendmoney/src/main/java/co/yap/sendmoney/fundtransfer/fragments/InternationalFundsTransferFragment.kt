@@ -192,7 +192,7 @@ class InternationalFundsTransferFragment :
     private fun showBalanceNotAvailableError() {
         val des = Translator.getString(
             requireContext(),
-            Strings.common_display_text_available_balance_error
+            Strings.sm_common_display_text_available_balance_error
         ).format(MyUserManager.cardBalance.value?.availableBalance?.toFormattedAmountWithCurrency())
         if (activity is BeneficiaryFundTransferActivity) {
             (activity as BeneficiaryFundTransferActivity).viewModel.errorEvent.value =
