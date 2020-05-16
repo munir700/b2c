@@ -322,7 +322,10 @@ class CashTransferFragment : BeneficiaryFundTransferBaseFragment<ICashTransfer.V
             viewModel.state.clearError()
             if (viewModel.state.amount.isNotEmpty()) {
                 checkOnTextChangeValidation()
+            } else {
+                cancelAllSnackBar()
             }
+
             viewModel.updateFees()
         }
     }

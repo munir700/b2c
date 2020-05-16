@@ -106,7 +106,7 @@ class InternationalTransactionConfirmationViewModel(application: Application) :
         parentViewModel?.transactionThreshold?.value?.let {
             it.totalDebitAmountRemittance?.let { totalSMConsumedAmount ->
                 parentViewModel?.transferData?.value?.sourceAmount?.toDoubleOrNull()?.let { enteredAmount ->
-                    return if (parentViewModel?.transactionWillHold == true) {
+                    return if (parentViewModel?.transactionWillHold == true && parentViewModel?.beneficiary?.value?.beneficiaryType == SendMoneyBeneficiaryType.SWIFT.type) {
                         val totalHoldAmount =
                             (it.holdSwiftAmount ?: 0.0).plus(it.holdUAEFTSAmount ?: 0.0)
                         val remainingOtpLimit = it.otpLimit?.minus(totalHoldAmount)
