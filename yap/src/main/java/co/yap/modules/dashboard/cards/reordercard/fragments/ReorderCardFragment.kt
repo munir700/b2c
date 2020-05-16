@@ -10,6 +10,7 @@ import androidx.navigation.fragment.findNavController
 import co.yap.R
 import co.yap.modules.dashboard.cards.reordercard.interfaces.IRenewCard
 import co.yap.modules.dashboard.cards.reordercard.viewmodels.RenewCardViewModel
+import co.yap.modules.dashboard.yapit.topup.cardslisting.TopUpBeneficiariesActivity
 import co.yap.modules.location.activities.LocationSelectionActivity
 import co.yap.networking.cards.responsedtos.Address
 import co.yap.translation.Translator
@@ -103,7 +104,11 @@ class ReorderCardFragment : ReorderCardBaseFragment<IRenewCard.ViewModel>(), IRe
                     override fun onItemClick(view: View, data: Any, pos: Int) {
                         if (data is Boolean) {
                             if (data) {
-                                activity?.let { it.finish() }
+                                startActivityForResult(
+                                    TopUpBeneficiariesActivity.newIntent(requireContext()),
+                                    RequestCodes.REQUEST_SHOW_BENEFICIARY
+                                )
+                                //activity?.let { it.finish() }
                             } else {
                                 activity?.let { it.finish() }
                             }
@@ -131,6 +136,9 @@ class ReorderCardFragment : ReorderCardBaseFragment<IRenewCard.ViewModel>(), IRe
                         viewModel.address = it
                         setLocationCardStates()
                     }
+                }
+                RequestCodes.REQUEST_SHOW_BENEFICIARY -> {
+                    activity?.recreate()
                 }
             }
         }
