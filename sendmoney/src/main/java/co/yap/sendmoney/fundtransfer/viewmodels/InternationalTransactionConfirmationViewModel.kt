@@ -107,8 +107,15 @@ class InternationalTransactionConfirmationViewModel(application: Application) :
         parentViewModel?.transactionThreshold?.value?.let {
             it.totalDebitAmountRemittance?.let { totalSMConsumedAmount ->
                 parentViewModel?.transferData?.value?.sourceAmount?.toDoubleOrNull()?.let { enteredAmount ->
-                    val remainingOtpLimit = it.otpLimit?.minus(totalSMConsumedAmount)
-                    return enteredAmount > (remainingOtpLimit ?: 0.0)
+                    return if (parentViewModel?.transactionWillHold == true && parentViewModel?.beneficiary?.value?.beneficiaryType == SendMoneyBeneficiaryType.SWIFT.type) {
+                        val totalHoldAmount =
+                            (it.holdSwiftAmount ?: 0.0).plus(it.holdUAEFTSAmount ?: 0.0)
+                        val remainingOtpLimit = it.otpLimit?.minus(totalHoldAmount)
+                        enteredAmount > (remainingOtpLimit ?: 0.0)
+                    } else {
+                        val remainingOtpLimit = it.otpLimit?.minus(totalSMConsumedAmount)
+                        enteredAmount > (remainingOtpLimit ?: 0.0)
+                    }
                 } ?: return false
             } ?: return false
         } ?: return false
@@ -156,6 +163,7 @@ class InternationalTransactionConfirmationViewModel(application: Application) :
                                     is RetroApiResponse.Success -> {
                                         response.data.data?.let {
                                             state.cutOffTimeMsg = it.errorMsg
+                                            parentViewModel?.transactionWillHold = true
                                         }
 
                                     }

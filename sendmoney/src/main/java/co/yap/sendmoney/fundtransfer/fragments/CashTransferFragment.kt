@@ -17,11 +17,11 @@ import co.yap.modules.otp.OtpDataModel
 import co.yap.networking.transactions.requestdtos.RemittanceFeeRequest
 import co.yap.networking.transactions.responsedtos.purposepayment.PurposeOfPayment
 import co.yap.sendmoney.PopListBottomSheet
+import co.yap.sendmoney.R
+import co.yap.sendmoney.databinding.FragmentCashTransferBinding
 import co.yap.sendmoney.fundtransfer.activities.BeneficiaryFundTransferActivity
 import co.yap.sendmoney.fundtransfer.interfaces.ICashTransfer
 import co.yap.sendmoney.fundtransfer.viewmodels.CashTransferViewModel
-import co.yap.sendmoney.R
-import co.yap.sendmoney.databinding.FragmentCashTransferBinding
 import co.yap.translation.Strings
 import co.yap.translation.Translator
 import co.yap.yapcore.BR
@@ -102,7 +102,6 @@ class CashTransferFragment : BeneficiaryFundTransferBaseFragment<ICashTransfer.V
                     ?: "0.00"
             )
         )
-
     }
 
     private fun setupPOP(purposeCategories: Map<String?, List<PurposeOfPayment>>?) {
@@ -324,7 +323,10 @@ class CashTransferFragment : BeneficiaryFundTransferBaseFragment<ICashTransfer.V
             viewModel.state.clearError()
             if (viewModel.state.amount.isNotEmpty()) {
                 checkOnTextChangeValidation()
+            } else {
+                cancelAllSnackBar()
             }
+
             viewModel.updateFees()
         }
     }

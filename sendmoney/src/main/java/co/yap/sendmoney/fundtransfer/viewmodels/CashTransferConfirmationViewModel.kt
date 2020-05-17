@@ -63,6 +63,7 @@ class CashTransferConfirmationViewModel(application: Application) :
                     response.data.data?.let {
                         state.cutOffTimeMsg.set(it.errorMsg)
                         parentViewModel?.transferData?.value?.cutOffTimeMsg = it.errorMsg
+                        parentViewModel?.transactionWillHold = true
                     }
                     state.loading = false
                 }
