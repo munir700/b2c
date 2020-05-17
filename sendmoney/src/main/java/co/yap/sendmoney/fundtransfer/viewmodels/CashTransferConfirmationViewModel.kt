@@ -55,7 +55,8 @@ class CashTransferConfirmationViewModel(application: Application) :
                     productCode = getProductCode(),
                     currency = "AED",
                     amount = parentViewModel?.transferData?.value?.transferAmount,
-                    isCbwsi = parentViewModel?.selectedPop?.cbwsi?:false
+                    isCbwsi = if (parentViewModel?.beneficiary?.value?.cbwsicompliant == true) parentViewModel?.selectedPop?.cbwsi
+                        ?: false else parentViewModel?.beneficiary?.value?.cbwsicompliant
                 )) {
                 is RetroApiResponse.Success -> {
                     parentViewModel?.transferData?.value?.cutOffTimeMsg = null
