@@ -4,9 +4,9 @@ import android.app.Application
 import android.view.inputmethod.EditorInfo
 import android.widget.TextView
 import androidx.lifecycle.MutableLiveData
+import co.yap.app.main.MainChildViewModel
 import co.yap.app.modules.login.interfaces.ILogin
 import co.yap.app.modules.login.states.LoginState
-import co.yap.modules.onboarding.viewmodels.OnboardingChildViewModel
 import co.yap.networking.authentication.AuthRepository
 import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.interfaces.IRepositoryHolder
@@ -17,7 +17,7 @@ import co.yap.yapcore.SingleLiveEvent
 import co.yap.yapcore.helpers.Utils
 
 class LoginViewModel(application: Application) :
-    OnboardingChildViewModel<ILogin.State>(application),
+    MainChildViewModel<ILogin.State>(application),
     ILogin.ViewModel,
     IRepositoryHolder<AuthRepository> {
 

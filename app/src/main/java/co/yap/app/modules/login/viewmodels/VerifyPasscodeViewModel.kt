@@ -3,6 +3,7 @@ package co.yap.app.modules.login.viewmodels
 import android.app.Application
 import android.os.CountDownTimer
 import androidx.lifecycle.MutableLiveData
+import co.yap.app.main.MainChildViewModel
 import co.yap.app.modules.login.interfaces.IVerifyPasscode
 import co.yap.app.modules.login.states.VerifyPasscodeState
 import co.yap.modules.onboarding.viewmodels.OnboardingChildViewModel
@@ -25,7 +26,7 @@ import co.yap.yapcore.managers.MyUserManager
 import java.util.concurrent.TimeUnit
 
 class VerifyPasscodeViewModel(application: Application) :
-    OnboardingChildViewModel<IVerifyPasscode.State>(application),
+    MainChildViewModel<IVerifyPasscode.State>(application),
     IVerifyPasscode.ViewModel, IRepositoryHolder<AuthRepository> {
 
     override val repository: AuthRepository = AuthRepository
@@ -108,14 +109,14 @@ class VerifyPasscodeViewModel(application: Application) :
                 is RetroApiResponse.Success -> {
                     if (!response.data.accessToken.isNullOrBlank()) {
                         authRepository.setJwtToken(response.data.accessToken)
-                        parentViewModel?.signingInData?.clientId = state.username
-                        parentViewModel?.signingInData?.clientSecret = state.passcode
-                        parentViewModel?.signingInData?.deviceID = state.deviceId
-                        parentViewModel?.signingInData?.token = response.data.id_token
                         validateDeviceResult.postValue(true)
                     } else {
                         validateDeviceResult.postValue(false)
                     }
+                    parentViewModel?.signingInData?.clientId = state.username
+                    parentViewModel?.signingInData?.clientSecret = state.passcode
+                    parentViewModel?.signingInData?.deviceID = state.deviceId
+                    parentViewModel?.signingInData?.token = response.data.id_token
                 }
                 is RetroApiResponse.Error -> {
                     state.toast = "${response.error.message}^${AlertType.DIALOG.name}"

@@ -1,6 +1,6 @@
 package co.yap.app.di.component;
 
-import co.yap.app.activities.MainActivity;
+import co.yap.app.main.MainActivity;
 import co.yap.app.di.CustomScope;
 import co.yap.app.di.module.ActivityModule;
 import dagger.Component;
