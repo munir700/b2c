@@ -6,17 +6,18 @@ import android.widget.TextView
 import androidx.lifecycle.MutableLiveData
 import co.yap.app.modules.login.interfaces.ILogin
 import co.yap.app.modules.login.states.LoginState
+import co.yap.modules.onboarding.viewmodels.OnboardingChildViewModel
 import co.yap.networking.authentication.AuthRepository
 import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.ApiError
 import co.yap.networking.models.RetroApiResponse
 import co.yap.translation.Strings
-import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleLiveEvent
 import co.yap.yapcore.helpers.Utils
 
-class LoginViewModel(application: Application) : BaseViewModel<ILogin.State>(application),
+class LoginViewModel(application: Application) :
+    OnboardingChildViewModel<ILogin.State>(application),
     ILogin.ViewModel,
     IRepositoryHolder<AuthRepository> {
 
@@ -35,6 +36,7 @@ class LoginViewModel(application: Application) : BaseViewModel<ILogin.State>(app
     override fun handlePressOnSignUp() {
         signUpButtonPressEvent.value = true
     }
+
     override fun onEditorActionListener(): TextView.OnEditorActionListener {
         return TextView.OnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
@@ -50,17 +52,19 @@ class LoginViewModel(application: Application) : BaseViewModel<ILogin.State>(app
             when (val response = customersRepository.verifyUsername(state.twoWayTextWatcher)) {
                 is RetroApiResponse.Success -> {
                     if (response.data.data) {
+                        parentViewModel?.signingInData?.clientId = state.twoWayTextWatcher
                         signInButtonPressEvent.postValue(true)
                     } else {
                         state.emailError.value =
                             getString(Strings.screen_sign_in_display_text_error_text)
                     }
+                    state.loading = false
                 }
                 is RetroApiResponse.Error -> {
                     handleBlockedAccountError(response.error)
+                    state.loading = false
                 }
             }
-            state.loading = false
         }
     }
 

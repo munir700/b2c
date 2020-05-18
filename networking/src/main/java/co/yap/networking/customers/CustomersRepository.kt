@@ -26,6 +26,7 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     const val URL_SIGN_UP = "/customers/api/profile"
     const val URL_SEND_VERIFICATION_EMAIL = "/customers/api/sign-up/email"
     const val URL_ACCOUNT_INFO = "/customers/api/accounts"
+    const val URL_POST_DEMOGRAPHIC_DATA_SIGN_IN = "/customers/api/demographics/device-login"
     const val URL_POST_DEMOGRAPHIC_DATA = "/customers/api/demographics/"
     const val URL_VALIDATE_DEMOGRAPHIC_DATA =
         "customers/api/demographics/validate/user-device/{device_id}"
@@ -126,6 +127,12 @@ object CustomersRepository : BaseRepository(), CustomersApi {
 
     override suspend fun getAccountInfo(): RetroApiResponse<AccountInfoResponse> =
         executeSafely(call = { api.getAccountInfo() })
+
+    override suspend fun generateOTPForDeviceVerification(demographicDataRequest: DemographicDataRequest): RetroApiResponse<ApiResponse> =
+        executeSafely(call = { api.generateOTPForDeviceVerification(demographicDataRequest) })
+
+    override suspend fun verifyOTPForDeviceVerification(demographicDataRequest: DemographicDataRequest): RetroApiResponse<OtpValidationResponse> =
+        executeSafely(call = { api.verifyOTPForDeviceVerification(demographicDataRequest) })
 
     override suspend fun postDemographicData(demographicDataRequest: DemographicDataRequest): RetroApiResponse<ApiResponse> =
         executeSafely(call = { api.postDemographicData(demographicDataRequest) })

@@ -47,12 +47,4 @@
             app:exitAnim="@anim/slide_out_left" />
     </fragment>
 
-
-    <fragment
-        android:id="@+id/dialerFragment"
-        android:name="co.yap.household.onboard.onboarding.fragments.TempDialerFragment"
-        android:label="Congratulations Fragment">
-
-    </fragment>
-
 </navigation>

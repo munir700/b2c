@@ -31,7 +31,6 @@ class PhoneVerificationSignInFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.state.reverseTimer(10, requireContext())
-        viewModel.verifyOtpResult.observe(this, verifyOtpResultObserver)
         viewModel.postDemographicDataResult.observe(this, postDemographicDataObserver)
         viewModel.accountInfo.observe(this, onFetchAccountInfo)
 
@@ -39,9 +38,6 @@ class PhoneVerificationSignInFragment :
         setPasscode()
     }
 
-    private val verifyOtpResultObserver = Observer<Boolean> {
-        viewModel.postDemographicData()
-    }
 
     private val postDemographicDataObserver = Observer<Boolean> {
         viewModel.getAccountInfo()

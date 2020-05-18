@@ -18,14 +18,18 @@ interface AuthRetroService {
     suspend fun refreshJWTToken(@Query("grant_type") grantType: String, @Query("id_token") token: String): Response<LoginResponse>
 
     @POST(AuthRepository.URL_GET_JWT_TOKEN)
-    suspend fun login(@Query("grant_type") grantType: String, @Query("client_id") username: String, @Query("client_secret") password: String): Response<LoginResponse>
+    suspend fun login(
+        @Query("grant_type") grantType: String, @Query("client_id") username: String, @Query(
+            "client_secret"
+        ) password: String, @Query("device_id") device_id: String
+    ): Response<LoginResponse>
 
     // Logout
     @POST(AuthRepository.URL_LOGOUT)
     suspend fun logout(@Query("uuid") uuid: String): Response<ApiResponse>
 
     //getJwtToken
-    suspend fun getJwtToken():String?
+    suspend fun getJwtToken(): String?
 
     //setJwtToken
     suspend fun setJwtToken(token: String?)

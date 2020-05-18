@@ -18,6 +18,7 @@ import co.yap.app.modules.login.interfaces.IVerifyPasscode
 import co.yap.app.modules.login.viewmodels.VerifyPasscodeViewModel
 import co.yap.household.onboard.onboarding.main.OnBoardingHouseHoldActivity
 import co.yap.modules.onboarding.enums.AccountType
+import co.yap.modules.onboarding.fragments.OnboardingChildFragment
 import co.yap.modules.others.helper.Constants.REQUEST_CODE
 import co.yap.modules.otp.GenericOtpFragment
 import co.yap.modules.otp.OtpDataModel
@@ -41,7 +42,7 @@ import co.yap.yapcore.helpers.extentions.*
 import co.yap.yapcore.managers.MyUserManager
 import kotlinx.android.synthetic.main.fragment_verify_passcode.*
 
-class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(), BiometricCallback,
+class VerifyPasscodeFragment : OnboardingChildFragment<IVerifyPasscode.ViewModel>(), BiometricCallback,
     IVerifyPasscode.View {
 
     private lateinit var sharedPreferenceManager: SharedPreferenceManager
@@ -195,7 +196,7 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
                         VerifyPasscodeFragmentDirections.actionVerifyPasscodeFragmentToForgotPasscodeNavigation(
                             viewModel.mobileNumber,
                             it
-                    )
+                        )
                     findNavController().navigate(action)
                 }
             }
@@ -260,7 +261,6 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
         }
     }
 
-
     private fun updateName() {
         if (isUserLoginIn()) {
             viewModel.state.username = MyUserManager.user?.currentCustomer?.email ?: ""
@@ -278,8 +278,6 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
             } else {
                 if ((VerifyPassCodeEnum.valueOf(viewModel.state.verifyPassCodeEnum) == VerifyPassCodeEnum.VERIFY)) {
                     navigateToDashboard()
-                } else {
-                    viewModel.validateDevice()
                 }
             }
         } else {
