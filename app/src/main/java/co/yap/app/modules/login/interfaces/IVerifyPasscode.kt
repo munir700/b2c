@@ -16,6 +16,7 @@ interface IVerifyPasscode {
         fun handlePressOnPressView(id: Int)
         fun login()
         fun createOtp()
+        fun createForgotPassCodeOtp(success:()->Unit)
         fun getAccountInfo()
         fun verifyPasscode()
         fun showAccountBlockedError(errorMessage: String)

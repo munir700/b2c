@@ -66,6 +66,7 @@ class OtpBlockedInfoFragment : BaseBindingFragment<IOtpBlockedInfo.ViewModel>(),
 
     private fun chatSetup() {
         viewModel.state.loading = true
+        viewModel.getJwtToken()
         LivePerson.initialize(
             requireContext(),
             InitLivePersonProperties(
