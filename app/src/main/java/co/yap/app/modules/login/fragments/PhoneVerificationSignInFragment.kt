@@ -8,18 +8,18 @@ import androidx.navigation.fragment.findNavController
 import co.yap.BR
 import co.yap.app.R
 import co.yap.app.constants.Constants
+import co.yap.app.main.MainChildFragment
 import co.yap.app.modules.login.interfaces.IPhoneVerificationSignIn
 import co.yap.app.modules.login.viewmodels.PhoneVerificationSignInViewModel
 import co.yap.household.onboard.onboarding.main.OnBoardingHouseHoldActivity
 import co.yap.modules.onboarding.enums.AccountType
-import co.yap.modules.onboarding.fragments.OnboardingChildFragment
 import co.yap.networking.customers.responsedtos.AccountInfo
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.biometric.BiometricUtil
 import co.yap.yapcore.helpers.extentions.startFragment
 
 class PhoneVerificationSignInFragment :
-    OnboardingChildFragment<IPhoneVerificationSignIn.ViewModel>() {
+    MainChildFragment<IPhoneVerificationSignIn.ViewModel>() {
 
     override fun getBindingVariable(): Int = BR.viewModel
 
@@ -31,7 +31,6 @@ class PhoneVerificationSignInFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.state.reverseTimer(10, requireContext())
-        viewModel.verifyOtpResult.observe(this, verifyOtpResultObserver)
         viewModel.postDemographicDataResult.observe(this, postDemographicDataObserver)
         viewModel.accountInfo.observe(this, onFetchAccountInfo)
 
@@ -39,16 +38,11 @@ class PhoneVerificationSignInFragment :
         setPasscode()
     }
 
-    private val verifyOtpResultObserver = Observer<Boolean> {
-        viewModel.postDemographicData()
-    }
-
     private val postDemographicDataObserver = Observer<Boolean> {
         viewModel.getAccountInfo()
 
     }
-    private val onFetchAccountInfo = Observer<AccountInfo>
-    {
+    private val onFetchAccountInfo = Observer<AccountInfo> {
         it?.run {
             if (accountType == AccountType.B2C_HOUSEHOLD.name) {
                 val bundle = Bundle()
@@ -58,18 +52,18 @@ class PhoneVerificationSignInFragment :
                 startActivity(OnBoardingHouseHoldActivity.getIntent(requireContext(), bundle))
                 activity?.finish()
             } else {
-                if (BiometricUtil.isFingerprintSupported
-                    && BiometricUtil.isHardwareSupported(requireActivity())
-                    && BiometricUtil.isPermissionGranted(requireActivity())
-                    && BiometricUtil.isFingerprintAvailable(requireActivity())
+                if (BiometricUtil.hasBioMetricFeature(requireActivity())
                 ) {
-                    SharedPreferenceManager(requireContext())
                     if (SharedPreferenceManager(requireContext()).getValueBoolien(
                             co.yap.yapcore.constants.Constants.KEY_TOUCH_ID_ENABLED,
                             false
                         )
                     ) {
-                        findNavController().navigate(R.id.action_goto_yapDashboardActivity)
+                        if (it.otpBlocked == true)
+                            startFragment(fragmentName = OtpBlockedInfoFragment::class.java.name)
+                        else
+                            findNavController().navigate(R.id.action_goto_yapDashboardActivity)
+
                         activity?.finish()
                     } else {
                         val action =
@@ -80,7 +74,7 @@ class PhoneVerificationSignInFragment :
                     }
 
                 } else {
-                    if (otpBlocked == true)
+                    if (it.otpBlocked == true)
                         startFragment(fragmentName = OtpBlockedInfoFragment::class.java.name)
                     else
                         findNavController().navigate(R.id.action_goto_yapDashboardActivity)

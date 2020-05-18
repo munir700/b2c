@@ -8,23 +8,20 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import co.yap.app.BR
 import co.yap.app.R
+import co.yap.app.main.MainChildFragment
 import co.yap.app.modules.login.interfaces.ILogin
 import co.yap.app.modules.login.viewmodels.LoginViewModel
-import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.constants.Constants.KEY_IS_USER_LOGGED_IN
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import kotlinx.android.synthetic.main.fragment_log_in.*
 
-
-class LoginFragment : BaseBindingFragment<ILogin.ViewModel>(), ILogin.View {
+class LoginFragment : MainChildFragment<ILogin.ViewModel>(), ILogin.View {
 
     override fun getBindingVariable(): Int = BR.viewModel
-
     override fun getLayoutId(): Int = R.layout.fragment_log_in
 
     override val viewModel: LoginViewModel
         get() = ViewModelProviders.of(this).get(LoginViewModel::class.java)
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,10 +40,10 @@ class LoginFragment : BaseBindingFragment<ILogin.ViewModel>(), ILogin.View {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        if (!SharedPreferenceManager.getInstance(requireContext()).getValueBoolien(
+        if (viewModel.parentViewModel?.shardPrefs?.getValueBoolien(
                 KEY_IS_USER_LOGGED_IN,
                 false
-            )
+            ) == false
         ) {
             etEmailField.requestKeyboard()
         }
@@ -95,7 +92,6 @@ class LoginFragment : BaseBindingFragment<ILogin.ViewModel>(), ILogin.View {
             viewModel.state.twoWayTextWatcher = ""
         }
     }
-
 
     private val signUpButtonObserver = Observer<Boolean> {
         findNavController().navigate(R.id.action_loginFragment_to_accountSelectionFragment)

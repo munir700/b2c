@@ -17,11 +17,11 @@ import co.yap.modules.otp.OtpDataModel
 import co.yap.networking.transactions.requestdtos.RemittanceFeeRequest
 import co.yap.networking.transactions.responsedtos.purposepayment.PurposeOfPayment
 import co.yap.sendmoney.PopListBottomSheet
+import co.yap.sendmoney.R
+import co.yap.sendmoney.databinding.FragmentCashTransferBinding
 import co.yap.sendmoney.fundtransfer.activities.BeneficiaryFundTransferActivity
 import co.yap.sendmoney.fundtransfer.interfaces.ICashTransfer
 import co.yap.sendmoney.fundtransfer.viewmodels.CashTransferViewModel
-import co.yap.sendmoney.R
-import co.yap.sendmoney.databinding.FragmentCashTransferBinding
 import co.yap.translation.Strings
 import co.yap.translation.Translator
 import co.yap.yapcore.BR
@@ -102,7 +102,6 @@ class CashTransferFragment : BeneficiaryFundTransferBaseFragment<ICashTransfer.V
                     ?: "0.00"
             )
         )
-
     }
 
     private fun setupPOP(purposeCategories: Map<String?, List<PurposeOfPayment>>?) {
@@ -176,6 +175,7 @@ class CashTransferFragment : BeneficiaryFundTransferBaseFragment<ICashTransfer.V
         viewModel.parentViewModel?.transferData?.value?.transferAmount = viewModel.state.amount
         viewModel.parentViewModel?.transferData?.value?.noteValue = viewModel.state.noteValue
         viewModel.parentViewModel?.transferData?.value?.sourceCurrency = "AED"
+        viewModel.parentViewModel?.transferData?.value?.destinationCurrency = "AED"
         viewModel.parentViewModel?.transferData?.value?.feeAmount =
             if (viewModel.shouldFeeApply()) viewModel.feeAmount else "0.0"
         viewModel.parentViewModel?.transferData?.value?.vat =
@@ -189,7 +189,7 @@ class CashTransferFragment : BeneficiaryFundTransferBaseFragment<ICashTransfer.V
     private fun showBalanceNotAvailableError() {
         val des = Translator.getString(
             requireContext(),
-            Strings.common_display_text_available_balance_error
+            Strings.sm_common_display_text_available_balance_error
         ).format(MyUserManager.cardBalance.value?.availableBalance?.toFormattedAmountWithCurrency())
         viewModel.parentViewModel?.errorEvent?.value = des
     }
@@ -323,12 +323,16 @@ class CashTransferFragment : BeneficiaryFundTransferBaseFragment<ICashTransfer.V
             viewModel.state.clearError()
             if (viewModel.state.amount.isNotEmpty()) {
                 checkOnTextChangeValidation()
+            } else {
+                cancelAllSnackBar()
             }
+
             viewModel.updateFees()
         }
     }
 
     private fun checkOnTextChangeValidation() {
+        //todo: Min and max limit check required
         if (isBalanceAvailable()) {
             if (isDailyLimitReached()) {
                 showLimitError()

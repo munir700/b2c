@@ -36,6 +36,14 @@ interface CustomersRetroService {
     @PUT(CustomersRepository.URL_POST_DEMOGRAPHIC_DATA)
     suspend fun postDemographicData(@Body demographicDataRequest: DemographicDataRequest): Response<ApiResponse>
 
+    // Post demographic dataList
+    @POST(CustomersRepository.URL_POST_DEMOGRAPHIC_DATA_SIGN_IN)
+    suspend fun generateOTPForDeviceVerification(@Body demographicDataRequest: DemographicDataRequest): Response<ValidateDeviceResponse>
+
+    // Post demographic dataList
+    @PUT(CustomersRepository.URL_POST_DEMOGRAPHIC_DATA_SIGN_IN)
+    suspend fun verifyOTPForDeviceVerification(@Body demographicDataRequest: DemographicDataRequest): Response<OtpValidationResponse>
+
     // Validate demographic dataList
     @GET(CustomersRepository.URL_VALIDATE_DEMOGRAPHIC_DATA)
     suspend fun validateDemographicData(@Path("device_id") deviceId: String): Response<ValidateDeviceResponse>

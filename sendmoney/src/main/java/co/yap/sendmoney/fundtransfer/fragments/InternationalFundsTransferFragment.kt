@@ -9,13 +9,13 @@ import androidx.navigation.fragment.findNavController
 import co.yap.networking.transactions.requestdtos.RemittanceFeeRequest
 import co.yap.networking.transactions.responsedtos.purposepayment.PurposeOfPayment
 import co.yap.networking.transactions.responsedtos.transaction.FxRateResponse
+import co.yap.sendmoney.BR
 import co.yap.sendmoney.PopListBottomSheet
+import co.yap.sendmoney.R
+import co.yap.sendmoney.databinding.FragmentInternationalFundsTransferBinding
 import co.yap.sendmoney.fundtransfer.activities.BeneficiaryFundTransferActivity
 import co.yap.sendmoney.fundtransfer.interfaces.IInternationalFundsTransfer
 import co.yap.sendmoney.fundtransfer.viewmodels.InternationalFundsTransferViewModel
-import co.yap.sendmoney.BR
-import co.yap.sendmoney.R
-import co.yap.sendmoney.databinding.FragmentInternationalFundsTransferBinding
 import co.yap.translation.Strings
 import co.yap.translation.Translator
 import co.yap.yapcore.enums.SendMoneyBeneficiaryType
@@ -164,7 +164,7 @@ class InternationalFundsTransferFragment :
 
     private fun startFlow() {
         if (isBalanceAvailable()) {
-            if (viewModel.state.etInputAmount.parseToDouble() < viewModel.state.minLimit ?: 0.0 || viewModel.state.etInputAmount.parseToDouble() > viewModel.state.maxLimit ?: 0.0) {
+            if (viewModel.state.etOutputAmount.parseToDouble() < viewModel.state.minLimit ?: 0.0 || viewModel.state.etOutputAmount.parseToDouble() > viewModel.state.maxLimit ?: 0.0) {
                 setLowerAndUpperLimitError()
             } else {
                 if (isDailyLimitReached())
@@ -181,7 +181,7 @@ class InternationalFundsTransferFragment :
 
     private fun setLowerAndUpperLimitError() {
         viewModel.state.errorDescription = getString(
-            Strings.common_display_text_min_max_limit_error_transaction
+            Strings.sm_display_text_min_max_limit_error_transaction
         ).format(
             viewModel.state.minLimit.toString().toFormattedCurrency(),
             viewModel.state.maxLimit.toString().toFormattedCurrency()
@@ -192,7 +192,7 @@ class InternationalFundsTransferFragment :
     private fun showBalanceNotAvailableError() {
         val des = Translator.getString(
             requireContext(),
-            Strings.common_display_text_available_balance_error
+            Strings.sm_common_display_text_available_balance_error
         ).format(MyUserManager.cardBalance.value?.availableBalance?.toFormattedAmountWithCurrency())
         if (activity is BeneficiaryFundTransferActivity) {
             (activity as BeneficiaryFundTransferActivity).viewModel.errorEvent.value =
@@ -211,7 +211,7 @@ class InternationalFundsTransferFragment :
         viewModel.parentViewModel?.transactionThreshold?.value?.let {
             it.dailyLimit?.let { dailyLimit ->
                 it.totalDebitAmount?.let { totalConsumedAmount ->
-                    viewModel.state.etInputAmount.parseToDouble().let { enteredAmount ->
+                    viewModel.state.etOutputAmount.parseToDouble().let { enteredAmount ->
                         if (viewModel.transactionMightGetHeld.value == true) {
                             val totalHoldAmount =
                                 (it.holdSwiftAmount ?: 0.0).plus(it.holdUAEFTSAmount ?: 0.0)
@@ -219,14 +219,17 @@ class InternationalFundsTransferFragment :
                                 if ((dailyLimit - totalHoldAmount) < 0.0) 0.0 else (dailyLimit - totalHoldAmount)
                             viewModel.state.errorDescription =
                                 "You have exceeded your limit for held on transactions, please enter an amount less than %1s".format(
-                                    (dailyLimit - totalHoldAmount).toString().toFormattedAmountWithCurrency()
+                                    (dailyLimit - totalHoldAmount).toString()
+                                        .toFormattedAmountWithCurrency()
                                 )
                             return (enteredAmount > remainingDailyLimit)
                         } else {
                             val remainingDailyLimit =
                                 if ((dailyLimit - totalConsumedAmount) < 0.0) 0.0 else (dailyLimit - totalConsumedAmount)
                             viewModel.state.errorDescription =
-                                if (enteredAmount > dailyLimit && totalConsumedAmount==0.0) getString(Strings.common_display_text_daily_limit_error_single_transaction) else getString(
+                                if (enteredAmount > dailyLimit && totalConsumedAmount == 0.0) getString(
+                                    Strings.common_display_text_daily_limit_error_single_transaction
+                                ) else getString(
                                     Strings.common_display_text_daily_limit_error_multiple_transactions
                                 )
                             return (enteredAmount > remainingDailyLimit)
@@ -244,11 +247,11 @@ class InternationalFundsTransferFragment :
         viewModel.parentViewModel?.transferData?.value?.sourceCurrency =
             viewModel.state.sourceCurrency.get().toString()
         viewModel.parentViewModel?.transferData?.value?.sourceAmount =
-            viewModel.state.etInputAmount.toString()
+            viewModel.state.etOutputAmount.toString()
         viewModel.parentViewModel?.transferData?.value?.destinationCurrency =
             viewModel.state.destinationCurrency.get().toString()
         viewModel.parentViewModel?.transferData?.value?.destinationAmount =
-            viewModel.state.etOutputAmount.toString()
+            viewModel.state.etInputAmount.toString()
         viewModel.parentViewModel?.transferData?.value?.toFxRate = viewModel.state.toFxRate
         viewModel.parentViewModel?.transferData?.value?.fromFxRate = viewModel.state.fromFxRate
         viewModel.parentViewModel?.transferData?.value?.noteValue =
@@ -284,16 +287,15 @@ class InternationalFundsTransferFragment :
 
         etSenderAmount.afterTextChanged {
             viewModel.state.clearError()
-            if (!viewModel.state.etInputAmount.isNullOrBlank()) {
-                checkOnTextChangeValidation()
-            }
-            viewModel.updateFees()
             viewModel.setDestinationAmount()
+            checkOnTextChangeValidation()
+            viewModel.updateFees()
         }
     }
 
 
     private fun checkOnTextChangeValidation() {
+        //todo: Min and max limit check required
         if (isBalanceAvailable()) {
             if (isDailyLimitReached()) {
                 showLimitError()

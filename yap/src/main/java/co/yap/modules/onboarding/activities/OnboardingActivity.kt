@@ -16,9 +16,9 @@ import co.yap.yapcore.defaults.DefaultNavigator
 import co.yap.yapcore.defaults.INavigator
 import co.yap.yapcore.interfaces.BackPressImpl
 import co.yap.yapcore.interfaces.IBaseNavigator
-import co.yap.yapcore.interfaces.OnBackPressedListener
 
-class OnboardingActivity : BaseBindingActivity<IOnboarding.ViewModel>(), INavigator, IFragmentHolder {
+class OnboardingActivity : BaseBindingActivity<IOnboarding.ViewModel>(), INavigator,
+    IFragmentHolder {
 
     companion object {
         private val ACCOUNT_TYPE = "account_type"
@@ -57,7 +57,7 @@ class OnboardingActivity : BaseBindingActivity<IOnboarding.ViewModel>(), INaviga
     private val backButtonObserver = Observer<Boolean> { onBackPressed() }
 
     override fun onBackPressed() {
-        val fragment = supportFragmentManager.findFragmentById( R.id.my_nav_host_fragment)
+        val fragment = supportFragmentManager.findFragmentById(R.id.my_nav_host_fragment)
         if (!BackPressImpl(fragment).onBackPressed()) {
             super.onBackPressed()
         }

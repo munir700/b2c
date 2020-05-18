@@ -5,17 +5,15 @@ import android.content.Context
 import android.os.Build
 import androidx.lifecycle.MutableLiveData
 import co.yap.R
+import co.yap.app.main.MainChildViewModel
 import co.yap.app.modules.login.interfaces.IPhoneVerificationSignIn
-import co.yap.modules.onboarding.constants.Constants
-import co.yap.modules.onboarding.viewmodels.OnboardingChildViewModel
+import co.yap.app.modules.login.states.PhoneVerificationSignInState
 import co.yap.networking.authentication.AuthRepository
 import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.customers.requestdtos.DemographicDataRequest
 import co.yap.networking.customers.responsedtos.AccountInfo
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.messages.MessagesRepository
-import co.yap.networking.messages.requestdtos.CreateOtpGenericRequest
-import co.yap.networking.messages.requestdtos.VerifyOtpGenericRequest
 import co.yap.networking.models.RetroApiResponse
 import co.yap.translation.Strings
 import co.yap.yapcore.SingleLiveEvent
@@ -29,56 +27,54 @@ import co.yap.yapcore.leanplum.trackEventWithAttributes
 import co.yap.yapcore.managers.MyUserManager
 
 class PhoneVerificationSignInViewModel(application: Application) :
-    OnboardingChildViewModel<IPhoneVerificationSignIn.State>(application),
+    MainChildViewModel<IPhoneVerificationSignIn.State>(application),
     IPhoneVerificationSignIn.ViewModel,
     IRepositoryHolder<AuthRepository> {
 
     override val repository: AuthRepository = AuthRepository
-    override val state: co.yap.app.modules.login.states.PhoneVerificationSignInState =
-        co.yap.app.modules.login.states.PhoneVerificationSignInState(application)
+    override val state: PhoneVerificationSignInState =
+        PhoneVerificationSignInState(application)
     override val postDemographicDataResult: SingleLiveEvent<Boolean> = SingleLiveEvent()
-    override val verifyOtpResult: SingleLiveEvent<Boolean> = SingleLiveEvent()
     private val customersRepository: CustomersRepository = CustomersRepository;
     private val messagesRepository: MessagesRepository = MessagesRepository
     override val accountInfo: MutableLiveData<AccountInfo> = MutableLiveData()
-    private var token: String? = ""
-
-    override fun handlePressOnSendButton() {
-        verifyOtp()
-    }
 
     override fun onCreate() {
         super.onCreate()
-        //state.reverseTimer(10,context)
         state.valid = false
+    }
+
+    override fun handlePressOnSendButton() {
+        verifyOtp()
     }
 
     override fun verifyOtp() {
         launch {
             state.loading = true
             when (val response =
-                messagesRepository.verifyOtpGeneric(
-                    VerifyOtpGenericRequest(
-                        Constants.ACTION_DEVICE_VERIFICATION,
-                        state.otp
+                customersRepository.verifyOTPForDeviceVerification(
+                    DemographicDataRequest(
+                        clientId = parentViewModel?.signingInData?.clientId,
+                        clientSecret = parentViewModel?.signingInData?.clientSecret,
+                        deviceId = parentViewModel?.signingInData?.deviceID,
+                        otp = state.otp
                     )
                 )) {
                 is RetroApiResponse.Success -> {
                     response.data.token?.let {
                         val tokens = it.split("%")
-                        token = tokens.first()
+                        parentViewModel?.signingInData?.token = tokens.first()
                         if (tokens.size > 1)
                             repository.setJwtToken(tokens.last())
                     }
                     val sharedPreferenceManager = SharedPreferenceManager(context)
-
                     sharedPreferenceManager.save(
                         KEY_IS_USER_LOGGED_IN,
                         true
                     )
                     sharedPreferenceManager.savePassCodeWithEncryption(state.passcode)
                     sharedPreferenceManager.saveUserNameWithEncryption(state.username)
-                    verifyOtpResult.postValue(true)
+                    postDemographicData()
                 }
                 is RetroApiResponse.Error -> {
                     state.toast = "${response.error.message}^${AlertType.DIALOG.name}"
@@ -95,7 +91,13 @@ class PhoneVerificationSignInViewModel(application: Application) :
         launch {
             state.loading = true
             when (val response =
-                messagesRepository.createOtpGeneric(CreateOtpGenericRequest(Constants.ACTION_DEVICE_VERIFICATION))) {
+                customersRepository.generateOTPForDeviceVerification(
+                    DemographicDataRequest(
+                        clientId = parentViewModel?.signingInData?.clientId,
+                        clientSecret = parentViewModel?.signingInData?.clientSecret,
+                        deviceId = parentViewModel?.signingInData?.deviceID
+                    )
+                )) {
                 is RetroApiResponse.Success -> {
                     state.toast =
                         getString(Strings.screen_verify_phone_number_display_text_resend_otp_success)
@@ -126,7 +128,7 @@ class PhoneVerificationSignInViewModel(application: Application) :
                         Build.BRAND,
                         if (Utils.isEmulator()) "generic" else Build.MODEL,
                         "Android",
-                        token ?: ""
+                        parentViewModel?.signingInData?.token ?: ""
                     )
                 )) {
                 is RetroApiResponse.Success -> {
@@ -142,7 +144,6 @@ class PhoneVerificationSignInViewModel(application: Application) :
 
     override fun getAccountInfo() {
         launch {
-            //state.loading = true
             when (val response = customersRepository.getAccountInfo()) {
                 is RetroApiResponse.Success -> {
                     if (response.data.data.isNotEmpty()) {
@@ -152,18 +153,18 @@ class PhoneVerificationSignInViewModel(application: Application) :
                             MyUserManager.user
                         )
                     }
+                    state.loading = false
                 }
                 is RetroApiResponse.Error -> {
+                    state.loading = false
                 }
             }
-            state.loading = false
         }
     }
 
     private fun otpUiBlocked(errorCode: String) {
         when (errorCode) {
             "1095" -> {
-//                state.validateBtn = false
                 state.valid = false
                 state.color = context.getColors(R.color.disabled)
                 state.isOtpBlocked.set(false)

@@ -6,7 +6,7 @@ import co.yap.yapcore.BaseState
 
 class OtpBlockedInfoState : BaseState(), IOtpBlockedInfo.State {
     override val userFirstName: ObservableField<String> = ObservableField()
-    override val helpPhoneNo: ObservableField<String> = ObservableField("03224642870")
+    override val helpPhoneNo: ObservableField<String> = ObservableField()
     override var token: ObservableField<String> = ObservableField()
 
 }

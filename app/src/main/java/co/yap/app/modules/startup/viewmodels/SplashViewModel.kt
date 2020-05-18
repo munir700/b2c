@@ -1,17 +1,17 @@
 package co.yap.app.modules.startup.viewmodels
 
 import android.app.Application
+import co.yap.app.main.MainChildViewModel
 import co.yap.app.modules.startup.interfaces.ISplash
 import co.yap.app.modules.startup.states.SplashState
-import co.yap.networking.customers.responsedtos.AppUpdate
 import co.yap.networking.authentication.AuthRepository
 import co.yap.networking.customers.CustomersRepository
+import co.yap.networking.customers.responsedtos.AppUpdate
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
-import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleLiveEvent
 
-class SplashViewModel(application: Application) : BaseViewModel<ISplash.State>(application),
+class SplashViewModel(application: Application) : MainChildViewModel<ISplash.State>(application),
     ISplash.ViewModel,
     IRepositoryHolder<AuthRepository> {
 
@@ -58,5 +58,4 @@ class SplashViewModel(application: Application) : BaseViewModel<ISplash.State>(a
             }
         }
     }
-
 }
