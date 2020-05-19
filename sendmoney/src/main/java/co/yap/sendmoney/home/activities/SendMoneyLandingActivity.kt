@@ -192,7 +192,7 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
             { viewID, position ->
                 when (viewID) {
                     R.id.btnDelete -> {
-                        if (false) { // remove false check if they want restrict delete too MyUserManager.user?.otpBlocked == true ||
+                        if (MyUserManager.user?.otpBlocked == true) {
                             showToast("${getString(Strings.screen_blocked_otp_display_text_message)}^${AlertType.DIALOG.name}")
                         } else {
                             positionToDelete = position

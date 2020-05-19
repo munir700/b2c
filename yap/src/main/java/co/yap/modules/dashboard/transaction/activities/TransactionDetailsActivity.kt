@@ -77,14 +77,14 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
                         return@let getCutOffMsg()
                     } else ""
                 }
-                it.productCode == TransactionProductCode.RMT.pCode-> {
+                it.productCode == TransactionProductCode.RMT.pCode -> {
                     if (TransactionStatus.PENDING.name == it.status || TransactionStatus.IN_PROGRESS.name == it.status && it.getLabelValues() != TransactionLabelsCode.IS_TRANSACTION_FEE) {
                         getBindings().tvTransactionHeading.setTextColor(this.getColors(R.color.colorFaded))
                         getBindings().tvTotalAmountValue.setTextColor(this.getColors(R.color.colorFaded))
                         getBindings().tvTransactionSubheading.alpha = 0.5f
                         getBindings().ivCategoryIcon.alpha = 0.5f
                         ""
-                    }else ""
+                    } else ""
                 }
 
                 else -> ""
@@ -116,6 +116,9 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
         getBindings().tvTotalAmountValue.text =
             if (viewModel.transaction.get()?.txnType == TxnType.DEBIT.type) "- ${totalAmount.toFormattedCurrency()}" else "+ ${totalAmount.toFormattedCurrency()}"
 
+        // hiding visibility on nada's request
+        getBindings().tvTotalAmountValueCalculated.visibility = View.GONE
+        getBindings().tvTotalAmount.visibility = View.GONE
     }
 
     private fun setAddress() {
@@ -231,6 +234,7 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
                 if (transaction.isTransactionCancelled()) getBindings().tvTotalAmountValue.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG else 0
         }
     }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == Constants.INTENT_ADD_NOTE_REQUEST) {
