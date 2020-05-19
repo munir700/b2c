@@ -251,11 +251,7 @@ class CashTransferFragment : BeneficiaryFundTransferBaseFragment<ICashTransfer.V
                     viewModel.getMoneyTransferLimits(productCode)
                     viewModel.getTransferFees(
                         productCode,
-                        RemittanceFeeRequest(
-                            viewModel.parentViewModel?.beneficiary?.value?.country,
-                            ""
-                        )
-                    )
+                        RemittanceFeeRequest(country = viewModel.parentViewModel?.beneficiary?.value?.country))
                     viewModel.getPurposeOfPayment(productCode)
                     setObservers()
                 }
