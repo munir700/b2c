@@ -49,7 +49,10 @@ class InternationalFundsTransferFragment :
         viewModel.getMoneyTransferLimits(productCode)
         viewModel.getTransferFees(
             productCode,
-            RemittanceFeeRequest(viewModel.parentViewModel?.beneficiary?.value?.country, "")
+            RemittanceFeeRequest(
+               country =  viewModel.parentViewModel?.beneficiary?.value?.country,
+               currency =  viewModel.parentViewModel?.beneficiary?.value?.currency
+            )
         )
         viewModel.getReasonList(productCode)
         viewModel.getTransactionInternationalfxList(productCode)
