@@ -1,18 +1,15 @@
-package co.yap.yapcore.helpers.notification
+package co.yap.yapcore.helpers
 
 import android.content.Context
-import androidx.databinding.BindingAdapter
 import co.yap.networking.cards.responsedtos.Card
 import co.yap.networking.customers.responsedtos.AccountInfo
 import co.yap.networking.notification.HomeNotification
+import co.yap.networking.notification.NotificationAction
 import co.yap.translation.Strings
 import co.yap.translation.Translator
 import co.yap.yapcore.enums.AccountStatus
 import co.yap.yapcore.enums.CardDeliveryStatus
-import co.yap.yapcore.enums.NotificationAction
 import co.yap.yapcore.enums.PartnerBankStatus
-import com.yarolegovich.discretescrollview.DiscreteScrollView
-import com.yarolegovich.discretescrollview.transform.ScaleTransformer
 
 object NotificationHelper {
     fun getNotifications(
@@ -25,25 +22,38 @@ object NotificationHelper {
             list.add(
                 HomeNotification(
                     id = "1",
-                    description = Translator.getString(context, Strings.screen_home_help_and_support_desc),
+                    description = Translator.getString(
+                        context,
+                        Strings.screen_home_help_and_support_desc
+                    ),
                     action = NotificationAction.HELP_AND_SUPPORT
                 )
             )
         }
         if ((accountInfo?.notificationStatuses == AccountStatus.ON_BOARDED.name ||
                     accountInfo?.notificationStatuses == AccountStatus.CAPTURED_EID.name) &&
-            accountInfo.partnerBankStatus != PartnerBankStatus.ACTIVATED.status) {
+            accountInfo.partnerBankStatus != PartnerBankStatus.ACTIVATED.status
+        ) {
             list.add(
                 HomeNotification(
                     id = "2",
-                    title = Translator.getString(context, Strings.screen_home_complete_verification_title),
-                    description = Translator.getString(context, Strings.screen_home_complete_verification_desc),
+                    title = Translator.getString(
+                        context,
+                        Strings.screen_home_complete_verification_title
+                    ),
+                    description = Translator.getString(
+                        context,
+                        Strings.screen_home_complete_verification_desc
+                    ),
                     action = NotificationAction.COMPLETE_VERIFICATION
                 )
             )
         }
 
-        if (shouldShowSetPin(paymentCard) && accountInfo?.partnerBankStatus == PartnerBankStatus.ACTIVATED.status) {
+        if (shouldShowSetPin(
+                paymentCard
+            ) && accountInfo?.partnerBankStatus == PartnerBankStatus.ACTIVATED.status
+        ) {
             list.add(
                 HomeNotification(
                     id = "3",
@@ -55,12 +65,16 @@ object NotificationHelper {
         }
         if ((accountInfo?.notificationStatuses == AccountStatus.EID_EXPIRED.name ||
                     accountInfo?.notificationStatuses == AccountStatus.EID_RESCAN_REQ.name) &&
-            accountInfo.partnerBankStatus == PartnerBankStatus.ACTIVATED.status) {
+            accountInfo.partnerBankStatus == PartnerBankStatus.ACTIVATED.status
+        ) {
             list.add(
                 HomeNotification(
                     id = "4",
                     title = Translator.getString(context, Strings.screen_home_renewed_id_title),
-                    description = Translator.getString(context, Strings.screen_home_renewed_id_desc),
+                    description = Translator.getString(
+                        context,
+                        Strings.screen_home_renewed_id_desc
+                    ),
                     action = NotificationAction.UPDATE_EMIRATES_ID
                 )
             )

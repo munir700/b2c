@@ -4,8 +4,6 @@ import android.os.Bundle
 import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
 import androidx.navigation.NavController
-import co.yap.modules.dashboard.home.models.HomeNotification
-import co.yap.modules.dashboard.yapit.y2y.home.adaptors.RecentTransferAdaptor
 import co.yap.networking.cards.responsedtos.Card
 import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.transactions.TransactionsRepository
@@ -16,13 +14,7 @@ import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionsR
 import co.yap.widgets.State
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.dagger.base.viewmodel.DaggerBaseViewModel
-import co.yap.yapcore.enums.AccountStatus
 import co.yap.yapcore.enums.CardDeliveryStatus
-import co.yap.yapcore.enums.NotificationAction
-import co.yap.yapcore.enums.PartnerBankStatus
-import co.yap.yapcore.helpers.SharedPreferenceManager
-import co.yap.yapcore.managers.MyUserManager
-import com.google.gson.Gson
 import java.text.SimpleDateFormat
 import java.util.*
 import javax.inject.Inject

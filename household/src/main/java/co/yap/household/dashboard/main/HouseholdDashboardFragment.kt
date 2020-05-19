@@ -36,12 +36,6 @@ class HouseholdDashboardFragment :
     override fun getLayoutId() = R.layout.activity_household_dashboard
     private var actionMenu: FloatingActionMenu? = null
 
-    override fun preInit() {
-        super.preInit()
-        setUpAdapter()
-        addListeners()
-    }
-
     private fun setUpAdapter() {
         profilePictureAdapter.onItemClickListener = userClickListener
         viewModel.profilePictureAdapter.set(profilePictureAdapter)
@@ -73,6 +67,8 @@ class HouseholdDashboardFragment :
 
     override fun postExecutePendingBindings() {
         super.postExecutePendingBindings()
+        setUpAdapter()
+        addListeners()
         adapter.addFragmentInfo<HouseholdHomeFragment>()
         adapter.addFragmentInfo<MyCardFragment>()
         adapter.addFragmentInfo<HouseholdHomeFragment>()
@@ -81,6 +77,7 @@ class HouseholdDashboardFragment :
         bottomNav.setUpWithViewPager(viewPager)
         setupYapItButton()
         viewModel.clickEvent.observe(this, Observer { onClick(it) })
+
     }
 
     private fun onClick(id: Int) {
