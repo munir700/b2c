@@ -171,3 +171,8 @@ fun TextView.makeLinks(vararg links: Pair<String, View.OnClickListener>) {
         LinkMovementMethod.getInstance() // without LinkMovementMethod, link can not click
     this.setText(spannableString, TextView.BufferType.SPANNABLE)
 }
+
+/**
+ * Extension method to get the TAG name for all object
+ */
+fun <T : Any> T.TAG() = this::class.simpleName

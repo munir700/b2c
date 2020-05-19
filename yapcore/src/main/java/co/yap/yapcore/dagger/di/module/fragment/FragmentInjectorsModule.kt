@@ -9,8 +9,8 @@ import dagger.android.ContributesAndroidInjector
 @Module
 abstract class FragmentInjectorsModule {
 
-    @ContributesAndroidInjector(modules = [MvvmNavHostModule::class])
-    abstract fun MvvmNavHostFragmentInjector(): MvvmNavHostFragment
+//    @ContributesAndroidInjector(modules = [MvvmNavHostModule::class])
+//    abstract fun MvvmNavHostFragmentInjector(): MvvmNavHostFragment
 
 //    @Binds
 //    @IntoMap

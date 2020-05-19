@@ -44,10 +44,7 @@ class HouseHoldHomeVM @Inject constructor(
     override fun onFirsTimeUiCreate(bundle: Bundle?, navigation: NavController?) {
         //state = state as HouseholdHomeState
         // state.toast = "saddsadsasad"
-    }
-
-    override fun onCreate() {
-        super.onCreate()
+        requestTransactions(false)
     }
 
     override fun requestTransactions(isLoadMore: Boolean) {

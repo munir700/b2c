@@ -14,25 +14,16 @@ import javax.inject.Singleton
 @Module
 class YapModule {
 
-    @Provides
-    @FeatureScope
-    fun provideApplication(app: Application) = app
-
 //    @Provides
-//    @Singleton
-//    fun provideApp(application: Application) = application
-
-    @Provides
-    @FeatureScope
-    @ApplicationContext
-    fun provideApplicationContext(app: Application): Context = app.applicationContext
-
-
-    @Provides
-    @ChildFragmentManager
-    @Singleton
-    fun provideChildFragmentManager(fragment: Fragment): FragmentManager {
-        return fragment.childFragmentManager
-    }
-
+//    @FeatureScope
+//    fun provideApplication(app: Application) = app
+//
+////    @Provides
+////    @Singleton
+////    fun provideApp(application: Application) = application
+//
+//    @Provides
+//    @FeatureScope
+//    @ApplicationContext
+//    fun provideApplicationContext(app: Application): Context = app.applicationContext
 }

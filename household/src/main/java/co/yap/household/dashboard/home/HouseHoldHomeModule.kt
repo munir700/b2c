@@ -18,6 +18,12 @@ class HouseHoldHomeModule : BaseFragmentModule<HouseholdHomeFragment>() {
 
     @Provides
     @FragmentScope
+    fun provideHouseholdHomeState(): IHouseholdHome.State = HouseholdHomeState()
+
+    @Provides
+    @FragmentScope
+    fun provideRecyclerViewExpandableItemManager() =
+        RecyclerViewExpandableItemManager(null)
     fun provideHouseholdHomeState():IHouseholdHome.State = HouseholdHomeState()
 
     @Provides
@@ -32,4 +38,14 @@ class HouseHoldHomeModule : BaseFragmentModule<HouseholdHomeFragment>() {
 //    @Provides
 //    fun provideTransactionsRepository() = TransactionsRepository
 
+    @Provides
+    @FragmentScope
+    fun provideHomeTransactionAdapter() = HomeTransactionAdapter()
+
+    @Provides
+    @FragmentScope
+    fun provideWrappedAdapter(
+        adapter: HomeTransactionAdapter,
+        mRecyclerViewExpandableItemManager: RecyclerViewExpandableItemManager
+    ): RecyclerView.Adapter<*> = mRecyclerViewExpandableItemManager.createWrappedAdapter(adapter)
 }

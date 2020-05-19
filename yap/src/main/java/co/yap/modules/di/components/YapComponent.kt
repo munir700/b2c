@@ -4,6 +4,7 @@ import co.yap.modules.di.module.NetworkModule
 import co.yap.modules.di.module.YapModule
 import co.yap.modules.di.module.activity.ActivityInjectorsModule
 import co.yap.modules.di.module.fragment.FragmentInjectorsModule
+import co.yap.networking.transactions.TransactionsRepository
 import co.yap.yapcore.dagger.di.components.CoreComponent
 import dagger.Component
 import dagger.android.AndroidInjectionModule
