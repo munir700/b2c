@@ -19,6 +19,13 @@ class HouseHoldHomeModule : BaseFragmentModule<HouseholdHomeFragment>() {
     @Provides
     @FragmentScope
     fun provideHouseholdHomeState():IHouseholdHome.State = HouseholdHomeState()
+
+    @Provides
+    fun provideHHNotificationsAdapter() =
+        HHNotificationAdapter(
+            mutableListOf(),
+            null
+        )
 //
 //    @Provides
 //    fun provideHouseholdHomeStates()= HouseholdHomeState()

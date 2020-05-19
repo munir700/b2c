@@ -1,8 +1,12 @@
 package co.yap.household.dashboard.home
 
 import android.os.Bundle
+import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
 import androidx.navigation.NavController
+import co.yap.modules.dashboard.home.models.HomeNotification
+import co.yap.modules.dashboard.yapit.y2y.home.adaptors.RecentTransferAdaptor
+import co.yap.networking.cards.responsedtos.Card
 import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.transactions.TransactionsRepository
 import co.yap.networking.transactions.requestdtos.HomeTransactionsRequest
@@ -12,12 +16,18 @@ import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionsR
 import co.yap.widgets.State
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.dagger.base.viewmodel.DaggerBaseViewModel
+import co.yap.yapcore.enums.AccountStatus
+import co.yap.yapcore.enums.CardDeliveryStatus
+import co.yap.yapcore.enums.NotificationAction
+import co.yap.yapcore.enums.PartnerBankStatus
 import co.yap.yapcore.helpers.SharedPreferenceManager
+import co.yap.yapcore.managers.MyUserManager
 import com.google.gson.Gson
 import java.text.SimpleDateFormat
 import java.util.*
 import javax.inject.Inject
 import kotlin.Comparator
+import kotlin.collections.ArrayList
 
 class HouseHoldHomeVM @Inject constructor(
     override var state: IHouseholdHome.State,
@@ -34,6 +44,7 @@ class HouseHoldHomeVM @Inject constructor(
     override val transactionsLiveData: MutableLiveData<List<HomeTransactionListData>> =
         MutableLiveData(arrayListOf())
     override var MAX_CLOSING_BALANCE: Double = 0.0
+    val adapter = ObservableField<HHNotificationAdapter>()
 
     override fun handlePressOnView(id: Int) {
 
@@ -230,6 +241,9 @@ class HouseHoldHomeVM @Inject constructor(
         requestTransactions(true)
     }
 
+    private fun shouldShowSetPin(paymentCard: Card?): Boolean {
+        return (paymentCard?.deliveryStatus == CardDeliveryStatus.SHIPPED.name && !paymentCard.pinCreated)
+    }
 
     private fun convertDate(creationDate: String): String? {
         val parser = SimpleDateFormat("yyyy-MM-dd")

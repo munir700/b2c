@@ -70,7 +70,6 @@ import com.yarolegovich.discretescrollview.transform.ScaleTransformer
 import kotlinx.android.synthetic.main.view_graph.*
 import kotlin.math.abs
 
-
 class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHome.View,
     NotificationItemClickListener, SwipeRefreshLayout.OnRefreshListener {
 
