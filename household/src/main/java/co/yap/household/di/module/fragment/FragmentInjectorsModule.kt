@@ -4,8 +4,11 @@ import co.yap.household.dashboard.cards.MyCardFragment
 import co.yap.household.dashboard.cards.MyCardModule
 import co.yap.household.dashboard.home.HouseHoldHomeModule
 import co.yap.household.dashboard.home.HouseholdHomeFragment
+import co.yap.household.dashboard.main.HouseHoldDashboardModule
+import co.yap.household.dashboard.main.HouseholdDashboardFragment
 import co.yap.household.onboard.onboarding.kycsuccess.KycSuccessFragment
 import co.yap.household.onboard.onboarding.kycsuccess.KycSuccessModule
+import co.yap.yapcore.dagger.di.qualifiers.ActivityScope
 import co.yap.yapcore.dagger.di.qualifiers.FragmentScope
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
@@ -23,5 +26,9 @@ abstract class FragmentInjectorsModule {
     @FragmentScope
     @ContributesAndroidInjector(modules = [MyCardModule::class])
     abstract fun MyCardFragmentInjector(): MyCardFragment
+
+    @FragmentScope
+    @ContributesAndroidInjector(modules = [HouseHoldDashboardModule::class])
+    abstract fun HouseholdDashboardFragmentInjector(): HouseholdDashboardFragment
 
 }

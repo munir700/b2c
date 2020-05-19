@@ -1,30 +1,38 @@
 package co.yap.household.dashboard.main
 
+import co.yap.household.dashboard.main.menu.ProfilePictureAdapter
 import co.yap.yapcore.adpters.SectionsPagerAdapter
 import co.yap.yapcore.dagger.di.InjectionViewModelProvider
-import co.yap.yapcore.dagger.di.module.activity.BaseActivityModule
+import co.yap.yapcore.dagger.di.module.fragment.BaseFragmentModule
 import co.yap.yapcore.dagger.di.qualifiers.ActivityScope
+import co.yap.yapcore.dagger.di.qualifiers.FragmentScope
 import co.yap.yapcore.dagger.di.qualifiers.ViewModelInjection
+import co.yap.yapcore.managers.MyUserManager
 import dagger.Module
 import dagger.Provides
 
 @Module
-class HouseHoldDashboardModule : BaseActivityModule<HouseholdDashboardActivity>() {
+class HouseHoldDashboardModule : BaseFragmentModule<HouseholdDashboardFragment>() {
 
     @Provides
     @ViewModelInjection
-    @ActivityScope
+    @FragmentScope
     fun provideDashBoardVM(
-        activity: HouseholdDashboardActivity,
+        fragment: HouseholdDashboardFragment,
         viewModelProvider: InjectionViewModelProvider<HouseHoldDashBoardVM>
-    ) = viewModelProvider.get(activity, HouseHoldDashBoardVM::class)
+    ) = viewModelProvider.get(fragment, HouseHoldDashBoardVM::class)
 
     @Provides
-    @ActivityScope
-    fun provideHouseholdDashboardPagerAdapter(activity: HouseholdDashboardActivity) =
-        SectionsPagerAdapter(activity, activity.supportFragmentManager)
+    @FragmentScope
+    fun provideHouseholdDashboardPagerAdapter(fragment: HouseholdDashboardFragment) =
+        SectionsPagerAdapter(fragment.requireActivity(), fragment.childFragmentManager)
 
     @Provides
-    @ActivityScope
+    @FragmentScope
+    fun provideProfilePictureAdapter() =
+        ProfilePictureAdapter(MyUserManager.usersList?.value ?: mutableListOf(), null)
+
+    @Provides
+    @FragmentScope
     fun provideHouseholdHomeState(): IHouseholdDashboard.State = HouseholdDashboardState()
 }

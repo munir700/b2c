@@ -36,7 +36,6 @@ class HouseHoldHomeVM @Inject constructor(
 
     var closingBalanceArray: ArrayList<Double> = arrayListOf()
     override var clickEvent: SingleClickEvent = SingleClickEvent()
-//    override var stateLiveData: MutableLiveData<State>? = MutableLiveData()
     override val isLoadMore: MutableLiveData<Boolean> = MutableLiveData(false)
     override val isLast: MutableLiveData<Boolean> = MutableLiveData(false)
     override var homeTransactionRequest: HomeTransactionsRequest =
