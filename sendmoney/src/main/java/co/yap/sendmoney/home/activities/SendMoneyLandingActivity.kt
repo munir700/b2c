@@ -192,13 +192,19 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
             { viewID, position ->
                 when (viewID) {
                     R.id.btnDelete -> {
-                        positionToDelete = position
-                        val beneficiary = getAdaptor().getDataList()[position]
-                        confirmDeleteBeneficiary(beneficiary)
+                        if (false) { // remove false check if they want restrict delete too MyUserManager.user?.otpBlocked == true ||
+                            showToast("${getString(Strings.screen_blocked_otp_display_text_message)}^${AlertType.DIALOG.name}")
+                        } else {
+                            positionToDelete = position
+                            confirmDeleteBeneficiary(getAdaptor().getDataList()[position])
+                        }
                     }
                     R.id.btnEdit -> {
-                        val beneficiary = getAdaptor().getDataList()[position]
-                        openEditBeneficiary(beneficiary)
+                        if (MyUserManager.user?.otpBlocked == true) {
+                            showToast("${getString(Strings.screen_blocked_otp_display_text_message)}^${AlertType.DIALOG.name}")
+                        } else {
+                            openEditBeneficiary(getAdaptor().getDataList()[position])
+                        }
                     }
                 }
             }
@@ -282,10 +288,16 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
 
     private val clickListener = Observer<Int> {
         when (it) {
-            R.id.addContactsButton -> startActivityForResult(
-                SendMoneyHomeActivity.newIntent(this@SendMoneyLandingActivity),
-                RequestCodes.REQUEST_NOTIFY_BENEFICIARY_LIST
-            ) //btn invoke add Beneficiary flow
+            R.id.addContactsButton -> {
+                if (MyUserManager.user?.otpBlocked == true) {
+                    showToast("${getString(Strings.screen_blocked_otp_display_text_message)}^${AlertType.DIALOG.name}")
+                } else {
+                    startActivityForResult(
+                        SendMoneyHomeActivity.newIntent(this@SendMoneyLandingActivity),
+                        RequestCodes.REQUEST_NOTIFY_BENEFICIARY_LIST
+                    )
+                }
+            }
             R.id.tbBtnAddBeneficiary -> {
                 if (MyUserManager.user?.otpBlocked == true) {
                     showToast("${getString(Strings.screen_blocked_otp_display_text_message)}^${AlertType.DIALOG.name}")
