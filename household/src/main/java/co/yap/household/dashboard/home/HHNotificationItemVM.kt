@@ -11,7 +11,6 @@ class HHNotificationItemVM : BaseListItemViewModel<HomeNotification>() {
     private lateinit var mItem: HomeNotification
     override fun setItem(item: HomeNotification, position: Int) {
         mItem = item
-        notifyChange()
     }
 
     override fun getItem() = mItem

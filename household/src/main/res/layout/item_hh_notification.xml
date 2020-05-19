@@ -58,7 +58,7 @@
                 tools:text="Set your PIN code."
                 android:visibility="@{viewModel.item.title.isEmpty()?View.GONE:View.VISIBLE}"
                 android:text="@{viewModel.item.title}"/>
-            
+
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvDescription"
                 style="@style/AMicroGrey"
