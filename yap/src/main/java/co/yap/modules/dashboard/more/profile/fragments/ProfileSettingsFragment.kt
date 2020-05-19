@@ -244,12 +244,13 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
                 }
 
                 R.id.tvChangePasscode -> {
+
                     if (MyUserManager.user?.otpBlocked == true) {
                         showToast("${getString(Strings.screen_blocked_otp_display_text_message)}^${AlertType.DIALOG.name}")
                     } else {
                         startActivity(Intent(requireContext(), ChangePasscodeActivity::class.java))
-                    }
-//                    findNavController().navigate(R.id.action_profileSettingsFragment_to_change_pascode_navigation)
+                    } 
+//                   findNavController().navigate(R.id.action_profileSettingsFragment_to_change_pascode_navigation)
                 }
 
                 R.id.tvTermsAndConditionView -> {
