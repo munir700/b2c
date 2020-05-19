@@ -8,14 +8,9 @@ import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
 
 interface IHouseholdHome {
-    interface View : IBase.View<ViewModel> {
-
-    }
-
+    interface View : IBase.View<ViewModel>
     interface ViewModel : IBase.ViewModel<State> {
         var clickEvent: SingleClickEvent
-       /// var stateLiveData: MutableLiveData<co.yap.widgets.State>?
-        //var notificationList: MutableLiveData<ArrayList<Notification>>
         val isLoadMore: MutableLiveData<Boolean>
         val isLast: MutableLiveData<Boolean>
         var homeTransactionRequest: HomeTransactionsRequest

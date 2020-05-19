@@ -4,7 +4,6 @@ import co.yap.household.dashboard.main.menu.ProfilePictureAdapter
 import co.yap.yapcore.adpters.SectionsPagerAdapter
 import co.yap.yapcore.dagger.di.InjectionViewModelProvider
 import co.yap.yapcore.dagger.di.module.fragment.BaseFragmentModule
-import co.yap.yapcore.dagger.di.qualifiers.ActivityScope
 import co.yap.yapcore.dagger.di.qualifiers.FragmentScope
 import co.yap.yapcore.dagger.di.qualifiers.ViewModelInjection
 import co.yap.yapcore.managers.MyUserManager
