@@ -13,7 +13,6 @@ import co.yap.sendmoney.BR
 import co.yap.sendmoney.PopListBottomSheet
 import co.yap.sendmoney.R
 import co.yap.sendmoney.databinding.FragmentInternationalFundsTransferBinding
-import co.yap.sendmoney.fundtransfer.activities.BeneficiaryFundTransferActivity
 import co.yap.sendmoney.fundtransfer.interfaces.IInternationalFundsTransfer
 import co.yap.sendmoney.fundtransfer.viewmodels.InternationalFundsTransferViewModel
 import co.yap.translation.Strings
@@ -126,7 +125,7 @@ class InternationalFundsTransferFragment :
     val clickEvent = Observer<Int> {
         when (it) {
             R.id.btnNext -> {
-                if (viewModel.parentViewModel?.selectedPop != null) startFlow() else showToast(
+                if (viewModel.parentViewModel?.selectedPop != null) moveToConfirmTransferScreen() else showToast(
                     "Select a reason"
                 )
             }
@@ -162,31 +161,14 @@ class InternationalFundsTransferFragment :
             false
     }
 
-    private fun startFlow() {
-        if (isBalanceAvailable()) {
-            if (viewModel.state.etOutputAmount.parseToDouble() < viewModel.state.minLimit ?: 0.0 || viewModel.state.etOutputAmount.parseToDouble() > viewModel.state.maxLimit ?: 0.0) {
-                setLowerAndUpperLimitError()
-            } else {
-                if (isDailyLimitReached())
-                    showLimitError()
-                else {
-                    //viewModel.getCutOffTimeConfiguration()
-                    moveToConfirmTransferScreen()
-                }
-            }
-        } else {
-            showBalanceNotAvailableError()
-        }
-    }
-
-    private fun setLowerAndUpperLimitError() {
+    private fun showLowerAndUpperLimitError() {
         viewModel.state.errorDescription = getString(
             Strings.sm_display_text_min_max_limit_error_transaction
         ).format(
             viewModel.state.minLimit.toString().toFormattedCurrency(),
             viewModel.state.maxLimit.toString().toFormattedCurrency()
         )
-        showLimitError()
+        viewModel.parentViewModel?.errorEvent?.value = viewModel.state.errorDescription
     }
 
     private fun showBalanceNotAvailableError() {
@@ -194,17 +176,7 @@ class InternationalFundsTransferFragment :
             requireContext(),
             Strings.sm_common_display_text_available_balance_error
         ).format(MyUserManager.cardBalance.value?.availableBalance?.toFormattedAmountWithCurrency())
-        if (activity is BeneficiaryFundTransferActivity) {
-            (activity as BeneficiaryFundTransferActivity).viewModel.errorEvent.value =
-                des
-        }
-    }
-
-    private fun showLimitError() {
-        if (activity is BeneficiaryFundTransferActivity) {
-            (activity as BeneficiaryFundTransferActivity).viewModel.errorEvent.value =
-                viewModel.state.errorDescription
-        }
+        viewModel.parentViewModel?.errorEvent?.value = des
     }
 
     private fun isDailyLimitReached(): Boolean {
@@ -295,18 +267,26 @@ class InternationalFundsTransferFragment :
 
 
     private fun checkOnTextChangeValidation() {
-        //todo: Min and max limit check required
-        if (isBalanceAvailable()) {
-            if (isDailyLimitReached()) {
-                showLimitError()
+        when {
+            !isBalanceAvailable() -> {
                 viewModel.state.valid = false
-            } else {
+                showBalanceNotAvailableError()
+            }
+            isDailyLimitReached() -> {
+                viewModel.parentViewModel?.errorEvent?.value = viewModel.state.errorDescription
+                viewModel.state.valid = false
+            }
+            viewModel.state.etOutputAmount.parseToDouble() < viewModel.state.minLimit ?: 0.0 -> {
+                viewModel.state.valid = false
+            }
+            viewModel.state.etOutputAmount.parseToDouble() > viewModel.state.maxLimit ?: 0.0 -> {
+                showLowerAndUpperLimitError()
+                viewModel.state.valid = false
+            }
+            else -> {
                 cancelAllSnackBar()
                 viewModel.state.valid = true
             }
-        } else {
-            viewModel.state.valid = false
-            showBalanceNotAvailableError()
         }
     }
 
