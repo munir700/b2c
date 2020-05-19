@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="co.yap.household.dashboard.home.HomeTransactionGroupItemVM" />
+
+        <import type="co.yap.translation.Strings" />
+    </data>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        style="@style/Yap.App.Layout.LinearLayout.Horizontal.White"
+        android:paddingTop="@dimen/margin_extra_small"
+        android:paddingBottom="@dimen/margin_extra_small">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvTransactionDate"
+            style="@style/Yap.App.Widget.TextView.Label"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:text="Today, Sep 03"
+            tools:text="Today, Sep 03" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            style="@style/Yap.App.Widget.TextView.Label"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:gravity="end"
+            android:text="+ 667.21"
+            tools:text="+ 667.21" />
+    </androidx.appcompat.widget.LinearLayoutCompat>
+</layout>

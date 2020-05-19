@@ -26,6 +26,7 @@ interface HouseHoldComponent : AndroidInjector<DaggerApplication> {
     interface Builder {
         // @BindsInstance
        // fun application(application: AAPApplication): Builder
+        //@BindsInstance
         fun coreComponent(coreComponent: CoreComponent): Builder
         fun build(): HouseHoldComponent
     }
