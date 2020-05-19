@@ -58,8 +58,7 @@
                 tools:text="Set your PIN code."
                 android:visibility="@{viewModel.item.title.isEmpty()?View.GONE:View.VISIBLE}"
                 android:text="@{viewModel.item.title}"/>
-           <!-- android:visibility="@{viewModel.item.title.isEmpty()?View.GONE:View.VISIBLE}"
-            android:text="@{viewModel.item.title}"-->
+            
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvDescription"
                 style="@style/AMicroGrey"
@@ -75,7 +74,6 @@
                 tools:text="Congrats for your new card. Please set your own PIN code to activate your card."
                 android:text="@{viewModel.item.description}" />
 
-<!--            android:text="@{viewModel.item.description}"-->
             <co.yap.widgets.CoreButton
                 style="@style/RectangleBtnSmallStyle"
                 android:layout_width="wrap_content"
