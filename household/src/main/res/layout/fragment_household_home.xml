@@ -45,22 +45,27 @@
                 app:layout_constraintTop_toBottomOf="@id/toolbar" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <androidx.appcompat.widget.AppCompatSeekBar
+        <com.jaygoo.widget.RangeSeekBar
             android:id="@+id/rsbAmount"
             android:layout_width="0dp"
-            android:layout_height="@dimen/_30sdp"
+            android:layout_height="@dimen/_40sdp"
             android:layout_marginStart="@dimen/margin_medium_large"
             android:layout_marginEnd="@dimen/margin_medium_large"
             android:elevation="@dimen/_1sdp"
-            android:max="200"
-            android:progress="@={viewModel.state.progress}"
-            android:scaleX="0.9"
-            android:scaleY="0.9"
-            android:thumb="@drawable/ic_seekbar_thumb"
-            android:thumbOffset="@dimen/_15sdp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/clHeaderContainer" />
+            app:layout_constraintTop_toBottomOf="@+id/clHeaderContainer"
+            app:rsb_max="200"
+            app:rsb_step_drawable="@drawable/ic_seekbar_thumb"
+            app:rsb_mode="single"
+            app:rsb_steps="2"
+            app:rsb_progress_color="@color/colorPrimary"
+            app:rsb_progress_default_color="?attr/colorSeekBar"
+            app:rsb_progress_height="@dimen/_4sdp"
+            app:rsb_progress_radius="@dimen/_2sdp"
+            app:rsb_thumb_drawable="@drawable/ic_seekbar_thumb"
+            app:rsb_thumb_height="@dimen/_50sdp"
+            app:rsb_thumb_width="@dimen/_50sdp" />
 
         <Space
             android:id="@+id/space"
@@ -81,7 +86,9 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/space"
-            app:presetRadioCheckedId="@id/firstIndicator">
+            app:presetRadioCheckedId="@id/firstIndicator"
+            app:rangeSeekBarId="@id/rsbAmount"
+            >
 
             <co.yap.widgets.radiocus.PresetValueButton
                 android:id="@+id/firstIndicator"
@@ -94,7 +101,6 @@
                 android:background="@drawable/background_selector_preset_button"
                 android:clickable="true"
                 android:gravity="center"
-                android:onClick="@{(v)-> viewModel.handlePressOnView(v.id)}"
                 android:paddingTop="@dimen/margin_small"
                 android:paddingBottom="@dimen/margin_small"
                 app:lable1="My money"
@@ -107,7 +113,6 @@
                 android:layout_weight="1"
                 android:background="@drawable/background_selector_preset_button"
                 android:gravity="center"
-                android:onClick="@{(v)-> viewModel.handlePressOnView(v.id)}"
                 android:paddingTop="@dimen/margin_small"
                 android:paddingBottom="@dimen/margin_small"
                 android:textStyle="normal"

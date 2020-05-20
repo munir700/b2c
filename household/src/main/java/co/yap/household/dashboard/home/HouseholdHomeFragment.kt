@@ -22,27 +22,18 @@ class HouseholdHomeFragment :
 
     override fun getLayoutId() = R.layout.fragment_household_home
 
-//    @Inject
-//    lateinit var pre: SharedPreferenceManager
-
     override fun postExecutePendingBindings() {
         super.postExecutePendingBindings()
         mViewDataBinding.transactionRecyclerView.setItemClickListener(adaptorClickListener)
         mViewDataBinding.transactionRecyclerView.setLoadMoreListener(loadMoreListener)
-        viewModel.stateLiveData?.observe(
+        viewModel.stateLiveData.observe(
             this,
             Observer { if (it.status != Status.IDEAL) handleState(it) })
         viewModel.clickEvent.observe(this, clickEvent)
-        viewModel.state.progress.observe(this, Observer {
-            if (viewModel.state.progress.value!! < 100.00) {
-                selectorGroup.check(R.id.firstIndicator)
-            } else {
-                selectorGroup.check(R.id.secondIndicator)
-            }
-        })
     }
 
     val clickEvent = Observer<Int> {}
+
     private val adaptorClickListener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
         }
@@ -64,7 +55,7 @@ class HouseholdHomeFragment :
         }
     }
 
-    fun handleState(state: State?) {
+    private fun handleState(state: State?) {
         when (state?.status) {
             Status.LOADING -> multiStateView?.viewState = MultiStateView.ViewState.LOADING
             Status.EMPTY -> multiStateView?.viewState = MultiStateView.ViewState.EMPTY

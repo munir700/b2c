@@ -51,6 +51,7 @@ import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.daimajia.androidanimations.library.Techniques
 import com.daimajia.androidanimations.library.YoYo
+import com.jaygoo.widget.RangeSeekBar
 import java.text.SimpleDateFormat
 
 object UIBinder {
@@ -969,4 +970,37 @@ object UIBinder {
     fun viewPagerOffscreenPageLimit(view: ViewPager, offscreenPageLimit: Int = 2) {
         view.offscreenPageLimit = offscreenPageLimit
     }
+
+    @JvmStatic
+    @BindingAdapter("rsbProgress"
+//        value = ["rsbProgress", "rsbProgressAttrChanged"], requireAll = false
+    )
+    fun setRsbProgress(
+        rangeSeekBar: RangeSeekBar,
+        minLimit: String? = ""/*,
+        rsbProgressAttrChanged: InverseBindingListener?*/
+    ) {
+        minLimit?.let {
+            rangeSeekBar.setProgress(
+                minLimit.toFloat()
+            )
+            //rsbProgressAttrChanged?.onChange()
+        }
+
+    }
+
+    @JvmStatic
+    @InverseBindingAdapter(attribute = "rsbProgress", event = "rsbProgressAttrChanged")
+    fun getRsbProgress(seekBar: RangeSeekBar): String =
+        seekBar.leftSeekBar.progress.toInt().toString()
+
+    @BindingAdapter("rsbProgressAttrChanged")
+    @JvmStatic
+    fun setListeners(
+        seekBar: RangeSeekBar,
+        attrChange: InverseBindingListener
+    ) {
+        attrChange.onChange()
+    }
+
 }

@@ -7,7 +7,10 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import androidx.annotation.IdRes
 import co.yap.yapcore.R
+import com.jaygoo.widget.OnRangeChangedListener
+import com.jaygoo.widget.RangeSeekBar
 import java.util.*
+
 
 class PresetRadioGroup @JvmOverloads constructor(
     context: Context,
@@ -16,6 +19,8 @@ class PresetRadioGroup @JvmOverloads constructor(
     defStyleRes: Int = 0
 ) : LinearLayout(context, attrs, defStyle, defStyleRes) {
     private var mCheckedId = View.NO_ID
+    private var rangeSeekBar: RangeSeekBar? = null
+    private var mSeekBarId = View.NO_ID
     private var mProtectFromCheckedChange = false
     var onCheckedChangeListener: OnCheckedChangeListener? = null
     private val mChildViewsMap =
@@ -35,14 +40,59 @@ class PresetRadioGroup @JvmOverloads constructor(
             attrs,
             R.styleable.PresetRadioGroup, 0, 0
         )
-        mCheckedId = try {
-            a.getResourceId(
+        try {
+            mCheckedId = a.getResourceId(
                 R.styleable.PresetRadioGroup_presetRadioCheckedId,
                 View.NO_ID
             )
+            mSeekBarId = a.getResourceId(
+                R.styleable.PresetRadioGroup_rangeSeekBarId,
+                View.NO_ID
+            )
+
         } finally {
             a.recycle()
         }
+    }
+
+    override fun onAttachedToWindow() {
+        super.onAttachedToWindow()
+        rangeSeekBar = (parent as? View)?.findViewById(mSeekBarId)
+        rangeSeekBar?.setProgress(30f)
+        rangeSeekBar?.setOnRangeChangedListener(object : OnRangeChangedListener {
+            override fun onRangeChanged(
+                view: RangeSeekBar,
+                leftValue: Float,
+                rightValue: Float,
+                isFromUser: Boolean
+            ) {
+                if (view.leftSeekBar.progress < 100) {
+                    check(getChildAt(0).id)
+                } else {
+                    check(getChildAt(1).id)
+                }
+            }
+
+            override fun onStartTrackingTouch(view: RangeSeekBar, isLeft: Boolean) {
+                if (view.leftSeekBar.progress < 100) {
+                    view.setProgress(30f)
+                    check(getChildAt(0).id)
+                } else {
+                    view.setProgress(160f)
+                    check(getChildAt(1).id)
+                }
+            }
+
+            override fun onStopTrackingTouch(view: RangeSeekBar, isLeft: Boolean) {
+                if (view.leftSeekBar.progress < 100) {
+                    view.setProgress(30f)
+                    check(getChildAt(0).id)
+                } else {
+                    view.setProgress(160f)
+                    check(getChildAt(1).id)
+                }
+            }
+        })
     }
 
     private fun setupView() {
@@ -71,13 +121,11 @@ class PresetRadioGroup @JvmOverloads constructor(
     }
 
     override fun setOnHierarchyChangeListener(listener: OnHierarchyChangeListener) {
-        // the user listener is delegated to our pass-through listener
-        mPassThroughListener!!.mOnHierarchyChangeListener = listener
+        mPassThroughListener?.mOnHierarchyChangeListener = listener
     }
 
     override fun onFinishInflate() {
         super.onFinishInflate()
-        // checks the appropriate radio button as requested in the XML file
         if (mCheckedId != View.NO_ID) {
             mProtectFromCheckedChange = true
             setCheckedStateForView(mCheckedId, true)
@@ -86,10 +134,11 @@ class PresetRadioGroup @JvmOverloads constructor(
         }
     }
 
+
     private fun setCheckedId(@IdRes id: Int, isChecked: Boolean) {
         mCheckedId = id
         if (onCheckedChangeListener != null) {
-            onCheckedChangeListener!!.onCheckedChanged(
+            onCheckedChangeListener?.onCheckedChanged(
                 this,
                 mChildViewsMap[id],
                 isChecked,
@@ -107,7 +156,6 @@ class PresetRadioGroup @JvmOverloads constructor(
     }
 
     fun check(@IdRes id: Int) {
-        // don't even bother
         if (id != View.NO_ID && id == mCheckedId) {
             return
         }
@@ -150,10 +198,9 @@ class PresetRadioGroup @JvmOverloads constructor(
     private inner class CheckedStateTracker :
         RadioCheckable.OnCheckedChangeListener {
         override fun onCheckedChanged(
-            buttonView: View?,
+            radioGroup: View?,
             isChecked: Boolean
         ) {
-            // prevents from infinite recursion
             if (mProtectFromCheckedChange) {
                 return
             }
@@ -162,8 +209,18 @@ class PresetRadioGroup @JvmOverloads constructor(
                 setCheckedStateForView(mCheckedId, false)
             }
             mProtectFromCheckedChange = false
-            val id = buttonView!!.id
-            setCheckedId(id, true)
+            val id = radioGroup?.id
+            id?.let {
+                setCheckedId(id, true)
+            }
+
+            if (!rangeSeekBar?.isPressed!!) {
+                if (id == getChildAt(0).id) {
+                    rangeSeekBar?.setProgress(30f)
+                } else {
+                    rangeSeekBar?.setProgress(160f)
+                }
+            }
         }
     }
 
@@ -181,7 +238,6 @@ class PresetRadioGroup @JvmOverloads constructor(
         ) {
             if (parent === this@PresetRadioGroup && child is RadioCheckable) {
                 var id = child.id
-                // generates an id if it's missing
                 if (id == View.NO_ID) {
                     id = View.generateViewId()
                     child.id = id

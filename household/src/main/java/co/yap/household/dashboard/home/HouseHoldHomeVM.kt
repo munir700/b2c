@@ -3,7 +3,6 @@ package co.yap.household.dashboard.home
 import android.os.Bundle
 import androidx.lifecycle.MutableLiveData
 import androidx.navigation.NavController
-import co.yap.household.R
 import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.transactions.TransactionsRepository
 import co.yap.networking.transactions.requestdtos.HomeTransactionsRequest
@@ -25,8 +24,6 @@ class HouseHoldHomeVM @Inject constructor(
 
     var closingBalanceArray: ArrayList<Double> = arrayListOf()
     override var clickEvent: SingleClickEvent = SingleClickEvent()
-
-    //    override var stateLiveData: MutableLiveData<State>? = MutableLiveData()
     override val isLoadMore: MutableLiveData<Boolean> = MutableLiveData(false)
     override val isLast: MutableLiveData<Boolean> = MutableLiveData(false)
     override var homeTransactionRequest: HomeTransactionsRequest =
@@ -36,20 +33,14 @@ class HouseHoldHomeVM @Inject constructor(
     override var MAX_CLOSING_BALANCE: Double = 0.0
 
     override fun handlePressOnView(id: Int) {
-        when (id) {
-            R.id.firstIndicator -> state.progress.value = 30
-            R.id.secondIndicator -> state.progress.value = 170
-            else -> clickEvent.setValue(id)
-        }
+        clickEvent.setValue(id)
     }
 
     override fun onFirsTimeUiCreate(bundle: Bundle?, navigation: NavController?) {
-        //state = state as HouseholdHomeState
-        // state.toast = "saddsadsasad"
+
     }
 
     override fun requestTransactions(isLoadMore: Boolean) {
-
         val sortedCombinedTransactionList: ArrayList<HomeTransactionListData> = arrayListOf()
         val oldTransactionList: ArrayList<HomeTransactionListData> = arrayListOf()
         transactionsLiveData.value?.let {
@@ -67,8 +58,6 @@ class HouseHoldHomeVM @Inject constructor(
                     if (false /*isRefreshing.value!!*/) {
                         sortedCombinedTransactionList?.clear()
                     }
-                    /*isRefreshing.value!! -->  isRefreshing.value = false*/
-
                     if (sortedCombinedTransactionList?.equals(transactionModelData) == false) {
                         sortedCombinedTransactionList.addAll(transactionModelData)
                     }
@@ -147,18 +136,17 @@ class HouseHoldHomeVM @Inject constructor(
                         state.transactionList.set(listToAppend)
                     } else {
                         if (sortedCombinedTransactionList.isEmpty()) {
-                            stateLiveData?.value = State.empty(null)
+                            stateLiveData.value = State.empty(null)
                         } else {
                             state.transactionList.set(sortedCombinedTransactionList)
-                            stateLiveData?.value = State.success(null)
+                            stateLiveData.value = State.success(null)
                         }
                     }
                     transactionsLiveData.value = sortedCombinedTransactionList
                 }
                 is RetroApiResponse.Error -> {
                     state.loading = false
-                    stateLiveData?.value = State.empty(null)
-                    /*/isRefreshing.value = false*/
+                    stateLiveData.value = State.empty(null)
                 }
             }
         }

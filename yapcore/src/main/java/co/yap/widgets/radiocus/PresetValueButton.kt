@@ -18,11 +18,9 @@ class PresetValueButton @JvmOverloads constructor(
     defStyle: Int = 0,
     defStyleRes: Int = 0
 ) : RelativeLayout(context, attrs, defStyle, defStyleRes), RadioCheckable {
-    // Views
+
     private var tvLable1: TextView? = null
     private var tvLable2: TextView? = null
-
-    // Attribute Variables
     var lable1: String? = null
     var lable2: String? = null
     private var lable1Color = 0
@@ -39,7 +37,6 @@ class PresetValueButton @JvmOverloads constructor(
     init {
         parseAttributes(attrs)
         setupView()
-
     }
 
     private fun parseAttributes(attrs: AttributeSet?) {
@@ -53,20 +50,22 @@ class PresetValueButton @JvmOverloads constructor(
             lable2 = a.getString(R.styleable.PresetValueButton_lable2)
             lable1Color = a.getColor(
                 R.styleable.PresetValueButton_lable1Color,
-                resources.getColor(R.color.colorAccentHouseHold, null)
+                resources.getColor(R.color.kyc_success_text_color_light_gray, null)
             )
             lable2Color = a.getColor(
                 R.styleable.PresetValueButton_lable2Color,
                 resources.getColor(R.color.colorPrimaryDark, null)
             )
-
-            //            mPressedTextColor = a.getColor(R.styleable.PresetValueButton_presetButtonPressedTextColor, Color.BLACK);
+            mPressedTextColor =
+                a.getColor(
+                    R.styleable.PresetValueButton_presetButtonPressedTextColor,
+                    resources.getColor(R.color.colorAccentHouseHold, null)
+                )
         } finally {
             a.recycle()
         }
     }
 
-    // Template method
     private fun setupView() {
         inflateView()
         bindView()
@@ -84,13 +83,13 @@ class PresetValueButton @JvmOverloads constructor(
 
     private fun bindView() {
         if (lable1Color != DEFAULT_TEXT_COLOR) {
-            tvLable1!!.setTextColor(lable1Color)
+            tvLable1?.setTextColor(lable1Color)
         }
         if (lable2Color != DEFAULT_TEXT_COLOR) {
-            tvLable2!!.setTextColor(lable2Color)
+            tvLable2?.setTextColor(lable2Color)
         }
-        tvLable2!!.text = lable2
-        tvLable1!!.text = lable1
+        tvLable2?.text = lable2
+        tvLable1?.text = lable1
     }
 
     override fun setOnClickListener(l: OnClickListener?) {
@@ -110,22 +109,19 @@ class PresetValueButton @JvmOverloads constructor(
     }
 
     private fun onTouchUp(motionEvent: MotionEvent) {
-        // Handle user defined click listeners
-        if (mOnClickListener != null) {
-            mOnClickListener!!.onClick(this)
+        mOnClickListener?.let {
+            mOnClickListener?.onClick(this)
         }
     }
 
     private fun setCheckedState() {
         setBackgroundResource(R.drawable.background_shape_preset_button_pressed)
-        //        tvLable1.setTextColor(mPressedTextColor);
-//        tvLable2.setTextColor(mPressedTextColor);
+        tvLable1?.setTextColor(mPressedTextColor);
     }
 
     private fun setNormalState() {
         background = mInitialBackgroundDrawable
-        //        tvLable1.setTextColor(mValueTextColor);
-//        tvLable2.setTextColor(mUnitTextColor);
+        tvLable1?.setTextColor(lable1Color);
     }
 
     override fun setChecked(checked: Boolean) {
@@ -133,7 +129,7 @@ class PresetValueButton @JvmOverloads constructor(
             mChecked = checked
             if (mOnCheckedChangeListeners.isNotEmpty()) {
                 for (i in mOnCheckedChangeListeners.indices) {
-                    mOnCheckedChangeListeners[i]!!.onCheckedChanged(this, mChecked)
+                    mOnCheckedChangeListeners[i]?.onCheckedChanged(this, mChecked)
                 }
             }
             if (mChecked) {
@@ -170,7 +166,7 @@ class PresetValueButton @JvmOverloads constructor(
                 MotionEvent.ACTION_UP -> onTouchUp(event)
             }
             if (onTouchListener != null) {
-                onTouchListener!!.onTouch(v, event)
+                onTouchListener?.onTouch(v, event)
             }
             return true
         }

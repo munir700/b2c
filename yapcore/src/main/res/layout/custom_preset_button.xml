@@ -4,21 +4,19 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <TextView
+    <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tvLable1"
+        style="@style/Micro"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:fontFamily="@font/roboto_regular"
-        android:textSize="@dimen/text_size_h1"
         tools:text="dsadsa" />
 
-    <TextView
+    <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tvLable2"
+        style="@style/Large"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:fontFamily="@font/roboto_regular"
-        android:textSize="@dimen/text_size_h4"
         tools:text="daddsadsa" />
 </LinearLayout>

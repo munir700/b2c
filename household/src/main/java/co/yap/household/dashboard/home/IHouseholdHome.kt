@@ -14,7 +14,8 @@ interface IHouseholdHome {
 
     interface ViewModel : IBase.ViewModel<State> {
         var clickEvent: SingleClickEvent
-       /// var stateLiveData: MutableLiveData<co.yap.widgets.State>?
+
+        /// var stateLiveData: MutableLiveData<co.yap.widgets.State>?
         //var notificationList: MutableLiveData<ArrayList<Notification>>
         val isLoadMore: MutableLiveData<Boolean>
         val isLast: MutableLiveData<Boolean>
@@ -28,6 +29,5 @@ interface IHouseholdHome {
 
     interface State : IBase.State {
         val transactionList: ObservableField<MutableList<HomeTransactionListData>>
-        var progress:MutableLiveData<Int>
     }
 }
