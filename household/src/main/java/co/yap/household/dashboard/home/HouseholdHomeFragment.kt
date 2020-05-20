@@ -39,8 +39,8 @@ class HouseholdHomeFragment :
     }
 
     private fun setUpAdapter() {
+        mNotificationAdapter.onItemClickListener = userClickListener
         viewModel.adapter.set(mNotificationAdapter)
-        viewModel.adapter.get()?.onItemClickListener = userClickListener
     }
 
     private val userClickListener = object : OnItemClickListener {
