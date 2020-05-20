@@ -88,7 +88,6 @@ class HouseholdDashboardFragment :
         }
     }
 
-
     private fun setupYapItButton() {
         actionMenu = FloatingActionMenu.Builder(requireActivity())
             .setStartAngle(0)
