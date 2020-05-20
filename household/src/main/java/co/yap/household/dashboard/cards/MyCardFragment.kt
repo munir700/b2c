@@ -9,7 +9,7 @@ import androidx.navigation.NavController
 import co.yap.household.BR
 import co.yap.household.R
 import co.yap.household.databinding.FragmentMyCardBinding
-import co.yap.networking.transactions.responsedtos.transaction.Content
+import co.yap.networking.transactions.responsedtos.transaction.Transaction
 import co.yap.translation.Strings
 import co.yap.widgets.DividerItemDecoration
 import co.yap.yapcore.BaseRVAdapter
@@ -23,7 +23,7 @@ import com.arthurivanets.bottomsheets.sheets.listeners.OnItemSelectedListener
 import com.arthurivanets.bottomsheets.sheets.model.Option
 
 class MyCardFragment :
-    BaseRecyclerViewFragment<FragmentMyCardBinding, IMyCard.State, MyCardVM, MyCardFragment.Adapter, Content>() {
+    BaseRecyclerViewFragment<FragmentMyCardBinding, IMyCard.State, MyCardVM, MyCardFragment.Adapter, Transaction>() {
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.fragment_my_card
 
@@ -71,8 +71,8 @@ class MyCardFragment :
         return super.onOptionsItemSelected(item)
     }
 
-    class Adapter(mValue: MutableList<Content>, navigation: NavController?) :
-        BaseRVAdapter<Content, MyCardRecentTransactionsItemVM, BaseViewHolder<Content, MyCardRecentTransactionsItemVM>>(
+    class Adapter(mValue: MutableList<Transaction>, navigation: NavController?) :
+        BaseRVAdapter<Transaction, MyCardRecentTransactionsItemVM, BaseViewHolder<Transaction, MyCardRecentTransactionsItemVM>>(
             mValue,
             navigation
         ) {

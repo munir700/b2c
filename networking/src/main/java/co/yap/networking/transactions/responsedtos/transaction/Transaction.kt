@@ -163,12 +163,4 @@ data class Transaction(
     val receiverProfilePictureUrl: String? = null,
     @SerializedName("cancelReason")
     val cancelReason: String? = null
-) : Parcelable, ApiResponse() {
-
-    fun getTime(): String?{
-        val outputFormat: DateFormat = SimpleDateFormat("hh:mm", Locale.US)
-        val inputFormat: DateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.US)
-        val date: Date = inputFormat.parse(updatedDate)
-        return outputFormat.format(date)
-    }
-}
+) : Parcelable, ApiResponse()

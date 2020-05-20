@@ -4,12 +4,12 @@ import android.os.Bundle
 import android.view.View
 import androidx.navigation.NavController
 import co.yap.household.R
-import co.yap.networking.transactions.responsedtos.transaction.Content
+import co.yap.networking.transactions.responsedtos.transaction.Transaction
 import co.yap.yapcore.BaseListItemViewModel
 
-class MyCardRecentTransactionsItemVM : BaseListItemViewModel<Content>() {
-    private lateinit var mItem: Content
-    override fun setItem(item: Content, position: Int) {
+class MyCardRecentTransactionsItemVM : BaseListItemViewModel<Transaction>() {
+    private lateinit var mItem: Transaction
+    override fun setItem(item: Transaction, position: Int) {
         mItem = item
     }
     override fun getItem() = mItem
