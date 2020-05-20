@@ -61,6 +61,12 @@ class LoginFragment : BaseBindingFragment<ILogin.ViewModel>(), ILogin.View {
                 etEmailField.settingErrorColor(R.color.error)
             }
         })
+        tvSignUpPrefix.setOnClickListener {
+            launchActivity<NavHostPresenterActivity> {
+                putExtra(NAVIGATION_Graph_ID, R.navigation.hh_main_nav_graph)
+                putExtra(NAVIGATION_Graph_START_DESTINATION_ID, R.id.householdDashboardFragment)
+            }
+        }
     }
 
     override fun onDestroy() {

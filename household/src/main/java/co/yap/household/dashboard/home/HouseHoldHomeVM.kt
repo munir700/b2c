@@ -1,8 +1,10 @@
 package co.yap.household.dashboard.home
 
 import android.os.Bundle
+import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
 import androidx.navigation.NavController
+import co.yap.networking.cards.responsedtos.Card
 import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.transactions.TransactionsRepository
 import co.yap.networking.transactions.requestdtos.HomeTransactionsRequest
@@ -12,10 +14,12 @@ import co.yap.networking.transactions.responsedtos.transaction.Transaction
 import co.yap.widgets.State
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.dagger.base.viewmodel.DaggerBaseViewModel
+import co.yap.yapcore.enums.CardDeliveryStatus
 import java.text.SimpleDateFormat
 import java.util.*
 import javax.inject.Inject
 import kotlin.Comparator
+import kotlin.collections.ArrayList
 
 class HouseHoldHomeVM @Inject constructor(
     override var state: IHouseholdHome.State,
@@ -31,13 +35,14 @@ class HouseHoldHomeVM @Inject constructor(
     override val transactionsLiveData: MutableLiveData<List<HomeTransactionListData>> =
         MutableLiveData(arrayListOf())
     override var MAX_CLOSING_BALANCE: Double = 0.0
+    override var adapter = ObservableField<HHNotificationAdapter>()
 
     override fun handlePressOnView(id: Int) {
-        clickEvent.setValue(id)
+
     }
 
     override fun onFirsTimeUiCreate(bundle: Bundle?, navigation: NavController?) {
-
+        requestTransactions(false)
     }
 
     override fun requestTransactions(isLoadMore: Boolean) {
@@ -62,8 +67,7 @@ class HouseHoldHomeVM @Inject constructor(
                         sortedCombinedTransactionList.addAll(transactionModelData)
                     }
                     val unionList =
-                        (sortedCombinedTransactionList.asSequence()
-                            .plus(transactionModelData.asSequence()))
+                        (sortedCombinedTransactionList.asSequence().plus(transactionModelData.asSequence()))
                             .distinct()
                             .groupBy { it.date }
                     for (lists in unionList!!.entries) {

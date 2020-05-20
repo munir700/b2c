@@ -10,7 +10,6 @@ import co.yap.translation.Strings
 import co.yap.yapcore.dagger.base.navigation.BackNavigationResult
 import co.yap.yapcore.dagger.base.navigation.BackNavigationResultListener
 import co.yap.yapcore.dagger.base.navigation.BaseNavViewModelFragment
-import co.yap.yapcore.enums.PackageType
 
 class PayHHEmployeeSalaryFragment :
     BaseNavViewModelFragment<FragmentPayHhemployeeSalaryBinding, IPayHHEmployeeSalary.State, PayHHEmployeeSalaryVM>(),
@@ -30,7 +29,6 @@ class PayHHEmployeeSalaryFragment :
 
     private fun onClick(id: Int) {
         when (id) {
-
             R.id.btnPayNow -> {
                 arguments?.putParcelable(
                     SalaryTransaction::class.simpleName,
@@ -40,7 +38,6 @@ class PayHHEmployeeSalaryFragment :
                     PayHHEmployeeSalaryFragmentDirections.actionPayHHEmployeeSalaryFragmentToEnterSalaryAmountFragment(),
                     arguments
                 )
-
             }
             R.id.llScheduleOnce -> {
                 state.futureTransaction?.value?.let {

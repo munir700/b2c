@@ -14,13 +14,10 @@ import javax.inject.Inject
 class HouseHoldDashBoardVM @Inject constructor(override var state: IHouseholdDashboard.State) :
     DaggerBaseViewModel<IHouseholdDashboard.State>(),
     IHouseholdDashboard.ViewModel {
-
     override val adapter = ObservableField<SectionsPagerAdapter>()
     override val profilePictureAdapter = ObservableField<ProfilePictureAdapter>()
     override val clickEvent: SingleClickEvent = SingleClickEvent()
-
-    override fun onFirsTimeUiCreate(bundle: Bundle?, navigation: NavController?) {
-    }
+    override fun onFirsTimeUiCreate(bundle: Bundle?, navigation: NavController?) {}
 
     override fun handlePressOnNavigationItem(id: Int) {
         clickEvent.setValue(id)

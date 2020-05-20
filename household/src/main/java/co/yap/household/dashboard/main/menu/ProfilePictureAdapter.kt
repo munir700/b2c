@@ -18,7 +18,7 @@ class ProfilePictureAdapter(mValue: MutableList<AccountInfo>, navigation: NavCon
         view: View,
         viewModel: ProfilePictureItemVM,
         mDataBinding: ViewDataBinding, viewType: Int
-    ) = BaseViewHolder<AccountInfo, ProfilePictureItemVM>(view, viewModel, mDataBinding)
+    ) = BaseViewHolder(view, viewModel, mDataBinding)
 
     override fun getViewModel(viewType: Int) = ProfilePictureItemVM()
     override fun getVariableId() = BR.profilePictureItemVM

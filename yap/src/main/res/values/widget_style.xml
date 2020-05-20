@@ -317,7 +317,49 @@
         <item name="android:fontFamily">sans-serif</item>
         <item name="android:textStyle">normal</item>
         <item name="singleLine">true</item>
-
     </style>
 
+    <style name="Yap.App.Layout" parent="AppTheme">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="Yap.App.Layout.LinearLayout" parent="Yap.App.Layout">
+        <item name="android:orientation">vertical</item>
+    </style>
+
+    <style name="Yap.App.Layout.LinearLayout.Horizontal" parent="Yap.App.Layout.LinearLayout">
+        <item name="android:orientation">horizontal</item>
+    </style>
+
+    <style name="Yap.App.Layout.LinearLayout.Horizontal.White" parent="Yap.App.Layout.LinearLayout.Horizontal">
+        <item name="android:background">@color/white</item>
+    </style>
+
+    <style name="Yap.App.Layout.LinearLayout.Horizontal.wrap_content" parent="Yap.App.Layout.LinearLayout.Horizontal">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="Yap.App.Layout.LinearLayout.Horizontal.match_parent" parent="Yap.App.Layout.LinearLayout.Horizontal">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="Yap.App.Layout.LinearLayout.Vertical" parent="Yap.App.Layout.LinearLayout">
+        <item name="android:orientation">vertical</item>
+    </style>
+
+    <style name="Yap.App.Layout.LinearLayout.Vertical.White" parent="Yap.App.Layout.LinearLayout.Vertical">
+        <item name="android:background">@color/white</item>
+    </style>
+
+    <style name="Yap.App.Widget.RecyclerViewStyle" parent="AppTheme">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:clipChildren">false</item>
+        <item name="android:clipToPadding">false</item>
+        <item name="android:scrollbarStyle">outsideOverlay</item>
+        <item name="android:scrollbars">vertical</item>
+    </style>
 </resources>

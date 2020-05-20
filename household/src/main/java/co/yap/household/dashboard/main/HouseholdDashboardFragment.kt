@@ -1,6 +1,5 @@
 package co.yap.household.dashboard.main
 
-import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
 import co.yap.household.BR
@@ -14,79 +13,51 @@ import co.yap.networking.customers.responsedtos.AccountInfo
 import co.yap.widgets.arcmenu.FloatingActionMenu
 import co.yap.widgets.arcmenu.animation.SlideInAnimationHandler
 import co.yap.yapcore.adpters.SectionsPagerAdapter
-import co.yap.yapcore.dagger.base.BaseViewModelActivity
+import co.yap.yapcore.dagger.base.navigation.BaseNavViewModelFragment
 import co.yap.yapcore.enums.AccountType
 import co.yap.yapcore.helpers.extentions.dimen
 import co.yap.yapcore.helpers.extentions.launchActivity
 import co.yap.yapcore.helpers.livedata.SwitchProfileLiveData
 import co.yap.yapcore.interfaces.OnItemClickListener
-import co.yap.yapcore.managers.MyUserManager
 import kotlinx.android.synthetic.main.activity_household_dashboard.*
 import kotlinx.android.synthetic.main.layout_drawer_header.*
 import kotlinx.android.synthetic.main.layout_drawer_header_expandable.*
-import kotlinx.android.synthetic.main.layout_drawer_household_dashboard.*
 import net.cachapa.expandablelayout.ExpandableLayout
 import javax.inject.Inject
 
-class HouseholdDashboardActivity :
-    BaseViewModelActivity<ActivityHouseholdDashboardBinding, IHouseholdDashboard.State, HouseHoldDashBoardVM>() {
+class HouseholdDashboardFragment :
+    BaseNavViewModelFragment<ActivityHouseholdDashboardBinding, IHouseholdDashboard.State, HouseHoldDashBoardVM>() {
     @Inject
     lateinit var adapter: SectionsPagerAdapter
 
+    @Inject
+    lateinit var profilePictureAdapter: ProfilePictureAdapter
     override fun getBindingVariable() = BR.viewModel
     override fun getLayoutId() = R.layout.activity_household_dashboard
     private var actionMenu: FloatingActionMenu? = null
-    var selectedUser: AccountInfo? = null
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        addObservers()
-        setUpAdapter()
-        addListeners()
-    }
-
-    private fun addObservers() {
-        viewModel.clickEvent.observe(this, Observer {
-            when (it) {
-                R.id.btnCopyHH -> {}
-                R.id.lyHeader_section -> expandableLayout.toggle(true)
-            }
-        })
-    }
 
     private fun setUpAdapter() {
-        val mAdapter = ProfilePictureAdapter(
-            MyUserManager.usersList,
-            null
-        )
-        mAdapter.onItemClickListener = userClickListener
-        recyclerView.adapter = mAdapter
-        viewModel.profilePictureAdapter.set(mAdapter)
+        profilePictureAdapter.onItemClickListener = userClickListener
+        viewModel.profilePictureAdapter.set(profilePictureAdapter)
     }
 
     private val userClickListener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
             if (data is AccountInfo) {
-                selectedUser = data
-                data.uuid?.let { SwitchProfileLiveData.get(it, this@HouseholdDashboardActivity).observe(this@HouseholdDashboardActivity, switchProfileObserver) }
-            }
-        }
-    }
-
-    private val switchProfileObserver = Observer<AccountInfo?> {
-        it.run {
-            if (selectedUser?.accountType == AccountType.B2C_ACCOUNT.name) {
-                // Go to yap Dashboard
-                launchActivity<YapDashboardActivity>()
-                finish()
-            } else if (selectedUser?.accountType == AccountType.B2C_HOUSEHOLD.name) {
-                // Go to household Dashboard
+                if (data.accountType == AccountType.B2C_ACCOUNT.name) {
+                    data.uuid?.let {
+                        SwitchProfileLiveData.get(it, this@HouseholdDashboardFragment)
+                            .observe(this@HouseholdDashboardFragment, Observer<AccountInfo?> {
+                                launchActivity<YapDashboardActivity>(clearPrevious = true)
+                            })
+                    }
+                }
             }
         }
     }
 
     private fun addListeners() {
-        expandableLayout.setOnExpansionUpdateListener { expansionFraction, state ->
+        expandableLayout.setOnExpansionUpdateListener { _, state ->
             when (state) {
                 ExpandableLayout.State.EXPANDED -> ivChevron.rotation = 180F
                 ExpandableLayout.State.COLLAPSED -> ivChevron.rotation = 0F
@@ -96,18 +67,29 @@ class HouseholdDashboardActivity :
 
     override fun postExecutePendingBindings() {
         super.postExecutePendingBindings()
+        setUpAdapter()
+        addListeners()
         adapter.addFragmentInfo<HouseholdHomeFragment>()
         adapter.addFragmentInfo<MyCardFragment>()
         adapter.addFragmentInfo<HouseholdHomeFragment>()
         adapter.addFragmentInfo<HouseholdHomeFragment>()
-
         viewModel.adapter.set(adapter)
         bottomNav.setUpWithViewPager(viewPager)
         setupYapItButton()
+        viewModel.clickEvent.observe(this, Observer { onClick(it) })
+
+    }
+
+    private fun onClick(id: Int) {
+        when (id) {
+            R.id.btnCopyHH -> {
+            }
+            R.id.lyHeader_section -> expandableLayout.toggle(true)
+        }
     }
 
     private fun setupYapItButton() {
-        actionMenu = FloatingActionMenu.Builder(this)
+        actionMenu = FloatingActionMenu.Builder(requireActivity())
             .setStartAngle(0)
             .setEndAngle(-180).setRadius(dimen(co.yap.R.dimen._69sdp))
             .setAnimationHandler(SlideInAnimationHandler())
@@ -115,13 +97,13 @@ class HouseholdDashboardActivity :
                 getString(co.yap.R.string.yap_to_yap),
                 co.yap.R.drawable.ic_yap_to_yap,
                 co.yap.R.layout.component_yap_menu_sub_button,
-                this, 1
+                requireActivity(), 1
             )
             .addSubActionView(
                 getString(co.yap.R.string.top_up),
                 co.yap.R.drawable.ic_top_up,
                 co.yap.R.layout.component_yap_menu_sub_button,
-                this, 2
+                requireActivity(), 2
             )
             .attachTo(mViewDataBinding.ivYapIt).setAlphaOverlay(mViewDataBinding.flAlphaOverlay)
             .setTxtYapIt(mViewDataBinding.txtYapIt)
@@ -133,14 +115,8 @@ class HouseholdDashboardActivity :
 
                 override fun onMenuClosed(menu: FloatingActionMenu, subActionButtonId: Int) {
                     when (subActionButtonId) {
-                        1 -> {
-
-                            showToast("Account activation pending 1")
-
-                        }
-                        2 -> {
-                            showToast("Account activation pending 2")
-                        }
+                        1 -> showToast("Account activation pending 1")
+                        2 -> showToast("Account activation pending 2")
                     }
                 }
             })

@@ -51,7 +51,8 @@ import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.daimajia.androidanimations.library.Techniques
 import com.daimajia.androidanimations.library.YoYo
-import com.jaygoo.widget.RangeSeekBar
+import com.yarolegovich.discretescrollview.DiscreteScrollView
+import com.yarolegovich.discretescrollview.transform.ScaleTransformer
 import java.text.SimpleDateFormat
 
 object UIBinder {
@@ -971,36 +972,36 @@ object UIBinder {
         view.offscreenPageLimit = offscreenPageLimit
     }
 
+    @BindingAdapter("slideOnFling")
     @JvmStatic
-    @BindingAdapter("rsbProgress"
-//        value = ["rsbProgress", "rsbProgressAttrChanged"], requireAll = false
-    )
-    fun setRsbProgress(
-        rangeSeekBar: RangeSeekBar,
-        minLimit: String? = ""/*,
-        rsbProgressAttrChanged: InverseBindingListener?*/
-    ) {
-        minLimit?.let {
-            rangeSeekBar.setProgress(
-                minLimit.toFloat()
-            )
-            //rsbProgressAttrChanged?.onChange()
-        }
-
+    fun setSlideOnFling(view: DiscreteScrollView, slide: Boolean){
+        view.setSlideOnFling(slide)
     }
 
+    @BindingAdapter("scrollEnable")
     @JvmStatic
-    @InverseBindingAdapter(attribute = "rsbProgress", event = "rsbProgressAttrChanged")
-    fun getRsbProgress(seekBar: RangeSeekBar): String =
-        seekBar.leftSeekBar.progress.toInt().toString()
-
-    @BindingAdapter("rsbProgressAttrChanged")
-    @JvmStatic
-    fun setListeners(
-        seekBar: RangeSeekBar,
-        attrChange: InverseBindingListener
-    ) {
-        attrChange.onChange()
+    fun setOverScrollEnabled(view: DiscreteScrollView, overScroll: Boolean){
+        view.setOverScrollEnabled(overScroll)
     }
 
+    @BindingAdapter("scrollTo")
+    @JvmStatic
+    fun smoothScrollToPosition(view: DiscreteScrollView, smoothScroll: Int){
+        view.smoothScrollToPosition(smoothScroll)
+    }
+
+    @BindingAdapter("transitionTime")
+    @JvmStatic
+    fun setItemTransitionTimeMillis(view: DiscreteScrollView, transitionTime: Int){
+        view.setItemTransitionTimeMillis(transitionTime)
+    }
+
+    @BindingAdapter("itemTransformer")
+    @JvmStatic
+    fun setItemTransformer(view: DiscreteScrollView, minScale: Float){
+        view.setItemTransformer(
+            ScaleTransformer.Builder()
+                .setMinScale(minScale)
+                .build())
+    }
 }
