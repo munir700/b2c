@@ -160,7 +160,7 @@ object DateUtils {
         return d
     }
 
-    fun formatStringTime(format: String, date: String): String?{
+    fun formatTime(format: String, date: String): String?{
         val outputFormat: DateFormat = SimpleDateFormat(format, Locale.getDefault())
         val inputFormat: DateFormat = SimpleDateFormat(SERVER_DATE_FORMAT, Locale.US)
         val date: Date = inputFormat.parse(date)
