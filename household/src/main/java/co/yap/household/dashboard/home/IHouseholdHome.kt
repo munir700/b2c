@@ -15,6 +15,7 @@ interface IHouseholdHome {
         val isLast: MutableLiveData<Boolean>
         var homeTransactionRequest: HomeTransactionsRequest
         val transactionsLiveData: MutableLiveData<List<HomeTransactionListData>>
+        var adapter: ObservableField<HHNotificationAdapter>
         var MAX_CLOSING_BALANCE: Double
         fun handlePressOnView(id: Int)
         fun requestTransactions(isLoadMore: Boolean = false)

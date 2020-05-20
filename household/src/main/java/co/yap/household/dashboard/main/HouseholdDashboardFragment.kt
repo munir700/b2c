@@ -77,6 +77,7 @@ class HouseholdDashboardFragment :
         bottomNav.setUpWithViewPager(viewPager)
         setupYapItButton()
         viewModel.clickEvent.observe(this, Observer { onClick(it) })
+
     }
 
     private fun onClick(id: Int) {
@@ -86,7 +87,6 @@ class HouseholdDashboardFragment :
             R.id.lyHeader_section -> expandableLayout.toggle(true)
         }
     }
-
 
     private fun setupYapItButton() {
         actionMenu = FloatingActionMenu.Builder(requireActivity())
