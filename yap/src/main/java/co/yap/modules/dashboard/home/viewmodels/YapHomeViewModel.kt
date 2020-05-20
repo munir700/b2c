@@ -5,7 +5,6 @@ import androidx.lifecycle.MutableLiveData
 import co.yap.app.YAPApplication
 import co.yap.modules.dashboard.home.filters.models.TransactionFilters
 import co.yap.modules.dashboard.home.interfaces.IYapHome
-import co.yap.modules.dashboard.home.models.HomeNotification
 import co.yap.modules.dashboard.home.states.YapHomeState
 import co.yap.modules.dashboard.main.viewmodels.YapDashboardChildViewModel
 import co.yap.networking.cards.CardsRepository
@@ -13,6 +12,8 @@ import co.yap.networking.cards.responsedtos.Address
 import co.yap.networking.cards.responsedtos.Card
 import co.yap.networking.customers.responsedtos.AccountInfo
 import co.yap.networking.models.RetroApiResponse
+import co.yap.networking.notification.HomeNotification
+import co.yap.networking.notification.NotificationAction
 import co.yap.networking.transactions.TransactionsRepository
 import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionListData
 import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionsResponse

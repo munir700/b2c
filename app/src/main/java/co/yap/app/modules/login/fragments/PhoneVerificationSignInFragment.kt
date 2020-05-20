@@ -10,11 +10,13 @@ import co.yap.app.R
 import co.yap.app.constants.Constants
 import co.yap.app.modules.login.interfaces.IPhoneVerificationSignIn
 import co.yap.app.modules.login.viewmodels.PhoneVerificationSignInViewModel
-import co.yap.household.dashboard.main.HouseholdDashboardActivity
 import co.yap.household.onboard.onboarding.main.OnBoardingHouseHoldActivity
 import co.yap.modules.dashboard.main.activities.YapDashboardActivity
 import co.yap.modules.onboarding.fragments.OnboardingChildFragment
 import co.yap.networking.customers.responsedtos.AccountInfo
+import co.yap.yapcore.dagger.base.navigation.host.NAVIGATION_Graph_ID
+import co.yap.yapcore.dagger.base.navigation.host.NAVIGATION_Graph_START_DESTINATION_ID
+import co.yap.yapcore.dagger.base.navigation.host.NavHostPresenterActivity
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.biometric.BiometricUtil
 import co.yap.yapcore.helpers.extentions.launchActivity
@@ -117,7 +119,11 @@ class PhoneVerificationSignInFragment :
             if (MyUserManager.isExistingUser()) {
                 launchActivity<YapDashboardActivity>(clearPrevious = true)
             } else {
-                launchActivity<HouseholdDashboardActivity>(clearPrevious = true)
+                launchActivity<NavHostPresenterActivity>(clearPrevious = true) {
+                    putExtra(NAVIGATION_Graph_ID, R.navigation.hh_main_nav_graph)
+                    putExtra(NAVIGATION_Graph_START_DESTINATION_ID, R.id.householdDashboardFragment)
+                }
+               // launchActivity<HouseholdDashboardActivity>(clearPrevious = true)
             }
         }
     }

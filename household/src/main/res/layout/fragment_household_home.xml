@@ -4,12 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
         <variable
             name="viewModel"
             type="co.yap.household.dashboard.home.HouseHoldHomeVM" />
-
         <import type="co.yap.translation.Strings" />
+        <import type="android.view.View"/>
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -42,7 +41,14 @@
                 app:dsv_orientation="horizontal"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/toolbar" />
+                app:layout_constraintTop_toBottomOf="@id/toolbar"
+                app:adapter="@{viewModel.adapter}"
+                android:visibility="@{viewModel.adapter.data.size()>0?View.VISIBLE:View.GONE}"
+                app:slideOnFling="@{false}"
+                app:scrollEnable="@{true}"
+                app:scrollTo="@{0}"
+                app:transitionTime="@{100}"
+                app:itemTransformer="@{0.8f}"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -127,11 +133,14 @@
             app:msv_emptyView="@layout/layout_home_no_transaction"
             app:msv_loadingView="@layout/layout_loading_view">
 
-            <co.yap.yapcore.transactions.TransactionRecyclerView
-                android:id="@+id/transactionRecyclerView"
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerView"
                 android:layout_width="match_parent"
-                app:txnList="@{viewModel.state.transactionList}"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"
+                android:layout_alignParentTop="true"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:listitem="@layout/item_home_transaction_child" />
+
         </co.yap.widgets.MultiStateView>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

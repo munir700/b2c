@@ -9,7 +9,6 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import co.yap.household.BR
 import co.yap.household.R
-import co.yap.household.dashboard.main.HouseholdDashboardActivity
 import co.yap.household.onboard.cardselection.HouseHoldCardsSelectionActivity
 import co.yap.household.onboard.onboarding.existinghousehold.ExistingHouseholdFragment
 import co.yap.household.onboard.onboarding.interfaces.IHouseHoldNumberRegistration
@@ -19,6 +18,9 @@ import co.yap.household.onboard.onboarding.viewmodels.HouseHoldNumberRegistratio
 import co.yap.modules.onboarding.activities.LiteDashboardActivity
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.RequestCodes
+import co.yap.yapcore.dagger.base.navigation.host.NAVIGATION_Graph_ID
+import co.yap.yapcore.dagger.base.navigation.host.NAVIGATION_Graph_START_DESTINATION_ID
+import co.yap.yapcore.dagger.base.navigation.host.NavHostPresenterActivity
 import co.yap.yapcore.enums.AccountStatus
 import co.yap.yapcore.helpers.extentions.ExtraType
 import co.yap.yapcore.helpers.extentions.getValue
@@ -48,7 +50,10 @@ class HouseHoldNumberRegistrationFragment :
                 when (AccountStatus.valueOf(notificationStatuses)) {
                     AccountStatus.INVITE_PENDING -> {
                         val bundle = Bundle()
-                        bundle.putParcelable(OnBoardingHouseHoldActivity.USER_INFO, viewModel.parentViewModel?.state?.accountInfo)
+                        bundle.putParcelable(
+                            OnBoardingHouseHoldActivity.USER_INFO,
+                            viewModel.parentViewModel?.state?.accountInfo
+                        )
                         startFragment(ExistingHouseholdFragment::class.java.name, true, bundle)
                     }
 
@@ -61,14 +66,15 @@ class HouseHoldNumberRegistrationFragment :
                         findNavController().navigate(R.id.action_houseHoldNumberRegistrationFragment_to_emailHouseHoldFragment)
                     }
                     else -> {
-                        launchActivity<HouseholdDashboardActivity>()
-//                        startActivity(
-//                            Intent(
-//                                requireContext(),
-//                                HouseholdDashboardActivity::class.java
-//                            )
-//                        )
-                        activity?.finish()
+                        launchActivity<NavHostPresenterActivity>(clearPrevious = true) {
+                            putExtra(NAVIGATION_Graph_ID, R.navigation.hh_main_nav_graph)
+                            putExtra(
+                                NAVIGATION_Graph_START_DESTINATION_ID,
+                                R.id.householdDashboardFragment
+                            )
+                        }
+//                        launchActivity<HouseholdDashboardActivity>()
+//                        activity?.finish()
                     }
                 }
         }
@@ -111,12 +117,12 @@ class HouseHoldNumberRegistrationFragment :
                                     )
 
                                 } else {
-                                   /* startActivity(
-                                        Intent(
-                                            requireContext(),
-                                            InvalidEIDFragment::class.java
-                                        )
-                                    )*/
+                                    /* startActivity(
+                                         Intent(
+                                             requireContext(),
+                                             InvalidEIDFragment::class.java
+                                         )
+                                     )*/
 
                                     startFragment(InvalidEIDFragment::class.java.name)
                                 }
@@ -138,13 +144,13 @@ class HouseHoldNumberRegistrationFragment :
     private val validationResponse = Observer<String>
     {
         if (!it.isNullOrEmpty()) {
-            if (it == AccountStatus.ON_BOARDED.toString())  {
+            if (it == AccountStatus.ON_BOARDED.toString()) {
                 launchActivity<HouseHoldCardsSelectionActivity>()
-            }else{
+            } else {
                 findNavController().navigate(R.id.to_houseHoldCreatePassCodeFragment)
             }
 
-        }else{
+        } else {
 //            findNavController().navigate(R.id.to_houseHoldCreatePassCodeFragment)
             showToast(it)
 
@@ -157,7 +163,14 @@ class HouseHoldNumberRegistrationFragment :
                 R.id.btnConfirm -> {
                     viewModel.state.existingYapUser?.let {
                         if (it) {
-                            launchActivity<HouseholdDashboardActivity>()
+                            launchActivity<NavHostPresenterActivity>(clearPrevious = false) {
+                                putExtra(NAVIGATION_Graph_ID, R.navigation.hh_main_nav_graph)
+                                putExtra(
+                                    NAVIGATION_Graph_START_DESTINATION_ID,
+                                    R.id.householdDashboardFragment
+                                )
+                            }
+//                            launchActivity<HouseholdDashboardActivity>()
                         } else {
                             viewModel.verifyHouseholdParentMobile()
                             //

@@ -369,7 +369,7 @@
     <string name="screen_report_card_display_text_title">Report lost or stolen card</string>
     <string name="screen_report_card_display_text_complete_transaction">Transaction completed!\nYou now have a physical spare card</string>
     <string name="screen_report_card_display_text_block_note">Click \'block and report\' to confirm that your card has been lost, damaged or stolen. We will immediately block your card and report it to our security team.</string>
-    <string name="screen_report_card_display_text_block_footnote">If you suspect any malicious activity or need to provide us with any other essential information regarding your card\'s disappearance, please give our customer care center a call at  %1s YAP</string>
+    <string name="screen_report_card_display_text_block_footnote">If you suspect any malicious activity or need to provide us with any other essential information regarding your card\'s disappearance, please give our customer care center a call at  %1s</string>
     <string name="screen_report_card_button_block_report">Block and report</string>
     <string name="screen_report_card_display_text_block_card_title">Tell us what happened to your card</string>
     <string name="screen_report_card_button_damage_card">Damaged card</string>
@@ -1116,6 +1116,18 @@
     <string name="screen_household_my_card_screen_menu_view_statement_text">View statement</string>
     <string name="screen_household_my_card_screen_menu_report_lost_card_text">Report lost or stolen card</string>
     <string name="screen_household_my_card_screen_menu_cancel_text">Cancel</string>
+
+    <!-- Household Home Screen -->
+    <string name="screen_household_home_activate_now_text">Activate now</string>
+
+    <!-- Notifications -->
+    <string name="screen_home_help_and_support_desc">Some features may appear blocked for you as you made too many incorrect OTP attempts. Call or chat with us now to get full access.</string>
+    <string name="screen_home_complete_verification_title">Complete Verification</string>
+    <string name="screen_home_complete_verification_desc">Complete verification to activate your account.</string>
+    <string name="screen_home_set_pin_title">Set PIN</string>
+    <string name="screen_home_set_pin_desc">Now create a unique 4-digit PIN to be able to use your primary card for purchases and withdrawals.</string>
+    <string name="screen_home_renewed_id_title">Renewed ID</string>
+    <string name="screen_home_renewed_id_desc">Your Emirates ID has expired. Please update your account with the renewed ID as soon as you can.</string>
 
 </resources>
 

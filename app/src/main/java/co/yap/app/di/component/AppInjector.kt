@@ -20,6 +20,7 @@ import co.yap.yapcore.dagger.di.components.DaggerCoreComponent
 import co.yap.yapcore.dagger.di.components.Injectable
 import dagger.android.AndroidInjection
 import dagger.android.support.AndroidSupportInjection
+import dagger.android.support.DaggerApplication
 import dagger.android.support.HasSupportFragmentInjector
 
 /**
@@ -32,7 +33,7 @@ object AppInjector : HouseHoldComponentProvider, CoreComponentProvider, YapCompo
     fun init(application: AAPApplication): AppComponent {
         val component = DaggerAppComponent.builder()
             .application(application)
-            .coreComponent(provideCoreComponent())
+            .coreComponent(provideCoreComponent(application))
             .houseHoldComponent(provideHouseHoldComponent())
             .yapComponent(provideYapComponent())
             .build()
@@ -112,10 +113,10 @@ object AppInjector : HouseHoldComponentProvider, CoreComponentProvider, YapCompo
         return holdComponent
     }
 
-    override fun provideCoreComponent(): CoreComponent {
+    override fun provideCoreComponent(application: DaggerApplication): CoreComponent {
         if (!this::coreComponent.isInitialized) {
             coreComponent = DaggerCoreComponent
-                .builder()
+                .builder().application(application)
                 .build()
         }
         return coreComponent

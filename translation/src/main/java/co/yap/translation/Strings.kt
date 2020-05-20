@@ -1763,4 +1763,24 @@ const val screen_household_pay_salary_screen_display_text_title: String =
     const val screen_household_my_card_screen_menu_cancel_text: String =
         "screen_household_my_card_screen_menu_cancel_text"
 
+    // Household Home Screen
+    const val screen_household_home_activate_now_text: String =
+        "screen_household_home_activate_now_text"
+
+    // Notifications
+    const val screen_home_help_and_support_desc: String =
+        "screen_home_help_and_support_desc"
+    const val screen_home_complete_verification_title: String =
+        "screen_home_complete_verification_title"
+    const val screen_home_complete_verification_desc: String =
+        "screen_home_complete_verification_desc"
+    const val screen_home_set_pin_title: String =
+        "screen_home_set_pin_title"
+    const val screen_home_set_pin_desc: String =
+        "screen_home_set_pin_desc"
+    const val screen_home_renewed_id_title: String =
+        "screen_home_renewed_id_title"
+    const val screen_home_renewed_id_desc: String =
+        "screen_home_renewed_id_desc"
+
 }
