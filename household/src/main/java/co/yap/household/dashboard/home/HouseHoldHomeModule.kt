@@ -30,6 +30,7 @@ class HouseHoldHomeModule : BaseFragmentModule<HouseholdHomeFragment>() {
         RecyclerViewExpandableItemManager(null)
 
     @Provides
+    @FragmentScope
     fun provideHHNotificationsAdapter(fragment: HouseholdHomeFragment) =
         HHNotificationAdapter(NotificationHelper.getNotifications(MyUserManager.user, MyUserManager.card.value, fragment.requireContext()), null)
 //
