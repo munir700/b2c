@@ -348,7 +348,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/small"
                     android:gravity="end"
-                    android:text="@{`1 `+viewModel.transaction.currency+` = `+viewModel.transaction.fxRate+` AED`}"
+                    android:text="@{viewModel.transaction.currency+` 1.00 = AED `+viewModel.transaction.fxRate}"
                     android:visibility="@{viewModel.transaction.productCode.equals(TransactionProductCode.SWIFT.pCode) || viewModel.transaction.productCode.equals(TransactionProductCode.RMT.pCode)  ? View.VISIBLE : View.GONE}"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tvDestinationAmount"
