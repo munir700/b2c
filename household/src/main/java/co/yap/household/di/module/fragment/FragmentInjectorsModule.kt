@@ -8,11 +8,15 @@ import co.yap.household.dashboard.main.HouseHoldDashboardModule
 import co.yap.household.dashboard.main.HouseholdDashboardFragment
 import co.yap.household.onboard.onboarding.kycsuccess.KycSuccessFragment
 import co.yap.household.onboard.onboarding.kycsuccess.KycSuccessModule
-import co.yap.yapcore.dagger.di.qualifiers.ActivityScope
+import co.yap.household.setpin.setnewpin.HHSetPinFragment
+import co.yap.household.setpin.setnewpin.HHSetPinModule
+import co.yap.household.setpin.setpinstart.HHSetPinCardReviewFragment
+import co.yap.household.setpin.setpinstart.HHSetPinCardReviewModule
+import co.yap.household.setpin.setpinsuccess.HHSetPinSuccessFragment
+import co.yap.household.setpin.setpinsuccess.HHSetPinSuccessModule
 import co.yap.yapcore.dagger.di.qualifiers.FragmentScope
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
-
 
 @Module
 abstract class FragmentInjectorsModule {
@@ -30,5 +34,17 @@ abstract class FragmentInjectorsModule {
     @FragmentScope
     @ContributesAndroidInjector(modules = [HouseHoldDashboardModule::class])
     abstract fun HouseholdDashboardFragmentInjector(): HouseholdDashboardFragment
+
+    @ContributesAndroidInjector(modules = [HHSetPinCardReviewModule::class])
+    @FragmentScope
+    abstract fun hhSetPinCardReviewFragmentInjector(): HHSetPinCardReviewFragment
+
+    @ContributesAndroidInjector(modules = [HHSetPinSuccessModule::class])
+    @FragmentScope
+    abstract fun hhSetPinSuccessFragmentInjector(): HHSetPinSuccessFragment
+
+    @ContributesAndroidInjector(modules = [HHSetPinModule::class])
+    @FragmentScope
+    abstract fun hhSetPinFragmentInjector(): HHSetPinFragment
 
 }

@@ -1,4 +1,4 @@
-package co.yap.modules.subaccounts.householdsetpin.hhsetpinstart
+package co.yap.household.setpin.setpinstart
 
 import android.os.Bundle
 import androidx.navigation.NavController

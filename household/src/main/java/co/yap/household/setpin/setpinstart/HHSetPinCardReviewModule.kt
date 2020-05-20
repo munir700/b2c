@@ -1,4 +1,4 @@
-package co.yap.modules.subaccounts.householdsetpin.hhsetpinstart
+package co.yap.household.setpin.setpinstart
 
 import co.yap.yapcore.dagger.di.InjectionViewModelProvider
 import co.yap.yapcore.dagger.di.module.fragment.BaseFragmentModule
@@ -19,7 +19,8 @@ class HHSetPinCardReviewModule : BaseFragmentModule<HHSetPinCardReviewFragment>(
 
     @Provides
     @FragmentScope
-    fun provideHHSetPinCardReviewState(): IHHSetPinCardReview.State = HHSetPinCardReviewState()
+    fun provideHHSetPinCardReviewState(): IHHSetPinCardReview.State =
+        HHSetPinCardReviewState()
 
 
 }

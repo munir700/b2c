@@ -1,4 +1,4 @@
-package co.yap.modules.subaccounts.householdsetpin.hhsetpinsuccess
+package co.yap.household.setpin.setpinsuccess
 
 import android.os.Bundle
 import androidx.navigation.NavController

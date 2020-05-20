@@ -1,9 +1,9 @@
-package co.yap.modules.subaccounts.householdsetpin.hhsetpinsuccess
+package co.yap.household.setpin.setpinsuccess
 
 import androidx.lifecycle.Observer
-import co.yap.R
-import co.yap.BR
-import co.yap.databinding.FragmentHhSetPinSuccessBinding
+import co.yap.household.BR
+import co.yap.household.R
+import co.yap.household.databinding.FragmentHhSetPinSuccessBinding
 import co.yap.modules.dashboard.store.household.activities.HouseHoldLandingActivity
 import co.yap.yapcore.dagger.base.navigation.BaseNavViewModelFragment
 import co.yap.yapcore.helpers.extentions.launchActivity

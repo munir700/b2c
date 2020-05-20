@@ -1,14 +1,13 @@
-package co.yap.modules.subaccounts.householdsetpin.hhsetpinsuccess
+package co.yap.household.setpin.setpinstart
 
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
 
-interface IHHSetPinSuccess {
+interface IHHSetPinCardReview {
     interface View : IBase.View<ViewModel>
-
     interface ViewModel : IBase.ViewModel<State> {
+        fun handleClick(id: Int)
         var clickEvent: SingleClickEvent
-        fun handleButtonPress(id: Int)
     }
 
     interface State : IBase.State

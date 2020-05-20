@@ -1,13 +1,13 @@
-package co.yap.modules.subaccounts.householdsetpin.hhsetpinstart
+package co.yap.household.setpin.setpinstart
 
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
-import co.yap.BR
-import co.yap.R
-import co.yap.databinding.FragmentHhSetPinCardReviewBinding
-import co.yap.modules.subaccounts.householdsetpin.setNewpin.SetPinDataModel
+import co.yap.household.BR
+import co.yap.household.R
+import co.yap.household.databinding.FragmentHhSetPinCardReviewBinding
+import co.yap.household.setpin.setnewpin.SetPinDataModel
 import co.yap.translation.Strings
 import co.yap.yapcore.dagger.base.navigation.BaseNavViewModelFragment
 

@@ -1,4 +1,4 @@
-package co.yap.modules.subaccounts.householdsetpin.setNewpin
+package co.yap.household.setpin.setnewpin
 
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize

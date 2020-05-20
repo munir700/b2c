@@ -6,7 +6,7 @@
 
         <variable
             name="viewModel"
-            type="co.yap.modules.subaccounts.householdsetpin.hhsetpinstart.HHSetPinCardReviewVM" />
+            type="co.yap.household.setpin.setpinstart.HHSetPinCardReviewVM" />
 
         <import type="co.yap.translation.Strings" />
     </data>
