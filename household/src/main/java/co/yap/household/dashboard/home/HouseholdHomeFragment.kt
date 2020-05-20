@@ -11,10 +11,7 @@ import co.yap.widgets.State
 import co.yap.widgets.Status
 import co.yap.widgets.advrecyclerview.expandable.RecyclerViewExpandableItemManager
 import co.yap.yapcore.dagger.base.navigation.BaseNavViewModelFragment
-import co.yap.yapcore.helpers.NotificationHelper
 import co.yap.yapcore.interfaces.OnItemClickListener
-import co.yap.yapcore.managers.MyUserManager
-import kotlinx.android.synthetic.main.fragment_household_home.*
 import javax.inject.Inject
 
 
@@ -92,10 +89,14 @@ class HouseholdHomeFragment :
 
     fun handleState(state: State?) {
         when (state?.status) {
-            Status.LOADING -> multiStateView?.viewState = MultiStateView.ViewState.LOADING
-            Status.EMPTY -> multiStateView?.viewState = MultiStateView.ViewState.EMPTY
-            Status.ERROR -> multiStateView?.viewState = MultiStateView.ViewState.ERROR
-            Status.SUCCESS -> multiStateView?.viewState = MultiStateView.ViewState.CONTENT
+            Status.LOADING -> mViewDataBinding.multiStateView.viewState =
+                MultiStateView.ViewState.LOADING
+            Status.EMPTY -> mViewDataBinding.multiStateView.viewState =
+                MultiStateView.ViewState.EMPTY
+            Status.ERROR -> mViewDataBinding.multiStateView.viewState =
+                MultiStateView.ViewState.ERROR
+            Status.SUCCESS -> mViewDataBinding.multiStateView.viewState =
+                MultiStateView.ViewState.CONTENT
         }
     }
 }

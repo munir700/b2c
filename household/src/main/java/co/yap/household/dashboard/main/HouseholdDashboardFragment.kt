@@ -115,14 +115,8 @@ class HouseholdDashboardFragment :
 
                 override fun onMenuClosed(menu: FloatingActionMenu, subActionButtonId: Int) {
                     when (subActionButtonId) {
-                        1 -> {
-
-                            showToast("Account activation pending 1")
-
-                        }
-                        2 -> {
-                            showToast("Account activation pending 2")
-                        }
+                        1 -> showToast("Account activation pending 1")
+                        2 -> showToast("Account activation pending 2")
                     }
                 }
             })
