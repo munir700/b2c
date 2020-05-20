@@ -60,10 +60,8 @@ class HHSetPinFragment :
         state.dialerError.value = ""
     }
 
-    override fun onLeftAuxButtonClicked() {
+    override fun onLeftAuxButtonClicked() {}
 
-    }
-
-    override fun onRightAuxButtonClicked(numbers: String) {
-    }
+    override fun onRightAuxButtonClicked(numbers: String) {}
 }
+

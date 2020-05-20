@@ -6,11 +6,17 @@ import androidx.recyclerview.widget.RecyclerView
 import co.yap.household.BR
 import co.yap.household.R
 import co.yap.household.databinding.FragmentHouseholdHomeBinding
+import co.yap.networking.notification.HomeNotification
+import co.yap.networking.notification.NotificationAction
 import co.yap.widgets.MultiStateView
 import co.yap.widgets.State
 import co.yap.widgets.Status
 import co.yap.widgets.advrecyclerview.expandable.RecyclerViewExpandableItemManager
 import co.yap.yapcore.dagger.base.navigation.BaseNavViewModelFragment
+import co.yap.yapcore.dagger.base.navigation.host.NAVIGATION_Graph_ID
+import co.yap.yapcore.dagger.base.navigation.host.NAVIGATION_Graph_START_DESTINATION_ID
+import co.yap.yapcore.dagger.base.navigation.host.NavHostPresenterActivity
+import co.yap.yapcore.helpers.extentions.launchActivity
 import co.yap.yapcore.interfaces.OnItemClickListener
 import javax.inject.Inject
 
@@ -39,13 +45,21 @@ class HouseholdHomeFragment :
     }
 
     private fun setUpAdapter() {
-        mNotificationAdapter.onItemClickListener = userClickListener
+        mNotificationAdapter.onItemClickListener = notificationClickListener
         viewModel.adapter.set(mNotificationAdapter)
     }
 
-    private val userClickListener = object : OnItemClickListener {
+    private val notificationClickListener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
-            showToast("pos $pos")
+            var notification: HomeNotification = mNotificationAdapter.getData().get(pos)
+            when (notification.action) {
+                NotificationAction.SET_PIN -> {
+                    launchActivity<NavHostPresenterActivity> {
+                        putExtra(NAVIGATION_Graph_ID, R.navigation.hh_set_card_pin_navigation)
+                        putExtra(NAVIGATION_Graph_START_DESTINATION_ID, R.id.HHSetPinCardReviewFragment)
+                    }
+                }
+            }
         }
     }
 
