@@ -2,10 +2,6 @@ package co.yap.household.dashboard.home
 
 import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
-import co.yap.household.dashboard.main.menu.ProfilePictureAdapter
-import co.yap.modules.dashboard.home.models.HomeNotification
-import co.yap.networking.cards.responsedtos.Card
-import co.yap.networking.customers.responsedtos.AccountInfo
 import co.yap.networking.transactions.requestdtos.HomeTransactionsRequest
 import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionListData
 import co.yap.yapcore.IBase
@@ -19,6 +15,7 @@ interface IHouseholdHome {
         val isLast: MutableLiveData<Boolean>
         var homeTransactionRequest: HomeTransactionsRequest
         val transactionsLiveData: MutableLiveData<List<HomeTransactionListData>>
+        var adapter: ObservableField<HHNotificationAdapter>
         var MAX_CLOSING_BALANCE: Double
         fun handlePressOnView(id: Int)
         fun requestTransactions(isLoadMore: Boolean = false)

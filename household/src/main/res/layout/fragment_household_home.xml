@@ -8,6 +8,7 @@
             name="viewModel"
             type="co.yap.household.dashboard.home.HouseHoldHomeVM" />
         <import type="co.yap.translation.Strings" />
+        <import type="android.view.View"/>
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -42,6 +43,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/toolbar"
                 app:adapter="@{viewModel.adapter}"
+                android:visibility="@{viewModel.adapter.data.size()>0?View.VISIBLE:View.GONE}"
                 app:slideOnFling="@{false}"
                 app:scrollEnable="@{true}"
                 app:scrollTo="@{0}"

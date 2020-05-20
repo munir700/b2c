@@ -35,7 +35,7 @@ class HouseHoldHomeVM @Inject constructor(
     override val transactionsLiveData: MutableLiveData<List<HomeTransactionListData>> =
         MutableLiveData(arrayListOf())
     override var MAX_CLOSING_BALANCE: Double = 0.0
-    val adapter = ObservableField<HHNotificationAdapter>()
+    override var adapter = ObservableField<HHNotificationAdapter>()
 
     override fun handlePressOnView(id: Int) {
 
@@ -227,10 +227,6 @@ class HouseHoldHomeVM @Inject constructor(
 
     override fun loadMore() {
         requestTransactions(true)
-    }
-
-    private fun shouldShowSetPin(paymentCard: Card?): Boolean {
-        return (paymentCard?.deliveryStatus == CardDeliveryStatus.SHIPPED.name && !paymentCard.pinCreated)
     }
 
     private fun convertDate(creationDate: String): String? {
