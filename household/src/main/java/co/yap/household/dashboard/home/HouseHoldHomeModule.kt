@@ -29,7 +29,7 @@ class HouseHoldHomeModule : BaseFragmentModule<HouseholdHomeFragment>() {
 
     @Provides
     @FragmentScope
-    fun provideHomeTransactionAdapter() = HomeTransactionAdapter()
+    fun provideHomeTransactionAdapter() = HomeTransactionAdapter(emptyMap())
 
     @Provides
     @FragmentScope

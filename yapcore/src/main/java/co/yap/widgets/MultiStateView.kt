@@ -14,6 +14,8 @@ import android.widget.FrameLayout
 import androidx.annotation.Keep
 import androidx.annotation.LayoutRes
 import androidx.annotation.Nullable
+import androidx.databinding.BindingAdapter
+import androidx.viewpager.widget.ViewPager
 import co.yap.yapcore.R
 
 class MultiStateView
@@ -461,5 +463,18 @@ class State(
         fun ideal(@Nullable message: String?): State {
             return State(Status.IDEAL, message)
         }
+
+        @JvmStatic
+        @BindingAdapter("viewState", requireAll = true)
+        fun handleState(view: MultiStateView, state: State? = success(null)) {
+            when (state?.status) {
+                Status.LOADING -> view.viewState = MultiStateView.ViewState.LOADING
+                Status.EMPTY -> view.viewState = MultiStateView.ViewState.EMPTY
+                Status.ERROR -> view.viewState = MultiStateView.ViewState.ERROR
+                Status.SUCCESS -> view.viewState = MultiStateView.ViewState.CONTENT
+            }
+        }
     }
+
+
 }

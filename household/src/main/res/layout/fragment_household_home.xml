@@ -58,7 +58,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/clHeaderContainer">
 
-            <TextView
+            <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvTransactionTitle"
                 style="@style/ASmall"
                 android:layout_width="wrap_content"
@@ -68,20 +68,7 @@
                 app:text="@{Strings.screen_household_home_display_text_transactions_heading_title}"
                 tools:text="@string/screen_household_home_display_text_transactions_heading_title" />
 
-            <!--                <TextView-->
-            <!--                    android:id="@+id/tvFilterCount"-->
-            <!--                    style="@style/ASmall"-->
-            <!--                    android:layout_width="@dimen/_22sdp"-->
-            <!--                    android:layout_height="@dimen/_22sdp"-->
-            <!--                    android:layout_marginEnd="5dp"-->
-            <!--                    android:background="@drawable/bg_round_purple"-->
-            <!--                    android:gravity="center"-->
-            <!--                    android:text="@{viewModel.state.filterCount.toString()}"-->
-            <!--                    android:textColor="@color/colorPrimary"-->
-            <!--                    android:visibility="@{viewModel.state.filterCount > 0 ? View.VISIBLE:View.GONE}"-->
-            <!--                    tools:text="6" />-->
-
-            <ImageView
+            <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/ivFilters"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -92,7 +79,7 @@
                 app:layout_constraintEnd_toStartOf="@id/tvFilters"
                 app:layout_constraintTop_toTopOf="@id/tvTransactionTitle" />
 
-            <TextView
+            <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvFilters"
                 style="@style/ASmall"
                 android:layout_width="wrap_content"
@@ -125,7 +112,8 @@
             app:layout_constraintTop_toBottomOf="@id/divider"
             app:msv_animateViewChanges="true"
             app:msv_emptyView="@layout/layout_home_no_transaction"
-            app:msv_loadingView="@layout/layout_loading_view">
+            app:msv_loadingView="@layout/layout_loading_view"
+            app:viewState="@{viewModel.stateLiveData}">
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerView"

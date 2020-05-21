@@ -330,3 +330,35 @@ fun Transaction?.isTransactionCancelled(): Boolean {
     return this?.status == TransactionStatus.CANCELLED.name
 }
 
+
+fun List<Transaction>?.getTotalAmount() {
+    var total = 0.0
+    this?.let { list ->
+        list.map {
+            when (it.productCode) {
+                TransactionProductCode.RMT.pCode, TransactionProductCode.SWIFT.pCode -> {
+                    if (it.txnType == TxnType.DEBIT.type) {
+                        val totalFee = it.postedFees?.plus(it.vatAmount ?: 0.0) ?: 0.0
+                        total -= (it.settlementAmount?.plus(totalFee) ?: 0.0)
+                    } else total += (it.settlementAmount ?: 0.0)
+                }
+                else -> {
+                    if (it.txnType == TxnType.DEBIT.type) total -= (it.totalAmount
+                        ?: 0.0) else total += (it.amount ?: 0.0)
+                }
+            }
+        }
+        var value: String
+        when {
+            total.toString().startsWith("-") -> {
+                value = ((total * -1).toString().toFormattedCurrency()) ?: ""
+                value = "- AED $value"
+            }
+            else -> {
+                value = (total.toString().toFormattedCurrency()) ?: ""
+                value = "+ AED $value"
+            }
+        }
+    }
+}
+

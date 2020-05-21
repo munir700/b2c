@@ -82,10 +82,6 @@ abstract class BaseExpandableRVAdapter<CT : ApiResponse, CVM : BaseListItemViewM
         return 0
     }
 
-    override fun onBindGroupViewHolder(holder: GVH, groupPosition: Int, viewType: Int) {
-
-    }
-
     override fun onBindGroupViewHolder(
         holder: GVH,
         groupPosition: Int,
@@ -103,15 +99,6 @@ abstract class BaseExpandableRVAdapter<CT : ApiResponse, CVM : BaseListItemViewM
         payloads: MutableList<Any>?
     ) {
         onBindChildViewHolder(holder, groupPosition, childPosition, viewType)
-    }
-
-    override fun onBindChildViewHolder(
-        holder: CVH,
-        groupPosition: Int,
-        childPosition: Int,
-        viewType: Int
-    ) {
-        //holder.setItem(datas[position], position)
     }
 
     override fun onCheckCanExpandOrCollapseGroup(
