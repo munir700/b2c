@@ -47,7 +47,7 @@ import co.yap.yapcore.managers.MyUserManager
 import kotlinx.android.synthetic.main.fragment_verify_passcode.*
 
 class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(), BiometricCallback,
-    IVerifyPasscode.View {
+    IVerifyPasscode.View, NumberKeyboardListener {
 
     private lateinit var sharedPreferenceManager: SharedPreferenceManager
     private lateinit var mBiometricManagerX: BiometricManagerX
@@ -73,6 +73,8 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
         updateUUID()
         bioMetricLogic()
         onbackPressLogic()
+        dialer.setNumberKeyboardListener(this)
+        dialer.upDatedDialerPad(viewModel.state.passcode)
     }
 
     private fun addObservers() {
@@ -162,8 +164,13 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
 
     override fun onPause() {
         super.onPause()
-        viewModel.state.passcode = dialer.getText()
         mBiometricManagerX.unSubscribe()
+    }
+
+    private fun goToNext(name: String) {
+        viewModel.createForgotPassCodeOtp {
+            startOtpFragment(name)
+        }
     }
 
     private fun startOtpFragment(name: String) {
@@ -418,7 +425,12 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
                 viewModel.login()
         }
     }
+
+    override fun onNumberClicked(number: Int, text: String) {
+        viewModel.state.passcode = dialer.getText()
+    }
 }
+
 
 @Keep
 enum class VerifyPassCodeEnum {

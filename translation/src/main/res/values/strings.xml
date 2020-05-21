@@ -22,7 +22,9 @@
     <string name="common_display_text_daily_limit_error_multiple_transactions">You have exceeded your daily transaction limit</string>
     <string name="common_display_text_daily_limit_error_topup_supplementary">That\'s over your daily limit. Please enter an amount lower than AED %1s</string>
     <string name="common_display_text_available_balance_error">Your entered amount should be less than or equal to your current balance of %1s</string>
+    <string name="sm_common_display_text_available_balance_error">Uh oh! Enter an amount that‘s less than or equivalent to your current balance of %1s</string>
     <string name="common_display_text_min_max_limit_error_transaction">Your entered amount should be between AED %1s and AED %2s</string>
+    <string name="sm_display_text_min_max_limit_error_transaction">Equivalent of amount entered should be between AED %1s and AED %2s</string>
     <string name="common_display_text_daily_limit_error">That\'s over your daily limit. Please enter an amount lower than %1s</string>
 
 
@@ -574,6 +576,9 @@
     <string name="screen_transaction_details_display_text_edit_note">Edit a note</string>
     <string name="screen_transaction_details_display_text_note_description">Stay organized by adding transaction notes</string>
     <string name="screen_add_note_display_text_type_something">Type something…</string>
+    <string name="screen_transaction_details_display_text_transfer_amount">Transfer amount</string>
+    <string name="screen_transaction_details_display_text_exchange_rate">Exchange rate</string>
+    <string name="screen_transaction_details_display_text_exchange_rate_value">1 %1$s = %2$s</string>
     <string name="screen_add_note_display_text_save">Save</string>
 
     <!--  Send Money no contacts Screen-->
@@ -772,7 +777,7 @@
     <!--   success Transfer flow-->
     <string name="screen_funds_success_header">Transfer successful</string>
     <string name="screen_funds_confirmation_success_description">Your transfer of %1s %2s to %3s will be sent at the exchange rate of %4s</string>
-    <string name="screen_funds_receive_description">%1s will receive %2s</string>
+    <string name="screen_funds_receive_description">That\'s %1s from your account</string>
     <string name="scren_send_money_funds_transfer_display_text_amount_error">Your entered amount should be between AED %1s and AED %2s, and your entered amount should be less than or equal to your current balance of AED %3s</string>
     <string name="scren_send_money_funds_transfer_confirmation_display_text_amount_uaefts">%1s will receive %2s</string>
     <string name="scren_send_money_funds_transfer_confirmation_display_text_fee">Fee: %1s\nNote that the recipient\'s bank may have its own charges.</string>

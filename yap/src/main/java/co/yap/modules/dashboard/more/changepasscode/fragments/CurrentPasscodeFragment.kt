@@ -65,14 +65,9 @@ class CurrentPasscodeFragment : ChangePasscodeBaseFragment<IPassCode.ViewModel>(
                     }
                 }
                 R.id.tvForgotPasscode -> {
-                    if (MyUserManager.user?.otpBlocked == true) {
-                        showToast("${getString(Strings.screen_blocked_otp_display_text_message)}^${AlertType.DIALOG.name}")
-                    }else{
-                        startOtpFragment(
-                            SharedPreferenceManager(requireContext()).getDecryptedUserName() ?: ""
-                        )
+                    viewModel.createForgotPassCodeOtp {username->
+                        startOtpFragment(username)
                     }
-
                 }
             }
         })
@@ -84,6 +79,7 @@ class CurrentPasscodeFragment : ChangePasscodeBaseFragment<IPassCode.ViewModel>(
             bundleOf(
                 OtpDataModel::class.java.name to OtpDataModel(
                     otpAction = OTPActions.FORGOT_PASS_CODE.name,
+                    mobileNumber = viewModel.mobileNumber,
                     username = name,
                     emailOtp = !Utils.isUsernameNumeric(name)
                 )
