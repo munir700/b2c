@@ -230,6 +230,8 @@
                 android:onClick="@{(v) -> viewModel.handlePressOnReportAndBlockButton(v.id)}"
                 android:textAllCaps="false"
                 app:btn_enable="false"
+                app:btn_pressed_color="?attr/colorPrimaryAttr"
+                app:btn_unpressed_color="?attr/colorPrimaryAttr"
                 app:enableCoreButton="@{viewModel.state.valid}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
