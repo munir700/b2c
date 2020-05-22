@@ -1,7 +1,5 @@
 package co.yap.household.setpin.setpinstart
 
-import android.os.Bundle
-import android.view.View
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import co.yap.household.BR
@@ -17,22 +15,24 @@ class HHSetPinCardReviewFragment :
 
     override fun getLayoutId(): Int = R.layout.fragment_hh_set_pin_card_review
 
+    override fun postExecutePendingBindings() {
+        super.postExecutePendingBindings()
+        viewModel.getCard()
+        viewModel.clickEvent.observe(this, observer)
+    }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        viewModel.clickEvent.observe(this, Observer {
-            val action =
-                HHSetPinCardReviewFragmentDirections.actionHHSetPinCardReviewFragmentToSetCardPinFragment2(
-                    SetPinDataModel(
-                        screenType = "setPin",
-                        setPinTitle = getString(Strings.screen_household_set_pin_text_title),
-                        termsAndConditionVisibility = true,
-                        buttonTitle = getString(Strings.screen_household_set_pin_text_button_title),
-                        forgotPassCodeVisibility = false
-                    )
+    var observer = Observer<Int> {
+        val action =
+            HHSetPinCardReviewFragmentDirections.actionHHSetPinCardReviewFragmentToSetCardPinFragment2(
+                SetPinDataModel(
+                    screenType = "setPin",
+                    setPinTitle = getString(Strings.screen_household_set_pin_text_title),
+                    termsAndConditionVisibility = true,
+                    buttonTitle = getString(Strings.screen_household_set_pin_text_button_title),
+                    forgotPassCodeVisibility = false
                 )
-            findNavController().navigate(action)
-        })
+            )
+        findNavController().navigate(action)
     }
 
     override fun onDestroyView() {

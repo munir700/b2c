@@ -727,7 +727,7 @@ object UIBinder {
     //    @BindingAdapter(value = ["src", "addCallback"], requireAll = false)
     @BindingAdapter("src")
     @JvmStatic
-    fun setImageResId(view: ImageView, path: String) {
+    fun setImageResId(view: ImageView, path: String?) {
         Glide.with(view.context)
             .load(path).centerCrop().placeholder(R.color.greyLight)
             .into(view)
