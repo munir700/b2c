@@ -10,6 +10,8 @@
             type="co.yap.household.dashboard.home.HouseHoldHomeVM" />
 
         <import type="co.yap.translation.Strings" />
+
+        <import type="android.view.View" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -39,10 +41,17 @@
                 android:id="@+id/rvNotificationList"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:visibility="@{viewModel.notificationAdapter.data.size()>0?View.VISIBLE:View.GONE}"
+                app:adapter="@{viewModel.notificationAdapter}"
                 app:dsv_orientation="horizontal"
+                app:itemTransformer="@{0.8f}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/toolbar" />
+                app:layout_constraintTop_toBottomOf="@id/toolbar"
+                app:scrollEnable="@{true}"
+                app:scrollTo="@{0}"
+                app:slideOnFling="@{false}"
+                app:transitionTime="@{100}" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

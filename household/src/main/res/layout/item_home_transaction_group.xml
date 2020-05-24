@@ -23,7 +23,7 @@
             style="@style/Yap.App.Widget.TextView.Label"
             android:layout_width="0dp"
             android:layout_weight="1"
-            android:text="@{viewModel.item.date}"
+            android:text="@{TransactionExtentionsKt.getFormattedDate(viewModel.item.transaction[0])}"
             tools:text="Today, Sep 03" />
 
         <androidx.appcompat.widget.AppCompatTextView

@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import co.yap.R
 import co.yap.databinding.ViewNotificationsBinding
 import co.yap.modules.dashboard.home.interfaces.NotificationItemClickListener
-import co.yap.modules.dashboard.home.models.HomeNotification
+import co.yap.networking.notification.HomeNotification
 import co.yap.yapcore.BaseBindingRecyclerAdapter
 
 class NotificationAdapter(

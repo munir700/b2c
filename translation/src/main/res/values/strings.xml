@@ -1122,5 +1122,17 @@
     <string name="screen_household_my_card_screen_menu_report_lost_card_text">Report lost or stolen card</string>
     <string name="screen_household_my_card_screen_menu_cancel_text">Cancel</string>
 
+    <!-- Household Home Screen -->
+    <string name="screen_household_home_activate_now_text">Activate now</string>
+
+    <!-- Notifications -->
+    <string name="screen_home_help_and_support_desc">Some features may appear blocked for you as you made too many incorrect OTP attempts. Call or chat with us now to get full access.</string>
+    <string name="screen_home_complete_verification_title">Complete Verification</string>
+    <string name="screen_home_complete_verification_desc">Complete verification to activate your account.</string>
+    <string name="screen_home_set_pin_title">Set PIN</string>
+    <string name="screen_home_set_pin_desc">Now create a unique 4-digit PIN to be able to use your primary card for purchases and withdrawals.</string>
+    <string name="screen_home_renewed_id_title">Renewed ID</string>
+    <string name="screen_home_renewed_id_desc">Your Emirates ID has expired. Please update your account with the renewed ID as soon as you can.</string>
+
 </resources>
 

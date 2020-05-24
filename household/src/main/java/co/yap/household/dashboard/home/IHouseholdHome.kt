@@ -16,6 +16,7 @@ interface IHouseholdHome {
         fun handlePressOnView(id: Int)
         fun requestTransactions(isLoadMore: Boolean = false)
         val transactionAdapter: ObservableField<HomeTransactionAdapter>?
+        val notificationAdapter: ObservableField<HHNotificationAdapter>?
     }
 
     interface State : IBase.State {

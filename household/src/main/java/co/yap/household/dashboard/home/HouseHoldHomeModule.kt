@@ -6,6 +6,8 @@ import co.yap.yapcore.dagger.di.InjectionViewModelProvider
 import co.yap.yapcore.dagger.di.module.fragment.BaseFragmentModule
 import co.yap.yapcore.dagger.di.qualifiers.FragmentScope
 import co.yap.yapcore.dagger.di.qualifiers.ViewModelInjection
+import co.yap.yapcore.helpers.NotificationHelper
+import co.yap.yapcore.managers.MyUserManager
 import dagger.Module
 import dagger.Provides
 
@@ -30,6 +32,17 @@ class HouseHoldHomeModule : BaseFragmentModule<HouseholdHomeFragment>() {
     @Provides
     @FragmentScope
     fun provideHomeTransactionAdapter() = HomeTransactionAdapter(emptyMap())
+
+    @Provides
+    @FragmentScope
+    fun provideHHNotificationsAdapter(fragment: HouseholdHomeFragment) =
+        HHNotificationAdapter(
+            NotificationHelper.getNotifications(
+                MyUserManager.user,
+                MyUserManager.card.value,
+                fragment.requireContext()
+            ), null
+        )
 
     @Provides
     @FragmentScope
