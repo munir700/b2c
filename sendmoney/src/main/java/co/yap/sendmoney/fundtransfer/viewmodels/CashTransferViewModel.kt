@@ -102,8 +102,15 @@ class CashTransferViewModel(application: Application) :
         parentViewModel?.transactionThreshold?.value?.let {
             it.totalDebitAmountRemittance?.let { totalSMConsumedAmount ->
                 state.amount.toDoubleOrNull()?.let { enteredAmount ->
-                    val remainingOtpLimit = it.otpLimit?.minus(totalSMConsumedAmount)
-                    return enteredAmount > (remainingOtpLimit ?: 0.0)
+                    return if (trxWillHold() && transactionMightGetHeld.value == true) {
+                        val totalHoldAmount =
+                            (it.holdSwiftAmount ?: 0.0).plus(it.holdUAEFTSAmount ?: 0.0)
+                        val remainingOtpLimit = it.otpLimit?.minus(totalHoldAmount)
+                        enteredAmount > (remainingOtpLimit ?: 0.0)
+                    } else {
+                        val remainingOtpLimit = it.otpLimit?.minus(totalSMConsumedAmount)
+                        enteredAmount > (remainingOtpLimit ?: 0.0)
+                    }
                 } ?: return false
             } ?: return false
         } ?: return false
@@ -294,12 +301,12 @@ class CashTransferViewModel(application: Application) :
     }
 
     fun trxWillHold(): Boolean {
-       // todo: cuttoff time , uaefts , AED , cbwsi , bank cbwsi complaintent ,less than equal to 10000
+       // todo: cuttoff time , uaefts , AED , cbwsi , bank cbwsi complaintent ,less than equal to cbwsi limit
         return if (!isOnlyUAEFTS()) return false else
             parentViewModel?.selectedPop?.let { pop ->
                 return (when {
                     parentViewModel?.beneficiary?.value?.cbwsicompliant == true &&
-                            pop.cbwsi == true || state.amount.parseToDouble() > parentViewModel?.transactionThreshold?.value?.cbwsiPaymentLimit ?: 0.0 -> true
+                            pop.cbwsi == true -> state.amount.parseToDouble() > parentViewModel?.transactionThreshold?.value?.cbwsiPaymentLimit ?: 0.0
                     else -> false
                 })
 

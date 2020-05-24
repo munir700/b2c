@@ -44,7 +44,7 @@
 
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/_116sdp"
+                    android:layout_height="@dimen/_100sdp"
                     android:background="@color/white"
                     android:gravity="center|center_vertical">
 
@@ -118,11 +118,12 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:text="@{viewModel.state.sourceCurrency}"
+                    android:text="@{viewModel.state.destinationCurrency}"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
+                    android:layout_marginTop="@dimen/margin_medium"
                     app:layout_constraintTop_toBottomOf="@+id/tvSuccessHeading"
-                    tools:text="AED" />
+                    tools:text="CAD" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/etAmountLayout"
@@ -170,27 +171,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:text="@{viewModel.state.destinationCurrency}"
+                    android:text="@{viewModel.state.sourceCurrency}"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tvSuccessHeading"
-                    tools:text="CAD" />
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/etBeneficiaryAmountLayout"
-                    android:layout_width="@dimen/_140sdp"
-                    android:layout_height="@dimen/_50sdp"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="@dimen/margin_extra_small"
-                    android:background="@drawable/bg_funds"
-                    android:paddingStart="@dimen/margin_medium"
-                    android:paddingEnd="@dimen/margin_medium"
-                    android:visibility="gone"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tvFullName">
-                </androidx.constraintlayout.widget.ConstraintLayout>
+                    tools:text="AED" />
 
                 <co.yap.widgets.EasyMoneyEditText
+                    android:id="@+id/etReceiver"
                     style="@style/ATitle2"
                     android:layout_width="@dimen/_140sdp"
                     android:layout_height="@dimen/_50sdp"
@@ -201,8 +189,6 @@
                     android:focusableInTouchMode="false"
                     android:gravity="center"
                     android:inputType="numberDecimal"
-                    android:paddingStart="@dimen/margin_medium"
-                    android:paddingEnd="@dimen/margin_medium"
                     android:text="@{viewModel.state.etOutputAmount}"
                     app:currency_symbol="$"
                     app:layout_constraintRight_toRightOf="parent"
@@ -235,7 +221,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/_2sdp"
                         android:layout_marginRight="@dimen/_2sdp"
-                        android:text="Yap rate :"
+                        android:text="YAP rate :"
                         tools:text="Yap rate :" />
 
                     <TextView

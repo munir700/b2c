@@ -5,11 +5,12 @@ import android.view.View
 import androidx.navigation.NavController
 import co.yap.household.R
 import co.yap.networking.models.ApiResponse
+import co.yap.networking.transactions.responsedtos.transaction.Transaction
 import co.yap.yapcore.BaseListItemViewModel
 
-class HomeTransactionChildItemVM : BaseListItemViewModel<ApiResponse>() {
-    private lateinit var mItem: ApiResponse
-    override fun setItem(item: ApiResponse, position: Int) {
+class HomeTransactionChildItemVM : BaseListItemViewModel<Transaction>() {
+    private lateinit var mItem: Transaction
+    override fun setItem(item: Transaction, position: Int) {
         this.mItem = item
     }
 

@@ -10,6 +10,7 @@ import co.yap.networking.authentication.AuthRepository
 import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.messages.MessagesRepository
+import co.yap.networking.messages.requestdtos.CreateForgotPasscodeOtpRequest
 import co.yap.networking.messages.requestdtos.CreateOtpGenericRequest
 import co.yap.networking.models.ApiError
 import co.yap.networking.models.RetroApiResponse
@@ -17,6 +18,7 @@ import co.yap.translation.Strings
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleLiveEvent
 import co.yap.yapcore.enums.AlertType
+import co.yap.yapcore.helpers.Utils
 import java.util.concurrent.TimeUnit
 
 class VerifyPasscodeViewModel(application: Application) :
@@ -153,6 +155,31 @@ class VerifyPasscodeViewModel(application: Application) :
                     state.loading = false
                 }
             }
+        }
+    }
+
+    override fun createForgotPassCodeOtp(success: () -> Unit) {
+        val username = state.username
+        launch {
+            state.loading = true
+            when (val response = messagesRepository.createForgotPasscodeOTP(
+                CreateForgotPasscodeOtpRequest(
+                    Utils.verifyUsername(username),
+                    !Utils.isUsernameNumeric(username)
+                )
+            )) {
+                is RetroApiResponse.Success -> {
+                    response.data.data?.let {
+                        mobileNumber = it
+                        success()
+                    }
+                }
+                is RetroApiResponse.Error -> {
+                    state.toast = "${response.error.message}^${AlertType.DIALOG.name}"
+                    state.loading = false
+                }
+            }
+            state.loading = false
         }
     }
 

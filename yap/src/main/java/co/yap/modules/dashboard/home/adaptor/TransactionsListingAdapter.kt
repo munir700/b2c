@@ -48,7 +48,7 @@ class TransactionsListingAdapter(private val list: MutableList<Transaction>) :
                     )
                 ) View.GONE else View.VISIBLE
 
-            itemTransactionListBinding.tvCurrency.text = transaction.currency
+            itemTransactionListBinding.tvCurrency.text = transaction.getCurrency()
             itemTransactionListBinding.ivIncoming.setImageResource(transaction.getTransactionTypeIcon())
 
             itemTransactionListBinding.ivIncoming.background =

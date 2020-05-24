@@ -4,16 +4,17 @@ import android.app.Application
 import androidx.databinding.ObservableField
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import co.yap.sendmoney.home.adapters.RecentTransferAdaptor
-import co.yap.sendmoney.home.interfaces.ISendMoneyHome
-import co.yap.sendmoney.home.states.SendMoneyHomeState
 import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
+import co.yap.sendmoney.home.adapters.RecentTransferAdaptor
+import co.yap.sendmoney.home.interfaces.ISendMoneyHome
+import co.yap.sendmoney.home.states.SendMoneyHomeState
 import co.yap.sendmoney.viewmodels.SendMoneyBaseViewModel
 import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
+import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.helpers.PagingState
 
 
@@ -66,6 +67,7 @@ class SendMoneyHomeScreenViewModel(application: Application) :
 
                 is RetroApiResponse.Error -> {
                     state.loading = false
+                    state.toast = "${response.error.message}^${AlertType.DIALOG.name}"
                 }
             }
         }
@@ -87,6 +89,8 @@ class SendMoneyHomeScreenViewModel(application: Application) :
 
                 is RetroApiResponse.Error -> {
                     state.loading = false
+                    state.toast = "${response.error.message}^${AlertType.DIALOG.name}"
+
                 }
             }
         }
@@ -105,7 +109,7 @@ class SendMoneyHomeScreenViewModel(application: Application) :
 
                 is RetroApiResponse.Error -> {
                     state.loading = false
-                    state.toast = response.error.message
+                    state.toast = "${response.error.message}^${AlertType.DIALOG.name}"
                 }
             }
         }
