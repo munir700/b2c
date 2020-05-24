@@ -1,6 +1,7 @@
 package co.yap.household.dashboard.home
 
 import android.os.Bundle
+import android.util.Log
 import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
 import androidx.navigation.NavController
@@ -17,7 +18,9 @@ import co.yap.yapcore.dagger.base.viewmodel.DaggerBaseViewModel
 import co.yap.yapcore.helpers.DateUtils
 import co.yap.yapcore.helpers.DateUtils.FORMAT_DATE_MON_YEAR
 import co.yap.yapcore.helpers.DateUtils.SERVER_DATE_FORMAT
+import co.yap.yapcore.helpers.DateUtils.UTC
 import co.yap.yapcore.helpers.SharedPreferenceManager
+import co.yap.yapcore.helpers.extentions.getFormattedDate
 import com.google.gson.Gson
 import java.text.SimpleDateFormat
 import java.util.*
@@ -44,15 +47,20 @@ class HouseHoldHomeVM @Inject constructor(
             when (val response =
                 repository.getAccountTransactions(YAPApplication.homeTransactionsRequest)) {
                 is RetroApiResponse.Success -> {
-                    state.transactionMap?.value = response.data.data.transaction.groupBy { t ->
+                    state.transactionMap?.value = response.data.data.transaction.distinct().groupBy { t ->
+
+//                        t.getFormattedDate()
                         DateUtils.reformatStringDate(
                             t.creationDate,
                             SERVER_DATE_FORMAT,
-                            FORMAT_DATE_MON_YEAR
+                            FORMAT_DATE_MON_YEAR, UTC
                         )
                     }
                     transactionAdapter?.get()?.setTransactionData(state.transactionMap?.value)
                     publishState(State.success(null))
+                    state.transactionMap?.value?.map { r->
+                        Log.d("HouseHOldVM>>" , r.key)
+                    }
 //                    transactionMap.forEach { t: String?, u: List<Transaction> ->
 //                        mutableListOf(u)
 //                    }

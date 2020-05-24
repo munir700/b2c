@@ -343,7 +343,14 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
                             clearAllPrevious = true
                         )
                     else
-                        launchActivity<YapDashboardActivity>(clearPrevious = true)
+                        launchActivity<NavHostPresenterActivity>(clearPrevious = true) {
+                            putExtra(NAVIGATION_Graph_ID, R.navigation.hh_main_nav_graph)
+                            putExtra(
+                                NAVIGATION_Graph_START_DESTINATION_ID,
+                                R.id.householdDashboardFragment
+                            )
+                        }
+//                        launchActivity<YapDashboardActivity>(clearPrevious = true)
                 }
             }
         }

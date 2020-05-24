@@ -38,8 +38,7 @@ abstract class BaseExpandableRVAdapter<CT : ApiResponse, CVM : BaseListItemViewM
      * @param position not used
      */
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {}
-    override fun getGroupItemViewType(groupPosition: Int) = 0
-    override fun getChildItemViewType(groupPosition: Int, childPosition: Int) = 0
+
     override fun onCreateGroupViewHolder(parent: ViewGroup?, viewType: Int): GVH {
         val viewModel = createGroupViewModel(viewType)
         val view =
@@ -128,10 +127,8 @@ abstract class BaseExpandableRVAdapter<CT : ApiResponse, CVM : BaseListItemViewM
      * @param position not used
      * @return [RecyclerView.NO_ID]
      */
-    override fun getItemId(position: Int): Long {
-        return RecyclerView.NO_ID
-    }
-
+    override fun getItemId(position: Int) = RecyclerView.NO_ID
+    override fun getItemViewType(position: Int) = position
 
     abstract fun getChildViewHolder(
         view: View,

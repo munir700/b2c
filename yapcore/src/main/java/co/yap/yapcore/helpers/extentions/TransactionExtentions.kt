@@ -1,6 +1,10 @@
 package co.yap.yapcore.helpers.extentions
 
+import android.content.res.ColorStateList
 import android.text.format.DateFormat
+import android.widget.ImageView
+import androidx.core.widget.ImageViewCompat
+import androidx.databinding.BindingAdapter
 import co.yap.networking.transactions.responsedtos.transaction.Transaction
 import co.yap.yapcore.R
 import co.yap.yapcore.enums.TransactionLabelsCode
@@ -8,6 +12,7 @@ import co.yap.yapcore.enums.TransactionProductCode
 import co.yap.yapcore.enums.TransactionStatus
 import co.yap.yapcore.enums.TxnType
 import co.yap.yapcore.helpers.DateUtils
+import co.yap.yapcore.helpers.ImageBinding
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -357,8 +362,9 @@ fun Transaction?.isTransactionCancelled(): Boolean {
 }
 
 
-fun List<Transaction>?.getTotalAmount() {
+fun List<Transaction>?.getTotalAmount():String {
     var total = 0.0
+    var totalAmount = "AED 0.0"
     this?.let { list ->
         list.map {
             when (it.productCode) {
@@ -374,17 +380,77 @@ fun List<Transaction>?.getTotalAmount() {
                 }
             }
         }
-        var value: String
+
         when {
             total.toString().startsWith("-") -> {
-                value = ((total * -1).toString().toFormattedCurrency()) ?: ""
-                value = "- AED $value"
+                totalAmount = ((total * -1).toString().toFormattedCurrency()) ?: ""
+                totalAmount = "- AED $totalAmount"
             }
             else -> {
-                value = (total.toString().toFormattedCurrency()) ?: ""
-                value = "+ AED $value"
+                totalAmount = (total.toString().toFormattedCurrency()) ?: ""
+                totalAmount = "+ AED $totalAmount"
+            }
+        }
+
+    }
+    return totalAmount
+}
+
+object TransactionBinding{
+    @JvmStatic
+    @BindingAdapter("transaction")
+    fun loadAvatarForTransaction(
+        ivTransaction: ImageView,
+        transactionData: Transaction
+    ) {
+        transactionData.let { it ->
+            val txnIconResId = it.getTransactionIcon()
+            it.productCode?.let { pCode ->
+                if (it.isTransactionCancelled()) {
+                    ivTransaction.alpha = 0.4f
+                    ivTransaction.setImageResource(txnIconResId)
+                } else {
+                    if (TransactionProductCode.Y2Y_TRANSFER.pCode == pCode) {
+                        ImageBinding.loadAvatar(
+                            ivTransaction,
+                            if (TxnType.valueOf(
+                                    it.txnType ?: ""
+                                ) == TxnType.DEBIT
+                            ) it.receiverProfilePictureUrl else it.senderProfilePictureUrl,
+                            if (it.txnType == TxnType.DEBIT.type) it.receiverName else it.senderName,
+                            android.R.color.transparent,
+                            R.dimen.text_size_h2
+                        )
+                    } else {
+                        if (txnIconResId != -1) {
+                            ivTransaction.setImageResource(txnIconResId)
+                            when (txnIconResId) {
+                                R.drawable.ic_rounded_plus -> {
+                                    ivTransaction.setBackgroundResource(R.drawable.bg_round_grey)
+                                }
+                                R.drawable.ic_grey_minus_transactions, R.drawable.ic_grey_plus_transactions -> {
+                                    ivTransaction.setBackgroundResource(R.drawable.bg_round_disabled_transaction)
+                                }
+                            }
+                        } else {
+                            ImageBinding.loadAvatar(
+                                ivTransaction,
+                                "",
+                                it.title,
+                                android.R.color.transparent,
+                                R.dimen.text_size_h2
+                            )
+                        }
+                        ivTransaction.alpha = 1.0f
+                        ImageViewCompat.setImageTintList(
+                            ivTransaction,
+                            ColorStateList.valueOf(ivTransaction.context.getColors(R.color.colorPrimary))
+                        )
+                    }
+                }
             }
         }
     }
 }
+
 
