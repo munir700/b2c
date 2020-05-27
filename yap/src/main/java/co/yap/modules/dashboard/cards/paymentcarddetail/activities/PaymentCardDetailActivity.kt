@@ -404,12 +404,16 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
             }
             Constants.EVENT_CHANGE_PIN -> {
                 if (!viewModel.card.value?.blocked!!) {
-                    startActivity(
-                        ChangeCardPinActivity.newIntent(
-                            this,
-                            viewModel.card.value?.cardSerialNumber!!
+                    if (MyUserManager.user?.otpBlocked == true) {
+                        showToast("${getString(Strings.screen_blocked_otp_display_text_message)}^${AlertType.DIALOG.name}")
+                    } else {
+                        startActivity(
+                            ChangeCardPinActivity.newIntent(
+                                this,
+                                viewModel.card.value?.cardSerialNumber!!
+                            )
                         )
-                    )
+                    }
                 } else {
                     showToast("${getString(Strings.screen_remove_funds_display_text_unfreeze_feature)}^${AlertType.DIALOG.name}")
                 }

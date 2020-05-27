@@ -42,7 +42,6 @@ class TopUpLandingActivity : BaseBindingActivity<ITopUpLanding.ViewModel>() {
         when (it) {
             R.id.llBankTransferType -> {
                 startBankFragment()
-                // startActivity(BankDetailActivity.newIntent(this))
             }
             R.id.llCardsTransferType -> {
                 startActivityForResult(

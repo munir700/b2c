@@ -4,11 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="viewModel"
             type="co.yap.household.dashboard.home.HouseHoldHomeVM" />
+
         <import type="co.yap.translation.Strings" />
-        <import type="android.view.View"/>
+
+        <import type="android.view.View" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -38,17 +41,17 @@
                 android:id="@+id/rvNotificationList"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:visibility="@{viewModel.notificationAdapter.data.size()>0?View.VISIBLE:View.GONE}"
+                app:adapter="@{viewModel.notificationAdapter}"
                 app:dsv_orientation="horizontal"
+                app:itemTransformer="@{0.8f}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/toolbar"
-                app:adapter="@{viewModel.adapter}"
-                android:visibility="@{viewModel.adapter.data.size()>0?View.VISIBLE:View.GONE}"
-                app:slideOnFling="@{false}"
                 app:scrollEnable="@{true}"
                 app:scrollTo="@{0}"
-                app:transitionTime="@{100}"
-                app:itemTransformer="@{0.8f}"/>
+                app:slideOnFling="@{false}"
+                app:transitionTime="@{100}" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -140,7 +143,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/selectorGroup">
 
-            <TextView
+            <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvTransactionTitle"
                 style="@style/ASmall"
                 android:layout_width="wrap_content"
@@ -150,20 +153,7 @@
                 app:text="@{Strings.screen_household_home_display_text_transactions_heading_title}"
                 tools:text="@string/screen_household_home_display_text_transactions_heading_title" />
 
-            <!--                <TextView-->
-            <!--                    android:id="@+id/tvFilterCount"-->
-            <!--                    style="@style/ASmall"-->
-            <!--                    android:layout_width="@dimen/_22sdp"-->
-            <!--                    android:layout_height="@dimen/_22sdp"-->
-            <!--                    android:layout_marginEnd="5dp"-->
-            <!--                    android:background="@drawable/bg_round_purple"-->
-            <!--                    android:gravity="center"-->
-            <!--                    android:text="@{viewModel.state.filterCount.toString()}"-->
-            <!--                    android:textColor="@color/colorPrimary"-->
-            <!--                    android:visibility="@{viewModel.state.filterCount > 0 ? View.VISIBLE:View.GONE}"-->
-            <!--                    tools:text="6" />-->
-
-            <ImageView
+            <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/ivFilters"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -174,7 +164,7 @@
                 app:layout_constraintEnd_toStartOf="@id/tvFilters"
                 app:layout_constraintTop_toTopOf="@id/tvTransactionTitle" />
 
-            <TextView
+            <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvFilters"
                 style="@style/ASmall"
                 android:layout_width="wrap_content"
@@ -207,7 +197,8 @@
             app:layout_constraintTop_toBottomOf="@id/divider"
             app:msv_animateViewChanges="true"
             app:msv_emptyView="@layout/layout_home_no_transaction"
-            app:msv_loadingView="@layout/layout_loading_view">
+            app:msv_loadingView="@layout/layout_loading_view"
+            app:viewState="@{viewModel.stateLiveData}">
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerView"

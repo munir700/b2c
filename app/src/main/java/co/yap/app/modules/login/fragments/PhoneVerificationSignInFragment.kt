@@ -60,18 +60,18 @@ class PhoneVerificationSignInFragment :
                         .observe(this@PhoneVerificationSignInFragment, switchProfileObserver)
                 }
             } else {
-                if (BiometricUtil.isFingerprintSupported
-                    && BiometricUtil.isHardwareSupported(requireActivity())
-                    && BiometricUtil.isPermissionGranted(requireActivity())
-                    && BiometricUtil.isFingerprintAvailable(requireActivity())
+                if (BiometricUtil.hasBioMetricFeature(requireActivity())
                 ) {
-                    SharedPreferenceManager(requireContext())
                     if (SharedPreferenceManager(requireContext()).getValueBoolien(
                             co.yap.yapcore.constants.Constants.KEY_TOUCH_ID_ENABLED,
                             false
                         )
                     ) {
-                        launchActivity<YapDashboardActivity>(clearPrevious = true)
+                        if (it.otpBlocked == true)
+                            startFragment(fragmentName = OtpBlockedInfoFragment::class.java.name)
+                        else
+                            launchActivity<YapDashboardActivity>(clearPrevious = true)
+
                     } else {
                         val action =
                             PhoneVerificationSignInFragmentDirections.actionPhoneVerificationSignInFragmentToSystemPermissionFragment(
@@ -123,7 +123,7 @@ class PhoneVerificationSignInFragment :
                     putExtra(NAVIGATION_Graph_ID, R.navigation.hh_main_nav_graph)
                     putExtra(NAVIGATION_Graph_START_DESTINATION_ID, R.id.householdDashboardFragment)
                 }
-               // launchActivity<HouseholdDashboardActivity>(clearPrevious = true)
+                // launchActivity<HouseholdDashboardActivity>(clearPrevious = true)
             }
         }
     }

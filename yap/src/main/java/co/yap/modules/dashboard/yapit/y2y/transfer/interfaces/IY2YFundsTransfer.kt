@@ -15,13 +15,10 @@ class IY2YFundsTransfer {
 
     interface ViewModel : IBase.ViewModel<State> {
         val clickEvent: SingleClickEvent
-        val errorEvent: SingleClickEvent
         val transactionThreshold: MutableLiveData<TransactionThresholdModel>
         var receiverUUID: String
         val transferFundSuccess:MutableLiveData<Boolean>
-        var enteredAmount:MutableLiveData<String>
         fun handlePressOnView(id: Int)
-        fun getTransactionFee()
         fun getTransactionThresholds()
         fun proceedToTransferAmount()
         fun getTransactionLimits()
@@ -29,6 +26,7 @@ class IY2YFundsTransfer {
     }
 
     interface State : IBase.State {
+        var amount:String
         var amountBackground: Drawable?
         var valid: Boolean
         var minLimit: Double

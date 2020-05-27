@@ -8,6 +8,20 @@
         <variable
             name="viewModel"
             type="co.yap.household.dashboard.home.HomeTransactionChildItemVM" />
+
+        <import type="co.yap.yapcore.helpers.extentions.TransactionExtentionsKt" />
+
+        <import type="co.yap.translation.Translator" />
+
+        <import type="co.yap.yapcore.helpers.DateUtils" />
+
+        <import type="co.yap.yapcore.helpers.ImageBinding" />
+
+        <import type="co.yap.yapcore.enums.TxnType" />
+
+        <import type="co.yap.translation.Strings" />
+
+        <import type="co.yap.yapcore.helpers.extentions.StringExtensionsKt" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -24,7 +38,7 @@
             android:id="@+id/flImageLayout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
             <co.yap.widgets.CoreCircularImageView
@@ -33,6 +47,7 @@
                 android:layout_height="@dimen/_35sdp"
                 android:layout_marginBottom="@dimen/_12sdp"
                 android:background="@drawable/bg_round_purple_enabled"
+                app:transaction="@{viewModel.item}"
                 tools:src="@drawable/ic_grey_minus_transactions" />
 
             <co.yap.widgets.CoreCircularImageView
@@ -40,10 +55,9 @@
                 android:layout_width="@dimen/_15sdp"
                 android:layout_height="@dimen/_15sdp"
                 android:layout_gravity="bottom|end"
-                android:visibility="visible"
                 android:layout_marginBottom="@dimen/_6sdp"
-                tools:src="@drawable/ic_outgoing_transaction"
-                />
+                android:visibility="visible"
+                tools:src="@drawable/ic_outgoing_transaction" />
         </FrameLayout>
 
         <androidx.appcompat.widget.LinearLayoutCompat
@@ -64,16 +78,19 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:singleLine="true"
-                android:textColor="@color/colorMidnightExpress"
+                android:text="@{TransactionExtentionsKt.getTransactionTitle(viewModel.item)}"
+                android:textColor="@{TransactionExtentionsKt.isTransactionCancelled(viewModel.item)? @color/greyNormalDark:@color/colorMidnightExpress}"
                 tools:text="Amazon" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvTransactionAmount"
                 style="@style/SmallGrey"
-                android:textColor="@color/colorSecondaryGreen"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:text="@{viewModel.item.txnType == null?` `:(TxnType.valueOf(viewModel.item.txnType) == TxnType.CREDIT?`+ ` + StringExtensionsKt.toFormattedCurrency(viewModel.item.amount.toString()): `- `+StringExtensionsKt.toFormattedCurrency(viewModel.item.totalAmount.toString())) }"
+                android:textColor="@{TransactionExtentionsKt.isTransactionCancelled(viewModel.item)? @color/greyNormalDark:(TxnType.valueOf(viewModel.item.txnType) == TxnType.CREDIT?@color/colorSecondaryGreen :@color/colorPrimaryDark )}"
                 tools:text="18:25" />
+
         </androidx.appcompat.widget.LinearLayoutCompat>
 
         <androidx.appcompat.widget.LinearLayoutCompat
@@ -92,6 +109,8 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:text="@{Translator.INSTANCE.getString(context,Strings.screen_fragment_home_transaction_time_category , TransactionExtentionsKt.getFormattedTime(viewModel.item,DateUtils.INSTANCE.FORMAT_TIME_24H), TransactionExtentionsKt.getTransactionTypeTitle(viewModel.item))}"
+                android:textColor="@{TransactionExtentionsKt.isTransactionCancelled(viewModel.item)? @color/greyNormalDark:@color/greyDark}"
                 tools:text="- 21.00" />
 
             <androidx.appcompat.widget.AppCompatTextView
@@ -99,6 +118,8 @@
                 style="@style/SmallGrey"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:text="@{TransactionExtentionsKt.getCurrency(viewModel.item)}"
+                android:textColor="@{TransactionExtentionsKt.isTransactionCancelled(viewModel.item)? @color/greyNormalDark:@color/greyDark}"
                 tools:text="AED" />
         </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -110,6 +131,7 @@
             android:layout_marginStart="@dimen/margin_normal"
             android:layout_weight="1"
             android:maxLines="2"
+            android:text="@{viewModel.item.transactionNote}"
             android:textColor="@color/greyNormalDark"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/flImageLayout"

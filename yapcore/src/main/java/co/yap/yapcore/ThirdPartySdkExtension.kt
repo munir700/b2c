@@ -3,6 +3,7 @@ package co.yap.yapcore
 import android.app.Activity
 import android.app.Application
 import android.os.Bundle
+import co.yap.yapcore.managers.MyUserManager
 import com.adjust.sdk.Adjust
 import com.adjust.sdk.AdjustConfig
 import com.adjust.sdk.AdjustEvent
@@ -80,6 +81,8 @@ private class AdjustLifecycleCallbacks : Application.ActivityLifecycleCallbacks 
 
 fun fireAdjustEvent(event: String) {
     val adjustEvent = AdjustEvent(event)
+    adjustEvent.setCallbackId(MyUserManager.user?.uuid)
+    adjustEvent.addCallbackParameter("account_id", MyUserManager.user?.uuid)
     Adjust.trackEvent(adjustEvent)
 }
 

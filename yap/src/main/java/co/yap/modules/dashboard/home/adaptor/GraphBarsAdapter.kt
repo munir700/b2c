@@ -75,7 +75,7 @@ class GraphBarsAdapter(
         fun onBind(transactionModel: HomeTransactionListData) {
             transactionModel.amountPercentage =
                 calculatePercentagePerDayFromClosingBalance(transactionModel.closingBalance?:0.0)
-            transactionBar.barHeight = transactionModel.amountPercentage.toFloat()
+            transactionBar.barHeight = transactionModel.amountPercentage?.toFloat()?:0f
         }
 
         private fun calculatePercentagePerDayFromClosingBalance(closingBalance: Double): Double {

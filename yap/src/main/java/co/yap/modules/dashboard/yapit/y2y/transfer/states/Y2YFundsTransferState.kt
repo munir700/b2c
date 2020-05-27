@@ -23,6 +23,12 @@ class Y2YFundsTransferState(application: Application) : BaseState(), IY2YFundsTr
             notifyPropertyChanged(BR.fullName)
         }
 
+    @get:Bindable
+    override var amount: String = ""
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.amount)
+        }
 
     @get:Bindable
     override var amountBackground: Drawable? =
@@ -105,26 +111,4 @@ class Y2YFundsTransferState(application: Application) : BaseState(), IY2YFundsTr
             field = value
             notifyPropertyChanged(BR.transferFee)
         }
-
-    fun checkValidity(amount: String): String {
-        if (amount.isNotEmpty() && !availableBalance.isNullOrEmpty() && amount.toDoubleOrNull() ?: 0.0 >= minLimit) {
-            if (amount.toDoubleOrNull() ?: 0.0 > availableBalance?.toDoubleOrNull() ?: 0.0) {
-                amountBackground =
-                    context.resources.getDrawable(co.yap.yapcore.R.drawable.bg_funds_error, null)
-                errorDescription = Translator.getString(
-                    context,
-                    Strings.common_display_text_available_balance_error
-                ).format(availableBalance?.toFormattedAmountWithCurrency())
-                valid = false
-                return errorDescription
-            } else {
-                amountBackground =
-                    context.resources.getDrawable(co.yap.yapcore.R.drawable.bg_funds, null)
-                valid = true
-            }
-        } else
-            valid = false
-
-        return ""
-    }
 }
