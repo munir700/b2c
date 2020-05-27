@@ -1729,11 +1729,11 @@ object Strings {
     const val screen_household_employee_salary_last_salary_transfer_text: String =
         "screen_household_employee_salary_last_salary_transfer_text"
 
-    //    Household  Pay Salary Screen
-    const val screen_household_pay_salary_screen_display_text_title: String =
-        "screen_household_pay_salary_screen_display_text_title"
+//    Household  Pay Salary Screen
+const val screen_household_pay_salary_screen_display_text_title: String =
+    "screen_household_pay_salary_screen_display_text_title"
     const val screen_household_pay_salary_screen_enter_transfer_amount_title: String =
-        "screen_household_pay_salary_screen_enter_transfer_amount_title"
+    "screen_household_pay_salary_screen_enter_transfer_amount_title"
     const val screen_household_pay_salary_screen_available_balance_text: String =
         "screen_household_pay_salary_screen_available_balance_text"
     const val screen_household_pay_salary_screen_last_salary_text: String =
