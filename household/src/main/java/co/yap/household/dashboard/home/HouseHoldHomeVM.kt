@@ -1,7 +1,6 @@
 package co.yap.household.dashboard.home
 
 import android.os.Bundle
-import android.util.Log
 import androidx.databinding.ObservableField
 import androidx.navigation.NavController
 import co.yap.app.YAPApplication
@@ -36,8 +35,6 @@ class HouseHoldHomeVM @Inject constructor(
                 is RetroApiResponse.Success -> {
                     state.transactionMap?.value =
                         response.data.data.transaction.distinct().groupBy { t ->
-
-//                        t.getFormattedDate()
                             DateUtils.reformatStringDate(
                                 t.creationDate,
                                 SERVER_DATE_FORMAT,
