@@ -55,6 +55,82 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
+        <com.jaygoo.widget.RangeSeekBar
+            android:id="@+id/rsbAmount"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_40sdp"
+            android:layout_marginStart="@dimen/margin_medium_large"
+            android:layout_marginEnd="@dimen/margin_medium_large"
+            android:elevation="@dimen/_1sdp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/clHeaderContainer"
+            app:rsb_max="200"
+            app:rsb_step_drawable="@drawable/ic_seekbar_thumb"
+            app:rsb_mode="single"
+            app:rsb_steps="2"
+            app:rsb_progress_color="@color/colorPrimary"
+            app:rsb_progress_default_color="?attr/colorSeekBar"
+            app:rsb_progress_height="@dimen/_4sdp"
+            app:rsb_progress_radius="@dimen/_2sdp"
+            app:rsb_thumb_drawable="@drawable/ic_seekbar_thumb"
+            app:rsb_thumb_height="@dimen/_50sdp"
+            app:rsb_thumb_width="@dimen/_50sdp" />
+
+        <Space
+            android:id="@+id/space"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginBottom="10dp"
+            app:layout_constraintBottom_toBottomOf="@+id/rsbAmount"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <co.yap.widgets.radiocus.PresetRadioGroup
+            android:id="@+id/selectorGroup"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_large"
+            android:layout_marginEnd="@dimen/margin_large"
+            android:weightSum="2"
+            app:layout_constraintBottom_toTopOf="@+id/clTransactionHeader"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/space"
+            app:presetRadioCheckedId="@id/firstIndicator"
+            app:rangeSeekBarId="@id/rsbAmount"
+            >
+
+            <co.yap.widgets.radiocus.PresetValueButton
+                android:id="@+id/firstIndicator"
+                style="@style/ALarge"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/_70sdp"
+                android:layout_gravity="center"
+                android:layout_marginEnd="@dimen/margin_small"
+                android:layout_weight="1"
+                android:background="@drawable/background_selector_preset_button"
+                android:clickable="true"
+                android:gravity="center"
+                android:paddingTop="@dimen/margin_small"
+                android:paddingBottom="@dimen/margin_small"
+                app:lable1="My money"
+                app:lable2="AED 1000.00" />
+
+            <co.yap.widgets.radiocus.PresetValueButton
+                android:id="@+id/secondIndicator"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/_70sdp"
+                android:layout_weight="1"
+                android:background="@drawable/background_selector_preset_button"
+                android:gravity="center"
+                android:paddingTop="@dimen/margin_small"
+                android:paddingBottom="@dimen/margin_small"
+                android:textStyle="normal"
+                app:lable1="Expense money"
+                app:lable2="AED 257.00" />
+
+        </co.yap.widgets.radiocus.PresetRadioGroup>
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/clTransactionHeader"
             android:layout_width="match_parent"
@@ -65,7 +141,7 @@
             android:layout_marginBottom="@dimen/margin_small"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/clHeaderContainer">
+            app:layout_constraintTop_toBottomOf="@id/selectorGroup">
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvTransactionTitle"
