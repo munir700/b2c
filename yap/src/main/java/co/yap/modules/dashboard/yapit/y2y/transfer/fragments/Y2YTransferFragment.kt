@@ -4,7 +4,6 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.text.InputFilter
-import android.view.Gravity
 import android.view.View
 import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
@@ -26,14 +25,13 @@ import co.yap.translation.Translator
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.OTPActions
 import co.yap.yapcore.enums.TransactionProductCode
-import co.yap.yapcore.helpers.*
-import co.yap.yapcore.helpers.extentions.startFragmentForResult
-import co.yap.yapcore.helpers.extentions.toFormattedAmountWithCurrency
-import co.yap.yapcore.helpers.extentions.toFormattedCurrency
+import co.yap.yapcore.helpers.DecimalDigitsInputFilter
+import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.helpers.cancelAllSnackBar
+import co.yap.yapcore.helpers.extentions.*
 import co.yap.yapcore.helpers.spannables.color
 import co.yap.yapcore.helpers.spannables.getText
 import co.yap.yapcore.managers.MyUserManager
-import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_y2y_funds_transfer.*
 
 
@@ -57,18 +55,14 @@ class Y2YTransferFragment : Y2YBaseFragment<IY2YFundsTransfer.ViewModel>(), IY2Y
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setUpData()
+        setEditTextWatcher()
     }
 
     override fun setObservers() {
         viewModel.clickEvent.observe(this, clickEvent)
-        viewModel.enteredAmount.observe(this, enterAmountObserver)
-        viewModel.errorEvent.observe(this, Observer {
-            showErrorSnackBar(viewModel.state.errorDescription, Snackbar.LENGTH_LONG)
-
-        })
         viewModel.transferFundSuccess.observe(this, transferFundSuccessObserver)
         viewModel.isFeeReceived.observe(this, Observer {
-            if (it) viewModel.updateFees(viewModel.enteredAmount.value ?: "")
+            if (it) viewModel.updateFees(viewModel.state.amount ?: "")
         })
         viewModel.updatedFee.observe(this, Observer {
             if (it.isNotBlank()) setSpannableFee(it)
@@ -91,46 +85,73 @@ class Y2YTransferFragment : Y2YBaseFragment<IY2YFundsTransfer.ViewModel>(), IY2Y
             moveToFundTransferSuccess()
         }
     }
-    private val enterAmountObserver = Observer<String> {
-        viewModel.updateFees(it)
+
+    private fun setEditTextWatcher() {
+        etAmount.filters =
+            arrayOf(InputFilter.LengthFilter(7), DecimalDigitsInputFilter(2))
+
+        etAmount.afterTextChanged {
+            if (viewModel.state.amount.isNotEmpty()) {
+                checkOnTextChangeValidation()
+            } else {
+                cancelAllSnackBar()
+            }
+
+            viewModel.updateFees(it)
+        }
+    }
+
+    private fun checkOnTextChangeValidation() {
         when {
-            it.isBlank() -> {
+            !isBalanceAvailable() -> {
                 viewModel.state.valid = false
+                showBalanceNotAvailableError()
             }
-            isBalanceAvailable(it) -> showErrorSnackBar(
-                viewModel.state.errorDescription,
-                Snackbar.LENGTH_INDEFINITE
-            )
             isDailyLimitReached() -> {
-                viewModel.state.amountBackground =
-                    requireContext().resources.getDrawable(
-                        co.yap.yapcore.R.drawable.bg_funds_error,
-                        null
-                    )
+                viewModel.parentViewModel?.errorEvent?.value = viewModel.state.errorDescription
                 viewModel.state.valid = false
-                showErrorSnackBar(viewModel.state.errorDescription, Snackbar.LENGTH_INDEFINITE)
             }
-            it.isNotBlank() && viewModel.enteredAmount.value?.toDoubleOrNull() ?: 0.0 < viewModel.state.minLimit || viewModel.enteredAmount.value?.toDoubleOrNull() ?: 0.0 > viewModel.state.maxLimit -> {
-                setUpperLowerLimitError()
-                viewModel.state.amountBackground =
-                    requireContext().resources.getDrawable(
-                        co.yap.yapcore.R.drawable.bg_funds_error,
-                        null
-                    )
+            viewModel.state.amount.parseToDouble() < viewModel.state.minLimit -> {
                 viewModel.state.valid = false
-                showErrorSnackBar(viewModel.state.errorDescription, Snackbar.LENGTH_INDEFINITE)
+            }
+            viewModel.state.amount.parseToDouble() > viewModel.state.maxLimit -> {
+                showUpperLowerLimitError()
+                viewModel.state.valid = false
             }
             else -> {
-                viewModel.state.amountBackground =
-                    requireContext().resources.getDrawable(co.yap.yapcore.R.drawable.bg_funds, null)
-                viewModel.state.valid = true
                 cancelAllSnackBar()
+                viewModel.state.valid = true
             }
         }
     }
 
-    private fun isBalanceAvailable(enteredAmount: String?): Boolean {
-        return viewModel.state.checkValidity(enteredAmount ?: "").isNotBlank()
+    private fun showUpperLowerLimitError() {
+        viewModel.state.errorDescription = Translator.getString(
+            requireContext(),
+            Strings.common_display_text_min_max_limit_error_transaction,
+            viewModel.state.minLimit.toString().toFormattedCurrency() ?: "",
+            viewModel.state.maxLimit.toString()
+        )
+        viewModel.parentViewModel?.errorEvent?.value = viewModel.state.errorDescription
+
+    }
+
+
+    private fun showBalanceNotAvailableError() {
+        val des = Translator.getString(
+            requireContext(),
+            Strings.common_display_text_available_balance_error
+        ).format(MyUserManager.cardBalance.value?.availableBalance?.toFormattedAmountWithCurrency())
+        viewModel.parentViewModel?.errorEvent?.value = des
+    }
+
+    private fun isBalanceAvailable(): Boolean {
+        val availableBalance =
+            MyUserManager.cardBalance.value?.availableBalance?.toDoubleOrNull()
+        return if (availableBalance != null) {
+            (availableBalance > viewModel.getTotalAmountWithFee())
+        } else
+            false
     }
 
     val clickEvent = Observer<Int> {
@@ -148,15 +169,6 @@ class Y2YTransferFragment : Y2YBaseFragment<IY2YFundsTransfer.ViewModel>(), IY2Y
         }
     }
 
-    private fun setUpperLowerLimitError() {
-        viewModel.state.errorDescription = Translator.getString(
-            requireContext(),
-            Strings.common_display_text_min_max_limit_error_transaction,
-            viewModel.state.minLimit.toString().toFormattedCurrency() ?: "",
-            viewModel.state.maxLimit.toString()
-        )
-    }
-
     private fun startOtpFragment() {
         startFragmentForResult<GenericOtpFragment>(
             GenericOtpFragment::class.java.name,
@@ -166,7 +178,7 @@ class Y2YTransferFragment : Y2YBaseFragment<IY2YFundsTransfer.ViewModel>(), IY2Y
                     MyUserManager.user?.currentCustomer?.getFormattedPhoneNumber(requireContext())
                         ?: "",
                     username = viewModel.state.fullName,
-                    amount = viewModel.enteredAmount.value,
+                    amount = viewModel.state.amount,
                     logoData = LogoData(
                         imageUrl = viewModel.state.imageUrl,
                         position =  args.position
@@ -212,7 +224,7 @@ class Y2YTransferFragment : Y2YBaseFragment<IY2YFundsTransfer.ViewModel>(), IY2Y
         viewModel.transactionThreshold.value?.let {
             it.dailyLimit?.let { dailyLimit ->
                 it.totalDebitAmount?.let { totalConsumedAmount ->
-                    viewModel.enteredAmount.value?.toDoubleOrNull()?.let { enteredAmount ->
+                    viewModel.state.amount.parseToDouble().let { enteredAmount ->
                         val remainingDailyLimit =
                             if ((dailyLimit - totalConsumedAmount) < 0.0) 0.0 else (dailyLimit - totalConsumedAmount)
                         viewModel.state.errorDescription =
@@ -220,7 +232,7 @@ class Y2YTransferFragment : Y2YBaseFragment<IY2YFundsTransfer.ViewModel>(), IY2Y
                                 Strings.common_display_text_daily_limit_error_multiple_transactions
                             )
                         return enteredAmount > remainingDailyLimit
-                    } ?: return false
+                    }
                 } ?: return false
             } ?: return false
         } ?: return false
@@ -229,7 +241,7 @@ class Y2YTransferFragment : Y2YBaseFragment<IY2YFundsTransfer.ViewModel>(), IY2Y
     private fun isOtpRequired(): Boolean {
         viewModel.transactionThreshold.value?.let {
             it.totalDebitAmountY2Y?.let { totalY2YConsumedAmount ->
-                viewModel.enteredAmount.value?.toDoubleOrNull()?.let { enteredAmount ->
+                viewModel.state.amount?.toDoubleOrNull()?.let { enteredAmount ->
                     val remainingOtpLimit = it.otpLimitY2Y?.minus(totalY2YConsumedAmount)
                     return enteredAmount > (remainingOtpLimit ?: 0.0)
                 } ?: return false
@@ -246,27 +258,14 @@ class Y2YTransferFragment : Y2YBaseFragment<IY2YFundsTransfer.ViewModel>(), IY2Y
             Y2YTransferFragmentDirections.actionY2YTransferFragmentToY2YFundsTransferSuccessFragment(
                 viewModel.state.fullName,viewModel.state.imageUrl,
                 "AED",
-                viewModel.enteredAmount.value ?: "", args.position
+                viewModel.state.amount ?: "", args.position
             )
         findNavController().navigate(action)
-    }
-
-    private fun showErrorSnackBar(errorMessage: String, length: Int) {
-        getSnackBarFromQueue(0)?.let {
-            if (it.isShown) {
-                it.updateSnackBarText(errorMessage)
-            }
-        } ?: showSnackBar(
-            msg = viewModel.state.errorDescription,
-            viewBgColor = R.color.errorLightBackground, gravity = Gravity.TOP,
-            colorOfMessage = R.color.error, duration = length
-        )
     }
 
     override fun onDestroy() {
         viewModel.clickEvent.removeObservers(this)
         cancelAllSnackBar()
-        viewModel.enteredAmount.removeObservers(this)
         super.onDestroy()
 
     }

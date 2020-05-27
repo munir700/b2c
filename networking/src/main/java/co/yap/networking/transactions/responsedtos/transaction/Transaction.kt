@@ -1,11 +1,9 @@
 package co.yap.networking.transactions.responsedtos.transaction
+
 import android.os.Parcelable
 import co.yap.networking.models.ApiResponse
 import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
-import java.text.DateFormat
-import java.text.SimpleDateFormat
-import java.util.*
 
 @Parcelize
 data class Transaction(
@@ -163,4 +161,4 @@ data class Transaction(
     val receiverProfilePictureUrl: String? = null,
     @SerializedName("cancelReason")
     val cancelReason: String? = null
-) : Parcelable, ApiResponse()
+) : ApiResponse(), Parcelable

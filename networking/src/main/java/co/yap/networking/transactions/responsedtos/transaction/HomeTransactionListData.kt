@@ -5,37 +5,37 @@ import com.google.gson.annotations.SerializedName
 
 data class HomeTransactionListData(
     @SerializedName("type")
-    var type: String,
+    var type: String?=null,
     @SerializedName("totalAmountType")
-    var totalAmountType: String,
+    var totalAmountType: String?=null,
     @SerializedName("date")
-    var date: String?,
+    var date: String?=null,
     @SerializedName("totalAmount")
-    var totalAmount: String,
+    var totalAmount: String?=null,
     @SerializedName("closingBalance")
-    var closingBalance: Double?,
+    var closingBalance: Double?=0.0,
     @SerializedName("amountPercentage")
-    var amountPercentage: Double,
+    var amountPercentage: Double?=0.0,
     @SerializedName("content")
     var transaction: List<Transaction>,
     @SerializedName("first")
-    var first: Boolean,
+    var first: Boolean?=true,
     @SerializedName("last")
-    var last: Boolean,
+    var last: Boolean?=true,
     @SerializedName("number")
-    var number: Int,
+    var number: Int?=0,
     @SerializedName("numberOfElements")
-    var numberOfElements: Int,
+    var numberOfElements: Int?=0,
     @SerializedName("pageable")
-    var pageable: Pageable,
+    var pageable: Pageable = Pageable(),
     @SerializedName("size")
-    var size: Int,
+    var size: Int?=0,
     @SerializedName("sort")
-    var sort: Sort,
+    var sort: Sort?=Sort(),
     @SerializedName("totalElements")
-    var totalElements: Int,
+    var totalElements: Int?=0,
     @SerializedName("totalPages")
-    var totalPages: Int,
+    var totalPages: Int?=0,
     @Transient
     var originalDate: String? = ""
-): ApiResponse()
+):ApiResponse()

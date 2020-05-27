@@ -48,6 +48,7 @@ class GenericOtpViewModel(application: Application) :
             }
             OTPActions.FORGOT_PASS_CODE.name -> {
                 setVerificationTitle(Strings.screen_forgot_passcode_otp_display_text_heading)
+                setVerificationDescription()
             }
             OTPActions.DOMESTIC_TRANSFER.name, OTPActions.UAEFTS.name, OTPActions.SWIFT.name, OTPActions.RMT.name, OTPActions.CASHPAYOUT.name, OTPActions.Y2Y.name -> {
                 state.verificationTitle =
@@ -248,7 +249,10 @@ class GenericOtpViewModel(application: Application) :
     override fun initializeData(context: Context) {
         when (state.otpDataModel?.otpAction) {
             OTPActions.CHANGE_MOBILE_NO.name -> createOtpForPhoneNumber(false, context)
-            OTPActions.FORGOT_PASS_CODE.name -> createForgotPassCodeOtpRequest(false, context)
+            OTPActions.FORGOT_PASS_CODE.name -> {
+                state.reverseTimer(10, context)
+                state.validResend = false
+            }// createForgotPassCodeOtpRequest(false, context)
             else -> createOtp(false, context)
         }
         state.otpDataModel?.mobileNumber?.let {

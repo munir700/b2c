@@ -213,47 +213,65 @@ open class AddRemoveFundsActivity : BaseBindingActivity<IFundActions.ViewModel>(
             arrayOf(InputFilter.LengthFilter(7), DecimalDigitsInputFilter(2))
 
         etAmount.afterTextChanged {
-                parentViewModel?.updateFees(viewModel.state.amount ?: "")
-            when {
-                it.isBlank() -> {
-                    viewModel.state.valid = false
-                }
-                isBalanceAvailable() -> {
-                    setErrorBg()
-                    viewModel.state.errorDescription = Translator.getString(
-                        context,
-                        Strings.common_display_text_available_balance_error,
-                        viewModel.state.availableBalanceText
-                    )
-                    showErrorSnackBar(viewModel.state.errorDescription, Snackbar.LENGTH_INDEFINITE)
-                }
-                isDailyLimitReached() && isAddFundScreen == true -> {
-                    setErrorBg()
-                    showErrorSnackBar(viewModel.state.errorDescription, Snackbar.LENGTH_INDEFINITE)
-                }
-                isUpperOrLowerLimitReached() && it.isNotBlank() -> {
-                    setErrorBg()
-                    viewModel.state.errorDescription = Translator.getString(
-                        this,
-                        Strings.common_display_text_min_max_limit_error_transaction,
-                        viewModel.state.minLimit.toString().toFormattedCurrency() ?: "",
-                        viewModel.state.maxLimit.toString()
-                    )
-                    showErrorSnackBar(viewModel.state.errorDescription, Snackbar.LENGTH_INDEFINITE)
+            if (!viewModel.state.amount.isNullOrBlank()) {
+                checkOnTextChangeValidation()
+            } else {
+                removeErrorBg()
+                viewModel.state.valid = false
+                cancelAllSnackBar()
+            }
+            parentViewModel?.updateFees(viewModel.state.amount ?: "")
+        }
+    }
 
-                }
-                else -> removeErrorBg()
+    private fun checkOnTextChangeValidation() {
+        when {
+            isBalanceAvailable() -> {
+                setErrorBg()
+                showBalanceNotAvailableError()
+            }
+            isDailyLimitReached() -> {
+                setErrorBg()
+                showErrorSnackBar(viewModel.state.errorDescription, Snackbar.LENGTH_INDEFINITE)
+            }
+            viewModel.state.amount.parseToDouble() < viewModel.state.minLimit -> {
+                viewModel.state.valid = false
+            }
+            viewModel.state.amount.parseToDouble() > viewModel.state.maxLimit -> {
+                setErrorBg()
+                showUpperLowerLimitError()
+            }
+            else -> {
+                removeErrorBg()
             }
         }
     }
 
+    private fun showUpperLowerLimitError() {
+        viewModel.state.errorDescription = Translator.getString(
+            this,
+            Strings.common_display_text_min_max_limit_error_transaction,
+            viewModel.state.minLimit.toString().toFormattedCurrency() ?: "",
+            viewModel.state.maxLimit.toString()
+        )
+        showErrorSnackBar(viewModel.state.errorDescription, Snackbar.LENGTH_INDEFINITE)
+
+    }
+
+
+    private fun showBalanceNotAvailableError() {
+        viewModel.state.errorDescription = Translator.getString(
+            context,
+            Strings.common_display_text_available_balance_error,
+            viewModel.state.availableBalanceText
+        )
+        showErrorSnackBar(viewModel.state.errorDescription, Snackbar.LENGTH_INDEFINITE)
+    }
+
+
     private fun isBalanceAvailable(): Boolean {
         return if (viewModel.state.isAddFundScreen.get() == true) viewModel.state.amount.parseToDouble() > viewModel.state.availableBalance.parseToDouble()
         else viewModel.state.amount.parseToDouble() > card?.availableBalance.parseToDouble()
-    }
-
-    private fun isUpperOrLowerLimitReached(): Boolean {
-        return viewModel.state.amount.parseToDouble() < viewModel.state.minLimit || viewModel.state.amount.parseToDouble() > viewModel.state.maxLimit
     }
 
     private fun setErrorBg() {

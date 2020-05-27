@@ -201,7 +201,12 @@ class TopUpBeneficiariesActivity : BaseBindingActivity<ITopUpBeneficiaries.ViewM
     private fun addObservers() {
         viewModel.clickEvent.observe(this, clickEventObserver)
         viewModel.topUpCards.observe(this, Observer {
-            mAdapter.setList(it.toMutableList())
+            if (!it.isNullOrEmpty()) {
+                mAdapter.setList(it.toMutableList())
+            } else {
+                viewModel.state.valid.set(false)
+                viewModel.state.alias.set("")
+            }
             viewModel.updateCardCount()
         })
     }

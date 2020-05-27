@@ -117,6 +117,8 @@
     <color name="lightAqua">#4000b9ae</color>
     <color name="lightPink">#40f44774</color>
 
+    <color name="colorFaded">#9A98B6</color>
+
     <!-- colors for achievements-->
     <color name="colorDarkPurple">#BB42EB</color>
     <color name="colorDarkBlue">#478DF4</color>

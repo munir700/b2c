@@ -18,6 +18,7 @@ interface IBeneficiaryFundTransfer {
         var beneficiary: MutableLiveData<Beneficiary>
         var transferData: MutableLiveData<TransferFundData>
         var transactionThreshold: MutableLiveData<TransactionThresholdModel>
+        var transactionWillHold: Boolean
         var selectedPop: PurposeOfPayment?
     }
 
