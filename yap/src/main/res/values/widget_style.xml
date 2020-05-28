@@ -317,6 +317,8 @@
         <item name="android:fontFamily">sans-serif</item>
         <item name="android:textStyle">normal</item>
         <item name="singleLine">true</item>
+        <item name="android:maxLength">15</item>
+
     </style>
 
     <style name="Yap.App.Layout" parent="AppTheme">

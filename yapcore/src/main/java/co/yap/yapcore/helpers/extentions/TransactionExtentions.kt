@@ -1,6 +1,10 @@
 package co.yap.yapcore.helpers.extentions
 
+import android.content.res.ColorStateList
 import android.text.format.DateFormat
+import android.widget.ImageView
+import androidx.core.widget.ImageViewCompat
+import androidx.databinding.BindingAdapter
 import co.yap.networking.transactions.responsedtos.transaction.Transaction
 import co.yap.yapcore.R
 import co.yap.yapcore.enums.TransactionLabelsCode
@@ -8,6 +12,7 @@ import co.yap.yapcore.enums.TransactionProductCode
 import co.yap.yapcore.enums.TransactionStatus
 import co.yap.yapcore.enums.TxnType
 import co.yap.yapcore.helpers.DateUtils
+import co.yap.yapcore.helpers.ImageBinding
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -213,23 +218,49 @@ fun Transaction?.getMapImage(): Int {
 fun Transaction?.getSpentLabelText(): String {
     this?.let { transaction ->
         transaction.productCode?.let { productCode ->
-            if (productCode == TransactionProductCode.TOP_UP_SUPPLEMENTARY_CARD.pCode || productCode == TransactionProductCode.WITHDRAW_SUPPLEMENTARY_CARD.pCode) {
-                return "Moved"
-            }
-            return (when (transaction.txnType) {
-                TxnType.CREDIT.type -> "Received"
-                TxnType.DEBIT.type -> {
-                    when (transaction.productCode) {
-                        TransactionProductCode.Y2Y_TRANSFER.pCode, TransactionProductCode.UAEFTS.pCode, TransactionProductCode.DOMESTIC.pCode, TransactionProductCode.SWIFT.pCode, TransactionProductCode.RMT.pCode, TransactionProductCode.CASH_PAYOUT.pCode -> {
-                            "Sent"
+            return (when (productCode) {
+                TransactionProductCode.TOP_UP_SUPPLEMENTARY_CARD.pCode, TransactionProductCode.WITHDRAW_SUPPLEMENTARY_CARD.pCode -> "Moved"
+                else -> {
+                    when (transaction.txnType) {
+                        TxnType.CREDIT.type -> "Received"
+                        TxnType.DEBIT.type -> {
+                            when (transaction.productCode) {
+                                TransactionProductCode.Y2Y_TRANSFER.pCode, TransactionProductCode.UAEFTS.pCode, TransactionProductCode.DOMESTIC.pCode, TransactionProductCode.CASH_PAYOUT.pCode -> {
+                                    "Sent"
+                                }
+                                TransactionProductCode.SWIFT.pCode, TransactionProductCode.RMT.pCode -> "Sent in AED"
+                                else -> "Spent"
+                            }
                         }
-                        else -> "Spent"
+                        else -> ""
                     }
                 }
-                else -> ""
             })
         } ?: return ""
     } ?: return ""
+}
+
+fun Transaction?.getCurrency(): String {
+    this?.let { transaction ->
+        return (when (transaction.productCode) {
+            TransactionProductCode.SWIFT.pCode, TransactionProductCode.RMT.pCode -> {
+                transaction.currency.toString()
+            }
+            else -> transaction.currency.toString()
+        })
+    } ?: return "AED"
+}
+
+fun Transaction?.getAmount(): String? {
+    this?.let { transaction ->
+        return (when (transaction.productCode) {
+            TransactionProductCode.SWIFT.pCode, TransactionProductCode.RMT.pCode -> {
+                (transaction.amount?.div(transaction.fxRate.parseToDouble())).toString()
+                    .toFormattedCurrency()
+            }
+            else -> transaction.totalAmount.toString().toFormattedCurrency()
+        })
+    } ?: return "0.0"
 }
 
 fun Transaction?.getLabelValues(): TransactionLabelsCode? {
@@ -329,4 +360,97 @@ fun Transaction?.getFormattedTime(outputFormat: String = DateUtils.FORMAT_TIME_2
 fun Transaction?.isTransactionCancelled(): Boolean {
     return this?.status == TransactionStatus.CANCELLED.name
 }
+
+
+fun List<Transaction>?.getTotalAmount():String {
+    var total = 0.0
+    var totalAmount = "AED 0.0"
+    this?.let { list ->
+        list.map {
+            when (it.productCode) {
+                TransactionProductCode.RMT.pCode, TransactionProductCode.SWIFT.pCode -> {
+                    if (it.txnType == TxnType.DEBIT.type) {
+                        val totalFee = it.postedFees?.plus(it.vatAmount ?: 0.0) ?: 0.0
+                        total -= (it.settlementAmount?.plus(totalFee) ?: 0.0)
+                    } else total += (it.settlementAmount ?: 0.0)
+                }
+                else -> {
+                    if (it.txnType == TxnType.DEBIT.type) total -= (it.totalAmount
+                        ?: 0.0) else total += (it.amount ?: 0.0)
+                }
+            }
+        }
+
+        when {
+            total.toString().startsWith("-") -> {
+                totalAmount = ((total * -1).toString().toFormattedCurrency()) ?: ""
+                totalAmount = "- AED $totalAmount"
+            }
+            else -> {
+                totalAmount = (total.toString().toFormattedCurrency()) ?: ""
+                totalAmount = "+ AED $totalAmount"
+            }
+        }
+
+    }
+    return totalAmount
+}
+
+object TransactionBinding{
+    @JvmStatic
+    @BindingAdapter("transaction")
+    fun loadAvatarForTransaction(
+        ivTransaction: ImageView,
+        transactionData: Transaction
+    ) {
+        transactionData.let { it ->
+            val txnIconResId = it.getTransactionIcon()
+            it.productCode?.let { pCode ->
+                if (it.isTransactionCancelled()) {
+                    ivTransaction.alpha = 0.4f
+                    ivTransaction.setImageResource(txnIconResId)
+                } else {
+                    if (TransactionProductCode.Y2Y_TRANSFER.pCode == pCode) {
+                        ImageBinding.loadAvatar(
+                            ivTransaction,
+                            if (TxnType.valueOf(
+                                    it.txnType ?: ""
+                                ) == TxnType.DEBIT
+                            ) it.receiverProfilePictureUrl else it.senderProfilePictureUrl,
+                            if (it.txnType == TxnType.DEBIT.type) it.receiverName else it.senderName,
+                            android.R.color.transparent,
+                            R.dimen.text_size_h2
+                        )
+                    } else {
+                        if (txnIconResId != -1) {
+                            ivTransaction.setImageResource(txnIconResId)
+                            when (txnIconResId) {
+                                R.drawable.ic_rounded_plus -> {
+                                    ivTransaction.setBackgroundResource(R.drawable.bg_round_grey)
+                                }
+                                R.drawable.ic_grey_minus_transactions, R.drawable.ic_grey_plus_transactions -> {
+                                    ivTransaction.setBackgroundResource(R.drawable.bg_round_disabled_transaction)
+                                }
+                            }
+                        } else {
+                            ImageBinding.loadAvatar(
+                                ivTransaction,
+                                "",
+                                it.title,
+                                android.R.color.transparent,
+                                R.dimen.text_size_h2
+                            )
+                        }
+                        ivTransaction.alpha = 1.0f
+                        ImageViewCompat.setImageTintList(
+                            ivTransaction,
+                            ColorStateList.valueOf(ivTransaction.context.getColors(R.color.colorPrimary))
+                        )
+                    }
+                }
+            }
+        }
+    }
+}
+
 

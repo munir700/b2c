@@ -20,11 +20,7 @@
             app:destination="@id/loginFragment"
             app:popUpTo="@id/main_nav_graph"
             app:popUpToInclusive="true" />
-        <action
-            android:id="@+id/action_splashFragment_to_verifyPasscodeFragment"
-            app:destination="@id/verifyPasscodeFragment"
-            app:popUpTo="@+id/main_nav_graph"
-            app:popUpToInclusive="true" />
+
     </fragment>
     <fragment
         android:id="@+id/accountSelectionFragment"
@@ -100,9 +96,8 @@
 
         <argument
             android:name="isAccountBlocked"
-            app:argType="boolean"
             android:defaultValue="false"
-            />
+            app:argType="boolean" />
         <action
             android:id="@+id/action_verifyPasscodeFragment_to_forgot_passcode_navigation"
             app:destination="@id/forgot_passcode_navigation"
@@ -126,12 +121,6 @@
             app:popExitAnim="@anim/fade_out" />
     </fragment>
 
-
-    <!--    <activity-->
-    <!--        android:id="@+id/liteDashboardActivity"-->
-    <!--        tools:layout="@layout/activity_lite_dashboard"-->
-    <!--        android:name="co.yap.modules.onboarding.activities.LiteDashboardActivity"-->
-    <!--        android:label="LiteDashboardActivity"/>-->
     <fragment
         android:id="@+id/systemPermissionFragment"
         android:name="co.yap.app.modules.login.fragments.SystemPermissionFragment"
@@ -144,9 +133,6 @@
         <action
             android:id="@+id/action_systemPermissionFragment_to_systemPermissionFragmentNotification"
             app:destination="@id/systemPermissionFragment" />
-        <!--        <action-->
-        <!--            android:id="@+id/action_systemPermissionFragment_to_liteDashboardActivity"-->
-        <!--            app:destination="@id/liteDashboardActivity" />-->
         <action
             android:id="@+id/action_systemPermissionFragment_to_yapDashboardActivity"
             app:destination="@id/yapDashboardActivity" />
@@ -175,6 +161,7 @@
     </fragment>
 
     <include app:graph="@navigation/forgot_passcode_navigation" />
+
     <activity
         android:id="@+id/yapDashboardActivity"
         android:name="co.yap.modules.dashboard.main.activities.YapDashboardActivity"
@@ -182,55 +169,18 @@
         tools:layout="@layout/activity_yap_dashboard" />
 
     <activity
-        android:id="@+id/moreActivity"
-        android:name="co.yap.modules.dashboard.more.main.activities.MoreActivity"
-        android:label="MoreActivity"
-        tools:layout="@layout/activity_more">
-
-    </activity>
-
-    <activity
-        android:id="@+id/transactionDetailsActivity"
-        android:name="co.yap.modules.dashboard.transaction.activities.TransactionDetailsActivity"
-        android:label="transactionDetailsActivity"
-        tools:layout="@layout/activity_transaction_details" />
-
-    <activity
-        android:id="@+id/topUpCardAcitivty"
-        android:name="co.yap.modules.dashboard.yapit.topup.topupamount.activities.TopUpCardActivity"
-        android:label="transactionDetailsActivity"
-        tools:layout="@layout/activity_transaction_details" />
-    <activity
-        android:id="@+id/cardAnalyticsActivity"
-        android:name="co.yap.modules.dashboard.cards.analytics.main.activities.CardAnalyticsActivity"
-        android:label="CardAnalyticsActivity"
-        tools:layout="@layout/activity_cards_analytics" />
-
-    <activity
         android:id="@+id/householdOnboard"
         android:name="co.yap.household.onboard.onboarding.main.OnBoardingHouseHoldActivity"
         android:label="householdOnboard"
         tools:layout="@layout/activity_main_house_hold" />
-
-
     <fragment
         android:id="@+id/householdOnBoardingExistingYAP"
         android:name="co.yap.household.onboard.onboarding.existinghousehold.ExistingHouseholdFragment"
         android:label="OnBoardingExistingYAP"
         tools:layout="@layout/activity_on_boarding_existing_yap" />
-
     <action
         android:id="@+id/action_goto_householdOnBoardingExistingYAP"
         app:destination="@id/householdOnBoardingExistingYAP" />
 
-    <!--    <activity-->
-<!--        android:id="@+id/documentsDashboardActivity"-->
-<!--        android:name="co.yap.modules.kyc.activities.DocumentsDashboardActivity"-->
-<!--        android:label="DocumentsDashboardActivity"-->
-<!--        tools:layout="@layout/activity_documents_dashboard">-->
-<!--        <argument-->
-<!--            android:name="name"-->
-<!--            app:argType="string" />-->
-<!--    </activity>-->
 </navigation>
 

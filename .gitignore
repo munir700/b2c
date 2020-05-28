@@ -6,6 +6,7 @@
 /.idea/modules.xml
 /.idea/workspace.xml
 /.idea/navEditor.xml
+/.idea/misc.xml
 /.idea/*
 /.idea/codeStyles/*
 /sendmoney/build/*
@@ -36,4 +37,5 @@ app/~/tmp/full-r8-config.txt
 /sendmoney/.cxx
 /yap/.cxx
 /translation/.cxx
-
+/security/.cxx
+/security/build

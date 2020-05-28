@@ -3,17 +3,27 @@ package co.yap.household.dashboard.home
 import android.view.View
 import androidx.databinding.ViewDataBinding
 import co.yap.household.BR
-import co.yap.networking.models.ApiResponse
+import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionListData
+import co.yap.networking.transactions.responsedtos.transaction.Transaction
 import co.yap.widgets.advrecyclerview.utils.AbstractExpandableItemViewHolder
 import co.yap.widgets.advrecyclerview.utils.BaseExpandableRVAdapter
 
-class HomeTransactionAdapter :
-    BaseExpandableRVAdapter<ApiResponse, HomeTransactionChildItemVM, HomeTransactionAdapter.ChildViewHolder
-            , ApiResponse, HomeTransactionGroupItemVM, HomeTransactionAdapter.GroupViewHolder>() {
+class HomeTransactionAdapter(internal var transactionData: Map<String?, List<Transaction>>) :
+    BaseExpandableRVAdapter<Transaction, HomeTransactionChildItemVM, AbstractExpandableItemViewHolder<Transaction, HomeTransactionChildItemVM>
+            , HomeTransactionListData, HomeTransactionGroupItemVM, AbstractExpandableItemViewHolder<HomeTransactionListData, HomeTransactionGroupItemVM>>() {
     init {
         // ExpandableItemAdapter requires stable ID, and also
         // have to implement the getGroupItemId()/getChildItemId() methods appropriately.
         setHasStableIds(true)
+    }
+
+    fun setTransactionData(transactionData: Map<String?, List<Transaction>>?) {
+        transactionData?.let {
+            if (this.transactionData != transactionData) {
+                this.transactionData = transactionData
+            }
+        } ?: emptyMap<String?, List<Transaction>>()
+        notifyDataSetChanged()
     }
 
     override fun getChildViewHolder(
@@ -21,14 +31,41 @@ class HomeTransactionAdapter :
         viewModel: HomeTransactionChildItemVM,
         mDataBinding: ViewDataBinding,
         viewType: Int
-    ) = ChildViewHolder(view, viewModel, mDataBinding)
+    ) = AbstractExpandableItemViewHolder(view, viewModel, mDataBinding)
 
     override fun getGroupViewHolder(
         view: View,
         viewModel: HomeTransactionGroupItemVM,
         mDataBinding: ViewDataBinding,
         viewType: Int
-    ) = GroupViewHolder(view, viewModel, mDataBinding)
+    ) = AbstractExpandableItemViewHolder(view, viewModel, mDataBinding)
+
+    override fun onBindGroupViewHolder(
+        holder: AbstractExpandableItemViewHolder<HomeTransactionListData, HomeTransactionGroupItemVM>,
+        groupPosition: Int,
+        viewType: Int
+    ) {
+        val transaction =
+            transactionData[transactionData.keys.toList()[groupPosition]] ?: mutableListOf()
+        val groupData = HomeTransactionListData(
+            transaction = transaction,
+            date = transaction[0].creationDate
+        )
+        holder.setItem(groupData, groupPosition)
+    }
+
+    override fun onBindChildViewHolder(
+        holder: AbstractExpandableItemViewHolder<Transaction, HomeTransactionChildItemVM>,
+        groupPosition: Int,
+        childPosition: Int,
+        viewType: Int
+    ) {
+        val transaction =
+            transactionData[transactionData.keys.toList()[groupPosition]]?.get(childPosition)
+        transaction?.let {
+            holder.setItem(it, childPosition)
+        }
+    }
 
     override fun getChildLayoutId(viewType: Int) = getChildViewModel(viewType).layoutRes()
     override fun getGroupLayoutId(viewType: Int) = getGroupViewModel(viewType).layoutRes()
@@ -36,31 +73,17 @@ class HomeTransactionAdapter :
     override fun getGroupVariableId() = BR.viewModel
     override fun getChildViewModel(viewType: Int) = HomeTransactionChildItemVM()
     override fun getChildVariableId() = BR.viewModel
-    override fun getGroupCount() = 4
-    override fun getChildCount(groupPosition: Int) = 16
-    override fun getGroupId(groupPosition: Int) = groupPosition.toLong()
+    override fun getGroupCount() = transactionData.size
+    override fun getChildCount(groupPosition: Int) =
+        transactionData[transactionData.keys.toList()[groupPosition]]?.size ?: 0
+
+    override fun getGroupId(groupPosition: Int) = groupPosition.plus(1L)
     override fun getChildId(groupPosition: Int, childPosition: Int) =
-        childPosition.plus(groupPosition).toLong()
+        transactionData[transactionData.keys.toList()[groupPosition]]?.get(0)?.id?.toLong()
+            ?: childPosition.plus(groupPosition).toLong()
 
-    class ChildViewHolder(
-        view: View,
-        viewModel: HomeTransactionChildItemVM,
-        mDataBinding: ViewDataBinding
-    ) :
-        AbstractExpandableItemViewHolder<ApiResponse, HomeTransactionChildItemVM>(
-            view,
-            viewModel,
-            mDataBinding
-        )
-
-    class GroupViewHolder(
-        view: View,
-        viewModel: HomeTransactionGroupItemVM,
-        mDataBinding: ViewDataBinding
-    ) :
-        AbstractExpandableItemViewHolder<ApiResponse, HomeTransactionGroupItemVM>(
-            view,
-            viewModel,
-            mDataBinding
-        )
+    override fun getGroupItemViewType(groupPosition: Int) = groupPosition
+    override fun getChildItemViewType(groupPosition: Int, childPosition: Int) =
+        transactionData[transactionData.keys.toList()[groupPosition]]?.get(0)?.id
+            ?: childPosition.plus(groupPosition)
 }

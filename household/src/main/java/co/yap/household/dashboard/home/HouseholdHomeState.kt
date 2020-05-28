@@ -2,10 +2,18 @@ package co.yap.household.dashboard.home
 
 import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.MutableLiveData
+import co.yap.networking.transactions.requestdtos.HomeTransactionsRequest
 import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionListData
+import co.yap.networking.transactions.responsedtos.transaction.Transaction
 import co.yap.yapcore.BaseState
 
+
 class HouseholdHomeState : BaseState(), IHouseholdHome.State {
-    override val transactionList: ObservableField<MutableList<HomeTransactionListData>> =  ObservableField(mutableListOf())
     override var showNotification: MutableLiveData<Boolean> = MutableLiveData(true)
+    override val transactionList: ObservableField<MutableList<HomeTransactionListData>> =
+        ObservableField(mutableListOf())
+    override val transactionMap: MutableLiveData<Map<String?, List<Transaction>>>? =
+        MutableLiveData()
+    override var homeTransactionRequest: MutableLiveData<HomeTransactionsRequest>? = MutableLiveData()
 }

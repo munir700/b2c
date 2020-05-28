@@ -13,9 +13,9 @@ import co.yap.app.modules.login.viewmodels.OtpBlockedInfoViewModel
 import co.yap.modules.dashboard.main.activities.YapDashboardActivity
 import co.yap.translation.Strings
 import co.yap.yapcore.BaseBindingFragment
+import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.helpers.extentions.makeCall
 import co.yap.yapcore.helpers.extentions.makeLinks
-import co.yap.yapcore.helpers.extentions.toast
 import co.yap.yapcore.helpers.spannables.getText
 import co.yap.yapcore.managers.MyUserManager
 import com.liveperson.infra.ConversationViewParams
@@ -65,6 +65,8 @@ class OtpBlockedInfoFragment : BaseBindingFragment<IOtpBlockedInfo.ViewModel>(),
     }
 
     private fun chatSetup() {
+        viewModel.state.loading = true
+        viewModel.getJwtToken()
         LivePerson.initialize(
             requireContext(),
             InitLivePersonProperties(
@@ -72,10 +74,12 @@ class OtpBlockedInfoFragment : BaseBindingFragment<IOtpBlockedInfo.ViewModel>(),
                 object : InitLivePersonCallBack {
                     override fun onInitSucceed() {
                         openActivity()
+                        viewModel.state.loading = false
                     }
 
                     override fun onInitFailed(e: Exception) {
-                        toast("Unable to open chat")
+                        viewModel.state.toast = "Unable to open chat^${AlertType.DIALOG.name}"
+                        viewModel.state.loading = true
                     }
                 })
         )
@@ -84,7 +88,6 @@ class OtpBlockedInfoFragment : BaseBindingFragment<IOtpBlockedInfo.ViewModel>(),
     private fun openActivity() {
         val authParams = LPAuthenticationParams(LPAuthenticationParams.LPAuthenticationType.AUTH)
         authParams.hostAppJWT = viewModel.state.token.get()
-//        authParams.hostAppJWT = CookiesManager.jwtToken
         val params = ConversationViewParams(false)
             .setHistoryConversationsStateToDisplay(LPConversationsHistoryStateToDisplay.OPEN)
             .setReadOnlyMode(false)

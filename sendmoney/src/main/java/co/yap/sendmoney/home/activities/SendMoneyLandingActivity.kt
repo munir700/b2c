@@ -23,6 +23,7 @@ import co.yap.sendmoney.home.viewmodels.SendMoneyHomeScreenViewModel
 import co.yap.translation.Strings
 import co.yap.translation.Translator
 import co.yap.yapcore.BaseBindingActivity
+import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.Constants.EXTRA
 import co.yap.yapcore.constants.Constants.OVERVIEW_BENEFICIARY
@@ -36,6 +37,7 @@ import co.yap.yapcore.helpers.extentions.launchActivity
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.MyUserManager
 import com.nikhilpanju.recyclerviewenhanced.RecyclerTouchListener
+import kotlinx.android.synthetic.main.item_beneficiaries.*
 import kotlinx.android.synthetic.main.layout_beneficiaries.*
 
 class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>(),
@@ -173,12 +175,14 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
             .setClickable(
                 object : RecyclerTouchListener.OnRowClickListener {
                     override fun onRowClicked(position: Int) {
-                        if (MyUserManager.user?.otpBlocked == true) {
-                            showToast("${getString(Strings.screen_blocked_otp_display_text_message)}^${AlertType.DIALOG.name}")
-                        } else {
-                            startMoneyTransfer(getAdaptor().getDataForPosition(position), position)
-                        }
-
+                        viewModel.clickEvent.setPayload(
+                            SingleClickEvent.AdaptorPayLoadHolder(
+                                foregroundContainer,
+                                getAdaptor().getDataForPosition(position),
+                                position
+                            )
+                        )
+                        viewModel.clickEvent.setValue(foregroundContainer.id)
                     }
 
                     override fun onIndependentViewClicked(
@@ -191,17 +195,14 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
                 R.id.foregroundContainer, R.id.swipe
             )
             { viewID, position ->
-                when (viewID) {
-                    R.id.btnDelete -> {
-                        positionToDelete = position
-                        val beneficiary = getAdaptor().getDataList()[position]
-                        confirmDeleteBeneficiary(beneficiary)
-                    }
-                    R.id.btnEdit -> {
-                        val beneficiary = getAdaptor().getDataList()[position]
-                        openEditBeneficiary(beneficiary)
-                    }
-                }
+                viewModel.clickEvent.setPayload(
+                    SingleClickEvent.AdaptorPayLoadHolder(
+                        findViewById(viewID),
+                        getAdaptor().getDataForPosition(position),
+                        position
+                    )
+                )
+                viewModel.clickEvent.setValue(viewID)
             }
     }
 
@@ -283,10 +284,16 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
 
     private val clickListener = Observer<Int> {
         when (it) {
-            R.id.addContactsButton -> startActivityForResult(
-                SendMoneyHomeActivity.newIntent(this@SendMoneyLandingActivity),
-                RequestCodes.REQUEST_NOTIFY_BENEFICIARY_LIST
-            ) //btn invoke add Beneficiary flow
+            R.id.addContactsButton -> {
+                if (MyUserManager.user?.otpBlocked == true) {
+                    showToast("${getString(Strings.screen_blocked_otp_display_text_message)}^${AlertType.DIALOG.name}")
+                } else {
+                    startActivityForResult(
+                        SendMoneyHomeActivity.newIntent(this@SendMoneyLandingActivity),
+                        RequestCodes.REQUEST_NOTIFY_BENEFICIARY_LIST
+                    )
+                }
+            }
             R.id.tbBtnAddBeneficiary -> {
                 if (MyUserManager.user?.otpBlocked == true) {
                     showToast("${getString(Strings.screen_blocked_otp_display_text_message)}^${AlertType.DIALOG.name}")
@@ -306,6 +313,44 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
                         startActivityForResult(getIntent(this, true, null), REQUEST_TRANSFER_MONEY)
                     }
                 }
+            }
+            R.id.foregroundContainer->{
+                viewModel.clickEvent.getPayload()?.let { payload ->
+                    if (payload.itemData is Beneficiary) {
+                        if (MyUserManager.user?.otpBlocked == true) {
+                            showToast("${getString(Strings.screen_blocked_otp_display_text_message)}^${AlertType.DIALOG.name}")
+                        } else {
+                            startMoneyTransfer(payload.itemData as Beneficiary,payload.position)
+                        }
+                    }
+                }
+                viewModel.clickEvent.setPayload(null)
+
+            }
+            R.id.btnEdit -> {
+                viewModel.clickEvent.getPayload()?.let { payload ->
+                    if (payload.itemData is Beneficiary) {
+                        if (MyUserManager.user?.otpBlocked == true) {
+                            showToast("${getString(Strings.screen_blocked_otp_display_text_message)}^${AlertType.DIALOG.name}")
+                        } else {
+                            openEditBeneficiary(payload.itemData as Beneficiary)
+                        }
+                    }
+                }
+                viewModel.clickEvent.setPayload(null)
+            }
+            R.id.btnDelete -> {
+                viewModel.clickEvent.getPayload()?.let { payload ->
+                    if (payload.itemData is Beneficiary) {
+                        if (MyUserManager.user?.otpBlocked == true) {
+                            showToast("${getString(Strings.screen_blocked_otp_display_text_message)}^${AlertType.DIALOG.name}")
+                        } else {
+                            positionToDelete = payload.position
+                            confirmDeleteBeneficiary(payload.itemData as Beneficiary)
+                        }
+                    }
+                }
+                viewModel.clickEvent.setPayload(null)
             }
             R.id.tvCancel -> finish()
         }

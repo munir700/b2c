@@ -22,7 +22,7 @@ import co.yap.yapcore.interfaces.OnItemClickListener
 import javax.inject.Inject
 
 class HouseholdHomeFragment :
-    BaseNavViewModelFragment<FragmentHouseholdHomeBinding, IHouseholdHome.State, HouseHoldHomeVM>(), NotificationItemClickListener {
+    BaseNavViewModelFragment<FragmentHouseholdHomeBinding, IHouseholdHome.State, HouseHoldHomeVM>() {
     @Inject
     lateinit var mNotificationAdapter: HHNotificationAdapter
 
@@ -46,7 +46,7 @@ class HouseholdHomeFragment :
     }
 
     private fun setUpAdapter() {
-        mNotificationAdapter.onItemClickListener = notificationClickListener
+        mNotificationAdapter.onItemClickListener = userClickListener
         viewModel.adapter.set(mNotificationAdapter)
     }
 
@@ -67,7 +67,9 @@ class HouseholdHomeFragment :
     private fun intRecyclerView() {
         mRecyclerViewExpandableItemManager.defaultGroupsExpandedState = true
         mViewDataBinding.recyclerView.apply {
+            mRecyclerViewExpandableItemManager.attachRecyclerView(this)
             adapter = mWrappedAdapter
+            viewModel.transactionAdapter?.set(mAdapter)
             setHasFixedSize(false)
         }
     }

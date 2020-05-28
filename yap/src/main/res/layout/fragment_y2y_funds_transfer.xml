@@ -100,7 +100,7 @@
                     android:labelFor="@+id/etAmount"
                     android:maxLength="7"
                     android:maxLines="1"
-                    android:text="@={viewModel.enteredAmount}"
+                    android:text="@={viewModel.state.amount}"
                     app:hint="@{Strings.common_amount_hint}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintLeft_toLeftOf="parent"
