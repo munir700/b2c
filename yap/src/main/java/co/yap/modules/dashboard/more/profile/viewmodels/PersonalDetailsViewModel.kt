@@ -97,14 +97,15 @@ class PersonalDetailsViewModel(application: Application) :
     }
 
     private fun setUpAddressFields() {
-        state.address = when {
-            address?.address1 == address?.address2 -> address?.address1 ?: ""
-            address?.address2.isNullOrBlank() && address?.address1.isNullOrBlank() -> ""
-            address?.address1.isNullOrBlank() -> address?.address2 ?: ""
-            address?.address2.isNullOrBlank() -> address?.address1 ?: ""
-            else -> "${address?.address1}, ${address?.address2}"
-
-        }
+        state.address = address?.getCompleteAddress() ?: ""
+//        state.address = when {
+//            address?.address1 == address?.address2 -> address?.address1 ?: ""
+//            address?.address2.isNullOrBlank() && address?.address1.isNullOrBlank() -> ""
+//            address?.address1.isNullOrBlank() -> address?.address2 ?: ""
+//            address?.address2.isNullOrBlank() -> address?.address1 ?: ""
+//            else -> "${address?.address1}, ${address?.address2}"
+//
+//        }
     }
 
     override fun toggleToolBar(hide: Boolean) {
