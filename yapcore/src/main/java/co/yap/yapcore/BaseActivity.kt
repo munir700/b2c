@@ -52,13 +52,13 @@ abstract class BaseActivity<V : IBase.ViewModel<*>> : AppCompatActivity(), IBase
     private fun applySelectedTheme(prefs: SharedPreferenceManager) {
         when (prefs.getThemeValue()) {
             Constants.THEME_YAP -> {
-                setScreenState(YAPThemes.CORE())
+                setScreenState(YAPThemes.HOUSEHOLD())
             }
             Constants.THEME_HOUSEHOLD -> {
                 setScreenState(YAPThemes.HOUSEHOLD())
             }
             else -> {// default
-                setScreenState(YAPThemes.CORE())
+                setScreenState(YAPThemes.HOUSEHOLD())
             }
         }
     }
@@ -79,9 +79,9 @@ abstract class BaseActivity<V : IBase.ViewModel<*>> : AppCompatActivity(), IBase
 
     override fun onResume() {
         super.onResume()
-        if (DeviceUtils().isDeviceRooted()) {
-            showAlertDialogAndExitApp(message = "This device is rooted. You can't use this app.")
-        }
+//        if (DeviceUtils().isDeviceRooted()) {
+//            showAlertDialogAndExitApp(message = "This device is rooted. You can't use this app.")
+//        }
     }
 
     fun hideKeyboard() = Utils.hideKeyboard(this.currentFocus)
