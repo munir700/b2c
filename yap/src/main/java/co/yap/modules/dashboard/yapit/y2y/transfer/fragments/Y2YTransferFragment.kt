@@ -140,8 +140,8 @@ class Y2YTransferFragment : Y2YBaseFragment<IY2YFundsTransfer.ViewModel>(), IY2Y
     private fun showBalanceNotAvailableError() {
         val des = Translator.getString(
             requireContext(),
-            Strings.common_display_text_available_balance_error
-        ).format(MyUserManager.cardBalance.value?.availableBalance?.toFormattedAmountWithCurrency())
+            Strings.sm_common_display_text_available_balance_error
+        ).format(viewModel.state.amount.toFormattedAmountWithCurrency())
         viewModel.parentViewModel?.errorEvent?.value = des
     }
 
