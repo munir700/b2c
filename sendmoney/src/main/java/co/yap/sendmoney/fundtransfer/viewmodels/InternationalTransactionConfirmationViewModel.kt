@@ -38,13 +38,14 @@ class InternationalTransactionConfirmationViewModel(application: Application) :
                 when (val response =
                     mTransactionsRepository.rmtTransferRequest(
                         SendMoneyTransferRequest(
-                            amount = it.sourceAmount?.toDouble(),
-                            currency = it.sourceCurrency,
+                            amount = it.destinationAmount?.toDouble(),
+                            currency = it.destinationCurrency,
                             purposeCode = parentViewModel?.selectedPop?.purposeCode,
                             beneficiaryId = parentViewModel?.beneficiary?.value?.id,
                             remarks = if (it.noteValue.isNullOrBlank()) null else it.noteValue,
                             purposeReason = parentViewModel?.selectedPop?.purposeDescription,
-                            settlementAmount = it.destinationAmount.parseToDouble()
+                            settlementAmount = it.sourceAmount.parseToDouble(),
+                            fxRate = it.rate
                         )
                     )
                     ) {
@@ -70,8 +71,9 @@ class InternationalTransactionConfirmationViewModel(application: Application) :
                     mTransactionsRepository.swiftTransferRequest(
                         SendMoneyTransferRequest(
                             beneficiaryId = beneficiaryId?.toInt(),
-                            amount = it.sourceAmount?.toDouble(),
-                            settlementAmount = it.destinationAmount.parseToDouble(),
+                            amount = it.destinationAmount?.toDouble(),
+                            currency = it.destinationCurrency,
+                            settlementAmount = it.sourceAmount.parseToDouble(),
                             purposeCode = parentViewModel?.selectedPop?.purposeCode,
                             purposeReason = parentViewModel?.selectedPop?.purposeDescription,
                             remarks = if (it.noteValue.isNullOrBlank()) null else it.noteValue,
@@ -105,8 +107,15 @@ class InternationalTransactionConfirmationViewModel(application: Application) :
         parentViewModel?.transactionThreshold?.value?.let {
             it.totalDebitAmountRemittance?.let { totalSMConsumedAmount ->
                 parentViewModel?.transferData?.value?.sourceAmount?.toDoubleOrNull()?.let { enteredAmount ->
-                    val remainingOtpLimit = it.otpLimit?.minus(totalSMConsumedAmount)
-                    return enteredAmount > (remainingOtpLimit ?: 0.0)
+                    return if (parentViewModel?.transactionWillHold == true && parentViewModel?.beneficiary?.value?.beneficiaryType == SendMoneyBeneficiaryType.SWIFT.type) {
+                        val totalHoldAmount =
+                            (it.holdSwiftAmount ?: 0.0).plus(it.holdUAEFTSAmount ?: 0.0)
+                        val remainingOtpLimit = it.otpLimit?.minus(totalHoldAmount)
+                        enteredAmount > (remainingOtpLimit ?: 0.0)
+                    } else {
+                        val remainingOtpLimit = it.otpLimit?.minus(totalSMConsumedAmount)
+                        enteredAmount > (remainingOtpLimit ?: 0.0)
+                    }
                 } ?: return false
             } ?: return false
         } ?: return false
@@ -154,6 +163,7 @@ class InternationalTransactionConfirmationViewModel(application: Application) :
                                     is RetroApiResponse.Success -> {
                                         response.data.data?.let {
                                             state.cutOffTimeMsg = it.errorMsg
+                                            parentViewModel?.transactionWillHold = true
                                         }
 
                                     }

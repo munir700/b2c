@@ -15,14 +15,12 @@ import co.yap.modules.passcode.PassCodeViewModel
 import co.yap.translation.Strings
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.databinding.FragmentPassCodeBinding
-import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.enums.OTPActions
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.ExtraType
 import co.yap.yapcore.helpers.extentions.getValue
 import co.yap.yapcore.helpers.extentions.startFragmentForResult
-import co.yap.yapcore.managers.MyUserManager
 
 class UpdateConfirmPasscodeFragment : ChangePasscodeBaseFragment<IPassCode.ViewModel>(),
     IPassCode.View {
@@ -59,14 +57,9 @@ class UpdateConfirmPasscodeFragment : ChangePasscodeBaseFragment<IPassCode.ViewM
                         getBinding().dialer.startAnimation()
                 }
                 R.id.tvForgotPasscode -> {
-                    if (MyUserManager.user?.otpBlocked == true) {
-                        showToast("${getString(Strings.screen_blocked_otp_display_text_message)}^${AlertType.DIALOG.name}")
-                    } else {
-                        startOtpFragment(
-                            SharedPreferenceManager(requireContext()).getDecryptedUserName() ?: ""
-                        )
+                    viewModel.createForgotPassCodeOtp {username->
+                        startOtpFragment(username)
                     }
-
                 }
             }
         })
@@ -84,6 +77,7 @@ class UpdateConfirmPasscodeFragment : ChangePasscodeBaseFragment<IPassCode.ViewM
             bundleOf(
                 OtpDataModel::class.java.name to OtpDataModel(
                     otpAction = OTPActions.FORGOT_PASS_CODE.name,
+                    mobileNumber = viewModel.mobileNumber,
                     username = name,
                     emailOtp = !Utils.isUsernameNumeric(name)
                 )
@@ -110,9 +104,7 @@ class UpdateConfirmPasscodeFragment : ChangePasscodeBaseFragment<IPassCode.ViewM
     }
 
     private fun navigateToForgotPassCodeFlow() {
-        val sharedPreferenceManager = SharedPreferenceManager(requireContext())
         if (viewModel.isUserLoggedIn()) {
-            sharedPreferenceManager.getDecryptedUserName()?.let {
                 val action =
                     UpdateConfirmPasscodeFragmentDirections.actionUpdateConfirmPasscodeFragmentToForgotPasscodeNavigation(
                         viewModel.mobileNumber,
@@ -120,7 +112,6 @@ class UpdateConfirmPasscodeFragment : ChangePasscodeBaseFragment<IPassCode.ViewM
                         Constants.FORGOT_PASSCODE_FROM_CHANGE_PASSCODE
                     )
                 findNavController().navigate(action)
-            } ?: showToast("Invalid username found")
         }
     }
 

@@ -1,5 +1,6 @@
 package co.yap.yapcore.helpers
 
+import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -17,6 +18,7 @@ object DateUtils {
     const val FORMAT_DATE_MON_YEAR = "MMMM dd, yyyy"//2015-11-28 10:17:18
     const val LEAN_PLUM_FORMAT = "dd MMMM, yyyy"
     const val FORMAT_TIME_24H = "hh:mm a"
+    const val FORMAT_TIME = "hh:mm"
 
     fun getAge(date: Date): Int {
         val today = Calendar.getInstance()
@@ -156,6 +158,13 @@ object DateUtils {
             d = null
         }
         return d
+    }
+
+    fun formatTime(format: String, date: String): String?{
+        val outputFormat: DateFormat = SimpleDateFormat(format, Locale.getDefault())
+        val inputFormat: DateFormat = SimpleDateFormat(SERVER_DATE_FORMAT, Locale.US)
+        val date: Date = inputFormat.parse(date)
+        return outputFormat.format(date)
     }
 
 

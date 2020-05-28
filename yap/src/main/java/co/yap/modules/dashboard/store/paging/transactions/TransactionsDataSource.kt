@@ -48,12 +48,12 @@ class TransactionsDataSource(
 
                     var transactionModelData: ArrayList<HomeTransactionListData> =
                         setUpSectionHeader(response)
-                    if (response.data.data.pageable.offset < response.data.data.totalElements) {
+                    if ((response.data.data.pageable.offset?:0) < response.data.data.totalElements?:0) {
                         homeTransactionsRequest.number = +1
                         callback.onResult(
                             transactionModelData,
-                            response.data.data.pageable.pageNumber - 1,
-                            response.data.data.pageable.pageNumber + 1
+                            response.data.data.pageable.pageNumber?.minus(1),
+                            response.data.data.pageable.pageNumber?.plus(1)
                         )
                         updateState(PagingState.DONE)
                     } else {
@@ -83,7 +83,7 @@ class TransactionsDataSource(
                     homeTransactionsRequest.number = +1
                     callback.onResult(
                         transactionModelData,
-                        if (response.data.data.last) null else params.key + 1
+                        if (response.data.data.last == true) null else params.key + 1
                     )
                     updateState(PagingState.DONE)
 

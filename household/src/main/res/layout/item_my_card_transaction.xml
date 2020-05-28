@@ -7,6 +7,7 @@
             name="viewModel"
             type="co.yap.household.dashboard.cards.MyCardRecentTransactionsItemVM" />
         <import type="co.yap.translation.Strings" />
+        <import type="co.yap.yapcore.helpers.DateUtils" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -35,8 +36,7 @@
             app:layout_constraintStart_toEndOf="@+id/iv_transaction"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="Spotify"
-            android:text="Spotify" />
-<!--        app:text="@{viewModel.item.name}"-->
+            android:text="@{viewModel.item.title}"/>
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv_transaction_time"
@@ -47,8 +47,7 @@
             app:layout_constraintStart_toEndOf="@+id/iv_transaction"
             app:layout_constraintTop_toBottomOf="@id/tvTransactionName"
             tools:text="09:12"
-            android:text="09:12" />
-<!--        app:text="@{viewModel.item.time}"-->
+            android:text="@{DateUtils.INSTANCE.formatTime(DateUtils.INSTANCE.FORMAT_TIME, viewModel.item.updatedDate)}"/>
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv_dot"
@@ -70,8 +69,7 @@
             app:layout_constraintStart_toEndOf="@+id/tv_dot"
             app:layout_constraintTop_toBottomOf="@id/tvTransactionName"
             tools:text="Payment"
-            android:text="Payment" />
-<!--        app:text="@{viewModel.item.type}"-->
+            android:text="@{viewModel.item.remarks}"/>
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv_transaction_amount"
@@ -81,8 +79,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="- 543.00"
-            android:text="- 543.00"  />
-<!--        app:text="@{viewModel.item.amount}"-->
+            android:text="@{String.valueOf(viewModel.item.totalAmount)}"/>
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv_transaction_percentage"

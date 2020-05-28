@@ -102,20 +102,18 @@ open class WelcomeFragment : BaseBindingFragment<IWelcome.ViewModel>(), IWelcome
         })
 
         welcome_pager?.adapter = welcomePagerAdapter
-        view?.findViewById<WormDotsIndicator>(R.id.worm_dots_indicator)?.setViewPager(welcome_pager)
+        view.findViewById<WormDotsIndicator>(R.id.worm_dots_indicator)?.setViewPager(welcome_pager)
 
-        welcome_pager!!.setOnTouchListener(object : View.OnTouchListener {
+        welcome_pager.setOnTouchListener(object : View.OnTouchListener {
             override fun onTouch(
                 v: View?,
                 event: MotionEvent?
             ): Boolean {
                 when (event!!.action) {
                     MotionEvent.ACTION_DOWN -> {
-                        if (event!!.getX() < 490) {
+                        if (event.x < 490) {
                             // tapped on left of center
-                            if (welcome_pager.currentItem > 0 && welcome_pager.currentItem <= 2) {
-
-
+                            if (welcome_pager.currentItem in 1..2) {
                                 if (::item.isInitialized) {
                                     incrementValue = false
 

@@ -9,6 +9,7 @@ import androidx.navigation.NavController
 import co.yap.household.BR
 import co.yap.household.R
 import co.yap.household.databinding.FragmentMyCardBinding
+import co.yap.networking.transactions.responsedtos.transaction.Transaction
 import co.yap.modules.dashboard.cards.paymentcarddetail.statments.activities.CardStatementsActivity
 import co.yap.modules.dashboard.cards.reportcard.activities.ReportLostOrStolenCardActivity
 import co.yap.modules.others.helper.Constants
@@ -27,7 +28,7 @@ import com.arthurivanets.bottomsheets.sheets.listeners.OnItemSelectedListener
 import com.arthurivanets.bottomsheets.sheets.model.Option
 
 class MyCardFragment :
-    BaseRecyclerViewFragment<FragmentMyCardBinding, IMyCard.State, MyCardVM, MyCardFragment.Adapter, TransactionModel>() {
+    BaseRecyclerViewFragment<FragmentMyCardBinding, IMyCard.State, MyCardVM, MyCardFragment.Adapter, Transaction>() {
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.fragment_my_card
 
@@ -139,8 +140,8 @@ class MyCardFragment :
         return super.onOptionsItemSelected(item)
     }
 
-    class Adapter(mValue: MutableList<TransactionModel>, navigation: NavController?) :
-        BaseRVAdapter<TransactionModel, MyCardRecentTransactionsItemVM, BaseViewHolder<TransactionModel, MyCardRecentTransactionsItemVM>>(
+    class Adapter(mValue: MutableList<Transaction>, navigation: NavController?) :
+        BaseRVAdapter<Transaction, MyCardRecentTransactionsItemVM, BaseViewHolder<Transaction, MyCardRecentTransactionsItemVM>>(
             mValue,
             navigation
         ) {
@@ -153,7 +154,6 @@ class MyCardFragment :
 
         override fun getViewModel(viewType: Int) = MyCardRecentTransactionsItemVM()
         override fun getVariableId() = BR.viewModel
-        override fun getItemCount(): Int = 10
     }
 
     private fun getDummyCard(): Card {
