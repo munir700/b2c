@@ -127,6 +127,7 @@
     <color name="colorDarkPeach">#F57F17</color>
 
     <color name="colorCoachMarkOverlay">#4D272262</color>
-
+    <color name="colorSendMoneyToolBar">#00000000</color>
+    <color name="colorSendMoneyToolBarHouseHold">#fc6253</color>
 
 </resources>
