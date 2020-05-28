@@ -31,11 +31,10 @@
             android:focusable="true"
             android:foreground="?attr/selectableItemBackground"
             android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
-            android:tint="?attr/colorPrimaryAttr"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             android:src="@drawable/ic_close"
-            />
+            app:tint="?attr/colorPrimaryAttr" />
 
         <TextView
             android:id="@+id/tvTitle"
@@ -61,7 +60,8 @@
             android:onClick="@{v->viewModel.handlePressOnView(v.id)}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_add_sign" />
+            app:srcCompat="@drawable/ic_add_sign"
+            app:tint="?attr/colorPrimaryAttr" />
 
     </RelativeLayout>
 </layout>
