@@ -9,11 +9,11 @@ import androidx.navigation.NavController
 import co.yap.household.BR
 import co.yap.household.R
 import co.yap.household.databinding.FragmentMyCardBinding
-import co.yap.networking.transactions.responsedtos.transaction.Transaction
 import co.yap.modules.dashboard.cards.paymentcarddetail.statments.activities.CardStatementsActivity
 import co.yap.modules.dashboard.cards.reportcard.activities.ReportLostOrStolenCardActivity
 import co.yap.modules.others.helper.Constants
 import co.yap.networking.cards.responsedtos.Card
+import co.yap.networking.transactions.responsedtos.transaction.Transaction
 import co.yap.translation.Strings
 import co.yap.widgets.DividerItemDecoration
 import co.yap.yapcore.BaseRVAdapter
@@ -43,6 +43,19 @@ class MyCardFragment :
                 marginStart = dimen(co.yap.R.dimen._70sdp)
             )
         )
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(co.yap.R.menu.menu_options, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        showBottomSheet()
+        return super.onOptionsItemSelected(item)
+    }
+
+    private fun showBottomSheet() {
         showActionPickerBottomSheet(
             options = ArrayList<Option>().apply {
                 add(
@@ -92,52 +105,6 @@ class MyCardFragment :
                 }
             }
         )
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        super.onCreateOptionsMenu(menu, inflater)
-        inflater.inflate(co.yap.R.menu.menu_options, menu)
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        showActionPickerBottomSheet(
-            options = ArrayList<Option>().apply {
-                add(
-                    Option().setId(R.id.change_pin.toLong())
-                        .setTitle(getString(Strings.screen_household_my_card_screen_menu_change_pin_text))
-                )
-                add(
-                    Option().setId(R.id.freeze_card.toLong())
-                        .setTitle(getString(Strings.screen_household_my_card_screen_menu_freeze_card_text))
-                )
-                add(
-                    Option().setId(R.id.view_statement.toLong())
-                        .setTitle(getString(Strings.screen_household_my_card_screen_menu_view_statement_text))
-                )
-                add(
-                    Option().setId(R.id.report_lost_card.toLong())
-                        .setTitle(getString(Strings.screen_household_my_card_screen_menu_report_lost_card_text))
-                )
-                add(
-                    Option().setId(R.id.cancel.toLong())
-                        .setTitle(getString(Strings.screen_household_my_card_screen_menu_cancel_text))
-                )
-            },
-            config = actionPickerConfig() {
-                sheetAnimationDuration(300L)
-                    .topGapSize(dimen(co.yap.R.dimen.margin_extra_small).toFloat())
-            },
-            onItemSelectedListener = OnItemSelectedListener {
-                when (it.id) {
-                    R.id.change_pin.toLong() -> toast("Change Pin")
-                    R.id.freeze_card.toLong() -> toast("Freeze Card")
-                    R.id.view_statement.toLong() -> toast("View Statement")
-                    R.id.report_lost_card.toLong() -> toast("Report Lost Card")
-                    R.id.cancel.toLong() -> toast("Cancel")
-                }
-            }
-        )
-        return super.onOptionsItemSelected(item)
     }
 
     class Adapter(mValue: MutableList<Transaction>, navigation: NavController?) :
