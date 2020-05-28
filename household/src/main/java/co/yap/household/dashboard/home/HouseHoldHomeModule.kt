@@ -39,6 +39,9 @@ class HouseHoldHomeModule : BaseFragmentModule<HouseholdHomeFragment>() {
 //    fun provideHouseholdHomeStates()= HouseholdHomeState()
 //    @Provides
 //    fun provideTransactionsRepository() = TransactionsRepository
+
+    @Provides
+    @FragmentScope
     fun provideHomeTransactionAdapter() = HomeTransactionAdapter(emptyMap())
 
     @Provides

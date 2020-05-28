@@ -22,7 +22,7 @@ import co.yap.yapcore.interfaces.OnItemClickListener
 import javax.inject.Inject
 
 class HouseholdHomeFragment :
-    BaseNavViewModelFragment<FragmentHouseholdHomeBinding, IHouseholdHome.State, HouseHoldHomeVM>() {
+    BaseNavViewModelFragment<FragmentHouseholdHomeBinding, IHouseholdHome.State, HouseHoldHomeVM>(), NotificationItemClickListener {
     @Inject
     lateinit var mNotificationAdapter: HHNotificationAdapter
 
@@ -46,8 +46,8 @@ class HouseholdHomeFragment :
     }
 
     private fun setUpAdapter() {
-        mNotificationAdapter.onItemClickListener = userClickListener
-        viewModel.adapter.set(mNotificationAdapter)
+        mNotificationAdapter.onItemClickListener = notificationClickListener
+        viewModel.notificationAdapter.set(mNotificationAdapter)
     }
 
     private val notificationClickListener = object : OnItemClickListener {
