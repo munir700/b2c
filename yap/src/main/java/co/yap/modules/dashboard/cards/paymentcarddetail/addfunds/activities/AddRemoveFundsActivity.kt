@@ -95,7 +95,9 @@ open class AddRemoveFundsActivity : BaseBindingActivity<IFundActions.ViewModel>(
         setDenominationClickObservers()
         setupData()
     }
-
+    fun getAmountWithFee():Double{
+        return viewModel.state.amount.parseToDouble().plus(parentViewModel?.updatedFee?.value.parseToDouble())
+    }
     private fun setDenominationClickObservers() {
         viewModel.firstDenominationClickEvent.observe(this, Observer {
             hideKeyboard()
@@ -262,15 +264,15 @@ open class AddRemoveFundsActivity : BaseBindingActivity<IFundActions.ViewModel>(
     private fun showBalanceNotAvailableError() {
         viewModel.state.errorDescription = Translator.getString(
             context,
-            Strings.common_display_text_available_balance_error,
-            viewModel.state.availableBalanceText
+            Strings.sm_common_display_text_available_balance_error,
+            viewModel.state.amount?:""
         )
         showErrorSnackBar(viewModel.state.errorDescription, Snackbar.LENGTH_INDEFINITE)
     }
 
 
     private fun isBalanceAvailable(): Boolean {
-        return if (viewModel.state.isAddFundScreen.get() == true) viewModel.state.amount.parseToDouble() > viewModel.state.availableBalance.parseToDouble()
+        return if (viewModel.state.isAddFundScreen.get() == true) getAmountWithFee() > viewModel.state.availableBalance.parseToDouble()
         else viewModel.state.amount.parseToDouble() > card?.availableBalance.parseToDouble()
     }
 
