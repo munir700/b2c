@@ -5,6 +5,6 @@ import androidx.annotation.Keep
 @Keep
 enum class CardType(val type: String) {
     DEBIT("DEBIT"),
-    PHYSICAL("physical")
-
+    PHYSICAL("physical"),
+    PREPAID("PREPAID")
 }

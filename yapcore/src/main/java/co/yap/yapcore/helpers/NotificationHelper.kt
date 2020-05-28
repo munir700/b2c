@@ -78,16 +78,6 @@ object NotificationHelper {
             )
         }
 
-        // This code is added for testing only
-        list.add(
-            HomeNotification(
-                id = "3",
-                title = Translator.getString(context, Strings.screen_home_set_pin_title),
-                description = Translator.getString(context, Strings.screen_home_set_pin_desc),
-                action = NotificationAction.SET_PIN
-            )
-        )
-        // This code is added for testing only
         return list
     }
 

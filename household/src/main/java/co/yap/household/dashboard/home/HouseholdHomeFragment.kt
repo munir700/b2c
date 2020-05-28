@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import co.yap.household.BR
 import co.yap.household.R
 import co.yap.household.databinding.FragmentHouseholdHomeBinding
+import co.yap.modules.dashboard.home.interfaces.NotificationItemClickListener
 import co.yap.networking.notification.HomeNotification
 import co.yap.networking.notification.NotificationAction
 import co.yap.widgets.MultiStateView
@@ -21,7 +22,7 @@ import co.yap.yapcore.interfaces.OnItemClickListener
 import javax.inject.Inject
 
 class HouseholdHomeFragment :
-    BaseNavViewModelFragment<FragmentHouseholdHomeBinding, IHouseholdHome.State, HouseHoldHomeVM>() {
+    BaseNavViewModelFragment<FragmentHouseholdHomeBinding, IHouseholdHome.State, HouseHoldHomeVM>(), NotificationItemClickListener {
     @Inject
     lateinit var mNotificationAdapter: HHNotificationAdapter
 
@@ -103,5 +104,13 @@ class HouseholdHomeFragment :
             Status.SUCCESS -> mViewDataBinding.multiStateView.viewState =
                 MultiStateView.ViewState.CONTENT
         }
+    }
+
+    override fun onClick(notification: HomeNotification) {
+
+    }
+
+    override fun onCloseClick(notification: HomeNotification) {
+        state.showNotification.value = false
     }
 }

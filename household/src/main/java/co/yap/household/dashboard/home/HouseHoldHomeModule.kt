@@ -1,6 +1,7 @@
 package co.yap.household.dashboard.home
 
 import androidx.recyclerview.widget.RecyclerView
+import co.yap.modules.dashboard.home.interfaces.NotificationItemClickListener
 import co.yap.widgets.advrecyclerview.expandable.RecyclerViewExpandableItemManager
 import co.yap.yapcore.dagger.di.InjectionViewModelProvider
 import co.yap.yapcore.dagger.di.module.fragment.BaseFragmentModule
@@ -32,7 +33,7 @@ class HouseHoldHomeModule : BaseFragmentModule<HouseholdHomeFragment>() {
     @Provides
     @FragmentScope
     fun provideHHNotificationsAdapter(fragment: HouseholdHomeFragment) =
-        HHNotificationAdapter(NotificationHelper.getNotifications(MyUserManager.user, MyUserManager.card.value, fragment.requireContext()), null)
+        HHNotificationAdapter(NotificationHelper.getNotifications(MyUserManager.user, MyUserManager.card.value, fragment.requireContext()), null, fragment)
 //
 //    @Provides
 //    fun provideHouseholdHomeStates()= HouseholdHomeState()

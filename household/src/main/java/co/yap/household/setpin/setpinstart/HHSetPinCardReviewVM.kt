@@ -27,7 +27,7 @@ class HHSetPinCardReviewVM @Inject constructor(override val state: IHHSetPinCard
     override fun getCard() {
         launch {
             state.loading = true
-            when (val response = repository.getDebitCards(CardType.PHYSICAL.name)) {
+            when (val response = repository.getDebitCards(CardType.PREPAID.name)) {
                 is RetroApiResponse.Success -> {
                     response.data.data?.let {
                         if (it.isNotEmpty()) {
