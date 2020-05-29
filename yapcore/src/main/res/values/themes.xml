@@ -26,6 +26,8 @@
         <item name="actionBarSize">@dimen/toolbar_height</item>
 
         <item name="colorSendMoneyToolBarAttr">@color/colorSendMoneyToolBar</item>
+        <item name="colorTextAttr">@color/textDarkColor</item>
+        <item name="colorIconsTintAttr">@color/colorPrimary</item>
 
     </style>
 
@@ -52,6 +54,8 @@
         <item name="alertDialogTheme">@style/AlertDialogueCustom</item>
 
         <item name="colorSendMoneyToolBarAttr">@color/colorSendMoneyToolBarHouseHold</item>
+        <item name="colorTextAttr">@color/white</item>
+        <item name="colorIconsTintAttr">@color/white</item>
 
 
     </style>

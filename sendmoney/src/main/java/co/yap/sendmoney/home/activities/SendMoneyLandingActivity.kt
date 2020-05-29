@@ -6,6 +6,8 @@ import android.content.Intent
 import android.os.Bundle
 import android.os.Parcelable
 import android.view.View
+import android.view.Window
+import android.view.WindowManager
 import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -30,7 +32,9 @@ import co.yap.yapcore.constants.Constants.OVERVIEW_BENEFICIARY
 import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.constants.RequestCodes.REQUEST_TRANSFER_MONEY
 import co.yap.yapcore.enums.AlertType
+import co.yap.yapcore.helpers.ThemeColorUtils
 import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.helpers.Utils.setStatusBarColor
 import co.yap.yapcore.helpers.extentions.getValue
 import co.yap.yapcore.helpers.extentions.launchActivity
 import co.yap.yapcore.interfaces.OnItemClickListener
@@ -313,13 +317,13 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
                     }
                 }
             }
-            R.id.foregroundContainer->{
+            R.id.foregroundContainer -> {
                 viewModel.clickEvent.getPayload()?.let { payload ->
                     if (payload.itemData is Beneficiary) {
                         if (MyUserManager.user?.otpBlocked == true) {
                             showToast("${getString(Strings.screen_blocked_otp_display_text_message)}^${AlertType.DIALOG.name}")
                         } else {
-                            startMoneyTransfer(payload.itemData as Beneficiary,payload.position)
+                            startMoneyTransfer(payload.itemData as Beneficiary, payload.position)
                         }
                     }
                 }
@@ -417,5 +421,10 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
                 }
             }
         }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        setStatusBarColor(this)
     }
 }

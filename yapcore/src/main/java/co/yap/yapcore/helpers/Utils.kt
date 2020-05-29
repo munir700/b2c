@@ -32,6 +32,7 @@ import co.yap.translation.Translator
 import co.yap.widgets.loading.CircularProgressBar
 import co.yap.yapcore.R
 import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.enums.YAPThemes
 import co.yap.yapcore.helpers.extentions.shortToast
 import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 import co.yap.yapcore.interfaces.OnItemClickListener
@@ -848,5 +849,15 @@ object Utils {
             newVersion = versionBuilder.toString()
         }
         return newVersion.toInt() > existingVersion.toInt()
+    }
+
+    fun setStatusBarColor(activity: Activity) {
+        val sharedPreferenceManager = SharedPreferenceManager(activity)
+        if (sharedPreferenceManager.getThemeValue().equals(Constants.THEME_HOUSEHOLD)){
+            val window: Window = activity.getWindow()
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+            window.setStatusBarColor(ThemeColorUtils.colorPrimaryDefaultAttribute(activity))
+
+        }
     }
 }

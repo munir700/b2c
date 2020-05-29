@@ -15,10 +15,10 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_5sdp"
-        android:background="@color/white"
+        android:background="?attr/colorSendMoneyToolBarAttr"
         android:gravity="center_vertical"
         android:padding="@dimen/_8sdp"
+        android:paddingTop="@dimen/_13sdp"
         android:visibility="@{viewModel.state.toolbarVisibility? View.VISIBLE:View.GONE}">
 
         <ImageView
@@ -34,7 +34,8 @@
             android:visibility="@{viewModel.state.leftIcon? View.VISIBLE:View.GONE}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_back_arrow_left" />
+            app:srcCompat="@drawable/ic_back_arrow_left"
+            app:tint="?attr/colorIconsTintAttr" />
 
         <!--        android:text="@={viewModel.state.tootlBarTitle}"-->
 
@@ -49,6 +50,7 @@
             android:layout_toEndOf="@id/tbBtnBack"
             android:gravity="center"
             android:text="@{viewModel.state.toolbarTitle}"
+            android:textColor="?attr/colorTextAttr"
             android:visibility="@{viewModel.state.toolbarTitle.isEmpty()? View.GONE:View.VISIBLE}" />
 
         <ImageView
@@ -65,7 +67,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_add_sign"
-            />
+            app:tint="?attr/colorIconsTintAttr" />
 
     </RelativeLayout>
 </layout>

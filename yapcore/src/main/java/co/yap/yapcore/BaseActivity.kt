@@ -52,13 +52,13 @@ abstract class BaseActivity<V : IBase.ViewModel<*>> : AppCompatActivity(), IBase
     private fun applySelectedTheme(prefs: SharedPreferenceManager) {
         when (prefs.getThemeValue()) {
             Constants.THEME_YAP -> {
-                setScreenState(YAPThemes.HOUSEHOLD())
+                setScreenState(YAPThemes.CORE())
             }
             Constants.THEME_HOUSEHOLD -> {
                 setScreenState(YAPThemes.HOUSEHOLD())
             }
             else -> {// default
-                setScreenState(YAPThemes.HOUSEHOLD())
+                setScreenState(YAPThemes.CORE())
             }
         }
     }
