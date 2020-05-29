@@ -20,11 +20,14 @@
         <item name="colorPressedBtnStateAttr">@color/colorPressedBtnState</item>
         <item name="colordisabledTick">@color/disabledTickColor</item>
         <item name="colorSeekBar">@color/seekbarProgress</item>
-
         <item name="primaryButtonTheme">@style/Widget.Button.Primary</item>
 
         <item name="alertDialogTheme">@style/AlertDialogueCustom</item>
         <item name="actionBarSize">@dimen/toolbar_height</item>
+
+        <item name="colorSendMoneyToolBarAttr">@color/colorSendMoneyToolBar</item>
+        <item name="colorTextAttr">@color/textDarkColor</item>
+        <item name="colorIconsTintAttr">@color/colorPrimary</item>
 
     </style>
 
@@ -36,8 +39,6 @@
         <item name="colorPrimaryAttr">@color/colorPrimaryHouseHold</item>
         <item name="colorPrimaryDarkAttr">@color/textDarkColor</item>
         <item name="colorPrimaryAccentAttr">@color/colorAccentHouseHold</item>
-
-
         <item name="colorPrimaryAccentWarmAttr">@color/colorAccentHouseHold</item>
         <item name="colorPrimaryWarmAttr">@color/colorPrimaryHouseHold</item>
         <item name="colorPrimaryLightAttr">@color/colorDisabledBtnHouseHold</item>
@@ -51,6 +52,10 @@
         <item name="actionBarSize">@dimen/toolbar_height</item>
         <item name="primaryButtonTheme">@style/Widget.Button.Primary</item>
         <item name="alertDialogTheme">@style/AlertDialogueCustom</item>
+
+        <item name="colorSendMoneyToolBarAttr">@color/colorSendMoneyToolBarHouseHold</item>
+        <item name="colorTextAttr">@color/white</item>
+        <item name="colorIconsTintAttr">@color/white</item>
 
 
     </style>

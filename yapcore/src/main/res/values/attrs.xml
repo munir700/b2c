@@ -17,6 +17,10 @@
     <attr name="colordisabledTick" format="color|reference" />
     <attr name="colorSeekBar" format="color|reference" />
 
+    <attr name="colorSendMoneyToolBarAttr" format="color|reference" />
+    <attr name="colorTextAttr" format="color|reference" />
+    <attr name="colorIconsTintAttr" format="color|reference" />
+
     <!--components theme-->
     <attr name="primaryButtonTheme" format="reference" />
     <attr name="cardTheme" format="reference" />
