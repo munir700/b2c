@@ -9,6 +9,7 @@ import androidx.navigation.NavController
 import co.yap.household.BR
 import co.yap.household.R
 import co.yap.household.databinding.FragmentMyCardBinding
+import co.yap.modules.dashboard.cards.paymentcarddetail.activities.ChangeCardPinActivity
 import co.yap.modules.dashboard.cards.paymentcarddetail.statments.activities.CardStatementsActivity
 import co.yap.modules.dashboard.cards.reportcard.activities.ReportLostOrStolenCardActivity
 import co.yap.modules.others.helper.Constants
@@ -85,7 +86,12 @@ class MyCardFragment :
             },
             onItemSelectedListener = OnItemSelectedListener {
                 when (it.id) {
-                    R.id.change_pin.toLong() -> toast("Change Pin")
+                    R.id.change_pin.toLong() -> startActivity(
+                        ChangeCardPinActivity.newIntent(
+                            requireContext(),
+                            getDummyCard().cardSerialNumber
+                        )
+                    )
                     R.id.freeze_card.toLong() -> toast("Freeze Card")
                     R.id.view_statement.toLong() -> {
                         launchActivity<CardStatementsActivity> {
