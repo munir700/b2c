@@ -308,7 +308,6 @@ class YapHomeViewModel(application: Application) :
 
     private fun shouldShowSetPin(paymentCard: Card): Boolean {
         return (paymentCard.deliveryStatus == CardDeliveryStatus.SHIPPED.name && !paymentCard.pinCreated)
-
     }
 }
 
