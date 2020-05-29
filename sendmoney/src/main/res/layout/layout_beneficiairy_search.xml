@@ -19,7 +19,7 @@
         android:layout_marginStart="@dimen/_26sdp"
         android:layout_marginTop="@dimen/margin_medium"
         android:layout_marginEnd="@dimen/_26sdp"
-        android:background="@drawable/bg_search_widget"
+        setShapeColor="@{true}"
         android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}">
 
 
@@ -35,7 +35,8 @@
             app:layout_constraintTop_toTopOf="parent"
             app:queryBackground="@color/transparent"
             app:queryHint="Search"
-            app:searchIcon="@drawable/ic_search_grey" />
+            app:searchIcon="@drawable/ic_search_grey"
+            searchViewBG="@{true}" />
 
         <ImageView
             android:id="@+id/ivSearch"

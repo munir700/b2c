@@ -35,8 +35,10 @@ import co.yap.widgets.*
 import co.yap.widgets.otptextview.OTPListener
 import co.yap.widgets.otptextview.OtpTextView
 import co.yap.yapcore.R
+import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.*
 import co.yap.yapcore.helpers.DateUtils
+import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.StringUtils
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.loadImage
@@ -935,5 +937,26 @@ object UIBinder {
     fun maskIbanNo(view: AppCompatEditText, ibanMask: String?) {
         ibanMask?.let { view.addTextChangedListener(MaskTextWatcher(view, it)) }
     }
+
+
+     @JvmStatic
+    @BindingAdapter("searchViewBG")
+    fun searchViewBgColor(view: androidx.appcompat.widget.SearchView, search: Boolean?) {
+         if (SharedPreferenceManager(view.context).getThemeValue().equals(Constants.THEME_HOUSEHOLD)) {
+              view.setBackgroundDrawable(view.context.resources.getDrawable(R.drawable.bg_hh_search_view))
+          }
+      }
+
+     @JvmStatic
+    @BindingAdapter("setShapeColor")
+    fun setShapeColor(view: ConstraintLayout, search: Boolean?) {
+         if (SharedPreferenceManager(view.context).getThemeValue().equals(Constants.THEME_HOUSEHOLD)) {
+              view.setBackgroundDrawable(view.context.resources.getDrawable(R.drawable.bg_hh_search_view))
+
+           }else{
+             view.setBackgroundDrawable(view.context.resources.getDrawable(R.drawable.bg_search_widget))
+
+         }
+      }
 
 }
