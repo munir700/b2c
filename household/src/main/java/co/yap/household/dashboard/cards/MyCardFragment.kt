@@ -13,6 +13,7 @@ import androidx.viewpager2.widget.ViewPager2
 import co.yap.household.BR
 import co.yap.household.R
 import co.yap.household.databinding.FragmentMyCardBinding
+import co.yap.modules.dashboard.cards.paymentcarddetail.activities.ChangeCardPinActivity
 import co.yap.modules.dashboard.cards.paymentcarddetail.activities.carddetaildialog.CardDetailsDialogPagerAdapter
 import co.yap.modules.dashboard.cards.paymentcarddetail.activities.carddetaildialog.CardDetailsModel
 import co.yap.modules.dashboard.cards.paymentcarddetail.statments.activities.CardStatementsActivity
@@ -180,7 +181,12 @@ class MyCardFragment :
             },
             onItemSelectedListener = OnItemSelectedListener {
                 when (it.id) {
-                    R.id.change_pin.toLong() -> toast("Change Pin")
+                    R.id.change_pin.toLong() -> startActivity(
+                        ChangeCardPinActivity.newIntent(
+                            requireContext(),
+                            viewModel.getDummyCard()?.cardSerialNumber!!
+                        )
+                    )
                     R.id.freeze_card.toLong() -> viewModel.freezeUnfreezeCard()
                     R.id.view_statement.toLong() -> {
                         launchActivity<CardStatementsActivity> {
