@@ -10,7 +10,7 @@ import co.yap.networking.notification.HomeNotification
 import co.yap.yapcore.BaseRVAdapter
 import co.yap.yapcore.BaseViewHolder
 
-class HHNotificationAdapter(mValue: MutableList<HomeNotification>, navigation: NavController?, val listener: NotificationItemClickListener) :
+class HHNotificationAdapter(mValue: MutableList<HomeNotification>, navigation: NavController?, val listener: NotificationItemClickListener?) :
     BaseRVAdapter<HomeNotification, HHNotificationItemVM, BaseViewHolder<HomeNotification, HHNotificationItemVM>>(
         mValue,
         navigation
@@ -25,13 +25,13 @@ class HHNotificationAdapter(mValue: MutableList<HomeNotification>, navigation: N
     override fun getViewModel(viewType: Int) = HHNotificationItemVM()
     override fun getVariableId() = BR.viewModel
 
-    class ViewHolder(view: View, viewModel: HHNotificationItemVM, mDataBinding: ViewDataBinding, listener: NotificationItemClickListener) :
+    class ViewHolder(view: View, viewModel: HHNotificationItemVM, mDataBinding: ViewDataBinding, listener: NotificationItemClickListener?) :
         BaseViewHolder<HomeNotification, HHNotificationItemVM>(view, viewModel, mDataBinding) {
 
         init {
             val binding = mDataBinding as ItemHhNotificationBinding
             binding.ivCross.setOnClickListener {
-                listener.onCloseClick(viewModel.getItem())
+                listener?.onCloseClick(viewModel.getItem())
             }
         }
     }

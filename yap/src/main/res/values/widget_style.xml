@@ -97,6 +97,12 @@
         <item name="android:lineSpacingExtra">6sp</item>
         <item name="android:textColor">@color/greyDark</item>
     </style>
+    <style name="Yap.App.Widget.TextView.Label.Medium" parent="Yap.App.Widget.TextView">
+        <item name="android:textSize">@dimen/text_size_h4</item>
+        <item name="android:lineSpacingExtra">6sp</item>
+        <item name="fontFamily">@font/roboto_medium</item>
+        <item name="android:textColor">@color/greyDark</item>
+    </style>
 
     <style name="Yap.App.Widget.FloatingActionButton.Circle" parent="Widget.Design.FloatingActionButton">
         <item name="android:layout_width">wrap_content</item>

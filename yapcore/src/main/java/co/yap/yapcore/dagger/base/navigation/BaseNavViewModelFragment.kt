@@ -30,9 +30,7 @@ const val NAVIGATION_RESULT_OK = -1
 
 abstract class BaseNavViewModelFragment<VB : ViewDataBinding, S : IBase.State, VM : DaggerBaseViewModel<S>> :
     BaseViewModelFragment<VB, S, VM>() {
-
     protected open val hasUpNavigation: Boolean = true
-
     private val requestCode: Int
         get() = arguments?.getInt(ARGUMENT_NAVIGATION_REQUEST_CODE, REQUEST_CODE_NOT_SET)
             ?: REQUEST_CODE_NOT_SET
@@ -48,7 +46,6 @@ abstract class BaseNavViewModelFragment<VB : ViewDataBinding, S : IBase.State, V
     }
 
     override fun getToolBarTitle(): String? = null
-
     override fun toolBarVisibility(): Boolean? = true
     override fun setDisplayHomeAsUpEnabled(): Boolean? = true
     override fun setHomeAsUpIndicator() = R.drawable.ic_back_arrow_left
@@ -73,7 +70,6 @@ abstract class BaseNavViewModelFragment<VB : ViewDataBinding, S : IBase.State, V
         )
     }
 
-
     /**
      * Navigates to the specified destination screen.
      *
@@ -87,7 +83,6 @@ abstract class BaseNavViewModelFragment<VB : ViewDataBinding, S : IBase.State, V
             findNavController().navigate(directions)
         }
     }
-
 
     /**
      * Navigates back (pops the back stack) to the previous [MvvmFragment] on the stack.

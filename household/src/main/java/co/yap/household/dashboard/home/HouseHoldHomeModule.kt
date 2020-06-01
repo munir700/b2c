@@ -1,7 +1,7 @@
 package co.yap.household.dashboard.home
 
 import androidx.recyclerview.widget.RecyclerView
-import co.yap.modules.dashboard.home.interfaces.NotificationItemClickListener
+import co.yap.household.dashboard.main.menu.ProfilePictureAdapter
 import co.yap.widgets.advrecyclerview.expandable.RecyclerViewExpandableItemManager
 import co.yap.yapcore.dagger.di.InjectionViewModelProvider
 import co.yap.yapcore.dagger.di.module.fragment.BaseFragmentModule
@@ -33,7 +33,7 @@ class HouseHoldHomeModule : BaseFragmentModule<HouseholdHomeFragment>() {
     @Provides
     @FragmentScope
     fun provideHHNotificationsAdapter(fragment: HouseholdHomeFragment) =
-        HHNotificationAdapter(NotificationHelper.getNotifications(MyUserManager.user, MyUserManager.card.value, fragment.requireContext()), null, fragment)
+        HHNotificationAdapter(NotificationHelper.getNotifications(MyUserManager.user, MyUserManager.card.value, fragment.requireContext()), null, null)
 //
 //    @Provides
 //    fun provideHouseholdHomeStates()= HouseholdHomeState()
@@ -50,4 +50,9 @@ class HouseHoldHomeModule : BaseFragmentModule<HouseholdHomeFragment>() {
         adapter: HomeTransactionAdapter,
         mRecyclerViewExpandableItemManager: RecyclerViewExpandableItemManager
     ): RecyclerView.Adapter<*> = mRecyclerViewExpandableItemManager.createWrappedAdapter(adapter)
+
+    @Provides
+    @FragmentScope
+    fun provideProfilePictureAdapter() =
+        ProfilePictureAdapter(MyUserManager.usersList?.value ?: mutableListOf(), null)
 }

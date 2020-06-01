@@ -12,7 +12,6 @@ fun BottomNavigationView.setUpWithViewPager(viewpager: ViewPager) {
 
 private fun ViewPager.onNavigationItemSelected(item: MenuItem): Boolean {
     setCurrentItem(getPageIndexForMenuItem(item), false)
-
     return true
 }
 

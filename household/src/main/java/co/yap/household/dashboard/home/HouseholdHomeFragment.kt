@@ -1,28 +1,36 @@
 package co.yap.household.dashboard.home
 
+import android.view.MenuItem
 import android.view.View
+import androidx.core.view.GravityCompat
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
 import co.yap.household.BR
 import co.yap.household.R
+import co.yap.household.dashboard.main.menu.ProfilePictureAdapter
 import co.yap.household.databinding.FragmentHouseholdHomeBinding
-import co.yap.modules.dashboard.home.interfaces.NotificationItemClickListener
+import co.yap.modules.dashboard.main.activities.YapDashboardActivity
+import co.yap.networking.customers.responsedtos.AccountInfo
 import co.yap.networking.notification.HomeNotification
 import co.yap.networking.notification.NotificationAction
-import co.yap.widgets.MultiStateView
-import co.yap.widgets.State
-import co.yap.widgets.Status
 import co.yap.widgets.advrecyclerview.expandable.RecyclerViewExpandableItemManager
 import co.yap.yapcore.dagger.base.navigation.BaseNavViewModelFragment
 import co.yap.yapcore.dagger.base.navigation.host.NAVIGATION_Graph_ID
 import co.yap.yapcore.dagger.base.navigation.host.NAVIGATION_Graph_START_DESTINATION_ID
 import co.yap.yapcore.dagger.base.navigation.host.NavHostPresenterActivity
+import co.yap.yapcore.enums.AccountType
 import co.yap.yapcore.helpers.extentions.launchActivity
+import co.yap.yapcore.helpers.livedata.GetAccountBalanceLiveData
+import co.yap.yapcore.helpers.livedata.SwitchProfileLiveData
 import co.yap.yapcore.interfaces.OnItemClickListener
+import kotlinx.android.synthetic.main.fragment_household_home.*
+import kotlinx.android.synthetic.main.layout_drawer_header.*
+import kotlinx.android.synthetic.main.layout_drawer_header_expandable.*
+import net.cachapa.expandablelayout.ExpandableLayout
 import javax.inject.Inject
 
 class HouseholdHomeFragment :
-    BaseNavViewModelFragment<FragmentHouseholdHomeBinding, IHouseholdHome.State, HouseHoldHomeVM>(), NotificationItemClickListener {
+    BaseNavViewModelFragment<FragmentHouseholdHomeBinding, IHouseholdHome.State, HouseHoldHomeVM>(){
     @Inject
     lateinit var mNotificationAdapter: HHNotificationAdapter
 
@@ -34,39 +42,35 @@ class HouseholdHomeFragment :
 
     @Inject
     lateinit var mRecyclerViewExpandableItemManager: RecyclerViewExpandableItemManager
+
+    @Inject
+    lateinit var profilePictureAdapter: ProfilePictureAdapter
     override fun getBindingVariable() = BR.viewModel
     override fun getLayoutId() = R.layout.fragment_household_home
     override fun postExecutePendingBindings() {
         super.postExecutePendingBindings()
-        setUpAdapter()
-        intRecyclerView()
-        viewModel.stateLiveData.observe(
-            this,
-            Observer { if (it.status != Status.IDEAL) handleState(it) })
+        setBackButtonDispatcher()
+        setupToolbar(mViewDataBinding.toolbar, R.menu.menu_home)
+        setHasOptionsMenu(true)
+        GetAccountBalanceLiveData.get()
+            .observe(this, Observer { state.availableBalance?.value = it?.availableBalance })
+        intRecyclersView()
+        viewModel.clickEvent.observe(this, Observer { onClick(it) })
     }
 
-    private fun setUpAdapter() {
-        mNotificationAdapter.onItemClickListener = notificationClickListener
+    private fun intRecyclersView() {
+        mNotificationAdapter.onItemClickListener = onItemClickListener
         viewModel.notificationAdapter.set(mNotificationAdapter)
-    }
-
-    private val notificationClickListener = object : OnItemClickListener {
-        override fun onItemClick(view: View, data: Any, pos: Int) {
-            var notification: HomeNotification = mNotificationAdapter.getData().get(pos)
-            when (notification.action) {
-                NotificationAction.SET_PIN -> {
-                    launchActivity<NavHostPresenterActivity> {
-                        putExtra(NAVIGATION_Graph_ID, R.navigation.hh_set_card_pin_navigation)
-                        putExtra(NAVIGATION_Graph_START_DESTINATION_ID, R.id.HHSetPinCardReviewFragment)
-                    }
-                }
+        profilePictureAdapter.onItemClickListener = onItemClickListener
+        viewModel.profilePictureAdapter.set(profilePictureAdapter)
+        expandableLayout.setOnExpansionUpdateListener { _, state ->
+            when (state) {
+                ExpandableLayout.State.EXPANDED -> ivChevron.rotation = 180F
+                ExpandableLayout.State.COLLAPSED -> ivChevron.rotation = 0F
             }
         }
-    }
-
-    private fun intRecyclerView() {
         mRecyclerViewExpandableItemManager.defaultGroupsExpandedState = true
-        mViewDataBinding.recyclerView.apply {
+        mViewDataBinding.lyInclude.recyclerView.apply {
             mRecyclerViewExpandableItemManager.attachRecyclerView(this)
             adapter = mWrappedAdapter
             viewModel.transactionAdapter?.set(mAdapter)
@@ -74,45 +78,61 @@ class HouseholdHomeFragment :
         }
     }
 
-    private val adaptorClickListener = object : OnItemClickListener {
+    private val onItemClickListener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
+            if (data is HomeNotification) {
+                val notification: HomeNotification = mNotificationAdapter.getData().get(pos)
+                when (notification.action) {
+                    NotificationAction.SET_PIN -> {
+                        launchActivity<NavHostPresenterActivity> {
+                            putExtra(NAVIGATION_Graph_ID, R.navigation.hh_set_card_pin_navigation)
+                            putExtra(
+                                NAVIGATION_Graph_START_DESTINATION_ID,
+                                R.id.HHSetPinCardReviewFragment
+                            )
+                        }
+                    }
+                }
+            }
+            if (data is AccountInfo) {
+                if (data.accountType == AccountType.B2C_ACCOUNT.name) {
+                    data.uuid?.let {
+                        SwitchProfileLiveData.get(it, this@HouseholdHomeFragment)
+                            .observe(this@HouseholdHomeFragment, Observer<AccountInfo?> {
+                                launchActivity<YapDashboardActivity>(clearPrevious = true)
+                            })
+                    }
+                }
+            }
         }
     }
 
-//    private val loadMoreListener = object : LoadMoreListener {
-//        override fun onLoadMore() {
-//            if (viewModel.isLast.value == false) {
-//                viewModel.homeTransactionRequest.number =
-//                    viewModel.homeTransactionRequest.number.inc()
-//                viewModel.loadMore()
-//            } else {
-//                (mViewDataBinding.transactionRecyclerView.rvTransaction?.adapter as? TransactionsAdapter)?.itemCount?.let {
-//                    (mViewDataBinding.transactionRecyclerView.rvTransaction?.adapter as? TransactionsAdapter)?.notifyItemRemoved(
-//                        it
-//                    )
-//                }
-//            }
-//        }
-//    }
 
-    fun handleState(state: State?) {
-        when (state?.status) {
-            Status.LOADING -> mViewDataBinding.multiStateView.viewState =
-                MultiStateView.ViewState.LOADING
-            Status.EMPTY -> mViewDataBinding.multiStateView.viewState =
-                MultiStateView.ViewState.EMPTY
-            Status.ERROR -> mViewDataBinding.multiStateView.viewState =
-                MultiStateView.ViewState.ERROR
-            Status.SUCCESS -> mViewDataBinding.multiStateView.viewState =
-                MultiStateView.ViewState.CONTENT
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        drawerLayout.openDrawer(GravityCompat.END)
+        return super.onOptionsItemSelected(item)
+    }
+
+    private fun onClick(id: Int) {
+        when (id) {
+            R.id.btnCopyHH -> {
+            }
+            R.id.lyHeader_section -> expandableLayout.toggle(true)
         }
     }
 
-    override fun onClick(notification: HomeNotification) {
 
-    }
-
-    override fun onCloseClick(notification: HomeNotification) {
+    fun onCloseClick(notification: HomeNotification) {
         state.showNotification.value = false
+    }
+
+    override fun setHomeAsUpIndicator() = R.drawable.ic_search_white
+    override fun toolBarVisibility() = false
+
+    override fun onBackPressed(): Boolean {
+        if (drawerLayout.isDrawerOpen(GravityCompat.END)) drawerLayout.closeDrawer(
+            GravityCompat.END
+        ) else finishActivityAffinity()
+        return super.onBackPressed()
     }
 }
