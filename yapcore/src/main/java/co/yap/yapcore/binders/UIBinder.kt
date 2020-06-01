@@ -37,10 +37,7 @@ import co.yap.widgets.otptextview.OtpTextView
 import co.yap.yapcore.R
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.*
-import co.yap.yapcore.helpers.DateUtils
-import co.yap.yapcore.helpers.SharedPreferenceManager
-import co.yap.yapcore.helpers.StringUtils
-import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.helpers.*
 import co.yap.yapcore.helpers.extentions.loadImage
 import co.yap.yapcore.interfaces.IBindable
 import co.yap.yapcore.managers.MyUserManager
@@ -957,6 +954,26 @@ object UIBinder {
              view.setBackgroundDrawable(view.context.resources.getDrawable(R.drawable.bg_search_widget))
 
          }
+      }
+
+    @JvmStatic
+    @BindingAdapter("searchViewBGColor")
+    fun setsearchViewBGColor(view: RelativeLayout, search: Boolean) {
+        if (search){
+
+            if (SharedPreferenceManager(view.context).getThemeValue().equals(Constants.THEME_HOUSEHOLD)) {
+//             ? attr/colorSendMoneyToolBarAttr : ?attr/colorSendMoneyToolBarAttr
+                view.setBackgroundColor(ThemeColorUtils.colorSendMoneyToolBarAttribute(view.context))
+//              view.setBackgroundDrawable(view.context.resources.getDrawable(R.drawable.bg_hh_search_view))
+
+            }else{
+                view.setBackgroundColor(view.context.getColor(R.color.transparent))
+
+            }
+        }else{
+            view.setBackgroundColor(view.context.getColor(R.color.transparent))
+
+        }
       }
 
 }

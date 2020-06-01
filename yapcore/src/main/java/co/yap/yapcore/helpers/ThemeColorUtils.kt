@@ -135,5 +135,15 @@ object ThemeColorUtils {
         }.data
     }
 
+    fun colorSendMoneyToolBarAttribute(context: Context): Int {
+        return TypedValue().also {
+            context.theme.resolveAttribute(
+                R.attr.colorSendMoneyToolBarAttr,
+                it,
+                true
+            )
+        }.data
+    }
+
 
 }
