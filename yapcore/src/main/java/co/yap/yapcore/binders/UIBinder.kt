@@ -269,11 +269,10 @@ object UIBinder {
                             linearLayout.visibility = VISIBLE
                         else
                             linearLayout.visibility = GONE
-                    }
-                    else
+                    } else
                         linearLayout.visibility = GONE
                 }
-                CardStatus.BLOCKED,CardStatus.INACTIVE,CardStatus.HOTLISTED -> {
+                CardStatus.BLOCKED, CardStatus.INACTIVE, CardStatus.HOTLISTED -> {
                     linearLayout.visibility = VISIBLE
                 }
             }
@@ -293,8 +292,7 @@ object UIBinder {
                             imageView.setImageResource(R.drawable.ic_status_ontheway)
                         } else
                             imageView.visibility = GONE
-                    }
-                    else
+                    } else
                         imageView.visibility = GONE
                 }
                 CardStatus.BLOCKED -> {
@@ -936,44 +934,48 @@ object UIBinder {
     }
 
 
-     @JvmStatic
+    @JvmStatic
     @BindingAdapter("searchViewBG")
     fun searchViewBgColor(view: androidx.appcompat.widget.SearchView, search: Boolean?) {
-         if (SharedPreferenceManager(view.context).getThemeValue().equals(Constants.THEME_HOUSEHOLD)) {
-              view.setBackgroundDrawable(view.context.resources.getDrawable(R.drawable.bg_hh_search_view))
-          }
-      }
+        if (SharedPreferenceManager(view.context).getThemeValue()
+                .equals(Constants.THEME_HOUSEHOLD)
+        ) {
+            view.setBackgroundDrawable(view.context.resources.getDrawable(R.drawable.bg_hh_disabled_search_view))
+        }
+    }
 
-     @JvmStatic
+    @JvmStatic
     @BindingAdapter("setShapeColor")
     fun setShapeColor(view: ConstraintLayout, search: Boolean?) {
-         if (SharedPreferenceManager(view.context).getThemeValue().equals(Constants.THEME_HOUSEHOLD)) {
-              view.setBackgroundDrawable(view.context.resources.getDrawable(R.drawable.bg_hh_search_view))
+        if (SharedPreferenceManager(view.context).getThemeValue()
+                .equals(Constants.THEME_HOUSEHOLD)
+        ) {
+            view.setBackgroundDrawable(view.context.resources.getDrawable(R.drawable.bg_hh_search_view))
 
-           }else{
-             view.setBackgroundDrawable(view.context.resources.getDrawable(R.drawable.bg_search_widget))
+        } else {
+            view.setBackgroundDrawable(view.context.resources.getDrawable(R.drawable.bg_search_widget))
 
-         }
-      }
+        }
+    }
 
     @JvmStatic
     @BindingAdapter("searchViewBGColor")
-    fun setsearchViewBGColor(view: RelativeLayout, search: Boolean) {
-        if (search){
+    fun setsearchViewBGColor(view: FrameLayout, search: Boolean) {
+        if (search) {
 
-            if (SharedPreferenceManager(view.context).getThemeValue().equals(Constants.THEME_HOUSEHOLD)) {
-//             ? attr/colorSendMoneyToolBarAttr : ?attr/colorSendMoneyToolBarAttr
+            if (SharedPreferenceManager(view.context).getThemeValue()
+                    .equals(Constants.THEME_HOUSEHOLD)
+            ) {
                 view.setBackgroundColor(ThemeColorUtils.colorSendMoneyToolBarAttribute(view.context))
-//              view.setBackgroundDrawable(view.context.resources.getDrawable(R.drawable.bg_hh_search_view))
 
-            }else{
+            } else {
                 view.setBackgroundColor(view.context.getColor(R.color.transparent))
 
             }
-        }else{
+        } else {
             view.setBackgroundColor(view.context.getColor(R.color.transparent))
 
         }
-      }
+    }
 
 }

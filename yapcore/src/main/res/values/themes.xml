@@ -28,6 +28,8 @@
         <item name="colorSendMoneyToolBarAttr">@color/colorSendMoneyToolBar</item>
         <item name="colorTextAttr">@color/textDarkColor</item>
         <item name="colorIconsTintAttr">@color/colorPrimary</item>
+        <item name="colorSearchViewEditTexAttr">@color/colorPrimaryDark</item>
+        <item name="colorSearchViewHintAttr">@color/greyDark</item>
 
     </style>
 
@@ -56,6 +58,8 @@
         <item name="colorSendMoneyToolBarAttr">@color/colorSendMoneyToolBarHouseHold</item>
         <item name="colorTextAttr">@color/white</item>
         <item name="colorIconsTintAttr">@color/white</item>
+        <item name="colorSearchViewEditTexAttr">@color/white</item>
+        <item name="colorSearchViewHintAttr">@color/white</item>
 
 
 

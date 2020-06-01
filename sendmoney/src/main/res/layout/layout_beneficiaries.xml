@@ -10,7 +10,8 @@
             type="co.yap.sendmoney.home.viewmodels.SendMoneyHomeScreenViewModel" />
 
         <import type="co.yap.translation.Strings" />
-        <import type="android.view.View"/>
+
+        <import type="android.view.View" />
 
     </data>
 
@@ -19,10 +20,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:animateLayoutChanges="true"
-        android:focusableInTouchMode="true"
-        android:paddingEnd="@dimen/small"
-        android:paddingStart="@dimen/small"
-        android:background="@android:color/white">
+        android:background="@android:color/white"
+        android:focusableInTouchMode="true">
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvSendMoneyTo"
@@ -36,21 +35,35 @@
             android:textColor="?attr/colorPrimaryDarkAttr"
             android:textSize="@dimen/_14sdp"
             android:visibility="@{viewModel.state.isSearching()? View.GONE : View.VISIBLE }"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             app:text="@{Strings.screen_send_money_no_contacts_display_text_sub_heading}"
             tools:text="@string/screen_send_money_no_contacts_display_text_sub_heading" />
+
         <include
             android:id="@+id/layoutRecent"
             layout="@layout/layout_recent_beneficiaries"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:paddingStart="@dimen/small"
+            android:paddingEnd="@dimen/small"
             android:visibility="@{viewModel.state.isSearching || viewModel.state.isNoRecentBeneficiary? View.GONE : View.VISIBLE}"
             app:adapter="@{viewModel.adapter}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvSendMoneyTo" />
+
+        <FrameLayout
+            android:id="@+id/flSearchViewBg"
+            searchViewBGColor="@{viewModel.state.isSearching()}"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_100sdp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/tvCancel"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/layoutRecent"/>
+
         <include
             android:id="@+id/layoutSearchView"
             layout="@layout/layout_beneficiairy_search"
@@ -73,12 +86,13 @@
             android:layout_marginEnd="@dimen/margin_small"
             android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
             android:text="@string/common_button_cancel"
-            android:textColor="?attr/colorPrimaryAttr"
+            android:textColor="?attr/colorIconsTintAttr"
             android:visibility="@{viewModel.state.isSearching()? View.VISIBLE : View.GONE }"
             app:layout_constraintBottom_toBottomOf="@id/layoutSearchView"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/layoutSearchView"
-            app:layout_constraintTop_toTopOf="@id/layoutSearchView" />
+            app:layout_constraintTop_toTopOf="@id/layoutSearchView"
+            />
 
         <TextView
             android:id="@+id/txt_error"
@@ -89,10 +103,10 @@
             android:layout_marginBottom="@dimen/margin_large"
             android:gravity="center"
             android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:text="@{Strings.screen_y2y_display_text_no_result}"
             tools:text="@string/screen_y2y_display_text_no_result" />
 
@@ -101,9 +115,11 @@
             style="@style/ASmall"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_medium"
             android:layout_marginTop="@dimen/margin_medium"
             android:gravity="start"
-            android:layout_marginStart="@dimen/margin_medium"
+            android:paddingStart="@dimen/small"
+            android:paddingEnd="@dimen/small"
             android:text="@string/screen_send_money_display_text_all_beneficiaries"
             android:visibility="@{viewModel.state.isSearching?View.GONE : View.VISIBLE}"
             app:layout_constraintEnd_toEndOf="parent"
