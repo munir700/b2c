@@ -23,6 +23,7 @@ interface IHouseholdHome {
 
     interface State : IBase.State {
         val transactionList: ObservableField<MutableList<HomeTransactionListData>>
+        var showNotification: MutableLiveData<Boolean>
         val transactionMap: MutableLiveData<Map<String?, List<Transaction>>>?
         var homeTransactionRequest: MutableLiveData<HomeTransactionsRequest>?
         var availableBalance: MutableLiveData<String>?

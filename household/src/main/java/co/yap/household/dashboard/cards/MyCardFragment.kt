@@ -148,7 +148,9 @@ class MyCardFragment :
             deliveryStatus = "ORDERED",
             shipmentStatus = null,
             nameUpdated = true,
-            newPin = ""
+            newPin = "",
+            frontImage = "",
+            backImage = ""
         )
     }
 }

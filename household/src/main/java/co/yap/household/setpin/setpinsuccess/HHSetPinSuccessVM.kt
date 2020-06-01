@@ -1,4 +1,4 @@
-package co.yap.modules.subaccounts.householdsetpin.hhsetpinstart
+package co.yap.household.setpin.setpinsuccess
 
 import android.os.Bundle
 import androidx.navigation.NavController
@@ -6,16 +6,14 @@ import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.dagger.base.viewmodel.DaggerBaseViewModel
 import javax.inject.Inject
 
-class HHSetPinCardReviewVM @Inject constructor(override val state: IHHSetPinCardReview.State) :
-    DaggerBaseViewModel<IHHSetPinCardReview.State>(), IHHSetPinCardReview.ViewModel {
+class HHSetPinSuccessVM @Inject constructor(override val state: IHHSetPinSuccess.State) :
+    DaggerBaseViewModel<IHHSetPinSuccess.State>(), IHHSetPinSuccess.ViewModel {
     override var clickEvent: SingleClickEvent = SingleClickEvent()
 
     override fun onFirsTimeUiCreate(bundle: Bundle?, navigation: NavController?) {
-
     }
 
-    override fun handleClick(id: Int) {
-        clickEvent.call()
+    override fun handleButtonPress(id: Int) {
+        clickEvent.setValue(id)
     }
-
 }

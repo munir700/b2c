@@ -119,22 +119,6 @@
             app:layout_constraintStart_toEndOf="@id/clLeftContainer"
             app:layout_constraintTop_toTopOf="parent">
 
-            <!-- this image will be replaced with Recyclerview to accommodate multiple accounts -->
-
-            <!--<co.yap.widgets.CoreCircularImageView
-                android:id="@+id/ivProfilePic"
-                android:layout_width="@dimen/_45sdp"
-                android:layout_height="@dimen/_45sdp"
-                android:background="@drawable/circle"
-                android:contentDescription="@string/app_name"
-                android:src="@drawable/ic_expense"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:src="@drawable/ic_statement" />-->
-            <!--        app:fullName="@{viewModel.state.beneficiaryName}"-->
-            <!--        app:beneficiaryPicture="@{viewModel.state.beneficiaryPicture}"-->
-
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerView"
                 android:layout_width="@dimen/_55sdp"

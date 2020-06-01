@@ -50,9 +50,7 @@ object NotificationHelper {
             )
         }
 
-        if (shouldShowSetPin(
-                paymentCard
-            ) && accountInfo?.partnerBankStatus == PartnerBankStatus.ACTIVATED.status
+        if (shouldShowSetPin(paymentCard) && accountInfo?.partnerBankStatus == PartnerBankStatus.ACTIVATED.status
         ) {
             list.add(
                 HomeNotification(
@@ -79,6 +77,7 @@ object NotificationHelper {
                 )
             )
         }
+
         return list
     }
 

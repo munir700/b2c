@@ -11,8 +11,13 @@ import co.yap.household.dashboard.main.menu.ProfilePictureAdapter
 import co.yap.household.databinding.FragmentHouseholdHomeBinding
 import co.yap.modules.dashboard.main.activities.YapDashboardActivity
 import co.yap.networking.customers.responsedtos.AccountInfo
+import co.yap.networking.notification.HomeNotification
+import co.yap.networking.notification.NotificationAction
 import co.yap.widgets.advrecyclerview.expandable.RecyclerViewExpandableItemManager
 import co.yap.yapcore.dagger.base.navigation.BaseNavViewModelFragment
+import co.yap.yapcore.dagger.base.navigation.host.NAVIGATION_Graph_ID
+import co.yap.yapcore.dagger.base.navigation.host.NAVIGATION_Graph_START_DESTINATION_ID
+import co.yap.yapcore.dagger.base.navigation.host.NavHostPresenterActivity
 import co.yap.yapcore.enums.AccountType
 import co.yap.yapcore.helpers.extentions.launchActivity
 import co.yap.yapcore.helpers.livedata.GetAccountBalanceLiveData
@@ -25,7 +30,7 @@ import net.cachapa.expandablelayout.ExpandableLayout
 import javax.inject.Inject
 
 class HouseholdHomeFragment :
-    BaseNavViewModelFragment<FragmentHouseholdHomeBinding, IHouseholdHome.State, HouseHoldHomeVM>() {
+    BaseNavViewModelFragment<FragmentHouseholdHomeBinding, IHouseholdHome.State, HouseHoldHomeVM>(){
     @Inject
     lateinit var mNotificationAdapter: HHNotificationAdapter
 
@@ -45,7 +50,7 @@ class HouseholdHomeFragment :
     override fun postExecutePendingBindings() {
         super.postExecutePendingBindings()
         setBackButtonDispatcher()
-        setupToolbar(mViewDataBinding.toolbar,R.menu.menu_home)
+        setupToolbar(mViewDataBinding.toolbar, R.menu.menu_home)
         setHasOptionsMenu(true)
         GetAccountBalanceLiveData.get()
             .observe(this, Observer { state.availableBalance?.value = it?.availableBalance })
@@ -54,9 +59,9 @@ class HouseholdHomeFragment :
     }
 
     private fun intRecyclersView() {
-        mNotificationAdapter.onItemClickListener = userClickListener
+        mNotificationAdapter.onItemClickListener = onItemClickListener
         viewModel.notificationAdapter.set(mNotificationAdapter)
-        profilePictureAdapter.onItemClickListener = userClickListener
+        profilePictureAdapter.onItemClickListener = onItemClickListener
         viewModel.profilePictureAdapter.set(profilePictureAdapter)
         expandableLayout.setOnExpansionUpdateListener { _, state ->
             when (state) {
@@ -73,8 +78,22 @@ class HouseholdHomeFragment :
         }
     }
 
-    private val userClickListener = object : OnItemClickListener {
+    private val onItemClickListener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
+            if (data is HomeNotification) {
+                val notification: HomeNotification = mNotificationAdapter.getData().get(pos)
+                when (notification.action) {
+                    NotificationAction.SET_PIN -> {
+                        launchActivity<NavHostPresenterActivity> {
+                            putExtra(NAVIGATION_Graph_ID, R.navigation.hh_set_card_pin_navigation)
+                            putExtra(
+                                NAVIGATION_Graph_START_DESTINATION_ID,
+                                R.id.HHSetPinCardReviewFragment
+                            )
+                        }
+                    }
+                }
+            }
             if (data is AccountInfo) {
                 if (data.accountType == AccountType.B2C_ACCOUNT.name) {
                     data.uuid?.let {
@@ -87,6 +106,7 @@ class HouseholdHomeFragment :
             }
         }
     }
+
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         drawerLayout.openDrawer(GravityCompat.END)
@@ -101,11 +121,18 @@ class HouseholdHomeFragment :
         }
     }
 
+
+    fun onCloseClick(notification: HomeNotification) {
+        state.showNotification.value = false
+    }
+
     override fun setHomeAsUpIndicator() = R.drawable.ic_search_white
     override fun toolBarVisibility() = false
 
     override fun onBackPressed(): Boolean {
-        if (drawerLayout.isDrawerOpen(GravityCompat.END)) drawerLayout.closeDrawer(GravityCompat.END) else finishActivityAffinity()
+        if (drawerLayout.isDrawerOpen(GravityCompat.END)) drawerLayout.closeDrawer(
+            GravityCompat.END
+        ) else finishActivityAffinity()
         return super.onBackPressed()
     }
 }

@@ -1,4 +1,4 @@
-package co.yap.modules.subaccounts.householdsetpin.setNewpin
+package co.yap.household.setpin.setnewpin
 
 import androidx.lifecycle.MutableLiveData
 import co.yap.yapcore.BaseState

@@ -34,5 +34,7 @@ data class Card(
     val customerId: String,
     val accountNumber: String,
     val productCode: String,
-    var pinCreated: Boolean
+    var pinCreated: Boolean,
+    var frontImage: String,
+    var backImage: String
 ) : Parcelable

@@ -1,5 +1,7 @@
-package co.yap.modules.subaccounts.householdsetpin.hhsetpinstart
+package co.yap.household.setpin.setpinstart
 
+import androidx.lifecycle.MutableLiveData
+import co.yap.networking.cards.responsedtos.Card
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
 
@@ -8,6 +10,8 @@ interface IHHSetPinCardReview {
     interface ViewModel : IBase.ViewModel<State> {
         fun handleClick(id: Int)
         var clickEvent: SingleClickEvent
+        val card: MutableLiveData<Card>
+        fun getCard()
     }
 
     interface State : IBase.State

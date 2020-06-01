@@ -32,18 +32,17 @@ class HouseHoldHomeModule : BaseFragmentModule<HouseholdHomeFragment>() {
 
     @Provides
     @FragmentScope
-    fun provideHomeTransactionAdapter() = HomeTransactionAdapter(emptyMap())
+    fun provideHHNotificationsAdapter(fragment: HouseholdHomeFragment) =
+        HHNotificationAdapter(NotificationHelper.getNotifications(MyUserManager.user, MyUserManager.card.value, fragment.requireContext()), null, null)
+//
+//    @Provides
+//    fun provideHouseholdHomeStates()= HouseholdHomeState()
+//    @Provides
+//    fun provideTransactionsRepository() = TransactionsRepository
 
     @Provides
     @FragmentScope
-    fun provideHHNotificationsAdapter(fragment: HouseholdHomeFragment) =
-        HHNotificationAdapter(
-            NotificationHelper.getNotifications(
-                MyUserManager.user,
-                MyUserManager.card.value,
-                fragment.requireContext()
-            ), null
-        )
+    fun provideHomeTransactionAdapter() = HomeTransactionAdapter(emptyMap())
 
     @Provides
     @FragmentScope
