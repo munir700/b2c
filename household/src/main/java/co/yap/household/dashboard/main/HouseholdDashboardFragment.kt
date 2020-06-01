@@ -29,46 +29,12 @@ class HouseholdDashboardFragment :
     BaseNavViewModelFragment<ActivityHouseholdDashboardBinding, IHouseholdDashboard.State, HouseHoldDashBoardVM>() {
     @Inject
     lateinit var adapter: SectionsPagerAdapter
-
-    @Inject
-    lateinit var profilePictureAdapter: ProfilePictureAdapter
     override fun getBindingVariable() = BR.viewModel
     override fun getLayoutId() = R.layout.activity_household_dashboard
     private var actionMenu: FloatingActionMenu? = null
 
-    private fun setUpAdapter() {
-        profilePictureAdapter.onItemClickListener = userClickListener
-        viewModel.profilePictureAdapter.set(profilePictureAdapter)
-    }
-
-    private val userClickListener = object : OnItemClickListener {
-        override fun onItemClick(view: View, data: Any, pos: Int) {
-            if (data is AccountInfo) {
-                if (data.accountType == AccountType.B2C_ACCOUNT.name) {
-                    data.uuid?.let {
-                        SwitchProfileLiveData.get(it, this@HouseholdDashboardFragment)
-                            .observe(this@HouseholdDashboardFragment, Observer<AccountInfo?> {
-                                launchActivity<YapDashboardActivity>(clearPrevious = true)
-                            })
-                    }
-                }
-            }
-        }
-    }
-
-    private fun addListeners() {
-        expandableLayout.setOnExpansionUpdateListener { _, state ->
-            when (state) {
-                ExpandableLayout.State.EXPANDED -> ivChevron.rotation = 180F
-                ExpandableLayout.State.COLLAPSED -> ivChevron.rotation = 0F
-            }
-        }
-    }
-
     override fun postExecutePendingBindings() {
         super.postExecutePendingBindings()
-        setUpAdapter()
-        addListeners()
         adapter.addFragmentInfo<HouseholdHomeFragment>()
         adapter.addFragmentInfo<MyCardFragment>()
         adapter.addFragmentInfo<MyCardFragment>()
@@ -76,18 +42,7 @@ class HouseholdDashboardFragment :
         viewModel.adapter.set(adapter)
         bottomNav.setUpWithViewPager(viewPager)
         setupYapItButton()
-        viewModel.clickEvent.observe(this, Observer { onClick(it) })
-
     }
-
-    private fun onClick(id: Int) {
-        when (id) {
-            R.id.btnCopyHH -> {
-            }
-            R.id.lyHeader_section -> expandableLayout.toggle(true)
-        }
-    }
-
     private fun setupYapItButton() {
         actionMenu = FloatingActionMenu.Builder(requireActivity())
             .setStartAngle(0)
@@ -122,4 +77,6 @@ class HouseholdDashboardFragment :
             })
             .build()
     }
+
+    override fun toolBarVisibility() = false
 }

@@ -9,10 +9,12 @@ import androidx.fragment.app.Fragment
 import co.yap.yapcore.BaseActivity
 import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.IBase
+import co.yap.yapcore.R
 import co.yap.yapcore.dagger.base.viewmodel.DaggerBaseViewModel
 import co.yap.yapcore.dagger.di.ViewModelInjectionField
 import co.yap.yapcore.dagger.di.components.Injectable
 import co.yap.yapcore.dagger.di.qualifiers.ViewModelInjection
+import co.yap.yapcore.helpers.extentions.bindView
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.support.AndroidSupportInjection
 import dagger.android.support.HasSupportFragmentInjector
@@ -100,20 +102,24 @@ abstract class BaseViewModelFragment<VB : ViewDataBinding, S : IBase.State, VM :
         val callback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 onBackPressed()
-//                onBackPresse()
             }
         }
         requireActivity().onBackPressedDispatcher.addCallback(this, callback)
     }
 
-    private fun setupToolbar(toolbar: Toolbar?) {
-        toolbar?.let {
-            it.title = ""
-            getBaseActivity().setSupportActionBar(it)
+    fun setupToolbar(toolbar: Toolbar? , toolbarMenu:Int?=null) {
+        toolbar?.apply {
+            title = ""
+            setHomeAsUpIndicator()?.let { setNavigationIcon(it) }
+            getBaseActivity().setSupportActionBar(this)
+//            toolbar.setNavigationOnClickListener { navigateBack() }
             getBaseActivity().supportActionBar?.apply {
-                setDisplayHomeAsUpEnabled(true)
-                setHomeButtonEnabled(true)
+                setDisplayHomeAsUpEnabled(setDisplayHomeAsUpEnabled() ?: true)
+                setHomeButtonEnabled(setDisplayHomeAsUpEnabled() ?: true)
+                setDisplayShowCustomEnabled(setDisplayHomeAsUpEnabled() ?: true)
+                setHomeAsUpIndicator()?.let { setHomeAsUpIndicator(it) }
             }
+            toolbarMenu?.let { this.inflateMenu(it) }
         }
     }
 

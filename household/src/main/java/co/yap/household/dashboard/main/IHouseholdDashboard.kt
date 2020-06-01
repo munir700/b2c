@@ -10,9 +10,6 @@ interface IHouseholdDashboard {
     interface View : IBase.View<ViewModel> {}
     interface ViewModel : IBase.ViewModel<State> {
         val adapter: ObservableField<SectionsPagerAdapter>
-        val profilePictureAdapter: ObservableField<ProfilePictureAdapter>
-        val clickEvent: SingleClickEvent
-        fun handlePressOnNavigationItem(id: Int)
     }
 
     interface State : IBase.State {
