@@ -81,7 +81,7 @@ class MyCardFragment :
                 viewModel.getCardDetails()
             }
             viewModel.EVENT_CARD_DETAILS -> {
-//                showCardDetailsPopup()
+                showCardDetailsPopup()
             }
         }
 
