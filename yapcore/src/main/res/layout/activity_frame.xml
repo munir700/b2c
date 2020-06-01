@@ -20,7 +20,7 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?android:actionBarSize"
-            android:background="@color/white"
+            android:background="?attr/colorSendMoneyToolBarAttr"
             android:minHeight="?android:actionBarSize"
             android:visibility="gone"
             app:layout_constraintRight_toRightOf="parent"
