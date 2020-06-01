@@ -1,23 +1,68 @@
 package co.yap.household.dashboard.cards
 
 import android.os.Bundle
+import android.os.Handler
 import androidx.navigation.NavController
+import co.yap.networking.cards.CardsApi
+import co.yap.networking.cards.CardsRepository
+import co.yap.networking.cards.requestdtos.CardLimitConfigRequest
+import co.yap.networking.cards.responsedtos.Card
+import co.yap.networking.cards.responsedtos.CardDetail
+import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.transactions.responsedtos.transaction.Transaction
+import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.dagger.base.viewmodel.BaseRecyclerAdapterVM
 import co.yap.yapcore.helpers.Utils
 import com.google.gson.Gson
 import org.json.JSONObject
-import java.text.DateFormat
-import java.text.SimpleDateFormat
-import java.util.*
 import javax.inject.Inject
-import kotlin.collections.ArrayList
 
 class MyCardVM @Inject constructor(override var state: IMyCard.State) :
     BaseRecyclerAdapterVM<Transaction, IMyCard.State>(), IMyCard.ViewModel {
-    
+    private val cardsRepository: CardsApi = CardsRepository
+    override val clickEvent: SingleClickEvent = SingleClickEvent()
+    override var cardDetail: CardDetail = CardDetail()
+
     override fun onFirsTimeUiCreate(bundle: Bundle?, navigation: NavController?) {
         addData(loadJSONDummyList())
+    }
+
+    override fun freezeUnfreezeCard() {
+        launch {
+            state.loading = true
+            when (val response =
+                cardsRepository.freezeUnfreezeCard(CardLimitConfigRequest(getDummyCard()?.cardSerialNumber!!))) {
+                is RetroApiResponse.Success -> {
+                    Handler().postDelayed({
+                        state.loading = false
+                        clickEvent.setValue(EVENT_FREEZE_UNFREEZE_CARD)
+                    }, 400)
+
+                }
+                is RetroApiResponse.Error -> {
+                    state.loading = false
+                    state.toast = response.error.message
+                }
+            }
+
+        }
+    }
+
+    override fun getCardDetails() {
+        launch {
+            state.loading = true
+            when (val response =
+                cardsRepository.getCardDetails(getDummyCard()?.cardSerialNumber!!)) {
+                is RetroApiResponse.Success -> {
+                       cardDetail = response.data.data
+                       clickEvent.setValue(EVENT_CARD_DETAILS)
+                }
+                is RetroApiResponse.Error -> {
+                    state.toast = response.error.message
+                }
+            }
+            state.loading = false
+        }
     }
 
     private fun loadJSONDummyList(): ArrayList<Transaction> {
@@ -34,4 +79,42 @@ class MyCardVM @Inject constructor(override var state: IMyCard.State) :
         }
         return benefitsModelList
     }
+
+    override fun getDummyCard(): Card? {
+        return Card(
+            cardType = "PREPAID",
+            uuid = "b4ba4040-d904-4742-96aa-374ce6ed6112",
+            physical = false,
+            active = false,
+            cardName = "Hassnain Ali",
+            status = "HOTLISTED",
+            blocked = false,
+            delivered = false,
+            cardSerialNumber = "1000000002095",
+            maskedCardNo = "5370 38** **** 7529",
+            atmAllowed = true,
+            onlineBankingAllowed = true,
+            retailPaymentAllowed = true,
+            paymentAbroadAllowed = true,
+            accountType = "B2C_ACCOUNT",
+            expiryDate = "11/22",
+            cardBalance = "0.00",
+            cardScheme = "Master Card",
+            currentBalance = "0.00",
+            availableBalance = "0.00",
+            customerId = "3000000000112",
+            accountNumber = "0188000000469",
+            productCode = "CS",
+            pinCreated = false,
+            deliveryStatus = "ORDERED",
+            shipmentStatus = null,
+            nameUpdated = true,
+            newPin = ""
+        )
+    }
+
+    override fun handlePressOnButtonClick(id: Int) {
+        clickEvent.setValue(id)
+    }
+
 }
