@@ -9,15 +9,11 @@ import android.view.MotionEvent
 import android.view.View
 import android.widget.RelativeLayout
 import android.widget.TextView
+import androidx.cardview.widget.CardView
 import co.yap.yapcore.R
 import java.util.*
 
-class PresetValueButton @JvmOverloads constructor(
-    context: Context,
-    attrs: AttributeSet? = null,
-    defStyle: Int = 0,
-    defStyleRes: Int = 0
-) : RelativeLayout(context, attrs, defStyle, defStyleRes), RadioCheckable {
+class PresetValueButton : CardView, RadioCheckable {
 
     private var tvLable1: TextView? = null
     private var tvLable2: TextView? = null
@@ -34,7 +30,23 @@ class PresetValueButton @JvmOverloads constructor(
     private val mOnCheckedChangeListeners =
         ArrayList<RadioCheckable.OnCheckedChangeListener?>()
 
-    init {
+    constructor(context: Context) : super(context) {
+        init(context, null, 0, 0)
+    }
+
+    constructor(context: Context, attrs: AttributeSet) : super(context, attrs) {
+        init(context, attrs, 0, 0)
+    }
+
+    constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int) : super(
+        context,
+        attrs,
+        defStyleAttr
+    ) {
+        init(context, attrs, defStyleAttr, 0)
+    }
+
+    private fun init(context: Context, attrs: AttributeSet?, defStyleAttr: Int, defStyleRes: Int) {
         parseAttributes(attrs)
         setupView()
     }

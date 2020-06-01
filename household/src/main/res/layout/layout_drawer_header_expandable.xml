@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+
     <data>
+
         <variable
             name="viewModel"
-            type="co.yap.household.dashboard.main.HouseHoldDashBoardVM" />
+            type="co.yap.household.dashboard.home.HouseHoldHomeVM" />
+
         <import type="co.yap.yapcore.managers.MyUserManager" />
     </data>
 
@@ -64,7 +67,7 @@
                 android:layout_height="@dimen/_18sdp"
                 android:layout_marginEnd="@dimen/margin_small"
                 android:gravity="center"
-                android:onClick="@{(v) -> viewModel.handlePressOnNavigationItem(v.getId())}"
+                android:onClick="@{(v) -> viewModel.handlePressOnView(v.getId())}"
                 android:text="Copy"
                 app:btn_pressed_color="@color/disabledLight"
                 app:btn_round_radius="@dimen/_10sdp"
@@ -74,8 +77,6 @@
                 app:btn_unpressed_color="@color/disabledLight"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
-
         </androidx.constraintlayout.widget.ConstraintLayout>
     </net.cachapa.expandablelayout.ExpandableLayout>
-
 </layout>

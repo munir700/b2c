@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.databinding.ObservableField
 import androidx.navigation.NavController
 import co.yap.app.YAPApplication
+import co.yap.household.dashboard.main.menu.ProfilePictureAdapter
 import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.transactions.TransactionsRepository
 import co.yap.widgets.State
@@ -22,7 +23,11 @@ class HouseHoldHomeVM @Inject constructor(
     override var clickEvent: SingleClickEvent = SingleClickEvent()
     override val transactionAdapter: ObservableField<HomeTransactionAdapter>? = ObservableField()
     override var notificationAdapter = ObservableField<HHNotificationAdapter>()
-    override fun handlePressOnView(id: Int) {}
+    override val profilePictureAdapter = ObservableField<ProfilePictureAdapter>()
+    override fun handlePressOnView(id: Int) {
+        clickEvent.setValue(id)
+    }
+
     override fun onFirsTimeUiCreate(bundle: Bundle?, navigation: NavController?) {
         requestTransactions(false)
     }
@@ -33,6 +38,7 @@ class HouseHoldHomeVM @Inject constructor(
             when (val response =
                 repository.getAccountTransactions(YAPApplication.homeTransactionsRequest)) {
                 is RetroApiResponse.Success -> {
+                    publishState(State.success(null))
                     state.transactionMap?.value =
                         response.data.data.transaction.distinct().groupBy { t ->
                             DateUtils.reformatStringDate(

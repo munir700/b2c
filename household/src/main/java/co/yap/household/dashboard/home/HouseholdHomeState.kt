@@ -14,4 +14,5 @@ class HouseholdHomeState : BaseState(), IHouseholdHome.State {
     override val transactionMap: MutableLiveData<Map<String?, List<Transaction>>>? =
         MutableLiveData()
     override var homeTransactionRequest: MutableLiveData<HomeTransactionsRequest>? = MutableLiveData()
+    override var availableBalance: MutableLiveData<String>? = MutableLiveData("")
 }

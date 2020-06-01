@@ -105,7 +105,9 @@
         <item name="android:dialogMessage">?attr/colorPrimaryDarkAttr</item>
         <item name="android:colorAccent">?attr/colorPrimary</item>
         <item name="android:drawableTint">?attr/colorPrimary</item>
-
     </style>
 
+    <style name="Yap.App.Widget.ToolBar.ThemeOverlay.White" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
+        <item name="android:textColorSecondary">@color/white</item>
+    </style>
 </resources>

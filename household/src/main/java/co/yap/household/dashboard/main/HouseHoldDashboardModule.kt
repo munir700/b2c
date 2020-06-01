@@ -26,10 +26,7 @@ class HouseHoldDashboardModule : BaseFragmentModule<HouseholdDashboardFragment>(
     fun provideHouseholdDashboardPagerAdapter(fragment: HouseholdDashboardFragment) =
         SectionsPagerAdapter(fragment.requireActivity(), fragment.childFragmentManager)
 
-    @Provides
-    @FragmentScope
-    fun provideProfilePictureAdapter() =
-        ProfilePictureAdapter(MyUserManager.usersList?.value ?: mutableListOf(), null)
+
 
     @Provides
     @FragmentScope
