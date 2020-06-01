@@ -943,6 +943,8 @@
     <!-- Household Dashboard/Home -->
     <string name="screen_household_home_display_text_transactions_heading_title">Transactions</string>
     <string name="screen_household_home_display_text_transactions_filers_title">Filter</string>
+    <string name="screen_household_home_display_text_waiting_for_card_activation">Waiting for card activation</string>
+    <string name="screen_household_home_display_text_total_balance">Total Balance</string>
 
     <string name="screen_yap_house_hold_confirm_payment_share_text">Hi %1s,\n%2s has added you as their Household on YAP. Download YAP from the link below and login with these credentials:\n\nUsername: %3s\nPasscode:%4s\n\nDownload on App Store:\n%5s\n\nDownload on Play Store:\n%6s</string>
 

@@ -1,4 +1,4 @@
-package co.yap.modules.subaccounts.householdsetpin.hhsetpinsuccess
+package co.yap.household.setpin.setpinsuccess
 
 import co.yap.yapcore.dagger.di.InjectionViewModelProvider
 import co.yap.yapcore.dagger.di.module.fragment.BaseFragmentModule
@@ -19,7 +19,8 @@ class HHSetPinSuccessModule : BaseFragmentModule<HHSetPinSuccessFragment>() {
 
     @Provides
     @FragmentScope
-    fun provideHHSetPinSuccessState(): IHHSetPinSuccess.State = HHSetPinSuccessState()
+    fun provideHHSetPinSuccessState(): IHHSetPinSuccess.State =
+        HHSetPinSuccessState()
 
 
 }

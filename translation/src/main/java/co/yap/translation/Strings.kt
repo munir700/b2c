@@ -1482,6 +1482,10 @@ object Strings {
         "screen_on_boarding_existing_message"
     const val screen_b2c_kyc_home_button_skip_on_boarding_existing: String =
         "screen_b2c_kyc_home_button_skip_on_boarding_existing"
+    const val screen_household_home_display_text_waiting_for_card_activation: String =
+        "screen_household_home_display_text_waiting_for_card_activation"
+    const val screen_household_home_display_text_total_balance: String =
+        "screen_household_home_display_text_total_balance"
 
     const val screen_house_hold_existing_yap_message: String =
         "screen_house_hold_existing_yap_message"

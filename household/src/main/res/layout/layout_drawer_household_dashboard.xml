@@ -4,13 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="viewModel"
-            type="co.yap.household.dashboard.main.HouseHoldDashBoardVM" />
-
-<!--        <variable-->
-<!--            name="adapter"-->
-<!--            type="co.yap.household.dashboard.main.menu.ProfilePictureAdapter" />-->
+            type="co.yap.household.dashboard.home.HouseHoldHomeVM" />
 
         <import type="co.yap.translation.Strings" />
     </data>
@@ -35,8 +32,8 @@
             <include
                 android:id="@+id/lyHeader_section"
                 layout="@layout/layout_drawer_header"
-                app:viewModel = "@{viewModel}"
-                android:onClick="@{(v) -> viewModel.handlePressOnNavigationItem(v.getId())}"/>
+                android:onClick="@{(v) -> viewModel.handlePressOnView(v.getId())}"
+                app:viewModel="@{viewModel}" />
 
             <View
                 android:id="@+id/divider1"
@@ -122,32 +119,16 @@
             app:layout_constraintStart_toEndOf="@id/clLeftContainer"
             app:layout_constraintTop_toTopOf="parent">
 
-            <!-- this image will be replaced with Recyclerview to accommodate multiple accounts -->
-
-            <!--<co.yap.widgets.CoreCircularImageView
-                android:id="@+id/ivProfilePic"
-                android:layout_width="@dimen/_45sdp"
-                android:layout_height="@dimen/_45sdp"
-                android:background="@drawable/circle"
-                android:contentDescription="@string/app_name"
-                android:src="@drawable/ic_expense"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:src="@drawable/ic_statement" />-->
-            <!--        app:fullName="@{viewModel.state.beneficiaryName}"-->
-            <!--        app:beneficiaryPicture="@{viewModel.state.beneficiaryPicture}"-->
-
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerView"
                 android:layout_width="@dimen/_55sdp"
                 android:layout_height="0dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
                 android:orientation="vertical"
                 app:adapter="@{viewModel.profilePictureAdapter}"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
                 tools:listitem="@layout/item_dashboard_menu_profile_pic" />
 
             <ImageView

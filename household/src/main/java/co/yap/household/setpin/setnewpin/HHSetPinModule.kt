@@ -1,4 +1,4 @@
-package co.yap.modules.subaccounts.householdsetpin.setNewpin
+package co.yap.household.setpin.setnewpin
 
 import co.yap.yapcore.dagger.di.InjectionViewModelProvider
 import co.yap.yapcore.dagger.di.module.fragment.BaseFragmentModule
@@ -18,5 +18,6 @@ class HHSetPinModule : BaseFragmentModule<HHSetPinFragment>() {
 
     @Provides
     @FragmentScope
-    fun provideHHSetPinState(): IHHSetPin.State = HHSetPinState()
+    fun provideHHSetPinState(): IHHSetPin.State =
+        HHSetPinState()
 }

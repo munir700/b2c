@@ -7,11 +7,12 @@ import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionLi
 import co.yap.networking.transactions.responsedtos.transaction.Transaction
 import co.yap.yapcore.BaseState
 
-
 class HouseholdHomeState : BaseState(), IHouseholdHome.State {
+    override var showNotification: MutableLiveData<Boolean> = MutableLiveData(true)
     override val transactionList: ObservableField<MutableList<HomeTransactionListData>> =
         ObservableField(mutableListOf())
     override val transactionMap: MutableLiveData<Map<String?, List<Transaction>>>? =
         MutableLiveData()
     override var homeTransactionRequest: MutableLiveData<HomeTransactionsRequest>? = MutableLiveData()
+    override var availableBalance: MutableLiveData<String>? = MutableLiveData("")
 }

@@ -6,7 +6,7 @@
 
         <variable
             name="viewModel"
-            type="co.yap.modules.subaccounts.householdsetpin.setNewpin.HHSetPinVM" />
+            type="co.yap.household.setpin.setnewpin.HHSetPinVM" />
 
         <import type="co.yap.translation.Strings" />
 
@@ -47,8 +47,8 @@
             android:id="@+id/dialer"
             style="@style/Yap.App.Widget.NumberKeyboard"
             android:layout_height="0dp"
-            android:layout_marginLeft="@dimen/_60sdp"
-            android:layout_marginRight="@dimen/_60sdp"
+            android:layout_marginLeft="@dimen/_65sdp"
+            android:layout_marginRight="@dimen/_65sdp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvError"
             app:layout_constraintBottom_toBottomOf="parent"

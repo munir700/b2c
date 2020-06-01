@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import androidx.annotation.IdRes
 import co.yap.yapcore.R
+import co.yap.yapcore.helpers.extentions.dimen
 import com.jaygoo.widget.OnRangeChangedListener
 import com.jaygoo.widget.RangeSeekBar
 import java.util.*
@@ -23,6 +24,7 @@ class PresetRadioGroup @JvmOverloads constructor(
     private var mSeekBarId = View.NO_ID
     private var mProtectFromCheckedChange = false
     var onCheckedChangeListener: OnCheckedChangeListener? = null
+    private var defCheckedChangeListener: OnCheckedChangeListener? = null
     private val mChildViewsMap =
         HashMap<Int, View>()
     private var mPassThroughListener: PassThroughHierarchyChangeListener? =
@@ -99,6 +101,16 @@ class PresetRadioGroup @JvmOverloads constructor(
         mChildOnCheckedChangeListener = CheckedStateTracker()
         mPassThroughListener = PassThroughHierarchyChangeListener()
         super.setOnHierarchyChangeListener(mPassThroughListener)
+        defCheckedChangeListener = object : OnCheckedChangeListener {
+            override fun onCheckedChanged(
+                radioGroup: View?,
+                radioButton: View?,
+                isChecked: Boolean,
+                checkedId: Int
+            ) {
+
+            }
+        }
     }
 
     override fun addView(
@@ -137,6 +149,13 @@ class PresetRadioGroup @JvmOverloads constructor(
 
     private fun setCheckedId(@IdRes id: Int, isChecked: Boolean) {
         mCheckedId = id
+        mChildViewsMap.values.forEach { v ->
+            if (v is PresetValueButton) {
+                v.elevation = context.dimen(R.dimen._1sdp).toFloat()
+            }
+        }
+        if (mChildViewsMap[id] is PresetValueButton)
+            mChildViewsMap[id]?.elevation = context.dimen(R.dimen._2sdp).toFloat()
         if (onCheckedChangeListener != null) {
             onCheckedChangeListener?.onCheckedChanged(
                 this,
@@ -145,6 +164,12 @@ class PresetRadioGroup @JvmOverloads constructor(
                 mCheckedId
             )
         }
+        defCheckedChangeListener?.onCheckedChanged(
+            this,
+            mChildViewsMap[id],
+            isChecked,
+            mCheckedId
+        )
     }
 
     override fun checkLayoutParams(p: ViewGroup.LayoutParams): Boolean {

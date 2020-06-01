@@ -1,18 +1,11 @@
 package co.yap.modules.di.module.fragment
 
-
 import co.yap.modules.subaccounts.account.card.SubAccountCardFragment
 import co.yap.modules.subaccounts.account.card.SubAccountCardModule
 import co.yap.modules.subaccounts.account.dashboard.SubAccountDashBoardFragment
 import co.yap.modules.subaccounts.account.dashboard.SubAccountDashBoardModule
 import co.yap.modules.subaccounts.confirmation.PaymentConfirmationFragment
 import co.yap.modules.subaccounts.confirmation.PaymentConfirmationModule
-import co.yap.modules.subaccounts.householdsetpin.hhsetpinstart.HHSetPinCardReviewFragment
-import co.yap.modules.subaccounts.householdsetpin.hhsetpinstart.HHSetPinCardReviewModule
-import co.yap.modules.subaccounts.householdsetpin.hhsetpinsuccess.HHSetPinSuccessFragment
-import co.yap.modules.subaccounts.householdsetpin.hhsetpinsuccess.HHSetPinSuccessModule
-import co.yap.modules.subaccounts.householdsetpin.setNewpin.HHSetPinFragment
-import co.yap.modules.subaccounts.householdsetpin.setNewpin.HHSetPinModule
 import co.yap.modules.subaccounts.paysalary.employee.PayHHEmployeeSalaryFragment
 import co.yap.modules.subaccounts.paysalary.employee.PayHHEmployeeSalaryModule
 import co.yap.modules.subaccounts.paysalary.entersalaryamount.EnterSalaryAmountFragment
@@ -34,7 +27,6 @@ import co.yap.modules.subaccounts.paysalary.transfer.confirmation.HHIbanSendMone
 import co.yap.yapcore.dagger.di.qualifiers.FragmentScope
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
-
 
 @Module
 abstract class FragmentInjectorsModule {
@@ -84,15 +76,4 @@ abstract class FragmentInjectorsModule {
     @FragmentScope
     abstract fun futurePaymentFragmentInjector(): FuturePaymentFragment
 
-    @ContributesAndroidInjector(modules = [HHSetPinCardReviewModule::class])
-    @FragmentScope
-    abstract fun hhSetPinCardReviewFragmentInjector(): HHSetPinCardReviewFragment
-
-    @ContributesAndroidInjector(modules = [HHSetPinSuccessModule::class])
-    @FragmentScope
-    abstract fun hhSetPinSuccessFragmentInjector(): HHSetPinSuccessFragment
-
-    @ContributesAndroidInjector(modules = [HHSetPinModule::class])
-    @FragmentScope
-    abstract fun hhSetPinFragmentInjector(): HHSetPinFragment
 }

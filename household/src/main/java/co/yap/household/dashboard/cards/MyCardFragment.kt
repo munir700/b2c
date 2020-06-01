@@ -6,6 +6,8 @@ import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.*
 import android.widget.ImageView
+import android.view.MenuItem
+import android.view.View
 import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.Observer
 import androidx.navigation.NavController
@@ -45,6 +47,8 @@ class MyCardFragment :
 
     override fun postExecutePendingBindings() {
         super.postExecutePendingBindings()
+        setupToolbar(mViewDataBinding.toolbar,R.menu.menu_options)
+        setHasOptionsMenu(true)
         recyclerView?.addItemDecoration(
             DividerItemDecoration(
                 requireContext(),
@@ -61,12 +65,7 @@ class MyCardFragment :
         super.onViewCreated(view, savedInstanceState)
         viewModel.clickEvent.observe(this, clickObserver)
     }
-
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        super.onCreateOptionsMenu(menu, inflater)
-        inflater.inflate(co.yap.R.menu.menu_options, menu)
-    }
-
+    override fun toolBarVisibility() = false
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         showBottomSheet()
         return super.onOptionsItemSelected(item)
@@ -207,6 +206,7 @@ class MyCardFragment :
             }
         )
     }
+    override fun setHomeAsUpIndicator() = R.drawable.ic_search_white
 
     class Adapter(mValue: MutableList<Transaction>, navigation: NavController?) :
         BaseRVAdapter<Transaction, MyCardRecentTransactionsItemVM, BaseViewHolder<Transaction, MyCardRecentTransactionsItemVM>>(
@@ -250,5 +250,38 @@ class MyCardFragment :
                    }*/
             }
         }
+    private fun getDummyCard(): Card {
+        return Card(
+            cardType = "PREPAID",
+            uuid = "b4ba4040-d904-4742-96aa-374ce6ed6112",
+            physical = false,
+            active = false,
+            cardName = "Hassnain Ali",
+            status = "HOTLISTED",
+            blocked = false,
+            delivered = false,
+            cardSerialNumber = "1000000002095",
+            maskedCardNo = "5370 38** **** 7529",
+            atmAllowed = true,
+            onlineBankingAllowed = true,
+            retailPaymentAllowed = true,
+            paymentAbroadAllowed = true,
+            accountType = "B2C_ACCOUNT",
+            expiryDate = "11/22",
+            cardBalance = "0.00",
+            cardScheme = "Master Card",
+            currentBalance = "0.00",
+            availableBalance = "0.00",
+            customerId = "3000000000112",
+            accountNumber = "0188000000469",
+            productCode = "CS",
+            pinCreated = false,
+            deliveryStatus = "ORDERED",
+            shipmentStatus = null,
+            nameUpdated = true,
+            newPin = "",
+            frontImage = "",
+            backImage = ""
+        )
     }
 }

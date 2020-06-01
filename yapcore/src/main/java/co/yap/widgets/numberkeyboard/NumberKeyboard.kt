@@ -390,13 +390,13 @@ class NumberKeyboard : ConstraintLayout {
             for (i in it.indices) {
                 val key = it[i]
                 key.setOnClickListener {
-                    inputText?.let { input ->
-                        if (input.length < maxLimit) {
+                    inputEditText?.let { input ->
+                        if (input.text?.length!! < maxLimit) {
                             inputEditText?.append(i.toString())
                             passCodeView?.input(i.toString())
-                            input.append(i.toString())
+                            inputText?.append(i.toString())
                         }
-                        listener?.onNumberClicked(i, input.toString())
+                        listener?.onNumberClicked(i, input.text.toString())
                     }
                 }
             }

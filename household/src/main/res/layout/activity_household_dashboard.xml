@@ -10,7 +10,7 @@
             type="co.yap.household.dashboard.main.HouseHoldDashBoardVM" />
     </data>
 
-    <androidx.drawerlayout.widget.DrawerLayout
+    <FrameLayout
         android:id="@+id/drawerLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -41,8 +41,6 @@
                 android:layout_above="@id/bottomNav"
                 app:adapter="@{viewModel.adapter}"
                 app:offscreenPageLimit="@{4}" />
-
-
         </RelativeLayout>
 
         <androidx.appcompat.widget.LinearLayoutCompat
@@ -51,6 +49,7 @@
             android:layout_height="wrap_content"
             android:elevation="8dp"
             android:gravity="center_horizontal|bottom"
+            android:layout_gravity="center_horizontal|bottom"
             android:orientation="vertical"
             app:elevation="@dimen/_4sdp">
 
@@ -97,23 +96,7 @@
             android:background="@color/white"
             android:visibility="gone" />
 
-        <com.google.android.material.navigation.NavigationView
-            android:id="@+id/drawerNav"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="end"
-            android:background="@color/white"
-            android:elevation="4dp"
-            android:fitsSystemWindows="false"
-            app:elevation="4dp">
 
-            <include
-                android:id="@+id/includedDrawerLayout"
-                layout="@layout/layout_drawer_household_dashboard"
-                app:viewModel = "@{viewModel}"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-        </com.google.android.material.navigation.NavigationView>
-    </androidx.drawerlayout.widget.DrawerLayout>
+    </FrameLayout>
 
 </layout>
