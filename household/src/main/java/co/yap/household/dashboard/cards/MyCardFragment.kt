@@ -250,38 +250,5 @@ class MyCardFragment :
                    }*/
             }
         }
-    private fun getDummyCard(): Card {
-        return Card(
-            cardType = "PREPAID",
-            uuid = "b4ba4040-d904-4742-96aa-374ce6ed6112",
-            physical = false,
-            active = false,
-            cardName = "Hassnain Ali",
-            status = "HOTLISTED",
-            blocked = false,
-            delivered = false,
-            cardSerialNumber = "1000000002095",
-            maskedCardNo = "5370 38** **** 7529",
-            atmAllowed = true,
-            onlineBankingAllowed = true,
-            retailPaymentAllowed = true,
-            paymentAbroadAllowed = true,
-            accountType = "B2C_ACCOUNT",
-            expiryDate = "11/22",
-            cardBalance = "0.00",
-            cardScheme = "Master Card",
-            currentBalance = "0.00",
-            availableBalance = "0.00",
-            customerId = "3000000000112",
-            accountNumber = "0188000000469",
-            productCode = "CS",
-            pinCreated = false,
-            deliveryStatus = "ORDERED",
-            shipmentStatus = null,
-            nameUpdated = true,
-            newPin = "",
-            frontImage = "",
-            backImage = ""
-        )
     }
 }

@@ -109,7 +109,9 @@ class MyCardVM @Inject constructor(override var state: IMyCard.State) :
             deliveryStatus = "ORDERED",
             shipmentStatus = null,
             nameUpdated = true,
-            newPin = ""
+            newPin = "",
+            frontImage = "",
+            backImage = ""
         )
     }
 
