@@ -99,7 +99,7 @@ class MyCardFragment :
         var cardType = ""
         var cardNumber: String? = ""
         if (null != viewModel.cardDetail.cardNumber) {
-            if (viewModel.cardDetail.cardNumber?.trim()?.contains(" ")!!) {
+            if (viewModel.cardDetail.cardNumber?.trim()?.contains(" ") == true) {
                 cardNumber = viewModel.cardDetail.cardNumber
             } else {
                 if (viewModel.cardDetail.cardNumber?.length == 16) {
@@ -116,13 +116,13 @@ class MyCardFragment :
         if (Constants.CARD_TYPE_DEBIT == viewModel.card?.cardType) {
             cardType = "Primary card"
         } else {
-            if (viewModel.card?.nameUpdated!!) {
-                cardType = viewModel.card?.cardName!!
+            cardType = if (viewModel.card?.nameUpdated == true) {
+                viewModel.card?.cardName ?: ""
             } else {
-                if (viewModel.card?.physical!!) {
-                    cardType = Constants.TEXT_SPARE_CARD_PHYSICAL
+                if (viewModel.card?.physical == true) {
+                    Constants.TEXT_SPARE_CARD_PHYSICAL
                 } else {
-                    cardType = Constants.TEXT_SPARE_CARD_VIRTUAL
+                    Constants.TEXT_SPARE_CARD_VIRTUAL
                 }
             }
         }
@@ -186,7 +186,7 @@ class MyCardFragment :
                     R.id.change_pin.toLong() -> startActivity(
                         ChangeCardPinActivity.newIntent(
                             requireContext(),
-                            viewModel.card?.cardSerialNumber!!
+                            viewModel.card?.cardSerialNumber ?: ""
                         )
                     )
                     R.id.freeze_card.toLong() -> viewModel.freezeUnfreezeCard()
