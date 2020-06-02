@@ -15,16 +15,20 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/clSearchBeneficiary"
-        setShapeColor="@{true}"
         android:layout_width="match_parent"
         android:layout_height="@dimen/_30sdp"
+        android:paddingEnd="@dimen/_14sdp"
+        android:paddingStart="@dimen/_14sdp"
         android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="@dimen/_30sdp"
             android:layout_marginTop="@dimen/margin_medium"
-            tools:ignore="MissingConstraints">
+            tools:ignore="MissingConstraints"
+            setShapeColor="@{viewModel.state.isSearching()}"
+
+            >
             <!--   setsSearchViewShapeColor="@{true}"-->
 
             <androidx.appcompat.widget.SearchView
@@ -41,8 +45,6 @@
                 app:queryBackground="@color/transparent"
                 app:queryHint="Search"
                 app:searchIcon="@drawable/ic_search_grey"
-
-
                 />
 
             <ImageView
@@ -60,7 +62,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintRight_toLeftOf="@+id/tvSearch"
                 app:layout_constraintTop_toTopOf="parent"
-                app:tint="?attr/colorSearchViewEditTexAttr" />
+                setSVIconTint="@{viewModel.state.isSearching()" />
 
             <TextView
                 android:id="@+id/tvSearch"
@@ -68,7 +70,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Search"
-                android:textColor="?attr/colorSearchViewEditTexAttr"
+                 setSVTextColor="@{viewModel.state.isSearching() }"
                 android:visibility="@{viewModel.state.isSearching()? View.GONE : View.VISIBLE }"
                 app:layout_constraintBottom_toBottomOf="@+id/ivSearch"
                 app:layout_constraintLeft_toLeftOf="parent"

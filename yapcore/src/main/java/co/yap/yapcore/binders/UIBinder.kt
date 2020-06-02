@@ -6,6 +6,7 @@ import android.content.ContentUris
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.PorterDuff
 import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Build
@@ -946,11 +947,17 @@ object UIBinder {
 
     @JvmStatic
     @BindingAdapter("setShapeColor")
-    fun setShapeColor(view: ConstraintLayout, search: Boolean?) {
+    fun setShapeColor(view: ConstraintLayout, setHouseHoldShape: Boolean) {
         if (SharedPreferenceManager(view.context).getThemeValue()
                 .equals(Constants.THEME_HOUSEHOLD)
         ) {
-            view.setBackgroundDrawable(view.context.resources.getDrawable(R.drawable.bg_hh_search_view))
+            if (setHouseHoldShape) {
+                view.setBackgroundDrawable(view.context.resources.getDrawable(R.drawable.bg_hh_disabled_search_view))
+
+            } else {
+                view.setBackgroundDrawable(view.context.resources.getDrawable(R.drawable.bg_hh_search_view))
+
+            }
 
         } else {
             view.setBackgroundDrawable(view.context.resources.getDrawable(R.drawable.bg_search_widget))
@@ -978,4 +985,48 @@ object UIBinder {
         }
     }
 
+
+    @JvmStatic
+    @BindingAdapter("setSVTextColor")
+    fun setSVTextColor(view: TextView, isSearching: Boolean) {
+        if (SharedPreferenceManager(view.context).getThemeValue()
+                .equals(Constants.THEME_HOUSEHOLD)
+        ) {
+            if (isSearching) {
+                view.setTextColor(ThemeColorUtils.colorSearchViewHintAttribute(view.context))
+
+            } else {
+                view.setTextColor(view.context.getColor(R.color.greyDark))
+
+            }
+        } else {
+            view.setTextColor(ThemeColorUtils.colorSearchViewHintAttribute(view.context))
+
+        }
+    }
+
+    @JvmStatic
+    @BindingAdapter("setSVIconTint")
+    fun setSVIconTint(view: ImageView, isSearching: Boolean) {
+        if (SharedPreferenceManager(view.context).getThemeValue()
+                .equals(Constants.THEME_HOUSEHOLD)
+        ) {
+            if (isSearching) {
+
+                view.setColorFilter(
+                    ThemeColorUtils.colorSearchViewHintAttribute(view.context),
+                    PorterDuff.Mode.SRC_ATOP
+                )
+
+            } else {
+                  view.setColorFilter(
+                    view.context.getColor(R.color.greyDark),
+                    PorterDuff.Mode.SRC_ATOP
+                )
+            }
+        } /*else {
+            view.setColorFilter(view.context.getColor(R.color.greyDark), PorterDuff.Mode.SRC_ATOP)
+
+        }*/
+    }
 }

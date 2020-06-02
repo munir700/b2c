@@ -62,16 +62,14 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintEnd_toStartOf="@id/tvCancel"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/layoutRecent"/>
+            app:layout_constraintTop_toBottomOf="@+id/layoutRecent" />
 
         <include
             android:id="@+id/layoutSearchView"
             layout="@layout/layout_beneficiairy_search"
             android:layout_width="0dp"
             android:layout_height="@dimen/_30sdp"
-            android:layout_marginStart="@dimen/_14sdp"
             android:layout_marginTop="@dimen/margin_medium"
-            android:layout_marginEnd="@dimen/_14sdp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintEnd_toStartOf="@id/tvCancel"
             app:layout_constraintStart_toStartOf="parent"
@@ -91,8 +89,7 @@
             app:layout_constraintBottom_toBottomOf="@id/layoutSearchView"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/layoutSearchView"
-            app:layout_constraintTop_toTopOf="@id/layoutSearchView"
-            />
+            app:layout_constraintTop_toTopOf="@id/layoutSearchView" />
 
         <TextView
             android:id="@+id/txt_error"
@@ -137,7 +134,6 @@
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvAllBeneficiaries"
             app:layout_constraintVertical_bias="0.0"

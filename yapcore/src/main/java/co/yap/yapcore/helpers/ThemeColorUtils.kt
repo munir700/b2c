@@ -145,5 +145,25 @@ object ThemeColorUtils {
         }.data
     }
 
+    fun colorSearchViewHintAttribute(context: Context): Int {
+        return TypedValue().also {
+            context.theme.resolveAttribute(
+                R.attr.colorSearchViewHintAttr,
+                it,
+                true
+            )
+        }.data
+    }
+
+    fun colorSearchViewEditTexAttribute(context: Context): Int {
+        return TypedValue().also {
+            context.theme.resolveAttribute(
+                R.attr.colorSearchViewEditTexAttr,
+                it,
+                true
+            )
+        }.data
+    }
+
 
 }
