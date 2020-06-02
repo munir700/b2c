@@ -135,5 +135,13 @@ object ThemeColorUtils {
         }.data
     }
 
-
+    fun colorIconsTintAttrAttribute(context: Context): Int {
+        return TypedValue().also {
+            context.theme.resolveAttribute(
+                R.attr.colorIconsTintAttr,
+                it,
+                true
+            )
+        }.data
+    }
 }
