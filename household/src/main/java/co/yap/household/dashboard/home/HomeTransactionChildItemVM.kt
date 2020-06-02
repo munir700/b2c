@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.View
 import androidx.navigation.NavController
 import co.yap.household.R
-import co.yap.networking.models.ApiResponse
 import co.yap.networking.transactions.responsedtos.transaction.Transaction
 import co.yap.yapcore.BaseListItemViewModel
 
@@ -20,5 +19,6 @@ class HomeTransactionChildItemVM : BaseListItemViewModel<Transaction>() {
 
     override fun onFirsTimeUiCreate(bundle: Bundle?, navigation: NavController?) {}
 
-    override fun onItemClick(view: View, data: Any, pos: Int) {}
+    override fun onItemClick(view: View, data: Any, pos: Int) {
+    }
 }

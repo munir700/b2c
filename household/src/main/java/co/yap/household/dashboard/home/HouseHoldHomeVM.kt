@@ -23,7 +23,6 @@ class HouseHoldHomeVM @Inject constructor(
     override var clickEvent: SingleClickEvent = SingleClickEvent()
     override val transactionAdapter: ObservableField<HomeTransactionAdapter>? = ObservableField()
     override var notificationAdapter = ObservableField<HHNotificationAdapter>()
-    override val profilePictureAdapter = ObservableField<ProfilePictureAdapter>()
     override fun handlePressOnView(id: Int) {
         clickEvent.setValue(id)
     }
@@ -38,20 +37,24 @@ class HouseHoldHomeVM @Inject constructor(
             when (val response =
                 repository.getAccountTransactions(YAPApplication.homeTransactionsRequest)) {
                 is RetroApiResponse.Success -> {
-                    publishState(State.success(null))
-                    state.transactionMap?.value =
-                        response.data.data.transaction.distinct().groupBy { t ->
-                            DateUtils.reformatStringDate(
-                                t.creationDate,
-                                SERVER_DATE_FORMAT,
-                                FORMAT_DATE_MON_YEAR, UTC
-                            )
-                        }
-                    transactionAdapter?.get()?.setTransactionData(state.transactionMap?.value)
+                    if (response.data.data.transaction.isNotEmpty()) {
+                        publishState(State.success(null))
+                        state.transactionMap?.value =
+                            response.data.data.transaction.distinct().groupBy { t ->
+                                DateUtils.reformatStringDate(
+                                    t.creationDate,
+                                    SERVER_DATE_FORMAT,
+                                    FORMAT_DATE_MON_YEAR, UTC
+                                )
+                            }
+                        transactionAdapter?.get()?.setTransactionData(state.transactionMap?.value)
+                    } else {
+                        publishState(State.empty(null))
+                    }
                 }
                 is RetroApiResponse.Error -> {
                     state.loading = false
-                    publishState(State.empty(null))
+                    publishState(State.error(null))
                 }
             }
         }

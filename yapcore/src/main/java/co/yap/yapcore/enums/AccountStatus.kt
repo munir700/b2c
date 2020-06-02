@@ -22,6 +22,7 @@ enum class AccountStatus {
     EMAIL_PENDING,
     INVITE_PENDING,
     INVITE_ACCEPTED,
+    USER_VERIFIED,
     INVITE_DECLINED;
 
 }

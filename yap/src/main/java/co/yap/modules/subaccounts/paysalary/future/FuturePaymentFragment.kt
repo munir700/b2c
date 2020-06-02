@@ -4,9 +4,11 @@ import androidx.lifecycle.Observer
 import co.yap.BR
 import co.yap.R
 import co.yap.databinding.FragmentFuturePaymentBinding
+import co.yap.modules.others.helper.Constants
 import co.yap.networking.customers.household.requestdtos.SchedulePayment
 import co.yap.translation.Strings
 import co.yap.yapcore.dagger.base.navigation.BaseNavViewModelFragment
+import co.yap.yapcore.helpers.confirm
 
 
 class FuturePaymentFragment :
@@ -27,7 +29,7 @@ class FuturePaymentFragment :
                 arguments?.putParcelable(
                     SchedulePayment::class.java.simpleName, SchedulePayment(
                         amount = state.amount.value,
-                        nextProcessingDate = state.date.get()
+                        nextProcessingDate = state.date.value
                     )
                 )
                 navigateForwardWithAnimation(
@@ -35,6 +37,20 @@ class FuturePaymentFragment :
                     arguments
                 )
             }
+            R.id.tvCancel -> {
+                state.futureTransaction?.value?.let {
+                    confirm(
+                        message = "Are you sure you want to cancel this scheduled salary?",
+                        title = null
+                    ) {
+                        viewModel.cancelSchedulePayment(it.scheduledPaymentUuid)
+                    }
+                }
+            }
+            Constants.EVENT_GO_BACK -> navigateBackWithResult(
+                resultCode = Constants.EVENT_GO_BACK,
+                data = arguments
+            )
         }
     }
 

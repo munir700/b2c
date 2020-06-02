@@ -6,7 +6,7 @@
 
         <variable
             name="viewModel"
-            type="co.yap.household.dashboard.home.HouseHoldHomeVM" />
+            type="co.yap.household.dashboard.main.HouseHoldDashBoardVM" />
 
         <import type="co.yap.yapcore.managers.MyUserManager" />
     </data>

@@ -17,6 +17,7 @@ class EnterSalaryAmountFragment :
         Strings.screen_household_pay_salary_screen_display_text_title,
         state.subAccount.value?.getFullName() ?: ""
     )
+
     override fun postExecutePendingBindings() {
         super.postExecutePendingBindings()
         GetAccountBalanceLiveData.get().observe(this, Observer {})
@@ -36,7 +37,6 @@ class EnterSalaryAmountFragment :
                 EnterSalaryAmountFragmentDirections.actionEnterSalaryAmountFragmentToPaymentConfirmationFragment(),
                 arguments
             )
-
             viewModel.GO_TO_RECURING -> {
                 navigateForwardWithAnimation(
                     EnterSalaryAmountFragmentDirections.actionEnterSalaryAmountFragmentToRecurringPaymentFragment(),
