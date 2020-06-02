@@ -10,6 +10,9 @@ import co.yap.networking.customers.household.requestdtos.SchedulePayment
 import co.yap.networking.customers.household.responsedtos.SalaryTransaction
 import co.yap.networking.customers.household.responsedtos.SubAccount
 import co.yap.networking.models.RetroApiResponse
+import co.yap.networking.transactions.TransactionsApi
+import co.yap.networking.transactions.TransactionsRepository
+import co.yap.networking.transactions.requestdtos.PaySalaryNowRequest
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.dagger.base.viewmodel.DaggerBaseViewModel
 import co.yap.yapcore.helpers.cancelAllSnackBar
@@ -21,7 +24,8 @@ import javax.inject.Inject
 
 class EnterSalaryAmountVM @Inject constructor(override var state: IEnterSalaryAmount.State) :
     DaggerBaseViewModel<IEnterSalaryAmount.State>(), IEnterSalaryAmount.ViewModel {
-    private val repository: CustomerHHApi = CustomersHHRepository
+    //private val repository: CustomerHHApi = CustomersHHRepository
+    private val repository: TransactionsApi = TransactionsRepository
     override val clickEvent = SingleClickEvent()
     override fun onFirsTimeUiCreate(bundle: Bundle?, navigation: NavController?) {
     }
@@ -35,11 +39,24 @@ class EnterSalaryAmountVM @Inject constructor(override var state: IEnterSalaryAm
     }
 
     override fun createSchedulePayment(uuid: String?, schedulePayment: SchedulePayment?) {
+//        launch {
+//            when (val response = repository.createSchedulePayment(
+//                uuid,
+//                schedulePayment
+//            )) {
+//                is RetroApiResponse.Success -> {
+//                    clickEvent.postValue(GO_TO_CONFIRMATION)
+//
+//                }
+//                is RetroApiResponse.Error -> {
+//                }
+//            }
+//        }
+    }
+
+    override fun paySalaryNow(request: PaySalaryNowRequest) {
         launch {
-            when (val response = repository.createSchedulePayment(
-                uuid,
-                schedulePayment
-            )) {
+            when (val response = repository.paySalaryNow(request)) {
                 is RetroApiResponse.Success -> {
                     clickEvent.postValue(GO_TO_CONFIRMATION)
 
@@ -73,13 +90,20 @@ class EnterSalaryAmountVM @Inject constructor(override var state: IEnterSalaryAm
             }
             else -> {
                 if (state.isRecurring.value == false) {
-                    createSchedulePayment(
-                        state.subAccount.value?.accountUuid,
-                        SchedulePayment(
+                    paySalaryNow(
+                        PaySalaryNowRequest(
                             amount = state.amount.value,
-                            isRecurring = state.isRecurring.value
+                            receiverUUID = state.subAccount.value?.accountUuid,
+                            beneficiaryName = state.subAccount.value?.getFullName()
                         )
                     )
+//                    createSchedulePayment(
+//                        state.subAccount.value?.accountUuid,
+//                        SchedulePayment(
+//                            amount = state.amount.value,
+//                            isRecurring = state.isRecurring.value
+//                        )
+//                    )
                 } else {
                     clickEvent.postValue(GO_TO_RECURING)
                 }

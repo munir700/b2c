@@ -35,9 +35,7 @@ class RecurringPaymentVM @Inject constructor(
     private val calendar = Calendar.getInstance()
     override var fragmentManager: FragmentManager? = null
     override val clickEvent = SingleClickEvent()
-    override fun onFirsTimeUiCreate(bundle: Bundle?, navigation: NavController?) {
-    }
-
+    override fun onFirsTimeUiCreate(bundle: Bundle?, navigation: NavController?) {}
     override fun fetchExtras(extras: Bundle?) {
         super.fetchExtras(extras)
         extras?.let {
@@ -47,8 +45,10 @@ class RecurringPaymentVM @Inject constructor(
                 state.isValid.value = true
             }
             state.recurringTransaction?.value?.nextProcessingDate?.apply {
-                calendar.time = stringToDate(this, SERVER_DATE_FORMAT)
-                state.date.value = dateToString(calendar.time, FORMAT_DATE_MON_YEAR)
+                stringToDate(this, SERVER_DATE_FORMAT)?.run {
+                    calendar.time = this
+                    state.date.value = dateToString(calendar.time, FORMAT_DATE_MON_YEAR)
+                }
             }
         }
     }
@@ -113,7 +113,7 @@ class RecurringPaymentVM @Inject constructor(
                 val time =
                     DateUtils.datetoString(
                         calendar.time,
-                        DateUtils.SERVER_DATE_FORMAT,
+                        SERVER_DATE_FORMAT,
                         DateUtils.GMT
                     )
 
@@ -133,7 +133,6 @@ class RecurringPaymentVM @Inject constructor(
             }
         }
     }
-
 
     override fun cancelSchedulePayment(scheduledPaymentUuid: String?) {
         launch {

@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import co.yap.networking.transactions.requestdtos.HomeTransactionsRequest
 import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionListData
 import co.yap.networking.transactions.responsedtos.transaction.Transaction
+import co.yap.widgets.State
 import co.yap.yapcore.BaseState
 
 class HouseholdHomeState : BaseState(), IHouseholdHome.State {
@@ -15,4 +16,5 @@ class HouseholdHomeState : BaseState(), IHouseholdHome.State {
         MutableLiveData()
     override var homeTransactionRequest: MutableLiveData<HomeTransactionsRequest>? = MutableLiveData()
     override var availableBalance: MutableLiveData<String>? = MutableLiveData("")
+    override var accountActivateLiveData: MutableLiveData<State>? = MutableLiveData()
 }

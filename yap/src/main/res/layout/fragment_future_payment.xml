@@ -21,6 +21,8 @@
         <import type="co.yap.yapcore.helpers.DateUtils" />
 
         <import type="co.yap.translation.Strings" />
+
+        <import type="android.view.View" />
     </data>
 
     <ScrollView
@@ -125,13 +127,22 @@
                 android:layout_marginLeft="@dimen/margin_xxl"
                 android:layout_marginTop="@dimen/margin_medium"
                 android:layout_marginRight="@dimen/margin_xxl"
-                android:layout_marginBottom="@dimen/margin_small"
+
                 android:onClick="@{(v)-> futurePaymentVM.handlePressOnClick(v.id)}"
                 app:btn_enable="true"
                 app:enableCoreButton="@{futurePaymentVM.state.amount.length()>0 &amp;&amp; futurePaymentVM.state.isValid &amp;&amp; futurePaymentVM.state.date.length()>2}"
-                app:layout_constraintVertical_bias="1.0"
                 app:text="@{Strings.screen_household_future_payment_screen_button_text}"
                 tools:text="Add" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvCancel"
+                style="@style/Yap.App.Widget.TextView"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/margin_normal_large"
+                android:onClick="@{(v)->futurePaymentVM.handlePressOnClick(v.id)}"
+                android:text="@string/screen_household_employee_salary_delete_recurring_text"
+                android:textColor="@color/colorPrimary"
+                android:visibility="@{futurePaymentVM.state.futureTransaction!=null &amp;&amp; !futurePaymentVM.state.futureTransaction.nextProcessingDate.empty? View.VISIBLE:View.GONE}" />
         </androidx.appcompat.widget.LinearLayoutCompat>
     </ScrollView>
 </layout>

@@ -5,6 +5,7 @@ import android.view.View
 import androidx.fragment.app.FragmentManager
 import androidx.navigation.NavController
 import co.yap.R
+import co.yap.modules.others.helper.Constants
 import co.yap.networking.customers.household.CustomerHHApi
 import co.yap.networking.customers.household.CustomersHHRepository
 import co.yap.networking.customers.household.requestdtos.SchedulePayment
@@ -13,6 +14,7 @@ import co.yap.networking.models.RetroApiResponse
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.dagger.base.viewmodel.DaggerBaseViewModel
 import co.yap.yapcore.helpers.DateUtils
+import co.yap.yapcore.helpers.DateUtils.FORMAT_DATE_MON_YEAR
 import co.yap.yapcore.helpers.DateUtils.GMT
 import co.yap.yapcore.helpers.DateUtils.SERVER_DATE_FORMAT
 import co.yap.yapcore.helpers.DateUtils.dateToString
@@ -39,7 +41,19 @@ class FuturePaymentVM @Inject constructor(override val state: IFuturePayment.Sta
 
     override fun fetchExtras(extras: Bundle?) {
         super.fetchExtras(extras)
-        extras?.let { state.subAccount.value = it.getParcelable(SubAccount::class.simpleName) }
+        extras?.let {
+            state.subAccount.value = it.getParcelable(SubAccount::class.simpleName)
+            state.futureTransaction?.value = it.getParcelable(SchedulePayment::class.simpleName)
+            state.amount.value = state.futureTransaction?.value?.amount?.apply {
+                state.isValid.value = true
+            }
+            state.futureTransaction?.value?.nextProcessingDate?.apply {
+                DateUtils.stringToDate(this, SERVER_DATE_FORMAT)?.run {
+                    calendar.time = this
+                    state.date.value = dateToString(calendar.time, FORMAT_DATE_MON_YEAR)
+                }
+            }
+        }
     }
 
     override fun datePicker(view: View) {
@@ -49,7 +63,7 @@ class FuturePaymentVM @Inject constructor(override val state: IFuturePayment.Sta
                 calendar.set(Calendar.YEAR, year)
                 calendar.set(Calendar.MONTH, monthOfYear)
                 calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth)
-                state.date.set(dateToString(calendar.time, DateUtils.FORMAT_DATE_MON_YEAR))
+                state.date.value = dateToString(calendar.time, FORMAT_DATE_MON_YEAR)
             }, calendar)
         val minDateCalendar = Calendar.getInstance()
         minDateCalendar.add(Calendar.DATE, 1)
@@ -94,12 +108,43 @@ class FuturePaymentVM @Inject constructor(override val state: IFuturePayment.Sta
 
     override fun handlePressOnClick(id: Int) {
         val time = datetoString(calendar.time, SERVER_DATE_FORMAT, GMT)
-        createSchedulePayment(
-            state.subAccount.value?.accountUuid,
-            SchedulePayment(
-                amount = state.amount.value,
-                nextProcessingDate = time
-            )
+        val request = SchedulePayment(
+            amount = state.amount.value,
+            nextProcessingDate = time,
+            isRecurring = false
         )
+        state.futureTransaction?.value?.scheduledPaymentUuid?.let {
+            request.scheduledPaymentUuid = it
+            updateSchedulePayment(state.subAccount.value?.accountUuid, request)
+        } ?: createSchedulePayment(state.subAccount.value?.accountUuid, request)
+    }
+
+    override fun cancelSchedulePayment(scheduledPaymentUuid: String?) {
+        launch {
+            when (val response = repository.cancelSchedulePayment(
+                scheduledPaymentUuid
+            )) {
+                is RetroApiResponse.Success -> {
+                    clickEvent.postValue(Constants.EVENT_GO_BACK)
+
+                }
+                is RetroApiResponse.Error -> {
+                }
+            }
+        }
+    }
+
+    override fun updateSchedulePayment(scheduledPaymentUuid: String?, request: SchedulePayment) {
+        launch {
+            when (val response = repository.updateSchedulePayment(
+                scheduledPaymentUuid, request
+            )) {
+                is RetroApiResponse.Success -> {
+                    clickEvent.postValue(GO_TO_CONFIRMATION)
+                }
+                is RetroApiResponse.Error -> {
+                }
+            }
+        }
     }
 }
