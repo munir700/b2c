@@ -68,8 +68,8 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
                     getBindings().tvTotalAmountValue.setTextColor(this.getColors(R.color.greyNormalDark))
                     it.cancelReason
                 }
-                it.productCode == TransactionProductCode.SWIFT.pCode -> {
-                    if (TransactionStatus.PENDING.name == it.status || TransactionStatus.IN_PROGRESS.name == it.status && it.getLabelValues() != TransactionLabelsCode.IS_TRANSACTION_FEE) {
+                it.productCode == TransactionProductCode.SWIFT.pCode || it.productCode == TransactionProductCode.RMT.pCode -> {
+                    if (TransactionStatus.PENDING.name == it.status && it.getLabelValues() != TransactionLabelsCode.IS_TRANSACTION_FEE) {
                         getBindings().tvTransactionHeading.setTextColor(this.getColors(R.color.colorFaded))
                         getBindings().tvTotalAmountValue.setTextColor(this.getColors(R.color.colorFaded))
                         getBindings().tvTransactionSubheading.alpha = 0.5f
@@ -77,16 +77,6 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
                         return@let getCutOffMsg()
                     } else ""
                 }
-                it.productCode == TransactionProductCode.RMT.pCode -> {
-                    if (TransactionStatus.PENDING.name == it.status || TransactionStatus.IN_PROGRESS.name == it.status && it.getLabelValues() != TransactionLabelsCode.IS_TRANSACTION_FEE) {
-                        getBindings().tvTransactionHeading.setTextColor(this.getColors(R.color.colorFaded))
-                        getBindings().tvTotalAmountValue.setTextColor(this.getColors(R.color.colorFaded))
-                        getBindings().tvTransactionSubheading.alpha = 0.5f
-                        getBindings().ivCategoryIcon.alpha = 0.5f
-                        ""
-                    } else ""
-                }
-
                 else -> ""
             }
         } ?: ""
