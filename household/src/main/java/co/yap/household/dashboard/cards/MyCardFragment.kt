@@ -4,10 +4,11 @@ import android.app.Dialog
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.view.*
-import android.widget.ImageView
+import android.view.Gravity
 import android.view.MenuItem
 import android.view.View
+import android.view.Window
+import android.widget.ImageView
 import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.Observer
 import androidx.navigation.NavController
@@ -47,7 +48,7 @@ class MyCardFragment :
 
     override fun postExecutePendingBindings() {
         super.postExecutePendingBindings()
-        setupToolbar(mViewDataBinding.toolbar,R.menu.menu_options)
+        setupToolbar(mViewDataBinding.toolbar, R.menu.menu_options)
         setHasOptionsMenu(true)
         recyclerView?.addItemDecoration(
             DividerItemDecoration(
@@ -58,6 +59,7 @@ class MyCardFragment :
                 marginStart = dimen(co.yap.R.dimen._70sdp)
             )
         )
+        viewModel.getPrimaryCard()
         checkFreezeUnfreezStatus()
     }
 
@@ -65,6 +67,7 @@ class MyCardFragment :
         super.onViewCreated(view, savedInstanceState)
         viewModel.clickEvent.observe(this, clickObserver)
     }
+
     override fun toolBarVisibility() = false
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         showBottomSheet()
@@ -76,7 +79,7 @@ class MyCardFragment :
             viewModel.EVENT_FREEZE_UNFREEZE_CARD -> {
                 checkFreezeUnfreezStatus()
             }
-            R.id.btnCardDetails->{
+            R.id.btnCardDetails -> {
                 viewModel.getCardDetails()
             }
             viewModel.EVENT_CARD_DETAILS -> {
@@ -110,13 +113,13 @@ class MyCardFragment :
             }
         }
 
-        if (Constants.CARD_TYPE_DEBIT == viewModel.getDummyCard()?.cardType) {
+        if (Constants.CARD_TYPE_DEBIT == viewModel.card?.cardType) {
             cardType = "Primary card"
         } else {
-            if (viewModel.getDummyCard()?.nameUpdated!!) {
-                cardType = viewModel.getDummyCard()?.cardName!!
+            if (viewModel.card?.nameUpdated!!) {
+                cardType = viewModel.card?.cardName!!
             } else {
-                if (viewModel.getDummyCard()?.physical!!) {
+                if (viewModel.card?.physical!!) {
                     cardType = Constants.TEXT_SPARE_CARD_PHYSICAL
                 } else {
                     cardType = Constants.TEXT_SPARE_CARD_VIRTUAL
@@ -159,7 +162,7 @@ class MyCardFragment :
                 )
                 add(
                     Option().setId(R.id.freeze_card.toLong())
-                        .setTitle(getString(Strings.screen_household_my_card_screen_menu_freeze_card_text))
+                        .setTitle(viewModel.state.cardStatus.value.toString())
                 )
                 add(
                     Option().setId(R.id.view_statement.toLong())
@@ -183,13 +186,13 @@ class MyCardFragment :
                     R.id.change_pin.toLong() -> startActivity(
                         ChangeCardPinActivity.newIntent(
                             requireContext(),
-                            viewModel.getDummyCard()?.cardSerialNumber!!
+                            viewModel.card?.cardSerialNumber!!
                         )
                     )
                     R.id.freeze_card.toLong() -> viewModel.freezeUnfreezeCard()
                     R.id.view_statement.toLong() -> {
                         launchActivity<CardStatementsActivity> {
-                            putExtra("card", viewModel.getDummyCard())
+                            putExtra("card", viewModel.card)
                             putExtra("isFromDrawer", false)
                         }
                     }
@@ -197,7 +200,7 @@ class MyCardFragment :
                         startActivityForResult(
                             ReportLostOrStolenCardActivity.newIntent(
                                 requireContext(),
-                                viewModel.getDummyCard()!!
+                                viewModel.card!!
                             ), Constants.REQUEST_REPORT_LOST_OR_STOLEN
                         )
                     }
@@ -206,6 +209,7 @@ class MyCardFragment :
             }
         )
     }
+
     override fun setHomeAsUpIndicator() = R.drawable.ic_search_white
 
     class Adapter(mValue: MutableList<Transaction>, navigation: NavController?) :
@@ -225,29 +229,22 @@ class MyCardFragment :
     }
 
     private fun checkFreezeUnfreezStatus() {
-        viewModel.getDummyCard()?.blocked?.let {
+        viewModel.card?.blocked?.let {
             if (it) {
                 showSnackBar(
                     msg = getString(Strings.screen_cards_display_text_freeze_card),
                     viewBgColor = R.color.colorPrimary,
                     colorOfMessage = R.color.white,
                     gravity = Gravity.TOP,
+                    marginTop = requireContext().dimen(R.dimen.toolbar_height),
                     duration = Snackbar.LENGTH_INDEFINITE,
                     actionText = underline(getString(Strings.screen_cards_display_text_freeze_card_action)),
                     clickListener = View.OnClickListener { viewModel.freezeUnfreezeCard() }
                 )
-                /*if (Constants.CARD_TYPE_DEBIT == viewModel.state.cardType) {
-                    tvPrimaryCardStatus.text = "Unfreeze card"
-                } else {
-                    tvSpareCardStatus.text = "Unfreeze card"
-                }*/
+                viewModel.state.cardStatus.value = "Unfreeze card"
             } else {
                 cancelAllSnackBar()
-                /*   if (Constants.CARD_TYPE_DEBIT == viewModel.state.cardType) {
-                       tvPrimaryCardStatus.text = "Freeze card"
-                   } else {
-                       tvSpareCardStatus.text = "Freeze card"
-                   }*/
+                viewModel.state.cardStatus.value = "Freeze card"
             }
         }
     }

@@ -12,6 +12,8 @@ import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.transactions.responsedtos.transaction.Transaction
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.dagger.base.viewmodel.BaseRecyclerAdapterVM
+import co.yap.yapcore.enums.AlertType
+import co.yap.yapcore.enums.CardType
 import co.yap.yapcore.helpers.Utils
 import com.google.gson.Gson
 import org.json.JSONObject
@@ -22,16 +24,19 @@ class MyCardVM @Inject constructor(override var state: IMyCard.State) :
     private val cardsRepository: CardsApi = CardsRepository
     override val clickEvent: SingleClickEvent = SingleClickEvent()
     override var cardDetail: CardDetail = CardDetail()
+    override var card: Card? = null
+
 
     override fun onFirsTimeUiCreate(bundle: Bundle?, navigation: NavController?) {
         addData(loadJSONDummyList())
+
     }
 
     override fun freezeUnfreezeCard() {
         launch {
             state.loading = true
             when (val response =
-                cardsRepository.freezeUnfreezeCard(CardLimitConfigRequest(getDummyCard()?.cardSerialNumber!!))) {
+                cardsRepository.freezeUnfreezeCard(CardLimitConfigRequest(card?.cardSerialNumber!!))) {
                 is RetroApiResponse.Success -> {
                     Handler().postDelayed({
                         state.loading = false
@@ -52,10 +57,10 @@ class MyCardVM @Inject constructor(override var state: IMyCard.State) :
         launch {
             state.loading = true
             when (val response =
-                cardsRepository.getCardDetails(getDummyCard()?.cardSerialNumber!!)) {
+                cardsRepository.getCardDetails(card?.cardSerialNumber!!)) {
                 is RetroApiResponse.Success -> {
-                       cardDetail = response.data.data
-                       clickEvent.setValue(EVENT_CARD_DETAILS)
+                    cardDetail = response.data.data
+                    clickEvent.setValue(EVENT_CARD_DETAILS)
                 }
                 is RetroApiResponse.Error -> {
                     state.toast = response.error.message
@@ -63,6 +68,30 @@ class MyCardVM @Inject constructor(override var state: IMyCard.State) :
             }
             state.loading = false
         }
+    }
+
+    override fun getPrimaryCard() {
+        launch {
+            when (val response = cardsRepository.getDebitCards("")) {
+                is RetroApiResponse.Success -> {
+                    response.data.data?.let {
+                        if (it.isNotEmpty()) {
+                            val primaryCard = getPrimaryCard(response.data.data)
+                            card = primaryCard
+                        } else {
+                            state.toast = "Primary card not found.^${AlertType.TOAST.name}"
+                        }
+                    }
+                }
+                is RetroApiResponse.Error ->
+                    state.toast = "${response.error.message}^${AlertType.TOAST.name}"
+            }
+        }
+    }
+
+
+    private fun getPrimaryCard(cards: ArrayList<Card>?): Card? {
+        return cards?.firstOrNull { it.cardType == CardType.DEBIT.type }
     }
 
     private fun loadJSONDummyList(): ArrayList<Transaction> {
@@ -80,7 +109,7 @@ class MyCardVM @Inject constructor(override var state: IMyCard.State) :
         return benefitsModelList
     }
 
-    override fun getDummyCard(): Card? {
+    /*override fun getDummyCard(): Card? {
         return Card(
             cardType = "PREPAID",
             uuid = "b4ba4040-d904-4742-96aa-374ce6ed6112",
@@ -113,7 +142,7 @@ class MyCardVM @Inject constructor(override var state: IMyCard.State) :
             frontImage = "",
             backImage = ""
         )
-    }
+    }*/
 
     override fun handlePressOnButtonClick(id: Int) {
         clickEvent.setValue(id)

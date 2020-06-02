@@ -243,10 +243,13 @@ fun Fragment.showSnackBar(
 
 fun Fragment?.showSnackBar(
     msg: String, @ColorRes viewBgColor: Int, @ColorRes colorOfMessage: Int,
+    actionText: CharSequence = "",
+    actionTextColor: Int=this?.resources?.getColor(R.color.white,null)?:0,
     gravity: Int = Gravity.BOTTOM,
     duration: Int = Snackbar.LENGTH_LONG,
     marginTop: Int = this?.requireContext()?.dimen(R.dimen.toolbar_height) ?: 0,
-    marginBottom: Int = this?.requireContext()?.dimen(R.dimen.margin_zero_dp) ?: 0
+    marginBottom: Int = this?.requireContext()?.dimen(R.dimen.margin_zero_dp) ?: 0,
+    clickListener: View.OnClickListener? = null
 ): Snackbar? {
     this?.let {
         val snakbar = Snackbar
@@ -262,6 +265,8 @@ fun Fragment?.showSnackBar(
         snackTextView.setTextAppearance(R.style.Micro)
         snakbar.setTextColor(ContextCompat.getColor(snakbar.view.context, colorOfMessage))
         snakbar.config(marginTop, marginBottom)
+        snakbar.setActionTextColor(actionTextColor)
+        snakbar.setAction(actionText, clickListener)
         cancelAllSnackBar()
         snakbar.show(gravity)
         return snakbar
