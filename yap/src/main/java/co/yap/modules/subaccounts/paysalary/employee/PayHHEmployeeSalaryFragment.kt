@@ -45,12 +45,12 @@ class PayHHEmployeeSalaryFragment :
                         SchedulePayment::class.simpleName, it
                     )
                 }
-                if (state.futureTransaction?.value == null) {
-                    navigateForwardWithAnimation(
-                        PayHHEmployeeSalaryFragmentDirections.actionPayHHEmployeeSalaryFragmentToFuturePaymentFragment(),
-                        arguments
-                    )
-                }
+                //if (state.futureTransaction?.value == null) {
+                navigateForwardWithAnimation(
+                    PayHHEmployeeSalaryFragmentDirections.actionPayHHEmployeeSalaryFragmentToFuturePaymentFragment(),
+                    arguments
+                )
+                //}
             }
             R.id.llMakeRecurring -> {
                 arguments?.putParcelable(SchedulePayment::class.simpleName, null)

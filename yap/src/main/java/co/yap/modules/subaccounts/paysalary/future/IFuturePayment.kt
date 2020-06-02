@@ -1,8 +1,5 @@
 package co.yap.modules.subaccounts.paysalary.future
 
-import android.content.Context
-import android.view.View
-import androidx.databinding.ObservableField
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.MutableLiveData
 import co.yap.networking.customers.household.requestdtos.SchedulePayment
@@ -17,6 +14,8 @@ interface IFuturePayment {
         var fragmentManager: FragmentManager?
         fun onAmountChange(amount: CharSequence, start: Int, before: Int, count: Int)
         fun createSchedulePayment(uuid: String?, schedulePayment: SchedulePayment?)
+        fun cancelSchedulePayment(scheduledPaymentUuid: String?)
+        fun updateSchedulePayment(scheduledPaymentUuid: String?, request: SchedulePayment)
         fun handlePressOnClick(id: Int)
         val clickEvent: SingleClickEvent
         val GO_TO_CONFIRMATION: Int get() = 3
@@ -24,8 +23,9 @@ interface IFuturePayment {
 
     interface State : IBase.State {
         var subAccount: MutableLiveData<SubAccount>
-        var date: ObservableField<String>
+        var date: MutableLiveData<String>
         var isValid: MutableLiveData<Boolean>
         var amount: MutableLiveData<String>
+        var futureTransaction: MutableLiveData<SchedulePayment>?
     }
 }

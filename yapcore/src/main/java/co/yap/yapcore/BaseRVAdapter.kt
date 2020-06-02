@@ -71,7 +71,6 @@ abstract class BaseRVAdapter<T : ApiResponse, VM : BaseListItemViewModel<T>, VH 
         val viewModel: VM = getViewModel(viewType)
         viewModel.onCreate(Bundle(), navigation)
         navigation?.let { onItemClickListener = viewModel }
-
         return viewModel
     }
 

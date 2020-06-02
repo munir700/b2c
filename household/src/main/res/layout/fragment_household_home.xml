@@ -11,26 +11,17 @@
 
         <import type="co.yap.translation.Strings" />
 
-
         <variable
             name="cardBalance"
             type="co.yap.yapcore.helpers.livedata.GetAccountBalanceLiveData.Companion" />
 
         <import type="android.view.View" />
     </data>
-
-    <androidx.drawerlayout.widget.DrawerLayout
-        android:id="@+id/drawerLayout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:fitsSystemWindows="true"
-        tools:context=".dashboard.home.HouseholdHomeFragment"
-        tools:openDrawer="start">
-
         <androidx.coordinatorlayout.widget.CoordinatorLayout
             android:id="@+id/cl_content"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            tools:context=".dashboard.home.HouseholdHomeFragment"
             android:fitsSystemWindows="true">
 
             <com.google.android.material.appbar.AppBarLayout
@@ -112,23 +103,4 @@
                 layout="@layout/content_fragment_house_hold_home"
                 app:viewModel="@{viewModel}" />
         </androidx.coordinatorlayout.widget.CoordinatorLayout>
-
-        <com.google.android.material.navigation.NavigationView
-            android:id="@+id/drawerNav"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="end"
-            android:background="@color/white"
-            android:elevation="4dp"
-            android:fitsSystemWindows="false"
-            app:elevation="4dp">
-
-            <include
-                android:id="@+id/includedDrawerLayout"
-                layout="@layout/layout_drawer_household_dashboard"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:viewModel="@{viewModel}" />
-        </com.google.android.material.navigation.NavigationView>
-    </androidx.drawerlayout.widget.DrawerLayout>
 </layout>
