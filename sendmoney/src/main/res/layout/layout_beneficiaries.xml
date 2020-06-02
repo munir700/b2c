@@ -20,7 +20,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:animateLayoutChanges="true"
-        android:background="@android:color/white"
+        android:background="@color/colorWhite"
         android:focusableInTouchMode="true">
 
         <androidx.appcompat.widget.AppCompatTextView
@@ -46,8 +46,8 @@
             layout="@layout/layout_recent_beneficiaries"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingStart="@dimen/small"
-            android:paddingEnd="@dimen/small"
+            android:layout_marginEnd="@dimen/small"
+            android:layout_marginStart="@dimen/small"
             android:visibility="@{viewModel.state.isSearching || viewModel.state.isNoRecentBeneficiary? View.GONE : View.VISIBLE}"
             app:adapter="@{viewModel.adapter}"
             app:layout_constraintEnd_toEndOf="parent"
@@ -131,14 +131,15 @@
             android:layout_height="0dp"
             android:layout_marginTop="@dimen/small"
             android:visibility="visible"
+            android:background="@color/white"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvAllBeneficiaries"
-            app:layout_constraintVertical_bias="0.0"
-            tools:listitem="@layout/layout_item_beneficiary"
-            tools:visibility="visible" />
+             tools:listitem="@layout/layout_item_beneficiary"
+            tools:visibility="visible"
+          />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

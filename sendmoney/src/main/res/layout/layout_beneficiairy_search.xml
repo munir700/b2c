@@ -19,7 +19,8 @@
         android:layout_height="@dimen/_30sdp"
         android:paddingEnd="@dimen/_14sdp"
         android:paddingStart="@dimen/_14sdp"
-        android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}">
+        android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
+        android:layout_marginBottom="@dimen/small">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -29,7 +30,6 @@
             setShapeColor="@{viewModel.state.isSearching()}"
 
             >
-            <!--   setsSearchViewShapeColor="@{true}"-->
 
             <androidx.appcompat.widget.SearchView
                 android:id="@+id/svBeneficiary"
@@ -70,7 +70,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Search"
-                 setSVTextColor="@{viewModel.state.isSearching() }"
+                 setSVTextColor="@{viewModel.state.isSearching()}"
                 android:visibility="@{viewModel.state.isSearching()? View.GONE : View.VISIBLE }"
                 app:layout_constraintBottom_toBottomOf="@+id/ivSearch"
                 app:layout_constraintLeft_toLeftOf="parent"
