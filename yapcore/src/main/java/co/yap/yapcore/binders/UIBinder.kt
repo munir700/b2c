@@ -6,6 +6,7 @@ import android.content.ContentUris
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.PorterDuff
 import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Build
@@ -35,10 +36,9 @@ import co.yap.widgets.*
 import co.yap.widgets.otptextview.OTPListener
 import co.yap.widgets.otptextview.OtpTextView
 import co.yap.yapcore.R
+import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.*
-import co.yap.yapcore.helpers.DateUtils
-import co.yap.yapcore.helpers.StringUtils
-import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.helpers.*
 import co.yap.yapcore.helpers.extentions.loadImage
 import co.yap.yapcore.interfaces.IBindable
 import co.yap.yapcore.managers.MyUserManager
@@ -270,11 +270,10 @@ object UIBinder {
                             linearLayout.visibility = VISIBLE
                         else
                             linearLayout.visibility = GONE
-                    }
-                    else
+                    } else
                         linearLayout.visibility = GONE
                 }
-                CardStatus.BLOCKED,CardStatus.INACTIVE,CardStatus.HOTLISTED -> {
+                CardStatus.BLOCKED, CardStatus.INACTIVE, CardStatus.HOTLISTED -> {
                     linearLayout.visibility = VISIBLE
                 }
             }
@@ -294,8 +293,7 @@ object UIBinder {
                             imageView.setImageResource(R.drawable.ic_status_ontheway)
                         } else
                             imageView.visibility = GONE
-                    }
-                    else
+                    } else
                         imageView.visibility = GONE
                 }
                 CardStatus.BLOCKED -> {
@@ -863,16 +861,6 @@ object UIBinder {
     }
 
 
-    @BindingAdapter("setBeneficiaryImageSrc")
-    @JvmStatic
-    fun setImageSrc(imageView: ImageView, transferType: String) {
-
-        if (transferType == SendMoneyBeneficiaryType.CASHPAYOUT.type) {
-            imageView.setImageResource(R.drawable.ic_cash)
-        } else {
-            imageView.setImageResource(R.drawable.ic_bank)
-        }
-    }
 
     @JvmStatic
     @BindingAdapter("cardNickname")
@@ -928,12 +916,6 @@ object UIBinder {
         if (null == adapter)
             return
         view.adapter = adapter
-    }
-
-    @JvmStatic
-    @BindingAdapter("ibanMask")
-    fun maskIbanNo(view: AppCompatEditText, ibanMask: String?) {
-        ibanMask?.let { view.addTextChangedListener(MaskTextWatcher(view, it)) }
     }
 
 }

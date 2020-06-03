@@ -477,9 +477,12 @@
 
     <style name="AppSearchView" parent="Widget.AppCompat.SearchView">
         <item name="android:textSize">@dimen/text_size_c4</item>
-        <item name="android:editTextColor">?attr/colorPrimaryDarkAttr</item>
+        <item name="android:editTextColor">?attr/colorSearchViewEditTexAttr</item>
         <item name="android:textStyle">normal</item>
+        <item name="tint">?attr/colorSearchViewHintAttr</item>
         <item name="closeIcon">@android:color/transparent</item>
+        <item name="colorControlActivated">?attr/colorSearchViewEditTexAttr</item>
+        <item name="android:textColorHint">?attr/colorSearchViewEditTexAttr</item>
 
     </style>
 

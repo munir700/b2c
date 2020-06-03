@@ -1,5 +1,6 @@
 package co.yap.sendmoney.home.adapters
 
+import androidx.databinding.ObservableField
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
 import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
@@ -9,7 +10,7 @@ import co.yap.yapcore.BaseBindingSearchRecylerAdapter
 import co.yap.yapcore.interfaces.OnItemClickListener
 
 class AllBeneficiariesAdapter(
-    private val list: MutableList<Beneficiary>
+    private val list: MutableList<Beneficiary>, val isSearching: ObservableField<Boolean>
 ) : BaseBindingSearchRecylerAdapter<Beneficiary, AllBeneficiariesAdapter.AllBeneficiariesItemViewHolder>(
     list
 ) {
@@ -22,7 +23,7 @@ class AllBeneficiariesAdapter(
 
     override fun onBindViewHolder(holder: AllBeneficiariesItemViewHolder, position: Int) {
         super.onBindViewHolder(holder, position)
-            holder.onBind(list[position], position, onItemClickListener)
+            holder.onBind(list[position], position, onItemClickListener,isSearching)
     }
 
     class AllBeneficiariesItemViewHolder(
@@ -33,10 +34,11 @@ class AllBeneficiariesAdapter(
         fun onBind(
             beneficiary: Beneficiary?,
             position: Int,
-            onItemClickListener: OnItemClickListener?
+            onItemClickListener: OnItemClickListener?,
+            isSearching: ObservableField<Boolean>
         ) {
 
-            itemContactsBinding.viewModel = BeneficiaryItemViewModel(beneficiary, position, onItemClickListener)
+            itemContactsBinding.viewModel = BeneficiaryItemViewModel(beneficiary, position, onItemClickListener,isSearching)
             itemContactsBinding.executePendingBindings()
 
         }
