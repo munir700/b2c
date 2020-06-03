@@ -50,9 +50,11 @@ fun Activity.showSnackBar(
     val snackTextView = snackRootView
         .findViewById<TextView>(R.id.snackbar_text)
     snackTextView.setTextAppearance(R.style.AppFontLight)
+    setMaxLines(snackTextView)
     snakbar.setAction(actionText, clickListener)
     snakbar.show(gravity)
 }
+
 
 fun Activity.showSnackBar(
     msg: String, @ColorRes viewBgColor: Int, @ColorRes colorOfMessage: Int,
@@ -70,7 +72,8 @@ fun Activity.showSnackBar(
     val snackRootView = snakbar.view
     val snackTextView = snackRootView
         .findViewById<TextView>(R.id.snackbar_text)
-    snackTextView.setTextAppearance(R.style.AppFontLight)
+    snackTextView.setTextAppearance( R.style.AppFontLight)
+    setMaxLines(snackTextView)
     snakbar.setAction(actionText, clickListener)
     snakbar.show(gravity)
 }
@@ -95,6 +98,7 @@ fun Activity?.showSnackBar(
             .findViewById<TextView>(R.id.snackbar_text)
         snackTextView.setTextAppearance(R.style.Micro)
         snakbar.setTextColor(ContextCompat.getColor(snakbar.view.context, colorOfMessage))
+        setMaxLines(snackTextView)
         snakbar.config(marginTop, marginBottom)
         cancelAllSnackBar()
         snakbar.show(gravity)
@@ -215,7 +219,8 @@ fun Fragment.showSnackBar(
     val snackRootView = snakbar.view
     val snackTextView = snackRootView
         .findViewById<TextView>(R.id.snackbar_text)
-    snackTextView.setTextAppearance(R.style.AppFontLight)
+    snackTextView.setTextAppearance( R.style.AppFontLight)
+    setMaxLines(snackTextView)
     snakbar.setAction(actionText, clickListener)
     snakbar.show(gravity)
 }
@@ -236,7 +241,8 @@ fun Fragment.showSnackBar(
     val snackRootView = snakbar.view
     val snackTextView = snackRootView
         .findViewById<TextView>(R.id.snackbar_text)
-    snackTextView.setTextAppearance(R.style.AppFontLight)
+    snackTextView.setTextAppearance( R.style.AppFontLight)
+    setMaxLines(snackTextView)
     snakbar.setAction(actionText, clickListener)
     snakbar.show(gravity)
 }
@@ -261,6 +267,7 @@ fun Fragment?.showSnackBar(
             .findViewById<TextView>(R.id.snackbar_text)
         snackTextView.setTextAppearance(R.style.Micro)
         snakbar.setTextColor(ContextCompat.getColor(snakbar.view.context, colorOfMessage))
+        setMaxLines(snackTextView)
         snakbar.config(marginTop, marginBottom)
         cancelAllSnackBar()
         snakbar.show(gravity)
@@ -439,6 +446,7 @@ fun View?.showSnackBar(
         val snackTextView = snackRootView
             .findViewById<TextView>(R.id.snackbar_text)
         snackTextView.setTextAppearance(R.style.Micro)
+        setMaxLines(snackTextView)
         snakbar.setTextColor(ContextCompat.getColor(snakbar.view.context, colorOfMessage))
         snakbar.config(marginTop, marginBottom)
         cancelAllSnackBar()
@@ -464,6 +472,7 @@ fun Snackbar?.updateSnackBarText(msg: String) {
         val snackTextView = snackRootView
             .findViewById<TextView>(R.id.snackbar_text)
         snackTextView.text = validateString(msg)
+        setMaxLines(snackTextView)
     }
 }
 
@@ -547,6 +556,9 @@ fun getSnackBarFromQueue(index: Int): Snackbar? {
 
 }
 
+private fun setMaxLines(snackTextView: TextView) {
+    snackTextView.maxLines = 5
+}
 
 private object SnackBarQueue {
     val snackBarQueue = mutableListOf<Snackbar>()
