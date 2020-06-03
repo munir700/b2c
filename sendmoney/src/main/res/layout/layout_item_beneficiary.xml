@@ -44,7 +44,7 @@
                 android:id="@+id/btnEdit"
                 android:layout_width="@dimen/_60sdp"
                 android:layout_height="@dimen/_56sdp"
-                android:background="?attr/colorPrimaryAttr"
+                android:background="?attr/colorSwipeToEditAttr"
                 android:paddingStart="@dimen/small">
 
                 <TextView
@@ -66,7 +66,7 @@
                 android:id="@+id/btnDelete"
                 android:layout_width="@dimen/_60sdp"
                 android:layout_height="@dimen/_56sdp"
-                android:background="@color/colorSecondaryMagenta">
+                android:background="?attr/colorSwipeToDeleteAttr">
 
                 <TextView
                     style="@style/Micro"
