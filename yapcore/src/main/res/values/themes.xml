@@ -44,6 +44,8 @@
         <item name="colorSearchViewHintAttr">@color/greyDark</item>
         <item name="colorSwipeToDeleteAttr">@color/colorSecondaryMagenta</item>
         <item name="colorSwipeToEditAttr">@color/colorPrimary</item>
+        <item name="colorLightBankTransferAttr">@color/greySoftSelected</item>
+        <item name="colorDarkBankTransferAttr">@color/disabledPurple</item>
 
     </style>
 
@@ -87,6 +89,9 @@
 
         <item name="colorSwipeToDeleteAttr">@color/colorPrimaryDarkHouseHold</item>
         <item name="colorSwipeToEditAttr">@color/colorPrimaryHouseHold</item>
+        <item name="colorLightBankTransferAttr">@color/colorLightPinkBankTransfer</item>
+        <item name="colorDarkBankTransferAttr">@color/colorDarkPinkBankTransfer</item>
+
         <item name="cardSuccessBorderWidth">0dp</item>
 
     </style>
