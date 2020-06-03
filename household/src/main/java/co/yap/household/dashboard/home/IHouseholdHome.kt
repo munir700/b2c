@@ -3,6 +3,7 @@ package co.yap.household.dashboard.home
 import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
 import co.yap.household.dashboard.main.menu.ProfilePictureAdapter
+import co.yap.networking.cards.responsedtos.Card
 import co.yap.networking.transactions.requestdtos.HomeTransactionsRequest
 import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionListData
 import co.yap.networking.transactions.responsedtos.transaction.Transaction
@@ -14,8 +15,9 @@ import co.yap.yapcore.SingleClickEvent
 interface IHouseholdHome {
     interface View : IBase.View<ViewModel>
     interface ViewModel : IBase.ViewModel<State> {
-        var clickEvent: SingleClickEvent
         fun handlePressOnView(id: Int)
+        fun getPrimaryCard()
+        var clickEvent: SingleClickEvent
         fun requestTransactions(isLoadMore: Boolean = false)
         val transactionAdapter: ObservableField<HomeTransactionAdapter>?
         val notificationAdapter: ObservableField<HHNotificationAdapter>?
@@ -28,5 +30,6 @@ interface IHouseholdHome {
         var homeTransactionRequest: MutableLiveData<HomeTransactionsRequest>?
         var availableBalance: MutableLiveData<String>?
         var accountActivateLiveData: MutableLiveData<co.yap.widgets.State>?
+        var card: MutableLiveData<Card>?
     }
 }
