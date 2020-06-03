@@ -33,7 +33,7 @@ class HouseHoldHomeModule : BaseFragmentModule<HouseholdHomeFragment>() {
     @Provides
     @FragmentScope
     fun provideHHNotificationsAdapter(fragment: HouseholdHomeFragment) =
-        HHNotificationAdapter(NotificationHelper.getNotifications(MyUserManager.user, MyUserManager.card.value, fragment.requireContext()), null, null)
+        HHNotificationAdapter(mutableListOf(), null, null)
 //
 //    @Provides
 //    fun provideHouseholdHomeStates()= HouseholdHomeState()
