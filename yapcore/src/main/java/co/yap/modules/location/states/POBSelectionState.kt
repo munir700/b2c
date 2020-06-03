@@ -14,4 +14,11 @@ class POBSelectionState : BaseState(), IPOBSelection.State {
             notifyPropertyChanged(BR.cityOfBirth)
         }
 
+    @get:Bindable
+    override var valid: Boolean = false
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.valid)
+        }
+
 }

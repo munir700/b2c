@@ -20,9 +20,11 @@ interface IPOBSelection {
         var clickEvent: SingleClickEvent
         var populateSpinnerData: MutableLiveData<List<POBCountry>>
         var countries: ArrayList<POBCountry>
+        var selectedCountry: POBCountry?
     }
 
     interface State : IBase.State {
         var cityOfBirth: String
+        var valid: Boolean
     }
 }

@@ -9,6 +9,7 @@ import co.yap.modules.location.POBCountry
 import co.yap.modules.location.POBCountryAdapter
 import co.yap.modules.location.interfaces.IPOBSelection
 import co.yap.modules.location.viewmodels.POBSelectionViewModel
+import co.yap.translation.Strings
 import co.yap.yapcore.BR
 import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.R
@@ -18,15 +19,18 @@ class POBSelectionFragment : BaseBindingFragment<IPOBSelection.ViewModel>(), IPO
     private var countryAdapter: POBCountryAdapter? = null
 
     override fun getBindingVariable(): Int = BR.viewModel
-
     override fun getLayoutId(): Int = R.layout.fragment_place_of_birth_selection
-
     override val viewModel: IPOBSelection.ViewModel
         get() = ViewModelProviders.of(this).get(POBSelectionViewModel::class.java)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         addObservers()
+    }
+
+    override fun addObservers() {
+        viewModel.clickEvent.observe(this, clickObserver)
+        viewModel.populateSpinnerData.observe(this, countriesListObserver)
     }
 
     private val clickObserver = Observer<Int> {}
@@ -44,7 +48,9 @@ class POBSelectionFragment : BaseBindingFragment<IPOBSelection.ViewModel>(), IPO
                     position: Int,
                     id: Long
                 ) {
-//                    viewModel.onCountrySelected(position)
+                    viewModel.selectedCountry = viewModel.countries[position]
+                    viewModel.state.valid =
+                        !viewModel.selectedCountry?.equals(getString(Strings.screen_place_of_birth_display_text_select_country))!!
                 }
             }
     }
@@ -54,11 +60,6 @@ class POBSelectionFragment : BaseBindingFragment<IPOBSelection.ViewModel>(), IPO
             countryAdapter =
                 context?.let { POBCountryAdapter(it, viewModel.countries) }
         return countryAdapter
-    }
-
-    override fun addObservers() {
-        viewModel.clickEvent.observe(this, clickObserver)
-        viewModel.populateSpinnerData.observe(this, countriesListObserver)
     }
 
     override fun removeObservers() {
@@ -74,6 +75,5 @@ class POBSelectionFragment : BaseBindingFragment<IPOBSelection.ViewModel>(), IPO
     override fun getBinding(): FragmentPlaceOfBirthSelectionBinding {
         return (viewDataBinding as FragmentPlaceOfBirthSelectionBinding)
     }
-
 
 }

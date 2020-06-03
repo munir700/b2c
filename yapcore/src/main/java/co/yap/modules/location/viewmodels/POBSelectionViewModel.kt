@@ -19,6 +19,8 @@ class POBSelectionViewModel(application: Application) :
     override val state: IPOBSelection.State = POBSelectionState()
     override var populateSpinnerData: MutableLiveData<List<POBCountry>> = MutableLiveData()
     override var countries: ArrayList<POBCountry> = ArrayList()
+    override var selectedCountry: POBCountry? = null
+
     override fun handleOnPressView(id: Int) {
         clickEvent.setValue(id)
     }
@@ -65,6 +67,4 @@ class POBSelectionViewModel(application: Application) :
             }
         }
     }
-
-
 }
