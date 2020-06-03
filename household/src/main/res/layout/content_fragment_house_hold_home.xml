@@ -133,6 +133,7 @@
                     android:layout_gravity="center_vertical"
                     android:drawableTint="@color/colorPrimaryHouseHold"
                     android:gravity="center"
+                    android:onClick="@{(v)-> viewModel.handlePressOnView(v.id)}"
                     app:drawableTint="@color/colorPrimaryHouseHold"
                     android:drawableStart="@drawable/ic_filter"
                     android:paddingStart="@dimen/margin_medium_large"

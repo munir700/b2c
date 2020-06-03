@@ -15,8 +15,11 @@ class HouseholdHomeState : BaseState(), IHouseholdHome.State {
         ObservableField(mutableListOf())
     override val transactionMap: MutableLiveData<Map<String?, List<Transaction>>>? =
         MutableLiveData()
-    override var homeTransactionRequest: MutableLiveData<HomeTransactionsRequest>? = MutableLiveData()
+    override var homeTransactionRequest: MutableLiveData<HomeTransactionsRequest>? =
+        MutableLiveData()
     override var availableBalance: MutableLiveData<String>? = MutableLiveData("")
     override var accountActivateLiveData: MutableLiveData<State>? = MutableLiveData()
     override var card: MutableLiveData<Card>? = MutableLiveData()
+    override var transactionRequest: HomeTransactionsRequest? =
+        HomeTransactionsRequest(size = 100, amountStartRange = null, amountEndRange = null)
 }

@@ -1,12 +1,16 @@
 package co.yap.household.dashboard.home
 
+import android.app.Activity
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
+import co.yap.app.YAPApplication
 import co.yap.household.BR
 import co.yap.household.R
 import co.yap.household.dashboard.main.HouseHoldDashBoardVM
 import co.yap.household.databinding.FragmentHouseholdHomeBinding
+import co.yap.modules.dashboard.home.filters.activities.TransactionFiltersActivity
+import co.yap.modules.dashboard.home.filters.models.TransactionFilters
 import co.yap.networking.notification.HomeNotification
 import co.yap.networking.notification.NotificationAction
 import co.yap.widgets.advrecyclerview.expandable.RecyclerViewExpandableItemManager
@@ -17,6 +21,7 @@ import co.yap.yapcore.dagger.base.navigation.host.NavHostPresenterActivity
 import co.yap.yapcore.dagger.di.ViewModelInjectionField
 import co.yap.yapcore.dagger.di.qualifiers.ViewModelInjection
 import co.yap.yapcore.helpers.extentions.launchActivity
+import co.yap.yapcore.helpers.extentions.launchActivityForResult
 import co.yap.yapcore.helpers.livedata.GetAccountBalanceLiveData
 import co.yap.yapcore.interfaces.OnItemClickListener
 import javax.inject.Inject
@@ -79,8 +84,32 @@ class HouseholdHomeFragment :
     }
 
     private fun onClick(id: Int) {
-    }
+        when (id) {
+            R.id.tvFilters -> {
+                launchActivityForResult<TransactionFiltersActivity>(init = {
+                    putExtra(
+                        TransactionFiltersActivity.KEY_FILTER_TXN_FILTERS,
+                        TransactionFilters()
+                    )
+                }, completionHandler = { resultCode, data ->
+                    if (resultCode == Activity.RESULT_OK) {
+                        data?.getParcelableExtra<TransactionFilters?>("txnRequest")?.apply {
+                            state.transactionRequest?.number = 0
+                            state.transactionRequest?.size = 100
+                            state.transactionRequest?.txnType = null
+                            state.transactionRequest?.amountStartRange = amountStartRange
+                            state.transactionRequest?.amountEndRange = amountEndRange
+                            state.transactionRequest?.title = null
+                            state.transactionRequest?.totalAppliedFilter =
+                                totalAppliedFilter
+                            viewModel.requestTransactions(state.transactionRequest, false)
+                        }
+                    }
+                })
 
+            }
+        }
+    }
 
     fun onCloseClick(notification: HomeNotification) {
         state.showNotification.value = false
