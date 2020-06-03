@@ -13,6 +13,7 @@ import androidx.core.os.bundleOf
 import androidx.databinding.Observable
 import androidx.lifecycle.Observer
 import co.yap.modules.location.CitiesListBottomSheet
+import co.yap.modules.location.fragments.POBSelectionFragment
 import co.yap.modules.location.helper.MapSupportActivity
 import co.yap.modules.location.interfaces.ILocationSelection
 import co.yap.modules.webview.WebViewFragment
@@ -176,7 +177,8 @@ class LocationSelectionActivity : MapSupportActivity(), ILocationSelection.View 
     private val clickObserver = Observer<Int> {
         when (it) {
             R.id.nextButton -> {
-                setIntentAction(true)
+                startFragment<POBSelectionFragment>(fragmentName = POBSelectionFragment::class.java.name)
+//                setIntentAction(true)
             }
 
             R.id.btnLocation -> {
