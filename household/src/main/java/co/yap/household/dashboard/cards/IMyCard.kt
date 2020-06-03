@@ -15,12 +15,12 @@ interface IMyCard {
         fun freezeUnfreezeCard()
         fun getCardDetails()
         fun handlePressOnButtonClick(id: Int)
-        fun getPrimaryCard()
-        var card: Card?
-        var cardDetail: CardDetail
+        fun getPrimaryCard(success: () -> Unit)
     }
 
     interface State : IBase.State {
+        var card: MutableLiveData<Card>?
         var cardStatus: MutableLiveData<String?>
+        var cardDetail: MutableLiveData<CardDetail?>
     }
 }

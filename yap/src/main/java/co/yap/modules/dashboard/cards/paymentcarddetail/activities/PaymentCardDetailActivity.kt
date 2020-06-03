@@ -22,8 +22,8 @@ import androidx.viewpager2.widget.ViewPager2
 import co.yap.BR
 import co.yap.R
 import co.yap.databinding.ActivityPaymentCardDetailBinding
-import co.yap.modules.dashboard.cards.paymentcarddetail.activities.carddetaildialog.CardDetailsDialogPagerAdapter
-import co.yap.modules.dashboard.cards.paymentcarddetail.activities.carddetaildialog.CardDetailsModel
+import co.yap.modules.carddetaildialog.CardDetailsDialogPagerAdapter
+import co.yap.modules.carddetaildialog.CardDetailsModel
 import co.yap.modules.dashboard.cards.paymentcarddetail.addfunds.activities.AddRemoveFundsActivity
 import co.yap.modules.dashboard.cards.paymentcarddetail.forgotcardpin.activities.ForgotCardPinActivity
 import co.yap.modules.dashboard.cards.paymentcarddetail.fragments.CardClickListener
@@ -618,7 +618,10 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
                 cardNumber = cardNumber, cardCvv = viewModel.cardDetail.cvv
             )
         )
-        val cardDetailsPagerAdapter = CardDetailsDialogPagerAdapter(pagerList)
+        val cardDetailsPagerAdapter =
+            CardDetailsDialogPagerAdapter(
+                pagerList
+            )
         viewPager?.adapter = cardDetailsPagerAdapter
         indicator?.setViewPager2(viewPager)
         dialog.show()

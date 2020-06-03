@@ -3,6 +3,11 @@ package co.yap.yapcore.constants
 object Constants {
     const val addCard = "addCard"
     const val isPinCreated = "isPinCreated"
+    const val CARD_TYPE_DEBIT: String = "DEBIT"
+    const val CARD_TYPE_PREPAID: String = "PREPAID"
+    const val TEXT_PRIMARY_CARD: String = "Primary card"
+    const val TEXT_SPARE_CARD_VIRTUAL: String = "Spare virtual card"
+    const val TEXT_SPARE_CARD_PHYSICAL: String = "Spare physical card"
 
     const val CHANGE_PASSCODE: String = "CHANGE_PASSCODE"
     const val TRANSACTION_ID: String = "TRANSACTION_ID"
