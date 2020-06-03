@@ -144,4 +144,50 @@ object ThemeColorUtils {
             )
         }.data
     }
+
+    fun colorPrimAttribute(context: Context): Int {
+        return TypedValue().also {
+            context.theme.resolveAttribute(
+                R.attr.colorPrimAttr,
+                it,
+                true
+            )
+        }.data
+    }
+
+    fun colorDisabledLightAttribute(context: Context): Int {
+        return TypedValue().also {
+            context.theme.resolveAttribute(
+                R.attr.colorDisabledLightAttr,
+                it,
+                true
+            )
+        }.data
+    }
+
+    fun colorSecondaryAttribute(context: Context): Int {
+        return TypedValue().also {
+            context.theme.resolveAttribute(
+                R.attr.colorSecondaryAttr,
+                it,
+                true
+            )
+        }.data
+    }
+
+    fun colorDisabledLightSecondaryAttribute(context: Context): Int {
+        return TypedValue().also {
+            context.theme.resolveAttribute(
+                R.attr.colorDisabledLightSecondaryAttr,
+                it,
+                true
+            )
+        }.data
+    }
+
+    fun colorStatusBarSuccessAttribute(context: Context): Int {
+        return TypedValue().also { context.theme.resolveAttribute(R.attr.colorStatusBarSuccessAttr, it, true) }
+            .data
+
+    }
 }

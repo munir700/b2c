@@ -28,6 +28,18 @@
         <item name="colorSendMoneyToolBarAttr">@color/colorSendMoneyToolBar</item>
         <item name="colorTextAttr">@color/textDarkColor</item>
         <item name="colorIconsTintAttr">@color/colorPrimary</item>
+        <item name="colorBackgroundPrimarySoftAttr">@color/white</item>
+        <item name="colorButtonBgPrimaryAttr">@color/colorPrimary</item>
+        <item name="colorButtonTextAttr">@color/white</item>
+        <item name="colorPrimAttr">@color/purple</item>
+        <item name="colorDisabledLightAttr">@color/disabledLight</item>
+        <item name="colorSecondaryAttr">@color/purple</item>
+        <item name="colorDisabledLightSecondaryAttr">@color/disabledLight</item>
+        <item name="colorBackgroundSuccessAttr">@color/white</item>
+        <item name="colorStatusBarSuccessAttr">@color/transparent</item>
+        <item name="colorToolbarTextAttr">@color/colorPrimaryDark</item>
+
+        <item name="cardSuccessBorderWidth">1dp</item>
 
     </style>
 
@@ -56,7 +68,18 @@
         <item name="colorSendMoneyToolBarAttr">@color/colorSendMoneyToolBarHouseHold</item>
         <item name="colorTextAttr">@color/white</item>
         <item name="colorIconsTintAttr">@color/white</item>
+        <item name="colorBackgroundPrimarySoftAttr">@color/colorLightPinkBackground</item>
+        <item name="colorButtonBgPrimaryAttr">@color/white</item>
+        <item name="colorButtonTextAttr">@color/textDarkColor</item>
+        <item name="colorPrimAttr">@color/colorDarkPink</item>
+        <item name="colorDisabledLightAttr">@color/lightPink</item>
+        <item name="colorSecondaryAttr">@color/colorSecondaryBlue</item>
+        <item name="colorDisabledLightSecondaryAttr">@color/bg_round_light_secondary_blue</item>
+        <item name="colorBackgroundSuccessAttr">@color/colorLightPink</item>
+        <item name="colorStatusBarSuccessAttr">@color/colorLightPinkBackground</item>
+        <item name="colorToolbarTextAttr">@color/white</item>
 
+        <item name="cardSuccessBorderWidth">0dp</item>
 
     </style>
 

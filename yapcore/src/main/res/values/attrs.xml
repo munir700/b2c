@@ -20,6 +20,20 @@
     <attr name="colorSendMoneyToolBarAttr" format="color|reference" />
     <attr name="colorTextAttr" format="color|reference" />
     <attr name="colorIconsTintAttr" format="color|reference" />
+    <attr name="colorBackgroundPrimarySoftAttr" format="color|reference" />
+    <attr name="colorButtonBgPrimaryAttr" format="color|reference" />
+    <attr name="colorButtonTextAttr" format="color|reference" />
+    <attr name="colorPrimAttr" format="color|reference" />
+    <attr name="colorDisabledLightAttr" format="color|reference" />
+    <attr name="colorSecondaryAttr" format="color|reference" />
+    <attr name="colorDisabledLightSecondaryAttr" format="color|reference" />
+    <attr name="colorBackgroundSuccessAttr" format="color|reference" />
+    <attr name="colorStatusBarSuccessAttr" format="color|reference" />
+    <attr name="colorToolbarTextAttr" format="color|reference" />
+
+
+    <attr name="cardSuccessBorderWidth" format="dimension|reference" />
+
 
     <!--components theme-->
     <attr name="primaryButtonTheme" format="reference" />

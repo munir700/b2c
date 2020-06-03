@@ -36,8 +36,8 @@ class AAPApplication() : ChatApplication(getAppInfo()), NavigatorProvider {
     override fun onCreate() {
         super.onCreate()
         initNetworkLayer()
-        SharedPreferenceManager(this).setThemeValue(Constants.THEME_HOUSEHOLD)
-//        SharedPreferenceManager(this).setThemeValue(Constants.THEME_YAP)
+//        SharedPreferenceManager(this).setThemeValue(Constants.THEME_HOUSEHOLD)
+        SharedPreferenceManager(this).setThemeValue(Constants.THEME_YAP)
         initFireBase()
         inItLeanPlum()
         initializeAdjustSdk(BuildConfig.ADJUST_APP_TOKEN)
