@@ -84,7 +84,7 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
 
     private fun initComponents() {
         getBinding().layoutBeneficiaries.rvAllBeneficiaries.adapter =
-            AllBeneficiariesAdapter(mutableListOf())
+            viewModel.state.isSearching?.let { AllBeneficiariesAdapter(mutableListOf(), it) }
         initSwipeListener()
     }
 

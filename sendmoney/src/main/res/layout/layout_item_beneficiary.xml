@@ -175,8 +175,9 @@
                     android:layout_marginRight="@dimen/margin_small"
                     android:contentDescription="@string/empty_string"
                     android:gravity="center"
-                    app:cashPayoutIconTint="@{viewModel.beneficiary.beneficiaryType}"
                     app:setBeneficiaryImageSrc="@{viewModel.beneficiary.beneficiaryType}"
+                    app:cashPayoutIconTint="@{viewModel.beneficiary.beneficiaryType}"
+                    app:isSearching="@{viewModel.isSearching()}"
                     tools:src="@drawable/ic_cash"
                     tools:visibility="visible" />
 

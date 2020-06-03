@@ -173,7 +173,8 @@
                     android:contentDescription="@string/empty_string"
                     android:gravity="center"
                     android:src="@drawable/ic_cash"
-                     app:setBeneficiaryImageSrc="@{viewModel.beneficiary.beneficiaryType}"
+                    app:setBeneficiaryImageSrc="@{viewModel.beneficiary.beneficiaryType}"
+                    app:isSearching="@{viewModel.isSearching()}"
                     app:cashPayoutIconTint="@{viewModel.beneficiary.beneficiaryType}"
                     tools:visibility="visible" />
 
