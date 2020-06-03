@@ -1558,6 +1558,16 @@ object Strings {
         "screen_popup_activation_pending_display_text_message"
     const val screen_otp_blocked_display_text_heading: String =
         "screen_otp_blocked_display_text_heading"
-const val screen_otp_blocked_display_text_details: String =
+    const val screen_otp_blocked_display_text_details: String =
         "screen_otp_blocked_display_text_details"
+
+    // Place of birth selection screen
+    const val screen_place_of_birth_display_text_heading: String =
+        "screen_place_of_birth_display_text_heading"
+    const val screen_place_of_birth_display_text_description: String =
+        "screen_place_of_birth_display_text_description"
+    const val screen_place_of_birth_display_text_select_country: String =
+        "screen_place_of_birth_display_text_select_country"
+    const val screen_place_of_birth_display_text_city_of_birth: String =
+        "screen_place_of_birth_display_text_city_of_birth"
 }

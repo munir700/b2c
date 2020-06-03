@@ -1,8 +1,12 @@
 package co.yap.modules.location.fragments
 
 import android.os.Bundle
+import android.view.View
+import android.widget.AdapterView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import co.yap.modules.location.POBCountry
+import co.yap.modules.location.POBCountryAdapter
 import co.yap.modules.location.interfaces.IPOBSelection
 import co.yap.modules.location.viewmodels.POBSelectionViewModel
 import co.yap.yapcore.BR
@@ -11,6 +15,8 @@ import co.yap.yapcore.R
 import co.yap.yapcore.databinding.FragmentPlaceOfBirthSelectionBinding
 
 class POBSelectionFragment : BaseBindingFragment<IPOBSelection.ViewModel>(), IPOBSelection.View {
+    private var countryAdapter: POBCountryAdapter? = null
+
     override fun getBindingVariable(): Int = BR.viewModel
 
     override fun getLayoutId(): Int = R.layout.fragment_place_of_birth_selection
@@ -23,17 +29,41 @@ class POBSelectionFragment : BaseBindingFragment<IPOBSelection.ViewModel>(), IPO
         addObservers()
     }
 
-    private val clickObserver = Observer<Int> {
-        when (it) {
-        }
+    private val clickObserver = Observer<Int> {}
+
+    private val countriesListObserver = Observer<List<POBCountry>> {
+        getBinding().countriesSpinner.adapter = getCountryAdapter()
+        getBinding().countriesSpinner.onItemSelectedListener =
+            object : AdapterView.OnItemSelectedListener {
+                override fun onNothingSelected(parent: AdapterView<*>?) {
+                }
+
+                override fun onItemSelected(
+                    parent: AdapterView<*>?,
+                    view: View?,
+                    position: Int,
+                    id: Long
+                ) {
+//                    viewModel.onCountrySelected(position)
+                }
+            }
+    }
+
+    private fun getCountryAdapter(): POBCountryAdapter? {
+        if (countryAdapter == null)
+            countryAdapter =
+                context?.let { POBCountryAdapter(it, viewModel.countries) }
+        return countryAdapter
     }
 
     override fun addObservers() {
         viewModel.clickEvent.observe(this, clickObserver)
+        viewModel.populateSpinnerData.observe(this, countriesListObserver)
     }
 
     override fun removeObservers() {
         viewModel.clickEvent.removeObserver(clickObserver)
+        viewModel.populateSpinnerData.removeObserver(countriesListObserver)
     }
 
     override fun onDestroy() {
