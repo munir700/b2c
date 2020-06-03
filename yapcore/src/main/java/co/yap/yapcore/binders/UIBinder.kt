@@ -1031,12 +1031,12 @@ object UIBinder {
     }
 
     @JvmStatic
-    @BindingAdapter("cashPayoutIconTint")
-    fun setCashPayoutIconTint(view: ImageView, transferType: String) {
+    @BindingAdapter("cashPayoutIconTint", "isSearching")
+    fun setCashPayoutIconTint(view: ImageView, transferType: String, isSearching: Boolean) {
         if (SharedPreferenceManager(view.context).getThemeValue()
                 .equals(Constants.THEME_HOUSEHOLD)
         ) {
-            if (transferType == SendMoneyBeneficiaryType.CASHPAYOUT.type) {
+            if (transferType == SendMoneyBeneficiaryType.CASHPAYOUT.type && isSearching) {
                 view.setColorFilter(
                     ThemeColorUtils.colorPrimaryDarkAttribute(view.context),
                     PorterDuff.Mode.SRC_ATOP
