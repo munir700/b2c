@@ -25,6 +25,7 @@ import co.yap.translation.Strings
 import co.yap.translation.Translator
 import co.yap.yapcore.BR
 import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.enums.SendMoneyBeneficiaryType
 import co.yap.yapcore.enums.TransactionProductCode
 import co.yap.yapcore.helpers.DecimalDigitsInputFilter
@@ -122,12 +123,14 @@ class CashTransferFragment : BeneficiaryFundTransferBaseFragment<ICashTransfer.V
     val clickEvent = Observer<Int> {
         when (it) {
             R.id.btnConfirm -> {
-                if (viewModel.isUaeftsBeneficiary()) {
-                    if (viewModel.parentViewModel?.selectedPop != null) moveToConfirmationScreen() else showToast(
-                        "Select a reason"
-                    )
-                } else
-                    startOtpFragment()
+                if (viewModel.state.amount.parseToDouble() < viewModel.state.minLimit) {
+                    showUpperLowerLimitError()
+                } else {
+                    if (viewModel.isUaeftsBeneficiary()) {
+                        if (viewModel.parentViewModel?.selectedPop != null) moveToConfirmationScreen() else  showToast("Select a reason ^${AlertType.DIALOG.name}")
+                    } else
+                        startOtpFragment()
+                }
             }
             R.id.tvSelectReason, R.id.ivSelector -> setupPOP(viewModel.purposeCategories)
             Constants.ADD_CASH_PICK_UP_SUCCESS -> {
@@ -320,6 +323,7 @@ class CashTransferFragment : BeneficiaryFundTransferBaseFragment<ICashTransfer.V
             if (viewModel.state.amount.isNotEmpty()) {
                 checkOnTextChangeValidation()
             } else {
+                viewModel.state.valid = false
                 cancelAllSnackBar()
             }
 
@@ -338,7 +342,7 @@ class CashTransferFragment : BeneficiaryFundTransferBaseFragment<ICashTransfer.V
                 viewModel.state.valid = false
             }
             viewModel.state.amount.parseToDouble() < viewModel.state.minLimit -> {
-                viewModel.state.valid = false
+                viewModel.state.valid = true
             }
             viewModel.state.amount.parseToDouble() > viewModel.state.maxLimit -> {
                 showUpperLowerLimitError()

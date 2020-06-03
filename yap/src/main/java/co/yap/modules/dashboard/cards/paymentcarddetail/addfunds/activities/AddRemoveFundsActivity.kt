@@ -161,9 +161,17 @@ open class AddRemoveFundsActivity : BaseBindingActivity<IFundActions.ViewModel>(
         when (it) {
             R.id.btnAction -> (if (btnAction.text != getString(Strings.screen_success_funds_transaction_display_text_button)) {
                 if (isAddFundScreen == true)
-                    if (isOtpRequired()) startOtpFragment() else viewModel.addFunds()
-                else
-                    viewModel.removeFunds()
+                    when {
+                        viewModel.state.amount.parseToDouble() < viewModel.state.minLimit -> showUpperLowerLimitError()
+                        isOtpRequired() -> startOtpFragment()
+                        else -> viewModel.addFunds()
+                    }
+                else {
+                    if (viewModel.state.amount.parseToDouble() < viewModel.state.minLimit)
+                        showUpperLowerLimitError()
+                    else
+                        viewModel.removeFunds()
+                }
             } else {
                 if (isAddFundScreen == true) co.yap.yapcore.AdjustEvents.trackAdjustPlatformEvent(
                     AdjustEvents.TOP_UP_END.type
@@ -237,7 +245,7 @@ open class AddRemoveFundsActivity : BaseBindingActivity<IFundActions.ViewModel>(
                 showErrorSnackBar(viewModel.state.errorDescription, Snackbar.LENGTH_INDEFINITE)
             }
             viewModel.state.amount.parseToDouble() < viewModel.state.minLimit -> {
-                viewModel.state.valid = false
+                viewModel.state.valid = true
             }
             viewModel.state.amount.parseToDouble() > viewModel.state.maxLimit -> {
                 setErrorBg()

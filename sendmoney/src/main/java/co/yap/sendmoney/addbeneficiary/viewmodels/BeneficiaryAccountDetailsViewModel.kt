@@ -80,45 +80,6 @@ class BeneficiaryAccountDetailsViewModel(application: Application) :
             clickEvent.setValue(id)
     }
 
-    override fun createBeneficiaryRequest() {
-        parentViewModel?.beneficiary?.value?.let {
-            launch {
-                state.loading = true
-                when (val response = repository.addBeneficiary(it)) {
-                    is RetroApiResponse.Success -> {
-                        state.loading = false
-                        success.value = true
-                        beneficiary = response.data.data
-                    }
-
-                    is RetroApiResponse.Error -> {
-                        state.loading = false
-                        state.toast = response.error.message
-                        success.value = false
-                    }
-                }
-            }
-        }
-    }
-
-    override fun validateBeneficiaryDetails(beneficiary: Beneficiary) {
-        launch {
-            state.loading = true
-            when (val response = repository.validateBeneficiary(beneficiary)) {
-                is RetroApiResponse.Success -> {
-                    state.loading = false
-                    isBeneficiaryValid.value = true
-                }
-
-                is RetroApiResponse.Error -> {
-                    state.loading = false
-                    isBeneficiaryValid.value = false
-                    state.toast = response.error.message
-                }
-            }
-        }
-    }
-
     override fun retry() {
     }
 }
