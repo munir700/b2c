@@ -1019,7 +1019,7 @@ object UIBinder {
                 )
 
             } else {
-                  view.setColorFilter(
+                view.setColorFilter(
                     view.context.getColor(R.color.greyDark),
                     PorterDuff.Mode.SRC_ATOP
                 )
@@ -1028,5 +1028,30 @@ object UIBinder {
             view.setColorFilter(view.context.getColor(R.color.greyDark), PorterDuff.Mode.SRC_ATOP)
 
         }*/
+    }
+
+    @JvmStatic
+    @BindingAdapter("cashPayoutIconTint")
+    fun setCashPayoutIconTint(view: ImageView, transferType: String) {
+        if (SharedPreferenceManager(view.context).getThemeValue()
+                .equals(Constants.THEME_HOUSEHOLD)
+        ) {
+            if (transferType == SendMoneyBeneficiaryType.CASHPAYOUT.type) {
+                view.setColorFilter(
+                    ThemeColorUtils.colorPrimaryDarkAttribute(view.context),
+                    PorterDuff.Mode.SRC_ATOP
+                )
+            } else {
+                view.setColorFilter(
+                    view.context.getColor(R.color.greyDark),
+                    PorterDuff.Mode.SRC_ATOP
+                )
+            }
+        } else {
+            view.setColorFilter(
+                view.context.getColor(R.color.greyDark),
+                PorterDuff.Mode.SRC_ATOP
+            )
+        }
     }
 }

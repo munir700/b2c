@@ -175,7 +175,7 @@
                     android:layout_marginRight="@dimen/margin_small"
                     android:contentDescription="@string/empty_string"
                     android:gravity="center"
-                    android:tint="@{viewModel.beneficiary.beneficiaryType.equals(`CASHPAYOUT`)?@color/greyDark:@color/greyDark}"
+                    app:cashPayoutIconTint="@{viewModel.beneficiary.beneficiaryType}"
                     app:setBeneficiaryImageSrc="@{viewModel.beneficiary.beneficiaryType}"
                     tools:src="@drawable/ic_cash"
                     tools:visibility="visible" />
