@@ -5,12 +5,13 @@ import androidx.databinding.ViewDataBinding
 import co.yap.household.BR
 import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionListData
 import co.yap.networking.transactions.responsedtos.transaction.Transaction
+import co.yap.widgets.advrecyclerview.decoration.IStickyHeaderViewHolder
 import co.yap.widgets.advrecyclerview.utils.AbstractExpandableItemViewHolder
 import co.yap.widgets.advrecyclerview.utils.BaseExpandableRVAdapter
 
 class HomeTransactionAdapter(internal var transactionData: Map<String?, List<Transaction>>) :
     BaseExpandableRVAdapter<Transaction, HomeTransactionChildItemVM, AbstractExpandableItemViewHolder<Transaction, HomeTransactionChildItemVM>
-            , HomeTransactionListData, HomeTransactionGroupItemVM, AbstractExpandableItemViewHolder<HomeTransactionListData, HomeTransactionGroupItemVM>>() {
+            , HomeTransactionListData, HomeTransactionGroupItemVM, HomeTransactionAdapter.GroupViewHolder>() {
     init {
         // ExpandableItemAdapter requires stable ID, and also
         // have to implement the getGroupItemId()/getChildItemId() methods appropriately.
@@ -38,10 +39,10 @@ class HomeTransactionAdapter(internal var transactionData: Map<String?, List<Tra
         viewModel: HomeTransactionGroupItemVM,
         mDataBinding: ViewDataBinding,
         viewType: Int
-    ) = AbstractExpandableItemViewHolder(view, viewModel, mDataBinding)
+    ) = GroupViewHolder(view, viewModel, mDataBinding)
 
     override fun onBindGroupViewHolder(
-        holder: AbstractExpandableItemViewHolder<HomeTransactionListData, HomeTransactionGroupItemVM>,
+        holder: GroupViewHolder,
         groupPosition: Int,
         viewType: Int
     ) {
@@ -86,4 +87,14 @@ class HomeTransactionAdapter(internal var transactionData: Map<String?, List<Tra
     override fun getChildItemViewType(groupPosition: Int, childPosition: Int) =
         transactionData[transactionData.keys.toList()[groupPosition]]?.get(0)?.id
             ?: childPosition.plus(groupPosition)
+
+    class GroupViewHolder(
+        view: View,
+        viewModel: HomeTransactionGroupItemVM,
+        mDataBinding: ViewDataBinding
+    ) : AbstractExpandableItemViewHolder<HomeTransactionListData, HomeTransactionGroupItemVM>(
+        view,
+        viewModel,
+        mDataBinding
+    ), IStickyHeaderViewHolder
 }

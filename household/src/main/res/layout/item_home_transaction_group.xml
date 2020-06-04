@@ -15,8 +15,10 @@
 
     <androidx.appcompat.widget.LinearLayoutCompat
         style="@style/Yap.App.Layout.LinearLayout.Horizontal.White"
-        android:paddingTop="@dimen/margin_extra_small"
-        android:paddingBottom="@dimen/margin_extra_small">
+        android:paddingBottom="@dimen/margin_small"
+        android:paddingStart="@dimen/margin_normal"
+        android:paddingTop="@dimen/margin_small"
+        android:paddingEnd="@dimen/margin_normal">
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvTransactionDate"

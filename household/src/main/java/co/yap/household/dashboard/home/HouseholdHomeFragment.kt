@@ -4,22 +4,22 @@ import android.app.Activity
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
-import co.yap.app.YAPApplication
 import co.yap.household.BR
 import co.yap.household.R
-import co.yap.household.dashboard.main.HouseHoldDashBoardVM
 import co.yap.household.databinding.FragmentHouseholdHomeBinding
 import co.yap.modules.dashboard.home.filters.activities.TransactionFiltersActivity
 import co.yap.modules.dashboard.home.filters.models.TransactionFilters
 import co.yap.networking.notification.HomeNotification
 import co.yap.networking.notification.NotificationAction
+import co.yap.networking.transactions.requestdtos.REQUEST_PAGE_SIZE
+import co.yap.widgets.advrecyclerview.decoration.StickyHeaderItemDecoration
 import co.yap.widgets.advrecyclerview.expandable.RecyclerViewExpandableItemManager
+import co.yap.yapcore.constants.Constants.MANUAL_CREDIT
+import co.yap.yapcore.constants.Constants.MANUAL_DEBIT
 import co.yap.yapcore.dagger.base.navigation.BaseNavViewModelFragment
 import co.yap.yapcore.dagger.base.navigation.host.NAVIGATION_Graph_ID
 import co.yap.yapcore.dagger.base.navigation.host.NAVIGATION_Graph_START_DESTINATION_ID
 import co.yap.yapcore.dagger.base.navigation.host.NavHostPresenterActivity
-import co.yap.yapcore.dagger.di.ViewModelInjectionField
-import co.yap.yapcore.dagger.di.qualifiers.ViewModelInjection
 import co.yap.yapcore.helpers.extentions.launchActivity
 import co.yap.yapcore.helpers.extentions.launchActivityForResult
 import co.yap.yapcore.helpers.livedata.GetAccountBalanceLiveData
@@ -57,6 +57,7 @@ class HouseholdHomeFragment :
         viewModel.notificationAdapter.set(mNotificationAdapter)
         mRecyclerViewExpandableItemManager.defaultGroupsExpandedState = true
         mViewDataBinding.lyInclude.recyclerView.apply {
+            addItemDecoration(StickyHeaderItemDecoration())
             mRecyclerViewExpandableItemManager.attachRecyclerView(this)
             adapter = mWrappedAdapter
             viewModel.transactionAdapter?.set(mAdapter)
@@ -89,14 +90,20 @@ class HouseholdHomeFragment :
                 launchActivityForResult<TransactionFiltersActivity>(init = {
                     putExtra(
                         TransactionFiltersActivity.KEY_FILTER_TXN_FILTERS,
-                        TransactionFilters()
+                        TransactionFilters(
+                            state.transactionRequest?.amountStartRange,
+                            state.transactionRequest?.amountEndRange,
+                            incomingTxn = state.transactionRequest?.txnType == MANUAL_CREDIT,
+                            outgoingTxn = state.transactionRequest?.txnType == MANUAL_DEBIT,
+                            totalAppliedFilter = state.transactionRequest?.totalAppliedFilter ?: 0
+                        )
                     )
                 }, completionHandler = { resultCode, data ->
                     if (resultCode == Activity.RESULT_OK) {
                         data?.getParcelableExtra<TransactionFilters?>("txnRequest")?.apply {
                             state.transactionRequest?.number = 0
-                            state.transactionRequest?.size = 100
-                            state.transactionRequest?.txnType = null
+                            state.transactionRequest?.size = REQUEST_PAGE_SIZE
+                            state.transactionRequest?.txnType = getTxnType()
                             state.transactionRequest?.amountStartRange = amountStartRange
                             state.transactionRequest?.amountEndRange = amountEndRange
                             state.transactionRequest?.title = null

@@ -4,6 +4,7 @@ import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
 import co.yap.networking.cards.responsedtos.Card
 import co.yap.networking.transactions.requestdtos.HomeTransactionsRequest
+import co.yap.networking.transactions.requestdtos.REQUEST_PAGE_SIZE
 import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionListData
 import co.yap.networking.transactions.responsedtos.transaction.Transaction
 import co.yap.widgets.State
@@ -21,5 +22,5 @@ class HouseholdHomeState : BaseState(), IHouseholdHome.State {
     override var accountActivateLiveData: MutableLiveData<State>? = MutableLiveData()
     override var card: MutableLiveData<Card>? = MutableLiveData()
     override var transactionRequest: HomeTransactionsRequest? =
-        HomeTransactionsRequest(size = 100, amountStartRange = null, amountEndRange = null)
+        HomeTransactionsRequest(size = REQUEST_PAGE_SIZE, amountStartRange = null, amountEndRange = null)
 }
