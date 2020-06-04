@@ -15,13 +15,13 @@ import co.yap.networking.cards.responsedtos.CardDetail
 import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.transactions.TransactionsRepository
 import co.yap.networking.transactions.requestdtos.CardTransactionRequest
-import co.yap.networking.transactions.responsedtos.transaction.Transaction
 import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionListData
 import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionsResponse
+import co.yap.networking.transactions.responsedtos.transaction.Transaction
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
+import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.enums.CardStatus
-import co.yap.yapcore.helpers.DateUtils
 import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 import java.text.SimpleDateFormat
 import java.util.*
@@ -228,7 +228,7 @@ class PaymentCardDetailViewModel(application: Application) :
         sortedCombinedTransactionList.clear()
     }
 
-    override fun getCardBalance() {
+    override fun getCardBalance(updatedBalance: (balance: String) -> Unit) {
         launch {
             state.balanceLoading = true
             when (val response = cardsRepository.getCardBalance(card.value?.cardSerialNumber!!)) {
@@ -237,8 +237,8 @@ class PaymentCardDetailViewModel(application: Application) :
                         val cardBalance: CardBalance? = response.data.data?.let {
                             it
                         }
+                        updatedBalance(cardBalance?.availableBalance ?: "0.0")
                         card.value?.availableBalance = cardBalance?.availableBalance.toString()
-                        card.value = card.value
                         state.cardBalance =
                             cardBalance?.currencyCode + " " + cardBalance?.availableBalance?.toFormattedCurrency()
                     } catch (e: Exception) {
@@ -246,7 +246,7 @@ class PaymentCardDetailViewModel(application: Application) :
                     }
                 }
                 is RetroApiResponse.Error -> {
-                    state.toast = response.error.message
+                    state.toast = "${response.error.message}^${AlertType.DIALOG.name}"
                 }
             }
             state.balanceLoading = false
@@ -267,7 +267,7 @@ class PaymentCardDetailViewModel(application: Application) :
                 }
                 is RetroApiResponse.Error -> {
                     state.loading = false
-                    state.toast = response.error.message
+                    state.toast = "${response.error.message}^${AlertType.DIALOG.name}"
                 }
             }
 
@@ -283,7 +283,7 @@ class PaymentCardDetailViewModel(application: Application) :
                     clickEvent.setValue(EVENT_CARD_DETAILS)
                 }
                 is RetroApiResponse.Error -> {
-                    state.toast = response.error.message
+                    state.toast = "${response.error.message}^${AlertType.DIALOG.name}"
                 }
             }
             state.loading = false
@@ -303,7 +303,7 @@ class PaymentCardDetailViewModel(application: Application) :
                     clickEvent.setValue(EVENT_REMOVE_CARD)
                 }
                 is RetroApiResponse.Error -> {
-                    state.toast = response.error.message
+                    state.toast = "${response.error.message}^${AlertType.DIALOG.name}"
                 }
             }
             state.loading = false
@@ -322,7 +322,9 @@ class PaymentCardDetailViewModel(application: Application) :
                         clickEvent.setValue(EVENT_SET_CARD_PIN)
                     }
                 }
-                is RetroApiResponse.Error -> state.toast = response.error.message
+                is RetroApiResponse.Error -> {
+                    state.toast = "${response.error.message}^${AlertType.DIALOG.name}"
+                }
             }
             state.loading = false
         }
