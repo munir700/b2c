@@ -77,6 +77,7 @@ class HouseholdDashboardFragment :
         adapter.addFragmentInfo<HouseHoldExpenseFragment>()
         viewModel.adapter.set(adapter)
         bottomNav.setUpWithViewPager(viewPager)
+        viewPager.offscreenPageLimit = 3
         viewPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
             override fun onPageScrollStateChanged(state: Int) {}
 

@@ -12,6 +12,9 @@ class HouseHoldExpenseFragment :
     override fun toolBarVisibility() = false
     override fun postExecutePendingBindings() {
         super.postExecutePendingBindings()
-        setHasOptionsMenu(false)
+        setupToolbar(mViewDataBinding.toolbar)
+        setHasOptionsMenu(true)
     }
+    override fun setHomeAsUpIndicator() = R.drawable.ic_search_white
+
 }

@@ -45,7 +45,7 @@ class MyCardFragment :
         super.postExecutePendingBindings()
         setupToolbar(mViewDataBinding.toolbar, R.menu.menu_options)
         intRecyclersView()
-        setHasOptionsMenu(false)
+//        setHasOptionsMenu(true)
         viewModel.clickEvent.observe(this, clickObserver)
         viewModel.getPrimaryCard() {
             setHasOptionsMenu(true)
