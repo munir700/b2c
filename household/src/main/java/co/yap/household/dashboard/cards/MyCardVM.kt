@@ -64,7 +64,7 @@ class MyCardVM @Inject constructor(override var state: IMyCard.State) :
             when (val response =
                 cardsRepository.getCardDetails(state.card?.value?.cardSerialNumber ?: "")) {
                 is RetroApiResponse.Success -> {
-                    state.cardDetail.value = response.data.data
+                    state.cardDetail?.value = response.data.data
                     clickEvent.setValue(EVENT_CARD_DETAILS)
                 }
                 is RetroApiResponse.Error -> {
