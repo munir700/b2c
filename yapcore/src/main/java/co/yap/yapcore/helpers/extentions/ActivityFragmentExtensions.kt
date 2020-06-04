@@ -54,6 +54,7 @@ inline fun <reified T : Any> Fragment.launchActivity(
 ) {
     val intent = newIntent<T>(requireContext())
     intent.init()
+    intent.putExtra(EXTRA , options)
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
         startActivityForResult(intent, requestCode, options)
     } else {
@@ -68,6 +69,7 @@ inline fun <reified T : Any> Fragment.launchActivity(
 ) {
     val intent = newIntent<T>(requireContext())
     intent.init()
+    intent.putExtra(EXTRA , options)
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
         startActivityForResult(intent, requestCode, options)
         if (clearPrevious)
@@ -102,6 +104,7 @@ inline fun <reified T : Any> Fragment.launchActivityForResult(
     completionHandler?.let {
         val intent = newIntent<T>(requireContext())
         intent.init()
+        intent.putExtra(EXTRA , options)
         this.startForResult(intent) { result ->
             it.invoke(result.resultCode, result.data)
         }.onFailed { result ->
