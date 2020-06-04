@@ -1001,6 +1001,7 @@
     <string name="screen_tax_info_display_text_add_another_country">Add another country</string>
     <string name="screen_tax_info_display_text_not_us_national">I am not a US national/resident for tax purposes.</string>
     <string name="screen_tax_info_display_text_trs_conditions_disclaimer">By clicking submit below, you are accepting the Individual Self Certification Form for CRS &amp; FACTA.</string>
+    <string name="screen_tax_info_display_text_heading_tin_number">Enter your TIN number</string>
 
 </resources>
 
