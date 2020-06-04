@@ -353,6 +353,7 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
             when (item.itemId) {
                 R.id.yapHome -> {
                     getViewBinding().viewPager.setCurrentItem(0, false)
+                    MyUserManager.getAccountInfo()
                 }
                 R.id.yapStore -> {
                     getViewBinding().viewPager.setCurrentItem(1, false)
@@ -424,6 +425,13 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
                 )
             }
         })
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (bottomNav.selectedItemId == R.id.yapHome) {
+            MyUserManager.getAccountInfo()
+        }
     }
 
     override fun onRequestPermissionsResult(

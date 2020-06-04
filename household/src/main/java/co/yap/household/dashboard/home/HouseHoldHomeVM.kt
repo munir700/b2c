@@ -97,7 +97,7 @@ class HouseHoldHomeVM @Inject constructor(
                     }
                 }
                 is RetroApiResponse.Error -> {
-                    state.accountActivateLiveData?.value = State.empty(null)
+                    state.accountActivateLiveData?.value = State.error(null)
                     state.toast = "${response.error.message}^${AlertType.TOAST.name}"
                 }
             }

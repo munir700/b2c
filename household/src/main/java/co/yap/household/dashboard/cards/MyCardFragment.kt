@@ -1,10 +1,7 @@
 package co.yap.household.dashboard.cards
 
 import android.view.MenuItem
-import android.view.View
-import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.Observer
-import androidx.navigation.NavController
 import androidx.recyclerview.widget.RecyclerView
 import co.yap.household.BR
 import co.yap.household.R
@@ -14,11 +11,8 @@ import co.yap.modules.dashboard.cards.paymentcarddetail.activities.ChangeCardPin
 import co.yap.modules.dashboard.cards.paymentcarddetail.statments.activities.CardStatementsActivity
 import co.yap.modules.dashboard.cards.reportcard.activities.ReportLostOrStolenCardActivity
 import co.yap.modules.others.helper.Constants
-import co.yap.networking.transactions.responsedtos.transaction.Transaction
 import co.yap.widgets.advrecyclerview.decoration.StickyHeaderItemDecoration
 import co.yap.widgets.advrecyclerview.expandable.RecyclerViewExpandableItemManager
-import co.yap.yapcore.BaseRVAdapter
-import co.yap.yapcore.BaseViewHolder
 import co.yap.yapcore.dagger.base.navigation.BaseNavViewModelFragment
 import co.yap.yapcore.helpers.extentions.dimen
 import co.yap.yapcore.helpers.extentions.launchActivity
@@ -51,6 +45,7 @@ class MyCardFragment :
         super.postExecutePendingBindings()
         setupToolbar(mViewDataBinding.toolbar, R.menu.menu_options)
         intRecyclersView()
+//        setHasOptionsMenu(true)
         viewModel.clickEvent.observe(this, clickObserver)
         viewModel.getPrimaryCard() {
             setHasOptionsMenu(true)
@@ -139,20 +134,4 @@ class MyCardFragment :
     }
 
     override fun setHomeAsUpIndicator() = R.drawable.ic_search_white
-
-    class Adapter(mValue: MutableList<Transaction>, navigation: NavController?) :
-        BaseRVAdapter<Transaction, MyCardRecentTransactionsItemVM, BaseViewHolder<Transaction, MyCardRecentTransactionsItemVM>>(
-            mValue,
-            navigation
-        ) {
-        override fun getLayoutId(viewType: Int) = getViewModel(viewType).layoutRes()
-        override fun getViewHolder(
-            view: View,
-            viewModel: MyCardRecentTransactionsItemVM,
-            mDataBinding: ViewDataBinding, viewType: Int
-        ) = BaseViewHolder(view, viewModel, mDataBinding)
-
-        override fun getViewModel(viewType: Int) = MyCardRecentTransactionsItemVM()
-        override fun getVariableId() = BR.viewModel
-    }
 }

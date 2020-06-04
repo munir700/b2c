@@ -7,6 +7,7 @@ import co.yap.household.R
 import co.yap.networking.transactions.responsedtos.transaction.Transaction
 import co.yap.yapcore.BaseListItemViewModel
 
+@Deprecated("used only for mocking the card transaction")
 class MyCardRecentTransactionsItemVM : BaseListItemViewModel<Transaction>() {
     private lateinit var mItem: Transaction
     override fun setItem(item: Transaction, position: Int) {

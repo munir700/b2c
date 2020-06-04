@@ -2,6 +2,8 @@ package co.yap.household.di.module.fragment
 
 import co.yap.household.dashboard.cards.MyCardFragment
 import co.yap.household.dashboard.cards.MyCardModule
+import co.yap.household.dashboard.expense.HouseHoldExpenseFragment
+import co.yap.household.dashboard.expense.HouseHoldExpenseModule
 import co.yap.household.dashboard.home.HouseHoldHomeModule
 import co.yap.household.dashboard.home.HouseholdHomeFragment
 import co.yap.household.dashboard.main.HouseHoldDashboardModule
@@ -47,4 +49,7 @@ abstract class FragmentInjectorsModule {
     @FragmentScope
     abstract fun hhSetPinFragmentInjector(): HHSetPinFragment
 
+    @ContributesAndroidInjector(modules = [HouseHoldExpenseModule::class])
+    @FragmentScope
+    abstract fun HouseHoldExpenseFragmentInjector(): HouseHoldExpenseFragment
 }

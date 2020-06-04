@@ -13,9 +13,9 @@ import androidx.navigation.Navigator
 import androidx.navigation.findNavController
 import co.yap.yapcore.IBase
 import co.yap.yapcore.R
+import co.yap.yapcore.constants.Constants.EXTRA
 import co.yap.yapcore.dagger.base.BaseViewModelActivity
 import co.yap.yapcore.dagger.base.MvvmNavHostFragment
-import co.yap.yapcore.dagger.base.interfaces.CanFetchExtras
 import co.yap.yapcore.dagger.base.interfaces.ManageToolBarListener
 import co.yap.yapcore.dagger.base.viewmodel.DaggerBaseViewModel
 import co.yap.yapcore.helpers.extentions.addExtras
@@ -26,9 +26,7 @@ import co.yap.yapcore.helpers.extentions.plus
  * A base BaseNavViewModel Activity with built-in support for Android X Navigation Concept and ViewModel.
  */
 abstract class BaseNavViewModelActivity<VB : ViewDataBinding, S : IBase.State, VM : DaggerBaseViewModel<S>> :
-    BaseViewModelActivity<VB, S, VM>(), CanFetchExtras, ManageToolBarListener {
-    var extrasBundle = Bundle()
-        private set
+    BaseViewModelActivity<VB, S, VM>(), ManageToolBarListener {
 
     /**
      * Used to obtain the exact id of the navigation graph to be used by this activity.
@@ -49,26 +47,38 @@ abstract class BaseNavViewModelActivity<VB : ViewDataBinding, S : IBase.State, V
     /**
      * Accesses the The NavController associated with the current activity.
      */
-    protected val navController: NavController
+    private val navController: NavController
         get() = findNavController(R.id.nav_host_fragment)
 
     /**
      * The initial input to be provided to the start destination fragment.
      */
-    protected open val startDestinationInput: Bundle = Bundle()
-
-    var navHostFragment: MvvmNavHostFragment? = null
-        private set
-
-    override fun preInit(savedInstanceState: Bundle?) {
-        super.preInit(savedInstanceState)
-        intent?.extras?.let(::fetchExtras)
-
-    }
+    protected open var startDestinationInput: Bundle? = Bundle()
+    private var extrasBundle = Bundle()
+    private var navHostFragment: MvvmNavHostFragment? = null
 
     @CallSuper
     override fun init(savedInstanceState: Bundle?) {
         initNavigationGraph()
+    }
+
+    override fun preInit(savedInstanceState: Bundle?) {
+        super.preInit(savedInstanceState)
+        if (intent?.hasExtra(EXTRA) == true) {
+            startDestinationInput = intent?.getBundleExtra(EXTRA)
+        }
+        intent?.extras?.let(::fetchExtras)
+    }
+
+    /**
+     * Gets called right before the pre-initialization stage ([preInit] method call),
+     * if the received [Bundle] is not null.
+     *
+     * @param extras the bundle of arguments
+     */
+    @CallSuper
+    override fun fetchExtras(extras: Bundle?) {
+        extras?.let { extrasBundle = it }
     }
 
     override fun postExecutePendingBindings() {
@@ -76,17 +86,7 @@ abstract class BaseNavViewModelActivity<VB : ViewDataBinding, S : IBase.State, V
         setupToolbar()
     }
 
-//    override fun postExecutePendingBindings() {
-//        super.postExecutePendingBindings()
-////        navController.addOnDestinationChangedListener { controller, destination, arguments ->
-////            if (getCurrentFragment() is ManageToolBarListener)
-////                setToolbarTitle((getCurrentFragment() as ManageToolBarListener))
-////        }
-//
-//    }
-
-
-    fun setupToolbar() {
+    private fun setupToolbar() {
         val toolbar: Toolbar? by bindView(
             R.id.toolbar
         )
@@ -96,12 +96,6 @@ abstract class BaseNavViewModelActivity<VB : ViewDataBinding, S : IBase.State, V
             setSupportActionBar(this)
             displayHomeAsUpEnabled = true
             homeAsUpIndicator = R.drawable.ic_back_arrow_left
-//            supportActionBar?.apply {
-//                setDisplayHomeAsUpEnabled(true)
-//                setHomeButtonEnabled(true)
-//                setDisplayShowCustomEnabled(true)
-//                setHomeAsUpIndicator(R.drawable.ic_back_arrow_left)
-//            }
         }
     }
 
@@ -147,18 +141,6 @@ abstract class BaseNavViewModelActivity<VB : ViewDataBinding, S : IBase.State, V
             }
         }
 
-//    override fun setSupportActionBar(
-//        displayHomeAsUpEnabled: Boolean = true,
-//        homeAsUpIndicator: Int = R.drawable.ic_back_arrow_left
-//    ) {
-//        supportActionBar?.apply {
-//            setDisplayHomeAsUpEnabled(displayHomeAsUpEnabled)
-//            setHomeButtonEnabled(displayHomeAsUpEnabled)
-//            setDisplayShowCustomEnabled(true)
-//            setHomeAsUpIndicator(homeAsUpIndicator)
-//        }
-//    }
-
     fun setToolbarTitle(listener: ManageToolBarListener) {
         listener.toolBarTitle?.let {
             viewModel.state.toolbarTitle = it
@@ -168,22 +150,10 @@ abstract class BaseNavViewModelActivity<VB : ViewDataBinding, S : IBase.State, V
         }
     }
 
-    /**
-     * Gets called right before the pre-initialization stage ([preInit] method call),
-     * if the received [Bundle] is not null.
-     *
-     * @param extras the bundle of arguments
-     */
-    @CallSuper
-    override fun fetchExtras(extras: Bundle?) {
-        extras?.let { extrasBundle = it }
-
-    }
-
     private fun getCurrentFragment() = navHostFragment?.childFragmentManager?.fragments?.get(0)
 
 
-    fun initNavigationGraph() {
+    private fun initNavigationGraph() {
         try {
             navHostFragment =
                 supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as MvvmNavHostFragment?
@@ -191,7 +161,7 @@ abstract class BaseNavViewModelActivity<VB : ViewDataBinding, S : IBase.State, V
                 graph = navInflater.inflate(navigationGraphId).also {
                     it.startDestination =
                         (if (navigationGraphStartDestination != 0) navigationGraphStartDestination else it.startDestination)
-                    it.addExtras(extrasBundle + startDestinationInput)
+                    it.addExtras(extrasBundle.plus(startDestinationInput ?: Bundle()))
                 }
             }
         } catch (e: Exception) {
@@ -225,11 +195,4 @@ abstract class BaseNavViewModelActivity<VB : ViewDataBinding, S : IBase.State, V
             navController.navigate(directions)
         }
     }
-
-//
-//     override fun onSupportNavigateUp(): Boolean {
-//        return navController.navigateUp()
-//    }
-
-
 }

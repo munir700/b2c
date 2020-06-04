@@ -183,6 +183,12 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
     }
 
     override fun setObservers() {
+        MyUserManager.onAccountInfoSuccess.observe(this, Observer { isSuccess ->
+            if (isSuccess) {
+                checkUserStatus()
+            }
+
+        })
 //        getBindings().ivSearch.setOnLongClickListener {
 //            return@setOnLongClickListener activity?.let {
 //                val tour = TourSetup(it, setViewsArray())
@@ -420,6 +426,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
 
     override fun onDestroy() {
         viewModel.clickEvent.removeObservers(this)
+        MyUserManager.onAccountInfoSuccess.removeObservers(this)
         super.onDestroy()
 
     }

@@ -13,6 +13,7 @@ import co.yap.sendmoney.addbeneficiary.states.AddBeneficiaryStates
 import co.yap.sendmoney.viewmodels.SendMoneyBaseViewModel
 import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
+import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.enums.OTPActions
 import co.yap.yapcore.enums.SendMoneyBeneficiaryType
 import co.yap.yapcore.helpers.Utils
@@ -81,9 +82,10 @@ class AddBeneficiaryViewModel(application: Application) :
                                     objBeneficiary = it,
                                     otpType = OTPActions.DOMESTIC_BENEFICIARY.name
                                 )
-                            else
-                                state.toast =
-                                    getString(Strings.screen_add_beneficiary_detail_display_text_error_iban_current_user)
+                            else {
+                                state.toast = "${getString(Strings.screen_add_beneficiary_detail_display_text_error_iban_current_user)}^${AlertType.DIALOG.name}"
+
+                            }
                         }
                     }
                     else -> {
@@ -118,7 +120,7 @@ class AddBeneficiaryViewModel(application: Application) :
 
                 is RetroApiResponse.Error -> {
                     state.loading = false
-                    state.toast = response.error.message
+                    state.toast = "${response.error.message}^${AlertType.DIALOG.name}"
                 }
             }
         }
@@ -150,7 +152,7 @@ class AddBeneficiaryViewModel(application: Application) :
 
                     is RetroApiResponse.Error -> {
                         state.loading = false
-                        state.toast = response.error.message
+                        state.toast = "${response.error.message}^${AlertType.DIALOG.name}"
                     }
                 }
             }
@@ -170,7 +172,7 @@ class AddBeneficiaryViewModel(application: Application) :
 
                     is RetroApiResponse.Error -> {
                         state.loading = false
-                        state.toast = response.error.message
+                        state.toast = "${response.error.message}^${AlertType.DIALOG.name}"
                     }
                 }
             }

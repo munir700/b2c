@@ -11,6 +11,7 @@ import androidx.viewpager.widget.ViewPager
 import co.yap.household.BR
 import co.yap.household.R
 import co.yap.household.dashboard.cards.MyCardFragment
+import co.yap.household.dashboard.expense.HouseHoldExpenseFragment
 import co.yap.household.dashboard.home.HouseholdHomeFragment
 import co.yap.household.dashboard.main.menu.ProfilePictureAdapter
 import co.yap.household.databinding.ActivityHouseholdDashboardBinding
@@ -72,10 +73,11 @@ class HouseholdDashboardFragment :
     private fun setupViewPager() {
         adapter.addFragmentInfo<HouseholdHomeFragment>()
         adapter.addFragmentInfo<MyCardFragment>()
-        adapter.addFragmentInfo<MyCardFragment>()
-        adapter.addFragmentInfo<MyCardFragment>()
+        adapter.addFragmentInfo<HouseHoldExpenseFragment>()
+        adapter.addFragmentInfo<HouseHoldExpenseFragment>()
         viewModel.adapter.set(adapter)
         bottomNav.setUpWithViewPager(viewPager)
+        viewPager.offscreenPageLimit = 3
         viewPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
             override fun onPageScrollStateChanged(state: Int) {}
 

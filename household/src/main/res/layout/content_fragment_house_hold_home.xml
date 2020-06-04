@@ -22,7 +22,7 @@
         app:msv_emptyView="@layout/layout_welcome_to_yap_view"
         app:msv_errorView="@layout/layout_home_no_transaction"
         app:msv_loadingView="@layout/layout_loading_view_top"
-        app:msv_viewState="content"
+        app:msv_viewState="loading"
         app:viewState="@{viewModel.state.accountActivateLiveData}">
 
         <androidx.appcompat.widget.LinearLayoutCompat
@@ -85,7 +85,7 @@
                     app:cardCornerRadius="@dimen/_4sdp"
                     app:cardElevation="2dp"
                     app:lable1="My money"
-                    app:lable2="AED 1000.00" />
+                    app:lable2="AED 0.00" />
 
                 <co.yap.widgets.radiocus.PresetValueButton
                     android:id="@+id/secondIndicator"
@@ -102,7 +102,7 @@
                     app:cardCornerRadius="@dimen/_4sdp"
                     app:cardElevation="2dp"
                     app:lable1="Expense money"
-                    app:lable2="AED 257.00" />
+                    app:lable2="AED 0.00" />
             </co.yap.widgets.radiocus.PresetRadioGroup>
 
             <androidx.appcompat.widget.LinearLayoutCompat
