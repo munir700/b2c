@@ -12,6 +12,7 @@ import co.yap.networking.cards.responsedtos.Card
 import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.transactions.responsedtos.transaction.Transaction
 import co.yap.translation.Strings
+import co.yap.translation.Translator
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.dagger.base.viewmodel.BaseRecyclerAdapterVM
 import co.yap.yapcore.enums.AlertType
@@ -33,7 +34,7 @@ class MyCardVM @Inject constructor(override var state: IMyCard.State) :
         addData(loadJSONDummyList())
     }
 
-    override fun freezeUnfreezeCard() {
+    override fun freezeUnfreezeCard(success: () -> Unit) {
         launch {
             state.loading = true
             when (val response =
@@ -45,7 +46,7 @@ class MyCardVM @Inject constructor(override var state: IMyCard.State) :
                 is RetroApiResponse.Success -> {
                     Handler().postDelayed({
                         state.loading = false
-                        clickEvent.setValue(EVENT_FREEZE_UNFREEZE_CARD)
+                        success()
                     }, 400)
 
                 }
@@ -58,14 +59,14 @@ class MyCardVM @Inject constructor(override var state: IMyCard.State) :
         }
     }
 
-    override fun getCardDetails() {
+    override fun getCardDetails(success: () -> Unit) {
         launch {
             state.loading = true
             when (val response =
                 cardsRepository.getCardDetails(state.card?.value?.cardSerialNumber ?: "")) {
                 is RetroApiResponse.Success -> {
                     state.cardDetail?.value = response.data.data
-                    clickEvent.setValue(EVENT_CARD_DETAILS)
+                    success()
                 }
                 is RetroApiResponse.Error -> {
                     state.toast = response.error.message
@@ -107,12 +108,23 @@ class MyCardVM @Inject constructor(override var state: IMyCard.State) :
                     msg = getString(Strings.screen_cards_display_text_freeze_card),
                     marginTop = context.dimen(R.dimen.toolbar_height),
                     length = Snackbar.LENGTH_INDEFINITE,
-                    clickListener = View.OnClickListener { freezeUnfreezeCard() }
+                    clickListener = View.OnClickListener {
+                        freezeUnfreezeCard() {
+                            checkFreezeUnfreezeStatus()
+                        }
+                    }
                 )
-                state.cardStatus.value = "Unfreeze card"
+                state.cardStatus.value = Translator.getString(
+                    context,
+                    Strings.screen_cards_button_unfreeze_card
+                )
+
             } else {
                 cancelAllSnackBar()
-                state.cardStatus.value = "Freeze card"
+                state.cardStatus.value = Translator.getString(
+                    context,
+                    Strings.screen_household_my_card_screen_menu_freeze_card_text
+                )
             }
         }
     }
