@@ -1558,6 +1558,11 @@ object Strings {
         "screen_popup_activation_pending_display_text_message"
     const val screen_otp_blocked_display_text_heading: String =
         "screen_otp_blocked_display_text_heading"
-const val screen_otp_blocked_display_text_details: String =
+    const val screen_otp_blocked_display_text_details: String =
         "screen_otp_blocked_display_text_details"
+
+    const val screen_add_beneficiary_detail_display_button_block_alert_yes_household: String =
+        "screen_add_beneficiary_detail_display_button_block_alert_yes_household"
+    const val screen_add_beneficiary_detail_display_button_block_alert_no_household: String =
+        "screen_add_beneficiary_detail_display_button_block_alert_no_household"
 }

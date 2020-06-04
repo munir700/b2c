@@ -988,5 +988,8 @@
 
 
 
+    <string name="screen_add_beneficiary_detail_display_button_block_alert_no_household">No, send it later</string>
+    <string name="screen_add_beneficiary_detail_display_button_block_alert_yes_household">Yes, send it now</string>
+
 </resources>
 

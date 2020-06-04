@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="co.yap.translation.Strings" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_white_round"
+        android:padding="@dimen/margin_medium">
+
+        <ImageView
+            android:id="@+id/ivUnverifiedIcon"
+            android:layout_width="@dimen/_32sdp"
+            android:layout_height="@dimen/_32sdp"
+            android:contentDescription="@string/empty_string"
+            android:layout_marginTop="@dimen/margin_normal"
+            android:src="@drawable/ic_tick"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <TextView
+            android:id="@+id/tvTitle"
+            style="@style/Large"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_medium_large"
+            android:gravity="center"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ivUnverifiedIcon"
+            android:textSize="@dimen/text_size_h5"
+            tools:text="@string/screen_add_beneficiary_detail_display_text_alert_title" />
+
+        <TextView
+            android:id="@+id/tvDescription"
+            style="@style/SmallGrey"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_medium"
+            android:gravity="center"
+            android:lineSpacingExtra="3sp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvTitle"
+            tools:text="@string/screen_add_beneficiary_detail_display_button_block_alert_description" />
+
+        <co.yap.widgets.CoreButton
+            android:id="@+id/btnSendMoneyNow"
+            style="@style/FragmentsBtnStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_extra_large"
+            android:layout_marginBottom="@dimen/margin_normal"
+            android:text="@string/screen_add_beneficiary_detail_display_button_block_alert_yes_household"
+            app:text="@{Strings.screen_add_beneficiary_detail_display_button_block_alert_yes_household}"
+            app:btn_enable="true"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+             app:layout_constraintTop_toBottomOf="@+id/tvDescription"
+            tools:text="Add"
+            />
+
+        <TextView
+            android:id="@+id/btnLater"
+            style="@style/Regular"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_small"
+            android:padding="@dimen/_10sdp"
+            android:text="@string/screen_add_beneficiary_detail_display_button_block_alert_no_household"
+            app:text="@{Strings.screen_add_beneficiary_detail_display_button_block_alert_no_household}"
+            android:textColor="?attr/colorPrimaryAttr"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btnSendMoneyNow" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
