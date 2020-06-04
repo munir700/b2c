@@ -22,7 +22,7 @@
         app:msv_emptyView="@layout/layout_welcome_to_yap_view"
         app:msv_errorView="@layout/layout_home_no_transaction"
         app:msv_loadingView="@layout/layout_loading_view_top"
-        app:msv_viewState="content"
+        app:msv_viewState="loading"
         app:viewState="@{viewModel.state.accountActivateLiveData}">
 
         <androidx.appcompat.widget.LinearLayoutCompat

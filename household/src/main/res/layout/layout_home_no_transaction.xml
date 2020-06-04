@@ -13,8 +13,8 @@
             style="@style/Yap.App.Widget.TextView.Label.Medium"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="@dimen/margin_normal"
-            android:text="Waiting for card activation"
-            app:text="@{Strings.screen_household_home_display_text_waiting_for_card_activation}" />
+            android:text="@string/screen_household_home_display_text_waiting_for_card_activation"
+            android:textSize="@dimen/text_size_h3" />
 
         <androidx.appcompat.widget.AppCompatImageView
             android:layout_width="wrap_content"
