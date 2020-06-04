@@ -17,7 +17,7 @@ class HHSetPinCardReviewFragment :
 
     override fun postExecutePendingBindings() {
         super.postExecutePendingBindings()
-        viewModel.getCard()
+//        viewModel.getCard()
         viewModel.clickEvent.observe(this, observer)
     }
 

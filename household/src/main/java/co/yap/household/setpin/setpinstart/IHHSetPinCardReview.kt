@@ -10,9 +10,11 @@ interface IHHSetPinCardReview {
     interface ViewModel : IBase.ViewModel<State> {
         fun handleClick(id: Int)
         var clickEvent: SingleClickEvent
-        val card: MutableLiveData<Card>
+
         fun getCard()
     }
 
-    interface State : IBase.State
+    interface State : IBase.State{
+        var card: MutableLiveData<Card>?
+    }
 }

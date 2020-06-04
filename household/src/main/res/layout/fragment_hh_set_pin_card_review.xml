@@ -9,7 +9,6 @@
             type="co.yap.household.setpin.setpinstart.HHSetPinCardReviewVM" />
 
         <import type="co.yap.translation.Strings" />
-        <import type="co.yap.yapcore.binders.UIBinder"/>
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -53,8 +52,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvSubHeading"
-            app:srcCompat="@drawable/card_spare"
-            app:src="@{viewModel.card.frontImage}"/>
+            app:setImageUrl="@{viewModel.state.card.frontImage}"
+            app:srcCompat="@drawable/card_spare" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvCardNumber"
@@ -62,19 +61,19 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_large"
-            tools:text="xxxx xxxx xxxx 1234"
-            android:text="@{viewModel.card.maskedCardNo}"
+            android:text="@{viewModel.state.card.maskedCardNo}"
             app:layout_constraintBottom_toTopOf="@+id/tvExpiryDate"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/ivCard" />
+            app:layout_constraintTop_toBottomOf="@+id/ivCard"
+            tools:text="xxxx xxxx xxxx 1234" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvExpiryDate"
             style="@style/MicroGrey"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
-            android:text="@{String.format(@string/screen_household_set_card_pin_review_date, viewModel.card.expiryDate)}"
+            android:text="@{String.format(@string/screen_household_set_card_pin_review_date, viewModel.state.card.expiryDate)}"
             app:layout_constraintBottom_toTopOf="@+id/btnConfirm"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

@@ -3,14 +3,13 @@ package co.yap.household.dashboard.home
 import android.os.Bundle
 import androidx.databinding.ObservableField
 import androidx.navigation.NavController
-import co.yap.app.YAPApplication
-import co.yap.household.dashboard.main.menu.ProfilePictureAdapter
 import co.yap.networking.cards.CardsApi
 import co.yap.networking.cards.CardsRepository
 import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.transactions.TransactionsRepository
 import co.yap.networking.transactions.requestdtos.HomeTransactionsRequest
 import co.yap.widgets.State
+import co.yap.widgets.advrecyclerview.pagination.PaginatedRecyclerView
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.dagger.base.viewmodel.DaggerBaseViewModel
 import co.yap.yapcore.enums.AlertType
@@ -43,7 +42,7 @@ class HouseHoldHomeVM @Inject constructor(
 
     override fun requestTransactions(
         transactionRequest: HomeTransactionsRequest?,
-        isLoadMore: Boolean
+        isLoadMore: Boolean, apiResponse: ((State) -> Unit?)?
     ) {
         launch {
             publishState(State.loading(null))
@@ -52,6 +51,7 @@ class HouseHoldHomeVM @Inject constructor(
                 is RetroApiResponse.Success -> {
                     if (response.data.data.transaction.isNotEmpty()) {
                         publishState(State.success(null))
+                        apiResponse?.invoke(State.success(null))
                         state.transactionMap?.value =
                             response.data.data.transaction.distinct().groupBy { t ->
                                 DateUtils.reformatStringDate(
@@ -62,11 +62,13 @@ class HouseHoldHomeVM @Inject constructor(
                             }
                         transactionAdapter?.get()?.setTransactionData(state.transactionMap?.value)
                     } else {
+                        apiResponse?.invoke(State.empty(null))
                         publishState(State.empty(null))
                     }
                 }
                 is RetroApiResponse.Error -> {
                     state.loading = false
+                    apiResponse?.invoke(State.error(null))
                     publishState(State.error(null))
                 }
             }
@@ -81,9 +83,9 @@ class HouseHoldHomeVM @Inject constructor(
                     response.data.data?.let { it ->
                         state.accountActivateLiveData?.value = State.success(null)
                         if (it.isNotEmpty()) {
-
                             state.card?.value =
                                 response.data.data?.firstOrNull { it.cardType == CardType.DEBIT.type }
+                            notificationAdapter.notifyChange()
                             notificationAdapter.get()?.setData(
                                 NotificationHelper.getNotifications(
                                     MyUserManager.user, state.card?.value, context
@@ -97,6 +99,17 @@ class HouseHoldHomeVM @Inject constructor(
                 is RetroApiResponse.Error -> {
                     state.accountActivateLiveData?.value = State.empty(null)
                     state.toast = "${response.error.message}^${AlertType.TOAST.name}"
+                }
+            }
+        }
+    }
+
+    override fun getPaginationListener(): PaginatedRecyclerView.Pagination? {
+        return object : PaginatedRecyclerView.Pagination() {
+            override fun onNextPage(page: Int) {
+                notifyPageLoaded()
+                if (page == 50) {
+                    notifyPaginationCompleted()
                 }
             }
         }
