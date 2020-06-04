@@ -1,23 +1,120 @@
 package co.yap.household.dashboard.cards
 
 import android.os.Bundle
+import android.os.Handler
+import android.view.View
 import androidx.navigation.NavController
+import co.yap.household.R
+import co.yap.networking.cards.CardsApi
+import co.yap.networking.cards.CardsRepository
+import co.yap.networking.cards.requestdtos.CardLimitConfigRequest
+import co.yap.networking.cards.responsedtos.Card
+import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.transactions.responsedtos.transaction.Transaction
+import co.yap.translation.Strings
+import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.dagger.base.viewmodel.BaseRecyclerAdapterVM
+import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.helpers.cancelAllSnackBar
+import co.yap.yapcore.helpers.extentions.dimen
+import co.yap.yapcore.helpers.showTextUpdatedAbleSnackBar
+import com.google.android.material.snackbar.Snackbar
 import com.google.gson.Gson
 import org.json.JSONObject
-import java.text.DateFormat
-import java.text.SimpleDateFormat
-import java.util.*
 import javax.inject.Inject
-import kotlin.collections.ArrayList
 
 class MyCardVM @Inject constructor(override var state: IMyCard.State) :
     BaseRecyclerAdapterVM<Transaction, IMyCard.State>(), IMyCard.ViewModel {
-    
+    private val cardsRepository: CardsApi = CardsRepository
+    override val clickEvent: SingleClickEvent = SingleClickEvent()
+
     override fun onFirsTimeUiCreate(bundle: Bundle?, navigation: NavController?) {
         addData(loadJSONDummyList())
+    }
+
+    override fun freezeUnfreezeCard() {
+        launch {
+            state.loading = true
+            when (val response =
+                cardsRepository.freezeUnfreezeCard(
+                    CardLimitConfigRequest(
+                        state.card?.value?.cardSerialNumber ?: ""
+                    )
+                )) {
+                is RetroApiResponse.Success -> {
+                    Handler().postDelayed({
+                        state.loading = false
+                        clickEvent.setValue(EVENT_FREEZE_UNFREEZE_CARD)
+                    }, 400)
+
+                }
+                is RetroApiResponse.Error -> {
+                    state.loading = false
+                    state.toast = response.error.message
+                }
+            }
+
+        }
+    }
+
+    override fun getCardDetails() {
+        launch {
+            state.loading = true
+            when (val response =
+                cardsRepository.getCardDetails(state.card?.value?.cardSerialNumber ?: "")) {
+                is RetroApiResponse.Success -> {
+                    state.cardDetail.value = response.data.data
+                    clickEvent.setValue(EVENT_CARD_DETAILS)
+                }
+                is RetroApiResponse.Error -> {
+                    state.toast = response.error.message
+                }
+            }
+            state.loading = false
+        }
+    }
+
+    override fun getPrimaryCard(success: () -> Unit) {
+        launch {
+            when (val response = cardsRepository.getDebitCards("")) {
+                is RetroApiResponse.Success -> {
+                    response.data.data?.let {
+                        if (it.isNotEmpty()) {
+                            val primaryCard = getPrimaryCard(response.data.data)
+                            state.card?.value = primaryCard
+                            success()
+                        } else {
+                            state.toast = "Primary card not found.^${AlertType.TOAST.name}"
+                        }
+                    }
+                }
+                is RetroApiResponse.Error ->
+                    state.toast = "${response.error.message}^${AlertType.TOAST.name}"
+            }
+        }
+    }
+
+
+    private fun getPrimaryCard(cards: ArrayList<Card>?): Card? {
+        return cards?.firstOrNull()
+    }
+
+    fun checkFreezeUnfreezeStatus() {
+        state.card?.value?.blocked?.let {
+            if (it) {
+                context.showTextUpdatedAbleSnackBar(
+                    msg = getString(Strings.screen_cards_display_text_freeze_card),
+                    marginTop = context.dimen(R.dimen.toolbar_height),
+                    length = Snackbar.LENGTH_INDEFINITE,
+                    clickListener = View.OnClickListener { freezeUnfreezeCard() }
+                )
+                state.cardStatus.value = "Unfreeze card"
+            } else {
+                cancelAllSnackBar()
+                state.cardStatus.value = "Freeze card"
+            }
+        }
     }
 
     private fun loadJSONDummyList(): ArrayList<Transaction> {
@@ -34,4 +131,9 @@ class MyCardVM @Inject constructor(override var state: IMyCard.State) :
         }
         return benefitsModelList
     }
+
+    override fun handlePressOnButtonClick(id: Int) {
+        clickEvent.setValue(id)
+    }
+
 }

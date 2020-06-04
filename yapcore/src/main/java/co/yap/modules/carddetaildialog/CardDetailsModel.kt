@@ -1,4 +1,4 @@
-package co.yap.modules.dashboard.cards.paymentcarddetail.activities.carddetaildialog
+package co.yap.modules.carddetaildialog
 
 data class CardDetailsModel(
     var cardType: String? = "",

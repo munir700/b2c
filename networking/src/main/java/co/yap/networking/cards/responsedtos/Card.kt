@@ -33,7 +33,7 @@ data class Card(
     val currentBalance: String,
     var availableBalance: String,
     val customerId: String,
-    val accountNumber: String,
+    val accountNumber: String?,
     val productCode: String,
     var pinCreated: Boolean,
     var frontImage: String,

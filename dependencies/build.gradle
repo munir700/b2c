@@ -247,6 +247,7 @@ project.ext {
             [configuration: "api", dependency: libraries.constraintlayoutSolver],
             [configuration: "api", dependency: libraries.legacySupportV13],
             [configuration: "api", dependency: libraries.legacySupportV4],
+            [configuration: "implementation", dependency: libraries.viewpagerDots],
             [configuration: "api", dependency: libraries.cardview],
             [configuration: "api", dependency: libraries.recyclerview],
             [configuration: "api", dependency: libraries.vectordrawable],
