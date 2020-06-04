@@ -17,31 +17,37 @@ class HHSetPinCardReviewVM @Inject constructor(override val state: IHHSetPinCard
     IRepositoryHolder<CardsRepository> {
     override var clickEvent: SingleClickEvent = SingleClickEvent()
     override val repository: CardsRepository = CardsRepository
-    override val card: MutableLiveData<Card> = MutableLiveData()
+
 
     override fun onFirsTimeUiCreate(bundle: Bundle?, navigation: NavController?) {}
+    override fun fetchExtras(extras: Bundle?) {
+        super.fetchExtras(extras)
+        extras?.let { state.card?.value = it.getParcelable(Card::class.java.name) }
+
+    }
+
     override fun handleClick(id: Int) {
         clickEvent.call()
     }
 
     override fun getCard() {
-        launch {
-            state.loading = true
-            when (val response = repository.getDebitCards(CardType.PREPAID.name)) {
-                is RetroApiResponse.Success -> {
-                    response.data.data?.let {
-                        if (it.isNotEmpty()) {
-                            val cardsList = response.data.data
-                            cardsList.let {cards ->
-                                card.value = cards?.get(0)
-                            }
-                        }
-                    }
-                }
-                is RetroApiResponse.Error -> state.toast = response.error.message
-            }
-            state.loading = false
-        }
+//        launch {
+//            state.loading = true
+//            when (val response = repository.getDebitCards(CardType.PREPAID.name)) {
+//                is RetroApiResponse.Success -> {
+//                    response.data.data?.let {
+//                        if (it.isNotEmpty()) {
+//                            val cardsList = response.data.data
+//                            cardsList.let { cards ->
+//                                card.value = cards?.get(0)
+//                            }
+//                        }
+//                    }
+//                }
+//                is RetroApiResponse.Error -> state.toast = response.error.message
+//            }
+//            state.loading = false
+//        }
     }
 
 }

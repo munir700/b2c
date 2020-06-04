@@ -2,6 +2,7 @@ package co.yap.household.dashboard.home
 
 import android.app.Activity
 import android.view.View
+import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
 import co.yap.household.BR
@@ -9,6 +10,7 @@ import co.yap.household.R
 import co.yap.household.databinding.FragmentHouseholdHomeBinding
 import co.yap.modules.dashboard.home.filters.activities.TransactionFiltersActivity
 import co.yap.modules.dashboard.home.filters.models.TransactionFilters
+import co.yap.networking.cards.responsedtos.Card
 import co.yap.networking.notification.HomeNotification
 import co.yap.networking.notification.NotificationAction
 import co.yap.networking.transactions.requestdtos.REQUEST_PAGE_SIZE
@@ -70,8 +72,12 @@ class HouseholdHomeFragment :
             if (data is HomeNotification) {
                 val notification: HomeNotification = mNotificationAdapter.getData().get(pos)
                 when (notification.action) {
+                    // bundleOf(Pair(Card::class.simpleName , null))
+
                     NotificationAction.SET_PIN -> {
-                        launchActivity<NavHostPresenterActivity> {
+                        launchActivity<NavHostPresenterActivity>(
+                            options = bundleOf(Card::class.java.name to state.card?.value)
+                        ) {
                             putExtra(NAVIGATION_Graph_ID, R.navigation.hh_set_card_pin_navigation)
                             putExtra(
                                 NAVIGATION_Graph_START_DESTINATION_ID,

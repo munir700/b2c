@@ -79,7 +79,7 @@
                             android:id="@+id/rvNotificationList"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:visibility="@{viewModel.notificationAdapter.data.size()>0?View.VISIBLE:View.GONE}"
+                            android:layout_marginBottom="@dimen/margin_normal"
                             app:adapter="@{viewModel.notificationAdapter}"
                             app:dsv_orientation="horizontal"
                             app:itemTransformer="@{0.8f}"

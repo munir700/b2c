@@ -1,11 +1,8 @@
 package co.yap.household.dashboard.home
 
 import android.os.Bundle
-import androidx.annotation.NonNull
 import androidx.databinding.ObservableField
 import androidx.navigation.NavController
-import co.yap.app.YAPApplication
-import co.yap.household.dashboard.main.menu.ProfilePictureAdapter
 import co.yap.networking.cards.CardsApi
 import co.yap.networking.cards.CardsRepository
 import co.yap.networking.models.RetroApiResponse
@@ -22,10 +19,7 @@ import co.yap.yapcore.helpers.DateUtils.FORMAT_DATE_MON_YEAR
 import co.yap.yapcore.helpers.DateUtils.SERVER_DATE_FORMAT
 import co.yap.yapcore.helpers.DateUtils.UTC
 import co.yap.yapcore.helpers.NotificationHelper
-import co.yap.yapcore.helpers.rx.functions.PlainConsumer
 import co.yap.yapcore.managers.MyUserManager
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
 class HouseHoldHomeVM @Inject constructor(
@@ -47,8 +41,8 @@ class HouseHoldHomeVM @Inject constructor(
     }
 
     override fun requestTransactions(
-                                     transactionRequest: HomeTransactionsRequest?,
-                                     isLoadMore: Boolean
+        transactionRequest: HomeTransactionsRequest?,
+        isLoadMore: Boolean, apiResponse: ((State) -> Unit?)?
     ) {
         launch {
             publishState(State.loading(null))
@@ -57,6 +51,7 @@ class HouseHoldHomeVM @Inject constructor(
                 is RetroApiResponse.Success -> {
                     if (response.data.data.transaction.isNotEmpty()) {
                         publishState(State.success(null))
+                        apiResponse?.invoke(State.success(null))
                         state.transactionMap?.value =
                             response.data.data.transaction.distinct().groupBy { t ->
                                 DateUtils.reformatStringDate(
@@ -67,11 +62,13 @@ class HouseHoldHomeVM @Inject constructor(
                             }
                         transactionAdapter?.get()?.setTransactionData(state.transactionMap?.value)
                     } else {
+                        apiResponse?.invoke(State.empty(null))
                         publishState(State.empty(null))
                     }
                 }
                 is RetroApiResponse.Error -> {
                     state.loading = false
+                    apiResponse?.invoke(State.error(null))
                     publishState(State.error(null))
                 }
             }
@@ -86,9 +83,9 @@ class HouseHoldHomeVM @Inject constructor(
                     response.data.data?.let { it ->
                         state.accountActivateLiveData?.value = State.success(null)
                         if (it.isNotEmpty()) {
-
                             state.card?.value =
                                 response.data.data?.firstOrNull { it.cardType == CardType.DEBIT.type }
+                            notificationAdapter.notifyChange()
                             notificationAdapter.get()?.setData(
                                 NotificationHelper.getNotifications(
                                     MyUserManager.user, state.card?.value, context

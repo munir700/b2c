@@ -4,8 +4,6 @@ import android.net.Uri
 import android.widget.ImageView
 import androidx.annotation.ColorRes
 import androidx.annotation.DimenRes
-import androidx.annotation.DrawableRes
-import androidx.annotation.IdRes
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
@@ -21,15 +19,15 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 object ImageBinding {
     @JvmStatic
-    @BindingAdapter("imageUrl")
-    fun setImageUrl(imageView: AppCompatImageView, url: String) {
-        setImage(imageView, url)
+    @BindingAdapter("setImageUrl")
+    fun setImageUrl(imageView: AppCompatImageView, url: String?) {
+        url?.let { setImage(imageView, it) }
     }
 
     @JvmStatic
     @BindingAdapter("circularImageUrl")
-    fun setCircularImageUrl(imageView: AppCompatImageView, url: String) {
-        setCircleCropImage(imageView, url)
+    fun setCircularImageUrl(imageView: AppCompatImageView, url: String?) {
+        url?.let { setCircleCropImage(imageView, it) }
     }
 
     @JvmStatic
