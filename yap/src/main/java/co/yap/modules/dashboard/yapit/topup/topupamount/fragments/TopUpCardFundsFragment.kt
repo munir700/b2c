@@ -25,6 +25,7 @@ import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.cancelAllSnackBar
 import co.yap.yapcore.helpers.extentions.launchActivity
 import co.yap.yapcore.helpers.extentions.parseToDouble
+import co.yap.yapcore.helpers.extentions.toFormattedAmountWithCurrency
 import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 import co.yap.yapcore.helpers.showTextUpdatedAbleSnackBar
 import co.yap.yapcore.managers.MyUserManager
@@ -178,8 +179,8 @@ class TopUpCardFundsFragment : BaseBindingFragment<IFundActions.ViewModel>(),
         viewModel.state.errorDescription = getString(
             Strings.common_display_text_min_max_limit_error_transaction
         ).format(
-            Utils.getFormattedCurrency(viewModel.state.minLimit.toString()),
-            Utils.getFormattedCurrency(viewModel.state.maxLimit.toString())
+            viewModel.state.minLimit.toString().toFormattedAmountWithCurrency(),
+            viewModel.state.maxLimit.toString().toFormattedAmountWithCurrency()
         )
         showTextUpdatedAbleSnackBar(
             viewModel.state.errorDescription,

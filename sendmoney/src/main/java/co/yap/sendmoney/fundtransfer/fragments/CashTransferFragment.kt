@@ -197,8 +197,8 @@ class CashTransferFragment : BeneficiaryFundTransferBaseFragment<ICashTransfer.V
         viewModel.state.errorDescription = Translator.getString(
             requireContext(),
             Strings.common_display_text_min_max_limit_error_transaction,
-            viewModel.state.minLimit.toString().toFormattedCurrency() ?: "",
-            viewModel.state.maxLimit.toString()
+            viewModel.state.minLimit.toString().toFormattedAmountWithCurrency(),
+            viewModel.state.maxLimit.toString().toFormattedAmountWithCurrency()
         )
         viewModel.parentViewModel?.errorEvent?.value = viewModel.state.errorDescription
 
