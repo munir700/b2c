@@ -62,22 +62,24 @@ class MyCardFragment :
 
     private val clickObserver = Observer<Int> {
         when (it) {
-            viewModel.EVENT_FREEZE_UNFREEZE_CARD -> {
-                viewModel.checkFreezeUnfreezeStatus()
-            }
             R.id.btnCardDetails -> {
-                viewModel.getCardDetails()
-            }
-            viewModel.EVENT_CARD_DETAILS -> {
-                requireContext().showCardDetailsPopup(
-                    viewModel.state.cardDetail?.value,
-                    viewModel.state.card?.value
-                )
+                viewModel.getCardDetails() {
+                    requireContext().showCardDetailsPopup(
+                        viewModel.state.cardDetail?.value,
+                        viewModel.state.card?.value
+                    )
+                }
             }
         }
     }
 
     private fun showBottomSheet() {
+        state.cardStatus.value?.let { cardStatus ->
+            optionList[1] = Option().setTitle(
+                cardStatus
+            )
+        }
+
         showActionPickerBottomSheet(
             options = optionList,
             config = actionPickerConfig() {
@@ -94,7 +96,11 @@ class MyCardFragment :
                             )
                         }
                     }
-                    R.id.freeze_card.toLong() -> viewModel.freezeUnfreezeCard()
+                    R.id.freeze_card.toLong() -> {
+                        viewModel.freezeUnfreezeCard() {
+                            viewModel.checkFreezeUnfreezeStatus()
+                        }
+                    }
                     R.id.view_statement.toLong() -> {
                         launchActivity<CardStatementsActivity> {
                             putExtra("card", viewModel.state.card?.value)
