@@ -9,6 +9,7 @@ import co.yap.networking.cards.CardsApi
 import co.yap.networking.cards.CardsRepository
 import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.transactions.TransactionsRepository
+import co.yap.networking.transactions.requestdtos.HomeTransactionsRequest
 import co.yap.widgets.State
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.dagger.base.viewmodel.DaggerBaseViewModel
@@ -32,7 +33,7 @@ class HouseHoldHomeVM @Inject constructor(
     override var notificationAdapter = ObservableField<HHNotificationAdapter>()
 
     override fun onFirsTimeUiCreate(bundle: Bundle?, navigation: NavController?) {
-        requestTransactions(false)
+        requestTransactions(state.transactionRequest, false)
         getPrimaryCard()
     }
 
@@ -40,11 +41,14 @@ class HouseHoldHomeVM @Inject constructor(
         clickEvent.setValue(id)
     }
 
-    override fun requestTransactions(isLoadMore: Boolean) {
+    override fun requestTransactions(
+        transactionRequest: HomeTransactionsRequest?,
+        isLoadMore: Boolean
+    ) {
         launch {
             publishState(State.loading(null))
             when (val response =
-                repository.getAccountTransactions(YAPApplication.homeTransactionsRequest)) {
+                repository.getAccountTransactions(state.transactionRequest)) {
                 is RetroApiResponse.Success -> {
                     if (response.data.data.transaction.isNotEmpty()) {
                         publishState(State.success(null))

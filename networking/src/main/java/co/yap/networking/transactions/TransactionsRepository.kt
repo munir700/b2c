@@ -128,15 +128,15 @@ object TransactionsRepository : BaseRepository(), TransactionsApi {
     override suspend fun addEditNote(addEditNoteRequest: AddEditNoteRequest): RetroApiResponse<AddEditNoteResponse> =
         executeSafely(call = { api.addEditNote(addEditNoteRequest) })
 
-    override suspend fun getAccountTransactions(homeTransactionsRequest: HomeTransactionsRequest): RetroApiResponse<HomeTransactionsResponse> =
+    override suspend fun getAccountTransactions(homeTransactionsRequest: HomeTransactionsRequest?): RetroApiResponse<HomeTransactionsResponse> =
         executeSafely(call = {
             api.getAccountTransactions(
-                homeTransactionsRequest.number,
-                homeTransactionsRequest.size,
-                homeTransactionsRequest.amountStartRange,
-                homeTransactionsRequest.amountEndRange,
-                homeTransactionsRequest.txnType,
-                homeTransactionsRequest.title
+                homeTransactionsRequest?.number,
+                homeTransactionsRequest?.size,
+                homeTransactionsRequest?.amountStartRange,
+                homeTransactionsRequest?.amountEndRange,
+                homeTransactionsRequest?.txnType,
+                homeTransactionsRequest?.title
             )
         })
 

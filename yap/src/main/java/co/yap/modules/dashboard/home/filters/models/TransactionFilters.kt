@@ -1,6 +1,8 @@
 package co.yap.modules.dashboard.home.filters.models
 
 import android.os.Parcelable
+import co.yap.yapcore.constants.Constants.MANUAL_CREDIT
+import co.yap.yapcore.constants.Constants.MANUAL_DEBIT
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
@@ -19,5 +21,14 @@ data class TransactionFilters(
                     && other.outgoingTxn == outgoingTxn
         }
         return false
+    }
+
+    fun getTxnType(): String? {
+        return if (incomingTxn == false && outgoingTxn == false || incomingTxn == true && outgoingTxn == true) {
+            null
+        } else if (incomingTxn == true)
+            MANUAL_CREDIT
+        else
+            MANUAL_DEBIT
     }
 }

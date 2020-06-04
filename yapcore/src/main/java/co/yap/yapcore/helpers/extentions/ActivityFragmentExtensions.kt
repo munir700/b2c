@@ -38,7 +38,6 @@ inline fun <reified T : Any> Activity.launchActivity(
     options: Bundle? = null,
     noinline init: Intent.() -> Unit = {}
 ) {
-
     val intent = newIntent<T>(this)
     intent.init()
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
@@ -80,21 +79,6 @@ inline fun <reified T : Any> Fragment.launchActivity(
     }
 }
 
-//inline fun <reified T : Any> Activity.launchNavGraphHostActivity(
-//    requestCode: Int = -1,
-//    options: Bundle? = Bundle(),
-//    noinline init: Intent.() -> Unit = {}
-//) {
-//
-//    val intent = newIntent<T>(this)
-//    intent.init()
-//    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-//        startActivityForResult(intent, requestCode, options)
-//    } else {
-//        startActivityForResult(intent, requestCode)
-//    }
-//}
-
 inline fun <reified T : Any> Context.launchActivity(
     options: Bundle? = null,
     noinline init: Intent.() -> Unit = {}
@@ -109,6 +93,24 @@ inline fun <reified T : Any> Context.launchActivity(
     }
 }
 
+inline fun <reified T : Any> Fragment.launchActivityForResult(
+    requestCode: Int = -1,
+    options: Bundle? = null,
+    noinline init: Intent.() -> Unit = {},
+    noinline completionHandler: ((resultCode: Int, data: Intent?) -> Unit)? = null
+) {
+    completionHandler?.let {
+        val intent = newIntent<T>(requireContext())
+        intent.init()
+        this.startForResult(intent) { result ->
+            it.invoke(result.resultCode, result.data)
+        }.onFailed { result ->
+            it.invoke(result.resultCode, result.data)
+        }
+    } ?: run {
+        launchActivity<T>(requestCode, options, init)
+    }
+}
 
 inline fun <reified T : Any> newIntent(context: Context): Intent =
     Intent(context, T::class.java)
@@ -273,9 +275,7 @@ fun <T : Fragment> FragmentActivity.startFragmentForResult(
         intent.putExtra(FRAGMENT_CLASS, fragmentName)
         intent.putExtra(EXTRA, bundle)
         intent.putExtra(SHOW_TOOLBAR, showToolBar)
-
         intent.putExtra(TOOLBAR_TITLE, toolBarTitle)
-
         (this as AppCompatActivity).startForResult(intent) { result ->
             completionHandler?.invoke(result.resultCode, result.data)
         }.onFailed { result ->

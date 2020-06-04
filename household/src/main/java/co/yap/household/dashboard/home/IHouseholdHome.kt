@@ -18,7 +18,10 @@ interface IHouseholdHome {
         fun handlePressOnView(id: Int)
         fun getPrimaryCard()
         var clickEvent: SingleClickEvent
-        fun requestTransactions(isLoadMore: Boolean = false)
+        fun requestTransactions(
+            transactionRequest: HomeTransactionsRequest? , isLoadMore: Boolean = false
+        )
+
         val transactionAdapter: ObservableField<HomeTransactionAdapter>?
         val notificationAdapter: ObservableField<HHNotificationAdapter>?
     }
@@ -31,5 +34,6 @@ interface IHouseholdHome {
         var availableBalance: MutableLiveData<String>?
         var accountActivateLiveData: MutableLiveData<co.yap.widgets.State>?
         var card: MutableLiveData<Card>?
+        var transactionRequest: HomeTransactionsRequest?
     }
 }
