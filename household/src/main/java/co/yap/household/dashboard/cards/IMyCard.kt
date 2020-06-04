@@ -21,6 +21,6 @@ interface IMyCard {
     interface State : IBase.State {
         var card: MutableLiveData<Card>?
         var cardStatus: MutableLiveData<String?>
-        var cardDetail: MutableLiveData<CardDetail?>
+        var cardDetail: MutableLiveData<CardDetail>?
     }
 }

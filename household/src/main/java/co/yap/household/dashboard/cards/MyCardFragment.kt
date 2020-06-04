@@ -70,7 +70,7 @@ class MyCardFragment :
             }
             viewModel.EVENT_CARD_DETAILS -> {
                 requireContext().showCardDetailsPopup(
-                    viewModel.state.cardDetail.value,
+                    viewModel.state.cardDetail?.value,
                     viewModel.state.card?.value
                 )
             }
