@@ -174,8 +174,8 @@ class InternationalFundsTransferFragment :
         viewModel.state.errorDescription = getString(
             Strings.sm_display_text_min_max_limit_error_transaction
         ).format(
-            viewModel.state.minLimit.toString().toFormattedCurrency(),
-            viewModel.state.maxLimit.toString().toFormattedCurrency()
+            viewModel.state.minLimit.toString().toFormattedAmountWithCurrency(),
+            viewModel.state.maxLimit.toString().toFormattedAmountWithCurrency()
         )
         viewModel.parentViewModel?.errorEvent?.value = viewModel.state.errorDescription
     }
