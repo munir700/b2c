@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="co.yap.household.dashboard.expense.HouseHoldExpenseVM" />
+
+    </data>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            style="@style/Yap.App.Widget.ToolBar"
+            android:background="@color/colorPrimaryHouseHold">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/toolbarTitle"
+                style="@style/Yap.App.Widget.TextView.Label"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:paddingStart="@dimen/margin_extra_small"
+                android:paddingEnd="@dimen/margin_extra_small"
+                android:textColor="@color/white" />
+        </androidx.appcompat.widget.Toolbar>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            style="@style/Yap.App.Widget.TextView.FullName"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="Coming Soon!"
+            android:textColor="@color/colorPrimaryHouseHold"
+            android:textSize="@dimen/_30sdp" />
+    </FrameLayout>
+</layout>

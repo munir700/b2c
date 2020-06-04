@@ -29,13 +29,6 @@ class MyCardModule : BaseFragmentModule<MyCardFragment>() {
     fun provideMyCardState(): IMyCard.State = MyCardState()
 
     @Provides
-    fun provideMyCardTransactionsAdapter() =
-        MyCardFragment.Adapter(
-            mutableListOf(),
-            null
-        )
-
-    @Provides
     @FragmentScope
     fun provideRecyclerViewExpandableItemManager() =
         RecyclerViewExpandableItemManager(null)
