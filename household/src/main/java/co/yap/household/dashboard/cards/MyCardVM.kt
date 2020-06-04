@@ -3,19 +3,26 @@ package co.yap.household.dashboard.cards
 import android.os.Bundle
 import android.os.Handler
 import android.view.View
+import androidx.databinding.ObservableField
 import androidx.navigation.NavController
 import co.yap.household.R
+import co.yap.household.dashboard.home.HomeTransactionAdapter
 import co.yap.networking.cards.CardsApi
 import co.yap.networking.cards.CardsRepository
 import co.yap.networking.cards.requestdtos.CardLimitConfigRequest
 import co.yap.networking.cards.responsedtos.Card
 import co.yap.networking.models.RetroApiResponse
+import co.yap.networking.transactions.TransactionsRepository
+import co.yap.networking.transactions.requestdtos.HomeTransactionsRequest
 import co.yap.networking.transactions.responsedtos.transaction.Transaction
 import co.yap.translation.Strings
 import co.yap.translation.Translator
+import co.yap.widgets.State
+import co.yap.widgets.advrecyclerview.pagination.PaginatedRecyclerView
 import co.yap.yapcore.SingleClickEvent
-import co.yap.yapcore.dagger.base.viewmodel.BaseRecyclerAdapterVM
+import co.yap.yapcore.dagger.base.viewmodel.DaggerBaseViewModel
 import co.yap.yapcore.enums.AlertType
+import co.yap.yapcore.helpers.DateUtils
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.cancelAllSnackBar
 import co.yap.yapcore.helpers.extentions.dimen
@@ -25,13 +32,16 @@ import com.google.gson.Gson
 import org.json.JSONObject
 import javax.inject.Inject
 
-class MyCardVM @Inject constructor(override var state: IMyCard.State) :
-    BaseRecyclerAdapterVM<Transaction, IMyCard.State>(), IMyCard.ViewModel {
+class MyCardVM @Inject constructor(
+    override var state: IMyCard.State,
+    private val repository: TransactionsRepository
+) : DaggerBaseViewModel<IMyCard.State>(), IMyCard.ViewModel {
     private val cardsRepository: CardsApi = CardsRepository
     override val clickEvent: SingleClickEvent = SingleClickEvent()
+    override val transactionAdapter: ObservableField<HomeTransactionAdapter>? = ObservableField()
 
     override fun onFirsTimeUiCreate(bundle: Bundle?, navigation: NavController?) {
-        addData(loadJSONDummyList())
+        requestTransactions(state.transactionRequest, false)
     }
 
     override fun freezeUnfreezeCard(success: () -> Unit) {
@@ -129,23 +139,54 @@ class MyCardVM @Inject constructor(override var state: IMyCard.State) :
         }
     }
 
-    private fun loadJSONDummyList(): ArrayList<Transaction> {
-        val benefitsModelList: ArrayList<Transaction> = ArrayList<Transaction>()
-        val mainObj = JSONObject(Utils.loadJsonFromAssets(context, "card_transactions.json"))
-        val mainDataList = mainObj.getJSONObject("data")
-        val content = mainDataList.getJSONArray("content")
-        if (content != null) {
-            for (i in 0 until content.length()) {
-                val gson = Gson()
-                val transactionData = gson.fromJson(content.getString(i), Transaction::class.java)
-                benefitsModelList.add(transactionData)
+    override fun requestTransactions(
+        transactionRequest: HomeTransactionsRequest?,
+        isLoadMore: Boolean, apiResponse: ((State) -> Unit?)?
+    ) {
+        launch {
+            publishState(State.loading(null))
+            when (val response =
+                repository.getAccountTransactions(state.transactionRequest)) {
+                is RetroApiResponse.Success -> {
+                    if (response.data.data.transaction.isNotEmpty()) {
+                        publishState(State.success(null))
+                        apiResponse?.invoke(State.success(null))
+                        state.transactionMap?.value =
+                            response.data.data.transaction.distinct().groupBy { t ->
+                                DateUtils.reformatStringDate(
+                                    t.creationDate,
+                                    DateUtils.SERVER_DATE_FORMAT,
+                                    DateUtils.FORMAT_DATE_MON_YEAR, DateUtils.UTC
+                                )
+                            }
+                        transactionAdapter?.get()?.setTransactionData(state.transactionMap?.value)
+                    } else {
+                        apiResponse?.invoke(State.empty(null))
+                        publishState(State.empty(null))
+                    }
+                }
+                is RetroApiResponse.Error -> {
+                    state.loading = false
+                    apiResponse?.invoke(State.error(null))
+                    publishState(State.error(null))
+                }
             }
         }
-        return benefitsModelList
     }
 
     override fun handlePressOnButtonClick(id: Int) {
         clickEvent.setValue(id)
+    }
+
+    override fun getPaginationListener(): PaginatedRecyclerView.Pagination? {
+        return object : PaginatedRecyclerView.Pagination() {
+            override fun onNextPage(page: Int) {
+                notifyPageLoaded()
+                if (page == 50) {
+                    notifyPaginationCompleted()
+                }
+            }
+        }
     }
 
 }
