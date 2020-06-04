@@ -10,6 +10,7 @@ import co.yap.sendmoney.editbeneficiary.interfaces.IEditBeneficiary
 import co.yap.sendmoney.editbeneficiary.states.EditBeneficiaryStates
 import co.yap.sendmoney.viewmodels.SendMoneyBaseViewModel
 import co.yap.yapcore.SingleClickEvent
+import co.yap.yapcore.enums.AlertType
 
 class EditBeneficiaryViewModel(application: Application) :
     SendMoneyBaseViewModel<IEditBeneficiary.State>(application), IEditBeneficiary.ViewModel
@@ -34,13 +35,12 @@ class EditBeneficiaryViewModel(application: Application) :
                 is RetroApiResponse.Success -> {
                     state.loading = false
                     onUpdateSuccess.value = true
-                    // state.toast = response.data.toString()
                 }
 
                 is RetroApiResponse.Error -> {
                     state.loading = false
                     onUpdateSuccess.value = false
-                    state.toast = response.error.message
+                    state.toast = "${response.error.message}^${AlertType.DIALOG.name}"
                 }
             }
         }
@@ -59,7 +59,8 @@ class EditBeneficiaryViewModel(application: Application) :
                 }
                 is RetroApiResponse.Error -> {
                     state.loading = false
-                    state.toast = response.error.message
+                    state.toast = "${response.error.message}^${AlertType.DIALOG.name}"
+
                 }
 
             }
@@ -79,7 +80,7 @@ class EditBeneficiaryViewModel(application: Application) :
 
                     is RetroApiResponse.Error -> {
                         state.loading = false
-                        state.toast = response.error.message
+                        state.toast = "${response.error.message}^${AlertType.DIALOG.name}"
                         onBeneficiaryCreatedSuccess.value = false
                     }
                 }
@@ -99,7 +100,7 @@ class EditBeneficiaryViewModel(application: Application) :
                 is RetroApiResponse.Error -> {
                     state.loading = false
                     isBeneficiaryValid.value = false
-                    state.toast = response.error.message
+                    state.toast = "${response.error.message}^${AlertType.DIALOG.name}"
                 }
             }
         }
