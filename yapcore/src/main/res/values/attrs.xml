@@ -624,4 +624,18 @@
     <declare-styleable name="squaredImage">
         <attr name="useHeight" format="boolean" />
     </declare-styleable>
+
+    <declare-styleable name="PaginatedRecyclerView">
+        <!--
+        Set the offset from the end of the list at which onNextPage event needs to be triggered, default is 5.
+        Follows convention of `AutoCompleteTextView.completionThreshold`.
+        -->
+        <attr name="paginationThreshold" format="integer" />
+
+        <!-- Class name of placeholder adapter, instance of the class will be created reflectively. -->
+        <attr name="placeholderAdapter" format="string" />
+
+        <!-- Class name of error adapter, instance of the class will be created reflectively. -->
+        <attr name="errorAdapter" format="string" />
+    </declare-styleable>
 </resources>

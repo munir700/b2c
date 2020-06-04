@@ -8,6 +8,7 @@ import co.yap.networking.transactions.requestdtos.HomeTransactionsRequest
 import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionListData
 import co.yap.networking.transactions.responsedtos.transaction.Transaction
 import co.yap.widgets.State
+import co.yap.widgets.advrecyclerview.pagination.PaginatedRecyclerView
 import co.yap.yapcore.BaseRVAdapter
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
@@ -17,11 +18,11 @@ interface IHouseholdHome {
     interface ViewModel : IBase.ViewModel<State> {
         fun handlePressOnView(id: Int)
         fun getPrimaryCard()
+        fun getPaginationListener(): PaginatedRecyclerView.Pagination?
         var clickEvent: SingleClickEvent
         fun requestTransactions(
             transactionRequest: HomeTransactionsRequest? , isLoadMore: Boolean = false
         )
-
         val transactionAdapter: ObservableField<HomeTransactionAdapter>?
         val notificationAdapter: ObservableField<HHNotificationAdapter>?
     }

@@ -22,8 +22,8 @@
         app:msv_emptyView="@layout/layout_welcome_to_yap_view"
         app:msv_errorView="@layout/layout_home_no_transaction"
         app:msv_loadingView="@layout/layout_loading_view_top"
-        app:viewState="@{viewModel.state.accountActivateLiveData}"
-        app:msv_viewState="content">
+        app:msv_viewState="content"
+        app:viewState="@{viewModel.state.accountActivateLiveData}">
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
@@ -34,8 +34,8 @@
                 style="@style/Yap.App.Widget.TextView.Label"
                 android:layout_gravity="center_horizontal"
                 android:padding="@dimen/margin_small"
-                android:textColor="@color/colorPrimaryHouseHold"
                 android:text="Choose where you want to spend from"
+                android:textColor="@color/colorPrimaryHouseHold"
                 tools:text="Choose where you want to spend from" />
 
             <com.jaygoo.widget.RangeSeekBar
@@ -131,15 +131,15 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
+                    android:drawableStart="@drawable/ic_filter"
                     android:drawableTint="@color/colorPrimaryHouseHold"
                     android:gravity="center"
                     android:onClick="@{(v)-> viewModel.handlePressOnView(v.id)}"
-                    app:drawableTint="@color/colorPrimaryHouseHold"
-                    android:drawableStart="@drawable/ic_filter"
                     android:paddingStart="@dimen/margin_medium_large"
                     android:paddingEnd="@dimen/margin_medium_large"
                     android:paddingBottom="@dimen/margin_small"
                     android:textColor="@color/colorPrimaryHouseHold"
+                    app:drawableTint="@color/colorPrimaryHouseHold"
                     app:rtdrawableTint="@color/colorPrimaryHouseHold"
                     app:text="@{Strings.screen_household_home_display_text_transactions_filers_title}"
                     tools:text="@string/screen_household_home_display_text_transactions_filers_title" />
@@ -163,12 +163,13 @@
                 app:msv_loadingView="@layout/layout_loading_view_top"
                 app:viewState="@{viewModel.stateLiveData}">
 
-                <androidx.recyclerview.widget.RecyclerView
+                <co.yap.widgets.advrecyclerview.pagination.PaginatedRecyclerView
                     android:id="@+id/recyclerView"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_alignParentTop="true"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:setPagination="@{viewModel.getPaginationListener()}"
                     tools:listitem="@layout/item_home_transaction_child" />
             </co.yap.widgets.MultiStateView>
         </androidx.appcompat.widget.LinearLayoutCompat>

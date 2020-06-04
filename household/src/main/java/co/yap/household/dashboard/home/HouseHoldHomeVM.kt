@@ -1,6 +1,7 @@
 package co.yap.household.dashboard.home
 
 import android.os.Bundle
+import androidx.annotation.NonNull
 import androidx.databinding.ObservableField
 import androidx.navigation.NavController
 import co.yap.app.YAPApplication
@@ -11,6 +12,7 @@ import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.transactions.TransactionsRepository
 import co.yap.networking.transactions.requestdtos.HomeTransactionsRequest
 import co.yap.widgets.State
+import co.yap.widgets.advrecyclerview.pagination.PaginatedRecyclerView
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.dagger.base.viewmodel.DaggerBaseViewModel
 import co.yap.yapcore.enums.AlertType
@@ -20,7 +22,10 @@ import co.yap.yapcore.helpers.DateUtils.FORMAT_DATE_MON_YEAR
 import co.yap.yapcore.helpers.DateUtils.SERVER_DATE_FORMAT
 import co.yap.yapcore.helpers.DateUtils.UTC
 import co.yap.yapcore.helpers.NotificationHelper
+import co.yap.yapcore.helpers.rx.functions.PlainConsumer
 import co.yap.yapcore.managers.MyUserManager
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
 class HouseHoldHomeVM @Inject constructor(
@@ -42,8 +47,8 @@ class HouseHoldHomeVM @Inject constructor(
     }
 
     override fun requestTransactions(
-        transactionRequest: HomeTransactionsRequest?,
-        isLoadMore: Boolean
+                                     transactionRequest: HomeTransactionsRequest?,
+                                     isLoadMore: Boolean
     ) {
         launch {
             publishState(State.loading(null))
@@ -97,6 +102,17 @@ class HouseHoldHomeVM @Inject constructor(
                 is RetroApiResponse.Error -> {
                     state.accountActivateLiveData?.value = State.empty(null)
                     state.toast = "${response.error.message}^${AlertType.TOAST.name}"
+                }
+            }
+        }
+    }
+
+    override fun getPaginationListener(): PaginatedRecyclerView.Pagination? {
+        return object : PaginatedRecyclerView.Pagination() {
+            override fun onNextPage(page: Int) {
+                notifyPageLoaded()
+                if (page == 50) {
+                    notifyPaginationCompleted()
                 }
             }
         }
