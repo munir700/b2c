@@ -99,12 +99,32 @@
             android:background="@color/divider"
             app:layout_constraintTop_toBottomOf="@id/tv_recent_transactions_label" />
 
-        <include
+        <!--<include
             layout="@layout/refresh_recycler_view"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            app:adapter="@{viewModel.adapter}" />
+            app:adapter="@{viewModel.adapter}" />-->
+        <co.yap.widgets.MultiStateView
+            android:id="@+id/multiStateView"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            app:msv_animateViewChanges="true"
+            app:msv_emptyView="@layout/layout_welcome_to_yap_view"
+            app:msv_errorView="@layout/layout_welcome_to_yap_view"
+            app:msv_loadingView="@layout/layout_loading_view_top"
+            app:viewState="@{viewModel.stateLiveData}">
+
+            <co.yap.widgets.advrecyclerview.pagination.PaginatedRecyclerView
+                android:id="@+id/recyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignParentTop="true"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:setPagination="@{viewModel.getPaginationListener()}"
+                tools:listitem="@layout/item_home_transaction_child" />
+        </co.yap.widgets.MultiStateView>
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 </layout>

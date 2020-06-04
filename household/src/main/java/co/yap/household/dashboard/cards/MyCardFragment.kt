@@ -5,18 +5,21 @@ import android.view.View
 import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.Observer
 import androidx.navigation.NavController
+import androidx.recyclerview.widget.RecyclerView
 import co.yap.household.BR
 import co.yap.household.R
+import co.yap.household.dashboard.home.HomeTransactionAdapter
 import co.yap.household.databinding.FragmentMyCardBinding
 import co.yap.modules.dashboard.cards.paymentcarddetail.activities.ChangeCardPinActivity
 import co.yap.modules.dashboard.cards.paymentcarddetail.statments.activities.CardStatementsActivity
 import co.yap.modules.dashboard.cards.reportcard.activities.ReportLostOrStolenCardActivity
 import co.yap.modules.others.helper.Constants
 import co.yap.networking.transactions.responsedtos.transaction.Transaction
-import co.yap.widgets.DividerItemDecoration
+import co.yap.widgets.advrecyclerview.decoration.StickyHeaderItemDecoration
+import co.yap.widgets.advrecyclerview.expandable.RecyclerViewExpandableItemManager
 import co.yap.yapcore.BaseRVAdapter
 import co.yap.yapcore.BaseViewHolder
-import co.yap.yapcore.dagger.base.BaseRecyclerViewFragment
+import co.yap.yapcore.dagger.base.navigation.BaseNavViewModelFragment
 import co.yap.yapcore.helpers.extentions.dimen
 import co.yap.yapcore.helpers.extentions.launchActivity
 import co.yap.yapcore.helpers.extentions.toast
@@ -28,25 +31,26 @@ import com.arthurivanets.bottomsheets.sheets.model.Option
 import javax.inject.Inject
 
 class MyCardFragment :
-    BaseRecyclerViewFragment<FragmentMyCardBinding, IMyCard.State, MyCardVM, MyCardFragment.Adapter, Transaction>() {
+    BaseNavViewModelFragment<FragmentMyCardBinding, IMyCard.State, MyCardVM>() {
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.fragment_my_card
 
     @Inject
     lateinit var optionList: ArrayList<Option>
 
+    @Inject
+    lateinit var mAdapter: HomeTransactionAdapter
+
+    @Inject
+    lateinit var mWrappedAdapter: RecyclerView.Adapter<*>
+
+    @Inject
+    lateinit var mRecyclerViewExpandableItemManager: RecyclerViewExpandableItemManager
+
     override fun postExecutePendingBindings() {
         super.postExecutePendingBindings()
         setupToolbar(mViewDataBinding.toolbar, R.menu.menu_options)
-        recyclerView?.addItemDecoration(
-            DividerItemDecoration(
-                requireContext(),
-                R.drawable.item_divider,
-                showFirstDivider = false,
-                showLastDivider = false,
-                marginStart = dimen(co.yap.R.dimen._70sdp)
-            )
-        )
+        intRecyclersView()
         viewModel.clickEvent.observe(this, clickObserver)
         viewModel.getPrimaryCard() {
             setHasOptionsMenu(true)
@@ -58,6 +62,17 @@ class MyCardFragment :
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         showBottomSheet()
         return super.onOptionsItemSelected(item)
+    }
+
+    private fun intRecyclersView() {
+        mRecyclerViewExpandableItemManager.defaultGroupsExpandedState = true
+        mViewDataBinding.recyclerView.apply {
+            addItemDecoration(StickyHeaderItemDecoration())
+            mRecyclerViewExpandableItemManager.attachRecyclerView(this)
+            adapter = mWrappedAdapter
+            viewModel.transactionAdapter?.set(mAdapter)
+            setHasFixedSize(false)
+        }
     }
 
     private val clickObserver = Observer<Int> {
