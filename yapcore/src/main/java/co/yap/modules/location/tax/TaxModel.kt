@@ -10,5 +10,5 @@ data class TaxModel(
     var countries: ArrayList<POBCountry> = arrayListOf(),
     var reasons: ArrayList<String> = arrayListOf(),
     var options: ArrayList<String> = arrayListOf("Yes", "No"),
-    val taxInfoNumber: Int = 0
+    val taxRowNumber: Int = 0
 ) : Parcelable

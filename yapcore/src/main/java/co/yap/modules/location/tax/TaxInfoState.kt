@@ -8,13 +8,6 @@ import co.yap.yapcore.BaseState
 class TaxInfoState : BaseState(), ITaxInfo.State {
 
     @get:Bindable
-    override var cityOfBirth: String = ""
-        set(value) {
-            field = value
-            notifyPropertyChanged(BR.cityOfBirth)
-        }
-
-    @get:Bindable
     override var valid: Boolean = false
         set(value) {
             field = value

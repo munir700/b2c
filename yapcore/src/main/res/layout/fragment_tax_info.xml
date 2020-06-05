@@ -75,6 +75,8 @@
             android:onClick="@{(v) -> viewModel.handleOnPressView(v.id)}"
             app:enableCoreButton="@{viewModel.state.valid}"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:text="@{Strings.common_button_next}"
             tools:text="@string/common_button_next" />
     </androidx.constraintlayout.widget.ConstraintLayout>

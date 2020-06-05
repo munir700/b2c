@@ -3,6 +3,7 @@ package co.yap.modules.location.tax
 import android.app.Application
 import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.interfaces.IRepositoryHolder
+import co.yap.networking.models.RetroApiResponse
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
 
@@ -11,53 +12,51 @@ class TaxInfoViewModel(application: Application) :
     ITaxInfo.ViewModel, IRepositoryHolder<CustomersRepository> {
     override var clickEvent: SingleClickEvent = SingleClickEvent()
     override val state: ITaxInfo.State = TaxInfoState()
-    override var taxModel: TaxModel = TaxModel()
-    override var taxInfoAdaptor: TaxInfoAdaptor = TaxInfoAdaptor(mutableListOf())
+    override var taxInfoList: MutableList<TaxModel> = mutableListOf()
+    override var taxInfoAdaptor: TaxInfoAdaptor = TaxInfoAdaptor(taxInfoList)
+    override val repository: CustomersRepository = CustomersRepository
+
+    override fun onCreate() {
+        super.onCreate()
+        getReasonsList()
+    }
 
     override fun handleOnPressView(id: Int) {
         clickEvent.setValue(id)
     }
 
-    override val repository: CustomersRepository = CustomersRepository
+    override fun getReasonsList() {
+        launch {
+            state.loading = true
+            when (val response = repository.getTaxReasons()) {
+                is RetroApiResponse.Success -> {
+                    val reasons = response.data.reasons
+                    val options = arrayListOf<String>("Yes", "No")
+                    createModel(1, reasons, options)
+                    state.loading = false
+                }
 
-    override fun onCreate() {
-        super.onCreate()
-        //getAllCountries()
+                is RetroApiResponse.Error -> {
+                    val reasons = arrayListOf<String>(
+                        "The country does not issue a TIN",
+                        "Unable to obtain TIN",
+                        "No TIN required"
+                    )
+                    val options = arrayListOf<String>("Yes", "No")
+                    createModel(1, reasons, options)
+                    state.loading = false
+                    state.toast = response.error.message
+                }
+            }
+        }
     }
 
-//    private fun getAllCountries() {
-//        if (!countries.isNullOrEmpty()) {
-//            populateSpinnerData.setValue(countries)
-//        } else {
-//            launch {
-//                state.loading = true
-//                when (val response = repository.getAllCountries()) {
-//                    is RetroApiResponse.Success -> {
-//                        val sortedList = response.data.data?.sortedWith(compareBy { it.name })
-//                        sortedList?.let { it ->
-//                            countries.clear()
-//                            countries.add(
-//                                0,
-//                                POBCountry(name = getString(Strings.screen_add_beneficiary_display_text_select_country))
-//                            )
-//                            populateSpinnerData.value = countries
-//                            countries.addAll(it.map {
-//                                POBCountry(
-//                                    name = it.name,
-//                                    isoCountryCode2Digit = it.isoCountryCode2Digit,
-//                                    isoCountryCode3Digit = it.isoCountryCode3Digit
-//                                )
-//                            })
-//                        }
-//                        state.loading = false
-//                    }
-//
-//                    is RetroApiResponse.Error -> {
-//                        state.loading = false
-//                        state.toast = response.error.message
-//                    }
-//                }
-//            }
-//        }
-//    }
+    private fun createModel(
+        taxRowNumber: Int,
+        reasons: ArrayList<String>,
+        options: ArrayList<String>
+    ) {
+        taxInfoList.add(TaxModel(reasons = reasons, options = options, taxRowNumber = taxRowNumber))
+        taxInfoAdaptor.notifyDataSetChanged()
+    }
 }

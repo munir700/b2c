@@ -53,9 +53,6 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     const val URL_DETECT = "digi-ocr/detect/"
     const val URL_SAVE_REFERAL_INVITATION = "/customers/api/save-referral-invitation"
 
-
-    // Bank transfer information as per old project integration................................................
-
     const val URL_GET_ALL_BENEFICIARIES = "/customers/api/beneficiaries/bank-transfer"
     const val URL_GET_RECENT_BENEFICIARIES = "/customers/api/beneficiaries/bank-transfer/recent"
     const val URL_GET_BENEFICIARY_BY_ID = "/customers/api/beneficiaries/{beneficiary-id}"
@@ -105,6 +102,7 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     //.................... End region of admin repo urls................................................
 
     const val URL_CITIES = "customers/api/cities"
+    const val URL_TAX_REASONS = "customers/api/tin-reasons"
 
     private val api: CustomersRetroService =
         RetroNetwork.createService(CustomersRetroService::class.java)
@@ -309,4 +307,6 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     override suspend fun getCities(): RetroApiResponse<CitiesModel> =
         executeSafely(call = { api.getCities() })
 
+    override suspend fun getTaxReasons(): RetroApiResponse<TaxReasonResponse> =
+        executeSafely(call = { api.getTaxReasons() })
 }

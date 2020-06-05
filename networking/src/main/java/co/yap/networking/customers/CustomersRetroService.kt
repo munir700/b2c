@@ -199,4 +199,7 @@ interface CustomersRetroService {
     @GET(CustomersRepository.URL_CITIES)
     suspend fun getCities(): Response<CitiesModel>
 
+    @GET(CustomersRepository.URL_TAX_REASONS)
+    suspend fun getTaxReasons(): Response<TaxReasonResponse>
+
 }

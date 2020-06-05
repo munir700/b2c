@@ -20,10 +20,10 @@
         android:id="@+id/clContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="@dimen/margin_normal"
-        android:paddingBottom="@dimen/margin_large"
         android:background="@color/white"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:paddingTop="@dimen/margin_normal"
+        android:paddingBottom="@dimen/margin_large">
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvSelectCountry"
