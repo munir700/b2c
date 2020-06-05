@@ -34,7 +34,7 @@ class CountryListAdapter(
     private fun getCustomView(position: Int, convertView: View?, parent: ViewGroup): View {
 
         val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-        val row = inflater.inflate(R.layout.item_place_of_birth_country, parent, false)
+        val row = inflater.inflate(R.layout.item_spinner_country, parent, false)
         val label = row.findViewById(R.id.textView) as TextView
         val flag = row.findViewById(R.id.flag_img) as CoreCircularImageView
         label.text = objects[position].getName()
