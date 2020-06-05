@@ -14,10 +14,10 @@ import androidx.viewpager.widget.ViewPager
 import co.yap.BR
 import co.yap.app.R
 import co.yap.app.modules.startup.adapters.WelcomePagerAdapter
-import co.yap.modules.onboarding.enums.AccountType
 import co.yap.modules.onboarding.interfaces.IWelcome
 import co.yap.modules.onboarding.viewmodels.WelcomeViewModel
 import co.yap.yapcore.BaseBindingFragment
+import co.yap.yapcore.enums.AccountType
 import com.daimajia.androidanimations.library.Techniques
 import com.daimajia.androidanimations.library.YoYo
 import com.tbuonomo.viewpagerdotsindicator.WormDotsIndicator

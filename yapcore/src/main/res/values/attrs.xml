@@ -5,7 +5,6 @@
     <attr name="colorPrimaryAttr" format="color|reference" />
     <attr name="colorPrimaryDarkAttr" format="color|reference" />
     <attr name="colorPrimaryAccentAttr" format="color|reference" />
-
     <attr name="colorPrimaryAccentWarmAttr" format="color|reference" />
     <attr name="colorPrimaryWarmAttr" format="color|reference" />
     <attr name="colorPrimaryLightAttr" format="color|reference" />
@@ -16,6 +15,7 @@
     <attr name="colorPressedBtnStateAttr" format="color|reference" />
     <attr name="colordisabledTick" format="color|reference" />
     <attr name="colorSeekBar" format="color|reference" />
+
     <attr name="colorSwipeToDeleteAttr" format="color|reference" />
     <attr name="colorSwipeToEditAttr" format="color|reference" />
 
@@ -34,8 +34,8 @@
     <attr name="colorBackgroundSuccessAttr" format="color|reference" />
     <attr name="colorStatusBarSuccessAttr" format="color|reference" />
     <attr name="colorToolbarTextAttr" format="color|reference" />
-    <attr name="colorLightBankTransferAttr" format="color|reference"/>
-    <attr name="colorDarkBankTransferAttr" format="color|reference"/>
+    <attr name="colorLightBankTransferAttr" format="color|reference" />
+    <attr name="colorDarkBankTransferAttr" format="color|reference" />
 
     <attr name="cardSuccessBorderWidth" format="dimension|reference" />
 
@@ -43,8 +43,6 @@
     <!--components theme-->
     <attr name="primaryButtonTheme" format="reference" />
     <attr name="cardTheme" format="reference" />
-
-
     <declare-styleable name="CoreButton">
         <attr name="btn_text_color" format="color" />
         <attr name="btn_drawable" format="reference" />
@@ -58,12 +56,10 @@
         <attr name="btn_text_alignment_from_left" format="float" />
         <attr name="btn_has_bold_text" format="boolean" />
         <attr name="btn_enable" format="boolean" />
-
         <attr name="btn_shape_type" format="enum">
             <enum name="circle" value="0" />
             <enum name="rectangle" value="1" />
         </attr>
-
         <attr name="btn_drawable_position" format="enum">
             <enum name="left" value="0" />
             <enum name="right" value="1" />
@@ -448,6 +444,10 @@
         <attr name="currency_symbol" format="string" />
         <attr name="show_currency" format="boolean" />
         <attr name="show_commas" format="boolean" />
+        <attr name="show_decimal" format="boolean" />
+        <attr name="amount_drawable" format="reference" />
+        <attr name="enable" format="boolean" />
+        <attr name="text" format="string" />
     </declare-styleable>
 
     <declare-styleable name="MultiStateView">
@@ -526,6 +526,23 @@
         <enum name="aspect_mp3" value="5" />
     </attr>
 
+    <declare-styleable name="CurrencyTextView">
+        <attr name="ctv_currencySymbol" format="string" />
+        <attr name="ctv_formatter" format="string" />
+        <attr name="ctv_currencySymbolSize" format="dimension|reference" />
+        <attr name="ctv_decimalTextSize" format="dimension|reference" />
+        <attr name="ctv_prefixSuffixTextSize" format="dimension|reference" />
+        <attr name="ctv_strikeThrough" format="boolean" />
+        <attr name="ctv_nullToZero" format="boolean" />
+    </declare-styleable>
+
+    <!-- CurrencyEditText -->
+
+    <declare-styleable name="CurrencyEditText">
+        <attr name="allow_negative_values" format="boolean" />
+        <attr name="decimal_digits" format="integer" />
+    </declare-styleable>
+
     <declare-styleable name="CircularProgressBar">
         <attr name="cpb_progress" format="integer" />
         <attr name="cpb_progress_max" format="integer" />
@@ -556,5 +573,94 @@
             <flag name="to_right" value="1" />
             <flag name="to_left" value="2" />
         </attr>
+    </declare-styleable>
+
+    <declare-styleable name="SelectMultiCheckGroup">
+        <attr name="isSingleSelected" format="boolean" />
+        <attr name="column" format="integer" />
+        <attr name="firstSingleSelectedPosition" format="integer" />
+        <attr name="row" format="integer" />
+        <attr name="item_horizontal_space" format="dimension" />
+        <attr name="item_vertical_space" format="dimension" />
+        <attr name="item_horizontal_padding" format="dimension" />
+        <attr name="item_vertical_padding" format="dimension" />
+        <attr name="item_text_size" format="integer" />
+        <attr name="android:entries" />
+        <attr name="checked_text_color" format="color" />
+        <attr name="unChecked_text_color" format="color" />
+    </declare-styleable>
+
+    <!--  For NumberKeyboard -->
+
+    <attr name="numberkeyboard_keyboardType">
+        <enum name="integer" value="0" />
+        <enum name="decimal" value="1" />
+        <enum name="fingerprint" value="2" />
+        <enum name="custom" value="3" />
+    </attr>
+
+    <attr name="numberkeyboard_keyWidth" format="dimension">
+        <enum name="match_parent" value="-1" />
+    </attr>
+
+    <attr name="numberkeyboard_keyHeight" format="dimension">
+        <enum name="match_parent" value="-1" />
+    </attr>
+
+    <declare-styleable name="NumberKeyboard">
+        <attr name="numberkeyboard_keyboardType" />
+        <attr name="numberkeyboard_keyWidth" />
+        <attr name="numberkeyboard_keyHeight" />
+        <attr name="numberkeyboard_keyPadding" format="dimension" />
+        <attr name="numberkeyboard_numberKeyBackground" format="reference" />
+        <attr name="numberkeyboard_numberKeyTextColor" format="reference" />
+        <attr name="numberkeyboard_leftAuxBtnIcon" format="reference" />
+        <attr name="numberkeyboard_leftAuxBtnBackground" format="reference" />
+        <attr name="numberkeyboard_rightAuxBtnIcon" format="reference" />
+        <attr name="numberkeyboard_rightAuxBtnBackground" format="reference" />
+        <attr name="numberkeyboard_enableKeys" format="boolean" />
+        <attr name="numberkeyboard_maxLimit" format="integer" />
+
+    </declare-styleable>
+
+    <declare-styleable name="PresetValueButton">
+        <attr name="lable1" format="string" />
+        <attr name="lable2" format="string" />
+        <attr name="lable1Color" format="color" />
+        <attr name="lable2Color" format="color" />
+        <attr name="presetButtonPressedTextColor" format="color" />
+    </declare-styleable>
+
+    <declare-styleable name="PresetRadioGroup">
+        <attr name="presetRadioCheckedId" format="reference" />
+        <attr name="rangeSeekBarId" format="reference" />
+    </declare-styleable>
+
+    <declare-styleable name="TextViewRichDrawable">
+        <attr name="compoundDrawableWidth" format="dimension" />
+        <attr name="compoundDrawableHeight" format="dimension" />
+        <attr name="drawableStartVector" format="reference" />
+        <attr name="drawableTopVector" format="reference" />
+        <attr name="drawableEndVector" format="reference" />
+        <attr name="drawableBottomVector" format="reference" />
+        <attr name="rtdrawableTint" format="reference" />
+    </declare-styleable>
+
+    <declare-styleable name="squaredImage">
+        <attr name="useHeight" format="boolean" />
+    </declare-styleable>
+
+    <declare-styleable name="PaginatedRecyclerView">
+        <!--
+        Set the offset from the end of the list at which onNextPage event needs to be triggered, default is 5.
+        Follows convention of `AutoCompleteTextView.completionThreshold`.
+        -->
+        <attr name="paginationThreshold" format="integer" />
+
+        <!-- Class name of placeholder adapter, instance of the class will be created reflectively. -->
+        <attr name="placeholderAdapter" format="string" />
+
+        <!-- Class name of error adapter, instance of the class will be created reflectively. -->
+        <attr name="errorAdapter" format="string" />
     </declare-styleable>
 </resources>

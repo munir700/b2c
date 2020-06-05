@@ -20,6 +20,7 @@ import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.enums.YAPThemes
 import co.yap.yapcore.helpers.*
+import co.yap.yapcore.helpers.extentions.hideKeyboard
 import co.yap.yapcore.helpers.extentions.toast
 import com.google.android.material.snackbar.Snackbar
 
@@ -33,7 +34,7 @@ abstract class BaseActivity<V : IBase.ViewModel<*>> : AppCompatActivity(), IBase
     private lateinit var permissionsManager: PermissionsManager
     private var progress: Dialog? = null
     open lateinit var context: Context
-
+    override var shouldRegisterViewModelLifeCycle: Boolean = true
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         context = this
@@ -44,8 +45,8 @@ abstract class BaseActivity<V : IBase.ViewModel<*>> : AppCompatActivity(), IBase
         NetworkConnectionManager.init(this)
         NetworkConnectionManager.subscribe(this)
         permissionsManager = PermissionsManager(this, this, this)
-        registerStateListeners()
-
+        if (shouldRegisterViewModelLifeCycle)
+            registerStateListeners()
         progress = Utils.createProgressDialog(this)
     }
 
@@ -84,7 +85,7 @@ abstract class BaseActivity<V : IBase.ViewModel<*>> : AppCompatActivity(), IBase
         }
     }
 
-    fun hideKeyboard() = Utils.hideKeyboard(this.currentFocus)
+    fun hideKeyboard() = this.currentFocus?.hideKeyboard()
 
     override fun showToast(msg: String) {
         if ("" != msg.trim { it <= ' ' }) {
@@ -146,7 +147,7 @@ abstract class BaseActivity<V : IBase.ViewModel<*>> : AppCompatActivity(), IBase
 
     override fun showLoader(isVisible: Boolean) {
         if (isVisible) progress?.show() else progress?.dismiss()
-        Utils.hideKeyboard(this.window.decorView)
+        this.window.decorView.hideKeyboard()
     }
 
     private fun setSnackBar(activity: Activity, message: String, duration: Int): Snackbar {
@@ -174,7 +175,8 @@ abstract class BaseActivity<V : IBase.ViewModel<*>> : AppCompatActivity(), IBase
 
     override fun onDestroy() {
         NetworkConnectionManager.unsubscribe(this)
-        unregisterStateListeners()
+        if (shouldRegisterViewModelLifeCycle)
+            unregisterStateListeners()
         cancelAllSnackBar()
         progress?.dismiss()
         super.onDestroy()
@@ -222,7 +224,7 @@ abstract class BaseActivity<V : IBase.ViewModel<*>> : AppCompatActivity(), IBase
         }
     }
 
-    private fun registerStateListeners() {
+    open fun registerStateListeners() {
         if (viewModel is BaseViewModel<*>) {
             viewModel.registerLifecycleOwner(this)
         }
@@ -231,7 +233,7 @@ abstract class BaseActivity<V : IBase.ViewModel<*>> : AppCompatActivity(), IBase
         }
     }
 
-    private fun unregisterStateListeners() {
+    open fun unregisterStateListeners() {
         if (viewModel is BaseViewModel<*>) {
             viewModel.unregisterLifecycleOwner(this)
         }
@@ -269,5 +271,4 @@ abstract class BaseActivity<V : IBase.ViewModel<*>> : AppCompatActivity(), IBase
         alertDialog.show()
 
     }
-
 }

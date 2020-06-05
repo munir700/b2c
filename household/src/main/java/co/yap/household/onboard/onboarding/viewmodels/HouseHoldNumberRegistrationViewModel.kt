@@ -19,7 +19,7 @@ class HouseHoldNumberRegistrationViewModel(application: Application) :
     override val repository: CustomersRepository = CustomersRepository
     override val state: HouseHoldNumberRegistrationState = HouseHoldNumberRegistrationState()
     override var clickEvent: SingleClickEvent? = SingleClickEvent()
-    override var isParentMobileValid: MutableLiveData<Boolean>?= MutableLiveData(false)
+    override var parentMobileValidationResponse: MutableLiveData<String>?= MutableLiveData()
 
     override fun onCreate() {
         populateState()
@@ -45,12 +45,12 @@ class HouseHoldNumberRegistrationViewModel(application: Application) :
             )
             when (val response = repository.verifyHouseholdParentMobile(state.phoneNumber, request )) {
                 is RetroApiResponse.Success -> {
-                    isParentMobileValid?.postValue(true)
+                    parentMobileValidationResponse?.postValue(response.data.data)
                     state.loading = false
                 }
                 is RetroApiResponse.Error -> {
                     state.loading = false
-                    isParentMobileValid?.postValue(false)
+                    parentMobileValidationResponse?.postValue("")
                     state.toast = response.error.message
 
                 }

@@ -1,0 +1,31 @@
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="subAccountDashBoardVM"
+            type="co.yap.modules.subaccounts.account.dashboard.SubAccountDashBoardVM" />
+    </data>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tabs"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/margin_small"
+            style="@style/Yap.App.Widget.RoundedTabLayout"
+            app:setupWithViewPager="@{pager}" />
+
+        <androidx.viewpager.widget.ViewPager
+            android:id="@+id/pager"
+            android:layout_marginTop="@dimen/margin_extra_large"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:adapter="@{subAccountDashBoardVM.adapter}" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+</layout>

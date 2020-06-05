@@ -2,8 +2,6 @@ package co.yap.app.modules.login.interfaces
 
 import android.content.Context
 import androidx.databinding.ObservableField
-import androidx.lifecycle.MutableLiveData
-import co.yap.networking.customers.responsedtos.AccountInfo
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleLiveEvent
 
@@ -14,12 +12,10 @@ interface IPhoneVerificationSignIn {
     interface ViewModel : IBase.ViewModel<State> {
         val verifyOtpResult: SingleLiveEvent<Boolean>
         val postDemographicDataResult: SingleLiveEvent<Boolean>
-        val accountInfo: MutableLiveData<AccountInfo>
         fun postDemographicData()
         fun handlePressOnResend(context: Context)
         fun handlePressOnSendButton()
         fun verifyOtp()
-        fun getAccountInfo()
     }
 
     interface State : IBase.State {

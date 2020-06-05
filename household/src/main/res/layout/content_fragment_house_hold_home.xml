@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="co.yap.translation.Strings" />
+
+        <variable
+            name="viewModel"
+            type="co.yap.household.dashboard.home.HouseHoldHomeVM" />
+    </data>
+
+    <co.yap.widgets.MultiStateView
+        android:id="@+id/multiStateViewMain"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        app:msv_animateViewChanges="true"
+        app:msv_emptyView="@layout/layout_welcome_to_yap_view"
+        app:msv_errorView="@layout/layout_home_no_transaction"
+        app:msv_loadingView="@layout/layout_loading_view_top"
+        app:msv_viewState="loading"
+        app:viewState="@{viewModel.state.accountActivateLiveData}">
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                style="@style/Yap.App.Widget.TextView.Label"
+                android:layout_gravity="center_horizontal"
+                android:padding="@dimen/margin_small"
+                android:text="Choose where you want to spend from"
+                android:textColor="@color/colorPrimaryHouseHold"
+                tools:text="Choose where you want to spend from" />
+
+            <com.jaygoo.widget.RangeSeekBar
+                android:id="@+id/rsbAmount"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:elevation="@dimen/_2sdp"
+                android:paddingStart="@dimen/margin_extra_large"
+                android:paddingEnd="@dimen/margin_extra_large"
+                app:rsb_max="200"
+                app:rsb_mode="single"
+                app:rsb_progress_color="#080145"
+                app:rsb_progress_default_color="#080145"
+                app:rsb_progress_height="4dp"
+                app:rsb_progress_radius="@dimen/_2sdp"
+                app:rsb_step_drawable="@drawable/ic_seekbar_thumb_tick"
+                app:rsb_steps="2"
+                app:rsb_thumb_drawable="@drawable/ic_seekbar_thumb_tick"
+                app:rsb_thumb_height="@dimen/_24sdp"
+                app:rsb_thumb_width="@dimen/_24sdp" />
+
+            <co.yap.widgets.radiocus.PresetRadioGroup
+                android:id="@+id/selectorGroup"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="-28dp"
+                android:weightSum="2"
+                app:layout_constraintBottom_toTopOf="@+id/clTransactionHeader"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/space"
+                app:presetRadioCheckedId="@id/firstIndicator"
+                app:rangeSeekBarId="@id/rsbAmount">
+
+                <co.yap.widgets.radiocus.PresetValueButton
+                    android:id="@+id/firstIndicator"
+                    style="@style/ALarge"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="@dimen/margin_large"
+                    android:layout_marginTop="@dimen/margin_extra_small"
+                    android:layout_marginEnd="@dimen/margin_extra_small"
+                    android:layout_marginBottom="@dimen/margin_small"
+                    android:layout_weight="1"
+                    android:background="@drawable/background_selector_preset_button"
+                    app:cardCornerRadius="@dimen/_4sdp"
+                    app:cardElevation="2dp"
+                    app:lable1="My money"
+                    app:lable2="AED 0.00" />
+
+                <co.yap.widgets.radiocus.PresetValueButton
+                    android:id="@+id/secondIndicator"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="@dimen/margin_extra_small"
+                    android:layout_marginTop="@dimen/margin_extra_small"
+                    android:layout_marginEnd="@dimen/margin_large"
+                    android:layout_marginBottom="@dimen/margin_small"
+                    android:layout_weight="1"
+                    android:background="@drawable/background_selector_preset_button"
+                    android:textStyle="normal"
+                    app:cardCornerRadius="@dimen/_4sdp"
+                    app:cardElevation="2dp"
+                    app:lable1="Expense money"
+                    app:lable2="AED 0.00" />
+            </co.yap.widgets.radiocus.PresetRadioGroup>
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/clTransactionHeader"
+                style="@style/Yap.App.Layout.LinearLayout.Horizontal.match_parent">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvTransactionTitle"
+                    style="@style/ASmall"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:paddingStart="@dimen/margin_medium_large"
+                    android:paddingEnd="@dimen/margin_medium_large"
+                    android:paddingBottom="@dimen/margin_small"
+                    android:text="@string/screen_household_home_display_text_transactions_heading_title"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:text="@{Strings.screen_household_home_display_text_transactions_heading_title}"
+                    tools:text="@string/screen_household_home_display_text_transactions_heading_title" />
+
+                <co.yap.widgets.TextViewRichDrawable
+                    android:id="@+id/tvFilters"
+                    style="@style/ASmall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:drawableStart="@drawable/ic_filter"
+                    android:drawableTint="@color/colorPrimaryHouseHold"
+                    android:gravity="center"
+                    android:onClick="@{(v)-> viewModel.handlePressOnView(v.id)}"
+                    android:paddingStart="@dimen/margin_medium_large"
+                    android:paddingEnd="@dimen/margin_medium_large"
+                    android:paddingBottom="@dimen/margin_small"
+                    android:textColor="@color/colorPrimaryHouseHold"
+                    app:drawableTint="@color/colorPrimaryHouseHold"
+                    app:rtdrawableTint="@color/colorPrimaryHouseHold"
+                    app:text="@{Strings.screen_household_home_display_text_transactions_filers_title}"
+                    tools:text="@string/screen_household_home_display_text_transactions_filers_title" />
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <View
+                android:id="@+id/divider"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/divider"
+                app:layout_constraintTop_toBottomOf="@id/clTransactionHeader" />
+
+            <co.yap.widgets.MultiStateView
+                android:id="@+id/multiStateView"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                app:msv_animateViewChanges="true"
+                app:msv_emptyView="@layout/layout_welcome_to_yap_view"
+                app:msv_errorView="@layout/layout_welcome_to_yap_view"
+                app:msv_loadingView="@layout/layout_loading_view_top"
+                app:viewState="@{viewModel.stateLiveData}">
+
+                <co.yap.widgets.advrecyclerview.pagination.PaginatedRecyclerView
+                    android:id="@+id/recyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentTop="true"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:setPagination="@{viewModel.paginationListener}"
+                    tools:listitem="@layout/item_home_transaction_child" />
+            </co.yap.widgets.MultiStateView>
+        </androidx.appcompat.widget.LinearLayoutCompat>
+    </co.yap.widgets.MultiStateView>
+</layout>

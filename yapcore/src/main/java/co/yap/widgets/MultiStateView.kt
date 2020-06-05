@@ -14,6 +14,8 @@ import android.widget.FrameLayout
 import androidx.annotation.Keep
 import androidx.annotation.LayoutRes
 import androidx.annotation.Nullable
+import androidx.databinding.BindingAdapter
+import androidx.viewpager.widget.ViewPager
 import co.yap.yapcore.R
 
 class MultiStateView
@@ -60,7 +62,7 @@ class MultiStateView
 
         val loadingViewResId = a.getResourceId(R.styleable.MultiStateView_msv_loadingView, -1)
         animateViewChangesDuration =
-            a.getInteger(R.styleable.MultiStateView_msv_animateViewChangesDuration, 400)
+            a.getInteger(R.styleable.MultiStateView_msv_animateViewChangesDuration, 100)
         if (loadingViewResId > -1) {
             val inflatedLoadingView = inflater.inflate(loadingViewResId, this, false)
             loadingView = inflatedLoadingView
@@ -98,10 +100,10 @@ class MultiStateView
 
 
     /**
-     * Returns the [View] associated with the [com.homemedics.app.widget.MultiStateView.ViewState]
+     * Returns the [View] associated with the [co.yap.widgets.MultiStateView.ViewState]
      *
-     * @param state The [com.homemedics.app.widget.MultiStateView.ViewState] with to return the view for
-     * @return The [View] associated with the [com.homemedics.app.widget.MultiStateView.ViewState], null if no view is present
+     * @param state The [co.yap.widgets.MultiStateView.ViewState] with to return the view for
+     * @return The [View] associated with the [co.yap.widgets.MultiStateView.ViewState], null if no view is present
      */
     @Nullable
     fun getView(state: ViewState): View? {
@@ -121,10 +123,10 @@ class MultiStateView
      * Sets the view for the given view state
      *
      * @param view          The [View] to use
-     * @param state         The [com.homemedics.app.widget.MultiStateView.ViewState]to set
-     * @param switchToState If the [com.homemedics.app.widget.MultiStateView.ViewState] should be switched to
+     * @param state         The [co.yap.widgets.MultiStateView.ViewState]to set
+     * @param switchToState If the [co.yap.widgets.MultiStateView.ViewState] should be switched to
      */
-    fun setViewForState(view: View, state: ViewState, switchToState: Boolean = false) {
+    private fun setViewForState(view: View, state: ViewState, switchToState: Boolean = false) {
         when (state) {
             ViewState.LOADING -> {
                 if (loadingView != null) removeView(loadingView)
@@ -155,11 +157,11 @@ class MultiStateView
     }
 
     /**
-     * Sets the [View] for the given [com.homemedics.app.widget.MultiStateView.ViewState]
+     * Sets the [View] for the given [co.yap.widgets.MultiStateView.ViewState]
      *
      * @param layoutRes     Layout resource id
-     * @param state         The [com.homemedics.app.widget.MultiStateView.ViewState] to set
-     * @param switchToState If the [com.homemedics.app.widget.MultiStateView.ViewState] should be switched to
+     * @param state         The [co.yap.widgets.MultiStateView.ViewState] to set
+     * @param switchToState If the [co.yap.widgets.MultiStateView.ViewState] should be switched to
      */
     fun setViewForState(
         @LayoutRes layoutRes: Int, state: ViewState,
@@ -247,7 +249,7 @@ class MultiStateView
     }
 
     /**
-     * Shows the [View] based on the [com.homemedics.app.widget.MultiStateView.ViewState]
+     * Shows the [View] based on the [co.yap.widgets.MultiStateView.ViewState]
      */
     private fun setView(previousState: ViewState) {
         when (viewState) {
@@ -331,7 +333,8 @@ class MultiStateView
                     previousView.visibility = View.GONE
                     val currentView = requireNotNull(getView(viewState))
                     currentView.visibility = View.VISIBLE
-                    ObjectAnimator.ofFloat(currentView, "alpha", 0.0f, 1.0f).setDuration(animateViewChangesDuration.toLong())
+                    ObjectAnimator.ofFloat(currentView, "alpha", 0.0f, 1.0f)
+                        .setDuration(animateViewChangesDuration.toLong())
                         .start()
                 }
             })
@@ -441,7 +444,7 @@ class State(
             return State(Status.LOADING, message)
         }
 
-        fun error(message: String): State {
+        fun error(message: String?): State {
             return State(Status.ERROR, message)
         }
 
@@ -460,5 +463,18 @@ class State(
         fun ideal(@Nullable message: String?): State {
             return State(Status.IDEAL, message)
         }
+
+        @JvmStatic
+        @BindingAdapter("viewState", requireAll = true)
+        fun handleState(view: MultiStateView, state: State? = success(null)) {
+            when (state?.status) {
+                Status.LOADING -> view.viewState = MultiStateView.ViewState.LOADING
+                Status.EMPTY -> view.viewState = MultiStateView.ViewState.EMPTY
+                Status.ERROR -> view.viewState = MultiStateView.ViewState.ERROR
+                Status.SUCCESS -> view.viewState = MultiStateView.ViewState.CONTENT
+            }
+        }
     }
+
+
 }

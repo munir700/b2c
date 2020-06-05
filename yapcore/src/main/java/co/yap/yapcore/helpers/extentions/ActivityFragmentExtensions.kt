@@ -1,3 +1,5 @@
+@file:JvmName("ActivityFragmentUtils")
+
 package co.yap.yapcore.helpers.extentions
 
 import android.app.Activity
@@ -23,6 +25,7 @@ import co.yap.yapcore.constants.Constants.FRAGMENT_CLASS
 import co.yap.yapcore.constants.Constants.SHOW_TOOLBAR
 import co.yap.yapcore.constants.Constants.TOOLBAR_TITLE
 import co.yap.yapcore.constants.RequestCodes
+import co.yap.yapcore.dagger.base.interfaces.CanFetchExtras
 import com.github.florent37.inlineactivityresult.kotlin.startForResult
 
 
@@ -35,7 +38,6 @@ inline fun <reified T : Any> Activity.launchActivity(
     options: Bundle? = null,
     noinline init: Intent.() -> Unit = {}
 ) {
-
     val intent = newIntent<T>(this)
     intent.init()
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
@@ -52,10 +54,30 @@ inline fun <reified T : Any> Fragment.launchActivity(
 ) {
     val intent = newIntent<T>(requireContext())
     intent.init()
+    intent.putExtra(EXTRA , options)
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
         startActivityForResult(intent, requestCode, options)
     } else {
         startActivityForResult(intent, requestCode)
+    }
+}
+
+inline fun <reified T : Any> Fragment.launchActivity(
+    requestCode: Int = -1,
+    options: Bundle? = null, clearPrevious: Boolean = false,
+    noinline init: Intent.() -> Unit = {}
+) {
+    val intent = newIntent<T>(requireContext())
+    intent.init()
+    intent.putExtra(EXTRA , options)
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+        startActivityForResult(intent, requestCode, options)
+        if (clearPrevious)
+            activity?.finish()
+    } else {
+        startActivityForResult(intent, requestCode)
+        if (clearPrevious)
+            activity?.finish()
     }
 }
 
@@ -70,6 +92,26 @@ inline fun <reified T : Any> Context.launchActivity(
         startActivity(intent, options)
     } else {
         startActivity(intent)
+    }
+}
+
+inline fun <reified T : Any> Fragment.launchActivityForResult(
+    requestCode: Int = -1,
+    options: Bundle? = null,
+    noinline init: Intent.() -> Unit = {},
+    noinline completionHandler: ((resultCode: Int, data: Intent?) -> Unit)? = null
+) {
+    completionHandler?.let {
+        val intent = newIntent<T>(requireContext())
+        intent.init()
+        intent.putExtra(EXTRA , options)
+        this.startForResult(intent) { result ->
+            it.invoke(result.resultCode, result.data)
+        }.onFailed { result ->
+            it.invoke(result.resultCode, result.data)
+        }
+    } ?: run {
+        launchActivity<T>(requestCode, options, init)
     }
 }
 
@@ -175,8 +217,8 @@ fun FragmentActivity.addFragment(
     ft.commit()
 }
 
-fun <T : Fragment> FragmentActivity.startFragment(
-    fragmentName: String,
+inline fun <reified T : Fragment> FragmentActivity.startFragment(
+    fragmentName: String = "",
     clearAllPrevious: Boolean = false,
     bundle: Bundle = Bundle(),
     requestCode: Int = -1,
@@ -184,7 +226,7 @@ fun <T : Fragment> FragmentActivity.startFragment(
     toolBarTitle: String = ""
 ) {
     val intent = Intent(this, FrameActivity::class.java)
-    intent.putExtra(FRAGMENT_CLASS, fragmentName)
+    intent.putExtra(FRAGMENT_CLASS, T::class.java.name)
     intent.putExtra(SHOW_TOOLBAR, showToolBar)
     intent.putExtra(TOOLBAR_TITLE, toolBarTitle)
     intent.putExtra(EXTRA, bundle)
@@ -236,9 +278,7 @@ fun <T : Fragment> FragmentActivity.startFragmentForResult(
         intent.putExtra(FRAGMENT_CLASS, fragmentName)
         intent.putExtra(EXTRA, bundle)
         intent.putExtra(SHOW_TOOLBAR, showToolBar)
-
         intent.putExtra(TOOLBAR_TITLE, toolBarTitle)
-
         (this as AppCompatActivity).startForResult(intent) { result ->
             completionHandler?.invoke(result.resultCode, result.data)
         }.onFailed { result ->
@@ -313,4 +353,43 @@ inline fun <reified T : BaseViewModel<*>> Fragment.viewModel(
 
 fun BaseBindingFragment<*>.close() = fragmentManager?.popBackStack()
 
+internal fun String.loadFragmentOrNull(): Fragment? =
+    try {
+        this.loadClassOrNull<Fragment>()?.newInstance()
+    } catch (e: ClassNotFoundException) {
+        null
+    }
 
+private inline fun <reified T : Any> Any.castOrNull() = this as? T
+private val classMap = mutableMapOf<String, Class<*>>()
+internal fun <T> String.loadClassOrNull(): Class<out T>? =
+    classMap.getOrPut(this) {
+        try {
+            Class.forName(this)
+        } catch (e: ClassNotFoundException) {
+            return null
+        }
+    }.castOrNull()
+
+/**
+ * Applies the [handleExtras] method to each of the [Fragment]s
+ * present in the specified [Collection].
+ *
+ * @param extras the [Bundle] of arguments
+ */
+fun Collection<Fragment>.handleExtras(extras: Bundle?) {
+    this.forEach { it.handleExtras(extras) }
+}
+
+/**
+ * Propagates the extras for further handling to the specified [Fragment]
+ * only if it (the specified [Fragment]) can handle the specified [Bundle] of arguments
+ * (if it (the specified [Fragment]) implements the [CanFetchExtras] interface)
+ *
+ * @param extras the [Bundle] of arguments
+ */
+fun Fragment.handleExtras(extras: Bundle?) {
+    if (this is CanFetchExtras) {
+        this.fetchExtras(extras)
+    }
+}

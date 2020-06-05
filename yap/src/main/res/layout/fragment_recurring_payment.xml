@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="co.yap.modules.subaccounts.paysalary.recurringpayment.RecurringPaymentVM" />
+
+        <import type="co.yap.translation.Strings" />
+
+        <import type="android.view.View" />
+
+        <import type="java.util.Calendar" />
+
+        <import type="co.yap.yapcore.enums.PackageType" />
+
+        <import type="androidx.lifecycle.MutableLiveData" />
+
+        <import type="co.yap.yapcore.helpers.DateUtils" />
+
+        <import type="co.yap.translation.Translator" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="@dimen/margin_medium">
+
+        <include
+            android:id="@+id/include4"
+            layout="@layout/layout_last_recurring_info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_medium"
+            android:visibility="@{viewModel.state.recurringTransaction!=null &amp;&amp; !viewModel.state.recurringTransaction.nextProcessingDate.empty? View.VISIBLE:View.GONE}"
+            app:amount="@{@string/screen_send_money_display_text_edit}"
+            app:date="@{viewModel.state.recurringTransaction!=null?Translator.INSTANCE.getString(context, Strings.screen_household_employee_salary_recurrent_auto_payment_secondary_text,viewModel.state.recurringTransaction.amount , DateUtils.INSTANCE.reformatStringDate(viewModel.state.recurringTransaction.nextProcessingDate,DateUtils.INSTANCE.SERVER_DATE_FORMAT,DateUtils.INSTANCE.FORMAT_DATE_MON_YEAR,DateUtils.INSTANCE.GMT , DateUtils.INSTANCE.TIME_ZONE_Default)):``}"
+            app:lable="@{@string/screen_household_employee_salary_edit_recurring_heading_text}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:subLabelTextColor="@{viewModel.state.recurringTransaction!=null?@color/colorPrimary:@color/colorPrimaryDark}" />
+
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="@+id/transferAmount"
+            app:layout_constraintEnd_toStartOf="@+id/guideLine"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/transferAmount">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                style="@style/Yap.App.Widget.TextView.Small.GrayDark"
+                android:textColor="?attr/colorPrimaryDarkAttr"
+                app:text="@{Strings.screen_household_amount_to_transfer_title}"
+                tools:text="@string/screen_household_amount_to_transfer_title" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                style="@style/Yap.App.Widget.TextView.Small.GrayDark"
+                android:layout_marginTop="@dimen/margin_extra_small"
+                app:text="@{Strings.screen_household_currency_title}"
+                tools:text="@string/screen_household_currency_title" />
+        </LinearLayout>
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideLine"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.5" />
+
+        <co.yap.widgets.EasyMoneyEditText
+            android:id="@+id/transferAmount"
+            style="@style/Yap.App.Widget.TextInputEditText.EasyMoney"
+            android:layout_width="0dp"
+            android:layout_marginTop="@dimen/margin_medium"
+            android:gravity="center"
+            android:onTextChanged="@{viewModel.onAmountChange}"
+            android:text="@={viewModel.state.amount}"
+            app:editable="@{true}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/guideLine"
+            app:layout_constraintTop_toBottomOf="@+id/include4">
+
+            <requestFocus />
+        </co.yap.widgets.EasyMoneyEditText>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvStartDateHeading"
+            style="@style/Small"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="@+id/tvDate"
+            app:layout_constraintEnd_toStartOf="@+id/guideLine"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/tvDate"
+            app:text="@{Strings.screen_household_start_date_title}"
+            tools:text="Starting date" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvDate"
+            style="@style/Yap.App.Widget.TextView.Date.Rounded"
+            android:layout_width="0dp"
+            android:layout_marginTop="@dimen/margin_medium_large"
+            android:gravity="center"
+            android:hint="@{DateUtils.INSTANCE.datetoString(Calendar.getInstance().time ,DateUtils.INSTANCE.FORMAT_DATE_MON_YEAR ,DateUtils.INSTANCE.GMT)}"
+            android:onClick="@{(v)->viewModel.datePicker()}"
+            android:text="@{viewModel.state.date}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/guideLine"
+            app:layout_constraintTop_toBottomOf="@+id/transferAmount" />
+
+        <RadioGroup
+            android:id="@+id/radioGroup"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_large"
+            app:layout_constraintTop_toBottomOf="@+id/tvDate">
+
+            <androidx.appcompat.widget.AppCompatRadioButton
+                android:id="@+id/rbDaily"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:button="@null"
+                android:drawableEnd="?android:attr/listChoiceIndicatorSingle"
+                android:onCheckedChanged="@{(v,c)->viewModel.onCheckedChanged(PackageType.DAILY.type,c)}"
+                android:theme="@style/MyRadioButton"
+                app:text="@{Strings.screen_household_daily_title}"
+                tools:text="Daily" />
+
+            <androidx.appcompat.widget.AppCompatRadioButton
+                android:id="@+id/rbWeekly"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:layout_marginTop="@dimen/margin_large"
+                android:background="@null"
+                android:button="@null"
+                android:drawableEnd="?android:attr/listChoiceIndicatorSingle"
+                android:onCheckedChanged="@{(v,c)->viewModel.onCheckedChanged(PackageType.WEEKLY.type,c)}"
+                android:theme="@style/MyRadioButton"
+                app:text="@{Strings.screen_household_weekly_title}"
+                tools:text="Weekly" />
+
+            <androidx.appcompat.widget.AppCompatRadioButton
+                android:id="@+id/rbMonthly"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_large"
+                android:background="@null"
+                android:button="@null"
+                android:drawableEnd="?android:attr/listChoiceIndicatorSingle"
+                android:onCheckedChanged="@{(v,c)->viewModel.onCheckedChanged(PackageType.MONTHLY.type,c)}"
+                android:theme="@style/MyRadioButton"
+                app:text="@{Strings.screen_household_monthly_title}"
+                tools:text="Monthly" />
+        </RadioGroup>
+
+        <co.yap.widgets.CoreButton
+            android:id="@+id/btnConfirm"
+            style="@style/FragmentsBtnStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin_xxl"
+            android:layout_marginTop="8dp"
+            android:layout_marginRight="@dimen/margin_xxl"
+            android:onClick="@{(v)->viewModel.handlePressOnClick(v.id)}"
+            app:btn_enable="true"
+            app:enableCoreButton="@{viewModel.state.amount.length()>0 &amp;&amp; viewModel.state.isValid &amp;&amp; viewModel.state.date.length()>2 &amp;&amp; viewModel.state.recurringInterval.length()>1}"
+            app:layout_constraintBottom_toTopOf="@+id/tvCancel"
+            app:layout_constraintHorizontal_bias="0.487"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/radioGroup"
+            app:layout_constraintVertical_bias="0.85"
+            app:text="@{Strings.screen_household_button_text}"
+            tools:text="Confirm" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvCancel"
+            style="@style/Yap.App.Widget.TextView"
+            android:onClick="@{(v)->viewModel.handlePressOnClick(v.id)}"
+            android:text="@string/screen_household_employee_salary_delete_recurring_text"
+            android:textColor="@color/colorPrimary"
+            android:visibility="@{viewModel.state.recurringTransaction!=null &amp;&amp; !viewModel.state.recurringTransaction.nextProcessingDate.empty? View.VISIBLE:View.GONE}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

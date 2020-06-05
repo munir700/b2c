@@ -6,7 +6,6 @@ import android.content.ContentUris
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.graphics.PorterDuff
 import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Build
@@ -27,8 +26,10 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.widget.AppCompatEditText
 import androidx.cardview.widget.CardView
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat
+import androidx.core.content.res.ResourcesCompat
 import androidx.databinding.*
-import androidx.recyclerview.widget.RecyclerView
+import androidx.viewpager.widget.ViewPager
 import co.yap.networking.cards.responsedtos.Card
 import co.yap.networking.customers.responsedtos.beneficiary.TopUpCard
 import co.yap.translation.Translator
@@ -36,10 +37,16 @@ import co.yap.widgets.*
 import co.yap.widgets.otptextview.OTPListener
 import co.yap.widgets.otptextview.OtpTextView
 import co.yap.yapcore.R
-import co.yap.yapcore.constants.Constants
-import co.yap.yapcore.enums.*
-import co.yap.yapcore.helpers.*
+import co.yap.yapcore.enums.CardDeliveryStatus
+import co.yap.yapcore.enums.CardStatus
+import co.yap.yapcore.enums.CardType
+import co.yap.yapcore.enums.PartnerBankStatus
+import co.yap.yapcore.helpers.DateUtils
+import co.yap.yapcore.helpers.StringUtils
+import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.helpers.extentions.dimen
 import co.yap.yapcore.helpers.extentions.loadImage
+import co.yap.yapcore.helpers.glide.setCircleCropImage
 import co.yap.yapcore.interfaces.IBindable
 import co.yap.yapcore.managers.MyUserManager
 import com.bumptech.glide.Glide
@@ -47,6 +54,8 @@ import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.daimajia.androidanimations.library.Techniques
 import com.daimajia.androidanimations.library.YoYo
+import com.yarolegovich.discretescrollview.DiscreteScrollView
+import com.yarolegovich.discretescrollview.transform.ScaleTransformer
 import java.text.SimpleDateFormat
 
 object UIBinder {
@@ -721,7 +730,7 @@ object UIBinder {
     //    @BindingAdapter(value = ["src", "addCallback"], requireAll = false)
     @BindingAdapter("src")
     @JvmStatic
-    fun setImageResId(view: ImageView, path: String) {
+    fun setImageResId(view: ImageView, path: String?) {
         Glide.with(view.context)
             .load(path).centerCrop().placeholder(R.color.greyLight)
             .into(view)
@@ -861,7 +870,6 @@ object UIBinder {
     }
 
 
-
     @JvmStatic
     @BindingAdapter("cardNickname")
     fun setCardNickname(view: CorePaymentCard, cardNickname: String?) {
@@ -901,21 +909,92 @@ object UIBinder {
     @JvmStatic
     @BindingAdapter("editable")
     fun setEditTextEditable(editText: EditText, editable: Boolean = true) {
+        if (editable)
+            editText.requestFocus()
         editText.isFocusable = editable
         editText.isFocusableInTouchMode = editable
         editText.isClickable = editable
         editText.isCursorVisible = editable
     }
 
+//    @JvmStatic
+//    @BindingAdapter("app:mAdapter")
+//    fun setAdapter(
+//        view: RecyclerView,
+//        adapter: RecyclerView.Adapter<out RecyclerView.ViewHolder>?
+//    ) {
+//        if (null == adapter)
+//            return
+//        view.adapter = adapter
+//    }
+
     @JvmStatic
-    @BindingAdapter("app:mAdapter")
-    fun setAdapter(
-        view: RecyclerView,
-        adapter: RecyclerView.Adapter<out RecyclerView.ViewHolder>?
-    ) {
-        if (null == adapter)
-            return
-        view.adapter = adapter
+    @BindingAdapter("ibanMask")
+    fun maskIbanNo(view: AppCompatEditText, ibanMask: String?) {
+        ibanMask?.let { view.addTextChangedListener(MaskTextWatcher(view, it)) }
     }
 
+    @JvmStatic
+    @BindingAdapter(value = ["imageUrl", "fullName", "resId"], requireAll = true)
+    fun loadAvatar(imageView: ImageView, imageUrl: String?, fullName: String?, resId: Int = -1) {
+
+        if (resId != -1) {
+            imageView.setImageResource(resId)
+        } else {
+            val builder = TextDrawable.builder()
+            builder.beginConfig().width(imageView.context.dimen(R.dimen._35sdp))
+                .height(imageView.context.dimen(R.dimen._35sdp))
+                .fontSize(imageView.context.dimen(R.dimen.text_size_h2))
+                .useFont(ResourcesCompat.getFont(imageView.context, R.font.roboto_regular)!!)
+                .textColor(ContextCompat.getColor(imageView.context, R.color.purple))
+            setCircleCropImage(
+                imageView,
+                imageUrl ?: "",
+                builder.buildRect(
+                    Utils.shortName(fullName ?: "Unknown"),
+                    ContextCompat.getColor(imageView.context, android.R.color.transparent)
+                )
+            )
+        }
+    }
+
+    @JvmStatic
+    @BindingAdapter("offscreenPageLimit")
+    fun viewPagerOffscreenPageLimit(view: ViewPager, offscreenPageLimit: Int = 2) {
+        view.offscreenPageLimit = offscreenPageLimit
+    }
+
+    @BindingAdapter("slideOnFling")
+    @JvmStatic
+    fun setSlideOnFling(view: DiscreteScrollView, slide: Boolean) {
+        view.setSlideOnFling(slide)
+    }
+
+    @BindingAdapter("scrollEnable")
+    @JvmStatic
+    fun setOverScrollEnabled(view: DiscreteScrollView, overScroll: Boolean) {
+        view.setOverScrollEnabled(overScroll)
+    }
+
+    @BindingAdapter("scrollTo")
+    @JvmStatic
+    fun smoothScrollToPosition(view: DiscreteScrollView, smoothScroll: Int) {
+        view.smoothScrollToPosition(smoothScroll)
+    }
+
+    @BindingAdapter("transitionTime")
+    @JvmStatic
+    fun setItemTransitionTimeMillis(view: DiscreteScrollView, transitionTime: Int) {
+        view.setItemTransitionTimeMillis(transitionTime)
+    }
+
+    @BindingAdapter("itemTransformer")
+    @JvmStatic
+    fun setItemTransformer(view: DiscreteScrollView, minScale: Float) {
+        view.setItemTransformer(
+            ScaleTransformer.Builder()
+                .setMinScale(minScale)
+                .build()
+        )
+    }
 }

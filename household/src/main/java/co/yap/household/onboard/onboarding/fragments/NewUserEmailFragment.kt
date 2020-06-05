@@ -12,14 +12,15 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import co.yap.household.BR
 import co.yap.household.R
-import co.yap.household.onboard.onboarding.main.OnBoardingHouseHoldActivity
 import co.yap.household.onboard.onboarding.interfaces.IEmail
+import co.yap.household.onboard.onboarding.main.OnBoardingHouseHoldActivity
 import co.yap.household.onboard.onboarding.viewmodels.EmailHouseHoldViewModel
 import co.yap.widgets.AnimatingProgressBar
-import co.yap.yapcore.enums.NotificationStatus
+import co.yap.yapcore.enums.AccountStatus
 import co.yap.yapcore.helpers.AnimationUtils
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.managers.MyUserManager
+import co.yap.yapcore.helpers.extentions.hideKeyboard
 
 class NewUserEmailFragment : OnboardingChildFragment<IEmail.ViewModel>() {
 
@@ -59,22 +60,14 @@ class NewUserEmailFragment : OnboardingChildFragment<IEmail.ViewModel>() {
     private val clickObserver = Observer<Int> {
         when (it) {
             R.id.next_button -> {
-                hideKeyboard()
+                requireView().hideKeyboard()
                 if (viewModel.hasDoneAnimation) {
-                    MyUserManager.user?.notificationStatuses = NotificationStatus.ON_BOARDED.name
+                    MyUserManager.user?.notificationStatuses = AccountStatus.ON_BOARDED.name
                     findNavController().navigate(R.id.action_emailHouseHoldFragment_to_newUserCongratulationsFragment)
                 } else {
                     viewModel.sendVerificationEmail()
                 }
             }
-        }
-    }
-
-    private fun hideKeyboard() {
-        try {
-            Utils.hideKeyboard(requireView())
-        } catch (e: Exception) {
-            e.printStackTrace()
         }
     }
 

@@ -44,12 +44,6 @@ class SubscriptionSelectionActivity :
     override val viewModel: IHouseHoldSubscription.ViewModel
         get() = ViewModelProviders.of(this).get(SubscriptionSelectionViewModel::class.java)
 
-    companion object {
-        fun newIntent(context: Context): Intent {
-            return Intent(context, SubscriptionSelectionActivity::class.java)
-        }
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         initViewPager()

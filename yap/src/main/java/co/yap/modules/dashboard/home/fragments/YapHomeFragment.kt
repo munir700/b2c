@@ -31,7 +31,6 @@ import co.yap.modules.dashboard.home.helpers.AppBarStateChangeListener
 import co.yap.modules.dashboard.home.helpers.transaction.TransactionsViewHelper
 import co.yap.modules.dashboard.home.interfaces.IYapHome
 import co.yap.modules.dashboard.home.interfaces.NotificationItemClickListener
-import co.yap.modules.dashboard.home.models.HomeNotification
 import co.yap.modules.dashboard.home.viewmodels.YapHomeViewModel
 import co.yap.modules.dashboard.main.activities.YapDashboardActivity
 import co.yap.modules.dashboard.main.fragments.YapDashboardChildFragment
@@ -47,6 +46,8 @@ import co.yap.networking.cards.responsedtos.Address
 import co.yap.networking.cards.responsedtos.Card
 import co.yap.networking.customers.responsedtos.AccountInfo
 import co.yap.networking.customers.responsedtos.documents.GetMoreDocumentsResponse
+import co.yap.networking.notification.HomeNotification
+import co.yap.networking.notification.NotificationAction
 import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionListData
 import co.yap.networking.transactions.responsedtos.transaction.Transaction
 import co.yap.translation.Strings
@@ -60,7 +61,6 @@ import co.yap.yapcore.constants.Constants.BROADCAST_UPDATE_TRANSACTION
 import co.yap.yapcore.constants.Constants.MODE_MEETING_CONFORMATION
 import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.enums.CardDeliveryStatus
-import co.yap.yapcore.enums.NotificationAction
 import co.yap.yapcore.enums.PartnerBankStatus
 import co.yap.yapcore.helpers.extentions.*
 import co.yap.yapcore.interfaces.OnItemClickListener
@@ -69,7 +69,6 @@ import com.google.android.material.appbar.AppBarLayout
 import com.yarolegovich.discretescrollview.transform.ScaleTransformer
 import kotlinx.android.synthetic.main.view_graph.*
 import kotlin.math.abs
-
 
 class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHome.View,
     NotificationItemClickListener, SwipeRefreshLayout.OnRefreshListener {
@@ -579,21 +578,12 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
             viewModel.txnFilters = it
             homeTransactionsRequest.number = 0
             homeTransactionsRequest.size = YAPApplication.pageSize
-            homeTransactionsRequest.txnType = getTxnType()
+            homeTransactionsRequest.txnType = it.getTxnType()
             homeTransactionsRequest.amountStartRange = it.amountStartRange
             homeTransactionsRequest.amountEndRange = it.amountEndRange
             homeTransactionsRequest.title = null
             homeTransactionsRequest.totalAppliedFilter = it.totalAppliedFilter
         }
-    }
-
-    private fun getTxnType(): String? {
-        return if (viewModel.txnFilters.incomingTxn == false && viewModel.txnFilters.outgoingTxn == false || viewModel.txnFilters.incomingTxn == true && viewModel.txnFilters.outgoingTxn == true) {
-            null
-        } else if (viewModel.txnFilters.incomingTxn == true)
-            Constants.MANUAL_CREDIT
-        else
-            Constants.MANUAL_DEBIT
     }
 
     private fun getFilterTransactions() {

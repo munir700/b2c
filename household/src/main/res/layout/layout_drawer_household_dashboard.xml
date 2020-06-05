@@ -4,11 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="viewModel"
-            type="co.yap.household.dashboard.main.viewmodels.HouseholdDashboardViewModel" />
+            type="co.yap.household.dashboard.main.HouseHoldDashBoardVM" />
 
+        <import type="co.yap.translation.Strings" />
     </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -28,7 +31,9 @@
             <!-- Header -->
             <include
                 android:id="@+id/lyHeader_section"
-                layout="@layout/layout_drawer_header" />
+                layout="@layout/layout_drawer_header"
+                android:onClick="@{(v) -> viewModel.handlePressOnView(v.getId())}"
+                app:viewModel="@{viewModel}" />
 
             <View
                 android:id="@+id/divider1"
@@ -112,22 +117,19 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/clLeftContainer"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintWidth_percent="0.2">
+            app:layout_constraintTop_toTopOf="parent">
 
-            <co.yap.widgets.CoreCircularImageView
-                android:id="@+id/ivProfilePic"
-                android:layout_width="@dimen/_45sdp"
-                android:layout_height="@dimen/_45sdp"
-                android:contentDescription="@string/app_name"
-                android:background="@drawable/circle"
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerView"
+                android:layout_width="@dimen/_55sdp"
+                android:layout_height="0dp"
+                android:orientation="vertical"
+                app:adapter="@{viewModel.profilePictureAdapter}"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                android:src="@drawable/ic_expense"
-                tools:src="@drawable/ic_statement" />
-            <!--        app:fullName="@{viewModel.state.beneficiaryName}"-->
-            <!--        app:beneficiaryPicture="@{viewModel.state.beneficiaryPicture}"-->
+                tools:listitem="@layout/item_dashboard_menu_profile_pic" />
 
             <ImageView
                 android:id="@+id/ivSettings"
@@ -144,5 +146,5 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <!-- Right Section End -->
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

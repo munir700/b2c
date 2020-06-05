@@ -1,0 +1,102 @@
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="co.yap.modules.subaccounts.paysalary.subscription.SubscriptionVM" />
+        <import type="co.yap.translation.Strings" />
+    </data>
+
+    <co.yap.widgets.MultiStateView
+        android:id="@+id/multiStateView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:msv_animateViewChanges="true"
+        app:msv_emptyView="@layout/layout_empty_view_no_results"
+        app:msv_errorView="@layout/layout_error_view"
+        app:msv_loadingView="@layout/layout_loading_view"
+        app:msv_viewState="loading">
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="@dimen/margin_medium"
+            tools:context=".modules.subaccounts.paysalary.subscription.SubscriptionFragment">
+
+            <co.yap.widgets.CoreCircularImageView
+                android:id="@+id/ivUserImage"
+                style="@style/Yap.App.Widget.ImageView.Circle"
+                android:layout_gravity="center_horizontal"
+                android:src="@drawable/ic_store_b2b"
+                app:colorType="@{`Beneficiary`}"
+                app:fullName="@{viewModel.state.subAccount.fullName}"
+                app:imageUrl="@{viewModel.state.subAccount.profilePictureUrl}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:position="@{0}" />
+
+            <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/swAutoRenewal"
+                style="@style/Regular"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_extra_large"
+                android:checked="@{viewModel.state.subscriptionResponseModel.isAutoRenew}"
+                android:enabled="@{viewModel.state.subscriptionResponseModel.status.equals(`ACTIVE`)&amp;&amp;viewModel.state.subscriptionResponseModel.isActive?true:false}"
+                android:onClick="@{(v)->viewModel.setUpSubscription()}"
+                android:paddingTop="@dimen/margin_normal"
+                android:paddingBottom="@dimen/margin_normal"
+                android:theme="@style/CustomSwitch"
+                app:text="@{Strings.screen_household_renewable_title}" />
+
+            <include
+                layout="@layout/layout_horizontal_text_views"
+
+                app:title="@{@string/screen_household_cancel_subscription_name_title}"
+                app:value="@{viewModel.state.subAccount.fullName}" />
+
+            <include
+                layout="@layout/layout_horizontal_text_views"
+                app:title="@{@string/screen_household_cancel_subscription_start_date_title}"
+                app:value="@{viewModel.state.subscriptionResponseModel.startDate}" />
+
+            <include
+                layout="@layout/layout_horizontal_text_views"
+                app:title="@{@string/screen_household_cancel_subscription_end_date_title}"
+                app:value="@{viewModel.state.subscriptionResponseModel.endDate}" />
+
+            <include
+                layout="@layout/layout_horizontal_text_views"
+                app:title="@{@string/screen_household_cancel_subscription_plan_type_title}"
+                app:value="@{viewModel.state.subscriptionResponseModel.planType}" />
+
+            <include
+                layout="@layout/layout_horizontal_text_views"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                app:title="@{@string/screen_household_cancel_subscription_cost_title}"
+                app:value="@{`AED `+viewModel.state.subscriptionResponseModel.price+`/`+(viewModel.state.subscriptionResponseModel.planType.equals(`MONTHLY`)?`month`:`year`)}" />
+
+            <co.yap.widgets.CoreButton
+                android:id="@+id/btnConfirm"
+                style="@style/FragmentsBtnStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="@dimen/margin_small"
+                android:gravity="center"
+                android:onClick="@{(v)->viewModel.state.subscriptionResponseModel.status.equals(`ACTIVE`)&amp;&amp;viewModel.state.subscriptionResponseModel.isActive?viewModel.handlePressOnClick(context):viewModel.reActivateSubscription()}"
+                android:paddingStart="@dimen/margin_extra_large"
+                android:paddingEnd="@dimen/margin_extra_large"
+                android:text="@{viewModel.state.subscriptionResponseModel.status.equals(`ACTIVE`)&amp;&amp;viewModel.state.subscriptionResponseModel.isActive?@string/screen_household_cancel_subscription_title:@string/screen_household_reactivate_subscription_title}"
+                app:btn_enable="true"
+                tools:text="Add" />
+        </androidx.appcompat.widget.LinearLayoutCompat>
+    </co.yap.widgets.MultiStateView>
+</layout>

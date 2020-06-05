@@ -15,9 +15,10 @@ import co.yap.household.BR
 import co.yap.household.R
 import co.yap.household.onboard.cardselection.HouseHoldCardsSelectionActivity
 import co.yap.household.onboard.onboarding.interfaces.INewUserSuccess
+import co.yap.household.onboard.onboarding.invalideid.InvalidEIDFragment
 import co.yap.household.onboard.onboarding.viewmodels.NewUserSuccessViewModel
-import co.yap.household.onboard.otherscreens.InvalidEIDActivity
 import co.yap.modules.kyc.activities.DocumentsDashboardActivity
+import co.yap.modules.kyc.enums.KYCAction
 import co.yap.modules.onboarding.activities.LiteDashboardActivity
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.RequestCodes
@@ -25,6 +26,7 @@ import co.yap.yapcore.helpers.AnimationUtils
 import co.yap.yapcore.helpers.extentions.ExtraType
 import co.yap.yapcore.helpers.extentions.getValue
 import co.yap.yapcore.helpers.extentions.launchActivity
+import co.yap.yapcore.helpers.extentions.startFragment
 import co.yap.yapcore.managers.MyUserManager
 import kotlinx.android.synthetic.main.fragment_new_user_success.*
 import kotlinx.coroutines.delay
@@ -90,7 +92,8 @@ class NewUserSuccessFragment :
                             Constants.skipped,
                             ExtraType.BOOLEAN.name
                         ) as? Boolean
-
+//
+                    val status = data.getStringExtra("status")
                     success?.let {
                         if (it) {
                             startActivity(
@@ -103,20 +106,13 @@ class NewUserSuccessFragment :
                         } else {
                             skipped?.let { skip ->
                                 if (skip) {
-                                    startActivity(
-                                        Intent(
-                                            requireContext(),
-                                            LiteDashboardActivity::class.java
-                                        )
-                                    )
-                                } else {
-                                    startActivity(
-                                        Intent(
-                                            requireContext(),
-                                            InvalidEIDActivity::class.java
-                                        )
-                                    )
+                                    when (status) {
+                                        KYCAction.ACTION_EID_FAILED.name ->
+                                            startFragment(InvalidEIDFragment::class.java.name)
+                                        else-> launchActivity<LiteDashboardActivity>(clearPrevious = true)
+                                    }
                                 }
+
                             }
                         }
                     }

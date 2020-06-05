@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/iban_subaccount_navigation"
+    app:startDestination="@id/futurePaymentFragment"
+    tools:ignore="InvalidNavigation">
+    <fragment
+        android:id="@+id/subAccountDashBoardFragment"
+        android:name="co.yap.modules.subaccounts.account.dashboard.SubAccountDashBoardFragment"
+        android:label="SubAccountDashBoardFragment"
+        tools:layout="@layout/fragment_sub_account_dash_board">
+        <action
+            android:id="@+id/action_subAccountDashBoardFragment_to_HHSalaryProfileFragment"
+            app:destination="@id/HHSalaryProfileFragment" />
+        <action
+            android:id="@+id/action_subAccountDashBoardFragment_to_HHIbanSendMoneyFragment"
+            app:destination="@id/HHIbanSendMoneyFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_to_bottom"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_left" />
+    </fragment>
+    <fragment
+        android:id="@+id/HHSalaryProfileFragment"
+        android:name="co.yap.modules.subaccounts.paysalary.profile.HHSalaryProfileFragment"
+        android:label="HHSalaryProfileFragment"
+        tools:layout="@layout/fragment_hhsalary_profile">
+        <action
+            android:id="@+id/action_HHSalaryProfileFragment_to_subscriptionFragment"
+            app:destination="@id/subscriptionFragment" />
+        <action
+            android:id="@+id/action_HHSalaryProfileFragment_to_payHHEmployeeSalaryFragment"
+            app:destination="@id/payHHEmployeeSalaryFragment" />
+        <action
+            android:id="@+id/action_HHSalaryProfileFragment_to_HHProfileFragment"
+            app:destination="@id/HHProfileFragment" />
+        <action
+            android:id="@+id/action_HHSalaryProfileFragment_to_HHIbanSendMoneyFragment"
+            app:destination="@id/HHIbanSendMoneyFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/enterSalaryAmountFragment"
+        android:name="co.yap.modules.subaccounts.paysalary.entersalaryamount.EnterSalaryAmountFragment"
+        android:label="EnterSalaryAmountFragment"
+        tools:layout="@layout/fragment_enter_salary_amount">
+        <action
+            android:id="@+id/action_enterSalaryAmountFragment_to_paymentConfirmationFragment"
+            app:destination="@id/paymentConfirmationFragment" />
+        <action
+            android:id="@+id/action_enterSalaryAmountFragment_to_HHProfileFragment"
+            app:destination="@id/HHProfileFragment" />
+        <action
+            android:id="@+id/action_enterSalaryAmountFragment_to_recurringPaymentFragment"
+            app:destination="@id/recurringPaymentFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/paymentConfirmationFragment"
+        android:name="co.yap.modules.subaccounts.confirmation.PaymentConfirmationFragment"
+        android:label="PaymentConfirmationFragment"
+        tools:layout="@layout/fragment_payment_confirmation">
+        <action
+            android:id="@+id/action_paymentConfirmationFragment_to_HHProfileFragment"
+            app:destination="@id/HHProfileFragment" />
+        <action
+            android:id="@+id/action_paymentConfirmationFragment_to_subAccountDashBoardFragment"
+            app:destination="@id/subAccountDashBoardFragment"
+            app:popUpTo="@+id/subAccountDashBoardFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/payHHEmployeeSalaryFragment"
+        android:name="co.yap.modules.subaccounts.paysalary.employee.PayHHEmployeeSalaryFragment"
+        android:label="PayHHEmployeeSalaryFragment"
+        tools:layout="@layout/fragment_pay_hhemployee_salary">
+        <action
+            android:id="@+id/action_payHHEmployeeSalaryFragment_to_enterSalaryAmountFragment"
+            app:destination="@id/enterSalaryAmountFragment" />
+        <action
+            android:id="@+id/action_payHHEmployeeSalaryFragment_to_futurePaymentFragment"
+            app:destination="@id/futurePaymentFragment" />
+        <action
+            android:id="@+id/action_payHHEmployeeSalaryFragment_to_recurringPaymentFragment"
+            app:destination="@id/recurringPaymentFragment" />
+        <action
+            android:id="@+id/action_payHHEmployeeSalaryFragment_to_HHProfileFragment"
+            app:destination="@id/HHProfileFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/recurringPaymentFragment"
+        android:name="co.yap.modules.subaccounts.paysalary.recurringpayment.RecurringPaymentFragment"
+        android:label="RecurringPaymentFragment"
+        tools:layout="@layout/fragment_recurring_payment">
+        <action
+            android:id="@+id/action_recurringPaymentFragment_to_paymentConfirmationFragment"
+            app:destination="@id/paymentConfirmationFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/futurePaymentFragment"
+        android:name="co.yap.modules.subaccounts.paysalary.future.FuturePaymentFragment"
+        android:label="FuturePaymentFragment"
+        tools:layout="@layout/fragment_future_payment">
+        <action
+            android:id="@+id/action_futurePaymentFragment_to_paymentConfirmationFragment"
+            app:destination="@id/paymentConfirmationFragment" />
+        <action
+            android:id="@+id/action_futurePaymentFragment_to_HHProfileFragment"
+            app:destination="@id/HHProfileFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/subscriptionFragment"
+        android:name="co.yap.modules.subaccounts.paysalary.subscription.SubscriptionFragment"
+        android:label="SubscriptionFragment"
+        tools:layout="@layout/fragment_subscription">
+        <action
+            android:id="@+id/action_subscriptionFragment_to_HHProfileFragment"
+            app:destination="@id/HHProfileFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/HHProfileFragment"
+        android:name="co.yap.modules.subaccounts.paysalary.profile.cardholderprofile.HHProfileFragment"
+        android:label="HHProfileFragment"
+        tools:layout="@layout/fragment_hh_profile" />
+    <fragment
+        android:id="@+id/HHIbanSendMoneyFragment"
+        android:name="co.yap.modules.subaccounts.paysalary.transfer.HHIbanSendMoneyFragment"
+        android:label="HHIbanSendMoneyFragment"
+        tools:layout="@layout/fragment_hhiban_send_money">
+        <action
+            android:id="@+id/action_HHIbanSendMoneyFragment_to_HHIbanSendMoneyConfirmationFragment"
+            app:destination="@id/HHIbanSendMoneyConfirmationFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_to_bottom"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_left" />
+        <action
+            android:id="@+id/action_HHIbanSendMoneyFragment_to_HHProfileFragment"
+            app:destination="@id/HHProfileFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/HHIbanSendMoneyConfirmationFragment"
+        android:name="co.yap.modules.subaccounts.paysalary.transfer.confirmation.HHIbanSendMoneyConfirmationFragment"
+        android:label="HHIbanSendMoneyConfirmationFragment"
+        tools:layout="@layout/fragment_hhiban_send_money_confirmation" />
+</navigation>

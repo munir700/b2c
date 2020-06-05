@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="navHostPresenterVM"
+            type="co.yap.yapcore.dagger.base.navigation.host.NavHostPresenterVM" />
+
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:orientation="vertical">
+
+        <include
+            layout="@layout/layout_common_toolbar"
+            app:toolbarTitle="@{navHostPresenterVM.state.toolbarTitle}"
+            app:toolsBarVisibility="@{navHostPresenterVM.state.toolsBarVisibility}" />
+
+        <fragment
+            android:id="@+id/nav_host_fragment"
+            android:name="co.yap.yapcore.dagger.base.MvvmNavHostFragment"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            app:defaultNavHost="true" />
+
+    </LinearLayout>
+</layout>

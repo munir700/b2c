@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="co.yap.household.setpin.setnewpin.HHSetPinVM" />
+
+        <import type="co.yap.translation.Strings" />
+
+        <import type="android.view.View" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvTitle"
+            style="@style/Yap.App.Widget.TextInputEditText.SetPin"
+            android:text="@{viewModel.state.setPinDataModel.setPinTitle}"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:gravity="center_horizontal"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="@string/screen_set_card_pin_display_text_title" />
+
+        <include
+            layout="@layout/include_layout_number_keyboard"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:viewModel="@{viewModel}"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvTitle"
+            app:layout_constraintBottom_toTopOf="@+id/clTermsAndConditions"/>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/clTermsAndConditions"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_medium"
+            android:layout_marginBottom="@dimen/margin_small"
+            android:visibility="@{viewModel.state.setPinDataModel.termsAndConditionVisibility?View.VISIBLE:View.GONE}"
+            app:layout_constraintBottom_toTopOf="@+id/btnAction"
+            app:layout_constraintTop_toBottomOf="@+id/dialer">
+
+            <TextView
+                android:id="@+id/tvTermsAndConditionsTitle"
+                style="@style/AMicroGrey"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textAlignment="center"
+                app:layout_constraintBottom_toTopOf="@+id/tvTermsAndConditions"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:text="@{Strings.screen_confirm_card_pin_display_title_terms_and_conditions}"
+                tools:text="@string/screen_confirm_card_pin_display_title_terms_and_conditions" />
+
+            <TextView
+                android:id="@+id/tvTermsAndConditions"
+                style="@style/Yap.App.Widget.TermsAndConditions"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvTermsAndConditionsTitle"
+                app:text="@{Strings.screen_confirm_card_pin_display_text_terms_and_conditions}"
+                tools:text="@string/screen_confirm_card_pin_display_text_terms_and_conditions" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <co.yap.widgets.CoreButton
+            android:id="@+id/btnAction"
+            style="@style/Yap.App.Widget.Button.Action"
+            android:onClick="@{(v)-> viewModel.state.setPinDataModel.screenType.equalsIgnoreCase(`setPin`)?viewModel.handleButtonPress(v.id):viewModel.setCardPin()}"
+            android:text="@{viewModel.state.setPinDataModel.buttonTitle}"
+            app:btn_enable="true"
+            app:layout_constraintBottom_toTopOf="@+id/tvForgotPasscode"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/clTermsAndConditions"
+            tools:ignore="MissingConstraints"
+            tools:text="@string/screen_set_card_pin_button_create_pin" />
+
+        <TextView
+            android:id="@+id/tvForgotPasscode"
+            style="@style/Yap.App.Widget.ForgotPasscode"
+            android:visibility="@{viewModel.state.setPinDataModel.forgotPassCodeVisibility?View.VISIBLE:View.GONE}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:text="@{Strings.screen_verify_passcode_text_forgot_password}"
+            tools:text="@string/screen_verify_passcode_text_forgot_password"
+
+            />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

@@ -2,6 +2,7 @@ package co.yap.yapcore
 
 import android.app.Application
 import android.content.Context
+import android.os.Bundle
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
@@ -91,7 +92,7 @@ abstract class BaseViewModel<S : IBase.State>(application: Application) :
         block()
 
     }
-
+    override fun async(block: suspend () -> Unit) = viewModelScope.async { block }
     override fun getString(resourceId: Int): String = Translator.getString(context, resourceId)
 
     override fun getString(resourceId: String): String = Translator.getString(context, resourceId)

@@ -8,7 +8,6 @@ import co.yap.app.modules.login.interfaces.IVerifyPasscode
 import co.yap.app.modules.login.states.VerifyPasscodeState
 import co.yap.networking.authentication.AuthRepository
 import co.yap.networking.customers.CustomersRepository
-import co.yap.networking.customers.responsedtos.AccountInfo
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.messages.MessagesRepository
 import co.yap.networking.messages.requestdtos.CreateForgotPasscodeOtpRequest
@@ -20,8 +19,6 @@ import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleLiveEvent
 import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.helpers.Utils
-import co.yap.yapcore.leanplum.trackEventWithAttributes
-import co.yap.yapcore.managers.MyUserManager
 import java.util.concurrent.TimeUnit
 
 class VerifyPasscodeViewModel(application: Application) :
@@ -38,7 +35,6 @@ class VerifyPasscodeViewModel(application: Application) :
     private val customersRepository: CustomersRepository = CustomersRepository
     override var mobileNumber: String = ""
     override var EVENT_LOGOUT_SUCCESS: Int = 101
-    override val accountInfo: MutableLiveData<AccountInfo> = MutableLiveData()
     private val messagesRepository: MessagesRepository = MessagesRepository
 
     private fun handleAttemptsError(error: ApiError) {
@@ -146,25 +142,6 @@ class VerifyPasscodeViewModel(application: Application) :
         }
     }
 
-    override fun getAccountInfo() {
-        launch {
-            when (val response = customersRepository.getAccountInfo()) {
-                is RetroApiResponse.Success -> {
-                    if (!response.data.data.isNullOrEmpty()) {
-                        MyUserManager.user = response.data.data[0]
-                        accountInfo.postValue(response.data.data[0])
-                        trackEventWithAttributes(MyUserManager.user)
-                        state.loading = false
-                    }
-                }
-                is RetroApiResponse.Error -> {
-                    state.toast = "${response.error.message}^${AlertType.DIALOG.name}"
-                    state.loading = false
-                }
-            }
-        }
-    }
-
     override fun createOtp() {
         launch {
             when (val response =
@@ -205,6 +182,7 @@ class VerifyPasscodeViewModel(application: Application) :
             state.loading = false
         }
     }
+
     override fun handlePressOnPressView(id: Int) {
         onClickEvent.value = id
     }

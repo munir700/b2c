@@ -21,6 +21,13 @@ abstract class BaseState : BaseObservable(), IBase.State {
         }
 
     @get:Bindable
+    override var toolsBarVisibility: Boolean = true
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.toolsBarVisibility)
+        }
+
+    @get:Bindable
     override var error: String = ""
         set(value) {
             field = value

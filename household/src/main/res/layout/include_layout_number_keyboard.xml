@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="co.yap.household.setpin.setnewpin.HHSetPinVM" />
+
+        <import type="co.yap.translation.Strings" />
+
+        <import type="android.view.View" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/tvInputField"
+            style="@style/Yap.App.Widget.TextInputEditText.PinCode"
+            android:visibility="@{viewModel.state.dialerError.length()>0?View.GONE:View.VISIBLE}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvError"
+            style="@style/Yap.App.Widget.TextView.PinCode.Error"
+            android:text="@{viewModel.state.dialerError}"
+            android:visibility="@{viewModel.state.dialerError.length()>0?View.VISIBLE:View.GONE}"
+            app:layout_constraintBottom_toTopOf="@+id/dialer"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvInputField"
+            tools:text="Too many attempts. For your security your your account is blocked. Please click on forgot passcode to reset your passcode" />
+
+        <co.yap.widgets.YapPassCodeView
+            android:id="@+id/passCodeView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <co.yap.widgets.numberkeyboard.NumberKeyboard
+            android:id="@+id/dialer"
+            style="@style/Yap.App.Widget.NumberKeyboard"
+            android:layout_height="0dp"
+            android:layout_marginLeft="@dimen/_45sdp"
+            android:layout_marginRight="@dimen/_45sdp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvError"
+            app:numberkeyboard_keyPadding="@dimen/_12sdp"
+            app:numberkeyboard_keyboardType="integer" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

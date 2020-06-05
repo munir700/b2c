@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="co.yap.household.setpin.setpinstart.HHSetPinCardReviewVM" />
+
+        <import type="co.yap.translation.Strings" />
+    </data>
+
+    <androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+        style="@style/Yap.App.Layout.LinearLayout.Vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="@dimen/margin_medium">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvSetPinHeading"
+            style="@style/Title3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_small"
+            android:gravity="center"
+            app:text="@{Strings.screen_household_set_card_pin_review_heading}"
+            tools:text="@string/screen_household_set_card_pin_review_heading" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvSubHeading"
+            style="@style/SmallGrey"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_small"
+            android:gravity="center"
+            app:text="@{Strings.screen_household_set_card_pin_review_sub_heading}"
+            tools:text="@string/screen_household_set_card_pin_review_sub_heading" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/ivCard"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/margin_medium"
+            android:minHeight="@dimen/_24sdp"
+            android:background="@drawable/white_round_card_background"
+            android:contentDescription="@string/empty_string"
+            app:srcCompat="@drawable/card_spare" />
+<!--        app:setImageUrl="@{viewModel.state.card.frontImage}"-->
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvCardNumber"
+            style="@style/Small"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/margin_large"
+            android:text="@{viewModel.state.card.maskedCardNo}"
+            tools:text="xxxx xxxx xxxx 1234" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvExpiryDate"
+            style="@style/MicroGrey"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_gravity="center_horizontal"
+
+            android:layout_marginTop="@dimen/margin_small"
+            android:layout_weight="1"
+            android:text="@{String.format(@string/screen_household_set_card_pin_review_date, viewModel.state.card.expiryDate)}"
+            tools:text="Expiry date: 07/10/2025" />
+
+        <co.yap.widgets.CoreButton
+            android:id="@+id/btnConfirm"
+            style="@style/Yap.App.Widget.Button.Action"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin_extra_large"
+            android:layout_marginTop="@dimen/margin_small"
+            android:layout_marginRight="@dimen/margin_extra_large"
+            android:onClick="@{(v)->viewModel.handleClick(v.id)}"
+            app:btn_enable="true"
+            app:text="@{Strings.screen_household_set_card_pin_review_button_text}"
+            tools:text="Confirm" />
+    </androidx.appcompat.widget.LinearLayoutCompat>
+</layout>

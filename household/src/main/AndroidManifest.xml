@@ -23,23 +23,7 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppThemeHouseHold.NoActionBar"
             android:windowSoftInputMode="adjustResize" />
-        <activity
-            android:name="co.yap.household.onboard.otherscreens.KycSuccessActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".dashboard.main.activities.HouseholdDashboardActivity"
-            android:screenOrientation="portrait" />
 
-        <activity
-            android:name=".onboard.otherscreens.InvalidEIDActivity"
-            android:screenOrientation="portrait" />
-
-        <activity
-            android:name=".onboard.otherscreens.HouseHoldSuccessActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".onboard.otherscreens.ExistingHouseholdActivity"
-            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

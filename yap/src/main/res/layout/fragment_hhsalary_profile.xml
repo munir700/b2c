@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="hhSalaryProfileVM"
+            type="co.yap.modules.subaccounts.paysalary.profile.HHSalaryProfileVM" />
+
+        <import type="co.yap.translation.Strings" />
+
+        <import type="android.view.View" />
+    </data>
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/margin_small">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                app:layout_constraintTop_toBottomOf="@+id/layout_center">
+
+                <TextView
+                    android:id="@+id/tv_transfers_label"
+                    style="@style/ASmall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/margin_medium"
+                    android:text="@string/screen_house_hold_salary_profile_display_text_transfers"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tvFilterCount"
+                    style="@style/Yap.App.Widget.FilterCount"
+                    android:layout_marginEnd="5dp"
+                    android:text="@{hhSalaryProfileVM.state.filterCount.toString()}"
+                    android:visibility="@{hhSalaryProfileVM.state.filterCount > 0 ? View.VISIBLE:View.GONE}"
+                    app:layout_constraintBottom_toBottomOf="@+id/tv_transfers_label"
+                    app:layout_constraintEnd_toStartOf="@+id/ivFilters"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="6" />
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/ivFilters"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="2dp"
+                    android:src="@drawable/ic_filter"
+                    android:tint="@{hhSalaryProfileVM.state.isTransEmpty() &amp;&amp; hhSalaryProfileVM.state.filterCount==0? @color/grey: @color/colorPrimary}"
+                    app:layout_constraintBottom_toBottomOf="@+id/tv_transfers_label"
+                    app:layout_constraintEnd_toStartOf="@+id/tv_filters_label"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_filters_label"
+                    style="@style/ASmall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/margin_medium"
+                    android:text="@string/screen_household_home_display_text_transactions_filers_title"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/divider"
+                    app:layout_constraintEnd_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_transfers_label" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <include
+                layout="@layout/refresh_recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="bottom"
+                app:adapter="@{hhSalaryProfileVM.adapter}" />
+
+        </LinearLayout>
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/appbar"
+            style="@style/Yap.App.Widget.AppBarLayout">
+
+            <com.google.android.material.appbar.CollapsingToolbarLayout
+                android:id="@+id/collapsingToolbar"
+                style="@style/Yap.App.Widget.CollapsingToolbarLayout">
+
+                <LinearLayout
+                    android:id="@+id/layout_center"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="200dp"
+                    android:background="@color/greySoft"
+                    android:orientation="vertical"
+                    android:padding="@dimen/margin_medium"
+                    android:visibility="gone">
+
+                    <include
+                        android:id="@+id/tv_last_salary"
+                        layout="@layout/layout_recent_transfer_pay_salary"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+
+                    <include
+                        android:id="@+id/tv_next_salary"
+                        layout="@layout/layout_recent_transfer_pay_salary"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/margin_medium" />
+
+                    <include
+                        android:id="@+id/tv_last_expense"
+                        layout="@layout/layout_recent_transfer_pay_salary"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/margin_medium" />
+
+                </LinearLayout>
+
+                <androidx.appcompat.widget.Toolbar
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    app:layout_collapseMode="pin"
+                    app:layout_scrollFlags="scroll|enterAlways">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <co.yap.widgets.CoreCircularImageView
+                            android:id="@+id/ivUserImage"
+                            style="@style/Yap.App.Widget.ImageView.Circle"
+                            android:onClick="@{(v)->hhSalaryProfileVM.handlePressOnClick(v.id)}"
+                            android:src="@drawable/ic_travel"
+                            app:colorType="@{`Beneficiary`}"
+                            app:fullName="@{hhSalaryProfileVM.state.subAccount.fullName}"
+                            app:imageUrl="@{hhSalaryProfileVM.state.subAccount.profilePictureUrl}"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:position="@{0}" />
+
+                        <com.google.android.material.floatingactionbutton.FloatingActionButton
+                            android:id="@+id/ivSalary"
+                            style="@style/Yap.App.Widget.FloatingActionButton.Circle"
+                            android:layout_marginStart="@dimen/margin_extra_large"
+                            android:onClick="@{(v)->hhSalaryProfileVM.handlePressOnClick(v.id)}"
+                            app:layout_constraintEnd_toStartOf="@+id/ivExpenses"
+                            app:layout_constraintHorizontal_bias="0.5"
+                            app:layout_constraintHorizontal_chainStyle="spread"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/ivUserImage"
+                            app:srcCompat="@drawable/ic_transaction_rate_arrow" />
+
+                        <TextView
+                            android:id="@+id/tv_pay_salary_salary_title"
+                            style="@style/Yap.App.Widget.FloatingActionButton.Text"
+                            app:layout_constraintEnd_toEndOf="@+id/ivSalary"
+                            app:layout_constraintStart_toStartOf="@+id/ivSalary"
+                            app:layout_constraintTop_toBottomOf="@+id/ivSalary"
+                            app:text="@{Strings.screen_house_hold_salary_profile_salary_text}"
+                            tools:text="@string/screen_house_hold_salary_profile_salary_text" />
+
+                        <com.google.android.material.floatingactionbutton.FloatingActionButton
+                            android:id="@+id/ivExpenses"
+                            style="@style/Yap.App.Widget.FloatingActionButton.Circle"
+                            android:onClick="@{(v)->hhSalaryProfileVM.handlePressOnClick(v.id)}"
+                            app:layout_constraintEnd_toStartOf="@+id/ivTransfer"
+                            app:layout_constraintHorizontal_bias="0.5"
+                            app:layout_constraintHorizontal_chainStyle="spread"
+                            app:layout_constraintStart_toEndOf="@+id/ivSalary"
+                            app:layout_constraintTop_toBottomOf="@+id/ivUserImage"
+                            app:srcCompat="@drawable/ic_expense" />
+
+                        <TextView
+                            android:id="@+id/tv_pay_salary_expenses_title"
+                            style="@style/Yap.App.Widget.FloatingActionButton.Text"
+                            app:layout_constraintEnd_toEndOf="@+id/ivExpenses"
+                            app:layout_constraintStart_toStartOf="@+id/ivExpenses"
+                            app:layout_constraintTop_toBottomOf="@+id/ivExpenses"
+                            app:text="@{Strings.screen_house_hold_dashboard_bottom_bar_expenses_text}"
+                            tools:text="@string/screen_house_hold_dashboard_bottom_bar_expenses_text" />
+
+                        <com.google.android.material.floatingactionbutton.FloatingActionButton
+                            android:id="@+id/ivTransfer"
+                            style="@style/Yap.App.Widget.FloatingActionButton.Circle"
+                            android:layout_marginEnd="@dimen/margin_extra_large"
+                            android:onClick="@{(v)->hhSalaryProfileVM.handlePressOnClick(v.id)}"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintHorizontal_bias="0.5"
+                            app:layout_constraintHorizontal_chainStyle="spread"
+                            app:layout_constraintStart_toEndOf="@+id/ivExpenses"
+                            app:layout_constraintTop_toBottomOf="@+id/ivUserImage"
+                            app:srcCompat="@drawable/ic_yap_to_yap" />
+
+                        <TextView
+                            android:id="@+id/tv_pay_salary_transfer_title"
+                            style="@style/Yap.App.Widget.FloatingActionButton.Text"
+                            app:layout_constraintEnd_toEndOf="@+id/ivTransfer"
+                            app:layout_constraintStart_toStartOf="@+id/ivTransfer"
+                            app:layout_constraintTop_toBottomOf="@+id/ivTransfer"
+                            app:text="@{Strings.screen_house_hold_salary_profile_transfer_text}"
+                            tools:text="@string/screen_house_hold_salary_profile_transfer_text" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                </androidx.appcompat.widget.Toolbar>
+            </com.google.android.material.appbar.CollapsingToolbarLayout>
+        </com.google.android.material.appbar.AppBarLayout>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+</layout>

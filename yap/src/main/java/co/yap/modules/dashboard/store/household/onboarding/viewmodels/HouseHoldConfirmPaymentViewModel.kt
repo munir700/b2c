@@ -4,7 +4,6 @@ import android.app.Application
 import androidx.lifecycle.MutableLiveData
 import co.yap.modules.dashboard.store.household.onboarding.interfaces.IHouseHoldConfirmPayment
 import co.yap.modules.dashboard.store.household.onboarding.states.HouseHoldConfirmPaymentState
-import co.yap.modules.onboarding.enums.AccountType
 import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.customers.requestdtos.HouseholdOnboardRequest
 import co.yap.networking.household.responsedtos.HouseHoldPlan
@@ -12,6 +11,7 @@ import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
 import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
+import co.yap.yapcore.enums.AccountType
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 import co.yap.yapcore.managers.MyUserManager

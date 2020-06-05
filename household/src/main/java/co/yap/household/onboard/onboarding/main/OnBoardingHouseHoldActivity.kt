@@ -21,14 +21,8 @@ class OnBoardingHouseHoldActivity : BaseBindingActivity<IOnboarding.ViewModel>()
     IFragmentHolder {
 
     companion object {
-        const val BUNDLE_DATA = "bundle_data"
         const val EXISTING_USER = "existingYapUser"
         const val USER_INFO = "user_info"
-        fun getIntent(context: Context, bundle: Bundle = Bundle()): Intent {
-            val intent = Intent(context, OnBoardingHouseHoldActivity::class.java)
-            intent.putExtra(BUNDLE_DATA, bundle)
-            return intent
-        }
     }
 
     override fun getBindingVariable(): Int = BR.viewModelHouseHold
@@ -46,12 +40,12 @@ class OnBoardingHouseHoldActivity : BaseBindingActivity<IOnboarding.ViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        intent?.getBundleExtra(BUNDLE_DATA)?.let {
-            viewModel.state.accountInfo = it.getParcelable(USER_INFO)
-            viewModel.state.existingYapUser = it.getBoolean(EXISTING_USER, false)
-        }
+        viewModel.state.accountInfo = intent.getParcelableExtra(USER_INFO)
+        viewModel.state.existingYapUser = intent.getBooleanExtra(EXISTING_USER, false)
+
         viewModel.onboardingData.accountType = "B2C_ACCOUNT"
         viewModel.backButtonPressEvent.observe(this, backButtonObserver)
+
     }
 
     override fun onDestroy() {

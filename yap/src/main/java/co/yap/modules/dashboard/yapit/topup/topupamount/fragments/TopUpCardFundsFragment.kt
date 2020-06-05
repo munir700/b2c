@@ -23,6 +23,7 @@ import co.yap.yapcore.enums.TransactionProductCode
 import co.yap.yapcore.helpers.DecimalDigitsInputFilter
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.cancelAllSnackBar
+import co.yap.yapcore.helpers.extentions.hideKeyboard
 import co.yap.yapcore.helpers.extentions.launchActivity
 import co.yap.yapcore.helpers.extentions.parseToDouble
 import co.yap.yapcore.helpers.extentions.toFormattedAmountWithCurrency
@@ -49,7 +50,7 @@ class TopUpCardFundsFragment : BaseBindingFragment<IFundActions.ViewModel>(),
 
         setObservers()
         viewModel.firstDenominationClickEvent.observe(this, Observer {
-            Utils.hideKeyboard(view)
+            view.hideKeyboard()
             getBindings().etAmount.setText("")
             getBindings().etAmount.append(viewModel.state.denominationAmount)
             val position = getBindings().etAmount.length()
@@ -57,7 +58,7 @@ class TopUpCardFundsFragment : BaseBindingFragment<IFundActions.ViewModel>(),
             getBindings().etAmount.clearFocus()
         })
         viewModel.secondDenominationClickEvent.observe(this, Observer {
-            Utils.hideKeyboard(view)
+            view.hideKeyboard()
             getBindings().etAmount.setText("")
             getBindings().etAmount.append(viewModel.state.denominationAmount)
             val position = getBindings().etAmount.length()
@@ -65,7 +66,7 @@ class TopUpCardFundsFragment : BaseBindingFragment<IFundActions.ViewModel>(),
             getBindings().etAmount.clearFocus()
         })
         viewModel.thirdDenominationClickEvent.observe(this, Observer {
-            Utils.hideKeyboard(view)
+            view.hideKeyboard()
             getBindings().etAmount.setText("")
             getBindings().etAmount.append(viewModel.state.denominationAmount)
             val position = getBindings().etAmount.length()

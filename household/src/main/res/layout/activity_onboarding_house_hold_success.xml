@@ -6,7 +6,9 @@
     <data>
 
         <import type="co.yap.translation.Strings" />
-
+        <variable
+            name="houseHoldSuccessViewModel"
+            type="co.yap.household.onboard.onboarding.householdsuccess.HouseholdSuccessViewModel" />
     </data>
 
 
@@ -40,9 +42,8 @@
             android:layout_marginEnd="@dimen/margin_medium_large"
             android:gravity="center"
             android:lineSpacingExtra="2dp"
-            android:text="@string/screen_on_boarding_existing_message"
+            android:text="@{String.format(@string/screen_on_boarding_existing_message,houseHoldSuccessViewModel.state.name)}"
             android:textColor="@color/kyc_success_text_color_light_gray"
-            app:text="@{Strings.screen_on_boarding_existing_message}"
             tools:text="@string/screen_on_boarding_existing_message" />
 
         <FrameLayout
@@ -69,6 +70,7 @@
             android:layout_marginRight="@dimen/margin_medium_large"
             android:layout_marginBottom="@dimen/margin_small"
             app:btn_enable="true"
+            android:onClick="@{(v) -> houseHoldSuccessViewModel.handlePressOnView(v.id)}"
             android:text="@string/screen_onboarding_congratulations_button_complete_verification"
             app:btn_pressed_color="@color/colorPrimaryHouseHold"
             app:btn_text_color="@color/white"
@@ -86,6 +88,7 @@
             android:gravity="center"
             android:padding="@dimen/margin_extra_small"
             android:text="@string/screen_b2c_kyc_home_button_skip_on_boarding_existing"
+            android:onClick="@{(v) -> houseHoldSuccessViewModel.handlePressOnView(v.id)}"
             android:textColor="@color/colorPrimaryHouseHold"
             android:textSize="@dimen/_13sdp"
             app:text="@{Strings.screen_b2c_kyc_home_button_skip_on_boarding_existing}"

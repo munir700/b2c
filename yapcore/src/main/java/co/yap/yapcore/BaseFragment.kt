@@ -7,13 +7,14 @@ import android.view.View
 import androidx.databinding.Observable
 import co.yap.translation.Translator
 import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.helpers.extentions.hideKeyboard
 import co.yap.yapcore.interfaces.OnBackPressedListener
 
 
 abstract class BaseFragment<V : IBase.ViewModel<*>> : BaseNavFragment(), IBase.View<V>,
     OnBackPressedListener {
     private var progress: Dialog? = null
-
+    override var shouldRegisterViewModelLifeCycle: Boolean = true
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
@@ -22,12 +23,15 @@ abstract class BaseFragment<V : IBase.ViewModel<*>> : BaseNavFragment(), IBase.V
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        registerStateListeners()
+        if (shouldRegisterViewModelLifeCycle)
+            registerStateListeners()
     }
 
     override fun onDestroyView() {
-        unregisterStateListeners()
+        if (shouldRegisterViewModelLifeCycle)
+            unregisterStateListeners()
         progress?.dismiss()
+        hideKeyboard()
         super.onDestroyView()
     }
 
@@ -35,9 +39,10 @@ abstract class BaseFragment<V : IBase.ViewModel<*>> : BaseNavFragment(), IBase.V
         super.onAttach(context)
         if (context is IFragmentHolder) {
             context.onFragmentAttached()
-        } else {
-            throw IllegalStateException("Could not find reference to IFragmentHolder. Make sure parent activity implements IFragmentHolder interface")
         }
+//        else {
+//            throw IllegalStateException("Could not find reference to IFragmentHolder. Make sure parent activity implements IFragmentHolder interface")
+//        }
 
         if (context !is IBase.View<*>) {
             throw IllegalStateException("Could not find reference to IBase.View. Make sure parent activity implements IBase.View interface")
@@ -50,7 +55,6 @@ abstract class BaseFragment<V : IBase.ViewModel<*>> : BaseNavFragment(), IBase.V
             getFragmentHolder()?.onFragmentDetached("")
         }
     }
-
 
     override fun showLoader(isVisible: Boolean) {
         if (isVisible) {
@@ -65,8 +69,7 @@ abstract class BaseFragment<V : IBase.ViewModel<*>> : BaseNavFragment(), IBase.V
         } else {
             progress?.dismiss()
         }
-        Utils.hideKeyboard(this.view)
-        //getBaseView()?.showLoader(isVisible)
+        view.hideKeyboard()
     }
 
     override fun showToast(msg: String) {
@@ -108,10 +111,10 @@ abstract class BaseFragment<V : IBase.ViewModel<*>> : BaseNavFragment(), IBase.V
     // TODO: Support PermissionsManager.OnPermissionGrantedListener functions in BaseFragment
 
     override fun getString(resourceKey: String): String =
-        Translator.getString(context!!, resourceKey)
+        Translator.getString(requireContext(), resourceKey)
 
     fun getString(resourceKey: String, vararg arg: String): String =
-        Translator.getString(context!!, resourceKey, *arg)
+        Translator.getString(requireContext(), resourceKey, *arg)
 
     override fun onBackPressed(): Boolean = false
 
@@ -126,7 +129,7 @@ abstract class BaseFragment<V : IBase.ViewModel<*>> : BaseNavFragment(), IBase.V
         }
     }
 
-    private fun registerStateListeners() {
+    open fun registerStateListeners() {
         if (viewModel is BaseViewModel<*>) {
             viewModel.registerLifecycleOwner(this)
         }
@@ -135,7 +138,7 @@ abstract class BaseFragment<V : IBase.ViewModel<*>> : BaseNavFragment(), IBase.V
         }
     }
 
-    private fun unregisterStateListeners() {
+    open fun unregisterStateListeners() {
         if (viewModel is BaseViewModel<*>) {
             viewModel.unregisterLifecycleOwner(this)
         }

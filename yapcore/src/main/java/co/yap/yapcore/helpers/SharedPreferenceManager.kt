@@ -8,8 +8,9 @@ import co.yap.yapcore.constants.Constants.KEY_USERNAME
 import co.yap.yapcore.helpers.encryption.EncryptionUtils
 import co.yap.yapcore.adjust.ReferralInfo
 import com.google.gson.Gson
+import javax.inject.Inject
 
-class SharedPreferenceManager(val context: Context) {
+class SharedPreferenceManager @Inject constructor(val context: Context) {
 
     private val PREFS_NAME = "YAPPref"
     private val inviterAdjustId = "inviterAdjustId"

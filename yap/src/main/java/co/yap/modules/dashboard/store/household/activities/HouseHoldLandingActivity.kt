@@ -1,7 +1,6 @@
 package co.yap.modules.dashboard.store.household.activities
 
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -13,6 +12,7 @@ import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.helpers.extentions.ExtraType
 import co.yap.yapcore.helpers.extentions.getValue
+import co.yap.yapcore.helpers.extentions.launchActivity
 
 class HouseHoldLandingActivity : BaseBindingActivity<IHouseHoldLanding.ViewModel>(),
     IHouseHoldLanding.View {
@@ -23,21 +23,12 @@ class HouseHoldLandingActivity : BaseBindingActivity<IHouseHoldLanding.ViewModel
     override val viewModel: IHouseHoldLanding.ViewModel
         get() = ViewModelProviders.of(this).get(HouseHoldLandingViewModel::class.java)
 
-    companion object {
-        fun newIntent(context: Context): Intent {
-            return Intent(context, HouseHoldLandingActivity::class.java)
-        }
-    }
-
     override fun onResume() {
         super.onResume()
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
                 R.id.btnGetHouseHoldAccount -> {
-                    startActivityForResult(
-                        SubscriptionSelectionActivity.newIntent(this),
-                        RequestCodes.REQUEST_ADD_HOUSE_HOLD
-                    )
+                    launchActivity<SubscriptionSelectionActivity>(requestCode = RequestCodes.REQUEST_ADD_HOUSE_HOLD)
                 }
                 R.id.imgClose -> {
                     setIntentResult(false)

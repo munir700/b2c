@@ -34,7 +34,7 @@ interface TransactionsApi {
     suspend fun addEditNote(addEditNoteRequest: AddEditNoteRequest): RetroApiResponse<AddEditNoteResponse>
     suspend fun getSearchFilterAmount(): RetroApiResponse<SearchFilterAmountResponse>
     suspend fun getTransactionDetails(transactionId: String?): RetroApiResponse<TransactionDetailsResponse>
-    suspend fun getAccountTransactions(homeTransactionsRequest: HomeTransactionsRequest): RetroApiResponse<HomeTransactionsResponse>
+    suspend fun getAccountTransactions(homeTransactionsRequest: HomeTransactionsRequest?): RetroApiResponse<HomeTransactionsResponse>
     suspend fun getCardTransactions(cardTransactionRequest: CardTransactionRequest): RetroApiResponse<HomeTransactionsResponse>
     suspend fun getTransactionFee(productCode: String): RetroApiResponse<TransactionFeeResponseDTO>
     suspend fun createTransactionSession(createSessionRequest: CreateSessionRequest): RetroApiResponse<CreateTransactionSessionResponseDTO>
@@ -60,7 +60,6 @@ interface TransactionsApi {
     suspend fun uaeftsTransferRequest(sendMoneyTransferRequest: SendMoneyTransferRequest): RetroApiResponse<SendMoneyTransactionResponseDTO>
     suspend fun rmtTransferRequest(sendMoneyTransferRequest: SendMoneyTransferRequest): RetroApiResponse<SendMoneyTransactionResponseDTO>
     suspend fun swiftTransferRequest(sendMoneyTransferRequest: SendMoneyTransferRequest): RetroApiResponse<SendMoneyTransactionResponseDTO>
-    suspend fun getHousholdFeePackage(packageType: String): RetroApiResponse<RemittanceFeeResponse>
     suspend fun getTransactionThresholds(): RetroApiResponse<TransactionThresholdResponseDTO>
     suspend fun getCutOffTimeConfiguration(
         productCode: String?,
@@ -71,4 +70,10 @@ interface TransactionsApi {
 
     suspend fun getAchievements(): RetroApiResponse<ApiResponse>
     suspend fun getPurposeOfPayment(productCode: String): RetroApiResponse<PaymentPurposeResponseDTO>
+
+    //    House Hold API calls
+    suspend fun getHousholdFeePackage(packageType: String): RetroApiResponse<RemittanceFeeResponse>
+
+    //    House Hold Pay Salary Now
+    suspend fun paySalaryNow(request: PaySalaryNowRequest): RetroApiResponse<ApiResponse>
 }

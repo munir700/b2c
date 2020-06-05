@@ -1482,6 +1482,10 @@ object Strings {
         "screen_on_boarding_existing_message"
     const val screen_b2c_kyc_home_button_skip_on_boarding_existing: String =
         "screen_b2c_kyc_home_button_skip_on_boarding_existing"
+    const val screen_household_home_display_text_waiting_for_card_activation: String =
+        "screen_household_home_display_text_waiting_for_card_activation"
+    const val screen_household_home_display_text_total_balance: String =
+        "screen_household_home_display_text_total_balance"
 
     const val screen_house_hold_existing_yap_message: String =
         "screen_house_hold_existing_yap_message"
@@ -1551,6 +1555,130 @@ object Strings {
     const val screen_your_achievements_display_text_toolbar_title: String =
         "screen_your_achievements_display_text_toolbar_title"
 
+    const val screen_house_hold_dashboard_bottom_bar_home_text: String =
+        "screen_house_hold_dashboard_bottom_bar_home_text"
+    const val screen_house_hold_dashboard_bottom_bar_my_card_text: String =
+        "screen_house_hold_dashboard_bottom_bar_my_card_text"
+    const val screen_house_hold_dashboard_bottom_bar_expenses_text: String =
+        "screen_house_hold_dashboard_bottom_bar_expenses_text"
+    const val screen_house_hold_dashboard_bottom_bar_more_text: String =
+        "screen_house_hold_dashboard_bottom_bar_more_text"
+    const val screen_house_hold_dashboard_bottom_bar_yap_it_text: String =
+        "screen_house_hold_dashboard_bottom_bar_yap_it_text"
+
+    //  Household Pay Salary Profile
+    const val screen_house_hold_salary_profile_salary_text: String =
+        "screen_house_hold_salary_profile_salary_text"
+    const val screen_house_hold_salary_profile_transfer_text: String =
+        "screen_house_hold_salary_profile_transfer_text"
+    const val screen_house_hold_salary_profile_set_up_salary_text: String =
+        "screen_house_hold_salary_profile_set_up_salary_text"
+    const val screen_house_hold_salary_profile_set_up_expense_text: String =
+        "screen_house_hold_salary_profile_set_up_expense_text"
+    const val screen_house_hold_salary_profile_transfer_bonus_text: String =
+        "screen_house_hold_salary_profile_transfer_bonus_text"
+    const val screen_house_hold_salary_profile_display_text_transfers: String =
+        "screen_house_hold_salary_profile_display_text_transfers"
+
+    //        House Hold Sub Accounts Strings
+    const val screen_house_hold_sub_account_declined_by_popup_title: String =
+        "screen_house_hold_sub_account_declined_by_popup_title"
+    const val screen_house_hold_sub_account_declined_by_popup_message: String =
+        "screen_house_hold_sub_account_declined_by_popup_message"
+    const val screen_house_hold_sub_account_popup_remove_refund_button_text: String =
+        "screen_house_hold_sub_account_popup_remove_refund_button_text"
+    const val screen_house_hold_sub_account_popup_resend_button_text: String =
+        "screen_house_hold_sub_account_popup_resend_button_text"
+    const val screen_house_hold_sub_account_ineligible_popup_title: String =
+        "screen_house_hold_sub_account_ineligible_popup_title"
+    const val screen_house_hold_sub_account_ineligible_popup_message: String =
+        "screen_house_hold_sub_account_ineligible_popup_message"
+    const val screen_sub_accounts_profile_display_text_drag_and_drop: String =
+        "screen_sub_accounts_profile_display_text_drag_and_drop"
+
+    //HouseHold Subscription Screen
+    const val screen_household_subscription_title: String = "screen_household_subscription_title"
+    const val screen_household_renewable_title: String = "screen_household_renewable_title"
+    const val screen_household_cancel_subscription_title: String =
+        "screen_household_cancel_subscription_title"
+    const val screen_household_cancel_subscription_cancel_title: String =
+        "screen_household_cancel_subscription_cancel_title"
+    const val screen_household_cancel_subscription_cancel_message: String =
+        "screen_household_cancel_subscription_cancel_message"
+    const val screen_household_reactivate_subscription_title: String =
+        "screen_household_reactivate_subscription_title"
+    const val screen_household_cancel_subscription_no_button: String =
+        "screen_household_cancel_subscription_no_button"
+    const val screen_household_cancel_subscription_yes_button: String =
+        "screen_household_cancel_subscription_yes_button"
+    const val screen_household_cancel_subscription_name_title: String =
+        "screen_household_cancel_subscription_name_title"
+    const val screen_household_cancel_subscription_start_date_title: String =
+        "screen_household_cancel_subscription_start_date_title"
+    const val screen_household_cancel_subscription_end_date_title: String =
+        "screen_household_cancel_subscription_end_date_title"
+    const val screen_household_cancel_subscription_plan_type_title: String =
+        "screen_household_cancel_subscription_plan_type_title"
+    const val screen_household_cancel_subscription_cost_title: String =
+        "screen_household_cancel_subscription_cost_title"
+
+
+    //    HouseHold Recurring Payment Screen
+    const val screen_household_recurring_payment_title: String =
+        "screen_household_recurring_payment_title"
+    const val screen_household_amount_to_transfer_title: String =
+        "screen_household_amount_to_transfer_title"
+    const val screen_household_currency_title: String = "screen_household_currency_title"
+    const val screen_household_start_date_title: String = "screen_household_start_date_title"
+    const val screen_household_daily_title: String = "screen_household_daily_title"
+    const val screen_household_weekly_title: String = "screen_household_weekly_title"
+    const val screen_household_monthly_title: String = "screen_household_monthly_title"
+    const val screen_household_button_text: String = "screen_household_button_text"
+
+    //House hold set pin card preview screen
+    const val screen_household_set_card_pin_review_heading: String =
+        "screen_household_set_card_pin_review_heading"
+    const val screen_household_set_card_pin_review_sub_heading: String =
+        "screen_household_set_card_pin_review_sub_heading"
+    const val screen_household_set_card_pin_review_date: String =
+        "screen_household_set_card_pin_review_date"
+    const val screen_household_set_card_pin_review_button_text: String =
+        "screen_household_set_card_pin_review_button_text"
+
+
+    //    House hold set pin success screen
+    const val screen_household_set_pin_success_heading_text: String =
+        "screen_household_set_pin_success_heading_text"
+    const val screen_household_set_pin_success_sub_heading_text: String =
+        "screen_household_set_pin_success_sub_heading_text"
+    const val screen_household_set_pin_success_button_text: String =
+        "screen_household_set_pin_success_button_text"
+
+
+//    House Hold IBAN send money confirmation
+
+    const val screen_iban_send_money_confirmation_display_text_transfer_completed: String =
+        "screen_iban_send_money_confirmation_display_text_transfer_completed"
+    const val screen_iban_send_money_confirmation_display_text_successfully_sent: String =
+        "screen_iban_send_money_confirmation_display_text_successfully_sent"
+    const val screen_iban_send_money_confirmation_display_text_expense_advance: String =
+        "screen_iban_send_money_confirmation_display_text_expense_advance"
+    const val screen_iban_send_money_confirmation_display_text_pick_expense_pot: String =
+        "screen_iban_send_money_confirmation_display_text_pick_expense_pot"
+    const val screen_iban_send_money_confirmation_display_text_do_it_later: String =
+        "screen_iban_send_money_confirmation_display_text_do_it_later"
+
+    //     House hold set pin screen
+    const val screen_household_set_pin_text_title: String = "screen_household_set_pin_text_title"
+    const val screen_household_set_pin_terms_and_conditions_text_heading: String =
+        "screen_household_set_pin_terms_and_conditions_text_heading"
+    const val screen_household_set_pin_terms_and_conditions_text: String =
+        "screen_household_set_pin_terms_and_conditions_text"
+    const val screen_household_set_pin_text_button_title: String =
+        "screen_household_set_pin_text_button_title"
+    const val screen_household_set_pin_text_confirm_pin_title: String =
+        "screen_household_set_pin_text_confirm_pin_title"
+
     // Blocked OTP
     const val screen_blocked_otp_display_text_message: String =
         "screen_blocked_otp_display_text_message"
@@ -1561,8 +1689,116 @@ object Strings {
     const val screen_otp_blocked_display_text_details: String =
         "screen_otp_blocked_display_text_details"
 
-    const val screen_add_beneficiary_detail_display_button_block_alert_yes_household: String =
+     const val screen_add_beneficiary_detail_display_button_block_alert_yes_household: String =
         "screen_add_beneficiary_detail_display_button_block_alert_yes_household"
     const val screen_add_beneficiary_detail_display_button_block_alert_no_household: String =
         "screen_add_beneficiary_detail_display_button_block_alert_no_household"
-}
+     //    House hold payment confirmation screen
+    const val screen_household_payment_confirmation_tool_bar_text: String =
+        "screen_household_payment_confirmation_tool_bar_text"
+    const val screen_household_normal_payment_success_text: String =
+        "screen_household_normal_payment_success_text"
+    const val screen_household_normal_payment_recurring_text: String =
+        "screen_household_normal_payment_recurring_text"
+    const val screen_household_normal_payment_set_up_recurring_text: String =
+        "screen_household_normal_payment_set_up_recurring_text"
+    const val screen_household_normal_payment_go_to_dashboard_text: String =
+        "screen_household_normal_payment_go_to_dashboard_text"
+    const val screen_household_recurring_payment_success_text: String =
+        "screen_household_recurring_payment_success_text"
+    const val screen_household_recurring_payment_guide_text: String =
+        "screen_household_recurring_payment_guide_text"
+    const val screen_household_recurring_payment_text: String =
+        "screen_household_recurring_payment_text"
+    const val screen_household_future_payment_text: String =
+        "screen_household_future_payment_text"
+    const val screen_household_recurring_payment_date_text: String =
+        "screen_household_recurring_payment_date_text"
+
+    //Pay house hold employee salary
+    const val screen_household_employee_salary_schedule_once_heading_text: String =
+        "screen_household_employee_salary_schedule_once_heading_text"
+    const val screen_household_employee_salary_future_payment_text: String =
+        "screen_household_employee_salary_future_payment_text"
+    const val screen_household_employee_salary_recurring_heading_text: String =
+        "screen_household_employee_salary_recurring_heading_text"
+    const val screen_household_employee_salary_recurring_text: String =
+        "screen_household_employee_salary_recurring_text"
+    const val screen_household_employee_salary_pay_now_button_text: String =
+        "screen_household_employee_salary_pay_now_button_text"
+    const val screen_household_employee_salary_next_payment_text: String =
+        "screen_household_employee_salary_next_payment_text"
+    const val screen_household_employee_salary_recurrent_auto_payment_primary_text: String =
+        "screen_household_employee_salary_recurrent_auto_payment_primary_text"
+    const val screen_household_employee_salary_next_payment_secondary_text: String =
+        "screen_household_employee_salary_next_payment_secondary_text"
+    const val screen_household_employee_salary_recurrent_auto_payment_secondary_text: String =
+        "screen_household_employee_salary_recurrent_auto_payment_secondary_text"
+    const val screen_household_employee_salary_last_salary_transfer_text: String =
+        "screen_household_employee_salary_last_salary_transfer_text"
+
+//    Household  Pay Salary Screen
+const val screen_household_pay_salary_screen_display_text_title: String =
+    "screen_household_pay_salary_screen_display_text_title"
+    const val screen_household_pay_salary_screen_enter_transfer_amount_title: String =
+    "screen_household_pay_salary_screen_enter_transfer_amount_title"
+    const val screen_household_pay_salary_screen_available_balance_text: String =
+        "screen_household_pay_salary_screen_available_balance_text"
+    const val screen_household_pay_salary_screen_last_salary_text: String =
+        "screen_household_pay_salary_screen_last_salary_text"
+    const val screen_household_pay_salary_screen_recurring_salary_text: String =
+        "screen_household_pay_salary_screen_recurring_salary_text"
+    const val screen_household_pay_salary_screen_button_text: String =
+        "screen_household_pay_salary_screen_button_text"
+
+    //    Future payment screen
+    const val screen_household_future_payment_screen_tool_bar_text: String =
+        "screen_household_future_payment_screen_tool_bar_text"
+    const val screen_household_future_payment_screen_amount_title_text: String =
+        "screen_household_future_payment_screen_amount_title_text"
+    const val screen_household_future_payment_screen_available_balance_text: String =
+        "screen_household_future_payment_screen_available_balance_text"
+    const val screen_household_future_payment_screen_end_date_heading_text: String =
+        "screen_household_future_payment_screen_end_date_heading_text"
+    const val screen_household_future_payment_screen_button_text: String =
+        "screen_household_future_payment_screen_button_text"
+
+    // Household My Card Screen
+    const val screen_household_my_card_screen_card_balance_text: String =
+        "screen_household_my_card_screen_card_balance_text"
+    const val screen_household_my_card_screen_card_details_text: String =
+        "screen_household_my_card_screen_card_details_text"
+    const val screen_household_my_card_screen_card_recent_transactions_text: String =
+        "screen_household_my_card_screen_card_recent_transactions_text"
+    const val screen_household_my_card_screen_menu_change_pin_text: String =
+        "screen_household_my_card_screen_menu_change_pin_text"
+    const val screen_household_my_card_screen_menu_freeze_card_text: String =
+        "screen_household_my_card_screen_menu_freeze_card_text"
+    const val screen_household_my_card_screen_menu_view_statement_text: String =
+        "screen_household_my_card_screen_menu_view_statement_text"
+    const val screen_household_my_card_screen_menu_report_lost_card_text: String =
+        "screen_household_my_card_screen_menu_report_lost_card_text"
+    const val screen_household_my_card_screen_menu_cancel_text: String =
+        "screen_household_my_card_screen_menu_cancel_text"
+
+    // Household Home Screen
+    const val screen_household_home_activate_now_text: String =
+        "screen_household_home_activate_now_text"
+
+    // Notifications
+    const val screen_home_help_and_support_desc: String =
+        "screen_home_help_and_support_desc"
+    const val screen_home_complete_verification_title: String =
+        "screen_home_complete_verification_title"
+    const val screen_home_complete_verification_desc: String =
+        "screen_home_complete_verification_desc"
+    const val screen_home_set_pin_title: String =
+        "screen_home_set_pin_title"
+    const val screen_home_set_pin_desc: String =
+        "screen_home_set_pin_desc"
+    const val screen_home_renewed_id_title: String =
+        "screen_home_renewed_id_title"
+    const val screen_home_renewed_id_desc: String =
+        "screen_home_renewed_id_desc"
+
+ }

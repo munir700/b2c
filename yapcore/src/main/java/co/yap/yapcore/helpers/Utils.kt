@@ -32,16 +32,14 @@ import co.yap.translation.Translator
 import co.yap.widgets.loading.CircularProgressBar
 import co.yap.yapcore.R
 import co.yap.yapcore.constants.Constants
-import co.yap.yapcore.enums.YAPThemes
 import co.yap.yapcore.helpers.extentions.shortToast
 import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.MyUserManager
 import com.google.i18n.phonenumbers.PhoneNumberUtil
-import com.skydoves.balloon.ArrowOrientation
-import com.skydoves.balloon.Balloon
-import com.skydoves.balloon.BalloonAnimation
+import java.io.IOException
 import java.math.RoundingMode
+import java.nio.charset.StandardCharsets
 import java.text.DecimalFormat
 import java.util.*
 import java.util.regex.Pattern
@@ -67,14 +65,6 @@ object Utils {
             (view.context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager).toggleSoftInput(
                 InputMethodManager.SHOW_IMPLICIT, InputMethodManager.HIDE_IMPLICIT_ONLY
             )
-        }
-    }
-
-    fun hideKeyboard(view: View?) {
-        view?.let { v ->
-            val imm =
-                view.context.getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
-            imm?.hideSoftInputFromWindow(v.windowToken, 0)
         }
     }
 
@@ -853,7 +843,7 @@ object Utils {
 
     fun setStatusBarColor(activity: Activity) {
         val sharedPreferenceManager = SharedPreferenceManager(activity)
-        if (sharedPreferenceManager.getThemeValue().equals(Constants.THEME_HOUSEHOLD)){
+        if (sharedPreferenceManager.getThemeValue().equals(Constants.THEME_HOUSEHOLD)) {
             val window: Window = activity.getWindow()
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
             window.statusBarColor = ThemeColorUtils.colorPrimaryDefaultAttribute(activity)
@@ -861,13 +851,56 @@ object Utils {
         }
     }
 
-    fun setStatusBarColor(activity: Activity, color:Int) {
+    fun setStatusBarColor(activity: Activity, color: Int) {
         val sharedPreferenceManager = SharedPreferenceManager(activity)
-        if (sharedPreferenceManager.getThemeValue().equals(Constants.THEME_HOUSEHOLD)){
+        if (sharedPreferenceManager.getThemeValue().equals(Constants.THEME_HOUSEHOLD)) {
             val window: Window = activity.getWindow()
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
             window.statusBarColor = color
 
         }
     }
+
+    fun validateAggressively(context: Context, pinCode: String): String {
+        val isSame = StringUtils.hasAllSameChars(pinCode)
+        val isSequenced = StringUtils.isSequenced(pinCode)
+        if (isSequenced)
+            return Translator.getString(
+                context,
+                Strings.screen_confirm_card_pin_display_text_error_sequence
+            )
+        if (isSame)
+            return Translator.getString(
+                context,
+                Strings.screen_confirm_card_pin_display_text_error_same_digits
+            )
+
+        return ""
+    }
+
+    /**
+     * this function can load a json from a local file in assests
+     *
+     * @param context   this is used to fetch the file from assests folder
+     * @param fileName  name of the file to be loaded
+     * @return   will return the response from json in string
+     *
+     */
+
+    fun loadJsonFromAssets(context: Context, fileName: String): String? {
+        val json: String?
+        try {
+            val `is` = context.assets.open(fileName)
+            val size = `is`.available()
+            val buffer = ByteArray(size)
+            `is`.read(buffer)
+            `is`.close()
+            json = String(buffer, StandardCharsets.UTF_8)
+        } catch (ex: IOException) {
+            ex.printStackTrace()
+            return null
+        }
+        return json
+    }
 }
+

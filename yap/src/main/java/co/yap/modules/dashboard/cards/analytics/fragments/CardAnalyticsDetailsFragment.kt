@@ -39,7 +39,7 @@ class CardAnalyticsDetailsFragment : BaseBindingFragment<ICardAnalyticsDetails.V
                 requireContext(),
                 R.drawable.line_divider,
                 false,
-                false, dimen(R.dimen._52sdp)!!
+                false, dimen(R.dimen._52sdp)
             )
         )
         multiStateView.viewState = MultiStateView.ViewState.CONTENT

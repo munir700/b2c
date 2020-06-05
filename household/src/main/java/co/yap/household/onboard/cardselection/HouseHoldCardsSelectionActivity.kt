@@ -16,7 +16,7 @@ import co.yap.household.BR
 import co.yap.household.R
 import co.yap.household.databinding.FragmentHouseHoldCardSelectionBinding
 import co.yap.household.onboard.onboarding.interfaces.IHouseHoldCardsSelection
-import co.yap.household.onboard.otherscreens.KycSuccessActivity
+import co.yap.household.onboard.onboarding.kycsuccess.KycSuccessFragment
 import co.yap.modules.location.activities.LocationSelectionActivity
 import co.yap.networking.cards.responsedtos.Address
 import co.yap.translation.Strings
@@ -26,6 +26,7 @@ import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.ExtraType
 import co.yap.yapcore.helpers.extentions.getValue
+import co.yap.yapcore.helpers.extentions.startFragment
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 
@@ -63,7 +64,7 @@ class HouseHoldCardsSelectionActivity : BaseBindingActivity<IHouseHoldCardsSelec
             }
         })
         viewModel.orderCardRequestSuccess.observe(this, Observer {
-            startActivity(Intent(this, KycSuccessActivity::class.java))
+            startFragment<KycSuccessFragment>(clearAllPrevious = true)
         })
     }
 

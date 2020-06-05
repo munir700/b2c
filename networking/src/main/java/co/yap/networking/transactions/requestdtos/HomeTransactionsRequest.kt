@@ -2,11 +2,13 @@ package co.yap.networking.transactions.requestdtos
 
 import com.google.gson.annotations.SerializedName
 
+const val REQUEST_PAGE_SIZE = 200
+
 data class HomeTransactionsRequest(
     @SerializedName("number")
     var number: Int = 0,
     @SerializedName("size")
-    var size: Int = 0,
+    var size: Int = REQUEST_PAGE_SIZE,
     @SerializedName("amountStartRange")
     var amountStartRange: Double? = 0.0,
     @SerializedName("amountEndRange")

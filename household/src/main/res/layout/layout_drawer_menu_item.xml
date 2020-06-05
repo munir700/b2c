@@ -31,6 +31,14 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
+<!--            <co.yap.widgets.CoreCircularImageView-->
+<!--                android:layout_width="@dimen/_42sdp"-->
+<!--                android:layout_height="@dimen/_42sdp"-->
+<!--                android:layout_marginTop="@dimen/_93sdp"-->
+<!--                android:src="@{icon}"-->
+<!--                app:civ_circle_background_color="#fc6253"-->
+<!--                tools:src="@drawable/ic_bank" />-->
+
             <ImageView
                 android:id="@+id/ivIcon"
                 android:layout_width="@dimen/_24sdp"

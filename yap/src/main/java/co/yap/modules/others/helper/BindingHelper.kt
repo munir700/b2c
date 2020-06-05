@@ -25,5 +25,4 @@ object BindingHelper {
 //                (recycleview.adapter as AddBeneficiariesAdaptor).setList(list.get() as List<BankParams>)
 //    }
 
-
 }

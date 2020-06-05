@@ -4,6 +4,7 @@ import co.yap.networking.BaseRepository
 import co.yap.networking.CookiesManager
 import co.yap.networking.MALFORMED_JSON_EXCEPTION_CODE
 import co.yap.networking.RetroNetwork
+import co.yap.networking.authentication.requestdtos.SwitchProfileRequest
 import co.yap.networking.authentication.responsedtos.LoginResponse
 import co.yap.networking.models.ApiResponse
 import co.yap.networking.models.RetroApiResponse
@@ -15,6 +16,7 @@ object AuthRepository : BaseRepository(), AuthApi {
     const val URL_GET_JWT_TOKEN = "/auth/oauth/oidc/token"
     const val URL_REFRESH_JWT_TOKEN = "/auth/oauth/oidc/token"
     const val URL_LOGOUT = "/auth/oauth/oidc/logout"
+    const val URL_SWITCH_PROFILE = "/auth/oauth/oidc/switch-profile"
 
     private val API: AuthRetroService = RetroNetwork.createService(AuthRetroService::class.java)
 
@@ -65,6 +67,18 @@ object AuthRepository : BaseRepository(), AuthApi {
                 CookiesManager.isLoggedIn = false
             }
         }
+        return response
+    }
+
+    override suspend fun switchProfile(uuid: String): RetroApiResponse<LoginResponse> {
+        val response = executeSafely(call = { API.switchProfile(uuid) })
+        when (response) {
+            is RetroApiResponse.Success -> {
+                CookiesManager.jwtToken = response.data.accessToken
+                CookiesManager.isLoggedIn = true
+            }
+        }
+
         return response
     }
 

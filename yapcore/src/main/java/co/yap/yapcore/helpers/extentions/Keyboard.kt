@@ -1,4 +1,6 @@
-package com.ezaka.customer.app.utils
+@file:JvmName("KeyboardUtils")
+
+package co.yap.yapcore.helpers.extentions
 
 import android.app.Activity
 import android.content.Context
@@ -6,6 +8,8 @@ import android.content.ContextWrapper
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import androidx.annotation.NonNull
+import androidx.fragment.app.Fragment
+
 
 /**
  * Hides the soft keyboard
@@ -25,6 +29,7 @@ fun Activity.hideKeyboard(): Boolean {
     return false
 }
 
+
 /**
  * Opens up the keyboard by focusing on the view
  * @receiver View
@@ -41,19 +46,37 @@ fun View.showKeyboard() {
  */
 fun Context.showKeyboard() {
     val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-    imm.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, 0)
+    imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0)
 }
 
-fun Context.hideSoftKeyboard() {
+/**
+ * Try to hide the keyboard and returns whether it worked
+ * https://stackoverflow.com/questions/1109022/close-hide-the-android-soft-keyboard
+ */
+fun View?.hideKeyboard(): Boolean {
+    this?.let {
+        try {
+            val inputMethodManager =
+                context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            return inputMethodManager.hideSoftInputFromWindow(windowToken, 0)
+        } catch (ignored: RuntimeException) {
+        }
+    }
+    return false
+}
+
+fun Context.hideKeyboard() {
     try {
-        val activity = getActivityFromContext(this)
+        val activity =
+            getActivityFromContext(this)
         activity?.hideKeyboard()
 
     } catch (ignored: Exception) {
     }
 
 }
-fun getActivityFromContext(@NonNull context: Context): Activity? {
+
+private fun getActivityFromContext(@NonNull context: Context): Activity? {
     var context = context
     while (context is ContextWrapper) {
         if (context is Activity) {
@@ -63,4 +86,18 @@ fun getActivityFromContext(@NonNull context: Context): Activity? {
             .baseContext
     }
     return null
+}
+
+/**
+ * Extension method to provide hide keyboard for [Fragment].
+ */
+fun Fragment.hideKeyboard() {
+    requireActivity().hideKeyboard()
+}
+
+/**
+ * Extension method to provide hide keyboard for [Fragment].
+ */
+fun Fragment.showKeyboard() {
+    requireActivity().showKeyboard()
 }

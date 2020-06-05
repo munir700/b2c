@@ -1,0 +1,111 @@
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="co.yap.translation.Strings" />
+
+        <import type="android.view.View" />
+
+        <variable
+            name="hhIbanSendMoneyConfirmationVM"
+            type="co.yap.modules.subaccounts.paysalary.transfer.confirmation.HHIbanSendMoneyConfirmationVM" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="@dimen/margin_medium">
+
+        <include
+            android:id="@+id/include2"
+            layout="@layout/layout_textview_image_vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/appCompatTextView2"
+            style="@style/Yap.App.Widget.TextView.Small.GrayDark"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_medium"
+            android:text="@string/screen_iban_send_money_confirmation_display_text_successfully_sent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/include2"
+            app:text="@{Strings.screen_iban_send_money_confirmation_display_text_successfully_sent}"
+            tools:text="@string/screen_iban_send_money_confirmation_display_text_successfully_sent" />
+
+        <co.yap.widgets.libcurrencyview.CurrencyTextView
+            android:id="@+id/currencyTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_medium"
+            android:text="147656653.22"
+            android:textSize="20sp"
+            app:ctv_decimalTextSize="12dp"
+            app:ctv_nullToZero="false"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/appCompatTextView2" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/appCompatTextView3"
+            style="@style/Yap.App.Widget.TextView.Small.GrayDark"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_medium"
+            android:text="@string/screen_iban_send_money_confirmation_display_text_expense_advance"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/currencyTextView"
+            app:text="@{Strings.screen_iban_send_money_confirmation_display_text_expense_advance}"
+            tools:text="@string/screen_iban_send_money_confirmation_display_text_expense_advance" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/appCompatImageView2"
+            android:layout_width="@dimen/_60sdp"
+            android:layout_height="@dimen/_60sdp"
+            android:layout_marginTop="@dimen/margin_medium"
+            android:tint="@color/colorDarkAqua"
+            app:civ_border_color="@color/colorDarkAqua"
+            app:civ_border_width="1dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/appCompatTextView3"
+            app:srcCompat="@drawable/ic_checkmark" />
+
+        <co.yap.widgets.CoreButton
+            android:id="@+id/btn_expense_pot"
+            style="@style/FragmentsBtnStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin_medium"
+            android:layout_marginRight="@dimen/margin_medium"
+            android:layout_marginBottom="@dimen/margin_small"
+            android:paddingStart="@dimen/margin_large"
+            android:paddingEnd="@dimen/margin_large"
+            android:textAllCaps="false"
+            app:enableCoreButton="@{false}"
+            app:layout_constraintBottom_toTopOf="@id/tv_do_it_later"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:text="@{Strings.screen_iban_send_money_confirmation_display_text_pick_expense_pot}"
+            tools:text="@string/screen_iban_send_money_confirmation_display_text_pick_expense_pot" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_do_it_later"
+            style="@style/Yap.App.Widget.FloatingActionButton.Text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="@{(v) -> hhIbanSendMoneyConfirmationVM.handlePressOnClick(v.id)}"
+            android:text="@string/screen_iban_send_money_confirmation_display_text_do_it_later"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:text="@{Strings.screen_iban_send_money_confirmation_display_text_do_it_later}"
+            tools:text="@string/screen_iban_send_money_confirmation_display_text_do_it_later" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

@@ -7,13 +7,31 @@ import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
+import androidx.fragment.app.Fragment
+import co.yap.yapcore.dagger.base.BaseViewModelFragment
+import co.yap.yapcore.dagger.base.interfaces.CanFetchExtras
 
-abstract class BaseBindingFragment<V : IBase.ViewModel<*>> : BaseFragment<V>() {
+abstract class BaseBindingFragment<V : IBase.ViewModel<*>> : BaseFragment<V>(), CanFetchExtras {
 
     lateinit var viewDataBinding: ViewDataBinding
+    /**
+     * Indicates whether the current [BaseBindingFragment]'s content view is initialized or not.
+     */
+    var isViewCreated = false
+        private set
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        // dependencies will be injected only once (based on the state of the content view)
+        if(!isViewCreated) {
+            injectDependencies()
+        }
         super.onCreate(savedInstanceState)
+        // the overall initialization, extras fetching and post initialization will be performed only once, too
+        if(!isViewCreated) {
+            arguments?.let(::fetchExtras)
+            preInit()
+        }
+
         setHasOptionsMenu(false)
     }
 
@@ -27,9 +45,23 @@ abstract class BaseBindingFragment<V : IBase.ViewModel<*>> : BaseFragment<V>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val wasViewCreated = isViewCreated
+        isViewCreated = true
+
+        // performing the initialization only in cases when the view was created for the first time
+        if(!wasViewCreated) {
+            init(savedInstanceState)
+            postInit()
+        }
+        performDataBinding(savedInstanceState)
+
+    }
+
+    override fun performDataBinding(savedInstanceState: Bundle?) {
         viewDataBinding.setVariable(getBindingVariable(), viewModel)
         //viewDataBinding.lifecycleOwner = this
         viewDataBinding.executePendingBindings()
+        postExecutePendingBindings()
     }
 
     /**MV
@@ -47,4 +79,42 @@ abstract class BaseBindingFragment<V : IBase.ViewModel<*>> : BaseFragment<V>() {
     @LayoutRes
     abstract fun getLayoutId(): Int
 
+    /**
+     * Get's called when it's the right time for you to initialize the UI elements.
+     *
+     * @param savedInstanceState the state bundle brought from the [Fragment.onViewCreated]
+     */
+    protected open fun init(savedInstanceState : Bundle?) {
+        //
+    }
+
+
+    /**
+     * Gets called right after the UI initialization.
+     */
+    protected open fun postInit() {
+        //
+    }
+    /**
+     * Gets called right after the UI executePendingBindings.
+     */
+    protected open fun postExecutePendingBindings() {
+        //
+    }
+    /**
+     * Gets called when it's the right time for you to inject the dependencies.
+     */
+    open fun injectDependencies() {
+        //
+    }
+    /**
+     * Gets called right before the UI initialization.
+     */
+    protected open fun preInit() {
+        //
+    }
+
+    override fun fetchExtras(extras: Bundle?) {
+
+    }
 }

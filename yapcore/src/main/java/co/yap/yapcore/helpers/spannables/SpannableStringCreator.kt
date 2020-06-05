@@ -53,7 +53,10 @@ class SpannableStringCreator {
     }
 }
 
-fun Resources.getSpannable(@StringRes id: Int, vararg spanParts: Pair<Any, Iterable<Any>>): CharSequence {
+fun Resources.getSpannable(
+    @StringRes id: Int,
+    vararg spanParts: Pair<Any, Iterable<Any>>
+): CharSequence {
     val resultCreator = SpannableStringCreator()
     Formatter(
         SpannableAppendable(resultCreator, *spanParts),
@@ -76,8 +79,19 @@ fun Resources.getSpannable(id: String, vararg spanParts: Pair<Any, Iterable<Any>
     return resultCreator.toSpannableString()
 }
 
-fun Resources.getText( id: String, vararg formatArgs: Any?) =
+fun Resources.getText(id: String, vararg formatArgs: Any?) =
     getSpannable(id, *formatArgs.filterNotNull().map { it to emptyList<Any>() }.toTypedArray())
+
+fun Context?.getText(id: String, vararg formatArgs: Any?) {
+    this?.let {
+        it.resources.getSpannable(
+            id,
+            *formatArgs.filterNotNull().map { it to emptyList<Any>() }.toTypedArray()
+        )
+    }
+
+}
+
 
 //inline fun Context.resSpans(options: ResSpans.() -> Unit) =
 //    ResSpans(this).apply(options)

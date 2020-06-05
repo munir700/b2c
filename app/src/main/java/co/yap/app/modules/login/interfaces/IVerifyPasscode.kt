@@ -18,12 +18,10 @@ interface IVerifyPasscode {
         fun createOtp()
         fun createForgotPassCodeOtp(success:()->Unit)
         fun validateDevice()
-        fun getAccountInfo()
         fun verifyPasscode()
         fun showAccountBlockedError(errorMessage: String)
         val onClickEvent: MutableLiveData<Int>
         val loginSuccess: SingleLiveEvent<Boolean>
-        val accountInfo: MutableLiveData<AccountInfo>
         val validateDeviceResult: SingleLiveEvent<Boolean>
         val createOtpResult: SingleLiveEvent<Boolean>
         var isFingerprintLogin: Boolean

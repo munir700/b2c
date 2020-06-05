@@ -42,9 +42,7 @@ interface CustomersApi {
     suspend fun createBeneficiary(createBeneficiaryRequest: CreateBeneficiaryRequest): RetroApiResponse<CreateBeneficiaryResponse>
     suspend fun getCardsLimit(): RetroApiResponse<CardsLimitResponse>
 
-
-/*  send money */
-
+    /*  send money */
     suspend fun getRecentBeneficiaries(): RetroApiResponse<GetAllBeneficiaryResponse>
     suspend fun getAllBeneficiaries(): RetroApiResponse<GetAllBeneficiaryResponse>
     suspend fun getAllCountries(): RetroApiResponse<CountryModel>
@@ -74,16 +72,17 @@ interface CustomersApi {
         currencyCode: String
     ): RetroApiResponse<CountryLimitsResponseDTO>
 
+    suspend fun getSubAccountInviteStatus(notificationStatus: String): RetroApiResponse<SubAccountInvitationResponse>
+
     suspend fun saveReferalInvitation(@Body saveReferalRequest: SaveReferalRequest): RetroApiResponse<ApiResponse>
+
     /*
     * fun that comes from admin repo to be replaced
     * */
     suspend fun verifyUsername(username: String): RetroApiResponse<VerifyUsernameResponse>
-
     suspend fun forgotPasscode(forgotPasscodeRequest: ForgotPasscodeRequest): RetroApiResponse<ApiResponse>
     suspend fun validateCurrentPasscode(passcode: String): RetroApiResponse<OtpValidationResponse>
     suspend fun changePasscode(newPasscode: String, token: String): RetroApiResponse<ApiResponse>
     suspend fun appUpdate(): RetroApiResponse<AppUpdateResponse>
     suspend fun getCities(): RetroApiResponse<CitiesModel>
-
 }

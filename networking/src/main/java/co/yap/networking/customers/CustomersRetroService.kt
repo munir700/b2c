@@ -1,8 +1,5 @@
 package co.yap.networking.customers
 
-import co.yap.networking.customers.requestdtos.ForgotPasscodeRequest
-import co.yap.networking.customers.responsedtos.AppUpdateResponse
-import co.yap.networking.customers.responsedtos.VerifyUsernameResponse
 import co.yap.networking.customers.requestdtos.*
 import co.yap.networking.customers.responsedtos.*
 import co.yap.networking.customers.responsedtos.beneficiary.BankParamsResponse
@@ -10,6 +7,7 @@ import co.yap.networking.customers.responsedtos.beneficiary.RecentBeneficiariesR
 import co.yap.networking.customers.responsedtos.beneficiary.TopUpBeneficiariesResponse
 import co.yap.networking.customers.responsedtos.documents.GetMoreDocumentsResponse
 import co.yap.networking.customers.responsedtos.sendmoney.*
+import co.yap.networking.household.responsedtos.ValidateParentMobileResponse
 import co.yap.networking.messages.responsedtos.OtpValidationResponse
 import co.yap.networking.models.ApiResponse
 import okhttp3.MultipartBody
@@ -79,7 +77,10 @@ interface CustomersRetroService {
     suspend fun validatePhoneNumber(@Query("country-code") countryCode: String, @Query("mobile-number") mobileNumber: String): Response<ApiResponse>
 
     @PUT(CustomersRepository.URL_CHANGE_MOBILE_NUMBER)
-    suspend fun changeMobileNumber(@Path("country-code") countryCode: String, @Path("mobile-number") mobileNumber: String): Response<ApiResponse>
+    suspend fun changeMobileNumber(
+        @Path("country-code") countryCode: String,
+        @Path("mobile-number") mobileNumber: String
+    ): Response<ApiResponse>
 
     @PUT(CustomersRepository.URL_CHANGE_VERIFIED_EMAIL)
     suspend fun changeVerifiedEmail(@Path("email") email: String): Response<ApiResponse>
@@ -114,7 +115,10 @@ interface CustomersRetroService {
     suspend fun getCountryDataWithISODigit(@Path("country-code") countryCodeWith2Digit: String): Response<Country>
 
     @GET(CustomersRepository.URL_GET_COUNTRY_TRANSACTION_LIMITS)
-    suspend fun getCountryTransactionLimits(@Query("countryCode") countryCode: String, @Query("currencyCode") currencyCode: String): Response<CountryLimitsResponseDTO>
+    suspend fun getCountryTransactionLimits(
+        @Query("countryCode") countryCode: String,
+        @Query("currencyCode") currencyCode: String
+    ): Response<CountryLimitsResponseDTO>
 
     /*  send money */
     @GET(CustomersRepository.URL_GET_RECENT_BENEFICIARIES)
@@ -156,7 +160,10 @@ interface CustomersRetroService {
     suspend fun verifyHouseholdMobile(@Body verifyHouseholdMobileRequest: VerifyHouseholdMobileRequest): Response<ApiResponse>
 
     @POST(CustomersRepository.URL_VERIFY_PARENT_HOUSEHOLD_MOBILE)
-    suspend fun verifyHouseholdParentMobile(@Query("mobileNo") mobileNumber: String?, @Body verifyHouseholdMobileRequest: VerifyHouseholdMobileRequest): Response<ApiResponse>
+    suspend fun verifyHouseholdParentMobile(
+        @Query("mobileNo") mobileNumber: String?,
+        @Body verifyHouseholdMobileRequest: VerifyHouseholdMobileRequest
+    ): Response<ValidateParentMobileResponse>
 
     @POST(CustomersRepository.URL_HOUSEHOLD_USER_ONBOARD)
     suspend fun onboardHouseholdUser(@Body householdOnboardRequest: HouseholdOnboardRequest): Response<HouseholdOnBoardingResponse>
@@ -190,11 +197,18 @@ interface CustomersRetroService {
 
     //change passcode
     @POST(CustomersRepository.URL_CHANGE_PASSCODE)
-    suspend fun changePasscode(@Query("new-password") newPasscode: String,@Query("token") token: String): Response<ApiResponse>
+    suspend fun changePasscode(
+        @Query("new-password") newPasscode: String,
+        @Query("token") token: String
+    ): Response<ApiResponse>
 
     //  App Update
     @GET(CustomersRepository.URL_APP_VERSION)
     suspend fun appUpdate(): Response<AppUpdateResponse>
+
+    //  Sub Account Invitation
+    @POST(CustomersRepository.URL_SUB_ACCOUNT_INVITATION + "{notificationStatus}")
+    suspend fun subAccountInvitation(@Path("notificationStatus") notificationStatus: String): Response<SubAccountInvitationResponse>
 
     @GET(CustomersRepository.URL_CITIES)
     suspend fun getCities(): Response<CitiesModel>

@@ -1,6 +1,7 @@
 package co.yap.yapcore
 
 import android.content.Context
+import android.os.Bundle
 import co.yap.yapcore.helpers.NetworkConnectionManager
 
 interface IBase {
@@ -12,6 +13,8 @@ interface IBase {
         fun isPermissionGranted(permission: String): Boolean
         fun requestPermissions()
         fun getString(resourceKey: String): String
+        fun performDataBinding(savedInstanceState : Bundle?)
+        var shouldRegisterViewModelLifeCycle:Boolean
     }
 
     interface ViewModel<S : State> : ILifecycle {
@@ -25,6 +28,7 @@ interface IBase {
         var toast: String
         var loading: Boolean
         var toolbarTitle: String
+        var toolsBarVisibility: Boolean
         var error: String
         fun reset()
         // fun getString(key: String): String

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="lable"
+            type="String" />
+
+        <variable
+            name="amount"
+            type="String" />
+
+        <variable
+            name="date"
+            type="String" />
+
+        <variable
+            name="subLabelTextColor"
+            type="Integer" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.5" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvLable"
+            style="@style/Yap.App.Widget.TextView.Label"
+            android:text="@{lable}"
+            android:textSize="@dimen/text_size_h2"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="dasdsadsadsadadsadsa" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvTransactionDate"
+            style="@style/Yap.App.Widget.TextView.Label"
+            android:text="@{date?? ``}"
+            android:textColor="@{subLabelTextColor??@color/colorPrimaryDark}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvLable"
+            tools:text="dasdsadsadsadadsadsa" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/currencyTextView"
+            style="@style/Yap.App.Widget.TextView.Currency"
+            android:layout_width="0dp"
+            android:gravity="end"
+            android:text="@{amount?? @string/screen_send_money_display_text_edit}"
+            android:textColor="@{subLabelTextColor??@color/colorPrimaryDark}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/guideline1"
+            tools:text="@string/screen_send_money_display_text_edit"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

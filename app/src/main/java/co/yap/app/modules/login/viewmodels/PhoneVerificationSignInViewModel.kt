@@ -25,8 +25,6 @@ import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.getColors
-import co.yap.yapcore.leanplum.trackEventWithAttributes
-import co.yap.yapcore.managers.MyUserManager
 
 class PhoneVerificationSignInViewModel(application: Application) :
     OnboardingChildViewModel<IPhoneVerificationSignIn.State>(application),
@@ -40,7 +38,6 @@ class PhoneVerificationSignInViewModel(application: Application) :
     override val verifyOtpResult: SingleLiveEvent<Boolean> = SingleLiveEvent()
     private val customersRepository: CustomersRepository = CustomersRepository;
     private val messagesRepository: MessagesRepository = MessagesRepository
-    override val accountInfo: MutableLiveData<AccountInfo> = MutableLiveData()
     private var token: String? = ""
 
     override fun handlePressOnSendButton() {
@@ -137,26 +134,6 @@ class PhoneVerificationSignInViewModel(application: Application) :
                     state.toast = "${response.error.message}^${AlertType.DIALOG.name}"
                 }
             }
-        }
-    }
-
-    override fun getAccountInfo() {
-        launch {
-            //state.loading = true
-            when (val response = customersRepository.getAccountInfo()) {
-                is RetroApiResponse.Success -> {
-                    if (response.data.data.isNotEmpty()) {
-                        MyUserManager.user = response.data.data[0]
-                        accountInfo.postValue(response.data.data[0])
-                        trackEventWithAttributes(
-                            MyUserManager.user
-                        )
-                    }
-                }
-                is RetroApiResponse.Error -> {
-                }
-            }
-            state.loading = false
         }
     }
 

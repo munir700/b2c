@@ -1,12 +1,16 @@
 package co.yap.app
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentActivity
+import co.yap.app.di.component.AppComponent
+import co.yap.app.di.component.AppInjector
 import co.yap.app.modules.login.activities.VerifyPassCodePresenterActivity
-import co.yap.household.onboard.otherscreens.InvalidEIDActivity
+import co.yap.household.app.HouseHoldApplication
+import co.yap.household.onboard.onboarding.invalideid.InvalidEIDFragment
 import co.yap.modules.dummy.ActivityNavigator
 import co.yap.modules.dummy.NavigatorProvider
 import co.yap.modules.others.helper.Constants.START_REQUEST_CODE
@@ -21,25 +25,38 @@ import co.yap.yapcore.helpers.AuthUtils
 import co.yap.yapcore.helpers.NetworkConnectionManager
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.extentions.longToast
+import co.yap.yapcore.helpers.extentions.startFragment
 import co.yap.yapcore.initializeAdjustSdk
 import com.crashlytics.android.Crashlytics
 import com.github.florent37.inlineactivityresult.kotlin.startForResult
 import com.leanplum.Leanplum
 import com.leanplum.LeanplumActivityHelper
+import dagger.android.AndroidInjector
+import dagger.android.DispatchingAndroidInjector
+import dagger.android.HasActivityInjector
+import dagger.android.support.DaggerApplication
 import io.fabric.sdk.android.Fabric
 import timber.log.Timber
 import timber.log.Timber.DebugTree
 import java.util.*
+import javax.inject.Inject
 
-class AAPApplication() : ChatApplication(getAppInfo()), NavigatorProvider {
+class AAPApplication : HouseHoldApplication(
+    getAppInfo()
+), NavigatorProvider, HasActivityInjector {
+    @Inject
+    lateinit var activityInjector: DispatchingAndroidInjector<Activity>
+    lateinit var sAppComponent: AppComponent
 
     override fun onCreate() {
         super.onCreate()
+        sAppComponent = AppInjector.init(this)
         initNetworkLayer()
 //        SharedPreferenceManager(this).setThemeValue(Constants.THEME_HOUSEHOLD)
         SharedPreferenceManager(this).setThemeValue(Constants.THEME_YAP)
         initFireBase()
         inItLeanPlum()
+        LivePersonChat.getInstance(applicationContext).registerToLivePersonEvents()
         initializeAdjustSdk(BuildConfig.ADJUST_APP_TOKEN)
     }
 
@@ -107,13 +124,7 @@ class AAPApplication() : ChatApplication(getAppInfo()), NavigatorProvider {
     override fun provideNavigator(): ActivityNavigator {
         return object : ActivityNavigator {
             override fun startEIDNotAcceptedActivity(activity: FragmentActivity) {
-
-                activity.startActivity(
-                    Intent(
-                        activity,
-                        InvalidEIDActivity::class.java
-                    )
-                )
+                activity.startFragment<InvalidEIDFragment>(InvalidEIDFragment::class.java.name)
             }
 
             override fun startVerifyPassCodePresenterActivity(
@@ -142,6 +153,19 @@ class AAPApplication() : ChatApplication(getAppInfo()), NavigatorProvider {
             }
         }
     }
+
+
+    override fun applicationInjector(): AndroidInjector<out DaggerApplication> {
+        return if (!this::sAppComponent.isInitialized) {
+            sAppComponent = AppInjector.init(this)
+            sAppComponent
+        } else {
+            sAppComponent
+        }
+
+    }
+
+    override fun activityInjector() = activityInjector
 }
 
 fun getAppInfo(): AppInfo {

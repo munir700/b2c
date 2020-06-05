@@ -933,8 +933,8 @@
     <string name="screen_b2c_kyc_home_button_skip_on_boarding_existing">Skip and do later</string>
 
     <!--    OnBoarding Existing YAP User Screen-->
-    <string name="screen_house_hold_onBoarding_existing_title_display_text">Hi, %1s you’ve been added to a Household plan by %2s</string>
-    <string name="screen_house_hold_onBoarding_existing_title_accept_text">Once you click ‘Accept\', the Household\nplan will be added to your YAP app</string>
+    <string name="screen_house_hold_onBoarding_existing_title_display_text">Hi, %1s you’ve been added to a Household plan by \n%2s</string>
+    <string name="screen_house_hold_onBoarding_existing_title_accept_text">Once you click ‘Accept\', the Household plan\nwill be added to your YAP app</string>
     <string name="screen_house_hold_onBoarding_existing_title_accept_text_second">plan will be added to your YAP app</string>
     <string name="screen_house_hold_onBoarding_existing_title_accept">Accept</string>
     <string name="screen_house_hold_onBoarding_existing_title_decline_request">Decline request</string>
@@ -943,6 +943,8 @@
     <!-- Household Dashboard/Home -->
     <string name="screen_household_home_display_text_transactions_heading_title">Transactions</string>
     <string name="screen_household_home_display_text_transactions_filers_title">Filter</string>
+    <string name="screen_household_home_display_text_waiting_for_card_activation">Waiting for card activation</string>
+    <string name="screen_household_home_display_text_total_balance">Total Balance</string>
 
     <string name="screen_yap_house_hold_confirm_payment_share_text">Hi %1s,\n%2s has added you as their Household on YAP. Download YAP from the link below and login with these credentials:\n\nUsername: %3s\nPasscode:%4s\n\nDownload on App Store:\n%5s\n\nDownload on Play Store:\n%6s</string>
 
@@ -980,13 +982,159 @@
     <string name="screen_invite_friend_button_share">Share</string>
     <string name="screen_invite_friend_display_text_share_url">Hi,\nI’ve just started using YAP and loving it so far, I thought you’d like to try it out for yourself. It’s not available for the public yet but I’ve saved you a special invite.\n\nDownload on App Store:\n%1s\n\nDownload on Play Store:\n%2s</string>
 
+    <!--  Household dashboard bottom bar  -->
+
+    <string name="screen_house_hold_dashboard_bottom_bar_home_text">Home</string>
+    <string name="screen_house_hold_dashboard_bottom_bar_my_card_text">My card</string>
+    <string name="screen_house_hold_dashboard_bottom_bar_expenses_text">Expenses</string>
+    <string name="screen_house_hold_dashboard_bottom_bar_more_text">More</string>
+    <string name="screen_house_hold_dashboard_bottom_bar_yap_it_text">YAP it</string>
+
+    <!--  Household Pay Salary Profile  -->
+
+    <string name="screen_house_hold_salary_profile_salary_text">Salary</string>
+    <string name="screen_house_hold_salary_profile_transfer_text">Transfer</string>
+    <string name="screen_house_hold_salary_profile_set_up_salary_text">Set up a salary</string>
+    <string name="screen_house_hold_salary_profile_set_up_expense_text">Set up an expense pot</string>
+    <string name="screen_house_hold_salary_profile_transfer_bonus_text">Transfer a bonus or extra cash</string>
+    <string name="screen_house_hold_salary_profile_display_text_transfers">Transfers</string>
+
+    <!--    House Hold Sub Accounts Strings -->
+    <string name="screen_house_hold_sub_account_declined_by_popup_title">%1s did not accept your request for a household card.</string>
+    <string name="screen_house_hold_sub_account_declined_by_popup_message">Would you like to re-send a request or remove this card and get a refund?</string>
+    <string name="screen_house_hold_sub_account_popup_remove_refund_button_text">Remove &amp; Refund</string>
+    <string name="screen_house_hold_sub_account_popup_resend_button_text">Re-send</string>
+    <string name="screen_house_hold_sub_account_ineligible_popup_title">Sorry, %1s is ineligible for a household card.</string>
+    <string name="screen_house_hold_sub_account_ineligible_popup_message">Please remove %1s, we will refund you the subscription fee.</string>
+    <string name="screen_house_hold_sub_account_status_declined_by_text"> Declined by %1s</string>
+    <string name="screen_sub_accounts_profile_display_text_drag_and_drop">Drag and drop to\ntransfer money</string>
+
+    <!--    House Hold IBAN send money confirmation -->
+    <string name="screen_iban_send_money_confirmation_display_text_transfer_completed">Transfer completed</string>
+    <string name="screen_iban_send_money_confirmation_display_text_successfully_sent">You have successfully sent</string>
+    <string name="screen_iban_send_money_confirmation_display_text_expense_advance">as an expense advance</string>
+    <string name="screen_iban_send_money_confirmation_display_text_pick_expense_pot">Pick an expense pot</string>
+    <string name="screen_iban_send_money_confirmation_display_text_do_it_later">I\'ll do it later</string>
+
+    <string-array name="screen_house_hold_iban_send_money_type_array">
+        <item>Salary</item>
+        <item>Expenses</item>
+        <item>Bonus</item>
+        <item>Other</item>
+    </string-array>
+
+    <!--    HouseHold Subscription Screen-->
+    <string name="screen_household_subscription_title">Subscription</string>
+    <string name="screen_household_renewable_title">Automatic renewal</string>
+    <string name="screen_household_cancel_subscription_title">Cancel subscription</string>
+    <string name="screen_household_cancel_subscription_cancel_title">Are you sure you want to cancel this subscription?</string>
+    <string name="screen_household_cancel_subscription_cancel_message">Cancellation will come into effect following the 12-month contract period</string>
+    <string name="screen_household_cancel_subscription_no_button">NO</string>
+    <string name="screen_household_cancel_subscription_yes_button">YES</string>
+    <string name="screen_household_cancel_subscription_name_title">Name</string>
+    <string name="screen_household_cancel_subscription_start_date_title">Start date</string>
+    <string name="screen_household_cancel_subscription_end_date_title">End date</string>
+    <string name="screen_household_cancel_subscription_plan_type_title">Plan type</string>
+    <string name="screen_household_cancel_subscription_cost_title">Cost</string>
+    <string name="screen_household_reactivate_subscription_title">Reactivate subscription</string>
+
+
+    <!--   HouseHold Recurring Payment Screen-->
+
+    <string name="screen_household_recurring_payment_title">Set up a recurring payment</string>
+    <string name="screen_household_amount_to_transfer_title">Amount to transfer</string>
+    <string name="screen_household_currency_title">AED</string>
+    <string name="screen_household_start_date_title">Starting date</string>
+    <string name="screen_household_daily_title">Daily</string>
+    <string name="screen_household_weekly_title">Weekly</string>
+    <string name="screen_household_monthly_title">Monthly</string>
+    <string name="screen_household_button_text">Confirm</string>
+
+    <!--    House hold set pin card preview screen-->
+    <string name="screen_household_set_card_pin_review_heading">Hope you like your new card!</string>
+    <string name="screen_household_set_card_pin_review_sub_heading">Set a PIN code to start using it</string>
+    <string name="screen_household_set_card_pin_review_date">Expiry date: %1$s</string>
+    <string name="screen_household_set_card_pin_review_button_text">Confirm</string>
+
+    <!--    House hold set pin success screen-->
+    <string name="screen_household_set_pin_success_heading_text">PIN code saved!</string>
+    <string name="screen_household_set_pin_success_sub_heading_text">Always remember this code and don\'t share it with anyone</string>
+    <string name="screen_household_set_pin_success_button_text">Go to dashboard</string>
+
+    <!--    House hold set pin screen-->
+    <string name="screen_household_set_pin_text_title">Create a 4-digit PIN code to access your new card</string>
+    <string name="screen_household_set_pin_terms_and_conditions_text_heading">By entering a passcode you agree to our</string>
+    <string name="screen_household_set_pin_terms_and_conditions_text">Terms &amp; Conditions</string>
+    <string name="screen_household_set_pin_text_button_title">Create PIN code</string>
+    <string name="screen_household_set_pin_text_confirm_pin_title">Enter PIN code again</string>
     <!--  OTP Blocked New screen -->
     <string name="screen_otp_blocked_display_text_heading">We thought you should know, %1s!</string>
     <string name="screen_otp_blocked_display_text_details">Some app features have been temporarily blocked for your security. This is because you made too many incorrect OTP attempts.\n\nGet in touch by calling our agents at %1s or message us via the Live Chat so we can unblock your account right away!</string>
     <string name="screen_blocked_otp_display_text_message">This feature has been blocked! Call or chat with us to get access.</string>
     <string name="screen_popup_activation_pending_display_text_message">Account activation pending</string>
 
+    <!--    House hold payment confirmation screen-->
+    <string name="screen_household_payment_confirmation_tool_bar_text">Payment confirmation</string>
+    <string name="screen_household_normal_payment_success_text">Salary has been transferred successfully</string>
+    <string name="screen_household_normal_payment_recurring_text">How about a recurring payment for %1s\'s salary so you don\'t have to manually transfer money every month? You can stop anytime.</string>
+    <string name="screen_household_normal_payment_set_up_recurring_text">Set up now</string>
+    <string name="screen_household_normal_payment_go_to_dashboard_text">Go to dashboard</string>
+    <string name="screen_household_recurring_payment_success_text">Salary has been transferred successfully and a monthly recurring payment has been set for:</string>
+    <string name="screen_household_recurring_payment_guide_text">We will notify you before each payment in case you require a fund top up on your account</string>
+    <string name="screen_household_recurring_payment_text">You have a set a monthly recurring payment of</string>
+    <string name="screen_household_future_payment_text">You have a set a future payment of</string>
+    <string name="screen_household_recurring_payment_date_text">starting on %1s</string>
 
+    <!--    Pay house hold employee salary-->
+    <string name="screen_household_employee_salary_schedule_once_heading_text">Schedule once</string>
+    <string name="screen_household_employee_salary_future_payment_text">Set up a single payment for a future date</string>
+    <string name="screen_household_employee_salary_recurring_heading_text">Make recurring</string>
+    <string name="screen_household_employee_salary_edit_recurring_heading_text">Current recurring salary</string>
+    <string name="screen_household_employee_salary_delete_recurring_text">Delete and cancel this salary</string>
+    <string name="screen_household_employee_salary_recurring_text">Set up a standing order for future payments</string>
+    <string name="screen_household_employee_salary_pay_now_button_text">Pay salary now</string>
+    <string name="screen_household_employee_salary_next_payment_text">Next payment</string>
+    <string name="screen_household_employee_salary_recurrent_auto_payment_primary_text">Recurrent auto payment</string>
+    <string name="screen_household_employee_salary_next_payment_secondary_text">AED  %1s scheduled for %2s</string>
+    <string name="screen_household_employee_salary_recurrent_auto_payment_secondary_text">AED %1s until %2s</string>
+    <string name="screen_household_employee_salary_last_salary_transfer_text">Last salary transfer</string>
+
+    <!--Household  Pay Salary Screen-->
+    <string name="screen_household_pay_salary_screen_display_text_title">Pay salary to %1s</string>
+    <string name="screen_household_pay_salary_screen_enter_transfer_amount_title">Enter transfer amount</string>
+    <string name="screen_household_pay_salary_screen_available_balance_text">Your available balance is AED %1s</string>
+    <string name="screen_household_pay_salary_screen_last_salary_text">Use last transfer payment amount</string>
+    <string name="screen_household_pay_salary_screen_recurring_salary_text">Set this salary transfer up as a recurring payment</string>
+    <string name="screen_household_pay_salary_screen_button_text">Confirm</string>
+
+<!--    Future payment screen-->
+    <string name="screen_household_future_payment_screen_tool_bar_text">Set up a future payment</string>
+    <string name="screen_household_future_payment_screen_amount_title_text">Enter transfer amount and date</string>
+    <string name="screen_household_future_payment_screen_available_balance_text">Your available balance is AED %1s</string>
+    <string name="screen_household_future_payment_screen_end_date_heading_text">Enter date of transfer</string>
+    <string name="screen_household_future_payment_screen_button_text">Confirm</string>
+
+    <!-- Household My Card Screen -->
+    <string name="screen_household_my_card_screen_card_balance_text">Card balance</string>
+    <string name="screen_household_my_card_screen_card_details_text">Card details</string>
+    <string name="screen_household_my_card_screen_card_recent_transactions_text">Recent transactions</string>
+    <string name="screen_household_my_card_screen_menu_change_pin_text">Change PIN</string>
+    <string name="screen_household_my_card_screen_menu_freeze_card_text">Freeze card</string>
+    <string name="screen_household_my_card_screen_menu_view_statement_text">View statement</string>
+    <string name="screen_household_my_card_screen_menu_report_lost_card_text">Report lost or stolen card</string>
+    <string name="screen_household_my_card_screen_menu_cancel_text">Cancel</string>
+
+    <!-- Household Home Screen -->
+    <string name="screen_household_home_activate_now_text">Activate now</string>
+
+    <!-- Notifications -->
+    <string name="screen_home_help_and_support_desc">Some features may appear blocked for you as you made too many incorrect OTP attempts. Call or chat with us now to get full access.</string>
+    <string name="screen_home_complete_verification_title">Complete Verification</string>
+    <string name="screen_home_complete_verification_desc">Complete verification to activate your account.</string>
+    <string name="screen_home_set_pin_title">Set PIN</string>
+    <string name="screen_home_set_pin_desc">Now create a unique 4-digit PIN to be able to use your primary card for purchases and withdrawals.</string>
+    <string name="screen_home_renewed_id_title">Renewed ID</string>
+    <string name="screen_home_renewed_id_desc">Your Emirates ID has expired. Please update your account with the renewed ID as soon as you can.</string>
 
     <string name="screen_add_beneficiary_detail_display_button_block_alert_no_household">No, send it later</string>
     <string name="screen_add_beneficiary_detail_display_button_block_alert_yes_household">Yes, send it now</string>

@@ -1,6 +1,7 @@
 package co.yap.modules.dashboard.store.household.onboarding.fragments
 
 import android.os.Bundle
+import android.view.Gravity
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -47,10 +48,10 @@ class HouseHoldUserContactFragment : BaseOnBoardingFragment<IHouseHoldUserContac
             if (it) findNavController().navigate(R.id.action_houseHoldUserContactFragment_to_HHConfirmPaymentFragment)
         })
         viewModel.verifyMobileError.observe(this, Observer {
-            clSnackbarHouseHold.showSnackBar(
+            showSnackBar(
                 msg = it,
                 viewBgColor = R.color.errorLightBackground,
-                colorOfMessage = R.color.error, marginTop = 0
+                colorOfMessage = R.color.error, gravity = Gravity.TOP
             )
         })
     }

@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="co.yap.household.dashboard.cards.MyCardVM" />
+
+        <import type="co.yap.translation.Strings" />
+
+        <import type="android.view.View" />
+    </data>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            style="@style/Yap.App.Widget.ToolBar"
+            android:background="@color/colorPrimaryHouseHold"
+            app:navigationIcon="@drawable/ic_search_white">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/toolbarTitle"
+                style="@style/Yap.App.Widget.TextView.Label"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:paddingStart="@dimen/margin_extra_small"
+                android:paddingEnd="@dimen/margin_extra_small"
+                android:text="@string/screen_house_hold_dashboard_bottom_bar_my_card_text"
+                android:textColor="@color/white"
+                app:text="@{Strings.screen_house_hold_dashboard_bottom_bar_my_card_text}" />
+        </androidx.appcompat.widget.Toolbar>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_card_balance_label"
+            style="@style/ASmallGrey"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/margin_medium"
+            android:text="@string/screen_household_my_card_screen_card_balance_text"
+            app:text="@{Strings.screen_household_my_card_screen_card_balance_text}"
+            tools:text="@string/screen_household_my_card_screen_card_balance_text" />
+
+        <co.yap.widgets.libcurrencyview.CurrencyTextView
+            android:id="@+id/tv_card_balance_amount"
+            style="@style/Yap.App.Widget.TextView.Currency"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/margin_normal"
+            android:text="@{viewModel.state.card.cardBalance!=null?viewModel.state.card.availableBalance:`0.00`}"
+            android:textColor="@color/black"
+            android:textSize="@dimen/text_size_h5"
+            app:ctv_decimalTextSize="@dimen/text_size_h5"
+            tools:text="2134.55" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_card_number"
+            style="@style/ASmallGrey"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="@{viewModel.state.card.maskedCardNo}"
+            tools:text="12345....6789" />
+
+        <co.yap.widgets.CoreButton
+            android:id="@+id/btnCardDetails"
+            style="@style/Yap.App.Widget.Button.Action.Small"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/margin_normal"
+            android:onClick="@{(v)-> viewModel.handlePressOnButtonClick(v.id)}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_card_number"
+            app:text="@{Strings.screen_household_my_card_screen_card_details_text}"
+            tools:text="@string/screen_household_my_card_screen_card_details_text" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_recent_transactions_label"
+            style="@style/ASmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_medium"
+            android:layout_marginTop="@dimen/margin_extra_large"
+            app:text="@{Strings.screen_household_my_card_screen_card_recent_transactions_text}"
+            tools:text="@string/screen_household_my_card_screen_card_recent_transactions_text" />
+
+        <View
+            android:id="@+id/separator"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="@dimen/_8sdp"
+            android:layout_marginBottom="@dimen/_8sdp"
+            android:background="@color/divider"
+            app:layout_constraintTop_toBottomOf="@id/tv_recent_transactions_label" />
+
+        <!--<include
+            layout="@layout/refresh_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            app:adapter="@{viewModel.adapter}" />-->
+        <co.yap.widgets.MultiStateView
+            android:id="@+id/multiStateView"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            app:msv_animateViewChanges="true"
+            app:msv_emptyView="@layout/layout_welcome_to_yap_view"
+            app:msv_errorView="@layout/layout_welcome_to_yap_view"
+            app:msv_loadingView="@layout/layout_loading_view_top"
+            app:viewState="@{viewModel.stateLiveData}">
+
+            <co.yap.widgets.advrecyclerview.pagination.PaginatedRecyclerView
+                android:id="@+id/recyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignParentTop="true"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:setPagination="@{viewModel.getPaginationListener()}"
+                tools:listitem="@layout/item_home_transaction_child" />
+        </co.yap.widgets.MultiStateView>
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+</layout>

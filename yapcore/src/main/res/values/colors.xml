@@ -18,7 +18,7 @@
     <color name="grey">#c9c8d8</color>
     <color name="red">#d32f2f</color>
     <color name="greyDark">#9391b1</color>
-    <color name="greyLight">#dae0f0</color>
+    <color name="greyLight">#00E0F0</color>
     <color name="greySoft">#5cdae0f0</color>
     <color name="greySoftSelected">#F0F1F3</color>
     <color name="greyNormalDark">#809391b1</color>
@@ -92,6 +92,7 @@
     <color name="colorLightPinkBackground">#FFE3E0</color>
 
     <color name="colorAccentHouseHold">#fc6253</color>
+    <color name="colorAccentLightHouseHold">#fee3e0</color>
 
     <!--    d32f2f-->
     <color name="colorPrimaryHouseHold">#fc6253</color>

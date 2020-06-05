@@ -108,7 +108,7 @@ fun setCircleCropImage(imageView: ImageView, url: String, fallback: Int) {
 
 fun setCircleCropImage(imageView: ImageView, url: String, fallback: Drawable) {
 
-    if (url.isNullOrEmpty()) {
+    if (url.isBlank()) {
         imageView.setImageDrawable(fallback)
     } else {
         val mUrl = getUrl(url)

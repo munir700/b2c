@@ -3,8 +3,9 @@ package co.yap.yapcore
 import android.view.View
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
+import co.yap.networking.models.ApiResponse
 
-abstract class BaseViewHolder<ITEM : Any, VM : BaseListItemViewModel<ITEM>>
+open class BaseViewHolder<ITEM : ApiResponse, VM : BaseListItemViewModel<ITEM>>
     (view: View, viewModel: VM, private val mDataBinding: ViewDataBinding) :
     RecyclerView.ViewHolder(view) {
     private val mViewModel: VM = viewModel
@@ -12,4 +13,5 @@ abstract class BaseViewHolder<ITEM : Any, VM : BaseListItemViewModel<ITEM>>
         mViewModel.setItem(item, position)
         mDataBinding.executePendingBindings()
     }
+
 }
