@@ -13,6 +13,7 @@ import co.yap.modules.dashboard.cards.reordercard.viewmodels.RenewCardViewModel
 import co.yap.modules.dashboard.yapit.topup.cardslisting.TopUpBeneficiariesActivity
 import co.yap.modules.location.activities.LocationSelectionActivity
 import co.yap.networking.cards.responsedtos.Address
+import co.yap.translation.Strings
 import co.yap.translation.Translator
 import co.yap.yapcore.BR
 import co.yap.yapcore.constants.Constants
@@ -105,7 +106,10 @@ class ReorderCardFragment : ReorderCardBaseFragment<IRenewCard.ViewModel>(), IRe
                         if (data is Boolean) {
                             if (data) {
                                 startActivityForResult(
-                                    TopUpBeneficiariesActivity.newIntent(requireContext()),
+                                    TopUpBeneficiariesActivity.newIntent(
+                                        requireContext(),
+                                        getString(Strings.screen_cards_button_reorder_card)
+                                    ),
                                     RequestCodes.REQUEST_SHOW_BENEFICIARY
                                 )
                                 //activity?.let { it.finish() }
