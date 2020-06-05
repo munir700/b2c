@@ -36,7 +36,7 @@ class HouseHoldHomeVM @Inject constructor(
     override var notificationAdapter = ObservableField<HHNotificationAdapter>()
 
     override fun onFirsTimeUiCreate(bundle: Bundle?, navigation: NavController?) {
-
+        requestTransactions(state.transactionRequest, false)
         getPrimaryCard()
     }
 
