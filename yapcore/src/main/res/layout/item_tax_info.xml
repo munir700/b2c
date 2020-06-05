@@ -44,10 +44,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/margin_medium"
+            android:onClick="@{v->viewModel.onViewClicked(v)}"
             android:src="@drawable/ic_close"
+            android:visibility="@{viewModel.taxModel.taxRowNumber ? View.VISIBLE : View.GONE}"
             app:layout_constraintBottom_toBottomOf="@+id/tvSelectCountry"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/tvSelectCountry" />
+            app:layout_constraintEnd_toEndOf="parent" />
 
         <RelativeLayout
             android:id="@+id/spinner_container"
@@ -90,7 +91,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_medium"
-            android:layout_marginTop="@dimen/margin_normal"
+            android:layout_marginTop="@dimen/margin_small"
             android:gravity="center"
             android:text="@string/screen_place_of_birth_display_text_select_country"
             app:layout_constraintStart_toStartOf="parent"
@@ -121,7 +122,9 @@
                 android:gravity="bottom"
                 android:overScrollMode="never"
                 android:overlapAnchor="false"
-                android:spinnerMode="dropdown" />
+                android:spinnerMode="dropdown"
+                app:adaptor="@{viewModel.taxModel.options}"
+                app:selectedListener="@{viewModel.spinnerItemClickListener}" />
 
             <View
                 android:layout_width="match_parent"
@@ -133,20 +136,6 @@
                 android:minHeight="@dimen/_15sdp" />
         </RelativeLayout>
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tvReason"
-            style="@style/ASmallGrey"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_medium"
-            android:layout_marginTop="@dimen/margin_normal"
-            android:gravity="center"
-            android:text="@string/screen_place_of_birth_display_text_select_country"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/spinner_options"
-            app:text="@{Strings.screen_tax_info_display_text_reason_no_tin_number}"
-            tools:text="@string/screen_tax_info_display_text_reason_no_tin_number" />
-
 
         <RelativeLayout
             android:id="@+id/spinner_reasons"
@@ -154,16 +143,29 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginStart="@dimen/margin_medium"
+            android:layout_marginTop="@dimen/margin_small"
             android:layout_marginEnd="@dimen/margin_medium"
             android:gravity="center_vertical"
+            android:visibility="@{viewModel.taxModel.selectedReason.equals(`No`) ? View.VISIBLE : View.GONE}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvReason">
+            app:layout_constraintTop_toBottomOf="@+id/spinner_options">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvReason"
+                style="@style/ASmallGrey"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/screen_place_of_birth_display_text_select_country"
+                app:text="@{Strings.screen_tax_info_display_text_reason_no_tin_number}"
+                tools:text="@string/screen_tax_info_display_text_reason_no_tin_number" />
 
             <Spinner
-                android:id="@+id/oreasonsSpinner"
+                android:id="@+id/reasonsSpinner"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_below="@+id/tvReason"
                 android:layout_gravity="bottom"
                 android:background="@drawable/bg_spinner"
                 android:drawSelectorOnTop="false"
@@ -176,26 +178,10 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:layout_below="@+id/oreasonsSpinner"
-                android:layout_alignParentTop="true"
-                android:layout_marginTop="@dimen/_30sdp"
-                android:background="@color/greyLight"
-                android:minHeight="@dimen/_15sdp" />
+                android:layout_below="@+id/reasonsSpinner"
+                android:background="@color/greyLight" />
         </RelativeLayout>
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tvTinNumber"
-            style="@style/ASmallGrey"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_medium"
-            android:layout_marginTop="@dimen/margin_normal"
-            android:gravity="center"
-            android:text="@string/screen_place_of_birth_display_text_select_country"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/spinner_reasons"
-            app:text="@{Strings.screen_tax_info_display_text_heading_tin_number}"
-            tools:text="@string/screen_tax_info_display_text_heading_tin_number" />
 
         <LinearLayout
             android:id="@+id/lyTinNumber"
@@ -203,12 +189,26 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginStart="@dimen/margin_medium"
+            android:layout_marginTop="@dimen/margin_small"
             android:layout_marginEnd="@dimen/margin_medium"
             android:gravity="center_vertical"
             android:orientation="vertical"
+            android:visibility="@{viewModel.taxModel.selectedReason.equals(`Yes`) ? View.VISIBLE : View.GONE}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvTinNumber">
+            app:layout_constraintTop_toBottomOf="@+id/spinner_reasons">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvTinNumber"
+                style="@style/ASmallGrey"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/screen_place_of_birth_display_text_select_country"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/spinner_reasons"
+                app:text="@{Strings.screen_tax_info_display_text_heading_tin_number}"
+                tools:text="@string/screen_tax_info_display_text_heading_tin_number" />
 
             <EditText
                 android:id="@+id/etTinNumber"
@@ -217,7 +217,11 @@
                 android:layout_gravity="bottom"
                 android:background="@null"
                 android:gravity="bottom"
-                android:padding="@dimen/margin_small" />
+                android:imeOptions="actionDone"
+                android:inputType="number"
+                android:lines="1"
+                android:maxLength="20"
+                android:padding="@dimen/margin_extra_small" />
 
             <View
                 android:layout_width="match_parent"
@@ -228,14 +232,19 @@
 
         <LinearLayout
             android:id="@+id/lyAddCountry"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginStart="@dimen/margin_medium"
-            android:layout_marginTop="@dimen/margin_normal"
+            android:layout_marginTop="@dimen/margin_extra_small"
             android:layout_marginEnd="@dimen/margin_medium"
+            android:onClick="@{v->viewModel.onViewClicked(v)}"
             android:orientation="horizontal"
+            android:paddingTop="@dimen/margin_small"
+            android:paddingBottom="@dimen/small"
+            android:visibility="@{viewModel.taxModel.canAddMore ? View.VISIBLE : View.GONE}"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/lyTinNumber">
 

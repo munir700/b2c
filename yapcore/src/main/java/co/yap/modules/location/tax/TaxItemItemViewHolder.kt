@@ -8,7 +8,7 @@ class TaxItemItemViewHolder(private val itemTaxInfoBinding: ItemTaxInfoBinding) 
     RecyclerView.ViewHolder(itemTaxInfoBinding.root) {
 
     fun onBind(
-        taxModel: TaxModel?,
+        taxModel: TaxModel,
         position: Int,
         onItemClickListener: OnItemClickListener?
     ) {

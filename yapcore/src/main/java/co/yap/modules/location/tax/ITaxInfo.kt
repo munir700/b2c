@@ -15,8 +15,14 @@ interface ITaxInfo {
     interface ViewModel : IBase.ViewModel<State> {
         fun handleOnPressView(id: Int)
         fun getReasonsList()
+        fun createModel(
+            reasons: ArrayList<String>,
+            options: ArrayList<String>
+        )
         var clickEvent: SingleClickEvent
-        var taxInfoList:  MutableList<TaxModel>
+        var taxInfoList: MutableList<TaxModel>
+        var reasonsList: ArrayList<String>
+        var options: ArrayList<String>
         var taxInfoAdaptor: TaxInfoAdaptor
 
     }

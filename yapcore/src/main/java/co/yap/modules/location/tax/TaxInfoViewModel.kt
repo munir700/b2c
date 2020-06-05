@@ -1,11 +1,15 @@
 package co.yap.modules.location.tax
 
 import android.app.Application
+import android.view.View
+import androidx.databinding.ObservableField
 import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
 import co.yap.yapcore.BaseViewModel
+import co.yap.yapcore.R
 import co.yap.yapcore.SingleClickEvent
+import co.yap.yapcore.interfaces.OnItemClickListener
 
 class TaxInfoViewModel(application: Application) :
     BaseViewModel<ITaxInfo.State>(application),
@@ -15,10 +19,40 @@ class TaxInfoViewModel(application: Application) :
     override var taxInfoList: MutableList<TaxModel> = mutableListOf()
     override var taxInfoAdaptor: TaxInfoAdaptor = TaxInfoAdaptor(taxInfoList)
     override val repository: CustomersRepository = CustomersRepository
+    override var reasonsList: ArrayList<String> = arrayListOf(
+        "The country does not issue a TIN",
+        "Unable to obtain TIN",
+        "No TIN required"
+    )
+    override var options = arrayListOf("Yes", "No")
 
-    override fun onCreate() {
+    override
+    fun onCreate() {
         super.onCreate()
         getReasonsList()
+        setupRecycleView()
+    }
+
+    private fun setupRecycleView() {
+        taxInfoAdaptor.allowFullItemClickListener = true
+        taxInfoAdaptor.setItemListener(listener)
+    }
+
+    val listener = object : OnItemClickListener {
+        override fun onItemClick(view: View, data: Any, pos: Int) {
+            when (view.id) {
+                R.id.ivCross -> {
+                    val index = taxInfoList.indexOf(data as TaxModel)
+                    taxInfoList.removeAt(index)
+                    taxInfoAdaptor.notifyItemRemoved(index)
+                    taxInfoList.last().canAddMore.set(true)
+                    //taxInfoAdaptor.notifyItemChanged(taxInfoList.size - 1)
+                }
+                R.id.lyAddCountry -> {
+                    createModel(reasonsList, options)
+                }
+            }
+        }
     }
 
     override fun handleOnPressView(id: Int) {
@@ -30,20 +64,13 @@ class TaxInfoViewModel(application: Application) :
             state.loading = true
             when (val response = repository.getTaxReasons()) {
                 is RetroApiResponse.Success -> {
-                    val reasons = response.data.reasons
-                    val options = arrayListOf<String>("Yes", "No")
-                    createModel(1, reasons, options)
+                    reasonsList = response.data.reasons
+                    createModel(reasonsList, options)
                     state.loading = false
                 }
 
                 is RetroApiResponse.Error -> {
-                    val reasons = arrayListOf<String>(
-                        "The country does not issue a TIN",
-                        "Unable to obtain TIN",
-                        "No TIN required"
-                    )
-                    val options = arrayListOf<String>("Yes", "No")
-                    createModel(1, reasons, options)
+                    createModel(reasonsList, options)
                     state.loading = false
                     state.toast = response.error.message
                 }
@@ -51,12 +78,18 @@ class TaxInfoViewModel(application: Application) :
         }
     }
 
-    private fun createModel(
-        taxRowNumber: Int,
+    override fun createModel(
         reasons: ArrayList<String>,
         options: ArrayList<String>
     ) {
-        taxInfoList.add(TaxModel(reasons = reasons, options = options, taxRowNumber = taxRowNumber))
-        taxInfoAdaptor.notifyDataSetChanged()
+        taxInfoList.add(
+            TaxModel(
+                reasons = reasons,
+                options = options,
+                canAddMore = ObservableField(taxInfoList.size in 0..1),
+                taxRowNumber = ObservableField(taxInfoList.isNotEmpty())
+            )
+        )
+        taxInfoAdaptor.notifyItemInserted(taxInfoList.size)
     }
 }
