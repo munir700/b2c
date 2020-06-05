@@ -25,7 +25,7 @@ interface IPaymentCardDetail {
         var card: MutableLiveData<Card>
         var cardDetail: CardDetail
         fun handlePressOnView(id: Int)
-        fun getCardBalance()
+        fun getCardBalance(updatedBalance: (balance:String) -> Unit)
         fun freezeUnfreezeCard()
         fun getCardDetails()
         fun removeCard()
