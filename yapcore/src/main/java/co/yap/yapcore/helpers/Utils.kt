@@ -781,7 +781,7 @@ object Utils {
 
     fun confirmationDialog(
         context: Context,
-        title: String,
+        title: String?,
         message: String,
         positiveButton: String,
         negitiveButton: String,
