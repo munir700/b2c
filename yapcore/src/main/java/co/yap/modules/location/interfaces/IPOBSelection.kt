@@ -1,7 +1,8 @@
 package co.yap.modules.location.interfaces
 
+import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
-import co.yap.modules.location.POBCountry
+import co.yap.countryutils.country.Country
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.databinding.FragmentPlaceOfBirthSelectionBinding
@@ -18,13 +19,13 @@ interface IPOBSelection {
     interface ViewModel : IBase.ViewModel<State> {
         fun handleOnPressView(id: Int)
         var clickEvent: SingleClickEvent
-        var populateSpinnerData: MutableLiveData<List<POBCountry>>
-        var countries: ArrayList<POBCountry>
-        var selectedCountry: POBCountry?
+        var populateSpinnerData: MutableLiveData<List<Country>>
+        var countries: ArrayList<Country>
     }
 
     interface State : IBase.State {
         var cityOfBirth: String
-        var valid: Boolean
+        var valid: ObservableField<Boolean>
+        var selectedCountry: Country?
     }
 }
