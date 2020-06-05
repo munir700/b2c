@@ -80,7 +80,6 @@ class HouseholdDashboardFragment :
         viewPager.offscreenPageLimit = 3
         viewPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
             override fun onPageScrollStateChanged(state: Int) {}
-
             override fun onPageScrolled(
                 position: Int,
                 positionOffset: Float,
@@ -92,7 +91,6 @@ class HouseholdDashboardFragment :
                 drawerLayout.setDrawerLockMode(if (position == 0) LOCK_MODE_UNLOCKED else LOCK_MODE_LOCKED_CLOSED)
             }
         })
-
     }
 
     private fun onClick(id: Int) {
