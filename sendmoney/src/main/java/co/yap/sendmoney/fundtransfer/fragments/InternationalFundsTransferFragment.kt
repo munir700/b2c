@@ -17,6 +17,7 @@ import co.yap.sendmoney.fundtransfer.interfaces.IInternationalFundsTransfer
 import co.yap.sendmoney.fundtransfer.viewmodels.InternationalFundsTransferViewModel
 import co.yap.translation.Strings
 import co.yap.translation.Translator
+import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.enums.SendMoneyBeneficiaryType
 import co.yap.yapcore.enums.TransactionProductCode
 import co.yap.yapcore.helpers.DecimalDigitsInputFilter
@@ -128,9 +129,14 @@ class InternationalFundsTransferFragment :
     val clickEvent = Observer<Int> {
         when (it) {
             R.id.btnNext -> {
-                if (viewModel.parentViewModel?.selectedPop != null) moveToConfirmTransferScreen() else showToast(
-                    "Select a reason"
-                )
+                when {
+                    viewModel.state.etOutputAmount.parseToDouble() < viewModel.state.minLimit ?: 0.0 -> {
+                        showLowerAndUpperLimitError()
+                    }
+                    viewModel.parentViewModel?.selectedPop != null -> moveToConfirmTransferScreen()
+                    else -> showToast("Select a reason ^${AlertType.DIALOG.name}")
+
+                }
             }
 
             R.id.tvSelectReason, R.id.ivSelector -> setupPOP(viewModel.purposeCategories)
@@ -168,8 +174,8 @@ class InternationalFundsTransferFragment :
         viewModel.state.errorDescription = getString(
             Strings.sm_display_text_min_max_limit_error_transaction
         ).format(
-            viewModel.state.minLimit.toString().toFormattedCurrency(),
-            viewModel.state.maxLimit.toString().toFormattedCurrency()
+            viewModel.state.minLimit.toString().toFormattedAmountWithCurrency(),
+            viewModel.state.maxLimit.toString().toFormattedAmountWithCurrency()
         )
         viewModel.parentViewModel?.errorEvent?.value = viewModel.state.errorDescription
     }
@@ -263,7 +269,11 @@ class InternationalFundsTransferFragment :
         etSenderAmount.afterTextChanged {
             viewModel.state.clearError()
             viewModel.setDestinationAmount()
-            checkOnTextChangeValidation()
+            if (it.isNotBlank())
+                checkOnTextChangeValidation()
+            else
+                viewModel.state.valid = false
+
             viewModel.updateFees()
         }
     }
@@ -280,7 +290,7 @@ class InternationalFundsTransferFragment :
                 viewModel.state.valid = false
             }
             viewModel.state.etOutputAmount.parseToDouble() < viewModel.state.minLimit ?: 0.0 -> {
-                viewModel.state.valid = false
+                viewModel.state.valid = true
             }
             viewModel.state.etOutputAmount.parseToDouble() > viewModel.state.maxLimit ?: 0.0 -> {
                 showLowerAndUpperLimitError()

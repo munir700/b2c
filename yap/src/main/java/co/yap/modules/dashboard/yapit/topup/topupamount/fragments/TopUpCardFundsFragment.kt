@@ -24,6 +24,8 @@ import co.yap.yapcore.helpers.DecimalDigitsInputFilter
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.cancelAllSnackBar
 import co.yap.yapcore.helpers.extentions.launchActivity
+import co.yap.yapcore.helpers.extentions.parseToDouble
+import co.yap.yapcore.helpers.extentions.toFormattedAmountWithCurrency
 import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 import co.yap.yapcore.helpers.showTextUpdatedAbleSnackBar
 import co.yap.yapcore.managers.MyUserManager
@@ -127,7 +129,12 @@ class TopUpCardFundsFragment : BaseBindingFragment<IFundActions.ViewModel>(),
     var clickEvent = Observer<Int> {
         when (it) {
             R.id.btnAction -> {
-                viewModel.createTransactionSession()
+                if (viewModel.enteredAmount.value?.parseToDouble() ?: 0.0 < viewModel.state.minLimit) {
+                    viewModel.state.amountBackground =
+                        resources.getDrawable(co.yap.yapcore.R.drawable.bg_funds_error, null)
+                    showUpperLowerLimitError()
+                } else
+                    viewModel.createTransactionSession()
             }
             R.id.tbIvClose -> activity?.finish()
         }
@@ -135,38 +142,51 @@ class TopUpCardFundsFragment : BaseBindingFragment<IFundActions.ViewModel>(),
 
     private val enterAmountObserver = Observer<String> {
         parentViewModel?.updateFees(it,isTopUpFee = true)
-        when {
-            isMaxMinLimitReached(it) -> {
-                viewModel.state.valid = false
-                viewModel.state.amountBackground =
-                    resources.getDrawable(co.yap.yapcore.R.drawable.bg_funds_error, null)
-                viewModel.state.errorDescription = getString(
-                    Strings.common_display_text_min_max_limit_error_transaction
-                ).format(
-                    Utils.getFormattedCurrency(viewModel.state.minLimit.toString()),
-                    Utils.getFormattedCurrency(viewModel.state.maxLimit.toString())
-                )
-                showTextUpdatedAbleSnackBar(
-                    viewModel.state.errorDescription,
-                    Snackbar.LENGTH_INDEFINITE
-                )
+        if (it.isNotBlank()) {
+            when {
+                isMaxMinLimitReached(it) -> {
+                    viewModel.state.valid = false
+                    viewModel.state.amountBackground =
+                        resources.getDrawable(co.yap.yapcore.R.drawable.bg_funds_error, null)
+                    showUpperLowerLimitError()
+                }
+                it.toDoubleOrNull() ?: 0.0 < viewModel.state.minLimit -> {
+                    viewModel.state.valid = true
+                }
+                else -> {
+                    viewModel.state.valid = true
+                    viewModel.state.amountBackground =
+                        resources.getDrawable(co.yap.yapcore.R.drawable.bg_funds, null)
+                    cancelAllSnackBar()
+                }
             }
-            else -> {
-                viewModel.state.valid = true
-                viewModel.state.amountBackground =
-                    resources.getDrawable(co.yap.yapcore.R.drawable.bg_funds, null)
-                cancelAllSnackBar()
-            }
+        } else {
+            viewModel.state.valid = false
+            viewModel.state.amountBackground =
+                resources.getDrawable(co.yap.yapcore.R.drawable.bg_funds, null)
+            cancelAllSnackBar()
         }
     }
 
     private fun isMaxMinLimitReached(amount: String): Boolean {
         return if (amount.isNotBlank() || amount.toDoubleOrNull() ?: 0.0 > 0.0)
-            (amount.toDoubleOrNull() ?: 0.0 < viewModel.state.minLimit || amount.toDoubleOrNull() ?: 0.0 > viewModel.state.maxLimit)
+            amount.toDoubleOrNull() ?: 0.0 > viewModel.state.maxLimit
         else
             false
     }
 
+    fun showUpperLowerLimitError() {
+        viewModel.state.errorDescription = getString(
+            Strings.common_display_text_min_max_limit_error_transaction
+        ).format(
+            viewModel.state.minLimit.toString().toFormattedAmountWithCurrency(),
+            viewModel.state.maxLimit.toString().toFormattedAmountWithCurrency()
+        )
+        showTextUpdatedAbleSnackBar(
+            viewModel.state.errorDescription,
+            Snackbar.LENGTH_INDEFINITE
+        )
+    }
     private fun setupData() {
         getBindings().etAmount.filters =
             arrayOf(InputFilter.LengthFilter(7), DecimalDigitsInputFilter(2))

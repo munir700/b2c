@@ -161,9 +161,17 @@ open class AddRemoveFundsActivity : BaseBindingActivity<IFundActions.ViewModel>(
         when (it) {
             R.id.btnAction -> (if (btnAction.text != getString(Strings.screen_success_funds_transaction_display_text_button)) {
                 if (isAddFundScreen == true)
-                    if (isOtpRequired()) startOtpFragment() else viewModel.addFunds()
-                else
-                    viewModel.removeFunds()
+                    when {
+                        viewModel.state.amount.parseToDouble() < viewModel.state.minLimit -> showUpperLowerLimitError()
+                        isOtpRequired() -> startOtpFragment()
+                        else -> viewModel.addFunds()
+                    }
+                else {
+                    if (viewModel.state.amount.parseToDouble() < viewModel.state.minLimit)
+                        showUpperLowerLimitError()
+                    else
+                        viewModel.removeFunds()
+                }
             } else {
                 if (isAddFundScreen == true) co.yap.yapcore.AdjustEvents.trackAdjustPlatformEvent(
                     AdjustEvents.TOP_UP_END.type
@@ -237,7 +245,7 @@ open class AddRemoveFundsActivity : BaseBindingActivity<IFundActions.ViewModel>(
                 showErrorSnackBar(viewModel.state.errorDescription, Snackbar.LENGTH_INDEFINITE)
             }
             viewModel.state.amount.parseToDouble() < viewModel.state.minLimit -> {
-                viewModel.state.valid = false
+                viewModel.state.valid = true
             }
             viewModel.state.amount.parseToDouble() > viewModel.state.maxLimit -> {
                 setErrorBg()
@@ -253,8 +261,8 @@ open class AddRemoveFundsActivity : BaseBindingActivity<IFundActions.ViewModel>(
         viewModel.state.errorDescription = Translator.getString(
             this,
             Strings.common_display_text_min_max_limit_error_transaction,
-            viewModel.state.minLimit.toString().toFormattedCurrency() ?: "",
-            viewModel.state.maxLimit.toString()
+            viewModel.state.minLimit.toString().toFormattedAmountWithCurrency(),
+            viewModel.state.maxLimit.toString().toFormattedAmountWithCurrency()
         )
         showErrorSnackBar(viewModel.state.errorDescription, Snackbar.LENGTH_INDEFINITE)
 
@@ -265,7 +273,7 @@ open class AddRemoveFundsActivity : BaseBindingActivity<IFundActions.ViewModel>(
         viewModel.state.errorDescription = Translator.getString(
             context,
             Strings.sm_common_display_text_available_balance_error,
-            viewModel.state.amount?:""
+            viewModel.state.amount.toFormattedAmountWithCurrency()
         )
         showErrorSnackBar(viewModel.state.errorDescription, Snackbar.LENGTH_INDEFINITE)
     }
