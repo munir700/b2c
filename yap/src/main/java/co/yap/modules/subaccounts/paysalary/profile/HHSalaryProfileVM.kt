@@ -2,7 +2,10 @@ package co.yap.modules.subaccounts.paysalary.profile
 
 import android.os.Bundle
 import androidx.navigation.NavController
+import co.yap.networking.customers.household.CustomerHHApi
+import co.yap.networking.customers.household.CustomersHHRepository
 import co.yap.networking.customers.household.responsedtos.SubAccount
+import co.yap.networking.models.RetroApiResponse
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.dagger.base.viewmodel.BaseRecyclerAdapterVM
 import javax.inject.Inject
@@ -10,9 +13,11 @@ import javax.inject.Inject
 class HHSalaryProfileVM @Inject constructor(override val state: IHHSalaryProfile.State) :
     BaseRecyclerAdapterVM<PaySalaryModel, IHHSalaryProfile.State>(), IHHSalaryProfile.ViewModel {
     override var clickEvent: SingleClickEvent = SingleClickEvent()
+    override var customersHHRepository: CustomerHHApi = CustomersHHRepository
+
 
     override fun onFirsTimeUiCreate(bundle: Bundle?, navigation: NavController?) {
-
+        getLastNextTransaction(state.subAccount.value?.customerUuid)
     }
 
     override fun fetchExtras(extras: Bundle?) {
@@ -23,6 +28,24 @@ class HHSalaryProfileVM @Inject constructor(override val state: IHHSalaryProfile
 
     override fun handlePressOnClick(id: Int) {
         clickEvent.setValue(id)
+    }
+
+    override fun getLastNextTransaction(uuid: String?) {
+        launch {
+//            publishState(State.loading(null))
+            when (val response =
+                customersHHRepository.getLastNextTransaction(uuid)) {
+                is RetroApiResponse.Success -> {
+                    response.data.data?.let {
+                        var lastSalaryTransfer = it[0]
+                        var nextSalaryTransfer = it[1]
+                        var expense = it[2]
+                    }
+                }
+                is RetroApiResponse.Error -> {
+                }
+            }
+        }
     }
 
 }

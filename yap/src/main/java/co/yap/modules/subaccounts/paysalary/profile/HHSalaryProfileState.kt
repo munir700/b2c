@@ -10,4 +10,7 @@ class HHSalaryProfileState : BaseState(), IHHSalaryProfile.State {
     override var filterCount: ObservableField<Int> = ObservableField()
     override var isTransEmpty: ObservableField<Boolean> = ObservableField(true)
     override var subAccount: MutableLiveData<SubAccount> = MutableLiveData()
+    override var lastSalaryTransferAmount: MutableLiveData<String>? = MutableLiveData()
+    override var nextSalaryTransfer: MutableLiveData<String>? = MutableLiveData()
+    override var expenseAmount: MutableLiveData<String>? = MutableLiveData()
 }
